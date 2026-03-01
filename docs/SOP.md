@@ -11,7 +11,7 @@
 | **Security Level** | 2 (Internal Systems Engineering & SOC Operations) |
 | **Entity Owner** | Enterprise Architecture & AI Infrastructure |
 | **Associated Workstream** | Autonomous Agent Governance, DX Optimization, and Knowledge Management |
-| **Version & Revision Date** | 2.0 — March 2026 |
+| **Version & Revision Date** | 2.1 — March 2026 |
 
 ## **1.0 Executive Summary and Architectural Vision**
 
@@ -257,20 +257,624 @@ To accurately track these metrics, the deployment must integrate an AI evaluatio
 * **Execution Tracing:** The platform must log every prompt, intermediate tool call, and final output. This allows for trace-level monitoring that calculates rolling averages and percentiles for latency and cost.54  
 * **Failure Diagnosis:** When the agent's Completion Rate drops below predefined statistical thresholds, the system must automatically trigger a deep evaluation of recent interactions to diagnose root causes.54 This enables engineers to identify if the failure occurred during the Planning phase (e.g., poor tool selection) or Execution phase (e.g., API timeouts).
 
-## **8.0 Cursor Agent Implementation Directives**
+## **8.0 Implementation Task Registry**
 
-To operationalize this SOP effectively, the deployment should be orchestrated using an AI-assisted IDE (such as Cursor Planner). Provide the following precise directives to the Cursor agent to execute the deployment systematically under human supervision.
+The preceding sections (3.0–7.0) define the architectural requirements, security posture, and evaluation framework for the LLMOS transformation. This section operationalizes those requirements into a structured, individually traceable task registry designed for sequential execution under human supervision via an AI-assisted IDE (such as Cursor).
 
-**Prompt Directives for Cursor Agent:**
+Each task is a single, atomic unit of work. Tasks are grouped into phases that map directly to the SOP sections they implement. The phase ordering enforces a strict dependency chain: environment before configuration, configuration before integration, integration before security hardening, and so on.
 
-1. **Phase 1: Environment Assessment:** "Execute a shell command to verify the current operating system. If Windows, confirm the presence of WSL2 and Ubuntu-24.04. If macOS/Linux, verify the installation of Docker Desktop and the Docker Model Runner. Halt and request user intervention if dependencies are missing."  
-2. **Phase 2: Configuration Bootstrapping:** "Navigate to \~/.openclaw/ (create the directory if necessary). Read the current openclaw.json if it exists. If absent, generate a base JSON schema ensuring the daemon is bound exclusively to 127.0.0.1 on port 18789."  
-3. **Phase 3: MCP Provisioning:** "Install the mcporter skill via the CLI. Create the \~/.mcporter/mcporter.json file. Inject the exact JSON blocks for the @modelcontextprotocol/server-sequential-thinking and @playwright/mcp@latest servers as defined in section 5.0 of this SOP. Ensure all JSON syntax is strictly valid."  
-4. **Phase 4: Security Implementation:** "Clone the skillvet repository into the skills/ directory. Create a bash script utility (vet-install.sh) that aliases the safe-install.sh command so that all future skills are routed through the security scanner automatically. Set execution permissions using chmod 700."  
-5. **Phase 5: Agent Prompts & Dual-Mode Setup:** "Create two markdown files in the workspace root: ARCHITECT\_PROMPT.md and EXECUTOR\_PROMPT.md. Populate the Architect prompt with instructions to exclusively use the sequential\_thinking tool for planning, restricting it from utilizing file-write or shell tools. Populate the Executor prompt to require reading the Architect's output before executing terminal commands."  
-6. **Phase 6: Logging Configuration:** "Modify the OpenCLAW runtime configuration to output standard logs in structured JSON format to /opt/openclaw/logs/agent\_activity.json, preparing the directory for Splunk Universal Forwarder ingestion. Create the inputs.conf file structure for Splunk."
+### **8.1 Task Registry Schema**
 
-*Constraint to Cursor:* Execute these steps sequentially. You must request explicit human approval before initiating any mutative shell commands, network downloads, or file writes.
+Every task entry in this registry carries the following attributes, aligning with the SOC, DI, DX, and SSOT disciplines established in this SOP:
+
+| Attribute | Purpose | Governance Domain |
+| :---- | :---- | :---- |
+| **Task ID** | Unique identifier (e.g., `T-0.1`) for traceability and cross-referencing | SSOT |
+| **SOP Reference** | Which SOP section (3.x, 4.x, 5.x, 6.x, 7.x) defines the requirement | DI (data lineage) |
+| **LLMOS Layer** | Control Plane / Integration / Execution / Intelligence | Architecture alignment |
+| **Category** | `ENV` \| `CONFIG` \| `MCP` \| `SECURITY` \| `PROMPT` \| `LOGGING` \| `METRIC` | Separation of concerns |
+| **Dependencies** | Which Task IDs must complete first | Deterministic ordering |
+| **Inputs** | Required pre-conditions (files, credentials, system state) | DI (pre-conditions) |
+| **Outputs** | Concrete deliverable (file path, verified state, config entry) | SSOT (the deliverable) |
+| **Verification** | Shell command or assertion to confirm success | DX (automated checks) |
+| **SOC Relevance** | Whether the output feeds the SIEM pipeline (Yes/No + rationale) | SOC |
+| **HITL Gate** | `read-only` \| `mutative` \| `destructive` — drives human approval per Section 6.1 | Security posture |
+| **Complexity** | `trivial` \| `moderate` \| `complex` — scoping for session boundaries | DX (planning) |
+
+### **8.2 Phase 0: Environment Assessment (SOP 3.0)**
+
+This phase establishes the isolation boundary before any gateway daemon or configuration is touched. Every task in this phase maps to the Control Plane layer and the `ENV` category.
+
+---
+
+**T-0.1 — Detect Host Operating System**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 3.0 |
+| **LLMOS Layer** | Control Plane |
+| **Category** | `ENV` |
+| **Dependencies** | None |
+| **Inputs** | Host machine access |
+| **Outputs** | Environment variable or log entry recording `OS_TYPE` as `windows`, `macos`, or `linux` |
+| **Verification** | `uname -s` (Linux/macOS) or `$env:OS` (PowerShell). The result determines which subsequent tasks in this phase are executed (WSL2 path vs. Docker path). |
+| **SOC Relevance** | No |
+| **HITL Gate** | `read-only` |
+| **Complexity** | `trivial` |
+
+---
+
+**T-0.2 — Verify WSL2 and Ubuntu-24.04 (Windows only)**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 3.1, Steps 1–3 |
+| **LLMOS Layer** | Control Plane |
+| **Category** | `ENV` |
+| **Dependencies** | T-0.1 (must report `windows`) |
+| **Inputs** | Elevated PowerShell terminal |
+| **Outputs** | WSL2 running Ubuntu-24.04 with systemd enabled |
+| **Verification** | `wsl -l -v` shows `Ubuntu-24.04` in `Running` state, version `2`. Inside WSL: `systemctl --version` returns without error. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` — installs a Linux distribution if absent |
+| **Complexity** | `moderate` |
+
+---
+
+**T-0.3 — Verify Docker Desktop and Model Runner (macOS/Linux only)**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 3.2, Steps 1–2 |
+| **LLMOS Layer** | Control Plane |
+| **Category** | `ENV` |
+| **Dependencies** | T-0.1 (must report `macos` or `linux`) |
+| **Inputs** | Docker Desktop installed with Docker Model Runner enabled |
+| **Outputs** | Docker daemon responding; local model weights available |
+| **Verification** | `docker info` succeeds. `docker model list` includes `ai/gpt-oss:20B-UD-Q4_K_XL` (or confirms it can be pulled). |
+| **SOC Relevance** | No |
+| **HITL Gate** | `read-only` (verification only; pull is T-0.5) |
+| **Complexity** | `trivial` |
+
+---
+
+**T-0.4 — Create Dedicated Service Account (Windows/WSL2 path)**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 3.1, Step 4 |
+| **LLMOS Layer** | Control Plane |
+| **Category** | `ENV` |
+| **Dependencies** | T-0.2 |
+| **Inputs** | WSL2 Ubuntu-24.04 terminal with `sudo` access |
+| **Outputs** | System user `openclaw` exists; `/opt/openclaw/` owned by `openclaw:openclaw` |
+| **Verification** | `id openclaw` returns uid/gid. `stat -c '%U:%G' /opt/openclaw` returns `openclaw:openclaw`. |
+| **SOC Relevance** | Yes — least-privilege enforcement; compromised agent inherits only `openclaw` permissions |
+| **HITL Gate** | `mutative` — creates a system user and directory |
+| **Complexity** | `trivial` |
+
+---
+
+**T-0.5 — Provision Docker Sandbox (macOS/Linux path)**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 3.2, Steps 3–4 |
+| **LLMOS Layer** | Control Plane |
+| **Category** | `ENV` |
+| **Dependencies** | T-0.3 |
+| **Inputs** | Docker daemon running; model weights pulled |
+| **Outputs** | Sandbox named `openclaw` created; network proxy restricted to `localhost` |
+| **Verification** | `docker sandbox ls` lists `openclaw`. `docker sandbox inspect openclaw` confirms network proxy configuration. |
+| **SOC Relevance** | Yes — egress filtering prevents data exfiltration to C2 servers |
+| **HITL Gate** | `mutative` — creates sandbox and configures network proxy |
+| **Complexity** | `moderate` |
+
+---
+
+**T-0.6 — Install OpenCLAW CLI**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 3.1 Step 5 (WSL2) or 3.2 Step 5 (Docker) |
+| **LLMOS Layer** | Control Plane |
+| **Category** | `ENV` |
+| **Dependencies** | T-0.4 (Windows) or T-0.5 (macOS/Linux) |
+| **Inputs** | Network access to `molt.bot` (WSL2 path) or sandbox shell (Docker path) |
+| **Outputs** | `openclaw` binary available on `$PATH` |
+| **Verification** | `openclaw --version` returns a valid version string. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` — downloads and installs a binary from the internet |
+| **Complexity** | `trivial` |
+
+### **8.3 Phase 1: Configuration Bootstrapping (SOP 4.1–4.2)**
+
+This phase creates the gateway configuration and verifies the Control Plane is operational. Tasks map to the Control Plane and Integration layers under the `CONFIG` category.
+
+---
+
+**T-1.1 — Create Configuration Directory Structure**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 4.1, Step 1 |
+| **LLMOS Layer** | Control Plane |
+| **Category** | `CONFIG` |
+| **Dependencies** | T-0.6 |
+| **Inputs** | `openclaw` CLI installed |
+| **Outputs** | `~/.openclaw/` directory exists with correct ownership |
+| **Verification** | `test -d ~/.openclaw && echo OK` |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` |
+| **Complexity** | `trivial` |
+
+---
+
+**T-1.2 — Generate or Update openclaw.json**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 4.1, Steps 1–3 |
+| **LLMOS Layer** | Control Plane |
+| **Category** | `CONFIG` |
+| **Dependencies** | T-1.1 |
+| **Inputs** | `~/.openclaw/` exists; desired gateway port (`18789`), host (`127.0.0.1`), and workspace routing schema from SOP 4.1 Step 3 |
+| **Outputs** | `~/.openclaw/openclaw.json` with valid JSON containing `gateway.host`, `gateway.port`, and `workspaces` keys |
+| **Verification** | `python3 -c "import json; json.load(open('$HOME/.openclaw/openclaw.json'))"` exits cleanly. `jq '.gateway.host' ~/.openclaw/openclaw.json` returns `"127.0.0.1"`. |
+| **SOC Relevance** | Yes — binding to localhost is a security-critical configuration |
+| **HITL Gate** | `mutative` — creates or modifies the central config file |
+| **Complexity** | `moderate` |
+
+---
+
+**T-1.3 — Install Gateway Daemon**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 4.1, Step 1 |
+| **LLMOS Layer** | Control Plane |
+| **Category** | `CONFIG` |
+| **Dependencies** | T-1.2 |
+| **Inputs** | Valid `openclaw.json`; systemd (WSL2/Linux) or launchd (macOS) available |
+| **Outputs** | OpenCLAW gateway daemon registered as a system service |
+| **Verification** | `systemctl is-active openclaw` returns `active` (Linux/WSL2) or `launchctl list | grep openclaw` returns a PID (macOS). |
+| **SOC Relevance** | Yes — daemon lifecycle is a SOC monitoring surface |
+| **HITL Gate** | `mutative` — installs a system daemon |
+| **Complexity** | `moderate` |
+
+---
+
+**T-1.4 — Verify Localhost Port Binding**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 4.1, Step 2 |
+| **LLMOS Layer** | Control Plane |
+| **Category** | `CONFIG` |
+| **Dependencies** | T-1.3 |
+| **Inputs** | Gateway daemon running |
+| **Outputs** | Confirmed: port `18789` bound exclusively to `127.0.0.1` |
+| **Verification** | `netstat -an \| grep 18789 \| grep LISTEN` shows only `127.0.0.1:18789` (no `0.0.0.0`). Alternatively: `ss -tlnp \| grep 18789`. |
+| **SOC Relevance** | Yes — if bound to `0.0.0.0`, the gateway is internet-exposed (critical finding) |
+| **HITL Gate** | `read-only` |
+| **Complexity** | `trivial` |
+
+---
+
+**T-1.5 — Verify A2UI Canvas Endpoints**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 4.2, Step 1 |
+| **LLMOS Layer** | Integration |
+| **Category** | `CONFIG` |
+| **Dependencies** | T-1.4 |
+| **Inputs** | Gateway daemon running and bound to localhost |
+| **Outputs** | HTTP 200 on `/__openclaw__/canvas/` and `/__openclaw__/a2ui/` |
+| **Verification** | `curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:18789/__openclaw__/canvas/` returns `200`. Repeat for `/a2ui/`. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `read-only` |
+| **Complexity** | `trivial` |
+
+### **8.4 Phase 2: MCP Provisioning (SOP 5.1–5.4)**
+
+This phase deploys the Model Context Protocol servers that form the Integration Layer. All tasks are `MCP` category.
+
+---
+
+**T-2.1 — Verify Node.js Version**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 5.2, Step 1 |
+| **LLMOS Layer** | Integration |
+| **Category** | `MCP` |
+| **Dependencies** | T-0.6 |
+| **Inputs** | Node.js runtime on `$PATH` |
+| **Outputs** | Confirmed: Node.js >= 22.x installed |
+| **Verification** | `node -v` returns `v22.x.x` or higher. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `read-only` |
+| **Complexity** | `trivial` |
+
+---
+
+**T-2.2 — Install mcporter Skill**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 5.1, Step 1 |
+| **LLMOS Layer** | Integration |
+| **Category** | `MCP` |
+| **Dependencies** | T-2.1, T-1.2 |
+| **Inputs** | Node.js >= 22; network access to npm registry |
+| **Outputs** | `mcporter` CLI available; skill registered in workspace |
+| **Verification** | `npx clawhub@latest install mcporter` completes without error. `mcporter --version` returns a version string. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` — downloads and installs an npm package |
+| **Complexity** | `trivial` |
+
+---
+
+**T-2.3 — Create mcporter.json Configuration**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 5.1, Step 2 |
+| **LLMOS Layer** | Integration |
+| **Category** | `MCP` |
+| **Dependencies** | T-2.2 |
+| **Inputs** | `mcporter` installed |
+| **Outputs** | `~/.mcporter/mcporter.json` exists with a valid `mcpServers` object |
+| **Verification** | `python3 -c "import json; d=json.load(open('$HOME/.mcporter/mcporter.json')); assert 'mcpServers' in d"` exits cleanly. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` — creates a config file |
+| **Complexity** | `trivial` |
+
+---
+
+**T-2.4 — Inject Sequential Thinking MCP Server**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 5.2, Step 1 |
+| **LLMOS Layer** | Integration |
+| **Category** | `MCP` |
+| **Dependencies** | T-2.3 |
+| **Inputs** | `~/.mcporter/mcporter.json` with `mcpServers` key |
+| **Outputs** | `mcpServers.sequential-thinking` entry with `command: "npx"`, `args: ["-y", "@modelcontextprotocol/server-sequential-thinking"]`, `env.DISABLE_THOUGHT_LOGGING: "false"` |
+| **Verification** | `jq '.mcpServers["sequential-thinking"].command' ~/.mcporter/mcporter.json` returns `"npx"`. `mcporter list` includes `sequential-thinking`. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` |
+| **Complexity** | `trivial` |
+
+---
+
+**T-2.5 — Inject Playwright MCP Server**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 5.3, Step 1 |
+| **LLMOS Layer** | Integration |
+| **Category** | `MCP` |
+| **Dependencies** | T-2.3 |
+| **Inputs** | `~/.mcporter/mcporter.json` with `mcpServers` key |
+| **Outputs** | `mcpServers.playwright` entry with `command: "npx"`, `args: ["-y", "@playwright/mcp@latest", "--output-dir", "/opt/openclaw/workspace/exports"]` |
+| **Verification** | `jq '.mcpServers.playwright.command' ~/.mcporter/mcporter.json` returns `"npx"`. `mcporter list` includes `playwright`. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` |
+| **Complexity** | `trivial` |
+
+---
+
+**T-2.6 — Inject GitHub MCP Server**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 5.4, Steps 1–2 |
+| **LLMOS Layer** | Integration |
+| **Category** | `MCP` |
+| **Dependencies** | T-2.3 |
+| **Inputs** | `~/.mcporter/mcporter.json`; a scoped GitHub Personal Access Token (PAT) set as `GITHUB_TOKEN` in host environment |
+| **Outputs** | `mcpServers.github` entry passing `GITHUB_TOKEN` via `env` block |
+| **Verification** | `jq '.mcpServers.github' ~/.mcporter/mcporter.json` returns a non-null object. `mcporter list` includes `github`. |
+| **SOC Relevance** | Yes — PAT scope and lifecycle are audit-relevant |
+| **HITL Gate** | `mutative` — references a credential (PAT must already exist; this task does not create one) |
+| **Complexity** | `moderate` |
+
+---
+
+**T-2.7 — Configure Sequential Thinking Prompt Schema**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 5.2, Steps 2–3 |
+| **LLMOS Layer** | Integration / Execution |
+| **Category** | `MCP` |
+| **Dependencies** | T-2.4 |
+| **Inputs** | Sequential Thinking server operational |
+| **Outputs** | Agent system prompt updated to enforce `thought`, `thoughtNumber`, `totalThoughts`, `nextThoughtNeeded`, `isRevision`, and `revisesThought` variable usage for every complex query |
+| **Verification** | Manual review: the Architect prompt (T-4.1) must reference these variables explicitly. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` — modifies agent behavior via prompt engineering |
+| **Complexity** | `complex` |
+
+---
+
+**T-2.8 — Consolidated MCP Health Check**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 5.1 Step 3; 5.2–5.4 |
+| **LLMOS Layer** | Integration |
+| **Category** | `MCP` |
+| **Dependencies** | T-2.4, T-2.5, T-2.6 |
+| **Inputs** | All three MCP servers injected into `mcporter.json` |
+| **Outputs** | All servers reachable and reporting tool schemas |
+| **Verification** | `mcporter list` returns `sequential-thinking`, `playwright`, and `github` with no error status. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `read-only` |
+| **Complexity** | `trivial` |
+
+### **8.5 Phase 3: Security Implementation (SOP 6.1–6.3)**
+
+This phase hardens the deployment. Tasks span all LLMOS layers and carry `SOC Relevance: Yes` unless noted otherwise. Categories are `SECURITY` and `LOGGING`.
+
+---
+
+**T-3.1 — Install skillvet Scanner**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 6.1, Step 1 |
+| **LLMOS Layer** | All |
+| **Category** | `SECURITY` |
+| **Dependencies** | T-0.6 |
+| **Inputs** | Network access to the skillvet repository |
+| **Outputs** | `skills/skillvet/` directory containing the scanner scripts |
+| **Verification** | `test -f skills/skillvet/scripts/safe-install.sh && echo OK` |
+| **SOC Relevance** | Yes — scanner is the first line of defense against ClawHavoc/ClickFix |
+| **HITL Gate** | `mutative` — clones a repository |
+| **Complexity** | `trivial` |
+
+---
+
+**T-3.2 — Create vet-install.sh Wrapper**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 6.1, Step 2 |
+| **LLMOS Layer** | All |
+| **Category** | `SECURITY` |
+| **Dependencies** | T-3.1 |
+| **Inputs** | `skills/skillvet/scripts/safe-install.sh` exists |
+| **Outputs** | `vet-install.sh` in workspace root; permissions `700`; delegates to `safe-install.sh` with the skill slug as argument |
+| **Verification** | `stat -c '%a' vet-install.sh` returns `700`. `head -1 vet-install.sh` contains `#!/usr/bin/env bash`. |
+| **SOC Relevance** | Yes — ensures all future skill installations are routed through the 48-check scanner |
+| **HITL Gate** | `mutative` — creates an executable script |
+| **Complexity** | `trivial` |
+
+---
+
+**T-3.3 — Enforce HITL Policy in openclaw.json**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 6.1, Step 3 |
+| **LLMOS Layer** | Control Plane |
+| **Category** | `SECURITY` |
+| **Dependencies** | T-1.2 |
+| **Inputs** | Valid `~/.openclaw/openclaw.json` |
+| **Outputs** | `openclaw.json` contains a `permissions` block that classifies tools as `autonomous` (read-only) or `requires_approval` (mutative/destructive), per the HITL matrix in SECURITY.md Section 3 |
+| **Verification** | `jq '.permissions' ~/.openclaw/openclaw.json` returns a non-null object with both `autonomous` and `requires_approval` arrays. |
+| **SOC Relevance** | Yes — HITL enforcement is both a security control and an EU AI Act compliance mechanism |
+| **HITL Gate** | `mutative` — modifies the central config |
+| **Complexity** | `moderate` |
+
+---
+
+**T-3.4 — Verify Network Egress Filtering**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 6.1 (implicit); 3.1 Step 2; 3.2 Step 4 |
+| **LLMOS Layer** | Control Plane |
+| **Category** | `SECURITY` |
+| **Dependencies** | T-1.4 (port binding verified); T-0.5 (Docker path) or T-0.4 (WSL2 path) |
+| **Inputs** | Gateway running; sandbox or WSL2 environment active |
+| **Outputs** | Confirmed: outbound traffic from the agent process is restricted to `localhost` (Docker path) or the agent cannot bind to `0.0.0.0` (WSL2 path) |
+| **Verification** | Docker: `docker sandbox inspect openclaw` shows `allowedHosts: ["localhost"]`. WSL2: `ss -tlnp \| grep 18789` shows only `127.0.0.1`. |
+| **SOC Relevance** | Yes — egress violation is a critical SOC alert |
+| **HITL Gate** | `read-only` |
+| **Complexity** | `trivial` |
+
+---
+
+**T-3.5 — Configure Structured JSON Logging**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 6.2, Step 1 |
+| **LLMOS Layer** | All |
+| **Category** | `LOGGING` |
+| **Dependencies** | T-1.2 |
+| **Inputs** | Valid `openclaw.json` |
+| **Outputs** | OpenCLAW runtime configured to emit structured JSON logs to `/opt/openclaw/logs/agent_activity.json`. Log directory created with correct ownership. |
+| **Verification** | `test -d /opt/openclaw/logs && echo OK`. After a test interaction: `python3 -c "import json; json.load(open('/opt/openclaw/logs/agent_activity.json'))"` exits cleanly. |
+| **SOC Relevance** | Yes — JSON format is required for Splunk field extraction (tool\_name, target\_path, execution\_time) |
+| **HITL Gate** | `mutative` — creates directories and modifies runtime config |
+| **Complexity** | `moderate` |
+
+---
+
+**T-3.6 — Create Splunk inputs.conf Template**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 6.2, Steps 2–4 |
+| **LLMOS Layer** | All |
+| **Category** | `LOGGING` |
+| **Dependencies** | T-3.5 |
+| **Inputs** | Log directory path (`/opt/openclaw/logs/`); target Splunk index (`ai_agent_ops`) |
+| **Outputs** | File at `config/splunk/inputs.conf` containing the monitor stanza: `[monitor:///opt/openclaw/logs/*.json]` with `sourcetype = _json` and `index = ai_agent_ops` |
+| **Verification** | `grep -q 'sourcetype' config/splunk/inputs.conf && echo OK` |
+| **SOC Relevance** | Yes — this file is deployed to `/opt/splunkforwarder/etc/system/local/` on the Splunk forwarder host |
+| **HITL Gate** | `mutative` — creates a config file |
+| **Complexity** | `trivial` |
+
+---
+
+**T-3.7 — EU AI Act Compliance Checklist Validation**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 6.3 |
+| **LLMOS Layer** | All |
+| **Category** | `SECURITY` |
+| **Dependencies** | T-3.3, T-3.5, T-3.6 |
+| **Inputs** | HITL policy configured (T-3.3); structured logging active (T-3.5); Splunk template created (T-3.6) |
+| **Outputs** | Documented confirmation that three EU AI Act requirements are met: (1) Automated Record-Keeping via Splunk pipeline, (2) Human Oversight via HITL gates, (3) Risk Management via skillvet + continuous monitoring |
+| **Verification** | Manual review against the three bullet points in SOP Section 6.3. All three controls must be traceable to a completed task in this registry. |
+| **SOC Relevance** | Yes — compliance is auditable |
+| **HITL Gate** | `read-only` — verification only |
+| **Complexity** | `moderate` |
+
+### **8.6 Phase 4: Dual-Agent Prompt Engineering (SOP 2.0, 5.2)**
+
+This phase creates the cognitive separation between the Architect and Executor agents. Tasks map to the Execution and Intelligence layers under the `PROMPT` category.
+
+---
+
+**T-4.1 — Create ARCHITECT\_PROMPT.md**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 2.0 (Holistika Strategy); 5.2 Steps 2–3 |
+| **LLMOS Layer** | Execution |
+| **Category** | `PROMPT` |
+| **Dependencies** | T-2.7 (Sequential Thinking schema defined) |
+| **Inputs** | Sequential Thinking tool schema (`thought`, `thoughtNumber`, `totalThoughts`, `nextThoughtNeeded`, `isRevision`, `revisesThought`) |
+| **Outputs** | `ARCHITECT_PROMPT.md` in workspace root. The prompt must: (a) restrict the agent to read-only mode, (b) mandate use of `sequential_thinking` for every complex query, (c) prohibit file-write, shell execution, and API mutation tools, (d) require structured plan output with explicit tool selections and risk assessments. |
+| **Verification** | `grep -q 'sequential_thinking' ARCHITECT_PROMPT.md && grep -q 'read-only' ARCHITECT_PROMPT.md && echo OK` |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` — creates a file |
+| **Complexity** | `complex` |
+
+---
+
+**T-4.2 — Create EXECUTOR\_PROMPT.md**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 2.0 (Holistika Processes); 1.0 (dual-agent paradigm) |
+| **LLMOS Layer** | Execution |
+| **Category** | `PROMPT` |
+| **Dependencies** | T-4.1 |
+| **Inputs** | Architect prompt exists as the upstream reference |
+| **Outputs** | `EXECUTOR_PROMPT.md` in workspace root. The prompt must: (a) require reading the Architect's plan output before executing any command, (b) restrict scope to the directives in the plan document, (c) enforce HITL confirmation for mutative operations, (d) optimize for throughput over deep reasoning. |
+| **Verification** | `grep -q 'plan' EXECUTOR_PROMPT.md && grep -q 'HITL' EXECUTOR_PROMPT.md && echo OK` |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` — creates a file |
+| **Complexity** | `moderate` |
+
+---
+
+**T-4.3 — Define Intelligence Matrix Schema**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 2.2 (Intelligence Matrix and DI) |
+| **LLMOS Layer** | Intelligence |
+| **Category** | `PROMPT` |
+| **Dependencies** | T-4.1 |
+| **Inputs** | Holistika DI framework requirements from SOP 2.2 |
+| **Outputs** | A schema definition (JSON Schema or structured markdown) specifying the Intelligence Matrix attributes: `fact_id`, `source_credibility` (numerical), `direct_impact` (numerical), `indirect_impact` (numerical), `pestel_category`, `generational_filter`, and `ssot_verified` (boolean). Stored as `config/intelligence-matrix-schema.json` or appended to the Architect prompt. |
+| **Verification** | Schema file parses as valid JSON Schema, or the Architect prompt contains all six attribute names. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` — creates a schema file |
+| **Complexity** | `complex` |
+
+---
+
+**T-4.4 — Configure Agent Routing in openclaw.json**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 4.1 Step 3; 2.0 |
+| **LLMOS Layer** | Control Plane / Execution |
+| **Category** | `PROMPT` |
+| **Dependencies** | T-1.2, T-4.1, T-4.2 |
+| **Inputs** | Valid `openclaw.json`; both prompt files exist |
+| **Outputs** | `openclaw.json` updated so that the `deep_research` workspace routes to the Architect agent, and general workspaces route to the Executor agent. Channel-to-workspace mapping is explicit. |
+| **Verification** | `jq '.workspaces.deep_research' ~/.openclaw/openclaw.json` returns a non-null object. |
+| **SOC Relevance** | Yes — workspace isolation prevents context cross-contamination between channels |
+| **HITL Gate** | `mutative` |
+| **Complexity** | `moderate` |
+
+### **8.7 Phase 5: Observability and DX Metrics (SOP 7.0)**
+
+This phase establishes the evaluation framework for continuous improvement. Tasks map to all layers under the `METRIC` and `LOGGING` categories.
+
+---
+
+**T-5.1 — Scaffold Evaluation Platform Configuration**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 7.2 |
+| **LLMOS Layer** | All |
+| **Category** | `METRIC` |
+| **Dependencies** | T-3.5 (structured logging active) |
+| **Inputs** | Choice of evaluation platform (Langfuse, Maxim AI, or LangSmith); platform API credentials |
+| **Outputs** | Configuration file or environment variables for the selected platform, stored in `config/eval/` (e.g., `config/eval/langfuse.env.example`). The file must define the trace ingestion endpoint and API key variable name without containing actual secrets. |
+| **Verification** | Config file exists and parses without error. `.gitignore` already excludes `.env` files. |
+| **SOC Relevance** | Yes — trace data feeds the observability pipeline |
+| **HITL Gate** | `mutative` — creates config scaffolding |
+| **Complexity** | `moderate` |
+
+---
+
+**T-5.2 — Define Metric Baselines**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 7.1 |
+| **LLMOS Layer** | All |
+| **Category** | `METRIC` |
+| **Dependencies** | T-5.1 |
+| **Inputs** | Metric definitions from SOP 7.1 table |
+| **Outputs** | A `config/eval/baselines.json` file encoding the four target metrics: `completion_rate` (target: `>0.60`), `containment_rate` (target: minimize), `pr_throughput_increase` (target: `>0.46`), `prompt_injection_vuln_rate` (target: `0.00`). Each entry includes `metric_id`, `target_value`, `unit`, and `evaluation_window`. |
+| **Verification** | `python3 -c "import json; d=json.load(open('config/eval/baselines.json')); assert len(d) == 4"` exits cleanly. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` — creates a config file |
+| **Complexity** | `trivial` |
+
+---
+
+**T-5.3 — Configure Alerting Thresholds**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 7.2; 6.2 Step 5 |
+| **LLMOS Layer** | All |
+| **Category** | `LOGGING` |
+| **Dependencies** | T-5.2, T-3.6 |
+| **Inputs** | Metric baselines defined; Splunk inputs.conf template created |
+| **Outputs** | A `config/eval/alerts.json` file defining threshold-based alerts: (1) Completion Rate drops below `0.60` over a rolling 7-day window, (2) Prompt Injection Vulnerability Rate exceeds `0.00`, (3) SOC risk indicators from SOP 6.2 Step 5 (chmod execution, `/etc/` access, `~/.ssh/` access, `canvas.eval` invocation). |
+| **Verification** | `python3 -c "import json; d=json.load(open('config/eval/alerts.json')); assert len(d) >= 3"` exits cleanly. |
+| **SOC Relevance** | Yes — these alerts are the primary SOC detection surface for agent anomalies |
+| **HITL Gate** | `mutative` — creates a config file |
+| **Complexity** | `moderate` |
+
+### **8.8 Execution Constraints**
+
+All phases in this registry must be executed sequentially. An AI-assisted IDE (such as Cursor) executing these tasks must adhere to the following constraints:
+
+1. **Sequential Execution:** Tasks within a phase may execute in dependency order. No task may begin until all tasks listed in its Dependencies field have been verified as complete.
+2. **HITL Enforcement:** Any task marked with HITL Gate `mutative` or `destructive` requires explicit human approval before execution. The operator must visually confirm the proposed action. Tasks marked `read-only` may execute autonomously.
+3. **Verification-Before-Proceed:** After completing each task, the Verification command or assertion must be executed. A failing verification blocks all downstream dependent tasks.
+4. **Idempotency:** Tasks should be designed to be safely re-run. If a task's Output already exists and its Verification passes, it may be skipped.
+5. **Abort Protocol:** If a task fails verification after two retry attempts, execution halts. The operator must diagnose the failure manually before resuming.
 
 #### **Works cited**
 
