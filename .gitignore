@@ -1,0 +1,41 @@
+# Credentials and secrets
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+openclaw.json
+
+# API keys
+.mcporter/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor and IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+
+# Node.js (for MCP server tooling)
+node_modules/
+package-lock.json
+
+# Docker
+.docker/
+
+# Splunk forwarder data
+splunkforwarder/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
