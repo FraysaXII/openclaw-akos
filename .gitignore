@@ -35,6 +35,11 @@ package-lock.json
 # Splunk forwarder data
 splunkforwarder/
 
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
 # Temporary files
 tmp/
 temp/

@@ -3,7 +3,7 @@
 **Agentic Knowledge Operating System — Enterprise-Grade LLMOS Transformation for OpenCLAW**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![SOP Version](https://img.shields.io/badge/SOP-v2.0_March_2026-blue.svg)](docs/SOP.md)
+[![SOP Version](https://img.shields.io/badge/SOP-v2.1_March_2026-blue.svg)](docs/SOP.md)
 
 ## Overview
 
@@ -90,11 +90,57 @@ docker sandbox run openclaw ~/start-openclaw.sh
 
 See the full [Standard Operating Procedure](docs/SOP.md) for detailed step-by-step instructions.
 
+## Repository Structure
+
+```
+openclaw-akos/
+  config/
+    openclaw.json.example           Gateway config template (T-1.2)
+    mcporter.json.example           MCP server definitions (T-2.3–T-2.6)
+    permissions.json                HITL policy — autonomous vs requires_approval (T-3.3)
+    logging.json                    Structured JSON logging config (T-3.5)
+    intelligence-matrix-schema.json Holistika DI fact schema (T-4.3)
+    splunk/
+      inputs.conf                   Splunk Universal Forwarder template (T-3.6)
+    eval/
+      langfuse.env.example          Eval platform scaffold (T-5.1)
+      baselines.json                DX metric baselines (T-5.2)
+      alerts.json                   SOC alerting thresholds (T-5.3)
+  prompts/
+    ARCHITECT_PROMPT.md             Read-only planner system prompt (T-4.1)
+    EXECUTOR_PROMPT.md              Read-write builder system prompt (T-4.2)
+  scripts/
+    vet-install.sh                  Safe skill installation wrapper (T-3.2)
+  tests/
+    conftest.py                     Shared fixtures
+    validate_configs.py             Unit tests for all JSON configs
+    validate_prompts.py             Unit tests for prompt content
+    validate_scripts.py             Unit tests for shell scripts
+    e2e_scaffolding.py              E2E: tree completeness, cross-refs, secrets scan
+  docs/
+    SOP.md                          Full Standard Operating Procedure
+    ARCHITECTURE.md                 Four-Layer LLMOS architecture diagrams
+```
+
+## Running Tests
+
+```bash
+# Full suite (70 tests: unit + E2E)
+py -m pytest tests/ -v
+
+# Individual batches
+py -m pytest tests/validate_configs.py -v    # Config validation
+py -m pytest tests/validate_prompts.py -v    # Prompt validation
+py -m pytest tests/validate_scripts.py -v    # Script validation
+py -m pytest tests/e2e_scaffolding.py -v     # E2E scaffolding check
+```
+
 ## Documentation
 
 | Document | Description |
 |:---------|:------------|
 | [SOP](docs/SOP.md) | Complete Standard Operating Procedure for the LLMOS transformation |
+| [Implementation Task Registry](docs/SOP.md#80-implementation-task-registry) | 33 traceable tasks across 6 phases with SSOT/SOC/DI/DX attributes |
 | [Architecture](docs/ARCHITECTURE.md) | Four-Layer LLMOS architecture and data flow diagrams |
 | [Security](SECURITY.md) | Zero-Trust security policy, threat model, and compliance |
 | [Contributing](CONTRIBUTING.md) | How to contribute to this project |
