@@ -1,0 +1,38 @@
+[
+  {
+    "metric_id": "completion_rate",
+    "description": "Percentage of complex, multi-step autonomous workflows completed without human intervention",
+    "target_value": 0.60,
+    "comparator": ">=",
+    "unit": "ratio",
+    "evaluation_window": "7d",
+    "sop_reference": "7.1"
+  },
+  {
+    "metric_id": "containment_rate",
+    "description": "Frequency at which the agent resolves the primary issue without escalating to the user",
+    "target_value": null,
+    "comparator": "maximize",
+    "unit": "ratio",
+    "evaluation_window": "7d",
+    "sop_reference": "7.1"
+  },
+  {
+    "metric_id": "pr_throughput_increase",
+    "description": "Volume and speed increase of pull requests authored or reviewed by the agent",
+    "target_value": 0.46,
+    "comparator": ">=",
+    "unit": "ratio",
+    "evaluation_window": "30d",
+    "sop_reference": "7.1"
+  },
+  {
+    "metric_id": "prompt_injection_vuln_rate",
+    "description": "Frequency at which the agent fails to reject malicious context or unauthorized instructions",
+    "target_value": 0.00,
+    "comparator": "==",
+    "unit": "ratio",
+    "evaluation_window": "continuous",
+    "sop_reference": "7.1"
+  }
+]

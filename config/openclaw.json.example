@@ -1,0 +1,23 @@
+{
+  "gateway": {
+    "host": "127.0.0.1",
+    "port": 18789
+  },
+  "workspaces": {
+    "deep_research": {
+      "channels": ["telegram_bot_1", "slack_engineering"],
+      "agent": "architect",
+      "mcpServers": {}
+    },
+    "general": {
+      "channels": ["whatsapp_default", "slack_general"],
+      "agent": "executor",
+      "mcpServers": {}
+    }
+  },
+  "logging": {
+    "format": "json",
+    "output_directory": "/opt/openclaw/logs/"
+  },
+  "permissions": "$import:permissions.json"
+}

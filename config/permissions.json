@@ -1,0 +1,28 @@
+{
+  "autonomous": [
+    "read_file",
+    "list_directory",
+    "web_search",
+    "sequential_thinking",
+    "browser_snapshot",
+    "browser_screenshot",
+    "mcporter_list",
+    "git_status",
+    "git_diff",
+    "git_log"
+  ],
+  "requires_approval": [
+    "write_file",
+    "delete_file",
+    "shell_exec",
+    "browser_navigate",
+    "browser_click",
+    "browser_type",
+    "element_interact",
+    "git_push",
+    "git_commit",
+    "canvas_eval",
+    "network_download",
+    "system_config_change"
+  ]
+}

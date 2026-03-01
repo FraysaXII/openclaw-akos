@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openclaw-akos/schemas/intelligence-matrix-entry",
+  "title": "Intelligence Matrix Entry",
+  "description": "Schema for classifying ingested data through the Holistika DI framework (SOP 2.2). Every piece of data passes through this matrix before entering the Knowledge Graph.",
+  "type": "object",
+  "required": [
+    "fact_id",
+    "source_credibility",
+    "direct_impact",
+    "indirect_impact",
+    "pestel_category",
+    "generational_filter",
+    "ssot_verified"
+  ],
+  "properties": {
+    "fact_id": {
+      "type": "string",
+      "pattern": "^fct_\\d{3,}$",
+      "description": "Unique identifier for an isolated concept (e.g., fct_001)"
+    },
+    "source_credibility": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Numerical score comparing the source to an average baseline (0 = no credibility, 1 = fully verified)"
+    },
+    "direct_impact": {
+      "type": "number",
+      "description": "Quantitative score used by the reasoning engine to prioritize context — direct causal relationship"
+    },
+    "indirect_impact": {
+      "type": "number",
+      "description": "Quantitative score for secondary or downstream effects"
+    },
+    "pestel_category": {
+      "type": "string",
+      "enum": [
+        "political",
+        "economic",
+        "social",
+        "technological",
+        "environmental",
+        "legal"
+      ],
+      "description": "PESTEL framework category applied dynamically during data analysis"
+    },
+    "generational_filter": {
+      "type": "string",
+      "description": "Generational cohort filter applied to understand nuanced behavioral patterns"
+    },
+    "ssot_verified": {
+      "type": "boolean",
+      "description": "Whether this fact has a cryptographically verifiable Source of Truth"
+    }
+  },
+  "additionalProperties": false
+}

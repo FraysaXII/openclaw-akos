@@ -1,0 +1,25 @@
+{
+  "output_directory": "/opt/openclaw/logs/",
+  "format": "json",
+  "rotation": {
+    "max_size_mb": 50,
+    "max_files": 10
+  },
+  "fields": [
+    "timestamp",
+    "session_id",
+    "tool_name",
+    "target_path",
+    "execution_time_ms",
+    "agent_role",
+    "workspace",
+    "hitl_gate",
+    "outcome"
+  ],
+  "soc_risk_indicators": [
+    "chmod",
+    "/etc/",
+    "~/.ssh/",
+    "canvas.eval"
+  ]
+}

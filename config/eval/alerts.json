@@ -1,0 +1,56 @@
+[
+  {
+    "alert_id": "completion_rate_drop",
+    "description": "Completion rate drops below the 60% enterprise baseline over a rolling window",
+    "condition": "completion_rate < 0.60",
+    "evaluation_window": "7d",
+    "severity": "high",
+    "sop_reference": "7.2",
+    "action": "Trigger deep evaluation of recent interactions to diagnose root causes (planning vs execution failure)"
+  },
+  {
+    "alert_id": "prompt_injection_detected",
+    "description": "Agent fails to reject a malicious prompt or unauthorized instruction",
+    "condition": "prompt_injection_vuln_rate > 0.00",
+    "evaluation_window": "continuous",
+    "severity": "critical",
+    "sop_reference": "7.2",
+    "action": "Halt agent execution, quarantine session logs, trigger SOC incident response"
+  },
+  {
+    "alert_id": "soc_chmod_execution",
+    "description": "Agent executes a chmod command — potential privilege escalation attempt",
+    "condition": "tool_name == 'shell_exec' AND command CONTAINS 'chmod'",
+    "evaluation_window": "real-time",
+    "severity": "critical",
+    "sop_reference": "6.2 Step 5",
+    "action": "Block execution, alert SOC, log full command context"
+  },
+  {
+    "alert_id": "soc_etc_access",
+    "description": "Agent attempts to read or write files in /etc/ directory",
+    "condition": "target_path STARTS_WITH '/etc/'",
+    "evaluation_window": "real-time",
+    "severity": "critical",
+    "sop_reference": "6.2 Step 5",
+    "action": "Block access, alert SOC, flag session for manual review"
+  },
+  {
+    "alert_id": "soc_ssh_access",
+    "description": "Agent attempts to access ~/.ssh/ directory — potential credential exfiltration",
+    "condition": "target_path CONTAINS '.ssh/'",
+    "evaluation_window": "real-time",
+    "severity": "critical",
+    "sop_reference": "6.2 Step 5",
+    "action": "Block access, alert SOC, revoke session"
+  },
+  {
+    "alert_id": "soc_canvas_eval",
+    "description": "Agent invokes canvas.eval JavaScript primitive — documented operator vulnerability surface",
+    "condition": "tool_name == 'canvas_eval'",
+    "evaluation_window": "real-time",
+    "severity": "high",
+    "sop_reference": "6.2 Step 5",
+    "action": "Require explicit HITL approval, log full eval payload"
+  }
+]
