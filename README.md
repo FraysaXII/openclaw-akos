@@ -50,7 +50,17 @@ See [SECURITY.md](SECURITY.md) for the full security policy.
 
 ## Quick Start
 
-### Windows (WSL2)
+### Windows (Automated Bootstrap)
+
+If you have Ollama and Node.js >= 22 installed, the bootstrap script handles everything else:
+
+```powershell
+.\scripts\bootstrap.ps1
+```
+
+The script is idempotent (safe to re-run) and covers WSL provisioning, Ollama model setup, OpenCLAW configuration, and MCP server injection. Use `-SkipWSL`, `-SkipOllama`, or `-SkipMCP` to skip individual phases.
+
+### Windows (Manual / WSL2)
 
 ```bash
 # 1. Install Ubuntu under WSL2
@@ -110,6 +120,7 @@ openclaw-akos/
     ARCHITECT_PROMPT.md             Read-only planner system prompt (T-4.1)
     EXECUTOR_PROMPT.md              Read-write builder system prompt (T-4.2)
   scripts/
+    bootstrap.ps1                   Full environment setup (Ollama, MCP, WSL)
     vet-install.sh                  Safe skill installation wrapper (T-3.2)
   tests/
     conftest.py                     Shared fixtures
