@@ -9,6 +9,7 @@
         "primary": "ollama/qwen3:8b"
       },
       "thinkingDefault": "off",
+      "verboseDefault": "on",
       "workspace": "~/.openclaw/workspace",
       "memorySearch": {
         "provider": "local",

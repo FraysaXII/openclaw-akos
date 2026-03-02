@@ -103,7 +103,49 @@ The following corrections were discovered during live deployment against OpenCLA
    - `~/.openclaw/workspace-architect/SOUL.md` (copy of `prompts/ARCHITECT_PROMPT.md`)
    - `~/.openclaw/workspace-executor/SOUL.md` (copy of `prompts/EXECUTOR_PROMPT.md`)
 
-3. **`thinkingDefault: "off"` is required for Ollama models.** OpenCLAW defaults to `thinking: "low"` for models it classifies as reasoning-capable. Ollama's `qwen3:8b` does not support the `think` parameter, causing a 400 error that silently prevents the agent from replying. Setting `agents.defaults.thinkingDefault: "off"` in `openclaw.json` resolves this.
+3. **`thinkingDefault: "off"` is required for Ollama models.** OpenCLAW defaults to `thinking: "low"` for models it classifies as reasoning-capable. Ollama's `qwen3:8b` does not support the `think` parameter, causing a 400 error that silently prevents the agent from replying. Setting `agents.defaults.thinkingDefault: "off"` in `openclaw.json` resolves this. Per-agent `thinkingDefault` overrides are not yet available in v2026.2.26 (tracked in [openclaw/openclaw#11479](https://github.com/openclaw/openclaw/issues/11479)).
+
+4. **`verboseDefault: "on"` enables tool visibility in WebChat.** By default, OpenCLAW hides tool call activity from the chat surface (`verboseDefault: "off"`). When the user cannot see tool calls, web searches, or reasoning steps, the agent appears to freeze before producing a wall-of-text response. Setting `agents.defaults.verboseDefault: "on"` causes tool summaries to appear as separate bubbles in real-time. Users can override per-session with `/verbose off` or escalate to full output with `/verbose full`. Reference: [OpenCLAW Thinking Levels docs](https://docs.openclaw.ai/tools/thinking).
+
+### Agent Observability
+
+Visibility into agent activity is a core DX requirement. Without it, the user cannot distinguish between an agent that is working and one that is stuck.
+
+#### Config: `verboseDefault`
+
+```json
+"agents": {
+  "defaults": {
+    "verboseDefault": "on"
+  }
+}
+```
+
+Verbose levels:
+- `off` (default) -- hides raw tool details; only final replies are visible
+- `on` -- shows tool summaries as separate bubbles when each tool starts
+- `full` -- includes complete tool outputs after completion
+
+The `/verbose` inline directive can override per-message or toggle the session default. Send `/verbose` with no argument to check the current level.
+
+#### SOUL.md: Adaptive Response Modes
+
+The SOUL.md prompts use an adaptive response mode pattern (inspired by Google Antigravity's `task_boundary`, Manus agent loop, Claude Code conciseness, and Traycer AI's read-only lead):
+
+- **Conversational Mode** -- for greetings, simple questions, casual messages. Direct, concise responses with no formal structure.
+- **Analysis Mode** -- for multi-step requests requiring research or reasoning. Acknowledges the request first, emits progress updates between tool calls, then produces a structured Plan Document.
+- **Handoff Mode** -- when the Architect produces actionable directives for the Executor. Includes an explicit Handoff Summary so the Executor can act without reading the full reasoning trace.
+
+#### SOUL.md: Progress Signaling
+
+Both agents are instructed to never go silent during multi-step operations:
+
+- Emit a brief status line before every tool call
+- Summarize results after each tool completes
+- Announce each action step during execution (Executor)
+- Report HITL gate pauses with clear explanations
+
+This ensures the user always has visibility into what the agent is doing, even when `verboseDefault` is `off`.
 
 ## MCP Server Topology
 

@@ -98,6 +98,20 @@ class TestOpenclawConfig:
             assert "name" in identity, f"Agent '{agent['id']}' identity missing 'name'"
             assert "emoji" in identity, f"Agent '{agent['id']}' identity missing 'emoji'"
 
+    def test_verbose_default_is_enabled(self):
+        defaults = self.data["agents"]["defaults"]
+        assert "verboseDefault" in defaults, \
+            "agents.defaults.verboseDefault must be set for tool visibility"
+        assert defaults["verboseDefault"] in ("on", "full"), \
+            f"verboseDefault must be 'on' or 'full', got '{defaults['verboseDefault']}'"
+
+    def test_thinking_default_is_off_for_ollama(self):
+        defaults = self.data["agents"]["defaults"]
+        assert "thinkingDefault" in defaults, \
+            "agents.defaults.thinkingDefault must be set"
+        assert defaults["thinkingDefault"] == "off", \
+            f"thinkingDefault must be 'off' for Ollama models, got '{defaults['thinkingDefault']}'"
+
     def test_has_bindings(self):
         assert "bindings" in self.data
         assert isinstance(self.data["bindings"], list)
