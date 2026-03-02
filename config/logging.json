@@ -1,4 +1,5 @@
 {
+  "_comment": "output_directory: /opt/openclaw/logs/ for Linux production. On Windows dev, OpenCLAW writes to %TEMP%/openclaw/ by default. log-watcher.py reads from the OS temp dir automatically.",
   "output_directory": "/opt/openclaw/logs/",
   "format": "json",
   "rotation": {

@@ -317,15 +317,29 @@ A planned HTTP API layer (FastAPI) will expose model switching, dashboard data, 
 
 ## Observability Stack
 
+### Pipeline
+
+```
+log-watcher.py ──> Langfuse       (primary: per-request traces, model comparison, cost)
+               ├─> AlertEvaluator (real-time SOC alerts → CRITICAL-level log entries)
+               └─> stdout         (human-readable or JSON, always available)
+
+Splunk UF (optional) ──> ai_agent_ops index (enterprise SIEM, config/splunk/inputs.conf)
+```
+
+### Components
+
 | Component | Role | Target |
 |:----------|:-----|:-------|
-| Structured JSON Logs | Agent activity tracing | `/opt/openclaw/logs/` or `$TEMP/openclaw/` |
+| Structured JSON Logs | Agent activity tracing | `$TEMP/openclaw/` (dev) or `/opt/openclaw/logs/` (prod) |
 | `akos/log.py` | Script-level JSON logging | stdout (human or JSON mode) |
 | `scripts/log-watcher.py` | Tails gateway logs, pushes traces to Langfuse, evaluates real-time alerts | Langfuse Cloud / stdout |
 | `akos/alerts.py` (AlertEvaluator) | Real-time pattern matching against `alerts.json`; periodic baseline checks | `CRITICAL`-level log entries |
-| Langfuse | Agent telemetry, tracing, model comparison | `config/eval/langfuse.env.example` |
-| Splunk Universal Forwarder | Log shipping | `ai_agent_ops` index |
+| Langfuse (primary) | Agent telemetry, tracing, model comparison | `config/eval/langfuse.env` (keys from `.example`) |
+| Splunk Universal Forwarder (optional) | Enterprise SIEM log shipping | `ai_agent_ops` index |
 | skillvet | Security posture | Prompt-injection vulnerability rate |
+
+Langfuse is the recommended primary observability backend. The `--env-file` flag on `log-watcher.py` loads credentials from `config/eval/langfuse.env` (gitignored). Use `--dry-run` to preview traces without sending. Splunk is available for enterprise deployments that require a full SIEM; the `inputs.conf` template needs path adjustment for the target OS.
 
 ## Implementation Task Map
 

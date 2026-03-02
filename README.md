@@ -192,17 +192,30 @@ openclaw-akos/
 
 ## Observability
 
-The log watcher tails the OpenCLAW gateway log and pushes agent traces to Langfuse while evaluating real-time SOC alerts:
+The log watcher tails the OpenCLAW gateway log, pushes agent traces to Langfuse, and evaluates real-time SOC alerts.
+
+### Activating Langfuse Telemetry
+
+1. Sign up at [app.langfuse.com](https://cloud.langfuse.com) (free tier) or [self-host](https://langfuse.com/docs/deployment/self-host)
+2. Copy the template: `cp config/eval/langfuse.env.example config/eval/langfuse.env`
+3. Fill in your keys in `config/eval/langfuse.env`
+4. Start the watcher alongside the gateway:
 
 ```bash
-# Start the watcher (foreground)
+# Foreground watcher (loads keys from config/eval/langfuse.env automatically)
 python scripts/log-watcher.py
+
+# Dry-run mode (prints traces without calling Langfuse SDK)
+python scripts/log-watcher.py --dry-run
+
+# Custom env file location
+python scripts/log-watcher.py --env-file /path/to/langfuse.env
 
 # Single pass for CI
 python scripts/log-watcher.py --once --json-log
 ```
 
-Configure Langfuse by copying `config/eval/langfuse.env.example` to `config/eval/langfuse.env` and filling in real keys. Without credentials, telemetry degrades gracefully to a no-op.
+Without credentials, telemetry degrades gracefully to a no-op -- the watcher still evaluates alerts and logs to stdout.
 
 ## Running Tests
 
