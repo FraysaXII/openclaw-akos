@@ -28,6 +28,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from akos.alerts import AlertEvaluator
+from akos.io import REPO_ROOT
 from akos.log import setup_logging
 from akos.telemetry import LangfuseReporter
 
@@ -97,8 +99,13 @@ def main():
     else:
         logger.info("Langfuse telemetry disabled (no credentials or package)")
 
-    # Alert evaluator is integrated in Layer 5; placeholder for now
-    alert_evaluator = None
+    alerts_path = REPO_ROOT / "config" / "eval" / "alerts.json"
+    baselines_path = REPO_ROOT / "config" / "eval" / "baselines.json"
+    try:
+        alert_evaluator = AlertEvaluator(alerts_path, baselines_path)
+    except Exception as exc:
+        logger.warning("Could not load alert configs: %s", exc)
+        alert_evaluator = None
 
     entries_processed = 0
 
@@ -113,8 +120,7 @@ def main():
             reporter.trace_request(entry)
 
             if alert_evaluator is not None:
-                # Layer 5 will add: alert_evaluator.check_realtime(entry)
-                pass
+                alert_evaluator.check_realtime(entry)
 
             if entries_processed % 100 == 0:
                 reporter.flush()
