@@ -1,0 +1,54 @@
+{
+  "tiers": {
+    "small": {
+      "contextBudget": 16384,
+      "thinkingDefault": "off",
+      "promptVariant": "compact",
+      "description": "8B-class or smaller. Follow 3-5 MUST rules max.",
+      "models": [
+        "ollama/qwen3:8b",
+        "ollama/llama3.2:3b",
+        "ollama/llama3.1:8b",
+        "ollama/glm-4.7-flash"
+      ]
+    },
+    "medium": {
+      "contextBudget": 32768,
+      "thinkingDefault": "low",
+      "promptVariant": "standard",
+      "description": "14B-70B class. Handles structured output, sequential thinking.",
+      "models": [
+        "ollama/deepseek-r1:14b",
+        "ollama/qwen3:32b",
+        "groq/llama-3.3-70b"
+      ]
+    },
+    "large": {
+      "contextBudget": 131072,
+      "thinkingDefault": "medium",
+      "promptVariant": "full",
+      "description": "70B+ or cloud frontier models. Full prompt, all features.",
+      "models": [
+        "openai/gpt-5-mini",
+        "anthropic/claude-sonnet-4",
+        "openrouter/google/gemini-3-flash"
+      ]
+    },
+    "sota": {
+      "contextBudget": 200000,
+      "thinkingDefault": "high",
+      "promptVariant": "full",
+      "description": "SOTA models. Unrestricted features, deepest reasoning.",
+      "models": [
+        "openai/gpt-5",
+        "anthropic/claude-opus-4",
+        "openrouter/deepseek/deepseek-r1"
+      ]
+    }
+  },
+  "variantOverlays": {
+    "compact": [],
+    "standard": ["OVERLAY_REASONING.md"],
+    "full": ["OVERLAY_REASONING.md", "OVERLAY_INTELLIGENCE.md", "OVERLAY_TOOLS_FULL.md"]
+  }
+}
