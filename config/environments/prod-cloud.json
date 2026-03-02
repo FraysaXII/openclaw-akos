@@ -1,0 +1,11 @@
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-sonnet-4"
+      },
+      "thinkingDefault": "medium",
+      "verboseDefault": "on"
+    }
+  }
+}

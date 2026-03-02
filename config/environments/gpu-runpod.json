@@ -1,0 +1,11 @@
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "vllm-runpod/deepseek-r1-70b"
+      },
+      "thinkingDefault": "medium",
+      "verboseDefault": "on"
+    }
+  }
+}

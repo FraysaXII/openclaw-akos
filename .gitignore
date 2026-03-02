@@ -1,10 +1,13 @@
 # Credentials and secrets
 .env
-.env.*
 *.pem
 *.key
 credentials.json
 openclaw.json
+
+# Environment profiles with real secrets (keep .env.example templates)
+config/environments/*.env
+!config/environments/*.env.example
 
 # API keys and live MCP config (user-specific paths)
 .mcporter/
