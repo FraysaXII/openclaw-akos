@@ -241,3 +241,44 @@ class TestAlertsConfig:
         alerts = load_alerts(config_dir / "eval" / "alerts.json")
         severities = {a.severity for a in alerts}
         assert "critical" in severities
+
+
+# ---------------------------------------------------------------------------
+# eu-ai-act-checklist.json (T-3.7)
+# ---------------------------------------------------------------------------
+
+class TestEuAiActChecklist:
+    @pytest.fixture(autouse=True)
+    def _load(self, config_dir):
+        self.data = load_json(config_dir / "compliance" / "eu-ai-act-checklist.json")
+
+    def test_has_three_requirements(self):
+        assert len(self.data["requirements"]) == 3
+
+    def test_each_requirement_has_evidence(self):
+        for req in self.data["requirements"]:
+            assert len(req["evidence"]) >= 1, \
+                f"{req['requirement_id']} has no evidence items"
+
+    def test_each_evidence_has_verification_date(self):
+        for req in self.data["requirements"]:
+            for ev in req["evidence"]:
+                assert "verification_date" in ev, \
+                    f"{req['requirement_id']}/{ev['task_id']}: missing verification_date"
+                assert ev["verification_date"], \
+                    f"{req['requirement_id']}/{ev['task_id']}: verification_date is empty"
+
+    def test_each_evidence_has_verification_method(self):
+        for req in self.data["requirements"]:
+            for ev in req["evidence"]:
+                assert "verification_method" in ev, \
+                    f"{req['requirement_id']}/{ev['task_id']}: missing verification_method"
+
+    def test_overall_status_is_valid(self):
+        assert self.data["overall_status"] in ("compliant", "partial", "non-compliant")
+
+    def test_langfuse_evidence_present(self):
+        aia1 = self.data["requirements"][0]
+        files = [ev["file"] for ev in aia1["evidence"]]
+        assert "akos/telemetry.py" in files, \
+            "EU-AIA-1 should reference Langfuse telemetry as evidence"

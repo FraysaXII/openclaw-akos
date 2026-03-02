@@ -13,15 +13,33 @@
         {
           "task_id": "T-3.5",
           "file": "config/logging.json",
-          "description": "Structured JSON logging configuration with fields: timestamp, session_id, tool_name, target_path, execution_time_ms, agent_role, workspace, hitl_gate, outcome"
+          "description": "Structured JSON logging configuration with fields: timestamp, session_id, tool_name, target_path, execution_time_ms, agent_role, workspace, hitl_gate, outcome",
+          "verification_date": "2026-03-02",
+          "verification_method": "pytest (validate_configs.py::TestLoggingConfig)"
         },
         {
           "task_id": "T-3.6",
           "file": "config/splunk/inputs.conf",
-          "description": "Splunk Universal Forwarder template monitoring /opt/openclaw/logs/*.json with sourcetype _json and index ai_agent_ops"
+          "description": "Splunk Universal Forwarder template monitoring /opt/openclaw/logs/*.json with sourcetype _json and index ai_agent_ops. Optional enterprise SIEM add-on.",
+          "verification_date": "2026-03-02",
+          "verification_method": "manual review"
+        },
+        {
+          "task_id": "T-5.4",
+          "file": "akos/telemetry.py",
+          "description": "LangfuseReporter wraps the Langfuse SDK for per-request agent traces. Activated via config/eval/langfuse.env. Primary observability backend.",
+          "verification_date": "2026-03-02",
+          "verification_method": "pytest (test_akos_models.py); log-watcher.py --dry-run"
+        },
+        {
+          "task_id": "T-5.4",
+          "file": "scripts/log-watcher.py",
+          "description": "Tails OpenCLAW gateway logs, pushes traces to Langfuse, evaluates real-time SOC alerts. Supports --env-file and --dry-run flags.",
+          "verification_date": "2026-03-02",
+          "verification_method": "manual run (--once --dry-run)"
         }
       ],
-      "verification": "Both files exist, parse correctly, and define the full SOC pipeline from agent activity to SIEM ingestion."
+      "verification": "logging.json parses correctly with all required fields. Langfuse telemetry pipeline verified via dry-run. Splunk template reviewed for path accuracy."
     },
     {
       "requirement_id": "EU-AIA-2",
@@ -32,17 +50,23 @@
         {
           "task_id": "T-3.3",
           "file": "config/permissions.json",
-          "description": "HITL policy classifying 10 tools as autonomous (read-only) and 12 tools as requires_approval (mutative/destructive)"
+          "description": "HITL policy classifying 10 tools as autonomous (read-only) and 12 tools as requires_approval (mutative/destructive)",
+          "verification_date": "2026-03-02",
+          "verification_method": "pytest (validate_configs.py::TestPermissionsConfig)"
         },
         {
           "task_id": "T-4.1",
           "file": "prompts/ARCHITECT_PROMPT.md",
-          "description": "Architect agent system prompt enforces read-only mode, prohibits write_file, shell_exec, and all mutative tools"
+          "description": "Architect agent system prompt enforces read-only mode, prohibits write_file, shell_exec, and all mutative tools",
+          "verification_date": "2026-03-02",
+          "verification_method": "pytest (validate_prompts.py::TestArchitectPrompt)"
         },
         {
           "task_id": "T-4.2",
           "file": "prompts/EXECUTOR_PROMPT.md",
-          "description": "Executor agent system prompt mandates HITL gate checks before every action, halts on requires_approval classification"
+          "description": "Executor agent system prompt mandates HITL gate checks before every action, halts on requires_approval classification",
+          "verification_date": "2026-03-02",
+          "verification_method": "pytest (validate_prompts.py::TestExecutorPrompt)"
         }
       ],
       "verification": "permissions.json contains non-overlapping autonomous and requires_approval arrays. Both prompts reference the HITL gate protocol and permissions.json."
@@ -56,22 +80,35 @@
         {
           "task_id": "T-3.1",
           "file": "scripts/vet-install.sh",
-          "description": "Safe skill installation wrapper that delegates to skillvet's safe-install.sh, running 48 vulnerability checks before any community skill installation"
+          "description": "Safe skill installation wrapper that delegates to skillvet's safe-install.sh, running 48 vulnerability checks before any community skill installation",
+          "verification_date": "2026-03-02",
+          "verification_method": "pytest (validate_scripts.py::TestVetInstallScript)"
         },
         {
           "task_id": "T-3.2",
           "file": "scripts/vet-install.sh",
-          "description": "Executable wrapper (permissions 700) ensuring all future skill installations are routed through the security scanner"
+          "description": "Executable wrapper (permissions 700) ensuring all future skill installations are routed through the security scanner",
+          "verification_date": "2026-03-02",
+          "verification_method": "manual review"
         },
         {
           "task_id": "T-5.3",
           "file": "config/eval/alerts.json",
-          "description": "Alerting thresholds for prompt_injection_vuln_rate > 0.00, SOC risk indicators (chmod, /etc/, ~/.ssh/, canvas.eval)"
+          "description": "Alerting thresholds for prompt_injection_vuln_rate > 0.00, SOC risk indicators (chmod, /etc/, ~/.ssh/, canvas.eval)",
+          "verification_date": "2026-03-02",
+          "verification_method": "pytest (test_akos_alerts.py::TestRealtimeAlerts)"
+        },
+        {
+          "task_id": "T-5.5",
+          "file": "akos/alerts.py",
+          "description": "AlertEvaluator engine with check_realtime() and check_periodic() methods, integrated into log-watcher.py for live SOC detection",
+          "verification_date": "2026-03-02",
+          "verification_method": "pytest (test_akos_alerts.py)"
         }
       ],
-      "verification": "vet-install.sh exists with correct shebang and references safe-install.sh. alerts.json defines critical-severity alerts for security indicators."
+      "verification": "vet-install.sh exists with correct shebang and references safe-install.sh. alerts.json defines critical-severity alerts. AlertEvaluator passes all unit tests."
     }
   ],
-  "overall_status": "compliant",
-  "notes": "All three EU AI Act requirements from SOP Section 6.3 are traceable to completed implementation tasks. Compliance is maintained through the combination of structured logging (record-keeping), HITL gates (human oversight), and skillvet + alerting (risk management)."
+  "overall_status": "partial",
+  "notes": "All three EU AI Act requirements from SOP Section 6.3 have implementation evidence traceable to completed tasks. Status is 'partial' because: (1) Langfuse telemetry pipeline has been verified via dry-run but not yet connected with real credentials in production, (2) Splunk SIEM integration is template-only -- no forwarder deployed, (3) HITL enforcement is prompt-based and not yet validated under adversarial conditions. Upgrade to 'compliant' once Langfuse is live and at least one full audit cycle completes."
 }
