@@ -805,11 +805,13 @@ This phase creates the cognitive separation between the Architect and Executor a
 | **Category** | `PROMPT` |
 | **Dependencies** | T-1.2, T-4.1, T-4.2 |
 | **Inputs** | Valid `openclaw.json`; both prompt files exist |
-| **Outputs** | `openclaw.json` updated so that the `deep_research` workspace routes to the Architect agent, and general workspaces route to the Executor agent. Channel-to-workspace mapping is explicit. |
-| **Verification** | `jq '.workspaces.deep_research' ~/.openclaw/openclaw.json` returns a non-null object. |
+| **Outputs** | `openclaw.json` updated with `agents.list` containing architect and executor entries. Each agent has: `id`, `name`, `workspace` (dedicated directory), and `identity` (object with `name`, `emoji`, `theme`). System prompts deployed as `SOUL.md` inside each agent's workspace. `agents.defaults.thinkingDefault` set to `"off"` for Ollama model compatibility. Optional `bindings` array for channel-to-agent routing. |
+| **Verification** | `openclaw gateway restart` reports no validation errors. `jq '.agents.list \| length' ~/.openclaw/openclaw.json` returns `2`. `test -f ~/.openclaw/workspace-architect/SOUL.md && test -f ~/.openclaw/workspace-executor/SOUL.md && echo OK`. |
 | **SOC Relevance** | Yes — workspace isolation prevents context cross-contamination between channels |
 | **HITL Gate** | `mutative` |
 | **Complexity** | `moderate` |
+
+> **Implementation Note (v2026.2.26 corrections):** The original SOP text in Section 4.1 Step 3 references a `workspaces` object for channel routing. This schema does not exist in OpenCLAW v2026.2.26. The correct mechanism is `agents.list` (agent definitions) + `bindings` (channel-to-agent routing rules). Additionally, `identity` must be an object (`{ name, emoji, theme }`), not a string path. Behavioral prompts are loaded from `SOUL.md` inside each agent's workspace directory. Ollama-hosted models require `agents.defaults.thinkingDefault: "off"` to prevent 400 errors from unsupported `think` parameters. See [ARCHITECTURE.md](ARCHITECTURE.md) for full details.
 
 ### **8.7 Phase 5: Observability and DX Metrics (SOP 7.0)**
 

@@ -8,6 +8,7 @@
       "model": {
         "primary": "ollama/qwen3:8b"
       },
+      "thinkingDefault": "off",
       "workspace": "~/.openclaw/workspace",
       "memorySearch": {
         "provider": "local",

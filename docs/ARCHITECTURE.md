@@ -74,14 +74,36 @@ Both agents are registered in `openclaw.json` under `agents.list` using the nati
 
 ```json
 "agents": {
+  "defaults": {
+    "model": { "primary": "ollama/qwen3:8b" },
+    "thinkingDefault": "off"
+  },
   "list": [
-    { "id": "architect", "identity": "prompts/ARCHITECT_PROMPT.md", ... },
-    { "id": "executor", "identity": "prompts/EXECUTOR_PROMPT.md", ... }
+    {
+      "id": "architect",
+      "identity": { "name": "Architect", "theme": "...", "emoji": "📐" }
+    },
+    {
+      "id": "executor",
+      "identity": { "name": "Executor", "theme": "...", "emoji": "🔧" }
+    }
   ]
 }
 ```
 
 Each agent has its own workspace directory and can be selected from the WebChat dashboard (`openclaw dashboard`). External channel routing via `bindings` is optional and can be layered on when channel adapters are configured.
+
+#### Schema Corrections (learned during implementation)
+
+The following corrections were discovered during live deployment against OpenCLAW v2026.2.26 and differ from what the SOP's original text described:
+
+1. **`identity` is an object, not a string path.** The schema validates `identity` as `{ name, emoji, theme }` -- display metadata for the agent. Passing a file path (e.g., `"prompts/ARCHITECT_PROMPT.md"`) causes `Invalid config: expected object, received string`.
+
+2. **System prompts go in `SOUL.md`, not `identity`.** Behavioral instructions (read-only constraints, HITL enforcement, Sequential Thinking directives) are loaded from a file named `SOUL.md` placed inside each agent's workspace directory. OpenCLAW reads this file at the start of every session. The deployed locations are:
+   - `~/.openclaw/workspace-architect/SOUL.md` (copy of `prompts/ARCHITECT_PROMPT.md`)
+   - `~/.openclaw/workspace-executor/SOUL.md` (copy of `prompts/EXECUTOR_PROMPT.md`)
+
+3. **`thinkingDefault: "off"` is required for Ollama models.** OpenCLAW defaults to `thinking: "low"` for models it classifies as reasoning-capable. Ollama's `qwen3:8b` does not support the `think` parameter, causing a 400 error that silently prevents the agent from replying. Setting `agents.defaults.thinkingDefault: "off"` in `openclaw.json` resolves this.
 
 ## MCP Server Topology
 
@@ -202,7 +224,7 @@ The following files implement the architecture described above as committable co
 | All | [`config/eval/baselines.json`](../config/eval/baselines.json) | T-5.2 |
 | All | [`config/eval/alerts.json`](../config/eval/alerts.json) | T-5.3 |
 
-A validation test suite (`tests/`) provides 76 automated checks covering JSON integrity, cross-file reference consistency, secret scanning, and SOP task coverage.
+A validation test suite (`tests/`) provides 77 automated checks covering JSON integrity, cross-file reference consistency, secret scanning, and SOP task coverage.
 
 ## Live Configuration Status
 
