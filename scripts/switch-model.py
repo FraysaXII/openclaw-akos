@@ -19,12 +19,12 @@ Requires: Python 3.10+ (stdlib + pydantic).
 import argparse
 import logging
 import shutil
-import subprocess
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+import akos.process as proc
 from akos.io import REPO_ROOT, deep_merge, load_json, resolve_openclaw_home, save_json
 from akos.log import setup_logging
 from akos.models import load_tiers
@@ -143,13 +143,13 @@ def main():
     if not args.no_restart and not args.dry_run:
         print()
         print("Restarting OpenCLAW gateway...")
-        try:
-            subprocess.run(["openclaw", "gateway", "restart"], check=True)
+        result = proc.run(["openclaw", "gateway", "restart"], timeout=60, capture=False)
+        if result.success:
             print("[OK] Gateway restarted.")
-        except FileNotFoundError:
+        elif result.returncode == -1 and "not found" in result.stderr:
             print("[SKIP] 'openclaw' command not found in PATH; restart manually.")
-        except subprocess.CalledProcessError as e:
-            print(f"[WARNING] Gateway restart returned exit code {e.returncode}")
+        else:
+            print(f"[WARNING] Gateway restart returned exit code {result.returncode}")
 
     print()
     tag = "[DRY-RUN] " if args.dry_run else ""

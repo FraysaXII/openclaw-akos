@@ -16,7 +16,6 @@ import argparse
 import logging
 import platform
 import shutil
-import subprocess
 import sys
 import urllib.error
 import urllib.request
@@ -52,22 +51,16 @@ def status(level: str, msg: str):
     elif level == "WARN": WARN_COUNT += 1
 
 
+import akos.process as proc
+
+
 def cmd_exists(name: str) -> bool:
     return shutil.which(name) is not None
 
 
-def run_cmd(args: list[str], check: bool = True, capture: bool = False) -> subprocess.CompletedProcess | None:
-    try:
-        return subprocess.run(args, check=check, capture_output=capture, text=True)
-    except FileNotFoundError:
-        return None
-    except subprocess.CalledProcessError:
-        return None
-
-
 def get_node_version() -> tuple[int, ...] | None:
-    result = run_cmd(["node", "--version"], check=False, capture=True)
-    if result and result.returncode == 0:
+    result = proc.run(["node", "--version"], timeout=15)
+    if result.success:
         version_str = result.stdout.strip().lstrip("v")
         try:
             return tuple(int(x) for x in version_str.split("."))
@@ -113,8 +106,8 @@ def phase_preflight(args):
         status("PASS", "OpenCLAW CLI found")
 
     if os_name == "Windows" and not args.skip_wsl:
-        result = run_cmd(["wsl", "--status"], check=False, capture=True)
-        if result and result.returncode == 0:
+        result = proc.run(["wsl", "--status"], timeout=15)
+        if result.success:
             status("PASS", "WSL2 available")
         else:
             status("WARN", "WSL2 not detected. Consider: wsl --install -d Ubuntu-24.04")
@@ -134,8 +127,8 @@ def phase_ollama(args):
 
     for model in [args.primary_model, args.embed_model]:
         status("INFO", f"Pulling model: {model}")
-        result = run_cmd(["ollama", "pull", model], check=False)
-        if result and result.returncode == 0:
+        result = proc.run(["ollama", "pull", model], timeout=300, capture=False)
+        if result.success:
             status("PASS", f"Model ready: {model}")
         else:
             status("WARN", f"Could not pull {model}. It may already be available locally.")
@@ -222,8 +215,8 @@ def phase_prompts(args):
         status("FAIL", f"assemble-prompts.py not found at {assemble_script}")
         return False
 
-    result = run_cmd([sys.executable, str(assemble_script)], check=False)
-    if result and result.returncode == 0:
+    result = proc.run([sys.executable, str(assemble_script)], timeout=60, capture=False)
+    if result.success:
         status("PASS", "All prompt variants assembled")
     else:
         status("FAIL", "Prompt assembly failed")
