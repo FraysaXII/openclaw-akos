@@ -6,8 +6,9 @@
 credentials.json
 openclaw.json
 
-# API keys
+# API keys and live MCP config (user-specific paths)
 .mcporter/
+config/mcporter.json
 
 # OS artifacts
 .DS_Store
