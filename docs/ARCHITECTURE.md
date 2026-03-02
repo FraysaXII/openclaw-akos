@@ -9,7 +9,7 @@ The system decouples the reasoning engine from its tools and channels across fou
 │                    CONTROL PLANE                        │
 │              (Gateway — openclaw daemon)                │
 │         Bound to 127.0.0.1:18789 (localhost)           │
-│    Workspace routing · Auth · Channel multiplexing      │
+│    agents.list routing · Auth · Channel multiplexing    │
 ├─────────────────────────────────────────────────────────┤
 │                  INTEGRATION LAYER                      │
 │              (Channel Adapters + MCP)                   │
@@ -67,6 +67,21 @@ The dual-agent paradigm separates concerns:
 - Reads the Architect's plan before taking any action
 - Executes strict, well-scoped directives
 - Fast model optimized for throughput over deep reasoning
+
+### Runtime Configuration (agents.list)
+
+Both agents are registered in `openclaw.json` under `agents.list` using the native OpenCLAW multi-agent schema:
+
+```json
+"agents": {
+  "list": [
+    { "id": "architect", "identity": "prompts/ARCHITECT_PROMPT.md", ... },
+    { "id": "executor", "identity": "prompts/EXECUTOR_PROMPT.md", ... }
+  ]
+}
+```
+
+Each agent has its own workspace directory and can be selected from the WebChat dashboard (`openclaw dashboard`). External channel routing via `bindings` is optional and can be layered on when channel adapters are configured.
 
 ## MCP Server Topology
 
@@ -183,13 +198,24 @@ The following files implement the architecture described above as committable co
 | Execution | [`prompts/ARCHITECT_PROMPT.md`](../prompts/ARCHITECT_PROMPT.md) | T-4.1 |
 | Execution | [`prompts/EXECUTOR_PROMPT.md`](../prompts/EXECUTOR_PROMPT.md) | T-4.2 |
 | All | [`scripts/vet-install.sh`](../scripts/vet-install.sh) | T-3.2 |
+| All | [`config/compliance/eu-ai-act-checklist.json`](../config/compliance/eu-ai-act-checklist.json) | T-3.7 |
 | All | [`config/eval/baselines.json`](../config/eval/baselines.json) | T-5.2 |
 | All | [`config/eval/alerts.json`](../config/eval/alerts.json) | T-5.3 |
 
-A validation test suite (`tests/`) provides 70 automated checks covering JSON integrity, cross-file reference consistency, secret scanning, and SOP task coverage.
+A validation test suite (`tests/`) provides 76 automated checks covering JSON integrity, cross-file reference consistency, secret scanning, and SOP task coverage.
+
+## Live Configuration Status
+
+The dual-agent architecture has been wired into the live `~/.openclaw/openclaw.json` using the native `agents.list` schema. Both agents are accessible via `openclaw dashboard` (WebChat). A backup of the original config exists at `~/.openclaw/openclaw.json.bak`.
+
+To disconnect the AKOS architecture from OpenCLAW:
+1. Restore backup: copy `openclaw.json.bak` over `openclaw.json`
+2. Optionally remove `~/.mcporter/mcporter.json` to disable MCP servers
+3. Restart: `openclaw restart`
 
 ## References
 
 - Implementation task registry: [SOP.md Section 8.0](SOP.md#80-implementation-task-registry)
 - Full SOP (sections 1.0–7.0): [SOP.md](SOP.md)
 - Security controls: [SECURITY.md](../SECURITY.md)
+- EU AI Act compliance evidence: [`config/compliance/eu-ai-act-checklist.json`](../config/compliance/eu-ai-act-checklist.json)

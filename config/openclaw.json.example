@@ -3,18 +3,42 @@
     "host": "127.0.0.1",
     "port": 18789
   },
-  "workspaces": {
-    "deep_research": {
-      "channels": ["telegram_bot_1", "slack_engineering"],
-      "agent": "architect",
-      "mcpServers": {}
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "ollama/qwen3:8b"
+      },
+      "workspace": "~/.openclaw/workspace",
+      "memorySearch": {
+        "provider": "local",
+        "model": "nomic-embed-text:latest"
+      }
     },
-    "general": {
-      "channels": ["whatsapp_default", "slack_general"],
-      "agent": "executor",
-      "mcpServers": {}
-    }
+    "list": [
+      {
+        "id": "architect",
+        "name": "Architect (Read-Only Planner)",
+        "workspace": "~/.openclaw/workspace-architect",
+        "identity": "prompts/ARCHITECT_PROMPT.md"
+      },
+      {
+        "id": "executor",
+        "name": "Executor (Read-Write Builder)",
+        "workspace": "~/.openclaw/workspace-executor",
+        "identity": "prompts/EXECUTOR_PROMPT.md"
+      }
+    ]
   },
+  "bindings": [
+    {
+      "match": { "channel": "telegram" },
+      "agentId": "architect"
+    },
+    {
+      "match": { "channel": "slack", "teamId": "YOUR_TEAM_ID" },
+      "agentId": "executor"
+    }
+  ],
   "logging": {
     "format": "json",
     "output_directory": "/opt/openclaw/logs/"

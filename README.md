@@ -16,7 +16,7 @@ Out-of-the-box, OpenCLAW operates as an isolated conversational agent. This proj
 | Layer | Role | Implementation |
 |:------|:-----|:---------------|
 | **Control Plane** | Gateway daemon, routing, auth | `openclaw.json` bound to `127.0.0.1:18789` |
-| **Integration Layer** | Channel adapters, MCP servers | Telegram, Slack, WhatsApp via workspace routing |
+| **Integration Layer** | Channel adapters, MCP servers | WebChat + optional Telegram, Slack, WhatsApp via `bindings` |
 | **Execution Layer** | Dual-agent runner (Architect + Executor) | Read-only Planner + Read-write Builder |
 | **Intelligence Layer** | Knowledge graph, sequential reasoning | GraphRAG with predicate allowlists and confidence thresholds |
 
@@ -112,6 +112,8 @@ openclaw-akos/
     intelligence-matrix-schema.json Holistika DI fact schema (T-4.3)
     splunk/
       inputs.conf                   Splunk Universal Forwarder template (T-3.6)
+    compliance/
+      eu-ai-act-checklist.json      EU AI Act compliance evidence map (T-3.7)
     eval/
       langfuse.env.example          Eval platform scaffold (T-5.1)
       baselines.json                DX metric baselines (T-5.2)
@@ -136,8 +138,8 @@ openclaw-akos/
 ## Running Tests
 
 ```bash
-# Full suite (70 tests: unit + E2E)
-py -m pytest tests/ -v
+# Full suite (76 tests: unit + E2E)
+py -m pytest tests/validate_configs.py tests/validate_prompts.py tests/validate_scripts.py tests/e2e_scaffolding.py -v
 
 # Individual batches
 py -m pytest tests/validate_configs.py -v    # Config validation

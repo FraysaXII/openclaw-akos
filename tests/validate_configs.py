@@ -63,12 +63,39 @@ class TestOpenclawConfig:
     def test_gateway_port_is_18789(self):
         assert self.data["gateway"]["port"] == 18789
 
-    def test_has_workspaces(self):
-        assert "workspaces" in self.data
-        assert len(self.data["workspaces"]) > 0
+    def test_has_agents_block(self):
+        assert "agents" in self.data
 
-    def test_deep_research_workspace_exists(self):
-        assert "deep_research" in self.data["workspaces"]
+    def test_has_agents_defaults(self):
+        assert "defaults" in self.data["agents"]
+        assert "model" in self.data["agents"]["defaults"]
+
+    def test_has_agents_list(self):
+        agent_list = self.data["agents"].get("list", [])
+        assert len(agent_list) >= 2, "Expected at least architect + executor agents"
+
+    def test_architect_agent_defined(self):
+        agent_list = self.data["agents"]["list"]
+        ids = {a["id"] for a in agent_list}
+        assert "architect" in ids
+
+    def test_executor_agent_defined(self):
+        agent_list = self.data["agents"]["list"]
+        ids = {a["id"] for a in agent_list}
+        assert "executor" in ids
+
+    def test_each_agent_has_required_fields(self):
+        required = {"id", "name", "workspace", "identity"}
+        for agent in self.data["agents"]["list"]:
+            missing = required - set(agent.keys())
+            assert len(missing) == 0, f"Agent '{agent.get('id', '?')}' missing: {missing}"
+
+    def test_has_bindings(self):
+        assert "bindings" in self.data
+        assert isinstance(self.data["bindings"], list)
+
+    def test_has_permissions_reference(self):
+        assert "permissions" in self.data
 
 
 # ---------------------------------------------------------------------------
