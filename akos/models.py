@@ -30,9 +30,33 @@ class TierConfig(BaseModel):
     models: list[str] = Field(min_length=1)
 
 
+class OverlayEntry(BaseModel):
+    """A single overlay specification.  May carry an ``agents`` filter."""
+
+    file: str
+    agents: list[str] | None = None
+
+
+def _normalize_overlay(raw: str | dict) -> OverlayEntry:
+    """Accept both ``"OVERLAY_X.md"`` and ``{"file": "...", "agents": [...]}``."""
+    if isinstance(raw, str):
+        return OverlayEntry(file=raw)
+    return OverlayEntry.model_validate(raw)
+
+
 class ModelTiersRegistry(BaseModel):
     tiers: dict[TierName, TierConfig]
-    variantOverlays: dict[PromptVariant, list[str]]
+    variantOverlays: dict[PromptVariant, list[str | dict]]
+
+    def overlays_for(self, variant: str, agent: str) -> list[str]:
+        """Return overlay filenames applicable to *agent* in *variant*."""
+        raw_list = self.variantOverlays.get(variant, [])
+        result: list[str] = []
+        for raw in raw_list:
+            entry = _normalize_overlay(raw)
+            if entry.agents is None or agent in entry.agents:
+                result.append(entry.file)
+        return result
 
     def lookup_tier(self, model_id: str) -> tuple[str, TierConfig] | None:
         """Find the tier a model belongs to. Returns (tier_name, config) or None."""

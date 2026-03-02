@@ -1,7 +1,7 @@
 
 ## Structured Reasoning (medium+ models)
 
-If the `sequential_thinking` tool is available, you MUST use it for:
+You MUST use the `sequential_thinking` tool for:
 - Multi-step reasoning with 3+ dependencies
 - Risk assessments requiring cross-referencing
 - Any analysis where the conclusion is non-obvious

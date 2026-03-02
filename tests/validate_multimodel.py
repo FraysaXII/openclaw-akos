@@ -58,9 +58,10 @@ class TestModelTiers:
     def test_overlay_files_exist(self):
         overlay_dir = PROMPTS_DIR / "overlays"
         for variant, overlays in self.registry.variantOverlays.items():
-            for overlay_name in overlays:
-                assert (overlay_dir / overlay_name).exists(), \
-                    f"Overlay file missing for variant '{variant}': {overlay_name}"
+            for entry in overlays:
+                name = entry["file"] if isinstance(entry, dict) else entry
+                assert (overlay_dir / name).exists(), \
+                    f"Overlay file missing for variant '{variant}': {name}"
 
     def test_no_duplicate_models_across_tiers(self):
         all_models = []
@@ -154,6 +155,25 @@ class TestAssembledPrompts:
     def test_assembled_prompts_are_nonempty(self):
         for path in ASSEMBLED_DIR.glob("*.md"):
             assert path.stat().st_size > 0, f"{path.name} is empty"
+
+    def test_sequential_thinking_in_architect_standard_and_full(self):
+        for variant in ("standard", "full"):
+            path = ASSEMBLED_DIR / f"ARCHITECT_PROMPT.{variant}.md"
+            content = path.read_text(encoding="utf-8")
+            assert "sequential_thinking" in content, \
+                f"ARCHITECT_PROMPT.{variant}.md must reference sequential_thinking"
+
+    def test_sequential_thinking_not_in_executor_standard(self):
+        path = ASSEMBLED_DIR / "EXECUTOR_PROMPT.standard.md"
+        content = path.read_text(encoding="utf-8")
+        assert "sequential_thinking" not in content, \
+            "EXECUTOR_PROMPT.standard.md should not contain sequential_thinking"
+
+    def test_agent_filtered_overlays_produce_different_sizes(self):
+        arch = (ASSEMBLED_DIR / "ARCHITECT_PROMPT.standard.md").stat().st_size
+        exec_ = (ASSEMBLED_DIR / "EXECUTOR_PROMPT.standard.md").stat().st_size
+        assert arch > exec_, \
+            f"Architect standard ({arch}B) should be larger than Executor standard ({exec_}B)"
 
 
 # ---------------------------------------------------------------------------

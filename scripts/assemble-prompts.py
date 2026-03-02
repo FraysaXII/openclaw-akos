@@ -57,7 +57,7 @@ def assemble_one(agent_name: str, base_file: str, overlays: list[str]) -> str:
     return "\n".join(parts) + "\n"
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Assemble tiered SOUL.md prompts")
     parser.add_argument("--variant", choices=["compact", "standard", "full"],
                         help="Build only this variant (default: all)")
@@ -70,9 +70,10 @@ def main():
     setup_logging(json_output=args.json_log)
 
     registry = load_tiers(TIERS_PATH)
-    variant_overlays = registry.variantOverlays
 
-    variants_to_build = [args.variant] if args.variant else list(variant_overlays.keys())
+    variants_to_build = (
+        [args.variant] if args.variant else list(registry.variantOverlays.keys())
+    )
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -80,8 +81,8 @@ def main():
     warnings = 0
 
     for variant in variants_to_build:
-        overlays = variant_overlays[variant]
         for agent_name, base_file in AGENTS.items():
+            overlays = registry.overlays_for(variant, agent_name)
             content = assemble_one(agent_name, base_file, overlays)
             out_name = f"{agent_name}_PROMPT.{variant}.md"
             out_path = OUTPUT_DIR / out_name
