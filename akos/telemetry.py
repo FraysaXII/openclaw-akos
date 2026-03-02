@@ -15,7 +15,7 @@ _langfuse_available = False
 try:
     from langfuse import Langfuse
     _langfuse_available = True
-except ImportError:
+except Exception:  # ImportError, pydantic.v1 ConfigError on Python 3.14+, etc.
     pass
 
 

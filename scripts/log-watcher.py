@@ -30,7 +30,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.alerts import AlertEvaluator
-from akos.io import REPO_ROOT
+from akos.io import REPO_ROOT, load_env_file
 from akos.log import setup_logging
 from akos.telemetry import LangfuseReporter
 
@@ -79,19 +79,35 @@ def tail_file(path: Path, poll_interval: float, *, once: bool = False) -> Iterat
 
 
 def main() -> None:
+    default_env = str(REPO_ROOT / "config" / "eval" / "langfuse.env")
     parser = argparse.ArgumentParser(description="OpenCLAW log watcher + Langfuse telemetry")
     parser.add_argument("--once", action="store_true", help="Single pass then exit (for CI/tests)")
     parser.add_argument("--json-log", action="store_true", help="Structured JSON log output")
+    parser.add_argument("--env-file", default=default_env,
+                        help="Path to Langfuse .env file (default: config/eval/langfuse.env)")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Print what would be sent to Langfuse without calling the SDK")
     args = parser.parse_args()
 
     setup_logging(json_output=args.json_log)
+
+    env_path = Path(args.env_file)
+    env_vars = load_env_file(env_path)
+    for key, value in env_vars.items():
+        if key not in os.environ:
+            os.environ[key] = value
+    if env_vars:
+        logger.info("Loaded %d vars from %s", len(env_vars), env_path)
 
     poll_interval = float(os.environ.get("LOG_WATCHER_POLL_INTERVAL", "2"))
     log_path = get_log_path()
     logger.info("Watching: %s (poll every %.1fs)", log_path, poll_interval)
 
+    dry_run = args.dry_run
     reporter = LangfuseReporter()
-    if reporter.enabled:
+    if dry_run:
+        logger.info("Dry-run mode: traces will be printed, not sent to Langfuse")
+    elif reporter.enabled:
         logger.info("Langfuse telemetry enabled")
     else:
         logger.info("Langfuse telemetry disabled (no credentials or package)")
@@ -114,19 +130,30 @@ def main() -> None:
 
             entries_processed += 1
 
-            reporter.trace_request(entry)
+            if dry_run:
+                logger.info(
+                    "[DRY-RUN] trace #%d  agent=%s  tool=%s  outcome=%s",
+                    entries_processed,
+                    entry.get("agent_role", "-"),
+                    entry.get("tool_name", "-"),
+                    entry.get("outcome", "-"),
+                )
+            else:
+                reporter.trace_request(entry)
 
             if alert_evaluator is not None:
                 alert_evaluator.check_realtime(entry)
 
             if entries_processed % 100 == 0:
-                reporter.flush()
+                if not dry_run:
+                    reporter.flush()
                 logger.debug("Processed %d entries", entries_processed)
 
     except KeyboardInterrupt:
         logger.info("Shutting down (processed %d entries)", entries_processed)
     finally:
-        reporter.flush()
+        if not dry_run:
+            reporter.flush()
         logger.info("Final flush complete (%d entries total)", entries_processed)
 
 

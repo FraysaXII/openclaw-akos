@@ -59,6 +59,26 @@ def resolve_openclaw_home() -> Path:
     return Path.home() / ".openclaw"
 
 
+def load_env_file(path: Path) -> dict[str, str]:
+    """Parse a simple KEY=VALUE env file into a dict, skipping comments and blanks."""
+    result: dict[str, str] = {}
+    if not path.exists():
+        logger.warning("Env file not found: %s", path)
+        return result
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key = key.strip()
+        value = value.strip().strip("'\"")
+        if key:
+            result[key] = value
+    return result
+
+
 def get_variant_for_model(
     registry: ModelTiersRegistry, model_id: str, default: str = "compact"
 ) -> str:
