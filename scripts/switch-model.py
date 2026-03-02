@@ -17,6 +17,7 @@ Requires: Python 3.10+ (stdlib + pydantic).
 """
 
 import argparse
+import logging
 import shutil
 import subprocess
 import sys
@@ -25,7 +26,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT, deep_merge, load_json, resolve_openclaw_home, save_json
+from akos.log import setup_logging
 from akos.models import load_tiers
+
+logger = logging.getLogger("akos.switch-model")
 
 TIERS_PATH = REPO_ROOT / "config" / "model-tiers.json"
 ENVS_DIR = REPO_ROOT / "config" / "environments"
@@ -47,7 +51,10 @@ def main():
     parser.add_argument("environment", help="Environment name (e.g., dev-local, gpu-runpod, prod-cloud)")
     parser.add_argument("--dry-run", action="store_true", help="Preview changes without applying")
     parser.add_argument("--no-restart", action="store_true", help="Skip gateway restart")
+    parser.add_argument("--json-log", action="store_true", help="Emit structured JSON logs")
     args = parser.parse_args()
+
+    setup_logging(json_output=args.json_log)
 
     env_name = args.environment
     oc_home = resolve_openclaw_home()

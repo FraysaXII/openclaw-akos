@@ -14,13 +14,17 @@ Requires: Python 3.10+ (stdlib + pydantic).
 """
 
 import argparse
+import logging
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT
+from akos.log import setup_logging
 from akos.models import load_tiers
+
+logger = logging.getLogger("akos.assemble-prompts")
 
 TIERS_PATH = REPO_ROOT / "config" / "model-tiers.json"
 BASE_DIR = REPO_ROOT / "prompts" / "base"
@@ -59,7 +63,11 @@ def main():
                         help="Build only this variant (default: all)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Preview output without writing files")
+    parser.add_argument("--json-log", action="store_true",
+                        help="Emit structured JSON logs")
     args = parser.parse_args()
+
+    setup_logging(json_output=args.json_log)
 
     registry = load_tiers(TIERS_PATH)
     variant_overlays = registry.variantOverlays

@@ -13,6 +13,7 @@ Requires: Python 3.10+, Node.js >= 22, Ollama running.
 """
 
 import argparse
+import logging
 import platform
 import shutil
 import subprocess
@@ -24,7 +25,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT, deep_merge, load_json, resolve_openclaw_home, save_json
+from akos.log import setup_logging
 from akos.models import load_tiers
+
+logger = logging.getLogger("akos.bootstrap")
 
 TIERS_PATH = REPO_ROOT / "config" / "model-tiers.json"
 CONFIG_EXAMPLE = REPO_ROOT / "config" / "openclaw.json.example"
@@ -38,11 +42,10 @@ WARN_COUNT = 0
 
 def status(level: str, msg: str):
     global PASS_COUNT, FAIL_COUNT, SKIP_COUNT, WARN_COUNT
-    colors = {"PASS": "\033[32m", "FAIL": "\033[31m", "SKIP": "\033[33m",
-              "WARN": "\033[93m", "INFO": "\033[36m"}
-    reset = "\033[0m"
-    tag = colors.get(level, "") + f"[{level}]" + reset
-    print(f"{tag} {msg}")
+    log_map = {"PASS": logger.info, "FAIL": logger.error, "SKIP": logger.warning,
+               "WARN": logger.warning, "INFO": logger.info}
+    log_fn = log_map.get(level, logger.info)
+    log_fn(msg)
     if level == "PASS": PASS_COUNT += 1
     elif level == "FAIL": FAIL_COUNT += 1
     elif level == "SKIP": SKIP_COUNT += 1
@@ -276,12 +279,14 @@ def main():
     parser.add_argument("--skip-mcp", action="store_true", help="Skip MCP server setup")
     parser.add_argument("--primary-model", default="qwen3:8b", help="Primary LLM model (default: qwen3:8b)")
     parser.add_argument("--embed-model", default="nomic-embed-text", help="Embedding model (default: nomic-embed-text)")
+    parser.add_argument("--json-log", action="store_true", help="Emit structured JSON logs (for CI/aggregation)")
     args = parser.parse_args()
 
-    print("OpenCLAW-AKOS Bootstrap")
-    print(f"Platform: {platform.system()} {platform.release()}")
-    print(f"Python:   {sys.version.split()[0]}")
-    print()
+    setup_logging(json_output=args.json_log)
+
+    logger.info("OpenCLAW-AKOS Bootstrap")
+    logger.info("Platform: %s %s", platform.system(), platform.release())
+    logger.info("Python:   %s", sys.version.split()[0])
 
     if not phase_preflight(args):
         phase_summary()
