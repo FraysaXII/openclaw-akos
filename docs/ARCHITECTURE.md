@@ -150,6 +150,71 @@ Both agents use `MUST` directives (not soft guidance) to prevent silence during 
 
 The prompts include concrete examples to anchor the model's behavior. This approach was derived from patterns in Codex CLI (for mini models) and VSCode Agent `gpt-5-mini.txt`, which demonstrated that small models follow `MUST` + word-count + examples more reliably than descriptive prose.
 
+## Multi-Model / Multi-Environment Architecture
+
+The system supports seamless switching between model tiers and deployment environments without code changes or prompt duplication.
+
+### Model Tier Registry
+
+`config/model-tiers.json` is the SSOT for model classification. Every model is assigned to exactly one tier, which determines its `thinkingDefault`, context budget, and SOUL.md prompt variant.
+
+| Tier | Context Budget | thinkingDefault | Prompt Variant | Example Models |
+|:-----|:---------------|:----------------|:---------------|:---------------|
+| small | 16,384 | off | compact | ollama/qwen3:8b, ollama/llama3.2:3b |
+| medium | 32,768 | low | standard | ollama/deepseek-r1:14b, groq/llama-3.3-70b |
+| large | 131,072 | medium | full | anthropic/claude-sonnet-4, vllm-runpod/deepseek-r1-70b |
+| sota | 200,000 | high | full | openai/gpt-5, anthropic/claude-opus-4 |
+
+### Prompt Tiering (Base + Overlay)
+
+SOUL.md prompts are assembled from a base file plus tier-appropriate overlays. This avoids duplication while allowing richer prompts for more capable models.
+
+```
+prompts/base/ARCHITECT_BASE.md  +  overlays/  -->  assembled/ARCHITECT_PROMPT.<variant>.md
+```
+
+| Variant | Overlays Included |
+|:--------|:------------------|
+| compact | None (base only -- 3-5 MUST rules for small models) |
+| standard | OVERLAY_REASONING.md (sequential thinking, thinking trace) |
+| full | OVERLAY_REASONING.md + OVERLAY_INTELLIGENCE.md + OVERLAY_TOOLS_FULL.md |
+
+Build all variants: `python scripts/assemble-prompts.py`
+
+### Multi-Provider Configuration
+
+`openclaw.json.example` declares five provider blocks using `${VAR}` environment variable substitution:
+
+- `ollama-local` -- local Ollama at 127.0.0.1:11434
+- `ollama-gpu` -- remote Ollama on a GPU server (URL from env)
+- `openai` -- OpenAI API (key from env)
+- `anthropic` -- Anthropic API (key from env)
+- `vllm-runpod` -- vLLM endpoint on RunPod/ShadowGPU (URL from env)
+
+### Environment Profiles
+
+Each deployment target has a pair of files in `config/environments/`:
+
+- `<env>.env.example` -- committed template with placeholder values for secrets
+- `<env>.json` -- JSON overlay for `openclaw.json` (model, thinkingDefault, etc.)
+
+Profiles: `dev-local` (small/local), `gpu-runpod` (large/remote GPU), `prod-cloud` (SOTA/cloud APIs).
+
+### Model Switching Workflow
+
+A single cross-platform command switches everything atomically:
+
+```
+python scripts/switch-model.py <env-name>
+```
+
+This copies the `.env`, deep-merges the JSON overlay, deploys the correct SOUL.md variant, and restarts the gateway. Supports `--dry-run` to preview.
+
+### Known Limitations
+
+1. **Per-agent model override bug** ([#29571](https://github.com/openclaw/openclaw/issues/29571)): `agents.defaults.model.primary` overrides per-agent model settings at runtime, so all agents currently share the same model. Model switching must happen at the global level.
+2. **Ollama `num_ctx` requires Modelfile**: The `contextWindow` declared in `openclaw.json` does not configure Ollama's actual context window. Each local model needs a custom Modelfile with `PARAMETER num_ctx <value>`.
+
 ## MCP Server Topology
 
 ```
