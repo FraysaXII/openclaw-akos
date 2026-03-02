@@ -8,6 +8,7 @@ Run:
 """
 
 import pytest
+from pydantic import ValidationError
 
 from akos.models import (
     AgentBlock,
@@ -40,7 +41,7 @@ class TestTierConfig:
         assert t.contextBudget == 16384
 
     def test_rejects_zero_context(self):
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             TierConfig(
                 contextBudget=0,
                 thinkingDefault="off",
@@ -50,7 +51,7 @@ class TestTierConfig:
             )
 
     def test_rejects_empty_models(self):
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             TierConfig(
                 contextBudget=1000,
                 thinkingDefault="off",
@@ -60,7 +61,7 @@ class TestTierConfig:
             )
 
     def test_rejects_invalid_thinking(self):
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             TierConfig(
                 contextBudget=1000,
                 thinkingDefault="ultra",
@@ -96,7 +97,7 @@ class TestModelTiersRegistry:
         assert registry.lookup_tier("unknown") is None
 
     def test_rejects_duplicate_models(self):
-        with pytest.raises(Exception, match="Duplicate"):
+        with pytest.raises(ValidationError, match="Duplicate"):
             ModelTiersRegistry(
                 tiers={
                     "small": TierConfig(contextBudget=1000, thinkingDefault="off", promptVariant="compact", description="s", models=["dup"]),
@@ -124,7 +125,7 @@ class TestAgentBlock:
         assert len(block.agents) == 1
 
     def test_rejects_missing_defaults(self):
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             AgentBlock.model_validate({"list": []})
 
 

@@ -202,7 +202,7 @@ python scripts/log-watcher.py
 python scripts/log-watcher.py --once --json-log
 ```
 
-Configure Langfuse by copying `config/eval/langfuse.env.example` to your environment's `.env` and filling in real keys. Without credentials, telemetry degrades gracefully to a no-op.
+Configure Langfuse by copying `config/eval/langfuse.env.example` to `config/eval/langfuse.env` and filling in real keys. Without credentials, telemetry degrades gracefully to a no-op.
 
 ## Running Tests
 
@@ -210,8 +210,8 @@ Configure Langfuse by copying `config/eval/langfuse.env.example` to your environ
 # Install dependencies (pydantic is required; langfuse is optional)
 pip install -r requirements.txt
 
-# Full suite (120+ tests)
-py -m pytest tests/validate_configs.py tests/validate_multimodel.py tests/validate_prompts.py tests/validate_scripts.py tests/e2e_scaffolding.py tests/test_akos_models.py tests/test_akos_alerts.py -v
+# Full suite (120+ tests) -- pyproject.toml configures discovery
+py -m pytest -v
 
 # Individual batches
 py -m pytest tests/validate_configs.py -v       # Config validation (Pydantic)

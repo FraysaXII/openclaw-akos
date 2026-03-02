@@ -20,9 +20,10 @@ import argparse
 import json
 import logging
 import os
-import platform
 import sys
+import tempfile
 import time
+from collections.abc import Iterator
 from datetime import date
 from pathlib import Path
 
@@ -39,11 +40,7 @@ logger = logging.getLogger("akos.log-watcher")
 def get_log_path() -> Path:
     """Determine the OpenCLAW gateway log file path for today."""
     today = date.today().isoformat()
-    system = platform.system()
-    if system == "Windows":
-        base = Path(os.environ.get("TEMP", r"C:\Users\Shadow\AppData\Local\Temp"))
-    else:
-        base = Path("/tmp")
+    base = Path(tempfile.gettempdir())
     return base / "openclaw" / f"openclaw-{today}.log"
 
 
@@ -58,7 +55,7 @@ def parse_log_line(line: str) -> dict | None:
         return None
 
 
-def tail_file(path: Path, poll_interval: float, *, once: bool = False):
+def tail_file(path: Path, poll_interval: float, *, once: bool = False) -> Iterator[str]:
     """Yield new lines from a file, optionally looping forever."""
     if not path.exists():
         logger.warning("Log file not found: %s", path)
@@ -81,7 +78,7 @@ def tail_file(path: Path, poll_interval: float, *, once: bool = False):
                 time.sleep(poll_interval)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="OpenCLAW log watcher + Langfuse telemetry")
     parser.add_argument("--once", action="store_true", help="Single pass then exit (for CI/tests)")
     parser.add_argument("--json-log", action="store_true", help="Structured JSON log output")

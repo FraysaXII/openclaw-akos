@@ -6,12 +6,12 @@ the last successful switch, enabling rollback on failure.
 
 from __future__ import annotations
 
+import json
 import logging
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 
 from akos.io import load_json, save_json
 
@@ -38,7 +38,7 @@ def load_state(oc_home: Path) -> AkosState:
     try:
         data = load_json(state_path)
         return AkosState.model_validate(data)
-    except Exception as exc:
+    except (json.JSONDecodeError, ValidationError) as exc:
         logger.warning("Could not load state file, using defaults: %s", exc)
         return AkosState()
 

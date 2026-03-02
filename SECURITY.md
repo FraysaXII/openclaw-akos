@@ -26,7 +26,10 @@ API keys are injected via the Docker sandbox proxy — the agent process never h
 **Never** install community skills directly from ClawHub without prior verification.
 
 ```bash
-# Always use the safe-install wrapper
+# Always use the safe-install wrapper (repo-level convenience script)
+bash scripts/vet-install.sh <skill-slug>
+
+# Or call the underlying skillvet scanner directly
 bash skills/skillvet/scripts/safe-install.sh <skill-slug>
 ```
 

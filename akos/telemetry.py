@@ -47,7 +47,7 @@ class LangfuseReporter:
                 host=host,
             )
             logger.info("Langfuse reporter initialized (host=%s)", host)
-        except Exception as exc:
+        except Exception as exc:  # broad: Langfuse is optional; graceful no-op on init failure
             logger.warning("Failed to initialize Langfuse client: %s", exc)
             self._client = None
 
@@ -80,7 +80,7 @@ class LangfuseReporter:
                 input=entry.get("input", ""),
                 output=entry.get("outcome", ""),
             )
-        except Exception as exc:
+        except Exception as exc:  # broad: Langfuse is optional; never crash the watcher
             logger.debug("Failed to push trace: %s", exc)
 
     def flush(self) -> None:
@@ -88,5 +88,5 @@ class LangfuseReporter:
         if self._client:
             try:
                 self._client.flush()
-            except Exception as exc:
+            except Exception as exc:  # broad: graceful degradation for optional dependency
                 logger.debug("Flush failed: %s", exc)

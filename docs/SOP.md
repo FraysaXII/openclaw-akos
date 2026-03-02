@@ -91,7 +91,10 @@ The central nervous system of the deployment is the openclaw.json file, typicall
 
 1. **Bootstrap the Configuration:** Run the setup wizard to generate the base schema and install the gateway as a system daemon (launchd/systemd): openclaw onboard \--install-daemon.24  
 2. **Bind to Localhost:** To prevent unauthorized lateral network movement, ensure the gateway daemon only listens on the local interface. The gateway must never be exposed directly to the open internet; remote access should be handled via SSH tunnels or zero-trust mesh networks like Tailscale.1 Verify binding using: netstat \-an | grep 18789 | grep LISTEN.25  
-3. **Define the Workspace Routing:** Configure the openclaw.json to route specific channels to dedicated workspaces. This isolation ensures that casual messages from WhatsApp do not pollute the context window of an agent performing intensive codebase analysis.  
+3. **Define Agent Routing:** Configure the openclaw.json to define agents and bind them to workspaces. This isolation ensures that casual messages do not pollute the context window of an agent performing intensive codebase analysis.  
+
+   > **Note (v2026.2.26):** The `workspaces` key shown in earlier drafts is **not supported** by the current OpenCLAW schema. The correct approach uses `agents.list` entries with per-agent `workspace` paths and optional `bindings`. See the `config/openclaw.json.example` for the canonical template.
+
    Modify \~/.openclaw/openclaw.json to include:  
    JSON  
    {  
@@ -99,11 +102,11 @@ The central nervous system of the deployment is the openclaw.json file, typicall
        "port": 18789,  
        "host": "127.0.0.1"  
      },  
-     "workspaces": {  
-       "deep\_research": {  
-         "channels": \["telegram\_bot\_1", "slack\_engineering"\],  
-         "mcpServers": {}  
-       }  
+     "agents": {  
+       "defaults": { "model": { "primary": "ollama/qwen3:8b" } },  
+       "list": \[  
+         { "id": "architect", "name": "Architect", "workspace": "\~/.openclaw/workspace-architect" }  
+       \]  
      }  
    }
 
@@ -419,7 +422,7 @@ This phase creates the gateway configuration and verifies the Control Plane is o
 | **Category** | `CONFIG` |
 | **Dependencies** | T-1.1 |
 | **Inputs** | `~/.openclaw/` exists; desired gateway port (`18789`), host (`127.0.0.1`), and workspace routing schema from SOP 4.1 Step 3 |
-| **Outputs** | `~/.openclaw/openclaw.json` with valid JSON containing `gateway.host`, `gateway.port`, and `workspaces` keys |
+| **Outputs** | `~/.openclaw/openclaw.json` with valid JSON containing `gateway.host`, `gateway.port`, and `agents` keys (v2026.2.26: `agents.list` + `bindings`, not the deprecated `workspaces`) |
 | **Verification** | `python3 -c "import json; json.load(open('$HOME/.openclaw/openclaw.json'))"` exits cleanly. `jq '.gateway.host' ~/.openclaw/openclaw.json` returns `"127.0.0.1"`. |
 | **SOC Relevance** | Yes — binding to localhost is a security-critical configuration |
 | **HITL Gate** | `mutative` — creates or modifies the central config file |

@@ -23,7 +23,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from akos.io import REPO_ROOT, deep_merge, load_json, resolve_openclaw_home, save_json
+from akos.io import (
+    REPO_ROOT,
+    deep_merge,
+    deploy_soul_prompts,
+    get_variant_for_model,
+    load_json,
+    resolve_openclaw_home,
+    save_json,
+)
 from akos.log import setup_logging
 from akos.models import load_tiers
 
@@ -39,7 +47,7 @@ SKIP_COUNT = 0
 WARN_COUNT = 0
 
 
-def status(level: str, msg: str):
+def status(level: str, msg: str) -> None:
     global PASS_COUNT, FAIL_COUNT, SKIP_COUNT, WARN_COUNT
     log_map = {"PASS": logger.info, "FAIL": logger.error, "SKIP": logger.warning,
                "WARN": logger.warning, "INFO": logger.info}
@@ -80,7 +88,7 @@ def ollama_is_running() -> bool:
 
 # ── Phase 0: Preflight ──────────────────────────────────────────────────
 
-def phase_preflight(args):
+def phase_preflight(args: argparse.Namespace) -> bool:
     status("INFO", "Phase 0: Preflight checks")
 
     os_name = platform.system()
@@ -117,7 +125,7 @@ def phase_preflight(args):
 
 # ── Phase 1: Ollama Models ──────────────────────────────────────────────
 
-def phase_ollama(args):
+def phase_ollama(args: argparse.Namespace) -> bool:
     status("INFO", "Phase 1: Ollama model setup")
 
     if not ollama_is_running():
@@ -138,7 +146,7 @@ def phase_ollama(args):
 
 # ── Phase 2: OpenCLAW Config ────────────────────────────────────────────
 
-def phase_config(args):
+def phase_config(args: argparse.Namespace) -> bool:
     status("INFO", "Phase 2: OpenCLAW configuration")
 
     oc_home = resolve_openclaw_home()
@@ -183,7 +191,7 @@ def phase_config(args):
 
 # ── Phase 3: MCP Setup ─────────────────────────────────────────────────
 
-def phase_mcp(args):
+def phase_mcp(args: argparse.Namespace) -> bool:
     status("INFO", "Phase 3: MCP server setup")
 
     if not cmd_exists("npx"):
@@ -207,7 +215,7 @@ def phase_mcp(args):
 
 # ── Phase 4: Prompt Assembly ────────────────────────────────────────────
 
-def phase_prompts(args):
+def phase_prompts(args: argparse.Namespace) -> bool:
     status("INFO", "Phase 4: Prompt assembly")
 
     assemble_script = REPO_ROOT / "scripts" / "assemble-prompts.py"
@@ -225,30 +233,23 @@ def phase_prompts(args):
     oc_home = resolve_openclaw_home()
     model_id = f"ollama/{args.primary_model}"
     registry = load_tiers(TIERS_PATH)
-    tier_result = registry.lookup_tier(model_id)
-    variant = tier_result[1].promptVariant if tier_result else "compact"
+    variant = get_variant_for_model(registry, model_id, default="compact")
 
     assembled_dir = REPO_ROOT / "prompts" / "assembled"
-    workspaces = {
-        "ARCHITECT": oc_home / "workspace-architect" / "SOUL.md",
-        "EXECUTOR": oc_home / "workspace-executor" / "SOUL.md",
-    }
-    for agent, soul_dest in workspaces.items():
-        src = assembled_dir / f"{agent}_PROMPT.{variant}.md"
-        if src.exists():
-            soul_dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(src, soul_dest)
-            status("PASS", f"Deployed {src.name} -> {soul_dest}")
-        else:
-            status("FAIL", f"Assembled prompt not found: {src}")
-            return False
+    try:
+        deployed = deploy_soul_prompts(assembled_dir, variant, oc_home)
+        for p in deployed:
+            status("PASS", f"Deployed SOUL.md -> {p}")
+    except FileNotFoundError as exc:
+        status("FAIL", str(exc))
+        return False
 
     return True
 
 
 # ── Phase 5: Summary ───────────────────────────────────────────────────
 
-def phase_summary():
+def phase_summary() -> None:
     print()
     print("=" * 60)
     print(f"  PASS: {PASS_COUNT}  |  FAIL: {FAIL_COUNT}  |  SKIP: {SKIP_COUNT}  |  WARN: {WARN_COUNT}")
@@ -265,7 +266,7 @@ def phase_summary():
     print()
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="OpenCLAW-AKOS cross-platform bootstrap")
     parser.add_argument("--skip-wsl", action="store_true", help="Skip WSL2 checks (Windows)")
     parser.add_argument("--skip-ollama", action="store_true", help="Skip Ollama model setup")

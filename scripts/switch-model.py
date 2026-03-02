@@ -28,7 +28,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import akos.process as proc
-from akos.io import REPO_ROOT, deep_merge, load_json, resolve_openclaw_home, save_json
+from akos.io import (
+    REPO_ROOT,
+    deep_merge,
+    deploy_soul_prompts,
+    get_variant_for_model,
+    load_json,
+    resolve_openclaw_home,
+    save_json,
+)
 from akos.log import setup_logging
 from akos.models import load_tiers
 from akos.state import load_state, record_switch
@@ -67,7 +75,7 @@ def do_rollback(oc_home: Path) -> None:
     logger.info("Rollback complete. Restart the gateway manually if needed.")
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Switch AKOS model/environment")
     parser.add_argument("environment", nargs="?", help="Environment name (e.g., dev-local, gpu-runpod, prod-cloud)")
     parser.add_argument("--rollback", action="store_true", help="Restore config from backup")
@@ -105,13 +113,10 @@ def main():
         sys.exit(1)
 
     tier_result = registry.lookup_tier(model_id)
-    if tier_result:
-        tier_name, tier_data = tier_result
-        variant = tier_data.promptVariant
-    else:
+    tier_name = tier_result[0] if tier_result else "unknown"
+    variant = get_variant_for_model(registry, model_id, default="full")
+    if not tier_result:
         logger.warning("Model '%s' not in model-tiers.json, defaulting to 'full'", model_id)
-        tier_name = "unknown"
-        variant = "full"
 
     logger.info("Environment: %s | Model: %s | Tier: %s | Variant: %s", env_name, model_id, tier_name, variant)
 
@@ -149,18 +154,7 @@ def main():
             logger.warning("%s does not exist; run bootstrap first", oc_config_path)
 
         # Step 3: Deploy assembled SOUL.md variants
-        workspaces = {
-            "ARCHITECT": oc_home / "workspace-architect" / "SOUL.md",
-            "EXECUTOR": oc_home / "workspace-executor" / "SOUL.md",
-        }
-        for agent, soul_dest in workspaces.items():
-            assembled_name = f"{agent}_PROMPT.{variant}.md"
-            assembled_path = ASSEMBLED_DIR / assembled_name
-            if not assembled_path.exists():
-                raise FileNotFoundError(f"Assembled prompt not found: {assembled_path}. Run: python scripts/assemble-prompts.py")
-            soul_dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(assembled_path, soul_dest)
-            logger.info("Deployed %s -> %s", assembled_name, soul_dest)
+        deploy_soul_prompts(ASSEMBLED_DIR, variant, oc_home)
 
         # Step 4: Restart gateway
         if not args.no_restart:
