@@ -1,5 +1,8 @@
 """Unit tests for all JSON configuration files in config/.
 
+Leverages Pydantic models from akos.models for schema validation where
+applicable, retaining explicit checks for fields Pydantic doesn't cover.
+
 Run after the config/ batch is created:
     python -m pytest tests/validate_configs.py -v
 """
@@ -15,11 +18,18 @@ from conftest import (
     INTELLIGENCE_MATRIX_PROPERTIES,
 )
 
+from akos.models import (
+    AgentEntry,
+    AgentIdentity,
+    OpenClawConfig,
+    load_alerts,
+    load_baselines,
+)
+from akos.io import load_json
 
-def _load_json(path: pathlib.Path) -> dict | list:
-    """Load and parse a JSON file, failing with a clear message on error."""
-    text = path.read_text(encoding="utf-8")
-    return json.loads(text)
+
+def _load(path: pathlib.Path) -> dict | list:
+    return load_json(path)
 
 
 # ---------------------------------------------------------------------------
@@ -32,7 +42,7 @@ class TestAllJsonFilesParse:
         assert len(json_files) > 0, "No JSON files found in config/"
         for f in json_files:
             try:
-                _load_json(f)
+                _load(f)
             except json.JSONDecodeError as exc:
                 pytest.fail(f"{f.name} is not valid JSON: {exc}")
 
@@ -40,77 +50,49 @@ class TestAllJsonFilesParse:
         example_files = list(config_dir.rglob("*.json.example"))
         for f in example_files:
             try:
-                _load_json(f)
+                _load(f)
             except json.JSONDecodeError as exc:
                 pytest.fail(f"{f.name} is not valid JSON: {exc}")
 
 
 # ---------------------------------------------------------------------------
-# openclaw.json.example (T-1.2)
+# openclaw.json.example -- Pydantic partial validation + targeted checks
 # ---------------------------------------------------------------------------
 
 class TestOpenclawConfig:
     @pytest.fixture(autouse=True)
-    def _load(self, config_dir):
-        self.data = _load_json(config_dir / "openclaw.json.example")
+    def _setup(self, config_dir):
+        self.data = _load(config_dir / "openclaw.json.example")
 
-    def test_has_gateway_block(self):
-        assert "gateway" in self.data
+    def test_validates_via_pydantic(self):
+        config = OpenClawConfig.model_validate(self.data)
+        assert config.gateway.host == "127.0.0.1"
+        assert config.gateway.port == 18789
 
-    def test_gateway_host_is_localhost(self):
-        assert self.data["gateway"]["host"] == "127.0.0.1"
-
-    def test_gateway_port_is_18789(self):
-        assert self.data["gateway"]["port"] == 18789
-
-    def test_has_agents_block(self):
-        assert "agents" in self.data
-
-    def test_has_agents_defaults(self):
-        assert "defaults" in self.data["agents"]
-        assert "model" in self.data["agents"]["defaults"]
-
-    def test_has_agents_list(self):
-        agent_list = self.data["agents"].get("list", [])
-        assert len(agent_list) >= 2, "Expected at least architect + executor agents"
+    def test_has_at_least_two_agents(self):
+        assert len(self.data["agents"]["list"]) >= 2
 
     def test_architect_agent_defined(self):
-        agent_list = self.data["agents"]["list"]
-        ids = {a["id"] for a in agent_list}
+        ids = {a["id"] for a in self.data["agents"]["list"]}
         assert "architect" in ids
 
     def test_executor_agent_defined(self):
-        agent_list = self.data["agents"]["list"]
-        ids = {a["id"] for a in agent_list}
+        ids = {a["id"] for a in self.data["agents"]["list"]}
         assert "executor" in ids
 
-    def test_each_agent_has_required_fields(self):
-        required = {"id", "name", "workspace", "identity"}
-        for agent in self.data["agents"]["list"]:
-            missing = required - set(agent.keys())
-            assert len(missing) == 0, f"Agent '{agent.get('id', '?')}' missing: {missing}"
-
-    def test_identity_is_object_with_required_keys(self):
-        for agent in self.data["agents"]["list"]:
-            identity = agent["identity"]
-            assert isinstance(identity, dict), \
-                f"Agent '{agent['id']}' identity must be an object, got {type(identity).__name__}"
-            assert "name" in identity, f"Agent '{agent['id']}' identity missing 'name'"
-            assert "emoji" in identity, f"Agent '{agent['id']}' identity missing 'emoji'"
+    def test_identity_is_object_via_pydantic(self):
+        for agent_data in self.data["agents"]["list"]:
+            entry = AgentEntry.model_validate(agent_data)
+            assert isinstance(entry.identity, AgentIdentity)
+            assert entry.identity.name
 
     def test_verbose_default_is_enabled(self):
         defaults = self.data["agents"]["defaults"]
-        assert "verboseDefault" in defaults, \
-            "agents.defaults.verboseDefault must be set for tool visibility"
-        assert defaults["verboseDefault"] in ("on", "full"), \
-            f"verboseDefault must be 'on' or 'full', got '{defaults['verboseDefault']}'"
+        assert defaults.get("verboseDefault") in ("on", "full")
 
     def test_thinking_default_is_off_for_ollama(self):
         defaults = self.data["agents"]["defaults"]
-        assert "thinkingDefault" in defaults, \
-            "agents.defaults.thinkingDefault must be set"
-        assert defaults["thinkingDefault"] == "off", \
-            f"thinkingDefault must be 'off' for Ollama models, got '{defaults['thinkingDefault']}'"
+        assert defaults.get("thinkingDefault") == "off"
 
     def test_has_bindings(self):
         assert "bindings" in self.data
@@ -126,8 +108,8 @@ class TestOpenclawConfig:
 
 class TestMcporterConfig:
     @pytest.fixture(autouse=True)
-    def _load(self, config_dir):
-        self.data = _load_json(config_dir / "mcporter.json.example")
+    def _setup(self, config_dir):
+        self.data = _load(config_dir / "mcporter.json.example")
 
     def test_has_mcp_servers(self):
         assert "mcpServers" in self.data
@@ -158,8 +140,8 @@ class TestMcporterConfig:
 
 class TestPermissionsConfig:
     @pytest.fixture(autouse=True)
-    def _load(self, config_dir):
-        self.data = _load_json(config_dir / "permissions.json")
+    def _setup(self, config_dir):
+        self.data = _load(config_dir / "permissions.json")
 
     def test_has_autonomous_array(self):
         assert isinstance(self.data.get("autonomous"), list)
@@ -182,8 +164,8 @@ class TestPermissionsConfig:
 
 class TestLoggingConfig:
     @pytest.fixture(autouse=True)
-    def _load(self, config_dir):
-        self.data = _load_json(config_dir / "logging.json")
+    def _setup(self, config_dir):
+        self.data = _load(config_dir / "logging.json")
 
     def test_has_output_directory(self):
         assert "output_directory" in self.data
@@ -207,8 +189,8 @@ class TestLoggingConfig:
 
 class TestIntelligenceMatrixSchema:
     @pytest.fixture(autouse=True)
-    def _load(self, config_dir):
-        self.data = _load_json(config_dir / "intelligence-matrix-schema.json")
+    def _setup(self, config_dir):
+        self.data = _load(config_dir / "intelligence-matrix-schema.json")
 
     def test_is_json_schema(self):
         assert "$schema" in self.data
@@ -235,18 +217,15 @@ class TestIntelligenceMatrixSchema:
 # ---------------------------------------------------------------------------
 
 class TestBaselinesConfig:
-    @pytest.fixture(autouse=True)
-    def _load(self, config_dir):
-        self.data = _load_json(config_dir / "eval" / "baselines.json")
+    def test_validates_via_pydantic(self, config_dir):
+        baselines = load_baselines(config_dir / "eval" / "baselines.json")
+        assert len(baselines) == 4
 
-    def test_has_exactly_four_metrics(self):
-        assert len(self.data) == 4
-
-    def test_each_metric_has_required_fields(self):
-        required = {"metric_id", "target_value", "unit", "evaluation_window"}
-        for entry in self.data:
-            missing = required - set(entry.keys())
-            assert len(missing) == 0, f"{entry.get('metric_id', '?')} missing: {missing}"
+    def test_each_metric_has_required_fields(self, config_dir):
+        baselines = load_baselines(config_dir / "eval" / "baselines.json")
+        for b in baselines:
+            assert b.metric_id
+            assert b.unit
 
 
 # ---------------------------------------------------------------------------
@@ -254,19 +233,11 @@ class TestBaselinesConfig:
 # ---------------------------------------------------------------------------
 
 class TestAlertsConfig:
-    @pytest.fixture(autouse=True)
-    def _load(self, config_dir):
-        self.data = _load_json(config_dir / "eval" / "alerts.json")
+    def test_validates_via_pydantic(self, config_dir):
+        alerts = load_alerts(config_dir / "eval" / "alerts.json")
+        assert len(alerts) >= 3
 
-    def test_has_at_least_three_alerts(self):
-        assert len(self.data) >= 3
-
-    def test_each_alert_has_required_fields(self):
-        required = {"alert_id", "condition", "severity"}
-        for entry in self.data:
-            missing = required - set(entry.keys())
-            assert len(missing) == 0, f"{entry.get('alert_id', '?')} missing: {missing}"
-
-    def test_has_critical_severity_alerts(self):
-        severities = {a["severity"] for a in self.data}
+    def test_has_critical_severity_alerts(self, config_dir):
+        alerts = load_alerts(config_dir / "eval" / "alerts.json")
+        severities = {a.severity for a in alerts}
         assert "critical" in severities

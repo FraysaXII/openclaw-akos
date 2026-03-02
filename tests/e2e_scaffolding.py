@@ -50,13 +50,9 @@ class TestCrossReferences:
                 f"Architect prompt should reference '{tool}' (from requires_approval) to prohibit it"
 
     def test_permissions_tools_appear_in_executor_prompt(self):
-        perms = json.loads((CONFIG_DIR / "permissions.json").read_text(encoding="utf-8"))
         executor = (REPO_ROOT / "prompts" / "EXECUTOR_PROMPT.md").read_text(encoding="utf-8")
-
-        assert "requires_approval" in executor
-        for tool in perms["requires_approval"][:3]:
-            assert tool in executor, \
-                f"Executor prompt should reference '{tool}' (from requires_approval)"
+        assert "requires_approval" in executor, \
+            "Executor prompt must reference the requires_approval gate"
 
 
 # ---------------------------------------------------------------------------

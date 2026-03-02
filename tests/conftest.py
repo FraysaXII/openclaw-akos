@@ -1,10 +1,15 @@
 """Shared fixtures for OpenCLAW-AKOS scaffolding validation tests."""
 
 import pathlib
+import sys
 
 import pytest
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
+
+# Ensure the akos package is importable from tests
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 CONFIG_DIR = REPO_ROOT / "config"
 PROMPTS_DIR = REPO_ROOT / "prompts"

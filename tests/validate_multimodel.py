@@ -1,20 +1,31 @@
 """Validation tests for the multi-model architecture.
 
 Tests model-tiers.json integrity, environment profile completeness,
-assembled prompt sizes, and tier/config consistency.
+assembled prompt sizes, and tier/config consistency -- leveraging
+Pydantic models from akos.models for schema validation.
 
 Run:
     python -m pytest tests/validate_multimodel.py -v
 """
 
-import json
-import pathlib
 import subprocess
 import sys
 
 import pytest
 
-REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
+from conftest import REPO_ROOT
+
+from akos.models import (
+    Alert,
+    Baseline,
+    EnvironmentOverlay,
+    ModelTiersRegistry,
+    load_alerts,
+    load_baselines,
+    load_tiers,
+)
+from akos.io import load_json
+
 CONFIG_DIR = REPO_ROOT / "config"
 TIERS_PATH = CONFIG_DIR / "model-tiers.json"
 ENVS_DIR = CONFIG_DIR / "environments"
@@ -23,76 +34,43 @@ ASSEMBLED_DIR = PROMPTS_DIR / "assembled"
 SCRIPTS_DIR = REPO_ROOT / "scripts"
 
 BOOTSTRAP_MAX_CHARS = 20_000
-VALID_TIERS = {"small", "medium", "large", "sota"}
 VALID_VARIANTS = {"compact", "standard", "full"}
-VALID_THINKING = {"off", "low", "medium", "high"}
-
-
-def _load_json(path: pathlib.Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
 
 
 # ---------------------------------------------------------------------------
-# model-tiers.json
+# model-tiers.json -- Pydantic does the heavy lifting
 # ---------------------------------------------------------------------------
 
 class TestModelTiers:
     @pytest.fixture(autouse=True)
     def _load(self):
-        self.data = _load_json(TIERS_PATH)
+        self.registry = load_tiers(TIERS_PATH)
 
-    def test_has_tiers_key(self):
-        assert "tiers" in self.data
+    def test_loads_and_validates(self):
+        assert self.registry is not None
 
-    def test_has_variant_overlays_key(self):
-        assert "variantOverlays" in self.data
-
-    def test_all_tier_names_are_valid(self):
-        for tier_name in self.data["tiers"]:
-            assert tier_name in VALID_TIERS, f"Unknown tier: {tier_name}"
-
-    def test_each_tier_has_required_fields(self):
-        required = {"contextBudget", "thinkingDefault", "promptVariant", "description", "models"}
-        for tier_name, tier_data in self.data["tiers"].items():
-            missing = required - set(tier_data.keys())
-            assert not missing, f"Tier '{tier_name}' missing: {missing}"
-
-    def test_thinking_defaults_are_valid(self):
-        for tier_name, tier_data in self.data["tiers"].items():
-            assert tier_data["thinkingDefault"] in VALID_THINKING, \
-                f"Tier '{tier_name}' has invalid thinkingDefault: {tier_data['thinkingDefault']}"
-
-    def test_prompt_variants_are_valid(self):
-        for tier_name, tier_data in self.data["tiers"].items():
-            assert tier_data["promptVariant"] in VALID_VARIANTS, \
-                f"Tier '{tier_name}' has invalid promptVariant: {tier_data['promptVariant']}"
-
-    def test_each_tier_has_at_least_one_model(self):
-        for tier_name, tier_data in self.data["tiers"].items():
-            assert len(tier_data["models"]) > 0, f"Tier '{tier_name}' has no models"
-
-    def test_no_duplicate_models_across_tiers(self):
-        all_models = []
-        for tier_data in self.data["tiers"].values():
-            all_models.extend(tier_data["models"])
-        assert len(all_models) == len(set(all_models)), \
-            f"Duplicate models found across tiers"
+    def test_has_all_four_tiers(self):
+        assert set(self.registry.tiers.keys()) == {"small", "medium", "large", "sota"}
 
     def test_variant_overlays_cover_all_variants(self):
-        for variant in VALID_VARIANTS:
-            assert variant in self.data["variantOverlays"], \
-                f"variantOverlays missing variant: {variant}"
+        assert set(self.registry.variantOverlays.keys()) >= VALID_VARIANTS
 
     def test_overlay_files_exist(self):
         overlay_dir = PROMPTS_DIR / "overlays"
-        for variant, overlays in self.data["variantOverlays"].items():
+        for variant, overlays in self.registry.variantOverlays.items():
             for overlay_name in overlays:
                 assert (overlay_dir / overlay_name).exists(), \
                     f"Overlay file missing for variant '{variant}': {overlay_name}"
 
+    def test_no_duplicate_models_across_tiers(self):
+        all_models = []
+        for tier in self.registry.tiers.values():
+            all_models.extend(tier.models)
+        assert len(all_models) == len(set(all_models))
+
 
 # ---------------------------------------------------------------------------
-# Environment Profiles
+# Environment Profiles -- validated via Pydantic EnvironmentOverlay
 # ---------------------------------------------------------------------------
 
 class TestEnvironmentProfiles:
@@ -102,28 +80,17 @@ class TestEnvironmentProfiles:
     def test_at_least_one_environment_exists(self):
         assert len(self._env_names()) > 0
 
-    def test_each_env_has_json_overlay(self):
+    def test_each_overlay_validates_as_pydantic_model(self):
         for name in self._env_names():
-            path = ENVS_DIR / f"{name}.json"
-            assert path.exists(), f"Missing JSON overlay: {path}"
+            data = load_json(ENVS_DIR / f"{name}.json")
+            overlay = EnvironmentOverlay.model_validate(data)
+            assert overlay.agents.defaults.model.primary, \
+                f"Environment '{name}' missing model.primary"
 
     def test_each_env_has_env_example(self):
         for name in self._env_names():
             path = ENVS_DIR / f"{name}.env.example"
             assert path.exists(), f"Missing .env.example: {path}"
-
-    def test_each_overlay_specifies_model_primary(self):
-        for name in self._env_names():
-            data = _load_json(ENVS_DIR / f"{name}.json")
-            model = data.get("agents", {}).get("defaults", {}).get("model", {}).get("primary")
-            assert model, f"Environment '{name}' missing agents.defaults.model.primary"
-
-    def test_each_overlay_specifies_thinking_default(self):
-        for name in self._env_names():
-            data = _load_json(ENVS_DIR / f"{name}.json")
-            td = data.get("agents", {}).get("defaults", {}).get("thinkingDefault")
-            assert td is not None, f"Environment '{name}' missing thinkingDefault"
-            assert td in VALID_THINKING, f"Environment '{name}' invalid thinkingDefault: {td}"
 
     def test_env_examples_contain_no_real_secrets(self):
         secret_patterns = ["sk-", "ghp_", "Bearer ", "-----BEGIN"]
@@ -135,13 +102,30 @@ class TestEnvironmentProfiles:
 
 
 # ---------------------------------------------------------------------------
+# Eval configs -- validated via Pydantic Alert / Baseline
+# ---------------------------------------------------------------------------
+
+class TestEvalConfigs:
+    def test_alerts_validate(self):
+        alerts = load_alerts(CONFIG_DIR / "eval" / "alerts.json")
+        assert len(alerts) >= 3
+
+    def test_baselines_validate(self):
+        baselines = load_baselines(CONFIG_DIR / "eval" / "baselines.json")
+        assert len(baselines) == 4
+
+    def test_has_critical_severity_alert(self):
+        alerts = load_alerts(CONFIG_DIR / "eval" / "alerts.json")
+        assert any(a.severity == "critical" for a in alerts)
+
+
+# ---------------------------------------------------------------------------
 # Assembled Prompts
 # ---------------------------------------------------------------------------
 
 class TestAssembledPrompts:
     @pytest.fixture(autouse=True)
     def _build(self):
-        """Run the assemble script before testing."""
         result = subprocess.run(
             [sys.executable, str(SCRIPTS_DIR / "assemble-prompts.py")],
             capture_output=True, text=True

@@ -13,17 +13,19 @@ Requires: Python 3.10+, Node.js >= 22, Ollama running.
 """
 
 import argparse
-import json
-import os
 import platform
 import shutil
 import subprocess
 import sys
-import urllib.request
 import urllib.error
+import urllib.request
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from akos.io import REPO_ROOT, deep_merge, load_json, resolve_openclaw_home, save_json
+from akos.models import load_tiers
+
 TIERS_PATH = REPO_ROOT / "config" / "model-tiers.json"
 CONFIG_EXAMPLE = REPO_ROOT / "config" / "openclaw.json.example"
 MCPORTER_EXAMPLE = REPO_ROOT / "config" / "mcporter.json.example"
@@ -45,13 +47,6 @@ def status(level: str, msg: str):
     elif level == "FAIL": FAIL_COUNT += 1
     elif level == "SKIP": SKIP_COUNT += 1
     elif level == "WARN": WARN_COUNT += 1
-
-
-def resolve_openclaw_home() -> Path:
-    env_home = os.environ.get("OPENCLAW_HOME")
-    if env_home:
-        return Path(env_home)
-    return Path.home() / ".openclaw"
 
 
 def cmd_exists(name: str) -> bool:
@@ -85,34 +80,6 @@ def ollama_is_running() -> bool:
             return True
     except (urllib.error.URLError, OSError):
         return False
-
-
-def load_json(path: Path) -> dict:
-    with open(path, encoding="utf-8") as f:
-        return json.load(f)
-
-
-def save_json(path: Path, data: dict):
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-
-
-def deep_merge(base: dict, overlay: dict) -> dict:
-    result = base.copy()
-    for key, value in overlay.items():
-        if key in result and isinstance(result[key], dict) and isinstance(value, dict):
-            result[key] = deep_merge(result[key], value)
-        else:
-            result[key] = value
-    return result
-
-
-def lookup_tier(model_id: str, tiers: dict) -> tuple[str, dict] | None:
-    for tier_name, tier_data in tiers["tiers"].items():
-        if model_id in tier_data["models"]:
-            return tier_name, tier_data
-    return None
 
 
 # ── Phase 0: Preflight ──────────────────────────────────────────────────
@@ -198,12 +165,12 @@ def phase_config(args):
     merged.setdefault("agents", {}).setdefault("defaults", {})
     merged["agents"]["defaults"]["model"] = {"primary": model_id}
 
-    tiers = load_json(TIERS_PATH)
-    tier_result = lookup_tier(model_id, tiers)
+    registry = load_tiers(TIERS_PATH)
+    tier_result = registry.lookup_tier(model_id)
     if tier_result:
         tier_name, tier_data = tier_result
-        merged["agents"]["defaults"]["thinkingDefault"] = tier_data["thinkingDefault"]
-        status("PASS", f"Model tier: {tier_name} (thinkingDefault={tier_data['thinkingDefault']})")
+        merged["agents"]["defaults"]["thinkingDefault"] = tier_data.thinkingDefault
+        status("PASS", f"Model tier: {tier_name} (thinkingDefault={tier_data.thinkingDefault})")
     else:
         status("WARN", f"Model '{model_id}' not in model-tiers.json; using template defaults")
 
@@ -261,9 +228,9 @@ def phase_prompts(args):
 
     oc_home = resolve_openclaw_home()
     model_id = f"ollama/{args.primary_model}"
-    tiers = load_json(TIERS_PATH)
-    tier_result = lookup_tier(model_id, tiers)
-    variant = tier_result[1]["promptVariant"] if tier_result else "compact"
+    registry = load_tiers(TIERS_PATH)
+    tier_result = registry.lookup_tier(model_id)
+    variant = tier_result[1].promptVariant if tier_result else "compact"
 
     assembled_dir = REPO_ROOT / "prompts" / "assembled"
     workspaces = {

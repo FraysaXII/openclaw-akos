@@ -13,58 +13,23 @@ Usage:
     python scripts/switch-model.py gpu-runpod
     python scripts/switch-model.py prod-cloud --dry-run
 
-Requires: Python 3.10+ (stdlib only, no pip dependencies).
+Requires: Python 3.10+ (stdlib + pydantic).
 """
 
 import argparse
-import json
-import os
-import platform
 import shutil
 import subprocess
 import sys
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from akos.io import REPO_ROOT, deep_merge, load_json, resolve_openclaw_home, save_json
+from akos.models import load_tiers
+
 TIERS_PATH = REPO_ROOT / "config" / "model-tiers.json"
 ENVS_DIR = REPO_ROOT / "config" / "environments"
 ASSEMBLED_DIR = REPO_ROOT / "prompts" / "assembled"
-
-
-def resolve_openclaw_home() -> Path:
-    env_home = os.environ.get("OPENCLAW_HOME")
-    if env_home:
-        return Path(env_home)
-    return Path.home() / ".openclaw"
-
-
-def load_json(path: Path) -> dict:
-    with open(path, encoding="utf-8") as f:
-        return json.load(f)
-
-
-def save_json(path: Path, data: dict):
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-
-
-def deep_merge(base: dict, overlay: dict) -> dict:
-    """Recursively merge overlay into base. Overlay values win."""
-    result = base.copy()
-    for key, value in overlay.items():
-        if key in result and isinstance(result[key], dict) and isinstance(value, dict):
-            result[key] = deep_merge(result[key], value)
-        else:
-            result[key] = value
-    return result
-
-
-def lookup_tier(model_id: str, tiers: dict) -> tuple[str, dict] | None:
-    for tier_name, tier_data in tiers["tiers"].items():
-        if model_id in tier_data["models"]:
-            return tier_name, tier_data
-    return None
 
 
 def find_env_file(env_name: str) -> Path | None:
@@ -95,17 +60,17 @@ def main():
 
     env_file = find_env_file(env_name)
     overlay = load_json(overlay_path)
-    tiers = load_json(TIERS_PATH)
+    registry = load_tiers(TIERS_PATH)
 
     model_id = overlay.get("agents", {}).get("defaults", {}).get("model", {}).get("primary")
     if not model_id:
         print("ERROR: overlay does not specify agents.defaults.model.primary", file=sys.stderr)
         sys.exit(1)
 
-    tier_result = lookup_tier(model_id, tiers)
+    tier_result = registry.lookup_tier(model_id)
     if tier_result:
         tier_name, tier_data = tier_result
-        variant = tier_data["promptVariant"]
+        variant = tier_data.promptVariant
     else:
         print(f"WARNING: model '{model_id}' not found in model-tiers.json, defaulting to 'full' variant")
         tier_name = "unknown"

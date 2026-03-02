@@ -10,15 +10,18 @@ Usage:
     python scripts/assemble-prompts.py --variant compact # build one variant
     python scripts/assemble-prompts.py --dry-run         # preview without writing
 
-Requires: Python 3.10+ (stdlib only, no pip dependencies).
+Requires: Python 3.10+ (stdlib + pydantic).
 """
 
 import argparse
-import json
 import sys
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from akos.io import REPO_ROOT
+from akos.models import load_tiers
+
 TIERS_PATH = REPO_ROOT / "config" / "model-tiers.json"
 BASE_DIR = REPO_ROOT / "prompts" / "base"
 OVERLAY_DIR = REPO_ROOT / "prompts" / "overlays"
@@ -30,11 +33,6 @@ AGENTS = {
 }
 
 BOOTSTRAP_MAX_CHARS = 20_000
-
-
-def load_tiers() -> dict:
-    with open(TIERS_PATH, encoding="utf-8") as f:
-        return json.load(f)
 
 
 def assemble_one(agent_name: str, base_file: str, overlays: list[str]) -> str:
@@ -63,8 +61,8 @@ def main():
                         help="Preview output without writing files")
     args = parser.parse_args()
 
-    tiers = load_tiers()
-    variant_overlays = tiers["variantOverlays"]
+    registry = load_tiers(TIERS_PATH)
+    variant_overlays = registry.variantOverlays
 
     variants_to_build = [args.variant] if args.variant else list(variant_overlays.keys())
 

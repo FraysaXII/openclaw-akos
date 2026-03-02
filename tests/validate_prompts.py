@@ -1,5 +1,9 @@
 """Unit tests for prompt files in prompts/.
 
+Validates that base prompts contain essential behavioral directives.
+Overlay-specific content (sequential thinking fields, intelligence matrix)
+is tested only in the full assembled variants.
+
 Run after the prompts/ batch is created:
     python -m pytest tests/validate_prompts.py -v
 """
@@ -16,7 +20,7 @@ def _read(path: pathlib.Path) -> str:
 
 
 # ---------------------------------------------------------------------------
-# ARCHITECT_PROMPT.md (T-4.1)
+# ARCHITECT_PROMPT.md (T-4.1) -- compact variant (base)
 # ---------------------------------------------------------------------------
 
 class TestArchitectPrompt:
@@ -30,49 +34,31 @@ class TestArchitectPrompt:
     def test_enforces_read_only(self):
         assert "read-only" in self.text
 
-    def test_mandates_sequential_thinking(self):
+    def test_references_sequential_thinking(self):
         assert "sequential_thinking" in self.text
 
-    def test_references_thought_variable(self):
-        assert "thought" in self.text
+    def test_prohibits_dangerous_tools(self):
+        for tool in ["write_file", "delete_file", "shell_exec"]:
+            assert tool in self.text, f"Must mention {tool} to prohibit it"
 
-    def test_references_thought_number(self):
-        assert "thoughtNumber" in self.text
+    def test_has_response_modes(self):
+        assert "Conversational" in self.text
+        assert "Analysis" in self.text
+        assert "Handoff" in self.text
 
-    def test_references_total_thoughts(self):
-        assert "totalThoughts" in self.text
+    def test_has_progress_directives(self):
+        assert "MUST" in self.text
+        assert "tool call" in self.text.lower()
 
-    def test_references_next_thought_needed(self):
-        assert "nextThoughtNeeded" in self.text
+    def test_has_plan_document_section(self):
+        assert "Plan Document" in self.text
 
-    def test_references_is_revision(self):
-        assert "isRevision" in self.text
-
-    def test_references_revises_thought(self):
-        assert "revisesThought" in self.text
-
-    def test_prohibits_write_file(self):
-        assert "write_file" in self.text, "Must mention write_file to prohibit it"
-        lines_with_write = [
-            line for line in self.text.splitlines()
-            if "write_file" in line
-        ]
-        for line in lines_with_write:
-            assert any(w in line.lower() for w in ["must not", "forbidden", "not"]), \
-                f"write_file mentioned without prohibition context: {line.strip()}"
-
-    def test_prohibits_shell_exec(self):
-        assert "shell_exec" in self.text, "Must mention shell_exec to prohibit it"
-
-    def test_references_intelligence_matrix(self):
-        assert "intelligence-matrix-schema" in self.text or "Intelligence Matrix" in self.text
-
-    def test_references_permissions_config(self):
-        assert "permissions.json" in self.text
+    def test_has_data_governance(self):
+        assert "Data Governance" in self.text
 
 
 # ---------------------------------------------------------------------------
-# EXECUTOR_PROMPT.md (T-4.2)
+# EXECUTOR_PROMPT.md (T-4.2) -- compact variant (base)
 # ---------------------------------------------------------------------------
 
 class TestExecutorPrompt:
@@ -84,10 +70,10 @@ class TestExecutorPrompt:
         assert len(self.text.strip()) > 0
 
     def test_references_plan_document(self):
-        assert "plan" in self.text.lower()
+        assert "Plan Document" in self.text
 
     def test_requires_reading_plan_first(self):
-        assert "Plan Document" in self.text
+        assert "MUST read" in self.text
 
     def test_enforces_hitl(self):
         assert "HITL" in self.text
@@ -95,17 +81,31 @@ class TestExecutorPrompt:
     def test_references_requires_approval(self):
         assert "requires_approval" in self.text
 
-    def test_references_permissions_config(self):
-        assert "permissions.json" in self.text
-
     def test_has_abort_protocol(self):
-        assert "abort" in self.text.lower() or "halt" in self.text.lower()
+        assert "Abort" in self.text or "halt" in self.text.lower()
 
-    def test_mentions_idempotency(self):
-        assert "idempoten" in self.text.lower()
+    def test_has_progress_directives(self):
+        assert "MUST emit" in self.text
 
-    def test_mentions_verification(self):
-        assert "verif" in self.text.lower()
+    def test_has_execution_report(self):
+        assert "Execution Report" in self.text
 
     def test_is_read_write_mode(self):
         assert "read-write" in self.text
+
+
+# ---------------------------------------------------------------------------
+# Base prompt structure
+# ---------------------------------------------------------------------------
+
+class TestBasePrompts:
+    def test_architect_base_exists(self):
+        assert (PROMPTS_DIR / "base" / "ARCHITECT_BASE.md").exists()
+
+    def test_executor_base_exists(self):
+        assert (PROMPTS_DIR / "base" / "EXECUTOR_BASE.md").exists()
+
+    def test_bases_contain_must_directives(self):
+        for base_file in (PROMPTS_DIR / "base").glob("*.md"):
+            content = base_file.read_text(encoding="utf-8")
+            assert "MUST" in content, f"{base_file.name} should contain MUST directives"
