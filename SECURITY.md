@@ -56,16 +56,24 @@ Docker sandboxes restrict outbound traffic to the host loopback interface:
 docker sandbox network proxy openclaw --allow-host localhost
 ```
 
-### 5. SOC Monitoring (Splunk SIEM)
+### 5. SOC Monitoring
 
-All gateway logs are emitted in structured JSON and forwarded to Splunk for real-time anomaly detection.
+All gateway logs are emitted in structured JSON and can be monitored through two complementary channels:
 
-**High-priority alert triggers:**
-- Execution of `chmod` commands
-- Access to `/etc/` or `~/.ssh/` directories
-- Invocation of `canvas.eval` JavaScript primitive
-- Outbound network requests to unallowed hosts
-- File access outside the designated workspace
+**Live Alert Engine (`akos/alerts.py` + `scripts/log-watcher.py`):**
+
+The log watcher tails the OpenCLAW gateway log in real-time and evaluates each entry against the conditions defined in `config/eval/alerts.json`. Triggered alerts are logged at `CRITICAL` level and can be forwarded to Langfuse for tracing. Start with: `python scripts/log-watcher.py`
+
+**Splunk SIEM (for enterprise deployments):**
+
+Structured JSON logs can also be forwarded to Splunk via `config/splunk/inputs.conf` for SOC-level anomaly detection dashboards.
+
+**High-priority alert triggers** (defined in `config/eval/alerts.json`):
+- Execution of `chmod` commands (real-time, critical)
+- Access to `/etc/` or `~/.ssh/` directories (real-time, critical)
+- Invocation of `canvas_eval` JavaScript primitive (real-time, high)
+- Prompt injection detection (continuous, critical)
+- Completion rate drops below baseline (7d window, high)
 
 ### 6. EU AI Act 2026 Compliance
 

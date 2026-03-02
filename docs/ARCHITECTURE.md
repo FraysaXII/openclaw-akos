@@ -291,13 +291,40 @@ Every piece of ingested data passes through the Intelligence Matrix before enter
 5. **Framework Application** — PESTEL, generational filters, and domain-specific analytics
 6. **Graph Insertion** — Only relationships with verifiable SSOT are committed to GraphRAG
 
+## Orchestration Library (`akos/`)
+
+All AKOS automation scripts share a typed Python library under `akos/`. This eliminates helper duplication, provides runtime config validation, and centralises logging, subprocess safety, and observability.
+
+| Module | Responsibility |
+|:-------|:---------------|
+| `akos/models.py` | Pydantic schemas for `model-tiers.json`, `openclaw.json`, environment overlays, alerts, baselines |
+| `akos/io.py` | `load_json`, `save_json`, `deep_merge`, `resolve_openclaw_home` |
+| `akos/log.py` | `JSONFormatter` + `HumanFormatter`; `setup_logging(json_output)` configures the root logger |
+| `akos/process.py` | `CommandResult` dataclass + `run()` wrapper with timeouts and structured error capture |
+| `akos/state.py` | `AkosState` Pydantic model tracking the active environment/model; `load_state`, `save_state`, `record_switch` |
+| `akos/telemetry.py` | `LangfuseReporter` wrapping the Langfuse SDK; graceful no-op when credentials are absent |
+| `akos/alerts.py` | `AlertEvaluator` — checks real-time log entries against `alerts.json` and periodic metrics against `baselines.json` |
+
+All scripts (`bootstrap.py`, `switch-model.py`, `assemble-prompts.py`, `log-watcher.py`) import from `akos/` and accept `--json-log` for structured CI output.
+
+### Rollback Safety
+
+`switch-model.py` wraps steps 2-4 (config merge, prompt deploy, gateway restart) in a `try/finally` block. On failure, `openclaw.json.bak` is restored automatically and a failed state is recorded. Use `--rollback` to manually restore the previous config.
+
+### Future: FastAPI Control Plane
+
+A planned HTTP API layer (FastAPI) will expose model switching, dashboard data, and webhook integration over REST. The `akos/` library already provides the typed models and I/O utilities that this layer will consume. This is documented here for forward planning but is not yet implemented.
+
 ## Observability Stack
 
 | Component | Role | Target |
 |:----------|:-----|:-------|
-| Structured JSON Logs | Agent activity tracing | `/opt/openclaw/logs/` |
+| Structured JSON Logs | Agent activity tracing | `/opt/openclaw/logs/` or `$TEMP/openclaw/` |
+| `akos/log.py` | Script-level JSON logging | stdout (human or JSON mode) |
+| `scripts/log-watcher.py` | Tails gateway logs, pushes traces to Langfuse, evaluates real-time alerts | Langfuse Cloud / stdout |
+| `akos/alerts.py` (AlertEvaluator) | Real-time pattern matching against `alerts.json`; periodic baseline checks | `CRITICAL`-level log entries |
+| Langfuse | Agent telemetry, tracing, model comparison | `config/eval/langfuse.env.example` |
 | Splunk Universal Forwarder | Log shipping | `ai_agent_ops` index |
-| AI Evaluation Platform | Metrics (Langfuse / Maxim AI) | Completion rate, latency, cost |
 | skillvet | Security posture | Prompt-injection vulnerability rate |
 
 ## Implementation Task Map
@@ -322,6 +349,7 @@ The following files implement the architecture described above as committable co
 | LLMOS Layer | File | SOP Task |
 |:------------|:-----|:---------|
 | Control Plane | [`config/openclaw.json.example`](../config/openclaw.json.example) | T-1.2 |
+| Control Plane | [`config/model-tiers.json`](../config/model-tiers.json) | T-5.4 |
 | Integration | [`config/mcporter.json.example`](../config/mcporter.json.example) | T-2.3–T-2.6 |
 | All | [`config/permissions.json`](../config/permissions.json) | T-3.3 |
 | All | [`config/logging.json`](../config/logging.json) | T-3.5 |
@@ -329,12 +357,21 @@ The following files implement the architecture described above as committable co
 | Intelligence | [`config/intelligence-matrix-schema.json`](../config/intelligence-matrix-schema.json) | T-4.3 |
 | Execution | [`prompts/ARCHITECT_PROMPT.md`](../prompts/ARCHITECT_PROMPT.md) | T-4.1 |
 | Execution | [`prompts/EXECUTOR_PROMPT.md`](../prompts/EXECUTOR_PROMPT.md) | T-4.2 |
+| Execution | [`prompts/base/`](../prompts/base/) | T-4.1–T-4.2 |
+| Execution | [`prompts/overlays/`](../prompts/overlays/) | T-4.1–T-4.2 |
 | All | [`scripts/vet-install.sh`](../scripts/vet-install.sh) | T-3.2 |
+| All | [`scripts/bootstrap.py`](../scripts/bootstrap.py) | T-1.1 |
+| All | [`scripts/assemble-prompts.py`](../scripts/assemble-prompts.py) | T-5.4 |
+| All | [`scripts/switch-model.py`](../scripts/switch-model.py) | T-5.4 |
+| All | [`scripts/log-watcher.py`](../scripts/log-watcher.py) | T-5.4–T-5.5 |
+| All | [`akos/`](../akos/) | Orchestration library (models, I/O, logging, process, state, telemetry, alerts) |
 | All | [`config/compliance/eu-ai-act-checklist.json`](../config/compliance/eu-ai-act-checklist.json) | T-3.7 |
 | All | [`config/eval/baselines.json`](../config/eval/baselines.json) | T-5.2 |
 | All | [`config/eval/alerts.json`](../config/eval/alerts.json) | T-5.3 |
+| All | [`config/eval/langfuse.env.example`](../config/eval/langfuse.env.example) | T-5.1 |
+| All | [`config/environments/`](../config/environments/) | T-5.4 |
 
-A validation test suite (`tests/`) provides 77 automated checks covering JSON integrity, cross-file reference consistency, secret scanning, and SOP task coverage.
+A validation test suite (`tests/`) provides 120+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, and SOP task coverage.
 
 ## Live Configuration Status
 

@@ -127,6 +127,15 @@ See the full [Standard Operating Procedure](docs/SOP.md) for detailed step-by-st
 
 ```
 openclaw-akos/
+  akos/                             Shared orchestration library (Python)
+    __init__.py                     Package marker + version
+    models.py                       Pydantic schemas for all config files
+    io.py                           load_json, save_json, deep_merge, resolve_openclaw_home
+    log.py                          JSONFormatter + HumanFormatter, setup_logging()
+    process.py                      CommandResult + run() subprocess wrapper with timeouts
+    state.py                        AkosState model + load/save for deployment tracking
+    telemetry.py                    LangfuseReporter (graceful no-op when unconfigured)
+    alerts.py                       AlertEvaluator for real-time + periodic checks
   config/
     openclaw.json.example           Gateway config template with multi-provider support
     model-tiers.json                SSOT for model classification (small/medium/large/sota)
@@ -165,33 +174,51 @@ openclaw-akos/
     bootstrap.ps1                   Windows-native setup (PowerShell)
     assemble-prompts.py             Build tiered SOUL.md from base + overlays
     switch-model.py                 Activate environment profile and deploy prompts
+    log-watcher.py                  Tail gateway logs, push to Langfuse, evaluate alerts
     vet-install.sh                  Safe skill installation wrapper (T-3.2)
   tests/
     conftest.py                     Shared fixtures
-    validate_configs.py             Unit tests for all JSON configs
-    validate_multimodel.py          Multi-model architecture validation (29 tests)
-    validate_prompts.py             Unit tests for prompt content
-    validate_scripts.py             Unit tests for shell scripts
+    validate_configs.py             Config JSON validation via Pydantic
+    validate_multimodel.py          Multi-model architecture validation
+    validate_prompts.py             Prompt content validation
+    validate_scripts.py             Shell script validation
     e2e_scaffolding.py              E2E: tree completeness, cross-refs, secrets scan
+    test_akos_models.py             Pydantic model unit tests (good/bad data)
+    test_akos_alerts.py             AlertEvaluator unit tests (synthetic log entries)
   docs/
     SOP.md                          Full Standard Operating Procedure
     ARCHITECTURE.md                 Four-Layer LLMOS architecture diagrams
 ```
 
+## Observability
+
+The log watcher tails the OpenCLAW gateway log and pushes agent traces to Langfuse while evaluating real-time SOC alerts:
+
+```bash
+# Start the watcher (foreground)
+python scripts/log-watcher.py
+
+# Single pass for CI
+python scripts/log-watcher.py --once --json-log
+```
+
+Configure Langfuse by copying `config/eval/langfuse.env.example` to your environment's `.env` and filling in real keys. Without credentials, telemetry degrades gracefully to a no-op.
+
 ## Running Tests
 
 ```bash
-# Install test dependencies
+# Install dependencies (pydantic is required; langfuse is optional)
 pip install -r requirements.txt
 
-# Full suite (unit + multi-model + E2E)
-py -m pytest tests/ -v
+# Full suite (120+ tests)
+py -m pytest tests/validate_configs.py tests/validate_multimodel.py tests/validate_prompts.py tests/validate_scripts.py tests/e2e_scaffolding.py tests/test_akos_models.py tests/test_akos_alerts.py -v
 
 # Individual batches
-py -m pytest tests/validate_configs.py -v       # Config validation
-py -m pytest tests/validate_multimodel.py -v    # Multi-model architecture (29 tests)
-py -m pytest tests/validate_prompts.py -v       # Prompt validation
-py -m pytest tests/validate_scripts.py -v       # Script validation
+py -m pytest tests/validate_configs.py -v       # Config validation (Pydantic)
+py -m pytest tests/validate_multimodel.py -v    # Multi-model architecture
+py -m pytest tests/validate_prompts.py -v       # Prompt content
+py -m pytest tests/test_akos_models.py -v       # Pydantic model schemas
+py -m pytest tests/test_akos_alerts.py -v       # Alert evaluation engine
 py -m pytest tests/e2e_scaffolding.py -v        # E2E scaffolding check
 ```
 

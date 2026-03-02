@@ -868,6 +868,36 @@ This phase establishes the evaluation framework for continuous improvement. Task
 | **HITL Gate** | `mutative` — creates a config file |
 | **Complexity** | `moderate` |
 
+**T-5.4 — AKOS Orchestration Library and Langfuse Watcher**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 7.2 |
+| **LLMOS Layer** | All |
+| **Category** | `METRIC`, `LOGGING` |
+| **Dependencies** | T-5.1, T-5.2, T-5.3 |
+| **Inputs** | Eval configs defined, alert thresholds configured |
+| **Outputs** | (1) `akos/` Python package with Pydantic models (`models.py`), shared I/O (`io.py`), structured logging (`log.py`), subprocess wrapper (`process.py`), state tracking (`state.py`), Langfuse telemetry (`telemetry.py`). (2) `scripts/log-watcher.py` that tails gateway logs and pushes traces to Langfuse. (3) All scripts refactored to import from `akos/`. |
+| **Verification** | `py -m pytest tests/test_akos_models.py tests/test_akos_alerts.py -v` -- all tests pass. |
+| **SOC Relevance** | Yes — the log watcher feeds real-time alert evaluation |
+| **HITL Gate** | `mutative` — creates library code and scripts |
+| **Complexity** | `high` |
+
+**T-5.5 — Alert Evaluation Engine**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 7.2; 6.2 Step 5 |
+| **LLMOS Layer** | All |
+| **Category** | `LOGGING`, `SECURITY` |
+| **Dependencies** | T-5.3, T-5.4 |
+| **Inputs** | `config/eval/alerts.json`, `config/eval/baselines.json`, `akos/models.py` |
+| **Outputs** | `akos/alerts.py` — `AlertEvaluator` class with `check_realtime(log_entry)` and `check_periodic(metrics)` methods. Integrated into `scripts/log-watcher.py`. Tests in `tests/test_akos_alerts.py`. |
+| **Verification** | `py -m pytest tests/test_akos_alerts.py -v` -- all tests pass. |
+| **SOC Relevance** | Yes — this is the primary live SOC detection surface |
+| **HITL Gate** | `mutative` — creates security-critical code |
+| **Complexity** | `high` |
+
 ### **8.8 Execution Constraints**
 
 All phases in this registry must be executed sequentially. An AI-assisted IDE (such as Cursor) executing these tasks must adhere to the following constraints:
