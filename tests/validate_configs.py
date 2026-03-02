@@ -90,6 +90,14 @@ class TestOpenclawConfig:
             missing = required - set(agent.keys())
             assert len(missing) == 0, f"Agent '{agent.get('id', '?')}' missing: {missing}"
 
+    def test_identity_is_object_with_required_keys(self):
+        for agent in self.data["agents"]["list"]:
+            identity = agent["identity"]
+            assert isinstance(identity, dict), \
+                f"Agent '{agent['id']}' identity must be an object, got {type(identity).__name__}"
+            assert "name" in identity, f"Agent '{agent['id']}' identity missing 'name'"
+            assert "emoji" in identity, f"Agent '{agent['id']}' identity missing 'emoji'"
+
     def test_has_bindings(self):
         assert "bindings" in self.data
         assert isinstance(self.data["bindings"], list)

@@ -19,13 +19,21 @@
         "id": "architect",
         "name": "Architect (Read-Only Planner)",
         "workspace": "~/.openclaw/workspace-architect",
-        "identity": "prompts/ARCHITECT_PROMPT.md"
+        "identity": {
+          "name": "Architect",
+          "theme": "read-only strategic planner in the AKOS dual-agent paradigm",
+          "emoji": "📐"
+        }
       },
       {
         "id": "executor",
         "name": "Executor (Read-Write Builder)",
         "workspace": "~/.openclaw/workspace-executor",
-        "identity": "prompts/EXECUTOR_PROMPT.md"
+        "identity": {
+          "name": "Executor",
+          "theme": "fast read-write builder in the AKOS dual-agent paradigm",
+          "emoji": "🔧"
+        }
       }
     ]
   },
