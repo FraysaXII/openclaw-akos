@@ -11,7 +11,7 @@
 | **Security Level** | 2 (Internal Systems Engineering & SOC Operations) |
 | **Entity Owner** | Enterprise Architecture & AI Infrastructure |
 | **Associated Workstream** | Autonomous Agent Governance, DX Optimization, and Knowledge Management |
-| **Version & Revision Date** | 3.0 — March 2026 |
+| **Version & Revision Date** | 4.0 — March 2026 |
 
 ## **1.0 Executive Summary and Architectural Vision**
 
@@ -1038,6 +1038,222 @@ All phases in this registry must be executed sequentially. An AI-assisted IDE (s
 3. **Verification-Before-Proceed:** After completing each task, the Verification command or assertion must be executed. A failing verification blocks all downstream dependent tasks.
 4. **Idempotency:** Tasks should be designed to be safely re-run. If a task's Output already exists and its Verification passes, it may be skipped.
 5. **Abort Protocol:** If a task fails verification after three retry attempts (v3.0: Verifier-guided recovery loop), execution halts. The operator must diagnose the failure manually before resuming.
+
+## **9.0 AKOS v0.4.0 Operational Procedures**
+
+This section documents the operational procedures introduced in v0.4.0. These procedures extend the foundational architecture (Sections 3.0-8.0) with runtime convergence, self-verification, structured planning, role-safe enforcement, semantic intelligence, workflow-native execution, evidence retrieval, deployment operations, and evaluation gates.
+
+**Reference:** Full implementation plan at `docs/wip/improvement_proposal_claude_opus_4_max.plan.md`.
+
+### **9.1 Runtime Convergence and Drift Detection**
+
+The v0.3.0 implementation revealed that only 2 of 4 agents were deployed to the live runtime during bootstrap. v0.4.0 enforces full runtime convergence:
+
+**Bootstrap (all 4 agents):**
+- `scripts/bootstrap.py` now creates all 4 workspace directories (`workspace-orchestrator`, `workspace-architect`, `workspace-executor`, `workspace-verifier`).
+- Scaffold files (IDENTITY.md, MEMORY.md, HEARTBEAT.md) are deployed to all workspaces via `deploy_scaffold_files()`.
+- `mcporter.json` is generated with OS-appropriate paths (replacing hardcoded `/opt/openclaw/workspace`).
+
+**Drift detection:**
+- `scripts/check-drift.py` compares repo intended state against live runtime: agent count, workspace files, MCP servers, permissions.
+- `GET /runtime/drift` API endpoint provides programmatic drift detection.
+- Run after every model switch or bootstrap: `py scripts/check-drift.py`.
+- Integrate into CI: exit code 0 = no drift, 1 = drift detected.
+
+**Gateway health:**
+- `GET /health` now performs a real HTTP probe to `http://127.0.0.1:18789/api/health` instead of returning `"unknown"`.
+- Response includes gateway status (`up`, `degraded`, `unreachable`), RunPod status, and Langfuse status.
+
+**API authentication:**
+- All endpoints except `GET /health` require `Authorization: Bearer <key>` when `AKOS_API_KEY` is set.
+- Set via environment variable or `--api-key` flag on `scripts/serve-api.py`.
+- When unset, a warning is logged but open access is allowed (dev mode).
+
+### **9.2 Self-Verifying Agent Protocol**
+
+Inspired by Cursor's `ReadLints`, Augment Code's "proactive verification", and Lovable's "debugging tools FIRST" pattern.
+
+**Post-edit verification (Executor):**
+After every file write or shell command that modifies code:
+1. Run the project's lint command (if known) OR check for syntax errors.
+2. Run the project's test command (if known) targeting changed files only.
+3. If verification fails, attempt self-fix (up to 3 cycles via Verifier).
+4. Report verification status before proceeding to the next step.
+5. NEVER move to the next step with unresolved verification failures.
+
+**Loop detection (Orchestrator and Executor):**
+If the agent detects: repeated identical tool calls, same edit made twice, or same error after 3 fix attempts, it MUST stop and escalate to the user with: specific issue, what was tried, and a request for help.
+
+**Memory hygiene (all agents):**
+After completing significant tasks: store key decisions in MEMORY.md (session-local), store durable facts via `memory_store()` (cross-session), tag entries with date and context.
+
+**Package manager enforcement (Executor):**
+Always use the project's package manager to add dependencies. Never manually edit package.json, requirements.txt, or pyproject.toml to add version numbers.
+
+**Cost-aware heuristics (Orchestrator):**
+Prefer the smallest set of high-signal tool calls. Batch related information-gathering. Skip expensive actions when cheaper alternatives exist.
+
+### **9.3 Structured Planning Protocol**
+
+Inspired by Windsurf Cascade's planning mode, Augment Code's conditional tasklist triggers, and Cursor's `TodoWrite`.
+
+**When to create a plan:**
+- Multi-file or cross-layer changes
+- More than 2 edit/verify iterations expected
+- More than 5 information-gathering calls expected
+- User explicitly requests planning
+
+**When to skip planning:**
+- Single, straightforward tasks (rename, typo fix, config tweak)
+- Purely conversational or informational requests
+- Tasks completable in under 3 trivial steps
+
+**Plan format:**
+```
+## Plan: [Task Title]
+1. [ ] Step description
+2. [ ] Step description
+```
+Mark `[x]` on completion, `[-]` on skip, `[/]` on in-progress.
+
+**RULES.md customization:**
+Each workspace contains a `RULES.md` file that agents read at session start. Users can customize agent behavior by editing this file (e.g., "Always use TypeScript for new files", "Run tests before every commit").
+
+**Configuration:**
+- Overlay: `prompts/overlays/OVERLAY_PLAN_TODOS.md`
+- Applied to: Orchestrator and Architect in `standard` tier; Orchestrator, Architect, and Executor in `full` tier.
+
+### **9.4 Role-Safe Capability Enforcement**
+
+Role safety is enforced at the configuration layer via `config/agent-capabilities.json`, not just by prompt instructions.
+
+**Capability matrix (SSOT):**
+
+| Role | Read | Write | Shell | Browser | Memory Write |
+|:-----|:-----|:------|:------|:--------|:-------------|
+| Orchestrator | Yes | No | No | No | Yes |
+| Architect | Yes | No | No | Limited (snapshot/screenshot) | No |
+| Executor | Yes | Yes | Yes | Yes | Yes |
+| Verifier | Yes | No | Limited | Yes | No |
+
+**Policy engine:**
+- `akos/policy.py` loads the capability matrix and generates per-agent tool profiles.
+- `GET /agents/{id}/policy` returns the effective tool list for any agent.
+- `GET /agents/{id}/capability-drift` reports mismatches between policy and runtime.
+
+**Audit procedure:**
+After any change to agent tools or permissions:
+1. Update `config/agent-capabilities.json`.
+2. Verify via `GET /agents/{id}/policy`.
+3. Confirm no drift via `GET /agents/{id}/capability-drift`.
+
+### **9.5 Semantic Code Intelligence**
+
+v0.4.0 adds LSP and code-search MCP servers for type-aware code navigation (Phase 4).
+
+**MCP servers added:**
+- `lsp` (`@akos/mcp-lsp-server`) -- `get_diagnostics(file)`, `go_to_definition(symbol)`, `find_references(symbol)`, `get_type_signature(symbol)`.
+- `code-search` (`@akos/mcp-code-search`) -- `search_code(query, scope)` via ripgrep + tree-sitter.
+
+**Agent usage:**
+- Architect: use LSP tools to trace dependencies before drafting plans.
+- Executor: run `get_diagnostics()` after edits, before handing off to Verifier.
+- Verifier: check `get_diagnostics()` as part of verification.
+
+**Research protocol:**
+`prompts/overlays/OVERLAY_RESEARCH.md` defines citation requirements: cite source origin and freshness, distinguish `[FACT]` from `[INFERENCE]`, state uncertainty when confidence < 80%.
+
+### **9.6 Workflow Definitions and Dashboard UX**
+
+Reusable workflow specs in `config/workflows/` structure common tasks with explicit agent sequences, tool requirements, approval points, and completion criteria.
+
+**Available workflows:**
+
+| Workflow | Agents | Purpose |
+|:---------|:-------|:--------|
+| `analyze_repo` | Architect, Orchestrator | Full codebase analysis |
+| `implement_feature` | Architect, Executor, Verifier | Plan + implement + verify |
+| `verify_changes` | Verifier | Lint, test, build, screenshot |
+| `browser_smoke` | Verifier | Dashboard browser validation |
+| `deploy_check` | Architect, Verifier | Deployment readiness |
+| `incident_review` | Architect, Orchestrator | Root cause + remediation |
+
+**Creating new workflows:**
+Add a `.md` file to `config/workflows/` with: Agent Sequence, Required Tools, Steps (checkboxes), Approval Points, Completion Criteria.
+
+### **9.7 Memory Packs and Evidence Retrieval**
+
+v0.4.0 extends the flat memory architecture (no GraphRAG) with structured memory domains and citation requirements.
+
+**Memory domains:**
+- `memory/decisions/` -- architecture and design decisions
+- `memory/policies/` -- governance and operational policies
+- `memory/incidents/` -- incident reports and lessons learned
+- `memory/sources/` -- curated reference materials
+
+**Citation requirements:**
+For planning, research, and compliance outputs: cite source origin, cite freshness, distinguish facts from inferences, retain confidence markers.
+
+**Context pinning:**
+Operators and workflows can pin critical context (repo files, docs, memory items, policies, current goal) to keep agent focus.
+
+### **9.8 Deployment Pipeline and Operational Tooling**
+
+**Operator scripts:**
+
+| Script | Purpose | Usage |
+|:-------|:--------|:------|
+| `scripts/doctor.py` | One-command system health check | `py scripts/doctor.py` |
+| `scripts/sync-runtime.py` | Hydrate runtime from repo SSOT | `py scripts/sync-runtime.py` |
+| `scripts/release-gate.py` | Unified release gate (tests + drift) | `py scripts/release-gate.py` |
+| `scripts/check-drift.py` | Detect repo-to-runtime drift | `py scripts/check-drift.py` |
+
+**Infrastructure auto-failover:**
+If RunPod health check fails 3 consecutive times, auto-switch to cloud API fallback. If cloud fails, fall back to local Ollama. Emit `INFRA_FAILOVER_TRIGGERED` SOC alert. Periodically re-check failed provider; restore when healthy.
+
+**Environment promotion:**
+Formal deployment lanes: `dev-local` -> `gpu-runpod` -> `prod-cloud`. Each promotion requires: all tests pass, drift check clean, browser smoke pass.
+
+### **9.9 Evaluation Release Gates**
+
+v0.4.0 formalizes three testing lanes as a hard release gate.
+
+**Lane 1 -- Offline regression:**
+```
+py scripts/test.py all
+```
+193+ tests covering: config validation, Pydantic models, alert evaluation, RunPod provider, FastAPI endpoints, checkpoints, prompt structure, E2E wiring, scaffolding integrity.
+
+**Lane 2 -- Browser/gateway smoke:**
+Canonical scenarios defined in `docs/uat/dashboard_smoke.md`:
+- `dashboard_health` -- page loads, no errors
+- `agent_visibility` -- all 4 agents visible
+- `architect_read_only` -- Architect produces plans, no file writes
+- `executor_approval_flow` -- mutative actions require HITL approval
+- `workflow_launch` -- at least one workflow invocable
+- `prompt_injection_refusal` -- harmful prompts refused
+
+**Lane 3 -- Live provider smoke (opt-in):**
+```
+AKOS_LIVE_SMOKE=1 py scripts/test.py live
+```
+Tests: health endpoint live, agents endpoint returns 4 agents.
+
+**Release gate procedure:**
+```
+py scripts/release-gate.py
+```
+Runs Lane 1 + drift check. Reports PASS/FAIL. If `AKOS_LIVE_SMOKE=1`, notes live tests should also pass.
+
+**Governance packs (Phase 8):**
+- Policy packs in `config/policies/` define named governance profiles (engineering-safe, compliance-review, incident-response).
+- Workflow packs in `config/workflow-packs/` provide team-distributable workflow collections.
+
+### **9.10 Version History**
+
+See `CHANGELOG.md` for the full version history from v0.0.1 to v0.4.0.
+
+---
 
 #### **Works cited**
 
