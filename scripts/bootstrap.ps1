@@ -458,6 +458,11 @@ if ($SkipMCP) {
                 $pwArgs[$i] = $exportsDir.Replace("\", "\\")
             }
         }
+        # Custom AKOS MCP: resolve script path so mcporter can spawn from any cwd
+        if ($templateObj.mcpServers.akos) {
+            $akosScript = (Join-Path $RepoRoot "scripts\mcp_akos_server.py") -replace '\\', '/'
+            $templateObj.mcpServers.akos.args[0] = $akosScript
+        }
         $templateObj | ConvertTo-Json -Depth 10 | Set-Content $mcpLive -Encoding UTF8
         Write-Status PASS "Generated config/mcporter.json from template -- Playwright dir: $exportsDir"
         Add-SummaryRow "mcporter.json" "PASS" "generated from template"

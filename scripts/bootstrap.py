@@ -324,6 +324,12 @@ def phase_mcp(args: argparse.Namespace) -> bool:
         exports_path = str(oc_home / "workspace" / "exports").replace("\\", "/")
         resolved_text = raw_text.replace("/opt/openclaw/workspace/exports", exports_path)
         resolved_text = resolved_text.replace("/opt/openclaw/workspace", ws_path)
+        # Custom AKOS MCP: use absolute path so mcporter can spawn it from any cwd
+        akos_script = REPO_ROOT / "scripts" / "mcp_akos_server.py"
+        resolved_text = resolved_text.replace(
+            "scripts/mcp_akos_server.py",
+            str(akos_script).replace("\\", "/"),
+        )
         mcporter_config.write_text(resolved_text, encoding="utf-8")
         status("PASS", f"Deployed mcporter.json (paths resolved) to {mcporter_config}")
     else:

@@ -51,6 +51,19 @@ def run_drift_check() -> bool:
     return result.success
 
 
+def run_browser_smoke() -> bool:
+    """Run browser smoke tests. Uses Playwright when AKOS_BROWSER_SMOKE=1 or when playwright is installed."""
+    logger.info("Running browser smoke ...")
+    args = [sys.executable, str(SCRIPTS_DIR / "browser-smoke.py")]
+    try:
+        import playwright
+        args.append("--playwright")
+    except ImportError:
+        pass
+    result = proc.run(args, timeout=120, capture=False)
+    return result.success
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="AKOS release gate")
     parser.add_argument("--json-log", action="store_true", help="JSON logging output")
@@ -65,6 +78,9 @@ def main() -> None:
 
     drift_ok = run_drift_check()
     results.append(("PASS" if drift_ok else "FAIL", "Drift check (scripts/check-drift.py)"))
+
+    browser_ok = run_browser_smoke()
+    results.append(("PASS" if browser_ok else "FAIL", "Browser smoke (scripts/browser-smoke.py)"))
 
     live_smoke = os.environ.get("AKOS_LIVE_SMOKE") == "1"
     if live_smoke:

@@ -550,16 +550,17 @@ When `log-watcher.py` detects a RunPod environment, it automatically checks endp
 
 ### 9.1 Installed Servers
 
-Eight MCP servers provide the agent tool ecosystem:
+Nine MCP servers provide the agent tool ecosystem:
 
 | Server | Package | Purpose |
 |:-------|:--------|:--------|
 | `sequential-thinking` | `@modelcontextprotocol/server-sequential-thinking` | Structured reasoning with branching and revision |
 | `playwright` | `@playwright/mcp@latest` | Browser automation: navigation, interaction, screenshots |
-| `github` | `@modelcontextprotocol/server-github` | Repository metadata, file search, code search |
+| `github` | `@modelcontextprotocol/server-github` | Repository metadata, file search, code search (extend for `search_commits`, `show_commit`) |
 | `memory` | `@modelcontextprotocol/server-memory` | Cross-session key-value store for persistent recall |
 | `filesystem` | `@modelcontextprotocol/server-filesystem` | Structured file read/write operations |
 | `fetch` | `@modelcontextprotocol/server-fetch` | HTTP client for API calls |
+| `akos` | `scripts/mcp_akos_server.py` | Control plane self-check: `akos_health`, `akos_agents`, `akos_status` |
 | `lsp` | `@akos/mcp-lsp-server` | Type-aware code navigation (go-to-definition, find-references, diagnostics) |
 | `code-search` | `@akos/mcp-code-search` | Semantic code search via ripgrep + tree-sitter |
 
@@ -593,6 +594,26 @@ The MCP Memory server provides persistent key-value storage across sessions. Age
 - **Executor:** Stores execution anomalies (`executor/anomaly/2026-03-08`).
 
 Key naming convention: `{agent}/{category}/{identifier}`.
+
+### 9.5 GitHub MCP and Commit Retrieval
+
+Set `GITHUB_TOKEN` in your environment to enable GitHub integration. The server provides repository metadata, file search, and code search. Future extensions will add `search_commits(query, since)` and `show_commit(sha)` for historical context. See `config/mcporter.json.example` for the GitHub server entry.
+
+### 9.6 cursor-ide-browser (Cursor IDE Only, Optional)
+
+**cursor-ide-browser** is a Cursor IDE built-in MCP. Enable it in **Cursor Settings > Tools > MCP** for in-IDE WebChat testing. AKOS does not require it; the agent uses the Playwright MCP for browser automation. This is for Cursor users who want an in-IDE browser when developing or testing.
+
+### 9.7 Custom AKOS MCP
+
+The Custom AKOS MCP exposes control plane self-check tools to agents:
+
+| Tool | Purpose |
+|:-----|:--------|
+| `akos_health()` | GET `/health` — gateway, RunPod, Langfuse status |
+| `akos_agents()` | GET `/agents` — list 4 registered agents |
+| `akos_status()` | GET `/status` — environment, model, tier |
+
+**Setup:** The server is defined in `config/mcporter.json.example`. Bootstrap deploys it with the correct path. Requires `pip install mcp httpx`. Set `AKOS_API_URL` (default `http://127.0.0.1:8420`) if the API runs elsewhere.
 
 ---
 
@@ -893,6 +914,7 @@ py scripts/test.py checkpoints  # workspace snapshot/restore
 py scripts/test.py scaffolding  # file tree integrity + secrets scan
 py scripts/test.py e2e          # full system wiring
 py scripts/test.py configs      # JSON integrity + cross-file refs
+py scripts/test.py browser      # automated browser smoke (requires Playwright)
 py scripts/test.py uat          # start live Swagger server for manual testing
 py scripts/test.py --list       # show all available groups
 ```
@@ -912,6 +934,7 @@ Add `-q` for minimal output or `-v` for verbose (verbose is the default).
 | `scaffolding` | 20+ | File tree, secrets scan, SOP coverage |
 | `e2e` | 18 | Full agent/tool/overlay system wiring |
 | `configs` | 50+ | JSON integrity, model tiers, cross-file refs |
+| `browser` | 1 | Automated browser smoke (Playwright) — dashboard health, agents, Swagger, workflow launch |
 
 ### 16.3 Browser-Based Smoke Test (UAT)
 
@@ -981,7 +1004,24 @@ This tests the actual product as users experience it.
    - Ask the Executor to do something that will fail (e.g., reference a non-existent file)
    - **Expected:** The Verifier-guided 3-retry loop activates. After 3 failures, it halts and reports.
 
-#### 16.3.3 Smoke Test Checklist
+#### 16.3.3 Automated Browser Smoke (Playwright)
+
+When Playwright is installed, you can run automated DOM-based checks:
+
+```bash
+pip install playwright && playwright install chromium
+py scripts/browser-smoke.py --playwright
+py scripts/test.py browser      # same, via test runner
+```
+
+| Flag | Effect |
+|:-----|:-------|
+| `--playwright` | Run DOM-based checks (dashboard health, agent visibility, Swagger, Architect/Executor UI, workflow launch). Without this flag, only HTTP checks run. |
+| `--headed` | Show the browser window during runs (default: headless). |
+
+If Playwright is not installed, `--playwright` is skipped with a clear message. The release gate runs browser smoke when Playwright is available.
+
+#### 16.3.4 Smoke Test Checklist
 
 Use this checklist after any deployment or major configuration change:
 

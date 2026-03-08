@@ -43,7 +43,10 @@ This separation eliminates cognitive overload and adds a quality gate with a 3-r
 - **Fetch** (`@modelcontextprotocol/server-fetch`) -- HTTP client for API integration
 - **LSP** (`@akos/mcp-lsp-server`) -- type-aware code navigation (go-to-definition, find-references, diagnostics)
 - **Code Search** (`@akos/mcp-code-search`) -- semantic code search via ripgrep + tree-sitter
+- **Custom AKOS MCP** (`scripts/mcp_akos_server.py`) -- control plane self-check: `akos_health`, `akos_agents`, `akos_status`
 - **mcporter** -- CLI and configuration manager for all MCP connections
+
+**Optional:** cursor-ide-browser (Cursor IDE built-in) for in-IDE WebChat testing; AKOS agent uses Playwright MCP.
 
 ## Security Posture
 

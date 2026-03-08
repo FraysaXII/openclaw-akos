@@ -1270,6 +1270,21 @@ Bootstrap acts as the **translation layer** between AKOS's design-time SSOT and 
 
 See [ARCHITECTURE.md](ARCHITECTURE.md#bootstrap-translation-layer-v050) for the full translation layer design.
 
+### **9.12 Browser UAT with Playwright**
+
+Automated browser smoke tests validate the dashboard and control plane without manual interaction.
+
+**Prerequisites:** `pip install playwright && playwright install chromium`
+
+**Commands:**
+- `py scripts/browser-smoke.py` — HTTP-only checks (gateway, Swagger) when gateway is reachable
+- `py scripts/browser-smoke.py --playwright` — Full DOM-based checks (dashboard health, agent visibility, Swagger health, Architect tools UI, Executor approval hint, workflow launch)
+- `py scripts/browser-smoke.py --playwright --headed` — Same as above, with visible browser window
+
+**Test groups:** Run via `py scripts/test.py browser`. The release gate invokes browser smoke when Playwright is installed.
+
+**Platform separation:** AKOS uses **Playwright MCP** (in agent runtime) for Verifier screenshots and browser automation. The **browser-smoke.py** script is operator tooling for UAT and release gates. **cursor-ide-browser** is a Cursor IDE built-in (optional) for in-IDE WebChat testing — AKOS does not depend on it. See [USER_GUIDE §9.6](docs/USER_GUIDE.md#96-cursor-ide-browser-cursor-ide-only-optional) and [ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 ---
 
 #### **Works cited**

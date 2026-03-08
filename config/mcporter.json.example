@@ -27,7 +27,8 @@
       ],
       "env": {
         "GITHUB_TOKEN": "${GITHUB_TOKEN}"
-      }
+      },
+      "_note": "Extend for search_commits, show_commit (historical context). Set GITHUB_TOKEN to enable."
     },
     "memory": {
       "command": "npx",
@@ -69,6 +70,14 @@
         "@akos/mcp-code-search"
       ],
       "_note": "Phase 4: Semantic code search via ripgrep + tree-sitter. Provides search_code(query, scope)."
+    },
+    "akos": {
+      "command": "python",
+      "args": ["scripts/mcp_akos_server.py"],
+      "env": {
+        "AKOS_API_URL": "http://127.0.0.1:8420"
+      },
+      "_note": "Custom AKOS MCP. Exposes akos_health, akos_agents, akos_status. Requires: pip install mcp httpx. Cwd must be AKOS repo root."
     }
   }
 }

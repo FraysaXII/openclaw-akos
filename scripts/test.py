@@ -74,6 +74,10 @@ GROUPS: dict[str, dict] = {
         "description": "Live provider smoke tests (requires AKOS_LIVE_SMOKE=1)",
         "files": ["test_live_smoke.py"],
     },
+    "browser": {
+        "description": "Browser smoke tests (gateway + API; use --playwright for DOM checks)",
+        "files": [],
+    },
 }
 
 
@@ -179,7 +183,16 @@ def main() -> None:
         print("\n  Running: drift -- Runtime drift detection\n")
         drift_script = REPO_ROOT / "scripts" / "check-drift.py"
         sys.exit(subprocess.call([sys.executable, str(drift_script)], cwd=str(REPO_ROOT)))
-        return
+
+    if args.group == "browser":
+        print("\n  Running: browser -- Browser smoke tests\n")
+        browser_script = REPO_ROOT / "scripts" / "browser-smoke.py"
+        browser_args = [sys.executable, str(browser_script)]
+        if "--playwright" in extra:
+            browser_args.append("--playwright")
+        if "--headed" in extra:
+            browser_args.append("--headed")
+        sys.exit(subprocess.call(browser_args, cwd=str(REPO_ROOT)))
 
     if args.group not in GROUPS:
         print(f"\n  Unknown group: '{args.group}'")

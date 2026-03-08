@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- **Playwright integration** — `scripts/browser-smoke.py` supports `--playwright` and `--headed` for DOM-based UAT (dashboard health, agent visibility, Swagger health, Architect tools UI, Executor approval hint, workflow launch). HTTP-only mode when Playwright not installed.
+- **Browser test group** — `py scripts/test.py browser` runs browser smoke; release gate invokes it when Playwright is available.
+- **Custom AKOS MCP** — `scripts/mcp_akos_server.py` exposes `akos_health()`, `akos_agents()`, `akos_status()` for control plane self-check. Bootstrap deploys with resolved path.
+- **MCP documentation** — GitHub commit retrieval (GITHUB_TOKEN, future `search_commits`, `show_commit`), cursor-ide-browser (Cursor IDE built-in, optional), Custom AKOS MCP setup in USER_GUIDE.
+- **Phase-by-phase checklist** — `docs/DEVELOPER_CHECKLIST.md` pre-commit checklist (test, drift, browser smoke, release gate, CHANGELOG, docs).
+
+### Changed
+
+- **requirements.txt** — Added `playwright>=1.40`, `mcp>=1.0.0` for browser-smoke and Custom AKOS MCP.
+- **bootstrap** — MCP phase resolves absolute path for `mcp_akos_server.py` in deployed mcporter.json.
+
+---
+
 ## [0.5.0] -- 2026-03-08
 
 Gateway runtime wiring (Option B): bootstrap as translation layer between AKOS SSOT and OpenClaw runtime enforcement.

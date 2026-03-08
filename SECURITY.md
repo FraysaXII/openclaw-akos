@@ -84,6 +84,14 @@ Structured JSON logs can also be forwarded to Splunk via `config/splunk/inputs.c
 - Prompt injection detection (continuous, critical)
 - Completion rate drops below baseline (7d window, high)
 
+### 5a. Playwright and Browser Smoke (v0.5.0)
+
+The `browser-smoke.py` script and Playwright MCP run in a **sandboxed browser**:
+
+- **browser-smoke.py:** Uses Chromium via `playwright install chromium`. No network egress except to localhost (gateway 18789, API 8420). Optional dependency; CI and developers without Playwright still pass.
+- **Playwright MCP (agent runtime):** Same sandbox; agent uses it for Verifier screenshots and DOM interaction. Distinct from `browser-smoke.py` (operator UAT).
+- **MCP surface area:** Custom AKOS MCP (`akos_health`, `akos_agents`, `akos_status`) and GitHub MCP extend the tool surface. Ensure `GITHUB_TOKEN` and `AKOS_API_URL` are not exposed in logs.
+
 ### 6. RunPod Infrastructure Security (v0.3.0)
 
 When using the `gpu-runpod` environment:

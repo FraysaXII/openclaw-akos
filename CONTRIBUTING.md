@@ -72,6 +72,8 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
   - `fastapi>=0.115.0` -- Control plane API; only needed for `scripts/serve-api.py`.
   - `uvicorn>=0.32.0` -- ASGI server for FastAPI.
   - `httpx>=0.27.0` -- Async HTTP client for API tests.
+  - `playwright>=1.40` -- Browser smoke DOM mode (optional; HTTP-only path when not installed).
+  - `mcp>=1.0.0` -- Custom AKOS MCP server (`scripts/mcp_akos_server.py`).
 
 ## Testing Standards
 
@@ -84,12 +86,12 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - New workflow definitions go in `config/workflows/` as markdown files following the existing format.
 - New overlay files must be registered in `config/model-tiers.json` `variantOverlays` section.
 - Run the full suite before submitting: `py scripts/test.py` (193+ tests expected)
-- Run specific groups: `py scripts/test.py api`, `py scripts/test.py security`, etc.
+- Run specific groups: `py scripts/test.py api`, `py scripts/test.py security`, `py scripts/test.py browser`, etc.
 - See all available groups: `py scripts/test.py --list`
 - New test groups added in v0.4.0: `drift` (runtime drift detection), `live` (opt-in live provider smoke tests requiring `AKOS_LIVE_SMOKE=1`)
 - Live smoke tests use `@pytest.mark.live` and are skipped by default
 - Before releases, run the release gate: `py scripts/release-gate.py`
-- Browser smoke tests: `py scripts/browser-smoke.py` (6 scenarios, requires gateway)
+- Browser smoke tests: `py scripts/browser-smoke.py` (HTTP-only) or `py scripts/browser-smoke.py --playwright` (DOM mode; requires `pip install playwright && playwright install chromium`)
 - Agent evals: `py scripts/run-evals.py --dry-run` (5 canonical tasks)
 - Checkpoint management: `py scripts/checkpoint.py create|list|restore`
 - New eval tasks go in `tests/evals/tasks.json` following the existing schema.
@@ -97,6 +99,30 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - New memory domain templates go in `config/memory-templates/`.
 - New governance policy packs go in `config/policies/`.
 - Rollback procedures are documented in `docs/uat/rollback_guide.md`.
+
+## Pre-commit Checklist
+
+Before every commit that touches features or tooling, run:
+
+```
+[ ] py scripts/test.py all                    # 193+ tests pass
+[ ] py scripts/check-drift.py                 # No drift (optionally includes MCP reachability)
+[ ] py scripts/browser-smoke.py [--playwright] # If Playwright installed
+[ ] py scripts/release-gate.py                # Full gate; optionally verify MCP server reachability
+```
+
+Update documentation as needed:
+
+- [ ] CHANGELOG.md — Add entry under [Unreleased] or version
+- [ ] README.md — Version refs, new capabilities
+- [ ] docs/ARCHITECTURE.md — New components, diagrams
+- [ ] docs/SOP.md — New procedures (e.g., 9.12 Browser UAT)
+- [ ] docs/USER_GUIDE.md — New sections, UX changes
+- [ ] SECURITY.md — New deps, controls
+- [ ] config/workspace-scaffold/README.md — If scaffold changes
+- [ ] CONTRIBUTING.md — New test groups, deps
+
+See [docs/DEVELOPER_CHECKLIST.md](docs/DEVELOPER_CHECKLIST.md) for the full phase checklist.
 
 ## Security Contributions
 

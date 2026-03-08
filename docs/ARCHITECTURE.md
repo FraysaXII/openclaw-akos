@@ -278,6 +278,19 @@ Eight MCP servers provide the agent tool ecosystem:
 | fetch | `@modelcontextprotocol/server-fetch` | HTTP client for API integration |
 | lsp | `@akos/mcp-lsp-server` | Type-aware code navigation (go-to-definition, find-references, diagnostics) |
 | code-search | `@akos/mcp-code-search` | Semantic code search via ripgrep + tree-sitter |
+| akos | `scripts/mcp_akos_server.py` | Custom AKOS MCP: `akos_health`, `akos_agents`, `akos_status` (control plane self-check) |
+
+### Cursor vs AKOS Browser Separation (Platform-Agnostic Design)
+
+AKOS is platform-agnostic. The agent has its own browser capability independent of Cursor or any IDE.
+
+| Capability | Owner | Purpose | Required for AKOS |
+|:-----------|:------|:--------|:------------------|
+| **Playwright MCP** | AKOS agent | Verifier screenshots, browser automation during execution | Yes |
+| **browser-smoke.py** | AKOS operator | UAT, release gate, dashboard validation | Yes |
+| **cursor-ide-browser** | Cursor IDE | In-IDE WebChat testing when using Cursor | No — Cursor-only |
+
+The AKOS agent receives browser tools via Playwright MCP in `mcporter.json`. That MCP runs in the agent runtime (OpenClaw gateway), not in the IDE. `browser-smoke.py` is a separate operator script for pre-commit and release validation. Cursor users can optionally enable the built-in cursor-ide-browser in Cursor Settings for in-IDE testing; AKOS does not require it.
 
 ## Security Architecture
 
@@ -386,7 +399,7 @@ Launch: `python scripts/serve-api.py --port 8420`
 |:-------|:--------|
 | `scripts/check-drift.py` | Detect repo-to-runtime mismatches |
 | `scripts/doctor.py` | One-command system health check |
-| `scripts/browser-smoke.py` | Programmatic browser smoke test (6 scenarios) |
+| `scripts/browser-smoke.py` | Programmatic browser smoke test (6+ scenarios); HTTP-only or Playwright DOM mode via `--playwright` |
 | `scripts/run-evals.py` | Agent reliability eval runner (5 canonical tasks) |
 | `scripts/checkpoint.py` | Checkpoint CLI (create/list/restore workspace snapshots) |
 | `scripts/sync-runtime.py` | Hydrate runtime from repo SSOT |
