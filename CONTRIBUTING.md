@@ -89,6 +89,14 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - New test groups added in v0.4.0: `drift` (runtime drift detection), `live` (opt-in live provider smoke tests requiring `AKOS_LIVE_SMOKE=1`)
 - Live smoke tests use `@pytest.mark.live` and are skipped by default
 - Before releases, run the release gate: `py scripts/release-gate.py`
+- Browser smoke tests: `py scripts/browser-smoke.py` (6 scenarios, requires gateway)
+- Agent evals: `py scripts/run-evals.py --dry-run` (5 canonical tasks)
+- Checkpoint management: `py scripts/checkpoint.py create|list|restore`
+- New eval tasks go in `tests/evals/tasks.json` following the existing schema.
+- New session templates go in `config/templates/` as markdown files.
+- New memory domain templates go in `config/memory-templates/`.
+- New governance policy packs go in `config/policies/`.
+- Rollback procedures are documented in `docs/uat/rollback_guide.md`.
 
 ## Security Contributions
 

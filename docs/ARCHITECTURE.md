@@ -342,7 +342,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/telemetry.py` | `LangfuseReporter` wrapping the Langfuse SDK; `trace_metric()` for DX metrics; graceful no-op when credentials are absent |
 | `akos/alerts.py` | `AlertEvaluator` -- checks real-time log entries against `alerts.json` and periodic metrics against `baselines.json` |
 | `akos/runpod_provider.py` | RunPod SDK wrapper: endpoint lifecycle, health checks, scaling, inference, GPU discovery (v0.3.0) |
-| `akos/api.py` | FastAPI control plane: REST endpoints for health, status, switching, RunPod, metrics, alerts, checkpoints, WebSocket logs (v0.3.0) |
+| `akos/api.py` | FastAPI control plane: REST endpoints for health, status, switching, RunPod, metrics, alerts, checkpoints, context pinning, WebSocket logs (v0.4.0) |
 | `akos/tools.py` | Dynamic tool registry reading mcporter config + permissions.json; HITL classification (v0.3.0) |
 | `akos/policy.py` | Role capability matrix loader, tool profile generation, drift detection (v0.4.0) |
 | `akos/checkpoints.py` | Workspace snapshot/restore via tarballs for reversible execution (v0.3.0) |
@@ -373,6 +373,9 @@ The `akos/api.py` module exposes a REST API for programmatic control:
 | `/runtime/drift` | GET | Runtime drift detection (repo vs live) |
 | `/agents/{id}/policy` | GET | Effective capability policy for an agent |
 | `/agents/{id}/capability-drift` | GET | Check tool drift against policy |
+| `/context/pin` | POST/DELETE | Pin or unpin context for agent focus |
+| `/context/pins` | GET | List pinned context entries |
+| `/metrics/cost` | GET | Cost breakdown by agent and environment |
 | `/logs` | WebSocket | Live log stream |
 
 Launch: `python scripts/serve-api.py --port 8420`
@@ -383,6 +386,9 @@ Launch: `python scripts/serve-api.py --port 8420`
 |:-------|:--------|
 | `scripts/check-drift.py` | Detect repo-to-runtime mismatches |
 | `scripts/doctor.py` | One-command system health check |
+| `scripts/browser-smoke.py` | Programmatic browser smoke test (6 scenarios) |
+| `scripts/run-evals.py` | Agent reliability eval runner (5 canonical tasks) |
+| `scripts/checkpoint.py` | Checkpoint CLI (create/list/restore workspace snapshots) |
 | `scripts/sync-runtime.py` | Hydrate runtime from repo SSOT |
 | `scripts/release-gate.py` | Unified release gate (tests + drift + smoke) |
 

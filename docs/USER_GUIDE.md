@@ -1338,6 +1338,24 @@ Streams gateway log entries as JSON objects in real-time.
 - `py scripts/sync-runtime.py` -- hydrate runtime from repo
 - `py scripts/release-gate.py` -- unified release gate
 - `py scripts/check-drift.py` -- detect repo-to-runtime drift
+- `py scripts/browser-smoke.py` -- programmatic browser smoke test (6 scenarios)
+- `py scripts/run-evals.py --dry-run` -- agent reliability eval runner (5 canonical tasks)
+- `py scripts/checkpoint.py create|list|restore` -- workspace checkpoint CLI
+
+### Context Pinning
+- Pin files for agent focus: `POST /context/pin` with `{"path": "src/main.py"}`
+- List pins: `GET /context/pins`
+- Unpin: `DELETE /context/pin`
+
+### Cost Tracking
+- Cost breakdown (placeholder for Langfuse integration): `GET /metrics/cost`
+
+### Governance and Templates
+- Session templates in `config/templates/` (architecture review, bug investigation, safe refactor)
+- Memory domain templates in `config/memory-templates/` (decisions, incidents, policies, sources)
+- Governance policy packs in `config/policies/` (engineering-safe, compliance-review, incident-response)
+- Workflow packs in `config/workflow-packs/` (release, backend)
+- Rollback guide: `docs/uat/rollback_guide.md`
 
 ### Testing
 - 193+ tests (up from 191)
