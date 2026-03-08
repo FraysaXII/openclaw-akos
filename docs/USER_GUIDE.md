@@ -876,48 +876,131 @@ Overall status: **Partial** -- pending live Langfuse deployment and first audit 
 
 ## 16. Testing
 
-### 16.1 Running Tests
+### 16.1 Quick Commands
+
+All tests run through a single entry point -- `scripts/test.py`. No file paths to memorize.
 
 ```bash
-# Full suite (191 tests)
-py -m pytest -v
-
-# Specific test groups
-py -m pytest tests/validate_configs.py -v        # Config validation
-py -m pytest tests/validate_multimodel.py -v     # Multi-model architecture
-py -m pytest tests/validate_prompts.py -v        # Prompt content
-py -m pytest tests/test_akos_models.py -v        # Pydantic schemas
-py -m pytest tests/test_akos_alerts.py -v        # Alert engine
-py -m pytest tests/test_runpod_provider.py -v    # RunPod provider
-py -m pytest tests/test_api.py -v                # FastAPI endpoints
-py -m pytest tests/test_checkpoints.py -v        # Workspace checkpoints
-py -m pytest tests/test_e2e_pipeline.py -v       # E2E pipeline
-py -m pytest tests/e2e_scaffolding.py -v         # Scaffolding integrity
+py scripts/test.py              # all 191+ tests
+py scripts/test.py api          # FastAPI endpoints + E2E pipeline
+py scripts/test.py security     # alerts, permissions, config validation
+py scripts/test.py runpod       # RunPod provider (mocked SDK)
+py scripts/test.py prompts      # prompt structure + assembly
+py scripts/test.py models       # Pydantic model schemas
+py scripts/test.py checkpoints  # workspace snapshot/restore
+py scripts/test.py scaffolding  # file tree integrity + secrets scan
+py scripts/test.py e2e          # full system wiring
+py scripts/test.py configs      # JSON integrity + cross-file refs
+py scripts/test.py uat          # start live Swagger server for manual testing
+py scripts/test.py --list       # show all available groups
 ```
+
+Add `-q` for minimal output or `-v` for verbose (verbose is the default).
 
 ### 16.2 Test Categories
 
-| Category | Tests | What They Validate |
-|:---------|:------|:-------------------|
-| Config validation | 30+ | JSON integrity, Pydantic schemas, cross-file references |
-| Multi-model | 20+ | Model tiers, environment profiles, assembled prompts |
-| Prompt validation | 15+ | Read-only enforcement, HITL references, forbidden tools |
-| Pydantic models | 20+ | Good/bad data for all config schemas |
-| Alert engine | 15+ | Real-time and periodic alert evaluation |
-| RunPod provider | 21 | All operations with mocked SDK |
-| FastAPI API | 13 | All REST endpoints |
-| Checkpoints | 9 | Create, restore, list |
-| E2E pipeline | 18 | Full system wiring, tools, overlays |
-| E2E scaffolding | 20+ | File tree, secrets scan, SOP coverage |
+| Group | Tests | What They Validate |
+|:------|:------|:-------------------|
+| `api` | 31 | FastAPI endpoints + E2E pipeline wiring |
+| `security` | 22+ | Alerts, permissions, config validation |
+| `runpod` | 21 | All RunPod operations with mocked SDK |
+| `prompts` | 35+ | Prompt structure, content, assembly, overlays |
+| `models` | 20+ | Pydantic schemas (valid + invalid input) |
+| `checkpoints` | 9 | Workspace snapshot create/restore/list |
+| `scaffolding` | 20+ | File tree, secrets scan, SOP coverage |
+| `e2e` | 18 | Full agent/tool/overlay system wiring |
+| `configs` | 50+ | JSON integrity, model tiers, cross-file refs |
 
-### 16.3 CI Integration
+### 16.3 Browser-Based Smoke Test (UAT)
+
+This section describes how to verify the system is working by interacting with it as an end user.
+
+#### 16.3.1 Testing the Control Plane (Swagger UI)
+
+1. **Start the API server:**
+   ```bash
+   py scripts/test.py uat
+   ```
+   You'll see: `Uvicorn running on http://127.0.0.1:8420`
+
+2. **Open the Swagger UI** in your browser:
+   ```
+   http://127.0.0.1:8420/docs
+   ```
+
+3. **Test each endpoint** by clicking on it, then "Try it out", then "Execute":
+
+   | Endpoint | What you expect |
+   |:---------|:----------------|
+   | GET `/health` | `"status": "ok"`, uptime counter |
+   | GET `/agents` | Array with 4 agents: orchestrator, architect, executor, verifier |
+   | GET `/metrics` | `"baselines"` array with 4 DX metrics |
+   | GET `/alerts` | `"alerts"` array with SOC alert definitions |
+   | POST `/prompts/assemble` | `"success": true` with 12 built prompts |
+   | GET `/runpod/health` | `"enabled": false` (expected without API key) |
+   | POST `/switch` (body: `{"environment": "dev-local", "dry_run": true}`) | Model/tier/variant for dev-local |
+
+4. **Stop the server** with `Ctrl+C`.
+
+#### 16.3.2 Testing the OpenCLAW Dashboard (End-User Experience)
+
+This tests the actual product as users experience it.
+
+**Prerequisites:** OpenCLAW gateway installed and running (see [Section 3](#3-installation)).
+
+1. **Start the gateway** (if not already running):
+   ```bash
+   openclaw gateway start
+   ```
+
+2. **Open the dashboard** in your browser:
+   ```
+   http://127.0.0.1:18789
+   ```
+   Or use the CLI shortcut: `openclaw dashboard`
+
+3. **Verify agents are listed.** You should see all 4 agents: Orchestrator, Architect, Executor, and Verifier.
+
+4. **Test the Architect** (read-only agent):
+   - Select the **Architect** agent
+   - Send: `Analyze the current project structure and suggest improvements.`
+   - **Expected:** A structured plan output. The Architect should **not** execute any commands or write files.
+
+5. **Test the Executor** (read-write agent):
+   - Select the **Executor** agent
+   - Send a simple task: `List the files in the workspace.`
+   - **Expected:** The agent uses allowed tools. If the task is mutative, it should request HITL approval.
+
+6. **Test MCP tools:**
+   - Ask the Architect: `Use sequential thinking to analyze the pros and cons of microservices vs monolith.`
+   - **Expected:** The agent calls the `sequential_thinking` MCP tool and produces a step-by-step reasoning chain.
+
+7. **Test error recovery:**
+   - Ask the Executor to do something that will fail (e.g., reference a non-existent file)
+   - **Expected:** The Verifier-guided 3-retry loop activates. After 3 failures, it halts and reports.
+
+#### 16.3.3 Smoke Test Checklist
+
+Use this checklist after any deployment or major configuration change:
+
+- [ ] Gateway starts without errors
+- [ ] Dashboard loads at `http://127.0.0.1:18789`
+- [ ] All 4 agents are visible
+- [ ] Architect responds in read-only mode (no file writes)
+- [ ] Executor requests HITL approval for mutative operations
+- [ ] MCP tools are available (sequential thinking, browser, GitHub)
+- [ ] Control Plane API responds at `http://127.0.0.1:8420/health`
+- [ ] Prompt assembly succeeds (POST `/prompts/assemble`)
+- [ ] Log watcher is running (`scripts/log-watcher.py`)
+
+### 16.4 CI Integration
 
 For CI pipelines:
 ```bash
-py -m pytest --json-log --once -v
+py scripts/test.py all -q
 ```
 
-The `--once` flag on `log-watcher.py` (used in some tests) runs a single pass instead of an infinite loop.
+The `-q` flag produces minimal output suitable for CI logs.
 
 ---
 

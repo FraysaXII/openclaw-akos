@@ -80,7 +80,9 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - RunPod provider operations must have mocked SDK tests in `tests/test_runpod_provider.py`.
 - FastAPI endpoints must have TestClient tests in `tests/test_api.py`.
 - New agent prompts/overlays must be covered by `tests/test_e2e_pipeline.py`.
-- Run the full suite before submitting: `py -m pytest tests/ -v` (191 tests expected)
+- Run the full suite before submitting: `py scripts/test.py` (191 tests expected)
+- Run specific groups: `py scripts/test.py api`, `py scripts/test.py security`, etc.
+- See all available groups: `py scripts/test.py --list`
 
 ## Security Contributions
 
