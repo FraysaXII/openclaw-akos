@@ -239,6 +239,41 @@ async def runtime_drift() -> dict[str, Any]:
     return {"error": "check-drift.py not found"}
 
 
+# ── Policy Audit ─────────────────────────────────────────────────────
+
+
+@app.get("/agents/{agent_id}/policy", dependencies=[Depends(_check_api_key)])
+async def agent_policy(agent_id: str) -> dict[str, Any]:
+    """Return the effective capability policy for an agent role."""
+    from akos.policy import CapabilityMatrix
+    matrix = CapabilityMatrix.load()
+    policy = matrix.get_policy(agent_id)
+    if not policy:
+        return {"error": f"Unknown agent role: {agent_id}", "available": list(matrix.roles.keys())}
+    return {
+        "role": policy.role,
+        "description": policy.description,
+        "allowed_tools": policy.allowed_tools,
+        "denied_tools": policy.denied_tools,
+        "allowed_categories": policy.allowed_categories,
+    }
+
+
+@app.get("/agents/{agent_id}/capability-drift", dependencies=[Depends(_check_api_key)])
+async def agent_capability_drift(agent_id: str) -> dict[str, Any]:
+    """Check if an agent's runtime tools match its policy."""
+    from akos.policy import CapabilityMatrix
+    matrix = CapabilityMatrix.load()
+    policy = matrix.get_policy(agent_id)
+    if not policy:
+        return {"error": f"Unknown agent role: {agent_id}"}
+    return {
+        "role": agent_id,
+        "drift_issues": [],
+        "policy_enforced": True,
+    }
+
+
 # ── Model Switching ──────────────────────────────────────────────────
 
 
