@@ -91,6 +91,53 @@ def get_variant_for_model(
     return default
 
 
+def resolve_workspace_path(subpath: str) -> str:
+    """Return the OS-appropriate absolute path for a workspace sub-path.
+
+    Resolves paths relative to the OpenCLAW home directory, ensuring
+    cross-platform compatibility (Windows, macOS, Linux).
+    """
+    oc_home = resolve_openclaw_home()
+    return str(oc_home / subpath)
+
+
+def deploy_scaffold_files(oc_home: Path) -> list[Path]:
+    """Copy workspace scaffold files (IDENTITY.md, MEMORY.md, etc.) to
+    each agent workspace directory. Only copies files that don't already exist
+    to avoid overwriting user customizations.
+
+    Returns the list of newly deployed file paths.
+    """
+    scaffold_dir = REPO_ROOT / "config" / "workspace-scaffold"
+    deployed: list[Path] = []
+
+    agent_scaffold_map = {
+        "ORCHESTRATOR": "orchestrator",
+        "ARCHITECT": "architect",
+        "EXECUTOR": "executor",
+        "VERIFIER": "verifier",
+    }
+
+    for agent_key, scaffold_name in agent_scaffold_map.items():
+        ws_dir_name = AGENT_WORKSPACES[agent_key]
+        src_dir = scaffold_dir / scaffold_name
+        dest_dir = oc_home / ws_dir_name
+
+        if not src_dir.exists():
+            continue
+
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        for src_file in src_dir.iterdir():
+            if src_file.is_file():
+                dest_file = dest_dir / src_file.name
+                if not dest_file.exists():
+                    shutil.copy2(src_file, dest_file)
+                    logger.info("Scaffold: %s -> %s", src_file.name, dest_file)
+                    deployed.append(dest_file)
+
+    return deployed
+
+
 def deploy_soul_prompts(
     assembled_dir: Path, variant: str, oc_home: Path
 ) -> list[Path]:

@@ -21,7 +21,16 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=8420, help="Port to listen on")
     parser.add_argument("--host", default="127.0.0.1", help="Host to bind to")
     parser.add_argument("--reload", action="store_true", help="Auto-reload on changes")
+    parser.add_argument(
+        "--api-key",
+        default=None,
+        help="Bearer token for API auth (overrides AKOS_API_KEY env var)",
+    )
     args = parser.parse_args()
+
+    import os
+    if args.api_key:
+        os.environ["AKOS_API_KEY"] = args.api_key
 
     import uvicorn
 

@@ -66,6 +66,10 @@ GROUPS: dict[str, dict] = {
         "description": "JSON integrity + cross-file references",
         "files": ["validate_configs.py", "validate_multimodel.py"],
     },
+    "drift": {
+        "description": "Runtime drift detection (repo vs live state)",
+        "files": [],
+    },
 }
 
 
@@ -165,6 +169,12 @@ def main() -> None:
 
     if args.group == "uat":
         run_uat()
+        return
+
+    if args.group == "drift":
+        print("\n  Running: drift -- Runtime drift detection\n")
+        drift_script = REPO_ROOT / "scripts" / "check-drift.py"
+        sys.exit(subprocess.call([sys.executable, str(drift_script)], cwd=str(REPO_ROOT)))
         return
 
     if args.group not in GROUPS:

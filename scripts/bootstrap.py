@@ -24,8 +24,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import (
+    AGENT_WORKSPACES,
     REPO_ROOT,
     deep_merge,
+    deploy_scaffold_files,
     deploy_soul_prompts,
     get_variant_for_model,
     load_json,
@@ -181,10 +183,16 @@ def phase_config(args: argparse.Namespace) -> bool:
     save_json(oc_config, merged)
     status("PASS", f"Config written: {oc_config}")
 
-    for ws_name in ["workspace-architect", "workspace-executor"]:
+    for ws_name in AGENT_WORKSPACES.values():
         ws_dir = oc_home / ws_name
         ws_dir.mkdir(parents=True, exist_ok=True)
-    status("PASS", "Agent workspace directories created")
+    status("PASS", f"All {len(AGENT_WORKSPACES)} agent workspace directories created")
+
+    scaffolded = deploy_scaffold_files(oc_home)
+    if scaffolded:
+        status("PASS", f"Deployed {len(scaffolded)} scaffold files to agent workspaces")
+    else:
+        status("SKIP", "Scaffold files already present in all workspaces")
 
     return True
 
@@ -205,8 +213,14 @@ def phase_mcp(args: argparse.Namespace) -> bool:
         status("SKIP", f"mcporter.json already exists at {mcporter_config}")
     elif MCPORTER_EXAMPLE.exists():
         mcporter_dir.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(MCPORTER_EXAMPLE, mcporter_config)
-        status("PASS", f"Deployed mcporter.json to {mcporter_config}")
+        raw_text = MCPORTER_EXAMPLE.read_text(encoding="utf-8")
+        oc_home = resolve_openclaw_home()
+        ws_path = str(oc_home / "workspace").replace("\\", "/")
+        exports_path = str(oc_home / "workspace" / "exports").replace("\\", "/")
+        resolved_text = raw_text.replace("/opt/openclaw/workspace/exports", exports_path)
+        resolved_text = resolved_text.replace("/opt/openclaw/workspace", ws_path)
+        mcporter_config.write_text(resolved_text, encoding="utf-8")
+        status("PASS", f"Deployed mcporter.json (paths resolved) to {mcporter_config}")
     else:
         status("WARN", "mcporter.json.example not found in repo; skipping MCP config")
 

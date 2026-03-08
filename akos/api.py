@@ -9,13 +9,17 @@ Launch: ``python scripts/serve-api.py --port 8420``
 from __future__ import annotations
 
 import asyncio
+import importlib.util
 import json
 import logging
+import os
+import sys
 import time
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+import httpx
+from fastapi import Depends, FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -34,7 +38,7 @@ logger = logging.getLogger("akos.api")
 
 app = FastAPI(
     title="AKOS Control Plane",
-    version="0.3.0",
+    version="0.4.0",
     description="REST API for the Agentic Knowledge Operating System",
 )
 
@@ -44,6 +48,21 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ── API Key Authentication ────────────────────────────────────────────
+
+_api_key: str | None = os.environ.get("AKOS_API_KEY")
+
+
+def _check_api_key(request: Request) -> None:
+    """Enforce bearer token auth when AKOS_API_KEY is set."""
+    if not _api_key:
+        return
+    if request.url.path == "/health":
+        return
+    auth_header = request.headers.get("authorization", "")
+    if not auth_header.startswith("Bearer ") or auth_header[7:] != _api_key:
+        raise HTTPException(status_code=401, detail="Invalid or missing API key")
 
 # ── Lazy singletons ─────────────────────────────────────────────────
 
@@ -118,12 +137,34 @@ class AgentInfo(BaseModel):
 
 _start_time = time.monotonic()
 
+if not _api_key:
+    logger.warning(
+        "AKOS_API_KEY not set -- API endpoints are unauthenticated. "
+        "Set AKOS_API_KEY env var for production use."
+    )
+
 
 # ── Health ───────────────────────────────────────────────────────────
 
 
+async def _gateway_health() -> str:
+    """Probe the OpenCLAW gateway health endpoint."""
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            resp = await client.get("http://127.0.0.1:18789/api/health")
+            if resp.status_code == 200:
+                return "up"
+            return f"degraded (HTTP {resp.status_code})"
+    except httpx.ConnectError:
+        return "unreachable"
+    except Exception as exc:
+        return f"error ({type(exc).__name__})"
+
+
 @app.get("/health", response_model=HealthResponse)
 async def get_health() -> HealthResponse:
+    gateway_status = await _gateway_health()
+
     rp = _get_runpod()
     rp_status = "disabled"
     if rp.enabled:
@@ -135,7 +176,7 @@ async def get_health() -> HealthResponse:
 
     return HealthResponse(
         status="ok",
-        gateway="unknown",
+        gateway=gateway_status,
         runpod=rp_status,
         langfuse=lf_status,
         uptime_seconds=time.monotonic() - _start_time,
@@ -145,7 +186,7 @@ async def get_health() -> HealthResponse:
 # ── Status ───────────────────────────────────────────────────────────
 
 
-@app.get("/status", response_model=StatusResponse)
+@app.get("/status", response_model=StatusResponse, dependencies=[Depends(_check_api_key)])
 async def get_status() -> StatusResponse:
     oc_home = resolve_openclaw_home()
     state = load_state(oc_home)
@@ -162,7 +203,7 @@ async def get_status() -> StatusResponse:
 # ── Agents ───────────────────────────────────────────────────────────
 
 
-@app.get("/agents", response_model=list[AgentInfo])
+@app.get("/agents", response_model=list[AgentInfo], dependencies=[Depends(_check_api_key)])
 async def list_agents() -> list[AgentInfo]:
     oc_home = resolve_openclaw_home()
     agents: list[AgentInfo] = []
@@ -181,10 +222,27 @@ async def list_agents() -> list[AgentInfo]:
     return agents
 
 
+# ── Runtime Drift ────────────────────────────────────────────────────
+
+
+@app.get("/runtime/drift", dependencies=[Depends(_check_api_key)])
+async def runtime_drift() -> dict[str, Any]:
+    """Compare repo intended state against live runtime."""
+    spec = importlib.util.spec_from_file_location(
+        "check_drift", REPO_ROOT / "scripts" / "check-drift.py"
+    )
+    if spec and spec.loader:
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        issues = mod.run_drift_check()
+        return {"drift_detected": len(issues) > 0, "issues": issues}
+    return {"error": "check-drift.py not found"}
+
+
 # ── Model Switching ──────────────────────────────────────────────────
 
 
-@app.post("/switch")
+@app.post("/switch", dependencies=[Depends(_check_api_key)])
 async def switch_environment(req: SwitchRequest) -> dict[str, Any]:
     from akos.io import deep_merge, deploy_soul_prompts, get_variant_for_model, save_json
 
@@ -240,7 +298,7 @@ async def switch_environment(req: SwitchRequest) -> dict[str, Any]:
 # ── RunPod ───────────────────────────────────────────────────────────
 
 
-@app.get("/runpod/health")
+@app.get("/runpod/health", dependencies=[Depends(_check_api_key)])
 async def runpod_health() -> dict[str, Any]:
     rp = _get_runpod()
     if not rp.enabled:
@@ -255,7 +313,7 @@ async def runpod_health() -> dict[str, Any]:
     }
 
 
-@app.post("/runpod/scale")
+@app.post("/runpod/scale", dependencies=[Depends(_check_api_key)])
 async def runpod_scale(req: ScaleRequest) -> dict[str, Any]:
     rp = _get_runpod()
     if not rp.enabled:
@@ -267,7 +325,7 @@ async def runpod_scale(req: ScaleRequest) -> dict[str, Any]:
 # ── Metrics & Alerts ─────────────────────────────────────────────────
 
 
-@app.get("/metrics")
+@app.get("/metrics", dependencies=[Depends(_check_api_key)])
 async def get_metrics() -> dict[str, Any]:
     baselines_path = REPO_ROOT / "config" / "eval" / "baselines.json"
     if not baselines_path.exists():
@@ -276,7 +334,7 @@ async def get_metrics() -> dict[str, Any]:
     return {"baselines": raw}
 
 
-@app.get("/alerts")
+@app.get("/alerts", dependencies=[Depends(_check_api_key)])
 async def get_alerts() -> dict[str, Any]:
     alerts_path = REPO_ROOT / "config" / "eval" / "alerts.json"
     if not alerts_path.exists():
@@ -288,7 +346,7 @@ async def get_alerts() -> dict[str, Any]:
 # ── Prompt Assembly ──────────────────────────────────────────────────
 
 
-@app.post("/prompts/assemble")
+@app.post("/prompts/assemble", dependencies=[Depends(_check_api_key)])
 async def assemble_prompts(req: AssembleRequest) -> dict[str, Any]:
     import subprocess
     cmd = ["py", str(REPO_ROOT / "scripts" / "assemble-prompts.py")]
@@ -315,7 +373,7 @@ class RestoreRequest(BaseModel):
     workspace: str
 
 
-@app.post("/checkpoints")
+@app.post("/checkpoints", dependencies=[Depends(_check_api_key)])
 async def create_checkpoint_endpoint(req: CheckpointRequest) -> dict[str, Any]:
     from akos.checkpoints import create_checkpoint
     try:
@@ -330,7 +388,7 @@ async def create_checkpoint_endpoint(req: CheckpointRequest) -> dict[str, Any]:
         return {"error": str(exc)}
 
 
-@app.get("/checkpoints")
+@app.get("/checkpoints", dependencies=[Depends(_check_api_key)])
 async def list_checkpoints_endpoint(workspace: str) -> dict[str, Any]:
     from akos.checkpoints import list_checkpoints
     items = list_checkpoints(Path(workspace))
@@ -347,7 +405,7 @@ async def list_checkpoints_endpoint(workspace: str) -> dict[str, Any]:
     }
 
 
-@app.post("/checkpoints/restore")
+@app.post("/checkpoints/restore", dependencies=[Depends(_check_api_key)])
 async def restore_checkpoint_endpoint(req: RestoreRequest) -> dict[str, Any]:
     from akos.checkpoints import restore_checkpoint
     success = restore_checkpoint(req.name, Path(req.workspace))
