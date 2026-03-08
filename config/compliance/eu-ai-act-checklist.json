@@ -110,5 +110,43 @@
     }
   ],
   "overall_status": "partial",
-  "notes": "All three EU AI Act requirements from SOP Section 6.3 have implementation evidence traceable to completed tasks. Status is 'partial' because: (1) Langfuse telemetry pipeline has been verified via dry-run but not yet connected with real credentials in production, (2) Splunk SIEM integration is template-only -- no forwarder deployed, (3) HITL enforcement is prompt-based and not yet validated under adversarial conditions. Upgrade to 'compliant' once Langfuse is live and at least one full audit cycle completes."
+  "notes": "All three EU AI Act requirements from SOP Section 6.3 have implementation evidence traceable to completed tasks. Status is 'partial' because: (1) Langfuse telemetry pipeline has been verified via dry-run but not yet connected with real credentials in production, (2) Splunk SIEM integration is template-only -- no forwarder deployed, (3) HITL enforcement is prompt-based and not yet validated under adversarial conditions. Upgrade to 'compliant' once Langfuse is live and at least one full audit cycle completes.",
+  "v0.3.0_additions": [
+    {
+      "requirement_id": "EU-AIA-1",
+      "evidence": {
+        "file": "akos/runpod_provider.py",
+        "description": "RunPod health monitoring integrated into log-watcher.py; health status traced to Langfuse every 60s for infrastructure transparency",
+        "verification_date": "2026-03-08",
+        "verification_method": "pytest (test_runpod_provider.py)"
+      }
+    },
+    {
+      "requirement_id": "EU-AIA-2",
+      "evidence": {
+        "file": "prompts/base/ORCHESTRATOR_BASE.md",
+        "description": "Orchestrator agent delegates tasks with explicit HITL gate per task; Verifier agent provides independent quality validation before results are accepted",
+        "verification_date": "2026-03-08",
+        "verification_method": "manual review + validate_prompts.py"
+      }
+    },
+    {
+      "requirement_id": "EU-AIA-3",
+      "evidence": {
+        "file": "prompts/base/VERIFIER_BASE.md",
+        "description": "Verifier agent runs lint, test, build, and browser verification after every Executor action; 3-attempt error recovery loop with escalation prevents unbounded autonomous retries",
+        "verification_date": "2026-03-08",
+        "verification_method": "manual review"
+      }
+    },
+    {
+      "requirement_id": "EU-AIA-1",
+      "evidence": {
+        "file": "akos/checkpoints.py",
+        "description": "Workspace checkpoint/restore system for reversible execution; provides rollback capability for quality management",
+        "verification_date": "2026-03-08",
+        "verification_method": "pytest (test_checkpoints.py)"
+      }
+    }
+  ]
 }

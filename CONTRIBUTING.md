@@ -28,6 +28,10 @@ Thank you for your interest in contributing. This document provides guidelines t
 - Update documentation if your changes affect any SOP procedures, architecture descriptions, or configuration examples
 - All MCP server configurations must include valid JSON syntax — validate before submitting
 
+## Architecture
+
+The system uses a **4-agent model** (Orchestrator, Architect, Executor, Verifier) with tiered prompt assembly, a FastAPI control plane, and RunPod GPU integration. Read `docs/ARCHITECTURE.md` and `docs/USER_GUIDE.md` before contributing to agent prompts, overlays, or the `akos/` library.
+
 ## Documentation Standards
 
 This is primarily a documentation and configuration repository. Contributions should:
@@ -61,15 +65,22 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - **Prefer stdlib.** Only add third-party packages when they eliminate significant complexity or duplication.
 - **Security justification required.** Every new dependency must have a rationale documented in the PR description, per [SECURITY.md](SECURITY.md).
 - **Current dependencies and justification:**
-  - `pydantic>=2.0` -- Eliminates ~150 lines of hand-written assertions, provides runtime type safety for all config schemas, Rust-backed core.
-  - `langfuse>=2.0` -- Activates the eval infrastructure (langfuse.env.example, baselines.json, alerts.json); graceful no-op when unconfigured.
+  - `pydantic>=2.0` -- Runtime type safety for all config schemas, Rust-backed core.
+  - `langfuse>=2.0` -- Observability backend; graceful no-op when unconfigured.
   - `pytest>=7.0` -- Test runner.
+  - `runpod>=1.7.0` -- RunPod GPU provider; graceful no-op without API key.
+  - `fastapi>=0.115.0` -- Control plane API; only needed for `scripts/serve-api.py`.
+  - `uvicorn>=0.32.0` -- ASGI server for FastAPI.
+  - `httpx>=0.27.0` -- Async HTTP client for API tests.
 
 ## Testing Standards
 
 - All Pydantic models must have corresponding tests in `tests/test_akos_models.py` covering both valid and invalid input.
 - Alert conditions must have tests in `tests/test_akos_alerts.py` with synthetic log entries.
-- Run the full suite before submitting: `py -m pytest tests/ -v`
+- RunPod provider operations must have mocked SDK tests in `tests/test_runpod_provider.py`.
+- FastAPI endpoints must have TestClient tests in `tests/test_api.py`.
+- New agent prompts/overlays must be covered by `tests/test_e2e_pipeline.py`.
+- Run the full suite before submitting: `py -m pytest tests/ -v` (191 tests expected)
 
 ## Security Contributions
 

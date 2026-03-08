@@ -135,8 +135,31 @@ class OverlayAgents(BaseModel):
     defaults: OverlayDefaults
 
 
+class RunPodHealthCheckConfig(BaseModel):
+    intervalSeconds: int = Field(default=60, gt=0)
+    unhealthyThreshold: int = Field(default=3, gt=0)
+
+
+class RunPodEndpointConfig(BaseModel):
+    """Schema for the ``runpod`` block in gpu-runpod.json."""
+
+    gpuIds: list[str] = Field(default_factory=lambda: ["AMPERE_80"])
+    templateName: str = "akos-vllm"
+    vllmImage: str = "runpod/worker-v1-vllm:stable-cuda12.8.0"
+    modelName: str = "deepseek-ai/DeepSeek-R1-0528-Distill-Qwen-70B"
+    maxModelLen: int = Field(default=131072, gt=0)
+    activeWorkers: int = Field(default=0, ge=0)
+    maxWorkers: int = Field(default=2, ge=1)
+    idleTimeoutSeconds: int = Field(default=300, ge=0)
+    envVars: dict[str, str] = Field(default_factory=dict)
+    healthCheck: RunPodHealthCheckConfig = Field(
+        default_factory=RunPodHealthCheckConfig
+    )
+
+
 class EnvironmentOverlay(BaseModel):
     agents: OverlayAgents
+    runpod: RunPodEndpointConfig | None = None
 
 
 # ── Eval: Alerts (config/eval/alerts.json) ─────────────────────────────

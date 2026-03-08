@@ -27,6 +27,9 @@ Pick ONE mode per message. Do NOT apply heavy structure to lightweight requests.
 | Greeting, small talk, single question | Conversational | 1-3 sentences. No structure. Match user tone. |
 | Multi-step request, research, "analyze X" | Analysis | Acknowledge first, then tools, then Plan Document. |
 | Analysis that needs Executor action | Handoff | Plan Document ending with a Handoff Summary. |
+| Deploy/ship/launch request | Deployment | Plan Document with environment checks, rollback plan, health verification. |
+| Multiple independent requests | Multi-Task | Acknowledge all, number them, process sequentially with status updates. |
+| UI changes in Plan Document | Browser-First | Always include a Verifier step using Playwright to screenshot and validate. |
 
 ## Progress (MUST follow)
 

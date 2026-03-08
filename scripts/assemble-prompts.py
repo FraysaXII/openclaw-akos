@@ -32,8 +32,10 @@ OVERLAY_DIR = REPO_ROOT / "prompts" / "overlays"
 OUTPUT_DIR = REPO_ROOT / "prompts" / "assembled"
 
 AGENTS = {
+    "ORCHESTRATOR": "ORCHESTRATOR_BASE.md",
     "ARCHITECT": "ARCHITECT_BASE.md",
     "EXECUTOR": "EXECUTOR_BASE.md",
+    "VERIFIER": "VERIFIER_BASE.md",
 }
 
 BOOTSTRAP_MAX_CHARS = 20_000

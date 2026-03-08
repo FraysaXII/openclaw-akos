@@ -50,12 +50,13 @@
   "variantOverlays": {
     "compact": [],
     "standard": [
-      { "file": "OVERLAY_REASONING.md", "agents": ["ARCHITECT"] }
+      { "file": "OVERLAY_REASONING.md", "agents": ["ARCHITECT", "ORCHESTRATOR"] }
     ],
     "full": [
-      { "file": "OVERLAY_REASONING.md", "agents": ["ARCHITECT"] },
+      { "file": "OVERLAY_REASONING.md", "agents": ["ARCHITECT", "ORCHESTRATOR"] },
       { "file": "OVERLAY_INTELLIGENCE.md", "agents": ["ARCHITECT"] },
-      "OVERLAY_TOOLS_FULL.md"
+      { "file": "OVERLAY_CONTEXT_MANAGEMENT.md", "agents": ["ORCHESTRATOR", "ARCHITECT", "EXECUTOR"] },
+      { "file": "OVERLAY_TOOLS_FULL.md", "agents": ["EXECUTOR", "VERIFIER"] }
     ]
   }
 }

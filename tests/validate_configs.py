@@ -114,7 +114,7 @@ class TestMcporterConfig:
     def test_has_mcp_servers(self):
         assert "mcpServers" in self.data
 
-    def test_has_exactly_three_servers(self):
+    def test_has_expected_mcp_servers(self):
         assert set(self.data["mcpServers"].keys()) == EXPECTED_MCP_SERVERS
 
     def test_each_server_has_command(self):

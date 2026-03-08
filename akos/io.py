@@ -22,8 +22,10 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 logger = logging.getLogger("akos.io")
 
 AGENT_WORKSPACES: dict[str, str] = {
+    "ORCHESTRATOR": "workspace-orchestrator",
     "ARCHITECT": "workspace-architect",
     "EXECUTOR": "workspace-executor",
+    "VERIFIER": "workspace-verifier",
 }
 
 

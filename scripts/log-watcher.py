@@ -30,8 +30,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.alerts import AlertEvaluator
-from akos.io import REPO_ROOT, load_env_file
+from akos.io import REPO_ROOT, load_env_file, load_json
 from akos.log import setup_logging
+from akos.models import RunPodEndpointConfig
+from akos.runpod_provider import RunPodProvider
 from akos.telemetry import LangfuseReporter
 
 logger = logging.getLogger("akos.log-watcher")
@@ -78,6 +80,71 @@ def tail_file(path: Path, poll_interval: float, *, once: bool = False) -> Iterat
                 time.sleep(poll_interval)
 
 
+def _init_runpod_provider() -> RunPodProvider | None:
+    """Try to create a RunPod provider from the gpu-runpod environment config."""
+    config_path = REPO_ROOT / "config" / "environments" / "gpu-runpod.json"
+    if not config_path.exists():
+        return None
+
+    try:
+        raw = load_json(config_path)
+        runpod_block = raw.get("runpod")
+        if not runpod_block:
+            return None
+        rpconfig = RunPodEndpointConfig.model_validate(runpod_block)
+        provider = RunPodProvider(rpconfig)
+        if provider.enabled:
+            logger.info(
+                "RunPod health monitoring enabled (every %ds)",
+                rpconfig.healthCheck.intervalSeconds,
+            )
+            return provider
+    except Exception as exc:
+        logger.debug("RunPod provider init skipped: %s", exc)
+    return None
+
+
+def _maybe_check_runpod(
+    provider: RunPodProvider | None,
+    reporter: LangfuseReporter,
+    dry_run: bool,
+    interval: float,
+    last_check: float,
+) -> float:
+    """Run a RunPod health check if the interval has elapsed. Returns updated timestamp."""
+    if provider is None or not provider.enabled:
+        return last_check
+
+    now = time.monotonic()
+    if now - last_check < interval:
+        return last_check
+
+    health = provider.health_check()
+    health_entry = {
+        "agent_role": "system",
+        "tool_name": "runpod_health_check",
+        "outcome": "healthy" if health.healthy else "unhealthy",
+        "workers_ready": health.workers_ready,
+        "workers_running": health.workers_running,
+        "queue_depth": health.queue_depth,
+    }
+
+    if dry_run:
+        logger.info("[DRY-RUN] RunPod health: %s", health_entry)
+    else:
+        reporter.trace_request(health_entry)
+
+    if not health.healthy:
+        logger.warning(
+            "RunPod endpoint unhealthy: ready=%d, running=%d, queue=%d",
+            health.workers_ready,
+            health.workers_running,
+            health.queue_depth,
+        )
+
+    return now
+
+
 def main() -> None:
     default_env = str(REPO_ROOT / "config" / "eval" / "langfuse.env")
     parser = argparse.ArgumentParser(description="OpenCLAW log watcher + Langfuse telemetry")
@@ -120,12 +187,24 @@ def main() -> None:
         logger.warning("Could not load alert configs: %s", exc)
         alert_evaluator = None
 
+    runpod_provider = _init_runpod_provider()
+    runpod_interval = 60.0
+    last_runpod_check = 0.0
+
     entries_processed = 0
 
     try:
         for line in tail_file(log_path, poll_interval, once=args.once):
             entry = parse_log_line(line)
             if not entry:
+                _maybe_check_runpod(
+                    runpod_provider, reporter, dry_run,
+                    runpod_interval, last_runpod_check,
+                )
+                last_runpod_check = _maybe_check_runpod(
+                    runpod_provider, reporter, dry_run,
+                    runpod_interval, last_runpod_check,
+                )
                 continue
 
             entries_processed += 1

@@ -42,12 +42,18 @@ The `skillvet` scanner performs 48 vulnerability checks:
 
 ### 3. Human-in-the-Loop (HITL) Enforcement
 
+The full tool classification is maintained in `config/permissions.json` (15 autonomous, 18 approval-gated tools as of v0.3.0).
+
 | Operation Type | Approval Required |
 |:---------------|:------------------|
-| Read-only (file read, web search) | Autonomous |
+| Read-only (file read, web search, memory retrieval) | Autonomous |
 | File writes, shell execution | Manual confirmation |
-| Network downloads | Manual confirmation |
+| Network downloads, HTTP POST | Manual confirmation |
+| Memory writes, filesystem writes | Manual confirmation |
 | System configuration changes | Manual confirmation |
+| Browser JS eval (`browser_console_exec`) | Manual confirmation |
+
+The Orchestrator assigns HITL gates per task in the Delegation Plan. The Executor enforces them before every action. The Verifier operates independently as a quality gate with a 3-attempt error recovery limit.
 
 ### 4. Network Egress Filtering
 
@@ -78,11 +84,20 @@ Structured JSON logs can also be forwarded to Splunk via `config/splunk/inputs.c
 - Prompt injection detection (continuous, critical)
 - Completion rate drops below baseline (7d window, high)
 
-### 6. EU AI Act 2026 Compliance
+### 6. RunPod Infrastructure Security (v0.3.0)
 
-- **Automated Record-Keeping:** Full trace logging of prompts, tool calls, and outputs
-- **Human Oversight:** HITL gates for all state-mutating operations
-- **Risk Management:** Continuous `skillvet` auditing and prompt-injection vulnerability monitoring
+When using the `gpu-runpod` environment:
+
+- `RUNPOD_API_KEY` is stored in a `.env` file (gitignored), never committed.
+- The RunPod provider (`akos/runpod_provider.py`) degrades to a no-op when the API key is absent.
+- Endpoint health is monitored every 60 seconds by `log-watcher.py` and traced to Langfuse.
+- The FastAPI control plane binds to `127.0.0.1` by default. Do not expose to the public internet without a reverse proxy and authentication.
+
+### 7. EU AI Act 2026 Compliance
+
+- **Automated Record-Keeping:** Full trace logging of prompts, tool calls, and outputs; RunPod health traces; workspace checkpoints for reversibility
+- **Human Oversight:** HITL gates for all state-mutating operations; Orchestrator delegation with per-task HITL gates; Verifier independent quality validation
+- **Risk Management:** Continuous `skillvet` auditing, prompt-injection vulnerability monitoring, Verifier quality gate with 3-attempt error recovery limit
 
 ## Reporting a Vulnerability
 
@@ -98,5 +113,6 @@ We aim to acknowledge reports within 48 hours and provide a fix or mitigation wi
 
 | Version | Supported |
 |:--------|:----------|
-| 2.0.x   | Yes       |
-| < 2.0   | No        |
+| 0.3.x   | Yes       |
+| 0.2.x   | Yes       |
+| < 0.2   | No        |

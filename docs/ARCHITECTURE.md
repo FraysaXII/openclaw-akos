@@ -20,39 +20,49 @@ The system decouples the reasoning engine from its tools and channels across fou
 │  └──────────┘ └──────────┘ └──────────┘ └───────────┘ │
 ├─────────────────────────────────────────────────────────┤
 │                  EXECUTION LAYER                        │
-│            (Dual-Agent Runner Model)                    │
+│          (Multi-Agent Runner Model — v0.3.0)            │
 │                                                         │
-│  ┌─────────────────────┐ ┌────────────────────────┐    │
-│  │    ARCHITECT         │ │     EXECUTOR           │    │
-│  │  (Read-Only Planner) │ │  (Read-Write Builder)  │    │
-│  │                      │ │                         │    │
-│  │  • Sequential        │ │  • File system ops      │    │
-│  │    Thinking MCP      │ │  • Shell execution      │    │
-│  │  • Context analysis  │ │  • API calls            │    │
-│  │  • Tool selection    │ │  • Code generation      │    │
-│  │  • Risk assessment   │ │  • Strict directives    │    │
-│  └──────────┬───────────┘ └────────────┬───────────┘    │
-│             │    Plan Document          │                │
-│             └──────────────────────────►│                │
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐   │
+│  │ ORCHESTRATOR │ │  ARCHITECT   │ │   EXECUTOR   │   │
+│  │ (Coordinator)│ │ (Planner)    │ │  (Builder)   │   │
+│  └──────┬───────┘ └──────┬───────┘ └──────┬───────┘   │
+│         │                │                │             │
+│         │ delegates      │ Plan Document  │             │
+│         ├───────────────►├───────────────►│             │
+│         │                                 │             │
+│         │  ┌──────────────┐               │             │
+│         │  │   VERIFIER   │◄──────────────┘             │
+│         │  │ (Quality     │   verify                    │
+│         │  │   Gate)      │──────────────► fix loop     │
+│         │  └──────────────┘                             │
+│         │                                               │
 ├─────────────────────────────────────────────────────────┤
 │                 INTELLIGENCE LAYER                       │
-│          (Knowledge Graph + Memory)                      │
+│          (Flat Memory Architecture — v0.3.0)             │
 │                                                         │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │              GraphRAG (Knowledge Graph)            │   │
-│  │  • Predicate allowlists                           │   │
-│  │  • Confidence thresholds                          │   │
-│  │  • Cryptographic Source of Truth (SSOT)           │   │
-│  │  • Intelligence Matrix fact classification        │   │
-│  └──────────────────────────────────────────────────┘   │
+│  ┌───────────────────────┐ ┌──────────────────────┐    │
+│  │  MCP Memory Server    │ │  Workspace Files     │    │
+│  │  (key-value recall)   │ │  MEMORY.md / USER.md │    │
+│  └───────────────────────┘ └──────────────────────┘    │
+│  ┌───────────────────────┐ ┌──────────────────────┐    │
+│  │  Context Compressor   │ │  Intelligence Matrix │    │
+│  │  (window management)  │ │  (fact tagging)      │    │
+│  └───────────────────────┘ └──────────────────────┘    │
 └─────────────────────────────────────────────────────────┘
 ```
 
-## Dual-Agent Model
+## Multi-Agent Model (v0.3.0)
 
 Forcing a single agent to simultaneously architect a solution and write the underlying syntax causes **cognitive overload**, resulting in context degradation, hallucinations, and infinite debugging loops.
 
-The dual-agent paradigm separates concerns:
+The multi-agent paradigm separates concerns across four specialized roles:
+
+### Orchestrator Agent (new in v0.3.0)
+
+- Receives user requests and decomposes into sub-tasks
+- Delegates to Architect, Executor, and Verifier
+- Tracks progress, handles failures, supports parallel delegation
+- **Cannot** execute tasks directly
 
 ### Architect Agent
 
@@ -66,11 +76,17 @@ The dual-agent paradigm separates concerns:
 - Operates in **read-write** mode
 - Reads the Architect's plan before taking any action
 - Executes strict, well-scoped directives
-- Fast model optimized for throughput over deep reasoning
+- 3-retry error recovery loop guided by the Verifier
+
+### Verifier Agent (new in v0.3.0)
+
+- Validates Executor output via lint, test, build, and browser verification
+- Diagnoses failures and suggests targeted fixes
+- Escalates to Orchestrator after 3 failed attempts
 
 ### Runtime Configuration (agents.list)
 
-Both agents are registered in `openclaw.json` under `agents.list` using the native OpenCLAW multi-agent schema:
+All four agents are registered in `openclaw.json` under `agents.list`:
 
 ```json
 "agents": {
@@ -79,14 +95,10 @@ Both agents are registered in `openclaw.json` under `agents.list` using the nati
     "thinkingDefault": "off"
   },
   "list": [
-    {
-      "id": "architect",
-      "identity": { "name": "Architect", "theme": "...", "emoji": "📐" }
-    },
-    {
-      "id": "executor",
-      "identity": { "name": "Executor", "theme": "...", "emoji": "🔧" }
-    }
+    { "id": "orchestrator", "identity": { "name": "Orchestrator", "emoji": "🎯" } },
+    { "id": "architect", "identity": { "name": "Architect", "emoji": "📐" } },
+    { "id": "executor", "identity": { "name": "Executor", "emoji": "🔧" } },
+    { "id": "verifier", "identity": { "name": "Verifier", "emoji": "✅" } }
   ]
 }
 ```
@@ -215,7 +227,9 @@ This copies the `.env`, deep-merges the JSON overlay, deploys the correct SOUL.m
 1. **Per-agent model override bug** ([#29571](https://github.com/openclaw/openclaw/issues/29571)): `agents.defaults.model.primary` overrides per-agent model settings at runtime, so all agents currently share the same model. Model switching must happen at the global level.
 2. **Ollama `num_ctx` requires Modelfile**: The `contextWindow` declared in `openclaw.json` does not configure Ollama's actual context window. Each local model needs a custom Modelfile with `PARAMETER num_ctx <value>`.
 
-## MCP Server Topology
+## MCP Server Topology (v0.3.0)
+
+Six MCP servers provide the agent tool ecosystem:
 
 ```
                     ┌─────────────────┐
@@ -228,18 +242,22 @@ This copies the `.env`, deep-merges the JSON overlay, deploys the correct SOUL.m
                     │ (MCP Manager)   │
                     └────────┬────────┘
                              │
-            ┌────────────────┼────────────────┐
-            │                │                │
-   ┌────────▼───────┐ ┌─────▼──────┐ ┌───────▼───────┐
-   │  Sequential    │ │ Playwright │ │    GitHub     │
-   │  Thinking      │ │  Browser   │ │  Codebase     │
-   │                │ │ Automation │ │   Auditor     │
-   │ Structured     │ │            │ │               │
-   │ reasoning,     │ │ DOM-level  │ │ Repo metadata,│
-   │ branching,     │ │ interaction│ │ file search,  │
-   │ revision       │ │ JS eval    │ │ code search   │
-   └────────────────┘ └────────────┘ └───────────────┘
+    ┌─────────┬──────────┬───┴───┬──────────┬─────────┐
+    │         │          │       │          │         │
+┌───▼───┐ ┌──▼───┐ ┌────▼──┐ ┌─▼────┐ ┌───▼──┐ ┌───▼───┐
+│Seqntl │ │Play- │ │GitHub │ │Memory│ │File  │ │ Fetch │
+│Think  │ │wright│ │      │ │ K-V  │ │system│ │ HTTP  │
+└───────┘ └──────┘ └──────┘ └──────┘ └──────┘ └───────┘
 ```
+
+| Server | Package | Purpose |
+|:-------|:--------|:--------|
+| sequential-thinking | `@modelcontextprotocol/server-sequential-thinking` | Structured reasoning for Architect/Orchestrator |
+| playwright | `@playwright/mcp` | Browser automation and UI verification |
+| github | `@modelcontextprotocol/server-github` | Repo metadata, code search |
+| memory | `@modelcontextprotocol/server-memory` | Cross-session key-value recall (replaces GraphRAG) |
+| filesystem | `@modelcontextprotocol/server-filesystem` | Structured file operations |
+| fetch | `@modelcontextprotocol/server-fetch` | HTTP client for API integration |
 
 ## Security Architecture
 
@@ -282,14 +300,13 @@ This copies the `.env`, deep-merges the JSON overlay, deploys the correct SOUL.m
 
 ## Data Flow: Intelligence Matrix
 
-Every piece of ingested data passes through the Intelligence Matrix before entering the Knowledge Graph:
+The Intelligence Matrix is a lightweight fact-tagging pattern used by the Architect agent (via `OVERLAY_INTELLIGENCE.md`). It does not require a graph database; facts are tagged inline in the Plan Document and stored as flat JSON when persistence is needed.
 
-1. **Ingestion** — File upload, web scrape, or API response
-2. **Fact Extraction** — Assign unique `fct_XXX` identifiers to isolated concepts
-3. **Source Credibility Scoring** — Numerical score against an average baseline
-4. **Impact Analysis** — Direct and indirect impact quantification
-5. **Framework Application** — PESTEL, generational filters, and domain-specific analytics
-6. **Graph Insertion** — Only relationships with verifiable SSOT are committed to GraphRAG
+1. **Ingestion** -- File upload, web scrape, or API response
+2. **Fact Extraction** -- Assign unique `fct_XXX` identifiers to isolated concepts
+3. **Source Credibility Scoring** -- Numerical score against an average baseline
+4. **SSOT Verification** -- Mark facts as `ssot_verified: true/false`
+5. **Persistence** -- Store via MCP Memory server (`memory_store`) for cross-session recall
 
 ## Orchestration Library (`akos/`)
 
@@ -297,13 +314,17 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 
 | Module | Responsibility |
 |:-------|:---------------|
-| `akos/models.py` | Pydantic schemas for `model-tiers.json`, `openclaw.json`, environment overlays, alerts, baselines |
-| `akos/io.py` | `load_json`, `save_json`, `deep_merge`, `resolve_openclaw_home` |
+| `akos/models.py` | Pydantic schemas for `model-tiers.json`, `openclaw.json`, environment overlays (incl. RunPod), alerts, baselines |
+| `akos/io.py` | `load_json`, `save_json`, `deep_merge`, `resolve_openclaw_home`, `AGENT_WORKSPACES` (4-agent mapping) |
 | `akos/log.py` | `JSONFormatter` + `HumanFormatter`; `setup_logging(json_output)` configures the root logger |
 | `akos/process.py` | `CommandResult` dataclass + `run()` wrapper with timeouts and structured error capture |
 | `akos/state.py` | `AkosState` Pydantic model tracking the active environment/model; `load_state`, `save_state`, `record_switch` |
-| `akos/telemetry.py` | `LangfuseReporter` wrapping the Langfuse SDK; graceful no-op when credentials are absent |
-| `akos/alerts.py` | `AlertEvaluator` — checks real-time log entries against `alerts.json` and periodic metrics against `baselines.json` |
+| `akos/telemetry.py` | `LangfuseReporter` wrapping the Langfuse SDK; `trace_metric()` for DX metrics; graceful no-op when credentials are absent |
+| `akos/alerts.py` | `AlertEvaluator` -- checks real-time log entries against `alerts.json` and periodic metrics against `baselines.json` |
+| `akos/runpod_provider.py` | RunPod SDK wrapper: endpoint lifecycle, health checks, scaling, inference, GPU discovery (v0.3.0) |
+| `akos/api.py` | FastAPI control plane: REST endpoints for health, status, switching, RunPod, metrics, alerts, checkpoints, WebSocket logs (v0.3.0) |
+| `akos/tools.py` | Dynamic tool registry reading mcporter config + permissions.json; HITL classification (v0.3.0) |
+| `akos/checkpoints.py` | Workspace snapshot/restore via tarballs for reversible execution (v0.3.0) |
 
 All scripts (`bootstrap.py`, `switch-model.py`, `assemble-prompts.py`, `log-watcher.py`) import from `akos/` and accept `--json-log` for structured CI output.
 
@@ -311,9 +332,26 @@ All scripts (`bootstrap.py`, `switch-model.py`, `assemble-prompts.py`, `log-watc
 
 `switch-model.py` wraps steps 2-4 (config merge, prompt deploy, gateway restart) in a `try/finally` block. On failure, `openclaw.json.bak` is restored automatically and a failed state is recorded. Use `--rollback` to manually restore the previous config.
 
-### Future: FastAPI Control Plane
+### FastAPI Control Plane (v0.3.0)
 
-A planned HTTP API layer (FastAPI) will expose model switching, dashboard data, and webhook integration over REST. The `akos/` library already provides the typed models and I/O utilities that this layer will consume. This is documented here for forward planning but is not yet implemented.
+The `akos/api.py` module exposes a REST API for programmatic control:
+
+| Endpoint | Method | Purpose |
+|:---------|:-------|:--------|
+| `/health` | GET | Gateway + RunPod + Langfuse status |
+| `/status` | GET | Current environment, model, tier, variant |
+| `/switch` | POST | Trigger model/environment switch |
+| `/agents` | GET | List agents with workspace paths and SOUL.md status |
+| `/runpod/health` | GET | RunPod endpoint health |
+| `/runpod/scale` | POST | Adjust RunPod scaling |
+| `/metrics` | GET | DX baselines from Langfuse |
+| `/alerts` | GET | Recent SOC alerts |
+| `/prompts/assemble` | POST | Trigger prompt assembly |
+| `/checkpoints` | GET/POST | Workspace snapshot management |
+| `/checkpoints/restore` | POST | Restore a workspace checkpoint |
+| `/logs` | WebSocket | Live log stream |
+
+Launch: `python scripts/serve-api.py --port 8420`
 
 ## Observability Stack
 
@@ -385,7 +423,7 @@ The following files implement the architecture described above as committable co
 | All | [`config/eval/langfuse.env.example`](../config/eval/langfuse.env.example) | T-5.1 |
 | All | [`config/environments/`](../config/environments/) | T-5.4 |
 
-A validation test suite (`tests/`) provides 120+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, and SOP task coverage.
+A validation test suite (`tests/`) provides 190+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, SOP task coverage, RunPod provider operations, FastAPI endpoints, and workspace checkpoints.
 
 ## Live Configuration Status
 

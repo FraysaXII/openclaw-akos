@@ -21,6 +21,7 @@ Requires: Python 3.10+ (stdlib + pydantic).
 
 import argparse
 import logging
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -33,12 +34,14 @@ from akos.io import (
     deep_merge,
     deploy_soul_prompts,
     get_variant_for_model,
+    load_env_file,
     load_json,
     resolve_openclaw_home,
     save_json,
 )
 from akos.log import setup_logging
-from akos.models import load_tiers
+from akos.models import RunPodEndpointConfig, load_tiers
+from akos.runpod_provider import RunPodProvider
 from akos.state import load_state, record_switch
 
 logger = logging.getLogger("akos.switch-model")
@@ -73,6 +76,77 @@ def do_rollback(oc_home: Path) -> None:
     if prev.activeEnvironment:
         logger.info("Previous state: %s / %s (%s)", prev.activeEnvironment, prev.activeModel, prev.activeTier)
     logger.info("Rollback complete. Restart the gateway manually if needed.")
+
+
+def _ensure_runpod_endpoint(
+    runpod_config_raw: dict, oc_home: Path, *, dry_run: bool = False
+) -> None:
+    """Provision or verify the RunPod vLLM endpoint, writing the URL to .env."""
+    rpconfig = RunPodEndpointConfig.model_validate(runpod_config_raw)
+
+    env_path = oc_home / ".env"
+    if env_path.exists():
+        env_vars = load_env_file(env_path)
+        for k, v in env_vars.items():
+            if k not in os.environ:
+                os.environ[k] = v
+
+    if dry_run:
+        logger.info(
+            "[DRY-RUN] Would ensure RunPod endpoint: template=%s, gpus=%s, workers=%d-%d",
+            rpconfig.templateName,
+            rpconfig.gpuIds,
+            rpconfig.activeWorkers,
+            rpconfig.maxWorkers,
+        )
+        return
+
+    provider = RunPodProvider(rpconfig)
+    if not provider.enabled:
+        logger.warning("RunPod provider not available; skipping endpoint provisioning")
+        return
+
+    info = provider.ensure_endpoint()
+    if not info:
+        logger.warning("Could not create/verify RunPod endpoint; skipping")
+        return
+
+    _write_env_var(env_path, "VLLM_RUNPOD_URL", info.url)
+    _write_env_var(env_path, "RUNPOD_ENDPOINT_ID", info.endpoint_id)
+
+    health = provider.health_check()
+    if health.healthy:
+        logger.info(
+            "RunPod endpoint healthy: %d workers ready, %d in queue",
+            health.workers_ready,
+            health.queue_depth,
+        )
+    else:
+        logger.warning(
+            "RunPod endpoint not yet healthy (workers_ready=%d). "
+            "It may need time to warm up.",
+            health.workers_ready,
+        )
+
+
+def _write_env_var(env_path: Path, key: str, value: str) -> None:
+    """Update or append a KEY=VALUE pair in a .env file."""
+    if not env_path.exists():
+        env_path.write_text(f"{key}={value}\n", encoding="utf-8")
+        return
+
+    lines = env_path.read_text(encoding="utf-8").splitlines()
+    found = False
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+        if stripped.startswith(f"{key}=") or stripped == key:
+            lines[i] = f"{key}={value}"
+            found = True
+            break
+    if not found:
+        lines.append(f"{key}={value}")
+    env_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    logger.info("Updated %s=%s in %s", key, value, env_path)
 
 
 def main() -> None:
@@ -131,6 +205,11 @@ def main() -> None:
             logger.info("Copied %s -> %s", env_file.name, dest_env)
     else:
         logger.info("No .env file for '%s'; skipping", env_name)
+
+    # Step 1b: RunPod endpoint provisioning (gpu-runpod environment only)
+    runpod_config_raw = overlay.get("runpod")
+    if runpod_config_raw:
+        _ensure_runpod_endpoint(runpod_config_raw, oc_home, dry_run=args.dry_run)
 
     if args.dry_run:
         _dry_run_preview(oc_home, overlay_path, overlay, variant)

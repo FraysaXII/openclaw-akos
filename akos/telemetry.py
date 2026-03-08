@@ -83,6 +83,22 @@ class LangfuseReporter:
         except Exception as exc:  # broad: Langfuse is optional; never crash the watcher
             logger.debug("Failed to push trace: %s", exc)
 
+    def trace_metric(self, metric_name: str, value: float, metadata: dict | None = None) -> None:
+        """Push a DX metric as a Langfuse trace for dashboard consumption."""
+        if not self._client:
+            return
+        try:
+            self._client.trace(
+                name=f"akos-metric-{metric_name}",
+                metadata={
+                    "metric_name": metric_name,
+                    "metric_value": value,
+                    **(metadata or {}),
+                },
+            )
+        except Exception as exc:
+            logger.debug("Failed to push metric: %s", exc)
+
     def flush(self) -> None:
         """Flush pending traces to Langfuse."""
         if self._client:

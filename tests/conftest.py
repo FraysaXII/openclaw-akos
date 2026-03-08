@@ -15,19 +15,23 @@ CONFIG_DIR = REPO_ROOT / "config"
 PROMPTS_DIR = REPO_ROOT / "prompts"
 SCRIPTS_DIR = REPO_ROOT / "scripts"
 
-EXPECTED_MCP_SERVERS = {"sequential-thinking", "playwright", "github"}
+EXPECTED_MCP_SERVERS = {"sequential-thinking", "playwright", "github", "memory", "filesystem", "fetch"}
 
 AUTONOMOUS_TOOLS = {
     "read_file", "list_directory", "web_search", "sequential_thinking",
     "browser_snapshot", "browser_screenshot", "mcporter_list",
     "git_status", "git_diff", "git_log",
+    "memory_retrieve", "memory_list",
+    "fetch_get", "filesystem_read", "filesystem_list",
 }
 
 REQUIRES_APPROVAL_TOOLS = {
     "write_file", "delete_file", "shell_exec", "browser_navigate",
-    "browser_click", "browser_type", "element_interact",
+    "browser_click", "browser_type", "browser_console_exec", "element_interact",
     "git_push", "git_commit", "canvas_eval",
     "network_download", "system_config_change",
+    "memory_store", "memory_delete",
+    "fetch_post", "filesystem_write", "filesystem_delete",
 }
 
 INTELLIGENCE_MATRIX_PROPERTIES = {

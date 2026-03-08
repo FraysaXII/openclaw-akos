@@ -93,12 +93,22 @@
     },
     "list": [
       {
+        "id": "orchestrator",
+        "name": "Orchestrator (Multi-Agent Coordinator)",
+        "workspace": "~/.openclaw/workspace-orchestrator",
+        "identity": {
+          "name": "Orchestrator",
+          "theme": "multi-agent coordinator that decomposes tasks and delegates",
+          "emoji": "🎯"
+        }
+      },
+      {
         "id": "architect",
         "name": "Architect (Read-Only Planner)",
         "workspace": "~/.openclaw/workspace-architect",
         "identity": {
           "name": "Architect",
-          "theme": "read-only strategic planner in the AKOS dual-agent paradigm",
+          "theme": "read-only strategic planner in the AKOS multi-agent paradigm",
           "emoji": "📐"
         }
       },
@@ -108,8 +118,18 @@
         "workspace": "~/.openclaw/workspace-executor",
         "identity": {
           "name": "Executor",
-          "theme": "fast read-write builder in the AKOS dual-agent paradigm",
+          "theme": "fast read-write builder in the AKOS multi-agent paradigm",
           "emoji": "🔧"
+        }
+      },
+      {
+        "id": "verifier",
+        "name": "Verifier (Quality Gate)",
+        "workspace": "~/.openclaw/workspace-verifier",
+        "identity": {
+          "name": "Verifier",
+          "theme": "quality gate that validates executor output via tests and linting",
+          "emoji": "✅"
         }
       }
     ]
