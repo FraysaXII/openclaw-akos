@@ -22,11 +22,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import AGENT_WORKSPACES, REPO_ROOT, load_json, resolve_openclaw_home
 from akos.log import setup_logging
+from akos.policy import CapabilityMatrix
 
 logger = logging.getLogger("akos.drift")
 
 REQUIRED_WORKSPACE_FILES = ["SOUL.md"]
 EXPECTED_SCAFFOLD_FILES = ["IDENTITY.md", "MEMORY.md", "HEARTBEAT.md"]
+CAPABILITIES_PATH = REPO_ROOT / "config" / "agent-capabilities.json"
+
+RESTRICTED_EXEC_ROLES = {"orchestrator", "architect"}
 
 
 def check_agent_workspaces(oc_home: Path) -> list[dict]:
@@ -100,6 +104,74 @@ def check_permissions(oc_home: Path) -> list[dict]:
     return issues
 
 
+def _categories_to_profile(allowed_categories: list[str]) -> str:
+    """Map AKOS allowed_categories to OpenClaw profile name."""
+    if "write" in allowed_categories or "shell" in allowed_categories or "shell_limited" in allowed_categories:
+        return "coding"
+    return "minimal"
+
+
+def check_tool_profiles(oc_home: Path) -> list[dict]:
+    """Check that per-agent tool profiles match capability matrix and gateway config is sane."""
+    issues: list[dict] = []
+    oc_config = oc_home / "openclaw.json"
+    if not oc_config.exists():
+        return issues
+
+    live = load_json(oc_config)
+    agents = live.get("agents", {}).get("list", [])
+    tools_cfg = live.get("tools", {})
+
+    if not CAPABILITIES_PATH.exists():
+        return issues
+
+    matrix = CapabilityMatrix.load(CAPABILITIES_PATH)
+
+    for agent in agents:
+        agent_id = agent.get("id", "")
+        policy = matrix.get_policy(agent_id)
+        if not policy:
+            continue
+
+        expected_profile = _categories_to_profile(policy.allowed_categories)
+        tools_block = agent.get("tools") or {}
+        actual_profile = tools_block.get("profile")
+
+        if actual_profile != expected_profile:
+            issues.append({
+                "type": "tool_profile_mismatch",
+                "agent": agent_id,
+                "expected": expected_profile,
+                "actual": actual_profile,
+            })
+
+        if agent_id.lower() in RESTRICTED_EXEC_ROLES:
+            exec_cfg = tools_cfg.get("exec") or {}
+            security = exec_cfg.get("security", "")
+            if security == "full":
+                issues.append({
+                    "type": "exec_security_too_permissive",
+                    "agent": agent_id,
+                    "detail": "Orchestrator/Architect must not have exec.security 'full'",
+                })
+
+    loop_det = tools_cfg.get("loopDetection") or {}
+    if not loop_det.get("enabled", True):
+        issues.append({
+            "type": "loop_detection_disabled",
+            "detail": "tools.loopDetection.enabled must be true",
+        })
+
+    a2a = tools_cfg.get("agentToAgent") or {}
+    if not a2a.get("enabled", True):
+        issues.append({
+            "type": "agent_to_agent_disabled",
+            "detail": "tools.agentToAgent.enabled must be true",
+        })
+
+    return issues
+
+
 def run_drift_check() -> list[dict]:
     """Run all drift checks and return combined issues."""
     oc_home = resolve_openclaw_home()
@@ -107,6 +179,7 @@ def run_drift_check() -> list[dict]:
     issues.extend(check_agent_workspaces(oc_home))
     issues.extend(check_mcp_config(oc_home))
     issues.extend(check_permissions(oc_home))
+    issues.extend(check_tool_profiles(oc_home))
     return issues
 
 

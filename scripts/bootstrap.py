@@ -39,12 +39,49 @@ from akos.io import (
 )
 from akos.log import setup_logging
 from akos.models import load_tiers
+from akos.policy import CapabilityMatrix
 
 logger = logging.getLogger("akos.bootstrap")
 
 TIERS_PATH = REPO_ROOT / "config" / "model-tiers.json"
 CONFIG_EXAMPLE = REPO_ROOT / "config" / "openclaw.json.example"
+CAPABILITIES_PATH = REPO_ROOT / "config" / "agent-capabilities.json"
 MCPORTER_EXAMPLE = REPO_ROOT / "config" / "mcporter.json.example"
+
+
+def _categories_to_profile(allowed_categories: list[str]) -> str:
+    """Map AKOS allowed_categories to OpenClaw profile name."""
+    if "write" in allowed_categories or "shell" in allowed_categories or "shell_limited" in allowed_categories:
+        return "coding"
+    return "minimal"
+
+
+def _sync_tool_profiles_from_capability_matrix(merged: dict) -> None:
+    """Translate agent-capabilities.json into per-agent OpenClaw tools blocks."""
+    if not CAPABILITIES_PATH.exists():
+        logger.warning("Capability matrix not found at %s; skipping tool profile sync", CAPABILITIES_PATH)
+        return
+
+    matrix = CapabilityMatrix.load(CAPABILITIES_PATH)
+    agents = merged.get("agents", {}).get("list", [])
+
+    for agent in agents:
+        agent_id = agent.get("id", "")
+        policy = matrix.get_policy(agent_id)
+        if not policy:
+            continue
+
+        profile = _categories_to_profile(policy.allowed_categories)
+        tools_block: dict[str, object] = {"profile": profile}
+
+        if policy.allowed_tools and profile == "minimal":
+            tools_block["allow"] = policy.allowed_tools
+        if policy.denied_tools:
+            tools_block["deny"] = policy.denied_tools
+
+        agent["tools"] = tools_block
+
+    status("PASS", "Tool profiles synced from capability matrix")
 
 PASS_COUNT = 0
 FAIL_COUNT = 0
@@ -230,6 +267,9 @@ def phase_config(args: argparse.Namespace) -> bool:
     stripped = _strip_unconfigured_providers(merged)
     if stripped:
         status("PASS", f"Stripped unconfigured providers: {', '.join(stripped)}")
+
+    # Fix 2b: Sync per-agent tool profiles from capability matrix
+    _sync_tool_profiles_from_capability_matrix(merged)
 
     # Fix 3: Extract AKOS-specific keys into sidecar file
     akos_keys = _extract_akos_keys(merged)

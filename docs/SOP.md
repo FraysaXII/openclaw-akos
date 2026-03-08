@@ -1255,7 +1255,20 @@ Runs Lane 1 + drift check. Reports PASS/FAIL. If `AKOS_LIVE_SMOKE=1`, notes live
 
 ### **9.10 Version History**
 
-See `CHANGELOG.md` for the full version history from v0.0.1 to v0.4.0.
+See `CHANGELOG.md` for the full version history from v0.0.1 to v0.5.0.
+
+### **9.11 Gateway Runtime Wiring (v0.5.0)**
+
+Bootstrap acts as the **translation layer** between AKOS's design-time SSOT and OpenClaw's runtime enforcement. Policy is defined once in AKOS files, bootstrap pushes it to OpenClaw's config schema, and the dashboard shows the live state. The operator never manually edits the OpenClaw Config page.
+
+- **Per-agent tool profiles** — Each agent's `tools.profile` (minimal/coding) and allow/deny lists are translated from `config/agent-capabilities.json` by bootstrap. Orchestrator and Architect use `minimal`; Executor and Verifier use `coding` (Verifier with explicit deny for write_file, delete_file, git_push, git_commit).
+- **Exec security** — `tools.exec.security` is set per AKOS policy (allowlist for Executor, deny for Architect). Orchestrator/Architect must never have `full` exec access.
+- **Loop detection** — Gateway-level repetition circuit breaker (`tools.loopDetection`) provides defense-in-depth with AKOS prompt-level loop detection.
+- **Agent-to-agent** — `tools.agentToAgent` enables Orchestrator delegation at runtime level. Target allowlist restricts which agents can be invoked.
+- **Session policy** — `session.reset` (idle timeout 60 min), `session.typing` (thinking mode), and `session.agentToAgent` (ping-pong turns) are configured by bootstrap.
+- **Browser SSRF policy** — `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork: false` restricts private network access during browser automation.
+
+See [ARCHITECTURE.md](ARCHITECTURE.md#bootstrap-translation-layer-v050) for the full translation layer design.
 
 ---
 

@@ -90,6 +90,7 @@ class AgentEntry(BaseModel):
     name: str
     workspace: str
     identity: AgentIdentity
+    tools: AgentToolProfile | None = None
 
 
 class ModelRef(BaseModel):
@@ -114,6 +115,58 @@ class AgentBlock(BaseModel):
 class GatewayConfig(BaseModel):
     host: str = "127.0.0.1"
     port: int = 18789
+
+
+# ── Gateway runtime wiring (v0.5.0) ───────────────────────────────────
+
+class AgentToolProfile(BaseModel):
+    """Per-agent tool profile (profile name, allowlist, denylist)."""
+
+    profile: str = "coding"
+    allow: list[str] | None = None
+    deny: list[str] | None = None
+
+
+class ExecConfig(BaseModel):
+    """Exec security configuration."""
+
+    security: Literal["deny", "allowlist", "full"] = "allowlist"
+    ask: str = "on-miss"
+    host: str = "sandbox"
+
+
+class LoopDetectionConfig(BaseModel):
+    """Gateway-level loop / repetition circuit breaker."""
+
+    enabled: bool = True
+    warningThreshold: int = Field(default=10, ge=1)
+    criticalThreshold: int = Field(default=20, ge=1)
+    globalCircuitBreakerThreshold: int = Field(default=30, ge=1)
+
+
+class AgentToAgentConfig(BaseModel):
+    """Agent-to-agent routing configuration."""
+
+    enabled: bool = True
+    targetAllowlist: list[str] = Field(default_factory=list)
+
+
+class SessionConfig(BaseModel):
+    """Session policy (scope, reset, typing)."""
+
+    scope: str = "per-sender"
+    reset: dict = Field(default_factory=lambda: {"mode": "idle", "idleMinutes": 60})
+    agentToAgent: dict = Field(default_factory=lambda: {"pingPongTurns": 3})
+    typing: dict = Field(default_factory=lambda: {"mode": "thinking"})
+
+
+class BrowserConfig(BaseModel):
+    """Browser automation and SSRF policy."""
+
+    enabled: bool = True
+    headless: bool = True
+    defaultProfile: str = "akos"
+    ssrfPolicy: dict = Field(default_factory=lambda: {"dangerouslyAllowPrivateNetwork": False})
 
 
 class OpenClawConfig(BaseModel):

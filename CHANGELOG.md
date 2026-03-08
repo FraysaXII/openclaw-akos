@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.5.0] -- 2026-03-08
+
+Gateway runtime wiring (Option B): bootstrap as translation layer between AKOS SSOT and OpenClaw runtime enforcement.
+
+### Added
+
+- **Per-agent tool profiles** in `openclaw.json.example` — Orchestrator and Architect: `minimal` profile with explicit allowlists; Executor: `coding`; Verifier: `coding` with deny for write_file, delete_file, git_push, git_commit.
+- **Top-level tools config** — exec security (allowlist, on-miss, sandbox), loop detection (warning/critical/circuit-breaker thresholds), agent-to-agent (enabled, target allowlist).
+- **Session and browser config** — session scope, idle reset (60 min), typing mode, agent-to-agent ping-pong; browser headless, SSRF policy (dangerouslyAllowPrivateNetwork: false).
+- **Bootstrap translation layer** — `_sync_tool_profiles_from_capability_matrix()` reads `config/agent-capabilities.json` and translates to per-agent OpenClaw `tools` blocks (profile, allow, deny).
+- **Pydantic models** — `AgentToolProfile`, `ExecConfig`, `LoopDetectionConfig`, `AgentToAgentConfig`, `SessionConfig`, `BrowserConfig` in `akos/models.py`.
+- **Drift detection** — `check_tool_profiles()` verifies tool profile alignment, exec security, loop detection, agent-to-agent per capability matrix.
+- **Doctor script** — `check_gateway_tool_config()` for tool profile alignment, exec security mode, loop detection, browser SSRF policy.
+- **AKOS / OpenClaw Responsibility Matrix** in `docs/ARCHITECTURE.md` — full component ownership map.
+- **Bootstrap Translation Layer** and **Gateway Runtime Wiring** documentation in ARCHITECTURE.md, SOP.md, USER_GUIDE.md, SECURITY.md.
+
+### Changed
+
+- **Version bump**: `akos/__init__.py` 0.4.0 -> 0.5.0.
+- **Integration layer** in README: "8 MCP servers" -> "8 MCP servers + gateway-enforced tool profiles".
+- **Gateway-agnostic design** bullet and responsibility matrix link in README.
+
+---
+
 ## [0.4.1] -- 2026-03-08
 
 Bugfix release addressing 10 issues found during browser UAT testing.

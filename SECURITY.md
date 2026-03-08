@@ -99,6 +99,14 @@ When using the `gpu-runpod` environment:
 - **Human Oversight:** HITL gates for all state-mutating operations; Orchestrator delegation with per-task HITL gates; Verifier independent quality validation
 - **Risk Management:** Continuous `skillvet` auditing, prompt-injection vulnerability monitoring, Verifier quality gate with 3-attempt error recovery limit
 
+### 8. Gateway-Level Capability Enforcement (v0.5.0)
+
+AKOS v0.5.0 adds **gateway-level capability enforcement** as defense-in-depth on top of prompt-level controls.
+
+- **Per-agent tool profiles** — The OpenClaw gateway enforces `tools.profile` (minimal/coding) per agent. Orchestrator and Architect use `minimal`; Executor and Verifier use `coding`. Even if an agent is prompt-injected, the gateway blocks unauthorized tool calls.
+- **Exec security mode** — `tools.exec.security` restricts shell execution (deny/allowlist/full). Orchestrator and Architect must not have `full` exec; bootstrap and drift detection enforce this.
+- **Browser SSRF policy** — `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork: false` prevents browser automation from accessing private/internal networks. Reduces SSRF risk from malicious web content.
+
 ## Reporting a Vulnerability
 
 If you discover a security vulnerability in this project, please report it responsibly:
@@ -113,6 +121,8 @@ We aim to acknowledge reports within 48 hours and provide a fix or mitigation wi
 
 | Version | Supported |
 |:--------|:----------|
+| 0.5.x   | Yes       |
+| 0.4.x   | Yes       |
 | 0.3.x   | Yes       |
 | 0.2.x   | Yes       |
 | < 0.2   | No        |

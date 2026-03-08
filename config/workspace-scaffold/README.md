@@ -11,6 +11,11 @@ executor/      Files for the Executor (read-write builder) workspace
 verifier/      Files for the Verifier (quality gate) workspace
 ```
 
+## Deployment
+
+- `RULES.md` is deployed to each agent workspace. Agents read it at session start via SOUL.md directive for user-defined conventions.
+- **Tool profiles are enforced at the gateway level** (v0.5.0), not just via prompts. Bootstrap translates `config/agent-capabilities.json` into per-agent OpenClaw `tools.profile`; the gateway blocks unauthorized tool calls even if an agent is prompt-injected.
+
 ## Usage
 
 Copy these into the respective `~/.openclaw/workspace-{agent}/` directories

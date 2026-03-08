@@ -100,6 +100,10 @@
           "name": "Orchestrator",
           "theme": "multi-agent coordinator that decomposes tasks and delegates",
           "emoji": "🎯"
+        },
+        "tools": {
+          "profile": "minimal",
+          "allow": ["web_search", "memory_store", "memory_retrieve", "memory_list"]
         }
       },
       {
@@ -110,6 +114,10 @@
           "name": "Architect",
           "theme": "read-only strategic planner in the AKOS multi-agent paradigm",
           "emoji": "📐"
+        },
+        "tools": {
+          "profile": "minimal",
+          "allow": ["web_search", "memory_retrieve", "browser_snapshot", "browser_screenshot"]
         }
       },
       {
@@ -120,6 +128,9 @@
           "name": "Executor",
           "theme": "fast read-write builder in the AKOS multi-agent paradigm",
           "emoji": "🔧"
+        },
+        "tools": {
+          "profile": "coding"
         }
       },
       {
@@ -130,9 +141,47 @@
           "name": "Verifier",
           "theme": "quality gate that validates executor output via tests and linting",
           "emoji": "✅"
+        },
+        "tools": {
+          "profile": "coding",
+          "deny": ["write_file", "delete_file", "git_push", "git_commit"]
         }
       }
     ]
+  },
+  "tools": {
+    "profile": "coding",
+    "exec": {
+      "security": "allowlist",
+      "ask": "on-miss",
+      "host": "sandbox"
+    },
+    "loopDetection": {
+      "enabled": true,
+      "warningThreshold": 10,
+      "criticalThreshold": 20,
+      "globalCircuitBreakerThreshold": 30
+    },
+    "agentToAgent": {
+      "enabled": true,
+      "targetAllowlist": ["orchestrator", "architect", "executor", "verifier"]
+    }
+  },
+  "session": {
+    "scope": "per-sender",
+    "reset": {"mode": "idle", "idleMinutes": 60},
+    "agentToAgent": {"pingPongTurns": 3},
+    "typing": {"mode": "thinking"}
+  },
+  "browser": {
+    "enabled": true,
+    "headless": true,
+    "defaultProfile": "akos",
+    "ssrfPolicy": {"dangerouslyAllowPrivateNetwork": false}
+  },
+  "messages": {
+    "statusReactions": {"enabled": true},
+    "suppressToolErrorWarnings": false
   },
   "bindings": [
     {

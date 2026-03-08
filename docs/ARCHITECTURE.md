@@ -405,6 +405,70 @@ Reusable workflow specs in `config/workflows/`:
 | `deploy_check` | Architect, Verifier | Deployment readiness assessment |
 | `incident_review` | Architect, Orchestrator | Root cause and remediation |
 
+## Bootstrap Translation Layer (v0.5.0)
+
+Bootstrap is the **bridge** between AKOS's design-time SSOT and OpenClaw's runtime enforcement. Policy is defined once in AKOS files; bootstrap pushes it to OpenClaw's config schema; the dashboard shows the live state. The operator never manually edits the OpenClaw Config page.
+
+- **`agent-capabilities.json` → per-agent `tools.profile`**: The capability matrix defines `allowed_categories`, `allowed_tools`, and `denied_tools` per role. Bootstrap translates these into OpenClaw's `agents.list[].tools` block (profile name, allowlist, denylist).
+- **Gateway-agnostic design**: If you swap OpenClaw for another gateway, you only rewrite the bootstrap translation. Prompts, policies, workflows, capability matrix, and eval gates survive unchanged.
+- **Principle**: Define once in AKOS, push via bootstrap, see in dashboard.
+
+## AKOS / OpenClaw Responsibility Matrix
+
+The following matrix shows every component, who owns it, and how the two layers interact.
+
+### AKOS Layer (design-time SSOT — lives in this repo, gateway-agnostic)
+
+| Component            | File(s)                                                                                                                          | Purpose                                                                       | Relationship to OpenClaw                                                  |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Capability Matrix    | `config/agent-capabilities.json`                                                                                                 | Per-role tool access SSOT                                                     | Bootstrap translates to OpenClaw `tools.profile` per agent                |
+| Prompt System        | `prompts/base/`, `prompts/overlays/`, `prompts/assembled/`                                                                       | SOUL.md assembly (compact/standard/full)                                      | Deployed to agent workspace dirs; OpenClaw reads SOUL.md at session start |
+| Workflow Engine      | `config/workflows/*.md`                                                                                                          | Reusable task workflows (6 definitions)                                       | AKOS-only concept; OpenClaw has no native workflow engine                 |
+| Policy Packs         | `config/policies/*.md`                                                                                                           | Governance profiles (engineering-safe, compliance, incident)                  | AKOS-only concept                                                         |
+| Memory Templates     | `config/memory-templates/*.md`                                                                                                   | Structured memory domains (decisions, incidents, policies, sources)           | AKOS-only concept; complements OpenClaw's built-in memory                 |
+| Session Templates    | `config/templates/*.md`                                                                                                         | Pre-built session starters (architecture review, bug investigation, refactor) | AKOS-only concept                                                         |
+| Workspace Scaffold   | `config/workspace-scaffold/`                                                                                                    | Agent identity, memory, heartbeat, rules files                                | Bootstrap deploys to `~/.openclaw/workspace-{agent}/`                     |
+| RULES.md             | `config/workspace-scaffold/*/RULES.md`                                                                                           | User-customizable per-agent rules                                             | Deployed to workspace; agent reads at session start via SOUL.md directive |
+| Policy Engine        | `akos/policy.py`                                                                                                                | Load matrix, generate profiles, check drift                                   | Feeds bootstrap translation; provides `/agents/{id}/policy` API           |
+| Control Plane API    | `akos/api.py`                                                                                                                   | REST API (health, agents, drift, policy, context, metrics, checkpoints)       | Runs alongside OpenClaw gateway on port 8420                              |
+| Telemetry            | `akos/telemetry.py`                                                                                                             | Langfuse integration, DX metrics                                              | Complements OpenClaw's built-in OpenTelemetry                             |
+| Alert Engine         | `akos/alerts.py`                                                                                                                | SOC alerts from log patterns and baselines                                    | Processes OpenClaw gateway logs                                           |
+| RunPod Provider      | `akos/runpod_provider.py`                                                                                                       | GPU infrastructure lifecycle                                                  | Manages vLLM endpoints; OpenClaw uses them via `vllm-runpod` provider     |
+| Checkpoints          | `akos/checkpoints.py`                                                                                                           | Workspace snapshot/restore                                                    | AKOS-only concept; operates on workspace dirs                             |
+| Tool Registry        | `akos/tools.py`                                                                                                                 | Dynamic tool inventory from mcporter + permissions                            | AKOS-layer classification of MCP tools                                    |
+| State Tracking       | `akos/state.py`                                                                                                                 | Deployment state (active env, model, tier)                                    | AKOS-only; tracks switch-model history                                    |
+| Operator Scripts     | `scripts/doctor.py`, `sync-runtime.py`, `release-gate.py`, `check-drift.py`, `browser-smoke.py`, `run-evals.py`, `checkpoint.py` | Health, sync, release, drift, smoke, eval, checkpoint CLIs                    | AKOS-only operator tooling                                                |
+| Bootstrap            | `scripts/bootstrap.py`                                                                                                          | **Translation layer** — converts AKOS SSOT to OpenClaw config                 | The bridge; rewrites `~/.openclaw/openclaw.json` from AKOS sources        |
+| Test Suite           | `tests/` (193+ tests)                                                                                                           | Config validation, Pydantic models, API, prompts, E2E, live smoke, evals        | AKOS quality gates                                                        |
+| Compliance           | `config/compliance/eu-ai-act-checklist.json`                                                                                     | EU AI Act evidence map                                                        | AKOS-only governance                                                      |
+| Model Tiers          | `config/model-tiers.json`                                                                                                       | Model classification (small/medium/large/sota)                                | Drives prompt variant selection; OpenClaw uses the selected model         |
+| Environment Profiles | `config/environments/*.json` + `*.env.example`                                                                                   | Multi-environment config (dev-local, gpu-runpod, prod-cloud)                  | Merged into OpenClaw config by `switch-model.py`                          |
+| Eval Configs         | `config/eval/alerts.json`, `baselines.json`                                                                                      | SOC thresholds, DX metrics                                                    | AKOS-only evaluation framework                                            |
+
+### OpenClaw Layer (runtime enforcement — configured by bootstrap, visible in dashboard)
+
+| Feature                 | Config Key                            | Purpose                                            | How AKOS Interacts                                         |
+| ----------------------- | ------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------- |
+| Gateway Daemon          | `gateway.port`, `gateway.bind`        | WebSocket + HTTP control                           | AKOS API probes health via `/api/health`                   |
+| Agent Registry          | `agents.list[]`                       | Agent definitions (id, name, workspace, identity)  | Bootstrap force-syncs from `openclaw.json.example`         |
+| Per-Agent Tool Profiles | `agents.list[].tools.profile`          | Runtime tool access enforcement                    | **Translated from `agent-capabilities.json` by bootstrap**  |
+| Exec Security           | `tools.exec.security`                 | Shell command approval mode                        | Bootstrap sets per AKOS policy (deny/allowlist/full)        |
+| Loop Detection          | `tools.loopDetection.*`               | Gateway-level repetition circuit breaker            | Defense-in-depth with AKOS prompt-level loop detection     |
+| Agent-to-Agent          | `tools.agentToAgent.*`                | Gateway-native inter-agent calls                    | Enables Orchestrator delegation at runtime level           |
+| Session Policy          | `session.reset.*`, `session.typing.*` | Session reset, typing indicators                   | Bootstrap configures idle timeout and typing mode          |
+| Browser Control         | `browser.*`                           | Browser automation, SSRF policy                    | Bootstrap sets headless mode and SSRF restrictions         |
+| Message Reactions       | `messages.statusReactions.*`           | Lifecycle emoji on messages (queued/thinking/done)  | Bootstrap enables for UX                                  |
+| Model Providers         | `models.providers.*`                  | LLM provider routing and failover                  | Bootstrap strips unconfigured providers                    |
+| Channel Routing         | `bindings[]`                          | Route channels to agents                            | Defined in template; future expansion                      |
+| MCP Servers             | via mcporter.json                     | Tool servers (8 total)                             | Bootstrap generates resolved paths                        |
+| WebChat                 | `web.enabled`                         | Dashboard chat interface                            | Always enabled for AKOS                                    |
+| Built-in Memory         | `memory.backend`                      | Native session memory                              | Complements AKOS MCP Memory + workspace MEMORY.md          |
+| OpenTelemetry           | `diagnostics.openTelemetry.*`         | Traces/metrics export                               | Future: wire to Langfuse OTEL endpoint                     |
+| Skills                  | `skills.*`                            | ClawHub skill management                           | Not managed by AKOS (future consideration)                 |
+| Plugins                 | `plugins.*`                           | Extension plugins                                   | Not managed by AKOS (future consideration)                 |
+| Cron Jobs               | `cron.*`                              | Scheduled automation                               | Not managed by AKOS (future consideration)                 |
+| Hooks                   | `hooks.*`                             | Webhook/event handlers                             | Not managed by AKOS (future consideration)                 |
+
 ## Observability Stack
 
 ### Pipeline

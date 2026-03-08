@@ -16,13 +16,13 @@ Out-of-the-box, OpenCLAW operates as an isolated conversational agent. This proj
 | Layer | Role | Implementation |
 |:------|:-----|:---------------|
 | **Control Plane** | Gateway daemon, FastAPI API, RunPod manager | `openclaw.json` + `akos/api.py` on port 8420 |
-| **Integration Layer** | Channel adapters, 8 MCP servers | WebChat + optional Telegram, Slack, WhatsApp via `bindings` |
+| **Integration Layer** | Channel adapters, 8 MCP servers + gateway-enforced tool profiles | WebChat + optional Telegram, Slack, WhatsApp via `bindings` |
 | **Execution Layer** | 4-agent runner (Orchestrator, Architect, Executor, Verifier) | Decompose, plan, build, validate |
 | **Intelligence Layer** | Flat memory architecture, context compression | MCP Memory server, workspace files, Intelligence Matrix fact tagging |
 
 ## Architecture
 
-The system implements the **Four-Layer LLMOS Paradigm** with a **Multi-Agent Model** (v0.4.0) that separates cognitive workload:
+The system implements the **Four-Layer LLMOS Paradigm** with a **Multi-Agent Model** (v0.5.0) that separates cognitive workload:
 
 - **Orchestrator Agent** -- decomposes user requests into sub-tasks and delegates to the right agent
 - **Architect Agent** -- operates in read-only, high-context planning mode using sequential thinking
@@ -30,6 +30,8 @@ The system implements the **Four-Layer LLMOS Paradigm** with a **Multi-Agent Mod
 - **Verifier Agent** -- validates Executor output via lint, test, build, and browser verification
 
 This separation eliminates cognitive overload and adds a quality gate with a 3-retry error recovery loop.
+
+- **Gateway-agnostic design** — AKOS policy is defined in repo files and pushed to the runtime via bootstrap. See the [AKOS / OpenClaw Responsibility Matrix](docs/ARCHITECTURE.md#akos--openclaw-responsibility-matrix) for the full component map.
 
 ## Core MCP Integrations
 
@@ -143,7 +145,7 @@ See the full [Standard Operating Procedure](docs/SOP.md) for detailed step-by-st
 ```
 openclaw-akos/
   akos/                             Shared orchestration library (Python)
-    __init__.py                     Package marker + version (v0.4.0)
+    __init__.py                     Package marker + version (v0.5.0)
     models.py                       Pydantic schemas for all config files (incl. RunPod)
     io.py                           load_json, save_json, deep_merge, AGENT_WORKSPACES (4-agent)
     log.py                          JSONFormatter + HumanFormatter, setup_logging()
@@ -314,6 +316,7 @@ py scripts/doctor.py
 | [SOP](docs/SOP.md) | Complete Standard Operating Procedure for the LLMOS transformation |
 | [Implementation Task Registry](docs/SOP.md#80-implementation-task-registry) | 33 traceable tasks across 6 phases with SSOT/SOC/DI/DX attributes |
 | [Architecture](docs/ARCHITECTURE.md) | Four-Layer LLMOS architecture and data flow diagrams |
+| [AKOS / OpenClaw Responsibility Matrix](docs/ARCHITECTURE.md#akos--openclaw-responsibility-matrix) | Component ownership and interaction map |
 | [Security](SECURITY.md) | Zero-Trust security policy, threat model, and compliance |
 | [User Guide](docs/USER_GUIDE.md) | End-user installation, configuration, and usage manual |
 | [Changelog](CHANGELOG.md) | Version history from v0.0.1 to current |

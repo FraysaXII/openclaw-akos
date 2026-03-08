@@ -23,10 +23,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import AGENT_WORKSPACES, REPO_ROOT, load_json, resolve_openclaw_home
 from akos.log import setup_logging
+from akos.policy import CapabilityMatrix
 
 logger = logging.getLogger("akos.doctor")
 
 GATEWAY_URL = "http://127.0.0.1:18789"
+CAPABILITIES_PATH = REPO_ROOT / "config" / "agent-capabilities.json"
+RESTRICTED_EXEC_ROLES = {"orchestrator", "architect"}
 
 
 def check_gateway() -> tuple[str, str]:
@@ -103,6 +106,72 @@ def check_permissions() -> tuple[str, str]:
         return "FAIL", f"permissions.json parse error: {exc}"
 
 
+def _categories_to_profile(allowed_categories: list[str]) -> str:
+    """Map AKOS allowed_categories to OpenClaw profile name."""
+    if "write" in allowed_categories or "shell" in allowed_categories or "shell_limited" in allowed_categories:
+        return "coding"
+    return "minimal"
+
+
+def check_gateway_tool_config(oc_home: Path) -> list[tuple[str, str]]:
+    """Check tool profiles, exec security, loop detection, browser SSRF policy."""
+    results: list[tuple[str, str]] = []
+    oc_config = oc_home / "openclaw.json"
+    if not oc_config.is_file():
+        results.append(("WARN", "openclaw.json not found; run bootstrap first"))
+        return results
+
+    try:
+        live = load_json(oc_config)
+    except (json.JSONDecodeError, OSError):
+        results.append(("FAIL", "openclaw.json unreadable or invalid JSON"))
+        return results
+
+    agents = live.get("agents", {}).get("list", [])
+    tools_cfg = live.get("tools", {})
+    browser_cfg = live.get("browser", {})
+
+    if CAPABILITIES_PATH.exists():
+        matrix = CapabilityMatrix.load(CAPABILITIES_PATH)
+        for agent in agents:
+            agent_id = agent.get("id", "")
+            policy = matrix.get_policy(agent_id)
+            if not policy:
+                continue
+            expected_profile = _categories_to_profile(policy.allowed_categories)
+            tools_block = agent.get("tools") or {}
+            actual_profile = tools_block.get("profile")
+            if actual_profile == expected_profile:
+                results.append(("PASS", f"Tool profile aligned: {agent_id} ({expected_profile})"))
+            else:
+                results.append(("FAIL", f"Tool profile mismatch: {agent_id} (expected {expected_profile}, got {actual_profile})"))
+
+        for agent in agents:
+            agent_id = agent.get("id", "").lower()
+            if agent_id in RESTRICTED_EXEC_ROLES:
+                exec_cfg = tools_cfg.get("exec") or {}
+                security = exec_cfg.get("security", "")
+                if security != "full":
+                    results.append(("PASS", f"Exec security OK: {agent_id} ({security})"))
+                else:
+                    results.append(("FAIL", f"Exec security too permissive for {agent_id}: must not be 'full'"))
+    else:
+        results.append(("WARN", "agent-capabilities.json not found; skipping tool profile checks"))
+
+    if tools_cfg.get("loopDetection", {}).get("enabled", True):
+        results.append(("PASS", "Loop detection enabled"))
+    else:
+        results.append(("FAIL", "Loop detection disabled (tools.loopDetection.enabled should be true)"))
+
+    ssrf = browser_cfg.get("ssrfPolicy", {})
+    if ssrf.get("dangerouslyAllowPrivateNetwork") is True:
+        results.append(("FAIL", "Browser SSRF policy allows private network (dangerouslyAllowPrivateNetwork is true)"))
+    else:
+        results.append(("PASS", "Browser SSRF policy restricts private network"))
+
+    return results
+
+
 def run_doctor() -> list[tuple[str, str]]:
     """Run all health checks and return (level, message) pairs."""
     oc_home = resolve_openclaw_home()
@@ -112,6 +181,7 @@ def run_doctor() -> list[tuple[str, str]]:
     results.extend(check_workspaces(oc_home))
     results.extend(check_soul_md(oc_home))
     results.append(check_mcporter())
+    results.extend(check_gateway_tool_config(oc_home))
     results.append(check_runpod_config())
     results.append(check_langfuse_config())
     results.append(check_permissions())

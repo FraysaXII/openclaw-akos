@@ -1,6 +1,6 @@
 # OpenCLAW-AKOS User Guide
 
-**Version 0.4.0 -- March 2026**
+**Version 0.5.0 -- March 2026**
 
 ---
 
@@ -1303,7 +1303,23 @@ Streams gateway log entries as JSON objects in real-time.
 
 ---
 
-## 22. What's New in v0.4.0
+## 22. What's New in v0.5.0
+
+### Gateway Runtime Wiring
+- **Per-agent tool profiles** enforced at gateway level — Orchestrator/Architect use `minimal`, Executor/Verifier use `coding`; Verifier has explicit deny for write_file, delete_file, git_push, git_commit
+- **Exec security mode** per agent — allowlist for Executor, deny for Architect; Orchestrator/Architect never have full exec
+- **Gateway-level loop detection** — defense-in-depth with prompt-level loop detection; circuit breaker thresholds configurable
+- **Agent-to-agent tool** for Orchestrator delegation — target allowlist restricts invokable agents
+- **Session idle reset policy** — 60-minute idle timeout
+- **Typing indicators** during agent processing (thinking mode)
+- **Message status reactions** — queued/thinking/tool/done emoji on messages
+- **Browser SSRF protection** — `dangerouslyAllowPrivateNetwork: false` by default
+
+Bootstrap translates `config/agent-capabilities.json` into OpenClaw's runtime config. See [ARCHITECTURE.md](ARCHITECTURE.md#bootstrap-translation-layer-v050).
+
+---
+
+## 23. What's New in v0.4.0
 
 ### Runtime Convergence
 - All 4 agents (Orchestrator, Architect, Executor, Verifier) now deploy correctly during bootstrap

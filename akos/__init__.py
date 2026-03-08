@@ -1,6 +1,6 @@
 """AKOS -- Agentic Knowledge Operating System orchestration library."""
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 __all__ = [
     "load_json",

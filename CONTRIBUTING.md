@@ -80,7 +80,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - RunPod provider operations must have mocked SDK tests in `tests/test_runpod_provider.py`.
 - FastAPI endpoints must have TestClient tests in `tests/test_api.py`.
 - New agent prompts/overlays must be covered by `tests/test_e2e_pipeline.py`.
-- Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint.
+- Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint. Changes to `agent-capabilities.json` are automatically translated to OpenClaw tool profiles by bootstrap; do not hand-edit the `tools`, `session`, or `browser` sections in `openclaw.json.example` — they are generated from AKOS config.
 - New workflow definitions go in `config/workflows/` as markdown files following the existing format.
 - New overlay files must be registered in `config/model-tiers.json` `variantOverlays` section.
 - Run the full suite before submitting: `py scripts/test.py` (193+ tests expected)
