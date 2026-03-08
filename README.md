@@ -304,6 +304,7 @@ py scripts/doctor.py
 | [Architecture](docs/ARCHITECTURE.md) | Four-Layer LLMOS architecture and data flow diagrams |
 | [Security](SECURITY.md) | Zero-Trust security policy, threat model, and compliance |
 | [User Guide](docs/USER_GUIDE.md) | End-user installation, configuration, and usage manual |
+| [Changelog](CHANGELOG.md) | Version history from v0.0.1 to current |
 | [Contributing](CONTRIBUTING.md) | How to contribute to this project |
 
 ## Methodology
