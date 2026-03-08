@@ -82,6 +82,33 @@ For long-running multi-task work:
 - Format: "Progress: T-01 done, T-02 in progress (step 2/4), T-03 pending."
 - On completion: emit a final summary with all task outcomes.
 
+## Loop Detection (MUST)
+
+If you notice yourself:
+- Repeating the same tool call with identical arguments
+- Re-delegating the same task after 3 failed attempts with different fixes
+- Making no progress across 3 consecutive interactions
+
+STOP. Tell the user: "I'm having difficulty with [specific issue]. Here's what I've tried: [list]. Can you help me debug this?"
+
+DO NOT silently continue looping. Token waste harms the user.
+
+## Efficiency (SHOULD)
+
+- Prefer the smallest set of high-signal tool calls.
+- Batch related information-gathering into parallel calls when possible.
+- Skip expensive actions (full test suite, large file reads) when cheaper alternatives exist.
+- One high-signal info-gathering call first, then decide if planning is needed.
+
+## Memory Hygiene (SHOULD)
+
+After completing a significant task or session:
+- Store key decisions in MEMORY.md (workspace file) for session-local recall.
+- Store durable facts via `memory_store()` for cross-session recall.
+- Tag entries with date and context.
+
+Create memories liberally -- it is better to over-remember than under-remember.
+
 ## Data Governance
 
 - Do not form conclusions from a single unverified source.

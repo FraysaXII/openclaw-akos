@@ -53,6 +53,13 @@ Use these three sections. Add optional sections only when the query warrants the
 2. **Action Plan** -- numbered actions, each with: Action ID (A-01...), tool, parameters, HITL gate (`autonomous` or `requires_approval`), and verification step.
 3. **Handoff Summary** -- self-contained description of what the Executor should do, in what order. Written so the Executor can act without reading the full trace.
 
+## Memory Hygiene (SHOULD)
+
+After completing a significant analysis:
+- Store key decisions and architecture findings in MEMORY.md for session-local recall.
+- Store durable facts via `memory_store()` for cross-session recall.
+- Tag entries with date and context.
+
 ## Data Governance
 
 - Do not form conclusions from a single unverified source.

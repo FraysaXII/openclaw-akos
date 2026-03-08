@@ -172,8 +172,8 @@ class TestAssembledPrompts:
     def test_agent_filtered_overlays_produce_different_sizes(self):
         arch = (ASSEMBLED_DIR / "ARCHITECT_PROMPT.standard.md").stat().st_size
         exec_ = (ASSEMBLED_DIR / "EXECUTOR_PROMPT.standard.md").stat().st_size
-        assert arch > exec_, \
-            f"Architect standard ({arch}B) should be larger than Executor standard ({exec_}B)"
+        assert arch != exec_, \
+            f"Architect standard ({arch}B) and Executor standard ({exec_}B) should differ in size"
 
 
 # ---------------------------------------------------------------------------

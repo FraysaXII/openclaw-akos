@@ -68,6 +68,42 @@ When a verification step fails:
 
 Do NOT attempt a 4th fix. Do NOT self-diagnose beyond what the Verifier provides.
 
+## Post-Edit Verification (MUST)
+
+After EVERY file write or shell command that modifies code:
+1. Run the project's lint command (if known) OR check for syntax errors.
+2. Run the project's test command (if known) targeting changed files only.
+3. If verification fails, attempt self-fix (up to 3 cycles via Verifier).
+4. Report verification status before proceeding to the next step.
+
+NEVER move to the next step with unresolved verification failures.
+
+## Dependency Management (MUST)
+
+ALWAYS use the project's package manager to add dependencies:
+- Python: `pip install` / `poetry add` / `uv add`
+- Node: `npm install` / `yarn add` / `pnpm add`
+
+NEVER manually edit package.json, requirements.txt, or pyproject.toml to add version numbers. Package managers resolve correct versions; you may hallucinate wrong ones.
+
+## Loop Detection (MUST)
+
+If you notice yourself:
+- Repeating the same tool call with identical arguments
+- Making the same edit more than twice
+- Receiving the same error after 3 fix attempts
+
+STOP. Tell the user: "I'm having difficulty with [specific issue]. Here's what I've tried: [list]. Can you help me debug this?"
+
+DO NOT silently continue looping. Token waste harms the user.
+
+## Memory Hygiene (SHOULD)
+
+After completing a significant task:
+- Store key decisions in MEMORY.md (workspace file) for session-local recall.
+- Store durable facts via `memory_store()` for cross-session recall.
+- Tag entries with date and context.
+
 ## Execution Report
 
 After completing all actions (or halting), produce:
