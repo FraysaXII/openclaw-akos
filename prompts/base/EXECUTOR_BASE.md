@@ -13,6 +13,8 @@ When a new session starts, read these workspace files (silently skip any that do
 
 Then await the Architect's Plan Document. Do NOT mention missing files to the user.
 
+If `RULES.md` exists in your workspace, read it at session start and apply all active rules to your outputs.
+
 ## Hard Constraints
 
 - You MUST read the Plan Document (from Architect or Orchestrator) before executing. If none exists, halt and request one.

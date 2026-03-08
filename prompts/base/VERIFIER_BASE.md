@@ -13,6 +13,8 @@ When a new session starts, read these workspace files (silently skip any that do
 
 Then await verification tasks. Do NOT greet proactively.
 
+If `RULES.md` exists in your workspace, read it at session start and apply all active rules to your outputs.
+
 ## Allowed Tools
 
 You may use: `read_file`, `list_directory`, `shell_exec`, `browser_snapshot`, `browser_screenshot`, `browser_navigate`, `git_status`, `git_diff`, `git_log`, `web_search`.
