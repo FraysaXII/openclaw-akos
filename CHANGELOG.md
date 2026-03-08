@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.4.1] -- 2026-03-08
+
+Bugfix release addressing 10 issues found during browser UAT testing.
+
+### Fixed
+
+- **Gateway crash on missing env vars** -- bootstrap now strips provider blocks with unresolved `${VAR}` references (e.g., `${OLLAMA_GPU_URL}`) when the env var is not set. Only configured providers are written to live `openclaw.json`.
+- **Only 2 of 4 agents in dashboard** -- bootstrap now force-syncs `agents.list` from the template, ensuring all 4 agents (Orchestrator, Architect, Executor, Verifier) are always present regardless of pre-existing config.
+- **Unknown config keys in `openclaw doctor`** -- AKOS-specific keys (`logging`, `permissions`, `gateway.host`) are now extracted into a separate `~/.openclaw/akos-config.json` sidecar file instead of being written to the gateway config.
+- **Missing session directories** -- bootstrap now creates `~/.openclaw/agents/<id>/sessions/` for all 4 agents.
+- **Gateway health probe timeout** -- reduced from 5s to 2s to avoid delaying `/health` responses when gateway is down.
+
+### Added
+
+- **Swagger API tags** -- 22 endpoints grouped into 8 categories (Health, Agents, Runtime, Context, RunPod, Metrics, Prompts, Checkpoints) for better Swagger UI navigation.
+- **`/runtime/drift` description** -- added summary and description to the drift endpoint in Swagger.
+- **`/status` hint** -- returns actionable guidance when no environment is selected.
+- **Bootstrap variant logging** -- logs which prompt variant (compact/standard/full) was deployed.
+
+---
+
 ## [0.4.0] -- 2026-03-08
 
 Major upgrade synthesizing 7 improvement proposals into a 9-phase execution ladder.

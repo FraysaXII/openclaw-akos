@@ -38,8 +38,18 @@ logger = logging.getLogger("akos.api")
 
 app = FastAPI(
     title="AKOS Control Plane",
-    version="0.4.0",
+    version="0.4.1",
     description="REST API for the Agentic Knowledge Operating System",
+    openapi_tags=[
+        {"name": "Health", "description": "System health and readiness"},
+        {"name": "Agents", "description": "Agent listing, policy, and capability audit"},
+        {"name": "Runtime", "description": "Runtime drift and environment switching"},
+        {"name": "Context", "description": "Context pinning for agent focus"},
+        {"name": "RunPod", "description": "RunPod GPU infrastructure management"},
+        {"name": "Metrics", "description": "DX baselines, cost tracking, and alerts"},
+        {"name": "Prompts", "description": "Prompt assembly and deployment"},
+        {"name": "Checkpoints", "description": "Workspace snapshot management"},
+    ],
 )
 
 app.add_middleware(
@@ -123,6 +133,7 @@ class StatusResponse(BaseModel):
     variant: str
     last_switch: str
     last_switch_success: bool
+    hint: str | None = None
 
 
 class AgentInfo(BaseModel):
@@ -150,7 +161,7 @@ if not _api_key:
 async def _gateway_health() -> str:
     """Probe the OpenCLAW gateway health endpoint."""
     try:
-        async with httpx.AsyncClient(timeout=5.0) as client:
+        async with httpx.AsyncClient(timeout=2.0) as client:
             resp = await client.get("http://127.0.0.1:18789/api/health")
             if resp.status_code == 200:
                 return "up"
@@ -161,7 +172,7 @@ async def _gateway_health() -> str:
         return f"error ({type(exc).__name__})"
 
 
-@app.get("/health", response_model=HealthResponse)
+@app.get("/health", response_model=HealthResponse, tags=["Health"])
 async def get_health() -> HealthResponse:
     gateway_status = await _gateway_health()
 
@@ -186,10 +197,13 @@ async def get_health() -> HealthResponse:
 # ── Status ───────────────────────────────────────────────────────────
 
 
-@app.get("/status", response_model=StatusResponse, dependencies=[Depends(_check_api_key)])
+@app.get("/status", response_model=StatusResponse, dependencies=[Depends(_check_api_key)], tags=["Health"])
 async def get_status() -> StatusResponse:
     oc_home = resolve_openclaw_home()
     state = load_state(oc_home)
+    hint = None
+    if not state.activeEnvironment:
+        hint = "No environment selected. Run: py scripts/switch-model.py dev-local"
     return StatusResponse(
         environment=state.activeEnvironment or "unknown",
         model=state.activeModel or "unknown",
@@ -197,13 +211,14 @@ async def get_status() -> StatusResponse:
         variant=state.activeVariant or "unknown",
         last_switch=state.lastSwitchTimestamp or "",
         last_switch_success=state.lastSwitchSuccess,
+        hint=hint,
     )
 
 
 # ── Agents ───────────────────────────────────────────────────────────
 
 
-@app.get("/agents", response_model=list[AgentInfo], dependencies=[Depends(_check_api_key)])
+@app.get("/agents", response_model=list[AgentInfo], dependencies=[Depends(_check_api_key)], tags=["Agents"])
 async def list_agents() -> list[AgentInfo]:
     oc_home = resolve_openclaw_home()
     agents: list[AgentInfo] = []
@@ -225,7 +240,13 @@ async def list_agents() -> list[AgentInfo]:
 # ── Runtime Drift ────────────────────────────────────────────────────
 
 
-@app.get("/runtime/drift", dependencies=[Depends(_check_api_key)])
+@app.get(
+    "/runtime/drift",
+    dependencies=[Depends(_check_api_key)],
+    tags=["Runtime"],
+    summary="Detect runtime drift",
+    description="Compares the repo's intended state (agent count, workspace files, MCP servers, permissions) against the live runtime and reports mismatches.",
+)
 async def runtime_drift() -> dict[str, Any]:
     """Compare repo intended state against live runtime."""
     spec = importlib.util.spec_from_file_location(
@@ -242,7 +263,7 @@ async def runtime_drift() -> dict[str, Any]:
 # ── Policy Audit ─────────────────────────────────────────────────────
 
 
-@app.get("/agents/{agent_id}/policy", dependencies=[Depends(_check_api_key)])
+@app.get("/agents/{agent_id}/policy", dependencies=[Depends(_check_api_key)], tags=["Agents"])
 async def agent_policy(agent_id: str) -> dict[str, Any]:
     """Return the effective capability policy for an agent role."""
     from akos.policy import CapabilityMatrix
@@ -259,7 +280,7 @@ async def agent_policy(agent_id: str) -> dict[str, Any]:
     }
 
 
-@app.get("/agents/{agent_id}/capability-drift", dependencies=[Depends(_check_api_key)])
+@app.get("/agents/{agent_id}/capability-drift", dependencies=[Depends(_check_api_key)], tags=["Agents"])
 async def agent_capability_drift(agent_id: str) -> dict[str, Any]:
     """Check if an agent's runtime tools match its policy."""
     from akos.policy import CapabilityMatrix
@@ -277,7 +298,7 @@ async def agent_capability_drift(agent_id: str) -> dict[str, Any]:
 # ── Model Switching ──────────────────────────────────────────────────
 
 
-@app.post("/switch", dependencies=[Depends(_check_api_key)])
+@app.post("/switch", dependencies=[Depends(_check_api_key)], tags=["Runtime"])
 async def switch_environment(req: SwitchRequest) -> dict[str, Any]:
     from akos.io import deep_merge, deploy_soul_prompts, get_variant_for_model, save_json
 
@@ -333,7 +354,7 @@ async def switch_environment(req: SwitchRequest) -> dict[str, Any]:
 # ── RunPod ───────────────────────────────────────────────────────────
 
 
-@app.get("/runpod/health", dependencies=[Depends(_check_api_key)])
+@app.get("/runpod/health", dependencies=[Depends(_check_api_key)], tags=["RunPod"])
 async def runpod_health() -> dict[str, Any]:
     rp = _get_runpod()
     if not rp.enabled:
@@ -348,7 +369,7 @@ async def runpod_health() -> dict[str, Any]:
     }
 
 
-@app.post("/runpod/scale", dependencies=[Depends(_check_api_key)])
+@app.post("/runpod/scale", dependencies=[Depends(_check_api_key)], tags=["RunPod"])
 async def runpod_scale(req: ScaleRequest) -> dict[str, Any]:
     rp = _get_runpod()
     if not rp.enabled:
@@ -368,7 +389,7 @@ class PinRequest(BaseModel):
 _pinned_context: list[dict[str, str]] = []
 
 
-@app.post("/context/pin", dependencies=[Depends(_check_api_key)])
+@app.post("/context/pin", dependencies=[Depends(_check_api_key)], tags=["Context"])
 async def pin_context(req: PinRequest) -> dict[str, Any]:
     """Pin a file or resource for agent context focus."""
     entry = {"path": req.path, "label": req.label or req.path}
@@ -377,7 +398,7 @@ async def pin_context(req: PinRequest) -> dict[str, Any]:
     return {"pinned": True, "total": len(_pinned_context), "items": _pinned_context}
 
 
-@app.delete("/context/pin", dependencies=[Depends(_check_api_key)])
+@app.delete("/context/pin", dependencies=[Depends(_check_api_key)], tags=["Context"])
 async def unpin_context(req: PinRequest) -> dict[str, Any]:
     """Remove a pinned context entry."""
     entry = {"path": req.path, "label": req.label or req.path}
@@ -386,7 +407,7 @@ async def unpin_context(req: PinRequest) -> dict[str, Any]:
     return {"unpinned": True, "total": len(_pinned_context), "items": _pinned_context}
 
 
-@app.get("/context/pins", dependencies=[Depends(_check_api_key)])
+@app.get("/context/pins", dependencies=[Depends(_check_api_key)], tags=["Context"])
 async def list_pins() -> dict[str, Any]:
     """List all pinned context entries."""
     return {"total": len(_pinned_context), "items": _pinned_context}
@@ -395,7 +416,7 @@ async def list_pins() -> dict[str, Any]:
 # ── Metrics & Alerts ─────────────────────────────────────────────────
 
 
-@app.get("/metrics", dependencies=[Depends(_check_api_key)])
+@app.get("/metrics", dependencies=[Depends(_check_api_key)], tags=["Metrics"])
 async def get_metrics() -> dict[str, Any]:
     baselines_path = REPO_ROOT / "config" / "eval" / "baselines.json"
     if not baselines_path.exists():
@@ -404,7 +425,7 @@ async def get_metrics() -> dict[str, Any]:
     return {"baselines": raw}
 
 
-@app.get("/metrics/cost", dependencies=[Depends(_check_api_key)])
+@app.get("/metrics/cost", dependencies=[Depends(_check_api_key)], tags=["Metrics"])
 async def get_cost_metrics() -> dict[str, Any]:
     """Cost breakdown by agent and environment (placeholder for Langfuse integration)."""
     return {
@@ -418,7 +439,7 @@ async def get_cost_metrics() -> dict[str, Any]:
     }
 
 
-@app.get("/alerts", dependencies=[Depends(_check_api_key)])
+@app.get("/alerts", dependencies=[Depends(_check_api_key)], tags=["Metrics"])
 async def get_alerts() -> dict[str, Any]:
     alerts_path = REPO_ROOT / "config" / "eval" / "alerts.json"
     if not alerts_path.exists():
@@ -430,7 +451,7 @@ async def get_alerts() -> dict[str, Any]:
 # ── Prompt Assembly ──────────────────────────────────────────────────
 
 
-@app.post("/prompts/assemble", dependencies=[Depends(_check_api_key)])
+@app.post("/prompts/assemble", dependencies=[Depends(_check_api_key)], tags=["Prompts"])
 async def assemble_prompts(req: AssembleRequest) -> dict[str, Any]:
     import subprocess
     cmd = ["py", str(REPO_ROOT / "scripts" / "assemble-prompts.py")]
@@ -457,7 +478,7 @@ class RestoreRequest(BaseModel):
     workspace: str
 
 
-@app.post("/checkpoints", dependencies=[Depends(_check_api_key)])
+@app.post("/checkpoints", dependencies=[Depends(_check_api_key)], tags=["Checkpoints"])
 async def create_checkpoint_endpoint(req: CheckpointRequest) -> dict[str, Any]:
     from akos.checkpoints import create_checkpoint
     try:
@@ -472,7 +493,7 @@ async def create_checkpoint_endpoint(req: CheckpointRequest) -> dict[str, Any]:
         return {"error": str(exc)}
 
 
-@app.get("/checkpoints", dependencies=[Depends(_check_api_key)])
+@app.get("/checkpoints", dependencies=[Depends(_check_api_key)], tags=["Checkpoints"])
 async def list_checkpoints_endpoint(workspace: str) -> dict[str, Any]:
     from akos.checkpoints import list_checkpoints
     items = list_checkpoints(Path(workspace))
@@ -489,7 +510,7 @@ async def list_checkpoints_endpoint(workspace: str) -> dict[str, Any]:
     }
 
 
-@app.post("/checkpoints/restore", dependencies=[Depends(_check_api_key)])
+@app.post("/checkpoints/restore", dependencies=[Depends(_check_api_key)], tags=["Checkpoints"])
 async def restore_checkpoint_endpoint(req: RestoreRequest) -> dict[str, Any]:
     from akos.checkpoints import restore_checkpoint
     success = restore_checkpoint(req.name, Path(req.workspace))

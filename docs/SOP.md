@@ -1053,6 +1053,10 @@ The v0.3.0 implementation revealed that only 2 of 4 agents were deployed to the 
 - `scripts/bootstrap.py` now creates all 4 workspace directories (`workspace-orchestrator`, `workspace-architect`, `workspace-executor`, `workspace-verifier`).
 - Scaffold files (IDENTITY.md, MEMORY.md, HEARTBEAT.md) are deployed to all workspaces via `deploy_scaffold_files()`.
 - `mcporter.json` is generated with OS-appropriate paths (replacing hardcoded `/opt/openclaw/workspace`).
+- Bootstrap strips provider blocks with unresolved `${VAR}` env vars (v0.4.1) to prevent gateway `MissingEnvVarError` crashes.
+- Bootstrap force-syncs `agents.list` from the template to ensure all 4 agents are present (v0.4.1).
+- AKOS-specific config keys (`logging`, `permissions`, `gateway.host`) are extracted into `~/.openclaw/akos-config.json` to avoid `openclaw doctor` warnings (v0.4.1).
+- Session directories (`~/.openclaw/agents/<id>/sessions/`) are created for all agents (v0.4.1).
 
 **Drift detection:**
 - `scripts/check-drift.py` compares repo intended state against live runtime: agent count, workspace files, MCP servers, permissions.

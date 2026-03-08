@@ -1362,3 +1362,17 @@ Streams gateway log entries as JSON objects in real-time.
 - Live smoke tests: `py scripts/test.py live` (requires `AKOS_LIVE_SMOKE=1`)
 - Release gate: `py scripts/release-gate.py`
 - Browser smoke scenarios: `docs/uat/dashboard_smoke.md`
+
+### Troubleshooting (v0.4.1)
+
+**Gateway crashes with `MissingEnvVarError`:**
+Re-run `py scripts/bootstrap.py --skip-ollama`. Bootstrap now strips providers with unset env vars (e.g., `${OLLAMA_GPU_URL}`) automatically.
+
+**Only 2 agents visible in dashboard:**
+Re-run `py scripts/bootstrap.py --skip-ollama` then `openclaw gateway restart`. Bootstrap now force-syncs all 4 agents.
+
+**`openclaw doctor` reports unknown keys:**
+AKOS-specific keys (`logging`, `permissions`) are now stored in `~/.openclaw/akos-config.json` instead of the gateway config. Re-run bootstrap to fix.
+
+**`/status` returns all "unknown":**
+This is normal before the first environment switch. Run `py scripts/switch-model.py dev-local` to activate.

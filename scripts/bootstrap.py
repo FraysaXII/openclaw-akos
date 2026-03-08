@@ -13,8 +13,11 @@ Requires: Python 3.10+, Node.js >= 22, Ollama running.
 """
 
 import argparse
+import json
 import logging
+import os
 import platform
+import re
 import shutil
 import sys
 import urllib.error
@@ -148,6 +151,43 @@ def phase_ollama(args: argparse.Namespace) -> bool:
 
 # ── Phase 2: OpenCLAW Config ────────────────────────────────────────────
 
+def _strip_unconfigured_providers(config: dict) -> list[str]:
+    """Remove provider blocks that reference unset env vars (e.g. ${OLLAMA_GPU_URL}).
+    Returns the list of provider names that were stripped."""
+    providers = config.get("models", {}).get("providers", {})
+    to_remove: list[str] = []
+    for name, block in list(providers.items()):
+        base_url = block.get("baseUrl", "")
+        if isinstance(base_url, str) and "${" in base_url:
+            match = re.search(r"\$\{(\w+)\}", base_url)
+            if match and not os.environ.get(match.group(1)):
+                to_remove.append(name)
+        api_key = block.get("apiKey", {})
+        if isinstance(api_key, dict) and api_key.get("source") == "env":
+            env_id = api_key.get("id", "")
+            if env_id and not os.environ.get(env_id):
+                if not block.get("models"):
+                    to_remove.append(name)
+    for name in to_remove:
+        del providers[name]
+    return to_remove
+
+
+def _extract_akos_keys(config: dict) -> dict:
+    """Remove AKOS-specific keys that OpenClaw doesn't recognize and return them
+    as a separate dict for sidecar storage."""
+    akos_keys = {}
+    for key in ["logging", "permissions"]:
+        if key in config:
+            akos_keys[key] = config.pop(key)
+    gw = config.get("gateway", {})
+    if "host" in gw:
+        akos_keys.setdefault("gateway", {})["host"] = gw.pop("host")
+        if not gw:
+            config.pop("gateway", None)
+    return akos_keys
+
+
 def phase_config(args: argparse.Namespace) -> bool:
     status("INFO", "Phase 2: OpenCLAW configuration")
 
@@ -180,13 +220,38 @@ def phase_config(args: argparse.Namespace) -> bool:
     else:
         status("WARN", f"Model '{model_id}' not in model-tiers.json; using template defaults")
 
+    # Fix 2: Force-sync agents.list from template to ensure all 4 agents
+    if "agents" in template and "list" in template["agents"]:
+        merged["agents"]["list"] = template["agents"]["list"]
+        agent_names = [a.get("id", "?") for a in merged["agents"]["list"]]
+        status("PASS", f"Agents synced: {', '.join(agent_names)}")
+
+    # Fix 1: Strip providers with unresolved env vars
+    stripped = _strip_unconfigured_providers(merged)
+    if stripped:
+        status("PASS", f"Stripped unconfigured providers: {', '.join(stripped)}")
+
+    # Fix 3: Extract AKOS-specific keys into sidecar file
+    akos_keys = _extract_akos_keys(merged)
+    if akos_keys:
+        sidecar = oc_home / "akos-config.json"
+        save_json(sidecar, akos_keys)
+        status("PASS", f"AKOS-specific keys saved to {sidecar.name}")
+
     save_json(oc_config, merged)
     status("PASS", f"Config written: {oc_config}")
 
+    # Create agent workspace directories
     for ws_name in AGENT_WORKSPACES.values():
         ws_dir = oc_home / ws_name
         ws_dir.mkdir(parents=True, exist_ok=True)
     status("PASS", f"All {len(AGENT_WORKSPACES)} agent workspace directories created")
+
+    # Fix 4: Create session directories for all agents
+    for agent_id in AGENT_WORKSPACES:
+        sessions_dir = oc_home / "agents" / agent_id.lower() / "sessions"
+        sessions_dir.mkdir(parents=True, exist_ok=True)
+    status("PASS", "Agent session directories created")
 
     scaffolded = deploy_scaffold_files(oc_home)
     if scaffolded:
@@ -248,6 +313,8 @@ def phase_prompts(args: argparse.Namespace) -> bool:
     model_id = f"ollama/{args.primary_model}"
     registry = load_tiers(TIERS_PATH)
     variant = get_variant_for_model(registry, model_id, default="compact")
+
+    status("PASS", f"Deploying prompt variant: {variant}")
 
     assembled_dir = REPO_ROOT / "prompts" / "assembled"
     try:
