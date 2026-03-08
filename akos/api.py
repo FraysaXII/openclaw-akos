@@ -357,6 +357,41 @@ async def runpod_scale(req: ScaleRequest) -> dict[str, Any]:
     return {"scaled": success, "min": req.min_workers, "max": req.max_workers}
 
 
+# ── Context Pinning ──────────────────────────────────────────────────
+
+
+class PinRequest(BaseModel):
+    path: str
+    label: str | None = None
+
+
+_pinned_context: list[dict[str, str]] = []
+
+
+@app.post("/context/pin", dependencies=[Depends(_check_api_key)])
+async def pin_context(req: PinRequest) -> dict[str, Any]:
+    """Pin a file or resource for agent context focus."""
+    entry = {"path": req.path, "label": req.label or req.path}
+    if entry not in _pinned_context:
+        _pinned_context.append(entry)
+    return {"pinned": True, "total": len(_pinned_context), "items": _pinned_context}
+
+
+@app.delete("/context/pin", dependencies=[Depends(_check_api_key)])
+async def unpin_context(req: PinRequest) -> dict[str, Any]:
+    """Remove a pinned context entry."""
+    entry = {"path": req.path, "label": req.label or req.path}
+    if entry in _pinned_context:
+        _pinned_context.remove(entry)
+    return {"unpinned": True, "total": len(_pinned_context), "items": _pinned_context}
+
+
+@app.get("/context/pins", dependencies=[Depends(_check_api_key)])
+async def list_pins() -> dict[str, Any]:
+    """List all pinned context entries."""
+    return {"total": len(_pinned_context), "items": _pinned_context}
+
+
 # ── Metrics & Alerts ─────────────────────────────────────────────────
 
 
@@ -367,6 +402,20 @@ async def get_metrics() -> dict[str, Any]:
         return {"baselines": []}
     raw = load_json(baselines_path)
     return {"baselines": raw}
+
+
+@app.get("/metrics/cost", dependencies=[Depends(_check_api_key)])
+async def get_cost_metrics() -> dict[str, Any]:
+    """Cost breakdown by agent and environment (placeholder for Langfuse integration)."""
+    return {
+        "note": "Cost tracking requires Langfuse integration. Set up config/eval/langfuse.env.",
+        "breakdown": {
+            "by_agent": {},
+            "by_environment": {},
+            "by_model": {},
+            "total_estimated": 0.0,
+        },
+    }
 
 
 @app.get("/alerts", dependencies=[Depends(_check_api_key)])

@@ -1,0 +1,7 @@
+[
+  {"id": "eval-001", "name": "Add a function", "prompt": "Add a hello_world() function to main.py that prints 'Hello, World!'", "expected_contains": ["def hello_world", "Hello, World"], "max_tool_calls": 5},
+  {"id": "eval-002", "name": "Fix a typo", "prompt": "Fix the typo in this line: 'def calclate_sum(a, b): return a + b'", "expected_contains": ["calculate_sum"], "max_tool_calls": 3},
+  {"id": "eval-003", "name": "Explain code", "prompt": "Explain what this Python function does: def fib(n): return n if n <= 1 else fib(n-1) + fib(n-2)", "expected_contains": ["fibonacci", "recursive"], "max_tool_calls": 2},
+  {"id": "eval-004", "name": "List project files", "prompt": "List the top-level files and directories in this project", "expected_contains": ["akos", "config", "scripts"], "max_tool_calls": 3},
+  {"id": "eval-005", "name": "Rename variable", "prompt": "Refactor: rename the variable 'x' to 'total_count' in the following: x = sum(items)", "expected_contains": ["total_count"], "max_tool_calls": 3}
+]
