@@ -288,7 +288,7 @@ The architectural design is grounded in the **Holistika Methodological Trinity**
 |:-------|:-------|
 | **Completion Rate** | >60% success on multi-step autonomous workflows |
 | **Containment Rate** | Minimize human escalation for low-risk tasks |
-| **PR Throughput** | 46%+ increase via dual-agent paradigm |
+| **PR Throughput** | 46%+ increase via multi-agent paradigm |
 | **Prompt Injection Vulnerability Rate** | Absolute minimization |
 
 ## License

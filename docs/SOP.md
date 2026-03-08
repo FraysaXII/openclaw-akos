@@ -11,13 +11,13 @@
 | **Security Level** | 2 (Internal Systems Engineering & SOC Operations) |
 | **Entity Owner** | Enterprise Architecture & AI Infrastructure |
 | **Associated Workstream** | Autonomous Agent Governance, DX Optimization, and Knowledge Management |
-| **Version & Revision Date** | 2.1 — March 2026 |
+| **Version & Revision Date** | 3.0 — March 2026 |
 
 ## **1.0 Executive Summary and Architectural Vision**
 
 The contemporary landscape of autonomous software systems has shifted dramatically, moving rapidly from conversational interfaces to deep-execution architectures. Out-of-the-box, vanilla deployments of the OpenCLAW framework operate fundamentally as isolated, high-latency conversational agents. While they possess basic utility, they lack the persistent identity, deterministic workflow orchestration, and cognitive depth required to match sophisticated internal frameworks like the Kirbe Agentic Knowledge Operating System (AKOS) or proprietary solutions such as Gemini Deep Research and Cursor's dual-mode IDE planners.1
 
-The analysis indicates that achieving an enterprise-grade, highly autonomous assistant requires transcending the concept of a rudimentary "chatbot" and architecting a Large Language Model Operating System (LLMOS). This transformation necessitates the integration of the Four-Layer LLMOS paradigm: a Control Plane (Gateway), an Integration Layer, an Execution Layer (Agent Runner), and an Intelligence Layer.1 When an agent is forced to simultaneously architect a solution and write the underlying syntax, it suffers from severe cognitive overload. This results in context degradation, systemic hallucinations, and infinite debugging loops.1 To overcome this, the architecture must embrace a dual-agent paradigm, separating the cognitive workload into an "Architect" (operating in a read-only, high-context planning mode) and an "Executor" (a fast, read-write model executing strict directives).1
+The analysis indicates that achieving an enterprise-grade, highly autonomous assistant requires transcending the concept of a rudimentary "chatbot" and architecting a Large Language Model Operating System (LLMOS). This transformation necessitates the integration of the Four-Layer LLMOS paradigm: a Control Plane (Gateway), an Integration Layer, an Execution Layer (Agent Runner), and an Intelligence Layer.1 When an agent is forced to simultaneously architect a solution and write the underlying syntax, it suffers from severe cognitive overload. This results in context degradation, systemic hallucinations, and infinite debugging loops.1 To overcome this, the architecture embraces a multi-agent paradigm (v3.0: four agents), separating the cognitive workload into an "Orchestrator" (task decomposition and delegation), an "Architect" (read-only, high-context planning), an "Executor" (fast, read-write execution of strict directives), and a "Verifier" (independent quality validation with error recovery).1
 
 Furthermore, the introduction of the Model Context Protocol (MCP) serves as the universal integration layer for this ecosystem, replacing brittle, bespoke API wrappers with standardized, discoverable tool schemas.4 By standardizing how models interact with external data sources, the agent can achieve exhaustive, multi-layered research capabilities.1
 
@@ -33,7 +33,7 @@ The transformation of a vanilla OpenCLAW instance requires grounding the technic
 
 The primary responsibility of the enterprise architecture is to define the agent's strategic direction. A vanilla OpenCLAW deployment acts as a passive responder; an upgraded LLMOS must act as an active participant.2 This is achieved by evolving the agent into an Agentic Knowledge Operating System (AKOS).2 The strategy dictates that the agent must not merely retrieve data, but must validate that data against defined methodologies, acting effectively as an automated consultant.2
 
-This strategic layer is technically enforced through "Strict Mode" Logic and Data Governance frameworks.1 Recent industry demands for comprehensive data governance—including the structuring of Critical Data Elements (CDEs), data lineage coordination, and cross-functional alignment—highlight the necessity of moving beyond unstructured data retrieval.13 The agent's memory must utilize a Knowledge Graph (GraphRAG) that enforces predicate allowlists and confidence thresholds, ensuring the AI only forms relationships that possess a cryptographically verifiable "Source of Truth" (SSOT).2
+This strategic layer is technically enforced through "Strict Mode" Logic and Data Governance frameworks.1 Recent industry demands for comprehensive data governance—including the structuring of Critical Data Elements (CDEs), data lineage coordination, and cross-functional alignment—highlight the necessity of moving beyond unstructured data retrieval.13 The agent's memory must utilize a structured recall mechanism that enforces confidence thresholds, ensuring the AI only commits facts that possess a verifiable "Source of Truth" (SSOT).2 As of v3.0, this is implemented via a flat memory architecture (MCP Memory server for cross-session key-value recall, workspace files, context compression, and Langfuse traces) rather than a full GraphRAG, which was evaluated and rejected for its complexity-to-value ratio.
 
 ### **2.2 Tactics: The Intelligence Matrix and Data Integration (DI)**
 
@@ -95,7 +95,7 @@ The central nervous system of the deployment is the openclaw.json file, typicall
 
    > **Note (v2026.2.26):** The `workspaces` key shown in earlier drafts is **not supported** by the current OpenCLAW schema. The correct approach uses `agents.list` entries with per-agent `workspace` paths and optional `bindings`. See the `config/openclaw.json.example` for the canonical template.
 
-   Modify \~/.openclaw/openclaw.json to include:  
+   Modify \~/.openclaw/openclaw.json to include (v3.0 four-agent model):  
    JSON  
    {  
      "gateway": {  
@@ -105,7 +105,10 @@ The central nervous system of the deployment is the openclaw.json file, typicall
      "agents": {  
        "defaults": { "model": { "primary": "ollama/qwen3:8b" } },  
        "list": \[  
-         { "id": "architect", "name": "Architect", "workspace": "\~/.openclaw/workspace-architect" }  
+         { "id": "orchestrator", "name": "Orchestrator", "workspace": "\~/.openclaw/workspace-orchestrator" },  
+         { "id": "architect", "name": "Architect", "workspace": "\~/.openclaw/workspace-architect" },  
+         { "id": "executor", "name": "Executor", "workspace": "\~/.openclaw/workspace-executor" },  
+         { "id": "verifier", "name": "Verifier", "workspace": "\~/.openclaw/workspace-verifier" }  
        \]  
      }  
    }
@@ -114,7 +117,7 @@ The central nervous system of the deployment is the openclaw.json file, typicall
 
 ### **4.2 The A2UI Canvas Integration**
 
-To emulate the sophisticated interfaces of modern proprietary tools, the LLMOS must move beyond terminal outputs. OpenCLAW supports an Agent-to-UI (A2UI) protocol, allowing the agent to dynamically render interactive web components, charts, and GraphRAG visualizations directly on a user-facing canvas.26
+To emulate the sophisticated interfaces of modern proprietary tools, the LLMOS must move beyond terminal outputs. OpenCLAW supports an Agent-to-UI (A2UI) protocol, allowing the agent to dynamically render interactive web components, charts, and data visualizations directly on a user-facing canvas.26
 
 **Step-by-Step Procedure:**
 
@@ -195,6 +198,46 @@ For developer experience workflows, the agent must understand massive codebases 
 
 1. **Subscription Verification:** Ensure the organizational infrastructure supports the API limits required. For example, verifying active GitHub Developer Plan subscriptions (e.g., the $4.00 USD monthly tier) ensures uninterrupted API access.40  
 2. **Inject the GitHub Server:** Add the GitHub MCP definition, passing a scoped Personal Access Token (PAT) via environment variables to adhere to least privilege principles.15
+
+### **5.5 Memory, Filesystem, and Fetch MCP Servers (v3.0)**
+
+As of v3.0, three additional MCP servers extend the agent ecosystem beyond the original three (Sequential Thinking, Playwright, GitHub):
+
+* **Memory (`@modelcontextprotocol/server-memory`):** Provides cross-session key-value recall, replacing the previously planned GraphRAG with a simpler, higher-value flat memory architecture. Agents store and retrieve structured facts using `create_memory` and `retrieve_memory` tools.
+* **Filesystem (`@modelcontextprotocol/server-filesystem`):** Provides governed filesystem operations with explicit path allowlists. All write operations require HITL approval per `config/permissions.json`.
+* **Fetch (`@modelcontextprotocol/server-fetch`):** HTTP client for structured web requests. Replaces ad-hoc `curl` invocations with governed, traceable HTTP operations.
+
+### **5.6 RunPod GPU Integration (v3.0)**
+
+For workloads requiring GPU-accelerated inference (e.g., large reasoning models like DeepSeek-R1-70B), the architecture integrates RunPod serverless endpoints via `akos/runpod_provider.py`. This typed SDK wrapper provides:
+
+* **Idempotent endpoint provisioning** via `ensure_endpoint()`, auto-triggered by `scripts/switch-model.py` when switching to the `gpu-runpod` environment.
+* **Health monitoring** integrated into `scripts/log-watcher.py` (60-second intervals, Langfuse traces, SOC alerts on unhealthy status).
+* **Scaling controls** via `scale(min_workers, max_workers)` exposed through the FastAPI control plane.
+* **Inference** via `infer(prompt, ...)` with configurable timeout, temperature, and max tokens.
+
+Configuration is defined in `config/environments/gpu-runpod.json` and secrets are stored in `.env` files (never committed).
+
+### **5.7 FastAPI Control Plane (v3.0)**
+
+The v3.0 architecture introduces a programmatic API (`akos/api.py`) for system management, exposing 12 REST endpoints:
+
+| Endpoint | Method | Purpose |
+| :---- | :---- | :---- |
+| `/health` | GET | Liveness probe |
+| `/status` | GET | Full system status (agents, model, environment) |
+| `/agents` | GET | List registered agents |
+| `/switch` | POST | Switch model/environment |
+| `/runpod/health` | GET | RunPod endpoint health |
+| `/runpod/scale` | POST | Adjust RunPod worker count |
+| `/metrics` | GET | DX metrics summary |
+| `/alerts` | GET | Active SOC alerts |
+| `/prompts/assemble` | POST | Trigger prompt assembly |
+| `/checkpoints` | GET/POST | List or create workspace checkpoints |
+| `/checkpoints/restore` | POST | Restore a workspace checkpoint |
+| `/logs` | WebSocket | Real-time log streaming |
+
+The API is launched via `scripts/serve-api.py` and binds to `127.0.0.1` by default.
 
 ## **6.0 Zero-Trust Security and SOC Integration**
 
@@ -604,6 +647,57 @@ This phase deploys the Model Context Protocol servers that form the Integration 
 
 ---
 
+**T-2.9 — Inject Memory MCP Server (v3.0)**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 5.x (v3.0 expansion) |
+| **LLMOS Layer** | Integration / Intelligence |
+| **Category** | `MCP` |
+| **Dependencies** | T-2.3 |
+| **Inputs** | `~/.mcporter/mcporter.json` with `mcpServers` key |
+| **Outputs** | `mcpServers.memory` entry with `command: "npx"`, `args: ["-y", "@modelcontextprotocol/server-memory"]` |
+| **Verification** | `jq '.mcpServers.memory.command' ~/.mcporter/mcporter.json` returns `"npx"`. |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` |
+| **Complexity** | `trivial` |
+
+---
+
+**T-2.10 — Inject Filesystem MCP Server (v3.0)**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 5.x (v3.0 expansion) |
+| **LLMOS Layer** | Integration |
+| **Category** | `MCP` |
+| **Dependencies** | T-2.3 |
+| **Inputs** | `~/.mcporter/mcporter.json` with `mcpServers` key |
+| **Outputs** | `mcpServers.filesystem` entry with `command: "npx"`, `args: ["-y", "@modelcontextprotocol/server-filesystem", "/opt/openclaw/workspace"]` |
+| **Verification** | `jq '.mcpServers.filesystem.command' ~/.mcporter/mcporter.json` returns `"npx"`. |
+| **SOC Relevance** | Yes — filesystem access is a security surface; governed by permissions.json HITL classification |
+| **HITL Gate** | `mutative` |
+| **Complexity** | `trivial` |
+
+---
+
+**T-2.11 — Inject Fetch MCP Server (v3.0)**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 5.x (v3.0 expansion) |
+| **LLMOS Layer** | Integration |
+| **Category** | `MCP` |
+| **Dependencies** | T-2.3 |
+| **Inputs** | `~/.mcporter/mcporter.json` with `mcpServers` key |
+| **Outputs** | `mcpServers.fetch` entry with `command: "npx"`, `args: ["-y", "@modelcontextprotocol/server-fetch"]` |
+| **Verification** | `jq '.mcpServers.fetch.command' ~/.mcporter/mcporter.json` returns `"npx"`. |
+| **SOC Relevance** | Yes — HTTP client can be used for data exfiltration; requires HITL approval |
+| **HITL Gate** | `mutative` |
+| **Complexity** | `trivial` |
+
+---
+
 **T-2.8 — Consolidated MCP Health Check**
 
 | Attribute | Value |
@@ -611,10 +705,10 @@ This phase deploys the Model Context Protocol servers that form the Integration 
 | **SOP Reference** | 5.1 Step 3; 5.2–5.4 |
 | **LLMOS Layer** | Integration |
 | **Category** | `MCP` |
-| **Dependencies** | T-2.4, T-2.5, T-2.6 |
-| **Inputs** | All three MCP servers injected into `mcporter.json` |
+| **Dependencies** | T-2.4, T-2.5, T-2.6, T-2.9, T-2.10, T-2.11 |
+| **Inputs** | All six MCP servers injected into `mcporter.json` |
 | **Outputs** | All servers reachable and reporting tool schemas |
-| **Verification** | `mcporter list` returns `sequential-thinking`, `playwright`, and `github` with no error status. |
+| **Verification** | `mcporter list` returns `sequential-thinking`, `playwright`, `github`, `memory`, `filesystem`, and `fetch` with no error status. |
 | **SOC Relevance** | No |
 | **HITL Gate** | `read-only` |
 | **Complexity** | `trivial` |
@@ -742,9 +836,9 @@ This phase hardens the deployment. Tasks span all LLMOS layers and carry `SOC Re
 | **HITL Gate** | `read-only` — verification only |
 | **Complexity** | `moderate` |
 
-### **8.6 Phase 4: Dual-Agent Prompt Engineering (SOP 2.0, 5.2)**
+### **8.6 Phase 4: Multi-Agent Prompt Engineering (SOP 2.0, 5.2)**
 
-This phase creates the cognitive separation between the Architect and Executor agents. Tasks map to the Execution and Intelligence layers under the `PROMPT` category.
+This phase creates the cognitive separation across the four-agent model: Orchestrator, Architect, Executor, and Verifier. Tasks map to the Execution and Intelligence layers under the `PROMPT` category.
 
 ---
 
@@ -769,7 +863,7 @@ This phase creates the cognitive separation between the Architect and Executor a
 
 | Attribute | Value |
 | :---- | :---- |
-| **SOP Reference** | 2.0 (Holistika Processes); 1.0 (dual-agent paradigm) |
+| **SOP Reference** | 2.0 (Holistika Processes); 1.0 (multi-agent paradigm) |
 | **LLMOS Layer** | Execution |
 | **Category** | `PROMPT` |
 | **Dependencies** | T-4.1 |
@@ -779,6 +873,40 @@ This phase creates the cognitive separation between the Architect and Executor a
 | **SOC Relevance** | No |
 | **HITL Gate** | `mutative` — creates a file |
 | **Complexity** | `moderate` |
+
+---
+
+**T-4.5 — Create ORCHESTRATOR\_PROMPT.md (v3.0)**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 2.0 (multi-agent coordination); 1.0 (task decomposition) |
+| **LLMOS Layer** | Execution |
+| **Category** | `PROMPT` |
+| **Dependencies** | T-4.1, T-4.2 |
+| **Inputs** | Architect and Executor prompts exist as downstream references |
+| **Outputs** | `ORCHESTRATOR_PROMPT.md` in workspace root. The prompt must: (a) restrict the agent to read-only mode, (b) define task decomposition protocol for breaking complex requests into delegable sub-tasks, (c) specify delegation targets (Architect for planning, Executor for implementation), (d) define progress tracking and error escalation protocols. |
+| **Verification** | `grep -q 'Orchestrator' ORCHESTRATOR_PROMPT.md && grep -q 'read-only' ORCHESTRATOR_PROMPT.md && echo OK` |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` — creates a file |
+| **Complexity** | `complex` |
+
+---
+
+**T-4.6 — Create VERIFIER\_PROMPT.md (v3.0)**
+
+| Attribute | Value |
+| :---- | :---- |
+| **SOP Reference** | 2.0 (quality assurance); 7.0 (DX metrics) |
+| **LLMOS Layer** | Execution |
+| **Category** | `PROMPT` |
+| **Dependencies** | T-4.2 |
+| **Inputs** | Executor prompt exists; DX metric baselines from T-5.2 inform verification criteria |
+| **Outputs** | `VERIFIER_PROMPT.md` in workspace root. The prompt must: (a) define the Verification Protocol (lint, test, build, browser checks), (b) specify the Fix Suggestion Protocol with confidence ratings (HIGH/MEDIUM/LOW), (c) implement 3-attempt escalation: suggest fix → suggest alternative → abort with diagnosis, (d) restrict to read-write validation commands only. |
+| **Verification** | `grep -q 'Verifier' VERIFIER_PROMPT.md && grep -q 'Verification Protocol' VERIFIER_PROMPT.md && echo OK` |
+| **SOC Relevance** | No |
+| **HITL Gate** | `mutative` — creates a file |
+| **Complexity** | `complex` |
 
 ---
 
@@ -806,15 +934,15 @@ This phase creates the cognitive separation between the Architect and Executor a
 | **SOP Reference** | 4.1 Step 3; 2.0 |
 | **LLMOS Layer** | Control Plane / Execution |
 | **Category** | `PROMPT` |
-| **Dependencies** | T-1.2, T-4.1, T-4.2 |
-| **Inputs** | Valid `openclaw.json`; both prompt files exist |
-| **Outputs** | `openclaw.json` updated with `agents.list` containing architect and executor entries. Each agent has: `id`, `name`, `workspace` (dedicated directory), and `identity` (object with `name`, `emoji`, `theme`). System prompts deployed as `SOUL.md` inside each agent's workspace. `agents.defaults.thinkingDefault` set to `"off"` for Ollama model compatibility. Optional `bindings` array for channel-to-agent routing. |
-| **Verification** | `openclaw gateway restart` reports no validation errors. `jq '.agents.list \| length' ~/.openclaw/openclaw.json` returns `2`. `test -f ~/.openclaw/workspace-architect/SOUL.md && test -f ~/.openclaw/workspace-executor/SOUL.md && echo OK`. |
+| **Dependencies** | T-1.2, T-4.1, T-4.2, T-4.5, T-4.6 |
+| **Inputs** | Valid `openclaw.json`; all four prompt files exist |
+| **Outputs** | `openclaw.json` updated with `agents.list` containing orchestrator, architect, executor, and verifier entries. Each agent has: `id`, `name`, `workspace` (dedicated directory), and `identity` (object with `name`, `emoji`, `theme`). System prompts deployed as `SOUL.md` inside each agent's workspace. `agents.defaults.thinkingDefault` set to `"off"` for Ollama model compatibility. Optional `bindings` array for channel-to-agent routing. |
+| **Verification** | `openclaw gateway restart` reports no validation errors. `jq '.agents.list \| length' ~/.openclaw/openclaw.json` returns `4`. All four workspaces contain `SOUL.md`. |
 | **SOC Relevance** | Yes — workspace isolation prevents context cross-contamination between channels |
 | **HITL Gate** | `mutative` |
 | **Complexity** | `moderate` |
 
-> **Implementation Note (v2026.2.26 corrections):** The original SOP text in Section 4.1 Step 3 references a `workspaces` object for channel routing. This schema does not exist in OpenCLAW v2026.2.26. The correct mechanism is `agents.list` (agent definitions) + `bindings` (channel-to-agent routing rules). Additionally, `identity` must be an object (`{ name, emoji, theme }`), not a string path. Behavioral prompts are loaded from `SOUL.md` inside each agent's workspace directory. Ollama-hosted models require `agents.defaults.thinkingDefault: "off"` to prevent 400 errors from unsupported `think` parameters. See [ARCHITECTURE.md](ARCHITECTURE.md) for full details.
+> **Implementation Note (v3.0 update):** The original SOP text referenced a `workspaces` object for channel routing. This schema does not exist in OpenCLAW v2026.2.26. The correct mechanism is `agents.list` (agent definitions) + `bindings` (channel-to-agent routing rules). Additionally, `identity` must be an object (`{ name, emoji, theme }`), not a string path. Behavioral prompts are loaded from `SOUL.md` inside each agent's workspace directory. Ollama-hosted models require `agents.defaults.thinkingDefault: "off"` to prevent 400 errors from unsupported `think` parameters. As of v3.0, the `agents.list` must contain all four agents: Orchestrator, Architect, Executor, and Verifier. See [ARCHITECTURE.md](ARCHITECTURE.md) for full details.
 
 ### **8.7 Phase 5: Observability and DX Metrics (SOP 7.0)**
 
@@ -909,7 +1037,7 @@ All phases in this registry must be executed sequentially. An AI-assisted IDE (s
 2. **HITL Enforcement:** Any task marked with HITL Gate `mutative` or `destructive` requires explicit human approval before execution. The operator must visually confirm the proposed action. Tasks marked `read-only` may execute autonomously.
 3. **Verification-Before-Proceed:** After completing each task, the Verification command or assertion must be executed. A failing verification blocks all downstream dependent tasks.
 4. **Idempotency:** Tasks should be designed to be safely re-run. If a task's Output already exists and its Verification passes, it may be skipped.
-5. **Abort Protocol:** If a task fails verification after two retry attempts, execution halts. The operator must diagnose the failure manually before resuming.
+5. **Abort Protocol:** If a task fails verification after three retry attempts (v3.0: Verifier-guided recovery loop), execution halts. The operator must diagnose the failure manually before resuming.
 
 #### **Works cited**
 

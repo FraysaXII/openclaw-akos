@@ -255,7 +255,7 @@ Six MCP servers provide the agent tool ecosystem:
 | sequential-thinking | `@modelcontextprotocol/server-sequential-thinking` | Structured reasoning for Architect/Orchestrator |
 | playwright | `@playwright/mcp` | Browser automation and UI verification |
 | github | `@modelcontextprotocol/server-github` | Repo metadata, code search |
-| memory | `@modelcontextprotocol/server-memory` | Cross-session key-value recall (replaces GraphRAG) |
+| memory | `@modelcontextprotocol/server-memory` | Cross-session key-value recall |
 | filesystem | `@modelcontextprotocol/server-filesystem` | Structured file operations |
 | fetch | `@modelcontextprotocol/server-fetch` | HTTP client for API integration |
 
@@ -387,10 +387,10 @@ The [SOP Section 8.0](SOP.md#80-implementation-task-registry) decomposes the arc
 |:------|:------------|:-------------|:---------|:------|
 | **Phase 0** — Environment Assessment | 3.0 | Control Plane | `ENV` | T-0.1 through T-0.6 |
 | **Phase 1** — Configuration Bootstrapping | 4.1–4.2 | Control Plane, Integration | `CONFIG` | T-1.1 through T-1.5 |
-| **Phase 2** — MCP Provisioning | 5.1–5.4 | Integration, Execution | `MCP` | T-2.1 through T-2.8 |
+| **Phase 2** — MCP Provisioning | 5.1–5.6 | Integration, Execution | `MCP` | T-2.1 through T-2.11 |
 | **Phase 3** — Security Implementation | 6.1–6.3 | All | `SECURITY`, `LOGGING` | T-3.1 through T-3.7 |
-| **Phase 4** — Dual-Agent Prompt Engineering | 2.0, 5.2 | Execution, Intelligence | `PROMPT` | T-4.1 through T-4.4 |
-| **Phase 5** — Observability and DX Metrics | 7.0 | All | `METRIC`, `LOGGING` | T-5.1 through T-5.3 |
+| **Phase 4** — Multi-Agent Prompt Engineering | 2.0, 5.2 | Execution, Intelligence | `PROMPT` | T-4.1 through T-4.6 |
+| **Phase 5** — Observability and DX Metrics | 7.0 | All | `METRIC`, `LOGGING` | T-5.1 through T-5.5 |
 
 Every task carries SSOT traceability (Task ID), SOC relevance tagging, HITL gate classification, and a verification command. See the full registry for details.
 
@@ -427,7 +427,7 @@ A validation test suite (`tests/`) provides 190+ automated checks covering JSON 
 
 ## Live Configuration Status
 
-The dual-agent architecture has been wired into the live `~/.openclaw/openclaw.json` using the native `agents.list` schema. Both agents are accessible via `openclaw dashboard` (WebChat). A backup of the original config exists at `~/.openclaw/openclaw.json.bak`.
+The multi-agent architecture (Orchestrator, Architect, Executor, Verifier) has been wired into the live `~/.openclaw/openclaw.json` using the native `agents.list` schema. All four agents are accessible via `openclaw dashboard` (WebChat). A backup of the original config exists at `~/.openclaw/openclaw.json.bak`.
 
 To disconnect the AKOS architecture from OpenCLAW:
 1. Restore backup: copy `openclaw.json.bak` over `openclaw.json`
