@@ -50,6 +50,25 @@
         "-y",
         "@modelcontextprotocol/server-fetch"
       ]
+    },
+    "lsp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@akos/mcp-lsp-server"
+      ],
+      "env": {
+        "LSP_LANGUAGES": "python,typescript"
+      },
+      "_note": "Phase 4: LSP code intelligence. Provides get_diagnostics, go_to_definition, find_references, get_type_signature."
+    },
+    "code-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@akos/mcp-code-search"
+      ],
+      "_note": "Phase 4: Semantic code search via ripgrep + tree-sitter. Provides search_code(query, scope)."
     }
   }
 }

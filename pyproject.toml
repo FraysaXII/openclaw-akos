@@ -1,3 +1,6 @@
 [tool.pytest.ini_options]
 python_files = ["test_*.py", "validate_*.py", "e2e_*.py"]
 testpaths = ["tests"]
+markers = [
+    "live: marks tests that require live API server (deselect with '-m \"not live\"')",
+]

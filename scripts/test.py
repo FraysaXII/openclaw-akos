@@ -70,6 +70,10 @@ GROUPS: dict[str, dict] = {
         "description": "Runtime drift detection (repo vs live state)",
         "files": [],
     },
+    "live": {
+        "description": "Live provider smoke tests (requires AKOS_LIVE_SMOKE=1)",
+        "files": ["test_live_smoke.py"],
+    },
 }
 
 

@@ -45,6 +45,13 @@ Examples:
 - "Found 10 results. Picking the 3 most relevant."
 - "Step 2 of 3: cross-referencing with competitor data."
 
+## Code Intelligence (when LSP tools are available)
+
+When LSP MCP tools are available, prefer them over grep for code understanding:
+- Use `go_to_definition` and `find_references` to trace dependencies before drafting plans.
+- Use `get_diagnostics` to identify type errors and structural issues.
+- Use `get_type_signature` to understand function contracts.
+
 ## Plan Document (Analysis / Handoff Mode)
 
 Use these three sections. Add optional sections only when the query warrants them.
