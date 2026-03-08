@@ -20,7 +20,7 @@ The system decouples the reasoning engine from its tools and channels across fou
 │  └──────────┘ └──────────┘ └──────────┘ └───────────┘ │
 ├─────────────────────────────────────────────────────────┤
 │                  EXECUTION LAYER                        │
-│          (Multi-Agent Runner Model — v0.3.0)            │
+│          (Multi-Agent Runner Model — v0.4.0)            │
 │                                                         │
 │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐   │
 │  │ ORCHESTRATOR │ │  ARCHITECT   │ │   EXECUTOR   │   │
@@ -38,7 +38,7 @@ The system decouples the reasoning engine from its tools and channels across fou
 │         │                                               │
 ├─────────────────────────────────────────────────────────┤
 │                 INTELLIGENCE LAYER                       │
-│          (Flat Memory Architecture — v0.3.0)             │
+│          (Flat Memory Architecture — v0.4.0)             │
 │                                                         │
 │  ┌───────────────────────┐ ┌──────────────────────┐    │
 │  │  MCP Memory Server    │ │  Workspace Files     │    │
@@ -51,7 +51,7 @@ The system decouples the reasoning engine from its tools and channels across fou
 └─────────────────────────────────────────────────────────┘
 ```
 
-## Multi-Agent Model (v0.3.0)
+## Multi-Agent Model (v0.4.0)
 
 Forcing a single agent to simultaneously architect a solution and write the underlying syntax causes **cognitive overload**, resulting in context degradation, hallucinations, and infinite debugging loops.
 
@@ -83,6 +83,24 @@ The multi-agent paradigm separates concerns across four specialized roles:
 - Validates Executor output via lint, test, build, and browser verification
 - Diagnoses failures and suggests targeted fixes
 - Escalates to Orchestrator after 3 failed attempts
+
+### Agent Behavioral Protocols (new in v0.4.0)
+
+All agents gained behavioral protocols in v0.4.0:
+
+- **Self-Verification** -- Executor auto-verifies after every edit (lint/test); never moves to next step with failures.
+- **Loop Detection** -- Orchestrator and Executor detect repetitive failures and escalate to user after 3 attempts.
+- **Memory Hygiene** -- All agents proactively store decisions in MEMORY.md and via `memory_store()`.
+- **Structured Planning** -- Orchestrator and Architect use conditional tasklist triggers; multi-step work produces numbered plans with checkboxes.
+- **RULES.md** -- All agents read workspace `RULES.md` at session start for user-defined conventions.
+
+### Role-Safe Capability Enforcement (new in v0.4.0)
+
+Role safety is enforced at the configuration layer, not just by prompt instructions:
+
+- `config/agent-capabilities.json` defines per-role tool access as a single source of truth.
+- `akos/policy.py` loads the matrix and generates tool profiles.
+- API endpoints `/agents/{id}/policy` and `/agents/{id}/capability-drift` provide runtime audit.
 
 ### Runtime Configuration (agents.list)
 
@@ -189,7 +207,7 @@ prompts/base/ARCHITECT_BASE.md  +  overlays/  -->  assembled/ARCHITECT_PROMPT.<v
 |:--------|:------------------|
 | compact | None (base only -- 3-5 MUST rules for small models) |
 | standard | OVERLAY_REASONING.md (sequential thinking, thinking trace) |
-| full | OVERLAY_REASONING.md + OVERLAY_INTELLIGENCE.md + OVERLAY_TOOLS_FULL.md |
+| full | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_INTELLIGENCE + OVERLAY_RESEARCH + OVERLAY_CONTEXT_MANAGEMENT + OVERLAY_TOOLS_FULL |
 
 Build all variants: `python scripts/assemble-prompts.py`
 
@@ -227,9 +245,9 @@ This copies the `.env`, deep-merges the JSON overlay, deploys the correct SOUL.m
 1. **Per-agent model override bug** ([#29571](https://github.com/openclaw/openclaw/issues/29571)): `agents.defaults.model.primary` overrides per-agent model settings at runtime, so all agents currently share the same model. Model switching must happen at the global level.
 2. **Ollama `num_ctx` requires Modelfile**: The `contextWindow` declared in `openclaw.json` does not configure Ollama's actual context window. Each local model needs a custom Modelfile with `PARAMETER num_ctx <value>`.
 
-## MCP Server Topology (v0.3.0)
+## MCP Server Topology (v0.4.0)
 
-Six MCP servers provide the agent tool ecosystem:
+Eight MCP servers provide the agent tool ecosystem:
 
 ```
                     ┌─────────────────┐
@@ -258,6 +276,8 @@ Six MCP servers provide the agent tool ecosystem:
 | memory | `@modelcontextprotocol/server-memory` | Cross-session key-value recall |
 | filesystem | `@modelcontextprotocol/server-filesystem` | Structured file operations |
 | fetch | `@modelcontextprotocol/server-fetch` | HTTP client for API integration |
+| lsp | `@akos/mcp-lsp-server` | Type-aware code navigation (go-to-definition, find-references, diagnostics) |
+| code-search | `@akos/mcp-code-search` | Semantic code search via ripgrep + tree-sitter |
 
 ## Security Architecture
 
@@ -324,6 +344,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/runpod_provider.py` | RunPod SDK wrapper: endpoint lifecycle, health checks, scaling, inference, GPU discovery (v0.3.0) |
 | `akos/api.py` | FastAPI control plane: REST endpoints for health, status, switching, RunPod, metrics, alerts, checkpoints, WebSocket logs (v0.3.0) |
 | `akos/tools.py` | Dynamic tool registry reading mcporter config + permissions.json; HITL classification (v0.3.0) |
+| `akos/policy.py` | Role capability matrix loader, tool profile generation, drift detection (v0.4.0) |
 | `akos/checkpoints.py` | Workspace snapshot/restore via tarballs for reversible execution (v0.3.0) |
 
 All scripts (`bootstrap.py`, `switch-model.py`, `assemble-prompts.py`, `log-watcher.py`) import from `akos/` and accept `--json-log` for structured CI output.
@@ -349,9 +370,34 @@ The `akos/api.py` module exposes a REST API for programmatic control:
 | `/prompts/assemble` | POST | Trigger prompt assembly |
 | `/checkpoints` | GET/POST | Workspace snapshot management |
 | `/checkpoints/restore` | POST | Restore a workspace checkpoint |
+| `/runtime/drift` | GET | Runtime drift detection (repo vs live) |
+| `/agents/{id}/policy` | GET | Effective capability policy for an agent |
+| `/agents/{id}/capability-drift` | GET | Check tool drift against policy |
 | `/logs` | WebSocket | Live log stream |
 
 Launch: `python scripts/serve-api.py --port 8420`
+
+### Operator Scripts (v0.4.0)
+
+| Script | Purpose |
+|:-------|:--------|
+| `scripts/check-drift.py` | Detect repo-to-runtime mismatches |
+| `scripts/doctor.py` | One-command system health check |
+| `scripts/sync-runtime.py` | Hydrate runtime from repo SSOT |
+| `scripts/release-gate.py` | Unified release gate (tests + drift + smoke) |
+
+### Workflow Definitions (v0.4.0)
+
+Reusable workflow specs in `config/workflows/`:
+
+| Workflow | Agents | Purpose |
+|:---------|:-------|:--------|
+| `analyze_repo` | Architect, Orchestrator | Full codebase analysis |
+| `implement_feature` | Architect, Executor, Verifier | Plan + implement + verify |
+| `verify_changes` | Verifier | Lint, test, build, screenshot |
+| `browser_smoke` | Verifier | Dashboard browser validation |
+| `deploy_check` | Architect, Verifier | Deployment readiness assessment |
+| `incident_review` | Architect, Orchestrator | Root cause and remediation |
 
 ## Observability Stack
 
@@ -423,7 +469,7 @@ The following files implement the architecture described above as committable co
 | All | [`config/eval/langfuse.env.example`](../config/eval/langfuse.env.example) | T-5.1 |
 | All | [`config/environments/`](../config/environments/) | T-5.4 |
 
-A validation test suite (`tests/`) provides 190+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, SOP task coverage, RunPod provider operations, FastAPI endpoints, and workspace checkpoints.
+A validation test suite (`tests/`) provides 193+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, SOP task coverage, RunPod provider operations, FastAPI endpoints, and workspace checkpoints.
 
 ## Live Configuration Status
 

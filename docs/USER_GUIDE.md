@@ -1,6 +1,6 @@
 # OpenCLAW-AKOS User Guide
 
-**Version 0.3.0 -- March 2026**
+**Version 0.4.0 -- March 2026**
 
 ---
 
@@ -38,7 +38,7 @@ OpenCLAW-AKOS transforms a vanilla OpenCLAW deployment into an **Agentic Knowled
 - **Tiered prompt assembly** keyed to model capability (small/medium/large/SOTA).
 - **RunPod GPU integration** for serverless vLLM endpoints with auto-provisioning.
 - A **FastAPI control plane** for programmatic system management.
-- **6 MCP servers** for tools: reasoning, browser automation, GitHub, memory, filesystem, and HTTP.
+- **8 MCP servers** for tools: reasoning, browser automation, GitHub, memory, filesystem, HTTP, LSP, and code search.
 - **Human-in-the-Loop (HITL) enforcement** on all mutative operations.
 - **Observability** via Langfuse telemetry, SOC alerts, and structured logging.
 - **Workspace checkpoints** for reversible execution.
@@ -550,7 +550,7 @@ When `log-watcher.py` detects a RunPod environment, it automatically checks endp
 
 ### 9.1 Installed Servers
 
-Six MCP servers provide the agent tool ecosystem:
+Eight MCP servers provide the agent tool ecosystem:
 
 | Server | Package | Purpose |
 |:-------|:--------|:--------|
@@ -560,6 +560,8 @@ Six MCP servers provide the agent tool ecosystem:
 | `memory` | `@modelcontextprotocol/server-memory` | Cross-session key-value store for persistent recall |
 | `filesystem` | `@modelcontextprotocol/server-filesystem` | Structured file read/write operations |
 | `fetch` | `@modelcontextprotocol/server-fetch` | HTTP client for API calls |
+| `lsp` | `@akos/mcp-lsp-server` | Type-aware code navigation (go-to-definition, find-references, diagnostics) |
+| `code-search` | `@akos/mcp-code-search` | Semantic code search via ripgrep + tree-sitter |
 
 ### 9.2 Configuration
 
@@ -881,7 +883,7 @@ Overall status: **Partial** -- pending live Langfuse deployment and first audit 
 All tests run through a single entry point -- `scripts/test.py`. No file paths to memorize.
 
 ```bash
-py scripts/test.py              # all 191+ tests
+py scripts/test.py              # all 193+ tests
 py scripts/test.py api          # FastAPI endpoints + E2E pipeline
 py scripts/test.py security     # alerts, permissions, config validation
 py scripts/test.py runpod       # RunPod provider (mocked SDK)
@@ -1298,3 +1300,47 @@ Streams gateway log entries as JSON objects in real-time.
 | **skillvet** | Security scanner for OpenCLAW community skills (48 vulnerability checks) |
 | **ClawHavoc** | Active malware campaign targeting OpenCLAW users via malicious skills |
 | **mcporter** | MCP server manager CLI |
+
+---
+
+## 22. What's New in v0.4.0
+
+### Runtime Convergence
+- All 4 agents (Orchestrator, Architect, Executor, Verifier) now deploy correctly during bootstrap
+- Gateway health check returns actual status instead of "unknown"
+- MCP paths resolve correctly on Windows, macOS, and Linux
+- Bearer token authentication via `AKOS_API_KEY` environment variable
+
+### Self-Verifying Agents
+- Executor auto-verifies after every edit (lint/test check)
+- Loop detection prevents infinite retry cycles (escalates after 3 attempts)
+- All agents proactively write to MEMORY.md and MCP Memory store
+
+### Structured Planning
+- Multi-step tasks produce numbered plans with checkboxes
+- Trivial tasks skip planning overhead automatically
+- Customize agent behavior via RULES.md in each workspace
+
+### Role Safety
+- Tool access enforced by `config/agent-capabilities.json`, not just prompts
+- Audit via `GET /agents/{id}/policy` and `GET /agents/{id}/capability-drift`
+
+### Code Intelligence
+- LSP and code-search MCP servers for type-aware navigation
+- Research overlay with citation requirements for Architect
+
+### Workflows
+- 6 reusable workflow definitions in `config/workflows/`
+- Invoke: analyze_repo, implement_feature, verify_changes, browser_smoke, deploy_check, incident_review
+
+### Operator Tooling
+- `py scripts/doctor.py` -- one-command health check
+- `py scripts/sync-runtime.py` -- hydrate runtime from repo
+- `py scripts/release-gate.py` -- unified release gate
+- `py scripts/check-drift.py` -- detect repo-to-runtime drift
+
+### Testing
+- 193+ tests (up from 191)
+- Live smoke tests: `py scripts/test.py live` (requires `AKOS_LIVE_SMOKE=1`)
+- Release gate: `py scripts/release-gate.py`
+- Browser smoke scenarios: `docs/uat/dashboard_smoke.md`

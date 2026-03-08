@@ -80,9 +80,15 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - RunPod provider operations must have mocked SDK tests in `tests/test_runpod_provider.py`.
 - FastAPI endpoints must have TestClient tests in `tests/test_api.py`.
 - New agent prompts/overlays must be covered by `tests/test_e2e_pipeline.py`.
-- Run the full suite before submitting: `py scripts/test.py` (191 tests expected)
+- Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint.
+- New workflow definitions go in `config/workflows/` as markdown files following the existing format.
+- New overlay files must be registered in `config/model-tiers.json` `variantOverlays` section.
+- Run the full suite before submitting: `py scripts/test.py` (193+ tests expected)
 - Run specific groups: `py scripts/test.py api`, `py scripts/test.py security`, etc.
 - See all available groups: `py scripts/test.py --list`
+- New test groups added in v0.4.0: `drift` (runtime drift detection), `live` (opt-in live provider smoke tests requiring `AKOS_LIVE_SMOKE=1`)
+- Live smoke tests use `@pytest.mark.live` and are skipped by default
+- Before releases, run the release gate: `py scripts/release-gate.py`
 
 ## Security Contributions
 
