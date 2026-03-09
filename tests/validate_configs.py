@@ -336,3 +336,23 @@ class TestSessionConfigExampleAlignment:
         a2a = session.get("agentToAgent", {})
         assert "maxPingPongTurns" in a2a, "session.agentToAgent should use maxPingPongTurns"
         assert "pingPongTurns" not in a2a, "session.agentToAgent should not have legacy pingPongTurns"
+
+
+class TestStrictAkosInventoryContract:
+    """Lock full-only provider and A2A inventory contract in the template."""
+
+    def test_provider_ids_exact_match(self, config_dir):
+        data = load_json(config_dir / "openclaw.json.example")
+        providers = data["models"]["providers"]
+        assert set(providers.keys()) == {
+            "ollama-local",
+            "ollama-gpu",
+            "openai",
+            "anthropic",
+            "vllm-runpod",
+        }
+
+    def test_a2a_allowlist_exact_match(self, config_dir):
+        data = load_json(config_dir / "openclaw.json.example")
+        allow = data["tools"]["agentToAgent"]["allow"]
+        assert set(allow) == {"orchestrator", "architect", "executor", "verifier"}

@@ -189,26 +189,22 @@ def phase_ollama(args: argparse.Namespace) -> bool:
 
 # ── Phase 2: OpenCLAW Config ────────────────────────────────────────────
 
-def _strip_unconfigured_providers(config: dict) -> list[str]:
-    """Remove provider blocks that reference unset env vars (e.g. ${OLLAMA_GPU_URL}).
-    Returns the list of provider names that were stripped."""
+def _collect_unresolved_provider_inputs(config: dict) -> list[str]:
+    """Return unresolved provider env inputs without mutating provider inventory."""
     providers = config.get("models", {}).get("providers", {})
-    to_remove: list[str] = []
+    issues: list[str] = []
     for name, block in list(providers.items()):
         base_url = block.get("baseUrl", "")
         if isinstance(base_url, str) and "${" in base_url:
             match = re.search(r"\$\{(\w+)\}", base_url)
             if match and not os.environ.get(match.group(1)):
-                to_remove.append(name)
+                issues.append(f"{name}.baseUrl references unset env var {match.group(1)}")
         api_key = block.get("apiKey", {})
         if isinstance(api_key, dict) and api_key.get("source") == "env":
             env_id = api_key.get("id", "")
             if env_id and not os.environ.get(env_id):
-                if not block.get("models"):
-                    to_remove.append(name)
-    for name in to_remove:
-        del providers[name]
-    return to_remove
+                issues.append(f"{name}.apiKey references unset env var {env_id}")
+    return issues
 
 
 def _extract_akos_keys(config: dict) -> dict:
@@ -264,10 +260,17 @@ def phase_config(args: argparse.Namespace) -> bool:
         agent_names = [a.get("id", "?") for a in merged["agents"]["list"]]
         status("PASS", f"Agents synced: {', '.join(agent_names)}")
 
-    # Fix 1: Strip providers with unresolved env vars
-    stripped = _strip_unconfigured_providers(merged)
-    if stripped:
-        status("PASS", f"Stripped unconfigured providers: {', '.join(stripped)}")
+    if "models" in template and "providers" in template["models"]:
+        merged.setdefault("models", {})
+        merged["models"]["providers"] = json.loads(json.dumps(template["models"]["providers"]))
+        status("PASS", "Providers synced to strict full inventory contract")
+
+    unresolved_inputs = _collect_unresolved_provider_inputs(merged)
+    if unresolved_inputs:
+        for issue in unresolved_inputs:
+            status("WARN", f"Provider input unresolved (provider retained): {issue}")
+    else:
+        status("PASS", "All provider env-backed inputs resolved or intentionally empty")
 
     # Fix 2b: Sync per-agent tool profiles from capability matrix
     _sync_tool_profiles_from_capability_matrix(merged)

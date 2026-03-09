@@ -472,7 +472,7 @@ The following matrix shows every component, who owns it, and how the two layers 
 | Session Policy          | `session.reset.*`, `session.typingMode` | Session reset, typing indicators                | Bootstrap configures idle timeout and typing mode           |
 | Browser Control         | `browser.*`                           | Browser automation, SSRF policy                    | Bootstrap sets headless mode and SSRF restrictions         |
 | Message Reactions       | `messages.statusReactions.*`           | Lifecycle emoji on messages (queued/thinking/done)  | Bootstrap enables for UX                                  |
-| Model Providers         | `models.providers.*`                  | LLM provider routing and failover                  | Bootstrap strips unconfigured providers                    |
+| Model Providers         | `models.providers.*`                  | LLM provider routing and failover                  | Bootstrap preserves full provider inventory; unresolved env inputs are surfaced as warnings |
 | Channel Routing         | `bindings[]`                          | Route channels to agents                            | Defined in template; future expansion                      |
 | MCP Servers             | via mcporter.json                     | Tool servers (8 total)                             | Bootstrap generates resolved paths                        |
 | WebChat                 | `web.enabled`                         | Dashboard chat interface                            | Always enabled for AKOS                                    |

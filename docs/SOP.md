@@ -1325,6 +1325,11 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - Runtime interpretation is normalized via AKOS diagnostics: when `RPC probe: ok` and a listener is present, runtime is classified as `healthy` even if raw OpenClaw service metadata reports `unknown`.
 - Determinism gate: runtime normalization is validated across 3 repeated probes in `py scripts/doctor.py`.
 
+**Phase 2 execution note (strict full inventory SSOT):**
+- Bootstrap preserves the full provider inventory from `config/openclaw.json.example` and never strips providers due to missing env vars.
+- Missing env-backed URLs/keys are surfaced as explicit operator warnings so runtime intent remains aligned with strict inventory verification.
+- `scripts/legacy/verify_openclaw_inventory.py` remains strict and exact; diagnostics are improved for missing/extra provider reconciliation.
+
 ---
 
 #### **Works cited**

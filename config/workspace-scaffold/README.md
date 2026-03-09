@@ -15,6 +15,7 @@ verifier/      Files for the Verifier (quality gate) workspace
 
 - `RULES.md` is deployed to each agent workspace. Agents read it at session start via SOUL.md directive for user-defined conventions.
 - **Tool profiles are enforced at the gateway level** (v0.5.0), not just via prompts. Bootstrap translates `config/agent-capabilities.json` into per-agent OpenClaw `tools.profile`; the gateway blocks unauthorized tool calls even if an agent is prompt-injected.
+- **Provider inventory is full-only**: bootstrap retains every provider in `config/openclaw.json.example` and emits warnings for unresolved env-backed URLs/keys instead of stripping provider blocks.
 
 ## Usage
 
