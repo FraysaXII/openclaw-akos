@@ -1321,6 +1321,10 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - Phase 5: required docs are synchronized and consistent with verified behavior.
 - Phase 6: exactly one commit per phase (plus optional final audit commit only if needed), then push.
 
+**Phase 1 execution note (runtime contract hardening):**
+- Runtime interpretation is normalized via AKOS diagnostics: when `RPC probe: ok` and a listener is present, runtime is classified as `healthy` even if raw OpenClaw service metadata reports `unknown`.
+- Determinism gate: runtime normalization is validated across 3 repeated probes in `py scripts/doctor.py`.
+
 ---
 
 #### **Works cited**

@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import logging
+import shutil
 import sys
 import urllib.error
 import urllib.request
@@ -21,9 +22,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+import akos.process as proc
 from akos.io import AGENT_WORKSPACES, REPO_ROOT, load_json, resolve_openclaw_home
 from akos.log import setup_logging
 from akos.policy import CapabilityMatrix
+from akos.runtime import RuntimeState, parse_gateway_status_output
 
 logger = logging.getLogger("akos.doctor")
 
@@ -40,6 +43,62 @@ def check_gateway() -> tuple[str, str]:
             return "PASS", f"Gateway reachable at {GATEWAY_URL}"
     except (urllib.error.URLError, OSError):
         return "FAIL", f"Gateway not reachable at {GATEWAY_URL}"
+
+
+def check_gateway_runtime_contract() -> list[tuple[str, str]]:
+    """Normalize runtime semantics from openclaw gateway status output."""
+    checks: list[tuple[str, str]] = []
+    samples: list[RuntimeState] = []
+    cli = _resolve_openclaw_cli()
+    if not cli:
+        checks.append(("WARN", "gateway status probe unavailable: openclaw CLI not found in PATH"))
+        return checks
+
+    for _ in range(3):
+        result = proc.run([cli, "gateway", "status"], timeout=20)
+        if not result.success:
+            detail = result.stderr.strip() or f"exit {result.returncode}"
+            checks.append(("WARN", f"gateway status probe unavailable: {detail}"))
+            return checks
+
+        snapshot = parse_gateway_status_output(result.stdout)
+        samples.append(snapshot.normalized_runtime)
+
+        if snapshot.normalized_runtime == "healthy":
+            checks.append((
+                "PASS",
+                "Gateway runtime normalized to healthy "
+                f"(raw={snapshot.raw_runtime}, rpc_probe={snapshot.rpc_probe}, listening={snapshot.listening})",
+            ))
+        elif snapshot.normalized_runtime == "unknown":
+            checks.append((
+                "WARN",
+                "Gateway runtime remains unknown "
+                f"(raw={snapshot.raw_runtime}, rpc_probe={snapshot.rpc_probe}, listening={snapshot.listening})",
+            ))
+        else:
+            checks.append((
+                "FAIL",
+                "Gateway runtime degraded "
+                f"(raw={snapshot.raw_runtime}, rpc_probe={snapshot.rpc_probe}, listening={snapshot.listening})",
+            ))
+
+    first = samples[0]
+    if all(state == first for state in samples):
+        checks.append(("PASS", f"Runtime status deterministic across repeated probes ({first})"))
+    else:
+        checks.append(("FAIL", f"Runtime status non-deterministic across probes ({samples})"))
+
+    return checks
+
+
+def _resolve_openclaw_cli() -> str | None:
+    """Resolve OpenClaw executable across OS-specific wrappers."""
+    for candidate in ("openclaw", "openclaw.cmd", "openclaw.exe"):
+        found = shutil.which(candidate)
+        if found:
+            return found
+    return None
 
 
 def check_workspaces(oc_home: Path) -> list[tuple[str, str]]:
@@ -178,6 +237,7 @@ def run_doctor() -> list[tuple[str, str]]:
     results: list[tuple[str, str]] = []
 
     results.append(check_gateway())
+    results.extend(check_gateway_runtime_contract())
     results.extend(check_workspaces(oc_home))
     results.extend(check_soul_md(oc_home))
     results.append(check_mcporter())

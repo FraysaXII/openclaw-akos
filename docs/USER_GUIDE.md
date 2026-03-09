@@ -702,7 +702,7 @@ curl http://127.0.0.1:8420/health
 ```json
 {
   "status": "ok",
-  "gateway": "unknown",
+  "gateway": "up",
   "runpod": "disabled",
   "langfuse": "disabled",
   "uptime_seconds": 42.7
@@ -1125,6 +1125,19 @@ python scripts/switch-model.py --rollback
 1. **Local exec only:** Set `tools.exec.host` to `"sandbox"` or `"gateway"` (AKOS default is `sandbox`).
 2. **Use a node:** Pair an exec-capable node (`openclaw node install`, `openclaw nodes status`) and ensure it has `system.exe` (Windows) or equivalent for command execution.
 
+### `openclaw gateway status` shows `Runtime: unknown` while RPC/listener are healthy
+
+**Cause:** On Windows Scheduled Task supervision, OpenClaw can report service runtime metadata as `unknown` even when gateway socket and RPC probe are healthy.
+
+**Fix / verification path:**
+1. Run `py scripts/doctor.py`.
+2. Confirm runtime-contract checks report both:
+   - `Gateway runtime normalized to healthy (...)`
+   - `Runtime status deterministic across repeated probes (healthy)`
+3. If checks fail, restart and validate again:
+   - `openclaw gateway restart`
+   - `py scripts/doctor.py`
+
 ---
 
 ## 18. CLI Reference
@@ -1195,7 +1208,7 @@ Returns system health.
 ```json
 {
   "status": "ok",
-  "gateway": "unknown",
+  "gateway": "up",
   "runpod": "disabled|healthy|unhealthy",
   "langfuse": "enabled|disabled",
   "uptime_seconds": 42.7

@@ -313,6 +313,8 @@ py scripts/release-gate.py
 py scripts/doctor.py
 ```
 
+`scripts/doctor.py` includes a runtime-contract probe that normalizes `openclaw gateway status` output. If OpenClaw reports `Runtime: unknown` but `RPC probe: ok` and `Listening` are healthy, AKOS records runtime as `healthy` and verifies determinism across repeated probes.
+
 ## Documentation
 
 | Document | Description |
