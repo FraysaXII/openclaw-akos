@@ -468,7 +468,7 @@ The following matrix shows every component, who owns it, and how the two layers 
 | Exec Security           | `tools.exec.security`                 | Shell command approval mode                        | Bootstrap sets per AKOS policy (deny/allowlist/full)        |
 | Loop Detection          | `tools.loopDetection.*`               | Gateway-level repetition circuit breaker            | Defense-in-depth with AKOS prompt-level loop detection     |
 | Agent-to-Agent          | `tools.agentToAgent.*`                | Gateway-native inter-agent calls                    | Enables Orchestrator delegation at runtime level           |
-| Session Policy          | `session.reset.*`, `session.typing.*` | Session reset, typing indicators                   | Bootstrap configures idle timeout and typing mode          |
+| Session Policy          | `session.reset.*`, `session.typingMode` | Session reset, typing indicators                | Bootstrap configures idle timeout and typing mode           |
 | Browser Control         | `browser.*`                           | Browser automation, SSRF policy                    | Bootstrap sets headless mode and SSRF restrictions         |
 | Message Reactions       | `messages.statusReactions.*`           | Lifecycle emoji on messages (queued/thinking/done)  | Bootstrap enables for UX                                  |
 | Model Providers         | `models.providers.*`                  | LLM provider routing and failover                  | Bootstrap strips unconfigured providers                    |

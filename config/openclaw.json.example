@@ -164,7 +164,7 @@
     },
     "agentToAgent": {
       "enabled": true,
-      "targetAllowlist": ["orchestrator", "architect", "executor", "verifier"]
+      "allow": ["orchestrator", "architect", "executor", "verifier"]
     }
   },
   "session": {
@@ -181,7 +181,7 @@
   },
   "messages": {
     "statusReactions": {"enabled": true},
-    "suppressToolErrorWarnings": false
+    "suppressToolErrors": false
   },
   "bindings": [
     {

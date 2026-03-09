@@ -1111,6 +1111,14 @@ The log watcher also monitors health every 60 seconds.
 python scripts/switch-model.py --rollback
 ```
 
+### "No nodes with system.exe available" (Nodes page)
+
+**Cause:** The dashboard expects an exec-capable node but none is paired. This message appears on the Nodes settings page when `tools.exec.host` can use nodes but no paired node offers exec capability (`system.exe` on Windows or equivalent elsewhere).
+
+**Fix:**
+1. **Local exec only:** Set `tools.exec.host` to `"sandbox"` or `"gateway"` (AKOS default is `sandbox`).
+2. **Use a node:** Pair an exec-capable node (`openclaw node install`, `openclaw nodes status`) and ensure it has `system.exe` (Windows) or equivalent for command execution.
+
 ---
 
 ## 18. CLI Reference

@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Known issues** in `docs/uat/dashboard_smoke.md` — Version display mismatch, no-nodes (system.exe), config schema resolution notes.
+- **Troubleshooting** in `docs/USER_GUIDE.md` §17 — "No nodes with system.exe available" (Nodes page) with fixes (sandbox/gateway host or pair a node).
 - **Playwright integration** — `scripts/browser-smoke.py` supports `--playwright` and `--headed` for DOM-based UAT (dashboard health, agent visibility, Swagger health, Architect tools UI, Executor approval hint, workflow launch). HTTP-only mode when Playwright not installed.
 - **Browser test group** — `py scripts/test.py browser` runs browser smoke; release gate invokes it when Playwright is available.
 - **Custom AKOS MCP** — `scripts/mcp_akos_server.py` exposes `akos_health()`, `akos_agents()`, `akos_status()` for control plane self-check. Bootstrap deploys with resolved path.
@@ -19,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Config schema alignment** — `config/openclaw.json.example` and `akos/models.py` updated to OpenClaw v2026.2.x schema: `targetAllowlist` → `allow`, `pingPongTurns` → `maxPingPongTurns`, `session.typing` → `session.typingMode`, `suppressToolErrorWarnings` → `suppressToolErrors`. Resolves "Unrecognized key" validation errors on Config page.
+- **Playwright Phase 2** — `scripts/browser-smoke.py` architect_tools_ui and executor_approval_hint now navigate to `/agents`, use agent card selectors ("Architect (Read-Only Planner)", "Executor (Read-Write Builder)"), wait for networkidle, and return clearer failure messages.
 - **requirements.txt** — Added `playwright>=1.40`, `mcp>=1.0.0` for browser-smoke and Custom AKOS MCP.
 - **bootstrap** — MCP phase resolves absolute path for `mcp_akos_server.py` in deployed mcporter.json.
 

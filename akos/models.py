@@ -9,7 +9,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 # ── Constrained types ───────────────────────────────────────────────────
 
@@ -147,8 +147,9 @@ class LoopDetectionConfig(BaseModel):
 class AgentToAgentConfig(BaseModel):
     """Agent-to-agent routing configuration."""
 
+    model_config = ConfigDict(populate_by_name=True)
     enabled: bool = True
-    targetAllowlist: list[str] = Field(default_factory=list)
+    allow: list[str] = Field(default_factory=list, alias="targetAllowlist")
 
 
 class SessionConfig(BaseModel):
@@ -156,8 +157,8 @@ class SessionConfig(BaseModel):
 
     scope: str = "per-sender"
     reset: dict = Field(default_factory=lambda: {"mode": "idle", "idleMinutes": 60})
-    agentToAgent: dict = Field(default_factory=lambda: {"pingPongTurns": 3})
-    typing: dict = Field(default_factory=lambda: {"mode": "thinking"})
+    agentToAgent: dict = Field(default_factory=lambda: {"maxPingPongTurns": 3})
+    typingMode: str = "thinking"
 
 
 class BrowserConfig(BaseModel):

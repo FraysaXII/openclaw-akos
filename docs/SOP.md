@@ -1264,8 +1264,8 @@ Bootstrap acts as the **translation layer** between AKOS's design-time SSOT and 
 - **Per-agent tool profiles** — Each agent's `tools.profile` (minimal/coding) and allow/deny lists are translated from `config/agent-capabilities.json` by bootstrap. Orchestrator and Architect use `minimal`; Executor and Verifier use `coding` (Verifier with explicit deny for write_file, delete_file, git_push, git_commit).
 - **Exec security** — `tools.exec.security` is set per AKOS policy (allowlist for Executor, deny for Architect). Orchestrator/Architect must never have `full` exec access.
 - **Loop detection** — Gateway-level repetition circuit breaker (`tools.loopDetection`) provides defense-in-depth with AKOS prompt-level loop detection.
-- **Agent-to-agent** — `tools.agentToAgent` enables Orchestrator delegation at runtime level. Target allowlist restricts which agents can be invoked.
-- **Session policy** — `session.reset` (idle timeout 60 min), `session.typing` (thinking mode), and `session.agentToAgent` (ping-pong turns) are configured by bootstrap.
+- **Agent-to-agent** — `tools.agentToAgent` enables Orchestrator delegation at runtime level. `tools.agentToAgent.allow` restricts which agents can be invoked.
+- **Session policy** — `session.reset` (idle timeout 60 min), `session.typingMode` (thinking mode), and `session.agentToAgent.maxPingPongTurns` are configured by bootstrap.
 - **Browser SSRF policy** — `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork: false` restricts private network access during browser automation.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md#bootstrap-translation-layer-v050) for the full translation layer design.
@@ -1282,6 +1282,8 @@ Automated browser smoke tests validate the dashboard and control plane without m
 - `py scripts/browser-smoke.py --playwright --headed` — Same as above, with visible browser window
 
 **Test groups:** Run via `py scripts/test.py browser`. The release gate invokes browser smoke when Playwright is installed.
+
+**Phase 2 (Architect/Executor):** The architect_tools_ui and executor_approval_hint checks navigate to `/agents`, wait for agent cards to load, then click the Architect and Executor cards to verify tools and approval hints.
 
 **Platform separation:** AKOS uses **Playwright MCP** (in agent runtime) for Verifier screenshots and browser automation. The **browser-smoke.py** script is operator tooling for UAT and release gates. **cursor-ide-browser** is a Cursor IDE built-in (optional) for in-IDE WebChat testing — AKOS does not depend on it. See [USER_GUIDE §9.6](docs/USER_GUIDE.md#96-cursor-ide-browser-cursor-ide-only-optional) and [ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
