@@ -33,6 +33,21 @@ logger = logging.getLogger("akos.doctor")
 GATEWAY_URL = "http://127.0.0.1:18789"
 CAPABILITIES_PATH = REPO_ROOT / "config" / "agent-capabilities.json"
 RESTRICTED_EXEC_ROLES = {"orchestrator", "architect"}
+SENSITIVE_KEY_NAMES = {
+    "apikey",
+    "api_key",
+    "token",
+    "authtoken",
+    "accesstoken",
+    "refreshtoken",
+    "idtoken",
+    "secret",
+    "password",
+}
+KNOWN_RUNTIME_MANAGED_TOKEN_PATHS = {
+    "gateway.auth.token",
+    "gateway.remote.token",
+}
 
 
 def check_gateway() -> tuple[str, str]:
@@ -99,6 +114,65 @@ def _resolve_openclaw_cli() -> str | None:
         if found:
             return found
     return None
+
+
+def _iter_sensitive_paths(obj: object, prefix: str = "") -> list[tuple[str, object]]:
+    """Collect key-paths that look sensitive without exposing values."""
+    hits: list[tuple[str, object]] = []
+    if isinstance(obj, dict):
+        for key, value in obj.items():
+            path = f"{prefix}.{key}" if prefix else key
+            key_l = "".join(ch for ch in key.lower() if ch.isalnum() or ch == "_")
+            if key_l in SENSITIVE_KEY_NAMES:
+                hits.append((path, value))
+            hits.extend(_iter_sensitive_paths(value, path))
+    elif isinstance(obj, list):
+        for idx, item in enumerate(obj):
+            hits.extend(_iter_sensitive_paths(item, f"{prefix}[{idx}]"))
+    return hits
+
+
+def _is_env_backed(value: object) -> bool:
+    if isinstance(value, str):
+        return "${" in value or value.startswith("$import:")
+    if isinstance(value, dict):
+        source = value.get("source")
+        key_id = value.get("id")
+        return source == "env" and isinstance(key_id, str) and len(key_id) > 0
+    return False
+
+
+def check_sensitive_key_signals(oc_home: Path) -> list[tuple[str, str]]:
+    """Classify sensitive-key schema signals as informational vs actionable."""
+    checks: list[tuple[str, str]] = []
+    oc_config = oc_home / "openclaw.json"
+    if not oc_config.is_file():
+        return [("WARN", "Sensitive-key scan skipped: openclaw.json not found")]
+
+    try:
+        config = load_json(oc_config)
+    except (json.JSONDecodeError, OSError):
+        return [("FAIL", "Sensitive-key scan failed: openclaw.json unreadable or invalid JSON")]
+
+    sensitive_paths = _iter_sensitive_paths(config)
+    if not sensitive_paths:
+        return [("PASS", "Sensitive-key scan: no sensitive key-paths detected")]
+
+    for path, value in sensitive_paths:
+        if path in KNOWN_RUNTIME_MANAGED_TOKEN_PATHS:
+            checks.append((
+                "PASS",
+                f"[config/schema] info: runtime-managed sensitive key-path detected ({path})",
+            ))
+        elif _is_env_backed(value):
+            checks.append(("PASS", f"[config/schema] info: env-backed sensitive key-path detected ({path})"))
+        else:
+            checks.append((
+                "WARN",
+                "[config/schema] action: sensitive key-path is not env-backed "
+                f"({path}); move to env reference or secret manager",
+            ))
+    return checks
 
 
 def check_workspaces(oc_home: Path) -> list[tuple[str, str]]:
@@ -238,6 +312,7 @@ def run_doctor() -> list[tuple[str, str]]:
 
     results.append(check_gateway())
     results.extend(check_gateway_runtime_contract())
+    results.extend(check_sensitive_key_signals(oc_home))
     results.extend(check_workspaces(oc_home))
     results.extend(check_soul_md(oc_home))
     results.append(check_mcporter())

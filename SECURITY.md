@@ -92,6 +92,16 @@ The `browser-smoke.py` script and Playwright MCP run in a **sandboxed browser**:
 - **Playwright MCP (agent runtime):** Same sandbox; agent uses it for Verifier screenshots and DOM interaction. Distinct from `browser-smoke.py` (operator UAT).
 - **MCP surface area:** Custom AKOS MCP (`akos_health`, `akos_agents`, `akos_status`) and GitHub MCP extend the tool surface. Ensure `GITHUB_TOKEN` and `AKOS_API_URL` are not exposed in logs.
 
+### 5b. Sensitive-Key Schema Signals
+
+AKOS emits path-only schema signals for potentially sensitive config keys through `scripts/doctor.py`.
+
+- **Informational signal:** `[config/schema] info` means the key-path is env-backed (`${VAR}` or `{source: "env", id: ...}`) and no action is required.
+- **Actionable signal:** `[config/schema] action` means a sensitive key-path appears non-env-backed and should be migrated to an env reference or secret manager.
+- **Redaction rule:** Logs show key-paths only. Secret values must never be printed or persisted in diagnostic output.
+
+Run `py scripts/doctor.py` after config changes and treat actionable signals as remediation tasks before release.
+
 ### 6. RunPod Infrastructure Security (v0.3.0)
 
 When using the `gpu-runpod` environment:

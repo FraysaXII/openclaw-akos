@@ -1330,6 +1330,11 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - Missing env-backed URLs/keys are surfaced as explicit operator warnings so runtime intent remains aligned with strict inventory verification.
 - `scripts/legacy/verify_openclaw_inventory.py` remains strict and exact; diagnostics are improved for missing/extra provider reconciliation.
 
+**Phase 3 execution note (security signal clarity):**
+- Sensitive-key schema signals are explicitly classified into informational (`[config/schema] info`) vs actionable (`[config/schema] action`) outcomes.
+- Diagnostics expose key-paths only and never print secret values.
+- Operator runbook: actionable signals must be remediated by migrating to env-backed secret references before release gates.
+
 ---
 
 #### **Works cited**

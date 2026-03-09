@@ -1138,6 +1138,17 @@ python scripts/switch-model.py --rollback
    - `openclaw gateway restart`
    - `py scripts/doctor.py`
 
+### `[config/schema]` sensitive-key warnings in diagnostics
+
+**Meaning:**
+- `[config/schema] info` = sensitive key-path is env-backed; informational only.
+- `[config/schema] action` = sensitive key-path is not env-backed; fix required.
+
+**Fix / verification path:**
+1. Move hardcoded secrets to env-backed references (`${VAR}` or `{"source":"env","id":"VAR"}`).
+2. Re-run `py scripts/doctor.py`.
+3. Confirm only informational schema signals remain.
+
 ---
 
 ## 18. CLI Reference
