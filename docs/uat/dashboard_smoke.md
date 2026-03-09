@@ -114,4 +114,4 @@ is functioning correctly after deployment.
 
 - **Config schema:** Previously, `openclaw.json.example` used keys that some OpenClaw versions did not recognize (`targetAllowlist`, `suppressToolErrorWarnings`, `pingPongTurns`, `typing`). These have been aligned to the OpenClaw v2026.2.x schema (`allow`, `suppressToolErrors`, `maxPingPongTurns`, `typingMode`).
 
-- **Browser smoke on Windows:** Playwright's bundled Chromium may crash (exit 0xC0000005) on some Windows setups. The smoke runner now tries Microsoft Edge first on Windows, then bundled Chromium, then Firefox. If all fail, scenarios return SKIP with guidance to run `playwright install chromium` or install Microsoft Edge.
+- **Browser smoke on Windows:** Playwright's browser process can crash with exit `0xC0000005` on some hosts. The smoke runner now executes browser attempts in isolated worker subprocesses (`msedge`, then Chromium, then Firefox). If all workers crash, each scenario returns `SKIP` and the run exits non-fatal instead of crashing Python.

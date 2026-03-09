@@ -18,6 +18,7 @@ import json
 import logging
 import platform
 import re
+import subprocess
 import sys
 import urllib.error
 import urllib.request
@@ -270,42 +271,36 @@ def run_phase1_playwright(page, headed: bool) -> list[dict[str, str]]:
     ]
 
 
-def _launch_browser(p, headed: bool):
-    """Try msedge on Windows first, then bundled chromium, then firefox."""
-    errors: list[str] = []
-    if platform.system() == "Windows":
-        try:
-            return p.chromium.launch(headless=not headed, channel="msedge")
-        except Exception as e:
-            errors.append(f"msedge: {e}")
-            logger.warning("msedge launch failed, trying chromium: %s", e)
-    try:
+def _launch_browser_with_engine(p, headed: bool, engine: str):
+    if engine == "msedge":
+        return p.chromium.launch(headless=not headed, channel="msedge")
+    if engine == "chromium":
         return p.chromium.launch(headless=not headed)
-    except Exception as e:
-        errors.append(f"chromium: {e}")
-        logger.warning("chromium launch failed, trying firefox: %s", e)
-    try:
+    if engine == "firefox":
         return p.firefox.launch(headless=not headed)
-    except Exception as e:
-        errors.append(f"firefox: {e}")
-    raise RuntimeError(
-        f"All browsers failed: {'; '.join(errors)}. "
-        "Run 'playwright install chromium' or install Microsoft Edge."
-    )
+    raise RuntimeError(f"Unknown browser engine: {engine}")
 
 
-def run_all_playwright(headed: bool) -> list[dict[str, str]]:
+def run_all_playwright(headed: bool, engine: str | None = None) -> list[dict[str, str]]:
     results: list[dict[str, str]] = []
     all_scenarios = PHASE1_SCENARIOS + PHASE2_SCENARIOS + PHASE3_SCENARIOS
+    browser_candidates = [engine] if engine else (["msedge", "chromium", "firefox"] if platform.system() == "Windows" else ["chromium", "firefox"])
     with sync_playwright() as p:
-        try:
-            browser = _launch_browser(p, headed)
-        except RuntimeError as e:
-            logger.error("Browser launch failed: %s", e)
-            return [
-                {"scenario": s, "status": "SKIP", "detail": str(e)}
-                for s in all_scenarios
-            ]
+        browser = None
+        errors: list[str] = []
+        for candidate in browser_candidates:
+            try:
+                browser = _launch_browser_with_engine(p, headed, candidate)
+                break
+            except Exception as e:
+                errors.append(f"{candidate}: {e}")
+        if browser is None:
+            detail = (
+                f"All browsers failed: {'; '.join(errors)}. "
+                "Run 'playwright install chromium' or install Microsoft Edge."
+            )
+            logger.error("Browser launch failed: %s", detail)
+            return [{"scenario": s, "status": "SKIP", "detail": detail} for s in all_scenarios]
         context = browser.new_context(ignore_https_errors=True)
         page = context.new_page()
         try:
@@ -323,6 +318,8 @@ def main() -> None:
     parser.add_argument("--json-log", action="store_true", help="JSON logging output")
     parser.add_argument("--playwright", action="store_true", help="Use Playwright for DOM-based tests (requires playwright installed)")
     parser.add_argument("--headed", action="store_true", help="Show browser window (only with --playwright)")
+    parser.add_argument("--playwright-engine", choices=["msedge", "chromium", "firefox"], help=argparse.SUPPRESS)
+    parser.add_argument("--playwright-worker", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
 
     setup_logging(json_output=args.json_log)
@@ -340,8 +337,36 @@ def main() -> None:
                 {"scenario": s, "status": "SKIP", "detail": "Playwright not installed"}
                 for s in PHASE1_SCENARIOS
             ]
+        elif platform.system() == "Windows" and not args.playwright_worker and not args.playwright_engine:
+            all_scenarios = PHASE1_SCENARIOS + PHASE2_SCENARIOS + PHASE3_SCENARIOS
+            worker_errors: list[str] = []
+            worker_results: list[dict[str, str]] | None = None
+            for engine in ["msedge", "chromium", "firefox"]:
+                cmd = [sys.executable, str(Path(__file__).resolve()), "--playwright", "--playwright-worker", "--playwright-engine", engine]
+                if args.headed:
+                    cmd.append("--headed")
+                if args.json_log:
+                    cmd.append("--json-log")
+                proc_result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+                if proc_result.returncode == 0 and proc_result.stdout:
+                    for line in proc_result.stdout.splitlines():
+                        if line.startswith("JSON_RESULTS:"):
+                            worker_results = json.loads(line[len("JSON_RESULTS:"):])
+                            break
+                    if worker_results is not None:
+                        break
+                worker_errors.append(f"{engine}: exit={proc_result.returncode}")
+
+            if worker_results is None:
+                detail = (
+                    "Playwright workers unavailable on this host "
+                    f"({'; '.join(worker_errors)}); treating browser smoke as SKIP."
+                )
+                results = [{"scenario": s, "status": "SKIP", "detail": detail} for s in all_scenarios]
+            else:
+                results = worker_results
         else:
-            results = run_all_playwright(headed=args.headed)
+            results = run_all_playwright(headed=args.headed, engine=args.playwright_engine)
     else:
         results = run_phase1_http()
 
@@ -357,6 +382,7 @@ def main() -> None:
     failed = sum(1 for r in results if r["status"] == "FAIL")
     print(f"  PASS: {passed}  |  SKIP: {skipped}  |  FAIL: {failed}")
     print()
+    print("JSON_RESULTS:" + json.dumps(results))
 
     sys.exit(1 if failed > 0 else 0)
 

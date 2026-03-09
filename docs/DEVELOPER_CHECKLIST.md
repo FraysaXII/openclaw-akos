@@ -8,11 +8,13 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 
 | Step | Command | Purpose |
 |:-----|:--------|:--------|
-| 1 | `py scripts/test.py all` | 193+ tests pass |
-| 2 | `py scripts/check-drift.py` | No drift (optionally includes MCP reachability) |
-| 3 | `py scripts/browser-smoke.py [--playwright]` | If Playwright installed |
-| 4 | `py scripts/release-gate.py` | Full gate; optionally verify MCP server reachability |
-| 5 | `py scripts/resolve-mcporter-paths.py` | If mcporter.json was copied manually (resolves placeholder paths) |
+| 1 | `py scripts/legacy/verify_openclaw_inventory.py` | Strict full AKOS inventory must pass (`OVERALL: PASS`) |
+| 2 | `py scripts/check-drift.py` | No drift (repo vs runtime) |
+| 3 | `py scripts/test.py all` | Full regression suite passes |
+| 4 | `py scripts/browser-smoke.py --playwright` | Browser smoke; on Windows crash-prone hosts this may return SKIP instead of FAIL |
+| 5 | `py -m pytest tests/test_api.py -v` | FastAPI control plane smoke |
+| 6 | `py scripts/release-gate.py` | Unified gate must report PASS |
+| 7 | `py scripts/resolve-mcporter-paths.py` | If mcporter.json was copied manually (resolves placeholder paths) |
 
 ### Documentation Updates
 
@@ -36,6 +38,8 @@ pip install playwright
 playwright install chromium
 py scripts/browser-smoke.py --playwright
 ```
+
+On Windows, `browser-smoke.py` isolates browser launches in subprocess workers so native Playwright crashes (`0xC0000005`) become explicit SKIP outcomes instead of crashing the gate process.
 
 ## MCP Requirements
 
