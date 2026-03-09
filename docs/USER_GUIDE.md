@@ -1149,6 +1149,23 @@ python scripts/switch-model.py --rollback
 2. Re-run `py scripts/doctor.py`.
 3. Confirm only informational schema signals remain.
 
+### Post-doctor verification checklist (custom provider/model blocks)
+
+After `openclaw doctor --fix` or manual config edits, run this strict checklist:
+1. `py scripts/legacy/verify_openclaw_inventory.py`
+   - Expect every check to print `PASS` and final `OVERALL: PASS`.
+2. `py scripts/check-drift.py`
+   - Expect `PASS` with no repo/runtime drift.
+3. `py scripts/doctor.py`
+   - Confirm runtime contract checks are healthy and deterministic.
+4. `openclaw gateway status`
+   - Confirm listener/RPC are healthy. If raw runtime still shows `unknown` on Windows, rely on the doctor runtime-contract normalization result.
+5. If any inventory check fails, reconcile the exact field names from `config/openclaw.json.example`:
+   - `models.providers` IDs (exact set, no missing/extra entries)
+   - provider `models` aliases and their `name`/`api`
+   - `agents.list` IDs
+   - `tools.agentToAgent.allow`
+
 ---
 
 ## 18. CLI Reference

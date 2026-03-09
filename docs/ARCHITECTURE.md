@@ -397,9 +397,10 @@ Launch: `python scripts/serve-api.py --port 8420`
 
 | Script | Purpose |
 |:-------|:--------|
+| `scripts/legacy/verify_openclaw_inventory.py` | Strict full-inventory verifier with per-item PASS/FAIL output (providers/models/agents/A2A allowlist) |
 | `scripts/check-drift.py` | Detect repo-to-runtime mismatches |
-| `scripts/doctor.py` | One-command system health check |
-| `scripts/browser-smoke.py` | Programmatic browser smoke test (6+ scenarios); HTTP-only or Playwright DOM mode via `--playwright` |
+| `scripts/doctor.py` | One-command system health check; normalizes `Runtime: unknown` to `healthy` when probe/listener evidence is healthy, and checks determinism |
+| `scripts/browser-smoke.py` | Programmatic browser smoke test (6+ scenarios); HTTP-only or Playwright DOM mode via `--playwright`, with Windows worker isolation for crash-to-SKIP fallback |
 | `scripts/run-evals.py` | Agent reliability eval runner (5 canonical tasks) |
 | `scripts/checkpoint.py` | Checkpoint CLI (create/list/restore workspace snapshots) |
 | `scripts/sync-runtime.py` | Hydrate runtime from repo SSOT |

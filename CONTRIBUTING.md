@@ -94,8 +94,14 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - See all available groups: `py scripts/test.py --list`
 - New test groups added in v0.4.0: `drift` (runtime drift detection), `live` (opt-in live provider smoke tests requiring `AKOS_LIVE_SMOKE=1`)
 - Live smoke tests use `@pytest.mark.live` and are skipped by default
-- Before releases, run the release gate: `py scripts/release-gate.py`
-- Browser smoke tests: `py scripts/browser-smoke.py` (HTTP-only) or `py scripts/browser-smoke.py --playwright` (DOM mode; requires `pip install playwright && playwright install chromium`)
+- Before releases, run the full verification matrix and release gate:
+  - `py scripts/legacy/verify_openclaw_inventory.py`
+  - `py scripts/check-drift.py`
+  - `py scripts/test.py all`
+  - `py scripts/browser-smoke.py --playwright`
+  - `py -m pytest tests/test_api.py -v`
+  - `py scripts/release-gate.py`
+- Browser smoke tests: `py scripts/browser-smoke.py` (HTTP-only) or `py scripts/browser-smoke.py --playwright` (DOM mode; requires `pip install playwright && playwright install chromium`). On Windows crash-prone hosts, Playwright worker crashes are surfaced as `SKIP` outcomes.
 - Agent evals: `py scripts/run-evals.py --dry-run` (5 canonical tasks)
 - Checkpoint management: `py scripts/checkpoint.py create|list|restore`
 - New eval tasks go in `tests/evals/tasks.json` following the existing schema.
@@ -109,10 +115,12 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 Before every commit that touches features or tooling, run:
 
 ```
-[ ] py scripts/test.py all                    # 193+ tests pass
-[ ] py scripts/check-drift.py                 # No drift (optionally includes MCP reachability)
-[ ] py scripts/browser-smoke.py [--playwright] # If Playwright installed
-[ ] py scripts/release-gate.py                # Full gate; optionally verify MCP server reachability
+[ ] py scripts/legacy/verify_openclaw_inventory.py # Strict full inventory contract passes
+[ ] py scripts/check-drift.py                      # No drift (repo vs runtime)
+[ ] py scripts/test.py all                         # Full regression suite passes
+[ ] py scripts/browser-smoke.py --playwright       # Browser smoke (SKIP allowed on Windows crash-prone hosts)
+[ ] py -m pytest tests/test_api.py -v              # FastAPI control plane smoke
+[ ] py scripts/release-gate.py                     # Unified release gate PASS
 ```
 
 Update documentation as needed:

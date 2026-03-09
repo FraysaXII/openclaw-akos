@@ -25,6 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Config metadata convention** — `CONTRIBUTING.md` documents that `_note`/`_comment` keys in JSON configs are documentation-only metadata.
 - **`_note` in `openclaw.json.example`** — logging block documents Linux vs Windows path.
 - **Session config alignment test** — `TestSessionConfigExampleAlignment` in `validate_configs.py` catches future model/example key drift.
+- **Strict inventory verifier** — `scripts/legacy/verify_openclaw_inventory.py` added to enforce exact provider/model/agent/A2A contract with per-check PASS/FAIL output.
+- **Runtime status normalization tests** — `tests/test_runtime_contract.py` validates deterministic runtime contract semantics.
+- **Sensitive-key signal tests** — `tests/test_sensitive_key_signals.py` locks informational vs actionable schema signal behavior without exposing secret values.
+- **Bootstrap inventory regression test** — `tests/test_bootstrap_full_inventory.py` ensures unresolved env vars never remove provider blocks.
 
 ### Changed
 
@@ -35,6 +39,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Playwright Phase 2** — `scripts/browser-smoke.py` architect_tools_ui and executor_approval_hint now navigate to `/agents`, use agent card selectors ("Architect (Read-Only Planner)", "Executor (Read-Write Builder)"), wait for networkidle, and return clearer failure messages.
 - **requirements.txt** — Added `playwright>=1.40`, `mcp>=1.0.0` for browser-smoke and Custom AKOS MCP.
 - **bootstrap** — MCP phase resolves absolute path for `mcp_akos_server.py` in deployed mcporter.json.
+- **Runtime diagnostics contract** — `scripts/doctor.py` now normalizes `Runtime: unknown` to healthy when RPC probe/listener evidence is healthy, and verifies determinism across repeated probes.
+- **Bootstrap provider policy** — `scripts/bootstrap.py` now force-syncs full provider inventory from `config/openclaw.json.example` and emits warnings for unresolved env-backed inputs instead of stripping providers.
+- **Sensitive-key diagnostics clarity** — `scripts/doctor.py` classifies schema-sensitive key paths into `[config/schema] info` (env-backed/runtime-managed) or `[config/schema] action` (non-env-backed).
+- **Browser smoke resilience on Windows** — `scripts/browser-smoke.py` runs Playwright browser attempts in isolated worker subprocesses so native crashes become SKIP/fallback results rather than process crashes.
 
 ---
 

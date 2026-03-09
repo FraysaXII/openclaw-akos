@@ -1335,6 +1335,14 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - Diagnostics expose key-paths only and never print secret values.
 - Operator runbook: actionable signals must be remediated by migrating to env-backed secret references before release gates.
 
+**Phase 4 execution note (verification matrix hardening):**
+- Verification matrix is executed as a strict sequence: `verify_openclaw_inventory` -> `check-drift` -> `test.py all` -> `browser-smoke --playwright` -> `pytest tests/test_api.py -v` -> `release-gate`.
+- On Windows crash-prone hosts, browser smoke isolates Playwright browser launches in worker subprocesses; native crashes are surfaced as explicit `SKIP` outcomes instead of process-aborting failures.
+
+**Phase 5 execution note (documentation synchronization):**
+- Canonical docs are synchronized to the verified runtime contract: strict full inventory policy, runtime normalization semantics, sensitive-key signal classification, and browser-smoke worker fallback behavior.
+- Contributor and operator checklists are aligned to the same strict verification matrix to preserve SSOT and reduce release-time ambiguity.
+
 ---
 
 #### **Works cited**

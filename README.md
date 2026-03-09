@@ -309,6 +309,11 @@ py scripts/test.py uat                # Start live API for Swagger testing
 py scripts/test.py --list             # Show all groups
 
 # Release gate (all lanes)
+py scripts/legacy/verify_openclaw_inventory.py
+py scripts/check-drift.py
+py scripts/test.py all
+py scripts/browser-smoke.py --playwright
+py -m pytest tests/test_api.py -v
 py scripts/release-gate.py
 
 # System health check
@@ -316,6 +321,7 @@ py scripts/doctor.py
 ```
 
 `scripts/doctor.py` includes a runtime-contract probe that normalizes `openclaw gateway status` output. If OpenClaw reports `Runtime: unknown` but `RPC probe: ok` and `Listening` are healthy, AKOS records runtime as `healthy` and verifies determinism across repeated probes.
+On Windows hosts where Playwright browser processes crash (`0xC0000005`), `scripts/browser-smoke.py --playwright` isolates browser attempts in worker subprocesses and returns explicit `SKIP` outcomes instead of crashing the gate process.
 
 ## Documentation
 
