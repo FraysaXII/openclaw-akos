@@ -1288,6 +1288,39 @@ Automated browser smoke tests validate the dashboard and control plane without m
 
 **Platform separation:** AKOS uses **Playwright MCP** (in agent runtime) for Verifier screenshots and browser automation. The **browser-smoke.py** script is operator tooling for UAT and release gates. **cursor-ide-browser** is a Cursor IDE built-in (optional) for in-IDE WebChat testing — AKOS does not depend on it. See [USER_GUIDE §9.6](docs/USER_GUIDE.md#96-cursor-ide-browser-cursor-ide-only-optional) and [ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
+### **9.13 Governance-Hardened Remediation Execution Ledger (March 2026)**
+
+This ledger is the immutable execution record for the governance-hardened runtime/inventory remediation.
+
+**Locked constraints (scope lock):**
+- Inventory mode is **full-only** and must match the exact AKOS contract (no active/relaxed/profile mode).
+- Git policy is **one commit per phase**.
+- Reuse/extension only: existing scripts, models, and validators are extended; no parallel sidecar frameworks.
+
+**Baseline command set (reproducible):**
+- `openclaw gateway status`
+- `openclaw status`
+- `py -3 scripts/legacy/verify_openclaw_inventory.py`
+- `py -3 scripts/check-drift.py`
+- `py -3 scripts/test.py all`
+- `py -3 scripts/release-gate.py`
+
+**Baseline snapshot (Phase 0 capture):**
+- `openclaw gateway status`: `RPC probe: ok`, `Listening: 127.0.0.1:18789`, and `Runtime: unknown`.
+- `openclaw status`: gateway reachable, service listed as scheduled task with `unknown` service state.
+- `verify_openclaw_inventory.py`: `OVERALL: FAIL` due to provider set mismatch and missing `tools.agentToAgent.allow`.
+- `check-drift.py`: PASS (`No drift detected. Runtime matches repo state.`).
+- `test.py all`: PASS (195 passed, 2 skipped).
+- `release-gate.py`: FAIL due to browser smoke crash (`scripts/browser-smoke.py --playwright` exit 3221225477 on Windows).
+
+**Frozen acceptance criteria by phase:**
+- Phase 1: Runtime status contract no longer reports ambiguous unknown state when probe/listener are healthy.
+- Phase 2: strict inventory verification returns `OVERALL: PASS` with exact full AKOS provider/model/allowlist contract.
+- Phase 3: sensitive-key signals have explicit severity and action text; logs never expose secret values.
+- Phase 4: full matrix (`strict inventory`, `drift`, `test.py all`, `browser smoke`, `release gate`) passes.
+- Phase 5: required docs are synchronized and consistent with verified behavior.
+- Phase 6: exactly one commit per phase (plus optional final audit commit only if needed), then push.
+
 ---
 
 #### **Works cited**

@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Governance remediation baseline ledger** — `docs/SOP.md` now records the locked constraints, reproducible baseline commands, captured Phase 0 outputs, and frozen acceptance criteria for phases 1-6.
 - **Known issues** in `docs/uat/dashboard_smoke.md` — Version display mismatch, no-nodes (system.exe), config schema resolution notes.
 - **Troubleshooting** in `docs/USER_GUIDE.md` §17 — "No nodes with system.exe available" (Nodes page) with fixes (sandbox/gateway host or pair a node).
 - **Playwright integration** — `scripts/browser-smoke.py` supports `--playwright` and `--headed` for DOM-based UAT (dashboard health, agent visibility, Swagger health, Architect tools UI, Executor approval hint, workflow launch). HTTP-only mode when Playwright not installed.
