@@ -34,6 +34,7 @@ from akos.io import (
     deploy_soul_prompts,
     get_variant_for_model,
     load_json,
+    resolve_mcporter_paths,
     resolve_openclaw_home,
     save_json,
 )
@@ -315,21 +316,17 @@ def phase_mcp(args: argparse.Namespace) -> bool:
     mcporter_config = mcporter_dir / "mcporter.json"
 
     if mcporter_config.exists():
-        status("SKIP", f"mcporter.json already exists at {mcporter_config}")
+        raw = mcporter_config.read_text(encoding="utf-8")
+        resolved = resolve_mcporter_paths(raw)
+        if raw != resolved:
+            mcporter_config.write_text(resolved, encoding="utf-8")
+            status("PASS", f"Re-resolved mcporter.json paths at {mcporter_config}")
+        else:
+            status("SKIP", f"mcporter.json already resolved at {mcporter_config}")
     elif MCPORTER_EXAMPLE.exists():
         mcporter_dir.mkdir(parents=True, exist_ok=True)
         raw_text = MCPORTER_EXAMPLE.read_text(encoding="utf-8")
-        oc_home = resolve_openclaw_home()
-        ws_path = str(oc_home / "workspace").replace("\\", "/")
-        exports_path = str(oc_home / "workspace" / "exports").replace("\\", "/")
-        resolved_text = raw_text.replace("/opt/openclaw/workspace/exports", exports_path)
-        resolved_text = resolved_text.replace("/opt/openclaw/workspace", ws_path)
-        # Custom AKOS MCP: use absolute path so mcporter can spawn it from any cwd
-        akos_script = REPO_ROOT / "scripts" / "mcp_akos_server.py"
-        resolved_text = resolved_text.replace(
-            "scripts/mcp_akos_server.py",
-            str(akos_script).replace("\\", "/"),
-        )
+        resolved_text = resolve_mcporter_paths(raw_text)
         mcporter_config.write_text(resolved_text, encoding="utf-8")
         status("PASS", f"Deployed mcporter.json (paths resolved) to {mcporter_config}")
     else:

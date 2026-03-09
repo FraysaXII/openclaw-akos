@@ -19,9 +19,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **MCP documentation** — GitHub commit retrieval (GITHUB_TOKEN, future `search_commits`, `show_commit`), cursor-ide-browser (Cursor IDE built-in, optional), Custom AKOS MCP setup in USER_GUIDE.
 - **Phase-by-phase checklist** — `docs/DEVELOPER_CHECKLIST.md` pre-commit checklist (test, drift, browser smoke, release gate, CHANGELOG, docs).
 
+- **`resolve_mcporter_paths()`** — shared helper in `akos/io.py` for idempotent cross-platform MCP path resolution. Exported in `akos/__init__.py`.
+- **`scripts/resolve-mcporter-paths.py`** — standalone operator script to fix placeholder paths (`/opt/openclaw/workspace`) in `~/.mcporter/mcporter.json`. Supports `--config`, `--dry-run`.
+- **Config metadata convention** — `CONTRIBUTING.md` documents that `_note`/`_comment` keys in JSON configs are documentation-only metadata.
+- **`_note` in `openclaw.json.example`** — logging block documents Linux vs Windows path.
+- **Session config alignment test** — `TestSessionConfigExampleAlignment` in `validate_configs.py` catches future model/example key drift.
+
 ### Changed
 
 - **Config schema alignment** — `config/openclaw.json.example` and `akos/models.py` updated to OpenClaw v2026.2.x schema: `targetAllowlist` → `allow`, `pingPongTurns` → `maxPingPongTurns`, `session.typing` → `session.typingMode`, `suppressToolErrorWarnings` → `suppressToolErrors`. Resolves "Unrecognized key" validation errors on Config page.
+- **Complete session key fix** — `openclaw.json.example` lines 173-174 now use `maxPingPongTurns` and `typingMode` (previously missed in the schema alignment commit).
+- **Browser Windows resilience** — `scripts/browser-smoke.py` tries Microsoft Edge first on Windows, falls back to bundled Chromium then Firefox; returns SKIP (not crash) when all browsers fail.
+- **Bootstrap auto-resolves** — `phase_mcp` re-resolves existing `~/.mcporter/mcporter.json` paths automatically (idempotent, no flag needed).
 - **Playwright Phase 2** — `scripts/browser-smoke.py` architect_tools_ui and executor_approval_hint now navigate to `/agents`, use agent card selectors ("Architect (Read-Only Planner)", "Executor (Read-Write Builder)"), wait for networkidle, and return clearer failure messages.
 - **requirements.txt** — Added `playwright>=1.40`, `mcp>=1.0.0` for browser-smoke and Custom AKOS MCP.
 - **bootstrap** — MCP phase resolves absolute path for `mcp_akos_server.py` in deployed mcporter.json.

@@ -41,6 +41,10 @@ This is primarily a documentation and configuration repository. Contributions sh
 - Include version and date metadata where applicable
 - Cite sources using numbered references consistent with the SOP format
 
+### Config Metadata Keys
+
+Keys starting with `_` (e.g. `_note`, `_comment`) in JSON config files are **documentation-only metadata**. Tooling must preserve them when generating or copying configs and must ignore them during validation and comparison.
+
 ### SOP Modifications
 
 Changes to the Standard Operating Procedure (`docs/SOP.md`) require:

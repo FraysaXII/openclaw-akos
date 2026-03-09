@@ -404,6 +404,7 @@ Launch: `python scripts/serve-api.py --port 8420`
 | `scripts/checkpoint.py` | Checkpoint CLI (create/list/restore workspace snapshots) |
 | `scripts/sync-runtime.py` | Hydrate runtime from repo SSOT |
 | `scripts/release-gate.py` | Unified release gate (tests + drift + smoke) |
+| `scripts/resolve-mcporter-paths.py` | Resolve MCP config placeholder paths (idempotent, cross-platform) |
 
 ### Workflow Definitions (v0.4.0)
 

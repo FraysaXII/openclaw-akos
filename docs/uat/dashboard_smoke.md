@@ -113,3 +113,5 @@ is functioning correctly after deployment.
 - **No nodes with system.exe:** Expected when no exec-capable node is paired. Use `tools.exec.host: sandbox` for local-only exec, or pair a node per USER_GUIDE §17.
 
 - **Config schema:** Previously, `openclaw.json.example` used keys that some OpenClaw versions did not recognize (`targetAllowlist`, `suppressToolErrorWarnings`, `pingPongTurns`, `typing`). These have been aligned to the OpenClaw v2026.2.x schema (`allow`, `suppressToolErrors`, `maxPingPongTurns`, `typingMode`).
+
+- **Browser smoke on Windows:** Playwright's bundled Chromium may crash (exit 0xC0000005) on some Windows setups. The smoke runner now tries Microsoft Edge first on Windows, then bundled Chromium, then Firefox. If all fail, scenarios return SKIP with guidance to run `playwright install chromium` or install Microsoft Edge.

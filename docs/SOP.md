@@ -573,6 +573,7 @@ This phase deploys the Model Context Protocol servers that form the Integration 
 | **Inputs** | `mcporter` installed |
 | **Outputs** | `~/.mcporter/mcporter.json` exists with a valid `mcpServers` object |
 | **Verification** | `python3 -c "import json; d=json.load(open('$HOME/.mcporter/mcporter.json')); assert 'mcpServers' in d"` exits cleanly. |
+| **Path Resolution** | If copied manually (not via bootstrap), run `py scripts/resolve-mcporter-paths.py` to resolve `/opt/openclaw/workspace` to OS-correct paths. Bootstrap auto-resolves on every run. |
 | **SOC Relevance** | No |
 | **HITL Gate** | `mutative` — creates a config file |
 | **Complexity** | `trivial` |
@@ -1052,7 +1053,7 @@ The v0.3.0 implementation revealed that only 2 of 4 agents were deployed to the 
 **Bootstrap (all 4 agents):**
 - `scripts/bootstrap.py` now creates all 4 workspace directories (`workspace-orchestrator`, `workspace-architect`, `workspace-executor`, `workspace-verifier`).
 - Scaffold files (IDENTITY.md, MEMORY.md, HEARTBEAT.md) are deployed to all workspaces via `deploy_scaffold_files()`.
-- `mcporter.json` is generated with OS-appropriate paths (replacing hardcoded `/opt/openclaw/workspace`).
+- `mcporter.json` is generated with OS-appropriate paths (replacing hardcoded `/opt/openclaw/workspace`). Bootstrap also re-resolves existing configs automatically. For manual copies, use `py scripts/resolve-mcporter-paths.py`.
 - Bootstrap strips provider blocks with unresolved `${VAR}` env vars (v0.4.1) to prevent gateway `MissingEnvVarError` crashes.
 - Bootstrap force-syncs `agents.list` from the template to ensure all 4 agents are present (v0.4.1).
 - AKOS-specific config keys (`logging`, `permissions`, `gateway.host`) are extracted into `~/.openclaw/akos-config.json` to avoid `openclaw doctor` warnings (v0.4.1).

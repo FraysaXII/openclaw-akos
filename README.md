@@ -70,7 +70,7 @@ Requires Python 3.10+, Node.js >= 22, and Ollama running:
 python scripts/bootstrap.py
 ```
 
-The script detects your OS, checks prerequisites, pulls Ollama models, patches `openclaw.json`, sets up MCP servers, and assembles tiered prompts. Use `--skip-ollama` or `--skip-mcp` to skip phases.
+The script detects your OS, checks prerequisites, pulls Ollama models, patches `openclaw.json`, sets up MCP servers, and assembles tiered prompts. Use `--skip-ollama` or `--skip-mcp` to skip phases. If you copied `mcporter.json.example` manually, run `py scripts/resolve-mcporter-paths.py` to resolve placeholder paths.
 
 ### Windows (PowerShell Bootstrap)
 
@@ -213,6 +213,7 @@ openclaw-akos/
     doctor.py                      One-command system health check
     sync-runtime.py                Runtime hydration from repo SSOT
     release-gate.py                Unified release gate runner
+    resolve-mcporter-paths.py      Resolve MCP config placeholder paths
     browser-smoke.py               Programmatic browser smoke test (6 scenarios)
     run-evals.py                   Agent reliability eval runner (5 canonical tasks)
     checkpoint.py                  Checkpoint CLI (create/list/restore snapshots)

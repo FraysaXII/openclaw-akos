@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import platform
 import re
 import sys
 import urllib.error
@@ -269,10 +270,42 @@ def run_phase1_playwright(page, headed: bool) -> list[dict[str, str]]:
     ]
 
 
+def _launch_browser(p, headed: bool):
+    """Try msedge on Windows first, then bundled chromium, then firefox."""
+    errors: list[str] = []
+    if platform.system() == "Windows":
+        try:
+            return p.chromium.launch(headless=not headed, channel="msedge")
+        except Exception as e:
+            errors.append(f"msedge: {e}")
+            logger.warning("msedge launch failed, trying chromium: %s", e)
+    try:
+        return p.chromium.launch(headless=not headed)
+    except Exception as e:
+        errors.append(f"chromium: {e}")
+        logger.warning("chromium launch failed, trying firefox: %s", e)
+    try:
+        return p.firefox.launch(headless=not headed)
+    except Exception as e:
+        errors.append(f"firefox: {e}")
+    raise RuntimeError(
+        f"All browsers failed: {'; '.join(errors)}. "
+        "Run 'playwright install chromium' or install Microsoft Edge."
+    )
+
+
 def run_all_playwright(headed: bool) -> list[dict[str, str]]:
     results: list[dict[str, str]] = []
+    all_scenarios = PHASE1_SCENARIOS + PHASE2_SCENARIOS + PHASE3_SCENARIOS
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=not headed)
+        try:
+            browser = _launch_browser(p, headed)
+        except RuntimeError as e:
+            logger.error("Browser launch failed: %s", e)
+            return [
+                {"scenario": s, "status": "SKIP", "detail": str(e)}
+                for s in all_scenarios
+            ]
         context = browser.new_context(ignore_https_errors=True)
         page = context.new_page()
         try:

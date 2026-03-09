@@ -282,3 +282,57 @@ class TestEuAiActChecklist:
         files = [ev["file"] for ev in aia1["evidence"]]
         assert "akos/telemetry.py" in files, \
             "EU-AIA-1 should reference Langfuse telemetry as evidence"
+
+
+# ---------------------------------------------------------------------------
+# resolve_mcporter_paths (idempotent path resolution)
+# ---------------------------------------------------------------------------
+
+from akos.io import resolve_mcporter_paths
+
+
+class TestResolveMcporterPaths:
+    TEMPLATE = (
+        '{\n'
+        '  "mcpServers": {\n'
+        '    "playwright": {\n'
+        '      "args": ["-y", "@playwright/mcp@latest", "--output-dir", "/opt/openclaw/workspace/exports"]\n'
+        '    },\n'
+        '    "filesystem": {\n'
+        '      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/opt/openclaw/workspace"]\n'
+        '    },\n'
+        '    "akos": {\n'
+        '      "args": ["scripts/mcp_akos_server.py"],\n'
+        '      "_note": "Custom AKOS MCP"\n'
+        '    }\n'
+        '  }\n'
+        '}'
+    )
+
+    def test_resolves_linux_placeholders(self):
+        result = resolve_mcporter_paths(self.TEMPLATE)
+        assert "/opt/openclaw/workspace/exports" not in result
+        assert "/opt/openclaw/workspace" not in result
+        assert "scripts/mcp_akos_server.py" not in result or "/" in result.split("scripts/mcp_akos_server.py")[0]
+
+    def test_idempotent(self):
+        first = resolve_mcporter_paths(self.TEMPLATE)
+        second = resolve_mcporter_paths(first)
+        assert first == second, "resolve_mcporter_paths must be idempotent"
+
+    def test_preserves_note_keys(self):
+        result = resolve_mcporter_paths(self.TEMPLATE)
+        assert '"_note": "Custom AKOS MCP"' in result
+
+
+class TestSessionConfigExampleAlignment:
+    """Verify openclaw.json.example session block matches SessionConfig model."""
+
+    def test_session_uses_current_schema_keys(self, config_dir):
+        data = load_json(config_dir / "openclaw.json.example")
+        session = data["session"]
+        assert "typingMode" in session, "session should use typingMode, not typing"
+        assert "typing" not in session, "session should not have legacy typing key"
+        a2a = session.get("agentToAgent", {})
+        assert "maxPingPongTurns" in a2a, "session.agentToAgent should use maxPingPongTurns"
+        assert "pingPongTurns" not in a2a, "session.agentToAgent should not have legacy pingPongTurns"

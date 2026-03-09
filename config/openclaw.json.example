@@ -170,8 +170,8 @@
   "session": {
     "scope": "per-sender",
     "reset": {"mode": "idle", "idleMinutes": 60},
-    "agentToAgent": {"pingPongTurns": 3},
-    "typing": {"mode": "thinking"}
+    "agentToAgent": {"maxPingPongTurns": 3},
+    "typingMode": "thinking"
   },
   "browser": {
     "enabled": true,
@@ -194,6 +194,7 @@
     }
   ],
   "logging": {
+    "_note": "output_directory is Linux production path. On Windows dev, OpenCLAW writes to %TEMP%/openclaw/ by default.",
     "format": "json",
     "output_directory": "/opt/openclaw/logs/"
   },

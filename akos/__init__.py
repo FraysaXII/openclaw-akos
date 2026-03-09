@@ -8,6 +8,7 @@ __all__ = [
     "deep_merge",
     "resolve_openclaw_home",
     "resolve_workspace_path",
+    "resolve_mcporter_paths",
     "load_env_file",
     "REPO_ROOT",
     "setup_logging",

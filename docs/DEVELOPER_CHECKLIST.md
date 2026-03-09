@@ -12,6 +12,7 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | 2 | `py scripts/check-drift.py` | No drift (optionally includes MCP reachability) |
 | 3 | `py scripts/browser-smoke.py [--playwright]` | If Playwright installed |
 | 4 | `py scripts/release-gate.py` | Full gate; optionally verify MCP server reachability |
+| 5 | `py scripts/resolve-mcporter-paths.py` | If mcporter.json was copied manually (resolves placeholder paths) |
 
 ### Documentation Updates
 

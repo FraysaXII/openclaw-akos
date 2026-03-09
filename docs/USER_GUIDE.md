@@ -572,6 +572,12 @@ MCP servers are defined in `config/mcporter.json.example`. Copy to `~/.mcporter/
 cp config/mcporter.json.example ~/.mcporter/mcporter.json
 ```
 
+If you copied the file manually instead of using bootstrap, resolve placeholder paths:
+
+```bash
+py scripts/resolve-mcporter-paths.py
+```
+
 Each server is an npm package launched via `npx`. Environment variables (like `GITHUB_TOKEN`) use `${VAR}` substitution.
 
 ### 9.3 Which Agents Use Which Servers
