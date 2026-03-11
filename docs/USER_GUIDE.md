@@ -1149,6 +1149,15 @@ python scripts/switch-model.py --rollback
 2. Re-run `py scripts/doctor.py`.
 3. Confirm only informational schema signals remain.
 
+### `openclaw gateway restart` fails with `MissingEnvVarError`
+
+**Cause:** The live `openclaw.json` references `${OLLAMA_GPU_URL}`, `${VLLM_RUNPOD_URL}`, `${OPENAI_API_KEY}`, or `${ANTHROPIC_API_KEY}` via env-var substitution, but no `.env` file exists at `~/.openclaw/.env` to supply them. Bootstrap (v0.5.0+) now auto-seeds this file from `config/environments/dev-local.env.example` on first run.
+
+**Fix:**
+1. Re-run bootstrap: `py scripts/bootstrap.py --skip-ollama`
+2. Or manually run: `py scripts/switch-model.py dev-local`
+3. Then restart: `openclaw gateway restart`
+
 ### Post-doctor verification checklist (custom provider/model blocks)
 
 After `openclaw doctor --fix` or manual config edits, run this strict checklist:

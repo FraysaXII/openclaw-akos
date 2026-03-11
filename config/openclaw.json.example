@@ -54,11 +54,13 @@
         ]
       },
       "openai": {
-        "apiKey": { "source": "env", "id": "OPENAI_API_KEY" },
+        "baseUrl": "https://api.openai.com/v1",
+        "apiKey": "${OPENAI_API_KEY}",
         "models": []
       },
       "anthropic": {
-        "apiKey": { "source": "env", "id": "ANTHROPIC_API_KEY" },
+        "baseUrl": "https://api.anthropic.com",
+        "apiKey": "${ANTHROPIC_API_KEY}",
         "models": []
       },
       "vllm-runpod": {

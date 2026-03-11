@@ -95,7 +95,7 @@ python scripts/switch-model.py dev-local --dry-run  # Preview without applying
 
 This atomically updates the config, deploys the correct SOUL.md prompt variant, and restarts the gateway. For `gpu-runpod`, it also provisions the RunPod vLLM endpoint and writes the URL to `.env`.
 
-AKOS enforces a full-only provider inventory contract: bootstrap retains all providers from `config/openclaw.json.example` and reports unresolved env-backed inputs as warnings instead of deleting provider blocks.
+AKOS enforces a full-only provider inventory contract: bootstrap retains all providers from `config/openclaw.json.example` and reports unresolved env-backed inputs as warnings instead of deleting provider blocks. On first run, bootstrap auto-seeds `~/.openclaw/.env` from `config/environments/dev-local.env.example` so the gateway can start without manual env-var setup.
 
 ### Control Plane API
 

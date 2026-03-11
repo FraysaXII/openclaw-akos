@@ -1343,6 +1343,11 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - Canonical docs are synchronized to the verified runtime contract: strict full inventory policy, runtime normalization semantics, sensitive-key signal classification, and browser-smoke worker fallback behavior.
 - Contributor and operator checklists are aligned to the same strict verification matrix to preserve SSOT and reduce release-time ambiguity.
 
+**Phase 7 execution note (bootstrap env-file seeding):**
+- The OpenClaw gateway hard-fails on unresolved `${VAR}` references at startup. Bootstrap now auto-seeds `~/.openclaw/.env` from `config/environments/dev-local.env.example` when unresolved provider env vars are detected and no `.env` exists, preventing first-run gateway crashes.
+- Provider `apiKey` references changed from `{source: "env", id: "VAR"}` object format to `${VAR}` string substitution to match the gateway's env-var resolution path.
+- `dev-local.env.example` now defines placeholders for all env vars referenced in the template (`OLLAMA_GPU_URL`, `VLLM_RUNPOD_URL`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`).
+
 ---
 
 #### **Works cited**

@@ -207,6 +207,31 @@ def _collect_unresolved_provider_inputs(config: dict) -> list[str]:
     return issues
 
 
+def _seed_env_file_if_missing(oc_home: Path) -> None:
+    """Copy dev-local.env.example to oc_home/.env when no .env exists.
+
+    The OpenClaw gateway hard-fails on unresolved ${VAR} references at
+    startup.  When bootstrap preserves the full provider inventory (which
+    may contain ${OLLAMA_GPU_URL}, ${VLLM_RUNPOD_URL}, etc.) and the
+    operator has not yet run switch-model.py, there is no .env to supply
+    those values.  Seeding the dev-local example as a safe default
+    prevents the gateway crash on first start after bootstrap.
+    """
+    env_dest = oc_home / ".env"
+    if env_dest.exists():
+        return
+    default_env = REPO_ROOT / "config" / "environments" / "dev-local.env.example"
+    if not default_env.exists():
+        logger.warning("No dev-local.env.example found; skipping .env seed")
+        return
+    shutil.copy2(default_env, env_dest)
+    status(
+        "PASS",
+        f"Seeded {env_dest} from dev-local.env.example "
+        "(run switch-model.py to select a different environment)",
+    )
+
+
 def _extract_akos_keys(config: dict) -> dict:
     """Remove AKOS-specific keys that OpenClaw doesn't recognize and return them
     as a separate dict for sidecar storage."""
@@ -269,6 +294,7 @@ def phase_config(args: argparse.Namespace) -> bool:
     if unresolved_inputs:
         for issue in unresolved_inputs:
             status("WARN", f"Provider input unresolved (provider retained): {issue}")
+        _seed_env_file_if_missing(oc_home)
     else:
         status("PASS", "All provider env-backed inputs resolved or intentionally empty")
 

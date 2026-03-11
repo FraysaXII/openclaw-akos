@@ -43,6 +43,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Bootstrap provider policy** — `scripts/bootstrap.py` now force-syncs full provider inventory from `config/openclaw.json.example` and emits warnings for unresolved env-backed inputs instead of stripping providers.
 - **Sensitive-key diagnostics clarity** — `scripts/doctor.py` classifies schema-sensitive key paths into `[config/schema] info` (env-backed/runtime-managed) or `[config/schema] action` (non-env-backed).
 - **Browser smoke resilience on Windows** — `scripts/browser-smoke.py` runs Playwright browser attempts in isolated worker subprocesses so native crashes become SKIP/fallback results rather than process crashes.
+- **Bootstrap env-file seeding** — `scripts/bootstrap.py` now auto-seeds `~/.openclaw/.env` from `config/environments/dev-local.env.example` when unresolved provider env vars are detected and no `.env` exists, preventing gateway `MissingEnvVarError` crashes on first run.
+- **Provider apiKey format** — `config/openclaw.json.example` now uses `${VAR}` string substitution for `openai` and `anthropic` apiKeys (matching `baseUrl` convention) instead of `{source: "env", id: "VAR"}` objects, which OpenClaw 2026.2.x validates eagerly.
+- **Explicit baseUrl for cloud providers** — `openai` and `anthropic` provider blocks in the template now include explicit `baseUrl` fields (`https://api.openai.com/v1`, `https://api.anthropic.com`) required by OpenClaw 2026.2.x schema validation.
+- **dev-local.env.example** — Now defines all env vars referenced in the template (`OLLAMA_GPU_URL`, `VLLM_RUNPOD_URL`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`) with safe placeholders.
 
 ---
 
