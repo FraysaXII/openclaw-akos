@@ -111,6 +111,16 @@ When using the `gpu-runpod` environment:
 - Endpoint health is monitored every 60 seconds by `log-watcher.py` and traced to Langfuse.
 - The FastAPI control plane binds to `127.0.0.1` by default. Do not expose to the public internet without a reverse proxy and authentication.
 
+### 6a. Dedicated Pod Security (gpu-runpod-pod)
+
+When using dedicated RunPod pods (`gpu-runpod-pod` profile), the vLLM process runs on a persistent machine with different security characteristics than serverless endpoints:
+
+- **Exposed ports:** The pod exposes port 8000 (vLLM) and optionally port 22 (SSH) via RunPod's HTTPS proxy (`{pod_id}-{port}.proxy.runpod.net`). Access is authenticated by RunPod's proxy layer, but operators should treat pod URLs as sensitive — do not embed them in client-side code or public configs.
+- **SSH access:** Pods with SSH enabled allow direct shell access. Restrict SSH key distribution to infrastructure operators. Never store SSH keys in this repo or in `.env` files that may be shared.
+- **SSRF considerations:** Direct pod URLs bypass RunPod's serverless request validation. If `VLLM_RUNPOD_URL` is user-controllable or logged in full, it could be leveraged for SSRF against RunPod's internal network. Always validate and sanitize the URL. The `/openai/v1` suffix is enforced at config time.
+- **Pod lifecycle:** Unlike serverless endpoints, dedicated pods do not auto-scale to zero. Unattended pods continue billing and remain reachable. Use `setup-runpod-pod.py` for provisioning and ensure pods are stopped when not in use.
+- **Health probe surface:** `probe_vllm_health()` issues HTTP GETs to the pod URL. Ensure the probe target is always an operator-configured value from `.env`, never derived from untrusted input.
+
 ### 7. EU AI Act 2026 Compliance
 
 - **Automated Record-Keeping:** Full trace logging of prompts, tool calls, and outputs; RunPod health traces; workspace checkpoints for reversibility

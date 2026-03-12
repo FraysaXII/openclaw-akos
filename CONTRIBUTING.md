@@ -85,14 +85,17 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - Alert conditions must have tests in `tests/test_akos_alerts.py` with synthetic log entries.
 - RunPod provider operations must have mocked SDK tests in `tests/test_runpod_provider.py`.
 - FastAPI endpoints must have TestClient tests in `tests/test_api.py`.
+- Langfuse telemetry changes must have tests in `tests/test_telemetry.py` (14 tests covering init, trace_request, trace_startup_compliance, trace_alert, trace_metric, normalize_env, flush).
+- Failover router changes must have tests in `tests/test_router.py` (10 tests covering failover threshold, recovery, and multi-provider routing).
 - New agent prompts/overlays must be covered by `tests/test_e2e_pipeline.py`.
 - Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint. Changes to `agent-capabilities.json` are automatically translated to OpenClaw tool profiles by bootstrap; do not hand-edit the `tools`, `session`, or `browser` sections in `openclaw.json.example` — they are generated from AKOS config.
 - New workflow definitions go in `config/workflows/` as markdown files following the existing format.
 - New overlay files must be registered in `config/model-tiers.json` `variantOverlays` section.
-- Run the full suite before submitting: `py scripts/test.py` (193+ tests expected)
+- Run the full suite before submitting: `py scripts/test.py` (234+ tests expected)
 - Run specific groups: `py scripts/test.py api`, `py scripts/test.py security`, `py scripts/test.py browser`, etc.
 - See all available groups: `py scripts/test.py --list`
 - New test groups added in v0.4.0: `drift` (runtime drift detection), `live` (opt-in live provider smoke tests requiring `AKOS_LIVE_SMOKE=1`)
+- New test groups added in RunPod+Langfuse overhaul: `telemetry` (Langfuse reporter lifecycle, trace taxonomy, env normalization), `router` (FailoverRouter threshold, recovery, multi-provider)
 - Live smoke tests use `@pytest.mark.live` and are skipped by default
 - Before releases, run the full verification matrix and release gate:
   - `py scripts/legacy/verify_openclaw_inventory.py`

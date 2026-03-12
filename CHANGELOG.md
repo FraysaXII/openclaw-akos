@@ -9,6 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (RunPod + Langfuse Production Overhaul — Phases 0-5)
+
+- **Dual-mode RunPod support** — `gpu-runpod-pod` environment profile for dedicated pod mode alongside existing serverless. `PodConfig` Pydantic model and `scripts/setup-runpod-pod.py` provisioning script (Phase 1).
+- **`probe_vllm_health()`** — HTTP health probe for dedicated vLLM pods, consumed by doctor and the `/health` API endpoint (Phase 2).
+- **`FailoverRouter`** in `akos/router.py` — automatic provider failover with 3-failure threshold and `INFRA_FAILOVER_TRIGGERED` SOC alert. vLLM status surfaced in `/health` API (Phase 2).
+- **Langfuse environment tagging** — traces tagged with active environment name for multi-env observability (Phase 0).
+- **`scripts/test-langfuse-trace.py`** — smoke test for Langfuse trace connectivity (Phase 0).
+- **DX metric wiring** — `trace_metric()` for request counts and latency; `trace_alert()` forwards SOC alerts to Langfuse; `startup_compliance` success path wired; `run-evals.py` `_report_to_langfuse()` for dry-run (Phase 3).
+- **`check_runpod_readiness()`** in `doctor.py` — validates config, API key, and vLLM probe for dedicated pods (Phase 4).
+- **`check_langfuse_readiness()`** in `doctor.py` — validates credentials and SDK init (Phase 4).
+- **`tests/test_telemetry.py`** — 14 tests covering init, trace_request, trace_startup_compliance, trace_alert, trace_metric, normalize_env, flush (Phase 5).
+- **`tests/test_router.py`** — 10 tests covering failover threshold, recovery, and multi-provider routing (Phase 5).
+
+### Fixed (RunPod + Langfuse Production Overhaul — Phase 0)
+
+- **`VLLM_RUNPOD_URL`** missing `/openai/v1` suffix — requests to dedicated pods now target the correct OpenAI-compatible endpoint.
+- **`log-watcher.py --once`** mode was not exiting after single pass.
+- **Health interval** was hardcoded to 60s — now configurable.
+
 ### Added
 
 - **`OVERLAY_STARTUP_COMPLIANCE.md`** — new prompt overlay for medium+ model tiers with recency rule (re-read startup files within 5 messages), invariant check, and good/bad examples. Registered in `config/model-tiers.json` for both `standard` and `full` variants across all four agents.

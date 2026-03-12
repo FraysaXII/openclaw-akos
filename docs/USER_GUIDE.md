@@ -544,6 +544,73 @@ When `log-watcher.py` detects a RunPod environment, it automatically checks endp
 - Logs worker count, queue depth, and status to Langfuse as a `runpod-health` trace.
 - Fires a SOC alert if the endpoint becomes unhealthy.
 
+### 8.8 Dedicated Pods
+
+Serverless endpoints (Section 8.1-8.5) are ideal for bursty workloads with automatic scaling and pay-per-second billing. **Dedicated pods** are better when you need:
+
+- **Persistent availability** -- no cold-start latency; the model stays loaded in GPU memory.
+- **Predictable cost** -- fixed hourly rate instead of per-request billing.
+- **Full SSH access** -- direct shell access for debugging, profiling, or running custom vLLM configurations.
+- **Long-running sessions** -- extended agent conversations that would otherwise hit serverless idle timeouts.
+
+Use serverless (`gpu-runpod`) for intermittent development and CI. Use dedicated pods (`gpu-runpod-pod`) for sustained multi-hour sessions or production serving.
+
+#### The `gpu-runpod-pod` environment profile
+
+The dedicated pod profile lives in `config/environments/gpu-runpod-pod.json`. It shares the same vLLM tuning parameters as the serverless profile (FP8 KV cache, prefix caching, tool-call parsing) but targets a persistent pod instead of a serverless endpoint. Unlike `gpu-runpod`, it does **not** require `RUNPOD_API_KEY` or `RUNPOD_ENDPOINT_ID` -- only the pod's vLLM URL.
+
+#### Setup
+
+1. **Provision a pod** on [runpod.io](https://www.runpod.io) with an A100-80GB or H100-80GB GPU. Select the `RunPod Pytorch 2.x` or bare Ubuntu template.
+
+2. **Generate vLLM launch commands:**
+
+```bash
+python scripts/setup-runpod-pod.py
+```
+
+This reads `config/environments/gpu-runpod-pod.json` and prints copy-paste commands for installing and launching vLLM on the pod. If you know your pod ID, pass it for a ready-made proxy URL:
+
+```bash
+python scripts/setup-runpod-pod.py --pod-id abc123xyz
+```
+
+3. **SSH into the pod** (or use the RunPod web terminal) and run the generated commands. Wait for vLLM to finish loading the model (look for `Uvicorn running on http://0.0.0.0:8000`).
+
+4. **Set the endpoint URL** in your local environment:
+
+```bash
+cp config/environments/gpu-runpod-pod.env.example config/environments/gpu-runpod-pod.env
+```
+
+Edit `gpu-runpod-pod.env` and set `VLLM_RUNPOD_URL` to your pod's URL:
+
+```
+VLLM_RUNPOD_URL=https://<pod-id>-8000.proxy.runpod.net/v1
+```
+
+5. **Switch to the dedicated pod environment:**
+
+```bash
+python scripts/switch-model.py gpu-runpod-pod
+```
+
+This deploys `full` prompt variants (large tier), loads the pod-specific `.env`, and restarts the gateway.
+
+#### Verifying the connection
+
+After switching, confirm the gateway can reach your pod:
+
+```bash
+curl http://127.0.0.1:8420/health
+```
+
+The `runpod` field should show `"healthy"`. You can also test inference directly:
+
+```bash
+curl $VLLM_RUNPOD_URL/models
+```
+
 ---
 
 ## 9. MCP Server Ecosystem
@@ -802,6 +869,70 @@ Traces are tagged with an `environment` so you can filter dev-local, gpu-runpod,
    ```
    If it prints "Test trace sent to Langfuse successfully", check the Tracing tab (traces may take a few seconds to appear). If it fails, ensure `config/eval/langfuse.env` has valid `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY`.
 3. **Confirm log path** — The watcher reads `%TEMP%\openclaw\openclaw-YYYY-MM-DD.log` (Windows) or `/tmp/openclaw/openclaw-YYYY-MM-DD.log` (Linux). Ensure the OpenCLAW gateway writes there.
+
+#### 12.2.1 Langfuse Trace Taxonomy
+
+All traces emitted by the log watcher and telemetry module follow a consistent naming convention. Use these patterns when building Langfuse dashboard filters and score queries.
+
+| Trace Name Pattern | When Fired | Score | Description |
+|:-------------------|:-----------|:------|:------------|
+| `akos-{agent_role}` | Every agent request | -- | Per-request agent activity trace |
+| `akos-startup-{agent_role}` | Session startup | `startup_compliance: 0.0/1.0` | Startup file read compliance |
+| `akos-eval-{task_id}` | Eval run | `eval_pass: 0.0/1.0` | Agent reliability eval result |
+| `akos-alert-{severity}` | SOC alert fired | `soc_alert: 0.25-1.0` | SOC alert forwarded to Langfuse |
+| `akos-metric-{name}` | Periodic (every 100 entries) | -- | DX metric sample (latency, count) |
+| `akos-health-runpod` | Periodic health check | -- | RunPod/vLLM infrastructure health |
+
+Scores with a `0.0/1.0` range are boolean pass/fail. The `soc_alert` score maps severity to a float: `CRITICAL=1.0`, `HIGH=0.75`, `MEDIUM=0.5`, `LOW=0.25`.
+
+#### 12.2.2 Langfuse Dashboard Setup Guide
+
+Follow these steps to build a monitoring dashboard from AKOS traces.
+
+**1. Create a Langfuse project and get API keys:**
+
+Sign up at [cloud.langfuse.com](https://cloud.langfuse.com) (free tier is sufficient). Create a project, then go to **Settings > API Keys** and copy the public and secret keys.
+
+**2. Configure credentials:**
+
+```bash
+cp config/eval/langfuse.env.example config/eval/langfuse.env
+```
+
+Edit `config/eval/langfuse.env` and fill in:
+
+```
+LANGFUSE_PUBLIC_KEY=pk-lf-...
+LANGFUSE_SECRET_KEY=sk-lf-...
+LANGFUSE_HOST=https://cloud.langfuse.com
+```
+
+**3. Recommended dashboard widgets:**
+
+| Widget | Filter / Group By | Purpose |
+|:-------|:------------------|:--------|
+| Startup compliance rate | Score name: `startup_compliance`, aggregate: avg | Track how often agents pass startup file-read checks |
+| Alert frequency | Trace name: `akos-alert-*` | Monitor SOC alert volume over time |
+| Cost by environment | Group by metadata `environment` | Compare spend across dev-local, gpu-runpod, prod-cloud |
+| Eval pass rate | Score name: `eval_pass`, aggregate: avg | Agent reliability trend |
+| P95 latency | Metric traces: `akos-metric-*`, latency field | Spot latency regressions |
+
+**4. Environment filtering:**
+
+Langfuse natively supports environment filtering when the SDK passes `environment=` at init. The log watcher sets this automatically from `AKOS_ENV`. Use the **Environment** dropdown in the Langfuse Tracing UI to filter by:
+
+- `dev-local` -- local Ollama development
+- `gpu-runpod` -- RunPod serverless endpoints
+- `gpu-runpod-pod` -- RunPod dedicated pods
+- `prod-cloud` -- cloud API providers (OpenAI, Anthropic)
+
+**5. Verify the integration:**
+
+```bash
+python scripts/test-langfuse-trace.py
+```
+
+Then open the **Tracing** tab in Langfuse. A test trace should appear within a few seconds. If it doesn't, double-check the keys in `config/eval/langfuse.env`.
 
 ### 12.3 SOC Alerts
 

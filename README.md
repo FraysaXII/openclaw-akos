@@ -15,7 +15,7 @@ Out-of-the-box, OpenCLAW operates as an isolated conversational agent. This proj
 
 | Layer | Role | Implementation |
 |:------|:-----|:---------------|
-| **Control Plane** | Gateway daemon, FastAPI API, RunPod manager | `openclaw.json` + `akos/api.py` on port 8420 |
+| **Control Plane** | Gateway daemon, FastAPI API, RunPod manager (serverless + dedicated pod), auto-failover router | `openclaw.json` + `akos/api.py` on port 8420 |
 | **Integration Layer** | Channel adapters, 8 MCP servers + gateway-enforced tool profiles | WebChat + optional Telegram, Slack, WhatsApp via `bindings` |
 | **Execution Layer** | 4-agent runner (Orchestrator, Architect, Executor, Verifier) | Decompose, plan, build, validate |
 | **Intelligence Layer** | Flat memory architecture, context compression | MCP Memory server, workspace files, Intelligence Matrix fact tagging |
@@ -279,13 +279,15 @@ python scripts/log-watcher.py --once --json-log
 
 Without credentials, telemetry degrades gracefully to a no-op -- the watcher still evaluates alerts and logs to stdout.
 
+Langfuse traces are tagged with the active environment name (e.g. `gpu-runpod`, `gpu-runpod-pod`) for multi-env filtering. The trace taxonomy includes `trace_request` (per-request), `trace_startup_compliance` (audit scores), `trace_alert` (SOC alert forwarding), and `trace_metric` (DX request counts / latency).
+
 ## Running Tests
 
 ```bash
 # Install dependencies (pydantic is required; langfuse is optional)
 pip install -r requirements.txt
 
-# Full suite (193+ tests) -- pyproject.toml configures discovery
+# Full suite (234+ tests) -- pyproject.toml configures discovery
 py -m pytest -v
 
 # Individual batches
@@ -298,6 +300,8 @@ py -m pytest tests/test_runpod_provider.py -v   # RunPod provider (mocked SDK)
 py -m pytest tests/test_api.py -v               # FastAPI control plane
 py -m pytest tests/test_checkpoints.py -v       # Workspace checkpoints
 py -m pytest tests/e2e_scaffolding.py -v        # E2E scaffolding check
+py -m pytest tests/test_telemetry.py -v         # Langfuse telemetry (14 tests)
+py -m pytest tests/test_router.py -v            # FailoverRouter (10 tests)
 
 # Friendly test runner
 py scripts/test.py                    # All tests
@@ -320,7 +324,7 @@ py scripts/release-gate.py
 py scripts/doctor.py
 ```
 
-`scripts/doctor.py` includes a runtime-contract probe that normalizes `openclaw gateway status` output. If OpenClaw reports `Runtime: unknown` but `RPC probe: ok` and `Listening` are healthy, AKOS records runtime as `healthy` and verifies determinism across repeated probes.
+`scripts/doctor.py` includes a runtime-contract probe that normalizes `openclaw gateway status` output. If OpenClaw reports `Runtime: unknown` but `RPC probe: ok` and `Listening` are healthy, AKOS records runtime as `healthy` and verifies determinism across repeated probes. Doctor also runs `check_runpod_readiness()` (config, API key, vLLM health probe for dedicated pods) and `check_langfuse_readiness()` (credentials, SDK init).
 On Windows hosts where Playwright browser processes crash (`0xC0000005`), `scripts/browser-smoke.py --playwright` isolates browser attempts in worker subprocesses and returns explicit `SKIP` outcomes instead of crashing the gate process.
 
 ## Documentation

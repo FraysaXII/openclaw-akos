@@ -300,6 +300,60 @@ The `gpu-runpod.json` profile includes production-grade vLLM inference settings:
 | `REASONING_PARSER` | `deepseek_r1` | Chain-of-thought mapped to AKOS thinking levels |
 | `MAX_NUM_SEQS` | `128` | Lower tail latency for agent workloads |
 
+### Dual-Mode RunPod Architecture
+
+RunPod deployments support two modes, selected by environment profile:
+
+| Mode | Profile | How vLLM Runs | URL Pattern | Scaling |
+|:-----|:--------|:--------------|:------------|:--------|
+| **Serverless** | `gpu-runpod` | RunPod serverless endpoint | `https://api.runpod.ai/v2/{endpoint_id}/openai/v1` | Auto-scaled by RunPod |
+| **Dedicated Pod** | `gpu-runpod-pod` | Persistent vLLM process on a reserved pod | `https://{pod_id}-8000.proxy.runpod.net/openai/v1` | Fixed; operator-managed |
+
+Dedicated pod mode is configured via `PodConfig` (Pydantic model in `akos/models.py`) and provisioned by `scripts/setup-runpod-pod.py`. The pod exposes an OpenAI-compatible endpoint on port 8000 via RunPod's HTTPS proxy.
+
+### FailoverRouter
+
+`akos/router.py` implements automatic provider failover for inference requests:
+
+```
+Request → FailoverRouter → Primary Provider
+                              │
+                              ├─ healthy → Response
+                              │
+                              └─ 3 consecutive failures → INFRA_FAILOVER_TRIGGERED alert
+                                                          → next provider in chain
+                                                            │
+                                                            ├─ healthy → Response
+                                                            │
+                                                            └─ recovery probe → restore primary
+```
+
+- **Threshold:** 3 consecutive failures trigger failover.
+- **SOC integration:** `INFRA_FAILOVER_TRIGGERED` alert fires on each failover event and is forwarded to Langfuse via `trace_alert()`.
+- **Recovery:** The router periodically probes the failed provider and restores it when healthy.
+- **Multi-provider:** Supports arbitrary-length fallback chains per environment.
+
+### vLLM Health Probe
+
+`probe_vllm_health()` performs an HTTP GET against the vLLM `/health` endpoint on dedicated pods. Results are consumed by:
+
+- `doctor.py` (`check_runpod_readiness()`) — validates config, API key presence, and live vLLM reachability.
+- `/health` API — includes `vllm_status` in the response body.
+- `FailoverRouter` — uses probe results to decide failover/recovery transitions.
+
+### Langfuse Trace Taxonomy
+
+All Langfuse traces follow a structured taxonomy with environment tagging:
+
+| Trace Type | Function | Data |
+|:-----------|:---------|:-----|
+| `trace_request` | Per-inference request | Model, latency, tokens, environment |
+| `trace_startup_compliance` | Post-Compaction Audit | Agent, compliance score (0.0/1.0) |
+| `trace_alert` | SOC alert forwarding | Alert name, severity, context |
+| `trace_metric` | DX metrics | Request counts, p50/p95 latency |
+
+Environment tags (e.g. `gpu-runpod`, `gpu-runpod-pod`, `dev-local`) enable per-environment filtering in the Langfuse dashboard.
+
 ### Known Limitations
 
 1. **Per-agent model override bug** ([#29571](https://github.com/openclaw/openclaw/issues/29571)): `agents.defaults.model.primary` overrides per-agent model settings at runtime, so all agents currently share the same model. Model switching must happen at the global level.
@@ -418,6 +472,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/api.py` | FastAPI control plane: REST endpoints for health, status, switching, RunPod, metrics, alerts, checkpoints, context pinning, WebSocket logs (v0.4.0) |
 | `akos/tools.py` | Dynamic tool registry reading mcporter config + permissions.json; HITL classification (v0.3.0) |
 | `akos/policy.py` | Role capability matrix loader, tool profile generation, drift detection (v0.4.0) |
+| `akos/router.py` | `FailoverRouter` — automatic provider failover with 3-failure threshold, recovery probe, SOC alert integration |
 | `akos/checkpoints.py` | Workspace snapshot/restore via tarballs for reversible execution (v0.3.0) |
 
 All scripts (`bootstrap.py`, `switch-model.py`, `assemble-prompts.py`, `log-watcher.py`) import from `akos/` and accept `--json-log` for structured CI output.
@@ -514,7 +569,7 @@ The following matrix shows every component, who owns it, and how the two layers 
 | State Tracking       | `akos/state.py`                                                                                                                 | Deployment state (active env, model, tier)                                    | AKOS-only; tracks switch-model history                                    |
 | Operator Scripts     | `scripts/doctor.py`, `sync-runtime.py`, `release-gate.py`, `check-drift.py`, `browser-smoke.py`, `run-evals.py`, `checkpoint.py` | Health, sync, release, drift, smoke, eval, checkpoint CLIs                    | AKOS-only operator tooling                                                |
 | Bootstrap            | `scripts/bootstrap.py`                                                                                                          | **Translation layer** — converts AKOS SSOT to OpenClaw config                 | The bridge; rewrites `~/.openclaw/openclaw.json` from AKOS sources        |
-| Test Suite           | `tests/` (193+ tests)                                                                                                           | Config validation, Pydantic models, API, prompts, E2E, live smoke, evals        | AKOS quality gates                                                        |
+| Test Suite           | `tests/` (234+ tests)                                                                                                           | Config validation, Pydantic models, API, prompts, E2E, telemetry, router, live smoke, evals | AKOS quality gates                                                        |
 | Compliance           | `config/compliance/eu-ai-act-checklist.json`                                                                                     | EU AI Act evidence map                                                        | AKOS-only governance                                                      |
 | Model Tiers          | `config/model-tiers.json`                                                                                                       | Model classification (small/medium/large/sota)                                | Drives prompt variant selection; OpenClaw uses the selected model         |
 | Environment Profiles | `config/environments/*.json` + `*.env.example`                                                                                   | Multi-environment config (dev-local, gpu-runpod, prod-cloud)                  | Merged into OpenClaw config by `switch-model.py`                          |
@@ -615,7 +670,7 @@ The following files implement the architecture described above as committable co
 | All | [`config/eval/langfuse.env.example`](../config/eval/langfuse.env.example) | T-5.1 |
 | All | [`config/environments/`](../config/environments/) | T-5.4 |
 
-A validation test suite (`tests/`) provides 193+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, SOP task coverage, RunPod provider operations, FastAPI endpoints, and workspace checkpoints.
+A validation test suite (`tests/`) provides 234+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, SOP task coverage, RunPod provider operations, FastAPI endpoints, workspace checkpoints, Langfuse telemetry (14 tests), and failover router (10 tests).
 
 ## Live Configuration Status
 
