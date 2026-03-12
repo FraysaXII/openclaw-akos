@@ -207,20 +207,72 @@ def check_mcporter() -> tuple[str, str]:
     return "FAIL", f"mcporter.json not found (expected {mcporter_path})"
 
 
-def check_runpod_config() -> tuple[str, str]:
-    """Check that RunPod GPU configuration is present."""
-    gpu_config = REPO_ROOT / "config" / "gpu-runpod.json"
+def check_runpod_readiness() -> list[tuple[str, str]]:
+    """Check RunPod/vLLM readiness: API key, endpoint, or direct pod health."""
+    import os
+    results: list[tuple[str, str]] = []
+
+    gpu_config = REPO_ROOT / "config" / "environments" / "gpu-runpod.json"
+    pod_config = REPO_ROOT / "config" / "environments" / "gpu-runpod-pod.json"
     if gpu_config.is_file():
-        return "PASS", f"RunPod config found: {gpu_config}"
-    return "WARN", "RunPod config not found: config/gpu-runpod.json (optional for local-only setups)"
+        results.append(("PASS", f"RunPod serverless config: {gpu_config.name}"))
+    if pod_config.is_file():
+        results.append(("PASS", f"RunPod dedicated pod config: {pod_config.name}"))
+    if not gpu_config.is_file() and not pod_config.is_file():
+        results.append(("WARN", "No RunPod config found (optional for local-only)"))
+        return results
+
+    api_key = os.environ.get("RUNPOD_API_KEY", "")
+    if api_key and api_key != "YOUR_RUNPOD_API_KEY":
+        results.append(("PASS", "RUNPOD_API_KEY is set"))
+    else:
+        results.append(("SKIP", "RUNPOD_API_KEY not set (required for serverless only)"))
+
+    vllm_url = os.environ.get("VLLM_RUNPOD_URL", "")
+    if vllm_url and vllm_url != "http://YOUR_POD_IP:8000/v1":
+        from akos.runpod_provider import RunPodProvider
+        probe = RunPodProvider.probe_vllm_health(vllm_url, timeout=5.0)
+        if probe.healthy:
+            results.append(("PASS", f"vLLM endpoint healthy: {vllm_url}"))
+        else:
+            results.append(("FAIL", f"vLLM endpoint unreachable: {vllm_url}"))
+    else:
+        results.append(("SKIP", "VLLM_RUNPOD_URL not set (set after pod/endpoint setup)"))
+
+    return results
 
 
-def check_langfuse_config() -> tuple[str, str]:
-    """Check that Langfuse env example is present."""
-    langfuse_path = REPO_ROOT / "config" / "eval" / "langfuse.env.example"
-    if langfuse_path.is_file():
-        return "PASS", f"Langfuse config found: {langfuse_path}"
-    return "WARN", "Langfuse config not found: config/eval/langfuse.env.example"
+def check_langfuse_readiness() -> list[tuple[str, str]]:
+    """Check Langfuse credentials and connectivity."""
+    import os
+    results: list[tuple[str, str]] = []
+
+    langfuse_example = REPO_ROOT / "config" / "eval" / "langfuse.env.example"
+    langfuse_real = REPO_ROOT / "config" / "eval" / "langfuse.env"
+    if langfuse_example.is_file():
+        results.append(("PASS", f"Langfuse template: {langfuse_example.name}"))
+
+    pub = os.environ.get("LANGFUSE_PUBLIC_KEY", "")
+    sec = os.environ.get("LANGFUSE_SECRET_KEY", "")
+    if not pub or pub.startswith("your-") or not sec or sec.startswith("your-"):
+        if langfuse_real.is_file():
+            from akos.io import load_env_file
+            env = load_env_file(langfuse_real)
+            pub = env.get("LANGFUSE_PUBLIC_KEY", pub)
+            sec = env.get("LANGFUSE_SECRET_KEY", sec)
+
+    if pub and not pub.startswith("your-") and sec and not sec.startswith("your-"):
+        results.append(("PASS", "Langfuse credentials configured"))
+        from akos.telemetry import LangfuseReporter
+        reporter = LangfuseReporter(environment="doctor-probe")
+        if reporter.enabled:
+            results.append(("PASS", "Langfuse SDK initialized successfully"))
+        else:
+            results.append(("WARN", "Langfuse SDK failed to initialize (check host/keys)"))
+    else:
+        results.append(("SKIP", "Langfuse credentials not set (optional, telemetry disabled)"))
+
+    return results
 
 
 def check_permissions() -> tuple[str, str]:
@@ -317,8 +369,8 @@ def run_doctor() -> list[tuple[str, str]]:
     results.extend(check_soul_md(oc_home))
     results.append(check_mcporter())
     results.extend(check_gateway_tool_config(oc_home))
-    results.append(check_runpod_config())
-    results.append(check_langfuse_config())
+    results.extend(check_runpod_readiness())
+    results.extend(check_langfuse_readiness())
     results.append(check_permissions())
 
     return results
