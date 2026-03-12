@@ -180,7 +180,7 @@ The main gateway configuration. Key sections:
 **Models:** Provider blocks for each model backend. Each provider has a `baseUrl`, `api` type, and `models` array. Supports `${VAR}` environment variable substitution in URLs.
 
 Five pre-configured providers:
-- `ollama-local` -- local Ollama at `127.0.0.1:11434`
+- `ollama` -- local Ollama at `127.0.0.1:11434` (native `api: "ollama"`)
 - `ollama-gpu` -- remote Ollama on a GPU server
 - `openai` -- OpenAI API
 - `anthropic` -- Anthropic API
@@ -1336,7 +1336,7 @@ Streams gateway log entries as JSON objects in real-time.
 | `gateway.host` | string | Bind address (default: `127.0.0.1`) |
 | `gateway.port` | int | Bind port (default: `18789`) |
 | `models.providers.{name}.baseUrl` | string | Provider endpoint URL (supports `${VAR}`) |
-| `models.providers.{name}.api` | string | API type (`openai-completions`) |
+| `models.providers.{name}.api` | string | API type (`ollama` for local Ollama, `openai-completions` for vLLM/cloud) |
 | `models.providers.{name}.models[]` | array | Model definitions with `id`, `name`, `contextWindow` |
 | `agents.defaults.model.primary` | string | Default model for all agents |
 | `agents.defaults.thinkingDefault` | string | `off`, `low`, `medium`, `high` |

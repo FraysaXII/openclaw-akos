@@ -11,7 +11,7 @@ from typing import Any
 # --------------------------
 EXPECTED = {
     "providers": {
-        "ollama-local": {"model_ids": {"qwen3:8b", "llama3.1:8b", "nomic-embed-text"}},
+        "ollama": {"model_ids": {"qwen3:8b", "llama3.1:8b", "nomic-embed-text"}},
         "ollama-gpu": {"model_ids": {"qwen3:32b"}},
         "openai": {"model_ids": set()},
         "anthropic": {"model_ids": set()},

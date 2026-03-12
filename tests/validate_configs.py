@@ -345,7 +345,7 @@ class TestStrictAkosInventoryContract:
         data = load_json(config_dir / "openclaw.json.example")
         providers = data["models"]["providers"]
         assert set(providers.keys()) == {
-            "ollama-local",
+            "ollama",
             "ollama-gpu",
             "openai",
             "anthropic",

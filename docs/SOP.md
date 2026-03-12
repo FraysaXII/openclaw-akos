@@ -1348,6 +1348,12 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - Provider `apiKey` references changed from `{source: "env", id: "VAR"}` object format to `${VAR}` string substitution to match the gateway's env-var resolution path.
 - `dev-local.env.example` now defines placeholders for all env vars referenced in the template (`OLLAMA_GPU_URL`, `VLLM_RUNPOD_URL`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`).
 
+**Phase 8 execution note (provider namespace and API mode remediation):**
+- The explicit provider key `ollama-local` was renamed to `ollama` in `openclaw.json.example`, tests, inventory verifier, and docs. The gateway resolves `ollama/qwen3:8b` by matching the `ollama/` prefix to the provider key `ollama`; the previous `ollama-local` key was never consulted, causing persistent `Unknown model` errors.
+- API mode switched from `openai-completions` to native `ollama` for both `ollama` and `ollama-gpu` providers. The `/v1` suffix was removed from all Ollama `baseUrl` values. Per upstream OpenClaw docs: the `/v1` OpenAI-compatible endpoint breaks tool calling with Ollama models.
+- `apiKey: "ollama-local"` is hardcoded in the `ollama` provider block (satisfies auth requirement without env var dependency for local Ollama). The `OLLAMA_API_KEY` user-level env var was already correctly set and was never the root cause.
+- Downstream: `bootstrap.py` force-syncs from `openclaw.json.example`, so new bootstraps deploy the corrected provider name. Existing installs require a one-time live config update.
+
 ---
 
 #### **Works cited**

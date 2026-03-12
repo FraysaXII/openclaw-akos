@@ -47,6 +47,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Provider apiKey format** — `config/openclaw.json.example` now uses `${VAR}` string substitution for `openai` and `anthropic` apiKeys (matching `baseUrl` convention) instead of `{source: "env", id: "VAR"}` objects, which OpenClaw 2026.2.x validates eagerly.
 - **Explicit baseUrl for cloud providers** — `openai` and `anthropic` provider blocks in the template now include explicit `baseUrl` fields (`https://api.openai.com/v1`, `https://api.anthropic.com`) required by OpenClaw 2026.2.x schema validation.
 - **dev-local.env.example** — Now defines all env vars referenced in the template (`OLLAMA_GPU_URL`, `VLLM_RUNPOD_URL`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`) with safe placeholders.
+- **Provider namespace fix** — `ollama-local` renamed to `ollama` in `openclaw.json.example`, tests, and docs so the provider key matches the `ollama/` prefix used in all model strings. Resolves `Unknown model: ollama/qwen3:8b` on gateway startup.
+- **Native Ollama API mode** — Local Ollama providers (`ollama`, `ollama-gpu`) switched from `api: "openai-completions"` to `api: "ollama"` and `baseUrl` dropped the `/v1` suffix, per upstream docs requiring native API for reliable tool calling.
 
 ---
 
@@ -225,7 +227,7 @@ Established the `akos/` orchestration library, multi-model architecture, and obs
 - **`akos/` library**: `models.py` (Pydantic schemas), `io.py` (shared I/O), `log.py` (structured JSON logging), `process.py` (subprocess hardening with timeouts), `state.py` (deployment state tracking), `telemetry.py` (Langfuse integration), `alerts.py` (SOC alert evaluation).
 - **Multi-model tier registry**: `config/model-tiers.json` with small/medium/large/sota tiers.
 - **Prompt tiering**: base + overlay assembly (`scripts/assemble-prompts.py`) producing compact/standard/full variants.
-- **Multi-provider config**: 5 provider blocks in `openclaw.json.example` (ollama-local, ollama-gpu, openai, anthropic, vllm-runpod).
+- **Multi-provider config**: 5 provider blocks in `openclaw.json.example` (ollama, ollama-gpu, openai, anthropic, vllm-runpod).
 - **Environment profiles**: `dev-local`, `gpu-runpod`, `prod-cloud` with `.env.example` + `.json` overlay pairs.
 - **Cross-platform switch-model**: `scripts/switch-model.py` with atomic config merge, prompt deploy, gateway restart, rollback safety.
 - **Cross-platform bootstrap**: `scripts/bootstrap.py` (Python, any OS) complementing `bootstrap.ps1`.

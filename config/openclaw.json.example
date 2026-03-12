@@ -5,9 +5,10 @@
   },
   "models": {
     "providers": {
-      "ollama-local": {
-        "baseUrl": "http://127.0.0.1:11434/v1",
-        "api": "openai-completions",
+      "ollama": {
+        "baseUrl": "http://127.0.0.1:11434",
+        "apiKey": "ollama-local",
+        "api": "ollama",
         "models": [
           {
             "id": "qwen3:8b",
@@ -40,7 +41,7 @@
       },
       "ollama-gpu": {
         "baseUrl": "${OLLAMA_GPU_URL}",
-        "api": "openai-completions",
+        "api": "ollama",
         "models": [
           {
             "id": "qwen3:32b",
