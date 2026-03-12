@@ -24,6 +24,27 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from akos.io import REPO_ROOT, load_json, resolve_openclaw_home
 
 
+def _print_gpu_requirements(model: str, tensor_parallel: int) -> None:
+    """Print GPU sizing guidance based on the model."""
+    is_70b = "70b" in model.lower()
+    if is_70b:
+        print("  GPU REQUIREMENTS for 70B model")
+        print("  " + "-" * 50)
+        print("  The 70B model needs ~140 GB VRAM for weights alone.")
+        print("  A single GPU (even RTX 5090 @ 32 GB) CANNOT run it.")
+        print()
+        print("  Recommended pod configurations:")
+        print("    2x A100 80GB  (160 GB total) -- full 131k context  ~$3.20/hr")
+        print("    2x H100 80GB  (160 GB total) -- full 131k context  ~$5.40/hr")
+        print("    4x A6000 48GB (192 GB total) -- full 131k context  ~$3.00/hr")
+        print("    2x A100 40GB  ( 80 GB total) -- ~32k context only  ~$2.40/hr")
+        print()
+        if tensor_parallel < 2:
+            print("  WARNING: tensor-parallel-size is 1 but 70B needs >= 2 GPUs!")
+            print("  The config will be adjusted to match your GPU count.")
+        print()
+
+
 def _build_vllm_command(pod: dict) -> str:
     """Build the single vLLM launch command from pod config."""
     model = pod.get("modelName", "deepseek-ai/DeepSeek-R1-0528-Distill-Qwen-70B")
@@ -61,6 +82,7 @@ def main() -> int:
         epilog="This script runs LOCALLY. vLLM installs and runs on the POD.",
     )
     parser.add_argument("--pod-id", help="RunPod pod ID (from the dashboard URL or pod name)")
+    parser.add_argument("--hf-token", help="HuggingFace API token (for gated models like DeepSeek)")
     parser.add_argument(
         "--config",
         default=str(REPO_ROOT / "config" / "environments" / "gpu-runpod-pod.json"),
@@ -103,12 +125,34 @@ def main() -> int:
 
     vllm_url = f"https://{pod_id}-{port}.proxy.runpod.net/v1"
     vllm_cmd = _build_vllm_command(pod)
+    model = pod.get("modelName", "")
+    tp = int(pod.get("envVars", {}).get("TENSOR_PARALLEL_SIZE", "1"))
+
+    hf_token = args.hf_token or os.environ.get("HF_TOKEN", "")
+    if not hf_token:
+        print()
+        print("  HuggingFace Token (required for gated models like DeepSeek)")
+        print("  " + "-" * 50)
+        print("  Get yours at: https://huggingface.co/settings/tokens")
+        print("  The token needs 'Read' permission.")
+        if "deepseek" in model.lower() or "gated" in model.lower():
+            print(f"  You must also accept the license at:")
+            print(f"  https://huggingface.co/{model}")
+        print()
+        try:
+            hf_token = input("  Enter your HuggingFace token (hf_...): ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print("\n  Cancelled.")
+            return 1
 
     print()
     print("=" * 72)
     print("  RunPod Dedicated Pod Setup")
     print("=" * 72)
     print()
+
+    _print_gpu_requirements(model, tp)
+
     print("  STEP 1: Expose port 8000 in the RunPod dashboard")
     print("  " + "-" * 50)
     print(f"  Your pod currently exposes: 8888 (Jupyter), 22 (SSH)")
@@ -128,7 +172,8 @@ def main() -> int:
     print("  " + "~" * 60)
     print()
 
-    script_block = f"""pip install vllm && \\
+    hf_line = f"export HF_TOKEN={hf_token} && \\\n" if hf_token else ""
+    script_block = f"""{hf_line}pip install vllm && \\
 {vllm_cmd}"""
 
     for line in script_block.split("\n"):
