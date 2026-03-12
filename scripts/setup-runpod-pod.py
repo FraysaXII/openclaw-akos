@@ -46,34 +46,39 @@ def _print_gpu_requirements(model: str, tensor_parallel: int) -> None:
 
 
 def _build_vllm_command(pod: dict) -> str:
-    """Build the single vLLM launch command from pod config."""
+    """Build the vLLM launch command from pod config.
+
+    Returns a single long command string with no line continuations.
+    Line continuations (backslash + newline) are fragile when copy-pasted
+    from terminals -- trailing whitespace after \\ silently breaks the command.
+    """
     model = pod.get("modelName", "deepseek-ai/DeepSeek-R1-0528-Distill-Qwen-70B")
     port = pod.get("vllmPort", 8000)
     max_len = pod.get("maxModelLen", 131072)
     env = pod.get("envVars", {})
 
-    parts = [
+    args = [
         "python -m vllm.entrypoints.openai.api_server",
-        f"  --model {model}",
-        f"  --host 0.0.0.0",
-        f"  --port {port}",
-        f"  --max-model-len {max_len}",
-        f"  --served-model-name {env.get('OPENAI_SERVED_MODEL_NAME_OVERRIDE', 'deepseek-r1-70b')}",
-        f"  --dtype {env.get('DTYPE', 'bfloat16')}",
-        f"  --gpu-memory-utilization {env.get('GPU_MEMORY_UTILIZATION', '0.92')}",
-        f"  --kv-cache-dtype {env.get('KV_CACHE_DTYPE', 'fp8')}",
-        f"  --tensor-parallel-size {env.get('TENSOR_PARALLEL_SIZE', '1')}",
+        f"--model {model}",
+        "--host 0.0.0.0",
+        f"--port {port}",
+        f"--max-model-len {max_len}",
+        f"--served-model-name {env.get('OPENAI_SERVED_MODEL_NAME_OVERRIDE', 'deepseek-r1-70b')}",
+        f"--dtype {env.get('DTYPE', 'bfloat16')}",
+        f"--gpu-memory-utilization {env.get('GPU_MEMORY_UTILIZATION', '0.92')}",
+        f"--kv-cache-dtype {env.get('KV_CACHE_DTYPE', 'fp8')}",
+        f"--tensor-parallel-size {env.get('TENSOR_PARALLEL_SIZE', '1')}",
     ]
     if env.get("ENABLE_PREFIX_CACHING", "").lower() == "true":
-        parts.append("  --enable-prefix-caching")
+        args.append("--enable-prefix-caching")
     if env.get("ENABLE_CHUNKED_PREFILL", "").lower() == "true":
-        parts.append("  --enable-chunked-prefill")
+        args.append("--enable-chunked-prefill")
     if env.get("ENABLE_AUTO_TOOL_CHOICE", "").lower() == "true":
-        parts.append("  --enable-auto-tool-choice")
+        args.append("--enable-auto-tool-choice")
         if env.get("TOOL_CALL_PARSER"):
-            parts.append(f"  --tool-call-parser {env['TOOL_CALL_PARSER']}")
-    parts.append(f"  --max-num-seqs {env.get('MAX_NUM_SEQS', '128')}")
-    return " \\\n".join(parts)
+            args.append(f"--tool-call-parser {env['TOOL_CALL_PARSER']}")
+    args.append(f"--max-num-seqs {env.get('MAX_NUM_SEQS', '128')}")
+    return " ".join(args)
 
 
 def main() -> int:
@@ -172,12 +177,11 @@ def main() -> int:
     print("  " + "~" * 60)
     print()
 
-    hf_line = f"export HF_TOKEN={hf_token} && \\\n" if hf_token else ""
-    script_block = f"""{hf_line}pip install vllm && \\
-{vllm_cmd}"""
+    hf_export = f"export HF_TOKEN={hf_token}" if hf_token else ""
+    parts = [p for p in [hf_export, "pip install vllm", vllm_cmd] if p]
+    script_block = " && ".join(parts)
 
-    for line in script_block.split("\n"):
-        print(f"  {line}")
+    print(f"  {script_block}")
 
     print()
     print("  " + "~" * 60)
