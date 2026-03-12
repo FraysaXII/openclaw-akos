@@ -1,14 +1,16 @@
 """RunPod GPU infrastructure provider for AKOS.
 
 Typed wrapper around the RunPod Python SDK for managing serverless vLLM
-endpoints and dedicated pod health probes.  Provides idempotent endpoint
-creation, health monitoring, scaling, inference, and teardown.
+endpoints, dedicated pods via REST API, and health probes.  Provides
+idempotent endpoint/pod creation, health monitoring, scaling, inference,
+and teardown.
 
 Graceful no-op when RUNPOD_API_KEY is not set (dev-local without RunPod).
 """
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import time
@@ -66,6 +68,137 @@ class GpuInfo:
     memory_gb: int
     available: bool
     price_per_sec: float = 0.0
+
+
+@dataclass
+class PodInfo:
+    pod_id: str
+    status: str
+    gpu_type: str = ""
+    gpu_count: int = 1
+    url: str = ""
+    raw: dict = field(default_factory=dict)
+
+
+_RUNPOD_REST = "https://rest.runpod.io/v1"
+
+
+# ── Pod REST API (dedicated pods) ────────────────────────────────────
+
+
+class PodManager:
+    """Manages RunPod dedicated pods via the REST API.
+
+    Uses ``urllib.request`` (stdlib) so no extra dependencies are needed
+    beyond ``RUNPOD_API_KEY``.
+    """
+
+    def __init__(self, api_key: str | None = None) -> None:
+        self._api_key = api_key or os.environ.get("RUNPOD_API_KEY", "")
+
+    @property
+    def enabled(self) -> bool:
+        return bool(self._api_key)
+
+    def _request(self, method: str, path: str, body: dict | None = None) -> dict:
+        url = f"{_RUNPOD_REST}{path}"
+        data = json.dumps(body).encode() if body else None
+        req = urllib.request.Request(url, data=data, method=method)
+        req.add_header("Authorization", f"Bearer {self._api_key}")
+        req.add_header("Content-Type", "application/json")
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            return json.loads(resp.read().decode())
+
+    @staticmethod
+    def _parse_pod(raw: dict) -> PodInfo:
+        pod_id = raw.get("id", "")
+        status = raw.get("desiredStatus", raw.get("status", "unknown"))
+        gpu_type = raw.get("gpuTypeId", raw.get("machine", {}).get("gpuTypeId", ""))
+        gpu_count = raw.get("gpuCount", 1)
+        return PodInfo(
+            pod_id=pod_id,
+            status=status,
+            gpu_type=gpu_type,
+            gpu_count=gpu_count,
+            url=f"https://{pod_id}-8080.proxy.runpod.net/v1" if pod_id else "",
+            raw=raw,
+        )
+
+    def create_pod(
+        self,
+        *,
+        name: str,
+        gpu_type_id: str,
+        gpu_count: int = 2,
+        image: str = "runpod/pytorch:2.8.0-py3.11-cuda12.8.1-devel-ubuntu22.04",
+        volume_gb: int = 200,
+        container_disk_gb: int = 50,
+        ports: str = "8080/http,22/tcp",
+        env: dict[str, str] | None = None,
+        docker_start_cmd: list[str] | None = None,
+    ) -> PodInfo | None:
+        """Create a dedicated GPU pod via RunPod REST API."""
+        if not self.enabled:
+            logger.warning("PodManager not enabled (no API key)")
+            return None
+
+        body: dict[str, Any] = {
+            "name": name,
+            "gpuTypeIds": [gpu_type_id],
+            "gpuCount": gpu_count,
+            "imageName": image,
+            "volumeInGb": volume_gb,
+            "containerDiskInGb": container_disk_gb,
+            "ports": ports,
+            "env": env or {},
+        }
+        if docker_start_cmd:
+            body["dockerStartCmd"] = docker_start_cmd
+
+        try:
+            result = self._request("POST", "/pods", body)
+            pod = self._parse_pod(result)
+            pod.url = f"https://{pod.pod_id}-8080.proxy.runpod.net/v1"
+            logger.info("Created pod %s (%s x%d)", pod.pod_id, gpu_type_id, gpu_count)
+            return pod
+        except Exception as exc:
+            logger.error("Pod creation failed: %s", exc)
+            return None
+
+    def get_pod(self, pod_id: str) -> PodInfo | None:
+        """Get a pod by ID."""
+        if not self.enabled:
+            return None
+        try:
+            result = self._request("GET", f"/pods/{pod_id}")
+            return self._parse_pod(result)
+        except Exception as exc:
+            logger.debug("Pod lookup failed: %s", exc)
+            return None
+
+    def list_pods(self) -> list[PodInfo]:
+        """List all pods."""
+        if not self.enabled:
+            return []
+        try:
+            result = self._request("GET", "/pods")
+            pods = result if isinstance(result, list) else result.get("pods", result.get("data", []))
+            return [self._parse_pod(p) for p in pods if isinstance(p, dict)]
+        except Exception as exc:
+            logger.warning("Pod list failed: %s", exc)
+            return []
+
+    def terminate_pod(self, pod_id: str) -> bool:
+        """Terminate (delete) a pod."""
+        if not self.enabled:
+            return False
+        try:
+            self._request("DELETE", f"/pods/{pod_id}")
+            logger.info("Terminated pod %s", pod_id)
+            return True
+        except Exception as exc:
+            logger.error("Pod termination failed: %s", exc)
+            return False
 
 
 # ── Provider ─────────────────────────────────────────────────────────

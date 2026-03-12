@@ -246,10 +246,46 @@ class PodConfig(BaseModel):
 
     mode: Literal["dedicated"] = "dedicated"
     healthEndpoint: str = "/health"
-    vllmPort: int = Field(default=8000, gt=0)
+    vllmPort: int = Field(default=8080, gt=0)
     envVars: dict[str, str] = Field(default_factory=dict)
     modelName: str = "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
     maxModelLen: int = Field(default=131072, gt=0)
+    gpuType: str = Field(default="NVIDIA A100-SXM4-80GB", description="RunPod GPU type ID for pod creation")
+    gpuCount: int = Field(default=2, ge=1, description="Number of GPUs; also sets tensor-parallel-size")
+    containerImage: str = Field(default="runpod/pytorch:2.8.0-py3.11-cuda12.8.1-devel-ubuntu22.04")
+    volumeGb: int = Field(default=200, ge=50)
+
+    @model_validator(mode="after")
+    def _sync_tensor_parallel_with_gpu_count(self) -> PodConfig:
+        """TENSOR_PARALLEL_SIZE must equal gpuCount to avoid the world-size error."""
+        self.envVars["TENSOR_PARALLEL_SIZE"] = str(self.gpuCount)
+        return self
+
+    def build_vllm_command(self) -> list[str]:
+        """Build the vLLM launch command as a list for dockerStartCmd."""
+        env = self.envVars
+        args = [
+            "python", "-m", "vllm.entrypoints.openai.api_server",
+            "--model", self.modelName,
+            "--host", "0.0.0.0",
+            "--port", str(self.vllmPort),
+            "--max-model-len", str(self.maxModelLen),
+            "--served-model-name", env.get("OPENAI_SERVED_MODEL_NAME_OVERRIDE", "deepseek-r1-70b"),
+            "--dtype", env.get("DTYPE", "bfloat16"),
+            "--gpu-memory-utilization", env.get("GPU_MEMORY_UTILIZATION", "0.92"),
+            "--kv-cache-dtype", env.get("KV_CACHE_DTYPE", "fp8"),
+            "--tensor-parallel-size", str(self.gpuCount),
+        ]
+        if env.get("ENABLE_PREFIX_CACHING", "").lower() == "true":
+            args.append("--enable-prefix-caching")
+        if env.get("ENABLE_CHUNKED_PREFILL", "").lower() == "true":
+            args.append("--enable-chunked-prefill")
+        if env.get("ENABLE_AUTO_TOOL_CHOICE", "").lower() == "true":
+            args.append("--enable-auto-tool-choice")
+            if env.get("TOOL_CALL_PARSER"):
+                args.extend(["--tool-call-parser", env["TOOL_CALL_PARSER"]])
+        args.extend(["--max-num-seqs", env.get("MAX_NUM_SEQS", "128")])
+        return args
 
 
 class EnvironmentOverlay(BaseModel):

@@ -13,10 +13,13 @@
     "mode": "dedicated",
     "healthEndpoint": "/health",
     "vllmPort": 8080,
+    "gpuType": "NVIDIA A100-SXM4-80GB",
+    "gpuCount": 2,
+    "containerImage": "runpod/pytorch:2.8.0-py3.11-cuda12.8.1-devel-ubuntu22.04",
+    "volumeGb": 200,
     "envVars": {
       "TOKENIZER_MODE": "auto",
       "MAX_MODEL_LEN": "131072",
-      "TENSOR_PARALLEL_SIZE": "2",
       "DTYPE": "bfloat16",
       "GPU_MEMORY_UTILIZATION": "0.92",
       "KV_CACHE_DTYPE": "fp8",
@@ -33,7 +36,6 @@
       "DISABLE_LOG_STATS": "false"
     },
     "modelName": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
-    "maxModelLen": 131072,
-    "_note_vram": "70B at fp8 KV cache needs ~70GB VRAM for full 131k context. Single RTX 5090 (32GB) fits ~16k-32k. Adjust --max-model-len based on your GPU count and VRAM."
+    "maxModelLen": 131072
   }
 }
