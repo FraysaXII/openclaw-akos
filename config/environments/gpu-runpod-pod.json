@@ -32,7 +32,7 @@
       "MAX_CONCURRENCY": "30",
       "DISABLE_LOG_STATS": "false"
     },
-    "modelName": "deepseek-ai/DeepSeek-R1-0528-Distill-Qwen-70B",
+    "modelName": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
     "maxModelLen": 131072,
     "_note_vram": "70B at fp8 KV cache needs ~70GB VRAM for full 131k context. Single RTX 5090 (32GB) fits ~16k-32k. Adjust --max-model-len based on your GPU count and VRAM."
   }

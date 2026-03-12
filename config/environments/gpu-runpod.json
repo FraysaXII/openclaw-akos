@@ -13,7 +13,7 @@
     "gpuIds": ["AMPERE_80", "ADA_80"],
     "templateName": "akos-vllm-deepseek-r1-70b",
     "vllmImage": "runpod/worker-v1-vllm:stable-cuda12.8.0",
-    "modelName": "deepseek-ai/DeepSeek-R1-0528-Distill-Qwen-70B",
+    "modelName": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
     "maxModelLen": 131072,
     "activeWorkers": 0,
     "maxWorkers": 3,

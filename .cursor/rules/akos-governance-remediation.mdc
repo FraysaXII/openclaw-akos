@@ -1,0 +1,63 @@
+---
+description: AKOS governance-hardened runtime & full-inventory remediation guardrails
+alwaysApply: true
+---
+
+# AKOS Governance-Hardened Remediation Guardrails
+
+Use these rules whenever planning or executing work in this repo (all agent modes):
+
+- **Inventory mode**
+  - Enforce **full-only, exact AKOS inventory**:
+    - Runtime must always preserve the full provider/model/agent/A2A contract from `config/openclaw.json.example`.
+    - Never introduce relaxed/profile/active-only inventory modes.
+    - Unset env-backed inputs become **operator-visible warnings**, not provider removal.
+
+- **Runtime contract**
+  - Treat `Runtime: unknown` as an **observability contract bug**, not a healthy state:
+    - If `RPC probe: ok` and a listener is present, normalized runtime must be `healthy`.
+    - Status semantics must be deterministic across repeated probes and restart loops.
+
+- **SSOT / DI / SOC / DX / UX**
+  - **SSOT:** Use AKOS config/templates and Pydantic models as the single schema authority.
+  - **Design for Invariance (DI):** Changes must preserve the strict inventory and runtime contract across environments.
+  - **SOC / Security:** Never log secret values; only log key paths/categories. Treat `[config/schema]` sensitive-key signals as security semantics, not noise.
+  - **DX / UX:** Prefer deterministic scripts (`scripts/*.py`) and FastAPI endpoints over ad-hoc tooling; keep operator flows one-command where possible.
+
+- **Reuse/extension only (no duplication)**
+  - Extend these existing contracts **instead of** creating sidecars:
+    - `akos/` helpers (I/O, logging, process, models, policy).
+    - `scripts/bootstrap.py`, `scripts/doctor.py`, `scripts/check-drift.py`,
+      `scripts/release-gate.py`, `scripts/browser-smoke.py`,
+      `scripts/legacy/verify_openclaw_inventory.py`.
+    - `config/openclaw.json.example` and the responsibility matrix in `docs/ARCHITECTURE.md`.
+  - Do **not**:
+    - Add parallel inventory, runtime-status, or logging frameworks.
+    - Fork schema/contract definitions into new ad-hoc JSON/model files.
+    - Duplicate validation already covered by drift, inventory, or release-gate scripts.
+
+- **Commit and phase discipline**
+  - **One commit per phase**:
+    - Phase 0–6 work must land as clean, phase-scoped commits (no mixed concerns).
+    - If additional meta/audit artifacts are needed, use a final explicit chore commit.
+  - Each phase must:
+    - Include tests that lock in the new behavior or contract.
+    - Update required docs before committing:
+      - `README.md`, `CHANGELOG.md`, `SECURITY.md`,
+        `docs/USER_GUIDE.md`, `docs/SOP.md`, `docs/ARCHITECTURE.md`,
+        `config/workspace-scaffold/README.md`, and any relevant `docs/` pages.
+
+- **Planning + verification expectations**
+  - For any remediation or runtime/inventory work:
+    - Plan in **phased tasks** with explicit action IDs, files to touch, and verification gates.
+    - Use the **strict verification matrix** as the final gate:
+      - `py scripts/legacy/verify_openclaw_inventory.py`
+      - `py scripts/check-drift.py`
+      - `py scripts/test.py all`
+      - `py scripts/browser-smoke.py --playwright`
+      - `py -m pytest tests/test_api.py -v`
+      - `py scripts/release-gate.py`
+  - Planner agents should:
+    - Reuse the phase structure and acceptance criteria from the governed runtime/inventory remediation plan.
+    - Explicitly call out which existing scripts/tests/docs they will touch and how they preserve the above contracts.
+

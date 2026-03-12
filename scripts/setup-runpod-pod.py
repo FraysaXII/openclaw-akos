@@ -52,7 +52,7 @@ def _build_vllm_command(pod: dict) -> str:
     Line continuations (backslash + newline) are fragile when copy-pasted
     from terminals -- trailing whitespace after \\ silently breaks the command.
     """
-    model = pod.get("modelName", "deepseek-ai/DeepSeek-R1-0528-Distill-Qwen-70B")
+    model = pod.get("modelName", "deepseek-ai/DeepSeek-R1-Distill-Llama-70B")
     port = pod.get("vllmPort", 8000)
     max_len = pod.get("maxModelLen", 131072)
     env = pod.get("envVars", {})

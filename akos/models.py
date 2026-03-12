@@ -202,7 +202,7 @@ class RunPodEndpointConfig(BaseModel):
     gpuIds: list[str] = Field(default_factory=lambda: ["AMPERE_80"])
     templateName: str = "akos-vllm"
     vllmImage: str = "runpod/worker-v1-vllm:stable-cuda12.8.0"
-    modelName: str = "deepseek-ai/DeepSeek-R1-0528-Distill-Qwen-70B"
+    modelName: str = "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
     maxModelLen: int = Field(default=131072, gt=0)
     activeWorkers: int = Field(default=0, ge=0)
     maxWorkers: int = Field(default=2, ge=1)
@@ -248,7 +248,7 @@ class PodConfig(BaseModel):
     healthEndpoint: str = "/health"
     vllmPort: int = Field(default=8000, gt=0)
     envVars: dict[str, str] = Field(default_factory=dict)
-    modelName: str = "deepseek-ai/DeepSeek-R1-0528-Distill-Qwen-70B"
+    modelName: str = "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
     maxModelLen: int = Field(default=131072, gt=0)
 
 
