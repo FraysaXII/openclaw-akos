@@ -12,7 +12,7 @@
   "pod": {
     "mode": "dedicated",
     "healthEndpoint": "/health",
-    "vllmPort": 8000,
+    "vllmPort": 8080,
     "envVars": {
       "TOKENIZER_MODE": "auto",
       "MAX_MODEL_LEN": "131072",
