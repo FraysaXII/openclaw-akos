@@ -153,7 +153,7 @@ def main() -> int:
 
     _print_gpu_requirements(model, tp)
 
-    print("  STEP 1: Expose port 8000 in the RunPod dashboard")
+    print(f"  STEP 1: Expose port {port} in the RunPod dashboard")
     print("  " + "-" * 50)
     print(f"  Your pod currently exposes: 8888 (Jupyter), 22 (SSH)")
     print(f"  You MUST also expose port {port} for vLLM:")
@@ -182,7 +182,7 @@ def main() -> int:
     print()
     print("  " + "~" * 60)
     print()
-    print("  Wait for: 'Uvicorn running on http://0.0.0.0:8000'")
+    print(f"  Wait for: 'Uvicorn running on http://0.0.0.0:{port}'")
     print("  The first run downloads the model (~140 GB). This takes 5-15 minutes.")
     print()
 
