@@ -23,11 +23,13 @@ class LangfuseReporter:
     """Lightweight wrapper around Langfuse for AKOS observability.
 
     Creates traces for each agent request/response pair parsed from
-    OpenCLAW gateway logs.
+    OpenCLAW gateway logs. Environment tagging separates dev-local,
+    gpu-runpod, and prod-cloud traces in Langfuse dashboards.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, *, environment: str = "dev-local") -> None:
         self._client = None
+        self._environment = self._normalize_env(environment)
         public_key = os.environ.get("LANGFUSE_PUBLIC_KEY")
         secret_key = os.environ.get("LANGFUSE_SECRET_KEY")
         host = os.environ.get("LANGFUSE_HOST", "https://cloud.langfuse.com")
@@ -45,11 +47,18 @@ class LangfuseReporter:
                 public_key=public_key,
                 secret_key=secret_key,
                 host=host,
+                environment=self._environment,
             )
-            logger.info("Langfuse reporter initialized (host=%s)", host)
+            logger.info("Langfuse reporter initialized (host=%s, environment=%s)", host, self._environment)
         except Exception as exc:  # broad: Langfuse is optional; graceful no-op on init failure
             logger.warning("Failed to initialize Langfuse client: %s", exc)
             self._client = None
+
+    @staticmethod
+    def _normalize_env(env: str) -> str:
+        """Langfuse env must match ^(?!langfuse)[a-z0-9-_]+$, max 40 chars."""
+        sanitized = str(env).lower().replace(" ", "-").replace(".", "-")[:40]
+        return sanitized if sanitized and not sanitized.startswith("langfuse") else "dev-local"
 
     @property
     def enabled(self) -> bool:
@@ -71,6 +80,7 @@ class LangfuseReporter:
             trace = self._client.trace(
                 name=f"akos-{entry.get('agent_role', 'unknown')}",
                 metadata={
+                    "environment": self._environment,
                     "tool_name": entry.get("tool_name"),
                     "agent_role": entry.get("agent_role"),
                 },
@@ -97,6 +107,7 @@ class LangfuseReporter:
             trace = self._client.trace(
                 name=f"akos-startup-{agent_role}",
                 metadata={
+                    "environment": self._environment,
                     "agent_role": agent_role,
                     "files_read": files_read,
                     "files_missing": files_missing,
@@ -115,6 +126,7 @@ class LangfuseReporter:
             self._client.trace(
                 name=f"akos-metric-{metric_name}",
                 metadata={
+                    "environment": self._environment,
                     "metric_name": metric_name,
                     "metric_value": value,
                     **(metadata or {}),

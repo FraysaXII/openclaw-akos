@@ -30,7 +30,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.alerts import AlertEvaluator
-from akos.io import REPO_ROOT, load_env_file, load_json
+from akos.io import REPO_ROOT, load_env_file, load_json, resolve_openclaw_home
 from akos.log import setup_logging
 from akos.models import RunPodEndpointConfig
 from akos.runpod_provider import RunPodProvider
@@ -68,10 +68,12 @@ def tail_file(path: Path, poll_interval: float, *, once: bool = False) -> Iterat
             time.sleep(poll_interval)
 
     with open(path, "r", encoding="utf-8", errors="replace") as f:
-        f.seek(0, 2)  # start at end of file
         if once:
+            for line in f:
+                yield line
             return
 
+        f.seek(0, 2)
         while True:
             line = f.readline()
             if line:
@@ -80,17 +82,17 @@ def tail_file(path: Path, poll_interval: float, *, once: bool = False) -> Iterat
                 time.sleep(poll_interval)
 
 
-def _init_runpod_provider() -> RunPodProvider | None:
+def _init_runpod_provider() -> tuple[RunPodProvider | None, RunPodEndpointConfig | None]:
     """Try to create a RunPod provider from the gpu-runpod environment config."""
     config_path = REPO_ROOT / "config" / "environments" / "gpu-runpod.json"
     if not config_path.exists():
-        return None
+        return None, None
 
     try:
         raw = load_json(config_path)
         runpod_block = raw.get("runpod")
         if not runpod_block:
-            return None
+            return None, None
         rpconfig = RunPodEndpointConfig.model_validate(runpod_block)
         provider = RunPodProvider(rpconfig)
         if provider.enabled:
@@ -98,10 +100,10 @@ def _init_runpod_provider() -> RunPodProvider | None:
                 "RunPod health monitoring enabled (every %ds)",
                 rpconfig.healthCheck.intervalSeconds,
             )
-            return provider
+            return provider, rpconfig
     except Exception as exc:
         logger.debug("RunPod provider init skipped: %s", exc)
-    return None
+    return None, None
 
 
 def _maybe_check_runpod(
@@ -167,10 +169,14 @@ def main() -> None:
                         help="Path to Langfuse .env file (default: config/eval/langfuse.env)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Print what would be sent to Langfuse without calling the SDK")
+    parser.add_argument("--environment", "-e",
+                        default=os.environ.get("AKOS_ENV", "dev-local"),
+                        help="Environment tag for traces (dev-local, gpu-runpod, prod-cloud)")
     args = parser.parse_args()
 
     setup_logging(json_output=args.json_log)
 
+    # Load Langfuse creds
     env_path = Path(args.env_file)
     env_vars = load_env_file(env_path)
     for key, value in env_vars.items():
@@ -179,16 +185,24 @@ def main() -> None:
     if env_vars:
         logger.info("Loaded %d vars from %s", len(env_vars), env_path)
 
+    # Load OpenCLAW .env for AKOS_ENV (overrides --environment if set)
+    oc_env = resolve_openclaw_home() / ".env"
+    oc_vars = load_env_file(oc_env)
+    for key, value in oc_vars.items():
+        if key not in os.environ:
+            os.environ[key] = value
+    env_tag = os.environ.get("AKOS_ENV", args.environment)
+
     poll_interval = float(os.environ.get("LOG_WATCHER_POLL_INTERVAL", "2"))
     log_path = get_log_path()
     logger.info("Watching: %s (poll every %.1fs)", log_path, poll_interval)
 
     dry_run = args.dry_run
-    reporter = LangfuseReporter()
+    reporter = LangfuseReporter(environment=env_tag)
     if dry_run:
         logger.info("Dry-run mode: traces will be printed, not sent to Langfuse")
     elif reporter.enabled:
-        logger.info("Langfuse telemetry enabled")
+        logger.info("Langfuse telemetry enabled (environment=%s)", env_tag)
     else:
         logger.info("Langfuse telemetry disabled (no credentials or package)")
 
@@ -200,8 +214,8 @@ def main() -> None:
         logger.warning("Could not load alert configs: %s", exc)
         alert_evaluator = None
 
-    runpod_provider = _init_runpod_provider()
-    runpod_interval = 60.0
+    runpod_provider, runpod_config = _init_runpod_provider()
+    runpod_interval = runpod_config.healthCheck.intervalSeconds if runpod_config else 60.0
     last_runpod_check = 0.0
 
     entries_processed = 0
@@ -213,10 +227,6 @@ def main() -> None:
             if not entry:
                 if _AUDIT_MARKER in line:
                     _handle_audit_line(line, reporter, dry_run)
-                _maybe_check_runpod(
-                    runpod_provider, reporter, dry_run,
-                    runpod_interval, last_runpod_check,
-                )
                 last_runpod_check = _maybe_check_runpod(
                     runpod_provider, reporter, dry_run,
                     runpod_interval, last_runpod_check,

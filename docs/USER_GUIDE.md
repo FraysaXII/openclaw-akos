@@ -751,13 +751,15 @@ Langfuse is the primary observability backend. It provides per-request agent tra
 1. Sign up at [cloud.langfuse.com](https://cloud.langfuse.com) (free tier) or self-host.
 2. Copy the template: `cp config/eval/langfuse.env.example config/eval/langfuse.env`
 3. Fill in your keys.
-4. Start the watcher:
+4. Start the watcher **alongside the gateway** (both must run for traces to appear):
 
 ```bash
 python scripts/log-watcher.py
 ```
 
 Without credentials, telemetry degrades to a no-op. The watcher still evaluates alerts and logs to stdout.
+
+**No traces yet?** Run the smoke test first: `py scripts/test-langfuse-trace.py`. If that succeeds, traces reach Langfuse. Live traces require the **log-watcher to be running** while you send chat messages through the gateway. The watcher tails `%TEMP%/openclaw/openclaw-YYYY-MM-DD.log` (or `$TMPDIR/openclaw/` on macOS/Linux).
 
 **Flags:**
 
@@ -766,6 +768,7 @@ Without credentials, telemetry degrades to a no-op. The watcher still evaluates 
 | `--once` | Single pass then exit (for CI) |
 | `--dry-run` | Print traces without sending to Langfuse |
 | `--env-file PATH` | Custom Langfuse env file location |
+| `--environment`, `-e` | Environment tag (dev-local, gpu-runpod, prod-cloud) |
 | `--json-log` | Structured JSON output |
 
 **Environment:**
@@ -781,6 +784,24 @@ All three environment templates (`dev-local.env.example`, `gpu-runpod.env.exampl
 **Startup compliance tracing:**
 
 The log watcher now detects "Post-Compaction Audit" gateway entries and sends scored traces to Langfuse (`startup_compliance: 0.0` for failures, `1.0` for passes). This enables monitoring startup compliance rates across models and environments in the Langfuse dashboard.
+
+**Dev vs prod trace separation:**
+
+Traces are tagged with an `environment` so you can filter dev-local, gpu-runpod, and prod-cloud in Langfuse. Use the "Environment" filter in the Tracing UI or filter by metadata `environment: dev-local`. The log watcher reads `AKOS_ENV` from `~/.openclaw/.env` (set automatically by `switch-model.py` when you switch environments).
+
+**"No traces yet?" troubleshooting:**
+
+1. **Run the log watcher alongside the gateway** — Traces come from the watcher tailing the gateway log. Start both:
+   ```bash
+   openclaw gateway start &      # or your usual gateway command
+   python scripts/log-watcher.py
+   ```
+2. **Verify credentials** — Run the smoke test:
+   ```bash
+   python scripts/test-langfuse-trace.py
+   ```
+   If it prints "Test trace sent to Langfuse successfully", check the Tracing tab (traces may take a few seconds to appear). If it fails, ensure `config/eval/langfuse.env` has valid `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY`.
+3. **Confirm log path** — The watcher reads `%TEMP%\openclaw\openclaw-YYYY-MM-DD.log` (Windows) or `/tmp/openclaw/openclaw-YYYY-MM-DD.log` (Linux). Ensure the OpenCLAW gateway writes there.
 
 ### 12.3 SOC Alerts
 

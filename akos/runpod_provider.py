@@ -142,7 +142,7 @@ class RunPodProvider:
                 idle_timeout=cfg.idleTimeoutSeconds,
             )
             self._endpoint_id = endpoint["id"]
-            url = f"https://api.runpod.ai/v2/{self._endpoint_id}"
+            url = f"https://api.runpod.ai/v2/{self._endpoint_id}/openai/v1"
             logger.info("Created endpoint %s -> %s", self._endpoint_id, url)
             return EndpointInfo(
                 endpoint_id=self._endpoint_id,
@@ -306,7 +306,7 @@ class RunPodProvider:
                 if ep.get("id") == endpoint_id:
                     return EndpointInfo(
                         endpoint_id=endpoint_id,
-                        url=f"https://api.runpod.ai/v2/{endpoint_id}",
+                        url=f"https://api.runpod.ai/v2/{endpoint_id}/openai/v1",
                         template_id=ep.get("templateId", ""),
                     )
         except Exception as exc:

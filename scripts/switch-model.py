@@ -202,6 +202,7 @@ def main() -> None:
         else:
             oc_home.mkdir(parents=True, exist_ok=True)
             shutil.copy2(env_file, dest_env)
+            _write_env_var(dest_env, "AKOS_ENV", env_name)
             logger.info("Copied %s -> %s", env_file.name, dest_env)
     else:
         logger.info("No .env file for '%s'; skipping", env_name)
