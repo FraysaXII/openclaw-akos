@@ -6,6 +6,7 @@ for model-tiers.json, openclaw.json, environment overlays, alerts, and baselines
 
 from __future__ import annotations
 
+import warnings
 from pathlib import Path
 from typing import Literal
 
@@ -95,6 +96,7 @@ class AgentEntry(BaseModel):
 
 class ModelRef(BaseModel):
     primary: str
+    fallbacks: list[str] = Field(default_factory=list)
 
 
 class AgentsDefaults(BaseModel):
@@ -209,6 +211,34 @@ class RunPodEndpointConfig(BaseModel):
     healthCheck: RunPodHealthCheckConfig = Field(
         default_factory=RunPodHealthCheckConfig
     )
+
+    @model_validator(mode="after")
+    def _check_tool_parser_consistency(self) -> RunPodEndpointConfig:
+        auto_tool = self.envVars.get("ENABLE_AUTO_TOOL_CHOICE", "").lower()
+        has_parser = "TOOL_CALL_PARSER" in self.envVars
+        if auto_tool == "true" and not has_parser:
+            warnings.warn(
+                "ENABLE_AUTO_TOOL_CHOICE is true but TOOL_CALL_PARSER is not set; "
+                "tool calls will silently fail",
+                stacklevel=2,
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _check_tensor_parallel_vs_gpus(self) -> RunPodEndpointConfig:
+        tp_str = self.envVars.get("TENSOR_PARALLEL_SIZE")
+        if tp_str is not None:
+            try:
+                tp = int(tp_str)
+            except ValueError:
+                tp = 1
+            if tp > len(self.gpuIds):
+                warnings.warn(
+                    f"TENSOR_PARALLEL_SIZE={tp} exceeds len(gpuIds)={len(self.gpuIds)}; "
+                    "sharding is misconfigured",
+                    stacklevel=2,
+                )
+        return self
 
 
 class EnvironmentOverlay(BaseModel):

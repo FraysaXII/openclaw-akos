@@ -419,7 +419,7 @@ prompts/assembled/VERIFIER_PROMPT.full.md      -->  ~/.openclaw/workspace-verifi
 
 | Environment | Model | Tier | Use Case |
 |:------------|:------|:-----|:---------|
-| `dev-local` | `ollama/qwen3:8b` | small | Local development, fast iteration |
+| `dev-local` | `ollama/deepseek-r1:14b` | medium | Local development, reliable tool calling |
 | `gpu-runpod` | `vllm-runpod/deepseek-r1-70b` | large | Remote GPU, full capabilities |
 | `prod-cloud` | `anthropic/claude-sonnet-4` | large | Cloud APIs, production |
 
@@ -1064,16 +1064,49 @@ The `-q` flag produces minimal output suitable for CI logs.
 
 **Cause:** Ollama defaults to `num_ctx=4096` unless the Modelfile overrides it.
 
-**Fix:** Create a Modelfile with `PARAMETER num_ctx 16384` and rebuild:
+**Fix:** Committed Modelfiles in `config/ollama/` already set `num_ctx` to match tier context budgets. Rebuild with:
 ```bash
-ollama create qwen3:8b -f Modelfile
+ollama create qwen3:8b -f config/ollama/Modelfile.qwen3-8b
+ollama create deepseek-r1:14b -f config/ollama/Modelfile.deepseek-r1-14b
 ```
+Verify: `ollama show <model> --parameters` should display the correct `num_ctx`.
+
+### Ollama Performance Tuning
+
+Set these environment variables (already configured in `dev-local.env.example`) for optimal local performance:
+
+| Variable | Value | Effect |
+|:---------|:------|:-------|
+| `OLLAMA_FLASH_ATTENTION` | `1` | Faster inference, lower VRAM, no quality loss |
+| `OLLAMA_KV_CACHE_TYPE` | `q8_0` | 8-bit KV cache quantization halves VRAM for context |
+
+Options for `OLLAMA_KV_CACHE_TYPE`: `f16` (default, no quantization), `q8_0` (recommended, negligible quality loss), `q4_0` (aggressive, for very constrained VRAM).
+
+### Upgrading Local Models
+
+To upgrade from the 8B small-tier model to the 14B medium-tier model:
+
+1. Pull the model: `ollama pull deepseek-r1:14b`
+2. Rebuild with committed Modelfile: `ollama create deepseek-r1:14b -f config/ollama/Modelfile.deepseek-r1-14b`
+3. Switch environment: `python scripts/switch-model.py dev-local`
+
+The `dev-local` profile is pre-configured to use `deepseek-r1:14b` as primary with `qwen3:8b` as fallback.
+
+### RunPod vLLM Best Practices
+
+The `gpu-runpod.json` profile includes production-grade vLLM settings. Key recommendations:
+
+- **Tool calling**: Set `ENABLE_AUTO_TOOL_CHOICE=true` and `TOOL_CALL_PARSER=deepseek_v3` for structured tool output (without this, tool calls return as raw text).
+- **Prefix caching**: `ENABLE_PREFIX_CACHING=true` avoids recomputing the 3-10K SOUL.md system prompt tokens on every request.
+- **FP8 KV cache**: `KV_CACHE_DTYPE=fp8` doubles KV cache capacity, enabling 131K context on A100-80GB.
+- **GPU selection**: `AMPERE_80` (A100-80GB) and `ADA_80` (H100-80GB) are recommended for 70B distilled models.
+- **Concurrency**: `MAX_NUM_SEQS=128` (down from default 256) trades batch throughput for lower tail latency in agent workloads.
 
 ### `thinkingDefault` causes 400 errors with Ollama
 
-**Cause:** Ollama models don't support the `think` parameter. OpenCLAW defaults to `thinking: "low"`.
+**Cause:** Small Ollama models (e.g. `qwen3:8b`) may not support the `think` parameter. OpenCLAW defaults to `thinking: "low"`.
 
-**Fix:** Set `agents.defaults.thinkingDefault` to `"off"` for Ollama models (already done in `dev-local.json`).
+**Fix:** The `dev-local` profile uses `deepseek-r1:14b` (which supports reasoning) with `thinkingDefault: "low"`. If you switch to a small model that doesn't support thinking, set `thinkingDefault` to `"off"` in your environment overlay.
 
 ### RunPod endpoint not provisioning
 

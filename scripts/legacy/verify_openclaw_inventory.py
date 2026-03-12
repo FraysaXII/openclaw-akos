@@ -11,7 +11,7 @@ from typing import Any
 # --------------------------
 EXPECTED = {
     "providers": {
-        "ollama": {"model_ids": {"qwen3:8b", "llama3.1:8b", "nomic-embed-text"}},
+        "ollama": {"model_ids": {"qwen3:8b", "llama3.1:8b", "deepseek-r1:14b", "nomic-embed-text"}},
         "ollama-gpu": {"model_ids": {"qwen3:32b"}},
         "openai": {"model_ids": set()},
         "anthropic": {"model_ids": set()},
@@ -22,7 +22,7 @@ EXPECTED = {
     # exact A2A allowlist expected
     "a2a_allow": {"orchestrator", "architect", "executor", "verifier"},
     # optional: expected default model string
-    "default_primary_model": "ollama/qwen3:8b",
+    "default_primary_model": "ollama/deepseek-r1:14b",
 }
 
 LEGACY_KEYS_SHOULD_NOT_EXIST = [

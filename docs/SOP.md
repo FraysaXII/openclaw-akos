@@ -1354,6 +1354,17 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - `apiKey: "ollama-local"` is hardcoded in the `ollama` provider block (satisfies auth requirement without env var dependency for local Ollama). The `OLLAMA_API_KEY` user-level env var was already correctly set and was never the root cause.
 - Downstream: `bootstrap.py` force-syncs from `openclaw.json.example`, so new bootstraps deploy the corrected provider name. Existing installs require a one-time live config update.
 
+**Phase 9 execution note (model tier infrastructure upgrade):**
+- Created committed Modelfiles (`config/ollama/Modelfile.qwen3-8b`, `Modelfile.deepseek-r1-14b`) with `num_ctx` values aligned to tier `contextBudget` (16384 for small, 32768 for medium). Eliminates the manual Modelfile workaround from USER_GUIDE §17.
+- Registered `deepseek-r1:14b` (14B medium-tier model) in `openclaw.json.example` under the `ollama` provider with `contextWindow: 32768`, `reasoning: true`.
+- Added `fallbacks` field to `agents.defaults.model` in the SSOT and all three environment overlays for provider failover chains (exponential backoff: 1m, 5m, 25m, 1h cap).
+- Upgraded `dev-local.json` from small tier (`ollama/qwen3:8b`, thinking off) to medium tier (`ollama/deepseek-r1:14b`, thinking low) with fallback to `qwen3:8b`.
+- Added Ollama performance tuning to `dev-local.env.example`: `OLLAMA_FLASH_ATTENTION=1` (faster inference), `OLLAMA_KV_CACHE_TYPE=q8_0` (halves VRAM for context).
+- Rewrote `gpu-runpod.json` with 17 production-grade vLLM `envVars`: FP8 KV cache, prefix caching, chunked prefill, `TOOL_CALL_PARSER=deepseek_v3`, `REASONING_PARSER=deepseek_r1`, optimized concurrency. Added fallbacks to Anthropic and local Ollama.
+- Fixed missing env var placeholders in `prod-cloud.env.example` and `gpu-runpod.env.example` that would crash the gateway on environment switch.
+- Extended Pydantic `ModelRef` with `fallbacks: list[str]` field (backward-compatible default `[]`). Added `RunPodEndpointConfig` model validators for tool-call parser and tensor-parallel consistency.
+- Updated `verify_openclaw_inventory.py` (added `deepseek-r1:14b` to expected ollama models) and `validate_configs.py` (ollama model count assertion, env placeholder coverage test).
+
 ---
 
 #### **Works cited**

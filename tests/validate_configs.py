@@ -9,6 +9,7 @@ Run after the config/ batch is created:
 
 import json
 import pathlib
+import re
 
 import pytest
 
@@ -356,3 +357,32 @@ class TestStrictAkosInventoryContract:
         data = load_json(config_dir / "openclaw.json.example")
         allow = data["tools"]["agentToAgent"]["allow"]
         assert set(allow) == {"orchestrator", "architect", "executor", "verifier"}
+
+    def test_ollama_model_count(self, config_dir):
+        data = load_json(config_dir / "openclaw.json.example")
+        ollama_models = data["models"]["providers"]["ollama"]["models"]
+        assert len(ollama_models) == 4, (
+            f"Expected 4 Ollama models, got {len(ollama_models)}: "
+            f"{[m['id'] for m in ollama_models]}"
+        )
+
+
+class TestEnvPlaceholderCoverage:
+    """Every ${VAR} in openclaw.json.example must have a definition in all *.env.example files."""
+
+    def test_all_env_placeholders_covered(self, config_dir):
+        ssot_text = (config_dir / "openclaw.json.example").read_text(encoding="utf-8")
+        required_vars = set(re.findall(r"\$\{(\w+)\}", ssot_text))
+        assert len(required_vars) > 0, "No ${VAR} placeholders found in SSOT"
+
+        env_dir = config_dir / "environments"
+        env_files = sorted(env_dir.glob("*.env.example"))
+        assert len(env_files) >= 3, f"Expected at least 3 .env.example files, got {len(env_files)}"
+
+        for env_file in env_files:
+            content = env_file.read_text(encoding="utf-8")
+            defined_vars = set(re.findall(r"^(\w+)=", content, re.MULTILINE))
+            missing = required_vars - defined_vars
+            assert len(missing) == 0, (
+                f"{env_file.name} is missing placeholders for: {sorted(missing)}"
+            )

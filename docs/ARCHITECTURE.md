@@ -109,7 +109,10 @@ All four agents are registered in `openclaw.json` under `agents.list`:
 ```json
 "agents": {
   "defaults": {
-    "model": { "primary": "ollama/qwen3:8b" },
+    "model": {
+      "primary": "ollama/qwen3:8b",
+      "fallbacks": ["ollama/deepseek-r1:14b", "ollama/qwen3:8b"]
+    },
     "thinkingDefault": "off"
   },
   "list": [
@@ -133,7 +136,7 @@ The following corrections were discovered during live deployment against OpenCLA
    - `~/.openclaw/workspace-architect/SOUL.md` (copy of `prompts/ARCHITECT_PROMPT.md`)
    - `~/.openclaw/workspace-executor/SOUL.md` (copy of `prompts/EXECUTOR_PROMPT.md`)
 
-3. **`thinkingDefault: "off"` is required for Ollama models.** OpenCLAW defaults to `thinking: "low"` for models it classifies as reasoning-capable. Ollama's `qwen3:8b` does not support the `think` parameter, causing a 400 error that silently prevents the agent from replying. Setting `agents.defaults.thinkingDefault: "off"` in `openclaw.json` resolves this. Per-agent `thinkingDefault` overrides are not yet available in v2026.2.26 (tracked in [openclaw/openclaw#11479](https://github.com/openclaw/openclaw/issues/11479)).
+3. **`thinkingDefault` must match model capability.** OpenCLAW defaults to `thinking: "low"` for models it classifies as reasoning-capable. Small Ollama models (e.g. `qwen3:8b`) may not support the `think` parameter, causing a 400 error. The `dev-local` profile now sets `thinkingDefault: "low"` for the medium-tier `deepseek-r1:14b` which supports reasoning. For small models, set `thinkingDefault: "off"`. Per-agent `thinkingDefault` overrides are not yet available in v2026.2.26 (tracked in [openclaw/openclaw#11479](https://github.com/openclaw/openclaw/issues/11479)).
 
 4. **`verboseDefault: "on"` enables tool visibility in WebChat.** By default, OpenCLAW hides tool call activity from the chat surface (`verboseDefault: "off"`). When the user cannot see tool calls, web searches, or reasoning steps, the agent appears to freeze before producing a wall-of-text response. Setting `agents.defaults.verboseDefault: "on"` causes tool summaries to appear as separate bubbles in real-time. Users can override per-session with `/verbose off` or escalate to full output with `/verbose full`. Reference: [OpenCLAW Thinking Levels docs](https://docs.openclaw.ai/tools/thinking).
 
@@ -228,7 +231,7 @@ Each deployment target has a pair of files in `config/environments/`:
 - `<env>.env.example` -- committed template with placeholder values for secrets
 - `<env>.json` -- JSON overlay for `openclaw.json` (model, thinkingDefault, etc.)
 
-Profiles: `dev-local` (small/local), `gpu-runpod` (large/remote GPU), `prod-cloud` (SOTA/cloud APIs).
+Profiles: `dev-local` (medium/local), `gpu-runpod` (large/remote GPU), `prod-cloud` (large/cloud APIs).
 
 ### Model Switching Workflow
 
@@ -240,10 +243,59 @@ python scripts/switch-model.py <env-name>
 
 This copies the `.env`, deep-merges the JSON overlay, deploys the correct SOUL.md variant, and restarts the gateway. Supports `--dry-run` to preview.
 
+### Provider Failover and Model Routing
+
+The `agents.defaults.model` block supports a `fallbacks` list for automatic provider failover. When the primary model returns 429/500/timeout, the gateway rotates to the next entry with exponential backoff cooldown (1 min, 5 min, 25 min, 1 hour cap). Auth profile rotation is attempted first within the same provider before advancing to fallbacks.
+
+```
+Request → Model Selector → Primary Provider
+                              │
+                              ├─ healthy → Response
+                              │
+                              └─ 429/500/timeout → Cooldown → Fallback 1
+                                                                │
+                                                                ├─ healthy → Response
+                                                                │
+                                                                └─ fail → Fallback 2 → Response
+```
+
+Fallback chains per environment:
+- **dev-local:** `ollama/deepseek-r1:14b` → `ollama/qwen3:8b`
+- **gpu-runpod:** `vllm-runpod/deepseek-r1-70b` → `anthropic/claude-sonnet-4` → `ollama/deepseek-r1:14b`
+- **prod-cloud:** `anthropic/claude-sonnet-4` → `openai/gpt-5-mini` → `vllm-runpod/deepseek-r1-70b`
+
+### Ollama Modelfile Convention
+
+Committed Modelfiles in `config/ollama/` define `num_ctx` and `temperature` per model. This eliminates the manual Modelfile workaround and ensures reproducible context windows.
+
+| Modelfile | `num_ctx` | Tier | Temperature |
+|:----------|:----------|:-----|:------------|
+| `Modelfile.qwen3-8b` | 16,384 | small | 0.7 |
+| `Modelfile.deepseek-r1-14b` | 32,768 | medium | 0.6 |
+
+After editing a Modelfile, rebuild with `ollama create <model> -f config/ollama/<Modelfile>`.
+
+Ollama server-level performance tuning (set in `dev-local.env.example`):
+- `OLLAMA_FLASH_ATTENTION=1` — faster inference, lower VRAM, no quality loss
+- `OLLAMA_KV_CACHE_TYPE=q8_0` — 8-bit KV cache quantization halves VRAM usage
+
+### RunPod vLLM Optimization
+
+The `gpu-runpod.json` profile includes production-grade vLLM inference settings:
+
+| Setting | Value | Impact |
+|:--------|:------|:-------|
+| `KV_CACHE_DTYPE` | `fp8` | 2x KV cache capacity on A100-80GB |
+| `ENABLE_PREFIX_CACHING` | `true` | Avoids recomputing 3-10K SOUL.md system prompt tokens |
+| `ENABLE_CHUNKED_PREFILL` | `true` | New requests can start during prefill |
+| `TOOL_CALL_PARSER` | `deepseek_v3` | Structured tool calls instead of raw text |
+| `REASONING_PARSER` | `deepseek_r1` | Chain-of-thought mapped to AKOS thinking levels |
+| `MAX_NUM_SEQS` | `128` | Lower tail latency for agent workloads |
+
 ### Known Limitations
 
 1. **Per-agent model override bug** ([#29571](https://github.com/openclaw/openclaw/issues/29571)): `agents.defaults.model.primary` overrides per-agent model settings at runtime, so all agents currently share the same model. Model switching must happen at the global level.
-2. **Ollama `num_ctx` requires Modelfile**: The `contextWindow` declared in `openclaw.json` does not configure Ollama's actual context window. Each local model needs a custom Modelfile with `PARAMETER num_ctx <value>`.
+2. **Ollama `num_ctx` managed via committed Modelfiles**: The `contextWindow` declared in `openclaw.json` does not configure Ollama's actual context window. Committed Modelfiles in `config/ollama/` set `num_ctx` to match the tier's `contextBudget`. Rebuild with `ollama create` after changes.
 
 ## MCP Server Topology (v0.4.0)
 
@@ -533,6 +585,7 @@ The following files implement the architecture described above as committable co
 |:------------|:-----|:---------|
 | Control Plane | [`config/openclaw.json.example`](../config/openclaw.json.example) | T-1.2 |
 | Control Plane | [`config/model-tiers.json`](../config/model-tiers.json) | T-5.4 |
+| Control Plane | [`config/ollama/`](../config/ollama/) | T-9.1 |
 | Integration | [`config/mcporter.json.example`](../config/mcporter.json.example) | T-2.3–T-2.6 |
 | All | [`config/permissions.json`](../config/permissions.json) | T-3.3 |
 | All | [`config/logging.json`](../config/logging.json) | T-3.5 |

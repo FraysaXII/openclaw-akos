@@ -29,6 +29,15 @@
             "cost": { "input": 0, "output": 0 }
           },
           {
+            "id": "deepseek-r1:14b",
+            "name": "DeepSeek R1 14B",
+            "reasoning": true,
+            "input": ["text"],
+            "contextWindow": 32768,
+            "maxTokens": 16384,
+            "cost": { "input": 0, "output": 0 }
+          },
+          {
             "id": "nomic-embed-text",
             "name": "Nomic Embed Text",
             "reasoning": false,
@@ -84,7 +93,8 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "ollama/qwen3:8b"
+        "primary": "ollama/qwen3:8b",
+        "fallbacks": ["ollama/deepseek-r1:14b", "ollama/qwen3:8b"]
       },
       "thinkingDefault": "off",
       "verboseDefault": "on",

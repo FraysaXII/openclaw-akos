@@ -11,6 +11,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Committed Modelfiles** for Ollama `num_ctx` configuration (`config/ollama/Modelfile.qwen3-8b`, `Modelfile.deepseek-r1-14b`). Aligns `num_ctx` to tier `contextBudget` (16384 for small, 32768 for medium).
+- **`deepseek-r1:14b`** (14B medium-tier model) registered in SSOT provider config with `contextWindow: 32768`, `reasoning: true`.
+- **Ollama Flash Attention + KV cache quantization** env vars in `dev-local.env.example` (`OLLAMA_FLASH_ATTENTION=1`, `OLLAMA_KV_CACHE_TYPE=q8_0`).
+- **RunPod vLLM production optimization** — 17 production-grade `envVars` in `gpu-runpod.json`: FP8 KV cache, prefix caching, tool-call parser (`deepseek_v3`), reasoning parser (`deepseek_r1`), chunked prefill, optimized concurrency.
+- **`fallbacks` field** in model config for provider failover chains across all three environments (`dev-local`, `gpu-runpod`, `prod-cloud`).
+- **Pydantic `RunPodEndpointConfig` validators** — warns when `ENABLE_AUTO_TOOL_CHOICE` is true but `TOOL_CALL_PARSER` is unset, and when `TENSOR_PARALLEL_SIZE` exceeds `len(gpuIds)`.
+- **Env placeholder coverage test** — `TestEnvPlaceholderCoverage` in `validate_configs.py` asserts all `${VAR}` in SSOT are defined in every `*.env.example` file.
+- **Ollama model count assertion** — `test_ollama_model_count` locks the expected 4 Ollama models in the SSOT.
+
+### Changed
+
+- **`dev-local` environment** upgraded from small tier (`ollama/qwen3:8b`, thinking off) to medium tier (`ollama/deepseek-r1:14b`, thinking low) for reliable multi-step tool calling.
+- **`gpu-runpod.json`** envVars upgraded from 4 basic settings to 17 production-grade settings with `maxWorkers: 3`.
+- **Pydantic `ModelRef`** extended with `fallbacks: list[str]` field (backward-compatible default `[]`).
+
+### Fixed
+
+- **`prod-cloud.env.example`** missing placeholder env vars (`OLLAMA_API_KEY`, `OLLAMA_GPU_URL`, `VLLM_RUNPOD_URL`) that caused gateway crash on environment switch.
+- **`gpu-runpod.env.example`** missing placeholder env vars (`OLLAMA_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`) that caused gateway crash on environment switch.
+
+### Added (prior)
+
 - **Governance remediation baseline ledger** — `docs/SOP.md` now records the locked constraints, reproducible baseline commands, captured Phase 0 outputs, and frozen acceptance criteria for phases 1-6.
 - **Known issues** in `docs/uat/dashboard_smoke.md` — Version display mismatch, no-nodes (system.exe), config schema resolution notes.
 - **Troubleshooting** in `docs/USER_GUIDE.md` §17 — "No nodes with system.exe available" (Nodes page) with fixes (sandbox/gateway host or pair a node).
