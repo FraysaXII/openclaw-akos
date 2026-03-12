@@ -106,8 +106,17 @@ class PodManager:
         req = urllib.request.Request(url, data=data, method=method)
         req.add_header("Authorization", f"Bearer {self._api_key}")
         req.add_header("Content-Type", "application/json")
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return json.loads(resp.read().decode())
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return json.loads(resp.read().decode())
+        except urllib.error.HTTPError as exc:
+            error_body = ""
+            try:
+                error_body = exc.read().decode()
+            except Exception:
+                pass
+            logger.error("RunPod API %s %s -> %d: %s", method, path, exc.code, error_body[:500])
+            raise
 
     @staticmethod
     def _parse_pod(raw: dict) -> PodInfo:
@@ -133,7 +142,7 @@ class PodManager:
         image: str = "runpod/pytorch:2.8.0-py3.11-cuda12.8.1-devel-ubuntu22.04",
         volume_gb: int = 200,
         container_disk_gb: int = 50,
-        ports: str = "8080/http,22/tcp",
+        ports: list[str] | None = None,
         env: dict[str, str] | None = None,
         docker_start_cmd: list[str] | None = None,
     ) -> PodInfo | None:
@@ -149,7 +158,7 @@ class PodManager:
             "imageName": image,
             "volumeInGb": volume_gb,
             "containerDiskInGb": container_disk_gb,
-            "ports": ports,
+            "ports": ports or ["8080/http", "22/tcp"],
             "env": env or {},
         }
         if docker_start_cmd:

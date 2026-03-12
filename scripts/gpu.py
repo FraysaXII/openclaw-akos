@@ -223,7 +223,7 @@ def deploy_pod(*, dry_run: bool = False) -> int:
         gpu_count=gpu_count,
         image=pod_config.containerImage,
         volume_gb=pod_config.volumeGb,
-        ports=f"{port}/http,22/tcp",
+        ports=[f"{port}/http", "22/tcp"],
         env=env_vars,
         docker_start_cmd=["bash", "-c", f"pip install vllm && {' '.join(vllm_cmd)}"],
     )
