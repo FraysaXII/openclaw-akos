@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added (RunPod + Langfuse Production Overhaul — Phases 0-5)
 
+- **GPU Infrastructure CLI** (`scripts/gpu.py`) for zero-copy-paste RunPod pod/serverless deployment, PodManager REST API, auto tensor-parallel-size, activeInfra state tracking.
 - **Dual-mode RunPod support** — `gpu-runpod-pod` environment profile for dedicated pod mode alongside existing serverless. `PodConfig` Pydantic model and `scripts/setup-runpod-pod.py` provisioning script (Phase 1).
 - **`probe_vllm_health()`** — HTTP health probe for dedicated vLLM pods, consumed by doctor and the `/health` API endpoint (Phase 2).
 - **`FailoverRouter`** in `akos/router.py` — automatic provider failover with 3-failure threshold and `INFRA_FAILOVER_TRIGGERED` SOC alert. vLLM status surfaced in `/health` API (Phase 2).

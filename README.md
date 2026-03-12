@@ -82,18 +82,28 @@ If you prefer native PowerShell:
 
 Use `-SkipWSL`, `-SkipOllama`, or `-SkipMCP` to skip individual phases.
 
+### GPU Infrastructure Deployment
+
+Deploy RunPod dedicated pods or serverless endpoints with a single command — no copy-paste, no manual dashboard steps:
+
+```bash
+py scripts/gpu.py
+```
+
+The interactive CLI creates/manages pods via the `PodManager` REST API, auto-generates vLLM launch commands via `PodConfig.build_vllm_command()`, and derives `TENSOR_PARALLEL_SIZE` from `gpuCount` to avoid world-size errors. Idempotent: reuses an existing pod if one is already running. `ActiveInfra` state tracks what's running (pod/serverless/local).
+
 ### Switching Models / Environments
 
 After bootstrap, switch between model tiers and deployment targets with a single command:
 
 ```bash
 python scripts/switch-model.py dev-local      # Local Ollama (small model)
-python scripts/switch-model.py gpu-runpod      # Remote GPU (large model, auto-provisions RunPod endpoint)
+python scripts/switch-model.py gpu-runpod      # Remote GPU (large model)
 python scripts/switch-model.py prod-cloud      # Cloud APIs (SOTA model)
 python scripts/switch-model.py dev-local --dry-run  # Preview without applying
 ```
 
-This atomically updates the config, deploys the correct SOUL.md prompt variant, and restarts the gateway. For `gpu-runpod`, it also provisions the RunPod vLLM endpoint and writes the URL to `.env`.
+This atomically updates the config, deploys the correct SOUL.md prompt variant, and restarts the gateway. For `gpu-runpod`, run `py scripts/gpu.py` first to provision the GPU infrastructure.
 
 AKOS enforces a full-only provider inventory contract: bootstrap retains all providers from `config/openclaw.json.example` and reports unresolved env-backed inputs as warnings instead of deleting provider blocks. On first run, bootstrap auto-seeds `~/.openclaw/.env` from `config/environments/dev-local.env.example` so the gateway can start without manual env-var setup.
 
@@ -158,7 +168,7 @@ openclaw-akos/
     state.py                        AkosState model + load/save for deployment tracking
     telemetry.py                    LangfuseReporter + DX metrics tracking
     alerts.py                       AlertEvaluator for real-time + periodic checks
-    runpod_provider.py              RunPod SDK wrapper (endpoint lifecycle, health, inference)
+    runpod_provider.py              RunPod SDK wrapper + PodManager REST API (pod/serverless)
     api.py                          FastAPI control plane (REST + WebSocket)
     tools.py                        Dynamic tool registry (mcporter + permissions)
     checkpoints.py                  Workspace snapshot/restore for reversible execution
@@ -211,6 +221,7 @@ openclaw-akos/
     log-watcher.py                  Tail gateway logs, push to Langfuse, evaluate alerts
     vet-install.sh                  Safe skill installation wrapper (T-3.2)
     serve-api.py                    FastAPI control plane launcher
+    gpu.py                          Interactive GPU infrastructure CLI (RunPod pod/serverless)
     check-drift.py                 Runtime drift detection (repo vs live)
     doctor.py                      One-command system health check
     sync-runtime.py                Runtime hydration from repo SSOT
@@ -230,6 +241,7 @@ openclaw-akos/
     test_akos_models.py             Pydantic model unit tests (good/bad data)
     test_akos_alerts.py             AlertEvaluator unit tests (synthetic log entries)
     test_runpod_provider.py         RunPod provider tests (mocked SDK)
+    test_pod_manager.py             PodManager dedicated pod lifecycle tests
     test_api.py                     FastAPI endpoint tests (TestClient)
     test_checkpoints.py             Workspace checkpoint tests
     test_live_smoke.py             Opt-in live provider tests (@pytest.mark.live)

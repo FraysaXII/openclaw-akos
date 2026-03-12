@@ -84,6 +84,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - All Pydantic models must have corresponding tests in `tests/test_akos_models.py` covering both valid and invalid input.
 - Alert conditions must have tests in `tests/test_akos_alerts.py` with synthetic log entries.
 - RunPod provider operations must have mocked SDK tests in `tests/test_runpod_provider.py`.
+- PodManager (dedicated pod lifecycle) must have tests in `tests/test_pod_manager.py`.
 - FastAPI endpoints must have TestClient tests in `tests/test_api.py`.
 - Langfuse telemetry changes must have tests in `tests/test_telemetry.py` (14 tests covering init, trace_request, trace_startup_compliance, trace_alert, trace_metric, normalize_env, flush).
 - Failover router changes must have tests in `tests/test_router.py` (10 tests covering failover threshold, recovery, and multi-provider routing).
@@ -91,7 +92,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint. Changes to `agent-capabilities.json` are automatically translated to OpenClaw tool profiles by bootstrap; do not hand-edit the `tools`, `session`, or `browser` sections in `openclaw.json.example` — they are generated from AKOS config.
 - New workflow definitions go in `config/workflows/` as markdown files following the existing format.
 - New overlay files must be registered in `config/model-tiers.json` `variantOverlays` section.
-- Run the full suite before submitting: `py scripts/test.py` (234+ tests expected)
+- Run the full suite before submitting: `py scripts/test.py` (234+ tests expected, including `test_pod_manager.py`)
 - Run specific groups: `py scripts/test.py api`, `py scripts/test.py security`, `py scripts/test.py browser`, etc.
 - See all available groups: `py scripts/test.py --list`
 - New test groups added in v0.4.0: `drift` (runtime drift detection), `live` (opt-in live provider smoke tests requiring `AKOS_LIVE_SMOKE=1`)
