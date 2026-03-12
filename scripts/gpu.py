@@ -29,7 +29,7 @@ from akos.io import REPO_ROOT, load_env_file, load_json, resolve_openclaw_home, 
 from akos.log import setup_logging
 from akos.models import PodConfig
 from akos.runpod_provider import PodManager, RunPodProvider
-from akos.state import load_state
+from akos.state import ActiveInfra, AkosState, load_state, save_state
 
 logger = logging.getLogger("akos.gpu")
 
@@ -202,6 +202,19 @@ def deploy_pod(*, dry_run: bool = False) -> int:
         print(f"  [DRY-RUN] vLLM command: {' '.join(vllm_cmd)}")
         return 0
 
+    oc_home = resolve_openclaw_home()
+    state = load_state(oc_home)
+    if state.activeInfra.type == "pod" and state.activeInfra.podId:
+        pm_check = PodManager(api_key)
+        existing = pm_check.get_pod(state.activeInfra.podId)
+        if existing and existing.status in ("RUNNING", "CREATED"):
+            print(f"  Existing pod found: {existing.pod_id} ({existing.status})")
+            print(f"  Reusing it (idempotent). Use 'teardown' first to create a new one.")
+            vllm_url = state.activeInfra.url or f"https://{existing.pod_id}-{port}.proxy.runpod.net/v1"
+            health = RunPodProvider.probe_vllm_health(vllm_url, timeout=5.0)
+            print(f"  vLLM health: {'healthy' if health.healthy else 'starting/unreachable'}")
+            return 0
+
     print("  Creating pod on RunPod...")
     pm = PodManager(api_key)
     pod = pm.create_pod(
@@ -248,7 +261,11 @@ def deploy_pod(*, dry_run: bool = False) -> int:
     _save_key_to_env("VLLM_RUNPOD_URL", vllm_url)
     _save_key_to_env("RUNPOD_POD_ID", pod.pod_id)
 
-    oc_home = resolve_openclaw_home()
+    state.activeInfra = ActiveInfra(
+        type="pod", podId=pod.pod_id, url=vllm_url,
+        gpuType=gpu_type, gpuCount=gpu_count, modelName=pod_config.modelName,
+    )
+    save_state(oc_home, state)
     oc_env = oc_home / ".env"
     if oc_env.exists():
         lines = oc_env.read_text(encoding="utf-8").splitlines()
@@ -364,6 +381,14 @@ def teardown_infra(*, dry_run: bool = False) -> int:
     pod_id = os.environ.get("RUNPOD_POD_ID", "")
     api_key = os.environ.get("RUNPOD_API_KEY", "")
 
+    oc_home = resolve_openclaw_home()
+    state = load_state(oc_home)
+
+    if not pod_id and state.activeInfra.podId:
+        pod_id = state.activeInfra.podId
+    if not api_key:
+        api_key = _ensure_api_key()
+
     if pod_id and api_key:
         if dry_run:
             print(f"  [DRY-RUN] Would terminate pod {pod_id}")
@@ -373,6 +398,9 @@ def teardown_infra(*, dry_run: bool = False) -> int:
                 print(f"  Terminated pod {pod_id}")
             else:
                 print(f"  Failed to terminate pod {pod_id}")
+
+    state.activeInfra = ActiveInfra(type="local")
+    save_state(oc_home, state)
 
     if not dry_run:
         import akos.process as proc

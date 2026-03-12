@@ -20,6 +20,17 @@ logger = logging.getLogger("akos.state")
 STATE_FILENAME = ".akos-state.json"
 
 
+class ActiveInfra(BaseModel):
+    """Tracks the active GPU infrastructure."""
+    type: str = "local"
+    podId: str = ""
+    endpointId: str = ""
+    url: str = ""
+    gpuType: str = ""
+    gpuCount: int = 0
+    modelName: str = ""
+
+
 class AkosState(BaseModel):
     """Tracks the currently active environment/model deployment."""
     activeEnvironment: str = ""
@@ -28,6 +39,7 @@ class AkosState(BaseModel):
     activeVariant: str = ""
     lastSwitchTimestamp: str = ""
     lastSwitchSuccess: bool = False
+    activeInfra: ActiveInfra = Field(default_factory=ActiveInfra)
 
 
 def load_state(oc_home: Path) -> AkosState:
