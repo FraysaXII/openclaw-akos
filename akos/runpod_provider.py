@@ -1,8 +1,8 @@
 """RunPod GPU infrastructure provider for AKOS.
 
 Typed wrapper around the RunPod Python SDK for managing serverless vLLM
-endpoints.  Provides idempotent endpoint creation, health monitoring,
-scaling, inference, and teardown.
+endpoints and dedicated pod health probes.  Provides idempotent endpoint
+creation, health monitoring, scaling, inference, and teardown.
 
 Graceful no-op when RUNPOD_API_KEY is not set (dev-local without RunPod).
 """
@@ -12,6 +12,8 @@ from __future__ import annotations
 import logging
 import os
 import time
+import urllib.error
+import urllib.request
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -312,6 +314,32 @@ class RunPodProvider:
         except Exception as exc:
             logger.debug("Endpoint lookup failed: %s", exc)
         return None
+
+    # ── Dedicated Pod Health Probe ─────────────────────────────────
+
+    @staticmethod
+    def probe_vllm_health(base_url: str, *, timeout: float = 5.0) -> HealthStatus:
+        """HTTP health probe for a direct vLLM endpoint (dedicated pod or any URL).
+
+        Tries GET ``{base_url}/models`` (strips trailing ``/v1`` if present
+        to hit the OpenAI-compatible models endpoint at ``/v1/models``).
+        Falls back to a bare ``/health`` probe.
+        """
+        url = base_url.rstrip("/")
+        if url.endswith("/v1"):
+            models_url = url + "/models"
+        else:
+            models_url = url + "/v1/models"
+
+        for probe_url in (models_url, url.rsplit("/v1", 1)[0] + "/health"):
+            try:
+                req = urllib.request.Request(probe_url, method="GET")
+                with urllib.request.urlopen(req, timeout=timeout) as resp:
+                    if resp.status == 200:
+                        return HealthStatus(healthy=True, raw={"probe_url": probe_url})
+            except (urllib.error.URLError, OSError, TimeoutError):
+                continue
+        return HealthStatus(healthy=False, raw={"probe_url": base_url, "error": "unreachable"})
 
     def _build_env_vars(self) -> dict[str, str]:
         """Merge config envVars with required vLLM settings."""

@@ -52,5 +52,14 @@
     "severity": "high",
     "sop_reference": "6.2 Step 5",
     "action": "Require explicit HITL approval, log full eval payload"
+  },
+  {
+    "alert_id": "infra_failover_triggered",
+    "description": "Primary inference provider failed consecutive health checks — failover to fallback model activated",
+    "condition": "tool_name == 'infra_failover'",
+    "evaluation_window": "real-time",
+    "severity": "critical",
+    "sop_reference": "5.6",
+    "action": "Verify fallback model is serving correctly, investigate primary provider health, check RunPod/pod status"
   }
 ]

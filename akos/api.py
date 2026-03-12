@@ -122,6 +122,7 @@ class HealthResponse(BaseModel):
     status: str
     gateway: str
     runpod: str
+    vllm: str
     langfuse: str
     uptime_seconds: float
 
@@ -182,6 +183,13 @@ async def get_health() -> HealthResponse:
         health = rp.health_check()
         rp_status = "healthy" if health.healthy else "unhealthy"
 
+    vllm_url = os.environ.get("VLLM_RUNPOD_URL", "")
+    vllm_status = "not-configured"
+    if vllm_url:
+        from akos.runpod_provider import RunPodProvider
+        probe = RunPodProvider.probe_vllm_health(vllm_url, timeout=3.0)
+        vllm_status = "healthy" if probe.healthy else "unhealthy"
+
     reporter = _get_reporter()
     lf_status = "enabled" if reporter.enabled else "disabled"
 
@@ -189,6 +197,7 @@ async def get_health() -> HealthResponse:
         status="ok",
         gateway=gateway_status,
         runpod=rp_status,
+        vllm=vllm_status,
         langfuse=lf_status,
         uptime_seconds=time.monotonic() - _start_time,
     )
