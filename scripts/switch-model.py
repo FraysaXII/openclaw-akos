@@ -222,10 +222,14 @@ def main() -> None:
     made_backup = False
 
     try:
-        # Step 2: Deep-merge JSON overlay
+        # Step 2: Deep-merge JSON overlay (strip AKOS-only keys that OpenCLAW rejects)
+        _AKOS_ONLY_KEYS = {"runpod", "pod", "_akos"}
         if oc_config_path.exists():
             existing = load_json(oc_config_path)
-            merged = deep_merge(existing, overlay)
+            gateway_overlay = {k: v for k, v in overlay.items() if k not in _AKOS_ONLY_KEYS}
+            for stale_key in _AKOS_ONLY_KEYS:
+                existing.pop(stale_key, None)
+            merged = deep_merge(existing, gateway_overlay)
             shutil.copy2(oc_config_path, backup)
             made_backup = True
             save_json(oc_config_path, merged)
@@ -260,9 +264,13 @@ def main() -> None:
 
 
 def _dry_run_preview(oc_home: Path, overlay_path: Path, overlay: dict, variant: str) -> None:
+    _AKOS_ONLY_KEYS = {"runpod", "pod", "_akos"}
     oc_config_path = oc_home / "openclaw.json"
+    gateway_keys = [k for k in overlay if k not in _AKOS_ONLY_KEYS]
+    stripped_keys = [k for k in overlay if k in _AKOS_ONLY_KEYS]
     if oc_config_path.exists():
-        logger.info("[DRY-RUN] Would merge %s into %s (keys: %s)", overlay_path.name, oc_config_path, list(overlay.keys()))
+        logger.info("[DRY-RUN] Would merge %s into %s (gateway keys: %s, stripped AKOS-only: %s)",
+                    overlay_path.name, oc_config_path, gateway_keys, stripped_keys)
     for agent in ["ARCHITECT", "EXECUTOR"]:
         name = f"{agent}_PROMPT.{variant}.md"
         dest = oc_home / f"workspace-{agent.lower()}" / "SOUL.md"
