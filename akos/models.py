@@ -241,9 +241,21 @@ class RunPodEndpointConfig(BaseModel):
         return self
 
 
+class PodConfig(BaseModel):
+    """Schema for the ``pod`` block in gpu-runpod-pod.json (dedicated pods)."""
+
+    mode: Literal["dedicated"] = "dedicated"
+    healthEndpoint: str = "/health"
+    vllmPort: int = Field(default=8000, gt=0)
+    envVars: dict[str, str] = Field(default_factory=dict)
+    modelName: str = "deepseek-ai/DeepSeek-R1-0528-Distill-Qwen-70B"
+    maxModelLen: int = Field(default=131072, gt=0)
+
+
 class EnvironmentOverlay(BaseModel):
     agents: OverlayAgents
     runpod: RunPodEndpointConfig | None = None
+    pod: PodConfig | None = None
 
 
 # ── Eval: Alerts (config/eval/alerts.json) ─────────────────────────────

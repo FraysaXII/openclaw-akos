@@ -1,0 +1,38 @@
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "vllm-runpod/deepseek-r1-70b",
+        "fallbacks": ["anthropic/claude-sonnet-4", "ollama/deepseek-r1:14b"]
+      },
+      "thinkingDefault": "medium",
+      "verboseDefault": "on"
+    }
+  },
+  "pod": {
+    "mode": "dedicated",
+    "healthEndpoint": "/health",
+    "vllmPort": 8000,
+    "envVars": {
+      "TOKENIZER_MODE": "auto",
+      "MAX_MODEL_LEN": "131072",
+      "TENSOR_PARALLEL_SIZE": "1",
+      "DTYPE": "bfloat16",
+      "GPU_MEMORY_UTILIZATION": "0.92",
+      "KV_CACHE_DTYPE": "fp8",
+      "ENABLE_PREFIX_CACHING": "true",
+      "ENABLE_CHUNKED_PREFILL": "true",
+      "MAX_NUM_SEQS": "128",
+      "MAX_NUM_BATCHED_TOKENS": "32768",
+      "ENABLE_AUTO_TOOL_CHOICE": "true",
+      "TOOL_CALL_PARSER": "deepseek_v3",
+      "REASONING_PARSER": "deepseek_r1",
+      "RAW_OPENAI_OUTPUT": "1",
+      "OPENAI_SERVED_MODEL_NAME_OVERRIDE": "deepseek-r1-70b",
+      "MAX_CONCURRENCY": "30",
+      "DISABLE_LOG_STATS": "false"
+    },
+    "modelName": "deepseek-ai/DeepSeek-R1-0528-Distill-Qwen-70B",
+    "maxModelLen": 131072
+  }
+}
