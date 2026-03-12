@@ -118,6 +118,25 @@ class LangfuseReporter:
         except Exception as exc:
             logger.debug("Failed to push startup trace: %s", exc)
 
+    def trace_alert(self, alert_id: str, severity: str, description: str) -> None:
+        """Trace a SOC alert event with a severity score."""
+        if not self._client:
+            return
+        try:
+            trace = self._client.trace(
+                name=f"akos-alert-{severity}",
+                metadata={
+                    "environment": self._environment,
+                    "alert_id": alert_id,
+                    "severity": severity,
+                    "description": description,
+                },
+            )
+            severity_scores = {"critical": 1.0, "high": 0.75, "medium": 0.5, "low": 0.25}
+            trace.score(name="soc_alert", value=severity_scores.get(severity, 0.5))
+        except Exception as exc:
+            logger.debug("Failed to push alert trace: %s", exc)
+
     def trace_metric(self, metric_name: str, value: float, metadata: dict | None = None) -> None:
         """Push a DX metric as a Langfuse trace for dashboard consumption."""
         if not self._client:

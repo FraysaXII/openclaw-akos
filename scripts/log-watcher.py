@@ -220,12 +220,19 @@ def main() -> None:
 
     entries_processed = 0
     _AUDIT_MARKER = "Post-Compaction Audit"
+    _audit_seen = False
+    _gateway_start_time: float | None = None
+    _STARTUP_GRACE_SECONDS = 30.0
+    _metric_counters: dict[str, int] = {}
+    _latency_sum: float = 0.0
+    _latency_count: int = 0
 
     try:
         for line in tail_file(log_path, poll_interval, once=args.once):
             entry = parse_log_line(line)
             if not entry:
                 if _AUDIT_MARKER in line:
+                    _audit_seen = True
                     _handle_audit_line(line, reporter, dry_run)
                 last_runpod_check = _maybe_check_runpod(
                     runpod_provider, reporter, dry_run,
@@ -234,7 +241,14 @@ def main() -> None:
                 continue
 
             outcome_str = str(entry.get("outcome", ""))
-            if _AUDIT_MARKER in outcome_str or _AUDIT_MARKER in str(entry.get("message", "")):
+            msg_str = str(entry.get("message", ""))
+
+            if "gateway" in msg_str.lower() and "start" in msg_str.lower():
+                _gateway_start_time = time.monotonic()
+                _audit_seen = False
+
+            if _AUDIT_MARKER in outcome_str or _AUDIT_MARKER in msg_str:
+                _audit_seen = True
                 files_missing = entry.get("files_missing", [])
                 agent = entry.get("agent_role", "unknown")
                 if dry_run:
@@ -247,13 +261,37 @@ def main() -> None:
                         audit_passed=False,
                     )
 
+            if (_gateway_start_time is not None
+                    and not _audit_seen
+                    and (time.monotonic() - _gateway_start_time) >= _STARTUP_GRACE_SECONDS):
+                if dry_run:
+                    logger.info("[DRY-RUN] startup audit PASS (no audit warning within grace period)")
+                else:
+                    reporter.trace_startup_compliance(
+                        agent_role="system",
+                        files_read=[],
+                        files_missing=[],
+                        audit_passed=True,
+                    )
+                _gateway_start_time = None
+
             entries_processed += 1
+            agent_role = entry.get("agent_role", "unknown")
+            _metric_counters[agent_role] = _metric_counters.get(agent_role, 0) + 1
+
+            exec_time = entry.get("execution_time_ms")
+            if exec_time is not None:
+                try:
+                    _latency_sum += float(exec_time)
+                    _latency_count += 1
+                except (ValueError, TypeError):
+                    pass
 
             if dry_run:
                 logger.info(
                     "[DRY-RUN] trace #%d  agent=%s  tool=%s  outcome=%s",
                     entries_processed,
-                    entry.get("agent_role", "-"),
+                    agent_role,
                     entry.get("tool_name", "-"),
                     entry.get("outcome", "-"),
                 )
@@ -261,10 +299,23 @@ def main() -> None:
                 reporter.trace_request(entry)
 
             if alert_evaluator is not None:
-                alert_evaluator.check_realtime(entry)
+                fired = alert_evaluator.check_realtime(entry)
+                for alert in fired:
+                    if dry_run:
+                        logger.info("[DRY-RUN] alert forwarded: %s [%s]", alert.alert_id, alert.severity)
+                    else:
+                        reporter.trace_alert(alert.alert_id, alert.severity, alert.description)
 
             if entries_processed % 100 == 0:
                 if not dry_run:
+                    for role, count in _metric_counters.items():
+                        reporter.trace_metric("agent_request_count", float(count), {"agent_role": role})
+                    if _latency_count > 0:
+                        reporter.trace_metric(
+                            "agent_latency_avg_ms",
+                            _latency_sum / _latency_count,
+                            {"sample_count": _latency_count},
+                        )
                     reporter.flush()
                 logger.debug("Processed %d entries", entries_processed)
 

@@ -89,10 +89,13 @@ def main() -> None:
             print(f"             Prompt: {task['prompt'][:60]}...")
             print(f"             Expected: {task['expected_contains']}")
             print(f"             Max tool calls: {task['max_tool_calls']}")
+            _report_to_langfuse(reporter, task, "DRY-RUN")
 
     print()
     if args.dry_run:
         print("  Dry run complete. Use without --dry-run to execute against a live model.")
+        if reporter.enabled:
+            print("  Langfuse: dry-run traces sent (scored as DRY-RUN).")
     else:
         print("  Execution requires a live model endpoint. Ensure the gateway is running.")
         if reporter.enabled:
