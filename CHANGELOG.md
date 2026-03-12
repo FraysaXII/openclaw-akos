@@ -11,6 +11,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **`OVERLAY_STARTUP_COMPLIANCE.md`** — new prompt overlay for medium+ model tiers with recency rule (re-read startup files within 5 messages), invariant check, and good/bad examples. Registered in `config/model-tiers.json` for both `standard` and `full` variants across all four agents.
+- **`trace_startup_compliance()`** method on `LangfuseReporter` — scored Langfuse traces (`startup_compliance: 0.0/1.0`) for Post-Compaction Audit events.
+- **Langfuse environment placeholders** (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`) in all three `config/environments/*.env.example` files.
+- **Post-Compaction Audit detection** in `scripts/log-watcher.py` — detects gateway audit entries and traces them to Langfuse.
+- **Langfuse scoring** in `scripts/run-evals.py` — creates scored eval traces when Langfuse credentials are configured.
+
+### Changed
+
+- **Session Startup in all 4 base prompts** hardened with SOTA enforcement patterns: explicit `read_file()` tool-call syntax, `CRITICAL` / `MUST` gate, self-correction mandate, and "do NOT mention internal steps" directive.
+- **`scripts/serve-api.py`** now loads `config/eval/langfuse.env` at startup for accurate `/health` Langfuse status.
+- **`scripts/run-evals.py`** upgraded from stub to functional Langfuse integration (loads env, creates reporter, reports scores).
+
+### Added (Phase 9)
+
 - **Committed Modelfiles** for Ollama `num_ctx` configuration (`config/ollama/Modelfile.qwen3-8b`, `Modelfile.deepseek-r1-14b`). Aligns `num_ctx` to tier `contextBudget` (16384 for small, 32768 for medium).
 - **`deepseek-r1:14b`** (14B medium-tier model) registered in SSOT provider config with `contextWindow: 32768`, `reasoning: true`.
 - **Ollama Flash Attention + KV cache quantization** env vars in `dev-local.env.example` (`OLLAMA_FLASH_ATTENTION=1`, `OLLAMA_KV_CACHE_TYPE=q8_0`).
@@ -20,13 +34,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Env placeholder coverage test** — `TestEnvPlaceholderCoverage` in `validate_configs.py` asserts all `${VAR}` in SSOT are defined in every `*.env.example` file.
 - **Ollama model count assertion** — `test_ollama_model_count` locks the expected 4 Ollama models in the SSOT.
 
-### Changed
+### Changed (Phase 9)
 
 - **`dev-local` environment** upgraded from small tier (`ollama/qwen3:8b`, thinking off) to medium tier (`ollama/deepseek-r1:14b`, thinking low) for reliable multi-step tool calling.
 - **`gpu-runpod.json`** envVars upgraded from 4 basic settings to 17 production-grade settings with `maxWorkers: 3`.
 - **Pydantic `ModelRef`** extended with `fallbacks: list[str]` field (backward-compatible default `[]`).
 
-### Fixed
+### Fixed (Phase 9)
 
 - **`prod-cloud.env.example`** missing placeholder env vars (`OLLAMA_API_KEY`, `OLLAMA_GPU_URL`, `VLLM_RUNPOD_URL`) that caused gateway crash on environment switch.
 - **`gpu-runpod.env.example`** missing placeholder env vars (`OLLAMA_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`) that caused gateway crash on environment switch.

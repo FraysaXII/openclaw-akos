@@ -1365,6 +1365,16 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - Extended Pydantic `ModelRef` with `fallbacks: list[str]` field (backward-compatible default `[]`). Added `RunPodEndpointConfig` model validators for tool-call parser and tensor-parallel consistency.
 - Updated `verify_openclaw_inventory.py` (added `deepseek-r1:14b` to expected ollama models) and `validate_configs.py` (ollama model count assertion, env placeholder coverage test).
 
+**Phase 10 execution note (startup compliance and Langfuse observability):**
+- Rewrote `## Session Startup` in all four base prompts (`ORCHESTRATOR_BASE.md`, `ARCHITECT_BASE.md`, `EXECUTOR_BASE.md`, `VERIFIER_BASE.md`) with SOTA enforcement patterns: explicit `read_file()` tool-call syntax, `CRITICAL` / `MUST` gate language, self-correction mandate, and "do NOT mention internal steps" directive.
+- Created `prompts/overlays/OVERLAY_STARTUP_COMPLIANCE.md` with recency rule (re-read within 5 messages), invariant check, and good/bad examples. Registered in `config/model-tiers.json` for both `standard` and `full` variants across all four agents.
+- Added `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST` placeholders to all three environment templates (`dev-local.env.example`, `gpu-runpod.env.example`, `prod-cloud.env.example`).
+- Wired `scripts/serve-api.py` to load `config/eval/langfuse.env` at startup via `load_env_file()` with `os.environ.setdefault()`.
+- Added `trace_startup_compliance()` method to `LangfuseReporter` in `akos/telemetry.py` for scored startup event tracing.
+- Enhanced `scripts/log-watcher.py` to detect "Post-Compaction Audit" entries in both JSON and raw log lines, sending scored traces to Langfuse.
+- Wired `scripts/run-evals.py` to load Langfuse credentials, create scored eval traces via `LangfuseReporter`, and report status.
+- Verified on local Ollama `deepseek-r1:14b` (medium tier): zero Post-Compaction Audit warnings after the hardened prompts were deployed.
+
 ---
 
 #### **Works cited**

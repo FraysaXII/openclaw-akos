@@ -145,6 +145,19 @@ def _maybe_check_runpod(
     return now
 
 
+def _handle_audit_line(line: str, reporter: LangfuseReporter, dry_run: bool) -> None:
+    """Handle a raw (non-JSON) log line containing a Post-Compaction Audit warning."""
+    if dry_run:
+        logger.info("[DRY-RUN] startup audit FAIL (raw line): %s", line.strip()[:120])
+    else:
+        reporter.trace_startup_compliance(
+            agent_role="unknown",
+            files_read=[],
+            files_missing=[],
+            audit_passed=False,
+        )
+
+
 def main() -> None:
     default_env = str(REPO_ROOT / "config" / "eval" / "langfuse.env")
     parser = argparse.ArgumentParser(description="OpenCLAW log watcher + Langfuse telemetry")
@@ -192,11 +205,14 @@ def main() -> None:
     last_runpod_check = 0.0
 
     entries_processed = 0
+    _AUDIT_MARKER = "Post-Compaction Audit"
 
     try:
         for line in tail_file(log_path, poll_interval, once=args.once):
             entry = parse_log_line(line)
             if not entry:
+                if _AUDIT_MARKER in line:
+                    _handle_audit_line(line, reporter, dry_run)
                 _maybe_check_runpod(
                     runpod_provider, reporter, dry_run,
                     runpod_interval, last_runpod_check,
@@ -206,6 +222,20 @@ def main() -> None:
                     runpod_interval, last_runpod_check,
                 )
                 continue
+
+            outcome_str = str(entry.get("outcome", ""))
+            if _AUDIT_MARKER in outcome_str or _AUDIT_MARKER in str(entry.get("message", "")):
+                files_missing = entry.get("files_missing", [])
+                agent = entry.get("agent_role", "unknown")
+                if dry_run:
+                    logger.info("[DRY-RUN] startup audit FAIL: agent=%s missing=%s", agent, files_missing)
+                else:
+                    reporter.trace_startup_compliance(
+                        agent_role=agent,
+                        files_read=[],
+                        files_missing=files_missing,
+                        audit_passed=False,
+                    )
 
             entries_processed += 1
 

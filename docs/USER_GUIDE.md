@@ -771,7 +771,16 @@ Without credentials, telemetry degrades to a no-op. The watcher still evaluates 
 **Environment:**
 - `LANGFUSE_PUBLIC_KEY` -- your Langfuse public key
 - `LANGFUSE_SECRET_KEY` -- your Langfuse secret key
+- `LANGFUSE_HOST` -- Langfuse endpoint (default: `https://cloud.langfuse.com`)
 - `LOG_WATCHER_POLL_INTERVAL` -- seconds between log polls (default: 2)
+
+**Per-environment Langfuse setup (Phase 10):**
+
+All three environment templates (`dev-local.env.example`, `gpu-runpod.env.example`, `prod-cloud.env.example`) now include `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and `LANGFUSE_HOST` placeholders. When you run `py scripts/switch-model.py <env>`, Langfuse credentials propagate automatically. For local development, you can also use `config/eval/langfuse.env` (loaded by `scripts/serve-api.py` and `scripts/log-watcher.py`).
+
+**Startup compliance tracing:**
+
+The log watcher now detects "Post-Compaction Audit" gateway entries and sends scored traces to Langfuse (`startup_compliance: 0.0` for failures, `1.0` for passes). This enables monitoring startup compliance rates across models and environments in the Langfuse dashboard.
 
 ### 12.3 SOC Alerts
 

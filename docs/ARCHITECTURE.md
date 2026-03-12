@@ -209,10 +209,18 @@ prompts/base/ARCHITECT_BASE.md  +  overlays/  -->  assembled/ARCHITECT_PROMPT.<v
 | Variant | Overlays Included |
 |:--------|:------------------|
 | compact | None (base only -- 3-5 MUST rules for small models) |
-| standard | OVERLAY_REASONING.md (sequential thinking, thinking trace) |
-| full | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_INTELLIGENCE + OVERLAY_RESEARCH + OVERLAY_CONTEXT_MANAGEMENT + OVERLAY_TOOLS_FULL |
+| standard | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_STARTUP_COMPLIANCE |
+| full | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_INTELLIGENCE + OVERLAY_RESEARCH + OVERLAY_CONTEXT_MANAGEMENT + OVERLAY_TOOLS_FULL + OVERLAY_STARTUP_COMPLIANCE |
 
 Build all variants: `python scripts/assemble-prompts.py`
+
+### Startup Compliance (Phase 10)
+
+The gateway emits a "Post-Compaction Audit" warning when an agent fails to `read_file` its required workspace files after a session start or context reset. Base prompts now use SOTA-inspired enforcement patterns (explicit `read_file()` calls, `CRITICAL` gate, self-correction mandate) to ensure models actually execute the reads. The `OVERLAY_STARTUP_COMPLIANCE.md` overlay (medium+ tiers) adds a recency rule (re-read within 5 messages), an invariant check, and good/bad examples to prevent hallucinated "I've restored..." claims.
+
+### Langfuse Environment Wiring
+
+Langfuse credentials (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`) are now present in all three `config/environments/*.env.example` files. `scripts/serve-api.py` loads `config/eval/langfuse.env` at startup so the `/health` endpoint accurately reports Langfuse status. `scripts/log-watcher.py` detects Post-Compaction Audit entries in gateway logs and traces them to Langfuse with a `startup_compliance` score (0.0 or 1.0). `scripts/run-evals.py` creates Langfuse scored traces for eval task results when credentials are configured.
 
 ### Multi-Provider Configuration
 

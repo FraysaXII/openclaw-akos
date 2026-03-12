@@ -83,6 +83,30 @@ class LangfuseReporter:
         except Exception as exc:  # broad: Langfuse is optional; never crash the watcher
             logger.debug("Failed to push trace: %s", exc)
 
+    def trace_startup_compliance(
+        self,
+        agent_role: str,
+        files_read: list[str],
+        files_missing: list[str],
+        audit_passed: bool,
+    ) -> None:
+        """Trace a startup compliance event for eval dashboards."""
+        if not self._client:
+            return
+        try:
+            trace = self._client.trace(
+                name=f"akos-startup-{agent_role}",
+                metadata={
+                    "agent_role": agent_role,
+                    "files_read": files_read,
+                    "files_missing": files_missing,
+                    "audit_passed": audit_passed,
+                },
+            )
+            trace.score(name="startup_compliance", value=1.0 if audit_passed else 0.0)
+        except Exception as exc:
+            logger.debug("Failed to push startup trace: %s", exc)
+
     def trace_metric(self, metric_name: str, value: float, metadata: dict | None = None) -> None:
         """Push a DX metric as a Langfuse trace for dashboard consumption."""
         if not self._client:
