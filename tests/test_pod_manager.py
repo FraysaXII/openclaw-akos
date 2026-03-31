@@ -118,6 +118,7 @@ class TestPodConfig:
         cmd = config.build_vllm_command()
         assert "--model" in cmd
         assert "deepseek-ai/DeepSeek-R1-Distill-Llama-70B" in cmd
+        assert "python" not in cmd[0], "CMD args must not include python (image ENTRYPOINT handles that)"
         assert "--tensor-parallel-size" in cmd
         idx = cmd.index("--tensor-parallel-size")
         assert cmd[idx + 1] == "2"

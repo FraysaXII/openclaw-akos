@@ -1,0 +1,131 @@
+[
+  {
+    "hfId": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+    "displayName": "DeepSeek R1 70B",
+    "family": "deepseek",
+    "paramsBillions": 70,
+    "vramGb": 140,
+    "toolCallParser": "deepseek_v3",
+    "reasoningParser": "deepseek_r1",
+    "chatTemplate": null,
+    "servedModelName": "deepseek-r1-70b",
+    "reasoning": true,
+    "defaultGpu": { "type": "NVIDIA A100-SXM4-80GB", "count": 2 },
+    "maxModelLen": 32768,
+    "envOverrides": {
+      "KV_CACHE_DTYPE": "fp8",
+      "ENABLE_PREFIX_CACHING": "true",
+      "ENABLE_CHUNKED_PREFILL": "true"
+    }
+  },
+  {
+    "hfId": "deepseek-ai/DeepSeek-V3-0324",
+    "displayName": "DeepSeek V3",
+    "family": "deepseek",
+    "paramsBillions": 671,
+    "vramGb": 1400,
+    "toolCallParser": "deepseek_v3",
+    "reasoningParser": null,
+    "chatTemplate": null,
+    "servedModelName": "deepseek-v3",
+    "reasoning": false,
+    "defaultGpu": { "type": "NVIDIA H200", "count": 10 },
+    "maxModelLen": 8192,
+    "envOverrides": {
+      "KV_CACHE_DTYPE": "fp8",
+      "ENABLE_PREFIX_CACHING": "true"
+    }
+  },
+  {
+    "hfId": "meta-llama/Llama-3.1-70B-Instruct",
+    "displayName": "Llama 3.1 70B",
+    "family": "llama",
+    "paramsBillions": 70,
+    "vramGb": 140,
+    "toolCallParser": "llama3_json",
+    "reasoningParser": null,
+    "chatTemplate": null,
+    "servedModelName": "llama-3.1-70b",
+    "reasoning": false,
+    "defaultGpu": { "type": "NVIDIA A100-SXM4-80GB", "count": 2 },
+    "maxModelLen": 32768,
+    "envOverrides": {}
+  },
+  {
+    "hfId": "meta-llama/Llama-3.1-8B-Instruct",
+    "displayName": "Llama 3.1 8B (dev)",
+    "family": "llama",
+    "paramsBillions": 8,
+    "vramGb": 18,
+    "toolCallParser": "llama3_json",
+    "reasoningParser": null,
+    "chatTemplate": null,
+    "servedModelName": "llama-3.1-8b",
+    "reasoning": false,
+    "defaultGpu": { "type": "NVIDIA GeForce RTX 4090", "count": 1 },
+    "maxModelLen": 32768,
+    "envOverrides": {}
+  },
+  {
+    "hfId": "Qwen/QwQ-32B",
+    "displayName": "QwQ 32B (reasoning)",
+    "family": "qwen",
+    "paramsBillions": 32,
+    "vramGb": 70,
+    "toolCallParser": "hermes",
+    "reasoningParser": null,
+    "chatTemplate": null,
+    "servedModelName": "qwq-32b",
+    "reasoning": true,
+    "defaultGpu": { "type": "NVIDIA A100-SXM4-80GB", "count": 1 },
+    "maxModelLen": 32768,
+    "envOverrides": {}
+  },
+  {
+    "hfId": "Qwen/Qwen2.5-72B-Instruct",
+    "displayName": "Qwen 2.5 72B",
+    "family": "qwen",
+    "paramsBillions": 72,
+    "vramGb": 150,
+    "toolCallParser": "hermes",
+    "reasoningParser": null,
+    "chatTemplate": null,
+    "servedModelName": "qwen2.5-72b",
+    "reasoning": false,
+    "defaultGpu": { "type": "NVIDIA A100-SXM4-80GB", "count": 2 },
+    "maxModelLen": 32768,
+    "envOverrides": {}
+  },
+  {
+    "hfId": "mistralai/Mistral-Large-Instruct-2411",
+    "displayName": "Mistral Large 123B",
+    "family": "mistral",
+    "paramsBillions": 123,
+    "vramGb": 250,
+    "toolCallParser": "mistral",
+    "reasoningParser": null,
+    "chatTemplate": null,
+    "servedModelName": "mistral-large",
+    "reasoning": false,
+    "defaultGpu": { "type": "NVIDIA H100 80GB HBM3", "count": 4 },
+    "maxModelLen": 65536,
+    "envOverrides": {
+      "TOKENIZER_MODE": "mistral"
+    }
+  },
+  {
+    "hfId": "NousResearch/Hermes-3-Llama-3.1-70B",
+    "displayName": "Hermes 3 70B",
+    "family": "hermes",
+    "paramsBillions": 70,
+    "vramGb": 140,
+    "toolCallParser": "hermes",
+    "reasoningParser": null,
+    "chatTemplate": null,
+    "servedModelName": "hermes-3-70b",
+    "reasoning": false,
+    "defaultGpu": { "type": "NVIDIA A100-SXM4-80GB", "count": 2 },
+    "maxModelLen": 32768,
+    "envOverrides": {}
+  }
+]

@@ -1044,7 +1044,7 @@ All phases in this registry must be executed sequentially. An AI-assisted IDE (s
 
 This section documents the operational procedures introduced in v0.4.0. These procedures extend the foundational architecture (Sections 3.0-8.0) with runtime convergence, self-verification, structured planning, role-safe enforcement, semantic intelligence, workflow-native execution, evidence retrieval, deployment operations, and evaluation gates.
 
-**Reference:** Full implementation plan at `docs/wip/improvement_proposal_claude_opus_4_max.plan.md`.
+**Reference:** Full implementation plan at `wip/improvement_proposal_claude_opus_4_max.plan.md`.
 
 ### **9.1 Runtime Convergence and Drift Detection**
 
@@ -1230,7 +1230,7 @@ py scripts/test.py all
 193+ tests covering: config validation, Pydantic models, alert evaluation, RunPod provider, FastAPI endpoints, checkpoints, prompt structure, E2E wiring, scaffolding integrity.
 
 **Lane 2 -- Browser/gateway smoke:**
-Canonical scenarios defined in `docs/uat/dashboard_smoke.md`:
+Canonical scenarios defined in `uat/dashboard_smoke.md`:
 - `dashboard_health` -- page loads, no errors
 - `agent_visibility` -- all 4 agents visible
 - `architect_read_only` -- Architect produces plans, no file writes
@@ -1286,7 +1286,7 @@ Automated browser smoke tests validate the dashboard and control plane without m
 
 **Phase 2 (Architect/Executor):** The architect_tools_ui and executor_approval_hint checks navigate to `/agents`, wait for agent cards to load, then click the Architect and Executor cards to verify tools and approval hints.
 
-**Platform separation:** AKOS uses **Playwright MCP** (in agent runtime) for Verifier screenshots and browser automation. The **browser-smoke.py** script is operator tooling for UAT and release gates. **cursor-ide-browser** is a Cursor IDE built-in (optional) for in-IDE WebChat testing — AKOS does not depend on it. See [USER_GUIDE §9.6](docs/USER_GUIDE.md#96-cursor-ide-browser-cursor-ide-only-optional) and [ARCHITECTURE.md](docs/ARCHITECTURE.md).
+**Platform separation:** AKOS uses **Playwright MCP** (in agent runtime) for Verifier screenshots and browser automation. The **browser-smoke.py** script is operator tooling for UAT and release gates. **cursor-ide-browser** is a Cursor IDE built-in (optional) for in-IDE WebChat testing — AKOS does not depend on it. See [USER_GUIDE §9.6](USER_GUIDE.md#96-cursor-ide-browser-cursor-ide-only-optional) and [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ### **9.13 Governance-Hardened Remediation Execution Ledger (March 2026)**
 
