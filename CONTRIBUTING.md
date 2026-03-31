@@ -77,7 +77,8 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
   - `uvicorn>=0.32.0` -- ASGI server for FastAPI.
   - `httpx>=0.27.0` -- Async HTTP client for API tests.
   - `playwright>=1.40` -- Browser smoke DOM mode (optional; HTTP-only path when not installed).
-  - `mcp>=1.0.0` -- Custom AKOS MCP server (`scripts/mcp_akos_server.py`).
+  - `mcp>=1.0.0` -- Custom AKOS MCP servers (`scripts/mcp_akos_server.py`, `scripts/finance_mcp_server.py`).
+  - `yfinance>=0.2.36` -- Finance research data (optional; finance MCP degrades gracefully without it).
 
 ## Testing Standards
 
@@ -85,14 +86,17 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - Alert conditions must have tests in `tests/test_akos_alerts.py` with synthetic log entries.
 - RunPod provider operations must have mocked SDK tests in `tests/test_runpod_provider.py`.
 - PodManager (dedicated pod lifecycle) must have tests in `tests/test_pod_manager.py`.
+- GPU CLI, model catalog, and deploy flow must have tests in `tests/test_gpu_cli.py` (catalog validation, VRAM-driven GPU selection, vLLM command generation, deploy/teardown mocked, env propagation, overlay JSON wiring).
 - FastAPI endpoints must have TestClient tests in `tests/test_api.py`.
 - Langfuse telemetry changes must have tests in `tests/test_telemetry.py` (14 tests covering init, trace_request, trace_startup_compliance, trace_alert, trace_metric, normalize_env, flush).
 - Failover router changes must have tests in `tests/test_router.py` (10 tests covering failover threshold, recovery, and multi-provider routing).
+- Finance service changes must have tests in `tests/test_finance.py` (normalization, caching, missing API key degradation, error states).
 - New agent prompts/overlays must be covered by `tests/test_e2e_pipeline.py`.
 - Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint. Changes to `agent-capabilities.json` are automatically translated to OpenClaw tool profiles by bootstrap; do not hand-edit the `tools`, `session`, or `browser` sections in `openclaw.json.example` — they are generated from AKOS config.
 - New workflow definitions go in `config/workflows/` as markdown files following the existing format.
 - New overlay files must be registered in `config/model-tiers.json` `variantOverlays` section.
-- Run the full suite before submitting: `py scripts/test.py` (234+ tests expected, including `test_pod_manager.py`)
+- Changes to `config/model-catalog.json` or `scripts/gpu.py` must be covered by `tests/test_gpu_cli.py`.
+- Run the full suite before submitting: `py scripts/test.py` (234+ tests expected, including `test_pod_manager.py`, `test_gpu_cli.py`)
 - Run specific groups: `py scripts/test.py api`, `py scripts/test.py security`, `py scripts/test.py browser`, etc.
 - See all available groups: `py scripts/test.py --list`
 - New test groups added in v0.4.0: `drift` (runtime drift detection), `live` (opt-in live provider smoke tests requiring `AKOS_LIVE_SMOKE=1`)

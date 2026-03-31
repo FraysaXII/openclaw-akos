@@ -14,7 +14,10 @@
     "memory_list",
     "fetch_get",
     "filesystem_read",
-    "filesystem_list"
+    "filesystem_list",
+    "finance_quote",
+    "finance_search",
+    "finance_sentiment"
   ],
   "requires_approval": [
     "write_file",

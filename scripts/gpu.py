@@ -27,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT, load_env_file, load_json, resolve_openclaw_home, save_json
 from akos.log import setup_logging
+from akos.model_catalog import CatalogEntry, load_catalog
 from akos.models import PodConfig
 from akos.runpod_provider import PodManager, RunPodProvider
 from akos.state import ActiveInfra, AkosState, load_state, save_state
@@ -93,15 +94,15 @@ def _ensure_hf_token() -> str:
     return token
 
 
-def _save_key_to_env(key: str, value: str) -> None:
-    env_path = REPO_ROOT / "config" / "environments" / "gpu-runpod-pod.env"
-    if not env_path.exists():
-        example = env_path.with_suffix(".env.example")
+def _upsert_env_line(path: Path, key: str, value: str) -> None:
+    """Insert or update a KEY=value line in an env file."""
+    if not path.exists():
+        example = path.with_suffix(".env.example")
         if example.exists():
-            env_path.write_text(example.read_text(encoding="utf-8"), encoding="utf-8")
+            path.write_text(example.read_text(encoding="utf-8"), encoding="utf-8")
         else:
-            env_path.write_text("", encoding="utf-8")
-    lines = env_path.read_text(encoding="utf-8").splitlines()
+            path.write_text("", encoding="utf-8")
+    lines = path.read_text(encoding="utf-8").splitlines()
     found = False
     for i, line in enumerate(lines):
         if line.strip().startswith(f"{key}="):
@@ -110,44 +111,99 @@ def _save_key_to_env(key: str, value: str) -> None:
             break
     if not found:
         lines.append(f"{key}={value}")
-    env_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def _pick_gpu(pod_config: PodConfig) -> tuple[str, int]:
-    model_name = pod_config.modelName
-    is_70b = "70b" in model_name.lower()
+def _save_key_to_env(key: str, value: str) -> None:
+    """Save a key to both the pod .env and the live ~/.openclaw/.env."""
+    _upsert_env_line(REPO_ROOT / "config" / "environments" / "gpu-runpod-pod.env", key, value)
+    oc_env = resolve_openclaw_home() / ".env"
+    if oc_env.exists():
+        _upsert_env_line(oc_env, key, value)
+
+
+_ENV_PLACEHOLDERS = {
+    "OLLAMA_GPU_URL": "http://localhost:11434",
+    "OLLAMA_API_KEY": "not-configured",
+    "OPENAI_API_KEY": "not-configured",
+    "ANTHROPIC_API_KEY": "not-configured",
+}
+
+
+def _ensure_env_placeholders(oc_home: Path) -> None:
+    """Re-assert placeholder env vars that OpenCLAW requires for ${VAR} substitution.
+
+    switch-model.py may overwrite ~/.openclaw/.env from the .env.example template.
+    If any placeholder got wiped to empty, restore it so the gateway doesn't crash.
+    """
+    oc_env = oc_home / ".env"
+    if not oc_env.exists():
+        return
+    env = load_env_file(oc_env)
+    for key, default in _ENV_PLACEHOLDERS.items():
+        if not env.get(key):
+            _upsert_env_line(oc_env, key, default)
+
+
+def _pick_model(catalog: list[CatalogEntry]) -> CatalogEntry:
+    """Interactive model picker. Returns the selected catalog entry."""
+    print()
+    print("  Select model to deploy")
+    print("  " + "-" * 40)
+    print()
+    print(f"  {'#':<4} {'Model':<26} {'Params':<8} {'VRAM':<8} {'Reason':<7} {'Tool parser'}")
+    print(f"  {'-'*4} {'-'*26} {'-'*8} {'-'*8} {'-'*7} {'-'*14}")
+
+    for i, entry in enumerate(catalog, 1):
+        reason = "yes" if entry.reasoning else "no"
+        marker = " *" if i == 1 else ""
+        print(f"  {i:<4} {entry.displayName:<26} {entry.paramsBillions}B{'':<4} "
+              f"{entry.vramGb}GB{'':<3} {reason:<7} {entry.toolCallParser}{marker}")
 
     print()
-    print("  Select GPU configuration")
-    print("  " + "-" * 40)
-    if is_70b:
-        print("  The 70B model needs ~140 GB VRAM (weights + KV cache).")
-        print("  You need multiple GPUs. Recommended: 2x A100 80GB.")
+    try:
+        choice = input("  Model [1]: ").strip()
+    except (EOFError, KeyboardInterrupt):
+        return catalog[0]
+
+    if choice and choice.isdigit() and 1 <= int(choice) <= len(catalog):
+        return catalog[int(choice) - 1]
+    return catalog[0]
+
+
+def _pick_gpu(model: CatalogEntry) -> tuple[str, int]:
+    """Interactive GPU picker driven by the selected model's VRAM needs."""
+    default_type = model.defaultGpu.type
+    default_count = model.defaultGpu.count
+
+    print()
+    print(f"  Recommended GPU: {default_type} x{default_count}"
+          f" (model needs {model.vramGb} GB VRAM)")
     print()
     print(f"  {'#':<4} {'GPU':<25} {'VRAM':<10} {'~$/hr':<8}")
-    print(f"  {'─'*4} {'─'*25} {'─'*10} {'─'*8}")
+    print(f"  {'-'*4} {'-'*25} {'-'*10} {'-'*8}")
 
     for i, gpu in enumerate(_GPU_CATALOG, 1):
-        marker = " *" if gpu["id"] == pod_config.gpuType else ""
+        marker = " *" if gpu["id"] == default_type else ""
         print(f"  {i:<4} {gpu['name']:<25} {gpu['vram']} GB{'':<4} ${gpu['price_hr']:.2f}{marker}")
 
     print()
-    print(f"  Current default: {pod_config.gpuType} x{pod_config.gpuCount}")
     try:
-        choice = input(f"  GPU number [Enter for default]: ").strip()
+        choice = input("  GPU number [Enter for recommended]: ").strip()
     except (EOFError, KeyboardInterrupt):
-        return pod_config.gpuType, pod_config.gpuCount
+        return default_type, default_count
 
     if choice and choice.isdigit() and 1 <= int(choice) <= len(_GPU_CATALOG):
         gpu = _GPU_CATALOG[int(choice) - 1]
         gpu_type = gpu["id"]
     else:
-        gpu_type = pod_config.gpuType
+        gpu_type = default_type
 
-    if is_70b:
-        total_vram = next((g["vram"] for g in _GPU_CATALOG if g["id"] == gpu_type), 80)
-        min_gpus = max(2, (140 + total_vram - 1) // total_vram)
-        print(f"  70B model needs at least {min_gpus} GPUs of this type.")
+    gpu_vram = next((g["vram"] for g in _GPU_CATALOG if g["id"] == gpu_type), 80)
+    min_gpus = model.min_gpus_for(gpu_vram)
+
+    if min_gpus > 1:
+        print(f"  Model needs at least {min_gpus} GPUs of this type ({model.vramGb} GB / {gpu_vram} GB each).")
         try:
             count_str = input(f"  GPU count [{min_gpus}]: ").strip()
         except (EOFError, KeyboardInterrupt):
@@ -158,6 +214,38 @@ def _pick_gpu(pod_config: PodConfig) -> tuple[str, int]:
         gpu_count = 1
 
     return gpu_type, gpu_count
+
+
+def _apply_catalog_to_pod_config(pod_config: PodConfig, model: CatalogEntry) -> None:
+    """Overwrite PodConfig fields from a catalog entry (mutates in place)."""
+    pod_config.modelName = model.hfId
+    pod_config.maxModelLen = model.maxModelLen
+    pod_config.envVars["OPENAI_SERVED_MODEL_NAME_OVERRIDE"] = model.servedModelName
+    pod_config.envVars["ENABLE_AUTO_TOOL_CHOICE"] = "true"
+    pod_config.envVars["TOOL_CALL_PARSER"] = model.toolCallParser
+    if model.reasoningParser:
+        pod_config.envVars["REASONING_PARSER"] = model.reasoningParser
+    else:
+        pod_config.envVars.pop("REASONING_PARSER", None)
+    if model.chatTemplate:
+        pod_config.envVars["CHAT_TEMPLATE"] = model.chatTemplate
+    else:
+        pod_config.envVars.pop("CHAT_TEMPLATE", None)
+    for k, v in model.envOverrides.items():
+        pod_config.envVars[k] = v
+
+
+def _update_overlay_json(model: CatalogEntry) -> None:
+    """Rewrite gpu-runpod-pod.json to match the selected model."""
+    overlay_path = REPO_ROOT / "config" / "environments" / "gpu-runpod-pod.json"
+    raw = load_json(overlay_path)
+    raw.setdefault("agents", {}).setdefault("defaults", {})
+    raw["agents"]["defaults"]["model"] = {
+        "primary": f"vllm-runpod/{model.servedModelName}",
+        "fallbacks": ["anthropic/claude-sonnet-4", "ollama/deepseek-r1:14b"],
+    }
+    raw["agents"]["defaults"]["thinkingDefault"] = "medium" if model.reasoning else "off"
+    save_json(overlay_path, raw)
 
 
 def deploy_pod(*, dry_run: bool = False) -> int:
@@ -173,34 +261,44 @@ def deploy_pod(*, dry_run: bool = False) -> int:
 
     hf_token = _ensure_hf_token()
 
+    catalog = load_catalog()
+    model = _pick_model(catalog)
+
+    gpu_type, gpu_count = _pick_gpu(model)
+
     config_path = REPO_ROOT / "config" / "environments" / "gpu-runpod-pod.json"
     raw = load_json(config_path)
     pod_config = PodConfig.model_validate(raw.get("pod", {}))
 
-    gpu_type, gpu_count = _pick_gpu(pod_config)
     pod_config.gpuCount = gpu_count
     pod_config.gpuType = gpu_type
     pod_config.envVars["TENSOR_PARALLEL_SIZE"] = str(gpu_count)
+    _apply_catalog_to_pod_config(pod_config, model)
 
     vllm_cmd = pod_config.build_vllm_command()
     port = pod_config.vllmPort
     env_vars = {
         **({"HF_TOKEN": hf_token} if hf_token else {}),
+        **pod_config.envVars,
     }
 
     print()
-    print(f"  Model:     {pod_config.modelName}")
+    print(f"  Model:     {model.hfId}")
+    print(f"  Family:    {model.family} (parser: {model.toolCallParser})")
     print(f"  GPU:       {gpu_type} x{gpu_count}")
     print(f"  Port:      {port}")
     print(f"  Image:     {pod_config.containerImage}")
     print(f"  Volume:    {pod_config.volumeGb} GB")
     print(f"  TP size:   {gpu_count} (auto-derived from GPU count)")
+    print(f"  Reasoning: {'yes' if model.reasoning else 'no'}")
     print()
 
     if dry_run:
         print("  [DRY-RUN] Would create pod with above config.")
         print(f"  [DRY-RUN] vLLM command: {' '.join(vllm_cmd)}")
         return 0
+
+    _update_overlay_json(model)
 
     oc_home = resolve_openclaw_home()
     state = load_state(oc_home)
@@ -218,14 +316,15 @@ def deploy_pod(*, dry_run: bool = False) -> int:
     print("  Creating pod on RunPod...")
     pm = PodManager(api_key)
     pod = pm.create_pod(
-        name=f"akos-vllm-{pod_config.modelName.split('/')[-1][:30]}",
+        name=f"akos-vllm-{model.servedModelName[:30]}",
         gpu_type_id=gpu_type,
         gpu_count=gpu_count,
         image=pod_config.containerImage,
+        container_disk_gb=pod_config.containerDiskGb,
         volume_gb=pod_config.volumeGb,
         ports=[f"{port}/http", "22/tcp"],
         env=env_vars,
-        docker_start_cmd=["bash", "-c", f"pip install vllm && {' '.join(vllm_cmd)}"],
+        docker_start_cmd=vllm_cmd,
     )
 
     if not pod:
@@ -263,24 +362,9 @@ def deploy_pod(*, dry_run: bool = False) -> int:
 
     state.activeInfra = ActiveInfra(
         type="pod", podId=pod.pod_id, url=vllm_url,
-        gpuType=gpu_type, gpuCount=gpu_count, modelName=pod_config.modelName,
+        gpuType=gpu_type, gpuCount=gpu_count, modelName=model.hfId,
     )
     save_state(oc_home, state)
-    oc_env = oc_home / ".env"
-    if oc_env.exists():
-        lines = oc_env.read_text(encoding="utf-8").splitlines()
-        updated = False
-        for i, line in enumerate(lines):
-            if line.strip().startswith("VLLM_RUNPOD_URL="):
-                lines[i] = f"VLLM_RUNPOD_URL={vllm_url}"
-                updated = True
-            elif line.strip().startswith("RUNPOD_POD_ID="):
-                lines[i] = f"RUNPOD_POD_ID={pod.pod_id}"
-                updated = True
-        if not updated:
-            lines.append(f"VLLM_RUNPOD_URL={vllm_url}")
-            lines.append(f"RUNPOD_POD_ID={pod.pod_id}")
-        oc_env.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     import akos.process as proc
     print()
@@ -294,13 +378,20 @@ def deploy_pod(*, dry_run: bool = False) -> int:
     else:
         print(f"  Switch warning: {result.stderr[:100]}")
 
+    _save_key_to_env("VLLM_RUNPOD_URL", vllm_url)
+    _save_key_to_env("RUNPOD_POD_ID", pod.pod_id)
+    _ensure_env_placeholders(oc_home)
+
     print()
     print("=" * 60)
-    print(f"  Done! Your agent is now using {pod_config.modelName.split('/')[-1]}")
+    print(f"  Done! Your agent is now using {model.displayName}")
     print(f"  on RunPod ({gpu_type} x{gpu_count})")
     print()
     print(f"  vLLM URL:  {vllm_url}")
     print(f"  Pod ID:    {pod.pod_id}")
+    print(f"  Tools:     {model.toolCallParser}")
+    if model.reasoning:
+        print(f"  Reasoning: {model.reasoningParser}")
     print()
     print("  Next: open the OpenClaw dashboard and send a message.")
     print("=" * 60)
@@ -476,7 +567,8 @@ def main() -> int:
               resolve_openclaw_home() / ".env"]:
         if p.exists():
             for k, v in load_env_file(p).items():
-                os.environ.setdefault(k, v)
+                if v:
+                    os.environ.setdefault(k, v)
 
     if args.command == "deploy-pod":
         return deploy_pod(dry_run=args.dry_run)

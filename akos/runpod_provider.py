@@ -139,9 +139,9 @@ class PodManager:
         name: str,
         gpu_type_id: str,
         gpu_count: int = 2,
-        image: str = "runpod/pytorch:2.8.0-py3.11-cuda12.8.1-devel-ubuntu22.04",
+        image: str = "vllm/vllm-openai:latest",
         volume_gb: int = 200,
-        container_disk_gb: int = 50,
+        container_disk_gb: int = 100,
         ports: list[str] | None = None,
         env: dict[str, str] | None = None,
         docker_start_cmd: list[str] | None = None,
@@ -476,6 +476,8 @@ class RunPodProvider:
         for probe_url in (models_url, url.rsplit("/v1", 1)[0] + "/health"):
             try:
                 req = urllib.request.Request(probe_url, method="GET")
+                req.add_header("User-Agent", "akos-gpu-cli/1.0")
+                req.add_header("Accept", "application/json")
                 with urllib.request.urlopen(req, timeout=timeout) as resp:
                     if resp.status == 200:
                         return HealthStatus(healthy=True, raw={"probe_url": probe_url})

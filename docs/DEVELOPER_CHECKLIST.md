@@ -28,6 +28,10 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | `SECURITY.md` | New deps, controls |
 | `config/workspace-scaffold/README.md` | If scaffold changes |
 | `CONTRIBUTING.md` | New test groups, deps |
+| `docs/ARCHITECTURE.md` (Model Catalog) | Changes to `config/model-catalog.json` fields or `akos/model_catalog.py` |
+| `docs/USER_GUIDE.md` (GPU deployment) | Changes to `scripts/gpu.py` subcommands or deploy flow |
+| `docs/USER_GUIDE.md` (Finance MCP) | Changes to `akos/finance.py` or `scripts/finance_mcp_server.py` |
+| `docs/ARCHITECTURE.md` (Finance) | Changes to finance response models or MCP tool signatures |
 
 ## Playwright Setup (Optional)
 
@@ -45,4 +49,5 @@ On Windows, `browser-smoke.py` isolates browser launches in subprocess workers s
 
 - **GitHub MCP:** Set `GITHUB_TOKEN` for repo metadata and future commit retrieval.
 - **Custom AKOS MCP:** Requires `pip install mcp httpx`. Bootstrap deploys with resolved path.
+- **Finance Research MCP:** Requires `pip install mcp yfinance`. Optional `ALPHA_VANTAGE_KEY` for sentiment. Bootstrap deploys with resolved path.
 - **cursor-ide-browser:** Cursor IDE built-in; enable in Cursor Settings if desired. Not required for AKOS.

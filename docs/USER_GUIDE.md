@@ -38,7 +38,7 @@ OpenCLAW-AKOS transforms a vanilla OpenCLAW deployment into an **Agentic Knowled
 - **Tiered prompt assembly** keyed to model capability (small/medium/large/SOTA).
 - **RunPod GPU integration** for serverless vLLM endpoints with auto-provisioning.
 - A **FastAPI control plane** for programmatic system management.
-- **8 MCP servers** for tools: reasoning, browser automation, GitHub, memory, filesystem, HTTP, LSP, and code search.
+- **10 MCP servers** for tools: reasoning, browser automation, GitHub, memory, filesystem, HTTP, LSP, code search, control plane, and finance research.
 - **Human-in-the-Loop (HITL) enforcement** on all mutative operations.
 - **Observability** via Langfuse telemetry, SOC alerts, and structured logging.
 - **Workspace checkpoints** for reversible execution.
@@ -561,41 +561,38 @@ The dedicated pod profile lives in `config/environments/gpu-runpod-pod.json`. It
 
 #### Setup
 
-1. **Provision a pod** on [runpod.io](https://www.runpod.io) with an A100-80GB or H100-80GB GPU. Select the `RunPod Pytorch 2.x` or bare Ubuntu template.
-
-2. **Generate vLLM launch commands:**
+Deploy a dedicated vLLM pod with a single command:
 
 ```bash
-python scripts/setup-runpod-pod.py
+python scripts/gpu.py deploy-pod
 ```
 
-This reads `config/environments/gpu-runpod-pod.json` and prints copy-paste commands for installing and launching vLLM on the pod. If you know your pod ID, pass it for a ready-made proxy URL:
+The interactive flow:
+
+1. **Select a model** from `config/model-catalog.json` (the GPU model SSOT). The picker shows parameter count, VRAM requirement, reasoning capability, and tool-call parser for each entry.
+2. **Select a GPU** type and count. The CLI recommends a default based on the model's VRAM needs and computes the minimum GPU count automatically.
+3. **Confirm and deploy**. The CLI provisions a pod on RunPod with the `vllm/vllm-openai:latest` image, passes the correct vLLM flags (including `--tool-call-parser`, `--reasoning-parser` when applicable), switches the gateway to the new endpoint, and persists the URL to both the repo `.env` and `~/.openclaw/.env`.
+
+Use `--dry-run` to preview the configuration without creating a pod:
 
 ```bash
-python scripts/setup-runpod-pod.py --pod-id abc123xyz
+python scripts/gpu.py deploy-pod --dry-run
 ```
 
-3. **SSH into the pod** (or use the RunPod web terminal) and run the generated commands. Wait for vLLM to finish loading the model (look for `Uvicorn running on http://0.0.0.0:8000`).
+After deployment completes, the gateway is automatically switched to the dedicated pod environment and the dashboard is ready to use.
 
-4. **Set the endpoint URL** in your local environment:
+#### Model Catalog
+
+`config/model-catalog.json` is the SSOT for GPU-deployable models. Each entry specifies the HuggingFace ID, VRAM footprint, recommended GPU, vLLM parser, and served-model name. The deploy flow reads this catalog to auto-configure `PodConfig`, the environment overlay JSON, and vLLM launch flags. See [ARCHITECTURE.md](ARCHITECTURE.md#model-catalog) for the full field reference.
+
+#### Other GPU CLI commands
 
 ```bash
-cp config/environments/gpu-runpod-pod.env.example config/environments/gpu-runpod-pod.env
+python scripts/gpu.py health          # Check vLLM endpoint health
+python scripts/gpu.py status          # Show active infrastructure state
+python scripts/gpu.py teardown        # Terminate the active pod
+python scripts/gpu.py list-gpus       # Show available GPU types and pricing
 ```
-
-Edit `gpu-runpod-pod.env` and set `VLLM_RUNPOD_URL` to your pod's URL:
-
-```
-VLLM_RUNPOD_URL=https://<pod-id>-8000.proxy.runpod.net/v1
-```
-
-5. **Switch to the dedicated pod environment:**
-
-```bash
-python scripts/switch-model.py gpu-runpod-pod
-```
-
-This deploys `full` prompt variants (large tier), loads the pod-specific `.env`, and restarts the gateway.
 
 #### Verifying the connection
 
@@ -617,7 +614,7 @@ curl $VLLM_RUNPOD_URL/models
 
 ### 9.1 Installed Servers
 
-Nine MCP servers provide the agent tool ecosystem:
+Ten MCP servers provide the agent tool ecosystem:
 
 | Server | Package | Purpose |
 |:-------|:--------|:--------|
@@ -688,6 +685,22 @@ The Custom AKOS MCP exposes control plane self-check tools to agents:
 
 **Setup:** The server is defined in `config/mcporter.json.example`. Bootstrap deploys it with the correct path. Requires `pip install mcp httpx`. Set `AKOS_API_URL` (default `http://127.0.0.1:8420`) if the API runs elsewhere.
 
+### 9.8 Finance Research MCP
+
+The Finance Research MCP gives agents read-only access to financial market data for research purposes.
+
+| Tool | Purpose |
+|:-----|:--------|
+| `finance_quote(ticker)` | Quote bundle: price, day range, volume, market cap, exchange, currency |
+| `finance_search(query)` | Resolve a company name or partial ticker to matching symbols |
+| `finance_sentiment(tickers)` | News sentiment headlines and labels via Alpha Vantage |
+
+**Data freshness:** Quotes from Yahoo Finance free tier are typically delayed ~15 minutes. This capability is for research, not trading decisions.
+
+**Setup:** Requires `pip install mcp yfinance`. The `ALPHA_VANTAGE_KEY` environment variable is optional -- if absent, `finance_sentiment` returns a degraded response with a warning instead of failing. Sign up for a free key at [alphavantage.co](https://www.alphavantage.co/support/#api-key) (500 calls/day).
+
+**Limitations:** yfinance is a community library that scrapes Yahoo Finance. It may break when Yahoo changes their site. All provider-specific details are encapsulated in `akos/finance.py` so backends can be swapped without changing tool signatures.
+
 ---
 
 ## 10. Tool Permissions and HITL Gates
@@ -697,7 +710,7 @@ The Custom AKOS MCP exposes control plane self-check tools to agents:
 Every tool is classified in `config/permissions.json` as either **autonomous** (no approval needed) or **requires_approval** (human must confirm).
 
 **Autonomous tools** (safe, read-only):
-`read_file`, `list_directory`, `web_search`, `sequential_thinking`, `browser_snapshot`, `browser_screenshot`, `mcporter_list`, `git_status`, `git_diff`, `git_log`, `memory_retrieve`, `memory_list`, `fetch_get`, `filesystem_read`, `filesystem_list`
+`read_file`, `list_directory`, `web_search`, `sequential_thinking`, `browser_snapshot`, `browser_screenshot`, `mcporter_list`, `git_status`, `git_diff`, `git_log`, `memory_retrieve`, `memory_list`, `fetch_get`, `filesystem_read`, `filesystem_list`, `finance_quote`, `finance_search`, `finance_sentiment`
 
 **Approval-gated tools** (mutative or sensitive):
 `write_file`, `delete_file`, `shell_exec`, `browser_navigate`, `browser_click`, `browser_type`, `browser_console_exec`, `element_interact`, `git_push`, `git_commit`, `canvas_eval`, `network_download`, `system_config_change`, `memory_store`, `memory_delete`, `fetch_post`, `filesystem_write`, `filesystem_delete`
@@ -1417,6 +1430,22 @@ python scripts/serve-api.py [--port 8420] [--host 127.0.0.1] [--reload]
 ```
 
 Launches the FastAPI control plane.
+
+### `gpu.py`
+
+```
+python scripts/gpu.py COMMAND [--dry-run] [--json-log]
+```
+
+GPU infrastructure lifecycle management. Model catalog in `config/model-catalog.json`.
+
+| Subcommand | Purpose |
+|:-----------|:--------|
+| `deploy-pod` | Interactive model/GPU picker, provisions a RunPod pod with vLLM, switches gateway |
+| `teardown` | Terminates the active pod and resets state to local |
+| `health` | Probes vLLM `/v1/models` and `/health` endpoints |
+| `status` | Shows active infrastructure (pod ID, URL, model, GPU) |
+| `list-gpus` | Prints available GPU types with VRAM and pricing |
 
 ### `vet-install.sh`
 

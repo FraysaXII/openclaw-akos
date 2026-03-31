@@ -1,0 +1,83 @@
+---
+description: >-
+  AKOS documentation-config sync contracts. Fires when config, akos/ modules,
+  scripts, prompts, or docs are modified to ensure documentation stays current.
+globs:
+  - "config/**"
+  - "akos/**"
+  - "scripts/**"
+  - "prompts/**"
+  - "docs/**"
+  - "README.md"
+  - "CHANGELOG.md"
+  - "CONTRIBUTING.md"
+  - "SECURITY.md"
+---
+
+# AKOS Documentation-Config Sync
+
+When modifying files matched by the globs above, check whether documentation
+needs a corresponding update. These contracts are ordered by trigger.
+
+## Sync Contracts
+
+### Config changes
+
+| Trigger file | Docs to update | Section / area |
+|:-------------|:---------------|:---------------|
+| `config/model-catalog.json` | `docs/ARCHITECTURE.md` | "Model Catalog" section |
+| `config/model-catalog.json` | `docs/USER_GUIDE.md` | RunPod / GPU deployment sections |
+| `config/model-tiers.json` | `docs/ARCHITECTURE.md` | "Model Tier Registry" table |
+| `config/environments/*.env.example` | `docs/ARCHITECTURE.md` | "Environment Profiles" section |
+| `config/environments/*.json` | `docs/ARCHITECTURE.md` | "Dual-Mode RunPod Architecture", env overlay tables |
+| `config/openclaw.json.example` | `docs/ARCHITECTURE.md` | "Multi-Provider Configuration", agent registry |
+| `config/agent-capabilities.json` | `docs/ARCHITECTURE.md` | "Role-Safe Capability Enforcement" |
+| `config/mcporter.json.example` | `docs/ARCHITECTURE.md` | "MCP Server Topology" |
+| `config/workspace-scaffold/**` | `config/workspace-scaffold/README.md` | Scaffold structure description |
+
+### Code changes
+
+| Trigger file | Docs to update | Section / area |
+|:-------------|:---------------|:---------------|
+| `akos/models.py` (PodConfig) | `docs/ARCHITECTURE.md` | "Dual-Mode RunPod Architecture", vLLM command args |
+| `akos/model_catalog.py` | `docs/ARCHITECTURE.md` | "Model Catalog", Orchestration Library table |
+| `akos/*.py` (new module) | `docs/ARCHITECTURE.md` | Orchestration Library (`akos/`) table |
+| `akos/api.py` (new endpoint) | `docs/ARCHITECTURE.md` | FastAPI Control Plane endpoint table |
+| `akos/runpod_provider.py` | `docs/ARCHITECTURE.md` | vLLM Health Probe, RunPod sections |
+| `akos/finance.py` | `docs/ARCHITECTURE.md` | Finance Service, Orchestration Library table |
+| `akos/finance.py` | `docs/USER_GUIDE.md` | Finance Research MCP section (9.8) |
+
+### Script changes
+
+| Trigger file | Docs to update | Section / area |
+|:-------------|:---------------|:---------------|
+| `scripts/gpu.py` | `docs/USER_GUIDE.md` | CLI reference (gpu subcommands) |
+| `scripts/gpu.py` | `docs/ARCHITECTURE.md` | GPU deployment flow |
+| `scripts/*.py` (new script) | `docs/ARCHITECTURE.md` | Operator Scripts table |
+| `scripts/*.py` (new script) | `docs/DEVELOPER_CHECKLIST.md` | Pre-commit checks table |
+
+### Prompt changes
+
+| Trigger file | Docs to update | Section / area |
+|:-------------|:---------------|:---------------|
+| `prompts/base/*.md` | `docs/ARCHITECTURE.md` | "Prompt Tiering" section |
+| `prompts/overlays/*.md` | `docs/ARCHITECTURE.md` | Overlay table, variant composition |
+| `prompts/assembled/*.md` | `docs/ARCHITECTURE.md` | Assembled variants line counts if changed materially |
+
+## Always update
+
+After any user-facing change on this branch:
+
+1. **CHANGELOG.md** -- add or update an entry under `[Unreleased]` using imperative mood
+2. **README.md** -- if capabilities, prerequisites, or repo structure changed
+3. **CONTRIBUTING.md** -- if new test groups, dependencies, or dev workflows were added
+
+## Verification
+
+After updating docs, spot-check:
+
+- Internal markdown links resolve to real files (`](../path)` and `](path)`)
+- Tables are well-formed (header + separator + data rows)
+- No stale version numbers, container images, or default values in prose
+- ASCII/mermaid diagrams match current code structure
+- Test count in ARCHITECTURE.md matches actual `tests/` file count if referenced

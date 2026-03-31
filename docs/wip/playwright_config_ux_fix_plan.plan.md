@@ -103,7 +103,7 @@ Use `model_config = ConfigDict(populate_by_name=True)` if using alias for reads.
 
 **Cause:** OpenClaw dashboard header and update banner may show different version strings (e.g. "Version 2026.2.19-2" vs "running v2026.2.26"). This is OpenClaw dashboard/gateway logic; AKOS does not control it.
 
-**Task 3.1:** Add a short note in [docs/uat/dashboard_smoke.md](docs/uat/dashboard_smoke.md) under "Known issues":
+**Task 3.1:** Add a short note in [docs/uat/dashboard_smoke.md](../uat/dashboard_smoke.md) under "Known issues":
 
 > **Version display mismatch:** The header version and the update banner may show different values. This comes from OpenClaw gateway/dashboard; AKOS has no control. For UAT, treat both as informational.
 
@@ -113,14 +113,14 @@ Use `model_config = ConfigDict(populate_by_name=True)` if using alias for reads.
 
 **Cause:** Nodes settings page shows this when `tools.exec.host` can use nodes but no paired node offers exec capability (`system.exe` on Windows). Per [OpenClaw exec docs](https://docs.clawd.bot/tools/exec-approvals) and node troubleshooting.
 
-**Task 4.1:** Add troubleshooting entry in [docs/USER_GUIDE.md](docs/USER_GUIDE.md) Section 17 (Troubleshooting):
+**Task 4.1:** Add troubleshooting entry in [docs/USER_GUIDE.md](../USER_GUIDE.md) Section 17 (Troubleshooting):
 
 > **"No nodes with system.exe available" (Nodes page)**  
 > This appears when the dashboard expects an exec-capable node but none is paired. Options:
 > 1. **Local exec only:** Set `tools.exec.host` to `"sandbox"` or `"gateway"` (AKOS default is `sandbox`).
 > 2. **Use a node:** Pair an exec-capable node (`openclaw node install`, `openclaw nodes status`) and ensure it has `system.exe` (Windows) or equivalent for command execution.
 
-**Task 4.2:** Add a one-line note in [docs/uat/dashboard_smoke.md](docs/uat/dashboard_smoke.md) known issues:
+**Task 4.2:** Add a one-line note in [docs/uat/dashboard_smoke.md](../uat/dashboard_smoke.md) known issues:
 
 > **No nodes with system.exe:** Expected when no exec-capable node is paired. Use `tools.exec.host: sandbox` for local-only exec, or pair a node per USER_GUIDE §17.
 
@@ -131,10 +131,10 @@ Use `model_config = ConfigDict(populate_by_name=True)` if using alias for reads.
 | File | Change |
 |------|--------|
 | [CHANGELOG.md](CHANGELOG.md) | Add entry: config schema alignment (targetAllowlist→allow, pingPongTurns→maxPingPongTurns, typing→typingMode, suppressToolErrorWarnings→suppressToolErrors); Playwright Phase 2 fix; known-issues docs |
-| [docs/SOP.md](docs/SOP.md) | §9.11 lines 1267–1268: Use `tools.agentToAgent.allow`, `session.typingMode`, `session.agentToAgent.maxPingPongTurns` |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Table row Session Policy: `session.reset.*`, `session.typingMode` (not typing) |
-| [docs/USER_GUIDE.md](docs/USER_GUIDE.md) | §17: Add "No nodes with system.exe" troubleshooting |
-| [docs/uat/dashboard_smoke.md](docs/uat/dashboard_smoke.md) | Add "Known issues" with version display, no-nodes, and config schema (now resolved) |
+| [docs/SOP.md](../SOP.md) | §9.11 lines 1267–1268: Use `tools.agentToAgent.allow`, `session.typingMode`, `session.agentToAgent.maxPingPongTurns` |
+| [docs/ARCHITECTURE.md](../ARCHITECTURE.md) | Table row Session Policy: `session.reset.*`, `session.typingMode` (not typing) |
+| [docs/USER_GUIDE.md](../USER_GUIDE.md) | §17: Add "No nodes with system.exe" troubleshooting |
+| [docs/uat/dashboard_smoke.md](../uat/dashboard_smoke.md) | Add "Known issues" with version display, no-nodes, and config schema (now resolved) |
 
 ---
 

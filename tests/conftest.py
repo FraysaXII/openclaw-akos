@@ -15,7 +15,7 @@ CONFIG_DIR = REPO_ROOT / "config"
 PROMPTS_DIR = REPO_ROOT / "prompts"
 SCRIPTS_DIR = REPO_ROOT / "scripts"
 
-EXPECTED_MCP_SERVERS = {"sequential-thinking", "playwright", "github", "memory", "filesystem", "fetch", "lsp", "code-search", "akos"}
+EXPECTED_MCP_SERVERS = {"sequential-thinking", "playwright", "github", "memory", "filesystem", "fetch", "lsp", "code-search", "akos", "finance"}
 
 AUTONOMOUS_TOOLS = {
     "read_file", "list_directory", "web_search", "sequential_thinking",
@@ -23,6 +23,7 @@ AUTONOMOUS_TOOLS = {
     "git_status", "git_diff", "git_log",
     "memory_retrieve", "memory_list",
     "fetch_get", "filesystem_read", "filesystem_list",
+    "finance_quote", "finance_search", "finance_sentiment",
 }
 
 REQUIRES_APPROVAL_TOOLS = {

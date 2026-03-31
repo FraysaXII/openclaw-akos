@@ -8,7 +8,9 @@ runpod>=1.7.0
 fastapi>=0.115.0
 uvicorn>=0.32.0
 httpx>=0.27.0
-# Custom AKOS MCP server (scripts/mcp_akos_server.py)
+# Custom AKOS MCP servers (scripts/mcp_akos_server.py, scripts/finance_mcp_server.py)
 mcp>=1.0.0
+# Finance data (optional -- finance MCP degrades gracefully without it)
+yfinance>=0.2.36
 # Optional: for browser-smoke.py Playwright mode (pip install playwright && playwright install chromium)
 playwright>=1.40

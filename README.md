@@ -16,7 +16,7 @@ Out-of-the-box, OpenCLAW operates as an isolated conversational agent. This proj
 | Layer | Role | Implementation |
 |:------|:-----|:---------------|
 | **Control Plane** | Gateway daemon, FastAPI API, RunPod manager (serverless + dedicated pod), auto-failover router | `openclaw.json` + `akos/api.py` on port 8420 |
-| **Integration Layer** | Channel adapters, 8 MCP servers + gateway-enforced tool profiles | WebChat + optional Telegram, Slack, WhatsApp via `bindings` |
+| **Integration Layer** | Channel adapters, 10 MCP servers + gateway-enforced tool profiles | WebChat + optional Telegram, Slack, WhatsApp via `bindings` |
 | **Execution Layer** | 4-agent runner (Orchestrator, Architect, Executor, Verifier) | Decompose, plan, build, validate |
 | **Intelligence Layer** | Flat memory architecture, context compression | MCP Memory server, workspace files, Intelligence Matrix fact tagging |
 
@@ -44,6 +44,7 @@ This separation eliminates cognitive overload and adds a quality gate with a 3-r
 - **LSP** (`@akos/mcp-lsp-server`) -- type-aware code navigation (go-to-definition, find-references, diagnostics)
 - **Code Search** (`@akos/mcp-code-search`) -- semantic code search via ripgrep + tree-sitter
 - **Custom AKOS MCP** (`scripts/mcp_akos_server.py`) -- control plane self-check: `akos_health`, `akos_agents`, `akos_status`
+- **Finance Research MCP** (`scripts/finance_mcp_server.py`) -- read-only financial data: `finance_quote`, `finance_search`, `finance_sentiment` (yfinance + Alpha Vantage)
 - **mcporter** -- CLI and configuration manager for all MCP connections
 
 **Optional:** cursor-ide-browser (Cursor IDE built-in) for in-IDE WebChat testing; AKOS agent uses Playwright MCP.
@@ -162,6 +163,7 @@ openclaw-akos/
   akos/                             Shared orchestration library (Python)
     __init__.py                     Package marker + version (v0.5.0)
     models.py                       Pydantic schemas for all config files (incl. RunPod)
+    model_catalog.py                CatalogEntry model + load_catalog() for GPU model SSOT
     io.py                           load_json, save_json, deep_merge, AGENT_WORKSPACES (4-agent)
     log.py                          JSONFormatter + HumanFormatter, setup_logging()
     process.py                      CommandResult + run() subprocess wrapper with timeouts
@@ -175,6 +177,7 @@ openclaw-akos/
   config/
     openclaw.json.example           Gateway config template with multi-provider support
     model-tiers.json                SSOT for model classification (small/medium/large/sota)
+    model-catalog.json              SSOT for GPU-deployable models (VRAM, parsers, GPU defaults)
     mcporter.json.example           MCP server definitions (T-2.3–T-2.6)
     permissions.json                HITL policy — autonomous vs requires_approval (T-3.3)
     logging.json                    Structured JSON logging config (T-3.5)
