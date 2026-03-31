@@ -9,6 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (Runtime, Planning, and Finance UX Hardening)
+
+- **HLK planning system** — reusable personal Cursor skill (`hlk-planning-system`) plus workspace traceability rule for mirroring execution-relevant plans and reports into `docs/wip/planning/`.
+- **Finnhub-backed symbol search** in `akos/finance.py` — `finance_search` now uses Finnhub fuzzy company-name search when `FINNHUB_API_KEY` is configured, with yfinance fallback.
+- **Derived quote context** in `QuoteData` — `change_amount` and `change_percent` added for better briefing UX without changing tool names.
+- **GPU serverless model picker wiring** — `deploy_serverless` now uses the model catalog and stores active serverless infra state.
+- **Doctor runtime checks** — local Ollama readiness probe and runtime env lookup from `~/.openclaw/.env`.
+- **New test runner groups** — `telemetry` and `router` added to `scripts/test.py`.
+
+### Changed (Runtime, Planning, and Finance UX Hardening)
+
+- **Bootstrap tool translation** now preserves gateway-compatible `allow` lists from `config/openclaw.json.example` for `minimal` roles instead of injecting AKOS-only logical tool IDs.
+- **Bootstrap MCP deployment** now refreshes deployed `~/.mcporter/mcporter.json` from the resolved repo template when content drifts.
+- **Provider auth config** for `ollama` and `vllm-runpod` is now env-backed in `config/openclaw.json.example`; environment templates include the required placeholders.
+- **RunPod operator UX** in `scripts/gpu.py` now frames local vs serverless vs dedicated pod as a guided choice with cost and deployment summaries.
+- **Release gate** now includes strict inventory verification and explicit API smoke tests in addition to tests, drift, and browser smoke.
+- **Test-count references** updated from `234+` to `300+` in canonical docs and runner copy.
+
+### Fixed (Runtime, Planning, and Finance UX Hardening)
+
+- **False mcporter drift** in `check-drift.py` — compares resolved deployed content against the resolved repo template instead of flagging path-resolution differences as drift.
+- **Gateway config startup failure** when `RUNPOD_API_KEY` is newly referenced but missing from an existing `~/.openclaw/.env` — bootstrap now backfills missing env placeholders.
+- **Doctor false failure** for placeholder `VLLM_RUNPOD_URL=http://localhost:8000/v1` — now treated as not configured rather than an unreachable live endpoint.
+
 ### Added (Finance Research MCP)
 
 - **Finance MCP server** (`scripts/finance_mcp_server.py`) — read-only financial data tools (`finance_quote`, `finance_search`, `finance_sentiment`) exposed via FastMCP over stdio.

@@ -49,5 +49,30 @@ On Windows, `browser-smoke.py` isolates browser launches in subprocess workers s
 
 - **GitHub MCP:** Set `GITHUB_TOKEN` for repo metadata and future commit retrieval.
 - **Custom AKOS MCP:** Requires `pip install mcp httpx`. Bootstrap deploys with resolved path.
-- **Finance Research MCP:** Requires `pip install mcp yfinance`. Optional `ALPHA_VANTAGE_KEY` for sentiment. Bootstrap deploys with resolved path.
+- **Finance Research MCP:** Requires `pip install mcp yfinance`. Optional `ALPHA_VANTAGE_KEY` for sentiment and optional `FINNHUB_API_KEY` for better company-name search. Bootstrap deploys with resolved path.
 - **cursor-ide-browser:** Cursor IDE built-in; enable in Cursor Settings if desired. Not required for AKOS.
+
+## Workflow By Stage
+
+### Before Commit
+
+1. `py scripts/legacy/verify_openclaw_inventory.py`
+2. `py scripts/check-drift.py`
+3. `py scripts/test.py all`
+4. `py scripts/browser-smoke.py --playwright`
+5. `py -m pytest tests/test_api.py -v`
+6. `py scripts/release-gate.py`
+
+### Before PR / Merge
+
+- Confirm the working tree is clean and drift-free
+- Confirm docs were updated for any config, script, model, or rule change
+- Confirm the release gate still passes after the final rebase or merge from main
+
+### If The Gateway Seems Unhealthy
+
+1. `py scripts/doctor.py`
+2. `py scripts/check-drift.py`
+3. `openclaw gateway status`
+4. `openclaw gateway restart`
+5. If MCP behavior looks stale, re-run `py scripts/bootstrap.py --skip-ollama`
