@@ -35,13 +35,13 @@ from akos.state import ActiveInfra, AkosState, load_state, save_state
 logger = logging.getLogger("akos.gpu")
 
 _GPU_CATALOG = [
-    {"id": "NVIDIA A100-SXM4-80GB", "name": "A100 80GB SXM", "vram": 80, "price_hr": 1.64},
-    {"id": "NVIDIA A100 80GB PCIe", "name": "A100 80GB PCIe", "vram": 80, "price_hr": 1.64},
-    {"id": "NVIDIA H100 80GB HBM3", "name": "H100 80GB", "vram": 80, "price_hr": 2.69},
-    {"id": "NVIDIA H200", "name": "H200", "vram": 141, "price_hr": 3.29},
-    {"id": "NVIDIA L40S", "name": "L40S 48GB", "vram": 48, "price_hr": 0.74},
-    {"id": "NVIDIA RTX A6000", "name": "RTX A6000 48GB", "vram": 48, "price_hr": 0.53},
-    {"id": "NVIDIA GeForce RTX 4090", "name": "RTX 4090 24GB", "vram": 24, "price_hr": 0.44},
+    {"id": "NVIDIA A100-SXM4-80GB", "name": "A100 80GB SXM", "vram": 80, "price_hr": 1.64, "price_sec": 1.64 / 3600},
+    {"id": "NVIDIA A100 80GB PCIe", "name": "A100 80GB PCIe", "vram": 80, "price_hr": 1.64, "price_sec": 1.64 / 3600},
+    {"id": "NVIDIA H100 80GB HBM3", "name": "H100 80GB", "vram": 80, "price_hr": 2.69, "price_sec": 2.69 / 3600},
+    {"id": "NVIDIA H200", "name": "H200", "vram": 141, "price_hr": 3.29, "price_sec": 3.29 / 3600},
+    {"id": "NVIDIA L40S", "name": "L40S 48GB", "vram": 48, "price_hr": 0.74, "price_sec": 0.74 / 3600},
+    {"id": "NVIDIA RTX A6000", "name": "RTX A6000 48GB", "vram": 48, "price_hr": 0.53, "price_sec": 0.53 / 3600},
+    {"id": "NVIDIA GeForce RTX 4090", "name": "RTX 4090 24GB", "vram": 24, "price_hr": 0.44, "price_sec": 0.44 / 3600},
 ]
 
 
@@ -248,6 +248,63 @@ def _update_overlay_json(model: CatalogEntry) -> None:
     save_json(overlay_path, raw)
 
 
+def _update_serverless_overlay_json(model: CatalogEntry) -> None:
+    """Rewrite gpu-runpod.json to match the selected model."""
+    overlay_path = REPO_ROOT / "config" / "environments" / "gpu-runpod.json"
+    raw = load_json(overlay_path)
+    raw.setdefault("agents", {}).setdefault("defaults", {})
+    raw["agents"]["defaults"]["model"] = {
+        "primary": f"vllm-runpod/{model.servedModelName}",
+        "fallbacks": ["anthropic/claude-sonnet-4", "ollama/deepseek-r1:14b"],
+    }
+    raw["agents"]["defaults"]["thinkingDefault"] = "medium" if model.reasoning else "off"
+    runpod = raw.setdefault("runpod", {})
+    runpod["templateName"] = f"akos-vllm-{model.servedModelName}"
+    runpod["modelName"] = model.hfId
+    runpod["maxModelLen"] = model.maxModelLen
+    env = runpod.setdefault("envVars", {})
+    env["OPENAI_SERVED_MODEL_NAME_OVERRIDE"] = model.servedModelName
+    env["ENABLE_AUTO_TOOL_CHOICE"] = "true"
+    env["TOOL_CALL_PARSER"] = model.toolCallParser
+    if model.reasoningParser:
+        env["REASONING_PARSER"] = model.reasoningParser
+    else:
+        env.pop("REASONING_PARSER", None)
+    if model.chatTemplate:
+        env["CHAT_TEMPLATE"] = model.chatTemplate
+    else:
+        env.pop("CHAT_TEMPLATE", None)
+    for k, v in model.envOverrides.items():
+        env[k] = v
+    save_json(overlay_path, raw)
+
+
+def _print_completion_summary(
+    *,
+    mode: str,
+    model: CatalogEntry,
+    url: str = "",
+    gpu_type: str = "",
+    gpu_count: int = 0,
+    cost_hint: str = "",
+) -> None:
+    print()
+    print("=" * 60)
+    print(f"  Deployment Summary ({mode})")
+    print("=" * 60)
+    print(f"  Model:      {model.displayName}")
+    print(f"  HF ID:      {model.hfId}")
+    if gpu_type:
+        print(f"  GPU:        {gpu_type} x{gpu_count}")
+    if url:
+        print(f"  URL:        {url}")
+    if cost_hint:
+        print(f"  Cost:       {cost_hint}")
+    print(f"  Reasoning:  {'yes' if model.reasoning else 'no'}")
+    print("  Next:       open the OpenClaw dashboard and send a message.")
+    print("=" * 60)
+
+
 def deploy_pod(*, dry_run: bool = False) -> int:
     print()
     print("=" * 60)
@@ -409,7 +466,16 @@ def deploy_serverless(*, dry_run: bool = False) -> int:
         print("  No API key. Aborting.")
         return 1
 
+    catalog = load_catalog()
+    model = _pick_model(catalog)
+    _update_serverless_overlay_json(model)
+
     if dry_run:
+        _print_completion_summary(
+            mode="Serverless endpoint",
+            model=model,
+            cost_hint="pay-per-request / no idle cost",
+        )
         print("  [DRY-RUN] Would run: py scripts/switch-model.py gpu-runpod")
         return 0
 
@@ -419,7 +485,28 @@ def deploy_serverless(*, dry_run: bool = False) -> int:
         timeout=120,
         capture=False,
     )
-    return 0 if result.success else 1
+    if not result.success:
+        return 1
+
+    oc_home = resolve_openclaw_home()
+    env = load_env_file(oc_home / ".env")
+    state = load_state(oc_home)
+    state.activeInfra = ActiveInfra(
+        type="serverless",
+        endpointId=env.get("RUNPOD_ENDPOINT_ID", ""),
+        url=env.get("VLLM_RUNPOD_URL", ""),
+        modelName=model.hfId,
+    )
+    save_state(oc_home, state)
+    _ensure_env_placeholders(oc_home)
+
+    _print_completion_summary(
+        mode="Serverless endpoint",
+        model=model,
+        url=env.get("VLLM_RUNPOD_URL", ""),
+        cost_hint="pay-per-request / no idle cost",
+    )
+    return 0
 
 
 def check_status() -> int:
@@ -518,8 +605,16 @@ def interactive_menu(*, dry_run: bool = False) -> int:
     print()
     print(f"  Current: {env_name} ({model_name})")
     print()
-    print("  1. Deploy dedicated pod    (RunPod pod + vLLM)")
-    print("  2. Deploy serverless       (RunPod auto-scaling)")
+    print("  How do you want to run your model?")
+    print()
+    print("  1. Dedicated Pod     Always-on GPU, fixed cost, fastest cold start")
+    print("                       Best for: development, testing, sustained workloads")
+    print("                       Billing: see GPU picker hourly estimate")
+    print()
+    print("  2. Serverless        Auto-scaled, pay-per-request, zero idle cost")
+    print("                       Best for: intermittent usage and production entry points")
+    print("                       Billing: request-driven; no idle pod cost")
+    print()
     print("  3. Check status            (health of GPU infra)")
     print("  4. Tear down               (stop pod, save money)")
     print("  5. Switch to local         (Ollama dev-local)")

@@ -91,7 +91,7 @@ Deploy RunPod dedicated pods or serverless endpoints with a single command — n
 py scripts/gpu.py
 ```
 
-The interactive CLI creates/manages pods via the `PodManager` REST API, auto-generates vLLM launch commands via `PodConfig.build_vllm_command()`, and derives `TENSOR_PARALLEL_SIZE` from `gpuCount` to avoid world-size errors. Idempotent: reuses an existing pod if one is already running. `ActiveInfra` state tracks what's running (pod/serverless/local).
+The interactive CLI guides you through choosing **local**, **RunPod serverless endpoint**, or **RunPod dedicated pod**, then auto-generates the right configuration from the model catalog. It manages pods via the `PodManager` REST API, auto-generates vLLM launch commands via `PodConfig.build_vllm_command()`, and derives `TENSOR_PARALLEL_SIZE` from `gpuCount` to avoid world-size errors. Idempotent: reuses an existing pod if one is already running. `ActiveInfra` state tracks what's running (pod/serverless/local).
 
 ### Switching Models / Environments
 
@@ -302,7 +302,7 @@ Langfuse traces are tagged with the active environment name (e.g. `gpu-runpod`, 
 # Install dependencies (pydantic is required; langfuse is optional)
 pip install -r requirements.txt
 
-# Full suite (234+ tests) -- pyproject.toml configures discovery
+# Full suite (300+ tests) -- pyproject.toml configures discovery
 py -m pytest -v
 
 # Individual batches

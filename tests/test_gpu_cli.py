@@ -214,6 +214,18 @@ class TestOverlayWiring:
         assert data["agents"]["defaults"]["thinkingDefault"] == "off"
         assert "llama-3.1-8b" in data["agents"]["defaults"]["model"]["primary"]
 
+    def test_serverless_overlay_wiring(self, tmp_path, deepseek_entry):
+        from scripts.gpu import _update_serverless_overlay_json
+        with patch("scripts.gpu.REPO_ROOT", tmp_path):
+            (tmp_path / "config" / "environments").mkdir(parents=True)
+            target = tmp_path / "config" / "environments" / "gpu-runpod.json"
+            target.write_text(json.dumps({"agents": {"defaults": {}}, "runpod": {"envVars": {}}}), encoding="utf-8")
+            _update_serverless_overlay_json(deepseek_entry)
+            data = json.loads(target.read_text(encoding="utf-8"))
+        assert data["agents"]["defaults"]["thinkingDefault"] == "medium"
+        assert data["runpod"]["modelName"] == deepseek_entry.hfId
+        assert data["runpod"]["envVars"]["TOOL_CALL_PARSER"] == "deepseek_v3"
+
 
 # ── _apply_catalog_to_pod_config ─────────────────────────────────────
 
@@ -363,6 +375,61 @@ class TestDeployPodMocked:
             result = deploy_pod(dry_run=True)
 
         assert result == 0
+
+
+class TestDeployServerlessMocked:
+    @patch("scripts.gpu.save_state")
+    @patch("scripts.gpu.load_state")
+    @patch("scripts.gpu._update_serverless_overlay_json")
+    @patch("scripts.gpu._pick_model")
+    @patch("scripts.gpu.load_catalog")
+    @patch("scripts.gpu._ensure_api_key", return_value="rp_test_key")
+    def test_serverless_dry_run(
+        self, mock_api, mock_catalog, mock_pick_model, mock_update, mock_load_state, mock_save_state
+    ):
+        entry = CatalogEntry(
+            hfId="test/Model-70B", displayName="Test 70B", family="test",
+            paramsBillions=70, vramGb=140, toolCallParser="hermes",
+            servedModelName="test-70b", defaultGpu=GpuDefault(type="A100", count=2),
+        )
+        mock_catalog.return_value = [entry]
+        mock_pick_model.return_value = entry
+        from scripts.gpu import deploy_serverless
+        result = deploy_serverless(dry_run=True)
+        assert result == 0
+        mock_update.assert_called_once()
+
+    @patch("scripts.gpu.save_state")
+    @patch("scripts.gpu.load_state")
+    @patch("scripts.gpu._ensure_env_placeholders")
+    @patch("scripts.gpu._update_serverless_overlay_json")
+    @patch("scripts.gpu._pick_model")
+    @patch("scripts.gpu.load_catalog")
+    @patch("scripts.gpu._ensure_api_key", return_value="rp_test_key")
+    def test_serverless_sets_active_infra(
+        self, mock_api, mock_catalog, mock_pick_model, mock_update, mock_placeholders, mock_load_state, mock_save_state, tmp_path
+    ):
+        entry = CatalogEntry(
+            hfId="test/Model-70B", displayName="Test 70B", family="test",
+            paramsBillions=70, vramGb=140, toolCallParser="hermes",
+            servedModelName="test-70b", defaultGpu=GpuDefault(type="A100", count=2),
+        )
+        mock_catalog.return_value = [entry]
+        mock_pick_model.return_value = entry
+        mock_load_state.return_value = MagicMock(activeInfra=ActiveInfra())
+        tmp_oc = tmp_path / ".openclaw"
+        env_file = tmp_oc / ".env"
+        env_file.parent.mkdir(parents=True, exist_ok=True)
+        env_file.write_text("RUNPOD_ENDPOINT_ID=ep-123\nVLLM_RUNPOD_URL=https://api.runpod.ai/v2/ep-123/openai/v1\n", encoding="utf-8")
+        with patch("scripts.gpu.resolve_openclaw_home", return_value=tmp_oc), \
+             patch("scripts.gpu.load_env_file", return_value={"RUNPOD_ENDPOINT_ID": "ep-123", "VLLM_RUNPOD_URL": "https://api.runpod.ai/v2/ep-123/openai/v1"}), \
+             patch("akos.process.run", return_value=MagicMock(success=True)):
+            from scripts.gpu import deploy_serverless
+            result = deploy_serverless(dry_run=False)
+        assert result == 0
+        saved = mock_save_state.call_args[0][1]
+        assert saved.activeInfra.type == "serverless"
+        assert saved.activeInfra.endpointId == "ep-123"
 
 
 # ── Teardown (mocked) ───────────────────────────────────────────────
