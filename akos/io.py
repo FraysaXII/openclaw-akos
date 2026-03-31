@@ -107,6 +107,9 @@ def resolve_mcporter_paths(config_text: str, repo_root: Path | None = None) -> s
     Text-based (not dict-based) to preserve ``_note`` keys, formatting, and
     key ordering.  Idempotent: returns the input unchanged when no placeholders
     remain.  Longest match is replaced first to avoid partial substitution.
+
+    Any repo-local ``scripts/<name>.py`` reference is resolved to an absolute
+    path under *repo_root* so that bootstrap works for all custom MCP servers.
     """
     import re as _re
 
@@ -114,16 +117,18 @@ def resolve_mcporter_paths(config_text: str, repo_root: Path | None = None) -> s
     oc_home = resolve_openclaw_home()
     ws = (oc_home / "workspace").as_posix()
     exports = (oc_home / "workspace" / "exports").as_posix()
-    akos_script = (root / "scripts" / "mcp_akos_server.py").as_posix()
 
     result = config_text
     result = result.replace("/opt/openclaw/workspace/exports", exports)
     result = result.replace("/opt/openclaw/workspace", ws)
-    # Only replace the relative path when it is NOT already part of an absolute path.
-    # Match "scripts/mcp_akos_server.py" only when NOT preceded by / or a drive letter.
+
+    def _resolve_script(match: _re.Match[str]) -> str:
+        script_name = match.group(1)
+        return (root / "scripts" / script_name).as_posix()
+
     result = _re.sub(
-        r'(?<![/\\A-Za-z])scripts/mcp_akos_server\.py',
-        akos_script,
+        r'(?<![/\\A-Za-z])scripts/(\w+\.py)',
+        _resolve_script,
         result,
     )
     return result

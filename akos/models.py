@@ -1,12 +1,14 @@
 """Pydantic models for all AKOS configuration schemas.
 
 Provides runtime type safety, JSON Schema generation, and validation
-for model-tiers.json, openclaw.json, environment overlays, alerts, and baselines.
+for model-tiers.json, openclaw.json, environment overlays, alerts,
+baselines, and finance response envelopes.
 """
 
 from __future__ import annotations
 
 import warnings
+from datetime import datetime
 from pathlib import Path
 from typing import Literal
 
@@ -252,7 +254,8 @@ class PodConfig(BaseModel):
     maxModelLen: int = Field(default=131072, gt=0)
     gpuType: str = Field(default="NVIDIA A100-SXM4-80GB", description="RunPod GPU type ID for pod creation")
     gpuCount: int = Field(default=2, ge=1, description="Number of GPUs; also sets tensor-parallel-size")
-    containerImage: str = Field(default="runpod/pytorch:2.8.0-py3.11-cuda12.8.1-devel-ubuntu22.04")
+    containerImage: str = Field(default="vllm/vllm-openai:latest")
+    containerDiskGb: int = Field(default=100, ge=20)
     volumeGb: int = Field(default=200, ge=50)
 
     @model_validator(mode="after")
@@ -262,15 +265,18 @@ class PodConfig(BaseModel):
         return self
 
     def build_vllm_command(self) -> list[str]:
-        """Build the vLLM launch command as a list for dockerStartCmd."""
+        """Build CMD args for the ``vllm/vllm-openai`` container image.
+
+        The image has ``ENTRYPOINT ["python3", "-m", "vllm.entrypoints.openai.api_server"]``,
+        so dockerStartCmd must be ``["--model", "<hf_id>", "--host", ...]``.
+        """
         env = self.envVars
         args = [
-            "python", "-m", "vllm.entrypoints.openai.api_server",
             "--model", self.modelName,
             "--host", "0.0.0.0",
             "--port", str(self.vllmPort),
             "--max-model-len", str(self.maxModelLen),
-            "--served-model-name", env.get("OPENAI_SERVED_MODEL_NAME_OVERRIDE", "deepseek-r1-70b"),
+            "--served-model-name", env.get("OPENAI_SERVED_MODEL_NAME_OVERRIDE", self.modelName.split("/")[-1]),
             "--dtype", env.get("DTYPE", "bfloat16"),
             "--gpu-memory-utilization", env.get("GPU_MEMORY_UTILIZATION", "0.92"),
             "--kv-cache-dtype", env.get("KV_CACHE_DTYPE", "fp8"),
@@ -284,6 +290,10 @@ class PodConfig(BaseModel):
             args.append("--enable-auto-tool-choice")
             if env.get("TOOL_CALL_PARSER"):
                 args.extend(["--tool-call-parser", env["TOOL_CALL_PARSER"]])
+        if env.get("REASONING_PARSER"):
+            args.extend(["--reasoning-parser", env["REASONING_PARSER"]])
+        if env.get("CHAT_TEMPLATE"):
+            args.extend(["--chat-template", env["CHAT_TEMPLATE"]])
         args.extend(["--max-num-seqs", env.get("MAX_NUM_SEQS", "128")])
         return args
 
@@ -344,6 +354,62 @@ class Baseline(BaseModel):
         if check is None:
             return True
         return check(value, self.target_value)
+
+
+# ── Finance Response Envelope ───────────────────────────────────────────
+
+FinanceStatus = Literal["ok", "degraded", "not_found", "rate_limited", "error"]
+
+
+class QuoteData(BaseModel):
+    """Normalized quote bundle returned by finance_quote."""
+
+    ticker: str
+    last_price: float | None = None
+    day_high: float | None = None
+    day_low: float | None = None
+    open_price: float | None = None
+    previous_close: float | None = None
+    volume: int | None = None
+    market_cap: float | None = None
+    currency: str = "USD"
+    exchange: str = ""
+
+
+class SearchResult(BaseModel):
+    """A single ticker match returned by finance_search."""
+
+    ticker: str
+    name: str
+    exchange: str = ""
+    asset_type: str = ""
+
+
+class SentimentItem(BaseModel):
+    """A single sentiment entry from news analysis."""
+
+    headline: str
+    sentiment: str = ""
+    relevance: float | None = None
+    source: str = ""
+
+
+class FinanceResponse(BaseModel):
+    """Schema-locked envelope for all finance tool responses.
+
+    The MCP server serialises this to JSON; the agent turns it into
+    natural language.  Tests and the service layer share this contract.
+    """
+
+    status: FinanceStatus
+    source: str = ""
+    as_of: datetime | None = None
+    freshness: str = ""
+    warnings: list[str] = Field(default_factory=list)
+    quotes: list[QuoteData] | None = None
+    search_results: list[SearchResult] | None = None
+    sentiment: list[SentimentItem] | None = None
+    error_detail: str = ""
 
 
 # ── Helpers for loading validated configs ───────────────────────────────

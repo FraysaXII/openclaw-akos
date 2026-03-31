@@ -26,10 +26,10 @@ Use these rules whenever planning or executing work in this repo (all agent mode
 
 - **Reuse/extension only (no duplication)**
   - Extend these existing contracts **instead of** creating sidecars:
-    - `akos/` helpers (I/O, logging, process, models, policy).
+    - `akos/` helpers (I/O, logging, process, models, model_catalog, finance, policy).
     - `scripts/bootstrap.py`, `scripts/doctor.py`, `scripts/check-drift.py`,
       `scripts/release-gate.py`, `scripts/browser-smoke.py`,
-      `scripts/legacy/verify_openclaw_inventory.py`.
+      `scripts/gpu.py`, `scripts/legacy/verify_openclaw_inventory.py`.
     - `config/openclaw.json.example` and the responsibility matrix in `docs/ARCHITECTURE.md`.
   - Do **not**:
     - Add parallel inventory, runtime-status, or logging frameworks.

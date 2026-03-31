@@ -305,6 +305,10 @@ class TestResolveMcporterPaths:
         '    "akos": {\n'
         '      "args": ["scripts/mcp_akos_server.py"],\n'
         '      "_note": "Custom AKOS MCP"\n'
+        '    },\n'
+        '    "finance": {\n'
+        '      "args": ["scripts/finance_mcp_server.py"],\n'
+        '      "_note": "Finance research MCP"\n'
         '    }\n'
         '  }\n'
         '}'
@@ -316,6 +320,10 @@ class TestResolveMcporterPaths:
         assert "/opt/openclaw/workspace" not in result
         assert "scripts/mcp_akos_server.py" not in result or "/" in result.split("scripts/mcp_akos_server.py")[0]
 
+    def test_resolves_all_repo_scripts(self):
+        result = resolve_mcporter_paths(self.TEMPLATE)
+        assert "scripts/finance_mcp_server.py" not in result or "/" in result.split("scripts/finance_mcp_server.py")[0]
+
     def test_idempotent(self):
         first = resolve_mcporter_paths(self.TEMPLATE)
         second = resolve_mcporter_paths(first)
@@ -324,6 +332,7 @@ class TestResolveMcporterPaths:
     def test_preserves_note_keys(self):
         result = resolve_mcporter_paths(self.TEMPLATE)
         assert '"_note": "Custom AKOS MCP"' in result
+        assert '"_note": "Finance research MCP"' in result
 
 
 class TestSessionConfigExampleAlignment:

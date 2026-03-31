@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (Finance Research MCP)
+
+- **Finance MCP server** (`scripts/finance_mcp_server.py`) — read-only financial data tools (`finance_quote`, `finance_search`, `finance_sentiment`) exposed via FastMCP over stdio.
+- **`akos/finance.py`** — `FinanceService` with yfinance + Alpha Vantage backends, TTL caching (60s quotes, 300s sentiment), graceful degradation when backends or API keys are absent.
+- **Finance response envelope** (`FinanceResponse`, `QuoteData`, `SearchResult`, `SentimentItem`) in `akos/models.py` — schema-locked Pydantic models shared by the MCP server and tests.
+- **Generalized `resolve_mcporter_paths()`** in `akos/io.py` — now resolves any repo-local `scripts/*.py` MCP server path during bootstrap (not just `mcp_akos_server.py`).
+- **`yfinance>=0.2.36`** added to `requirements.txt` (optional — finance MCP degrades gracefully without it).
+- Finance tool IDs (`finance_quote`, `finance_search`, `finance_sentiment`) added to `config/permissions.json` (autonomous) and `config/agent-capabilities.json` (all four roles).
+
 ### Added (RunPod + Langfuse Production Overhaul — Phases 0-5)
 
 - **GPU Infrastructure CLI** (`scripts/gpu.py`) for zero-copy-paste RunPod pod/serverless deployment, PodManager REST API, auto tensor-parallel-size, activeInfra state tracking.
@@ -22,6 +31,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`check_langfuse_readiness()`** in `doctor.py` — validates credentials and SDK init (Phase 4).
 - **`tests/test_telemetry.py`** — 14 tests covering init, trace_request, trace_startup_compliance, trace_alert, trace_metric, normalize_env, flush (Phase 5).
 - **`tests/test_router.py`** — 10 tests covering failover threshold, recovery, and multi-provider routing (Phase 5).
+
+### Added (Model Catalog + vLLM Image Overhaul)
+
+- **Model Catalog** (`config/model-catalog.json`, `akos/model_catalog.py`) — SSOT for GPU-deployable models mapping HuggingFace IDs to VRAM, parsers, GPU defaults. 8 models: DeepSeek R1 70B, DeepSeek V3, Llama 3.1 70B/8B, QwQ 32B, Qwen 2.5 72B, Mistral Large 123B, Hermes 3 70B.
+- **Interactive model picker** in `scripts/gpu.py deploy-pod` — numbered model/GPU selection driven by catalog VRAM data, replaces hardcoded 70B-only logic.
+- **`_ensure_env_placeholders()`** in `scripts/gpu.py` — re-asserts placeholder env vars after deployment so OpenClaw `${VAR}` substitution never crashes on empty values.
+- **`_upsert_env_line()`** — generic env file insert-or-update helper, replaces inline `.env` manipulation in deploy flow.
+
+### Changed (Model Catalog + vLLM Image Overhaul)
+
+- **Container image** changed from `runpod/pytorch:2.8.0-py3.11-cuda12.8.1-devel-ubuntu22.04` to `vllm/vllm-openai:latest` — image ENTRYPOINT handles `python -m vllm.entrypoints.openai.api_server`, so `dockerStartCmd` now passes only CLI flags.
+- **`PodConfig.containerDiskGb`** added (default 100, min 20) for explicit container disk sizing.
+- **`build_vllm_command()`** no longer emits `python -m ...` prefix; `--served-model-name` auto-derives from `modelName.split("/")[-1]`; conditional `--reasoning-parser` and `--chat-template` flags added.
+- **`PodManager.create_pod()`** default image and container disk updated to match new image.
+- **`MAX_MODEL_LEN`** default reduced to 32768 in `gpu-runpod-pod.json` for reliable 2x A100-80GB operation with fp8 KV cache.
+- **vLLM health probe** now sends `User-Agent: akos-gpu-cli/1.0` and `Accept: application/json` headers for reverse proxy compatibility.
+- **Env placeholder values** hardened: `OLLAMA_GPU_URL` defaults to `http://localhost:11434` (was empty), `VLLM_RUNPOD_URL` defaults to `http://localhost:8000/v1` (was empty) in all `.env.example` files.
+- **Env loading** in `gpu.py` now filters empty values (`if v:` guard) to prevent overwriting real credentials with blanks.
+- **Deploy flow** uses `_save_key_to_env()` for both repo and `~/.openclaw/.env` writes, replacing inline file manipulation.
 
 ### Fixed (RunPod + Langfuse Production Overhaul — Phase 0)
 

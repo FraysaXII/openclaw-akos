@@ -78,6 +78,14 @@
         "AKOS_API_URL": "http://127.0.0.1:8420"
       },
       "_note": "Custom AKOS MCP. Exposes akos_health, akos_agents, akos_status. Requires: pip install mcp httpx. Cwd must be AKOS repo root."
+    },
+    "finance": {
+      "command": "python",
+      "args": ["scripts/finance_mcp_server.py"],
+      "env": {
+        "ALPHA_VANTAGE_KEY": "${ALPHA_VANTAGE_KEY}"
+      },
+      "_note": "Finance research MCP. Exposes finance_quote, finance_search, finance_sentiment. Requires: pip install mcp yfinance. ALPHA_VANTAGE_KEY is optional (sentiment degrades gracefully)."
     }
   }
 }
