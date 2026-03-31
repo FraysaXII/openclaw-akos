@@ -1,0 +1,39 @@
+---
+description: Workspace-only planning traceability for roadmap, phase-plan, and report markdown
+globs:
+  - "docs/wip/**/*.md"
+  - ".cursor/**/*.md"
+  - "**/*.plan.md"
+alwaysApply: false
+---
+
+# AKOS Planning Traceability
+
+Use this rule when creating or updating roadmap, phase-plan, or execution-report markdown for this workspace.
+
+## Traceability Contract
+
+- When a roadmap or phase plan becomes execution-relevant, keep a workspace copy under `docs/wip/planning/<initiative-slug>/`.
+- Keep the copy non-canonical unless the user explicitly says the `docs/wip` copy is now the main source.
+- Store the main planning copy as:
+  - `docs/wip/planning/<initiative-slug>/master-roadmap.md`
+  - or `docs/wip/planning/<initiative-slug>/phase-<n>-plan.md`
+- Store progress or completion notes beside it as:
+  - `docs/wip/planning/<initiative-slug>/reports/phase-<n>-report.md`
+
+## Scope Split
+
+- General HLK planning method belongs in the personal skill `hlk-planning-system`.
+- This rule is only for AKOS workspace traceability and naming.
+
+## Naming Guidance
+
+- Use lowercase kebab-case initiative slugs.
+- Prefer one folder per initiative.
+- Avoid dumping unrelated plan files directly in `docs/wip/`.
+
+## Quality Checks
+
+- Reference the original source plan path in the copied markdown.
+- Keep copied plans and reports synchronized when execution materially changes the plan.
+- Do not treat `docs/wip` copies as release docs.

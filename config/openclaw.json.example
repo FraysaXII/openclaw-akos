@@ -7,7 +7,7 @@
     "providers": {
       "ollama": {
         "baseUrl": "http://127.0.0.1:11434",
-        "apiKey": "ollama-local",
+        "apiKey": "${OLLAMA_API_KEY}",
         "api": "ollama",
         "models": [
           {
@@ -75,6 +75,7 @@
       },
       "vllm-runpod": {
         "baseUrl": "${VLLM_RUNPOD_URL}",
+        "apiKey": "${RUNPOD_API_KEY}",
         "api": "openai-completions",
         "models": [
           {
@@ -116,7 +117,7 @@
         },
         "tools": {
           "profile": "minimal",
-          "allow": ["web_search", "memory_store", "memory_retrieve", "memory_list"]
+          "allow": ["web_search", "memory_store", "memory_retrieve", "memory_list", "finance_search", "finance_quote", "finance_sentiment"]
         }
       },
       {
@@ -130,7 +131,7 @@
         },
         "tools": {
           "profile": "minimal",
-          "allow": ["web_search", "memory_retrieve", "browser_snapshot", "browser_screenshot"]
+          "allow": ["web_search", "memory_retrieve", "browser_snapshot", "browser_screenshot", "finance_search", "finance_quote", "finance_sentiment"]
         }
       },
       {

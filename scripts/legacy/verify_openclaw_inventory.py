@@ -22,7 +22,7 @@ EXPECTED = {
     # exact A2A allowlist expected
     "a2a_allow": {"orchestrator", "architect", "executor", "verifier"},
     # optional: expected default model string
-    "default_primary_model": "ollama/deepseek-r1:14b",
+    "default_primary_model": "ollama/qwen3:8b",
 }
 
 LEGACY_KEYS_SHOULD_NOT_EXIST = [

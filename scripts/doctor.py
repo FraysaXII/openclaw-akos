@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import shutil
 import sys
 import urllib.error
@@ -207,10 +208,56 @@ def check_mcporter() -> tuple[str, str]:
     return "FAIL", f"mcporter.json not found (expected {mcporter_path})"
 
 
+def _runtime_env_value(key: str, oc_home: Path) -> str:
+    """Read a runtime env var from process env first, then ~/.openclaw/.env."""
+    value = os.environ.get(key, "")
+    if value:
+        return value
+    env_path = oc_home / ".env"
+    if env_path.is_file():
+        from akos.io import load_env_file
+
+        return load_env_file(env_path).get(key, "")
+    return ""
+
+
+def check_ollama_readiness(oc_home: Path) -> list[tuple[str, str]]:
+    """Check local Ollama availability when the active model uses ollama."""
+    results: list[tuple[str, str]] = []
+    oc_config = oc_home / "openclaw.json"
+    if not oc_config.is_file():
+        return results
+    try:
+        cfg = load_json(oc_config)
+    except (json.JSONDecodeError, OSError):
+        return [("WARN", "Ollama readiness skipped: openclaw.json unreadable")]
+
+    primary = (
+        cfg.get("agents", {})
+        .get("defaults", {})
+        .get("model", {})
+        .get("primary", "")
+    )
+    if not isinstance(primary, str) or not primary.startswith("ollama/"):
+        return results
+
+    try:
+        req = urllib.request.Request("http://127.0.0.1:11434/api/tags", method="GET")
+        with urllib.request.urlopen(req, timeout=5):
+            return [("PASS", "Local Ollama reachable at http://127.0.0.1:11434")]
+    except (urllib.error.URLError, OSError):
+        return [(
+            "WARN",
+            "Local Ollama not reachable at http://127.0.0.1:11434 "
+            "(the gateway may still run if it already knows the configured model, "
+            "but provider discovery and local inference can degrade)",
+        )]
+
+
 def check_runpod_readiness() -> list[tuple[str, str]]:
     """Check RunPod/vLLM readiness: API key, endpoint, or direct pod health."""
-    import os
     results: list[tuple[str, str]] = []
+    oc_home = resolve_openclaw_home()
 
     gpu_config = REPO_ROOT / "config" / "environments" / "gpu-runpod.json"
     pod_config = REPO_ROOT / "config" / "environments" / "gpu-runpod-pod.json"
@@ -222,14 +269,18 @@ def check_runpod_readiness() -> list[tuple[str, str]]:
         results.append(("WARN", "No RunPod config found (optional for local-only)"))
         return results
 
-    api_key = os.environ.get("RUNPOD_API_KEY", "")
+    api_key = _runtime_env_value("RUNPOD_API_KEY", oc_home)
     if api_key and api_key != "YOUR_RUNPOD_API_KEY":
         results.append(("PASS", "RUNPOD_API_KEY is set"))
     else:
         results.append(("SKIP", "RUNPOD_API_KEY not set (required for serverless only)"))
 
-    vllm_url = os.environ.get("VLLM_RUNPOD_URL", "")
-    if vllm_url and vllm_url != "http://YOUR_POD_IP:8000/v1":
+    vllm_url = _runtime_env_value("VLLM_RUNPOD_URL", oc_home)
+    placeholder_urls = {
+        "http://YOUR_POD_IP:8000/v1",
+        "http://localhost:8000/v1",
+    }
+    if vllm_url and vllm_url not in placeholder_urls:
         from akos.runpod_provider import RunPodProvider
         probe = RunPodProvider.probe_vllm_health(vllm_url, timeout=5.0)
         if probe.healthy:
@@ -368,6 +419,7 @@ def run_doctor() -> list[tuple[str, str]]:
     results.extend(check_workspaces(oc_home))
     results.extend(check_soul_md(oc_home))
     results.append(check_mcporter())
+    results.extend(check_ollama_readiness(oc_home))
     results.extend(check_gateway_tool_config(oc_home))
     results.extend(check_runpod_readiness())
     results.extend(check_langfuse_readiness())

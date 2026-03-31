@@ -33,6 +33,7 @@ from akos.io import (
     deploy_scaffold_files,
     deploy_soul_prompts,
     get_variant_for_model,
+    load_env_file,
     load_json,
     resolve_mcporter_paths,
     resolve_openclaw_home,
@@ -73,10 +74,14 @@ def _sync_tool_profiles_from_capability_matrix(merged: dict) -> None:
             continue
 
         profile = _categories_to_profile(policy.allowed_categories)
+        existing_tools = agent.get("tools") or {}
         tools_block: dict[str, object] = {"profile": profile}
 
-        if policy.allowed_tools and profile == "minimal":
-            tools_block["allow"] = policy.allowed_tools
+        # Preserve the gateway-compatible allow list curated in the template.
+        # The capability matrix remains the AKOS audit/policy SSOT, but its
+        # logical tool IDs are not always valid runtime OpenClaw tool names.
+        if profile == "minimal" and existing_tools.get("allow"):
+            tools_block["allow"] = existing_tools["allow"]
         if policy.denied_tools:
             tools_block["deny"] = policy.denied_tools
 
@@ -232,6 +237,26 @@ def _seed_env_file_if_missing(oc_home: Path) -> None:
     )
 
 
+def _backfill_env_placeholders(oc_home: Path) -> None:
+    """Ensure existing ~/.openclaw/.env contains all placeholder vars from dev-local template."""
+    env_dest = oc_home / ".env"
+    default_env = REPO_ROOT / "config" / "environments" / "dev-local.env.example"
+    if not env_dest.exists() or not default_env.exists():
+        return
+
+    current = load_env_file(env_dest)
+    defaults = load_env_file(default_env)
+    added = 0
+    lines = env_dest.read_text(encoding="utf-8").splitlines()
+    for key, value in defaults.items():
+        if key not in current or current[key] == "":
+            lines.append(f"{key}={value}")
+            added += 1
+    if added:
+        env_dest.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        status("PASS", f"Backfilled {added} missing env placeholder(s) into {env_dest}")
+
+
 def _extract_akos_keys(config: dict) -> dict:
     """Remove AKOS-specific keys that OpenClaw doesn't recognize and return them
     as a separate dict for sidecar storage."""
@@ -295,6 +320,7 @@ def phase_config(args: argparse.Namespace) -> bool:
         for issue in unresolved_inputs:
             status("WARN", f"Provider input unresolved (provider retained): {issue}")
         _seed_env_file_if_missing(oc_home)
+        _backfill_env_placeholders(oc_home)
     else:
         status("PASS", "All provider env-backed inputs resolved or intentionally empty")
 
@@ -344,23 +370,32 @@ def phase_mcp(args: argparse.Namespace) -> bool:
     mcporter_dir = Path.home() / ".mcporter"
     mcporter_config = mcporter_dir / "mcporter.json"
 
-    if mcporter_config.exists():
-        raw = mcporter_config.read_text(encoding="utf-8")
-        resolved = resolve_mcporter_paths(raw)
-        if raw != resolved:
-            mcporter_config.write_text(resolved, encoding="utf-8")
-            status("PASS", f"Re-resolved mcporter.json paths at {mcporter_config}")
-        else:
-            status("SKIP", f"mcporter.json already resolved at {mcporter_config}")
-    elif MCPORTER_EXAMPLE.exists():
-        mcporter_dir.mkdir(parents=True, exist_ok=True)
+    if MCPORTER_EXAMPLE.exists():
         raw_text = MCPORTER_EXAMPLE.read_text(encoding="utf-8")
         resolved_text = resolve_mcporter_paths(raw_text)
-        mcporter_config.write_text(resolved_text, encoding="utf-8")
-        status("PASS", f"Deployed mcporter.json (paths resolved) to {mcporter_config}")
+        if mcporter_config.exists():
+            existing = mcporter_config.read_text(encoding="utf-8")
+            if existing != resolved_text:
+                mcporter_dir.mkdir(parents=True, exist_ok=True)
+                mcporter_config.write_text(resolved_text, encoding="utf-8")
+                status("PASS", f"Refreshed mcporter.json from repo template at {mcporter_config}")
+            else:
+                status("SKIP", f"mcporter.json already matches resolved repo template at {mcporter_config}")
+        else:
+            mcporter_dir.mkdir(parents=True, exist_ok=True)
+            mcporter_config.write_text(resolved_text, encoding="utf-8")
+            status("PASS", f"Deployed mcporter.json (paths resolved) to {mcporter_config}")
     else:
+        if mcporter_config.exists():
+            raw = mcporter_config.read_text(encoding="utf-8")
+            resolved = resolve_mcporter_paths(raw)
+            if raw != resolved:
+                mcporter_config.write_text(resolved, encoding="utf-8")
+                status("PASS", f"Re-resolved mcporter.json paths at {mcporter_config}")
+            else:
+                status("SKIP", f"mcporter.json already resolved at {mcporter_config}")
+    if not MCPORTER_EXAMPLE.exists() and not mcporter_config.exists():
         status("WARN", "mcporter.json.example not found in repo; skipping MCP config")
-
     return True
 
 
