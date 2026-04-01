@@ -136,6 +136,32 @@ Research was promoted from a function under People to a formal top-level area. T
 
 When ingesting SOPs into `process_list.csv`, use the canonical `role_name` from the right column. If a new role is genuinely needed, add it to `baseline_organisation.csv` first.
 
+## Config Template Convention (`.example` vs direct canonical)
+
+AKOS and HLK use two different conventions for config files, both valid for their specific purpose:
+
+### AKOS convention: `.example` suffix
+
+Files like `openclaw.json.example`, `mcporter.json.example`, and `*.env.example` use the `.example` suffix because they contain `${VAR}` placeholders for secrets and environment-specific values. They are NOT optional examples -- they are the **canonical committed templates** that bootstrap translates into runtime files. The `.example` suffix signals "contains placeholders, not real credentials."
+
+These files are:
+- **Canonical templates**: the SSOT for gateway, MCP, and environment configuration
+- **Bootstrap inputs**: `scripts/bootstrap.py` reads them and produces runtime files
+- **Drift targets**: `scripts/check-drift.py` compares runtime against them
+- **Test fixtures**: `tests/validate_configs.py` validates them
+
+They should NOT be confused with disposable samples. They are governed artifacts.
+
+### HLK convention: direct canonical (no `.example` suffix)
+
+HLK compliance baselines (`baseline_organisation.csv`, `process_list.csv`, taxonomy docs) do NOT use the `.example` suffix because they contain no secrets and are directly the canonical authored truth. This is the preferred convention for any file that does not require credential placeholder substitution.
+
+### Rule
+
+- Use `.example` suffix ONLY when the file contains `${VAR}` credential placeholders that must not be committed with real values.
+- Use direct naming (no suffix) for all other canonical files.
+- Never treat an `.example` file as optional or disposable -- in AKOS, it is the committed SSOT template.
+
 ## Sync Discipline
 
 - Do not start bulk sync automation until this contract, the compliance taxonomy, and the stable-key policy are frozen.

@@ -631,8 +631,8 @@ For runtime-facing work, AKOS uses a layered SSOT chain:
 
 | Layer | File | Role |
 |:------|:-----|:-----|
-| Repo gateway intent | `config/openclaw.json.example` | Canonical gateway template in git |
-| Repo MCP intent | `config/mcporter.json.example` | Canonical MCP server template in git |
+| Repo gateway intent | `config/openclaw.json.example` | Canonical gateway template in git (`.example` suffix = contains `${VAR}` credential placeholders, not optional) |
+| Repo MCP intent | `config/mcporter.json.example` | Canonical MCP server template in git (`.example` suffix = contains credential placeholders, not optional) |
 | Policy/audit SSOT | `config/agent-capabilities.json` | AKOS logical role policy and drift basis |
 | Translation layer | `scripts/bootstrap.py` | Converts repo intent into live runtime files |
 | Live gateway runtime | `~/.openclaw/openclaw.json` | Active OpenClaw runtime consumed by the gateway |
