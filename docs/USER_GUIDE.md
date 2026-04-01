@@ -419,7 +419,7 @@ prompts/assembled/VERIFIER_PROMPT.full.md      -->  ~/.openclaw/workspace-verifi
 
 | Environment | Model | Tier | Use Case |
 |:------------|:------|:-----|:---------|
-| `dev-local` | `ollama/deepseek-r1:14b` | medium | Local development, reliable tool calling |
+| `dev-local` | `ollama/deepseek-r1:14b` | medium | Local development after `switch-model.py dev-local`; bootstrap seed starts with `ollama/qwen3:8b` |
 | `gpu-runpod` | `vllm-runpod/deepseek-r1-70b` | large | Remote GPU, full capabilities |
 | `prod-cloud` | `anthropic/claude-sonnet-4` | large | Cloud APIs, production |
 
@@ -475,11 +475,31 @@ python scripts/switch-model.py prod-cloud       # Cloud APIs
 
 ### 8.1 Overview
 
-The RunPod integration (`akos/runpod_provider.py`) manages serverless vLLM endpoints on RunPod. It handles endpoint creation, health monitoring, scaling, inference, and teardown -- all as first-class operations.
+The RunPod integration supports **two deploy modes**:
+
+- **Serverless endpoint** (`gpu-runpod`) -- auto-scaled, pay-per-request, best for intermittent workloads
+- **Dedicated pod** (`gpu-runpod-pod`) -- persistent GPU, fixed hourly billing, best for sustained sessions and faster warm-starts
+
+The operator entry point is [`scripts/gpu.py`](../scripts/gpu.py). It should guide the user to choose the right mode rather than forcing them to already understand RunPod's product surface.
 
 The provider degrades gracefully: if `RUNPOD_API_KEY` is not set or the `runpod` package is not installed, all operations are silent no-ops.
 
-### 8.2 Setup
+### 8.2 Guided Operator Flow
+
+Run:
+
+```bash
+py scripts/gpu.py
+```
+
+The interactive flow should guide the operator through:
+
+1. choosing **local**, **serverless endpoint**, or **dedicated pod**
+2. understanding the cost/cold-start tradeoff of that choice
+3. selecting a model from `config/model-catalog.json`
+4. receiving a clear summary of mode, model, URL, and next step
+
+### 8.3 Serverless Endpoint Setup
 
 1. Create a RunPod account at [runpod.io](https://www.runpod.io).
 2. Generate an API key from the dashboard.
@@ -507,7 +527,7 @@ This will:
 - Write the endpoint URL to `VLLM_RUNPOD_URL` in your `.env` file.
 - Run a health check to verify the endpoint is ready.
 
-### 8.3 Configuration
+### 8.4 Serverless Configuration
 
 The full RunPod profile in `config/environments/gpu-runpod.json`:
 
@@ -524,7 +544,7 @@ The full RunPod profile in `config/environments/gpu-runpod.json`:
 | `healthCheck.intervalSeconds` | Health poll frequency | `60` |
 | `healthCheck.unhealthyThreshold` | Failures before alert | `3` |
 
-### 8.4 Managing Endpoints via API
+### 8.5 Managing Endpoints via API
 
 Once the FastAPI control plane is running:
 
@@ -538,13 +558,13 @@ curl -X POST http://127.0.0.1:8420/runpod/scale \
   -d '{"min_workers": 1, "max_workers": 3}'
 ```
 
-### 8.5 Health Monitoring
+### 8.6 Health Monitoring
 
 When `log-watcher.py` detects a RunPod environment, it automatically checks endpoint health every 60 seconds and:
 - Logs worker count, queue depth, and status to Langfuse as a `runpod-health` trace.
 - Fires a SOC alert if the endpoint becomes unhealthy.
 
-### 8.8 Dedicated Pods
+### 8.7 Dedicated Pods
 
 Serverless endpoints (Section 8.1-8.5) are ideal for bursty workloads with automatic scaling and pay-per-second billing. **Dedicated pods** are better when you need:
 
@@ -553,7 +573,7 @@ Serverless endpoints (Section 8.1-8.5) are ideal for bursty workloads with autom
 - **Full SSH access** -- direct shell access for debugging, profiling, or running custom vLLM configurations.
 - **Long-running sessions** -- extended agent conversations that would otherwise hit serverless idle timeouts.
 
-Use serverless (`gpu-runpod`) for intermittent development and CI. Use dedicated pods (`gpu-runpod-pod`) for sustained multi-hour sessions or production serving.
+Use serverless (`gpu-runpod`) for intermittent usage, low idle-cost operation, and lightweight production entry points. Use dedicated pods (`gpu-runpod-pod`) for sustained multi-hour sessions, debugging, and latency-sensitive development.
 
 #### The `gpu-runpod-pod` environment profile
 
@@ -588,10 +608,10 @@ After deployment completes, the gateway is automatically switched to the dedicat
 #### Other GPU CLI commands
 
 ```bash
-python scripts/gpu.py health          # Check vLLM endpoint health
 python scripts/gpu.py status          # Show active infrastructure state
 python scripts/gpu.py teardown        # Terminate the active pod
-python scripts/gpu.py list-gpus       # Show available GPU types and pricing
+python scripts/gpu.py deploy-serverless --dry-run
+python scripts/gpu.py deploy-pod --dry-run
 ```
 
 #### Verifying the connection
@@ -627,6 +647,7 @@ Ten MCP servers provide the agent tool ecosystem:
 | `akos` | `scripts/mcp_akos_server.py` | Control plane self-check: `akos_health`, `akos_agents`, `akos_status` |
 | `lsp` | `@akos/mcp-lsp-server` | Type-aware code navigation (go-to-definition, find-references, diagnostics) |
 | `code-search` | `@akos/mcp-code-search` | Semantic code search via ripgrep + tree-sitter |
+| `finance` | `scripts/finance_mcp_server.py` | Read-only finance research: quotes, search, sentiment |
 
 ### 9.2 Configuration
 
@@ -654,6 +675,7 @@ Each server is an npm package launched via `npx`. Environment variables (like `G
 | memory | full | full | full | -- |
 | filesystem | -- | -- | full | full |
 | fetch | -- | -- | full | -- |
+| finance | yes | yes | yes | yes |
 
 ### 9.4 Memory Server Usage
 
@@ -699,7 +721,15 @@ The Finance Research MCP gives agents read-only access to financial market data 
 
 **Setup:** Requires `pip install mcp yfinance`. The `ALPHA_VANTAGE_KEY` environment variable is optional -- if absent, `finance_sentiment` returns a degraded response with a warning instead of failing. Sign up for a free key at [alphavantage.co](https://www.alphavantage.co/support/#api-key) (500 calls/day).
 
+**Search quality upgrade:** If you also set `FINNHUB_API_KEY`, `finance_search` uses Finnhub fuzzy company-name search first, then falls back to yfinance metadata lookup when the key is absent or the provider fails. Sign up for a free key at [finnhub.io/register](https://finnhub.io/register).
+
 **Limitations:** yfinance is a community library that scrapes Yahoo Finance. It may break when Yahoo changes their site. All provider-specific details are encapsulated in `akos/finance.py` so backends can be swapped without changing tool signatures.
+
+**Recommended validation prompts:**
+- `How is Tesla doing today?`
+- `What is going on with NVDA today?`
+- `Compare AAPL and MSFT.`
+- `What headlines are driving the move in AAPL?`
 
 ---
 
@@ -1264,7 +1294,7 @@ To upgrade from the 8B small-tier model to the 14B medium-tier model:
 2. Rebuild with committed Modelfile: `ollama create deepseek-r1:14b -f config/ollama/Modelfile.deepseek-r1-14b`
 3. Switch environment: `python scripts/switch-model.py dev-local`
 
-The `dev-local` profile is pre-configured to use `deepseek-r1:14b` as primary with `qwen3:8b` as fallback.
+The `dev-local` environment profile is pre-configured to use `deepseek-r1:14b` as primary with `qwen3:8b` as fallback. Separately, the cross-platform bootstrap seeds an initial local-safe runtime using `qwen3:8b` before you explicitly switch environments.
 
 ### RunPod vLLM Best Practices
 

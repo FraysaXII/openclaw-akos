@@ -366,6 +366,8 @@ class QuoteData(BaseModel):
 
     ticker: str
     last_price: float | None = None
+    change_amount: float | None = None
+    change_percent: float | None = None
     day_high: float | None = None
     day_low: float | None = None
     open_price: float | None = None
@@ -381,6 +383,7 @@ class SearchResult(BaseModel):
 
     ticker: str
     name: str
+    match_reason: str = ""
     exchange: str = ""
     asset_type: str = ""
 

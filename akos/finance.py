@@ -9,6 +9,7 @@ tool signatures and response envelopes remain stable.
 
 Requires: pip install yfinance (optional -- degrades gracefully).
 Alpha Vantage sentiment requires ALPHA_VANTAGE_KEY env var (optional).
+Finnhub search requires FINNHUB_API_KEY env var (optional).
 """
 
 from __future__ import annotations
@@ -85,6 +86,7 @@ class FinanceService:
         self._search_cache = _TTLCache(self.SEARCH_TTL)
         self._sentiment_cache = _TTLCache(self.SENTIMENT_TTL)
         self._av_key = os.environ.get("ALPHA_VANTAGE_KEY", "")
+        self._finnhub_key = os.environ.get("FINNHUB_API_KEY", "")
 
     @property
     def yfinance_available(self) -> bool:
@@ -114,13 +116,17 @@ class FinanceService:
         try:
             stock = yf.Ticker(ticker)
             info = stock.fast_info
+            last_price = _safe_float(info, "last_price")
+            prev_close = _safe_float(info, "previous_close")
             quote = QuoteData(
                 ticker=ticker,
-                last_price=_safe_float(info, "last_price"),
+                last_price=last_price,
+                change_amount=_compute_change_amount(last_price, prev_close),
+                change_percent=_compute_change_percent(last_price, prev_close),
                 day_high=_safe_float(info, "day_high"),
                 day_low=_safe_float(info, "day_low"),
                 open_price=_safe_float(info, "open"),
-                previous_close=_safe_float(info, "previous_close"),
+                previous_close=prev_close,
                 volume=_safe_int(info, "last_volume"),
                 market_cap=_safe_float(info, "market_cap"),
                 currency=getattr(info, "currency", "USD") or "USD",
@@ -150,16 +156,36 @@ class FinanceService:
         if not query:
             return FinanceResponse(status="error", error_detail="Empty search query")
 
+        cached = self._search_cache.get(query.lower())
+        if cached is not None:
+            return cached
+
+        if self._finnhub_key and _httpx_available:
+            resp = self._search_finnhub(query)
+            if resp.status in {"ok", "not_found"}:
+                self._search_cache.set(query.lower(), resp)
+                return resp
+            if resp.status in {"rate_limited", "error"}:
+                fallback = self._search_yfinance(query)
+                if fallback.status in {"ok", "not_found"}:
+                    if resp.error_detail:
+                        fallback.warnings.append(f"Finnhub fallback used: {resp.error_detail}")
+                    self._search_cache.set(query.lower(), fallback)
+                    return fallback
+                return resp
+
+        resp = self._search_yfinance(query)
+        self._search_cache.set(query.lower(), resp)
+        return resp
+
+    def _search_yfinance(self, query: str) -> FinanceResponse:
+        """Fallback search using yfinance ticker metadata."""
         if not _yfinance_available:
             return FinanceResponse(
                 status="degraded",
                 warnings=["yfinance not installed; pip install yfinance"],
                 error_detail="yfinance not available",
             )
-
-        cached = self._search_cache.get(query.lower())
-        if cached is not None:
-            return cached
 
         try:
             results: list[SearchResult] = []
@@ -169,6 +195,7 @@ class FinanceService:
                 results.append(SearchResult(
                     ticker=info_dict["symbol"],
                     name=info_dict.get("shortName", info_dict.get("longName", query)),
+                    match_reason="yfinance ticker metadata fallback",
                     exchange=info_dict.get("exchange", ""),
                     asset_type=info_dict.get("quoteType", ""),
                 ))
@@ -182,7 +209,6 @@ class FinanceService:
                 search_results=results if results else None,
                 error_detail="" if results else f"No results for '{query}'",
             )
-            self._search_cache.set(query.lower(), resp)
             return resp
         except Exception as exc:
             logger.debug("Search failed for %s: %s", query, exc)
@@ -190,6 +216,68 @@ class FinanceService:
                 status="error",
                 source="yfinance",
                 error_detail=f"Search failed: {exc}",
+            )
+
+    def _search_finnhub(self, query: str) -> FinanceResponse:
+        """Search symbols using Finnhub when a key is configured."""
+        if not self._finnhub_key:
+            return FinanceResponse(
+                status="degraded",
+                source="finnhub",
+                warnings=["FINNHUB_API_KEY not set; falling back to yfinance search"],
+                error_detail="Missing API key",
+            )
+        if not _httpx_available:
+            return FinanceResponse(
+                status="degraded",
+                source="finnhub",
+                warnings=["httpx not installed; falling back to yfinance search"],
+                error_detail="httpx not available",
+            )
+
+        url = f"https://finnhub.io/api/v1/search?q={query}&token={self._finnhub_key}"
+        try:
+            with httpx.Client(timeout=10.0) as client:
+                resp = client.get(url)
+                if resp.status_code == 429:
+                    return FinanceResponse(
+                        status="rate_limited",
+                        source="finnhub",
+                        as_of=datetime.now(timezone.utc),
+                        warnings=["Finnhub rate limit reached"],
+                        error_detail="HTTP 429 from Finnhub search",
+                    )
+                resp.raise_for_status()
+                data = resp.json()
+
+            raw_results = data.get("result", [])[:5]
+            results = [
+                SearchResult(
+                    ticker=item.get("symbol", ""),
+                    name=item.get("description", item.get("displaySymbol", query)),
+                    match_reason="finnhub fuzzy company-name resolution",
+                    exchange=item.get("mic", "") or item.get("type", ""),
+                    asset_type=item.get("type", ""),
+                )
+                for item in raw_results
+                if item.get("symbol")
+            ]
+            status = "ok" if results else "not_found"
+            return FinanceResponse(
+                status=status,
+                source="finnhub",
+                as_of=datetime.now(timezone.utc),
+                freshness="real-time search index",
+                search_results=results if results else None,
+                error_detail="" if results else f"No results for '{query}'",
+            )
+        except Exception as exc:
+            logger.debug("Finnhub search failed for %s: %s", query, exc)
+            return FinanceResponse(
+                status="error",
+                source="finnhub",
+                as_of=datetime.now(timezone.utc),
+                error_detail=f"Finnhub search failed: {exc}",
             )
 
     def get_sentiment(self, tickers: str) -> FinanceResponse:
@@ -296,3 +384,15 @@ def _parse_float(val: Any) -> float | None:
         return float(val)
     except (TypeError, ValueError):
         return None
+
+
+def _compute_change_amount(last_price: float | None, previous_close: float | None) -> float | None:
+    if last_price is None or previous_close is None:
+        return None
+    return last_price - previous_close
+
+
+def _compute_change_percent(last_price: float | None, previous_close: float | None) -> float | None:
+    if last_price is None or previous_close in (None, 0):
+        return None
+    return ((last_price - previous_close) / previous_close) * 100.0

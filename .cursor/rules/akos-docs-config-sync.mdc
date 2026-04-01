@@ -8,6 +8,7 @@ globs:
   - "scripts/**"
   - "prompts/**"
   - "docs/**"
+  - ".cursor/rules/**"
   - "README.md"
   - "CHANGELOG.md"
   - "CONTRIBUTING.md"

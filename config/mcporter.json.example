@@ -83,9 +83,10 @@
       "command": "python",
       "args": ["scripts/finance_mcp_server.py"],
       "env": {
-        "ALPHA_VANTAGE_KEY": "${ALPHA_VANTAGE_KEY}"
+        "ALPHA_VANTAGE_KEY": "${ALPHA_VANTAGE_KEY}",
+        "FINNHUB_API_KEY": "${FINNHUB_API_KEY}"
       },
-      "_note": "Finance research MCP. Exposes finance_quote, finance_search, finance_sentiment. Requires: pip install mcp yfinance. ALPHA_VANTAGE_KEY is optional (sentiment degrades gracefully)."
+      "_note": "Finance research MCP. Exposes finance_quote, finance_search, finance_sentiment. Requires: pip install mcp yfinance. ALPHA_VANTAGE_KEY is optional (sentiment degrades gracefully). FINNHUB_API_KEY is optional and improves fuzzy company-name search."
     }
   }
 }

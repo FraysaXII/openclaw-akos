@@ -2,7 +2,7 @@
 """Friendly test runner for AKOS.
 
 Usage:
-    py scripts/test.py              # run all 191+ tests
+    py scripts/test.py              # run all 300+ tests
     py scripts/test.py api          # FastAPI endpoints + E2E pipeline
     py scripts/test.py security     # alerts, permissions, config validation
     py scripts/test.py runpod       # RunPod provider (mocked SDK)
@@ -27,7 +27,7 @@ TESTS_DIR = REPO_ROOT / "tests"
 
 GROUPS: dict[str, dict] = {
     "all": {
-        "description": "Full test suite (191+ tests)",
+        "description": "Full test suite (300+ tests)",
         "files": [],
     },
     "api": {
@@ -77,6 +77,14 @@ GROUPS: dict[str, dict] = {
     "browser": {
         "description": "Browser smoke tests (gateway + API; use --playwright for DOM checks)",
         "files": [],
+    },
+    "telemetry": {
+        "description": "Langfuse telemetry lifecycle and trace taxonomy",
+        "files": ["test_telemetry.py"],
+    },
+    "router": {
+        "description": "FailoverRouter threshold, recovery, multi-provider routing",
+        "files": ["test_router.py"],
     },
 }
 

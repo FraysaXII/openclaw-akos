@@ -613,6 +613,27 @@ Bootstrap is the **bridge** between AKOS's design-time SSOT and OpenClaw's runti
 - **Gateway-agnostic design**: If you swap OpenClaw for another gateway, you only rewrite the bootstrap translation. Prompts, policies, workflows, capability matrix, and eval gates survive unchanged.
 - **Principle**: Define once in AKOS, push via bootstrap, see in dashboard.
 
+### Runtime SSOT Chain
+
+For runtime-facing work, AKOS uses a layered SSOT chain:
+
+| Layer | File | Role |
+|:------|:-----|:-----|
+| Repo gateway intent | `config/openclaw.json.example` | Canonical gateway template in git |
+| Repo MCP intent | `config/mcporter.json.example` | Canonical MCP server template in git |
+| Policy/audit SSOT | `config/agent-capabilities.json` | AKOS logical role policy and drift basis |
+| Translation layer | `scripts/bootstrap.py` | Converts repo intent into live runtime files |
+| Live gateway runtime | `~/.openclaw/openclaw.json` | Active OpenClaw runtime consumed by the gateway |
+| Live MCP runtime | `~/.mcporter/mcporter.json` | Active MCP runtime consumed by mcporter/OpenClaw |
+
+### Tool Policy Split
+
+The capability matrix and the gateway allowlist do not serve the same purpose:
+
+- **`config/agent-capabilities.json`** is the AKOS-layer SSOT for audit, policy reporting, and drift detection.
+- **`config/openclaw.json.example`** is the gateway-compatibility SSOT for curated `tools.allow` entries that OpenClaw actually recognizes at runtime.
+- **Bootstrap** translates profile and deny semantics from the capability matrix, but preserves template-curated `allow` lists for `minimal` roles to avoid injecting AKOS-only logical tool IDs into the gateway runtime.
+
 ## AKOS / OpenClaw Responsibility Matrix
 
 The following matrix shows every component, who owns it, and how the two layers interact.
@@ -641,7 +662,7 @@ The following matrix shows every component, who owns it, and how the two layers 
 | State Tracking       | `akos/state.py`                                                                                                                 | Deployment state (active env, model, tier)                                    | AKOS-only; tracks switch-model history                                    |
 | Operator Scripts     | `scripts/doctor.py`, `gpu.py`, `sync-runtime.py`, `release-gate.py`, `check-drift.py`, `browser-smoke.py`, `run-evals.py`, `checkpoint.py` | Health, GPU deploy, sync, release, drift, smoke, eval, checkpoint CLIs         | AKOS-only operator tooling                                                |
 | Bootstrap            | `scripts/bootstrap.py`                                                                                                          | **Translation layer** — converts AKOS SSOT to OpenClaw config                 | The bridge; rewrites `~/.openclaw/openclaw.json` from AKOS sources        |
-| Test Suite           | `tests/` (234+ tests)                                                                                                           | Config validation, Pydantic models, API, prompts, E2E, telemetry, router, live smoke, evals | AKOS quality gates                                                        |
+| Test Suite           | `tests/` (300+ tests)                                                                                                           | Config validation, Pydantic models, API, prompts, E2E, telemetry, router, live smoke, evals | AKOS quality gates                                                        |
 | Compliance           | `config/compliance/eu-ai-act-checklist.json`                                                                                     | EU AI Act evidence map                                                        | AKOS-only governance                                                      |
 | Model Tiers          | `config/model-tiers.json`                                                                                                       | Model classification (small/medium/large/sota)                                | Drives prompt variant selection; OpenClaw uses the selected model         |
 | Environment Profiles | `config/environments/*.json` + `*.env.example`                                                                                   | Multi-environment config (dev-local, gpu-runpod, prod-cloud)                  | Merged into OpenClaw config by `switch-model.py`                          |
@@ -662,7 +683,7 @@ The following matrix shows every component, who owns it, and how the two layers 
 | Message Reactions       | `messages.statusReactions.*`           | Lifecycle emoji on messages (queued/thinking/done)  | Bootstrap enables for UX                                  |
 | Model Providers         | `models.providers.*`                  | LLM provider routing and failover                  | Bootstrap preserves full provider inventory; unresolved env inputs are surfaced as warnings |
 | Channel Routing         | `bindings[]`                          | Route channels to agents                            | Defined in template; future expansion                      |
-| MCP Servers             | via mcporter.json                     | Tool servers (8 total)                             | Bootstrap generates resolved paths                        |
+| MCP Servers             | via mcporter.json                     | Tool servers (10 total)                            | Bootstrap generates resolved paths                        |
 | WebChat                 | `web.enabled`                         | Dashboard chat interface                            | Always enabled for AKOS                                    |
 | Built-in Memory         | `memory.backend`                      | Native session memory                              | Complements AKOS MCP Memory + workspace MEMORY.md          |
 | OpenTelemetry           | `diagnostics.openTelemetry.*`         | Traces/metrics export                               | Future: wire to Langfuse OTEL endpoint                     |
@@ -744,7 +765,7 @@ The following files implement the architecture described above as committable co
 | All | [`config/eval/langfuse.env.example`](../config/eval/langfuse.env.example) | T-5.1 |
 | All | [`config/environments/`](../config/environments/) | T-5.4 |
 
-A validation test suite (`tests/`) provides 234+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, SOP task coverage, RunPod provider operations, FastAPI endpoints, workspace checkpoints, Langfuse telemetry (14 tests), and failover router (10 tests).
+A validation test suite (`tests/`) provides 300+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, SOP task coverage, RunPod provider operations, FastAPI endpoints, workspace checkpoints, Langfuse telemetry (14 tests), failover router (10 tests), finance service behavior, and GPU deploy UX.
 
 ## Live Configuration Status
 

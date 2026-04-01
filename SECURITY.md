@@ -90,8 +90,8 @@ The `browser-smoke.py` script and Playwright MCP run in a **sandboxed browser**:
 
 - **browser-smoke.py:** Uses Chromium via `playwright install chromium`. No network egress except to localhost (gateway 18789, API 8420). Optional dependency; CI and developers without Playwright still pass.
 - **Playwright MCP (agent runtime):** Same sandbox; agent uses it for Verifier screenshots and DOM interaction. Distinct from `browser-smoke.py` (operator UAT).
-- **MCP surface area:** Custom AKOS MCP (`akos_health`, `akos_agents`, `akos_status`), Finance MCP (`finance_quote`, `finance_search`, `finance_sentiment`), and GitHub MCP extend the tool surface. Ensure `GITHUB_TOKEN`, `AKOS_API_URL`, and `ALPHA_VANTAGE_KEY` are not exposed in logs.
-- **Finance MCP:** Read-only; no trading, order routing, or account access. `yfinance` is a community scraping library (personal/research use). `ALPHA_VANTAGE_KEY` is optional and stored in `.env` (gitignored). Quotes are delayed ~15 minutes; the tool surface carries no privileged financial data.
+- **MCP surface area:** Custom AKOS MCP (`akos_health`, `akos_agents`, `akos_status`), Finance MCP (`finance_quote`, `finance_search`, `finance_sentiment`), and GitHub MCP extend the tool surface. Ensure `GITHUB_TOKEN`, `AKOS_API_URL`, `ALPHA_VANTAGE_KEY`, and `FINNHUB_API_KEY` are not exposed in logs.
+- **Finance MCP:** Read-only; no trading, order routing, or account access. `yfinance` is a community scraping library (personal/research use). `ALPHA_VANTAGE_KEY` is optional and stored in `.env` (gitignored). `FINNHUB_API_KEY` is optional and improves symbol search. Quotes are delayed ~15 minutes; the tool surface carries no privileged financial data.
 
 ### 5b. Sensitive-Key Schema Signals
 

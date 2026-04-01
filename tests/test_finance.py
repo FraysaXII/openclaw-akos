@@ -31,10 +31,11 @@ class TestFinanceResponseModel:
             status="ok",
             source="yfinance",
             freshness="~15 min delayed",
-            quotes=[QuoteData(ticker="AAPL", last_price=195.50)],
+            quotes=[QuoteData(ticker="AAPL", last_price=195.50, change_percent=1.2)],
         )
         assert resp.quotes[0].ticker == "AAPL"
         assert resp.quotes[0].last_price == 195.50
+        assert resp.quotes[0].change_percent == 1.2
 
     def test_degraded_with_warnings(self):
         resp = FinanceResponse(
@@ -45,9 +46,10 @@ class TestFinanceResponseModel:
         assert len(resp.warnings) == 1
 
     def test_search_result_model(self):
-        sr = SearchResult(ticker="AAPL", name="Apple Inc.", exchange="NMS")
+        sr = SearchResult(ticker="AAPL", name="Apple Inc.", exchange="NMS", match_reason="fuzzy")
         assert sr.ticker == "AAPL"
         assert sr.asset_type == ""
+        assert sr.match_reason == "fuzzy"
 
     def test_sentiment_item_model(self):
         item = SentimentItem(headline="Apple beats earnings", sentiment="Bullish")
@@ -128,6 +130,8 @@ class TestGetQuote:
         assert resp.quotes is not None
         assert resp.quotes[0].ticker == "AAPL"
         assert resp.quotes[0].last_price == 195.50
+        assert resp.quotes[0].change_amount == pytest.approx(1.0)
+        assert resp.quotes[0].change_percent == pytest.approx((1.0 / 194.5) * 100.0)
 
     @patch("akos.finance._yfinance_available", True)
     @patch("akos.finance.yf", create=True)
@@ -187,6 +191,63 @@ class TestSearchTicker:
         assert resp.search_results is not None
         assert resp.search_results[0].ticker == "AAPL"
         assert resp.search_results[0].name == "Apple Inc."
+        assert "fallback" in resp.search_results[0].match_reason
+
+    @patch("akos.finance._httpx_available", True)
+    @patch("akos.finance.httpx")
+    def test_finnhub_search_success(self, mock_httpx):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 200
+        mock_resp.json.return_value = {
+            "result": [
+                {"symbol": "TSLA", "description": "Tesla, Inc.", "type": "Common Stock", "mic": "XNAS"},
+                {"symbol": "TSLL", "description": "Direxion Daily TSLA Bull 2X Shares", "type": "ETF", "mic": "ARCX"},
+            ]
+        }
+        mock_resp.raise_for_status = MagicMock()
+        mock_client = MagicMock()
+        mock_client.__enter__ = MagicMock(return_value=mock_client)
+        mock_client.__exit__ = MagicMock(return_value=False)
+        mock_client.get.return_value = mock_resp
+        mock_httpx.Client.return_value = mock_client
+
+        svc = FinanceService()
+        svc._finnhub_key = "fh-key"
+        resp = svc.search_ticker("Tesla")
+        assert resp.status == "ok"
+        assert resp.source == "finnhub"
+        assert resp.search_results is not None
+        assert resp.search_results[0].ticker == "TSLA"
+        assert "finnhub fuzzy" in resp.search_results[0].match_reason
+
+    @patch("akos.finance._httpx_available", True)
+    @patch("akos.finance._yfinance_available", True)
+    @patch("akos.finance.httpx")
+    @patch("akos.finance.yf", create=True)
+    def test_finnhub_fallback_to_yfinance_on_error(self, mock_yf, mock_httpx):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 429
+        mock_client = MagicMock()
+        mock_client.__enter__ = MagicMock(return_value=mock_client)
+        mock_client.__exit__ = MagicMock(return_value=False)
+        mock_client.get.return_value = mock_resp
+        mock_httpx.Client.return_value = mock_client
+
+        mock_ticker = MagicMock()
+        mock_ticker.info = {
+            "symbol": "AAPL",
+            "shortName": "Apple Inc.",
+            "exchange": "NMS",
+            "quoteType": "EQUITY",
+        }
+        mock_yf.Ticker.return_value = mock_ticker
+
+        svc = FinanceService()
+        svc._finnhub_key = "fh-key"
+        resp = svc.search_ticker("AAPL")
+        assert resp.status == "ok"
+        assert resp.source == "yfinance"
+        assert any("Finnhub fallback used" in w for w in resp.warnings)
 
 
 # ── FinanceService: get_sentiment ──────────────────────────────────────

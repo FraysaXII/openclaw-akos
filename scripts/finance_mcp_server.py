@@ -53,6 +53,10 @@ def finance_search(query: str) -> str:
     Use this before finance_quote when the user provides a company
     name (e.g. "Apple") instead of a ticker symbol (e.g. "AAPL").
     Returns ticker, full name, exchange, and asset type for each match.
+
+    When FINNHUB_API_KEY is configured, this uses Finnhub's fuzzy symbol
+    search for better natural company-name resolution. Otherwise it falls
+    back to yfinance ticker metadata lookup.
     """
     resp = _service.search_ticker(query)
     return resp.model_dump_json(indent=2, exclude_none=True)

@@ -20,7 +20,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from akos.io import AGENT_WORKSPACES, REPO_ROOT, load_json, resolve_openclaw_home
+from akos.io import AGENT_WORKSPACES, REPO_ROOT, load_json, resolve_mcporter_paths, resolve_openclaw_home
 from akos.log import setup_logging
 from akos.policy import CapabilityMatrix
 
@@ -83,6 +83,16 @@ def check_mcp_config(oc_home: Path) -> list[dict]:
         issues.append({
             "type": "missing_mcp_server",
             "server": server,
+        })
+
+    raw_example = example_path.read_text(encoding="utf-8")
+    expected_resolved = resolve_mcporter_paths(raw_example).strip()
+    deployed_raw = mcporter_path.read_text(encoding="utf-8")
+    deployed_resolved = resolve_mcporter_paths(deployed_raw).strip()
+    if expected_resolved != deployed_resolved:
+        issues.append({
+            "type": "mcp_config_drift",
+            "detail": "Deployed mcporter.json content differs from resolved repo example",
         })
     return issues
 

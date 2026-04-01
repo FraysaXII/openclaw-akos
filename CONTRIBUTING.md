@@ -96,7 +96,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - New workflow definitions go in `config/workflows/` as markdown files following the existing format.
 - New overlay files must be registered in `config/model-tiers.json` `variantOverlays` section.
 - Changes to `config/model-catalog.json` or `scripts/gpu.py` must be covered by `tests/test_gpu_cli.py`.
-- Run the full suite before submitting: `py scripts/test.py` (234+ tests expected, including `test_pod_manager.py`, `test_gpu_cli.py`)
+- Run the full suite before submitting: `py scripts/test.py` (300+ tests expected, including `test_pod_manager.py`, `test_gpu_cli.py`, `test_finance.py`)
 - Run specific groups: `py scripts/test.py api`, `py scripts/test.py security`, `py scripts/test.py browser`, etc.
 - See all available groups: `py scripts/test.py --list`
 - New test groups added in v0.4.0: `drift` (runtime drift detection), `live` (opt-in live provider smoke tests requiring `AKOS_LIVE_SMOKE=1`)
