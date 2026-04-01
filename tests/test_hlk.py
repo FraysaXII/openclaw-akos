@@ -188,3 +188,107 @@ class TestHlkApi:
     def test_hlk_search_empty(self):
         r = client.get("/hlk/search", params={"q": ""})
         assert r.status_code == 400
+
+
+class TestHlkIntegrity:
+    """Validate canonical vault referential and graph integrity."""
+
+    @pytest.fixture(autouse=True)
+    def registry(self):
+        self.reg = get_hlk_registry()
+
+    def test_no_broken_parent_refs(self):
+        names = {p.item_name for p in self.reg._processes}
+        for p in self.reg._processes:
+            if p.item_parent_1:
+                assert p.item_parent_1 in names, f"{p.item_id}: parent '{p.item_parent_1}' not found"
+
+    def test_no_orphan_items(self):
+        for p in self.reg._processes:
+            if p.item_granularity != "project":
+                assert p.item_parent_1, f"{p.item_id}: non-project without item_parent_1"
+
+    def test_role_owner_resolves(self):
+        role_names = {r.role_name for r in self.reg._roles}
+        alias_owners = {"Process Owner", "TBD"}
+        for p in self.reg._processes:
+            if p.role_owner and p.role_owner not in alias_owners:
+                assert p.role_owner in role_names, f"{p.item_id}: role_owner '{p.role_owner}' not in org"
+
+    def test_no_duplicate_item_ids(self):
+        ids = [p.item_id for p in self.reg._processes if p.item_id]
+        assert len(ids) == len(set(ids)), f"Duplicate item_ids: {[i for i in ids if ids.count(i) > 1]}"
+
+    def test_no_duplicate_org_ids(self):
+        ids = [r.org_id for r in self.reg._roles if r.org_id]
+        assert len(ids) == len(set(ids)), f"Duplicate org_ids: {[i for i in ids if ids.count(i) > 1]}"
+
+    def test_valid_granularity_values(self):
+        valid = {"project", "workstream", "process", "task"}
+        for p in self.reg._processes:
+            if p.item_granularity:
+                assert p.item_granularity in valid, f"{p.item_id}: invalid granularity '{p.item_granularity}'"
+
+
+class TestHlkProvenance:
+    """Verify structural provenance of the canonical vault."""
+
+    @pytest.fixture(autouse=True)
+    def registry(self):
+        self.reg = get_hlk_registry()
+
+    def test_org_csv_loaded(self):
+        assert len(self.reg._roles) >= 60
+
+    def test_proc_csv_loaded(self):
+        assert len(self.reg._processes) >= 300
+
+    def test_all_projects_have_children(self):
+        projects = [p for p in self.reg._processes if p.item_granularity == "project"]
+        for proj in projects:
+            children = self.reg._processes_by_parent.get(proj.item_name, [])
+            assert len(children) > 0, f"Project '{proj.item_name}' has no children"
+
+    def test_all_areas_have_roles(self):
+        areas = {r.area for r in self.reg._roles}
+        assert len(areas) >= 10
+        for area in areas:
+            roles_in_area = [r for r in self.reg._roles if r.area == area]
+            assert len(roles_in_area) > 0, f"Area '{area}' has no roles"
+
+    def test_research_area_exists(self):
+        research_roles = [r for r in self.reg._roles if r.area == "Research"]
+        assert len(research_roles) >= 7
+
+    def test_eleven_projects(self):
+        projects = [p for p in self.reg._processes if p.item_granularity == "project"]
+        assert len(projects) == 11
+
+
+class TestHlkApiEdgeCases:
+    """Test API edge cases and input safety."""
+
+    def test_role_with_special_chars(self):
+        r = client.get("/hlk/roles/Ethics%20%26%20Learning")
+        assert r.status_code == 200
+        assert r.json()["status"] == "ok"
+
+    def test_role_not_found_graceful(self):
+        r = client.get("/hlk/roles/../../../../etc/passwd")
+        assert r.status_code == 200
+        assert r.json()["status"] == "not_found"
+
+    def test_area_case_insensitive(self):
+        r = client.get("/hlk/areas/research")
+        assert r.status_code == 200
+        assert r.json()["status"] == "ok"
+
+    def test_search_special_chars(self):
+        r = client.get("/hlk/search", params={"q": "<script>alert(1)</script>"})
+        assert r.status_code == 200
+        assert r.json()["status"] == "not_found"
+
+    def test_process_tree_not_found(self):
+        r = client.get("/hlk/processes/nonexistent/tree")
+        assert r.status_code == 200
+        assert r.json()["status"] == "not_found"
