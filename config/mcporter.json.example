@@ -87,6 +87,11 @@
         "FINNHUB_API_KEY": "${FINNHUB_API_KEY}"
       },
       "_note": "Finance research MCP. Exposes finance_quote, finance_search, finance_sentiment. Requires: pip install mcp yfinance. ALPHA_VANTAGE_KEY is optional (sentiment degrades gracefully). FINNHUB_API_KEY is optional and improves fuzzy company-name search."
+    },
+    "hlk": {
+      "command": "python",
+      "args": ["scripts/hlk_mcp_server.py"],
+      "_note": "HLK organisation and process registry MCP. Exposes hlk_role, hlk_role_chain, hlk_area, hlk_process, hlk_process_tree, hlk_projects, hlk_gaps, hlk_search. Requires: pip install mcp. Read-only lookups over the canonical vault CSVs."
     }
   }
 }

@@ -26,6 +26,7 @@ AGENT_WORKSPACES: dict[str, str] = {
     "ARCHITECT": "workspace-architect",
     "EXECUTOR": "workspace-executor",
     "VERIFIER": "workspace-verifier",
+    "MADEIRA": "workspace-madeira",
 }
 
 
@@ -149,6 +150,7 @@ def deploy_scaffold_files(oc_home: Path) -> list[Path]:
         "ARCHITECT": "architect",
         "EXECUTOR": "executor",
         "VERIFIER": "verifier",
+        "MADEIRA": "madeira",
     }
 
     for agent_key, scaffold_name in agent_scaffold_map.items():

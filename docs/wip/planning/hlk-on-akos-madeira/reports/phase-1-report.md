@@ -206,6 +206,9 @@ Scaffolded the v3.0 knowledge vault at `docs/references/hlk/v3.0/` as a clean or
 
 ## 17. Next Steps
 
+- Phase 2 COMPLETE: HLK domain models, registry service, and API endpoints shipped.
+- Phase 3: MADEIRA prompt overlays and HLK MCP tools.
+
 - Phase 2: Introduce Pydantic domain models for the frozen taxonomy and canonical CSVs
 - Phase 2: Build normalized HLK registry service inside AKOS
 - Phase 2: Define stable-key policy and cross-file linking contract

@@ -9,6 +9,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (MADEIRA Runtime UX Stabilization)
+
+- **Madeira agent** — fifth agent (`id: "madeira"`) as the user-facing dashboard entrypoint for HLK operations. Read-only lookup assistant with a dedicated workspace (`~/.openclaw/workspace-madeira`), scaffold (`config/workspace-scaffold/madeira/`), and all 3 prompt variants.
+- **MADEIRA_BASE.md** — lookup-first prompt contract: Lookup Mode (default, tool-backed answers), Summary Mode (multi-tool synthesis), Escalation Mode (delegate to Orchestrator for admin tasks).
+- **Bootstrap tool propagation fix** — `_sync_tool_profiles_from_capability_matrix()` now unions template allow lists with MCP tools from the capability matrix, ensuring new read-only tools (e.g. `hlk_*`) propagate without manual template edits per agent.
+- **Dashboard UAT scenario** (Scenario 0 in `docs/uat/hlk_admin_smoke.md`) — verifies Madeira answers HLK questions directly via tools in the browser dashboard.
+
+### Changed (MADEIRA Runtime UX Stabilization)
+
+- Agent count updated from 4 to 5 across all docs (ARCHITECTURE.md, USER_GUIDE.md, SOP.md, CHANGELOG.md).
+- Prompt assembly now produces 15 files (5 agents x 3 variants) instead of 12.
+- `config/model-tiers.json` — MADEIRA added to HLK and startup compliance overlay agent lists for standard and full variants.
+- `config/agent-capabilities.json` — `madeira` role added with read-only HLK + finance + memory tools.
+- `config/openclaw.json.example` — `madeira` in `agents.list` and `tools.agentToAgent.allow`.
+- `akos/io.py` — `AGENT_WORKSPACES` and `agent_scaffold_map` include MADEIRA.
+- `scripts/assemble-prompts.py` — `AGENTS` dict includes MADEIRA.
+
+### Added (HLK CI/CD Hardening -- Phase 5)
+
+- **HLK validation script** (`scripts/validate_hlk.py`) -- 9 deterministic checks: CSV parse, role_owner integrity, graph integrity, granularity canon, duplicate IDs, project-has-children. Integrated into `scripts/release-gate.py` as a mandatory gate step.
+- **Expanded HLK test coverage** -- 3 new test classes in `tests/test_hlk.py`: `TestHlkIntegrity` (referential + graph integrity), `TestHlkProvenance` (structural provenance), `TestHlkApiEdgeCases` (path traversal, XSS, special characters).
+- **Externalization decision**: HLK stays internal to AKOS (tight coupling with vault CSVs and `akos/io.py`; revisit when a second consumer outside this repo needs direct imports).
+
+### Added (HLK Admin UX -- Phase 4)
+
+- **HLK Operator Model** in USER_GUIDE Section 19 -- session vs workspace vs vault distinction, day-to-day MADEIRA usage guide, knowledge addition and baseline maintenance flows, vault structure reference, quick reference card.
+- **HLK UAT smoke scenarios** (`docs/uat/hlk_admin_smoke.md`) -- 7 scenarios covering role lookup, area navigation, process tree, gap detection, search, admin workflow, and session-vs-vault discipline.
+
+### Added (HLK MADEIRA Entry Surface -- Phase 3)
+
+- **HLK MCP server** (`scripts/hlk_mcp_server.py`) -- 8 read-only tools for vault registry lookups: `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search`. FastMCP + stdio transport.
+- **OVERLAY_HLK.md** -- prompt overlay teaching agents about the HLK vault structure, canonical source rules, compliance taxonomy, and tool usage. Registered in `model-tiers.json` for standard and full variants across all 4 agents.
+- **HLK admin workflow** (`config/workflows/hlk_admin.md`) -- structured workflow for organisation and process management with approval gates before CSV edits.
+- **HLK tool registration** -- 8 `hlk_*` tools added to `agent-capabilities.json` (all 4 roles), `permissions.json` (autonomous), and `mcporter.json.example`.
+
+### Added (HLK Domain Service -- Phase 2)
+
+- **HLK Pydantic domain models** in `akos/models.py` — `OrgRole`, `ProcessItem`, `HlkResponse` envelope, and constrained types (`AccessLevel`, `ConfidenceLevel`, `SourceCategory`, `ProcessGranularity`).
+- **HLK registry service** (`akos/hlk.py`) — `HlkRegistry` class reads canonical vault CSVs and serves typed lookups: role/chain/area, process/tree/project, gap detection, and fuzzy search. Lazy singleton pattern matching `FinanceService`.
+- **HLK API endpoints** in `akos/api.py` — 10 read-only endpoints under `/hlk/*`: roles, role chain, areas, processes, project summary, process tree, gaps, and search. Protected by `AKOS_API_KEY`.
+- **HLK test suite** (`tests/test_hlk.py`) — model parsing, registry lookups, chain traversal, gap detection, search, and FastAPI endpoint validation. Registered as `hlk` test group in `scripts/test.py`.
+
 ### Added (Runtime, Planning, and Finance UX Hardening)
 
 - **HLK planning system** — reusable personal Cursor skill (`hlk-planning-system`) plus workspace traceability rule for mirroring execution-relevant plans and reports into `docs/wip/planning/`.

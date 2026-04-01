@@ -17,7 +17,15 @@
     "filesystem_list",
     "finance_quote",
     "finance_search",
-    "finance_sentiment"
+    "finance_sentiment",
+    "hlk_role",
+    "hlk_role_chain",
+    "hlk_area",
+    "hlk_process",
+    "hlk_process_tree",
+    "hlk_projects",
+    "hlk_gaps",
+    "hlk_search"
   ],
   "requires_approval": [
     "write_file",

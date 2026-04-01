@@ -86,6 +86,17 @@ def run_api_smoke() -> bool:
     return result.success
 
 
+def run_hlk_validation() -> bool:
+    """Run HLK canonical vault validation."""
+    logger.info("Running HLK vault validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_hlk.py")],
+        timeout=60,
+        capture=False,
+    )
+    return result.success
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="AKOS release gate")
     parser.add_argument("--json-log", action="store_true", help="JSON logging output")
@@ -109,6 +120,9 @@ def main() -> None:
 
     api_ok = run_api_smoke()
     results.append(("PASS" if api_ok else "FAIL", "API smoke (pytest tests/test_api.py -v)"))
+
+    hlk_ok = run_hlk_validation()
+    results.append(("PASS" if hlk_ok else "FAIL", "HLK vault validation (scripts/validate_hlk.py)"))
 
     live_smoke = os.environ.get("AKOS_LIVE_SMOKE") == "1"
     if live_smoke:

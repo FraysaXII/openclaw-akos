@@ -34,7 +34,7 @@
 
 OpenCLAW-AKOS transforms a vanilla OpenCLAW deployment into an **Agentic Knowledge Operating System (LLMOS)**. It provides:
 
-- A **4-agent architecture** (Orchestrator, Architect, Executor, Verifier) that eliminates cognitive overload by separating task decomposition, planning, execution, and validation.
+- A **5-agent architecture** (Madeira, Orchestrator, Architect, Executor, Verifier) that eliminates cognitive overload by separating user-facing lookup, task decomposition, planning, execution, and validation.
 - **Tiered prompt assembly** keyed to model capability (small/medium/large/SOTA).
 - **RunPod GPU integration** for serverless vLLM endpoints with auto-provisioning.
 - A **FastAPI control plane** for programmatic system management.
@@ -169,6 +169,7 @@ config/
     architect/                 Architect workspace defaults
     executor/                  Executor workspace defaults
     verifier/                  Verifier workspace defaults
+    madeira/                   Madeira workspace defaults
 ```
 
 ### 4.2 openclaw.json
@@ -244,11 +245,15 @@ LANGFUSE_HOST=https://cloud.langfuse.com
 
 ### 5.1 Architecture
 
-The system uses four specialized agents, each with a distinct role:
+The system uses five specialized agents, each with a distinct role:
 
 ```
-User Request
+User (HLK questions)
     |
+    v
+MADEIRA  (answers directly via HLK tools, escalates complex tasks)
+    |
+    | (multi-step admin tasks)
     v
 ORCHESTRATOR  (decomposes, delegates, tracks)
     |
@@ -265,7 +270,21 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
          FAIL? --> Fix Suggestion --> Executor (up to 3 retries)
 ```
 
-### 5.2 Orchestrator
+### 5.2 Madeira (new in v0.6.0)
+
+**Role:** User-facing operational assistant for the Holistika knowledge vault.
+
+**Mode:** Read-only lookup. Cannot write files, execute commands, or use the browser.
+
+**Key behaviors:**
+- **Lookup mode (default):** Answers factual HLK questions directly using `hlk_*` tools, citing canonical sources.
+- **Summary mode:** Synthesises multi-tool answers with structured formatting.
+- **Escalation mode:** Acknowledges multi-step admin requests and delegates to the Orchestrator.
+- Never responds with generic "check your HR system" fallbacks when HLK tools are available.
+
+**Workspace:** `~/.openclaw/workspace-madeira/`
+
+### 5.3 Orchestrator
 
 **Role:** Multi-agent coordinator. Receives user requests, decomposes them into sub-tasks, delegates to the appropriate agent, and tracks progress.
 
@@ -279,7 +298,7 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 
 **Workspace:** `~/.openclaw/workspace-orchestrator/`
 
-### 5.3 Architect
+### 5.4 Architect
 
 **Role:** Strategic planner. Analyzes requirements, performs research, and produces structured Plan Documents.
 
@@ -293,7 +312,7 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 
 **Workspace:** `~/.openclaw/workspace-architect/`
 
-### 5.4 Executor
+### 5.5 Executor
 
 **Role:** Builder. Carries out action plans from the Architect or Orchestrator.
 
@@ -307,7 +326,7 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 
 **Workspace:** `~/.openclaw/workspace-executor/`
 
-### 5.5 Verifier
+### 5.6 Verifier
 
 **Role:** Quality gate. Validates that the Executor's actions produced correct results.
 
@@ -321,14 +340,17 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 
 **Workspace:** `~/.openclaw/workspace-verifier/`
 
-### 5.6 Selecting Agents
+### 5.7 Selecting Agents
 
-Agents are available via the OpenCLAW WebChat dashboard (`openclaw dashboard`). Select an agent from the sidebar. For most workflows, start with the **Orchestrator** -- it will delegate to the others as needed.
+Agents are available via the OpenCLAW WebChat dashboard (`openclaw dashboard`). Select an agent from the sidebar.
 
-For direct access:
+- **Start with Madeira** for HLK operations -- role lookups, process navigation, gap detection, vault searches.
+- Use **Orchestrator** for multi-step tasks that require coordination across agents.
 - Use **Architect** for research, analysis, and planning tasks.
 - Use **Executor** when you have a clear, pre-written plan to execute.
 - Use **Verifier** to validate a specific piece of work.
+
+To open a Madeira session directly: `http://127.0.0.1:18789/chat?session=agent:madeira:main`
 
 ---
 
@@ -357,6 +379,7 @@ Each agent has a base prompt in `prompts/base/`:
 | `ARCHITECT_BASE.md` | Architect | Read-only rules, Plan Document structure, response modes |
 | `EXECUTOR_BASE.md` | Executor | HITL enforcement, execution protocol, error recovery loop |
 | `VERIFIER_BASE.md` | Verifier | Verification protocol, fix suggestions, abort conditions |
+| `MADEIRA_BASE.md` | Madeira | Lookup-first behaviour contract, HLK tool catalogue, escalation rules |
 
 ### 6.3 Overlay Files
 
@@ -377,13 +400,14 @@ Run the assembler to generate all variants:
 python scripts/assemble-prompts.py
 ```
 
-This produces 12 files in `prompts/assembled/` (4 agents x 3 variants):
+This produces 15 files in `prompts/assembled/` (5 agents x 3 variants):
 
 ```
 ORCHESTRATOR_PROMPT.compact.md    ORCHESTRATOR_PROMPT.standard.md    ORCHESTRATOR_PROMPT.full.md
 ARCHITECT_PROMPT.compact.md       ARCHITECT_PROMPT.standard.md       ARCHITECT_PROMPT.full.md
 EXECUTOR_PROMPT.compact.md        EXECUTOR_PROMPT.standard.md        EXECUTOR_PROMPT.full.md
 VERIFIER_PROMPT.compact.md        VERIFIER_PROMPT.standard.md        VERIFIER_PROMPT.full.md
+MADEIRA_PROMPT.compact.md         MADEIRA_PROMPT.standard.md         MADEIRA_PROMPT.full.md
 ```
 
 **Flags:**
@@ -409,6 +433,7 @@ prompts/assembled/ORCHESTRATOR_PROMPT.full.md  -->  ~/.openclaw/workspace-orches
 prompts/assembled/ARCHITECT_PROMPT.full.md     -->  ~/.openclaw/workspace-architect/SOUL.md
 prompts/assembled/EXECUTOR_PROMPT.full.md      -->  ~/.openclaw/workspace-executor/SOUL.md
 prompts/assembled/VERIFIER_PROMPT.full.md      -->  ~/.openclaw/workspace-verifier/SOUL.md
+prompts/assembled/MADEIRA_PROMPT.full.md       -->  ~/.openclaw/workspace-madeira/SOUL.md
 ```
 
 ---
@@ -667,15 +692,16 @@ Each server is an npm package launched via `npx`. Environment variables (like `G
 
 ### 9.3 Which Agents Use Which Servers
 
-| Server | Orchestrator | Architect | Executor | Verifier |
-|:-------|:-------------|:----------|:---------|:---------|
-| sequential-thinking | standard+ | standard+ | -- | -- |
-| playwright | -- | -- | full | full |
-| github | -- | yes | yes | -- |
-| memory | full | full | full | -- |
-| filesystem | -- | -- | full | full |
-| fetch | -- | -- | full | -- |
-| finance | yes | yes | yes | yes |
+| Server | Madeira | Orchestrator | Architect | Executor | Verifier |
+|:-------|:-------|:-------------|:----------|:---------|:---------|
+| sequential-thinking | -- | standard+ | standard+ | -- | -- |
+| playwright | -- | -- | -- | full | full |
+| github | -- | -- | yes | yes | -- |
+| memory | yes | full | full | full | -- |
+| filesystem | -- | -- | -- | full | full |
+| fetch | -- | -- | -- | full | -- |
+| finance | yes | yes | yes | yes | yes |
+| hlk | yes | yes | yes | yes | yes |
 
 ### 9.4 Memory Server Usage
 
@@ -724,6 +750,25 @@ The Finance Research MCP gives agents read-only access to financial market data 
 **Search quality upgrade:** If you also set `FINNHUB_API_KEY`, `finance_search` uses Finnhub fuzzy company-name search first, then falls back to yfinance metadata lookup when the key is absent or the provider fails. Sign up for a free key at [finnhub.io/register](https://finnhub.io/register).
 
 **Limitations:** yfinance is a community library that scrapes Yahoo Finance. It may break when Yahoo changes their site. All provider-specific details are encapsulated in `akos/finance.py` so backends can be swapped without changing tool signatures.
+
+### 9.9 HLK Registry MCP
+
+The HLK Registry MCP gives agents read-only access to the Holistika organisation and process vault.
+
+| Tool | Purpose |
+|:-----|:--------|
+| `hlk_role(role_name)` | Look up a role's description, access level, area, entity, and reporting chain position |
+| `hlk_role_chain(role_name)` | Traverse the reports_to chain from a role up to Admin |
+| `hlk_area(area)` | List all roles in an organisational area (Admin, AI, People, Operations, Finance, Marketing, Data, Tech, Legal, Research) |
+| `hlk_process(item_id)` | Look up a process item by its ID (e.g. `hol_resea_dtp_99`) |
+| `hlk_process_tree(item_name)` | List direct children of a process item by parent name |
+| `hlk_projects()` | List all 11 top-level projects with child counts |
+| `hlk_gaps()` | Identify items with missing metadata, TBD owners, or empty descriptions |
+| `hlk_search(query)` | Fuzzy search across roles and processes by name, description, or ID |
+
+**Data source:** All tools read from the canonical vault CSVs (`docs/references/hlk/compliance/baseline_organisation.csv` and `process_list.csv`). The vault is the database -- no external DB dependency required.
+
+**Setup:** Requires `pip install mcp`. No API keys needed. The `OVERLAY_HLK.md` prompt overlay teaches agents when and how to use these tools, and how to cite canonical sources in responses.
 
 **Recommended validation prompts:**
 - `How is Tesla doing today?`
@@ -791,7 +836,7 @@ The API binds to `127.0.0.1:8420` by default. Use `--host 0.0.0.0` for network a
 | GET | `/health` | System health: gateway, RunPod, Langfuse status, uptime |
 | GET | `/status` | Current environment, model, tier, variant, last switch |
 | POST | `/switch` | Switch environment (body: `{"environment": "gpu-runpod", "dry_run": false}`) |
-| GET | `/agents` | List all 4 agents with workspace paths and SOUL.md status |
+| GET | `/agents` | List all 5 agents with workspace paths and SOUL.md status |
 | GET | `/runpod/health` | RunPod endpoint health: workers, queue depth |
 | POST | `/runpod/scale` | Adjust RunPod scaling (body: `{"min_workers": 1, "max_workers": 3}`) |
 | GET | `/metrics` | DX baseline metrics from `baselines.json` |
@@ -1168,10 +1213,10 @@ This section describes how to verify the system is working by interacting with i
    | Endpoint | What you expect |
    |:---------|:----------------|
    | GET `/health` | `"status": "ok"`, uptime counter |
-   | GET `/agents` | Array with 4 agents: orchestrator, architect, executor, verifier |
+   | GET `/agents` | Array with 5 agents: madeira, orchestrator, architect, executor, verifier |
    | GET `/metrics` | `"baselines"` array with 4 DX metrics |
    | GET `/alerts` | `"alerts"` array with SOC alert definitions |
-   | POST `/prompts/assemble` | `"success": true` with 12 built prompts |
+   | POST `/prompts/assemble` | `"success": true` with 15 built prompts |
    | GET `/runpod/health` | `"enabled": false` (expected without API key) |
    | POST `/switch` (body: `{"environment": "dev-local", "dry_run": true}`) | Model/tier/variant for dev-local |
 
@@ -1194,7 +1239,7 @@ This tests the actual product as users experience it.
    ```
    Or use the CLI shortcut: `openclaw dashboard`
 
-3. **Verify agents are listed.** You should see all 4 agents: Orchestrator, Architect, Executor, and Verifier.
+3. **Verify agents are listed.** You should see all 5 agents: Madeira, Orchestrator, Architect, Executor, and Verifier.
 
 4. **Test the Architect** (read-only agent):
    - Select the **Architect** agent
@@ -1237,7 +1282,7 @@ Use this checklist after any deployment or major configuration change:
 
 - [ ] Gateway starts without errors
 - [ ] Dashboard loads at `http://127.0.0.1:18789`
-- [ ] All 4 agents are visible
+- [ ] All 5 agents are visible (Madeira, Orchestrator, Architect, Executor, Verifier)
 - [ ] Architect responds in read-only mode (no file writes)
 - [ ] Executor requests HITL approval for mutative operations
 - [ ] MCP tools are available (sequential thinking, browser, GitHub)
@@ -1528,7 +1573,7 @@ Returns the switch result including model, tier, and variant.
 
 ### GET /agents
 
-Returns an array of all 4 agents with workspace paths and SOUL.md status.
+Returns an array of all 5 agents with workspace paths and SOUL.md status.
 
 ```json
 [
@@ -1663,7 +1708,7 @@ Streams gateway log entries as JSON objects in real-time.
 ## 22. What's New in v0.5.0
 
 ### Gateway Runtime Wiring
-- **Per-agent tool profiles** enforced at gateway level — Orchestrator/Architect use `minimal`, Executor/Verifier use `coding`; Verifier has explicit deny for write_file, delete_file, git_push, git_commit
+- **Per-agent tool profiles** enforced at gateway level — Madeira/Orchestrator/Architect use `minimal`, Executor/Verifier use `coding`; Verifier has explicit deny for write_file, delete_file, git_push, git_commit
 - **Exec security mode** per agent — allowlist for Executor, deny for Architect; Orchestrator/Architect never have full exec
 - **Gateway-level loop detection** — defense-in-depth with prompt-level loop detection; circuit breaker thresholds configurable
 - **Agent-to-agent tool** for Orchestrator delegation — target allowlist restricts invokable agents
@@ -1749,3 +1794,89 @@ AKOS-specific keys (`logging`, `permissions`) are now stored in `~/.openclaw/ako
 
 **`/status` returns all "unknown":**
 This is normal before the first environment switch. Run `py scripts/switch-model.py dev-local` to activate.
+
+## 19. HLK Operator Model
+
+This section explains how to operate the Holistika Knowledge Vault through MADEIRA and the AKOS platform.
+
+### 19.1 Three Layers You Should Understand
+
+| Layer | What it is | Lifetime | Where it lives |
+|:------|:-----------|:---------|:---------------|
+| **Session** | A single conversation or workflow run | Temporary -- ends when the chat closes or the agent resets | Agent memory, chat history |
+| **Workspace** | An agent's operating folder with identity, memory, and rules | Persists across sessions but is agent-scoped | `~/.openclaw/workspace-{agent}/` |
+| **Vault** | The canonical business knowledge system | Permanent -- versioned in git, synced to Drive | `docs/references/hlk/` |
+
+**Operating rule:** Session state is disposable. Workspace state helps agents remember context. The vault is the source of truth. Never rely on session memory for business facts -- always ground answers in the vault.
+
+### 19.2 How You Use MADEIRA Day-to-Day
+
+MADEIRA is your single entrypoint for HLK operations. You talk to MADEIRA. MADEIRA queries the vault.
+
+**Common tasks and what to say:**
+
+| Task | What to ask MADEIRA | Tool MADEIRA uses |
+|:-----|:--------------------|:------------------|
+| Find a role | "Who is the Data Architect?" | `hlk_role` |
+| Check reporting chain | "Who does DevOPS report to?" | `hlk_role_chain` |
+| List an area | "Show me all Research roles" | `hlk_area` |
+| Find a process | "What is hol_resea_dtp_142?" | `hlk_process` |
+| Explore a project | "What workstreams are under KiRBe Platform?" | `hlk_process_tree` |
+| See all projects | "List all 11 projects" | `hlk_projects` |
+| Find gaps | "What baselines need remediation?" | `hlk_gaps` |
+| Search anything | "Find everything related to HUMINT" | `hlk_search` |
+
+### 19.3 Adding Knowledge to the Vault
+
+1. **Identify the owner** -- look up the role in `baseline_organisation.csv` that should own this knowledge.
+2. **Navigate to the folder** -- go to `docs/references/hlk/v3.0/Admin/O5-1/{area}/{role}/`.
+3. **Write markdown** -- create the document following the SOP-META envelope if it is a formal procedure.
+4. **Register the process** -- if this is a new process, add a row to `process_list.csv` with the correct `item_parent_1`, `role_owner`, and `item_granularity`.
+5. **Commit** -- git tracks the change. Drive syncs the folder.
+
+### 19.4 Maintaining Baselines
+
+The canonical baselines live in `docs/references/hlk/compliance/`:
+
+| File | What to edit | When |
+|:-----|:-------------|:-----|
+| `baseline_organisation.csv` | Roles, hierarchy, access levels, descriptions | New role, role change, access review |
+| `process_list.csv` | Processes, projects, workstreams, tasks | New process, hierarchy change, ownership change |
+| `access_levels.md` | Access level definitions | Policy change (rare) |
+| `confidence_levels.md` | Confidence level definitions | Policy change (rare) |
+| `source_taxonomy.md` | Source categories and credibility levels | New source type (rare) |
+| `PRECEDENCE.md` | What is canonical vs mirrored | Governance change |
+
+**After editing baselines:** Restart the AKOS API (`py scripts/serve-api.py`) to reload the HLK registry from the updated CSVs.
+
+### 19.5 Vault Structure Reference
+
+```
+docs/references/hlk/
+  compliance/                     Shared governance baselines (SSOT)
+  v3.0/                           Active vault (organigram-mirrored folders)
+    Admin/
+      O5-1/
+        Research/                  Holistik Researcher area
+        People/                   CPO area
+        Operations/               COO area
+        Finance/                  CFO area
+        Marketing/                CMO area
+        Data/                     CDO area
+        Tech/                     CTO area
+      AI/                         Susana Madeira / AIC chain
+    Envoy Tech Lab/               KiRBe, MADEIRA, Showcases
+    Think Big/                    Projects, Clients
+  Research & Logic/               v2.7 historical reference (read-only)
+```
+
+### 19.6 Quick Reference Card
+
+| Question | Answer |
+|:---------|:-------|
+| Where do I edit? | `docs/references/hlk/v3.0/` for documents, `compliance/` for baselines |
+| Where do old docs live? | `Research & Logic/` (v2.7, read-only) |
+| How does MADEIRA find things? | Via HLK MCP tools backed by `HlkRegistry` reading the canonical CSVs |
+| What happens if I edit both vault and DB? | Vault wins. See `PRECEDENCE.md` for conflict resolution. |
+| How do I restart after baseline edits? | `py scripts/serve-api.py --port 8420` |
+| How do I check integrity? | `py scripts/test.py hlk` or use `/hlk/gaps` endpoint |

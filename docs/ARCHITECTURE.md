@@ -55,14 +55,22 @@ The system decouples the reasoning engine from its tools and channels across fou
 
 Forcing a single agent to simultaneously architect a solution and write the underlying syntax causes **cognitive overload**, resulting in context degradation, hallucinations, and infinite debugging loops.
 
-The multi-agent paradigm separates concerns across four specialized roles:
+The multi-agent paradigm separates concerns across five specialized roles:
+
+### Madeira Agent (new in v0.6.0)
+
+- **User-facing operational assistant** for the Holistika knowledge vault
+- Operates in **read-only lookup** mode -- answers HLK questions directly using `hlk_*` tools
+- Default dashboard entrypoint for end-user HLK usage
+- Escalates multi-step administrative tasks to the Orchestrator
+- **Cannot** write files, execute commands, or navigate browsers
 
 ### Orchestrator Agent (new in v0.3.0)
 
 - Receives user requests and decomposes into sub-tasks
 - Delegates to Architect, Executor, and Verifier
 - Tracks progress, handles failures, supports parallel delegation
-- **Cannot** execute tasks directly
+- **Cannot** execute tasks directly -- coordinator role only
 
 ### Architect Agent
 
@@ -209,8 +217,8 @@ prompts/base/ARCHITECT_BASE.md  +  overlays/  -->  assembled/ARCHITECT_PROMPT.<v
 | Variant | Overlays Included |
 |:--------|:------------------|
 | compact | None (base only -- 3-5 MUST rules for small models) |
-| standard | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_STARTUP_COMPLIANCE |
-| full | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_INTELLIGENCE + OVERLAY_RESEARCH + OVERLAY_CONTEXT_MANAGEMENT + OVERLAY_TOOLS_FULL + OVERLAY_STARTUP_COMPLIANCE |
+| standard | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_STARTUP_COMPLIANCE + OVERLAY_HLK |
+| full | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_INTELLIGENCE + OVERLAY_RESEARCH + OVERLAY_CONTEXT_MANAGEMENT + OVERLAY_TOOLS_FULL + OVERLAY_STARTUP_COMPLIANCE + OVERLAY_HLK |
 
 Build all variants: `python scripts/assemble-prompts.py`
 
@@ -461,6 +469,7 @@ Ten MCP servers provide the agent tool ecosystem:
 | code-search | `@akos/mcp-code-search` | Semantic code search via ripgrep + tree-sitter |
 | akos | `scripts/mcp_akos_server.py` | Custom AKOS MCP: `akos_health`, `akos_agents`, `akos_status` (control plane self-check) |
 | finance | `scripts/finance_mcp_server.py` | Finance research: `finance_quote`, `finance_search`, `finance_sentiment` (read-only, yfinance + Alpha Vantage) |
+| hlk | `scripts/hlk_mcp_server.py` | HLK vault registry: `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search` (read-only) |
 
 ### Cursor vs AKOS Browser Separation (Platform-Agnostic Design)
 
@@ -532,6 +541,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/models.py` | Pydantic schemas for `model-tiers.json`, `openclaw.json`, environment overlays (incl. RunPod), alerts, baselines, finance response envelope |
 | `akos/model_catalog.py` | `CatalogEntry` Pydantic model + `load_catalog()` for `config/model-catalog.json`; drives the interactive GPU deploy picker |
 | `akos/finance.py` | `FinanceService` — quote, search, sentiment via yfinance + Alpha Vantage; TTL cache; graceful degradation when backends are absent |
+| `akos/hlk.py` | `HlkRegistry` — typed lookups over the HLK canonical vault CSVs (org roles, process items, gap detection, fuzzy search); lazy singleton; `HlkResponse` envelope |
 | `akos/io.py` | `load_json`, `save_json`, `deep_merge`, `resolve_openclaw_home`, `AGENT_WORKSPACES` (4-agent mapping) |
 | `akos/log.py` | `JSONFormatter` + `HumanFormatter`; `setup_logging(json_output)` configures the root logger |
 | `akos/process.py` | `CommandResult` dataclass + `run()` wrapper with timeouts and structured error capture |
@@ -571,6 +581,16 @@ The `akos/api.py` module exposes a REST API for programmatic control:
 | `/runtime/drift` | GET | Runtime drift detection (repo vs live) |
 | `/agents/{id}/policy` | GET | Effective capability policy for an agent |
 | `/agents/{id}/capability-drift` | GET | Check tool drift against policy |
+| `/hlk/roles` | GET | All HLK baseline organisation roles |
+| `/hlk/roles/{name}` | GET | Single role lookup |
+| `/hlk/roles/{name}/chain` | GET | Reports-to chain traversal to Admin |
+| `/hlk/areas` | GET | Area summary with role counts |
+| `/hlk/areas/{area}` | GET | Roles in a given area |
+| `/hlk/processes` | GET | Project summary (11 projects) |
+| `/hlk/processes/{id}` | GET | Single process item by ID |
+| `/hlk/processes/{name}/tree` | GET | Direct children of a process item |
+| `/hlk/gaps` | GET | Gap report (missing metadata, TBD owners) |
+| `/hlk/search?q=` | GET | Fuzzy search across roles and processes |
 | `/context/pin` | POST/DELETE | Pin or unpin context for agent focus |
 | `/context/pins` | GET | List pinned context entries |
 | `/metrics/cost` | GET | Cost breakdown by agent and environment |
@@ -619,8 +639,8 @@ For runtime-facing work, AKOS uses a layered SSOT chain:
 
 | Layer | File | Role |
 |:------|:-----|:-----|
-| Repo gateway intent | `config/openclaw.json.example` | Canonical gateway template in git |
-| Repo MCP intent | `config/mcporter.json.example` | Canonical MCP server template in git |
+| Repo gateway intent | `config/openclaw.json.example` | Canonical gateway template in git (`.example` suffix = contains `${VAR}` credential placeholders, not optional) |
+| Repo MCP intent | `config/mcporter.json.example` | Canonical MCP server template in git (`.example` suffix = contains credential placeholders, not optional) |
 | Policy/audit SSOT | `config/agent-capabilities.json` | AKOS logical role policy and drift basis |
 | Translation layer | `scripts/bootstrap.py` | Converts repo intent into live runtime files |
 | Live gateway runtime | `~/.openclaw/openclaw.json` | Active OpenClaw runtime consumed by the gateway |
@@ -656,6 +676,7 @@ The following matrix shows every component, who owns it, and how the two layers 
 | Alert Engine         | `akos/alerts.py`                                                                                                                | SOC alerts from log patterns and baselines                                    | Processes OpenClaw gateway logs                                           |
 | Model Catalog        | `akos/model_catalog.py`, `config/model-catalog.json`                                                                             | SSOT for GPU-deployable models (VRAM, parsers, GPU defaults)                   | `gpu.py` uses catalog to auto-configure PodConfig and overlay JSON         |
 | Finance Service      | `akos/finance.py`, `scripts/finance_mcp_server.py`                                                                               | Read-only finance research (quotes, search, sentiment) via yfinance + Alpha Vantage | MCP server registered in mcporter; agents invoke tools autonomously        |
+| HLK Registry         | `akos/hlk.py`, `scripts/hlk_mcp_server.py`                                                                                      | Organisation, process, and compliance vault lookups | MCP server registered in mcporter; agents invoke tools autonomously; OVERLAY_HLK.md teaches agents vault protocol |
 | RunPod Provider      | `akos/runpod_provider.py`                                                                                                       | GPU infrastructure lifecycle                                                  | Manages vLLM endpoints; OpenClaw uses them via `vllm-runpod` provider     |
 | Checkpoints          | `akos/checkpoints.py`                                                                                                           | Workspace snapshot/restore                                                    | AKOS-only concept; operates on workspace dirs                             |
 | Tool Registry        | `akos/tools.py`                                                                                                                 | Dynamic tool inventory from mcporter + permissions                            | AKOS-layer classification of MCP tools                                    |
@@ -769,7 +790,9 @@ A validation test suite (`tests/`) provides 300+ automated checks covering JSON 
 
 ## Live Configuration Status
 
-The multi-agent architecture (Orchestrator, Architect, Executor, Verifier) has been wired into the live `~/.openclaw/openclaw.json` using the native `agents.list` schema. All four agents are accessible via `openclaw dashboard` (WebChat). A backup of the original config exists at `~/.openclaw/openclaw.json.bak`.
+The multi-agent architecture (Madeira, Orchestrator, Architect, Executor, Verifier) has been wired into the live `~/.openclaw/openclaw.json` using the native `agents.list` schema. All five agents are accessible via `openclaw dashboard` (WebChat). A backup of the original config exists at `~/.openclaw/openclaw.json.bak`.
+
+**Madeira** is the recommended dashboard default for end-user HLK operations. It answers factual questions directly using `hlk_*` tools and only escalates multi-step tasks to the Orchestrator.
 
 To disconnect the AKOS architecture from OpenCLAW:
 1. Restore backup: copy `openclaw.json.bak` over `openclaw.json`
