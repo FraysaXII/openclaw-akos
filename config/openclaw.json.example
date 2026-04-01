@@ -160,6 +160,20 @@
           "profile": "coding",
           "deny": ["write_file", "delete_file", "git_push", "git_commit"]
         }
+      },
+      {
+        "id": "madeira",
+        "name": "Madeira (HLK Operations Assistant)",
+        "workspace": "~/.openclaw/workspace-madeira",
+        "identity": {
+          "name": "Madeira",
+          "theme": "user-facing operational assistant for the Holistika knowledge vault",
+          "emoji": "🌊"
+        },
+        "tools": {
+          "profile": "minimal",
+          "allow": ["web_search", "memory_store", "memory_retrieve", "memory_list", "finance_search", "finance_quote", "finance_sentiment", "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process", "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search"]
+        }
       }
     ]
   },
@@ -178,7 +192,7 @@
     },
     "agentToAgent": {
       "enabled": true,
-      "allow": ["orchestrator", "architect", "executor", "verifier"]
+      "allow": ["orchestrator", "architect", "executor", "verifier", "madeira"]
     }
   },
   "session": {
