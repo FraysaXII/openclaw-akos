@@ -2,7 +2,7 @@
 
 Provides runtime type safety, JSON Schema generation, and validation
 for model-tiers.json, openclaw.json, environment overlays, alerts,
-baselines, and finance response envelopes.
+baselines, finance response envelopes, and HLK domain models.
 """
 
 from __future__ import annotations
@@ -412,6 +412,72 @@ class FinanceResponse(BaseModel):
     quotes: list[QuoteData] | None = None
     search_results: list[SearchResult] | None = None
     sentiment: list[SentimentItem] | None = None
+    error_detail: str = ""
+
+
+# ── HLK Domain Models ───────────────────────────────────────────────────
+
+AccessLevel = Literal[0, 1, 2, 3, 4, 5, 6]
+ConfidenceLevel = Literal[1, 2, 3]
+SourceCategory = Literal["OSINT", "HUMINT", "SIGINT", "CORPINT", "MOTINT", "TBD"]
+ProcessGranularity = Literal["project", "workstream", "process", "task"]
+HlkStatus = Literal["ok", "not_found", "error"]
+
+
+class OrgRole(BaseModel):
+    """A single role from the HLK baseline organisation."""
+
+    org_uuid: str = ""
+    role_name: str
+    role_description: str = ""
+    role_full_description: str = ""
+    access_level: int = 0
+    reports_to: str = ""
+    area: str = ""
+    entity: str = ""
+    org_id: str = ""
+    sop_url: str = ""
+    responsible_processes: str = ""
+    components_used: str = ""
+
+
+class ProcessItem(BaseModel):
+    """A single item from the HLK process list."""
+
+    type: str = "Internal"
+    orientation: str = "Employee"
+    entity: str = ""
+    area: str = ""
+    role_parent_1: str = ""
+    role_owner: str = ""
+    item_parent_2: str = ""
+    item_parent_1: str = ""
+    item_name: str = ""
+    item_id: str = ""
+    item_granularity: str = ""
+    time_hours_par: str = ""
+    description: str = ""
+    instructions: str = ""
+    addundum_extras: str = ""
+    confidence: str = ""
+    count_name: str = ""
+    frequency: str = ""
+    quality: str = ""
+
+
+class HlkResponse(BaseModel):
+    """Schema-locked envelope for all HLK registry responses.
+
+    Mirrors the FinanceResponse pattern: a status field, optional typed
+    payloads, warnings for degraded results, and an error_detail string.
+    """
+
+    status: HlkStatus
+    roles: list[OrgRole] | None = None
+    processes: list[ProcessItem] | None = None
+    role_count: int | None = None
+    process_count: int | None = None
+    warnings: list[str] = Field(default_factory=list)
     error_detail: str = ""
 
 
