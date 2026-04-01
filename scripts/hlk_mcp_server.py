@@ -18,8 +18,6 @@ Usage: python scripts/hlk_mcp_server.py
        or: uv run --with mcp scripts/hlk_mcp_server.py (stdio)
 """
 
-from __future__ import annotations
-
 import sys
 from pathlib import Path
 
