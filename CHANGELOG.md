@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (HLK CI/CD Hardening -- Phase 5)
+
+- **HLK validation script** (`scripts/validate_hlk.py`) -- 9 deterministic checks: CSV parse, role_owner integrity, graph integrity, granularity canon, duplicate IDs, project-has-children. Integrated into `scripts/release-gate.py` as a mandatory gate step.
+- **Expanded HLK test coverage** -- 3 new test classes in `tests/test_hlk.py`: `TestHlkIntegrity` (referential + graph integrity), `TestHlkProvenance` (structural provenance), `TestHlkApiEdgeCases` (path traversal, XSS, special characters).
+- **Externalization decision**: HLK stays internal to AKOS (tight coupling with vault CSVs and `akos/io.py`; revisit when a second consumer outside this repo needs direct imports).
+
+### Added (HLK Admin UX -- Phase 4)
+
+- **HLK Operator Model** in USER_GUIDE Section 19 -- session vs workspace vs vault distinction, day-to-day MADEIRA usage guide, knowledge addition and baseline maintenance flows, vault structure reference, quick reference card.
+- **HLK UAT smoke scenarios** (`docs/uat/hlk_admin_smoke.md`) -- 7 scenarios covering role lookup, area navigation, process tree, gap detection, search, admin workflow, and session-vs-vault discipline.
+
 ### Added (HLK MADEIRA Entry Surface -- Phase 3)
 
 - **HLK MCP server** (`scripts/hlk_mcp_server.py`) -- 8 read-only tools for vault registry lookups: `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search`. FastMCP + stdio transport.

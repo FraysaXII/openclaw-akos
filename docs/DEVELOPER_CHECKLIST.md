@@ -13,8 +13,9 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | 3 | `py scripts/test.py all` | Full regression suite passes |
 | 4 | `py scripts/browser-smoke.py --playwright` | Browser smoke; on Windows crash-prone hosts this may return SKIP instead of FAIL |
 | 5 | `py -m pytest tests/test_api.py -v` | FastAPI control plane smoke |
-| 6 | `py scripts/release-gate.py` | Unified gate must report PASS |
-| 7 | `py scripts/resolve-mcporter-paths.py` | If mcporter.json was copied manually (resolves placeholder paths) |
+| 6 | `py scripts/release-gate.py` | Unified gate must report PASS (includes HLK vault validation) |
+| 7 | `py scripts/validate_hlk.py` | HLK canonical vault integrity (also run by release gate) |
+| 8 | `py scripts/resolve-mcporter-paths.py` | If mcporter.json was copied manually (resolves placeholder paths) |
 
 ### Documentation Updates
 
