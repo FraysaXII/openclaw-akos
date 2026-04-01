@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (MADEIRA Runtime UX Stabilization)
+
+- **Madeira agent** — fifth agent (`id: "madeira"`) as the user-facing dashboard entrypoint for HLK operations. Read-only lookup assistant with a dedicated workspace (`~/.openclaw/workspace-madeira`), scaffold (`config/workspace-scaffold/madeira/`), and all 3 prompt variants.
+- **MADEIRA_BASE.md** — lookup-first prompt contract: Lookup Mode (default, tool-backed answers), Summary Mode (multi-tool synthesis), Escalation Mode (delegate to Orchestrator for admin tasks).
+- **Bootstrap tool propagation fix** — `_sync_tool_profiles_from_capability_matrix()` now unions template allow lists with MCP tools from the capability matrix, ensuring new read-only tools (e.g. `hlk_*`) propagate without manual template edits per agent.
+- **Dashboard UAT scenario** (Scenario 0 in `docs/uat/hlk_admin_smoke.md`) — verifies Madeira answers HLK questions directly via tools in the browser dashboard.
+
+### Changed (MADEIRA Runtime UX Stabilization)
+
+- Agent count updated from 4 to 5 across all docs (ARCHITECTURE.md, USER_GUIDE.md, SOP.md, CHANGELOG.md).
+- Prompt assembly now produces 15 files (5 agents x 3 variants) instead of 12.
+- `config/model-tiers.json` — MADEIRA added to HLK and startup compliance overlay agent lists for standard and full variants.
+- `config/agent-capabilities.json` — `madeira` role added with read-only HLK + finance + memory tools.
+- `config/openclaw.json.example` — `madeira` in `agents.list` and `tools.agentToAgent.allow`.
+- `akos/io.py` — `AGENT_WORKSPACES` and `agent_scaffold_map` include MADEIRA.
+- `scripts/assemble-prompts.py` — `AGENTS` dict includes MADEIRA.
+
 ### Added (HLK CI/CD Hardening -- Phase 5)
 
 - **HLK validation script** (`scripts/validate_hlk.py`) -- 9 deterministic checks: CSV parse, role_owner integrity, graph integrity, granularity canon, duplicate IDs, project-has-children. Integrated into `scripts/release-gate.py` as a mandatory gate step.

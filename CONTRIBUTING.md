@@ -30,7 +30,7 @@ Thank you for your interest in contributing. This document provides guidelines t
 
 ## Architecture
 
-The system uses a **4-agent model** (Orchestrator, Architect, Executor, Verifier) with tiered prompt assembly, a FastAPI control plane, and RunPod GPU integration. Read `docs/ARCHITECTURE.md` and `docs/USER_GUIDE.md` before contributing to agent prompts, overlays, or the `akos/` library.
+The system uses a **5-agent model** (Madeira, Orchestrator, Architect, Executor, Verifier) with tiered prompt assembly, a FastAPI control plane, and RunPod GPU integration. Read `docs/ARCHITECTURE.md` and `docs/USER_GUIDE.md` before contributing to agent prompts, overlays, or the `akos/` library.
 
 ## Documentation Standards
 

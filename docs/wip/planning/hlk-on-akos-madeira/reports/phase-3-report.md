@@ -29,3 +29,4 @@ Phase 3 wired MADEIRA to the HLK vault through an MCP server, a prompt overlay, 
 
 - Phase 4: Admin UX, workspace management, and session discipline
 - Phase 5: CI/CD, hardening, and externalization decision
+- **MADEIRA Runtime UX Stabilization**: Dedicated agent, bootstrap propagation fix, lookup-first prompt, and dashboard UAT (see `madeira-runtime-ux-report.md`)

@@ -943,7 +943,7 @@ This phase creates the cognitive separation across the four-agent model: Orchest
 | **HITL Gate** | `mutative` |
 | **Complexity** | `moderate` |
 
-> **Implementation Note (v3.0 update):** The original SOP text referenced a `workspaces` object for channel routing. This schema does not exist in OpenCLAW v2026.2.26. The correct mechanism is `agents.list` (agent definitions) + `bindings` (channel-to-agent routing rules). Additionally, `identity` must be an object (`{ name, emoji, theme }`), not a string path. Behavioral prompts are loaded from `SOUL.md` inside each agent's workspace directory. Ollama-hosted models require `agents.defaults.thinkingDefault: "off"` to prevent 400 errors from unsupported `think` parameters. As of v3.0, the `agents.list` must contain all four agents: Orchestrator, Architect, Executor, and Verifier. See [ARCHITECTURE.md](ARCHITECTURE.md) for full details.
+> **Implementation Note (v3.0 update):** The original SOP text referenced a `workspaces` object for channel routing. This schema does not exist in OpenCLAW v2026.2.26. The correct mechanism is `agents.list` (agent definitions) + `bindings` (channel-to-agent routing rules). Additionally, `identity` must be an object (`{ name, emoji, theme }`), not a string path. Behavioral prompts are loaded from `SOUL.md` inside each agent's workspace directory. Ollama-hosted models require `agents.defaults.thinkingDefault: "off"` to prevent 400 errors from unsupported `think` parameters. As of v0.6.0, the `agents.list` must contain all five agents: Madeira, Orchestrator, Architect, Executor, and Verifier. Madeira is the user-facing HLK lookup assistant. See [ARCHITECTURE.md](ARCHITECTURE.md) for full details.
 
 ### **8.7 Phase 5: Observability and DX Metrics (SOP 7.0)**
 
@@ -1050,12 +1050,12 @@ This section documents the operational procedures introduced in v0.4.0. These pr
 
 The v0.3.0 implementation revealed that only 2 of 4 agents were deployed to the live runtime during bootstrap. v0.4.0 enforces full runtime convergence:
 
-**Bootstrap (all 4 agents):**
+**Bootstrap (all 5 agents):**
 - `scripts/bootstrap.py` now creates all 4 workspace directories (`workspace-orchestrator`, `workspace-architect`, `workspace-executor`, `workspace-verifier`).
 - Scaffold files (IDENTITY.md, MEMORY.md, HEARTBEAT.md) are deployed to all workspaces via `deploy_scaffold_files()`.
 - `mcporter.json` is generated with OS-appropriate paths (replacing hardcoded `/opt/openclaw/workspace`). Bootstrap also re-resolves existing configs automatically. For manual copies, use `py scripts/resolve-mcporter-paths.py`.
 - Bootstrap strips provider blocks with unresolved `${VAR}` env vars (v0.4.1) to prevent gateway `MissingEnvVarError` crashes.
-- Bootstrap force-syncs `agents.list` from the template to ensure all 4 agents are present (v0.4.1).
+- Bootstrap force-syncs `agents.list` from the template to ensure all 5 agents are present (v0.6.0: Madeira added).
 - AKOS-specific config keys (`logging`, `permissions`, `gateway.host`) are extracted into `~/.openclaw/akos-config.json` to avoid `openclaw doctor` warnings (v0.4.1).
 - Session directories (`~/.openclaw/agents/<id>/sessions/`) are created for all agents (v0.4.1).
 

@@ -34,7 +34,7 @@
 
 OpenCLAW-AKOS transforms a vanilla OpenCLAW deployment into an **Agentic Knowledge Operating System (LLMOS)**. It provides:
 
-- A **4-agent architecture** (Orchestrator, Architect, Executor, Verifier) that eliminates cognitive overload by separating task decomposition, planning, execution, and validation.
+- A **5-agent architecture** (Madeira, Orchestrator, Architect, Executor, Verifier) that eliminates cognitive overload by separating user-facing lookup, task decomposition, planning, execution, and validation.
 - **Tiered prompt assembly** keyed to model capability (small/medium/large/SOTA).
 - **RunPod GPU integration** for serverless vLLM endpoints with auto-provisioning.
 - A **FastAPI control plane** for programmatic system management.
@@ -169,6 +169,7 @@ config/
     architect/                 Architect workspace defaults
     executor/                  Executor workspace defaults
     verifier/                  Verifier workspace defaults
+    madeira/                   Madeira workspace defaults
 ```
 
 ### 4.2 openclaw.json
@@ -244,11 +245,15 @@ LANGFUSE_HOST=https://cloud.langfuse.com
 
 ### 5.1 Architecture
 
-The system uses four specialized agents, each with a distinct role:
+The system uses five specialized agents, each with a distinct role:
 
 ```
-User Request
+User (HLK questions)
     |
+    v
+MADEIRA  (answers directly via HLK tools, escalates complex tasks)
+    |
+    | (multi-step admin tasks)
     v
 ORCHESTRATOR  (decomposes, delegates, tracks)
     |
@@ -265,7 +270,21 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
          FAIL? --> Fix Suggestion --> Executor (up to 3 retries)
 ```
 
-### 5.2 Orchestrator
+### 5.2 Madeira (new in v0.6.0)
+
+**Role:** User-facing operational assistant for the Holistika knowledge vault.
+
+**Mode:** Read-only lookup. Cannot write files, execute commands, or use the browser.
+
+**Key behaviors:**
+- **Lookup mode (default):** Answers factual HLK questions directly using `hlk_*` tools, citing canonical sources.
+- **Summary mode:** Synthesises multi-tool answers with structured formatting.
+- **Escalation mode:** Acknowledges multi-step admin requests and delegates to the Orchestrator.
+- Never responds with generic "check your HR system" fallbacks when HLK tools are available.
+
+**Workspace:** `~/.openclaw/workspace-madeira/`
+
+### 5.3 Orchestrator
 
 **Role:** Multi-agent coordinator. Receives user requests, decomposes them into sub-tasks, delegates to the appropriate agent, and tracks progress.
 
@@ -279,7 +298,7 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 
 **Workspace:** `~/.openclaw/workspace-orchestrator/`
 
-### 5.3 Architect
+### 5.4 Architect
 
 **Role:** Strategic planner. Analyzes requirements, performs research, and produces structured Plan Documents.
 
@@ -293,7 +312,7 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 
 **Workspace:** `~/.openclaw/workspace-architect/`
 
-### 5.4 Executor
+### 5.5 Executor
 
 **Role:** Builder. Carries out action plans from the Architect or Orchestrator.
 
@@ -307,7 +326,7 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 
 **Workspace:** `~/.openclaw/workspace-executor/`
 
-### 5.5 Verifier
+### 5.6 Verifier
 
 **Role:** Quality gate. Validates that the Executor's actions produced correct results.
 
@@ -321,14 +340,17 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 
 **Workspace:** `~/.openclaw/workspace-verifier/`
 
-### 5.6 Selecting Agents
+### 5.7 Selecting Agents
 
-Agents are available via the OpenCLAW WebChat dashboard (`openclaw dashboard`). Select an agent from the sidebar. For most workflows, start with the **Orchestrator** -- it will delegate to the others as needed.
+Agents are available via the OpenCLAW WebChat dashboard (`openclaw dashboard`). Select an agent from the sidebar.
 
-For direct access:
+- **Start with Madeira** for HLK operations -- role lookups, process navigation, gap detection, vault searches.
+- Use **Orchestrator** for multi-step tasks that require coordination across agents.
 - Use **Architect** for research, analysis, and planning tasks.
 - Use **Executor** when you have a clear, pre-written plan to execute.
 - Use **Verifier** to validate a specific piece of work.
+
+To open a Madeira session directly: `http://127.0.0.1:18789/chat?session=agent:madeira:main`
 
 ---
 
@@ -357,6 +379,7 @@ Each agent has a base prompt in `prompts/base/`:
 | `ARCHITECT_BASE.md` | Architect | Read-only rules, Plan Document structure, response modes |
 | `EXECUTOR_BASE.md` | Executor | HITL enforcement, execution protocol, error recovery loop |
 | `VERIFIER_BASE.md` | Verifier | Verification protocol, fix suggestions, abort conditions |
+| `MADEIRA_BASE.md` | Madeira | Lookup-first behaviour contract, HLK tool catalogue, escalation rules |
 
 ### 6.3 Overlay Files
 
@@ -377,13 +400,14 @@ Run the assembler to generate all variants:
 python scripts/assemble-prompts.py
 ```
 
-This produces 12 files in `prompts/assembled/` (4 agents x 3 variants):
+This produces 15 files in `prompts/assembled/` (5 agents x 3 variants):
 
 ```
 ORCHESTRATOR_PROMPT.compact.md    ORCHESTRATOR_PROMPT.standard.md    ORCHESTRATOR_PROMPT.full.md
 ARCHITECT_PROMPT.compact.md       ARCHITECT_PROMPT.standard.md       ARCHITECT_PROMPT.full.md
 EXECUTOR_PROMPT.compact.md        EXECUTOR_PROMPT.standard.md        EXECUTOR_PROMPT.full.md
 VERIFIER_PROMPT.compact.md        VERIFIER_PROMPT.standard.md        VERIFIER_PROMPT.full.md
+MADEIRA_PROMPT.compact.md         MADEIRA_PROMPT.standard.md         MADEIRA_PROMPT.full.md
 ```
 
 **Flags:**
@@ -409,6 +433,7 @@ prompts/assembled/ORCHESTRATOR_PROMPT.full.md  -->  ~/.openclaw/workspace-orches
 prompts/assembled/ARCHITECT_PROMPT.full.md     -->  ~/.openclaw/workspace-architect/SOUL.md
 prompts/assembled/EXECUTOR_PROMPT.full.md      -->  ~/.openclaw/workspace-executor/SOUL.md
 prompts/assembled/VERIFIER_PROMPT.full.md      -->  ~/.openclaw/workspace-verifier/SOUL.md
+prompts/assembled/MADEIRA_PROMPT.full.md       -->  ~/.openclaw/workspace-madeira/SOUL.md
 ```
 
 ---
@@ -667,15 +692,16 @@ Each server is an npm package launched via `npx`. Environment variables (like `G
 
 ### 9.3 Which Agents Use Which Servers
 
-| Server | Orchestrator | Architect | Executor | Verifier |
-|:-------|:-------------|:----------|:---------|:---------|
-| sequential-thinking | standard+ | standard+ | -- | -- |
-| playwright | -- | -- | full | full |
-| github | -- | yes | yes | -- |
-| memory | full | full | full | -- |
-| filesystem | -- | -- | full | full |
-| fetch | -- | -- | full | -- |
-| finance | yes | yes | yes | yes |
+| Server | Madeira | Orchestrator | Architect | Executor | Verifier |
+|:-------|:-------|:-------------|:----------|:---------|:---------|
+| sequential-thinking | -- | standard+ | standard+ | -- | -- |
+| playwright | -- | -- | -- | full | full |
+| github | -- | -- | yes | yes | -- |
+| memory | yes | full | full | full | -- |
+| filesystem | -- | -- | -- | full | full |
+| fetch | -- | -- | -- | full | -- |
+| finance | yes | yes | yes | yes | yes |
+| hlk | yes | yes | yes | yes | yes |
 
 ### 9.4 Memory Server Usage
 
@@ -810,7 +836,7 @@ The API binds to `127.0.0.1:8420` by default. Use `--host 0.0.0.0` for network a
 | GET | `/health` | System health: gateway, RunPod, Langfuse status, uptime |
 | GET | `/status` | Current environment, model, tier, variant, last switch |
 | POST | `/switch` | Switch environment (body: `{"environment": "gpu-runpod", "dry_run": false}`) |
-| GET | `/agents` | List all 4 agents with workspace paths and SOUL.md status |
+| GET | `/agents` | List all 5 agents with workspace paths and SOUL.md status |
 | GET | `/runpod/health` | RunPod endpoint health: workers, queue depth |
 | POST | `/runpod/scale` | Adjust RunPod scaling (body: `{"min_workers": 1, "max_workers": 3}`) |
 | GET | `/metrics` | DX baseline metrics from `baselines.json` |
@@ -1187,10 +1213,10 @@ This section describes how to verify the system is working by interacting with i
    | Endpoint | What you expect |
    |:---------|:----------------|
    | GET `/health` | `"status": "ok"`, uptime counter |
-   | GET `/agents` | Array with 4 agents: orchestrator, architect, executor, verifier |
+   | GET `/agents` | Array with 5 agents: madeira, orchestrator, architect, executor, verifier |
    | GET `/metrics` | `"baselines"` array with 4 DX metrics |
    | GET `/alerts` | `"alerts"` array with SOC alert definitions |
-   | POST `/prompts/assemble` | `"success": true` with 12 built prompts |
+   | POST `/prompts/assemble` | `"success": true` with 15 built prompts |
    | GET `/runpod/health` | `"enabled": false` (expected without API key) |
    | POST `/switch` (body: `{"environment": "dev-local", "dry_run": true}`) | Model/tier/variant for dev-local |
 
@@ -1213,7 +1239,7 @@ This tests the actual product as users experience it.
    ```
    Or use the CLI shortcut: `openclaw dashboard`
 
-3. **Verify agents are listed.** You should see all 4 agents: Orchestrator, Architect, Executor, and Verifier.
+3. **Verify agents are listed.** You should see all 5 agents: Madeira, Orchestrator, Architect, Executor, and Verifier.
 
 4. **Test the Architect** (read-only agent):
    - Select the **Architect** agent
@@ -1256,7 +1282,7 @@ Use this checklist after any deployment or major configuration change:
 
 - [ ] Gateway starts without errors
 - [ ] Dashboard loads at `http://127.0.0.1:18789`
-- [ ] All 4 agents are visible
+- [ ] All 5 agents are visible (Madeira, Orchestrator, Architect, Executor, Verifier)
 - [ ] Architect responds in read-only mode (no file writes)
 - [ ] Executor requests HITL approval for mutative operations
 - [ ] MCP tools are available (sequential thinking, browser, GitHub)
@@ -1547,7 +1573,7 @@ Returns the switch result including model, tier, and variant.
 
 ### GET /agents
 
-Returns an array of all 4 agents with workspace paths and SOUL.md status.
+Returns an array of all 5 agents with workspace paths and SOUL.md status.
 
 ```json
 [
@@ -1682,7 +1708,7 @@ Streams gateway log entries as JSON objects in real-time.
 ## 22. What's New in v0.5.0
 
 ### Gateway Runtime Wiring
-- **Per-agent tool profiles** enforced at gateway level — Orchestrator/Architect use `minimal`, Executor/Verifier use `coding`; Verifier has explicit deny for write_file, delete_file, git_push, git_commit
+- **Per-agent tool profiles** enforced at gateway level — Madeira/Orchestrator/Architect use `minimal`, Executor/Verifier use `coding`; Verifier has explicit deny for write_file, delete_file, git_push, git_commit
 - **Exec security mode** per agent — allowlist for Executor, deny for Architect; Orchestrator/Architect never have full exec
 - **Gateway-level loop detection** — defense-in-depth with prompt-level loop detection; circuit breaker thresholds configurable
 - **Agent-to-agent tool** for Orchestrator delegation — target allowlist restricts invokable agents

@@ -55,14 +55,22 @@ The system decouples the reasoning engine from its tools and channels across fou
 
 Forcing a single agent to simultaneously architect a solution and write the underlying syntax causes **cognitive overload**, resulting in context degradation, hallucinations, and infinite debugging loops.
 
-The multi-agent paradigm separates concerns across four specialized roles:
+The multi-agent paradigm separates concerns across five specialized roles:
+
+### Madeira Agent (new in v0.6.0)
+
+- **User-facing operational assistant** for the Holistika knowledge vault
+- Operates in **read-only lookup** mode -- answers HLK questions directly using `hlk_*` tools
+- Default dashboard entrypoint for end-user HLK usage
+- Escalates multi-step administrative tasks to the Orchestrator
+- **Cannot** write files, execute commands, or navigate browsers
 
 ### Orchestrator Agent (new in v0.3.0)
 
 - Receives user requests and decomposes into sub-tasks
 - Delegates to Architect, Executor, and Verifier
 - Tracks progress, handles failures, supports parallel delegation
-- **Cannot** execute tasks directly
+- **Cannot** execute tasks directly -- coordinator role only
 
 ### Architect Agent
 
@@ -782,7 +790,9 @@ A validation test suite (`tests/`) provides 300+ automated checks covering JSON 
 
 ## Live Configuration Status
 
-The multi-agent architecture (Orchestrator, Architect, Executor, Verifier) has been wired into the live `~/.openclaw/openclaw.json` using the native `agents.list` schema. All four agents are accessible via `openclaw dashboard` (WebChat). A backup of the original config exists at `~/.openclaw/openclaw.json.bak`.
+The multi-agent architecture (Madeira, Orchestrator, Architect, Executor, Verifier) has been wired into the live `~/.openclaw/openclaw.json` using the native `agents.list` schema. All five agents are accessible via `openclaw dashboard` (WebChat). A backup of the original config exists at `~/.openclaw/openclaw.json.bak`.
+
+**Madeira** is the recommended dashboard default for end-user HLK operations. It answers factual questions directly using `hlk_*` tools and only escalates multi-step tasks to the Orchestrator.
 
 To disconnect the AKOS architecture from OpenCLAW:
 1. Restore backup: copy `openclaw.json.bak` over `openclaw.json`

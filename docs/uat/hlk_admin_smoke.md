@@ -3,6 +3,28 @@
 **Purpose**: Validate that MADEIRA and the HLK registry endpoints work correctly for common admin tasks.
 **Prerequisite**: AKOS API running (`py scripts/serve-api.py --port 8420`) and HLK MCP server available.
 
+## Scenario 0: Dashboard Entrypoint (MADEIRA agent)
+
+**Goal**: Verify the Madeira agent is accessible and answers HLK questions directly in the dashboard.
+
+| Step | Action | Expected |
+|:-----|:-------|:---------|
+| 1 | Open `http://127.0.0.1:18789/chat?session=agent:madeira:main` | Madeira agent loads in WebChat |
+| 2 | Ask: "Who is the CTO?" | Tool-backed answer citing `baseline_organisation.csv`, access level 5 |
+| 3 | Ask: "Show me all Research roles" | Direct answer listing 7 Research area roles from HLK tools |
+| 4 | Ask: "What workstreams are under KiRBe Platform?" | Graph navigation response from `hlk_process_tree` |
+| 5 | Ask: "I need to restructure the Finance area" | Madeira acknowledges scope and escalates to Orchestrator |
+
+**Pass criteria**: Steps 2-4 produce tool-backed answers (not generic prose). Step 5 triggers escalation, not direct execution.
+
+**Restart/bootstrap flow** (run these before UAT if config or prompts changed):
+```bash
+py scripts/bootstrap.py --skip-ollama
+openclaw gateway restart
+```
+
+---
+
 ---
 
 ## Scenario 1: Role Lookup
