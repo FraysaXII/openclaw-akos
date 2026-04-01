@@ -90,6 +90,10 @@ GROUPS: dict[str, dict] = {
         "description": "HLK domain models, registry service, and API endpoints",
         "files": ["test_hlk.py"],
     },
+    "validate-hlk": {
+        "description": "HLK canonical vault integrity validation (standalone)",
+        "files": [],
+    },
 }
 
 
