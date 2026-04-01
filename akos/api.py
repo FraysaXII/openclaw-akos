@@ -49,6 +49,7 @@ app = FastAPI(
         {"name": "Metrics", "description": "DX baselines, cost tracking, and alerts"},
         {"name": "Prompts", "description": "Prompt assembly and deployment"},
         {"name": "Checkpoints", "description": "Workspace snapshot management"},
+        {"name": "HLK", "description": "HLK organisation, process, and compliance registry"},
     ],
 )
 
@@ -527,6 +528,82 @@ async def restore_checkpoint_endpoint(req: RestoreRequest) -> dict[str, Any]:
 
 
 # ── Live Log WebSocket ──────────────────────────────────────────────
+
+
+# ── HLK Registry Endpoints ──────────────────────────────────────────────
+
+
+@app.get("/hlk/roles", tags=["HLK"], dependencies=[Depends(_check_api_key)])
+def hlk_roles():
+    """Return all roles in the HLK baseline organisation."""
+    from akos.hlk import get_hlk_registry
+    reg = get_hlk_registry()
+    return {"status": "ok", "roles": [r.model_dump() for r in reg._roles], "role_count": len(reg._roles)}
+
+
+@app.get("/hlk/roles/{role_name}", tags=["HLK"], dependencies=[Depends(_check_api_key)])
+def hlk_role(role_name: str):
+    """Look up a single role by name."""
+    from akos.hlk import get_hlk_registry
+    return get_hlk_registry().get_role(role_name).model_dump()
+
+
+@app.get("/hlk/roles/{role_name}/chain", tags=["HLK"], dependencies=[Depends(_check_api_key)])
+def hlk_role_chain(role_name: str):
+    """Traverse the reports_to chain from a role up to Admin."""
+    from akos.hlk import get_hlk_registry
+    return get_hlk_registry().get_role_chain(role_name).model_dump()
+
+
+@app.get("/hlk/areas", tags=["HLK"], dependencies=[Depends(_check_api_key)])
+def hlk_areas():
+    """Return area summary with role counts."""
+    from akos.hlk import get_hlk_registry
+    return get_hlk_registry().list_areas().model_dump()
+
+
+@app.get("/hlk/areas/{area}", tags=["HLK"], dependencies=[Depends(_check_api_key)])
+def hlk_area_roles(area: str):
+    """Return all roles in a given area."""
+    from akos.hlk import get_hlk_registry
+    return get_hlk_registry().get_area_roles(area).model_dump()
+
+
+@app.get("/hlk/processes", tags=["HLK"], dependencies=[Depends(_check_api_key)])
+def hlk_projects():
+    """Return project summary with child counts."""
+    from akos.hlk import get_hlk_registry
+    return get_hlk_registry().get_project_summary().model_dump()
+
+
+@app.get("/hlk/processes/{item_id}", tags=["HLK"], dependencies=[Depends(_check_api_key)])
+def hlk_process(item_id: str):
+    """Look up a single process item by ID."""
+    from akos.hlk import get_hlk_registry
+    return get_hlk_registry().get_process(item_id).model_dump()
+
+
+@app.get("/hlk/processes/{item_name}/tree", tags=["HLK"], dependencies=[Depends(_check_api_key)])
+def hlk_process_tree(item_name: str):
+    """Return all direct children of a process item."""
+    from akos.hlk import get_hlk_registry
+    return get_hlk_registry().get_process_tree(item_name).model_dump()
+
+
+@app.get("/hlk/gaps", tags=["HLK"], dependencies=[Depends(_check_api_key)])
+def hlk_gaps():
+    """Identify items with missing metadata, TBD owners, or empty descriptions."""
+    from akos.hlk import get_hlk_registry
+    return get_hlk_registry().get_gaps().model_dump()
+
+
+@app.get("/hlk/search", tags=["HLK"], dependencies=[Depends(_check_api_key)])
+def hlk_search(q: str = ""):
+    """Fuzzy search across roles and processes."""
+    if not q.strip():
+        raise HTTPException(400, "Query parameter 'q' is required")
+    from akos.hlk import get_hlk_registry
+    return get_hlk_registry().search(q).model_dump()
 
 
 @app.websocket("/logs")

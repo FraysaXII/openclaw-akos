@@ -32,6 +32,8 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | `docs/USER_GUIDE.md` (GPU deployment) | Changes to `scripts/gpu.py` subcommands or deploy flow |
 | `docs/USER_GUIDE.md` (Finance MCP) | Changes to `akos/finance.py` or `scripts/finance_mcp_server.py` |
 | `docs/ARCHITECTURE.md` (Finance) | Changes to finance response models or MCP tool signatures |
+| `docs/ARCHITECTURE.md` (HLK) | Changes to `akos/hlk.py`, HLK domain models, or `/hlk/*` API endpoints |
+| `docs/references/hlk/compliance/` | Changes to canonical vault CSVs or compliance taxonomy documents |
 
 ## Playwright Setup (Optional)
 

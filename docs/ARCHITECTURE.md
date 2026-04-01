@@ -532,6 +532,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/models.py` | Pydantic schemas for `model-tiers.json`, `openclaw.json`, environment overlays (incl. RunPod), alerts, baselines, finance response envelope |
 | `akos/model_catalog.py` | `CatalogEntry` Pydantic model + `load_catalog()` for `config/model-catalog.json`; drives the interactive GPU deploy picker |
 | `akos/finance.py` | `FinanceService` — quote, search, sentiment via yfinance + Alpha Vantage; TTL cache; graceful degradation when backends are absent |
+| `akos/hlk.py` | `HlkRegistry` — typed lookups over the HLK canonical vault CSVs (org roles, process items, gap detection, fuzzy search); lazy singleton; `HlkResponse` envelope |
 | `akos/io.py` | `load_json`, `save_json`, `deep_merge`, `resolve_openclaw_home`, `AGENT_WORKSPACES` (4-agent mapping) |
 | `akos/log.py` | `JSONFormatter` + `HumanFormatter`; `setup_logging(json_output)` configures the root logger |
 | `akos/process.py` | `CommandResult` dataclass + `run()` wrapper with timeouts and structured error capture |
@@ -571,6 +572,16 @@ The `akos/api.py` module exposes a REST API for programmatic control:
 | `/runtime/drift` | GET | Runtime drift detection (repo vs live) |
 | `/agents/{id}/policy` | GET | Effective capability policy for an agent |
 | `/agents/{id}/capability-drift` | GET | Check tool drift against policy |
+| `/hlk/roles` | GET | All HLK baseline organisation roles |
+| `/hlk/roles/{name}` | GET | Single role lookup |
+| `/hlk/roles/{name}/chain` | GET | Reports-to chain traversal to Admin |
+| `/hlk/areas` | GET | Area summary with role counts |
+| `/hlk/areas/{area}` | GET | Roles in a given area |
+| `/hlk/processes` | GET | Project summary (11 projects) |
+| `/hlk/processes/{id}` | GET | Single process item by ID |
+| `/hlk/processes/{name}/tree` | GET | Direct children of a process item |
+| `/hlk/gaps` | GET | Gap report (missing metadata, TBD owners) |
+| `/hlk/search?q=` | GET | Fuzzy search across roles and processes |
 | `/context/pin` | POST/DELETE | Pin or unpin context for agent focus |
 | `/context/pins` | GET | List pinned context entries |
 | `/metrics/cost` | GET | Cost breakdown by agent and environment |

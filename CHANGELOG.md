@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (HLK Domain Service -- Phase 2)
+
+- **HLK Pydantic domain models** in `akos/models.py` — `OrgRole`, `ProcessItem`, `HlkResponse` envelope, and constrained types (`AccessLevel`, `ConfidenceLevel`, `SourceCategory`, `ProcessGranularity`).
+- **HLK registry service** (`akos/hlk.py`) — `HlkRegistry` class reads canonical vault CSVs and serves typed lookups: role/chain/area, process/tree/project, gap detection, and fuzzy search. Lazy singleton pattern matching `FinanceService`.
+- **HLK API endpoints** in `akos/api.py` — 10 read-only endpoints under `/hlk/*`: roles, role chain, areas, processes, project summary, process tree, gaps, and search. Protected by `AKOS_API_KEY`.
+- **HLK test suite** (`tests/test_hlk.py`) — model parsing, registry lookups, chain traversal, gap detection, search, and FastAPI endpoint validation. Registered as `hlk` test group in `scripts/test.py`.
+
 ### Added (Runtime, Planning, and Finance UX Hardening)
 
 - **HLK planning system** — reusable personal Cursor skill (`hlk-planning-system`) plus workspace traceability rule for mirroring execution-relevant plans and reports into `docs/wip/planning/`.

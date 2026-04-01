@@ -91,6 +91,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - Langfuse telemetry changes must have tests in `tests/test_telemetry.py` (14 tests covering init, trace_request, trace_startup_compliance, trace_alert, trace_metric, normalize_env, flush).
 - Failover router changes must have tests in `tests/test_router.py` (10 tests covering failover threshold, recovery, and multi-provider routing).
 - Finance service changes must have tests in `tests/test_finance.py` (normalization, caching, missing API key degradation, error states).
+- HLK domain changes must have tests in `tests/test_hlk.py` (model parsing, registry lookups, chain traversal, gap detection, API endpoints).
 - New agent prompts/overlays must be covered by `tests/test_e2e_pipeline.py`.
 - Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint. Changes to `agent-capabilities.json` are automatically translated to OpenClaw tool profiles by bootstrap; do not hand-edit the `tools`, `session`, or `browser` sections in `openclaw.json.example` — they are generated from AKOS config.
 - New workflow definitions go in `config/workflows/` as markdown files following the existing format.
@@ -101,6 +102,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - See all available groups: `py scripts/test.py --list`
 - New test groups added in v0.4.0: `drift` (runtime drift detection), `live` (opt-in live provider smoke tests requiring `AKOS_LIVE_SMOKE=1`)
 - New test groups added in RunPod+Langfuse overhaul: `telemetry` (Langfuse reporter lifecycle, trace taxonomy, env normalization), `router` (FailoverRouter threshold, recovery, multi-provider)
+- New test group added in HLK Phase 2: `hlk` (HLK domain models, registry service, API endpoints)
 - Live smoke tests use `@pytest.mark.live` and are skipped by default
 - Before releases, run the full verification matrix and release gate:
   - `py scripts/legacy/verify_openclaw_inventory.py`

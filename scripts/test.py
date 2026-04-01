@@ -86,6 +86,10 @@ GROUPS: dict[str, dict] = {
         "description": "FailoverRouter threshold, recovery, multi-provider routing",
         "files": ["test_router.py"],
     },
+    "hlk": {
+        "description": "HLK domain models, registry service, and API endpoints",
+        "files": ["test_hlk.py"],
+    },
 }
 
 
