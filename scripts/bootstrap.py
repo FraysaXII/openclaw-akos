@@ -58,8 +58,28 @@ def _categories_to_profile(allowed_categories: list[str]) -> str:
     return "minimal"
 
 
+_GATEWAY_BUILTINS = frozenset({
+    "read_file", "list_directory", "write_file", "delete_file",
+    "shell_exec", "sequential_thinking",
+    "browser_snapshot", "browser_screenshot", "browser_navigate",
+    "browser_click", "browser_type", "browser_console_exec", "element_interact",
+    "git_status", "git_diff", "git_log", "git_push", "git_commit",
+    "canvas_eval", "network_download", "system_config_change",
+    "mcporter_list",
+})
+
+
 def _sync_tool_profiles_from_capability_matrix(merged: dict) -> None:
-    """Translate agent-capabilities.json into per-agent OpenClaw tools blocks."""
+    """Translate agent-capabilities.json into per-agent OpenClaw tools blocks.
+
+    For minimal-profile agents the allow list is the union of:
+      1. The curated template allow list (gateway-compatible names).
+      2. MCP tools from the capability matrix that are not gateway built-ins
+         and not already present in the template list.
+
+    This lets new read-only MCP tools (hlk_*, finance_*, etc.) propagate
+    from the capability matrix without a manual template edit per agent.
+    """
     if not CAPABILITIES_PATH.exists():
         logger.warning("Capability matrix not found at %s; skipping tool profile sync", CAPABILITIES_PATH)
         return
@@ -77,11 +97,16 @@ def _sync_tool_profiles_from_capability_matrix(merged: dict) -> None:
         existing_tools = agent.get("tools") or {}
         tools_block: dict[str, object] = {"profile": profile}
 
-        # Preserve the gateway-compatible allow list curated in the template.
-        # The capability matrix remains the AKOS audit/policy SSOT, but its
-        # logical tool IDs are not always valid runtime OpenClaw tool names.
-        if profile == "minimal" and existing_tools.get("allow"):
-            tools_block["allow"] = existing_tools["allow"]
+        if profile == "minimal":
+            base = list(existing_tools.get("allow", []))
+            seen = set(base)
+            for tool in policy.allowed_tools:
+                if tool not in _GATEWAY_BUILTINS and tool not in seen:
+                    base.append(tool)
+                    seen.add(tool)
+            if base:
+                tools_block["allow"] = base
+
         if policy.denied_tools:
             tools_block["deny"] = policy.denied_tools
 
