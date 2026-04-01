@@ -1768,3 +1768,89 @@ AKOS-specific keys (`logging`, `permissions`) are now stored in `~/.openclaw/ako
 
 **`/status` returns all "unknown":**
 This is normal before the first environment switch. Run `py scripts/switch-model.py dev-local` to activate.
+
+## 19. HLK Operator Model
+
+This section explains how to operate the Holistika Knowledge Vault through MADEIRA and the AKOS platform.
+
+### 19.1 Three Layers You Should Understand
+
+| Layer | What it is | Lifetime | Where it lives |
+|:------|:-----------|:---------|:---------------|
+| **Session** | A single conversation or workflow run | Temporary -- ends when the chat closes or the agent resets | Agent memory, chat history |
+| **Workspace** | An agent's operating folder with identity, memory, and rules | Persists across sessions but is agent-scoped | `~/.openclaw/workspace-{agent}/` |
+| **Vault** | The canonical business knowledge system | Permanent -- versioned in git, synced to Drive | `docs/references/hlk/` |
+
+**Operating rule:** Session state is disposable. Workspace state helps agents remember context. The vault is the source of truth. Never rely on session memory for business facts -- always ground answers in the vault.
+
+### 19.2 How You Use MADEIRA Day-to-Day
+
+MADEIRA is your single entrypoint for HLK operations. You talk to MADEIRA. MADEIRA queries the vault.
+
+**Common tasks and what to say:**
+
+| Task | What to ask MADEIRA | Tool MADEIRA uses |
+|:-----|:--------------------|:------------------|
+| Find a role | "Who is the Data Architect?" | `hlk_role` |
+| Check reporting chain | "Who does DevOPS report to?" | `hlk_role_chain` |
+| List an area | "Show me all Research roles" | `hlk_area` |
+| Find a process | "What is hol_resea_dtp_142?" | `hlk_process` |
+| Explore a project | "What workstreams are under KiRBe Platform?" | `hlk_process_tree` |
+| See all projects | "List all 11 projects" | `hlk_projects` |
+| Find gaps | "What baselines need remediation?" | `hlk_gaps` |
+| Search anything | "Find everything related to HUMINT" | `hlk_search` |
+
+### 19.3 Adding Knowledge to the Vault
+
+1. **Identify the owner** -- look up the role in `baseline_organisation.csv` that should own this knowledge.
+2. **Navigate to the folder** -- go to `docs/references/hlk/v3.0/Admin/O5-1/{area}/{role}/`.
+3. **Write markdown** -- create the document following the SOP-META envelope if it is a formal procedure.
+4. **Register the process** -- if this is a new process, add a row to `process_list.csv` with the correct `item_parent_1`, `role_owner`, and `item_granularity`.
+5. **Commit** -- git tracks the change. Drive syncs the folder.
+
+### 19.4 Maintaining Baselines
+
+The canonical baselines live in `docs/references/hlk/compliance/`:
+
+| File | What to edit | When |
+|:-----|:-------------|:-----|
+| `baseline_organisation.csv` | Roles, hierarchy, access levels, descriptions | New role, role change, access review |
+| `process_list.csv` | Processes, projects, workstreams, tasks | New process, hierarchy change, ownership change |
+| `access_levels.md` | Access level definitions | Policy change (rare) |
+| `confidence_levels.md` | Confidence level definitions | Policy change (rare) |
+| `source_taxonomy.md` | Source categories and credibility levels | New source type (rare) |
+| `PRECEDENCE.md` | What is canonical vs mirrored | Governance change |
+
+**After editing baselines:** Restart the AKOS API (`py scripts/serve-api.py`) to reload the HLK registry from the updated CSVs.
+
+### 19.5 Vault Structure Reference
+
+```
+docs/references/hlk/
+  compliance/                     Shared governance baselines (SSOT)
+  v3.0/                           Active vault (organigram-mirrored folders)
+    Admin/
+      O5-1/
+        Research/                  Holistik Researcher area
+        People/                   CPO area
+        Operations/               COO area
+        Finance/                  CFO area
+        Marketing/                CMO area
+        Data/                     CDO area
+        Tech/                     CTO area
+      AI/                         Susana Madeira / AIC chain
+    Envoy Tech Lab/               KiRBe, MADEIRA, Showcases
+    Think Big/                    Projects, Clients
+  Research & Logic/               v2.7 historical reference (read-only)
+```
+
+### 19.6 Quick Reference Card
+
+| Question | Answer |
+|:---------|:-------|
+| Where do I edit? | `docs/references/hlk/v3.0/` for documents, `compliance/` for baselines |
+| Where do old docs live? | `Research & Logic/` (v2.7, read-only) |
+| How does MADEIRA find things? | Via HLK MCP tools backed by `HlkRegistry` reading the canonical CSVs |
+| What happens if I edit both vault and DB? | Vault wins. See `PRECEDENCE.md` for conflict resolution. |
+| How do I restart after baseline edits? | `py scripts/serve-api.py --port 8420` |
+| How do I check integrity? | `py scripts/test.py hlk` or use `/hlk/gaps` endpoint |
