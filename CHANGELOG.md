@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (HLK MADEIRA Entry Surface -- Phase 3)
+
+- **HLK MCP server** (`scripts/hlk_mcp_server.py`) -- 8 read-only tools for vault registry lookups: `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search`. FastMCP + stdio transport.
+- **OVERLAY_HLK.md** -- prompt overlay teaching agents about the HLK vault structure, canonical source rules, compliance taxonomy, and tool usage. Registered in `model-tiers.json` for standard and full variants across all 4 agents.
+- **HLK admin workflow** (`config/workflows/hlk_admin.md`) -- structured workflow for organisation and process management with approval gates before CSV edits.
+- **HLK tool registration** -- 8 `hlk_*` tools added to `agent-capabilities.json` (all 4 roles), `permissions.json` (autonomous), and `mcporter.json.example`.
+
 ### Added (HLK Domain Service -- Phase 2)
 
 - **HLK Pydantic domain models** in `akos/models.py` — `OrgRole`, `ProcessItem`, `HlkResponse` envelope, and constrained types (`AccessLevel`, `ConfidenceLevel`, `SourceCategory`, `ProcessGranularity`).

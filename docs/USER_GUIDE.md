@@ -725,6 +725,25 @@ The Finance Research MCP gives agents read-only access to financial market data 
 
 **Limitations:** yfinance is a community library that scrapes Yahoo Finance. It may break when Yahoo changes their site. All provider-specific details are encapsulated in `akos/finance.py` so backends can be swapped without changing tool signatures.
 
+### 9.9 HLK Registry MCP
+
+The HLK Registry MCP gives agents read-only access to the Holistika organisation and process vault.
+
+| Tool | Purpose |
+|:-----|:--------|
+| `hlk_role(role_name)` | Look up a role's description, access level, area, entity, and reporting chain position |
+| `hlk_role_chain(role_name)` | Traverse the reports_to chain from a role up to Admin |
+| `hlk_area(area)` | List all roles in an organisational area (Admin, AI, People, Operations, Finance, Marketing, Data, Tech, Legal, Research) |
+| `hlk_process(item_id)` | Look up a process item by its ID (e.g. `hol_resea_dtp_99`) |
+| `hlk_process_tree(item_name)` | List direct children of a process item by parent name |
+| `hlk_projects()` | List all 11 top-level projects with child counts |
+| `hlk_gaps()` | Identify items with missing metadata, TBD owners, or empty descriptions |
+| `hlk_search(query)` | Fuzzy search across roles and processes by name, description, or ID |
+
+**Data source:** All tools read from the canonical vault CSVs (`docs/references/hlk/compliance/baseline_organisation.csv` and `process_list.csv`). The vault is the database -- no external DB dependency required.
+
+**Setup:** Requires `pip install mcp`. No API keys needed. The `OVERLAY_HLK.md` prompt overlay teaches agents when and how to use these tools, and how to cite canonical sources in responses.
+
 **Recommended validation prompts:**
 - `How is Tesla doing today?`
 - `What is going on with NVDA today?`

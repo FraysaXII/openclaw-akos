@@ -209,8 +209,8 @@ prompts/base/ARCHITECT_BASE.md  +  overlays/  -->  assembled/ARCHITECT_PROMPT.<v
 | Variant | Overlays Included |
 |:--------|:------------------|
 | compact | None (base only -- 3-5 MUST rules for small models) |
-| standard | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_STARTUP_COMPLIANCE |
-| full | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_INTELLIGENCE + OVERLAY_RESEARCH + OVERLAY_CONTEXT_MANAGEMENT + OVERLAY_TOOLS_FULL + OVERLAY_STARTUP_COMPLIANCE |
+| standard | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_STARTUP_COMPLIANCE + OVERLAY_HLK |
+| full | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_INTELLIGENCE + OVERLAY_RESEARCH + OVERLAY_CONTEXT_MANAGEMENT + OVERLAY_TOOLS_FULL + OVERLAY_STARTUP_COMPLIANCE + OVERLAY_HLK |
 
 Build all variants: `python scripts/assemble-prompts.py`
 
@@ -461,6 +461,7 @@ Ten MCP servers provide the agent tool ecosystem:
 | code-search | `@akos/mcp-code-search` | Semantic code search via ripgrep + tree-sitter |
 | akos | `scripts/mcp_akos_server.py` | Custom AKOS MCP: `akos_health`, `akos_agents`, `akos_status` (control plane self-check) |
 | finance | `scripts/finance_mcp_server.py` | Finance research: `finance_quote`, `finance_search`, `finance_sentiment` (read-only, yfinance + Alpha Vantage) |
+| hlk | `scripts/hlk_mcp_server.py` | HLK vault registry: `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search` (read-only) |
 
 ### Cursor vs AKOS Browser Separation (Platform-Agnostic Design)
 
@@ -667,6 +668,7 @@ The following matrix shows every component, who owns it, and how the two layers 
 | Alert Engine         | `akos/alerts.py`                                                                                                                | SOC alerts from log patterns and baselines                                    | Processes OpenClaw gateway logs                                           |
 | Model Catalog        | `akos/model_catalog.py`, `config/model-catalog.json`                                                                             | SSOT for GPU-deployable models (VRAM, parsers, GPU defaults)                   | `gpu.py` uses catalog to auto-configure PodConfig and overlay JSON         |
 | Finance Service      | `akos/finance.py`, `scripts/finance_mcp_server.py`                                                                               | Read-only finance research (quotes, search, sentiment) via yfinance + Alpha Vantage | MCP server registered in mcporter; agents invoke tools autonomously        |
+| HLK Registry         | `akos/hlk.py`, `scripts/hlk_mcp_server.py`                                                                                      | Organisation, process, and compliance vault lookups | MCP server registered in mcporter; agents invoke tools autonomously; OVERLAY_HLK.md teaches agents vault protocol |
 | RunPod Provider      | `akos/runpod_provider.py`                                                                                                       | GPU infrastructure lifecycle                                                  | Manages vLLM endpoints; OpenClaw uses them via `vllm-runpod` provider     |
 | Checkpoints          | `akos/checkpoints.py`                                                                                                           | Workspace snapshot/restore                                                    | AKOS-only concept; operates on workspace dirs                             |
 | Tool Registry        | `akos/tools.py`                                                                                                                 | Dynamic tool inventory from mcporter + permissions                            | AKOS-layer classification of MCP tools                                    |

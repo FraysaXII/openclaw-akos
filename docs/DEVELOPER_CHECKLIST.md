@@ -52,6 +52,7 @@ On Windows, `browser-smoke.py` isolates browser launches in subprocess workers s
 - **GitHub MCP:** Set `GITHUB_TOKEN` for repo metadata and future commit retrieval.
 - **Custom AKOS MCP:** Requires `pip install mcp httpx`. Bootstrap deploys with resolved path.
 - **Finance Research MCP:** Requires `pip install mcp yfinance`. Optional `ALPHA_VANTAGE_KEY` for sentiment and optional `FINNHUB_API_KEY` for better company-name search. Bootstrap deploys with resolved path.
+- **HLK Registry MCP:** Requires `pip install mcp`. Read-only vault lookups over canonical CSVs. 8 tools: `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search`. Bootstrap deploys with resolved path.
 - **cursor-ide-browser:** Cursor IDE built-in; enable in Cursor Settings if desired. Not required for AKOS.
 
 ## Workflow By Stage
