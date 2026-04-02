@@ -349,6 +349,13 @@ def _categories_to_profile(allowed_categories: list[str]) -> str:
     return "minimal"
 
 
+def _resolve_runtime_profile(policy) -> str:
+    """Resolve the gateway runtime profile for a role policy."""
+    if getattr(policy, "runtime_profile", None):
+        return str(policy.runtime_profile)
+    return _categories_to_profile(policy.allowed_categories)
+
+
 def check_gateway_tool_config(oc_home: Path) -> list[tuple[str, str]]:
     """Check tool profiles, exec security, loop detection, browser SSRF policy."""
     results: list[tuple[str, str]] = []
@@ -374,7 +381,7 @@ def check_gateway_tool_config(oc_home: Path) -> list[tuple[str, str]]:
             policy = matrix.get_policy(agent_id)
             if not policy:
                 continue
-            expected_profile = _categories_to_profile(policy.allowed_categories)
+            expected_profile = _resolve_runtime_profile(policy)
             tools_block = agent.get("tools") or {}
             actual_profile = tools_block.get("profile")
             if actual_profile == expected_profile:

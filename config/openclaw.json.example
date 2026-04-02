@@ -117,7 +117,29 @@
         },
         "tools": {
           "profile": "minimal",
-          "allow": ["web_search", "memory_store", "memory_retrieve", "memory_list", "finance_search", "finance_quote", "finance_sentiment"]
+          "alsoAllow": [
+            "read",
+            "web_search",
+            "web_fetch",
+            "memory_search",
+            "memory_get",
+            "sequential_thinking",
+            "memory_store",
+            "memory_retrieve",
+            "memory_list",
+            "finance_search",
+            "finance_quote",
+            "finance_sentiment",
+            "hlk_role",
+            "hlk_role_chain",
+            "hlk_area",
+            "hlk_process",
+            "hlk_process_tree",
+            "hlk_projects",
+            "hlk_gaps",
+            "hlk_search"
+          ],
+          "deny": ["write", "edit", "apply_patch", "exec", "browser"]
         }
       },
       {
@@ -131,7 +153,31 @@
         },
         "tools": {
           "profile": "minimal",
-          "allow": ["web_search", "memory_retrieve", "browser_snapshot", "browser_screenshot", "finance_search", "finance_quote", "finance_sentiment"]
+          "alsoAllow": [
+            "read",
+            "web_search",
+            "web_fetch",
+            "memory_search",
+            "memory_get",
+            "browser",
+            "sequential_thinking",
+            "memory_retrieve",
+            "memory_list",
+            "browser_snapshot",
+            "browser_screenshot",
+            "finance_search",
+            "finance_quote",
+            "finance_sentiment",
+            "hlk_role",
+            "hlk_role_chain",
+            "hlk_area",
+            "hlk_process",
+            "hlk_process_tree",
+            "hlk_projects",
+            "hlk_gaps",
+            "hlk_search"
+          ],
+          "deny": ["write", "edit", "apply_patch", "exec"]
         }
       },
       {
@@ -144,7 +190,20 @@
           "emoji": "🔧"
         },
         "tools": {
-          "profile": "coding"
+          "profile": "coding",
+          "alsoAllow": [
+            "finance_search",
+            "finance_quote",
+            "finance_sentiment",
+            "hlk_role",
+            "hlk_role_chain",
+            "hlk_area",
+            "hlk_process",
+            "hlk_process_tree",
+            "hlk_projects",
+            "hlk_gaps",
+            "hlk_search"
+          ]
         }
       },
       {
@@ -158,7 +217,20 @@
         },
         "tools": {
           "profile": "coding",
-          "deny": ["write_file", "delete_file", "git_push", "git_commit"]
+          "alsoAllow": [
+            "finance_search",
+            "finance_quote",
+            "finance_sentiment",
+            "hlk_role",
+            "hlk_role_chain",
+            "hlk_area",
+            "hlk_process",
+            "hlk_process_tree",
+            "hlk_projects",
+            "hlk_gaps",
+            "hlk_search"
+          ],
+          "deny": ["write", "edit", "apply_patch"]
         }
       },
       {
@@ -171,8 +243,27 @@
           "emoji": "🌊"
         },
         "tools": {
-          "profile": "minimal",
-          "allow": ["web_search", "memory_store", "memory_retrieve", "memory_list", "finance_search", "finance_quote", "finance_sentiment", "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process", "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search"]
+          "profile": "coding",
+          "alsoAllow": [
+            "memory_store",
+            "memory_retrieve",
+            "memory_list",
+            "fetch_get",
+            "filesystem_read",
+            "filesystem_list",
+            "finance_search",
+            "finance_quote",
+            "finance_sentiment",
+            "hlk_role",
+            "hlk_role_chain",
+            "hlk_area",
+            "hlk_process",
+            "hlk_process_tree",
+            "hlk_projects",
+            "hlk_gaps",
+            "hlk_search"
+          ],
+          "deny": ["write", "edit", "apply_patch", "exec"]
         }
       }
     ]

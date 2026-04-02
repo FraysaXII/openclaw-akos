@@ -58,27 +58,35 @@ def _categories_to_profile(allowed_categories: list[str]) -> str:
     return "minimal"
 
 
-_GATEWAY_BUILTINS = frozenset({
-    "read_file", "list_directory", "write_file", "delete_file",
-    "shell_exec", "sequential_thinking",
-    "browser_snapshot", "browser_screenshot", "browser_navigate",
-    "browser_click", "browser_type", "browser_console_exec", "element_interact",
-    "git_status", "git_diff", "git_log", "git_push", "git_commit",
-    "canvas_eval", "network_download", "system_config_change",
-    "mcporter_list",
+def _resolve_runtime_profile(policy) -> str:
+    """Resolve the gateway runtime profile for a role policy."""
+    if getattr(policy, "runtime_profile", None):
+        return str(policy.runtime_profile)
+    return _categories_to_profile(policy.allowed_categories)
+
+
+_GATEWAY_CORE_TOOLS = frozenset({
+    "read", "write", "edit", "apply_patch",
+    "exec", "process",
+    "web_search", "web_fetch",
+    "memory_search", "memory_get",
+    "sessions_list", "sessions_history", "sessions_send",
+    "sessions_spawn", "subagents", "session_status",
+    "browser", "canvas", "message", "cron",
+    "gateway", "nodes", "agents_list", "image", "tts",
 })
 
 
 def _sync_tool_profiles_from_capability_matrix(merged: dict) -> None:
     """Translate agent-capabilities.json into per-agent OpenClaw tools blocks.
 
-    For minimal-profile agents the allow list is the union of:
-      1. The curated template allow list (gateway-compatible names).
-      2. MCP tools from the capability matrix that are not gateway built-ins
-         and not already present in the template list.
+    Gateway runtime semantics are curated in the committed template:
+      - `profile` comes from the AKOS capability matrix.
+      - `alsoAllow` and `deny` come from the gateway template SSOT.
 
-    This lets new read-only MCP tools (hlk_*, finance_*, etc.) propagate
-    from the capability matrix without a manual template edit per agent.
+    This keeps the capability matrix as the AKOS policy/audit authority while
+    preserving the gateway-compatible tool names that OpenClaw actually
+    recognizes at runtime.
     """
     if not CAPABILITIES_PATH.exists():
         logger.warning("Capability matrix not found at %s; skipping tool profile sync", CAPABILITIES_PATH)
@@ -93,22 +101,18 @@ def _sync_tool_profiles_from_capability_matrix(merged: dict) -> None:
         if not policy:
             continue
 
-        profile = _categories_to_profile(policy.allowed_categories)
+        profile = _resolve_runtime_profile(policy)
         existing_tools = agent.get("tools") or {}
         tools_block: dict[str, object] = {"profile": profile}
 
-        if profile == "minimal":
-            base = list(existing_tools.get("allow", []))
-            seen = set(base)
-            for tool in policy.allowed_tools:
-                if tool not in _GATEWAY_BUILTINS and tool not in seen:
-                    base.append(tool)
-                    seen.add(tool)
-            if base:
-                tools_block["allow"] = base
+        if existing_tools.get("alsoAllow"):
+            tools_block["alsoAllow"] = list(existing_tools["alsoAllow"])
+        elif existing_tools.get("allow"):
+            # Backward compatibility for older templates that still use allow.
+            tools_block["allow"] = list(existing_tools["allow"])
 
-        if policy.denied_tools:
-            tools_block["deny"] = policy.denied_tools
+        if existing_tools.get("deny"):
+            tools_block["deny"] = list(existing_tools["deny"])
 
         agent["tools"] = tools_block
 

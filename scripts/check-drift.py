@@ -121,6 +121,13 @@ def _categories_to_profile(allowed_categories: list[str]) -> str:
     return "minimal"
 
 
+def _resolve_runtime_profile(policy) -> str:
+    """Resolve the gateway runtime profile for a role policy."""
+    if getattr(policy, "runtime_profile", None):
+        return str(policy.runtime_profile)
+    return _categories_to_profile(policy.allowed_categories)
+
+
 def check_tool_profiles(oc_home: Path) -> list[dict]:
     """Check that per-agent tool profiles match capability matrix and gateway config is sane."""
     issues: list[dict] = []
@@ -143,7 +150,7 @@ def check_tool_profiles(oc_home: Path) -> list[dict]:
         if not policy:
             continue
 
-        expected_profile = _categories_to_profile(policy.allowed_categories)
+        expected_profile = _resolve_runtime_profile(policy)
         tools_block = agent.get("tools") or {}
         actual_profile = tools_block.get("profile")
 
