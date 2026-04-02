@@ -38,7 +38,7 @@ OpenCLAW-AKOS transforms a vanilla OpenCLAW deployment into an **Agentic Knowled
 - **Tiered prompt assembly** keyed to model capability (small/medium/large/SOTA).
 - **RunPod GPU integration** for serverless vLLM endpoints with auto-provisioning.
 - A **FastAPI control plane** for programmatic system management.
-- **10 MCP servers** for tools: reasoning, browser automation, GitHub, memory, filesystem, HTTP, LSP, code search, control plane, and finance research.
+- **11 MCP servers** for tools: reasoning, browser automation, GitHub, memory, filesystem, HTTP, LSP, code search, control plane, finance research, and HLK vault lookup.
 - **Human-in-the-Loop (HITL) enforcement** on all mutative operations.
 - **Observability** via Langfuse telemetry, SOC alerts, and structured logging.
 - **Workspace checkpoints** for reversible execution.
@@ -188,6 +188,8 @@ Five pre-configured providers:
 - `vllm-runpod` -- vLLM endpoint on RunPod
 
 **Agents:** The `agents.defaults` block sets the model, thinking level, and verbose level for all agents. The `agents.list` array registers each agent with its ID, workspace path, and identity metadata.
+
+**Agent tool policy:** In `agents.list[].tools`, use gateway core IDs for profile/deny semantics (`read`, `write`, `edit`, `apply_patch`, `exec`, etc.) and expose MCP plugin tools through `alsoAllow`. Do not rely on legacy `tools.allow` for plugin exposure.
 
 **Bindings:** Optional channel routing rules (Telegram, Slack, etc.).
 
@@ -771,10 +773,10 @@ The HLK Registry MCP gives agents read-only access to the Holistika organisation
 **Setup:** Requires `pip install mcp`. No API keys needed. The `OVERLAY_HLK.md` prompt overlay teaches agents when and how to use these tools, and how to cite canonical sources in responses.
 
 **Recommended validation prompts:**
-- `How is Tesla doing today?`
-- `What is going on with NVDA today?`
-- `Compare AAPL and MSFT.`
-- `What headlines are driving the move in AAPL?`
+- `Who is the CTO?`
+- `Show me all Research roles.`
+- `What workstreams are under KiRBe Platform?`
+- `I want to add a new process under the Data Governance project.`
 
 ---
 
@@ -784,11 +786,13 @@ The HLK Registry MCP gives agents read-only access to the Holistika organisation
 
 Every tool is classified in `config/permissions.json` as either **autonomous** (no approval needed) or **requires_approval** (human must confirm).
 
-**Autonomous tools** (safe, read-only):
-`read_file`, `list_directory`, `web_search`, `sequential_thinking`, `browser_snapshot`, `browser_screenshot`, `mcporter_list`, `git_status`, `git_diff`, `git_log`, `memory_retrieve`, `memory_list`, `fetch_get`, `filesystem_read`, `filesystem_list`, `finance_quote`, `finance_search`, `finance_sentiment`
+`permissions.json` includes a mix of gateway core IDs, MCP plugin IDs, and AKOS logical aliases. In the live gateway template, use gateway core IDs such as `read`, `write`, `edit`, `apply_patch`, and `exec`, then expose MCP plugins through `tools.alsoAllow`.
 
-**Approval-gated tools** (mutative or sensitive):
-`write_file`, `delete_file`, `shell_exec`, `browser_navigate`, `browser_click`, `browser_type`, `browser_console_exec`, `element_interact`, `git_push`, `git_commit`, `canvas_eval`, `network_download`, `system_config_change`, `memory_store`, `memory_delete`, `fetch_post`, `filesystem_write`, `filesystem_delete`
+**Autonomous tools** (examples):
+`read`, `web_search`, `web_fetch`, `memory_search`, `memory_get`, `sequential_thinking`, `finance_quote`, `finance_search`, `finance_sentiment`, `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search`
+
+**Approval-gated tools** (examples):
+`write`, `edit`, `apply_patch`, `exec`, `browser`, `sessions_send`, `sessions_spawn`, `subagents`, `memory_store`, `memory_delete`, `fetch_post`, `filesystem_write`, `filesystem_delete`, `git_push`, `git_commit`
 
 ### 10.2 How HITL Works
 
@@ -806,7 +810,7 @@ from akos.tools import ToolRegistry
 
 registry = ToolRegistry()
 registry.all_tools()           # All known tools
-registry.classify("write_file")  # "requires_approval"
+registry.classify("write")       # "requires_approval"
 registry.is_available("memory_store")  # True
 registry.server_names            # ["sequential-thinking", "playwright", ...]
 ```
@@ -1487,7 +1491,7 @@ python scripts/assemble-prompts.py [--variant {compact,standard,full}]
                                     [--dry-run] [--json-log]
 ```
 
-Builds 12 SOUL.md prompts (4 agents x 3 variants) from base + overlays.
+Builds 15 SOUL.md prompts (5 agents x 3 variants) from base + overlays.
 
 ### `log-watcher.py`
 
@@ -1708,7 +1712,7 @@ Streams gateway log entries as JSON objects in real-time.
 ## 22. What's New in v0.5.0
 
 ### Gateway Runtime Wiring
-- **Per-agent tool profiles** enforced at gateway level — Madeira/Orchestrator/Architect use `minimal`, Executor/Verifier use `coding`; Verifier has explicit deny for write_file, delete_file, git_push, git_commit
+- **Per-agent tool profiles** enforced at gateway level — Madeira uses `coding` with curated `alsoAllow` plus `deny: ["write", "edit", "apply_patch", "exec"]`; Orchestrator and Architect use `minimal` with curated `alsoAllow`; Executor and Verifier use `coding` (Verifier denies `write`, `edit`, `apply_patch`)
 - **Exec security mode** per agent — allowlist for Executor, deny for Architect; Orchestrator/Architect never have full exec
 - **Gateway-level loop detection** — defense-in-depth with prompt-level loop detection; circuit breaker thresholds configurable
 - **Agent-to-agent tool** for Orchestrator delegation — target allowlist restricts invokable agents
@@ -1724,7 +1728,7 @@ Bootstrap translates `config/agent-capabilities.json` into OpenClaw's runtime co
 ## 23. What's New in v0.4.0
 
 ### Runtime Convergence
-- All 4 agents (Orchestrator, Architect, Executor, Verifier) now deploy correctly during bootstrap
+- All 5 agents (Madeira, Orchestrator, Architect, Executor, Verifier) now deploy correctly during bootstrap
 - Gateway health check returns actual status instead of "unknown"
 - MCP paths resolve correctly on Windows, macOS, and Linux
 - Bearer token authentication via `AKOS_API_KEY` environment variable
@@ -1787,7 +1791,7 @@ Bootstrap translates `config/agent-capabilities.json` into OpenClaw's runtime co
 Re-run `py scripts/bootstrap.py --skip-ollama`. Bootstrap now strips providers with unset env vars (e.g., `${OLLAMA_GPU_URL}`) automatically.
 
 **Only 2 agents visible in dashboard:**
-Re-run `py scripts/bootstrap.py --skip-ollama` then `openclaw gateway restart`. Bootstrap now force-syncs all 4 agents.
+Re-run `py scripts/bootstrap.py --skip-ollama` then `openclaw gateway restart`. Bootstrap now force-syncs all 5 agents.
 
 **`openclaw doctor` reports unknown keys:**
 AKOS-specific keys (`logging`, `permissions`) are now stored in `~/.openclaw/akos-config.json` instead of the gateway config. Re-run bootstrap to fix.

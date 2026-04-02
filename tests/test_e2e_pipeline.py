@@ -22,16 +22,17 @@ client = TestClient(app)
 
 
 class TestE2EAgentPipeline:
-    """Verify the 4-agent system is correctly wired end-to-end."""
+    """Verify the 5-agent system is correctly wired end-to-end."""
 
-    def test_all_four_agents_registered(self):
+    def test_all_five_agents_registered(self):
         resp = client.get("/agents")
         assert resp.status_code == 200
         data = resp.json()
         ids = {a["id"] for a in data}
-        assert ids == {"orchestrator", "architect", "executor", "verifier"}
+        assert ids == {"madeira", "orchestrator", "architect", "executor", "verifier"}
 
     def test_agent_workspaces_match_config(self):
+        assert "MADEIRA" in AGENT_WORKSPACES
         assert "ORCHESTRATOR" in AGENT_WORKSPACES
         assert "ARCHITECT" in AGENT_WORKSPACES
         assert "EXECUTOR" in AGENT_WORKSPACES
@@ -39,6 +40,7 @@ class TestE2EAgentPipeline:
 
     def test_prompt_bases_exist(self):
         base_dir = REPO_ROOT / "prompts" / "base"
+        assert (base_dir / "MADEIRA_BASE.md").exists()
         assert (base_dir / "ORCHESTRATOR_BASE.md").exists()
         assert (base_dir / "ARCHITECT_BASE.md").exists()
         assert (base_dir / "EXECUTOR_BASE.md").exists()
@@ -46,6 +48,7 @@ class TestE2EAgentPipeline:
 
     def test_compact_prompts_exist(self):
         prompts_dir = REPO_ROOT / "prompts"
+        assert (prompts_dir / "MADEIRA_PROMPT.md").exists()
         assert (prompts_dir / "ORCHESTRATOR_PROMPT.md").exists()
         assert (prompts_dir / "ARCHITECT_PROMPT.md").exists()
         assert (prompts_dir / "EXECUTOR_PROMPT.md").exists()
@@ -53,8 +56,10 @@ class TestE2EAgentPipeline:
 
     def test_workspace_scaffolds_exist(self):
         scaffold = REPO_ROOT / "config" / "workspace-scaffold"
-        for agent in ["orchestrator", "architect", "executor", "verifier"]:
+        for agent in ["madeira", "orchestrator", "architect", "executor", "verifier"]:
             assert (scaffold / agent / "IDENTITY.md").exists()
+        for name in ["MEMORY.md", "USER.md", "WORKFLOW_AUTO.md"]:
+            assert (scaffold / "madeira" / name).exists()
 
     def test_health_endpoint_healthy(self):
         resp = client.get("/health")
@@ -101,6 +106,7 @@ class TestE2EToolsRegistry:
         assert "memory" in registry.server_names
         assert "filesystem" in registry.server_names
         assert "fetch" in registry.server_names
+        assert "hlk" in registry.server_names
 
     def test_autonomous_tools_classified(self):
         registry = ToolRegistry()
@@ -157,4 +163,4 @@ class TestE2EOverlayConsistency:
         config_path = REPO_ROOT / "config" / "openclaw.json.example"
         raw = json.loads(config_path.read_text(encoding="utf-8"))
         agent_ids = {a["id"] for a in raw["agents"]["list"]}
-        assert agent_ids == {"orchestrator", "architect", "executor", "verifier"}
+        assert agent_ids == {"madeira", "orchestrator", "architect", "executor", "verifier"}

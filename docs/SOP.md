@@ -17,7 +17,7 @@
 
 The contemporary landscape of autonomous software systems has shifted dramatically, moving rapidly from conversational interfaces to deep-execution architectures. Out-of-the-box, vanilla deployments of the OpenCLAW framework operate fundamentally as isolated, high-latency conversational agents. While they possess basic utility, they lack the persistent identity, deterministic workflow orchestration, and cognitive depth required to match sophisticated internal frameworks like the Kirbe Agentic Knowledge Operating System (AKOS) or proprietary solutions such as Gemini Deep Research and Cursor's dual-mode IDE planners.1
 
-The analysis indicates that achieving an enterprise-grade, highly autonomous assistant requires transcending the concept of a rudimentary "chatbot" and architecting a Large Language Model Operating System (LLMOS). This transformation necessitates the integration of the Four-Layer LLMOS paradigm: a Control Plane (Gateway), an Integration Layer, an Execution Layer (Agent Runner), and an Intelligence Layer.1 When an agent is forced to simultaneously architect a solution and write the underlying syntax, it suffers from severe cognitive overload. This results in context degradation, systemic hallucinations, and infinite debugging loops.1 To overcome this, the architecture embraces a multi-agent paradigm (v3.0: four agents), separating the cognitive workload into an "Orchestrator" (task decomposition and delegation), an "Architect" (read-only, high-context planning), an "Executor" (fast, read-write execution of strict directives), and a "Verifier" (independent quality validation with error recovery).1
+The analysis indicates that achieving an enterprise-grade, highly autonomous assistant requires transcending the concept of a rudimentary "chatbot" and architecting a Large Language Model Operating System (LLMOS). This transformation necessitates the integration of the Four-Layer LLMOS paradigm: a Control Plane (Gateway), an Integration Layer, an Execution Layer (Agent Runner), and an Intelligence Layer.1 When an agent is forced to simultaneously architect a solution and write the underlying syntax, it suffers from severe cognitive overload. This results in context degradation, systemic hallucinations, and infinite debugging loops.1 To overcome this, the current operating model uses five coordinated roles: "Madeira" (user-facing HLK lookup and escalation), "Orchestrator" (task decomposition and delegation), "Architect" (read-only, high-context planning), "Executor" (fast, read-write execution of strict directives), and "Verifier" (independent quality validation with error recovery).1
 
 Furthermore, the introduction of the Model Context Protocol (MCP) serves as the universal integration layer for this ecosystem, replacing brittle, bespoke API wrappers with standardized, discoverable tool schemas.4 By standardizing how models interact with external data sources, the agent can achieve exhaustive, multi-layered research capabilities.1
 
@@ -1048,13 +1048,13 @@ This section documents the operational procedures introduced in v0.4.0. These pr
 
 ### **9.1 Runtime Convergence and Drift Detection**
 
-The v0.3.0 implementation revealed that only 2 of 4 agents were deployed to the live runtime during bootstrap. v0.4.0 enforces full runtime convergence:
+The original runtime convergence work started when only 2 of 4 agents reached the live runtime during bootstrap. The current contract extends that convergence to the 5-agent model:
 
 **Bootstrap (all 5 agents):**
-- `scripts/bootstrap.py` now creates all 4 workspace directories (`workspace-orchestrator`, `workspace-architect`, `workspace-executor`, `workspace-verifier`).
-- Scaffold files (IDENTITY.md, MEMORY.md, HEARTBEAT.md) are deployed to all workspaces via `deploy_scaffold_files()`.
+- `scripts/bootstrap.py` now creates all 5 workspace directories (`workspace-madeira`, `workspace-orchestrator`, `workspace-architect`, `workspace-executor`, `workspace-verifier`).
+- Scaffold files are deployed to all workspaces via `deploy_scaffold_files()`, including Madeira's `USER.md`, `MEMORY.md`, and `WORKFLOW_AUTO.md`.
 - `mcporter.json` is generated with OS-appropriate paths (replacing hardcoded `/opt/openclaw/workspace`). Bootstrap also re-resolves existing configs automatically. For manual copies, use `py scripts/resolve-mcporter-paths.py`.
-- Bootstrap strips provider blocks with unresolved `${VAR}` env vars (v0.4.1) to prevent gateway `MissingEnvVarError` crashes.
+- Bootstrap preserves the full provider inventory and surfaces unresolved `${VAR}` inputs as warnings. When needed, it seeds or backfills `~/.openclaw/.env` placeholders to prevent `MissingEnvVarError` crashes.
 - Bootstrap force-syncs `agents.list` from the template to ensure all 5 agents are present (v0.6.0: Madeira added).
 - AKOS-specific config keys (`logging`, `permissions`, `gateway.host`) are extracted into `~/.openclaw/akos-config.json` to avoid `openclaw doctor` warnings (v0.4.1).
 - Session directories (`~/.openclaw/agents/<id>/sessions/`) are created for all agents (v0.4.1).
@@ -1232,7 +1232,7 @@ py scripts/test.py all
 **Lane 2 -- Browser/gateway smoke:**
 Canonical scenarios defined in `uat/dashboard_smoke.md`:
 - `dashboard_health` -- page loads, no errors
-- `agent_visibility` -- all 4 agents visible
+- `agent_visibility` -- all 5 agents visible
 - `architect_read_only` -- Architect produces plans, no file writes
 - `executor_approval_flow` -- mutative actions require HITL approval
 - `workflow_launch` -- at least one workflow invocable
@@ -1242,7 +1242,7 @@ Canonical scenarios defined in `uat/dashboard_smoke.md`:
 ```
 AKOS_LIVE_SMOKE=1 py scripts/test.py live
 ```
-Tests: health endpoint live, agents endpoint returns 4 agents.
+Tests: health endpoint live, agents endpoint returns 5 agents.
 
 **Release gate procedure:**
 ```
@@ -1262,7 +1262,7 @@ See `CHANGELOG.md` for the full version history from v0.0.1 to v0.5.0.
 
 Bootstrap acts as the **translation layer** between AKOS's design-time SSOT and OpenClaw's runtime enforcement. Policy is defined once in AKOS files, bootstrap pushes it to OpenClaw's config schema, and the dashboard shows the live state. The operator never manually edits the OpenClaw Config page.
 
-- **Per-agent tool profiles** — Each agent's `tools.profile` (minimal/coding) and allow/deny lists are translated from `config/agent-capabilities.json` by bootstrap. Orchestrator and Architect use `minimal`; Executor and Verifier use `coding` (Verifier with explicit deny for write_file, delete_file, git_push, git_commit).
+- **Per-agent tool profiles** — Bootstrap derives each agent's `tools.profile` from `config/agent-capabilities.json`, while `config/openclaw.json.example` remains the SSOT for curated `alsoAllow` / `deny` entries. Madeira uses `coding` with `write`, `edit`, `apply_patch`, and `exec` denied; Orchestrator and Architect use `minimal` with curated read-only extras; Executor and Verifier use `coding` (Verifier denies `write`, `edit`, `apply_patch`).
 - **Exec security** — `tools.exec.security` is set per AKOS policy (allowlist for Executor, deny for Architect). Orchestrator/Architect must never have `full` exec access.
 - **Loop detection** — Gateway-level repetition circuit breaker (`tools.loopDetection`) provides defense-in-depth with AKOS prompt-level loop detection.
 - **Agent-to-agent** — `tools.agentToAgent` enables Orchestrator delegation at runtime level. `tools.agentToAgent.allow` restricts which agents can be invoked.
@@ -1366,8 +1366,8 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - Updated `verify_openclaw_inventory.py` (added `deepseek-r1:14b` to expected ollama models) and `validate_configs.py` (ollama model count assertion, env placeholder coverage test).
 
 **Phase 10 execution note (startup compliance and Langfuse observability):**
-- Rewrote `## Session Startup` in all four base prompts (`ORCHESTRATOR_BASE.md`, `ARCHITECT_BASE.md`, `EXECUTOR_BASE.md`, `VERIFIER_BASE.md`) with SOTA enforcement patterns: explicit `read_file()` tool-call syntax, `CRITICAL` / `MUST` gate language, self-correction mandate, and "do NOT mention internal steps" directive.
-- Created `prompts/overlays/OVERLAY_STARTUP_COMPLIANCE.md` with recency rule (re-read within 5 messages), invariant check, and good/bad examples. Registered in `config/model-tiers.json` for both `standard` and `full` variants across all four agents.
+- Rewrote `## Session Startup` in all five base prompts (`MADEIRA_BASE.md`, `ORCHESTRATOR_BASE.md`, `ARCHITECT_BASE.md`, `EXECUTOR_BASE.md`, `VERIFIER_BASE.md`) with SOTA enforcement patterns: explicit `read_file()` tool-call syntax, `CRITICAL` / `MUST` gate language, self-correction mandate, and "do NOT mention internal steps" directive.
+- Created `prompts/overlays/OVERLAY_STARTUP_COMPLIANCE.md` with recency rule (re-read within 5 messages), invariant check, and good/bad examples. Registered in `config/model-tiers.json` for both `standard` and `full` variants across all five agents.
 - Added `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST` placeholders to all three environment templates (`dev-local.env.example`, `gpu-runpod.env.example`, `prod-cloud.env.example`).
 - Wired `scripts/serve-api.py` to load `config/eval/langfuse.env` at startup via `load_env_file()` with `os.environ.setdefault()`.
 - Added `trace_startup_compliance()` method to `LangfuseReporter` in `akos/telemetry.py` for scored startup event tracing.

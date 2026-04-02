@@ -23,15 +23,15 @@ is functioning correctly after deployment.
 
 ## 2. agent_visibility
 
-**Objective:** Verify all 4 agents are listed in the dashboard.
+**Objective:** Verify all 5 agents are listed in the dashboard.
 
 **Steps:**
 1. Navigate to the dashboard.
 2. Hit `GET /agents` or inspect the agents panel.
-3. Confirm all 4 agents are visible: Orchestrator, Architect, Executor, Verifier.
+3. Confirm all 5 agents are visible: Madeira, Orchestrator, Architect, Executor, Verifier.
 
 **Pass Criteria:**
-- Exactly 4 agents returned/displayed.
+- Exactly 5 agents returned/displayed.
 - Each agent has a name, role, and status field.
 
 ---
@@ -43,7 +43,7 @@ is functioning correctly after deployment.
 **Steps:**
 1. Open the Architect agent's detail view.
 2. Inspect the allowed/denied tool lists.
-3. Confirm write tools (`write_file`, `shell_exec`, `delete_file`) are in the denied list.
+3. Confirm destructive core tools (`write`, `edit`, `apply_patch`, `exec`) are in the denied list.
 4. Attempt to trigger a write operation via the Architect -- expect rejection.
 
 **Pass Criteria:**
@@ -58,7 +58,7 @@ is functioning correctly after deployment.
 
 **Steps:**
 1. Open the Executor agent's detail view.
-2. Trigger a write operation (e.g., `write_file`).
+2. Trigger a mutating operation (e.g., `write` or `edit`).
 3. Verify an approval prompt is presented before execution.
 4. Approve the operation and confirm it proceeds.
 5. Deny a second operation and confirm it is blocked.

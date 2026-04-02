@@ -76,3 +76,15 @@ ORCHESTRATOR ──── delegates ──── ARCHITECT / EXECUTOR / VERIFIER
 - Run live browser UAT once gateway is restarted
 - Monitor Madeira session telemetry in Langfuse
 - Iterate on prompt contract based on real user interaction patterns
+
+## 9. Post-Report Addendum (2026-04-02)
+
+The stabilization work in this report successfully introduced Madeira as the dashboard entry surface, but it did not fully align the live gateway contract with OpenClaw's canonical runtime tool IDs. A follow-up remediation plan now closes that gap across:
+
+- gateway template tool IDs and `alsoAllow` usage
+- bootstrap translation behavior
+- drift / doctor validation
+- five-agent browser and API verification
+- Madeira startup hygiene and anti-fabrication UAT
+
+See `madeira-gateway-alignment-remediation-report.md` for the governed remediation evidence and final verification state.

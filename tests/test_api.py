@@ -47,9 +47,9 @@ class TestAgents:
         assert resp.status_code == 200
         data = resp.json()
         assert isinstance(data, list)
-        assert len(data) == 4
+        assert len(data) == 5
         agent_ids = {a["id"] for a in data}
-        assert agent_ids == {"orchestrator", "architect", "executor", "verifier"}
+        assert agent_ids == {"madeira", "orchestrator", "architect", "executor", "verifier"}
 
     def test_agent_has_required_fields(self):
         resp = client.get("/agents")

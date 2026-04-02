@@ -41,4 +41,4 @@ def test_health_endpoint_live() -> None:
 def test_agents_endpoint_live() -> None:
     data = _get_json("/agents")
     assert isinstance(data, list)
-    assert len(data) == 4, f"Expected 4 agents, got {len(data)}"
+    assert len(data) == 5, f"Expected 5 agents, got {len(data)}"

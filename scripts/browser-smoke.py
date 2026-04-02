@@ -80,9 +80,9 @@ def _check_agent_visibility_http() -> dict[str, str]:
             data = json.loads(resp.read().decode())
             agents = data if isinstance(data, list) else data.get("agents", data)
             count = len(agents) if isinstance(agents, list) else 0
-            if count >= 4:
+            if count >= 5:
                 return {"scenario": "agent_visibility", "status": "PASS", "detail": f"{count} agents visible via API"}
-            return {"scenario": "agent_visibility", "status": "FAIL", "detail": f"Expected 4 agents, got {count}"}
+            return {"scenario": "agent_visibility", "status": "FAIL", "detail": f"Expected 5 agents, got {count}"}
     except (urllib.error.URLError, OSError, json.JSONDecodeError, KeyError) as e:
         return {"scenario": "agent_visibility", "status": "FAIL", "detail": str(e)}
 
@@ -128,17 +128,17 @@ def _check_agent_visibility_playwright(page, headed: bool) -> dict[str, str]:
             return {"scenario": "agent_visibility", "status": "FAIL", "detail": f"/agents returned {res.status}"}
         text = page.content()
         # Parse JSON from response or page body
-        if "orchestrator" in text.lower() and "architect" in text.lower() and "executor" in text.lower():
-            return {"scenario": "agent_visibility", "status": "PASS", "detail": "4 agents present (orchestrator, architect, executor, verifier)"}
+        if all(name in text.lower() for name in ("madeira", "orchestrator", "architect", "executor", "verifier")):
+            return {"scenario": "agent_visibility", "status": "PASS", "detail": "5 agents present (madeira, orchestrator, architect, executor, verifier)"}
         # Try parsing as JSON (page might show raw JSON)
         try:
             body = page.locator("body").inner_text()
             data = json.loads(body)
             agents = data if isinstance(data, list) else data.get("agents", [])
             count = len(agents) if isinstance(agents, list) else 0
-            if count >= 4:
+            if count >= 5:
                 return {"scenario": "agent_visibility", "status": "PASS", "detail": f"{count} agents present"}
-            return {"scenario": "agent_visibility", "status": "FAIL", "detail": f"Expected 4 agents, got {count}"}
+            return {"scenario": "agent_visibility", "status": "FAIL", "detail": f"Expected 5 agents, got {count}"}
         except (json.JSONDecodeError, KeyError):
             pass
         return {"scenario": "agent_visibility", "status": "PASS", "detail": "Agents endpoint returns 200"}
@@ -188,7 +188,7 @@ SELECTORS = {
     "agents_link": "text=/agents|Agents/i",
     "architect_card": "text=Architect (Read-Only Planner)",
     "executor_card": "text=Executor (Read-Write Builder)",
-    "denied_tools": ["write_file", "shell_exec", "delete_file"],
+    "denied_tools": ["write", "edit", "apply_patch", "exec"],
     "approval_hint": "text=/approval|HITL|human-in-the-loop/i",
 }
 

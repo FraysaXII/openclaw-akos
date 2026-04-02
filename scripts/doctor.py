@@ -28,6 +28,7 @@ from akos.io import AGENT_WORKSPACES, REPO_ROOT, load_json, resolve_openclaw_hom
 from akos.log import setup_logging
 from akos.policy import CapabilityMatrix
 from akos.runtime import RuntimeState, parse_gateway_status_output
+from akos.tools import classify_gateway_tool_id
 
 logger = logging.getLogger("akos.doctor")
 
@@ -388,6 +389,22 @@ def check_gateway_tool_config(oc_home: Path) -> list[tuple[str, str]]:
                 results.append(("PASS", f"Tool profile aligned: {agent_id} ({expected_profile})"))
             else:
                 results.append(("FAIL", f"Tool profile mismatch: {agent_id} (expected {expected_profile}, got {actual_profile})"))
+
+            if "allow" in tools_block:
+                results.append(("FAIL", f"Legacy tools.allow detected for {agent_id}; use alsoAllow"))
+
+            also_allow = tools_block.get("alsoAllow", [])
+            if also_allow and not isinstance(also_allow, list):
+                results.append(("FAIL", f"tools.alsoAllow must be a list for {agent_id}"))
+            elif isinstance(also_allow, list):
+                unknown = sorted(
+                    str(tool) for tool in also_allow
+                    if classify_gateway_tool_id(str(tool)) == "unknown"
+                )
+                if unknown:
+                    results.append(("FAIL", f"Unknown tool IDs in {agent_id}.tools.alsoAllow: {', '.join(unknown)}"))
+                else:
+                    results.append(("PASS", f"Tool IDs recognized for {agent_id}.tools.alsoAllow"))
 
         for agent in agents:
             agent_id = agent.get("id", "").lower()

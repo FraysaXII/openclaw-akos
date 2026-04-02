@@ -18,6 +18,24 @@ logger = logging.getLogger("akos.tools")
 MCPORTER_PATH = REPO_ROOT / "config" / "mcporter.json.example"
 PERMISSIONS_PATH = REPO_ROOT / "config" / "permissions.json"
 
+GATEWAY_CORE_TOOLS = frozenset({
+    "read", "write", "edit", "apply_patch",
+    "exec", "process",
+    "web_search", "web_fetch",
+    "memory_search", "memory_get",
+    "sessions_list", "sessions_history", "sessions_send",
+    "sessions_spawn", "subagents", "session_status",
+    "browser", "canvas", "message", "cron",
+    "gateway", "nodes", "agents_list", "image", "tts",
+})
+
+GATEWAY_PLUGIN_TOOLS = frozenset({
+    "sequential_thinking",
+    "finance_quote", "finance_search", "finance_sentiment",
+    "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process",
+    "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search",
+})
+
 
 @dataclass
 class ToolInfo:
@@ -83,3 +101,12 @@ class ToolRegistry:
 
     def server_info(self, server_name: str) -> dict | None:
         return self._servers.get(server_name)
+
+
+def classify_gateway_tool_id(tool_name: str) -> str:
+    """Classify a runtime tool identifier as core, plugin, or unknown."""
+    if tool_name in GATEWAY_CORE_TOOLS:
+        return "core"
+    if tool_name in GATEWAY_PLUGIN_TOOLS:
+        return "plugin"
+    return "unknown"

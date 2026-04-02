@@ -15,7 +15,7 @@ CONFIG_DIR = REPO_ROOT / "config"
 PROMPTS_DIR = REPO_ROOT / "prompts"
 SCRIPTS_DIR = REPO_ROOT / "scripts"
 
-EXPECTED_MCP_SERVERS = {"sequential-thinking", "playwright", "github", "memory", "filesystem", "fetch", "lsp", "code-search", "akos", "finance"}
+EXPECTED_MCP_SERVERS = {"sequential-thinking", "playwright", "github", "memory", "filesystem", "fetch", "lsp", "code-search", "akos", "finance", "hlk"}
 
 AUTONOMOUS_TOOLS = {
     "read_file", "list_directory", "web_search", "sequential_thinking",
@@ -52,8 +52,11 @@ EXPECTED_SCAFFOLDING_FILES = [
     CONFIG_DIR / "eval" / "alerts.json",
     CONFIG_DIR / "intelligence-matrix-schema.json",
     CONFIG_DIR / "compliance" / "eu-ai-act-checklist.json",
+    PROMPTS_DIR / "MADEIRA_PROMPT.md",
+    PROMPTS_DIR / "ORCHESTRATOR_PROMPT.md",
     PROMPTS_DIR / "ARCHITECT_PROMPT.md",
     PROMPTS_DIR / "EXECUTOR_PROMPT.md",
+    PROMPTS_DIR / "VERIFIER_PROMPT.md",
     SCRIPTS_DIR / "vet-install.sh",
 ]
 

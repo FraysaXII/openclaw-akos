@@ -16,14 +16,15 @@ Out-of-the-box, OpenCLAW operates as an isolated conversational agent. This proj
 | Layer | Role | Implementation |
 |:------|:-----|:---------------|
 | **Control Plane** | Gateway daemon, FastAPI API, RunPod manager (serverless + dedicated pod), auto-failover router | `openclaw.json` + `akos/api.py` on port 8420 |
-| **Integration Layer** | Channel adapters, 10 MCP servers + gateway-enforced tool profiles | WebChat + optional Telegram, Slack, WhatsApp via `bindings` |
-| **Execution Layer** | 4-agent runner (Orchestrator, Architect, Executor, Verifier) | Decompose, plan, build, validate |
+| **Integration Layer** | Channel adapters, 11 MCP servers + gateway-enforced tool profiles | WebChat + optional Telegram, Slack, WhatsApp via `bindings` |
+| **Execution Layer** | 5-agent runner (Madeira, Orchestrator, Architect, Executor, Verifier) | Answer, decompose, plan, build, validate |
 | **Intelligence Layer** | Flat memory architecture, context compression | MCP Memory server, workspace files, Intelligence Matrix fact tagging |
 
 ## Architecture
 
-The system implements the **Four-Layer LLMOS Paradigm** with a **Multi-Agent Model** (v0.5.0) that separates cognitive workload:
+The system implements the **Four-Layer LLMOS Paradigm** with a **Multi-Agent Model** (v0.6.0) that separates cognitive workload:
 
+- **Madeira Agent** -- user-facing HLK lookup assistant that answers directly and escalates write/admin workflows
 - **Orchestrator Agent** -- decomposes user requests into sub-tasks and delegates to the right agent
 - **Architect Agent** -- operates in read-only, high-context planning mode using sequential thinking
 - **Executor Agent** -- fast, read-write model that executes strict directives from the Architect
@@ -45,6 +46,7 @@ This separation eliminates cognitive overload and adds a quality gate with a 3-r
 - **Code Search** (`@akos/mcp-code-search`) -- semantic code search via ripgrep + tree-sitter
 - **Custom AKOS MCP** (`scripts/mcp_akos_server.py`) -- control plane self-check: `akos_health`, `akos_agents`, `akos_status`
 - **Finance Research MCP** (`scripts/finance_mcp_server.py`) -- read-only financial data: `finance_quote`, `finance_search`, `finance_sentiment` (yfinance + Alpha Vantage)
+- **HLK Registry MCP** (`scripts/hlk_mcp_server.py`) -- read-only organisational and process lookup: `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search`
 - **mcporter** -- CLI and configuration manager for all MCP connections
 
 **Optional:** cursor-ide-browser (Cursor IDE built-in) for in-IDE WebChat testing; AKOS agent uses Playwright MCP.
@@ -164,7 +166,7 @@ openclaw-akos/
     __init__.py                     Package marker + version (v0.5.0)
     models.py                       Pydantic schemas for all config files (incl. RunPod)
     model_catalog.py                CatalogEntry model + load_catalog() for GPU model SSOT
-    io.py                           load_json, save_json, deep_merge, AGENT_WORKSPACES (4-agent)
+    io.py                           load_json, save_json, deep_merge, AGENT_WORKSPACES (5-agent)
     log.py                          JSONFormatter + HumanFormatter, setup_logging()
     process.py                      CommandResult + run() subprocess wrapper with timeouts
     state.py                        AkosState model + load/save for deployment tracking
@@ -198,11 +200,13 @@ openclaw-akos/
       baselines.json                DX metric baselines (T-5.2)
       alerts.json                   SOC alerting thresholds (T-5.3)
   prompts/
+    MADEIRA_PROMPT.md               HLK lookup assistant system prompt (compact)
     ORCHESTRATOR_PROMPT.md          Coordinator system prompt (compact)
     ARCHITECT_PROMPT.md             Read-only planner system prompt (compact)
     EXECUTOR_PROMPT.md              Read-write builder system prompt (compact)
     VERIFIER_PROMPT.md              Quality gate system prompt (compact)
     base/
+      MADEIRA_BASE.md               Core Madeira identity and lookup rules
       ORCHESTRATOR_BASE.md          Core orchestrator identity and rules
       ARCHITECT_BASE.md             Core architect identity and rules
       EXECUTOR_BASE.md              Core executor identity and rules (3-retry recovery loop)

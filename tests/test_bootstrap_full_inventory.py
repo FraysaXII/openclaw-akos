@@ -105,6 +105,29 @@ def test_bootstrap_preserves_template_gateway_tool_blocks() -> None:
     assert "allow" not in madeira_tools
 
 
+def test_bootstrap_migrates_legacy_allow_to_also_allow() -> None:
+    merged = {
+        "agents": {
+            "list": [
+                {
+                    "id": "architect",
+                    "tools": {
+                        "profile": "minimal",
+                        "allow": ["read", "web_search", "hlk_search"],
+                    },
+                },
+            ]
+        }
+    }
+
+    _sync_tool_profiles_from_capability_matrix(merged)
+
+    architect_tools = merged["agents"]["list"][0]["tools"]
+    assert architect_tools["profile"] == "minimal"
+    assert architect_tools["alsoAllow"] == ["read", "web_search", "hlk_search"]
+    assert "allow" not in architect_tools
+
+
 def test_bootstrap_uses_runtime_profile_override() -> None:
     merged = {
         "agents": {

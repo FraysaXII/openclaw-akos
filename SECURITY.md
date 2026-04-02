@@ -42,7 +42,7 @@ The `skillvet` scanner performs 48 vulnerability checks:
 
 ### 3. Human-in-the-Loop (HITL) Enforcement
 
-The full tool classification is maintained in `config/permissions.json` (18 autonomous, 18 approval-gated tools as of v0.5.0).
+The full tool classification is maintained in `config/permissions.json` (35 autonomous, 33 approval-gated tool IDs in the current branch, spanning gateway core IDs, MCP plugin IDs, and AKOS logical aliases).
 
 | Operation Type | Approval Required |
 |:---------------|:------------------|
@@ -132,7 +132,7 @@ When using dedicated RunPod pods (`gpu-runpod-pod` profile), the vLLM process ru
 
 AKOS v0.5.0 adds **gateway-level capability enforcement** as defense-in-depth on top of prompt-level controls.
 
-- **Per-agent tool profiles** — The OpenClaw gateway enforces `tools.profile` (minimal/coding) per agent. Orchestrator and Architect use `minimal`; Executor and Verifier use `coding`. Even if an agent is prompt-injected, the gateway blocks unauthorized tool calls.
+- **Per-agent tool profiles** — The OpenClaw gateway enforces `tools.profile` plus curated `alsoAllow` / `deny` lists per agent. Madeira uses `coding` with write/edit/apply_patch/exec denied; Orchestrator and Architect use `minimal` with curated read-only extras; Executor and Verifier use `coding` (Verifier denies write/edit/apply_patch). Even if an agent is prompt-injected, the gateway blocks unauthorized tool calls.
 - **Exec security mode** — `tools.exec.security` restricts shell execution (deny/allowlist/full). Orchestrator and Architect must not have `full` exec; bootstrap and drift detection enforce this.
 - **Browser SSRF policy** — `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork: false` prevents browser automation from accessing private/internal networks. Reduces SSRF risk from malicious web content.
 

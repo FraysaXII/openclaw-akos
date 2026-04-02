@@ -95,6 +95,38 @@ class TestExecutorPrompt:
 
 
 # ---------------------------------------------------------------------------
+# MADEIRA_PROMPT.md -- compact variant (base)
+# ---------------------------------------------------------------------------
+
+class TestMadeiraPrompt:
+    @pytest.fixture(autouse=True)
+    def _load(self):
+        self.text = _read(PROMPTS_DIR / "MADEIRA_PROMPT.md")
+
+    def test_file_not_empty(self):
+        assert len(self.text.strip()) > 0
+
+    def test_has_startup_reads(self):
+        for required in ["IDENTITY.md", "USER.md", "WORKFLOW_AUTO.md", "MEMORY.md"]:
+            assert required in self.text
+
+    def test_never_emits_no_reply(self):
+        assert "Never emit `NO_REPLY`" in self.text
+
+    def test_enforces_anti_fabrication(self):
+        assert "Never invent names, UUIDs, workstreams" in self.text
+        assert "Never expose internal tool" in self.text
+
+    def test_has_escalation_boundary(self):
+        assert "Escalate to the Orchestrator" in self.text
+        assert "Do NOT attempt write operations yourself" in self.text
+
+    def test_cites_canonical_hlk_sources(self):
+        assert "baseline_organisation.csv" in self.text
+        assert "process_list.csv" in self.text
+
+
+# ---------------------------------------------------------------------------
 # Base prompt structure
 # ---------------------------------------------------------------------------
 

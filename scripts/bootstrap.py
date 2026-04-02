@@ -42,6 +42,7 @@ from akos.io import (
 from akos.log import setup_logging
 from akos.models import load_tiers
 from akos.policy import CapabilityMatrix
+from akos.tools import GATEWAY_CORE_TOOLS
 
 logger = logging.getLogger("akos.bootstrap")
 
@@ -63,18 +64,6 @@ def _resolve_runtime_profile(policy) -> str:
     if getattr(policy, "runtime_profile", None):
         return str(policy.runtime_profile)
     return _categories_to_profile(policy.allowed_categories)
-
-
-_GATEWAY_CORE_TOOLS = frozenset({
-    "read", "write", "edit", "apply_patch",
-    "exec", "process",
-    "web_search", "web_fetch",
-    "memory_search", "memory_get",
-    "sessions_list", "sessions_history", "sessions_send",
-    "sessions_spawn", "subagents", "session_status",
-    "browser", "canvas", "message", "cron",
-    "gateway", "nodes", "agents_list", "image", "tts",
-})
 
 
 def _sync_tool_profiles_from_capability_matrix(merged: dict) -> None:
@@ -108,8 +97,16 @@ def _sync_tool_profiles_from_capability_matrix(merged: dict) -> None:
         if existing_tools.get("alsoAllow"):
             tools_block["alsoAllow"] = list(existing_tools["alsoAllow"])
         elif existing_tools.get("allow"):
-            # Backward compatibility for older templates that still use allow.
-            tools_block["allow"] = list(existing_tools["allow"])
+            # Migrate legacy allowlists into the gateway-supported additive field.
+            legacy_allow = list(existing_tools["allow"])
+            unknown_legacy = [tool for tool in legacy_allow if tool not in GATEWAY_CORE_TOOLS]
+            if unknown_legacy:
+                logger.warning(
+                    "Agent %s legacy allowlist contains non-core IDs; moving them to alsoAllow for compatibility: %s",
+                    agent_id,
+                    ", ".join(sorted(unknown_legacy)),
+                )
+            tools_block["alsoAllow"] = legacy_allow
 
         if existing_tools.get("deny"):
             tools_block["deny"] = list(existing_tools["deny"])
@@ -333,7 +330,7 @@ def phase_config(args: argparse.Namespace) -> bool:
     else:
         status("WARN", f"Model '{model_id}' not in model-tiers.json; using template defaults")
 
-    # Fix 2: Force-sync agents.list from template to ensure all 4 agents
+    # Fix 2: Force-sync agents.list from template to ensure all 5 agents
     if "agents" in template and "list" in template["agents"]:
         merged["agents"]["list"] = template["agents"]["list"]
         agent_names = [a.get("id", "?") for a in merged["agents"]["list"]]

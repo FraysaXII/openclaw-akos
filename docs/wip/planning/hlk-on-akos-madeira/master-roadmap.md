@@ -45,6 +45,25 @@ flowchart LR
 5. Phase 4: Admin UX, workspace management, and session discipline
 6. Phase 5: CI/CD, hardening, and externalization decision
 
+## Current Execution Update
+
+Phase 1 is no longer the active bottleneck. `reports/phase-1-report.md` is **GO** and remains the authoritative in-repo completion note for the canonical vault freeze.
+
+The active execution follow-up is the Madeira Gateway Alignment remediation, which closes post-Phase-3 runtime drift between:
+
+- `config/agent-capabilities.json`
+- `config/openclaw.json.example`
+- `scripts/bootstrap.py`
+- live gateway/runtime behavior
+- prompt behavior and UAT expectations
+- release-facing documentation and reports
+
+Reference artifacts:
+
+- `C:\Users\Shadow\.cursor\plans\madeira_ultimate_agent_e97ddcd9.plan.md`
+- `reports/madeira-runtime-ux-report.md`
+- `reports/madeira-gateway-alignment-remediation-report.md`
+
 ## Phase 1 Focus
 
 Phase 1 is the current bottleneck and the most important phase for long-term scalability.
@@ -151,7 +170,9 @@ Recommended first data-entry batches after the minimum freeze:
 
 - [baseline-remediation-matrix.md](baseline-remediation-matrix.md) -- gap inventory, data-entry queue, vault target structure
 - [reports/phase-0-report.md](reports/phase-0-report.md) -- planning phase completion (GO)
-- [reports/phase-1-report.md](reports/phase-1-report.md) -- execution phase scaffold (TBD)
+- [reports/phase-1-report.md](reports/phase-1-report.md) -- phase completion report (**GO**)
+- [reports/madeira-runtime-ux-report.md](reports/madeira-runtime-ux-report.md) -- prior Madeira runtime stabilization report
+- [reports/madeira-gateway-alignment-remediation-report.md](reports/madeira-gateway-alignment-remediation-report.md) -- gateway/prompt/runtime/doc remediation report
 
 ## Execution Convention
 
