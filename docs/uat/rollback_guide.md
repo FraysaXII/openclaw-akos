@@ -12,11 +12,11 @@ Guidance for rolling back by failure class.
 
 **Symptom**: Agent workspace files missing or corrupted.
 **Action**: Re-run `py scripts/bootstrap.py` to regenerate workspaces.
-**Verification**: Open dashboard, verify all 4 agents visible.
+**Verification**: Open dashboard, verify all 5 agents visible.
 
 ## HITL Mismatch
 
-**Symptom**: Agent has tools it should not (e.g., Architect has write_file).
+**Symptom**: Agent has tools it should not (e.g., Architect has `write` or `exec`).
 **Action**: Verify `config/agent-capabilities.json` is correct, then re-sync: `py scripts/sync-runtime.py`.
 **Verification**: `GET /agents/{id}/capability-drift` returns empty issues.
 

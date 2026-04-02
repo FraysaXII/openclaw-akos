@@ -93,7 +93,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - Finance service changes must have tests in `tests/test_finance.py` (normalization, caching, missing API key degradation, error states).
 - HLK domain changes must have tests in `tests/test_hlk.py` (model parsing, registry lookups, chain traversal, gap detection, API endpoints).
 - New agent prompts/overlays must be covered by `tests/test_e2e_pipeline.py`.
-- Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint. Changes to `agent-capabilities.json` are automatically translated to OpenClaw tool profiles by bootstrap; do not hand-edit the `tools`, `session`, or `browser` sections in `openclaw.json.example` — they are generated from AKOS config.
+- Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint. Bootstrap derives each agent's runtime `tools.profile` from the capability matrix, while `config/openclaw.json.example` remains the SSOT for curated gateway `alsoAllow` / `deny`, session, and browser semantics. Keep those layers aligned; do not treat the gateway template as disposable generated output.
 - New workflow definitions go in `config/workflows/` as markdown files following the existing format.
 - New overlay files must be registered in `config/model-tiers.json` `variantOverlays` section.
 - Changes to `config/model-catalog.json` or `scripts/gpu.py` must be covered by `tests/test_gpu_cli.py`.

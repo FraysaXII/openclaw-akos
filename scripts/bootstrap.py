@@ -42,6 +42,7 @@ from akos.io import (
 from akos.log import setup_logging
 from akos.models import load_tiers
 from akos.policy import CapabilityMatrix
+from akos.tools import GATEWAY_CORE_TOOLS
 
 logger = logging.getLogger("akos.bootstrap")
 
@@ -58,27 +59,23 @@ def _categories_to_profile(allowed_categories: list[str]) -> str:
     return "minimal"
 
 
-_GATEWAY_BUILTINS = frozenset({
-    "read_file", "list_directory", "write_file", "delete_file",
-    "shell_exec", "sequential_thinking",
-    "browser_snapshot", "browser_screenshot", "browser_navigate",
-    "browser_click", "browser_type", "browser_console_exec", "element_interact",
-    "git_status", "git_diff", "git_log", "git_push", "git_commit",
-    "canvas_eval", "network_download", "system_config_change",
-    "mcporter_list",
-})
+def _resolve_runtime_profile(policy) -> str:
+    """Resolve the gateway runtime profile for a role policy."""
+    if getattr(policy, "runtime_profile", None):
+        return str(policy.runtime_profile)
+    return _categories_to_profile(policy.allowed_categories)
 
 
 def _sync_tool_profiles_from_capability_matrix(merged: dict) -> None:
     """Translate agent-capabilities.json into per-agent OpenClaw tools blocks.
 
-    For minimal-profile agents the allow list is the union of:
-      1. The curated template allow list (gateway-compatible names).
-      2. MCP tools from the capability matrix that are not gateway built-ins
-         and not already present in the template list.
+    Gateway runtime semantics are curated in the committed template:
+      - `profile` comes from the AKOS capability matrix.
+      - `alsoAllow` and `deny` come from the gateway template SSOT.
 
-    This lets new read-only MCP tools (hlk_*, finance_*, etc.) propagate
-    from the capability matrix without a manual template edit per agent.
+    This keeps the capability matrix as the AKOS policy/audit authority while
+    preserving the gateway-compatible tool names that OpenClaw actually
+    recognizes at runtime.
     """
     if not CAPABILITIES_PATH.exists():
         logger.warning("Capability matrix not found at %s; skipping tool profile sync", CAPABILITIES_PATH)
@@ -93,22 +90,26 @@ def _sync_tool_profiles_from_capability_matrix(merged: dict) -> None:
         if not policy:
             continue
 
-        profile = _categories_to_profile(policy.allowed_categories)
+        profile = _resolve_runtime_profile(policy)
         existing_tools = agent.get("tools") or {}
         tools_block: dict[str, object] = {"profile": profile}
 
-        if profile == "minimal":
-            base = list(existing_tools.get("allow", []))
-            seen = set(base)
-            for tool in policy.allowed_tools:
-                if tool not in _GATEWAY_BUILTINS and tool not in seen:
-                    base.append(tool)
-                    seen.add(tool)
-            if base:
-                tools_block["allow"] = base
+        if existing_tools.get("alsoAllow"):
+            tools_block["alsoAllow"] = list(existing_tools["alsoAllow"])
+        elif existing_tools.get("allow"):
+            # Migrate legacy allowlists into the gateway-supported additive field.
+            legacy_allow = list(existing_tools["allow"])
+            unknown_legacy = [tool for tool in legacy_allow if tool not in GATEWAY_CORE_TOOLS]
+            if unknown_legacy:
+                logger.warning(
+                    "Agent %s legacy allowlist contains non-core IDs; moving them to alsoAllow for compatibility: %s",
+                    agent_id,
+                    ", ".join(sorted(unknown_legacy)),
+                )
+            tools_block["alsoAllow"] = legacy_allow
 
-        if policy.denied_tools:
-            tools_block["deny"] = policy.denied_tools
+        if existing_tools.get("deny"):
+            tools_block["deny"] = list(existing_tools["deny"])
 
         agent["tools"] = tools_block
 
@@ -329,7 +330,7 @@ def phase_config(args: argparse.Namespace) -> bool:
     else:
         status("WARN", f"Model '{model_id}' not in model-tiers.json; using template defaults")
 
-    # Fix 2: Force-sync agents.list from template to ensure all 4 agents
+    # Fix 2: Force-sync agents.list from template to ensure all 5 agents
     if "agents" in template and "list" in template["agents"]:
         merged["agents"]["list"] = template["agents"]["list"]
         agent_names = [a.get("id", "?") for a in merged["agents"]["list"]]

@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Madeira agent** — fifth agent (`id: "madeira"`) as the user-facing dashboard entrypoint for HLK operations. Read-only lookup assistant with a dedicated workspace (`~/.openclaw/workspace-madeira`), scaffold (`config/workspace-scaffold/madeira/`), and all 3 prompt variants.
 - **MADEIRA_BASE.md** — lookup-first prompt contract: Lookup Mode (default, tool-backed answers), Summary Mode (multi-tool synthesis), Escalation Mode (delegate to Orchestrator for admin tasks).
-- **Bootstrap tool propagation fix** — `_sync_tool_profiles_from_capability_matrix()` now unions template allow lists with MCP tools from the capability matrix, ensuring new read-only tools (e.g. `hlk_*`) propagate without manual template edits per agent.
+- **Gateway contract validation** — `akos/tools.py`, `scripts/doctor.py`, and `scripts/check-drift.py` now share gateway core/plugin tool semantics, detect legacy `tools.allow`, and flag unknown runtime tool IDs.
 - **Dashboard UAT scenario** (Scenario 0 in `docs/uat/hlk_admin_smoke.md`) — verifies Madeira answers HLK questions directly via tools in the browser dashboard.
 
 ### Changed (MADEIRA Runtime UX Stabilization)
@@ -22,9 +22,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Prompt assembly now produces 15 files (5 agents x 3 variants) instead of 12.
 - `config/model-tiers.json` — MADEIRA added to HLK and startup compliance overlay agent lists for standard and full variants.
 - `config/agent-capabilities.json` — `madeira` role added with read-only HLK + finance + memory tools.
-- `config/openclaw.json.example` — `madeira` in `agents.list` and `tools.agentToAgent.allow`.
+- `config/openclaw.json.example` — `madeira` in `agents.list` and `tools.agentToAgent.allow`; gateway tool blocks now use core IDs plus `alsoAllow` for MCP plugins.
 - `akos/io.py` — `AGENT_WORKSPACES` and `agent_scaffold_map` include MADEIRA.
 - `scripts/assemble-prompts.py` — `AGENTS` dict includes MADEIRA.
+- `scripts/bootstrap.py` — legacy `tools.allow` entries are migrated into `alsoAllow`, while profile selection stays derived from `agent-capabilities.json`.
+
+### Fixed (Madeira Gateway Alignment Remediation)
+
+- `config/openclaw.json.example` no longer mixes gateway core IDs with AKOS logical tool names in agent tool policies.
+- `scripts/browser-smoke.py`, `tests/test_api.py`, `tests/test_live_smoke.py`, and `tests/test_e2e_pipeline.py` now lock the 5-agent runtime contract instead of the older 4-agent layout.
+- `prompts/MADEIRA_PROMPT.md` now exists as the compact Madeira prompt, matching the base prompt and startup contract.
 
 ### Added (HLK CI/CD Hardening -- Phase 5)
 
@@ -40,9 +47,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added (HLK MADEIRA Entry Surface -- Phase 3)
 
 - **HLK MCP server** (`scripts/hlk_mcp_server.py`) -- 8 read-only tools for vault registry lookups: `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search`. FastMCP + stdio transport.
-- **OVERLAY_HLK.md** -- prompt overlay teaching agents about the HLK vault structure, canonical source rules, compliance taxonomy, and tool usage. Registered in `model-tiers.json` for standard and full variants across all 4 agents.
+- **OVERLAY_HLK.md** -- prompt overlay teaching agents about the HLK vault structure, canonical source rules, compliance taxonomy, and tool usage. Registered in `model-tiers.json` for standard and full variants across all 5 agents.
 - **HLK admin workflow** (`config/workflows/hlk_admin.md`) -- structured workflow for organisation and process management with approval gates before CSV edits.
-- **HLK tool registration** -- 8 `hlk_*` tools added to `agent-capabilities.json` (all 4 roles), `permissions.json` (autonomous), and `mcporter.json.example`.
+- **HLK tool registration** -- 8 `hlk_*` tools added to `agent-capabilities.json` (all 5 roles), `permissions.json` (autonomous), and `mcporter.json.example`.
 
 ### Added (HLK Domain Service -- Phase 2)
 
@@ -62,7 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed (Runtime, Planning, and Finance UX Hardening)
 
-- **Bootstrap tool translation** now preserves gateway-compatible `allow` lists from `config/openclaw.json.example` for `minimal` roles instead of injecting AKOS-only logical tool IDs.
+- **Bootstrap tool translation** now preserves gateway-compatible `alsoAllow` / `deny` fields from `config/openclaw.json.example` while deriving each agent's runtime profile from `config/agent-capabilities.json`.
 - **Bootstrap MCP deployment** now refreshes deployed `~/.mcporter/mcporter.json` from the resolved repo template when content drifts.
 - **Provider auth config** for `ollama` and `vllm-runpod` is now env-backed in `config/openclaw.json.example`; environment templates include the required placeholders.
 - **RunPod operator UX** in `scripts/gpu.py` now frames local vs serverless vs dedicated pod as a guided choice with cost and deployment summaries.
@@ -82,7 +89,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Finance response envelope** (`FinanceResponse`, `QuoteData`, `SearchResult`, `SentimentItem`) in `akos/models.py` — schema-locked Pydantic models shared by the MCP server and tests.
 - **Generalized `resolve_mcporter_paths()`** in `akos/io.py` — now resolves any repo-local `scripts/*.py` MCP server path during bootstrap (not just `mcp_akos_server.py`).
 - **`yfinance>=0.2.36`** added to `requirements.txt` (optional — finance MCP degrades gracefully without it).
-- Finance tool IDs (`finance_quote`, `finance_search`, `finance_sentiment`) added to `config/permissions.json` (autonomous) and `config/agent-capabilities.json` (all four roles).
+- Finance tool IDs (`finance_quote`, `finance_search`, `finance_sentiment`) added to `config/permissions.json` (autonomous) and `config/agent-capabilities.json` (all five roles).
 
 ### Added (RunPod + Langfuse Production Overhaul — Phases 0-5)
 
@@ -125,7 +132,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **`OVERLAY_STARTUP_COMPLIANCE.md`** — new prompt overlay for medium+ model tiers with recency rule (re-read startup files within 5 messages), invariant check, and good/bad examples. Registered in `config/model-tiers.json` for both `standard` and `full` variants across all four agents.
+- **`OVERLAY_STARTUP_COMPLIANCE.md`** — new prompt overlay for medium+ model tiers with recency rule (re-read startup files within 5 messages), invariant check, and good/bad examples. Registered in `config/model-tiers.json` for both `standard` and `full` variants across all five agents.
 - **`trace_startup_compliance()`** method on `LangfuseReporter` — scored Langfuse traces (`startup_compliance: 0.0/1.0`) for Post-Compaction Audit events.
 - **Langfuse environment placeholders** (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`) in all three `config/environments/*.env.example` files.
 - **Post-Compaction Audit detection** in `scripts/log-watcher.py` — detects gateway audit entries and traces them to Langfuse.
@@ -133,7 +140,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Session Startup in all 4 base prompts** hardened with SOTA enforcement patterns: explicit `read_file()` tool-call syntax, `CRITICAL` / `MUST` gate, self-correction mandate, and "do NOT mention internal steps" directive.
+- **Session Startup in all 5 base prompts** hardened with SOTA enforcement patterns: explicit `read_file()` tool-call syntax, `CRITICAL` / `MUST` gate, self-correction mandate, and "do NOT mention internal steps" directive.
 - **`scripts/serve-api.py`** now loads `config/eval/langfuse.env` at startup for accurate `/health` Langfuse status.
 - **`scripts/run-evals.py`** upgraded from stub to functional Langfuse integration (loads env, creates reporter, reports scores).
 

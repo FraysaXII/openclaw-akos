@@ -9,13 +9,15 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | Step | Command | Purpose |
 |:-----|:--------|:--------|
 | 1 | `py scripts/legacy/verify_openclaw_inventory.py` | Strict full AKOS inventory must pass (`OVERALL: PASS`) |
-| 2 | `py scripts/check-drift.py` | No drift (repo vs runtime) |
+| 2 | `py scripts/check-drift.py` | No drift (repo vs runtime), including agent/A2A inventory, legacy `tools.allow`, and unknown runtime tool IDs |
 | 3 | `py scripts/test.py all` | Full regression suite passes |
 | 4 | `py scripts/browser-smoke.py --playwright` | Browser smoke; on Windows crash-prone hosts this may return SKIP instead of FAIL |
 | 5 | `py -m pytest tests/test_api.py -v` | FastAPI control plane smoke |
 | 6 | `py scripts/release-gate.py` | Unified gate must report PASS (includes HLK vault validation) |
 | 7 | `py scripts/validate_hlk.py` | HLK canonical vault integrity (also run by release gate) |
 | 8 | `py scripts/resolve-mcporter-paths.py` | If mcporter.json was copied manually (resolves placeholder paths) |
+
+If you changed gateway tool policy, also verify the template uses gateway core IDs (`read`, `write`, `edit`, `apply_patch`, `exec`, etc.) and exposes MCP plugin tools through `tools.alsoAllow` rather than legacy `tools.allow`.
 
 ### Documentation Updates
 

@@ -23,18 +23,20 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from akos.io import AGENT_WORKSPACES, REPO_ROOT, load_json, resolve_mcporter_paths, resolve_openclaw_home
 from akos.log import setup_logging
 from akos.policy import CapabilityMatrix
+from akos.tools import classify_gateway_tool_id
 
 logger = logging.getLogger("akos.drift")
 
 REQUIRED_WORKSPACE_FILES = ["SOUL.md"]
 EXPECTED_SCAFFOLD_FILES = ["IDENTITY.md", "MEMORY.md", "HEARTBEAT.md"]
 CAPABILITIES_PATH = REPO_ROOT / "config" / "agent-capabilities.json"
+TEMPLATE_CONFIG_PATH = REPO_ROOT / "config" / "openclaw.json.example"
 
 RESTRICTED_EXEC_ROLES = {"orchestrator", "architect"}
 
 
 def check_agent_workspaces(oc_home: Path) -> list[dict]:
-    """Check that all 4 agent workspaces exist with required files."""
+    """Check that all 5 agent workspaces exist with required files."""
     issues: list[dict] = []
     for agent_name, ws_dir_name in AGENT_WORKSPACES.items():
         ws_path = oc_home / ws_dir_name
@@ -121,6 +123,13 @@ def _categories_to_profile(allowed_categories: list[str]) -> str:
     return "minimal"
 
 
+def _resolve_runtime_profile(policy) -> str:
+    """Resolve the gateway runtime profile for a role policy."""
+    if getattr(policy, "runtime_profile", None):
+        return str(policy.runtime_profile)
+    return _categories_to_profile(policy.allowed_categories)
+
+
 def check_tool_profiles(oc_home: Path) -> list[dict]:
     """Check that per-agent tool profiles match capability matrix and gateway config is sane."""
     issues: list[dict] = []
@@ -131,6 +140,36 @@ def check_tool_profiles(oc_home: Path) -> list[dict]:
     live = load_json(oc_config)
     agents = live.get("agents", {}).get("list", [])
     tools_cfg = live.get("tools", {})
+    expected_cfg = load_json(TEMPLATE_CONFIG_PATH) if TEMPLATE_CONFIG_PATH.exists() else {}
+    expected_agents = expected_cfg.get("agents", {}).get("list", [])
+    expected_by_id = {
+        agent.get("id", ""): agent
+        for agent in expected_agents
+        if isinstance(agent, dict) and agent.get("id")
+    }
+
+    actual_agent_ids = {
+        agent.get("id", "")
+        for agent in agents
+        if isinstance(agent, dict) and agent.get("id")
+    }
+    expected_agent_ids = set(expected_by_id)
+    if expected_agent_ids and actual_agent_ids != expected_agent_ids:
+        issues.append({
+            "type": "agent_inventory_drift",
+            "expected": sorted(expected_agent_ids),
+            "actual": sorted(actual_agent_ids),
+        })
+
+    live_a2a_allow = (tools_cfg.get("agentToAgent") or {}).get("allow", [])
+    expected_a2a_allow = (expected_cfg.get("tools", {}).get("agentToAgent") or {}).get("allow", [])
+    if isinstance(live_a2a_allow, list) and isinstance(expected_a2a_allow, list):
+        if set(live_a2a_allow) != set(expected_a2a_allow):
+            issues.append({
+                "type": "a2a_allowlist_drift",
+                "expected": sorted(set(expected_a2a_allow)),
+                "actual": sorted(set(live_a2a_allow)),
+            })
 
     if not CAPABILITIES_PATH.exists():
         return issues
@@ -143,9 +182,19 @@ def check_tool_profiles(oc_home: Path) -> list[dict]:
         if not policy:
             continue
 
-        expected_profile = _categories_to_profile(policy.allowed_categories)
+        expected_profile = _resolve_runtime_profile(policy)
         tools_block = agent.get("tools") or {}
         actual_profile = tools_block.get("profile")
+
+        expected_agent = expected_by_id.get(agent_id, {})
+        expected_tools_block = expected_agent.get("tools") if isinstance(expected_agent, dict) else None
+        if isinstance(expected_tools_block, dict) and tools_block != expected_tools_block:
+            issues.append({
+                "type": "tool_block_drift",
+                "agent": agent_id,
+                "expected": expected_tools_block,
+                "actual": tools_block,
+            })
 
         if actual_profile != expected_profile:
             issues.append({
@@ -153,6 +202,31 @@ def check_tool_profiles(oc_home: Path) -> list[dict]:
                 "agent": agent_id,
                 "expected": expected_profile,
                 "actual": actual_profile,
+            })
+
+        if "allow" in tools_block:
+            issues.append({
+                "type": "legacy_allow_key",
+                "agent": agent_id,
+            })
+
+        also_allow = tools_block.get("alsoAllow", [])
+        if isinstance(also_allow, list):
+            unknown = sorted(
+                str(tool) for tool in also_allow
+                if classify_gateway_tool_id(str(tool)) == "unknown"
+            )
+            if unknown:
+                issues.append({
+                    "type": "unknown_tool_ids",
+                    "agent": agent_id,
+                    "tools": unknown,
+                })
+        elif also_allow:
+            issues.append({
+                "type": "invalid_also_allow_type",
+                "agent": agent_id,
+                "actual_type": type(also_allow).__name__,
             })
 
         if agent_id.lower() in RESTRICTED_EXEC_ROLES:

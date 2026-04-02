@@ -9,13 +9,15 @@
 
 | Step | Action | Expected |
 |:-----|:-------|:---------|
-| 1 | Open `http://127.0.0.1:18789/chat?session=agent:madeira:main` | Madeira agent loads in WebChat |
-| 2 | Ask: "Who is the CTO?" | Tool-backed answer citing `baseline_organisation.csv`, access level 5 |
-| 3 | Ask: "Show me all Research roles" | Direct answer listing 7 Research area roles from HLK tools |
-| 4 | Ask: "What workstreams are under KiRBe Platform?" | Graph navigation response from `hlk_process_tree` |
-| 5 | Ask: "I need to restructure the Finance area" | Madeira acknowledges scope and escalates to Orchestrator |
+| 1 | Open `http://127.0.0.1:18789/agents` | Madeira is visible as a distinct agent entry alongside the other 4 agents |
+| 2 | Open `http://127.0.0.1:18789/chat?session=agent:madeira:main` or start a fresh Madeira session from `/new` | Madeira loads in WebChat |
+| 3 | Start the session and wait for the first ready state | No raw startup-control leakage and no `NO_REPLY` placeholder |
+| 4 | Ask: "Who is the CTO?" | Tool-backed answer citing `baseline_organisation.csv`, access level 5, no fabricated UUIDs |
+| 5 | Ask: "Show me all Research roles" | Direct answer listing only canonical Research roles; no invented names or placeholder identifiers |
+| 6 | Ask: "What workstreams are under KiRBe Platform?" | Graph navigation response containing only canonical workstreams from `process_list.csv` |
+| 7 | Ask: "I need to restructure the Finance area" | Madeira acknowledges scope and escalates to Orchestrator |
 
-**Pass criteria**: Steps 2-4 produce tool-backed answers (not generic prose). Step 5 triggers escalation, not direct execution.
+**Pass criteria**: Steps 4-6 produce grounded answers backed by canonical HLK sources, with no fabricated names, UUIDs, workstreams, or leaked internal tool/source strings. Step 3 is startup-clean, and Step 7 triggers escalation instead of direct execution.
 
 **Restart/bootstrap flow** (run these before UAT if config or prompts changed):
 ```bash
@@ -106,10 +108,10 @@ openclaw gateway restart
 |:-----|:-------|:---------|
 | 1 | Ask: "I want to add a new process under the Data Governance project" | MADEIRA follows hlk_admin workflow: queries registry, presents current state |
 | 2 | MADEIRA proposes a change (new row for process_list.csv) | Proposal includes item_id, item_name, item_granularity, role_owner, item_parent_1 |
-| 3 | Operator approves | MADEIRA applies the change to the canonical CSV |
-| 4 | Ask: "Verify the change" | Uses `hlk_gaps` and `hlk_process_tree` to confirm integrity |
+| 3 | Operator approves | MADEIRA escalates to Orchestrator / Executor for the canonical CSV mutation; it does not apply the change directly |
+| 4 | Ask: "Verify the change" | The delegated write path uses `hlk_gaps` and `hlk_process_tree` to confirm integrity after execution |
 
-**Pass criteria**: Workflow follows approval gates. No CSV edits without explicit operator approval.
+**Pass criteria**: MADEIRA stays read-only, the workflow follows approval gates, and no CSV edits happen without explicit operator approval plus delegated execution.
 
 ---
 

@@ -365,7 +365,7 @@ class TestStrictAkosInventoryContract:
     def test_a2a_allowlist_exact_match(self, config_dir):
         data = load_json(config_dir / "openclaw.json.example")
         allow = data["tools"]["agentToAgent"]["allow"]
-        assert set(allow) == {"orchestrator", "architect", "executor", "verifier"}
+        assert set(allow) == {"madeira", "orchestrator", "architect", "executor", "verifier"}
 
     def test_ollama_model_count(self, config_dir):
         data = load_json(config_dir / "openclaw.json.example")

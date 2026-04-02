@@ -112,7 +112,7 @@ Role safety is enforced at the configuration layer, not just by prompt instructi
 
 ### Runtime Configuration (agents.list)
 
-All four agents are registered in `openclaw.json` under `agents.list`:
+All five agents are registered in `openclaw.json` under `agents.list`:
 
 ```json
 "agents": {
@@ -124,6 +124,7 @@ All four agents are registered in `openclaw.json` under `agents.list`:
     "thinkingDefault": "off"
   },
   "list": [
+    { "id": "madeira", "identity": { "name": "Madeira", "emoji": "🌊" } },
     { "id": "orchestrator", "identity": { "name": "Orchestrator", "emoji": "🎯" } },
     { "id": "architect", "identity": { "name": "Architect", "emoji": "📐" } },
     { "id": "executor", "identity": { "name": "Executor", "emoji": "🔧" } },
@@ -140,9 +141,12 @@ The following corrections were discovered during live deployment against OpenCLA
 
 1. **`identity` is an object, not a string path.** The schema validates `identity` as `{ name, emoji, theme }` -- display metadata for the agent. Passing a file path (e.g., `"prompts/ARCHITECT_PROMPT.md"`) causes `Invalid config: expected object, received string`.
 
-2. **System prompts go in `SOUL.md`, not `identity`.** Behavioral instructions (read-only constraints, HITL enforcement, Sequential Thinking directives) are loaded from a file named `SOUL.md` placed inside each agent's workspace directory. OpenCLAW reads this file at the start of every session. The deployed locations are:
+2. **System prompts go in `SOUL.md`, not `identity`.** Behavioral instructions (read-only constraints, HITL enforcement, Sequential Thinking directives) are loaded from a file named `SOUL.md` placed inside each agent's workspace directory. OpenCLAW reads this file at the start of every session. The deployed locations include:
+   - `~/.openclaw/workspace-madeira/SOUL.md` (copy of `prompts/MADEIRA_PROMPT.md`)
+   - `~/.openclaw/workspace-orchestrator/SOUL.md` (copy of `prompts/ORCHESTRATOR_PROMPT.md`)
    - `~/.openclaw/workspace-architect/SOUL.md` (copy of `prompts/ARCHITECT_PROMPT.md`)
    - `~/.openclaw/workspace-executor/SOUL.md` (copy of `prompts/EXECUTOR_PROMPT.md`)
+   - `~/.openclaw/workspace-verifier/SOUL.md` (copy of `prompts/VERIFIER_PROMPT.md`)
 
 3. **`thinkingDefault` must match model capability.** OpenCLAW defaults to `thinking: "low"` for models it classifies as reasoning-capable. Small Ollama models (e.g. `qwen3:8b`) may not support the `think` parameter, causing a 400 error. The `dev-local` profile now sets `thinkingDefault: "low"` for the medium-tier `deepseek-r1:14b` which supports reasoning. For small models, set `thinkingDefault: "off"`. Per-agent `thinkingDefault` overrides are not yet available in v2026.2.26 (tracked in [openclaw/openclaw#11479](https://github.com/openclaw/openclaw/issues/11479)).
 
@@ -542,7 +546,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/model_catalog.py` | `CatalogEntry` Pydantic model + `load_catalog()` for `config/model-catalog.json`; drives the interactive GPU deploy picker |
 | `akos/finance.py` | `FinanceService` — quote, search, sentiment via yfinance + Alpha Vantage; TTL cache; graceful degradation when backends are absent |
 | `akos/hlk.py` | `HlkRegistry` — typed lookups over the HLK canonical vault CSVs (org roles, process items, gap detection, fuzzy search); lazy singleton; `HlkResponse` envelope |
-| `akos/io.py` | `load_json`, `save_json`, `deep_merge`, `resolve_openclaw_home`, `AGENT_WORKSPACES` (4-agent mapping) |
+| `akos/io.py` | `load_json`, `save_json`, `deep_merge`, `resolve_openclaw_home`, `AGENT_WORKSPACES` (5-agent mapping) |
 | `akos/log.py` | `JSONFormatter` + `HumanFormatter`; `setup_logging(json_output)` configures the root logger |
 | `akos/process.py` | `CommandResult` dataclass + `run()` wrapper with timeouts and structured error capture |
 | `akos/state.py` | `AkosState` Pydantic model tracking the active environment/model; `load_state`, `save_state`, `record_switch` |
@@ -629,7 +633,7 @@ Reusable workflow specs in `config/workflows/`:
 
 Bootstrap is the **bridge** between AKOS's design-time SSOT and OpenClaw's runtime enforcement. Policy is defined once in AKOS files; bootstrap pushes it to OpenClaw's config schema; the dashboard shows the live state. The operator never manually edits the OpenClaw Config page.
 
-- **`agent-capabilities.json` → per-agent `tools.profile`**: The capability matrix defines `allowed_categories`, `allowed_tools`, and `denied_tools` per role. Bootstrap translates these into OpenClaw's `agents.list[].tools` block (profile name, allowlist, denylist).
+- **`agent-capabilities.json` → per-agent `tools.profile`**: The capability matrix defines `allowed_categories`, `allowed_tools`, and `denied_tools` per role. Bootstrap translates these into OpenClaw's `agents.list[].tools` block (profile name) while preserving template-curated `alsoAllow` and `deny` fields.
 - **Gateway-agnostic design**: If you swap OpenClaw for another gateway, you only rewrite the bootstrap translation. Prompts, policies, workflows, capability matrix, and eval gates survive unchanged.
 - **Principle**: Define once in AKOS, push via bootstrap, see in dashboard.
 
@@ -648,11 +652,11 @@ For runtime-facing work, AKOS uses a layered SSOT chain:
 
 ### Tool Policy Split
 
-The capability matrix and the gateway allowlist do not serve the same purpose:
+The capability matrix and the gateway tool policy do not serve the same purpose:
 
 - **`config/agent-capabilities.json`** is the AKOS-layer SSOT for audit, policy reporting, and drift detection.
-- **`config/openclaw.json.example`** is the gateway-compatibility SSOT for curated `tools.allow` entries that OpenClaw actually recognizes at runtime.
-- **Bootstrap** translates profile and deny semantics from the capability matrix, but preserves template-curated `allow` lists for `minimal` roles to avoid injecting AKOS-only logical tool IDs into the gateway runtime.
+- **`config/openclaw.json.example`** is the gateway-compatibility SSOT for curated core tool IDs plus MCP plugin names exposed through `tools.alsoAllow`.
+- **Bootstrap** translates the runtime profile from the capability matrix, preserves template-curated `alsoAllow` / `deny` entries, and rejects legacy `tools.allow` drift so gateway-visible tool IDs stay deterministic.
 
 ## AKOS / OpenClaw Responsibility Matrix
 
@@ -695,7 +699,7 @@ The following matrix shows every component, who owns it, and how the two layers 
 | ----------------------- | ------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------- |
 | Gateway Daemon          | `gateway.port`, `gateway.bind`        | WebSocket + HTTP control                           | AKOS API probes health via `/api/health`                   |
 | Agent Registry          | `agents.list[]`                       | Agent definitions (id, name, workspace, identity)  | Bootstrap force-syncs from `openclaw.json.example`         |
-| Per-Agent Tool Profiles | `agents.list[].tools.profile`          | Runtime tool access enforcement                    | **Translated from `agent-capabilities.json` by bootstrap**  |
+| Per-Agent Tool Profiles | `agents.list[].tools.*`                | Runtime tool access enforcement                    | `profile` comes from `agent-capabilities.json`; `alsoAllow` and `deny` stay curated in `openclaw.json.example` |
 | Exec Security           | `tools.exec.security`                 | Shell command approval mode                        | Bootstrap sets per AKOS policy (deny/allowlist/full)        |
 | Loop Detection          | `tools.loopDetection.*`               | Gateway-level repetition circuit breaker            | Defense-in-depth with AKOS prompt-level loop detection     |
 | Agent-to-Agent          | `tools.agentToAgent.*`                | Gateway-native inter-agent calls                    | Enables Orchestrator delegation at runtime level           |
@@ -704,7 +708,7 @@ The following matrix shows every component, who owns it, and how the two layers 
 | Message Reactions       | `messages.statusReactions.*`           | Lifecycle emoji on messages (queued/thinking/done)  | Bootstrap enables for UX                                  |
 | Model Providers         | `models.providers.*`                  | LLM provider routing and failover                  | Bootstrap preserves full provider inventory; unresolved env inputs are surfaced as warnings |
 | Channel Routing         | `bindings[]`                          | Route channels to agents                            | Defined in template; future expansion                      |
-| MCP Servers             | via mcporter.json                     | Tool servers (10 total)                            | Bootstrap generates resolved paths                        |
+| MCP Servers             | via mcporter.json                     | Tool servers (11 total)                            | Bootstrap generates resolved paths                        |
 | WebChat                 | `web.enabled`                         | Dashboard chat interface                            | Always enabled for AKOS                                    |
 | Built-in Memory         | `memory.backend`                      | Native session memory                              | Complements AKOS MCP Memory + workspace MEMORY.md          |
 | OpenTelemetry           | `diagnostics.openTelemetry.*`         | Traces/metrics export                               | Future: wire to Langfuse OTEL endpoint                     |

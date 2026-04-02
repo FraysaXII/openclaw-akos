@@ -66,7 +66,7 @@ def test_backfill_env_placeholders_adds_missing_values(tmp_path: Path) -> None:
     assert "VLLM_RUNPOD_URL=http://localhost:8000/v1" in text
 
 
-def test_bootstrap_preserves_template_allowlists_for_minimal_roles() -> None:
+def test_bootstrap_preserves_template_gateway_tool_blocks() -> None:
     merged = {
         "agents": {
             "list": [
@@ -74,14 +74,16 @@ def test_bootstrap_preserves_template_allowlists_for_minimal_roles() -> None:
                     "id": "orchestrator",
                     "tools": {
                         "profile": "minimal",
-                        "allow": ["web_search", "memory_store", "finance_quote"],
+                        "alsoAllow": ["read", "web_search", "memory_search", "finance_quote"],
+                        "deny": ["write", "exec"],
                     },
                 },
                 {
-                    "id": "architect",
+                    "id": "madeira",
                     "tools": {
-                        "profile": "minimal",
-                        "allow": ["web_search", "browser_snapshot", "finance_search"],
+                        "profile": "coding",
+                        "alsoAllow": ["hlk_role", "finance_search"],
+                        "deny": ["write", "edit", "apply_patch", "exec"],
                     },
                 },
             ]
@@ -91,9 +93,57 @@ def test_bootstrap_preserves_template_allowlists_for_minimal_roles() -> None:
     _sync_tool_profiles_from_capability_matrix(merged)
 
     orch_tools = merged["agents"]["list"][0]["tools"]
-    arch_tools = merged["agents"]["list"][1]["tools"]
+    madeira_tools = merged["agents"]["list"][1]["tools"]
 
-    assert orch_tools["allow"] == ["web_search", "memory_store", "finance_quote"]
-    assert arch_tools["allow"] == ["web_search", "browser_snapshot", "finance_search"]
-    assert "read_file" not in orch_tools["allow"]
-    assert "filesystem_read" not in arch_tools["allow"]
+    assert orch_tools["profile"] == "minimal"
+    assert orch_tools["alsoAllow"] == ["read", "web_search", "memory_search", "finance_quote"]
+    assert orch_tools["deny"] == ["write", "exec"]
+
+    assert madeira_tools["profile"] == "coding"
+    assert madeira_tools["alsoAllow"] == ["hlk_role", "finance_search"]
+    assert madeira_tools["deny"] == ["write", "edit", "apply_patch", "exec"]
+    assert "allow" not in madeira_tools
+
+
+def test_bootstrap_migrates_legacy_allow_to_also_allow() -> None:
+    merged = {
+        "agents": {
+            "list": [
+                {
+                    "id": "architect",
+                    "tools": {
+                        "profile": "minimal",
+                        "allow": ["read", "web_search", "hlk_search"],
+                    },
+                },
+            ]
+        }
+    }
+
+    _sync_tool_profiles_from_capability_matrix(merged)
+
+    architect_tools = merged["agents"]["list"][0]["tools"]
+    assert architect_tools["profile"] == "minimal"
+    assert architect_tools["alsoAllow"] == ["read", "web_search", "hlk_search"]
+    assert "allow" not in architect_tools
+
+
+def test_bootstrap_uses_runtime_profile_override() -> None:
+    merged = {
+        "agents": {
+            "list": [
+                {
+                    "id": "madeira",
+                    "tools": {
+                        "profile": "minimal",
+                        "alsoAllow": ["hlk_role"],
+                    },
+                },
+            ]
+        }
+    }
+
+    _sync_tool_profiles_from_capability_matrix(merged)
+
+    madeira_tools = merged["agents"]["list"][0]["tools"]
+    assert madeira_tools["profile"] == "coding"

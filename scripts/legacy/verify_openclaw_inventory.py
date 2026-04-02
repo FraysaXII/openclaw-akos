@@ -18,9 +18,9 @@ EXPECTED = {
         "vllm-runpod": {"model_ids": {"deepseek-r1-70b"}},
     },
     # exact agent IDs expected
-    "agents": {"orchestrator", "architect", "executor", "verifier"},
+    "agents": {"orchestrator", "architect", "executor", "verifier", "madeira"},
     # exact A2A allowlist expected
-    "a2a_allow": {"orchestrator", "architect", "executor", "verifier"},
+    "a2a_allow": {"orchestrator", "architect", "executor", "verifier", "madeira"},
     # optional: expected default model string
     "default_primary_model": "ollama/qwen3:8b",
 }
