@@ -287,6 +287,7 @@ async def agent_policy(agent_id: str) -> dict[str, Any]:
         "allowed_tools": policy.allowed_tools,
         "denied_tools": policy.denied_tools,
         "allowed_categories": policy.allowed_categories,
+        "runtime_profile": policy.runtime_profile,
     }
 
 

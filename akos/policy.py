@@ -28,6 +28,7 @@ class RolePolicy(BaseModel):
     allowed_tools: list[str] = Field(default_factory=list)
     denied_tools: list[str] = Field(default_factory=list)
     allowed_categories: list[str] = Field(default_factory=list)
+    runtime_profile: str | None = None
 
 
 class CapabilityMatrix(BaseModel):
