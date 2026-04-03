@@ -30,8 +30,10 @@ from akos.io import (
     AGENT_WORKSPACES,
     REPO_ROOT,
     deep_merge,
+    deploy_openclaw_plugins,
     deploy_scaffold_files,
     deploy_soul_prompts,
+    ensure_memory_journal_files,
     get_variant_for_model,
     load_env_file,
     load_json,
@@ -290,6 +292,11 @@ def _extract_akos_keys(config: dict) -> dict:
     for key in ["logging", "permissions"]:
         if key in config:
             akos_keys[key] = config.pop(key)
+    diagnostics = config.get("diagnostics")
+    if isinstance(diagnostics, dict) and "logWatcher" in diagnostics:
+        akos_keys.setdefault("diagnostics", {})["logWatcher"] = diagnostics.pop("logWatcher")
+        if not diagnostics:
+            config.pop("diagnostics", None)
     gw = config.get("gateway", {})
     if "host" in gw:
         akos_keys.setdefault("gateway", {})["host"] = gw.pop("host")
@@ -380,6 +387,18 @@ def phase_config(args: argparse.Namespace) -> bool:
         status("PASS", f"Deployed {len(scaffolded)} scaffold files to agent workspaces")
     else:
         status("SKIP", "Scaffold files already present in all workspaces")
+
+    journaled = ensure_memory_journal_files(oc_home)
+    if journaled:
+        status("PASS", f"Created {len(journaled)} workspace memory continuity journals")
+    else:
+        status("SKIP", "Workspace memory continuity journals already present")
+
+    deployed_plugins = deploy_openclaw_plugins(oc_home)
+    if deployed_plugins:
+        status("PASS", f"Synced {len(deployed_plugins)} OpenClaw plugin files")
+    else:
+        status("SKIP", "OpenClaw plugin files already match repo state")
 
     return True
 

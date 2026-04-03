@@ -30,10 +30,9 @@ def main() -> None:
 
     import os
 
-    from akos.io import load_env_file
-    langfuse_env = Path(__file__).resolve().parent.parent / "config" / "eval" / "langfuse.env"
-    for key, value in load_env_file(langfuse_env).items():
-        os.environ.setdefault(key, value)
+    from akos.io import load_runtime_env, resolve_openclaw_home, set_process_env_defaults
+
+    set_process_env_defaults(load_runtime_env(resolve_openclaw_home()))
 
     if args.api_key:
         os.environ["AKOS_API_KEY"] = args.api_key

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from types import SimpleNamespace
 from unittest.mock import patch
 
 import pytest
@@ -60,6 +61,57 @@ class TestAgents:
             assert "workspace" in agent
             assert "soul_md_exists" in agent
             assert "soul_md_chars" in agent
+
+
+class TestAgentCapabilityDrift:
+    def test_capability_drift_returns_real_issues(self):
+        issues = [{"type": "tool_profile_mismatch", "agent": "madeira"}]
+        with patch("akos.api._get_agent_capability_drift_issues", return_value=issues):
+            resp = client.get("/agents/madeira/capability-drift")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["role"] == "madeira"
+        assert data["runtime_profile"] == "minimal"
+        assert data["drift_issues"] == issues
+        assert data["policy_enforced"] is False
+
+    def test_capability_drift_unknown_role(self):
+        resp = client.get("/agents/ghost/capability-drift")
+        assert resp.status_code == 200
+        assert "error" in resp.json()
+
+
+class TestFinance:
+    def test_finance_quote_returns_payload(self):
+        payload = {"status": "ok", "quotes": [{"ticker": "AAPL"}]}
+        finance = SimpleNamespace(
+            get_quote=lambda ticker: SimpleNamespace(model_dump=lambda exclude_none=True: payload)
+        )
+        with patch("akos.api._get_finance", return_value=finance):
+            resp = client.get("/finance/quote/AAPL")
+        assert resp.status_code == 200
+        assert resp.json() == payload
+
+    def test_finance_search_requires_query(self):
+        resp = client.get("/finance/search")
+        assert resp.status_code == 400
+
+    def test_finance_sentiment_requires_tickers(self):
+        resp = client.get("/finance/sentiment")
+        assert resp.status_code == 400
+
+
+class TestRouting:
+    def test_classify_admin_route(self):
+        resp = client.get("/routing/classify?q=I%20need%20to%20restructure%20the%20Finance%20area.")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["route"] == "admin_escalate"
+        assert data["must_escalate"] is True
+
+    def test_classify_requires_query(self):
+        resp = client.get("/routing/classify")
+        assert resp.status_code == 400
 
 
 class TestSwitch:

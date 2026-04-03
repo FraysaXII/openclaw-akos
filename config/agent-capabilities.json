@@ -86,13 +86,12 @@
     },
     "madeira": {
       "description": "User-facing operational assistant -- answers HLK questions directly with tools, escalates multi-step tasks to Orchestrator.",
-      "runtime_profile": "coding",
-      "allowed_categories": ["read", "memory_read", "memory_write", "search"],
+      "runtime_profile": "minimal",
+      "allowed_categories": ["read", "memory_read", "search"],
       "allowed_tools": [
-        "read_file", "list_directory", "web_search", "sequential_thinking",
-        "git_status", "git_diff", "git_log",
-        "memory_retrieve", "memory_list", "memory_store",
-        "fetch_get", "filesystem_read", "filesystem_list",
+        "read_file",
+        "memory_retrieve", "memory_list",
+        "akos_route_request",
         "finance_quote", "finance_search", "finance_sentiment",
         "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process",
         "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search"
@@ -102,6 +101,7 @@
         "browser_navigate", "browser_click", "browser_type", "browser_console_exec",
         "element_interact", "git_push", "git_commit",
         "canvas_eval", "network_download", "system_config_change",
+        "memory_store", "memory_delete",
         "filesystem_write", "filesystem_delete"
       ]
     }

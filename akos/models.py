@@ -475,8 +475,12 @@ class HlkResponse(BaseModel):
     status: HlkStatus
     roles: list[OrgRole] | None = None
     processes: list[ProcessItem] | None = None
+    best_role: OrgRole | None = None
+    best_process: ProcessItem | None = None
     role_count: int | None = None
     process_count: int | None = None
+    normalized_query: str = ""
+    resolution_strategy: str = ""
     warnings: list[str] = Field(default_factory=list)
     error_detail: str = ""
 

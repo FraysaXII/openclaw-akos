@@ -74,6 +74,18 @@ class TestHlkRegistry:
         assert resp.roles is not None
         assert resp.roles[0].role_name == "Admin"
 
+    def test_role_lookup_case_insensitive(self):
+        resp = self.reg.get_role("cto")
+        assert resp.status == "ok"
+        assert resp.best_role is not None
+        assert resp.best_role.role_name == "CTO"
+
+    def test_role_lookup_resolves_full_title_alias(self):
+        resp = self.reg.get_role("Chief Technology Officer")
+        assert resp.status == "ok"
+        assert resp.best_role is not None
+        assert resp.best_role.role_name == "CTO"
+
     def test_role_lookup_not_found(self):
         resp = self.reg.get_role("NonexistentRole")
         assert resp.status == "not_found"
@@ -103,6 +115,12 @@ class TestHlkRegistry:
         assert resp.status == "ok"
         assert resp.processes[0].item_name == "Holistika Research and Methodology"
 
+    def test_process_lookup_normalized_id(self):
+        resp = self.reg.get_process("HOL_RESEA_PRJ_1")
+        assert resp.status == "ok"
+        assert resp.best_process is not None
+        assert resp.best_process.item_id == "hol_resea_prj_1"
+
     def test_process_tree(self):
         resp = self.reg.get_process_tree("Holistika Research and Methodology")
         assert resp.status == "ok"
@@ -127,6 +145,15 @@ class TestHlkRegistry:
         assert resp.status == "ok"
         assert resp.process_count >= 1
 
+    def test_search_returns_best_role_for_exact_title(self):
+        resp = self.reg.search("CTO")
+        assert resp.status == "ok"
+        assert resp.best_role is not None
+        assert resp.best_role.role_name == "CTO"
+        assert resp.roles is not None
+        assert resp.roles[0].role_name == "CTO"
+        assert resp.resolution_strategy
+
     def test_search_not_found(self):
         resp = self.reg.search("zzzznonexistentzzzz")
         assert resp.status == "not_found"
@@ -146,6 +173,13 @@ class TestHlkApi:
         r = client.get("/hlk/roles/CTO")
         assert r.status_code == 200
         assert r.json()["status"] == "ok"
+
+    def test_hlk_role_by_title_alias(self):
+        r = client.get("/hlk/roles/Chief%20Technology%20Officer")
+        assert r.status_code == 200
+        data = r.json()
+        assert data["status"] == "ok"
+        assert data["best_role"]["role_name"] == "CTO"
 
     def test_hlk_role_chain(self):
         r = client.get("/hlk/roles/DevOPS/chain")
@@ -184,6 +218,13 @@ class TestHlkApi:
         r = client.get("/hlk/search", params={"q": "research"})
         assert r.status_code == 200
         assert r.json()["status"] == "ok"
+
+    def test_hlk_search_returns_best_role(self):
+        r = client.get("/hlk/search", params={"q": "CTO"})
+        assert r.status_code == 200
+        data = r.json()
+        assert data["status"] == "ok"
+        assert data["best_role"]["role_name"] == "CTO"
 
     def test_hlk_search_empty(self):
         r = client.get("/hlk/search", params={"q": ""})

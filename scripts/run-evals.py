@@ -14,13 +14,12 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import os
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from akos.io import load_env_file
+from akos.io import load_runtime_env, resolve_openclaw_home, set_process_env_defaults
 from akos.log import setup_logging
 from akos.telemetry import LangfuseReporter
 
@@ -65,9 +64,7 @@ def main() -> None:
 
     setup_logging(json_output=args.json_log)
 
-    langfuse_env = Path(__file__).resolve().parent.parent / "config" / "eval" / "langfuse.env"
-    for key, value in load_env_file(langfuse_env).items():
-        os.environ.setdefault(key, value)
+    set_process_env_defaults(load_runtime_env(resolve_openclaw_home()))
 
     reporter = LangfuseReporter()
 
@@ -101,7 +98,7 @@ def main() -> None:
         if reporter.enabled:
             print("  Langfuse scoring is active -- traces will appear in your dashboard.")
         else:
-            print("  Langfuse not configured. Set up config/eval/langfuse.env for score tracking.")
+            print("  Langfuse not configured. Set LANGFUSE_* in process env or ~/.openclaw/.env for score tracking.")
     print()
 
     reporter.flush()

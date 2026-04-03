@@ -25,7 +25,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from akos.io import REPO_ROOT, load_env_file, load_json, resolve_openclaw_home, save_json
+from akos.io import (
+    REPO_ROOT,
+    load_env_file,
+    load_json,
+    load_runtime_env,
+    resolve_openclaw_home,
+    save_json,
+    set_process_env_defaults,
+)
 from akos.log import setup_logging
 from akos.model_catalog import CatalogEntry, load_catalog
 from akos.models import PodConfig
@@ -50,7 +58,6 @@ def _ensure_api_key() -> str:
     if key and key != "YOUR_RUNPOD_API_KEY":
         return key
 
-    langfuse_env = REPO_ROOT / "config" / "eval" / "langfuse.env"
     for p in [REPO_ROOT / "config" / "environments" / "gpu-runpod-pod.env",
               REPO_ROOT / "config" / "environments" / "gpu-runpod.env"]:
         if p.exists():
@@ -657,13 +664,12 @@ def main() -> int:
     setup_logging(json_output=args.json_log)
 
     for p in [REPO_ROOT / "config" / "environments" / "gpu-runpod-pod.env",
-              REPO_ROOT / "config" / "environments" / "gpu-runpod.env",
-              REPO_ROOT / "config" / "eval" / "langfuse.env",
-              resolve_openclaw_home() / ".env"]:
+              REPO_ROOT / "config" / "environments" / "gpu-runpod.env"]:
         if p.exists():
             for k, v in load_env_file(p).items():
                 if v:
                     os.environ.setdefault(k, v)
+    set_process_env_defaults(load_runtime_env(resolve_openclaw_home()))
 
     if args.command == "deploy-pod":
         return deploy_pod(dry_run=args.dry_run)

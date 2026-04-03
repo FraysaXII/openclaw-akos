@@ -23,6 +23,7 @@ from fastapi import Depends, FastAPI, HTTPException, Request, WebSocket, WebSock
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from akos.finance import FinanceService
 from akos.io import (
     AGENT_WORKSPACES,
     REPO_ROOT,
@@ -49,6 +50,7 @@ app = FastAPI(
         {"name": "Metrics", "description": "DX baselines, cost tracking, and alerts"},
         {"name": "Prompts", "description": "Prompt assembly and deployment"},
         {"name": "Checkpoints", "description": "Workspace snapshot management"},
+        {"name": "Finance", "description": "Read-only finance research endpoints"},
         {"name": "HLK", "description": "HLK organisation, process, and compliance registry"},
     ],
 )
@@ -79,6 +81,7 @@ def _check_api_key(request: Request) -> None:
 
 _runpod: RunPodProvider | None = None
 _reporter: LangfuseReporter | None = None
+_finance: FinanceService | None = None
 
 
 def _get_runpod() -> RunPodProvider:
@@ -100,6 +103,13 @@ def _get_reporter() -> LangfuseReporter:
     if _reporter is None:
         _reporter = LangfuseReporter()
     return _reporter
+
+
+def _get_finance() -> FinanceService:
+    global _finance
+    if _finance is None:
+        _finance = FinanceService()
+    return _finance
 
 
 # ── Request/Response Models ──────────────────────────────────────────
@@ -259,15 +269,51 @@ async def list_agents() -> list[AgentInfo]:
 )
 async def runtime_drift() -> dict[str, Any]:
     """Compare repo intended state against live runtime."""
-    spec = importlib.util.spec_from_file_location(
-        "check_drift", REPO_ROOT / "scripts" / "check-drift.py"
-    )
-    if spec and spec.loader:
-        mod = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(mod)
+    mod = _load_check_drift_module()
+    if mod is not None:
         issues = mod.run_drift_check()
         return {"drift_detected": len(issues) > 0, "issues": issues}
     return {"error": "check-drift.py not found"}
+
+
+def _load_check_drift_module():
+    """Load the drift-check script as a module for API reuse."""
+    spec = importlib.util.spec_from_file_location(
+        "check_drift", REPO_ROOT / "scripts" / "check-drift.py"
+    )
+    if not spec or not spec.loader:
+        return None
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _get_agent_capability_drift_issues(agent_id: str) -> list[dict[str, Any]]:
+    """Return drift issues relevant to one agent role."""
+    mod = _load_check_drift_module()
+    if mod is None:
+        return [{
+            "type": "drift_probe_unavailable",
+            "agent": agent_id,
+            "detail": "check-drift.py not found",
+        }]
+
+    normalized_agent = agent_id.lower()
+    issues = mod.run_drift_check()
+    relevant: list[dict[str, Any]] = []
+    for issue in issues:
+        issue_agent = str(issue.get("agent", "")).lower()
+        if issue_agent == normalized_agent:
+            relevant.append(issue)
+            continue
+
+        if issue.get("type") == "agent_inventory_drift":
+            actual = {str(name).lower() for name in issue.get("actual", [])}
+            expected = {str(name).lower() for name in issue.get("expected", [])}
+            if normalized_agent not in actual or normalized_agent not in expected:
+                relevant.append(issue)
+
+    return relevant
 
 
 # ── Policy Audit ─────────────────────────────────────────────────────
@@ -299,10 +345,12 @@ async def agent_capability_drift(agent_id: str) -> dict[str, Any]:
     policy = matrix.get_policy(agent_id)
     if not policy:
         return {"error": f"Unknown agent role: {agent_id}"}
+    issues = _get_agent_capability_drift_issues(agent_id)
     return {
-        "role": agent_id,
-        "drift_issues": [],
-        "policy_enforced": True,
+        "role": policy.role,
+        "runtime_profile": policy.runtime_profile,
+        "drift_issues": issues,
+        "policy_enforced": len(issues) == 0,
     }
 
 
@@ -424,6 +472,18 @@ async def list_pins() -> dict[str, Any]:
     return {"total": len(_pinned_context), "items": _pinned_context}
 
 
+# ── Request Routing ────────────────────────────────────────────────────
+
+
+@app.get("/routing/classify", dependencies=[Depends(_check_api_key)], tags=["Runtime"])
+async def classify_routing_request(q: str = "") -> dict[str, Any]:
+    """Classify a user request into a deterministic flagship route."""
+    if not q.strip():
+        raise HTTPException(400, "Query parameter 'q' is required")
+    from akos.intent import classify_request
+    return classify_request(q)
+
+
 # ── Metrics & Alerts ─────────────────────────────────────────────────
 
 
@@ -440,7 +500,7 @@ async def get_metrics() -> dict[str, Any]:
 async def get_cost_metrics() -> dict[str, Any]:
     """Cost breakdown by agent and environment (placeholder for Langfuse integration)."""
     return {
-        "note": "Cost tracking requires Langfuse integration. Set up config/eval/langfuse.env.",
+        "note": "Cost tracking requires Langfuse integration. Set LANGFUSE_* in process env or ~/.openclaw/.env.",
         "breakdown": {
             "by_agent": {},
             "by_environment": {},
@@ -532,6 +592,28 @@ async def restore_checkpoint_endpoint(req: RestoreRequest) -> dict[str, Any]:
 
 
 # ── HLK Registry Endpoints ──────────────────────────────────────────────
+
+
+@app.get("/finance/quote/{ticker}", tags=["Finance"], dependencies=[Depends(_check_api_key)])
+def finance_quote(ticker: str):
+    """Return a quote bundle for one ticker symbol."""
+    return _get_finance().get_quote(ticker).model_dump(exclude_none=True)
+
+
+@app.get("/finance/search", tags=["Finance"], dependencies=[Depends(_check_api_key)])
+def finance_search(q: str = ""):
+    """Resolve a company name or partial ticker to matching symbols."""
+    if not q.strip():
+        raise HTTPException(400, "Query parameter 'q' is required")
+    return _get_finance().search_ticker(q).model_dump(exclude_none=True)
+
+
+@app.get("/finance/sentiment", tags=["Finance"], dependencies=[Depends(_check_api_key)])
+def finance_sentiment(tickers: str = ""):
+    """Return recent news sentiment for one or more ticker symbols."""
+    if not tickers.strip():
+        raise HTTPException(400, "Query parameter 'tickers' is required")
+    return _get_finance().get_sentiment(tickers).model_dump(exclude_none=True)
 
 
 @app.get("/hlk/roles", tags=["HLK"], dependencies=[Depends(_check_api_key)])

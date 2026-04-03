@@ -10,6 +10,7 @@ Run after the config/ batch is created:
 import json
 import pathlib
 import re
+import sys
 
 import pytest
 
@@ -102,6 +103,37 @@ class TestOpenclawConfig:
     def test_has_permissions_reference(self):
         assert "permissions" in self.data
 
+    def test_enables_akos_runtime_plugin(self):
+        plugins = self.data.get("plugins", {})
+        allow = set(plugins.get("allow", []))
+        assert "akos-runtime-tools" in allow
+        entry = plugins.get("entries", {}).get("akos-runtime-tools", {})
+        assert entry.get("enabled") is True
+        config = entry.get("config", {})
+        assert config.get("apiUrl") == "http://127.0.0.1:8420"
+        assert config.get("apiKeyEnv") == "AKOS_API_KEY"
+
+    def test_madeira_uses_minimal_runtime_profile(self):
+        agents = {agent["id"]: agent for agent in self.data["agents"]["list"]}
+        madeira_tools = agents["madeira"]["tools"]
+        assert madeira_tools["profile"] == "minimal"
+        assert {"read", "memory_search", "memory_get", "akos_route_request"}.issubset(set(madeira_tools["alsoAllow"]))
+
+    def test_executor_and_verifier_expose_browser(self):
+        agents = {agent["id"]: agent for agent in self.data["agents"]["list"]}
+        assert "browser" in agents["executor"]["tools"]["alsoAllow"]
+        assert "browser" in agents["verifier"]["tools"]["alsoAllow"]
+
+    def test_log_watcher_diagnostics_block_present(self):
+        diagnostics = self.data.get("diagnostics", {})
+        watcher = diagnostics.get("logWatcher", {})
+        assert watcher.get("pollIntervalSeconds") == 2
+        assert watcher.get("localMirrorDirectory") == "~/.openclaw/telemetry"
+        assert watcher.get("answerQualityAgents") == ["madeira"]
+
+    def test_legacy_langfuse_env_templates_removed(self, config_dir):
+        assert not (config_dir / "eval" / "langfuse.env.example").exists()
+
 
 # ---------------------------------------------------------------------------
 # mcporter.json.example (T-2.3 through T-2.6)
@@ -133,6 +165,15 @@ class TestMcporterConfig:
     def test_github_token_placeholder(self):
         env = self.data["mcpServers"]["github"].get("env", {})
         assert "GITHUB_TOKEN" in env
+
+
+class TestManagedOpenClawPluginSource:
+    def test_runtime_plugin_source_files_exist(self):
+        plugin_dir = CONFIG_DIR.parent / "openclaw-plugins" / "akos-runtime-tools"
+        assert (plugin_dir / "index.ts").is_file()
+        manifest = _load(plugin_dir / "openclaw.plugin.json")
+        assert manifest["id"] == "akos-runtime-tools"
+        assert "configSchema" in manifest
 
 
 # ---------------------------------------------------------------------------
@@ -303,10 +344,12 @@ class TestResolveMcporterPaths:
         '      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/opt/openclaw/workspace"]\n'
         '    },\n'
         '    "akos": {\n'
+        '      "command": "python",\n'
         '      "args": ["scripts/mcp_akos_server.py"],\n'
         '      "_note": "Custom AKOS MCP"\n'
         '    },\n'
         '    "finance": {\n'
+        '      "command": "python",\n'
         '      "args": ["scripts/finance_mcp_server.py"],\n'
         '      "_note": "Finance research MCP"\n'
         '    }\n'
@@ -323,6 +366,11 @@ class TestResolveMcporterPaths:
     def test_resolves_all_repo_scripts(self):
         result = resolve_mcporter_paths(self.TEMPLATE)
         assert "scripts/finance_mcp_server.py" not in result or "/" in result.split("scripts/finance_mcp_server.py")[0]
+
+    def test_resolves_python_command_to_current_interpreter(self):
+        result = resolve_mcporter_paths(self.TEMPLATE)
+        assert '"command": "python"' not in result
+        assert pathlib.Path(sys.executable).as_posix() in result
 
     def test_idempotent(self):
         first = resolve_mcporter_paths(self.TEMPLATE)

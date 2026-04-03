@@ -166,6 +166,46 @@ class TestTraceMetric:
         assert call_kwargs["metadata"]["metric_value"] == 150.0
 
 
+class TestTraceAnswerQuality:
+    @patch("akos.telemetry._langfuse_available", True)
+    @patch("akos.telemetry.Langfuse")
+    def test_trace_answer_quality_sends_scores(self, mock_langfuse_cls):
+        mock_client = MagicMock()
+        mock_trace = MagicMock()
+        mock_client.trace.return_value = mock_trace
+        mock_langfuse_cls.return_value = mock_client
+
+        with patch.dict(os.environ, {
+            "LANGFUSE_PUBLIC_KEY": "pk-test",
+            "LANGFUSE_SECRET_KEY": "sk-test",
+        }):
+            reporter = LangfuseReporter(environment="dev-local")
+            reporter.trace_answer_quality({
+                "agent_role": "madeira",
+                "session_id": "session-1",
+                "route_kind": "hlk_direct_lookup",
+                "user_text": "Who is the CTO?",
+                "assistant_text": "The CTO role exists.",
+                "tool_calls": ["hlk_role"],
+                "tool_backed": True,
+                "citation_asset": "baseline_organisation.csv",
+                "best_match_present": True,
+                "escalation_present": False,
+                "compaction_interference": False,
+                "residual_flags": [],
+                "quality_score": 1.0,
+                "provider": "ollama",
+                "model": "qwen3:8b",
+                "local_mirror_path": "C:/tmp/mirror.jsonl",
+            })
+
+        call_kwargs = mock_client.trace.call_args[1]
+        assert call_kwargs["name"] == "akos-answer-quality-madeira"
+        assert call_kwargs["session_id"] == "session-1"
+        mock_trace.score.assert_any_call(name="answer_quality", value=1.0)
+        mock_trace.score.assert_any_call(name="citation_present", value=1.0)
+
+
 class TestFlush:
     @patch("akos.telemetry._langfuse_available", True)
     @patch("akos.telemetry.Langfuse")

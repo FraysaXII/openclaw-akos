@@ -11,6 +11,8 @@ import json
 import logging
 import os
 import shutil
+import sys
+from datetime import date, timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -20,6 +22,10 @@ if TYPE_CHECKING:
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 logger = logging.getLogger("akos.io")
+
+OPENCLAW_PLUGIN_SOURCE_ROOT = REPO_ROOT / "openclaw-plugins"
+MANAGED_OPENCLAW_PLUGIN_IDS = ("akos-runtime-tools",)
+AKOS_SIDECAR_PATH = "akos-config.json"
 
 AGENT_WORKSPACES: dict[str, str] = {
     "ORCHESTRATOR": "workspace-orchestrator",
@@ -63,23 +69,59 @@ def resolve_openclaw_home() -> Path:
 
 
 def load_env_file(path: Path) -> dict[str, str]:
-    """Parse a simple KEY=VALUE env file into a dict, skipping comments and blanks."""
+    """Parse a simple KEY=VALUE env file into a dict, skipping comments and blanks.
+
+    Raises ``ValueError`` when a non-comment, non-empty line is malformed so
+    secret/config loading failures do not silently degrade.
+    """
     result: dict[str, str] = {}
     if not path.exists():
         logger.warning("Env file not found: %s", path)
         return result
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
+    for lineno, raw_line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        line = raw_line.strip()
         if not line or line.startswith("#"):
             continue
         if "=" not in line:
-            continue
+            raise ValueError(f"Malformed env line {lineno} in {path}: missing '='")
         key, _, value = line.partition("=")
         key = key.strip()
         value = value.strip().strip("'\"")
         if key:
             result[key] = value
     return result
+
+
+def load_runtime_env(oc_home: Path | None = None) -> dict[str, str]:
+    """Load the canonical runtime env from ``~/.openclaw/.env``."""
+    home = oc_home or resolve_openclaw_home()
+    return load_env_file(home / ".env")
+
+
+def set_process_env_defaults(values: dict[str, str]) -> None:
+    """Populate unset process env vars from *values*, skipping empty entries."""
+    for key, value in values.items():
+        if value and key not in os.environ:
+            os.environ[key] = value
+
+
+def load_akos_sidecar_config(oc_home: Path | None = None) -> dict:
+    """Load the AKOS sidecar config from ``~/.openclaw/akos-config.json``."""
+    home = oc_home or resolve_openclaw_home()
+    sidecar = home / AKOS_SIDECAR_PATH
+    if not sidecar.exists():
+        return {}
+    return load_json(sidecar)
+
+
+def get_log_watcher_settings(oc_home: Path | None = None) -> dict:
+    """Return the operator-facing log watcher settings from AKOS sidecar config."""
+    config = load_akos_sidecar_config(oc_home)
+    diagnostics = config.get("diagnostics", {})
+    if not isinstance(diagnostics, dict):
+        return {}
+    watcher = diagnostics.get("logWatcher", {})
+    return watcher if isinstance(watcher, dict) else {}
 
 
 def get_variant_for_model(
@@ -118,10 +160,16 @@ def resolve_mcporter_paths(config_text: str, repo_root: Path | None = None) -> s
     oc_home = resolve_openclaw_home()
     ws = (oc_home / "workspace").as_posix()
     exports = (oc_home / "workspace" / "exports").as_posix()
+    python_executable = Path(sys.executable).as_posix()
 
     result = config_text
     result = result.replace("/opt/openclaw/workspace/exports", exports)
     result = result.replace("/opt/openclaw/workspace", ws)
+    result = _re.sub(
+        r'("command"\s*:\s*)"python"',
+        rf'\1"{python_executable}"',
+        result,
+    )
 
     def _resolve_script(match: _re.Match[str]) -> str:
         script_name = match.group(1)
@@ -169,6 +217,88 @@ def deploy_scaffold_files(oc_home: Path) -> list[Path]:
                     shutil.copy2(src_file, dest_file)
                     logger.info("Scaffold: %s -> %s", src_file.name, dest_file)
                     deployed.append(dest_file)
+
+    return deployed
+
+
+def ensure_memory_journal_files(oc_home: Path, *, days: int = 2) -> list[Path]:
+    """Ensure each workspace with a MEMORY.md has dated continuity notes.
+
+    OpenClaw's post-compaction audit may ask agents to re-read recent memory
+    journal files under ``memory/YYYY-MM-DD.md`` after a context reset.  AKOS
+    creates those deterministic files from the workspace ``MEMORY.md`` so the
+    runtime contract is procedural instead of relying on ad-hoc model behavior.
+    """
+
+    deployed: list[Path] = []
+    today = date.today()
+
+    for ws_dir_name in AGENT_WORKSPACES.values():
+        ws_dir = oc_home / ws_dir_name
+        memory_src = ws_dir / "MEMORY.md"
+        if not memory_src.is_file():
+            continue
+
+        memory_dir = ws_dir / "memory"
+        memory_dir.mkdir(parents=True, exist_ok=True)
+        base_text = memory_src.read_text(encoding="utf-8").rstrip()
+
+        for offset in range(days):
+            journal_date = today - timedelta(days=offset)
+            journal_path = memory_dir / f"{journal_date.isoformat()}.md"
+            if journal_path.exists():
+                continue
+
+            header = (
+                f"# Memory Continuity Note - {journal_date.isoformat()}\n\n"
+                "Bootstrap-generated continuity mirror for post-compaction startup recovery.\n"
+                "Use as supporting session context only. The canonical business truth remains\n"
+                "the HLK vault and other governed assets.\n\n"
+            )
+            journal_path.write_text(header + base_text + "\n", encoding="utf-8")
+            logger.info("Memory journal: %s", journal_path)
+            deployed.append(journal_path)
+
+    return deployed
+
+
+def deploy_openclaw_plugins(
+    oc_home: Path, plugin_source_root: Path | None = None
+) -> list[Path]:
+    """Sync repo-managed OpenClaw plugins into the live OpenClaw extensions dir.
+
+    These plugins are part of the AKOS runtime contract, so bootstrap keeps the
+    deployed copy in sync with the repo version instead of treating them as
+    user-customized workspace files.
+    """
+
+    source_root = plugin_source_root or OPENCLAW_PLUGIN_SOURCE_ROOT
+    if not source_root.exists():
+        return []
+
+    dest_root = oc_home / "extensions"
+    deployed: list[Path] = []
+
+    for plugin_dir in sorted(p for p in source_root.iterdir() if p.is_dir()):
+        target_dir = dest_root / plugin_dir.name
+        target_dir.mkdir(parents=True, exist_ok=True)
+
+        for src_path in sorted(plugin_dir.rglob("*")):
+            rel_path = src_path.relative_to(plugin_dir)
+            dest_path = target_dir / rel_path
+
+            if src_path.is_dir():
+                dest_path.mkdir(parents=True, exist_ok=True)
+                continue
+
+            dest_path.parent.mkdir(parents=True, exist_ok=True)
+            src_bytes = src_path.read_bytes()
+            if dest_path.exists() and dest_path.read_bytes() == src_bytes:
+                continue
+
+            dest_path.write_bytes(src_bytes)
+            logger.info("Plugin: %s -> %s", src_path.name, dest_path)
+            deployed.append(dest_path)
 
     return deployed
 

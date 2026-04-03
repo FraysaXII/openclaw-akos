@@ -24,6 +24,7 @@
     "fetch_get",
     "filesystem_read",
     "filesystem_list",
+    "akos_route_request",
     "finance_quote",
     "finance_search",
     "finance_sentiment",
