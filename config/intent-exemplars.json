@@ -1,0 +1,62 @@
+{
+  "_note": "Route exemplar bank for the AKOS semantic intent classifier. Adding a new domain means adding exemplars here, not writing new regex patterns in akos/intent.py.",
+  "admin_escalate": [
+    "I need to restructure the Finance area.",
+    "Create a new role under the CTO.",
+    "Change the reporting line for the Data Architect.",
+    "Remove the Pricing role from the org chart.",
+    "Add a new process under Data Governance.",
+    "Update the access level for the CDO to level 5.",
+    "Merge the O2C and PTP roles into one position.",
+    "Split the DevOPS role into front-end and back-end leads.",
+    "Remediate the gap in the compliance baseline."
+  ],
+  "hlk_lookup": [
+    "Who is the CTO?",
+    "What does the CFO do?",
+    "Show me the reporting chain for the Data Architect.",
+    "What access level does the CMO have?",
+    "Tell me about the Brand Manager role.",
+    "What entity does the UX Designer belong to?",
+    "Who reports to O5-1?",
+    "What area is the Legal Counsel in?"
+  ],
+  "hlk_search": [
+    "Search HLK for CTO and return the closest canonical role.",
+    "Find all roles in the Tech area.",
+    "Look up processes related to data governance.",
+    "Search the vault for compliance-related workstreams.",
+    "Find the project that covers KiRBe development.",
+    "Search for all processes owned by the PMO."
+  ],
+  "finance_research": [
+    "What is the current stock price of Apple?",
+    "Get me a quote for TSLA.",
+    "Show me the market cap of Microsoft.",
+    "What's the sentiment for NVDA?",
+    "Look up the ticker for Tesla.",
+    "How are tech stocks performing today?",
+    "Get earnings data for AAPL.",
+    "Show me the share price trend for Amazon."
+  ],
+  "gtm_project": [
+    "What's the status of the MADEIRA product timeline?",
+    "Show me the GTM launch plan.",
+    "Where are we with the sales tools?",
+    "What's left in the proof of concept phase?",
+    "List the research pipeline tasks.",
+    "Show the product release milestones.",
+    "What UX capabilities are completed?",
+    "Where is the competitive positioning analysis?",
+    "What's the status of the alpha release?",
+    "Show me the KiRBe components checklist."
+  ],
+  "general": [
+    "Hello, how are you?",
+    "What can you help me with?",
+    "Tell me about yourself.",
+    "What time is it?",
+    "Summarize what we discussed last session.",
+    "Thank you for your help."
+  ]
+}
