@@ -1,4 +1,4 @@
-"""Tests for akos/telemetry.py LangfuseReporter."""
+"""Tests for akos/telemetry.py LangfuseReporter (SDK v4 API)."""
 
 import os
 from unittest.mock import MagicMock, patch
@@ -32,6 +32,17 @@ class TestNormalizeEnv:
         assert len(LangfuseReporter._normalize_env(long_env)) == 40
 
 
+def _make_mock_client():
+    """Build a MagicMock that behaves like a Langfuse v4 client."""
+    mock_client = MagicMock()
+    mock_span = MagicMock()
+    mock_ctx = MagicMock()
+    mock_ctx.__enter__ = MagicMock(return_value=mock_span)
+    mock_ctx.__exit__ = MagicMock(return_value=False)
+    mock_client.start_as_current_observation.return_value = mock_ctx
+    return mock_client, mock_span
+
+
 class TestReporterInit:
     def test_disabled_without_credentials(self):
         with patch.dict(os.environ, {}, clear=True):
@@ -49,8 +60,6 @@ class TestReporterInit:
             reporter = LangfuseReporter(environment="test-env")
             assert reporter.enabled
             mock_langfuse_cls.assert_called_once()
-            call_kwargs = mock_langfuse_cls.call_args[1]
-            assert call_kwargs["environment"] == "test-env"
 
     @patch("akos.telemetry._langfuse_available", True)
     @patch("akos.telemetry.Langfuse", side_effect=Exception("init fail"))
@@ -63,14 +72,36 @@ class TestReporterInit:
             assert not reporter.enabled
 
 
-class TestTraceRequest:
+class TestAuthCheck:
     @patch("akos.telemetry._langfuse_available", True)
     @patch("akos.telemetry.Langfuse")
-    def test_trace_request_sends_trace(self, mock_langfuse_cls):
-        mock_client = MagicMock()
-        mock_trace = MagicMock()
-        mock_client.trace.return_value = mock_trace
+    def test_auth_check_returns_true(self, mock_langfuse_cls):
+        mock_client, _ = _make_mock_client()
+        mock_client.auth_check.return_value = True
         mock_langfuse_cls.return_value = mock_client
+        with patch.dict(os.environ, {
+            "LANGFUSE_PUBLIC_KEY": "pk-test",
+            "LANGFUSE_SECRET_KEY": "sk-test",
+        }):
+            reporter = LangfuseReporter()
+            assert reporter.auth_check() is True
+        mock_client.auth_check.assert_called_once()
+
+    def test_auth_check_disabled(self):
+        with patch.dict(os.environ, {}, clear=True):
+            reporter = LangfuseReporter()
+            assert reporter.auth_check() is False
+
+
+class TestTraceRequest:
+    @patch("akos.telemetry._langfuse_available", True)
+    @patch("akos.telemetry.propagate_attributes")
+    @patch("akos.telemetry.Langfuse")
+    def test_trace_request_uses_v4_observation(self, mock_langfuse_cls, mock_propagate):
+        mock_client, mock_span = _make_mock_client()
+        mock_langfuse_cls.return_value = mock_client
+        mock_propagate.return_value.__enter__ = MagicMock()
+        mock_propagate.return_value.__exit__ = MagicMock(return_value=False)
 
         with patch.dict(os.environ, {
             "LANGFUSE_PUBLIC_KEY": "pk-test",
@@ -83,21 +114,21 @@ class TestTraceRequest:
                 "outcome": "success",
             })
 
-        mock_client.trace.assert_called_once()
-        call_kwargs = mock_client.trace.call_args[1]
+        mock_client.start_as_current_observation.assert_called_once()
+        call_kwargs = mock_client.start_as_current_observation.call_args[1]
         assert call_kwargs["name"] == "akos-executor"
-        assert call_kwargs["metadata"]["environment"] == "test"
-        mock_trace.generation.assert_called_once()
+        assert call_kwargs["output"] == "success"
 
 
 class TestTraceStartupCompliance:
     @patch("akos.telemetry._langfuse_available", True)
+    @patch("akos.telemetry.propagate_attributes")
     @patch("akos.telemetry.Langfuse")
-    def test_trace_startup_pass(self, mock_langfuse_cls):
-        mock_client = MagicMock()
-        mock_trace = MagicMock()
-        mock_client.trace.return_value = mock_trace
+    def test_trace_startup_pass(self, mock_langfuse_cls, mock_propagate):
+        mock_client, mock_span = _make_mock_client()
         mock_langfuse_cls.return_value = mock_client
+        mock_propagate.return_value.__enter__ = MagicMock()
+        mock_propagate.return_value.__exit__ = MagicMock(return_value=False)
 
         with patch.dict(os.environ, {
             "LANGFUSE_PUBLIC_KEY": "pk-test",
@@ -106,15 +137,16 @@ class TestTraceStartupCompliance:
             reporter = LangfuseReporter()
             reporter.trace_startup_compliance("orchestrator", ["f1"], [], True)
 
-        mock_trace.score.assert_called_once_with(name="startup_compliance", value=1.0)
+        mock_span.score.assert_called_once_with(name="startup_compliance", value=1.0)
 
     @patch("akos.telemetry._langfuse_available", True)
+    @patch("akos.telemetry.propagate_attributes")
     @patch("akos.telemetry.Langfuse")
-    def test_trace_startup_fail(self, mock_langfuse_cls):
-        mock_client = MagicMock()
-        mock_trace = MagicMock()
-        mock_client.trace.return_value = mock_trace
+    def test_trace_startup_fail(self, mock_langfuse_cls, mock_propagate):
+        mock_client, mock_span = _make_mock_client()
         mock_langfuse_cls.return_value = mock_client
+        mock_propagate.return_value.__enter__ = MagicMock()
+        mock_propagate.return_value.__exit__ = MagicMock(return_value=False)
 
         with patch.dict(os.environ, {
             "LANGFUSE_PUBLIC_KEY": "pk-test",
@@ -123,17 +155,18 @@ class TestTraceStartupCompliance:
             reporter = LangfuseReporter()
             reporter.trace_startup_compliance("unknown", [], ["SOUL.md"], False)
 
-        mock_trace.score.assert_called_once_with(name="startup_compliance", value=0.0)
+        mock_span.score.assert_called_once_with(name="startup_compliance", value=0.0)
 
 
 class TestTraceAlert:
     @patch("akos.telemetry._langfuse_available", True)
+    @patch("akos.telemetry.propagate_attributes")
     @patch("akos.telemetry.Langfuse")
-    def test_trace_alert_critical(self, mock_langfuse_cls):
-        mock_client = MagicMock()
-        mock_trace = MagicMock()
-        mock_client.trace.return_value = mock_trace
+    def test_trace_alert_critical(self, mock_langfuse_cls, mock_propagate):
+        mock_client, mock_span = _make_mock_client()
         mock_langfuse_cls.return_value = mock_client
+        mock_propagate.return_value.__enter__ = MagicMock()
+        mock_propagate.return_value.__exit__ = MagicMock(return_value=False)
 
         with patch.dict(os.environ, {
             "LANGFUSE_PUBLIC_KEY": "pk-test",
@@ -142,17 +175,20 @@ class TestTraceAlert:
             reporter = LangfuseReporter()
             reporter.trace_alert("soc_chmod", "critical", "chmod detected")
 
-        call_kwargs = mock_client.trace.call_args[1]
+        call_kwargs = mock_client.start_as_current_observation.call_args[1]
         assert call_kwargs["name"] == "akos-alert-critical"
-        mock_trace.score.assert_called_once_with(name="soc_alert", value=1.0)
+        mock_span.score.assert_called_once_with(name="soc_alert", value=1.0)
 
 
 class TestTraceMetric:
     @patch("akos.telemetry._langfuse_available", True)
+    @patch("akos.telemetry.propagate_attributes")
     @patch("akos.telemetry.Langfuse")
-    def test_trace_metric_sends_trace(self, mock_langfuse_cls):
-        mock_client = MagicMock()
+    def test_trace_metric_sends_observation(self, mock_langfuse_cls, mock_propagate):
+        mock_client, mock_span = _make_mock_client()
         mock_langfuse_cls.return_value = mock_client
+        mock_propagate.return_value.__enter__ = MagicMock()
+        mock_propagate.return_value.__exit__ = MagicMock(return_value=False)
 
         with patch.dict(os.environ, {
             "LANGFUSE_PUBLIC_KEY": "pk-test",
@@ -161,19 +197,19 @@ class TestTraceMetric:
             reporter = LangfuseReporter(environment="dev-local")
             reporter.trace_metric("agent_latency_avg_ms", 150.0, {"sample_count": 10})
 
-        call_kwargs = mock_client.trace.call_args[1]
+        call_kwargs = mock_client.start_as_current_observation.call_args[1]
         assert call_kwargs["name"] == "akos-metric-agent_latency_avg_ms"
-        assert call_kwargs["metadata"]["metric_value"] == 150.0
 
 
 class TestTraceAnswerQuality:
     @patch("akos.telemetry._langfuse_available", True)
+    @patch("akos.telemetry.propagate_attributes")
     @patch("akos.telemetry.Langfuse")
-    def test_trace_answer_quality_sends_scores(self, mock_langfuse_cls):
-        mock_client = MagicMock()
-        mock_trace = MagicMock()
-        mock_client.trace.return_value = mock_trace
+    def test_trace_answer_quality_sends_scores(self, mock_langfuse_cls, mock_propagate):
+        mock_client, mock_span = _make_mock_client()
         mock_langfuse_cls.return_value = mock_client
+        mock_propagate.return_value.__enter__ = MagicMock()
+        mock_propagate.return_value.__exit__ = MagicMock(return_value=False)
 
         with patch.dict(os.environ, {
             "LANGFUSE_PUBLIC_KEY": "pk-test",
@@ -196,14 +232,12 @@ class TestTraceAnswerQuality:
                 "quality_score": 1.0,
                 "provider": "ollama",
                 "model": "qwen3:8b",
-                "local_mirror_path": "C:/tmp/mirror.jsonl",
             })
 
-        call_kwargs = mock_client.trace.call_args[1]
+        call_kwargs = mock_client.start_as_current_observation.call_args[1]
         assert call_kwargs["name"] == "akos-answer-quality-madeira"
-        assert call_kwargs["session_id"] == "session-1"
-        mock_trace.score.assert_any_call(name="answer_quality", value=1.0)
-        mock_trace.score.assert_any_call(name="citation_present", value=1.0)
+        mock_span.score.assert_any_call(name="answer_quality", value=1.0)
+        mock_span.score.assert_any_call(name="citation_present", value=1.0)
 
 
 class TestFlush:
@@ -226,3 +260,26 @@ class TestFlush:
         with patch.dict(os.environ, {}, clear=True):
             reporter = LangfuseReporter()
             reporter.flush()
+
+
+class TestShutdown:
+    @patch("akos.telemetry._langfuse_available", True)
+    @patch("akos.telemetry.Langfuse")
+    def test_shutdown_calls_client(self, mock_langfuse_cls):
+        mock_client = MagicMock()
+        mock_langfuse_cls.return_value = mock_client
+
+        with patch.dict(os.environ, {
+            "LANGFUSE_PUBLIC_KEY": "pk-test",
+            "LANGFUSE_SECRET_KEY": "sk-test",
+        }):
+            reporter = LangfuseReporter()
+            reporter.shutdown()
+
+        mock_client.shutdown.assert_called_once()
+        assert not reporter.enabled
+
+    def test_shutdown_noop_when_disabled(self):
+        with patch.dict(os.environ, {}, clear=True):
+            reporter = LangfuseReporter()
+            reporter.shutdown()

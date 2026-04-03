@@ -600,8 +600,8 @@ def main() -> None:
             dry_run,
         )
         if not dry_run:
-            reporter.flush()
-        logger.info("Final flush complete (%d entries total)", entries_processed)
+            reporter.shutdown()
+        logger.info("Final shutdown complete (%d entries total)", entries_processed)
 
 
 if __name__ == "__main__":

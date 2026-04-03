@@ -41,13 +41,22 @@ def main() -> int:
         print("Langfuse telemetry disabled: no credentials (set LANGFUSE_* in process env or ~/.openclaw/.env)")
         return 1
 
+    print("Verifying Langfuse credentials with auth_check()...")
+    if not reporter.auth_check():
+        print("FAILED: Langfuse auth_check() returned False.")
+        print("Check that LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, and LANGFUSE_HOST")
+        print("match the same project and data region in your Langfuse dashboard.")
+        reporter.shutdown()
+        return 1
+    print("auth_check() passed -- credentials reach the correct project.")
+
     reporter.trace_request({
         "agent_role": "test-script",
         "tool_name": "test-langfuse-trace",
         "outcome": "Smoke test trace from openclaw-akos",
         "input": "scripts/test-langfuse-trace.py",
     })
-    reporter.flush()
+    reporter.shutdown()
 
     print(f"Test trace sent to Langfuse successfully (environment={env_tag})")
     print("Check the Tracing tab in your Langfuse project to see it.")
