@@ -26,15 +26,28 @@ Use these rules whenever planning or executing work in this repo (all agent mode
 
 - **Reuse/extension only (no duplication)**
   - Extend these existing contracts **instead of** creating sidecars:
-    - `akos/` helpers (I/O, logging, process, models, model_catalog, finance, policy).
+    - `akos/` helpers (I/O, logging, process, models, model_catalog, finance, hlk, intent, policy, telemetry).
     - `scripts/bootstrap.py`, `scripts/doctor.py`, `scripts/check-drift.py`,
       `scripts/release-gate.py`, `scripts/browser-smoke.py`,
-      `scripts/gpu.py`, `scripts/legacy/verify_openclaw_inventory.py`.
+      `scripts/gpu.py`, `scripts/legacy/verify_openclaw_inventory.py`,
+      `scripts/validate_hlk.py`, `scripts/hlk_mcp_server.py`, `scripts/finance_mcp_server.py`.
     - `config/openclaw.json.example` and the responsibility matrix in `docs/ARCHITECTURE.md`.
   - Do **not**:
     - Add parallel inventory, runtime-status, or logging frameworks.
     - Fork schema/contract definitions into new ad-hoc JSON/model files.
     - Duplicate validation already covered by drift, inventory, or release-gate scripts.
+
+- **HLK compliance governance**
+  - **Asset classification**: When a plan or change touches `docs/references/hlk/compliance/` or `docs/references/hlk/v3.0/`, classify affected assets per `docs/references/hlk/compliance/PRECEDENCE.md`:
+    - **Canonical** (edit here first): `baseline_organisation.csv`, `process_list.csv`, `access_levels.md`, `confidence_levels.md`, `source_taxonomy.md`, `PRECEDENCE.md`, `SOP-META_PROCESS_MGMT_001.md`.
+    - **Mirrored / derived**: live runtime configs, KiRBe/Supabase tables, Drive hierarchy.
+    - **Reference-only**: `docs/references/hlk/Research & Logic/`, `docs/references/hlk/previous-project-for-product-owner-example-only/`.
+  - **Canonical CSV gates**: Changes to `baseline_organisation.csv` or `process_list.csv` require:
+    - Explicit operator approval before committing.
+    - `py scripts/validate_hlk.py` in the verification matrix (also run by release-gate).
+    - Corresponding update to the `docs/USER_GUIDE.md` HLK Operator Model section if role/process counts change.
+  - **Drift handling**: If canonical and mirrored assets disagree, canonical wins. Investigate the propagation path, resync the mirror, and document the incident.
+  - **Vault versioning**: `v3.0/` is the active vault. `Research & Logic/` is v2.7 historical reference. New SOPs go under `v3.0/Admin/O5-1/<area>/<role>/`.
 
 - **Commit and phase discipline**
   - **One commit per phase**:
@@ -57,6 +70,7 @@ Use these rules whenever planning or executing work in this repo (all agent mode
       - `py scripts/browser-smoke.py --playwright`
       - `py -m pytest tests/test_api.py -v`
       - `py scripts/release-gate.py`
+      - `py scripts/validate_hlk.py` (when HLK compliance assets are in scope)
   - Planner agents should:
     - Reuse the phase structure and acceptance criteria from the governed runtime/inventory remediation plan.
     - Explicitly call out which existing scripts/tests/docs they will touch and how they preserve the above contracts.

@@ -903,7 +903,7 @@ This phase creates the cognitive separation across the four-agent model: Orchest
 | **Category** | `PROMPT` |
 | **Dependencies** | T-4.2 |
 | **Inputs** | Executor prompt exists; DX metric baselines from T-5.2 inform verification criteria |
-| **Outputs** | `VERIFIER_PROMPT.md` in workspace root. The prompt must: (a) define the Verification Protocol (lint, test, build, browser checks), (b) specify the Fix Suggestion Protocol with confidence ratings (HIGH/MEDIUM/LOW), (c) implement 3-attempt escalation: suggest fix → suggest alternative → abort with diagnosis, (d) restrict to read-write validation commands only. |
+| **Outputs** | `VERIFIER_PROMPT.md` in workspace root. The prompt must: (a) define the Verification Protocol (lint, test, build, browser checks), (b) specify the Fix Suggestion Protocol with confidence ratings (HIGH/MEDIUM/LOW), (c) implement 3-attempt escalation: suggest fix → suggest alternative → abort with diagnosis, (d) restrict to read-focused validation commands only. |
 | **Verification** | `grep -q 'Verifier' VERIFIER_PROMPT.md && grep -q 'Verification Protocol' VERIFIER_PROMPT.md && echo OK` |
 | **SOC Relevance** | No |
 | **HITL Gate** | `mutative` — creates a file |
@@ -960,8 +960,8 @@ This phase establishes the evaluation framework for continuous improvement. Task
 | **Category** | `METRIC` |
 | **Dependencies** | T-3.5 (structured logging active) |
 | **Inputs** | Choice of evaluation platform (Langfuse, Maxim AI, or LangSmith); platform API credentials |
-| **Outputs** | Configuration file or environment variables for the selected platform, stored in `config/eval/` (e.g., `config/eval/langfuse.env.example`). The file must define the trace ingestion endpoint and API key variable name without containing actual secrets. |
-| **Verification** | Config file exists and parses without error. `.gitignore` already excludes `.env` files. |
+| **Outputs** | Environment variables for the selected observability platform stored in `~/.openclaw/.env` (live secrets) plus non-secret watcher settings in `config/openclaw.json.example` under `diagnostics.logWatcher`. |
+| **Verification** | `~/.openclaw/.env` loads cleanly, `config/openclaw.json.example` includes `diagnostics.logWatcher`, and bootstrap writes `~/.openclaw/akos-config.json` without error. |
 | **SOC Relevance** | Yes — trace data feeds the observability pipeline |
 | **HITL Gate** | `mutative` — creates config scaffolding |
 | **Complexity** | `moderate` |
@@ -1144,7 +1144,7 @@ Role safety is enforced at the configuration layer via `config/agent-capabilitie
 **Policy engine:**
 - `akos/policy.py` loads the capability matrix and generates per-agent tool profiles.
 - `GET /agents/{id}/policy` returns the effective tool list for any agent.
-- `GET /agents/{id}/capability-drift` reports mismatches between policy and runtime.
+- `GET /agents/{id}/capability-drift` reports live mismatches between policy, template, and runtime.
 
 **Audit procedure:**
 After any change to agent tools or permissions:
@@ -1262,7 +1262,7 @@ See `CHANGELOG.md` for the full version history from v0.0.1 to v0.5.0.
 
 Bootstrap acts as the **translation layer** between AKOS's design-time SSOT and OpenClaw's runtime enforcement. Policy is defined once in AKOS files, bootstrap pushes it to OpenClaw's config schema, and the dashboard shows the live state. The operator never manually edits the OpenClaw Config page.
 
-- **Per-agent tool profiles** — Bootstrap derives each agent's `tools.profile` from `config/agent-capabilities.json`, while `config/openclaw.json.example` remains the SSOT for curated `alsoAllow` / `deny` entries. Madeira uses `coding` with `write`, `edit`, `apply_patch`, and `exec` denied; Orchestrator and Architect use `minimal` with curated read-only extras; Executor and Verifier use `coding` (Verifier denies `write`, `edit`, `apply_patch`).
+- **Per-agent tool profiles** — Bootstrap derives each agent's `tools.profile` from `config/agent-capabilities.json`, while `config/openclaw.json.example` remains the SSOT for curated `alsoAllow` / `deny` entries. Madeira now uses `minimal` with curated `read`, memory, and HLK/finance lookup tools plus deny-on-write/browser boundaries; Orchestrator and Architect use `minimal` with curated read-only extras; Executor and Verifier use `coding`, and both expose `browser` explicitly for validation flows (Verifier still denies `write`, `edit`, `apply_patch`).
 - **Exec security** — `tools.exec.security` is set per AKOS policy (allowlist for Executor, deny for Architect). Orchestrator/Architect must never have `full` exec access.
 - **Loop detection** — Gateway-level repetition circuit breaker (`tools.loopDetection`) provides defense-in-depth with AKOS prompt-level loop detection.
 - **Agent-to-agent** — `tools.agentToAgent` enables Orchestrator delegation at runtime level. `tools.agentToAgent.allow` restricts which agents can be invoked.
@@ -1366,12 +1366,12 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - Updated `verify_openclaw_inventory.py` (added `deepseek-r1:14b` to expected ollama models) and `validate_configs.py` (ollama model count assertion, env placeholder coverage test).
 
 **Phase 10 execution note (startup compliance and Langfuse observability):**
-- Rewrote `## Session Startup` in all five base prompts (`MADEIRA_BASE.md`, `ORCHESTRATOR_BASE.md`, `ARCHITECT_BASE.md`, `EXECUTOR_BASE.md`, `VERIFIER_BASE.md`) with SOTA enforcement patterns: explicit `read_file()` tool-call syntax, `CRITICAL` / `MUST` gate language, self-correction mandate, and "do NOT mention internal steps" directive.
+- Rewrote `## Session Startup` in all five base prompts (`MADEIRA_BASE.md`, `ORCHESTRATOR_BASE.md`, `ARCHITECT_BASE.md`, `EXECUTOR_BASE.md`, `VERIFIER_BASE.md`) with SOTA enforcement patterns: explicit `read()` tool-call syntax, `CRITICAL` / `MUST` gate language, self-correction mandate, and "do NOT mention internal steps" directive.
 - Created `prompts/overlays/OVERLAY_STARTUP_COMPLIANCE.md` with recency rule (re-read within 5 messages), invariant check, and good/bad examples. Registered in `config/model-tiers.json` for both `standard` and `full` variants across all five agents.
 - Added `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST` placeholders to all three environment templates (`dev-local.env.example`, `gpu-runpod.env.example`, `prod-cloud.env.example`).
-- Wired `scripts/serve-api.py` to load `config/eval/langfuse.env` at startup via `load_env_file()` with `os.environ.setdefault()`.
+- Standardized Langfuse runtime secret loading on process env -> `~/.openclaw/.env`; deleted repo-local `config/eval/langfuse.env*` files; and moved non-secret watcher settings to `config/openclaw.json.example` `diagnostics.logWatcher` with bootstrap sidecar sync to `~/.openclaw/akos-config.json`.
 - Added `trace_startup_compliance()` method to `LangfuseReporter` in `akos/telemetry.py` for scored startup event tracing.
-- Enhanced `scripts/log-watcher.py` to detect "Post-Compaction Audit" entries in both JSON and raw log lines, sending scored traces to Langfuse.
+- Enhanced `scripts/log-watcher.py` to detect "Post-Compaction Audit" entries in both JSON and raw log lines, review Madeira session transcripts for answer-quality events, send scored traces to Langfuse, and mirror flagship records locally under `~/.openclaw/telemetry/`.
 - Wired `scripts/run-evals.py` to load Langfuse credentials, create scored eval traces via `LangfuseReporter`, and report status.
 - Verified on local Ollama `deepseek-r1:14b` (medium tier): zero Post-Compaction Audit warnings after the hardened prompts were deployed.
 

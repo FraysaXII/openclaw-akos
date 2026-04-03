@@ -8,6 +8,7 @@ globs:
   - "scripts/**"
   - "prompts/**"
   - "docs/**"
+  - "docs/references/hlk/compliance/**"
   - ".cursor/rules/**"
   - "README.md"
   - "CHANGELOG.md"
@@ -64,6 +65,18 @@ needs a corresponding update. These contracts are ordered by trigger.
 | `prompts/base/*.md` | `docs/ARCHITECTURE.md` | "Prompt Tiering" section |
 | `prompts/overlays/*.md` | `docs/ARCHITECTURE.md` | Overlay table, variant composition |
 | `prompts/assembled/*.md` | `docs/ARCHITECTURE.md` | Assembled variants line counts if changed materially |
+
+### HLK compliance changes
+
+| Trigger file | Docs to update | Section / area |
+|:-------------|:---------------|:---------------|
+| `docs/references/hlk/compliance/*.csv` | `docs/ARCHITECTURE.md` | HLK Registry, vault structure, role/process counts |
+| `docs/references/hlk/compliance/*.csv` | `docs/USER_GUIDE.md` | HLK Operator Model section, role/process counts |
+| `docs/references/hlk/compliance/PRECEDENCE.md` | `docs/ARCHITECTURE.md` | Governance / SSOT sections |
+| `docs/references/hlk/v3.0/index.md` | `docs/USER_GUIDE.md` | Vault structure reference in the HLK Operator Model section |
+| `scripts/hlk_mcp_server.py` | `docs/USER_GUIDE.md` | HLK Registry MCP (Section 9.9) |
+| `scripts/validate_hlk.py` | `docs/DEVELOPER_CHECKLIST.md` | Pre-commit checks table |
+| `akos/hlk.py` | `docs/ARCHITECTURE.md` | Orchestration Library table |
 
 ## Always update
 

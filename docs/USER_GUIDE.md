@@ -27,6 +27,9 @@
 19. [API Reference](#19-api-reference)
 20. [Configuration Reference](#20-configuration-reference)
 21. [Glossary](#21-glossary)
+22. [What's New in v0.5.0](#22-whats-new-in-v050)
+23. [What's New in v0.4.0](#23-whats-new-in-v040)
+24. [HLK Operator Model](#24-hlk-operator-model)
 
 ---
 
@@ -157,7 +160,6 @@ config/
     prod-cloud.json            Cloud API overlay
     prod-cloud.env.example     Cloud API keys
   eval/
-    langfuse.env.example       Langfuse credentials
     baselines.json             DX metric baselines
     alerts.json                SOC alerting thresholds
   compliance/
@@ -189,7 +191,7 @@ Five pre-configured providers:
 
 **Agents:** The `agents.defaults` block sets the model, thinking level, and verbose level for all agents. The `agents.list` array registers each agent with its ID, workspace path, and identity metadata.
 
-**Agent tool policy:** In `agents.list[].tools`, use gateway core IDs for profile/deny semantics (`read`, `write`, `edit`, `apply_patch`, `exec`, etc.) and expose MCP plugin tools through `alsoAllow`. Do not rely on legacy `tools.allow` for plugin exposure.
+**Agent tool policy:** In `agents.list[].tools`, use gateway core IDs for profile/deny semantics (`read`, `write`, `edit`, `apply_patch`, `exec`, etc.) and expose plugin-registered runtime tools through `alsoAllow`. Raw `mcporter` server entries do not become agent tools by themselves; AKOS bridges `hlk_*` and `finance_*` through the repo-managed `akos-runtime-tools` OpenClaw plugin. Do not rely on legacy `tools.allow` for plugin exposure.
 
 **Bindings:** Optional channel routing rules (Telegram, Slack, etc.).
 
@@ -280,9 +282,11 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 
 **Key behaviors:**
 - **Lookup mode (default):** Answers factual HLK questions directly using `hlk_*` tools, citing canonical sources.
+- **Deterministic search ladder:** tries exact role/process lookup first when the intent is specific, retries with `hlk_search` in the same turn on `not_found`, and answers directly when a clear best match exists.
 - **Summary mode:** Synthesises multi-tool answers with structured formatting.
 - **Escalation mode:** Acknowledges multi-step admin requests and delegates to the Orchestrator.
 - Never responds with generic "check your HR system" fallbacks when HLK tools are available.
+- Never asks the user whether it should search; search is part of the lookup job.
 
 **Workspace:** `~/.openclaw/workspace-madeira/`
 
@@ -332,7 +336,7 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 
 **Role:** Quality gate. Validates that the Executor's actions produced correct results.
 
-**Mode:** Read-write (limited to validation commands). Cannot modify production files.
+**Mode:** Read-focused validation. Can run validation commands and browser checks, but does not mutate production files directly.
 
 **Key behaviors:**
 - Runs linters, test suites, build commands, and browser screenshots.
@@ -786,7 +790,7 @@ The HLK Registry MCP gives agents read-only access to the Holistika organisation
 
 Every tool is classified in `config/permissions.json` as either **autonomous** (no approval needed) or **requires_approval** (human must confirm).
 
-`permissions.json` includes a mix of gateway core IDs, MCP plugin IDs, and AKOS logical aliases. In the live gateway template, use gateway core IDs such as `read`, `write`, `edit`, `apply_patch`, and `exec`, then expose MCP plugins through `tools.alsoAllow`.
+`permissions.json` includes a mix of gateway core IDs, plugin tool IDs, and AKOS logical aliases. In the live gateway template, use gateway core IDs such as `read`, `write`, `edit`, `apply_patch`, and `exec`, then expose plugin-registered runtime tools through `tools.alsoAllow`. For AKOS HLK and finance lookups, the runtime registration is provided by `openclaw-plugins/akos-runtime-tools`, not by `mcporter.json` alone.
 
 **Autonomous tools** (examples):
 `read`, `web_search`, `web_fetch`, `memory_search`, `memory_get`, `sequential_thinking`, `finance_quote`, `finance_search`, `finance_sentiment`, `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search`
@@ -903,13 +907,13 @@ Splunk UF (optional) --> ai_agent_ops index (enterprise SIEM)
 
 ### 12.2 Langfuse Telemetry
 
-Langfuse is the primary observability backend. It provides per-request agent traces, model comparison, and cost tracking.
+Langfuse is the primary observability backend. It provides per-request agent traces, answer-quality telemetry, model comparison, and cost tracking.
 
 **Setup:**
 
 1. Sign up at [cloud.langfuse.com](https://cloud.langfuse.com) (free tier) or self-host.
-2. Copy the template: `cp config/eval/langfuse.env.example config/eval/langfuse.env`
-3. Fill in your keys.
+2. Put `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and `LANGFUSE_HOST` into `~/.openclaw/.env` or export them in the process environment.
+3. Keep non-secret watcher settings in `config/openclaw.json.example` under `diagnostics.logWatcher` (bootstrap writes them to `~/.openclaw/akos-config.json`).
 4. Start the watcher **alongside the gateway** (both must run for traces to appear):
 
 ```bash
@@ -926,7 +930,6 @@ Without credentials, telemetry degrades to a no-op. The watcher still evaluates 
 |:-----|:-------|
 | `--once` | Single pass then exit (for CI) |
 | `--dry-run` | Print traces without sending to Langfuse |
-| `--env-file PATH` | Custom Langfuse env file location |
 | `--environment`, `-e` | Environment tag (dev-local, gpu-runpod, prod-cloud) |
 | `--json-log` | Structured JSON output |
 
@@ -934,15 +937,15 @@ Without credentials, telemetry degrades to a no-op. The watcher still evaluates 
 - `LANGFUSE_PUBLIC_KEY` -- your Langfuse public key
 - `LANGFUSE_SECRET_KEY` -- your Langfuse secret key
 - `LANGFUSE_HOST` -- Langfuse endpoint (default: `https://cloud.langfuse.com`)
-- `LOG_WATCHER_POLL_INTERVAL` -- seconds between log polls (default: 2)
+- `LOG_WATCHER_POLL_INTERVAL` -- optional environment override; otherwise `diagnostics.logWatcher.pollIntervalSeconds` is used
 
 **Per-environment Langfuse setup (Phase 10):**
 
-All three environment templates (`dev-local.env.example`, `gpu-runpod.env.example`, `prod-cloud.env.example`) now include `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and `LANGFUSE_HOST` placeholders. When you run `py scripts/switch-model.py <env>`, Langfuse credentials propagate automatically. For local development, you can also use `config/eval/langfuse.env` (loaded by `scripts/serve-api.py` and `scripts/log-watcher.py`).
+All three environment templates (`dev-local.env.example`, `gpu-runpod.env.example`, `prod-cloud.env.example`) now include `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and `LANGFUSE_HOST` placeholders. When you run `py scripts/switch-model.py <env>`, Langfuse placeholders propagate into `~/.openclaw/.env`. The repo no longer uses `config/eval/langfuse.env`.
 
 **Startup compliance tracing:**
 
-The log watcher now detects "Post-Compaction Audit" gateway entries and sends scored traces to Langfuse (`startup_compliance: 0.0` for failures, `1.0` for passes). This enables monitoring startup compliance rates across models and environments in the Langfuse dashboard.
+The log watcher now detects "Post-Compaction Audit" gateway entries and sends scored traces to Langfuse (`startup_compliance: 0.0` for failures, `1.0` for passes). It also reviews Madeira session transcripts and emits `answer_quality` traces plus a local jsonl mirror under `~/.openclaw/telemetry/`. This enables monitoring startup compliance rates and flagship UX residuals across models and environments.
 
 **Dev vs prod trace separation:**
 
@@ -959,7 +962,7 @@ Traces are tagged with an `environment` so you can filter dev-local, gpu-runpod,
    ```bash
    python scripts/test-langfuse-trace.py
    ```
-   If it prints "Test trace sent to Langfuse successfully", check the Tracing tab (traces may take a few seconds to appear). If it fails, ensure `config/eval/langfuse.env` has valid `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY`.
+   If it prints "Test trace sent to Langfuse successfully", check the Tracing tab (traces may take a few seconds to appear). If it fails, ensure `~/.openclaw/.env` has valid `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY`.
 3. **Confirm log path** — The watcher reads `%TEMP%\openclaw\openclaw-YYYY-MM-DD.log` (Windows) or `/tmp/openclaw/openclaw-YYYY-MM-DD.log` (Linux). Ensure the OpenCLAW gateway writes there.
 
 #### 12.2.1 Langfuse Trace Taxonomy
@@ -972,6 +975,7 @@ All traces emitted by the log watcher and telemetry module follow a consistent n
 | `akos-startup-{agent_role}` | Session startup | `startup_compliance: 0.0/1.0` | Startup file read compliance |
 | `akos-eval-{task_id}` | Eval run | `eval_pass: 0.0/1.0` | Agent reliability eval result |
 | `akos-alert-{severity}` | SOC alert fired | `soc_alert: 0.25-1.0` | SOC alert forwarded to Langfuse |
+| `akos-answer-quality-{agent_role}` | Flagship user-visible answer | `answer_quality`, `citation_present`, `compaction_clean` | Local + Langfuse answer-quality event from session review |
 | `akos-metric-{name}` | Periodic (every 100 entries) | -- | DX metric sample (latency, count) |
 | `akos-health-runpod` | Periodic health check | -- | RunPod/vLLM infrastructure health |
 
@@ -987,11 +991,7 @@ Sign up at [cloud.langfuse.com](https://cloud.langfuse.com) (free tier is suffic
 
 **2. Configure credentials:**
 
-```bash
-cp config/eval/langfuse.env.example config/eval/langfuse.env
-```
-
-Edit `config/eval/langfuse.env` and fill in:
+Edit `~/.openclaw/.env` and fill in:
 
 ```
 LANGFUSE_PUBLIC_KEY=pk-lf-...
@@ -1024,7 +1024,7 @@ Langfuse natively supports environment filtering when the SDK passes `environmen
 python scripts/test-langfuse-trace.py
 ```
 
-Then open the **Tracing** tab in Langfuse. A test trace should appear within a few seconds. If it doesn't, double-check the keys in `config/eval/langfuse.env`.
+Then open the **Tracing** tab in Langfuse. A test trace should appear within a few seconds. If it doesn't, double-check the keys in `~/.openclaw/.env`. If the dashboard still stays empty while the local watcher is emitting mirror files in `~/.openclaw/telemetry/`, treat that as a project/account alignment issue rather than a repo-side watcher failure.
 
 ### 12.3 SOC Alerts
 
@@ -1497,10 +1497,10 @@ Builds 15 SOUL.md prompts (5 agents x 3 variants) from base + overlays.
 
 ```
 python scripts/log-watcher.py [--once] [--dry-run]
-                               [--env-file PATH] [--json-log]
+                               [--environment ENV] [--json-log]
 ```
 
-Tails the gateway log, pushes traces to Langfuse, evaluates SOC alerts, monitors RunPod health.
+Tails the gateway log, pushes traces to Langfuse, mirrors Madeira answer-quality telemetry locally, evaluates SOC alerts, and monitors RunPod health.
 
 ### `serve-api.py`
 
@@ -1590,6 +1590,14 @@ Returns an array of all 5 agents with workspace paths and SOUL.md status.
   }
 ]
 ```
+
+### GET /agents/{id}/policy
+
+Returns the effective capability policy for the given agent role from `config/agent-capabilities.json`.
+
+### GET /agents/{id}/capability-drift
+
+Returns the live drift issues relevant to a single agent by filtering the same repo-vs-runtime checks used by `py scripts/check-drift.py`. This is the fastest API surface for spotting tool-profile mismatch, tool-block drift, or inventory drift for one role.
 
 ### GET /runpod/health
 
@@ -1712,7 +1720,7 @@ Streams gateway log entries as JSON objects in real-time.
 ## 22. What's New in v0.5.0
 
 ### Gateway Runtime Wiring
-- **Per-agent tool profiles** enforced at gateway level — Madeira uses `coding` with curated `alsoAllow` plus `deny: ["write", "edit", "apply_patch", "exec"]`; Orchestrator and Architect use `minimal` with curated `alsoAllow`; Executor and Verifier use `coding` (Verifier denies `write`, `edit`, `apply_patch`)
+- **Per-agent tool profiles** enforced at gateway level — Madeira now uses `minimal` with curated `alsoAllow` for `read`, memory lookups, and HLK/finance tools plus `deny: ["write", "edit", "apply_patch", "exec", "browser"]`; Orchestrator and Architect use `minimal` with curated `alsoAllow`; Executor and Verifier use `coding`, and both now expose `browser` explicitly for UI validation flows (Verifier still denies `write`, `edit`, `apply_patch`)
 - **Exec security mode** per agent — allowlist for Executor, deny for Architect; Orchestrator/Architect never have full exec
 - **Gateway-level loop detection** — defense-in-depth with prompt-level loop detection; circuit breaker thresholds configurable
 - **Agent-to-agent tool** for Orchestrator delegation — target allowlist restricts invokable agents
@@ -1745,7 +1753,7 @@ Bootstrap translates `config/agent-capabilities.json` into OpenClaw's runtime co
 
 ### Role Safety
 - Tool access enforced by `config/agent-capabilities.json`, not just prompts
-- Audit via `GET /agents/{id}/policy` and `GET /agents/{id}/capability-drift`
+- Audit via `GET /agents/{id}/policy` and `GET /agents/{id}/capability-drift` (live drift data, not placeholder output)
 
 ### Code Intelligence
 - LSP and code-search MCP servers for type-aware navigation
@@ -1799,11 +1807,11 @@ AKOS-specific keys (`logging`, `permissions`) are now stored in `~/.openclaw/ako
 **`/status` returns all "unknown":**
 This is normal before the first environment switch. Run `py scripts/switch-model.py dev-local` to activate.
 
-## 19. HLK Operator Model
+## 24. HLK Operator Model
 
 This section explains how to operate the Holistika Knowledge Vault through MADEIRA and the AKOS platform.
 
-### 19.1 Three Layers You Should Understand
+### 24.1 Three Layers You Should Understand
 
 | Layer | What it is | Lifetime | Where it lives |
 |:------|:-----------|:---------|:---------------|
@@ -1813,7 +1821,7 @@ This section explains how to operate the Holistika Knowledge Vault through MADEI
 
 **Operating rule:** Session state is disposable. Workspace state helps agents remember context. The vault is the source of truth. Never rely on session memory for business facts -- always ground answers in the vault.
 
-### 19.2 How You Use MADEIRA Day-to-Day
+### 24.2 How You Use MADEIRA Day-to-Day
 
 MADEIRA is your single entrypoint for HLK operations. You talk to MADEIRA. MADEIRA queries the vault.
 
@@ -1830,7 +1838,7 @@ MADEIRA is your single entrypoint for HLK operations. You talk to MADEIRA. MADEI
 | Find gaps | "What baselines need remediation?" | `hlk_gaps` |
 | Search anything | "Find everything related to HUMINT" | `hlk_search` |
 
-### 19.3 Adding Knowledge to the Vault
+### 24.3 Adding Knowledge to the Vault
 
 1. **Identify the owner** -- look up the role in `baseline_organisation.csv` that should own this knowledge.
 2. **Navigate to the folder** -- go to `docs/references/hlk/v3.0/Admin/O5-1/{area}/{role}/`.
@@ -1838,7 +1846,7 @@ MADEIRA is your single entrypoint for HLK operations. You talk to MADEIRA. MADEI
 4. **Register the process** -- if this is a new process, add a row to `process_list.csv` with the correct `item_parent_1`, `role_owner`, and `item_granularity`.
 5. **Commit** -- git tracks the change. Drive syncs the folder.
 
-### 19.4 Maintaining Baselines
+### 24.4 Maintaining Baselines
 
 The canonical baselines live in `docs/references/hlk/compliance/`:
 
@@ -1853,7 +1861,7 @@ The canonical baselines live in `docs/references/hlk/compliance/`:
 
 **After editing baselines:** Restart the AKOS API (`py scripts/serve-api.py`) to reload the HLK registry from the updated CSVs.
 
-### 19.5 Vault Structure Reference
+### 24.5 Vault Structure Reference
 
 ```
 docs/references/hlk/
@@ -1874,13 +1882,13 @@ docs/references/hlk/
   Research & Logic/               v2.7 historical reference (read-only)
 ```
 
-### 19.6 Quick Reference Card
+### 24.6 Quick Reference Card
 
 | Question | Answer |
 |:---------|:-------|
 | Where do I edit? | `docs/references/hlk/v3.0/` for documents, `compliance/` for baselines |
 | Where do old docs live? | `Research & Logic/` (v2.7, read-only) |
-| How does MADEIRA find things? | Via HLK MCP tools backed by `HlkRegistry` reading the canonical CSVs |
+| How does MADEIRA find things? | Via HLK runtime tools backed by `HlkRegistry` and the `akos-runtime-tools` bridge |
 | What happens if I edit both vault and DB? | Vault wins. See `PRECEDENCE.md` for conflict resolution. |
 | How do I restart after baseline edits? | `py scripts/serve-api.py --port 8420` |
 | How do I check integrity? | `py scripts/test.py hlk` or use `/hlk/gaps` endpoint |
