@@ -196,7 +196,6 @@ openclaw-akos/
     compliance/
       eu-ai-act-checklist.json      EU AI Act compliance evidence map (T-3.7)
     eval/
-      langfuse.env.example          Eval platform scaffold (T-5.1)
       baselines.json                DX metric baselines (T-5.2)
       alerts.json                   SOC alerting thresholds (T-5.3)
   prompts/
@@ -278,19 +277,16 @@ The log watcher tails the OpenCLAW gateway log, pushes agent traces to Langfuse,
 ### Activating Langfuse Telemetry
 
 1. Sign up at [app.langfuse.com](https://cloud.langfuse.com) (free tier) or [self-host](https://langfuse.com/docs/deployment/self-host)
-2. Copy the template: `cp config/eval/langfuse.env.example config/eval/langfuse.env`
-3. Fill in your keys in `config/eval/langfuse.env`
+2. Put `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and `LANGFUSE_HOST` in `~/.openclaw/.env` or export them in the process environment.
+3. Keep non-secret watcher settings in `config/openclaw.json.example` under `diagnostics.logWatcher` (bootstrap writes them to `~/.openclaw/akos-config.json`).
 4. Start the watcher alongside the gateway:
 
 ```bash
-# Foreground watcher (loads keys from config/eval/langfuse.env automatically)
+# Foreground watcher (loads keys from process env or ~/.openclaw/.env)
 python scripts/log-watcher.py
 
 # Dry-run mode (prints traces without calling Langfuse SDK)
 python scripts/log-watcher.py --dry-run
-
-# Custom env file location
-python scripts/log-watcher.py --env-file /path/to/langfuse.env
 
 # Single pass for CI
 python scripts/log-watcher.py --once --json-log
@@ -298,7 +294,7 @@ python scripts/log-watcher.py --once --json-log
 
 Without credentials, telemetry degrades gracefully to a no-op -- the watcher still evaluates alerts and logs to stdout.
 
-Langfuse traces are tagged with the active environment name (e.g. `gpu-runpod`, `gpu-runpod-pod`) for multi-env filtering. The trace taxonomy includes `trace_request` (per-request), `trace_startup_compliance` (audit scores), `trace_alert` (SOC alert forwarding), and `trace_metric` (DX request counts / latency).
+Langfuse traces are tagged with the active environment name (e.g. `gpu-runpod`, `gpu-runpod-pod`) for multi-env filtering. The trace taxonomy includes `trace_request` (per-request), `trace_startup_compliance` (audit scores), `trace_answer_quality` (flagship user-visible outcomes), `trace_alert` (SOC alert forwarding), and `trace_metric` (DX request counts / latency). The watcher also mirrors answer-quality records locally under `~/.openclaw/telemetry/`.
 
 ## Running Tests
 

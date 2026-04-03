@@ -47,7 +47,6 @@ EXPECTED_SCAFFOLDING_FILES = [
     CONFIG_DIR / "permissions.json",
     CONFIG_DIR / "logging.json",
     CONFIG_DIR / "splunk" / "inputs.conf",
-    CONFIG_DIR / "eval" / "langfuse.env.example",
     CONFIG_DIR / "eval" / "baselines.json",
     CONFIG_DIR / "eval" / "alerts.json",
     CONFIG_DIR / "intelligence-matrix-schema.json",
@@ -57,6 +56,8 @@ EXPECTED_SCAFFOLDING_FILES = [
     PROMPTS_DIR / "ARCHITECT_PROMPT.md",
     PROMPTS_DIR / "EXECUTOR_PROMPT.md",
     PROMPTS_DIR / "VERIFIER_PROMPT.md",
+    REPO_ROOT / "openclaw-plugins" / "akos-runtime-tools" / "openclaw.plugin.json",
+    REPO_ROOT / "openclaw-plugins" / "akos-runtime-tools" / "index.ts",
     SCRIPTS_DIR / "vet-install.sh",
 ]
 
@@ -77,7 +78,7 @@ SOP_TASK_FILE_MAP = {
     "T-4.1": PROMPTS_DIR / "ARCHITECT_PROMPT.md",
     "T-4.2": PROMPTS_DIR / "EXECUTOR_PROMPT.md",
     "T-4.3": CONFIG_DIR / "intelligence-matrix-schema.json",
-    "T-5.1": CONFIG_DIR / "eval" / "langfuse.env.example",
+    "T-5.1": CONFIG_DIR / "environments" / "dev-local.env.example",
     "T-5.2": CONFIG_DIR / "eval" / "baselines.json",
     "T-5.3": CONFIG_DIR / "eval" / "alerts.json",
 }

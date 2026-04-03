@@ -24,7 +24,7 @@ Use this rule when creating or updating roadmap, phase-plan, or execution-report
 ## Scope Split
 
 - General HLK planning method belongs in the personal skill `hlk-planning-system`.
-- This rule is only for AKOS workspace traceability and naming.
+- This rule is only for AKOS workspace traceability, naming, and governance content requirements.
 
 ## Naming Guidance
 
@@ -32,8 +32,26 @@ Use this rule when creating or updating roadmap, phase-plan, or execution-report
 - Prefer one folder per initiative.
 - Avoid dumping unrelated plan files directly in `docs/wip/`.
 
+## Governance Content Requirements
+
+When a plan in `docs/wip/planning/` touches HLK compliance assets or runtime contracts, the plan **must** include:
+
+- **Asset classification section**: canonical / mirrored / reference-only per `docs/references/hlk/compliance/PRECEDENCE.md`.
+- **Decision log**: explicit record of choices made and deferred (ID, question, options, decision).
+- **Governed verification matrix reference**: the full repo-standard gate set from `docs/DEVELOPER_CHECKLIST.md`, including `validate_hlk.py` when compliance assets are in scope.
+- **Link to PRECEDENCE.md** if compliance assets are in scope.
+- **Evidence matrix** if the plan is driven by audit findings or observed drift.
+
+Plans that modify canonical compliance CSVs (`baseline_organisation.csv`, `process_list.csv`) must also include:
+
+- Explicit operator approval gate in the phase structure.
+- `validate_hlk.py` as a named verification step.
+- Documentation sync entry for the `docs/USER_GUIDE.md` HLK Operator Model section and `docs/ARCHITECTURE.md` HLK sections.
+
 ## Quality Checks
 
 - Reference the original source plan path in the copied markdown.
 - Keep copied plans and reports synchronized when execution materially changes the plan.
 - Do not treat `docs/wip` copies as release docs.
+- Verify that the plan's asset classification matches `PRECEDENCE.md` current state.
+- Verify that the plan's verification matrix is not narrower than the repo's governed matrix.

@@ -7,9 +7,8 @@ Traces appear under the "Tracing" tab in your Langfuse project.
 Usage:
     python scripts/test-langfuse-trace.py
     python scripts/test-langfuse-trace.py --environment gpu-runpod
-    python scripts/test-langfuse-trace.py --env-file config/eval/langfuse.env
 
-Requires: langfuse package, config/eval/langfuse.env with LANGFUSE_PUBLIC_KEY and LANGFUSE_SECRET_KEY.
+Requires: langfuse package and LANGFUSE_* credentials in process env or ~/.openclaw/.env.
 """
 
 import argparse
@@ -19,18 +18,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from akos.io import REPO_ROOT, load_env_file, resolve_openclaw_home
+from akos.io import load_runtime_env, resolve_openclaw_home, set_process_env_defaults
 from akos.telemetry import LangfuseReporter
 
 
 def main() -> int:
-    default_env = str(REPO_ROOT / "config" / "eval" / "langfuse.env")
     parser = argparse.ArgumentParser(description="Send a test trace to Langfuse")
-    parser.add_argument(
-        "--env-file",
-        default=default_env,
-        help="Path to Langfuse .env file",
-    )
     parser.add_argument(
         "--environment", "-e",
         default=os.environ.get("AKOS_ENV", "dev-local"),
@@ -38,23 +31,14 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    env_path = Path(args.env_file)
-    env_vars = load_env_file(env_path)
-    for key, value in env_vars.items():
-        if key not in os.environ:
-            os.environ[key] = value
-
     oc_env = resolve_openclaw_home() / ".env"
-    oc_vars = load_env_file(oc_env)
-    for key, value in oc_vars.items():
-        if key not in os.environ:
-            os.environ[key] = value
+    set_process_env_defaults(load_runtime_env(oc_env.parent))
 
     env_tag = os.environ.get("AKOS_ENV", args.environment)
     reporter = LangfuseReporter(environment=env_tag)
 
     if not reporter.enabled:
-        print("Langfuse telemetry disabled: no credentials (set LANGFUSE_PUBLIC_KEY and LANGFUSE_SECRET_KEY)")
+        print("Langfuse telemetry disabled: no credentials (set LANGFUSE_* in process env or ~/.openclaw/.env)")
         return 1
 
     reporter.trace_request({

@@ -2,16 +2,23 @@
 
 **Source plan**: `C:\Users\Shadow\.cursor\plans\hlk_madeira_proposal_3a66dc35.plan.md`
 **Initiative**: `hlk-on-akos-madeira`
-**Status**: Draft before implementation
-**Purpose**: Turn Phase 1 baseline cleanup into a file-by-file, field-by-field remediation inventory that can drive data entry and contract decisions.
+**Status**: Historical Phase 1 inventory; retained as a next-tranche queue and gap ledger
+**Purpose**: This matrix started as the pre-implementation Phase 1 remediation inventory. Phase 1 is now reported as **GO** in `reports/phase-1-report.md`. This document is retained to: (1) preserve the original file-by-file gap framing, (2) show what was already resolved historically, and (3) provide a practical queue for the next baseline/compliance tranche where deferred items and deeper KiRBe sync work will continue.
 
 ---
 
-## Summary
+## Current Interpretation
 
-- `OPEN`: 15
-- `DONE`: 0
-- `DEFERRED`: 0
+- **Phase 1 completion source**: `reports/phase-1-report.md` is the authoritative execution record for what was completed.
+- **This matrix is not the current release backlog**: its original `OPEN/DONE` counts are superseded by the completion report and later follow-on programs.
+- **Use this document now as**:
+  - a historical inventory of the Phase 1 gap model
+  - a queue for deferred structural work such as stable keys, process ownership/component wiring, and KiRBe sync automation
+
+## Historical Resolution Snapshot
+
+- **Resolved in Phase 1 / follow-on baseline work**: precedence contract, compliance taxonomy freeze, canonical baseline organisation, canonical process list, access review, granularity normalization, TBD row resolution, role description enrichment, vault v3.0 formalization, and multiple role-gap closures.
+- **Still relevant for the next tranche**: `P1M-003`, `P1M-008`, `P1M-009`, `P1M-012`, `P1M-014`, `P1M-015`, plus any remaining population of `responsible_processes` / `components_used` and formal sync automation design.
 
 ## Scope
 

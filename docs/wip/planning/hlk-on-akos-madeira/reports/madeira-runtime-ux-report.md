@@ -88,3 +88,15 @@ The stabilization work in this report successfully introduced Madeira as the das
 - Madeira startup hygiene and anti-fabrication UAT
 
 See `madeira-gateway-alignment-remediation-report.md` for the governed remediation evidence and final verification state.
+
+## 10. Follow-On Addendum (Madeira Lookup Hardening)
+
+The gateway-alignment remediation fixed the runtime bridge, but live Madeira sessions still showed a second-order UX defect: canonical HLK tools were available, yet the answer path could stop early, ask whether it should search, or fall back to broader non-canonical reads instead of completing the lookup ladder.
+
+The follow-on lookup-hardening program closes that gap across:
+
+- ranked HLK search semantics with explicit `best_role` / `best_process` winners
+- normalized role/process lookup handling for natural-language titles
+- Madeira's prompt contract (same-turn retry, clarify only on true ambiguity, no "should I search?" detours)
+- narrower Madeira runtime surface via a `minimal` profile with curated read/memory/HLK/finance exposure
+- repo-wide parity fixes such as live `capability-drift` reporting and explicit browser exposure for Executor/Verifier

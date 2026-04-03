@@ -109,6 +109,7 @@ class TestMadeiraPrompt:
     def test_has_startup_reads(self):
         for required in ["IDENTITY.md", "USER.md", "WORKFLOW_AUTO.md", "MEMORY.md"]:
             assert required in self.text
+        assert "memory/YYYY-MM-DD.md" in self.text
 
     def test_never_emits_no_reply(self):
         assert "Never emit `NO_REPLY`" in self.text
@@ -116,6 +117,37 @@ class TestMadeiraPrompt:
     def test_enforces_anti_fabrication(self):
         assert "Never invent names, UUIDs, workstreams" in self.text
         assert "Never expose internal tool" in self.text
+
+    def test_uses_hlk_tools_not_workspace_files(self):
+        assert "Treat `hlk_*` tools as the only retrieval path" in self.text
+        assert "Do NOT claim that `baseline_organisation.csv` or `process_list.csv` is missing from `workspace-madeira`" in self.text
+
+    def test_same_turn_search_recovery(self):
+        assert "call `hlk_search` in the SAME turn before any user-visible reply" in self.text
+        assert "Do not ask the user whether you should search" in self.text
+
+    def test_support_tools_are_context_only(self):
+        assert "`read` -- startup and workspace-context reads only" in self.text
+        assert "`memory_get`, `memory_search` -- supporting session context only" in self.text
+        assert "`akos_route_request`" in self.text
+
+    def test_role_answer_contract(self):
+        assert "you MUST call `hlk_role` first" in self.text
+        assert "include the canonical role name, access level, reports_to, area, and entity" in self.text
+        assert "Never cite `hlk_role`, `hlk_search`, `best_role`, or the raw query string" in self.text
+
+    def test_search_and_escalation_stay_user_facing(self):
+        assert "perform the search silently" in self.text
+        assert "Do NOT brainstorm restructuring options" in self.text
+        assert "FIRST sentence" in self.text
+        assert "ask it only AFTER the escalation note" in self.text
+        assert "you MAY call `akos_route_request`" in self.text or "If the route is unclear or mixed, you MAY call `akos_route_request`" in self.text
+
+    def test_finance_mode_is_procedural(self):
+        assert "you MAY call `akos_route_request` on the raw user request first" in self.text
+        assert "If the user gives a company name or partial symbol, call `finance_search` first" in self.text
+        assert "call `finance_quote` in the SAME turn before replying" in self.text
+        assert "Always surface the data source, freshness, and any warnings" in self.text
 
     def test_has_escalation_boundary(self):
         assert "Escalate to the Orchestrator" in self.text
@@ -141,3 +173,13 @@ class TestBasePrompts:
         for base_file in (PROMPTS_DIR / "base").glob("*.md"):
             content = base_file.read_text(encoding="utf-8")
             assert "MUST" in content, f"{base_file.name} should contain MUST directives"
+
+    def test_base_prompts_use_read_tool_not_legacy_read_file(self):
+        for base_file in (PROMPTS_DIR / "base").glob("*.md"):
+            content = base_file.read_text(encoding="utf-8")
+            assert "read_file(" not in content, f"{base_file.name} should use the `read` tool name"
+
+    def test_verifier_is_not_labeled_read_write(self):
+        verifier_text = _read(PROMPTS_DIR / "VERIFIER_PROMPT.md")
+        assert "read-write validator" not in verifier_text
+        assert "read-focused validator" in verifier_text

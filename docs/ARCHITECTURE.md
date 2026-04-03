@@ -60,9 +60,10 @@ The multi-agent paradigm separates concerns across five specialized roles:
 ### Madeira Agent (new in v0.6.0)
 
 - **User-facing operational assistant** for the Holistika knowledge vault
-- Operates in **read-only lookup** mode -- answers HLK questions directly using `hlk_*` tools
+- Operates in **read-only lookup** mode -- answers HLK questions directly using `hlk_*` tools and a deterministic exact-lookup -> ranked-search ladder
 - Default dashboard entrypoint for end-user HLK usage
 - Escalates multi-step administrative tasks to the Orchestrator
+- Uses a **minimal** gateway profile with curated `alsoAllow` for `read`, memory lookups, and HLK/finance runtime tools
 - **Cannot** write files, execute commands, or navigate browsers
 
 ### Orchestrator Agent (new in v0.3.0)
@@ -91,6 +92,7 @@ The multi-agent paradigm separates concerns across five specialized roles:
 - Validates Executor output via lint, test, build, and browser verification
 - Diagnoses failures and suggests targeted fixes
 - Escalates to Orchestrator after 3 failed attempts
+- Uses the `coding` profile with explicit `browser` exposure plus write/edit/apply_patch denies
 
 ### Agent Behavioral Protocols (new in v0.4.0)
 
@@ -228,11 +230,11 @@ Build all variants: `python scripts/assemble-prompts.py`
 
 ### Startup Compliance (Phase 10)
 
-The gateway emits a "Post-Compaction Audit" warning when an agent fails to `read_file` its required workspace files after a session start or context reset. Base prompts now use SOTA-inspired enforcement patterns (explicit `read_file()` calls, `CRITICAL` gate, self-correction mandate) to ensure models actually execute the reads. The `OVERLAY_STARTUP_COMPLIANCE.md` overlay (medium+ tiers) adds a recency rule (re-read within 5 messages), an invariant check, and good/bad examples to prevent hallucinated "I've restored..." claims.
+The gateway emits a "Post-Compaction Audit" warning when an agent fails to `read` its required workspace files after a session start or context reset. Base prompts now use SOTA-inspired enforcement patterns (explicit `read()` calls, `CRITICAL` gate, self-correction mandate) to ensure models actually execute the reads. The `OVERLAY_STARTUP_COMPLIANCE.md` overlay (medium+ tiers) adds a recency rule (re-read within 5 messages), an invariant check, and good/bad examples to prevent hallucinated "I've restored..." claims. Bootstrap also seeds dated continuity notes under `workspace-*/memory/YYYY-MM-DD.md` so post-compaction recovery has a deterministic file path instead of depending on ad-hoc model behavior.
 
 ### Langfuse Environment Wiring
 
-Langfuse credentials (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`) are now present in all three `config/environments/*.env.example` files. `scripts/serve-api.py` loads `config/eval/langfuse.env` at startup so the `/health` endpoint accurately reports Langfuse status. `scripts/log-watcher.py` detects Post-Compaction Audit entries in gateway logs and traces them to Langfuse with a `startup_compliance` score (0.0 or 1.0). `scripts/run-evals.py` creates Langfuse scored traces for eval task results when credentials are configured.
+Langfuse credentials (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`) are present in all three `config/environments/*.env.example` files so bootstrap can seed new environments safely, but the single live secret authority is `~/.openclaw/.env` (or exported process env). Non-secret watcher settings live in `config/openclaw.json.example` under `diagnostics.logWatcher` and are written to `~/.openclaw/akos-config.json`. `scripts/serve-api.py`, `scripts/log-watcher.py`, `scripts/run-evals.py`, `scripts/test-langfuse-trace.py`, `scripts/doctor.py`, and `scripts/gpu.py` all resolve runtime secrets from process env first, then `~/.openclaw/.env`. `scripts/log-watcher.py` detects Post-Compaction Audit entries, reviews Madeira session transcripts for answer-quality events, sends both to Langfuse, and mirrors answer-quality records locally under `~/.openclaw/telemetry/`.
 
 ### Multi-Provider Configuration
 
@@ -584,7 +586,7 @@ The `akos/api.py` module exposes a REST API for programmatic control:
 | `/checkpoints/restore` | POST | Restore a workspace checkpoint |
 | `/runtime/drift` | GET | Runtime drift detection (repo vs live) |
 | `/agents/{id}/policy` | GET | Effective capability policy for an agent |
-| `/agents/{id}/capability-drift` | GET | Check tool drift against policy |
+| `/agents/{id}/capability-drift` | GET | Return live agent-specific drift issues from repo vs runtime checks |
 | `/hlk/roles` | GET | All HLK baseline organisation roles |
 | `/hlk/roles/{name}` | GET | Single role lookup |
 | `/hlk/roles/{name}/chain` | GET | Reports-to chain traversal to Admin |
@@ -708,12 +710,12 @@ The following matrix shows every component, who owns it, and how the two layers 
 | Message Reactions       | `messages.statusReactions.*`           | Lifecycle emoji on messages (queued/thinking/done)  | Bootstrap enables for UX                                  |
 | Model Providers         | `models.providers.*`                  | LLM provider routing and failover                  | Bootstrap preserves full provider inventory; unresolved env inputs are surfaced as warnings |
 | Channel Routing         | `bindings[]`                          | Route channels to agents                            | Defined in template; future expansion                      |
-| MCP Servers             | via mcporter.json                     | Tool servers (11 total)                            | Bootstrap generates resolved paths                        |
+| MCP Servers             | via mcporter.json                     | Tool servers (11 total)                            | Bootstrap generates resolved paths; AKOS HLK/finance runtime exposure is bridged into OpenClaw by `akos-runtime-tools` |
 | WebChat                 | `web.enabled`                         | Dashboard chat interface                            | Always enabled for AKOS                                    |
 | Built-in Memory         | `memory.backend`                      | Native session memory                              | Complements AKOS MCP Memory + workspace MEMORY.md          |
 | OpenTelemetry           | `diagnostics.openTelemetry.*`         | Traces/metrics export                               | Future: wire to Langfuse OTEL endpoint                     |
 | Skills                  | `skills.*`                            | ClawHub skill management                           | Not managed by AKOS (future consideration)                 |
-| Plugins                 | `plugins.*`                           | Extension plugins                                   | Not managed by AKOS (future consideration)                 |
+| Plugins                 | `plugins.*`                           | Extension plugins                                   | AKOS manages the `akos-runtime-tools` bridge plugin; other plugin governance remains future work |
 | Cron Jobs               | `cron.*`                              | Scheduled automation                               | Not managed by AKOS (future consideration)                 |
 | Hooks                   | `hooks.*`                             | Webhook/event handlers                             | Not managed by AKOS (future consideration)                 |
 
@@ -737,11 +739,12 @@ Splunk UF (optional) ──> ai_agent_ops index (enterprise SIEM, config/splunk/
 | `akos/log.py` | Script-level JSON logging | stdout (human or JSON mode) |
 | `scripts/log-watcher.py` | Tails gateway logs, pushes traces to Langfuse, evaluates real-time alerts | Langfuse Cloud / stdout |
 | `akos/alerts.py` (AlertEvaluator) | Real-time pattern matching against `alerts.json`; periodic baseline checks | `CRITICAL`-level log entries |
-| Langfuse (primary) | Agent telemetry, tracing, model comparison | `config/eval/langfuse.env` (keys from `.example`) |
+| Langfuse (primary) | Agent telemetry, tracing, model comparison | process env or `~/.openclaw/.env` |
+| Local telemetry mirror | Flagship answer-quality jsonl archive | `~/.openclaw/telemetry/` |
 | Splunk Universal Forwarder (optional) | Enterprise SIEM log shipping | `ai_agent_ops` index |
 | skillvet | Security posture | Prompt-injection vulnerability rate |
 
-Langfuse is the recommended primary observability backend. The `--env-file` flag on `log-watcher.py` loads credentials from `config/eval/langfuse.env` (gitignored). Use `--dry-run` to preview traces without sending. Splunk is available for enterprise deployments that require a full SIEM; the `inputs.conf` template needs path adjustment for the target OS.
+Langfuse is the recommended primary observability backend. `scripts/log-watcher.py` loads secrets from process env or `~/.openclaw/.env`; use `--dry-run` to preview traces without sending. Splunk is available for enterprise deployments that require a full SIEM; the `inputs.conf` template needs path adjustment for the target OS.
 
 ## Implementation Task Map
 
@@ -787,7 +790,7 @@ The following files implement the architecture described above as committable co
 | All | [`config/compliance/eu-ai-act-checklist.json`](../config/compliance/eu-ai-act-checklist.json) | T-3.7 |
 | All | [`config/eval/baselines.json`](../config/eval/baselines.json) | T-5.2 |
 | All | [`config/eval/alerts.json`](../config/eval/alerts.json) | T-5.3 |
-| All | [`config/eval/langfuse.env.example`](../config/eval/langfuse.env.example) | T-5.1 |
+| All | [`config/environments/dev-local.env.example`](../config/environments/dev-local.env.example) | T-5.1 |
 | All | [`config/environments/`](../config/environments/) | T-5.4 |
 
 A validation test suite (`tests/`) provides 300+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, SOP task coverage, RunPod provider operations, FastAPI endpoints, workspace checkpoints, Langfuse telemetry (14 tests), failover router (10 tests), finance service behavior, and GPU deploy UX.

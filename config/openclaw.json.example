@@ -185,6 +185,7 @@
         "tools": {
           "profile": "coding",
           "alsoAllow": [
+            "browser",
             "finance_search",
             "finance_quote",
             "finance_sentiment",
@@ -211,6 +212,7 @@
         "tools": {
           "profile": "coding",
           "alsoAllow": [
+            "browser",
             "finance_search",
             "finance_quote",
             "finance_sentiment",
@@ -236,8 +238,12 @@
           "emoji": "🌊"
         },
         "tools": {
-          "profile": "coding",
+          "profile": "minimal",
           "alsoAllow": [
+            "read",
+            "memory_search",
+            "memory_get",
+            "akos_route_request",
             "finance_search",
             "finance_quote",
             "finance_sentiment",
@@ -250,7 +256,7 @@
             "hlk_gaps",
             "hlk_search"
           ],
-          "deny": ["write", "edit", "apply_patch", "exec"]
+          "deny": ["write", "edit", "apply_patch", "exec", "browser"]
         }
       }
     ]
@@ -299,6 +305,33 @@
       "agentId": "executor"
     }
   ],
+  "plugins": {
+    "allow": [
+      "akos-runtime-tools",
+      "device-pair",
+      "memory-core",
+      "phone-control",
+      "talk-voice"
+    ],
+    "entries": {
+      "akos-runtime-tools": {
+        "enabled": true,
+        "config": {
+          "apiUrl": "http://127.0.0.1:8420",
+          "apiKeyEnv": "AKOS_API_KEY",
+          "timeoutMs": 10000
+        }
+      }
+    }
+  },
+  "diagnostics": {
+    "logWatcher": {
+      "_note": "AKOS operator-side log watcher settings. Stored in akos-config.json at runtime; no secrets here.",
+      "pollIntervalSeconds": 2,
+      "localMirrorDirectory": "~/.openclaw/telemetry",
+      "answerQualityAgents": ["madeira"]
+    }
+  },
   "logging": {
     "_note": "output_directory is Linux production path. On Windows dev, OpenCLAW writes to %TEMP%/openclaw/ by default.",
     "format": "json",

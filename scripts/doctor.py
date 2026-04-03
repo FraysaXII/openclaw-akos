@@ -16,6 +16,7 @@ import json
 import logging
 import os
 import shutil
+import socket
 import sys
 import urllib.error
 import urllib.request
@@ -24,7 +25,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import akos.process as proc
-from akos.io import AGENT_WORKSPACES, REPO_ROOT, load_json, resolve_openclaw_home
+from akos.io import (
+    AGENT_WORKSPACES,
+    MANAGED_OPENCLAW_PLUGIN_IDS,
+    REPO_ROOT,
+    load_json,
+    load_runtime_env,
+    resolve_openclaw_home,
+    set_process_env_defaults,
+)
 from akos.log import setup_logging
 from akos.policy import CapabilityMatrix
 from akos.runtime import RuntimeState, parse_gateway_status_output
@@ -59,7 +68,11 @@ def check_gateway() -> tuple[str, str]:
         with urllib.request.urlopen(req, timeout=5):
             return "PASS", f"Gateway reachable at {GATEWAY_URL}"
     except (urllib.error.URLError, OSError):
-        return "FAIL", f"Gateway not reachable at {GATEWAY_URL}"
+        try:
+            with socket.create_connection(("127.0.0.1", 18789), timeout=5):
+                return "PASS", "Gateway TCP listener reachable at 127.0.0.1:18789 (HTTP probe unavailable)"
+        except OSError:
+            return "FAIL", f"Gateway not reachable at {GATEWAY_URL}"
 
 
 def check_gateway_runtime_contract() -> list[tuple[str, str]]:
@@ -209,6 +222,77 @@ def check_mcporter() -> tuple[str, str]:
     return "FAIL", f"mcporter.json not found (expected {mcporter_path})"
 
 
+def check_managed_openclaw_plugins(oc_home: Path) -> list[tuple[str, str]]:
+    """Verify repo-managed OpenClaw plugins are enabled and deployed."""
+    results: list[tuple[str, str]] = []
+    oc_config = oc_home / "openclaw.json"
+    if not oc_config.is_file():
+        results.append(("WARN", "openclaw.json not found; skipping plugin deployment checks"))
+        return results
+
+    try:
+        live = load_json(oc_config)
+    except (json.JSONDecodeError, OSError):
+        results.append(("FAIL", "openclaw.json unreadable or invalid JSON"))
+        return results
+
+    plugins_cfg = live.get("plugins", {})
+    plugin_entries = plugins_cfg.get("entries", {})
+    plugin_allow = plugins_cfg.get("allow", [])
+    if not isinstance(plugin_entries, dict):
+        results.append(("FAIL", "plugins.entries must be an object in openclaw.json"))
+        return results
+
+    source_root = REPO_ROOT / "openclaw-plugins"
+    deployed_root = oc_home / "extensions"
+
+    for plugin_id in MANAGED_OPENCLAW_PLUGIN_IDS:
+        if isinstance(plugin_allow, list) and plugin_id in plugin_allow:
+            results.append(("PASS", f"Managed OpenClaw plugin trusted via plugins.allow: {plugin_id}"))
+        else:
+            results.append(("FAIL", f"Managed OpenClaw plugin missing from plugins.allow: {plugin_id}"))
+
+        entry = plugin_entries.get(plugin_id, {})
+        if isinstance(entry, dict) and entry.get("enabled") is True:
+            results.append(("PASS", f"Managed OpenClaw plugin enabled: {plugin_id}"))
+        else:
+            results.append(("FAIL", f"Managed OpenClaw plugin disabled or missing in config: {plugin_id}"))
+
+        source_dir = source_root / plugin_id
+        target_dir = deployed_root / plugin_id
+        if not source_dir.is_dir():
+            results.append(("FAIL", f"Repo-managed OpenClaw plugin source missing: {source_dir}"))
+            continue
+        if not target_dir.is_dir():
+            results.append(("FAIL", f"Managed OpenClaw plugin not deployed: {target_dir}"))
+            continue
+
+        missing: list[str] = []
+        drifted: list[str] = []
+        for src_path in sorted(source_dir.rglob("*")):
+            if not src_path.is_file():
+                continue
+            rel_path = src_path.relative_to(source_dir)
+            dest_path = target_dir / rel_path
+            if not dest_path.exists():
+                missing.append(rel_path.as_posix())
+                continue
+            if dest_path.read_bytes() != src_path.read_bytes():
+                drifted.append(rel_path.as_posix())
+
+        if missing or drifted:
+            details = []
+            if missing:
+                details.append(f"missing: {', '.join(missing)}")
+            if drifted:
+                details.append(f"drifted: {', '.join(drifted)}")
+            results.append(("FAIL", f"Managed OpenClaw plugin out of sync: {plugin_id} ({'; '.join(details)})"))
+        else:
+            results.append(("PASS", f"Managed OpenClaw plugin synced: {plugin_id}"))
+
+    return results
+
+
 def _runtime_env_value(key: str, oc_home: Path) -> str:
     """Read a runtime env var from process env first, then ~/.openclaw/.env."""
     value = os.environ.get(key, "")
@@ -299,22 +383,30 @@ def check_langfuse_readiness() -> list[tuple[str, str]]:
     import os
     results: list[tuple[str, str]] = []
 
-    langfuse_example = REPO_ROOT / "config" / "eval" / "langfuse.env.example"
-    langfuse_real = REPO_ROOT / "config" / "eval" / "langfuse.env"
-    if langfuse_example.is_file():
-        results.append(("PASS", f"Langfuse template: {langfuse_example.name}"))
+    legacy_example = REPO_ROOT / "config" / "eval" / "langfuse.env.example"
+    legacy_real = REPO_ROOT / "config" / "eval" / "langfuse.env"
+    if legacy_example.exists() or legacy_real.exists():
+        results.append((
+            "FAIL",
+            "Legacy Langfuse env files detected under config/eval/. "
+            "Langfuse secrets must live in ~/.openclaw/.env and non-secret settings in openclaw diagnostics.",
+        ))
+        return results
 
     pub = os.environ.get("LANGFUSE_PUBLIC_KEY", "")
     sec = os.environ.get("LANGFUSE_SECRET_KEY", "")
+    host = os.environ.get("LANGFUSE_HOST", "")
     if not pub or pub.startswith("your-") or not sec or sec.startswith("your-"):
-        if langfuse_real.is_file():
-            from akos.io import load_env_file
-            env = load_env_file(langfuse_real)
-            pub = env.get("LANGFUSE_PUBLIC_KEY", pub)
-            sec = env.get("LANGFUSE_SECRET_KEY", sec)
+        env = load_runtime_env(resolve_openclaw_home())
+        set_process_env_defaults(env)
+        pub = env.get("LANGFUSE_PUBLIC_KEY", pub)
+        sec = env.get("LANGFUSE_SECRET_KEY", sec)
+        host = env.get("LANGFUSE_HOST", host)
 
     if pub and not pub.startswith("your-") and sec and not sec.startswith("your-"):
         results.append(("PASS", "Langfuse credentials configured"))
+        if host:
+            results.append(("PASS", f"Langfuse host configured: {host}"))
         from akos.telemetry import LangfuseReporter
         reporter = LangfuseReporter(environment="doctor-probe")
         if reporter.enabled:
@@ -443,6 +535,7 @@ def run_doctor() -> list[tuple[str, str]]:
     results.extend(check_workspaces(oc_home))
     results.extend(check_soul_md(oc_home))
     results.append(check_mcporter())
+    results.extend(check_managed_openclaw_plugins(oc_home))
     results.extend(check_ollama_readiness(oc_home))
     results.extend(check_gateway_tool_config(oc_home))
     results.extend(check_runpod_readiness())

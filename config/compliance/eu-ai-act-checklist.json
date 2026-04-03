@@ -27,14 +27,14 @@
         {
           "task_id": "T-5.4",
           "file": "akos/telemetry.py",
-          "description": "LangfuseReporter wraps the Langfuse SDK for per-request agent traces. Activated via config/eval/langfuse.env. Primary observability backend.",
+          "description": "LangfuseReporter wraps the Langfuse SDK for per-request and answer-quality traces. Activated via process env or ~/.openclaw/.env. Primary observability backend.",
           "verification_date": "2026-03-02",
           "verification_method": "pytest (test_akos_models.py); log-watcher.py --dry-run"
         },
         {
           "task_id": "T-5.4",
           "file": "scripts/log-watcher.py",
-          "description": "Tails OpenCLAW gateway logs, pushes traces to Langfuse, evaluates real-time SOC alerts. Supports --env-file and --dry-run flags.",
+          "description": "Tails OpenCLAW gateway logs, pushes traces to Langfuse, reviews Madeira session transcripts for answer-quality telemetry, mirrors local jsonl evidence, and evaluates real-time SOC alerts. Supports --dry-run.",
           "verification_date": "2026-03-02",
           "verification_method": "manual run (--once --dry-run)"
         }

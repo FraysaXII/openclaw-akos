@@ -1,8 +1,8 @@
 # HLK On AKOS Madeira Roadmap
 
 **Source plan**: `C:\Users\Shadow\.cursor\plans\hlk_madeira_proposal_3a66dc35.plan.md`
-**Status**: Working copy for workspace traceability
-**Canonical source**: Cursor plan file above unless explicitly superseded
+**Status**: Working copy for workspace traceability; original 6-phase HLK-on-AKOS program complete, active follow-on now tracked by the flagship Madeira program
+**Canonical source**: Original roadmap source above for phases 0-5; active follow-on execution is superseded by `C:\Users\Shadow\.cursor\plans\madeira_flagship_hardening_4f22c4ab.plan.md`
 
 ---
 
@@ -25,7 +25,7 @@ The roadmap covers:
 - Store milestone or phase reports in the sibling `reports/` directory.
 - Do not treat this `docs/wip` copy as release documentation.
 
-## Current Program View
+## Original Program View
 
 ```mermaid
 flowchart LR
@@ -36,37 +36,63 @@ flowchart LR
   phase4 --> phase5["P5 CI/CD And Hardening"]
 ```
 
-## Current Phases
+## Original Program Phases
 
-1. Phase 0: Proposal, scope freeze, and traceability
-2. Phase 1: Canonical vault and compliance baseline remediation
-3. Phase 2: HLK domain service and registry projection
-4. Phase 3: MADEIRA entry surface
-5. Phase 4: Admin UX, workspace management, and session discipline
-6. Phase 5: CI/CD, hardening, and externalization decision
+1. Phase 0: Proposal, scope freeze, and traceability -- COMPLETE
+2. Phase 1: Canonical vault and compliance baseline remediation -- COMPLETE
+3. Phase 2: HLK domain service and registry projection -- COMPLETE
+4. Phase 3: MADEIRA entry surface -- COMPLETE
+5. Phase 4: Admin UX, workspace management, and session discipline -- COMPLETE
+6. Phase 5: CI/CD, hardening, and externalization decision -- COMPLETE
 
 ## Current Execution Update
 
 Phase 1 is no longer the active bottleneck. `reports/phase-1-report.md` is **GO** and remains the authoritative in-repo completion note for the canonical vault freeze.
 
-The active execution follow-up is the Madeira Gateway Alignment remediation, which closes post-Phase-3 runtime drift between:
+The gateway-alignment remediation is no longer the active bottleneck. Its report remains the authoritative in-repo closure note for the runtime bridge/tool-registration defect.
 
-- `config/agent-capabilities.json`
-- `config/openclaw.json.example`
-- `scripts/bootstrap.py`
-- live gateway/runtime behavior
-- prompt behavior and UAT expectations
-- release-facing documentation and reports
+The active execution follow-up is the Madeira Flagship Hardening program, which supersedes the earlier lookup-hardening-only track and closes the next-layer drift between:
+
+- HLK lookup semantics (`akos/hlk.py`)
+- Madeira prompt behavior and runtime tool surface
+- live browser UAT answer quality
+- agent-specific drift visibility (`GET /agents/{id}/capability-drift`)
+- repo-wide prompt/runtime parity for similar agent defects
+- Langfuse traceability, env-source normalization, and answer-quality telemetry
+- finance-lane UX hardening if the same defect pattern appears there
+- the next baseline/compliance tranche boundary for KiRBe sync automation
+- release-facing documentation and planning/report traceability
 
 Reference artifacts:
 
 - `C:\Users\Shadow\.cursor\plans\madeira_ultimate_agent_e97ddcd9.plan.md`
+- `C:\Users\Shadow\.cursor\plans\madeira_lookup_hardening_a13d1a4e.plan.md`
+- `C:\Users\Shadow\.cursor\plans\madeira_flagship_hardening_4f22c4ab.plan.md`
 - `reports/madeira-runtime-ux-report.md`
 - `reports/madeira-gateway-alignment-remediation-report.md`
+- `reports/madeira-lookup-hardening-report.md`
+- `reports/madeira-flagship-hardening-report.md`
+- `reports/next-baseline-kirbe-sync-boundary-proposal.md`
 
-## Phase 1 Focus
+## Active Residual Backlog
 
-Phase 1 is the current bottleneck and the most important phase for long-term scalability.
+The flagship follow-on is currently responsible for closing these residuals before merge/clean-slate reset:
+
+- live escalation UX drift on restructuring/admin prompts
+- startup / post-compaction audit friction in long-lived sessions
+- Langfuse no-trace operability gap and env-source redesign
+- repo-wide prompt/runtime parity gaps adjacent to Madeira
+- roadmap / matrix / planning-traceability contradictions
+- next baseline/compliance tranche boundary definition for KiRBe automation
+
+Current report status:
+
+- `reports/madeira-flagship-hardening-report.md` is the authoritative in-repo closure note for this superseding follow-on and records a **GO WITH RESIDUAL** verdict.
+- `reports/next-baseline-kirbe-sync-boundary-proposal.md` is the handoff artifact for the next baseline/compliance tranche.
+
+## Phase 1 Historical Focus
+
+Phase 1 was the original bottleneck and remains the most important historical baseline for long-term scalability, but it is no longer the active execution bottleneck.
 
 Desired outcome:
 
@@ -94,9 +120,11 @@ Related systems and references reinforce the roadmap direction:
   - explicit admin workflows and data-entry UX
   - markdown-first authoring with structured downstream mirrors
 
-## Phase 1 Gap Report
+## Phase 1 Historical Gap Report
 
 ### Gap Summary
+
+- Historical note: the items below were the pre-remediation gap conditions that drove Phase 1 and should now be read alongside `reports/phase-1-report.md`, not as the current active backlog.
 
 - `baseline_organisation` is semantically incomplete:
   - the reviewed SQL dump shows **41** rows still using the placeholder `Role description to be defined based on best practices from our internal research.`

@@ -20,7 +20,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from akos.io import AGENT_WORKSPACES, REPO_ROOT, load_json, resolve_mcporter_paths, resolve_openclaw_home
+from akos.io import (
+    AGENT_WORKSPACES,
+    MANAGED_OPENCLAW_PLUGIN_IDS,
+    REPO_ROOT,
+    load_json,
+    resolve_mcporter_paths,
+    resolve_openclaw_home,
+)
 from akos.log import setup_logging
 from akos.policy import CapabilityMatrix
 from akos.tools import classify_gateway_tool_id
@@ -96,6 +103,102 @@ def check_mcp_config(oc_home: Path) -> list[dict]:
             "type": "mcp_config_drift",
             "detail": "Deployed mcporter.json content differs from resolved repo example",
         })
+    return issues
+
+
+def check_legacy_langfuse_env_files() -> list[dict]:
+    """Reject reintroduction of legacy repo-local Langfuse secret files."""
+    issues: list[dict] = []
+    for legacy_path in [
+        REPO_ROOT / "config" / "eval" / "langfuse.env",
+        REPO_ROOT / "config" / "eval" / "langfuse.env.example",
+    ]:
+        if legacy_path.exists():
+            issues.append({
+                "type": "legacy_langfuse_env_present",
+                "path": str(legacy_path),
+            })
+    return issues
+
+
+def check_managed_openclaw_plugins(oc_home: Path) -> list[dict]:
+    """Check that repo-managed OpenClaw plugins are deployed and enabled."""
+    issues: list[dict] = []
+    oc_config = oc_home / "openclaw.json"
+    if not oc_config.exists():
+        issues.append({
+            "type": "missing_openclaw_config",
+            "expected": str(oc_config),
+        })
+        return issues
+
+    live = load_json(oc_config)
+    plugins_cfg = live.get("plugins", {})
+    plugin_entries = plugins_cfg.get("entries", {})
+    plugin_allow = plugins_cfg.get("allow", [])
+    if not isinstance(plugin_entries, dict):
+        issues.append({
+            "type": "invalid_plugin_entries",
+            "detail": "plugins.entries must be an object",
+        })
+        return issues
+
+    source_root = REPO_ROOT / "openclaw-plugins"
+    deployed_root = oc_home / "extensions"
+
+    for plugin_id in MANAGED_OPENCLAW_PLUGIN_IDS:
+        source_dir = source_root / plugin_id
+        target_dir = deployed_root / plugin_id
+        entry = plugin_entries.get(plugin_id, {})
+
+        if not isinstance(plugin_allow, list) or plugin_id not in plugin_allow:
+            issues.append({
+                "type": "plugin_not_trusted",
+                "plugin": plugin_id,
+            })
+
+        if not isinstance(entry, dict) or entry.get("enabled") is not True:
+            issues.append({
+                "type": "plugin_not_enabled",
+                "plugin": plugin_id,
+            })
+
+        if not source_dir.is_dir():
+            issues.append({
+                "type": "missing_plugin_source",
+                "plugin": plugin_id,
+                "expected": str(source_dir),
+            })
+            continue
+
+        if not target_dir.is_dir():
+            issues.append({
+                "type": "missing_plugin_deploy",
+                "plugin": plugin_id,
+                "expected": str(target_dir),
+            })
+            continue
+
+        for src_path in sorted(source_dir.rglob("*")):
+            if not src_path.is_file():
+                continue
+            rel_path = src_path.relative_to(source_dir)
+            dest_path = target_dir / rel_path
+            if not dest_path.exists():
+                issues.append({
+                    "type": "missing_plugin_file",
+                    "plugin": plugin_id,
+                    "file": rel_path.as_posix(),
+                    "expected": str(dest_path),
+                })
+                continue
+            if dest_path.read_bytes() != src_path.read_bytes():
+                issues.append({
+                    "type": "plugin_file_drift",
+                    "plugin": plugin_id,
+                    "file": rel_path.as_posix(),
+                })
+
     return issues
 
 
@@ -262,6 +365,8 @@ def run_drift_check() -> list[dict]:
     issues: list[dict] = []
     issues.extend(check_agent_workspaces(oc_home))
     issues.extend(check_mcp_config(oc_home))
+    issues.extend(check_legacy_langfuse_env_files())
+    issues.extend(check_managed_openclaw_plugins(oc_home))
     issues.extend(check_permissions(oc_home))
     issues.extend(check_tool_profiles(oc_home))
     return issues

@@ -12,12 +12,12 @@
 | 1 | Open `http://127.0.0.1:18789/agents` | Madeira is visible as a distinct agent entry alongside the other 4 agents |
 | 2 | Open `http://127.0.0.1:18789/chat?session=agent:madeira:main` or start a fresh Madeira session from `/new` | Madeira loads in WebChat |
 | 3 | Start the session and wait for the first ready state | No raw startup-control leakage and no `NO_REPLY` placeholder |
-| 4 | Ask: "Who is the CTO?" | Tool-backed answer citing `baseline_organisation.csv`, access level 5, no fabricated UUIDs |
+| 4 | Ask: "Who is the CTO?" | Tool-backed answer citing `baseline_organisation.csv`, access level 5, no fabricated UUIDs, and no detour asking whether Madeira should search |
 | 5 | Ask: "Show me all Research roles" | Direct answer listing only canonical Research roles; no invented names or placeholder identifiers |
 | 6 | Ask: "What workstreams are under KiRBe Platform?" | Graph navigation response containing only canonical workstreams from `process_list.csv` |
 | 7 | Ask: "I need to restructure the Finance area" | Madeira acknowledges scope and escalates to Orchestrator |
 
-**Pass criteria**: Steps 4-6 produce grounded answers backed by canonical HLK sources, with no fabricated names, UUIDs, workstreams, or leaked internal tool/source strings. Step 3 is startup-clean, and Step 7 triggers escalation instead of direct execution.
+**Pass criteria**: Steps 4-6 produce grounded answers backed by canonical HLK sources, with no fabricated names, UUIDs, workstreams, leaked internal tool/source strings, or user-facing "should I search?" detours. Step 3 is startup-clean, and Step 7 triggers escalation instead of direct execution.
 
 **Restart/bootstrap flow** (run these before UAT if config or prompts changed):
 ```bash
@@ -92,11 +92,12 @@ openclaw gateway restart
 
 | Step | Action | Expected |
 |:-----|:-------|:---------|
-| 1 | Call `GET /hlk/search?q=finance` | Returns Finance roles (CFO, Business Controller, etc.) and finance processes |
-| 2 | Ask: "Find everything about MADEIRA in the vault" | Returns MADEIRA-related processes and roles |
-| 3 | Call `GET /hlk/search?q=zzzznonexistent` | Returns status "not_found" |
+| 1 | Call `GET /hlk/search?q=CTO` | Returns status `ok`, ranked candidates, and `best_role.role_name == "CTO"` |
+| 2 | Call `GET /hlk/search?q=finance` | Returns Finance roles (CFO, Business Controller, etc.) and finance processes |
+| 3 | Ask: "Find everything about MADEIRA in the vault" | Returns MADEIRA-related processes and roles |
+| 4 | Call `GET /hlk/search?q=zzzznonexistent` | Returns status "not_found" |
 
-**Pass criteria**: Search returns relevant results without false matches. Not-found is handled gracefully.
+**Pass criteria**: Search returns relevant ranked results, exposes `best_role` / `best_process` when a clear canonical winner exists, and handles not-found gracefully.
 
 ---
 

@@ -3,6 +3,9 @@ from __future__ import annotations
 from pathlib import Path
 from unittest.mock import patch
 
+import pytest
+
+from akos.io import deploy_openclaw_plugins, ensure_memory_journal_files
 from scripts.bootstrap import (
     _backfill_env_placeholders,
     _collect_unresolved_provider_inputs,
@@ -81,9 +84,9 @@ def test_bootstrap_preserves_template_gateway_tool_blocks() -> None:
                 {
                     "id": "madeira",
                     "tools": {
-                        "profile": "coding",
+                        "profile": "minimal",
                         "alsoAllow": ["hlk_role", "finance_search"],
-                        "deny": ["write", "edit", "apply_patch", "exec"],
+                        "deny": ["write", "edit", "apply_patch", "exec", "browser"],
                     },
                 },
             ]
@@ -99,9 +102,9 @@ def test_bootstrap_preserves_template_gateway_tool_blocks() -> None:
     assert orch_tools["alsoAllow"] == ["read", "web_search", "memory_search", "finance_quote"]
     assert orch_tools["deny"] == ["write", "exec"]
 
-    assert madeira_tools["profile"] == "coding"
+    assert madeira_tools["profile"] == "minimal"
     assert madeira_tools["alsoAllow"] == ["hlk_role", "finance_search"]
-    assert madeira_tools["deny"] == ["write", "edit", "apply_patch", "exec"]
+    assert madeira_tools["deny"] == ["write", "edit", "apply_patch", "exec", "browser"]
     assert "allow" not in madeira_tools
 
 
@@ -146,4 +149,50 @@ def test_bootstrap_uses_runtime_profile_override() -> None:
     _sync_tool_profiles_from_capability_matrix(merged)
 
     madeira_tools = merged["agents"]["list"][0]["tools"]
-    assert madeira_tools["profile"] == "coding"
+    assert madeira_tools["profile"] == "minimal"
+
+
+def test_deploy_openclaw_plugins_syncs_repo_state(tmp_path: Path) -> None:
+    source_root = tmp_path / "openclaw-plugins"
+    plugin_dir = source_root / "akos-runtime-tools"
+    plugin_dir.mkdir(parents=True)
+    (plugin_dir / "openclaw.plugin.json").write_text('{"id":"akos-runtime-tools"}\n', encoding="utf-8")
+    (plugin_dir / "index.ts").write_text("export default {};\n", encoding="utf-8")
+
+    oc_home = tmp_path / ".openclaw"
+    stale_target = oc_home / "extensions" / "akos-runtime-tools"
+    stale_target.mkdir(parents=True)
+    (stale_target / "index.ts").write_text("stale\n", encoding="utf-8")
+
+    deployed = deploy_openclaw_plugins(oc_home, plugin_source_root=source_root)
+
+    assert stale_target.joinpath("openclaw.plugin.json").read_text(encoding="utf-8") == '{"id":"akos-runtime-tools"}\n'
+    assert stale_target.joinpath("index.ts").read_text(encoding="utf-8") == "export default {};\n"
+    assert {path.name for path in deployed} == {"openclaw.plugin.json", "index.ts"}
+
+
+def test_ensure_memory_journal_files_creates_continuity_notes(tmp_path: Path) -> None:
+    oc_home = tmp_path / ".openclaw"
+    ws_dir = oc_home / "workspace-madeira"
+    ws_dir.mkdir(parents=True)
+    (ws_dir / "MEMORY.md").write_text("# MEMORY\n\nState\n", encoding="utf-8")
+
+    deployed = ensure_memory_journal_files(oc_home, days=2)
+
+    memory_dir = ws_dir / "memory"
+    assert memory_dir.is_dir()
+    created_names = sorted(path.name for path in deployed)
+    assert len(created_names) == 2
+    assert all(name.endswith(".md") for name in created_names)
+    first_note = memory_dir / created_names[0]
+    assert "Bootstrap-generated continuity mirror" in first_note.read_text(encoding="utf-8")
+
+
+def test_load_env_file_rejects_malformed_lines(tmp_path: Path) -> None:
+    from akos.io import load_env_file
+
+    env_path = tmp_path / "bad.env"
+    env_path.write_text('GOOD=value\nBROKEN"oops"\n', encoding="utf-8")
+
+    with pytest.raises(ValueError):
+        load_env_file(env_path)

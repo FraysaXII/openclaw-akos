@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed (Madeira Flagship Hardening)
+
+- Madeira startup recovery now has deterministic dated continuity notes under `workspace-*/memory/YYYY-MM-DD.md`, reducing post-compaction file-audit friction and giving the live runtime concrete recovery targets instead of missing-path drift.
+- `config/eval/langfuse.env` and `config/eval/langfuse.env.example` were removed from the repo contract. Langfuse secrets now resolve from process env or `~/.openclaw/.env`, while non-secret watcher settings live in `config/openclaw.json.example` `diagnostics.logWatcher` and bootstrap sidecar sync.
+- `scripts/log-watcher.py` now reviews Madeira session transcripts for answer-quality telemetry, mirrors local jsonl evidence under `~/.openclaw/telemetry/`, and emits answer-quality traces in addition to startup compliance and alert traces.
+- Madeira now exposes `akos_route_request` as a deterministic runtime helper for HLK/search/finance/admin route classification, while the live `qwen3:8b` admin branch remains classified as a model-specific residual rather than silently treated as healthy.
+- `scripts/doctor.py` and `scripts/check-drift.py` now enforce the new Langfuse secret authority and flag legacy repo-local Langfuse env files as drift.
+
 ### Added (MADEIRA Runtime UX Stabilization)
 
 - **Madeira agent** — fifth agent (`id: "madeira"`) as the user-facing dashboard entrypoint for HLK operations. Read-only lookup assistant with a dedicated workspace (`~/.openclaw/workspace-madeira`), scaffold (`config/workspace-scaffold/madeira/`), and all 3 prompt variants.
@@ -30,8 +38,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed (Madeira Gateway Alignment Remediation)
 
 - `config/openclaw.json.example` no longer mixes gateway core IDs with AKOS logical tool names in agent tool policies.
+- `openclaw-plugins/akos-runtime-tools` now registers the `hlk_*` and `finance_*` runtime tool IDs that Madeira and the other agents reference through `tools.alsoAllow`, closing the config-only/runtime-missing gap.
+- `config/openclaw.json.example` now pins trusted OpenClaw plugin IDs in `plugins.allow`, so the runtime bridge is explicit instead of relying on auto-loaded local plugin discovery.
+- `akos/api.py` now exposes read-only `/finance/*` endpoints so the runtime bridge can reuse the existing finance service instead of duplicating provider logic.
+- `akos/io.py`, `scripts/bootstrap.py`, `scripts/doctor.py`, and `scripts/check-drift.py` now deploy and verify the repo-managed OpenClaw plugin bridge under `~/.openclaw/extensions`.
 - `scripts/browser-smoke.py`, `tests/test_api.py`, `tests/test_live_smoke.py`, and `tests/test_e2e_pipeline.py` now lock the 5-agent runtime contract instead of the older 4-agent layout.
 - `prompts/MADEIRA_PROMPT.md` now exists as the compact Madeira prompt, matching the base prompt and startup contract.
+
+### Fixed (Madeira Lookup Hardening)
+
+- `akos/hlk.py` now resolves normalized role/process queries deterministically, ranks `hlk_search` results, and exposes `best_role` / `best_process` fields so lookup agents do not have to infer canonical winners from raw mixed search output.
+- Madeira now uses a narrower `minimal` runtime profile with curated read/memory/HLK/finance access, reducing non-canonical fallback surface while preserving startup and lookup support.
+- `akos/api.py` now returns live agent-specific drift issues from `GET /agents/{id}/capability-drift` instead of placeholder empty results.
+- Prompt parity hardening now aligns Madeira’s lookup ladder with same-turn search retry, and updates the base startup prompts to use the current `read` tool name.
+- Executor and Verifier now expose `browser` explicitly in the gateway template, matching their policy/docs-driven validation responsibilities.
 
 ### Added (HLK CI/CD Hardening -- Phase 5)
 
@@ -41,7 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added (HLK Admin UX -- Phase 4)
 
-- **HLK Operator Model** in USER_GUIDE Section 19 -- session vs workspace vs vault distinction, day-to-day MADEIRA usage guide, knowledge addition and baseline maintenance flows, vault structure reference, quick reference card.
+- **HLK Operator Model** in USER_GUIDE -- session vs workspace vs vault distinction, day-to-day MADEIRA usage guide, knowledge addition and baseline maintenance flows, vault structure reference, quick reference card.
 - **HLK UAT smoke scenarios** (`docs/uat/hlk_admin_smoke.md`) -- 7 scenarios covering role lookup, area navigation, process tree, gap detection, search, admin workflow, and session-vs-vault discipline.
 
 ### Added (HLK MADEIRA Entry Surface -- Phase 3)
@@ -140,8 +160,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Session Startup in all 5 base prompts** hardened with SOTA enforcement patterns: explicit `read_file()` tool-call syntax, `CRITICAL` / `MUST` gate, self-correction mandate, and "do NOT mention internal steps" directive.
-- **`scripts/serve-api.py`** now loads `config/eval/langfuse.env` at startup for accurate `/health` Langfuse status.
+- **Session Startup in all 5 base prompts** hardened with SOTA enforcement patterns: explicit `read()` tool-call syntax, `CRITICAL` / `MUST` gate, self-correction mandate, and "do NOT mention internal steps" directive.
+- **`scripts/serve-api.py`** now loads Langfuse credentials from process env or `~/.openclaw/.env` for accurate `/health` Langfuse status.
 - **`scripts/run-evals.py`** upgraded from stub to functional Langfuse integration (loads env, creates reporter, reports scores).
 
 ### Added (Phase 9)
@@ -388,7 +408,7 @@ Established the `akos/` orchestration library, multi-model architecture, and obs
 - **Environment profiles**: `dev-local`, `gpu-runpod`, `prod-cloud` with `.env.example` + `.json` overlay pairs.
 - **Cross-platform switch-model**: `scripts/switch-model.py` with atomic config merge, prompt deploy, gateway restart, rollback safety.
 - **Cross-platform bootstrap**: `scripts/bootstrap.py` (Python, any OS) complementing `bootstrap.ps1`.
-- **Langfuse telemetry**: `scripts/log-watcher.py` with `--env-file`, `--dry-run`, `--once` flags.
+- **Langfuse telemetry**: `scripts/log-watcher.py` with `--dry-run` and `--once` flags, later extended to the `~/.openclaw/.env` + local-mirror contract.
 - **Alert evaluation engine**: `akos/alerts.py` with real-time pattern matching and periodic baseline checks.
 - **Agent-filtered overlays**: `OVERLAY_REASONING.md` for Architect/Orchestrator only in standard+ tiers.
 - **EU AI Act checklist** updated with verification dates and Langfuse evidence.

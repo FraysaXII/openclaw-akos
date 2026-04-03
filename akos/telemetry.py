@@ -154,6 +154,48 @@ class LangfuseReporter:
         except Exception as exc:
             logger.debug("Failed to push metric: %s", exc)
 
+    def trace_answer_quality(self, record: dict) -> None:
+        """Trace a user-visible answer-quality event for flagship agent review."""
+        if not self._client:
+            return
+        try:
+            agent_role = str(record.get("agent_role", "unknown"))
+            session_id = str(record.get("session_id", "")) or None
+            route_kind = str(record.get("route_kind", "unknown"))
+            quality_score = float(record.get("quality_score", 0.0))
+            metadata = {
+                "environment": self._environment,
+                "agent_role": agent_role,
+                "route_kind": route_kind,
+                "tool_calls": record.get("tool_calls", []),
+                "tool_backed": record.get("tool_backed", False),
+                "citation_asset": record.get("citation_asset", ""),
+                "best_match_present": record.get("best_match_present", False),
+                "escalation_present": record.get("escalation_present", False),
+                "compaction_interference": record.get("compaction_interference", False),
+                "residual_flags": record.get("residual_flags", []),
+                "provider": record.get("provider", ""),
+                "model": record.get("model", ""),
+                "local_mirror_path": record.get("local_mirror_path", ""),
+            }
+            trace = self._client.trace(
+                name=f"akos-answer-quality-{agent_role}",
+                session_id=session_id,
+                metadata=metadata,
+                tags=[agent_role, route_kind, "answer-quality"],
+                input=record.get("user_text", ""),
+                output=record.get("assistant_text", ""),
+            )
+            trace.score(name="answer_quality", value=quality_score)
+            trace.score(name="citation_present", value=1.0 if record.get("citation_asset") else 0.0)
+            trace.score(name="escalation_correct", value=1.0 if record.get("escalation_present") else 0.0)
+            trace.score(
+                name="compaction_clean",
+                value=0.0 if record.get("compaction_interference") else 1.0,
+            )
+        except Exception as exc:
+            logger.debug("Failed to push answer-quality trace: %s", exc)
+
     def flush(self) -> None:
         """Flush pending traces to Langfuse."""
         if self._client:

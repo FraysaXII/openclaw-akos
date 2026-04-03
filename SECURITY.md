@@ -42,7 +42,7 @@ The `skillvet` scanner performs 48 vulnerability checks:
 
 ### 3. Human-in-the-Loop (HITL) Enforcement
 
-The full tool classification is maintained in `config/permissions.json` (35 autonomous, 33 approval-gated tool IDs in the current branch, spanning gateway core IDs, MCP plugin IDs, and AKOS logical aliases).
+The full tool classification is maintained in `config/permissions.json` (36 autonomous, 33 approval-gated tool IDs in the current branch, spanning gateway core IDs, MCP plugin IDs, and AKOS logical aliases).
 
 | Operation Type | Approval Required |
 |:---------------|:------------------|
@@ -71,7 +71,7 @@ All gateway logs are emitted in structured JSON and can be monitored through two
 
 **Live Alert Engine (`akos/alerts.py` + `scripts/log-watcher.py`):**
 
-The log watcher tails the OpenCLAW gateway log in real-time and evaluates each entry against the conditions defined in `config/eval/alerts.json`. Triggered alerts are logged at `CRITICAL` level and can be forwarded to Langfuse for tracing. Start with: `python scripts/log-watcher.py`
+The log watcher tails the OpenCLAW gateway log in real-time, reviews Madeira session transcripts for flagship answer-quality events, and evaluates each entry against the conditions defined in `config/eval/alerts.json`. Triggered alerts are logged at `CRITICAL` level and can be forwarded to Langfuse for tracing. Secrets for this path must live in process env or `~/.openclaw/.env`, never in repo-local `config/eval/*.env` files. Start with: `python scripts/log-watcher.py`
 
 **Splunk SIEM (for enterprise deployments):**
 
@@ -132,7 +132,7 @@ When using dedicated RunPod pods (`gpu-runpod-pod` profile), the vLLM process ru
 
 AKOS v0.5.0 adds **gateway-level capability enforcement** as defense-in-depth on top of prompt-level controls.
 
-- **Per-agent tool profiles** — The OpenClaw gateway enforces `tools.profile` plus curated `alsoAllow` / `deny` lists per agent. Madeira uses `coding` with write/edit/apply_patch/exec denied; Orchestrator and Architect use `minimal` with curated read-only extras; Executor and Verifier use `coding` (Verifier denies write/edit/apply_patch). Even if an agent is prompt-injected, the gateway blocks unauthorized tool calls.
+- **Per-agent tool profiles** — The OpenClaw gateway enforces `tools.profile` plus curated `alsoAllow` / `deny` lists per agent. Madeira now uses `minimal` with curated `read`, memory, and HLK/finance lookup exposure plus deny-on-write/browser boundaries; Orchestrator and Architect use `minimal` with curated read-only extras; Executor and Verifier use `coding`, and both expose `browser` explicitly for validation flows (Verifier still denies write/edit/apply_patch). Even if an agent is prompt-injected, the gateway blocks unauthorized tool calls.
 - **Exec security mode** — `tools.exec.security` restricts shell execution (deny/allowlist/full). Orchestrator and Architect must not have `full` exec; bootstrap and drift detection enforce this.
 - **Browser SSRF policy** — `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork: false` prevents browser automation from accessing private/internal networks. Reduces SSRF risk from malicious web content.
 

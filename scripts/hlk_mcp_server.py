@@ -42,8 +42,8 @@ def hlk_role(role_name: str) -> str:
     reports_to chain position, and SOP URL if available.
 
     Use this when you need to understand what a role does or who it
-    reports to. Role names are case-sensitive and match the canonical
-    baseline_organisation.csv.
+    reports to. Accepts canonical role names plus normalized title
+    variants such as "CTO" or "Chief Technology Officer".
     """
     return get_hlk_registry().get_role(role_name).model_dump_json(indent=2, exclude_none=True)
 
@@ -76,7 +76,9 @@ def hlk_process(item_id: str) -> str:
 
     Process IDs follow patterns like hol_resea_dtp_99, env_tech_dtp_240,
     thi_opera_dtp_200. Returns the full process metadata including
-    granularity, parent chain, role owner, and description.
+    granularity, parent chain, role owner, and description. Matching is
+    normalized so cosmetic casing/punctuation differences do not break
+    the lookup.
     """
     return get_hlk_registry().get_process(item_id).model_dump_json(indent=2, exclude_none=True)
 
@@ -119,8 +121,9 @@ def hlk_search(query: str) -> str:
     """Fuzzy search across HLK roles and processes.
 
     Searches role names, descriptions, process names, IDs, and
-    descriptions. Use this when you need to find something but
-    don't know the exact name or ID.
+    descriptions. Returns ranked role/process candidates plus clear
+    best-match fields when one canonical winner stands out. Use this
+    when you need to find something but don't know the exact name or ID.
     """
     return get_hlk_registry().search(query).model_dump_json(indent=2, exclude_none=True)
 

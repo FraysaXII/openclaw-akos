@@ -1,0 +1,23 @@
+{
+  "id": "akos-runtime-tools",
+  "name": "AKOS Runtime Tools",
+  "description": "Expose AKOS HLK and finance lookups as OpenClaw agent tools.",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "apiUrl": {
+        "type": "string",
+        "minLength": 1
+      },
+      "apiKeyEnv": {
+        "type": "string",
+        "minLength": 1
+      },
+      "timeoutMs": {
+        "type": "number",
+        "minimum": 1000
+      }
+    }
+  }
+}
