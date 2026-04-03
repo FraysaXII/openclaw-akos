@@ -16,12 +16,12 @@ Phase 4 reduced operational confusion by documenting the session-workspace-vault
 
 | Deliverable | Status | Notes |
 |-------------|--------|-------|
-| Operator model (session vs workspace vs vault) | Done | USER_GUIDE.md Section 19.1 |
-| Day-to-day MADEIRA usage guide | Done | USER_GUIDE.md Section 19.2 |
-| Knowledge addition guide | Done | USER_GUIDE.md Section 19.3 |
-| Baseline maintenance guide | Done | USER_GUIDE.md Section 19.4 |
-| Vault structure reference | Done | USER_GUIDE.md Section 19.5 |
-| Quick reference card | Done | USER_GUIDE.md Section 19.6 |
+| Operator model (session vs workspace vs vault) | Done | USER_GUIDE.md Section 24.1 |
+| Day-to-day MADEIRA usage guide | Done | USER_GUIDE.md Section 24.2 |
+| Knowledge addition guide | Done | USER_GUIDE.md Section 24.3 |
+| Baseline maintenance guide | Done | USER_GUIDE.md Section 24.4 |
+| Vault structure reference | Done | USER_GUIDE.md Section 24.5 |
+| Quick reference card | Done | USER_GUIDE.md Section 24.6 |
 | UAT smoke test scenarios | Done | docs/uat/hlk_admin_smoke.md (7 scenarios + rollback guide) |
 
 ## 3. UAT Coverage
