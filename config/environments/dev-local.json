@@ -2,8 +2,8 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "ollama/deepseek-r1:14b",
-        "fallbacks": ["ollama/qwen3:8b"]
+        "primary": "ollama/qwen3:8b",
+        "fallbacks": ["ollama/deepseek-r1:14b"]
       },
       "thinkingDefault": "low",
       "verboseDefault": "on"

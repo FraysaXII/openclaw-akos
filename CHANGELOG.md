@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed (NBT and Flagship Residuals)
+
+- **Langfuse SDK v4 migration** -- `akos/telemetry.py` rewritten from v3 `trace()`/`generation()`/`score()` API (silently broken on SDK v4) to v4 `start_as_current_observation()`/`propagate_attributes()`/`span.score()` API. Traces now actually appear in the Langfuse dashboard.
+- **Langfuse auth verification** -- `scripts/test-langfuse-trace.py` now calls `auth_check()` before sending, so credential/region mismatches fail loudly instead of printing false success.
+- **Swapped Langfuse keys fixed** -- `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` were swapped in `~/.openclaw/.env`; corrected so `pk-lf-*` is the public key.
+- **Langfuse reporter shutdown** -- `LangfuseReporter.shutdown()` added for clean export; `log-watcher.py` uses it on exit.
+
+### Added (NBT and Flagship Residuals)
+
+- **Semantic intent classifier** -- `akos/embeddings.py` (Ollama `nomic-embed-text` embedding client) + `akos/intent.py` rewritten to use cosine-similarity routing against `config/intent-exemplars.json` exemplar bank, with regex fallback. Scales to new domains by adding exemplars, not regex patterns.
+- **GTM route type** -- `gtm_project` route added to the intent classifier for go-to-market/product/launch pipeline queries.
+- **Trello GTM ingestion** -- `scripts/ingest-trello.py` maps Trello board structure to candidate `process_list.csv` rows (726 rows from the GTM board) for operator review before canonical commit.
+- **KiRBe sync contract** -- `config/sync/kirbe-sync-contract.md` defines stable machine-key policy (NBT.1), canonical-to-KiRBe ownership (NBT.2), table-level sync direction, conflict resolution, stale row cleanup list, and deterministic replay design (NBT.4).
+- **Model UAT comparison matrix** -- `docs/wip/planning/hlk-on-akos-madeira/reports/model-uat-comparison-matrix.md` documents per-model GPU performance, tool-calling support, and escalation behavior on local RTX 2000 Ada (15GB VRAM).
+
 ### Fixed (Madeira Flagship Hardening)
 
 - Madeira startup recovery now has deterministic dated continuity notes under `workspace-*/memory/YYYY-MM-DD.md`, reducing post-compaction file-audit friction and giving the live runtime concrete recovery targets instead of missing-path drift.

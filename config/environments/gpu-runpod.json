@@ -3,18 +3,24 @@
     "defaults": {
       "model": {
         "primary": "vllm-runpod/deepseek-r1-70b",
-        "fallbacks": ["anthropic/claude-sonnet-4", "ollama/deepseek-r1:14b"]
+        "fallbacks": [
+          "anthropic/claude-sonnet-4",
+          "ollama/deepseek-r1:14b"
+        ]
       },
       "thinkingDefault": "medium",
       "verboseDefault": "on"
     }
   },
   "runpod": {
-    "gpuIds": ["AMPERE_80", "ADA_80"],
+    "gpuIds": [
+      "AMPERE_80",
+      "ADA_80"
+    ],
     "templateName": "akos-vllm-deepseek-r1-70b",
     "vllmImage": "runpod/worker-v1-vllm:stable-cuda12.8.0",
     "modelName": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
-    "maxModelLen": 131072,
+    "maxModelLen": 32768,
     "activeWorkers": 0,
     "maxWorkers": 3,
     "idleTimeoutSeconds": 300,
