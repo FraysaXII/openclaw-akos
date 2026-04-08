@@ -20,6 +20,7 @@ Requires: Python 3.10+ (stdlib + pydantic).
 """
 
 import argparse
+import copy
 import logging
 import os
 import shutil
@@ -28,9 +29,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-import akos.process as proc
 from akos.io import (
     REPO_ROOT,
+    RUNTIME_ENV_PLACEHOLDERS,
     deep_merge,
     deploy_soul_prompts,
     get_variant_for_model,
@@ -41,6 +42,7 @@ from akos.io import (
 )
 from akos.log import setup_logging
 from akos.models import RunPodEndpointConfig, load_tiers
+from akos.runtime import recover_gateway_service, resolve_openclaw_cli
 from akos.runpod_provider import RunPodProvider
 from akos.state import load_state, record_switch
 
@@ -49,16 +51,63 @@ logger = logging.getLogger("akos.switch-model")
 TIERS_PATH = REPO_ROOT / "config" / "model-tiers.json"
 ENVS_DIR = REPO_ROOT / "config" / "environments"
 ASSEMBLED_DIR = REPO_ROOT / "prompts" / "assembled"
+TEMPLATE_PATH = REPO_ROOT / "config" / "openclaw.json.example"
 
 
 def find_env_file(env_name: str) -> Path | None:
     real_env = ENVS_DIR / f"{env_name}.env"
     if real_env.exists():
         return real_env
-    example_env = ENVS_DIR / f"{env_name}.env.example"
-    if example_env.exists():
-        return example_env
     return None
+
+
+def _summarize_env_file(env_name: str, env_file: Path) -> None:
+    """Log which real env file was used and flag placeholder-like values."""
+    logger.info("Using real env file for %s: %s", env_name, env_file)
+    env = load_env_file(env_file)
+    issues: list[str] = []
+    for key, value in env.items():
+        if value == "":
+            issues.append(f"{key}=<empty>")
+            continue
+        if value.startswith("YOUR_") or value.startswith("your-"):
+            issues.append(f"{key}=<template>")
+            continue
+        placeholder = RUNTIME_ENV_PLACEHOLDERS.get(key)
+        if placeholder is not None and value == placeholder and key not in {"OLLAMA_API_KEY", "OLLAMA_GPU_URL"}:
+            issues.append(f"{key}=<placeholder>")
+    if issues:
+        logger.warning(
+            "Env profile '%s' still has placeholder/inactive values: %s",
+            env_name,
+            ", ".join(sorted(issues)),
+        )
+
+
+def _seed_full_provider_inventory(existing: dict) -> dict:
+    """Restore any missing provider blocks from the SSOT template.
+
+    Environment switches should change the active default model, but they must
+    not permanently shrink the provider inventory if the live config was
+    created from an older template or previously lost a provider block.
+    """
+    template = load_json(TEMPLATE_PATH)
+    template_providers = template.get("models", {}).get("providers", {})
+    models_block = existing.setdefault("models", {})
+    providers_block = models_block.setdefault("providers", {})
+
+    missing: list[str] = []
+    for provider_id, provider_cfg in template_providers.items():
+        if provider_id not in providers_block:
+            providers_block[provider_id] = copy.deepcopy(provider_cfg)
+            missing.append(provider_id)
+
+    if missing:
+        logger.info(
+            "Re-seeded missing provider(s) from template: %s",
+            ", ".join(sorted(missing)),
+        )
+    return existing
 
 
 def do_rollback(oc_home: Path) -> None:
@@ -204,13 +253,22 @@ def main() -> None:
             shutil.copy2(env_file, dest_env)
             _write_env_var(dest_env, "AKOS_ENV", env_name)
             logger.info("Copied %s -> %s", env_file.name, dest_env)
+            _summarize_env_file(env_name, env_file)
     else:
-        logger.info("No .env file for '%s'; skipping", env_name)
+        logger.warning(
+            "No real .env file for '%s'; .env.example reference files are not used at runtime",
+            env_name,
+        )
 
     # Step 1b: RunPod endpoint provisioning (gpu-runpod environment only)
     runpod_config_raw = overlay.get("runpod")
     if runpod_config_raw:
         _ensure_runpod_endpoint(runpod_config_raw, oc_home, dry_run=args.dry_run)
+
+    # Step 1c: OpenStack env setup (gpu-shadow environment)
+    openstack_config_raw = overlay.get("openstack")
+    if openstack_config_raw:
+        _ensure_openstack_env(openstack_config_raw, oc_home, dry_run=args.dry_run)
 
     if args.dry_run:
         _dry_run_preview(oc_home, overlay_path, overlay, variant)
@@ -223,9 +281,10 @@ def main() -> None:
 
     try:
         # Step 2: Deep-merge JSON overlay (strip AKOS-only keys that OpenCLAW rejects)
-        _AKOS_ONLY_KEYS = {"runpod", "pod", "_akos"}
+        _AKOS_ONLY_KEYS = {"runpod", "pod", "openstack", "_akos"}
         if oc_config_path.exists():
             existing = load_json(oc_config_path)
+            existing = _seed_full_provider_inventory(existing)
             gateway_overlay = {k: v for k, v in overlay.items() if k not in _AKOS_ONLY_KEYS}
             for stale_key in _AKOS_ONLY_KEYS:
                 existing.pop(stale_key, None)
@@ -242,14 +301,22 @@ def main() -> None:
 
         # Step 4: Restart gateway
         if not args.no_restart:
-            logger.info("Restarting OpenCLAW gateway...")
-            result = proc.run(["openclaw", "gateway", "restart"], timeout=60, capture=False)
-            if result.success:
-                logger.info("Gateway restarted.")
-            elif result.returncode == -1 and "not found" in result.stderr:
-                logger.warning("'openclaw' not in PATH; restart manually.")
+            cli_hint = resolve_openclaw_cli()
+            if cli_hint:
+                logger.info("Restarting OpenCLAW gateway via %s", cli_hint)
             else:
-                logger.warning("Gateway restart exit code %d", result.returncode)
+                logger.warning("OpenCLAW CLI not found; gateway restart may fail")
+            repair = os.name == "nt"
+            recovery = recover_gateway_service(repair=repair)
+            if recovery.success:
+                logger.info("Gateway recovered: %s", recovery.detail)
+            else:
+                logger.warning(
+                    "Gateway recovery incomplete: %s "
+                    "(try: py scripts/doctor.py --repair-gateway; "
+                    "on Windows, run an elevated shell if the scheduled task needs reinstall)",
+                    recovery.detail,
+                )
 
     except Exception:
         logger.error("Switch failed mid-operation -- rolling back config")
@@ -263,8 +330,45 @@ def main() -> None:
     logger.info("Switched to %s (%s) in %s environment.", model_id, tier_name, env_name)
 
 
+def _ensure_openstack_env(
+    os_config_raw: dict, oc_home: Path, *, dry_run: bool = False
+) -> None:
+    """Verify OpenStack env vars are present for ShadowPC deployments."""
+    env_path = oc_home / ".env"
+    if env_path.exists():
+        env_vars = load_env_file(env_path)
+        for k, v in env_vars.items():
+            if k not in os.environ:
+                os.environ[k] = v
+
+    auth_url = os_config_raw.get("authUrl", "")
+    region = os_config_raw.get("region", "")
+
+    if dry_run:
+        logger.info(
+            "[DRY-RUN] Would configure OpenStack env: auth=%s, region=%s",
+            auth_url or "(from env/clouds.yaml)",
+            region,
+        )
+        return
+
+    if auth_url and not os.environ.get("OS_AUTH_URL"):
+        _write_env_var(env_path, "OS_AUTH_URL", auth_url)
+    if region and not os.environ.get("OS_REGION_NAME"):
+        _write_env_var(env_path, "OS_REGION_NAME", region)
+
+    vllm_url = os.environ.get("VLLM_SHADOW_URL", "")
+    if vllm_url and vllm_url != "http://localhost:8080/v1":
+        logger.info("OpenStack vLLM URL: %s", vllm_url)
+    else:
+        logger.warning(
+            "VLLM_SHADOW_URL not set. Run 'py scripts/gpu.py deploy-shadow' first, "
+            "or set it manually after instance boots."
+        )
+
+
 def _dry_run_preview(oc_home: Path, overlay_path: Path, overlay: dict, variant: str) -> None:
-    _AKOS_ONLY_KEYS = {"runpod", "pod", "_akos"}
+    _AKOS_ONLY_KEYS = {"runpod", "pod", "openstack", "_akos"}
     oc_config_path = oc_home / "openclaw.json"
     gateway_keys = [k for k in overlay if k not in _AKOS_ONLY_KEYS]
     stripped_keys = [k for k in overlay if k in _AKOS_ONLY_KEYS]

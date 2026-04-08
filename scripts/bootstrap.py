@@ -7,7 +7,7 @@ using only Python stdlib + subprocess.
 Usage:
     python scripts/bootstrap.py
     python scripts/bootstrap.py --skip-ollama --skip-mcp
-    python scripts/bootstrap.py --primary-model qwen3:8b --embed-model nomic-embed-text
+    python scripts/bootstrap.py --primary-model deepseek-r1:14b --embed-model nomic-embed-text
 
 Requires: Python 3.10+, Node.js >= 22, Ollama running.
 """
@@ -29,6 +29,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from akos.io import (
     AGENT_WORKSPACES,
     REPO_ROOT,
+    RUNTIME_ENV_PLACEHOLDERS,
     deep_merge,
     deploy_openclaw_plugins,
     deploy_scaffold_files,
@@ -44,6 +45,7 @@ from akos.io import (
 from akos.log import setup_logging
 from akos.models import load_tiers
 from akos.policy import CapabilityMatrix
+from akos.runtime import resolve_openclaw_cli
 from akos.tools import GATEWAY_CORE_TOOLS
 
 logger = logging.getLogger("akos.bootstrap")
@@ -184,10 +186,11 @@ def phase_preflight(args: argparse.Namespace) -> bool:
         return False
     status("PASS", f"Node.js {'.'.join(map(str, node_ver))}")
 
-    if not cmd_exists("openclaw"):
+    oc_cli = resolve_openclaw_cli()
+    if not oc_cli:
         status("WARN", "OpenCLAW CLI not in PATH. Install: curl -fsSL https://molt.bot/install.sh | bash")
     else:
-        status("PASS", "OpenCLAW CLI found")
+        status("PASS", f"OpenCLAW CLI found ({oc_cli})")
 
     if os_name == "Windows" and not args.skip_wsl:
         result = proc.run(["wsl", "--status"], timeout=15)
@@ -241,42 +244,34 @@ def _collect_unresolved_provider_inputs(config: dict) -> list[str]:
 
 
 def _seed_env_file_if_missing(oc_home: Path) -> None:
-    """Copy dev-local.env.example to oc_home/.env when no .env exists.
+    """Materialize ``~/.openclaw/.env`` with safe placeholder defaults.
 
-    The OpenClaw gateway hard-fails on unresolved ${VAR} references at
-    startup.  When bootstrap preserves the full provider inventory (which
-    may contain ${OLLAMA_GPU_URL}, ${VLLM_RUNPOD_URL}, etc.) and the
-    operator has not yet run switch-model.py, there is no .env to supply
-    those values.  Seeding the dev-local example as a safe default
-    prevents the gateway crash on first start after bootstrap.
+    Runtime flows must not read ``*.env.example`` files. Bootstrap therefore
+    creates a real env file from the shared placeholder contract when no live
+    runtime env exists yet.
     """
     env_dest = oc_home / ".env"
     if env_dest.exists():
         return
-    default_env = REPO_ROOT / "config" / "environments" / "dev-local.env.example"
-    if not default_env.exists():
-        logger.warning("No dev-local.env.example found; skipping .env seed")
-        return
-    shutil.copy2(default_env, env_dest)
+    lines = [f"{key}={value}" for key, value in RUNTIME_ENV_PLACEHOLDERS.items()]
+    env_dest.write_text("\n".join(lines) + "\n", encoding="utf-8")
     status(
         "PASS",
-        f"Seeded {env_dest} from dev-local.env.example "
-        "(run switch-model.py to select a different environment)",
+        f"Seeded {env_dest} with runtime placeholder defaults "
+        "(run switch-model.py to select a real environment profile)",
     )
 
 
 def _backfill_env_placeholders(oc_home: Path) -> None:
-    """Ensure existing ~/.openclaw/.env contains all placeholder vars from dev-local template."""
+    """Ensure existing ``~/.openclaw/.env`` contains all required placeholders."""
     env_dest = oc_home / ".env"
-    default_env = REPO_ROOT / "config" / "environments" / "dev-local.env.example"
-    if not env_dest.exists() or not default_env.exists():
+    if not env_dest.exists():
         return
 
     current = load_env_file(env_dest)
-    defaults = load_env_file(default_env)
     added = 0
     lines = env_dest.read_text(encoding="utf-8").splitlines()
-    for key, value in defaults.items():
+    for key, value in RUNTIME_ENV_PLACEHOLDERS.items():
         if key not in current or current[key] == "":
             lines.append(f"{key}={value}")
             added += 1
@@ -493,9 +488,9 @@ def phase_summary() -> None:
         print("  Re-run this script after fixing.")
     else:
         print("\n  Bootstrap complete! Next steps:")
-        print("    1. Start/restart the gateway:  openclaw gateway restart")
+        print("    1. Repair/start the gateway:    py scripts/doctor.py --repair-gateway")
         print("    2. Open the dashboard:          openclaw dashboard")
-        print("    3. Switch environments:          python scripts/switch-model.py <env-name>")
+        print("    3. Switch environments:         python scripts/switch-model.py <env-name>")
     print()
 
 
@@ -504,7 +499,7 @@ def main() -> None:
     parser.add_argument("--skip-wsl", action="store_true", help="Skip WSL2 checks (Windows)")
     parser.add_argument("--skip-ollama", action="store_true", help="Skip Ollama model setup")
     parser.add_argument("--skip-mcp", action="store_true", help="Skip MCP server setup")
-    parser.add_argument("--primary-model", default="qwen3:8b", help="Primary LLM model (default: qwen3:8b)")
+    parser.add_argument("--primary-model", default="deepseek-r1:14b", help="Primary LLM model (default: deepseek-r1:14b)")
     parser.add_argument("--embed-model", default="nomic-embed-text", help="Embedding model (default: nomic-embed-text)")
     parser.add_argument("--json-log", action="store_true", help="Emit structured JSON logs (for CI/aggregation)")
     args = parser.parse_args()

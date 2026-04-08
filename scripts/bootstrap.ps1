@@ -23,7 +23,7 @@ param(
     [switch]$SkipWSL,
     [switch]$SkipOllama,
     [switch]$SkipMCP,
-    [string]$PrimaryModel = "qwen3:8b",
+    [string]$PrimaryModel = "deepseek-r1:14b",
     [string]$EmbedModel   = "nomic-embed-text"
 )
 

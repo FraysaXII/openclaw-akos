@@ -15,7 +15,6 @@ from __future__ import annotations
 import json
 import logging
 import os
-import shutil
 import socket
 import sys
 import urllib.error
@@ -36,7 +35,14 @@ from akos.io import (
 )
 from akos.log import setup_logging
 from akos.policy import CapabilityMatrix
-from akos.runtime import RuntimeState, parse_gateway_status_output
+from akos.runtime import (
+    RuntimeState,
+    get_gateway_status_snapshot,
+    probe_gateway_http,
+    probe_gateway_rpc,
+    recover_gateway_service,
+    resolve_openclaw_cli,
+)
 from akos.tools import classify_gateway_tool_id
 
 logger = logging.getLogger("akos.doctor")
@@ -79,31 +85,47 @@ def check_gateway_runtime_contract() -> list[tuple[str, str]]:
     """Normalize runtime semantics from openclaw gateway status output."""
     checks: list[tuple[str, str]] = []
     samples: list[RuntimeState] = []
-    cli = _resolve_openclaw_cli()
+    cli = resolve_openclaw_cli()
     if not cli:
         checks.append(("WARN", "gateway status probe unavailable: openclaw CLI not found in PATH"))
         return checks
 
     for _ in range(3):
-        result = proc.run([cli, "gateway", "status"], timeout=20)
-        if not result.success:
-            detail = result.stderr.strip() or f"exit {result.returncode}"
-            checks.append(("WARN", f"gateway status probe unavailable: {detail}"))
-            return checks
+        http_ok = probe_gateway_http()
+        rpc_ok = probe_gateway_rpc(cli)
+        snapshot = get_gateway_status_snapshot(cli)
 
-        snapshot = parse_gateway_status_output(result.stdout)
-        samples.append(snapshot.normalized_runtime)
-
-        if snapshot.normalized_runtime == "healthy":
+        if http_ok and rpc_ok:
+            samples.append("healthy")
             checks.append((
                 "PASS",
-                "Gateway runtime normalized to healthy "
-                f"(raw={snapshot.raw_runtime}, rpc_probe={snapshot.rpc_probe}, listening={snapshot.listening})",
+                "Gateway runtime healthy via direct HTTP + RPC probes"
+                + (
+                    f" (raw={snapshot.raw_runtime}, rpc_probe={snapshot.rpc_probe}, listening={snapshot.listening})"
+                    if snapshot is not None
+                    else " (status probe unavailable)"
+                ),
             ))
-        elif snapshot.normalized_runtime == "unknown":
+            continue
+
+        if snapshot is None:
+            checks.append((
+                "WARN",
+                "Gateway status probe unavailable and direct HTTP/RPC probes are not healthy",
+            ))
+            return checks
+
+        samples.append(snapshot.normalized_runtime)
+        if snapshot.normalized_runtime == "unknown":
             checks.append((
                 "WARN",
                 "Gateway runtime remains unknown "
+                f"(raw={snapshot.raw_runtime}, rpc_probe={snapshot.rpc_probe}, listening={snapshot.listening})",
+            ))
+        elif snapshot.normalized_runtime == "healthy":
+            checks.append((
+                "PASS",
+                "Gateway runtime normalized to healthy "
                 f"(raw={snapshot.raw_runtime}, rpc_probe={snapshot.rpc_probe}, listening={snapshot.listening})",
             ))
         else:
@@ -122,13 +144,14 @@ def check_gateway_runtime_contract() -> list[tuple[str, str]]:
     return checks
 
 
-def _resolve_openclaw_cli() -> str | None:
-    """Resolve OpenClaw executable across OS-specific wrappers."""
-    for candidate in ("openclaw", "openclaw.cmd", "openclaw.exe"):
-        found = shutil.which(candidate)
-        if found:
-            return found
-    return None
+def check_gateway_rpc_health() -> tuple[str, str]:
+    """Check the gateway RPC plane directly via ``gateway call health``."""
+    cli = resolve_openclaw_cli()
+    if not cli:
+        return "WARN", "gateway RPC health probe unavailable: openclaw CLI not found in PATH"
+    if probe_gateway_rpc(cli):
+        return "PASS", "Gateway RPC health reachable via `openclaw gateway call health`"
+    return "WARN", "Gateway RPC health probe failed"
 
 
 def _iter_sensitive_paths(obj: object, prefix: str = "") -> list[tuple[str, object]]:
@@ -530,6 +553,7 @@ def run_doctor() -> list[tuple[str, str]]:
     results: list[tuple[str, str]] = []
 
     results.append(check_gateway())
+    results.append(check_gateway_rpc_health())
     results.extend(check_gateway_runtime_contract())
     results.extend(check_sensitive_key_signals(oc_home))
     results.extend(check_workspaces(oc_home))
@@ -550,11 +574,30 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description="AKOS environment health checker")
     parser.add_argument("--json-log", action="store_true", help="JSON logging output")
+    parser.add_argument(
+        "--repair-gateway",
+        action="store_true",
+        help="Attempt upstream OpenClaw gateway repair/start before running checks",
+    )
+    parser.add_argument(
+        "--force-gateway-repair",
+        action="store_true",
+        help="Pass aggressive repair mode to upstream OpenClaw doctor when repairing the gateway",
+    )
     args = parser.parse_args()
 
     setup_logging(json_output=args.json_log)
 
+    preflight: list[tuple[str, str]] = []
+    if args.repair_gateway:
+        recovery = recover_gateway_service(repair=True, force=args.force_gateway_repair)
+        if recovery.success:
+            preflight.append(("PASS", recovery.detail))
+        else:
+            preflight.append(("FAIL", recovery.detail))
+
     results = run_doctor()
+    results = preflight + results
 
     pass_count = sum(1 for level, _ in results if level == "PASS")
     fail_count = sum(1 for level, _ in results if level == "FAIL")

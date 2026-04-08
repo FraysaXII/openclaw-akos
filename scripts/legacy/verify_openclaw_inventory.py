@@ -16,13 +16,14 @@ EXPECTED = {
         "openai": {"model_ids": set()},
         "anthropic": {"model_ids": set()},
         "vllm-runpod": {"model_ids": {"deepseek-r1-70b"}},
+        "vllm-shadow": {"model_ids": {"deepseek-r1-70b"}},
     },
     # exact agent IDs expected
     "agents": {"orchestrator", "architect", "executor", "verifier", "madeira"},
     # exact A2A allowlist expected
     "a2a_allow": {"orchestrator", "architect", "executor", "verifier", "madeira"},
     # optional: expected default model string
-    "default_primary_model": "ollama/qwen3:8b",
+    "default_primary_model": "ollama/deepseek-r1:14b",
 }
 
 LEGACY_KEYS_SHOULD_NOT_EXIST = [
@@ -31,6 +32,8 @@ LEGACY_KEYS_SHOULD_NOT_EXIST = [
     ("session.agentToAgent.pingPongTurns", ["session", "agentToAgent", "pingPongTurns"]),
     ("session.typing", ["session", "typing"]),
 ]
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 def get_in(d: dict[str, Any], path: list[str]) -> tuple[bool, Any]:
@@ -46,6 +49,44 @@ def passfail(name: str, ok: bool, detail: str = "") -> bool:
     tag = "PASS" if ok else "FAIL"
     print(f"[{tag}] {name}" + (f" :: {detail}" if detail else ""))
     return ok
+
+
+def expected_default_primary_model() -> str:
+    """Resolve the expected default model for the active AKOS environment.
+
+    Provider inventory is always strict/full, but the active default model is
+    environment-specific after a real `switch-model.py <env>` run.
+    """
+    default = str(EXPECTED["default_primary_model"])
+    state_path = Path.home() / ".openclaw" / ".akos-state.json"
+    if not state_path.exists():
+        return default
+
+    try:
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+    except Exception:
+        return default
+
+    env_name = state.get("activeEnvironment")
+    if not isinstance(env_name, str) or not env_name:
+        return default
+
+    overlay_path = REPO_ROOT / "config" / "environments" / f"{env_name}.json"
+    if not overlay_path.exists():
+        return default
+
+    try:
+        overlay = json.loads(overlay_path.read_text(encoding="utf-8"))
+    except Exception:
+        return default
+
+    model = (
+        overlay.get("agents", {})
+        .get("defaults", {})
+        .get("model", {})
+        .get("primary")
+    )
+    return model if isinstance(model, str) and model else default
 
 
 def main() -> int:
@@ -148,10 +189,11 @@ def main() -> int:
 
     # 5) default primary model
     ok, primary = get_in(data, ["agents", "defaults", "model", "primary"])
+    expected_primary = expected_default_primary_model()
     all_ok &= passfail(
         "agents.defaults.model.primary expected value",
-        ok and primary == EXPECTED["default_primary_model"],
-        f"expected={EXPECTED['default_primary_model']} actual={primary if ok else '<missing>'}",
+        ok and primary == expected_primary,
+        f"expected={expected_primary} actual={primary if ok else '<missing>'}",
     )
 
     # 6) schema migration checks: legacy keys must be absent
