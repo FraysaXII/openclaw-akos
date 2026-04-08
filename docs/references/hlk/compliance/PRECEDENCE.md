@@ -27,7 +27,8 @@ These are the authoritative sources of business truth. All other representations
 | Compliance taxonomy | `docs/references/hlk/compliance/confidence_levels.md` | Markdown | Confidence level definitions |
 | Compliance taxonomy | `docs/references/hlk/compliance/source_taxonomy.md` | Markdown | Source categories and levels |
 | Meta-SOP | `docs/references/hlk/compliance/SOP-META_PROCESS_MGMT_001.md` | Markdown | Governing procedure for all process definitions |
-| SOPs | `docs/references/hlk/Research & Logic/.../` role-owned folders | Markdown | Individual operational procedures |
+| Knowledge management contract | `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md` | Markdown | Topic, Fact, Source model; output types 0–4; Output 1 manifest rules; Obsidian tag governance |
+| SOPs and role-owned canonical docs | `docs/references/hlk/v3.0/.../` role-owned folders | Markdown | Individual operational procedures and case-owned canonical business documents |
 | This contract | `docs/references/hlk/compliance/PRECEDENCE.md` | Markdown | This document |
 
 ### Mirrored assets (derived, do not hand-edit without syncing back)
@@ -57,6 +58,12 @@ These are the authoritative sources of business truth. All other representations
 - Navigation: see `v3.0/index.md` for the full structure and usage guide.
 - Platforms: Obsidian, Drive, SharePoint, Git, KiRBe, MADEIRA.
 
+### Repository copy vs Google Drive layout
+
+**Google Drive (operator mirror):** A parent folder such as **Research & Logic** may contain **sibling** folders for **v3.0** (active vault), **Holistik_v1.3**, and **Holistika Research v2.7**. Authoring and sync for **current** business logic target **v3.0** and **compliance** only; v1.3 and v2.7 remain historical. The **v3** designation marks a **business-logic phase** and is treated as **definitive** for active operations (it is not renamed on every edit).
+
+**This git repository:** The path `docs/references/hlk/Research & Logic/` is a **reference-only** subtree for packaging and traceability (historical snapshots; do not treat as the active vault root). Canonical active paths in-repo are `docs/references/hlk/v3.0/` and `docs/references/hlk/compliance/`. Obsidian or Drive roots should map to those active paths when editing canonical knowledge.
+
 ### v2.7 (historical reference)
 
 - Location: `docs/references/hlk/Research & Logic/Holistika Research v2.7/`
@@ -68,7 +75,12 @@ These are the authoritative sources of business truth. All other representations
 
 - Location: `docs/references/hlk/compliance/`
 - Status: **Shared governance root**. Governs both v2.7 and v3.0.
-- Contents: PRECEDENCE.md, baseline_organisation.csv, process_list.csv, access_levels.md, confidence_levels.md, source_taxonomy.md, SOP-META_PROCESS_MGMT_001.md.
+- Contents: PRECEDENCE.md, baseline_organisation.csv, process_list.csv, access_levels.md, confidence_levels.md, source_taxonomy.md, SOP-META_PROCESS_MGMT_001.md, HLK_KM_TOPIC_FACT_SOURCE.md.
+
+### Role-owned document rule
+
+- New active SOPs and case-owned canonical business documents live under `docs/references/hlk/v3.0/` in the owner role's folder.
+- Legacy SOPs that remain under `Research & Logic/` are historical reference unless explicitly re-promoted into `v3.0/`.
 
 ### previous-project-for-product-owner-example-only/ (reference)
 

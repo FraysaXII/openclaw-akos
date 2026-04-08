@@ -41,7 +41,7 @@ This document outlines the standard procedure for identifying, defining, documen
 * To create a single source of truth for how Holistika defines and manages its internal processes.  
 * To ensure all new processes are modeled and documented in a consistent manner.  
 * To define the lifecycle of a process, from initial identification to ongoing maintenance or archival.  
-* To provide a clear workflow for updating the central process graph database (`process_list_1` or its successors) with new or modified process information.
+* To provide a clear workflow for updating the central process graph database (`process_list.csv` and derived graph projections) with new or modified process information.
 
 3.0 Scope
 
@@ -65,7 +65,7 @@ The lifecycle of a process follows these key stages:
   * **Workstream:** A major stream of work within a project.  
   * **Process:** A sequence of related tasks to achieve a specific outcome.  
   * **Task:** The most granular unit of work.  
-* **Action:** Each item is modeled as a new row for the master process list (`process_list_1.csv`). Key attributes such as `item_id`, `item_name`, `item_granularity`, `item_parent_1`, `role_owner`, `entity`, and `area` must be defined.  
+* **Action:** Each item is modeled as a new row for the master process list (`process_list.csv`). Key attributes such as `item_id`, `item_name`, `item_granularity`, `item_parent_1`, `role_owner`, `entity`, and `area` must be defined.  
 * **Output:** A set of new, validated rows ready for addition to the master process list CSV.
 
 4.3. SOP Documentation
@@ -78,7 +78,7 @@ The lifecycle of a process follows these key stages:
 
 * **Trigger:** The new process rows have been added to the master CSV and the SOP is complete.  
 * **Action:** A Data Engineer or DevOps Engineer executes the necessary procedures to update the Neo4j database. This involves:  
-  1. Adding the new rows to the master `process_list_1.csv` file.  
+  1. Adding the new rows to the master `process_list.csv` file.  
   2. Executing an idempotent Cypher script (using `UNWIND` and `MERGE`) to create the new nodes and relationships in the graph database without affecting existing data.  
 * **Output:** The Neo4j graph is updated to reflect the new process structure.
 
@@ -97,7 +97,7 @@ The lifecycle of a process follows these key stages:
 
 6.0 Addendum
 
-A.1: Process Definition Template (for `process_list_1.csv`)
+A.1: Process Definition Template (for `process_list.csv`)
 
 | item\_id | item\_name | item\_granularity | item\_parent\_1 | role\_owner | entity | area | ... |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
