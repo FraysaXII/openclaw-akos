@@ -116,9 +116,14 @@ class AgentBlock(BaseModel):
     model_config = {"populate_by_name": True}
 
 
+class ControlUiConfig(BaseModel):
+    title: str = "HLK Intelligence Platform"
+
+
 class GatewayConfig(BaseModel):
     host: str = "127.0.0.1"
     port: int = 18789
+    controlUi: ControlUiConfig = Field(default_factory=ControlUiConfig)
 
 
 # ── Gateway runtime wiring (v0.5.0) ───────────────────────────────────
@@ -203,7 +208,7 @@ class RunPodEndpointConfig(BaseModel):
 
     gpuIds: list[str] = Field(default_factory=lambda: ["AMPERE_80"])
     templateName: str = "akos-vllm"
-    vllmImage: str = "runpod/worker-v1-vllm:stable-cuda12.8.0"
+    vllmImage: str = "runpod/worker-v1-vllm:v2.14.0"
     modelName: str = "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
     maxModelLen: int = Field(default=131072, gt=0)
     activeWorkers: int = Field(default=0, ge=0)
@@ -242,6 +247,30 @@ class RunPodEndpointConfig(BaseModel):
                 )
         return self
 
+    @model_validator(mode="after")
+    def _normalize_runpod_worker_compat(self) -> RunPodEndpointConfig:
+        quant = self.envVars.get("QUANTIZATION", "").lower()
+        dtype = self.envVars.get("DTYPE", "").lower()
+        if quant == "awq" and dtype != "float16":
+            warnings.warn(
+                "RunPod AWQ deployments require DTYPE=float16; forcing DTYPE=float16",
+                stacklevel=2,
+            )
+            self.envVars["DTYPE"] = "float16"
+
+        image = self.vllmImage.lower()
+        kv_dtype = self.envVars.get("KV_CACHE_DTYPE", "").lower()
+        if image.startswith("runpod/worker-v1-vllm") and kv_dtype == "fp8":
+            warnings.warn(
+                "runpod/worker-v1-vllm with KV_CACHE_DTYPE=fp8 may fail startup "
+                "(FlashInfer JIT requires nvcc). Forcing KV_CACHE_DTYPE=auto and "
+                "VLLM_ATTENTION_BACKEND=TRITON_ATTN",
+                stacklevel=2,
+            )
+            self.envVars["KV_CACHE_DTYPE"] = "auto"
+            self.envVars.setdefault("VLLM_ATTENTION_BACKEND", "TRITON_ATTN")
+        return self
+
 
 class PodConfig(BaseModel):
     """Schema for the ``pod`` block in gpu-runpod-pod.json (dedicated pods)."""
@@ -254,7 +283,7 @@ class PodConfig(BaseModel):
     maxModelLen: int = Field(default=131072, gt=0)
     gpuType: str = Field(default="NVIDIA A100-SXM4-80GB", description="RunPod GPU type ID for pod creation")
     gpuCount: int = Field(default=2, ge=1, description="Number of GPUs; also sets tensor-parallel-size")
-    containerImage: str = Field(default="vllm/vllm-openai:latest")
+    containerImage: str = Field(default="vllm/vllm-openai:v0.16.0")
     containerDiskGb: int = Field(default=100, ge=20)
     volumeGb: int = Field(default=200, ge=50)
 
@@ -262,6 +291,18 @@ class PodConfig(BaseModel):
     def _sync_tensor_parallel_with_gpu_count(self) -> PodConfig:
         """TENSOR_PARALLEL_SIZE must equal gpuCount to avoid the world-size error."""
         self.envVars["TENSOR_PARALLEL_SIZE"] = str(self.gpuCount)
+        return self
+
+    @model_validator(mode="after")
+    def _normalize_awq_dtype(self) -> PodConfig:
+        quant = self.envVars.get("QUANTIZATION", "").lower()
+        dtype = self.envVars.get("DTYPE", "").lower()
+        if quant == "awq" and dtype != "float16":
+            warnings.warn(
+                "AWQ quantization requires DTYPE=float16; forcing DTYPE=float16",
+                stacklevel=2,
+            )
+            self.envVars["DTYPE"] = "float16"
         return self
 
     def build_vllm_command(self) -> list[str]:
@@ -282,6 +323,10 @@ class PodConfig(BaseModel):
             "--kv-cache-dtype", env.get("KV_CACHE_DTYPE", "fp8"),
             "--tensor-parallel-size", str(self.gpuCount),
         ]
+        if env.get("QUANTIZATION"):
+            args.extend(["--quantization", env["QUANTIZATION"]])
+        if env.get("ENFORCE_EAGER", "").lower() == "true":
+            args.append("--enforce-eager")
         if env.get("ENABLE_PREFIX_CACHING", "").lower() == "true":
             args.append("--enable-prefix-caching")
         if env.get("ENABLE_CHUNKED_PREFILL", "").lower() == "true":
@@ -294,14 +339,37 @@ class PodConfig(BaseModel):
             args.extend(["--reasoning-parser", env["REASONING_PARSER"]])
         if env.get("CHAT_TEMPLATE"):
             args.extend(["--chat-template", env["CHAT_TEMPLATE"]])
+        if env.get("MAX_NUM_BATCHED_TOKENS"):
+            args.extend(["--max-num-batched-tokens", env["MAX_NUM_BATCHED_TOKENS"]])
         args.extend(["--max-num-seqs", env.get("MAX_NUM_SEQS", "128")])
         return args
+
+
+class OpenStackInstanceConfig(BaseModel):
+    """Schema for the ``openstack`` block in gpu-shadow.json."""
+
+    region: str = Field(default="FRDUN02", description="ShadowPC OpenStack region")
+    authUrl: str = Field(default="", description="Keystone v3 auth URL")
+    flavor: str = Field(default="", description="Nova flavor for guaranteed instances")
+    spotFlavor: str = Field(default="", description="Nova flavor for spot/preemptible instances")
+    image: str = Field(default="Ubuntu 22.04 LTS", description="Glance image name or ID")
+    network: str = Field(default="default", description="Neutron network name or ID")
+    securityGroup: str = Field(default="akos-vllm", description="Security group name")
+    vllmPort: int = Field(default=8080, gt=0)
+    gpuType: str = Field(default="RTX A4500", description="GPU type for display/catalog")
+    gpuCount: int = Field(default=4, ge=1, description="Number of GPUs in the flavor")
+    gpuVramGb: int = Field(default=20, gt=0, description="VRAM per GPU in GB")
+    volumeGb: int = Field(default=200, ge=50)
+    envVars: dict[str, str] = Field(default_factory=dict)
+    modelName: str = "casperhansen/deepseek-r1-distill-llama-70b-awq"
+    maxModelLen: int = Field(default=32768, gt=0)
 
 
 class EnvironmentOverlay(BaseModel):
     agents: OverlayAgents
     runpod: RunPodEndpointConfig | None = None
     pod: PodConfig | None = None
+    openstack: OpenStackInstanceConfig | None = None
 
 
 # ── Eval: Alerts (config/eval/alerts.json) ─────────────────────────────
@@ -529,3 +597,4 @@ def _eval_single(expr: str, entry: dict) -> bool:
         field, value = expr.split(" == ", 1)
         return str(entry.get(field.strip(), "")) == value.strip("'\"")
     return False
+

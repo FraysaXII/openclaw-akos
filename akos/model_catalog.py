@@ -35,6 +35,10 @@ class CatalogEntry(BaseModel):
     reasoning: bool = False
     defaultGpu: GpuDefault
     maxModelLen: int = Field(default=131072, gt=0)
+    quantization: str | None = Field(
+        default=None,
+        description="Weight quantization method for vLLM (awq, gptq, fp8, bitsandbytes)",
+    )
     envOverrides: dict[str, str] = Field(default_factory=dict)
 
     def min_gpus_for(self, gpu_vram: int) -> int:

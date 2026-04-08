@@ -139,7 +139,7 @@ class PodManager:
         name: str,
         gpu_type_id: str,
         gpu_count: int = 2,
-        image: str = "vllm/vllm-openai:latest",
+        image: str = "vllm/vllm-openai:v0.16.0",
         volume_gb: int = 200,
         container_disk_gb: int = 100,
         ports: list[str] | None = None,
@@ -493,3 +493,4 @@ class RunPodProvider:
         }
         base.update(self._config.envVars)
         return base
+

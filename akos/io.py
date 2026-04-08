@@ -35,6 +35,19 @@ AGENT_WORKSPACES: dict[str, str] = {
     "MADEIRA": "workspace-madeira",
 }
 
+RUNTIME_ENV_PLACEHOLDERS: dict[str, str] = {
+    "OLLAMA_API_KEY": "ollama-local",
+    "OLLAMA_GPU_URL": "http://127.0.0.1:11434",
+    "OPENAI_API_KEY": "not-configured",
+    "ANTHROPIC_API_KEY": "not-configured",
+    "VLLM_RUNPOD_URL": "http://localhost:8000/v1",
+    "RUNPOD_API_KEY": "not-configured",
+    "VLLM_SHADOW_URL": "http://localhost:8080/v1",
+    "LANGFUSE_PUBLIC_KEY": "your-public-key-here",
+    "LANGFUSE_SECRET_KEY": "your-secret-key-here",
+    "LANGFUSE_HOST": "https://cloud.langfuse.com",
+}
+
 
 def load_json(path: Path) -> dict | list:
     """Load and parse a JSON file."""

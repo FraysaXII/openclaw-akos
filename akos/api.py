@@ -38,9 +38,9 @@ from akos.telemetry import LangfuseReporter
 logger = logging.getLogger("akos.api")
 
 app = FastAPI(
-    title="AKOS Control Plane",
+    title="HLK Operations Platform",
     version="0.4.1",
-    description="REST API for the Agentic Knowledge Operating System",
+    description="REST API for the Holistika Intelligence Platform (AKOS)",
     openapi_tags=[
         {"name": "Health", "description": "System health and readiness"},
         {"name": "Agents", "description": "Agent listing, policy, and capability audit"},
