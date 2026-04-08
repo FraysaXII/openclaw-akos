@@ -76,6 +76,9 @@ needs a corresponding update. These contracts are ordered by trigger.
 | `docs/references/hlk/v3.0/index.md` | `docs/USER_GUIDE.md` | Vault structure reference in the HLK Operator Model section |
 | `scripts/hlk_mcp_server.py` | `docs/USER_GUIDE.md` | HLK Registry MCP (Section 9.9) |
 | `scripts/validate_hlk.py` | `docs/DEVELOPER_CHECKLIST.md` | Pre-commit checks table |
+| `scripts/validate_hlk_km_manifests.py` | `docs/DEVELOPER_CHECKLIST.md`, `docs/USER_GUIDE.md` | Pre-commit when `v3.0/_assets/**/*.manifest.md` change; HLK Operator Model KM / UAT |
+| `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md` | `docs/ARCHITECTURE.md`, `docs/USER_GUIDE.md` | HLK KM Topic–Fact–Source, Output 1 |
+| `docs/references/hlk/v3.0/_assets/**/*.manifest.md` | `docs/uat/hlk_admin_smoke.md` | Scenario 8 spot-checks (if manifest contract changes) |
 | `akos/hlk.py` | `docs/ARCHITECTURE.md` | Orchestration Library table |
 
 ## Always update

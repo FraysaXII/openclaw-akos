@@ -30,7 +30,7 @@ Use these rules whenever planning or executing work in this repo (all agent mode
     - `scripts/bootstrap.py`, `scripts/doctor.py`, `scripts/check-drift.py`,
       `scripts/release-gate.py`, `scripts/browser-smoke.py`,
       `scripts/gpu.py`, `scripts/legacy/verify_openclaw_inventory.py`,
-      `scripts/validate_hlk.py`, `scripts/hlk_mcp_server.py`, `scripts/finance_mcp_server.py`.
+      `scripts/validate_hlk.py`, `scripts/validate_hlk_km_manifests.py`, `scripts/hlk_mcp_server.py`, `scripts/finance_mcp_server.py`.
     - `config/openclaw.json.example` and the responsibility matrix in `docs/ARCHITECTURE.md`.
   - Do **not**:
     - Add parallel inventory, runtime-status, or logging frameworks.
@@ -39,7 +39,7 @@ Use these rules whenever planning or executing work in this repo (all agent mode
 
 - **HLK compliance governance**
   - **Asset classification**: When a plan or change touches `docs/references/hlk/compliance/` or `docs/references/hlk/v3.0/`, classify affected assets per `docs/references/hlk/compliance/PRECEDENCE.md`:
-    - **Canonical** (edit here first): `baseline_organisation.csv`, `process_list.csv`, `access_levels.md`, `confidence_levels.md`, `source_taxonomy.md`, `PRECEDENCE.md`, `SOP-META_PROCESS_MGMT_001.md`.
+    - **Canonical** (edit here first): `baseline_organisation.csv`, `process_list.csv`, `access_levels.md`, `confidence_levels.md`, `source_taxonomy.md`, `PRECEDENCE.md`, `SOP-META_PROCESS_MGMT_001.md`, `HLK_KM_TOPIC_FACT_SOURCE.md`.
     - **Mirrored / derived**: live runtime configs, KiRBe/Supabase tables, Drive hierarchy.
     - **Reference-only**: `docs/references/hlk/Research & Logic/`, `docs/references/hlk/previous-project-for-product-owner-example-only/`.
   - **Canonical CSV gates**: Changes to `baseline_organisation.csv` or `process_list.csv` require:
@@ -71,6 +71,7 @@ Use these rules whenever planning or executing work in this repo (all agent mode
       - `py -m pytest tests/test_api.py -v`
       - `py scripts/release-gate.py`
       - `py scripts/validate_hlk.py` (when HLK compliance assets are in scope)
+      - `py scripts/validate_hlk_km_manifests.py` (when `docs/references/hlk/v3.0/_assets/**/*.manifest.md` change)
   - Planner agents should:
     - Reuse the phase structure and acceptance criteria from the governed runtime/inventory remediation plan.
     - Explicitly call out which existing scripts/tests/docs they will touch and how they preserve the above contracts.

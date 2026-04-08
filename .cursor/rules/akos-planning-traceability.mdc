@@ -30,7 +30,7 @@ Use this rule when creating or updating roadmap, phase-plan, or execution-report
 
 - Use lowercase kebab-case initiative slugs.
 - Prefer one folder per initiative.
-- Avoid dumping unrelated plan files directly in `docs/wip/`.
+- Avoid dumping unrelated plan files directly in `docs/wip/` root; follow `docs/wip/README.md` (`planning/<slug>/`, `planning/_proposals/` for ad-hoc `.plan.md`, `hlk-km/` for PMO-linked syntheses).
 
 ## Governance Content Requirements
 
@@ -38,7 +38,7 @@ When a plan in `docs/wip/planning/` touches HLK compliance assets or runtime con
 
 - **Asset classification section**: canonical / mirrored / reference-only per `docs/references/hlk/compliance/PRECEDENCE.md`.
 - **Decision log**: explicit record of choices made and deferred (ID, question, options, decision).
-- **Governed verification matrix reference**: the full repo-standard gate set from `docs/DEVELOPER_CHECKLIST.md`, including `validate_hlk.py` when compliance assets are in scope.
+- **Governed verification matrix reference**: the full repo-standard gate set from `docs/DEVELOPER_CHECKLIST.md`, including `validate_hlk.py` when compliance assets are in scope, and `validate_hlk_km_manifests.py` when plans touch governed Output 1 manifests under `v3.0/_assets/`.
 - **Link to PRECEDENCE.md** if compliance assets are in scope.
 - **Evidence matrix** if the plan is driven by audit findings or observed drift.
 

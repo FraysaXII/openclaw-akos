@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Cursor rules (AKOS)** — `.cursor/rules/akos-docs-config-sync.mdc`, `akos-governance-remediation.mdc`, and `akos-planning-traceability.mdc` updated for HLK KM (`HLK_KM_TOPIC_FACT_SOURCE.md`, `validate_hlk_km_manifests.py`, `v3.0/_assets` manifests) and governed `docs/wip` layout (`README.md`, `_proposals/`, `hlk-km/`).
 - **Bootstrap OpenCLaw detection** — `scripts/bootstrap.py` preflight uses `akos.runtime.resolve_openclaw_cli()` so `openclaw.cmd` / `openclaw.exe` npm shims match `scripts/doctor.py` on Windows.
 - **Profile switch diagnostics** — `scripts/switch-model.py` logs the resolved OpenCLaw executable and surfaces repair hints when gateway recovery is incomplete.
 
