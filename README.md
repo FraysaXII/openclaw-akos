@@ -15,7 +15,7 @@ Out-of-the-box, OpenCLAW operates as an isolated conversational agent. This proj
 
 | Layer | Role | Implementation |
 |:------|:-----|:---------------|
-| **Control Plane** | Gateway daemon, FastAPI API, RunPod manager (serverless + dedicated pod), auto-failover router | `openclaw.json` + `akos/api.py` on port 8420 |
+| **Control Plane** | Gateway daemon, FastAPI API, GPU provider manager (RunPod + ShadowPC OpenStack), auto-failover router | `openclaw.json` + `akos/api.py` on port 8420 |
 | **Integration Layer** | Channel adapters, 11 MCP servers + gateway-enforced tool profiles | WebChat + optional Telegram, Slack, WhatsApp via `bindings` |
 | **Execution Layer** | 5-agent runner (Madeira, Orchestrator, Architect, Executor, Verifier) | Answer, decompose, plan, build, validate |
 | **Intelligence Layer** | Flat memory architecture, context compression | MCP Memory server, workspace files, Intelligence Matrix fact tagging |
@@ -100,7 +100,7 @@ The interactive CLI guides you through choosing **local**, **RunPod serverless e
 After bootstrap, switch between model tiers and deployment targets with a single command:
 
 ```bash
-python scripts/switch-model.py dev-local      # Local Ollama (small model)
+python scripts/switch-model.py dev-local      # Local Ollama (medium model)
 python scripts/switch-model.py gpu-runpod      # Remote GPU (large model)
 python scripts/switch-model.py prod-cloud      # Cloud APIs (SOTA model)
 python scripts/switch-model.py dev-local --dry-run  # Preview without applying
@@ -108,7 +108,22 @@ python scripts/switch-model.py dev-local --dry-run  # Preview without applying
 
 This atomically updates the config, deploys the correct SOUL.md prompt variant, and restarts the gateway. For `gpu-runpod`, run `py scripts/gpu.py` first to provision the GPU infrastructure.
 
-AKOS enforces a full-only provider inventory contract: bootstrap retains all providers from `config/openclaw.json.example` and reports unresolved env-backed inputs as warnings instead of deleting provider blocks. On first run, bootstrap auto-seeds `~/.openclaw/.env` from `config/environments/dev-local.env.example` so the gateway can start without manual env-var setup.
+AKOS enforces a full-only provider inventory contract: bootstrap retains all providers from `config/openclaw.json.example` and reports unresolved env-backed inputs as warnings instead of deleting provider blocks. On first run, bootstrap auto-seeds `~/.openclaw/.env` with deterministic runtime placeholder values, and `switch-model.py` then copies the selected real profile env file from `config/environments/*.env`.
+
+If the Windows gateway is flaky after reboot (timeouts, `port already in use` on 18789, or connection refused while a listener still shows in `netstat`), run:
+
+```bash
+py scripts/doctor.py --repair-gateway
+```
+
+That path runs upstream OpenClaw doctor repair, stops the gateway, clears orphan listeners on port 18789 on Windows, and starts the supervised gateway again—matching the recovery sequence used after `switch-model.py`.
+
+Preferred operator flow:
+
+1. `py scripts/doctor.py --repair-gateway`
+2. `py scripts/switch-model.py <profile>`
+3. `py scripts/gpu.py` only when a GPU provider is involved
+4. Verify with `py scripts/doctor.py` and any provider-specific health checks
 
 ### Control Plane API
 
@@ -173,6 +188,7 @@ openclaw-akos/
     telemetry.py                    LangfuseReporter + DX metrics tracking
     alerts.py                       AlertEvaluator for real-time + periodic checks
     runpod_provider.py              RunPod SDK wrapper + PodManager REST API (pod/serverless)
+    openstack_provider.py           ShadowPC OpenStack SDK wrapper (instance lifecycle, spot, security groups)
     api.py                          FastAPI control plane (REST + WebSocket)
     tools.py                        Dynamic tool registry (mcporter + permissions)
     checkpoints.py                  Workspace snapshot/restore for reversible execution
@@ -185,11 +201,18 @@ openclaw-akos/
     logging.json                    Structured JSON logging config (T-3.5)
     intelligence-matrix-schema.json Holistika DI fact schema (T-4.3)
     environments/
-      dev-local.env.example         Local Ollama env vars
+      dev-local.env                 Local Ollama env profile (operative)
+      dev-local.env.example         Reference template
       dev-local.json                Config overlay for local dev
-      gpu-runpod.env.example        RunPod/ShadowGPU env vars
+      gpu-runpod.env                RunPod serverless env profile (operative)
+      gpu-runpod.env.example        Reference template
       gpu-runpod.json               Config overlay for GPU deployment
-      prod-cloud.env.example        Cloud API keys (placeholder)
+      gpu-runpod-pod.env            RunPod dedicated pod env profile (operative)
+      gpu-runpod-pod.env.example    Reference template
+      gpu-shadow.env                Shadow OpenStack env profile (operative)
+      gpu-shadow.env.example        Reference template
+      prod-cloud.env                Cloud API env profile (operative)
+      prod-cloud.env.example        Reference template
       prod-cloud.json               Config overlay for cloud APIs
     splunk/
       inputs.conf                   Splunk Universal Forwarder template (T-3.6)
@@ -237,6 +260,7 @@ openclaw-akos/
     run-evals.py                   Agent reliability eval runner (5 canonical tasks)
     checkpoint.py                  Checkpoint CLI (create/list/restore snapshots)
     test.py                        Friendly test runner with groups
+    adhoc/                         Scratch operator scripts (RunPod/endpoints/etc.); not part of release gate
   tests/
     conftest.py                     Shared fixtures
     validate_configs.py             Config JSON validation via Pydantic
@@ -334,6 +358,8 @@ py scripts/test.py all
 py scripts/browser-smoke.py --playwright
 py -m pytest tests/test_api.py -v
 py scripts/release-gate.py
+py scripts/validate_hlk.py
+py scripts/validate_hlk_km_manifests.py   # when editing docs/references/hlk/v3.0/_assets/**/*.manifest.md
 
 # System health check
 py scripts/doctor.py
