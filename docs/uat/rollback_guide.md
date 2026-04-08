@@ -32,11 +32,19 @@ Guidance for rolling back by failure class.
 **Action**: Review failing tests. If introduced by recent change, revert the commit. If pre-existing, check CHANGELOG for known issues.
 **Verification**: `py scripts/test.py all` passes.
 
+## Windows Gateway Port Stuck
+
+**Symptom:** `openclaw gateway restart` times out, `netstat` shows `127.0.0.1:18789` in `LISTENING` while the dashboard is down.
+
+**Action:** `py scripts/doctor.py --repair-gateway` (runs doctor repair, stop, stale-listener cleanup on Windows, then start). Avoid manually killing processes unless the repair path still fails after one retry.
+
+**Verification:** `curl -s -o NUL -w "%{http_code}" http://127.0.0.1:18789` returns `200`, and `openclaw gateway call health` reports `ok`.
+
 ## Full System Reset
 
 If all else fails:
 1. `py scripts/sync-runtime.py` -- re-sync from repo
 2. `py scripts/bootstrap.py --skip-ollama` -- regenerate config
-3. `openclaw gateway restart` -- restart gateway
+3. `py scripts/doctor.py --repair-gateway` -- repair/start the gateway
 4. `py scripts/doctor.py` -- verify health
 5. `py scripts/test.py all` -- verify tests

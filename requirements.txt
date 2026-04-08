@@ -2,8 +2,9 @@ pytest>=7.0
 pydantic>=2.0
 # Observability (optional -- telemetry features degrade gracefully without it)
 langfuse>=2.0
-# GPU infrastructure (optional -- RunPod provider degrades gracefully without it)
+# GPU infrastructure (optional -- providers degrade gracefully without them)
 runpod>=1.7.0
+openstacksdk>=4.0.0
 # Control plane API (optional -- only needed for scripts/serve-api.py)
 fastapi>=0.115.0
 uvicorn>=0.32.0

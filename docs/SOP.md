@@ -46,6 +46,8 @@ To achieve "Deep Research" parity with commercial models, the OpenCLAW agent mus
 * **Direct and Indirect Impact Analysis:** Quantitative scoring used by the reasoning engine to prioritize context.8  
 * **Generational Filters and PESTEL:** Analytical frameworks applied dynamically to the data to understand nuanced behaviors and strategic trends.14
 
+* **Holistika v3.0 KM contract:** For governed Topic–Fact–Source traceability and Output 1 (visual) manifests, follow `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md`, store canonical binaries under `docs/references/hlk/v3.0/_assets/`, and run `py scripts/validate_hlk_km_manifests.py` when manifests change.
+
 ### **2.3 Processes: Modular Execution via MCP**
 
 Processes represent the granular execution of tactics.9 OpenCLAW's process layer is entirely revolutionized by the Model Context Protocol (MCP).5 The capability to audit processes, interface with APIs, and manipulate the host system is externalized into dedicated MCP servers. This ensures that the core reasoning engine remains agnostic to the underlying infrastructure, capable of calling specialized tools for codebase auditing, browser automation, or structured sequential thinking without requiring hardcoded integrations.4
@@ -95,16 +97,17 @@ The central nervous system of the deployment is the openclaw.json file, typicall
 
    > **Note (v2026.2.26):** The `workspaces` key shown in earlier drafts is **not supported** by the current OpenCLAW schema. The correct approach uses `agents.list` entries with per-agent `workspace` paths and optional `bindings`. See the `config/openclaw.json.example` for the canonical template.
 
-   Modify \~/.openclaw/openclaw.json to include (v3.0 four-agent model):  
+   Modify \~/.openclaw/openclaw.json to include (v3.0 five-agent model):  
    JSON  
    {  
      "gateway": {  
        "port": 18789,  
        "host": "127.0.0.1"  
      },  
-     "agents": {  
-       "defaults": { "model": { "primary": "ollama/qwen3:8b" } },  
+    "agents": {  
+      "defaults": { "model": { "primary": "ollama/deepseek-r1:14b", "fallbacks": ["ollama/qwen3:8b"] } },  
        "list": \[  
+        { "id": "madeira", "name": "Madeira", "workspace": "\~/.openclaw/workspace-madeira" },  
          { "id": "orchestrator", "name": "Orchestrator", "workspace": "\~/.openclaw/workspace-orchestrator" },  
          { "id": "architect", "name": "Architect", "workspace": "\~/.openclaw/workspace-architect" },  
          { "id": "executor", "name": "Executor", "workspace": "\~/.openclaw/workspace-executor" },  
@@ -936,9 +939,9 @@ This phase creates the cognitive separation across the four-agent model: Orchest
 | **LLMOS Layer** | Control Plane / Execution |
 | **Category** | `PROMPT` |
 | **Dependencies** | T-1.2, T-4.1, T-4.2, T-4.5, T-4.6 |
-| **Inputs** | Valid `openclaw.json`; all four prompt files exist |
-| **Outputs** | `openclaw.json` updated with `agents.list` containing orchestrator, architect, executor, and verifier entries. Each agent has: `id`, `name`, `workspace` (dedicated directory), and `identity` (object with `name`, `emoji`, `theme`). System prompts deployed as `SOUL.md` inside each agent's workspace. `agents.defaults.thinkingDefault` set to `"off"` for Ollama model compatibility. Optional `bindings` array for channel-to-agent routing. |
-| **Verification** | `openclaw gateway restart` reports no validation errors. `jq '.agents.list \| length' ~/.openclaw/openclaw.json` returns `4`. All four workspaces contain `SOUL.md`. |
+| **Inputs** | Valid `openclaw.json`; all five prompt files exist |
+| **Outputs** | `openclaw.json` updated with `agents.list` containing Madeira, Orchestrator, Architect, Executor, and Verifier entries. Each agent has: `id`, `name`, `workspace` (dedicated directory), and `identity` (object with `name`, `emoji`, `theme`). System prompts deployed as `SOUL.md` inside each agent's workspace. `agents.defaults.thinkingDefault` must match the active local model tier (for `deepseek-r1:14b`, `"low"`). Optional `bindings` array for channel-to-agent routing. |
+| **Verification** | `py scripts/doctor.py --repair-gateway` restores a healthy local gateway path after config changes. `jq '.agents.list \| length' ~/.openclaw/openclaw.json` returns `5`. All five workspaces contain `SOUL.md`. |
 | **SOC Relevance** | Yes — workspace isolation prevents context cross-contamination between channels |
 | **HITL Gate** | `mutative` |
 | **Complexity** | `moderate` |
@@ -1344,9 +1347,14 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - Contributor and operator checklists are aligned to the same strict verification matrix to preserve SSOT and reduce release-time ambiguity.
 
 **Phase 7 execution note (bootstrap env-file seeding):**
-- The OpenClaw gateway hard-fails on unresolved `${VAR}` references at startup. Bootstrap now auto-seeds `~/.openclaw/.env` from `config/environments/dev-local.env.example` when unresolved provider env vars are detected and no `.env` exists, preventing first-run gateway crashes.
+- The OpenClaw gateway hard-fails on unresolved `${VAR}` references at startup. Bootstrap now auto-seeds `~/.openclaw/.env` with deterministic runtime placeholder values when unresolved provider env vars are detected and no `.env` exists, preventing first-run gateway crashes without depending on `.env.example` files at runtime.
 - Provider `apiKey` references changed from `{source: "env", id: "VAR"}` object format to `${VAR}` string substitution to match the gateway's env-var resolution path.
-- `dev-local.env.example` now defines placeholders for all env vars referenced in the template (`OLLAMA_GPU_URL`, `VLLM_RUNPOD_URL`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`).
+- Real profile env files under `config/environments/*.env` now carry the operative placeholder contract for referenced provider vars, while `.env.example` remains reference-only.
+
+**Phase 7b execution note (Windows gateway port recovery and CLI resolution):**
+- `akos.runtime.recover_gateway_service()` clears orphan TCP listeners on port `18789` on Windows (`netstat -ano` + `taskkill`) after `gateway stop`, then restarts the supervised gateway, reducing post-reboot manual rescue.
+- `scripts/bootstrap.py` preflight resolves the OpenClaw executable the same way as `scripts/doctor.py` (`openclaw`, `openclaw.cmd`, `openclaw.exe`).
+- GPU operator unblock steps for RunPod balance and Shadow Nova policy are consolidated under `docs/uat/gpu_provider_unblock_checklist.md`.
 
 **Phase 8 execution note (provider namespace and API mode remediation):**
 - The explicit provider key `ollama-local` was renamed to `ollama` in `openclaw.json.example`, tests, inventory verifier, and docs. The gateway resolves `ollama/qwen3:8b` by matching the `ollama/` prefix to the provider key `ollama`; the previous `ollama-local` key was never consulted, causing persistent `Unknown model` errors.
@@ -1359,16 +1367,16 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - Registered `deepseek-r1:14b` (14B medium-tier model) in `openclaw.json.example` under the `ollama` provider with `contextWindow: 32768`, `reasoning: true`.
 - Added `fallbacks` field to `agents.defaults.model` in the SSOT and all three environment overlays for provider failover chains (exponential backoff: 1m, 5m, 25m, 1h cap).
 - Upgraded `dev-local.json` from small tier (`ollama/qwen3:8b`, thinking off) to medium tier (`ollama/deepseek-r1:14b`, thinking low) with fallback to `qwen3:8b`.
-- Added Ollama performance tuning to `dev-local.env.example`: `OLLAMA_FLASH_ATTENTION=1` (faster inference), `OLLAMA_KV_CACHE_TYPE=q8_0` (halves VRAM for context).
+- Added Ollama performance tuning to `dev-local.env`: `OLLAMA_FLASH_ATTENTION=1` (faster inference), `OLLAMA_KV_CACHE_TYPE=q8_0` (halves VRAM for context).
 - Rewrote `gpu-runpod.json` with 17 production-grade vLLM `envVars`: FP8 KV cache, prefix caching, chunked prefill, `TOOL_CALL_PARSER=deepseek_v3`, `REASONING_PARSER=deepseek_r1`, optimized concurrency. Added fallbacks to Anthropic and local Ollama.
-- Fixed missing env var placeholders in `prod-cloud.env.example` and `gpu-runpod.env.example` that would crash the gateway on environment switch.
+- Fixed missing env var placeholders in the operative profile envs (`prod-cloud.env`, `gpu-runpod.env`, and peers) so environment switches no longer depend on `.example` files.
 - Extended Pydantic `ModelRef` with `fallbacks: list[str]` field (backward-compatible default `[]`). Added `RunPodEndpointConfig` model validators for tool-call parser and tensor-parallel consistency.
 - Updated `verify_openclaw_inventory.py` (added `deepseek-r1:14b` to expected ollama models) and `validate_configs.py` (ollama model count assertion, env placeholder coverage test).
 
 **Phase 10 execution note (startup compliance and Langfuse observability):**
 - Rewrote `## Session Startup` in all five base prompts (`MADEIRA_BASE.md`, `ORCHESTRATOR_BASE.md`, `ARCHITECT_BASE.md`, `EXECUTOR_BASE.md`, `VERIFIER_BASE.md`) with SOTA enforcement patterns: explicit `read()` tool-call syntax, `CRITICAL` / `MUST` gate language, self-correction mandate, and "do NOT mention internal steps" directive.
 - Created `prompts/overlays/OVERLAY_STARTUP_COMPLIANCE.md` with recency rule (re-read within 5 messages), invariant check, and good/bad examples. Registered in `config/model-tiers.json` for both `standard` and `full` variants across all five agents.
-- Added `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST` placeholders to all three environment templates (`dev-local.env.example`, `gpu-runpod.env.example`, `prod-cloud.env.example`).
+- Added `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST` placeholders to the real environment profiles under `config/environments/*.env`.
 - Standardized Langfuse runtime secret loading on process env -> `~/.openclaw/.env`; deleted repo-local `config/eval/langfuse.env*` files; and moved non-secret watcher settings to `config/openclaw.json.example` `diagnostics.logWatcher` with bootstrap sidecar sync to `~/.openclaw/akos-config.json`.
 - Added `trace_startup_compliance()` method to `LangfuseReporter` in `akos/telemetry.py` for scored startup event tracing.
 - Enhanced `scripts/log-watcher.py` to detect "Post-Compaction Audit" entries in both JSON and raw log lines, review Madeira session transcripts for answer-quality events, send scored traces to Langfuse, and mirror flagship records locally under `~/.openclaw/telemetry/`.

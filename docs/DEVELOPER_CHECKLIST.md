@@ -15,7 +15,8 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | 5 | `py -m pytest tests/test_api.py -v` | FastAPI control plane smoke |
 | 6 | `py scripts/release-gate.py` | Unified gate must report PASS (includes HLK vault validation) |
 | 7 | `py scripts/validate_hlk.py` | HLK canonical vault integrity (also run by release gate) |
-| 8 | `py scripts/resolve-mcporter-paths.py` | If mcporter.json was copied manually (resolves placeholder paths) |
+| 8 | `py scripts/validate_hlk_km_manifests.py` | HLK KM visual manifests under `docs/references/hlk/v3.0/_assets/**/*.manifest.md` (run when those files change) |
+| 9 | `py scripts/resolve-mcporter-paths.py` | If mcporter.json was copied manually (resolves placeholder paths) |
 
 If you changed gateway tool policy, also verify the template uses gateway core IDs (`read`, `write`, `edit`, `apply_patch`, `exec`, etc.) and exposes MCP plugin tools through `tools.alsoAllow` rather than legacy `tools.allow`.
 
@@ -37,6 +38,7 @@ If you changed gateway tool policy, also verify the template uses gateway core I
 | `docs/ARCHITECTURE.md` (Finance) | Changes to finance response models or MCP tool signatures |
 | `docs/ARCHITECTURE.md` (HLK) | Changes to `akos/hlk.py`, HLK domain models, or `/hlk/*` API endpoints |
 | `docs/references/hlk/compliance/` | Changes to canonical vault CSVs or compliance taxonomy documents |
+| `docs/references/hlk/v3.0/_assets/**/*.manifest.md` | Run `py scripts/validate_hlk_km_manifests.py`; update companion stubs if `source_id` changes |
 
 ## Playwright Setup (Optional)
 
@@ -80,5 +82,5 @@ On Windows, `browser-smoke.py` isolates browser launches in subprocess workers s
 1. `py scripts/doctor.py`
 2. `py scripts/check-drift.py`
 3. `openclaw gateway status`
-4. `openclaw gateway restart`
+4. `py scripts/doctor.py --repair-gateway` (on Windows, also clears stale TCP listeners on 18789 after `gateway stop`)
 5. If MCP behavior looks stale, re-run `py scripts/bootstrap.py --skip-ollama`

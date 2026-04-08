@@ -65,6 +65,7 @@ The active execution follow-up is the Madeira Flagship Hardening program, which 
 
 Reference artifacts:
 
+- `phase-7-plan.md` / `reports/phase-7-report.md` — Gateway supervision, Windows port recovery, real-env profile contract, GPU operator unblock runbooks (2026-04).
 - `C:\Users\Shadow\.cursor\plans\madeira_ultimate_agent_e97ddcd9.plan.md`
 - `C:\Users\Shadow\.cursor\plans\madeira_lookup_hardening_a13d1a4e.plan.md`
 - `C:\Users\Shadow\.cursor\plans\madeira_flagship_hardening_4f22c4ab.plan.md`
@@ -199,6 +200,7 @@ Recommended first data-entry batches after the minimum freeze:
 - [baseline-remediation-matrix.md](baseline-remediation-matrix.md) -- gap inventory, data-entry queue, vault target structure
 - [reports/phase-0-report.md](reports/phase-0-report.md) -- planning phase completion (GO)
 - [reports/phase-1-report.md](reports/phase-1-report.md) -- phase completion report (**GO**)
+- [reports/phase-6-report.md](reports/phase-6-report.md) -- runtime remediation status report (**GO WITH RESIDUAL**)
 - [reports/madeira-runtime-ux-report.md](reports/madeira-runtime-ux-report.md) -- prior Madeira runtime stabilization report
 - [reports/madeira-gateway-alignment-remediation-report.md](reports/madeira-gateway-alignment-remediation-report.md) -- gateway/prompt/runtime/doc remediation report
 

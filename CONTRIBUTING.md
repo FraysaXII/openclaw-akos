@@ -41,6 +41,10 @@ This is primarily a documentation and configuration repository. Contributions sh
 - Include version and date metadata where applicable
 - Cite sources using numbered references consistent with the SOP format
 
+### Environment profiles (`config/environments/`)
+
+Operative runtime inputs are the real `*.env` files paired with each `*.json` overlay. The `*.env.example` files are **reference-only** templates; `scripts/switch-model.py`, `scripts/gpu.py`, and other runtime paths must not fall back to them. First-run materialization of `~/.openclaw/.env` uses the shared `RUNTIME_ENV_PLACEHOLDERS` contract in `akos/io.py` (via `scripts/bootstrap.py`), not a silent copy of an example file.
+
 ### Config Metadata Keys
 
 Keys starting with `_` (e.g. `_note`, `_comment`) in JSON config files are **documentation-only metadata**. Tooling must preserve them when generating or copying configs and must ignore them during validation and comparison.
@@ -87,11 +91,16 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - RunPod provider operations must have mocked SDK tests in `tests/test_runpod_provider.py`.
 - PodManager (dedicated pod lifecycle) must have tests in `tests/test_pod_manager.py`.
 - GPU CLI, model catalog, and deploy flow must have tests in `tests/test_gpu_cli.py` (catalog validation, VRAM-driven GPU selection, vLLM command generation, deploy/teardown mocked, env propagation, overlay JSON wiring).
+- Environment/profile activation changes must have tests in `tests/test_switch_model.py`.
+- Bootstrap inventory/env-materialization changes must have tests in `tests/test_bootstrap_full_inventory.py`.
+- Gateway runtime normalization and recovery changes must have tests in `tests/test_runtime_contract.py`.
+- Strict inventory verifier changes must have tests in `tests/test_verify_openclaw_inventory.py`.
 - FastAPI endpoints must have TestClient tests in `tests/test_api.py`.
 - Langfuse telemetry changes must have tests in `tests/test_telemetry.py` (14 tests covering init, trace_request, trace_startup_compliance, trace_alert, trace_metric, normalize_env, flush).
 - Failover router changes must have tests in `tests/test_router.py` (10 tests covering failover threshold, recovery, and multi-provider routing).
 - Finance service changes must have tests in `tests/test_finance.py` (normalization, caching, missing API key degradation, error states).
 - HLK domain changes must have tests in `tests/test_hlk.py` (model parsing, registry lookups, chain traversal, gap detection, API endpoints).
+- OpenStack provider request-shape changes must have tests in `tests/test_openstack_provider.py`.
 - New agent prompts/overlays must be covered by `tests/test_e2e_pipeline.py`.
 - Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint. Bootstrap derives each agent's runtime `tools.profile` from the capability matrix, while `config/openclaw.json.example` remains the SSOT for curated gateway `alsoAllow` / `deny`, session, and browser semantics. Keep those layers aligned; do not treat the gateway template as disposable generated output.
 - New workflow definitions go in `config/workflows/` as markdown files following the existing format.
@@ -111,6 +120,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
   - `py scripts/browser-smoke.py --playwright`
   - `py -m pytest tests/test_api.py -v`
   - `py scripts/release-gate.py`
+- HLK KM visual manifests: when editing `docs/references/hlk/v3.0/_assets/**/*.manifest.md`, run `py scripts/validate_hlk_km_manifests.py`.
 - Browser smoke tests: `py scripts/browser-smoke.py` (HTTP-only) or `py scripts/browser-smoke.py --playwright` (DOM mode; requires `pip install playwright && playwright install chromium`). On Windows crash-prone hosts, Playwright worker crashes are surfaced as `SKIP` outcomes.
 - Agent evals: `py scripts/run-evals.py --dry-run` (5 canonical tasks)
 - Checkpoint management: `py scripts/checkpoint.py create|list|restore`
@@ -131,6 +141,7 @@ Before every commit that touches features or tooling, run:
 [ ] py scripts/browser-smoke.py --playwright       # Browser smoke (SKIP allowed on Windows crash-prone hosts)
 [ ] py -m pytest tests/test_api.py -v              # FastAPI control plane smoke
 [ ] py scripts/release-gate.py                     # Unified release gate PASS
+[ ] py scripts/validate_hlk_km_manifests.py        # If HLK v3.0/_assets manifests changed
 ```
 
 Update documentation as needed:

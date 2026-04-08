@@ -120,10 +120,10 @@ All five agents are registered in `openclaw.json` under `agents.list`:
 "agents": {
   "defaults": {
     "model": {
-      "primary": "ollama/qwen3:8b",
-      "fallbacks": ["ollama/deepseek-r1:14b", "ollama/qwen3:8b"]
+      "primary": "ollama/deepseek-r1:14b",
+      "fallbacks": ["ollama/qwen3:8b"]
     },
-    "thinkingDefault": "off"
+    "thinkingDefault": "low"
   },
   "list": [
     { "id": "madeira", "identity": { "name": "Madeira", "emoji": "🌊" } },
@@ -234,30 +234,32 @@ The gateway emits a "Post-Compaction Audit" warning when an agent fails to `read
 
 ### Langfuse Environment Wiring
 
-Langfuse credentials (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`) are present in all three `config/environments/*.env.example` files so bootstrap can seed new environments safely, but the single live secret authority is `~/.openclaw/.env` (or exported process env). Non-secret watcher settings live in `config/openclaw.json.example` under `diagnostics.logWatcher` and are written to `~/.openclaw/akos-config.json`. `scripts/serve-api.py`, `scripts/log-watcher.py`, `scripts/run-evals.py`, `scripts/test-langfuse-trace.py`, `scripts/doctor.py`, and `scripts/gpu.py` all resolve runtime secrets from process env first, then `~/.openclaw/.env`. `scripts/log-watcher.py` detects Post-Compaction Audit entries, reviews Madeira session transcripts for answer-quality events, sends both to Langfuse, and mirrors answer-quality records locally under `~/.openclaw/telemetry/`.
+Langfuse credentials (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`) are present in the real profile env files under `config/environments/*.env`, while `.env.example` files remain reference-only. The single live secret authority is `~/.openclaw/.env` (or exported process env). Non-secret watcher settings live in `config/openclaw.json.example` under `diagnostics.logWatcher` and are written to `~/.openclaw/akos-config.json`. `scripts/serve-api.py`, `scripts/log-watcher.py`, `scripts/run-evals.py`, `scripts/test-langfuse-trace.py`, `scripts/doctor.py`, and `scripts/gpu.py` all resolve runtime secrets from process env first, then `~/.openclaw/.env`. `scripts/log-watcher.py` detects Post-Compaction Audit entries, reviews Madeira session transcripts for answer-quality events, sends both to Langfuse, and mirrors answer-quality records locally under `~/.openclaw/telemetry/`.
 
 ### Multi-Provider Configuration
 
-`openclaw.json.example` declares five provider blocks using `${VAR}` environment variable substitution:
+`openclaw.json.example` declares six provider blocks using `${VAR}` environment variable substitution:
 
 - `ollama` -- local Ollama at 127.0.0.1:11434 (native `api: "ollama"`)
 - `ollama-gpu` -- remote Ollama on a GPU server (URL from env)
 - `openai` -- OpenAI API (key from env)
 - `anthropic` -- Anthropic API (key from env)
-- `vllm-runpod` -- vLLM endpoint on RunPod/ShadowGPU (URL from env)
+- `vllm-runpod` -- vLLM endpoint on RunPod (URL from env)
+- `vllm-shadow` -- vLLM endpoint on ShadowPC OpenStack (URL from env)
 
 ### Environment Profiles
 
-Each deployment target has a pair of files in `config/environments/`:
+Each deployment target has a committed runtime profile in `config/environments/` plus an optional reference template:
 
-- `<env>.env.example` -- committed template with placeholder values for secrets
+- `<env>.env` -- operative env profile consumed by runtime paths and `switch-model.py`
+- `<env>.env.example` -- reference template only
 - `<env>.json` -- JSON overlay for `openclaw.json` (model, thinkingDefault, etc.)
 
-Profiles: `dev-local` (medium/local), `gpu-runpod` (large/remote GPU), `prod-cloud` (large/cloud APIs).
+Profiles: `dev-local` (medium/local), `gpu-runpod` (large/RunPod serverless), `gpu-runpod-pod` (large/RunPod dedicated), `gpu-shadow` (large/ShadowPC OpenStack), `prod-cloud` (large/cloud APIs).
 
 ### Environment Placeholder Hardening
 
-OpenClaw's `${VAR}` substitution in `openclaw.json` crashes the gateway if an env var resolves to an empty string. All `.env.example` files now set non-empty placeholder values for inactive providers:
+OpenClaw's `${VAR}` substitution in `openclaw.json` crashes the gateway if an env var resolves to an empty string. AKOS now keeps a shared runtime placeholder contract and materializes non-empty placeholder values into real env files:
 
 | Var | Placeholder | Purpose |
 |:----|:------------|:--------|
@@ -266,8 +268,9 @@ OpenClaw's `${VAR}` substitution in `openclaw.json` crashes the gateway if an en
 | `OPENAI_API_KEY` | `not-configured` | Satisfies `${OPENAI_API_KEY}` substitution |
 | `ANTHROPIC_API_KEY` | `not-configured` | Satisfies `${ANTHROPIC_API_KEY}` substitution |
 | `VLLM_RUNPOD_URL` | `http://localhost:8000/v1` | Prevents crash in serverless profile before endpoint is provisioned |
+| `VLLM_SHADOW_URL` | `http://localhost:8080/v1` | Prevents crash before a Shadow instance publishes a floating-IP endpoint |
 
-`scripts/gpu.py` enforces this via `_ensure_env_placeholders()`, which re-asserts placeholder values in `~/.openclaw/.env` after every deployment. The `_ENV_PLACEHOLDERS` dict in `gpu.py` is the SSOT for these defaults. Empty env values are also filtered during env loading (`if v:` guard on `os.environ.setdefault`).
+`scripts/bootstrap.py` seeds `~/.openclaw/.env` from the shared runtime placeholder contract on first run, and `scripts/gpu.py` re-asserts missing placeholders after GPU deployments. Empty env values are also filtered during env loading (`if v:` guard on `os.environ.setdefault`).
 
 ### Model Switching Workflow
 
@@ -278,6 +281,10 @@ python scripts/switch-model.py <env-name>
 ```
 
 This copies the `.env`, deep-merges the JSON overlay, deploys the correct SOUL.md variant, and restarts the gateway. Supports `--dry-run` to preview.
+
+### Windows gateway supervision and port recovery
+
+Native Windows OpenClaw installs rely on a Scheduled Task supervisor. When `gateway stop` leaves an orphan Node process holding `127.0.0.1:18789`, the next start fails with port-in-use errors. `akos.runtime.recover_gateway_service()` chains upstream `openclaw doctor --repair --yes`, `gateway stop`, **Windows-only** parsing of `netstat -ano` plus `taskkill` for listeners on port 18789, then `gateway start` (with a restart fallback). Operators should use `py scripts/doctor.py --repair-gateway` as the single supported entrypoint; `scripts/switch-model.py` calls the same recovery path after merges. Re-installing the scheduled task (`openclaw gateway install --force`) may still require an elevated shell when Windows denies task registration.
 
 ### Provider Failover and Model Routing
 
@@ -311,7 +318,7 @@ Committed Modelfiles in `config/ollama/` define `num_ctx` and `temperature` per 
 
 After editing a Modelfile, rebuild with `ollama create <model> -f config/ollama/<Modelfile>`.
 
-Ollama server-level performance tuning (set in `dev-local.env.example`):
+Ollama server-level performance tuning (set in `dev-local.env`):
 - `OLLAMA_FLASH_ATTENTION=1` — faster inference, lower VRAM, no quality loss
 - `OLLAMA_KV_CACHE_TYPE=q8_0` — 8-bit KV cache quantization halves VRAM usage
 
@@ -321,25 +328,30 @@ The `gpu-runpod.json` profile includes production-grade vLLM inference settings:
 
 | Setting | Value | Impact |
 |:--------|:------|:-------|
-| `KV_CACHE_DTYPE` | `fp8` | 2x KV cache capacity on A100-80GB |
+| `KV_CACHE_DTYPE` | `auto` (RunPod worker default) | Avoids FlashInfer JIT startup failures on workers without `nvcc` |
+| `VLLM_ATTENTION_BACKEND` | `TRITON_ATTN` | Forces non-JIT attention backend for deterministic startup on RunPod worker images |
+| `DTYPE` (AWQ models) | `float16` | Required for stable AWQ startup on RunPod worker-v1-vllm |
 | `ENABLE_PREFIX_CACHING` | `true` | Avoids recomputing 3-10K SOUL.md system prompt tokens |
 | `ENABLE_CHUNKED_PREFILL` | `true` | New requests can start during prefill |
 | `TOOL_CALL_PARSER` | per-model (from catalog) | Structured tool calls; parser set by `model-catalog.json` entry |
 | `REASONING_PARSER` | per-model (conditional) | Chain-of-thought mapped to AKOS thinking levels; omitted for non-reasoning models |
 | `CHAT_TEMPLATE` | per-model (conditional) | Custom chat template path; omitted when the model default suffices |
-| `MAX_NUM_SEQS` | `128` | Lower tail latency for agent workloads |
+| `MAX_NUM_SEQS` | `64` | Lower tail latency and reduced startup pressure for 70B AWQ workers |
 | `MAX_MODEL_LEN` | `32768` (pod default) | Reduced from 131072 to fit 2x A100-80GB with fp8 KV cache headroom |
 
-### Dual-Mode RunPod Architecture
+### Multi-Provider GPU Architecture
 
-RunPod deployments support two modes, selected by environment profile:
+GPU inference deployments support three modes across two providers, selected by environment profile:
 
-| Mode | Profile | How vLLM Runs | URL Pattern | Scaling |
-|:-----|:--------|:--------------|:------------|:--------|
-| **Serverless** | `gpu-runpod` | RunPod serverless endpoint | `https://api.runpod.ai/v2/{endpoint_id}/openai/v1` | Auto-scaled by RunPod |
-| **Dedicated Pod** | `gpu-runpod-pod` | Persistent vLLM process on a reserved pod | `https://{pod_id}-8000.proxy.runpod.net/openai/v1` | Fixed; operator-managed |
+| Mode | Profile | Provider | How vLLM Runs | URL Pattern | Scaling |
+|:-----|:--------|:---------|:--------------|:------------|:--------|
+| **Serverless** | `gpu-runpod` | RunPod | RunPod serverless endpoint | `https://api.runpod.ai/v2/{endpoint_id}/openai/v1` | Auto-scaled by RunPod |
+| **Dedicated Pod** | `gpu-runpod-pod` | RunPod | Persistent vLLM process on a reserved pod | `https://{pod_id}-8080.proxy.runpod.net/v1` | Fixed; operator-managed |
+| **OpenStack Instance** | `gpu-shadow` | ShadowPC | vLLM via cloud-init on OpenStack GPU instance | `http://{floating_ip}:8080/v1` | Fixed; operator-managed |
 
-Dedicated pod mode is configured via `PodConfig` (Pydantic model in `akos/models.py`) and provisioned by `scripts/gpu.py deploy-pod`. The container image is `vllm/vllm-openai:latest`, which has `ENTRYPOINT ["python3", "-m", "vllm.entrypoints.openai.api_server"]` -- so `dockerStartCmd` passes only vLLM CLI flags (no `python -m ...` prefix). The pod exposes an OpenAI-compatible endpoint on port 8080 via RunPod's HTTPS proxy.
+ShadowPC instances use `OpenStackProvider` (`akos/openstack_provider.py`) with the `openstacksdk` Python SDK. The provider handles Keystone auth, Nova instance lifecycle, optional Neutron security groups, floating IP assignment, and spot termination detection (via instance metadata `cloud_termination_time`). Config is in `OpenStackInstanceConfig` (Pydantic model in `akos/models.py`). On policy-restricted tenants, explicit security-group creation may be forbidden; AKOS now tolerates that by omitting explicit group attachment and relying on project defaults when necessary.
+
+Dedicated pod mode is configured via `PodConfig` (Pydantic model in `akos/models.py`) and provisioned by `scripts/gpu.py deploy-pod`. The container image is `vllm/vllm-openai:v0.16.0`, which has `ENTRYPOINT ["python3", "-m", "vllm.entrypoints.openai.api_server"]` -- so `dockerStartCmd` passes only vLLM CLI flags (no `python -m ...` prefix). The pod exposes an OpenAI-compatible endpoint on port 8080 via RunPod's HTTPS proxy.
 
 `PodConfig` fields:
 
@@ -349,12 +361,12 @@ Dedicated pod mode is configured via `PodConfig` (Pydantic model in `akos/models
 | `vllmPort` | `8080` | Port inside the container |
 | `gpuType` | `NVIDIA A100-SXM4-80GB` | RunPod GPU type ID |
 | `gpuCount` | `2` | Number of GPUs; also sets `--tensor-parallel-size` |
-| `containerImage` | `vllm/vllm-openai:latest` | Docker image with vLLM ENTRYPOINT |
+| `containerImage` | `vllm/vllm-openai:v0.16.0` | Docker image with vLLM ENTRYPOINT |
 | `containerDiskGb` | `100` | Container disk size (min 20 GB) |
 | `volumeGb` | `200` | Persistent network volume |
 | `maxModelLen` | `131072` | `--max-model-len` passed to vLLM |
 
-`build_vllm_command()` produces CMD args (not a full command) since the image ENTRYPOINT handles the Python invocation. Dynamic flags include `--reasoning-parser` (when `REASONING_PARSER` env is set), `--chat-template` (when `CHAT_TEMPLATE` is set), and `--served-model-name` (auto-derived from `modelName.split("/")[-1]` unless overridden by `OPENAI_SERVED_MODEL_NAME_OVERRIDE`).
+`build_vllm_command()` produces CMD args (not a full command) since the image ENTRYPOINT handles the Python invocation. Dynamic flags include `--quantization` (when `QUANTIZATION` env is set, e.g. `awq`), `--enforce-eager` (when `ENFORCE_EAGER` is `true`), `--max-num-batched-tokens` (when set), `--reasoning-parser` (when `REASONING_PARSER` env is set), `--chat-template` (when `CHAT_TEMPLATE` is set), and `--served-model-name` (auto-derived from `modelName.split("/")[-1]` unless overridden by `OPENAI_SERVED_MODEL_NAME_OVERRIDE`). The same command builder is used for both RunPod pods and ShadowPC instances (via cloud-init user-data).
 
 ### Model Catalog
 
@@ -374,6 +386,7 @@ Dedicated pod mode is configured via `PodConfig` (Pydantic model in `akos/models
 | `reasoning` | Whether the model produces reasoning traces |
 | `defaultGpu` | `{ type, count }` -- recommended GPU configuration |
 | `maxModelLen` | Default `--max-model-len` for this model |
+| `quantization` | Weight quantization method (`awq`, `gptq`, `fp8`, `bitsandbytes`, or null for none) |
 | `envOverrides` | Additional vLLM env vars (e.g., `KV_CACHE_DTYPE`, `ENABLE_PREFIX_CACHING`) |
 
 `CatalogEntry.min_gpus_for(gpu_vram)` computes the minimum GPU count for a given per-GPU VRAM capacity.
@@ -544,7 +557,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 
 | Module | Responsibility |
 |:-------|:---------------|
-| `akos/models.py` | Pydantic schemas for `model-tiers.json`, `openclaw.json`, environment overlays (incl. RunPod), alerts, baselines, finance response envelope |
+| `akos/models.py` | Pydantic schemas for `model-tiers.json`, `openclaw.json`, environment overlays (RunPod, OpenStack), alerts, baselines, finance response envelope, HLK domain models |
 | `akos/model_catalog.py` | `CatalogEntry` Pydantic model + `load_catalog()` for `config/model-catalog.json`; drives the interactive GPU deploy picker |
 | `akos/finance.py` | `FinanceService` — quote, search, sentiment via yfinance + Alpha Vantage; TTL cache; graceful degradation when backends are absent |
 | `akos/hlk.py` | `HlkRegistry` — typed lookups over the HLK canonical vault CSVs (org roles, process items, gap detection, fuzzy search); lazy singleton; `HlkResponse` envelope |
@@ -555,6 +568,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/telemetry.py` | `LangfuseReporter` wrapping the Langfuse SDK; `trace_metric()` for DX metrics; graceful no-op when credentials are absent |
 | `akos/alerts.py` | `AlertEvaluator` -- checks real-time log entries against `alerts.json` and periodic metrics against `baselines.json` |
 | `akos/runpod_provider.py` | RunPod SDK wrapper: endpoint lifecycle, health checks, scaling, inference, GPU discovery (v0.3.0) |
+| `akos/openstack_provider.py` | ShadowPC OpenStack SDK wrapper: Keystone auth, Nova instance lifecycle, Neutron security groups, floating IPs, spot termination detection, vLLM cloud-init deployment |
 | `akos/api.py` | FastAPI control plane: REST endpoints for health, status, switching, RunPod, metrics, alerts, checkpoints, context pinning, WebSocket logs (v0.4.0) |
 | `akos/tools.py` | Dynamic tool registry reading mcporter config + permissions.json; HITL classification (v0.3.0) |
 | `akos/policy.py` | Role capability matrix loader, tool profile generation, drift detection (v0.4.0) |
@@ -602,6 +616,12 @@ The `akos/api.py` module exposes a REST API for programmatic control:
 | `/metrics/cost` | GET | Cost breakdown by agent and environment |
 | `/logs` | WebSocket | Live log stream |
 
+The current HLK registry baseline exposes 11 projects and 324 registered items, including founder-governance processes under Legal, Finance, and Compliance for entity formation, founder funding, startup-certification readiness, and trademark/naming control.
+
+The founder-governance lower layer uses a staged document model to stay scalable: evidence and redacted synthesis live in `docs/wip/`, case-specific canonical notes live under role-owned `v3.0/` folders, repeatable procedures become SOPs, and only the repeatable process layer is registered in `process_list.csv`. This separation keeps founder-specific or potentially sensitive material out of the runtime registry while preserving a reusable operating model for future entity work.
+
+**HLK governed KM (Topic–Fact–Source):** Canonical rules for sources, facts, topics, output types 0–4, and Output 1 (visual) manifests live in `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md`. Binary visuals ship under `docs/references/hlk/v3.0/_assets/<topic_id>/` with `*.manifest.md` sidecars. Operators validate manifest shape and raster paths with `scripts/validate_hlk_km_manifests.py`. The PMO-owned `RESEARCH_BACKLOG_TRELLO_REGISTRY.md` indexes external Trello cards to `topic_id` candidates without treating Trello as SSOT.
+
 Launch: `python scripts/serve-api.py --port 8420`
 
 ### Operator Scripts (v0.4.0)
@@ -616,6 +636,7 @@ Launch: `python scripts/serve-api.py --port 8420`
 | `scripts/checkpoint.py` | Checkpoint CLI (create/list/restore workspace snapshots) |
 | `scripts/sync-runtime.py` | Hydrate runtime from repo SSOT |
 | `scripts/release-gate.py` | Unified release gate (tests + drift + smoke) |
+| `scripts/validate_hlk_km_manifests.py` | Validate HLK KM visual manifest frontmatter and raster paths under `v3.0/_assets/**/*.manifest.md` |
 | `scripts/resolve-mcporter-paths.py` | Resolve MCP config placeholder paths (idempotent, cross-platform) |
 
 ### Workflow Definitions (v0.4.0)
@@ -692,7 +713,7 @@ The following matrix shows every component, who owns it, and how the two layers 
 | Test Suite           | `tests/` (300+ tests)                                                                                                           | Config validation, Pydantic models, API, prompts, E2E, telemetry, router, live smoke, evals | AKOS quality gates                                                        |
 | Compliance           | `config/compliance/eu-ai-act-checklist.json`                                                                                     | EU AI Act evidence map                                                        | AKOS-only governance                                                      |
 | Model Tiers          | `config/model-tiers.json`                                                                                                       | Model classification (small/medium/large/sota)                                | Drives prompt variant selection; OpenClaw uses the selected model         |
-| Environment Profiles | `config/environments/*.json` + `*.env.example`                                                                                   | Multi-environment config (dev-local, gpu-runpod, prod-cloud)                  | Merged into OpenClaw config by `switch-model.py`                          |
+| Environment Profiles | `config/environments/*.json` + `*.env`                                                                                           | Multi-environment profiles (dev-local, gpu-runpod, gpu-runpod-pod, gpu-shadow, prod-cloud) | Merged into OpenClaw config by `switch-model.py`                          |
 | Eval Configs         | `config/eval/alerts.json`, `baselines.json`                                                                                      | SOC thresholds, DX metrics                                                    | AKOS-only evaluation framework                                            |
 
 ### OpenClaw Layer (runtime enforcement — configured by bootstrap, visible in dashboard)
@@ -790,7 +811,7 @@ The following files implement the architecture described above as committable co
 | All | [`config/compliance/eu-ai-act-checklist.json`](../config/compliance/eu-ai-act-checklist.json) | T-3.7 |
 | All | [`config/eval/baselines.json`](../config/eval/baselines.json) | T-5.2 |
 | All | [`config/eval/alerts.json`](../config/eval/alerts.json) | T-5.3 |
-| All | [`config/environments/dev-local.env.example`](../config/environments/dev-local.env.example) | T-5.1 |
+| All | [`config/environments/dev-local.env`](../config/environments/dev-local.env) | T-5.1 |
 | All | [`config/environments/`](../config/environments/) | T-5.4 |
 
 A validation test suite (`tests/`) provides 300+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, SOP task coverage, RunPod provider operations, FastAPI endpoints, workspace checkpoints, Langfuse telemetry (14 tests), failover router (10 tests), finance service behavior, and GPU deploy UX.
@@ -812,3 +833,4 @@ To disconnect the AKOS architecture from OpenCLAW:
 - Full SOP (sections 1.0–7.0): [SOP.md](SOP.md)
 - Security controls: [SECURITY.md](../SECURITY.md)
 - EU AI Act compliance evidence: [`config/compliance/eu-ai-act-checklist.json`](../config/compliance/eu-ai-act-checklist.json)
+
