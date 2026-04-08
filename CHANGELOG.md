@@ -9,6 +9,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **HLK KM follow-up (hygiene + UAT)** — Reconciled PMO Trello registry ids to the primary board export; added `PMO/imports/` with `trello_board_67697e19_primary.json`, `trello_board_67697e19_archive_slice.json`, and full formatted export; moved wip KM syntheses to `docs/wip/hlk-km/`; added `docs/wip/README.md` and `docs/wip/planning/_proposals/` for loose plan files; relocated repo-root `_*.py` scratch scripts to `scripts/adhoc/`; HLK admin smoke **Scenario 8** for KM validators and registry checks; [km-plan-followup-checklist.md](docs/wip/planning/hlk-km-knowledge-base/reports/km-plan-followup-checklist.md) for incremental work without redoing the baseline rollout.
+- **HLK governed KM (Topic–Fact–Source)** — Canonical contract `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md`, vault index updates, topic template and visual manifest example under Compliance, PMO `RESEARCH_BACKLOG_TRELLO_REGISTRY.md`, Output 1 pilot bundle under `v3.0/_assets/km-pilot/`, workspace roadmap `docs/wip/planning/hlk-km-knowledge-base/`, five `docs/wip/hlk-km/research-synthesis-*.md` stubs linked from the registry; Trello exports under PMO `imports/` with primary/archive split, and `scripts/validate_hlk_km_manifests.py` for manifest frontmatter and raster path checks.
+- **HLK founder-governance case layer** — Add canonical case docs for entity-formation decisions, capitalization posture, ENISA evidence, trademark scope, Research-vs-Tech-Lab separation, and the founder-governance lifecycle/promotion ladder under role-owned `v3.0` paths.
+- **HLK founder-governance SOPs** — Add canonical `v3.0` drafts for `Founder Entity Formation Readiness`, `Trademark and Naming Governance`, `Founder-to-Company Funding Path`, and `ENISA Readiness and Evidence Pack` under the role-owned Legal, Finance/Taxes, and Compliance paths.
+- **HLK founder-governance registry rows** — Register matching workstreams/processes in `docs/references/hlk/compliance/process_list.csv` for founder entity formation, trademark control, founder funding, and ENISA readiness, increasing the canonical process inventory to 324 items.
+- **Windows gateway port recovery** — `akos.runtime.recover_gateway_service()` now clears stale TCP listeners on port `18789` via `netstat`/`taskkill` after `gateway stop` on Windows, aligning with the `py scripts/doctor.py --repair-gateway` operator path and reducing post-reboot manual rescue.
+- **Planning traceability** — `docs/wip/planning/hlk-on-akos-madeira/phase-7-plan.md` and `reports/phase-7-report.md` record the Gateway and GPU Recovery Hardening rollout (env contract, Windows supervision, operator runbooks).
+- **ShadowPC OpenStack GPU provider** -- `akos/openstack_provider.py` provides full lifecycle management (instance creation, floating IP, security groups, teardown, spot termination detection) for Shadow's OpenStack GPU infrastructure (RTX A4500/RTX 2000 Ada). Config: `gpu-shadow.json` overlay, `gpu-shadow.env.example`, `OpenStackInstanceConfig` Pydantic model in `akos/models.py`.
+- **`deploy-shadow` GPU CLI subcommand** -- `scripts/gpu.py deploy-shadow` provisions a vLLM instance on ShadowPC OpenStack with cloud-init bootstrapping, health polling, and `switch-model.py gpu-shadow` integration. Interactive menu updated with ShadowPC as option 3.
+- **`vllm-shadow` gateway provider** -- `openclaw.json.example` now declares a `vllm-shadow` provider block with `${VLLM_SHADOW_URL}` env substitution, parallel to `vllm-runpod`.
+- **AWQ weight quantization support** -- `PodConfig.build_vllm_command()` now emits `--quantization`, `--enforce-eager`, and `--max-num-batched-tokens` flags when configured via `envVars`. `CatalogEntry` gains a `quantization` field.
+- **DeepSeek R1 70B AWQ catalog entry** -- `config/model-catalog.json` adds `casperhansen/deepseek-r1-distill-llama-70b-awq` (70GB VRAM at AWQ vs 140GB at bf16), making 70B inference feasible on 2x A100-80GB with KV cache headroom.
+- **HLK branding** -- Gateway control UI title set to "HLK Intelligence Platform" via `gateway.controlUi.title`. Agent identity blocks renamed to "HLK Orchestrator", "HLK Architect", etc. FastAPI title changed to "HLK Operations Platform". Placeholder HLK logo generated at `static/hlk-logo.png`.
+
+### Changed
+
+- **Bootstrap OpenCLaw detection** — `scripts/bootstrap.py` preflight uses `akos.runtime.resolve_openclaw_cli()` so `openclaw.cmd` / `openclaw.exe` npm shims match `scripts/doctor.py` on Windows.
+- **Profile switch diagnostics** — `scripts/switch-model.py` logs the resolved OpenCLaw executable and surfaces repair hints when gateway recovery is incomplete.
+
+### Fixed
+
+- **RunPod VRAM saturation** -- Pod config (`gpu-runpod-pod.json`) switched from bf16 full-precision to AWQ-quantized model variant, `MAX_NUM_SEQS` reduced from 128 to 64, `ENFORCE_EAGER` enabled. Eliminates the 75/80 GB VRAM alert on 2x A100-SXM4-80GB pods.
+
+### Fixed (Phase 6 Runtime Remediation)
+
+- **RunPod serverless AWQ startup regressions** -- normalized runtime defaults to `DTYPE=float16` for AWQ and forced non-JIT worker settings (`KV_CACHE_DTYPE=auto`, `VLLM_ATTENTION_BACKEND=TRITON_ATTN`) to prevent repeated worker boot failures (`nvcc`/FlashInfer-related crashes) on `runpod/worker-v1-vllm`.
+- **Serverless overlay hardening** -- `_update_serverless_overlay_json()` now enforces RunPod worker compatibility defaults when `runpod/worker-v1-vllm` is used, so model-catalog overrides cannot silently reintroduce unstable settings.
+- **Orchestrator startup scaffold recovery** -- added `config/workspace-scaffold/orchestrator/WORKFLOW_AUTO.md` and wired tests/docs so workspace startup context remains deterministic after compaction/restart cycles.
+- **Shadow tenant compatibility** -- OpenStack deployment now omits unset `security_groups` / `key_name` values, aligns the default image/flavor/network to the live tenant inventory, and tolerates projects where security-group creation is forbidden by policy.
+- **`dev-local` overlay drift** -- restored the documented medium-tier local default (`ollama/deepseek-r1:14b` with `qwen3:8b` fallback) so post-reboot local recovery no longer lands on the weaker fallback by default.
+
 ### Fixed (NBT and Flagship Residuals)
 
 - **Langfuse SDK v4 migration** -- `akos/telemetry.py` rewritten from v3 `trace()`/`generation()`/`score()` API (silently broken on SDK v4) to v4 `start_as_current_observation()`/`propagate_attributes()`/`span.score()` API. Traces now actually appear in the Langfuse dashboard.

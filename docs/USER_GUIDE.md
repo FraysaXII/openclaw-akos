@@ -121,7 +121,7 @@ python scripts/bootstrap.py
 | `--skip-wsl` / `-SkipWSL` | Skip WSL2 checks (Windows only) |
 | `--skip-ollama` / `-SkipOllama` | Skip Ollama model pulls |
 | `--skip-mcp` / `-SkipMCP` | Skip MCP server setup |
-| `--primary-model MODEL` | Override primary model (default: `qwen3:8b`) |
+| `--primary-model MODEL` | Override primary model (default: `deepseek-r1:14b`) |
 | `--embed-model MODEL` | Override embedding model (default: `nomic-embed-text`) |
 | `--json-log` | Structured JSON log output |
 
@@ -142,7 +142,7 @@ If you prefer manual setup:
 
 ### 4.1 Configuration Files Overview
 
-All configuration lives under the `config/` directory. Files ending in `.example` are committed templates; copy them (without the `.example` suffix) and fill in your values.
+All configuration lives under the `config/` directory. Real `*.env` files are the operative runtime profiles in this workspace. Files ending in `.example` are reference templates only and should not be used directly by runtime paths.
 
 ```
 config/
@@ -154,11 +154,18 @@ config/
   intelligence-matrix-schema.json  Fact classification schema
   environments/
     dev-local.json             Local Ollama overlay
-    dev-local.env.example      Local env vars
+    dev-local.env              Local env profile (operative)
+    dev-local.env.example      Reference template
     gpu-runpod.json            RunPod overlay (full profile)
-    gpu-runpod.env.example     RunPod env vars
+    gpu-runpod.env             RunPod env profile (operative)
+    gpu-runpod.env.example     Reference template
+    gpu-runpod-pod.env         RunPod dedicated pod env profile (operative)
+    gpu-runpod-pod.env.example Reference template
+    gpu-shadow.env             Shadow OpenStack env profile (operative)
+    gpu-shadow.env.example     Reference template
+    prod-cloud.env             Cloud API env profile (operative)
+    prod-cloud.env.example     Reference template
     prod-cloud.json            Cloud API overlay
-    prod-cloud.env.example     Cloud API keys
   eval/
     baselines.json             DX metric baselines
     alerts.json                SOC alerting thresholds
@@ -216,7 +223,7 @@ The `variantOverlays` section maps each variant to its overlay files, with agent
 
 ### 4.4 Environment Variables
 
-Each deployment environment has a `.env.example` file. Copy it to `.env` (gitignored) and fill in real values.
+Each deployment environment now has a real operative `*.env` file in the repo. `.env.example` files remain reference-only and should not be used directly by runtime commands.
 
 **dev-local.env:**
 ```
@@ -450,7 +457,7 @@ prompts/assembled/MADEIRA_PROMPT.full.md       -->  ~/.openclaw/workspace-madeir
 
 | Environment | Model | Tier | Use Case |
 |:------------|:------|:-----|:---------|
-| `dev-local` | `ollama/deepseek-r1:14b` | medium | Local development after `switch-model.py dev-local`; bootstrap seed starts with `ollama/qwen3:8b` |
+| `dev-local` | `ollama/deepseek-r1:14b` | medium | Local development; `switch-model.py dev-local` applies this profile directly |
 | `gpu-runpod` | `vllm-runpod/deepseek-r1-70b` | large | Remote GPU, full capabilities |
 | `prod-cloud` | `anthropic/claude-sonnet-4` | large | Cloud APIs, production |
 
@@ -461,6 +468,13 @@ python scripts/switch-model.py dev-local       # Local Ollama
 python scripts/switch-model.py gpu-runpod       # RunPod GPU
 python scripts/switch-model.py prod-cloud       # Cloud APIs
 ```
+
+Preferred operator flow:
+
+1. `py scripts/doctor.py --repair-gateway`
+2. `py scripts/switch-model.py <profile>`
+3. `py scripts/gpu.py` only when the chosen profile needs external GPU provisioning
+4. Re-run `py scripts/doctor.py` and provider-specific health checks
 
 **What happens:**
 1. The `.env` file for the target environment is copied to `~/.openclaw/.env`.
@@ -496,7 +510,7 @@ python scripts/switch-model.py prod-cloud       # Cloud APIs
 }
 ```
 
-2. Create `config/environments/my-env.env.example` with any required env vars.
+2. Create `config/environments/my-env.env` with any required env vars.
 3. Add the model to the appropriate tier in `config/model-tiers.json`.
 4. Run `python scripts/switch-model.py my-env`.
 
@@ -534,12 +548,7 @@ The interactive flow should guide the operator through:
 
 1. Create a RunPod account at [runpod.io](https://www.runpod.io).
 2. Generate an API key from the dashboard.
-3. Copy the env template:
-
-```bash
-cp config/environments/gpu-runpod.env.example config/environments/gpu-runpod.env
-```
-
+3. Edit the real env file `config/environments/gpu-runpod.env`.
 4. Set your API key:
 
 ```
@@ -558,19 +567,21 @@ This will:
 - Write the endpoint URL to `VLLM_RUNPOD_URL` in your `.env` file.
 - Run a health check to verify the endpoint is ready.
 
+If endpoint creation is blocked by account state or worker policy, use the exact operator steps in [`docs/uat/gpu_provider_unblock_checklist.md`](uat/gpu_provider_unblock_checklist.md).
+
 ### 8.4 Serverless Configuration
 
 The full RunPod profile in `config/environments/gpu-runpod.json`:
 
 | Field | Description | Default |
 |:------|:------------|:--------|
-| `gpuIds` | GPU types to use | `["AMPERE_80", "ADA_80"]` |
-| `templateName` | RunPod template name | `akos-vllm-deepseek-r1-70b` |
-| `vllmImage` | Docker image for vLLM worker | `runpod/worker-v1-vllm:stable-cuda12.8.0` |
-| `modelName` | HuggingFace model ID | `deepseek-ai/DeepSeek-R1-0528-Distill-Qwen-70B` |
-| `maxModelLen` | Maximum context length | `131072` |
+| `gpuIds` | GPU types to use | `["AMPERE_80", "ADA_80_PRO"]` |
+| `templateName` | RunPod template name | `akos-vllm-deepseek-r1-70b-awq` |
+| `vllmImage` | Docker image for vLLM worker | `runpod/worker-v1-vllm:v2.14.0` |
+| `modelName` | HuggingFace model ID | `casperhansen/deepseek-r1-distill-llama-70b-awq` |
+| `maxModelLen` | Maximum context length | `32768` |
 | `activeWorkers` | Min workers (always on) | `0` |
-| `maxWorkers` | Max workers (scales up) | `2` |
+| `maxWorkers` | Max workers (scales up) | `1` |
 | `idleTimeoutSeconds` | Workers spin down after | `300` (5 min) |
 | `healthCheck.intervalSeconds` | Health poll frequency | `60` |
 | `healthCheck.unhealthyThreshold` | Failures before alert | `3` |
@@ -608,7 +619,7 @@ Use serverless (`gpu-runpod`) for intermittent usage, low idle-cost operation, a
 
 #### The `gpu-runpod-pod` environment profile
 
-The dedicated pod profile lives in `config/environments/gpu-runpod-pod.json`. It shares the same vLLM tuning parameters as the serverless profile (FP8 KV cache, prefix caching, tool-call parsing) but targets a persistent pod instead of a serverless endpoint. Unlike `gpu-runpod`, it does **not** require `RUNPOD_API_KEY` or `RUNPOD_ENDPOINT_ID` -- only the pod's vLLM URL.
+The dedicated pod profile lives in `config/environments/gpu-runpod-pod.json`. It shares the same vLLM tuning parameters as the serverless profile but targets a persistent pod instead of a serverless endpoint. Normal runtime use only needs the pod's `VLLM_RUNPOD_URL`, but the `deploy-pod` provisioning flow still requires `RUNPOD_API_KEY` to create or terminate the pod.
 
 #### Setup
 
@@ -622,7 +633,7 @@ The interactive flow:
 
 1. **Select a model** from `config/model-catalog.json` (the GPU model SSOT). The picker shows parameter count, VRAM requirement, reasoning capability, and tool-call parser for each entry.
 2. **Select a GPU** type and count. The CLI recommends a default based on the model's VRAM needs and computes the minimum GPU count automatically.
-3. **Confirm and deploy**. The CLI provisions a pod on RunPod with the `vllm/vllm-openai:latest` image, passes the correct vLLM flags (including `--tool-call-parser`, `--reasoning-parser` when applicable), switches the gateway to the new endpoint, and persists the URL to both the repo `.env` and `~/.openclaw/.env`.
+3. **Confirm and deploy**. The CLI provisions a pod on RunPod with the `vllm/vllm-openai:v0.16.0` image, passes the correct vLLM flags (including `--tool-call-parser`, `--reasoning-parser` when applicable), switches the gateway to the new endpoint, and persists the URL to both the repo `.env` and `~/.openclaw/.env`.
 
 Use `--dry-run` to preview the configuration without creating a pod:
 
@@ -658,6 +669,37 @@ The `runpod` field should show `"healthy"`. You can also test inference directly
 ```bash
 curl $VLLM_RUNPOD_URL/models
 ```
+
+### 8.8 ShadowPC OpenStack
+
+ShadowPC is the sovereign-EU GPU alternative to RunPod. The `gpu-shadow` profile deploys vLLM through cloud-init onto an OpenStack GPU instance and then points the gateway at the instance's floating IP.
+
+Setup flow:
+
+1. Edit the real env file `config/environments/gpu-shadow.env`.
+2. Fill in your OpenStack auth values or set `OS_CLOUD` to a working `clouds.yaml` entry.
+3. Run a dry-run first:
+
+```bash
+python scripts/gpu.py deploy-shadow --dry-run
+```
+
+4. Then deploy:
+
+```bash
+python scripts/gpu.py deploy-shadow
+```
+
+Current known-good Shadow defaults:
+
+- Image: `Ubuntu-22.04`
+- Flavor: `power-c32m112-gpu-A4500-4`
+- Model profile: `casperhansen/deepseek-r1-distill-llama-70b-awq`
+
+Operational note:
+
+- Some Shadow tenants forbid security-group creation through policy. If that happens, AKOS now falls back to project-default networking instead of failing the deploy before instance creation.
+- If compute server creation is blocked by role/policy, use the exact operator steps in [`docs/uat/gpu_provider_unblock_checklist.md`](uat/gpu_provider_unblock_checklist.md).
 
 ---
 
@@ -941,7 +983,7 @@ Without credentials, telemetry degrades to a no-op. The watcher still evaluates 
 
 **Per-environment Langfuse setup (Phase 10):**
 
-All three environment templates (`dev-local.env.example`, `gpu-runpod.env.example`, `prod-cloud.env.example`) now include `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and `LANGFUSE_HOST` placeholders. When you run `py scripts/switch-model.py <env>`, Langfuse placeholders propagate into `~/.openclaw/.env`. The repo no longer uses `config/eval/langfuse.env`.
+All real environment profiles under `config/environments/*.env` include the Langfuse placeholders (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`) needed by runtime. When you run `py scripts/switch-model.py <env>`, the selected real env profile is copied into `~/.openclaw/.env`. The repo no longer uses `config/eval/langfuse.env`.
 
 **Startup compliance tracing:**
 
@@ -1307,6 +1349,20 @@ The `-q` flag produces minimal output suitable for CI logs.
 
 ## 17. Troubleshooting
 
+### Windows: dashboard unreachable or `port already in use` after reboot
+
+**Cause:** The OpenClaw gateway supervisor and a crashed/orphan Node listener can disagree; `gateway stop` may not free TCP `18789`, so the supervised service cannot bind on restart.
+
+**Fix (preferred):**
+
+```bash
+py scripts/doctor.py --repair-gateway
+```
+
+This runs the same sequence as `scripts/switch-model.py` after a profile switch: upstream OpenClaw doctor repair, gateway stop, Windows-only release of stale listeners on port 18789, then gateway start. Use `py scripts/doctor.py --force-gateway-repair` if the upstream doctor supports a more aggressive repair flag.
+
+If the dashboard still does not answer, confirm the OpenClaw CLI is on PATH as `openclaw`, `openclaw.cmd`, or `openclaw.exe` (npm shims on Windows). If `openclaw gateway install --force` fails with access denied, re-run the installer command from an elevated PowerShell so the Scheduled Task can be updated.
+
 ### Agent is silent or freezes
 
 **Cause:** `verboseDefault` is set to `"off"`, hiding tool calls.
@@ -1326,7 +1382,7 @@ Verify: `ollama show <model> --parameters` should display the correct `num_ctx`.
 
 ### Ollama Performance Tuning
 
-Set these environment variables (already configured in `dev-local.env.example`) for optimal local performance:
+Set these environment variables (already configured in `dev-local.env`) for optimal local performance:
 
 | Variable | Value | Effect |
 |:---------|:------|:-------|
@@ -1343,7 +1399,7 @@ To upgrade from the 8B small-tier model to the 14B medium-tier model:
 2. Rebuild with committed Modelfile: `ollama create deepseek-r1:14b -f config/ollama/Modelfile.deepseek-r1-14b`
 3. Switch environment: `python scripts/switch-model.py dev-local`
 
-The `dev-local` environment profile is pre-configured to use `deepseek-r1:14b` as primary with `qwen3:8b` as fallback. Separately, the cross-platform bootstrap seeds an initial local-safe runtime using `qwen3:8b` before you explicitly switch environments.
+The `dev-local` environment profile is pre-configured to use `deepseek-r1:14b` as primary with `qwen3:8b` as fallback. Bootstrap and `switch-model.py dev-local` now align on that same medium-tier default.
 
 ### RunPod vLLM Best Practices
 
@@ -1351,9 +1407,10 @@ The `gpu-runpod.json` profile includes production-grade vLLM settings. Key recom
 
 - **Tool calling**: Set `ENABLE_AUTO_TOOL_CHOICE=true` and `TOOL_CALL_PARSER=deepseek_v3` for structured tool output (without this, tool calls return as raw text).
 - **Prefix caching**: `ENABLE_PREFIX_CACHING=true` avoids recomputing the 3-10K SOUL.md system prompt tokens on every request.
-- **FP8 KV cache**: `KV_CACHE_DTYPE=fp8` doubles KV cache capacity, enabling 131K context on A100-80GB.
-- **GPU selection**: `AMPERE_80` (A100-80GB) and `ADA_80` (H100-80GB) are recommended for 70B distilled models.
-- **Concurrency**: `MAX_NUM_SEQS=128` (down from default 256) trades batch throughput for lower tail latency in agent workloads.
+- **RunPod worker compatibility**: For `runpod/worker-v1-vllm:*`, use `KV_CACHE_DTYPE=auto` and `VLLM_ATTENTION_BACKEND=TRITON_ATTN` to avoid FlashInfer JIT startup failures on workers without `nvcc`.
+- **AWQ dtype**: `QUANTIZATION=awq` should pair with `DTYPE=float16` for stable startup.
+- **GPU selection**: `AMPERE_80` (A100-80GB) and `ADA_80_PRO` are recommended for 70B distilled models.
+- **Concurrency**: `MAX_NUM_SEQS=64` (down from default 256) trades batch throughput for lower tail latency in agent workloads.
 
 ### `thinkingDefault` causes 400 errors with Ollama
 
@@ -1372,12 +1429,25 @@ The `gpu-runpod.json` profile includes production-grade vLLM settings. Key recom
 
 ### RunPod endpoint unhealthy after provisioning
 
-**Cause:** Workers take 2-5 minutes to warm up after creation.
+**Common causes:**
 
-**Fix:** Wait and check again:
+1. Workers are still warming up (first model load can take several minutes).
+2. Worker image starts with FP8/FlashInfer settings that require CUDA toolkit binaries (`nvcc`) not present in the container.
+3. AWQ model selected with non-float16 dtype.
+
+**Fix / verification path:**
+
+1. Verify health:
 ```bash
 curl http://127.0.0.1:8420/runpod/health
 ```
+2. If workers stay `throttled` or repeatedly exit, set these envs in `gpu-runpod.json`:
+   - `DTYPE=float16` (for AWQ)
+   - `KV_CACHE_DTYPE=auto`
+   - `VLLM_ATTENTION_BACKEND=TRITON_ATTN`
+3. Recreate the endpoint so workers pick up the patched template/env.
+4. Re-run an inference smoke request and confirm `/runpod/health` shows `ready > 0`, `throttled = 0`, and `jobs.completed` increasing.
+
 The log watcher also monitors health every 60 seconds.
 
 ### Assembled prompt exceeds bootstrapMaxChars
@@ -1420,8 +1490,9 @@ python scripts/switch-model.py --rollback
 2. Confirm runtime-contract checks report both:
    - `Gateway runtime normalized to healthy (...)`
    - `Runtime status deterministic across repeated probes (healthy)`
-3. If checks fail, restart and validate again:
-   - `openclaw gateway restart`
+3. If checks fail, run the AKOS repair path:
+   - `py scripts/doctor.py --repair-gateway`
+4. Then validate again:
    - `py scripts/doctor.py`
 
 ### `[config/schema]` sensitive-key warnings in diagnostics
@@ -1437,12 +1508,12 @@ python scripts/switch-model.py --rollback
 
 ### `openclaw gateway restart` fails with `MissingEnvVarError`
 
-**Cause:** The live `openclaw.json` references `${OLLAMA_GPU_URL}`, `${VLLM_RUNPOD_URL}`, `${OPENAI_API_KEY}`, or `${ANTHROPIC_API_KEY}` via env-var substitution, but no `.env` file exists at `~/.openclaw/.env` to supply them. Bootstrap (v0.5.0+) now auto-seeds this file from `config/environments/dev-local.env.example` on first run.
+**Cause:** The live `openclaw.json` references `${OLLAMA_GPU_URL}`, `${VLLM_RUNPOD_URL}`, `${VLLM_SHADOW_URL}`, `${OPENAI_API_KEY}`, or `${ANTHROPIC_API_KEY}` via env-var substitution, but no `.env` file exists at `~/.openclaw/.env` to supply them. Bootstrap now auto-seeds this file with deterministic placeholder values on first run.
 
 **Fix:**
 1. Re-run bootstrap: `py scripts/bootstrap.py --skip-ollama`
 2. Or manually run: `py scripts/switch-model.py dev-local`
-3. Then restart: `openclaw gateway restart`
+3. Then repair/start the gateway: `py scripts/doctor.py --repair-gateway`
 
 ### Post-doctor verification checklist (custom provider/model blocks)
 
@@ -1846,6 +1917,42 @@ MADEIRA is your single entrypoint for HLK operations. You talk to MADEIRA. MADEI
 4. **Register the process** -- if this is a new process, add a row to `process_list.csv` with the correct `item_parent_1`, `role_owner`, and `item_granularity`.
 5. **Commit** -- git tracks the change. Drive syncs the folder.
 
+### 24.3.1 Governed KM (Topic–Fact–Source and Output 1)
+
+For **visuals and other knowledge artifacts** that must stay traceable across Obsidian, Drive, and git, follow the Topic–Fact–Source contract in `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md`:
+
+- **Output 1 (images / Excalidraw exports):** keep binaries under `docs/references/hlk/v3.0/_assets/<topic_id>/` with a `*.manifest.md` sidecar and a short companion `.md` stub for search.
+- **Tags:** use only the controlled vocabulary and prefixes defined in that contract.
+- **External backlogs (e.g. Trello):** use the PMO registry `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md` as the canonical **index**; Trello remains non-authoritative. Board exports for id reconciliation live under `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/imports/` (see `imports/README.md`).
+- **WIP syntheses** tied to registry rows: `docs/wip/hlk-km/research-synthesis-*.md` (interpretation layer until promoted).
+- **Validation:** after editing manifests under `v3.0/_assets/`, run `py scripts/validate_hlk_km_manifests.py`.
+- **UAT:** `docs/uat/hlk_admin_smoke.md` Scenario 8 (KM manifests + registry + imports).
+
+See also `docs/references/hlk/v3.0/index.md` (Knowledge management section), `docs/wip/README.md` (wip layout), and `docs/wip/planning/hlk-km-knowledge-base/master-roadmap.md` for initiative traceability.
+
+### 24.3.2 Promotion Ladder For Founder-Governance Work
+
+Not every business artifact should jump straight into `process_list.csv`.
+
+Use this order:
+
+| Layer | What belongs there | Where it lives |
+|:------|:-------------------|:---------------|
+| Working synthesis | Redacted interpretation, validation, source comparison | `docs/wip/` (see `docs/wip/README.md`; HLK KM stubs under `docs/wip/hlk-km/`) |
+| Case docs | Current founder/entity decisions, evidence packs, rationale notes | `docs/references/hlk/v3.0/` |
+| SOPs | Repeatable procedures with stable inputs/outputs | `docs/references/hlk/v3.0/` |
+| Registry rows | Runtime-discoverable projects, workstreams, processes, tasks | `docs/references/hlk/compliance/process_list.csv` |
+| Org changes | Role ownership changes only | `docs/references/hlk/compliance/baseline_organisation.csv` |
+
+**Current founder-governance bundle examples:**
+
+- Legal: `Founder Entity Formation Readiness`, `Trademark and Naming Governance`
+- Finance: `Founder-to-Company Funding Path`
+- Compliance: `ENISA Readiness and Evidence Pack`
+- Case layer: entity-formation memo, capitalization note, ENISA evidence pack, trademark scope note, Research-vs-Tech-Lab rationale
+
+**Scaling rule:** If the same founder-governance activity repeats, promote the stable part upward into SOP + registry layers. If it stays case-specific, keep it in role-owned case docs rather than bloating the registry.
+
 ### 24.4 Maintaining Baselines
 
 The canonical baselines live in `docs/references/hlk/compliance/`:
@@ -1858,8 +1965,11 @@ The canonical baselines live in `docs/references/hlk/compliance/`:
 | `confidence_levels.md` | Confidence level definitions | Policy change (rare) |
 | `source_taxonomy.md` | Source categories and credibility levels | New source type (rare) |
 | `PRECEDENCE.md` | What is canonical vs mirrored | Governance change |
+| `HLK_KM_TOPIC_FACT_SOURCE.md` | Topic / Fact / Source, Output 1 manifests, Obsidian tags | KM contract or manifest rules change |
 
 **After editing baselines:** Restart the AKOS API (`py scripts/serve-api.py`) to reload the HLK registry from the updated CSVs.
+
+Current canonical examples include founder-governance processes under Legal, Finance, and Compliance such as `Founder Entity Formation Readiness`, `Trademark and Naming Governance`, `Founder-to-Company Funding Path`, and `ENISA Readiness and Evidence Pack`.
 
 ### 24.5 Vault Structure Reference
 
@@ -1892,3 +2002,6 @@ docs/references/hlk/
 | What happens if I edit both vault and DB? | Vault wins. See `PRECEDENCE.md` for conflict resolution. |
 | How do I restart after baseline edits? | `py scripts/serve-api.py --port 8420` |
 | How do I check integrity? | `py scripts/test.py hlk` or use `/hlk/gaps` endpoint |
+| How do I validate KM visual manifests? | `py scripts/validate_hlk_km_manifests.py` |
+
+

@@ -1,7 +1,10 @@
 # HLK Admin Smoke Test Scenarios
 
 **Purpose**: Validate that MADEIRA and the HLK registry endpoints work correctly for common admin tasks.
-**Prerequisite**: AKOS API running (`py scripts/serve-api.py --port 8420`) and HLK MCP server available.
+**Prerequisites**:
+- Local OpenClaw gateway reachable (`http://127.0.0.1:18789` returns HTTP 200). If the host just rebooted or the dashboard refuses connections, run `py scripts/doctor.py --repair-gateway` first (see `docs/USER_GUIDE.md` §17 Windows gateway recovery).
+- AKOS API running (`py scripts/serve-api.py --port 8420`) and HLK MCP server available.
+**GPU note**: If a live GPU lane is in scope for this UAT run, complete [`gpu_provider_unblock_checklist.md`](gpu_provider_unblock_checklist.md) first.
 
 ## Scenario 0: Dashboard Entrypoint (MADEIRA agent)
 
@@ -22,7 +25,7 @@
 **Restart/bootstrap flow** (run these before UAT if config or prompts changed):
 ```bash
 py scripts/bootstrap.py --skip-ollama
-openclaw gateway restart
+py scripts/doctor.py --repair-gateway
 ```
 
 ---
@@ -127,6 +130,22 @@ openclaw gateway restart
 | 3 | Ask: "Who created this process list?" | MADEIRA cites the vault and PRECEDENCE.md, not session memory |
 
 **Pass criteria**: Vault data always takes precedence over session claims. OVERLAY_HLK grounding rules are respected.
+
+---
+
+## Scenario 8: HLK KM manifests and PMO Trello index
+
+**Goal**: Confirm governed Output 1 manifests validate and the PMO backlog registry points at consistent paths (no API required beyond optional file inspection).
+
+| Step | Action | Expected |
+|:-----|:-------|:---------|
+| 1 | Run `py scripts/validate_hlk.py` | `OVERALL: PASS` |
+| 2 | Run `py scripts/validate_hlk_km_manifests.py` | `OVERALL: PASS` for all `docs/references/hlk/v3.0/_assets/**/*.manifest.md` |
+| 3 | Open `docs/references/hlk/v3.0/_assets/km-pilot/VISUAL_km_pilot_001.manifest.md` | Frontmatter includes `source_id`, `output_type: 1`, indented `raster:`; body links resolve to `HLK_KM_TOPIC_FACT_SOURCE.md` |
+| 4 | Open `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md` | Rows use 24-character hex `trello_card_id` values; wip synthesis links target `docs/wip/hlk-km/research-synthesis-*.md` |
+| 5 | Open `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/imports/README.md` | Describes primary vs archive JSON slices; registry maintenance uses **primary** export |
+
+**Pass criteria**: Both validators pass; spot-checks show contract links and registry ids aligned with [imports/trello_board_67697e19_primary.json](../references/hlk/v3.0/Admin/O5-1/Operations/PMO/imports/trello_board_67697e19_primary.json).
 
 ---
 

@@ -23,11 +23,45 @@ The folder structure mirrors the organisational hierarchy defined in [baseline_o
 4. If it is a formal process, add a row to [process_list.csv](../compliance/process_list.csv).
 5. If it is an SOP, follow the [SOP-META envelope](../compliance/SOP-META_PROCESS_MGMT_001.md).
 
+### Promotion ladder for sensitive casework
+
+Use a staged promotion path for founder-governance and other sensitive business casework:
+
+1. Keep raw evidence and exploratory interpretation outside the canonical vault or in `docs/wip/`.
+2. Promote stable, role-owned case decisions into `v3.0/`.
+3. Formalize repeatable behavior as SOPs.
+4. Register only the repeatable process layer in [process_list.csv](../compliance/process_list.csv).
+5. Update [baseline_organisation.csv](../compliance/baseline_organisation.csv) only if ownership itself changes.
+
+Current examples:
+
+- [Founder incorporation knowledge index](Admin/O5-1/People/Legal/FOUNDER_INCORPORATION_KNOWLEDGE_INDEX.md)
+- [Founder governance document lifecycle](Admin/O5-1/People/Compliance/FOUNDER_GOVERNANCE_DOCUMENT_LIFECYCLE.md)
+
 ### Finding a document
 
 - By role: navigate the folder tree below.
 - By process: look up the `item_id` in [process_list.csv](../compliance/process_list.csv) and find its `role_owner`.
 - By compliance classification: check [access_levels.md](../compliance/access_levels.md), [confidence_levels.md](../compliance/confidence_levels.md), or [source_taxonomy.md](../compliance/source_taxonomy.md).
+
+### Knowledge management (Topic–Fact–Source, Output 1)
+
+Holistika-wide KM is governed by [HLK_KM_TOPIC_FACT_SOURCE.md](../compliance/HLK_KM_TOPIC_FACT_SOURCE.md): **sources** (output types 0–4), **facts** (atomic, cited claims), **topics** (bundles and indexes), aligned to `artifact_role` and [PRECEDENCE.md](../compliance/PRECEDENCE.md).
+
+| Need | Where |
+|------|--------|
+| Full contract (manifest fields, Obsidian tag vocabulary) | [HLK_KM_TOPIC_FACT_SOURCE.md](../compliance/HLK_KM_TOPIC_FACT_SOURCE.md) |
+| Topic bundle template | [TOPIC_KNOWLEDGE_INDEX_TEMPLATE.md](Admin/O5-1/People/Compliance/TOPIC_KNOWLEDGE_INDEX_TEMPLATE.md) |
+| Example visual manifest | [VISUAL_MANIFEST_EXAMPLE.manifest.md](Admin/O5-1/People/Compliance/VISUAL_MANIFEST_EXAMPLE.manifest.md) |
+| PMO backlog index (Trello → topic_id; Trello not SSOT) | [RESEARCH_BACKLOG_TRELLO_REGISTRY.md](Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md) |
+| Trello board JSON imports (primary + archive slices) | [imports/README.md](Admin/O5-1/Operations/PMO/imports/README.md) |
+| WIP topic syntheses (interpretation layer) | [docs/wip/hlk-km/](../../../wip/hlk-km/) |
+| Pilot Output 1 bundle (rasters + `*.manifest.md` + stubs) | [_assets/km-pilot/](_assets/km-pilot/) |
+| Workspace roadmap / traceability | [master-roadmap.md](../../../wip/planning/hlk-km-knowledge-base/master-roadmap.md) |
+
+**Binary visuals (Output 1):** store under `v3.0/_assets/<topic_id>/` with a sidecar `*.manifest.md` and a short companion markdown stub for search. Do not use `.cursor/` or other tool-local paths for canonical assets.
+
+**Obsidian:** use the controlled tag prefixes documented in the KM contract; do not invent new root tags without updating that document.
 
 ### Platform compatibility
 
@@ -126,9 +160,10 @@ Think Big/
 | Baseline | Location |
 |----------|----------|
 | Organisation roles | [baseline_organisation.csv](../compliance/baseline_organisation.csv) (65 roles, 10 areas) |
-| Process inventory | [process_list.csv](../compliance/process_list.csv) (317 items, 11 projects) |
+| Process inventory | [process_list.csv](../compliance/process_list.csv) (324 items, 11 projects) |
 | Access levels | [access_levels.md](../compliance/access_levels.md) (0-6) |
 | Confidence levels | [confidence_levels.md](../compliance/confidence_levels.md) (Safe, Euclid, Keter) |
 | Source taxonomy | [source_taxonomy.md](../compliance/source_taxonomy.md) (6 categories, 19 levels) |
 | Precedence contract | [PRECEDENCE.md](../compliance/PRECEDENCE.md) |
 | Meta-SOP | [SOP-META_PROCESS_MGMT_001.md](../compliance/SOP-META_PROCESS_MGMT_001.md) |
+| KM contract (Topic / Fact / Source, Output 1) | [HLK_KM_TOPIC_FACT_SOURCE.md](../compliance/HLK_KM_TOPIC_FACT_SOURCE.md) |
