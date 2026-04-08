@@ -92,9 +92,9 @@ class TestOpenclawConfig:
         defaults = self.data["agents"]["defaults"]
         assert defaults.get("verboseDefault") in ("on", "full")
 
-    def test_thinking_default_is_off_for_ollama(self):
+    def test_thinking_default_matches_medium_local_default(self):
         defaults = self.data["agents"]["defaults"]
-        assert defaults.get("thinkingDefault") == "off"
+        assert defaults.get("thinkingDefault") == "low"
 
     def test_has_bindings(self):
         assert "bindings" in self.data
@@ -408,6 +408,7 @@ class TestStrictAkosInventoryContract:
             "openai",
             "anthropic",
             "vllm-runpod",
+            "vllm-shadow",
         }
 
     def test_a2a_allowlist_exact_match(self, config_dir):

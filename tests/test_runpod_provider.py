@@ -25,7 +25,7 @@ def runpod_config() -> RunPodEndpointConfig:
     return RunPodEndpointConfig(
         gpuIds=["AMPERE_80"],
         templateName="test-template",
-        vllmImage="runpod/worker-v1-vllm:stable-cuda12.8.0",
+        vllmImage="runpod/worker-v1-vllm:v2.14.0",
         modelName="deepseek-ai/DeepSeek-R1-Test",
         maxModelLen=32768,
         activeWorkers=0,
@@ -315,3 +315,4 @@ class TestRunPodEndpointConfig:
         config = RunPodEndpointConfig()
         assert config.healthCheck.intervalSeconds == 60
         assert config.healthCheck.unhealthyThreshold == 3
+

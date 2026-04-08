@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import pytest
 
-from akos.io import deploy_openclaw_plugins, ensure_memory_journal_files
+from akos.io import RUNTIME_ENV_PLACEHOLDERS, deploy_openclaw_plugins, ensure_memory_journal_files
 from scripts.bootstrap import (
     _backfill_env_placeholders,
     _collect_unresolved_provider_inputs,
@@ -35,14 +35,12 @@ def test_unresolved_provider_inputs_do_not_remove_provider_blocks(monkeypatch) -
 
 
 def test_seed_env_file_creates_env_when_missing(tmp_path: Path) -> None:
-    example = Path("config/environments/dev-local.env.example")
-    if not example.exists():
-        return
     _seed_env_file_if_missing(tmp_path)
     env_file = tmp_path / ".env"
     assert env_file.exists()
     content = env_file.read_text()
-    assert "OLLAMA_GPU_URL" in content
+    assert f"OLLAMA_GPU_URL={RUNTIME_ENV_PLACEHOLDERS['OLLAMA_GPU_URL']}" in content
+    assert f"VLLM_SHADOW_URL={RUNTIME_ENV_PLACEHOLDERS['VLLM_SHADOW_URL']}" in content
 
 
 def test_seed_env_file_skips_when_env_exists(tmp_path: Path) -> None:
@@ -55,18 +53,11 @@ def test_seed_env_file_skips_when_env_exists(tmp_path: Path) -> None:
 def test_backfill_env_placeholders_adds_missing_values(tmp_path: Path) -> None:
     env_file = tmp_path / ".env"
     env_file.write_text("EXISTING=true\nOLLAMA_API_KEY=ollama-local\n", encoding="utf-8")
-    cfg_dir = tmp_path / "config" / "environments"
-    cfg_dir.mkdir(parents=True)
-    example = cfg_dir / "dev-local.env.example"
-    example.write_text(
-        "OLLAMA_API_KEY=ollama-local\nRUNPOD_API_KEY=not-configured\nVLLM_RUNPOD_URL=http://localhost:8000/v1\n",
-        encoding="utf-8",
-    )
-    with patch("scripts.bootstrap.REPO_ROOT", tmp_path):
-        _backfill_env_placeholders(tmp_path)
+    _backfill_env_placeholders(tmp_path)
     text = env_file.read_text(encoding="utf-8")
-    assert "RUNPOD_API_KEY=not-configured" in text
-    assert "VLLM_RUNPOD_URL=http://localhost:8000/v1" in text
+    assert f"RUNPOD_API_KEY={RUNTIME_ENV_PLACEHOLDERS['RUNPOD_API_KEY']}" in text
+    assert f"VLLM_RUNPOD_URL={RUNTIME_ENV_PLACEHOLDERS['VLLM_RUNPOD_URL']}" in text
+    assert f"VLLM_SHADOW_URL={RUNTIME_ENV_PLACEHOLDERS['VLLM_SHADOW_URL']}" in text
 
 
 def test_bootstrap_preserves_template_gateway_tool_blocks() -> None:

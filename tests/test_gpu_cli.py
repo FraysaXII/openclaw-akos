@@ -72,11 +72,14 @@ def tmp_pod_env(tmp_path):
 
 class TestCatalogLoading:
     def test_all_entries_parse(self, catalog):
-        assert len(catalog) >= 8
+        assert len(catalog) >= 9
 
-    def test_no_duplicate_served_names(self, catalog):
-        names = [e.servedModelName for e in catalog]
-        assert len(names) == len(set(names)), f"Duplicates: {names}"
+    def test_no_duplicate_served_names_within_same_quant(self, catalog):
+        seen: dict[tuple[str, str | None], str] = {}
+        for e in catalog:
+            key = (e.servedModelName, e.quantization)
+            assert key not in seen, f"Duplicate: {e.hfId} vs {seen[key]} (same served name + quantization)"
+            seen[key] = e.hfId
 
     def test_no_duplicate_hf_ids(self, catalog):
         ids = [e.hfId for e in catalog]
@@ -95,6 +98,17 @@ class TestCatalogLoading:
         reasoning_names = {e.displayName for e in catalog if e.reasoning}
         assert "DeepSeek R1 70B" in reasoning_names
         assert "QwQ 32B (reasoning)" in reasoning_names
+
+    def test_awq_entry_exists(self, catalog):
+        awq_entries = [e for e in catalog if e.quantization == "awq"]
+        assert len(awq_entries) >= 1
+        awq = awq_entries[0]
+        assert awq.vramGb < 140, "AWQ model should need less VRAM than bf16"
+        assert awq.reasoning is True
+
+    def test_quantization_field_present(self, catalog):
+        for e in catalog:
+            assert hasattr(e, "quantization"), f"{e.displayName} missing quantization field"
 
     def test_non_reasoning_models_unflagged(self, catalog):
         for e in catalog:
@@ -185,6 +199,15 @@ class TestVllmCommandPerFamily:
             assert cmd[idx + 1] == entry.hfId
             assert "python" not in cmd[0], "CMD must not start with python"
 
+    def test_awq_model_has_quantization_flag(self, catalog):
+        awq_entries = [e for e in catalog if e.quantization == "awq"]
+        assert len(awq_entries) >= 1
+        for entry in awq_entries:
+            cmd = self._build_cmd(entry)
+            assert "--quantization" in cmd
+            idx = cmd.index("--quantization")
+            assert cmd[idx + 1] == "awq"
+
 
 # ── Overlay JSON wiring ─────────────────────────────────────────────
 
@@ -225,6 +248,8 @@ class TestOverlayWiring:
         assert data["agents"]["defaults"]["thinkingDefault"] == "medium"
         assert data["runpod"]["modelName"] == deepseek_entry.hfId
         assert data["runpod"]["envVars"]["TOOL_CALL_PARSER"] == "deepseek_v3"
+        assert data["runpod"]["envVars"]["KV_CACHE_DTYPE"] == "auto"
+        assert data["runpod"]["envVars"]["VLLM_ATTENTION_BACKEND"] == "TRITON_ATTN"
 
 
 # ── _apply_catalog_to_pod_config ─────────────────────────────────────

@@ -17,10 +17,15 @@ from akos.models import (
     AgentsDefaults,
     Alert,
     Baseline,
+    ControlUiConfig,
     EnvironmentOverlay,
+    GatewayConfig,
     ModelRef,
     ModelTiersRegistry,
     OpenClawConfig,
+    OpenStackInstanceConfig,
+    PodConfig,
+    RunPodEndpointConfig,
     TierConfig,
 )
 
@@ -229,3 +234,132 @@ class TestEnvironmentOverlay:
         }
         overlay = EnvironmentOverlay.model_validate(data)
         assert overlay.agents.defaults.model.primary == "ollama/qwen3:8b"
+
+    def test_with_openstack_block(self):
+        data = {
+            "agents": {
+                "defaults": {
+                    "model": {"primary": "vllm-shadow/deepseek-r1-70b"},
+                    "thinkingDefault": "medium",
+                },
+            },
+            "openstack": {
+                "region": "FRDUN02",
+                "flavor": "boost-c8m12-gpu-a4500-4",
+                "gpuType": "RTX A4500",
+                "gpuCount": 4,
+                "gpuVramGb": 20,
+            },
+        }
+        overlay = EnvironmentOverlay.model_validate(data)
+        assert overlay.openstack is not None
+        assert overlay.openstack.region == "FRDUN02"
+        assert overlay.openstack.gpuCount == 4
+
+    def test_openstack_optional(self):
+        data = {
+            "agents": {
+                "defaults": {
+                    "model": {"primary": "ollama/qwen3:8b"},
+                    "thinkingDefault": "off",
+                },
+            },
+        }
+        overlay = EnvironmentOverlay.model_validate(data)
+        assert overlay.openstack is None
+
+
+# ---------------------------------------------------------------------------
+# PodConfig -- quantization and vLLM command generation
+# ---------------------------------------------------------------------------
+
+class TestPodConfigQuantization:
+    def test_quantization_flag_emitted(self):
+        pc = PodConfig(envVars={"QUANTIZATION": "awq"})
+        cmd = pc.build_vllm_command()
+        assert "--quantization" in cmd
+        idx = cmd.index("--quantization")
+        assert cmd[idx + 1] == "awq"
+
+    def test_no_quantization_when_unset(self):
+        pc = PodConfig(envVars={})
+        cmd = pc.build_vllm_command()
+        assert "--quantization" not in cmd
+
+    def test_enforce_eager_flag(self):
+        pc = PodConfig(envVars={"ENFORCE_EAGER": "true"})
+        cmd = pc.build_vllm_command()
+        assert "--enforce-eager" in cmd
+
+    def test_no_enforce_eager_when_false(self):
+        pc = PodConfig(envVars={"ENFORCE_EAGER": "false"})
+        cmd = pc.build_vllm_command()
+        assert "--enforce-eager" not in cmd
+
+    def test_max_num_batched_tokens_flag(self):
+        pc = PodConfig(envVars={"MAX_NUM_BATCHED_TOKENS": "16384"})
+        cmd = pc.build_vllm_command()
+        assert "--max-num-batched-tokens" in cmd
+        idx = cmd.index("--max-num-batched-tokens")
+        assert cmd[idx + 1] == "16384"
+
+    def test_awq_forces_float16_dtype(self):
+        pc = PodConfig(envVars={"QUANTIZATION": "awq", "DTYPE": "bfloat16"})
+        cmd = pc.build_vllm_command()
+        idx = cmd.index("--dtype")
+        assert cmd[idx + 1] == "float16"
+
+
+class TestRunPodEndpointConfigCompat:
+    def test_awq_forces_float16_dtype(self):
+        cfg = RunPodEndpointConfig(
+            vllmImage="runpod/worker-v1-vllm:v2.14.0",
+            envVars={"QUANTIZATION": "awq", "DTYPE": "bfloat16"},
+        )
+        assert cfg.envVars["DTYPE"] == "float16"
+
+    def test_runpod_worker_fp8_is_downgraded_for_stability(self):
+        cfg = RunPodEndpointConfig(
+            vllmImage="runpod/worker-v1-vllm:v2.14.0",
+            envVars={"KV_CACHE_DTYPE": "fp8"},
+        )
+        assert cfg.envVars["KV_CACHE_DTYPE"] == "auto"
+        assert cfg.envVars["VLLM_ATTENTION_BACKEND"] == "TRITON_ATTN"
+
+
+# ---------------------------------------------------------------------------
+# OpenStackInstanceConfig
+# ---------------------------------------------------------------------------
+
+class TestOpenStackInstanceConfig:
+    def test_defaults(self):
+        cfg = OpenStackInstanceConfig()
+        assert cfg.region == "FRDUN02"
+        assert cfg.gpuType == "RTX A4500"
+        assert cfg.gpuCount == 4
+        assert cfg.gpuVramGb == 20
+        assert cfg.vllmPort == 8080
+
+    def test_custom_values(self):
+        cfg = OpenStackInstanceConfig(
+            region="DEFRA01",
+            flavor="boost-c8m12-gpu-a4500-8",
+            gpuCount=8,
+            gpuVramGb=20,
+        )
+        assert cfg.region == "DEFRA01"
+        assert cfg.gpuCount == 8
+
+
+# ---------------------------------------------------------------------------
+# GatewayConfig with controlUi
+# ---------------------------------------------------------------------------
+
+class TestGatewayConfig:
+    def test_control_ui_title_default(self):
+        gw = GatewayConfig()
+        assert gw.controlUi.title == "HLK Intelligence Platform"
+
+    def test_control_ui_title_custom(self):
+        gw = GatewayConfig(controlUi=ControlUiConfig(title="Custom Title"))
+        assert gw.controlUi.title == "Custom Title"
