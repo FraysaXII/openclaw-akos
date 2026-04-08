@@ -1,7 +1,10 @@
 {
   "gateway": {
     "host": "127.0.0.1",
-    "port": 18789
+    "port": 18789,
+    "controlUi": {
+      "title": "HLK Intelligence Platform"
+    }
   },
   "models": {
     "providers": {
@@ -88,16 +91,31 @@
             "cost": { "input": 0, "output": 0 }
           }
         ]
+      },
+      "vllm-shadow": {
+        "baseUrl": "${VLLM_SHADOW_URL}",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "deepseek-r1-70b",
+            "name": "DeepSeek R1 70B (Shadow)",
+            "reasoning": true,
+            "input": ["text"],
+            "contextWindow": 32768,
+            "maxTokens": 16384,
+            "cost": { "input": 0, "output": 0 }
+          }
+        ]
       }
     }
   },
   "agents": {
     "defaults": {
       "model": {
-        "primary": "ollama/qwen3:8b",
-        "fallbacks": ["ollama/deepseek-r1:14b", "ollama/qwen3:8b"]
+        "primary": "ollama/deepseek-r1:14b",
+        "fallbacks": ["ollama/qwen3:8b"]
       },
-      "thinkingDefault": "off",
+      "thinkingDefault": "low",
       "verboseDefault": "on",
       "workspace": "~/.openclaw/workspace",
       "memorySearch": {
@@ -108,12 +126,12 @@
     "list": [
       {
         "id": "orchestrator",
-        "name": "Orchestrator (Multi-Agent Coordinator)",
+        "name": "HLK Orchestrator",
         "workspace": "~/.openclaw/workspace-orchestrator",
         "identity": {
-          "name": "Orchestrator",
-          "theme": "multi-agent coordinator that decomposes tasks and delegates",
-          "emoji": "🎯"
+          "name": "HLK Orchestrator",
+          "theme": "Holistika multi-agent coordinator that decomposes tasks and delegates",
+          "emoji": "🏛️"
         },
         "tools": {
           "profile": "minimal",
@@ -141,11 +159,11 @@
       },
       {
         "id": "architect",
-        "name": "Architect (Read-Only Planner)",
+        "name": "HLK Architect",
         "workspace": "~/.openclaw/workspace-architect",
         "identity": {
-          "name": "Architect",
-          "theme": "read-only strategic planner in the AKOS multi-agent paradigm",
+          "name": "HLK Architect",
+          "theme": "Holistika read-only strategic planner and knowledge analyst",
           "emoji": "📐"
         },
         "tools": {
@@ -175,11 +193,11 @@
       },
       {
         "id": "executor",
-        "name": "Executor (Read-Write Builder)",
+        "name": "HLK Executor",
         "workspace": "~/.openclaw/workspace-executor",
         "identity": {
-          "name": "Executor",
-          "theme": "fast read-write builder in the AKOS multi-agent paradigm",
+          "name": "HLK Executor",
+          "theme": "Holistika fast read-write builder and operational implementer",
           "emoji": "🔧"
         },
         "tools": {
@@ -202,11 +220,11 @@
       },
       {
         "id": "verifier",
-        "name": "Verifier (Quality Gate)",
+        "name": "HLK Verifier",
         "workspace": "~/.openclaw/workspace-verifier",
         "identity": {
-          "name": "Verifier",
-          "theme": "quality gate that validates executor output via tests and linting",
+          "name": "HLK Verifier",
+          "theme": "Holistika quality gate that validates output via tests and compliance checks",
           "emoji": "✅"
         },
         "tools": {
@@ -230,11 +248,11 @@
       },
       {
         "id": "madeira",
-        "name": "Madeira (HLK Operations Assistant)",
+        "name": "Madeira",
         "workspace": "~/.openclaw/workspace-madeira",
         "identity": {
           "name": "Madeira",
-          "theme": "user-facing operational assistant for the Holistika knowledge vault",
+          "theme": "Holistika user-facing operational assistant for the HLK knowledge vault",
           "emoji": "🌊"
         },
         "tools": {

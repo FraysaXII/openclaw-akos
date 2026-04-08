@@ -12,10 +12,34 @@
     "reasoning": true,
     "defaultGpu": { "type": "NVIDIA A100-SXM4-80GB", "count": 2 },
     "maxModelLen": 32768,
+    "quantization": null,
     "envOverrides": {
       "KV_CACHE_DTYPE": "fp8",
       "ENABLE_PREFIX_CACHING": "true",
       "ENABLE_CHUNKED_PREFILL": "true"
+    }
+  },
+  {
+    "hfId": "casperhansen/deepseek-r1-distill-llama-70b-awq",
+    "displayName": "DeepSeek R1 70B (AWQ)",
+    "family": "deepseek",
+    "paramsBillions": 70,
+    "vramGb": 70,
+    "toolCallParser": "deepseek_v3",
+    "reasoningParser": "deepseek_r1",
+    "chatTemplate": null,
+    "servedModelName": "deepseek-r1-70b",
+    "reasoning": true,
+    "defaultGpu": { "type": "NVIDIA A100-SXM4-80GB", "count": 2 },
+    "maxModelLen": 32768,
+    "quantization": "awq",
+    "envOverrides": {
+      "DTYPE": "float16",
+      "KV_CACHE_DTYPE": "auto",
+      "ENABLE_PREFIX_CACHING": "true",
+      "ENABLE_CHUNKED_PREFILL": "true",
+      "QUANTIZATION": "awq",
+      "VLLM_ATTENTION_BACKEND": "TRITON_ATTN"
     }
   },
   {
@@ -31,6 +55,7 @@
     "reasoning": false,
     "defaultGpu": { "type": "NVIDIA H200", "count": 10 },
     "maxModelLen": 8192,
+    "quantization": null,
     "envOverrides": {
       "KV_CACHE_DTYPE": "fp8",
       "ENABLE_PREFIX_CACHING": "true"
@@ -49,6 +74,7 @@
     "reasoning": false,
     "defaultGpu": { "type": "NVIDIA A100-SXM4-80GB", "count": 2 },
     "maxModelLen": 32768,
+    "quantization": null,
     "envOverrides": {}
   },
   {
@@ -64,6 +90,7 @@
     "reasoning": false,
     "defaultGpu": { "type": "NVIDIA GeForce RTX 4090", "count": 1 },
     "maxModelLen": 32768,
+    "quantization": null,
     "envOverrides": {}
   },
   {
@@ -79,6 +106,7 @@
     "reasoning": true,
     "defaultGpu": { "type": "NVIDIA A100-SXM4-80GB", "count": 1 },
     "maxModelLen": 32768,
+    "quantization": null,
     "envOverrides": {}
   },
   {
@@ -94,6 +122,7 @@
     "reasoning": false,
     "defaultGpu": { "type": "NVIDIA A100-SXM4-80GB", "count": 2 },
     "maxModelLen": 32768,
+    "quantization": null,
     "envOverrides": {}
   },
   {
@@ -109,6 +138,7 @@
     "reasoning": false,
     "defaultGpu": { "type": "NVIDIA H100 80GB HBM3", "count": 4 },
     "maxModelLen": 65536,
+    "quantization": null,
     "envOverrides": {
       "TOKENIZER_MODE": "mistral"
     }
@@ -126,6 +156,7 @@
     "reasoning": false,
     "defaultGpu": { "type": "NVIDIA A100-SXM4-80GB", "count": 2 },
     "maxModelLen": 32768,
+    "quantization": null,
     "envOverrides": {}
   }
 ]

@@ -2,7 +2,7 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "vllm-runpod/deepseek-r1-70b",
+        "primary": "vllm-shadow/deepseek-r1-70b",
         "fallbacks": [
           "anthropic/claude-sonnet-4",
           "ollama/deepseek-r1:14b"
@@ -12,22 +12,22 @@
       "verboseDefault": "on"
     }
   },
-  "runpod": {
-    "gpuIds": [
-      "AMPERE_80",
-      "ADA_80_PRO"
-    ],
-    "templateName": "akos-vllm-deepseek-r1-70b-awq",
-    "vllmImage": "runpod/worker-v1-vllm:v2.14.0",
-    "modelName": "casperhansen/deepseek-r1-distill-llama-70b-awq",
-    "maxModelLen": 32768,
-    "activeWorkers": 0,
-    "maxWorkers": 1,
-    "idleTimeoutSeconds": 300,
+  "openstack": {
+    "region": "FRDUN02",
+    "authUrl": "https://auth.os1.frdun02.shadow.tech/v3",
+    "flavor": "power-c32m112-gpu-A4500-4",
+    "spotFlavor": "",
+    "image": "Ubuntu-22.04",
+    "network": "public",
+    "securityGroup": "",
+    "vllmPort": 8080,
+    "gpuType": "RTX A4500",
+    "gpuCount": 4,
+    "gpuVramGb": 20,
+    "volumeGb": 200,
     "envVars": {
       "TOKENIZER_MODE": "auto",
       "MAX_MODEL_LEN": "32768",
-      "TENSOR_PARALLEL_SIZE": "1",
       "DTYPE": "float16",
       "GPU_MEMORY_UTILIZATION": "0.92",
       "KV_CACHE_DTYPE": "auto",
@@ -41,16 +41,10 @@
       "TOOL_CALL_PARSER": "deepseek_v3",
       "REASONING_PARSER": "deepseek_r1",
       "VLLM_ATTENTION_BACKEND": "TRITON_ATTN",
-      "RAW_OPENAI_OUTPUT": "1",
       "OPENAI_SERVED_MODEL_NAME_OVERRIDE": "deepseek-r1-70b",
-      "MAX_CONCURRENCY": "30",
-      "DISABLE_LOG_STATS": "false"
+      "TENSOR_PARALLEL_SIZE": "4"
     },
-    "healthCheck": {
-      "intervalSeconds": 60,
-      "unhealthyThreshold": 3
-    }
+    "modelName": "casperhansen/deepseek-r1-distill-llama-70b-awq",
+    "maxModelLen": 32768
   }
 }
-
-
