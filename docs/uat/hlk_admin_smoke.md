@@ -38,6 +38,25 @@ py scripts/bootstrap.py --skip-ollama
 py scripts/doctor.py --repair-gateway
 ```
 
+### Automated parity checks (no WebChat, no browser)
+
+Use these when you want **repo-level** confirmation aligned with Scenario 0 expectations without opening the dashboard or any browser automation:
+
+| Doc expectation (Scenario 0) | Command / test (run from repo root) |
+|:-----------------------------|:-------------------------------------|
+| Five agents including Madeira | `py -m pytest tests/test_api.py::TestAgents::test_agents_returns_list -v` |
+| Madeira policy includes `sequential_thinking` and matches capabilities SSOT | `py -m pytest tests/test_api.py::TestRouting::test_madeira_policy_includes_sequential_thinking -v` |
+| Execution/code intents escalate (`execution_escalate`) | `py -m pytest tests/test_intent.py tests/test_api.py::TestRouting::test_classify_execution_route -v` |
+| Admin restructure still escalates | `py -m pytest tests/test_api.py::TestRouting::test_classify_admin_route -v` |
+| Madeira prompt contract (startup reads, anti-fabrication, HLK ladder) | `py -m pytest tests/validate_prompts.py::TestMadeiraPrompt -v` |
+| Log-watcher grounding flags + eval alert wiring | `py -m pytest tests/test_log_watcher.py -v` |
+| Assembled prompts within bootstrap char budget | `py scripts/assemble-prompts.py` |
+| Full gate before merge | `py scripts/test.py all` and `py -m pytest tests/test_api.py -v` |
+
+Live HLK tool-backed answers (steps 4–6) still require a running gateway, API, and MCP as in **Prerequisites**; the rows above lock **contracts** that prevent the documented failure modes when those services are healthy.
+
+**Execution-layer browser UAT** (dashboard panels, Playwright harness) remains documented in [`dashboard_smoke.md`](dashboard_smoke.md); run it manually or via `py scripts/browser-smoke.py --playwright` when Playwright is available—no substitute required for the table above.
+
 ---
 
 ---
