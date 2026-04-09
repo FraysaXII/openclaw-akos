@@ -113,6 +113,19 @@ class TestRouting:
         resp = client.get("/routing/classify")
         assert resp.status_code == 400
 
+    def test_classify_execution_route(self):
+        resp = client.get("/routing/classify?q=Deploy%20with%20docker%20compose%20to%20staging")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["route"] == "execution_escalate"
+        assert data["must_escalate"] is True
+
+    def test_madeira_policy_includes_sequential_thinking(self):
+        resp = client.get("/agents/madeira/policy")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "sequential_thinking" in data["allowed_tools"]
+
 
 class TestSwitch:
     def test_switch_dry_run(self):

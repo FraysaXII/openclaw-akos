@@ -60,6 +60,7 @@ class TestE2EAgentPipeline:
             assert (scaffold / agent / "IDENTITY.md").exists()
         for name in ["MEMORY.md", "USER.md", "WORKFLOW_AUTO.md"]:
             assert (scaffold / "madeira" / name).exists()
+        assert (scaffold / "madeira" / "memory" / "README.md").exists()
         assert (scaffold / "orchestrator" / "WORKFLOW_AUTO.md").exists()
 
     def test_health_endpoint_healthy(self):

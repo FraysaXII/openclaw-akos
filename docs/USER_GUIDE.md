@@ -285,17 +285,23 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 
 **Role:** User-facing operational assistant for the Holistika knowledge vault.
 
-**Mode:** Read-only lookup. Cannot write files, execute commands, or use the browser.
+**Mode:** Read-only lookup at the gateway. Cannot write files, execute commands, or use the browser. Code, browser automation, MCP-heavy mutations, and multi-step writes are classified via `akos_route_request` (`execution_escalate`) and handed to the **Orchestrator** for swarm execution (Architect → Executor → Verifier).
 
 **Key behaviors:**
-- **Lookup mode (default):** Answers factual HLK questions directly using `hlk_*` tools, citing canonical sources.
+- **Lookup mode (default):** Answers factual HLK questions directly using `hlk_*` tools, citing canonical sources. Open-web or narrative reasoning does not replace `hlk_*` for organisational facts.
 - **Deterministic search ladder:** tries exact role/process lookup first when the intent is specific, retries with `hlk_search` in the same turn on `not_found`, and answers directly when a clear best match exists.
 - **Summary mode:** Synthesises multi-tool answers with structured formatting.
-- **Escalation mode:** Acknowledges multi-step admin requests and delegates to the Orchestrator.
+- **Escalation mode:** Acknowledges multi-step admin requests (`admin_escalate`) or execution requests (`execution_escalate`) and delegates to the Orchestrator using the handoff pattern in `MADEIRA_BASE.md`.
+- **`sequential_thinking`:** Allowed for post-tool disambiguation, synthesis, and escalation packaging—not to guess vault facts without retrieval.
+- **Compact tier:** Small models still receive `OVERLAY_HLK_COMPACT.md` and `OVERLAY_STARTUP_COMPACT.md` so HLK and startup invariants are not dropped when `model-tiers.json` selects the `compact` variant.
 - Never responds with generic "check your HR system" fallbacks when HLK tools are available.
 - Never asks the user whether it should search; search is part of the lookup job.
 
-**Workspace:** `~/.openclaw/workspace-madeira/`
+**Madeira vs Executor:** Use Madeira for HLK/finance lookups and read-only guidance. Use the swarm (starting with Orchestrator) for anything that mutates repos, runs shell/browser automation, or drives MCP writes.
+
+**Workspace:** `~/.openclaw/workspace-madeira/` (scaffold includes `WORKFLOW_AUTO.md`, `MEMORY.md`, and `memory/README.md` describing `memory/YYYY-MM-DD.md` continuity notes).
+
+**Further UAT:** Execution-layer checks live in [`docs/uat/dashboard_smoke.md`](uat/dashboard_smoke.md).
 
 ### 5.3 Orchestrator
 
@@ -404,6 +410,8 @@ Overlays add capabilities for more capable models:
 | `OVERLAY_INTELLIGENCE.md` | Architect (full only) | Intelligence Matrix, fact classification, cross-referencing |
 | `OVERLAY_CONTEXT_MANAGEMENT.md` | Orchestrator, Architect, Executor (full only) | Context compression at 60% capacity, multi-task context |
 | `OVERLAY_TOOLS_FULL.md` | Executor, Verifier (full only) | Multi-tool orchestration, browser automation, memory, error recovery |
+| `OVERLAY_HLK_COMPACT.md` | Madeira (`compact` only) | Short HLK ladder, anti-fabrication, citation rules |
+| `OVERLAY_STARTUP_COMPACT.md` | Madeira (`compact` only) | Mandatory startup reads and memory note pattern |
 
 ### 6.4 Assembling Prompts
 
@@ -987,7 +995,7 @@ All real environment profiles under `config/environments/*.env` include the Lang
 
 **Startup compliance tracing:**
 
-The log watcher now detects "Post-Compaction Audit" gateway entries and sends scored traces to Langfuse (`startup_compliance: 0.0` for failures, `1.0` for passes). It also reviews Madeira session transcripts and emits `answer_quality` traces plus a local jsonl mirror under `~/.openclaw/telemetry/`. This enables monitoring startup compliance rates and flagship UX residuals across models and environments.
+The log watcher now detects "Post-Compaction Audit" gateway entries and sends scored traces to Langfuse (`startup_compliance: 0.0` for failures, `1.0` for passes). It also reviews Madeira session transcripts and emits `answer_quality` traces plus a local jsonl mirror under `~/.openclaw/telemetry/`. When residual flags fire (for example internal tool strings in user-visible text, pseudo `hlk_*/` paths, or UUID-shaped tokens on HLK-classified turns without `hlk_*` tool calls), matching rows in `config/eval/alerts.json` raise real-time alerts forwarded through the same telemetry path. This enables monitoring startup compliance rates, grounding quality, and flagship UX residuals across models and environments.
 
 **Dev vs prod trace separation:**
 
@@ -1178,7 +1186,21 @@ Known active threats:
 
 5. **SOC Monitoring:** Structured JSON logs with real-time alert evaluation (see Section 12).
 
-### 14.3 Reporting Vulnerabilities
+### 14.3 OpenClaw gateway security audit
+
+After material changes to gateway bind addresses, authentication, plugins, tool allowlists or denylists, DM/group exposure, or agent tool profiles, run:
+
+```bash
+openclaw security audit
+```
+
+Use `openclaw security audit --deep` when diagnosing suspected over-exposure or incident-style review. Optional `--fix` applies safe remediations when the CLI offers them. Treat this as part of operator hygiene alongside tightening tool blast radius before widening network access.
+
+**Madeira note:** The gateway `deny` list and minimal profile are the backstop against prompt injection expanding effective permissions. Prefer instruction-hardened **medium-tier or larger** models for tool-heavy Madeira sessions; very small local models carry higher injection risk when many tools are enabled.
+
+When `scripts/log-watcher.py` fires Madeira grounding alerts (internal tool leakage, pseudo HLK paths, or UUID-shaped answers without `hlk_*` tool use), treat it like a narrow incident: pause or tighten tools if needed, review recent sessions, rotate secrets if compromise is suspected, then re-run the audit above.
+
+### 14.4 Reporting Vulnerabilities
 
 Do not open a public GitHub issue. Email the maintainer or use GitHub's private vulnerability reporting. We acknowledge reports within 48 hours.
 
@@ -1953,6 +1975,18 @@ Use this order:
 
 **Scaling rule:** If the same founder-governance activity repeats, promote the stable part upward into SOP + registry layers. If it stays case-specific, keep it in role-owned case docs rather than bloating the registry.
 
+### 24.3.3 GitHub repositories (Envoy Tech Lab hub)
+
+Holistika tracks **many GitHub repositories** (platform, internal tools, client-delivery). Authority split:
+
+| Layer | Canonical in vault | SSOT for code |
+|:------|:-------------------|:--------------|
+| **Which repos exist, class, owner role, topic links** | `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` | GitHub remote |
+| **Policy** (pointer-first, submodule criteria) | `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/README.md` | — |
+| **Non-repo client/program files** (SOWs, commercials, decks) | `docs/references/hlk/v3.0/Think Big/` (see `Think Big/README.md`) | — |
+
+Cross-engagement topic index (pilot): `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md`. Full placement rules: `docs/references/hlk/v3.0/index.md` (Entity placement). Precedence: `docs/references/hlk/compliance/PRECEDENCE.md` (GitHub repositories vs vault authority).
+
 ### 24.4 Maintaining Baselines
 
 The canonical baselines live in `docs/references/hlk/compliance/`:
@@ -1987,8 +2021,8 @@ docs/references/hlk/
         Data/                     CDO area
         Tech/                     CTO area
       AI/                         Susana Madeira / AIC chain
-    Envoy Tech Lab/               KiRBe, MADEIRA, Showcases
-    Think Big/                    Projects, Clients
+    Envoy Tech Lab/               Repositories/ (GitHub index), KiRBe, MADEIRA, Showcases
+    Think Big/                    README, Projects, Clients (non-repo artifacts)
   Research & Logic/               v2.7 historical reference (read-only)
 ```
 
@@ -2003,5 +2037,6 @@ docs/references/hlk/
 | How do I restart after baseline edits? | `py scripts/serve-api.py --port 8420` |
 | How do I check integrity? | `py scripts/test.py hlk` or use `/hlk/gaps` endpoint |
 | How do I validate KM visual manifests? | `py scripts/validate_hlk_km_manifests.py` |
+| Where are Holistika GitHub repos indexed? | `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` |
 
 

@@ -83,6 +83,9 @@ Structured JSON logs can also be forwarded to Splunk via `config/splunk/inputs.c
 - Invocation of `canvas_eval` JavaScript primitive (real-time, high)
 - Prompt injection detection (continuous, critical)
 - Completion rate drops below baseline (7d window, high)
+- Madeira answer-quality grounding signals (real-time, high): `madeira_internal_tool_leak`, `madeira_pseudo_hlk_path_leak`, `madeira_suspect_uuid_hallucination` — emitted when log-watcher scoring detects leaked tool ids, pseudo HLK paths in user-visible text, or UUID-shaped tokens without `hlk_*` tool use on HLK-classified turns
+
+**OpenClaw security audit:** After gateway or tool-surface changes, operators should run `openclaw security audit` (and `openclaw security audit --deep` when investigating exposure). See `docs/USER_GUIDE.md` section 14.3.
 
 ### 5a. Playwright and Browser Smoke (v0.5.0)
 

@@ -22,6 +22,16 @@
 
 **Pass criteria**: Steps 4-6 produce grounded answers backed by canonical HLK sources, with no fabricated names, UUIDs, workstreams, leaked internal tool/source strings, or user-facing "should I search?" detours. Step 3 is startup-clean, and Step 7 triggers escalation instead of direct execution.
 
+### Scenario 0 model matrix (multi-lane)
+
+Repeat **steps 3–6** (and spot-check step 7 on one lane) on **at least two** medium-or-above model configurations (for example local `ollama/deepseek-r1:14b` and a cloud or RunPod lane). Use the same canonical prompts per row.
+
+| Model id (example) | Tier / variant | Pass |
+|:-------------------|:---------------|:-----|
+| | compact / standard / full | Tool use + grounded fields + no fabricated UUIDs + no internal tool leakage |
+
+Document the actual model ids and tiers used in your UAT notes.
+
 **Restart/bootstrap flow** (run these before UAT if config or prompts changed):
 ```bash
 py scripts/bootstrap.py --skip-ollama

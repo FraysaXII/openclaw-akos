@@ -372,6 +372,19 @@ class EnvironmentOverlay(BaseModel):
     openstack: OpenStackInstanceConfig | None = None
 
 
+# ── Intent routing (API `/routing/classify`) ────────────────────────────
+
+class RoutingClassificationResponse(BaseModel):
+    """Validated shape for `classify_request` results exposed via FastAPI."""
+
+    route: str
+    confidence: float
+    method: str
+    must_escalate: bool
+    reason: str
+    operator_message: str
+
+
 # ── Eval: Alerts (config/eval/alerts.json) ─────────────────────────────
 
 class Alert(BaseModel):

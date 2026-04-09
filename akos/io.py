@@ -231,6 +231,18 @@ def deploy_scaffold_files(oc_home: Path) -> list[Path]:
                     logger.info("Scaffold: %s -> %s", src_file.name, dest_file)
                     deployed.append(dest_file)
 
+        memory_src_dir = src_dir / "memory"
+        if memory_src_dir.is_dir():
+            memory_dest = dest_dir / "memory"
+            memory_dest.mkdir(parents=True, exist_ok=True)
+            for src_file in memory_src_dir.iterdir():
+                if src_file.is_file():
+                    dest_file = memory_dest / src_file.name
+                    if not dest_file.exists():
+                        shutil.copy2(src_file, dest_file)
+                        logger.info("Scaffold: memory/%s -> %s", src_file.name, dest_file)
+                        deployed.append(dest_file)
+
     return deployed
 
 

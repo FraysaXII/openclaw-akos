@@ -262,6 +262,7 @@
             "memory_search",
             "memory_get",
             "akos_route_request",
+            "sequential_thinking",
             "finance_search",
             "finance_quote",
             "finance_sentiment",

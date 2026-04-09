@@ -146,7 +146,7 @@ const emptyParameters = {
 const toolSpecs: ToolSpec[] = [
   {
     name: "akos_route_request",
-    description: "Classify a user request into a deterministic AKOS flagship route such as HLK lookup, HLK search, finance research, or admin escalation.",
+    description: "Classify a user request into a deterministic AKOS flagship route such as HLK lookup, HLK search, finance research, admin escalation, or execution escalation (code/browser/MCP).",
     parameters: {
       type: "object",
       additionalProperties: false,

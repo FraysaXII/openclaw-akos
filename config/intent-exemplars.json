@@ -1,5 +1,16 @@
 {
   "_note": "Route exemplar bank for the AKOS semantic intent classifier. Adding a new domain means adding exemplars here, not writing new regex patterns in akos/intent.py.",
+  "execution_escalate": [
+    "Run pytest on the service and fix failing tests.",
+    "Open a pull request with the refactor.",
+    "Use Playwright to click through the checkout flow.",
+    "Connect to the MCP server and update the remote schema.",
+    "Deploy this branch to staging with docker compose.",
+    "Git commit the changes and push to origin.",
+    "Debug the API returning 500 errors.",
+    "Automate the browser to scrape the dashboard.",
+    "Run kubectl apply on the updated manifests."
+  ],
   "admin_escalate": [
     "I need to restructure the Finance area.",
     "Create a new role under the CTO.",

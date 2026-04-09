@@ -30,7 +30,7 @@ from akos.io import (
     load_json,
     resolve_openclaw_home,
 )
-from akos.models import RunPodEndpointConfig, load_tiers
+from akos.models import RoutingClassificationResponse, RunPodEndpointConfig, load_tiers
 from akos.runpod_provider import RunPodProvider
 from akos.state import load_state
 from akos.telemetry import LangfuseReporter
@@ -476,12 +476,13 @@ async def list_pins() -> dict[str, Any]:
 
 
 @app.get("/routing/classify", dependencies=[Depends(_check_api_key)], tags=["Runtime"])
-async def classify_routing_request(q: str = "") -> dict[str, Any]:
+async def classify_routing_request(q: str = "") -> RoutingClassificationResponse:
     """Classify a user request into a deterministic flagship route."""
     if not q.strip():
         raise HTTPException(400, "Query parameter 'q' is required")
     from akos.intent import classify_request
-    return classify_request(q)
+    raw = classify_request(q)
+    return RoutingClassificationResponse.model_validate(raw)
 
 
 # ── Metrics & Alerts ─────────────────────────────────────────────────

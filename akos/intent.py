@@ -18,6 +18,7 @@ logger = logging.getLogger("akos.intent")
 
 IntentRoute = Literal[
     "admin_escalate",
+    "execution_escalate",
     "finance_research",
     "hlk_search",
     "hlk_lookup",
@@ -48,6 +49,19 @@ _GTM_RE = re.compile(
     r"\b(gtm|go.to.market|launch plan|product timeline|sales tool|proof of concept|alpha release|beta release|competitive positioning|ux capability|product release)\b",
     re.IGNORECASE,
 )
+# Coding, browser automation, MCP-heavy execution -- Madeira read-only router must escalate.
+_EXEC_STRONG_RE = re.compile(
+    r"\b(playwright|puppeteer|selenium|headless chrome|cdp\b|mcp server|model context protocol|invoke mcp|"
+    r"git (commit|push)|pull request|open (a|the) pr|pytest\b|npm run|docker (build|compose)|"
+    r"kubernetes|kubectl|terraform|ansible|apply_patch|write_file|shell_exec|"
+    r"refactor (the|this) (code|repo|codebase|app)|implement (the|this) (feature|api|endpoint|service))\b",
+    re.IGNORECASE,
+)
+_EXEC_WEAK_RE = re.compile(
+    r"\b(browser automation|automate the browser|run tests on the app|fix the bug in|debug the (app|service|api)|"
+    r"deploy (to|the)|multi-?step (write|migration))\b",
+    re.IGNORECASE,
+)
 
 _ROUTE_MESSAGES: dict[str, dict[str, Any]] = {
     "admin_escalate": {
@@ -56,6 +70,14 @@ _ROUTE_MESSAGES: dict[str, dict[str, Any]] = {
         "operator_message": (
             "This is a write/admin workflow and must be escalated to the Orchestrator "
             "for coordinated execution. If you want, I can first summarize the current canonical structure."
+        ),
+    },
+    "execution_escalate": {
+        "must_escalate": True,
+        "reason": "Coding, browser automation, MCP, or multi-step execution intent detected.",
+        "operator_message": (
+            "This request needs code, browser, MCP, or multi-step execution. Madeira is read-only at the gateway; "
+            "escalate to the Orchestrator for swarm coordination (Architect planning, Executor tooling, Verifier checks)."
         ),
     },
     "finance_research": {
@@ -129,6 +151,8 @@ def _classify_regex(query: str) -> str:
     text = query.strip()
     if _ADMIN_VERB_RE.search(text) and _ADMIN_OBJECT_RE.search(text):
         return "admin_escalate"
+    if _EXEC_STRONG_RE.search(text) or _EXEC_WEAK_RE.search(text):
+        return "execution_escalate"
     if _FINANCE_RE.search(text):
         return "finance_research"
     if _GTM_RE.search(text):
@@ -149,6 +173,7 @@ def classify_request(query: str) -> dict[str, object]:
     """
     text = query.strip()
     classifier = _get_classifier()
+    regex_route = _classify_regex(text)
 
     if classifier is not None:
         result = classifier.classify(text)
@@ -156,9 +181,16 @@ def classify_request(query: str) -> dict[str, object]:
         confidence = float(result.get("confidence", 0.0))
         method = result.get("method", "embedding")
     else:
-        route = _classify_regex(text)
+        route = regex_route
         confidence = 1.0
         method = "regex"
+
+    # Escalation routes are safety-critical: regex wins even when embeddings mislabel.
+    if regex_route in ("admin_escalate", "execution_escalate"):
+        route = regex_route
+        confidence = max(confidence, 0.99)
+        if method != "regex":
+            method = f"{method}+escalation_regex"
 
     route_info = _ROUTE_MESSAGES.get(route, _ROUTE_MESSAGES["other"])
     return {

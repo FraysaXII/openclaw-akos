@@ -54,6 +54,23 @@ _CANONICAL_ASSET_RE = re.compile(
 _INTERNAL_TOOL_LEAK_RE = re.compile(
     r"\b(hlk_[a-z_]+|finance_(?:search|quote|sentiment)|best_role|best_process)\b"
 )
+# User-visible pseudo-paths (tool ladder leakage), linear-time bounded slice in caller.
+_PSEUDO_HLK_PATH_RE = re.compile(
+    r"hlk_(?:role|process|area|search|process_tree)(?:/|:)",
+    re.IGNORECASE,
+)
+_STD_UUID_RE = re.compile(
+    r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b",
+    re.IGNORECASE,
+)
+
+_ASSISTANT_SCAN_MAX = 8000
+
+
+def _assistant_scan_slice(text: str) -> str:
+    if len(text) <= _ASSISTANT_SCAN_MAX:
+        return text
+    return text[:_ASSISTANT_SCAN_MAX]
 
 def _parse_session_line(line: str) -> dict | None:
     """Parse a session jsonl line, returning None on failure."""
@@ -107,6 +124,8 @@ def _classify_route_kind(user_text: str, tool_calls: list[str]) -> str:
     routed = str(classify_request(user_text).get("route", "other"))
     if routed == "admin_escalate":
         return "admin"
+    if routed == "execution_escalate":
+        return "execution"
     if routed == "finance_research":
         return "finance"
     if routed == "hlk_search":
@@ -129,9 +148,13 @@ def _build_answer_quality_record(interaction: dict, assistant_message: dict) -> 
     assistant_text = _extract_text_content(content if isinstance(content, list) else [])
     tool_calls = [str(name) for name in interaction.get("tool_calls", [])]
     route_kind = _classify_route_kind(str(interaction.get("user_text", "")), tool_calls)
+    scan_slice = _assistant_scan_slice(assistant_text)
     citation_match = _CANONICAL_ASSET_RE.search(assistant_text)
     citation_asset = citation_match.group(1) if citation_match else ""
-    internal_leak = bool(_INTERNAL_TOOL_LEAK_RE.search(assistant_text))
+    internal_leak = bool(_INTERNAL_TOOL_LEAK_RE.search(scan_slice))
+    pseudo_path_leak = bool(_PSEUDO_HLK_PATH_RE.search(scan_slice))
+    hlk_tools_used = any(name.startswith("hlk_") for name in tool_calls)
+    uuid_in_answer = bool(_STD_UUID_RE.search(scan_slice))
     escalation_present = "orchestrator" in assistant_text.lower() or "escalat" in assistant_text.lower()
     brainstorm_drift = route_kind == "admin" and (
         "would you like to" in assistant_text.lower()
@@ -157,9 +180,17 @@ def _build_answer_quality_record(interaction: dict, assistant_message: dict) -> 
     residual_flags: list[str] = []
     if internal_leak:
         residual_flags.append("internal_tool_leak")
+    if pseudo_path_leak:
+        residual_flags.append("pseudo_hlk_path_leak")
+    if (
+        uuid_in_answer
+        and route_kind.startswith("hlk_")
+        and not hlk_tools_used
+    ):
+        residual_flags.append("suspect_hlk_uuid_hallucination")
     if route_kind.startswith("hlk_") and not citation_asset:
         residual_flags.append("missing_citation_asset")
-    if route_kind == "admin" and not escalation_present:
+    if route_kind in ("admin", "execution") and not escalation_present:
         residual_flags.append("missing_explicit_escalation")
     if brainstorm_drift:
         residual_flags.append("admin_brainstorm_drift")
@@ -199,6 +230,32 @@ def _append_local_mirror_record(mirror_dir: Path, record: dict) -> Path:
     return mirror_path
 
 
+def _emit_answer_quality_alerts(
+    record: dict,
+    alert_evaluator: AlertEvaluator | None,
+    reporter: LangfuseReporter,
+    dry_run: bool,
+) -> None:
+    """Evaluate Madeira answer-quality rows against real-time eval alerts."""
+    if alert_evaluator is None:
+        return
+    flags = record.get("residual_flags") or []
+    if not flags:
+        return
+    eval_entry = {
+        "agent_role": str(record.get("agent_role", "madeira")),
+        "tool_name": "answer_quality",
+        "outcome": "madeira_answer_quality",
+        "residual_flags": ",".join(str(f) for f in flags),
+        "route_kind": str(record.get("route_kind", "")),
+    }
+    for alert in alert_evaluator.check_realtime(eval_entry):
+        if dry_run:
+            logger.info("[DRY-RUN] answer-quality alert: %s [%s]", alert.alert_id, alert.severity)
+        else:
+            reporter.trace_alert(alert.alert_id, alert.severity, alert.description)
+
+
 def _process_session_event(
     event: dict,
     session_key_map: dict[str, str],
@@ -207,6 +264,7 @@ def _process_session_event(
     reporter: LangfuseReporter,
     dry_run: bool,
     session_id: str,
+    alert_evaluator: AlertEvaluator | None = None,
 ) -> None:
     """Process one session json event and emit answer-quality telemetry when complete."""
     if event.get("type") != "message":
@@ -258,6 +316,7 @@ def _process_session_event(
             logger.info("[DRY-RUN] answer-quality: route=%s flags=%s", record["route_kind"], record["residual_flags"])
         else:
             reporter.trace_answer_quality(record)
+        _emit_answer_quality_alerts(record, alert_evaluator, reporter, dry_run)
         return
 
     if role == "toolResult":
@@ -276,6 +335,7 @@ def _scan_madeira_sessions(
     mirror_dir: Path,
     reporter: LangfuseReporter,
     dry_run: bool,
+    alert_evaluator: AlertEvaluator | None = None,
 ) -> None:
     """Scan Madeira session jsonl files and emit answer-quality telemetry."""
     sessions_dir = oc_home / "agents" / "madeira" / "sessions"
@@ -299,6 +359,7 @@ def _scan_madeira_sessions(
                     reporter,
                     dry_run,
                     session_file.stem,
+                    alert_evaluator,
                 )
             offsets[session_file] = f.tell()
 
@@ -496,6 +557,7 @@ def main() -> None:
                 mirror_dir,
                 reporter,
                 dry_run,
+                alert_evaluator,
             )
             entry = parse_log_line(line)
             if not entry:
@@ -598,6 +660,7 @@ def main() -> None:
             mirror_dir,
             reporter,
             dry_run,
+            alert_evaluator,
         )
         if not dry_run:
             reporter.shutdown()

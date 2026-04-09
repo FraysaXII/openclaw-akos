@@ -191,6 +191,23 @@ class TestAlert:
         assert not a.matches_realtime({"tool_name": "shell", "command": "ls"})
         assert not a.matches_realtime({"tool_name": "read", "command": "rm file"})
 
+    def test_madeira_answer_quality_alert_match(self):
+        a = Alert(
+            alert_id="madeira_internal_tool_leak",
+            description="test",
+            condition="outcome == 'madeira_answer_quality' AND residual_flags CONTAINS 'internal_tool_leak'",
+            evaluation_window="real-time",
+            severity="high",
+        )
+        assert a.matches_realtime({
+            "outcome": "madeira_answer_quality",
+            "residual_flags": "internal_tool_leak,missing_citation_asset",
+        })
+        assert not a.matches_realtime({
+            "outcome": "madeira_answer_quality",
+            "residual_flags": "missing_citation_asset",
+        })
+
 
 # ---------------------------------------------------------------------------
 # Baseline

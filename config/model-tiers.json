@@ -48,7 +48,10 @@
     }
   },
   "variantOverlays": {
-    "compact": [],
+    "compact": [
+      { "file": "OVERLAY_HLK_COMPACT.md", "agents": ["MADEIRA"] },
+      { "file": "OVERLAY_STARTUP_COMPACT.md", "agents": ["MADEIRA"] }
+    ],
     "standard": [
       { "file": "OVERLAY_REASONING.md", "agents": ["ARCHITECT", "ORCHESTRATOR"] },
       { "file": "OVERLAY_PLAN_TODOS.md", "agents": ["ORCHESTRATOR", "ARCHITECT"] },

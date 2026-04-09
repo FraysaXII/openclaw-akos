@@ -117,7 +117,9 @@ class TestOpenclawConfig:
         agents = {agent["id"]: agent for agent in self.data["agents"]["list"]}
         madeira_tools = agents["madeira"]["tools"]
         assert madeira_tools["profile"] == "minimal"
-        assert {"read", "memory_search", "memory_get", "akos_route_request"}.issubset(set(madeira_tools["alsoAllow"]))
+        assert {"read", "memory_search", "memory_get", "akos_route_request", "sequential_thinking"}.issubset(
+            set(madeira_tools["alsoAllow"])
+        )
 
     def test_executor_and_verifier_expose_browser(self):
         agents = {agent["id"]: agent for agent in self.data["agents"]["list"]}

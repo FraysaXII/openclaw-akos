@@ -54,6 +54,33 @@
     "action": "Require explicit HITL approval, log full eval payload"
   },
   {
+    "alert_id": "madeira_internal_tool_leak",
+    "description": "Madeira user-visible answer appears to leak internal tool identifiers or pseudo-sources",
+    "condition": "outcome == 'madeira_answer_quality' AND residual_flags CONTAINS 'internal_tool_leak'",
+    "evaluation_window": "real-time",
+    "severity": "high",
+    "sop_reference": "7.2",
+    "action": "Review session transcript, tighten prompts or tool allowlist, re-run openclaw security audit if gateway config changed"
+  },
+  {
+    "alert_id": "madeira_pseudo_hlk_path_leak",
+    "description": "Madeira answer contains pseudo HLK path strings (e.g. hlk_role/) in user-visible text",
+    "condition": "outcome == 'madeira_answer_quality' AND residual_flags CONTAINS 'pseudo_hlk_path_leak'",
+    "evaluation_window": "real-time",
+    "severity": "high",
+    "sop_reference": "7.2",
+    "action": "Review grounding and OVERLAY_HLK citation rules; check for prompt injection in session"
+  },
+  {
+    "alert_id": "madeira_suspect_uuid_hallucination",
+    "description": "HLK-classified user turn produced UUID-shaped tokens without any hlk_* tool call in the same interaction",
+    "condition": "outcome == 'madeira_answer_quality' AND residual_flags CONTAINS 'suspect_hlk_uuid_hallucination'",
+    "evaluation_window": "real-time",
+    "severity": "high",
+    "sop_reference": "7.2",
+    "action": "Verify vault lookup results; escalate model tier for tool-heavy sessions if repeats"
+  },
+  {
     "alert_id": "infra_failover_triggered",
     "description": "Primary inference provider failed consecutive health checks — failover to fallback model activated",
     "condition": "tool_name == 'infra_failover'",

@@ -32,6 +32,14 @@ class TestRegexFallback:
         result = _classify_regex("Hello, how are you?")
         assert result == "other"
 
+    def test_classify_execution_escalate_playwright(self):
+        result = _classify_regex("Use Playwright to click through the checkout flow.")
+        assert result == "execution_escalate"
+
+    def test_classify_execution_escalate_mcp(self):
+        result = _classify_regex("Connect to the MCP server and update the schema.")
+        assert result == "execution_escalate"
+
 
 class TestClassifyRequestIntegration:
     """Test the full classify_request path with regex fallback."""
@@ -60,3 +68,9 @@ class TestClassifyRequestIntegration:
         result = classify_request("Who is the CTO?")
         for key in ["route", "confidence", "method", "must_escalate", "reason", "operator_message"]:
             assert key in result, f"Missing key: {key}"
+
+    @patch("akos.intent._get_classifier", return_value=None)
+    def test_execution_escalate_regex(self, _mock):
+        result = classify_request("Run pytest and open a pull request.")
+        assert result["route"] == "execution_escalate"
+        assert result["must_escalate"] is True

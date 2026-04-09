@@ -62,8 +62,9 @@ The multi-agent paradigm separates concerns across five specialized roles:
 - **User-facing operational assistant** for the Holistika knowledge vault
 - Operates in **read-only lookup** mode -- answers HLK questions directly using `hlk_*` tools and a deterministic exact-lookup -> ranked-search ladder
 - Default dashboard entrypoint for end-user HLK usage
-- Escalates multi-step administrative tasks to the Orchestrator
-- Uses a **minimal** gateway profile with curated `alsoAllow` for `read`, memory lookups, and HLK/finance runtime tools
+- Escalates multi-step administrative tasks (`admin_escalate`) and coding/browser/MCP execution intents (`execution_escalate`) to the Orchestrator for swarm handoff
+- Uses a **minimal** gateway profile with curated `alsoAllow` for `read`, memory lookups, `sequential_thinking` (post-tool reasoning only), HLK/finance runtime tools, and explicit `deny` for write/edit/exec/browser-class tools
+- **Compact tier:** `config/model-tiers.json` applies `OVERLAY_HLK_COMPACT.md` and `OVERLAY_STARTUP_COMPACT.md` to Madeira only when `promptVariant` is `compact`, preserving HLK and startup invariants on small models within `bootstrapMaxChars`
 - **Cannot** write files, execute commands, or navigate browsers
 
 ### Orchestrator Agent (new in v0.3.0)
@@ -621,6 +622,8 @@ The current HLK registry baseline exposes 11 projects and 324 registered items, 
 The founder-governance lower layer uses a staged document model to stay scalable: evidence and redacted synthesis live in `docs/wip/`, case-specific canonical notes live under role-owned `v3.0/` folders, repeatable procedures become SOPs, and only the repeatable process layer is registered in `process_list.csv`. This separation keeps founder-specific or potentially sensitive material out of the runtime registry while preserving a reusable operating model for future entity work.
 
 **HLK governed KM (Topic–Fact–Source):** Canonical rules for sources, facts, topics, output types 0–4, and Output 1 (visual) manifests live in `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md`. Binary visuals ship under `docs/references/hlk/v3.0/_assets/<topic_id>/` with `*.manifest.md` sidecars. Operators validate manifest shape and raster paths with `scripts/validate_hlk_km_manifests.py`. The PMO-owned `RESEARCH_BACKLOG_TRELLO_REGISTRY.md` indexes external Trello cards to `topic_id` candidates without treating Trello as SSOT.
+
+**Envoy Tech Lab repository hub:** Holistika-tracked GitHub repositories are indexed in `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` (GitHub remains SSOT for code trees; the registry is canonical for membership and metadata per `PRECEDENCE.md`). Think Big vault folders hold non-repo client/program artifacts; see `docs/references/hlk/v3.0/Think Big/README.md` and PMO `TOPIC_PMO_CLIENT_DELIVERY_HUB.md`.
 
 Launch: `python scripts/serve-api.py --port 8420`
 
