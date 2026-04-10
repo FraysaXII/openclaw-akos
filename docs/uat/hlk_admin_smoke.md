@@ -55,7 +55,15 @@ Use these when you want **repo-level** confirmation aligned with Scenario 0 expe
 
 Live HLK tool-backed answers (steps 4–6) still require a running gateway, API, and MCP as in **Prerequisites**; the rows above lock **contracts** that prevent the documented failure modes when those services are healthy.
 
-**Execution-layer browser UAT** (dashboard panels, Playwright harness) remains documented in [`dashboard_smoke.md`](dashboard_smoke.md); run it manually or via `py scripts/browser-smoke.py --playwright` when Playwright is available—no substitute required for the table above.
+### Browser UAT (dashboard WebChat, including Cursor IDE Browser)
+
+Use the same **Scenario 0** steps in a real browser (local Chrome/Edge, Playwright, or **Cursor’s built-in Simple Browser / IDE browser MCP**) when you want end-to-end validation with the live gateway.
+
+- **Tool-capable model required:** If the session model does not support tool calling, the gateway may return an error such as `does not support tools` when Madeira invokes `hlk_*`—steps 4–6 will fail even though pytest contracts pass. For Scenario 0, select a **tool-capable** lane (see `docs/USER_GUIDE.md` — medium+ / instruction-hardened models for tool-heavy Madeira). Example fix: switch the chat model from `deepseek-r1:14b` to a tool-enabled Ollama or cloud id before re-running steps 4–7.
+- **Clean session:** Prefer `/new` or a fresh `agent:madeira:*` session so prior chat (including injection tests) does not confuse startup and pass criteria.
+- **AKOS API:** For REST-backed checks in [`dashboard_smoke.md`](dashboard_smoke.md) (`GET /health` on port **8420**), run `py scripts/serve-api.py --port 8420` first.
+
+**Execution-layer browser UAT** (full dashboard panels, Playwright harness) remains documented in [`dashboard_smoke.md`](dashboard_smoke.md); run it manually or via `py scripts/browser-smoke.py --playwright` when Playwright is available. Keep **both** pytest parity (above) and browser UAT in your workflow: contracts in CI/dev, browser for operator sign-off on the live stack.
 
 ---
 
