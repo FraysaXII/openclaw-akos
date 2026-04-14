@@ -22,9 +22,9 @@
 
 | repo_slug | github_url | class | primary_owner_role | topic_ids | vault_doc_root | notes |
 |-----------|------------|-------|--------------------|-----------|----------------|-------|
-| kirbe-platform | `https://github.com/<org>/<kirbe-repo>` (operator sets) | platform | System Owner | — | [../KiRBe/](../KiRBe/) | Replace `<org>/<kirbe-repo>` with the live KiRBe application repository. KiRBe Supabase mirrors canonical CSVs per PRECEDENCE. |
-| madeira-hlk-runtime | `https://github.com/<org>/<akos-or-madeira-repo>` (operator sets) | platform | AI Engineer | `topic_madeira_research_radar`, `topic_madeira_product_timeline` | [../MADEIRA/](../MADEIRA/) | MADEIRA agent and HLK tooling often ship in the same monorepo as the vault; set URL to the canonical remote for that codebase. |
-| client-delivery-pilot | `https://github.com/<org>/<client-project-repo>` (operator sets) | client-delivery | PMO | `topic_pmo_client_delivery_hub` | — | Template row for external delivery repos (e.g. websitz-class). Replace placeholders when the engagement is active. |
+| kirbe-platform | `https://github.com/FraysaXII/supabase` | platform | System Owner | — | [../KiRBe/](../KiRBe/) | **Verify with operator:** public audit (2026-04-15) under `github.com/FraysaXII` had no repo named `kirbe-platform`; this row points at the org `supabase` fork as the closest KiRBe-themed remote—replace if the KiRBe application SSOT lives elsewhere (private monorepo or different name). |
+| madeira-hlk-runtime | `https://github.com/FraysaXII/openclaw-akos` | platform | AI Engineer | `topic_madeira_research_radar`, `topic_madeira_product_timeline` | [../MADEIRA/](../MADEIRA/) | Canonical remote from `git remote get-url origin` on the AKOS workspace (2026-04-15). |
+| client-delivery-pilot | `https://github.com/<org>/<client-project-repo>` (operator sets) | client-delivery | PMO | `topic_pmo_client_delivery_hub` | — | No public delivery repo identified in org audit; keep placeholder until an engagement remote is known. |
 
 ### Class values
 

@@ -1,8 +1,8 @@
 # HLK On AKOS Madeira Roadmap
 
 **Source plan**: `C:\Users\Shadow\.cursor\plans\hlk_madeira_proposal_3a66dc35.plan.md`
-**Status**: Working copy for workspace traceability; original 6-phase HLK-on-AKOS program complete, active follow-on now tracked by the flagship Madeira program
-**Canonical source**: Original roadmap source above for phases 0-5; active follow-on execution is superseded by `C:\Users\Shadow\.cursor\plans\madeira_flagship_hardening_4f22c4ab.plan.md`
+**Status**: Working copy for workspace traceability; original 6-phase HLK-on-AKOS program complete; **read-only hardening closed 2026-04-14** (see [MADEIRA_HARDENING_CONSOLIDATED_PLAN.md](MADEIRA_HARDENING_CONSOLIDATED_PLAN.md)); expansion programs live under this folder + [`../06-planning-backlog-registry/`](../06-planning-backlog-registry/).
+**Canonical source**: Original roadmap source above for phases 0-5; Cursor plan paths remain historical references for flagship / lookup tracks.
 
 ---
 
@@ -51,7 +51,7 @@ Phase 1 is no longer the active bottleneck. `reports/phase-1-report.md` is **GO*
 
 The gateway-alignment remediation is no longer the active bottleneck. Its report remains the authoritative in-repo closure note for the runtime bridge/tool-registration defect.
 
-The active execution follow-up is the Madeira Flagship Hardening program, which supersedes the earlier lookup-hardening-only track and closes the next-layer drift between:
+**Madeira read-only hardening (2026-04-14)** is **closed** as a rollout: see [MADEIRA_HARDENING_CONSOLIDATED_PLAN.md](MADEIRA_HARDENING_CONSOLIDATED_PLAN.md) and [reports/madeira-readonly-hardening.md](reports/madeira-readonly-hardening.md). The earlier **Madeira Flagship Hardening** program documented next-layer drift between:
 
 - HLK lookup semantics (`akos/hlk.py`)
 - Madeira prompt behavior and runtime tool surface
@@ -75,21 +75,25 @@ Reference artifacts:
 - `reports/madeira-flagship-hardening-report.md`
 - `reports/next-baseline-kirbe-sync-boundary-proposal.md`
 
-## Active Residual Backlog
+## Active backlog (2026-04-15 onward)
 
-The flagship follow-on is currently responsible for closing these residuals before merge/clean-slate reset:
+Cross-initiative backlog SSOT: [`../06-planning-backlog-registry/master-roadmap.md`](../06-planning-backlog-registry/master-roadmap.md).
+
+**In-scope expansion programs** (additive; governed; separate phase plans):
+
+- [phase-madeira-write-browser-plan.md](phase-madeira-write-browser-plan.md)
+- [phase-kirbe-sync-daemons-plan.md](phase-kirbe-sync-daemons-plan.md)
+- [phase-canonical-csv-tranche-plan.md](phase-canonical-csv-tranche-plan.md)
+
+**Residual UX / telemetry** (optional calibration; see flagship report **GO WITH RESIDUAL**—not a failing gate for read-only hardening):
 
 - live escalation UX drift on restructuring/admin prompts
 - startup / post-compaction audit friction in long-lived sessions
-- Langfuse no-trace operability gap and env-source redesign
+- Langfuse remote visibility vs local smoke
 - repo-wide prompt/runtime parity gaps adjacent to Madeira
-- roadmap / matrix / planning-traceability contradictions
-- next baseline/compliance tranche boundary definition for KiRBe automation
+- next baseline/compliance tranche boundary for KiRBe automation — `reports/next-baseline-kirbe-sync-boundary-proposal.md`
 
-Current report status:
-
-- `reports/madeira-flagship-hardening-report.md` is the authoritative in-repo closure note for this superseding follow-on and records a **GO WITH RESIDUAL** verdict.
-- `reports/next-baseline-kirbe-sync-boundary-proposal.md` is the handoff artifact for the next baseline/compliance tranche.
+`reports/madeira-flagship-hardening-report.md` remains the closure note for the flagship **program** with measured residuals.
 
 ## Phase 1 Historical Focus
 

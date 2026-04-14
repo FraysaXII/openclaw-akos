@@ -1,5 +1,7 @@
 # HLK KM plan — follow-up checklist (avoid duplicate work)
 
+**Cross-initiative backlog SSOT:** [`../../06-planning-backlog-registry/master-roadmap.md`](../../06-planning-backlog-registry/master-roadmap.md) (registry `REG.007` for KM triggers).
+
 Use this after the initial Topic–Fact–Source / Output 1 rollout. **Do not** re-author the KM contract, templates, pilot bundle, or `validate_hlk_km_manifests.py` unless requirements change.
 
 ## Done in baseline rollout

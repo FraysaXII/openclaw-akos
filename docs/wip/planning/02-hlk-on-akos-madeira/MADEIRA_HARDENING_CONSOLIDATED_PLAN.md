@@ -240,11 +240,19 @@ flowchart LR
 
 ---
 
-## Out of scope
+## Out of scope (this read-only rollout document)
 
-- Full-profile Madeira / broad write or browser on Madeira without Executor + HITL.
+- **Ungoverned** gateway expansion (writes/browser/MCP) without Executor + HITL, tests, and inventory alignment — never ship as a silent profile change.
 
-## Follow-up initiatives (separate plans)
+## Follow-up and expansion programs (separate phase plans; in scope for the wider program)
 
-- Exhaustive OpenClaw core-tool ID audit across agents if drift remains.
-- Canonical CSV edits (operator approval + `validate_hlk.py`).
+Execution SSOT for backlog rows: [`../06-planning-backlog-registry/master-roadmap.md`](../06-planning-backlog-registry/master-roadmap.md).
+
+| Track | Plan |
+|:------|:-----|
+| Madeira write / browser (Executor + HITL) | [`phase-madeira-write-browser-plan.md`](phase-madeira-write-browser-plan.md) |
+| KiRBe sync daemons | [`phase-kirbe-sync-daemons-plan.md`](phase-kirbe-sync-daemons-plan.md) |
+| Canonical CSV bulk tranche | [`phase-canonical-csv-tranche-plan.md`](phase-canonical-csv-tranche-plan.md) (operator approval + `validate_hlk.py`) |
+| Core tool ID audit | Deferred until drift signals; run with full inventory + drift gates |
+
+This **read-only hardening** narrative and verification tables above remain the historical closure record for the 2026-04-14 rollout; expansion work is **additive**.

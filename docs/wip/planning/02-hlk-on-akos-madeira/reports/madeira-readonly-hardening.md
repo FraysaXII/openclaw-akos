@@ -2,7 +2,7 @@
 
 **Cursor plan (active):** `.cursor/plans/madeira_hardening_consolidated_0cd9482e.plan.md` — consolidated runbook (governance + UAT + debugging). **In-repo mirror (git):** [`../MADEIRA_HARDENING_CONSOLIDATED_PLAN.md`](../MADEIRA_HARDENING_CONSOLIDATED_PLAN.md) (refresh when the Cursor copy diverges). Legacy snapshot: `harden_madeira_read-only_375b110e.plan.md` (superseded).
 
-**Scope recap:** Madeira stays a **read-only** gateway router with HLK/finance tools, compact-tier invariant overlays, `sequential_thinking` only after tool results, `execution_escalate` alongside `admin_escalate`, workspace startup/memory scaffold, log-watcher grounding signals + eval alerts, docs and security audit runbook. **Out of scope:** full-profile Madeira with broad write/browser/MCP at the gateway (contradicts read-only boundary).
+**Scope recap:** Madeira stays a **read-only** gateway router with HLK/finance tools, compact-tier invariant overlays, `sequential_thinking` only after tool results, `execution_escalate` alongside `admin_escalate`, workspace startup/memory scaffold, log-watcher grounding signals + eval alerts, docs and security audit runbook. **This rollout:** ungoverned broad write/browser/MCP at the gateway was out of scope. **Expansion:** governed write/browser + KiRBe daemons + CSV tranches are **separate phase plans** linked from [MADEIRA_HARDENING_CONSOLIDATED_PLAN.md](../MADEIRA_HARDENING_CONSOLIDATED_PLAN.md) (not retroactive failure of read-only closure).
 
 ## Decision log (summary)
 
@@ -58,8 +58,28 @@ Operators needing strict **one commit per phase** for audit should cherry-pick o
 |------|-----------------|-------|--------|
 | **A — Contract / REST** | N/A (no LLM) | `py scripts/serve-api.py --port 8420`; `GET /health` → `status: ok`; `GET /hlk/roles/CTO` → `access_level` 5, `reports_to` O5-1, canonical role fields | **PASS** (validates registry + API; subfields on `/health` may show degraded gateway/RunPod/vLLM per env) |
 | **B — WebChat (operator)** | Tool-capable default, e.g. `ollama/qwen3:8b` | Dashboard `…/chat?session=agent:madeira:main`; **Settings → AI & Agents** `agents.defaults.model` JSON if header picker is not a native select; `/new` then Scenario 0 steps 4–7 in [hlk_admin_smoke.md](../../../../uat/hlk_admin_smoke.md) | **Operator sign-off** (repeat on a second medium+ lane, e.g. cloud/RunPod, to meet exit “≥2 lanes”) |
+| **B2 — WebChat (agent-proxy, Cursor)** | `ollama/qwen3:8b` (session default) | 2026-04-15: Shell parity `pytest` Scenario 0 rows PASS; gateway+API HTTP 200; IDE browser MCP on `18789` after `/new`; prompt “Who is the CTO?” → `Chief Technology` visible + **`hlk_role` tool** completed in UI | **PASS** (mechanical Lane B per runbook; full steps 5–7 not re-run in this pass) |
 
 Lane B remains human-in-the-loop for full tool-trace verification; Lane A locks vault-backed answers independent of gateway model choice.
+
+### Agent-proxy Lane B runbook (Cursor Shell + IDE browser MCP)
+
+Use this when an agent performs Lane B **in the operator’s stead** (same pattern as transcript `e7cba7ab-7c5b-4412-928b-3031bb76eb40`).
+
+1. **Preconditions:** `http://127.0.0.1:18789` HTTP 200; tool-capable chat model (see [docs/uat/hlk_admin_smoke.md](../../../../uat/hlk_admin_smoke.md) Scenario 0 browser subsection).
+2. **Shell:** `py scripts/serve-api.py --port 8420` (if needed); `curl.exe` `GET /health`, `GET /hlk/roles/CTO`; `py scripts/validate_hlk.py` / `validate_hlk_km_manifests.py` when vault changed.
+3. **Browser MCP:** `browser_navigate` → `…/chat?session=agent:madeira:main` → **Connect** → **New session** → type Scenario 0 prompts from [hlk_admin_smoke.md](../../../../uat/hlk_admin_smoke.md) steps 4–7.
+4. **Mechanical PASS hints** (`browser_wait_for` substrings — adjust if vault wording shifts):
+   - After “Who is the CTO?”: `baseline_organisation` and `access` (or `access level`) present in page snapshot text; **no** obvious `xxxxxxxx-xxxx` UUID v4 patterns in assistant text.
+   - After “Show me all Research roles”: `Research` and role-like headings (Holistik Researcher, Lead Researcher, …) without asking “should I search”.
+   - After KiRBe workstreams prompt: `KiRBe` and `process` or workstream names from canonical tree.
+   - After Finance restructure: `Orchestrator` or escalation wording (not executing restructure locally).
+
+Record model id, date, and PASS/PARTIAL/FAIL in the table below. **Subjective** tone checks remain optional operator review of snapshots.
+
+### Langfuse UAT (operator-proxy)
+
+Use **user-langfuse** MCP (`fetch_traces` with `age` minutes, compact output) after a smoke trace (`py scripts/test-langfuse-trace.py` when configured). Record **trace count / visibility** only—**never** API keys or host secrets in this file. Detailed notes: [`../../06-planning-backlog-registry/reports/langfuse-uat-proxy-2026-04-15.md`](../../06-planning-backlog-registry/reports/langfuse-uat-proxy-2026-04-15.md).
 
 ## Files touched (high level)
 

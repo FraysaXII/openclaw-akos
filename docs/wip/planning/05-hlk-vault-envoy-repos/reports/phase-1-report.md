@@ -18,7 +18,7 @@
 
 ## Operator follow-up
 
-- Replace `https://github.com/<org>/...` placeholders in `REPOSITORIES_REGISTRY.md` with live remotes.
+- **2026-04-15:** `madeira-hlk-runtime` and `kirbe-platform` rows in `REPOSITORIES_REGISTRY.md` updated from public `FraysaXII` org audit + `git` origin; **confirm** KiRBe application URL if `supabase` fork is not the SSOT. `client-delivery-pilot` remains placeholder until an engagement remote exists.
 - Add internal-tool rows (`class` = `internal`) as repos accumulate.
 
 ## Verification
