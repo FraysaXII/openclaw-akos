@@ -3,7 +3,7 @@
 **Item Name**: Canonical Precedence Contract
 **Item Number**: HLK-PRECEDENCE-001
 **Version**: 1.0
-**Revision Date**: 2026-03-31
+**Revision Date**: 2026-04-09
 **Entity Owner**: Admin
 **Area Owner**: Data Architecture, Compliance
 
@@ -29,6 +29,7 @@ These are the authoritative sources of business truth. All other representations
 | Meta-SOP | `docs/references/hlk/compliance/SOP-META_PROCESS_MGMT_001.md` | Markdown | Governing procedure for all process definitions |
 | Knowledge management contract | `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md` | Markdown | Topic, Fact, Source model; output types 0–4; Output 1 manifest rules; Obsidian tag governance |
 | SOPs and role-owned canonical docs | `docs/references/hlk/v3.0/.../` role-owned folders | Markdown | Individual operational procedures and case-owned canonical business documents |
+| GitHub repository index (Holistika-tracked) | `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` | Markdown | Canonical registry of which GitHub repos Holistika tracks (URL, class, owner role, topic links); see companion `Repositories/README.md` |
 | This contract | `docs/references/hlk/compliance/PRECEDENCE.md` | Markdown | This document |
 
 ### Mirrored assets (derived, do not hand-edit without syncing back)
@@ -39,6 +40,7 @@ These are the authoritative sources of business truth. All other representations
 | Drive folder hierarchy | Google Drive mirror | Canonical structure --> Drive | Folders map to entity/area/role tree |
 | `supabase.ts` typings | Reference only until regenerated | Schema reference | Treat as typed contract snapshot |
 | `compliance_001.sop_documents` | Supabase | Canonical MD SOPs --> structured mirror | Markdown is authored first; DB records are downstream |
+| GitHub repository file trees | Per-repository remotes on github.com (or equivalent) | Git remote --> local clone; optional git submodule into this monorepo | **SSOT for source code** and in-repo technical docs; the vault registry row is authoritative for *membership and metadata*, not for replacing the remote tree |
 
 ### Reference-only assets (historical, do not edit)
 
@@ -63,6 +65,10 @@ These are the authoritative sources of business truth. All other representations
 **Google Drive (operator mirror):** A parent folder such as **Research & Logic** may contain **sibling** folders for **v3.0** (active vault), **Holistik_v1.3**, and **Holistika Research v2.7**. Authoring and sync for **current** business logic target **v3.0** and **compliance** only; v1.3 and v2.7 remain historical. The **v3** designation marks a **business-logic phase** and is treated as **definitive** for active operations (it is not renamed on every edit).
 
 **This git repository:** The path `docs/references/hlk/Research & Logic/` is a **reference-only** subtree for packaging and traceability (historical snapshots; do not treat as the active vault root). Canonical active paths in-repo are `docs/references/hlk/v3.0/` and `docs/references/hlk/compliance/`. Obsidian or Drive roots should map to those active paths when editing canonical knowledge.
+
+### GitHub repositories vs vault authority
+
+Holistika uses **many GitHub repositories** (platform, internal tooling, client-delivery). The **canonical index** of which repos are tracked, how they are classified, and which `role_name` owns the relationship lives in `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` (policy: `Repositories/README.md`). This is analogous to the PMO Trello registry: **GitHub is not demoted as a tool**, but the **vault row** is the canonical *Holistika-facing* record for governance and topic linking. Default practice is **pointer-only** (URL + metadata in the registry and topic indexes); **git submodules** into this monorepo are optional and require explicit justification (see Repositories README). **Think Big** vault folders hold **non-repository** client/program artifacts (e.g. commercials, SOWs); see `docs/references/hlk/v3.0/Think Big/README.md`.
 
 ### v2.7 (historical reference)
 

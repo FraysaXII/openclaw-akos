@@ -34,6 +34,14 @@ Canonical entrypoint for one **topic bundle**. One primary owner; cross-function
 
 - `item_id` — short label (from [process_list.csv](../../../../../compliance/process_list.csv))
 
+### Linked Git repositories (optional)
+
+When the topic spans one or more GitHub repos:
+
+- Add or update rows in [REPOSITORIES_REGISTRY.md](../../../../Envoy%20Tech%20Lab/Repositories/REPOSITORIES_REGISTRY.md) (`repo_slug`, `github_url`, `class`, `primary_owner_role`, `topic_ids`).
+- In this index, list `repo_slug` values and how they relate to Think Big / Admin artifacts (pointer-only by default; submodules only per [Repositories README](../../../../Envoy%20Tech%20Lab/Repositories/README.md)).
+- In Topic–Fact–Source terms, treat the **canonical code tree** as living on GitHub; cite commits, tags, or paths in **facts** and **sources** per [HLK_KM_TOPIC_FACT_SOURCE.md](../../../../../compliance/HLK_KM_TOPIC_FACT_SOURCE.md).
+
 ### Facts (optional)
 
 - Short bullet facts with `source_id` citations; or link to a fact table file

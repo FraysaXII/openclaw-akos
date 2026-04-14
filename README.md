@@ -378,6 +378,7 @@ On Windows hosts where Playwright browser processes crash (`0xC0000005`), `scrip
 | [AKOS / OpenClaw Responsibility Matrix](docs/ARCHITECTURE.md#akos--openclaw-responsibility-matrix) | Component ownership and interaction map |
 | [Security](SECURITY.md) | Zero-Trust security policy, threat model, and compliance |
 | [User Guide](docs/USER_GUIDE.md) | End-user installation, configuration, and usage manual |
+| [HLK vault v3.0 index](docs/references/hlk/v3.0/index.md) | Active Holistika knowledge vault; GitHub repo registry: `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/` |
 | [Changelog](CHANGELOG.md) | Version history from v0.0.1 to current |
 | [Contributing](CONTRIBUTING.md) | How to contribute to this project |
 

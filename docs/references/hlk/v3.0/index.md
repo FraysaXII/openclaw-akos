@@ -58,6 +58,7 @@ Holistika-wide KM is governed by [HLK_KM_TOPIC_FACT_SOURCE.md](../compliance/HLK
 | WIP topic syntheses (interpretation layer) | [docs/wip/hlk-km/](../../../wip/hlk-km/) |
 | Pilot Output 1 bundle (rasters + `*.manifest.md` + stubs) | [_assets/km-pilot/](_assets/km-pilot/) |
 | Workspace roadmap / traceability | [master-roadmap.md](../../../wip/planning/hlk-km-knowledge-base/master-roadmap.md) |
+| GitHub repository index (Holistika-tracked repos; GitHub is SSOT for code) | [Repositories/REPOSITORIES_REGISTRY.md](Envoy%20Tech%20Lab/Repositories/REPOSITORIES_REGISTRY.md) |
 
 **Binary visuals (Output 1):** store under `v3.0/_assets/<topic_id>/` with a sidecar `*.manifest.md` and a short companion markdown stub for search. Do not use `.cursor/` or other tool-local paths for canonical assets.
 
@@ -70,9 +71,15 @@ Holistika-wide KM is governed by [HLK_KM_TOPIC_FACT_SOURCE.md](../compliance/HLK
 | Obsidian | Open `docs/references/hlk/v3.0/` as a vault |
 | Google Drive | Sync this folder; structure maps 1:1 to Drive folders |
 | SharePoint | Same folder mapping |
-| Git / GitHub | Already versioned in the openclaw-akos repo |
+| Git / GitHub | This monorepo plus any repos listed in the Envoy **repository registry** (code SSOT remains on GitHub) |
 | KiRBe | Ingest as a source; CSVs provide the graph structure |
 | MADEIRA | Reads registry CSVs for structure, markdown tree for content |
+
+### Entity placement: Admin, Envoy Tech Lab, Think Big
+
+- **Admin (`Admin/…`)** — Role-owned canonical knowledge: SOPs, internal programs (e.g. ENISA readiness), compliance, research methodology. Mirrors [baseline_organisation.csv](../compliance/baseline_organisation.csv).
+- **Envoy Tech Lab** — **All GitHub repositories** Holistika tracks (platform, internal tools, client-delivery) are indexed in [Envoy Tech Lab/Repositories/](Envoy%20Tech%20Lab/Repositories/README.md). Vault markdown for KiRBe and MADEIRA continues under [Envoy Tech Lab/KiRBe/](Envoy%20Tech%20Lab/KiRBe/) and [Envoy Tech Lab/MADEIRA/](Envoy%20Tech%20Lab/MADEIRA/) unless a later migration consolidates paths. Default pattern: **registry pointer** to GitHub; submodules only when CI or pin requirements justify it (see Repositories README).
+- **Think Big** — **Non-repository** client and program artifacts: commercials, SOWs, engagement memos, decks, and other deliverables that are not the Git root of a codebase. Link Think Big materials to repo rows and topic indexes in Envoy/PMO. See [Think Big/README.md](Think%20Big/README.md).
 
 ## Governance
 
@@ -142,8 +149,14 @@ Admin/
 
 ```
 Envoy Tech Lab/
-  KiRBe/                         KiRBe platform documentation
-  MADEIRA/                        MADEIRA platform documentation
+  Repositories/                   Canonical index of Holistika-tracked GitHub repos
+    README.md                     Policy: pointer-first, submodule criteria
+    REPOSITORIES_REGISTRY.md      Table: slug, URL, class, owner role, topic_ids
+    platform/                     Optional stubs for platform-class repos
+    internal/                     Optional stubs for internal tooling repos
+    client-delivery/              Optional stubs for client-delivery repos
+  KiRBe/                          KiRBe platform documentation (vault-authored)
+  MADEIRA/                        MADEIRA platform documentation (vault-authored)
   Showcases/                      Tech lab showcase materials
 ```
 
@@ -151,8 +164,9 @@ Envoy Tech Lab/
 
 ```
 Think Big/
-  Projects/                       Client and internal project documentation
-  Clients/                        Client-specific materials
+  README.md                       Scope: non-repo artifacts; link to Envoy registry for code
+  Projects/                       Client and internal project documentation (non-repo)
+  Clients/                        Client-specific materials (non-repo)
 ```
 
 ## Cross-references
@@ -167,3 +181,4 @@ Think Big/
 | Precedence contract | [PRECEDENCE.md](../compliance/PRECEDENCE.md) |
 | Meta-SOP | [SOP-META_PROCESS_MGMT_001.md](../compliance/SOP-META_PROCESS_MGMT_001.md) |
 | KM contract (Topic / Fact / Source, Output 1) | [HLK_KM_TOPIC_FACT_SOURCE.md](../compliance/HLK_KM_TOPIC_FACT_SOURCE.md) |
+| GitHub repository index (Holistika-tracked) | [Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md](Envoy%20Tech%20Lab/Repositories/REPOSITORIES_REGISTRY.md) |
