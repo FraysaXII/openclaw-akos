@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Planning index** — [docs/wip/planning/README.md](docs/wip/planning/README.md) numbers initiative folders (01–05) for reading order; [docs/wip/README.md](docs/wip/README.md) links to it. **Madeira consolidated plan** mirrored at [docs/wip/planning/hlk-on-akos-madeira/MADEIRA_HARDENING_CONSOLIDATED_PLAN.md](docs/wip/planning/hlk-on-akos-madeira/MADEIRA_HARDENING_CONSOLIDATED_PLAN.md) with Part B *UAT lane ordering* (Lane A REST/pytest before Lane B WebChat); traceability mirror and `hlk_admin_smoke.md` cross-link.
 - **SECURITY.md** — OpenClaw gateway security audit operator step now links directly to [docs/USER_GUIDE.md](docs/USER_GUIDE.md) §14.3 (cadence, `--deep`, `--fix`).
 - **Madeira traceability mirror** — `docs/wip/planning/hlk-on-akos-madeira/reports/madeira-readonly-hardening.md` adds post-bootstrap verification (2026-04-14), phase→commit mapping, and Scenario 0 REST vs WebChat UAT lanes.
 - **HLK admin smoke UAT** — `docs/uat/hlk_admin_smoke.md` documents automated parity checks (pytest + assemble) and a **browser UAT** subsection (dashboard / Cursor IDE browser, tool-capable model requirement, clean session, API port 8420) alongside [`dashboard_smoke.md`](docs/uat/dashboard_smoke.md).

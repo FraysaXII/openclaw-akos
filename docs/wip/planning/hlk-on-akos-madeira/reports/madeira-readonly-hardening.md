@@ -1,6 +1,6 @@
 # Madeira read-only hardening — traceability mirror
 
-**Cursor plan (active):** `.cursor/plans/madeira_hardening_consolidated_0cd9482e.plan.md` — consolidated runbook (governance + UAT + debugging). Legacy snapshot: `harden_madeira_read-only_375b110e.plan.md` (superseded).
+**Cursor plan (active):** `.cursor/plans/madeira_hardening_consolidated_0cd9482e.plan.md` — consolidated runbook (governance + UAT + debugging). **In-repo mirror (git):** [`../MADEIRA_HARDENING_CONSOLIDATED_PLAN.md`](../MADEIRA_HARDENING_CONSOLIDATED_PLAN.md) (refresh when the Cursor copy diverges). Legacy snapshot: `harden_madeira_read-only_375b110e.plan.md` (superseded).
 
 **Scope recap:** Madeira stays a **read-only** gateway router with HLK/finance tools, compact-tier invariant overlays, `sequential_thinking` only after tool results, `execution_escalate` alongside `admin_escalate`, workspace startup/memory scaffold, log-watcher grounding signals + eval alerts, docs and security audit runbook. **Out of scope:** full-profile Madeira with broad write/browser/MCP at the gateway (contradicts read-only boundary).
 
