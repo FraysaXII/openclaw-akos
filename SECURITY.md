@@ -85,7 +85,7 @@ Structured JSON logs can also be forwarded to Splunk via `config/splunk/inputs.c
 - Completion rate drops below baseline (7d window, high)
 - Madeira answer-quality grounding signals (real-time, high): `madeira_internal_tool_leak`, `madeira_pseudo_hlk_path_leak`, `madeira_suspect_uuid_hallucination` — emitted when log-watcher scoring detects leaked tool ids, pseudo HLK paths in user-visible text, or UUID-shaped tokens without `hlk_*` tool use on HLK-classified turns
 
-**OpenClaw security audit:** After gateway or tool-surface changes, operators should run `openclaw security audit` (and `openclaw security audit --deep` when investigating exposure). See `docs/USER_GUIDE.md` section 14.3.
+**OpenClaw security audit:** After gateway or tool-surface changes, operators should run `openclaw security audit` (and `openclaw security audit --deep` when investigating exposure). Full cadence, `--fix`, and incident-style review live in [docs/USER_GUIDE.md](docs/USER_GUIDE.md) — **§14.3 OpenClaw gateway security audit**.
 
 ### 5a. Playwright and Browser Smoke (v0.5.0)
 
