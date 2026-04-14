@@ -22,11 +22,7 @@ These are the authoritative sources of business truth. All other representations
 | Asset | Location | Format | Scope |
 |-------|----------|--------|-------|
 | Organisation baseline | `docs/references/hlk/compliance/baseline_organisation.csv` | CSV | Roles, hierarchy, areas, entities, access levels, descriptions |
-| Process baseline | `docs/references/hlk/compliance/process_list.csv` | CSV | Process items, granularity, ownership, metadata; optional `item_parent_1_id` / `item_parent_2_id` (stable parent `item_id`) dual-written with name columns |
-
-### Process list: program grouping (convention, not a new granularity)
-
-A **program** is an optional intermediate **workstream** row (`item_granularity=workstream`) placed between a **project** and its child workstreams, using the same duplicate-parent pattern as other nested workstreams in `process_list.csv` (`item_parent_1` and `item_parent_2` both set to the immediate ancestor `item_name` where applicable). There is **no** separate `item_granularity` value for program and **no** `item_parent_3` column—deeper trees are expressed only as additional named rows in this single CSV. Operator-approved CSV tranches: see `docs/wip/planning/02-hlk-on-akos-madeira/reports/canonical-csv-tranche-operator-approval-template.md`.
+| Process baseline | `docs/references/hlk/compliance/process_list.csv` | CSV | Process items, granularity, ownership, metadata; optional `item_parent_1_id` / `item_parent_2_id` (stable parent `item_id`) dual-written with name columns; **`item_name` must be unique** across rows so parent pointers resolve (`py scripts/validate_hlk.py`) |
 | Compliance taxonomy | `docs/references/hlk/compliance/access_levels.md` | Markdown | Access level definitions |
 | Compliance taxonomy | `docs/references/hlk/compliance/confidence_levels.md` | Markdown | Confidence level definitions |
 | Compliance taxonomy | `docs/references/hlk/compliance/source_taxonomy.md` | Markdown | Source categories and levels |
@@ -35,6 +31,10 @@ A **program** is an optional intermediate **workstream** row (`item_granularity=
 | SOPs and role-owned canonical docs | `docs/references/hlk/v3.0/.../` role-owned folders | Markdown | Individual operational procedures and case-owned canonical business documents |
 | GitHub repository index (Holistika-tracked) | `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` | Markdown | Canonical registry of which GitHub repos Holistika tracks (URL, class, owner role, topic links); see companion `Repositories/README.md` |
 | This contract | `docs/references/hlk/compliance/PRECEDENCE.md` | Markdown | This document |
+
+### Process list: program grouping (convention, not a new granularity)
+
+A **program** is an optional intermediate **workstream** row (`item_granularity=workstream`) placed between a **project** and its child workstreams, using the same duplicate-parent pattern as other nested workstreams in `process_list.csv` (`item_parent_1` and `item_parent_2` both set to the immediate ancestor `item_name` where applicable). There is **no** separate `item_granularity` value for program and **no** `item_parent_3` column—deeper trees are expressed only as additional named rows in this single CSV. Operator-approved CSV tranches: see `docs/wip/planning/02-hlk-on-akos-madeira/reports/canonical-csv-tranche-operator-approval-template.md`.
 
 ### Mirrored assets (derived, do not hand-edit without syncing back)
 

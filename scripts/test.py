@@ -87,8 +87,8 @@ GROUPS: dict[str, dict] = {
         "files": ["test_router.py"],
     },
     "hlk": {
-        "description": "HLK domain models, registry service, and API endpoints",
-        "files": ["test_hlk.py"],
+        "description": "HLK domain models, registry service, API endpoints, and process CSV SSOT helpers",
+        "files": ["test_hlk.py", "test_hlk_process_csv.py"],
     },
     "validate-hlk": {
         "description": "HLK canonical vault integrity validation (standalone)",

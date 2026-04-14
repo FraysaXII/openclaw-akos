@@ -7,6 +7,7 @@ Deterministic checks against baseline_organisation.csv and process_list.csv:
 - Graph integrity (0 broken parent refs, 0 orphans)
 - Granularity canon (project/workstream/process/task only)
 - No duplicate item_id or org_id
+- Unique item_name per item_id (required for parent-id resolution)
 - All projects have at least one child
 
 Usage: py scripts/validate_hlk.py
@@ -21,7 +22,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT
-from akos.hlk_process_csv import ambiguous_item_names
+from akos.hlk_process_csv import ambiguous_item_names, item_name_uniqueness_errors
 from akos.models import OrgRole, ProcessItem
 
 HLK_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
@@ -177,6 +178,7 @@ def main() -> int:
         ("Granularity canon", check_granularity(proc_rows)),
         ("Duplicate item_id", check_duplicate_ids(proc_rows)),
         ("Duplicate org_id", check_duplicate_org_ids(org_rows)),
+        ("Unique item_name", item_name_uniqueness_errors(proc_rows)),
         ("Projects have children", check_projects_have_children(proc_rows)),
     ]
 

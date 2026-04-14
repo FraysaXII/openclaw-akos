@@ -9,6 +9,7 @@ side keeps the original name where that name is still used as item_parent_1/2).
 Usage (repo root):
     py scripts/dedupe_ambiguous_process_item_names.py
     py scripts/dedupe_ambiguous_process_item_names.py --write
+    py scripts/dedupe_ambiguous_process_item_names.py --report   # list duplicate item_name (exit 1 if any)
 """
 
 from __future__ import annotations
@@ -25,6 +26,7 @@ sys.path.insert(0, str(REPO_ROOT))
 
 from akos.hlk_process_csv import (  # noqa: E402
     ambiguous_item_names,
+    item_name_uniqueness_errors,
     normalize_process_row,
     resolve_all_parent_ids,
     write_process_csv,
@@ -71,8 +73,27 @@ def load_rows() -> list[dict[str, str]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--write", action="store_true")
+    parser.add_argument("--write", action="store_true", help="Apply renames and write canonical CSV")
+    parser.add_argument(
+        "--report",
+        action="store_true",
+        help="Print duplicate item_name collisions and exit 1 if any (read-only)",
+    )
     args = parser.parse_args()
+    if args.report and args.write:
+        print("error: use --report or --write, not both", file=sys.stderr)
+        return 2
+    if args.report:
+        rows = load_rows()
+        errs = item_name_uniqueness_errors(rows)
+        if not errs:
+            print("no duplicate item_name values")
+            return 0
+        print(f"duplicate_item_name_groups={len(errs)}")
+        for e in errs:
+            print(f"  {e}")
+        print("hint: extend RENAMES_BY_ITEM_ID in this script, then run with --write", file=sys.stderr)
+        return 1
     rows = load_rows()
     changed = 0
     for r in rows:

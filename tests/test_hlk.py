@@ -9,7 +9,7 @@ from fastapi.testclient import TestClient
 
 from akos.api import app
 from akos.hlk import HlkRegistry, get_hlk_registry
-from akos.hlk_process_csv import ambiguous_item_names
+from akos.hlk_process_csv import item_name_uniqueness_errors
 from akos.io import REPO_ROOT
 from akos.models import HlkResponse, OrgRole, ProcessItem
 
@@ -364,8 +364,8 @@ class TestHlkProvenance:
         assert proc_csv.is_file()
         with proc_csv.open(encoding="utf-8", newline="") as f:
             rows = list(csv.DictReader(f))
-        amb = ambiguous_item_names(rows)
-        assert not amb, f"ambiguous item_name set non-empty: {sorted(amb)[:20]}"
+        errs = item_name_uniqueness_errors(rows)
+        assert not errs, errs[:10]
 
 
 class TestHlkApiEdgeCases:

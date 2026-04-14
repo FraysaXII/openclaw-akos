@@ -45,6 +45,21 @@ def ambiguous_item_names(rows: list[dict[str, str]]) -> set[str]:
     return {n for n, ids in groups.items() if len(ids) > 1}
 
 
+def item_name_uniqueness_errors(rows: list[dict[str, str]]) -> list[str]:
+    """Human-readable errors for duplicate ``item_name`` values (blocks parent-id SSOT)."""
+    groups: dict[str, set[str]] = defaultdict(set)
+    for row in rows:
+        name = (row.get("item_name") or "").strip()
+        iid = (row.get("item_id") or "").strip()
+        if name and iid:
+            groups[name].add(iid)
+    return [
+        f"duplicate item_name {name!r}: item_ids {sorted(ids)}"
+        for name, ids in sorted(groups.items(), key=lambda x: x[0].casefold())
+        if len(ids) > 1
+    ]
+
+
 def build_unique_item_name_to_id(rows: list[dict[str, str]]) -> dict[str, str]:
     """Map item_name -> item_id only when that name is unique across the file."""
     amb = ambiguous_item_names(rows)

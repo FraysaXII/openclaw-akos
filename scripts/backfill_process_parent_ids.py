@@ -24,6 +24,7 @@ sys.path.insert(0, str(REPO_ROOT))
 from akos.hlk_process_csv import (  # noqa: E402
     PROCESS_LIST_FIELDNAMES,
     ambiguous_item_names,
+    item_name_uniqueness_errors,
     normalize_process_row,
     resolve_all_parent_ids,
     write_process_csv,
@@ -45,6 +46,15 @@ def main() -> int:
     parser.add_argument("--write", action="store_true")
     args = parser.parse_args()
     raw = load_raw_rows()
+    dup_err = item_name_uniqueness_errors(raw)
+    if dup_err:
+        print("error: duplicate item_name values block parent-id resolution; fix CSV or run:", file=sys.stderr)
+        print("  py scripts/dedupe_ambiguous_process_item_names.py --report", file=sys.stderr)
+        for e in dup_err[:15]:
+            print(f"  - {e}", file=sys.stderr)
+        if len(dup_err) > 15:
+            print(f"  ... and {len(dup_err) - 15} more", file=sys.stderr)
+        return 1
     new_rows = upgrade(raw)
     amb = ambiguous_item_names(new_rows)
     missing = 0

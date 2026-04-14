@@ -16,6 +16,7 @@
 - **API:** `GET /hlk/processes/id/{item_id}/tree` registered ahead of `/hlk/processes/{item_id}`.
 - **PMO SOP** `SOP-PMO_VAULT_PROMOTION_GATE_001.md`: step 6 for operator authoring of parent ids and unique `item_name`.
 - **Follow-up (2026-04-15):** **`scripts/dedupe_ambiguous_process_item_names.py --write`** renamed 23 canonical rows (by `item_id`) so **`ambiguous_item_names` is empty**; canonical CSV re-written with **`resolve_all_parent_ids`** so every non-project parent pointer has matching ids where names are set.
+- **Hardening (same tranche):** **`item_name_uniqueness_errors`** in **`akos/hlk_process_csv.py`** plus **`validate_hlk`** check **Unique item_name**; **`scripts/backfill_process_parent_ids.py`** exits early with **`--report`** hint; **`scripts/dedupe_ambiguous_process_item_names.py --report`** for read-only collision listing; **`PRECEDENCE.md`** canonical table repaired (program subsection no longer split the asset table) and process row notes uniqueness.
 
 ## Verification commands run
 
@@ -26,5 +27,5 @@
 
 ## Residual risks
 
-- **New duplicate `item_name` rows** introduced by a future merge will re-break parent-id resolution until operators rename or run an extended dedupe pass; **`py scripts/validate_hlk.py`** remains the gate.
-- **Third-party CSV consumers** must follow the header row or **`akos.hlk_process_csv.PROCESS_LIST_FIELDNAMES`** (see USER_GUIDE §24.3.4); KiRBe fingerprints hash the whole file, so column additions already surface as intentional drift rather than silent corruption.
+- **Operator bypass:** Merges that skip **`py scripts/validate_hlk.py`** could still land duplicate `item_name` rows until CI/release-gate catches them; **`py scripts/dedupe_ambiguous_process_item_names.py --report`** is the fastest local pre-check.
+- **Third-party CSV consumers** remain outside repo control; in-repo contract is **`PROCESS_LIST_FIELDNAMES`** (USER_GUIDE §24.3.4). KiRBe fingerprints hash the whole file so column drift is visible, not silent.
