@@ -24,10 +24,10 @@ Define how PMO moves **stable operating intent** from **Trello**, **board JSON i
 ## Steps
 
 1. Keep execution in **Trello** or **WIP** until the item passes preconditions.
-2. Draft CSV row(s): `item_id`, `item_granularity`, harmonized **`item_parent_1`**, metadata (`description`, `confidence`, `frequency`, `quality`).
+2. For **bulk task promotion** (more than a handful of cards in one tranche), define or reuse English **cluster** `process` rows (`gtm_cl_*`) so each promoted leaf has **`item_parent_1`** = cluster `item_name` and **`item_parent_2`** = workstream `item_name` (see `docs/wip/planning/02-hlk-on-akos-madeira/reports/trello-list-to-workstream-matrix.md` Pattern 2). Then draft CSV row(s): `item_id`, `item_granularity`, harmonized parents, metadata (`description`, `confidence`, `frequency`, `quality`).
 3. Map Trello **`list.name`** to a registered English **workstream** `item_name`; never use `To Do`, `Done`, or `Viejo` as parents.
 4. Obtain **operator approval** on the tranche (see planning `canonical-csv-tranche-operator-approval-template.md`).
-5. Merge into `process_list.csv` and run **`py scripts/validate_hlk.py`** until PASS; sync ARCHITECTURE / USER_GUIDE counts when project or item totals change.
+5. Merge into `process_list.csv` and run **`py scripts/validate_hlk.py`** until PASS; sync ARCHITECTURE / USER_GUIDE counts when project or item totals change. After large GTM merges, run **`py scripts/refine_gtm_process_hierarchy.py --write`** when clustering or `item_name` cleanup rules change.
 
 ## Out of scope
 

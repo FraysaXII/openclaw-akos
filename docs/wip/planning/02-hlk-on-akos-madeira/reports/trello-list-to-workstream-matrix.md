@@ -27,3 +27,20 @@
 | Benchmarker, AI Ethics | MADEIRA benchmarking and AI ethics |
 
 **Pipeline subprocess:** `Research Material / Pipeline` → intermediate **process** `Research material pipeline execution` under `Research material and learning pipelines` for the six pipeline tasks.
+
+## Pattern 2 (cluster layer)
+
+After the initial merge, **bulk Trello-derived tasks** are grouped under deterministic English **cluster** `process` rows (`item_id` prefix `gtm_cl_*`). Each cluster is keyed by the canonical **workstream** `item_name` plus the original Trello `item_parent_1` path from `candidate_gtm_process_rows.csv` (stable hash suffix in `item_id`).
+
+| Registry column | Value for leaf tasks / processes |
+|-----------------|----------------------------------|
+| `item_parent_1` | Cluster `item_name` (immediate parent) |
+| `item_parent_2` | Owning workstream `item_name` |
+| Cluster row `item_parent_1` | Workstream |
+| Cluster row `item_parent_2` | Owning project (`Holistika Research and Methodology`, `MADEIRA Platform`, Think Big projects, etc.) |
+| Workstream row `item_parent_1` / `item_parent_2` | Both set to the owning **project** (same convention as other Holistika/Think Big workstreams) |
+
+**Pipeline exception:** the six pipeline tasks attach directly to **`Research material pipeline execution`** (no extra `gtm_cl_*` row) with `item_parent_2` = `Research material and learning pipelines`.
+
+**Sanitization:** code-like symbols (snake_case APIs, `.py` paths, HTTP route fragments) are moved into `description` / `addundum_extras`; registry `item_name` stays short English prose. Driver: `py scripts/refine_gtm_process_hierarchy.py --write`.
+

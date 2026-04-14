@@ -270,6 +270,19 @@ class TestHlkIntegrity:
             if p.item_granularity:
                 assert p.item_granularity in valid, f"{p.item_id}: invalid granularity '{p.item_granularity}'"
 
+    def test_gtm_rows_have_resolved_parent_chain(self):
+        """Policy: promoted GTM rows keep a two-hop parent chain (p2 workstream or project, p1 cluster or process)."""
+        names = {p.item_name for p in self.reg._processes if p.item_name}
+        for p in self.reg._processes:
+            if not (p.item_id or "").startswith("gtm_"):
+                continue
+            if (p.item_granularity or "").strip() == "project":
+                continue
+            assert (p.item_parent_2 or "").strip(), f"{p.item_id}: GTM row missing item_parent_2"
+            assert p.item_parent_2 in names, f"{p.item_id}: item_parent_2 not in item_name set"
+            assert (p.item_parent_1 or "").strip(), f"{p.item_id}: GTM row missing item_parent_1"
+            assert p.item_parent_1 in names, f"{p.item_id}: item_parent_1 not in item_name set"
+
 
 class TestHlkProvenance:
     """Verify structural provenance of the canonical vault."""

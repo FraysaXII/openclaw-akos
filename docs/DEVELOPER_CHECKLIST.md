@@ -16,6 +16,7 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | 6 | `py scripts/release-gate.py` | Unified gate must report PASS (includes HLK vault validation) |
 | 7 | `py scripts/validate_hlk.py` | HLK canonical vault integrity (also run by release gate) |
 | 7b | `py scripts/merge_gtm_into_process_list.py` | Optional: merge GTM candidate CSV into `process_list.csv` after operator approval (`--write` applies) |
+| 7c | `py scripts/refine_gtm_process_hierarchy.py` | Optional: Pattern 2 cluster parents + `item_name` cleanup on existing GTM rows (`--write` applies) |
 | 8 | `py scripts/validate_hlk_km_manifests.py` | HLK KM visual manifests under `docs/references/hlk/v3.0/_assets/**/*.manifest.md` (run when those files change) |
 | 9 | `py scripts/resolve-mcporter-paths.py` | If mcporter.json was copied manually (resolves placeholder paths) |
 

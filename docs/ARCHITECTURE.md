@@ -634,7 +634,7 @@ The `akos/api.py` module exposes a REST API for programmatic control:
 | `/metrics/cost` | GET | Cost breakdown by agent and environment |
 | `/logs` | WebSocket | Live log stream |
 
-The current HLK registry baseline exposes 11 projects and 961 registered items, including founder-governance processes under Legal, Finance, and Compliance for entity formation, founder funding, startup-certification readiness, and trademark/naming control, plus the GTM/Trello-harmonized operating tree merged from the MADEIRA planning candidate (Tier C backlog rows excluded).
+The current HLK registry baseline exposes 11 projects and 1,062 registered items, including founder-governance processes under Legal, Finance, and Compliance for entity formation, founder funding, startup-certification readiness, and trademark/naming control, plus the GTM/Trello-harmonized operating tree merged from the MADEIRA planning candidate (Tier C backlog rows excluded). GTM leaves sit under English **cluster** process rows (`gtm_cl_*`) between workstreams and tasks; see `scripts/refine_gtm_process_hierarchy.py`.
 
 The founder-governance lower layer uses a staged document model to stay scalable: evidence and redacted synthesis live in `docs/wip/`, case-specific canonical notes live under role-owned `v3.0/` folders, repeatable procedures become SOPs, and only the repeatable process layer is registered in `process_list.csv`. This separation keeps founder-specific or potentially sensitive material out of the runtime registry while preserving a reusable operating model for future entity work.
 
@@ -658,6 +658,7 @@ Launch: `python scripts/serve-api.py --port 8420`
 | `scripts/release-gate.py` | Unified release gate (tests + drift + smoke) |
 | `scripts/validate_hlk_km_manifests.py` | Validate HLK KM visual manifest frontmatter and raster paths under `v3.0/_assets/**/*.manifest.md` |
 | `scripts/merge_gtm_into_process_list.py` | Idempotent-style merge helper: harmonize GTM candidate CSV into `process_list.csv` (English parents, Tier C exclusion); run with `--write` after operator approval |
+| `scripts/refine_gtm_process_hierarchy.py` | Pattern 2 pass: insert `gtm_cl_*` cluster processes from Trello path prefixes, rewire `item_parent_1` / `item_parent_2`, sanitize code-like `item_name` values on existing GTM rows; run with `--write` after merge |
 | `scripts/resolve-mcporter-paths.py` | Resolve MCP config placeholder paths (idempotent, cross-platform) |
 
 ### Workflow Definitions (v0.4.0)

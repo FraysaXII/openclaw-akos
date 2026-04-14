@@ -1982,6 +1982,10 @@ Use this order:
 
 **Scaling rule:** If the same founder-governance activity repeats, promote the stable part upward into SOP + registry layers. If it stays case-specific, keep it in role-owned case docs rather than bloating the registry.
 
+### 24.3.3 Trello-derived GTM registry (cluster layer)
+
+Large PMO/Trello promotions into `process_list.csv` use an intermediate **cluster** `process` row (`item_id` prefix `gtm_cl_*`) between the English **workstream** and each leaf task so both `item_parent_1` and `item_parent_2` resolve to real `item_name` values in the same CSV. After changing merge rules or path shapes, operators run `py scripts/refine_gtm_process_hierarchy.py --write` (see `docs/wip/planning/02-hlk-on-akos-madeira/reports/trello-list-to-workstream-matrix.md`, Pattern 2).
+
 ### 24.3.3 GitHub repositories (Envoy Tech Lab hub)
 
 Holistika tracks **many GitHub repositories** (platform, internal tools, client-delivery). Authority split:
