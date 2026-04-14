@@ -22,7 +22,7 @@
 
 | repo_slug | github_url | class | primary_owner_role | topic_ids | vault_doc_root | notes |
 |-----------|------------|-------|--------------------|-----------|----------------|-------|
-| kirbe-platform | `https://github.com/FraysaXII/supabase` | platform | System Owner | — | [../KiRBe/](../KiRBe/) | **Verify with operator:** public audit (2026-04-15) under `github.com/FraysaXII` had no repo named `kirbe-platform`; this row points at the org `supabase` fork as the closest KiRBe-themed remote—replace if the KiRBe application SSOT lives elsewhere (private monorepo or different name). |
+| kirbe-platform | `https://github.com/FraysaXII/kirbe` | platform | System Owner | — | [../KiRBe/](../KiRBe/) | KiRBe application repository (operator-confirmed 2026-04-15). |
 | madeira-hlk-runtime | `https://github.com/FraysaXII/openclaw-akos` | platform | AI Engineer | `topic_madeira_research_radar`, `topic_madeira_product_timeline` | [../MADEIRA/](../MADEIRA/) | Canonical remote from `git remote get-url origin` on the AKOS workspace (2026-04-15). |
 | client-delivery-pilot | `https://github.com/<org>/<client-project-repo>` (operator sets) | client-delivery | PMO | `topic_pmo_client_delivery_hub` | — | No public delivery repo identified in org audit; keep placeholder until an engagement remote is known. |
 

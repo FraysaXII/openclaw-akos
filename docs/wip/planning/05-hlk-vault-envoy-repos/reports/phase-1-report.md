@@ -18,7 +18,7 @@
 
 ## Operator follow-up
 
-- **2026-04-15:** `madeira-hlk-runtime` and `kirbe-platform` rows in `REPOSITORIES_REGISTRY.md` updated from public `FraysaXII` org audit + `git` origin; **confirm** KiRBe application URL if `supabase` fork is not the SSOT. `client-delivery-pilot` remains placeholder until an engagement remote exists.
+- **2026-04-15:** `madeira-hlk-runtime` → `FraysaXII/openclaw-akos` (git origin); `kirbe-platform` → `FraysaXII/kirbe` (operator-confirmed). `client-delivery-pilot` remains placeholder until an engagement remote exists.
 - Add internal-tool rows (`class` = `internal`) as repos accumulate.
 
 ## Verification

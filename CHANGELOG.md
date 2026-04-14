@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **HLK Envoy `REPOSITORIES_REGISTRY.md`** — Set `madeira-hlk-runtime` to the canonical `FraysaXII/openclaw-akos` remote; set `kirbe-platform` to `FraysaXII/supabase` with an operator-verify note (public org audit had no dedicated `kirbe-platform` repo).
+- **HLK Envoy `REPOSITORIES_REGISTRY.md`** — Set `madeira-hlk-runtime` to `FraysaXII/openclaw-akos`; set `kirbe-platform` to `FraysaXII/kirbe` (operator-confirmed KiRBe application repo).
 - **Madeira planning coherence** — `docs/wip/planning/02-hlk-on-akos-madeira/master-roadmap.md` reconciled with read-only hardening closure + `06` registry; `MADEIRA_HARDENING_CONSOLIDATED_PLAN.md` out-of-scope/follow-up sections now point at expansion phase plans.
 - **Madeira traceability mirror** — Agent-proxy Lane B runbook + Langfuse UAT pointer; KM follow-up checklist links the `06` registry.
 - **Planning folder layout** — Renamed `docs/wip/planning/*` initiative directories to prefixed paths: `01-akos-full-roadmap/`, `02-hlk-on-akos-madeira/`, `03-hlk-km-knowledge-base/`, `04-holistika-company-formation/`, `05-hlk-vault-envoy-repos/`, `99-proposals/` (was `_proposals/`). Inbound links and [docs/wip/planning/README.md](docs/wip/planning/README.md) (numbered index) updated; `.cursor/rules/akos-planning-traceability.mdc` and [docs/wip/README.md](docs/wip/README.md) describe the `NN-` convention. **Madeira consolidated plan** lives at [docs/wip/planning/02-hlk-on-akos-madeira/MADEIRA_HARDENING_CONSOLIDATED_PLAN.md](docs/wip/planning/02-hlk-on-akos-madeira/MADEIRA_HARDENING_CONSOLIDATED_PLAN.md) (Part B *UAT lane ordering*); traceability mirror and `hlk_admin_smoke.md` cross-link use the same prefix.
