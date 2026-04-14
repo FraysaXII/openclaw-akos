@@ -15,7 +15,7 @@
 
 1. Export the board in the same JSON shape (array of card objects with `id`, `name`, `list.name`).
 2. If the export is a single consistent id namespace, replace `trello_board_67697e19_primary.json` (or split using the same rule: second `"Readme"` card starts archive slice if two exports were concatenated).
-3. Update [RESEARCH_BACKLOG_TRELLO_REGISTRY.md](../RESEARCH_BACKLOG_TRELLO_REGISTRY.md) and add a one-line note to `docs/wip/planning/hlk-km-knowledge-base/reports/` if history is material.
+3. Update [RESEARCH_BACKLOG_TRELLO_REGISTRY.md](../RESEARCH_BACKLOG_TRELLO_REGISTRY.md) and add a one-line note to `docs/wip/planning/03-hlk-km-knowledge-base/reports/` if history is material.
 
 ## Security
 

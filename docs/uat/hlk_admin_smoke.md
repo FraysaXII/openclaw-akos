@@ -55,7 +55,7 @@ Use these when you want **repo-level** confirmation aligned with Scenario 0 expe
 
 Live HLK tool-backed answers (steps 4–6) still require a running gateway, API, and MCP as in **Prerequisites**; the rows above lock **contracts** that prevent the documented failure modes when those services are healthy.
 
-**Order (Lane A, then Lane B):** Run **automated parity + REST** checks above *before* dashboard WebChat so failures are not misread as model or prompt bugs when the real issue is API, MCP, or a non-tool-capable session model. See [Madeira consolidated plan (repo mirror)](../wip/planning/hlk-on-akos-madeira/MADEIRA_HARDENING_CONSOLIDATED_PLAN.md) Part B, subsection *UAT lane ordering*.
+**Order (Lane A, then Lane B):** Run **automated parity + REST** checks above *before* dashboard WebChat so failures are not misread as model or prompt bugs when the real issue is API, MCP, or a non-tool-capable session model. See [Madeira consolidated plan (repo mirror)](../wip/planning/02-hlk-on-akos-madeira/MADEIRA_HARDENING_CONSOLIDATED_PLAN.md) Part B, subsection *UAT lane ordering*.
 
 ### Browser UAT (dashboard WebChat, including Cursor IDE Browser)
 

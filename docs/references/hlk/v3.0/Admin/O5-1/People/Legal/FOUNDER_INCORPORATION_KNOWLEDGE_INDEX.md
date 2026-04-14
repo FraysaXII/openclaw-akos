@@ -15,7 +15,7 @@ This index is the canonical entrypoint for the founder-incorporation knowledge b
 
 ### Source Synthesis
 
-- Working synthesis: [founder-incorporation-report.md](../../../../../../../wip/planning/holistika-company-formation/reports/founder-incorporation-report.md)
+- Working synthesis: [founder-incorporation-report.md](../../../../../../../wip/planning/04-holistika-company-formation/reports/founder-incorporation-report.md)
 
 ### Procedural Layer
 

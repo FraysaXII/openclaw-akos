@@ -13,13 +13,13 @@ Use this rule when creating or updating roadmap, phase-plan, or execution-report
 
 ## Traceability Contract
 
-- When a roadmap or phase plan becomes execution-relevant, keep a workspace copy under `docs/wip/planning/<initiative-slug>/`.
+- When a roadmap or phase plan becomes execution-relevant, keep a workspace copy under `docs/wip/planning/<NN-initiative-slug>/` where **`NN`** is the next two-digit sequence prefix assigned in [docs/wip/planning/README.md](../../docs/wip/planning/README.md) (e.g. `02-hlk-on-akos-madeira/`).
 - Keep the copy non-canonical unless the user explicitly says the `docs/wip` copy is now the main source.
 - Store the main planning copy as:
-  - `docs/wip/planning/<initiative-slug>/master-roadmap.md`
-  - or `docs/wip/planning/<initiative-slug>/phase-<n>-plan.md`
+  - `docs/wip/planning/<NN-initiative-slug>/master-roadmap.md`
+  - or `docs/wip/planning/<NN-initiative-slug>/phase-<n>-plan.md`
 - Store progress or completion notes beside it as:
-  - `docs/wip/planning/<initiative-slug>/reports/phase-<n>-report.md`
+  - `docs/wip/planning/<NN-initiative-slug>/reports/phase-<n>-report.md`
 
 ## Scope Split
 
@@ -28,9 +28,9 @@ Use this rule when creating or updating roadmap, phase-plan, or execution-report
 
 ## Naming Guidance
 
-- Use lowercase kebab-case initiative slugs.
+- Use lowercase kebab-case initiative slugs **with** a two-digit prefix in the directory name (`NN-slug`, e.g. `03-hlk-km-knowledge-base`).
 - Prefer one folder per initiative.
-- Avoid dumping unrelated plan files directly in `docs/wip/` root; follow `docs/wip/README.md` (`planning/<slug>/`, `planning/_proposals/` for ad-hoc `.plan.md`, `hlk-km/` for PMO-linked syntheses).
+- Avoid dumping unrelated plan files directly in `docs/wip/` root; follow `docs/wip/README.md` (`planning/NN-<slug>/`, `planning/99-proposals/` for ad-hoc `.plan.md`, `hlk-km/` for PMO-linked syntheses).
 
 ## Governance Content Requirements
 

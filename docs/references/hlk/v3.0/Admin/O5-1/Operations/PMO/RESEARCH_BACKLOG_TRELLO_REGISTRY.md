@@ -47,12 +47,12 @@ Ids below were reconciled to the primary slice [imports/trello_board_67697e19_pr
 
 ## Maintenance
 
-1. On board change, update rows; never delete history without a decision log entry in `docs/wip/planning/hlk-km-knowledge-base/reports/`.  
+1. On board change, update rows; never delete history without a decision log entry in `docs/wip/planning/03-hlk-km-knowledge-base/reports/`.  
 2. When a topic promotes to v3.0, set `promoted_v3` and link the knowledge index path.  
 3. New `process_list.csv` rows require operator approval per governance rules.
 
 ## Related
 
 - [HLK_KM_TOPIC_FACT_SOURCE.md](../../../../../compliance/HLK_KM_TOPIC_FACT_SOURCE.md)  
-- [master-roadmap.md](../../../../../../../../wip/planning/hlk-km-knowledge-base/master-roadmap.md)  
+- [master-roadmap.md](../../../../../../../../wip/planning/03-hlk-km-knowledge-base/master-roadmap.md)  
 - [imports/README.md](imports/README.md)  

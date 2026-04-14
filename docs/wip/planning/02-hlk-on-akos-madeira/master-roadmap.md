@@ -6,7 +6,7 @@
 
 ---
 
-This file mirrors the current HLK on AKOS roadmap so the workspace has a traceable in-repo copy under `docs/wip/planning/`.
+This file mirrors the current HLK on AKOS roadmap so the workspace has a traceable in-repo copy under `docs/wip/planning/02-hlk-on-akos-madeira/`.
 
 The roadmap covers:
 

@@ -1950,7 +1950,7 @@ For **visuals and other knowledge artifacts** that must stay traceable across Ob
 - **Validation:** after editing manifests under `v3.0/_assets/`, run `py scripts/validate_hlk_km_manifests.py`.
 - **UAT:** `docs/uat/hlk_admin_smoke.md` Scenario 8 (KM manifests + registry + imports).
 
-See also `docs/references/hlk/v3.0/index.md` (Knowledge management section), `docs/wip/README.md` (wip layout), and `docs/wip/planning/hlk-km-knowledge-base/master-roadmap.md` for initiative traceability.
+See also `docs/references/hlk/v3.0/index.md` (Knowledge management section), `docs/wip/README.md` (wip layout), and `docs/wip/planning/03-hlk-km-knowledge-base/master-roadmap.md` for initiative traceability.
 
 ### 24.3.2 Promotion Ladder For Founder-Governance Work
 

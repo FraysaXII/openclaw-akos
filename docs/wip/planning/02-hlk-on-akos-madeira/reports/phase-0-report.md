@@ -20,10 +20,10 @@ Phase 0 produced the HLK on AKOS governed proposal, established the vault-first 
 | Canonical plan | Done | `C:\Users\Shadow\.cursor\plans\hlk_madeira_proposal_3a66dc35.plan.md` |
 | Vault-first SSOT decision | Done | Markdown, CSV, and folder hierarchy are canonical; KiRBe is the structured mirror |
 | Architecture recommendation | Done | HLK as bounded context inside AKOS; MADEIRA on AKOS on OpenClaw |
-| Traceability mirror | Done | `docs/wip/planning/hlk-on-akos-madeira/master-roadmap.md` |
+| Traceability mirror | Done | `docs/wip/planning/02-hlk-on-akos-madeira/master-roadmap.md` |
 | Phase 1 gap report | Done | Embedded in canonical plan and roadmap mirror |
-| Baseline remediation matrix | Done | `docs/wip/planning/hlk-on-akos-madeira/baseline-remediation-matrix.md` |
-| Phase 1 report scaffold | Done | `docs/wip/planning/hlk-on-akos-madeira/reports/phase-1-report.md` |
+| Baseline remediation matrix | Done | `docs/wip/planning/02-hlk-on-akos-madeira/baseline-remediation-matrix.md` |
+| Phase 1 report scaffold | Done | `docs/wip/planning/02-hlk-on-akos-madeira/reports/phase-1-report.md` |
 | Ordered dependency plan | Done | 9-step dependency chain for Phase 1 |
 | Imported context from related systems | Done | MADEIRA PoC, KiRBe architecture, Research and Logic corpus |
 | Compliance baseline inspection | Done | 4 tables, 7 access levels, 3 confidence levels, 6 source categories, 19 source levels confirmed |
@@ -42,7 +42,7 @@ Phase 0 produced the HLK on AKOS governed proposal, established the vault-first 
 ## 4. Planning Artifacts Produced
 
 ```
-docs/wip/planning/hlk-on-akos-madeira/
+docs/wip/planning/02-hlk-on-akos-madeira/
   master-roadmap.md
   baseline-remediation-matrix.md
   reports/

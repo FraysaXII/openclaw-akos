@@ -9,7 +9,7 @@ Use this after the initial Topic–Fact–Source / Output 1 rollout. **Do not** 
 - [x] Topic template + visual manifest example  
 - [x] PMO `RESEARCH_BACKLOG_TRELLO_REGISTRY.md` (reconciled to primary Trello JSON slice)  
 - [x] Trello exports under `PMO/imports/` (primary / archive / full)  
-- [x] `docs/wip/hlk-km/` syntheses + `docs/wip/README.md` + `planning/_proposals/` for loose `.plan.md`  
+- [x] `docs/wip/hlk-km/` syntheses + `docs/wip/README.md` + `planning/99-proposals/` for loose `.plan.md`  
 - [x] `scripts/validate_hlk_km_manifests.py` + DEVELOPER_CHECKLIST / CONTRIBUTING / README  
 - [x] UAT Scenario 8 in `docs/uat/hlk_admin_smoke.md`  
 

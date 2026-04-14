@@ -15,7 +15,7 @@
 | **Canonical** | `docs/references/hlk/compliance/` (including `HLK_KM_TOPIC_FACT_SOURCE.md`, CSVs, taxonomy MD), `docs/references/hlk/v3.0/` role-owned MD, `v3.0/_assets/` with manifests | Author here first; git is SSOT for CI |
 | **Mirrored** | Google Drive under Research & Logic (v3.0 + historical siblings), KiRBe / Supabase | Sync from canonical; do not invert authority |
 | **Reference-only** | `docs/references/hlk/Research & Logic/` in this repo | Historical packaging; not active vault root |
-| **Non-canonical planning** | This folder (`docs/wip/planning/hlk-km-knowledge-base/`), `docs/wip/hlk-km/research-synthesis-*.md` | Traceability and working synthesis until promoted per [FOUNDER_GOVERNANCE_DOCUMENT_LIFECYCLE.md](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/FOUNDER_GOVERNANCE_DOCUMENT_LIFECYCLE.md) |
+| **Non-canonical planning** | This folder (`docs/wip/planning/03-hlk-km-knowledge-base/`), `docs/wip/hlk-km/research-synthesis-*.md` | Traceability and working synthesis until promoted per [FOUNDER_GOVERNANCE_DOCUMENT_LIFECYCLE.md](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/FOUNDER_GOVERNANCE_DOCUMENT_LIFECYCLE.md) |
 
 Full contract: [PRECEDENCE.md](../../../references/hlk/compliance/PRECEDENCE.md).
 

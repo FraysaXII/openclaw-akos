@@ -57,7 +57,7 @@ Holistika-wide KM is governed by [HLK_KM_TOPIC_FACT_SOURCE.md](../compliance/HLK
 | Trello board JSON imports (primary + archive slices) | [imports/README.md](Admin/O5-1/Operations/PMO/imports/README.md) |
 | WIP topic syntheses (interpretation layer) | [docs/wip/hlk-km/](../../../wip/hlk-km/) |
 | Pilot Output 1 bundle (rasters + `*.manifest.md` + stubs) | [_assets/km-pilot/](_assets/km-pilot/) |
-| Workspace roadmap / traceability | [master-roadmap.md](../../../wip/planning/hlk-km-knowledge-base/master-roadmap.md) |
+| Workspace roadmap / traceability | [master-roadmap.md](../../../wip/planning/03-hlk-km-knowledge-base/master-roadmap.md) |
 | GitHub repository index (Holistika-tracked repos; GitHub is SSOT for code) | [Repositories/REPOSITORIES_REGISTRY.md](Envoy%20Tech%20Lab/Repositories/REPOSITORIES_REGISTRY.md) |
 
 **Binary visuals (Output 1):** store under `v3.0/_assets/<topic_id>/` with a sidecar `*.manifest.md` and a short companion markdown stub for search. Do not use `.cursor/` or other tool-local paths for canonical assets.

@@ -107,5 +107,5 @@ Review this lifecycle note when:
 ## Linked Documents
 
 - Knowledge index: [../Legal/FOUNDER_INCORPORATION_KNOWLEDGE_INDEX.md](../Legal/FOUNDER_INCORPORATION_KNOWLEDGE_INDEX.md)
-- Working synthesis: [../../../../../../../wip/planning/holistika-company-formation/reports/founder-incorporation-report.md](../../../../../../../wip/planning/holistika-company-formation/reports/founder-incorporation-report.md)
+- Working synthesis: [../../../../../../../wip/planning/04-holistika-company-formation/reports/founder-incorporation-report.md](../../../../../../../wip/planning/04-holistika-company-formation/reports/founder-incorporation-report.md)
 - ENISA SOP: [SOP-ENISA_READINESS_001.md](SOP-ENISA_READINESS_001.md)

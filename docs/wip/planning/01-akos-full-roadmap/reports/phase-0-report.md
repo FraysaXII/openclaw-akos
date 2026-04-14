@@ -19,7 +19,7 @@
 |-------------|--------|-------|
 | `hlk-planning-system` personal skill | Done | Cross-project planning method |
 | `akos-planning-traceability.mdc` workspace rule | Done | AKOS-only traceability behavior |
-| `docs/wip/planning/akos-full-roadmap/` traceability copy | Done | Mirrors current roadmap |
+| `docs/wip/planning/01-akos-full-roadmap/` traceability copy | Done | Mirrors current roadmap |
 | Runtime issue inventory | Done | Fatal / recoverable / cosmetic classification captured below |
 | SSOT chain summary | Done | Repo template -> bootstrap -> live runtime |
 
