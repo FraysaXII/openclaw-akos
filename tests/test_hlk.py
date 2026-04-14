@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
+import csv
+
 import pytest
 from fastapi.testclient import TestClient
 
 from akos.api import app
 from akos.hlk import HlkRegistry, get_hlk_registry
+from akos.hlk_process_csv import ambiguous_item_names
+from akos.io import REPO_ROOT
 from akos.models import HlkResponse, OrgRole, ProcessItem
 
 
@@ -353,6 +357,15 @@ class TestHlkProvenance:
     def test_eleven_projects(self):
         projects = [p for p in self.reg._processes if p.item_granularity == "project"]
         assert len(projects) == 11
+
+    def test_canonical_process_list_has_no_ambiguous_item_names(self):
+        """Duplicate item_name values block parent-id resolution; canonical data must have none."""
+        proc_csv = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
+        assert proc_csv.is_file()
+        with proc_csv.open(encoding="utf-8", newline="") as f:
+            rows = list(csv.DictReader(f))
+        amb = ambiguous_item_names(rows)
+        assert not amb, f"ambiguous item_name set non-empty: {sorted(amb)[:20]}"
 
 
 class TestHlkApiEdgeCases:

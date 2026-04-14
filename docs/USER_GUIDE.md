@@ -1992,6 +1992,8 @@ Some projects use an extra **program** **workstream** row (`item_id` prefix `hlk
 
 The CSV may also include **`item_parent_1_id`** and **`item_parent_2_id`**: when present, they must match the `item_id` of the row whose `item_name` equals `item_parent_1` / `item_parent_2`. After tooling backfills these columns, **new and edited rows must keep parent names and parent IDs in sync**; run `py scripts/validate_hlk.py` before merge. API consumers may use `GET /hlk/processes/id/{item_id}/tree` for stable parent-child navigation by id.
 
+**Column contract for external tools:** The authoritative column order and headers are defined as **`PROCESS_LIST_FIELDNAMES`** in `akos/hlk_process_csv.py` (currently 21 columns, including the two parent-id fields). Importers that assume a fixed legacy width should read the header row or import that constant from the repo instead of hard-coding 19 columns.
+
 ### 24.3.5 GitHub repositories (Envoy Tech Lab hub)
 
 Holistika tracks **many GitHub repositories** (platform, internal tools, client-delivery). Authority split:
