@@ -126,6 +126,14 @@ class TestRouting:
         data = resp.json()
         assert "sequential_thinking" in data["allowed_tools"]
 
+    def test_madeira_policy_includes_read_only_browser_observation_tools(self):
+        resp = client.get("/agents/madeira/policy")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "browser_snapshot" in data["allowed_tools"]
+        assert "browser_screenshot" in data["allowed_tools"]
+        assert "browser_navigate" in data["denied_tools"]
+
 
 class TestSwitch:
     def test_switch_dry_run(self):

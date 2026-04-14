@@ -90,6 +90,7 @@
       "allowed_categories": ["read", "memory_read", "search"],
       "allowed_tools": [
         "read_file",
+        "browser_snapshot", "browser_screenshot",
         "memory_retrieve", "memory_list",
         "akos_route_request",
         "sequential_thinking",

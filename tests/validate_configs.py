@@ -120,6 +120,10 @@ class TestOpenclawConfig:
         assert {"read", "memory_search", "memory_get", "akos_route_request", "sequential_thinking"}.issubset(
             set(madeira_tools["alsoAllow"])
         )
+        assert "browser_snapshot" in madeira_tools["alsoAllow"]
+        assert "browser_screenshot" in madeira_tools["alsoAllow"]
+        deny = set(madeira_tools.get("deny") or [])
+        assert "browser" not in deny
 
     def test_executor_and_verifier_expose_browser(self):
         agents = {agent["id"]: agent for agent in self.data["agents"]["list"]}

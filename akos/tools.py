@@ -32,6 +32,8 @@ GATEWAY_CORE_TOOLS = frozenset({
 GATEWAY_PLUGIN_TOOLS = frozenset({
     "sequential_thinking",
     "akos_route_request",
+    "browser_snapshot",
+    "browser_screenshot",
     "finance_quote", "finance_search", "finance_sentiment",
     "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process",
     "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search",

@@ -263,6 +263,8 @@
             "memory_get",
             "akos_route_request",
             "sequential_thinking",
+            "browser_snapshot",
+            "browser_screenshot",
             "finance_search",
             "finance_quote",
             "finance_sentiment",
@@ -275,7 +277,7 @@
             "hlk_gaps",
             "hlk_search"
           ],
-          "deny": ["write", "edit", "apply_patch", "exec", "browser"]
+          "deny": ["write", "edit", "apply_patch", "exec"]
         }
       }
     ]
