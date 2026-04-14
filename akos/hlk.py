@@ -127,6 +127,7 @@ class HlkRegistry:
         self._processes_by_normalized_id: dict[str, ProcessItem] = {}
         self._processes_by_parent: dict[str, list[ProcessItem]] = {}
         self._processes_by_parent_normalized: dict[str, list[ProcessItem]] = {}
+        self._processes_by_parent_1_id: dict[str, list[ProcessItem]] = {}
 
         for role in self._roles:
             normalized_name = _normalize_lookup_key(role.role_name)
@@ -150,6 +151,9 @@ class HlkRegistry:
                 parent_key = _normalize_lookup_key(process.item_parent_1)
                 if parent_key:
                     self._processes_by_parent_normalized.setdefault(parent_key, []).append(process)
+            pid = (process.item_parent_1_id or "").strip()
+            if pid:
+                self._processes_by_parent_1_id.setdefault(pid, []).append(process)
 
         logger.info("HLK registry loaded: %d roles, %d processes", len(self._roles), len(self._processes))
 
@@ -247,10 +251,35 @@ class HlkRegistry:
         )
 
     def get_process_tree(self, item_name: str) -> HlkResponse:
-        """Return all direct children of a process item by parent name."""
+        """Return all direct children of a process item by parent name.
+
+        When the parent row has a canonical ``item_id`` and children carry
+        ``item_parent_1_id``, prefer the ID-keyed index for stable navigation;
+        fall back to name-based indexes when the ID index is empty.
+        """
         normalized_query = _normalize_lookup_key(item_name)
-        children = self._processes_by_parent.get(item_name, [])
+        parents_exact = [p for p in self._processes if p.item_name == item_name]
+        parents = parents_exact
+        if not parents:
+            parents = [p for p in self._processes if _normalize_lookup_key(p.item_name) == normalized_query]
+        parent: ProcessItem | None = None
+        if parents:
+            parent = parents[0]
+            if len(parents) > 1:
+                for p in parents:
+                    if self._processes_by_parent_1_id.get((p.item_id or "").strip()):
+                        parent = p
+                        break
+        children: list[ProcessItem] = []
         strategy = "item_parent_exact"
+        if parent is not None:
+            cid = (parent.item_id or "").strip()
+            children = self._processes_by_parent_1_id.get(cid, [])
+            if children:
+                strategy = "item_parent_1_id_exact"
+        if not children:
+            children = self._processes_by_parent.get(item_name, [])
+            strategy = "item_parent_exact"
         if not children:
             children = self._processes_by_parent_normalized.get(normalized_query, [])
             strategy = "item_parent_normalized"
@@ -266,6 +295,32 @@ class HlkRegistry:
             process_count=len(children),
             normalized_query=normalized_query,
             resolution_strategy=strategy,
+        )
+
+    def get_process_tree_by_parent_id(self, parent_item_id: str) -> HlkResponse:
+        """Return direct children where item_parent_1_id matches the parent's canonical item_id."""
+        normalized_query = _normalize_lookup_key(parent_item_id)
+        parent = self._processes_by_id.get(parent_item_id) or self._processes_by_normalized_id.get(normalized_query)
+        if parent is None:
+            return HlkResponse(
+                status="not_found",
+                normalized_query=normalized_query,
+                error_detail=f"Process id '{parent_item_id}' not found",
+            )
+        canon = parent.item_id
+        children = self._processes_by_parent_1_id.get(canon, [])
+        if not children:
+            return HlkResponse(
+                status="not_found",
+                normalized_query=normalized_query,
+                error_detail=f"No children under item_id '{canon}'",
+            )
+        return HlkResponse(
+            status="ok",
+            processes=children,
+            process_count=len(children),
+            normalized_query=normalized_query,
+            resolution_strategy="item_parent_1_id_exact",
         )
 
     def get_project_summary(self) -> HlkResponse:

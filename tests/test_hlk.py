@@ -126,6 +126,22 @@ class TestHlkRegistry:
         assert resp.status == "ok"
         assert resp.process_count >= 5
 
+    def test_process_tree_prefers_parent_id_index(self):
+        """Name-based tree should use item_parent_1_id children when present."""
+        resp = self.reg.get_process_tree("MADEIRA Platform")
+        assert resp.status == "ok"
+        assert resp.resolution_strategy == "item_parent_1_id_exact"
+        assert resp.process_count >= 1
+
+    def test_process_tree_by_parent_id(self):
+        madeira = self.reg.get_process("env_tech_prj_3")
+        assert madeira.status == "ok" and madeira.best_process is not None
+        pid = madeira.best_process.item_id
+        resp = self.reg.get_process_tree_by_parent_id(pid)
+        assert resp.status == "ok"
+        assert resp.process_count >= 1
+        assert all((c.item_parent_1_id or "").strip() == pid for c in (resp.processes or []))
+
     def test_project_summary(self):
         resp = self.reg.get_project_summary()
         assert resp.status == "ok"
@@ -209,6 +225,13 @@ class TestHlkApi:
         assert r.status_code == 200
         assert r.json()["status"] == "ok"
 
+    def test_hlk_process_tree_by_parent_id_route(self):
+        r = client.get("/hlk/processes/id/env_tech_prj_3/tree")
+        assert r.status_code == 200
+        data = r.json()
+        assert data["status"] == "ok"
+        assert data["process_count"] >= 1
+
     def test_hlk_gaps(self):
         r = client.get("/hlk/gaps")
         assert r.status_code == 200
@@ -269,6 +292,19 @@ class TestHlkIntegrity:
         for p in self.reg._processes:
             if p.item_granularity:
                 assert p.item_granularity in valid, f"{p.item_id}: invalid granularity '{p.item_granularity}'"
+
+    def test_program_layer_rows_exist(self):
+        """Pattern 3: MADEIRA and Think Big program workstreams (hlk_prog_*)."""
+        ids = {p.item_id for p in self.reg._processes}
+        assert "hlk_prog_madeira_product_research" in ids
+        assert "hlk_prog_madeira_engineering_ux" in ids
+        assert "hlk_prog_think_big_pmo" in ids
+        by_id = {p.item_id: p for p in self.reg._processes}
+        pr = by_id["hlk_prog_madeira_product_research"]
+        assert pr.item_granularity == "workstream"
+        assert pr.item_parent_1 == "MADEIRA Platform" and pr.item_parent_2 == "MADEIRA Platform"
+        ws = by_id["gtm_ws_madeira_radar"]
+        assert "MADEIRA product and research program" in (ws.item_parent_1, ws.item_parent_2)
 
     def test_gtm_rows_have_resolved_parent_chain(self):
         """Policy: promoted GTM rows keep a two-hop parent chain (p2 workstream or project, p1 cluster or process)."""

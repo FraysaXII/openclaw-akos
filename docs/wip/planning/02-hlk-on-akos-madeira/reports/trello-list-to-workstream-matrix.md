@@ -44,3 +44,17 @@ After the initial merge, **bulk Trello-derived tasks** are grouped under determi
 
 **Sanitization:** code-like symbols (snake_case APIs, `.py` paths, HTTP route fragments) are moved into `description` / `addundum_extras`; registry `item_name` stays short English prose. Driver: `py scripts/refine_gtm_process_hierarchy.py --write`.
 
+## Pattern 3 (program workstream layer)
+
+Optional **program** rows are additional **`workstream`** items under a **project** that group related MADEIRA or Think Big GTM workstreams. They use `item_id` prefix **`hlk_prog_*`** (non-GTM; distinct from `gtm_ws_*` / `gtm_cl_*`).
+
+| Program `item_name` (examples) | Parent project | Child workstreams moved under program (`item_parent_1` = `item_parent_2` = program name) |
+|-------------------------------|----------------|---------------------------------------------------------------------------------------------|
+| MADEIRA product and research program | MADEIRA Platform | MADEIRA research radar topics; MADEIRA product planning and PO timeline; MADEIRA sales tools and collateral; MADEIRA benchmarking and AI ethics |
+| MADEIRA engineering and UX program | MADEIRA Platform | MADEIRA UX capability definitions; MADEIRA DevOps and CI/CD delivery |
+| Think Big PMO and operating model program | Think Big Operational Excellence | Operating model and internal controls; Service catalog and capability definition; Go-to-market and entity readiness |
+
+**Operator decision (default):** Other **non-GTM** children of MADEIRA Platform (e.g. SSE streaming chat, Archivist, SOP-tagged processes) remain **direct** children of the project. **Engage** and **PMO vault promotion gate** (`gtm_pm_st_promo`) stay under the existing Think Big chain; this program layer does **not** reparent **Engage**.
+
+**Migration driver:** `py scripts/migrate_process_list_program_layer.py --write` (after operator approval on the canonical CSV tranche).
+

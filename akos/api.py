@@ -660,6 +660,13 @@ def hlk_projects():
     return get_hlk_registry().get_project_summary().model_dump()
 
 
+@app.get("/hlk/processes/id/{item_id}/tree", tags=["HLK"], dependencies=[Depends(_check_api_key)])
+def hlk_process_tree_by_parent_id(item_id: str):
+    """Return direct children keyed by parent item_id (item_parent_1_id)."""
+    from akos.hlk import get_hlk_registry
+    return get_hlk_registry().get_process_tree_by_parent_id(item_id).model_dump()
+
+
 @app.get("/hlk/processes/{item_id}", tags=["HLK"], dependencies=[Depends(_check_api_key)])
 def hlk_process(item_id: str):
     """Look up a single process item by ID."""

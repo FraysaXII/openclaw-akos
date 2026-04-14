@@ -21,6 +21,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT
+from akos.hlk_process_csv import ambiguous_item_names
 from akos.models import OrgRole, ProcessItem
 
 HLK_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
@@ -119,6 +120,35 @@ def check_duplicate_org_ids(org_rows: list[dict]) -> list[str]:
     return dupes
 
 
+def check_parent_id_consistency(proc_rows: list[dict]) -> list[str]:
+    """When item_parent_*_id is set, it must resolve to item_name; strict id required for unique parent names."""
+    by_id = {(row.get("item_id") or "").strip(): row for row in proc_rows if row.get("item_id")}
+    amb = ambiguous_item_names([{k: (v or "") for k, v in r.items()} for r in proc_rows])
+    errors: list[str] = []
+    for row in proc_rows:
+        iid = (row.get("item_id") or "").strip()
+        gran = (row.get("item_granularity") or "").strip()
+        for num in ("1", "2"):
+            pname = (row.get(f"item_parent_{num}") or "").strip()
+            pid = (row.get(f"item_parent_{num}_id") or "").strip()
+            if pid:
+                target = by_id.get(pid)
+                if not target:
+                    errors.append(f"{iid}: item_parent_{num}_id '{pid}' not found")
+                elif (target.get("item_name") or "").strip() != pname:
+                    errors.append(
+                        f"{iid}: item_parent_{num}_id '{pid}' points to wrong item_name "
+                        f"(expected {pname!r}, got {(target.get('item_name') or '').strip()!r})"
+                    )
+            if gran == "project":
+                if pid:
+                    errors.append(f"{iid}: project row must not set item_parent_{num}_id")
+                continue
+            if pname and pname not in amb and not pid:
+                errors.append(f"{iid}: item_parent_{num} set to unique name {pname!r} but item_parent_{num}_id empty")
+    return errors
+
+
 def check_projects_have_children(proc_rows: list[dict]) -> list[str]:
     names = {row["item_name"].strip() for row in proc_rows if row.get("item_name")}
     parents_used = {row["item_parent_1"].strip() for row in proc_rows if row.get("item_parent_1")}
@@ -153,6 +183,7 @@ def main() -> int:
     broken, orphans = check_graph_integrity(proc_rows)
     checks.append(("Broken parent refs", broken))
     checks.append(("Orphan items", orphans))
+    checks.append(("Parent id consistency", check_parent_id_consistency(proc_rows)))
 
     for name, errors in checks:
         status = "PASS" if not errors else "FAIL"

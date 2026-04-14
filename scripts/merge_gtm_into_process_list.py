@@ -17,33 +17,16 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from akos.hlk_process_csv import normalize_process_row, resolve_all_parent_ids, write_process_csv
+
 PROC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
 ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "baseline_organisation.csv"
 CANDIDATE_CSV = (
     REPO_ROOT / "docs" / "wip" / "planning" / "02-hlk-on-akos-madeira" / "candidate_gtm_process_rows.csv"
 )
-
-FIELDNAMES = [
-    "type",
-    "orientation",
-    "entity",
-    "area",
-    "role_parent_1",
-    "role_owner",
-    "item_parent_2",
-    "item_parent_1",
-    "item_name",
-    "item_id",
-    "item_granularity",
-    "time_hours_par",
-    "description",
-    "instructions",
-    "addundum_extras",
-    "confidence",
-    "count_name",
-    "frequency",
-    "quality",
-]
 
 # Canonical English parents (must match existing or new row item_name exactly)
 WS_RESEARCH_MAT = "Research material and learning pipelines"
@@ -555,11 +538,8 @@ def main() -> int:
         return 0
 
     combined = existing + new_rows
-    with open(PROC_CSV, "w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=FIELDNAMES, lineterminator="\n")
-        w.writeheader()
-        for row in combined:
-            w.writerow({k: row.get(k, "") for k in FIELDNAMES})
+    fixed = resolve_all_parent_ids([normalize_process_row(r) for r in combined])
+    write_process_csv(PROC_CSV, fixed)
     print("Wrote", PROC_CSV)
     return 0
 

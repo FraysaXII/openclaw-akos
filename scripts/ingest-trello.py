@@ -18,14 +18,16 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import csv
 import io
 import json
 import re
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT))
+
+from akos.hlk_process_csv import normalize_process_row, resolve_all_parent_ids, write_process_csv
 
 SKIP_LISTS = {"Done", "Viejo"}
 DEFAULT_ENTITY = "Holistika"
@@ -43,14 +45,6 @@ _LIST_TO_PROJECT: dict[str, dict[str, str]] = {
     "To Do": {"area": "Operations", "role_owner": "PMO", "project_prefix": "gtm_backlog"},
     "ToDo": {"area": "Operations", "role_owner": "PMO", "project_prefix": "gtm_backlog2"},
 }
-
-CSV_HEADERS = [
-    "type", "orientation", "entity", "area", "role_parent_1", "role_owner",
-    "item_parent_2", "item_parent_1", "item_name", "item_id",
-    "item_granularity", "time_hours_par", "description", "instructions",
-    "addundum_extras", "confidence", "count_name", "frequency", "quality",
-]
-
 
 def _slugify(text: str) -> str:
     s = re.sub(r"[^a-z0-9]+", "_", text.lower().strip())
@@ -107,7 +101,9 @@ def ingest(trello_path: Path) -> list[dict]:
                 "area": area,
                 "role_parent_1": DEFAULT_ROLE_PARENT,
                 "role_owner": role_owner,
+                "item_parent_2_id": "",
                 "item_parent_2": "",
+                "item_parent_1_id": "",
                 "item_parent_1": project_name,
                 "item_name": card_name,
                 "item_id": f"{prefix}_dtp_{n}",
@@ -142,7 +138,9 @@ def ingest(trello_path: Path) -> list[dict]:
                     "area": area,
                     "role_parent_1": DEFAULT_ROLE_PARENT,
                     "role_owner": role_owner,
+                    "item_parent_2_id": "",
                     "item_parent_2": project_name,
+                    "item_parent_1_id": "",
                     "item_parent_1": f"{card_name} / {cl_name}",
                     "item_name": item_name,
                     "item_id": f"{prefix}_dtp_{n}",
@@ -158,13 +156,6 @@ def ingest(trello_path: Path) -> list[dict]:
                 })
 
     return rows
-
-
-def write_csv(rows: list[dict], output_path: Path) -> None:
-    with open(output_path, "w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=CSV_HEADERS)
-        writer.writeheader()
-        writer.writerows(rows)
 
 
 def main() -> int:
@@ -196,7 +187,8 @@ def main() -> int:
         return 0
 
     output = args.output or Path("candidate_process_rows.csv")
-    write_csv(rows, output)
+    fixed = resolve_all_parent_ids([normalize_process_row(r) for r in rows])
+    write_process_csv(output, fixed)
     print(f"\nCandidate rows written to: {output}")
     print("IMPORTANT: Review these rows before appending to docs/references/hlk/compliance/process_list.csv")
     print("Run: py scripts/validate_hlk.py after merging to verify integrity")

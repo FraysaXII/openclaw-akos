@@ -20,32 +20,15 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from akos.hlk_process_csv import normalize_process_row, resolve_all_parent_ids, write_process_csv
+
 PROC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
 CANDIDATE_CSV = (
     REPO_ROOT / "docs" / "wip" / "planning" / "02-hlk-on-akos-madeira" / "candidate_gtm_process_rows.csv"
 )
-
-FIELDNAMES = [
-    "type",
-    "orientation",
-    "entity",
-    "area",
-    "role_parent_1",
-    "role_owner",
-    "item_parent_2",
-    "item_parent_1",
-    "item_name",
-    "item_id",
-    "item_granularity",
-    "time_hours_par",
-    "description",
-    "instructions",
-    "addundum_extras",
-    "confidence",
-    "count_name",
-    "frequency",
-    "quality",
-]
 
 # Mirrors scripts/merge_gtm_into_process_list.py
 WS_RESEARCH_MAT = "Research material and learning pipelines"
@@ -255,14 +238,6 @@ def load_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(f))
 
 
-def write_csv(path: Path, rows: list[dict[str, str]]) -> None:
-    with open(path, "w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=FIELDNAMES, lineterminator="\n")
-        w.writeheader()
-        for row in rows:
-            w.writerow({k: (row.get(k) or "") for k in FIELDNAMES})
-
-
 def refine(rows: list[dict[str, str]], candidates: list[dict[str, str]]) -> tuple[list[dict[str, str]], dict[str, int]]:
     cand_by_id = {(r.get("item_id") or "").strip(): r for r in candidates}
     by_id = {(r.get("item_id") or "").strip(): dict(r) for r in rows}
@@ -360,7 +335,9 @@ def refine(rows: list[dict[str, str]], candidates: list[dict[str, str]]) -> tupl
             "area": tpl.get("area", ""),
             "role_parent_1": tpl.get("role_parent_1", ""),
             "role_owner": tpl.get("role_owner", ""),
+            "item_parent_2_id": "",
             "item_parent_2": spec["project"],
+            "item_parent_1_id": "",
             "item_parent_1": spec["workstream"],
             "item_name": nm,
             "item_id": spec["item_id"],
@@ -470,7 +447,8 @@ def main() -> int:
         print("Dry run: pass --write to apply.")
         return 0
 
-    write_csv(PROC_CSV, new_rows)
+    fixed = resolve_all_parent_ids([normalize_process_row(r) for r in new_rows])
+    write_process_csv(PROC_CSV, fixed)
     print("Wrote", PROC_CSV)
     return 0
 

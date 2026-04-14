@@ -1986,7 +1986,13 @@ Use this order:
 
 Large PMO/Trello promotions into `process_list.csv` use an intermediate **cluster** `process` row (`item_id` prefix `gtm_cl_*`) between the English **workstream** and each leaf task so both `item_parent_1` and `item_parent_2` resolve to real `item_name` values in the same CSV. After changing merge rules or path shapes, operators run `py scripts/refine_gtm_process_hierarchy.py --write` (see `docs/wip/planning/02-hlk-on-akos-madeira/reports/trello-list-to-workstream-matrix.md`, Pattern 2).
 
-### 24.3.3 GitHub repositories (Envoy Tech Lab hub)
+### 24.3.4 Program layer and parent identifiers
+
+Some projects use an extra **program** **workstream** row (`item_id` prefix `hlk_prog_*`) between the **project** and several GTM-aligned workstreams to group radar/planning/sales vs engineering/UX (see Pattern 3 in the same matrix doc). **Repeatable “methods”** stay in SOPs, `instructions`, and vault markdown—there is no separate `method` granularity in `process_list.csv`.
+
+The CSV may also include **`item_parent_1_id`** and **`item_parent_2_id`**: when present, they must match the `item_id` of the row whose `item_name` equals `item_parent_1` / `item_parent_2`. After tooling backfills these columns, **new and edited rows must keep parent names and parent IDs in sync**; run `py scripts/validate_hlk.py` before merge. API consumers may use `GET /hlk/processes/id/{item_id}/tree` for stable parent-child navigation by id.
+
+### 24.3.5 GitHub repositories (Envoy Tech Lab hub)
 
 Holistika tracks **many GitHub repositories** (platform, internal tools, client-delivery). Authority split:
 
