@@ -1381,6 +1381,7 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - Added `trace_startup_compliance()` method to `LangfuseReporter` in `akos/telemetry.py` for scored startup event tracing.
 - Enhanced `scripts/log-watcher.py` to detect "Post-Compaction Audit" entries in both JSON and raw log lines, review Madeira session transcripts for answer-quality events, send scored traces to Langfuse, and mirror flagship records locally under `~/.openclaw/telemetry/`.
 - Wired `scripts/run-evals.py` to load Langfuse credentials, create scored eval traces via `LangfuseReporter`, and report status.
+- **Metadata contract (2026-04):** `LangfuseTraceContext` in `akos/models.py` validates `eu_aia_req`, `hlk_surface`, `hlk_tool`, and `compliance_family`; `akos/telemetry.py` normalizes keys and merges context on all `trace_*` paths; log-watcher passes `log_watcher` surface metadata; optional `LANGFUSE_TRACE_SAMPLE_RATE` reduces volume; operators may use `scripts/langfuse_list_traces_by_tag.py` for trace-id exports (USER_GUIDE §12.2.0, ARCHITECTURE Langfuse metadata contract).
 - Verified on local Ollama `deepseek-r1:14b` (medium tier): zero Post-Compaction Audit warnings after the hardened prompts were deployed.
 
 ---

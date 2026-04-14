@@ -32,7 +32,7 @@ Full [DEVELOPER_CHECKLIST.md](../../../docs/DEVELOPER_CHECKLIST.md) on every mer
 
 ## Phased actions (outline)
 
-1. Threat model + operator UX for HITL gates (doc in `reports/`).
+1. Threat model + operator UX for HITL gates — **delivered:** [reports/madeira-write-browser-threat-model.md](reports/madeira-write-browser-threat-model.md).
 2. Incremental `alsoAllow` / deny deltas in `openclaw.json.example` mirrored in capabilities + tests.
 3. `/agents/{id}/policy` and capability-drift tests must stay green.
 4. Lane A + Lane B UAT after each increment.

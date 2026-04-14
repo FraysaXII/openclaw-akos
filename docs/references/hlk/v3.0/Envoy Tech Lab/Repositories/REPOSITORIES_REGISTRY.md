@@ -24,6 +24,7 @@
 |-----------|------------|-------|--------------------|-----------|----------------|-------|
 | kirbe-platform | `https://github.com/FraysaXII/kirbe` | platform | System Owner | — | [../KiRBe/](../KiRBe/) | KiRBe application repository (operator-confirmed 2026-04-15). |
 | madeira-hlk-runtime | `https://github.com/FraysaXII/openclaw-akos` | platform | AI Engineer | `topic_madeira_research_radar`, `topic_madeira_product_timeline` | [../MADEIRA/](../MADEIRA/) | Canonical remote from `git remote get-url origin` on the AKOS workspace (2026-04-15). |
+| akos-telemetry-ci | `https://github.com/FraysaXII/openclaw-akos` | internal | System Owner | — | — | Same monorepo remote as `madeira-hlk-runtime`; **internal** class tags Langfuse/log-watcher/drift automation evidence (no second code tree). |
 | client-delivery-pilot | `https://github.com/<org>/<client-project-repo>` (operator sets) | client-delivery | PMO | `topic_pmo_client_delivery_hub` | — | No public delivery repo identified in org audit; keep placeholder until an engagement remote is known. |
 
 ### Class values

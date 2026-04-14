@@ -1015,6 +1015,13 @@ Traces are tagged with an `environment` so you can filter dev-local, gpu-runpod,
    If it prints "Test trace sent to Langfuse successfully", check the Tracing tab (traces may take a few seconds to appear). If it fails, ensure `~/.openclaw/.env` has valid `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY`.
 3. **Confirm log path** — The watcher reads `%TEMP%\openclaw\openclaw-YYYY-MM-DD.log` (Windows) or `/tmp/openclaw/openclaw-YYYY-MM-DD.log` (Linux). Ensure the OpenCLAW gateway writes there.
 
+#### 12.2.0 Langfuse metadata contract and volume controls
+
+Canonical metadata keys and SOC rules live in [docs/ARCHITECTURE.md](ARCHITECTURE.md) (Langfuse metadata contract). In short: only short categorical strings (for example `EU-AIA-1`, `hlk_surface=log_watcher`, `hlk_tool=hlk_role`, `compliance_family=hlk_csv`); never paste secrets, prompts, or CSV rows into Langfuse fields.
+
+- **`LANGFUSE_TRACE_SAMPLE_RATE`** — unset or `1` = send all traces. Set to a decimal between `0` and `1` to probabilistically drop trace roots (use for load tests or deliberate prod sampling).
+- **Eval / datasets** — filter the Langfuse UI by tags and metadata keys above. For a scripted list of recent trace ids matching a tag, run `py scripts/langfuse_list_traces_by_tag.py --tag <tag> --limit 50` (requires the same `LANGFUSE_*` credentials as the watcher).
+
 #### 12.2.1 Langfuse Trace Taxonomy
 
 All traces emitted by the log watcher and telemetry module follow a consistent naming convention. Use these patterns when building Langfuse dashboard filters and score queries.
@@ -1813,7 +1820,7 @@ Streams gateway log entries as JSON objects in real-time.
 ## 22. What's New in v0.5.0
 
 ### Gateway Runtime Wiring
-- **Per-agent tool profiles** enforced at gateway level — Madeira now uses `minimal` with curated `alsoAllow` for `read`, memory lookups, and HLK/finance tools plus `deny: ["write", "edit", "apply_patch", "exec", "browser"]`; Orchestrator and Architect use `minimal` with curated `alsoAllow`; Executor and Verifier use `coding`, and both now expose `browser` explicitly for UI validation flows (Verifier still denies `write`, `edit`, `apply_patch`)
+- **Per-agent tool profiles** enforced at gateway level — Madeira uses `minimal` with curated `alsoAllow` for `read`, memory lookups, HLK/finance tools, **read-only** `browser_snapshot` / `browser_screenshot`, and `deny: ["write", "edit", "apply_patch", "exec"]` (no coarse `browser` token); Orchestrator and Architect use `minimal` with curated `alsoAllow`; Executor and Verifier use `coding`, and both expose `browser` explicitly for UI validation flows (Verifier still denies `write`, `edit`, `apply_patch`)
 - **Exec security mode** per agent — allowlist for Executor, deny for Architect; Orchestrator/Architect never have full exec
 - **Gateway-level loop detection** — defense-in-depth with prompt-level loop detection; circuit breaker thresholds configurable
 - **Agent-to-agent tool** for Orchestrator delegation — target allowlist restricts invokable agents

@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Langfuse production metadata** — `LangfuseTraceContext` in `akos/models.py`, merged metadata + key normalization + optional `LANGFUSE_TRACE_SAMPLE_RATE` in `akos/telemetry.py`; `scripts/log-watcher.py` passes `hlk_surface=log_watcher` and EU-AIA pointers; `scripts/langfuse_list_traces_by_tag.py` for trace-id export; metadata contract documented in `docs/ARCHITECTURE.md` with USER_GUIDE §12.2.0 / SOP Phase 10 note; EU-AIA checklist evidence row `LF-META-1`.
+- **Madeira read-only browser observation** — Gateway `alsoAllow` adds `browser_snapshot` and `browser_screenshot` for Madeira (no coarse `browser` token); mirrored in `config/agent-capabilities.json`; threat model `docs/wip/planning/02-hlk-on-akos-madeira/reports/madeira-write-browser-threat-model.md`.
+- **KiRBe sync dry-run** — `scripts/kirbe_sync_daemon.py` fingerprints canonical HLK CSVs (+ optional `validate_hlk.py`), gated `--apply` stub; design `reports/kirbe-sync-daemon-design.md`; tests `tests/test_kirbe_sync_daemon.py` and `py scripts/test.py kirbe`.
+- **Holistika P1 docs** — `reports/founder-incorporation-section7-structured-table.md`, `reports/phase-1-track-checklist.md`; registry `REG.008` updated for in-repo P1 closure.
+- **CSV tranche gate** — Operator approval template `reports/canonical-csv-tranche-operator-approval-template.md` (no canonical CSV edits without recorded approval).
 - **Planning backlog registry (`06`)** — Cross-initiative backlog SSOT at `docs/wip/planning/06-planning-backlog-registry/master-roadmap.md` with `reports/` for proxy-UAT notes; `docs/wip/planning/README.md` index row **06**.
 - **Holistika company formation program (`04`)** — Promoted to active execution artifacts: `docs/wip/planning/04-holistika-company-formation/master-roadmap.md` and `phase-1-plan.md` (governance framing + verification matrix reference).
 - **Madeira expansion phase stubs (`02`)** — `phase-madeira-write-browser-plan.md`, `phase-kirbe-sync-daemons-plan.md`, and `phase-canonical-csv-tranche-plan.md` (Executor+HITL, KiRBe daemons, approval-gated CSV) linked from the consolidated plan and backlog registry.

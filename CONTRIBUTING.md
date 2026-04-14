@@ -96,7 +96,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - Gateway runtime normalization and recovery changes must have tests in `tests/test_runtime_contract.py`.
 - Strict inventory verifier changes must have tests in `tests/test_verify_openclaw_inventory.py`.
 - FastAPI endpoints must have TestClient tests in `tests/test_api.py`.
-- Langfuse telemetry changes must have tests in `tests/test_telemetry.py` (14 tests covering init, trace_request, trace_startup_compliance, trace_alert, trace_metric, normalize_env, flush).
+- Langfuse telemetry changes must have tests in `tests/test_telemetry.py` (init, trace paths, metadata contract, sampling, env normalization, flush/shutdown). See `docs/ARCHITECTURE.md` § Langfuse metadata contract for allowed keys.
 - Failover router changes must have tests in `tests/test_router.py` (10 tests covering failover threshold, recovery, and multi-provider routing).
 - Finance service changes must have tests in `tests/test_finance.py` (normalization, caching, missing API key degradation, error states).
 - HLK domain changes must have tests in `tests/test_hlk.py` (model parsing, registry lookups, chain traversal, gap detection, API endpoints).

@@ -63,7 +63,7 @@ The multi-agent paradigm separates concerns across five specialized roles:
 - Operates in **read-only lookup** mode -- answers HLK questions directly using `hlk_*` tools and a deterministic exact-lookup -> ranked-search ladder
 - Default dashboard entrypoint for end-user HLK usage
 - Escalates multi-step administrative tasks (`admin_escalate`) and coding/browser/MCP execution intents (`execution_escalate`) to the Orchestrator for swarm handoff
-- Uses a **minimal** gateway profile with curated `alsoAllow` for `read`, memory lookups, `sequential_thinking` (post-tool reasoning only), HLK/finance runtime tools, and explicit `deny` for write/edit/exec/browser-class tools
+- Uses a **minimal** gateway profile with curated `alsoAllow` for `read`, memory lookups, `sequential_thinking` (post-tool reasoning only), read-only browser observation tools (`browser_snapshot`, `browser_screenshot`), HLK/finance runtime tools, and explicit `deny` for write/edit/exec (coarse `browser` navigate/click remains off-template; mutating browser tools stay out of `alsoAllow`)
 - **Compact tier:** `config/model-tiers.json` applies `OVERLAY_HLK_COMPACT.md` and `OVERLAY_STARTUP_COMPACT.md` to Madeira only when `promptVariant` is `compact`, preserving HLK and startup invariants on small models within `bootstrapMaxChars`
 - **Cannot** write files, execute commands, or navigate browsers
 
@@ -449,6 +449,23 @@ All Langfuse traces follow a structured taxonomy with environment tagging:
 
 Environment tags (e.g. `gpu-runpod`, `gpu-runpod-pod`, `dev-local`) enable per-environment filtering in the Langfuse dashboard.
 
+### Langfuse metadata contract (SOC / SSOT)
+
+Optional dimensions are validated in `akos.models.LangfuseTraceContext` and merged into every `LangfuseReporter.trace_*` path after base fields (`environment`, `agent_role`, `tool_name`, metric fields, and so on). Metadata keys are normalized to lowercase alphanumeric plus underscore (max 64 characters); values are coerced to strings (max 200 characters). **Do not place in Langfuse metadata:** secrets, API keys, prompts, full gateway transcripts, CSV row payloads, or other high-sensitivity payloads.
+
+| Key | Meaning | Example values |
+|:----|:--------|:---------------|
+| `eu_aia_req` | Pointer to EU AI Act checklist requirement id | `EU-AIA-1` |
+| `hlk_surface` | Where the observation originated | `log_watcher`, `gateway_chat`, `mcp`, `rest_api`, `none` |
+| `hlk_tool` | HLK tool id when known (name only; no tool arguments) | `hlk_role` |
+| `compliance_family` | Evidence family (categorical) | `hlk_csv`, `vault_doc`, `none` |
+
+The FastAPI control plane does **not** emit per-request Langfuse spans today; gateway traffic is mirrored through `scripts/log-watcher.py`, which supplies `hlk_surface=log_watcher` and `eu_aia_req=EU-AIA-1` on its trace paths. Any future `/hlk/*` or REST tracing must reuse `LangfuseTraceContext` rather than ad hoc key names.
+
+**Volume control:** unset or `LANGFUSE_TRACE_SAMPLE_RATE=1` (default) retains full fidelity. Values in `0.0`–`1.0` probabilistically drop trace roots at the reporter (intended for load tests or deliberate prod sampling with operator awareness).
+
+**Eval and datasets:** use Langfuse UI filters on tags (for example `answer-quality`, agent role tags) plus the metadata keys above. For scripted trace-id collection see `scripts/langfuse_list_traces_by_tag.py`.
+
 ### Known Limitations
 
 1. **Per-agent model override bug** ([#29571](https://github.com/openclaw/openclaw/issues/29571)): `agents.defaults.model.primary` overrides per-agent model settings at runtime, so all agents currently share the same model. Model switching must happen at the global level.
@@ -817,7 +834,7 @@ The following files implement the architecture described above as committable co
 | All | [`config/environments/dev-local.env`](../config/environments/dev-local.env) | T-5.1 |
 | All | [`config/environments/`](../config/environments/) | T-5.4 |
 
-A validation test suite (`tests/`) provides 300+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, SOP task coverage, RunPod provider operations, FastAPI endpoints, workspace checkpoints, Langfuse telemetry (14 tests), failover router (10 tests), finance service behavior, and GPU deploy UX.
+A validation test suite (`tests/`) provides 300+ automated checks covering JSON integrity, Pydantic model validation, cross-file reference consistency, alert evaluation, secret scanning, SOP task coverage, RunPod provider operations, FastAPI endpoints, workspace checkpoints, Langfuse telemetry (reporter lifecycle, metadata contract, sampling), failover router (10 tests), finance service behavior, and GPU deploy UX.
 
 ## Live Configuration Status
 

@@ -35,8 +35,8 @@
 
 ## Deliverables (P1)
 
-- [ ] Adviser follow-up questions in founder report §7 addressed or explicitly deferred with dates.
-- [ ] Single owner checklist for incorporation vs fiscal vs IP tracks (table in `reports/` or USER_GUIDE pointer if operator-facing).
-- [ ] Link from [06 registry](../06-planning-backlog-registry/master-roadmap.md) updated when P1 closes.
+- [x] Adviser follow-up questions in founder report §7 addressed or explicitly deferred with dates — [reports/founder-incorporation-section7-structured-table.md](reports/founder-incorporation-section7-structured-table.md).
+- [x] Single owner checklist for incorporation vs fiscal vs IP tracks — [reports/phase-1-track-checklist.md](reports/phase-1-track-checklist.md).
+- [x] Link from [06 registry](../06-planning-backlog-registry/master-roadmap.md) updated — **REG.008** `next_action` references the two reports above (2026-04-14).
 
 **Report:** extend [reports/founder-incorporation-report.md](reports/founder-incorporation-report.md) or add `reports/phase-1-report.md` when P1 completes.

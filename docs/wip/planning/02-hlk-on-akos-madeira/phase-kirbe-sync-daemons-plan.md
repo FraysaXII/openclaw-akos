@@ -36,4 +36,6 @@
 
 Align implementation tasks with `NBT.1`–`NBT.5` in the boundary proposal; add phase reports under `reports/` as work starts.
 
+**Design (K0) + dry-run (K1):** [reports/kirbe-sync-daemon-design.md](reports/kirbe-sync-daemon-design.md) · CLI `scripts/kirbe_sync_daemon.py` (default dry-run; `--apply` gated, no in-repo writes).
+
 **Registry:** [REG.005](../06-planning-backlog-registry/master-roadmap.md).

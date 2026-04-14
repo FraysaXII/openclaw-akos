@@ -33,7 +33,7 @@
 
 ## Phased actions (outline)
 
-1. Operator approval artifact (link or id) for batch scope.
+1. Operator approval artifact (link or id) for batch scope — **template:** [reports/canonical-csv-tranche-operator-approval-template.md](reports/canonical-csv-tranche-operator-approval-template.md).
 2. Dry-run diff + KiRBe impact note.
 3. Apply CSV edits + validate + doc sync.
 4. Release gate on branch.
