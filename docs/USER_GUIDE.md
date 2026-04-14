@@ -818,7 +818,7 @@ The HLK Registry MCP gives agents read-only access to the Holistika organisation
 | `hlk_area(area)` | List all roles in an organisational area (Admin, AI, People, Operations, Finance, Marketing, Data, Tech, Legal, Research) |
 | `hlk_process(item_id)` | Look up a process item by its ID (e.g. `hol_resea_dtp_99`) |
 | `hlk_process_tree(item_name)` | List direct children of a process item by parent name |
-| `hlk_projects()` | List all 11 top-level projects with child counts |
+| `hlk_projects()` | List all 11 top-level projects with child counts (process inventory is larger; see ARCHITECTURE HLK registry counts) |
 | `hlk_gaps()` | Identify items with missing metadata, TBD owners, or empty descriptions |
 | `hlk_search(query)` | Fuzzy search across roles and processes by name, description, or ID |
 
@@ -1934,7 +1934,7 @@ MADEIRA is your single entrypoint for HLK operations. You talk to MADEIRA. MADEI
 | List an area | "Show me all Research roles" | `hlk_area` |
 | Find a process | "What is hol_resea_dtp_142?" | `hlk_process` |
 | Explore a project | "What workstreams are under KiRBe Platform?" | `hlk_process_tree` |
-| See all projects | "List all 11 projects" | `hlk_projects` |
+| See all projects | "List all 11 top-level projects" | `hlk_projects` |
 | Find gaps | "What baselines need remediation?" | `hlk_gaps` |
 | Search anything | "Find everything related to HUMINT" | `hlk_search` |
 

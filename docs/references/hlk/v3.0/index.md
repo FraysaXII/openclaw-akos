@@ -174,7 +174,7 @@ Think Big/
 | Baseline | Location |
 |----------|----------|
 | Organisation roles | [baseline_organisation.csv](../compliance/baseline_organisation.csv) (65 roles, 10 areas) |
-| Process inventory | [process_list.csv](../compliance/process_list.csv) (324 items, 11 projects) |
+| Process inventory | [process_list.csv](../compliance/process_list.csv) (961 items, 11 projects) |
 | Access levels | [access_levels.md](../compliance/access_levels.md) (0-6) |
 | Confidence levels | [confidence_levels.md](../compliance/confidence_levels.md) (Safe, Euclid, Keter) |
 | Source taxonomy | [source_taxonomy.md](../compliance/source_taxonomy.md) (6 categories, 19 levels) |
