@@ -1,5 +1,4 @@
 {
-  "$schema": "https://openclaw-akos/schemas/eu-ai-act-checklist",
   "title": "EU AI Act Compliance Checklist (2026 Standards)",
   "sop_reference": "6.3",
   "assessment_date": "2026-03-02",
@@ -37,6 +36,13 @@
           "description": "Tails OpenCLAW gateway logs, pushes traces to Langfuse, reviews Madeira session transcripts for answer-quality telemetry, mirrors local jsonl evidence, and evaluates real-time SOC alerts. Supports --dry-run.",
           "verification_date": "2026-03-02",
           "verification_method": "manual run (--once --dry-run)"
+        },
+        {
+          "task_id": "LF-META-1",
+          "file": "docs/ARCHITECTURE.md",
+          "description": "Versioned Langfuse metadata contract (eu_aia_req, hlk_surface, hlk_tool, compliance_family) with Pydantic LangfuseTraceContext, key normalization, and log-watcher propagation for traceability without vault payload mirrors.",
+          "verification_date": "2026-04-14",
+          "verification_method": "pytest tests/test_telemetry.py tests/test_akos_models.py"
         }
       ],
       "verification": "logging.json parses correctly with all required fields. Langfuse telemetry pipeline verified via dry-run. Splunk template reviewed for path accuracy."

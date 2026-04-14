@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 # ── Constrained types ───────────────────────────────────────────────────
 
@@ -544,6 +544,59 @@ class ProcessItem(BaseModel):
     count_name: str = ""
     frequency: str = ""
     quality: str = ""
+
+
+LangfuseHlkSurface = Literal["gateway_chat", "mcp", "rest_api", "log_watcher", "none"]
+LangfuseComplianceFamily = Literal["hlk_csv", "vault_doc", "none"]
+
+
+class LangfuseTraceContext(BaseModel):
+    """Optional Langfuse metadata dimensions (SSOT: docs/ARCHITECTURE.md Langfuse section).
+
+    Values are mirrored to Langfuse only; canonical HLK / compliance remains in vault paths.
+    All fields must stay short and categorical—no secrets, prompts, or CSV row payloads.
+    """
+
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    eu_aia_req: str | None = Field(
+        default=None,
+        max_length=16,
+        description="EU AI Act checklist requirement id, e.g. EU-AIA-1",
+    )
+    hlk_surface: LangfuseHlkSurface = "none"
+    hlk_tool: str | None = Field(default=None, max_length=64)
+    compliance_family: LangfuseComplianceFamily = "none"
+
+    @field_validator("eu_aia_req")
+    @classmethod
+    def _eu_aia_shape(cls, v: str | None) -> str | None:
+        if v is None or v == "":
+            return None
+        v2 = v.strip().upper()
+        if not v2.startswith("EU-AIA-") or len(v2) > 16:
+            raise ValueError("eu_aia_req must look like EU-AIA-<n>")
+        return v2
+
+    @field_validator("hlk_tool")
+    @classmethod
+    def _hlk_tool_short(cls, v: str | None) -> str | None:
+        if v is None or v == "":
+            return None
+        return v[:64]
+
+    def to_metadata(self) -> dict[str, str]:
+        """Emit flat string metadata for Langfuse (empty fields omitted)."""
+        out: dict[str, str] = {}
+        if self.eu_aia_req:
+            out["eu_aia_req"] = self.eu_aia_req
+        if self.hlk_surface != "none":
+            out["hlk_surface"] = self.hlk_surface
+        if self.hlk_tool:
+            out["hlk_tool"] = self.hlk_tool
+        if self.compliance_family != "none":
+            out["compliance_family"] = self.compliance_family
+        return out
 
 
 class HlkResponse(BaseModel):

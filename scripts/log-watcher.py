@@ -41,11 +41,46 @@ from akos.io import (
 )
 from akos.intent import classify_request
 from akos.log import setup_logging
-from akos.models import RunPodEndpointConfig
+from akos.models import LangfuseTraceContext, RunPodEndpointConfig
 from akos.runpod_provider import RunPodProvider
 from akos.telemetry import LangfuseReporter
 
 logger = logging.getLogger("akos.log-watcher")
+
+_LOG_WATCHER_LANGFUSE_CONTEXT = LangfuseTraceContext(
+    eu_aia_req="EU-AIA-1",
+    hlk_surface="log_watcher",
+    compliance_family="none",
+)
+
+
+def _langfuse_context_from_gateway_entry(entry: dict) -> LangfuseTraceContext:
+    """Derive HLK taxonomy hints from a gateway JSON log line (no payloads)."""
+    tool = str(entry.get("tool_name") or "")
+    hlk_tool = tool if tool.startswith("hlk_") else None
+    return LangfuseTraceContext(
+        eu_aia_req="EU-AIA-1",
+        hlk_surface="log_watcher",
+        hlk_tool=hlk_tool,
+        compliance_family="hlk_csv" if hlk_tool else "none",
+    )
+
+
+def _langfuse_context_from_answer_record(record: dict) -> LangfuseTraceContext:
+    tools = record.get("tool_calls") or []
+    hlk_tool: str | None = None
+    for t in tools:
+        ts = str(t)
+        if ts.startswith("hlk_"):
+            hlk_tool = ts[:64]
+            break
+    return LangfuseTraceContext(
+        eu_aia_req="EU-AIA-1",
+        hlk_surface="log_watcher",
+        hlk_tool=hlk_tool,
+        compliance_family="hlk_csv" if hlk_tool else "none",
+    )
+
 
 _CANONICAL_ASSET_RE = re.compile(
     r"\b(baseline_organisation\.csv|process_list\.csv|access_levels\.md|confidence_levels\.md|source_taxonomy\.md|PRECEDENCE\.md)\b",
@@ -253,7 +288,12 @@ def _emit_answer_quality_alerts(
         if dry_run:
             logger.info("[DRY-RUN] answer-quality alert: %s [%s]", alert.alert_id, alert.severity)
         else:
-            reporter.trace_alert(alert.alert_id, alert.severity, alert.description)
+            reporter.trace_alert(
+                alert.alert_id,
+                alert.severity,
+                alert.description,
+                trace_context=_langfuse_context_from_answer_record(record),
+            )
 
 
 def _process_session_event(
@@ -460,7 +500,7 @@ def _maybe_check_runpod(
     if dry_run:
         logger.info("[DRY-RUN] RunPod health: %s", health_entry)
     else:
-        reporter.trace_request(health_entry)
+        reporter.trace_request(health_entry, trace_context=_LOG_WATCHER_LANGFUSE_CONTEXT)
 
     if not health.healthy:
         logger.warning(
@@ -483,6 +523,7 @@ def _handle_audit_line(line: str, reporter: LangfuseReporter, dry_run: bool) -> 
             files_read=[],
             files_missing=[],
             audit_passed=False,
+            trace_context=_LOG_WATCHER_LANGFUSE_CONTEXT,
         )
 
 
@@ -589,6 +630,7 @@ def main() -> None:
                         files_read=[],
                         files_missing=files_missing,
                         audit_passed=False,
+                        trace_context=_LOG_WATCHER_LANGFUSE_CONTEXT,
                     )
 
             if (_gateway_start_time is not None
@@ -602,6 +644,7 @@ def main() -> None:
                         files_read=[],
                         files_missing=[],
                         audit_passed=True,
+                        trace_context=_LOG_WATCHER_LANGFUSE_CONTEXT,
                     )
                 _gateway_start_time = None
 
@@ -626,7 +669,7 @@ def main() -> None:
                     entry.get("outcome", "-"),
                 )
             else:
-                reporter.trace_request(entry)
+                reporter.trace_request(entry, trace_context=_langfuse_context_from_gateway_entry(entry))
 
             if alert_evaluator is not None:
                 fired = alert_evaluator.check_realtime(entry)
@@ -634,17 +677,28 @@ def main() -> None:
                     if dry_run:
                         logger.info("[DRY-RUN] alert forwarded: %s [%s]", alert.alert_id, alert.severity)
                     else:
-                        reporter.trace_alert(alert.alert_id, alert.severity, alert.description)
+                        reporter.trace_alert(
+                            alert.alert_id,
+                            alert.severity,
+                            alert.description,
+                            trace_context=_langfuse_context_from_gateway_entry(entry),
+                        )
 
             if entries_processed % 100 == 0:
                 if not dry_run:
                     for role, count in _metric_counters.items():
-                        reporter.trace_metric("agent_request_count", float(count), {"agent_role": role})
+                        reporter.trace_metric(
+                            "agent_request_count",
+                            float(count),
+                            {"agent_role": role},
+                            trace_context=_LOG_WATCHER_LANGFUSE_CONTEXT,
+                        )
                     if _latency_count > 0:
                         reporter.trace_metric(
                             "agent_latency_avg_ms",
                             _latency_sum / _latency_count,
                             {"sample_count": _latency_count},
+                            trace_context=_LOG_WATCHER_LANGFUSE_CONTEXT,
                         )
                     reporter.flush()
                 logger.debug("Processed %d entries", entries_processed)

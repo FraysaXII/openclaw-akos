@@ -15,8 +15,14 @@ from __future__ import annotations
 
 import logging
 import os
+import random
+import re
+from typing import TYPE_CHECKING
 
 logger = logging.getLogger("akos.telemetry")
+
+if TYPE_CHECKING:
+    from akos.models import LangfuseTraceContext
 
 _langfuse_available = False
 try:
@@ -26,17 +32,37 @@ except Exception:
     pass
 
 
+def _normalize_langfuse_metadata_key(key: str) -> str:
+    """Langfuse metrics-friendly keys: alphanumeric + underscore, lowercase, bounded."""
+    raw = "".join((c if c.isalnum() else "_") for c in str(key))
+    raw = re.sub(r"_+", "_", raw).strip("_").lower()
+    return (raw or "key")[:64]
+
+
 def _coerce_metadata(raw: dict) -> dict[str, str]:
-    """Langfuse v4 metadata values must be str, max 200 chars."""
+    """Langfuse v4 metadata values must be str, max 200 chars; keys normalized."""
     result: dict[str, str] = {}
     for key, value in raw.items():
+        nk = _normalize_langfuse_metadata_key(key)
         s = str(value) if not isinstance(value, str) else value
-        result[str(key)] = s[:200]
+        result[nk] = s[:200]
     return result
 
 
+def _parse_trace_context(
+    trace_context: LangfuseTraceContext | dict | None,
+) -> dict[str, str]:
+    if trace_context is None:
+        return {}
+    from akos.models import LangfuseTraceContext as _LTC
+
+    if isinstance(trace_context, _LTC):
+        return trace_context.to_metadata()
+    return _LTC.model_validate(trace_context).to_metadata()
+
+
 class LangfuseReporter:
-    """Lightweight wrapper around Langfuse v4 for AKOS observability."""
+    """Lightweight wrapper around the Langfuse v4 SDK for AKOS observability."""
 
     def __init__(self, *, environment: str = "dev-local") -> None:
         self._client: Langfuse | None = None
@@ -74,6 +100,27 @@ class LangfuseReporter:
         sanitized = str(env).lower().replace(" ", "-").replace(".", "-")[:40]
         return sanitized if sanitized and not sanitized.startswith("langfuse") else "dev-local"
 
+    @staticmethod
+    def _sampled_out() -> bool:
+        """Probabilistic drop when LANGFUSE_TRACE_SAMPLE_RATE is < 1 (OPS volume control)."""
+        raw = os.environ.get("LANGFUSE_TRACE_SAMPLE_RATE", "1").strip()
+        try:
+            rate = float(raw)
+        except ValueError:
+            return False
+        rate = max(0.0, min(1.0, rate))
+        if rate >= 1.0:
+            return False
+        return random.random() > rate
+
+    def _merged_metadata(
+        self,
+        base: dict,
+        trace_context: LangfuseTraceContext | dict | None,
+    ) -> dict[str, str]:
+        merged = {**base, **_parse_trace_context(trace_context)}
+        return _coerce_metadata(merged)
+
     @property
     def enabled(self) -> bool:
         return self._client is not None
@@ -88,17 +135,22 @@ class LangfuseReporter:
             logger.warning("Langfuse auth_check failed: %s", exc)
             return False
 
-    def trace_request(self, entry: dict) -> None:
+    def trace_request(
+        self,
+        entry: dict,
+        trace_context: LangfuseTraceContext | dict | None = None,
+    ) -> None:
         """Push a single agent log entry as a Langfuse observation."""
-        if not self._client:
+        if not self._client or self._sampled_out():
             return
         try:
             agent_role = entry.get("agent_role", "unknown")
-            meta = _coerce_metadata({
+            base = {
                 "environment": self._environment,
                 "tool_name": entry.get("tool_name", ""),
                 "agent_role": agent_role,
-            })
+            }
+            meta = self._merged_metadata(base, trace_context)
             with propagate_attributes(
                 metadata=meta,
                 tags=[str(agent_role)],
@@ -123,18 +175,20 @@ class LangfuseReporter:
         files_read: list[str],
         files_missing: list[str],
         audit_passed: bool,
+        trace_context: LangfuseTraceContext | dict | None = None,
     ) -> None:
         """Trace a startup compliance event for eval dashboards."""
-        if not self._client:
+        if not self._client or self._sampled_out():
             return
         try:
-            meta = _coerce_metadata({
+            base = {
                 "environment": self._environment,
                 "agent_role": agent_role,
                 "files_read": ",".join(files_read),
                 "files_missing": ",".join(files_missing),
                 "audit_passed": str(audit_passed),
-            })
+            }
+            meta = self._merged_metadata(base, trace_context)
             with propagate_attributes(
                 metadata=meta,
                 tags=[agent_role, "startup-compliance"],
@@ -149,17 +203,24 @@ class LangfuseReporter:
         except Exception as exc:
             logger.debug("Failed to push startup trace: %s", exc)
 
-    def trace_alert(self, alert_id: str, severity: str, description: str) -> None:
+    def trace_alert(
+        self,
+        alert_id: str,
+        severity: str,
+        description: str,
+        trace_context: LangfuseTraceContext | dict | None = None,
+    ) -> None:
         """Trace a SOC alert event with a severity score."""
-        if not self._client:
+        if not self._client or self._sampled_out():
             return
         try:
-            meta = _coerce_metadata({
+            base = {
                 "environment": self._environment,
                 "alert_id": alert_id,
                 "severity": severity,
                 "description": description,
-            })
+            }
+            meta = self._merged_metadata(base, trace_context)
             severity_scores = {"critical": 1.0, "high": 0.75, "medium": 0.5, "low": 0.25}
             with propagate_attributes(
                 metadata=meta,
@@ -175,17 +236,24 @@ class LangfuseReporter:
         except Exception as exc:
             logger.debug("Failed to push alert trace: %s", exc)
 
-    def trace_metric(self, metric_name: str, value: float, metadata: dict | None = None) -> None:
+    def trace_metric(
+        self,
+        metric_name: str,
+        value: float,
+        metadata: dict | None = None,
+        trace_context: LangfuseTraceContext | dict | None = None,
+    ) -> None:
         """Push a DX metric as a Langfuse observation for dashboard consumption."""
-        if not self._client:
+        if not self._client or self._sampled_out():
             return
         try:
-            meta = _coerce_metadata({
+            base = {
                 "environment": self._environment,
                 "metric_name": metric_name,
                 "metric_value": str(value),
                 **(metadata or {}),
-            })
+            }
+            meta = self._merged_metadata(base, trace_context)
             with propagate_attributes(
                 metadata=meta,
                 tags=["dx-metric"],
@@ -200,16 +268,37 @@ class LangfuseReporter:
         except Exception as exc:
             logger.debug("Failed to push metric: %s", exc)
 
-    def trace_answer_quality(self, record: dict) -> None:
+    def trace_answer_quality(
+        self,
+        record: dict,
+        trace_context: LangfuseTraceContext | dict | None = None,
+    ) -> None:
         """Trace a user-visible answer-quality event for flagship agent review."""
-        if not self._client:
+        if not self._client or self._sampled_out():
             return
         try:
+            from akos.models import LangfuseTraceContext as _LTC
+
+            if trace_context is None:
+                tools = record.get("tool_calls") or []
+                hlk_tool: str | None = None
+                for t in tools:
+                    ts = str(t)
+                    if ts.startswith("hlk_"):
+                        hlk_tool = ts[:64]
+                        break
+                trace_context = _LTC(
+                    eu_aia_req="EU-AIA-1",
+                    hlk_surface="log_watcher",
+                    hlk_tool=hlk_tool,
+                    compliance_family="hlk_csv" if hlk_tool else "none",
+                )
+
             agent_role = str(record.get("agent_role", "unknown"))
             session_id = str(record.get("session_id", "")) or None
             route_kind = str(record.get("route_kind", "unknown"))
             quality_score = float(record.get("quality_score", 0.0))
-            meta = _coerce_metadata({
+            base = {
                 "environment": self._environment,
                 "agent_role": agent_role,
                 "route_kind": route_kind,
@@ -222,7 +311,8 @@ class LangfuseReporter:
                 "residual_flags": str(record.get("residual_flags", [])),
                 "provider": record.get("provider", ""),
                 "model": record.get("model", ""),
-            })
+            }
+            meta = self._merged_metadata(base, trace_context)
             with propagate_attributes(
                 session_id=session_id,
                 metadata=meta,

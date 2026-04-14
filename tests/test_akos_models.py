@@ -20,6 +20,7 @@ from akos.models import (
     ControlUiConfig,
     EnvironmentOverlay,
     GatewayConfig,
+    LangfuseTraceContext,
     ModelRef,
     ModelTiersRegistry,
     OpenClawConfig,
@@ -366,6 +367,35 @@ class TestOpenStackInstanceConfig:
         )
         assert cfg.region == "DEFRA01"
         assert cfg.gpuCount == 8
+
+
+# ---------------------------------------------------------------------------
+# LangfuseTraceContext
+# ---------------------------------------------------------------------------
+
+
+class TestLangfuseTraceContext:
+    def test_to_metadata_omits_none_and_none_surface(self):
+        ctx = LangfuseTraceContext()
+        assert ctx.to_metadata() == {}
+
+    def test_eu_aia_normalization(self):
+        ctx = LangfuseTraceContext(eu_aia_req="eu-aia-2")
+        assert ctx.eu_aia_req == "EU-AIA-2"
+        assert ctx.to_metadata()["eu_aia_req"] == "EU-AIA-2"
+
+    def test_rejects_bad_eu_aia(self):
+        with pytest.raises(ValidationError):
+            LangfuseTraceContext(eu_aia_req="BAD")
+
+    def test_hlk_tool_max_length_accepted(self):
+        name = "x" * 64
+        ctx = LangfuseTraceContext(hlk_tool=name)
+        assert ctx.hlk_tool == name
+
+    def test_hlk_tool_rejects_over_max_length(self):
+        with pytest.raises(ValidationError):
+            LangfuseTraceContext(hlk_tool="y" * 65)
 
 
 # ---------------------------------------------------------------------------

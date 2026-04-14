@@ -5,7 +5,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from akos.telemetry import LangfuseReporter
+from akos.models import LangfuseTraceContext
+from akos.telemetry import LangfuseReporter, _coerce_metadata
 
 
 class TestNormalizeEnv:
@@ -238,6 +239,65 @@ class TestTraceAnswerQuality:
         assert call_kwargs["name"] == "akos-answer-quality-madeira"
         mock_span.score.assert_any_call(name="answer_quality", value=1.0)
         mock_span.score.assert_any_call(name="citation_present", value=1.0)
+        meta = mock_client.start_as_current_observation.call_args[1].get("metadata") or {}
+        assert meta.get("hlk_surface") == "log_watcher"
+        assert meta.get("eu_aia_req") == "EU-AIA-1"
+        assert meta.get("compliance_family") == "hlk_csv"
+
+
+class TestCoerceMetadata:
+    def test_normalizes_keys_and_truncates_values(self):
+        out = _coerce_metadata({"EU AIA Req": "EU-AIA-1", "long": "x" * 300})
+        assert "eu_aia_req" in out
+        assert out["eu_aia_req"] == "EU-AIA-1"
+        assert len(out["long"]) == 200
+
+
+class TestTraceContextMerge:
+    @patch("akos.telemetry._langfuse_available", True)
+    @patch("akos.telemetry.propagate_attributes")
+    @patch("akos.telemetry.Langfuse")
+    def test_trace_request_merges_trace_context(self, mock_langfuse_cls, mock_propagate):
+        mock_client, _mock_span = _make_mock_client()
+        mock_langfuse_cls.return_value = mock_client
+        mock_propagate.return_value.__enter__ = MagicMock()
+        mock_propagate.return_value.__exit__ = MagicMock(return_value=False)
+
+        ctx = LangfuseTraceContext(
+            eu_aia_req="EU-AIA-1",
+            hlk_surface="rest_api",
+            hlk_tool="hlk_search",
+            compliance_family="hlk_csv",
+        )
+        with patch.dict(os.environ, {
+            "LANGFUSE_PUBLIC_KEY": "pk-test",
+            "LANGFUSE_SECRET_KEY": "sk-test",
+        }):
+            reporter = LangfuseReporter(environment="test")
+            reporter.trace_request(
+                {"agent_role": "madeira", "tool_name": "hlk_role", "outcome": "ok"},
+                trace_context=ctx,
+            )
+
+        kw = mock_propagate.call_args[1]
+        assert kw["metadata"]["hlk_surface"] == "rest_api"
+        assert kw["metadata"]["eu_aia_req"] == "EU-AIA-1"
+
+
+class TestSampling:
+    def test_sample_rate_zero_skips_client(self):
+        with patch("akos.telemetry.Langfuse") as mock_langfuse_cls:
+            mock_langfuse_cls.return_value = MagicMock()
+            with patch("akos.telemetry._langfuse_available", True):
+                with patch("akos.telemetry.random.random", return_value=1.0):
+                    with patch.dict(os.environ, {
+                        "LANGFUSE_PUBLIC_KEY": "pk-test",
+                        "LANGFUSE_SECRET_KEY": "sk-test",
+                        "LANGFUSE_TRACE_SAMPLE_RATE": "0",
+                    }):
+                        reporter = LangfuseReporter()
+                        reporter.trace_request({"agent_role": "x", "tool_name": "y", "outcome": "z"})
+        mock_langfuse_cls.return_value.start_as_current_observation.assert_not_called()
 
 
 class TestFlush:

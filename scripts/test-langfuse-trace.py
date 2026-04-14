@@ -19,6 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import load_runtime_env, resolve_openclaw_home, set_process_env_defaults
+from akos.models import LangfuseTraceContext
 from akos.telemetry import LangfuseReporter
 
 
@@ -50,12 +51,17 @@ def main() -> int:
         return 1
     print("auth_check() passed -- credentials reach the correct project.")
 
+    smoke_ctx = LangfuseTraceContext(
+        eu_aia_req="EU-AIA-1",
+        hlk_surface="rest_api",
+        compliance_family="none",
+    )
     reporter.trace_request({
         "agent_role": "test-script",
         "tool_name": "test-langfuse-trace",
         "outcome": "Smoke test trace from openclaw-akos",
         "input": "scripts/test-langfuse-trace.py",
-    })
+    }, trace_context=smoke_ctx)
     reporter.shutdown()
 
     print(f"Test trace sent to Langfuse successfully (environment={env_tag})")
