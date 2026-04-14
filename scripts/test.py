@@ -27,7 +27,7 @@ TESTS_DIR = REPO_ROOT / "tests"
 
 GROUPS: dict[str, dict] = {
     "all": {
-        "description": "Full test suite (300+ tests)",
+        "description": "Full pytest sweep of tests/ (all *.py including validate_*, e2e_scaffolding); excludes scripts-only CLIs unless they have tests",
         "files": [],
     },
     "api": {
@@ -93,6 +93,10 @@ GROUPS: dict[str, dict] = {
     "validate-hlk": {
         "description": "HLK canonical vault integrity validation (standalone)",
         "files": [],
+    },
+    "kirbe": {
+        "description": "KiRBe sync daemon dry-run helper",
+        "files": ["test_kirbe_sync_daemon.py"],
     },
 }
 
