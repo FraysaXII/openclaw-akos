@@ -211,9 +211,14 @@
       color: var(--muted-foreground);
     }
     .dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; display: inline-block; margin-right: 0.3rem; vertical-align: middle; }
-    .dot.role { background: #a78bfa; }
-    .dot.proc { background: #5eead4; }
-    .dot.other { background: #94a3b8; }
+    /* Aligned with scripts/hlk_graph_explorer.py _node_color_base */
+    .dot.role { background: #5eead4; }
+    .dot.proc { background: #94a3b8; }
+    .dot.doc { background: #cbd5e1; }
+    .dot.area { background: #7dd3fc; }
+    .dot.edge-p { background: rgba(94,234,212,0.75); }
+    .dot.edge-o { background: rgba(125,211,252,0.75); }
+    .dot.edge-r { background: rgba(248,250,252,0.45); }
     footer.note {
       font-size: 0.75rem;
       color: var(--muted-foreground);
@@ -264,6 +269,22 @@
             <input type="range" id="limitShared" min="20" max="200" value="80" step="10" />
             <span id="limitVal" style="font-size:0.85rem;color:var(--muted-foreground)">80</span>
           </div>
+          <div>
+            <label class="block" for="sizeBasis">Node size basis</label>
+            <select id="sizeBasis" aria-label="How node diameter is scaled" title="Processes: outgoing PARENT_OF. Roles: OWNED_BY fan-in. Matches Streamlit explorer.">
+              <option value="children">Children / ownership (default)</option>
+              <option value="degree">Total degree</option>
+              <option value="balanced">Balanced</option>
+            </select>
+          </div>
+          <div>
+            <label class="block" for="edgeLabels">Edge labels</label>
+            <select id="edgeLabels" aria-label="When to show relationship abbrev on edges">
+              <option value="auto">Auto (hide when many edges)</option>
+              <option value="always">Always</option>
+              <option value="hover_only">Hover only</option>
+            </select>
+          </div>
         </div>
         <div class="two-col">
           <div class="path-card">
@@ -309,10 +330,14 @@
           </div>
         </div>
         <div id="statusBar" role="status" aria-live="polite" aria-atomic="true"></div>
-        <div class="legend" aria-hidden="true">
+        <div class="legend" id="graphLegend" aria-label="Colour legend">
           <span><i class="dot role"></i>Role</span>
           <span><i class="dot proc"></i>Process</span>
-          <span><i class="dot other"></i>Other</span>
+          <span><i class="dot doc"></i>Document</span>
+          <span><i class="dot area"></i>Area</span>
+          <span><i class="dot edge-p"></i>PARENT_OF</span>
+          <span><i class="dot edge-o"></i>OWNED_BY</span>
+          <span><i class="dot edge-r"></i>REPORTS_TO</span>
         </div>
         <div id="graphPane" data-testid="graph-pane" aria-label="Graph visualization">
           <div id="graphInner"></div>
@@ -340,8 +365,33 @@
   const childPick = document.getElementById("childPick");
   const searchQ = document.getElementById("searchQ");
   const searchResults = document.getElementById("searchResults");
+  const sizeBasis = document.getElementById("sizeBasis");
+  const edgeLabels = document.getElementById("edgeLabels");
+  const PREFS_SIZE = "hlk_graph_html_size_basis";
+  const PREFS_EDGE = "hlk_graph_html_edge_labels";
   let network = null;
   let selectedProcessId = "";
+  let lastGraphPayload = null;
+
+  try {
+    const sb = sessionStorage.getItem(PREFS_SIZE);
+    if (sb && ["children", "degree", "balanced"].indexOf(sb) >= 0) sizeBasis.value = sb;
+    const el = sessionStorage.getItem(PREFS_EDGE);
+    if (el && ["auto", "always", "hover_only"].indexOf(el) >= 0) edgeLabels.value = el;
+  } catch (e) {}
+
+  function rerenderGraphFromPrefs() {
+    if (lastGraphPayload) renderGraph(lastGraphPayload);
+  }
+
+  sizeBasis.addEventListener("change", function () {
+    try { sessionStorage.setItem(PREFS_SIZE, sizeBasis.value); } catch (e) {}
+    rerenderGraphFromPrefs();
+  });
+  edgeLabels.addEventListener("change", function () {
+    try { sessionStorage.setItem(PREFS_EDGE, edgeLabels.value); } catch (e) {}
+    rerenderGraphFromPrefs();
+  });
 
   function setBusy(busy) { statusBar.setAttribute("aria-busy", busy ? "true" : "false"); }
   function setStatus(msg) { statusBar.textContent = msg || ""; }
@@ -565,11 +615,130 @@
     graphHost.innerHTML = "";
   }
 
-  function groupColor(group) {
-    const g = String(group || "").toLowerCase();
-    if (g.indexOf("role") >= 0) return { background: "#6d28d9", border: "#a78bfa" };
-    if (g.indexOf("process") >= 0) return { background: "#0f766e", border: "#5eead4" };
-    return { background: "#475569", border: "#94a3b8" };
+  function djbHash(str) {
+    let h = 5381;
+    for (let i = 0; i < str.length; i++) h = ((h << 5) + h) + str.charCodeAt(i) | 0;
+    return Math.abs(h);
+  }
+
+  function hexToRgb(hex) {
+    const h = String(hex).replace(/^#/, "");
+    return [parseInt(h.slice(0, 2), 16) / 255, parseInt(h.slice(2, 4), 16) / 255, parseInt(h.slice(4, 6), 16) / 255];
+  }
+
+  function rgbToHex(r, g, b) {
+    const c = function (x) { return Math.max(0, Math.min(255, Math.round(x * 255))); };
+    return "#" + [c(r), c(g), c(b)].map(function (v) { return v.toString(16).padStart(2, "0"); }).join("");
+  }
+
+  function rgbToHsl(r, g, b) {
+    const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
+    let h = 0, s = 0;
+    const l = (max + min) / 2;
+    if (d > 1e-6) {
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+        case g: h = ((b - r) / d + 2) / 6; break;
+        default: h = ((r - g) / d + 4) / 6; break;
+      }
+    }
+    return [h, s, l];
+  }
+
+  function hslToRgb(h, s, l) {
+    if (s < 1e-6) { const v = l; return [v, v, v]; }
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    const t = function (t) {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1 / 6) return p + (q - p) * 6 * t;
+      if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+      return p;
+    };
+    return [t(h + 1 / 3), t(h), t(h - 1 / 3)];
+  }
+
+  function nodeColorBase(neoLabel) {
+    const p = { Role: "#5eead4", Process: "#94a3b8", Document: "#cbd5e1", Area: "#7dd3fc" };
+    return p[neoLabel] || "#64748b";
+  }
+
+  function nodeColorFor(neoLabel, stableKey) {
+    const base = nodeColorBase(neoLabel);
+    const delta = (djbHash(String(stableKey || "")) % 256) / 255 - 0.5;
+    const adj = delta * 0.14;
+    const rgb = hexToRgb(base);
+    const hsl = rgbToHsl(rgb[0], rgb[1], rgb[2]);
+    hsl[2] = Math.max(0.18, Math.min(0.62, hsl[2] + adj));
+    const out = hslToRgb(hsl[0], hsl[1], hsl[2]);
+    return rgbToHex(out[0], out[1], out[2]);
+  }
+
+  function relAbbrev(rt) {
+    const m = { PARENT_OF: "parent", OWNED_BY: "owns", REPORTS_TO: "reports", LINKS_TO: "link" };
+    return m[rt] || String(rt || "rel").slice(0, 10).toLowerCase() || "rel";
+  }
+
+  function edgeStyle(rt) {
+    const spec = {
+      PARENT_OF: ["rgba(94,234,212,0.55)", 3.2],
+      OWNED_BY: ["rgba(125,211,252,0.52)", 2.5],
+      REPORTS_TO: ["rgba(248,250,252,0.38)", 2.0],
+      LINKS_TO: ["rgba(148,163,184,0.48)", 1.6],
+    };
+    return spec[rt] || ["rgba(148,163,184,0.38)", 1.35];
+  }
+
+  function edgeTitle(rt, srcId, tgtId, idToName) {
+    const a = idToName[srcId] || srcId;
+    const b = idToName[tgtId] || tgtId;
+    if (rt === "PARENT_OF") return a + " is parent of " + b + " (PARENT_OF)";
+    if (rt === "OWNED_BY") return a + " owned by role " + b + " (OWNED_BY)";
+    if (rt === "REPORTS_TO") return a + " reports to " + b + " (REPORTS_TO)";
+    return a + " -[" + rt + "]-> " + b;
+  }
+
+  function outgoingParentChildCounts(rels, idSet) {
+    const counts = {};
+    for (const e of rels) {
+      if (String(e.type || "") !== "PARENT_OF") continue;
+      const u = e.from != null ? String(e.from) : String(e.source || "");
+      const v = e.to != null ? String(e.to) : String(e.target || "");
+      if (idSet[u] && idSet[v]) counts[u] = (counts[u] || 0) + 1;
+    }
+    return counts;
+  }
+
+  function roleOwnedProcessCounts(rels, idSet) {
+    const counts = {};
+    for (const e of rels) {
+      if (String(e.type || "") !== "OWNED_BY") continue;
+      const role = e.to != null ? String(e.to) : String(e.target || "");
+      if (idSet[role]) counts[role] = (counts[role] || 0) + 1;
+    }
+    return counts;
+  }
+
+  function metricForSizeBasis(nid, neoLabel, basis, degree, childOut, roleOwned) {
+    if (basis === "degree") return degree;
+    if (basis === "children") {
+      if (neoLabel === "Role") return roleOwned;
+      if (neoLabel === "Process") return childOut;
+      return 0;
+    }
+    const hub = degree;
+    const treeish = neoLabel === "Role" ? roleOwned : (neoLabel === "Process" ? childOut : 0);
+    return 0.45 * hub + 0.55 * treeish;
+  }
+
+  function nodeSizeFromMetric(metric, lenBoost) {
+    const base = 26;
+    const curved = base + 10 * Math.sqrt(Math.max(0, metric));
+    const sz = Math.floor(curved + Math.min(14, lenBoost));
+    return Math.max(18, Math.min(72, sz));
   }
 
   function renderGraph(data) {
@@ -579,46 +748,109 @@
       graphPlaceholder.textContent = "Graph library blocked or failed to load. Allow jsDelivr or use REST/MCP / Streamlit explorer.";
       return;
     }
-    const nodes = [];
-    const edges = [];
-    const seen = new Set();
-    function addNode(id, label, group) {
-      if (seen.has(id)) return;
-      seen.add(id);
-      const col = groupColor(group);
-      nodes.push({
-        id: id,
-        label: label || id,
-        group: group || "default",
-        color: { background: col.background, border: col.border, highlight: { background: col.background, border: "#fff" } },
-      });
-    }
+    const basis = sizeBasis.value || "children";
+    const edgeMode = edgeLabels.value || "auto";
+
     const rawNodes = Array.isArray(data.nodes) ? data.nodes : Object.values(data.nodes || {});
     const rels = data.edges || [];
+    const parsed = [];
+    const idSet = {};
     for (const n of rawNodes) {
       const props = n.properties || n;
       const id = n.element_id != null ? String(n.element_id) : String(props.item_id || props.name || n.id || "");
       if (!id) continue;
       const lbl = String(props.item_name || props.name || props.item_id || props.title || props.role_name || id);
-      const grp = (n.labels && n.labels[0]) || props.label || "default";
-      addNode(id, lbl, grp);
+      const neo = String((n.labels && n.labels[0]) || props.label || "Node");
+      const stableKey = String(props.item_id || props.role_name || id);
+      idSet[id] = true;
+      parsed.push({ id: id, label: lbl, neo: neo, props: props, stableKey: stableKey });
     }
+
+    const pairs = [];
     for (const e of rels) {
-      const s = e.from != null ? String(e.from) : (e.source || e.start);
-      const t = e.to != null ? String(e.to) : (e.target || e.end);
-      if (s && t) edges.push({ from: s, to: t, label: String(e.type || "") });
+      const s = e.from != null ? String(e.from) : String(e.source || e.start || "");
+      const t = e.to != null ? String(e.to) : String(e.target || e.end || "");
+      if (idSet[s] && idSet[t]) pairs.push([s, t]);
     }
-    setStatus("Rendered " + nodes.length + " nodes, " + edges.length + " edges.");
+    const degree = {};
+    for (const [u, v] of pairs) {
+      degree[u] = (degree[u] || 0) + 1;
+      degree[v] = (degree[v] || 0) + 1;
+    }
+    const childOut = outgoingParentChildCounts(rels, idSet);
+    const roleOwned = roleOwnedProcessCounts(rels, idSet);
+
+    const idToName = {};
+    for (const p of parsed) idToName[p.id] = p.label;
+
+    const nEdge = rels.filter(function (e) {
+      const s = e.from != null ? String(e.from) : String(e.source || "");
+      const t = e.to != null ? String(e.to) : String(e.target || "");
+      return idSet[s] && idSet[t];
+    }).length;
+    const autoHoverOnly = nEdge > 120;
+    let showEdgeLabel = true;
+    if (edgeMode === "auto") showEdgeLabel = !autoHoverOnly;
+    else if (edgeMode === "hover_only") showEdgeLabel = false;
+
+    const nodes = [];
+    for (const p of parsed) {
+      const deg = degree[p.id] || 0;
+      const co = childOut[p.id] || 0;
+      const ro = roleOwned[p.id] || 0;
+      const metric = metricForSizeBasis(p.id, p.neo, basis, deg, co, ro);
+      const lenBoost = Math.min(28, Math.max(0, p.label.length - 6) * 2);
+      const sz = nodeSizeFromMetric(metric, lenBoost);
+      const bg = nodeColorFor(p.neo, p.stableKey);
+      let tip = "";
+      try {
+        tip = JSON.stringify(p.props, null, 2);
+        if (tip.length > 2400) tip = tip.slice(0, 2400) + "…";
+      } catch (err) { tip = p.label; }
+      nodes.push({
+        id: p.id,
+        label: p.label,
+        title: tip,
+        shape: "dot",
+        size: sz,
+        font: { color: "hsl(210 15% 96%)", size: 13, strokeWidth: 2, strokeColor: "#0f172a" },
+        color: { background: bg, border: bg, highlight: { background: bg, border: "#f8fafc" } },
+      });
+    }
+
+    const edges = [];
+    for (const e of rels) {
+      const s = e.from != null ? String(e.from) : String(e.source || e.start || "");
+      const t = e.to != null ? String(e.to) : String(e.target || e.end || "");
+      if (!idSet[s] || !idSet[t]) continue;
+      const rt = String(e.type || "");
+      const st = edgeStyle(rt);
+      const abbrev = relAbbrev(rt);
+      edges.push({
+        from: s,
+        to: t,
+        label: showEdgeLabel ? abbrev : "",
+        title: edgeTitle(rt, s, t, idToName),
+        color: st[0],
+        width: st[1],
+        smooth: { type: "dynamic" },
+        font: { color: "#e8eef5", size: 11, strokeWidth: 0, align: "middle" },
+        arrows: { to: { enabled: true, scaleFactor: 0.65 } },
+      });
+    }
+
+    setStatus("Rendered " + nodes.length + " nodes, " + edges.length + " edges (size: " + basis + ", edges: " + edgeMode + ").");
     const visData = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
     const opts = {
       physics: { enabled: true, stabilization: { iterations: 120, updateInterval: 25 } },
-      nodes: { shape: "dot", size: 16, font: { color: "hsl(210 15% 90%)", size: 13 } },
-      edges: { font: { align: "middle", color: "hsl(215 10% 55%)", size: 10 }, arrows: { to: { enabled: true, scaleFactor: 0.6 } }, smooth: { type: "dynamic" } },
+      nodes: { shape: "dot", font: { color: "hsl(210 15% 90%)", size: 13 } },
+      edges: { font: { align: "middle", color: "#e8eef5", size: 11 }, arrows: { to: { enabled: true, scaleFactor: 0.65 } }, smooth: { type: "dynamic" } },
       interaction: { hover: true, tooltipDelay: 120 },
     };
     ensureGraphCanvas();
     network = new vis.Network(graphHost, visData, opts);
     network.once("stabilizationIterationsDone", function () { network.setOptions({ physics: false }); });
+    lastGraphPayload = data;
   }
 
   document.getElementById("loadRoleGraph").onclick = async function () {
