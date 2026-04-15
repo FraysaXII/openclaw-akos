@@ -15,7 +15,20 @@ CONFIG_DIR = REPO_ROOT / "config"
 PROMPTS_DIR = REPO_ROOT / "prompts"
 SCRIPTS_DIR = REPO_ROOT / "scripts"
 
-EXPECTED_MCP_SERVERS = {"sequential-thinking", "playwright", "github", "memory", "filesystem", "fetch", "lsp", "code-search", "akos", "finance", "hlk"}
+EXPECTED_MCP_SERVERS = {
+    "sequential-thinking",
+    "playwright",
+    "github",
+    "memory",
+    "filesystem",
+    "fetch",
+    "lsp",
+    "code-search",
+    "akos",
+    "finance",
+    "hlk",
+    "hlk-graph",
+}
 
 AUTONOMOUS_TOOLS = {
     "read_file", "list_directory", "web_search", "sequential_thinking",

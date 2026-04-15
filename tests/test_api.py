@@ -193,3 +193,35 @@ class TestPromptAssembly:
         data = resp.json()
         assert "success" in data
         assert "stdout" in data
+
+
+class TestHlkGraph:
+    def test_hlk_graph_summary_ok_without_neo4j(self):
+        resp = client.get("/hlk/graph/summary")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data.get("status") == "ok"
+        assert data.get("neo4j") == "unconfigured"
+        csv = data.get("csv") or {}
+        assert csv.get("roles", 0) > 0
+        assert csv.get("processes", 0) > 0
+
+    def test_hlk_graph_process_neighbourhood_503_without_neo4j(self):
+        resp = client.get("/hlk/graph/process/hol_resea_dtp_99/neighbourhood")
+        assert resp.status_code == 503
+
+    def test_hlk_graph_role_neighbourhood_503_without_neo4j(self):
+        resp = client.get("/hlk/graph/role/CTO/neighbourhood")
+        assert resp.status_code == 503
+
+    def test_hlk_graph_explorer_returns_html(self):
+        resp = client.get("/hlk/graph/explorer")
+        assert resp.status_code == 200
+        assert "text/html" in resp.headers.get("content-type", "")
+        body = resp.text
+        assert "HLK Graph Explorer" in body
+        assert "vis-network" in body
+        assert 'data-testid="hlk-graph-explorer-root"' in body
+        assert 'data-testid="summary-cards"' in body
+        assert 'data-testid="btn-load-role-graph"' in body
+        assert 'data-testid="registry-browse-panel"' in body

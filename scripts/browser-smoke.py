@@ -9,11 +9,15 @@ Usage:
     py scripts/browser-smoke.py
     py scripts/browser-smoke.py --playwright    # DOM-based tests when Playwright installed
     py scripts/browser-smoke.py --playwright --headed  # Show browser window
+
+Env: ``AKOS_BROWSER_SMOKE_API_URL`` (optional) overrides the control plane base URL
+(default ``http://127.0.0.1:8420``), e.g. when ``serve-api.py --port 8421`` is used.
 """
 
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import logging
 import platform
@@ -38,7 +42,7 @@ except ImportError:
 logger = logging.getLogger("akos.browser-smoke")
 
 GATEWAY_URL = "http://127.0.0.1:18789"
-API_URL = "http://127.0.0.1:8420"
+API_URL = (os.environ.get("AKOS_BROWSER_SMOKE_API_URL") or "http://127.0.0.1:8420").rstrip("/")
 
 
 def _gateway_reachable() -> bool:
@@ -98,6 +102,62 @@ def _check_swagger_health_http() -> dict[str, str]:
             return {"scenario": "swagger_health", "status": "FAIL", "detail": f"Expected status ok, got {status}"}
     except (urllib.error.URLError, OSError, json.JSONDecodeError) as e:
         return {"scenario": "swagger_health", "status": "FAIL", "detail": str(e)}
+
+
+def _check_hlk_graph_summary_http() -> dict[str, str]:
+    try:
+        req = urllib.request.Request(f"{API_URL}/hlk/graph/summary", method="GET")
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode())
+        if not isinstance(data, dict):
+            return {"scenario": "hlk_graph_summary", "status": "FAIL", "detail": "Non-JSON response"}
+        if data.get("status") != "ok":
+            return {"scenario": "hlk_graph_summary", "status": "FAIL", "detail": f"status field: {data.get('status')}"}
+        csv = data.get("csv") or {}
+        if not isinstance(csv, dict) or "roles" not in csv or "processes" not in csv:
+            return {"scenario": "hlk_graph_summary", "status": "FAIL", "detail": "Missing csv.roles / csv.processes"}
+        if int(csv["roles"]) < 1 or int(csv["processes"]) < 1:
+            return {"scenario": "hlk_graph_summary", "status": "FAIL", "detail": "Unexpected zero registry counts"}
+        neo = data.get("neo4j", "")
+        detail = f"csv roles={csv['roles']} processes={csv['processes']}; neo4j={neo}"
+        return {"scenario": "hlk_graph_summary", "status": "PASS", "detail": detail}
+    except (urllib.error.URLError, OSError, json.JSONDecodeError, TypeError, ValueError) as e:
+        return {"scenario": "hlk_graph_summary", "status": "FAIL", "detail": str(e)}
+
+
+def _check_hlk_graph_explorer_http() -> dict[str, str]:
+    try:
+        req = urllib.request.Request(f"{API_URL}/hlk/graph/explorer", method="GET")
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            body = resp.read().decode(errors="replace")
+        if resp.status != 200:
+            return {"scenario": "hlk_graph_explorer", "status": "FAIL", "detail": f"HTTP {resp.status}"}
+        if (
+            "HLK Graph Explorer" not in body
+            or "vis-network" not in body
+            or 'data-testid="hlk-graph-explorer-root"' not in body
+            or 'data-testid="summary-cards"' not in body
+        ):
+            return {"scenario": "hlk_graph_explorer", "status": "FAIL", "detail": "Unexpected explorer HTML"}
+        return {"scenario": "hlk_graph_explorer", "status": "PASS", "detail": "GET /hlk/graph/explorer returns operator UI"}
+    except (urllib.error.URLError, OSError) as e:
+        return {"scenario": "hlk_graph_explorer", "status": "FAIL", "detail": str(e)}
+
+
+def parse_json_results_from_stdout(stdout: str | None) -> list[dict[str, str]] | None:
+    """Parse the ``JSON_RESULTS:`` line emitted by Playwright worker subprocesses."""
+    if not stdout:
+        return None
+    for line in stdout.splitlines():
+        if line.startswith("JSON_RESULTS:"):
+            try:
+                data = json.loads(line[len("JSON_RESULTS:") :])
+            except json.JSONDecodeError:
+                return None
+            if isinstance(data, list) and all(isinstance(x, dict) for x in data):
+                return data  # type: ignore[return-value]
+            return None
+    return None
 
 
 # --- Phase 1: Playwright checks ---
@@ -250,7 +310,13 @@ def _check_workflow_launch_playwright(page, headed: bool) -> dict[str, str]:
 
 # --- Public API ---
 
-PHASE1_SCENARIOS = ["dashboard_health", "agent_visibility", "swagger_health"]
+PHASE1_SCENARIOS = [
+    "dashboard_health",
+    "agent_visibility",
+    "swagger_health",
+    "hlk_graph_summary",
+    "hlk_graph_explorer",
+]
 PHASE2_SCENARIOS = ["architect_tools_ui", "executor_approval_hint"]
 PHASE3_SCENARIOS = ["workflow_launch"]
 
@@ -260,7 +326,40 @@ def run_phase1_http() -> list[dict[str, str]]:
     results.append(_check_dashboard_health_http())
     results.append(_check_agent_visibility_http())
     results.append(_check_swagger_health_http())
+    results.append(_check_hlk_graph_summary_http())
+    results.append(_check_hlk_graph_explorer_http())
     return results
+
+
+def _check_hlk_graph_summary_playwright(page, headed: bool) -> dict[str, str]:
+    try:
+        res = page.goto(f"{API_URL}/hlk/graph/summary", wait_until="domcontentloaded", timeout=15000)
+        if res and res.status != 200:
+            return {"scenario": "hlk_graph_summary", "status": "FAIL", "detail": f"HTTP {res.status}"}
+        body = page.locator("body").inner_text()
+        if '"status"' in body and "ok" in body.lower() and "roles" in body.lower():
+            return {"scenario": "hlk_graph_summary", "status": "PASS", "detail": "GET /hlk/graph/summary returns JSON"}
+        return {"scenario": "hlk_graph_summary", "status": "FAIL", "detail": "Unexpected body for /hlk/graph/summary"}
+    except Exception as e:
+        return {"scenario": "hlk_graph_summary", "status": "FAIL", "detail": str(e)}
+
+
+def _check_hlk_graph_explorer_playwright(page, headed: bool) -> dict[str, str]:
+    try:
+        res = page.goto(f"{API_URL}/hlk/graph/explorer", wait_until="domcontentloaded", timeout=15000)
+        if res and res.status != 200:
+            return {"scenario": "hlk_graph_explorer", "status": "FAIL", "detail": f"HTTP {res.status}"}
+        text = page.content()
+        if (
+            "HLK Graph Explorer" in text
+            and "vis-network" in text
+            and 'data-testid="hlk-graph-explorer-root"' in text
+            and 'data-testid="summary-cards"' in text
+        ):
+            return {"scenario": "hlk_graph_explorer", "status": "PASS", "detail": "Explorer page loads"}
+        return {"scenario": "hlk_graph_explorer", "status": "FAIL", "detail": "Explorer markup missing"}
+    except Exception as e:
+        return {"scenario": "hlk_graph_explorer", "status": "FAIL", "detail": str(e)}
 
 
 def run_phase1_playwright(page, headed: bool) -> list[dict[str, str]]:
@@ -268,6 +367,8 @@ def run_phase1_playwright(page, headed: bool) -> list[dict[str, str]]:
         _check_dashboard_health_playwright(page, headed),
         _check_agent_visibility_playwright(page, headed),
         _check_swagger_health_playwright(page, headed),
+        _check_hlk_graph_summary_playwright(page, headed),
+        _check_hlk_graph_explorer_playwright(page, headed),
     ]
 
 
@@ -324,6 +425,8 @@ def main() -> None:
 
     setup_logging(json_output=args.json_log)
 
+    playwright_worker_unusable = False
+
     if not _gateway_reachable() and not _api_reachable():
         logger.warning("Gateway %s and API %s unreachable -- all scenarios will SKIP", GATEWAY_URL, API_URL)
         results = [
@@ -348,19 +451,28 @@ def main() -> None:
                 if args.json_log:
                     cmd.append("--json-log")
                 proc_result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-                if proc_result.returncode == 0 and proc_result.stdout:
-                    for line in proc_result.stdout.splitlines():
-                        if line.startswith("JSON_RESULTS:"):
-                            worker_results = json.loads(line[len("JSON_RESULTS:"):])
-                            break
-                    if worker_results is not None:
-                        break
-                worker_errors.append(f"{engine}: exit={proc_result.returncode}")
+                parsed = parse_json_results_from_stdout(proc_result.stdout)
+                if parsed is not None:
+                    worker_results = parsed
+                    if proc_result.returncode != 0:
+                        fails = sum(1 for r in parsed if r.get("status") == "FAIL")
+                        logger.warning(
+                            "Playwright worker %s exited %s with parseable JSON (%s FAIL scenarios); using worker results",
+                            engine,
+                            proc_result.returncode,
+                            fails,
+                        )
+                    break
+                tail = (proc_result.stderr or "").strip().replace("\n", " ")[:240]
+                worker_errors.append(f"{engine}: exit={proc_result.returncode} stderr_tail={tail!r}")
 
             if worker_results is None:
+                playwright_worker_unusable = True
                 detail = (
-                    "Playwright workers unavailable on this host "
-                    f"({'; '.join(worker_errors)}); treating browser smoke as SKIP."
+                    "Playwright workers did not emit parseable JSON_RESULTS "
+                    f"({'; '.join(worker_errors)}). Install browsers: py -m playwright install chromium. "
+                    "If scenarios failed but browsers work, run: py scripts/browser-smoke.py --playwright "
+                    "--playwright-worker --playwright-engine chromium"
                 )
                 results = [{"scenario": s, "status": "SKIP", "detail": detail} for s in all_scenarios]
             else:
@@ -384,7 +496,11 @@ def main() -> None:
     print()
     print("JSON_RESULTS:" + json.dumps(results))
 
-    sys.exit(1 if failed > 0 else 0)
+    if failed > 0:
+        sys.exit(1)
+    if playwright_worker_unusable:
+        sys.exit(2)
+    sys.exit(0)
 
 
 if __name__ == "__main__":
