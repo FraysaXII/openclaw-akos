@@ -76,8 +76,10 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
   - `pydantic>=2.0` -- Runtime type safety for all config schemas, Rust-backed core.
   - `langfuse>=2.0` -- Observability backend; graceful no-op when unconfigured.
   - `pytest>=7.0` -- Test runner.
-  - `runpod>=1.7.0` -- RunPod GPU provider; graceful no-op without API key.
+  - `runpod>=1.7.0` (in `requirements-gpu.txt`) -- RunPod GPU provider; graceful no-op without API key or without installing the extra file.
   - `fastapi>=0.115.0` -- Control plane API; only needed for `scripts/serve-api.py`.
+  - `neo4j>=5.14.0` -- Optional HLK graph mirror (`scripts/sync_hlk_neo4j.py`, `scripts/hlk_graph_mcp_server.py`, `/hlk/graph/*`); no-op when `NEO4J_*` unset.
+  - `streamlit>=1.28.0`, `streamlit-agraph>=0.0.45`, `networkx>=3.2` -- Optional operator graph UI (`scripts/hlk_graph_explorer.py`; vis physics by default, NetworkX optional initial seed / static layout). Optional env **`AKOS_WEB_DASHBOARD_URL`** adds a shell link when WebChat is not on the API host.
   - `uvicorn>=0.32.0` -- ASGI server for FastAPI.
   - `httpx>=0.27.0` -- Async HTTP client for API tests.
   - `playwright>=1.40` -- Browser smoke DOM mode (optional; HTTP-only path when not installed).

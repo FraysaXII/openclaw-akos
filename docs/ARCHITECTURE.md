@@ -507,6 +507,7 @@ Ten MCP servers provide the agent tool ecosystem:
 | akos | `scripts/mcp_akos_server.py` | Custom AKOS MCP: `akos_health`, `akos_agents`, `akos_status` (control plane self-check) |
 | finance | `scripts/finance_mcp_server.py` | Finance research: `finance_quote`, `finance_search`, `finance_sentiment` (read-only, yfinance + Alpha Vantage) |
 | hlk | `scripts/hlk_mcp_server.py` | HLK vault registry: `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search` (read-only) |
+| hlk-graph | `scripts/hlk_graph_mcp_server.py` | Optional Neo4j mirror: `hlk_graph_summary`, `hlk_graph_process_neighbourhood`, `hlk_graph_role_neighbourhood` (read-only; requires `NEO4J_*` in `~/.openclaw/.env`) |
 
 ### Cursor vs AKOS Browser Separation (Platform-Agnostic Design)
 
@@ -630,12 +631,16 @@ The `akos/api.py` module exposes a REST API for programmatic control:
 | `/hlk/processes/{name}/tree` | GET | Direct children of a process item by parent `item_name` |
 | `/hlk/gaps` | GET | Gap report (missing metadata, TBD owners) |
 | `/hlk/search?q=` | GET | Fuzzy search across roles and processes |
+| `/hlk/graph/summary` | GET | CSV counts plus optional Neo4j label/relationship aggregates |
+| `/hlk/graph/process/{item_id}/neighbourhood` | GET | Bounded process-centred subgraph (requires Neo4j sync + `NEO4J_*`) |
+| `/hlk/graph/role/{role_name}/neighbourhood` | GET | Bounded role-centred subgraph (requires Neo4j sync + `NEO4J_*`) |
+| `/hlk/graph/explorer` | GET | Operator HTML graph explorer (vis-network CDN); same Bearer auth as other `/hlk/graph/*` |
 | `/context/pin` | POST/DELETE | Pin or unpin context for agent focus |
 | `/context/pins` | GET | List pinned context entries |
 | `/metrics/cost` | GET | Cost breakdown by agent and environment |
 | `/logs` | WebSocket | Live log stream |
 
-The current HLK registry baseline exposes 11 projects and 1,065 registered items, including founder-governance processes under Legal, Finance, and Compliance for entity formation, founder funding, startup-certification readiness, and trademark/naming control, plus the GTM/Trello-harmonized operating tree merged from the MADEIRA planning candidate (Tier C backlog rows excluded). GTM leaves sit under English **cluster** process rows (`gtm_cl_*`) between workstreams and tasks; see `scripts/refine_gtm_process_hierarchy.py`. Optional **program** workstreams (`hlk_prog_*`) may sit between selected projects and their MADEIRA / Think Big GTM workstreams; see `scripts/migrate_process_list_program_layer.py`. The same CSV may include **`item_parent_1_id`** and **`item_parent_2_id`** (stable parent `item_id` pointers) dual-written with **`item_parent_1`** / **`item_parent_2`** names; see `scripts/backfill_process_parent_ids.py` and `scripts/validate_hlk.py`.
+The current HLK registry baseline exposes 11 projects and 1,066 registered items, including founder-governance processes under Legal, Finance, and Compliance for entity formation, founder funding, startup-certification readiness, and trademark/naming control, plus the GTM/Trello-harmonized operating tree merged from the MADEIRA planning candidate (Tier C backlog rows excluded). GTM leaves sit under English **cluster** process rows (`gtm_cl_*`) between workstreams and tasks; see `scripts/refine_gtm_process_hierarchy.py`. Optional **program** workstreams (`hlk_prog_*`) may sit between selected projects and their MADEIRA / Think Big GTM workstreams; see `scripts/migrate_process_list_program_layer.py`. The same CSV may include **`item_parent_1_id`** and **`item_parent_2_id`** (stable parent `item_id` pointers) dual-written with **`item_parent_1`** / **`item_parent_2`** names; see `scripts/backfill_process_parent_ids.py` and `scripts/validate_hlk.py`.
 
 The founder-governance lower layer uses a staged document model to stay scalable: evidence and redacted synthesis live in `docs/wip/`, case-specific canonical notes live under role-owned `v3.0/` folders, repeatable procedures become SOPs, and only the repeatable process layer is registered in `process_list.csv`. This separation keeps founder-specific or potentially sensitive material out of the runtime registry while preserving a reusable operating model for future entity work.
 
@@ -652,12 +657,15 @@ Launch: `python scripts/serve-api.py --port 8420`
 | `scripts/legacy/verify_openclaw_inventory.py` | Strict full-inventory verifier with per-item PASS/FAIL output (providers/models/agents/A2A allowlist) |
 | `scripts/check-drift.py` | Detect repo-to-runtime mismatches |
 | `scripts/doctor.py` | One-command system health check; normalizes `Runtime: unknown` to `healthy` when probe/listener evidence is healthy, and checks determinism |
-| `scripts/browser-smoke.py` | Programmatic browser smoke test (6+ scenarios); HTTP-only or Playwright DOM mode via `--playwright`, with Windows worker isolation for crash-to-SKIP fallback |
+| `scripts/browser-smoke.py` | Programmatic browser smoke test (HTTP + Playwright incl. `/hlk/graph/summary` and `/hlk/graph/explorer`); Windows parent parses `JSON_RESULTS` even when worker exits non-zero; exit `2` when workers emit no parseable JSON (release gate treats as soft PASS) |
 | `scripts/run-evals.py` | Agent reliability eval runner (5 canonical tasks) |
 | `scripts/checkpoint.py` | Checkpoint CLI (create/list/restore workspace snapshots) |
 | `scripts/sync-runtime.py` | Hydrate runtime from repo SSOT |
 | `scripts/release-gate.py` | Unified release gate (tests + drift + smoke) |
 | `scripts/validate_hlk_km_manifests.py` | Validate HLK KM visual manifest frontmatter and raster paths under `v3.0/_assets/**/*.manifest.md` |
+| `scripts/validate_hlk_vault_links.py` | Fail on broken internal `.md` links under `docs/references/hlk/v3.0/` (excludes `imports/`); run by `release-gate.py` |
+| `scripts/sync_hlk_neo4j.py` | Rebuild optional Neo4j mirror from canonical CSVs; `--with-documents` adds v3.0 `Document` nodes + `LINKS_TO`; requires `NEO4J_*` in `~/.openclaw/.env` |
+| `scripts/hlk_graph_explorer.py` | Optional **secondary** Streamlit operator UI for `/hlk/graph/*` (primary: `GET /hlk/graph/explorer` on control plane); optional **`streamlit.components.v1`** embed at `static/streamlit_components/hlk_vis_network/` (`graph_engine=vis_component`) for drag/pin parity with full vis |
 | `scripts/merge_gtm_into_process_list.py` | Idempotent-style merge helper: harmonize GTM candidate CSV into `process_list.csv` (English parents, Tier C exclusion); run with `--write` after operator approval |
 | `scripts/refine_gtm_process_hierarchy.py` | Pattern 2 pass: insert `gtm_cl_*` cluster processes from Trello path prefixes, rewire `item_parent_1` / `item_parent_2`, sanitize code-like `item_name` values on existing GTM rows; run with `--write` after merge |
 | `scripts/migrate_process_list_program_layer.py` | Pattern 3: insert `hlk_prog_*` program workstreams and re-parent listed GTM workstreams under MADEIRA Platform / Think Big Operational Excellence |
@@ -730,7 +738,7 @@ The following matrix shows every component, who owns it, and how the two layers 
 | Alert Engine         | `akos/alerts.py`                                                                                                                | SOC alerts from log patterns and baselines                                    | Processes OpenClaw gateway logs                                           |
 | Model Catalog        | `akos/model_catalog.py`, `config/model-catalog.json`                                                                             | SSOT for GPU-deployable models (VRAM, parsers, GPU defaults)                   | `gpu.py` uses catalog to auto-configure PodConfig and overlay JSON         |
 | Finance Service      | `akos/finance.py`, `scripts/finance_mcp_server.py`                                                                               | Read-only finance research (quotes, search, sentiment) via yfinance + Alpha Vantage | MCP server registered in mcporter; agents invoke tools autonomously        |
-| HLK Registry         | `akos/hlk.py`, `scripts/hlk_mcp_server.py`                                                                                      | Organisation, process, and compliance vault lookups | MCP server registered in mcporter; agents invoke tools autonomously; OVERLAY_HLK.md teaches agents vault protocol |
+| HLK Registry         | `akos/hlk.py`, `akos/hlk_graph_model.py`, `akos/hlk_neo4j.py`, `akos/hlk_vault_links.py`, `scripts/hlk_mcp_server.py`, `scripts/hlk_graph_mcp_server.py`, `scripts/sync_hlk_neo4j.py` | CSV registry lookups + optional Neo4j mirrored graph + vault link validation | MCP + REST `/hlk/graph/*`; `PRECEDENCE.md` classifies Neo4j as mirrored; `validate_hlk_vault_links.py` in release gate |
 | RunPod Provider      | `akos/runpod_provider.py`                                                                                                       | GPU infrastructure lifecycle                                                  | Manages vLLM endpoints; OpenClaw uses them via `vllm-runpod` provider     |
 | Checkpoints          | `akos/checkpoints.py`                                                                                                           | Workspace snapshot/restore                                                    | AKOS-only concept; operates on workspace dirs                             |
 | Tool Registry        | `akos/tools.py`                                                                                                                 | Dynamic tool inventory from mcporter + permissions                            | AKOS-layer classification of MCP tools                                    |
@@ -758,7 +766,7 @@ The following matrix shows every component, who owns it, and how the two layers 
 | Message Reactions       | `messages.statusReactions.*`           | Lifecycle emoji on messages (queued/thinking/done)  | Bootstrap enables for UX                                  |
 | Model Providers         | `models.providers.*`                  | LLM provider routing and failover                  | Bootstrap preserves full provider inventory; unresolved env inputs are surfaced as warnings |
 | Channel Routing         | `bindings[]`                          | Route channels to agents                            | Defined in template; future expansion                      |
-| MCP Servers             | via mcporter.json                     | Tool servers (11 total)                            | Bootstrap generates resolved paths; AKOS HLK/finance runtime exposure is bridged into OpenClaw by `akos-runtime-tools` |
+| MCP Servers             | via mcporter.json                     | Tool servers (12 total incl. optional `hlk-graph`)   | Bootstrap generates resolved paths; AKOS HLK/finance/graph runtime exposure is bridged into OpenClaw by `akos-runtime-tools` |
 | WebChat                 | `web.enabled`                         | Dashboard chat interface                            | Always enabled for AKOS                                    |
 | Built-in Memory         | `memory.backend`                      | Native session memory                              | Complements AKOS MCP Memory + workspace MEMORY.md          |
 | OpenTelemetry           | `diagnostics.openTelemetry.*`         | Traces/metrics export                               | Future: wire to Langfuse OTEL endpoint                     |

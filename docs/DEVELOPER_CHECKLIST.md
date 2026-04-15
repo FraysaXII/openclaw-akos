@@ -15,6 +15,7 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | 5 | `py -m pytest tests/test_api.py -v` | FastAPI control plane smoke |
 | 6 | `py scripts/release-gate.py` | Unified gate must report PASS (includes HLK vault validation) |
 | 7 | `py scripts/validate_hlk.py` | HLK canonical vault integrity (also run by release gate) |
+| 7a | `py scripts/validate_hlk_vault_links.py` | Internal v3.0 markdown link integrity (also run by release gate) |
 | 7b | `py scripts/merge_gtm_into_process_list.py` | Optional: merge GTM candidate CSV into `process_list.csv` after operator approval (`--write` applies) |
 | 7c | `py scripts/refine_gtm_process_hierarchy.py` | Optional: Pattern 2 cluster parents + `item_name` cleanup on existing GTM rows (`--write` applies) |
 | 8 | `py scripts/validate_hlk_km_manifests.py` | HLK KM visual manifests under `docs/references/hlk/v3.0/_assets/**/*.manifest.md` (run when those files change) |
@@ -38,7 +39,8 @@ If you changed gateway tool policy, also verify the template uses gateway core I
 | `docs/USER_GUIDE.md` (GPU deployment) | Changes to `scripts/gpu.py` subcommands or deploy flow |
 | `docs/USER_GUIDE.md` (Finance MCP) | Changes to `akos/finance.py` or `scripts/finance_mcp_server.py` |
 | `docs/ARCHITECTURE.md` (Finance) | Changes to finance response models or MCP tool signatures |
-| `docs/ARCHITECTURE.md` (HLK) | Changes to `akos/hlk.py`, HLK domain models, or `/hlk/*` API endpoints |
+| `docs/ARCHITECTURE.md` (HLK) | Changes to `akos/hlk.py`, `akos/hlk_graph_model.py`, `akos/hlk_neo4j.py`, `akos/hlk_vault_links.py`, or `/hlk/*` and `/hlk/graph/*` API endpoints |
+| `docs/references/hlk/v3.0/**/*.md` (links) | Run `py scripts/validate_hlk_vault_links.py` when editing cross-links |
 | `docs/references/hlk/compliance/` | Changes to canonical vault CSVs or compliance taxonomy documents |
 | `docs/references/hlk/v3.0/_assets/**/*.manifest.md` | Run `py scripts/validate_hlk_km_manifests.py`; update companion stubs if `source_id` changes |
 
@@ -52,7 +54,7 @@ playwright install chromium
 py scripts/browser-smoke.py --playwright
 ```
 
-On Windows, `browser-smoke.py` isolates browser launches in subprocess workers so native Playwright crashes (`0xC0000005`) become explicit SKIP outcomes instead of crashing the gate process.
+On Windows, `browser-smoke.py` isolates browser launches in subprocess workers. The parent parses `JSON_RESULTS:` from worker stdout **even when the worker exits non-zero** (failed scenarios vs misleading “unavailable”). If no engine emits parseable JSON, scenarios SKIP and the script exits `2` (release gate treats that as a soft PASS with a warning). Includes `hlk_graph_explorer` HTTP/DOM checks.
 
 ## MCP Requirements
 

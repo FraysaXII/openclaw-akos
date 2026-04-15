@@ -65,6 +65,12 @@ Docker sandboxes restrict outbound traffic to the host loopback interface:
 docker sandbox network proxy openclaw --allow-host localhost
 ```
 
+### 4a. Optional Neo4j HLK graph mirror
+
+When enabled, `NEO4J_URI`, `NEO4J_USERNAME`, and `NEO4J_PASSWORD` must live in **`~/.openclaw/.env`** (or process env) alongside other operator secrets—never commit them. The graph database is a **read-optimized mirror** of canonical CSVs and validated vault markdown; treat compromise of Neo4j credentials as exposure of **internal organisational structure** metadata, not as a substitute for vault write controls. AKOS graph endpoints use **allowlisted** Cypher only; do not expose arbitrary open Cypher to untrusted clients. The operator HTML page `GET /hlk/graph/explorer` loads **vis-network** from a public CDN (jsDelivr); air-gapped or strict CSP deployments should use REST/MCP only or self-host that script.
+
+**TLS:** Prefer Aura’s `neo4j+s://` URI with normal system CA trust. Optional `NEO4J_TRUST=all` causes the client to use **`neo4j+ssc` / `bolt+ssc`** semantics (encrypted transport with relaxed server certificate verification). Use only when you understand the MITM risk; fixing corporate CA trust is the safer fix for inspection proxies.
+
 ### 5. SOC Monitoring
 
 All gateway logs are emitted in structured JSON and can be monitored through two complementary channels:

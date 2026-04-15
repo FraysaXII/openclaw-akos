@@ -82,16 +82,18 @@ cd openclaw-akos
 
 ```bash
 pip install -r requirements.txt
+# Optional — RunPod SDK (gpu-runpod, `scripts/gpu.py`):
+pip install -r requirements-gpu.txt
 ```
 
-The dependencies are:
+The base `requirements.txt` dependencies are:
 
 | Package | Purpose | Required? |
 |:--------|:--------|:----------|
 | `pydantic>=2.0` | Config validation and type safety | Yes |
 | `pytest>=7.0` | Test suite | Yes (for dev) |
 | `langfuse>=2.0` | Observability telemetry | Optional (graceful no-op) |
-| `runpod>=1.7.0` | RunPod GPU provider | Optional (graceful no-op) |
+| `runpod>=1.7.0` (via `requirements-gpu.txt`) | RunPod GPU provider | Optional (graceful no-op) |
 | `fastapi>=0.115.0` | Control plane API | Optional (only for API server) |
 | `uvicorn>=0.32.0` | ASGI server for FastAPI | Optional (only for API server) |
 | `httpx>=0.27.0` | Async HTTP client | Optional (only for API tests) |
@@ -822,9 +824,34 @@ The HLK Registry MCP gives agents read-only access to the Holistika organisation
 | `hlk_gaps()` | Identify items with missing metadata, TBD owners, or empty descriptions |
 | `hlk_search(query)` | Fuzzy search across roles and processes by name, description, or ID |
 
-**Data source:** All tools read from the canonical vault CSVs (`docs/references/hlk/compliance/baseline_organisation.csv` and `process_list.csv`). The vault is the database -- no external DB dependency required.
+**Data source:** All tools read from the canonical vault CSVs (`docs/references/hlk/compliance/baseline_organisation.csv` and `process_list.csv`). The CSVs remain SSOT; optional Neo4j (below) is a mirrored index only.
 
-**Setup:** Requires `pip install mcp`. No API keys needed. The `OVERLAY_HLK.md` prompt overlay teaches agents when and how to use these tools, and how to cite canonical sources in responses.
+**Setup:** Requires `pip install mcp`. No API keys needed. Prompt behaviour: `OVERLAY_HLK.md` plus `OVERLAY_HLK_GRAPH.md` (standard/full variants in `config/model-tiers.json`) teach graph tools; compact Madeira uses `OVERLAY_HLK_COMPACT.md` only (no `hlk_graph_*` in prompt ladder).
+
+### 9.10 HLK Graph (optional Neo4j mirror)
+
+When operators enable Neo4j (`NEO4J_URI`, `NEO4J_PASSWORD`, optional `NEO4J_USERNAME` in `~/.openclaw/.env`, same file as Langfuse), agents gain **read-only** multi-hop helpers. Rebuild the mirror after canonical CSV changes: `py scripts/sync_hlk_neo4j.py` (add `--with-documents` to project v3.0 markdown `Document` nodes and internal `LINKS_TO` edges).
+
+**Production operations (mirrored class):**
+
+1. **Bring-up (Neo4j Aura — recommended):** In the Aura console, copy the connection URI. Prefer `neo4j+s://…` when system CAs validate the chain. If you hit `SSLCertVerificationError`, prefer fixing trust (install the inspecting CA); otherwise set **`NEO4J_URI=neo4j+ssc://…`** directly (typical stable choice on some networks) and **leave `NEO4J_TRUST` unset**. Alternatively, keep `neo4j+s://…` and set `NEO4J_TRUST=all` so the driver rewrites to `neo4j+ssc` (weaker than full CA pin — see `SECURITY.md` §4a). Put `NEO4J_URI`, `NEO4J_USERNAME`, and `NEO4J_PASSWORD` in `~/.openclaw/.env` only (same bootstrap as the control plane).
+2. **Bring-up (local Docker — optional dev only):** `docker compose -f compose.neo4j.yml up -d` is for a **local** Community Edition mirror, not a substitute for Aura. Then use `bolt://127.0.0.1:7687` (or `bolt+ssc://` if you enable strict TLS locally) in `NEO4J_URI`.
+3. **Populate / refresh:** After any merge that changes canonical CSVs (or when enabling document projection), run `py scripts/sync_hlk_neo4j.py` from the repo root; use `--dry-run` first in automation. Expect non-zero exit on validation/connection failure. Successful runs log counts such as `roles_written`, `processes_written`, `edges_written`.
+4. **Health:** `GET /hlk/graph/summary` returns `neo4j: connected` when the driver works; neighbourhood routes return `503` when Neo4j is unset or down (by design).
+5. **Backup / DR:** Prefer **rebuild from git** (re-run `validate_hlk.py`, `sync_hlk_neo4j.py`) as the canonical recovery for mirrored data. For enterprise retention, use Neo4j’s own backup tooling; never treat the database as SSOT ([`PRECEDENCE.md`](references/hlk/compliance/PRECEDENCE.md)).
+
+| Surface | Purpose |
+|:--------|:--------|
+| MCP server `hlk-graph` in `config/mcporter.json.example` | `hlk_graph_summary`, `hlk_graph_process_neighbourhood`, `hlk_graph_role_neighbourhood` |
+| REST `GET /hlk/graph/summary` etc. | Same data via FastAPI when `scripts/serve-api.py` is running |
+| `GET /hlk/graph/explorer` | **Primary** operator UI (HTML + vis-network CDN): summary cards; **registry pickers** (areas, roles, projects, children, `/hlk/search`) feed the graph—same SSOT as `/hlk/*`; depth/limit sliders; optional API key in **sessionStorage** only; same `Authorization: Bearer` as other `/hlk/*` routes when `AKOS_API_KEY` is set |
+| `scripts/hlk_graph_explorer.py` | **Secondary** Streamlit UI: same registry + `/hlk/search` + `/hlk/graph/*` as the HTML explorer. **Single canvas**; lenses **Role / Process / Saved**; **force vs tree** layout (vis hierarchical + BFS levels from API root; auto **force** fallback when a `REPORTS_TO` cycle blocks tree levels); **force-directed physics** (tuned `barnesHut`) with optional **NetworkX initial seed** or **lock layout** (static freeze, force mode only); **graph engine** `streamlit-agraph` (default) or **`vis_component`** — local `streamlit.components.v1` bundle at `static/streamlit_components/hlk_vis_network/` (vis-network CDN) for **drag-end pin / magnetic MVP** with state echoed to the Python session; **semantic node colours** (label family + stable id hue nudge) and **relationship-coloured edges** (abbrev labels + rich **hover `title`**); **node size basis** (PARENT_OF children for processes, OWNED_BY fan-in for roles, or degree / balanced); **edge label mode** auto/always/hover-only; **colour & link legend** expander; **selected node** detail expander; **bulk discovery** (merge cap + batch sizes); **label focus** + **highlight substring**; **Save lens** preset **v2**, **Apply & fetch**, **Re-fetch current**; tab **favicon** `static/hlk_graph_explorer_favicon.png`; shell links to `{AKOS_API_URL}/hlk/graph/explorer`, `/docs`, optional **`AKOS_WEB_DASHBOARD_URL`**. CDN-blocked drag workflows: use **HTML** explorer or the vis component path per sidebar help. Run **`py scripts/hlk_graph_explorer.py`** or **`py -m streamlit run scripts/hlk_graph_explorer.py`**. Requires **`py scripts/serve-api.py`** on `AKOS_API_URL` (default 8420). |
+
+**Control plane default URL and port conflicts:** Run `py scripts/serve-api.py` (default **`http://127.0.0.1:8420`**). Graph explorer: **`http://127.0.0.1:8420/hlk/graph/explorer`**. If startup fails with *address already in use* (Windows: `WinError 10048`), `scripts/serve-api.py` exits early with a stderr hint. If **`GET /hlk/graph/summary` returns 404** but `/docs` returns 200, another application may be bound to 8420 (stale build without graph routes): on Windows run `netstat -ano | findstr :8420`, identify the PID (`tasklist /FI "PID eq <pid>"`), stop that process, then restart `serve-api.py`. For `py scripts/browser-smoke.py` against a different port, set **`AKOS_BROWSER_SMOKE_API_URL`** (see script docstring).
+
+**Operator UAT:** Record thorough dashboard + Neo4j checks using [`docs/wip/planning/07-hlk-neo4j-graph-projection/reports/uat-neo4j-graph-evidence-template.md`](wip/planning/07-hlk-neo4j-graph-projection/reports/uat-neo4j-graph-evidence-template.md) or a dated copy under the same `reports/` folder. For **Cursor / agent-driven browser** UAT against the embedded explorer, see [`cursor-browser-mcp-graph-explorer.md`](wip/planning/07-hlk-neo4j-graph-projection/reports/cursor-browser-mcp-graph-explorer.md).
+
+**Control-plane explorer note:** The embedded page loads **vis-network** from jsDelivr. Locked-down environments may block that CDN; use REST/MCP or Streamlit in those cases.
 
 **Recommended validation prompts:**
 - `Who is the CTO?`
@@ -843,7 +870,7 @@ Every tool is classified in `config/permissions.json` as either **autonomous** (
 `permissions.json` includes a mix of gateway core IDs, plugin tool IDs, and AKOS logical aliases. In the live gateway template, use gateway core IDs such as `read`, `write`, `edit`, `apply_patch`, and `exec`, then expose plugin-registered runtime tools through `tools.alsoAllow`. For AKOS HLK and finance lookups, the runtime registration is provided by `openclaw-plugins/akos-runtime-tools`, not by `mcporter.json` alone.
 
 **Autonomous tools** (examples):
-`read`, `web_search`, `web_fetch`, `memory_search`, `memory_get`, `sequential_thinking`, `finance_quote`, `finance_search`, `finance_sentiment`, `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search`
+`read`, `web_search`, `web_fetch`, `memory_search`, `memory_get`, `sequential_thinking`, `finance_quote`, `finance_search`, `finance_sentiment`, `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search`, `hlk_graph_summary`, `hlk_graph_process_neighbourhood`, `hlk_graph_role_neighbourhood`
 
 **Approval-gated tools** (examples):
 `write`, `edit`, `apply_patch`, `exec`, `browser`, `sessions_send`, `sessions_spawn`, `subagents`, `memory_store`, `memory_delete`, `fetch_post`, `filesystem_write`, `filesystem_delete`, `git_push`, `git_commit`
@@ -2008,7 +2035,7 @@ Holistika tracks **many GitHub repositories** (platform, internal tools, client-
 | **Policy** (pointer-first, submodule criteria) | `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/README.md` | — |
 | **Non-repo client/program files** (SOWs, commercials, decks) | `docs/references/hlk/v3.0/Think Big/` (see `Think Big/README.md`) | — |
 
-Cross-engagement topic index (pilot): `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md`. Full placement rules: `docs/references/hlk/v3.0/index.md` (Entity placement). Precedence: `docs/references/hlk/compliance/PRECEDENCE.md` (GitHub repositories vs vault authority).
+Cross-engagement topic index (pilot): `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md` (includes the **PMO project portfolio SSOT** table and GOI/POI-style stakeholder index). Full placement rules: `docs/references/hlk/v3.0/index.md` (Entity placement). Precedence: `docs/references/hlk/compliance/PRECEDENCE.md` (GitHub repositories vs vault authority).
 
 ### 24.4 Maintaining Baselines
 

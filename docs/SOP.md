@@ -1077,6 +1077,19 @@ The original runtime convergence work started when only 2 of 4 agents reached th
 - Set via environment variable or `--api-key` flag on `scripts/serve-api.py`.
 - When unset, a warning is logged but open access is allowed (dev mode).
 
+### **9.1a HLK Neo4j mirrored graph (optional)**
+
+The Neo4j projection is **mirrored / derived** from canonical CSVs and validated vault links; it never replaces operator approval for canonical CSV edits.
+
+**Operator checklist:**
+
+1. Configure `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD` in `~/.openclaw/.env` (never commit secrets).
+2. Start Neo4j (e.g. `docker compose -f compose.neo4j.yml up -d` from the AKOS repo root).
+3. Run `py scripts/sync_hlk_neo4j.py` after each canonical baseline change; add `--with-documents` when document/link projection is required.
+4. Start the control plane with `py scripts/serve-api.py` (default **127.0.0.1:8420**). If bind fails, `serve-api.py` exits with a stderr hint; resolve port conflicts per [`docs/USER_GUIDE.md`](USER_GUIDE.md) §9.10, then retry.
+5. Verify `GET /hlk/graph/summary` and `GET /hlk/graph/explorer` (summary cards + process/role neighbourhood actions).
+6. On failure or corruption, **rebuild from git**: restore CSVs from SSOT, run `py scripts/validate_hlk.py`, then re-sync.
+
 ### **9.2 Self-Verifying Agent Protocol**
 
 Inspired by Cursor's `ReadLints`, Augment Code's "proactive verification", and Lovable's "debugging tools FIRST" pattern.

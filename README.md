@@ -16,7 +16,7 @@ Out-of-the-box, OpenCLAW operates as an isolated conversational agent. This proj
 | Layer | Role | Implementation |
 |:------|:-----|:---------------|
 | **Control Plane** | Gateway daemon, FastAPI API, GPU provider manager (RunPod + ShadowPC OpenStack), auto-failover router | `openclaw.json` + `akos/api.py` on port 8420 |
-| **Integration Layer** | Channel adapters, 11 MCP servers + gateway-enforced tool profiles | WebChat + optional Telegram, Slack, WhatsApp via `bindings` |
+| **Integration Layer** | Channel adapters, 12 MCP servers + gateway-enforced tool profiles | WebChat + optional Telegram, Slack, WhatsApp via `bindings` |
 | **Execution Layer** | 5-agent runner (Madeira, Orchestrator, Architect, Executor, Verifier) | Answer, decompose, plan, build, validate |
 | **Intelligence Layer** | Flat memory architecture, context compression | MCP Memory server, workspace files, Intelligence Matrix fact tagging |
 
@@ -47,6 +47,7 @@ This separation eliminates cognitive overload and adds a quality gate with a 3-r
 - **Custom AKOS MCP** (`scripts/mcp_akos_server.py`) -- control plane self-check: `akos_health`, `akos_agents`, `akos_status`
 - **Finance Research MCP** (`scripts/finance_mcp_server.py`) -- read-only financial data: `finance_quote`, `finance_search`, `finance_sentiment` (yfinance + Alpha Vantage)
 - **HLK Registry MCP** (`scripts/hlk_mcp_server.py`) -- read-only organisational and process lookup: `hlk_role`, `hlk_role_chain`, `hlk_area`, `hlk_process`, `hlk_process_tree`, `hlk_projects`, `hlk_gaps`, `hlk_search`
+- **HLK Graph MCP** (`scripts/hlk_graph_mcp_server.py`) -- optional Neo4j mirror reads: `hlk_graph_summary`, `hlk_graph_process_neighbourhood`, `hlk_graph_role_neighbourhood` (no-op when `NEO4J_*` unset)
 - **mcporter** -- CLI and configuration manager for all MCP connections
 
 **Optional:** cursor-ide-browser (Cursor IDE built-in) for in-IDE WebChat testing; AKOS agent uses Playwright MCP.
@@ -325,6 +326,8 @@ Langfuse traces are tagged with the active environment name (e.g. `gpu-runpod`, 
 ```bash
 # Install dependencies (pydantic is required; langfuse is optional)
 pip install -r requirements.txt
+# RunPod GPU flows only: `pip install -r requirements-gpu.txt` (see USER_GUIDE — avoids cryptography
+# build failures on Windows with Python 3.14 free-threaded when wheels are unavailable)
 
 # Full suite (300+ tests) -- pyproject.toml configures discovery
 py -m pytest -v
