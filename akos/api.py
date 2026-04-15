@@ -21,6 +21,7 @@ from typing import Any
 import httpx
 from fastapi import Depends, FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
 from akos.finance import FinanceService
@@ -52,6 +53,7 @@ app = FastAPI(
         {"name": "Checkpoints", "description": "Workspace snapshot management"},
         {"name": "Finance", "description": "Read-only finance research endpoints"},
         {"name": "HLK", "description": "HLK organisation, process, and compliance registry"},
+        {"name": "HLK Graph", "description": "Optional Neo4j mirrored graph neighbourhood queries"},
     ],
 )
 
@@ -65,6 +67,17 @@ app.add_middleware(
 # ── API Key Authentication ────────────────────────────────────────────
 
 _api_key: str | None = os.environ.get("AKOS_API_KEY")
+
+_hlk_graph_explorer_html_cache: str | None = None
+
+
+def _hlk_graph_explorer_html() -> str:
+    """Load operator graph explorer page once (static HTML + CDN vis-network)."""
+    global _hlk_graph_explorer_html_cache
+    if _hlk_graph_explorer_html_cache is None:
+        path = REPO_ROOT / "static" / "hlk_graph_explorer.html"
+        _hlk_graph_explorer_html_cache = path.read_text(encoding="utf-8")
+    return _hlk_graph_explorer_html_cache
 
 
 def _check_api_key(request: Request) -> None:
@@ -82,6 +95,8 @@ def _check_api_key(request: Request) -> None:
 _runpod: RunPodProvider | None = None
 _reporter: LangfuseReporter | None = None
 _finance: FinanceService | None = None
+_NEO4J_DRIVER_UNSET = object()
+_neo4j_driver: Any = _NEO4J_DRIVER_UNSET
 
 
 def _get_runpod() -> RunPodProvider:
@@ -110,6 +125,16 @@ def _get_finance() -> FinanceService:
     if _finance is None:
         _finance = FinanceService()
     return _finance
+
+
+def _get_neo4j_driver_cached() -> Any:
+    """Lazy singleton Neo4j driver (or ``None`` when unconfigured)."""
+    global _neo4j_driver
+    if _neo4j_driver is _NEO4J_DRIVER_UNSET:
+        from akos.hlk_neo4j import get_neo4j_driver
+
+        _neo4j_driver = get_neo4j_driver()
+    return _neo4j_driver
 
 
 # ── Request/Response Models ──────────────────────────────────────────
@@ -695,6 +720,90 @@ def hlk_search(q: str = ""):
         raise HTTPException(400, "Query parameter 'q' is required")
     from akos.hlk import get_hlk_registry
     return get_hlk_registry().search(q).model_dump()
+
+
+@app.get(
+    "/hlk/graph/explorer",
+    tags=["HLK Graph"],
+    response_class=HTMLResponse,
+    dependencies=[Depends(_check_api_key)],
+)
+def hlk_graph_explorer_page():
+    """Operator read-only graph UI; uses same Bearer auth as other ``/hlk/graph/*`` routes."""
+    return HTMLResponse(content=_hlk_graph_explorer_html())
+
+
+@app.get("/hlk/graph/summary", tags=["HLK Graph"], dependencies=[Depends(_check_api_key)])
+def hlk_graph_summary():
+    """CSV counts plus optional Neo4j label/relationship aggregates."""
+    from akos.hlk import get_hlk_registry
+    from akos.hlk_neo4j import graph_summary, neo4j_configured
+
+    reg = get_hlk_registry()
+    out: dict[str, Any] = {
+        "status": "ok",
+        "csv": {"roles": len(reg._roles), "processes": len(reg._processes)},  # noqa: SLF001
+        "neo4j": "unconfigured",
+    }
+    if not neo4j_configured():
+        return out
+    drv = _get_neo4j_driver_cached()
+    if drv is None:
+        out["neo4j"] = "driver_unavailable"
+        return out
+    try:
+        with drv.session() as session:
+            out["neo4j"] = "connected"
+            out["graph"] = graph_summary(session)
+    except Exception as exc:
+        logger.warning("Neo4j summary failed: %s", type(exc).__name__)
+        out["neo4j"] = "error"
+        out["neo4j_error_category"] = type(exc).__name__
+    return out
+
+
+@app.get(
+    "/hlk/graph/process/{item_id}/neighbourhood",
+    tags=["HLK Graph"],
+    dependencies=[Depends(_check_api_key)],
+)
+def hlk_graph_process_neighbourhood(item_id: str, depth: int = 2, limit: int = 80):
+    """Allowlisted neighbourhood around a process ``item_id``."""
+    from akos.hlk_neo4j import neo4j_configured, process_neighbourhood
+
+    if not neo4j_configured():
+        raise HTTPException(503, detail="Neo4j not configured")
+    drv = _get_neo4j_driver_cached()
+    if drv is None:
+        raise HTTPException(503, detail="Neo4j driver unavailable")
+    try:
+        with drv.session() as session:
+            return process_neighbourhood(session, item_id, depth=depth, limit=limit)
+    except Exception as exc:
+        logger.warning("Neo4j neighbourhood failed: %s", type(exc).__name__)
+        raise HTTPException(503, detail="Neo4j query failed") from exc
+
+
+@app.get(
+    "/hlk/graph/role/{role_name}/neighbourhood",
+    tags=["HLK Graph"],
+    dependencies=[Depends(_check_api_key)],
+)
+def hlk_graph_role_neighbourhood(role_name: str, depth: int = 2, limit: int = 80):
+    """Allowlisted neighbourhood around a ``role_name``."""
+    from akos.hlk_neo4j import neo4j_configured, role_neighbourhood
+
+    if not neo4j_configured():
+        raise HTTPException(503, detail="Neo4j not configured")
+    drv = _get_neo4j_driver_cached()
+    if drv is None:
+        raise HTTPException(503, detail="Neo4j driver unavailable")
+    try:
+        with drv.session() as session:
+            return role_neighbourhood(session, role_name, depth=depth, limit=limit)
+    except Exception as exc:
+        logger.warning("Neo4j role neighbourhood failed: %s", type(exc).__name__)
+        raise HTTPException(503, detail="Neo4j query failed") from exc
 
 
 @app.websocket("/logs")
