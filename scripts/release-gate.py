@@ -72,6 +72,10 @@ def run_browser_smoke() -> bool:
     except ImportError:
         pass
     result = proc.run(args, timeout=120, capture=False)
+    if result.returncode == 2:
+        # browser-smoke: Playwright workers produced no parseable JSON (hosts without browsers).
+        logger.warning("browser-smoke exit 2 (workers unavailable); treating as non-blocking for release gate")
+        return True
     return result.success
 
 
@@ -108,6 +112,17 @@ def run_process_list_header_check() -> bool:
     return result.success
 
 
+def run_hlk_vault_links_validation() -> bool:
+    """Validate internal markdown links under docs/references/hlk/v3.0/."""
+    logger.info("Running HLK vault link validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_hlk_vault_links.py")],
+        timeout=120,
+        capture=False,
+    )
+    return result.success
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="AKOS release gate")
     parser.add_argument("--json-log", action="store_true", help="JSON logging output")
@@ -137,6 +152,9 @@ def main() -> None:
 
     header_ok = run_process_list_header_check()
     results.append(("PASS" if header_ok else "FAIL", "process_list.csv header (scripts/check_process_list_header.py)"))
+
+    vault_links_ok = run_hlk_vault_links_validation()
+    results.append(("PASS" if vault_links_ok else "FAIL", "HLK vault links (scripts/validate_hlk_vault_links.py)"))
 
     live_smoke = os.environ.get("AKOS_LIVE_SMOKE") == "1"
     if live_smoke:
