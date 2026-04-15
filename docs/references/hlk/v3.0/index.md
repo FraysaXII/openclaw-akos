@@ -74,6 +74,7 @@ Holistika-wide KM is governed by [HLK_KM_TOPIC_FACT_SOURCE.md](../compliance/HLK
 | SharePoint | Same folder mapping |
 | Git / GitHub | This monorepo plus any repos listed in the Envoy **repository registry** (code SSOT remains on GitHub) |
 | KiRBe | Ingest as a source; CSVs provide the graph structure |
+| Neo4j (optional) | Mirrored read index: run `py scripts/sync_hlk_neo4j.py` after CSV changes; credentials in `~/.openclaw/.env` (`NEO4J_*`); see `PRECEDENCE.md` mirrored row |
 | MADEIRA | Reads registry CSVs for structure, markdown tree for content |
 
 ### Entity placement: Admin, Envoy Tech Lab, Think Big

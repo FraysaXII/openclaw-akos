@@ -118,7 +118,7 @@ The structural components of the Digital Operations Portal and its integrated fu
 
 ### **AI-Driven Governance and Support Automation**
 
-The sheer scale of this ten-country global initiative requires high levels of automated intelligence to prevent the exponential, unsustainable growth of corporate operational expenditure. Holistika’s existing organizational baseline provides a highly robust foundation for Artificial Intelligence integration, specifically through the established AIC (AI Agent) role, which is overseen by Susana Madeira (05-1).3
+The sheer scale of this ten-country global initiative requires high levels of automated intelligence to prevent the exponential, unsustainable growth of corporate operational expenditure. Holistika’s existing organizational baseline provides a highly robust foundation for Artificial Intelligence integration, specifically through the established AIC (AI Agent) role, which is overseen by Susana Madeira (O5-1).3
 
 The 2026 technological landscape marks a definitive shift from reactive, prompt-based AI chatbots to agentic, autonomous workflows capable of executing complex tasks.46 The HLK Tech Lab AI Engineers, utilizing established internal frameworks for multi-agent system design (env\_tech\_dtp\_86\_1) and knowledge graph construction via Neo4j (env\_tech\_dtp\_86\_3), must deploy the AIC directly within the franchise operations portal.2
 

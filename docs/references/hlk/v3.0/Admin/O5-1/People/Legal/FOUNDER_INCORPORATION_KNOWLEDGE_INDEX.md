@@ -1,8 +1,8 @@
 # Founder Incorporation Knowledge Index
 
 **Document owner**: Legal Counsel  
-**Version**: 1.0  
-**Date**: 2026-04-08  
+**Version**: 1.1  
+**Date**: 2026-04-15  
 **Status**: Final
 
 ---
@@ -10,6 +10,8 @@
 ## Purpose
 
 This index is the canonical entrypoint for the founder-incorporation knowledge bundle in the active HLK vault. It links the stable procedural layer, the case-specific decision layer, and the source synthesis layer so future founder-led entity work can be expanded without duplicating the same logic across unrelated files.
+
+**Cross-program governance**: PMO maintains the **portfolio SSOT** (metadata and pointers) for this initiative under [TOPIC_PMO_CLIENT_DELIVERY_HUB.md](../../Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md) (`PRJ-HOL-FOUNDING-2026`). Executive accountability sits with **O5-1 (Chief Business Officer)**; Legal, Compliance, and Finance remain accountable for their domain outputs.
 
 ## Bundle Structure
 
@@ -42,6 +44,7 @@ This index is the canonical entrypoint for the founder-incorporation knowledge b
 - `thi_finan_dtp_302` — Founder-to-Company Funding Path
 - `hol_peopl_ws_4` — Startup Certification Governance
 - `hol_peopl_dtp_302` — ENISA Readiness and Evidence Pack
+- `hol_opera_dtp_310` — PMO project portfolio SSOT (program row `PRJ-HOL-FOUNDING-2026`)
 
 ## How To Use This Bundle
 

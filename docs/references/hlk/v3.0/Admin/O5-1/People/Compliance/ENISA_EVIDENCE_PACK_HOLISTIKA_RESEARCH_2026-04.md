@@ -1,8 +1,8 @@
 # ENISA Evidence Pack: Holistika Research
 
 **Document owner**: Compliance  
-**Version**: 1.0  
-**Date**: 2026-04-08  
+**Version**: 1.1  
+**Date**: 2026-04-15  
 **Status**: Draft
 
 ---
@@ -117,7 +117,25 @@ The biggest risk is being framed externally as generic consultancy. If that happ
 | ENI-2 | Final entity description not locked in writing by advisers | Pending |
 | ENI-3 | Workforce-in-Spain rule for the actual staffing pattern | Requires validation at submission time |
 | ENI-4 | Pluriactivity and founder contribution treatment | Requires legal/tax confirmation |
-| ENI-5 | Exact evidence set expected by the external adviser | Pending written request list |
+| ENI-5 | Exact evidence set expected by the external adviser | Pending written request list; treat kick-off commitments as provisional until a written annex list is received |
+
+## External party operating model (startup certification path)
+
+- **Collaborative plan**: the external adviser develops the startup business plan **with** Holistika; Holistika remains the authority on facts, market, and operations.
+- **Joint readiness gate**: filing occurs only when both sides agree the plan is ready.
+- **Certification authority**: the competent body has final, partly discretionary judgment; adviser input does not guarantee an outcome.
+- **Cycle time**: expect a long research-and-iteration cycle; this is normal for substantive plans.
+- **Single mercantil**: keep **one** mercantil and **one** coherent narrative for certification and external positioning (aligned with [Research vs Tech Lab rationale](../../Research/RESEARCH_VS_TECH_LAB_ENTITY_RATIONALE_2026-04.md)).
+
+## CNAE and mercantil coherence (banking channel)
+
+- **Separate concerns**: startup certification narrative (this pack) is **not** the same artifact as **CNAE / IAE** selection with the banking incorporation channel—but they must **tell the same story** about what the company does.
+- **Risk**: mismatch between activity description, CNAE, and certification narrative weakens filings (historical lesson: plan text vs registry activity codes must be reconciled early).
+- **Operational bridge**: supply a **short activity description** and market context to the banking channel; the external adviser may help translate market context for the bank desk **without** becoming the legal selector of CNAE codes (codespace is broad and taxonomy lags technology-heavy activities).
+
+## PMO program context
+
+Portfolio row **PRJ-HOL-FOUNDING-2026** and GOI references: [TOPIC_PMO_CLIENT_DELIVERY_HUB.md](../../Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md). Redacted UTF-8 transcript exports: [external](../../../../../../../wip/planning/04-holistika-company-formation/external/).
 
 ## Recommended Next Evidence Actions
 
