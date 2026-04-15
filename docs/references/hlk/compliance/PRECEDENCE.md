@@ -45,6 +45,7 @@ A **program** is an optional intermediate **workstream** row (`item_granularity=
 | `supabase.ts` typings | Reference only until regenerated | Schema reference | Treat as typed contract snapshot |
 | `compliance_001.sop_documents` | Supabase | Canonical MD SOPs --> structured mirror | Markdown is authored first; DB records are downstream |
 | GitHub repository file trees | Per-repository remotes on github.com (or equivalent) | Git remote --> local clone; optional git submodule into this monorepo | **SSOT for source code** and in-repo technical docs; the vault registry row is authoritative for *membership and metadata*, not for replacing the remote tree |
+| Neo4j Community graph (HLK CSV + optional v3.0 document links) | Operator or CI Neo4j instance | Canonical CSV + validated v3.0 markdown --> ``py scripts/sync_hlk_neo4j.py`` | **Mirrored read index** for multi-hop exploration; **never** an authoring surface for baselines; rebuild after canonical changes; credentials in ``~/.openclaw/.env`` (`NEO4J_*`) |
 
 ### Reference-only assets (historical, do not edit)
 

@@ -26,7 +26,7 @@ This document freezes the canonical access level taxonomy used across all HLK sy
 | 3 | Internal | Access limited to internal personnel only. Standard operational clearance for most functional roles. | Data Engineer, Business Analyst, Project Manager, PTP, O2C, Front Office, Pricing, AV, Design, Paid Media Manager, Service Delivery Manager, Account Manager, Asset Manager, Product Owner, Ethics & Learning, Front-End Developer, Back-End Developer, Domain Specialist, Data Steward, Database Owner, UX Designer, Legal Consumer Specialist, Legal Collaborator Specialist, OSINT Analyst, HUMINT Specialist, Lead Researcher |
 | 4 | Confidential | Requires proper clearance; used for sensitive operations. Management-level access for area leads and department heads. | PMO, Social Media Manager, Organisation, Talent, Business Controller, Financial Controller, Lead Data Scientist, Holistik Researcher, Compliance, SMO, Brand Manager, DevOPS, System Owner, Data Architect, AI Engineer, Tech Lead, Data Governance Lead, Growth Manager, Legal Counsel, Intelligence Analyst |
 | 5 | Highly Confidential | Top-level protection; strict access controls apply. C-level executives and strategic governance roles. | CFO, CPO, COO, CMO, CDO, CTO, AIC, Susana Madeira, O5 |
-| 6 | Secret | Highest classification with extremely limited access. Reserved for the Administrator and direct administrative chain. | Admin, 05-1 |
+| 6 | Secret | Highest classification with extremely limited access. Reserved for the Administrator and direct administrative chain. | Admin, O5-1 |
 
 ## Governance Rules
 
