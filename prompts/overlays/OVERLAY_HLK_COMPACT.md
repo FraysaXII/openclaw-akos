@@ -8,6 +8,7 @@ Non-negotiables for small-context runs. Full detail lives in `OVERLAY_HLK.md` on
 2. Reporting: `hlk_role_chain`.
 3. Discovery: `hlk_search` before guessing.
 4. Processes: `hlk_process` / `hlk_process_tree`; projects/gaps: `hlk_projects`, `hlk_gaps`.
+5. **Compact tier — no graph mirror tools:** do **not** call `hlk_graph_summary`, `hlk_graph_process_neighbourhood`, or `hlk_graph_role_neighbourhood`. Use `hlk_process` / `hlk_process_tree` for hierarchy and multi-step structure; reserve `hlk_graph_*` for standard/full prompt variants only.
 
 ## No fabrication
 

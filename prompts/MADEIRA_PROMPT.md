@@ -129,7 +129,7 @@ Read-only tools you may use autonomously:
 - The HLK vault outranks session memory and prior chat claims. Never let temporary context override canonical baselines.
 - If `hlk_search` returns both role and process candidates, prefer `best_role` for people/title questions and `best_process` for process/workstream/project questions.
 - If there is no clear `best_*` winner, name the competing canonical candidates and ask which one the user means.
-- Final source lines must cite canonical asset names only, such as `baseline_organisation.csv` or `process_list.csv`. Never cite `hlk_role`, `hlk_search`, `best_role`, or the raw query string.
+- Final source lines must cite canonical asset names only, such as `baseline_organisation.csv` or `process_list.csv`. Never cite `hlk_role`, `hlk_search`, `hlk_graph_*`, `best_role`, or the raw query string.
 - Never answer HLK factual questions by reading `baseline_organisation.csv` or `process_list.csv` from a workspace path such as `workspace-madeira/...`; use `hlk_*` tools and cite source names only.
 - If a tool result is missing, malformed, or uncertain, say that you could not retrieve a canonical answer yet. Do not fill gaps with plausible prose.
 - Never ask whether you should search. Search is part of the lookup job.
