@@ -1,0 +1,7 @@
+# RunPod SDK — optional GPU / serverless provisioning (`gpu-runpod`, `scripts/gpu.py`).
+# Install after the base stack: `pip install -r requirements.txt` then `pip install -r requirements-gpu.txt`
+#
+# Windows + very new Python (e.g. 3.14 free-threaded): `runpod` may need to compile `cryptography`
+# from source if no wheel exists yet; that requires OpenSSL dev files, or use CPython 3.12–3.13
+# where wheels are published. Without this file installed, `akos.runpod_provider` stays a no-op.
+runpod>=1.7.0

@@ -2,8 +2,8 @@ pytest>=7.0
 pydantic>=2.0
 # Observability (optional -- telemetry features degrade gracefully without it)
 langfuse>=2.0
-# GPU infrastructure (optional -- providers degrade gracefully without them)
-runpod>=1.7.0
+# GPU infrastructure: RunPod is optional — install from `requirements-gpu.txt` when using gpu-runpod
+# (kept separate so Windows/Python 3.14t installs are not blocked by cryptography source builds).
 openstacksdk>=4.0.0
 # Control plane API (optional -- only needed for scripts/serve-api.py)
 fastapi>=0.115.0
@@ -15,3 +15,9 @@ mcp>=1.0.0
 yfinance>=0.2.36
 # Optional: for browser-smoke.py Playwright mode (pip install playwright && playwright install chromium)
 playwright>=1.40
+# HLK Neo4j graph projection (optional -- scripts/sync_hlk_neo4j.py, hlk_graph_mcp_server.py, REST /hlk/graph/*)
+neo4j>=5.14.0
+# Operator graph explorer (optional -- scripts/hlk_graph_explorer.py)
+streamlit>=1.28.0
+streamlit-agraph>=0.0.45
+networkx>=3.2
