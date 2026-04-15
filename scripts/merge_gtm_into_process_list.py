@@ -61,11 +61,9 @@ def load_org_roles() -> dict[str, tuple[str, str, str]]:
             ent = (row.get("entity") or "").strip()
             area = (row.get("area") or "").strip()
             rto = (row.get("reports_to") or "").strip()
-            # Map legacy reports_to label to canonical process_list role_parent style
+            # Map org reports_to to process_list role_parent_1 style (role_name tokens)
             parent = rto
-            if rto == "O5-1":
-                parent = "05-1"
-            if name == "05-1":
+            if name == "O5-1":
                 parent = "Admin"
             out[name] = (ent, area, parent)
     return out
@@ -189,9 +187,6 @@ def role_context(role_owner: str, org: dict[str, tuple[str, str, str]]) -> tuple
     if role_owner not in org:
         return ("Holistika", "Operations", "COO")
     ent, area, parent = org[role_owner]
-    # process_list uses functional titles; fix O5-1 style
-    if parent == "O5-1":
-        parent = "05-1"
     # CMO/PMO/CPO etc. already have sensible parents from org
     if role_owner == "Holistik Researcher":
         parent = "Holistik Researcher"
