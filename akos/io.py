@@ -118,6 +118,16 @@ def set_process_env_defaults(values: dict[str, str]) -> None:
             os.environ[key] = value
 
 
+def bootstrap_openclaw_process_env(oc_home: Path | None = None) -> None:
+    """Load ``~/.openclaw/.env`` into the process environment (unset keys only).
+
+    Same contract as ``scripts/serve-api.py``: Neo4j, Langfuse, and other
+    operator secrets live in the OpenClaw home env file — call this once at
+    CLI / MCP entrypoints before reading ``os.environ``.
+    """
+    set_process_env_defaults(load_runtime_env(oc_home))
+
+
 def load_akos_sidecar_config(oc_home: Path | None = None) -> dict:
     """Load the AKOS sidecar config from ``~/.openclaw/akos-config.json``."""
     home = oc_home or resolve_openclaw_home()
