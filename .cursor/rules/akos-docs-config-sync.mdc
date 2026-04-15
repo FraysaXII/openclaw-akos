@@ -76,7 +76,13 @@ needs a corresponding update. These contracts are ordered by trigger.
 | `docs/references/hlk/v3.0/index.md` | `docs/USER_GUIDE.md` | Vault structure reference in the HLK Operator Model section |
 | `scripts/hlk_mcp_server.py` | `docs/USER_GUIDE.md` | HLK Registry MCP (Section 9.9) |
 | `scripts/validate_hlk.py` | `docs/DEVELOPER_CHECKLIST.md` | Pre-commit checks table |
+| `scripts/validate_hlk_vault_links.py` | `docs/DEVELOPER_CHECKLIST.md` | Pre-commit when `v3.0/**/*.md` cross-links change |
 | `scripts/validate_hlk_km_manifests.py` | `docs/DEVELOPER_CHECKLIST.md`, `docs/USER_GUIDE.md` | Pre-commit when `v3.0/_assets/**/*.manifest.md` change; HLK Operator Model KM / UAT |
+| `scripts/sync_hlk_neo4j.py`, `scripts/hlk_graph_mcp_server.py`, `scripts/hlk_graph_explorer.py` | `docs/ARCHITECTURE.md`, `docs/USER_GUIDE.md` | Operator Scripts + HLK Graph sections |
+| `config/mcporter.json.example` | `docs/ARCHITECTURE.md` | MCP Server Topology |
+| `akos/hlk_neo4j.py`, `akos/hlk_graph_model.py`, `akos/hlk_vault_links.py` | `docs/ARCHITECTURE.md` | Orchestration Library (`akos/`) table |
+| `static/hlk_graph_explorer.html` | `docs/ARCHITECTURE.md`, `docs/USER_GUIDE.md`, `SECURITY.md` | HLK Graph explorer + CDN egress note |
+| `prompts/overlays/OVERLAY_HLK_GRAPH.md` | `docs/USER_GUIDE.md` | HLK graph prompt tiering |
 | `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md` | `docs/ARCHITECTURE.md`, `docs/USER_GUIDE.md` | HLK KM Topic–Fact–Source, Output 1 |
 | `docs/references/hlk/v3.0/_assets/**/*.manifest.md` | `docs/uat/hlk_admin_smoke.md` | Scenario 8 spot-checks (if manifest contract changes) |
 | `akos/hlk.py` | `docs/ARCHITECTURE.md` | Orchestration Library table |
