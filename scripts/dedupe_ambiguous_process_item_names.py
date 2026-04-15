@@ -10,6 +10,7 @@ Usage (repo root):
     py scripts/dedupe_ambiguous_process_item_names.py
     py scripts/dedupe_ambiguous_process_item_names.py --write
     py scripts/dedupe_ambiguous_process_item_names.py --report   # list duplicate item_name (exit 1 if any)
+    py scripts/dedupe_ambiguous_process_item_names.py --suggest  # print starter RENAMES_BY_ITEM_ID entries (review!)
 """
 
 from __future__ import annotations
@@ -29,6 +30,7 @@ from akos.hlk_process_csv import (  # noqa: E402
     item_name_uniqueness_errors,
     normalize_process_row,
     resolve_all_parent_ids,
+    suggest_item_id_renames_for_duplicate_names,
     write_process_csv,
 )
 
@@ -79,9 +81,15 @@ def main() -> int:
         action="store_true",
         help="Print duplicate item_name collisions and exit 1 if any (read-only)",
     )
+    parser.add_argument(
+        "--suggest",
+        action="store_true",
+        help="Print machine-generated RENAMES_BY_ITEM_ID starter lines for review (read-only)",
+    )
     args = parser.parse_args()
-    if args.report and args.write:
-        print("error: use --report or --write, not both", file=sys.stderr)
+    mode_ct = int(args.report) + int(args.suggest) + int(args.write)
+    if mode_ct > 1:
+        print("error: use at most one of --report, --suggest, --write", file=sys.stderr)
         return 2
     if args.report:
         rows = load_rows()
@@ -92,7 +100,27 @@ def main() -> int:
         print(f"duplicate_item_name_groups={len(errs)}")
         for e in errs:
             print(f"  {e}")
-        print("hint: extend RENAMES_BY_ITEM_ID in this script, then run with --write", file=sys.stderr)
+        print("hint: use --suggest for starter renames, refine map, then --write", file=sys.stderr)
+        return 1
+    if args.suggest:
+        rows = load_rows()
+        errs = item_name_uniqueness_errors(rows)
+        if not errs:
+            print("no duplicate item_name values")
+            return 0
+        mech = suggest_item_id_renames_for_duplicate_names(rows)
+        print("# Mechanical suggestions (keeper = highest granularity, then smallest item_id).")
+        print("# Replace with human-readable names where the suffix is not operator-acceptable.\n")
+        print("RENAMES_ADDITIONS = {")
+        for iid in sorted(mech):
+            val = mech[iid]
+            hand = RENAMES_BY_ITEM_ID.get(iid)
+            if hand and hand != val:
+                print(f'    # "{iid}": already hand-set to {hand!r} (mechanical was {val!r})')
+                continue
+            print(f'    "{iid}": {val!r},')
+        print("}")
+        print("\nMerge chosen lines into RENAMES_BY_ITEM_ID in this script, then: py scripts/dedupe_ambiguous_process_item_names.py --write", file=sys.stderr)
         return 1
     rows = load_rows()
     changed = 0

@@ -97,6 +97,17 @@ def run_hlk_validation() -> bool:
     return result.success
 
 
+def run_process_list_header_check() -> bool:
+    """Ensure process_list.csv header matches PROCESS_LIST_FIELDNAMES (fork drift)."""
+    logger.info("Running process_list.csv header check ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "check_process_list_header.py")],
+        timeout=30,
+        capture=False,
+    )
+    return result.success
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="AKOS release gate")
     parser.add_argument("--json-log", action="store_true", help="JSON logging output")
@@ -123,6 +134,9 @@ def main() -> None:
 
     hlk_ok = run_hlk_validation()
     results.append(("PASS" if hlk_ok else "FAIL", "HLK vault validation (scripts/validate_hlk.py)"))
+
+    header_ok = run_process_list_header_check()
+    results.append(("PASS" if header_ok else "FAIL", "process_list.csv header (scripts/check_process_list_header.py)"))
 
     live_smoke = os.environ.get("AKOS_LIVE_SMOKE") == "1"
     if live_smoke:

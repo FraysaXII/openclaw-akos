@@ -55,6 +55,7 @@ Holistika-wide KM is governed by [HLK_KM_TOPIC_FACT_SOURCE.md](../compliance/HLK
 | Example visual manifest | [VISUAL_MANIFEST_EXAMPLE.manifest.md](Admin/O5-1/People/Compliance/VISUAL_MANIFEST_EXAMPLE.manifest.md) |
 | PMO backlog index (Trello → topic_id; Trello not SSOT) | [RESEARCH_BACKLOG_TRELLO_REGISTRY.md](Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md) |
 | Trello board JSON imports (primary + archive slices) | [imports/README.md](Admin/O5-1/Operations/PMO/imports/README.md) |
+| `process_list.csv` maintenance (columns, parent ids, duplicate names) | [SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md](Admin/O5-1/Operations/PMO/SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md) |
 | WIP topic syntheses (interpretation layer) | [docs/wip/hlk-km/](../../../wip/hlk-km/) |
 | Pilot Output 1 bundle (rasters + `*.manifest.md` + stubs) | [_assets/km-pilot/](_assets/km-pilot/) |
 | Workspace roadmap / traceability | [master-roadmap.md](../../../wip/planning/03-hlk-km-knowledge-base/master-roadmap.md) |

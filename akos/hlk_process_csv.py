@@ -45,6 +45,56 @@ def ambiguous_item_names(rows: list[dict[str, str]]) -> set[str]:
     return {n for n, ids in groups.items() if len(ids) > 1}
 
 
+_GRANULARITY_RANK_FOR_KEEPER: dict[str, int] = {
+    "project": 5,
+    "workstream": 4,
+    "process": 3,
+    "task": 2,
+}
+
+
+def _keeper_sort_key(row: dict[str, str]) -> tuple[int, str]:
+    """Prefer higher-granularity rows, then stable item_id order, as duplicate-name keeper."""
+    g = (row.get("item_granularity") or "").strip().lower()
+    rank = _GRANULARITY_RANK_FOR_KEEPER.get(g, 0)
+    iid = (row.get("item_id") or "").strip()
+    return (-rank, iid)
+
+
+def suggest_item_id_renames_for_duplicate_names(
+    rows: list[dict[str, str]], *, name_max: int = 200
+) -> dict[str, str]:
+    """Suggest ``item_id`` -> new ``item_name`` for rows in duplicate display-name groups.
+
+    One row per duplicate **keeps** the existing shared name (the **keeper**): highest
+    ``item_granularity`` rank (project > workstream > process > task > other), then
+    lexicographically smallest ``item_id``. All other rows in that group are assigned
+    ``"{original_name} ({item_id})"`` (truncated to *name_max*). Operators must review
+    suggestions before committing; semantic labels often beat mechanical suffixes.
+    """
+    groups: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in rows:
+        name = (row.get("item_name") or "").strip()
+        iid = (row.get("item_id") or "").strip()
+        if name and iid:
+            groups[name].append(dict(row))
+    out: dict[str, str] = {}
+    for name, members in groups.items():
+        if len(members) < 2:
+            continue
+        keeper = min(members, key=_keeper_sort_key)
+        keeper_id = (keeper.get("item_id") or "").strip()
+        for r in members:
+            iid = (r.get("item_id") or "").strip()
+            if not iid or iid == keeper_id:
+                continue
+            candidate = f"{name} ({iid})"
+            if len(candidate) > name_max:
+                candidate = candidate[: name_max - 1].rstrip() + "…"
+            out[iid] = candidate
+    return out
+
+
 def item_name_uniqueness_errors(rows: list[dict[str, str]]) -> list[str]:
     """Human-readable errors for duplicate ``item_name`` values (blocks parent-id SSOT)."""
     groups: dict[str, set[str]] = defaultdict(set)

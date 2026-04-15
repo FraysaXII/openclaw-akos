@@ -662,7 +662,8 @@ Launch: `python scripts/serve-api.py --port 8420`
 | `scripts/refine_gtm_process_hierarchy.py` | Pattern 2 pass: insert `gtm_cl_*` cluster processes from Trello path prefixes, rewire `item_parent_1` / `item_parent_2`, sanitize code-like `item_name` values on existing GTM rows; run with `--write` after merge |
 | `scripts/migrate_process_list_program_layer.py` | Pattern 3: insert `hlk_prog_*` program workstreams and re-parent listed GTM workstreams under MADEIRA Platform / Think Big Operational Excellence |
 | `scripts/backfill_process_parent_ids.py` | Resolve `item_parent_*` names to `item_parent_*_id` in `process_list.csv`; run after header/column migration |
-| `scripts/dedupe_ambiguous_process_item_names.py` | Repair: rename a fixed set of rows (by `item_id`) so every `item_name` is unique; **`--report`** lists collisions read-only (exit 1 if any); **`--write`** applies map + `resolve_all_parent_ids` |
+| `scripts/dedupe_ambiguous_process_item_names.py` | Repair: rename a fixed set of rows (by `item_id`) so every `item_name` is unique; **`--report`** lists collisions; **`--suggest`** prints starter `RENAMES_BY_ITEM_ID` lines; **`--write`** applies map + `resolve_all_parent_ids` |
+| `scripts/check_process_list_header.py` | Fail if `process_list.csv` header ≠ `PROCESS_LIST_FIELDNAMES` (fork / legacy column drift) |
 | `scripts/resolve-mcporter-paths.py` | Resolve MCP config placeholder paths (idempotent, cross-platform) |
 
 ### Workflow Definitions (v0.4.0)

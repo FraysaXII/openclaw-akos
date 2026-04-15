@@ -1994,6 +1994,10 @@ The CSV may also include **`item_parent_1_id`** and **`item_parent_2_id`**: when
 
 **Column contract for external tools:** The authoritative column order and headers are defined as **`PROCESS_LIST_FIELDNAMES`** in `akos/hlk_process_csv.py` (currently 21 columns, including the two parent-id fields). Importers that assume a fixed legacy width should read the header row or import that constant from the repo instead of hard-coding 19 columns.
 
+**Forks and older branches:** If your checkout predates the parent-id columns, **merge current `main` before editing** `process_list.csv`, then run **`py scripts/check_process_list_header.py`** so the header matches `PROCESS_LIST_FIELDNAMES`. Scripts that still embed a 19-column `FIELDNAMES` list will mis-align or drop columns when writing.
+
+**Full maintenance SOP:** `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md` (column contract, duplicate-name workflow with `--suggest`, merge hazards, tooling table).
+
 ### 24.3.5 GitHub repositories (Envoy Tech Lab hub)
 
 Holistika tracks **many GitHub repositories** (platform, internal tools, client-delivery). Authority split:
@@ -2013,7 +2017,7 @@ The canonical baselines live in `docs/references/hlk/compliance/`:
 | File | What to edit | When |
 |:-----|:-------------|:-----|
 | `baseline_organisation.csv` | Roles, hierarchy, access levels, descriptions | New role, role change, access review |
-| `process_list.csv` | Processes, projects, workstreams, tasks | New process, hierarchy change, ownership change |
+| `process_list.csv` | Processes, projects, workstreams, tasks | New process, hierarchy change, ownership change; follow **SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001** (`docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md`) |
 | `access_levels.md` | Access level definitions | Policy change (rare) |
 | `confidence_levels.md` | Confidence level definitions | Policy change (rare) |
 | `source_taxonomy.md` | Source categories and credibility levels | New source type (rare) |
