@@ -131,7 +131,7 @@ Depends on: completion of `P1.DEP.1` (precedence), `P1.DEP.2` (taxonomy freeze),
 |------|--------|------|------------|----------------|----------------------|--------------------|----------------|
 | Admin | Holistika | Admin | Admin | 6 | Confirm | Has description | `role_full_description`, `responsible_processes`, `components_used` |
 | O5 | Holistika | Admin | Admin | 0 | Review: likely 5-6 | Missing description | `role_description`, `role_full_description`, `sop_url`, `org_id` |
-| 05-1 | Holistika | Admin | Admin | 0 | Review: likely 6 | Shallow | `role_full_description`, `responsible_processes` |
+| O5-1 | Holistika | Admin | Admin | 0 | Review: likely 6 | Shallow | `role_full_description`, `responsible_processes` |
 
 ### Holistika -- AI
 
@@ -226,7 +226,7 @@ Roles currently at access `0` that likely need review:
 | Role | Entity | Area | Likely target | Rationale |
 |------|--------|------|---------------|-----------|
 | O5 | Holistika | Admin | 5-6 | Executive governance |
-| 05-1 | Holistika | Admin | 6 | Currently you |
+| O5-1 | Holistika | Admin | 6 | Currently you |
 | Susana Madeira | Holistika | AI | 5-6 | AI agent chain root |
 | AIC | Holistika | AI | 5 | Code execution permissions |
 | Compliance | Think Big | People | 4-5 | Policy enforcement |
