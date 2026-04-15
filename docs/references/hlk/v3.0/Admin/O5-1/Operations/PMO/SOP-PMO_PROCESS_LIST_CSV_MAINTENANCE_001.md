@@ -17,7 +17,7 @@ Define how operators and integrators **maintain** the canonical process registry
 
 ## Canonical authority
 
-- **SSOT:** `process_list.csv` per [PRECEDENCE.md](../../../../compliance/PRECEDENCE.md).
+- **SSOT:** `process_list.csv` per [PRECEDENCE.md](../../../../../compliance/PRECEDENCE.md).
 - **Schema authority in code:** `PROCESS_LIST_FIELDNAMES` in `akos/hlk_process_csv.py` (column order, header names). Do not fork a parallel column list in application code.
 
 ## Column contract (current baseline)
