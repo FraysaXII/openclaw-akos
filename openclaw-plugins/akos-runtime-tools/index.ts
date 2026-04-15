@@ -29,6 +29,20 @@ function readRequiredString(params: ToolParams, key: string): string {
   return value.trim();
 }
 
+function readOptionalInt(params: ToolParams, key: string, fallback: number): number {
+  const value = params[key];
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return Math.trunc(value);
+  }
+  if (typeof value === "string" && value.trim()) {
+    const parsed = Number.parseInt(value.trim(), 10);
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+  return fallback;
+}
+
 function normalizeConfig(pluginConfig: PluginConfig | undefined) {
   const apiUrl = (pluginConfig?.apiUrl ?? DEFAULT_API_URL).trim().replace(/\/+$/, "");
   const apiKeyEnv = (pluginConfig?.apiKeyEnv ?? "AKOS_API_KEY").trim();
@@ -261,6 +275,57 @@ const toolSpecs: ToolSpec[] = [
     request: (params) => ({
       path: "/hlk/search",
       query: { q: readRequiredString(params, "query") },
+    }),
+  },
+  {
+    name: "hlk_graph_summary",
+    description:
+      "Return HLK CSV registry counts plus optional Neo4j label and relationship aggregates when the mirrored graph is configured.",
+    parameters: emptyParameters,
+    request: () => ({ path: "/hlk/graph/summary" }),
+  },
+  {
+    name: "hlk_graph_process_neighbourhood",
+    description:
+      "Return a bounded neighbourhood subgraph around one HLK process item_id from the optional Neo4j mirror (depth and limit capped server-side).",
+    parameters: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        item_id: { type: "string", description: "Canonical HLK process item_id." },
+        depth: { type: "integer", description: "Traversal depth (1-5), default 2." },
+        limit: { type: "integer", description: "Max nodes to return, default 80." },
+      },
+      required: ["item_id"],
+    },
+    request: (params) => ({
+      path: `/hlk/graph/process/${encodeURIComponent(readRequiredString(params, "item_id"))}/neighbourhood`,
+      query: {
+        depth: String(readOptionalInt(params, "depth", 2)),
+        limit: String(readOptionalInt(params, "limit", 80)),
+      },
+    }),
+  },
+  {
+    name: "hlk_graph_role_neighbourhood",
+    description:
+      "Return processes and reporting roles linked to one HLK role_name from the optional Neo4j mirror (bounded).",
+    parameters: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        role_name: { type: "string", description: "Canonical HLK role name." },
+        depth: { type: "integer", description: "Traversal depth (1-4), default 2." },
+        limit: { type: "integer", description: "Max nodes to return, default 80." },
+      },
+      required: ["role_name"],
+    },
+    request: (params) => ({
+      path: `/hlk/graph/role/${encodeURIComponent(readRequiredString(params, "role_name"))}/neighbourhood`,
+      query: {
+        depth: String(readOptionalInt(params, "depth", 2)),
+        limit: String(readOptionalInt(params, "limit", 80)),
+      },
     }),
   },
   {
