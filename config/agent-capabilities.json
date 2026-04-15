@@ -11,7 +11,8 @@
         "fetch_get", "filesystem_read", "filesystem_list",
         "finance_quote", "finance_search", "finance_sentiment",
         "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process",
-        "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search"
+        "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search",
+        "hlk_graph_summary", "hlk_graph_process_neighbourhood", "hlk_graph_role_neighbourhood"
       ],
       "denied_tools": [
         "write_file", "delete_file", "shell_exec",
@@ -32,7 +33,8 @@
         "fetch_get", "filesystem_read", "filesystem_list",
         "finance_quote", "finance_search", "finance_sentiment",
         "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process",
-        "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search"
+        "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search",
+        "hlk_graph_summary", "hlk_graph_process_neighbourhood", "hlk_graph_role_neighbourhood"
       ],
       "denied_tools": [
         "write_file", "delete_file", "shell_exec",
@@ -58,7 +60,8 @@
         "canvas_eval", "network_download", "system_config_change",
         "finance_quote", "finance_search", "finance_sentiment",
         "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process",
-        "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search"
+        "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search",
+        "hlk_graph_summary", "hlk_graph_process_neighbourhood", "hlk_graph_role_neighbourhood"
       ],
       "denied_tools": []
     },
@@ -74,7 +77,8 @@
         "fetch_get", "filesystem_read", "filesystem_list",
         "finance_quote", "finance_search", "finance_sentiment",
         "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process",
-        "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search"
+        "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search",
+        "hlk_graph_summary", "hlk_graph_process_neighbourhood", "hlk_graph_role_neighbourhood"
       ],
       "denied_tools": [
         "write_file", "delete_file",
@@ -96,7 +100,8 @@
         "sequential_thinking",
         "finance_quote", "finance_search", "finance_sentiment",
         "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process",
-        "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search"
+        "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search",
+        "hlk_graph_summary", "hlk_graph_process_neighbourhood", "hlk_graph_role_neighbourhood"
       ],
       "denied_tools": [
         "write_file", "delete_file", "shell_exec",

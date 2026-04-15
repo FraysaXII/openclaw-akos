@@ -92,6 +92,16 @@
       "command": "python",
       "args": ["scripts/hlk_mcp_server.py"],
       "_note": "HLK organisation and process registry MCP. Exposes hlk_role, hlk_role_chain, hlk_area, hlk_process, hlk_process_tree, hlk_projects, hlk_gaps, hlk_search. Requires: pip install mcp. Read-only lookups over the canonical vault CSVs."
+    },
+    "hlk-graph": {
+      "command": "python",
+      "args": ["scripts/hlk_graph_mcp_server.py"],
+      "env": {
+        "NEO4J_URI": "${NEO4J_URI}",
+        "NEO4J_USERNAME": "${NEO4J_USERNAME}",
+        "NEO4J_PASSWORD": "${NEO4J_PASSWORD}"
+      },
+      "_note": "Optional Neo4j mirrored HLK graph MCP. Exposes hlk_graph_summary, hlk_graph_process_neighbourhood, hlk_graph_role_neighbourhood. Requires: pip install mcp neo4j. Set NEO4J_* in ~/.openclaw/.env (same as AKOS scripts). Cwd must be AKOS repo root."
     }
   }
 }
