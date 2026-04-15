@@ -188,6 +188,23 @@ Use the same **Scenario 0** steps in a real browser (local Chrome/Edge, Playwrig
 
 ---
 
+## Scenario 9: HLK graph mirror (Neo4j) — optional
+
+**Goal**: When `NEO4J_*` is configured, confirm CSV sync, REST summary, and optional Streamlit explorer behave; when unset, confirm graceful degradation (503 / empty tools).
+
+| Step | Action | Expected |
+|:-----|:-------|:---------|
+| 1 | Run `py scripts/validate_hlk_vault_links.py` | `OVERALL: PASS` |
+| 2 | With Neo4j up and `NEO4J_URI` / `NEO4J_USERNAME` / `NEO4J_PASSWORD` in `~/.openclaw/.env`, run `py scripts/sync_hlk_neo4j.py` | Exit 0; node/edge counts logged without password values |
+| 3 | `GET /hlk/graph/summary` (with `Authorization: Bearer` if `AKOS_API_KEY` set) | JSON `status: ok`, `csv.roles` / `csv.processes` > 0; `neo4j` reflects connection state |
+| 4 | Open `GET /hlk/graph/explorer` in browser (same auth as API) | Page title **HLK Graph Explorer**; vis-network loads (or document CDN block) |
+| 5 | Optional: `py scripts/hlk_graph_explorer.py` (Streamlit secondary) | Loads graph from API; empty state if API key missing is visible |
+| 6 | Without Neo4j env, repeat step 3 | `neo4j: unconfigured`; neighbourhood routes return 503 |
+
+**Pass criteria**: No secrets in logs; summary matches sync script parity expectations for a known fixture DB.
+
+---
+
 ## Rollback Guide
 
 If any HLK-specific behavior is broken:
