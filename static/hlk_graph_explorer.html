@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HLK Graph Explorer</title>
+  <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+  <style>
+    /* Design tokens aligned with org boilerplate dark theme (hsl) — same SSOT as web product feel */
+    :root {
+      --background: hsl(220 16% 7%);
+      --foreground: hsl(210 15% 90%);
+      --card: hsl(220 14% 10%);
+      --card-foreground: hsl(210 15% 90%);
+      --muted: hsl(220 12% 14%);
+      --muted-foreground: hsl(215 10% 55%);
+      --border: hsl(220 10% 20%);
+      --accent-primary: hsl(168 50% 44%);
+      --accent-secondary: hsl(38 75% 55%);
+      --destructive: hsl(0 55% 40%);
+      --ring: hsl(168 50% 44%);
+      --radius: 0.5rem;
+      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--background);
+      color: var(--foreground);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    .hlk-shell { display: flex; flex-direction: column; min-height: 100vh; }
+    .hero {
+      padding: 1.35rem 1.5rem 1.2rem;
+      background: linear-gradient(160deg, hsl(220 14% 11%) 0%, var(--background) 55%);
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h1 {
+      margin: 0 0 0.4rem;
+      font-size: 1.45rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--foreground);
+    }
+    .hero .lede {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--muted-foreground);
+      max-width: 42rem;
+    }
+    .hero .fine {
+      margin: 0.65rem 0 0;
+      font-size: 0.8rem;
+      color: var(--muted-foreground);
+      max-width: 48rem;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 1.5rem 1.5rem;
+      gap: 1rem;
+    }
+    section.panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.15rem;
+    }
+    section.panel > h2 {
+      margin: 0 0 0.75rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted-foreground);
+    }
+    .row { display: flex; flex-wrap: wrap; gap: 0.5rem 0.85rem; align-items: center; }
+    .row.tight { align-items: flex-start; }
+    label { font-size: 0.8rem; color: var(--muted-foreground); }
+    label.block { display: block; margin-bottom: 0.25rem; }
+    select, input[type="password"], input[type="text"], input[type="search"] {
+      padding: 0.5rem 0.65rem;
+      border-radius: calc(var(--radius) - 2px);
+      border: 1px solid var(--border);
+      background: var(--background);
+      color: var(--foreground);
+      font-size: 0.875rem;
+      min-width: 12rem;
+      max-width: 100%;
+    }
+    select:focus-visible, input:focus-visible, button:focus-visible, a:focus-visible {
+      outline: 2px solid var(--ring);
+      outline-offset: 2px;
+    }
+    input[type="range"] { width: 10rem; accent-color: var(--accent-primary); }
+    button {
+      padding: 0.5rem 1.1rem;
+      border-radius: calc(var(--radius) - 2px);
+      border: 1px solid var(--border);
+      background: var(--muted);
+      color: var(--foreground);
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    button:hover { filter: brightness(1.08); }
+    button.primary {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: hsl(220 16% 8%);
+      font-weight: 600;
+    }
+    button.ghost { background: transparent; }
+    #statusBar {
+      min-height: 1.35rem;
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+      margin-top: 0.5rem;
+    }
+    #statusBar[aria-busy="true"] { color: var(--accent-secondary); }
+    #summaryCards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+      gap: 0.65rem;
+      margin-top: 0.5rem;
+    }
+    .metric {
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) - 2px);
+      padding: 0.65rem 0.75rem;
+    }
+    .metric .lbl { font-size: 0.7rem; color: var(--muted-foreground); text-transform: uppercase; letter-spacing: 0.05em; }
+    .metric .val { font-size: 1.2rem; font-weight: 600; margin-top: 0.15rem; }
+    .badge {
+      display: inline-block;
+      margin-top: 0.35rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge.ok { background: hsl(168 50% 44% / 0.18); color: var(--accent-primary); }
+    .badge.neutral { background: var(--muted); color: var(--muted-foreground); }
+    .badge.warn { background: hsl(38 75% 55% / 0.2); color: var(--accent-secondary); }
+    .badge.err { background: hsl(0 55% 40% / 0.25); color: #f0a8a8; }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+    .path-card {
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) - 2px);
+      padding: 0.85rem 1rem;
+      background: hsl(220 14% 8%);
+    }
+    .path-card h3 { margin: 0 0 0.65rem; font-size: 0.95rem; font-weight: 600; color: var(--foreground); }
+    .search-results {
+      list-style: none;
+      margin: 0.35rem 0 0;
+      padding: 0;
+      max-height: 11rem;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) - 2px);
+      background: var(--background);
+    }
+    .search-results li {
+      padding: 0.45rem 0.65rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+    }
+    .search-results li:last-child { border-bottom: 0; }
+    .search-results li:hover { background: var(--muted); }
+    .search-results .id { font-family: ui-monospace, monospace; color: var(--accent-primary); font-size: 0.72rem; }
+    .search-results .nm { color: var(--foreground); }
+    #graphPane {
+      flex: 1;
+      min-height: 17rem;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) - 2px);
+      background: hsl(220 18% 5%);
+      position: relative;
+    }
+    #graphInner { width: 100%; height: 100%; min-height: 17rem; }
+    .graph-empty {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted-foreground);
+      font-size: 0.88rem;
+      text-align: center;
+      padding: 1.5rem;
+      pointer-events: none;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1rem;
+      margin-top: 0.45rem;
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+    .dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; display: inline-block; margin-right: 0.3rem; vertical-align: middle; }
+    .dot.role { background: #a78bfa; }
+    .dot.proc { background: #5eead4; }
+    .dot.other { background: #94a3b8; }
+    footer.note {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      margin-top: 0.25rem;
+    }
+    footer.note a { color: var(--accent-primary); }
+  </style>
+</head>
+<body data-testid="hlk-graph-explorer-root">
+  <div class="hlk-shell">
+    <header class="hero">
+      <h1>HLK Graph Explorer</h1>
+      <p class="lede">Explore how roles and processes connect in the mirrored Neo4j graph. Everything you pick below comes from the same registry APIs as the rest of AKOS—no parallel lists.</p>
+      <p class="fine">Tip: choose an <strong>area</strong> or <strong>project</strong> to narrow choices, or search by plain English. Depth and node limit apply to both role and process views.</p>
+    </header>
+    <main>
+      <section class="panel" aria-labelledby="sec-access">
+        <h2 id="sec-access">Optional API lock</h2>
+        <p style="margin:0 0 0.65rem;font-size:0.85rem;color:var(--muted-foreground);max-width:44rem;">
+          Most local setups do not need this. If your team enabled <code>AKOS_API_KEY</code> on the server, paste the same token your tools use—we only keep it in this browser tab (<strong>sessionStorage</strong>), never in the URL or server logs from this page.
+        </p>
+        <div class="row">
+          <label for="apiKey">Access token</label>
+          <input type="password" id="apiKey" placeholder="Leave blank when the server is open on localhost" autocomplete="off" />
+          <button type="button" id="saveKey" class="ghost">Remember in this tab</button>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="sec-summary">
+        <h2 id="sec-summary">Registry snapshot</h2>
+        <div class="row">
+          <button type="button" class="primary" id="loadSummary">Refresh snapshot</button>
+          <button type="button" id="loadRegistry" class="ghost" data-testid="btn-load-registry">Load pickers from API</button>
+        </div>
+        <div id="summaryCards" data-testid="summary-cards" aria-live="polite"></div>
+      </section>
+
+      <section class="panel" data-testid="registry-browse-panel" aria-labelledby="sec-graph">
+        <h2 id="sec-graph">Graph — pick what you mean (not raw IDs)</h2>
+        <div class="row" style="margin-bottom:0.75rem">
+          <div>
+            <label class="block" for="depthShared">Depth (hops)</label>
+            <input type="range" id="depthShared" min="1" max="5" value="2" aria-valuemin="1" aria-valuemax="5" />
+            <span id="depthVal" style="font-size:0.85rem;color:var(--muted-foreground)">2</span>
+          </div>
+          <div>
+            <label class="block" for="limitShared">Node limit (Neo4j cap)</label>
+            <input type="range" id="limitShared" min="20" max="200" value="80" step="10" />
+            <span id="limitVal" style="font-size:0.85rem;color:var(--muted-foreground)">80</span>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="path-card">
+            <h3>By role</h3>
+            <div class="row tight" style="flex-direction:column;align-items:stretch">
+              <div>
+                <label class="block" for="filterArea">Filter by area (optional)</label>
+                <select id="filterArea" data-testid="select-area" aria-label="Filter roles by organisational area">
+                  <option value="">All areas</option>
+                </select>
+              </div>
+              <div>
+                <label class="block" for="rolePick">Role</label>
+                <select id="rolePick" data-testid="select-role" aria-label="Choose role name for graph"></select>
+              </div>
+              <button type="button" class="primary" id="loadRoleGraph" data-testid="btn-load-role-graph">Draw role graph</button>
+            </div>
+          </div>
+          <div class="path-card">
+            <h3>By process</h3>
+            <div class="row tight" style="flex-direction:column;align-items:stretch">
+              <div>
+                <label class="block" for="projectPick">Project (top-level workstream)</label>
+                <select id="projectPick" data-testid="select-project" aria-label="Choose project"></select>
+              </div>
+              <div>
+                <label class="block" for="childPick">Child process (optional)</label>
+                <select id="childPick" data-testid="select-child-process" aria-label="Choose child under project">
+                  <option value="">Select a project first…</option>
+                </select>
+              </div>
+              <div>
+                <label class="block" for="searchQ">Search registry</label>
+                <div class="row">
+                  <input type="search" id="searchQ" placeholder="e.g. governance, CTO, KiRBe" autocomplete="off" style="flex:1;min-width:8rem" />
+                  <button type="button" id="searchGo">Search</button>
+                </div>
+                <ul class="search-results" id="searchResults" hidden aria-live="polite"></ul>
+              </div>
+              <button type="button" class="primary" id="loadProcessGraph" data-testid="btn-load-process-graph">Draw process graph</button>
+              <p style="margin:0;font-size:0.75rem;color:var(--muted-foreground)">Uses the <strong>child</strong> row if selected; otherwise the <strong>project</strong> row. Or pick from search results.</p>
+            </div>
+          </div>
+        </div>
+        <div id="statusBar" role="status" aria-live="polite" aria-atomic="true"></div>
+        <div class="legend" aria-hidden="true">
+          <span><i class="dot role"></i>Role</span>
+          <span><i class="dot proc"></i>Process</span>
+          <span><i class="dot other"></i>Other</span>
+        </div>
+        <div id="graphPane" data-testid="graph-pane" aria-label="Graph visualization">
+          <div id="graphInner"></div>
+          <div class="graph-empty" id="graphPlaceholder">Choose a role or process above, then draw the graph. Summary cards still work if the vis-network CDN is blocked.</div>
+        </div>
+        <footer class="note">Prefer Streamlit? <code>py scripts/hlk_graph_explorer.py</code> — same registry + search pickers and graph endpoints as this page.</footer>
+      </section>
+    </main>
+  </div>
+  <script>
+(function () {
+  const KEY = "akos_graph_explorer_bearer";
+  const apiKeyInput = document.getElementById("apiKey");
+  const statusBar = document.getElementById("statusBar");
+  const summaryCards = document.getElementById("summaryCards");
+  const graphHost = document.getElementById("graphInner");
+  const graphPlaceholder = document.getElementById("graphPlaceholder");
+  const depthShared = document.getElementById("depthShared");
+  const limitShared = document.getElementById("limitShared");
+  const depthVal = document.getElementById("depthVal");
+  const limitVal = document.getElementById("limitVal");
+  const filterArea = document.getElementById("filterArea");
+  const rolePick = document.getElementById("rolePick");
+  const projectPick = document.getElementById("projectPick");
+  const childPick = document.getElementById("childPick");
+  const searchQ = document.getElementById("searchQ");
+  const searchResults = document.getElementById("searchResults");
+  let network = null;
+  let selectedProcessId = "";
+
+  function setBusy(busy) { statusBar.setAttribute("aria-busy", busy ? "true" : "false"); }
+  function setStatus(msg) { statusBar.textContent = msg || ""; }
+
+  depthShared.addEventListener("input", function () { depthVal.textContent = depthShared.value; });
+  limitShared.addEventListener("input", function () { limitVal.textContent = limitShared.value; });
+
+  try { apiKeyInput.value = sessionStorage.getItem(KEY) || ""; } catch (e) {}
+
+  document.getElementById("saveKey").onclick = function () {
+    try {
+      sessionStorage.setItem(KEY, apiKeyInput.value.trim());
+      setStatus("Saved in this tab only. Close the tab when you are done on a shared machine.");
+    } catch (e) { setStatus("Could not use sessionStorage: " + e); }
+  };
+
+  function authHeaders() {
+    const h = { "Accept": "application/json" };
+    let k = apiKeyInput.value.trim();
+    try { if (!k) k = sessionStorage.getItem(KEY) || ""; } catch (e) {}
+    if (k) h["Authorization"] = "Bearer " + k;
+    return h;
+  }
+
+  async function fetchJson(path) {
+    const r = await fetch(path, { headers: authHeaders() });
+    const text = await r.text();
+    let data;
+    try { data = text ? JSON.parse(text) : {}; } catch (e) { throw new Error("Not JSON: " + text.slice(0, 120)); }
+    if (!r.ok) throw new Error("HTTP " + r.status + ": " + (data.detail || JSON.stringify(data)).slice(0, 280));
+    return data;
+  }
+
+  function neo4jBadge(neo) {
+    if (neo === "connected") return "<span class=\"badge ok\">Neo4j connected</span>";
+    if (neo === "unconfigured") return "<span class=\"badge neutral\">Neo4j not configured</span>";
+    if (neo === "driver_unavailable") return "<span class=\"badge warn\">Driver unavailable</span>";
+    if (neo === "error") return "<span class=\"badge err\">Neo4j error</span>";
+    return "<span class=\"badge neutral\">" + String(neo || "unknown") + "</span>";
+  }
+
+  document.getElementById("loadSummary").onclick = async function () {
+    summaryCards.innerHTML = "";
+    setBusy(true);
+    setStatus("Loading snapshot…");
+    try {
+      const data = await fetchJson("/hlk/graph/summary");
+      const csv = data.csv || {};
+      const roles = csv.roles != null ? csv.roles : "—";
+      const procs = csv.processes != null ? csv.processes : "—";
+      const neo = data.neo4j != null ? data.neo4j : "";
+      summaryCards.innerHTML =
+        "<div class=\"metric\" data-testid=\"card-csv-roles\"><div class=\"lbl\">Roles in CSV (SSOT)</div><div class=\"val\">" + roles + "</div></div>" +
+        "<div class=\"metric\" data-testid=\"card-csv-processes\"><div class=\"lbl\">Processes in CSV (SSOT)</div><div class=\"val\">" + procs + "</div></div>" +
+        "<div class=\"metric\" data-testid=\"card-neo4j\"><div class=\"lbl\">Mirror</div><div>" + neo4jBadge(neo) + "</div></div>";
+      setStatus("Snapshot ready.");
+    } catch (e) { setStatus(String(e)); }
+    setBusy(false);
+  };
+
+  function fillAreas(areasData) {
+    const roles = areasData.roles || [];
+    filterArea.innerHTML = "<option value=\"\">All areas</option>";
+    for (const r of roles) {
+      const name = r.role_name || r.area || "";
+      if (!name) continue;
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name + (r.role_description ? " (" + r.role_description + ")" : "");
+      filterArea.appendChild(opt);
+    }
+  }
+
+  function fillRolesFromList(allRoles, areaFilter) {
+    const prev = rolePick.value;
+    rolePick.innerHTML = "";
+    const groups = {};
+    for (const r of allRoles) {
+      const area = r.area || "Other";
+      if (areaFilter && area !== areaFilter) continue;
+      if (!groups[area]) groups[area] = [];
+      groups[area].push(r);
+    }
+    const areaKeys = Object.keys(groups).sort();
+    for (const area of areaKeys) {
+      const og = document.createElement("optgroup");
+      og.label = area;
+      groups[area].sort(function (a, b) { return (a.role_name || "").localeCompare(b.role_name || ""); });
+      for (const r of groups[area]) {
+        const opt = document.createElement("option");
+        opt.value = r.role_name || "";
+        opt.textContent = r.role_name || "";
+        og.appendChild(opt);
+      }
+      rolePick.appendChild(og);
+    }
+    if (prev && [...rolePick.options].some(function (o) { return o.value === prev; })) rolePick.value = prev;
+  }
+
+  function fillProjects(processes) {
+    projectPick.innerHTML = "";
+    const opt0 = document.createElement("option");
+    opt0.value = "";
+    opt0.textContent = "Choose a project…";
+    projectPick.appendChild(opt0);
+    for (const p of processes) {
+      if ((p.item_granularity || "") !== "project") continue;
+      const opt = document.createElement("option");
+      opt.value = p.item_id || "";
+      opt.textContent = (p.item_name || p.item_id) + " — " + (p.item_id || "");
+      projectPick.appendChild(opt);
+    }
+  }
+
+  document.getElementById("loadRegistry").onclick = async function () {
+    setBusy(true);
+    setStatus("Loading areas, roles, and projects from /hlk/* …");
+    try {
+      const [areasData, rolesData, projData] = await Promise.all([
+        fetchJson("/hlk/areas"),
+        fetchJson("/hlk/roles"),
+        fetchJson("/hlk/processes"),
+      ]);
+      fillAreas(areasData);
+      const allRoles = rolesData.roles || [];
+      fillRolesFromList(allRoles, "");
+      filterArea.onchange = function () {
+        fillRolesFromList(allRoles, filterArea.value || "");
+      };
+      fillProjects(projData.processes || []);
+      setStatus("Pickers loaded from registry APIs.");
+    } catch (e) { setStatus(String(e)); }
+    setBusy(false);
+  };
+
+  projectPick.onchange = async function () {
+    childPick.innerHTML = "<option value=\"\">Loading…</option>";
+    selectedProcessId = "";
+    const pid = projectPick.value;
+    if (!pid) {
+      childPick.innerHTML = "<option value=\"\">Select a project first…</option>";
+      return;
+    }
+    try {
+      const data = await fetchJson("/hlk/processes/id/" + encodeURIComponent(pid) + "/tree");
+      const kids = data.processes || [];
+      childPick.innerHTML = "<option value=\"\">Whole project (root neighbourhood)</option>";
+      for (const c of kids) {
+        const opt = document.createElement("option");
+        opt.value = c.item_id || "";
+        opt.textContent = (c.item_name || c.item_id) + " — " + (c.item_id || "");
+        childPick.appendChild(opt);
+      }
+      setStatus(kids.length + " child rows under this project.");
+    } catch (e) {
+      childPick.innerHTML = "<option value=\"\">(no children or error)</option>";
+      setStatus(String(e));
+    }
+  };
+
+  childPick.onchange = function () { selectedProcessId = childPick.value || ""; };
+
+  document.getElementById("searchGo").onclick = async function () {
+    const q = searchQ.value.trim();
+    searchResults.innerHTML = "";
+    if (!q) { setStatus("Type a few letters to search."); return; }
+    setBusy(true);
+    setStatus("Searching registry…");
+    try {
+      const data = await fetchJson("/hlk/search?q=" + encodeURIComponent(q));
+      const procs = data.processes || [];
+      const roles = data.roles || [];
+      if (!procs.length && !roles.length) {
+        searchResults.hidden = true;
+        setStatus("No hits.");
+        setBusy(false);
+        return;
+      }
+      for (const p of procs.slice(0, 20)) {
+        const li = document.createElement("li");
+        li.innerHTML = "<span class=\"nm\">" + escapeHtml(p.item_name || "") + "</span><br><span class=\"id\">" + escapeHtml(p.item_id || "") + "</span>";
+        li.onclick = function () {
+          selectedProcessId = p.item_id || "";
+          projectPick.value = "";
+          childPick.innerHTML = "<option value=\"\">Picked from search</option>";
+          setStatus("Selected process " + (p.item_name || p.item_id) + " — click Draw process graph.");
+          searchResults.hidden = true;
+        };
+        searchResults.appendChild(li);
+      }
+      for (const r of roles.slice(0, 10)) {
+        const li = document.createElement("li");
+        li.innerHTML = "<span class=\"nm\">Role: " + escapeHtml(r.role_name || "") + "</span>";
+        li.onclick = function () {
+          rolePick.value = r.role_name || "";
+          setStatus("Selected role " + r.role_name + " — click Draw role graph.");
+          searchResults.hidden = true;
+        };
+        searchResults.appendChild(li);
+      }
+      searchResults.hidden = false;
+      setStatus("Pick a row to set role or process.");
+    } catch (e) {
+      searchResults.hidden = true;
+      setStatus(String(e));
+    }
+    setBusy(false);
+  };
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+  }
+
+  function depthLimitParams() {
+    return "depth=" + encodeURIComponent(depthShared.value) + "&limit=" + encodeURIComponent(limitShared.value);
+  }
+
+  function ensureGraphCanvas() {
+    graphPlaceholder.style.display = "none";
+    if (network) { network.destroy(); network = null; }
+    graphHost.innerHTML = "";
+  }
+
+  function groupColor(group) {
+    const g = String(group || "").toLowerCase();
+    if (g.indexOf("role") >= 0) return { background: "#6d28d9", border: "#a78bfa" };
+    if (g.indexOf("process") >= 0) return { background: "#0f766e", border: "#5eead4" };
+    return { background: "#475569", border: "#94a3b8" };
+  }
+
+  function renderGraph(data) {
+    if (typeof vis === "undefined" || !vis.Network) {
+      setStatus("vis-network did not load (CDN blocked?). Summary above still reflects CSV.");
+      graphPlaceholder.style.display = "flex";
+      graphPlaceholder.textContent = "Graph library blocked or failed to load. Allow jsDelivr or use REST/MCP / Streamlit explorer.";
+      return;
+    }
+    const nodes = [];
+    const edges = [];
+    const seen = new Set();
+    function addNode(id, label, group) {
+      if (seen.has(id)) return;
+      seen.add(id);
+      const col = groupColor(group);
+      nodes.push({
+        id: id,
+        label: label || id,
+        group: group || "default",
+        color: { background: col.background, border: col.border, highlight: { background: col.background, border: "#fff" } },
+      });
+    }
+    const rawNodes = Array.isArray(data.nodes) ? data.nodes : Object.values(data.nodes || {});
+    const rels = data.edges || [];
+    for (const n of rawNodes) {
+      const props = n.properties || n;
+      const id = n.element_id != null ? String(n.element_id) : String(props.item_id || props.name || n.id || "");
+      if (!id) continue;
+      const lbl = String(props.item_name || props.name || props.item_id || props.title || props.role_name || id);
+      const grp = (n.labels && n.labels[0]) || props.label || "default";
+      addNode(id, lbl, grp);
+    }
+    for (const e of rels) {
+      const s = e.from != null ? String(e.from) : (e.source || e.start);
+      const t = e.to != null ? String(e.to) : (e.target || e.end);
+      if (s && t) edges.push({ from: s, to: t, label: String(e.type || "") });
+    }
+    setStatus("Rendered " + nodes.length + " nodes, " + edges.length + " edges.");
+    const visData = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
+    const opts = {
+      physics: { enabled: true, stabilization: { iterations: 120, updateInterval: 25 } },
+      nodes: { shape: "dot", size: 16, font: { color: "hsl(210 15% 90%)", size: 13 } },
+      edges: { font: { align: "middle", color: "hsl(215 10% 55%)", size: 10 }, arrows: { to: { enabled: true, scaleFactor: 0.6 } }, smooth: { type: "dynamic" } },
+      interaction: { hover: true, tooltipDelay: 120 },
+    };
+    ensureGraphCanvas();
+    network = new vis.Network(graphHost, visData, opts);
+    network.once("stabilizationIterationsDone", function () { network.setOptions({ physics: false }); });
+  }
+
+  document.getElementById("loadRoleGraph").onclick = async function () {
+    const roleName = (rolePick.value || "").trim();
+    if (!roleName) { setStatus("Pick a role or load pickers first."); return; }
+    setBusy(true);
+    setStatus("Loading role neighbourhood…");
+    try {
+      const r = await fetch("/hlk/graph/role/" + encodeURIComponent(roleName) + "/neighbourhood?" + depthLimitParams(), { headers: authHeaders() });
+      const data = await r.json();
+      if (!r.ok) { setStatus("HTTP " + r.status + ": " + (data.detail || JSON.stringify(data)).slice(0, 280)); setBusy(false); return; }
+      renderGraph(data);
+    } catch (e) { setStatus(String(e)); }
+    setBusy(false);
+  };
+
+  document.getElementById("loadProcessGraph").onclick = async function () {
+    let itemId = (selectedProcessId || childPick.value || projectPick.value || "").trim();
+    if (!itemId) { setStatus("Pick a project, a child row, or a search result."); return; }
+    setBusy(true);
+    setStatus("Loading process neighbourhood…");
+    try {
+      const r = await fetch("/hlk/graph/process/" + encodeURIComponent(itemId) + "/neighbourhood?" + depthLimitParams(), { headers: authHeaders() });
+      const data = await r.json();
+      if (!r.ok) { setStatus("HTTP " + r.status + ": " + (data.detail || JSON.stringify(data)).slice(0, 280)); setBusy(false); return; }
+      renderGraph(data);
+    } catch (e) { setStatus(String(e)); }
+    setBusy(false);
+  };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("loadRegistry").click();
+  });
+})();
+  </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>HLK vis-network</title>
+  <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <style>
+    html, body { height: 100%; margin: 0; background: #0b0f14; }
+    #net { width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+<div id="net"></div>
+<script>
+(function () {
+  var RENDER = "streamlit:render";
+  var lastFrameHeight = -1;
+  var network = null;
+  var nodesDS = null;
+  var edgesDS = null;
+  var parentMap = {};
+  var pinned = new Set();
+  var dragStartPos = null;
+
+  function sendBack(type, data) {
+    window.parent.postMessage(Object.assign({ isStreamlitMessage: true, type: type }, data), "*");
+  }
+
+  function setComponentReady() {
+    sendBack("streamlit:componentReady", { apiVersion: 1 });
+  }
+
+  function setFrameHeight(h) {
+    if (h === undefined) h = document.body.scrollHeight;
+    if (h === lastFrameHeight) return;
+    lastFrameHeight = h;
+    sendBack("streamlit:setFrameHeight", { height: h });
+  }
+
+  function setComponentValue(payload) {
+    sendBack("streamlit:setComponentValue", { value: payload, dataType: "json" });
+  }
+
+  function dist(a, b) {
+    if (!a || !b) return Infinity;
+    var dx = a.x - b.x, dy = a.y - b.y;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  function onMessage(ev) {
+    var d = ev.data;
+    if (!d || d.type !== RENDER) return;
+    var args = d.args || {};
+    var g = args.graph;
+    if (!g) return;
+    parentMap = g.parentMap || {};
+    pinned = new Set((g.pinnedIds || []).map(String));
+    var nodes = g.nodes || [];
+    var edges = g.edges || [];
+    var options = g.options || {};
+    var posIn = g.positions || {};
+    nodes = nodes.map(function (n) {
+      var o = Object.assign({}, n);
+      var pid = String(o.id);
+      if (posIn[pid]) {
+        o.x = posIn[pid].x;
+        o.y = posIn[pid].y;
+      }
+      if (pinned.has(pid)) {
+        o.fixed = { x: true, y: true };
+      }
+      return o;
+    });
+    if (!nodesDS) {
+      nodesDS = new vis.DataSet(nodes);
+      edgesDS = new vis.DataSet(edges);
+      var container = document.getElementById("net");
+      network = new vis.Network(container, { nodes: nodesDS, edges: edgesDS }, options);
+      network.on("selectNode", function (p) {
+        if (!p.nodes || !p.nodes.length) return;
+        emitState(String(p.nodes[0]));
+      });
+      network.on("dragStart", function (p) {
+        if (p.nodes && p.nodes.length) {
+          dragStartPos = network.getPositions([String(p.nodes[0])])[String(p.nodes[0])];
+        } else {
+          dragStartPos = null;
+        }
+      });
+      network.on("dragEnd", function (p) {
+        if (!p.nodes || !p.nodes.length) return;
+        var nid = String(p.nodes[0]);
+        var par = parentMap[nid];
+        var posN = network.getPositions([nid])[nid];
+        var posP = par ? network.getPositions([String(par)])[String(par)] : null;
+        var moved = dist(dragStartPos, posN);
+        var threshold = 140;
+        if (par && posP) {
+          var dNow = dist(posN, posP);
+          if (dNow > threshold && moved > 8) {
+            pinned.add(nid);
+            nodesDS.update({ id: nid, fixed: { x: true, y: true } });
+          } else if (dNow < threshold * 0.55 && moved > 4) {
+            pinned.delete(nid);
+            nodesDS.update({ id: nid, fixed: false });
+          }
+        }
+        emitState(nid);
+      });
+    } else {
+      nodesDS.clear();
+      edgesDS.clear();
+      nodesDS.add(nodes);
+      edgesDS.add(edges);
+      network.setOptions(options);
+    }
+    setFrameHeight();
+  }
+
+  function emitState(selectedId) {
+    var ids = nodesDS.getIds();
+    var pos = network.getPositions(ids);
+    var outPos = {};
+    for (var k in pos) {
+      if (!Object.prototype.hasOwnProperty.call(pos, k)) continue;
+      outPos[k] = { x: pos[k].x, y: pos[k].y };
+    }
+    setComponentValue({
+      selectedId: selectedId || null,
+      pinnedIds: Array.from(pinned),
+      positions: outPos
+    });
+  }
+
+  window.addEventListener("message", onMessage);
+  setComponentReady();
+  setFrameHeight();
+})();
+</script>
+</body>
+</html>
