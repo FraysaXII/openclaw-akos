@@ -1,0 +1,16 @@
+# Optional Neo4j mirror integration — stub for operator/fork enablement (keeps default PR CI unchanged).
+# To activate: add a Neo4j service container, `NEO4J_*` secrets, remove the echo-only step, and run `scripts/sync_hlk_neo4j.py`.
+name: neo4j-graph-integration
+
+on:
+  workflow_dispatch:
+
+jobs:
+  stub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder
+        run: |
+          echo "Neo4j integration workflow stub. See docs/wip/planning/07-hlk-neo4j-graph-projection/master-roadmap.md Phase E."
+          echo "Fork operators: add Neo4j service, env secrets, then py scripts/sync_hlk_neo4j.py in CI."
