@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Planning** — Initiative **10** (Madeira eval hardening) marked **complete** in `docs/wip/planning/10-madeira-eval-hardening/` with [`reports/phase-completion-report.md`](docs/wip/planning/10-madeira-eval-hardening/reports/phase-completion-report.md); planning index row **10** updated.
+
 ### Fixed
 
 - **`scripts/adhoc/_apply_branding.py`** — Stops writing `gateway.controlUi` (OpenClaw 2026.4.x rejects unknown nested keys and can block gateway startup).

@@ -1,6 +1,6 @@
 # Initiative 10 — Madeira Path B+C, SOTA quality, eval harness
 
-**Status:** execution in progress.  
+**Status:** **complete** (2026-04-15). Closure notes: [`reports/phase-completion-report.md`](reports/phase-completion-report.md).  
 **Canonical plan source (read-only reference):** Cursor plan `madeira_b+c_and_sota_eval` (do not treat this folder as replacing that file).
 
 ## Asset classification (HLK)
@@ -38,7 +38,7 @@ Contracted retrieval first (`hlk_*` ladder, optional `hlk_graph_*`), then archit
 
 ### C — Eval SOTA upgrades
 
-Suite `manifest.json` (version, dimension coverage), exclusion policy, optional `--trials`, Tier A (pytest + dry-run) vs Tier B (Playwright) CI split. See `tests/evals/README.md`.
+Suite `manifest.json` (version, dimension coverage), exclusion policy, optional `--trials`, Tier A (pytest + dry-run) vs Tier B (Playwright) CI split. See `tests/evals/README.md`. **Shipped:** manifest + tasks layout, `run-evals.py --trials`, Tier A wired via pytest + optional release-gate rubric slice; Tier B remains documented operator scope.
 
 ### D — External lane reference (α–η)
 
