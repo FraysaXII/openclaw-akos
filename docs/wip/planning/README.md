@@ -1,6 +1,6 @@
 # Planning initiatives (`docs/wip/planning/`)
 
-Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` … `07-`, plus `99-proposals/`) so sort order and “what came before” are obvious in the filesystem. The table below matches that layout. **Ad-hoc** `.plan.md` files live in `99-proposals/`.
+Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` … `08-`, plus `99-proposals/`) so sort order and “what came before” are obvious in the filesystem. The table below matches that layout. **Ad-hoc** `.plan.md` files live in `99-proposals/`.
 
 | Seq | Folder | Role |
 |:---:|:-------|:-----|
@@ -11,6 +11,7 @@ Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` 
 | **05** | [`hlk-vault-envoy-repos/`](05-hlk-vault-envoy-repos/) | Envoy Tech Lab repository registry alignment with the vault (`phase-1-plan`, reports). |
 | **06** | [`planning-backlog-registry/`](06-planning-backlog-registry/) | Cross-initiative backlog SSOT + agent-proxy UAT evidence pointers — [`master-roadmap.md`](06-planning-backlog-registry/master-roadmap.md), [`reports/`](06-planning-backlog-registry/reports/). |
 | **07** | [`hlk-neo4j-graph-projection/`](07-hlk-neo4j-graph-projection/) | Optional Neo4j mirror of HLK CSVs + v3.0 link hygiene + graph MCP/API/Streamlit explorer — [`master-roadmap.md`](07-hlk-neo4j-graph-projection/master-roadmap.md), [`reports/`](07-hlk-neo4j-graph-projection/reports/). |
+| **08** | [`python-runtime-deployment/`](08-python-runtime-deployment/) | **Infra harmonization:** Python pins, pip profiles (gpu / openstack), operator + test journey, `serve-api` graph supervisor (auto Streamlit + mirror sync), CI/DX — [`master-roadmap.md`](08-python-runtime-deployment/master-roadmap.md), [`reports/`](08-python-runtime-deployment/reports/). |
 | **—** | [`99-proposals/`](99-proposals/) | Ad-hoc `.plan.md` comparisons and tooling experiments; **not** part of the numbered program line. |
 
 ## Rules
