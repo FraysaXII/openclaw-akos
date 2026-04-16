@@ -12,6 +12,7 @@ Usage:
     py scripts/test.py scaffolding  # file tree integrity + secrets scan
     py scripts/test.py e2e          # full system wiring
     py scripts/test.py uat          # start live API server for Swagger testing
+    py scripts/test.py graph        # HLK graph lane (pytest -m graph)
     py scripts/test.py --list       # show all available groups
 """
 
