@@ -131,6 +131,17 @@ python scripts/bootstrap.py
 | `--embed-model MODEL` | Override embedding model (default: `nomic-embed-text`) |
 | `--json-log` | Structured JSON log output |
 
+### 3.3.1 Agent workspaces, SOUL.md, and OpenClaw "Bootstrap file"
+
+OpenClaw `openclaw status --all` lists a **Bootstrap file** column per agent. AKOS satisfies this by deploying **`SOUL.md`** at the root of each agent workspace (`~/.openclaw/workspace-madeira`, `workspace-orchestrator`, `workspace-architect`, `workspace-executor`, `workspace-verifier`).
+
+**Deterministic path (all five agents):**
+
+1. `py scripts/assemble-prompts.py` — writes `prompts/assembled/*_PROMPT.{compact|standard|full}.md`.
+2. `py scripts/bootstrap.py` — Phase 4 calls `deploy_soul_prompts()` (see `akos/io.py`), which copies the correct variant into each workspace as **`SOUL.md`**.
+
+`py scripts/switch-model.py <profile>` also refreshes `SOUL.md` after merges. If any agent still shows **ABSENT**, re-run the steps above (do not rely on manual copy unless you accept drift from SSOT).
+
 ### 3.4 Manual Setup
 
 If you prefer manual setup:
@@ -1246,9 +1257,44 @@ openclaw security audit
 
 Use `openclaw security audit --deep` when diagnosing suspected over-exposure or incident-style review. Optional `--fix` applies safe remediations when the CLI offers them. Treat this as part of operator hygiene alongside tightening tool blast radius before widening network access.
 
+**Interpreting common findings (AKOS dev-local / native Windows):**
+
+| OpenClaw signal | Typical meaning | AKOS response options |
+|:----------------|:----------------|:------------------------|
+| **CRITICAL** — small models with ambient web tools and sandboxing off | OpenClaw may still flag conservative risk if local models are tiny and many tools are enabled. | AKOS SSOT now uses **Path B** (`agents.defaults.sandbox.mode: strict`, `tools.exec.host: sandbox`) and **Path C** (no `web_search` / `web_fetch` on Orchestrator/Architect; Architect keeps sandboxed `browser`). Prefer **medium+ tiers** for tool-heavy Madeira; see §14.3a–b. |
+| **WARN** — `tools.exec.host` sandbox vs `sandbox.mode` off | Mismatch between exec plane and session sandbox flags. | With AKOS template, both should align (**`strict`** + **`sandbox`**). If your OS cannot host sandboxed exec, use **WSL2** or **Docker Desktop 4.58+** sandboxes per §14.3b, then re-run `openclaw security audit`. |
+| **WARN** — `gateway.trustedProxies` empty | Expected when `gateway` bind is **loopback-only** and Control UI is not behind a reverse proxy. | No action until you terminate TLS or expose the dashboard through a proxy; then set trusted proxy CIDRs per OpenClaw docs. |
+| **WARN** — `gateway.nodes.denyCommands` ineffective entries | OpenClaw matches **exact command IDs**, not free-text shell fragments. | Replace entries with exact IDs from the audit message (for example `canvas.present`, `canvas.eval`, …) or remove stale rows. |
+
+**Commands (stack vs gateway-only):**
+
+- `openclaw gateway status` / `openclaw gateway status --deep` — service + **RPC** probe to `ws://127.0.0.1:18789`.
+- `openclaw status` / `openclaw status --all` / `openclaw status --deep` — broader local diagnosis (agents, providers, pasteable report). Prefer `--all` when sharing output (tokens redacted).
+
 **Madeira note:** The gateway `deny` list and minimal profile are the backstop against prompt injection expanding effective permissions. Prefer instruction-hardened **medium-tier or larger** models for tool-heavy Madeira sessions; very small local models carry higher injection risk when many tools are enabled.
 
+### 14.3a Research without `web_search` / `web_fetch` (Path C)
+
+Orchestrator and Architect no longer expose `web_search` / `web_fetch`. Use this **decision tree**:
+
+1. **Org / registry facts** — `hlk_role`, `hlk_search`, and related `hlk_*` tools (same ladder as Madeira).
+2. **Structured relationships** — When Neo4j is configured, `hlk_graph_*` tools; if graph is off, say so and stay on CSV-backed tools.
+3. **Public documentation** — Architect may use the coarse **`browser`** tool (SSRF policy in `openclaw.json.example`) for vendor or standards pages—not for inventing Holistika org truth.
+4. **Side effects / unclear routing** — Escalate to Orchestrator → Executor per delegation prompts.
+
+If MCP is degraded or unreachable, answer with explicit **D3** uncertainty—do **not** fill gaps from unconstrained web guesses.
+
+### 14.3b Strict sandbox on Windows (Path B + Docker / WSL2)
+
+Native Windows may not provide the isolation OpenClaw expects for **`sandbox.mode: strict`** and **`tools.exec.host: sandbox`**. Mitigations (pick one or combine):
+
+1. **Docker Desktop 4.58+** — Enable features required for [Docker Desktop sandboxes](https://docs.docker.com/ai/sandboxes/docker-desktop/) (microVM + isolated daemon + workspace sync). Use host **File Sharing** so `~/.openclaw` and your repo root are visible to the VM. Optional: `docker sandbox network proxy` / `docker sandbox network log` for egress visibility.
+2. **WSL2 (Ubuntu recommended)** — Run Ollama + OpenClaw gateway inside Linux; browse WebChat from Windows to `127.0.0.1:18789`.
+3. **Doctor hints** — `py scripts/doctor.py` prints **WARN** (non-fatal) lines about Docker CLI / WSL presence on Windows to remind operators of the above.
+
 When `scripts/log-watcher.py` fires Madeira grounding alerts (internal tool leakage, pseudo HLK paths, or UUID-shaped answers without `hlk_*` tool use), treat it like a narrow incident: pause or tighten tools if needed, review recent sessions, rotate secrets if compromise is suspected, then re-run the audit above.
+
+**OpenClaw CLI upgrade:** After `openclaw update`, restart the gateway and run `openclaw status --all`, `py scripts/doctor.py`, and AKOS gates (`verify_openclaw_inventory`, `check-drift`, `release-gate` or full matrix in `docs/DEVELOPER_CHECKLIST.md`). See [CONTRIBUTING.md](../CONTRIBUTING.md) — OpenClaw CLI upgrades.
 
 ### 14.4 Reporting Vulnerabilities
 
@@ -1434,6 +1480,17 @@ py scripts/doctor.py --repair-gateway
 This runs the same sequence as `scripts/switch-model.py` after a profile switch: upstream OpenClaw doctor repair, gateway stop, Windows-only release of stale listeners on port 18789, then gateway start. Use `py scripts/doctor.py --force-gateway-repair` if the upstream doctor supports a more aggressive repair flag.
 
 If the dashboard still does not answer, confirm the OpenClaw CLI is on PATH as `openclaw`, `openclaw.cmd`, or `openclaw.exe` (npm shims on Windows). If `openclaw gateway install --force` fails with access denied, re-run the installer command from an elevated PowerShell so the Scheduled Task can be updated.
+
+### `py scripts/doctor.py --repair-gateway` still fails (RPC / WebSocket 1006)
+
+**Cause:** OpenClaw’s gateway can exit its RPC/WebSocket plane while HTTP is still inconsistent. A frequent upstream correlate is **model pricing bootstrap** hitting the network and **timing out**, after which `openclaw gateway call health` may report **WebSocket 1006** (abnormal closure).
+
+**What AKOS does:** `akos.runtime.recover_gateway_service()` waits briefly after `gateway start` (cold-start window), polls longer than before, and on failure builds **operator hints** from `openclaw gateway status` (including the **File log(s):** path), the last **RPC health** capture, and **keyword-filtered** lines from the tail of that log (no full log dump).
+
+**Fix / verification path:**
+1. Run `openclaw gateway status` and open the log path it prints.
+2. If you see pricing/bootstrap **TimeoutError**, treat it as an **upstream network / OpenClaw** issue: ensure HTTPS egress from the machine, retry on a stable network, and check the OpenClaw version’s docs or issue tracker for disabling or caching model pricing if your environment is offline or filtered.
+3. Re-run `py scripts/doctor.py --repair-gateway` after the gateway process stays up without new ERROR lines on startup.
 
 ### Agent is silent or freezes
 

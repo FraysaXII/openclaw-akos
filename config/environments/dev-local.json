@@ -5,7 +5,7 @@
         "primary": "ollama/deepseek-r1:14b",
         "fallbacks": ["ollama/qwen3:8b"]
       },
-      "thinkingDefault": "low",
+      "thinkingDefault": "medium",
       "verboseDefault": "on"
     }
   }

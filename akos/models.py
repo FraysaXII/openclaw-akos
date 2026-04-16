@@ -101,12 +101,20 @@ class ModelRef(BaseModel):
     fallbacks: list[str] = Field(default_factory=list)
 
 
+class SandboxDefaults(BaseModel):
+    """OpenClaw session sandbox policy (Path B SSOT in ``openclaw.json.example``)."""
+
+    model_config = ConfigDict(extra="forbid")
+    mode: Literal["off", "strict"] = "strict"
+
+
 class AgentsDefaults(BaseModel):
     model: ModelRef
     thinkingDefault: ThinkingLevel = "off"
     verboseDefault: VerboseLevel = "on"
     workspace: str | None = None
     memorySearch: dict | None = None
+    sandbox: SandboxDefaults | None = None
 
 
 class AgentBlock(BaseModel):
@@ -123,7 +131,8 @@ class ControlUiConfig(BaseModel):
 class GatewayConfig(BaseModel):
     host: str = "127.0.0.1"
     port: int = 18789
-    controlUi: ControlUiConfig = Field(default_factory=ControlUiConfig)
+    # Omit from live JSON when unsupported by the installed OpenClaw CLI (e.g. 2026.4.x rejected controlUi.title).
+    controlUi: ControlUiConfig | None = None
 
 
 # ── Gateway runtime wiring (v0.5.0) ───────────────────────────────────
@@ -141,7 +150,8 @@ class ExecConfig(BaseModel):
 
     security: Literal["deny", "allowlist", "full"] = "allowlist"
     ask: str = "on-miss"
-    host: str = "sandbox"
+    # Path B SSOT: exec routed to sandbox when ``agents.defaults.sandbox.mode`` is strict (see USER_GUIDE / initiative 10).
+    host: Literal["gateway", "sandbox", "node"] = "sandbox"
 
 
 class LoopDetectionConfig(BaseModel):
@@ -549,6 +559,9 @@ class ProcessItem(BaseModel):
 
 
 LangfuseHlkSurface = Literal["gateway_chat", "mcp", "rest_api", "log_watcher", "none"]
+
+# Which retrieval / research surface satisfied the turn (Path C observability; categorical only).
+LangfuseResearchSurface = Literal["hlk_registry", "hlk_graph", "browser", "escalation", "none"]
 LangfuseComplianceFamily = Literal["hlk_csv", "vault_doc", "none"]
 
 
@@ -568,7 +581,13 @@ class LangfuseTraceContext(BaseModel):
     )
     hlk_surface: LangfuseHlkSurface = "none"
     hlk_tool: str | None = Field(default=None, max_length=64)
+    research_surface: LangfuseResearchSurface = "none"
     compliance_family: LangfuseComplianceFamily = "none"
+    eval_suite: str | None = Field(default=None, max_length=64)
+    eval_task_id: str | None = Field(default=None, max_length=64)
+    eval_mode: str | None = Field(default=None, max_length=32)
+    eval_pass_fail: str | None = Field(default=None, max_length=16)
+    eval_trials: str | None = Field(default=None, max_length=8)
 
     @field_validator("eu_aia_req")
     @classmethod
@@ -596,8 +615,20 @@ class LangfuseTraceContext(BaseModel):
             out["hlk_surface"] = self.hlk_surface
         if self.hlk_tool:
             out["hlk_tool"] = self.hlk_tool
+        if self.research_surface != "none":
+            out["research_surface"] = self.research_surface
         if self.compliance_family != "none":
             out["compliance_family"] = self.compliance_family
+        if self.eval_suite:
+            out["eval_suite"] = self.eval_suite
+        if self.eval_task_id:
+            out["eval_task_id"] = self.eval_task_id
+        if self.eval_mode:
+            out["eval_mode"] = self.eval_mode
+        if self.eval_pass_fail:
+            out["eval_pass_fail"] = self.eval_pass_fail
+        if self.eval_trials:
+            out["eval_trials"] = self.eval_trials
         return out
 
 

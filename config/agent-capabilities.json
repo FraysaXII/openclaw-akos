@@ -2,13 +2,13 @@
   "description": "Role capability matrix -- SSOT for per-agent tool access. Used by akos/policy.py to generate tool profiles.",
   "roles": {
     "orchestrator": {
-      "description": "Coordinator -- delegates tasks, tracks progress. Cannot mutate state directly.",
+      "description": "Coordinator -- delegates tasks, tracks progress. Cannot mutate state directly. Open web tools removed from gateway SSOT; use HLK MCP and escalation.",
       "allowed_categories": ["read", "memory_read", "memory_write", "search"],
       "allowed_tools": [
-        "read_file", "list_directory", "web_search", "sequential_thinking",
+        "read_file", "list_directory", "sequential_thinking",
         "git_status", "git_diff", "git_log",
         "memory_retrieve", "memory_list", "memory_store",
-        "fetch_get", "filesystem_read", "filesystem_list",
+        "filesystem_read", "filesystem_list",
         "finance_quote", "finance_search", "finance_sentiment",
         "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process",
         "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search",
@@ -23,14 +23,15 @@
       ]
     },
     "architect": {
-      "description": "Read-only planner -- analyzes, reasons, produces plans. Cannot execute.",
+      "description": "Read-only planner -- analyzes, reasons, produces plans. Cannot execute. Research uses HLK MCP, optional graph tools, and sandboxed browser (no web_search/web_fetch).",
       "allowed_categories": ["read", "memory_read", "search"],
       "allowed_tools": [
-        "read_file", "list_directory", "web_search", "sequential_thinking",
+        "read_file", "list_directory", "sequential_thinking",
+        "browser",
         "browser_snapshot", "browser_screenshot",
         "git_status", "git_diff", "git_log",
         "memory_retrieve", "memory_list",
-        "fetch_get", "filesystem_read", "filesystem_list",
+        "filesystem_read", "filesystem_list",
         "finance_quote", "finance_search", "finance_sentiment",
         "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process",
         "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search",

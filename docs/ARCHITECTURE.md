@@ -248,6 +248,10 @@ Langfuse credentials (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HO
 - `vllm-runpod` -- vLLM endpoint on RunPod (URL from env)
 - `vllm-shadow` -- vLLM endpoint on ShadowPC OpenStack (URL from env)
 
+**Gateway JSON notes (OpenClaw 2026.4.x):** The template keeps **`gateway.host`** / **`gateway.port`** only. Optional `gateway.controlUi` keys (for example a custom `title`) are **omitted** from `openclaw.json.example` because current OpenClaw builds may reject unknown nested fields and fail gateway startup. Branding belongs in operator docs or supported schema keys only after verifying the target CLI version.
+
+**`tools.exec`:** SSOT sets **`host` to `sandbox`** with **`security: "allowlist"`** alongside **`agents.defaults.sandbox.mode: strict`** (Path B). Operators on **native Windows** without a working sandbox backend should follow **USER_GUIDE §14.3b** (Docker Desktop sandboxes and/or WSL2) so audit signals stay actionable.
+
 ### Environment Profiles
 
 Each deployment target has a committed runtime profile in `config/environments/` plus an optional reference template:
@@ -453,6 +457,8 @@ Environment tags (e.g. `gpu-runpod`, `gpu-runpod-pod`, `dev-local`) enable per-e
 
 Optional dimensions are validated in `akos.models.LangfuseTraceContext` and merged into every `LangfuseReporter.trace_*` path after base fields (`environment`, `agent_role`, `tool_name`, metric fields, and so on). Metadata keys are normalized to lowercase alphanumeric plus underscore (max 64 characters); values are coerced to strings (max 200 characters). **Do not place in Langfuse metadata:** secrets, API keys, prompts, full gateway transcripts, CSV row payloads, or other high-sensitivity payloads.
 
+**Path C / eval extensions:** `research_surface` is a short categorical (`hlk_registry`, `hlk_graph`, `browser`, `escalation`, `none`). Offline eval runs may set `eval_suite`, `eval_task_id`, `eval_mode`, `eval_pass_fail`, and `eval_trials` via the same model—see `LangfuseReporter.trace_eval_outcome()` and `tests/evals/README.md`.
+
 | Key | Meaning | Example values |
 |:----|:--------|:---------------|
 | `eu_aia_req` | Pointer to EU AI Act checklist requirement id | `EU-AIA-1` |
@@ -584,7 +590,8 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/log.py` | `JSONFormatter` + `HumanFormatter`; `setup_logging(json_output)` configures the root logger |
 | `akos/process.py` | `CommandResult` dataclass + `run()` wrapper with timeouts and structured error capture |
 | `akos/state.py` | `AkosState` Pydantic model tracking the active environment/model; `load_state`, `save_state`, `record_switch` |
-| `akos/telemetry.py` | `LangfuseReporter` wrapping the Langfuse SDK; `trace_metric()` for DX metrics; graceful no-op when credentials are absent |
+| `akos/telemetry.py` | `LangfuseReporter` wrapping the Langfuse SDK; `trace_metric()` for DX metrics; `trace_eval_outcome()` for suite runs; graceful no-op when credentials are absent |
+| `akos/eval_harness.py` | Suite manifest loading + rubric scoring shared by `scripts/run-evals.py` and pytest |
 | `akos/alerts.py` | `AlertEvaluator` -- checks real-time log entries against `alerts.json` and periodic metrics against `baselines.json` |
 | `akos/runpod_provider.py` | RunPod SDK wrapper: endpoint lifecycle, health checks, scaling, inference, GPU discovery (v0.3.0) |
 | `akos/openstack_provider.py` | ShadowPC OpenStack SDK wrapper: Keystone auth, Nova instance lifecycle, Neutron security groups, floating IPs, spot termination detection, vLLM cloud-init deployment |

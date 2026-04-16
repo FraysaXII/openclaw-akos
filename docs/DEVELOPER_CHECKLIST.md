@@ -14,7 +14,8 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | 3a | `py scripts/test.py graph` | HLK graph lane (`pytest -m graph`); use with Bolt env + `pytest -m "graph and neo4j"` when changing Neo4j wiring |
 | 4 | `py scripts/browser-smoke.py --playwright` | Browser smoke; on Windows crash-prone hosts this may return SKIP instead of FAIL. If **`release-gate`** fails only on this step with **exit 1**, read scenario details: architect/executor checks use **control plane** `GET /agents` (not OpenClaw gateway DOM). Exit **2** in `release-gate` is treated as a soft pass (worker/browser unavailable). |
 | 5 | `py -m pytest tests/test_api.py -v` | FastAPI control plane smoke |
-| 6 | `py scripts/release-gate.py` | Unified gate must report PASS (includes HLK vault validation) |
+| 6 | `py scripts/release-gate.py` | Unified gate must report PASS (includes HLK vault validation). Optional: `AKOS_EVAL_RUBRIC=1` adds offline `run-evals.py` rubric slice. |
+| 6a | `py scripts/run-evals.py run --suite pathc-research-spine --mode rubric` | When changing eval suites or `akos/eval_harness.py` |
 | 7 | `py scripts/validate_hlk.py` | HLK canonical vault integrity (also run by release gate) |
 | 7a | `py scripts/validate_hlk_vault_links.py` | Internal v3.0 markdown link integrity (also run by release gate) |
 | 7b | `py scripts/merge_gtm_into_process_list.py` | Optional: merge GTM candidate CSV into `process_list.csv` after operator approval (`--write` applies) |

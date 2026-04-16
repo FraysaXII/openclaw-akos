@@ -58,6 +58,18 @@ Changes to the Standard Operating Procedure (`docs/SOP.md`) require:
 - Verification that step-by-step procedures are accurate and reproducible
 - Security impact assessment if the change touches sandboxing, networking, or credential management
 
+## OpenClaw CLI upgrades (operator maintenance)
+
+The OpenClaw npm package updates independently of this repo. When an upgrade is available (`openclaw status` shows a newer channel build):
+
+1. Pick a maintenance window and run **`openclaw update`** (or the documented package manager equivalent).
+2. **`openclaw gateway restart`** (or `openclaw gateway stop` / `start` on Windows Scheduled Task installs).
+3. **`openclaw status --all`** — confirm gateway reachability and agent rows; prefer this over pasting secrets to chat.
+4. **`py scripts/doctor.py`** — AKOS runtime and schema signals.
+5. **AKOS gates:** at minimum `py scripts/legacy/verify_openclaw_inventory.py`, `py scripts/check-drift.py`, and `py scripts/release-gate.py`; full matrix in [docs/DEVELOPER_CHECKLIST.md](docs/DEVELOPER_CHECKLIST.md).
+
+Upstream JSON schema may reject keys present in older templates; if `openclaw doctor` or gateway logs report **Unrecognized key**, align `config/openclaw.json.example` with the installed CLI and re-run **`py scripts/bootstrap.py`** (or `switch-model.py`) so `~/.openclaw/openclaw.json` merges the corrected shape.
+
 ## Python Code Standards
 
 The `akos/` orchestration library and all scripts under `scripts/` follow these conventions:
@@ -127,9 +139,11 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
   - `py scripts/release-gate.py`
 - HLK KM visual manifests: when editing `docs/references/hlk/v3.0/_assets/**/*.manifest.md`, run `py scripts/validate_hlk_km_manifests.py`.
 - Browser smoke tests: `py scripts/browser-smoke.py` (HTTP-only) or `py scripts/browser-smoke.py --playwright` (DOM mode; requires `pip install playwright && playwright install chromium`). On Windows crash-prone hosts, Playwright worker crashes are surfaced as `SKIP` outcomes. **`release-gate.py` browser-smoke exit 1** with failures in `architect_tools_ui` / `executor_approval_hint` usually means **control plane `/agents` or Playwright env drift**, not a regression in the graph stack—Phase 2 asserts against the same **FastAPI** `/agents` SSOT as `agent_visibility` (not OpenClaw gateway card copy). Exit **2** (no parseable JSON from workers) is treated as a soft pass in `release-gate.py`.
-- Agent evals: `py scripts/run-evals.py --dry-run` (5 canonical tasks)
+- Agent evals: `py scripts/run-evals.py list` and `py scripts/run-evals.py run --suite pathc-research-spine --mode rubric` (suite manifests under `tests/evals/suites/<id>/`; legacy `tests/evals/tasks.json` remains for optional smoke).
+- Optional release gate slice: set `AKOS_EVAL_RUBRIC=1` when running `py scripts/release-gate.py` to include the offline rubric pass.
+- **Path B on Windows:** Install **Docker Desktop 4.58+** (sandboxes) and/or **WSL2** for a Linux gateway; ensure Docker **File Sharing** includes `~/.openclaw` and your repo root. `py scripts/doctor.py` emits non-fatal Docker/WSL hints on Windows.
 - Checkpoint management: `py scripts/checkpoint.py create|list|restore`
-- New eval tasks go in `tests/evals/tasks.json` following the existing schema.
+- New eval suites: add `manifest.json` + `tasks.json` under `tests/evals/suites/<suite_id>/` per `tests/evals/README.md`.
 - New session templates go in `config/templates/` as markdown files.
 - New memory domain templates go in `config/memory-templates/`.
 - New governance policy packs go in `config/policies/`.

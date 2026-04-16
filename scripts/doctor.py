@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import platform
 import socket
 import sys
 import urllib.error
@@ -444,6 +445,35 @@ def check_langfuse_readiness() -> list[tuple[str, str]]:
     return results
 
 
+def check_windows_docker_hints() -> list[tuple[str, str]]:
+    """Non-fatal hints for Path B on Windows (Docker Desktop / WSL2)."""
+    if platform.system().lower() != "windows":
+        return []
+
+    out: list[tuple[str, str]] = []
+    dv = proc.run(["docker", "--version"], timeout=10, capture=True, check=False)
+    if dv.success and dv.stdout.strip():
+        line = dv.stdout.strip().splitlines()[0]
+        out.append(("WARN", f"Windows: Docker CLI present ({line[:120]})"))
+    else:
+        out.append((
+            "WARN",
+            "Windows: Docker CLI not found. For strict sandbox + exec per SSOT, install Docker Desktop 4.58+ "
+            "and/or use WSL2 for the gateway (see USER_GUIDE strict sandbox on Windows).",
+        ))
+
+    wsl = proc.run(["wsl", "--status"], timeout=12, capture=True, check=False)
+    if wsl.success:
+        out.append(("WARN", "Windows: WSL reported healthy (optional Linux gateway path)"))
+    else:
+        out.append((
+            "WARN",
+            "Windows: WSL not detected or not healthy. Consider `wsl --install` for a Linux OpenClaw gateway.",
+        ))
+
+    return out
+
+
 def check_permissions() -> tuple[str, str]:
     """Check that permissions.json exists and is structurally valid."""
     perm_path = REPO_ROOT / "config" / "permissions.json"
@@ -567,6 +597,7 @@ def run_doctor() -> list[tuple[str, str]]:
     results.extend(check_runpod_readiness())
     results.extend(check_langfuse_readiness())
     results.append(check_permissions())
+    results.extend(check_windows_docker_hints())
 
     return results
 
@@ -587,6 +618,11 @@ def _print_gateway_recovery_failed_hints(recovery: GatewayRecoveryResult) -> Non
     print("    - Re-onboard if install is broken: openclaw onboard --install-daemon")
     print("  See docs/USER_GUIDE.md (OpenClaw gateway / port 18789) and docs/uat/rollback_guide.md if needed.")
     print()
+    if recovery.recovery_hints:
+        print("  AKOS gateway recovery hints (from status + RPC + optional log tail):")
+        for line in recovery.recovery_hints.splitlines():
+            print(f"    {line}")
+        print()
 
 
 def main() -> None:

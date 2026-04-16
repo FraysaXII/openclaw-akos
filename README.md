@@ -74,7 +74,7 @@ Requires Python **3.10+** (`pyproject.toml`), Node.js >= 22, and Ollama running.
 python scripts/bootstrap.py
 ```
 
-The script detects your OS, checks prerequisites, pulls Ollama models, patches `openclaw.json`, sets up MCP servers, and assembles tiered prompts. Use `--skip-ollama` or `--skip-mcp` to skip phases. If you copied `mcporter.json.example` manually, run `py scripts/resolve-mcporter-paths.py` to resolve placeholder paths.
+The script detects your OS, checks prerequisites, pulls Ollama models, patches `openclaw.json`, sets up MCP servers, and assembles tiered prompts. Use `--skip-ollama` or `--skip-mcp` to skip phases. If you copied `mcporter.json.example` manually, run `py scripts/resolve-mcporter-paths.py` to resolve placeholder paths. After upgrading the global **`openclaw`** CLI, follow [CONTRIBUTING.md](CONTRIBUTING.md) (OpenClaw CLI upgrades) and `docs/DEVELOPER_CHECKLIST.md` gates so template and runtime stay aligned.
 
 **Control plane + optional HLK graph UI:** `py scripts/serve-api.py` (default `http://127.0.0.1:8420`). When `NEO4J_*` in `~/.openclaw/.env` is non-placeholder and Bolt is reachable, Streamlit `scripts/hlk_graph_explorer.py` may **auto-start** as a supervised child (never inside the OpenClaw gateway). Disable for CI: `--no-graph-explorer` or `AKOS_GRAPH_EXPLORER=0`. See `docs/USER_GUIDE.md` §9.0 / §9.10.
 
@@ -262,11 +262,12 @@ openclaw-akos/
     release-gate.py                Unified release gate runner
     resolve-mcporter-paths.py      Resolve MCP config placeholder paths
     browser-smoke.py               Programmatic browser smoke test (6 scenarios)
-    run-evals.py                   Agent reliability eval runner (5 canonical tasks)
+    run-evals.py                   Eval harness (`list` / `run --suite … --mode rubric`; suites under `tests/evals/suites/`)
     checkpoint.py                  Checkpoint CLI (create/list/restore snapshots)
     test.py                        Friendly test runner with groups
     adhoc/                         Scratch operator scripts (RunPod/endpoints/etc.); not part of release gate
   tests/
+    evals/suites/                   Manifest-driven eval suites (e.g. `pathc-research-spine`)
     conftest.py                     Shared fixtures
     validate_configs.py             Config JSON validation via Pydantic
     validate_multimodel.py          Multi-model architecture validation

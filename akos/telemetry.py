@@ -17,7 +17,7 @@ import logging
 import os
 import random
 import re
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, get_args
 
 logger = logging.getLogger("akos.telemetry")
 
@@ -335,6 +335,57 @@ class LangfuseReporter:
                     )
         except Exception as exc:
             logger.debug("Failed to push answer-quality trace: %s", exc)
+
+    def trace_eval_outcome(
+        self,
+        *,
+        suite_id: str,
+        task_id: str,
+        mode: str,
+        pass_fail: str,
+        trials: int = 1,
+        dimension_id: str | None = None,
+        research_surface: str | None = None,
+    ) -> None:
+        """Record a scored eval task run (Langfuse v4 observation-centric API)."""
+        if not self._client or self._sampled_out():
+            return
+        try:
+            from akos.models import LangfuseResearchSurface, LangfuseTraceContext as _LTC
+
+            rs_raw = (research_surface or "none").strip().lower()
+            allowed_rs = set(get_args(LangfuseResearchSurface))
+            rs_lit: str = rs_raw if rs_raw in allowed_rs else "none"
+
+            ctx = _LTC(
+                hlk_surface="none",
+                research_surface=rs_lit,  # type: ignore[arg-type]
+                eval_suite=suite_id[:64],
+                eval_task_id=task_id[:64],
+                eval_mode=mode[:32],
+                eval_pass_fail=pass_fail[:16],
+                eval_trials=str(trials)[:8],
+            )
+            meta = self._merged_metadata(
+                {
+                    "environment": self._environment,
+                    "dimension_id": (dimension_id or "")[:64],
+                },
+                ctx,
+            )
+            with propagate_attributes(
+                metadata=meta,
+                tags=["akos-eval", suite_id],
+                trace_name=f"akos-eval-{suite_id}",
+            ):
+                with self._client.start_as_current_observation(
+                    name=f"eval-{task_id}",
+                    as_type="span",
+                    metadata=meta,
+                ) as span:
+                    span.score(name="eval_pass", value=1.0 if pass_fail.upper() == "PASS" else 0.0)
+        except Exception as exc:
+            logger.debug("Failed to push eval trace: %s", exc)
 
     def flush(self) -> None:
         """Flush pending traces to Langfuse (use shutdown() for final cleanup)."""

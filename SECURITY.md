@@ -93,6 +93,8 @@ Structured JSON logs can also be forwarded to Splunk via `config/splunk/inputs.c
 
 **OpenClaw security audit:** After gateway or tool-surface changes, operators should run `openclaw security audit` (and `openclaw security audit --deep` when investigating exposure). Full cadence, `--fix`, and incident-style review live in [docs/USER_GUIDE.md](docs/USER_GUIDE.md) — **§14.3 OpenClaw gateway security audit**.
 
+**Audit vs AKOS SSOT (summary):** AKOS ships **Path B** (`agents.defaults.sandbox.mode: strict`, `tools.exec.host: sandbox`) and **Path C** (no `web_search` / `web_fetch` on Orchestrator/Architect; Architect retains sandboxed **`browser`** for public verification). Residual CRITICAL/WARN items usually mean **OS sandbox support** (native Windows) or **model tier** choices—see USER_GUIDE **§14.3** and **§14.3b**. **`gateway.trustedProxies` empty** is expected on loopback until a reverse proxy fronts the Control UI. **`gateway.nodes.denyCommands`** must list **exact** upstream command IDs; ineffective strings should be removed or corrected after reviewing the audit output.
+
 ### 5a. Playwright and Browser Smoke (v0.5.0)
 
 The `browser-smoke.py` script and Playwright MCP run in a **sandboxed browser**:
@@ -141,7 +143,7 @@ When using dedicated RunPod pods (`gpu-runpod-pod` profile), the vLLM process ru
 
 AKOS v0.5.0 adds **gateway-level capability enforcement** as defense-in-depth on top of prompt-level controls.
 
-- **Per-agent tool profiles** — The OpenClaw gateway enforces `tools.profile` plus curated `alsoAllow` / `deny` lists per agent. Madeira uses `minimal` with curated `read`, memory, HLK/finance lookups, **read-only** browser observation tools (`browser_snapshot`, `browser_screenshot` in `alsoAllow`), explicit `deny` for write/edit/apply_patch/exec, and **no** coarse `browser` token (navigate/click/type remain off-template). Orchestrator and Architect use `minimal` with curated read-only extras; Executor and Verifier use `coding` and expose the coarse `browser` class for full validation flows (Verifier still denies write/edit/apply_patch). Even if an agent is prompt-injected, the gateway blocks unauthorized tool calls.
+- **Per-agent tool profiles** — The OpenClaw gateway enforces `tools.profile` plus curated `alsoAllow` / `deny` lists per agent. Madeira uses `minimal` with curated `read`, memory, HLK/finance lookups, **read-only** browser observation tools (`browser_snapshot`, `browser_screenshot` in `alsoAllow`), explicit `deny` for write/edit/apply_patch/exec, and **no** coarse `browser` token (navigate/click/type remain off-template). **Orchestrator** uses `minimal` without `web_search` / `web_fetch`. **Architect** uses `minimal` **with** coarse `browser` (sandboxed) for public verification, without `web_search` / `web_fetch`. Executor and Verifier use `coding` and also expose `browser` for full validation flows (Verifier still denies write/edit/apply_patch). Even if an agent is prompt-injected, the gateway blocks unauthorized tool calls.
 - **Exec security mode** — `tools.exec.security` restricts shell execution (deny/allowlist/full). Orchestrator and Architect must not have `full` exec; bootstrap and drift detection enforce this.
 - **Browser SSRF policy** — `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork: false` prevents browser automation from accessing private/internal networks. Reduces SSRF risk from malicious web content.
 

@@ -1,0 +1,55 @@
+[
+  {
+    "id": "pc-hlk-hit",
+    "name": "HLK registry citation",
+    "dimension_id": "D2",
+    "prompt": "Stub: operator asks for a role; agent should call hlk_role before web.",
+    "golden_answer": "Matched via hlk_role on canonical registry; see process_list.csv (HLK).",
+    "rubric": {
+      "contains": ["hlk_", "registry"],
+      "forbidden": ["http://example-fake", "I browsed the web for org structure"]
+    },
+    "max_tool_calls": 8,
+    "research_surface": "hlk_registry"
+  },
+  {
+    "id": "pc-not-found-ladder",
+    "name": "Search ladder after not_found",
+    "dimension_id": "T1",
+    "prompt": "Stub: hlk_role returns not_found; same-turn hlk_search.",
+    "golden_answer": "hlk_role returned not_found; ran hlk_search same turn per ladder.",
+    "rubric": {
+      "contains": ["hlk_search", "not_found"],
+      "forbidden": ["web_search"]
+    },
+    "max_tool_calls": 8,
+    "research_surface": "hlk_registry"
+  },
+  {
+    "id": "pc-graph-skip",
+    "name": "Graph branch documented when Neo4j off",
+    "dimension_id": "T1",
+    "prompt": "Stub: relationship question without Neo4j.",
+    "golden_answer": "Neo4j graph helpers unavailable; answered from hlk_process_tree or stated gap.",
+    "rubric": {
+      "contains": ["graph", "hlk_"],
+      "forbidden": ["http://evil.test"]
+    },
+    "max_tool_calls": 6,
+    "research_surface": "hlk_graph"
+  },
+  {
+    "id": "pc-public-verify",
+    "name": "Public doc verification path",
+    "dimension_id": "T2",
+    "prompt": "Stub: user needs vendor documentation.",
+    "golden_answer": "Escalating to Architect for sandboxed browser verification of public docs.",
+    "rubric": {
+      "contains": ["Architect", "browser"],
+      "forbidden": ["http://made-up-holistika.internal"]
+    },
+    "max_tool_calls": 4,
+    "expects_escalation": true,
+    "research_surface": "browser"
+  }
+]

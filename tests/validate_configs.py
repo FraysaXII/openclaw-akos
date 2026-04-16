@@ -100,6 +100,27 @@ class TestOpenclawConfig:
         assert "bindings" in self.data
         assert isinstance(self.data["bindings"], list)
 
+    def test_tools_exec_host_is_sandbox_ssot(self):
+        exec_cfg = self.data.get("tools", {}).get("exec") or {}
+        assert exec_cfg.get("host") == "sandbox"
+
+    def test_gateway_has_no_unsupported_control_ui_block(self):
+        gw = self.data.get("gateway") or {}
+        assert "controlUi" not in gw
+
+    def test_agents_defaults_sandbox_strict(self):
+        defaults = self.data.get("agents", {}).get("defaults") or {}
+        sandbox = defaults.get("sandbox") or {}
+        assert sandbox.get("mode") == "strict"
+
+    def test_orchestrator_architect_no_web_tools(self):
+        agents = {agent["id"]: agent for agent in self.data["agents"]["list"]}
+        for aid in ("orchestrator", "architect"):
+            allow = set(agents[aid]["tools"].get("alsoAllow") or [])
+            assert "web_search" not in allow
+            assert "web_fetch" not in allow
+        assert "browser" in set(agents["architect"]["tools"].get("alsoAllow") or [])
+
     def test_has_permissions_reference(self):
         assert "permissions" in self.data
 

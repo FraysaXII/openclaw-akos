@@ -123,6 +123,25 @@ def run_hlk_vault_links_validation() -> bool:
     return result.success
 
 
+def run_eval_rubric_slice() -> bool:
+    """Offline rubric eval slice (set AKOS_EVAL_RUBRIC=1 to enable in release gate)."""
+    logger.info("Running eval rubric slice (pathc-research-spine) ...")
+    result = proc.run(
+        [
+            sys.executable,
+            str(SCRIPTS_DIR / "run-evals.py"),
+            "run",
+            "--suite",
+            "pathc-research-spine",
+            "--mode",
+            "rubric",
+        ],
+        timeout=60,
+        capture=False,
+    )
+    return result.success
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="AKOS release gate")
     parser.add_argument("--json-log", action="store_true", help="JSON logging output")
@@ -155,6 +174,10 @@ def main() -> None:
 
     vault_links_ok = run_hlk_vault_links_validation()
     results.append(("PASS" if vault_links_ok else "FAIL", "HLK vault links (scripts/validate_hlk_vault_links.py)"))
+
+    if os.environ.get("AKOS_EVAL_RUBRIC") == "1":
+        eval_ok = run_eval_rubric_slice()
+        results.append(("PASS" if eval_ok else "FAIL", "Eval rubric slice (AKOS_EVAL_RUBRIC=1, run-evals.py)"))
 
     live_smoke = os.environ.get("AKOS_LIVE_SMOKE") == "1"
     if live_smoke:

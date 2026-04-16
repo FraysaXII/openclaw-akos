@@ -144,6 +144,7 @@ class TestOpenClawConfig:
             ),
         )
         assert config.gateway.port == 18789
+        assert config.gateway.controlUi is None
 
 
 # ---------------------------------------------------------------------------
@@ -397,16 +398,21 @@ class TestLangfuseTraceContext:
         with pytest.raises(ValidationError):
             LangfuseTraceContext(hlk_tool="y" * 65)
 
+    def test_research_surface_in_metadata(self):
+        ctx = LangfuseTraceContext(research_surface="hlk_registry")
+        assert ctx.to_metadata() == {"research_surface": "hlk_registry"}
+
 
 # ---------------------------------------------------------------------------
 # GatewayConfig with controlUi
 # ---------------------------------------------------------------------------
 
 class TestGatewayConfig:
-    def test_control_ui_title_default(self):
+    def test_control_ui_optional_default_none(self):
         gw = GatewayConfig()
-        assert gw.controlUi.title == "HLK Intelligence Platform"
+        assert gw.controlUi is None
 
     def test_control_ui_title_custom(self):
         gw = GatewayConfig(controlUi=ControlUiConfig(title="Custom Title"))
+        assert gw.controlUi is not None
         assert gw.controlUi.title == "Custom Title"

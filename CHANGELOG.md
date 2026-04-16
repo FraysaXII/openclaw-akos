@@ -11,11 +11,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **`doctor.py --repair-gateway`** — When upstream recovery does not reach HTTP+RPC health, print probe state and operator hints (`gateway logs`, port 18789, dashboard).
+- **`doctor.py --repair-gateway`** — When upstream recovery does not reach HTTP+RPC health, print probe state and operator hints (`gateway logs`, port 18789, dashboard). When hints are available from `akos.runtime`, also print **recovery_hints** (status + RPC excerpt + keyword-filtered log tail: pricing timeout, WebSocket 1006).
 
 - **Browser smoke Phase 2** — `architect_tools_ui` and `executor_approval_hint` now validate against **control plane** `GET /agents` (JSON SSOT) like `agent_visibility`, instead of brittle OpenClaw Control UI copy on `GATEWAY_URL/agents` (which false-failed under msedge / OpenClaw version drift).
 
 ### Added
+
+- **Initiative 10 — Madeira eval hardening** — Planning mirror `docs/wip/planning/10-madeira-eval-hardening/master-roadmap.md` (indexed from `docs/wip/planning/README.md`): Path B+C gateway SSOT narrative, Windows/Docker operator runway, eval harness layout.
+
+- **`akos/eval_harness.py` + suite `pathc-research-spine`** — Manifest-driven rubric tasks under `tests/evals/suites/`; `scripts/run-evals.py` subcommands `list` / `run`; `LangfuseReporter.trace_eval_outcome()`; optional `AKOS_EVAL_RUBRIC=1` slice in `scripts/release-gate.py`; `tests/evals/README.md`; `py scripts/test.py evals`.
+
+- **Initiative 09 — OpenClaw hygiene** — Planning mirror `docs/wip/planning/09-openclaw-hygiene/master-roadmap.md` (indexed from `docs/wip/planning/README.md`): gateway SSOT alignment with OpenClaw 2026.4.x schema, security-audit interpretation (USER_GUIDE §14.3), SOUL/bootstrap operator path (§3.3.1), `openclaw update` checklist in CONTRIBUTING.
 
 - **Initiative 08 — runtime / operator / graph stack** — Planning SSOT `docs/wip/planning/08-python-runtime-deployment/master-roadmap.md` (indexed from `docs/wip/planning/README.md`).
 - **`akos/graph_stack.py` + serve-api supervision** — `scripts/serve-api.py` optionally starts Streamlit `hlk_graph_explorer.py` as a **child process** when `NEO4J_*` is non-placeholder and Bolt is reachable; `--no-graph-explorer`, `AKOS_GRAPH_EXPLORER=0`, `--open`; background **validate-then-sync** for canonical CSV fingerprints (`AKOS_NEO4J_AUTO_SYNC`, `AKOS_NEO4J_SYNC_POLL_SECONDS`, `AKOS_NEO4J_SYNC_WATCH`, `AKOS_NEO4J_SYNC_WITH_DOCUMENTS`); `GET /health` gains `graph_explorer` and `neo4j_mirror`; `neo4j_env_non_placeholder()` in `akos/hlk_neo4j.py`; `reset_neo4j_driver_cache()` after sync; debounced mirror kick from `GET /hlk/graph/summary`.
@@ -23,6 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`load_model_workflow_ssot()`** — `akos/model_catalog.py` reads `config/model-tiers.json` as the tier × variant overlay SSOT.
 
 ### Changed
+
+- **OpenClaw gateway SSOT (`config/openclaw.json.example`)** — **Path B:** `agents.defaults.sandbox.mode: strict` and **`tools.exec.host: sandbox`** with allowlist exec security. **Path C:** removed **`web_search`** / **`web_fetch`** from Orchestrator and Architect `alsoAllow`; Architect keeps coarse **`browser`**. Removed **`gateway.controlUi`**. `akos.models`: `SandboxDefaults`, **`ExecConfig.host`** default **`sandbox`**, **`LangfuseTraceContext`** gains **`research_surface`** and eval metadata fields. `config/environments/dev-local.json` sets **`thinkingDefault: medium`** for DeepSeek R1 dev-local. Prompt bases (`ORCHESTRATOR_BASE`, `ARCHITECT_BASE`) document the research spine; USER_GUIDE §14.3a–b; SECURITY audit summary; `scripts/doctor.py` Windows Docker/WSL WARNs.
+
+- **Capability matrix** — Orchestrator/Architect drop ambient web tools; Architect lists coarse **`browser`** for policy alignment with gateway.
+
+- **Gateway recovery UX** — `recover_gateway_service()` uses a short post-`gateway start` sleep, default **150s** wait window, `fetch_gateway_status` + `probe_gateway_rpc_detail`, and builds **`GatewayRecoveryResult.recovery_hints`** from status output, optional **File log(s):** tail (filtered), and RPC capture (aligned with observability / SOC: no unconstrained log dumps).
 
 - **Python packaging** — Root **`pyproject.toml`** adds `[project]` `requires-python = ">=3.10"` and pytest markers; **`.python-version`** pins **3.13** for dev; **`openstacksdk`** moved to **`requirements-openstack.txt`** (core `requirements.txt` stays lean).
 - **HLK role neighbourhood (mirror vs SSOT)** — `GET /hlk/graph/role/{role_name}/neighbourhood` resolves names via the HLK registry, returns **`mirror_sync_hint`** when Neo4j has no `Role` node yet, and Neo4j matching tolerates legacy **`05-1` → `O5-1`**. Streamlit `scripts/hlk_graph_explorer.py` and static `static/hlk_graph_explorer.html` surface the sync hint instead of a raw JSON blob when the API reports `not_found`.

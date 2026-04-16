@@ -1,10 +1,7 @@
 {
   "gateway": {
     "host": "127.0.0.1",
-    "port": 18789,
-    "controlUi": {
-      "title": "HLK Intelligence Platform"
-    }
+    "port": 18789
   },
   "models": {
     "providers": {
@@ -117,6 +114,9 @@
       },
       "thinkingDefault": "low",
       "verboseDefault": "on",
+      "sandbox": {
+        "mode": "strict"
+      },
       "workspace": "~/.openclaw/workspace",
       "memorySearch": {
         "provider": "local",
@@ -137,8 +137,6 @@
           "profile": "minimal",
           "alsoAllow": [
             "read",
-            "web_search",
-            "web_fetch",
             "memory_search",
             "memory_get",
             "sequential_thinking",
@@ -170,8 +168,6 @@
           "profile": "minimal",
           "alsoAllow": [
             "read",
-            "web_search",
-            "web_fetch",
             "memory_search",
             "memory_get",
             "browser",

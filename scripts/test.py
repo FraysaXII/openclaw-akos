@@ -67,6 +67,10 @@ GROUPS: dict[str, dict] = {
         "description": "JSON integrity + cross-file references",
         "files": ["validate_configs.py", "validate_multimodel.py"],
     },
+    "evals": {
+        "description": "Eval suite manifests + rubric harness",
+        "files": ["test_eval_harness.py"],
+    },
     "drift": {
         "description": "Runtime drift detection (repo vs live state)",
         "files": [],
