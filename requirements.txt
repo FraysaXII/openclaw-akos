@@ -4,7 +4,7 @@ pydantic>=2.0
 langfuse>=2.0
 # GPU infrastructure: RunPod is optional — install from `requirements-gpu.txt` when using gpu-runpod
 # (kept separate so Windows/Python 3.14t installs are not blocked by cryptography source builds).
-openstacksdk>=4.0.0
+# OpenStack: optional — install from `requirements-openstack.txt` for gpu-shadow / OpenStack SDK.
 # Control plane API (optional -- only needed for scripts/serve-api.py)
 fastapi>=0.115.0
 uvicorn>=0.32.0

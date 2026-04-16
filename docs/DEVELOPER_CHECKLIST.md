@@ -11,6 +11,7 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | 1 | `py scripts/legacy/verify_openclaw_inventory.py` | Strict full AKOS inventory must pass (`OVERALL: PASS`) |
 | 2 | `py scripts/check-drift.py` | No drift (repo vs runtime), including agent/A2A inventory, legacy `tools.allow`, and unknown runtime tool IDs |
 | 3 | `py scripts/test.py all` | Full regression suite passes |
+| 3a | `py scripts/test.py graph` | HLK graph lane (`pytest -m graph`); use with Bolt env + `pytest -m "graph and neo4j"` when changing Neo4j wiring |
 | 4 | `py scripts/browser-smoke.py --playwright` | Browser smoke; on Windows crash-prone hosts this may return SKIP instead of FAIL |
 | 5 | `py -m pytest tests/test_api.py -v` | FastAPI control plane smoke |
 | 6 | `py scripts/release-gate.py` | Unified gate must report PASS (includes HLK vault validation) |
@@ -39,7 +40,7 @@ If you changed gateway tool policy, also verify the template uses gateway core I
 | `docs/USER_GUIDE.md` (GPU deployment) | Changes to `scripts/gpu.py` subcommands or deploy flow |
 | `docs/USER_GUIDE.md` (Finance MCP) | Changes to `akos/finance.py` or `scripts/finance_mcp_server.py` |
 | `docs/ARCHITECTURE.md` (Finance) | Changes to finance response models or MCP tool signatures |
-| `docs/ARCHITECTURE.md` (HLK) | Changes to `akos/hlk.py`, `akos/hlk_graph_model.py`, `akos/hlk_neo4j.py`, `akos/hlk_vault_links.py`, or `/hlk/*` and `/hlk/graph/*` API endpoints |
+| `docs/ARCHITECTURE.md` (HLK) | Changes to `akos/hlk.py`, `akos/hlk_graph_model.py`, `akos/hlk_neo4j.py`, `akos/hlk_vault_links.py`, `akos/graph_stack.py`, `scripts/serve-api.py`, or `/hlk/*` and `/hlk/graph/*` API endpoints |
 | `docs/references/hlk/v3.0/**/*.md` (links) | Run `py scripts/validate_hlk_vault_links.py` when editing cross-links |
 | `docs/references/hlk/compliance/` | Changes to canonical vault CSVs or compliance taxonomy documents |
 | `docs/references/hlk/v3.0/_assets/**/*.manifest.md` | Run `py scripts/validate_hlk_km_manifests.py`; update companion stubs if `source_id` changes |

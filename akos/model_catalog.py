@@ -53,3 +53,18 @@ def load_catalog(path: Path | None = None) -> list[CatalogEntry]:
     p = path or _CATALOG_PATH
     raw = json.loads(p.read_text(encoding="utf-8"))
     return [CatalogEntry.model_validate(entry) for entry in raw]
+
+
+_TIERS_PATH = REPO_ROOT / "config" / "model-tiers.json"
+
+
+def load_model_workflow_ssot() -> dict:
+    """Return ``config/model-tiers.json`` (tier × prompt-variant × overlay matrix).
+
+    This is the **single** JSON authority for which overlay files apply per tier
+    variant; scripts should read this or ``load_tiers()`` — never fork parallel
+    overlay lists.
+    """
+    import json
+
+    return json.loads(_TIERS_PATH.read_text(encoding="utf-8"))

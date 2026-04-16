@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import pytest
 from akos.hlk_vault_links import resolve_markdown_target, validate_vault_internal_links
 from akos.io import REPO_ROOT
+
+pytestmark = pytest.mark.graph
 
 
 def test_resolve_markdown_target_relative():

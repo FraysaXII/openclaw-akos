@@ -68,13 +68,17 @@ See [SECURITY.md](SECURITY.md) for the full security policy.
 
 ### Any OS (Cross-Platform Bootstrap)
 
-Requires Python 3.10+, Node.js >= 22, and Ollama running:
+Requires Python **3.10+** (`pyproject.toml`), Node.js >= 22, and Ollama running. The repo pins **3.13** in `.python-version` for local dev alignment.
 
 ```bash
 python scripts/bootstrap.py
 ```
 
 The script detects your OS, checks prerequisites, pulls Ollama models, patches `openclaw.json`, sets up MCP servers, and assembles tiered prompts. Use `--skip-ollama` or `--skip-mcp` to skip phases. If you copied `mcporter.json.example` manually, run `py scripts/resolve-mcporter-paths.py` to resolve placeholder paths.
+
+**Control plane + optional HLK graph UI:** `py scripts/serve-api.py` (default `http://127.0.0.1:8420`). When `NEO4J_*` in `~/.openclaw/.env` is non-placeholder and Bolt is reachable, Streamlit `scripts/hlk_graph_explorer.py` may **auto-start** as a supervised child (never inside the OpenClaw gateway). Disable for CI: `--no-graph-explorer` or `AKOS_GRAPH_EXPLORER=0`. See `docs/USER_GUIDE.md` §9.0 / §9.10.
+
+**Optional pip profiles:** `requirements-gpu.txt` (RunPod), `requirements-openstack.txt` (Shadow OpenStack).
 
 ### Windows (PowerShell Bootstrap)
 

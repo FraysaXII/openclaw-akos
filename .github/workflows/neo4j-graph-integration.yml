@@ -1,16 +1,55 @@
-# Optional Neo4j mirror integration — stub for operator/fork enablement (keeps default PR CI unchanged).
-# To activate: add a Neo4j service container, `NEO4J_*` secrets, remove the echo-only step, and run `scripts/sync_hlk_neo4j.py`.
+# Optional Neo4j mirror integration — runs on manual dispatch with a Neo4j service.
+# Default PR CI is unchanged; operators enable this workflow to validate Bolt + sync.
 name: neo4j-graph-integration
 
 on:
   workflow_dispatch:
 
 jobs:
-  stub:
+  neo4j-bolt-and-sync:
     runs-on: ubuntu-latest
+    services:
+      neo4j:
+        image: neo4j:5.15-community
+        ports:
+          - 7687:7687
+          - 7474:7474
+        env:
+          NEO4J_AUTH: neo4j/neo4jintegrationci
     steps:
       - uses: actions/checkout@v4
-      - name: Placeholder
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Validate HLK canonical CSVs
+        run: python scripts/validate_hlk.py
+      - name: Wait for Bolt
         run: |
-          echo "Neo4j integration workflow stub. See docs/wip/planning/07-hlk-neo4j-graph-projection/master-roadmap.md Phase E."
-          echo "Fork operators: add Neo4j service, env secrets, then py scripts/sync_hlk_neo4j.py in CI."
+          python - <<'PY'
+          import socket, time
+          for i in range(60):
+              try:
+                  s = socket.create_connection(("127.0.0.1", 7687), timeout=2)
+                  s.close()
+                  print("bolt up")
+                  break
+              except OSError:
+                  time.sleep(1)
+          else:
+              raise SystemExit("Neo4j did not accept connections on 7687")
+          PY
+      - name: Sync HLK graph to Neo4j
+        env:
+          NEO4J_URI: bolt://127.0.0.1:7687
+          NEO4J_USERNAME: neo4j
+          NEO4J_PASSWORD: neo4jintegrationci
+        run: python scripts/sync_hlk_neo4j.py
+      - name: Pytest (neo4j marker)
+        env:
+          NEO4J_URI: bolt://127.0.0.1:7687
+          NEO4J_USERNAME: neo4j
+          NEO4J_PASSWORD: neo4jintegrationci
+        run: python -m pytest -m neo4j -v

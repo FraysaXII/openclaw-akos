@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+import pytest
 from akos.hlk import get_hlk_registry
 from akos.hlk_graph_model import (
     assert_graph_registry_parity,
     build_hlk_csv_graph,
     graph_parity_counts,
 )
+
+pytestmark = pytest.mark.graph
 
 
 def test_build_hlk_csv_graph_parity():

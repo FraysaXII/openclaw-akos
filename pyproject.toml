@@ -1,6 +1,15 @@
+[project]
+name = "openclaw-akos"
+version = "0.4.1"
+description = "AKOS orchestration library, scripts, and HLK control plane (workspace metadata for tooling)."
+readme = "README.md"
+requires-python = ">=3.10"
+
 [tool.pytest.ini_options]
 python_files = ["test_*.py", "validate_*.py", "e2e_*.py"]
 testpaths = ["tests"]
 markers = [
     "live: marks tests that require live API server (deselect with '-m \"not live\"')",
+    "graph: marks HLK graph / Neo4j-adjacent control-plane tests (see `py scripts/test.py graph`)",
+    "neo4j: marks tests that require a live Bolt endpoint (NEO4J_URI + NEO4J_PASSWORD); skipped in default CI",
 ]

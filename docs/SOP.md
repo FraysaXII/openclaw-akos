@@ -1085,9 +1085,9 @@ The Neo4j projection is **mirrored / derived** from canonical CSVs and validated
 
 1. Configure `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD` in `~/.openclaw/.env` (never commit secrets).
 2. Start Neo4j (e.g. `docker compose -f compose.neo4j.yml up -d` from the AKOS repo root).
-3. Run `py scripts/sync_hlk_neo4j.py` after each canonical baseline change; add `--with-documents` when document/link projection is required.
-4. Start the control plane with `py scripts/serve-api.py` (default **127.0.0.1:8420**). If bind fails, `serve-api.py` exits with a stderr hint; resolve port conflicts per [`docs/USER_GUIDE.md`](USER_GUIDE.md) §9.10, then retry.
-5. Verify `GET /hlk/graph/summary` and `GET /hlk/graph/explorer` (summary cards + process/role neighbourhood actions).
+3. **Mirror refresh:** `serve-api.py` can run **validate-then-sync** in the background when canonical CSV fingerprints drift (see `GET /health` → `neo4j_mirror`). Operators may still run `py scripts/sync_hlk_neo4j.py` explicitly after baseline changes; add `--with-documents` when document/link projection is required (`AKOS_NEO4J_SYNC_WITH_DOCUMENTS=1` for the automated path).
+4. Start the control plane with `py scripts/serve-api.py` (default **127.0.0.1:8420**). When Neo4j env is non-placeholder and Bolt is up, **Streamlit graph explorer** may auto-start as a **child process** (not inside the OpenClaw gateway); disable with `--no-graph-explorer` or `AKOS_GRAPH_EXPLORER=0` for CI. If bind fails, `serve-api.py` exits with a stderr hint; resolve port conflicts per [`docs/USER_GUIDE.md`](USER_GUIDE.md) §9.10, then retry.
+5. Verify `GET /hlk/graph/summary`, `GET /health` (`graph_explorer` / `neo4j_mirror`), and `GET /hlk/graph/explorer` (summary cards + process/role neighbourhood actions).
 6. On failure or corruption, **rebuild from git**: restore CSVs from SSOT, run `py scripts/validate_hlk.py`, then re-sync.
 
 ### **9.2 Self-Verifying Agent Protocol**

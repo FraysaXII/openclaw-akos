@@ -32,6 +32,14 @@ class TestHealth:
         data = resp.json()
         assert data["langfuse"] in ("enabled", "disabled")
 
+    def test_health_includes_graph_stack_fields(self):
+        resp = client.get("/health")
+        data = resp.json()
+        assert isinstance(data.get("graph_explorer"), dict)
+        assert "state" in data["graph_explorer"]
+        assert isinstance(data.get("neo4j_mirror"), dict)
+        assert "fingerprint_short" in data["neo4j_mirror"]
+
 
 class TestStatus:
     def test_status_returns_fields(self):
@@ -195,6 +203,7 @@ class TestPromptAssembly:
         assert "stdout" in data
 
 
+@pytest.mark.graph
 class TestHlkGraph:
     def test_hlk_graph_summary_ok_without_neo4j(self):
         resp = client.get("/hlk/graph/summary")

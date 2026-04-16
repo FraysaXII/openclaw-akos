@@ -6,11 +6,17 @@ Usage:
     python scripts/serve-api.py --port 9000    # custom port
     python scripts/serve-api.py --reload       # auto-reload for dev
 
+When ``NEO4J_*`` is set to non-placeholder values and Bolt is reachable, starts
+the Streamlit graph explorer as a **supervised child process** (never inside the
+OpenClaw gateway). Disable with ``--no-graph-explorer`` or ``AKOS_GRAPH_EXPLORER=0``.
+
 Preflight: binds the listen socket before uvicorn starts; on failure prints a
 hint (port in use). See USER_GUIDE.md section 9.10.
 
 Requires: Python 3.10+, fastapi, uvicorn.
 """
+
+from __future__ import annotations
 
 import argparse
 import socket
@@ -44,6 +50,17 @@ def main() -> None:
     parser.add_argument("--host", default="127.0.0.1", help="Host to bind to")
     parser.add_argument("--reload", action="store_true", help="Auto-reload on changes")
     parser.add_argument(
+        "--no-graph-explorer",
+        action="store_true",
+        help="Do not auto-start Streamlit graph explorer (CI / headless)",
+    )
+    parser.add_argument(
+        "--open",
+        action="store_true",
+        dest="open_browser",
+        help="Open graph explorer URL in default browser after start (avoid on shared jump hosts)",
+    )
+    parser.add_argument(
         "--api-key",
         default=None,
         help="Bearer token for API auth (overrides AKOS_API_KEY env var)",
@@ -63,13 +80,45 @@ def main() -> None:
 
     import uvicorn
 
-    uvicorn.run(
-        "akos.api:app",
-        host=args.host,
-        port=args.port,
-        reload=args.reload,
-        log_level="info",
-    )
+    from akos.graph_stack import GraphStackSupervisor, set_graph_stack_supervisor
+
+    sup: GraphStackSupervisor | None = None
+    if not args.reload:
+        import akos.api as akos_api
+
+        sup = GraphStackSupervisor(
+            api_host=args.host,
+            api_port=args.port,
+            on_sync_success=akos_api.reset_neo4j_driver_cache,
+        )
+        sup.start_explorer_if_enabled(
+            no_graph_explorer=args.no_graph_explorer,
+            open_browser=args.open_browser,
+        )
+        sup.start_mirror_autosync_if_enabled()
+        set_graph_stack_supervisor(sup)
+        url = sup.explorer_public_url()
+        if url:
+            print(f"AKOS_GRAPH_EXPLORER_URL={url}", flush=True)
+    else:
+        print(
+            "Note: --reload skips graph explorer + mirror autosupervisor (avoid duplicate children). "
+            "Use serve-api without --reload for full graph stack.",
+            flush=True,
+        )
+
+    try:
+        uvicorn.run(
+            "akos.api:app",
+            host=args.host,
+            port=args.port,
+            reload=args.reload,
+            log_level="info",
+        )
+    finally:
+        if sup is not None:
+            sup.shutdown()
+        set_graph_stack_supervisor(None)
 
 
 if __name__ == "__main__":

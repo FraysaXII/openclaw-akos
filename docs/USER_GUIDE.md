@@ -55,7 +55,7 @@ The system supports three deployment environments -- local dev (Ollama), remote 
 
 | Requirement | Minimum | Recommended |
 |:------------|:--------|:------------|
-| Python | 3.10+ | 3.12+ |
+| Python | 3.10+ (see repo `pyproject.toml` `requires-python`; `.python-version` pins **3.13** for dev) | 3.12+ |
 | Node.js | 18+ | 22+ |
 | Ollama | Latest | Latest |
 | OS | Windows 10+, macOS 12+, Ubuntu 22.04+ | Windows 11 with WSL2 |
@@ -84,7 +84,11 @@ cd openclaw-akos
 pip install -r requirements.txt
 # Optional — RunPod SDK (gpu-runpod, `scripts/gpu.py`):
 pip install -r requirements-gpu.txt
+# Optional — OpenStack SDK (gpu-shadow, `akos/openstack_provider.py`):
+pip install -r requirements-openstack.txt
 ```
+
+**Windows / Python 3.14 free-threaded:** If `pip install` tries to **build `cryptography` from source** and fails, install **OpenSSL** headers/libs and set **`OPENSSL_DIR`** to that prefix (vendor docs), **or** use CPython **3.13** / **3.12** where wheels exist, **or** install only `requirements.txt` without `requirements-gpu.txt` until wheels catch up.
 
 The base `requirements.txt` dependencies are:
 
@@ -486,6 +490,8 @@ Preferred operator flow:
 3. `py scripts/gpu.py` only when the chosen profile needs external GPU provisioning
 4. Re-run `py scripts/doctor.py` and provider-specific health checks
 
+**AKOS vs OpenClaw hot-switch contract:** `scripts/switch-model.py` is the **authoritative** merge + prompt deploy + gateway restart for model/environment changes. `POST /switch` on the FastAPI control plane is the HTTP automation surface for the same **class** of operations and does **not** replace gateway repair (`doctor.py`). Optional **Neo4j / Streamlit** tooling never runs inside the OpenClaw gateway; the graph explorer is supervised only from `scripts/serve-api.py`.
+
 **What happens:**
 1. The `.env` file for the target environment is copied to `~/.openclaw/.env`.
 2. The JSON overlay is deep-merged into `~/.openclaw/openclaw.json`.
@@ -715,6 +721,16 @@ Operational note:
 
 ## 9. MCP Server Ecosystem
 
+### 9.0 Operator paths (script spine)
+
+| Goal | Command | Notes |
+|:-----|:--------|:------|
+| First-time workspace + gateway prep | `py scripts/bootstrap.py` | Does not require Neo4j |
+| Health + gateway repair | `py scripts/doctor.py` / `py scripts/doctor.py --repair-gateway` | Same paths as release gate hints |
+| Control plane API + optional graph stack | `py scripts/serve-api.py` | When `NEO4J_*` is non-placeholder and Bolt is up, **Streamlit** `hlk_graph_explorer.py` may auto-start as a **child process**; stdout line `AKOS_GRAPH_EXPLORER_URL=…`; `GET /health` exposes `graph_explorer` + `neo4j_mirror`. CI/headless: `--no-graph-explorer` or `AKOS_GRAPH_EXPLORER=0` |
+| Thin dispatcher (same scripts) | `py scripts/akos_operator.py serve-api` / `doctor` / `bootstrap` / `test` | Forwards only; no duplicate logic |
+| HLK graph tests | `py scripts/test.py graph` | `pytest -m graph`; live Bolt subset: `python -m pytest -m "graph and neo4j"` with `NEO4J_*` set |
+
 ### 9.1 Installed Servers
 
 Ten MCP servers provide the agent tool ecosystem:
@@ -830,7 +846,7 @@ The HLK Registry MCP gives agents read-only access to the Holistika organisation
 
 ### 9.10 HLK Graph (optional Neo4j mirror)
 
-When operators enable Neo4j (`NEO4J_URI`, `NEO4J_PASSWORD`, optional `NEO4J_USERNAME` in `~/.openclaw/.env`, same file as Langfuse), agents gain **read-only** multi-hop helpers. Rebuild the mirror after canonical CSV changes: `py scripts/sync_hlk_neo4j.py` (add `--with-documents` to project v3.0 markdown `Document` nodes and internal `LINKS_TO` edges).
+When operators enable Neo4j (`NEO4J_URI`, `NEO4J_PASSWORD`, optional `NEO4J_USERNAME` in `~/.openclaw/.env`, same file as Langfuse), agents gain **read-only** multi-hop helpers. **`py scripts/serve-api.py`** may **auto-sync** the mirror when canonical CSV fingerprints drift (`validate_hlk.py` then `sync_hlk_neo4j.py`, file lock, state under `~/.openclaw/.akos-neo4j-sync-state.json`). Set `AKOS_NEO4J_AUTO_SYNC=0` to disable. Operators may still run `py scripts/sync_hlk_neo4j.py` manually (add `--with-documents` to project v3.0 markdown `Document` nodes and internal `LINKS_TO` edges; set `AKOS_NEO4J_SYNC_WITH_DOCUMENTS=1` for the automated path).
 
 **Production operations (mirrored class):**
 

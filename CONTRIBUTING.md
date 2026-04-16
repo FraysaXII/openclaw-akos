@@ -27,6 +27,7 @@ Thank you for your interest in contributing. This document provides guidelines t
 - Reference related issues using `Closes #<issue-number>`
 - Update documentation if your changes affect any SOP procedures, architecture descriptions, or configuration examples
 - All MCP server configurations must include valid JSON syntax — validate before submitting
+- **Governed multi-phase work** (runtime, inventory, Neo4j graph stack, etc.): land changes as **one atomic git commit per phase** with tests and required docs for that phase—see `.cursor/rules/akos-governance-remediation.mdc` and the verification matrix in `docs/DEVELOPER_CHECKLIST.md`
 
 ## Architecture
 
@@ -77,6 +78,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
   - `langfuse>=2.0` -- Observability backend; graceful no-op when unconfigured.
   - `pytest>=7.0` -- Test runner.
   - `runpod>=1.7.0` (in `requirements-gpu.txt`) -- RunPod GPU provider; graceful no-op without API key or without installing the extra file.
+  - `openstacksdk>=4.0.0` (in `requirements-openstack.txt`) -- ShadowPC OpenStack provider; graceful no-op when the SDK is not installed.
   - `fastapi>=0.115.0` -- Control plane API; only needed for `scripts/serve-api.py`.
   - `neo4j>=5.14.0` -- Optional HLK graph mirror (`scripts/sync_hlk_neo4j.py`, `scripts/hlk_graph_mcp_server.py`, `/hlk/graph/*`); no-op when `NEO4J_*` unset.
   - `streamlit>=1.28.0`, `streamlit-agraph>=0.0.45`, `networkx>=3.2` -- Optional operator graph UI (`scripts/hlk_graph_explorer.py`; vis physics by default, NetworkX optional initial seed / static layout). Optional env **`AKOS_WEB_DASHBOARD_URL`** adds a shell link when WebChat is not on the API host.
@@ -114,6 +116,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - New test groups added in v0.4.0: `drift` (runtime drift detection), `live` (opt-in live provider smoke tests requiring `AKOS_LIVE_SMOKE=1`)
 - New test groups added in RunPod+Langfuse overhaul: `telemetry` (Langfuse reporter lifecycle, trace taxonomy, env normalization), `router` (FailoverRouter threshold, recovery, multi-provider)
 - New test group added in HLK Phase 2: `hlk` (HLK domain models, registry service, API endpoints)
+- Graph lane: `graph` (`pytest -m graph` via `py scripts/test.py graph`); live Bolt tests use `@pytest.mark.neo4j` (`python -m pytest -m "graph and neo4j"` when `NEO4J_*` is set)
 - Live smoke tests use `@pytest.mark.live` and are skipped by default
 - Before releases, run the full verification matrix and release gate:
   - `py scripts/legacy/verify_openclaw_inventory.py`

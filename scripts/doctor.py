@@ -622,6 +622,8 @@ def main() -> None:
         sys.exit(1)
     else:
         print("\n  All critical checks passed.\n")
+        print("  Next: py scripts/serve-api.py   # control plane; auto graph explorer when Neo4j env is real")
+        print("        (CI / headless: --no-graph-explorer or AKOS_GRAPH_EXPLORER=0)\n")
         sys.exit(0)
 
 

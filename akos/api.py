@@ -25,6 +25,7 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
 from akos.finance import FinanceService
+from akos.graph_stack import get_graph_stack_supervisor, graph_health_payload
 from akos.io import (
     AGENT_WORKSPACES,
     REPO_ROOT,
@@ -137,6 +138,17 @@ def _get_neo4j_driver_cached() -> Any:
     return _neo4j_driver
 
 
+def reset_neo4j_driver_cache() -> None:
+    """Close and drop cached Bolt driver (e.g. after ``sync_hlk_neo4j`` reprojection)."""
+    global _neo4j_driver
+    if _neo4j_driver is not _NEO4J_DRIVER_UNSET and _neo4j_driver is not None:
+        try:
+            _neo4j_driver.close()
+        except Exception:
+            logger.debug("Neo4j driver close during cache reset failed", exc_info=True)
+    _neo4j_driver = _NEO4J_DRIVER_UNSET
+
+
 # ── Request/Response Models ──────────────────────────────────────────
 
 
@@ -161,6 +173,8 @@ class HealthResponse(BaseModel):
     vllm: str
     langfuse: str
     uptime_seconds: float
+    graph_explorer: dict[str, Any] = Field(default_factory=dict)
+    neo4j_mirror: dict[str, Any] = Field(default_factory=dict)
 
 
 class StatusResponse(BaseModel):
@@ -229,6 +243,8 @@ async def get_health() -> HealthResponse:
     reporter = _get_reporter()
     lf_status = "enabled" if reporter.enabled else "disabled"
 
+    geo, mir = graph_health_payload()
+
     return HealthResponse(
         status="ok",
         gateway=gateway_status,
@@ -236,6 +252,8 @@ async def get_health() -> HealthResponse:
         vllm=vllm_status,
         langfuse=lf_status,
         uptime_seconds=time.monotonic() - _start_time,
+        graph_explorer=geo,
+        neo4j_mirror=mir,
     )
 
 
@@ -739,6 +757,10 @@ def hlk_graph_summary():
     from akos.hlk import get_hlk_registry
     from akos.hlk_neo4j import graph_summary, neo4j_configured
 
+    sup = get_graph_stack_supervisor()
+    if sup is not None:
+        sup.kick_mirror_sync_debounced(120.0)
+
     reg = get_hlk_registry()
     out: dict[str, Any] = {
         "status": "ok",
@@ -791,7 +813,20 @@ def hlk_graph_process_neighbourhood(item_id: str, depth: int = 2, limit: int = 8
 )
 def hlk_graph_role_neighbourhood(role_name: str, depth: int = 2, limit: int = 80):
     """Allowlisted neighbourhood around a ``role_name``."""
+    from akos.hlk import get_hlk_registry
     from akos.hlk_neo4j import neo4j_configured, role_neighbourhood
+
+    reg = get_hlk_registry()
+    reg_resp = reg.get_role(role_name)
+    if reg_resp.status != "ok" or reg_resp.best_role is None:
+        return {
+            "status": "not_found",
+            "role_name": role_name,
+            "nodes": [],
+            "edges": [],
+            "error_detail": reg_resp.error_detail or "Unknown role (not in SSOT registry).",
+        }
+    canonical = reg_resp.best_role.role_name
 
     if not neo4j_configured():
         raise HTTPException(503, detail="Neo4j not configured")
@@ -800,10 +835,24 @@ def hlk_graph_role_neighbourhood(role_name: str, depth: int = 2, limit: int = 80
         raise HTTPException(503, detail="Neo4j driver unavailable")
     try:
         with drv.session() as session:
-            return role_neighbourhood(session, role_name, depth=depth, limit=limit)
+            out = role_neighbourhood(session, canonical, depth=depth, limit=limit)
     except Exception as exc:
         logger.warning("Neo4j role neighbourhood failed: %s", type(exc).__name__)
         raise HTTPException(503, detail="Neo4j query failed") from exc
+
+    if out.get("status") == "not_found":
+        out["resolved_role_name"] = canonical
+        out["registry_resolution"] = reg_resp.resolution_strategy
+        out["mirror_sync_hint"] = (
+            "This role exists in the CSV registry but Neo4j has no Role node with that role_name. "
+            "Re-project the mirror from the repo root: py scripts/sync_hlk_neo4j.py"
+        )
+    elif out.get("status") == "ok":
+        if canonical != role_name:
+            out.setdefault("requested_role_name", role_name)
+            out.setdefault("resolved_role_name", canonical)
+        out.setdefault("registry_resolution", reg_resp.resolution_strategy)
+    return out
 
 
 @app.websocket("/logs")

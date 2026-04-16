@@ -491,6 +491,8 @@ def phase_summary() -> None:
         print("    1. Repair/start the gateway:    py scripts/doctor.py --repair-gateway")
         print("    2. Open the dashboard:          openclaw dashboard")
         print("    3. Switch environments:         python scripts/switch-model.py <env-name>")
+        print("    4. Control plane (+ optional graph UI): py scripts/serve-api.py")
+        print("       (Neo4j optional: compose or Aura + ~/.openclaw/.env; see USER_GUIDE §9.10)")
     print()
 
 

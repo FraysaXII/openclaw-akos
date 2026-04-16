@@ -577,7 +577,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | Module | Responsibility |
 |:-------|:---------------|
 | `akos/models.py` | Pydantic schemas for `model-tiers.json`, `openclaw.json`, environment overlays (RunPod, OpenStack), alerts, baselines, finance response envelope, HLK domain models |
-| `akos/model_catalog.py` | `CatalogEntry` Pydantic model + `load_catalog()` for `config/model-catalog.json`; drives the interactive GPU deploy picker |
+| `akos/model_catalog.py` | `CatalogEntry` + `load_catalog()` for `config/model-catalog.json`; `load_model_workflow_ssot()` reads `config/model-tiers.json` (tier × variant overlay matrix) |
 | `akos/finance.py` | `FinanceService` — quote, search, sentiment via yfinance + Alpha Vantage; TTL cache; graceful degradation when backends are absent |
 | `akos/hlk.py` | `HlkRegistry` — typed lookups over the HLK canonical vault CSVs (org roles, process items, gap detection, fuzzy search); lazy singleton; `HlkResponse` envelope |
 | `akos/io.py` | `load_json`, `save_json`, `deep_merge`, `resolve_openclaw_home`, `AGENT_WORKSPACES` (5-agent mapping) |
@@ -589,6 +589,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/runpod_provider.py` | RunPod SDK wrapper: endpoint lifecycle, health checks, scaling, inference, GPU discovery (v0.3.0) |
 | `akos/openstack_provider.py` | ShadowPC OpenStack SDK wrapper: Keystone auth, Nova instance lifecycle, Neutron security groups, floating IPs, spot termination detection, vLLM cloud-init deployment |
 | `akos/api.py` | FastAPI control plane: REST endpoints for health, status, switching, RunPod, metrics, alerts, checkpoints, context pinning, WebSocket logs (v0.4.0) |
+| `akos/graph_stack.py` | Optional **graph stack supervisor**: Streamlit explorer child + Neo4j mirror fingerprint / validate-then-sync; health snapshots for `GET /health`; used only from `scripts/serve-api.py` (not the OpenClaw gateway) |
 | `akos/tools.py` | Dynamic tool registry reading mcporter config + permissions.json; HITL classification (v0.3.0) |
 | `akos/policy.py` | Role capability matrix loader, tool profile generation, drift detection (v0.4.0) |
 | `akos/router.py` | `FailoverRouter` — automatic provider failover with 3-failure threshold, recovery probe, SOC alert integration |
@@ -606,7 +607,7 @@ The `akos/api.py` module exposes a REST API for programmatic control:
 
 | Endpoint | Method | Purpose |
 |:---------|:-------|:--------|
-| `/health` | GET | Gateway + RunPod + Langfuse status |
+| `/health` | GET | Gateway + RunPod + Langfuse + optional `graph_explorer` / `neo4j_mirror` (when `serve-api` supervises the graph stack) |
 | `/status` | GET | Current environment, model, tier, variant |
 | `/switch` | POST | Trigger model/environment switch |
 | `/agents` | GET | List agents with workspace paths and SOUL.md status |

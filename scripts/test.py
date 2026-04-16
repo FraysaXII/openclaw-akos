@@ -90,6 +90,12 @@ GROUPS: dict[str, dict] = {
         "description": "HLK domain models, registry service, API endpoints, and process CSV SSOT helpers",
         "files": ["test_hlk.py", "test_hlk_process_csv.py"],
     },
+    "graph": {
+        "description": "HLK graph lane: CSV graph model, vault links, REST /hlk/graph/* (pytest -m graph). "
+        "Bolt + graph: `python -m pytest -m \"graph and neo4j\"` with NEO4J_URI and NEO4J_PASSWORD set.",
+        "files": [],
+        "pytest_extra": ["-m", "graph"],
+    },
     "validate-hlk": {
         "description": "HLK canonical vault integrity validation (standalone)",
         "files": [],
@@ -106,7 +112,14 @@ def list_groups() -> None:
     print("  Available test groups:")
     print("  " + "-" * 56)
     for name, info in GROUPS.items():
-        print(f"  {name:16s}  {info['description']}")
+        extra = info.get("pytest_extra") or []
+        suffix = f"  [pytest: {' '.join(extra)}]" if extra else ""
+        print(f"  {name:16s}  {info['description']}{suffix}")
+    print()
+    print("  When-to-run hints:")
+    print("    graph        — after touching akos/hlk_graph_model.py, hlk_vault_links, /hlk/graph/*, serve-api graph supervisor")
+    print("    hlk          — after touching compliance CSVs (run validate_hlk.py before commit per PRECEDENCE)")
+    print("    api          — after akos/api.py or control-plane contract changes")
     print()
     print("  Usage: py scripts/test.py <group>")
     print("         py scripts/test.py uat       (live Swagger server)")
@@ -116,15 +129,17 @@ def list_groups() -> None:
 def run_tests(group: str, extra_args: list[str]) -> int:
     info = GROUPS[group]
     files = info["files"]
+    pytest_extra = list(info.get("pytest_extra") or [])
 
     cmd = [sys.executable, "-m", "pytest"]
+    cmd.extend(pytest_extra)
     if files:
         cmd.extend([str(TESTS_DIR / f) for f in files])
     else:
         cmd.append(str(TESTS_DIR))
     cmd.extend(extra_args)
 
-    print(f"\n  Running: {group} -- {info['description']}\n")
+    print(f"\n  Running: {group} -- {info['description']}\n", flush=True)
     return subprocess.call(cmd, cwd=str(REPO_ROOT))
 
 

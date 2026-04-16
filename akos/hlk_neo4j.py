@@ -27,6 +27,19 @@ def neo4j_configured() -> bool:
     return bool(os.environ.get("NEO4J_URI", "").strip() and os.environ.get("NEO4J_PASSWORD", "").strip())
 
 
+def neo4j_env_non_placeholder() -> bool:
+    """True when Bolt env vars look like real operator configuration (not template text)."""
+    if not neo4j_configured():
+        return False
+    uri = os.environ.get("NEO4J_URI", "").strip()
+    pwd = os.environ.get("NEO4J_PASSWORD", "").strip()
+    blob = f"{uri}\n{pwd}".upper()
+    for token in ("YOUR_", "CHANGE_ME", "REPLACE-", "CHANGEME", "<PASSWORD>", "TODO_"):
+        if token in blob:
+            return False
+    return True
+
+
 def get_neo4j_driver() -> Driver | None:
     """Return a Neo4j driver or ``None`` when not configured."""
     if not neo4j_configured():
@@ -399,6 +412,23 @@ def process_neighbourhood(
     }
 
 
+def _match_role_root(session: Session, role_name: str) -> tuple[str, Any | None]:
+    """Return (effective_role_name, row_or_none) for the Role root node.
+
+    Tries ``role_name`` as stored in Neo4j, then a legacy digit-O alias ``05-1``
+    when the canonical org token is ``O5-1`` (letter O).
+    """
+    q = "MATCH (r:Role {role_name: $name}) RETURN r AS node LIMIT 1"
+    hit = session.run(q, name=role_name).single()
+    if hit:
+        return role_name, hit
+    if role_name == "05-1":
+        hit = session.run(q, name="O5-1").single()
+        if hit:
+            return "O5-1", hit
+    return role_name, None
+
+
 def role_neighbourhood(
     session: Session,
     role_name: str,
@@ -410,10 +440,7 @@ def role_neighbourhood(
     depth = max(1, min(int(depth), 4))
     limit = max(1, min(int(limit), 200))
 
-    hit = session.run(
-        "MATCH (r:Role {role_name: $name}) RETURN r AS node LIMIT 1",
-        name=role_name,
-    ).single()
+    effective, hit = _match_role_root(session, role_name)
     if not hit:
         return {"status": "not_found", "role_name": role_name, "nodes": [], "edges": []}
 
@@ -435,7 +462,7 @@ def role_neighbourhood(
         OPTIONAL MATCH (r2:Role)-[:REPORTS_TO]->(r)
         RETURN collect(DISTINCT p) AS owned, collect(DISTINCT boss) AS bosses, collect(DISTINCT r2) AS reports
         """,
-        name=role_name,
+        name=effective,
     ).single()
     assert rows is not None
     for p in rows["owned"]:
@@ -456,12 +483,16 @@ def role_neighbourhood(
             edges.append({"type": "REPORTS_TO", "from": r2eid, "to": r_eid})
 
     out_nodes = list(nodes.values())[:limit]
-    return {
+    out: dict[str, Any] = {
         "status": "ok",
-        "role_name": role_name,
+        "role_name": effective,
         "depth": depth,
         "node_count": len(out_nodes),
         "edge_count": len(edges),
         "nodes": out_nodes,
         "edges": edges,
     }
+    if effective != role_name:
+        out["requested_role_name"] = role_name
+        out["resolved_role_name"] = effective
+    return out

@@ -9,8 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Initiative 08 — runtime / operator / graph stack** — Planning SSOT `docs/wip/planning/08-python-runtime-deployment/master-roadmap.md` (indexed from `docs/wip/planning/README.md`).
+- **`akos/graph_stack.py` + serve-api supervision** — `scripts/serve-api.py` optionally starts Streamlit `hlk_graph_explorer.py` as a **child process** when `NEO4J_*` is non-placeholder and Bolt is reachable; `--no-graph-explorer`, `AKOS_GRAPH_EXPLORER=0`, `--open`; background **validate-then-sync** for canonical CSV fingerprints (`AKOS_NEO4J_AUTO_SYNC`, `AKOS_NEO4J_SYNC_POLL_SECONDS`, `AKOS_NEO4J_SYNC_WATCH`, `AKOS_NEO4J_SYNC_WITH_DOCUMENTS`); `GET /health` gains `graph_explorer` and `neo4j_mirror`; `neo4j_env_non_placeholder()` in `akos/hlk_neo4j.py`; `reset_neo4j_driver_cache()` after sync; debounced mirror kick from `GET /hlk/graph/summary`.
+- **Operator / test / CI** — `scripts/akos_operator.py` thin dispatcher; `scripts/test.py` group `graph` (`pytest -m graph`); `neo4j` pytest marker; `tests/test_graph_stack.py`; optional **`Dockerfile`**; **`.github/workflows/neo4j-graph-integration.yml`** manual job with Neo4j service + sync + `pytest -m neo4j`.
+- **`load_model_workflow_ssot()`** — `akos/model_catalog.py` reads `config/model-tiers.json` as the tier × variant overlay SSOT.
+
 ### Changed
 
+- **Python packaging** — Root **`pyproject.toml`** adds `[project]` `requires-python = ">=3.10"` and pytest markers; **`.python-version`** pins **3.13** for dev; **`openstacksdk`** moved to **`requirements-openstack.txt`** (core `requirements.txt` stays lean).
+- **HLK role neighbourhood (mirror vs SSOT)** — `GET /hlk/graph/role/{role_name}/neighbourhood` resolves names via the HLK registry, returns **`mirror_sync_hint`** when Neo4j has no `Role` node yet, and Neo4j matching tolerates legacy **`05-1` → `O5-1`**. Streamlit `scripts/hlk_graph_explorer.py` and static `static/hlk_graph_explorer.html` surface the sync hint instead of a raw JSON blob when the API reports `not_found`.
 - **HLK graph zoom landmarks** — `static/hlk_graph_explorer.html` and `static/streamlit_components/hlk_vis_network/index.html` show **hub names only when zoomed out** (largest vis `size` first, hysteresis on scale) so operators can orient before zooming in; full labels return when zoomed in. Streamlit `graph_engine` help notes `streamlit-agraph` cannot attach this behaviour.
 - **HLK HTML graph explorer** — `static/hlk_graph_explorer.html` now mirrors the Streamlit canvas conventions: **PARENT_OF**/**OWNED_BY**-based **node sizing** (children / degree / balanced), **edge abbrev + tooltips + colours/widths**, **node hue nudge** by stable id, legend swatches, **edge label mode** (auto/always/hover-only), and **sessionStorage** for those prefs (re-render without re-fetch).
 - **Python dependencies** — Moved `runpod` from `requirements.txt` to optional `requirements-gpu.txt` so `pip install -r requirements.txt` succeeds on platforms where `cryptography` has no wheel yet (for example Windows with Python 3.14 free-threaded). RunPod flows remain a no-op until `pip install -r requirements-gpu.txt`; README and USER_GUIDE document the two-step install.
