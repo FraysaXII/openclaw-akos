@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Planning / UAT traceability** — [`docs/wip/README.md`](docs/wip/README.md) and [`docs/DEVELOPER_CHECKLIST.md`](docs/DEVELOPER_CHECKLIST.md) require dated `reports/uat-*.md` (or explicit SKIP/N/A) when initiatives promise browser or manual UAT; companion steps for **`.cursor/rules`** live in [`docs/wip/planning/99-proposals/cursor-rules-uat-evidence-instructions.md`](docs/wip/planning/99-proposals/cursor-rules-uat-evidence-instructions.md).
+
 - **Planning** — Initiative **10** (Madeira eval hardening) marked **complete** in `docs/wip/planning/10-madeira-eval-hardening/` with [`reports/phase-completion-report.md`](docs/wip/planning/10-madeira-eval-hardening/reports/phase-completion-report.md); planning index row **10** updated.
 
 ### Fixed

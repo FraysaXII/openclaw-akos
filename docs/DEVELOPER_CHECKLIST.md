@@ -25,6 +25,10 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 
 If you changed gateway tool policy, also verify the template uses gateway core IDs (`read`, `write`, `edit`, `apply_patch`, `exec`, etc.) and exposes MCP plugin tools through `tools.alsoAllow` rather than legacy `tools.allow`.
 
+### Planning initiative closure (`docs/wip/planning/`)
+
+When you mark an initiative **complete** or write a **phase completion** report: follow **`.cursor/rules/akos-planning-traceability.mdc`**. If the plan promised **browser**, **dashboard WebChat**, **Langfuse UI**, **Docker Desktop settings**, or other **manual** checks, add dated **`reports/uat-*.md`** with per-step PASS / SKIP / N/A (or link `docs/uat/` plus a stub with outcomes). **Playwright smoke** (step 4 above) is automated parity; it does **not** by itself replace qualitative UAT rows unless the initiative explicitly says so.
+
 ### Documentation Updates
 
 | File | When to update |
