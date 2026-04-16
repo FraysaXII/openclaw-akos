@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **`doctor.py --repair-gateway`** — When upstream recovery does not reach HTTP+RPC health, print probe state and operator hints (`gateway logs`, port 18789, dashboard).
+
 - **Browser smoke Phase 2** — `architect_tools_ui` and `executor_approval_hint` now validate against **control plane** `GET /agents` (JSON SSOT) like `agent_visibility`, instead of brittle OpenClaw Control UI copy on `GATEWAY_URL/agents` (which false-failed under msedge / OpenClaw version drift).
 
 ### Added

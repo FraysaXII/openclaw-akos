@@ -36,6 +36,8 @@ from akos.io import (
 from akos.log import setup_logging
 from akos.policy import CapabilityMatrix
 from akos.runtime import (
+    GATEWAY_HTTP_URL,
+    GatewayRecoveryResult,
     RuntimeState,
     get_gateway_status_snapshot,
     probe_gateway_http,
@@ -569,6 +571,24 @@ def run_doctor() -> list[tuple[str, str]]:
     return results
 
 
+def _print_gateway_recovery_failed_hints(recovery: GatewayRecoveryResult) -> None:
+    """Operator hints when upstream repair/start did not yield HTTP+RPC health."""
+    print()
+    print("  Gateway repair — last probe state:")
+    print(f"    HTTP GET {GATEWAY_HTTP_URL}: {'reachable' if recovery.http_ready else 'not reachable'}")
+    print(f"    RPC (`openclaw gateway call health`): {'ok' if recovery.rpc_ready else 'failed (non-zero exit)'}")
+    if recovery.cli_path:
+        print(f"    OpenClaw CLI: {recovery.cli_path}")
+    print()
+    print("  Typical causes (upstream OpenClaw / Node, not AKOS Python):")
+    print("    - Gateway process exits on config/env error — run: openclaw gateway logs")
+    print("    - Port 18789 still owned by a stale Node process — Windows: netstat -ano | findstr :18789")
+    print("    - Scheduled-task gateway not running — try: openclaw dashboard  or  openclaw gateway start")
+    print("    - Re-onboard if install is broken: openclaw onboard --install-daemon")
+    print("  See docs/USER_GUIDE.md (OpenClaw gateway / port 18789) and docs/uat/rollback_guide.md if needed.")
+    print()
+
+
 def main() -> None:
     import argparse
 
@@ -589,6 +609,7 @@ def main() -> None:
     setup_logging(json_output=args.json_log)
 
     preflight: list[tuple[str, str]] = []
+    recovery: GatewayRecoveryResult | None = None
     if args.repair_gateway:
         recovery = recover_gateway_service(repair=True, force=args.force_gateway_repair)
         if recovery.success:
@@ -618,6 +639,8 @@ def main() -> None:
     print("-" * 64)
 
     if fail_count > 0:
+        if recovery is not None and not recovery.success:
+            _print_gateway_recovery_failed_hints(recovery)
         print("\n  Some checks FAILED. Fix the issues above and re-run.\n")
         sys.exit(1)
     else:
