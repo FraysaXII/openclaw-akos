@@ -126,7 +126,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
   - `py -m pytest tests/test_api.py -v`
   - `py scripts/release-gate.py`
 - HLK KM visual manifests: when editing `docs/references/hlk/v3.0/_assets/**/*.manifest.md`, run `py scripts/validate_hlk_km_manifests.py`.
-- Browser smoke tests: `py scripts/browser-smoke.py` (HTTP-only) or `py scripts/browser-smoke.py --playwright` (DOM mode; requires `pip install playwright && playwright install chromium`). On Windows crash-prone hosts, Playwright worker crashes are surfaced as `SKIP` outcomes.
+- Browser smoke tests: `py scripts/browser-smoke.py` (HTTP-only) or `py scripts/browser-smoke.py --playwright` (DOM mode; requires `pip install playwright && playwright install chromium`). On Windows crash-prone hosts, Playwright worker crashes are surfaced as `SKIP` outcomes. **`release-gate.py` browser-smoke exit 1** with failures in `architect_tools_ui` / `executor_approval_hint` usually means **control plane `/agents` or Playwright env drift**, not a regression in the graph stack—Phase 2 asserts against the same **FastAPI** `/agents` SSOT as `agent_visibility` (not OpenClaw gateway card copy). Exit **2** (no parseable JSON from workers) is treated as a soft pass in `release-gate.py`.
 - Agent evals: `py scripts/run-evals.py --dry-run` (5 canonical tasks)
 - Checkpoint management: `py scripts/checkpoint.py create|list|restore`
 - New eval tasks go in `tests/evals/tasks.json` following the existing schema.

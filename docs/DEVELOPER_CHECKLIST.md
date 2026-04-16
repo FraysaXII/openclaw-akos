@@ -12,7 +12,7 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | 2 | `py scripts/check-drift.py` | No drift (repo vs runtime), including agent/A2A inventory, legacy `tools.allow`, and unknown runtime tool IDs |
 | 3 | `py scripts/test.py all` | Full regression suite passes |
 | 3a | `py scripts/test.py graph` | HLK graph lane (`pytest -m graph`); use with Bolt env + `pytest -m "graph and neo4j"` when changing Neo4j wiring |
-| 4 | `py scripts/browser-smoke.py --playwright` | Browser smoke; on Windows crash-prone hosts this may return SKIP instead of FAIL |
+| 4 | `py scripts/browser-smoke.py --playwright` | Browser smoke; on Windows crash-prone hosts this may return SKIP instead of FAIL. If **`release-gate`** fails only on this step with **exit 1**, read scenario details: architect/executor checks use **control plane** `GET /agents` (not OpenClaw gateway DOM). Exit **2** in `release-gate` is treated as a soft pass (worker/browser unavailable). |
 | 5 | `py -m pytest tests/test_api.py -v` | FastAPI control plane smoke |
 | 6 | `py scripts/release-gate.py` | Unified gate must report PASS (includes HLK vault validation) |
 | 7 | `py scripts/validate_hlk.py` | HLK canonical vault integrity (also run by release gate) |

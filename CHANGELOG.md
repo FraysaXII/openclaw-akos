@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Browser smoke Phase 2** — `architect_tools_ui` and `executor_approval_hint` now validate against **control plane** `GET /agents` (JSON SSOT) like `agent_visibility`, instead of brittle OpenClaw Control UI copy on `GATEWAY_URL/agents` (which false-failed under msedge / OpenClaw version drift).
+
 ### Added
 
 - **Initiative 08 — runtime / operator / graph stack** — Planning SSOT `docs/wip/planning/08-python-runtime-deployment/master-roadmap.md` (indexed from `docs/wip/planning/README.md`).
