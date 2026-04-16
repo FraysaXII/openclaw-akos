@@ -37,4 +37,4 @@ the workspace root after assembly:
 ~/.openclaw/workspace-verifier/SOUL.md      <-- VERIFIER_PROMPT.{variant}.md
 ```
 
-This is handled automatically by `python scripts/switch-model.py <environment>`.
+This is handled automatically by `python scripts/switch-model.py <environment>` and by **`py scripts/bootstrap.py`** Phase 4 (`deploy_soul_prompts`), which writes all five `SOUL.md` files after `assemble-prompts.py`. OpenClaw's **Bootstrap file** column in `openclaw status --all` should read **PRESENT** for every agent after a full bootstrap or switch-model run.

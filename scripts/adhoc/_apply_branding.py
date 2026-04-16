@@ -7,7 +7,7 @@ from akos.io import resolve_openclaw_home, load_json, save_json
 oc_path = resolve_openclaw_home() / "openclaw.json"
 cfg = load_json(oc_path)
 
-cfg.setdefault("gateway", {})["controlUi"] = {"title": "HLK Intelligence Platform"}
+# Do not set gateway.controlUi.title: OpenClaw 2026.4.x rejects unknown nested keys and can fail gateway startup.
 
 for agent in cfg.get("agents", {}).get("list", []):
     aid = agent.get("id", "")
@@ -27,8 +27,7 @@ for agent in cfg.get("agents", {}).get("list", []):
         identity["name"] = "HLK Verifier"
 
 save_json(oc_path, cfg)
-title = cfg["gateway"]["controlUi"]["title"]
 print(f"Applied HLK branding to {oc_path}")
-print(f"Gateway title: {title}")
+print("Gateway controlUi: not modified (use OpenClaw-supported keys only)")
 agents = [a["name"] for a in cfg.get("agents", {}).get("list", [])]
 print(f"Agent names: {agents}")

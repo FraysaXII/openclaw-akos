@@ -10,6 +10,7 @@ import time
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Literal
 
 import akos.process as proc
@@ -19,6 +20,13 @@ logger = logging.getLogger("akos.runtime")
 RuntimeState = Literal["healthy", "degraded", "unknown"]
 GATEWAY_HTTP_URL = "http://127.0.0.1:18789"
 GATEWAY_LISTEN_PORT = 18789
+GATEWAY_RECOVERY_INITIAL_SLEEP_SEC = 12
+GATEWAY_RECOVERY_POLL_SEC = 5
+
+_LOG_HINT_LINE = re.compile(
+    r"(?i)(pricing|bootstrap|timeout|1006|abnormal|error|gateway call failed|model-pricing|model.pricing)"
+)
+_FILE_LOG_PATH = re.compile(r"(?im)^File\s+logs?\s*:\s*(.+)$")
 
 
 def parse_windows_netstat_listening_pids(stdout: str, port: int) -> list[int]:
@@ -92,6 +100,91 @@ class GatewayRecoveryResult:
     rpc_ready: bool = False
     cli_path: str | None = None
     status: GatewayStatusSnapshot | None = None
+    recovery_hints: str = ""
+
+
+def _combine_cmd_text(stdout: str | None, stderr: str | None) -> str:
+    parts = [p for p in ((stdout or "").strip(), (stderr or "").strip()) if p]
+    return "\n".join(parts)
+
+
+def extract_openclaw_file_log_path(status_stdout: str) -> str | None:
+    """Return the path printed by ``openclaw gateway status`` (``File log(s):``), if any."""
+    m = _FILE_LOG_PATH.search(status_stdout or "")
+    if not m:
+        return None
+    path = m.group(1).strip().strip('"').strip("'")
+    return path or None
+
+
+def read_gateway_log_tail_for_diagnostics(
+    path: str,
+    *,
+    max_bytes: int = 16000,
+    max_lines: int = 48,
+) -> str:
+    """Read a tail of the gateway file log, returning only keyword-bearing lines (SOC: no full log dump)."""
+    try:
+        p = Path(path)
+        if not p.is_file():
+            return ""
+        size = p.stat().st_size
+        with p.open("rb") as f:
+            if size > max_bytes:
+                f.seek(-max_bytes, os.SEEK_END)
+            chunk = f.read().decode("utf-8", errors="replace")
+    except OSError:
+        return ""
+    lines = [ln.strip() for ln in chunk.splitlines() if _LOG_HINT_LINE.search(ln)]
+    if len(lines) > max_lines:
+        lines = lines[-max_lines:]
+    return "\n".join(lines)
+
+
+def build_gateway_recovery_operator_hints(
+    status_stdout: str,
+    rpc_detail: str,
+    log_filtered_tail: str,
+    *,
+    http_ready: bool,
+    rpc_ready: bool,
+) -> str:
+    """Turn status, RPC capture, and filtered log lines into a short operator-facing block."""
+    corpus = "\n".join([status_stdout, rpc_detail, log_filtered_tail]).lower()
+    bullets: list[str] = []
+
+    pricing_ctx = "pricing" in corpus and (
+        "bootstrap" in corpus or "model-pricing" in corpus or "model_pricing" in corpus
+    )
+    if pricing_ctx and ("timeout" in corpus or "aborted" in corpus):
+        bullets.append(
+            "AKOS diagnosis: model pricing bootstrap timed out (upstream OpenClaw). "
+            "Allow outbound HTTPS from this host, stabilize network, then retry; see OpenClaw release notes "
+            "or issues for offline or cached pricing options."
+        )
+    if "1006" in (status_stdout + rpc_detail) or "abnormal closure" in corpus:
+        bullets.append(
+            "AKOS diagnosis: WebSocket code 1006 (abnormal closure) usually means the gateway dropped the RPC "
+            "channel during startup or exited. Inspect the gateway log path from `openclaw gateway status` for "
+            "the first ERROR after `gateway start`."
+        )
+    if not bullets and not http_ready and not rpc_ready:
+        bullets.append(
+            "Neither HTTP nor RPC reached a healthy state. Confirm the gateway process stays up after "
+            "`gateway start` and review upstream `openclaw gateway logs`."
+        )
+    elif not bullets and log_filtered_tail:
+        bullets.append(
+            "Keyword-filtered lines from the OpenClaw log tail are included below (paths are local operator context)."
+        )
+
+    parts: list[str] = []
+    if bullets:
+        parts.extend(f"- {b}" for b in bullets)
+    if log_filtered_tail:
+        parts.append("OpenClaw log (keyword lines, tail region):")
+        parts.append(log_filtered_tail)
+    return "\n".join(parts).strip()
 
 
 def parse_gateway_status_output(output: str) -> GatewayStatusSnapshot:
@@ -148,25 +241,41 @@ def probe_gateway_http(url: str = GATEWAY_HTTP_URL, *, timeout: float = 5.0) -> 
         return False
 
 
+def probe_gateway_rpc_detail(cli: str, *, timeout: int = 20) -> tuple[bool, str]:
+    """Return success flag and a short combined stdout/stderr capture for diagnostics."""
+    result = proc.run([cli, "gateway", "call", "health"], timeout=timeout)
+    blob = _combine_cmd_text(result.stdout, result.stderr)
+    if len(blob) > 700:
+        blob = "... " + blob[-700:]
+    return result.success, blob
+
+
 def probe_gateway_rpc(cli: str, *, timeout: int = 20) -> bool:
     """Return True when ``openclaw gateway call health`` succeeds."""
-    result = proc.run([cli, "gateway", "call", "health"], timeout=timeout)
-    return result.success
+    ok, _ = probe_gateway_rpc_detail(cli, timeout=timeout)
+    return ok
+
+
+def fetch_gateway_status(cli: str, *, timeout: int = 20) -> tuple[GatewayStatusSnapshot | None, str]:
+    """Return normalized gateway status and raw stdout (or combined output on CLI failure)."""
+    result = proc.run([cli, "gateway", "status"], timeout=timeout)
+    if not result.success:
+        return None, _combine_cmd_text(result.stdout, result.stderr)
+    out = (result.stdout or "").strip()
+    return parse_gateway_status_output(result.stdout), out
 
 
 def get_gateway_status_snapshot(cli: str, *, timeout: int = 20) -> GatewayStatusSnapshot | None:
     """Return normalized gateway status from the OpenClaw CLI, when available."""
-    result = proc.run([cli, "gateway", "status"], timeout=timeout)
-    if not result.success:
-        return None
-    return parse_gateway_status_output(result.stdout)
+    snap, _ = fetch_gateway_status(cli, timeout=timeout)
+    return snap
 
 
 def recover_gateway_service(
     *,
     repair: bool = True,
     force: bool = False,
-    timeout_seconds: int = 90,
+    timeout_seconds: int = 150,
 ) -> GatewayRecoveryResult:
     """Attempt deterministic gateway recovery through upstream OpenClaw commands."""
     cli = resolve_openclaw_cli()
@@ -189,14 +298,22 @@ def recover_gateway_service(
             windows_release_stale_gateway_listeners()
         proc.run([cli, "gateway", "restart"], timeout=120)
 
+    time.sleep(GATEWAY_RECOVERY_INITIAL_SLEEP_SEC)
+
     deadline = time.monotonic() + timeout_seconds
     last_http = False
     last_rpc = False
     last_status: GatewayStatusSnapshot | None = None
+    last_status_stdout = ""
+    last_rpc_detail = ""
     while time.monotonic() < deadline:
         last_http = probe_gateway_http()
-        last_rpc = probe_gateway_rpc(cli)
-        last_status = get_gateway_status_snapshot(cli)
+        rpc_ok, last_rpc_detail = probe_gateway_rpc_detail(cli)
+        last_rpc = rpc_ok
+        snap, raw = fetch_gateway_status(cli)
+        last_status = snap
+        if raw:
+            last_status_stdout = raw
         if last_http and last_rpc:
             return GatewayRecoveryResult(
                 success=True,
@@ -206,11 +323,20 @@ def recover_gateway_service(
                 cli_path=cli,
                 status=last_status,
             )
-        time.sleep(5)
+        time.sleep(GATEWAY_RECOVERY_POLL_SEC)
 
     detail = (
         "gateway recovery did not reach healthy HTTP+RPC state "
         f"(http_ready={last_http}, rpc_ready={last_rpc})"
+    )
+    log_path = extract_openclaw_file_log_path(last_status_stdout)
+    log_tail = read_gateway_log_tail_for_diagnostics(log_path) if log_path else ""
+    hints = build_gateway_recovery_operator_hints(
+        last_status_stdout,
+        last_rpc_detail,
+        log_tail,
+        http_ready=last_http,
+        rpc_ready=last_rpc,
     )
     return GatewayRecoveryResult(
         success=False,
@@ -219,4 +345,5 @@ def recover_gateway_service(
         rpc_ready=last_rpc,
         cli_path=cli,
         status=last_status,
+        recovery_hints=hints,
     )

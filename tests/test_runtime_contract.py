@@ -2,6 +2,8 @@ from types import SimpleNamespace
 
 import akos.runtime as runtime
 from akos.runtime import (
+    build_gateway_recovery_operator_hints,
+    extract_openclaw_file_log_path,
     parse_gateway_status_output,
     parse_windows_netstat_listening_pids,
 )
@@ -57,20 +59,23 @@ def test_recover_gateway_service_succeeds_with_http_and_rpc(monkeypatch) -> None
         calls.append(args)
         return SimpleNamespace(success=True, stdout="", stderr="", returncode=0)
 
+    def fake_fetch(_cli, *, timeout=20):
+        return (
+            runtime.GatewayStatusSnapshot(
+                raw_runtime="unknown",
+                rpc_probe="ok",
+                listening="127.0.0.1:18789",
+                normalized_runtime="healthy",
+            ),
+            "Runtime: unknown\nRPC probe: ok\nListening: 127.0.0.1:18789\n",
+        )
+
     monkeypatch.setattr(runtime, "resolve_openclaw_cli", lambda: "openclaw.cmd")
     monkeypatch.setattr(runtime.proc, "run", fake_run)
     monkeypatch.setattr(runtime, "probe_gateway_http", lambda *_, **__: True)
-    monkeypatch.setattr(runtime, "probe_gateway_rpc", lambda *_, **__: True)
-    monkeypatch.setattr(
-        runtime,
-        "get_gateway_status_snapshot",
-        lambda *_, **__: runtime.GatewayStatusSnapshot(
-            raw_runtime="unknown",
-            rpc_probe="ok",
-            listening="127.0.0.1:18789",
-            normalized_runtime="healthy",
-        ),
-    )
+    monkeypatch.setattr(runtime, "probe_gateway_rpc_detail", lambda *_, **__: (True, ""))
+    monkeypatch.setattr(runtime, "fetch_gateway_status", fake_fetch)
+    monkeypatch.setattr(runtime.time, "sleep", lambda _s: None)
 
     result = runtime.recover_gateway_service(repair=True)
 
@@ -108,3 +113,56 @@ def test_parse_windows_netstat_listening_pids_dedupes() -> None:
   TCP    [::1]:18789           [::]:0                 LISTENING       42
 """
     assert parse_windows_netstat_listening_pids(sample, 18789) == [42]
+
+
+def test_extract_openclaw_file_log_path_accepts_file_log_and_file_logs() -> None:
+    assert extract_openclaw_file_log_path("x\nFile log: C:\\tmp\\a.log\n") == "C:\\tmp\\a.log"
+    assert extract_openclaw_file_log_path("File logs: /tmp/openclaw/x.log") == "/tmp/openclaw/x.log"
+
+
+def test_build_gateway_recovery_operator_hints_from_log_tail() -> None:
+    hints = build_gateway_recovery_operator_hints(
+        "",
+        "",
+        "gateway/model-pricing pricing bootstrap failed: TimeoutError aborted",
+        http_ready=False,
+        rpc_ready=False,
+    )
+    assert "pricing" in hints.lower()
+    assert "timeout" in hints.lower()
+
+
+def test_recover_gateway_service_failure_sets_recovery_hints(tmp_path, monkeypatch) -> None:
+    log = tmp_path / "gw.log"
+    log.write_text(
+        "noise\nERROR gateway/model-pricing pricing bootstrap failed: TimeoutError aborted\n",
+        encoding="utf-8",
+    )
+    status_text = f"RPC probe: failed\nFile logs: {log}\n"
+
+    def fake_run(args, *, timeout=120, capture=True, check=False):
+        return SimpleNamespace(success=True, stdout="", stderr="", returncode=0)
+
+    def fake_fetch(_cli, *, timeout=20):
+        snap = runtime.parse_gateway_status_output(status_text)
+        return snap, status_text
+
+    mono = iter([0.0, 10.0, 200.0])
+
+    monkeypatch.setattr(runtime, "resolve_openclaw_cli", lambda: "openclaw.cmd")
+    monkeypatch.setattr(runtime.proc, "run", fake_run)
+    monkeypatch.setattr(runtime, "probe_gateway_http", lambda *_, **__: False)
+    monkeypatch.setattr(
+        runtime,
+        "probe_gateway_rpc_detail",
+        lambda *_, **__: (False, "websocket closed with code 1006"),
+    )
+    monkeypatch.setattr(runtime, "fetch_gateway_status", fake_fetch)
+    monkeypatch.setattr(runtime.time, "sleep", lambda _s: None)
+    monkeypatch.setattr(runtime.time, "monotonic", lambda: next(mono, 999.0))
+
+    result = runtime.recover_gateway_service(repair=False, timeout_seconds=30)
+    assert result.success is False
+    assert result.recovery_hints
+    assert "1006" in result.recovery_hints
+    assert "pricing" in result.recovery_hints.lower()
