@@ -574,16 +574,16 @@ def run_doctor() -> list[tuple[str, str]]:
 def _print_gateway_recovery_failed_hints(recovery: GatewayRecoveryResult) -> None:
     """Operator hints when upstream repair/start did not yield HTTP+RPC health."""
     print()
-    print("  Gateway repair — last probe state:")
+    print("  Gateway repair - last probe state:")
     print(f"    HTTP GET {GATEWAY_HTTP_URL}: {'reachable' if recovery.http_ready else 'not reachable'}")
     print(f"    RPC (`openclaw gateway call health`): {'ok' if recovery.rpc_ready else 'failed (non-zero exit)'}")
     if recovery.cli_path:
         print(f"    OpenClaw CLI: {recovery.cli_path}")
     print()
     print("  Typical causes (upstream OpenClaw / Node, not AKOS Python):")
-    print("    - Gateway process exits on config/env error — run: openclaw gateway logs")
-    print("    - Port 18789 still owned by a stale Node process — Windows: netstat -ano | findstr :18789")
-    print("    - Scheduled-task gateway not running — try: openclaw dashboard  or  openclaw gateway start")
+    print("    - Gateway process exits on config/env error - run: openclaw gateway logs")
+    print("    - Port 18789 still owned by a stale Node process - Windows: netstat -ano | findstr :18789")
+    print("    - Scheduled-task gateway not running - try: openclaw dashboard  or  openclaw gateway start")
     print("    - Re-onboard if install is broken: openclaw onboard --install-daemon")
     print("  See docs/USER_GUIDE.md (OpenClaw gateway / port 18789) and docs/uat/rollback_guide.md if needed.")
     print()
