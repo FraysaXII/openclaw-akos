@@ -22,6 +22,77 @@
   var parentMap = {};
   var pinned = new Set();
   var dragStartPos = null;
+  var lodLabelMap = null;
+  var lodZoomTimer = null;
+  var lodZoomedOut = false;
+
+  function networkScale() {
+    if (!network || typeof network.getScale !== "function") return 1;
+    var sc = network.getScale();
+    if (sc != null && typeof sc === "object" && sc.x != null) return Math.min(sc.x, sc.y);
+    return Number(sc) || 1;
+  }
+
+  function landmarkCount(n) {
+    return Math.min(22, Math.max(5, Math.round(6 + n * 0.09)));
+  }
+
+  function rebuildLodLabelMap(nodeList) {
+    lodLabelMap = new Map();
+    (nodeList || []).forEach(function (n) {
+      var id = String(n.id);
+      lodLabelMap.set(id, String(n.label != null ? n.label : id));
+    });
+  }
+
+  function applyZoomLodLabels() {
+    if (!network || !nodesDS || !lodLabelMap) return;
+    var ids = nodesDS.getIds();
+    var n = ids.length;
+    if (n === 0) return;
+    var scale = networkScale();
+    var ENTER = 0.40;
+    var EXIT = 0.48;
+    var z = lodZoomedOut;
+    if (!z && scale < ENTER) z = true;
+    else if (z && scale > EXIT) z = false;
+    lodZoomedOut = z;
+    var fullFont = { color: "#f1f5f9", size: 14, strokeWidth: 2, strokeColor: "#0f172a" };
+    var hubFont = { color: "#f8fafc", size: 15, strokeWidth: 2, strokeColor: "#0b0f14" };
+    var updates = [];
+    if (!z) {
+      for (var i = 0; i < ids.length; i++) {
+        var id1 = ids[i];
+        updates.push({ id: id1, label: lodLabelMap.get(id1) || id1, font: Object.assign({}, fullFont) });
+      }
+    } else {
+      var scored = ids.map(function (id) {
+        var node = nodesDS.get(id);
+        var sz = node && node.size != null ? Number(node.size) : 18;
+        return { id: id, sz: sz };
+      });
+      scored.sort(function (a, b) { return b.sz - a.sz; });
+      var k = landmarkCount(n);
+      var keep = {};
+      for (var j = 0; j < k && j < scored.length; j++) keep[scored[j].id] = true;
+      for (var i2 = 0; i2 < ids.length; i2++) {
+        var id2 = ids[i2];
+        var full = lodLabelMap.get(id2) || id2;
+        if (keep[id2]) {
+          var short = full.length > 26 ? full.slice(0, 24) + "…" : full;
+          updates.push({ id: id2, label: short, font: Object.assign({}, hubFont) });
+        } else {
+          updates.push({ id: id2, label: "", font: { color: "#e8eef5", size: 8, strokeWidth: 0 } });
+        }
+      }
+    }
+    nodesDS.update(updates);
+  }
+
+  function scheduleZoomLod() {
+    clearTimeout(lodZoomTimer);
+    lodZoomTimer = setTimeout(applyZoomLodLabels, 70);
+  }
 
   function sendBack(type, data) {
     window.parent.postMessage(Object.assign({ isStreamlitMessage: true, type: type }, data), "*");
@@ -75,8 +146,14 @@
     if (!nodesDS) {
       nodesDS = new vis.DataSet(nodes);
       edgesDS = new vis.DataSet(edges);
+      rebuildLodLabelMap(nodes);
+      lodZoomedOut = false;
       var container = document.getElementById("net");
       network = new vis.Network(container, { nodes: nodesDS, edges: edgesDS }, options);
+      network.on("zoom", scheduleZoomLod);
+      network.once("stabilizationIterationsDone", function () {
+        applyZoomLodLabels();
+      });
       network.on("selectNode", function (p) {
         if (!p.nodes || !p.nodes.length) return;
         emitState(String(p.nodes[0]));
@@ -114,6 +191,11 @@
       nodesDS.add(nodes);
       edgesDS.add(edges);
       network.setOptions(options);
+      rebuildLodLabelMap(nodes);
+      lodZoomedOut = false;
+      setTimeout(function () {
+        applyZoomLodLabels();
+      }, 0);
     }
     setFrameHeight();
   }

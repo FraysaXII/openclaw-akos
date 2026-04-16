@@ -1388,7 +1388,7 @@ def main() -> None:
 - **Physics**: vis force simulation (default on). **NX seed**: only initial positions before physics runs.
 - **Label focus**: *uniform* vs *degree* (show text labels on higher-degree nodes only).
 - **Layout mode**: *Force* for exploration; *Tree* for a hierarchical read path (falls back if a `REPORTS_TO` cycle blocks levels).
-- **Graph engine**: `streamlit-agraph` (default) vs **vis component** (local `streamlit.components.v1` bundle) for drag-end pin / magnetic MVP.
+- **Graph engine**: `streamlit-agraph` (default) vs **vis component** (local `streamlit.components.v1` bundle) for drag-end pin / magnetic MVP and **zoom-out hub labels** (same idea as the HTML explorer; not available on `agraph` alone).
 - **Lock layout**: freezes NetworkX positions (requires **networkx**); not compatible with hierarchical tree mode.
 - **HTML graph explorer**: CDN/offline full vis page when you need parity outside Streamlit.
                 """.strip()
@@ -1657,7 +1657,8 @@ def main() -> None:
             format_func=lambda e: "streamlit-agraph" if e == "agraph" else "vis component (drag/pin)",
             key="graph_engine",
             horizontal=True,
-            help="vis_component loads `static/streamlit_components/hlk_vis_network/` (vis-network CDN + Streamlit bridge).",
+            help="vis_component loads `static/streamlit_components/hlk_vis_network/` (vis-network CDN + Streamlit bridge). "
+            "Includes **zoom-based landmark labels** (hub names when zoomed out). `streamlit-agraph` cannot hook vis zoom; use **HTML** explorer for the same behaviour.",
         )
         st.checkbox(
             "Lock layout (NetworkX freeze)",

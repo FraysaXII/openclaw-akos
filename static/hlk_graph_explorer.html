@@ -343,7 +343,7 @@
           <div id="graphInner"></div>
           <div class="graph-empty" id="graphPlaceholder">Choose a role or process above, then draw the graph. Summary cards still work if the vis-network CDN is blocked.</div>
         </div>
-        <footer class="note">Prefer Streamlit? <code>py scripts/hlk_graph_explorer.py</code> — same registry + search pickers and graph endpoints as this page.</footer>
+        <footer class="note">Zoom out: only the <strong>largest hubs</strong> keep short names so you can spot where to zoom back in; zoom in for full labels on every node. Prefer Streamlit? <code>py scripts/hlk_graph_explorer.py</code> — same registry + search pickers and graph endpoints as this page (landmark zoom also when using the <strong>vis component</strong> engine).</footer>
       </section>
     </main>
   </div>
@@ -372,6 +372,71 @@
   let network = null;
   let selectedProcessId = "";
   let lastGraphPayload = null;
+  /** Zoom label LOD: vis scale drops → show names only on largest nodes (by canvas size). */
+  let lodState = { nodesDS: null, labelMap: null, zoomOutLod: false };
+  let zoomLabelTimer = null;
+
+  function landmarkLabelCount(nodeCount) {
+    return Math.min(22, Math.max(5, Math.round(6 + nodeCount * 0.09)));
+  }
+
+  function networkScale() {
+    if (!network || typeof network.getScale !== "function") return 1;
+    const sc = network.getScale();
+    if (sc != null && typeof sc === "object" && sc.x != null) return Math.min(sc.x, sc.y);
+    return Number(sc) || 1;
+  }
+
+  function applyZoomBasedLabels() {
+    const ds = lodState.nodesDS;
+    const labelMap = lodState.labelMap;
+    if (!network || !ds || !labelMap) return;
+    const scale = networkScale();
+    const ids = ds.getIds();
+    const n = ids.length;
+    if (n === 0) return;
+    const ENTER = 0.40;
+    const EXIT = 0.48;
+    let z = lodState.zoomOutLod;
+    if (!z && scale < ENTER) z = true;
+    else if (z && scale > EXIT) z = false;
+    lodState.zoomOutLod = z;
+    const updates = [];
+    const fullFont = { color: "hsl(210 15% 96%)", size: 13, strokeWidth: 2, strokeColor: "#0f172a" };
+    const hubFont = { color: "hsl(210 15% 98%)", size: 15, strokeWidth: 2, strokeColor: "#0b0f14" };
+    if (!z) {
+      for (let i = 0; i < ids.length; i++) {
+        const id = ids[i];
+        const full = labelMap.get(id) || id;
+        updates.push({ id: id, label: full, font: Object.assign({}, fullFont) });
+      }
+    } else {
+      const scored = ids.map(function (id) {
+        const node = ds.get(id);
+        const sz = node && node.size != null ? Number(node.size) : 18;
+        return { id: id, sz: sz };
+      });
+      scored.sort(function (a, b) { return b.sz - a.sz; });
+      const k = landmarkLabelCount(n);
+      const keep = new Set(scored.slice(0, k).map(function (x) { return x.id; }));
+      for (let i = 0; i < ids.length; i++) {
+        const id = ids[i];
+        const full = labelMap.get(id) || id;
+        if (keep.has(id)) {
+          const short = full.length > 26 ? full.slice(0, 24) + "…" : full;
+          updates.push({ id: id, label: short, font: Object.assign({}, hubFont) });
+        } else {
+          updates.push({ id: id, label: "", font: { color: "hsl(210 15% 90%)", size: 8, strokeWidth: 0 } });
+        }
+      }
+    }
+    ds.update(updates);
+  }
+
+  function scheduleZoomLabels() {
+    clearTimeout(zoomLabelTimer);
+    zoomLabelTimer = setTimeout(applyZoomBasedLabels, 70);
+  }
 
   try {
     const sb = sessionStorage.getItem(PREFS_SIZE);
@@ -611,6 +676,9 @@
 
   function ensureGraphCanvas() {
     graphPlaceholder.style.display = "none";
+    clearTimeout(zoomLabelTimer);
+    zoomLabelTimer = null;
+    lodState = { nodesDS: null, labelMap: null, zoomOutLod: false };
     if (network) { network.destroy(); network = null; }
     graphHost.innerHTML = "";
   }
@@ -848,8 +916,16 @@
       interaction: { hover: true, tooltipDelay: 120 },
     };
     ensureGraphCanvas();
+    lodState.labelMap = new Map();
+    for (const p of parsed) lodState.labelMap.set(p.id, p.label);
+    lodState.nodesDS = visData.nodes;
+    lodState.zoomOutLod = false;
     network = new vis.Network(graphHost, visData, opts);
-    network.once("stabilizationIterationsDone", function () { network.setOptions({ physics: false }); });
+    network.on("zoom", scheduleZoomLabels);
+    network.once("stabilizationIterationsDone", function () {
+      network.setOptions({ physics: false });
+      applyZoomBasedLabels();
+    });
     lastGraphPayload = data;
   }
 
