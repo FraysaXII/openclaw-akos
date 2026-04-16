@@ -20,6 +20,17 @@ Use this rule when creating or updating roadmap, phase-plan, or execution-report
   - or `docs/wip/planning/<NN-initiative-slug>/phase-<n>-plan.md`
 - Store progress or completion notes beside it as:
   - `docs/wip/planning/<NN-initiative-slug>/reports/phase-<n>-report.md`
+- Store **operator / browser UAT evidence** beside it as dated markdown under the same `reports/` folder (see **UAT evidence contract** below).
+
+## UAT evidence contract (automated gates vs qualitative sign-off)
+
+- **Automated verification** (inventory verify, drift, `py scripts/test.py all`, `py scripts/release-gate.py`, `py scripts/browser-smoke.py --playwright`, targeted pytest, HLK validators when in scope) is **necessary** but **not sufficient** to claim every initiative acceptance criterion when the plan or `master-roadmap.md` also promises **browser**, **dashboard WebChat**, **Cursor Browser MCP**, **Langfuse UI**, **Docker Desktop settings**, or other **human-in-the-loop** checks.
+- **`browser-smoke.py --playwright`** exercises scripted control-plane / API parity scenarios; it does **not** replace a written **dimension checklist** or WebChat qualitative sign-off unless the initiative explicitly equates them.
+- When closing a phase or marking an initiative **complete**, if the source Cursor plan or `master-roadmap.md` required any of those qualitative rows, the initiative **must** include **at least one** of:
+  - A dated **`reports/uat-<topic>-<YYYYMMDD>.md`** (or `uat-<topic>-browser-<YYYYMMDD>.md`) with a **results table**: step, PASS / SKIP / N/A, short note; **SOC:** no secrets, API keys, or full prompts in evidence files.
+  - Or a **link** to an existing canonical UAT doc under `docs/uat/` **plus** a short `reports/` stub that records **date**, **who ran it**, and **per-row outcomes** (not only "see USER_GUIDE").
+- If a row was **not** run, record **SKIP** or **N/A** with a one-line reason (e.g. Langfuse not configured, Neo4j mirror absent). **Do not** close with only "run `docs/DEVELOPER_CHECKLIST.md`" when browser UAT was in scope.
+- **Precedent:** [`docs/wip/planning/07-hlk-neo4j-graph-projection/reports/uat-graph-explorer-browser-20260415.md`](../../docs/wip/planning/07-hlk-neo4j-graph-projection/reports/uat-graph-explorer-browser-20260415.md) and [`reports/uat-neo4j-graph-evidence-template.md`](../../docs/wip/planning/07-hlk-neo4j-graph-projection/reports/uat-neo4j-graph-evidence-template.md). Madeira / gateway WebChat baselines live under [`docs/uat/hlk_admin_smoke.md`](../../docs/uat/hlk_admin_smoke.md); initiative reports should **point there** when reusing scenarios, and still record **closure-specific** outcomes when the plan added new acceptance rows.
 
 ## Scope Split
 
@@ -55,3 +66,4 @@ Plans that modify canonical compliance CSVs (`baseline_organisation.csv`, `proce
 - Do not treat `docs/wip` copies as release docs.
 - Verify that the plan's asset classification matches `PRECEDENCE.md` current state.
 - Verify that the plan's verification matrix is not narrower than the repo's governed matrix.
+- If the initiative promised browser or manual UAT, verify a **dated `reports/uat-*.md`** (or linked canonical UAT + outcome stub) exists before treating the initiative as **closed**.

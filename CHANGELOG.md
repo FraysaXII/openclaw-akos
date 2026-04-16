@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Initiative 10 — Phase 6 UAT evidence** — [`docs/wip/planning/10-madeira-eval-hardening/reports/uat-madeira-path-bc-browser-20260416.md`](docs/wip/planning/10-madeira-eval-hardening/reports/uat-madeira-path-bc-browser-20260416.md) (PASS/SKIP/N/A table; SSOT + inventory + smoke where gateway down). Cross-links: [`phase-completion-report.md`](docs/wip/planning/10-madeira-eval-hardening/reports/phase-completion-report.md), [`master-roadmap.md`](docs/wip/planning/10-madeira-eval-hardening/master-roadmap.md), [`docs/uat/hlk_admin_smoke.md`](docs/uat/hlk_admin_smoke.md), [`docs/wip/planning/README.md`](docs/wip/planning/README.md).
+
+- **`.cursor/rules`** — [`akos-planning-traceability.mdc`](.cursor/rules/akos-planning-traceability.mdc): **UAT evidence contract** (automated vs browser/manual sign-off) + quality check; [`akos-governance-remediation.mdc`](.cursor/rules/akos-governance-remediation.mdc): **UAT vs automated smoke** bullet under planning + verification.
+
 - **Planning / UAT traceability** — [`docs/wip/README.md`](docs/wip/README.md) and [`docs/DEVELOPER_CHECKLIST.md`](docs/DEVELOPER_CHECKLIST.md) require dated `reports/uat-*.md` (or explicit SKIP/N/A) when initiatives promise browser or manual UAT; companion steps for **`.cursor/rules`** live in [`docs/wip/planning/99-proposals/cursor-rules-uat-evidence-instructions.md`](docs/wip/planning/99-proposals/cursor-rules-uat-evidence-instructions.md).
 
 - **Planning** — Initiative **10** (Madeira eval hardening) marked **complete** in `docs/wip/planning/10-madeira-eval-hardening/` with [`reports/phase-completion-report.md`](docs/wip/planning/10-madeira-eval-hardening/reports/phase-completion-report.md); planning index row **10** updated.

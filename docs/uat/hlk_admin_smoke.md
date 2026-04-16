@@ -6,6 +6,8 @@
 - AKOS API running (`py scripts/serve-api.py --port 8420`) and HLK MCP server available.
 **GPU note**: If a live GPU lane is in scope for this UAT run, complete [`gpu_provider_unblock_checklist.md`](gpu_provider_unblock_checklist.md) first.
 
+**Related (initiative 10):** Madeira Path B+C + Phase 6 dimension spot-checks and SSOT/browser parity table — [`../wip/planning/10-madeira-eval-hardening/reports/uat-madeira-path-bc-browser-20260416.md`](../wip/planning/10-madeira-eval-hardening/reports/uat-madeira-path-bc-browser-20260416.md).
+
 ## Scenario 0: Dashboard Entrypoint (MADEIRA agent)
 
 **Goal**: Verify the Madeira agent is accessible and answers HLK questions directly in the dashboard.

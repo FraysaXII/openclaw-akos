@@ -1,7 +1,7 @@
 # Initiative 10 — Madeira Path B+C, SOTA quality, eval harness
 
-**Status:** **complete** (2026-04-15). Closure notes: [`reports/phase-completion-report.md`](reports/phase-completion-report.md).  
-**Canonical plan source (read-only reference):** Cursor plan `madeira_b+c_and_sota_eval` (do not treat this folder as replacing that file).
+**Status:** **complete** (2026-04-15). Closure notes: [`reports/phase-completion-report.md`](reports/phase-completion-report.md). **Phase 6 browser UAT evidence:** [`reports/uat-madeira-path-bc-browser-20260416.md`](reports/uat-madeira-path-bc-browser-20260416.md) (2026-04-16; re-run when gateway is up for live WebChat rows).  
+**Canonical plan source (read-only reference):** Cursor plan `madeira_b+c_and_sota_eval` (do not treat this folder as replacing that file). **Operator:** reconcile that plan’s YAML todos (`phase2c`, `phase3b`, `phase6`) with repo state under `~/.cursor/plans/` — not versioned here.
 
 ## Asset classification (HLK)
 

@@ -75,4 +75,5 @@ Use these rules whenever planning or executing work in this repo (all agent mode
   - Planner agents should:
     - Reuse the phase structure and acceptance criteria from the governed runtime/inventory remediation plan.
     - Explicitly call out which existing scripts/tests/docs they will touch and how they preserve the above contracts.
+  - **UAT vs automated smoke:** Treat `py scripts/browser-smoke.py --playwright` as **automated** coverage. When a phase plan or initiative roadmap also specifies **dashboard WebChat**, **Cursor Browser MCP**, **Langfuse UI**, or similar **operator sign-off**, follow **`.cursor/rules/akos-planning-traceability.mdc`** — record dated outcomes under `docs/wip/planning/<NN-initiative-slug>/reports/` (e.g. `uat-*.md`) or explicit SKIP/N/A per row. Do not mark those phases **complete** on automated gates alone.
 

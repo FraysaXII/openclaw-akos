@@ -25,3 +25,9 @@ Executed from repo root after final doc updates:
 - `py scripts/release-gate.py` — PASS  
 
 Full matrix remains as in [`DEVELOPER_CHECKLIST.md`](../../../../../DEVELOPER_CHECKLIST.md) (inventory verify, drift, browser-smoke with Playwright, `test_api`, HLK validators when assets change).
+
+## Browser / Phase 6 UAT evidence (remediation 2026-04-16)
+
+Automated gates above are **not** the same as the Cursor plan’s **Phase 6** qualitative rows (WebChat, Langfuse UI, optional Docker Settings). That gap is closed with a dated evidence file:
+
+- [`uat-madeira-path-bc-browser-20260416.md`](uat-madeira-path-bc-browser-20260416.md) — PASS/SKIP/N/A table (SSOT + inventory + smoke parity where gateway was down; operator follow-up for live WebChat).
