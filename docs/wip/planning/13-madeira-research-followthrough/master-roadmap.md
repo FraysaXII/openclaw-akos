@@ -34,4 +34,5 @@ Full gate set: [`docs/DEVELOPER_CHECKLIST.md`](../../../DEVELOPER_CHECKLIST.md) 
 ## Reports
 
 - Intent benchmark protocol and artifacts: [`reports/README.md`](reports/README.md)
-- Optional UAT: `reports/uat-madeira-research-followthrough-<YYYYMMDD>.md`
+- UAT stub: [`reports/uat-madeira-research-followthrough-20260417.md`](reports/uat-madeira-research-followthrough-20260417.md)
+- Doc accuracy checklist: [`reports/doc-accuracy-20260417.md`](reports/doc-accuracy-20260417.md)

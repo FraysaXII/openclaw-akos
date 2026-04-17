@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Initiative 13 — MADEIRA research follow-through** — [`docs/wip/planning/13-madeira-research-followthrough/master-roadmap.md`](docs/wip/planning/13-madeira-research-followthrough/master-roadmap.md): intent exemplar expansion for acronym-heavy HLK phrasing (`config/intent-exemplars.json`); golden routing corpus [`tests/fixtures/intent_golden.json`](tests/fixtures/intent_golden.json) + [`tests/test_intent_golden.py`](tests/test_intent_golden.py); [`scripts/intent_benchmark.py`](scripts/intent_benchmark.py); clearer escalation `operator_message` strings (`akos/intent.py`) and Madeira **AKOS operator paths** (Path 1–4) + acronym disambiguation + dashboard handoff language (`prompts/base/MADEIRA_BASE.md`, `prompts/overlays/OVERLAY_MADEIRA_OPS.md`, `prompts/MADEIRA_PROMPT.md`); [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md) §5.2; [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) prompt-tiering cross-link; reports under [`docs/wip/planning/13-madeira-research-followthrough/reports/`](docs/wip/planning/13-madeira-research-followthrough/reports/) (intent benchmark, doc-accuracy, UAT stub). Planning index: [`docs/wip/planning/README.md`](docs/wip/planning/README.md).
+
 ### Documentation
 
 - **Planning — Initiative 12** — [`docs/wip/planning/12-madeira-research-request/research-request-madeira.md`](docs/wip/planning/12-madeira-research-request/research-request-madeira.md): external research-team request (use cases, technology, frameworks, user journeys) plus Holistika/HLK governance context; [`master-roadmap.md`](docs/wip/planning/12-madeira-research-request/master-roadmap.md); index row in [`docs/wip/planning/README.md`](docs/wip/planning/README.md). **Updates:** system-of-record table with self-contained summaries per artefact; **HLK Operator Model** subsection with Paths 1–4 (inquiry → vault operator workflow → swarm coordination → optional ops prose) so the handoff is not truncated at a §24 reference.
