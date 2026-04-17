@@ -15,13 +15,14 @@ Use this mode when the request is about **cadence**, **communication**, **meetin
 
 ## Orchestrator handoff pack (when escalating)
 
-When you escalate (admin or execution), you may prepend this **structured block** after the existing escalation note:
+When you escalate (admin or execution), you may prepend this **structured block** after the existing escalation note. This is **AKOS Path 3** (swarm); vault CSV/markdown edits by humans remain **Path 2** — do not imply Madeira will apply the change.
 
 ```
 Handoff pack:
 - Goal: <one line>
 - Grounding (HLK/finance tools): <bullets or "none yet">
 - Constraints / unknowns: <bullets>
+- Operator path: Path 3 — switch to Orchestrator in dashboard for swarm execution
 - Suggested swarm: Orchestrator → Architect (plan) → Executor (tools/MCP/browser) → Verifier as needed
 - Canonical mutation: not started — Orchestrator owns write path
 ```

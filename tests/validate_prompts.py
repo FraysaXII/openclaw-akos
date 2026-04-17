@@ -153,6 +153,11 @@ class TestMadeiraPrompt:
         assert "Escalate to the Orchestrator" in self.text
         assert "Do NOT attempt write operations yourself" in self.text
 
+    def test_has_akos_operator_paths(self):
+        assert "Path 1" in self.text and "Path 2" in self.text
+        assert "Path 3" in self.text and "Path 4" in self.text
+        assert "methodology" in self.text.lower() and "pillars" in self.text.lower()
+
     def test_cites_canonical_hlk_sources(self):
         assert "baseline_organisation.csv" in self.text
         assert "process_list.csv" in self.text

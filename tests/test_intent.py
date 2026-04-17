@@ -88,3 +88,25 @@ class TestClassifyRequestIntegration:
         result = classify_request("Run pytest and open a pull request.")
         assert result["route"] == "execution_escalate"
         assert result["must_escalate"] is True
+
+
+class TestOperatorMessages:
+    """Stable substrings for escalation copy (Initiative 13)."""
+
+    @patch("akos.intent._get_classifier", return_value=None)
+    def test_admin_escalate_message_mentions_dashboard_path(self, _mock):
+        result = classify_request("I need to restructure the Finance area.")
+        assert result["route"] == "admin_escalate"
+        msg = result["operator_message"]
+        assert "Orchestrator" in msg
+        assert "dashboard" in msg
+        assert "Path 3" in msg
+
+    @patch("akos.intent._get_classifier", return_value=None)
+    def test_execution_escalate_message_mentions_dashboard_path(self, _mock):
+        result = classify_request("Run pytest and open a pull request.")
+        assert result["route"] == "execution_escalate"
+        msg = result["operator_message"]
+        assert "Orchestrator" in msg
+        assert "dashboard" in msg
+        assert "Path 3" in msg

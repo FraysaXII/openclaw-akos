@@ -69,7 +69,8 @@ _ROUTE_MESSAGES: dict[str, dict[str, Any]] = {
         "reason": "Mutation or organisational restructure intent detected.",
         "operator_message": (
             "This is a write/admin workflow and must be escalated to the Orchestrator "
-            "for coordinated execution. If you want, I can first summarize the current canonical structure."
+            "for coordinated execution — switch to the Orchestrator agent in the dashboard (Path 3). "
+            "If you want, I can first summarize the current canonical structure."
         ),
     },
     "execution_escalate": {
@@ -77,7 +78,8 @@ _ROUTE_MESSAGES: dict[str, dict[str, Any]] = {
         "reason": "Coding, browser automation, MCP, or multi-step execution intent detected.",
         "operator_message": (
             "This request needs code, browser, MCP, or multi-step execution. Madeira is read-only at the gateway; "
-            "escalate to the Orchestrator for swarm coordination (Architect planning, Executor tooling, Verifier checks)."
+            "switch to the Orchestrator agent in the dashboard for swarm coordination "
+            "(Path 3: Architect planning, Executor tooling, Verifier checks)."
         ),
     },
     "finance_research": {
