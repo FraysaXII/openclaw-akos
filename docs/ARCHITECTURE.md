@@ -669,6 +669,7 @@ Launch: `python scripts/serve-api.py --port 8420`
 | `scripts/check-drift.py` | Detect repo-to-runtime mismatches |
 | `scripts/doctor.py` | One-command system health check; normalizes `Runtime: unknown` to `healthy` when probe/listener evidence is healthy, and checks determinism |
 | `scripts/browser-smoke.py` | Programmatic browser smoke test (HTTP + Playwright incl. `/hlk/graph/summary`, `/hlk/graph/explorer`, and **Scenario 0** HLK REST golden scenarios `scenario0_*`); Playwright `dashboard_health` uses API `/health` (not Swagger `/docs`) to avoid cold-start timeouts; Windows parent parses `JSON_RESULTS` even when worker exits non-zero; exit `2` when workers emit no parseable JSON (release gate treats as soft PASS) |
+| `scripts/intent_benchmark.py` | Print intent routing for `tests/fixtures/intent_golden.json` (regex vs embedding when Ollama + `nomic-embed-text` available); before/after diagnostics for exemplar tuning |
 | `scripts/run-evals.py` | Agent reliability eval runner (5 canonical tasks) |
 | `scripts/checkpoint.py` | Checkpoint CLI (create/list/restore workspace snapshots) |
 | `scripts/sync-runtime.py` | Hydrate runtime from repo SSOT |

@@ -1,0 +1,45 @@
+{
+  "_comment": "Golden routing expectations for _classify_regex (CI). Embedding path is trained via config/intent-exemplars.json; optional local embed checks use AKOS_INTENT_EMBED_TEST=1.",
+  "cases": [
+    {
+      "id": "hlk_acronym_pmo",
+      "query": "What does PMO mean in our HLK context?",
+      "expect_regex_route": "hlk_lookup"
+    },
+    {
+      "id": "hlk_acronym_dri",
+      "query": "In HLK, who is the DRI for the data governance process?",
+      "expect_regex_route": "hlk_lookup"
+    },
+    {
+      "id": "hlk_search_acronym",
+      "query": "Search HLK for PMO and list matching roles or workstreams.",
+      "expect_regex_route": "hlk_search"
+    },
+    {
+      "id": "hlk_lookup_disambiguate_role",
+      "query": "When people say CDO here, which HLK role does that refer to?",
+      "expect_regex_route": "hlk_lookup"
+    },
+    {
+      "id": "other_clarify_no_hlk_token",
+      "query": "What does PMO usually mean in general business English?",
+      "expect_regex_route": "other"
+    },
+    {
+      "id": "standup_still_other",
+      "query": "Help me draft a short standup update for today.",
+      "expect_regex_route": "other"
+    },
+    {
+      "id": "admin_still_escalates",
+      "query": "Create a new role under the CTO.",
+      "expect_regex_route": "admin_escalate"
+    },
+    {
+      "id": "exec_still_escalates",
+      "query": "Run pytest on the service and fix failing tests.",
+      "expect_regex_route": "execution_escalate"
+    }
+  ]
+}

@@ -28,7 +28,8 @@
     "Prepare talking points for my weekly sync with stakeholders.",
     "What should I put in my daily standup notes?",
     "Give me a checklist for preparing a client status call.",
-    "Help me outline a weekly sync agenda with no org changes."
+    "Help me outline a weekly sync agenda with no org changes.",
+    "What does PMO usually mean in general business English?"
   ],
   "hlk_lookup": [
     "What should I highlight in standup about my team's HLK priorities?",
@@ -39,7 +40,12 @@
     "Tell me about the Brand Manager role.",
     "What entity does the UX Designer belong to?",
     "Who reports to O5-1?",
-    "What area is the Legal Counsel in?"
+    "What area is the Legal Counsel in?",
+    "What does PMO mean in our HLK context?",
+    "In HLK, who is the DRI for the data governance process?",
+    "When people say CDO here, which HLK role does that refer to?",
+    "Does the acronym CTO match the canonical role name in baseline?",
+    "Which HLK process owns the KiRBe acronym?"
   ],
   "hlk_search": [
     "Search HLK for CTO and return the closest canonical role.",
@@ -47,7 +53,8 @@
     "Look up processes related to data governance.",
     "Search the vault for compliance-related workstreams.",
     "Find the project that covers KiRBe development.",
-    "Search for all processes owned by the PMO."
+    "Search for all processes owned by the PMO.",
+    "Search HLK for PMO and list matching roles or workstreams."
   ],
   "finance_research": [
     "What is the current stock price of Apple?",

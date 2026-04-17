@@ -117,6 +117,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - Finance service changes must have tests in `tests/test_finance.py` (normalization, caching, missing API key degradation, error states).
 - HLK domain changes must have tests in `tests/test_hlk.py` (model parsing, registry lookups, chain traversal, gap detection, API endpoints).
 - `scripts/browser-smoke.py` Scenario 0 evaluators must stay covered by `tests/test_browser_smoke_scenario0_evaluators.py` when golden expectations change.
+- Intent routing / `config/intent-exemplars.json`: run `py -m pytest tests/test_intent.py tests/test_intent_golden.py -v`; optional before/after table via `py scripts/intent_benchmark.py` (requires repo root on `PYTHONPATH`; uses live Ollama embeddings when available).
 - OpenStack provider request-shape changes must have tests in `tests/test_openstack_provider.py`.
 - New agent prompts/overlays must be covered by `tests/test_e2e_pipeline.py`.
 - Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint. Bootstrap derives each agent's runtime `tools.profile` from the capability matrix, while `config/openclaw.json.example` remains the SSOT for curated gateway `alsoAllow` / `deny`, session, and browser semantics. Keep those layers aligned; do not treat the gateway template as disposable generated output.
