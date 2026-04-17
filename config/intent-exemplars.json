@@ -22,7 +22,16 @@
     "Split the DevOPS role into front-end and back-end leads.",
     "Remediate the gap in the compliance baseline."
   ],
+  "other": [
+    "Help me draft a short standup update for today.",
+    "Draft a neutral email asking for a deadline extension.",
+    "Prepare talking points for my weekly sync with stakeholders.",
+    "What should I put in my daily standup notes?",
+    "Give me a checklist for preparing a client status call.",
+    "Help me outline a weekly sync agenda with no org changes."
+  ],
   "hlk_lookup": [
+    "What should I highlight in standup about my team's HLK priorities?",
     "Who is the CTO?",
     "What does the CFO do?",
     "Show me the reporting chain for the Data Architect.",

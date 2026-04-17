@@ -6,7 +6,7 @@
 - AKOS API running (`py scripts/serve-api.py --port 8420`) and HLK MCP server available.
 **GPU note**: If a live GPU lane is in scope for this UAT run, complete [`gpu_provider_unblock_checklist.md`](gpu_provider_unblock_checklist.md) first.
 
-**Related (initiative 10):** Madeira Path B+C + Phase 6 dimension spot-checks and SSOT/browser parity table — [`../wip/planning/10-madeira-eval-hardening/reports/uat-madeira-path-bc-browser-20260416.md`](../wip/planning/10-madeira-eval-hardening/reports/uat-madeira-path-bc-browser-20260416.md).
+**Related (initiative 10):** Madeira Path B+C + Phase 6 dimension spot-checks and SSOT/browser parity table — [`../wip/planning/10-madeira-eval-hardening/reports/uat-madeira-path-bc-browser-20260416.md`](../wip/planning/10-madeira-eval-hardening/reports/uat-madeira-path-bc-browser-20260416.md). **WebChat stuck queue / Ollama timeouts / Playwright issues:** [`../wip/planning/10-madeira-eval-hardening/reports/SESSION_TROUBLESHOOTING.md`](../wip/planning/10-madeira-eval-hardening/reports/SESSION_TROUBLESHOOTING.md).
 
 ## Scenario 0: Dashboard Entrypoint (MADEIRA agent)
 
@@ -50,6 +50,7 @@ Use these when you want **repo-level** confirmation aligned with Scenario 0 expe
 | Madeira policy includes `sequential_thinking` and matches capabilities SSOT | `py -m pytest tests/test_api.py::TestRouting::test_madeira_policy_includes_sequential_thinking -v` |
 | Execution/code intents escalate (`execution_escalate`) | `py -m pytest tests/test_intent.py tests/test_api.py::TestRouting::test_classify_execution_route -v` |
 | Admin restructure still escalates | `py -m pytest tests/test_api.py::TestRouting::test_classify_admin_route -v` |
+| Scenario 0 **registry** golden slice (CTO / Research area / KiRBe children / admin escalate) | `py scripts/browser-smoke.py` (HTTP; scenarios `scenario0_*`) or `py -m pytest tests/test_browser_smoke_scenario0_evaluators.py -v` |
 | Madeira prompt contract (startup reads, anti-fabrication, HLK ladder) | `py -m pytest tests/validate_prompts.py::TestMadeiraPrompt -v` |
 | Log-watcher grounding flags + eval alert wiring | `py -m pytest tests/test_log_watcher.py -v` |
 | Assembled prompts within bootstrap char budget | `py scripts/assemble-prompts.py` |

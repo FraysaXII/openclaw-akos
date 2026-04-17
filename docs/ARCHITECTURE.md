@@ -65,6 +65,7 @@ The multi-agent paradigm separates concerns across five specialized roles:
 - Escalates multi-step administrative tasks (`admin_escalate`) and coding/browser/MCP execution intents (`execution_escalate`) to the Orchestrator for swarm handoff
 - Uses a **minimal** gateway profile with curated `alsoAllow` for `read`, memory lookups, `sequential_thinking` (post-tool reasoning only), read-only browser observation tools (`browser_snapshot`, `browser_screenshot`), HLK/finance runtime tools, and explicit `deny` for write/edit/exec (coarse `browser` navigate/click remains off-template; mutating browser tools stay out of `alsoAllow`)
 - **Compact tier:** `config/model-tiers.json` applies `OVERLAY_HLK_COMPACT.md` and `OVERLAY_STARTUP_COMPACT.md` to Madeira only when `promptVariant` is `compact`, preserving HLK and startup invariants on small models within `bootstrapMaxChars`
+- **Standard / full tiers:** Madeira also receives `OVERLAY_HLK_GRAPH.md` and `OVERLAY_MADEIRA_OPS.md` (day-to-day ops support: non-canonical drafts, checklists, Orchestrator handoff pack) — see initiative [`docs/wip/planning/11-madeira-ops-copilot/master-roadmap.md`](wip/planning/11-madeira-ops-copilot/master-roadmap.md)
 - **Cannot** write files, execute commands, or navigate browsers
 
 ### Orchestrator Agent (new in v0.3.0)
@@ -223,9 +224,11 @@ prompts/base/ARCHITECT_BASE.md  +  overlays/  -->  assembled/ARCHITECT_PROMPT.<v
 
 | Variant | Overlays Included |
 |:--------|:------------------|
-| compact | None (base only -- 3-5 MUST rules for small models) |
-| standard | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_STARTUP_COMPLIANCE + OVERLAY_HLK |
-| full | OVERLAY_REASONING + OVERLAY_PLAN_TODOS + OVERLAY_INTELLIGENCE + OVERLAY_RESEARCH + OVERLAY_CONTEXT_MANAGEMENT + OVERLAY_TOOLS_FULL + OVERLAY_STARTUP_COMPLIANCE + OVERLAY_HLK |
+| compact | Base only for most agents; **Madeira** adds `OVERLAY_HLK_COMPACT` + `OVERLAY_STARTUP_COMPACT` (see `config/model-tiers.json`) |
+| standard | Reasoning / plan / startup / HLK (+ HLK graph for applicable agents); **Madeira** also `OVERLAY_MADEIRA_OPS` |
+| full | Extended overlays for Architect / Executor / Verifier; **Madeira** matches standard HLK + graph + `OVERLAY_MADEIRA_OPS` |
+
+Authoritative matrix: [`config/model-tiers.json`](../config/model-tiers.json) (`variantOverlays`). **Madeira ops** overlay is documented in [`docs/wip/planning/11-madeira-ops-copilot/master-roadmap.md`](wip/planning/11-madeira-ops-copilot/master-roadmap.md).
 
 Build all variants: `python scripts/assemble-prompts.py`
 
@@ -665,7 +668,7 @@ Launch: `python scripts/serve-api.py --port 8420`
 | `scripts/legacy/verify_openclaw_inventory.py` | Strict full-inventory verifier with per-item PASS/FAIL output (providers/models/agents/A2A allowlist) |
 | `scripts/check-drift.py` | Detect repo-to-runtime mismatches |
 | `scripts/doctor.py` | One-command system health check; normalizes `Runtime: unknown` to `healthy` when probe/listener evidence is healthy, and checks determinism |
-| `scripts/browser-smoke.py` | Programmatic browser smoke test (HTTP + Playwright incl. `/hlk/graph/summary` and `/hlk/graph/explorer`); Windows parent parses `JSON_RESULTS` even when worker exits non-zero; exit `2` when workers emit no parseable JSON (release gate treats as soft PASS) |
+| `scripts/browser-smoke.py` | Programmatic browser smoke test (HTTP + Playwright incl. `/hlk/graph/summary`, `/hlk/graph/explorer`, and **Scenario 0** HLK REST golden scenarios `scenario0_*`); Playwright `dashboard_health` uses API `/health` (not Swagger `/docs`) to avoid cold-start timeouts; Windows parent parses `JSON_RESULTS` even when worker exits non-zero; exit `2` when workers emit no parseable JSON (release gate treats as soft PASS) |
 | `scripts/run-evals.py` | Agent reliability eval runner (5 canonical tasks) |
 | `scripts/checkpoint.py` | Checkpoint CLI (create/list/restore workspace snapshots) |
 | `scripts/sync-runtime.py` | Hydrate runtime from repo SSOT |

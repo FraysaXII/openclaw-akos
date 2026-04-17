@@ -12,7 +12,7 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | 2 | `py scripts/check-drift.py` | No drift (repo vs runtime), including agent/A2A inventory, legacy `tools.allow`, and unknown runtime tool IDs |
 | 3 | `py scripts/test.py all` | Full regression suite passes |
 | 3a | `py scripts/test.py graph` | HLK graph lane (`pytest -m graph`); use with Bolt env + `pytest -m "graph and neo4j"` when changing Neo4j wiring |
-| 4 | `py scripts/browser-smoke.py --playwright` | Browser smoke; on Windows crash-prone hosts this may return SKIP instead of FAIL. If **`release-gate`** fails only on this step with **exit 1**, read scenario details: architect/executor checks use **control plane** `GET /agents` (not OpenClaw gateway DOM). Exit **2** in `release-gate` is treated as a soft pass (worker/browser unavailable). |
+| 4 | `py scripts/browser-smoke.py --playwright` | Browser smoke; HTTP path includes **Scenario 0 registry** scenarios (`scenario0_*`) against live `serve-api`. On Windows + **Python 3.14+** preview builds, Playwright Chromium may **crash** (`0xC0000005`); use **Python 3.12.x** for the venv that runs Playwright, or rely on HTTP-only + Cursor IDE Browser MCP for dashboard UAT. If **`release-gate`** fails only on this step with **exit 1**, read scenario details: architect/executor checks use **control plane** `GET /agents` (not OpenClaw gateway DOM). Exit **2** in `release-gate` is treated as a soft pass (worker/browser unavailable). |
 | 5 | `py -m pytest tests/test_api.py -v` | FastAPI control plane smoke |
 | 6 | `py scripts/release-gate.py` | Unified gate must report PASS (includes HLK vault validation). Optional: `AKOS_EVAL_RUBRIC=1` adds offline `run-evals.py` rubric slice. |
 | 6a | `py scripts/run-evals.py run --suite pathc-research-spine --mode rubric` | When changing eval suites or `akos/eval_harness.py` |
@@ -60,7 +60,7 @@ playwright install chromium
 py scripts/browser-smoke.py --playwright
 ```
 
-On Windows, `browser-smoke.py` isolates browser launches in subprocess workers. The parent parses `JSON_RESULTS:` from worker stdout **even when the worker exits non-zero** (failed scenarios vs misleading “unavailable”). If no engine emits parseable JSON, scenarios SKIP and the script exits `2` (release gate treats that as a soft PASS with a warning). Includes `hlk_graph_explorer` HTTP/DOM checks.
+On Windows, `browser-smoke.py` isolates browser launches in subprocess workers (engine order **chromium → msedge → firefox**). The parent parses `JSON_RESULTS:` from worker stdout **even when the worker exits non-zero** (failed scenarios vs misleading “unavailable”). If no engine emits parseable JSON, scenarios SKIP and the script exits `2` (release gate treats that as a soft PASS with a warning). Includes `hlk_graph_explorer` HTTP/DOM checks and **Scenario 0** HLK REST golden scenarios after Phase 1 dashboard checks.
 
 ## MCP Requirements
 

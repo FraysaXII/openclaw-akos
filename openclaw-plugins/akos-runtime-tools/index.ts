@@ -160,7 +160,10 @@ const emptyParameters = {
 const toolSpecs: ToolSpec[] = [
   {
     name: "akos_route_request",
-    description: "Classify a user request into a deterministic AKOS flagship route such as HLK lookup, HLK search, finance research, admin escalation, or execution escalation (code/browser/MCP).",
+    description:
+      "Classify a raw user message into an AKOS route (HLK lookup/search, finance research, GTM project, generic other, admin_escalate, execution_escalate). " +
+      "Use when the operator goal is ambiguous or mixed. Do not use for simple direct HLK lookups when the ladder is already obvious. " +
+      "Escalation routes win over embeddings when regex safety matches. Returns must_escalate and an operator_message suitable for Madeira.",
     parameters: {
       type: "object",
       additionalProperties: false,

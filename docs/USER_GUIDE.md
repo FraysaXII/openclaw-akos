@@ -381,6 +381,7 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 Agents are available via the OpenCLAW WebChat dashboard (`openclaw dashboard`). Select an agent from the sidebar.
 
 - **Start with Madeira** for HLK operations -- role lookups, process navigation, gap detection, vault searches.
+- On **medium+ models** (`standard` / `full` prompt variants), Madeira also supports **day-to-day ops help**: standup outlines, email **drafts** (explicitly non-canonical until verified), meeting prep, and a structured **handoff pack** when escalating to the Orchestrator. Canonical registry changes still require the swarm path.
 - Use **Orchestrator** for multi-step tasks that require coordination across agents.
 - Use **Architect** for research, analysis, and planning tasks.
 - Use **Executor** when you have a clear, pre-written plan to execute.
@@ -429,6 +430,7 @@ Overlays add capabilities for more capable models:
 | `OVERLAY_TOOLS_FULL.md` | Executor, Verifier (full only) | Multi-tool orchestration, browser automation, memory, error recovery |
 | `OVERLAY_HLK_COMPACT.md` | Madeira (`compact` only) | Short HLK ladder, anti-fabrication, citation rules |
 | `OVERLAY_STARTUP_COMPACT.md` | Madeira (`compact` only) | Mandatory startup reads and memory note pattern |
+| `OVERLAY_MADEIRA_OPS.md` | Madeira (`standard` / `full` only) | Day-to-day drafts, checklists, Orchestrator handoff pack (governance-safe) |
 
 ### 6.4 Assembling Prompts
 

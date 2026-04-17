@@ -57,7 +57,8 @@
       { "file": "OVERLAY_PLAN_TODOS.md", "agents": ["ORCHESTRATOR", "ARCHITECT"] },
       { "file": "OVERLAY_STARTUP_COMPLIANCE.md", "agents": ["ORCHESTRATOR", "ARCHITECT", "EXECUTOR", "VERIFIER", "MADEIRA"] },
       { "file": "OVERLAY_HLK.md", "agents": ["ORCHESTRATOR", "ARCHITECT", "EXECUTOR", "VERIFIER", "MADEIRA"] },
-      { "file": "OVERLAY_HLK_GRAPH.md", "agents": ["ORCHESTRATOR", "ARCHITECT", "EXECUTOR", "VERIFIER", "MADEIRA"] }
+      { "file": "OVERLAY_HLK_GRAPH.md", "agents": ["ORCHESTRATOR", "ARCHITECT", "EXECUTOR", "VERIFIER", "MADEIRA"] },
+      { "file": "OVERLAY_MADEIRA_OPS.md", "agents": ["MADEIRA"] }
     ],
     "full": [
       { "file": "OVERLAY_REASONING.md", "agents": ["ARCHITECT", "ORCHESTRATOR"] },
@@ -68,7 +69,8 @@
       { "file": "OVERLAY_TOOLS_FULL.md", "agents": ["EXECUTOR", "VERIFIER"] },
       { "file": "OVERLAY_STARTUP_COMPLIANCE.md", "agents": ["ORCHESTRATOR", "ARCHITECT", "EXECUTOR", "VERIFIER", "MADEIRA"] },
       { "file": "OVERLAY_HLK.md", "agents": ["ORCHESTRATOR", "ARCHITECT", "EXECUTOR", "VERIFIER", "MADEIRA"] },
-      { "file": "OVERLAY_HLK_GRAPH.md", "agents": ["ORCHESTRATOR", "ARCHITECT", "EXECUTOR", "VERIFIER", "MADEIRA"] }
+      { "file": "OVERLAY_HLK_GRAPH.md", "agents": ["ORCHESTRATOR", "ARCHITECT", "EXECUTOR", "VERIFIER", "MADEIRA"] },
+      { "file": "OVERLAY_MADEIRA_OPS.md", "agents": ["MADEIRA"] }
     ]
   }
 }

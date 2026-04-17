@@ -147,6 +147,10 @@ AKOS v0.5.0 adds **gateway-level capability enforcement** as defense-in-depth on
 - **Exec security mode** — `tools.exec.security` restricts shell execution (deny/allowlist/full). Orchestrator and Architect must not have `full` exec; bootstrap and drift detection enforce this.
 - **Browser SSRF policy** — `browser.ssrfPolicy.dangerouslyAllowPrivateNetwork: false` prevents browser automation from accessing private/internal networks. Reduces SSRF risk from malicious web content.
 
+### 8a. Madeira ops copilot and scratch memory (defer)
+
+Initiative **11** adds **prompt-only** day-to-day support (drafts, checklists, handoff templates) on `standard`/`full` variants without widening gateway `alsoAllow`. **Persistent scratch** via `memory_store` (or similar) for operator drafts remains **out of scope** until threat-modeled: it would blur SOC boundaries between session convenience and durable business artifacts. Revisit only with explicit approval, workspace isolation review, and documentation updates — see [`docs/wip/planning/11-madeira-ops-copilot/master-roadmap.md`](docs/wip/planning/11-madeira-ops-copilot/master-roadmap.md).
+
 ## Reporting a Vulnerability
 
 If you discover a security vulnerability in this project, please report it responsibly:

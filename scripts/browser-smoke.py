@@ -13,6 +13,14 @@ Usage:
 Env: ``AKOS_BROWSER_SMOKE_API_URL`` (optional) overrides the control plane base URL
 (default ``http://127.0.0.1:8420``), e.g. when ``serve-api.py --port 8421`` is used.
 
+Env: ``AKOS_BROWSER_SMOKE_HTTP_TIMEOUT`` (optional, default ``30``) seconds for urllib probes
+to the gateway and control plane (cold ``serve-api`` with Langfuse/RunPod init can exceed 5s).
+
+**Scenario 0 registry slice (HTTP):** after graph explorer checks, runs golden assertions on
+``GET /hlk/roles/CTO``, ``GET /hlk/areas/Research``, ``GET /hlk/processes/KiRBe%20Platform/tree``,
+and ``GET /routing/classify`` — aligned to ``docs/uat/hlk_admin_smoke.md`` steps 4–7 *registry
+parity* (not a substitute for WebChat copy review).
+
 Playwright Phase 2 (architect / executor) asserts on **FastAPI** ``/agents`` (same SSOT as
 Phase 1 ``agent_visibility``), not OpenClaw gateway UI strings at ``:18789``.
 """
@@ -28,6 +36,7 @@ import re
 import subprocess
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -47,11 +56,20 @@ logger = logging.getLogger("akos.browser-smoke")
 GATEWAY_URL = "http://127.0.0.1:18789"
 API_URL = (os.environ.get("AKOS_BROWSER_SMOKE_API_URL") or "http://127.0.0.1:8420").rstrip("/")
 
+# ``serve-api`` can block >5s on cold Langfuse/RunPod init; keep HTTP parity stable for CI and local gates.
+HTTP_TIMEOUT = float(os.environ.get("AKOS_BROWSER_SMOKE_HTTP_TIMEOUT", "30"))
+
+# Golden process names: direct children of the KiRBe Platform project (``process_list.csv``).
+_SCENARIO0_KIRBE_CHILDREN_EXPECTED = (
+    "KiRBe Security and Governance",
+    "KiRBe Multi-Source Connector Setup",
+)
+
 
 def _gateway_reachable() -> bool:
     try:
         req = urllib.request.Request(GATEWAY_URL, method="GET")
-        with urllib.request.urlopen(req, timeout=5):
+        with urllib.request.urlopen(req, timeout=min(HTTP_TIMEOUT, 15.0)):
             return True
     except (urllib.error.URLError, OSError):
         return False
@@ -60,7 +78,7 @@ def _gateway_reachable() -> bool:
 def _api_reachable() -> bool:
     try:
         req = urllib.request.Request(f"{API_URL}/health", method="GET")
-        with urllib.request.urlopen(req, timeout=5):
+        with urllib.request.urlopen(req, timeout=min(HTTP_TIMEOUT, 15.0)):
             return True
     except (urllib.error.URLError, OSError):
         return False
@@ -72,7 +90,7 @@ def _api_reachable() -> bool:
 def _check_dashboard_health_http() -> dict[str, str]:
     try:
         req = urllib.request.Request(GATEWAY_URL, method="GET")
-        with urllib.request.urlopen(req, timeout=5) as resp:
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
             if resp.status == 200:
                 return {"scenario": "dashboard_health", "status": "PASS", "detail": f"Gateway {GATEWAY_URL} returns 200"}
     except (urllib.error.URLError, OSError) as e:
@@ -83,7 +101,7 @@ def _check_dashboard_health_http() -> dict[str, str]:
 def _check_agent_visibility_http() -> dict[str, str]:
     try:
         req = urllib.request.Request(f"{API_URL}/agents", method="GET")
-        with urllib.request.urlopen(req, timeout=5) as resp:
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
             data = json.loads(resp.read().decode())
             agents = data if isinstance(data, list) else data.get("agents", data)
             count = len(agents) if isinstance(agents, list) else 0
@@ -97,7 +115,7 @@ def _check_agent_visibility_http() -> dict[str, str]:
 def _check_swagger_health_http() -> dict[str, str]:
     try:
         req = urllib.request.Request(f"{API_URL}/health", method="GET")
-        with urllib.request.urlopen(req, timeout=5) as resp:
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
             data = json.loads(resp.read().decode())
             status = data.get("status") if isinstance(data, dict) else None
             if status == "ok":
@@ -110,7 +128,7 @@ def _check_swagger_health_http() -> dict[str, str]:
 def _check_hlk_graph_summary_http() -> dict[str, str]:
     try:
         req = urllib.request.Request(f"{API_URL}/hlk/graph/summary", method="GET")
-        with urllib.request.urlopen(req, timeout=5) as resp:
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
             data = json.loads(resp.read().decode())
         if not isinstance(data, dict):
             return {"scenario": "hlk_graph_summary", "status": "FAIL", "detail": "Non-JSON response"}
@@ -131,7 +149,7 @@ def _check_hlk_graph_summary_http() -> dict[str, str]:
 def _check_hlk_graph_explorer_http() -> dict[str, str]:
     try:
         req = urllib.request.Request(f"{API_URL}/hlk/graph/explorer", method="GET")
-        with urllib.request.urlopen(req, timeout=5) as resp:
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
             body = resp.read().decode(errors="replace")
         if resp.status != 200:
             return {"scenario": "hlk_graph_explorer", "status": "FAIL", "detail": f"HTTP {resp.status}"}
@@ -145,6 +163,140 @@ def _check_hlk_graph_explorer_http() -> dict[str, str]:
         return {"scenario": "hlk_graph_explorer", "status": "PASS", "detail": "GET /hlk/graph/explorer returns operator UI"}
     except (urllib.error.URLError, OSError) as e:
         return {"scenario": "hlk_graph_explorer", "status": "FAIL", "detail": str(e)}
+
+
+def evaluate_scenario0_cto_payload(data: object) -> dict[str, str]:
+    """Deterministic checks for ``GET /hlk/roles/CTO`` (``docs/uat/hlk_admin_smoke.md`` Scenario 0 step 4 contract)."""
+    if not isinstance(data, dict):
+        return {"scenario": "scenario0_hlk_cto", "status": "FAIL", "detail": "response is not a JSON object"}
+    if data.get("status") != "ok":
+        return {"scenario": "scenario0_hlk_cto", "status": "FAIL", "detail": f"HLK status={data.get('status')!r}"}
+    br = data.get("best_role")
+    if not isinstance(br, dict):
+        return {"scenario": "scenario0_hlk_cto", "status": "FAIL", "detail": "missing best_role"}
+    if br.get("role_name") != "CTO":
+        return {"scenario": "scenario0_hlk_cto", "status": "FAIL", "detail": f"role_name={br.get('role_name')!r}"}
+    try:
+        level = int(br.get("access_level", 0))
+    except (TypeError, ValueError):
+        level = 0
+    if level != 5:
+        return {"scenario": "scenario0_hlk_cto", "status": "FAIL", "detail": f"access_level={br.get('access_level')!r} expected 5"}
+    desc = f"{br.get('role_description', '')} {br.get('role_full_description', '')}"
+    if "Chief Technology Officer" not in desc:
+        return {"scenario": "scenario0_hlk_cto", "status": "FAIL", "detail": "CTO canonical title fragment missing from role text"}
+    return {"scenario": "scenario0_hlk_cto", "status": "PASS", "detail": "CTO access_level 5 + canonical title (registry SSOT)"}
+
+
+def evaluate_scenario0_research_area_payload(data: object) -> dict[str, str]:
+    """``GET /hlk/areas/Research`` — Scenario 0 step 5 (Research roles from baseline only)."""
+    if not isinstance(data, dict):
+        return {"scenario": "scenario0_hlk_research_area", "status": "FAIL", "detail": "response is not a JSON object"}
+    if data.get("status") != "ok":
+        return {"scenario": "scenario0_hlk_research_area", "status": "FAIL", "detail": f"HLK status={data.get('status')!r}"}
+    roles = data.get("roles") or []
+    if not isinstance(roles, list) or not roles:
+        return {"scenario": "scenario0_hlk_research_area", "status": "FAIL", "detail": "empty roles list"}
+    names: list[str] = []
+    for r in roles:
+        if not isinstance(r, dict):
+            return {"scenario": "scenario0_hlk_research_area", "status": "FAIL", "detail": "non-object role row"}
+        if r.get("area") != "Research":
+            return {
+                "scenario": "scenario0_hlk_research_area",
+                "status": "FAIL",
+                "detail": f"non-Research role in area query: {r.get('role_name')!r} area={r.get('area')!r}",
+            }
+        names.append(str(r.get("role_name", "")))
+    if "Holistik Researcher" not in names:
+        return {"scenario": "scenario0_hlk_research_area", "status": "FAIL", "detail": "Holistik Researcher missing from Research area"}
+    return {
+        "scenario": "scenario0_hlk_research_area",
+        "status": "PASS",
+        "detail": f"Research area closed: {len(names)} roles; includes Holistik Researcher",
+    }
+
+
+def evaluate_scenario0_kirbe_children_payload(data: object) -> dict[str, str]:
+    """Direct children of ``KiRBe Platform`` (Scenario 0 step 6 — process_list SSOT)."""
+    if not isinstance(data, dict):
+        return {"scenario": "scenario0_hlk_kirbe_children", "status": "FAIL", "detail": "response is not a JSON object"}
+    if data.get("status") != "ok":
+        return {"scenario": "scenario0_hlk_kirbe_children", "status": "FAIL", "detail": f"HLK status={data.get('status')!r}"}
+    processes = data.get("processes") or []
+    if not isinstance(processes, list) or not processes:
+        return {"scenario": "scenario0_hlk_kirbe_children", "status": "FAIL", "detail": "empty processes list"}
+    names = [p.get("item_name") for p in processes if isinstance(p, dict)]
+    for expected in _SCENARIO0_KIRBE_CHILDREN_EXPECTED:
+        if expected not in names:
+            return {"scenario": "scenario0_hlk_kirbe_children", "status": "FAIL", "detail": f"missing expected child {expected!r}"}
+    return {
+        "scenario": "scenario0_hlk_kirbe_children",
+        "status": "PASS",
+        "detail": f"{len(names)} direct children; includes golden workstreams",
+    }
+
+
+def evaluate_scenario0_admin_escalation_payload(data: object) -> dict[str, str]:
+    """``GET /routing/classify`` — Scenario 0 step 7 (Finance restructure → orchestrator escalation)."""
+    if not isinstance(data, dict):
+        return {"scenario": "scenario0_admin_escalation", "status": "FAIL", "detail": "response is not a JSON object"}
+    if data.get("route") != "admin_escalate" or data.get("must_escalate") is not True:
+        return {
+            "scenario": "scenario0_admin_escalation",
+            "status": "FAIL",
+            "detail": f"route={data.get('route')!r} must_escalate={data.get('must_escalate')!r}",
+        }
+    return {"scenario": "scenario0_admin_escalation", "status": "PASS", "detail": "admin_escalate + must_escalate true"}
+
+
+def _check_scenario0_hlk_cto_http() -> dict[str, str]:
+    try:
+        req = urllib.request.Request(f"{API_URL}/hlk/roles/CTO", method="GET")
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
+            return evaluate_scenario0_cto_payload(json.loads(resp.read().decode()))
+    except Exception as e:
+        return {"scenario": "scenario0_hlk_cto", "status": "FAIL", "detail": str(e)}
+
+
+def _check_scenario0_hlk_research_area_http() -> dict[str, str]:
+    try:
+        path = urllib.parse.quote("Research", safe="")
+        req = urllib.request.Request(f"{API_URL}/hlk/areas/{path}", method="GET")
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
+            return evaluate_scenario0_research_area_payload(json.loads(resp.read().decode()))
+    except Exception as e:
+        return {"scenario": "scenario0_hlk_research_area", "status": "FAIL", "detail": str(e)}
+
+
+def _check_scenario0_hlk_kirbe_children_http() -> dict[str, str]:
+    try:
+        parent = urllib.parse.quote("KiRBe Platform", safe="")
+        req = urllib.request.Request(f"{API_URL}/hlk/processes/{parent}/tree", method="GET")
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
+            return evaluate_scenario0_kirbe_children_payload(json.loads(resp.read().decode()))
+    except Exception as e:
+        return {"scenario": "scenario0_hlk_kirbe_children", "status": "FAIL", "detail": str(e)}
+
+
+def _check_scenario0_admin_escalation_http() -> dict[str, str]:
+    try:
+        q = urllib.parse.urlencode({"q": "I need to restructure the Finance area."})
+        req = urllib.request.Request(f"{API_URL}/routing/classify?{q}", method="GET")
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
+            return evaluate_scenario0_admin_escalation_payload(json.loads(resp.read().decode()))
+    except Exception as e:
+        return {"scenario": "scenario0_admin_escalation", "status": "FAIL", "detail": str(e)}
+
+
+def run_scenario0_registry_http_checks() -> list[dict[str, str]]:
+    """HTTP-only Scenario 0 registry slice (no WebChat); safe for pytest-style golden checks."""
+    return [
+        _check_scenario0_hlk_cto_http(),
+        _check_scenario0_hlk_research_area_http(),
+        _check_scenario0_hlk_kirbe_children_http(),
+        _check_scenario0_admin_escalation_http(),
+    ]
 
 
 def parse_json_results_from_stdout(stdout: str | None) -> list[dict[str, str]] | None:
@@ -171,15 +323,16 @@ def _check_dashboard_health_playwright(page, headed: bool) -> dict[str, str]:
     page.on("pageerror", lambda e: errors.append(str(e)))
 
     try:
-        res = page.goto(GATEWAY_URL, wait_until="domcontentloaded", timeout=15000)
+        res = page.goto(GATEWAY_URL, wait_until="domcontentloaded", timeout=20000)
         if res and res.status != 200:
             return {"scenario": "dashboard_health", "status": "FAIL", "detail": f"Gateway returned {res.status}"}
-        res2 = page.goto(f"{API_URL}/docs", wait_until="domcontentloaded", timeout=15000)
+        # Prefer lightweight ``/health`` over Swagger ``/docs`` (slow on cold Langfuse/RunPod init).
+        res2 = page.goto(f"{API_URL}/health", wait_until="domcontentloaded", timeout=20000)
         if res2 and res2.status != 200:
-            return {"scenario": "dashboard_health", "status": "FAIL", "detail": f"API /docs returned {res2.status}"}
+            return {"scenario": "dashboard_health", "status": "FAIL", "detail": f"API /health returned {res2.status}"}
         if errors:
             return {"scenario": "dashboard_health", "status": "FAIL", "detail": f"Console errors: {errors[0][:80]}"}
-        return {"scenario": "dashboard_health", "status": "PASS", "detail": f"Dashboard and Swagger load (200)"}
+        return {"scenario": "dashboard_health", "status": "PASS", "detail": "Dashboard + API /health load (200)"}
     except Exception as e:
         return {"scenario": "dashboard_health", "status": "FAIL", "detail": str(e)}
 
@@ -397,6 +550,10 @@ PHASE1_SCENARIOS = [
     "swagger_health",
     "hlk_graph_summary",
     "hlk_graph_explorer",
+    "scenario0_hlk_cto",
+    "scenario0_hlk_research_area",
+    "scenario0_hlk_kirbe_children",
+    "scenario0_admin_escalation",
 ]
 PHASE2_SCENARIOS = ["architect_tools_ui", "executor_approval_hint"]
 PHASE3_SCENARIOS = ["workflow_launch"]
@@ -409,6 +566,7 @@ def run_phase1_http() -> list[dict[str, str]]:
     results.append(_check_swagger_health_http())
     results.append(_check_hlk_graph_summary_http())
     results.append(_check_hlk_graph_explorer_http())
+    results.extend(run_scenario0_registry_http_checks())
     return results
 
 
@@ -487,6 +645,7 @@ def run_all_playwright(headed: bool, engine: str | None = None) -> list[dict[str
         page = context.new_page()
         try:
             results.extend(run_phase1_playwright(page, headed))
+            results.extend(run_scenario0_registry_http_checks())
             results.append(_check_architect_tools_ui_playwright(page, headed))
             results.append(_check_executor_approval_hint_playwright(page, headed))
             results.append(_check_workflow_launch_playwright(page, headed))
@@ -525,7 +684,8 @@ def main() -> None:
             all_scenarios = PHASE1_SCENARIOS + PHASE2_SCENARIOS + PHASE3_SCENARIOS
             worker_errors: list[str] = []
             worker_results: list[dict[str, str]] | None = None
-            for engine in ["msedge", "chromium", "firefox"]:
+            # Prefer stock Chromium first: some Windows + Python preview combos crash Edge channel (0xC0000005).
+            for engine in ["chromium", "msedge", "firefox"]:
                 cmd = [sys.executable, str(Path(__file__).resolve()), "--playwright", "--playwright-worker", "--playwright-engine", engine]
                 if args.headed:
                     cmd.append("--headed")

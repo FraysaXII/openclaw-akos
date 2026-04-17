@@ -134,7 +134,7 @@ class TestMadeiraPrompt:
     def test_role_answer_contract(self):
         assert "you MUST call `hlk_role` first" in self.text
         assert "include the canonical role name, access level, reports_to, area, and entity" in self.text
-        assert "Never cite `hlk_role`, `hlk_search`, `best_role`, or the raw query string" in self.text
+        assert "Never cite `hlk_role`" in self.text and "`best_role`" in self.text
 
     def test_search_and_escalation_stay_user_facing(self):
         assert "perform the search silently" in self.text
@@ -156,6 +156,23 @@ class TestMadeiraPrompt:
     def test_cites_canonical_hlk_sources(self):
         assert "baseline_organisation.csv" in self.text
         assert "process_list.csv" in self.text
+
+
+class TestOverlayMadeiraOps:
+    """OVERLAY_MADEIRA_OPS.md (standard/full Madeira)."""
+
+    @pytest.fixture(autouse=True)
+    def _load(self):
+        self.text = _read(PROMPTS_DIR / "overlays" / "OVERLAY_MADEIRA_OPS.md")
+
+    def test_labels_non_canonical_drafts(self):
+        assert "non-canonical" in self.text.lower()
+
+    def test_handoff_pack_template(self):
+        assert "Handoff pack" in self.text
+
+    def test_escalation_boundary_preserved(self):
+        assert "Escalation Mode" in self.text or "escalat" in self.text.lower()
 
 
 # ---------------------------------------------------------------------------

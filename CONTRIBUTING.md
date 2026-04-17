@@ -96,7 +96,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
   - `streamlit>=1.28.0`, `streamlit-agraph>=0.0.45`, `networkx>=3.2` -- Optional operator graph UI (`scripts/hlk_graph_explorer.py`; vis physics by default, NetworkX optional initial seed / static layout). Optional env **`AKOS_WEB_DASHBOARD_URL`** adds a shell link when WebChat is not on the API host.
   - `uvicorn>=0.32.0` -- ASGI server for FastAPI.
   - `httpx>=0.27.0` -- Async HTTP client for API tests.
-  - `playwright>=1.40` -- Browser smoke DOM mode (optional; HTTP-only path when not installed).
+  - `playwright>=1.40` -- Browser smoke DOM mode (optional; HTTP-only path when not installed). **Supported interpreters:** use **CPython 3.12.x** (or 3.11) for the environment that runs `py scripts/browser-smoke.py --playwright`; **Python 3.14** preview builds have been observed to crash Playwright’s bundled Chromium on Windows (`0xC0000005`). HTTP-only smoke and **Cursor IDE Browser** MCP remain valid for gates and UAT when Playwright is unstable.
   - `mcp>=1.0.0` -- Custom AKOS MCP servers (`scripts/mcp_akos_server.py`, `scripts/finance_mcp_server.py`).
   - `yfinance>=0.2.36` -- Finance research data (optional; finance MCP degrades gracefully without it).
 
@@ -116,6 +116,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - Failover router changes must have tests in `tests/test_router.py` (10 tests covering failover threshold, recovery, and multi-provider routing).
 - Finance service changes must have tests in `tests/test_finance.py` (normalization, caching, missing API key degradation, error states).
 - HLK domain changes must have tests in `tests/test_hlk.py` (model parsing, registry lookups, chain traversal, gap detection, API endpoints).
+- `scripts/browser-smoke.py` Scenario 0 evaluators must stay covered by `tests/test_browser_smoke_scenario0_evaluators.py` when golden expectations change.
 - OpenStack provider request-shape changes must have tests in `tests/test_openstack_provider.py`.
 - New agent prompts/overlays must be covered by `tests/test_e2e_pipeline.py`.
 - Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint. Bootstrap derives each agent's runtime `tools.profile` from the capability matrix, while `config/openclaw.json.example` remains the SSOT for curated gateway `alsoAllow` / `deny`, session, and browser semantics. Keep those layers aligned; do not treat the gateway template as disposable generated output.

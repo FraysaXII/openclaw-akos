@@ -1,6 +1,6 @@
 # Planning initiatives (`docs/wip/planning/`)
 
-Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` … `10-`, plus `99-proposals/`) so sort order and “what came before” are obvious in the filesystem. The table below matches that layout. **Ad-hoc** `.plan.md` files live in `99-proposals/`.
+Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` … `12-`, plus `99-proposals/`) so sort order and “what came before” are obvious in the filesystem. The table below matches that layout. **Ad-hoc** `.plan.md` files live in `99-proposals/`.
 
 | Seq | Folder | Role |
 |:---:|:-------|:-----|
@@ -14,6 +14,8 @@ Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` 
 | **08** | [`python-runtime-deployment/`](08-python-runtime-deployment/) | **Infra harmonization:** Python pins, pip profiles (gpu / openstack), operator + test journey, `serve-api` graph supervisor (auto Streamlit + mirror sync), CI/DX — [`master-roadmap.md`](08-python-runtime-deployment/master-roadmap.md), [`reports/`](08-python-runtime-deployment/reports/). |
 | **09** | [`openclaw-hygiene/`](09-openclaw-hygiene/) | Gateway SSOT schema alignment (`openclaw.json.example`), security-audit operator guidance, SOUL/bootstrap file path, `openclaw update` checklist — [`master-roadmap.md`](09-openclaw-hygiene/master-roadmap.md), [`reports/`](09-openclaw-hygiene/reports/). |
 | **10** | [`madeira-eval-hardening/`](10-madeira-eval-hardening/) | **Closed (2026-04-15):** Madeira Path B+C (sandbox + exec, strip web tools from orch/arch), SOTA prompts/dev-local defaults, eval harness + Langfuse metadata, Windows/Docker operator runway — [`master-roadmap.md`](10-madeira-eval-hardening/master-roadmap.md), [`reports/phase-completion-report.md`](10-madeira-eval-hardening/reports/phase-completion-report.md), **Phase 6 UAT:** [`reports/uat-madeira-path-bc-browser-20260416.md`](10-madeira-eval-hardening/reports/uat-madeira-path-bc-browser-20260416.md). |
+| **11** | [`madeira-ops-copilot/`](11-madeira-ops-copilot/) | **Active:** Madeira day-to-day ops support (drafts, checklists, handoff packs) governance-safe — [`master-roadmap.md`](11-madeira-ops-copilot/master-roadmap.md), [`reports/uat-madeira-ops-copilot-20260415.md`](11-madeira-ops-copilot/reports/uat-madeira-ops-copilot-20260415.md). |
+| **12** | [`madeira-research-request/`](12-madeira-research-request/) | **Handoff:** External research-team request (use cases, tech, frameworks, journeys) — [`research-request-madeira.md`](12-madeira-research-request/research-request-madeira.md). |
 | **—** | [`99-proposals/`](99-proposals/) | Ad-hoc `.plan.md` comparisons and tooling experiments; **not** part of the numbered program line. |
 
 ## Rules

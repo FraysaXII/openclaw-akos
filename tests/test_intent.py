@@ -32,6 +32,20 @@ class TestRegexFallback:
         result = _classify_regex("Hello, how are you?")
         assert result == "other"
 
+    def test_classify_draft_standup_not_admin(self):
+        """Day-to-day drafts must not hit admin_escalate without mutation verbs/objects."""
+        # Avoid bare word "org" — regex HLK token list includes \\borg\\b.
+        result = _classify_regex(
+            "Help me draft a short standup update for today."
+        )
+        assert result == "other"
+
+    def test_classify_draft_email_not_admin(self):
+        result = _classify_regex(
+            "Draft a neutral email to stakeholders about the upcoming milestone."
+        )
+        assert result == "other"
+
     def test_classify_execution_escalate_playwright(self):
         result = _classify_regex("Use Playwright to click through the checkout flow.")
         assert result == "execution_escalate"
