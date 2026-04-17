@@ -87,6 +87,17 @@ needs a corresponding update. These contracts are ordered by trigger.
 | `docs/references/hlk/v3.0/_assets/**/*.manifest.md` | `docs/uat/hlk_admin_smoke.md` | Scenario 8 spot-checks (if manifest contract changes) |
 | `akos/hlk.py` | `docs/ARCHITECTURE.md` | Orchestration Library table |
 
+### Planning and initiative docs (`docs/wip/planning/`)
+
+| Trigger file | Docs / artifact to update | Section / area |
+|:-------------|:----------------------------|:---------------|
+| New `docs/wip/planning/NN-<slug>/` folder | `docs/wip/planning/README.md` | Initiative index table (next `NN` slot, title, link to folder) |
+| `docs/wip/planning/**/master-roadmap.md` (material phase or dependency change) | Same initiative folder; optional `reference/` plan mirror | Phase dependency narrative, mermaid diagram, and phase-at-a-glance stay aligned with the **authoritative** Cursor plan; fix internal links |
+| `docs/wip/planning/**/reference/*.md` (git-tracked plan mirror) | Initiative `master-roadmap.md` link section | When the mirror is collaboration SSOT, update pointer text if the Cursor plan filename or path changes |
+| Execution changes `docs/references/hlk/compliance/*.csv` or `docs/references/hlk/v3.0/**` | `docs/USER_GUIDE.md`, `docs/ARCHITECTURE.md` | Same as **HLK compliance changes** above when those trees actually change (wip roadmap drafts alone do not require USER_GUIDE edits) |
+
+**Planning insight:** Multi-phase HLK work should keep **phase order** explicit in `master-roadmap.md` (e.g. charter and crosswalk before CSV tranche; CSV tranche before v3.0 SOPs that cite new `item_id`s; stack/mirrors after SOPs for primary flows where SOP-META order applies). Optional **git mirror** of a Cursor plan under the initiative folder gives **version history** on the plan body; see `.cursor/rules/akos-planning-traceability.mdc`.
+
 ## Always update
 
 After any user-facing change on this branch:
@@ -102,5 +113,6 @@ After updating docs, spot-check:
 - Internal markdown links resolve to real files (`](../path)` and `](path)`)
 - Tables are well-formed (header + separator + data rows)
 - No stale version numbers, container images, or default values in prose
-- ASCII/mermaid diagrams match current code structure
+- ASCII/mermaid diagrams match current code structure (**mermaid:** no spaces in node IDs; avoid reserved words like `end` as node IDs)
 - Test count in ARCHITECTURE.md matches actual `tests/` file count if referenced
+- Initiative **`master-roadmap.md`**: phase dependency bullets and diagram match the authoritative plan; `docs/wip/planning/README.md` lists the initiative when a **new** folder is added

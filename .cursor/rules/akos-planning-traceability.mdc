@@ -22,6 +22,18 @@ Use this rule when creating or updating roadmap, phase-plan, or execution-report
   - `docs/wip/planning/<NN-initiative-slug>/reports/phase-<n>-report.md`
 - Store **operator / browser UAT evidence** beside it as dated markdown under the same `reports/` folder (see **UAT evidence contract** below).
 
+## `master-roadmap.md` contents (execution-relevant initiatives)
+
+When a roadmap becomes execution-relevant, `docs/wip/planning/<NN-initiative-slug>/master-roadmap.md` should be **self-contained for phase ordering** (readers should not rely only on an out-of-repo Cursor plan). Include or regenerate:
+
+1. **Link** to the **authoritative** plan (Cursor plans directory path, or a **git mirror** under `docs/wip/planning/<NN>-.../reference/` for collaborators and history).
+2. **Phase dependency chain — narrative:** bullets for what each phase unlocks (e.g. Phase 0 → gap list for Phase 1; Phase 1 → stable `item_id`s for Phase 2 SOP metadata; soft gates such as primary SOPs drafted before heavy stack work).
+3. **Phase dependency diagram:** a **mermaid** `flowchart` (or equivalent) with **no spaces in node IDs**; same edges as the narrative.
+4. **Phase at a glance:** one line per phase (purpose + key deliverable or gate), pointing to the full phased section in the source plan for **Reassessed scope / Prerequisites / Deliverables / Verification** parity.
+5. **Sync rule:** When the source plan’s phased execution changes, **update `master-roadmap.md`** accordingly; an optional repo mirror of the plan should track the same edits.
+
+**SOP-META alignment:** Do not finalize v3.0 SOPs for **net-new** `item_id`s until the corresponding **`process_list.csv` tranche** has merged (unless the initiative explicitly splits Phase 2a/2b for pre-existing IDs only).
+
 ## UAT evidence contract (automated gates vs qualitative sign-off)
 
 - **Automated verification** (inventory verify, drift, `py scripts/test.py all`, `py scripts/release-gate.py`, `py scripts/browser-smoke.py --playwright`, targeted pytest, HLK validators when in scope) is **necessary** but **not sufficient** to claim every initiative acceptance criterion when the plan or `master-roadmap.md` also promises **browser**, **dashboard WebChat**, **Cursor Browser MCP**, **Langfuse UI**, **Docker Desktop settings**, or other **human-in-the-loop** checks.
@@ -53,6 +65,8 @@ When a plan in `docs/wip/planning/` touches HLK compliance assets or runtime con
 - **Governed verification matrix reference**: the full repo-standard gate set from `docs/DEVELOPER_CHECKLIST.md`, including `validate_hlk.py` when compliance assets are in scope, and `validate_hlk_km_manifests.py` when plans touch governed Output 1 manifests under `v3.0/_assets/`.
 - **Link to PRECEDENCE.md** if compliance assets are in scope.
 - **Evidence matrix** if the plan is driven by audit findings or observed drift.
+- **Phase dependency** (narrative + optional mermaid) when the initiative has more than one dependent phase.
+- **Explicit operator approval** for each **named CSV tranche** touching `process_list.csv` or `baseline_organisation.csv` (not one blanket approval for unrelated future rows).
 
 Plans that modify canonical compliance CSVs (`baseline_organisation.csv`, `process_list.csv`) must also include:
 
@@ -68,3 +82,6 @@ Plans that modify canonical compliance CSVs (`baseline_organisation.csv`, `proce
 - Verify that the plan's asset classification matches `PRECEDENCE.md` current state.
 - Verify that the plan's verification matrix is not narrower than the repo's governed matrix.
 - If the initiative promised browser or manual UAT, verify a **dated `reports/uat-*.md`** (or linked canonical UAT + outcome stub) exists before treating the initiative as **closed**.
+- **Mermaid:** node IDs use `camelCase`, `PascalCase`, or `underscores`—not spaces; avoid reserved keywords as IDs (`end`, `graph`, etc.).
+- **`docs/wip/planning/README.md`** updated when a **new** initiative folder is added.
+- **`master-roadmap.md`** phase bullets and diagram still match the source plan after reassessment.

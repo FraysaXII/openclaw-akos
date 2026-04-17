@@ -48,6 +48,8 @@ Use these rules whenever planning or executing work in this repo (all agent mode
     - Corresponding update to the `docs/USER_GUIDE.md` HLK Operator Model section if role/process counts change.
   - **Drift handling**: If canonical and mirrored assets disagree, canonical wins. Investigate the propagation path, resync the mirror, and document the incident.
   - **Vault versioning**: `v3.0/` is the active vault. `Research & Logic/` is v2.7 historical reference. New SOPs go under `v3.0/Admin/O5-1/<area>/<role>/`.
+  - **SOP-META order (CSV before SOP):** For net-new processes, `process_list.csv` rows must exist before the corresponding v3.0 SOP is finalized (`SOP-META_PROCESS_MGMT_001.md` §4.2–4.3). Multi-phase initiatives should encode that order in **phase dependencies** (e.g. charter/crosswalk → CSV tranche → v3.0 SOPs → mirrors/stack).
+  - **Baseline tranche:** New `process_list` rows that require **new** `role_owner` (or other) lines in `baseline_organisation.csv` need the **same operator approval gate** as process-list edits—do not fold baseline changes into a process tranche without explicit review.
 
 - **Commit and phase discipline**
   - **One commit per phase**:
@@ -76,4 +78,5 @@ Use these rules whenever planning or executing work in this repo (all agent mode
     - Reuse the phase structure and acceptance criteria from the governed runtime/inventory remediation plan.
     - Explicitly call out which existing scripts/tests/docs they will touch and how they preserve the above contracts.
   - **UAT vs automated smoke:** Treat `py scripts/browser-smoke.py --playwright` as **automated** coverage. When a phase plan or initiative roadmap also specifies **dashboard WebChat**, **Cursor Browser MCP**, **Langfuse UI**, or similar **operator sign-off**, follow **`.cursor/rules/akos-planning-traceability.mdc`** — record dated outcomes under `docs/wip/planning/<NN-initiative-slug>/reports/` (e.g. `uat-*.md`) or explicit SKIP/N/A per row. Do not mark those phases **complete** on automated gates alone.
-
+  - **Initiative `master-roadmap.md`:** When phased execution is used, the workspace copy under `docs/wip/planning/<NN-initiative-slug>/` should stay **synchronized** with the authoritative Cursor plan when phases, dependencies, or verification gates change—git is the collaboration surface for ordering; the Cursor plan holds expanded prose.
+  - **Phase structure (large initiatives):** Prefer each phase defining **scope** (what it is / is not), **prerequisites**, **deliverables**, and **verification** so acceptance criteria stay testable and docs-config sync triggers remain predictable.
