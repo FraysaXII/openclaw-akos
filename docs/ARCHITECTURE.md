@@ -228,7 +228,7 @@ prompts/base/ARCHITECT_BASE.md  +  overlays/  -->  assembled/ARCHITECT_PROMPT.<v
 | standard | Reasoning / plan / startup / HLK (+ HLK graph for applicable agents); **Madeira** also `OVERLAY_MADEIRA_OPS` |
 | full | Extended overlays for Architect / Executor / Verifier; **Madeira** matches standard HLK + graph + `OVERLAY_MADEIRA_OPS` |
 
-Authoritative matrix: [`config/model-tiers.json`](../config/model-tiers.json) (`variantOverlays`). **Madeira ops** overlay is documented in [`docs/wip/planning/11-madeira-ops-copilot/master-roadmap.md`](wip/planning/11-madeira-ops-copilot/master-roadmap.md).
+Authoritative matrix: [`config/model-tiers.json`](../config/model-tiers.json) (`variantOverlays`). **Madeira ops** overlay is documented in [`docs/wip/planning/11-madeira-ops-copilot/master-roadmap.md`](wip/planning/11-madeira-ops-copilot/master-roadmap.md). **Intent exemplars + golden routing tests + operator-path copy** (Initiative 13): [`docs/wip/planning/13-madeira-research-followthrough/master-roadmap.md`](wip/planning/13-madeira-research-followthrough/master-roadmap.md).
 
 Build all variants: `python scripts/assemble-prompts.py`
 

@@ -305,6 +305,7 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 **Mode:** Read-only lookup at the gateway. Cannot write files, execute commands, or use the browser. Code, browser automation, MCP-heavy mutations, and multi-step writes are classified via `akos_route_request` (`execution_escalate`) and handed to the **Orchestrator** for swarm execution (Architect → Executor → Verifier).
 
 **Key behaviors:**
+- **AKOS operator paths (Path 1–4):** Summarised in `prompts/base/MADEIRA_BASE.md` — simple inquiry stays in Madeira; canonical vault edits use the human git workflow in the repo; code/browser/MCP/registry mutations require switching to the **Orchestrator** agent in the dashboard (swarm path). Do not confuse these labels with Holistika methodology “pillars” (programme language).
 - **Lookup mode (default):** Answers factual HLK questions directly using `hlk_*` tools, citing canonical sources. Open-web or narrative reasoning does not replace `hlk_*` for organisational facts.
 - **Deterministic search ladder:** tries exact role/process lookup first when the intent is specific, retries with `hlk_search` in the same turn on `not_found`, and answers directly when a clear best match exists.
 - **Summary mode:** Synthesises multi-tool answers with structured formatting.
