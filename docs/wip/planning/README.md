@@ -1,6 +1,6 @@
 # Planning initiatives (`docs/wip/planning/`)
 
-Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` … `13-`, plus `99-proposals/`) so sort order and “what came before” are obvious in the filesystem. The table below matches that layout. **Ad-hoc** `.plan.md` files live in `99-proposals/`.
+Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` … `14-`, plus `99-proposals/`) so sort order and “what came before” are obvious in the filesystem. The table below matches that layout. **Ad-hoc** `.plan.md` files live in `99-proposals/`.
 
 | Seq | Folder | Role |
 |:---:|:-------|:-----|
@@ -17,6 +17,7 @@ Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` 
 | **11** | [`madeira-ops-copilot/`](11-madeira-ops-copilot/) | **Active:** Madeira day-to-day ops support (drafts, checklists, handoff packs) governance-safe — [`master-roadmap.md`](11-madeira-ops-copilot/master-roadmap.md), [`reports/uat-madeira-ops-copilot-20260415.md`](11-madeira-ops-copilot/reports/uat-madeira-ops-copilot-20260415.md). |
 | **12** | [`madeira-research-request/`](12-madeira-research-request/) | **Handoff:** External research-team request (use cases, tech, frameworks, journeys) — [`research-request-madeira.md`](12-madeira-research-request/research-request-madeira.md). |
 | **13** | [`madeira-research-followthrough/`](13-madeira-research-followthrough/) | **Active:** Implement triage outcomes (intent, escalation copy, docs) — [`master-roadmap.md`](13-madeira-research-followthrough/master-roadmap.md), [`reports/`](13-madeira-research-followthrough/reports/). |
+| **14** | [`holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | **Active:** Holistika internal GTM + marketing ops (HLK-aligned): charter, CSV tranche, v3.0 SOPs, Supabase mirrors, ERP/SOTA docs — [`master-roadmap.md`](14-holistika-internal-gtm-mops/master-roadmap.md), [`reports/`](14-holistika-internal-gtm-mops/reports/). |
 | **—** | [`99-proposals/`](99-proposals/) | Ad-hoc `.plan.md` comparisons and tooling experiments; **not** part of the numbered program line. |
 
 ## Rules

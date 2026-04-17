@@ -2022,6 +2022,8 @@ This section explains how to operate the Holistika Knowledge Vault through MADEI
 | **Workspace** | An agent's operating folder with identity, memory, and rules | Persists across sessions but is agent-scoped | `~/.openclaw/workspace-{agent}/` |
 | **Vault** | The canonical business knowledge system | Permanent -- versioned in git, synced to Drive | `docs/references/hlk/` |
 
+**Initiative 14 (internal GTM / marketing ops):** Planning and SOPs live under [`docs/wip/planning/14-holistika-internal-gtm-mops/`](wip/planning/14-holistika-internal-gtm-mops/master-roadmap.md); new `process_list.csv` rows include `holistika_gtm_dtp_*` (merged per governed tranche).
+
 **Operating rule:** Session state is disposable. Workspace state helps agents remember context. The vault is the source of truth. Never rely on session memory for business facts -- always ground answers in the vault.
 
 ### 24.2 How You Use MADEIRA Day-to-Day
