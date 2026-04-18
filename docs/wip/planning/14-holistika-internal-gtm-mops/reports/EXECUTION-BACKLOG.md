@@ -40,7 +40,7 @@
 
 | ID | Task | Owner | Verification |
 |----|------|-------|--------------|
-| D1 | Complete [`uat-holistika-gtm-webchat-stub.md`](uat-holistika-gtm-webchat-stub.md) when dashboard paths exist | Operator | Dated report row, not PENDING |
+| D1 | Complete Phase 4 UAT stub [`uat-holistika-contact-funnel-20260417.md`](uat-holistika-contact-funnel-20260417.md) when dashboard paths exist | Operator | Dated report row, not PENDING |
 | D2 | Mirror approved SOP paths under `v3.0/` per [`phase-5-km-checklist.md`](phase-5-km-checklist.md) | PMO | `py scripts/validate_hlk_km_manifests.py` if manifests touched |
 
 ---

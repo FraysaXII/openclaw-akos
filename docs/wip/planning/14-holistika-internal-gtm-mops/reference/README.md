@@ -1,7 +1,7 @@
-# Reference — authoritative plan mirror (optional)
+# Reference — authoritative plan mirror
 
-The **expanded** initiative specification lives in the Cursor plans directory (not in this git repo by default):
+The **expanded** initiative specification is authored in the Cursor plans directory:
 
-- **`internal_gtm_marketing_ops_574ae9de.plan.md`** — typically under `%USERPROFILE%\.cursor\plans\` on Windows.
+- **`internal_gtm_marketing_ops_574ae9de.plan.md`** — typically `%USERPROFILE%\.cursor\plans\` on Windows.
 
-To add a **git-tracked** mirror for collaborators, copy that file here as `internal_gtm_marketing_ops_574ae9de.plan.md` and keep it in sync when **§ Phased execution** changes.
+**Git-tracked copy (collaborators):** [`internal_gtm_marketing_ops_574ae9de.plan.md`](internal_gtm_marketing_ops_574ae9de.plan.md) in this folder. Re-copy from `.cursor/plans/` when **§ Phased execution** or the **Initiative 14 status snapshot** section changes.
