@@ -8,11 +8,11 @@
 
 ## Wave A — Governance CSV and mirrors (no Supabase prod write)
 
-| ID | Task | Owner | Verification |
-|----|------|-------|--------------|
-| A1 | Confirm `holistika_gtm_dtp_001`–`003` rows in [`process_list.csv`](../../../../references/hlk/compliance/process_list.csv) match SOP frontmatter `item_id` | PMO | `py scripts/validate_hlk.py` |
-| A2 | Run merge dry-run in CI / locally when adding **next** tranche from [`candidates/`](../candidates/) | Data | `py scripts/merge_process_list_tranche.py --dry-run` + `validate_hlk` |
-| A3 | Implement **sync job** (script or Edge Function) that loads CSV → `compliance.process_list_mirror` / `baseline_organisation_mirror` per [`sql-proposal-stack-20260417.md`](sql-proposal-stack-20260417.md) | Eng | Staging row counts = CSV line counts ± header; `source_git_sha` populated |
+| ID | Task | Owner | Verification | Status |
+|----|------|-------|--------------|--------|
+| A1 | Confirm `holistika_gtm_dtp_001`–`003` rows in [`process_list.csv`](../../../../references/hlk/compliance/process_list.csv) match SOP frontmatter `item_id` | PMO | `py scripts/validate_hlk.py` | done |
+| A2 | Run merge dry-run in CI / locally when adding **next** tranche from [`candidates/`](../candidates/) | Data | `py scripts/merge_process_list_tranche.py --dry-run` + `validate_hlk` | pending |
+| A3 | **Sync job:** [`scripts/sync_compliance_mirrors_from_csv.py`](../../../../scripts/sync_compliance_mirrors_from_csv.py) emits `INSERT … ON CONFLICT` SQL for `compliance.process_list_mirror` + `baseline_organisation_mirror` from git CSVs (`--count-only` / `--output`). Run against DB only **after** B1 DDL + operator approval. | Eng | `py scripts/sync_compliance_mirrors_from_csv.py --count-only`; `pytest tests/test_sync_compliance_mirrors_from_csv.py` | done |
 
 ---
 

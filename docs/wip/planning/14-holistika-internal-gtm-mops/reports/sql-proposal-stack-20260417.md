@@ -84,7 +84,7 @@ CREATE INDEX IF NOT EXISTS process_list_mirror_synced_at_idx
   ON compliance.process_list_mirror (synced_at DESC);
 ```
 
-**Upsert contract (batch job):** `INSERT ... ON CONFLICT (item_id) DO UPDATE SET` all CSV columns + `source_git_sha`, `synced_at = now()`.
+**Upsert contract (batch job):** `INSERT ... ON CONFLICT (item_id) DO UPDATE SET` all CSV columns + `source_git_sha`, `synced_at = now()`. **Generator in repo:** [`scripts/sync_compliance_mirrors_from_csv.py`](../../../../../scripts/sync_compliance_mirrors_from_csv.py) (`--count-only`, `--output`, `--process-list-only`, `--baseline-only`) — emits SQL for operator review; does not connect to Supabase.
 
 ### 4.3 `compliance.baseline_organisation_mirror`
 

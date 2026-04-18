@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **`scripts/sync_compliance_mirrors_from_csv.py`** — Initiative 14 Wave A3: generates PostgreSQL upsert statements for `compliance.process_list_mirror` and `compliance.baseline_organisation_mirror` from canonical CSVs (`--count-only`, `--output`); [`tests/test_sync_compliance_mirrors_from_csv.py`](tests/test_sync_compliance_mirrors_from_csv.py). Documented in [`sql-proposal-stack-20260417.md`](docs/wip/planning/14-holistika-internal-gtm-mops/reports/sql-proposal-stack-20260417.md), [`EXECUTION-BACKLOG.md`](docs/wip/planning/14-holistika-internal-gtm-mops/reports/EXECUTION-BACKLOG.md), [`docs/DEVELOPER_CHECKLIST.md`](docs/DEVELOPER_CHECKLIST.md) §7d.
+
 - **Initiative 14 — status snapshot in master-roadmap** — [`docs/wip/planning/14-holistika-internal-gtm-mops/master-roadmap.md`](docs/wip/planning/14-holistika-internal-gtm-mops/master-roadmap.md) includes § **Initiative 14 — status snapshot (2026-04-17)** (completed deliverables, governance insights, continuation via EXECUTION-BACKLOG); authoritative spec pointer updated to git [`reference/internal_gtm_marketing_ops_574ae9de.plan.md`](docs/wip/planning/14-holistika-internal-gtm-mops/reference/internal_gtm_marketing_ops_574ae9de.plan.md).
 
 - **Initiative 14 — Cursor plan sync** — Git mirror [`docs/wip/planning/14-holistika-internal-gtm-mops/reference/internal_gtm_marketing_ops_574ae9de.plan.md`](docs/wip/planning/14-holistika-internal-gtm-mops/reference/internal_gtm_marketing_ops_574ae9de.plan.md) (2026-04-17 snapshot: status section, YAML todos, DDL authority pointer, Phase 1 merge script correction); [`reference/README.md`](docs/wip/planning/14-holistika-internal-gtm-mops/reference/README.md) updated.
