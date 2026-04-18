@@ -6,11 +6,12 @@ Implements **Initiative 14 Wave B3** routing: **KiRBe product** (`kirbe.*`) vs *
 
 | Metadata key | Values | Used on |
 |--------------|--------|---------|
-| `akos_billing_plane` | `kirbe` (default if omitted on subs), `holistika_ops` | `Customer`, `Subscription` |
+| **`hlk_billing_plane`** (canonical) | `kirbe` (default if omitted on subs), `holistika_ops`, `holistika` | `Customer`, `Subscription` |
+| `akos_billing_plane` | same | **Deprecated** — still read if `hlk_billing_plane` is absent |
 
-**Holistika company customers:** set `metadata.akos_billing_plane=holistika_ops` (and optional `org_label`) on the Stripe Customer. The handler upserts `holistika_ops.stripe_customer_link`.
+**Holistika company customers:** set `metadata.hlk_billing_plane=holistika_ops` (and optional `org_label`) on the Stripe Customer. The handler upserts `holistika_ops.stripe_customer_link`.
 
-**Subscriptions:** if `metadata.akos_billing_plane=holistika_ops` on the subscription, the handler **does not** write `kirbe.subscriptions` (stub logs only). Implement KiRBe SaaS subscription persistence in the same function for `kirbe` plane when your `kirbe` schema is deployed.
+**Subscriptions:** if `metadata.hlk_billing_plane=holistika_ops` (or legacy `akos_billing_plane`) on the subscription, the handler **does not** write `kirbe.subscriptions` (stub logs only). Implement KiRBe SaaS subscription persistence in the same function for `kirbe` plane when your `kirbe` schema is deployed.
 
 ### Recommended Stripe webhook events (GTM / marketing ops)
 
@@ -18,7 +19,7 @@ Subscribe to these in [Stripe → Developers → Webhooks](https://dashboard.str
 
 | Group | Event | Why |
 |-------|--------|-----|
-| **CRM / company billing** | `customer.created`, `customer.updated` | Source of truth for `holistika_ops.stripe_customer_link` when `akos_billing_plane=holistika_ops`. |
+| **CRM / company billing** | `customer.created`, `customer.updated` | Source of truth for `holistika_ops.stripe_customer_link` when `hlk_billing_plane=holistika_ops`. |
 | **SaaS lifecycle** | `customer.subscription.created`, `updated`, `deleted` | KiRBe vs Holistika routing; no `kirbe` writes for Holistika plane. |
 | **Cash & dunning** | `invoice.paid`, `invoice.payment_failed`, `invoice.finalized` | MRR / AR signals; handler resolves **Customer** and upserts Holistika link when plane matches. |
 | **Acquisition** | `checkout.session.completed` | Funnel / campaign attribution (pair with Checkout `metadata` in your Payment Links or Checkout API). |

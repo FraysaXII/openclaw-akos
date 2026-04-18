@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **`supabase/functions/stripe-webhook-handler`** — Expanded **GTM / marketing ops** event coverage: `invoice.*`, `checkout.session.completed`, `payment_intent.*`, `charge.*`, `billing_portal.session.created`; structured JSON logs (`source: stripe_webhook`); Customer resolution + Holistika upsert on invoice/checkout/payment when `akos_billing_plane=holistika_ops`. README lists recommended Dashboard events.
+- **`supabase/functions/stripe-webhook-handler`** — Canonical Stripe metadata key **`hlk_billing_plane`** (HLK naming; legacy `akos_billing_plane` fallback). Expanded **GTM / marketing ops** events: `invoice.*`, `checkout.session.completed`, `payment_intent.*`, `charge.*`, `billing_portal.session.created`; structured JSON logs (`source: stripe_webhook`); Holistika upsert when plane matches. README lists recommended Dashboard events.
 
 ### Added
 
