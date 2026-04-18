@@ -34,6 +34,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Initiative 14 — EXECUTION-BACKLOG** — [`reports/EXECUTION-BACKLOG.md`](docs/wip/planning/14-holistika-internal-gtm-mops/reports/EXECUTION-BACKLOG.md): Wave **A2** marked **done** (Phase 1 merge + ongoing dry-run/`--write` discipline; verification via `test_merge_process_list_tranche` + `validate_hlk`).
+
 - **Initiative 10 — UAT** — [`docs/wip/planning/10-madeira-eval-hardening/reports/uat-madeira-path-bc-browser-20260416.md`](docs/wip/planning/10-madeira-eval-hardening/reports/uat-madeira-path-bc-browser-20260416.md): **2026-04-15** addendum — Scenario 0 steps **6–7 PASS** (Browser MCP: `hlk_search` + `akos_route_request` / admin escalation visible) after **no concurrent `ollama run`** during WebChat; **supersedes** **2026-04-18** steps **6–7 SKIP** for that retry. Earlier **2026-04-18** addendum — step **5 PASS**; steps **6–7** were **SKIP** (Ollama timeouts when CLI warm-up competed with gateway). [`SESSION_TROUBLESHOOTING.md`](docs/wip/planning/10-madeira-eval-hardening/reports/SESSION_TROUBLESHOOTING.md) covers queue + Ollama + Playwright.
 
 - **`scripts/browser-smoke.py`** — Longer default HTTP timeout (`AKOS_BROWSER_SMOKE_HTTP_TIMEOUT`, default 30s); Playwright `dashboard_health` probes API **`/health`** instead of Swagger **`/docs`**; Windows worker order **chromium → msedge → firefox**; **Scenario 0 registry** HTTP scenarios (`scenario0_hlk_cto`, `scenario0_hlk_research_area`, `scenario0_hlk_kirbe_children`, `scenario0_admin_escalation`) aligned to [`docs/uat/hlk_admin_smoke.md`](docs/uat/hlk_admin_smoke.md) REST parity.
