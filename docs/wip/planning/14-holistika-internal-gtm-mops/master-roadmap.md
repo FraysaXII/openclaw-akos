@@ -1,8 +1,36 @@
 # Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned)
 
 **Status:** active (execution started 2026-04-17).  
-**Authoritative expanded spec:** Cursor plan `internal_gtm_marketing_ops_574ae9de.plan.md` (see [`reference/README.md`](reference/README.md) for optional git mirror).  
+**Authoritative expanded spec:** Full Cursor plan + YAML todos — [`reference/internal_gtm_marketing_ops_574ae9de.plan.md`](reference/internal_gtm_marketing_ops_574ae9de.plan.md) (git); local copy may live under `%USERPROFILE%\.cursor\plans\` — re-copy to `reference/` when § Phased execution changes ([`reference/README.md`](reference/README.md)).  
 **Governance:** [PRECEDENCE.md](../../../references/hlk/compliance/PRECEDENCE.md), [SOP-META_PROCESS_MGMT_001.md](../../../references/hlk/compliance/SOP-META_PROCESS_MGMT_001.md), [`.cursor/rules/akos-governance-remediation.mdc`](../../../../.cursor/rules/akos-governance-remediation.mdc).
+
+## Initiative 14 — status snapshot (2026-04-17)
+
+**Completed (repo evidence — openclaw-akos)**
+
+- **Initiative home:** this folder — [`master-roadmap.md`](master-roadmap.md), [`decision-log.md`](decision-log.md), [`evidence-matrix.md`](evidence-matrix.md); row in [`docs/wip/planning/README.md`](../../../wip/planning/README.md).
+- **Phase 1 — CSV:** Three merged rows `holistika_gtm_dtp_001`–`003` in [`process_list.csv`](../../../references/hlk/compliance/process_list.csv); candidates in [`candidates/process_list_tranche_holistika_internal.csv`](candidates/process_list_tranche_holistika_internal.csv); merge via [`scripts/merge_process_list_tranche.py`](../../../../scripts/merge_process_list_tranche.py) + [`tests/test_merge_process_list_tranche.py`](../../../../tests/test_merge_process_list_tranche.py) (distinct from MADEIRA-oriented [`merge_gtm_into_process_list.py`](../../../../scripts/merge_gtm_into_process_list.py)).
+- **Phase 2 — v3.0 SOPs:** Five files under `docs/references/hlk/v3.0/Admin/O5-1/` — Growth (`SOP-GTM_INBOUND_SLA_001`, `SOP-GTM_QUALIFICATION_001`, `SOP-GTM_BD_HANDOFF_001`), Brand/Copywriter (`SOP-GTM_AGENCY_PARTNER_WORKFLOW_001`), PMO (`SOP-GTM_WEEKLY_METRICS_REVIEW_001`), each extended with **Execution runbook** / RACI; vault links to `process_list.csv` use `.../hlk/compliance/process_list.csv` (relative depth varies by folder).
+- **Phase 3 — documentation only (not prod DDL):** [`reports/sql-proposal-stack-20260417.md`](reports/sql-proposal-stack-20260417.md) — concrete DDL for `compliance.process_list_mirror`, `compliance.baseline_organisation_mirror`, `holistika_ops` stub, RLS/grants, verification queries, rollback; still **no** `apply_migration` until operator gate ([`operator-sql-gate.md`](reports/operator-sql-gate.md)).
+- **Execution packaging:** [`reports/EXECUTION-BACKLOG.md`](reports/EXECUTION-BACKLOG.md) (Waves A–D); [`reports/process-list-gtm-inventory-and-next-tranches.md`](reports/process-list-gtm-inventory-and-next-tranches.md) (anchors + **candidate** task rows, not merged).
+- **TEAM_SOTA:** [`reports/TEAM_SOTA_HLK_ERP.md`](reports/TEAM_SOTA_HLK_ERP.md), [`reports/TEAM_SOTA_KIRBE.md`](reports/TEAM_SOTA_KIRBE.md).
+- **Docs/tests sync:** [`CHANGELOG.md`](../../../../CHANGELOG.md), [`docs/USER_GUIDE.md`](../../../../USER_GUIDE.md), [`docs/ARCHITECTURE.md`](../../../../ARCHITECTURE.md), [`docs/DEVELOPER_CHECKLIST.md`](../../../../DEVELOPER_CHECKLIST.md) as shipped on the branch.
+- **Gates run for the tranche:** `py scripts/validate_hlk.py` (1069 process items), `py scripts/validate_hlk_vault_links.py`, `pytest tests/test_merge_process_list_tranche.py`.
+
+**Insights to carry forward (governance)**
+
+- **Split “Phase 3 docs” vs “Phase 3 execute”:** Narrative mirror DDL in the expanded plan is **superseded for exact SQL** by [`sql-proposal-stack-20260417.md`](reports/sql-proposal-stack-20260417.md); keep the plan for *why*; edit DDL only in the proposal file until approved.
+- **CSV enrichment:** Prefer **task-level** children under existing `holistika_gtm_*` parents and SOP depth before new process rows; use the inventory report for **candidate** tranches—operator approval before merge.
+- **Phase 4 UAT:** Stub exists ([`uat-holistika-contact-funnel-20260417.md`](reports/uat-holistika-contact-funnel-20260417.md)); Wave D in EXECUTION-BACKLOG references the same file (alias `uat-holistika-gtm-webchat-stub` retired).
+
+**To execute next (continuation)**
+
+- Use **Waves A–D** in [`EXECUTION-BACKLOG.md`](reports/EXECUTION-BACKLOG.md): A3 sync job → B1–B3 staging DDL + Stripe routing → C1–C3 business cadence → D1–D2 UAT/KM.
+- Remaining **stack** todos in the plan YAML (`kirbe-supabase-gap`, `masterdata-live-inventory`, `stripe-billing-ssot`, `deprecate-legacy-public`, `monitoring-governance`, `phase3b-integrations-mcp-later`) map to B-waves and KiRBe repo work, not to new CSV rows.
+
+**Full plan mirror (YAML todos + § Phased execution)**
+
+- [`reference/internal_gtm_marketing_ops_574ae9de.plan.md`](reference/internal_gtm_marketing_ops_574ae9de.plan.md) — see [`reference/README.md`](reference/README.md) for sync contract.
 
 ## Goal
 
