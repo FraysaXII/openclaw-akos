@@ -3,7 +3,7 @@
  *
  * - **kirbe** (default): KiRBe SaaS product billing — extend with `kirbe.*` upserts in deployment.
  * - **holistika_ops**: company plane — upserts `holistika_ops.stripe_customer_link` when Customer
- *   metadata `hlk_billing_plane=holistika_ops` (or holistika). Legacy `akos_billing_plane` still read.
+ *   metadata `hlk_billing_plane=holistika_ops` (or `holistika`).
  *
  * Subscription lifecycle on holistika plane must **not** write `kirbe.subscriptions`.
  */
@@ -21,12 +21,9 @@ function supabaseForSchema(schema: string): SupabaseClient {
   return createClient(url, key, { db: { schema } });
 }
 
-/** Canonical Stripe metadata: `hlk_billing_plane`. Falls back to `akos_billing_plane` (deprecated). */
+/** Stripe metadata key: `hlk_billing_plane` on Customer and Subscription. */
 function billingPlaneRaw(metadata: Stripe.Metadata | null | undefined): string | undefined {
-  return (
-    metadata?.hlk_billing_plane?.trim().toLowerCase() ??
-    metadata?.akos_billing_plane?.trim().toLowerCase()
-  );
+  return metadata?.hlk_billing_plane?.trim().toLowerCase();
 }
 
 function subscriptionPlane(sub: Stripe.Subscription): "kirbe" | "holistika_ops" {

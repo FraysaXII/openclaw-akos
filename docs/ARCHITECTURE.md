@@ -683,7 +683,8 @@ Launch: `python scripts/serve-api.py --port 8420`
 | `scripts/sync_compliance_mirrors_from_csv.py` | Initiative 14: emit `INSERT … ON CONFLICT` SQL for `compliance.process_list_mirror` / `baseline_organisation_mirror` from git CSVs (`--count-only`, `--output`); run on DB only after approved DDL (see `docs/wip/planning/14-holistika-internal-gtm-mops/reports/sql-proposal-stack-20260417.md`) |
 | `scripts/sql/i14_phase3_staging/*.sql` | Initiative 14 Wave B: versioned Postgres DDL/rollback/verify for `compliance` + `holistika_ops` (staging; operator-gated) |
 | `scripts/verify_phase3_mirror_schema.py` | Initiative 14: runs `verify_staging.sql` via `psql` when `DATABASE_URL` / `SUPABASE_DB_URL` is set |
-| `supabase/functions/stripe-webhook-handler/` | Initiative 14 Wave B3: Stripe webhook routing stub — `kirbe` vs `holistika_ops` billing planes (deploy with Supabase CLI) |
+| `supabase/functions/stripe-webhook-handler/` | Initiative 14 Wave B3: Stripe webhook — `hlk_billing_plane` on Customer/Subscription; `kirbe` vs `holistika_ops` routing (deploy with `npm run supabase -- functions deploy`) |
+| `scripts/stripe_set_billing_plane.py` | Set `metadata.hlk_billing_plane` on a Stripe Customer or Subscription via API (`STRIPE_SECRET_KEY` in env) |
 | `scripts/refine_gtm_process_hierarchy.py` | Pattern 2 pass: insert `gtm_cl_*` cluster processes from Trello path prefixes, rewire `item_parent_1` / `item_parent_2`, sanitize code-like `item_name` values on existing GTM rows; run with `--write` after merge |
 | `scripts/migrate_process_list_program_layer.py` | Pattern 3: insert `hlk_prog_*` program workstreams and re-parent listed GTM workstreams under MADEIRA Platform / Think Big Operational Excellence |
 | `scripts/backfill_process_parent_ids.py` | Resolve `item_parent_*` names to `item_parent_*_id` in `process_list.csv`; run after header/column migration |

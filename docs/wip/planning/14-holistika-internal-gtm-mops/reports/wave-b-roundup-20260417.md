@@ -11,7 +11,7 @@
 | §8 verification | [`verify_staging.sql`](../../../../../scripts/sql/i14_phase3_staging/verify_staging.sql) | Counts + `pg_tables.rowsecurity`. |
 | Verify helper | [`scripts/verify_phase3_mirror_schema.py`](../../../../../scripts/verify_phase3_mirror_schema.py) | Wraps `verify_staging.sql` via `psql` when `DATABASE_URL` / `SUPABASE_DB_URL` is set. |
 | **B2 — Legacy deprecation** | [`20260417_deprecate_legacy_public_optional.sql`](../../../../../scripts/sql/i14_phase3_staging/20260417_deprecate_legacy_public_optional.sql) | Commented template; adjust names per DB. |
-| **B3 — Stripe routing** | [`supabase/functions/stripe-webhook-handler/`](../../../../../supabase/functions/stripe-webhook-handler/README.md) | `metadata.hlk_billing_plane` (legacy `akos_billing_plane`); `holistika_ops` customer upsert; subscription events skip `kirbe` when plane is Holistika. |
+| **B3 — Stripe routing** | [`supabase/functions/stripe-webhook-handler/`](../../../../../supabase/functions/stripe-webhook-handler/README.md) | `metadata.hlk_billing_plane`; `holistika_ops` customer upsert; subscription events skip `kirbe` when plane is Holistika. |
 
 ## Operator / staging checklist (not automated here)
 

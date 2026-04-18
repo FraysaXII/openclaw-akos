@@ -9,4 +9,4 @@
 
 **Rule:** Do not mix Holistika company billing rows into `kirbe.*` unless the record is explicitly a KiRBe customer subscription.
 
-**Webhook routing (Wave B3):** [`supabase/functions/stripe-webhook-handler/README.md`](../../../../../supabase/functions/stripe-webhook-handler/README.md) — `metadata.hlk_billing_plane` distinguishes planes (legacy `akos_billing_plane` still honored).
+**Webhook routing (Wave B3):** [`supabase/functions/stripe-webhook-handler/README.md`](../../../../../supabase/functions/stripe-webhook-handler/README.md) — `metadata.hlk_billing_plane` distinguishes planes.

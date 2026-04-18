@@ -6,12 +6,11 @@ Implements **Initiative 14 Wave B3** routing: **KiRBe product** (`kirbe.*`) vs *
 
 | Metadata key | Values | Used on |
 |--------------|--------|---------|
-| **`hlk_billing_plane`** (canonical) | `kirbe` (default if omitted on subs), `holistika_ops`, `holistika` | `Customer`, `Subscription` |
-| `akos_billing_plane` | same | **Deprecated** — still read if `hlk_billing_plane` is absent |
+| **`hlk_billing_plane`** | `kirbe` (default if omitted on subs), `holistika_ops`, `holistika` | `Customer`, `Subscription` |
 
 **Holistika company customers:** set `metadata.hlk_billing_plane=holistika_ops` (and optional `org_label`) on the Stripe Customer. The handler upserts `holistika_ops.stripe_customer_link`.
 
-**Subscriptions:** if `metadata.hlk_billing_plane=holistika_ops` (or legacy `akos_billing_plane`) on the subscription, the handler **does not** write `kirbe.subscriptions` (stub logs only). Implement KiRBe SaaS subscription persistence in the same function for `kirbe` plane when your `kirbe` schema is deployed.
+**Subscriptions:** if `metadata.hlk_billing_plane=holistika_ops` on the subscription, the handler **does not** write `kirbe.subscriptions` (stub logs only). Implement KiRBe SaaS subscription persistence in the same function for `kirbe` plane when your `kirbe` schema is deployed.
 
 ### How to set `hlk_billing_plane` (operators)
 
@@ -47,9 +46,30 @@ stripe customers update cus_REPLACE_ME --metadata hlk_billing_plane=holistika_op
 stripe subscriptions update sub_REPLACE_ME --metadata hlk_billing_plane=kirbe
 ```
 
-**5. Stripe API** (any client library)
+**5. Repo helper (stdlib, no Stripe CLI)**
+
+With `STRIPE_SECRET_KEY` in your shell (same secret key as in Supabase functions):
+
+```bash
+py scripts/stripe_set_billing_plane.py --customer cus_XXX --plane holistika_ops --org-label "Staging"
+py scripts/stripe_set_billing_plane.py --subscription sub_XXX --plane kirbe
+```
+
+**6. Stripe API** (any client library)
 
 Update the Customer or Subscription object with `metadata.hlk_billing_plane` set to `holistika_ops` or `kirbe`. Do **not** set secret keys in git; use env vars or Dashboard [API keys](https://dashboard.stripe.com/apikeys).
+
+### After `STRIPE_SECRET_KEY` + `STRIPE_WEBHOOK_SECRET` are set in Supabase
+
+1. **Webhook URL in Stripe** must be exactly:  
+   `https://<project-ref>.supabase.co/functions/v1/stripe-webhook-handler`  
+   (same project you deployed to). **Test mode** webhook if using `sk_test_`.
+2. **Events:** enable at least the groups in the table below (Dashboard → Webhooks → your endpoint → **Add events**).
+3. **`STRIPE_WEBHOOK_SECRET`:** must be the signing secret **for that endpoint** (`whsec_...` shown in the Dashboard for this URL — not the Stripe CLI forwarding secret).
+4. **Redeploy** the function after code changes:  
+   `npm run supabase -- functions deploy stripe-webhook-handler --no-verify-jwt`
+5. **Smoke test:** Dashboard → Webhooks → endpoint → **Send test event** (e.g. `customer.updated`), or `stripe trigger customer.updated` — then **Supabase → Edge Functions → Logs** → expect **200** and JSON logs with `"source":"stripe_webhook"`.
+6. **Database (Holistika plane):** after a `customer.updated` for a customer with `hlk_billing_plane=holistika_ops`, check `holistika_ops.stripe_customer_link`.
 
 ### Recommended Stripe webhook events (GTM / marketing ops)
 

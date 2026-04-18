@@ -11,14 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
-- **`supabase/functions/stripe-webhook-handler/README.md`** — Operator section **How to set `hlk_billing_plane`** (Dashboard, Checkout, CLI, API).
+- **`supabase/functions/stripe-webhook-handler/README.md`** — Operator section **How to set `hlk_billing_plane`**; post-secrets checklist; [`stripe_set_billing_plane.py`](scripts/stripe_set_billing_plane.py).
 
 ### Changed
 
-- **`supabase/functions/stripe-webhook-handler`** — Canonical Stripe metadata key **`hlk_billing_plane`** (HLK naming; legacy `akos_billing_plane` fallback). Expanded **GTM / marketing ops** events: `invoice.*`, `checkout.session.completed`, `payment_intent.*`, `charge.*`, `billing_portal.session.created`; structured JSON logs (`source: stripe_webhook`); Holistika upsert when plane matches. README lists recommended Dashboard events.
+- **`supabase/functions/stripe-webhook-handler`** — **`hlk_billing_plane` only** (removed `akos_billing_plane`). **GTM / marketing ops** events: `invoice.*`, `checkout.session.completed`, `payment_intent.*`, `charge.*`, `billing_portal.session.created`; structured JSON logs (`source: stripe_webhook`); Holistika upsert when plane matches.
 
 ### Added
 
+- **`scripts/stripe_set_billing_plane.py`** — Set Stripe `metadata.hlk_billing_plane` on Customer or Subscription (`STRIPE_SECRET_KEY` in env).
 - **`package.json` + local Supabase CLI** — `npm install` adds the **Supabase CLI** (devDependency); use `npm run supabase -- …` on Windows because `pip install supabase` is the Python client only. Documented in [`supabase/functions/stripe-webhook-handler/README.md`](supabase/functions/stripe-webhook-handler/README.md).
 
 - **Initiative 14 — Wave B (staging DDL + Stripe routing, repo artifacts)** — [`scripts/sql/i14_phase3_staging/`](scripts/sql/i14_phase3_staging/README.md): `20260417_i14_phase3_up.sql`, rollback, `verify_staging.sql`, optional legacy-public deprecation template; [`scripts/verify_phase3_mirror_schema.py`](scripts/verify_phase3_mirror_schema.py); [`supabase/functions/stripe-webhook-handler/`](supabase/functions/stripe-webhook-handler/README.md) (two billing planes: `kirbe` vs `holistika_ops`). Round-up: [`docs/wip/planning/14-holistika-internal-gtm-mops/reports/wave-b-roundup-20260417.md`](docs/wip/planning/14-holistika-internal-gtm-mops/reports/wave-b-roundup-20260417.md). Live Supabase/Stripe execution remains operator-gated.
