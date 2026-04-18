@@ -31,9 +31,12 @@ Desktop.ini
 logs/
 *.log
 
-# Node.js (for MCP server tooling)
+# Node.js (Supabase CLI devDependency + optional tooling)
 node_modules/
-package-lock.json
+supabase/.temp/
+
+# Initiative 14: generated mirror upsert SQL (operator-local; do not commit)
+mirrors.sql
 
 # Docker
 .docker/

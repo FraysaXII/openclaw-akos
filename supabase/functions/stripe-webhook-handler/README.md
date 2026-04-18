@@ -12,12 +12,34 @@ Implements **Initiative 14 Wave B3** routing: **KiRBe product** (`kirbe.*`) vs *
 
 **Subscriptions:** if `metadata.akos_billing_plane=holistika_ops` on the subscription, the handler **does not** write `kirbe.subscriptions` (stub logs only). Implement KiRBe SaaS subscription persistence in the same function for `kirbe` plane when your `kirbe` schema is deployed.
 
-## Deploy
+## Supabase CLI on Windows (this repo)
+
+**Do not use** `pip install supabase` — that is the **Python API client**, not the CLI. The CLI is installed here as a **Node devDependency**:
 
 ```bash
-supabase secrets set STRIPE_SECRET_KEY=sk_test_...
-supabase secrets set STRIPE_WEBHOOK_SECRET=whsec_...
-supabase functions deploy stripe-webhook-handler
+npm install
+```
+
+Then use `npm run supabase -- <command>` (or `npx supabase@latest <command>`). **Global** `npm install -g supabase` is **not supported** by upstream.
+
+### Auth (pick one)
+
+1. **Browser:** `npm run supabase -- login` — complete the browser prompt.
+2. **CI / non-interactive:** create a **personal access token** at [Supabase Account → Access Tokens](https://supabase.com/dashboard/account/tokens), then in PowerShell:
+
+   ```powershell
+   $env:SUPABASE_ACCESS_TOKEN="sbp_..."
+   ```
+
+### Link and deploy
+
+From the **repository root** (where `package.json` and `supabase/` live):
+
+```bash
+npm run supabase -- link --project-ref <YOUR_PROJECT_REF>
+npm run supabase -- secrets set STRIPE_SECRET_KEY=sk_test_...
+npm run supabase -- secrets set STRIPE_WEBHOOK_SECRET=whsec_...
+npm run supabase -- functions deploy stripe-webhook-handler
 ```
 
 Register the function URL in [Stripe webhooks](https://dashboard.stripe.com/webhooks) and send test events with Stripe CLI (`stripe listen` / `stripe trigger`).

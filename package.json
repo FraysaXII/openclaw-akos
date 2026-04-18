@@ -1,0 +1,11 @@
+{
+  "name": "openclaw-akos",
+  "private": true,
+  "description": "AKOS repo — Supabase CLI is a devDependency for Edge deploy (see supabase/functions/stripe-webhook-handler/README.md).",
+  "scripts": {
+    "supabase": "supabase"
+  },
+  "devDependencies": {
+    "supabase": "2.92.1"
+  }
+}
