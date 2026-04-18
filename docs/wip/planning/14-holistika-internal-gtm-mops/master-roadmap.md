@@ -100,6 +100,7 @@ Full gate set: [`docs/DEVELOPER_CHECKLIST.md`](../../../DEVELOPER_CHECKLIST.md) 
 | [`reports/phase-1-tranche-report.md`](reports/phase-1-tranche-report.md) | CSV tranche dry-run / merge status |
 | [`reports/sql-proposal-stack-20260417.md`](reports/sql-proposal-stack-20260417.md) | Phase 3 SQL proposal: concrete DDL/RLS/rollback (no execute until approval) |
 | [`reports/EXECUTION-BACKLOG.md`](reports/EXECUTION-BACKLOG.md) | Ordered tasks (Waves A–D) with verification; Wave A3 sync = [`sync_compliance_mirrors_from_csv.py`](../../../../scripts/sync_compliance_mirrors_from_csv.py) |
+| [`reports/wave-b-roundup-20260417.md`](reports/wave-b-roundup-20260417.md) | Wave B repo vs operator checklist; handoff before Waves C–D |
 | [`reports/process-list-gtm-inventory-and-next-tranches.md`](reports/process-list-gtm-inventory-and-next-tranches.md) | Existing GTM anchors + candidate next tranche (operator gate) |
 | [`reports/kirbe-supabase-gap-summary.md`](reports/kirbe-supabase-gap-summary.md) | KiRBe gap |
 | [`reports/masterdata-supabase-inventory.md`](reports/masterdata-supabase-inventory.md) | MasterData inventory |

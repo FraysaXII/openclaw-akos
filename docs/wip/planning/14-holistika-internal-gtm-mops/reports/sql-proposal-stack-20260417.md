@@ -5,6 +5,8 @@
 
 **Governance:** This file is the **authoritative DDL/DML intent** for Initiative 14 Phase 3. No production mutation until: backup, staging verification, and operator sign-off per [`operator-sql-gate.md`](operator-sql-gate.md).
 
+**Committed SQL (apply on staging):** [`scripts/sql/i14_phase3_staging/`](../../../../../scripts/sql/i14_phase3_staging/README.md) — `20260417_i14_phase3_up.sql`, `20260417_i14_phase3_rollback.sql`, `verify_staging.sql`, optional `20260417_deprecate_legacy_public_optional.sql`. **Verification helper:** [`scripts/verify_phase3_mirror_schema.py`](../../../../../scripts/verify_phase3_mirror_schema.py) (uses `psql` + `DATABASE_URL` / `SUPABASE_DB_URL`). **Stripe routing (Wave B3):** [`supabase/functions/stripe-webhook-handler/`](../../../../../supabase/functions/stripe-webhook-handler/README.md).
+
 ---
 
 ## 1. Objectives (mapped to `item_id`)

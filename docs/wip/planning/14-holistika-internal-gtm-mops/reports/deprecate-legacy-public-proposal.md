@@ -2,6 +2,8 @@
 
 **Targets:** `standard_process`, `workflows`, `workstreams`, legacy `public."Process list"`.
 
+**SQL template (optional):** [`scripts/sql/i14_phase3_staging/20260417_deprecate_legacy_public_optional.sql`](../../../../../scripts/sql/i14_phase3_staging/20260417_deprecate_legacy_public_optional.sql) — adjust identifiers before execute.
+
 **Steps (after operator approval + backup):**
 
 1. RLS lock or revoke app roles.
