@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **`supabase/functions/stripe-webhook-handler`** — Expanded **GTM / marketing ops** event coverage: `invoice.*`, `checkout.session.completed`, `payment_intent.*`, `charge.*`, `billing_portal.session.created`; structured JSON logs (`source: stripe_webhook`); Customer resolution + Holistika upsert on invoice/checkout/payment when `akos_billing_plane=holistika_ops`. README lists recommended Dashboard events.
+
 ### Added
 
 - **`package.json` + local Supabase CLI** — `npm install` adds the **Supabase CLI** (devDependency); use `npm run supabase -- …` on Windows because `pip install supabase` is the Python client only. Documented in [`supabase/functions/stripe-webhook-handler/README.md`](supabase/functions/stripe-webhook-handler/README.md).
