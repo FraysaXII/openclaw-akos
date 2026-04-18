@@ -13,6 +13,44 @@ Implements **Initiative 14 Wave B3** routing: **KiRBe product** (`kirbe.*`) vs *
 
 **Subscriptions:** if `metadata.hlk_billing_plane=holistika_ops` (or legacy `akos_billing_plane`) on the subscription, the handler **does not** write `kirbe.subscriptions` (stub logs only). Implement KiRBe SaaS subscription persistence in the same function for `kirbe` plane when your `kirbe` schema is deployed.
 
+### How to set `hlk_billing_plane` (operators)
+
+Use **test mode** or **live mode** consistently with your keys and webhook endpoint.
+
+**1. Stripe Dashboard — existing Customer**
+
+1. Open [Customers](https://dashboard.stripe.com/test/customers) (switch **Test mode** top right if needed).
+2. Click the customer → scroll to **Metadata** → **Add metadata** (or **Edit**).
+3. **Key:** `hlk_billing_plane`  
+   **Value:** `holistika_ops` (Holistika company / CRM billing) or `kirbe` (KiRBe SaaS product).  
+4. Save. This fires `customer.updated` and the webhook can upsert `holistika_ops.stripe_customer_link` when the value is `holistika_ops`.
+
+**2. Stripe Dashboard — existing Subscription**
+
+1. Open [Subscriptions](https://dashboard.stripe.com/test/subscriptions) → select the subscription.
+2. Find **Metadata** on the subscription object → add `hlk_billing_plane` = `holistika_ops` or `kirbe`.
+3. Save. Subscription events will route per this plane (Holistika subs do not write `kirbe.*` in the handler).
+
+**3. New Checkout / Payment Links (server-side)**
+
+When you create a Checkout Session, pass metadata so the **Subscription** or **Customer** inherits it, for example:
+
+- `subscription_data.metadata[hlk_billing_plane]=kirbe` (typical KiRBe SaaS checkout), or  
+- Set the **Customer**’s `hlk_billing_plane` before checkout if you already know the plane.
+
+Payment Links: edit the link in the Dashboard and add metadata under the link’s subscription/customer options if your flow supports it, or create customers first with metadata (step 1).
+
+**4. Stripe CLI** (after [`stripe login`](https://stripe.com/docs/stripe-cli))
+
+```bash
+stripe customers update cus_REPLACE_ME --metadata hlk_billing_plane=holistika_ops
+stripe subscriptions update sub_REPLACE_ME --metadata hlk_billing_plane=kirbe
+```
+
+**5. Stripe API** (any client library)
+
+Update the Customer or Subscription object with `metadata.hlk_billing_plane` set to `holistika_ops` or `kirbe`. Do **not** set secret keys in git; use env vars or Dashboard [API keys](https://dashboard.stripe.com/apikeys).
+
 ### Recommended Stripe webhook events (GTM / marketing ops)
 
 Subscribe to these in [Stripe → Developers → Webhooks](https://dashboard.stripe.com/webhooks) so **revenue, funnel, and lifecycle** signals reach Supabase Edge logs (structured JSON) and **Holistika** customers stay linked.

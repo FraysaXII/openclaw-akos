@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Documentation
+
+- **`supabase/functions/stripe-webhook-handler/README.md`** — Operator section **How to set `hlk_billing_plane`** (Dashboard, Checkout, CLI, API).
+
 ### Changed
 
 - **`supabase/functions/stripe-webhook-handler`** — Canonical Stripe metadata key **`hlk_billing_plane`** (HLK naming; legacy `akos_billing_plane` fallback). Expanded **GTM / marketing ops** events: `invoice.*`, `checkout.session.completed`, `payment_intent.*`, `charge.*`, `billing_portal.session.created`; structured JSON logs (`source: stripe_webhook`); Holistika upsert when plane matches. README lists recommended Dashboard events.
