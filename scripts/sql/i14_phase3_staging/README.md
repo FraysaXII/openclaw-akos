@@ -17,3 +17,12 @@ Run **`20260417_deprecate_legacy_public_optional.sql`** only after inventory con
 ## Rollback
 
 **`20260417_i14_phase3_rollback.sql`** drops policies and tables created by the up migration (destructive). Review before executing.
+
+## Contact leads (`holistika_ops.lead_intake`)
+
+**Spec:** [`contact-lead-ingest-spec.md`](../../../docs/wip/planning/14-holistika-internal-gtm-mops/reports/contact-lead-ingest-spec.md)
+
+1. **`20260418_holistika_ops_lead_intake_up.sql`** — marketing contact / lead rows; RLS deny `anon`/`authenticated`; `service_role` insert from Next API.
+2. **`20260418_holistika_ops_lead_intake_rollback.sql`** — drop table (destructive).
+3. **`20260419_holistika_ops_lead_intake_captcha_columns_up.sql`** — optional **Phase B** nullable `captcha_provider` / `captcha_verified_at` + partial index (MAROPS); apply before prod Turnstile + column inserts.
+4. **`20260419_holistika_ops_lead_intake_captcha_columns_rollback.sql`** — drop captcha columns + index only.
