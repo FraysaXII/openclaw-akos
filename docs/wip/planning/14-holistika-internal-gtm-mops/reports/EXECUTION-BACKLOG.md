@@ -30,11 +30,13 @@
 
 ## Wave C — SOP execution (business)
 
+**Order (2026-04-18):** **D1 contact UAT** and tagging/CRM clarity **before** committing to **four consecutive weekly forums (C3)** — see **D-GTM-C3-ORDER** in [`decision-log.md`](../decision-log.md).
+
 | ID | Task | Owner | Verification | Status |
 |----|------|-------|--------------|--------|
-| C1 | Set **numeric SLA** for first response (replace placeholder in **SOP-GTM_INBOUND_SLA_001**) and publish in team calendar / Notion | CMO | Dated decision in [`decision-log.md`](../decision-log.md) | pending |
-| C2 | Define **CRM minimum fields** for qualification + BD handoff; map to columns or JSON in Supabase | Growth + Ops | Screen recording or schema doc linked in evidence matrix | pending |
-| C3 | Run **weekly metrics forum** per **SOP-GTM_WEEKLY_METRICS_REVIEW_001** for 4 consecutive weeks | PMO | Minutes + action items in decision log or KM | pending |
+| C1 | Set **numeric SLA** for first response (replace placeholder in **SOP-GTM_INBOUND_SLA_001**) and publish in team calendar / Notion | CMO | **D-GTM-C1** in [`decision-log.md`](../decision-log.md) (4 business hours); SOP updated; calendar copy (operator) | done |
+| C2 | Define **CRM minimum fields** for qualification + BD handoff; map to columns or JSON in Supabase | Growth + Ops | [`crm-minimum-fields-supabase.md`](crm-minimum-fields-supabase.md) + evidence matrix row; **D-GTM-C2** | done |
+| C3 | Run **weekly metrics forum** per **SOP-GTM_WEEKLY_METRICS_REVIEW_001** for 4 consecutive weeks | PMO | [`wave-c-weekly-metrics-forum-log.md`](wave-c-weekly-metrics-forum-log.md) filled; minutes in decision log or KM — **start after D1 is credible** | pending |
 
 ---
 
@@ -42,8 +44,21 @@
 
 | ID | Task | Owner | Verification | Status |
 |----|------|-------|--------------|--------|
-| D1 | Complete Phase 4 UAT stub [`uat-holistika-contact-funnel-20260417.md`](uat-holistika-contact-funnel-20260417.md) when dashboard paths exist | Operator | Dated report row, not PENDING | pending |
-| D2 | Mirror approved SOP paths under `v3.0/` per [`phase-5-km-checklist.md`](phase-5-km-checklist.md) | PMO | `py scripts/validate_hlk_km_manifests.py` if manifests touched | pending |
+| D1 | Complete Phase 4 UAT [`uat-holistika-contact-funnel-20260417.md`](uat-holistika-contact-funnel-20260417.md) — mock customer E2E + GTM/CRM/ERP rows | Operator | Dated report; PASS/N/A/PENDING per row | in progress |
+| D2 | Mirror approved SOP paths under `v3.0/` per [`phase-5-km-checklist.md`](phase-5-km-checklist.md) | PMO | [`gtm-sop-vault-index.md`](gtm-sop-vault-index.md); `validate_hlk_km_manifests.py` if `_assets` manifests added | done |
+
+---
+
+## Wave E — Event and attribution (Initiative 14 unified plan)
+
+**Reference:** [`event-attribution-blueprint-reference.md`](event-attribution-blueprint-reference.md) · **Marketing repo:** `root_cd/boilerplate` (Next.js) · **ERP:** `root_cd/hlk-erp`.
+
+| ID | Task | Owner | Verification | Status |
+|----|------|-------|--------------|--------|
+| E1 | Structured **`dataLayer`**, event taxonomy, Meta **`event_id`** dedupe (browser vs CAPI path) | Growth + Eng | `next lint` / smoke on boilerplate; GTM preview | pending |
+| E2 | Stripe **`client_reference_id`** / metadata (`hlk_marketing_session_id`, UTM) + webhook correlation docs; **`holistika_ops`** persistence per SQL proposal | Eng | README + DDL when applied; [`stripe-webhook-handler`](../../../../../supabase/functions/stripe-webhook-handler/README.md) | pending |
+| E3 | Optional **sGTM** + optional server-to-Postgres (auth + RLS) | Ops + Eng | Security review; staging | pending |
+| E4 | Bi-directional **CRM** sync — vendor + field map ([`crm-minimum-fields-supabase.md`](crm-minimum-fields-supabase.md)); decision log | Ops | Integration catalog row | pending |
 
 ---
 
@@ -59,7 +74,10 @@ flowchart LR
   C1 --> C2
   C2 --> B3
   B2 --> D1
+  D1 --> C3
 ```
+
+**Note:** **C3** (four weekly forums) is intentionally sequenced **after** **D1** contact UAT is credible — see Wave C intro and **D-GTM-C3-ORDER**.
 
 ---
 

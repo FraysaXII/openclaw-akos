@@ -1,11 +1,13 @@
 # TEAM SOTA — Holistika ERP (`hlk-erp` repo)
 
 **Audience:** Engineers working on the Holistika ERP shell (`c:\Users\Shadow\cd_shadow\root_cd\hlk-erp` or team clone).  
-**Standalone:** This document is sufficient to operate without opening the Initiative 14 Cursor plan. **Git CSVs in openclaw-akos** remain SSOT for process/org ([`PRECEDENCE.md`](../../../references/hlk/compliance/PRECEDENCE.md)).
+**Standalone:** This document is sufficient to operate without opening the Initiative 14 Cursor plan. **Git CSVs in the company governance repo** remain SSOT for process/org ([`PRECEDENCE.md`](../../../../references/hlk/compliance/PRECEDENCE.md)). **Public marketing site** (GTM, forms, pixels): [`docs/web/holistika-research-nextjs/TEAM_SOTA_HLK_WEB.md`](../../../../web/holistika-research-nextjs/TEAM_SOTA_HLK_WEB.md).
 
 ## 1. Purpose of Holistika ERP
 
 Internal **operator UI** for process registry, organization, components, sales overview, documentation entry points, and app grid. It is **not** a replacement for canonical **`process_list.csv`** / **`baseline_organisation.csv`** or v3.0 vault SOPs.
+
+**Analytics:** Public marketing measurement (GTM, pixels, acquisition events) lives in the **Holistika Research** Next.js site (see the web handoff under `docs/web/holistika-research-nextjs/`), not in ERP. If you add **internal-only** product analytics for ERP modules, keep it separate from ad-network tags unless Legal/DP approves.
 
 ## 2. Data rules
 
@@ -15,7 +17,7 @@ Internal **operator UI** for process registry, organization, components, sales o
 
 ## 3. SQL and migrations
 
-- **No** ad-hoc production DDL. Proposals go to openclaw-akos or KiRBe initiative **`reports/sql-proposal-*.md`** → operator approval → versioned migration.
+- **No** ad-hoc production DDL. Proposals go to the governance repo or KiRBe initiative **`reports/sql-proposal-*.md`** → operator approval → versioned migration.
 - **Staging first** for destructive changes; include rollback and index list.
 
 ## 4. Schema map (conceptual)
@@ -37,11 +39,11 @@ ERP **`search_path`** / API layer should document which schema each module hits.
 ## 6. Local dev
 
 - Clone ERP repo; point env at **staging** Supabase when available; never commit secrets.
-- Run ERP unit/e2e tests before release; cross-link SOP deep links to **`docs/references/hlk/v3.0/`** paths in-repo (openclaw-akos submodule or URL per team practice).
+- Run ERP unit/e2e tests before release; cross-link SOP deep links to **`docs/references/hlk/v3.0/`** paths in-repo (governance repo submodule, monorepo path, or URL per team practice).
 
 ## 7. Release order (typical)
 
-1. CSV merge + `validate_hlk.py` in openclaw-akos.
+1. CSV merge + `validate_hlk.py` in the governance repo.
 2. Mirror ingest job (idempotent).
 3. ERP deploy consuming views.
 4. Cutover legacy reads off.
@@ -53,4 +55,5 @@ ERP **`search_path`** / API layer should document which schema each module hits.
 
 ## 9. Related (optional)
 
-- Sibling doc: [`TEAM_SOTA_KIRBE.md`](TEAM_SOTA_KIRBE.md) for KiRBe product repo.
+- [`docs/web/holistika-research-nextjs/TEAM_SOTA_HLK_WEB.md`](../../../../web/holistika-research-nextjs/TEAM_SOTA_HLK_WEB.md) — Holistika Research public site (GTM, forms).
+- [`TEAM_SOTA_KIRBE.md`](TEAM_SOTA_KIRBE.md) — KiRBe product repo.

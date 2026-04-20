@@ -5,7 +5,7 @@
 
 ## 1. What KiRBe is
 
-Document ingestion, vaults, orgs, **graph sync**, **Stripe (SaaS product)**, vectors, monitoring hooks. **HLK CSV SSOT** lives in **openclaw-akos** (`process_list.csv`, `baseline_organisation.csv`); KiRBe **mirrors** via ingest jobs. On conflict, **canonical git wins**—see [`PRECEDENCE.md`](../../../references/hlk/compliance/PRECEDENCE.md) in this repo (openclaw-akos).
+Document ingestion, vaults, orgs, **graph sync**, **Stripe (SaaS product)**, vectors, monitoring hooks. **HLK CSV SSOT** lives in the **company governance repo** (`process_list.csv`, `baseline_organisation.csv`); KiRBe **mirrors** via ingest jobs. On conflict, **canonical git wins**—see [`PRECEDENCE.md`](../../../references/hlk/compliance/PRECEDENCE.md).
 
 ## 2. SQL SSOT
 
@@ -40,15 +40,16 @@ Never merge company CRM billing into `kirbe.*` “for convenience.”
 
 ## 8. Release sequence
 
-1. openclaw-akos CSV change + `validate_hlk.py`.
+1. Governance repo CSV change + `validate_hlk.py`.
 2. Ingest job updates mirrors.
 3. Apply KiRBe SQL migration.
 4. Deploy app.
 
 ## 9. MCP / agents (later)
 
-- **Phase 3b:** thin MCP servers over **same** Supabase RPCs—no duplicate credentials (`config/mcporter.json.example` patterns in AKOS).
+- **Phase 3b:** thin MCP servers over **same** Supabase RPCs—no duplicate credentials (reuse `config/mcporter.json.example` patterns from the governance repo).
 
 ## 10. Related (optional)
 
-- [`TEAM_SOTA_HLK_ERP.md`](TEAM_SOTA_HLK_ERP.md) for ERP shell.
+- [`TEAM_SOTA_HLK_ERP.md`](TEAM_SOTA_HLK_ERP.md) — ERP shell.
+- [`docs/web/holistika-research-nextjs/TEAM_SOTA_HLK_WEB.md`](../../../../web/holistika-research-nextjs/TEAM_SOTA_HLK_WEB.md) — public marketing site.

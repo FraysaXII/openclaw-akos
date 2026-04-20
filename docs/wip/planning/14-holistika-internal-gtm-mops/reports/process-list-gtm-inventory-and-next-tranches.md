@@ -39,6 +39,19 @@
 
 **Status:** Proposal only — **not** in `process_list.csv` until approved and validated.
 
+### 3a. Research-team themes (2026 — candidate **processes**, not merged)
+
+These mirror the unified Initiative 14 plan: **themes for inventory** only. Real `item_id` / parents must match CSV conventions (often under `thi_mkt_dtp_210` or `thi_opera_dtp_289`). **SOP-META:** CSV tranche before net-new v3.0 SOPs for new IDs.
+
+| Theme | Intent | Suggested parent (draft) | Notes |
+|-------|--------|--------------------------|--------|
+| Lead scoring and SLA routing | Firmographic + behavioral scoring; route high-intent to BD | `thi_mkt_dtp_210` or `holistika_gtm_dtp_001` | Any **stricter** response time than [D-GTM-C1](../decision-log.md) (4 business hours) needs a **new decision-log row** |
+| Multi-touch attribution / revenue facts | SQL-friendly facts in Postgres; fractional models later | `env_tech_dtp_243` + `holistika_gtm_dtp_001` | Tie to Wave E / [`event-attribution-blueprint-reference.md`](event-attribution-blueprint-reference.md) |
+| Micro-events (exec roundtables, dinners) | Curated small-format events vs generic webinars | `thi_mkt_dtp_210` | Ops runbook; may reuse event taxonomy rows |
+| Silver-medalist nurturing | Recycle near-miss leads or candidates | `holistika_gtm_dtp_001` or HR-adjacent parent | Split **GTM leads** vs **hiring** scope in tranche design |
+
+**Sales / CS / partnership gaps** (existing plan): continue to use task children under `holistika_gtm_dtp_001`–`003` where possible before new process rows.
+
 Suggested **task** children (examples; adjust names for global `item_name` uniqueness):
 
 | Proposed `item_id` | `item_name` | `item_parent_1_id` | `item_granularity` | Rationale |

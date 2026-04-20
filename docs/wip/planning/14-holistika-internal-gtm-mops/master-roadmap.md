@@ -4,9 +4,26 @@
 **Authoritative expanded spec:** Full Cursor plan + YAML todos — [`reference/internal_gtm_marketing_ops_574ae9de.plan.md`](reference/internal_gtm_marketing_ops_574ae9de.plan.md) (git); local copy may live under `%USERPROFILE%\.cursor\plans\` — re-copy to `reference/` when § Phased execution changes ([`reference/README.md`](reference/README.md)).  
 **Governance:** [PRECEDENCE.md](../../../references/hlk/compliance/PRECEDENCE.md), [SOP-META_PROCESS_MGMT_001.md](../../../references/hlk/compliance/SOP-META_PROCESS_MGMT_001.md), [`.cursor/rules/akos-governance-remediation.mdc`](../../../../.cursor/rules/akos-governance-remediation.mdc).
 
+## Initiative 14 — status snapshot (2026-04-18)
+
+**Unified plan implementation (strategic narrative + Next.js attribution + Wave E scaffolding)**
+
+- **Reference-only docs:** [`reports/strategic-gtm-narrative-reference.md`](reports/strategic-gtm-narrative-reference.md), [`reports/event-attribution-blueprint-reference.md`](reports/event-attribution-blueprint-reference.md).
+- **Next.js repos:** Public marketing site — application handoff [`docs/web/holistika-research-nextjs/README.md`](../../../web/holistika-research-nextjs/README.md) (GTM/dataLayer Wave E1 + contact API snippets; not under Initiative `reports/`). Holistika ERP — [`reports/TEAM_SOTA_HLK_ERP.md`](reports/TEAM_SOTA_HLK_ERP.md).
+- **Charter decisions:** [D-GTM-0-1](decision-log.md) / [D-GTM-0-2](decision-log.md) resolved — [`reports/phase-0-charter.md`](reports/phase-0-charter.md) updated.
+- **Registry inventory:** Research themes in [`reports/process-list-gtm-inventory-and-next-tranches.md`](reports/process-list-gtm-inventory-and-next-tranches.md) §3a (candidates only).
+- **C3 vs D1 order:** [D-GTM-C3-ORDER](decision-log.md) — **four weekly forums (C3) start after** contact UAT (D1) is credible; [`reports/wave-c-weekly-metrics-forum-log.md`](reports/wave-c-weekly-metrics-forum-log.md), [`reports/EXECUTION-BACKLOG.md`](reports/EXECUTION-BACKLOG.md).
+- **Wave D1 UAT:** Mock customer **Alex Rivera** — browser contact submit **PASS** in [`reports/uat-holistika-contact-funnel-20260417.md`](reports/uat-holistika-contact-funnel-20260417.md); GTM/CRM/inbox/ERP rows **PENDING** operator; [D-GTM-D1-UAT](decision-log.md) open.
+- **Phase 3 production DDL:** [D-GTM-3-1](decision-log.md) **done** — post-deploy snapshot [`reports/supabase-stripe-health-check-20260418.md`](reports/supabase-stripe-health-check-20260418.md) (mirrors populated; Stripe webhook Dashboard confirmation remains routine ops).
+- **Wave E:** [`reports/EXECUTION-BACKLOG.md`](reports/EXECUTION-BACKLOG.md) — E1–E4 rows; Stripe README marketing metadata; `lib/gtm-data-layer.ts` + intake form hook (verbatim in [`docs/web/holistika-research-nextjs/TEAM_SOTA_HLK_WEB.md`](../../../web/holistika-research-nextjs/TEAM_SOTA_HLK_WEB.md)).
+
+**Single Cursor plan:** `%USERPROFILE%\.cursor\plans\initiative_14_unified.plan.md` (do not edit plan file from repo automation).
+
+---
+
 ## Initiative 14 — status snapshot (2026-04-17)
 
-**Completed (repo evidence — openclaw-akos)**
+**Completed (repo evidence — this governance repo)**
 
 - **Initiative home:** this folder — [`master-roadmap.md`](master-roadmap.md), [`decision-log.md`](decision-log.md), [`evidence-matrix.md`](evidence-matrix.md); row in [`docs/wip/planning/README.md`](../../../wip/planning/README.md).
 - **Phase 1 — CSV:** Three merged rows `holistika_gtm_dtp_001`–`003` in [`process_list.csv`](../../../references/hlk/compliance/process_list.csv); candidates in [`candidates/process_list_tranche_holistika_internal.csv`](candidates/process_list_tranche_holistika_internal.csv); merge via [`scripts/merge_process_list_tranche.py`](../../../../scripts/merge_process_list_tranche.py) + [`tests/test_merge_process_list_tranche.py`](../../../../tests/test_merge_process_list_tranche.py) (distinct from MADEIRA-oriented [`merge_gtm_into_process_list.py`](../../../../scripts/merge_gtm_into_process_list.py)).
@@ -25,7 +42,7 @@
 
 **To execute next (continuation)**
 
-- Use **Waves A–D** in [`EXECUTION-BACKLOG.md`](reports/EXECUTION-BACKLOG.md): A3 sync job → B1–B3 staging DDL + Stripe routing → C1–C3 business cadence → D1–D2 UAT/KM.
+- **Waves C–D (repo pack 2026-04-17):** [`reports/wave-c-d-roundup-20260417.md`](reports/wave-c-d-roundup-20260417.md) — C1/C2/D2 done in git; **C3** (four weekly forums) and **D1** (live UAT rows) remain operator-run. Ordered backlog: [`EXECUTION-BACKLOG.md`](reports/EXECUTION-BACKLOG.md).
 - Remaining **stack** todos in the plan YAML (`kirbe-supabase-gap`, `masterdata-live-inventory`, `stripe-billing-ssot`, `deprecate-legacy-public`, `monitoring-governance`, `phase3b-integrations-mcp-later`) map to B-waves and KiRBe repo work, not to new CSV rows.
 
 **Full plan mirror (YAML todos + § Phased execution)**
@@ -99,8 +116,11 @@ Full gate set: [`docs/DEVELOPER_CHECKLIST.md`](../../../DEVELOPER_CHECKLIST.md) 
 | [`reports/business-intent-synthesis.md`](reports/business-intent-synthesis.md) | Transcript themes |
 | [`reports/phase-1-tranche-report.md`](reports/phase-1-tranche-report.md) | CSV tranche dry-run / merge status |
 | [`reports/sql-proposal-stack-20260417.md`](reports/sql-proposal-stack-20260417.md) | Phase 3 SQL proposal: concrete DDL/RLS/rollback (no execute until approval) |
-| [`reports/EXECUTION-BACKLOG.md`](reports/EXECUTION-BACKLOG.md) | Ordered tasks (Waves A–D) with verification; Wave A3 sync = [`sync_compliance_mirrors_from_csv.py`](../../../../scripts/sync_compliance_mirrors_from_csv.py) |
+| [`reports/EXECUTION-BACKLOG.md`](reports/EXECUTION-BACKLOG.md) | Ordered tasks (Waves A–E) with verification; Wave A3 sync = [`sync_compliance_mirrors_from_csv.py`](../../../../scripts/sync_compliance_mirrors_from_csv.py) |
+| [`reports/strategic-gtm-narrative-reference.md`](reports/strategic-gtm-narrative-reference.md) | Strategic GTM narrative (reference-only) |
+| [`reports/event-attribution-blueprint-reference.md`](reports/event-attribution-blueprint-reference.md) | Event + attribution blueprint (reference-only) |
 | [`reports/wave-b-roundup-20260417.md`](reports/wave-b-roundup-20260417.md) | Wave B repo vs operator checklist; handoff before Waves C–D |
+| [`reports/wave-c-d-roundup-20260417.md`](reports/wave-c-d-roundup-20260417.md) | Waves C–D: SLA + CRM doc + vault index vs C3/D1 operator completion |
 | [`reports/process-list-gtm-inventory-and-next-tranches.md`](reports/process-list-gtm-inventory-and-next-tranches.md) | Existing GTM anchors + candidate next tranche (operator gate) |
 | [`reports/kirbe-supabase-gap-summary.md`](reports/kirbe-supabase-gap-summary.md) | KiRBe gap |
 | [`reports/masterdata-supabase-inventory.md`](reports/masterdata-supabase-inventory.md) | MasterData inventory |
@@ -109,8 +129,10 @@ Full gate set: [`docs/DEVELOPER_CHECKLIST.md`](../../../DEVELOPER_CHECKLIST.md) 
 | [`reports/deprecate-legacy-public-proposal.md`](reports/deprecate-legacy-public-proposal.md) | Legacy tables |
 | [`reports/monitoring-logs-governance.md`](reports/monitoring-logs-governance.md) | `monitoring_logs` |
 | [`reports/phase3b-mcp-deferral.md`](reports/phase3b-mcp-deferral.md) | MCP later |
-| [`reports/uat-holistika-contact-funnel-20260417.md`](reports/uat-holistika-contact-funnel-20260417.md) | Phase 4 UAT stub |
+| [`reports/uat-holistika-contact-funnel-20260417.md`](reports/uat-holistika-contact-funnel-20260417.md) | Phase 4 UAT (mock customer E2E + operator rows) |
+| [`reports/supabase-stripe-health-check-20260418.md`](reports/supabase-stripe-health-check-20260418.md) | Post-prod DDL Supabase + Stripe snapshot |
 | [`reports/phase-5-km-checklist.md`](reports/phase-5-km-checklist.md) | Phase 5 |
+| [`reports/TEAM_SOTA_HLK_WEB.md`](reports/TEAM_SOTA_HLK_WEB.md) | Pointer to [`docs/web/holistika-research-nextjs/`](../../../web/holistika-research-nextjs/README.md) (public site handoff lives outside Initiative 14) |
 | [`reports/TEAM_SOTA_HLK_ERP.md`](reports/TEAM_SOTA_HLK_ERP.md) | Standalone SOTA (hlk-erp) |
 | [`reports/TEAM_SOTA_KIRBE.md`](reports/TEAM_SOTA_KIRBE.md) | Standalone SOTA (kirbe) |
 

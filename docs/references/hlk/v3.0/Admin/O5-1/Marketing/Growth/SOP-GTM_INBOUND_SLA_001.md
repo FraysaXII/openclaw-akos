@@ -22,7 +22,7 @@ Applies to **Growth**, **Brand**, and **Operations/PMO** handoffs when leads ent
 ## Procedure
 
 1. **Capture:** Every inbound creates or updates a **single relationship record** in the CRM of record (Supabase-backed); no shadow spreadsheets.
-2. **Time-to-acknowledge:** Business hours target (set by CMO): acknowledge within **4 hours** on business days unless a different number is recorded in the team calendar policy and [`decision-log.md`](../../../../../../../wip/planning/14-holistika-internal-gtm-mops/decision-log.md).
+2. **Time-to-acknowledge:** Canonical first-response target: acknowledge within **4 business hours** of receipt during business days (**D-GTM-C1** in [`decision-log.md`](../../../../../../../wip/planning/14-holistika-internal-gtm-mops/decision-log.md)). CMO may publish the same figure in team calendar / Notion; any **change** to the number requires an updated decision row before it supersedes D-GTM-C1.
 3. **Routing:** Use [`LEADS WEB Centralization and BD Routing` `thi_opera_dtp_288`](../../../../../../compliance/process_list.csv) logic—filter by lead type, assign BD or account owner per `process_list` owners.
 4. **SLA breach:** Escalate to **PMO** queue with reason code (capacity, missing data, tool failure).
 
