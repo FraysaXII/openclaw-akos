@@ -5,7 +5,7 @@ Requires `STRIPE_SECRET_KEY` in the environment (same key stored in Supabase sec
 
 Examples:
 
-  py scripts/stripe_set_billing_plane.py --customer cus_XXX --plane holistika_ops --org-label "Staging"
+  py scripts/stripe_set_billing_plane.py --customer cus_XXX --plane holistika_ops --org-label "GTM staging"
   py scripts/stripe_set_billing_plane.py --subscription sub_XXX --plane kirbe
 """
 

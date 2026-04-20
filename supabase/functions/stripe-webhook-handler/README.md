@@ -1,16 +1,20 @@
 # `stripe-webhook-handler` (Supabase Edge Function)
 
-Implements **Initiative 14 Wave B3** routing: **KiRBe product** (`kirbe.*`) vs **Holistika company** (`holistika_ops.*`). See [`stripe-billing-two-planes.md`](../../../docs/wip/planning/14-holistika-internal-gtm-mops/reports/stripe-billing-two-planes.md).
+**Holistika internal GTM / marketing ops** (Initiative 14 Wave B3): routes **KiRBe product** (`kirbe.*`) vs **Holistika company** (`holistika_ops.*`). See [`stripe-billing-two-planes.md`](../../../docs/wip/planning/14-holistika-internal-gtm-mops/reports/stripe-billing-two-planes.md).
 
 ## Stripe metadata contract
 
 | Metadata key | Values | Used on |
 |--------------|--------|---------|
-| **`hlk_billing_plane`** | `kirbe` (default if omitted on subs), `holistika_ops`, `holistika` | `Customer`, `Subscription` |
+| **`hlk_billing_plane`** | `kirbe`, `holistika_ops`, `holistika` | **Customer** (source of truth for GTM); optional override on **Subscription** |
+| **`hlk_marketing_session_id`** (optional, Wave E) | Opaque string from site / first-party ID | **Checkout Session** `client_reference_id` or **Customer** / **Session** `metadata` — correlate webhook events with acquisition funnel (no PII in key name; store IDs only). |
+| **`utm_campaign`**, **`lead_source`**, etc. (optional) | Campaign strings | **Checkout Session** or **Payment Link** metadata — pair with `checkout.session.completed` for attribution. |
 
-**Holistika company customers:** set `metadata.hlk_billing_plane=holistika_ops` (and optional `org_label`) on the Stripe Customer. The handler upserts `holistika_ops.stripe_customer_link`.
+**Attribution (Initiative 14 Wave E2):** Pass a stable first-party identifier via **`client_reference_id`** on the Checkout Session **and/or** `metadata` keys above. The handler already logs `checkout.session.completed`; extend **`holistika_ops`** tables via **approved SQL** when you add columns for marketing correlation — see [`event-attribution-blueprint-reference.md`](../../../docs/wip/planning/14-holistika-internal-gtm-mops/reports/event-attribution-blueprint-reference.md).
 
-**Subscriptions:** if `metadata.hlk_billing_plane=holistika_ops` on the subscription, the handler **does not** write `kirbe.subscriptions` (stub logs only). Implement KiRBe SaaS subscription persistence in the same function for `kirbe` plane when your `kirbe` schema is deployed.
+**Holistika company customers:** set `metadata.hlk_billing_plane=holistika_ops` (and optional `org_label`) on the **Stripe Customer**. The handler upserts `holistika_ops.stripe_customer_link`.
+
+**Subscriptions (automatic routing):** you do **not** need `hlk_billing_plane` on every subscription. If subscription metadata is **unset**, the handler **inherits** the plane from the **Customer** (`customer_inherit` in Edge logs). If you set `metadata.hlk_billing_plane` on the subscription, that **overrides** the customer. Holistika-plane subscriptions **do not** write `kirbe.subscriptions` (stub logs only); extend the `kirbe` branch when your `kirbe` schema is deployed.
 
 ### How to set `hlk_billing_plane` (operators)
 
@@ -24,11 +28,12 @@ Use **test mode** or **live mode** consistently with your keys and webhook endpo
    **Value:** `holistika_ops` (Holistika company / CRM billing) or `kirbe` (KiRBe SaaS product).  
 4. Save. This fires `customer.updated` and the webhook can upsert `holistika_ops.stripe_customer_link` when the value is `holistika_ops`.
 
-**2. Stripe Dashboard — existing Subscription**
+**2. Stripe Dashboard — Subscription (optional override)**
 
-1. Open [Subscriptions](https://dashboard.stripe.com/test/subscriptions) → select the subscription.
-2. Find **Metadata** on the subscription object → add `hlk_billing_plane` = `holistika_ops` or `kirbe`.
-3. Save. Subscription events will route per this plane (Holistika subs do not write `kirbe.*` in the handler).
+Only if you must **override** the customer’s plane for one subscription. Otherwise set **`hlk_billing_plane` on the Customer** only; subscription events inherit automatically.
+
+1. [Subscriptions](https://dashboard.stripe.com/test/subscriptions) → subscription → **Metadata** → `hlk_billing_plane` = `holistika_ops` or `kirbe`.
+2. Save.
 
 **3. New Checkout / Payment Links (server-side)**
 
@@ -51,7 +56,7 @@ stripe subscriptions update sub_REPLACE_ME --metadata hlk_billing_plane=kirbe
 With `STRIPE_SECRET_KEY` in your shell (same secret key as in Supabase functions):
 
 ```bash
-py scripts/stripe_set_billing_plane.py --customer cus_XXX --plane holistika_ops --org-label "Staging"
+py scripts/stripe_set_billing_plane.py --customer cus_XXX --plane holistika_ops --org-label "GTM staging"
 py scripts/stripe_set_billing_plane.py --subscription sub_XXX --plane kirbe
 ```
 
@@ -78,7 +83,7 @@ Subscribe to these in [Stripe → Developers → Webhooks](https://dashboard.str
 | Group | Event | Why |
 |-------|--------|-----|
 | **CRM / company billing** | `customer.created`, `customer.updated` | Source of truth for `holistika_ops.stripe_customer_link` when `hlk_billing_plane=holistika_ops`. |
-| **SaaS lifecycle** | `customer.subscription.created`, `updated`, `deleted` | KiRBe vs Holistika routing; no `kirbe` writes for Holistika plane. |
+| **SaaS lifecycle** | `customer.subscription.created`, `updated`, `deleted` | KiRBe vs Holistika routing (subscription metadata or **inherit from Customer**); no `kirbe` writes for Holistika plane. |
 | **Cash & dunning** | `invoice.paid`, `invoice.payment_failed`, `invoice.finalized` | MRR / AR signals; handler resolves **Customer** and upserts Holistika link when plane matches. |
 | **Acquisition** | `checkout.session.completed` | Funnel / campaign attribution (pair with Checkout `metadata` in your Payment Links or Checkout API). |
 | **Payments** | `payment_intent.succeeded`, `payment_intent.payment_failed` | Conversion and failure analytics; same Customer resolution. |
@@ -86,6 +91,29 @@ Subscribe to these in [Stripe → Developers → Webhooks](https://dashboard.str
 | **Self-serve** | `billing_portal.session.created` | Portal usage (observability log only; no DB write). |
 
 **Campaign / UTM (optional):** set `metadata` on **Checkout Sessions** or **Payment Links** (e.g. `utm_campaign`, `lead_source`) in Stripe; the handler forwards **structured logs** you can correlate in Edge logs or later ETL—no extra columns required on `stripe_customer_link` until you add a dedicated staging table.
+
+### Exact event names (Stripe Dashboard → Webhooks → your endpoint → **Add events**)
+
+Select **Events on your account** and add each of the following (test mode webhook if using `sk_test_`):
+
+```
+customer.created
+customer.updated
+customer.subscription.created
+customer.subscription.updated
+customer.subscription.deleted
+invoice.paid
+invoice.payment_failed
+invoice.finalized
+checkout.session.completed
+payment_intent.succeeded
+payment_intent.payment_failed
+charge.succeeded
+charge.failed
+billing_portal.session.created
+```
+
+We cannot subscribe from the repo; this list must be applied in the **Stripe Dashboard** (or Stripe API) for your project.
 
 ## Supabase CLI on Windows (this repo)
 

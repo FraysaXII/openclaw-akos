@@ -26,10 +26,48 @@ function billingPlaneRaw(metadata: Stripe.Metadata | null | undefined): string |
   return metadata?.hlk_billing_plane?.trim().toLowerCase();
 }
 
-function subscriptionPlane(sub: Stripe.Subscription): "kirbe" | "holistika_ops" {
-  const m = billingPlaneRaw(sub.metadata);
-  if (m === "holistika_ops" || m === "holistika") return "holistika_ops";
-  return "kirbe";
+function subscriptionCustomerId(sub: Stripe.Subscription): string | null {
+  const c = sub.customer;
+  if (typeof c === "string") return c;
+  if (c && typeof c === "object" && "deleted" in c && (c as Stripe.DeletedCustomer).deleted) {
+    return null;
+  }
+  if (c && typeof c === "object" && "id" in c && typeof (c as Stripe.Customer).id === "string") {
+    return (c as Stripe.Customer).id;
+  }
+  return null;
+}
+
+/**
+ * Resolve KiRBe vs Holistika for subscription lifecycle events.
+ * 1) Subscription `metadata.hlk_billing_plane` if set.
+ * 2) Else inherit from **Customer** `metadata.hlk_billing_plane` (GTM: set once on Customer).
+ * 3) Else default `kirbe`.
+ */
+async function resolveSubscriptionPlane(sub: Stripe.Subscription): Promise<{
+  plane: "kirbe" | "holistika_ops";
+  source: "subscription_metadata" | "customer_inherit" | "default_kirbe";
+}> {
+  const onSub = billingPlaneRaw(sub.metadata);
+  if (onSub === "holistika_ops" || onSub === "holistika") {
+    return { plane: "holistika_ops", source: "subscription_metadata" };
+  }
+  if (onSub === "kirbe") {
+    return { plane: "kirbe", source: "subscription_metadata" };
+  }
+  const cid = subscriptionCustomerId(sub);
+  if (!cid) {
+    return { plane: "kirbe", source: "default_kirbe" };
+  }
+  const cust = await fetchCustomer(cid);
+  if (!cust) {
+    return { plane: "kirbe", source: "default_kirbe" };
+  }
+  const cp = customerPlane(cust);
+  if (cp === "holistika_ops") {
+    return { plane: "holistika_ops", source: "customer_inherit" };
+  }
+  return { plane: "kirbe", source: "customer_inherit" };
 }
 
 function customerPlane(c: Stripe.Customer): "kirbe" | "holistika_ops" | "unset" {
@@ -146,17 +184,28 @@ Deno.serve(async (req) => {
       case "customer.subscription.updated":
       case "customer.subscription.deleted": {
         const sub = event.data.object as Stripe.Subscription;
-        const plane = subscriptionPlane(sub);
-        logRoute({ event_type: event.type, subscription_id: sub.id, plane });
+        const { plane, source } = await resolveSubscriptionPlane(sub);
+        logRoute({
+          event_type: event.type,
+          subscription_id: sub.id,
+          plane,
+          subscription_plane_source: source,
+        });
         if (plane === "holistika_ops") {
           logRoute({
             event_type: event.type,
             note: "holistika_ops subscription — skipping kirbe.subscriptions",
             subscription_id: sub.id,
+            subscription_plane_source: source,
           });
           break;
         }
-        logRoute({ event_type: event.type, note: "kirbe_plane_subscription_stub", subscription_id: sub.id });
+        logRoute({
+          event_type: event.type,
+          note: "kirbe_plane_subscription_stub",
+          subscription_id: sub.id,
+          subscription_plane_source: source,
+        });
         break;
       }
 
