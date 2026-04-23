@@ -26,3 +26,7 @@ Run **`20260417_deprecate_legacy_public_optional.sql`** only after inventory con
 2. **`20260418_holistika_ops_lead_intake_rollback.sql`** — drop table (destructive).
 3. **`20260419_holistika_ops_lead_intake_captcha_columns_up.sql`** — optional **Phase B** nullable `captcha_provider` / `captcha_verified_at` + partial index (MAROPS); apply before prod Turnstile + column inserts.
 4. **`20260419_holistika_ops_lead_intake_captcha_columns_rollback.sql`** — drop captcha columns + index only.
+
+## Related: FINOPS mirror (Initiative 16 → 18)
+
+**Historical:** [`../i16_phase3_staging/README.md`](../i16_phase3_staging/README.md). **Current:** [`../i18_phase1_staging/README.md`](../i18_phase1_staging/README.md) — `compliance.finops_counterparty_register_mirror`; sync via `sync_compliance_mirrors_from_csv.py --finops-counterparty-register-only` or **`py scripts/verify.py compliance_mirror_emit`**.

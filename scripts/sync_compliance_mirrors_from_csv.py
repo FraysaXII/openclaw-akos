@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """Emit PostgreSQL upsert statements for compliance mirror tables from git CSVs.
 
-Maps canonical ``process_list.csv`` and ``baseline_organisation.csv`` to the shapes in
-``docs/wip/planning/14-holistika-internal-gtm-mops/reports/sql-proposal-stack-20260417.md``.
+Maps canonical ``process_list.csv``, ``baseline_organisation.csv``, and optionally
+``FINOPS_COUNTERPARTY_REGISTER.csv`` to compliance mirror shapes in
+``docs/wip/planning/14-holistika-internal-gtm-mops/reports/sql-proposal-stack-20260417.md``
+(Initiative 18 FINOPS counterparty mirror DDL under ``scripts/sql/i18_phase1_staging/``).
 Does **not** connect to Supabase by default: outputs SQL for operator review / staging
 ``apply_migration`` after DDL exists.
 
 Usage (repo root):
 
     py scripts/sync_compliance_mirrors_from_csv.py --count-only
+    py scripts/sync_compliance_mirrors_from_csv.py --finops-counterparty-register-only --output /tmp/finops-upsert.sql
     py scripts/sync_compliance_mirrors_from_csv.py --output /tmp/mirror-upsert.sql
     py scripts/sync_compliance_mirrors_from_csv.py --git-sha abc123def
 
@@ -28,6 +31,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_process_csv import (  # noqa: E402
     PROCESS_LIST_FIELDNAMES,
     normalize_process_row,
@@ -37,6 +41,7 @@ from akos.hlk_process_csv import (  # noqa: E402
 
 PROC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
 ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "baseline_organisation.csv"
+FINOPS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "FINOPS_COUNTERPARTY_REGISTER.csv"
 
 # Must match sql-proposal-stack-20260417 §4.3
 BASELINE_FIELDNAMES: tuple[str, ...] = (
@@ -121,6 +126,28 @@ def _emit_baseline_upserts(rows: list[dict[str, str]], source_git_sha: str) -> l
     return out
 
 
+def _emit_finops_counterparty_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    cols_csv = ", ".join(FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = []
+    out.append("-- compliance.finops_counterparty_register_mirror upserts")
+    for r in rows:
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        cid = (r.get("counterparty_id") or "").strip()
+        if not cid:
+            continue
+        out.append(
+            f"INSERT INTO compliance.finops_counterparty_register_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (counterparty_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         try:
@@ -157,16 +184,72 @@ def main() -> int:
         help="Only emit baseline_organisation_mirror statements",
     )
     parser.add_argument(
+        "--finops-counterparty-register-only",
+        action="store_true",
+        help="Only emit finops_counterparty_register_mirror statements (requires FINOPS_COUNTERPARTY_REGISTER.csv)",
+    )
+    parser.add_argument(
         "--no-begin-commit",
         action="store_true",
         help="Omit BEGIN/COMMIT wrapper",
     )
     args = parser.parse_args()
-    if args.process_list_only and args.baseline_only:
-        print("error: --process-list-only and --baseline-only are mutually exclusive", file=sys.stderr)
+    mode_flags = sum(
+        1
+        for x in (
+            args.process_list_only,
+            args.baseline_only,
+            args.finops_counterparty_register_only,
+        )
+        if x
+    )
+    if mode_flags > 1:
+        print(
+            "error: at most one of --process-list-only, --baseline-only, --finops-counterparty-register-only",
+            file=sys.stderr,
+        )
         return 1
 
     sha = (args.git_sha or "").strip() or _git_head_sha()
+
+    if args.finops_counterparty_register_only:
+        if not FINOPS_CSV.is_file():
+            print("error: missing", FINOPS_CSV, file=sys.stderr)
+            return 1
+        with FINOPS_CSV.open(encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            fn = list(reader.fieldnames or [])
+            if fn != list(FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES):
+                print(
+                    "error: FINOPS_COUNTERPARTY_REGISTER.csv header drift vs FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES",
+                    file=sys.stderr,
+                )
+                print("  expected:", list(FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES), file=sys.stderr)
+                print("  got:     ", fn, file=sys.stderr)
+                return 1
+            finops_rows = [dict(r) for r in reader]
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            print(f"finops_counterparty_register_rows={len(finops_rows)}")
+            return 0
+        blocks = _emit_finops_counterparty_upserts(finops_rows, sha)
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            "-- Apply only after compliance.finops_counterparty_register_mirror exists (Initiative 18 DDL).",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
 
     if not PROC_CSV.is_file():
         print("error: missing", PROC_CSV, file=sys.stderr)
@@ -191,10 +274,20 @@ def main() -> int:
             return 1
         org_rows = [dict(r) for r in org_reader]
 
+    finops_n = 0
+    finops_rows: list[dict[str, str]] = []
+    if FINOPS_CSV.is_file():
+        with FINOPS_CSV.open(encoding="utf-8", newline="") as f:
+            fr = csv.DictReader(f)
+            if list(fr.fieldnames or []) == list(FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES):
+                finops_rows = [dict(r) for r in fr]
+                finops_n = len(finops_rows)
+
     if args.count_only:
         print(f"source_git_sha={sha}")
         print(f"process_list_rows={len(proc_rows)}")
         print(f"baseline_organisation_rows={len(org_rows)}")
+        print(f"finops_counterparty_register_rows={finops_n}")
         return 0
 
     blocks: list[str] = []
@@ -202,11 +295,13 @@ def main() -> int:
         blocks.extend(_emit_process_list_upserts(proc_rows, sha))
     if not args.process_list_only:
         blocks.extend(_emit_baseline_upserts(org_rows, sha))
+    if not args.process_list_only and not args.baseline_only and finops_rows:
+        blocks.extend(_emit_finops_counterparty_upserts(finops_rows, sha))
 
     preamble = [
         "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
         f"-- source_git_sha: {sha}",
-        "-- Apply only after compliance.process_list_mirror / baseline_organisation_mirror exist (see sql-proposal-stack).",
+        "-- Apply only after compliance.process_list_mirror / baseline_organisation_mirror / finops_counterparty_register_mirror exist.",
         "",
     ]
     if not args.no_begin_commit:

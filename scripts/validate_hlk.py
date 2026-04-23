@@ -205,9 +205,38 @@ def main() -> int:
     if all_errors:
         print(f"  OVERALL: FAIL ({len(all_errors)} errors)")
         return 1
-    else:
-        print("  OVERALL: PASS")
-        return 0
+
+    # COMPONENT_SERVICE_MATRIX.csv (optional file — if present, must validate)
+    matrix_path = HLK_DIR / "COMPONENT_SERVICE_MATRIX.csv"
+    if matrix_path.is_file():
+        import subprocess
+
+        vcs = Path(__file__).resolve().parent / "validate_component_service_matrix.py"
+        r = subprocess.run([sys.executable, str(vcs)], capture_output=True, text=True)
+        print(r.stdout, end="")
+        if r.stderr:
+            print(r.stderr, end="", file=sys.stderr)
+        if r.returncode != 0:
+            print("  COMPONENT_SERVICE_MATRIX: FAIL")
+            return 1
+        print("  COMPONENT_SERVICE_MATRIX: PASS")
+
+    finops_path = HLK_DIR / "FINOPS_COUNTERPARTY_REGISTER.csv"
+    if finops_path.is_file():
+        import subprocess
+
+        vfin = Path(__file__).resolve().parent / "validate_finops_counterparty_register.py"
+        r = subprocess.run([sys.executable, str(vfin)], capture_output=True, text=True)
+        print(r.stdout, end="")
+        if r.stderr:
+            print(r.stderr, end="", file=sys.stderr)
+        if r.returncode != 0:
+            print("  FINOPS_COUNTERPARTY_REGISTER: FAIL")
+            return 1
+        print("  FINOPS_COUNTERPARTY_REGISTER: PASS")
+
+    print("  OVERALL: PASS")
+    return 0
 
 
 if __name__ == "__main__":
