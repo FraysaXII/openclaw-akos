@@ -37,6 +37,7 @@ supabase/.temp/
 
 # Initiative 14: generated mirror upsert SQL (operator-local; do not commit)
 mirrors.sql
+artifacts/sql/*.sql
 
 # Docker
 .docker/
@@ -65,3 +66,15 @@ prompts/assembled/
 tmp/
 temp/
 *.tmp
+
+# Agent / operator SQL-MCP scratch at repo root (never commit)
+_args_*.json
+_cursor_*.json
+_mcp_*.json
+_one_mcp.json
+_sqlexec_*.py
+_stdout_*.json
+_test_big_*.json
+_tmp_*.sql
+_tmp_*.json
+.scratch/
