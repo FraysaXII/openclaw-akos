@@ -302,6 +302,7 @@ class LangfuseReporter:
                 "environment": self._environment,
                 "agent_role": agent_role,
                 "route_kind": route_kind,
+                "madeira_interaction_mode": str(record.get("madeira_interaction_mode", "")),
                 "tool_calls": str(record.get("tool_calls", [])),
                 "tool_backed": str(record.get("tool_backed", False)),
                 "citation_asset": record.get("citation_asset", ""),
@@ -346,6 +347,7 @@ class LangfuseReporter:
         trials: int = 1,
         dimension_id: str | None = None,
         research_surface: str | None = None,
+        madeira_interaction_mode: str | None = None,
     ) -> None:
         """Record a scored eval task run (Langfuse v4 observation-centric API)."""
         if not self._client or self._sampled_out():
@@ -366,13 +368,14 @@ class LangfuseReporter:
                 eval_pass_fail=pass_fail[:16],
                 eval_trials=str(trials)[:8],
             )
-            meta = self._merged_metadata(
-                {
-                    "environment": self._environment,
-                    "dimension_id": (dimension_id or "")[:64],
-                },
-                ctx,
-            )
+            base_meta = {
+                "environment": self._environment,
+                "dimension_id": (dimension_id or "")[:64],
+            }
+            mim = (madeira_interaction_mode or "").strip()
+            if mim:
+                base_meta["madeira_interaction_mode"] = mim[:32]
+            meta = self._merged_metadata(base_meta, ctx)
             with propagate_attributes(
                 metadata=meta,
                 tags=["akos-eval", suite_id],

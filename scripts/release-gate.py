@@ -23,6 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import akos.process as proc
 from akos.io import REPO_ROOT
 from akos.log import setup_logging
+from akos.verification_profiles import governance_rubric_suites
 
 logger = logging.getLogger("akos.release")
 
@@ -125,21 +126,24 @@ def run_hlk_vault_links_validation() -> bool:
 
 def run_eval_rubric_slice() -> bool:
     """Offline rubric eval slice (set AKOS_EVAL_RUBRIC=1 to enable in release gate)."""
-    logger.info("Running eval rubric slice (pathc-research-spine) ...")
-    result = proc.run(
-        [
-            sys.executable,
-            str(SCRIPTS_DIR / "run-evals.py"),
-            "run",
-            "--suite",
-            "pathc-research-spine",
-            "--mode",
-            "rubric",
-        ],
-        timeout=60,
-        capture=False,
-    )
-    return result.success
+    for suite in governance_rubric_suites():
+        logger.info("Running eval rubric slice (%s) ...", suite)
+        result = proc.run(
+            [
+                sys.executable,
+                str(SCRIPTS_DIR / "run-evals.py"),
+                "run",
+                "--suite",
+                suite,
+                "--mode",
+                "rubric",
+            ],
+            timeout=120,
+            capture=False,
+        )
+        if not result.success:
+            return False
+    return True
 
 
 def main() -> None:

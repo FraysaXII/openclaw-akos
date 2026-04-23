@@ -8,6 +8,7 @@ Usage:
     py scripts/run-evals.py list
     py scripts/run-evals.py run --suite pathc-research-spine --dry-run
     py scripts/run-evals.py run --suite pathc-research-spine --mode rubric
+    py scripts/run-evals.py run --governance-rubric
 """
 
 from __future__ import annotations
@@ -26,11 +27,19 @@ from akos.eval_harness import score_rubric_task
 from akos.io import load_runtime_env, resolve_openclaw_home, set_process_env_defaults
 from akos.log import setup_logging
 from akos.telemetry import LangfuseReporter
+from akos.verification_profiles import governance_rubric_suites
 
 logger = logging.getLogger("akos.evals")
 
 EVALS_DIR = Path(__file__).resolve().parent.parent / "tests" / "evals"
 LEGACY_TASKS = EVALS_DIR / "tasks.json"
+
+
+def _task_madeira_mode(task: dict) -> str | None:
+    raw = task.get("madeira_interaction_mode")
+    if raw is None or not str(raw).strip():
+        return None
+    return str(raw).strip()
 
 
 def _load_legacy_tasks() -> list[dict]:
@@ -48,6 +57,13 @@ def cmd_list(_args: argparse.Namespace | None = None) -> int:
             print(f"    - {s}")
     else:
         print("    (no suites under tests/evals/suites/)")
+    try:
+        gov = governance_rubric_suites()
+        print("\n  Governance rubric (config/verification-profiles.json):")
+        for s in gov:
+            print(f"    - {s}")
+    except Exception:  # noqa: BLE001 — list must stay usable if registry misconfigured
+        pass
     legacy = _load_legacy_tasks()
     if legacy:
         print(f"\n  Legacy tasks.json: {len(legacy)} task(s)\n")
@@ -56,19 +72,12 @@ def cmd_list(_args: argparse.Namespace | None = None) -> int:
     return 0
 
 
-def cmd_run(args: argparse.Namespace) -> int:
-    setup_logging(json_output=args.json_log)
-    set_process_env_defaults(load_runtime_env(resolve_openclaw_home()))
-    reporter = LangfuseReporter()
-
-    if args.suite:
-        manifest, tasks = _load_suite(args.suite)
-        suite_id = str(manifest.get("suite_id") or args.suite)
-    else:
-        tasks = _load_legacy_tasks()
-        suite_id = "legacy-tasks-json"
-        manifest = {"suite_id": suite_id, "version": "0"}
-
+def _run_suite_tasks(
+    args: argparse.Namespace,
+    tasks: list[dict],
+    suite_id: str,
+    reporter: LangfuseReporter,
+) -> int:
     if not tasks:
         print("\n  No tasks to run.\n")
         return 1
@@ -94,6 +103,7 @@ def cmd_run(args: argparse.Namespace) -> int:
                     trials=args.trials,
                     dimension_id=str(task.get("dimension_id") or ""),
                     research_surface=str(task.get("research_surface") or "none"),
+                    madeira_interaction_mode=_task_madeira_mode(task),
                 )
             continue
 
@@ -116,6 +126,7 @@ def cmd_run(args: argparse.Namespace) -> int:
                     trials=args.trials,
                     dimension_id=str(task.get("dimension_id") or ""),
                     research_surface=str(task.get("research_surface") or "none"),
+                    madeira_interaction_mode=_task_madeira_mode(task),
                 )
         else:
             print(f"  [PENDING] {tid} -- live execution not implemented in CI (use gateway worker)")
@@ -128,6 +139,7 @@ def cmd_run(args: argparse.Namespace) -> int:
                     trials=args.trials,
                     dimension_id=str(task.get("dimension_id") or ""),
                     research_surface=str(task.get("research_surface") or "none"),
+                    madeira_interaction_mode=_task_madeira_mode(task),
                 )
 
     print()
@@ -138,6 +150,32 @@ def cmd_run(args: argparse.Namespace) -> int:
     else:
         print("  Configure gateway + model for live evals.\n")
 
+    return exit_code
+
+
+def cmd_run(args: argparse.Namespace) -> int:
+    setup_logging(json_output=args.json_log)
+    set_process_env_defaults(load_runtime_env(resolve_openclaw_home()))
+    reporter = LangfuseReporter()
+
+    if args.governance_rubric:
+        codes: list[int] = []
+        for suite_name in governance_rubric_suites():
+            manifest, tasks = _load_suite(suite_name)
+            suite_id = str(manifest.get("suite_id") or suite_name)
+            print(f"\n  === governance-rubric suite: {suite_id} ===\n", flush=True)
+            rc = _run_suite_tasks(args, tasks, suite_id, reporter)
+            codes.append(rc)
+        reporter.flush()
+        return 1 if any(c != 0 for c in codes) else 0
+
+    if args.suite:
+        manifest, tasks = _load_suite(args.suite)
+        suite_id = str(manifest.get("suite_id") or args.suite)
+    else:
+        tasks = _load_legacy_tasks()
+        suite_id = "legacy-tasks-json"
+    exit_code = _run_suite_tasks(args, tasks, suite_id, reporter)
     reporter.flush()
     return exit_code
 
@@ -150,7 +188,16 @@ def main() -> int:
     p_list.set_defaults(func=cmd_list)
 
     p_run = sub.add_parser("run", help="Run an eval suite")
-    p_run.add_argument("--suite", required=True, help="Suite directory name under tests/evals/suites/")
+    p_run.add_argument(
+        "--suite",
+        default="",
+        help="Suite directory name under tests/evals/suites/ (omit with legacy tasks.json only)",
+    )
+    p_run.add_argument(
+        "--governance-rubric",
+        action="store_true",
+        help="Run all suites listed in config/verification-profiles.json eval_rubric_governance_suites (same as release-gate when AKOS_EVAL_RUBRIC=1)",
+    )
     p_run.add_argument("--dry-run", action="store_true", help="Enumerate tasks without scoring")
     p_run.add_argument("--mode", default="rubric", choices=("rubric", "live"), help="Evaluation mode")
     p_run.add_argument("--trials", type=int, default=1, help="Trial count metadata for Langfuse (M2)")
@@ -161,6 +208,11 @@ def main() -> int:
     fn = getattr(args, "func", None)
     if fn is None:
         return 1
+    if args.command == "run" and not args.governance_rubric and not args.suite:
+        tasks = _load_legacy_tasks()
+        if not tasks:
+            print("Error: specify --suite <id> or --governance-rubric, or add legacy tests/evals/tasks.json", file=sys.stderr)
+            return 1
     return int(fn(args))
 
 
