@@ -41,6 +41,8 @@
 | 8 | Founder-funded infrastructure handling | Escalated-to-adviser |
 | 9 | Holding-structure constraints to avoid now | Escalated-to-adviser |
 
+**Current queue (living):** [FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md](../../../../references/hlk/v3.0/Admin/O5-1/People/Legal/FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md) in the HLK vault — this §7.3 table remains the 2026-04-14 structured snapshot for traceability.
+
 ---
 
 **Traceability:** Closes in-repo **P1 documentation** expectations for [phase-1-plan.md](../phase-1-plan.md) and registry **REG.008** (legal execution remains external).
