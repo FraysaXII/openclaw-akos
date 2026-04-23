@@ -1,0 +1,1583 @@
+[
+    {
+        "id": "67698d2b2e14f16f00f26f16",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Readme",
+        "description": "‘Done’ is an interesting status. Once tasks are dividing by columns, then by cards, then finally by checklists (in what we call “drill-down”), the done status ends up instead being managed by a checklist instead of a Trello column.\n\nIf a Trello board was transmuted into a traditional WBS or PMS, Excel-like list; each item or row would represent each item on a checklist. Because of that, in most cases, Trello Completion status ends up measured by tracking checklist completion.\n\nThis is a PMO note to brainstorm on the fact that, because a done column will take cards filled with already-check listed items, ‘Done’ column will be expected to be filled at a slower pace than expected in an average Trello to-do list. **Each completed card can be expected to have a higher granularity than a process or even a workstream.**\n\n**Once a base granularity is decided upon, new checklists can become cards instead,** up until the aforementioned anomaly takes place again, probably after a new drill-down.\n\nGranularity can be tracked by using Labels. That way, ‘Done’ column can be used as a status-tracker regardless of the situation.",
+        "list": {
+            "id": "67698d2b4985eb323cfa6784",
+            "name": "Done"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/BpqPzOeO/74-readme",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:47.874000+00:00",
+            "created_at": null,
+            "position": 16384.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d2c2dbfcb8af4a8f6d9",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": ".env",
+        "description": "",
+        "list": {
+            "id": "67698d2b4985eb323cfa6784",
+            "name": "Done"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/eP8QoGmR/75-env",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:48.583000+00:00",
+            "created_at": null,
+            "position": 32768.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d256e314882e4172869",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Research Material",
+        "description": "",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/x9McMtpQ/60-research-material",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:41.973000+00:00",
+            "created_at": null,
+            "position": 16384.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d267daf8d21bc3f37cd",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Office Automation",
+        "description": "[Youtube Office Automation Playlist](https://www.youtube.com/playlist?list=PL0yE7txQizqQenePpgnfmko4VCT5ViC8o&jct=9NxSr9pMqp_V1-lQmK-6JA \"‌\")",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/atonFnXP/61-office-automation",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:42.311000+00:00",
+            "created_at": null,
+            "position": 32768.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d27f562a4b177ff1d7e",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "People",
+        "description": "[Youtube People Playlist](https://www.youtube.com/playlist?list=PL0yE7txQizqRlfQi6Thk1cqKJm1F6zUFp&jct=QdWuG1DUMz6bKiRzHZ3vmA \"‌\")",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/ejbxa0Y4/62-people",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:43.030000+00:00",
+            "created_at": null,
+            "position": 49152.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d27621d5d66a2851476",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Security & Intelligence",
+        "description": "[Youtube Securiity & Intelligence Playlist](https://www.youtube.com/playlist?list=PL0yE7txQizqRNxDF3Sq5wm8osboUi5qtr&jct=MQ4xqM1EepF7mdYme1UM1g \"‌\")",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/MCUiea2C/63-security-intelligence",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:43.508000+00:00",
+            "created_at": null,
+            "position": 65536.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d27aad19a721e14e895",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Design",
+        "description": "[Youtube Design Playlist](https://www.youtube.com/playlist?list=PL0yE7txQizqT-G0KgwMYhgvVkiqa7dTEt&jct=qZEZazKXkxnDXFh35z0f1g \"‌\")",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/y16woR1V/64-design",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:43.934000+00:00",
+            "created_at": null,
+            "position": 81920.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d280e6bd4c68de31629",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "System Design",
+        "description": "[YouTube System Design Playlist](https://www.youtube.com/playlist?list=PL0yE7txQizqTdvVMaUpMPnTiLn13Q4d3p&jct=ofJWM98v-O94sEk7X1kWBA \"‌\")",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/bBQLsJzh/65-system-design",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:44.329000+00:00",
+            "created_at": null,
+            "position": 98304.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d28aa9970e0fc78c242",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Content & Channel Strategy",
+        "description": "[Youtube Content & Channel Strategy Playlist](https://www.youtube.com/playlist?list=PL0yE7txQizqQYwrefpmDEkz2lBiY2HoAg&jct=yqefsVaoDwZigBuEfejGuQ \"‌\")",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/Pk1y0HG3/66-content-channel-strategy",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:44.637000+00:00",
+            "created_at": null,
+            "position": 114688.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d2809aaab3ea35c6948",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Macro Economists & Investments",
+        "description": "[Youtube Macro Economists & Investments Playlist](https://www.youtube.com/playlist?list=PL0yE7txQizqTLIcxk9x3-CwkZu3fQY6GA&jct=dKEiXGlc1GOSN1VqLUmAqw \"‌\")",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/OoMDQpyH/67-macro-economists-investments",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:44.960000+00:00",
+            "created_at": null,
+            "position": 131072.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d2957b886b5b772a4cc",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "AI",
+        "description": "[Youtube AI Playlist](https://www.youtube.com/playlist?list=PL0yE7txQizqQKsQ1BHuzULRCWDuu97hk3&jct=u9Rjkm-BAQWLmXp63WKMPQ \"‌\")",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/5L4KuVPZ/68-ai",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:45.273000+00:00",
+            "created_at": null,
+            "position": 147456.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d299a1d841b3dbab97c",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Politics",
+        "description": "[Youtube Politics Playlist](https://www.youtube.com/playlist?list=PL0yE7txQizqSr49_crlwcLPJtwMuN2SnC&jct=7kQC0uLAsNckGI89v5n8dw \"‌\")",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/2dqYQQWg/69-politics",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:45.684000+00:00",
+            "created_at": null,
+            "position": 163840.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d2af21e8aaf1507ae0a",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Social",
+        "description": "[Youtube Social Playlist](https://www.youtube.com/playlist?list=PL0yE7txQizqSr49_crlwcLPJtwMuN2SnC&jct=7kQC0uLAsNckGI89v5n8dw \"‌\")",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/IhuBFGmf/70-social",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:46.076000+00:00",
+            "created_at": null,
+            "position": 180224.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d2ad7e9d71fcb0db61f",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Logic",
+        "description": "[Youtube Logic Playlist](https://www.youtube.com/playlist?list=PL0yE7txQizqQYwrefpmDEkz2lBiY2HoAg&jct=yqefsVaoDwZigBuEfejGuQ \"‌\")",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/Wpsqxfni/71-logic",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:46.484000+00:00",
+            "created_at": null,
+            "position": 196608.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d2afcdc2b171b9b3d5a",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Legal",
+        "description": "[Youtube Legal Playlist](https://www.youtube.com/playlist?list=PL0yE7txQizqQvt8o27B5oHnKw7DfQDOP- \"‌\")",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/iPk5Hdht/72-legal",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:46.988000+00:00",
+            "created_at": null,
+            "position": 212992.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d2b2dfae497284a2c9c",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "UX - Customer Relationship",
+        "description": "UX - Customer Relationship. https://www.youtube.com/playlist?list=PL0yE7txQizqSqpmMsQ_CC5PfdlrTyRUvC&jct=gBvXE1Crcf-reXugpRnN8g",
+        "list": {
+            "id": "67698d250e507e07178e1142",
+            "name": "Research Material"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/sfhKgqiG/73-ux-customer-relationship",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:47.298000+00:00",
+            "created_at": null,
+            "position": 229376.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d21fee3a8c5931cb54d",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Research - Topics on Radar",
+        "description": "",
+        "list": {
+            "id": "67698d218c5e6f638c7b87cf",
+            "name": "MADEIRA Project"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/kOumSPm3/50-research-topics-on-radar",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:37.479000+00:00",
+            "created_at": null,
+            "position": 16384.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d218d6b422f1bb7d620",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "PMO - Product Owner - Product Timeline",
+        "description": "La gestión del producto Envoy Tech Lab va por separado, forma parte del asset management que se está gestionando en las otras columnas de este Trello. El proyecto madeira no es más que el proyecto flagship de Envoy, por lo que no es el único, sino que es el proyecto que se usa para representar de forma tangible la faceta de Holistika en el terreno de la Inteligencia Artificial (Research, Compliance, Talent, Project Management y Data Gov) + sus capacidades TB, especialmente Data & Tech. Eso es equivalente a Envoy Tech",
+        "list": {
+            "id": "67698d218c5e6f638c7b87cf",
+            "name": "MADEIRA Project"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/jiKb1HD2/51-pmo-product-owner-product-timeline",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:37.884000+00:00",
+            "created_at": null,
+            "position": 32768.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d221b25b329c20844db",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Product Owner - UX - Capabilities & Persona",
+        "description": "En esta tarjeta se recogen los factores de interés desde el punto de vista de un usuario. Los puntos técnicos que se usan para llegar a cumplir estos items, forman parte de otras tarjetas.",
+        "list": {
+            "id": "67698d218c5e6f638c7b87cf",
+            "name": "MADEIRA Project"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/DLColhWh/52-product-owner-ux-capabilities-persona",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:38.296000+00:00",
+            "created_at": null,
+            "position": 49152.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d229f8f45ca7f790919",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Product owner - UX - Use Cases",
+        "description": "Identify Use cases for UAT (User Acceptance Test)\n\nThis is a dump list, another refined list will be created as per product pipeline. This is meant to be shared and filled as a use-case comes to mind, out of a research or a brainstorm.",
+        "list": {
+            "id": "67698d218c5e6f638c7b87cf",
+            "name": "MADEIRA Project"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/FVApVIFM/53-product-owner-ux-use-cases",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:38.612000+00:00",
+            "created_at": null,
+            "position": 65536.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d23c3700556a93eb303",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Product Owner - UX - MADEIRA Components",
+        "description": "",
+        "list": {
+            "id": "67698d218c5e6f638c7b87cf",
+            "name": "MADEIRA Project"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/fu1rtJAi/54-product-owner-ux-madeira-components",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:39.018000+00:00",
+            "created_at": null,
+            "position": 81920.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d233ed65295989a0ca6",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Product Owner - UX - KirBe Components",
+        "description": "",
+        "list": {
+            "id": "67698d218c5e6f638c7b87cf",
+            "name": "MADEIRA Project"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/lkTykRZr/55-product-owner-ux-kirbe-components",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:39.314000+00:00",
+            "created_at": null,
+            "position": 98304.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d23e14e27ad71cfad2c",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Benchmarker - AI Ethics",
+        "description": "",
+        "list": {
+            "id": "67698d218c5e6f638c7b87cf",
+            "name": "MADEIRA Project"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/lNbIIDty/56-benchmarker-ai-ethics",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:39.770000+00:00",
+            "created_at": null,
+            "position": 114688.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d246ffbb8d96ca0a028",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "DevOps - CICD - Pipeline",
+        "description": "",
+        "list": {
+            "id": "67698d218c5e6f638c7b87cf",
+            "name": "MADEIRA Project"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/4XAsPx59/57-devops-cicd-pipeline",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:40.129000+00:00",
+            "created_at": null,
+            "position": 131072.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d2470d6da9d4fb84e4c",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "DevOps - CICD - LlamaIndex Modules",
+        "description": "",
+        "list": {
+            "id": "67698d218c5e6f638c7b87cf",
+            "name": "MADEIRA Project"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/aGVKmHFC/58-devops-cicd-llamaindex-modules",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:40.660000+00:00",
+            "created_at": null,
+            "position": 147456.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d25d5119d77523221de",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "DevOps - CICD - Code Structure",
+        "description": "",
+        "list": {
+            "id": "67698d218c5e6f638c7b87cf",
+            "name": "MADEIRA Project"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/6Oi9c4wm/59-devops-cicd-code-structure",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:41.070000+00:00",
+            "created_at": null,
+            "position": 163840.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1f0ec8bec8208d443b",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Marca y mensajes",
+        "description": "",
+        "list": {
+            "id": "67698d1f769e43252fe98cda",
+            "name": "Darnos a conocer"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/DVx9KNAG/47-marca-y-mensajes",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:35.815000+00:00",
+            "created_at": null,
+            "position": 16384.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d207882e8350b8e5371",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Canales como web y linkedin",
+        "description": "",
+        "list": {
+            "id": "67698d1f769e43252fe98cda",
+            "name": "Darnos a conocer"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/ijymgDap/48-canales-como-web-y-linkedin",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:36.137000+00:00",
+            "created_at": null,
+            "position": 32768.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d200c57a74bda391afa",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Paid media y posicionamiento",
+        "description": "",
+        "list": {
+            "id": "67698d1f769e43252fe98cda",
+            "name": "Darnos a conocer"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/O4etxh3r/49-paid-media-y-posicionamiento",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:36.562000+00:00",
+            "created_at": null,
+            "position": 49152.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1ec8f1bd976f415020",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Procesos de formación y output",
+        "description": "",
+        "list": {
+            "id": "67698d1e74e3b46fbb507281",
+            "name": "Crecer equipo"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/boyz4x7J/44-procesos-de-formaci%C3%B3n-y-output",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:34.511000+00:00",
+            "created_at": null,
+            "position": 16384.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1eab4b184905c94947",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Definición de huecos donde caben sus capacidades",
+        "description": "",
+        "list": {
+            "id": "67698d1e74e3b46fbb507281",
+            "name": "Crecer equipo"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/K3r2kdkh/45-definici%C3%B3n-de-huecos-donde-caben-sus-capacidades",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:34.878000+00:00",
+            "created_at": null,
+            "position": 32768.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1f4a3a88dcb7b68a36",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Plan de carrera",
+        "description": "",
+        "list": {
+            "id": "67698d1e74e3b46fbb507281",
+            "name": "Crecer equipo"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/bLR1nUkK/46-plan-de-carrera",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:35.214000+00:00",
+            "created_at": null,
+            "position": 49152.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1de04d7175d19d798f",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Establecer sociedad",
+        "description": "",
+        "list": {
+            "id": "67698d1cd46d9c9518db6bd0",
+            "name": "Salir a mercado"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/zr5DWFcy/41-establecer-sociedad",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:33.101000+00:00",
+            "created_at": null,
+            "position": 16384.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1d8706b73e5db82d10",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Control financiero",
+        "description": "",
+        "list": {
+            "id": "67698d1cd46d9c9518db6bd0",
+            "name": "Salir a mercado"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/hsCTpjDK/42-control-financiero",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:33.459000+00:00",
+            "created_at": null,
+            "position": 32768.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1dfcdc2b171b9afe48",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Optimizar FTEs",
+        "description": "",
+        "list": {
+            "id": "67698d1cd46d9c9518db6bd0",
+            "name": "Salir a mercado"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/KwBe60a5/43-optimizar-ftes",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:33.770000+00:00",
+            "created_at": null,
+            "position": 49152.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1b177581d54b798cef",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Categorizar inventario de capacidades y recursos",
+        "description": "",
+        "list": {
+            "id": "67698d1bb5d40b133baf7b59",
+            "name": "Definir servicios"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/lBX0MbeA/38-categorizar-inventario-de-capacidades-y-recursos",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:31.838000+00:00",
+            "created_at": null,
+            "position": 16384.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1c9e48f6e54067dc45",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Conocer demanda de mercado",
+        "description": "",
+        "list": {
+            "id": "67698d1bb5d40b133baf7b59",
+            "name": "Definir servicios"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/LnO1K6Ji/39-conocer-demanda-de-mercado",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:32.200000+00:00",
+            "created_at": null,
+            "position": 32768.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1c443ac72616c55d1d",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Definir y documentar procesos de servicio",
+        "description": "",
+        "list": {
+            "id": "67698d1bb5d40b133baf7b59",
+            "name": "Definir servicios"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/ntW2anM9/40-definir-y-documentar-procesos-de-servicio",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:32.536000+00:00",
+            "created_at": null,
+            "position": 49152.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1a09294f5289909a9b",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Documentar infraestructura",
+        "description": "",
+        "list": {
+            "id": "67698d1a7c54db1514a1b500",
+            "name": "Controlar la empresa"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/31RmTxpI/35-documentar-infraestructura",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:30.564000+00:00",
+            "created_at": null,
+            "position": 16384.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1ad7c5a162793d0058",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Conocer el end to end del funcionamiento",
+        "description": "",
+        "list": {
+            "id": "67698d1a7c54db1514a1b500",
+            "name": "Controlar la empresa"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/U41lXEvX/36-conocer-el-end-to-end-del-funcionamiento",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:30.885000+00:00",
+            "created_at": null,
+            "position": 32768.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1bc9384852a359f1f6",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Capacidad de absorber y colocar intel",
+        "description": "",
+        "list": {
+            "id": "67698d1a7c54db1514a1b500",
+            "name": "Controlar la empresa"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/fTDbA4Cs/37-capacidad-de-absorber-y-colocar-intel",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:31.206000+00:00",
+            "created_at": null,
+            "position": 49152.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d177bc2681a7b907751",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "ERP",
+        "description": "",
+        "list": {
+            "id": "67698d17802c59af7d0ed05f",
+            "name": "Viejo"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/KQcukez2/27-erp",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:27.654000+00:00",
+            "created_at": null,
+            "position": 16384.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d178435cf0a311f5385",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Canales",
+        "description": "",
+        "list": {
+            "id": "67698d17802c59af7d0ed05f",
+            "name": "Viejo"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/2SuRgrRn/28-canales",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:27.968000+00:00",
+            "created_at": null,
+            "position": 32768.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d18a01859bf03c923be",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Google Cloud",
+        "description": "",
+        "list": {
+            "id": "67698d17802c59af7d0ed05f",
+            "name": "Viejo"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/M3vw5yzx/29-google-cloud",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:28.257000+00:00",
+            "created_at": null,
+            "position": 49152.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d183fa98dbe285be227",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Google",
+        "description": "",
+        "list": {
+            "id": "67698d17802c59af7d0ed05f",
+            "name": "Viejo"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/VSi6MGyL/30-google",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:28.557000+00:00",
+            "created_at": null,
+            "position": 65536.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d187882e8350b8e18c0",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Facebook",
+        "description": "",
+        "list": {
+            "id": "67698d17802c59af7d0ed05f",
+            "name": "Viejo"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/um8EDvtx/31-facebook",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:28.939000+00:00",
+            "created_at": null,
+            "position": 81920.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d199b56210e400ca1c6",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Supabase",
+        "description": "",
+        "list": {
+            "id": "67698d17802c59af7d0ed05f",
+            "name": "Viejo"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/wXB4LWmk/32-supabase",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:29.326000+00:00",
+            "created_at": null,
+            "position": 98304.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d194dc7e0f5740cf652",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Web",
+        "description": "",
+        "list": {
+            "id": "67698d17802c59af7d0ed05f",
+            "name": "Viejo"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/6X3p5B4b/33-web",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:29.634000+00:00",
+            "created_at": null,
+            "position": 114688.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d19bfa46d63a0b614ec",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Azure",
+        "description": "",
+        "list": {
+            "id": "67698d17802c59af7d0ed05f",
+            "name": "Viejo"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/idB9Dsp3/34-azure",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:29.960000+00:00",
+            "created_at": null,
+            "position": 131072.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d0e6c24b7d9f198eb20",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "LOGOS",
+        "description": "Describir proceso de diseño con IA de logos y sacar ejemplos de holistica y franklin para el diseñador",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/CSrlpj3g/3-logos",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:18.643000+00:00",
+            "created_at": null,
+            "position": 16384.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d0ff7b0b230b3facd31",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Diseño",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/I5JWiDDO/4-dise%C3%B1o",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:19.125000+00:00",
+            "created_at": null,
+            "position": 32768.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d0fd4b7e197ecc8c189",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Sprint 1",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/8TpUtSLj/5-sprint-1",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:19.423000+00:00",
+            "created_at": null,
+            "position": 49152.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d0f75cf7bb4c1ea343e",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Marcos Sprint 1",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/j0f35K16/6-marcos-sprint-1",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:19.758000+00:00",
+            "created_at": null,
+            "position": 65536.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d10f4c8ccea41054f4d",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Pasar a limpio apuntes autónomos",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/HpZCjPhr/7-pasar-a-limpio-apuntes-aut%C3%B3nomos",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:20.061000+00:00",
+            "created_at": null,
+            "position": 81920.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1074fbf8624daf5019",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Tabla de componentes",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/Gi9tNRk5/8-tabla-de-componentes",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:20.374000+00:00",
+            "created_at": null,
+            "position": 98304.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d10c267f1011d1014d7",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Leer párrafos de PMBOK Y DMBOK",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/pPVy16Mr/9-leer-p%C3%A1rrafos-de-pmbok-y-dmbok",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:20.721000+00:00",
+            "created_at": null,
+            "position": 114688.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d114985eb323cfa14d6",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Workflow de componente",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/2lvpNVyO/10-workflow-de-componente",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:21.029000+00:00",
+            "created_at": null,
+            "position": 131072.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1120b590ed7d6f6801",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Definir tablas",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/UF0AtUPJ/11-definir-tablas",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:21.343000+00:00",
+            "created_at": null,
+            "position": 147456.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d115720d2b87e2ed0d3",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Roles y sus procesos",
+        "description": "In our architecture, the relationship between responsible roles and processes is one-to-many. That means that there is only one responsible per process, but each responsible can have more than one process attached. This results in a role having a set of processes, simplifying the role’s organization. This lets us treat a role as an Entity. Each role has a responsibility for that role, just like an admin exists in every Entity. It wouldn’t be outlandish to say that each role could have a baseline\\_organisation at scale and run independently. That is, as long as each role exclusively manages the added\\_value under the same computational capabilities and scenarios as Holistika.\n\n‌\n\nThat’s from an Admin perspective. In the day-to-day, the roles will feel entitled to their set of processes, while trying to chase others out-of-scope, and that’s just fine. Organisationally speaking, each role or unit should claim the necessary resources from Holistika’s network as needed and fight freely for the interests of their closest stakeholders. As long as each process is following Standard Processes and Special Processes, there is enough structure to support each role as if they were an actual customer, with Holistika managing each role-per-process situation as per the applicable role-compliant standards, in something similar to a B2E2B relationship. Any unprecedented or unplanned scenario will be documented, valued, and if beneficial, may be integrated to improve the current methodology (anomalies, ketter to safe process).\n\nThis applies especially to internal and external personnel.",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/WcWOXNrs/12-roles-y-sus-procesos",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:21.697000+00:00",
+            "created_at": null,
+            "position": 163840.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1163b0e11069116d96",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Conocer el end to end del funcionamiento",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/sXMgf0hI/13-conocer-el-end-to-end-del-funcionamiento",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:21.999000+00:00",
+            "created_at": null,
+            "position": 180224.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d124ff7f6fa43427e22",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Definir y documentar la metodología de trabajo y servicio",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/fxq3OjiN/14-definir-y-documentar-la-metodolog%C3%ADa-de-trabajo-y-servicio",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:22.455000+00:00",
+            "created_at": null,
+            "position": 196608.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d12eaa12059353c1960",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Procesos y frameworks de research",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/iDcXjJLd/15-procesos-y-frameworks-de-research",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:22.808000+00:00",
+            "created_at": null,
+            "position": 212992.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d136e314882e416b187",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Procesos B2E para incrementar la capacidad computacional",
+        "description": "## Reasoning\n\nStrategies are scalable, not only based on the persons involved but on the scale of the ability to process the input and the output of such strategy, as well as any work involved in the middle.\n\nA full explanation/assimilation of each aspect above should derive in a complete ability to process any given scenario involved, provided each individual has the ability to effectively engineer the E2E process.\n\nFrom the above, we can infer two sources:\n\n- One based on an individual’s capacity to understand a process occurring under a given scenario.\n- Another based on an individual’s capacity to engineer, design or execute a different process under the same conditions.\n\nIn other words, two sources can be identified as a requirement to increment a given collective’s computational capacity.\n\n- Standard operating processes\n- Special operating processes\n\n## Procedure\n\nStandard processes are to be applied consistently on every given process or scenario. Be it in group or alone, in order to ensure stability under the ever changing conditions under which each Special Operating Process is undergone.\n\nSpecial Operating process are tailor-made to a given scenario, via Research, and they ensure that shifts in the given scenario are easily detected and thus, predicted (and responded upon via Risk Management standards). This provides the ability to filter out-or-in processes that would otherwise derive in risks, scope-creep and others, while being consistent on the key aspects of the process, always for the specific scenario the process is based on. The analysis is conducted via Research under the Standard Operating processes. This way, we could filter-in scenarios that have proven to provide a better advantage over others, reducing the scope to a comprehensive set of ensured organisational added-value processes.\n\n## Conclusion\n\nResearch is then the fuel of the loop. They are applied twice:\n\n- Once to gather or create a single procedure that applies to all tasks in hand.\n- Each time, for a given scenario, filtered by a single parameter.\n\nKnowing the specifics standards that the industry, market, concurrence in people, operations, (whatever scenario) provides leads to a value-added, actionable, shareable, know-how that, if constantly applied, results in increase OTOBOS performance at least, and to an upgrade to collective intelligence if properly shared.\n\nEnsuring an adaptable research stream over consistent, but fluid operations, under the same people for the same objectives (as per PMO guidance) is expected to result in, at least, an increase added-value, on the involved organisation and members' computational capacity and the positive consequences derived from it.\n\nThis results in individuals learning Stardards only with Special processes, improving practical, hands-on training and thus assimilation.\n\n‌\n\n## Addendum 1 - Output 3 explanation (E2E-Reseached Scenario)\n\nSpecial operating procedures have parameters assigned such as role, project, customer, region, task, workstream, industry, applicable\\_date, end\\_date, etc. This make them traceable, groupable and assignable.\n\nOnce applied DAMA standards, it become easy to create group of special operating procedures and to group them together with other internal and/or external processes.\n\nThe fact that standard operating procedures are conducted each time ensures harmonisation. This provides the possibility to retrieve numbers or integers if one is to assimilate 1 FTE to a given e2e scenario researched via our in-house standards (see Research Framework and Processes). This is what we call an E2E-Researched Scenario.\n\n‌\n\n## Addendum 2 - Resulting formula for Computational Capacity\n\nThe ( number of #E2E-researched\\_scenarios) x (number of #persons\\_involved) = The #scalability\\_factor for #computational\\_capacity\n\nGiven that each #E2E-researched\\_scenario is equipped with #standard\\_processes that have been applied on a properly maintained set of #special_processes\n\n```\ncomputational_capacity = persons_involved x E2E-researched_scenarios\n\nE2E-researched_scenario = standard_process x special_process\n```",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/Oshc3z8t/16-procesos-b2e-para-incrementar-la-capacidad-computacional",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:23.205000+00:00",
+            "created_at": null,
+            "position": 229376.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d13171c0ceb1243ca8a",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Process map",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/irzSghsu/17-process-map",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:23.539000+00:00",
+            "created_at": null,
+            "position": 245760.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1330019adaa3df57fd",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Procesos asignados a roles del organigrama",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/SKvkx8Gz/18-procesos-asignados-a-roles-del-organigrama",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:23.859000+00:00",
+            "created_at": null,
+            "position": 262144.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d14c6d3a73fa012e2fe",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Componentes incluidos en los procesos",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/qL1Esxe1/19-componentes-incluidos-en-los-procesos",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:24.262000+00:00",
+            "created_at": null,
+            "position": 278528.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1491ad0e22fe927285",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Combinaciones de procesos para x productos/casos que sirvan de flagships",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/j4DaPa9A/20-combinaciones-de-procesos-para-x-productos-casos-que-sirvan-de-flagships",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:24.586000+00:00",
+            "created_at": null,
+            "position": 294912.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1456b7699aaaba72c8",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Conocer demanda de mercado",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/IpK2HnAl/21-conocer-demanda-de-mercado",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:24.990000+00:00",
+            "created_at": null,
+            "position": 311296.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d15cd6c70cabeb61628",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Controlar la empresa",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/ECKZHDxH/22-controlar-la-empresa",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:25.394000+00:00",
+            "created_at": null,
+            "position": 327680.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d1592d96c7136173ba6",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Rants blog",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/8ANzT5Hr/23-rants-blog",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:25.771000+00:00",
+            "created_at": null,
+            "position": 344064.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d163eca0ae2247d5681",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Vinc",
+        "description": "",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/NYcAygi6/24-vinc",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:26.077000+00:00",
+            "created_at": null,
+            "position": 360448.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d16576204579e4d3a61",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Vinc",
+        "description": "Ayuda i subvenciones",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/lmK8STmD/25-vinc",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:26.405000+00:00",
+            "created_at": null,
+            "position": 376832.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698d160c82e949d4c9aa01",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Investigación Latino america i India",
+        "description": "Roles:\n\nGente de Marketing\n\nBackend (colad i data base)\n\nVirtual Assitant",
+        "list": {
+            "id": "67698d0eafa53e7b5aa34aa9",
+            "name": "To Do"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/06SO5RRM/26-investigaci%C3%B3n-latino-america-i-india",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:17:26.742000+00:00",
+            "created_at": null,
+            "position": 393216.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "676989c50ccf5d227cd18053",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Managing Computational Capacity",
+        "description": "## Reasoning\n\nStrategies are scalable, not only based on the persons involved but on the scale of the ability to process the input and the output of such strategy, as well as any work involved in the middle.\n\nA full explanation/assimilation of each aspect above should derive in a complete ability to process any given scenario involved, provided each individual has the ability to effectively engineer the E2E process.\n\nFrom the above, we can infer two sources:\n\n- One based on an individual’s capacity to understand a process occurring under a given scenario.\n- Another based on an individual’s capacity to engineer, design or execute a different process under the same conditions.\n\nIn other words, two sources can be identified as a requirement to increment a given collective’s computational capacity.\n\n- Standard operating processes\n- Special operating processes\n\n## Procedure\n\nStandard processes are to be applied consistently on every given process or scenario. Be it in group or alone, in order to ensure stability under the ever changing conditions under which each Special Operating Process is undergone.\n\nSpecial Operating process are tailor-made to a given scenario, via Research, and they ensure that shifts in the given scenario are easily detected and thus, predicted (and responded upon via Risk Management standards). This provides the ability to filter out-or-in processes that would otherwise derive in risks, scope-creep and others, while being consistent on the key aspects of the process, always for the specific scenario the process is based on. The analysis is conducted via Research under the Standard Operating processes. This way, we could filter-in scenarios that have proven to provide a better advantage over others, reducing the scope to a comprehensive set of ensured organisational added-value processes.\n\n## Conclusion\n\nResearch is then the fuel of the loop. They are applied twice:\n\n- Once to gather or create a single procedure that applies to all tasks in hand.\n- Each time, for a given scenario, filtered by a single parameter.\n\nKnowing the specifics standards that the industry, market, concurrence in people, operations, (whatever scenario) provides leads to a value-added, actionable, shareable, know-how that, if constantly applied, results in increase OTOBOS performance at least, and to an upgrade to collective intelligence if properly shared.\n\nEnsuring an adaptable research stream over consistent, but fluid operations, under the same people for the same objectives (as per PMO guidance) is expected to result in, at least, an increase added-value, on the involved organisation and members' computational capacity and the positive consequences derived from it.\n\nThis results in individuals learning Stardards only with Special processes, improving practical, hands-on training and thus assimilation.\n\n‌\n\n## Addendum 1 - Output 3 explanation (E2E-Reseached Scenario)\n\nSpecial operating procedures have parameters assigned such as role, project, customer, region, task, workstream, industry, applicable\\_date, end\\_date, etc. This make them traceable, groupable and assignable.\n\nOnce applied DAMA standards, it become easy to create group of special operating procedures and to group them together with other internal and/or external processes.\n\nThe fact that standard operating procedures are conducted each time ensures harmonisation. This provides the possibility to retrieve numbers or integers if one is to assimilate 1 FTE to a given e2e scenario researched via our in-house standards (see Research Framework and Processes). This is what we call an E2E-Researched Scenario.\n\n‌\n\n## Addendum 2 - Resulting formula for Computational Capacity\n\nThe ( number of #E2E-researched\\_scenarios) x (number of #persons\\_involved) = The #scalability\\_factor for #computational\\_capacity\n\nGiven that each #E2E-researched\\_scenario is equipped with #standard\\_processes that have been applied on a properly maintained set of #special_processes\n\n```\ncomputational_capacity = persons_involved x E2E-researched_scenarios\n\nE2E-researched_scenario = standard_process x special_process\n```",
+        "list": {
+            "id": "676989b23c25d3ee1c3cd58a",
+            "name": "ToDo"
+        },
+        "checklists": [
+            {
+                "id": "676989e17882e8350b825e8f",
+                "name": "Standard Operating Processes",
+                "pos": 16384.0,
+                "items": [
+                    {
+                        "id": "676989e7f562a4b177f7b3d4",
+                        "name": "Training: Tale to - > Morale to - > Analogy",
+                        "state": false,
+                        "pos": 16384.0
+                    },
+                    {
+                        "id": "676989ed9b20623926a13f01",
+                        "name": "Deliverable generation: Brainstorm to -> RANT to -> Output 0, 1, 2 to - > Output 3",
+                        "state": false,
+                        "pos": 32768.0
+                    },
+                    {
+                        "id": "676989f1c3b817efcf97688b",
+                        "name": "Deliverable generation: Output to Eloquence -> to Storytelling",
+                        "state": false,
+                        "pos": 49152.0
+                    }
+                ]
+            },
+            {
+                "id": "676989f90ef7f6572934a41f",
+                "name": "Special Operating procedures",
+                "pos": 32768.0,
+                "items": [
+                    {
+                        "id": "676989fe0a47d33c88bc8e7f",
+                        "name": "Create list per organigram (Currently located in procesos.xlsx -> various tabs inside like inventory, process_list, etc)",
+                        "state": false,
+                        "pos": 16384.0
+                    },
+                    {
+                        "id": "67698a04d4f144d362bc5acc",
+                        "name": "Create list per industry (Currently located in procesos.xlsx-> Inventory)",
+                        "state": false,
+                        "pos": 32768.0
+                    },
+                    {
+                        "id": "67698a0ab25f05bb245ad217",
+                        "name": "Create list per region (Currently on hold -> Dependency Region Research. Restart from Obsidian Research SOP 001 and countries table from Supabase and brainstorm them to current patch, under this process)",
+                        "state": false,
+                        "pos": 49152.0
+                    },
+                    {
+                        "id": "67698a0f84be65c73c08036e",
+                        "name": "Create list per project (Currently on hold -> Dependency PMS for external projects)",
+                        "state": false,
+                        "pos": 65536.0
+                    },
+                    {
+                        "id": "67698a14e7347b03eab198bd",
+                        "name": "Create list per Buyer Persona (B2B only)",
+                        "state": false,
+                        "pos": 81920.0
+                    },
+                    {
+                        "id": "67698a187eca75e01a26c32e",
+                        "name": "Contrast lists with Business Case -> Create list per Buyer Persona (B2I only)",
+                        "state": false,
+                        "pos": 98304.0
+                    },
+                    {
+                        "id": "67698a1e7ce1dd923c02bc2a",
+                        "name": "Contrast lists with People Manifiesto -> Create list per Buyer Persona (B2E only)",
+                        "state": false,
+                        "pos": 114688.0
+                    },
+                    {
+                        "id": "67698a23c448aee8c8c38eef",
+                        "name": "Contrast lists with Madeira Manifiesto -> Create list for AI (to be named: AI-literacy Improver's Toolkit)",
+                        "state": false,
+                        "pos": 131072.0
+                    }
+                ]
+            }
+        ],
+        "metadata": {
+            "url": "https://trello.com/c/DOGc9Hrz/1-managing-computational-capacity",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:06:57.144000+00:00",
+            "created_at": null,
+            "position": 16384.0,
+            "is_closed": false
+        }
+    },
+    {
+        "id": "67698a7d7ee3edf2acf3e09a",
+        "board_id": "67697e19c67277de7ae1a85c",
+        "name": "Roles and Processes",
+        "description": "In our architecture, the relationship between responsible roles and processes is one-to-many. That means that there is only one responsible per process, but each responsible can have more than one process attached. This results in a role having a set of processes, simplifying the role’s organization. This lets us treat a role as an Entity. Each role has a responsibility for that role, just like an admin exists in every Entity. It wouldn’t be outlandish to say that each role could have a baseline\\_organisation at scale and run independently. That is, as long as each role exclusively manages the added\\_value under the same computational capabilities and scenarios as Holistika.\n\n‌\n\nThat’s from an Admin perspective. In the day-to-day, the roles will feel entitled to their set of processes, while trying to chase others out-of-scope, and that’s just fine. Organisationally speaking, each role or unit should claim the necessary resources from Holistika’s network as needed and fight freely for the interests of their closest stakeholders. As long as each process is following Standard Processes and Special Processes, there is enough structure to support each role as if they were an actual customer, with Holistika managing each role-per-process situation as per the applicable role-compliant standards, in something similar to a B2E2B relationship. Any unprecedented or unplanned scenario will be documented, valued, and if beneficial, may be integrated to improve the current methodology (anomalies, ketter to safe process).\n\nThis applies especially to internal and external personnel.",
+        "list": {
+            "id": "676989b23c25d3ee1c3cd58a",
+            "name": "ToDo"
+        },
+        "checklists": [],
+        "metadata": {
+            "url": "https://trello.com/c/HxEpqL07/2-roles-and-processes",
+            "due_date": null,
+            "labels": [],
+            "last_activity": "2024-12-23T16:06:27.158000+00:00",
+            "created_at": null,
+            "position": 32768.0,
+            "is_closed": false
+        }
+    }
+]
