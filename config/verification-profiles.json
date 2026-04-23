@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "eval_rubric_governance_suites": [
+    "pathc-research-spine",
+    "madeira-operator-coverage"
+  ],
+  "profiles": {
+    "pre_commit": {
+      "description": "Strict inventory, drift, full tests, browser smoke (Playwright), API+Madeira smoke, release gate",
+      "steps": [
+        {
+          "id": "strict_inventory",
+          "description": "Strict full AKOS inventory (OVERALL: PASS)",
+          "argv": ["scripts/legacy/verify_openclaw_inventory.py"]
+        },
+        {
+          "id": "drift",
+          "description": "Repo vs runtime drift (agent/A2A inventory, tools policy)",
+          "argv": ["scripts/check-drift.py"]
+        },
+        {
+          "id": "test_all",
+          "description": "Full pytest suite via scripts/test.py all",
+          "argv": ["scripts/test.py", "all"]
+        },
+        {
+          "id": "browser_smoke",
+          "description": "Browser smoke; Scenario 0 registry (Playwright per DEVELOPER_CHECKLIST)",
+          "argv": ["scripts/browser-smoke.py", "--playwright"]
+        },
+        {
+          "id": "api_madeira_smoke",
+          "description": "FastAPI control plane + Madeira interaction",
+          "argv": ["__pytest__", "tests/test_api.py", "tests/test_madeira_interaction.py", "-v"]
+        },
+        {
+          "id": "release_gate",
+          "description": "Unified release gate (HLK, process_list header, vault links, ...)",
+          "argv": ["scripts/release-gate.py"]
+        }
+      ]
+    },
+    "compliance_mirror_emit": {
+      "description": "Initiative 14/18: preflight CSV row counts then emit compliance mirror upsert SQL to artifacts/sql/compliance_mirror_upsert.sql (operator reviews before DB apply)",
+      "steps": [
+        {
+          "id": "compliance_mirror_count_only",
+          "description": "Row counts from git CSVs (process_list, baseline_organisation, FINOPS counterparty register)",
+          "argv": ["scripts/sync_compliance_mirrors_from_csv.py", "--count-only"]
+        },
+        {
+          "id": "compliance_mirror_write_sql",
+          "description": "Write full mirror upsert SQL (process_list + baseline + finops counterparty) for operator review",
+          "argv": [
+            "scripts/sync_compliance_mirrors_from_csv.py",
+            "--output",
+            "artifacts/sql/compliance_mirror_upsert.sql"
+          ]
+        }
+      ]
+    },
+    "optional_executor_harness": {
+      "description": "Optional pytest oracle (set AKOS_EXECUTOR_HARNESS=1 before running)",
+      "steps": [
+        {
+          "id": "executor_harness",
+          "description": "Executor harness optional tests",
+          "argv": [
+            "__pytest__",
+            "tests/test_executor_harness_optional.py",
+            "-m",
+            "executor_harness",
+            "-v"
+          ]
+        }
+      ]
+    }
+  }
+}

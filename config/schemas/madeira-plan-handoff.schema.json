@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://akos.local/schemas/madeira-plan-handoff.schema.json",
+  "title": "MadeiraPlanHandoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "non_canonical",
+    "goal",
+    "assumptions",
+    "citations",
+    "verification_matrix_ref",
+    "suggested_swarm"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "non_canonical": {
+      "type": "boolean",
+      "const": true,
+      "description": "Draft handoff; never treated as canonical vault truth until promoted."
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "assumptions": {
+      "type": "array",
+      "items": { "type": "string", "maxLength": 2000 }
+    },
+    "phases_mermaid": {
+      "type": "string",
+      "maxLength": 8000,
+      "description": "Optional mermaid-safe phase sketch (no spaces in node IDs)."
+    },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["asset", "note"],
+        "properties": {
+          "asset": { "type": "string", "maxLength": 500 },
+          "note": { "type": "string", "maxLength": 2000 }
+        }
+      }
+    },
+    "verification_matrix_ref": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Path or label, e.g. docs/DEVELOPER_CHECKLIST.md"
+    },
+    "suggested_swarm": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "risks": {
+      "type": "array",
+      "items": { "type": "string", "maxLength": 2000 }
+    }
+  }
+}
