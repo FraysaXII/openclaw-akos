@@ -468,6 +468,14 @@ def phase_prompts(args: argparse.Namespace) -> bool:
         deployed = deploy_soul_prompts(assembled_dir, variant, oc_home)
         for p in deployed:
             status("PASS", f"Deployed SOUL.md -> {p}")
+        from akos.madeira_interaction import apply_madeira_interaction_to_soul
+        from akos.state import load_state
+
+        st = load_state(oc_home)
+        mp = apply_madeira_interaction_to_soul(
+            oc_home, mode=st.madeiraInteractionMode, assembled_dir=assembled_dir
+        )
+        status("PASS", f"Madeira SOUL interaction mode -> {st.madeiraInteractionMode} ({mp.name})")
     except FileNotFoundError as exc:
         status("FAIL", str(exc))
         return False

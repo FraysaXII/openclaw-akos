@@ -53,8 +53,20 @@ def sync_scaffold(oc_home: Path) -> list[Path]:
 
 def sync_soul_prompts(variant: str, oc_home: Path) -> list[Path]:
     """Deploy assembled SOUL.md prompts to agent workspaces."""
+    from akos.madeira_interaction import apply_madeira_interaction_to_soul
+    from akos.state import load_state
+
     deployed = deploy_soul_prompts(ASSEMBLED_DIR, variant, oc_home)
-    logger.info("Deployed %d SOUL.md file(s) (variant=%s)", len(deployed), variant)
+    st = load_state(oc_home)
+    apply_madeira_interaction_to_soul(
+        oc_home, mode=st.madeiraInteractionMode, assembled_dir=ASSEMBLED_DIR
+    )
+    logger.info(
+        "Deployed %d SOUL.md file(s) (variant=%s, madeiraInteractionMode=%s)",
+        len(deployed),
+        variant,
+        st.madeiraInteractionMode,
+    )
     return deployed
 
 

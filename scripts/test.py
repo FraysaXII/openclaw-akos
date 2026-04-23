@@ -13,6 +13,8 @@ Usage:
     py scripts/test.py e2e          # full system wiring
     py scripts/test.py uat          # start live API server for Swagger testing
     py scripts/test.py graph        # HLK graph lane (pytest -m graph)
+    py scripts/test.py madeira     # Madeira interaction + trajectory (pytest -m madeira)
+    py scripts/test.py intent      # Intent routing + intent golden (pytest -m intent)
     py scripts/test.py --list       # show all available groups
 """
 
@@ -101,6 +103,16 @@ GROUPS: dict[str, dict] = {
         "files": [],
         "pytest_extra": ["-m", "graph"],
     },
+    "madeira": {
+        "description": "Madeira interaction + trajectory (pytest -m madeira); after akos/madeira_*.py or Madeira plan handoff",
+        "files": [],
+        "pytest_extra": ["-m", "madeira"],
+    },
+    "intent": {
+        "description": "Intent classification + intent golden (pytest -m intent); after config/intent-exemplars.json or akos/intent.py",
+        "files": [],
+        "pytest_extra": ["-m", "intent"],
+    },
     "validate-hlk": {
         "description": "HLK canonical vault integrity validation (standalone)",
         "files": [],
@@ -125,6 +137,8 @@ def list_groups() -> None:
     print("    graph        — after touching akos/hlk_graph_model.py, hlk_vault_links, /hlk/graph/*, serve-api graph supervisor")
     print("    hlk          — after touching compliance CSVs (run validate_hlk.py before commit per PRECEDENCE)")
     print("    api          — after akos/api.py or control-plane contract changes")
+    print("    madeira      — after akos/madeira_interaction.py, madeira_trajectory, Madeira handoff / UC matrix")
+    print("    intent       — after akos/intent.py or config/intent-exemplars.json")
     print()
     print("  Usage: py scripts/test.py <group>")
     print("         py scripts/test.py uat       (live Swagger server)")

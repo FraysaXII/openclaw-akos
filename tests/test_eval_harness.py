@@ -17,6 +17,8 @@ def test_pathc_suite_manifest_schema():
     man = json.loads(man_path.read_text(encoding="utf-8"))
     assert man.get("suite_id") == "pathc-research-spine"
     assert man.get("version")
+    assert man.get("schema_version")
+    assert man.get("last_reviewed")
     assert isinstance(man.get("dimension_coverage"), list)
 
 
@@ -24,6 +26,25 @@ def test_pathc_tasks_load_and_rubric():
     manifest, tasks = load_suite("pathc-research-spine")
     assert manifest["suite_id"] == "pathc-research-spine"
     assert len(tasks) >= 3
+    for t in tasks:
+        status, reasons = score_rubric_task(t, str(t.get("golden_answer", "")))
+        assert status == "PASS", (t.get("id"), reasons)
+
+
+def test_madeira_operator_coverage_manifest():
+    man_path = SUITES / "madeira-operator-coverage" / "manifest.json"
+    assert man_path.is_file()
+    man = json.loads(man_path.read_text(encoding="utf-8"))
+    assert man.get("suite_id") == "madeira-operator-coverage"
+    assert man.get("schema_version")
+    assert man.get("last_reviewed")
+    assert isinstance(man.get("dimension_coverage"), list)
+
+
+def test_madeira_operator_coverage_tasks_rubric():
+    manifest, tasks = load_suite("madeira-operator-coverage")
+    assert manifest["suite_id"] == "madeira-operator-coverage"
+    assert len(tasks) >= 8
     for t in tasks:
         status, reasons = score_rubric_task(t, str(t.get("golden_answer", "")))
         assert status == "PASS", (t.get("id"), reasons)

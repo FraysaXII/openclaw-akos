@@ -16,7 +16,7 @@ import os
 import sys
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import httpx
 from fastapi import Depends, FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
@@ -55,6 +55,7 @@ app = FastAPI(
         {"name": "Finance", "description": "Read-only finance research endpoints"},
         {"name": "HLK", "description": "HLK organisation, process, and compliance registry"},
         {"name": "HLK Graph", "description": "Optional Neo4j mirrored graph neighbourhood queries"},
+        {"name": "Madeira", "description": "Madeira Ask/Plan interaction mode and operator UI"},
     ],
 )
 
@@ -70,6 +71,15 @@ app.add_middleware(
 _api_key: str | None = os.environ.get("AKOS_API_KEY")
 
 _hlk_graph_explorer_html_cache: str | None = None
+_madeira_control_html_cache: str | None = None
+
+
+def _madeira_control_html() -> str:
+    global _madeira_control_html_cache
+    if _madeira_control_html_cache is None:
+        path = REPO_ROOT / "static" / "madeira_control.html"
+        _madeira_control_html_cache = path.read_text(encoding="utf-8")
+    return _madeira_control_html_cache
 
 
 def _hlk_graph_explorer_html() -> str:
@@ -438,6 +448,13 @@ async def switch_environment(req: SwitchRequest) -> dict[str, Any]:
     assembled = REPO_ROOT / "prompts" / "assembled"
     try:
         deploy_soul_prompts(assembled, variant, oc_home)
+        from akos.madeira_interaction import apply_madeira_interaction_to_soul
+        from akos.state import load_state
+
+        st0 = load_state(oc_home)
+        apply_madeira_interaction_to_soul(
+            oc_home, mode=st0.madeiraInteractionMode, assembled_dir=assembled
+        )
     except FileNotFoundError as exc:
         return {"error": str(exc)}
 
@@ -513,6 +530,75 @@ async def unpin_context(req: PinRequest) -> dict[str, Any]:
 async def list_pins() -> dict[str, Any]:
     """List all pinned context entries."""
     return {"total": len(_pinned_context), "items": _pinned_context}
+
+
+# ── Madeira interaction mode (Ask / Plan draft) ───────────────────────
+
+
+class MadeiraInteractionModeBody(BaseModel):
+    mode: Literal["ask", "plan_draft"]
+    redeploy: bool = True
+
+
+@app.get(
+    "/agents/madeira/interaction-mode",
+    dependencies=[Depends(_check_api_key)],
+    tags=["Madeira"],
+)
+async def get_madeira_interaction_mode() -> dict[str, Any]:
+    """Return persisted Madeira interaction mode and effective prompt variant."""
+    from akos.madeira_interaction import prompt_variant_for_madeira_mode
+    from akos.state import load_state
+
+    oc_home = resolve_openclaw_home()
+    st = load_state(oc_home)
+    eff = prompt_variant_for_madeira_mode(st.madeiraInteractionMode)
+    gvar = st.activeVariant or "compact"
+    return {
+        "madeiraInteractionMode": st.madeiraInteractionMode,
+        "madeiraPromptVariant": eff,
+        "globalPromptVariant": gvar,
+        "planOverlayActive": st.madeiraInteractionMode == "plan_draft",
+    }
+
+
+@app.post(
+    "/agents/madeira/interaction-mode",
+    dependencies=[Depends(_check_api_key)],
+    tags=["Madeira"],
+)
+async def set_madeira_interaction_mode(req: MadeiraInteractionModeBody) -> dict[str, Any]:
+    """Persist Madeira mode and optionally redeploy all SOUL.md files."""
+    from akos.madeira_interaction import redeploy_all_souls_with_madeira_mode
+    from akos.state import load_state, set_madeira_interaction_mode
+
+    oc_home = resolve_openclaw_home()
+    set_madeira_interaction_mode(oc_home, req.mode)
+    redeployed = False
+    if req.redeploy:
+        st = load_state(oc_home)
+        gvar = st.activeVariant or "compact"
+        assembled = REPO_ROOT / "prompts" / "assembled"
+        redeploy_all_souls_with_madeira_mode(
+            oc_home, global_variant=gvar, mode=req.mode, assembled_dir=assembled
+        )
+        redeployed = True
+    st2 = load_state(oc_home)
+    return {
+        "madeiraInteractionMode": st2.madeiraInteractionMode,
+        "redeployed": redeployed,
+    }
+
+
+@app.get(
+    "/madeira/control",
+    response_class=HTMLResponse,
+    tags=["Madeira"],
+    dependencies=[Depends(_check_api_key)],
+)
+async def madeira_control_page():
+    """Operator page: mode picker + handoff JSON example (Bearer auth when AKOS_API_KEY is set)."""
+    return HTMLResponse(content=_madeira_control_html())
 
 
 # ── Request Routing ────────────────────────────────────────────────────

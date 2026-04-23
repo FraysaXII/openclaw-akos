@@ -1,6 +1,8 @@
 {
   "suite_id": "pathc-research-spine",
   "version": "1",
+  "schema_version": "1.0",
+  "last_reviewed": "2026-04-21",
   "description": "Path C research spine rubrics (HLK ladder, graph skip, escalation, no fake URLs)",
   "dimension_coverage": ["T1", "T2", "D2", "S2"]
 }

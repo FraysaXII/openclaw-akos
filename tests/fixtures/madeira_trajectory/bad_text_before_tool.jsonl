@@ -1,0 +1,2 @@
+{"type":"message","id":"u1","parentId":"root","message":{"role":"user","content":[{"type":"text","text":"Who is the CTO?"}]}}
+{"type":"message","id":"a1","parentId":"u1","message":{"role":"assistant","provider":"ollama","model":"stub","content":[{"type":"text","text":"I will look that up."},{"type":"toolCall","name":"hlk_role","arguments":{"role_name":"CTO"}}]}}

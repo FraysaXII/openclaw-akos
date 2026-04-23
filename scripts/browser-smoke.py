@@ -18,8 +18,10 @@ to the gateway and control plane (cold ``serve-api`` with Langfuse/RunPod init c
 
 **Scenario 0 registry slice (HTTP):** after graph explorer checks, runs golden assertions on
 ``GET /hlk/roles/CTO``, ``GET /hlk/areas/Research``, ``GET /hlk/processes/KiRBe%20Platform/tree``,
-and ``GET /routing/classify`` — aligned to ``docs/uat/hlk_admin_smoke.md`` steps 4–7 *registry
-parity* (not a substitute for WebChat copy review).
+``GET /routing/classify`` (admin + mixed utterance), ``GET /finance/quote/AAPL``,
+``GET /finance/sentiment?tickers=MSFT``, ``GET /agents/madeira/interaction-mode``, and
+``GET /madeira/control`` — aligned to ``docs/uat/hlk_admin_smoke.md`` and
+``docs/uat/madeira_use_case_matrix.md`` for *HTTP-observable* parity (not WebChat copy review).
 
 Playwright Phase 2 (architect / executor) asserts on **FastAPI** ``/agents`` (same SSOT as
 Phase 1 ``agent_visibility``), not OpenClaw gateway UI strings at ``:18789``.
@@ -250,6 +252,115 @@ def evaluate_scenario0_admin_escalation_payload(data: object) -> dict[str, str]:
     return {"scenario": "scenario0_admin_escalation", "status": "PASS", "detail": "admin_escalate + must_escalate true"}
 
 
+def evaluate_scenario0_finance_quote_payload(data: object) -> dict[str, str]:
+    """UC M-FIN-01: quote envelope is HTTP-stable (ok or degraded)."""
+    if not isinstance(data, dict):
+        return {"scenario": "scenario0_finance_quote", "status": "FAIL", "detail": "response is not a JSON object"}
+    st = str(data.get("status", "")).strip().lower()
+    if st not in ("ok", "degraded"):
+        return {"scenario": "scenario0_finance_quote", "status": "FAIL", "detail": f"unexpected finance status={data.get('status')!r}"}
+    return {"scenario": "scenario0_finance_quote", "status": "PASS", "detail": "finance quote envelope ok|degraded"}
+
+
+def evaluate_scenario0_finance_sentiment_payload(data: object) -> dict[str, str]:
+    """UC M-FIN-02: sentiment envelope (may be degraded without ALPHA_VANTAGE_KEY)."""
+    if not isinstance(data, dict):
+        return {"scenario": "scenario0_finance_sentiment", "status": "FAIL", "detail": "response is not a JSON object"}
+    st = str(data.get("status", "")).strip().lower()
+    if st not in ("ok", "degraded"):
+        return {"scenario": "scenario0_finance_sentiment", "status": "FAIL", "detail": f"unexpected finance status={data.get('status')!r}"}
+    return {"scenario": "scenario0_finance_sentiment", "status": "PASS", "detail": "finance sentiment envelope ok|degraded"}
+
+
+def evaluate_scenario0_routing_mixed_payload(data: object) -> dict[str, str]:
+    """UC M-RT-03: admin verb + HLK lookup in one utterance — escalation regex must win."""
+    if not isinstance(data, dict):
+        return {"scenario": "scenario0_routing_mixed", "status": "FAIL", "detail": "response is not a JSON object"}
+    route = str(data.get("route", ""))
+    if route != "admin_escalate":
+        return {
+            "scenario": "scenario0_routing_mixed",
+            "status": "FAIL",
+            "detail": f"route={route!r} expected admin_escalate",
+        }
+    if not data.get("must_escalate"):
+        return {"scenario": "scenario0_routing_mixed", "status": "FAIL", "detail": "must_escalate must be true"}
+    return {"scenario": "scenario0_routing_mixed", "status": "PASS", "detail": "mixed utterance escalates admin"}
+
+
+def evaluate_scenario0_madeira_mode_payload(data: object) -> dict[str, str]:
+    """UC M-CTL-01: interaction mode endpoint returns stable JSON."""
+    if not isinstance(data, dict):
+        return {"scenario": "scenario0_madeira_mode", "status": "FAIL", "detail": "response is not a JSON object"}
+    if "madeiraInteractionMode" not in data:
+        return {"scenario": "scenario0_madeira_mode", "status": "FAIL", "detail": "missing madeiraInteractionMode"}
+    mode = str(data.get("madeiraInteractionMode", ""))
+    if mode not in ("ask", "plan_draft"):
+        return {"scenario": "scenario0_madeira_mode", "status": "FAIL", "detail": f"invalid mode={mode!r}"}
+    return {"scenario": "scenario0_madeira_mode", "status": "PASS", "detail": f"mode={mode}"}
+
+
+def evaluate_scenario0_madeira_control_html(html: str) -> dict[str, str]:
+    """UC M-PLAN-01 (HTTP slice): control page exposes plan draft semantics."""
+    text = html or ""
+    if "madeira" not in text.lower():
+        return {"scenario": "scenario0_madeira_control", "status": "FAIL", "detail": "expected Madeira control markup"}
+    if "plan_draft" not in text and "Plan draft" not in text:
+        return {"scenario": "scenario0_madeira_control", "status": "FAIL", "detail": "missing plan draft mode hint"}
+    return {"scenario": "scenario0_madeira_control", "status": "PASS", "detail": "madeira control page ok"}
+
+
+def _check_scenario0_finance_quote_http() -> dict[str, str]:
+    try:
+        req = urllib.request.Request(f"{API_URL}/finance/quote/AAPL", method="GET")
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
+            return evaluate_scenario0_finance_quote_payload(json.loads(resp.read().decode()))
+    except Exception as e:
+        return {"scenario": "scenario0_finance_quote", "status": "FAIL", "detail": str(e)}
+
+
+def _check_scenario0_finance_sentiment_http() -> dict[str, str]:
+    try:
+        q = urllib.parse.urlencode({"tickers": "MSFT"})
+        req = urllib.request.Request(f"{API_URL}/finance/sentiment?{q}", method="GET")
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
+            return evaluate_scenario0_finance_sentiment_payload(json.loads(resp.read().decode()))
+    except Exception as e:
+        return {"scenario": "scenario0_finance_sentiment", "status": "FAIL", "detail": str(e)}
+
+
+def _check_scenario0_routing_mixed_http() -> dict[str, str]:
+    try:
+        mixed = "Restructure the Finance area. Who is the CTO?"
+        q = urllib.parse.urlencode({"q": mixed})
+        req = urllib.request.Request(f"{API_URL}/routing/classify?{q}", method="GET")
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
+            return evaluate_scenario0_routing_mixed_payload(json.loads(resp.read().decode()))
+    except Exception as e:
+        return {"scenario": "scenario0_routing_mixed", "status": "FAIL", "detail": str(e)}
+
+
+def _check_scenario0_madeira_mode_http() -> dict[str, str]:
+    try:
+        req = urllib.request.Request(f"{API_URL}/agents/madeira/interaction-mode", method="GET")
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
+            return evaluate_scenario0_madeira_mode_payload(json.loads(resp.read().decode()))
+    except Exception as e:
+        return {"scenario": "scenario0_madeira_mode", "status": "FAIL", "detail": str(e)}
+
+
+def _check_scenario0_madeira_control_http() -> dict[str, str]:
+    try:
+        req = urllib.request.Request(f"{API_URL}/madeira/control", method="GET")
+        with urllib.request.urlopen(req, timeout=HTTP_TIMEOUT) as resp:
+            if resp.status != 200:
+                return {"scenario": "scenario0_madeira_control", "status": "FAIL", "detail": f"HTTP {resp.status}"}
+            body = resp.read().decode(errors="replace")
+            return evaluate_scenario0_madeira_control_html(body)
+    except Exception as e:
+        return {"scenario": "scenario0_madeira_control", "status": "FAIL", "detail": str(e)}
+
+
 def _check_scenario0_hlk_cto_http() -> dict[str, str]:
     try:
         req = urllib.request.Request(f"{API_URL}/hlk/roles/CTO", method="GET")
@@ -296,6 +407,11 @@ def run_scenario0_registry_http_checks() -> list[dict[str, str]]:
         _check_scenario0_hlk_research_area_http(),
         _check_scenario0_hlk_kirbe_children_http(),
         _check_scenario0_admin_escalation_http(),
+        _check_scenario0_finance_quote_http(),
+        _check_scenario0_finance_sentiment_http(),
+        _check_scenario0_routing_mixed_http(),
+        _check_scenario0_madeira_mode_http(),
+        _check_scenario0_madeira_control_http(),
     ]
 
 
@@ -554,6 +670,11 @@ PHASE1_SCENARIOS = [
     "scenario0_hlk_research_area",
     "scenario0_hlk_kirbe_children",
     "scenario0_admin_escalation",
+    "scenario0_finance_quote",
+    "scenario0_finance_sentiment",
+    "scenario0_routing_mixed",
+    "scenario0_madeira_mode",
+    "scenario0_madeira_control",
 ]
 PHASE2_SCENARIOS = ["architect_tools_ui", "executor_approval_hint"]
 PHASE3_SCENARIOS = ["workflow_launch"]

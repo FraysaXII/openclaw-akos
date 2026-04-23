@@ -2,6 +2,10 @@
 
 from unittest.mock import patch
 
+import pytest
+
+pytestmark = pytest.mark.intent
+
 from akos.intent import classify_request, _classify_regex
 
 

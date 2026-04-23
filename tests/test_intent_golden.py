@@ -14,6 +14,8 @@ from unittest.mock import patch
 
 import pytest
 
+pytestmark = pytest.mark.intent
+
 from akos.intent import _classify_regex, classify_request
 
 _FIXTURE = Path(__file__).resolve().parent / "fixtures" / "intent_golden.json"

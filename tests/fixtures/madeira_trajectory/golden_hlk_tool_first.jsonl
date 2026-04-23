@@ -1,0 +1,3 @@
+{"type":"message","id":"u1","parentId":"root","message":{"role":"user","content":[{"type":"text","text":"Who is the CTO?"}]}}
+{"type":"message","id":"a1","parentId":"u1","message":{"role":"assistant","content":[{"type":"toolCall","name":"hlk_role","arguments":{"role_name":"CTO"}}]}}
+{"type":"message","id":"a2","parentId":"a1","message":{"role":"assistant","provider":"ollama","model":"stub","content":[{"type":"text","text":"CTO role from baseline_organisation.csv."}]}}

@@ -94,3 +94,33 @@ def test_evaluate_admin_escalation_pass(browser_smoke_mod):
         {"route": "admin_escalate", "must_escalate": True}
     )
     assert r["status"] == "PASS"
+
+
+def test_evaluate_finance_quote_ok(browser_smoke_mod):
+    r = browser_smoke_mod.evaluate_scenario0_finance_quote_payload({"status": "ok"})
+    assert r["status"] == "PASS"
+
+
+def test_evaluate_finance_quote_bad_status(browser_smoke_mod):
+    r = browser_smoke_mod.evaluate_scenario0_finance_quote_payload({"status": "error"})
+    assert r["status"] == "FAIL"
+
+
+def test_evaluate_routing_mixed_pass(browser_smoke_mod):
+    r = browser_smoke_mod.evaluate_scenario0_routing_mixed_payload(
+        {"route": "admin_escalate", "must_escalate": True}
+    )
+    assert r["status"] == "PASS"
+
+
+def test_evaluate_madeira_mode_pass(browser_smoke_mod):
+    r = browser_smoke_mod.evaluate_scenario0_madeira_mode_payload(
+        {"madeiraInteractionMode": "ask", "madeiraPromptVariant": "compact"}
+    )
+    assert r["status"] == "PASS"
+
+
+def test_evaluate_madeira_control_html_pass(browser_smoke_mod):
+    html = "<html><body><h1>Madeira</h1><p>Plan draft mode</p></body></html>"
+    r = browser_smoke_mod.evaluate_scenario0_madeira_control_html(html)
+    assert r["status"] == "PASS"

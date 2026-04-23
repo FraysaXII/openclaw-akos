@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Madeira interaction mode — AKOS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { font-family: system-ui, sans-serif; line-height: 1.45; max-width: 52rem; margin: 1.5rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.25rem; }
+    code, pre { background: #f4f4f5; padding: 0.2em 0.4em; border-radius: 4px; font-size: 0.9em; }
+    pre { padding: 1rem; overflow: auto; }
+    .row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
+    button { padding: 0.45rem 0.9rem; cursor: pointer; border-radius: 6px; border: 1px solid #ccc; background: #fff; }
+    button.primary { background: #111; color: #fff; border-color: #111; }
+    .status { margin: 1rem 0; padding: 0.75rem; background: #f9fafb; border-radius: 6px; }
+    .err { color: #b91c1c; }
+    a { color: #2563eb; }
+  </style>
+</head>
+<body>
+  <h1>Madeira — Ask / Plan draft</h1>
+  <p>
+    Control plane for <code>madeiraInteractionMode</code>. Open WebChat at
+    <code>http://127.0.0.1:18789/chat?session=agent:madeira:main</code> after applying a mode.
+    Mutations still use the <strong>Orchestrator</strong> swarm (Run path).
+  </p>
+
+  <div class="row">
+    <button type="button" class="primary" id="btn-ask">Set Ask (compact)</button>
+    <button type="button" class="primary" id="btn-plan">Set Plan draft (standard + overlay)</button>
+    <button type="button" id="btn-refresh">Refresh status</button>
+  </div>
+
+  <div class="status" id="status">Loading…</div>
+
+  <h2>Handoff JSON schema</h2>
+  <p>Repo path: <code>config/schemas/madeira-plan-handoff.schema.json</code></p>
+
+  <h3>Example handoff (copy)</h3>
+  <pre id="handoff-example">{
+  "schema_version": "1.0",
+  "non_canonical": true,
+  "goal": "Example goal line",
+  "assumptions": ["Assumption one"],
+  "citations": [{ "asset": "process_list.csv", "note": "Example row ref" }],
+  "verification_matrix_ref": "docs/DEVELOPER_CHECKLIST.md",
+  "suggested_swarm": "Orchestrator → Architect → Executor → Verifier",
+  "risks": ["Example risk"],
+  "phases_mermaid": "flowchart LR\\n  p0[Phase0] --> p1[Phase1]"
+}</pre>
+  <div class="row">
+    <button type="button" id="btn-copy">Copy example JSON</button>
+  </div>
+
+  <script>
+    const statusEl = document.getElementById("status");
+    const api = "";
+
+    async function refresh() {
+      statusEl.textContent = "Loading…";
+      try {
+        const r = await fetch(api + "/agents/madeira/interaction-mode");
+        const j = await r.json();
+        if (!r.ok) throw new Error(j.detail || r.statusText);
+        statusEl.innerHTML =
+          "<strong>madeiraInteractionMode:</strong> " + j.madeiraInteractionMode +
+          "<br/><strong>madeiraPromptVariant:</strong> " + j.madeiraPromptVariant +
+          "<br/><strong>globalPromptVariant:</strong> " + j.globalPromptVariant +
+          "<br/><strong>planOverlayActive:</strong> " + j.planOverlayActive;
+      } catch (e) {
+        statusEl.innerHTML = '<span class="err">Error: ' + e.message + "</span>";
+      }
+    }
+
+    async function setMode(mode) {
+      statusEl.textContent = "Applying…";
+      try {
+        const r = await fetch(api + "/agents/madeira/interaction-mode", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode, redeploy: true }),
+        });
+        const j = await r.json();
+        if (!r.ok) throw new Error(j.detail || r.statusText);
+        statusEl.innerHTML =
+          "Updated. <strong>madeiraInteractionMode:</strong> " + j.madeiraInteractionMode +
+          (j.redeployed ? "<br/>SOUL prompts redeployed." : "");
+      } catch (e) {
+        statusEl.innerHTML = '<span class="err">Error: ' + e.message + "</span>";
+      }
+    }
+
+    document.getElementById("btn-ask").onclick = () => setMode("ask");
+    document.getElementById("btn-plan").onclick = () => setMode("plan_draft");
+    document.getElementById("btn-refresh").onclick = refresh;
+    document.getElementById("btn-copy").onclick = async () => {
+      const t = document.getElementById("handoff-example").textContent;
+      await navigator.clipboard.writeText(t);
+      alert("Copied");
+    };
+    refresh();
+  </script>
+</body>
+</html>

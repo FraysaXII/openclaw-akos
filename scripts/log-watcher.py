@@ -182,6 +182,7 @@ def _build_answer_quality_record(interaction: dict, assistant_message: dict) -> 
     content = assistant_message.get("content", [])
     assistant_text = _extract_text_content(content if isinstance(content, list) else [])
     tool_calls = [str(name) for name in interaction.get("tool_calls", [])]
+    madeira_mode = str(interaction.get("madeira_interaction_mode", "") or "")
     route_kind = _classify_route_kind(str(interaction.get("user_text", "")), tool_calls)
     scan_slice = _assistant_scan_slice(assistant_text)
     citation_match = _CANONICAL_ASSET_RE.search(assistant_text)
@@ -236,10 +237,18 @@ def _build_answer_quality_record(interaction: dict, assistant_message: dict) -> 
     if route_kind == "non_tool_answer":
         residual_flags.append("non_tool_answer")
 
+    read_file_hits = sum(1 for name in tool_calls if name == "read_file")
+    if read_file_hits >= 3:
+        residual_flags.append("read_file_repeated")
+
+    if madeira_mode == "plan_draft" and "non-canonical" not in assistant_text.lower():
+        residual_flags.append("plan_draft_missing_non_canonical_banner")
+
     quality_score = 1.0 if not residual_flags else 0.4
     return {
         "agent_role": interaction.get("agent_role", "unknown"),
         "session_id": interaction.get("session_id", ""),
+        "madeira_interaction_mode": madeira_mode,
         "user_text": interaction.get("user_text", ""),
         "assistant_text": assistant_text,
         "tool_calls": tool_calls,
@@ -305,6 +314,8 @@ def _process_session_event(
     dry_run: bool,
     session_id: str,
     alert_evaluator: AlertEvaluator | None = None,
+    *,
+    madeira_interaction_mode: str = "ask",
 ) -> None:
     """Process one session json event and emit answer-quality telemetry when complete."""
     if event.get("type") != "message":
@@ -322,6 +333,7 @@ def _process_session_event(
         interaction_state[interaction_key] = {
             "session_id": session_id,
             "agent_role": "madeira",
+            "madeira_interaction_mode": madeira_interaction_mode,
             "user_text": _extract_text_content(content if isinstance(content, list) else []),
             "tool_calls": [],
             "tool_results": [],
@@ -382,6 +394,13 @@ def _scan_madeira_sessions(
     if not sessions_dir.is_dir():
         return
 
+    try:
+        from akos.state import load_state
+
+        default_madeira_mode = load_state(oc_home).madeiraInteractionMode
+    except Exception:
+        default_madeira_mode = "ask"
+
     for session_file in sorted(sessions_dir.glob("*.jsonl")):
         last_offset = offsets.get(session_file, 0)
         session_map = session_key_maps.setdefault(session_file, {})
@@ -400,6 +419,7 @@ def _scan_madeira_sessions(
                     dry_run,
                     session_file.stem,
                     alert_evaluator,
+                    madeira_interaction_mode=default_madeira_mode,
                 )
             offsets[session_file] = f.tell()
 

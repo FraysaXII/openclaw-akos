@@ -157,6 +157,45 @@ def test_scan_madeira_sessions_writes_local_mirror(tmp_path: Path):
     reporter.trace_answer_quality.assert_called_once()
 
 
+def test_build_answer_quality_record_flags_read_file_repeated():
+    mod = _load_log_watcher_module()
+    interaction = {
+        "session_id": "session-rf",
+        "agent_role": "madeira",
+        "user_text": "Read these files",
+        "tool_calls": ["read_file", "read_file", "read_file"],
+        "tool_results": [],
+        "post_compaction": False,
+    }
+    message = {
+        "provider": "ollama",
+        "model": "qwen3:8b",
+        "content": [{"type": "text", "text": "Summarised from files. baseline_organisation.csv"}],
+    }
+    record = mod._build_answer_quality_record(interaction, message)
+    assert "read_file_repeated" in record["residual_flags"]
+
+
+def test_build_answer_quality_record_plan_draft_missing_banner():
+    mod = _load_log_watcher_module()
+    interaction = {
+        "session_id": "session-pd",
+        "agent_role": "madeira",
+        "user_text": "Plan the rollout",
+        "tool_calls": [],
+        "tool_results": [],
+        "post_compaction": False,
+        "madeira_interaction_mode": "plan_draft",
+    }
+    message = {
+        "provider": "ollama",
+        "model": "qwen3:8b",
+        "content": [{"type": "text", "text": "Here is a phased plan without the required disclaimer."}],
+    }
+    record = mod._build_answer_quality_record(interaction, message)
+    assert "plan_draft_missing_non_canonical_banner" in record["residual_flags"]
+
+
 def test_scan_madeira_sessions_emits_grounding_alert(tmp_path: Path):
     mod = _load_log_watcher_module()
     sessions_dir = tmp_path / ".openclaw" / "agents" / "madeira" / "sessions"

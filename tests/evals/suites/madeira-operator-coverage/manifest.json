@@ -1,0 +1,8 @@
+{
+  "suite_id": "madeira-operator-coverage",
+  "version": "1",
+  "schema_version": "1.0",
+  "last_reviewed": "2026-04-21",
+  "description": "Madeira UC-ID rubric spine: HLK, finance, escalation, plan draft, negatives (offline golden text).",
+  "dimension_coverage": ["T1", "T2", "D2", "S2", "M2"]
+}

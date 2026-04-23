@@ -298,6 +298,13 @@ def main() -> None:
 
         # Step 3: Deploy assembled SOUL.md variants
         deploy_soul_prompts(ASSEMBLED_DIR, variant, oc_home)
+        from akos.madeira_interaction import apply_madeira_interaction_to_soul
+        from akos.state import load_state
+
+        st_m = load_state(oc_home)
+        apply_madeira_interaction_to_soul(
+            oc_home, mode=st_m.madeiraInteractionMode, assembled_dir=ASSEMBLED_DIR
+        )
 
         # Step 4: Restart gateway
         if not args.no_restart:
