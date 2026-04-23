@@ -46,7 +46,12 @@ Do not add submodules bulk-style without CTO / Tech Lead approval.
 
 ---
 
+## API metadata columns
+
+Registry rows may include **`api_spec_pointer`** and **`api_topic_id`** (see [REPOSITORIES_REGISTRY.md](REPOSITORIES_REGISTRY.md)). **Per-component** API fields (exposure, dependencies, runbooks) live in **[COMPONENT_SERVICE_MATRIX.csv](../../../compliance/COMPONENT_SERVICE_MATRIX.csv)** joined on **`repo_slug`**. API lifecycle procedures: [SOP-HLK_API_LIFECYCLE_MANAGEMENT_001.md](../../Admin/O5-1/Tech/System%20Owner/SOP-HLK_API_LIFECYCLE_MANAGEMENT_001.md).
+
 ## Related
 
 - **Think Big** — commercial / engagement artifacts that are *not* repository roots: [../../Think Big/README.md](../../Think%20Big/README.md)
 - **Topic bundles** — link registry rows from topic indexes; see [TOPIC_KNOWLEDGE_INDEX_TEMPLATE.md](../../Admin/O5-1/People/Compliance/TOPIC_KNOWLEDGE_INDEX_TEMPLATE.md)
+- **Component matrix (CTO SSOT)** — [COMPONENT_SERVICE_MATRIX.csv](../../../compliance/COMPONENT_SERVICE_MATRIX.csv)

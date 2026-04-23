@@ -4,6 +4,19 @@
 **Authoritative expanded spec:** Full Cursor plan + YAML todos — [`reference/internal_gtm_marketing_ops_574ae9de.plan.md`](reference/internal_gtm_marketing_ops_574ae9de.plan.md) (git); local copy may live under `%USERPROFILE%\.cursor\plans\` — re-copy to `reference/` when § Phased execution changes ([`reference/README.md`](reference/README.md)).  
 **Governance:** [PRECEDENCE.md](../../../references/hlk/compliance/PRECEDENCE.md), [SOP-META_PROCESS_MGMT_001.md](../../../references/hlk/compliance/SOP-META_PROCESS_MGMT_001.md), [`.cursor/rules/akos-governance-remediation.mdc`](../../../../.cursor/rules/akos-governance-remediation.mdc).
 
+## Supabase DB governance (2026-04-21) — execution alignment
+
+**Authoritative Cursor plan (out of repo):** `%USERPROFILE%\.cursor\plans\supabase_db_governance_ssot_a48da8e6.plan.md` — do not edit from automation; git carries the **implementation** below.
+
+| Phase (plan backlog) | Deliverable |
+|:---------------------|:------------|
+| 1–2 | [`supabase/migrations/`](../../../supabase/migrations/) + [`supabase/README.md`](../../../supabase/README.md); parity map in [`supabase/migrations/README.md`](../../../supabase/migrations/README.md) |
+| 3 | Ledger parity: `supabase link` + `migration list`; if drift, prove SQL equivalence then **rename** git `supabase/migrations/<version>_*.sql` to remote prefixes (or `migration repair` per gate) |
+| 4 | [`operator-sql-gate.md`](reports/operator-sql-gate.md) — `migration list` before `db push`, break-glass + pull/repair |
+| 5 | Profile **`compliance_mirror_emit`** in [`config/verification-profiles.json`](../../../config/verification-profiles.json) |
+| 6 | [`docs/ARCHITECTURE.md`](../../../ARCHITECTURE.md), [`docs/DEVELOPER_CHECKLIST.md`](../../../DEVELOPER_CHECKLIST.md), [`docs/reference/DEV_VERIFICATION_REFERENCE.md`](../../../reference/DEV_VERIFICATION_REFERENCE.md), [`docs/guides/understanding_verification.md`](../../../guides/understanding_verification.md) |
+| 7 | This initiative **decision-log** rows **D-GTM-DB-1…5**; Initiative 16 **D-16-7** |
+
 ## Initiative 14 — status snapshot (2026-04-18)
 
 **Unified plan implementation (strategic narrative + Next.js attribution + Wave E scaffolding)**

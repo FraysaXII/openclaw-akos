@@ -2,6 +2,8 @@
 
 Thank you for your interest in contributing. This document provides guidelines to ensure a smooth collaboration process.
 
+**New here?** See the [documentation map](docs/README.md) and the [first-time contributor guide](docs/guides/first_time_contributor.md) (tutorial-style path); then this file and [DEVELOPER_CHECKLIST](docs/DEVELOPER_CHECKLIST.md) for every-commit expectations.
+
 ## How to Contribute
 
 ### Reporting Issues
@@ -117,7 +119,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - Finance service changes must have tests in `tests/test_finance.py` (normalization, caching, missing API key degradation, error states).
 - HLK domain changes must have tests in `tests/test_hlk.py` (model parsing, registry lookups, chain traversal, gap detection, API endpoints).
 - `scripts/browser-smoke.py` Scenario 0 evaluators must stay covered by `tests/test_browser_smoke_scenario0_evaluators.py` when golden expectations change.
-- Intent routing / `config/intent-exemplars.json`: run `py -m pytest tests/test_intent.py tests/test_intent_golden.py -v`; optional before/after table via `py scripts/intent_benchmark.py` (requires repo root on `PYTHONPATH`; uses live Ollama embeddings when available).
+- Intent routing / `config/intent-exemplars.json`: run `py scripts/test.py intent` (or `py -m pytest -m intent`); optional before/after table via `py scripts/intent_benchmark.py` (requires repo root on `PYTHONPATH`; uses live Ollama embeddings when available).
 - OpenStack provider request-shape changes must have tests in `tests/test_openstack_provider.py`.
 - New agent prompts/overlays must be covered by `tests/test_e2e_pipeline.py`.
 - Role capability changes must update `config/agent-capabilities.json` and be tested via `/agents/{id}/policy` endpoint. Bootstrap derives each agent's runtime `tools.profile` from the capability matrix, while `config/openclaw.json.example` remains the SSOT for curated gateway `alsoAllow` / `deny`, session, and browser semantics. Keep those layers aligned; do not treat the gateway template as disposable generated output.
@@ -130,18 +132,15 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - New test groups added in v0.4.0: `drift` (runtime drift detection), `live` (opt-in live provider smoke tests requiring `AKOS_LIVE_SMOKE=1`)
 - New test groups added in RunPod+Langfuse overhaul: `telemetry` (Langfuse reporter lifecycle, trace taxonomy, env normalization), `router` (FailoverRouter threshold, recovery, multi-provider)
 - New test group added in HLK Phase 2: `hlk` (HLK domain models, registry service, API endpoints)
+- `madeira` and `intent` groups: `py scripts/test.py madeira` / `py scripts/test.py intent` (`@pytest.mark.madeira` / `intent`)
 - Graph lane: `graph` (`pytest -m graph` via `py scripts/test.py graph`); live Bolt tests use `@pytest.mark.neo4j` (`python -m pytest -m "graph and neo4j"` when `NEO4J_*` is set)
 - Live smoke tests use `@pytest.mark.live` and are skipped by default
-- Before releases, run the full verification matrix and release gate:
-  - `py scripts/legacy/verify_openclaw_inventory.py`
-  - `py scripts/check-drift.py`
-  - `py scripts/test.py all`
-  - `py scripts/browser-smoke.py --playwright`
-  - `py -m pytest tests/test_api.py -v`
-  - `py scripts/release-gate.py`
+- Default pre-commit chain (orchestrated from [config/verification-profiles.json](config/verification-profiles.json)): `py scripts/verify.py pre_commit` (see `py scripts/verify.py --list`). **Holistika compliance mirror SQL emit (not part of pre-commit):** `py scripts/verify.py compliance_mirror_emit` after HLK gates when CSVs change. For releases, also run the full `release-gate` (below).
+- Before releases, run the full verification matrix and release gate (equivalent to `pre_commit` profile plus final checks):
+  - `py scripts/verify.py pre_commit` **or** the same steps listed in `config/verification-profiles.json` / [docs/DEVELOPER_CHECKLIST.md](docs/DEVELOPER_CHECKLIST.md)
 - HLK KM visual manifests: when editing `docs/references/hlk/v3.0/_assets/**/*.manifest.md`, run `py scripts/validate_hlk_km_manifests.py`.
 - Browser smoke tests: `py scripts/browser-smoke.py` (HTTP-only) or `py scripts/browser-smoke.py --playwright` (DOM mode; requires `pip install playwright && playwright install chromium`). On Windows crash-prone hosts, Playwright worker crashes are surfaced as `SKIP` outcomes. **`release-gate.py` browser-smoke exit 1** with failures in `architect_tools_ui` / `executor_approval_hint` usually means **control plane `/agents` or Playwright env drift**, not a regression in the graph stack—Phase 2 asserts against the same **FastAPI** `/agents` SSOT as `agent_visibility` (not OpenClaw gateway card copy). Exit **2** (no parseable JSON from workers) is treated as a soft pass in `release-gate.py`.
-- Agent evals: `py scripts/run-evals.py list` and `py scripts/run-evals.py run --suite pathc-research-spine --mode rubric` (suite manifests under `tests/evals/suites/<id>/`; legacy `tests/evals/tasks.json` remains for optional smoke).
+- Agent evals: `py scripts/run-evals.py list` — list includes governance rubric suite ids from the verification config. **Governance rubric (all offline suites, same as `AKOS_EVAL_RUBRIC=1` in release gate):** `py scripts/run-evals.py run --governance-rubric`. **Single suite:** `py scripts/run-evals.py run --suite <suite_id> --mode rubric` (suites under `tests/evals/suites/<id>/`; legacy `tests/evals/tasks.json` for optional smoke). Optional Executor oracle: `AKOS_EXECUTOR_HARNESS=1` and `py scripts/verify.py optional_executor_harness` (or `py -m pytest tests/test_executor_harness_optional.py -m executor_harness`).
 - Optional release gate slice: set `AKOS_EVAL_RUBRIC=1` when running `py scripts/release-gate.py` to include the offline rubric pass.
 - **Path B on Windows:** Install **Docker Desktop 4.58+** (sandboxes) and/or **WSL2** for a Linux gateway; ensure Docker **File Sharing** includes `~/.openclaw` and your repo root. `py scripts/doctor.py` emits non-fatal Docker/WSL hints on Windows.
 - Checkpoint management: `py scripts/checkpoint.py create|list|restore`
@@ -156,13 +155,9 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 Before every commit that touches features or tooling, run:
 
 ```
-[ ] py scripts/legacy/verify_openclaw_inventory.py # Strict full inventory contract passes
-[ ] py scripts/check-drift.py                      # No drift (repo vs runtime)
-[ ] py scripts/test.py all                         # Full regression suite passes
-[ ] py scripts/browser-smoke.py --playwright       # Browser smoke (SKIP allowed on Windows crash-prone hosts)
-[ ] py -m pytest tests/test_api.py -v              # FastAPI control plane smoke
-[ ] py scripts/release-gate.py                     # Unified release gate PASS
-[ ] py scripts/validate_hlk_km_manifests.py        # If HLK v3.0/_assets manifests changed
+[ ] py scripts/verify.py pre_commit                # One entry: full chain from config/verification-profiles.json
+# Or `--dry-run` to print steps; for targeted work use `py scripts/test.py <group>` and see docs/DEVELOPER_CHECKLIST.md
+[ ] py scripts/validate_hlk_km_manifests.py     # If HLK v3.0/_assets manifests changed
 ```
 
 Update documentation as needed:

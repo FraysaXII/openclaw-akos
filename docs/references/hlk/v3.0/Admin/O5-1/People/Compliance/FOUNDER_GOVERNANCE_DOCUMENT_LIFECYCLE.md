@@ -1,8 +1,8 @@
 # Founder Governance Document Lifecycle
 
 **Document owner**: Compliance  
-**Version**: 1.0  
-**Date**: 2026-04-08  
+**Version**: 1.1  
+**Date**: 2026-04-23  
 **Status**: Final
 
 ---
@@ -96,6 +96,14 @@ The founder-governance lower layer scales properly when the same progression hap
 
 This keeps the lower layer modular. New founder cases can reuse the SOP and registry layer while generating fresh case docs without destabilizing the canon.
 
+## Post-filing review
+
+When a **filed or signed** instrument changes (corporate purpose, capital, bylaws, shareholder arrangements, IP assignments, or equivalent), **Legal** must:
+
+1. Update [FOUNDER_FILED_INSTRUMENT_REGISTER.md](../Legal/FOUNDER_FILED_INSTRUMENT_REGISTER.md) with status, dates, and storage location.
+2. Reconcile affected **case memos** and [FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md](../Legal/FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md) so vault narrative does not silently contradict registral or executed facts.
+3. Use [EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md](../Legal/EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md) to confirm the binding ladder still matches what is shared with advisers.
+
 ## Maintenance Triggers
 
 Review this lifecycle note when:
@@ -107,6 +115,7 @@ Review this lifecycle note when:
 
 ## Linked Documents
 
+- Filed instrument register: [../Legal/FOUNDER_FILED_INSTRUMENT_REGISTER.md](../Legal/FOUNDER_FILED_INSTRUMENT_REGISTER.md)
 - Knowledge index: [../Legal/FOUNDER_INCORPORATION_KNOWLEDGE_INDEX.md](../Legal/FOUNDER_INCORPORATION_KNOWLEDGE_INDEX.md)
 - Working synthesis: [../../../../../../../wip/planning/04-holistika-company-formation/reports/founder-incorporation-report.md](../../../../../../../wip/planning/04-holistika-company-formation/reports/founder-incorporation-report.md)
 - ENISA SOP: [SOP-ENISA_READINESS_001.md](SOP-ENISA_READINESS_001.md)

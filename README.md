@@ -64,6 +64,12 @@ This separation eliminates cognitive overload and adds a quality gate with a 3-r
 
 See [SECURITY.md](SECURITY.md) for the full security policy.
 
+## Documentation
+
+- **[docs/README.md](docs/README.md)** — map by role (contributor, operator, HLK, planning) and where narrative vs reference lives.
+- **[docs/guides/first_time_contributor.md](docs/guides/first_time_contributor.md)** — first-PR style tutorial (bootstrap, dry-run verification, targeted tests).
+- Deep reference remains in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/USER_GUIDE.md](docs/USER_GUIDE.md), and [docs/DEVELOPER_CHECKLIST.md](docs/DEVELOPER_CHECKLIST.md); see the map for a full list.
+
 ## Quick Start
 
 ### Any OS (Cross-Platform Bootstrap)

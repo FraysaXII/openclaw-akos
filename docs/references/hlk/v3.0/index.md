@@ -36,6 +36,7 @@ Use a staged promotion path for founder-governance and other sensitive business 
 Current examples:
 
 - [Founder incorporation knowledge index](Admin/O5-1/People/Legal/FOUNDER_INCORPORATION_KNOWLEDGE_INDEX.md)
+- [External counsel handoff package](Admin/O5-1/People/Legal/EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md)
 - [Founder governance document lifecycle](Admin/O5-1/People/Compliance/FOUNDER_GOVERNANCE_DOCUMENT_LIFECYCLE.md)
 
 ### Finding a document
@@ -56,6 +57,7 @@ Holistika-wide KM is governed by [HLK_KM_TOPIC_FACT_SOURCE.md](../compliance/HLK
 | PMO backlog index (Trello → topic_id; Trello not SSOT) | [RESEARCH_BACKLOG_TRELLO_REGISTRY.md](Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md) |
 | Trello board JSON imports (primary + archive slices) | [imports/README.md](Admin/O5-1/Operations/PMO/imports/README.md) |
 | `process_list.csv` maintenance (columns, parent ids, duplicate names) | [SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md](Admin/O5-1/Operations/PMO/SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md) |
+| FINOPS counterparty register (`FINOPS_COUNTERPARTY_REGISTER.csv`; no amounts in git) | [SOP-HLK_FINOPS_COUNTERPARTY_REGISTER_MAINTENANCE_001.md](Admin/O5-1/Finance/Business%20Controller/SOP-HLK_FINOPS_COUNTERPARTY_REGISTER_MAINTENANCE_001.md) |
 | WIP topic syntheses (interpretation layer) | [docs/wip/hlk-km/](../../../wip/hlk-km/) |
 | Pilot Output 1 bundle (rasters + `*.manifest.md` + stubs) | [_assets/km-pilot/](_assets/km-pilot/) |
 | Workspace roadmap / traceability | [master-roadmap.md](../../../wip/planning/03-hlk-km-knowledge-base/master-roadmap.md) |
@@ -176,7 +178,8 @@ Think Big/
 | Baseline | Location |
 |----------|----------|
 | Organisation roles | [baseline_organisation.csv](../compliance/baseline_organisation.csv) (65 roles, 10 areas) |
-| Process inventory | [process_list.csv](../compliance/process_list.csv) (1,065 items, 11 projects; includes `item_parent_*_id` columns) |
+| Process inventory | [process_list.csv](../compliance/process_list.csv) (items include API lifecycle workstream; includes `item_parent_*_id` columns) |
+| Component / service inventory (CTO SSOT) | [COMPONENT_SERVICE_MATRIX.csv](../compliance/COMPONENT_SERVICE_MATRIX.csv) |
 | Access levels | [access_levels.md](../compliance/access_levels.md) (0-6) |
 | Confidence levels | [confidence_levels.md](../compliance/confidence_levels.md) (Safe, Euclid, Keter) |
 | Source taxonomy | [source_taxonomy.md](../compliance/source_taxonomy.md) (6 categories, 19 levels) |

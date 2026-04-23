@@ -33,7 +33,7 @@ One primary owner (**PMO**); **O5-1 (Chief Business Officer)** is the executive 
 
 | ws_id | scope | accountable domain | Notes |
 |:------|:------|:-------------------|:------|
-| WS-A | Legal constitution (`object social`, deed path) | Legal Counsel | Drives mercantil facts. |
+| WS-A | Legal constitution (`object social`, deed path) | Legal Counsel | Drives mercantil facts. External counsel read order: [EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md](../../People/Legal/EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md). |
 | WS-B | Banking channel and CNAE / IAE alignment | Legal Counsel (+ Finance for KYC posture as needed) | Keep **one** coherent activity story across mercantil registry, banking channel, and later startup narrative. |
 | WS-C | External adviser — startup business plan and certification path | Compliance (+ Legal for consistency with WS-A) | Certification body has final say; plan is collaborative and long-cycle. |
 | WS-D | Founder-to-company funding evidence | Business Controller / Taxes | Must not contradict WS-A/C in filings or packs. |

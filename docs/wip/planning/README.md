@@ -1,6 +1,6 @@
 # Planning initiatives (`docs/wip/planning/`)
 
-Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` … `14-`, plus `99-proposals/`) so sort order and “what came before” are obvious in the filesystem. The table below matches that layout. **Ad-hoc** `.plan.md` files live in `99-proposals/`.
+Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` … `19-`, plus `99-proposals/`) so sort order and “what came before” are obvious in the filesystem. The table below matches that layout. **Ad-hoc** `.plan.md` files live in `99-proposals/`.
 
 | Seq | Folder | Role |
 |:---:|:-------|:-----|
@@ -18,6 +18,11 @@ Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` 
 | **12** | [`madeira-research-request/`](12-madeira-research-request/) | **Handoff:** External research-team request (use cases, tech, frameworks, journeys) — [`research-request-madeira.md`](12-madeira-research-request/research-request-madeira.md). |
 | **13** | [`madeira-research-followthrough/`](13-madeira-research-followthrough/) | **Active:** Implement triage outcomes (intent, escalation copy, docs) — [`master-roadmap.md`](13-madeira-research-followthrough/master-roadmap.md), [`reports/`](13-madeira-research-followthrough/reports/). |
 | **14** | [`holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | **Active:** Holistika internal GTM + marketing ops (HLK-aligned): charter, CSV tranche, v3.0 SOPs, Supabase mirrors, ERP/SOTA docs — [`master-roadmap.md`](14-holistika-internal-gtm-mops/master-roadmap.md), [`reports/`](14-holistika-internal-gtm-mops/reports/). |
+| **15** | [`hlk-api-lifecycle-governance/`](15-hlk-api-lifecycle-governance/) | **Executed (2026-04-20):** API lifecycle `process_list` tranche, `COMPONENT_SERVICE_MATRIX.csv`, vault SOPs, registry API columns — [`master-roadmap.md`](15-hlk-api-lifecycle-governance/master-roadmap.md), [`reports/`](15-hlk-api-lifecycle-governance/reports/). |
+| **16** | [`hlk-finops-vendor-ssot/`](16-hlk-finops-vendor-ssot/) | **Executed (2026-04-20);** vendor-only artifacts **superseded by [18](18-hlk-finops-counterparty-stripe/master-roadmap.md)** — historical folder: [`master-roadmap.md`](16-hlk-finops-vendor-ssot/master-roadmap.md), [`reports/`](16-hlk-finops-vendor-ssot/reports/). |
+| **17** | [`madeira-cursor-mode-parity/`](17-madeira-cursor-mode-parity/) | **Active:** Madeira Ask / Plan draft control plane, handoff schema, swarm consumption overlays, context economics — [`master-roadmap.md`](17-madeira-cursor-mode-parity/master-roadmap.md), [`reports/`](17-madeira-cursor-mode-parity/reports/). |
+| **18** | [`hlk-finops-counterparty-stripe/`](18-hlk-finops-counterparty-stripe/) | **Executed (2026-04-23):** FINOPS counterparty register CSV, mirror cutover, Stripe FDW runbook + `stripe_customer_link` bridge, process tranche `thi_finan_dtp_308`–`309` — [`master-roadmap.md`](18-hlk-finops-counterparty-stripe/master-roadmap.md), [`reports/`](18-hlk-finops-counterparty-stripe/reports/). |
+| **19** | [`hlk-finops-ledger/`](19-hlk-finops-ledger/) | **Phase 1 (2026-04-23):** `finops.registered_fact` ledger skeleton (Phase C schema) — [`master-roadmap.md`](19-hlk-finops-ledger/master-roadmap.md), [`reports/`](19-hlk-finops-ledger/reports/). |
 | **—** | [`99-proposals/`](99-proposals/) | Ad-hoc `.plan.md` comparisons and tooling experiments; **not** part of the numbered program line. |
 
 ## Rules

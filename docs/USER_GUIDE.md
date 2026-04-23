@@ -300,6 +300,8 @@ ORCHESTRATOR  (decomposes, delegates, tracks)
 
 ### 5.2 Madeira (new in v0.6.0)
 
+**Ask vs Plan draft:** Madeira’s dashboard behaviour follows **`madeiraInteractionMode`** in `~/.openclaw/.akos-state.json` (defaults to **`ask`** — compact assembled prompt). Switch to **`plan_draft`** when you want structured plans plus a **JSON handoff** (`config/schemas/madeira-plan-handoff.schema.json`) for the Orchestrator swarm. Update mode via the control plane (`py scripts/serve-api.py` → `GET`/`POST http://127.0.0.1:8420/agents/madeira/interaction-mode`) or open **`http://127.0.0.1:8420/madeira/control`**. After changing mode with **redeploy** enabled, start a **new** WebChat session. **Run** (code/exec) remains the Orchestrator → Architect → Executor → Verifier path—not a Madeira mode.
+
 **Role:** User-facing operational assistant for the Holistika knowledge vault.
 
 **Mode:** Read-only lookup at the gateway. Cannot write files, execute commands, or use the browser. Code, browser automation, MCP-heavy mutations, and multi-step writes are classified via `akos_route_request` (`execution_escalate`) and handed to the **Orchestrator** for swarm execution (Architect → Executor → Verifier).
@@ -432,6 +434,9 @@ Overlays add capabilities for more capable models:
 | `OVERLAY_HLK_COMPACT.md` | Madeira (`compact` only) | Short HLK ladder, anti-fabrication, citation rules |
 | `OVERLAY_STARTUP_COMPACT.md` | Madeira (`compact` only) | Mandatory startup reads and memory note pattern |
 | `OVERLAY_MADEIRA_OPS.md` | Madeira (`standard` / `full` only) | Day-to-day drafts, checklists, Orchestrator handoff pack (governance-safe) |
+| `OVERLAY_MADEIRA_PLAN_DRAFT.md` | Madeira (appended at deploy when `plan_draft`) | Plan draft banner, JSON handoff requirements (non-canonical) |
+| `OVERLAY_ORCHESTRATOR_MADEIRA_HANDOFF.md` | Orchestrator (`standard` / `full`) | Consume Madeira structured handoff JSON |
+| `OVERLAY_ARCHITECT_MADEIRA_HANDOFF.md` | Architect (`standard` / `full`) | Treat Madeira plan JSON as draft input; re-ground with `hlk_*` |
 
 ### 6.4 Assembling Prompts
 
@@ -2110,8 +2115,12 @@ Holistika tracks **many GitHub repositories** (platform, internal tools, client-
 | Layer | Canonical in vault | SSOT for code |
 |:------|:-------------------|:--------------|
 | **Which repos exist, class, owner role, topic links** | `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` | GitHub remote |
+| **Optional API metadata** (`api_spec_pointer`, `api_topic_id` on registry rows) | Same registry table | OpenAPI/AsyncAPI **files** live in the repo (path pointed to) |
+| **CTO-chain component/service inventory** (per-component `api_exposure`, owners, runbooks; join on `repo_slug`) | `docs/references/hlk/compliance/COMPONENT_SERVICE_MATRIX.csv` | — |
 | **Policy** (pointer-first, submodule criteria) | `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/README.md` | — |
 | **Non-repo client/program files** (SOWs, commercials, decks) | `docs/references/hlk/v3.0/Think Big/` (see `Think Big/README.md`) | — |
+
+**API lifecycle:** `docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-HLK_API_LIFECYCLE_MANAGEMENT_001.md`. **Matrix maintenance (CTO chain):** `SOP-HLK_COMPONENT_SERVICE_MATRIX_MAINTENANCE_001.md` in the same folder.
 
 Cross-engagement topic index (pilot): `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md` (includes the **PMO project portfolio SSOT** table and GOI/POI-style stakeholder index). Full placement rules: `docs/references/hlk/v3.0/index.md` (Entity placement). Precedence: `docs/references/hlk/compliance/PRECEDENCE.md` (GitHub repositories vs vault authority).
 
@@ -2123,6 +2132,8 @@ The canonical baselines live in `docs/references/hlk/compliance/`:
 |:-----|:-------------|:-----|
 | `baseline_organisation.csv` | Roles, hierarchy, access levels, descriptions | New role, role change, access review |
 | `process_list.csv` | Processes, projects, workstreams, tasks | New process, hierarchy change, ownership change; follow **SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001** (`docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md`) |
+| `COMPONENT_SERVICE_MATRIX.csv` | Components, services, integrations (CTO SSOT) | New system, ownership or API exposure change; follow **SOP-HLK_COMPONENT_SERVICE_MATRIX_MAINTENANCE_001** (`docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-HLK_COMPONENT_SERVICE_MATRIX_MAINTENANCE_001.md`); validate via `py scripts/validate_hlk.py` |
+| `FINOPS_COUNTERPARTY_REGISTER.csv` | Counterparty metadata only—vendors, customers, partners (no amounts; Business Controller / CFO chain) | New counterparty, classification, or renewal review; follow **SOP-HLK_FINOPS_COUNTERPARTY_REGISTER_MAINTENANCE_001** (`docs/references/hlk/v3.0/Admin/O5-1/Finance/Business Controller/SOP-HLK_FINOPS_COUNTERPARTY_REGISTER_MAINTENANCE_001.md`); Supabase mirror **`compliance.finops_counterparty_register_mirror`** via `sync_compliance_mirrors_from_csv.py --finops-counterparty-register-only` or **`py scripts/verify.py compliance_mirror_emit`** after DDL |
 | `access_levels.md` | Access level definitions | Policy change (rare) |
 | `confidence_levels.md` | Confidence level definitions | Policy change (rare) |
 | `source_taxonomy.md` | Source categories and credibility levels | New source type (rare) |

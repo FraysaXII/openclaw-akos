@@ -13,14 +13,15 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | 3 | `py scripts/test.py all` | Full regression suite passes |
 | 3a | `py scripts/test.py graph` | HLK graph lane (`pytest -m graph`); use with Bolt env + `pytest -m "graph and neo4j"` when changing Neo4j wiring |
 | 4 | `py scripts/browser-smoke.py --playwright` | Browser smoke; HTTP path includes **Scenario 0 registry** scenarios (`scenario0_*`) against live `serve-api`. On Windows + **Python 3.14+** preview builds, Playwright Chromium may **crash** (`0xC0000005`); use **Python 3.12.x** for the venv that runs Playwright, or rely on HTTP-only + Cursor IDE Browser MCP for dashboard UAT. If **`release-gate`** fails only on this step with **exit 1**, read scenario details: architect/executor checks use **control plane** `GET /agents` (not OpenClaw gateway DOM). Exit **2** in `release-gate` is treated as a soft pass (worker/browser unavailable). |
-| 5 | `py -m pytest tests/test_api.py -v` | FastAPI control plane smoke |
+| 5 | `py -m pytest tests/test_api.py tests/test_madeira_interaction.py -v` | FastAPI control plane + Madeira interaction mode smoke |
 | 6 | `py scripts/release-gate.py` | Unified gate must report PASS (includes HLK vault validation). Optional: `AKOS_EVAL_RUBRIC=1` adds offline `run-evals.py` rubric slice. |
 | 6a | `py scripts/run-evals.py run --suite pathc-research-spine --mode rubric` | When changing eval suites or `akos/eval_harness.py` |
-| 7 | `py scripts/validate_hlk.py` | HLK canonical vault integrity (also run by release gate) |
+| 7 | `py scripts/validate_hlk.py` | HLK canonical vault integrity — includes **`COMPONENT_SERVICE_MATRIX.csv`** and **`FINOPS_COUNTERPARTY_REGISTER.csv`** checks when those files exist (also run by release gate) |
 | 7a | `py scripts/validate_hlk_vault_links.py` | Internal v3.0 markdown link integrity (also run by release gate) |
 | 7b | `py scripts/merge_gtm_into_process_list.py` | Optional: merge GTM candidate CSV into `process_list.csv` after operator approval (`--write` applies) |
 | 7c | `py scripts/merge_process_list_tranche.py` | Optional: merge a **canonical-column** candidate CSV (same header as `process_list.csv`) after operator approval (`--candidate path --write`) |
-| 7d | `py scripts/sync_compliance_mirrors_from_csv.py` | Optional (Initiative 14): emit SQL upserts for `compliance.*_mirror` from git CSVs (`--count-only` or `--output file.sql`); **no** prod execute until [`sql-proposal-stack-20260417.md`](wip/planning/14-holistika-internal-gtm-mops/reports/sql-proposal-stack-20260417.md) DDL applied on staging |
+| 7d | `py scripts/verify.py compliance_mirror_emit` | **Preferred:** Initiative 14/16 mirror emit — preflight `--count-only` then writes `artifacts/sql/compliance_mirror_upsert.sql` (review before DB apply). Requires DDL on target DB ([`supabase/migrations/`](../supabase/migrations/)). Run `py scripts/validate_hlk.py` / release gate when CSVs change first. |
+| 7d-alt | `py scripts/sync_compliance_mirrors_from_csv.py` | Advanced: same script as 7d with manual `--count-only` / `--output` / `--finops-counterparty-register-only` flags (argv SSOT for operators is profile **`compliance_mirror_emit`**) |
 | 7e | `py scripts/stripe_set_billing_plane.py` | Optional (Initiative 14 Wave B3): set Stripe `metadata.hlk_billing_plane` on a test Customer/Subscription — requires `STRIPE_SECRET_KEY` in env (not committed) |
 | 7f | `py scripts/verify_phase3_mirror_schema.py` | Optional (Initiative 14 Wave B): run [`verify_staging.sql`](../scripts/sql/i14_phase3_staging/verify_staging.sql) via `psql` when `DATABASE_URL` or `SUPABASE_DB_URL` is set; use `--skip-if-no-db` in environments without Postgres |
 | 7g | `py scripts/refine_gtm_process_hierarchy.py` | Optional: Pattern 2 cluster parents + `item_name` cleanup on existing GTM rows (`--write` applies) |
@@ -32,6 +33,14 @@ If you changed gateway tool policy, also verify the template uses gateway core I
 ### Planning initiative closure (`docs/wip/planning/`)
 
 When you mark an initiative **complete** or write a **phase completion** report: follow **`.cursor/rules/akos-planning-traceability.mdc`**. If the plan promised **browser**, **dashboard WebChat**, **Langfuse UI**, **Docker Desktop settings**, or other **manual** checks, add dated **`reports/uat-*.md`** with per-step PASS / SKIP / N/A (or link `docs/uat/` plus a stub with outcomes). **Playwright smoke** (step 4 above) is automated parity; it does **not** by itself replace qualitative UAT rows unless the initiative explicitly says so.
+
+### Holistika Supabase (schema vs mirrors)
+
+| Step | Command | Purpose |
+|:-----|:--------|:--------|
+| CLI essentials | `supabase login`, `supabase link`, `supabase migration new …`, `supabase db push`, `supabase migration list` | DDL ledger in [`supabase/migrations/`](../supabase/migrations/); see [`supabase/README.md`](../supabase/README.md) |
+| Migration ledger parity | `npx supabase migration list` (after `link`) | Local and Remote columns must match before `db push`; rename Git migration prefixes to remote versions or use `migration repair` per [`supabase/migrations/README.md`](../supabase/migrations/README.md) |
+| Mirror SQL emit | `py scripts/verify.py compliance_mirror_emit` | Data plane only; not a substitute for `validate_hlk.py` |
 
 ### Documentation Updates
 
@@ -49,7 +58,7 @@ When you mark an initiative **complete** or write a **phase completion** report:
 | `docs/USER_GUIDE.md` (GPU deployment) | Changes to `scripts/gpu.py` subcommands or deploy flow |
 | `docs/USER_GUIDE.md` (Finance MCP) | Changes to `akos/finance.py` or `scripts/finance_mcp_server.py` |
 | `docs/ARCHITECTURE.md` (Finance) | Changes to finance response models or MCP tool signatures |
-| `docs/ARCHITECTURE.md` (HLK) | Changes to `akos/hlk.py`, `akos/hlk_graph_model.py`, `akos/hlk_neo4j.py`, `akos/hlk_vault_links.py`, `akos/graph_stack.py`, `scripts/serve-api.py`, or `/hlk/*` and `/hlk/graph/*` API endpoints |
+| `docs/ARCHITECTURE.md` (HLK) | Changes to `akos/hlk.py`, `akos/hlk_graph_model.py`, `akos/hlk_neo4j.py`, `akos/hlk_vault_links.py`, `akos/hlk_component_service_csv.py`, `akos/graph_stack.py`, `scripts/serve-api.py`, or `/hlk/*` and `/hlk/graph/*` API endpoints |
 | `docs/references/hlk/v3.0/**/*.md` (links) | Run `py scripts/validate_hlk_vault_links.py` when editing cross-links |
 | `docs/references/hlk/compliance/` | Changes to canonical vault CSVs or compliance taxonomy documents |
 | `docs/references/hlk/v3.0/_assets/**/*.manifest.md` | Run `py scripts/validate_hlk_km_manifests.py`; update companion stubs if `source_id` changes |
@@ -82,7 +91,7 @@ On Windows, `browser-smoke.py` isolates browser launches in subprocess workers (
 2. `py scripts/check-drift.py`
 3. `py scripts/test.py all`
 4. `py scripts/browser-smoke.py --playwright`
-5. `py -m pytest tests/test_api.py -v`
+5. `py -m pytest tests/test_api.py tests/test_madeira_interaction.py -v`
 6. `py scripts/release-gate.py`
 
 ### Before PR / Merge

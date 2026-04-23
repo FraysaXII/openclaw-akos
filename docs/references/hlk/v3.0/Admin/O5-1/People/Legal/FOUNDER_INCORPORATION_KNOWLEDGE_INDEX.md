@@ -1,8 +1,8 @@
 # Founder Incorporation Knowledge Index
 
 **Document owner**: Legal Counsel  
-**Version**: 1.1  
-**Date**: 2026-04-15  
+**Version**: 1.2  
+**Date**: 2026-04-23  
 **Status**: Final
 
 ---
@@ -12,6 +12,13 @@
 This index is the canonical entrypoint for the founder-incorporation knowledge bundle in the active HLK vault. It links the stable procedural layer, the case-specific decision layer, and the source synthesis layer so future founder-led entity work can be expanded without duplicating the same logic across unrelated files.
 
 **Cross-program governance**: PMO maintains the **portfolio SSOT** (metadata and pointers) for this initiative under [TOPIC_PMO_CLIENT_DELIVERY_HUB.md](../../Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md) (`PRJ-HOL-FOUNDING-2026`). Executive accountability sits with **O5-1 (Chief Business Officer)**; Legal, Compliance, and Finance remain accountable for their domain outputs.
+
+## External counsel handoff
+
+- [EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md](EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md) — read order, binding ladder, sharing legend, exhibit index
+- [FOUNDER_FILED_INSTRUMENT_REGISTER.md](FOUNDER_FILED_INSTRUMENT_REGISTER.md) — draft / signed / filed instruments and storage locations
+- [FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md](FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md) — short fact pattern and WS-A–D consistency
+- [FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md](FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md) — living question queue for external advisers
 
 ## Bundle Structure
 
@@ -48,11 +55,12 @@ This index is the canonical entrypoint for the founder-incorporation knowledge b
 
 ## How To Use This Bundle
 
-1. Start with the working synthesis if you need the full origin story and validation context.
-2. Use the case layer to understand the current founder-specific decisions and unresolved items.
-3. Use the SOP layer when you want the repeatable operating pattern rather than the current case.
-4. Update the lifecycle note before inventing a new document type or duplicating content across owners.
-5. Only update `process_list.csv` when a concept becomes a repeatable process, workstream, or task.
+1. **External counsel:** start at [EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md](EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md), then follow its read order.
+2. Start with the working synthesis if you need the full origin story and validation context.
+3. Use the case layer to understand the current founder-specific decisions and unresolved items.
+4. Use the SOP layer when you want the repeatable operating pattern rather than the current case.
+5. Update the lifecycle note before inventing a new document type or duplicating content across owners.
+6. Only update `process_list.csv` when a concept becomes a repeatable process, workstream, or task.
 
 ## Maintenance Rule
 
@@ -62,3 +70,4 @@ This index should be updated whenever:
 - a linked SOP changes scope materially
 - a new founder-governance process row is added to `process_list.csv`
 - the evidence-to-canonical promotion path changes
+- the external counsel handoff cluster gains or loses a document, or [FOUNDER_FILED_INSTRUMENT_REGISTER.md](FOUNDER_FILED_INSTRUMENT_REGISTER.md) / [FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md](FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md) changes materially

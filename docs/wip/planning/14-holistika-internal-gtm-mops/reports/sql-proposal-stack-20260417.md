@@ -199,7 +199,34 @@ Do **not** grant `anon` SELECT on these schemas without explicit policy review.
 
 ---
 
-## 7. Legacy `public` deprecation (separate cutover)
+## 7. FINOPS counterparty register mirror (Initiative 18)
+
+**Canonical CSV:** [`FINOPS_COUNTERPARTY_REGISTER.csv`](../../../../references/hlk/compliance/FINOPS_COUNTERPARTY_REGISTER.csv)  
+**Committed DDL (staging):** [`scripts/sql/i18_phase1_staging/`](../../../../../scripts/sql/i18_phase1_staging/README.md)  
+**Migration:** [`supabase/migrations/`](../../../../../supabase/migrations/README.md) (`20260423014144_i18_finops_counterparty_mirror_cutover.sql`) — migrates from **`compliance.finops_vendor_register_mirror`** when present, then drops the vendor mirror.  
+**Upserts:** `py scripts/sync_compliance_mirrors_from_csv.py --finops-counterparty-register-only --output /path/to/upsert.sql` or profile **`py scripts/verify.py compliance_mirror_emit`**.  
+**Governance:** Same Supabase project as §4–§6; **no** monetary amounts in CSV or mirror; Phase C operational facts use schema **`finops`** (see Initiative [**19**](../../../19-hlk-finops-ledger/master-roadmap.md) — **`finops.registered_fact`**; content loading remains policy-gated).
+
+### 7.1 Table shape
+
+Mirror columns = CSV fieldnames from `akos/hlk_finops_counterparty_csv.py` plus `source_git_sha`, `synced_at`. Primary key `counterparty_id`. RLS enabled; explicit **deny** policies for `anon` and `authenticated`; `REVOKE ALL` from `PUBLIC`; `GRANT ALL` on the table to `service_role`.
+
+**Holistika ops bridge:** `holistika_ops.stripe_customer_link.finops_counterparty_id` (nullable `TEXT`) stores the CSV slug; git authoritative; not a database FK to the mirror.
+
+### 7.2 Stripe FDW (read plane)
+
+When schema **`stripe_gtm`** exists (Wrappers / foreign server, e.g. **`stripe_gtm_server`**): treat as **mirrored read projection** of Stripe; **Stripe API authoritative**. Privilege posture: **`service_role`**-only `SELECT`; do not expose FDW to PostgREST/browser keys unless explicitly approved. See Initiative 18 runbook: [`stripe-fdw-operator-runbook.md`](../../18-hlk-finops-counterparty-stripe/reports/stripe-fdw-operator-runbook.md).
+
+### 7.3 Verification (staging)
+
+```sql
+SELECT COUNT(*) AS finops_counterparty_rows, MAX(synced_at) AS last_sync
+FROM compliance.finops_counterparty_register_mirror;
+```
+
+---
+
+## 8. Legacy `public` deprecation (separate cutover)
 
 **Intent:** Align with [`deprecate-legacy-public-proposal.md`](deprecate-legacy-public-proposal.md). Example pattern (adjust to actual object names in target DB):
 
@@ -213,7 +240,7 @@ ALTER TABLE IF EXISTS public."Process list" RENAME TO "Process list_deprecated_2
 
 ---
 
-## 8. Verification queries (staging)
+## 9. Verification queries (staging)
 
 ```sql
 SELECT COUNT(*) AS process_rows, MAX(synced_at) AS last_sync
@@ -223,29 +250,29 @@ SELECT tablename, rowsecurity FROM pg_tables
 WHERE schemaname IN ('compliance', 'holistika_ops');
 ```
 
-Expect `rowsecurity = true` on all four tables. Spot-check **`item_id`** values `holistika_gtm_dtp_001`–`003` exist after sync.
+Expect `rowsecurity = true` on **`compliance` mirror tables** (`process_list_mirror`, `baseline_organisation_mirror`, and **`finops_counterparty_register_mirror`** when Initiative 18 DDL is applied) and on **`holistika_ops`** stubs. Spot-check **`item_id`** values `holistika_gtm_dtp_001`–`003` exist after sync.
 
 ---
 
-## 9. Rollback (clean)
+## 10. Rollback (clean)
 
 | Step | Action |
 |------|--------|
 | RLS | `DROP POLICY ...` then `ALTER TABLE ... DISABLE ROW LEVEL SECURITY` |
 | Tables | `DROP TABLE IF EXISTS holistika_ops.billing_account CASCADE;` then `stripe_customer_link`; `DROP SCHEMA holistika_ops CASCADE;` |
-| Compliance | `DROP TABLE IF EXISTS compliance.process_list_mirror CASCADE;` `DROP TABLE IF EXISTS compliance.baseline_organisation_mirror CASCADE;` |
+| Compliance | `DROP TABLE IF EXISTS compliance.finops_counterparty_register_mirror CASCADE;` `DROP TABLE IF EXISTS compliance.process_list_mirror CASCADE;` `DROP TABLE IF EXISTS compliance.baseline_organisation_mirror CASCADE;` |
 | Schema | `DROP SCHEMA IF EXISTS compliance CASCADE;` (only if no other objects) |
 
 ---
 
-## 10. PII and retention
+## 11. PII and retention
 
 - **Marketing leads** (future tables): document lawful basis, retention, and RLS per Legal; never log email/phone in application logs.
 - **Mirrors:** CSV-derived; treat `instructions` / `addundum_extras` as potentially sensitive — same RLS as rest.
 
 ---
 
-## 11. Bibliography (pre-read)
+## 12. Bibliography (pre-read)
 
 - [Supabase shared responsibility](https://supabase.com/docs/guides/platform/shared-responsibility-model)
 - [Going into prod](https://supabase.com/docs/guides/platform/going-into-prod)

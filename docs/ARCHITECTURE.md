@@ -66,6 +66,7 @@ The multi-agent paradigm separates concerns across five specialized roles:
 - Uses a **minimal** gateway profile with curated `alsoAllow` for `read`, memory lookups, `sequential_thinking` (post-tool reasoning only), read-only browser observation tools (`browser_snapshot`, `browser_screenshot`), HLK/finance runtime tools, and explicit `deny` for write/edit/exec (coarse `browser` navigate/click remains off-template; mutating browser tools stay out of `alsoAllow`)
 - **Compact tier:** `config/model-tiers.json` applies `OVERLAY_HLK_COMPACT.md` and `OVERLAY_STARTUP_COMPACT.md` to Madeira only when `promptVariant` is `compact`, preserving HLK and startup invariants on small models within `bootstrapMaxChars`
 - **Standard / full tiers:** Madeira also receives `OVERLAY_HLK_GRAPH.md` and `OVERLAY_MADEIRA_OPS.md` (day-to-day ops support: non-canonical drafts, checklists, Orchestrator handoff pack) — see initiative [`docs/wip/planning/11-madeira-ops-copilot/master-roadmap.md`](wip/planning/11-madeira-ops-copilot/master-roadmap.md)
+- **Ask / Plan draft (initiative 17):** `madeiraInteractionMode` in `~/.openclaw/.akos-state.json` (`ask` \| `plan_draft`) controls Madeira `SOUL.md` after each global deploy: **ask** → assembled **compact** variant; **plan_draft** → assembled **standard** variant plus appended `OVERLAY_MADEIRA_PLAN_DRAFT.md` (structured plan + JSON handoff schema `config/schemas/madeira-plan-handoff.schema.json`). FastAPI: `GET`/`POST` `/agents/madeira/interaction-mode`, operator page `GET` `/madeira/control`. Roadmap: [`docs/wip/planning/17-madeira-cursor-mode-parity/master-roadmap.md`](wip/planning/17-madeira-cursor-mode-parity/master-roadmap.md).
 - **Cannot** write files, execute commands, or navigate browsers
 
 ### Orchestrator Agent (new in v0.3.0)
@@ -225,10 +226,10 @@ prompts/base/ARCHITECT_BASE.md  +  overlays/  -->  assembled/ARCHITECT_PROMPT.<v
 | Variant | Overlays Included |
 |:--------|:------------------|
 | compact | Base only for most agents; **Madeira** adds `OVERLAY_HLK_COMPACT` + `OVERLAY_STARTUP_COMPACT` (see `config/model-tiers.json`) |
-| standard | Reasoning / plan / startup / HLK (+ HLK graph for applicable agents); **Madeira** also `OVERLAY_MADEIRA_OPS` |
-| full | Extended overlays for Architect / Executor / Verifier; **Madeira** matches standard HLK + graph + `OVERLAY_MADEIRA_OPS` |
+| standard | Reasoning / plan todos / startup / HLK (+ HLK graph for applicable agents); **Orchestrator** + **Architect** add `OVERLAY_ORCHESTRATOR_MADEIRA_HANDOFF` + `OVERLAY_ARCHITECT_MADEIRA_HANDOFF`; **Madeira** also `OVERLAY_MADEIRA_OPS` |
+| full | Extended overlays for Architect / Executor / Verifier (same Madeira handoff overlays on Orchestrator / Architect as standard); **Madeira** matches standard HLK + graph + `OVERLAY_MADEIRA_OPS` |
 
-Authoritative matrix: [`config/model-tiers.json`](../config/model-tiers.json) (`variantOverlays`). **Madeira ops** overlay is documented in [`docs/wip/planning/11-madeira-ops-copilot/master-roadmap.md`](wip/planning/11-madeira-ops-copilot/master-roadmap.md). **Intent exemplars + golden routing tests + operator-path copy** (Initiative 13): [`docs/wip/planning/13-madeira-research-followthrough/master-roadmap.md`](wip/planning/13-madeira-research-followthrough/master-roadmap.md).
+Authoritative matrix: [`config/model-tiers.json`](../config/model-tiers.json) (`variantOverlays`). **Madeira ops** overlay is documented in [`docs/wip/planning/11-madeira-ops-copilot/master-roadmap.md`](wip/planning/11-madeira-ops-copilot/master-roadmap.md). **Plan draft append** (`OVERLAY_MADEIRA_PLAN_DRAFT.md`) is applied at SOUL deploy time when `madeiraInteractionMode` is `plan_draft` (see Madeira bullet above). **Intent exemplars + golden routing tests + operator-path copy** (Initiative 13): [`docs/wip/planning/13-madeira-research-followthrough/master-roadmap.md`](wip/planning/13-madeira-research-followthrough/master-roadmap.md).
 
 Build all variants: `python scripts/assemble-prompts.py`
 
@@ -592,7 +593,8 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/io.py` | `load_json`, `save_json`, `deep_merge`, `resolve_openclaw_home`, `AGENT_WORKSPACES` (5-agent mapping) |
 | `akos/log.py` | `JSONFormatter` + `HumanFormatter`; `setup_logging(json_output)` configures the root logger |
 | `akos/process.py` | `CommandResult` dataclass + `run()` wrapper with timeouts and structured error capture |
-| `akos/state.py` | `AkosState` Pydantic model tracking the active environment/model; `load_state`, `save_state`, `record_switch` |
+| `akos/state.py` | `AkosState` (incl. `madeiraInteractionMode`); `load_state`, `save_state`, `record_switch`, `set_madeira_interaction_mode` |
+| `akos/madeira_interaction.py` | Madeira Ask vs Plan draft: `apply_madeira_interaction_to_soul`, `redeploy_all_souls_with_madeira_mode`, handoff schema loader |
 | `akos/telemetry.py` | `LangfuseReporter` wrapping the Langfuse SDK; `trace_metric()` for DX metrics; `trace_eval_outcome()` for suite runs; graceful no-op when credentials are absent |
 | `akos/eval_harness.py` | Suite manifest loading + rubric scoring shared by `scripts/run-evals.py` and pytest |
 | `akos/alerts.py` | `AlertEvaluator` -- checks real-time log entries against `alerts.json` and periodic metrics against `baselines.json` |
@@ -621,6 +623,9 @@ The `akos/api.py` module exposes a REST API for programmatic control:
 | `/status` | GET | Current environment, model, tier, variant |
 | `/switch` | POST | Trigger model/environment switch |
 | `/agents` | GET | List agents with workspace paths and SOUL.md status |
+| `/agents/madeira/interaction-mode` | GET | Current `madeiraInteractionMode`, effective Madeira prompt variant, global variant |
+| `/agents/madeira/interaction-mode` | POST | Set mode (`ask` \| `plan_draft`) and optionally redeploy all `SOUL.md` files |
+| `/madeira/control` | GET | Operator HTML: mode picker + handoff JSON example (Bearer auth when `AKOS_API_KEY` is set) |
 | `/runpod/health` | GET | RunPod endpoint health |
 | `/runpod/scale` | POST | Adjust RunPod scaling |
 | `/metrics` | GET | DX baselines from Langfuse |
@@ -651,15 +656,34 @@ The `akos/api.py` module exposes a REST API for programmatic control:
 | `/metrics/cost` | GET | Cost breakdown by agent and environment |
 | `/logs` | WebSocket | Live log stream |
 
-The current HLK registry baseline exposes 11 projects and 1,069 registered items, including founder-governance processes under Legal, Finance, and Compliance for entity formation, founder funding, startup-certification readiness, and trademark/naming control, plus the GTM/Trello-harmonized operating tree merged from the MADEIRA planning candidate (Tier C backlog rows excluded). Initiative **14** added **Holistika internal GTM** process rows (`holistika_gtm_dtp_*`) via `scripts/merge_process_list_tranche.py`. GTM leaves sit under English **cluster** process rows (`gtm_cl_*`) between workstreams and tasks; see `scripts/refine_gtm_process_hierarchy.py`. Optional **program** workstreams (`hlk_prog_*`) may sit between selected projects and their MADEIRA / Think Big GTM workstreams; see `scripts/migrate_process_list_program_layer.py`. The same CSV may include **`item_parent_1_id`** and **`item_parent_2_id`** (stable parent `item_id` pointers) dual-written with **`item_parent_1`** / **`item_parent_2`** names; see `scripts/backfill_process_parent_ids.py` and `scripts/validate_hlk.py`.
+The current HLK registry baseline exposes 11 projects and **1,085** registered items, including founder-governance processes under Legal, Finance, and Compliance for entity formation, founder funding, startup-certification readiness, and trademark/naming control, plus the GTM/Trello-harmonized operating tree merged from the MADEIRA planning candidate (Tier C backlog rows excluded). Initiative **14** added **Holistika internal GTM** process rows (`holistika_gtm_dtp_*`) via `scripts/merge_process_list_tranche.py`. **API lifecycle** workstream **`env_tech_ws_api_1`** under **HLK Infrastructure and DevOPS** (`env_tech_prj_4`) registers portfolio governance (`env_tech_dtp_306`–`312`) and **component matrix maintenance** (`env_tech_dtp_313`). **Initiative 18** extends **FINOPS counterparty economics** (`thi_finan_ws_4`) with register maintenance and related Finance processes (`thi_finan_dtp_303`–`307`, **`thi_finan_dtp_309`**), **Stripe FDW stewardship** (`thi_finan_dtp_308` under Revenue Operations), canonical **`FINOPS_COUNTERPARTY_REGISTER.csv`**, migration DDL for **`compliance.finops_counterparty_register_mirror`** (cutover from the Initiative 16 vendor mirror), and **`holistika_ops.stripe_customer_link.finops_counterparty_id`**. GTM leaves sit under English **cluster** process rows (`gtm_cl_*`) between workstreams and tasks; see `scripts/refine_gtm_process_hierarchy.py`. Optional **program** workstreams (`hlk_prog_*`) may sit between selected projects and their MADEIRA / Think Big GTM workstreams; see `scripts/migrate_process_list_program_layer.py`. The same CSV may include **`item_parent_1_id`** and **`item_parent_2_id`** (stable parent `item_id` pointers) dual-written with **`item_parent_1`** / **`item_parent_2`** names; see `scripts/backfill_process_parent_ids.py` and `scripts/validate_hlk.py`.
+
+**Component and service matrix:** Canonical **`docs/references/hlk/compliance/COMPONENT_SERVICE_MATRIX.csv`** (CTO chain) lists systems and services with FK-style links to `baseline_organisation.csv`, `process_list.csv`, and `REPOSITORIES_REGISTRY.md` (`repo_slug`). Validated by `scripts/validate_component_service_matrix.py`, invoked from `scripts/validate_hlk.py` when the file exists. Schema: `COMPONENT_SERVICE_FIELDNAMES` in `akos/hlk_component_service_csv.py`.
+
+**FINOPS counterparty register:** Canonical **`docs/references/hlk/compliance/FINOPS_COUNTERPARTY_REGISTER.csv`** (Business Controller / CFO chain) holds counterparty **metadata** only—vendors, customers, and partners (no amounts). Validated by `scripts/validate_finops_counterparty_register.py`, invoked from `validate_hlk.py` when the file exists. Supabase mirror: **`compliance.finops_counterparty_register_mirror`**; DDL SSOT in [`supabase/migrations/`](../supabase/migrations/) (see `20260423014144_i18_finops_counterparty_mirror_cutover.sql`, which migrates from `finops_vendor_register_mirror` when present); upserts via `scripts/sync_compliance_mirrors_from_csv.py` (`--finops-counterparty-register-only` or full mirror profile **`py scripts/verify.py compliance_mirror_emit`**) after DDL exists on the target DB. Maintenance: `docs/references/hlk/v3.0/Admin/O5-1/Finance/Business Controller/SOP-HLK_FINOPS_COUNTERPARTY_REGISTER_MAINTENANCE_001.md`.
+
+**FINOPS ledger (Phase C):** Schema **`finops`** with **`finops.registered_fact`** (Initiative 19) stores **governed operational facts** — optional `amount_minor`, `fact_type`, `counterparty_id` slug, optional Stripe customer/subscription ids — with **`service_role`**-only DML and deny-all RLS for `anon`/`authenticated`. Not git SSOT; see [`docs/wip/planning/19-hlk-finops-ledger/master-roadmap.md`](wip/planning/19-hlk-finops-ledger/master-roadmap.md). Forward DDL: `20260423014326_i19_finops_ledger_phase1.sql`; staging: `scripts/sql/i19_phase1_staging/`.
 
 The founder-governance lower layer uses a staged document model to stay scalable: evidence and redacted synthesis live in `docs/wip/`, case-specific canonical notes live under role-owned `v3.0/` folders, repeatable procedures become SOPs, and only the repeatable process layer is registered in `process_list.csv`. This separation keeps founder-specific or potentially sensitive material out of the runtime registry while preserving a reusable operating model for future entity work.
 
 **HLK governed KM (Topic–Fact–Source):** Canonical rules for sources, facts, topics, output types 0–4, and Output 1 (visual) manifests live in `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md`. Binary visuals ship under `docs/references/hlk/v3.0/_assets/<topic_id>/` with `*.manifest.md` sidecars. Operators validate manifest shape and raster paths with `scripts/validate_hlk_km_manifests.py`. The PMO-owned `RESEARCH_BACKLOG_TRELLO_REGISTRY.md` indexes external Trello cards to `topic_id` candidates without treating Trello as SSOT.
 
-**Envoy Tech Lab repository hub:** Holistika-tracked GitHub repositories are indexed in `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` (GitHub remains SSOT for code trees; the registry is canonical for membership and metadata per `PRECEDENCE.md`). Think Big vault folders hold non-repo client/program artifacts; see `docs/references/hlk/v3.0/Think Big/README.md` and PMO `TOPIC_PMO_CLIENT_DELIVERY_HUB.md`.
+**Envoy Tech Lab repository hub:** Holistika-tracked GitHub repositories are indexed in `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` (GitHub remains SSOT for code trees; the registry is canonical for membership and metadata per `PRECEDENCE.md`). Registry rows may include **`api_spec_pointer`** / **`api_topic_id`**; per-component API fields join from **`COMPONENT_SERVICE_MATRIX.csv`** on **`repo_slug`**. Think Big vault folders hold non-repo client/program artifacts; see `docs/references/hlk/v3.0/Think Big/README.md` and PMO `TOPIC_PMO_CLIENT_DELIVERY_HUB.md`.
 
 Launch: `python scripts/serve-api.py --port 8420`
+
+### Supabase schema and compliance mirror governance (Holistika MasterData)
+
+**Two planes (DAMA / SSOT):**
+
+1. **Schema (DDL)** — Canonical forward migrations live in [`supabase/migrations/`](../supabase/migrations/) and ship with the [Supabase CLI](https://supabase.com/docs/guides/deployment/database-migrations) (`supabase db push` or CI). Staging DDL under `scripts/sql/*_staging/` is a **proposal** until copied into a new migration after [`operator-sql-gate.md`](wip/planning/14-holistika-internal-gtm-mops/reports/operator-sql-gate.md) approval. **Ledger parity:** migration **filename timestamps** must match remote `schema_migrations`; run `supabase migration list` after `link` and reconcile (rename or `migration repair`) before `db push` when drift appears—see [`supabase/migrations/README.md`](../supabase/migrations/README.md).
+2. **Compliance mirrors (derived data)** — Git-canonical CSVs under `docs/references/hlk/compliance/` remain SSOT; `compliance.*_mirror` tables are refreshed from [`scripts/sync_compliance_mirrors_from_csv.py`](../scripts/sync_compliance_mirrors_from_csv.py). **Do not** commit megabyte upserts as migrations.
+
+**HLK / v3.0 vs database:** Vault markdown and CSVs are **canonical in Git**. The database holds **projections** (mirrors), not a full copy of the vault. **`scripts/validate_hlk.py`** and **`scripts/release-gate.py`** gate **source** integrity; they are not replaced by mirror tooling.
+
+**`verify.py` vs HLK validation:** [`scripts/verify.py`](../scripts/verify.py) only **orchestrates** subprocess steps from [`config/verification-profiles.json`](../config/verification-profiles.json). Profile **`compliance_mirror_emit`** standardizes **how** mirror SQL is generated (`--count-only` then `--output artifacts/sql/compliance_mirror_upsert.sql`). It does **not** implement HLK semantic rules; run **`pre_commit`** / **`validate_hlk.py`** per [`DEVELOPER_CHECKLIST.md`](DEVELOPER_CHECKLIST.md) when editing compliance assets.
+
+**Operator card:** [`supabase/README.md`](../supabase/README.md) (login, link, migration new, db push, list, repair). **Mirror emit:** `py scripts/verify.py compliance_mirror_emit`.
 
 ### Operator Scripts (v0.4.0)
 
@@ -675,13 +699,20 @@ Launch: `python scripts/serve-api.py --port 8420`
 | `scripts/sync-runtime.py` | Hydrate runtime from repo SSOT |
 | `scripts/release-gate.py` | Unified release gate (tests + drift + smoke) |
 | `scripts/validate_hlk_km_manifests.py` | Validate HLK KM visual manifest frontmatter and raster paths under `v3.0/_assets/**/*.manifest.md` |
+| `scripts/validate_component_service_matrix.py` | Validate `COMPONENT_SERVICE_MATRIX.csv` (FKs to org, process_list, registry slugs); called from `validate_hlk.py` when the file exists |
+| `scripts/validate_finops_counterparty_register.py` | Validate `FINOPS_COUNTERPARTY_REGISTER.csv`; called from `validate_hlk.py` when the file exists |
+| `scripts/ingest_matriz_componentes_to_matrix.py` | Optional: ingest legacy `Matriz componentes.xlsx` **components** sheet into the matrix (requires `openpyxl`) |
 | `scripts/validate_hlk_vault_links.py` | Fail on broken internal `.md` links under `docs/references/hlk/v3.0/` (excludes `imports/`); run by `release-gate.py` |
 | `scripts/sync_hlk_neo4j.py` | Rebuild optional Neo4j mirror from canonical CSVs; `--with-documents` adds v3.0 `Document` nodes + `LINKS_TO`; requires `NEO4J_*` in `~/.openclaw/.env` |
 | `scripts/hlk_graph_explorer.py` | Optional **secondary** Streamlit operator UI for `/hlk/graph/*` (primary: `GET /hlk/graph/explorer` on control plane); optional **`streamlit.components.v1`** embed at `static/streamlit_components/hlk_vis_network/` (`graph_engine=vis_component`) for drag/pin parity with full vis |
 | `scripts/merge_gtm_into_process_list.py` | Idempotent-style merge helper: harmonize GTM candidate CSV into `process_list.csv` (English parents, Tier C exclusion); run with `--write` after operator approval |
 | `scripts/merge_process_list_tranche.py` | Merge a **canonical-column** candidate CSV (same shape as `process_list.csv`) into the registry; `--candidate path`; `--write` after operator approval (e.g. Initiative 14 Holistika GTM tranche) |
-| `scripts/sync_compliance_mirrors_from_csv.py` | Initiative 14: emit `INSERT … ON CONFLICT` SQL for `compliance.process_list_mirror` / `baseline_organisation_mirror` from git CSVs (`--count-only`, `--output`); run on DB only after approved DDL (see `docs/wip/planning/14-holistika-internal-gtm-mops/reports/sql-proposal-stack-20260417.md`) |
-| `scripts/sql/i14_phase3_staging/*.sql` | Initiative 14 Wave B: versioned Postgres DDL/rollback/verify for `compliance` + `holistika_ops` (staging; operator-gated) |
+| `scripts/sync_compliance_mirrors_from_csv.py` | Emit `INSERT … ON CONFLICT` SQL for `compliance.process_list_mirror` / `baseline_organisation_mirror` / `finops_counterparty_register_mirror` from git CSVs (`--count-only`, `--output`, **`--finops-counterparty-register-only`**); run on DB only after approved DDL (see `sql-proposal-stack-20260417.md`) |
+| `scripts/sql/i14_phase3_staging/*.sql` | Initiative 14: **staging** DDL proposals for `compliance` + `holistika_ops` (promote to [`supabase/migrations/`](../supabase/migrations/) after approval) |
+| `scripts/sql/i16_phase3_staging/*.sql` | Initiative 16: **historical** staging DDL for `compliance.finops_vendor_register_mirror` (superseded by Initiative 18 cutover) |
+| `scripts/sql/i18_phase1_staging/*.sql` | Initiative 18: **staging** DDL for counterparty mirror cutover + `stripe_customer_link.finops_counterparty_id` (promote to [`supabase/migrations/`](../supabase/migrations/) after approval) |
+| `scripts/sql/i19_phase1_staging/*.sql` | Initiative 19: **staging** DDL for `finops.registered_fact` (promote to [`supabase/migrations/`](../supabase/migrations/) after approval) |
+| `supabase/migrations/*.sql` | **Applied** Holistika MasterData DDL ledger (Supabase CLI); parity map in [`supabase/migrations/README.md`](../supabase/migrations/README.md) |
 | `scripts/verify_phase3_mirror_schema.py` | Initiative 14: runs `verify_staging.sql` via `psql` when `DATABASE_URL` / `SUPABASE_DB_URL` is set |
 | `supabase/functions/stripe-webhook-handler/` | Initiative 14 Wave B3: Stripe webhook — `hlk_billing_plane` on Customer/Subscription; `kirbe` vs `holistika_ops` routing (deploy with `npm run supabase -- functions deploy`) |
 | `scripts/stripe_set_billing_plane.py` | Set `metadata.hlk_billing_plane` on a Stripe Customer or Subscription via API (`STRIPE_SECRET_KEY` in env) |
