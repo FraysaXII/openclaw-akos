@@ -48,6 +48,7 @@ needs a corresponding update. These contracts are ordered by trigger.
 | `akos/runpod_provider.py` | `docs/ARCHITECTURE.md` | vLLM Health Probe, RunPod sections |
 | `akos/finance.py` | `docs/ARCHITECTURE.md` | Finance Service, Orchestration Library table |
 | `akos/finance.py` | `docs/USER_GUIDE.md` | Finance Research MCP section (9.8) |
+| `akos/hlk_finops_counterparty_csv.py` | `docs/ARCHITECTURE.md` | FINOPS counterparty register + Orchestration Library (`akos/`) table |
 
 ### Script changes
 
@@ -56,7 +57,8 @@ needs a corresponding update. These contracts are ordered by trigger.
 | `scripts/gpu.py` | `docs/USER_GUIDE.md` | CLI reference (gpu subcommands) |
 | `scripts/gpu.py` | `docs/ARCHITECTURE.md` | GPU deployment flow |
 | `scripts/*.py` (new script) | `docs/ARCHITECTURE.md` | Operator Scripts table |
-| `scripts/*.py` (new script) | `docs/DEVELOPER_CHECKLIST.md` | Pre-commit checks table |
+| `scripts/*.py` (new default check or workflow) | `config/verification-profiles.json` | Add or adjust a `pre_commit` / profile step; then short note in `docs/DEVELOPER_CHECKLIST.md` or `docs/reference/DEV_VERIFICATION_REFERENCE.md` if human-facing |
+| `config/verification-profiles.json` | `docs/reference/DEV_VERIFICATION_REFERENCE.md` | When profile steps or `eval_rubric_governance_suites` change |
 
 ### Prompt changes
 
@@ -75,7 +77,7 @@ needs a corresponding update. These contracts are ordered by trigger.
 | `docs/references/hlk/compliance/PRECEDENCE.md` | `docs/ARCHITECTURE.md` | Governance / SSOT sections |
 | `docs/references/hlk/v3.0/index.md` | `docs/USER_GUIDE.md` | Vault structure reference in the HLK Operator Model section |
 | `scripts/hlk_mcp_server.py` | `docs/USER_GUIDE.md` | HLK Registry MCP (Section 9.9) |
-| `scripts/validate_hlk.py` | `docs/DEVELOPER_CHECKLIST.md` | Pre-commit checks table |
+| `scripts/validate_hlk.py` | `docs/reference/DEV_VERIFICATION_REFERENCE.md` (when release gate / HLK scope changes); `config/verification-profiles.json` only if a profile step is added/removed for HLK | Pre-commit / gate behaviour |
 | `scripts/validate_hlk_vault_links.py` | `docs/DEVELOPER_CHECKLIST.md` | Pre-commit when `v3.0/**/*.md` cross-links change |
 | `scripts/validate_hlk_km_manifests.py` | `docs/DEVELOPER_CHECKLIST.md`, `docs/USER_GUIDE.md` | Pre-commit when `v3.0/_assets/**/*.manifest.md` change; HLK Operator Model KM / UAT |
 | `scripts/sync_hlk_neo4j.py`, `scripts/hlk_graph_mcp_server.py`, `scripts/hlk_graph_explorer.py` | `docs/ARCHITECTURE.md`, `docs/USER_GUIDE.md` | Operator Scripts + HLK Graph sections |
@@ -86,6 +88,15 @@ needs a corresponding update. These contracts are ordered by trigger.
 | `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md` | `docs/ARCHITECTURE.md`, `docs/USER_GUIDE.md` | HLK KM Topic–Fact–Source, Output 1 |
 | `docs/references/hlk/v3.0/_assets/**/*.manifest.md` | `docs/uat/hlk_admin_smoke.md` | Scenario 8 spot-checks (if manifest contract changes) |
 | `akos/hlk.py` | `docs/ARCHITECTURE.md` | Orchestration Library table |
+| `supabase/migrations/*.sql` (new or materially changed DDL) | `docs/ARCHITECTURE.md` § Supabase; [`supabase/migrations/README.md`](../../supabase/migrations/README.md) parity map row | Schema ledger + operator path |
+| `scripts/sql/*_staging/*.sql` (promoted to migrations) | Same as migration row; staging folder README if present | Proposal vs applied DDL |
+
+### Cursor rules (repeatable governance patterns)
+
+| Trigger file | Docs / artifact to update | Section / area |
+|:-------------|:----------------------------|:---------------|
+| New or materially changed `.cursor/rules/akos-holistika-operations.mdc` | `CHANGELOG.md` if operator-facing workflow changes; optional note in initiative `decision-log.md` | Holistika ops: Supabase two-plane + SQL gate + ops planes |
+| New or materially changed `.cursor/rules/akos-planning-traceability.mdc` | `CHANGELOG.md` if UAT or initiative closure criteria change | Planning / evidence contracts |
 
 ### Planning and initiative docs (`docs/wip/planning/`)
 
@@ -97,6 +108,15 @@ needs a corresponding update. These contracts are ordered by trigger.
 | Execution changes `docs/references/hlk/compliance/*.csv` or `docs/references/hlk/v3.0/**` | `docs/USER_GUIDE.md`, `docs/ARCHITECTURE.md` | Same as **HLK compliance changes** above when those trees actually change (wip roadmap drafts alone do not require USER_GUIDE edits) |
 
 **Planning insight:** Multi-phase HLK work should keep **phase order** explicit in `master-roadmap.md` (e.g. charter and crosswalk before CSV tranche; CSV tranche before v3.0 SOPs that cite new `item_id`s; stack/mirrors after SOPs for primary flows where SOP-META order applies). Optional **git mirror** of a Cursor plan under the initiative folder gives **version history** on the plan body; see `.cursor/rules/akos-planning-traceability.mdc`.
+
+### Human-facing index and guides
+
+| Trigger | Docs to update | Section / area |
+|:--------|:----------------|:--------------|
+| New **narrative** onboarding or workflow topic (tutorial / explanation) | `docs/README.md` | Add or adjust a row in “Read by role” and/or “Where different kinds of doc live”; link the new `docs/guides/<name>.md` |
+| New cross-repo term in **3+** first-class docs (ARCHITECTURE, USER_GUIDE, DEVELOPER_CHECKLIST, etc.) | `docs/GLOSSARY.md` | One-line definition + “see” link |
+| Change to **what** `verify` / `release-gate` / `run-evals` *mean* in prose (not argv) | `docs/guides/understanding_verification.md` | Must stay consistent with `config/verification-profiles.json` (if conflict, **config wins**); adjust narrative only when behavior is unchanged or doc was wrong |
+| `docs/guides/<new>.md` | `docs/README.md` | Add link under the right audience or “Quick links” |
 
 ## Always update
 

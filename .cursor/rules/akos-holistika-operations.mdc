@@ -1,0 +1,115 @@
+---
+description: >-
+  Holistika-wide operations: MKTOPS/GTM, FINOPS, MAROPS/TECHOPS stewardship, and
+  any initiative that touches MasterData — Supabase two-plane (DDL vs mirror DML),
+  operator SQL gate, PRECEDENCE/process_list, holistika_ops vs kirbe, FDW inventory,
+  and MCP-backed verification. Request for any ops change that affects Postgres,
+  compliance CSVs, Edge Functions, or company vs product data planes.
+globs:
+  - "supabase/**"
+  - "scripts/sql/**"
+  - "scripts/sync_compliance_mirrors_from_csv.py"
+  - "scripts/validate_hlk.py"
+  - "scripts/validate_*hlk*.py"
+  - "scripts/validate_finops*.py"
+  - "scripts/validate_component_service_matrix.py"
+  - "akos/hlk*.py"
+  - "docs/references/hlk/compliance/**"
+  - "docs/wip/planning/**"
+  - "config/verification-profiles.json"
+alwaysApply: false
+---
+
+# AKOS — Holistika operations (MasterData, compliance, Supabase)
+
+Use this rule for **any Holistika operations** work that affects **governance SSOT**, **Supabase / MasterData**, **company vs product planes**, or **HLK process and vault** alignment — not only FINOPS. It complements [akos-planning-traceability.mdc](akos-planning-traceability.mdc) (initiative traceability) and [akos-governance-remediation.mdc](akos-governance-remediation.mdc) (HLK asset class).
+
+## Holistika operations planes (mental model)
+
+| Plane | Typical scope | Process / vault home | Data / stack touch |
+|-------|---------------|----------------------|--------------------|
+| **MKTOPS / GTM** | Funnel, campaigns, attribution, inbound leads | Growth SOPs, `holistika_gtm_*` in [`process_list.csv`](../../docs/references/hlk/compliance/process_list.csv) | Often [`holistika_ops.lead_intake`](../../supabase/migrations/20260418183239_holistika_ops_lead_intake.sql), analytics, Stripe metadata — same **operator gate** if DDL |
+| **FINOPS** | Counterparty/vendor economics metadata, billing governance, ledger-shaped facts | Finance / Business Controller, `thi_finan_*` | FINOPS CSV registers, `compliance.*_mirror`, **`finops.*`** operational facts ([Initiative 19](../../docs/wip/planning/19-hlk-finops-ledger/master-roadmap.md) — e.g. `registered_fact`; inserts policy-gated, not CSV-authored) |
+| **MAROPS / TECHOPS / DATAOPS** | Stewardship and SOPs (growth ops, technical ops, data ops) | Role-owned v3.0 SOPs + `process_list` | Often **component/service matrix**, API lifecycle, integrations — **Postgres only when** the initiative promotes DDL; stewardship alone does not imply new schemas (see Initiative 16 **D-16-6**: process planes ≠ required `marops` schema) |
+| **DEVOPS / platform** | Infra, migrations, Edge Functions, API surface | `env_tech_*`, System Owner SOPs | [`supabase/migrations/`](../../supabase/migrations/), [`supabase/functions/`](../../supabase/functions/) |
+
+**Discipline is shared:** git-canonical compliance assets ([`PRECEDENCE.md`](../../docs/references/hlk/compliance/PRECEDENCE.md)), **`validate_hlk.py`**, operator-approved **`process_list` / `baseline_organisation` tranches**, and **two-plane Supabase** (below) apply across planes.
+
+## When this rule applies
+
+- Any **new or changed** tables in `compliance.*`, `finops.*`, `holistika_ops.*`, `kirbe.*` (when in scope), or **FDW** schemas.
+- New **canonical compliance CSVs** or mirrors (FINOPS registers, component/service matrix, future ops SSOT rows under `docs/references/hlk/compliance/`).
+- **Edge Functions / webhooks** that route **Holistika company** vs **KiRBe product** data (`hlk_billing_plane`, etc.).
+- **GTM / CRM / billing** features that persist to MasterData — same SQL gate and SOC expectations as FINOPS.
+
+## Two-plane model (non-negotiable)
+
+| Plane | Content | Mechanism | SSOT |
+|-------|---------|-----------|------|
+| **Schema (DDL)** | `CREATE TABLE`, RLS, extensions, FDW servers | [`supabase/migrations/*.sql`](../../supabase/migrations/) via Supabase CLI — [`supabase/README.md`](../../supabase/README.md), [`supabase/migrations/README.md`](../../supabase/migrations/README.md) | Git migration files + remote `schema_migrations` ledger parity |
+| **Mirror data (DML)** | Rows for `compliance.*_mirror` from CSVs | `py scripts/verify.py compliance_mirror_emit` → review [`artifacts/sql/README.md`](../../artifacts/sql/README.md) output → apply in batches | Git CSVs under `docs/references/hlk/compliance/` |
+
+**Never** commit large `INSERT` mirror batches as migration files. **Never** treat the database as the authoring surface for canonical HLK CSVs.
+
+## Operator SQL gate
+
+Mandatory workflow: [`docs/wip/planning/14-holistika-internal-gtm-mops/reports/operator-sql-gate.md`](../../docs/wip/planning/14-holistika-internal-gtm-mops/reports/operator-sql-gate.md).
+
+1. **Discover** — MCP / SQL **read-only** (`list_tables`, `list_migrations`, `list_extensions`, `SELECT`-only `execute_sql`). Classify what already exists.
+2. **Propose** — DDL + rollback + RLS + PII notes in `reports/sql-proposal-*.md` or extend [`sql-proposal-stack-20260417.md`](../../docs/wip/planning/14-holistika-internal-gtm-mops/reports/sql-proposal-stack-20260417.md); **operator approval** in initiative `decision-log.md`.
+3. **Execute DDL** — Stage under `scripts/sql/<initiative>_staging/`, then promote to `supabase/migrations/<timestamp>_description.sql`, update **parity map** in `supabase/migrations/README.md`.
+4. **Pre-push** — `supabase migration list`: local and remote **must match** (no drift); then `supabase db push` (or CI).
+5. **Break-glass** — Dashboard / MCP `apply_migration` only in emergencies; afterward **`db pull` / `migration repair`** until git and ledger align.
+
+**Forbidden for routine work:** mutating `execute_sql` or ad-hoc production DDL without a matching migration file.
+
+## Inventory-before-greenfield (especially FDW / Wrappers)
+
+Before adding `CREATE SERVER`, `IMPORT FOREIGN SCHEMA`, or a new foreign-data schema:
+
+- Confirm extensions via MCP `list_extensions` or SQL.
+- Query `pg_foreign_server` and `pg_foreign_table` / `information_schema` for existing servers (e.g. `stripe_gtm_server`) and foreign tables.
+- **Default:** document and privilege-harden **existing** layout; add a **second** server only when `decision-log.md` records a gap (e.g. separate test vs live Stripe account).
+
+Avoid duplicating foreign servers because a plan assumed a greenfield layout.
+
+## Schema responsibilities (DAMA)
+
+- **`compliance.*_mirror`** — Projections of git-canonical CSVs; **RLS** deny `anon` / `authenticated` unless explicitly designed otherwise; **`service_role`** for sync jobs. See sql-proposal-stack §4–§7.
+- **`finops.*`** — **Operational** monetary/contract **facts** (not git CSV SSOT). Default posture: **RLS** deny `anon` / `authenticated`; **`service_role`** for controlled writes; **`counterparty_id`** aligns with `FINOPS_COUNTERPARTY_REGISTER.csv` slugs **without** a FK to the compliance mirror (same pattern as `stripe_customer_link.finops_counterparty_id`). Classify in [`PRECEDENCE.md`](../../docs/references/hlk/compliance/PRECEDENCE.md). Phase 1: [`finops.registered_fact`](../../docs/wip/planning/19-hlk-finops-ledger/master-roadmap.md).
+- **`holistika_ops.*`** — Holistika **company** plane (e.g. `lead_intake`, `stripe_customer_link`, `billing_account`). **Not** KiRBe SaaS product subscriptions.
+- **`kirbe.*`** — Product / SaaS plane; webhook routing must not confuse with `holistika_ops` ([`supabase/functions/stripe-webhook-handler/`](../../supabase/functions/stripe-webhook-handler/README.md), `metadata.hlk_billing_plane`).
+- **FDW schemas** (e.g. `stripe_gtm`) — **Read projection** of external APIs; external system is authoritative; classify in [`PRECEDENCE.md`](../../docs/references/hlk/compliance/PRECEDENCE.md) as mirrored/derived. **Do not** hand-edit FDW rows as business SSOT.
+
+## New git-canonical compliance registers (pattern)
+
+Applies to **FINOPS** (`FINOPS_*_REGISTER.csv`), **component/service matrix** (`COMPONENT_SERVICE_MATRIX.csv`), and **future** ops SSOT CSVs under `docs/references/hlk/compliance/`:
+
+- Register in **`PRECEDENCE.md`** (canonical + mirror rows).
+- **`akos/hlk_*_csv.py`** (or equivalent) **fieldname tuple** matches CSV header exactly.
+- Dedicated **`scripts/validate_*.py`** where needed + integration into [`scripts/validate_hlk.py`](../../scripts/validate_hlk.py) when the file is governed by the HLK gate.
+- **Mirror table** DDL in `supabase/migrations/` when mirrored to Postgres; upserts from [`scripts/sync_compliance_mirrors_from_csv.py`](../../scripts/sync_compliance_mirrors_from_csv.py) (extend as needed) and profile **`compliance_mirror_emit`** in [`config/verification-profiles.json`](../../config/verification-profiles.json).
+- **Vault SOP** under the **correct owner role**; **`process_list.csv`** tranche before finalizing v3.0 SOPs for net-new `item_id`s (SOP-META order).
+
+## SOC and PostgREST exposure
+
+- Foreign tables **do not honor RLS**; Supabase linter may flag **foreign table in API** — keep FDW schemas **off** exposed API surfaces unless explicitly intended ([linter 0017](https://supabase.com/docs/guides/database/database-linter?lint=0017_foreign_table_in_api)).
+- After material DDL, run MCP **`get_advisors`** (security) and address **new** issues attributable to the change.
+- No secret keys or Vault material in git; use operator runbooks.
+
+## Verification matrix (minimum)
+
+- `py scripts/validate_hlk.py` when compliance CSVs or validators change.
+- `py scripts/verify.py compliance_mirror_emit` when mirror emit contract changes.
+- `py scripts/release-gate.py` as appropriate.
+- Initiative **UAT** with MCP/SQL evidence when plans promise **live** reconciliation (Stripe, mirrors, webhooks) — see [akos-planning-traceability.mdc](akos-planning-traceability.mdc).
+
+## Closing an initiative — capture lessons in rules
+
+If execution surfaces a **repeatable** Holistika ops pattern (new mirror family, FDW naming, GTM table, billing-plane checklist), **update this rule or [akos-planning-traceability.mdc](akos-planning-traceability.mdc)** so the next initiative inherits the same bar—not only a one-off Cursor plan.
+
+## References
+
+- [`docs/ARCHITECTURE.md`](../../docs/ARCHITECTURE.md) § Supabase schema and compliance mirror governance
+- [`supabase/README.md`](../../supabase/README.md) operator quick card
+- Shared responsibility: [Supabase docs](https://supabase.com/docs/guides/platform/shared-responsibility-model)
