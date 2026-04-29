@@ -104,6 +104,8 @@ needs a corresponding update. These contracts are ordered by trigger.
 | `akos/hlk.py` | `docs/ARCHITECTURE.md` | Orchestration Library table |
 | `supabase/migrations/*.sql` (new or materially changed DDL) | `docs/ARCHITECTURE.md` § Supabase; [`supabase/migrations/README.md`](../../supabase/migrations/README.md) parity map row | Schema ledger + operator path |
 | `scripts/sql/*_staging/*.sql` (promoted to migrations) | Same as migration row; staging folder README if present | Proposal vs applied DDL |
+| `scripts/wave2_backfill.py` | `docs/wip/planning/22a-i22-post-closure-followups/master-roadmap.md`, `config/verification-profiles.json` (`wave2_backfill_check` profile) | Wave-2 (Initiatives 23-26) operator-answers scaffolder; reads `operator-answers-wave2.yaml`; sentinel-validated; idempotent. Each downstream Wave-2 phase that consumes a YAML section adds its writer here. |
+| `docs/wip/planning/22a-i22-post-closure-followups/operator-answers-wave2.yaml` | `docs/wip/planning/22a-i22-post-closure-followups/master-roadmap.md` (status table); `docs/wip/planning/22a-i22-post-closure-followups/reports/post-closure-followups-20260429.md` (§5 evidence) | Single source of operator decisions for Wave-2; not canonical SSOT (the artifacts the scaffolder emits ARE canonical); versioned record per [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) Governance Content Requirements |
 
 ### Cursor rules (repeatable governance patterns)
 

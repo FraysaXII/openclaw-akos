@@ -1,0 +1,328 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# Wave-2 operator answers — single source for ALL backfills.
+#
+# Fill at your pace, in batched sittings. Save. Run:
+#     py scripts/wave2_backfill.py --check-only        # sentinel scan, anytime
+#     py scripts/wave2_backfill.py --dry-run            # show would-write diff
+#     py scripts/wave2_backfill.py                      # full write (refuses if sentinels remain)
+#     py scripts/wave2_backfill.py --section programs   # one section only
+#
+# Sentinels: every __OPERATOR_CONFIRM__ token is rejected by the validator.
+# Comment lines (starting with #) are stripped on read; safe to keep notes.
+#
+# Authority:
+#   Wave-2 plan: ~/.cursor/plans/hlk_scalability_wave_2_initiatives_639a02d7.plan.md
+#   Backfill discipline: §"Backfill discipline & operator UX" in the plan.
+# ══════════════════════════════════════════════════════════════════════════════
+
+meta:
+  date_started: 2026-04-29
+  operator: __OPERATOR_CONFIRM__   # your name or initials, e.g. "JAR"
+  notes: ""                         # free-form; gets attached to the YAML hash record
+
+
+# ─── Section 1: Program Registry ─────────────────────────────────────────────
+# 12 programs × 4 Tier-3 cells = ~48 fields.
+# Recommended batching: founder-cluster / product-cluster / internal-cluster.
+# Run after each batch:
+#     py scripts/wave2_backfill.py --check-only --section programs
+#
+# Enums (values the validator accepts):
+#   lifecycle_status: proposed | active | paused | closed | superseded
+#   risk_class:       low | medium | high | critical
+#   default_plane:    advops | finops | mktops | techops | marops | devops | ops
+#
+# program_id: PRJ-HOL-style identifier (path-stable, used in folder slugs).
+# process_item_id: FK to process_list.csv item_id (where one exists); empty for casework programs.
+# program_code: 3-letter unique short handle (^[A-Z]{3}$); used in graph nodes + paths.
+# consumes_program_ids: semicolon list of upstream programs you depend on (empty = none).
+#
+# ▼▼ Founder cluster ▼▼
+programs:
+  PRJ-HOL-FOUNDING-2026:
+    process_item_id: ""              # casework program, no project granularity row
+    program_name: "Founder incorporation (Holistika)"
+    program_code: FND
+    primary_owner_role: Legal Counsel
+    default_plane: advops             # legal/fiscal/IP coordination via External Adviser plane
+    lifecycle_status: active
+    risk_class: high
+    start_date: 2026-04-01
+    target_close_date: open           # ENISA + bank account window
+    consumes_program_ids: ""
+    notes: "Founder incorporation program; ADVOPS plane (Legal/Fiscal/IP/Banking/Cert/Notary). I21+I22 closure rolls up here."
+
+  thi_legal_prj_1:
+    process_item_id: thi_legal_prj_1
+    program_name: "Think Big Legal Compliance"
+    program_code: LEG
+    primary_owner_role: Legal Counsel
+    default_plane: advops
+    lifecycle_status: __OPERATOR_CONFIRM__
+    risk_class: __OPERATOR_CONFIRM__
+    start_date: __OPERATOR_CONFIRM__
+    target_close_date: __OPERATOR_CONFIRM__
+    consumes_program_ids: ""
+    notes: __OPERATOR_CONFIRM__
+
+  thi_finan_prj_1:
+    process_item_id: thi_finan_prj_1
+    program_name: "Think Big Finance Architecture"
+    program_code: FIN
+    primary_owner_role: CFO
+    default_plane: finops
+    lifecycle_status: __OPERATOR_CONFIRM__
+    risk_class: __OPERATOR_CONFIRM__
+    start_date: __OPERATOR_CONFIRM__
+    target_close_date: __OPERATOR_CONFIRM__
+    consumes_program_ids: ""
+    notes: __OPERATOR_CONFIRM__
+
+  # ▼▼ Product cluster ▼▼
+  env_tech_prj_2:
+    process_item_id: env_tech_prj_2
+    program_name: "KiRBe Platform"
+    program_code: KIR
+    primary_owner_role: CTO
+    default_plane: techops
+    lifecycle_status: __OPERATOR_CONFIRM__
+    risk_class: __OPERATOR_CONFIRM__
+    start_date: __OPERATOR_CONFIRM__
+    target_close_date: __OPERATOR_CONFIRM__
+    consumes_program_ids: "PRJ-HOL-FOUNDING-2026"   # KiRBe consumes legal/fiscal foundation; flip if not yet
+    notes: "DUAL nature — SaaS product (kirbe.* schema, Stripe billing) + KM ingestion source per v3.0/index.md"
+
+  env_tech_prj_3:
+    process_item_id: env_tech_prj_3
+    program_name: "MADEIRA Platform"
+    program_code: MAD
+    primary_owner_role: CTO
+    default_plane: techops
+    lifecycle_status: __OPERATOR_CONFIRM__
+    risk_class: __OPERATOR_CONFIRM__
+    start_date: __OPERATOR_CONFIRM__
+    target_close_date: __OPERATOR_CONFIRM__
+    consumes_program_ids: __OPERATOR_CONFIRM__   # likely "hol_resea_prj_1" (research methodology); confirm
+    notes: __OPERATOR_CONFIRM__
+
+  env_tech_prj_4:
+    process_item_id: env_tech_prj_4
+    program_name: "HLK Infrastructure and DevOPS"
+    program_code: INF
+    primary_owner_role: CTO
+    default_plane: devops
+    lifecycle_status: __OPERATOR_CONFIRM__
+    risk_class: __OPERATOR_CONFIRM__
+    start_date: __OPERATOR_CONFIRM__
+    target_close_date: __OPERATOR_CONFIRM__
+    consumes_program_ids: ""
+    notes: __OPERATOR_CONFIRM__
+
+  # ▼▼ Internal cluster ▼▼
+  hol_resea_prj_1:
+    process_item_id: hol_resea_prj_1
+    program_name: "Holistika Research and Methodology"
+    program_code: RES
+    primary_owner_role: Holistik Researcher
+    default_plane: ops
+    lifecycle_status: __OPERATOR_CONFIRM__
+    risk_class: __OPERATOR_CONFIRM__
+    start_date: __OPERATOR_CONFIRM__
+    target_close_date: __OPERATOR_CONFIRM__
+    consumes_program_ids: ""
+    notes: __OPERATOR_CONFIRM__
+
+  hol_peopl_prj_1:
+    process_item_id: hol_peopl_prj_1
+    program_name: "Holistika People and Organisational Development"
+    program_code: PEO
+    primary_owner_role: CPO
+    default_plane: ops
+    lifecycle_status: __OPERATOR_CONFIRM__
+    risk_class: __OPERATOR_CONFIRM__
+    start_date: __OPERATOR_CONFIRM__
+    target_close_date: __OPERATOR_CONFIRM__
+    consumes_program_ids: ""
+    notes: __OPERATOR_CONFIRM__
+
+  hol_ops_pgf_1:
+    process_item_id: hol_ops_pgf_1
+    program_name: "Holistika Process Governance Framework"
+    program_code: PGF
+    primary_owner_role: PMO
+    default_plane: ops
+    lifecycle_status: __OPERATOR_CONFIRM__
+    risk_class: __OPERATOR_CONFIRM__
+    start_date: __OPERATOR_CONFIRM__
+    target_close_date: __OPERATOR_CONFIRM__
+    consumes_program_ids: ""
+    notes: __OPERATOR_CONFIRM__
+
+  thi_mkt_prj_1:
+    process_item_id: thi_mkt_prj_1
+    program_name: "Think Big Channel and Marketing Operations"
+    program_code: MKT
+    primary_owner_role: CMO
+    default_plane: mktops
+    lifecycle_status: __OPERATOR_CONFIRM__
+    risk_class: __OPERATOR_CONFIRM__
+    start_date: __OPERATOR_CONFIRM__
+    target_close_date: __OPERATOR_CONFIRM__
+    consumes_program_ids: ""
+    notes: __OPERATOR_CONFIRM__
+
+  thi_opera_prj_1:
+    process_item_id: thi_opera_prj_1
+    program_name: "Think Big Operational Excellence"
+    program_code: OPS
+    primary_owner_role: COO
+    default_plane: ops
+    lifecycle_status: __OPERATOR_CONFIRM__
+    risk_class: __OPERATOR_CONFIRM__
+    start_date: __OPERATOR_CONFIRM__
+    target_close_date: __OPERATOR_CONFIRM__
+    consumes_program_ids: ""
+    notes: __OPERATOR_CONFIRM__
+
+  thi_data_prj_1:
+    process_item_id: thi_data_prj_1
+    program_name: "HLK Data Governance"
+    program_code: DAT
+    primary_owner_role: CDO
+    default_plane: ops              # no `dataops` in current enum; ops covers data governance for now
+    lifecycle_status: __OPERATOR_CONFIRM__
+    risk_class: __OPERATOR_CONFIRM__
+    start_date: __OPERATOR_CONFIRM__
+    target_close_date: __OPERATOR_CONFIRM__
+    consumes_program_ids: ""
+    notes: __OPERATOR_CONFIRM__
+
+
+# ─── Section 2: Brand voice foundation ───────────────────────────────────────
+# ~90 minutes, single sitting. Captures the brand manager's LIVED protocols.
+# We do NOT invent brand craft from CSVs — your words become the canonical SSOT.
+# The scaffolder writes:
+#   v3.0/Admin/O5-1/Marketing/Brand/BRAND_VOICE_FOUNDATION.md
+#   v3.0/Admin/O5-1/Marketing/Brand/BRAND_REGISTER_MATRIX.md
+#   v3.0/Admin/O5-1/Marketing/Brand/BRAND_DO_DONT.md
+#
+# Examples are illustrative only — replace with your actual brand voice.
+
+brand_voice:
+  voice_charter: __OPERATOR_CONFIRM__
+    # one sentence; e.g.: "Holistika speaks as the rigorous peer who removes uncertainty without performing expertise."
+
+  archetype: __OPERATOR_CONFIRM__
+    # single token; common choices: expert_peer | trusted_advisor | rigorous_specialist | curious_explorer | calm_orchestrator
+
+  narrative_pillars:
+    - __OPERATOR_CONFIRM__   # pillar 1; e.g. "Evidence over assertion"
+    - __OPERATOR_CONFIRM__   # pillar 2; e.g. "Structure that scales"
+    - __OPERATOR_CONFIRM__   # pillar 3; e.g. "Plain words, deliberate jargon"
+
+  voice_is:
+    # 3-5 traits with a 1-line example each.
+    - { trait: __OPERATOR_CONFIRM__, example: __OPERATOR_CONFIRM__ }
+    - { trait: __OPERATOR_CONFIRM__, example: __OPERATOR_CONFIRM__ }
+    - { trait: __OPERATOR_CONFIRM__, example: __OPERATOR_CONFIRM__ }
+
+  voice_is_not:
+    # 3-5 traits with one thing we'd refuse to say.
+    - { trait: __OPERATOR_CONFIRM__, example: __OPERATOR_CONFIRM__ }
+    - { trait: __OPERATOR_CONFIRM__, example: __OPERATOR_CONFIRM__ }
+    - { trait: __OPERATOR_CONFIRM__, example: __OPERATOR_CONFIRM__ }
+
+  register_matrix:
+    # (relationship, channel) -> register lookup.
+    # Common registers: formal_legal | peer_consulting | casual_internal | regulator_neutral | investor_aspirational
+    # Common channels: email | dm | memo | deck | proposal | linkedin_post | slack
+    # Add or remove rows as your channels surface; keep the format consistent.
+    - { relationship: external_counsel, channel: email,    register: formal_legal }
+    - { relationship: peer_founder,     channel: dm,       register: peer_consulting }
+    - { relationship: regulator,        channel: memo,     register: regulator_neutral }
+    - { relationship: investor,         channel: deck,     register: investor_aspirational }
+    - { relationship: client_prospect,  channel: proposal, register: __OPERATOR_CONFIRM__ }
+    - { relationship: internal_team,    channel: slack,    register: casual_internal }
+
+
+# ─── Section 3: GOI/POI voice profiles ───────────────────────────────────────
+# 6 existing rows × 3 columns (~15 min). Confirm or flip agent-proposed defaults
+# (defaults derived from Wave-2 plan D-IH-11 by lens + discipline).
+#
+# Enums:
+#   voice_register:      formal_legal | peer_consulting | casual_internal | regulator_neutral | investor_aspirational
+#   language_preference: es | en | bilingual
+#   pronoun_register:    tu | usted | (empty for non-Spanish)
+
+goi_poi_voice:
+  GOI-ADV-ENTITY-2026:
+    voice_register: peer_consulting
+    language_preference: es
+    pronoun_register: usted          # adviser firm formal; flip to "tu" if peer-style
+    notes: "Third-party startup-certification adviser firm (entity)."
+
+  GOI-BNK-INC-2026:
+    voice_register: formal_legal
+    language_preference: es
+    pronoun_register: usted
+    notes: "Constitution-desk bank (entity)."
+
+  POI-BNK-DESK-LEAD-2026:
+    voice_register: formal_legal
+    language_preference: es
+    pronoun_register: usted
+    notes: "Constitution-desk lead at bank."
+
+  POI-LEG-ENISA-LEAD-2026:
+    voice_register: peer_consulting
+    language_preference: es
+    pronoun_register: tu
+    notes: "ENISA-track adviser; peer working relationship."
+
+  POI-LEG-FISCAL-LEAD-2026:
+    voice_register: formal_legal
+    language_preference: es
+    pronoun_register: usted
+    notes: "Fiscal-track adviser; formal register expected."
+
+  POI-ADV-INTAKE-LEAD-2026:
+    voice_register: peer_consulting
+    language_preference: es
+    pronoun_register: tu
+    notes: "Initial intake contact at adviser firm."
+
+
+# ─── Section 4: KiRBe duality confirmations ──────────────────────────────────
+# ~10 minutes. Five short confirmations; drives I23-P6 program-2 onboarding.
+
+kirbe_duality:
+  program_id_choice: PRJ-HOL-KIRBE-2026
+    # confirm or override; alternate = "env_tech_prj_2" (existing item_id)
+    # Plan default per D-IH-16: PRJ-HOL-KIRBE-2026 (PRJ-HOL-style canonical id).
+
+  primary_owner_role: CTO
+    # plan default per D-IH-16; override only if KiRBe is reassigned.
+
+  data_governance_lead_role: __OPERATOR_CONFIRM__
+    # who owns thi_data_dtp_274 (KiRBe Ingestion DQ Monitoring) day-to-day?
+    # likely "Data Governance Lead"; confirm.
+
+  business_controller_role: __OPERATOR_CONFIRM__
+    # who owns thi_finan_dtp_261 (KiRBe Stripe Billing) day-to-day?
+    # likely "Business Controller"; confirm.
+
+  has_paying_customers_today: __OPERATOR_CONFIRM__
+    # true | false. Drives whether Compliance/Legal program-folders are
+    # required at I23-P6 (true) or remain on-demand (false).
+
+
+# ─── Section 5: G-24-3 founder sign-off ──────────────────────────────────────
+# ~2 minutes. Fill ONLY when ready to send the real adviser email (I24-P6).
+# This gate is IRREVERSIBLE. Read the pre-flight checklist in the Wave-2 plan
+# §"P6 — Send the actual founder-incorporation adviser email" before signing.
+
+g_24_3_signoff:
+  founder_acknowledged_irreversible: __OPERATOR_CONFIRM__   # true | false
+  date: __OPERATOR_CONFIRM__                                 # YYYY-MM-DD
+  pre_flight_all_checked: __OPERATOR_CONFIRM__               # true | false (all 7 boxes ticked)
+  notes: ""
