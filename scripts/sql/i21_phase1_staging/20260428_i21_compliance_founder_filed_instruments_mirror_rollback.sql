@@ -1,0 +1,11 @@
+-- Initiative 21 — compliance.founder_filed_instruments_mirror rollback (STAGING)
+
+DROP POLICY IF EXISTS founder_filed_instruments_mirror_deny_authenticated ON compliance.founder_filed_instruments_mirror;
+DROP POLICY IF EXISTS founder_filed_instruments_mirror_deny_anon ON compliance.founder_filed_instruments_mirror;
+
+DROP INDEX IF EXISTS compliance.founder_filed_instruments_mirror_synced_at_idx;
+DROP INDEX IF EXISTS compliance.founder_filed_instruments_mirror_discipline_idx;
+DROP INDEX IF EXISTS compliance.founder_filed_instruments_mirror_program_idx;
+DROP INDEX IF EXISTS compliance.founder_filed_instruments_mirror_status_idx;
+
+DROP TABLE IF EXISTS compliance.founder_filed_instruments_mirror;
