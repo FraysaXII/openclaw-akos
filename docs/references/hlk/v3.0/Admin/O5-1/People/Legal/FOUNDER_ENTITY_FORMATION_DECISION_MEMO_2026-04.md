@@ -1,5 +1,7 @@
 # Founder Entity Formation Decision Memo
 
+> **Program**: [`PRJ-HOL-FOUNDING-2026`](programs/PRJ-HOL-FOUNDING-2026/README.md). New program-scoped Legal casework lands under that subfolder; this memo remains at the role-folder root for backwards compatibility (Initiative 22 P3, D-IH-1).
+
 **Document owner**: Legal Counsel  
 **Version**: 1.0  
 **Date**: 2026-04-08  

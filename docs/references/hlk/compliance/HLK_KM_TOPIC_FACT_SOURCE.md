@@ -85,6 +85,28 @@ Every canonical **Output 1** asset under `v3.0/_assets/` MUST have:
 1. **Manifest**: `*.manifest.md` (YAML frontmatter or structured markdown) with fields listed below.
 2. **Stub text** (Output 2): `VISUAL_<source_id>.md` or equivalent short markdown that describes the diagram for search, RAG, and Obsidian; the image remains the visual evidence.
 
+#### Directory convention (Initiative 22 P1, 2026-04-29)
+
+Output 1 assets MUST be placed under a **plane × program × topic** path:
+
+```
+docs/references/hlk/v3.0/_assets/<plane>/<program_id>/<topic_id>/
+  <topic_id>.manifest.md
+  <topic_id>.md          (Output 2 companion stub)
+  <topic_id>.png         (raster — required)
+  <topic_id>.svg         (vector — recommended when source allows)
+  <topic_id>.mmd         (Mermaid source — required when raster is auto-rendered)
+  <topic_id>.excalidraw  (Excalidraw source — when curated by hand)
+```
+
+Where:
+
+- `<plane>` is one of the planes documented in [`compliance/README.md`](README.md) (`advops`, `finops`, `techops`, `mktops`, `marops`, `devops`, `ops`, `dimensions`, `km-pilot`, etc.).
+- `<program_id>` is the canonical program identifier (e.g. `PRJ-HOL-FOUNDING-2026`) from `process_list.csv` / register columns. Use `shared` when the asset is cross-program.
+- `<topic_id>` matches the manifest's `topic_ids[0]` (and the file basename).
+
+The historical `_assets/km-pilot/VISUAL_*` layout is grandfathered for the pilot bundle; new topics use the layout above.
+
 #### Manifest minimum fields
 
 | Field | Required | Description |
@@ -96,14 +118,26 @@ Every canonical **Output 1** asset under `v3.0/_assets/` MUST have:
 | `author_role` | yes | `role_name` from org baseline |
 | `topic_ids` | yes | List of topic ids |
 | `summary` | yes | 2–5 lines |
-| `paths` | yes | Relative paths to raster and optional `.excalidraw` |
+| `paths` | yes | Relative paths to **raster** (required), and optional **excalidraw**, **mermaid**, and **svg** sources (see below) |
 | `access_level` | yes | Integer 0–6 |
 | `confidence` | recommended | Safe / Euclid / Keter or legacy mapping per confidence_levels |
 | `artifact_role` | yes | Usually `canonical` or `source` |
 | `intellectual_kind` | yes | See list above |
 | `related_process_ids` | no | `item_id` from process_list |
 | `supersedes` / `superseded_by` | no | Prior `source_id` chain |
-| `file_sha256` | recommended | For drift detection |
+| `file_sha256` | recommended | For drift detection on the raster |
+
+#### `paths` slots
+
+```
+paths:
+  raster: ./<topic_id>.png           # required — sha256 covers this file
+  svg: ./<topic_id>.svg              # optional — vector form of the same diagram
+  mermaid: ./<topic_id>.mmd          # optional — Mermaid source-of-truth; rendered via scripts/render_km_diagrams.py
+  excalidraw: ./<topic_id>.excalidraw # optional — hand-curated source-of-truth
+```
+
+**Source-of-truth rule**. When a manifest lists a `mermaid:` or `excalidraw:` source, that source is the editable SSOT and the raster is **derived**. Do not hand-edit derived rasters; regenerate from source. The manifest's `file_sha256` covers the raster only; the editable source carries no sha because it is human-edited.
 
 ## Obsidian and controlled tags
 
