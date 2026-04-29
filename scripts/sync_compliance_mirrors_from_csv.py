@@ -37,6 +37,7 @@ from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDN
 from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIELDNAMES  # noqa: E402
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_topic_registry_csv import TOPIC_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_process_csv import (  # noqa: E402
     PROCESS_LIST_FIELDNAMES,
     normalize_process_row,
@@ -52,6 +53,7 @@ ADVISER_DISCIPLINES_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "complianc
 ADVISER_QUESTIONS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "ADVISER_OPEN_QUESTIONS.csv"
 FILED_INSTRUMENTS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "FOUNDER_FILED_INSTRUMENTS.csv"
 PROGRAM_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PROGRAM_REGISTRY.csv"
+TOPIC_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
 
 # Must match sql-proposal-stack-20260417 §4.3
 BASELINE_FIELDNAMES: tuple[str, ...] = (
@@ -246,6 +248,29 @@ def _emit_founder_filed_instruments_upserts(rows: list[dict[str, str]], source_g
     return out
 
 
+def _emit_topic_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """Initiative 25 P2 mirror upsert emitter for compliance.topic_registry_mirror."""
+    cols_csv = ", ".join(TOPIC_REGISTRY_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in TOPIC_REGISTRY_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = []
+    out.append("-- compliance.topic_registry_mirror upserts (Initiative 25)")
+    for r in rows:
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in TOPIC_REGISTRY_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        tid = (r.get("topic_id") or "").strip()
+        if not tid:
+            continue
+        out.append(
+            f"INSERT INTO compliance.topic_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (topic_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
 def _emit_program_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
     """Initiative 23 P2 mirror upsert emitter for compliance.program_registry_mirror.
 
@@ -339,6 +364,11 @@ def main() -> int:
         help="Only emit program_registry_mirror statements (requires dimensions/PROGRAM_REGISTRY.csv) [Initiative 23]",
     )
     parser.add_argument(
+        "--topic-registry-only",
+        action="store_true",
+        help="Only emit topic_registry_mirror statements (requires dimensions/TOPIC_REGISTRY.csv) [Initiative 25]",
+    )
+    parser.add_argument(
         "--no-begin-commit",
         action="store_true",
         help="Omit BEGIN/COMMIT wrapper",
@@ -355,6 +385,7 @@ def main() -> int:
             args.adviser_questions_only,
             args.founder_filed_instruments_only,
             args.program_registry_only,
+            args.topic_registry_only,
         )
         if x
     )
@@ -363,7 +394,8 @@ def main() -> int:
             "error: at most one of --process-list-only, --baseline-only, "
             "--finops-counterparty-register-only, --goipoi-register-only, "
             "--adviser-disciplines-only, --adviser-questions-only, "
-            "--founder-filed-instruments-only, --program-registry-only",
+            "--founder-filed-instruments-only, --program-registry-only, "
+            "--topic-registry-only",
             file=sys.stderr,
         )
         return 1
@@ -604,6 +636,45 @@ def main() -> int:
             sys.stdout.write(text)
         return 0
 
+    if args.topic_registry_only:
+        if not TOPIC_REGISTRY_CSV.is_file():
+            print("error: missing", TOPIC_REGISTRY_CSV, file=sys.stderr)
+            return 1
+        with TOPIC_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            fn = list(reader.fieldnames or [])
+            if fn != list(TOPIC_REGISTRY_FIELDNAMES):
+                print(
+                    "error: TOPIC_REGISTRY.csv header drift vs TOPIC_REGISTRY_FIELDNAMES",
+                    file=sys.stderr,
+                )
+                print("  expected:", list(TOPIC_REGISTRY_FIELDNAMES), file=sys.stderr)
+                print("  got:     ", fn, file=sys.stderr)
+                return 1
+            tr_rows = [dict(r) for r in reader]
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            print(f"topic_registry_rows={len(tr_rows)}")
+            return 0
+        blocks = _emit_topic_registry_upserts(tr_rows, sha)
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            "-- Apply only after compliance.topic_registry_mirror exists (Initiative 25 DDL).",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
     if not PROC_CSV.is_file():
         print("error: missing", PROC_CSV, file=sys.stderr)
         return 1
@@ -681,6 +752,15 @@ def main() -> int:
                 pr_rows = [dict(r) for r in pr_reader]
                 pr_n = len(pr_rows)
 
+    tr_n = 0
+    tr_rows: list[dict[str, str]] = []
+    if TOPIC_REGISTRY_CSV.is_file():
+        with TOPIC_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            tr_reader = csv.DictReader(f)
+            if list(tr_reader.fieldnames or []) == list(TOPIC_REGISTRY_FIELDNAMES):
+                tr_rows = [dict(r) for r in tr_reader]
+                tr_n = len(tr_rows)
+
     if args.count_only:
         print(f"source_git_sha={sha}")
         print(f"process_list_rows={len(proc_rows)}")
@@ -691,6 +771,7 @@ def main() -> int:
         print(f"adviser_open_questions_rows={aq_n}")
         print(f"founder_filed_instruments_rows={fi_n}")
         print(f"program_registry_rows={pr_n}")
+        print(f"topic_registry_rows={tr_n}")
         return 0
 
     blocks: list[str] = []
@@ -710,6 +791,8 @@ def main() -> int:
         blocks.extend(_emit_founder_filed_instruments_upserts(fi_rows, sha))
     if not args.process_list_only and not args.baseline_only and pr_rows:
         blocks.extend(_emit_program_registry_upserts(pr_rows, sha))
+    if not args.process_list_only and not args.baseline_only and tr_rows:
+        blocks.extend(_emit_topic_registry_upserts(tr_rows, sha))
 
     preamble = [
         "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",

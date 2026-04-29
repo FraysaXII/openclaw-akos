@@ -127,6 +127,44 @@ def validate_manifest(path: Path, org_names: set[str]) -> list[str]:
     return errors
 
 
+def load_topic_registry_ids() -> set[str]:
+    """Initiative 25 P1: load topic_id set from canonical TOPIC_REGISTRY.csv.
+
+    Returns empty set when the CSV is absent (Initiative 25 not yet shipped),
+    in which case manifest topic_ids are not FK-checked.
+    """
+    csv_path = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
+    if not csv_path.is_file():
+        return set()
+    import csv as _csv
+
+    with csv_path.open(encoding="utf-8", newline="") as fh:
+        return {row["topic_id"].strip() for row in _csv.DictReader(fh) if row.get("topic_id")}
+
+
+def manifest_topic_ids(block: str) -> list[str]:
+    """Parse manifest YAML-ish topic_ids list values (one per line: ``  - topic_xxx``)."""
+    out: list[str] = []
+    in_block = False
+    for line in block.splitlines():
+        if re.match(r"^topic_ids:\s*", line):
+            in_block = True
+            # inline ``topic_ids: [a, b]`` form
+            inline = line.split(":", 1)[1].strip()
+            if inline.startswith("["):
+                inner = inline.strip("[]")
+                out.extend([s.strip().strip('"').strip("'") for s in inner.split(",") if s.strip()])
+                in_block = False
+            continue
+        if in_block:
+            m = re.match(r"^\s*-\s*(\S.*?)\s*$", line)
+            if m:
+                out.append(m.group(1).strip().strip('"').strip("'"))
+            elif line.strip() and not line.startswith(" ") and not line.startswith("\t"):
+                in_block = False
+    return out
+
+
 def main() -> int:
     print("\n  HLK KM manifest validator")
     print("  " + "=" * 40)
@@ -134,6 +172,7 @@ def main() -> int:
         print("  No _assets directory; skip.")
         return 0
     org_names = load_org_roles()
+    registered_topic_ids = load_topic_registry_ids()
     manifests = sorted(ASSETS_ROOT.rglob("*.manifest.md"))
     if not manifests:
         print("  No *.manifest.md under _assets; skip.")
@@ -141,6 +180,20 @@ def main() -> int:
     all_err: list[str] = []
     for m in manifests:
         errs = validate_manifest(m, org_names)
+        # Initiative 25 P1 (D-IH-12): FK-resolve manifest topic_ids into TOPIC_REGISTRY.
+        # SKIPs gracefully when the CSV is absent.
+        if registered_topic_ids:
+            try:
+                block = m.read_text(encoding="utf-8")
+                rel_path = m.relative_to(REPO_ROOT)
+                for tid in manifest_topic_ids(block):
+                    if tid and tid not in registered_topic_ids:
+                        errs.append(
+                            f"{rel_path}: topic_ids[{tid!r}] not found in TOPIC_REGISTRY.csv "
+                            "(canonical SSOT per D-IH-12)"
+                        )
+            except Exception:  # noqa: BLE001 — manifest read failures already surfaced above
+                pass
         rel = m.relative_to(REPO_ROOT)
         status = "PASS" if not errs else "FAIL"
         print(f"  {rel}  {status}")

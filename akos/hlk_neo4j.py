@@ -137,6 +137,19 @@ def _ensure_constraints(session: Session) -> None:
     session.run(
         "CREATE INDEX hlk_program_plane IF NOT EXISTS FOR (n:Program) ON (n.default_plane)"
     )
+    # Initiative 25 P-graph (D-IH-12 + D-IH-18): :Topic node identity + indexes.
+    session.run(
+        "CREATE CONSTRAINT hlk_topic_id IF NOT EXISTS FOR (n:Topic) REQUIRE n.topic_id IS UNIQUE"
+    )
+    session.run(
+        "CREATE INDEX hlk_topic_lifecycle IF NOT EXISTS FOR (n:Topic) ON (n.lifecycle_status)"
+    )
+    session.run(
+        "CREATE INDEX hlk_topic_class IF NOT EXISTS FOR (n:Topic) ON (n.topic_class)"
+    )
+    session.run(
+        "CREATE INDEX hlk_topic_plane IF NOT EXISTS FOR (n:Topic) ON (n.plane)"
+    )
 
 
 def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) -> dict[str, int]:
@@ -154,15 +167,19 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
     # Initiative 23 P-graph: program-side projection (CSV-driven; no in-memory
     # registry mirror). Append nodes/edges to the same lists so the wipe-then-
     # rebuild transaction below sees them all.
-    from akos.hlk_graph_model import build_program_graph
+    from akos.hlk_graph_model import build_program_graph, build_topic_graph
 
     prog_nodes, prog_edges = build_program_graph(registry)
-    nodes = nodes + prog_nodes
-    edges = edges + prog_edges
+    # Initiative 25 P-graph: topic projection (CSV-driven). Topics depend on
+    # Program nodes for UNDER_PROGRAM edges, so we project after Programs.
+    topic_nodes, topic_edges = build_topic_graph(registry)
+    nodes = nodes + prog_nodes + topic_nodes
+    edges = edges + prog_edges + topic_edges
 
     role_rows = [n.properties for n in nodes if n.label == "Role"]
     proc_rows = [n.properties for n in nodes if n.label == "Process"]
     prog_rows = [n.properties for n in nodes if n.label == "Program"]
+    topic_rows = [n.properties for n in nodes if n.label == "Topic"]
     edge_rows = [
         {
             "etype": e.edge_type,
@@ -235,15 +252,41 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
                 """,
                 rows=chunk,
             )
+        # Initiative 25 P-graph: project :Topic nodes after :Program so
+        # UNDER_PROGRAM edges can match.
+        for i in range(0, len(topic_rows), batch):
+            chunk = topic_rows[i : i + batch]
+            session.run(
+                """
+                UNWIND $rows AS row
+                MERGE (n:Topic {topic_id: row.topic_id})
+                SET n.title = row.title,
+                    n.topic_class = row.topic_class,
+                    n.lifecycle_status = row.lifecycle_status,
+                    n.primary_owner_role = row.primary_owner_role,
+                    n.program_id = row.program_id,
+                    n.plane = row.plane,
+                    n.manifest_path = row.manifest_path,
+                    n.notes = row.notes
+                """,
+                rows=chunk,
+            )
 
         rt = [r for r in edge_rows if r["etype"] == "REPORTS_TO"]
         ob_proc = [r for r in edge_rows if r["etype"] == "OWNED_BY" and r["fa"] == "Process"]
         ob_prog = [r for r in edge_rows if r["etype"] == "OWNED_BY" and r["fa"] == "Program"]
+        ob_topic = [r for r in edge_rows if r["etype"] == "OWNED_BY" and r["fa"] == "Topic"]
         po = [r for r in edge_rows if r["etype"] == "PARENT_OF"]
         prog_consumes = [r for r in edge_rows if r["etype"] == "CONSUMES"]
         prog_produces = [r for r in edge_rows if r["etype"] == "PRODUCES_FOR"]
         prog_parent = [r for r in edge_rows if r["etype"] == "PROGRAM_PARENT_OF"]
         prog_subsumes = [r for r in edge_rows if r["etype"] == "PROGRAM_SUBSUMES"]
+        # Initiative 25 P-graph: topic-side edges
+        topic_depends = [r for r in edge_rows if r["etype"] == "DEPENDS_ON"]
+        topic_parent = [r for r in edge_rows if r["etype"] == "TOPIC_PARENT_OF"]
+        topic_related = [r for r in edge_rows if r["etype"] == "RELATED_TO"]
+        topic_subsumes = [r for r in edge_rows if r["etype"] == "TOPIC_SUBSUMES"]
+        topic_under_program = [r for r in edge_rows if r["etype"] == "UNDER_PROGRAM"]
         for chunk in (rt[i : i + batch] for i in range(0, len(rt), batch)):
             if not chunk:
                 continue
@@ -342,10 +385,86 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
                 rows=chunk,
             )
 
+        # Initiative 25 P-graph: project topic-side edges last so all node
+        # types they target (Program, Role, Topic) already exist.
+        for chunk in (ob_topic[i : i + batch] for i in range(0, len(ob_topic), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MATCH (n:Topic {topic_id: row.fid})
+                MATCH (r:Role {role_name: row.tid})
+                MERGE (n)-[:OWNED_BY]->(r)
+                """,
+                rows=chunk,
+            )
+        for chunk in (topic_depends[i : i + batch] for i in range(0, len(topic_depends), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MATCH (a:Topic {topic_id: row.fid})
+                MATCH (b:Topic {topic_id: row.tid})
+                MERGE (a)-[:DEPENDS_ON]->(b)
+                """,
+                rows=chunk,
+            )
+        for chunk in (topic_parent[i : i + batch] for i in range(0, len(topic_parent), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MATCH (a:Topic {topic_id: row.fid})
+                MATCH (b:Topic {topic_id: row.tid})
+                MERGE (a)-[:TOPIC_PARENT_OF]->(b)
+                """,
+                rows=chunk,
+            )
+        for chunk in (topic_related[i : i + batch] for i in range(0, len(topic_related), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MATCH (a:Topic {topic_id: row.fid})
+                MATCH (b:Topic {topic_id: row.tid})
+                MERGE (a)-[:RELATED_TO]->(b)
+                """,
+                rows=chunk,
+            )
+        for chunk in (topic_subsumes[i : i + batch] for i in range(0, len(topic_subsumes), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MATCH (a:Topic {topic_id: row.fid})
+                MATCH (b:Topic {topic_id: row.tid})
+                MERGE (a)-[:TOPIC_SUBSUMES]->(b)
+                """,
+                rows=chunk,
+            )
+        for chunk in (topic_under_program[i : i + batch] for i in range(0, len(topic_under_program), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MATCH (t:Topic {topic_id: row.fid})
+                MATCH (p:Program {program_id: row.tid})
+                MERGE (t)-[:UNDER_PROGRAM]->(p)
+                """,
+                rows=chunk,
+            )
+
     return {
         "roles_written": len(role_rows),
         "processes_written": len(proc_rows),
         "programs_written": len(prog_rows),
+        "topics_written": len(topic_rows),
         "edges_written": len(edge_rows),
     }
 

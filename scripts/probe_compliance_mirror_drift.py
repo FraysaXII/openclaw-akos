@@ -50,6 +50,7 @@ MIRROR_CONTRACT: list[tuple[str, Path, str]] = [
     ("compliance.adviser_open_questions_mirror", HLK_COMPLIANCE / "ADVISER_OPEN_QUESTIONS.csv", "adviser_open_questions_rows"),
     ("compliance.founder_filed_instruments_mirror", HLK_COMPLIANCE / "FOUNDER_FILED_INSTRUMENTS.csv", "founder_filed_instruments_rows"),
     ("compliance.program_registry_mirror", HLK_COMPLIANCE / "dimensions" / "PROGRAM_REGISTRY.csv", "program_registry_rows"),
+    ("compliance.topic_registry_mirror", HLK_COMPLIANCE / "dimensions" / "TOPIC_REGISTRY.csv", "topic_registry_rows"),
 ]
 
 

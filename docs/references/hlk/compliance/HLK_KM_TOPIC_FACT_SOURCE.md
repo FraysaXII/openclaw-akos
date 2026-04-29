@@ -54,10 +54,27 @@ Used for review depth and retrieval; examples: `process_map`, `architecture`, `w
 
 A **topic** is a stable subject area with:
 
-- `topic_id`: kebab-case or `hol_*` / `thi_*` style stable id (must not collide with `item_id` in `process_list.csv`; use distinct namespace such as `topic_km_*` for non-process topics).
+- `topic_id`: snake_case stable id matching `^topic_[a-z0-9_]{2,64}$` (must not collide with `item_id` in `process_list.csv`).
 - `title`: human-readable name.
 - **primary_owner_role**: must match `role_name` in [baseline_organisation.csv](baseline_organisation.csv).
 - Links to sources, facts, optional `process_list.csv` `item_id` anchors.
+
+### Topic registry (Initiative 25 P1; D-IH-12)
+
+Topics are now first-class governed entities in the canonical CSV [`compliance/dimensions/TOPIC_REGISTRY.csv`](dimensions/TOPIC_REGISTRY.csv) (Initiative 25 P2). The CSV is the **single source of truth** for cross-topic edges:
+
+- `parent_topic` — single optional parent topic_id.
+- `related_topics` — semicolon-separated list (peer relationships).
+- `depends_on` — semicolon-separated list (this topic's outputs require these upstream topics).
+- `subsumes` / `subsumed_by` — semicolon-separated lists (used after a topic merge; the subsuming topic typically has `lifecycle_status = active` and the subsumed topics `superseded`).
+
+The per-topic `*.manifest.md` may **project** these edges into the manifest's `topic_ids:` and (optionally) a `related_topics:` slot for human readability, but those manifest fields are **derived from the CSV and must FK-resolve** into `TOPIC_REGISTRY.csv` at validation time. **Drift = canonical wins** per [`PRECEDENCE.md`](PRECEDENCE.md) §"Conflict Resolution".
+
+The Postgres mirror at `compliance.topic_registry_mirror` stores the same columns as TEXT (DAMA-pure projection); Neo4j projects typed relationships from the same edges (`:DEPENDS_ON`, `:TOPIC_PARENT_OF`, `:RELATED_TO`, `:TOPIC_SUBSUMES`, `:UNDER_PROGRAM`) per Initiative 25 P-graph (D-IH-18).
+
+### Obsidian wikilinks (Initiative 25 P4; D-IH-12)
+
+Topic companion `.md` files MAY use `[[topic_id]]` Obsidian-style wikilinks as a **secondary** navigation aid alongside primary markdown links. Wikilinks are **explicitly out of scope** for `validate_hlk_vault_links.py` — markdown links cover validator reachability; wikilinks are operator/Obsidian convention only.
 
 ## Fact
 
