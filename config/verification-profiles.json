@@ -110,6 +110,16 @@
           ]
         }
       ]
+    },
+    "wave2_backfill_check": {
+      "description": "Wave-2 (Initiatives 23-26) operator-answers sentinel scan: prints per-section counts of __OPERATOR_CONFIRM__ tokens remaining in docs/wip/planning/22a-i22-post-closure-followups/operator-answers-wave2.yaml. Always exits 0 (informational); the YAML is operator-filled at their pace and downstream phases gate on individual sections.",
+      "steps": [
+        {
+          "id": "wave2_backfill_sentinel_scan",
+          "description": "Sentinel scan for operator-answers-wave2.yaml",
+          "argv": ["scripts/wave2_backfill.py", "--check-only"]
+        }
+      ]
     }
   }
 }
