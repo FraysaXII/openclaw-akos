@@ -252,11 +252,42 @@ def _section_exhibits(
 # script and `scripts/compose_adviser_message.py` share one canonical path.
 # The local _render_pdf wrapper preserves the existing call site and label.
 from akos.hlk_pdf_render import render_pdf as _render_pdf_shared  # noqa: E402
+from akos.hlk_pdf_render import render_pdf_branded as _render_pdf_branded_shared  # noqa: E402
 
 
 def _render_pdf(md_text: str, out_path: "Path") -> int:
     """Initiative 22 P6 (D-IH-4) PDF render: thin wrapper over the shared helper."""
     return _render_pdf_shared(md_text, out_path, source_label="export_adviser_handoff")
+
+
+def _render_pdf_branded(
+    md_text: str,
+    out_path: "Path",
+    *,
+    program_id: str,
+    discipline_label: str,
+    issue_date: str,
+) -> int:
+    """Initiative 27 P1 branded variant: thin wrapper over render_pdf_branded.
+
+    Adds the dossier appendix cover (dark hero band + program/discipline strip)
+    so the appendix PDF visually pairs with the dossier PDF when stapled or
+    sent together.
+    """
+    monogram = REPO_ROOT.parent / "root_cd" / "boilerplate" / "public" / "holistika-short-100x100.svg"
+    return _render_pdf_branded_shared(
+        md_text,
+        out_path,
+        profile="dossier",
+        title="Apéndice — Cuestionario asesores",
+        subtitle="Fact-pattern, instrumentos, preguntas abiertas",
+        program_id=program_id,
+        discipline=discipline_label,
+        issue_date=issue_date,
+        status_label="Anexo al dossier ENISA",
+        monogram_path=str(monogram) if monogram.is_file() else None,
+        source_label="export_adviser_handoff_branded",
+    )
 
 
 def _git_sha() -> str:
@@ -344,6 +375,17 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Smoke-mode: write to a temp markdown and exit 0 if rendering succeeded.",
     )
+    parser.add_argument(
+        "--profile",
+        choices=("default", "dossier"),
+        default="default",
+        help=(
+            "Visual profile for --format pdf. 'dossier' adds the brand-aligned "
+            "cover hero band + body styling per BRAND_VISUAL_PATTERNS.md "
+            "(Initiative 27 P1) so the appendix pairs visually with the ENISA "
+            "dossier. 'default' keeps the legacy generic styling."
+        ),
+    )
     args = parser.parse_args(argv)
 
     for p in (DISCIPLINES_CSV, GOIPOI_CSV, QUESTIONS_CSV, INSTRUMENTS_CSV):
@@ -397,7 +439,22 @@ def main(argv: list[str] | None = None) -> int:
     else:
         md_tmp = out_path.with_suffix(".md")
         md_tmp.write_text(md, encoding="utf-8")
-        rc = _render_pdf(md, out_path)
+        if args.profile == "dossier":
+            issue_date_iso = generated_iso.split("T", 1)[0]
+            disc_label = (
+                ", ".join(discipline_codes.get(d, d) for d in selected)
+                if selected
+                else "Asesores"
+            )
+            rc = _render_pdf_branded(
+                md,
+                out_path,
+                program_id=args.program_id,
+                discipline_label=disc_label,
+                issue_date=issue_date_iso,
+            )
+        else:
+            rc = _render_pdf(md, out_path)
         if rc != 0:
             return rc
 

@@ -59,7 +59,7 @@ from akos.hlk_adviser_disciplines_csv import (  # noqa: E402
     ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES,
 )
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
-from akos.hlk_pdf_render import render_docx, render_pdf  # noqa: E402
+from akos.hlk_pdf_render import render_docx, render_pdf, render_pdf_branded  # noqa: E402
 
 HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
 GOIPOI_CSV = HLK_COMPLIANCE / "GOI_POI_REGISTER.csv"
@@ -184,6 +184,7 @@ def render_md(
     pronoun: str,
     sharing_label: str,
     evidence_path: Path | None,
+    body_path: Path | None = None,
 ) -> str:
     lines: list[str] = []
     lines.append("---")
@@ -234,10 +235,22 @@ def render_md(
     lines.append(f"- **Recipient lens**: `{recipient.get('lens', '')}`")
     lines.append(f"- **Recipient class**: `{recipient.get('class', '')}`")
     lines.append("")
-    lines.append("## Layer 4 — Eloquence (operator fills in)")
+    lines.append("## Layer 4 — Eloquence")
     lines.append("")
-    lines.append("> **TODO operator** — write the actual message body in the voice register above. Keep the four-layer locked: every claim cites a CSV row id; tone matches `voice_register` × `pronoun_register`; no `restricted`-sensitivity rows are referenced unless the message is `internal_only`.")
-    lines.append("")
+    if body_path is not None and body_path.is_file():
+        body_text = body_path.read_text(encoding="utf-8")
+        body_text = re.sub(r"^---\s*\n.*?\n---\s*\n", "", body_text, count=1, flags=re.DOTALL)
+        try:
+            cited = body_path.relative_to(REPO_ROOT)
+        except ValueError:
+            cited = body_path
+        lines.append(f"> **Source body**: [`{Path(cited).as_posix()}`]({Path(cited).as_posix()}). Hand-authored canonical per `BRAND_SPANISH_PATTERNS.md`. Operator pastes the body below into their email client and resolves the recipient address off-repo.")
+        lines.append("")
+        lines.append(body_text.strip())
+        lines.append("")
+    else:
+        lines.append("> **TODO operator** — write the actual message body in the voice register above. Keep the four-layer locked: every claim cites a CSV row id; tone matches `voice_register` × `pronoun_register`; no `restricted`-sensitivity rows are referenced unless the message is `internal_only`.")
+        lines.append("")
     lines.append("---")
     lines.append("")
     lines.append("## Pre-flight checklist (G-24-3 if this is the real adviser send)")
@@ -299,6 +312,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--program-id", default="", help="PRJ-HOL-style program_id (optional)")
     parser.add_argument("--evidence", type=Path, default=None, help="Optional path to evidence handoff bundle")
     parser.add_argument(
+        "--body",
+        type=Path,
+        default=None,
+        help=(
+            "Optional path to a hand-authored Markdown body (e.g. cover_email_es.md). "
+            "When provided, the composer inlines its content into the Layer 4 block "
+            "instead of emitting the TODO marker. Frontmatter is stripped automatically. "
+            "Initiative 27 P3 — keeps the composer SOC clean (it composes structure; "
+            "BRAND_SPANISH_PATTERNS.md authors prose)."
+        ),
+    )
+    parser.add_argument(
         "--out",
         type=Path,
         default=None,
@@ -321,6 +346,26 @@ def main(argv: list[str] | None = None) -> int:
         "--allow-scaffold-tokens",
         action="store_true",
         help="Allow brand foundation in scaffold-awaiting-discovery state (dry-run only)",
+    )
+    parser.add_argument(
+        "--profile",
+        choices=("default", "dossier"),
+        default="default",
+        help=(
+            "Visual profile for binary outputs (pdf/docx). 'dossier' applies the "
+            "Holistika brand-aligned cover + body styling per BRAND_VISUAL_PATTERNS.md "
+            "(Initiative 27 P1). 'default' keeps the legacy generic styling."
+        ),
+    )
+    parser.add_argument(
+        "--cover-title",
+        default=None,
+        help="Cover-page title used by --profile dossier (e.g. 'Carta de Presentación').",
+    )
+    parser.add_argument(
+        "--cover-subtitle",
+        default=None,
+        help="Cover-page subtitle used by --profile dossier (e.g. 'Dossier ENISA adjunto').",
     )
     args = parser.parse_args(argv)
 
@@ -384,6 +429,7 @@ def main(argv: list[str] | None = None) -> int:
         pronoun=pronoun,
         sharing_label=sharing_label,
         evidence_path=args.evidence,
+        body_path=args.body,
     )
 
     # Text-shaped formats: md / html / text — body is a string written directly.
@@ -427,13 +473,29 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
 
-    # Binary formats: render into the binary file + always write a .md sidecar
-    # so the canonical markdown source is preserved alongside (D-IH-23-A SSOT).
     md_sidecar = args.out.with_suffix(".md")
     if not md_sidecar.is_file() or md_sidecar.read_text(encoding="utf-8") != md_body:
         md_sidecar.write_text(md_body, encoding="utf-8")
     if args.format == "pdf":
-        rc = render_pdf(md_body, args.out, source_label="compose_adviser_message")
+        if args.profile == "dossier":
+            from datetime import datetime, UTC
+            issue_date = datetime.now(UTC).date().isoformat()
+            monogram = REPO_ROOT.parent / "root_cd" / "boilerplate" / "public" / "holistika-short-100x100.svg"
+            rc = render_pdf_branded(
+                md_body,
+                args.out,
+                profile="dossier",
+                title=args.cover_title or "Carta de Presentación",
+                subtitle=args.cover_subtitle or "Holistika Research",
+                program_id=program["program_id"] if program else None,
+                discipline=discipline.get("discipline_name") or discipline.get("discipline_code"),
+                issue_date=issue_date,
+                status_label="Borrador para envío",
+                monogram_path=str(monogram) if monogram.is_file() else None,
+                source_label="compose_adviser_message",
+            )
+        else:
+            rc = render_pdf(md_body, args.out, source_label="compose_adviser_message")
     else:  # docx
         rc = render_docx(md_body, args.out, source_label="compose_adviser_message")
     return rc

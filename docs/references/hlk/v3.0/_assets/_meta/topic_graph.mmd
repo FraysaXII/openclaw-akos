@@ -3,6 +3,7 @@
 %% Do NOT hand-edit; regenerate via `py scripts/render_topic_graph.py`.
 flowchart LR
   subgraph PRJ_HOL_FOUNDING_2026 [PRJ-HOL-FOUNDING-2026]
+    topic_enisa_dossier_es(["ENISA dossier (Spanish founder dossier)"])
     topic_enisa_evidence(["ENISA evidence pack (Founder Incorporation)"])
     topic_external_adviser_handoff["External Adviser Engagement (Founder Incorporation)"]
   end
@@ -14,3 +15,5 @@ flowchart LR
   end
   topic_kirbe_billing_plane_routing --- topic_external_adviser_handoff
   topic_enisa_evidence -.-> topic_external_adviser_handoff
+  topic_enisa_evidence --> topic_enisa_dossier_es
+  topic_enisa_dossier_es -.-> topic_enisa_evidence
