@@ -165,6 +165,27 @@ where.exe mmdc          # Windows; Linux/macOS: which mmdc
 ```
 
 If the runner refuses unprivileged sandbox, pass `--no-sandbox` or set `mmdc --puppeteerConfigFile <path>` with `{"args": ["--no-sandbox"]}`. When `mmdc` is absent, `scripts/render_km_diagrams.py` falls back to the public `mermaid.ink` HTTP API automatically — degraded (slower, network-dependent) but not blocking. Persistent re-eval-trigger templates for Initiative 26 deferrals: [`26-hlk-ops-hardening/reports/`](docs/wip/planning/26-hlk-ops-hardening/reports/).
+
+### WeasyPrint GTK3 install (Windows; Initiative 26 P3 / D-IH-26-C)
+
+The `--format pdf` path of [`scripts/export_adviser_handoff.py`](scripts/export_adviser_handoff.py) (Initiative 22 P6) renders Markdown → HTML → PDF via the **WeasyPrint → fpdf2 → pandoc** chain. WeasyPrint produces the highest-fidelity PDF (full CSS support, inline raster + vector embedding) but **requires the GTK3 runtime on Windows** for its Cairo + Pango bindings. Linux and macOS get GTK3 from system packages or Homebrew respectively, so this runbook is Windows-specific.
+
+**Install GTK3 on Windows:**
+
+1. Download the latest stable installer from [GTK-for-Windows-Runtime-Environment-Installer](https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases) (third-party, but the de-facto standard for Python WeasyPrint on Windows).
+2. Run the installer; the default install path (`C:\Program Files\GTK3-Runtime Win64\bin`) is added to `PATH` automatically.
+3. Restart the terminal so the new `PATH` is picked up.
+4. Install the Python opt-in deps:
+
+   ```powershell
+   py -m pip install --only-binary=:all: -r requirements-export.txt
+   ```
+
+5. **Smoke**: `py -c "from weasyprint import HTML; print(HTML(string='<p>ok</p>').write_pdf()[:4])"` should print `b'%PDF'`.
+
+**If GTK3 is not installed, the renderer chain falls back to fpdf2 transparently** — the PDF still renders but with reduced CSS fidelity (no fancy CSS layouts, simpler tables). Operators who don't need the highest-fidelity output can skip GTK3 entirely; the smoke profile [`export_adviser_handoff_pdf_smoke`](config/verification-profiles.json) still passes via the fpdf2 path.
+
+**Cross-references**: [`requirements-export.txt`](requirements-export.txt) (opt-in dependency declarations); [Initiative 22 P6 closure note](docs/wip/planning/22-hlk-scalability-and-i21-closures/master-roadmap.md); [Initiative 26 D-IH-26-C](docs/wip/planning/26-hlk-ops-hardening/decision-log.md).
 - Browser smoke tests: `py scripts/browser-smoke.py` (HTTP-only) or `py scripts/browser-smoke.py --playwright` (DOM mode; requires `pip install playwright && playwright install chromium`). On Windows crash-prone hosts, Playwright worker crashes are surfaced as `SKIP` outcomes. **`release-gate.py` browser-smoke exit 1** with failures in `architect_tools_ui` / `executor_approval_hint` usually means **control plane `/agents` or Playwright env drift**, not a regression in the graph stack—Phase 2 asserts against the same **FastAPI** `/agents` SSOT as `agent_visibility` (not OpenClaw gateway card copy). Exit **2** (no parseable JSON from workers) is treated as a soft pass in `release-gate.py`.
 - Agent evals: `py scripts/run-evals.py list` — list includes governance rubric suite ids from the verification config. **Governance rubric (all offline suites, same as `AKOS_EVAL_RUBRIC=1` in release gate):** `py scripts/run-evals.py run --governance-rubric`. **Single suite:** `py scripts/run-evals.py run --suite <suite_id> --mode rubric` (suites under `tests/evals/suites/<id>/`; legacy `tests/evals/tasks.json` for optional smoke). Optional Executor oracle: `AKOS_EXECUTOR_HARNESS=1` and `py scripts/verify.py optional_executor_harness` (or `py -m pytest tests/test_executor_harness_optional.py -m executor_harness`).
 - Optional release gate slice: set `AKOS_EVAL_RUBRIC=1` when running `py scripts/release-gate.py` to include the offline rubric pass.
