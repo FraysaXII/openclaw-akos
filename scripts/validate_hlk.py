@@ -235,6 +235,62 @@ def main() -> int:
             return 1
         print("  FINOPS_COUNTERPARTY_REGISTER: PASS")
 
+    goipoi_path = HLK_DIR / "GOI_POI_REGISTER.csv"
+    if goipoi_path.is_file():
+        import subprocess
+
+        vgp = Path(__file__).resolve().parent / "validate_goipoi_register.py"
+        r = subprocess.run([sys.executable, str(vgp)], capture_output=True, text=True)
+        print(r.stdout, end="")
+        if r.stderr:
+            print(r.stderr, end="", file=sys.stderr)
+        if r.returncode != 0:
+            print("  GOI_POI_REGISTER: FAIL")
+            return 1
+        print("  GOI_POI_REGISTER: PASS")
+
+    disc_path = HLK_DIR / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+    if disc_path.is_file():
+        import subprocess
+
+        vds = Path(__file__).resolve().parent / "validate_adviser_disciplines.py"
+        r = subprocess.run([sys.executable, str(vds)], capture_output=True, text=True)
+        print(r.stdout, end="")
+        if r.stderr:
+            print(r.stderr, end="", file=sys.stderr)
+        if r.returncode != 0:
+            print("  ADVISER_ENGAGEMENT_DISCIPLINES: FAIL")
+            return 1
+        print("  ADVISER_ENGAGEMENT_DISCIPLINES: PASS")
+
+    questions_path = HLK_DIR / "ADVISER_OPEN_QUESTIONS.csv"
+    if questions_path.is_file():
+        import subprocess
+
+        vqs = Path(__file__).resolve().parent / "validate_adviser_questions.py"
+        r = subprocess.run([sys.executable, str(vqs)], capture_output=True, text=True)
+        print(r.stdout, end="")
+        if r.stderr:
+            print(r.stderr, end="", file=sys.stderr)
+        if r.returncode != 0:
+            print("  ADVISER_OPEN_QUESTIONS: FAIL")
+            return 1
+        print("  ADVISER_OPEN_QUESTIONS: PASS")
+
+    instruments_path = HLK_DIR / "FOUNDER_FILED_INSTRUMENTS.csv"
+    if instruments_path.is_file():
+        import subprocess
+
+        vis = Path(__file__).resolve().parent / "validate_founder_filed_instruments.py"
+        r = subprocess.run([sys.executable, str(vis)], capture_output=True, text=True)
+        print(r.stdout, end="")
+        if r.stderr:
+            print(r.stderr, end="", file=sys.stderr)
+        if r.returncode != 0:
+            print("  FOUNDER_FILED_INSTRUMENTS: FAIL")
+            return 1
+        print("  FOUNDER_FILED_INSTRUMENTS: PASS")
+
     print("  OVERALL: PASS")
     return 0
 
