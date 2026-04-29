@@ -452,9 +452,9 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--format",
-        choices=("md", "pdf"),
+        choices=("md", "pdf", "html", "text"),
         default="md",
-        help="Output format (md primary; pdf via pandoc).",
+        help="Output format. md primary; pdf via WeasyPrint/fpdf2/pandoc; html (Initiative 24 P5) wraps the md body in a single-file HTML envelope; text (Initiative 24 P5) emits a paste-into-Gmail plain-text body that strips Mermaid blocks and most markup.",
     )
     parser.add_argument(
         "--out",
@@ -518,6 +518,10 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.format == "md":
         out_path.write_text(md, encoding="utf-8")
+    elif args.format == "html":
+        out_path.write_text(_render_html(md), encoding="utf-8")
+    elif args.format == "text":
+        out_path.write_text(_render_text(md), encoding="utf-8")
     else:
         md_tmp = out_path.with_suffix(".md")
         md_tmp.write_text(md, encoding="utf-8")
@@ -531,6 +535,50 @@ def main(argv: list[str] | None = None) -> int:
         f"({len(md.encode('utf-8'))} bytes, md_sha256_prefix={sha})"
     )
     return 0
+
+
+def _render_html(md_body: str) -> str:
+    """Initiative 24 P5: minimal single-file HTML wrapper around the MD body.
+
+    Goal: paste-into-email-client friendly, not a full markdown→HTML
+    converter. We escape the body and wrap in a styled `<pre>` so structure
+    survives. For richer rendering operators run `markdown` library or
+    pandoc on the .md output instead.
+    """
+    body_html = (
+        md_body.replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+    )
+    return (
+        "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\">\n"
+        "<title>Adviser handoff</title>\n"
+        "<style>body{font-family:system-ui,Segoe UI,sans-serif;max-width:780px;margin:2rem auto;line-height:1.5;color:#222}"
+        " pre{white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace;font-size:14px}</style>\n"
+        "</head><body>\n<pre>" + body_html + "</pre>\n</body></html>\n"
+    )
+
+
+def _render_text(md_body: str) -> str:
+    """Initiative 24 P5: plain-text body for paste-into-Gmail.
+
+    Strips Mermaid code blocks (which would render as raw text in plain
+    email and confuse readers), demotes markdown headings, removes bold/
+    italic markers, converts ``[text](url)`` to ``text (url)``, and
+    flattens blockquote prefixes. Preserves bullets, numbered lists, and
+    overall structure as visible text.
+    """
+    import re as _re
+
+    text = _re.sub(r"```mermaid[\s\S]*?```", "", md_body)
+    text = _re.sub(r"^---[\s\S]*?\n---\n", "", text, count=1)
+    text = _re.sub(r"^#+\s+(.*)$", r"\1", text, flags=_re.MULTILINE)
+    text = _re.sub(r"\*\*(.*?)\*\*", r"\1", text)
+    text = _re.sub(r"\*(.*?)\*", r"\1", text)
+    text = _re.sub(r"`([^`]*)`", r"\1", text)
+    text = _re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r"\1 (\2)", text)
+    text = _re.sub(r"^>\s*", "", text, flags=_re.MULTILINE)
+    return text
 
 
 if __name__ == "__main__":

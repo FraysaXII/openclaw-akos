@@ -15,6 +15,13 @@ display label safe for public repository visibility.
 from __future__ import annotations
 
 # Keep in sync with docs/references/hlk/compliance/GOI_POI_REGISTER.csv header row.
+#
+# Initiative 24 P2 (D-IH-11) added three optional voice-profile columns at the
+# end (`voice_register`, `language_preference`, `pronoun_register`) so the
+# composer (`scripts/compose_adviser_message.py`) can read recipient eloquence
+# defaults directly from the GOI/POI dimension. Columns are nullable; default
+# falls back through discipline default → brand foundation default → global
+# default per `SOP-HLK_COMMUNICATION_METHODOLOGY_001.md` Layer 4 precedence.
 GOIPOI_REGISTER_FIELDNAMES: tuple[str, ...] = (
     "ref_id",
     "entity_kind",
@@ -28,4 +35,7 @@ GOIPOI_REGISTER_FIELDNAMES: tuple[str, ...] = (
     "process_item_id",
     "primary_link",
     "notes",
+    "voice_register",
+    "language_preference",
+    "pronoun_register",
 )

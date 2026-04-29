@@ -130,6 +130,24 @@
           "argv": ["scripts/probe_compliance_mirror_drift.py", "--verify"]
         }
       ]
+    },
+    "export_adviser_handoff_html_smoke": {
+      "description": "Initiative 24 P5: render the adviser handoff bundle as HTML to artifacts/exports/handoff-smoke.html. Single-file HTML envelope wrapping the MD body — paste-into-email-client friendly. SKIPs gracefully when canonical CSVs are absent (output script handles this).",
+      "steps": [
+        {
+          "id": "export_adviser_handoff_all_html",
+          "description": "Render ADVOPS handoff (all disciplines, HTML) for PRJ-HOL-FOUNDING-2026",
+          "argv": [
+            "scripts/export_adviser_handoff.py",
+            "--discipline",
+            "all",
+            "--format",
+            "html",
+            "--out",
+            "artifacts/exports/handoff-smoke.html"
+          ]
+        }
+      ]
     }
   }
 }
