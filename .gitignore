@@ -78,3 +78,16 @@ _test_big_*.json
 _tmp_*.sql
 _tmp_*.json
 .scratch/
+
+# Cursor IDE personal settings (Initiative 22 hygiene; not shared)
+.cursor/settings.json
+
+# Obsidian local state under HLK vault (per-operator; not canonical)
+docs/references/hlk/v3.0/.obsidian/
+
+# Operator-managed Google Sheets binaries (canonical SSOT is the CSV)
+*.gsheet
+
+# Generated adviser handoff exports (Initiative 21 P7; regenerate via export script)
+artifacts/exports/
+

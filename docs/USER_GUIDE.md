@@ -84,7 +84,7 @@ cd openclaw-akos
 pip install -r requirements.txt
 # Optional — RunPod SDK (gpu-runpod, `scripts/gpu.py`):
 pip install -r requirements-gpu.txt
-# Optional — OpenStack SDK (gpu-shadow, `akos/openstack_provider.py`):
+# Optional — OpenStack SDK (ShadowGPU / `gpu-shadow`, `akos/openstack_provider.py`):
 pip install -r requirements-openstack.txt
 ```
 
@@ -705,9 +705,11 @@ The `runpod` field should show `"healthy"`. You can also test inference directly
 curl $VLLM_RUNPOD_URL/models
 ```
 
-### 8.8 ShadowPC OpenStack
+### 8.8 ShadowGPU (OpenStack cloud)
 
-ShadowPC is the sovereign-EU GPU alternative to RunPod. The `gpu-shadow` profile deploys vLLM through cloud-init onto an OpenStack GPU instance and then points the gateway at the instance's floating IP.
+**ShadowGPU** is Shadow’s cloud GPU service: you connect through **OpenStack** (API, CLI, or Horizon) to run workloads on their EU GPU fleet. It is the sovereign-EU vLLM alternative to RunPod for this repo’s `gpu-shadow` profile. **ShadowPC** is a separate product (the local Windows dev/gaming machine); do not conflate the two when talking to operators or vendors.
+
+The `gpu-shadow` profile deploys vLLM through cloud-init onto a ShadowGPU instance and then points the gateway at the instance's floating IP.
 
 Setup flow:
 
@@ -725,7 +727,7 @@ python scripts/gpu.py deploy-shadow --dry-run
 python scripts/gpu.py deploy-shadow
 ```
 
-Current known-good Shadow defaults:
+Current known-good ShadowGPU / tenant defaults (check Skyline for your project):
 
 - Image: `Ubuntu-22.04`
 - Flavor: `power-c32m112-gpu-A4500-4`
@@ -733,8 +735,8 @@ Current known-good Shadow defaults:
 
 Operational note:
 
-- Some Shadow tenants forbid security-group creation through policy. If that happens, AKOS now falls back to project-default networking instead of failing the deploy before instance creation.
-- If compute server creation is blocked by role/policy, use the exact operator steps in [`docs/uat/gpu_provider_unblock_checklist.md`](uat/gpu_provider_unblock_checklist.md).
+- Some ShadowGPU tenants forbid security-group creation through policy. If that happens, AKOS now falls back to project-default networking instead of failing the deploy before instance creation.
+- If compute server creation is blocked by role/policy, use the exact operator steps in [`docs/uat/gpu_provider_unblock_checklist.md`](uat/gpu_provider_unblock_checklist.md) (and coordinate with the ShadowGPU operator for `servers:create` if needed).
 
 ---
 
@@ -2134,6 +2136,10 @@ The canonical baselines live in `docs/references/hlk/compliance/`:
 | `process_list.csv` | Processes, projects, workstreams, tasks | New process, hierarchy change, ownership change; follow **SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001** (`docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md`) |
 | `COMPONENT_SERVICE_MATRIX.csv` | Components, services, integrations (CTO SSOT) | New system, ownership or API exposure change; follow **SOP-HLK_COMPONENT_SERVICE_MATRIX_MAINTENANCE_001** (`docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-HLK_COMPONENT_SERVICE_MATRIX_MAINTENANCE_001.md`); validate via `py scripts/validate_hlk.py` |
 | `FINOPS_COUNTERPARTY_REGISTER.csv` | Counterparty metadata only—vendors, customers, partners (no amounts; Business Controller / CFO chain) | New counterparty, classification, or renewal review; follow **SOP-HLK_FINOPS_COUNTERPARTY_REGISTER_MAINTENANCE_001** (`docs/references/hlk/v3.0/Admin/O5-1/Finance/Business Controller/SOP-HLK_FINOPS_COUNTERPARTY_REGISTER_MAINTENANCE_001.md`); Supabase mirror **`compliance.finops_counterparty_register_mirror`** via `sync_compliance_mirrors_from_csv.py --finops-counterparty-register-only` or **`py scripts/verify.py compliance_mirror_emit`** after DDL |
+| `GOI_POI_REGISTER.csv` | Groups of Interest / Persons of Interest dimension (organisations + persons referenced by canonical text via ref_id; private parties obfuscated, public entities un-redacted) — **Compliance** chain | New stakeholder, sensitivity change, or program reuse; follow **SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001** (`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md`); Supabase mirror **`compliance.goipoi_register_mirror`** via `sync_compliance_mirrors_from_csv.py --goipoi-register-only` or **`py scripts/verify.py compliance_mirror_emit`** after DDL (Initiative 21) |
+| `ADVISER_ENGAGEMENT_DISCIPLINES.csv` | External Adviser Engagement (ADVOPS) plane disciplines lookup — Legal / Fiscal / IP / Banking / Certification / Notary — **PMO** chain | New discipline; follow **SOP-EXTERNAL_ADVISER_ENGAGEMENT_001** (`docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md`); mirror **`compliance.adviser_engagement_disciplines_mirror`** via `--adviser-disciplines-only` or **`py scripts/verify.py compliance_mirror_emit`** (Initiative 21) |
+| `ADVISER_OPEN_QUESTIONS.csv` | Adviser-facing questions and actions across all disciplines and programs (replaces `FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md` as SSOT — vault MD becomes a derived per-discipline view) — **PMO/Legal** | New / answered / escalated question; mirror **`compliance.adviser_open_questions_mirror`** via `--adviser-questions-only` or **`py scripts/verify.py compliance_mirror_emit`** (Initiative 21) |
+| `FOUNDER_FILED_INSTRUMENTS.csv` | Filed legal/fiscal/IP/banking/certification/notary instruments across draft/signed/filed/superseded statuses (replaces `FOUNDER_FILED_INSTRUMENT_REGISTER.md` as SSOT — vault MD becomes a derived per-discipline view) — **Legal** chain | New filing or status change; mirror **`compliance.founder_filed_instruments_mirror`** via `--founder-filed-instruments-only` or **`py scripts/verify.py compliance_mirror_emit`** (Initiative 21) |
 | `access_levels.md` | Access level definitions | Policy change (rare) |
 | `confidence_levels.md` | Confidence level definitions | Policy change (rare) |
 | `source_taxonomy.md` | Source categories and credibility levels | New source type (rare) |
@@ -2177,5 +2183,33 @@ docs/references/hlk/
 | How do I check integrity? | `py scripts/test.py hlk` or use `/hlk/gaps` endpoint |
 | How do I validate KM visual manifests? | `py scripts/validate_hlk_km_manifests.py` |
 | Where are Holistika GitHub repos indexed? | `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` |
+| How do I export an adviser handoff bundle? | `py scripts/export_adviser_handoff.py --discipline {legal,fiscal,ip,banking,certification,notary,all} --format md --out artifacts/exports/handoff-<YYYY-MM-DD>.md` (Initiative 21 / P7) |
+| How do I export the same bundle as PDF? | `py scripts/export_adviser_handoff.py --discipline all --format pdf --out artifacts/exports/handoff-<YYYY-MM-DD>.pdf` after `py -m pip install --only-binary=:all: -r requirements-export.txt` (Initiative 22 / P6; renderer chain WeasyPrint → fpdf2 → pandoc) |
+| How do I smoke-test the adviser export (MD)? | `py scripts/verify.py export_adviser_handoff_smoke` |
+| How do I smoke-test the adviser export (PDF)? | `py scripts/verify.py export_adviser_handoff_pdf_smoke` (SKIPs gracefully when no PDF renderer is installed) |
+| Where do new program-scoped vault docs go? | Under the role folder's `programs/<program_id>/` subfolder (Initiative 22 P3) — e.g. `docs/references/hlk/v3.0/Admin/O5-1/People/Legal/programs/PRJ-HOL-FOUNDING-2026/` |
+| Where do new KM Output-1 visuals go? | Under `_assets/<plane>/<program_id>/<topic_id>/` (Initiative 22 P2) — see `docs/references/hlk/v3.0/_assets/README.md` |
+| How do I render a KM Mermaid diagram? | `py scripts/render_km_diagrams.py <path>.mmd --update-manifest` (Initiative 22 P5; uses `mmdc` if installed, else mermaid.ink HTTP fallback) |
+
+### 24.7 External Adviser Engagement (ADVOPS) plane
+
+The **External Adviser Engagement** plane (ADVOPS) sits parallel to MKTOPS / FINOPS / OPS / TECHOPS and governs how Holistika engages **all** external advisers (Legal, Fiscal, IP, Banking, Certification, Notary) for any program. Initiative 21 promoted four ad-hoc artifacts to canonical CSVs and added a deterministic GOI/POI obfuscation dimension:
+
+- Plane SOP — `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md`
+- Router — `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/EXTERNAL_ADVISER_ROUTER.md`
+- Cursor rule — `.cursor/rules/akos-adviser-engagement.mdc`
+- KM Topic — `docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/adviser_handoff/topic_external_adviser_handoff.manifest.md`
+- Initiative folder — `docs/wip/planning/21-hlk-adviser-engagement-and-goipoi/`
+
+**Day-to-day operator commands:**
+
+```pwsh
+py scripts/validate_hlk.py
+py scripts/verify.py compliance_mirror_emit
+py scripts/verify.py export_adviser_handoff_smoke
+py scripts/export_adviser_handoff.py --discipline legal --format md --out artifacts/exports/legal-handoff-2026-04.md
+```
+
+**Privacy posture (D-CH-2)**: Canonical text uses GOI/POI ref_ids only; raw names of private parties live off-repo. Public authorities (AEAT, ENISA, OEPM, mercantile registries) may be named directly. See `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_001.md` and `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md`.
 
 

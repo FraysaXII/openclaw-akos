@@ -1,0 +1,94 @@
+---
+description: >-
+  External Adviser Engagement (ADVOPS) plane: per-discipline routing for
+  Legal, Fiscal, IP, Banking, Certification, and Notary advisers. Use whenever
+  work touches the GOI/POI register, the adviser engagement disciplines
+  lookup, the open-questions / filed-instruments registers, the counsel
+  handoff package, or transcripts under delete-legal-transcripts/.
+globs:
+  - "docs/references/hlk/compliance/GOI_POI_REGISTER.csv"
+  - "docs/references/hlk/compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+  - "docs/references/hlk/compliance/ADVISER_OPEN_QUESTIONS.csv"
+  - "docs/references/hlk/compliance/FOUNDER_FILED_INSTRUMENTS.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_GOIPOI_*"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_*"
+  - "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-EXTERNAL_ADVISER_*"
+  - "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/EXTERNAL_ADVISER_ROUTER.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Legal/EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Legal/FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Legal/FOUNDER_FILED_INSTRUMENT_REGISTER.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Legal/FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md"
+  - "docs/references/hlk/business-intent/delete-legal-transcripts/**"
+  - "akos/hlk_goipoi_csv.py"
+  - "akos/hlk_adviser_disciplines_csv.py"
+  - "akos/hlk_adviser_questions_csv.py"
+  - "akos/hlk_founder_filed_instruments_csv.py"
+  - "scripts/validate_goipoi_register.py"
+  - "scripts/validate_adviser_disciplines.py"
+  - "scripts/validate_adviser_questions.py"
+  - "scripts/validate_founder_filed_instruments.py"
+  - "scripts/redact_transcripts_p2.py"
+  - "scripts/export_adviser_handoff.py"
+  - "scripts/sql/i21_phase1_staging/**"
+  - "supabase/migrations/*_i21_*.sql"
+  - "docs/wip/planning/21-hlk-adviser-engagement-and-goipoi/**"
+alwaysApply: false
+---
+
+# AKOS — External Adviser Engagement (ADVOPS plane)
+
+Use this rule for any change that touches the **External Adviser Engagement plane** — the cross-program scaffolding for Legal, Fiscal, IP, Banking, Certification, and Notary advisers (workstream `hol_opera_ws_5`). Complements [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc) (MasterData / Supabase) and [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) (HLK asset class), and inherits planning traceability from [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc).
+
+## Plane summary
+
+| Plane | Owns | System of record |
+|-------|------|------------------|
+| **MKTOPS** ([Initiative 14](../../docs/wip/planning/14-holistika-internal-gtm-mops/master-roadmap.md)) | Funnel, qualification, lead intake | `holistika_gtm_*` rows + `holistika_ops.lead_intake` |
+| **FINOPS** ([Initiative 18](../../docs/wip/planning/18-hlk-finops-counterparty-stripe/master-roadmap.md)) | Counterparty metadata; ledger gates | `FINOPS_COUNTERPARTY_REGISTER.csv` + mirror; `finops.*` (Postgres) |
+| **OPS / PMO** | Program portfolio, stakeholder index | `process_list.csv` + `TOPIC_PMO_CLIENT_DELIVERY_HUB.md` |
+| **TECHOPS / DEVOPS** | Component matrix, infra, migrations | `COMPONENT_SERVICE_MATRIX.csv` + `supabase/migrations/` |
+| **ADVOPS** (this plane) | External adviser engagement, per discipline | `ADVISER_ENGAGEMENT_DISCIPLINES.csv` + open-questions / filed-instruments registers + GOI/POI |
+
+## Knowledge dimension: GOI/POI
+
+`GOI_POI_REGISTER.csv` (Initiative 21 / P1) is a **canonical knowledge dimension**: every private organisation or person referenced from the vault, ADVOPS registers, transcripts, or KM manifests is captured by `ref_id` (`POI-<DISC>-<SLUG>-<YYYY>` / `GOI-<DISC>-<SLUG>-<YYYY>`). Documents reference `ref_id`s only; obfuscation is deterministic. Identity mapping (real name ↔ ref_id) is **off-repo** and operator-managed (see [`SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md)).
+
+## Discipline routing
+
+`ADVISER_ENGAGEMENT_DISCIPLINES.csv` is the **lookup** that drives:
+
+- **Per-discipline sections** of [`EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Legal/EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md).
+- **Filtering** in [`scripts/export_adviser_handoff.py`](../../scripts/export_adviser_handoff.py) (Initiative 21 / P7).
+- **`canonical_role` / `default_process_item_id`** when adding a new question, instrument, or POI/GOI — pre-fill from the discipline row instead of typing them per question.
+
+Adding a discipline (e.g. accounting, employment, regulatory affairs) is a **row-level change** to the lookup CSV plus an optional new POI/GOI rows; **no schema migrations** required.
+
+## Forward-only privacy posture (D-CH-2)
+
+- **Current tip is redacted** via [`scripts/redact_transcripts_p2.py`](../../scripts/redact_transcripts_p2.py) and [`SOP-HLK_TRANSCRIPT_REDACTION_001`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_001.md).
+- **Commit history rewriting (`git filter-repo`) is deferred.** Re-evaluation triggers in [`docs/wip/planning/21-hlk-adviser-engagement-and-goipoi/decision-log.md`](../../docs/wip/planning/21-hlk-adviser-engagement-and-goipoi/decision-log.md) (D-CH-2).
+- **Never** add a new transcript or call note that contains real names; substitute first.
+
+## When to use this rule
+
+- Any new or updated row in `GOI_POI_REGISTER.csv`, `ADVISER_ENGAGEMENT_DISCIPLINES.csv`, `ADVISER_OPEN_QUESTIONS.csv`, `FOUNDER_FILED_INSTRUMENTS.csv`.
+- Any change to the counsel handoff package or its per-discipline sections.
+- Any new transcript or redaction action under `delete-legal-transcripts/`.
+- New ADVOPS-related processes or workstreams in `process_list.csv` (`hol_opera_ws_5`, `hol_opera_dtp_31x`).
+- Mirror DDL or sync changes for `compliance.goipoi_register_mirror`, `compliance.adviser_engagement_disciplines_mirror`, `compliance.adviser_open_questions_mirror`, `compliance.founder_filed_instruments_mirror`.
+
+## Required runbook
+
+1. **Update CSVs first** (`GOI_POI_REGISTER`, `ADVISER_ENGAGEMENT_DISCIPLINES`, `ADVISER_OPEN_QUESTIONS`, `FOUNDER_FILED_INSTRUMENTS`).
+2. **Validate**: `py scripts/validate_hlk.py` (PASS gate); `py scripts/validate_hlk_vault_links.py`.
+3. **Update vault MD** (handoff package, per-discipline sections, fact pattern, open-questions human view, filed-instruments human view) — these are derived views.
+4. **Sync mirrors** (operator gate): `py scripts/sync_compliance_mirrors_from_csv.py --goipoi-register-only` etc., review output, apply via Supabase MCP `service_role`.
+5. **Update process_list.csv** only via operator-approved tranche per [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc); never mutate without a row in the initiative `decision-log.md`.
+
+## Related artifacts
+
+- Initiative 21 master-roadmap: [`docs/wip/planning/21-hlk-adviser-engagement-and-goipoi/master-roadmap.md`](../../docs/wip/planning/21-hlk-adviser-engagement-and-goipoi/master-roadmap.md).
+- Plane SOP: [`SOP-EXTERNAL_ADVISER_ENGAGEMENT_001`](../../docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md).
+- Router: [`EXTERNAL_ADVISER_ROUTER.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/EXTERNAL_ADVISER_ROUTER.md).
+- GOI/POI SOP: [`SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md).
+- Redaction SOP: [`SOP-HLK_TRANSCRIPT_REDACTION_001`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_001.md).
