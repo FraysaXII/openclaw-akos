@@ -1,0 +1,44 @@
+%% Topic: KiRBe billing-plane routing — program PRJ-HOL-KIR-2026
+%% Source-of-truth for topic_kirbe_billing_plane_routing.png / .svg
+%% Render with: py scripts/render_km_diagrams.py docs/references/hlk/v3.0/_assets/techops/PRJ-HOL-KIR-2026/topic_kirbe_billing_plane_routing/topic_kirbe_billing_plane_routing.mmd
+%% Schema: HLK_KM_TOPIC_FACT_SOURCE.md (Output 1, paths.mermaid)
+flowchart LR
+  subgraph Stripe [Stripe API external]
+    StripeEvent["Stripe webhook event"]
+  end
+
+  subgraph Edge [Edge Function]
+    Handler["stripe-webhook-handler"]
+  end
+
+  subgraph KiRBePlane [KiRBe SaaS plane]
+    KSubs["kirbe.subscription state"]
+    KMon["kirbe.monitoring_logs"]
+  end
+
+  subgraph HolPlane [Holistika company plane]
+    HOpsLink["holistika_ops.stripe_customer_link"]
+    HBill["holistika_ops.billing_account"]
+  end
+
+  subgraph FinopsRegister [FINOPS counterparty register]
+    Cpty["FINOPS_COUNTERPARTY_REGISTER.csv"]
+    CptyMir["compliance.finops_counterparty_register_mirror"]
+  end
+
+  subgraph ProgramReg [Program registry]
+    KIR["PRJ-HOL-KIR-2026 (KIR)"]
+    FND["PRJ-HOL-FOUNDING-2026 (FND)"]
+  end
+
+  StripeEvent --> Handler
+  Handler -->|"metadata.hlk_billing_plane = 'kirbe'"| KSubs
+  Handler -->|"metadata.hlk_billing_plane = 'holistika_ops'"| HOpsLink
+  Handler -.-> KMon
+  HOpsLink --> HBill
+  HOpsLink -. "finops_counterparty_id slug" .-> Cpty
+  Cpty --> CptyMir
+
+  KIR -. "CONSUMES (Initiative 23 P-graph)" .-> FND
+  KIR -. "owns" .-> KSubs
+  FND -. "owns" .-> Cpty

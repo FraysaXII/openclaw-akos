@@ -50,9 +50,20 @@ When a role-folder accumulates more than a handful of program-specific case docs
 
 Current program subfolders:
 
+**`PRJ-HOL-FOUNDING-2026`** (founder incorporation; ADVOPS plane):
+
 - [`Admin/O5-1/People/Legal/programs/PRJ-HOL-FOUNDING-2026/README.md`](Admin/O5-1/People/Legal/programs/PRJ-HOL-FOUNDING-2026/README.md)
 - [`Admin/O5-1/People/Compliance/programs/PRJ-HOL-FOUNDING-2026/README.md`](Admin/O5-1/People/Compliance/programs/PRJ-HOL-FOUNDING-2026/README.md)
 - [`Admin/O5-1/Operations/PMO/programs/PRJ-HOL-FOUNDING-2026/README.md`](Admin/O5-1/Operations/PMO/programs/PRJ-HOL-FOUNDING-2026/README.md)
+
+**`PRJ-HOL-KIR-2026`** (KiRBe SaaS platform — dual-natured product + KM ingestion source per D-IH-16; Initiative 23 P6, 2026-04-29):
+
+- [`Admin/O5-1/Tech/System Owner/programs/PRJ-HOL-KIR-2026/README.md`](Admin/O5-1/Tech/System%20Owner/programs/PRJ-HOL-KIR-2026/README.md)
+- [`Admin/O5-1/Data/Architecture/programs/PRJ-HOL-KIR-2026/README.md`](Admin/O5-1/Data/Architecture/programs/PRJ-HOL-KIR-2026/README.md)
+- [`Admin/O5-1/Data/Governance/programs/PRJ-HOL-KIR-2026/README.md`](Admin/O5-1/Data/Governance/programs/PRJ-HOL-KIR-2026/README.md)
+- [`Admin/O5-1/Finance/Business Controller/programs/PRJ-HOL-KIR-2026/README.md`](Admin/O5-1/Finance/Business%20Controller/programs/PRJ-HOL-KIR-2026/README.md)
+- [`Admin/O5-1/People/programs/PRJ-HOL-KIR-2026/README.md`](Admin/O5-1/People/programs/PRJ-HOL-KIR-2026/README.md)
+- [`Admin/O5-1/Operations/PMO/programs/PRJ-HOL-KIR-2026/README.md`](Admin/O5-1/Operations/PMO/programs/PRJ-HOL-KIR-2026/README.md)
 
 Authoritative convention: [`compliance/README.md`](../compliance/README.md) (Initiative 22 P1).
 
