@@ -316,6 +316,21 @@ def main() -> int:
             return 1
         print("  PROGRAM_ID_CONSISTENCY: PASS")
 
+    # Initiative 25 P2 - Topic registry (separate gate; SKIPs gracefully when absent).
+    topic_registry_path = HLK_DIR / "dimensions" / "TOPIC_REGISTRY.csv"
+    if topic_registry_path.is_file():
+        import subprocess
+
+        vtr = Path(__file__).resolve().parent / "validate_topic_registry.py"
+        rt = subprocess.run([sys.executable, str(vtr)], capture_output=True, text=True)
+        print(rt.stdout, end="")
+        if rt.stderr:
+            print(rt.stderr, end="", file=sys.stderr)
+        if rt.returncode != 0:
+            print("  TOPIC_REGISTRY: FAIL")
+            return 1
+        print("  TOPIC_REGISTRY: PASS")
+
     print("  OVERALL: PASS")
     return 0
 

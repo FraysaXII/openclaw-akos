@@ -25,7 +25,7 @@ from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES
 from akos.io import REPO_ROOT
 from akos.models import OrgRole, ProcessItem
 
-GraphLabel = Literal["Role", "Process", "Program"]
+GraphLabel = Literal["Role", "Process", "Program", "Topic"]
 EdgeType = Literal[
     "REPORTS_TO",
     "PARENT_OF",
@@ -35,11 +35,20 @@ EdgeType = Literal[
     "PROGRAM_PARENT_OF",
     "PROGRAM_SUBSUMES",
     "UNDER_PROGRAM",
+    # Initiative 25 P-graph (D-IH-25-B): Topic-side typed edges, naming
+    # disambiguated from PROGRAM_PARENT_OF + PROGRAM_SUBSUMES.
+    "DEPENDS_ON",
+    "TOPIC_PARENT_OF",
+    "RELATED_TO",
+    "TOPIC_SUBSUMES",
 ]
 
 
 PROGRAM_REGISTRY_CSV = (
     REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PROGRAM_REGISTRY.csv"
+)
+TOPIC_REGISTRY_CSV = (
+    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
 )
 
 
@@ -178,12 +187,14 @@ def graph_parity_counts(registry: HlkRegistry, nodes: list[GraphNode], edges: li
     role_nodes = sum(1 for n in nodes if n.label == "Role")
     proc_nodes = sum(1 for n in nodes if n.label == "Process")
     prog_nodes = sum(1 for n in nodes if n.label == "Program")
+    topic_nodes = sum(1 for n in nodes if n.label == "Topic")
     return {
         "registry_roles": len(registry._roles),  # noqa: SLF001
         "registry_processes": len(registry._processes),  # noqa: SLF001
         "graph_role_nodes": role_nodes,
         "graph_process_nodes": proc_nodes,
         "graph_program_nodes": prog_nodes,
+        "graph_topic_nodes": topic_nodes,
         "graph_edges": len(edges),
         "edge_reports_to": sum(1 for e in edges if e.edge_type == "REPORTS_TO"),
         "edge_parent_of": sum(1 for e in edges if e.edge_type == "PARENT_OF"),
@@ -193,6 +204,10 @@ def graph_parity_counts(registry: HlkRegistry, nodes: list[GraphNode], edges: li
         "edge_program_parent_of": sum(1 for e in edges if e.edge_type == "PROGRAM_PARENT_OF"),
         "edge_program_subsumes": sum(1 for e in edges if e.edge_type == "PROGRAM_SUBSUMES"),
         "edge_under_program": sum(1 for e in edges if e.edge_type == "UNDER_PROGRAM"),
+        "edge_depends_on": sum(1 for e in edges if e.edge_type == "DEPENDS_ON"),
+        "edge_topic_parent_of": sum(1 for e in edges if e.edge_type == "TOPIC_PARENT_OF"),
+        "edge_related_to": sum(1 for e in edges if e.edge_type == "RELATED_TO"),
+        "edge_topic_subsumes": sum(1 for e in edges if e.edge_type == "TOPIC_SUBSUMES"),
     }
 
 
@@ -330,6 +345,172 @@ def build_program_graph(
                     edge_type="OWNED_BY",
                     from_label="Program",
                     from_id=pid,
+                    to_label="Role",
+                    to_id=owner,
+                )
+            )
+
+    return nodes, edges
+
+
+TOPIC_REGISTRY_FIELDNAMES_MIN: tuple[str, ...] = (
+    "topic_id",
+    "title",
+    "topic_class",
+    "lifecycle_status",
+    "primary_owner_role",
+    "program_id",
+    "plane",
+    "parent_topic",
+    "related_topics",
+    "depends_on",
+    "subsumes",
+    "subsumed_by",
+    "manifest_path",
+    "notes",
+)
+
+
+def _read_topic_registry_rows(csv_path: Path = TOPIC_REGISTRY_CSV) -> list[dict[str, str]]:
+    """Read TOPIC_REGISTRY.csv. Returns [] if absent or header-mismatched."""
+    if not csv_path.is_file():
+        return []
+    with csv_path.open(encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh)
+        if list(reader.fieldnames or []) != list(TOPIC_REGISTRY_FIELDNAMES_MIN):
+            return []
+        return [dict(r) for r in reader]
+
+
+def _topic_props(row: dict[str, str]) -> dict[str, str | int]:
+    return {
+        "topic_id": row.get("topic_id", ""),
+        "title": row.get("title", ""),
+        "topic_class": row.get("topic_class", ""),
+        "lifecycle_status": row.get("lifecycle_status", ""),
+        "primary_owner_role": row.get("primary_owner_role", ""),
+        "program_id": row.get("program_id", ""),
+        "plane": row.get("plane", ""),
+        "manifest_path": row.get("manifest_path", ""),
+        "notes": (row.get("notes") or "")[:1024],
+    }
+
+
+def build_topic_graph(
+    registry: HlkRegistry,
+    csv_path: Path = TOPIC_REGISTRY_CSV,
+    program_registry_path: Path = PROGRAM_REGISTRY_CSV,
+) -> tuple[list[GraphNode], list[GraphEdge]]:
+    """Initiative 25 P-graph (D-IH-12 + D-IH-18 + D-IH-25-B). Project the TOPIC_REGISTRY
+    into ``:Topic`` nodes and typed edges. CSV is SSOT; this projector is read-only.
+
+    Edges emitted:
+
+    - ``(:Topic)-[:DEPENDS_ON]->(:Topic)`` from ``depends_on`` (semicolon list).
+    - ``(:Topic)-[:TOPIC_PARENT_OF]->(:Topic)`` from ``parent_topic`` (single).
+    - ``(:Topic)-[:RELATED_TO]->(:Topic)`` from ``related_topics`` (semicolon list).
+    - ``(:Topic)-[:TOPIC_SUBSUMES]->(:Topic)`` from ``subsumes`` (semicolon list).
+    - ``(:Topic)-[:UNDER_PROGRAM]->(:Program)`` from ``program_id`` (when not 'shared').
+    - ``(:Topic)-[:OWNED_BY]->(:Role)`` from ``primary_owner_role`` (when role is registered).
+
+    Forward references that don't resolve are silently skipped (validator is
+    the gate). Edge naming is disambiguated from ``:PROGRAM_PARENT_OF`` and
+    process-tree ``:PARENT_OF``.
+    """
+    rows = _read_topic_registry_rows(csv_path)
+    if not rows:
+        return [], []
+
+    topic_ids = {(r.get("topic_id") or "").strip() for r in rows}
+    topic_ids.discard("")
+    role_names = {r.role_name for r in registry._roles}  # noqa: SLF001
+
+    program_ids: set[str] = set()
+    if program_registry_path.is_file():
+        with program_registry_path.open(encoding="utf-8", newline="") as fh:
+            program_ids = {row["program_id"].strip() for row in csv.DictReader(fh) if row.get("program_id")}
+
+    nodes: list[GraphNode] = []
+    edges: list[GraphEdge] = []
+
+    for row in rows:
+        tid = (row.get("topic_id") or "").strip()
+        if not tid:
+            continue
+        nodes.append(GraphNode(label="Topic", id=tid, properties=_topic_props(row)))
+
+    for row in rows:
+        tid = (row.get("topic_id") or "").strip()
+        if not tid:
+            continue
+        # TOPIC_PARENT_OF (parent -> child)
+        parent = (row.get("parent_topic") or "").strip()
+        if parent and parent in topic_ids and parent != tid:
+            edges.append(
+                GraphEdge(
+                    edge_type="TOPIC_PARENT_OF",
+                    from_label="Topic",
+                    from_id=parent,
+                    to_label="Topic",
+                    to_id=tid,
+                )
+            )
+        # DEPENDS_ON (this -> upstream)
+        for ref in _split_semicolon(row.get("depends_on", "")):
+            if ref in topic_ids and ref != tid:
+                edges.append(
+                    GraphEdge(
+                        edge_type="DEPENDS_ON",
+                        from_label="Topic",
+                        from_id=tid,
+                        to_label="Topic",
+                        to_id=ref,
+                    )
+                )
+        # RELATED_TO (this -> related)
+        for ref in _split_semicolon(row.get("related_topics", "")):
+            if ref in topic_ids and ref != tid:
+                edges.append(
+                    GraphEdge(
+                        edge_type="RELATED_TO",
+                        from_label="Topic",
+                        from_id=tid,
+                        to_label="Topic",
+                        to_id=ref,
+                    )
+                )
+        # TOPIC_SUBSUMES (this -> subsumed)
+        for ref in _split_semicolon(row.get("subsumes", "")):
+            if ref in topic_ids and ref != tid:
+                edges.append(
+                    GraphEdge(
+                        edge_type="TOPIC_SUBSUMES",
+                        from_label="Topic",
+                        from_id=tid,
+                        to_label="Topic",
+                        to_id=ref,
+                    )
+                )
+        # UNDER_PROGRAM (this -> :Program)
+        prog = (row.get("program_id") or "").strip()
+        if prog and prog != "shared" and prog in program_ids:
+            edges.append(
+                GraphEdge(
+                    edge_type="UNDER_PROGRAM",
+                    from_label="Topic",
+                    from_id=tid,
+                    to_label="Program",
+                    to_id=prog,
+                )
+            )
+        # OWNED_BY (this -> :Role)
+        owner = (row.get("primary_owner_role") or "").strip()
+        if owner and owner in role_names:
+            edges.append(
+                GraphEdge(
+                    edge_type="OWNED_BY",
+                    from_label="Topic",
+                    from_id=tid,
                     to_label="Role",
                     to_id=owner,
                 )
