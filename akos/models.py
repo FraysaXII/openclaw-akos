@@ -358,7 +358,7 @@ class PodConfig(BaseModel):
 class OpenStackInstanceConfig(BaseModel):
     """Schema for the ``openstack`` block in gpu-shadow.json."""
 
-    region: str = Field(default="FRDUN02", description="ShadowPC OpenStack region")
+    region: str = Field(default="FRDUN02", description="ShadowGPU / OpenStack region")
     authUrl: str = Field(default="", description="Keystone v3 auth URL")
     flavor: str = Field(default="", description="Nova flavor for guaranteed instances")
     spotFlavor: str = Field(default="", description="Nova flavor for spot/preemptible instances")

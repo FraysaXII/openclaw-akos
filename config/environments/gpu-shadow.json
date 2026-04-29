@@ -2,7 +2,7 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "vllm-shadow/deepseek-r1-70b",
+        "primary": "vllm-shadow/DeepSeek-R1-Distill-Llama-70B-Q4_K_M.gguf",
         "fallbacks": [
           "anthropic/claude-sonnet-4",
           "ollama/deepseek-r1:14b"

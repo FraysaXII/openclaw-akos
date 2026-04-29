@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test ShadowPC OpenStack connectivity and list available resources."""
+"""Test ShadowGPU (OpenStack) connectivity and list available resources."""
 import os, sys
 sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parent))
 from akos.io import REPO_ROOT, load_env_file
@@ -11,7 +11,7 @@ for k, v in env.items():
 
 from akos.openstack_provider import OpenStackProvider
 
-print("Testing ShadowPC OpenStack connectivity...")
+print("Testing ShadowGPU (OpenStack) connectivity...")
 print(f"Auth URL: {os.environ.get('OS_AUTH_URL', 'NOT SET')}")
 print(f"Project:  {os.environ.get('OS_PROJECT_ID', 'NOT SET')[:16]}...")
 print(f"User:     {os.environ.get('OS_USERNAME', 'NOT SET')}")
@@ -35,7 +35,7 @@ if provider.enabled:
     for img in images[:10]:
         print(f"  {img['name']:50s}  status={img.get('status', '?')}")
     print()
-    print("ShadowPC is READY for deployment.")
+    print("ShadowGPU tenant is READY for deployment.")
 else:
     print("OpenStack connection FAILED")
     print("Check OS_AUTH_URL, OS_USERNAME, OS_PASSWORD, OS_PROJECT_ID")
