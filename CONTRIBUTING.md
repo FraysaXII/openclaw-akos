@@ -141,6 +141,30 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - HLK KM visual manifests: when editing `docs/references/hlk/v3.0/_assets/**/*.manifest.md`, run `py scripts/validate_hlk_km_manifests.py`. New manifests follow the **`<plane>/<program_id>/<topic_id>/`** convention (Initiative 22 P2; see `docs/references/hlk/v3.0/_assets/README.md`). When the manifest references a `paths.mermaid` source-of-truth, regenerate the raster via `py scripts/render_km_diagrams.py <topic>.mmd --update-manifest` (uses `mmdc` if installed via `npm i -g @mermaid-js/mermaid-cli`, else falls back to the public `mermaid.ink` HTTP API).
 - HLK Adviser handoff PDF rendering (Initiative 22 P6, opt-in): install with `py -m pip install --only-binary=:all: -r requirements-export.txt` (adds `weasyprint`, `fpdf2`, `markdown`). The renderer chain is WeasyPrint → fpdf2 → pandoc; on Windows without GTK3 runtime the pure-Python `fpdf2` path is used automatically. Smoke profile: `py scripts/verify.py export_adviser_handoff_pdf_smoke`.
 - HLK compliance mirror **drift probe** (Initiative 23 P4, operator-pasted): `py scripts/probe_compliance_mirror_drift.py --emit-sql` prints a JSON-shaped `SELECT` covering all 8 compliance mirrors. Run it via the `user-supabase` MCP `execute_sql` tool, save the JSON result into `artifacts/probes/mirror-drift-<YYYYMMDD>.json` (gitignored; only the README is tracked), then `py scripts/probe_compliance_mirror_drift.py --verify` (or the verify profile `compliance_mirror_drift_probe`). PASSes when canonical CSV row counts match live mirror counts; FAILs row-by-row on drift; **SKIPs gracefully (exit 0) when no fresh artifact exists** — CI never red on a probe operators have not refreshed. Cross-program glossary at [`docs/reference/glossary-cross-program.md`](docs/reference/glossary-cross-program.md) (Initiative 23 P5) is the SSOT for program codes, discipline codes, sensitivity bands, sharing labels, GOI/POI class taxonomy, status enums, and voice registers.
+
+### `mmdc` install (Initiative 26 P1, pinned + Linux CI)
+
+`scripts/render_km_diagrams.py` (Initiative 22 P5) prefers the locally-installed `mmdc` binary for deterministic Mermaid → PNG/SVG renders, with `mermaid.ink` as a graceful HTTP fallback. **Pin `@mermaid-js/mermaid-cli@^11`** so renders match across operators and CI runners (D-IH-26-A; non-pinned installs render Mermaid 10 vs 11 differently due to default theme + edge-routing changes).
+
+**Operator workstation install:**
+
+```bash
+npm i -g @mermaid-js/mermaid-cli@^11
+mmdc --version          # expect ^11.x
+where.exe mmdc          # Windows; Linux/macOS: which mmdc
+```
+
+**Linux CI runner extras** (D-IH-26-B): puppeteer's bundled Chromium silently crashes without these:
+
+```yaml
+- run: |
+    sudo apt-get update
+    sudo apt-get install -y libgbm1 fonts-liberation fonts-noto-color-emoji
+    npm i -g @mermaid-js/mermaid-cli@^11
+- run: mmdc --version
+```
+
+If the runner refuses unprivileged sandbox, pass `--no-sandbox` or set `mmdc --puppeteerConfigFile <path>` with `{"args": ["--no-sandbox"]}`. When `mmdc` is absent, `scripts/render_km_diagrams.py` falls back to the public `mermaid.ink` HTTP API automatically — degraded (slower, network-dependent) but not blocking. Persistent re-eval-trigger templates for Initiative 26 deferrals: [`26-hlk-ops-hardening/reports/`](docs/wip/planning/26-hlk-ops-hardening/reports/).
 - Browser smoke tests: `py scripts/browser-smoke.py` (HTTP-only) or `py scripts/browser-smoke.py --playwright` (DOM mode; requires `pip install playwright && playwright install chromium`). On Windows crash-prone hosts, Playwright worker crashes are surfaced as `SKIP` outcomes. **`release-gate.py` browser-smoke exit 1** with failures in `architect_tools_ui` / `executor_approval_hint` usually means **control plane `/agents` or Playwright env drift**, not a regression in the graph stack—Phase 2 asserts against the same **FastAPI** `/agents` SSOT as `agent_visibility` (not OpenClaw gateway card copy). Exit **2** (no parseable JSON from workers) is treated as a soft pass in `release-gate.py`.
 - Agent evals: `py scripts/run-evals.py list` — list includes governance rubric suite ids from the verification config. **Governance rubric (all offline suites, same as `AKOS_EVAL_RUBRIC=1` in release gate):** `py scripts/run-evals.py run --governance-rubric`. **Single suite:** `py scripts/run-evals.py run --suite <suite_id> --mode rubric` (suites under `tests/evals/suites/<id>/`; legacy `tests/evals/tasks.json` for optional smoke). Optional Executor oracle: `AKOS_EXECUTOR_HARNESS=1` and `py scripts/verify.py optional_executor_harness` (or `py -m pytest tests/test_executor_harness_optional.py -m executor_harness`).
 - Optional release gate slice: set `AKOS_EVAL_RUBRIC=1` when running `py scripts/release-gate.py` to include the offline rubric pass.
