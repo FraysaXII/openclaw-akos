@@ -2,12 +2,12 @@
 """AKOS GPU Infrastructure Manager.
 
 Interactive CLI for deploying, monitoring, and tearing down GPU inference
-infrastructure on RunPod and ShadowPC OpenStack.
+infrastructure on RunPod and ShadowGPU (OpenStack cloud).
 
 Usage:
     py scripts/gpu.py                # interactive menu
     py scripts/gpu.py deploy-pod     # RunPod dedicated pod
-    py scripts/gpu.py deploy-shadow  # ShadowPC OpenStack instance
+    py scripts/gpu.py deploy-shadow  # ShadowGPU OpenStack instance
     py scripts/gpu.py status         # check health
     py scripts/gpu.py teardown       # stop infrastructure
     py scripts/gpu.py --dry-run      # preview without calling any API
@@ -559,12 +559,12 @@ def _save_shadow_key_to_env(key: str, value: str) -> None:
 
 
 def deploy_shadow(*, dry_run: bool = False) -> int:
-    """Deploy vLLM on a ShadowPC OpenStack GPU instance."""
+    """Deploy vLLM on a ShadowGPU (OpenStack) GPU instance."""
     from akos.openstack_provider import OpenStackProvider
 
     print()
     print("=" * 60)
-    print("  Deploy ShadowPC OpenStack Instance")
+    print("  Deploy ShadowGPU (OpenStack) Instance")
     print("=" * 60)
 
     shadow_env_path = REPO_ROOT / "config" / "environments" / "gpu-shadow.env"
@@ -747,7 +747,7 @@ def deploy_shadow(*, dry_run: bool = False) -> int:
     _ensure_env_placeholders(oc_home)
 
     _print_completion_summary(
-        mode="ShadowPC OpenStack",
+        mode="ShadowGPU (OpenStack)",
         model=model,
         url=vllm_url,
         gpu_type=os_config.gpuType,
@@ -795,7 +795,7 @@ def check_status() -> int:
         print("  vLLM URL:     not configured")
 
     if state.activeInfra.type == "openstack":
-        print(f"  Provider:     ShadowPC OpenStack")
+        print(f"  Provider:     ShadowGPU (OpenStack)")
         print(f"  Instance ID:  {state.activeInfra.podId}")
         print(f"  GPU:          {state.activeInfra.gpuType} x{state.activeInfra.gpuCount}")
     else:
@@ -888,7 +888,7 @@ def interactive_menu(*, dry_run: bool = False) -> int:
     print("  2. RunPod Serverless Auto-scaled, pay-per-request, zero idle cost")
     print("                       Best for: intermittent usage and production entry points")
     print()
-    print("  3. ShadowPC (EU)     OpenStack GPU instance, sovereign EU data center")
+    print("  3. ShadowGPU (EU)    OpenStack GPU instance, sovereign EU data center")
     print("                       Best for: GDPR compliance, RTX A4500 spot/guaranteed")
     print()
     print("  4. Check status            (health of GPU infra)")

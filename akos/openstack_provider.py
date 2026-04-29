@@ -1,11 +1,13 @@
-"""ShadowPC OpenStack GPU infrastructure provider for AKOS.
+"""ShadowGPU (OpenStack cloud) infrastructure provider for AKOS.
 
 Typed wrapper around the ``openstacksdk`` Python SDK for managing GPU
-instances on Shadow's OpenStack infrastructure.  Provides idempotent
-instance creation, health monitoring, vLLM deployment via cloud-init,
-spot termination detection, and teardown.
+instances on Shadow's OpenStack tenant (ShadowGPU). **ShadowPC** is the
+separate local Windows product; this module is for cloud instances only.
 
-Graceful no-op when ``OS_AUTH_URL`` is not set (dev-local without Shadow).
+Provides idempotent instance creation, health monitoring, vLLM deployment
+via cloud-init, spot termination detection, and teardown.
+
+Graceful no-op when ``OS_AUTH_URL`` is not set (dev-local without ShadowGPU).
 """
 
 from __future__ import annotations
@@ -81,7 +83,7 @@ CLOUD_INIT_TEMPLATE = textwrap.dedent("""\
 
 
 class OpenStackProvider:
-    """Manages ShadowPC OpenStack GPU instances for AKOS.
+    """Manages ShadowGPU (OpenStack) GPU instances for AKOS.
 
     All public methods are no-ops returning sensible defaults when the
     ``openstacksdk`` package is missing or ``OS_AUTH_URL`` is not set.
@@ -253,7 +255,7 @@ class OpenStackProvider:
     def check_spot_termination(self, instance_id: str) -> SpotTermination:
         """Poll instance metadata for spot termination signals.
 
-        ShadowPC injects ``cloud_termination_time`` and
+        ShadowGPU (OpenStack) injects ``cloud_termination_time`` and
         ``cloud_termination_scheduled_event_time`` into instance metadata
         when a preemptible instance is scheduled for termination.
         """

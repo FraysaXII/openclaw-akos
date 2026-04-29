@@ -340,7 +340,7 @@ def main() -> None:
 def _ensure_openstack_env(
     os_config_raw: dict, oc_home: Path, *, dry_run: bool = False
 ) -> None:
-    """Verify OpenStack env vars are present for ShadowPC deployments."""
+    """Verify OpenStack env vars are present for ShadowGPU (gpu-shadow) deployments."""
     env_path = oc_home / ".env"
     if env_path.exists():
         env_vars = load_env_file(env_path)
