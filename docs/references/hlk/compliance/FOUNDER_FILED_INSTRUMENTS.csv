@@ -1,0 +1,2 @@
+instrument_id,discipline_id,program_id,instrument_type,jurisdiction,status,effective_or_filing_date,storage_location,vault_link,primary_owner_role,counterparty_goi_ref_id,supersedes_instrument_id,notes
+INST-LEG-ESCRITURA-DRAFT-2026,legal,PRJ-HOL-FOUNDING-2026,escritura de constitución,ES,draft,tbd,off-repo (operator Drive),,Legal Counsel,GOI-ADV-ENTITY-2026,,Seed row. Replace storage_location and effective_or_filing_date once draft is exchanged with notary; promote status to signed/filed after execution.

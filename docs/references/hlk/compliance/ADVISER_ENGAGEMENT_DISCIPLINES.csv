@@ -1,0 +1,7 @@
+discipline_id,discipline_code,display_name,canonical_role,default_process_item_id,default_program_id,description,notes
+legal,LEG,Legal & Corporate,Legal Counsel,thi_legal_dtp_302,PRJ-HOL-FOUNDING-2026,Entity formation. corporate governance. shareholder agreements. by-laws. and ongoing legal compliance.,Primary discipline today (founder incorporation).
+fiscal,FIS,Fiscal & Tax,Business Controller,thi_finan_dtp_302,PRJ-HOL-FOUNDING-2026,Tax structuring. CNAE/IAE alignment. fiscal residence. and tax-side proof for startup certification.,Closely coupled with Legal during entity-formation gate.
+ip,IPT,IP & Trademark,Legal Counsel,thi_legal_dtp_303,PRJ-HOL-FOUNDING-2026,Trademark and naming governance. clearance. classes and territories. official fees.,SOP-FOUNDER_TRADEMARK_NAMING_GOVERNANCE_001 governs.
+banking,BNK,Banking,Legal Counsel,thi_legal_dtp_302,PRJ-HOL-FOUNDING-2026,Constitution-desk banking. founder account. IBAN provisioning. bank-side onboarding for the new entity.,Tracks GOI-BNK-INC-2026 / POI-BNK-DESK-LEAD-2026.
+certification,CRT,Startup Certification,Compliance,hol_peopl_dtp_302,PRJ-HOL-FOUNDING-2026,Startup-certification track (ENISA-style innovation/scalability/governance evidence).,Tracks GOI-ADV-ENTITY-2026 + POI-LEG-ENISA-LEAD-2026.
+notary,NOT,Notary,Legal Counsel,thi_legal_dtp_302,PRJ-HOL-FOUNDING-2026,Notary execution of public deeds (escritura). signing logistics. registry filing.,Coordinated with banking-desk slot booking.

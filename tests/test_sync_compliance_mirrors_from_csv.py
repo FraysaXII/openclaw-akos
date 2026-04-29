@@ -19,9 +19,13 @@ def test_sync_compliance_mirrors_count_only() -> None:
         check=False,
     )
     assert r.returncode == 0, r.stderr + r.stdout
-    assert "process_list_rows=1085" in r.stdout
+    assert "process_list_rows=1091" in r.stdout
     assert "baseline_organisation_rows=" in r.stdout
     assert "finops_counterparty_register_rows=2" in r.stdout
+    assert "goipoi_register_rows=6" in r.stdout
+    assert "adviser_engagement_disciplines_rows=6" in r.stdout
+    assert "adviser_open_questions_rows=12" in r.stdout
+    assert "founder_filed_instruments_rows=1" in r.stdout
     assert "source_git_sha=" in r.stdout
 
 

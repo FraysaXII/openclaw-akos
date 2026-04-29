@@ -31,7 +31,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from akos.hlk_adviser_disciplines_csv import ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES  # noqa: E402
+from akos.hlk_adviser_questions_csv import ADVISER_OPEN_QUESTIONS_FIELDNAMES  # noqa: E402
 from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES  # noqa: E402
+from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIELDNAMES  # noqa: E402
+from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_process_csv import (  # noqa: E402
     PROCESS_LIST_FIELDNAMES,
     normalize_process_row,
@@ -42,6 +46,10 @@ from akos.hlk_process_csv import (  # noqa: E402
 PROC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
 ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "baseline_organisation.csv"
 FINOPS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "FINOPS_COUNTERPARTY_REGISTER.csv"
+GOIPOI_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "GOI_POI_REGISTER.csv"
+ADVISER_DISCIPLINES_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+ADVISER_QUESTIONS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "ADVISER_OPEN_QUESTIONS.csv"
+FILED_INSTRUMENTS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "FOUNDER_FILED_INSTRUMENTS.csv"
 
 # Must match sql-proposal-stack-20260417 §4.3
 BASELINE_FIELDNAMES: tuple[str, ...] = (
@@ -148,6 +156,94 @@ def _emit_finops_counterparty_upserts(rows: list[dict[str, str]], source_git_sha
     return out
 
 
+def _emit_goipoi_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    cols_csv = ", ".join(GOIPOI_REGISTER_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in GOIPOI_REGISTER_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = []
+    out.append("-- compliance.goipoi_register_mirror upserts")
+    for r in rows:
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in GOIPOI_REGISTER_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        ref = (r.get("ref_id") or "").strip()
+        if not ref:
+            continue
+        out.append(
+            f"INSERT INTO compliance.goipoi_register_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (ref_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_adviser_disciplines_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    cols_csv = ", ".join(ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = []
+    out.append("-- compliance.adviser_engagement_disciplines_mirror upserts")
+    for r in rows:
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        did = (r.get("discipline_id") or "").strip()
+        if not did:
+            continue
+        out.append(
+            f"INSERT INTO compliance.adviser_engagement_disciplines_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (discipline_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_adviser_questions_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    cols_csv = ", ".join(ADVISER_OPEN_QUESTIONS_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in ADVISER_OPEN_QUESTIONS_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = []
+    out.append("-- compliance.adviser_open_questions_mirror upserts")
+    for r in rows:
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in ADVISER_OPEN_QUESTIONS_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        qid = (r.get("question_id") or "").strip()
+        if not qid:
+            continue
+        out.append(
+            f"INSERT INTO compliance.adviser_open_questions_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (question_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_founder_filed_instruments_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    cols_csv = ", ".join(FOUNDER_FILED_INSTRUMENTS_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in FOUNDER_FILED_INSTRUMENTS_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = []
+    out.append("-- compliance.founder_filed_instruments_mirror upserts")
+    for r in rows:
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in FOUNDER_FILED_INSTRUMENTS_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        iid = (r.get("instrument_id") or "").strip()
+        if not iid:
+            continue
+        out.append(
+            f"INSERT INTO compliance.founder_filed_instruments_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (instrument_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         try:
@@ -189,6 +285,26 @@ def main() -> int:
         help="Only emit finops_counterparty_register_mirror statements (requires FINOPS_COUNTERPARTY_REGISTER.csv)",
     )
     parser.add_argument(
+        "--goipoi-register-only",
+        action="store_true",
+        help="Only emit goipoi_register_mirror statements (requires GOI_POI_REGISTER.csv)",
+    )
+    parser.add_argument(
+        "--adviser-disciplines-only",
+        action="store_true",
+        help="Only emit adviser_engagement_disciplines_mirror statements (requires ADVISER_ENGAGEMENT_DISCIPLINES.csv)",
+    )
+    parser.add_argument(
+        "--adviser-questions-only",
+        action="store_true",
+        help="Only emit adviser_open_questions_mirror statements (requires ADVISER_OPEN_QUESTIONS.csv)",
+    )
+    parser.add_argument(
+        "--founder-filed-instruments-only",
+        action="store_true",
+        help="Only emit founder_filed_instruments_mirror statements (requires FOUNDER_FILED_INSTRUMENTS.csv)",
+    )
+    parser.add_argument(
         "--no-begin-commit",
         action="store_true",
         help="Omit BEGIN/COMMIT wrapper",
@@ -200,12 +316,19 @@ def main() -> int:
             args.process_list_only,
             args.baseline_only,
             args.finops_counterparty_register_only,
+            args.goipoi_register_only,
+            args.adviser_disciplines_only,
+            args.adviser_questions_only,
+            args.founder_filed_instruments_only,
         )
         if x
     )
     if mode_flags > 1:
         print(
-            "error: at most one of --process-list-only, --baseline-only, --finops-counterparty-register-only",
+            "error: at most one of --process-list-only, --baseline-only, "
+            "--finops-counterparty-register-only, --goipoi-register-only, "
+            "--adviser-disciplines-only, --adviser-questions-only, "
+            "--founder-filed-instruments-only",
             file=sys.stderr,
         )
         return 1
@@ -237,6 +360,162 @@ def main() -> int:
             "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
             f"-- source_git_sha: {sha}",
             "-- Apply only after compliance.finops_counterparty_register_mirror exists (Initiative 18 DDL).",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
+    if args.goipoi_register_only:
+        if not GOIPOI_CSV.is_file():
+            print("error: missing", GOIPOI_CSV, file=sys.stderr)
+            return 1
+        with GOIPOI_CSV.open(encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            fn = list(reader.fieldnames or [])
+            if fn != list(GOIPOI_REGISTER_FIELDNAMES):
+                print(
+                    "error: GOI_POI_REGISTER.csv header drift vs GOIPOI_REGISTER_FIELDNAMES",
+                    file=sys.stderr,
+                )
+                print("  expected:", list(GOIPOI_REGISTER_FIELDNAMES), file=sys.stderr)
+                print("  got:     ", fn, file=sys.stderr)
+                return 1
+            goipoi_rows = [dict(r) for r in reader]
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            print(f"goipoi_register_rows={len(goipoi_rows)}")
+            return 0
+        blocks = _emit_goipoi_upserts(goipoi_rows, sha)
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            "-- Apply only after compliance.goipoi_register_mirror exists (Initiative 21 DDL).",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
+    if args.adviser_disciplines_only:
+        if not ADVISER_DISCIPLINES_CSV.is_file():
+            print("error: missing", ADVISER_DISCIPLINES_CSV, file=sys.stderr)
+            return 1
+        with ADVISER_DISCIPLINES_CSV.open(encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            fn = list(reader.fieldnames or [])
+            if fn != list(ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES):
+                print(
+                    "error: ADVISER_ENGAGEMENT_DISCIPLINES.csv header drift vs ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES",
+                    file=sys.stderr,
+                )
+                print("  expected:", list(ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES), file=sys.stderr)
+                print("  got:     ", fn, file=sys.stderr)
+                return 1
+            ad_rows = [dict(r) for r in reader]
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            print(f"adviser_engagement_disciplines_rows={len(ad_rows)}")
+            return 0
+        blocks = _emit_adviser_disciplines_upserts(ad_rows, sha)
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            "-- Apply only after compliance.adviser_engagement_disciplines_mirror exists (Initiative 21 DDL).",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
+    if args.adviser_questions_only:
+        if not ADVISER_QUESTIONS_CSV.is_file():
+            print("error: missing", ADVISER_QUESTIONS_CSV, file=sys.stderr)
+            return 1
+        with ADVISER_QUESTIONS_CSV.open(encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            fn = list(reader.fieldnames or [])
+            if fn != list(ADVISER_OPEN_QUESTIONS_FIELDNAMES):
+                print(
+                    "error: ADVISER_OPEN_QUESTIONS.csv header drift vs ADVISER_OPEN_QUESTIONS_FIELDNAMES",
+                    file=sys.stderr,
+                )
+                print("  expected:", list(ADVISER_OPEN_QUESTIONS_FIELDNAMES), file=sys.stderr)
+                print("  got:     ", fn, file=sys.stderr)
+                return 1
+            aq_rows = [dict(r) for r in reader]
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            print(f"adviser_open_questions_rows={len(aq_rows)}")
+            return 0
+        blocks = _emit_adviser_questions_upserts(aq_rows, sha)
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            "-- Apply only after compliance.adviser_open_questions_mirror exists (Initiative 21 DDL).",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
+    if args.founder_filed_instruments_only:
+        if not FILED_INSTRUMENTS_CSV.is_file():
+            print("error: missing", FILED_INSTRUMENTS_CSV, file=sys.stderr)
+            return 1
+        with FILED_INSTRUMENTS_CSV.open(encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            fn = list(reader.fieldnames or [])
+            if fn != list(FOUNDER_FILED_INSTRUMENTS_FIELDNAMES):
+                print(
+                    "error: FOUNDER_FILED_INSTRUMENTS.csv header drift vs FOUNDER_FILED_INSTRUMENTS_FIELDNAMES",
+                    file=sys.stderr,
+                )
+                print("  expected:", list(FOUNDER_FILED_INSTRUMENTS_FIELDNAMES), file=sys.stderr)
+                print("  got:     ", fn, file=sys.stderr)
+                return 1
+            fi_rows = [dict(r) for r in reader]
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            print(f"founder_filed_instruments_rows={len(fi_rows)}")
+            return 0
+        blocks = _emit_founder_filed_instruments_upserts(fi_rows, sha)
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            "-- Apply only after compliance.founder_filed_instruments_mirror exists (Initiative 21 DDL).",
             "",
         ]
         if not args.no_begin_commit:
@@ -283,11 +562,51 @@ def main() -> int:
                 finops_rows = [dict(r) for r in fr]
                 finops_n = len(finops_rows)
 
+    goipoi_n = 0
+    goipoi_rows: list[dict[str, str]] = []
+    if GOIPOI_CSV.is_file():
+        with GOIPOI_CSV.open(encoding="utf-8", newline="") as f:
+            gr = csv.DictReader(f)
+            if list(gr.fieldnames or []) == list(GOIPOI_REGISTER_FIELDNAMES):
+                goipoi_rows = [dict(r) for r in gr]
+                goipoi_n = len(goipoi_rows)
+
+    ad_n = 0
+    ad_rows: list[dict[str, str]] = []
+    if ADVISER_DISCIPLINES_CSV.is_file():
+        with ADVISER_DISCIPLINES_CSV.open(encoding="utf-8", newline="") as f:
+            ar = csv.DictReader(f)
+            if list(ar.fieldnames or []) == list(ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES):
+                ad_rows = [dict(r) for r in ar]
+                ad_n = len(ad_rows)
+
+    aq_n = 0
+    aq_rows: list[dict[str, str]] = []
+    if ADVISER_QUESTIONS_CSV.is_file():
+        with ADVISER_QUESTIONS_CSV.open(encoding="utf-8", newline="") as f:
+            qr = csv.DictReader(f)
+            if list(qr.fieldnames or []) == list(ADVISER_OPEN_QUESTIONS_FIELDNAMES):
+                aq_rows = [dict(r) for r in qr]
+                aq_n = len(aq_rows)
+
+    fi_n = 0
+    fi_rows: list[dict[str, str]] = []
+    if FILED_INSTRUMENTS_CSV.is_file():
+        with FILED_INSTRUMENTS_CSV.open(encoding="utf-8", newline="") as f:
+            ir = csv.DictReader(f)
+            if list(ir.fieldnames or []) == list(FOUNDER_FILED_INSTRUMENTS_FIELDNAMES):
+                fi_rows = [dict(r) for r in ir]
+                fi_n = len(fi_rows)
+
     if args.count_only:
         print(f"source_git_sha={sha}")
         print(f"process_list_rows={len(proc_rows)}")
         print(f"baseline_organisation_rows={len(org_rows)}")
         print(f"finops_counterparty_register_rows={finops_n}")
+        print(f"goipoi_register_rows={goipoi_n}")
+        print(f"adviser_engagement_disciplines_rows={ad_n}")
+        print(f"adviser_open_questions_rows={aq_n}")
+        print(f"founder_filed_instruments_rows={fi_n}")
         return 0
 
     blocks: list[str] = []
@@ -297,6 +616,14 @@ def main() -> int:
         blocks.extend(_emit_baseline_upserts(org_rows, sha))
     if not args.process_list_only and not args.baseline_only and finops_rows:
         blocks.extend(_emit_finops_counterparty_upserts(finops_rows, sha))
+    if not args.process_list_only and not args.baseline_only and goipoi_rows:
+        blocks.extend(_emit_goipoi_upserts(goipoi_rows, sha))
+    if not args.process_list_only and not args.baseline_only and ad_rows:
+        blocks.extend(_emit_adviser_disciplines_upserts(ad_rows, sha))
+    if not args.process_list_only and not args.baseline_only and aq_rows:
+        blocks.extend(_emit_adviser_questions_upserts(aq_rows, sha))
+    if not args.process_list_only and not args.baseline_only and fi_rows:
+        blocks.extend(_emit_founder_filed_instruments_upserts(fi_rows, sha))
 
     preamble = [
         "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
