@@ -131,6 +131,26 @@
         }
       ]
     },
+    "render_topic_graph_smoke": {
+      "description": "Initiative 25 P3: render the cross-program topic graph from `dimensions/TOPIC_REGISTRY.csv` to `_assets/_meta/topic_graph.{mmd,png,svg}` via `scripts/render_topic_graph.py`. The script reuses `render_km_diagrams.py` for the PNG/SVG pipeline (mmdc preferred, mermaid.ink HTTP fallback). Operator runs after any topic-registry row change.",
+      "steps": [
+        {
+          "id": "render_topic_graph",
+          "description": "Render _assets/_meta/topic_graph.{mmd,png,svg} from TOPIC_REGISTRY.csv",
+          "argv": ["scripts/render_topic_graph.py"]
+        }
+      ]
+    },
+    "render_km_diagrams_batch_smoke": {
+      "description": "Initiative 25 P8: dry-run discovery of every `.mmd` under `docs/references/hlk/v3.0/_assets/` to confirm the batch-render contract. `--dry-run` prints what would render without invoking mmdc / mermaid.ink. Useful as a CI canary that the topic + KM Mermaid sources stay parseable + discoverable.",
+      "steps": [
+        {
+          "id": "render_km_diagrams_dry_run_all",
+          "description": "Dry-run batch render of every .mmd under _assets/",
+          "argv": ["scripts/render_km_diagrams.py", "--all", "--dry-run"]
+        }
+      ]
+    },
     "export_adviser_handoff_html_smoke": {
       "description": "Initiative 24 P5: render the adviser handoff bundle as HTML to artifacts/exports/handoff-smoke.html. Single-file HTML envelope wrapping the MD body — paste-into-email-client friendly. SKIPs gracefully when canonical CSVs are absent (output script handles this).",
       "steps": [
@@ -146,6 +166,26 @@
             "--out",
             "artifacts/exports/handoff-smoke.html"
           ]
+        }
+      ]
+    },
+    "render_pmo_hub_smoke": {
+      "description": "Initiative 25 P5: verify the PMO hub stakeholder index auto-generated section is in parity with canonical CSVs. Runs render_pmo_hub.py --check-only; FAILs on AUTOGEN_DRIFT_DETECTED or MARKER_NOT_FOUND. Operator runs `py scripts/render_pmo_hub.py` to refresh, then commits.",
+      "steps": [
+        {
+          "id": "render_pmo_hub_check_only",
+          "description": "Verify PMO hub stakeholder index is in parity with canonical CSVs",
+          "argv": ["scripts/render_pmo_hub.py", "--check-only"]
+        }
+      ]
+    },
+    "render_km_diagrams_batch_smoke": {
+      "description": "Initiative 25 P8: render every .mmd under docs/references/hlk/v3.0/_assets/ via render_km_diagrams.py --all --dry-run. Surfaces diagram source discovery without touching .png/.svg sidecars. Operator runs `py scripts/render_km_diagrams.py --all` to refresh all rasters when needed.",
+      "steps": [
+        {
+          "id": "render_km_diagrams_all_dry_run",
+          "description": "Discover all .mmd sources and report what would render (no writes)",
+          "argv": ["scripts/render_km_diagrams.py", "--all", "--dry-run"]
         }
       ]
     }

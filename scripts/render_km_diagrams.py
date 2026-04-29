@@ -113,9 +113,83 @@ def _update_manifest_sha(manifest_path: Path, new_sha: str) -> bool:
     return True
 
 
+def _render_one(
+    src: Path,
+    *,
+    update_manifest: bool,
+    prefer_mermaid_ink: bool,
+    dry_run: bool,
+) -> int:
+    if not src.is_file():
+        print(f"error: not a file: {src}", file=sys.stderr)
+        return 2
+    if src.suffix != ".mmd":
+        print(f"error: expected .mmd extension, got {src.suffix}", file=sys.stderr)
+        return 2
+
+    out_png = src.with_suffix(".png")
+    out_svg = src.with_suffix(".svg")
+    src_text = _read_text(src)
+
+    if dry_run:
+        rel = src.relative_to(REPO_ROOT) if src.is_relative_to(REPO_ROOT) else src
+        print(f"  [dry-run] would render {rel} -> .png + .svg ({len(src_text)} chars source)")
+        return 0
+
+    mmdc = None if prefer_mermaid_ink else _mmdc_available()
+    if mmdc:
+        _render_with_mmdc(mmdc, src, out_png, out_svg)
+    else:
+        _render_with_mermaid_ink(src_text, out_png, out_svg)
+
+    png_sha = _sha256(out_png.read_bytes())
+    svg_sha = _sha256(out_svg.read_bytes())
+    print(f"  wrote {out_png.relative_to(REPO_ROOT)} ({out_png.stat().st_size} bytes, sha256={png_sha[:16]}...)")
+    print(f"  wrote {out_svg.relative_to(REPO_ROOT)} ({out_svg.stat().st_size} bytes, sha256={svg_sha[:16]}...)")
+
+    if update_manifest:
+        manifest_path = src.with_name(src.stem + ".manifest.md")
+        if not manifest_path.is_file():
+            print(f"  manifest: not found at {manifest_path}; skipping --update-manifest")
+        else:
+            _update_manifest_sha(manifest_path, png_sha)
+    return 0
+
+
+def _discover_mmd_sources(root: Path) -> list[Path]:
+    """Initiative 25 P8: find every .mmd under `_assets/` and `_meta/` for batch render.
+
+    Excludes `.git/` and any `.mmd` outside the canonical `_assets/` tree.
+    """
+    out: list[Path] = []
+    if not root.is_dir():
+        return out
+    for path in sorted(root.rglob("*.mmd")):
+        if any(part == ".git" for part in path.parts):
+            continue
+        out.append(path)
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n", 1)[0])
-    parser.add_argument("source", type=Path, help="Path to the Mermaid (.mmd) source file")
+    parser.add_argument(
+        "source",
+        type=Path,
+        nargs="?",
+        default=None,
+        help="Path to a Mermaid (.mmd) source file (omit when using --all)",
+    )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="Render every .mmd under docs/references/hlk/v3.0/_assets/ (Initiative 25 P8)",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Discover sources but don't render or write — prints what would happen",
+    )
     parser.add_argument(
         "--update-manifest",
         action="store_true",
@@ -128,36 +202,39 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    src: Path = args.source.resolve()
-    if not src.is_file():
-        print(f"error: not a file: {src}", file=sys.stderr)
+    if args.all and args.source is not None:
+        print("error: --all cannot be combined with a specific source path", file=sys.stderr)
         return 2
-    if src.suffix != ".mmd":
-        print(f"error: expected .mmd extension, got {src.suffix}", file=sys.stderr)
+    if not args.all and args.source is None:
+        print("error: provide a .mmd path or pass --all", file=sys.stderr)
         return 2
 
-    out_png = src.with_suffix(".png")
-    out_svg = src.with_suffix(".svg")
-    src_text = _read_text(src)
+    if args.all:
+        assets_root = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "_assets"
+        sources = _discover_mmd_sources(assets_root)
+        if not sources:
+            print("render_km_diagrams: no .mmd sources found under _assets/")
+            return 0
+        print(f"render_km_diagrams: --all discovered {len(sources)} source(s)")
+        rc_any = 0
+        for src in sources:
+            print(f"\n--- {src.relative_to(REPO_ROOT)} ---")
+            rc = _render_one(
+                src.resolve(),
+                update_manifest=args.update_manifest,
+                prefer_mermaid_ink=args.prefer_mermaid_ink,
+                dry_run=args.dry_run,
+            )
+            if rc != 0:
+                rc_any = rc
+        return rc_any
 
-    mmdc = None if args.prefer_mermaid_ink else _mmdc_available()
-    if mmdc:
-        _render_with_mmdc(mmdc, src, out_png, out_svg)
-    else:
-        _render_with_mermaid_ink(src_text, out_png, out_svg)
-
-    png_sha = _sha256(out_png.read_bytes())
-    svg_sha = _sha256(out_svg.read_bytes())
-    print(f"  wrote {out_png.relative_to(REPO_ROOT)} ({out_png.stat().st_size} bytes, sha256={png_sha[:16]}...)")
-    print(f"  wrote {out_svg.relative_to(REPO_ROOT)} ({out_svg.stat().st_size} bytes, sha256={svg_sha[:16]}...)")
-
-    if args.update_manifest:
-        manifest_path = src.with_name(src.stem + ".manifest.md")
-        if not manifest_path.is_file():
-            print(f"  manifest: not found at {manifest_path}; skipping --update-manifest")
-        else:
-            _update_manifest_sha(manifest_path, png_sha)
-    return 0
+    return _render_one(
+        args.source.resolve(),
+        update_manifest=args.update_manifest,
+        prefer_mermaid_ink=args.prefer_mermaid_ink,
+        dry_run=args.dry_run,
+    )
 
 
 if __name__ == "__main__":

@@ -1,9 +1,11 @@
 # Initiative 25 — Topic Graph + Graph Projection + KM Scalability
 
 **Folder:** `docs/wip/planning/25-hlk-topic-graph-and-km-scalability/`  
-**Status:** P0 + P1 + P2 + Pgraph in progress (2026-04-29)  
+**Status:** **Closed (2026-04-29)** — UAT [`reports/uat-i25-topic-graph-and-km-scalability-20260429.md`](reports/uat-i25-topic-graph-and-km-scalability-20260429.md).  
 **Authoritative Cursor plan:** `~/.cursor/plans/hlk_scalability_wave_2_initiatives_639a02d7.plan.md` §"Initiative 25".  
 **Bootstrap dependency:** Initiative 23 (PROGRAM_REGISTRY) and Initiative 22 (forward layout convention).
+
+> **Closure note (2026-04-29)** — All 11 phases (P0–P9) complete: P0+P1+P2+Pgraph in PR #19; P3+P4+P5+P6+P7+P8+P9 in the closure PR. **4 topics registered** in `TOPIC_REGISTRY.csv` (external_adviser_handoff, kirbe_billing_plane_routing, km_governance, enisa_evidence); Postgres mirror live; Neo4j `:Topic` projection extended with typed edges (`:DEPENDS_ON`, `:TOPIC_PARENT_OF`, `:RELATED_TO`, `:TOPIC_SUBSUMES`, `:UNDER_PROGRAM`); `render_topic_graph.py` emits the cross-program topic graph deterministically; **PMO hub stakeholder index auto-rendered** from canonical CSVs between BEGIN/END markers with sha256 drift detection; **ENISA backfill** ships a full Topic-Fact-Source bundle with `topic_enisa_evidence depends_on topic_external_adviser_handoff`; `.mmd`-first P0 discipline codified in `akos-planning-traceability.mdc`; `render_km_diagrams.py --all --dry-run` enables batch operations. New verify profiles: `render_pmo_hub_smoke`, `render_km_diagrams_batch_smoke`. Wikilinks adopted as secondary nav in `topic_external_adviser_handoff` companion (out-of-scope for `validate_hlk_vault_links.py` per D-IH-12).
 
 ## Outcome
 

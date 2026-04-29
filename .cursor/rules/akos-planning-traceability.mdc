@@ -74,6 +74,14 @@ Plans that modify canonical compliance CSVs (`baseline_organisation.csv`, `proce
 - `validate_hlk.py` as a named verification step.
 - Documentation sync entry for the `docs/USER_GUIDE.md` HLK Operator Model section and `docs/ARCHITECTURE.md` HLK sections.
 
+### `.mmd`-first P0 rule (Initiative 25 P7, D-IH-13)
+
+Initiatives that **produce or modify a Topic** (an Output-1 visual asset under `docs/references/hlk/v3.0/_assets/<plane>/<program_id>/<topic_id>/`) **must** commit the `<topic_id>.mmd` Mermaid source-of-truth in **P0** alongside `master-roadmap.md`. The PNG/SVG raster/vector are **derived** from the `.mmd` and regenerated via `py scripts/render_km_diagrams.py <path-to-.mmd>` (or `--all` for batch — Initiative 25 P8). Topic registration in [`compliance/dimensions/TOPIC_REGISTRY.csv`](../../docs/references/hlk/compliance/dimensions/TOPIC_REGISTRY.csv) (Initiative 25 P2) follows in P1 along with the manifest's `paths.mermaid` slot.
+
+Initiatives that **only consume** an existing Topic (read-only reference) are exempt from this rule. The exemption applies even when the consuming initiative produces new derived views (e.g. PMO hub auto-render, ENISA derived view) as long as those views target an existing topic_id.
+
+Drift detection: `validate_hlk_km_manifests.py` FK-resolves manifest `topic_ids:` into `TOPIC_REGISTRY.csv` (Initiative 25 P1). The `compliance_mirror_drift_probe` covers `topic_registry_mirror` parity. The `render_pmo_hub_smoke` and `render_km_diagrams_batch_smoke` verify profiles surface stale auto-rendered views.
+
 ## Quality Checks
 
 - Reference the original source plan path in the copied markdown.
