@@ -41,6 +41,10 @@ See companion [`BRAND_DO_DONT.md`](BRAND_DO_DONT.md) for the per-trait do/don't 
 
 See companion [`BRAND_REGISTER_MATRIX.md`](BRAND_REGISTER_MATRIX.md) for the `(relationship, channel) -> register` lookup the composer uses at Layer 4 eloquence resolution.
 
+## Language patterns
+
+Spanish-language patterns (salutations, register matching, jargon-to-refuse) are captured in [`BRAND_SPANISH_PATTERNS.md`](BRAND_SPANISH_PATTERNS.md) — hand-authored companion sourced from real Holistika ↔ external-counsel exchanges. The composer cites it at Layer 4 when `language_preference: es` resolves. English / bilingual patterns get added as separate companions (`BRAND_ENGLISH_PATTERNS.md`, etc.) when the operator surfaces enough lived examples.
+
 ## How this is used
 
 The methodology SOP [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md) cites this foundation as **Layer 1 (Brand foundation)**. The composer reads:

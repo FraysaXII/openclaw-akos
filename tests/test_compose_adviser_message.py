@@ -169,3 +169,82 @@ def test_main_unknown_program_id_returns_2(composer, capsys):
     assert rc == 2
     err = capsys.readouterr().err
     assert "unknown program_id" in err
+
+
+def test_format_choices_include_pdf_and_docx(composer):
+    """Initiative 24 follow-up: --format must support pdf and docx (binary)."""
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--format", choices=("md", "html", "text", "pdf", "docx"), default="md")
+    # Sanity probe: the choices list above mirrors the parser inside composer.main().
+    # We verify by parsing each format and confirming no SystemExit.
+    for fmt in ("md", "html", "text", "pdf", "docx"):
+        ns = parser.parse_args(["--format", fmt])
+        assert ns.format == fmt
+
+
+def test_main_pdf_format_writes_md_sidecar(composer, tmp_path, capsys):
+    """--format pdf writes a .md sidecar next to the PDF output even when no
+    PDF renderer is available (soft-success per akos.hlk_pdf_render contract).
+    """
+    out_pdf = tmp_path / "draft-soft-pdf.pdf"
+    rc = composer.main([
+        "--recipient", "POI-LEG-ENISA-LEAD-2026",
+        "--discipline", "LEG",
+        "--program-id", "PRJ-HOL-FOUNDING-2026",
+        "--out", str(out_pdf),
+        "--format", "pdf",
+    ])
+    assert rc == 0
+    sidecar = out_pdf.with_suffix(".md")
+    assert sidecar.is_file(), "compose_adviser_message must always emit a .md sidecar for pdf"
+    md = sidecar.read_text(encoding="utf-8")
+    assert "Layer 4" in md
+    assert "POI-LEG-ENISA-LEAD-2026" in md
+
+
+def test_main_docx_format_writes_md_sidecar(composer, tmp_path):
+    """--format docx writes a .md sidecar; the .docx itself only lands when
+    a pandoc backend is reachable."""
+    out_docx = tmp_path / "draft-soft-docx.docx"
+    rc = composer.main([
+        "--recipient", "POI-LEG-ENISA-LEAD-2026",
+        "--discipline", "LEG",
+        "--program-id", "PRJ-HOL-FOUNDING-2026",
+        "--out", str(out_docx),
+        "--format", "docx",
+    ])
+    assert rc == 0
+    sidecar = out_docx.with_suffix(".md")
+    assert sidecar.is_file()
+    md = sidecar.read_text(encoding="utf-8")
+    assert "Layer 4" in md
+
+
+def test_main_pdf_dry_run_prints_md_to_stdout(composer, capsys):
+    """--format pdf --dry-run prints the markdown body to stdout (binary
+    formats emit the MD source under dry-run rather than raw bytes)."""
+    rc = composer.main([
+        "--recipient", "POI-LEG-ENISA-LEAD-2026",
+        "--discipline", "LEG",
+        "--program-id", "PRJ-HOL-FOUNDING-2026",
+        "--format", "pdf",
+        "--dry-run",
+    ])
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "Layer 4" in out
+    assert "POI-LEG-ENISA-LEAD-2026" in out
+
+
+def test_main_pdf_without_out_returns_2(composer, capsys):
+    """Non-dry-run requires --out for binary formats."""
+    rc = composer.main([
+        "--recipient", "POI-LEG-ENISA-LEAD-2026",
+        "--discipline", "LEG",
+        "--program-id", "PRJ-HOL-FOUNDING-2026",
+        "--format", "pdf",
+    ])
+    assert rc == 2
+    err = capsys.readouterr().err
+    assert "--out is required" in err

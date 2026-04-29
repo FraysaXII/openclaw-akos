@@ -59,6 +59,7 @@ from akos.hlk_adviser_disciplines_csv import (  # noqa: E402
     ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES,
 )
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
+from akos.hlk_pdf_render import render_docx, render_pdf  # noqa: E402
 
 HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
 GOIPOI_CSV = HLK_COMPLIANCE / "GOI_POI_REGISTER.csv"
@@ -305,9 +306,15 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--format",
-        choices=("md", "html", "text"),
+        choices=("md", "html", "text", "pdf", "docx"),
         default="md",
-        help="Output format",
+        help=(
+            "Output format. md (primary) | html (single-file paste-into-Gmail wrapper) | "
+            "text (plain-text body, Mermaid stripped) | pdf (WeasyPrint -> fpdf2 -> pandoc chain; "
+            "soft-success when no renderer available — sidecar .md is always written) | "
+            "docx (pandoc; soft-success when pandoc absent — sidecar .md is always written; "
+            "open in Word/LibreOffice for finishing touches and Save-As-PDF before sending to advisers)"
+        ),
     )
     parser.add_argument("--dry-run", action="store_true", help="Print to stdout instead of writing")
     parser.add_argument(
@@ -379,24 +386,57 @@ def main(argv: list[str] | None = None) -> int:
         evidence_path=args.evidence,
     )
 
+    # Text-shaped formats: md / html / text — body is a string written directly.
+    # Binary-shaped formats: pdf / docx — delegated to akos.hlk_pdf_render.
     if args.format == "md":
-        body = md_body
+        body: str | None = md_body
     elif args.format == "text":
         body = render_text(md_body)
     elif args.format == "html":
         body = render_html(md_body)
+    elif args.format in ("pdf", "docx"):
+        body = None  # binary path; uses md_body directly
     else:
         sys.stderr.write(f"compose_adviser_message: unsupported format {args.format!r}\n")
         return 2
 
-    if args.dry_run or args.out is None:
-        sys.stdout.write(body)
+    if args.dry_run:
+        # Dry-run always prints the markdown body (the canonical source); pdf/docx
+        # are binary and not stdout-friendly.
+        if args.format in ("pdf", "docx"):
+            sys.stdout.write(md_body)
+        else:
+            sys.stdout.write(body or md_body)
         return 0
 
+    if args.out is None:
+        sys.stderr.write(
+            "compose_adviser_message: --out is required for non-dry-run "
+            f"(format={args.format!r}); pass an explicit output path or use --dry-run.\n"
+        )
+        return 2
+
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(body, encoding="utf-8")
-    print(f"compose_adviser_message: wrote {args.out.relative_to(REPO_ROOT) if args.out.is_relative_to(REPO_ROOT) else args.out} ({len(body)} chars; format={args.format})")
-    return 0
+
+    if args.format in ("md", "html", "text"):
+        assert body is not None
+        args.out.write_text(body, encoding="utf-8")
+        print(
+            f"compose_adviser_message: wrote {args.out.relative_to(REPO_ROOT) if args.out.is_relative_to(REPO_ROOT) else args.out} "
+            f"({len(body)} chars; format={args.format})"
+        )
+        return 0
+
+    # Binary formats: render into the binary file + always write a .md sidecar
+    # so the canonical markdown source is preserved alongside (D-IH-23-A SSOT).
+    md_sidecar = args.out.with_suffix(".md")
+    if not md_sidecar.is_file() or md_sidecar.read_text(encoding="utf-8") != md_body:
+        md_sidecar.write_text(md_body, encoding="utf-8")
+    if args.format == "pdf":
+        rc = render_pdf(md_body, args.out, source_label="compose_adviser_message")
+    else:  # docx
+        rc = render_docx(md_body, args.out, source_label="compose_adviser_message")
+    return rc
 
 
 if __name__ == "__main__":
