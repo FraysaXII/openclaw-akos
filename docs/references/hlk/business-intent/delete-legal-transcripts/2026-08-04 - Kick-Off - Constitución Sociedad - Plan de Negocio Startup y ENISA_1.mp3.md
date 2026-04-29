@@ -1,15 +1,18 @@
 ---
-source: /Users/fay/cd/projects/nfq/ue-quickwins/supporting_docs/recordings/delete/2026-08-04 - Kick-Off - Constitución Sociedad - Plan de Negocio Startup y ENISA_1.mp3
+source: <off-repo per SOP-HLK_TRANSCRIPT_REDACTION_001>
 source_type: .mp3
 converted_at: 2026-04-15T14:30:42
 title: "2026-08-04 - Kick-Off - Constitución Sociedad - Plan de Negocio Startup y ENISA_1"
 ---
 
+<!-- Initiative 21 / P2 redacted forward-only per SOP-HLK_TRANSCRIPT_REDACTION_001 -->
+<!-- Substitutions: ref_ids resolve in docs/references/hlk/compliance/GOI_POI_REGISTER.csv -->
+
 _Audio transcription — Duration: 26:12 — Language: es — Speakers: 2_
 
 ## Transcript
 
-**[00:00] Speaker A:** No se, escuchaba comentando que prefería que lo tomáramos con Carmi tranquilamente.
+**[00:00] Speaker A:** No se, escuchaba comentando que prefería que lo tomáramos con POI-LEG-ENISA-LEAD-2026 tranquilamente.
 
 **[00:05] Speaker B:** Sí, o sea, prefiero la empresa que aspiro montar justamente es una empresa de estrategia de negocio y prefiero definitivamente que sea más así, o sea, que sea.
 
@@ -19,7 +22,7 @@ _Audio transcription — Duration: 26:12 — Language: es — Speakers: 2_
 
 **[01:56] Speaker A:** le comento, realmente para poder solicitar el tema de la certificación de INISA, la sociedad sí debe estar creada.
 
-**[02:03] Speaker B:** Sí, sí, eso lo sabemos. Eso lo sabemos y hemos iniciado el trámite. Lo hemos iniciado a la vez he pasado por. Bueno, no sé si han contestado los compañeros al entrar, pero Jorge es el compañero a quien le explico todo y me propuso esta manera para solventar mis necesidades. A mí me cuadra mucho. Lanzamos ya la constitución de empresa, que es que tomar es un trámite. Yo monté una en 2020 para practicar una franquicia con plan de Nissa y no lo tuvimos por estas cosas, literal. A día de hoy tenemos siete locales y hemos fallado en ISA por no haber sincronizado bien nuestro CNAE con lo que hemos dicho en ISA.
+**[02:03] Speaker B:** Sí, sí, eso lo sabemos. Eso lo sabemos y hemos iniciado el trámite. Lo hemos iniciado a la vez he pasado por. Bueno, no sé si han contestado los compañeros al entrar, pero POI-ADV-INTAKE-LEAD-2026 es el compañero a quien le explico todo y me propuso esta manera para solventar mis necesidades. A mí me cuadra mucho. Lanzamos ya la constitución de empresa, que es que tomar es un trámite. Yo monté una en 2020 para practicar una franquicia con plan de Nissa y no lo tuvimos por estas cosas, literal. A día de hoy tenemos siete locales y hemos fallado en ISA por no haber sincronizado bien nuestro CNAE con lo que hemos dicho en ISA.
 
 **[02:49] Speaker A:** Claro, es que cuando son actividades tan tecnológicas, incluso todavía, incluso los IAE, que sería la vertiente del SENAE, Administración Tributaria, que no están todavía realmente bien actualizados. Tal cual, tal cualidad moderna, por decirlo de alguna manera. Efectivamente, estancado todavía en actividad informática, pero a día de hoy actividad informática y
 
@@ -27,15 +30,15 @@ _Audio transcription — Duration: 26:12 — Language: es — Speakers: 2_
 
 **[03:15] Speaker A:** Claro, claro. Por eso digo que al final están un poco actualizados en ese sentido.
 
-**[03:20] Speaker B:** Eso es lo que notaba. Efectivamente, por eso yo decidí hacerlo así. He buscado varias empresas que lo hagan y solo esta de Ayúdate Pymes es la única que ha entendido. Bueno, con la que yo he tocado que he entendido lo que acabe que decir.
+**[03:20] Speaker B:** Eso es lo que notaba. Efectivamente, por eso yo decidí hacerlo así. He buscado varias empresas que lo hagan y solo esta de GOI-ADV-ENTITY-2026 es la única que ha entendido. Bueno, con la que yo he tocado que he entendido lo que acabe que decir.
 
-**[03:33] Speaker A:** Usted dijo, Jorge, A ver, ya le digo, como realmente ni siquiera la sociedad está constituida, podemos ir con calma, tranquilos, intentando. Al final siempre es mejor, aunque tardemos un poco más, hacerlo lo mejor posible.
+**[03:33] Speaker A:** Usted dijo, POI-ADV-INTAKE-LEAD-2026, A ver, ya le digo, como realmente ni siquiera la sociedad está constituida, podemos ir con calma, tranquilos, intentando. Al final siempre es mejor, aunque tardemos un poco más, hacerlo lo mejor posible.
 
 **[03:47] Speaker B:** Totalmente. Yo tengo documentación, la que haga falta para aburrir de todo, de manifiestos, de.
 
 **[03:52] Speaker A:** A ver, realmente, realmente, como documentación oficial a entregar, lo único que hay que entregar son las escrituras de la sociedad, que aún evidentemente ni la bajo entrega, porque no vamos a solicitar la certificación, ni las tiene todavía. Lo que sí es simplemente intercambiar información más que documentación de cómo trabaja la empresa, si le parece. Si le parece, por hacerlo, llevan tantos años preparándolo, no sé hasta qué punto, quizá tenga un dossier o algún documento donde pueda explicar un poco todo el tema de la empresa, cómo trabaja, mercado, hablando realmente lo que se centra, que después simple, hay algunas cosillas aparte, las cuatro grandes patas en mercado, sociedad, la sociedad no de la gente, sino la sociedad de la mercantil, historial de los socios, cómo trabaja, operativa interna, es decir, la primera pata sería la propia mercantil, la segunda pata es el mercado, es decir, la competencia, barreras de entrada, etc. La tercera pata, ella está relacionada con lo que sería la financiación de la propia mercantil, y la cuarta ya dar un contexto general de todo. Entonces, como tenemos muchísimo tiempo, porque es que como le digo, ni siquiera está constituida la sociedad, podemos ir con calma, ir trazando o dibujando cada una de esas patas. Entonces, si usted tiene, no sé si te da algún documento, alguna cosilla que me puede ir mandando para yo poder ir dándole forma, investigando.
 
-**[05:24] Speaker B:** Totalmente. Así. De hecho, Jorge, si no lo tuviera, no hubiera dejado hacer esto.
+**[05:24] Speaker B:** Totalmente. Así. De hecho, POI-ADV-INTAKE-LEAD-2026, si no lo tuviera, no hubiera dejado hacer esto.
 
 **[05:30] Speaker A:** Pues ya está. Pues entonces lo hacemos así. Yo entonces quedo a la espera de que usted me vaya mandando cositas, voy informándome, le voy dando forma y tal.
 
@@ -119,7 +122,7 @@ _Audio transcription — Duration: 26:12 — Language: es — Speakers: 2_
 
 **[16:04] Speaker A:** No se preocupe, porque si además, quiero decir, es un proyecto que lleva tiempo y tal, pues mejor hacerlo tranquilo y no pasa nada. Al final, quiero decir, lo mismo es mayo junio que julio agosto, en ese sentido me refiero.
 
-**[16:20] Speaker B:** Sí, sí, a ver, más mayo junio, sí al final del día tenemos dos meses, me dijo Jorge, porque el tiempo de petición de los nombres caduca allí. Bueno, dijo dos, creo. Bueno, no sé, sean tres. A lo mejor lo entendí yo mal.
+**[16:20] Speaker B:** Sí, sí, a ver, más mayo junio, sí al final del día tenemos dos meses, me dijo POI-ADV-INTAKE-LEAD-2026, porque el tiempo de petición de los nombres caduca allí. Bueno, dijo dos, creo. Bueno, no sé, sean tres. A lo mejor lo entendí yo mal.
 
 **[16:39] Speaker A:** Yo tengo entendido que son tres.
 

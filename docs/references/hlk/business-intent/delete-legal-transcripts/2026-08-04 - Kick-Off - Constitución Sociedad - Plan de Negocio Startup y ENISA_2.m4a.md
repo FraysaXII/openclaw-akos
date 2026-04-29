@@ -1,9 +1,12 @@
 ---
-source: /Users/fay/cd/projects/nfq/ue-quickwins/supporting_docs/recordings/delete/2026-08-04 - Kick-Off - Constitución Sociedad - Plan de Negocio Startup y ENISA.m4a
+source: <off-repo per SOP-HLK_TRANSCRIPT_REDACTION_001>
 source_type: .m4a
 converted_at: 2026-04-08T21:30:31
 title: "2026-08-04 - Kick-Off - Constitución Sociedad - Plan de Negocio Startup y ENISA"
 ---
+
+<!-- Initiative 21 / P2 redacted forward-only per SOP-HLK_TRANSCRIPT_REDACTION_001 -->
+<!-- Substitutions: ref_ids resolve in docs/references/hlk/compliance/GOI_POI_REGISTER.csv -->
 
 _Audio transcription — Duration: 01:24 — Language: es — Speakers: 2_
 
