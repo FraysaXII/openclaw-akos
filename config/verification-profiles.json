@@ -41,20 +41,56 @@
       ]
     },
     "compliance_mirror_emit": {
-      "description": "Initiative 14/18: preflight CSV row counts then emit compliance mirror upsert SQL to artifacts/sql/compliance_mirror_upsert.sql (operator reviews before DB apply)",
+      "description": "Initiative 14/18/21: preflight CSV row counts then emit compliance mirror upsert SQL to artifacts/sql/compliance_mirror_upsert.sql (operator reviews before DB apply). Now also covers GOI/POI, adviser disciplines, adviser open questions, and founder filed instruments.",
       "steps": [
         {
           "id": "compliance_mirror_count_only",
-          "description": "Row counts from git CSVs (process_list, baseline_organisation, FINOPS counterparty register)",
+          "description": "Row counts from git CSVs (process_list, baseline, FINOPS counterparty register, GOI/POI, adviser disciplines/questions, filed instruments)",
           "argv": ["scripts/sync_compliance_mirrors_from_csv.py", "--count-only"]
         },
         {
           "id": "compliance_mirror_write_sql",
-          "description": "Write full mirror upsert SQL (process_list + baseline + finops counterparty) for operator review",
+          "description": "Write full mirror upsert SQL (process_list + baseline + all Initiative 21 registers) for operator review",
           "argv": [
             "scripts/sync_compliance_mirrors_from_csv.py",
             "--output",
             "artifacts/sql/compliance_mirror_upsert.sql"
+          ]
+        }
+      ]
+    },
+    "export_adviser_handoff_smoke": {
+      "description": "Initiative 21 / P7: render the adviser handoff bundle for all disciplines as Markdown to artifacts/exports/handoff-smoke.md (no PDF). Operator runs before sending real handoffs.",
+      "steps": [
+        {
+          "id": "export_adviser_handoff_all_md",
+          "description": "Render ADVOPS handoff (all disciplines, MD) for PRJ-HOL-FOUNDING-2026",
+          "argv": [
+            "scripts/export_adviser_handoff.py",
+            "--discipline",
+            "all",
+            "--format",
+            "md",
+            "--out",
+            "artifacts/exports/handoff-smoke.md"
+          ]
+        }
+      ]
+    },
+    "export_adviser_handoff_pdf_smoke": {
+      "description": "Initiative 22 / P6: render the adviser handoff bundle as PDF via WeasyPrint to artifacts/exports/handoff-smoke.pdf. SKIPs gracefully when WeasyPrint+markdown are not installed (install via `py -m pip install -r requirements-export.txt`).",
+      "steps": [
+        {
+          "id": "export_adviser_handoff_all_pdf",
+          "description": "Render ADVOPS handoff (all disciplines, PDF) for PRJ-HOL-FOUNDING-2026",
+          "argv": [
+            "scripts/export_adviser_handoff.py",
+            "--discipline",
+            "all",
+            "--format",
+            "pdf",
+            "--out",
+            "artifacts/exports/handoff-smoke.pdf"
           ]
         }
       ]

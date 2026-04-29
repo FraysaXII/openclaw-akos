@@ -1,0 +1,22 @@
+# Optional dependencies for `scripts/export_adviser_handoff.py --format pdf`.
+# Install separately, NOT part of the default project install:
+#
+#   py -m pip install --only-binary=:all: -r requirements-export.txt
+#
+# Initiative 22 P6 (D-IH-4): the export script tries renderers in this order:
+#   1. WeasyPrint    — best CSS fidelity. Requires native Cairo/Pango libs; on
+#                      Windows install GTK3 runtime separately. On Linux/macOS the
+#                      pip wheels often pull system libs in. Skipped silently when
+#                      its native deps cannot load.
+#   2. fpdf2         — pure-Python, zero native deps. Default fallback on Windows.
+#                      Renders the same Markdown source as a paginated PDF using
+#                      fpdf2's built-in `write_html` (sufficient for headings,
+#                      paragraphs, tables, lists, code blocks, and links).
+#   3. pandoc        — external binary fallback if neither Python lib works.
+#
+# If none of the above is usable, the export script writes markdown only and exits
+# 0 so the `export_adviser_handoff_pdf_smoke` verification profile SKIPs gracefully.
+
+markdown>=3.5
+fpdf2>=2.8.0
+weasyprint>=52.0

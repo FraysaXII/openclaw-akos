@@ -1,0 +1,88 @@
+%% Topic: External Adviser Engagement (ADVOPS) — program PRJ-HOL-FOUNDING-2026
+%% Source-of-truth for topic_external_adviser_handoff.png / .svg
+%% Render with: py scripts/render_km_diagrams.py docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/adviser_handoff/topic_external_adviser_handoff.mmd
+%% Schema: HLK_KM_TOPIC_FACT_SOURCE.md (Output 1, paths.mermaid)
+flowchart LR
+  subgraph SSOT [Canonical CSVs]
+    direction TB
+    GOIPOI[GOI_POI_REGISTER.csv]
+    DISC[ADVISER_ENGAGEMENT_DISCIPLINES.csv]
+    Q[ADVISER_OPEN_QUESTIONS.csv]
+    INST[FOUNDER_FILED_INSTRUMENTS.csv]
+  end
+
+  subgraph Mirrors [compliance.* mirrors on Supabase]
+    direction TB
+    MGOIPOI[goipoi_register_mirror]
+    MDISC[adviser_engagement_disciplines_mirror]
+    MQ[adviser_open_questions_mirror]
+    MINST[founder_filed_instruments_mirror]
+  end
+
+  subgraph Plane [ADVOPS plane]
+    direction TB
+    PLANESOP["SOP-EXTERNAL_ADVISER_ENGAGEMENT_001 (PMO)"]
+    ROUTER["EXTERNAL_ADVISER_ROUTER.md"]
+    DLEG[Legal LEG]
+    DFIS[Fiscal FIS]
+    DIPT[IP IPT]
+    DBNK[Banking BNK]
+    DCRT[Certification CRT]
+    DNOT[Notary NOT]
+  end
+
+  subgraph DimGOIPOI [GOI/POI dimension - cross-plane]
+    direction TB
+    GOIADV["GOI-ADV-ENTITY-2026 (adviser firm)"]
+    GOIBNK["GOI-BNK-INC-2026 (constitution-desk bank)"]
+    POILEG["POI-LEG-ENISA-LEAD-2026"]
+    POIFIS["POI-LEG-FISCAL-LEAD-2026"]
+    POIBNK["POI-BNK-DESK-LEAD-2026"]
+    POIINT["POI-ADV-INTAKE-LEAD-2026"]
+  end
+
+  subgraph Export [Export deliverable]
+    direction TB
+    EXPORT["scripts/export_adviser_handoff.py"]
+    BUNDLEMD["handoff.md"]
+    BUNDLEPDF["handoff.pdf (WeasyPrint)"]
+  end
+
+  GOIPOI --> MGOIPOI
+  DISC --> MDISC
+  Q --> MQ
+  INST --> MINST
+
+  Q -. "FK discipline_id" .-> DISC
+  Q -. "FK poi/goi_ref_id" .-> GOIPOI
+  INST -. "FK discipline_id" .-> DISC
+  INST -. "FK counterparty_goi_ref_id" .-> GOIPOI
+
+  DISC --> DLEG
+  DISC --> DFIS
+  DISC --> DIPT
+  DISC --> DBNK
+  DISC --> DCRT
+  DISC --> DNOT
+
+  GOIPOI --> GOIADV
+  GOIPOI --> GOIBNK
+  GOIPOI --> POILEG
+  GOIPOI --> POIFIS
+  GOIPOI --> POIBNK
+  GOIPOI --> POIINT
+
+  PLANESOP --> ROUTER
+  ROUTER --> DLEG
+  ROUTER --> DFIS
+  ROUTER --> DIPT
+  ROUTER --> DBNK
+  ROUTER --> DCRT
+  ROUTER --> DNOT
+
+  GOIPOI --> EXPORT
+  DISC --> EXPORT
+  Q --> EXPORT
+  INST --> EXPORT
+  EXPORT --> BUNDLEMD
+  EXPORT --> BUNDLEPDF
