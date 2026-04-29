@@ -36,7 +36,10 @@ def probe_module():
 
 
 def test_mirror_contract_covers_expected_tables(probe_module):
-    """All currently-shipped compliance mirrors must be in the contract."""
+    """All currently-shipped compliance mirrors must be in the contract.
+
+    Updated by Initiative 25 P2 to include `topic_registry_mirror` (D-IH-12).
+    """
     expected = {
         "compliance.process_list_mirror",
         "compliance.baseline_organisation_mirror",
@@ -46,6 +49,7 @@ def test_mirror_contract_covers_expected_tables(probe_module):
         "compliance.adviser_open_questions_mirror",
         "compliance.founder_filed_instruments_mirror",
         "compliance.program_registry_mirror",
+        "compliance.topic_registry_mirror",
     }
     actual = {table for table, _csv, _key in probe_module.MIRROR_CONTRACT}
     assert expected == actual, f"contract drift: {expected ^ actual}"

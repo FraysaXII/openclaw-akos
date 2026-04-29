@@ -1,0 +1,38 @@
+%% Topic: ENISA evidence pack — program PRJ-HOL-FOUNDING-2026
+%% Source-of-truth for topic_enisa_evidence.png / .svg
+%% Render with: py scripts/render_km_diagrams.py docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/topic_enisa_evidence.mmd
+%% Schema: HLK_KM_TOPIC_FACT_SOURCE.md (Output 1, paths.mermaid)
+flowchart LR
+  subgraph SSOT [Canonical CSVs]
+    direction TB
+    GOIPOI[GOI_POI_REGISTER.csv]
+    DISC[ADVISER_ENGAGEMENT_DISCIPLINES.csv]
+    Q[ADVISER_OPEN_QUESTIONS.csv]
+    INST[FOUNDER_FILED_INSTRUMENTS.csv]
+  end
+
+  subgraph Vault [Compliance vault]
+    direction TB
+    EVID[ENISA_EVIDENCE_PACK_HOLISTIKA_RESEARCH_2026-04.md]
+    GOV[FOUNDER_GOVERNANCE_DOCUMENT_LIFECYCLE.md]
+  end
+
+  subgraph Adviser [External Adviser plane ADVOPS]
+    direction TB
+    ENISA[POI-LEG-ENISA-LEAD-2026]
+    ADV[GOI-ADV-ENTITY-2026]
+  end
+
+  subgraph Foundation [Founder incorporation foundation]
+    direction TB
+    PROC[hol_opera_ws_5 plus thi_legal_ws_*]
+  end
+
+  GOIPOI --> EVID
+  Q --> EVID
+  INST --> EVID
+  EVID --> GOV
+  EVID -. depends on .-> Adviser
+  ENISA -- contributes --> Q
+  ADV -- intake --> ENISA
+  Foundation --> EVID

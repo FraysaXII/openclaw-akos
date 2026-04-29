@@ -81,3 +81,11 @@ Each fact references **at least one source_id** below. Facts must use **GOI/POI 
 - [`SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md`](../../../../Admin/O5-1/Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md)
 - [`EXTERNAL_ADVISER_ROUTER.md`](../../../../Admin/O5-1/Operations/PMO/EXTERNAL_ADVISER_ROUTER.md)
 - [`compliance/README.md`](../../../../../compliance/README.md) — forward layout convention.
+
+### Topic graph (Initiative 25 P4 — Obsidian wikilinks as secondary nav)
+
+Markdown links above are **primary** (Git/GitHub + `validate_hlk_vault_links.py`). Wikilinks below are **secondary** Obsidian convention (out-of-scope for the link validator per D-IH-12).
+
+- Child topic (depends-on): [[topic_enisa_evidence]] — ENISA evidence pack derived from this ADVOPS plane (Initiative 25 P6).
+- Related topic (KiRBe consumes the same legal/fiscal foundation): [[topic_kirbe_billing_plane_routing]].
+- Cross-program governance: [[topic_km_governance]] (KM pilot bundle).
