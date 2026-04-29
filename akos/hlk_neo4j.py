@@ -123,15 +123,46 @@ def _ensure_constraints(session: Session) -> None:
     session.run(
         "CREATE CONSTRAINT hlk_process_id IF NOT EXISTS FOR (p:Process) REQUIRE p.item_id IS UNIQUE"
     )
+    # Initiative 23 P-graph (D-IH-18): :Program node identity + range indexes
+    # for the projected wave-2 dimension.
+    session.run(
+        "CREATE CONSTRAINT hlk_program_id IF NOT EXISTS FOR (n:Program) REQUIRE n.program_id IS UNIQUE"
+    )
+    session.run(
+        "CREATE INDEX hlk_program_lifecycle IF NOT EXISTS FOR (n:Program) ON (n.lifecycle_status)"
+    )
+    session.run(
+        "CREATE INDEX hlk_program_code IF NOT EXISTS FOR (n:Program) ON (n.program_code)"
+    )
+    session.run(
+        "CREATE INDEX hlk_program_plane IF NOT EXISTS FOR (n:Program) ON (n.default_plane)"
+    )
 
 
 def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) -> dict[str, int]:
-    """Full rebuild of Role/Process nodes and edges from *registry*."""
+    """Full rebuild of Role/Process/Program nodes and edges from *registry* + CSVs.
+
+    Initiative 23 P-graph (D-IH-18): the rebuild now also projects the
+    Program registry from `compliance/dimensions/PROGRAM_REGISTRY.csv` when the
+    file exists. The CSV is the SSOT; this graph layer is rebuildable read
+    index. Programs join Roles via `:OWNED_BY` and other Programs via the
+    typed edges defined in `akos.hlk_graph_model`.
+    """
     nodes, edges = build_hlk_csv_graph(registry)
     assert_graph_registry_parity(registry, nodes, edges)
 
+    # Initiative 23 P-graph: program-side projection (CSV-driven; no in-memory
+    # registry mirror). Append nodes/edges to the same lists so the wipe-then-
+    # rebuild transaction below sees them all.
+    from akos.hlk_graph_model import build_program_graph
+
+    prog_nodes, prog_edges = build_program_graph(registry)
+    nodes = nodes + prog_nodes
+    edges = edges + prog_edges
+
     role_rows = [n.properties for n in nodes if n.label == "Role"]
     proc_rows = [n.properties for n in nodes if n.label == "Process"]
+    prog_rows = [n.properties for n in nodes if n.label == "Program"]
     edge_rows = [
         {
             "etype": e.edge_type,
@@ -183,9 +214,36 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
                 """,
                 rows=chunk,
             )
+        # Initiative 23 P-graph: project :Program nodes after Role/Process
+        # so OWNED_BY edges can match the existing :Role nodes.
+        for i in range(0, len(prog_rows), batch):
+            chunk = prog_rows[i : i + batch]
+            session.run(
+                """
+                UNWIND $rows AS row
+                MERGE (n:Program {program_id: row.program_id})
+                SET n.process_item_id = row.process_item_id,
+                    n.program_name = row.program_name,
+                    n.program_code = row.program_code,
+                    n.lifecycle_status = row.lifecycle_status,
+                    n.primary_owner_role = row.primary_owner_role,
+                    n.default_plane = row.default_plane,
+                    n.start_date = row.start_date,
+                    n.target_close_date = row.target_close_date,
+                    n.risk_class = row.risk_class,
+                    n.notes = row.notes
+                """,
+                rows=chunk,
+            )
+
         rt = [r for r in edge_rows if r["etype"] == "REPORTS_TO"]
-        ob = [r for r in edge_rows if r["etype"] == "OWNED_BY"]
+        ob_proc = [r for r in edge_rows if r["etype"] == "OWNED_BY" and r["fa"] == "Process"]
+        ob_prog = [r for r in edge_rows if r["etype"] == "OWNED_BY" and r["fa"] == "Program"]
         po = [r for r in edge_rows if r["etype"] == "PARENT_OF"]
+        prog_consumes = [r for r in edge_rows if r["etype"] == "CONSUMES"]
+        prog_produces = [r for r in edge_rows if r["etype"] == "PRODUCES_FOR"]
+        prog_parent = [r for r in edge_rows if r["etype"] == "PROGRAM_PARENT_OF"]
+        prog_subsumes = [r for r in edge_rows if r["etype"] == "PROGRAM_SUBSUMES"]
         for chunk in (rt[i : i + batch] for i in range(0, len(rt), batch)):
             if not chunk:
                 continue
@@ -198,7 +256,7 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
                 """,
                 rows=chunk,
             )
-        for chunk in (ob[i : i + batch] for i in range(0, len(ob), batch)):
+        for chunk in (ob_proc[i : i + batch] for i in range(0, len(ob_proc), batch)):
             if not chunk:
                 continue
             session.run(
@@ -222,10 +280,72 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
                 """,
                 rows=chunk,
             )
+        # Initiative 23 P-graph: program-side edges
+        for chunk in (ob_prog[i : i + batch] for i in range(0, len(ob_prog), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MATCH (n:Program {program_id: row.fid})
+                MATCH (r:Role {role_name: row.tid})
+                MERGE (n)-[:OWNED_BY]->(r)
+                """,
+                rows=chunk,
+            )
+        for chunk in (prog_consumes[i : i + batch] for i in range(0, len(prog_consumes), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MATCH (a:Program {program_id: row.fid})
+                MATCH (b:Program {program_id: row.tid})
+                MERGE (a)-[:CONSUMES]->(b)
+                """,
+                rows=chunk,
+            )
+        for chunk in (prog_produces[i : i + batch] for i in range(0, len(prog_produces), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MATCH (a:Program {program_id: row.fid})
+                MATCH (b:Program {program_id: row.tid})
+                MERGE (a)-[:PRODUCES_FOR]->(b)
+                """,
+                rows=chunk,
+            )
+        for chunk in (prog_parent[i : i + batch] for i in range(0, len(prog_parent), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MATCH (a:Program {program_id: row.fid})
+                MATCH (b:Program {program_id: row.tid})
+                MERGE (a)-[:PROGRAM_PARENT_OF]->(b)
+                """,
+                rows=chunk,
+            )
+        for chunk in (prog_subsumes[i : i + batch] for i in range(0, len(prog_subsumes), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MATCH (a:Program {program_id: row.fid})
+                MATCH (b:Program {program_id: row.tid})
+                MERGE (a)-[:PROGRAM_SUBSUMES]->(b)
+                """,
+                rows=chunk,
+            )
 
     return {
         "roles_written": len(role_rows),
         "processes_written": len(proc_rows),
+        "programs_written": len(prog_rows),
         "edges_written": len(edge_rows),
     }
 

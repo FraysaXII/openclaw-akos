@@ -37,6 +37,11 @@ from pathlib import Path
 from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+# Make `akos.*` importable when this script is invoked directly (e.g.
+# `py scripts/wave2_backfill.py`); tests already prepend via conftest.
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 ANSWERS_PATH = (
     REPO_ROOT
     / "docs"
@@ -215,10 +220,184 @@ def cmd_write(
             return 1
     print("wave2_backfill: write mode")
     print("  target sections: " + ", ".join(target_sections))
-    print("  (per-section writers are NOT YET implemented in this bootstrap;")
-    print("   each Wave-2 phase that consumes a section adds its writer.)")
-    print("  scaffolder is sentinel-safe; nothing was written.")
+    written: list[Path] = []
+    skipped: list[str] = []
+    for section in target_sections:
+        writer = _SECTION_WRITERS.get(section)
+        if writer is None:
+            skipped.append(section)
+            continue
+        result = writer(data, allow_pending=allow_pending)
+        if result is not None:
+            written.extend(result)
+    if written:
+        for path in written:
+            try:
+                rel = path.relative_to(REPO_ROOT)
+            except ValueError:
+                rel = path
+            print(f"  wrote: {rel}")
+    if skipped:
+        print(f"  scaffolder writer not yet implemented for: {', '.join(skipped)}")
+        print("  (each Wave-2 phase that consumes a section adds its writer.)")
     return 0
+
+
+# ─── Section writers ─────────────────────────────────────────────────────────
+#
+# Each writer takes (data, allow_pending) and returns a list of Paths it wrote
+# (or [] / None when nothing changed). Writers are idempotent: same YAML input
+# produces byte-identical output. Cells carrying SENTINEL are skipped only
+# when allow_pending=True.
+
+_PROGRAM_REGISTRY_CSV = (
+    REPO_ROOT
+    / "docs"
+    / "references"
+    / "hlk"
+    / "compliance"
+    / "dimensions"
+    / "PROGRAM_REGISTRY.csv"
+)
+
+
+def _csv_escape(value: str) -> str:
+    """Escape a single CSV cell using csv.writer-style quoting when needed."""
+    if value is None:
+        return ""
+    s = str(value)
+    if any(ch in s for ch in (",", '"', "\n", "\r")):
+        return '"' + s.replace('"', '""') + '"'
+    return s
+
+
+def _write_program_registry(
+    data: dict[str, Any], *, allow_pending: bool
+) -> list[Path]:
+    """Initiative 23 P1 writer: emit PROGRAM_REGISTRY.csv from YAML `programs` section.
+
+    Reads the YAML's `programs:` mapping (one mapping per row, keyed by either
+    `program_id` (PRJ-HOL-...) or `process_item_id` (e.g. env_tech_prj_2)) and
+    writes `docs/references/hlk/compliance/dimensions/PROGRAM_REGISTRY.csv` with
+    column order matching `akos.hlk_program_registry_csv.PROGRAM_REGISTRY_FIELDNAMES`.
+
+    The YAML key is treated as the **canonical program_id** when it matches
+    PRJ-HOL-style; otherwise the row's `program_id:` field is used (or, when
+    absent, the agent constructs `PRJ-HOL-<CODE>-<YEAR>` from `program_code`
+    and the year inferred from `start_date` / current year).
+
+    Idempotent: rows are sorted by `program_id` for deterministic output.
+    """
+    from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES
+
+    section = data.get("programs")
+    if not isinstance(section, dict) or not section:
+        return []
+
+    rows: list[dict[str, str]] = []
+    for key, payload in section.items():
+        if not isinstance(payload, dict):
+            continue
+        # Key resolution: prefer the YAML key as program_id when PRJ-HOL-style;
+        # otherwise build one from program_code + year.
+        program_id = str(key).strip()
+        if not program_id.startswith("PRJ-HOL-"):
+            # Use process_item_id-style key as a hint; build PRJ-HOL-<CODE>-<YYYY>.
+            code = str(payload.get("program_code") or "").strip().upper()
+            start = str(payload.get("start_date") or "").strip()
+            year = ""
+            if start and "-" in start and start[:4].isdigit():
+                year = start[:4]
+            else:
+                year = "2026"
+            if code and len(code) == 3:
+                # Map process_item_id slug like "thi_legal_prj_1" to PRJ-HOL-LEG-2026.
+                program_id = f"PRJ-HOL-{code}-{year}"
+
+        process_item_id = str(payload.get("process_item_id") or "").strip()
+        # When the YAML key was already a process_item_id, it's the FK back.
+        if not process_item_id and not str(key).startswith("PRJ-HOL-"):
+            process_item_id = str(key).strip()
+
+        row = {field: "" for field in PROGRAM_REGISTRY_FIELDNAMES}
+        row["program_id"] = program_id
+        row["process_item_id"] = process_item_id
+        row["program_name"] = str(payload.get("program_name") or "").strip()
+        row["program_code"] = str(payload.get("program_code") or "").strip().upper()
+        row["lifecycle_status"] = str(payload.get("lifecycle_status") or "").strip()
+        row["parent_program_id"] = str(payload.get("parent_program_id") or "").strip()
+        row["consumes_program_ids"] = _normalize_program_ids(
+            str(payload.get("consumes_program_ids") or "").strip(), section
+        )
+        row["produces_for_program_ids"] = _normalize_program_ids(
+            str(payload.get("produces_for_program_ids") or "").strip(), section
+        )
+        row["subsumes_program_ids"] = _normalize_program_ids(
+            str(payload.get("subsumes_program_ids") or "").strip(), section
+        )
+        row["primary_owner_role"] = str(payload.get("primary_owner_role") or "").strip()
+        row["default_plane"] = str(payload.get("default_plane") or "").strip()
+        row["start_date"] = str(payload.get("start_date") or "").strip()
+        row["target_close_date"] = str(payload.get("target_close_date") or "").strip()
+        row["risk_class"] = str(payload.get("risk_class") or "").strip()
+        row["notes"] = str(payload.get("notes") or "").strip()
+
+        # Sentinel handling: if --allow-pending, skip cells carrying SENTINEL
+        # (they emit empty); else this branch is unreachable (cmd_write blocks
+        # on sentinels by default).
+        if allow_pending:
+            for field, value in row.items():
+                if value == SENTINEL:
+                    row[field] = ""
+
+        rows.append(row)
+
+    rows.sort(key=lambda r: r["program_id"])
+
+    _PROGRAM_REGISTRY_CSV.parent.mkdir(parents=True, exist_ok=True)
+    with _PROGRAM_REGISTRY_CSV.open("w", encoding="utf-8", newline="\n") as fh:
+        fh.write(",".join(PROGRAM_REGISTRY_FIELDNAMES) + "\n")
+        for row in rows:
+            fh.write(",".join(_csv_escape(row[field]) for field in PROGRAM_REGISTRY_FIELDNAMES) + "\n")
+    return [_PROGRAM_REGISTRY_CSV]
+
+
+def _normalize_program_ids(raw: str, section: dict[str, Any]) -> str:
+    """Resolve YAML-key references (e.g. `hol_resea_prj_1`) to canonical
+    `program_id` values (e.g. `PRJ-HOL-RES-2026`) using the same key-resolution
+    rule as the writer. Semicolon-separated list preserved.
+
+    Items already in PRJ-HOL- form pass through unchanged.
+    Unknown items pass through (validator catches forward references).
+    """
+    if not raw:
+        return ""
+    parts = [p.strip() for p in raw.split(";") if p.strip()]
+    resolved: list[str] = []
+    for part in parts:
+        if part.startswith("PRJ-HOL-"):
+            resolved.append(part)
+            continue
+        # Look up YAML key payload
+        payload = section.get(part) if isinstance(section, dict) else None
+        if isinstance(payload, dict):
+            code = str(payload.get("program_code") or "").strip().upper()
+            start = str(payload.get("start_date") or "").strip()
+            year = start[:4] if (start and start[:4].isdigit()) else "2026"
+            if code and len(code) == 3:
+                resolved.append(f"PRJ-HOL-{code}-{year}")
+                continue
+        resolved.append(part)  # leave as-is; validator will surface
+    return ";".join(resolved)
+
+
+_SECTION_WRITERS: dict[str, Any] = {
+    "programs": _write_program_registry,
+    # brand_voice: I24-P0a (lands in i24-brand-foundation-alignment todo)
+    # goi_poi_voice: I24-P2 (lands in i24-goipoi-mirror-ddl-alter)
+    # kirbe_duality: I23-P6 confirmation block (lands in i23-onboard-program-2)
+    # g_24_3_signoff: I24-P6 (irreversible; lands in i24-send-real-email)
+}
 
 
 def _resolve_target_sections(section_filter: str | None) -> list[str]:

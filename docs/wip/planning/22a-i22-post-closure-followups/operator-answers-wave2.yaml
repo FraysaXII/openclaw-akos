@@ -58,12 +58,12 @@ programs:
     program_code: LEG
     primary_owner_role: Legal Counsel
     default_plane: advops
-    lifecycle_status: __OPERATOR_CONFIRM__
-    risk_class: __OPERATOR_CONFIRM__
-    start_date: __OPERATOR_CONFIRM__
-    target_close_date: __OPERATOR_CONFIRM__
+    lifecycle_status: active                    # agent default - operator review (D-IH-23-A)
+    risk_class: medium                           # agent default - operator review
+    start_date: 2026-01-01                       # agent default placeholder - operator review with actual date
+    target_close_date: open                      # agent default - ongoing operational program
     consumes_program_ids: ""
-    notes: __OPERATOR_CONFIRM__
+    notes: "Think Big legal compliance umbrella program (entity formation, IP governance, contracts). Agent-defaulted Tier-3 cells per D-IH-23-A; operator review pending."
 
   thi_finan_prj_1:
     process_item_id: thi_finan_prj_1
@@ -71,12 +71,12 @@ programs:
     program_code: FIN
     primary_owner_role: CFO
     default_plane: finops
-    lifecycle_status: __OPERATOR_CONFIRM__
-    risk_class: __OPERATOR_CONFIRM__
-    start_date: __OPERATOR_CONFIRM__
-    target_close_date: __OPERATOR_CONFIRM__
+    lifecycle_status: active                    # agent default - operator review
+    risk_class: medium                           # agent default - operator review
+    start_date: 2026-01-01                       # agent default placeholder
+    target_close_date: open                      # agent default - ongoing
     consumes_program_ids: ""
-    notes: __OPERATOR_CONFIRM__
+    notes: "Think Big finance architecture umbrella (FINOPS plane, counterparty register, ledger facts). Agent-defaulted Tier-3 cells per D-IH-23-A; operator review pending."
 
   # ▼▼ Product cluster ▼▼
   env_tech_prj_2:
@@ -85,12 +85,12 @@ programs:
     program_code: KIR
     primary_owner_role: CTO
     default_plane: techops
-    lifecycle_status: __OPERATOR_CONFIRM__
-    risk_class: __OPERATOR_CONFIRM__
-    start_date: __OPERATOR_CONFIRM__
-    target_close_date: __OPERATOR_CONFIRM__
-    consumes_program_ids: "PRJ-HOL-FOUNDING-2026"   # KiRBe consumes legal/fiscal foundation; flip if not yet
-    notes: "DUAL nature — SaaS product (kirbe.* schema, Stripe billing) + KM ingestion source per v3.0/index.md"
+    lifecycle_status: active                    # agent default - operator review (D-IH-23-A)
+    risk_class: medium                           # agent default - DUAL nature warrants alertness
+    start_date: 2026-01-01                       # agent default placeholder
+    target_close_date: open                      # agent default - ongoing product
+    consumes_program_ids: "PRJ-HOL-FOUNDING-2026"   # D-IH-16 KiRBe duality: consumes legal/fiscal foundation
+    notes: "DUAL nature - SaaS product (kirbe.* schema, Stripe billing per metadata.hlk_billing_plane) + KM ingestion source per v3.0/index.md. Section 4 KiRBe duality confirms paying-customers status and on-demand role roots."
 
   env_tech_prj_3:
     process_item_id: env_tech_prj_3
@@ -98,12 +98,12 @@ programs:
     program_code: MAD
     primary_owner_role: CTO
     default_plane: techops
-    lifecycle_status: __OPERATOR_CONFIRM__
-    risk_class: __OPERATOR_CONFIRM__
-    start_date: __OPERATOR_CONFIRM__
-    target_close_date: __OPERATOR_CONFIRM__
-    consumes_program_ids: __OPERATOR_CONFIRM__   # likely "hol_resea_prj_1" (research methodology); confirm
-    notes: __OPERATOR_CONFIRM__
+    lifecycle_status: active                    # agent default - operator review
+    risk_class: medium                           # agent default
+    start_date: 2026-01-01                       # agent default placeholder
+    target_close_date: open                      # agent default - ongoing
+    consumes_program_ids: "hol_resea_prj_1"     # MADEIRA consumes research methodology; D-IH-23-A operator review
+    notes: "Madeira agentic platform; consumes Holistika Research and Methodology outputs. Agent-defaulted Tier-3 cells per D-IH-23-A."
 
   env_tech_prj_4:
     process_item_id: env_tech_prj_4
@@ -111,12 +111,12 @@ programs:
     program_code: INF
     primary_owner_role: CTO
     default_plane: devops
-    lifecycle_status: __OPERATOR_CONFIRM__
-    risk_class: __OPERATOR_CONFIRM__
-    start_date: __OPERATOR_CONFIRM__
-    target_close_date: __OPERATOR_CONFIRM__
+    lifecycle_status: active                    # agent default - operator review
+    risk_class: medium                           # agent default
+    start_date: 2026-01-01                       # agent default placeholder
+    target_close_date: open                      # agent default - ongoing
     consumes_program_ids: ""
-    notes: __OPERATOR_CONFIRM__
+    notes: "HLK infrastructure umbrella (DevOPS, runtime gateway, Supabase, OpenStack ShadowGPU, RunPod). Agent-defaulted Tier-3 cells per D-IH-23-A."
 
   # ▼▼ Internal cluster ▼▼
   hol_resea_prj_1:
@@ -125,12 +125,12 @@ programs:
     program_code: RES
     primary_owner_role: Holistik Researcher
     default_plane: ops
-    lifecycle_status: __OPERATOR_CONFIRM__
-    risk_class: __OPERATOR_CONFIRM__
-    start_date: __OPERATOR_CONFIRM__
-    target_close_date: __OPERATOR_CONFIRM__
+    lifecycle_status: active                    # agent default - operator review
+    risk_class: low                              # agent default - methodology umbrella, foundational
+    start_date: 2026-01-01                       # agent default placeholder
+    target_close_date: open                      # agent default - foundational, no close
     consumes_program_ids: ""
-    notes: __OPERATOR_CONFIRM__
+    notes: "Holistika research and methodology pillars (process eng, business eng, foresight). Foundational program; outputs feed product programs (KiRBe, MADEIRA). Agent-defaulted Tier-3 cells per D-IH-23-A."
 
   hol_peopl_prj_1:
     process_item_id: hol_peopl_prj_1
@@ -138,12 +138,12 @@ programs:
     program_code: PEO
     primary_owner_role: CPO
     default_plane: ops
-    lifecycle_status: __OPERATOR_CONFIRM__
-    risk_class: __OPERATOR_CONFIRM__
-    start_date: __OPERATOR_CONFIRM__
-    target_close_date: __OPERATOR_CONFIRM__
+    lifecycle_status: active                    # agent default - operator review
+    risk_class: low                              # agent default
+    start_date: 2026-01-01                       # agent default placeholder
+    target_close_date: open                      # agent default - ongoing
     consumes_program_ids: ""
-    notes: __OPERATOR_CONFIRM__
+    notes: "People and organisational development umbrella (talent, culture, compliance methodology). Agent-defaulted Tier-3 cells per D-IH-23-A."
 
   hol_ops_pgf_1:
     process_item_id: hol_ops_pgf_1
@@ -151,12 +151,12 @@ programs:
     program_code: PGF
     primary_owner_role: PMO
     default_plane: ops
-    lifecycle_status: __OPERATOR_CONFIRM__
-    risk_class: __OPERATOR_CONFIRM__
-    start_date: __OPERATOR_CONFIRM__
-    target_close_date: __OPERATOR_CONFIRM__
+    lifecycle_status: active                    # agent default - operator review
+    risk_class: medium                           # agent default - PGF spans cross-program governance
+    start_date: 2026-01-01                       # agent default placeholder
+    target_close_date: open                      # agent default - foundational
     consumes_program_ids: ""
-    notes: __OPERATOR_CONFIRM__
+    notes: "Process governance framework (process_list maintenance, SOP-META, asset classification). Cross-program; provides governance contracts for all other programs. Agent-defaulted Tier-3 cells per D-IH-23-A."
 
   thi_mkt_prj_1:
     process_item_id: thi_mkt_prj_1
@@ -164,12 +164,12 @@ programs:
     program_code: MKT
     primary_owner_role: CMO
     default_plane: mktops
-    lifecycle_status: __OPERATOR_CONFIRM__
-    risk_class: __OPERATOR_CONFIRM__
-    start_date: __OPERATOR_CONFIRM__
-    target_close_date: __OPERATOR_CONFIRM__
+    lifecycle_status: active                    # agent default - operator review
+    risk_class: medium                           # agent default
+    start_date: 2026-01-01                       # agent default placeholder
+    target_close_date: open                      # agent default - ongoing
     consumes_program_ids: ""
-    notes: __OPERATOR_CONFIRM__
+    notes: "Channel and marketing operations (GTM, brand, growth). Will host the I24 Communication Methodology SOP and brand foundation. Agent-defaulted Tier-3 cells per D-IH-23-A."
 
   thi_opera_prj_1:
     process_item_id: thi_opera_prj_1
@@ -177,12 +177,12 @@ programs:
     program_code: OPS
     primary_owner_role: COO
     default_plane: ops
-    lifecycle_status: __OPERATOR_CONFIRM__
-    risk_class: __OPERATOR_CONFIRM__
-    start_date: __OPERATOR_CONFIRM__
-    target_close_date: __OPERATOR_CONFIRM__
+    lifecycle_status: active                    # agent default - operator review
+    risk_class: medium                           # agent default
+    start_date: 2026-01-01                       # agent default placeholder
+    target_close_date: open                      # agent default - ongoing
     consumes_program_ids: ""
-    notes: __OPERATOR_CONFIRM__
+    notes: "Operational excellence umbrella (PMO, ADVOPS plane, vendor relations). Hosts I21 ADVOPS workstream and I22a wave-2 governance. Agent-defaulted Tier-3 cells per D-IH-23-A."
 
   thi_data_prj_1:
     process_item_id: thi_data_prj_1
@@ -190,12 +190,12 @@ programs:
     program_code: DAT
     primary_owner_role: CDO
     default_plane: ops              # no `dataops` in current enum; ops covers data governance for now
-    lifecycle_status: __OPERATOR_CONFIRM__
-    risk_class: __OPERATOR_CONFIRM__
-    start_date: __OPERATOR_CONFIRM__
-    target_close_date: __OPERATOR_CONFIRM__
+    lifecycle_status: active                    # agent default - operator review
+    risk_class: medium                           # agent default - data governance is structural
+    start_date: 2026-01-01                       # agent default placeholder
+    target_close_date: open                      # agent default - ongoing
     consumes_program_ids: ""
-    notes: __OPERATOR_CONFIRM__
+    notes: "Data governance umbrella (DAMA discipline, data quality, lineage, masterdata). Co-owns KiRBe ingestion DQ (thi_data_dtp_274) and lineage (thi_data_dtp_275). Agent-defaulted Tier-3 cells per D-IH-23-A."
 
 
 # ─── Section 2: Brand voice foundation ───────────────────────────────────────

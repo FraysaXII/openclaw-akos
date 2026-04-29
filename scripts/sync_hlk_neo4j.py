@@ -85,16 +85,21 @@ def main() -> None:
     setup_logging(json_output=args.json_log)
     bootstrap_openclaw_process_env()
 
-    from akos.hlk_graph_model import assert_graph_registry_parity, build_hlk_csv_graph
+    from akos.hlk_graph_model import assert_graph_registry_parity, build_hlk_csv_graph, build_program_graph
 
     reg = get_hlk_registry()
     nodes, edges = build_hlk_csv_graph(reg)
     assert_graph_registry_parity(reg, nodes, edges)
+    # Initiative 23 P-graph (D-IH-18): project the program registry alongside
+    # the role/process tree. CSV-driven; emits 0 nodes when the file is absent.
+    prog_nodes, prog_edges = build_program_graph(reg)
     logger.info(
-        "graph model: roles=%d processes=%d edges=%d",
+        "graph model: roles=%d processes=%d programs=%d edges=%d (incl. %d program-side)",
         sum(1 for n in nodes if n.label == "Role"),
         sum(1 for n in nodes if n.label == "Process"),
-        len(edges),
+        len(prog_nodes),
+        len(edges) + len(prog_edges),
+        len(prog_edges),
     )
 
     if args.dry_run:
