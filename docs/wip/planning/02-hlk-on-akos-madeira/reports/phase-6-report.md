@@ -31,9 +31,9 @@ This phase resumed a failed live UAT run and repaired the highest-impact runtime
 | Local gateway post-reboot recovery | Done | Rebound runtime to `deepseek-r1:14b`, confirmed branded UI HTTP 200, and restored gateway RPC health via manual run |
 | Documentation synchronization for troubleshooting and runtime behavior | Done | Updated `docs/USER_GUIDE.md`, `docs/ARCHITECTURE.md`, scaffold README |
 | Dedicated RunPod pod remediation | Blocked | New pod creation failed: RunPod API returned account balance too low |
-| ShadowPC API and tenant inventory validation | Done | Keystone auth, flavors, images, and networks now verified against the live tenant |
-| ShadowPC deployment compatibility hardening | Done | Corrected image/flavor/network defaults and made security-group/key handling policy-tolerant |
-| ShadowPC instance deployment | Blocked | Current OpenStack role is forbidden from `servers:create` |
+| ShadowGPU (OpenStack) API and tenant inventory validation | Done | Keystone auth, flavors, images, and networks now verified against the live tenant |
+| ShadowGPU deployment compatibility hardening | Done | Corrected image/flavor/network defaults and made security-group/key handling policy-tolerant |
+| ShadowGPU instance deployment | Blocked | Current OpenStack role is forbidden from `servers:create` |
 
 ## 4. Evidence and Verification Matrix
 
@@ -79,7 +79,7 @@ This phase resumed a failed live UAT run and repaired the highest-impact runtime
 ## 6. Next Steps
 
 1. Re-top up RunPod balance, then re-run serverless endpoint creation and dedicated pod deployment and verify `/health`, `/v1/models`, and `/v1/chat/completions`.
-2. Ask the ShadowPC operator to grant `os_compute_api:servers:create` for this project/role, then retry `deploy-shadow`.
+2. Ask the ShadowGPU / OpenStack operator to grant `os_compute_api:servers:create` for this project/role, then retry `deploy-shadow`.
 3. Run final browser UAT matrix (`docs/uat/hlk_admin_smoke.md`) with pass/fail evidence capture after at least one live GPU provider path is restored.
 4. Tune serverless residual memory churn (candidate knobs: lower `GPU_MEMORY_UTILIZATION`, lower `MAX_MODEL_LEN`, lower `MAX_NUM_SEQS`, constrain GPU pool) based on new worker logs.
 5. Execute full governed verification matrix before commit:
