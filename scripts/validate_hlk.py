@@ -291,6 +291,20 @@ def main() -> int:
             return 1
         print("  FOUNDER_FILED_INSTRUMENTS: PASS")
 
+    program_registry_path = HLK_DIR / "dimensions" / "PROGRAM_REGISTRY.csv"
+    if program_registry_path.is_file():
+        import subprocess
+
+        vpr = Path(__file__).resolve().parent / "validate_program_registry.py"
+        r = subprocess.run([sys.executable, str(vpr)], capture_output=True, text=True)
+        print(r.stdout, end="")
+        if r.stderr:
+            print(r.stderr, end="", file=sys.stderr)
+        if r.returncode != 0:
+            print("  PROGRAM_REGISTRY: FAIL")
+            return 1
+        print("  PROGRAM_REGISTRY: PASS")
+
     print("  OVERALL: PASS")
     return 0
 

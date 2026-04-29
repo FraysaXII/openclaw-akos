@@ -171,23 +171,72 @@ def test_check_only_does_not_raise_on_pending(scaffolder_module, capsys):
 
 
 def test_dry_run_blocks_on_pending(scaffolder_module, capsys):
-    """--dry-run must refuse when target section carries sentinels."""
+    """--dry-run must refuse when target section carries sentinels.
+
+    Uses brand_voice (Section 2) which remains sentinel-marked until I24-P0a
+    operator interview. The programs section was filled with agent defaults
+    in I23-P0.5 (D-IH-23-A) so it is no longer a useful pending-section probe.
+    """
     if not ANSWERS_PATH.is_file():
         pytest.skip("operator-answers-wave2.yaml not present")
     data = scaffolder_module.load_answers(ANSWERS_PATH)
-    rc = scaffolder_module.cmd_dry_run(data, section_filter="programs")
-    # At bootstrap time, programs section has many sentinels; must block.
+    rc = scaffolder_module.cmd_dry_run(data, section_filter="brand_voice")
     assert rc == 1, "--dry-run should refuse while sentinels remain in target section"
     captured = capsys.readouterr()
     assert "BLOCKED" in captured.out
 
 
 def test_write_refuses_pending_without_flag(scaffolder_module, capsys):
-    """Full write must refuse on sentinels unless --allow-pending is set."""
+    """Full write must refuse on sentinels unless --allow-pending is set.
+
+    Uses brand_voice (still sentinel-marked) to exercise the refusal path;
+    programs section is now sentinel-free post I23-P0.5.
+    """
     if not ANSWERS_PATH.is_file():
         pytest.skip("operator-answers-wave2.yaml not present")
     data = scaffolder_module.load_answers(ANSWERS_PATH)
-    rc = scaffolder_module.cmd_write(data, section_filter="programs", allow_pending=False)
+    rc = scaffolder_module.cmd_write(data, section_filter="brand_voice", allow_pending=False)
     assert rc == 1
     captured = capsys.readouterr()
     assert "REFUSED" in captured.out
+
+
+def test_write_programs_section_emits_csv(scaffolder_module, tmp_path, monkeypatch):
+    """I23 P1: programs section writer emits PROGRAM_REGISTRY.csv with PRJ-HOL-style ids."""
+    if not ANSWERS_PATH.is_file():
+        pytest.skip("operator-answers-wave2.yaml not present")
+    # Redirect output to a tmp path to keep the test hermetic.
+    out_csv = tmp_path / "PROGRAM_REGISTRY.csv"
+    monkeypatch.setattr(scaffolder_module, "_PROGRAM_REGISTRY_CSV", out_csv)
+    data = scaffolder_module.load_answers(ANSWERS_PATH)
+    rc = scaffolder_module.cmd_write(data, section_filter="programs", allow_pending=False)
+    assert rc == 0
+    assert out_csv.is_file(), "writer should emit PROGRAM_REGISTRY.csv"
+    content = out_csv.read_text(encoding="utf-8")
+    # Header parity with the akos field contract:
+    from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES
+    assert content.splitlines()[0] == ",".join(PROGRAM_REGISTRY_FIELDNAMES)
+    # All 12 program rows present (founder + 11 process-list projects):
+    assert content.count("PRJ-HOL-") >= 12
+    # Idempotent: rerun yields byte-identical content.
+    first = out_csv.read_bytes()
+    scaffolder_module.cmd_write(data, section_filter="programs", allow_pending=False)
+    assert out_csv.read_bytes() == first
+
+
+def test_write_programs_resolves_yaml_key_references(scaffolder_module, tmp_path, monkeypatch):
+    """consumes_program_ids referencing a YAML key (e.g. hol_resea_prj_1) must resolve to PRJ-HOL-RES-2026."""
+    if not ANSWERS_PATH.is_file():
+        pytest.skip("operator-answers-wave2.yaml not present")
+    out_csv = tmp_path / "PROGRAM_REGISTRY.csv"
+    monkeypatch.setattr(scaffolder_module, "_PROGRAM_REGISTRY_CSV", out_csv)
+    data = scaffolder_module.load_answers(ANSWERS_PATH)
+    rc = scaffolder_module.cmd_write(data, section_filter="programs", allow_pending=False)
+    assert rc == 0
+    content = out_csv.read_text(encoding="utf-8")
+    # MAD program references hol_resea_prj_1 in YAML; should be resolved to PRJ-HOL-RES-2026.
+    mad_line = next((l for l in content.splitlines() if "PRJ-HOL-MAD-" in l), None)
+    assert mad_line is not None, "MAD program row should be present"
+    assert "PRJ-HOL-RES-" in mad_line, f"MAD consumes should resolve to PRJ-HOL-RES-...; got: {mad_line}"
+    # No raw YAML keys (process_item_id-style) should leak into edge columns.
+    assert "hol_resea_prj_1" not in mad_line.split(",")[6], "consumes_program_ids should resolve"
