@@ -296,9 +296,15 @@ goi_poi_voice:
 # ~10 minutes. Five short confirmations; drives I23-P6 program-2 onboarding.
 
 kirbe_duality:
-  program_id_choice: PRJ-HOL-KIRBE-2026
-    # confirm or override; alternate = "env_tech_prj_2" (existing item_id)
-    # Plan default per D-IH-16: PRJ-HOL-KIRBE-2026 (PRJ-HOL-style canonical id).
+  program_id_choice: PRJ-HOL-KIR-2026
+    # I23-P6 onboarding adopted the agent-derived 3-letter-code-based id
+    # (PRJ-HOL-KIR-2026) for consistency with the rest of the registry.
+    # The plan's PRJ-HOL-KIRBE-2026 (long-word form) was reserved for the
+    # casework-only program PRJ-HOL-FOUNDING-2026; product programs use
+    # the program_code as the slug. Operator may flip to PRJ-HOL-KIRBE-2026
+    # later by editing the registry + Postgres mirror + Neo4j projection
+    # (rename ripple, single-commit cascade). Documented in
+    # decision-log.md D-IH-23-B.
 
   primary_owner_role: CTO
     # plan default per D-IH-16; override only if KiRBe is reassigned.
