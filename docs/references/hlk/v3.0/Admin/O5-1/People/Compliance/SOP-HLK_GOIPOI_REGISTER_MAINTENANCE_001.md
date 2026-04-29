@@ -152,6 +152,28 @@ The new program's first GOI/POI rows should be merged in a single tranche so rev
 * **RLS:** Enabled; deny policies for `anon` and `authenticated`; `service_role` for sync and trusted server reads.
 * **Client applications:** Must not query this table with a public anon key.
 
+### 6.1 `service_role` quarterly rotation procedure (Initiative 26 P2 / D-IH-26-D)
+
+**Cadence:** quarterly (last business day of each quarter) unless an incident triggers an earlier rotation.
+
+**Operator runbook:**
+
+1. **Open Supabase dashboard** → Project → Settings → API.
+2. **Roll** the `service_role` key (Supabase generates a new value; the old key revokes within ~60 seconds).
+3. **Update the operator credential store** that backs the `user-supabase` MCP server (typically `~/.openclaw/.env` `SUPABASE_SERVICE_ROLE_KEY=…`, or a 1Password / Vault entry the operator references). **Never commit the value to git.**
+4. **Smoke the rotation**: run `py scripts/probe_compliance_mirror_drift.py --emit-sql`, paste the SELECT into MCP `execute_sql` (which now uses the new key), save the JSON to `artifacts/probes/mirror-drift-<YYYYMMDD>.json`, then `py scripts/probe_compliance_mirror_drift.py --verify`. PASS confirms the new key works end-to-end.
+5. **Log the rotation** in [`docs/wip/planning/26-hlk-ops-hardening/decision-log.md`](../../../../../wip/planning/26-hlk-ops-hardening/decision-log.md) as a one-line row: `<YYYY-MM-DD>` / `<operator initials>` / `service_role rotated; smoke probe PASS`.
+
+**Rollback** if the new key is rejected by MCP after step 4:
+
+* In dashboard → Settings → API, re-roll the key (generates a fresh value; the **rejected** new key revokes).
+* Re-run step 3 with the fresh key.
+* Re-run step 4 to confirm.
+
+**Calendar reminder pattern:** add a recurring quarterly reminder in the operator's calendar — last business day of Q1/Q2/Q3/Q4. Industry baseline cadence; longer windows accumulate exposure surface, shorter windows produce operator fatigue.
+
+**SOC**: per [`akos-governance-remediation.mdc`](../../../../../../.cursor/rules/akos-governance-remediation.mdc) §"SOC / Security": never log secret values. The runbook refers to the dashboard path and the credential store path only — the key value itself is never written to git, terminal history (use the dashboard copy-to-clipboard, then paste into the credential store editor), or Slack/email.
+
 ## 7.0 Off-repo identity mapping
 
 The **real-name ↔ ref_id** mapping is operator-managed and must remain off-repo. Recommended forms:

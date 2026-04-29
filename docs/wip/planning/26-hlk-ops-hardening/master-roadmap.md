@@ -1,8 +1,10 @@
 # Initiative 26 — Operations hardening (small ops items + persistent triggers)
 
 **Folder:** `docs/wip/planning/26-hlk-ops-hardening/`
-**Status:** **P0 + P1 in progress (2026-04-29).** Independent of I23-25; runs in parallel.
+**Status:** **CLOSED for P0+P1+P2+P3+P5 (2026-04-29). P4 DEFERRED with persistent trigger contract.** Independent of I23/I24/I25; ran in parallel.
 **Authoritative Cursor plan:** `~/.cursor/plans/hlk_scalability_wave_2_initiatives_639a02d7.plan.md` §"Initiative 26".
+
+> **Closure note (2026-04-29)** — All in-scope phases shipped: P0 (initiative folder + 6 standard artifacts + 3 persistent re-eval-trigger templates for D-IH-14/15/18) and P1 (pinned `mmdc@^11` install runbook + Linux CI extras) landed in [PR #16](https://github.com/FraysaXII/openclaw-akos/pull/16); P2 (`service_role` quarterly rotation runbook in `SOP-HLK_GOIPOI` §6.1), P3 (WeasyPrint GTK3 Windows install runbook), P5 UAT, and closure note ship in this PR. **P4 (`compliance/<plane>/` physical relocation) is explicitly DEFERRED** per D-IH-26-E — the persistent template at [`reports/re-eval-trigger-compliance-plane-relocation.md`](reports/re-eval-trigger-compliance-plane-relocation.md) carries the trigger contract; I23-P6 KIR onboarding closed without surfacing the friction that would justify acting now. Verification: `validate_hlk.py` PASS, `validate_hlk_vault_links.py` PASS. Operator follow-ups (mmdc install, WeasyPrint GTK3 install, first quarterly rotation Q3 2026) tracked in [`reports/uat-i26-ops-hardening-20260429.md`](reports/uat-i26-ops-hardening-20260429.md). Cursor-rules-hygiene checkbox CONFIRMED.
 
 ## Outcome
 
