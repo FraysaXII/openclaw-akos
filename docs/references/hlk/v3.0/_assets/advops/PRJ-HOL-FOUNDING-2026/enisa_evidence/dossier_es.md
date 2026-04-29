@@ -22,384 +22,376 @@ sources:
   - docs/references/hlk/compliance/dimensions/TOPIC_REGISTRY.csv
   - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/ENISA_EVIDENCE_PACK_HOLISTIKA_RESEARCH_2026-04.md
   - docs/references/hlk/v3.0/Admin/O5-1/People/Legal/FOUNDER_ENTITY_FORMATION_DECISION_MEMO_2026-04.md
-  - docs/references/hlk/v3.0/Admin/O5-1/Finance/Business Controller/Taxes/FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04.md
+  - "docs/references/hlk/v3.0/Admin/O5-1/Finance/Business Controller/Taxes/FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04.md"
   - docs/references/hlk/v3.0/Admin/O5-1/People/Legal/FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md
-  - docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/topic_enisa_evidence.md
   - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_VISUAL_PATTERNS.md
+  - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_JARGON_AUDIT.md
 ---
 
-# Dossier ENISA — Holística Research
+# Resumen ejecutivo
 
-> **Documento canónico (Initiative 27 P2).** Fuente única de verdad para la versión española del dossier de certificación ENISA — Empresa Emergente del programa `PRJ-HOL-FOUNDING-2026`. Cada afirmación cita la fila CSV (`Q-…`, `INST-…`, `GOI-…`, `POI-…`) o el documento canónico que la respalda. Las decisiones que requieren confirmación del fundador se marcan explícitamente como `TODO[OPERATOR]` con la recomendación interna correspondiente. La versión PDF se genera por `scripts/render_dossier.py` invocando `akos.hlk_pdf_render.render_pdf_branded(profile="dossier")`.
+<p class="lead">Holística Research es una compañía de investigación aplicada e ingeniería empresarial. Construimos métodos de trabajo que se prueban primero internamente y, cuando funcionan, se escalan al cliente o se convierten en software. Este dossier consolida la información necesaria para la candidatura ENISA — Empresa Emergente.</p>
 
----
+El primer vehículo legal en España (`PRJ-HOL-FOUNDING-2026`) cubre tres líneas de actividad bajo un mismo objeto social: investigación aplicada, ingeniería empresarial e ingeniería de procesos, con una cuarta línea opcional de productización de software propio. La elección es deliberada: el método se ha desarrollado internamente desde 2023, está respaldado por cinco entregas de software ya en producción, y la transición de servicio a producto está en curso (la plataforma KiRBe).
 
-## 1. Resumen ejecutivo
+<div class="stat-grid">
+  <div class="stat"><span class="stat-num">5</span><span class="stat-label">Entregas en producción</span></div>
+  <div class="stat"><span class="stat-num">3</span><span class="stat-label">Idiomas en el sitio público</span></div>
+  <div class="stat"><span class="stat-num">2023</span><span class="stat-label">Año de inicio del método</span></div>
+  <div class="stat"><span class="stat-num">12</span><span class="stat-label">Preguntas abiertas a cerrar</span></div>
+</div>
 
-Holística Research es una compañía de **inteligencia corporativa e ingeniería empresarial** con una metodología propia, escalable y habilitada por tecnología. El programa `PRJ-HOL-FOUNDING-2026` cubre la constitución del primer vehículo legal en España, en paralelo con la candidatura a la certificación ENISA — Empresa Emergente.
+El dossier se organiza en cuatro pilares — Mercantil, Mercado, Financiación y Operativa — seguidos de cinco apéndices: cuestionario abierto a asesores (Apéndice A, 13 preguntas), instrumentos archivados (Apéndice B), capacidades demostradas (Apéndice C), glosario cruzado (Apéndice D) y trazabilidad (Apéndice E).
 
-La tesis central, sostenida por la base operativa actual (cinco entregas de producción documentadas en el Apéndice C) y por el corpus metodológico interno (`AKOS`, marcos de análisis, biblioteca de SOPs), es que el primer vehículo no debe encajarse como consultoría genérica: la oferta combina **investigación**, **ingeniería de procesos**, **arquitectura tecnológica** y **una ruta clara hacia productización** (la plataforma KiRBe ya en producción para uso interno). Esta postura es deliberada y está alineada con el rationale recogido en `FOUNDER_ENTITY_FORMATION_DECISION_MEMO_2026-04.md`.
-
-El dossier se organiza en cuatro pilares (Mercantil / Mercado / Financiación / Operativa), seguidos de cinco apéndices: cuestionario abierto a asesores (Apéndice A — 13 preguntas), instrumentos archivados (Apéndice B), capacidades demostradas (Apéndice C), glosario cruzado (Apéndice D) y trazabilidad (Apéndice E).
-
-> **Estado del programa**: P1 — Listo para auditoría externa. La firma en notaría queda condicionada al cierre por escrito de las cinco preguntas críticas marcadas como `before_signing` en `ADVISER_OPEN_QUESTIONS.csv` (ver Apéndice A). La candidatura ENISA no es prerrequisito de la constitución, pero la coherencia entre `objeto social`, `CNAE` y narrativa de innovación es trabada desde el día 1 (ver §2 y `Q-LEG-001`).
-
-### 1.1 Tesis breve para la persona certificadora
-
-Cuatro frases para abrir el expediente:
-
-1. La sociedad se constituye como vehículo único, fundador-líder, con `objeto social` que recoge tres ejes (investigación, ingeniería empresarial, ingeniería de procesos) y un eje opcional para futura productización (`FOUNDER_ENTITY_FORMATION_DECISION_MEMO_2026-04.md`).
-2. La innovación no es declarativa: una pila de cinco entregas de producción ya operativas ([Apéndice C](#9-apendice-c-capacidades-demostradas)) acredita la capacidad técnica, los marcos de calidad (CI multi-job, e2e, observabilidad, RBAC) y la transición consultoría → SaaS productizado en curso (KiRBe).
-3. La escalabilidad es estructural: la metodología y la arquitectura de conocimiento (`AKOS`) están diseñadas para reuso entre clientes y entre disciplinas; los registros canónicos (CSV → mirrors Postgres) hacen la operación auditable.
-4. La España-nexus se mantiene desde el día 1: domicilio social, plan de personal y banca operativa en territorio español; los fondos pre-incorporación están documentados en `FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04.md`.
+> **En una línea para la persona certificadora.** Ya operamos con método propio, ya tenemos software de producción que lo demuestra, y queremos consolidar la sociedad antes de la firma con el texto exacto del *objeto social* y el paquete CNAE confirmados por escrito.
 
 ---
 
-## 2. Pilar I — Mercantil
+# Pilar I — Mercantil
 
-### 2.1 Estructura societaria
+<p class="lead">El primer vehículo es una sociedad mercantil española, con un único socio fundador en arranque, diseñada para soportar a la vez servicio profesional y futura productización de software.</p>
 
-Vehículo único, fundador-líder y socio único en arranque. La justificación (sección "Recommended First Entity" de `FOUNDER_ENTITY_FORMATION_DECISION_MEMO_2026-04.md`):
+## Estructura societaria
 
-- la actividad sigue concentrada en el fundador y orientada a servicio + investigación;
-- investigación e ingeniería tecnológica permanecen estratégicamente unidas;
-- la complejidad estructural prematura (holding, multi-entidad) añade carga legal sin retorno hoy;
-- la separación Research / Tech Lab queda como opción documentada para más adelante (`RESEARCH_VS_TECH_LAB_ENTITY_RATIONALE_2026-04.md`).
+Vehículo único, fundador-líder, socio único en arranque. Postergamos deliberadamente cualquier estructura de holding o segunda entidad hasta que el modelo de ingresos lo requiera. La justificación recogida en el memorándum interno de constitución es que la actividad sigue siendo principalmente de servicio + investigación, y la complejidad estructural prematura suma carga legal sin retorno. La separación entre la línea de investigación y una eventual *Tech Lab* queda registrada como opción para más adelante.
 
-### 2.2 Objeto social y CNAE
+## Objeto social y CNAE
 
-Esta es la **decisión crítica del expediente**. La pregunta abierta correspondiente es `Q-LEG-001` (vinculada al asesor de constitución `GOI-ADV-ENTITY-2026` y al lead ENISA `POI-LEG-ENISA-LEAD-2026`).
+Esta es la decisión crítica del expediente. La recomendación interna que llevamos a la mesa, a confirmar contigo:
 
-Recomendación interna del programa, a confirmar por el fundador con el asesor jurídico:
+- **CNAE primario** `7219` — *Otra investigación y desarrollo experimental en ciencias naturales y técnicas*. Ancla la narrativa de I+D que pide ENISA.
+- **CNAE secundario** `6202` — *Actividades de consultoría informática*. Recoge la realidad de los ingresos por servicio actuales sin desplazar la narrativa de I+D.
+- **CNAE a evitar** `9511` — *Reparación de ordenadores y equipos periféricos*. Trampa documentada en la conversación con el banco; nada en el *objeto social* debe poder leerse como reparación.
 
-- **CNAE primario**: `7219` — *Otra investigación y desarrollo experimental en ciencias naturales y técnicas*. Ancla la narrativa I+D que ENISA exige.
-- **CNAE secundario**: `6202` — *Actividades de consultoría informática*. Recoge la realidad de ingresos por servicio actual sin desplazar la narrativa I+D.
-- **CNAE a evitar**: `9511` — *Reparación de ordenadores y equipos periféricos*. Trampa documentada en la conversación con el banco (`Q-BNK-001`); nada en el `objeto social` debe ser interpretable como reparación.
+Texto recomendado del *objeto social* (esqueleto interno; redacción final del notario):
 
-Texto recomendado de `objeto social` (esqueleto interno; redacción final del notario):
+<div class="pull-quote">Inteligencia corporativa, investigación aplicada e ingeniería empresarial, incluyendo el diseño y desarrollo de metodologías propias y herramientas tecnológicas que automatizan, instrumentan y escalan dichas actividades. Comprende la prestación de servicios de análisis estratégico, ingeniería de procesos y arquitectura organizacional, así como la investigación, desarrollo y comercialización de productos de software propios derivados de dicha actividad.</div>
 
-> *Inteligencia corporativa, investigación aplicada e ingeniería empresarial, incluyendo el diseño y desarrollo de metodologías propias y herramientas tecnológicas que automatizan, instrumentan y escalan dichas actividades. Comprende la prestación de servicios de análisis estratégico, ingeniería de procesos y arquitectura organizacional, así como la investigación, desarrollo y comercialización de productos de software propios derivados de dicha actividad.*
+> **TODO[OPERATOR]** — Decisión del fundador antes de la firma.
+>
+> - **Opción A** — `7219` primario + `6202` secundario, redacción centrada en I+D (recomendación interna).
+> - **Opción B** — `6202` primario + `7219` secundario, redacción centrada en consultoría.
+> - **Opción C** — Paquete combinado con tercer CNAE (por ejemplo `7022`) si lo justificas para la candidatura ENISA.
+>
+> Confirmar la opción y la redacción final del notario antes de la firma. La elección tiene impacto cruzado en la decisión bancaria — el canal del banco debe contar la misma historia.
 
-<blockquote class="callout-operator">
+## Ruta de constitución
 
-**TODO[OPERATOR]** — Decisión del fundador (cierra `Q-LEG-001` antes de la firma).
+El expediente plantea dos rutas: **CIRCE** (vía telemática estandarizada, más rápida) y **notario ordinario** (más flexible, redacción a medida). La recomendación interna es priorizar **fidelidad legal sobre velocidad**: si la vía CIRCE no permite una redacción amplia y precisa del *objeto social* — que necesita cubrir investigación, servicio, ingeniería y futura productización — pasamos por notario ordinario aunque cueste más tiempo.
 
-- Opción A — `7219` primario + `6202` secundario, redacción I+D-céntrica (recomendación interna).
-- Opción B — `6202` primario + `7219` secundario, redacción consultoría-céntrica.
-- Opción C — paquete combinado con tercer CNAE (ej. `7022`) si el asesor lo justifica para la candidatura ENISA.
+## Capital social inicial
 
-Confirmar la opción y pegar la redacción final aprobada por el asesor jurídico antes de la firma. La elección tiene impacto cruzado en `Q-BNK-001` (canal bancario debe contar la misma historia).
+Hay tres caminos sobre la mesa. El método interno de funding-mínimo-operativo dice que no lanzamos con caja efectivamente cero cuando ya hay gasto recurrente conocido en infraestructura (≈ 150 € / mes en *idle*, 300–500 € / mes en uso pleno). La heurística operativa interna pide mantener un colchón mínimo de **1.000 €** o aproximadamente **3× el burn mensual activo**, lo que sea mayor.
 
-</blockquote>
+> **TODO[OPERATOR]** — Decisión del fundador (capital social).
+>
+> - **Opción A** — Capital nominal 1 € vía formación sucesiva. Optimiza caja en arranque; añade obligación de reservas legales y crea fricción narrativa con bancos y certificadora.
+> - **Opción B** — Capital ≥ 3.000 € (suficiente para 6× burn idle + 1× burn activo). Quita fricción regulatoria, cuenta una historia de "lanzamos con runway".
+> - **Opción C** — Cifra intermedia (ejemplo: 1.000–2.000 €) ajustada al colchón heurístico interno.
+>
+> Confirmar la cifra antes de la firma.
 
-### 2.3 Ruta de constitución
+## Gobierno y administración
 
-La pregunta abierta `Q-LEG-002` plantea CIRCE telemático vs notario ordinario. La pregunta `Q-LEG-003` examina cómo CIRCE limita la flexibilidad del `objeto social`. Recomendación interna: priorizar **fidelidad legal sobre velocidad** (sección "Default Recommendation" de `FOUNDER_ENTITY_FORMATION_DECISION_MEMO_2026-04.md`). Si CIRCE no permite una redacción amplia y precisa del `objeto social` (cláusula de productización + I+D), ir por notario ordinario.
-
-### 2.4 Capital social inicial
-
-`Q-LEG-004` examina la base legal del régimen de 1 EUR (formación sucesiva, obligación de reservas legales). Recomendación interna desde `FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04.md`: **no lanzar con caja efectivamente cero** cuando ya hay gasto recurrente conocido en infraestructura (≈ 150 EUR/mes en idle, 300–500 EUR/mes en uso pleno).
-
-Heurística operativa interna (no es mínimo legal): mantener un colchón mínimo de **EUR 1.000** o aproximadamente **3× el burn mensual activo**, lo que sea mayor.
-
-<blockquote class="callout-operator">
-
-**TODO[OPERATOR]** — Decisión del fundador (capital social).
-
-- Opción A — Capital nominal 1 EUR vía formación sucesiva. Optimiza caja en arranque; introduce obligación de reservas legales y fricción narrativa con bancos / certificadora.
-- Opción B — Capital ≥ 3.000 EUR (suficiente para cubrir 6× burn idle + 1× burn activo). Quita fricción regulatoria, cuenta una historia de "lanzamos con runway".
-- Opción C — Cifra intermedia (ej. 1.000–2.000 EUR) ajustada al colchón heurístico interno.
-
-Confirmar la cifra y declararla en §4.1 antes de la firma. Cierra parcialmente `Q-LEG-004`.
-
-</blockquote>
-
-### 2.5 Gobierno y administración
-
-Administrador único (fundador) en arranque. La pregunta `Q-LEG-005` solicita listar las restricciones que conviene **no asumir hoy** para no limitar una eventual estructura holding más adelante (cap-table, estatutos, drag-along, derechos de adquisición preferente). El asesor cierra esta pregunta con la documentación final de los estatutos.
+Administrador único (fundador) en el arranque. El asesor cierra los puntos finos en el momento de los estatutos: cap-table, *drag-along*, derechos de adquisición preferente y cualquier restricción que limite una eventual estructura de holding más adelante.
 
 ---
 
-## 3. Pilar II — Mercado
+# Pilar II — Mercado
 
-### 3.1 Tesis de innovación
+<p class="lead">No vendemos dictamen experto puntual. Construimos un método operativo estructurado para empresas que necesitan ordenar su operación interna antes de escalar.</p>
 
-(Reformulación en prosa de las secciones "Innovation Case" y "Working Innovation Narrative" de `ENISA_EVIDENCE_PACK_HOLISTIKA_RESEARCH_2026-04.md`.)
+## Tesis de innovación
 
-Holística Research no vende dictamen experto puntual. La compañía construye un **método operativo estructurado** en el que:
+Holística Research está construyendo un método en el que:
 
-- la arquitectura empresarial y el conocimiento de procesos se capturan de forma sistemática (registros canónicos, grafos de proceso, SOPs versionadas);
-- la inteligencia artificial puede leer y operar **sobre** dicha arquitectura, no en lugar de ella (modelo "AKOS Strict": predicados explícitos, retrieval gobernado, sin hallucination latente);
-- la metodología, la investigación y la entrega habilitada por software se combinan en una sola unidad de trabajo;
-- la pila tecnológica subyacente está diseñada para soportar productización futura, en lugar de quedar permanentemente en operación manual.
+- la arquitectura empresarial y el conocimiento de procesos se capturan de forma sistemática (registros canónicos, mapas de proceso, procedimientos versionados);
+- la inteligencia artificial puede leer y operar **sobre** dicha arquitectura, no en lugar de ella, con un modo auditado que sólo usa hechos verificables;
+- la investigación, la metodología y la entrega habilitada por software se combinan en una sola unidad de trabajo;
+- el conjunto está diseñado para soportar productización futura, no para quedar permanentemente en operación manual.
 
-Señales de respaldo estables (extraídas del propio expediente operativo):
+Señales de respaldo estables, extraídas del propio expediente operativo:
 
 - el fundador opera una base tecnológica desplegada desde 2023;
 - existe ya un corpus operativo y de arquitectura suficiente para soportar entrega estructurada;
 - existe demanda externa documentada de extensión software-céntrica de la metodología (ver Apéndice C — entregas a partner Websitz).
 
-### 3.2 Posición en mercado
+## Posición en mercado
 
-Holística Research ocupa una franja que la consultoría tradicional no cubre bien y que las empresas SaaS puras tampoco: análisis estructurado y entrega tecnológica gobernada **dentro del mismo proveedor**. ICP (Ideal Customer Profile) en operación actual:
+Cubrimos una franja que la consultoría tradicional no ocupa bien y que las empresas SaaS puras tampoco: análisis estructurado y entrega tecnológica gobernada **dentro del mismo proveedor**.
 
-- pyme tecnológica que necesita estructurar su operación interna antes de escalar;
-- partner B2B (ej. integradores Shopify, agencias) que necesita capacidad de ingeniería de producto sin contratar plantilla in-house;
-- candidato a producto SaaS interno (KiRBe — gestión de conocimiento gobernada).
+Perfil de cliente actual:
 
-### 3.3 PESTEL — factores materiales
+- **Pyme tecnológica** que necesita estructurar su operación interna antes de escalar.
+- **Partner B2B** (integradores Shopify, agencias) que necesita capacidad de ingeniería de producto sin contratar plantilla in-house.
+- **Cliente interno propio** — la plataforma de gestión de conocimiento (KiRBe) es nuestro propio producto; lo usamos antes de venderlo.
 
-<blockquote class="callout-operator">
+## Análisis del entorno (PESTEL)
 
-**TODO[OPERATOR]** — Decisión del fundador (PESTEL).
+> **TODO[OPERATOR]** — Decisión del fundador (factores PESTEL).
+>
+> Recomendación interna (semilla; el fundador confirma 2–3 factores realmente materiales antes de la firma):
+>
+> - **Político / Regulatorio** — Ley de Startups (Ley 28/2022) + marco ENISA: ventana fiscal y administrativa favorable durante los primeros 5 años; obligación correlativa de mantener *objeto social* y CNAE coherentes con la narrativa I+D para no perder la calificación.
+> - **Tecnológico** — Aceleración del despliegue de inteligencia artificial generativa en operación empresarial; abre oportunidad real para metodologías auditables que separan el ruido de los productos productivos.
+>
+> Pueden añadirse Económico (tipos / acceso a financiación pública), Social (talento técnico en España) o Ambiental (huella infraestructura) si los consideras materiales para la certificación.
 
-Recomendación interna (semilla; el fundador confirma 2–3 factores realmente materiales antes de la firma): los siguientes dos son los más relevantes según el contexto del programa.
+## Por qué España y la Unión Europea
 
-- **Político / Regulatorio (P)** — Ley de Startups (Ley 28/2022) + marco ENISA: ventana fiscal y administrativa favorable durante los primeros 5 años; obligación correlativa de mantener `objeto social` y CNAE coherentes con la narrativa I+D para no perder la calificación.
-- **Tecnológico (T)** — Aceleración del despliegue de IA generativa en operación empresarial; abre oportunidad real para metodologías auditables (AKOS Strict) que separan el ruido de los productos productivos.
+España domicilia el vehículo desde el día 1. La operación mantiene presencia en territorio español en infraestructura y banca, alineada con los criterios ENISA. La obligación de "personal en España" se valida en el momento de la presentación efectiva.
 
-Pueden añadirse Económico (E — tipos / acceso a financiación pública), Social (S — talento técnico en España), Ambiental (E2 — huella infra) si el asesor los considera relevantes para la certificación.
-
-</blockquote>
-
-### 3.4 Por qué España / UE
-
-España domicilia el vehículo desde el día 1 (sociedad mercantil registrada en jurisdicción `ES`, ver `INST-LEG-ESCRITURA-DRAFT-2026`). La operación mantiene España-nexus en infraestructura y banca, alineada con los criterios ENISA. La obligación de "workforce-in-Spain" se valida en el momento de la presentación efectiva (ver `Q-CRT-001`).
-
-<blockquote class="callout-operator">
-
-**TODO[OPERATOR]** — Plan de personal en España.
-
-Línea base interna (semilla): "Single founder operando desde España. Crecimiento previsto a 2–3 ingenieros senior en territorio nacional durante el ejercicio 1 si entran financiación o cliente ancla; resto de la red de colaboradores externos contractualizados como freelance via España preferentemente." Confirmar/ajustar en redacción final antes del envío.
-
-</blockquote>
+> **TODO[OPERATOR]** — Plan de personal en España.
+>
+> Línea base interna (semilla): "Fundador único operando desde España. Crecimiento previsto a 2–3 ingenieros senior en territorio nacional durante el primer ejercicio si entran financiación o cliente ancla; resto de la red de colaboradores externos contractualizados como freelance, preferentemente desde España." Confirmar o ajustar antes del envío.
 
 ---
 
-## 4. Pilar III — Financiación
+# Pilar III — Financiación
 
-### 4.1 Modelo de capitalización
+<p class="lead">Lanzamos con caja suficiente para operar de verdad, no con un capital simbólico que dependa de aportaciones improvisadas del fundador.</p>
 
-La política operativa interna está documentada en `FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04.md`. Resumen aplicado al arranque del programa:
+## Modelo de capitalización
 
-| Concepto | Recomendación interna | Pregunta abierta |
+La política operativa interna está documentada en el expediente. Resumen aplicado al arranque del programa:
+
+| Concepto | Recomendación interna |
+|:---|:---|
+| Aportación inicial | Capital + posibles aportaciones en especie (infraestructura ya operativa). |
+| Préstamo de socio | Disponible para financiar runway adicional cuando el capital no llegue, **documentado por escrito**. |
+| Reembolso de gastos | Sólo para gastos puntuales del fundador ya documentados con factura, **no como modelo recurrente**. |
+
+## Uso de fondos (planificación operativa)
+
+Líneas de gasto previsibles en los primeros seis meses:
+
+- **Infraestructura en idle** — ≈ 150 € / mes (hosting, bases de datos, dominios, herramientas mínimas).
+- **Infraestructura en uso pleno** — 300 a 500 € / mes (modelos comerciales, horas de GPU, servicios propios desplegados).
+- **Asesoría externa** — partidas puntuales de honorarios legal / fiscal / certificación.
+- **Costes notariales y registrales** — pago único en constitución.
+- **Marketing y desarrollo comercial** — partida controlada hasta validar tracción.
+
+> **TODO[OPERATOR]** — Decisión del fundador (presupuesto operativo).
+>
+> Confirmar las cifras EUR exactas para los seis primeros meses, separadas por bucket. El dossier deja los rangos del expediente como semilla; la redacción final debe sustituirlos por importes concretos antes del envío al asesor.
+
+## Tratamiento de aportaciones del fundador
+
+Hay infraestructura financiada por el fundador antes de la constitución (servidores, dominios, suscripciones, equipos). Recomendación interna: tratarla como **aportación en especie capitalizable** en sede de constitución cuando los activos sean identificables, valorables y útiles para la actividad; el resto, como reembolso documentado de gastos.
+
+## Vínculo con ayudas ENISA
+
+La narrativa de innovación + escalabilidad de los pilares II y IV está construida deliberadamente para satisfacer los dos criterios ENISA centrales (artículos 3 y 4 Ley 28/2022). El expediente no asume que ENISA financiará automáticamente: la candidatura es una **opción de extensión** del programa, no un prerrequisito del lanzamiento operativo.
+
+---
+
+# Pilar IV — Operativa
+
+<p class="lead">Hoy entregamos investigación e ingeniería empresarial como servicio facturado. En paralelo operamos nuestra propia plataforma de software (KiRBe) que productiza el método. Servicio y producto comparten infraestructura, métricas y disciplina de calidad.</p>
+
+## Modelo de entrega
+
+- **Hoy** — investigación estructurada, ingeniería empresarial e ingeniería de procesos facturadas como servicio profesional.
+- **Mañana** — el mismo método, productizado en software, vendido como SaaS empresarial.
+- **El puente** — está implementado en código, no sobre presentaciones. La plataforma KiRBe (ver Apéndice C, ficha 3) ya está desplegada en producción para uso interno.
+
+<div class="pull-quote">El método no es retórica de pitch: cada componente está acreditado por al menos una entrega productiva listada en el Apéndice C.</div>
+
+## Pila tecnológica
+
+Consolidada y comprobada en producción. Sin entrar en detalles de marca o de proveedor — esos quedan para una conversación técnica posterior — la pila cubre, de extremo a extremo:
+
+- **Web pública e intake comercial** en producción, multilingüe, con seguimiento analítico y manejo de errores configurados.
+- **API de servicio y backend de producto** en lenguajes modernos, con validación estricta, observabilidad continua y despliegue en cloud productivo.
+- **Datos** en bases relacionales con búsqueda en lenguaje natural integrada y sincronización a un grafo de conocimiento.
+- **Operaciones** con flujos de trabajo auditables, pagos integrados y control de acceso por roles a nivel de base de datos.
+
+Cada pieza está acreditada por una entrega real listada en el Apéndice C.
+
+## Gobernanza del conocimiento
+
+Operamos sobre un sistema de conocimiento interno que separa los hechos canónicos (en registros versionados) de las narrativas y los diagramas. Este propio dossier es un caso de uso del método: cada afirmación está respaldada por una fila en uno de nuestros registros internos, y cualquier dato sensible (identidad de asesores, contrapartes) se cita por una referencia interna que el equipo resuelve fuera del repositorio.
+
+## Plan de personal en España
+
+Ver más arriba (Pilar II §"Por qué España y la Unión Europea") la línea base y la pregunta abierta para el fundador.
+
+---
+
+# Apéndice A — Cuestionario abierto a asesores
+
+> Doce preguntas registradas en nuestro registro de cuestiones abiertas para `PRJ-HOL-FOUNDING-2026`. Las cinco con `target_date = before_signing` son críticas para no firmar a ciegas.
+
+## A.1 Asesoría jurídica
+
+| Identificador | Pregunta | Plazo |
 |:---|:---|:---|
-| Aportación inicial | Capital + posibles aportes en especie (infraestructura ya operativa) | `Q-LEG-004`, `Q-FIS-002` |
-| Préstamo de socio | Disponible para financiar runway adicional cuando capital no llegue, **documentado por escrito** | — |
-| Reembolso de gastos | Solo para gastos puntuales del fundador ya documentados con factura, **no como modelo recurrente** | `Q-FIS-002` |
+| `Q-LEG-001` | Confirmar texto exacto del *objeto social* y CNAE (con justificación) antes de la firma. | Antes de firmar |
+| `Q-LEG-002` | Recomendación: constitución telemática CIRCE vs notario ordinario (incluyendo plazos y perfil de honorarios). | Antes de firmar |
+| `Q-LEG-003` | Trade-offs CIRCE frente a *objeto social* a medida (impacto en flexibilidad y modificaciones). | Antes de firmar |
+| `Q-LEG-004` | Base legal de la ruta de capital social de 1 € (incluyendo obligaciones de reserva). | Antes de firmar |
+| `Q-LEG-005` | Restricciones de estructura holding a evitar hoy (decisiones que limitarían un holding futuro). | Antes de firmar |
 
-### 4.2 Uso de fondos (planificación operativa)
+## A.2 Asesoría fiscal
 
-Buckets internos a partir de `FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04.md`:
+| Identificador | Pregunta | Plazo |
+|:---|:---|:---|
+| `Q-FIS-001` | Beneficio exacto de pluriactividad / cuota aplicable (asunciones y dependencias). | Antes de firmar |
+| `Q-FIS-002` | Tratamiento de la infraestructura financiada por el fundador (pre vs post incorporación). | Antes de firmar |
 
-- **Infraestructura (idle)** — ≈ EUR 150 / mes (hosting, bases de datos, dominios, herramientas mínimas);
-- **Infraestructura (uso pleno)** — EUR 300 a EUR 500 / mes (LLMs comerciales, GPU horas, servicios propios desplegados);
-- **Asesoría externa** — partidas puntuales de honorarios legal / fiscal / certificación (ver Apéndice A);
-- **Costes notariales y registrales** — pago único en constitución;
-- **Marketing / GTM** — partida controlada hasta validar tracción comercial.
+## A.3 Propiedad intelectual
 
-<blockquote class="callout-operator">
+| Identificador | Pregunta | Plazo |
+|:---|:---|:---|
+| `Q-IPT-001` | Desglose de tasas de marca (oficiales vs servicio) por territorio y clase para la estrategia de registro elegida. | Por confirmar |
 
-**TODO[OPERATOR]** — Decisión del fundador (presupuesto operativo).
+## A.4 Banca de constitución
 
-Confirmar las cifras EUR exactas para los seis primeros meses, separadas por bucket. El dossier deja los rangos de la nota de capitalización como semilla; la redacción final debe sustituirlos por importes concretos antes del envío al asesor.
+| Identificador | Pregunta | Plazo |
+|:---|:---|:---|
+| `Q-BNK-001` | Coordinación CNAE / constitución entre banca y asesoría de certificación: quién propone el CNAE final y cómo se mantiene coherente con el *objeto social*. | Antes de firmar |
 
-</blockquote>
+## A.5 Certificación Empresa Emergente
 
-### 4.3 Tratamiento de aportaciones del fundador
-
-`Q-FIS-002` solicita la confirmación contable y fiscal del tratamiento de la infraestructura financiada por el fundador antes de la constitución (servidores GPU `ShadowGPU/RunPod`, dominios, suscripciones, equipos). Recomendación interna: tratarla como **aportación en especie capitalizable** en sede de constitución cuando los activos sean identificables, valorables y útiles para la actividad; el resto, como reembolso documentado de gastos.
-
-### 4.4 Vínculo con ayudas ENISA
-
-La narrativa de innovación + escalabilidad de §3.1 y §5 está construida deliberadamente para satisfacer los dos criterios ENISA centrales (art. 3 y 4 Ley 28/2022). El expediente no asume que ENISA financiará automáticamente: la candidatura es una **opción de extensión** del programa, no un prerrequisito del lanzamiento operativo.
-
----
-
-## 5. Pilar IV — Operativa
-
-### 5.1 Modelo de entrega (consultoría → producto)
-
-El plano de entrega de Holística Research está documentado en el topic `topic_external_adviser_handoff` (Initiative 21 / 22) y se resume así:
-
-- entrega actual = **investigación estructurada + ingeniería empresarial + ingeniería de procesos** facturada como servicio;
-- entrega futura = **mismo método, productizado** vía la plataforma KiRBe (gestión de conocimiento auditable, ya en producción para uso interno);
-- el puente entre ambos planos está implementado en software, no en presentaciones: el routing de billing entre `kirbe.*` y `holistika_ops.*` está documentado en el topic `topic_kirbe_billing_plane_routing` (Initiative 23 P6).
-
-### 5.2 Stack tecnológico
-
-Consolidado y comprobado en producción (ver Apéndice C para evidencia por entrega):
-
-- **Frontend / web** — Next.js 14, React, Tailwind CSS, shadcn/Radix UI, multilingüe (en/es/fr) vía next-intl, Sentry, Playwright e2e;
-- **API / backend** — FastAPI (Python 3.11+), validación Pydantic, observabilidad Logfire, dockerizado, despliegue en Cloud Run con Cloud Build CI;
-- **Datos** — Supabase (Postgres con `pgvector`), búsqueda híbrida (semántica + keyword vía RRF), reranking con Cohere, sincronización proyectiva a Neo4j para grafos de conocimiento;
-- **Productividad operativa** — n8n para flujos auditables, Stripe para billing y metering de uso, RBAC granular sobre Postgres con políticas RLS;
-- **Gobernanza** — `AKOS` (este propio repositorio) como sistema de conocimiento canónico: registros CSV → mirrors Postgres → diagramas Mermaid versionados.
-
-Punto crítico de marca: la pila no es retórica de pitch. Cada componente está acreditado por al menos una entrega productiva listada en el Apéndice C.
-
-### 5.3 Gobernanza del conocimiento
-
-El propio repositorio operativo (AKOS) demuestra el método: los hechos canónicos viven en CSVs versionados (`GOI_POI_REGISTER`, `ADVISER_OPEN_QUESTIONS`, `FOUNDER_FILED_INSTRUMENTS`, `PROGRAM_REGISTRY`, `TOPIC_REGISTRY`, `process_list`); los espejos Postgres se mantienen en sincronía mediante una sonda periódica (`scripts/probe_compliance_mirror_drift.py`); los diagramas Mermaid son fuente única de verdad y se renderizan deterministamente (`scripts/render_km_diagrams.py`); los topics se cruzan en un grafo navegable (`docs/references/hlk/v3.0/_assets/_meta/topic_graph.png`).
-
-### 5.4 Plan de personal en España
-
-Ver `TODO[OPERATOR]` en §3.4. Línea base: fundador único operando desde España; crecimiento condicionado a financiación / cliente ancla.
+| Identificador | Pregunta | Plazo |
+|:---|:---|:---|
+| `Q-CRT-001` | Reparto documental ENISA: qué artefactos produce el fundador vs el asesor (matriz de responsabilidad). | Por confirmar |
+| `Q-CRT-002` | Entrega del plan de negocio consolidado + análisis PESTEL al asesor de certificación. | Cuanto antes |
+| `Q-CRT-003` | Sección de financiación del plan ENISA: narrativa mínima creíble (asesor revisa con un encuadre más positivo). | Por confirmar |
 
 ---
 
-## 6. Apéndice A — Cuestionario abierto a asesores (Q-Tracker)
+# Apéndice B — Instrumentos archivados o en curso
 
-Trece preguntas registradas en `ADVISER_OPEN_QUESTIONS.csv` para `program_id = PRJ-HOL-FOUNDING-2026`. Las cinco con `target_date = before_signing` son críticas para no firmar a ciegas.
+Una entrada activa en nuestro registro de instrumentos archivados para `PRJ-HOL-FOUNDING-2026`:
 
-### A.1 Disciplina LEG (Asesoría Jurídica)
-
-| Q-id | Pregunta | Target | POI | GOI |
+| Identificador | Tipo | Jurisdicción | Estado | Almacenamiento |
 |:---|:---|:---|:---|:---|
-| `Q-LEG-001` | Confirmar texto exacto del `objeto social` y CNAE (con justificación) antes de la firma. | `before_signing` | `POI-LEG-ENISA-LEAD-2026` | `GOI-ADV-ENTITY-2026` |
-| `Q-LEG-002` | Recomendación: constitución telemática CIRCE vs notario ordinario (incluyendo plazos y perfil de honorarios). | `before_signing` | — | `GOI-ADV-ENTITY-2026` |
-| `Q-LEG-003` | Trade-offs CIRCE frente a `objeto social` a medida (impacto en flexibilidad y modificaciones). | `before_signing` | — | `GOI-ADV-ENTITY-2026` |
-| `Q-LEG-004` | Base legal de la ruta de capital social de 1 EUR (incluyendo obligaciones de reserva). | `before_signing` | — | `GOI-ADV-ENTITY-2026` |
-| `Q-LEG-005` | Restricciones de estructura holding a evitar hoy (decisiones que limitarían un holding futuro). | `before_signing` | — | `GOI-ADV-ENTITY-2026` |
+| `INST-LEG-ESCRITURA-DRAFT-2026` | Escritura de constitución | España | Borrador | Off-repo (operador) |
 
-### A.2 Disciplina FIS (Asesoría Fiscal)
-
-| Q-id | Pregunta | Target | POI | GOI |
-|:---|:---|:---|:---|:---|
-| `Q-FIS-001` | Beneficio exacto de pluriactividad / cuota aplicable (asunciones y dependencias). | `before_signing` | `POI-LEG-FISCAL-LEAD-2026` | `GOI-ADV-ENTITY-2026` |
-| `Q-FIS-002` | Tratamiento de la infraestructura financiada por el fundador (pre vs post incorporación). | `before_signing` | `POI-LEG-FISCAL-LEAD-2026` | — |
-
-### A.3 Disciplina IPT (Propiedad Intelectual)
-
-| Q-id | Pregunta | Target | POI | GOI |
-|:---|:---|:---|:---|:---|
-| `Q-IPT-001` | Desglose de tasas de marca (oficiales vs servicio) por territorio y clase para la estrategia de registro elegida. | `tbd` | — | `GOI-ADV-ENTITY-2026` |
-
-### A.4 Disciplina BNK (Banca de Constitución)
-
-| Q-id | Pregunta | Target | POI | GOI |
-|:---|:---|:---|:---|:---|
-| `Q-BNK-001` | Coordinación CNAE / constitución entre banca y asesoría de certificación: quién propone el CNAE final y cómo se mantiene coherente con `objeto social`. | `before_signing` | `POI-BNK-DESK-LEAD-2026` | `GOI-BNK-INC-2026` |
-
-### A.5 Disciplina CRT (Certificación Empresa Emergente)
-
-| Q-id | Pregunta | Target | POI | GOI |
-|:---|:---|:---|:---|:---|
-| `Q-CRT-001` | Reparto documental ENISA: qué artefactos produce el fundador vs el asesor (matriz de responsabilidad). | `tbd` | `POI-LEG-ENISA-LEAD-2026` | `GOI-ADV-ENTITY-2026` |
-| `Q-CRT-002` | Entrega del plan de negocio consolidado + análisis PESTEL al asesor de certificación. | `asap` | `POI-LEG-ENISA-LEAD-2026` | `GOI-ADV-ENTITY-2026` |
-| `Q-CRT-003` | Sección de financiación del plan ENISA: narrativa mínima creíble (asesor revisa con un encuadre más positivo). | `tbd` | `POI-LEG-ENISA-LEAD-2026` | `GOI-ADV-ENTITY-2026` |
+Próximas entradas previstas: escritura firmada, poderes, modelo 036 y ficha ENISA. Cada una se materializa en cuanto el documento exista.
 
 ---
 
-## 7. Apéndice B — Instrumentos archivados / en curso
+# Apéndice C — Capacidades demostradas
 
-Una entrada activa en `FOUNDER_FILED_INSTRUMENTS.csv` para el programa `PRJ-HOL-FOUNDING-2026`:
+<p class="lead">Cinco entregas de software ya en producción que sostienen la narrativa de innovación, escalabilidad y capacidad de ejecución de Holística Research. Disponibles para revisión técnica bajo NDA si el asesor lo solicita.</p>
 
-| Instrument id | Tipo | Jurisdicción | Estado | Almacenamiento | Owner | Counterparty |
-|:---|:---|:---|:---|:---|:---|:---|
-| `INST-LEG-ESCRITURA-DRAFT-2026` | escritura de constitución | ES | draft | off-repo (operator Drive) | Legal Counsel | `GOI-ADV-ENTITY-2026` |
+<div class="capability-card">
+  <div class="card-head">
+    <span class="card-eyebrow">01 · Marketing + Intake comercial</span>
+    <div class="card-title">Holística Research — Sitio público y CRM</div>
+  </div>
+  <div class="card-tags">
+    <span class="tag">Sitio en producción</span>
+    <span class="tag">3 idiomas (en/es/fr)</span>
+    <span class="tag">Pagos integrados</span>
+    <span class="tag">Pruebas extremo a extremo</span>
+    <span class="tag tag-amber">Marca propia</span>
+  </div>
+  <div class="card-body">
+    <p>El sitio público de la compañía y el flujo de captación comercial están construidos sobre la misma pila moderna que ofrecemos al cliente. Multilingüe en producción (inglés, español, francés). Pagos, seguimiento analítico, captura de errores y suite de pruebas automáticas integradas en el ciclo de despliegue.</p>
+    <p><strong>Lectura para la persona certificadora.</strong> La compañía construye y opera su propio canal de adquisición sobre la misma tecnología que vende a clientes. La identidad visual de este propio dossier hereda los tokens de marca de este sitio.</p>
+  </div>
+  <div class="card-foot">Visibilidad pública: holistikaresearch.com — confirmar al envío si se cita la URL al asesor.</div>
+</div>
 
-Próximas filas previstas (no presentes hasta que existan): `INST-LEG-ESCRITURA-SIGNED-…`, `INST-LEG-PODERES-…`, `INST-FIS-MOD036-…`, `INST-CRT-ENISA-…`. Cada una se materializa como nueva fila en el CSV en cuanto el documento exista.
+<div class="capability-card">
+  <div class="card-head">
+    <span class="card-eyebrow">02 · ERP interno (operación propia)</span>
+    <div class="card-title">HLK ERP — Sistema interno de gestión</div>
+  </div>
+  <div class="card-tags">
+    <span class="tag">Multi-módulo</span>
+    <span class="tag">7 modos visuales</span>
+    <span class="tag">~ 50 componentes UI</span>
+    <span class="tag">Pruebas + cobertura</span>
+    <span class="tag tag-amber">Uso interno productivo</span>
+  </div>
+  <div class="card-body">
+    <p>Sistema de gestión interno multi-módulo para operación propia. Soporta múltiples temas visuales con un sistema de tokens centralizado. Suite de pruebas unitarias con cobertura, controles de tipado estrictos y verificación automática completa antes de cada despliegue.</p>
+    <p><strong>Lectura para la persona certificadora.</strong> La compañía opera con su propio producto antes de exponerlo a clientes externos. El método se valida primero en casa — es nuestra disciplina de "internal-first".</p>
+  </div>
+  <div class="card-foot">Visibilidad pública: privado. Walkthrough bajo NDA si se solicita.</div>
+</div>
+
+<div class="capability-card">
+  <div class="card-head">
+    <span class="card-eyebrow">03 · Producto SaaS propio</span>
+    <div class="card-title">KiRBe — Plataforma de gestión de conocimiento</div>
+  </div>
+  <div class="card-tags">
+    <span class="tag">SaaS B2B en producción</span>
+    <span class="tag">Búsqueda en lenguaje natural</span>
+    <span class="tag">Aislamiento por organización</span>
+    <span class="tag">Facturación por uso</span>
+    <span class="tag tag-amber">Productización del método</span>
+  </div>
+  <div class="card-body">
+    <p>Plataforma SaaS B2B para la gestión de conocimiento empresarial. Permite indexar fuentes propias del cliente, hacer preguntas en lenguaje natural y obtener respuestas con re-clasificación semántica de resultados. Aislamiento por organización con auditoría completa y control de acceso por roles. Facturación por uso integrada. Despliegue cloud productivo con observabilidad continua y sincronización proyectiva a un grafo de conocimiento.</p>
+    <p><strong>Lectura para la persona certificadora.</strong> KiRBe es la materialización software de la metodología. Es la prueba viva de la transición servicio → producto sin necesidad de un cambio narrativo.</p>
+  </div>
+  <div class="card-foot">Visibilidad pública: producto en operación — confirmar URL pública al envío si procede.</div>
+</div>
+
+<div class="capability-card">
+  <div class="card-head">
+    <span class="card-eyebrow">04 · Entrega para partner B2B</span>
+    <div class="card-title">Aplicación Shopify para Holística × Websitz</div>
+  </div>
+  <div class="card-tags">
+    <span class="tag">App publicada</span>
+    <span class="tag">6 idiomas</span>
+    <span class="tag">~ 120 pruebas automáticas</span>
+    <span class="tag">CI multi-job</span>
+    <span class="tag tag-amber">Calidad de producto</span>
+  </div>
+  <div class="card-body">
+    <p>Aplicación de carrito-bundle para partner B2B sobre el ecosistema Shopify. Panel de administración + extensión de tema en producción para los clientes finales del partner. Internacionalizada en seis idiomas. Suite de pruebas extremo a extremo y unitarias con multi-job CI; consideraciones de rendimiento web auditadas. Despliegue en cloud productivo.</p>
+    <p><strong>Lectura para la persona certificadora.</strong> Capacidad de operar como ingeniería externalizada de producto para terceros, con calidad de producto — no en modo *project-based* ad-hoc.</p>
+  </div>
+  <div class="card-foot">Partner: confirmar al envío si se cita el nombre. Visibilidad pública: app publicada en el ecosistema Shopify.</div>
+</div>
+
+<div class="capability-card">
+  <div class="card-head">
+    <span class="card-eyebrow">05 · Diseño y scaffold de SaaS</span>
+    <div class="card-title">Rushly — SaaS B2B para e-commerce + vídeo</div>
+  </div>
+  <div class="card-tags">
+    <span class="tag">Arquitectura congelada</span>
+    <span class="tag">Monorepo TypeScript estricto</span>
+    <span class="tag">CI multi-job</span>
+    <span class="tag">Documentación de governance</span>
+    <span class="tag tag-amber">Disciplina antes de codificar</span>
+  </div>
+  <div class="card-body">
+    <p>SaaS B2B para marcas de e-commerce y operadores de vídeo, en fase de diseño con scaffold operativo: arquitectura congelada, separación clara de responsabilidades entre API y worker, contratos de tipo estrictos, gobernanza versionada y verificación automática completa antes de empezar la implementación pesada.</p>
+    <p><strong>Lectura para la persona certificadora.</strong> Patrón "compliance-aware product program": disciplina de planificar, congelar arquitectura y poner verificación automática <em>antes</em> de codificar. Es la metodología Holística aplicada al diseño de un producto de partner.</p>
+  </div>
+  <div class="card-foot">Partner: confirmar al envío si se cita el nombre. Estado: diseño con scaffold productivo.</div>
+</div>
+
+## Lectura agregada
+
+<p class="lead">Las cinco entregas comparten la misma pila tecnológica y la misma disciplina de calidad. No son trabajos disconexos: son la misma estrategia de ingeniería aplicada a cinco contextos distintos — sitio propio, ERP interno, producto SaaS propio, entrega a partner Shopify y scaffold para partner SaaS.</p>
+
+La velocidad de entrega es alta y el rastro metodológico es atestable. Los plazos exactos quedan como observación del fundador en conversación; este expediente no los presenta como afirmaciones objetivas.
 
 ---
 
-## 8. Apéndice C — Capacidades demostradas
+# Apéndice D — Glosario cruzado
 
-> **Lectura para la persona certificadora.** Esta sección no son referencias de pitch ni capturas de marketing. Son cinco entregas de software de producción, accesibles bajo NDA si el asesor lo requiere, que acreditan la pila técnica, la disciplina de calidad y la capacidad de delivery de Holística Research. Cada tarjeta cita las características objetivas del repositorio (tests, CI gates, integraciones de terceros, despliegue) y deja los nombres de partners, URLs públicas y `repo_slug` registrales como `TODO[OPERATOR]` para que el fundador decida qué desclasificar en el envío.
-
-> **Procedencia de los repositorios.** El registro canónico de los repositorios del grupo está en `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` (vía `https://github.com/FraysaXII/<repo>`). La nomenclatura `repo_slug` que se cita más abajo apunta a esa fila canónica una vez confirmada por el fundador. Las URLs públicas y los enlaces a despliegues quedan como `TODO[OPERATOR]` hasta el momento del envío.
-
-### 8.1 Producto 1 — Holistika Boilerplate (sitio público + intake CRM/ERP)
-
-| | |
-|:---|:---|
-| **Naturaleza** | Sitio marketing + intake comercial + lead-routing |
-| **Repositorio** | `https://github.com/FraysaXII/<holistika-research-boilerplate>` (TODO[OPERATOR] confirmar `repo_slug` canónico en `REPOSITORIES_REGISTRY.md`) |
-| **Stack** | Next.js 14, React, Tailwind CSS, shadcn/Radix UI |
-| **Internacionalización** | next-intl, tres idiomas (en / es / fr) en producción |
-| **Integraciones** | Stripe (gateway de cobro), Google Tag Manager, Meta Pixel, Sentry (error tracking), Supabase (lead store) |
-| **Calidad** | Playwright e2e, suite de pruebas de integración, despliegue en Vercel con CI |
-| **Marca** | Fuente única de los tokens visuales del programa (teal / amber / warm-slate; spotlight + grid hero; Inter) |
-| **Visibilidad pública** | `holistikaresearch.com` (TODO[OPERATOR]: confirmar si se cita la URL en el envío al asesor) |
-
-Lectura ENISA: acredita que la compañía construye y opera **su propio canal de adquisición** sobre la misma pila que vende a clientes; no externaliza su infra de marca. La propia identidad visual de este dossier hereda los tokens de este repositorio (ver `BRAND_VISUAL_PATTERNS.md`).
-
-### 8.2 Producto 2 — HLK ERP (operación interna)
-
-| | |
-|:---|:---|
-| **Naturaleza** | ERP interno multi-módulo (gestión operativa propia) |
-| **Repositorio** | `https://github.com/FraysaXII/<hlk-erp>` (TODO[OPERATOR] confirmar `repo_slug` canónico en `REPOSITORIES_REGISTRY.md`) |
-| **Stack** | Next.js 14, React, Tailwind CSS, shadcn/Radix (≈ 53 componentes integrados) |
-| **Theming** | Multi-tema con siete modos (light, dark, dark-blue, light-blue, brown, white …); gobierno de tokens centralizado |
-| **Integraciones** | Stubs de API contra KiRBe SaaS para gestión de conocimiento operativa |
-| **Calidad** | typecheck estricto, lint, Jest unit, cobertura, gates de CI completos |
-| **Visibilidad pública** | Privado (TODO[OPERATOR]: decidir si se ofrece walkthrough bajo NDA) |
-
-Lectura ENISA: la consultora **opera con su propio producto** (dogfooding). El método se valida internamente antes de exponerlo a clientes externos.
-
-### 8.3 Producto 3 — KiRBe SaaS (plataforma de gestión de conocimiento gobernada)
-
-| | |
-|:---|:---|
-| **Naturaleza** | SaaS B2B de gestión de conocimiento empresarial con búsqueda semántica gobernada |
-| **Repositorio** | `https://github.com/FraysaXII/kirbe` (`repo_slug = kirbe-platform`; canónico en `REPOSITORIES_REGISTRY.md`) |
-| **Stack** | FastAPI (Python 3.11), Pydantic, Supabase (Postgres + `pgvector`), 20+ routers HTTP |
-| **Recuperación** | Búsqueda híbrida (semántica + keyword, fusionada vía RRF); reranking con Cohere; modo "Strict" sin recuperación latente |
-| **Multitenancy** | RBAC granular por organización, RLS sobre Postgres, audit trail de consultas |
-| **Billing** | Stripe metered billing con events de uso; sincronización con `holistika_ops.*` (ver topic `topic_kirbe_billing_plane_routing`) |
-| **Despliegue** | Docker, Google Cloud Build → Cloud Run, observabilidad Logfire, sincronización proyectiva Neo4j para grafos de conocimiento |
-| **Gobernanza interna** | SOPs de retrieval + SOPs de gobernanza versionadas en repositorio |
-| **Visibilidad pública** | Producto en operación (TODO[OPERATOR]: confirmar URL pública si procede) |
-
-Lectura ENISA: este producto **es la materialización software** de la metodología. Es la prueba de la transición consultoría → producto sin necesidad de un cambio narrativo. El topic `topic_kirbe_billing_plane_routing` documenta el routing real de billing entre planos.
-
-### 8.4 Producto 4 — Use Case Holistika × Websitz (entrega para partner B2B Shopify)
-
-| | |
-|:---|:---|
-| **Naturaleza** | App de carrito-bundle para partner B2B sobre Shopify |
-| **Repositorio** | `https://github.com/FraysaXII/<holistika-websitz-shopify-bundles>` (TODO[OPERATOR] confirmar `repo_slug` canónico en `REPOSITORIES_REGISTRY.md`) |
-| **Stack admin** | Remix + React, Shopify Polaris UI, Prisma + Postgres |
-| **Stack storefront** | Vanilla JS + Liquid (extensión de tema Shopify) |
-| **Internacionalización** | Seis idiomas en producción (en, es, fr, de, it, pt) |
-| **Calidad** | Vitest unit + Playwright e2e (≈ 91 + 30 tests entre admin y storefront); CI multi-job; consideraciones Lighthouse |
-| **Despliegue** | Vercel para el panel admin; extensión publicada en el ecosistema Shopify |
-| **Partner** | TODO[OPERATOR]: nombre del partner si se desclasifica al asesor |
-
-Lectura ENISA: acredita la capacidad de **operar como ingeniería externalizada para terceros con calidad de producto**, no en modo project-based ad-hoc. El partner entrega esto a sus propios clientes finales.
-
-### 8.5 Producto 5 — Use Case Rushly (scaffold de SaaS para partner B2B)
-
-| | |
-|:---|:---|
-| **Naturaleza** | SaaS B2B para marcas de e-commerce + operadores de vídeo (en fase de diseño con scaffold operativo) |
-| **Repositorio** | `https://github.com/FraysaXII/<rushly-saas-scaffold>` (TODO[OPERATOR] confirmar `repo_slug` canónico en `REPOSITORIES_REGISTRY.md`) |
-| **Estructura** | Monorepo (npm workspaces, TypeScript strict), separación clara API + worker |
-| **Datos / queue** | Cloudflare R2 (storage), Mux (vídeo), BullMQ + Redis (jobs), Supabase (Postgres + `pgvector` + Auth JWT) |
-| **Calidad** | Multi-job CI, contratos de tipo estrictos, governance docs versionados |
-| **Estado** | Fase de diseño con arquitectura ya congelada y scaffold productivo |
-| **Partner** | TODO[OPERATOR]: nombre del partner si se desclasifica al asesor |
-
-Lectura ENISA: acredita el patrón "compliance-aware product program" — la disciplina de planificar, congelar arquitectura y poner CI antes de codificar fuerte. Es la metodología Holística aplicada al diseño de un producto de partner.
-
-### 8.6 Lectura agregada
-
-Los cinco productos comparten **la misma pila** que el dossier presenta en §5.2 y respaldan la misma metodología. No son trabajos disconexos: son la misma estrategia de ingeniería aplicada a distintos contextos (sitio propio, ERP interno, producto SaaS propio, entrega a partner Shopify, scaffold para partner SaaS). La velocidad de entrega es alta y la trazo metodológico es atestable; los plazos exactos quedan como observación del fundador (no figuran como afirmaciones objetivas en este expediente).
+Los términos transversales que aparecen en este dossier (clasificaciones de stakeholders, niveles de sensibilidad, etiquetas de difusión, identificadores de disciplina, identificadores de programa) están definidos en nuestro glosario interno cruzado entre programas, mantenido fuera del programa para evitar duplicación cuando crezca la cartera.
 
 ---
 
-## 9. Apéndice D — Glosario cruzado
+# Apéndice E — Trazabilidad y procedencia
 
-Para términos transversales del dossier (`POI`, `GOI`, `lens`, `sensitivity`, `sharing_label`, `discipline_id`, `program_id`, `topic_id`, `plane`), ver `docs/reference/glossary-cross-program.md`. Esta sección queda como puntero deliberado: el glosario es cross-program y se mantiene fuera del programa para evitar duplicación al crecer la cartera de programas.
-
----
-
-## 10. Apéndice E — Trazabilidad y procedencia
-
-- **Generador**: este `dossier_es.md` es la fuente única de verdad. La versión PDF se produce por `scripts/render_dossier.py` invocando `akos.hlk_pdf_render.render_pdf_branded(profile="dossier")`.
-- **Topic registry**: el dossier figura como `topic_id = topic_enisa_dossier_es`, hijo de `topic_enisa_evidence`, en `docs/references/hlk/compliance/dimensions/TOPIC_REGISTRY.csv`.
-- **Etiquetas de difusión**: `internal_only` para borradores; `counsel_and_named_counterparty` para envío al asesor de certificación; `counsel_ok` solo después de redactar las cinco filas TODO[OPERATOR].
-- **Sensibilidad de las filas referenciadas**: las identidades reales (nombres, correos, teléfonos) se mantienen off-repo y se citan únicamente vía `ref_id` (`POI-…`, `GOI-…`). El operador resuelve la dirección real solo en el momento del envío SMTP.
-- **Hashes**: el script `scripts/render_dossier.py` captura `sha256(.md)`, `sha256(.pdf)`, `sha256(.docx)` al renderizar. Los hashes se registran en el informe UAT correspondiente (`docs/wip/planning/24-hlk-communication-methodology/reports/uat-adviser-email-sent-2026-04-29.md`).
-- **Reglas de compliance aplicables**: `.cursor/rules/akos-governance-remediation.mdc`, `.cursor/rules/akos-holistika-operations.mdc`, `.cursor/rules/akos-planning-traceability.mdc`.
+- **Generador**: este `dossier_es.md` es la fuente única de verdad. La versión PDF se produce mediante el script de renderizado interno en cuanto se cierran las cinco preguntas marcadas como *abiertas*.
+- **Identificador de programa**: `PRJ-HOL-FOUNDING-2026` (cartera Holística Research).
+- **Identificador del documento en nuestro registro de evidencias**: `topic_enisa_dossier_es`, hijo de `topic_enisa_evidence`.
+- **Etiquetas de difusión**: `internal_only` para borradores; `counsel_and_named_counterparty` para envío al asesor de certificación; `counsel_ok` sólo después de cerrar las decisiones del fundador.
+- **Sensibilidad de las filas referenciadas**: las identidades reales (nombres, correos, teléfonos) se mantienen fuera del repositorio y se citan únicamente vía referencia interna. El operador resuelve la dirección real sólo en el momento del envío.
+- **Hashes**: el script de renderizado captura `sha256` del Markdown fuente y de cada fichero rendido. Los hashes se registran en el informe de cierre `uat-adviser-email-sent-2026-04-29.md` para trazabilidad.
+- **Marco de marca aplicado**: identidad visual pública (`BRAND_VISUAL_PATTERNS`); voz canónica (`BRAND_VOICE_FOUNDATION`); patrones de español (`BRAND_SPANISH_PATTERNS`); auditoría de jerga para comunicaciones externas (`BRAND_JARGON_AUDIT` — este dossier ha pasado el audit antes del envío).

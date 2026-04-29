@@ -29,7 +29,7 @@ ssot: true
 
 1. Evidence over assertion
 2. Structure that scales
-3. Plain words, deliberate jargon
+3. Plain words externally; jargon stays internal (we do the heavy lifting)
 
 These three pillars anchor every Holistika message. The composer (`scripts/compose_adviser_message.py`, Initiative 24 P4) validates that drafts align with at least one pillar; messages that align with none flag for operator review.
 

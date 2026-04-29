@@ -30,7 +30,8 @@ last_review: 2026-04-29
 |:------|:-----------------------------------|
 | Performative | We are delighted to announce our expert analysis. |
 | Vague | We feel this is the right approach overall. |
-| Jargon-heavy | Our holistic synergistic methodology paradigmatically de-risks the engagement. |
+| Jargon-heavy (pretentious) | Our holistic synergistic methodology paradigmatically de-risks the engagement. |
+| Jargon-leaking (internal codenames externally) | The ADVOPS plane consumes topic_external_adviser_handoff via GOI/POI ref_ids with RBAC enforcement on the pgvector mirror. |
 
 ## How the composer uses this
 
