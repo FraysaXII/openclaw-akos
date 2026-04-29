@@ -15,7 +15,7 @@ Out-of-the-box, OpenCLAW operates as an isolated conversational agent. This proj
 
 | Layer | Role | Implementation |
 |:------|:-----|:---------------|
-| **Control Plane** | Gateway daemon, FastAPI API, GPU provider manager (RunPod + ShadowPC OpenStack), auto-failover router | `openclaw.json` + `akos/api.py` on port 8420 |
+| **Control Plane** | Gateway daemon, FastAPI API, GPU provider manager (RunPod + ShadowGPU / OpenStack), auto-failover router | `openclaw.json` + `akos/api.py` on port 8420 |
 | **Integration Layer** | Channel adapters, 12 MCP servers + gateway-enforced tool profiles | WebChat + optional Telegram, Slack, WhatsApp via `bindings` |
 | **Execution Layer** | 5-agent runner (Madeira, Orchestrator, Architect, Executor, Verifier) | Answer, decompose, plan, build, validate |
 | **Intelligence Layer** | Flat memory architecture, context compression | MCP Memory server, workspace files, Intelligence Matrix fact tagging |
@@ -199,7 +199,7 @@ openclaw-akos/
     telemetry.py                    LangfuseReporter + DX metrics tracking
     alerts.py                       AlertEvaluator for real-time + periodic checks
     runpod_provider.py              RunPod SDK wrapper + PodManager REST API (pod/serverless)
-    openstack_provider.py           ShadowPC OpenStack SDK wrapper (instance lifecycle, spot, security groups)
+    openstack_provider.py           ShadowGPU (OpenStack) SDK wrapper (instance lifecycle, spot, security groups)
     api.py                          FastAPI control plane (REST + WebSocket)
     tools.py                        Dynamic tool registry (mcporter + permissions)
     checkpoints.py                  Workspace snapshot/restore for reversible execution
@@ -220,8 +220,8 @@ openclaw-akos/
       gpu-runpod.json               Config overlay for GPU deployment
       gpu-runpod-pod.env            RunPod dedicated pod env profile (operative)
       gpu-runpod-pod.env.example    Reference template
-      gpu-shadow.env                Shadow OpenStack env profile (operative)
-      gpu-shadow.env.example        Reference template
+      gpu-shadow.env                ShadowGPU / OpenStack env profile (operative)
+      gpu-shadow.env.example        Reference template (ShadowGPU / OpenStack)
       prod-cloud.env                Cloud API env profile (operative)
       prod-cloud.env.example        Reference template
       prod-cloud.json               Config overlay for cloud APIs

@@ -19,6 +19,8 @@ One-line pointers; deep definitions live in linked docs. **SSOT** for verificati
 | **pre_commit (profile)** | Named verification **profile** in [verification-profiles.json](../config/verification-profiles.json) — run via `py scripts/verify.py pre_commit`. |
 | **Profile (verification)** | A named list of **steps** (each with `id` + `argv`) in the verification registry. |
 | **Release gate** | [scripts/release-gate.py](../scripts/release-gate.py) — inventory, tests, drift, browser smoke, API smoke, HLK validators, optional rubric evals. |
+| **ShadowGPU** | Shadow’s **cloud** GPU service (OpenStack tenant: API, Horizon, floating IP, vLLM on instances). The `gpu-shadow` profile targets this. Not the same as **ShadowPC** (local Windows machine). |
+| **ShadowPC** | Shadow’s **local** Windows PC / streaming product for dev or gaming — not the OpenStack cloud. |
 | **SSOT** | Single source of truth — one authoritative artefact; others link or generate from it. Contrast with planning mirrors under `docs/wip/`. |
 | **SSOT (runtime)** | Repo config + `~/.openclaw` materialized state; see [ARCHITECTURE](ARCHITECTURE.md) responsibility matrix. |
 | **UAT** | User acceptance testing — may include human browser / qualitative checks; **not** fully replaced by automated smoke. See planning rule `akos-planning-traceability.mdc`. |

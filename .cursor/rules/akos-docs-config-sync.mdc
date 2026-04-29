@@ -49,6 +49,10 @@ needs a corresponding update. These contracts are ordered by trigger.
 | `akos/finance.py` | `docs/ARCHITECTURE.md` | Finance Service, Orchestration Library table |
 | `akos/finance.py` | `docs/USER_GUIDE.md` | Finance Research MCP section (9.8) |
 | `akos/hlk_finops_counterparty_csv.py` | `docs/ARCHITECTURE.md` | FINOPS counterparty register + Orchestration Library (`akos/`) table |
+| `akos/hlk_goipoi_csv.py` | `docs/ARCHITECTURE.md`, `docs/USER_GUIDE.md` | GOI/POI dimension + Orchestration Library (`akos/`) table; HLK Operator Model (Initiative 21) |
+| `akos/hlk_adviser_disciplines_csv.py` | `docs/ARCHITECTURE.md`, `docs/USER_GUIDE.md` | ADVOPS disciplines lookup + Orchestration Library (`akos/`); HLK Operator Model (Initiative 21) |
+| `akos/hlk_adviser_questions_csv.py` | `docs/ARCHITECTURE.md`, `docs/USER_GUIDE.md` | Adviser open-questions register + Orchestration Library (`akos/`); HLK Operator Model (Initiative 21) |
+| `akos/hlk_founder_filed_instruments_csv.py` | `docs/ARCHITECTURE.md`, `docs/USER_GUIDE.md` | Founder filed instruments register + Orchestration Library (`akos/`); HLK Operator Model (Initiative 21) |
 
 ### Script changes
 
@@ -80,6 +84,16 @@ needs a corresponding update. These contracts are ordered by trigger.
 | `scripts/validate_hlk.py` | `docs/reference/DEV_VERIFICATION_REFERENCE.md` (when release gate / HLK scope changes); `config/verification-profiles.json` only if a profile step is added/removed for HLK | Pre-commit / gate behaviour |
 | `scripts/validate_hlk_vault_links.py` | `docs/DEVELOPER_CHECKLIST.md` | Pre-commit when `v3.0/**/*.md` cross-links change |
 | `scripts/validate_hlk_km_manifests.py` | `docs/DEVELOPER_CHECKLIST.md`, `docs/USER_GUIDE.md` | Pre-commit when `v3.0/_assets/**/*.manifest.md` change; HLK Operator Model KM / UAT |
+| `scripts/validate_goipoi_register.py` | `docs/DEVELOPER_CHECKLIST.md`, `docs/ARCHITECTURE.md` | Pre-commit when `GOI_POI_REGISTER.csv` changes (Initiative 21); HLK governance |
+| `scripts/validate_adviser_disciplines.py` | `docs/DEVELOPER_CHECKLIST.md`, `docs/ARCHITECTURE.md` | Pre-commit when `ADVISER_ENGAGEMENT_DISCIPLINES.csv` changes (Initiative 21) |
+| `scripts/validate_adviser_questions.py` | `docs/DEVELOPER_CHECKLIST.md`, `docs/ARCHITECTURE.md` | Pre-commit when `ADVISER_OPEN_QUESTIONS.csv` changes (Initiative 21) |
+| `scripts/validate_founder_filed_instruments.py` | `docs/DEVELOPER_CHECKLIST.md`, `docs/ARCHITECTURE.md` | Pre-commit when `FOUNDER_FILED_INSTRUMENTS.csv` changes (Initiative 21) |
+| `scripts/export_adviser_handoff.py` | `docs/DEVELOPER_CHECKLIST.md`, `docs/USER_GUIDE.md`, `config/verification-profiles.json` | New step 7e + HLK Operator Model 24.7 + smoke profile `export_adviser_handoff_smoke` (Initiative 21); Initiative 22 P6 adds PDF path (WeasyPrint → fpdf2 → pandoc) + `export_adviser_handoff_pdf_smoke` profile + opt-in `requirements-export.txt` |
+| `scripts/render_km_diagrams.py` | `docs/ARCHITECTURE.md`, `docs/references/hlk/v3.0/_assets/README.md`, `docs/CONTRIBUTING.md` | New deterministic CLI for rendering KM Mermaid sources (Initiative 22 / P5); document `mmdc` install + `mermaid.ink` HTTP fallback |
+| `requirements-export.txt` | `docs/CONTRIBUTING.md`, `docs/USER_GUIDE.md` (24.7) | Opt-in PDF dependencies for `export_adviser_handoff.py --format pdf` (Initiative 22 / P6); not part of default install |
+| `docs/references/hlk/compliance/README.md` | `docs/ARCHITECTURE.md`, `docs/references/hlk/compliance/PRECEDENCE.md`, `docs/references/hlk/v3.0/index.md` | Forward layout convention for `<plane> × <program_id> × <topic_id>` axes (Initiative 22 / P1) |
+| `docs/references/hlk/v3.0/_assets/README.md` | `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md` | KM Output-1 directory contract (Initiative 22 / P2) |
+| `docs/references/hlk/v3.0/<role>/programs/<program_id>/README.md` | `docs/references/hlk/v3.0/index.md` | New program-folder pattern for role-owned casework (Initiative 22 / P3) |
 | `scripts/sync_hlk_neo4j.py`, `scripts/hlk_graph_mcp_server.py`, `scripts/hlk_graph_explorer.py` | `docs/ARCHITECTURE.md`, `docs/USER_GUIDE.md` | Operator Scripts + HLK Graph sections |
 | `config/mcporter.json.example` | `docs/ARCHITECTURE.md` | MCP Server Topology |
 | `akos/hlk_neo4j.py`, `akos/hlk_graph_model.py`, `akos/hlk_vault_links.py` | `docs/ARCHITECTURE.md` | Orchestration Library (`akos/`) table |
@@ -97,6 +111,7 @@ needs a corresponding update. These contracts are ordered by trigger.
 |:-------------|:----------------------------|:---------------|
 | New or materially changed `.cursor/rules/akos-holistika-operations.mdc` | `CHANGELOG.md` if operator-facing workflow changes; optional note in initiative `decision-log.md` | Holistika ops: Supabase two-plane + SQL gate + ops planes |
 | New or materially changed `.cursor/rules/akos-planning-traceability.mdc` | `CHANGELOG.md` if UAT or initiative closure criteria change | Planning / evidence contracts |
+| New or materially changed `.cursor/rules/akos-adviser-engagement.mdc` | `CHANGELOG.md` if adviser-engagement workflow changes; sync `akos-holistika-operations.mdc` planes table; update Initiative 21 `decision-log.md` | ADVOPS plane: GOI/POI, disciplines lookup, open questions, filed instruments, export script |
 
 ### Planning and initiative docs (`docs/wip/planning/`)
 

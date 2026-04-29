@@ -250,11 +250,11 @@ Langfuse credentials (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HO
 - `openai` -- OpenAI API (key from env)
 - `anthropic` -- Anthropic API (key from env)
 - `vllm-runpod` -- vLLM endpoint on RunPod (URL from env)
-- `vllm-shadow` -- vLLM endpoint on ShadowPC OpenStack (URL from env)
+- `vllm-shadow` -- vLLM endpoint on **ShadowGPU** (Shadow’s OpenStack cloud GPU service; URL from env). Not to be confused with **ShadowPC**, the local Windows machine product used for day-to-day dev.
 
 **Gateway JSON notes (OpenClaw 2026.4.x):** The template keeps **`gateway.host`** / **`gateway.port`** only. Optional `gateway.controlUi` keys (for example a custom `title`) are **omitted** from `openclaw.json.example` because current OpenClaw builds may reject unknown nested fields and fail gateway startup. Branding belongs in operator docs or supported schema keys only after verifying the target CLI version.
 
-**`tools.exec`:** SSOT sets **`host` to `sandbox`** with **`security: "allowlist"`** alongside **`agents.defaults.sandbox.mode: strict`** (Path B). Operators on **native Windows** without a working sandbox backend should follow **USER_GUIDE §14.3b** (Docker Desktop sandboxes and/or WSL2) so audit signals stay actionable.
+**`tools.exec`:** SSOT sets **`host` to `sandbox`** with **`security: "allowlist"`** alongside **`agents.defaults.sandbox.mode: all`** (Path B; OpenClaw accepts `off` \| `non-main` \| `all` — not legacy `strict`). Operators on **native Windows** without a working sandbox backend should follow **USER_GUIDE §14.3b** (Docker Desktop sandboxes and/or WSL2) so audit signals stay actionable.
 
 ### Environment Profiles
 
@@ -264,7 +264,7 @@ Each deployment target has a committed runtime profile in `config/environments/`
 - `<env>.env.example` -- reference template only
 - `<env>.json` -- JSON overlay for `openclaw.json` (model, thinkingDefault, etc.)
 
-Profiles: `dev-local` (medium/local), `gpu-runpod` (large/RunPod serverless), `gpu-runpod-pod` (large/RunPod dedicated), `gpu-shadow` (large/ShadowPC OpenStack), `prod-cloud` (large/cloud APIs).
+Profiles: `dev-local` (medium/local), `gpu-runpod` (large/RunPod serverless), `gpu-runpod-pod` (large/RunPod dedicated), `gpu-shadow` (large/ShadowGPU via OpenStack), `prod-cloud` (large/cloud APIs).
 
 ### Environment Placeholder Hardening
 
@@ -277,7 +277,7 @@ OpenClaw's `${VAR}` substitution in `openclaw.json` crashes the gateway if an en
 | `OPENAI_API_KEY` | `not-configured` | Satisfies `${OPENAI_API_KEY}` substitution |
 | `ANTHROPIC_API_KEY` | `not-configured` | Satisfies `${ANTHROPIC_API_KEY}` substitution |
 | `VLLM_RUNPOD_URL` | `http://localhost:8000/v1` | Prevents crash in serverless profile before endpoint is provisioned |
-| `VLLM_SHADOW_URL` | `http://localhost:8080/v1` | Prevents crash before a Shadow instance publishes a floating-IP endpoint |
+| `VLLM_SHADOW_URL` | `http://localhost:8080/v1` | Prevents crash before a ShadowGPU instance publishes a floating-IP endpoint |
 
 `scripts/bootstrap.py` seeds `~/.openclaw/.env` from the shared runtime placeholder contract on first run, and `scripts/gpu.py` re-asserts missing placeholders after GPU deployments. Empty env values are also filtered during env loading (`if v:` guard on `os.environ.setdefault`).
 
@@ -356,9 +356,9 @@ GPU inference deployments support three modes across two providers, selected by 
 |:-----|:--------|:---------|:--------------|:------------|:--------|
 | **Serverless** | `gpu-runpod` | RunPod | RunPod serverless endpoint | `https://api.runpod.ai/v2/{endpoint_id}/openai/v1` | Auto-scaled by RunPod |
 | **Dedicated Pod** | `gpu-runpod-pod` | RunPod | Persistent vLLM process on a reserved pod | `https://{pod_id}-8080.proxy.runpod.net/v1` | Fixed; operator-managed |
-| **OpenStack Instance** | `gpu-shadow` | ShadowPC | vLLM via cloud-init on OpenStack GPU instance | `http://{floating_ip}:8080/v1` | Fixed; operator-managed |
+| **OpenStack Instance** | `gpu-shadow` | ShadowGPU (OpenStack) | vLLM via cloud-init on a ShadowGPU instance | `http://{floating_ip}:8080/v1` | Fixed; operator-managed |
 
-ShadowPC instances use `OpenStackProvider` (`akos/openstack_provider.py`) with the `openstacksdk` Python SDK. The provider handles Keystone auth, Nova instance lifecycle, optional Neutron security groups, floating IP assignment, and spot termination detection (via instance metadata `cloud_termination_time`). Config is in `OpenStackInstanceConfig` (Pydantic model in `akos/models.py`). On policy-restricted tenants, explicit security-group creation may be forbidden; AKOS now tolerates that by omitting explicit group attachment and relying on project defaults when necessary.
+ShadowGPU instances use `OpenStackProvider` (`akos/openstack_provider.py`) with the `openstacksdk` Python SDK. OpenStack (Horizon/CLI) is how tenant users connect and provision those GPUs. The provider handles Keystone auth, Nova instance lifecycle, optional Neutron security groups, floating IP assignment, and spot termination detection (via instance metadata `cloud_termination_time`). Config is in `OpenStackInstanceConfig` (Pydantic model in `akos/models.py`). On policy-restricted tenants, explicit security-group creation may be forbidden; AKOS now tolerates that by omitting explicit group attachment and relying on project defaults when necessary.
 
 Dedicated pod mode is configured via `PodConfig` (Pydantic model in `akos/models.py`) and provisioned by `scripts/gpu.py deploy-pod`. The container image is `vllm/vllm-openai:v0.16.0`, which has `ENTRYPOINT ["python3", "-m", "vllm.entrypoints.openai.api_server"]` -- so `dockerStartCmd` passes only vLLM CLI flags (no `python -m ...` prefix). The pod exposes an OpenAI-compatible endpoint on port 8080 via RunPod's HTTPS proxy.
 
@@ -375,7 +375,7 @@ Dedicated pod mode is configured via `PodConfig` (Pydantic model in `akos/models
 | `volumeGb` | `200` | Persistent network volume |
 | `maxModelLen` | `131072` | `--max-model-len` passed to vLLM |
 
-`build_vllm_command()` produces CMD args (not a full command) since the image ENTRYPOINT handles the Python invocation. Dynamic flags include `--quantization` (when `QUANTIZATION` env is set, e.g. `awq`), `--enforce-eager` (when `ENFORCE_EAGER` is `true`), `--max-num-batched-tokens` (when set), `--reasoning-parser` (when `REASONING_PARSER` env is set), `--chat-template` (when `CHAT_TEMPLATE` is set), and `--served-model-name` (auto-derived from `modelName.split("/")[-1]` unless overridden by `OPENAI_SERVED_MODEL_NAME_OVERRIDE`). The same command builder is used for both RunPod pods and ShadowPC instances (via cloud-init user-data).
+`build_vllm_command()` produces CMD args (not a full command) since the image ENTRYPOINT handles the Python invocation. Dynamic flags include `--quantization` (when `QUANTIZATION` env is set, e.g. `awq`), `--enforce-eager` (when `ENFORCE_EAGER` is `true`), `--max-num-batched-tokens` (when set), `--reasoning-parser` (when `REASONING_PARSER` env is set), `--chat-template` (when `CHAT_TEMPLATE` is set), and `--served-model-name` (auto-derived from `modelName.split("/")[-1]` unless overridden by `OPENAI_SERVED_MODEL_NAME_OVERRIDE`). The same command builder is used for both RunPod pods and ShadowGPU cloud instances (via cloud-init user-data).
 
 ### Model Catalog
 
@@ -599,7 +599,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/eval_harness.py` | Suite manifest loading + rubric scoring shared by `scripts/run-evals.py` and pytest |
 | `akos/alerts.py` | `AlertEvaluator` -- checks real-time log entries against `alerts.json` and periodic metrics against `baselines.json` |
 | `akos/runpod_provider.py` | RunPod SDK wrapper: endpoint lifecycle, health checks, scaling, inference, GPU discovery (v0.3.0) |
-| `akos/openstack_provider.py` | ShadowPC OpenStack SDK wrapper: Keystone auth, Nova instance lifecycle, Neutron security groups, floating IPs, spot termination detection, vLLM cloud-init deployment |
+| `akos/openstack_provider.py` | ShadowGPU (OpenStack) SDK wrapper: Keystone auth, Nova instance lifecycle, Neutron security groups, floating IPs, spot termination detection, vLLM cloud-init deployment |
 | `akos/api.py` | FastAPI control plane: REST endpoints for health, status, switching, RunPod, metrics, alerts, checkpoints, context pinning, WebSocket logs (v0.4.0) |
 | `akos/graph_stack.py` | Optional **graph stack supervisor**: Streamlit explorer child + Neo4j mirror fingerprint / validate-then-sync; health snapshots for `GET /health`; used only from `scripts/serve-api.py` (not the OpenClaw gateway) |
 | `akos/tools.py` | Dynamic tool registry reading mcporter config + permissions.json; HITL classification (v0.3.0) |
@@ -664,6 +664,29 @@ The current HLK registry baseline exposes 11 projects and **1,085** registered i
 
 **FINOPS ledger (Phase C):** Schema **`finops`** with **`finops.registered_fact`** (Initiative 19) stores **governed operational facts** — optional `amount_minor`, `fact_type`, `counterparty_id` slug, optional Stripe customer/subscription ids — with **`service_role`**-only DML and deny-all RLS for `anon`/`authenticated`. Not git SSOT; see [`docs/wip/planning/19-hlk-finops-ledger/master-roadmap.md`](wip/planning/19-hlk-finops-ledger/master-roadmap.md). Forward DDL: `20260423014326_i19_finops_ledger_phase1.sql`; staging: `scripts/sql/i19_phase1_staging/`.
 
+**External Adviser Engagement (ADVOPS) plane and GOI/POI dimension (Initiative 21):** A new operations plane sits parallel to MKTOPS/FINOPS/OPS/TECHOPS for engagements with external advisers across **Legal / Fiscal / IP / Banking / Certification / Notary** disciplines for any program (currently `PRJ-HOL-FOUNDING-2026`). Plane SOP: [`docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md`](references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md); cursor rule [`akos-adviser-engagement.mdc`](../.cursor/rules/akos-adviser-engagement.mdc); roadmap [`docs/wip/planning/21-hlk-adviser-engagement-and-goipoi/master-roadmap.md`](wip/planning/21-hlk-adviser-engagement-and-goipoi/master-roadmap.md). Initiative 21 adds **four canonical compliance CSVs** under `docs/references/hlk/compliance/`:
+
+- **`GOI_POI_REGISTER.csv`** — knowledge dimension for Groups of Interest (organisations) and Persons of Interest (positions/individuals). Documents reference `ref_id` only; private parties use obfuscated display names safe for repository visibility (raw mapping kept off-repo). Fieldnames in `akos/hlk_goipoi_csv.py`; validator `scripts/validate_goipoi_register.py`; mirror `compliance.goipoi_register_mirror`.
+- **`ADVISER_ENGAGEMENT_DISCIPLINES.csv`** — small lookup of adviser disciplines (`legal`, `fiscal`, `ip`, `banking`, `certification`, `notary`) joining `baseline_organisation.csv` (`canonical_role`) and `process_list.csv` (`default_process_item_id`). Fieldnames in `akos/hlk_adviser_disciplines_csv.py`; validator `scripts/validate_adviser_disciplines.py`; mirror `compliance.adviser_engagement_disciplines_mirror`.
+- **`ADVISER_OPEN_QUESTIONS.csv`** — adviser-facing questions and actions across disciplines and programs (replaces `FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md` as SSOT; vault MD becomes a derived per-discipline view). Fieldnames in `akos/hlk_adviser_questions_csv.py`; validator `scripts/validate_adviser_questions.py`; mirror `compliance.adviser_open_questions_mirror`.
+- **`FOUNDER_FILED_INSTRUMENTS.csv`** — filed legal/fiscal/IP/banking/certification/notary instruments across draft/signed/filed/superseded statuses (replaces `FOUNDER_FILED_INSTRUMENT_REGISTER.md` as SSOT; vault MD becomes a derived per-discipline view). Fieldnames in `akos/hlk_founder_filed_instruments_csv.py`; validator `scripts/validate_founder_filed_instruments.py`; mirror `compliance.founder_filed_instruments_mirror`.
+
+All four mirrors deny `anon`/`authenticated` and grant `service_role` only; DDL under `supabase/migrations/20260429081{728,734,754,800}_i21_compliance_*.sql` (filenames match remote `schema_migrations` ledger after the Initiative 22 P7 break-glass apply via user-supabase MCP) with parity staging in `scripts/sql/i21_phase1_staging/`. Mirror upserts via `py scripts/sync_compliance_mirrors_from_csv.py` (flags `--goipoi-register-only`, `--adviser-disciplines-only`, `--adviser-questions-only`, `--founder-filed-instruments-only`) or full profile **`py scripts/verify.py compliance_mirror_emit`** after DDL applies.
+
+**Privacy posture (D-CH-2)**: Canonical text uses GOI/POI ref_ids only; raw history is not rewritten (`git filter-repo` deferred). Maintenance SOPs: [`SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md`](references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md), [`SOP-HLK_TRANSCRIPT_REDACTION_001.md`](references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_001.md).
+
+**Adviser handoff export (P7):** [`scripts/export_adviser_handoff.py`](../scripts/export_adviser_handoff.py) renders an emailable Markdown bundle (Cover → Sharing legend → Fact pattern → Filed instruments → Open questions → Exhibit list) for one or all disciplines. Smoke profile **`export_adviser_handoff_smoke`** in `config/verification-profiles.json` writes `artifacts/exports/handoff-smoke.md`. PDF rendering (Initiative 22 P6) is opt-in via `--format pdf`: tries WeasyPrint (best CSS fidelity; needs native Cairo/Pango), then **`fpdf2`** (pure-Python, zero native deps), then `pandoc`. Optional install: `py -m pip install --only-binary=:all: -r requirements-export.txt`. Smoke profile **`export_adviser_handoff_pdf_smoke`** writes `artifacts/exports/handoff-smoke.pdf`.
+
+**Scalable HLK layout (Initiative 22):** A forward layout convention applies to every canonical surface that grows with new programs, planes, or topics. Three axes:
+
+| Axis | Examples | Where it lives |
+|:-----|:---------|:---------------|
+| **Plane** | `advops`, `finops`, `mktops`, `techops`, `marops`, `devops`, `dimensions` | Subfolder under `compliance/<plane>/` (forward); plane row in the operations-planes table in [`akos-holistika-operations.mdc`](../.cursor/rules/akos-holistika-operations.mdc) |
+| **Program / engagement** | `PRJ-HOL-FOUNDING-2026`, future `PRJ-HOL-*-YYYY` | `program_id` column on canonical rows; `programs/<program_id>/` subfolder under `v3.0/<role>/`; second segment of `_assets/<plane>/<program_id>/<topic_id>/` |
+| **Topic / register name** | `adviser_handoff`, `goipoi_register`, `filed_instruments` | CSV file basename and `topic_id` in the matching KM manifest |
+
+Forward conventions documented in [`docs/references/hlk/compliance/README.md`](references/hlk/compliance/README.md) (compliance directory) and [`docs/references/hlk/v3.0/_assets/README.md`](references/hlk/v3.0/_assets/README.md) (Output-1 directory). Existing flat files stay where they are during the transition; the README contains the deprecation-alias map. Initiative-22 P5 also introduces a Mermaid source-of-truth pattern for KM Output-1 visuals: commit a `.mmd` source alongside the rendered PNG/SVG and regenerate via [`scripts/render_km_diagrams.py`](../scripts/render_km_diagrams.py) (`mmdc` preferred; `mermaid.ink` HTTP fallback).
+
 The founder-governance lower layer uses a staged document model to stay scalable: evidence and redacted synthesis live in `docs/wip/`, case-specific canonical notes live under role-owned `v3.0/` folders, repeatable procedures become SOPs, and only the repeatable process layer is registered in `process_list.csv`. This separation keeps founder-specific or potentially sensitive material out of the runtime registry while preserving a reusable operating model for future entity work.
 
 **HLK governed KM (Topic–Fact–Source):** Canonical rules for sources, facts, topics, output types 0–4, and Output 1 (visual) manifests live in `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md`. Binary visuals ship under `docs/references/hlk/v3.0/_assets/<topic_id>/` with `*.manifest.md` sidecars. Operators validate manifest shape and raster paths with `scripts/validate_hlk_km_manifests.py`. The PMO-owned `RESEARCH_BACKLOG_TRELLO_REGISTRY.md` indexes external Trello cards to `topic_id` candidates without treating Trello as SSOT.
@@ -701,17 +724,24 @@ Launch: `python scripts/serve-api.py --port 8420`
 | `scripts/validate_hlk_km_manifests.py` | Validate HLK KM visual manifest frontmatter and raster paths under `v3.0/_assets/**/*.manifest.md` |
 | `scripts/validate_component_service_matrix.py` | Validate `COMPONENT_SERVICE_MATRIX.csv` (FKs to org, process_list, registry slugs); called from `validate_hlk.py` when the file exists |
 | `scripts/validate_finops_counterparty_register.py` | Validate `FINOPS_COUNTERPARTY_REGISTER.csv`; called from `validate_hlk.py` when the file exists |
+| `scripts/validate_goipoi_register.py` | Validate `GOI_POI_REGISTER.csv` (Initiative 21 GOI/POI dimension); called from `validate_hlk.py` when the file exists |
+| `scripts/validate_adviser_disciplines.py` | Validate `ADVISER_ENGAGEMENT_DISCIPLINES.csv` (Initiative 21 ADVOPS plane lookup); called from `validate_hlk.py` |
+| `scripts/validate_adviser_questions.py` | Validate `ADVISER_OPEN_QUESTIONS.csv` (Initiative 21); called from `validate_hlk.py` |
+| `scripts/validate_founder_filed_instruments.py` | Validate `FOUNDER_FILED_INSTRUMENTS.csv` (Initiative 21); called from `validate_hlk.py` |
+| `scripts/export_adviser_handoff.py` | Render emailable adviser handoff bundle (Markdown primary, optional PDF via WeasyPrint → fpdf2 → pandoc) for one or all disciplines (Initiative 21 / P7; Initiative 22 / P6 added the multi-renderer PDF path) |
+| `scripts/render_km_diagrams.py` | Render an HLK KM Mermaid `.mmd` source to deterministic PNG + SVG sidecars; updates the sibling `.manifest.md` `file_sha256` with `--update-manifest`; uses `mmdc` if on PATH else falls back to the public `mermaid.ink` HTTP API (Initiative 22 / P5) |
 | `scripts/ingest_matriz_componentes_to_matrix.py` | Optional: ingest legacy `Matriz componentes.xlsx` **components** sheet into the matrix (requires `openpyxl`) |
 | `scripts/validate_hlk_vault_links.py` | Fail on broken internal `.md` links under `docs/references/hlk/v3.0/` (excludes `imports/`); run by `release-gate.py` |
 | `scripts/sync_hlk_neo4j.py` | Rebuild optional Neo4j mirror from canonical CSVs; `--with-documents` adds v3.0 `Document` nodes + `LINKS_TO`; requires `NEO4J_*` in `~/.openclaw/.env` |
 | `scripts/hlk_graph_explorer.py` | Optional **secondary** Streamlit operator UI for `/hlk/graph/*` (primary: `GET /hlk/graph/explorer` on control plane); optional **`streamlit.components.v1`** embed at `static/streamlit_components/hlk_vis_network/` (`graph_engine=vis_component`) for drag/pin parity with full vis |
 | `scripts/merge_gtm_into_process_list.py` | Idempotent-style merge helper: harmonize GTM candidate CSV into `process_list.csv` (English parents, Tier C exclusion); run with `--write` after operator approval |
 | `scripts/merge_process_list_tranche.py` | Merge a **canonical-column** candidate CSV (same shape as `process_list.csv`) into the registry; `--candidate path`; `--write` after operator approval (e.g. Initiative 14 Holistika GTM tranche) |
-| `scripts/sync_compliance_mirrors_from_csv.py` | Emit `INSERT … ON CONFLICT` SQL for `compliance.process_list_mirror` / `baseline_organisation_mirror` / `finops_counterparty_register_mirror` from git CSVs (`--count-only`, `--output`, **`--finops-counterparty-register-only`**); run on DB only after approved DDL (see `sql-proposal-stack-20260417.md`) |
+| `scripts/sync_compliance_mirrors_from_csv.py` | Emit `INSERT … ON CONFLICT` SQL for `compliance.process_list_mirror` / `baseline_organisation_mirror` / `finops_counterparty_register_mirror` / `goipoi_register_mirror` / `adviser_engagement_disciplines_mirror` / `adviser_open_questions_mirror` / `founder_filed_instruments_mirror` from git CSVs (`--count-only`, `--output`, **`--finops-counterparty-register-only`**, **`--goipoi-register-only`**, **`--adviser-disciplines-only`**, **`--adviser-questions-only`**, **`--founder-filed-instruments-only`**); run on DB only after approved DDL (see `sql-proposal-stack-20260417.md`, Initiative 21 staging in `scripts/sql/i21_phase1_staging/`) |
 | `scripts/sql/i14_phase3_staging/*.sql` | Initiative 14: **staging** DDL proposals for `compliance` + `holistika_ops` (promote to [`supabase/migrations/`](../supabase/migrations/) after approval) |
 | `scripts/sql/i16_phase3_staging/*.sql` | Initiative 16: **historical** staging DDL for `compliance.finops_vendor_register_mirror` (superseded by Initiative 18 cutover) |
 | `scripts/sql/i18_phase1_staging/*.sql` | Initiative 18: **staging** DDL for counterparty mirror cutover + `stripe_customer_link.finops_counterparty_id` (promote to [`supabase/migrations/`](../supabase/migrations/) after approval) |
 | `scripts/sql/i19_phase1_staging/*.sql` | Initiative 19: **staging** DDL for `finops.registered_fact` (promote to [`supabase/migrations/`](../supabase/migrations/) after approval) |
+| `scripts/sql/i21_phase1_staging/*.sql` | Initiative 21: **staging** DDL for `compliance.{goipoi_register,adviser_engagement_disciplines,adviser_open_questions,founder_filed_instruments}_mirror` (promote to [`supabase/migrations/`](../supabase/migrations/) after approval) |
 | `supabase/migrations/*.sql` | **Applied** Holistika MasterData DDL ledger (Supabase CLI); parity map in [`supabase/migrations/README.md`](../supabase/migrations/README.md) |
 | `scripts/verify_phase3_mirror_schema.py` | Initiative 14: runs `verify_staging.sql` via `psql` when `DATABASE_URL` / `SUPABASE_DB_URL` is set |
 | `supabase/functions/stripe-webhook-handler/` | Initiative 14 Wave B3: Stripe webhook — `hlk_billing_plane` on Customer/Subscription; `kirbe` vs `holistika_ops` routing (deploy with `npm run supabase -- functions deploy`) |
