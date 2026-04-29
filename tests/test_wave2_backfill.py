@@ -173,14 +173,14 @@ def test_check_only_does_not_raise_on_pending(scaffolder_module, capsys):
 def test_dry_run_blocks_on_pending(scaffolder_module, capsys):
     """--dry-run must refuse when target section carries sentinels.
 
-    Uses brand_voice (Section 2) which remains sentinel-marked until I24-P0a
-    operator interview. The programs section was filled with agent defaults
-    in I23-P0.5 (D-IH-23-A) so it is no longer a useful pending-section probe.
+    Uses a synthetic in-memory dict because the shipped YAML is now fully
+    sentinel-free (operator filled all 5 sections on 2026-04-29). The
+    refusal path is general-purpose so a synthetic input proves it.
     """
-    if not ANSWERS_PATH.is_file():
-        pytest.skip("operator-answers-wave2.yaml not present")
-    data = scaffolder_module.load_answers(ANSWERS_PATH)
-    rc = scaffolder_module.cmd_dry_run(data, section_filter="brand_voice")
+    synthetic = {
+        "programs": {"PRJ-X": {"value": scaffolder_module.SENTINEL}},
+    }
+    rc = scaffolder_module.cmd_dry_run(synthetic, section_filter="programs")
     assert rc == 1, "--dry-run should refuse while sentinels remain in target section"
     captured = capsys.readouterr()
     assert "BLOCKED" in captured.out
@@ -189,13 +189,14 @@ def test_dry_run_blocks_on_pending(scaffolder_module, capsys):
 def test_write_refuses_pending_without_flag(scaffolder_module, capsys):
     """Full write must refuse on sentinels unless --allow-pending is set.
 
-    Uses brand_voice (still sentinel-marked) to exercise the refusal path;
-    programs section is now sentinel-free post I23-P0.5.
+    Uses a synthetic dict because the shipped YAML has zero sentinels post
+    operator backfill (2026-04-29). Refusal path is the same regardless of
+    section name.
     """
-    if not ANSWERS_PATH.is_file():
-        pytest.skip("operator-answers-wave2.yaml not present")
-    data = scaffolder_module.load_answers(ANSWERS_PATH)
-    rc = scaffolder_module.cmd_write(data, section_filter="brand_voice", allow_pending=False)
+    synthetic = {
+        "programs": {"PRJ-X": {"value": scaffolder_module.SENTINEL}},
+    }
+    rc = scaffolder_module.cmd_write(synthetic, section_filter="programs", allow_pending=False)
     assert rc == 1
     captured = capsys.readouterr()
     assert "REFUSED" in captured.out
@@ -222,6 +223,69 @@ def test_write_programs_section_emits_csv(scaffolder_module, tmp_path, monkeypat
     first = out_csv.read_bytes()
     scaffolder_module.cmd_write(data, section_filter="programs", allow_pending=False)
     assert out_csv.read_bytes() == first
+
+
+def test_write_brand_voice_emits_three_mds(scaffolder_module, tmp_path, monkeypatch):
+    """Initiative 24 P0a: brand_voice writer emits BRAND_VOICE_FOUNDATION + BRAND_REGISTER_MATRIX + BRAND_DO_DONT."""
+    if not ANSWERS_PATH.is_file():
+        pytest.skip("operator-answers-wave2.yaml not present")
+    foundation = tmp_path / "BRAND_VOICE_FOUNDATION.md"
+    matrix = tmp_path / "BRAND_REGISTER_MATRIX.md"
+    do_dont = tmp_path / "BRAND_DO_DONT.md"
+    monkeypatch.setattr(scaffolder_module, "_BRAND_VOICE_FOUNDATION_MD", foundation)
+    monkeypatch.setattr(scaffolder_module, "_BRAND_REGISTER_MATRIX_MD", matrix)
+    monkeypatch.setattr(scaffolder_module, "_BRAND_DO_DONT_MD", do_dont)
+    monkeypatch.setattr(scaffolder_module, "_BRAND_DIR", tmp_path)
+    data = scaffolder_module.load_answers(ANSWERS_PATH)
+    rc = scaffolder_module.cmd_write(data, section_filter="brand_voice", allow_pending=False)
+    assert rc == 0
+    for path in (foundation, matrix, do_dont):
+        assert path.is_file(), f"writer should emit {path.name}"
+        text = path.read_text(encoding="utf-8")
+        assert "status: active" in text, f"{path.name} should flip to status: active"
+        assert "scaffold-awaiting-discovery" not in text
+
+
+def test_write_brand_voice_is_idempotent(scaffolder_module, tmp_path, monkeypatch):
+    """Same YAML input -> byte-identical output across runs."""
+    if not ANSWERS_PATH.is_file():
+        pytest.skip("operator-answers-wave2.yaml not present")
+    foundation = tmp_path / "BRAND_VOICE_FOUNDATION.md"
+    matrix = tmp_path / "BRAND_REGISTER_MATRIX.md"
+    do_dont = tmp_path / "BRAND_DO_DONT.md"
+    monkeypatch.setattr(scaffolder_module, "_BRAND_VOICE_FOUNDATION_MD", foundation)
+    monkeypatch.setattr(scaffolder_module, "_BRAND_REGISTER_MATRIX_MD", matrix)
+    monkeypatch.setattr(scaffolder_module, "_BRAND_DO_DONT_MD", do_dont)
+    monkeypatch.setattr(scaffolder_module, "_BRAND_DIR", tmp_path)
+    data = scaffolder_module.load_answers(ANSWERS_PATH)
+    scaffolder_module.cmd_write(data, section_filter="brand_voice", allow_pending=False)
+    snapshot = (foundation.read_bytes(), matrix.read_bytes(), do_dont.read_bytes())
+    scaffolder_module.cmd_write(data, section_filter="brand_voice", allow_pending=False)
+    assert (foundation.read_bytes(), matrix.read_bytes(), do_dont.read_bytes()) == snapshot
+
+
+def test_write_brand_voice_includes_charter_and_pillars(scaffolder_module, tmp_path, monkeypatch):
+    """Charter sentence + 3 narrative pillars + archetype must appear in BRAND_VOICE_FOUNDATION.md."""
+    if not ANSWERS_PATH.is_file():
+        pytest.skip("operator-answers-wave2.yaml not present")
+    foundation = tmp_path / "BRAND_VOICE_FOUNDATION.md"
+    matrix = tmp_path / "BRAND_REGISTER_MATRIX.md"
+    do_dont = tmp_path / "BRAND_DO_DONT.md"
+    monkeypatch.setattr(scaffolder_module, "_BRAND_VOICE_FOUNDATION_MD", foundation)
+    monkeypatch.setattr(scaffolder_module, "_BRAND_REGISTER_MATRIX_MD", matrix)
+    monkeypatch.setattr(scaffolder_module, "_BRAND_DO_DONT_MD", do_dont)
+    monkeypatch.setattr(scaffolder_module, "_BRAND_DIR", tmp_path)
+    data = scaffolder_module.load_answers(ANSWERS_PATH)
+    scaffolder_module.cmd_write(data, section_filter="brand_voice", allow_pending=False)
+    text = foundation.read_text(encoding="utf-8")
+    bv = data.get("brand_voice", {})
+    charter = (bv.get("voice_charter") or "").strip()
+    archetype = (bv.get("archetype") or "").strip()
+    assert charter and charter in text
+    assert archetype and f"`{archetype}`" in text
+    pillars = bv.get("narrative_pillars") or []
+    for p in pillars:
+        assert str(p).strip() in text
 
 
 def test_write_programs_resolves_yaml_key_references(scaffolder_module, tmp_path, monkeypatch):

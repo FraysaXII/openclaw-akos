@@ -391,12 +391,277 @@ def _normalize_program_ids(raw: str, section: dict[str, Any]) -> str:
     return ";".join(resolved)
 
 
+# ─── Brand voice writer (Initiative 24 P0a) ──────────────────────────────────
+#
+# Reads YAML Section 2 (`brand_voice`) and writes the three canonical brand
+# foundation MDs under `v3.0/Admin/O5-1/Marketing/Brand/`:
+#
+#   BRAND_VOICE_FOUNDATION.md   - voice charter + archetype + narrative pillars
+#   BRAND_REGISTER_MATRIX.md    - (relationship, channel) -> register table
+#   BRAND_DO_DONT.md            - voice IS / voice IS NOT tables
+#
+# Each MD's frontmatter `status:` flips from `scaffold-awaiting-discovery` to
+# `active` once written. Idempotent: same YAML input -> byte-identical output.
+# Refuses on sentinels unless `--allow-pending`.
+
+_BRAND_DIR = (
+    REPO_ROOT
+    / "docs"
+    / "references"
+    / "hlk"
+    / "v3.0"
+    / "Admin"
+    / "O5-1"
+    / "Marketing"
+    / "Brand"
+)
+_BRAND_VOICE_FOUNDATION_MD = _BRAND_DIR / "BRAND_VOICE_FOUNDATION.md"
+_BRAND_REGISTER_MATRIX_MD = _BRAND_DIR / "BRAND_REGISTER_MATRIX.md"
+_BRAND_DO_DONT_MD = _BRAND_DIR / "BRAND_DO_DONT.md"
+
+
+def _md_escape_cell(value: str) -> str:
+    return (value or "").replace("|", "\\|").replace("\n", " ").strip()
+
+
+def _render_brand_voice_foundation(payload: dict[str, Any]) -> str:
+    charter = str(payload.get("voice_charter") or "").strip()
+    archetype = str(payload.get("archetype") or "").strip()
+    pillars = [str(p).strip() for p in (payload.get("narrative_pillars") or []) if str(p).strip()]
+    return (
+        "---\n"
+        "status: active\n"
+        "role_owner: Brand Manager\n"
+        "area: Marketing\n"
+        "entity: Holistika\n"
+        "program_id: shared\n"
+        "topic_ids:\n"
+        "  - topic_brand_voice\n"
+        "artifact_role: canonical\n"
+        "intellectual_kind: brand_asset\n"
+        "authority: Operator (lived protocols)\n"
+        "last_review: 2026-04-29\n"
+        "ssot: true\n"
+        "---\n\n"
+        "# BRAND_VOICE_FOUNDATION\n\n"
+        "> **Status — Active (Initiative 24 P0a; Operator-authored 2026-04-29).** Operator-lived "
+        "brand voice per D-IH-17. Maintained by the Brand Manager (CMO chain); annual review trigger "
+        "lives in `process_list.csv` `thi_mkt_dtp_293` (Initiative 24 P1).\n\n"
+        "## Voice charter\n\n"
+        f"> {charter}\n\n"
+        "## Archetype\n\n"
+        f"`{archetype}` — see [`docs/reference/glossary-cross-program.md`](../../../../../../reference/glossary-cross-program.md) for archetype definitions used across the organisation.\n\n"
+        "## Narrative pillars\n\n"
+        + "".join(f"{i}. {pillar}\n" for i, pillar in enumerate(pillars, start=1))
+        + "\nThese three pillars anchor every Holistika message. The composer "
+        "(`scripts/compose_adviser_message.py`, Initiative 24 P4) validates that drafts align with at "
+        "least one pillar; messages that align with none flag for operator review.\n\n"
+        "## Voice IS / IS NOT\n\n"
+        "See companion [`BRAND_DO_DONT.md`](BRAND_DO_DONT.md) for the per-trait do/don't pairs.\n\n"
+        "## Register matrix\n\n"
+        "See companion [`BRAND_REGISTER_MATRIX.md`](BRAND_REGISTER_MATRIX.md) for the "
+        "`(relationship, channel) -> register` lookup the composer uses at Layer 4 eloquence resolution.\n\n"
+        "## How this is used\n\n"
+        "The methodology SOP [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md) "
+        "cites this foundation as **Layer 1 (Brand foundation)**. The composer reads:\n\n"
+        "- `voice_charter` and `archetype` to validate every outgoing message stays inside the brand envelope.\n"
+        "- `narrative_pillars` to align the message's \"why\" with one or more pillars.\n"
+        "- The companion register matrix to pick the right tonal register for `(relationship, channel)`.\n\n"
+        "The **eloquence layer** (Layer 4) operates **inside** the brand voice — it adjusts register, "
+        "language, and pronoun within the bounds set here. It does not override the brand voice.\n\n"
+        "## Maintenance\n\n"
+        "- **Source of truth**: `docs/wip/planning/22a-i22-post-closure-followups/operator-answers-wave2.yaml` "
+        "Section 2. Edits to this MD by hand will be **overwritten** on next "
+        "`py scripts/wave2_backfill.py --section brand_voice` — edit the YAML and re-run.\n"
+        "- Annual Brand Manager review (D-IH-17 re-evaluation trigger).\n"
+        "- Per-message dry-run via `py scripts/compose_adviser_message.py --recipient <ref_id> "
+        "--discipline <id> --dry-run` to surface mismatches.\n"
+        "- Drift detection: if the methodology SOP's brand-foundation citations stop resolving, the next "
+        "composer run fails loudly.\n\n"
+        "## Related\n\n"
+        "- [`BRAND_REGISTER_MATRIX.md`](BRAND_REGISTER_MATRIX.md)\n"
+        "- [`BRAND_DO_DONT.md`](BRAND_DO_DONT.md)\n"
+        "- [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md)\n"
+        "- Cross-program glossary §\"Voice register\": "
+        "[`docs/reference/glossary-cross-program.md`](../../../../../../reference/glossary-cross-program.md)\n"
+    )
+
+
+def _render_brand_register_matrix(payload: dict[str, Any]) -> str:
+    matrix = payload.get("register_matrix") or []
+    rows: list[str] = []
+    for entry in matrix:
+        if not isinstance(entry, dict):
+            continue
+        rows.append(
+            "| {rel} | {ch} | `{reg}` |".format(
+                rel=_md_escape_cell(str(entry.get("relationship") or "")),
+                ch=_md_escape_cell(str(entry.get("channel") or "")),
+                reg=_md_escape_cell(str(entry.get("register") or "")),
+            )
+        )
+    table = (
+        "| Relationship | Channel | Register |\n"
+        "|:-------------|:--------|:---------|\n"
+        + "\n".join(rows)
+        + "\n"
+    ) if rows else "_(no rows yet — operator fills YAML Section 2 `brand_voice.register_matrix`)_\n"
+
+    return (
+        "---\n"
+        "status: active\n"
+        "role_owner: Brand Manager\n"
+        "area: Marketing\n"
+        "entity: Holistika\n"
+        "program_id: shared\n"
+        "topic_ids:\n"
+        "  - topic_brand_voice\n"
+        "artifact_role: canonical\n"
+        "intellectual_kind: brand_asset\n"
+        "authority: Operator (lived protocols)\n"
+        "last_review: 2026-04-29\n"
+        "---\n\n"
+        "# BRAND_REGISTER_MATRIX\n\n"
+        "> **Status — Active (Initiative 24 P0a; Operator-authored 2026-04-29).** Auto-emitted by "
+        "`scripts/wave2_backfill.py --section brand_voice` from "
+        "`operator-answers-wave2.yaml` Section 2 `brand_voice.register_matrix`. Edit the YAML and "
+        "re-run; do **not** edit this file by hand — it will be overwritten.\n\n"
+        "## How (relationship, channel) maps to a register\n\n"
+        "The composer (`scripts/compose_adviser_message.py`, Initiative 24 P4) looks up the "
+        "(relationship, channel) pair against this matrix to pick the right tonal register. When a "
+        "pair is missing, the composer falls back to the discipline default "
+        "(`ADVISER_ENGAGEMENT_DISCIPLINES.csv`), then to the brand foundation default "
+        "(archetype-implied register).\n\n"
+        + table
+        + "\nCommon register tokens: `formal_legal`, `peer_consulting`, `casual_internal`, "
+        "`regulator_neutral`, `investor_aspirational`. Add new tokens by extending YAML Section 2 + "
+        "(optionally) the `voice_register` enum on `GOI_POI_REGISTER.csv` (Initiative 24 P2).\n\n"
+        "## Related\n\n"
+        "- [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md)\n"
+        "- [`BRAND_DO_DONT.md`](BRAND_DO_DONT.md)\n"
+        "- [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md) §3 Use-case layer\n"
+        "- Cross-program glossary §\"Voice register\": "
+        "[`docs/reference/glossary-cross-program.md`](../../../../../../reference/glossary-cross-program.md)\n"
+    )
+
+
+def _render_brand_do_dont(payload: dict[str, Any]) -> str:
+    is_rows: list[str] = []
+    for entry in (payload.get("voice_is") or []):
+        if not isinstance(entry, dict):
+            continue
+        is_rows.append(
+            "| {trait} | {ex} |".format(
+                trait=_md_escape_cell(str(entry.get("trait") or "")),
+                ex=_md_escape_cell(str(entry.get("example") or "")),
+            )
+        )
+    is_not_rows: list[str] = []
+    for entry in (payload.get("voice_is_not") or []):
+        if not isinstance(entry, dict):
+            continue
+        is_not_rows.append(
+            "| {trait} | {ex} |".format(
+                trait=_md_escape_cell(str(entry.get("trait") or "")),
+                ex=_md_escape_cell(str(entry.get("example") or "")),
+            )
+        )
+    is_table = (
+        "| Trait | Example phrasing |\n"
+        "|:------|:-----------------|\n"
+        + "\n".join(is_rows) + "\n"
+    ) if is_rows else "_(no rows yet)_\n"
+    is_not_table = (
+        "| Trait | Example of what we'd refuse to say |\n"
+        "|:------|:-----------------------------------|\n"
+        + "\n".join(is_not_rows) + "\n"
+    ) if is_not_rows else "_(no rows yet)_\n"
+
+    return (
+        "---\n"
+        "status: active\n"
+        "role_owner: Brand Manager\n"
+        "area: Marketing\n"
+        "entity: Holistika\n"
+        "program_id: shared\n"
+        "topic_ids:\n"
+        "  - topic_brand_voice\n"
+        "artifact_role: canonical\n"
+        "intellectual_kind: brand_asset\n"
+        "authority: Operator (lived protocols)\n"
+        "last_review: 2026-04-29\n"
+        "---\n\n"
+        "# BRAND_DO_DONT\n\n"
+        "> **Status — Active (Initiative 24 P0a; Operator-authored 2026-04-29).** Auto-emitted by "
+        "`scripts/wave2_backfill.py --section brand_voice` from `operator-answers-wave2.yaml` "
+        "Section 2 `brand_voice.voice_is` / `voice_is_not`. Edit the YAML and re-run.\n\n"
+        "## Voice IS\n\n"
+        + is_table
+        + "\n## Voice IS NOT\n\n"
+        + is_not_table
+        + "\n## How the composer uses this\n\n"
+        "Per-message reviewer checks (every Layer-4 eloquence pass):\n\n"
+        "- The proposed phrasing matches at least one **Voice IS** trait.\n"
+        "- The proposed phrasing does **not** match any **Voice IS NOT** pattern.\n\n"
+        "When ambiguous, the composer flags the message for operator review rather than auto-generate.\n\n"
+        "## Related\n\n"
+        "- [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md)\n"
+        "- [`BRAND_REGISTER_MATRIX.md`](BRAND_REGISTER_MATRIX.md)\n"
+        "- [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md)\n"
+    )
+
+
+def _write_brand_voice(
+    data: dict[str, Any], *, allow_pending: bool
+) -> list[Path]:
+    """Initiative 24 P0a writer: emit the three brand foundation MDs from YAML Section 2.
+
+    Reads `brand_voice:` and writes:
+
+    - `BRAND_VOICE_FOUNDATION.md` — charter + archetype + narrative pillars.
+    - `BRAND_REGISTER_MATRIX.md`  — (relationship, channel) -> register table.
+    - `BRAND_DO_DONT.md`          — voice IS / voice IS NOT tables.
+
+    All three flip frontmatter `status:` from `scaffold-awaiting-discovery` to
+    `active`. Idempotent (same YAML -> same output). Refuses on sentinels unless
+    `allow_pending=True` (in which case sentinel cells are emitted as empty).
+    """
+    section = data.get("brand_voice")
+    if not isinstance(section, dict) or not section:
+        return []
+
+    if allow_pending:
+        # Replace sentinels with empty strings deeply for safe partial render.
+        def _strip(node: Any) -> Any:
+            if isinstance(node, str):
+                return "" if node == SENTINEL else node
+            if isinstance(node, dict):
+                return {k: _strip(v) for k, v in node.items()}
+            if isinstance(node, list):
+                return [_strip(v) for v in node]
+            return node
+
+        section = _strip(section)
+
+    _BRAND_DIR.mkdir(parents=True, exist_ok=True)
+    written: list[Path] = []
+    for path, renderer in (
+        (_BRAND_VOICE_FOUNDATION_MD, _render_brand_voice_foundation),
+        (_BRAND_REGISTER_MATRIX_MD, _render_brand_register_matrix),
+        (_BRAND_DO_DONT_MD, _render_brand_do_dont),
+    ):
+        body = renderer(section)
+        path.write_text(body, encoding="utf-8", newline="\n")
+        written.append(path)
+    return written
+
+
 _SECTION_WRITERS: dict[str, Any] = {
     "programs": _write_program_registry,
-    # brand_voice: I24-P0a (lands in i24-brand-foundation-alignment todo)
-    # goi_poi_voice: I24-P2 (lands in i24-goipoi-mirror-ddl-alter)
-    # kirbe_duality: I23-P6 confirmation block (lands in i23-onboard-program-2)
-    # g_24_3_signoff: I24-P6 (irreversible; lands in i24-send-real-email)
+    "brand_voice": _write_brand_voice,
+    # goi_poi_voice: handled inline during I24-P2 (CSV ALTER + 6-row backfill via MCP).
+    # kirbe_duality: confirmation block; no writer (decisions captured in I23/I24 decision logs).
+    # g_24_3_signoff: I24-P6 (irreversible workflow gate; the actual SMTP send is operator-driven).
 }
 
 

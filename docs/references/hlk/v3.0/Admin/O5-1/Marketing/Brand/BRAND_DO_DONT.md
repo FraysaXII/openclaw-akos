@@ -1,5 +1,5 @@
 ---
-status: scaffold-awaiting-discovery
+status: active
 role_owner: Brand Manager
 area: Marketing
 entity: Holistika
@@ -9,32 +9,32 @@ topic_ids:
 artifact_role: canonical
 intellectual_kind: brand_asset
 authority: Operator (lived protocols)
-last_review: pending
+last_review: 2026-04-29
 ---
 
 # BRAND_DO_DONT
 
-> **Status — Scaffold awaiting discovery (Initiative 24 P0a; D-IH-24-A)**: Operator fills YAML Section 2 `brand_voice.voice_is[]` and `voice_is_not[]` and runs `py scripts/wave2_backfill.py --section brand_voice`. The scaffolder writes the tables below from the operator's rows.
+> **Status — Active (Initiative 24 P0a; Operator-authored 2026-04-29).** Auto-emitted by `scripts/wave2_backfill.py --section brand_voice` from `operator-answers-wave2.yaml` Section 2 `brand_voice.voice_is` / `voice_is_not`. Edit the YAML and re-run.
 
-## Voice IS — operator-pending
+## Voice IS
 
 | Trait | Example phrasing |
 |:------|:-----------------|
-| _operator-pending_ | _operator-pending_ |
-| _operator-pending_ | _operator-pending_ |
-| _operator-pending_ | _operator-pending_ |
+| Rigorous | We base this decision on the 2026-04-01 fact pattern. |
+| Structured | Three options ranked by reversibility. Option A is recommended. |
+| Plain | We need to file the constitution before activating Stripe billing. |
 
-## Voice IS NOT — operator-pending
+## Voice IS NOT
 
 | Trait | Example of what we'd refuse to say |
 |:------|:-----------------------------------|
-| _operator-pending_ | _operator-pending_ |
-| _operator-pending_ | _operator-pending_ |
-| _operator-pending_ | _operator-pending_ |
+| Performative | We are delighted to announce our expert analysis. |
+| Vague | We feel this is the right approach overall. |
+| Jargon-heavy | Our holistic synergistic methodology paradigmatically de-risks the engagement. |
 
 ## How the composer uses this
 
-Per-message reviewer checks (every layer-4 eloquence pass):
+Per-message reviewer checks (every Layer-4 eloquence pass):
 
 - The proposed phrasing matches at least one **Voice IS** trait.
 - The proposed phrasing does **not** match any **Voice IS NOT** pattern.

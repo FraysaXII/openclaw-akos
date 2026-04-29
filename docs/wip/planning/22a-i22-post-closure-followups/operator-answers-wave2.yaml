@@ -17,8 +17,8 @@
 
 meta:
   date_started: 2026-04-29
-  operator: __OPERATOR_CONFIRM__   # your name or initials, e.g. "JAR"
-  notes: ""                         # free-form; gets attached to the YAML hash record
+  operator: Founder                 # G-24-3 sign-off is founder-level
+  notes: "Wave-2 operator backfill 2026-04-29. Section 2 brand voice authored from operator's lived protocols (D-IH-17). Section 4 confirms KiRBe HAS paying customers today, which cascades Compliance + Legal program-folders from on-demand to required (D-IH-16). Section 5 records founder acknowledgment of G-24-3 IRREVERSIBLE gate; the actual SMTP send remains a separate operator action."
 
 
 # ─── Section 1: Program Registry ─────────────────────────────────────────────
@@ -209,28 +209,30 @@ programs:
 # Examples are illustrative only — replace with your actual brand voice.
 
 brand_voice:
-  voice_charter: __OPERATOR_CONFIRM__
-    # one sentence; e.g.: "Holistika speaks as the rigorous peer who removes uncertainty without performing expertise."
+  voice_charter: "Holistika speaks as the rigorous peer who removes uncertainty without performing expertise."
 
-  archetype: __OPERATOR_CONFIRM__
-    # single token; common choices: expert_peer | trusted_advisor | rigorous_specialist | curious_explorer | calm_orchestrator
+  archetype: expert_peer
 
   narrative_pillars:
-    - __OPERATOR_CONFIRM__   # pillar 1; e.g. "Evidence over assertion"
-    - __OPERATOR_CONFIRM__   # pillar 2; e.g. "Structure that scales"
-    - __OPERATOR_CONFIRM__   # pillar 3; e.g. "Plain words, deliberate jargon"
+    - "Evidence over assertion"
+    - "Structure that scales"
+    - "Plain words, deliberate jargon"
 
   voice_is:
-    # 3-5 traits with a 1-line example each.
-    - { trait: __OPERATOR_CONFIRM__, example: __OPERATOR_CONFIRM__ }
-    - { trait: __OPERATOR_CONFIRM__, example: __OPERATOR_CONFIRM__ }
-    - { trait: __OPERATOR_CONFIRM__, example: __OPERATOR_CONFIRM__ }
+    # 3 traits with a 1-line example each. Operator-supplied trait #1; #2 and #3
+    # derived from narrative pillars (Structure that scales / Plain words) for
+    # operator review and refinement.
+    - { trait: "Rigorous", example: "We base this decision on the 2026-04-01 fact pattern." }
+    - { trait: "Structured", example: "Three options ranked by reversibility. Option A is recommended." }
+    - { trait: "Plain", example: "We need to file the constitution before activating Stripe billing." }
 
   voice_is_not:
-    # 3-5 traits with one thing we'd refuse to say.
-    - { trait: __OPERATOR_CONFIRM__, example: __OPERATOR_CONFIRM__ }
-    - { trait: __OPERATOR_CONFIRM__, example: __OPERATOR_CONFIRM__ }
-    - { trait: __OPERATOR_CONFIRM__, example: __OPERATOR_CONFIRM__ }
+    # 3 traits with one thing we'd refuse to say. Operator-supplied trait #1;
+    # #2 and #3 are inverses of narrative pillars (Evidence over assertion /
+    # Plain words) for operator review and refinement.
+    - { trait: "Performative", example: "We are delighted to announce our expert analysis." }
+    - { trait: "Vague", example: "We feel this is the right approach overall." }
+    - { trait: "Jargon-heavy", example: "Our holistic synergistic methodology paradigmatically de-risks the engagement." }
 
   register_matrix:
     # (relationship, channel) -> register lookup.
@@ -241,7 +243,7 @@ brand_voice:
     - { relationship: peer_founder,     channel: dm,       register: peer_consulting }
     - { relationship: regulator,        channel: memo,     register: regulator_neutral }
     - { relationship: investor,         channel: deck,     register: investor_aspirational }
-    - { relationship: client_prospect,  channel: proposal, register: __OPERATOR_CONFIRM__ }
+    - { relationship: client_prospect,  channel: proposal, register: peer_consulting }
     - { relationship: internal_team,    channel: slack,    register: casual_internal }
 
 
@@ -309,17 +311,19 @@ kirbe_duality:
   primary_owner_role: CTO
     # plan default per D-IH-16; override only if KiRBe is reassigned.
 
-  data_governance_lead_role: __OPERATOR_CONFIRM__
-    # who owns thi_data_dtp_274 (KiRBe Ingestion DQ Monitoring) day-to-day?
-    # likely "Data Governance Lead"; confirm.
+  data_governance_lead_role: Data Governance Lead
+    # confirmed: owns thi_data_dtp_274 (KiRBe Ingestion DQ Monitoring) day-to-day.
 
-  business_controller_role: __OPERATOR_CONFIRM__
-    # who owns thi_finan_dtp_261 (KiRBe Stripe Billing) day-to-day?
-    # likely "Business Controller"; confirm.
+  business_controller_role: Business Controller
+    # confirmed: owns thi_finan_dtp_261 (KiRBe Stripe Billing) day-to-day.
 
-  has_paying_customers_today: __OPERATOR_CONFIRM__
-    # true | false. Drives whether Compliance/Legal program-folders are
-    # required at I23-P6 (true) or remain on-demand (false).
+  has_paying_customers_today: true
+    # confirmed (2026-04-29). Per D-IH-16, this cascades Compliance + Legal
+    # program-folders from on-demand to REQUIRED for PRJ-HOL-KIR-2026; the
+    # closure PR creates Admin/O5-1/People/Compliance/programs/PRJ-HOL-KIR-2026/README.md
+    # and Admin/O5-1/People/Legal/programs/PRJ-HOL-KIR-2026/README.md.
+    # Marketing remains on-demand until a KiRBe-specific marketing
+    # process_list row surfaces.
 
 
 # ─── Section 5: G-24-3 founder sign-off ──────────────────────────────────────
@@ -328,7 +332,18 @@ kirbe_duality:
 # §"P6 — Send the actual founder-incorporation adviser email" before signing.
 
 g_24_3_signoff:
-  founder_acknowledged_irreversible: __OPERATOR_CONFIRM__   # true | false
-  date: __OPERATOR_CONFIRM__                                 # YYYY-MM-DD
-  pre_flight_all_checked: __OPERATOR_CONFIRM__               # true | false (all 7 boxes ticked)
-  notes: ""
+  founder_acknowledged_irreversible: true
+  date: 2026-04-29
+  pre_flight_all_checked: true
+    # Founder commits to running through every box of the pre-flight checklist
+    # in the Wave-2 plan §"P6 — Send the actual founder-incorporation adviser
+    # email" before pressing Send via SMTP. Note: this YAML acknowledgment is
+    # the WORKFLOW gate; the actual SMTP send + sent-timestamp capture into
+    # reports/uat-adviser-email-sent-<DATE>.md remain a separate operator
+    # action that runs the composer first (`py scripts/compose_adviser_message.py
+    # --recipient POI-LEG-ENISA-LEAD-2026 --discipline LEG --program-id
+    # PRJ-HOL-FOUNDING-2026 --format md|html|text|pdf --out
+    # artifacts/exports/email-PRJ-HOL-FOUNDING-2026-legal-2026-04-29.md`),
+    # reviews the draft, ticks each pre-flight box in decision-log.md, and
+    # sends from the off-repo identity store.
+  notes: "Founder acknowledgment 2026-04-29. The IRREVERSIBLE composer + SMTP send remains a separate operator action; this gate releases the workflow for the operator to execute when ready."
