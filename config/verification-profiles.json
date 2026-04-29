@@ -120,6 +120,16 @@
           "argv": ["scripts/wave2_backfill.py", "--check-only"]
         }
       ]
+    },
+    "compliance_mirror_drift_probe": {
+      "description": "Initiative 23 P4: verify parity between canonical compliance CSVs and live Supabase mirror row counts. The probe is operator-pasted: run `--emit-sql` to print the JSON SELECT for user-supabase MCP `execute_sql`, paste the JSON result into `artifacts/probes/mirror-drift-<YYYYMMDD>.json`, then re-run with `--verify` (the default). SKIPs gracefully when no fresh artifact exists (does not block CI).",
+      "steps": [
+        {
+          "id": "compliance_mirror_drift_verify",
+          "description": "Verify the latest artifacts/probes/mirror-drift-*.json against canonical CSV row counts",
+          "argv": ["scripts/probe_compliance_mirror_drift.py", "--verify"]
+        }
+      ]
     }
   }
 }
