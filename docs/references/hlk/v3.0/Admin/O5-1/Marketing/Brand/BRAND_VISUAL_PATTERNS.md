@@ -12,27 +12,30 @@ intellectual_kind: brand_asset
 authority: Operator (lived production sources)
 last_review: 2026-04-29
 sources:
-  - upstream: c:\Users\Shadow\cd_shadow\root_cd\boilerplate\app\globals.css
+  - upstream_repo: https://github.com/FraysaXII/<holistika-research-boilerplate>
+    note: TODO[OPERATOR] confirm exact repo slug; promote to REPOSITORIES_REGISTRY.md.
+    local_clone_hint: c:\Users\Shadow\cd_shadow\root_cd\boilerplate (operator-specific; not portable)
+  - upstream_path: app/globals.css
     role: live token definitions (light + dark CSS custom properties)
-  - upstream: c:\Users\Shadow\cd_shadow\root_cd\boilerplate\tailwind.config.ts
+  - upstream_path: tailwind.config.ts
     role: keyframes + tailwind utility plugins (`bg-grid`, `bg-grid-small`, `bg-dot`, `spotlight` animation)
-  - upstream: c:\Users\Shadow\cd_shadow\root_cd\boilerplate\app\layout.tsx
+  - upstream_path: app/layout.tsx
     role: typography selection (Inter, `next/font/google`) + default theme (`dark`)
-  - upstream: c:\Users\Shadow\cd_shadow\root_cd\boilerplate\public\holistika-short-100x100.svg
+  - upstream_path: public/holistika-short-100x100.svg
     role: monogram logo asset (cover + favicon variant)
-  - upstream: c:\Users\Shadow\cd_shadow\root_cd\boilerplate\public\logo.svg
+  - upstream_path: public/logo.svg
     role: full wordmark logo asset
 ---
 
 # BRAND_VISUAL_PATTERNS
 
-> **Status — Active (Initiative 27 follow-up; Operator-supplied 2026-04-29).** Hand-authored companion to [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md) capturing concrete **visual** identity patterns sourced verbatim from the Holistika Research production marketing site (`c:\Users\Shadow\cd_shadow\root_cd\boilerplate`). Cited by [`akos/hlk_pdf_render.py`](../../../../../../../akos/hlk_pdf_render.py) `render_pdf_branded(profile="dossier")` when generating brand-aligned PDFs (ENISA dossier, partner pitches, investor decks). Operator-curated; **not** auto-rendered by the wave2 scaffolder. Edits land via direct PR.
+> **Status — Active (Initiative 27 follow-up; Operator-supplied 2026-04-29).** Hand-authored companion to [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md) capturing concrete **visual** identity patterns sourced verbatim from the Holistika Research production marketing repository (canonical: `https://github.com/FraysaXII/<holistika-research-boilerplate>` — repo slug TBD by operator; pending row in [`REPOSITORIES_REGISTRY.md`](../../../Envoy%20Tech%20Lab/Repositories/REPOSITORIES_REGISTRY.md) per [`SOP-HLK_TOOLING_STANDARDS_001.md`](../../Tech/System%20Owner/SOP-HLK_TOOLING_STANDARDS_001.md) §3.2). Cited by [`akos/hlk_pdf_render.py`](../../../../../../../akos/hlk_pdf_render.py) `render_pdf_branded(profile="dossier")` when generating brand-aligned PDFs (ENISA dossier, partner pitches, investor decks). Operator-curated; **not** auto-rendered by the wave2 scaffolder. Edits land via direct PR.
 
 ## Why this exists
 
 `BRAND_VOICE_FOUNDATION.md` defines who we are in words. `BRAND_SPANISH_PATTERNS.md` defines how we sound in Spanish. **This file defines how we look on a printed page or PDF** when a single canonical brand-aligned render is needed — typically for high-stakes external sends (ENISA certifying body, ICEX, advisers, investors, partners).
 
-The browser-use recon originally planned for `holistikaresearch.com` is **dropped**: the boilerplate repo at `c:\Users\Shadow\cd_shadow\root_cd\boilerplate` is the **upstream source-of-truth** that ships the live site, so its tokens are authoritative without a network round-trip. Live recon stays available as a post-merge upgrade option if the site evolves and the boilerplate repo lags.
+The browser-use recon originally planned for `holistikaresearch.com` is **dropped**: the upstream marketing-site repository (`https://github.com/FraysaXII/<holistika-research-boilerplate>`; current operator workstation clone path: `c:\Users\Shadow\cd_shadow\root_cd\boilerplate`) is the **upstream source-of-truth** that ships the live site, so its tokens are authoritative without a network round-trip. Live recon stays available as a post-merge upgrade option if the site evolves and the boilerplate repo lags.
 
 ## 1. Tokens (HSL, Tailwind-compatible)
 
@@ -171,7 +174,9 @@ Three variants (CSS class names land in `render_pdf_branded`):
 
 ## 4. Iconography & assets
 
-| Asset | Location (boilerplate repo) | Use in dossier |
+Repository-relative paths under `https://github.com/FraysaXII/<holistika-research-boilerplate>` (operator workstation clone path: `c:\Users\Shadow\cd_shadow\root_cd\boilerplate`):
+
+| Asset | Path inside the boilerplate repo | Use in dossier |
 |:---|:---|:---|
 | Monogram logo | `public/holistika-short-100x100.svg` | Cover, footer page-numbers |
 | Wordmark logo | `public/logo.svg` | Inside-cover acknowledgment block |
@@ -201,9 +206,9 @@ When `render_pdf_branded(profile="dossier")` runs, the boilerplate's web-first i
 
 ## 7. Maintenance
 
-- **Trigger to update**: any change to `boilerplate/app/globals.css`, `tailwind.config.ts`, or the public-folder logo assets.
-- **Operator runbook**: when the public site rebrands (e.g. teal hue rotation, new logo), open this file, re-copy the relevant token rows from the upstream sources cited in the frontmatter, bump `last_review`, regenerate one canonical sample dossier, eyeball-compare with the live site.
-- **Drift safeguard**: a PR-time grep test checks that the HSL strings cited in §1.1 / §1.2 match the values currently in the boilerplate `globals.css`. If they drift, the failure points the operator at this file.
+- **Trigger to update**: any change to `app/globals.css`, `tailwind.config.ts`, or the public-folder logo assets in the upstream boilerplate repo.
+- **Operator runbook**: when the public site rebrands (e.g. teal hue rotation, new logo), pull the latest from the upstream repo (`git pull` in the local clone, or fetch via GitHub), open this file, re-copy the relevant token rows from the upstream sources cited in the frontmatter, bump `last_review`, regenerate one canonical sample dossier, eyeball-compare with the live site.
+- **Drift safeguard**: a PR-time grep test ([`tests/test_render_dossier.py::test_brand_tokens_light_match_pattern_doc`](../../../../../../../tests/test_render_dossier.py)) checks that the HSL strings cited in §1.1 / §1.2 match the values currently expected by `BRAND_TOKENS_LIGHT` / `BRAND_TOKENS_DARK` in [`akos/hlk_pdf_render.py`](../../../../../../../akos/hlk_pdf_render.py). If they drift, the failure points the operator at this file. A separate `boilerplate/app/globals.css` ↔ `BRAND_TOKENS_LIGHT` sync check is **out of scope** until the boilerplate repo is added as a git submodule or a pinned version reference is materialised in this workspace; today's bridge is the local-clone path.
 
 ## 8. Cross-references
 

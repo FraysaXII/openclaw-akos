@@ -9,7 +9,7 @@ Single source of truth for **orchestrated** pre-commit and eval policy: [config/
 | List verification profiles | `py scripts/verify.py --list` |
 | Run the full default pre-commit chain (see registry) | `py scripts/verify.py pre_commit` |
 | Compliance mirror SQL emit (Initiative 14/18) | `py scripts/verify.py compliance_mirror_emit` |
-| Holistika Supabase migration ledger (DDL plane) | `npx supabase migration list` after `supabase link` | **Not** a `verify.py` profile. Local and Remote columns must match before `db push`; reconcile per [`supabase/migrations/README.md`](../../supabase/migrations/README.md) and [`supabase/README.md`](../../supabase/README.md) |
+| Holistika Supabase migration ledger (DDL plane) | `npx supabase migration list` after `npx supabase link --project-ref <REF>` | **Not** a `verify.py` profile. Local and Remote columns must match before `npx supabase db push`; reconcile per [`supabase/migrations/README.md`](../../supabase/migrations/README.md), [`supabase/README.md`](../../supabase/README.md), and [`SOP-HLK_TOOLING_STANDARDS_001.md`](../references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/SOP-HLK_TOOLING_STANDARDS_001.md) §3.1 |
 | Preview steps without running | `py scripts/verify.py pre_commit --dry-run` |
 | Pytest by topic | `py scripts/test.py --list` then e.g. `py scripts/test.py madeira` or `py scripts/test.py intent` |
 | All governance rubric eval suites (same set as `AKOS_EVAL_RUBRIC=1` in release gate) | `py scripts/run-evals.py run --governance-rubric` |

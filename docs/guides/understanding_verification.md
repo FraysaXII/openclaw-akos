@@ -30,7 +30,7 @@ The repo has many scripts (`check-drift`, `test.py`, `browser-smoke`, `run-evals
 
 **Not** part of `pre_commit`. Runs [`scripts/sync_compliance_mirrors_from_csv.py`](../../scripts/sync_compliance_mirrors_from_csv.py) twice: **`--count-only`** (preflight), then **`--output artifacts/sql/compliance_mirror_upsert.sql`**. Use after **`validate_hlk.py`** / release gate when git CSVs changed; review generated SQL before applying to Postgres. **Argv SSOT:** [`config/verification-profiles.json`](../../config/verification-profiles.json) profile `compliance_mirror_emit`.
 
-**DDL vs data plane:** Schema changes are **not** orchestrated by `verify.py`. Use the Supabase CLI: after `supabase link`, run `npx supabase migration list` and ensure Local/Remote match before `db push` ([`supabase/README.md`](../../supabase/README.md), [`supabase/migrations/README.md`](../../supabase/migrations/README.md), [`docs/ARCHITECTURE.md`](../ARCHITECTURE.md) § Supabase schema and compliance mirror governance).
+**DDL vs data plane:** Schema changes are **not** orchestrated by `verify.py`. Use the pinned Supabase CLI via `npx`: after `npx supabase link --project-ref <REF>`, run `npx supabase migration list` and ensure Local/Remote match before `npx supabase db push` ([`supabase/README.md`](../../supabase/README.md), [`supabase/migrations/README.md`](../../supabase/migrations/README.md), [`docs/ARCHITECTURE.md`](../ARCHITECTURE.md) § Supabase schema and compliance mirror governance, [`SOP-HLK_TOOLING_STANDARDS_001.md`](../references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/SOP-HLK_TOOLING_STANDARDS_001.md) §3.1).
 
 ## `test.py` groups vs `verify pre_commit`
 

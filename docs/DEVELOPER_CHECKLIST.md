@@ -41,8 +41,8 @@ When you mark an initiative **complete** or write a **phase completion** report:
 
 | Step | Command | Purpose |
 |:-----|:--------|:--------|
-| CLI essentials | `supabase login`, `supabase link`, `supabase migration new …`, `supabase db push`, `supabase migration list` | DDL ledger in [`supabase/migrations/`](../supabase/migrations/); see [`supabase/README.md`](../supabase/README.md) |
-| Migration ledger parity | `npx supabase migration list` (after `link`) | Local and Remote columns must match before `db push`; rename Git migration prefixes to remote versions or use `migration repair` per [`supabase/migrations/README.md`](../supabase/migrations/README.md) |
+| CLI essentials | `npx supabase login`, `npx supabase link --project-ref <REF>`, `npx supabase migration new …`, `npx supabase db push`, `npx supabase migration list` | Pinned CLI via `npx`; canonical contract in [`SOP-HLK_TOOLING_STANDARDS_001.md`](references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/SOP-HLK_TOOLING_STANDARDS_001.md) §3.1; DDL ledger in [`supabase/migrations/`](../supabase/migrations/); operator runbook in [`supabase/README.md`](../supabase/README.md) |
+| Migration ledger parity | `npx supabase migration list` (after `link`) | Local and Remote columns must match before `npx supabase db push`; rename Git migration prefixes to remote versions or use `npx supabase migration repair` per [`supabase/migrations/README.md`](../supabase/migrations/README.md) |
 | Mirror SQL emit | `py scripts/verify.py compliance_mirror_emit` | Data plane only; not a substitute for `validate_hlk.py` |
 
 ### Documentation Updates
