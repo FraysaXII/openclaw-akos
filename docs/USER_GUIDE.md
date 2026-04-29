@@ -2190,6 +2190,10 @@ docs/references/hlk/
 | Where do new program-scoped vault docs go? | Under the role folder's `programs/<program_id>/` subfolder (Initiative 22 P3) — e.g. `docs/references/hlk/v3.0/Admin/O5-1/People/Legal/programs/PRJ-HOL-FOUNDING-2026/` |
 | Where do new KM Output-1 visuals go? | Under `_assets/<plane>/<program_id>/<topic_id>/` (Initiative 22 P2) — see `docs/references/hlk/v3.0/_assets/README.md` |
 | How do I render a KM Mermaid diagram? | `py scripts/render_km_diagrams.py <path>.mmd --update-manifest` (Initiative 22 P5; uses `mmdc` if installed, else mermaid.ink HTTP fallback) |
+| Where is the program registry? | `docs/references/hlk/compliance/dimensions/PROGRAM_REGISTRY.csv` (Initiative 23 P1; 12 programs with unique 3-letter `program_code`s; canonical `program_id` is PRJ-HOL-style per D-IH-8). |
+| Where is the cross-program glossary? | [`docs/reference/glossary-cross-program.md`](reference/glossary-cross-program.md) (Initiative 23 P5; program codes, discipline codes, sensitivity bands, sharing labels, GOI/POI class taxonomy, status enums, voice registers). |
+| How do I check for compliance mirror drift? | `py scripts/probe_compliance_mirror_drift.py --emit-sql` (prints SELECT for `user-supabase` MCP `execute_sql`), paste JSON to `artifacts/probes/mirror-drift-<YYYYMMDD>.json`, then `py scripts/probe_compliance_mirror_drift.py --verify` (or profile `compliance_mirror_drift_probe`). SKIPs gracefully when no fresh artifact exists (Initiative 23 P4). |
+| How do I onboard a new program? | (1) Add a row to `PROGRAM_REGISTRY.csv` with unique `program_code`. (2) Create `_assets/<plane>/<program_id>/<topic_id>/` for the first topic. (3) Add `programs/<program_id>/README.md` under each role-folder root that has program-specific casework (evidence-based — only roots with supporting `process_list.csv` rows). (4) Run `validate_hlk.py` (covers PROGRAM_REGISTRY + cross-asset consistency). See [Initiative 23 PRJ-HOL-KIR-2026 onboarding](wip/planning/23-hlk-program-registry-and-program-2/reports/uat-i23-program-registry-20260429.md) as a worked example. |
 
 ### 24.7 External Adviser Engagement (ADVOPS) plane
 
