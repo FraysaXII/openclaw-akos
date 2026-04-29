@@ -36,20 +36,22 @@ Recipient_resolved:   POI-LEG-ENISA-LEAD-2026   # real address NOT pasted into g
 
 ## 3. Attachment integrity manifest
 
-Captured at render time by `scripts/render_dossier.py` and `scripts/export_adviser_handoff.py`. Confirm these match the files actually attached at SMTP step:
+Captured at render time by `scripts/render_dossier.py` and `scripts/export_adviser_handoff.py`; verified by the operator on **2026-04-29** via `Get-FileHash -Algorithm SHA256` (PowerShell) immediately after the render chain completed. Confirm these match the files actually attached at SMTP step:
 
-| Artifact | Path | sha256 (first 16) | Bytes (approx) |
+| Artifact | Path | sha256 (full) | Bytes |
 |:---|:---|:---|:---|
-| Dossier PDF | `artifacts/exports/dossier-enisa-PRJ-HOL-FOUNDING-2026-2026-04-29.pdf` | `e580ad18d89f69c2…` | ~245 KB |
-| Appendix handoff PDF | `artifacts/exports/appendix-handoff-PRJ-HOL-FOUNDING-2026-2026-04-29.pdf` | TODO[OPERATOR] capture from console | TODO |
-| Cover email DOCX (audit copy, not attached) | `artifacts/exports/email-cover-PRJ-HOL-FOUNDING-2026-2026-04-29.docx` | TODO[OPERATOR] | TODO |
-| Cover email PDF (visual proof) | `artifacts/exports/email-cover-PRJ-HOL-FOUNDING-2026-2026-04-29.pdf` | TODO[OPERATOR] | TODO |
-| Render manifest (machine-readable) | `artifacts/exports/dossier-enisa-PRJ-HOL-FOUNDING-2026-2026-04-29.manifest.json` | n/a | n/a |
+| Dossier PDF | `artifacts/exports/dossier-enisa-PRJ-HOL-FOUNDING-2026-2026-04-29.pdf` | `6081B3B6246C844C2792C995406224B0B0779EC456D62EFC8B7139DE26CAA137` | 245235 |
+| Appendix handoff PDF | `artifacts/exports/appendix-handoff-PRJ-HOL-FOUNDING-2026-2026-04-29.pdf` | `49BD66C045BC92DE3368BCAC2911B2FAB92ED7BB9FE83E078735ADF3046B52ED` | 193404 |
+| Cover email DOCX (audit copy, not attached) | `artifacts/exports/email-cover-PRJ-HOL-FOUNDING-2026-2026-04-29.docx` | `EFBDEBBFBCF5884A85C29620924A1D2E30B2B49CE0912E1A6984AFECCC75AA78` | 14260 |
+| Cover email PDF (visual proof, optional attach) | `artifacts/exports/email-cover-PRJ-HOL-FOUNDING-2026-2026-04-29.pdf` | TODO[OPERATOR] re-capture if attaching | 184174 |
+| Render manifest (machine-readable; gitignored) | `artifacts/exports/dossier-enisa-PRJ-HOL-FOUNDING-2026-2026-04-29.manifest.json` | n/a | 680 |
 
-> Operator captures the missing sha256 lines via:
+> Operator re-captures sha256 hashes after any re-render via:
 > ```powershell
 > Get-FileHash -Algorithm SHA256 artifacts\exports\dossier-enisa-PRJ-HOL-FOUNDING-2026-2026-04-29.pdf, artifacts\exports\appendix-handoff-PRJ-HOL-FOUNDING-2026-2026-04-29.pdf, artifacts\exports\email-cover-PRJ-HOL-FOUNDING-2026-2026-04-29.docx, artifacts\exports\email-cover-PRJ-HOL-FOUNDING-2026-2026-04-29.pdf | Select-Object Hash, Path
 > ```
+>
+> Note: the render manifest at `dossier-enisa-PRJ-HOL-FOUNDING-2026-2026-04-29.manifest.json` records the `source_md_sha256` (`1f8f34f8b10e7a0565038ed9bf5deacd77250a8f9ac224284b8d6a1858f9a588`) and the matching `rendered_pdf_sha256` for full source ↔ output traceability. If the operator re-renders, both hashes change in lockstep.
 
 ## 4. Adviser response (filled in when received)
 

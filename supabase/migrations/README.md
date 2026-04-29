@@ -17,9 +17,11 @@ Migration **filename prefixes** must match the remote ledger (`schema_migrations
 
 ## Pre-`db push` checklist (mandatory)
 
-1. `supabase login` and `supabase link` to the target project.
-2. Run `npx supabase migration list` (or `npm run supabase -- migration list`).
-3. **Go/no-go:** Local and Remote columns must **match** for every row (no local-only or remote-only migrations). If there is drift, **do not** `db push` until reconciled—see below.
+1. `npx supabase login` and `npx supabase link --project-ref <PROJECT_REF>` to the target project.
+2. Run `npx supabase migration list`.
+3. **Go/no-go:** Local and Remote columns must **match** for every row (no local-only or remote-only migrations). If there is drift, **do not** `npx supabase db push` until reconciled—see below.
+
+> CLI invocation contract: every Supabase CLI command in this repo uses `npx supabase` (or the equivalent `npm run supabase -- <subcommand>`). The CLI is pinned in [`../package.json`](../../package.json); `npx` resolves the local pinned binary. See [`SOP-HLK_TOOLING_STANDARDS_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/SOP-HLK_TOOLING_STANDARDS_001.md) §3.1.
 
 ## One-time reconciliation (remote ↔ git)
 
@@ -30,7 +32,7 @@ When Dashboard or break-glass applied migrations, the platform records **version
 1. Compare `migration list` to files in this folder.
 2. For each divergent version, prove **content equivalence**: diff the SQL Supabase recorded (Dashboard migration detail or `db pull` workflow) against the matching Git migration body.
 3. **If DDL is equivalent and remote already applied it:** **Rename** the Git file so the leading timestamp matches the remote version exactly (pattern `YYYYMMDDHHMMSS_description.sql`; remote wins the **ID**; Git keeps the **DDL**).
-4. **If the ledger is wrong but schema is correct:** use **`supabase migration repair`** only with a written operator mapping and [`operator-sql-gate.md`](../../docs/wip/planning/14-holistika-internal-gtm-mops/reports/operator-sql-gate.md) break-glass follow-up—do not guess.
-5. Re-run `migration list` until the matrix is clean, then proceed with normal `db push` for **new** migrations only.
+4. **If the ledger is wrong but schema is correct:** use **`npx supabase migration repair --status <reverted|applied> <version>`** only with a written operator mapping and [`operator-sql-gate.md`](../../docs/wip/planning/14-holistika-internal-gtm-mops/reports/operator-sql-gate.md) break-glass follow-up—do not guess.
+5. Re-run `npx supabase migration list` until the matrix is clean, then proceed with normal `npx supabase db push` for **new** migrations only.
 
 **Large compliance mirror DML** (CSV → upserts) stays **out** of this folder—use `py scripts/verify.py compliance_mirror_emit` and operator-reviewed SQL batches (two-plane model).

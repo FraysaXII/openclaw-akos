@@ -305,13 +305,16 @@ Próximas filas previstas (no presentes hasta que existan): `INST-LEG-ESCRITURA-
 
 ## 8. Apéndice C — Capacidades demostradas
 
-> **Lectura para la persona certificadora.** Esta sección no son referencias de pitch ni capturas de marketing. Son cinco entregas de software de producción, accesibles bajo NDA si el asesor lo requiere, que acreditan la pila técnica, la disciplina de calidad y la capacidad de delivery de Holística Research. Cada tarjeta cita las características objetivas del repositorio (tests, CI gates, integraciones de terceros, despliegue) y deja los nombres de partners y URLs públicas como `TODO[OPERATOR]` para que el fundador decida qué desclasificar en el envío.
+> **Lectura para la persona certificadora.** Esta sección no son referencias de pitch ni capturas de marketing. Son cinco entregas de software de producción, accesibles bajo NDA si el asesor lo requiere, que acreditan la pila técnica, la disciplina de calidad y la capacidad de delivery de Holística Research. Cada tarjeta cita las características objetivas del repositorio (tests, CI gates, integraciones de terceros, despliegue) y deja los nombres de partners, URLs públicas y `repo_slug` registrales como `TODO[OPERATOR]` para que el fundador decida qué desclasificar en el envío.
+
+> **Procedencia de los repositorios.** El registro canónico de los repositorios del grupo está en `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` (vía `https://github.com/FraysaXII/<repo>`). La nomenclatura `repo_slug` que se cita más abajo apunta a esa fila canónica una vez confirmada por el fundador. Las URLs públicas y los enlaces a despliegues quedan como `TODO[OPERATOR]` hasta el momento del envío.
 
 ### 8.1 Producto 1 — Holistika Boilerplate (sitio público + intake CRM/ERP)
 
 | | |
 |:---|:---|
 | **Naturaleza** | Sitio marketing + intake comercial + lead-routing |
+| **Repositorio** | `https://github.com/FraysaXII/<holistika-research-boilerplate>` (TODO[OPERATOR] confirmar `repo_slug` canónico en `REPOSITORIES_REGISTRY.md`) |
 | **Stack** | Next.js 14, React, Tailwind CSS, shadcn/Radix UI |
 | **Internacionalización** | next-intl, tres idiomas (en / es / fr) en producción |
 | **Integraciones** | Stripe (gateway de cobro), Google Tag Manager, Meta Pixel, Sentry (error tracking), Supabase (lead store) |
@@ -326,6 +329,7 @@ Lectura ENISA: acredita que la compañía construye y opera **su propio canal de
 | | |
 |:---|:---|
 | **Naturaleza** | ERP interno multi-módulo (gestión operativa propia) |
+| **Repositorio** | `https://github.com/FraysaXII/<hlk-erp>` (TODO[OPERATOR] confirmar `repo_slug` canónico en `REPOSITORIES_REGISTRY.md`) |
 | **Stack** | Next.js 14, React, Tailwind CSS, shadcn/Radix (≈ 53 componentes integrados) |
 | **Theming** | Multi-tema con siete modos (light, dark, dark-blue, light-blue, brown, white …); gobierno de tokens centralizado |
 | **Integraciones** | Stubs de API contra KiRBe SaaS para gestión de conocimiento operativa |
@@ -339,6 +343,7 @@ Lectura ENISA: la consultora **opera con su propio producto** (dogfooding). El m
 | | |
 |:---|:---|
 | **Naturaleza** | SaaS B2B de gestión de conocimiento empresarial con búsqueda semántica gobernada |
+| **Repositorio** | `https://github.com/FraysaXII/kirbe` (`repo_slug = kirbe-platform`; canónico en `REPOSITORIES_REGISTRY.md`) |
 | **Stack** | FastAPI (Python 3.11), Pydantic, Supabase (Postgres + `pgvector`), 20+ routers HTTP |
 | **Recuperación** | Búsqueda híbrida (semántica + keyword, fusionada vía RRF); reranking con Cohere; modo "Strict" sin recuperación latente |
 | **Multitenancy** | RBAC granular por organización, RLS sobre Postgres, audit trail de consultas |
@@ -354,6 +359,7 @@ Lectura ENISA: este producto **es la materialización software** de la metodolog
 | | |
 |:---|:---|
 | **Naturaleza** | App de carrito-bundle para partner B2B sobre Shopify |
+| **Repositorio** | `https://github.com/FraysaXII/<holistika-websitz-shopify-bundles>` (TODO[OPERATOR] confirmar `repo_slug` canónico en `REPOSITORIES_REGISTRY.md`) |
 | **Stack admin** | Remix + React, Shopify Polaris UI, Prisma + Postgres |
 | **Stack storefront** | Vanilla JS + Liquid (extensión de tema Shopify) |
 | **Internacionalización** | Seis idiomas en producción (en, es, fr, de, it, pt) |
@@ -368,6 +374,7 @@ Lectura ENISA: acredita la capacidad de **operar como ingeniería externalizada 
 | | |
 |:---|:---|
 | **Naturaleza** | SaaS B2B para marcas de e-commerce + operadores de vídeo (en fase de diseño con scaffold operativo) |
+| **Repositorio** | `https://github.com/FraysaXII/<rushly-saas-scaffold>` (TODO[OPERATOR] confirmar `repo_slug` canónico en `REPOSITORIES_REGISTRY.md`) |
 | **Estructura** | Monorepo (npm workspaces, TypeScript strict), separación clara API + worker |
 | **Datos / queue** | Cloudflare R2 (storage), Mux (vídeo), BullMQ + Redis (jobs), Supabase (Postgres + `pgvector` + Auth JWT) |
 | **Calidad** | Multi-job CI, contratos de tipo estrictos, governance docs versionados |
