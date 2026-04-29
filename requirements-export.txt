@@ -20,3 +20,8 @@
 markdown>=3.5
 fpdf2>=2.8.0
 weasyprint>=52.0
+# Initiative 24 follow-up (2026-04-29): DOCX rendering for compose_adviser_message
+# --format docx. pypandoc_binary bundles a pandoc binary in the wheel (~40 MB
+# download, ~70 MB installed) so DOCX works without a separate system pandoc
+# install. Skip if you already have pandoc on PATH (Chocolatey / pandoc.org).
+pypandoc_binary>=1.13

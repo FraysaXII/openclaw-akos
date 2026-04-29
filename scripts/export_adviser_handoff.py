@@ -39,6 +39,10 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+# Bootstrap: import `akos.*` when this script is invoked directly.
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
 DISCIPLINES_CSV = HLK_COMPLIANCE / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
 GOIPOI_CSV = HLK_COMPLIANCE / "GOI_POI_REGISTER.csv"
@@ -243,148 +247,16 @@ def _section_exhibits(
     )
 
 
-_TD_INLINE_TAGS_RE = re.compile(r"</?(?:code|a|em|strong|span|i|b)(?:\s[^>]*)?>", re.IGNORECASE)
-
-
-def _flatten_td_inlines(html: str) -> str:
-    """Strip nested inline tags inside `<td>...</td>` cells.
-
-    fpdf2's `write_html` raises `NotImplementedError: Unsupported nested HTML tags
-    inside <td>` when cells contain `<code>`, `<a>`, etc. The handoff Markdown
-    is heavy on `ref_id` codes inside table cells; flatten those wrappers but
-    keep the text so the PDF still shows the GOI/POI ids and links inline.
-    """
-    def _strip_in_td(match: "re.Match[str]") -> str:
-        return _TD_INLINE_TAGS_RE.sub("", match.group(0))
-
-    return re.sub(r"<td\b[^>]*>.*?</td>", _strip_in_td, html, flags=re.DOTALL | re.IGNORECASE)
-
-
-_PDF_CSS = """
-@page { size: A4; margin: 18mm 16mm 18mm 16mm; }
-html { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 10.5pt; line-height: 1.4; color: #1f1f1f; }
-h1 { font-size: 20pt; margin-top: 0; }
-h2 { font-size: 15pt; margin-top: 1.4em; border-bottom: 1px solid #d0d0d0; padding-bottom: 0.2em; }
-h3 { font-size: 12pt; margin-top: 1.1em; }
-code, pre { font-family: "Consolas", "Menlo", "Courier New", monospace; font-size: 9.5pt; }
-code { background: #f4f4f6; padding: 1px 4px; border-radius: 3px; }
-pre { background: #f4f4f6; padding: 8px 10px; border-radius: 4px; }
-table { border-collapse: collapse; width: 100%; font-size: 9pt; margin: 0.6em 0 1em; page-break-inside: avoid; }
-th, td { border: 1px solid #c8c8c8; padding: 5px 7px; vertical-align: top; }
-th { background: #ececef; text-align: left; }
-blockquote { border-left: 3px solid #888; padding: 6px 12px; color: #444; background: #fafafa; }
-hr { border: none; border-top: 1px solid #c0c0c0; margin: 1em 0; }
-a { color: #1a4dba; text-decoration: none; }
-"""
+# Initiative 24 follow-up (2026-04-29): the PDF rendering chain (WeasyPrint
+# -> fpdf2 -> pandoc) now lives in `akos/hlk_pdf_render.py` so both this
+# script and `scripts/compose_adviser_message.py` share one canonical path.
+# The local _render_pdf wrapper preserves the existing call site and label.
+from akos.hlk_pdf_render import render_pdf as _render_pdf_shared  # noqa: E402
 
 
 def _render_pdf(md_text: str, out_path: "Path") -> int:
-    """Render Markdown to PDF using WeasyPrint, fpdf2, or pandoc.
-
-    Initiative 22 P6 (D-IH-4): try renderers in this order:
-      1. WeasyPrint   — best CSS fidelity; requires native Cairo/Pango (Windows: GTK3 runtime).
-      2. fpdf2        — pure-Python, zero native deps; default fallback on Windows.
-      3. pandoc       — external binary fallback.
-    If none are available, write markdown only and return 0 (soft success — the
-    smoke profile SKIPs the PDF lane gracefully).
-    """
-    try:
-        import markdown as _md_lib  # type: ignore
-    except ImportError:
-        _md_lib = None
-
-    if _md_lib is not None:
-        html_body = _md_lib.markdown(
-            md_text, extensions=["tables", "fenced_code", "toc", "sane_lists", "attr_list"]
-        )
-        html_doc = (
-            "<!DOCTYPE html><html><head><meta charset=\"utf-8\">"
-            f"<style>{_PDF_CSS}</style></head><body>{html_body}</body></html>"
-        )
-
-        # Renderer 1: WeasyPrint (best CSS fidelity; needs native Cairo/Pango)
-        try:
-            from weasyprint import HTML  # type: ignore
-            try:
-                HTML(string=html_doc).write_pdf(str(out_path))
-                print(f"export_adviser_handoff: WeasyPrint wrote PDF -> {out_path}")
-                return 0
-            except Exception as exc:
-                print(
-                    f"warning: WeasyPrint installed but rendering failed ({exc!r}); "
-                    "falling back to fpdf2. On Windows install GTK3 runtime to enable WeasyPrint.",
-                    file=sys.stderr,
-                )
-        except Exception:
-            pass
-
-        # Renderer 2: fpdf2 (pure-Python, zero native deps)
-        try:
-            from fpdf import FPDF  # type: ignore
-            try:
-                pdf = FPDF(orientation="P", unit="mm", format="A4")
-                pdf.set_auto_page_break(auto=True, margin=15)
-                pdf.add_page()
-                pdf.set_margins(left=15, top=15, right=15)
-
-                # fpdf2's built-in fonts are Latin-1 only. Register a Unicode TTF
-                # so GOI/POI ref_ids, en-dashes, and Spanish glyphs render correctly.
-                font_candidates = [
-                    ("SegoeUI", "C:/Windows/Fonts/segoeui.ttf", "C:/Windows/Fonts/segoeuib.ttf", "C:/Windows/Fonts/segoeuii.ttf"),
-                    ("Arial", "C:/Windows/Fonts/arial.ttf", "C:/Windows/Fonts/arialbd.ttf", "C:/Windows/Fonts/ariali.ttf"),
-                    ("DejaVuSans", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf"),
-                ]
-                family = "Helvetica"
-                for fam, regular, bold, italic in font_candidates:
-                    if Path(regular).is_file():
-                        pdf.add_font(fam, "", regular)
-                        if Path(bold).is_file():
-                            pdf.add_font(fam, "B", bold)
-                        if Path(italic).is_file():
-                            pdf.add_font(fam, "I", italic)
-                        family = fam
-                        break
-                pdf.set_font(family, size=10)
-
-                # fpdf2's write_html cannot render nested inline tags inside <td>.
-                # Flatten <code>, <a>, <em>, <strong>, <span> inside table cells so
-                # the table layout still works; raw text content is preserved.
-                fpdf_html = _flatten_td_inlines(html_body)
-                pdf.write_html(fpdf_html, ul_bullet_char="-", li_prefix_color=(80, 80, 80))
-                pdf.output(str(out_path))
-                print(f"export_adviser_handoff: fpdf2 wrote PDF -> {out_path}")
-                return 0
-            except Exception as exc:
-                print(
-                    f"warning: fpdf2 installed but rendering failed ({exc!r}); falling back to pandoc.",
-                    file=sys.stderr,
-                )
-        except Exception as exc:
-            print(f"warning: fpdf2 unavailable ({exc!r}); falling back to pandoc.", file=sys.stderr)
-
-    # Renderer 3: pandoc
-    pandoc = shutil.which("pandoc")
-    md_tmp = out_path.with_suffix(".md")
-    if not md_tmp.is_file():
-        md_tmp.write_text(md_text, encoding="utf-8")
-    if not pandoc:
-        print(
-            "warning: no PDF renderer available (markdown / WeasyPrint / fpdf2 / pandoc all missing); "
-            f"wrote markdown only at {md_tmp}. To enable PDF, run "
-            "`py -m pip install --only-binary=:all: -r requirements-export.txt` "
-            "(installs fpdf2 for a pure-Python path).",
-            file=sys.stderr,
-        )
-        # Soft-success: caller still has the markdown source; profile gates can SKIP.
-        return 0
-    cmd = [pandoc, str(md_tmp), "-o", str(out_path)]
-    print("running:", " ".join(cmd))
-    rc = subprocess.call(cmd)
-    if rc != 0:
-        print("error: pandoc returned", rc, file=sys.stderr)
-        return rc
-    print(f"export_adviser_handoff: pandoc wrote PDF -> {out_path}")
-    return 0
+    """Initiative 22 P6 (D-IH-4) PDF render: thin wrapper over the shared helper."""
+    return _render_pdf_shared(md_text, out_path, source_label="export_adviser_handoff")
 
 
 def _git_sha() -> str:
