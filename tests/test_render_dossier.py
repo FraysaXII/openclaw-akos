@@ -102,14 +102,17 @@ def test_brand_tokens_light_match_pattern_doc():
 
 
 def test_brand_pdf_css_contains_all_dossier_classes():
+    """Initiative 27 follow-up — visual upgrade replaced the old single-block
+    cover (`.cover-rule` / `.cover-meta`) with a clean cover-strip + eyebrow
+    + oversized title layout. The remaining mandatory primitives stay."""
     mod = importlib.import_module("akos.hlk_pdf_render")
     css = mod._brand_pdf_css(profile="dossier")
     for needed in (
         ".cover-hero",
         ".cover-monogram",
-        ".cover-rule",
-        ".cover-meta",
-        "callout-operator",
+        ".cover-eyebrow",
+        ".cover-strip",
+        "callout-question",
         "callout-risk",
         "page-break-after: always",
         "Inter",
@@ -216,15 +219,191 @@ def test_dossier_cites_program_id_explicitly():
 
 
 def test_dossier_includes_5_capability_cards():
+    """The Apéndice C must still surface five concrete production deliveries
+    after the Initiative 27 follow-up rewrite. Labels updated to match the
+    new card titles (which moved from English/code-y names to Spanish prose
+    per the jargon-free rewrite)."""
     md = DOSSIER_MD.read_text(encoding="utf-8")
-    for card_label in (
-        "Holistika Boilerplate",
-        "HLK ERP",
-        "KiRBe SaaS",
-        "Holistika × Websitz",
-        "Rushly",
+    for card_marker in (
+        "Sitio público y CRM",          # 01 — boilerplate marketing site
+        "HLK ERP",                       # 02 — internal ERP (kept brand label)
+        "KiRBe",                         # 03 — KM SaaS product
+        "Holística × Websitz",           # 04 — Shopify partner app
+        "Rushly",                        # 05 — partner SaaS scaffold
     ):
-        assert card_label in md, f"capability card missing: {card_label!r}"
+        assert card_marker in md, f"capability card missing: {card_marker!r}"
+
+
+# ---------- Initiative 27 follow-up: jargon-free external rule ---------------
+
+# Forbidden internal codenames that must NOT appear in the dossier body
+# (per BRAND_JARGON_AUDIT.md §4). The Q-tracker appendix and provenance footer
+# carry an audited subset (Q-row ids, INST-… ids, program_id, topic_id);
+# everything else stays internal.
+_FORBIDDEN_TOKENS_IN_BODY: tuple[str, ...] = (
+    # 4.1 Internal codenames in prose
+    "AKOS Strict",
+    "ADVOPS",
+    "TECHOPS",
+    "FINOPS",
+    "MKTOPS",
+    "topic_external_adviser_handoff",
+    "topic_kirbe_billing_plane_routing",
+    "GOI-",
+    "POI-",
+    "ref_id",
+    "process_list.csv",
+    "GOI_POI_REGISTER",
+    "ADVISER_OPEN_QUESTIONS.csv",
+    "FOUNDER_FILED_INSTRUMENTS.csv",
+    "TOPIC_REGISTRY.csv",
+    "PROGRAM_REGISTRY.csv",
+    "holistika_ops.",
+    "kirbe.",
+    "compliance.",
+    "repo_slug",
+    # 4.2 Stack jargon
+    "RBAC",
+    "RLS",
+    "RRF",
+    "pgvector",
+    "Logfire",
+    "Cohere",
+    "BullMQ",
+    "Cloudflare R2",
+    "FastAPI",
+    "Pydantic",
+    "shadcn",
+    "Polaris",
+    "Liquid",
+    "next-intl",
+    "Mermaid",
+    "WeasyPrint",
+    "pandoc",
+    "mmdc",
+    # 4.3 Methodology shorthand
+    "Topic-Fact-Source",
+    "derived view",
+)
+
+# Tokens permitted because they're part of the audit-explicit allowlist
+# (Q-row ids, INST ids, program_id, topic_id stay only in the appendix /
+# metadata; we don't strip them, but they cluster in Apéndice A/B/E + fm).
+_ALLOWED_IN_APPENDIX_OR_METADATA: tuple[str, ...] = (
+    "PRJ-HOL-FOUNDING-2026",
+    "topic_enisa_evidence",
+    "topic_enisa_dossier_es",
+    "topic_brand_voice",
+    "Q-LEG-",
+    "Q-FIS-",
+    "Q-IPT-",
+    "Q-BNK-",
+    "Q-CRT-",
+    "INST-LEG-",
+)
+
+
+def _dossier_body_only() -> str:
+    """Return the prose body of dossier_es.md, stripped of frontmatter and
+    the structured appendices (Q-tracker, instruments, provenance)."""
+    text = DOSSIER_MD.read_text(encoding="utf-8")
+    text = re.sub(r"^---\s*\n.*?\n---\s*\n", "", text, count=1, flags=re.DOTALL)
+    cut_at = text.find("# Apéndice A")
+    if cut_at == -1:
+        cut_at = text.find("Apéndice A")
+    if cut_at == -1:
+        return text
+    return text[:cut_at]
+
+
+def test_dossier_es_body_is_jargon_free():
+    """Operator-flagged rule (BRAND_JARGON_AUDIT §4): external dossier prose
+    must not carry internal codenames or stack jargon. The Q-tracker appendix
+    and provenance footer carry an audited subset (Q-row ids, INST-…,
+    program_id, topic_id); everything else is forbidden in the prose body."""
+    body = _dossier_body_only()
+    leaks: list[str] = []
+    for forbidden in _FORBIDDEN_TOKENS_IN_BODY:
+        if forbidden in body:
+            leaks.append(forbidden)
+    assert not leaks, (
+        f"BRAND_JARGON_AUDIT.md §4 violation — these internal/stack tokens "
+        f"appeared in the dossier body (excluding appendices A/B/E and "
+        f"frontmatter): {leaks}. Rewrite to plain Spanish per the audit "
+        f"translation gallery (§5)."
+    )
+
+
+def test_dossier_es_uses_visual_primitives():
+    """The rewrite introduced stat callouts, lead paragraphs, pull-quotes,
+    and capability cards. Verify the markdown source actually uses those
+    primitives (otherwise the rendered PDF will look like the old plain
+    Markdown dump)."""
+    text = DOSSIER_MD.read_text(encoding="utf-8")
+    for primitive in (
+        '<p class="lead">',
+        '<div class="stat-grid">',
+        '<div class="capability-card">',
+        '<span class="card-eyebrow">',
+        '<span class="tag">',
+    ):
+        assert primitive in text, f"dossier missing visual primitive: {primitive!r}"
+
+
+def test_friendly_callout_transform_strips_todo_label():
+    """The render-time HTML post-processor must strip the operator-side
+    ``TODO[OPERATOR]`` label from any blockquote and replace it with the
+    Spanish friendly label. Source markdown still carries the marker for
+    audit; rendered HTML must not."""
+    mod = importlib.import_module("akos.hlk_pdf_render")
+    sample_html = (
+        "<blockquote><p><strong>TODO[OPERATOR]</strong> — Decisión del "
+        "fundador.</p><ul><li>Opción A</li></ul></blockquote>"
+    )
+    out = mod._friendly_callout_labels_html(sample_html, language="es")
+    assert "TODO[OPERATOR]" not in out
+    assert 'class="callout-question"' in out
+    assert "Pregunta abierta para tu confirmación" in out
+    assert "Decisión del fundador" in out
+    assert "Opción A" in out
+
+
+def test_friendly_callout_transform_english_variant():
+    mod = importlib.import_module("akos.hlk_pdf_render")
+    sample_html = "<blockquote><p><strong>TODO[OPERATOR]</strong> — Founder decision.</p></blockquote>"
+    out = mod._friendly_callout_labels_html(sample_html, language="en")
+    assert "TODO[OPERATOR]" not in out
+    assert "Open question for your confirmation" in out
+
+
+def test_brand_pdf_css_includes_new_visual_classes():
+    """Initiative 27 follow-up — verify the brand CSS ships the new visual
+    primitives so the dossier markdown render visually."""
+    mod = importlib.import_module("akos.hlk_pdf_render")
+    css = mod._brand_pdf_css()
+    for cls in (
+        ".cover-eyebrow",
+        ".cover-strip",
+        ".strip-item",
+        ".stat-grid",
+        ".stat-num",
+        ".stat-label",
+        ".pull-quote",
+        ".lead",
+        ".capability-card",
+        ".card-head",
+        ".card-eyebrow",
+        ".card-title",
+        ".card-tags",
+        ".card-body",
+        ".card-foot",
+        "callout-question",
+        "callout-label",
+    ):
+        assert cls in css, f"brand CSS missing class hook: {cls!r}"
+    # Numbered section indicator via CSS counter
+    assert "counter-increment: section" in css
+    assert "counter(section, decimal-leading-zero)" in css
 
 
 # ---------- Topic registry row ------------------------------------------------

@@ -216,7 +216,7 @@ brand_voice:
   narrative_pillars:
     - "Evidence over assertion"
     - "Structure that scales"
-    - "Plain words, deliberate jargon"
+    - "Plain words externally; jargon stays internal (we do the heavy lifting)"
 
   voice_is:
     # 3 traits with a 1-line example each. Operator-supplied trait #1; #2 and #3
@@ -232,7 +232,8 @@ brand_voice:
     # Plain words) for operator review and refinement.
     - { trait: "Performative", example: "We are delighted to announce our expert analysis." }
     - { trait: "Vague", example: "We feel this is the right approach overall." }
-    - { trait: "Jargon-heavy", example: "Our holistic synergistic methodology paradigmatically de-risks the engagement." }
+    - { trait: "Jargon-heavy (pretentious)", example: "Our holistic synergistic methodology paradigmatically de-risks the engagement." }
+    - { trait: "Jargon-leaking (internal codenames externally)", example: "The ADVOPS plane consumes topic_external_adviser_handoff via GOI/POI ref_ids with RBAC enforcement on the pgvector mirror." }
 
   register_matrix:
     # (relationship, channel) -> register lookup.

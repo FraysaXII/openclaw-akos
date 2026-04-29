@@ -113,59 +113,247 @@ BRAND_TOKENS_DARK: dict[str, str] = {
 def _brand_pdf_css(*, profile: str = "dossier") -> str:
     """Return the brand-aligned CSS string used by ``render_pdf_branded``.
 
-    The CSS is a single Python string (not f-string) using ``.format()`` so
-    that curly braces from CSS rules don't fight Python's f-string parser.
+    Initiative 27 follow-up — visual upgrade per operator feedback (PDF "not
+    appealing"). Inspired by modern proposal/dossier design patterns: oversized
+    cover title with generous whitespace, numbered section indicators (CSS
+    counters on body H1s), stat callouts (.stat-grid), pull-quote class for
+    margin emphasis, capability cards with tag pills, friendly open-question
+    callouts, cleaner page footer.
+
     Keep token references in sync with ``BRAND_TOKENS_LIGHT`` / ``BRAND_TOKENS_DARK``.
     """
     L = BRAND_TOKENS_LIGHT
     D = BRAND_TOKENS_DARK
     return (
-        "@page { size: A4; margin: 18mm 16mm 22mm 16mm; @bottom-center { content: "
-        "string(footerline); font-family: Inter, 'Segoe UI', Arial, sans-serif; "
-        "font-size: 8.5pt; color: " + L["muted_foreground"] + "; } }\n"
-        "@page :first { margin: 0; }\n"
-        "html { font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 10.5pt; line-height: 1.5; color: " + L["foreground"] + "; background: " + L["background"] + "; }\n"
+        # ---- Page setup + footer string ------------------------------------
+        "@page { size: A4; margin: 22mm 20mm 24mm 20mm; "
+        "@bottom-center { content: string(footerline); font-family: Inter, 'Segoe UI', Arial, sans-serif; "
+        "font-size: 8pt; color: " + L["muted_foreground"] + "; letter-spacing: 0.04em; } "
+        "@bottom-right { content: counter(page) ' / ' counter(pages); font-family: Inter, 'Segoe UI', Arial, sans-serif; "
+        "font-size: 8pt; color: " + L["muted_foreground"] + "; } }\n"
+        "@page :first { margin: 0; @bottom-center { content: ''; } @bottom-right { content: ''; } }\n"
+
+        # ---- Base typography -----------------------------------------------
+        "html { font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif; "
+        "font-size: 10.5pt; line-height: 1.65; color: " + L["foreground"] + "; background: " + L["background"] + "; "
+        "counter-reset: section; }\n"
         "body { margin: 0; padding: 0; }\n"
-        "p { margin: 0 0 0.75em 0; }\n"
+        "p { margin: 0 0 0.85em 0; }\n"
         "strong { color: " + L["foreground"] + "; font-weight: 600; }\n"
         "em { color: " + L["foreground"] + "; }\n"
-        ".cover-hero { min-height: 297mm; padding: 36mm 24mm 28mm 24mm; color: " + D["foreground"] + "; "
+
+        # ---- Cover hero (clean, oversized title; metadata moved to footer band) -----
+        ".cover-hero { min-height: 297mm; padding: 30mm 24mm 28mm 24mm; color: " + D["foreground"] + "; "
         "background: "
-        "radial-gradient(ellipse 60% 50% at 30% 30%, hsla(168, 55%, 38%, 0.18) 0%, transparent 60%), "
-        "radial-gradient(ellipse 80% 70% at 70% 60%, hsla(38, 80%, 50%, 0.12) 0%, transparent 70%), "
-        "linear-gradient(160deg, " + D["background"] + " 0%, " + D["card"] + " 55%, hsl(220 12% 14%) 100%); "
-        "page-break-after: always; }\n"
-        ".cover-hero .cover-monogram { width: 28mm; height: 28mm; margin-bottom: 18mm; opacity: 0.95; }\n"
-        ".cover-hero h1 { font-size: 28pt; font-weight: 700; margin: 0 0 6mm 0; color: " + D["foreground"] + "; line-height: 1.15; letter-spacing: -0.01em; }\n"
-        ".cover-hero .cover-subtitle { font-size: 14pt; color: " + D["accent_primary"] + "; margin: 0 0 14mm 0; font-weight: 500; }\n"
-        ".cover-hero .cover-rule { width: 32mm; height: 2px; background: " + D["accent_primary"] + "; margin: 0 0 10mm 0; }\n"
-        ".cover-hero .cover-meta { font-size: 11pt; color: " + D["foreground"] + "; opacity: 0.85; margin: 0 0 1.6em 0; }\n"
-        ".cover-hero .cover-meta .label { color: " + D["accent_secondary"] + "; font-weight: 600; margin-right: 6px; }\n"
-        ".cover-hero .cover-foot { position: absolute; bottom: 28mm; left: 24mm; font-size: 10pt; color: " + D["foreground"] + "; opacity: 0.75; }\n"
-        ".cover-hero .cover-foot strong { color: " + D["foreground"] + "; opacity: 1; }\n"
-        "h1 { font-size: 20pt; font-weight: 700; margin: 0 0 0.5em 0; color: " + L["foreground"] + "; letter-spacing: -0.005em; page-break-after: avoid; }\n"
-        "h2 { font-size: 15pt; font-weight: 600; margin: 1.6em 0 0.4em 0; color: " + L["accent_primary"] + "; border-bottom: 1px solid " + L["border"] + "; padding-bottom: 0.25em; page-break-after: avoid; }\n"
-        "h3 { font-size: 12pt; font-weight: 600; margin: 1.2em 0 0.4em 0; color: " + L["foreground"] + "; page-break-after: avoid; }\n"
-        "h4 { font-size: 10.5pt; font-weight: 600; margin: 1em 0 0.3em 0; color: " + L["muted_foreground"] + "; text-transform: uppercase; letter-spacing: 0.05em; page-break-after: avoid; }\n"
-        "code, pre { font-family: 'Consolas', 'Menlo', 'Courier New', monospace; font-size: 9.5pt; }\n"
-        "code { background: " + L["secondary"] + "; padding: 1px 4px; border-radius: 3px; color: " + L["foreground"] + "; }\n"
-        "pre { background: " + L["secondary"] + "; padding: 10px 12px; border-radius: 4px; border: 1px solid " + L["border"] + "; }\n"
-        "table { border-collapse: collapse; width: 100%; font-size: 9pt; margin: 0.8em 0 1.1em; page-break-inside: avoid; }\n"
-        "th, td { border: 1px solid " + L["border"] + "; padding: 6px 8px; vertical-align: top; }\n"
-        "th { background: " + L["secondary"] + "; color: " + L["foreground"] + "; text-align: left; font-weight: 600; }\n"
-        "tr:nth-child(even) td { background: " + L["card"] + "; }\n"
-        "blockquote { border-left: 3px solid " + L["accent_primary"] + "; padding: 8px 14px; color: " + L["foreground"] + "; background: hsla(168, 55%, 38%, 0.06); margin: 0.8em 0; border-radius: 0 4px 4px 0; }\n"
+        "radial-gradient(ellipse 65% 55% at 28% 32%, hsla(168, 55%, 38%, 0.22) 0%, transparent 62%), "
+        "radial-gradient(ellipse 85% 75% at 72% 65%, hsla(38, 80%, 50%, 0.14) 0%, transparent 72%), "
+        "linear-gradient(155deg, " + D["background"] + " 0%, " + D["card"] + " 50%, hsl(220 12% 13%) 100%); "
+        "page-break-after: always; position: relative; }\n"
+        ".cover-hero .cover-eyebrow { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.18em; color: " + D["accent_primary"] + "; "
+        "font-weight: 600; margin: 0 0 8mm 0; opacity: 0.95; }\n"
+        ".cover-hero .cover-monogram { width: 24mm; height: 24mm; margin-bottom: 60mm; opacity: 0.95; }\n"
+        ".cover-hero h1 { font-size: 44pt; font-weight: 700; margin: 0 0 8mm 0; color: " + D["foreground"] + "; "
+        "line-height: 1.05; letter-spacing: -0.025em; max-width: 130mm; }\n"
+        ".cover-hero .cover-subtitle { font-size: 14pt; color: " + D["foreground"] + "; opacity: 0.78; "
+        "margin: 0 0 0 0; font-weight: 400; max-width: 120mm; line-height: 1.4; }\n"
+        ".cover-hero .cover-strip { position: absolute; left: 24mm; right: 24mm; bottom: 24mm; "
+        "border-top: 1px solid hsla(168, 50%, 44%, 0.4); padding-top: 8mm; "
+        "display: flex; justify-content: space-between; font-size: 9pt; "
+        "color: " + D["foreground"] + "; opacity: 0.78; letter-spacing: 0.04em; }\n"
+        ".cover-hero .cover-strip .strip-item .strip-label { display: block; font-size: 7.5pt; "
+        "text-transform: uppercase; letter-spacing: 0.16em; color: " + D["accent_secondary"] + "; "
+        "margin-bottom: 1.5mm; opacity: 0.9; }\n"
+        ".cover-hero .cover-strip .strip-item .strip-value { font-weight: 600; color: " + D["foreground"] + "; opacity: 1; }\n"
+
+        # ---- Body wrapper with horizontal margins ----------------------------
+        ".dossier-body { max-width: 170mm; margin: 0 auto; padding: 0 0; }\n"
+        ".footer-string { string-set: footerline content(); display: none; }\n"
+
+        # ---- Section H1 with numbered counter --------------------------------
+        # Body H1 acts as a section opener: "01 Pilar I — Mercantil"
+        "main h1 { counter-increment: section; font-size: 26pt; font-weight: 700; "
+        "margin: 8mm 0 4mm 0; color: " + L["foreground"] + "; letter-spacing: -0.018em; "
+        "line-height: 1.15; page-break-before: auto; page-break-after: avoid; "
+        "padding-top: 14mm; border-top: 1px solid " + L["border"] + "; position: relative; }\n"
+        "main h1::before { content: counter(section, decimal-leading-zero); "
+        "display: block; font-size: 11pt; font-weight: 600; color: " + L["accent_primary"] + "; "
+        "letter-spacing: 0.18em; margin-bottom: 4mm; text-transform: uppercase; }\n"
+        "main > h1:first-of-type { padding-top: 0; border-top: none; }\n"
+
+        # H2 = sub-heading inside a pillar
+        "h2 { font-size: 16pt; font-weight: 600; margin: 10mm 0 3mm 0; color: " + L["foreground"] + "; "
+        "letter-spacing: -0.005em; page-break-after: avoid; line-height: 1.25; }\n"
+        "h2::before { content: ''; display: block; width: 8mm; height: 2px; "
+        "background: " + L["accent_primary"] + "; margin-bottom: 3mm; }\n"
+
+        "h3 { font-size: 12pt; font-weight: 600; margin: 6mm 0 2mm 0; "
+        "color: " + L["foreground"] + "; page-break-after: avoid; line-height: 1.3; }\n"
+        "h4 { font-size: 9.5pt; font-weight: 600; margin: 5mm 0 1.5mm 0; "
+        "color: " + L["accent_primary"] + "; text-transform: uppercase; "
+        "letter-spacing: 0.12em; page-break-after: avoid; }\n"
+
+        # ---- Code / monospace ------------------------------------------------
+        "code, pre { font-family: 'Consolas', 'Menlo', 'Courier New', monospace; font-size: 9pt; }\n"
+        "code { background: " + L["secondary"] + "; padding: 1px 5px; border-radius: 3px; "
+        "color: " + L["foreground"] + "; }\n"
+        "pre { background: " + L["card"] + "; padding: 10px 14px; border-radius: 4px; "
+        "border: 1px solid " + L["border"] + "; line-height: 1.5; }\n"
+
+        # ---- Tables: airier, more whitespace ---------------------------------
+        "table { border-collapse: collapse; width: 100%; font-size: 9.5pt; "
+        "margin: 5mm 0 6mm; page-break-inside: avoid; line-height: 1.5; }\n"
+        "th, td { border-bottom: 1px solid " + L["border"] + "; padding: 8px 10px; "
+        "vertical-align: top; text-align: left; }\n"
+        "th { color: " + L["muted_foreground"] + "; font-size: 8.5pt; font-weight: 600; "
+        "text-transform: uppercase; letter-spacing: 0.08em; "
+        "border-bottom: 2px solid " + L["foreground"] + "; padding-bottom: 6px; }\n"
+        "tr:last-child td { border-bottom: none; }\n"
+
+        # ---- Friendly open-question callout (replaces TODO[OPERATOR]) -------
+        "blockquote { border-left: 3px solid " + L["accent_primary"] + "; padding: 5mm 7mm; "
+        "color: " + L["foreground"] + "; background: hsla(168, 55%, 38%, 0.05); "
+        "margin: 5mm 0; border-radius: 0 4px 4px 0; line-height: 1.55; }\n"
         "blockquote p:last-child { margin-bottom: 0; }\n"
-        "blockquote.callout-operator { border-left-color: " + L["accent_secondary"] + "; background: hsla(38, 80%, 50%, 0.08); }\n"
-        "blockquote.callout-risk { border-left-color: " + L["destructive"] + "; background: hsla(0, 75%, 55%, 0.05); }\n"
-        "hr { border: none; border-top: 1px solid " + L["border"] + "; margin: 1.2em 0; }\n"
-        "a { color: " + L["accent_primary"] + "; text-decoration: none; border-bottom: 1px dotted " + L["accent_primary"] + "; }\n"
+        "blockquote.callout-question { border-left: 4px solid " + L["accent_secondary"] + "; "
+        "background: hsla(38, 80%, 50%, 0.07); padding: 6mm 8mm; margin: 6mm 0; }\n"
+        "blockquote.callout-question .callout-label { display: block; font-size: 8.5pt; "
+        "font-weight: 700; color: " + L["accent_secondary"] + "; "
+        "text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 3mm; }\n"
+        "blockquote.callout-risk { border-left-color: " + L["destructive"] + "; "
+        "background: hsla(0, 75%, 55%, 0.05); }\n"
+        # Legacy class kept for compatibility
+        "blockquote.callout-operator { border-left: 4px solid " + L["accent_secondary"] + "; "
+        "background: hsla(38, 80%, 50%, 0.07); padding: 6mm 8mm; margin: 6mm 0; }\n"
+
+        # ---- Stat grid (oversized number + small caps label) ----------------
+        ".stat-grid { display: flex; flex-wrap: wrap; gap: 0; margin: 6mm 0 8mm; "
+        "border-top: 1px solid " + L["border"] + "; border-bottom: 1px solid " + L["border"] + "; "
+        "padding: 4mm 0; page-break-inside: avoid; }\n"
+        ".stat-grid .stat { flex: 1 1 0; min-width: 30mm; padding: 2mm 4mm; "
+        "border-right: 1px solid " + L["border"] + "; }\n"
+        ".stat-grid .stat:last-child { border-right: none; }\n"
+        ".stat-grid .stat-num { display: block; font-size: 22pt; font-weight: 700; "
+        "color: " + L["accent_primary"] + "; line-height: 1; letter-spacing: -0.02em; "
+        "margin-bottom: 2mm; }\n"
+        ".stat-grid .stat-label { display: block; font-size: 8pt; font-weight: 600; "
+        "color: " + L["muted_foreground"] + "; text-transform: uppercase; letter-spacing: 0.1em; "
+        "line-height: 1.3; }\n"
+
+        # ---- Pull-quote / lead paragraph ------------------------------------
+        ".lead { font-size: 13pt; line-height: 1.55; color: " + L["foreground"] + "; "
+        "font-weight: 400; margin: 4mm 0 6mm; max-width: 150mm; }\n"
+        ".pull-quote { font-size: 14pt; line-height: 1.45; color: " + L["accent_primary"] + "; "
+        "font-style: italic; font-weight: 500; padding: 4mm 0 4mm 6mm; "
+        "border-left: 3px solid " + L["accent_primary"] + "; margin: 6mm 0; }\n"
+
+        # ---- Capability cards (Apéndice C) ----------------------------------
+        ".capability-card { border: 1px solid " + L["border"] + "; border-radius: 6px; "
+        "margin: 5mm 0 6mm; page-break-inside: avoid; overflow: hidden; "
+        "background: " + L["background"] + "; }\n"
+        ".capability-card .card-head { background: " + L["foreground"] + "; "
+        "color: " + L["background"] + "; padding: 4mm 6mm; }\n"
+        ".capability-card .card-head .card-eyebrow { font-size: 7.5pt; font-weight: 600; "
+        "text-transform: uppercase; letter-spacing: 0.16em; "
+        "color: " + L["accent_primary"] + "; margin-bottom: 1.5mm; display: block; }\n"
+        ".capability-card .card-head .card-title { font-size: 13pt; font-weight: 600; "
+        "color: " + L["background"] + "; margin: 0; line-height: 1.3; }\n"
+        ".capability-card .card-tags { padding: 3mm 6mm 1mm; display: flex; flex-wrap: wrap; "
+        "gap: 1.5mm; background: " + L["card"] + "; border-bottom: 1px solid " + L["border"] + "; }\n"
+        ".capability-card .card-tags .tag { display: inline-block; font-size: 7.5pt; "
+        "font-weight: 500; padding: 1mm 2.5mm; border-radius: 999px; "
+        "background: hsla(168, 55%, 38%, 0.1); color: " + L["accent_primary"] + "; "
+        "letter-spacing: 0.04em; margin-bottom: 1.5mm; }\n"
+        ".capability-card .card-tags .tag.tag-amber { background: hsla(38, 80%, 50%, 0.12); "
+        "color: " + L["accent_secondary"] + "; }\n"
+        ".capability-card .card-body { padding: 5mm 6mm 4mm; line-height: 1.6; }\n"
+        ".capability-card .card-body p:last-child { margin-bottom: 0; }\n"
+        ".capability-card .card-foot { padding: 3mm 6mm 4mm; font-size: 8.5pt; "
+        "color: " + L["muted_foreground"] + "; border-top: 1px solid " + L["border"] + "; "
+        "background: " + L["card"] + "; }\n"
+
+        # ---- Other primitives -----------------------------------------------
+        "hr { border: none; border-top: 1px solid " + L["border"] + "; margin: 6mm 0; }\n"
+        "a { color: " + L["accent_primary"] + "; text-decoration: none; "
+        "border-bottom: 1px dotted " + L["accent_primary"] + "; }\n"
         "img { max-width: 100%; height: auto; }\n"
-        "figure { margin: 1em 0; page-break-inside: avoid; }\n"
-        "figcaption { font-size: 8.5pt; color: " + L["muted_foreground"] + "; font-style: italic; margin-top: 0.3em; }\n"
-        ".source-cite { font-size: 8.5pt; color: " + L["muted_foreground"] + "; font-style: italic; margin-top: 0.3em; }\n"
-        ".footer-string { string-set: footerline content(); }\n"
+        "figure { margin: 5mm 0; page-break-inside: avoid; }\n"
+        "figcaption { font-size: 8.5pt; color: " + L["muted_foreground"] + "; "
+        "font-style: italic; margin-top: 1mm; }\n"
+        ".source-cite { font-size: 8.5pt; color: " + L["muted_foreground"] + "; "
+        "font-style: italic; margin-top: 1mm; }\n"
+
+        # ---- Lists: airier ---------------------------------------------------
+        "ul, ol { margin: 0 0 1em 0; padding-left: 4mm; }\n"
+        "li { margin-bottom: 1.5mm; line-height: 1.55; }\n"
+        "li::marker { color: " + L["accent_primary"] + "; }\n"
     )
+
+
+# Initiative 27 follow-up: friendly open-question callouts.
+# Per BRAND_JARGON_AUDIT.md §4.4 and §7: ``TODO[OPERATOR]`` must never reach the
+# rendered output of an external deliverable. The render pipeline post-processes
+# the HTML emitted by ``markdown`` to replace the operator-side label with a
+# brand-friendly callout (Spanish or English depending on the language hint).
+#
+# The source Markdown still carries the ``TODO[OPERATOR]`` marker for operator
+# grep/audit (see BRAND_JARGON_AUDIT §6 audit checklist); only the rendered
+# HTML is transformed.
+
+_TODO_OPERATOR_BLOCKQUOTE_RE = re.compile(
+    # Match a <blockquote> whose first <p> contains <strong>TODO[OPERATOR]</strong>
+    # followed by an em-dash / hyphen / colon. Captures the rest of the first
+    # paragraph and the rest of the blockquote contents.
+    r"<blockquote(?P<attrs>[^>]*)>\s*"
+    r"<p>\s*<strong>\s*TODO\[OPERATOR\]\s*</strong>\s*"
+    r"(?:[—\u2014\-:]+\s*)?"
+    r"(?P<lead>.*?)</p>"
+    r"(?P<rest>.*?)"
+    r"</blockquote>",
+    re.IGNORECASE | re.DOTALL,
+)
+
+
+def _friendly_callout_labels_html(html: str, *, language: str = "es") -> str:
+    """Rewrite ``<blockquote>`` blocks that lead with ``<strong>TODO[OPERATOR]</strong>``.
+
+    Replaces the operator-side label with an amber-tinted callout heading
+    (``Pregunta abierta para tu confirmación`` in Spanish; ``Open question for
+    your confirmation`` in English) and tags the blockquote with
+    ``class="callout-question"`` so the brand CSS styles it.
+
+    Args:
+        html: HTML emitted by ``markdown.markdown(...)``.
+        language: Language hint (``"es"`` or ``"en"``). Defaults to Spanish.
+
+    Returns:
+        HTML with all ``TODO[OPERATOR]`` blockquotes rewritten.
+    """
+    label = (
+        "Pregunta abierta para tu confirmación"
+        if language == "es"
+        else "Open question for your confirmation"
+    )
+
+    def _rewrite(match: "re.Match[str]") -> str:
+        existing_attrs = match.group("attrs") or ""
+        lead = (match.group("lead") or "").strip()
+        rest = (match.group("rest") or "").strip()
+        # Inject class="callout-question" while preserving any existing attrs.
+        if "class=" in existing_attrs.lower():
+            attrs = re.sub(
+                r'class\s*=\s*"([^"]*)"',
+                r'class="\1 callout-question"',
+                existing_attrs,
+                count=1,
+                flags=re.IGNORECASE,
+            )
+        else:
+            attrs = existing_attrs + ' class="callout-question"'
+        head = f'<span class="callout-label">{label}</span>'
+        first_para = f"<p>{lead}</p>" if lead else ""
+        return f"<blockquote{attrs}>{head}{first_para}{rest}</blockquote>"
+
+    return _TODO_OPERATOR_BLOCKQUOTE_RE.sub(_rewrite, html)
 
 
 def _build_cover_html(
@@ -177,40 +365,73 @@ def _build_cover_html(
     issue_date: str | None = None,
     status_label: str | None = None,
     monogram_path: str | None = None,
+    eyebrow: str | None = "Holística Research · Dossier",
 ) -> str:
-    """Return the cover-page HTML fragment used by ``render_pdf_branded``."""
+    """Return the cover-page HTML fragment used by ``render_pdf_branded``.
+
+    Initiative 27 follow-up — visual upgrade. Layout:
+
+      [eyebrow caps]
+      [monogram]
+
+      ...generous whitespace...
+
+      [oversized title]
+      [subtitle, smaller]
+
+      [bottom strip: program | date | discipline]
+    """
     monogram_html = ""
     if monogram_path and Path(monogram_path).is_file():
-        # WeasyPrint accepts file:// URLs reliably across platforms.
         uri = Path(monogram_path).resolve().as_uri()
-        monogram_html = f'<img class="cover-monogram" src="{uri}" alt="Holistika Research" />'
+        monogram_html = f'<img class="cover-monogram" src="{uri}" alt="Holística Research" />'
 
-    rows: list[str] = []
+    eyebrow_html = (
+        f'<div class="cover-eyebrow">{eyebrow}</div>'
+        if eyebrow
+        else ""
+    )
+    subtitle_html = (
+        f'<div class="cover-subtitle">{subtitle}</div>'
+        if subtitle
+        else ""
+    )
+
+    # Bottom strip — small, single-row, three columns max
+    strip_items: list[str] = []
     if program_id:
-        rows.append(f'<div class="cover-meta"><span class="label">Programa:</span> {program_id}</div>')
-    if discipline:
-        rows.append(f'<div class="cover-meta"><span class="label">Disciplina:</span> {discipline}</div>')
-    if status_label:
-        rows.append(f'<div class="cover-meta"><span class="label">Estado:</span> {status_label}</div>')
+        strip_items.append(
+            f'<div class="strip-item"><span class="strip-label">Programa</span>'
+            f'<span class="strip-value">{program_id}</span></div>'
+        )
     if issue_date:
-        rows.append(f'<div class="cover-meta"><span class="label">Fecha de emisión:</span> {issue_date}</div>')
-
-    subtitle_html = f'<div class="cover-subtitle">{subtitle}</div>' if subtitle else ""
-    foot_html = (
-        '<div class="cover-foot">'
-        '<strong>Holistika Research</strong> · holistikaresearch.com'
-        '</div>'
+        strip_items.append(
+            f'<div class="strip-item"><span class="strip-label">Fecha</span>'
+            f'<span class="strip-value">{issue_date}</span></div>'
+        )
+    if discipline:
+        strip_items.append(
+            f'<div class="strip-item"><span class="strip-label">Disciplina</span>'
+            f'<span class="strip-value">{discipline}</span></div>'
+        )
+    # Status label is intentionally dropped from the visual cover (kept in
+    # frontmatter / footer string only) to reduce visual clutter per operator
+    # feedback. If a future profile wants it back, gate behind the profile arg.
+    _ = status_label
+    strip_html = (
+        f'<div class="cover-strip">{"".join(strip_items)}</div>'
+        if strip_items
+        else ""
     )
 
     return (
         '<section class="cover-hero">'
+        f'{eyebrow_html}'
         f'{monogram_html}'
         f'<h1>{title}</h1>'
         f'{subtitle_html}'
-        '<div class="cover-rule"></div>'
-        + "".join(rows)
-        + foot_html
-        + "</section>"
+        f'{strip_html}'
+        "</section>"
     )
 
 
@@ -280,10 +501,19 @@ def render_pdf_branded(
         _md_lib = None
 
     if _md_lib is None:
-        # No markdown lib at all — degrade to plain renderer.
         return render_pdf(md_text, out_path, source_label=source_label)
 
     body_html = _md_lib.markdown(md_text, extensions=MD_EXTENSIONS)
+
+    # Detect language from the cover-side metadata or default to Spanish.
+    # The language hint controls the friendly callout label (es/en).
+    language_hint = "es"
+    if subtitle and any(
+        word in (subtitle or "").lower()
+        for word in ("certification", "the ", "english", "operator brief")
+    ):
+        language_hint = "en"
+    body_html = _friendly_callout_labels_html(body_html, language=language_hint)
 
     cover_html = ""
     if title:
