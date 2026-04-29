@@ -47,6 +47,19 @@ CLASSES = {
 SENSITIVITY = {"public", "internal", "confidential", "restricted"}
 BOOLS = {"true", "false"}
 
+# Initiative 24 P2 (D-IH-11) optional voice profile enums.
+# Backwards-compatible: empty string is allowed and triggers fallback to discipline default.
+VOICE_REGISTERS = {
+    "",
+    "formal_legal",
+    "peer_consulting",
+    "casual_internal",
+    "regulator_neutral",
+    "investor_aspirational",
+}
+LANGUAGE_PREFERENCES = {"", "es", "en", "bilingual"}
+PRONOUN_REGISTERS = {"", "tu", "usted"}
+
 REF_ID_RE = re.compile(r"^(POI|GOI)-[A-Z0-9]{2,5}-[A-Z0-9-]{1,40}-\d{4}$")
 PROGRAM_ID_RE = re.compile(r"^(PRJ-[A-Z0-9]+-[A-Z0-9]+-\d{4})?$")
 LENS_RE = re.compile(r"^[a-z][a-z0-9_]{1,40}$")
@@ -142,6 +155,33 @@ def main() -> int:
 
         if public == "false" and sens == "public":
             errors.append(f"row {i}: is_public_entity=false but sensitivity=public (inconsistent)")
+
+        # Initiative 24 P2 (D-IH-11): voice profile columns. All optional;
+        # empty value triggers fallback to discipline default at composer time.
+        voice = (r.get("voice_register") or "").strip()
+        if voice not in VOICE_REGISTERS:
+            errors.append(
+                f"row {i}: invalid voice_register {voice!r}; expected one of "
+                f"{sorted(VOICE_REGISTERS - {''})} or empty"
+            )
+        lang = (r.get("language_preference") or "").strip()
+        if lang not in LANGUAGE_PREFERENCES:
+            errors.append(
+                f"row {i}: invalid language_preference {lang!r}; expected one of "
+                f"{sorted(LANGUAGE_PREFERENCES - {''})} or empty"
+            )
+        pron = (r.get("pronoun_register") or "").strip()
+        if pron not in PRONOUN_REGISTERS:
+            errors.append(
+                f"row {i}: invalid pronoun_register {pron!r}; expected one of "
+                f"{sorted(PRONOUN_REGISTERS - {''})} or empty"
+            )
+        # Sanity: if pronoun_register is set, language_preference should support it.
+        if pron in {"tu", "usted"} and lang not in {"", "es", "bilingual"}:
+            errors.append(
+                f"row {i}: pronoun_register={pron!r} requires language_preference in {{es, bilingual}} or empty; "
+                f"got {lang!r}"
+            )
 
     if errors:
         print(f"  FAIL: {len(errors)} issue(s)")
