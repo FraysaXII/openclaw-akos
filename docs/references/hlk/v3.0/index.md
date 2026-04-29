@@ -39,6 +39,23 @@ Current examples:
 - [External counsel handoff package](Admin/O5-1/People/Legal/EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md)
 - [Founder governance document lifecycle](Admin/O5-1/People/Compliance/FOUNDER_GOVERNANCE_DOCUMENT_LIFECYCLE.md)
 
+### Program-scoped casework (Initiative 22 P3 forward convention)
+
+When a role-folder accumulates more than a handful of program-specific case docs, add a `programs/<program_id>/README.md` subfolder under the role to host new program-scoped material. This keeps role-folder roots from becoming flat dumps as additional programs (`PRJ-HOL-KIRBE-*`, `PRJ-HOL-CLIENT-*`, …) are added.
+
+- **`<program_id>`** matches the canonical identifier in `process_list.csv` (e.g. `PRJ-HOL-FOUNDING-2026`).
+- **Existing program-scoped docs at role-folder root stay in place** to avoid link breakage; each gains a `> **Program**` admonition pointing at the program README.
+- **New program-scoped docs go directly into the program subfolder.**
+- **Plane-scoped docs** (e.g. ADVOPS plane SOP, router) remain at the role-folder root because they are program-agnostic.
+
+Current program subfolders:
+
+- [`Admin/O5-1/People/Legal/programs/PRJ-HOL-FOUNDING-2026/README.md`](Admin/O5-1/People/Legal/programs/PRJ-HOL-FOUNDING-2026/README.md)
+- [`Admin/O5-1/People/Compliance/programs/PRJ-HOL-FOUNDING-2026/README.md`](Admin/O5-1/People/Compliance/programs/PRJ-HOL-FOUNDING-2026/README.md)
+- [`Admin/O5-1/Operations/PMO/programs/PRJ-HOL-FOUNDING-2026/README.md`](Admin/O5-1/Operations/PMO/programs/PRJ-HOL-FOUNDING-2026/README.md)
+
+Authoritative convention: [`compliance/README.md`](../compliance/README.md) (Initiative 22 P1).
+
 ### Finding a document
 
 - By role: navigate the folder tree below.
@@ -58,6 +75,12 @@ Holistika-wide KM is governed by [HLK_KM_TOPIC_FACT_SOURCE.md](../compliance/HLK
 | Trello board JSON imports (primary + archive slices) | [imports/README.md](Admin/O5-1/Operations/PMO/imports/README.md) |
 | `process_list.csv` maintenance (columns, parent ids, duplicate names) | [SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md](Admin/O5-1/Operations/PMO/SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md) |
 | FINOPS counterparty register (`FINOPS_COUNTERPARTY_REGISTER.csv`; no amounts in git) | [SOP-HLK_FINOPS_COUNTERPARTY_REGISTER_MAINTENANCE_001.md](Admin/O5-1/Finance/Business%20Controller/SOP-HLK_FINOPS_COUNTERPARTY_REGISTER_MAINTENANCE_001.md) |
+| GOI/POI register (`GOI_POI_REGISTER.csv`; obfuscated knowledge dimension, raw mapping off-repo) | [SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md](Admin/O5-1/People/Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md) |
+| Adviser-call transcript redaction policy (forward-only) | [SOP-HLK_TRANSCRIPT_REDACTION_001.md](Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_001.md) |
+| External Adviser Engagement (ADVOPS) plane SOP | [SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md](Admin/O5-1/Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md) |
+| External Adviser router (Legal / Fiscal / IP / Banking / Certification / Notary) | [EXTERNAL_ADVISER_ROUTER.md](Admin/O5-1/Operations/PMO/EXTERNAL_ADVISER_ROUTER.md) |
+| Topic-Fact-Source manifest for ADVOPS plane | [topic_external_adviser_handoff.manifest.md](_assets/advops/PRJ-HOL-FOUNDING-2026/adviser_handoff/topic_external_adviser_handoff.manifest.md) |
+| `_assets/` directory contract (forward layout) | [_assets/README.md](_assets/README.md) |
 | WIP topic syntheses (interpretation layer) | [docs/wip/hlk-km/](../../../wip/hlk-km/) |
 | Pilot Output 1 bundle (rasters + `*.manifest.md` + stubs) | [_assets/km-pilot/](_assets/km-pilot/) |
 | Workspace roadmap / traceability | [master-roadmap.md](../../../wip/planning/03-hlk-km-knowledge-base/master-roadmap.md) |
