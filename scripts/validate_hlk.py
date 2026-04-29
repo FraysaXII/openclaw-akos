@@ -305,6 +305,17 @@ def main() -> int:
             return 1
         print("  PROGRAM_REGISTRY: PASS")
 
+        # Cross-asset program_id consistency (Initiative 23 P3).
+        vic = Path(__file__).resolve().parent / "validate_program_id_consistency.py"
+        rc = subprocess.run([sys.executable, str(vic)], capture_output=True, text=True)
+        print(rc.stdout, end="")
+        if rc.stderr:
+            print(rc.stderr, end="", file=sys.stderr)
+        if rc.returncode != 0:
+            print("  PROGRAM_ID_CONSISTENCY: FAIL")
+            return 1
+        print("  PROGRAM_ID_CONSISTENCY: PASS")
+
     print("  OVERALL: PASS")
     return 0
 

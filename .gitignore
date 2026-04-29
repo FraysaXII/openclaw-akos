@@ -91,3 +91,7 @@ docs/references/hlk/v3.0/.obsidian/
 # Generated adviser handoff exports (Initiative 21 P7; regenerate via export script)
 artifacts/exports/
 
+# Initiative 23 P4 mirror drift probe pasted artifacts (operator-local; regenerate via probe script)
+artifacts/probes/*.json
+!artifacts/probes/README.md
+
