@@ -367,3 +367,102 @@ def test_sync_deck_from_strategy_apply_refuses_with_todos():
         assert "REFUSED" in proc.stderr, (
             "rc=2 from --apply but stderr does not contain REFUSED keyword"
         )
+
+
+# ---------------------------------------------------------------------------
+# Initiative 30: deck moat surgery (MADEIRA, joint-equity, governance metrics)
+# ---------------------------------------------------------------------------
+
+
+def _load_yaml_text() -> str:
+    return DECK_SLIDES_YAML.read_text(encoding="utf-8")
+
+
+def test_deck_names_madeira_at_least_once():
+    """Initiative 30 P4: MADEIRA must appear on the deck (slide 04 / 05 / 06 / 11 / 12)."""
+    txt = _load_yaml_text()
+    assert "MADEIRA" in txt, (
+        "deck_slides.yaml must name MADEIRA at least once (Initiative 30 P4)"
+    )
+    # Story narrative also mirrors the YAML.
+    story = DECK_STORY_MD.read_text(encoding="utf-8")
+    assert "MADEIRA" in story, (
+        "deck_story_es.md must mirror MADEIRA presence (Initiative 30 P4 mirror requirement)"
+    )
+
+
+def test_slide_06_has_madeira_card():
+    """Initiative 30 P4: slide 06 capability_grid must include a card-madeira row."""
+    txt = _load_yaml_text()
+    # Match the YAML list-item form `- id: card-madeira` (with the dash for list marker).
+    pattern = re.compile(r"^\s*-\s*id:\s*card-madeira\s*$", re.MULTILINE)
+    assert pattern.search(txt), (
+        "deck_slides.yaml slide 06 must declare a card-madeira capability card"
+    )
+    # Sanity: the card should declare its category as the agentic-platform.
+    assert "Plataforma de agentes propia" in txt or "MADEIRA — Capa agentic" in txt
+
+
+def test_slide_11_pillar_1_quotes_governance_metrics():
+    """Initiative 30 P4 + D-IH-30-D: slide 11 pillar 1 must quote the governance
+    metrics — at least the topic count (17) and the process count (1.093)."""
+    txt = _load_yaml_text()
+    assert "Operación gobernada y medible" in txt or "Operacion gobernada y medible" in txt, (
+        "slide 11 pillar 1 title must be 'Operacion gobernada y medible'"
+    )
+    # Spanish thousands separator is a period (1.093). Allow either spelling defensively.
+    assert "1.093 procesos" in txt or "1093 procesos" in txt, (
+        "slide 11 pillar 1 must quote the 1.093 governed-processes count"
+    )
+    # Topic count must match the live registry; assert it's a small integer phrase
+    # (the drift detector at tests/test_governance_moat_metrics.py keeps it in sync).
+    assert re.search(r"\b1\d temas\b", txt), (
+        "slide 11 pillar 1 must quote a 'NN temas' governed-topics count "
+        "(live count enforced by test_governance_moat_metrics.py)"
+    )
+    assert "65 roles" in txt, (
+        "slide 11 pillar 1 must quote the 65 defined-roles count"
+    )
+
+
+def test_slide_09_surfaces_joint_equity():
+    """Initiative 30 P4: slide 09 ICP 2 must surface the joint-equity offer."""
+    txt = _load_yaml_text()
+    # The body or signal of ICP 2 must mention 'equidad conjunta' (Spanish term).
+    assert "equidad conjunta" in txt, (
+        "slide 09 ICP 'Partner B2B + equidad conjunta' must reference the joint-equity offer"
+    )
+
+
+def test_slide_10_business_model_names_madeira_in_tomorrow():
+    """Initiative 30 P4: slide 10 'tomorrow' tier must mention MADEIRA alongside KiRBe."""
+    txt = _load_yaml_text()
+    # Find the 10-business-model section and assert MADEIRA appears in the tomorrow body.
+    m = re.search(r"id:\s*10-business-model.*?id:\s*11", txt, re.DOTALL)
+    assert m, "could not locate slide 10 in deck_slides.yaml"
+    section = m.group(0)
+    assert "MADEIRA" in section, (
+        "slide 10 (business-model today/bridge/tomorrow) must name MADEIRA alongside KiRBe"
+    )
+
+
+def test_slide_12_roadmap_anchors_on_madeira():
+    """Initiative 30 P4: slide 12 12-24m bullet must reference MADEIRA's first
+    external customer milestone."""
+    txt = _load_yaml_text()
+    m = re.search(r'window:\s*"12 – 24 meses".*?(?=window:|id:\s*13)', txt, re.DOTALL)
+    assert m, "could not locate slide 12 12-24m phase in deck_slides.yaml"
+    section = m.group(0)
+    assert "MADEIRA" in section, (
+        "slide 12 12-24m phase must mention MADEIRA's first external customer milestone"
+    )
+
+
+def test_html_deck_carries_madeira_after_rebuild():
+    """Initiative 30 P5: after rebuild, the HTML deck must contain MADEIRA."""
+    if not HTML_DECK.is_file():
+        pytest.skip("HTML deck not yet built")
+    txt = HTML_DECK.read_text(encoding="utf-8")
+    assert "MADEIRA" in txt, (
+        "HTML deck does not contain MADEIRA — did the build run after Initiative 30 P4 edits?"
+    )

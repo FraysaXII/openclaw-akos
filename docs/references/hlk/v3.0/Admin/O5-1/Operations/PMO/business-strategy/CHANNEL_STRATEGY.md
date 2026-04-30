@@ -118,6 +118,28 @@ Each channel is a hypothesis card with: **Hypothesis** (the bet), **ICP × chann
 
 ---
 
+---
+
+## Channel 6 — Partner joint-equity SaaS pilot
+
+**Hypothesis.** Partners with an existing customer base + a clear product idea + no in-house engineering rigor approach Holística to build a full SaaS in exchange for **equity + revenue share**. Holística's frozen-architecture-before-code discipline + AKOS governance + KiRBe foundation makes the company a uniquely trustable execution partner — most agencies can't take equity because they aren't operationally credible enough to ship and operate the product post-launch.
+
+**ICP × channel match.** Operadores B2B con base de clientes existente (typically 50 - 500 SMB customers in a vertical) that need a software product to retain those customers but cannot fund a full engineering team. The match is *demand-side*: the partner brings the customer relationship + the product hypothesis; Holística brings the engineering + governance + ongoing operation.
+
+**Leading indicator.** **One inbound joint-equity conversation per quarter.** Current evidence: two real engagements already on the books — see [`POC_TO_COMMERCIAL_MAP.csv`](../../../../../compliance/dimensions/POC_TO_COMMERCIAL_MAP.csv) rows `POC-WEBSITZ-SHOPIFY-2026` (`partner_subcontracted`, `pilot_recurring`) and `POC-RUSHLY-SCAFFOLD-2026` (`partner_design_phase`). Both started as services and are evolving into longer-tail recurring relationships; the latter is explicitly in joint-equity scoping as of 2026.
+
+**CAC band.** Effectively zero in cash terms (the channel is 100 % inbound — partners come to us). High in opportunity cost: each engagement claims engineering capacity for 2 - 6 months. That's the gating constraint, not customer acquisition cost.
+
+**Equity / revenue-share band.** TODO[OPERATOR-channel6-equity-band] — typical structures considered: (a) 10 - 25 % equity in the new SaaS entity + 0 % revenue share; (b) 0 % equity + 15 - 30 % revenue share for 36 - 60 months; (c) hybrid (small equity + smaller revenue share). The right band depends on partner customer base size, partner financial health, and the operational risk Holística absorbs (single-tenant build vs multi-tenant productized build).
+
+**Decision criteria.** Take a joint-equity engagement when **all three** are true: (1) partner brings genuine recurring customer demand, not just a pitch deck; (2) the SaaS scope reuses ≥ 60 % of the existing Holística stack (boilerplate, KiRBe components, MADEIRA agentic layer); (3) the 24-month payback projection on the equity / revenue-share band clears the same LTV:CAC threshold as Channel 3 (KiRBe inbound). Refuse when any one fails — pure-cash service engagements remain available via Channel 2.
+
+**Why this channel works.** It's the channel with the **highest demand signal** in the operator's current pipeline, and the **lowest customer-acquisition cost**, but the **most expensive operational commitment** per engagement. Investors read it as a costly signal: partners self-select Holística as their preferred execution partner, in exchange for equity — that's market validation that paid acquisition can't replicate. ENISA certifiers read it as an innovation channel: each joint-equity engagement is a distinct innovation surface (different vertical, different product hypothesis), all built on the same governed stack.
+
+**Boundary with corporate structure.** This channel is a **commercial pattern**, not a corporate-structure change. Holística retains intellectual property and the engineering team is Holística employees; the partner becomes a shareholder of the new SaaS entity (or a revenue-share counterparty), not a co-owner of Holística. This boundary preserves "Empresa Emergente" eligibility and simplifies cap-table management.
+
+---
+
 ## Channel matrix summary (deck-bound)
 
 | Channel | Stage | Primary ICP | CAC band | Cycle | Why |
@@ -127,6 +149,7 @@ Each channel is a hypothesis card with: **Hypothesis** (the bet), **ICP × chann
 | KiRBe inbound (content + PLG) | Building | Cliente SaaS direct | €50 - €300 | < 1 week to trial | Long-term recurring engine |
 | Public-site inbound (content + SEO) | Building | Pyme tecnológica | €0 - €200 | 4 - 12 weeks | Compound case-study effect |
 | Events / community | Opportunistic | Pyme tecnológica + investors | €1 000 - €3 000 | 8 - 26 weeks | Trust-builder |
+| Partner joint-equity SaaS pilot | Active (2 in pipeline) | Operadores B2B con base de clientes | ~€0 | 2 - 6 months engineering | Highest demand signal; equity-anchored |
 
 ## Hypotheses to retire
 
@@ -142,9 +165,9 @@ icps:
   - title: "Pyme tecnologica"
     body: "Empresas con 10-80 personas que necesitan estructurar su operacion antes de escalar a la siguiente etapa."
     signal: "CLIENTE DIRECTO - SERVICIO PROFESIONAL"
-  - title: "Partner B2B"
-    body: "Integradores, agencias y operadores que necesitan capacidad de ingenieria de producto sin contratar plantilla in-house."
-    signal: "CANAL INDIRECTO - ENTREGA GOBERNADA"
+  - title: "Partner B2B + equidad conjunta"
+    body: "Integradores, agencias y operadores con base de clientes propia que necesitan ingenieria de producto sin contratar plantilla. Algunos contratan servicio puro; otros co-construyen un SaaS con Holistica a cambio de equidad o revenue share."
+    signal: "CANAL INDIRECTO - ENTREGA GOBERNADA - EQUIDAD CONJUNTA"
   - title: "Cliente SaaS"
     body: "Equipos que adoptan la plataforma KiRBe para gestionar su propio conocimiento empresarial."
     signal: "PRODUCTO - INGRESO RECURRENTE"
