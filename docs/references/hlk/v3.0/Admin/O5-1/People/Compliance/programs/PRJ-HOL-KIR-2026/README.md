@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Program — `PRJ-HOL-KIR-2026` (People / Compliance chain)
 
 **Owner role**: Compliance (CPO chain)  

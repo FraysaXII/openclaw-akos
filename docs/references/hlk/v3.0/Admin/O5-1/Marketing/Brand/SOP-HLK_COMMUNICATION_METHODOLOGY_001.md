@@ -1,4 +1,5 @@
 ---
+language: en
 sop_id: SOP-HLK_COMMUNICATION_METHODOLOGY_001
 status: review
 role_owner: Brand Manager
@@ -18,7 +19,6 @@ related_process_ids:
 authority: Initiative 24 P1 + Wave-2 plan §"D-IH-10"
 last_review: 2026-04-29
 ---
-
 # SOP-HLK_COMMUNICATION_METHODOLOGY_001 — Four-Layer Communication Methodology
 
 **Owner**: Brand Manager (CMO chain)  

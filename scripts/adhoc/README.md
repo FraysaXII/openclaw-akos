@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Ad hoc operator scripts
 
 One-off helpers for RunPod, endpoints, branding checks, and similar tasks. **Not** part of the release gate or documented operator runbooks unless called out elsewhere.

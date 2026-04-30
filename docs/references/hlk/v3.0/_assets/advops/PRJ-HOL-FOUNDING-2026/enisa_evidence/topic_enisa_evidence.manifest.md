@@ -1,4 +1,5 @@
 ---
+language: en
 source_id: topic_enisa_evidence
 output_type: 1
 title: "Topic — ENISA evidence pack (Founder Incorporation)"
@@ -32,7 +33,6 @@ related_process_ids:
   - hol_peopl_dtp_303
 file_sha256: "635bb9240c418b56497f64415adcec853e1f3a47a366656b4c066e62cfcb1724"
 ---
-
 # Manifest: topic_enisa_evidence
 
 KM Topic-Fact-Source bundle for the **ENISA evidence pack** scoped to program `PRJ-HOL-FOUNDING-2026`.

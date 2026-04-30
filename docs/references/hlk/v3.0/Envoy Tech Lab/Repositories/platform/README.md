@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # platform — repository class
 
 Platform-class repos (KiRBe, MADEIRA stack, etc.) are listed in [../REPOSITORIES_REGISTRY.md](../REPOSITORIES_REGISTRY.md).

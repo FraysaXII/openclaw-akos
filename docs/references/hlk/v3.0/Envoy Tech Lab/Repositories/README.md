@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Envoy Tech Lab — GitHub repository hub
 
 **Entity:** HLK Tech Lab / Envoy Tech  

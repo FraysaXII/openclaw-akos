@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Program — `PRJ-HOL-KIR-2026` (People / Legal chain)
 
 **Owner role**: Legal Counsel (CPO chain via Legal sub-area)  

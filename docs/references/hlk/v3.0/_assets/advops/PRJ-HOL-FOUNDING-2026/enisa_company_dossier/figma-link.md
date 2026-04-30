@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: Brand Manager
 area: Marketing
@@ -13,7 +14,6 @@ authority: Operator (Figma file owner)
 last_review: 2026-04-30
 last_visual_fix_pass: 2026-04-30
 ---
-
 # Figma file — Holistika Research Company Dossier
 
 > **Initiative 28 P4 deliverable + Initiative 29 P1 visual fixes (2026-04-30).** This file records the Figma URL of the visual SSOT for the company dossier and the inventory of layout primitives. The Figma file is the **visual** SSOT; the slide content is sourced from `deck_slides.yaml`.

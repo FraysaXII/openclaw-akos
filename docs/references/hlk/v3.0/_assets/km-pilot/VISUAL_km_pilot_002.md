@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Diagram placeholder — process map (replace with Excalidraw export)
 
 **source_id**: `VISUAL_km_pilot_002`  

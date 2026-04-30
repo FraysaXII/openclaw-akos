@@ -1,4 +1,5 @@
 ---
+language: en
 Item Name: Agency Partner Proposal Intake and Fit Assessment
 Item Number: holistika_gtm_dtp_002
 Object Class: Guideline and Procedure
@@ -10,7 +11,6 @@ Associated Workstream: Go-To-Market Strategy
 Version: 1.0
 Revision Date: 2026-04-17
 ---
-
 ## Purpose
 
 Govern **agency and partner proposals** from any platform (not vendor-specific): **proposal → fit assessment → integration design → documentation → map to `process_list` / SOPs** for row **`holistika_gtm_dtp_002`**.

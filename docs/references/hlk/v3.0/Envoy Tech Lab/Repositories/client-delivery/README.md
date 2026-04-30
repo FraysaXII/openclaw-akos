@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # client-delivery — repository class
 
 Client or engagement-specific GitHub repositories are listed in [../REPOSITORIES_REGISTRY.md](../REPOSITORIES_REGISTRY.md).

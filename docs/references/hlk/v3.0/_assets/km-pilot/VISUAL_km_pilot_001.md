@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # HLK brand mark — KM pilot slot 1
 
 **source_id**: `VISUAL_km_pilot_001`  

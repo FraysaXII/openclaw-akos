@@ -1,4 +1,5 @@
 ---
+language: en
 Item Name: Inbound Response SLA (Holistika Services)
 Item Number: holistika_gtm_dtp_003
 Object Class: Guideline and Procedure
@@ -10,7 +11,6 @@ Associated Workstream: End-to-End Marketing Lead Flow
 Version: 1.0
 Revision Date: 2026-04-17
 ---
-
 ## Purpose
 
 Define **first-response and routing SLAs** for inbound marketing and services leads aligned to [`End-to-End Marketing Lead Flow` `thi_opera_dtp_289`](../../../../../../hlk/compliance/process_list.csv) and the merged process row **`holistika_gtm_dtp_003`**.

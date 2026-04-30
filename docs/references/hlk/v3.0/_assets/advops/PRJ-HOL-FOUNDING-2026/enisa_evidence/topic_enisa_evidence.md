@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Topic: ENISA evidence pack (`PRJ-HOL-FOUNDING-2026`)
 
 **source_id**: `topic_enisa_evidence`  

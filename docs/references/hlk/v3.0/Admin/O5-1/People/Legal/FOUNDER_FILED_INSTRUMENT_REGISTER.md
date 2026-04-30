@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Founder Filed Instrument Register (derived view)
 
 > **Program**: [`PRJ-HOL-FOUNDING-2026`](programs/PRJ-HOL-FOUNDING-2026/README.md). New program-scoped Legal casework lands under that subfolder; this derived view remains at the role-folder root for backwards compatibility (Initiative 22 P3, D-IH-1).

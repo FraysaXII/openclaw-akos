@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # SOP — HLK Tooling Standards (v1.0)
 
 **Document owner**: System Owner

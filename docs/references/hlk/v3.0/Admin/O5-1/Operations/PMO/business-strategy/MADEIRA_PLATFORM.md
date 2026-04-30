@@ -1,4 +1,5 @@
 ---
+language: es
 status: active
 role_owner: Founder + System Owner
 area: Operations / PMO
@@ -15,7 +16,6 @@ last_review: 2026-04-30
 deck_bound: true
 deck_slides_consumed: ["04-solution", "05-method", "06-proof", "11-moat", "12-roadmap"]
 ---
-
 # MADEIRA — Plataforma de agentes gobernada (segundo eje de producto)
 
 ## Lo que responde este documento

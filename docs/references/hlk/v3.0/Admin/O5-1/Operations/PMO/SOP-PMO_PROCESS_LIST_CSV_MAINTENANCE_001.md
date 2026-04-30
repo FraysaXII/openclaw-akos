@@ -1,4 +1,5 @@
 ---
+language: en
 Item Name: PMO process_list.csv maintenance and column contract
 Item Number: SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001
 Object Class: Guideline and Procedure
@@ -10,7 +11,6 @@ Associated Workstream: Think Big Operational Excellence
 Version: 1.0
 Revision Date: 2026-04-15
 ---
-
 ## Purpose
 
 Define how operators and integrators **maintain** the canonical process registry **`docs/references/hlk/compliance/process_list.csv`** after initial promotion from Trello or WIP (see **SOP-PMO_VAULT_PROMOTION_GATE_001**). Covers **column schema**, **parent identifiers**, **unique display names**, **forks and older checkouts**, and **recovery from duplicate `item_name` collisions**.

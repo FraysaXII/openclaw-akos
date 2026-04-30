@@ -1,4 +1,5 @@
 ---
+language: en
 Item Name: Weekly GTM and marketing metrics review
 Item Number: SOP-GTM_WEEKLY_METRICS_REVIEW_001
 Object Class: Guideline and Procedure
@@ -11,7 +12,6 @@ Associated process rows: thi_mkt_dtp_210, thi_opera_dtp_289, env_tech_dtp_243
 Version: 1.0
 Revision Date: 2026-04-17
 ---
-
 ## Purpose
 
 Weekly **metrics forum** for Holistika internal GTM—pipeline contribution, velocity, inbound SLA adherence, and campaign health. **Not** a separate `item_id`; operationalizes cadence across [`Go-To-Market Strategy` `thi_mkt_dtp_210`](../../../../../../../hlk/compliance/process_list.csv), [`End-to-End Marketing Lead Flow` `thi_opera_dtp_289`](../../../../../../../hlk/compliance/process_list.csv), and event taxonomy [`env_tech_dtp_243`](../../../../../../../hlk/compliance/process_list.csv).

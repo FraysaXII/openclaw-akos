@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # External Counsel Handoff Package
 
 **Document owner**: Legal Counsel

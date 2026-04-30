@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Holistika Knowledge Vault v3.0
 
 **Version**: 3.0

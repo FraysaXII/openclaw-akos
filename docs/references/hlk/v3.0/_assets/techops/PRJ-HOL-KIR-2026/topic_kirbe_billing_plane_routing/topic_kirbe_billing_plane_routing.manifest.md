@@ -1,4 +1,5 @@
 ---
+language: en
 source_id: topic_kirbe_billing_plane_routing
 output_type: 1
 title: "Topic — KiRBe billing-plane routing (KiRBe SaaS platform)"
@@ -32,7 +33,6 @@ related_process_ids:
   - thi_finan_dtp_309
 file_sha256: "779e9f8e616b4e41f4113727bbdf8f8a46173df4addabfc277ff89af3caacbf6"
 ---
-
 # Manifest: topic_kirbe_billing_plane_routing
 
 KM Topic-Fact-Source bundle for the **KiRBe billing-plane routing** topic, scoped to program `PRJ-HOL-KIR-2026`. First non-founder topic under the Initiative 22 plane × program × topic layout convention; proves the layout at N=2 programs.

@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Planning initiatives (`docs/wip/planning/`)
 
 Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` … `20-`, plus `99-proposals/`) so sort order and “what came before” are obvious in the filesystem. The table below matches that layout. **Ad-hoc** `.plan.md` files live in `99-proposals/`.

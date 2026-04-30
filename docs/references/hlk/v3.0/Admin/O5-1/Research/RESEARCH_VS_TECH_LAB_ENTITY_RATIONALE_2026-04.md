@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Research Vs Tech Lab Entity Rationale
 
 **Document owner**: Holistik Researcher  

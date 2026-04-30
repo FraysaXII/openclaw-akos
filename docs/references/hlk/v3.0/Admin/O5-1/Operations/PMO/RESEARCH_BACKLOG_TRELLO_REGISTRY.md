@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Research Backlog — Trello Registry (canonical index)
 
 **Document owner**: PMO  

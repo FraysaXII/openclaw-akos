@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Program — `PRJ-HOL-FOUNDING-2026` (Operations / PMO chain)
 
 **Owner role**: PMO  

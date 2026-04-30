@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: Brand Manager
 area: Marketing
@@ -12,7 +13,6 @@ authority: Operator (lived protocols)
 last_review: 2026-04-29
 ssot: true
 ---
-
 # BRAND_VOICE_FOUNDATION
 
 > **Status — Active (Initiative 24 P0a; Operator-authored 2026-04-29).** Operator-lived brand voice per D-IH-17. Maintained by the Brand Manager (CMO chain); annual review trigger lives in `process_list.csv` `thi_mkt_dtp_293` (Initiative 24 P1).

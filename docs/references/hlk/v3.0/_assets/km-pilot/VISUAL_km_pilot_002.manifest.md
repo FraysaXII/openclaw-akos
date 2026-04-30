@@ -1,4 +1,5 @@
 ---
+language: en
 source_id: VISUAL_km_pilot_002
 output_type: 1
 title: "Diagram placeholder — process map (replace with Excalidraw export)"
@@ -19,7 +20,6 @@ intellectual_kind: process_map
 related_process_ids: []
 file_sha256: "74d0b63007b12a6f8dafbf2cfb83f1a02823eb6bfcf2dd30841689678b728fb4"
 ---
-
 # Manifest: VISUAL_km_pilot_002
 
 See [HLK_KM_TOPIC_FACT_SOURCE.md](../../../compliance/HLK_KM_TOPIC_FACT_SOURCE.md).

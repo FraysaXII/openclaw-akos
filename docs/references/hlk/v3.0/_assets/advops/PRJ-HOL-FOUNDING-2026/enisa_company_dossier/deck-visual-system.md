@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: Brand Manager
 area: Marketing
@@ -17,7 +18,6 @@ sources:
   - docs/wip/planning/28-investor-style-company-dossier/deck-brief.md
   - docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck_slides.yaml
 ---
-
 # Deck visual system — Investor-style company dossier
 
 > **Purpose.** Translate the brand tokens in `BRAND_VISUAL_PATTERNS.md` into the specific layout primitives this 16:9 deck needs. The HTML preview (P3) and the Figma deck (P4) both consume this document as the layout SSOT.

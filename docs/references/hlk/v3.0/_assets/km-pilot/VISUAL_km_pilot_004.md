@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Holistika logo — KM pilot visual slot
 
 **source_id**: `VISUAL_km_pilot_004`  

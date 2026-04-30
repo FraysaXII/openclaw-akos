@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: Brand Manager
 area: Marketing
@@ -26,7 +27,6 @@ sources:
   - upstream_path: public/logo.svg
     role: full wordmark logo asset
 ---
-
 # BRAND_VISUAL_PATTERNS
 
 > **Status — Active (Initiative 27 follow-up; Operator-supplied 2026-04-29).** Hand-authored companion to [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md) capturing concrete **visual** identity patterns sourced verbatim from the Holistika Research production marketing repository (canonical: `https://github.com/FraysaXII/<holistika-research-boilerplate>` — repo slug TBD by operator; pending row in [`REPOSITORIES_REGISTRY.md`](../../../Envoy%20Tech%20Lab/Repositories/REPOSITORIES_REGISTRY.md) per [`SOP-HLK_TOOLING_STANDARDS_001.md`](../../Tech/System%20Owner/SOP-HLK_TOOLING_STANDARDS_001.md) §3.2). Cited by [`akos/hlk_pdf_render.py`](../../../../../../../akos/hlk_pdf_render.py) `render_pdf_branded(profile="dossier")` when generating brand-aligned PDFs (ENISA dossier, partner pitches, investor decks). Operator-curated; **not** auto-rendered by the wave2 scaffolder. Edits land via direct PR.

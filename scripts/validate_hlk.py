@@ -331,6 +331,70 @@ def main() -> int:
             return 1
         print("  TOPIC_REGISTRY: PASS")
 
+    # Initiative 31 P2.1 - Persona registry validator (separate gate;
+    # SKIPs gracefully when the CSV is absent).
+    persona_registry_path = HLK_DIR / "dimensions" / "PERSONA_REGISTRY.csv"
+    if persona_registry_path.is_file():
+        import subprocess
+
+        vps = Path(__file__).resolve().parent / "validate_persona_registry.py"
+        rps = subprocess.run([sys.executable, str(vps)], capture_output=True, text=True)
+        print(rps.stdout, end="")
+        if rps.stderr:
+            print(rps.stderr, end="", file=sys.stderr)
+        if rps.returncode != 0:
+            print("  PERSONA_REGISTRY: FAIL")
+            return 1
+        print("  PERSONA_REGISTRY: PASS")
+
+    # Initiative 31 P3 - Channel touchpoint registry validator (separate gate;
+    # SKIPs gracefully when the CSV is absent).
+    ct_registry_path = HLK_DIR / "dimensions" / "CHANNEL_TOUCHPOINT_REGISTRY.csv"
+    if ct_registry_path.is_file():
+        import subprocess
+
+        vct = Path(__file__).resolve().parent / "validate_channel_touchpoint_registry.py"
+        rct = subprocess.run([sys.executable, str(vct)], capture_output=True, text=True)
+        print(rct.stdout, end="")
+        if rct.stderr:
+            print(rct.stderr, end="", file=sys.stderr)
+        if rct.returncode != 0:
+            print("  CHANNEL_TOUCHPOINT_REGISTRY: FAIL")
+            return 1
+        print("  CHANNEL_TOUCHPOINT_REGISTRY: PASS")
+
+    # Initiative 31 P5.2 - Sourcing register validator (separate gate;
+    # SKIPs gracefully when the CSV is absent).
+    sr_path = HLK_DIR / "dimensions" / "SOURCING_REGISTER.csv"
+    if sr_path.is_file():
+        import subprocess
+
+        vsr = Path(__file__).resolve().parent / "validate_sourcing_register.py"
+        rsr = subprocess.run([sys.executable, str(vsr)], capture_output=True, text=True)
+        print(rsr.stdout, end="")
+        if rsr.stderr:
+            print(rsr.stderr, end="", file=sys.stderr)
+        if rsr.returncode != 0:
+            print("  SOURCING_REGISTER: FAIL")
+            return 1
+        print("  SOURCING_REGISTER: PASS")
+
+    # Initiative 31 P1 - language frontmatter validator (separate gate;
+    # SKIPs gracefully when the validator file is absent).
+    lang_validator = Path(__file__).resolve().parent / "validate_hlk_language_frontmatter.py"
+    if lang_validator.is_file():
+        import subprocess
+
+        rl = subprocess.run([sys.executable, str(lang_validator)], capture_output=True, text=True)
+        # Show only the trailing summary block — the validator's full file list is verbose.
+        print("\n".join(rl.stdout.splitlines()[-9:]))
+        if rl.stderr and rl.returncode != 0:
+            print(rl.stderr, end="", file=sys.stderr)
+        if rl.returncode != 0:
+            print("  LANGUAGE_FRONTMATTER: FAIL")
+            return 1
+        print("  LANGUAGE_FRONTMATTER: PASS")
+
     print("  OVERALL: PASS")
     return 0
 

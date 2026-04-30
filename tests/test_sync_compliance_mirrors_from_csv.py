@@ -27,7 +27,11 @@ def test_sync_compliance_mirrors_count_only() -> None:
     assert "adviser_open_questions_rows=12" in r.stdout
     assert "founder_filed_instruments_rows=1" in r.stdout
     assert "program_registry_rows=12" in r.stdout
-    assert "topic_registry_rows=19" in r.stdout
+    assert "topic_registry_rows=23" in r.stdout
+    # Initiative 31 P2.1 / P3 / P5.2 — three new dimension registers.
+    assert "persona_registry_rows=16" in r.stdout
+    assert "channel_touchpoint_registry_rows=10" in r.stdout
+    assert "sourcing_register_rows=" in r.stdout
     assert "source_git_sha=" in r.stdout
 
 

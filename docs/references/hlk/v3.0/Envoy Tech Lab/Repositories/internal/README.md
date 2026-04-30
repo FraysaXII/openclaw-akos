@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # internal — repository class
 
 Internal tooling repositories are listed in [../REPOSITORIES_REGISTRY.md](../REPOSITORIES_REGISTRY.md).

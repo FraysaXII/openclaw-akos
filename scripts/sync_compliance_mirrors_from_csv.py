@@ -35,8 +35,11 @@ from akos.hlk_adviser_disciplines_csv import ADVISER_ENGAGEMENT_DISCIPLINES_FIEL
 from akos.hlk_adviser_questions_csv import ADVISER_OPEN_QUESTIONS_FIELDNAMES  # noqa: E402
 from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIELDNAMES  # noqa: E402
+from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
+from akos.hlk_persona_registry_csv import PERSONA_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_sourcing_register_csv import SOURCING_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_topic_registry_csv import TOPIC_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_process_csv import (  # noqa: E402
     PROCESS_LIST_FIELDNAMES,
@@ -54,6 +57,9 @@ ADVISER_QUESTIONS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
 FILED_INSTRUMENTS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "FOUNDER_FILED_INSTRUMENTS.csv"
 PROGRAM_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PROGRAM_REGISTRY.csv"
 TOPIC_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
+PERSONA_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_REGISTRY.csv"
+CHANNEL_TOUCHPOINT_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "CHANNEL_TOUCHPOINT_REGISTRY.csv"
+SOURCING_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SOURCING_REGISTER.csv"
 
 # Must match sql-proposal-stack-20260417 §4.3
 BASELINE_FIELDNAMES: tuple[str, ...] = (
@@ -271,6 +277,75 @@ def _emit_topic_registry_upserts(rows: list[dict[str, str]], source_git_sha: str
     return out
 
 
+def _emit_persona_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """Initiative 31 P2.1 mirror upsert emitter for compliance.persona_registry_mirror."""
+    cols_csv = ", ".join(PERSONA_REGISTRY_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in PERSONA_REGISTRY_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = []
+    out.append("-- compliance.persona_registry_mirror upserts (Initiative 31)")
+    for r in rows:
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in PERSONA_REGISTRY_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        pid = (r.get("persona_id") or "").strip()
+        if not pid:
+            continue
+        out.append(
+            f"INSERT INTO compliance.persona_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (persona_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_channel_touchpoint_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """Initiative 31 P3 mirror upsert emitter for compliance.channel_touchpoint_registry_mirror."""
+    cols_csv = ", ".join(CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = []
+    out.append("-- compliance.channel_touchpoint_registry_mirror upserts (Initiative 31)")
+    for r in rows:
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        cid = (r.get("channel_id") or "").strip()
+        if not cid:
+            continue
+        out.append(
+            f"INSERT INTO compliance.channel_touchpoint_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (channel_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_sourcing_register_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """Initiative 31 P5.2 mirror upsert emitter for compliance.sourcing_register_mirror."""
+    cols_csv = ", ".join(SOURCING_REGISTER_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in SOURCING_REGISTER_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = []
+    out.append("-- compliance.sourcing_register_mirror upserts (Initiative 31)")
+    for r in rows:
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in SOURCING_REGISTER_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        vid = (r.get("vendor_id") or "").strip()
+        if not vid:
+            continue
+        out.append(
+            f"INSERT INTO compliance.sourcing_register_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (vendor_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
 def _emit_program_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
     """Initiative 23 P2 mirror upsert emitter for compliance.program_registry_mirror.
 
@@ -369,6 +444,21 @@ def main() -> int:
         help="Only emit topic_registry_mirror statements (requires dimensions/TOPIC_REGISTRY.csv) [Initiative 25]",
     )
     parser.add_argument(
+        "--persona-registry-only",
+        action="store_true",
+        help="Only emit persona_registry_mirror statements (requires dimensions/PERSONA_REGISTRY.csv) [Initiative 31]",
+    )
+    parser.add_argument(
+        "--channel-touchpoint-registry-only",
+        action="store_true",
+        help="Only emit channel_touchpoint_registry_mirror statements (requires dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv) [Initiative 31]",
+    )
+    parser.add_argument(
+        "--sourcing-register-only",
+        action="store_true",
+        help="Only emit sourcing_register_mirror statements (requires dimensions/SOURCING_REGISTER.csv) [Initiative 31]",
+    )
+    parser.add_argument(
         "--no-begin-commit",
         action="store_true",
         help="Omit BEGIN/COMMIT wrapper",
@@ -386,6 +476,9 @@ def main() -> int:
             args.founder_filed_instruments_only,
             args.program_registry_only,
             args.topic_registry_only,
+            args.persona_registry_only,
+            args.channel_touchpoint_registry_only,
+            args.sourcing_register_only,
         )
         if x
     )
@@ -395,7 +488,8 @@ def main() -> int:
             "--finops-counterparty-register-only, --goipoi-register-only, "
             "--adviser-disciplines-only, --adviser-questions-only, "
             "--founder-filed-instruments-only, --program-registry-only, "
-            "--topic-registry-only",
+            "--topic-registry-only, --persona-registry-only, "
+            "--channel-touchpoint-registry-only",
             file=sys.stderr,
         )
         return 1
@@ -675,6 +769,123 @@ def main() -> int:
             sys.stdout.write(text)
         return 0
 
+    if args.persona_registry_only:
+        if not PERSONA_REGISTRY_CSV.is_file():
+            print("error: missing", PERSONA_REGISTRY_CSV, file=sys.stderr)
+            return 1
+        with PERSONA_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            fn = list(reader.fieldnames or [])
+            if fn != list(PERSONA_REGISTRY_FIELDNAMES):
+                print(
+                    "error: PERSONA_REGISTRY.csv header drift vs PERSONA_REGISTRY_FIELDNAMES",
+                    file=sys.stderr,
+                )
+                print("  expected:", list(PERSONA_REGISTRY_FIELDNAMES), file=sys.stderr)
+                print("  got:     ", fn, file=sys.stderr)
+                return 1
+            pr_rows = [dict(r) for r in reader]
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            print(f"persona_registry_rows={len(pr_rows)}")
+            return 0
+        blocks = _emit_persona_registry_upserts(pr_rows, sha)
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            "-- Apply only after compliance.persona_registry_mirror exists (Initiative 31 DDL).",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
+    if args.sourcing_register_only:
+        if not SOURCING_REGISTER_CSV.is_file():
+            print("error: missing", SOURCING_REGISTER_CSV, file=sys.stderr)
+            return 1
+        with SOURCING_REGISTER_CSV.open(encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            fn = list(reader.fieldnames or [])
+            if fn != list(SOURCING_REGISTER_FIELDNAMES):
+                print(
+                    "error: SOURCING_REGISTER.csv header drift vs SOURCING_REGISTER_FIELDNAMES",
+                    file=sys.stderr,
+                )
+                print("  expected:", list(SOURCING_REGISTER_FIELDNAMES), file=sys.stderr)
+                print("  got:     ", fn, file=sys.stderr)
+                return 1
+            sr_rows = [dict(r) for r in reader]
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            print(f"sourcing_register_rows={len(sr_rows)}")
+            return 0
+        blocks = _emit_sourcing_register_upserts(sr_rows, sha)
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            "-- Apply only after compliance.sourcing_register_mirror exists (Initiative 31 DDL).",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
+    if args.channel_touchpoint_registry_only:
+        if not CHANNEL_TOUCHPOINT_REGISTRY_CSV.is_file():
+            print("error: missing", CHANNEL_TOUCHPOINT_REGISTRY_CSV, file=sys.stderr)
+            return 1
+        with CHANNEL_TOUCHPOINT_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            fn = list(reader.fieldnames or [])
+            if fn != list(CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES):
+                print(
+                    "error: CHANNEL_TOUCHPOINT_REGISTRY.csv header drift vs CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES",
+                    file=sys.stderr,
+                )
+                print("  expected:", list(CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES), file=sys.stderr)
+                print("  got:     ", fn, file=sys.stderr)
+                return 1
+            ct_rows = [dict(r) for r in reader]
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            print(f"channel_touchpoint_registry_rows={len(ct_rows)}")
+            return 0
+        blocks = _emit_channel_touchpoint_registry_upserts(ct_rows, sha)
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            "-- Apply only after compliance.channel_touchpoint_registry_mirror exists (Initiative 31 DDL).",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
     if not PROC_CSV.is_file():
         print("error: missing", PROC_CSV, file=sys.stderr)
         return 1
@@ -761,6 +972,33 @@ def main() -> int:
                 tr_rows = [dict(r) for r in tr_reader]
                 tr_n = len(tr_rows)
 
+    persona_n = 0
+    persona_rows: list[dict[str, str]] = []
+    if PERSONA_REGISTRY_CSV.is_file():
+        with PERSONA_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            persona_reader = csv.DictReader(f)
+            if list(persona_reader.fieldnames or []) == list(PERSONA_REGISTRY_FIELDNAMES):
+                persona_rows = [dict(r) for r in persona_reader]
+                persona_n = len(persona_rows)
+
+    ct_n = 0
+    ct_rows: list[dict[str, str]] = []
+    if CHANNEL_TOUCHPOINT_REGISTRY_CSV.is_file():
+        with CHANNEL_TOUCHPOINT_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            ct_reader = csv.DictReader(f)
+            if list(ct_reader.fieldnames or []) == list(CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES):
+                ct_rows = [dict(r) for r in ct_reader]
+                ct_n = len(ct_rows)
+
+    sr_n = 0
+    sr_rows: list[dict[str, str]] = []
+    if SOURCING_REGISTER_CSV.is_file():
+        with SOURCING_REGISTER_CSV.open(encoding="utf-8", newline="") as f:
+            sr_reader = csv.DictReader(f)
+            if list(sr_reader.fieldnames or []) == list(SOURCING_REGISTER_FIELDNAMES):
+                sr_rows = [dict(r) for r in sr_reader]
+                sr_n = len(sr_rows)
+
     if args.count_only:
         print(f"source_git_sha={sha}")
         print(f"process_list_rows={len(proc_rows)}")
@@ -772,6 +1010,9 @@ def main() -> int:
         print(f"founder_filed_instruments_rows={fi_n}")
         print(f"program_registry_rows={pr_n}")
         print(f"topic_registry_rows={tr_n}")
+        print(f"persona_registry_rows={persona_n}")
+        print(f"channel_touchpoint_registry_rows={ct_n}")
+        print(f"sourcing_register_rows={sr_n}")
         return 0
 
     blocks: list[str] = []
@@ -793,6 +1034,12 @@ def main() -> int:
         blocks.extend(_emit_program_registry_upserts(pr_rows, sha))
     if not args.process_list_only and not args.baseline_only and tr_rows:
         blocks.extend(_emit_topic_registry_upserts(tr_rows, sha))
+    if not args.process_list_only and not args.baseline_only and persona_rows:
+        blocks.extend(_emit_persona_registry_upserts(persona_rows, sha))
+    if not args.process_list_only and not args.baseline_only and ct_rows:
+        blocks.extend(_emit_channel_touchpoint_registry_upserts(ct_rows, sha))
+    if not args.process_list_only and not args.baseline_only and sr_rows:
+        blocks.extend(_emit_sourcing_register_upserts(sr_rows, sha))
 
     preamble = [
         "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",

@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: Brand Manager
 area: Marketing
@@ -11,7 +12,6 @@ intellectual_kind: brand_asset
 authority: Operator (lived protocols)
 last_review: 2026-04-29
 ---
-
 # BRAND_DO_DONT
 
 > **Status — Active (Initiative 24 P0a; Operator-authored 2026-04-29).** Auto-emitted by `scripts/wave2_backfill.py --section brand_voice` from `operator-answers-wave2.yaml` Section 2 `brand_voice.voice_is` / `voice_is_not`. Edit the YAML and re-run.

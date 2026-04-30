@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 STANDARD OPERATING PROCEDURE
 
 * Item Name: FINOPS counterparty register maintenance  

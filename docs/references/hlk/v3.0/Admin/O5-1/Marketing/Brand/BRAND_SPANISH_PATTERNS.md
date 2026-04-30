@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: Brand Manager
 area: Marketing
@@ -11,7 +12,6 @@ intellectual_kind: brand_asset
 authority: Operator (lived protocols)
 last_review: 2026-04-29
 ---
-
 # BRAND_SPANISH_PATTERNS
 
 > **Status — Active (Initiative 24 follow-up; Operator-supplied 2026-04-29).** Hand-authored companion to [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md) capturing concrete Spanish-language patterns from real Holistika ↔ external-counsel exchanges. Cited by the composer (`scripts/compose_adviser_message.py`) when `language_preference: es` resolves at Layer 4. Operator-curated; **not** auto-rendered by the wave2 scaffolder. Edits land via direct PR.

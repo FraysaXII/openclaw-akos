@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 STANDARD OPERATING PROCEDURE
 
 * Item Name: ENISA Readiness and Evidence Pack  

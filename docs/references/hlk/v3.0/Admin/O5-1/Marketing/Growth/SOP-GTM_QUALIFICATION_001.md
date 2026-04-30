@@ -1,4 +1,5 @@
 ---
+language: en
 Item Name: Holistika Internal GTM Proof Run (90-Day)
 Item Number: holistika_gtm_dtp_001
 Object Class: Guideline and Procedure
@@ -10,7 +11,6 @@ Associated Workstream: Go-To-Market Strategy
 Version: 1.0
 Revision Date: 2026-04-17
 ---
-
 ## Purpose
 
 Run a **disciplined 90-day internal proof** of GTM motions for Holistika as a **services firm**, tied to **`holistika_gtm_dtp_001`** in [`process_list.csv`](../../../../../../compliance/process_list.csv).

@@ -1,4 +1,5 @@
 ---
+language: es
 status: active
 role_owner: PMO + Database Owner
 area: Operations / PMO
@@ -15,7 +16,6 @@ last_review: 2026-04-30
 deck_bound: true
 deck_slides_consumed: ["11-moat"]
 ---
-
 # Foso de gobernanza — la operación es medible, no retórica
 
 ## Lo que responde este documento
@@ -28,7 +28,7 @@ A fecha de **2026-04-30**, el repositorio canónico de Holística contiene:
 
 | Métrica | Valor | Cómo se verifica |
 |:--------|:------|:-----------------|
-| **Temas gobernados** | **19** | `py scripts/validate_topic_registry.py` reporta `Rows validated: 19` |
+| **Temas gobernados** | **23** | `py scripts/validate_topic_registry.py` reporta `Rows validated: 23` |
 | **Procesos gobernados** | **1.093** | `py scripts/sync_compliance_mirrors_from_csv.py --count-only` reporta `process_list_rows=1093` |
 | **Roles definidos** | **65** | `py scripts/sync_compliance_mirrors_from_csv.py --count-only` reporta `baseline_organisation_rows=65` |
 | **Manifests Output 1 (KM visuales)** | **11** | `py scripts/validate_hlk_km_manifests.py` reporta 11 archivos con `OVERALL: PASS` |
@@ -95,5 +95,5 @@ Replicar esta capa es un proyecto de 12-24 meses con un equipo dedicado. Pre-exi
 ```yaml
 slide_11_moat_pillar_1:
   title: "Operacion gobernada y medible"
-  body: "19 temas gobernados, 1.093 procesos catalogados, 65 roles definidos. Tres capas de validadores deterministas y compuertas automaticas en cada salida publica. Lo que se promete se puede auditar."
+  body: "23 temas gobernados, 1.093 procesos catalogados, 65 roles definidos. Tres capas de validadores deterministas y compuertas automaticas en cada salida publica. Lo que se promete se puede auditar."
 ```

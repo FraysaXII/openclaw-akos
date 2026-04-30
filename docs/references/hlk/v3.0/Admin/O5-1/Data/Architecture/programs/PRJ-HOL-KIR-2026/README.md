@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Program — `PRJ-HOL-KIR-2026` (Data / Architecture chain)
 
 **Owner role**: Data Architect (CDO chain)  

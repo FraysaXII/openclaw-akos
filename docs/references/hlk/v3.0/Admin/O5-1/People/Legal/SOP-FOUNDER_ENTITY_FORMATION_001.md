@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 STANDARD OPERATING PROCEDURE
 
 * Item Name: Founder Entity Formation Readiness  

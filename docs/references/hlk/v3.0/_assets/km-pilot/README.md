@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # km-pilot — Output 1 pilot bundle
 
 Canonical governed visuals for KM pipeline validation. See [v3.0/index.md](../../index.md).

@@ -1,10 +1,10 @@
 ---
+language: en
 source: /Users/fay/cd/projects/nfq/ue-quickwins/supporting_docs/recordings/delete/2026-12-12 - Holistika Research - Business Developer Onboarding.m4a
 source_type: .m4a
 converted_at: 2026-04-17T20:29:58
 title: "2026-12-12 - Holistika Research - Business Developer Onboarding"
 ---
-
 _Audio transcription — Duration: 01:08:12 — Language: fr — Speakers: 2_
 
 ## Transcript

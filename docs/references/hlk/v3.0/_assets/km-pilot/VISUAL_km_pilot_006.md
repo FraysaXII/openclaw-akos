@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Diagram placeholder — methodology map slot
 
 **source_id**: `VISUAL_km_pilot_006`  

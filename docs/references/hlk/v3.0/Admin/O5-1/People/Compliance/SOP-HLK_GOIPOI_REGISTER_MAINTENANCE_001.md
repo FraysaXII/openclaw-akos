@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 STANDARD OPERATING PROCEDURE
 
 * Item Name: GOI/POI register maintenance
@@ -136,6 +140,58 @@ When a new program (e.g. `PRJ-HOL-KIRBE-2027`) is registered in `process_list.cs
 8. **Run** `py scripts/validate_hlk.py` and `py scripts/sync_compliance_mirrors_from_csv.py --goipoi-register-only --count-only` before merging.
 
 The new program's first GOI/POI rows should be merged in a single tranche so reviewers can spot-check sensitivity bands and class choices in one diff.
+
+### 4.9 Distance-band assessment (Initiative 31 P2.2 / D-IH-31-G)
+
+Every row in GOI_POI_REGISTER carries three distance-related columns added by Initiative 31:
+
+- **`distance_band`** — the social-graph distance from the founder (or from the closest Holistika role) to this person/group. Ordinal enum `N1 | N2 | N3 | N4`:
+  - **N1** — direct access (you know them personally; can DM, email, schedule with no intermediary).
+  - **N2** — one-bridge (you know someone who knows them).
+  - **N3** — two-bridge (chain of two intermediaries).
+  - **N4** — three-or-more-bridge (terminal; N5+ collapses to N4).
+- **`bridge_via`** — FK to another POI/GOI `ref_id`, the immediate intermediary on the path. Null for `N1`. Required for `N2 - N4`.
+- **`distance_assessed_date`** — ISO date of last validation. Drives the quarterly re-assessment cadence (aligned with §6.1 service_role rotation cadence).
+
+#### Assessment decision tree
+
+When recording a new row or re-assessing an existing one, walk this:
+
+1. **Does the founder have a direct channel** (DM, email, scheduled meeting in the last 12 months) without going through anyone else? → `N1`, `bridge_via` empty.
+2. If not, **is there one named POI/GOI** in this register who currently has `N1` access AND who actively introduces / forwards this individual? → `N2`, `bridge_via = <that POI's ref_id>`.
+3. If the bridge is itself reached through another POI/GOI? → `N3`, `bridge_via = <the closer bridge's ref_id>`.
+4. Otherwise → `N4`, `bridge_via = <the most recent / most likely bridge's ref_id>`. If there is no plausible bridge, leave `bridge_via` empty and rely on the validator's tolerance for `N4` cold contacts (set `distance_band=N4` with `bridge_via` null is **valid only when the row's `class = lead | other` and the founder has no clear path to this person yet**).
+
+#### When to re-assess
+
+Re-assess **on every quarter** (last business day) by walking each row and asking:
+
+- Has the bridge person changed roles, exited their employer, or stopped responding? → distance may have grown (e.g., `N2` becomes `N3` because the original bridge no longer reaches the contact).
+- Has the founder gained a direct channel that wasn't there before? → distance shrinks (e.g., `N3` becomes `N1` after a successful warm intro plus a few direct exchanges).
+- Update `distance_assessed_date` to today's date even if `distance_band` did not change — the timestamp is the audit signal.
+
+Re-assess **on every new POI/GOI added** (the new row's distance is recorded at creation time).
+
+Re-assess **whenever a bridge POI/GOI is removed from the register** (the rows that pointed to it via `bridge_via` need a new bridge or a downgraded distance band).
+
+#### Why the distance dimension exists
+
+Per Initiative 31's HOLISTIK_OPS_DISCOVERY.md, distance is the 5-axis Holistik Ops dimension that turns the founder's social capital into a queryable governed asset. A query like `SELECT class, COUNT(*) FROM compliance.goipoi_register_mirror WHERE distance_band='N1'` answers "how many investor / advisor / partner contacts do I directly own today?" — a question the register could not answer before Initiative 31.
+
+Distance also drives the touchpoint-kit cell selection: the same persona arriving via N1 vs N4 deserves a fundamentally different intro template, qualification gate, and SLA.
+
+#### Validator enforcement
+
+`scripts/validate_goipoi_register.py` enforces:
+
+- `distance_band` is one of `N1 | N2 | N3 | N4`.
+- `bridge_via` resolves to another `ref_id` in this register (FK).
+- `bridge_via` is non-null when `distance_band ≠ N1`.
+- `bridge_via` does not point at the row's own `ref_id` (no self-bridge).
+- `distance_assessed_date` is ISO format `YYYY-MM-DD` and not in the future.
+- The bridge graph contains no cycles (depth-first traversal up to 10 hops).
+
+Failures fail the validator and block PR merge until resolved.
 
 ## 5.0 Roles and Responsibilities
 

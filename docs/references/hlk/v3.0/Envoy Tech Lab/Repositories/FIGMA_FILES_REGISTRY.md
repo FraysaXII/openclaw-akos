@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Holistika-tracked Figma files (canonical registry)
 
 **Item type:** Canonical registry (see [PRECEDENCE.md](../../../compliance/PRECEDENCE.md))

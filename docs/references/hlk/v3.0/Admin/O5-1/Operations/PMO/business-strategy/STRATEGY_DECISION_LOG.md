@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: PMO
 area: Operations / PMO
@@ -13,7 +14,6 @@ intellectual_kind: decision_log
 authority: Founder + PMO
 last_review: 2026-04-30
 ---
-
 # Strategy Decision Log
 
 > Material business-strategy decisions. One row per decision: id, date, scope, options considered, decision, rationale, trigger to revisit. Decisions made in other artifacts (`PRICING_MODEL.md`, `BOOTSTRAPPING_PLAN.md`, etc.) are summarised here so the founder has one chronological view.

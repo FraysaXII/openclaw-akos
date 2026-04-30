@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: Founder + PMO
 area: Operations / PMO
@@ -15,7 +16,6 @@ last_review: 2026-04-30
 deck_bound: true
 deck_slides_consumed: ["13-enisa-fit"]
 ---
-
 # Investment thesis — if/when raise, what it buys
 
 ## What this answers

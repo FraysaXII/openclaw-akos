@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Topic: KiRBe billing-plane routing (`PRJ-HOL-KIR-2026`)
 
 **source_id**: `topic_kirbe_billing_plane_routing`  
