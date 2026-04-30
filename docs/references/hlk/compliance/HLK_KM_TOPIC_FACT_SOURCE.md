@@ -152,9 +152,20 @@ paths:
   svg: ./<topic_id>.svg              # optional — vector form of the same diagram
   mermaid: ./<topic_id>.mmd          # optional — Mermaid source-of-truth; rendered via scripts/render_km_diagrams.py
   excalidraw: ./<topic_id>.excalidraw # optional — hand-curated source-of-truth
+  figma_url: https://www.figma.com/design/<file_key>  # optional — when the topic produces a Figma deck/library, points at the canonical Figma file (Initiative 29 P2; see SOP-HLK_TOOLING_STANDARDS_001.md §3.6)
+  deck_yaml: <repo-relative path>     # optional — when figma_url is set and a YAML SSOT drives the deck content (e.g. deck_slides.yaml), this slot binds them so the drift-handling rule is unambiguous
 ```
 
 **Source-of-truth rule**. When a manifest lists a `mermaid:` or `excalidraw:` source, that source is the editable SSOT and the raster is **derived**. Do not hand-edit derived rasters; regenerate from source. The manifest's `file_sha256` covers the raster only; the editable source carries no sha because it is human-edited.
+
+**Figma extension (Initiative 29 P2, 2026-04-30)**. When a topic produces a Figma deliverable (deck, dossier, design library), the manifest MAY carry `paths.figma_url` and (when applicable) `paths.deck_yaml`. Validation rules:
+
+- `paths.figma_url`, when present, MUST start with `https://www.figma.com/design/` and contain a non-empty file key.
+- `paths.deck_yaml`, when present, MUST resolve to an existing repo-relative path (validated by `validate_hlk_vault_links.py`).
+- The Figma file URL MUST also appear as a row in [`FIGMA_FILES_REGISTRY.md`](../v3.0/Envoy%20Tech%20Lab/Repositories/FIGMA_FILES_REGISTRY.md) — the registry is the canonical place for governance metadata (team, class, owner, linked YAML), the manifest carries only the URL pointer.
+- The drift-handling rule from [`SOP-HLK_TOOLING_STANDARDS_001.md`](../v3.0/Admin/O5-1/Tech/System%20Owner/SOP-HLK_TOOLING_STANDARDS_001.md) §3.6 applies: Markdown / YAML wins for content; Figma wins for visual layout; PDF is disposable.
+
+When `paths.figma_url` is set the manifest's `raster:` slot is no longer the only visual representation — the Figma file is the canonical visual SSOT and the optional raster (e.g. a screenshot of one frame) is for thumbnails only. The `file_sha256` (when set) still covers the raster only.
 
 ## Obsidian and controlled tags
 
