@@ -1,0 +1,907 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8" /><meta name="viewport" content="width=1480" /><title>Holistika Research — Dossier de Compañía</title><style>/*
+ * Holistika Research — Company Dossier deck stylesheet.
+ *
+ * Initiative 28 P3. Mirrors deck-visual-system.md.
+ * Inlined into the rendered index.html by scripts/build_company_deck.py.
+ * Token values are sourced from BRAND_VISUAL_PATTERNS.md §1.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  /* Light surface */
+  --bg-light: hsl(40 20% 99%);
+  --bg-light-card: hsl(40 15% 98%);
+  --fg-light: hsl(220 12% 18%);
+  --fg-muted: hsl(220 8% 42%);
+  --border: hsl(220 8% 88%);
+
+  /* Dark surface */
+  --bg-dark: hsl(220 16% 7%);
+  --bg-dark-card: hsl(220 14% 10%);
+  --fg-dark: hsl(210 15% 90%);
+  --fg-dark-muted: hsl(210 12% 65%);
+  --border-dark: hsl(220 12% 22%);
+
+  /* Accents */
+  --teal: hsl(168 55% 38%);
+  --teal-dark: hsl(168 50% 44%);
+  --amber: hsl(38 80% 50%);
+  --amber-dark: hsl(38 75% 55%);
+  --risk: hsl(0 75% 55%);
+
+  /* Geometry */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 16px;
+
+  /* Slide canvas dimensions (16:9) */
+  --slide-w: 1440px;
+  --slide-h: 810px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: hsl(220 12% 14%);
+  color: var(--fg-light);
+  font-family: "Inter", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.deck-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 48px 24px 96px;
+}
+
+.deck-header {
+  width: var(--slide-w);
+  max-width: 90vw;
+  color: var(--fg-dark-muted);
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.deck-header strong {
+  color: var(--fg-dark);
+  letter-spacing: 0.18em;
+}
+
+/* ========================================================================
+ * Slide frame
+ * ======================================================================== */
+.slide {
+  width: var(--slide-w);
+  height: var(--slide-h);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  box-shadow: 0 22px 60px -20px rgba(0, 0, 0, 0.65);
+  page-break-after: always;
+  page-break-inside: avoid;
+  break-after: page;
+}
+
+.slide.slide-light {
+  background: var(--bg-light);
+  color: var(--fg-light);
+}
+
+.slide.slide-dark {
+  background: var(--bg-dark);
+  color: var(--fg-dark);
+}
+
+.slide-inner {
+  position: absolute;
+  inset: 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========================================================================
+ * Cover (slide 01)
+ * ======================================================================== */
+.slide-cover {
+  background:
+    radial-gradient(ellipse 65% 55% at 28% 32%, hsla(168, 55%, 38%, 0.22) 0%, transparent 62%),
+    radial-gradient(ellipse 85% 75% at 72% 65%, hsla(38, 80%, 50%, 0.16) 0%, transparent 72%),
+    linear-gradient(155deg, var(--bg-dark) 0%, var(--bg-dark-card) 50%, hsl(220 12% 13%) 100%);
+}
+
+.slide-cover .cover-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, hsla(168, 50%, 44%, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, hsla(168, 50%, 44%, 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, black 0%, transparent 75%);
+          mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, black 0%, transparent 75%);
+  pointer-events: none;
+}
+
+.brand-monogram {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid hsla(168, 50%, 44%, 0.4);
+  color: var(--teal-dark);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+}
+
+.slide-cover .cover-eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--teal-dark);
+  margin: 24px 0 0 0;
+}
+
+.slide-cover .cover-title {
+  font-size: 88px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--fg-dark);
+  margin: 96px 0 24px 0;
+  max-width: 1100px;
+}
+
+.slide-cover .cover-subtitle {
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--fg-dark);
+  opacity: 0.8;
+  max-width: 920px;
+}
+
+.slide-cover .cover-strip {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  bottom: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg-dark);
+  opacity: 0.78;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-top: 1px solid hsla(168, 50%, 44%, 0.4);
+  padding-top: 18px;
+}
+
+/* ========================================================================
+ * Section opener (slides 02, 03, 08)
+ * ======================================================================== */
+.slide-section {
+  background: var(--bg-dark);
+}
+
+.slide-section .section-number {
+  font-size: 220px;
+  font-weight: 700;
+  color: hsla(168, 50%, 44%, 0.18);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  margin: 0;
+}
+
+.slide-section .section-label {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--teal-dark);
+  margin: 8px 0 56px 0;
+}
+
+.slide-section .section-headline {
+  font-size: 60px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+  color: var(--fg-dark);
+  max-width: 1180px;
+  margin: 0 0 24px 0;
+}
+
+.slide-section .section-body {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fg-dark);
+  opacity: 0.78;
+  max-width: 980px;
+  line-height: 1.55;
+}
+
+/* ========================================================================
+ * Body slide common
+ * ======================================================================== */
+.slide-body .eyebrow {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--teal);
+  margin: 0 0 16px 0;
+}
+
+.slide-body .body-headline {
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+  color: var(--fg-light);
+  margin: 0;
+  max-width: 1180px;
+}
+
+.slide-body .body-paragraph {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg-light);
+  margin: 24px 0 0 0;
+  max-width: 1100px;
+}
+
+.slide-body .slide-footer {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  bottom: 36px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--fg-muted);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ========================================================================
+ * Solution three-line (slide 04)
+ * ======================================================================== */
+.solution-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 60px;
+}
+
+.solution-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 28px 28px 32px;
+  background: var(--bg-light-card);
+}
+
+.solution-card .solution-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--teal);
+  margin: 0 0 12px 0;
+}
+
+.solution-card .solution-body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg-light);
+  margin: 0;
+}
+
+/* ========================================================================
+ * Method three-column (slide 05)
+ * ======================================================================== */
+.method-stripes {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.method-stripe {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 36px;
+  align-items: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+}
+
+.method-stripe:last-child { border-bottom: 1px solid var(--border); }
+
+.method-tag {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--teal);
+  text-transform: uppercase;
+}
+
+.method-stripe.amber .method-tag { color: var(--amber); }
+
+.method-stripe-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fg-light);
+  margin: 0 0 8px 0;
+}
+
+.method-stripe-body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+/* ========================================================================
+ * Stat grid (slide 06 top band)
+ * ======================================================================== */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin: 28px 0 32px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.stat-block {
+  padding: 18px 24px 22px;
+  border-right: 1px solid var(--border);
+}
+
+.stat-block:last-child { border-right: none; }
+
+.stat-num {
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  margin: 0;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--fg-muted);
+  margin: 8px 0 0 0;
+  line-height: 1.3;
+}
+
+/* ========================================================================
+ * Capability grid (slide 06 cards)
+ * ======================================================================== */
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  margin-top: 8px;
+}
+
+.capability-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-light-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.capability-card .card-head {
+  background: var(--fg-light);
+  color: var(--bg-light);
+  padding: 14px 16px 16px;
+}
+
+.capability-card .card-order {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--teal-dark);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.capability-card .card-category {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--fg-dark-muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 4px 0 6px 0;
+}
+
+.capability-card .card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fg-dark);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.capability-card .card-body {
+  padding: 14px 16px 12px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--fg-light);
+  flex: 1;
+}
+
+.capability-card .card-tags {
+  padding: 0 16px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag, .tag-amber {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+
+.tag {
+  background: hsla(168, 55%, 38%, 0.1);
+  color: var(--teal);
+}
+
+.tag-amber {
+  background: hsla(38, 80%, 50%, 0.14);
+  color: var(--amber);
+}
+
+.capability-card .card-foot {
+  padding: 10px 16px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-light-card);
+  font-size: 11px;
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
+/* ========================================================================
+ * Product spotlight (slide 07)
+ * ======================================================================== */
+.spotlight-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 56px;
+  margin-top: 48px;
+}
+
+.spotlight-points {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-left: 2px solid var(--teal);
+  padding-left: 24px;
+}
+
+.spotlight-point {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--fg-light);
+  line-height: 1.5;
+  position: relative;
+}
+
+.spotlight-point::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 2px;
+  background: var(--teal);
+  vertical-align: middle;
+  margin-right: 12px;
+}
+
+.pull-quote {
+  font-size: 22px;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--teal);
+  margin: 36px 0 0 0;
+  padding: 16px 0 0 0;
+  border-top: 1px solid var(--border);
+  max-width: 940px;
+  line-height: 1.45;
+}
+
+/* ========================================================================
+ * Market + ICP (slide 09)
+ * ======================================================================== */
+.icp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.icp-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 28px;
+  background: var(--bg-light-card);
+}
+
+.icp-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fg-light);
+  margin: 0 0 12px 0;
+}
+
+.icp-body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin: 0 0 20px 0;
+}
+
+.icp-signal {
+  display: inline-block;
+  background: hsla(168, 55%, 38%, 0.12);
+  color: var(--teal);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* ========================================================================
+ * Business model today/bridge/tomorrow (slide 10)
+ * ======================================================================== */
+.bm-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 44px;
+  position: relative;
+}
+
+.bm-row {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 36px;
+  align-items: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+}
+
+.bm-stack .bm-row:last-child { border-bottom: 1px solid var(--border); }
+
+.bm-tag {
+  display: inline-block;
+  background: hsla(168, 55%, 38%, 0.12);
+  color: var(--teal);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.bm-row.amber .bm-tag {
+  background: hsla(38, 80%, 50%, 0.14);
+  color: var(--amber);
+}
+
+.bm-row .bm-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fg-light);
+  margin: 0 0 6px 0;
+}
+
+.bm-row .bm-body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+/* ========================================================================
+ * Moat pillars (slide 11)
+ * ======================================================================== */
+.moat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+
+.moat-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px;
+  background: var(--bg-light-card);
+}
+
+.moat-card .moat-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--teal);
+  margin: 0 0 12px 0;
+}
+
+.moat-card .moat-body {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg-light);
+  margin: 0;
+}
+
+/* ========================================================================
+ * Roadmap three phases (slide 12)
+ * ======================================================================== */
+.roadmap-track {
+  margin-top: 48px;
+  position: relative;
+}
+
+.roadmap-track::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--teal);
+  opacity: 0.6;
+}
+
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+}
+
+.roadmap-window {
+  padding: 56px 24px 24px;
+  background: var(--bg-light-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  position: relative;
+}
+
+.roadmap-window::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 24px;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--teal);
+  border: 3px solid var(--bg-light);
+}
+
+.roadmap-window-window {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--teal);
+  margin: 0 0 6px 0;
+  display: block;
+}
+
+.roadmap-window-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fg-light);
+  margin: 0 0 16px 0;
+}
+
+.roadmap-window-deliverables {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.roadmap-window-deliverables li {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fg-light);
+  position: relative;
+  padding-left: 20px;
+}
+
+.roadmap-window-deliverables li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 10px;
+  height: 2px;
+  background: var(--teal);
+}
+
+/* ========================================================================
+ * ENISA fit + use of funds (slide 13)
+ * ======================================================================== */
+.enisa-fit {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 36px;
+}
+
+.enisa-fit .fit-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px;
+  background: var(--bg-light-card);
+}
+
+.fit-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--teal);
+  margin: 0 0 10px 0;
+}
+
+.fit-body {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--fg-light);
+  margin: 0;
+}
+
+.use-of-funds {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+
+.use-of-funds-title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--amber);
+  margin: 0 0 16px 0;
+}
+
+.use-of-funds ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.use-of-funds li {
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--fg-light);
+  position: relative;
+  padding-left: 22px;
+}
+
+.use-of-funds li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 12px;
+  height: 2px;
+  background: var(--amber);
+}
+
+/* ========================================================================
+ * Ask + signature (slide 14)
+ * ======================================================================== */
+.ask-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 56px;
+  max-width: 1080px;
+}
+
+.ask-line {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--fg-light);
+}
+
+.ask-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: hsla(168, 55%, 38%, 0.14);
+  color: var(--teal);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.ask-signature {
+  position: absolute;
+  left: 80px;
+  bottom: 80px;
+  font-size: 18px;
+  color: var(--fg-light);
+}
+
+.ask-signature .closing { display: block; font-weight: 400; color: var(--fg-muted); margin-bottom: 4px; }
+.ask-signature .signature { display: block; font-weight: 700; font-size: 22px; }
+.ask-signature .contact-hint { display: block; font-size: 14px; color: var(--fg-muted); margin-top: 4px; }
+
+/* ========================================================================
+ * Print to PDF
+ * ======================================================================== */
+@page {
+  size: 1440px 810px;
+  margin: 0;
+}
+
+@media print {
+  html, body { background: white; }
+  .deck-container { padding: 0; gap: 0; }
+  .deck-header { display: none; }
+  .slide {
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+  }
+}
+</style></head><body><main class="deck-container"><div class="deck-header"><span>HOLÍSTICA · DOSSIER · 2026-04-30</span><span>SHA <strong>c214f27cdd49</strong></span></div><section class="slide slide-dark slide-cover"><div class="cover-grid"></div><div class="slide-inner"><div class="brand-monogram">H</div><div class="cover-eyebrow">Holística Research · Dossier de Compañía</div><h1 class="cover-title">Sistemas operativos para empresas que necesitan ordenar su operación antes de escalar.</h1><p class="cover-subtitle">Investigación aplicada, ingeniería empresarial y software propio. Madrid · 2026.</p></div><div class="cover-strip"><span>Holística Research</span><span>holistikaresearch.com</span><span>2026</span></div></section><section class="slide slide-dark slide-section"><div class="slide-inner"><div class="section-number">01</div><div class="section-label">El problema</div><h1 class="section-headline">Las compañías están añadiendo herramientas e IA más rápido de lo que pueden poner en orden su operación.</h1><p class="section-body">La consecuencia diaria es decisiones que se repiten en silos, conocimiento que vive en correos y reuniones, automatizaciones a medias, y software que no resiste el paso de un equipo a otro. La promesa de productividad llega antes que la capacidad real de operarla.
+</p></div></section><section class="slide slide-dark slide-section"><div class="slide-inner"><div class="section-number">02</div><div class="section-label">La idea</div><h1 class="section-headline">El cuello de botella no es comprar IA, es ordenar el conocimiento del negocio.</h1><p class="section-body">Cuando los procesos, las decisiones y los datos están bien estructurados, cualquier herramienta — incluida la IA — empieza a producir valor de forma medible. Hasta entonces, todo es ruido caro.
+</p></div></section><section class="slide slide-light slide-body"><div class="slide-inner"><div class="eyebrow">Lo que hacemos</div><h1 class="body-headline">Diseñamos el sistema operativo de la compañía y lo implementamos en software.</h1><div class="solution-grid"><div class="solution-card"><h3 class="solution-title">Inteligencia empresarial</h3><p class="solution-body">Auditamos y estructuramos cómo decide y ejecuta la compañía hoy.</p></div><div class="solution-card"><h3 class="solution-title">Ingeniería de procesos</h3><p class="solution-body">Convertimos esa estructura en flujos auditables, automatizables y mantenibles.</p></div><div class="solution-card"><h3 class="solution-title">Software propio (KiRBe)</h3><p class="solution-body">Productizamos el método como plataforma SaaS para que se opere sin nosotros.</p></div></div></div><div class="slide-footer"><span>Holistika Research — Dossier de Compañía</span><span>4 / 14</span></div></section><section class="slide slide-light slide-body"><div class="slide-inner"><div class="eyebrow">Tres líneas, una sola disciplina</div><h1 class="body-headline">Investigación, ingeniería y producto comparten la misma pila técnica y la misma exigencia de calidad.</h1><div class="method-stripes"><div class="method-stripe"><div class="method-tag">Investigación aplicada</div><div><h3 class="method-stripe-title">Empezamos por entender, no por proponer</h3><p class="method-stripe-body">Cada engagement comienza con un mapa real de la operación. Decisiones, dependencias, riesgos, y dónde se pierde valor hoy.</p></div></div><div class="method-stripe"><div class="method-tag">Ingeniería empresarial</div><div><h3 class="method-stripe-title">Diseñamos sistemas, no entregables sueltos</h3><p class="method-stripe-body">Procesos, roles, métricas y controles definidos como un sistema interconectado, no como una colección de documentos.</p></div></div><div class="method-stripe amber"><div class="method-tag">Software de método</div><div><h3 class="method-stripe-title">Lo que construimos se puede operar sin nosotros</h3><p class="method-stripe-body">El método se materializa en código, en flujos automatizados y en una plataforma propia que el cliente — o nosotros — operamos.</p></div></div></div></div><div class="slide-footer"><span>Holistika Research — Dossier de Compañía</span><span>5 / 14</span></div></section><section class="slide slide-light slide-body"><div class="slide-inner"><div class="eyebrow">Tracción real</div><h1 class="body-headline">Cinco entregas distintas en producción, una sola pila técnica, una sola disciplina de calidad.</h1><div class="stat-grid"><div class="stat-block"><div class="stat-num">5</div><div class="stat-label">Entregas en producción</div></div><div class="stat-block"><div class="stat-num">3</div><div class="stat-label">Idiomas en el sitio público</div></div><div class="stat-block"><div class="stat-num">2023</div><div class="stat-label">Año de inicio del método</div></div><div class="stat-block"><div class="stat-num">1</div><div class="stat-label">Pila técnica replicada en 5 contextos</div></div></div><div class="capability-grid"><article class="capability-card"><div class="card-head"><div class="card-order">01</div><div class="card-category">Web pública + CRM</div><h3 class="card-title">Sitio multilingüe con captura de leads</h3></div><div class="card-body">Sitio público, multilingüe (es / en / fr), pagos integrados y captación comercial extremo a extremo.</div><div class="card-tags"><span class="tag">3 idiomas</span><span class="tag">Pagos integrados</span><span class="tag-amber">Pruebas extremo a extremo</span></div><div class="card-foot">holistikaresearch.com</div></article><article class="capability-card"><div class="card-head"><div class="card-order">02</div><div class="card-category">ERP interno</div><h3 class="card-title">Sistema de gestión propio</h3></div><div class="card-body">ERP multi-módulo en uso interno; tematización gobernada y verificación automática completa antes de cada despliegue.</div><div class="card-tags"><span class="tag">Multi-módulo</span><span class="tag">Tematización gobernada</span><span class="tag-amber">Pruebas + cobertura</span></div><div class="card-foot">Producto interno · revisión bajo NDA</div></article><article class="capability-card"><div class="card-head"><div class="card-order">03</div><div class="card-category">Producto SaaS propio</div><h3 class="card-title">KiRBe — Plataforma de gestión de conocimiento</h3></div><div class="card-body">Búsqueda en lenguaje natural, aislamiento por organización, facturación por uso, despliegue cloud productivo.</div><div class="card-tags"><span class="tag">SaaS B2B</span><span class="tag">Búsqueda natural</span><span class="tag-amber">Facturación por uso</span></div><div class="card-foot">Producto en operación</div></article><article class="capability-card"><div class="card-head"><div class="card-order">04</div><div class="card-category">Entrega para partner B2B</div><h3 class="card-title">App publicada en el ecosistema Shopify</h3></div><div class="card-body">Panel de administración + extensión de tema en producción; internacionalizada en 6 idiomas; verificación multi-job.</div><div class="card-tags"><span class="tag">App publicada</span><span class="tag">6 idiomas</span><span class="tag-amber">Calidad de producto</span></div><div class="card-foot">Entrega para partner B2B</div></article><article class="capability-card"><div class="card-head"><div class="card-order">05</div><div class="card-category">Diseño y scaffold de SaaS</div><h3 class="card-title">Scaffold gobernado para partner SaaS</h3></div><div class="card-body">Arquitectura congelada, separación API/worker, contratos de tipo estrictos y verificación automática antes de codificar.</div><div class="card-tags"><span class="tag">Arquitectura congelada</span><span class="tag">Monorepo estricto</span><span class="tag-amber">CI multi-job</span></div><div class="card-foot">Diseño para partner B2B</div></article></div></div><div class="slide-footer"><span>Holistika Research — Dossier de Compañía</span><span>6 / 14</span></div></section><section class="slide slide-light slide-body"><div class="slide-inner"><div class="eyebrow">Productización del método</div><h1 class="body-headline">KiRBe convierte la metodología en software vendible.</h1><div class="spotlight-grid"><div><p class="body-paragraph">KiRBe es la materialización en producto de cómo Holística estructura el conocimiento empresarial. Cada cliente carga sus fuentes propias y obtiene respuestas en lenguaje natural sobre su propio negocio, con aislamiento completo, auditoría y facturación por uso.</p><div class="pull-quote">No es una promesa: es la prueba viva de que el método se puede operar sin nosotros.
+</div></div><div class="spotlight-points"><div class="spotlight-point">SaaS B2B en producción para uso interno y de clientes</div><div class="spotlight-point">Búsqueda en lenguaje natural con re-clasificación semántica</div><div class="spotlight-point">Aislamiento por organización + auditoría completa</div><div class="spotlight-point">Facturación por uso integrada</div></div></div></div><div class="slide-footer"><span>Holistika Research — Dossier de Compañía</span><span>7 / 14</span></div></section><section class="slide slide-dark slide-section"><div class="slide-inner"><div class="section-number">03</div><div class="section-label">Por qué ahora</div><h1 class="section-headline">La adopción de IA empresarial está acelerando la presión por sistemas auditables, no por más demos.</h1><p class="section-body">Las compañías que ganen los próximos cinco años no serán las que tengan más herramientas, sino las que tengan operaciones suficientemente ordenadas como para que cualquier herramienta — incluida la IA — produzca resultados medibles. Holística está construida para ese problema.
+</p></div></section><section class="slide slide-light slide-body"><div class="slide-inner"><div class="eyebrow">Mercado y perfil de cliente</div><h1 class="body-headline">Tres canales, un mismo método.</h1><div class="icp-grid"><div class="icp-card"><h3 class="icp-title">Pyme tecnológica</h3><p class="icp-body">Empresas con 10–80 personas que necesitan estructurar su operación antes de escalar a la siguiente etapa.</p><span class="icp-signal">Cliente directo · servicio profesional</span></div><div class="icp-card"><h3 class="icp-title">Partner B2B</h3><p class="icp-body">Integradores, agencias y operadores que necesitan capacidad de ingeniería de producto sin contratar plantilla in-house.</p><span class="icp-signal">Canal indirecto · entrega gobernada</span></div><div class="icp-card"><h3 class="icp-title">Cliente SaaS</h3><p class="icp-body">Equipos que adoptan la plataforma KiRBe para gestionar su propio conocimiento empresarial.</p><span class="icp-signal">Producto · ingreso recurrente</span></div></div></div><div class="slide-footer"><span>Holistika Research — Dossier de Compañía</span><span>9 / 14</span></div></section><section class="slide slide-light slide-body"><div class="slide-inner"><div class="eyebrow">Modelo de entrega</div><h1 class="body-headline">Hoy facturamos servicio. Mañana facturamos producto. El puente está construido en código.</h1><div class="bm-stack"><div class="bm-row"><div><span class="bm-tag">Servicio profesional</span></div><div><h3 class="bm-title">Hoy</h3><p class="bm-body">Investigación aplicada, ingeniería empresarial e ingeniería de procesos como servicio profesional.</p></div></div><div class="bm-row amber"><div><span class="bm-tag">Producto · método ejecutable</span></div><div><h3 class="bm-title">El puente</h3><p class="bm-body">KiRBe, ya en producción y en uso interno: cuando el método se ejecuta en software, el cliente puede operarlo sin nosotros.</p></div></div><div class="bm-row"><div><span class="bm-tag">SaaS recurrente</span></div><div><h3 class="bm-title">Mañana</h3><p class="bm-body">El mismo método, productizado y vendido como SaaS empresarial — con o sin nuestro acompañamiento.</p></div></div></div></div><div class="slide-footer"><span>Holistika Research — Dossier de Compañía</span><span>10 / 14</span></div></section><section class="slide slide-light slide-body"><div class="slide-inner"><div class="eyebrow">Por qué es difícil replicar esto</div><h1 class="body-headline">Una sola pila técnica, una sola disciplina de calidad, cinco contextos distintos resueltos.</h1><div class="moat-grid"><div class="moat-card"><h3 class="moat-title">Internal-first</h3><p class="moat-body">Operamos con nuestros propios productos antes de venderlos. El método se valida en casa.</p></div><div class="moat-card"><h3 class="moat-title">Pila replicada</h3><p class="moat-body">La misma arquitectura técnica entrega web, ERP, SaaS y aplicaciones de partner. No es retórica: es código compartido.</p></div><div class="moat-card"><h3 class="moat-title">Marco de marca y voz canónica</h3><p class="moat-body">Identidad visual, voz, registros y disciplina de comunicación auditadas. Madurez operativa que se nota en la primera reunión.</p></div><div class="moat-card"><h3 class="moat-title">Velocidad con disciplina</h3><p class="moat-body">Arquitectura congelada antes de codificar; verificación automática antes de cada despliegue; revisión por pares en cada cambio.</p></div></div></div><div class="slide-footer"><span>Holistika Research — Dossier de Compañía</span><span>11 / 14</span></div></section><section class="slide slide-light slide-body"><div class="slide-inner"><div class="eyebrow">Roadmap 0–24 meses</div><h1 class="body-headline">El plan está dimensionado para crecer con disciplina, no a cualquier coste.</h1><div class="roadmap-track"><div class="roadmap-grid"><div class="roadmap-window"><span class="roadmap-window-window">0 – 6 meses</span><h3 class="roadmap-window-title">Consolidación</h3><ul class="roadmap-window-deliverables"><li>Constitución y certificación Empresa Emergente</li><li>Tres engagements con cliente directo en producción</li><li>KiRBe operando con primer cliente externo de pago</li></ul></div><div class="roadmap-window"><span class="roadmap-window-window">6 – 12 meses</span><h3 class="roadmap-window-title">Productización</h3><ul class="roadmap-window-deliverables"><li>KiRBe con 5–10 clientes B2B</li><li>Equipo de 2–3 ingenieros senior en España</li><li>Canal de partner B2B con 2 integraciones recurrentes</li></ul></div><div class="roadmap-window"><span class="roadmap-window-window">12 – 24 meses</span><h3 class="roadmap-window-title">Escala</h3><ul class="roadmap-window-deliverables"><li>Plataforma KiRBe como ingreso recurrente principal</li><li>Operación distribuida con base en España y red de colaboradores</li><li>Catálogo de soluciones replicables para sectores priorizados</li></ul></div></div></div></div><div class="slide-footer"><span>Holistika Research — Dossier de Compañía</span><span>12 / 14</span></div></section><section class="slide slide-light slide-body"><div class="slide-inner"><div class="eyebrow">Encaje ENISA · Empresa Emergente</div><h1 class="body-headline">Innovación verificable, escalabilidad acreditada, presencia en España desde el día 1.</h1><div class="enisa-fit"><div class="fit-card"><h3 class="fit-title">Innovación</h3><p class="fit-body">Método propio + software propio (KiRBe) en producción desde 2023; cinco entregas distintas con la misma pila.</p></div><div class="fit-card"><h3 class="fit-title">Escalabilidad</h3><p class="fit-body">Servicio profesional hoy, ingreso SaaS recurrente mañana; canal de partner B2B activo.</p></div><div class="fit-card"><h3 class="fit-title">Presencia en España</h3><p class="fit-body">Domicilio social, banca operativa e infraestructura en España desde la constitución; plan de personal nacional.</p></div></div><div class="use-of-funds"><div class="use-of-funds-title">Hacia dónde van los recursos en los próximos 12 meses</div><ul><li>Productización de KiRBe (ingeniería + go-to-market)</li><li>Contratación de 2–3 ingenieros senior en España</li><li>Infraestructura productiva y observabilidad continua</li><li>Asesoría legal, fiscal y de certificación</li></ul></div></div><div class="slide-footer"><span>Holistika Research — Dossier de Compañía</span><span>13 / 14</span></div></section><section class="slide slide-light slide-body"><div class="slide-inner"><div class="eyebrow">Siguiente paso</div><h1 class="body-headline">Cerremos por escrito el encaje ENISA y el paquete legal antes de la firma.</h1><div class="ask-lines"><div class="ask-line"><span class="ask-arrow">→</span><span>Confirmación del paquete CNAE + objeto social que mejor sostiene la narrativa de innovación.</span></div><div class="ask-line"><span class="ask-arrow">→</span><span>Reparto documental ENISA: qué produce el fundador, qué produce la asesoría.</span></div><div class="ask-line"><span class="ask-arrow">→</span><span>Ventana de 30 minutos esta semana para alinear plan de presentación.</span></div></div><div class="ask-signature"><span class="closing">Un saludo,</span><span class="signature">Holística Research</span><span class="contact-hint">holistikaresearch.com</span></div></div><div class="slide-footer"><span>Holistika Research — Dossier de Compañía</span><span>14 / 14</span></div></section></main></body></html>
