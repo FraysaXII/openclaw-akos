@@ -39,6 +39,8 @@ def test_mirror_contract_covers_expected_tables(probe_module):
     """All currently-shipped compliance mirrors must be in the contract.
 
     Updated by Initiative 25 P2 to include `topic_registry_mirror` (D-IH-12).
+    Updated by Initiative 31 P2.1 / P3 / P5.2 to include the 3 new
+    operating-interface mirrors (persona / channel touchpoint / sourcing).
     """
     expected = {
         "compliance.process_list_mirror",
@@ -50,6 +52,10 @@ def test_mirror_contract_covers_expected_tables(probe_module):
         "compliance.founder_filed_instruments_mirror",
         "compliance.program_registry_mirror",
         "compliance.topic_registry_mirror",
+        # Initiative 31 additions
+        "compliance.persona_registry_mirror",
+        "compliance.channel_touchpoint_registry_mirror",
+        "compliance.sourcing_register_mirror",
     }
     actual = {table for table, _csv, _key in probe_module.MIRROR_CONTRACT}
     assert expected == actual, f"contract drift: {expected ^ actual}"
