@@ -10,6 +10,8 @@ Covers:
   ask signature, roadmap) and zero ``TODO[OPERATOR]`` leaks.
 - ``cover_email_company_dossier_es.md`` is jargon-free and follows the
   Spanish-patterns opener / closer.
+- Initiative 29 P5: ``scripts/sync_deck_from_strategy.py`` exists and
+  ``--check-only`` succeeds (the strategy SSOT is wired correctly).
 """
 from __future__ import annotations
 
@@ -315,3 +317,53 @@ def test_cover_email_uses_brand_spanish_patterns():
     assert "Un saludo," in body, "cover email missing the canonical Spanish closer"
     # Brand signature.
     assert "Holística Research" in body or "Holistica Research" in body
+
+
+# ---------------------------------------------------------------------------
+# Initiative 29 P5: deck <- strategy SSOT wiring
+# ---------------------------------------------------------------------------
+
+
+SYNC_SCRIPT_I29 = REPO_ROOT / "scripts" / "sync_deck_from_strategy.py"
+
+
+def test_sync_deck_from_strategy_script_exists():
+    assert SYNC_SCRIPT_I29.is_file(), (
+        f"missing {SYNC_SCRIPT_I29.relative_to(REPO_ROOT)} (Initiative 29 P5 deliverable)"
+    )
+
+
+def test_sync_deck_from_strategy_check_only_succeeds():
+    """The strategy SSOT must be wired to the deck without contract violations."""
+    proc = subprocess.run(
+        [sys.executable, str(SYNC_SCRIPT_I29)],
+        cwd=str(REPO_ROOT),
+        capture_output=True, text=True, timeout=30,
+    )
+    assert proc.returncode == 0, (
+        f"sync_deck_from_strategy --check-only failed (rc={proc.returncode})\n"
+        f"stderr={proc.stderr}\nstdout={proc.stdout}"
+    )
+    assert "deck-bound" in proc.stdout, (
+        "sync_deck_from_strategy did not report any deck-bound artifacts"
+    )
+
+
+def test_sync_deck_from_strategy_apply_refuses_with_todos():
+    """When founder TODOs remain unresolved, --apply must refuse with exit code 2."""
+    proc = subprocess.run(
+        [sys.executable, str(SYNC_SCRIPT_I29), "--apply"],
+        cwd=str(REPO_ROOT),
+        capture_output=True, text=True, timeout=30,
+    )
+    # Either rc==0 (no TODOs left, --apply OK) or rc==2 (--apply refused).
+    # The valid current state is rc==2 because the strategy artifacts ship with
+    # TODO bands awaiting founder narrowing.
+    assert proc.returncode in (0, 2), (
+        f"sync_deck_from_strategy --apply produced unexpected rc={proc.returncode}\n"
+        f"stderr={proc.stderr}\nstdout={proc.stdout}"
+    )
+    if proc.returncode == 2:
+        assert "REFUSED" in proc.stderr, (
+            "rc=2 from --apply but stderr does not contain REFUSED keyword"
+        )

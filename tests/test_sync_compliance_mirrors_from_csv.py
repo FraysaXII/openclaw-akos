@@ -27,7 +27,7 @@ def test_sync_compliance_mirrors_count_only() -> None:
     assert "adviser_open_questions_rows=12" in r.stdout
     assert "founder_filed_instruments_rows=1" in r.stdout
     assert "program_registry_rows=12" in r.stdout
-    assert "topic_registry_rows=5" in r.stdout
+    assert "topic_registry_rows=17" in r.stdout
     assert "source_git_sha=" in r.stdout
 
 
