@@ -1,5 +1,5 @@
 ---
-
+language: en
 STANDARD OPERATING PROCEDURE
 
 * Item Name: Standard Operating Procedure for Process Definition and Management  
@@ -14,7 +14,6 @@ STANDARD OPERATING PROCEDURE
 * Revision Date: 2025-05-24
 
 ---
-
 Table of Contents
 
 * 1.0 Description  

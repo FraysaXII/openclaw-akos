@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Diagram placeholder — architecture sketch slot
 
 **source_id**: `VISUAL_km_pilot_003`  

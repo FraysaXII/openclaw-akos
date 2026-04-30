@@ -1,4 +1,5 @@
 ---
+language: en
 Item Name: PMO vault promotion gate (Trello and WIP to process_list)
 Item Number: SOP-PMO_VAULT_PROMOTION_GATE_001
 Object Class: Guideline and Procedure
@@ -10,7 +11,6 @@ Associated Workstream: Think Big Operational Excellence
 Version: 1.0
 Revision Date: 2026-04-14
 ---
-
 ## Purpose
 
 Define how PMO moves **stable operating intent** from **Trello**, **board JSON imports**, and **`docs/wip/`** into the canonical registry **`docs/references/hlk/compliance/process_list.csv`** without mixing backlog columns or scratch notes into compliance SSOT.

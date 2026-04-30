@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Brand Hierarchy And Trademark Scope
 
 **Document owner**: Legal Counsel  

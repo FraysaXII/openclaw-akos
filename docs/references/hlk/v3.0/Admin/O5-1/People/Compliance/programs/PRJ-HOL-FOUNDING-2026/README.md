@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Program — `PRJ-HOL-FOUNDING-2026` (Compliance chain)
 
 **Owner role**: Compliance  

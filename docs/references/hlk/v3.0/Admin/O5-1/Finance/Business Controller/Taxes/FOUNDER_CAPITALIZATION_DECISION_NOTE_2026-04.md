@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Founder Capitalization Decision Note
 
 **Document owner**: Business Controller, Taxes  

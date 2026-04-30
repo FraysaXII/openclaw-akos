@@ -416,7 +416,8 @@ def test_slide_11_pillar_1_quotes_governance_metrics():
     )
     # Topic count must match the live registry; assert it's a small integer phrase
     # (the drift detector at tests/test_governance_moat_metrics.py keeps it in sync).
-    assert re.search(r"\b1\d temas\b", txt), (
+    # Allow 1-3 digit topic count to absorb growth without nuisance failures.
+    assert re.search(r"\b\d{1,3} temas\b", txt), (
         "slide 11 pillar 1 must quote a 'NN temas' governed-topics count "
         "(live count enforced by test_governance_moat_metrics.py)"
     )

@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # HLK Compliance — directory layout and SSOT conventions
 
 **Owner**: Compliance, Data Architecture (joint)  

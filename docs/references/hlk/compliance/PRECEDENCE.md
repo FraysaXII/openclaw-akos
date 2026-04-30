@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # HLK Canonical Precedence Contract
 
 **Item Name**: Canonical Precedence Contract

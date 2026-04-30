@@ -1,4 +1,5 @@
 ---
+language: en
 source_id: VISUAL_EXAMPLE_001
 output_type: 1
 title: Example visual manifest (do not use as live source_id)
@@ -22,7 +23,6 @@ supersedes: null
 superseded_by: null
 file_sha256: "<run sha256 on raster after commit>"
 ---
-
 # Manifest: VISUAL_EXAMPLE_001
 
 Body text is optional; frontmatter above is the contract per [HLK_KM_TOPIC_FACT_SOURCE.md](../../../../../compliance/HLK_KM_TOPIC_FACT_SOURCE.md).

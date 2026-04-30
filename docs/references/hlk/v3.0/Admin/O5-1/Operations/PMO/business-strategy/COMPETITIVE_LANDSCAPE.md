@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: PMO
 area: Operations / PMO
@@ -15,7 +16,6 @@ last_review: 2026-04-30
 deck_bound: true
 deck_slides_consumed: ["11-moat"]
 ---
-
 # Competitive landscape — who else, and why we don't compete head-on
 
 ## What this answers

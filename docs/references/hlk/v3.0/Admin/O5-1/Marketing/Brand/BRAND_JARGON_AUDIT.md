@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: Brand Manager
 area: Marketing
@@ -12,7 +13,6 @@ intellectual_kind: brand_asset
 authority: Operator (lived protocols)
 last_review: 2026-04-29
 ---
-
 # BRAND_JARGON_AUDIT
 
 > **Status — Active (Initiative 27 follow-up; Operator-supplied 2026-04-29).** Hand-authored companion to [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md) — the **operational rule** for keeping internal jargon out of every external-bound deliverable. Cited by the four-layer composer ([`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md)) and by every external dossier / cover email / pitch / partner pack. Operator-curated; **not** auto-rendered by the wave2 scaffolder.

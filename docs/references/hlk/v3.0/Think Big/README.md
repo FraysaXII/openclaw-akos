@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Think Big — entity scope (Holistika)
 
 **Governance:** [PRECEDENCE.md](../../compliance/PRECEDENCE.md), [v3.0/index.md](../index.md)

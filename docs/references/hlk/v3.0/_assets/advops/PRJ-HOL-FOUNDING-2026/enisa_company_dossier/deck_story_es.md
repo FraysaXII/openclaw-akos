@@ -109,7 +109,7 @@ Hoy facturamos servicio. Mañana facturamos producto. El puente está construido
 
 ## 11 · Por qué es difícil replicar esto
 
-- **Operación gobernada y medible.** 19 temas gobernados, 1.093 procesos catalogados, 65 roles definidos. Tres capas de validadores deterministas y compuertas automáticas en cada salida pública. Lo que se promete se puede auditar.
+- **Operación gobernada y medible.** 23 temas gobernados, 1.093 procesos catalogados, 65 roles definidos. Tres capas de validadores deterministas y compuertas automáticas en cada salida pública. Lo que se promete se puede auditar.
 - **Pila replicada.** La misma arquitectura técnica entrega web, ERP, SaaS, capa de agentes y aplicaciones de partner. No es retórica: es código compartido y verificado.
 - **Marco de marca y voz canónica.** Identidad visual, voz, registros y disciplina de comunicación auditadas. Madurez operativa que se nota en la primera reunión.
 - **Velocidad con disciplina.** Arquitectura congelada antes de codificar; verificación automática antes de cada despliegue; descalado de un programa en una operación auditable de cuatro pasos.

@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 STANDARD OPERATING PROCEDURE
 
 * Item Name: MCP server definition and governance  

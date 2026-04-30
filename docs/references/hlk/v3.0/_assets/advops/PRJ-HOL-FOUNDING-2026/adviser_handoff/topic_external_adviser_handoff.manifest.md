@@ -1,4 +1,5 @@
 ---
+language: en
 source_id: topic_external_adviser_handoff
 output_type: 1
 title: "Topic — External Adviser Engagement (Founder Incorporation)"
@@ -35,7 +36,6 @@ related_process_ids:
   - thi_legal_dtp_304
 file_sha256: "3302eb9d595442c40ab8e28d91c2311b6892300fc7374bcd1f0db3f54724a0ee"
 ---
-
 # Manifest: topic_external_adviser_handoff
 
 KM Topic-Fact-Source bundle for the **External Adviser Engagement (ADVOPS)** plane, scoped to program `PRJ-HOL-FOUNDING-2026`.

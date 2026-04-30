@@ -60,6 +60,10 @@ VOICE_REGISTERS = {
 LANGUAGE_PREFERENCES = {"", "es", "en", "bilingual"}
 PRONOUN_REGISTERS = {"", "tu", "usted"}
 
+# Initiative 31 P2.2 (D-IH-31-G) — distance dimension on the social graph.
+DISTANCE_BANDS = {"N1", "N2", "N3", "N4"}
+ISO_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
 REF_ID_RE = re.compile(r"^(POI|GOI)-[A-Z0-9]{2,5}-[A-Z0-9-]{1,40}-\d{4}$")
 PROGRAM_ID_RE = re.compile(r"^(PRJ-[A-Z0-9]+-[A-Z0-9]+-\d{4})?$")
 LENS_RE = re.compile(r"^[a-z][a-z0-9_]{1,40}$")
@@ -182,6 +186,69 @@ def main() -> int:
                 f"row {i}: pronoun_register={pron!r} requires language_preference in {{es, bilingual}} or empty; "
                 f"got {lang!r}"
             )
+
+        # Initiative 31 P2.2 (D-IH-31-G): distance band invariants.
+        dist = (r.get("distance_band") or "").strip()
+        if dist not in DISTANCE_BANDS:
+            errors.append(
+                f"row {i}: invalid distance_band {dist!r}; expected one of {sorted(DISTANCE_BANDS)}"
+            )
+        bridge = (r.get("bridge_via") or "").strip()
+        if dist == "N1":
+            if bridge:
+                errors.append(
+                    f"row {i}: distance_band=N1 but bridge_via={bridge!r} (must be empty for N1)"
+                )
+        elif dist in {"N2", "N3", "N4"}:
+            if not bridge:
+                errors.append(
+                    f"row {i}: distance_band={dist} requires bridge_via to be set "
+                    f"(an immediate intermediary's POI/GOI ref_id)"
+                )
+            elif bridge == ref:
+                errors.append(
+                    f"row {i}: bridge_via={bridge!r} points at self ref_id; impossible cycle"
+                )
+        assessed = (r.get("distance_assessed_date") or "").strip()
+        if not assessed:
+            errors.append(f"row {i}: distance_assessed_date is required (ISO date)")
+        elif not ISO_DATE_RE.match(assessed):
+            errors.append(
+                f"row {i}: distance_assessed_date {assessed!r} not in ISO format (YYYY-MM-DD)"
+            )
+
+    # Pass 2: bridge_via FK + cycle detection. Collect all ref_ids first.
+    all_refs = {(row.get("ref_id") or "").strip() for row in rows}
+    bridge_graph: dict[str, str] = {}
+    for i, r in enumerate(rows, start=2):
+        ref = (r.get("ref_id") or "").strip()
+        bridge = (r.get("bridge_via") or "").strip()
+        if bridge and bridge not in all_refs:
+            errors.append(
+                f"row {i}: bridge_via={bridge!r} does not resolve to any ref_id in this register"
+            )
+        if bridge:
+            bridge_graph[ref] = bridge
+    # Cycle detection (depth-first traversal of the bridge graph).
+    for start_node in list(bridge_graph.keys()):
+        seen_chain: set[str] = set()
+        cur: str | None = start_node
+        depth = 0
+        while cur is not None and cur in bridge_graph:
+            if cur in seen_chain:
+                errors.append(
+                    f"bridge_via cycle detected starting at ref_id {start_node!r}: chain {sorted(seen_chain)}"
+                )
+                break
+            seen_chain.add(cur)
+            cur = bridge_graph.get(cur)
+            depth += 1
+            # Defensive cap: a chain longer than 10 hops is almost certainly a bug.
+            if depth > 10:
+                errors.append(
+                    f"bridge_via chain longer than 10 hops starting at {start_node!r}; possible runaway"
+                )
+                break
 
     if errors:
         print(f"  FAIL: {len(errors)} issue(s)")

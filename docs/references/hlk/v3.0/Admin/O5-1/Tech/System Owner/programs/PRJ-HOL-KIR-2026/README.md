@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Program — `PRJ-HOL-KIR-2026` (Tech / System Owner chain)
 
 **Owner role**: System Owner (CTO chain)  

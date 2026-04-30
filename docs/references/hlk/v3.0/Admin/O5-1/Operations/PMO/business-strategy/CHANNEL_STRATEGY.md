@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: PMO + Founder
 area: Operations / PMO
@@ -15,7 +16,6 @@ last_review: 2026-04-30
 deck_bound: true
 deck_slides_consumed: ["09-market-icp", "12-roadmap"]
 ---
-
 # Channel strategy — five hypotheses, each with a leading indicator
 
 ## What this answers

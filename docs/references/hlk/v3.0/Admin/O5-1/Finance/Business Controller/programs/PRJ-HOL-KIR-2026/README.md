@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Program — `PRJ-HOL-KIR-2026` (Finance / Business Controller chain)
 
 **Owner role**: Business Controller (CFO chain)  

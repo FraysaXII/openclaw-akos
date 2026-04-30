@@ -1,4 +1,5 @@
 ---
+language: en
 source_id: VISUAL_km_pilot_004
 output_type: 1
 title: "Holistika logo — KM pilot visual slot"
@@ -19,7 +20,6 @@ intellectual_kind: brand_asset
 related_process_ids: []
 file_sha256: "6823378f7c8d3a46581820f7cd66e81c28b0374efe1f87467879444639bcc8ea"
 ---
-
 # Manifest: VISUAL_km_pilot_004
 
 See [HLK_KM_TOPIC_FACT_SOURCE.md](../../../compliance/HLK_KM_TOPIC_FACT_SOURCE.md).

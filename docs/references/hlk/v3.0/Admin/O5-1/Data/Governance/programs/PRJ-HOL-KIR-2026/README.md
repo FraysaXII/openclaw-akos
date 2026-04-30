@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Program — `PRJ-HOL-KIR-2026` (Data / Governance chain)
 
 **Owner role**: Data Governance Lead (CDO chain)  

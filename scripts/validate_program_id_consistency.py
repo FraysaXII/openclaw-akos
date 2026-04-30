@@ -86,7 +86,9 @@ def collect_assets_program_ids() -> list[tuple[str, int, str]]:
     for plane_dir in sorted(ASSETS_ROOT.iterdir()):
         if not plane_dir.is_dir():
             continue
-        if plane_dir.name in {"km-pilot"} or plane_dir.name in RESERVED_KEYWORDS:
+        if plane_dir.name in {"km-pilot", "touchpoint-kit"} or plane_dir.name in RESERVED_KEYWORDS:
+            # km-pilot: Initiative 22 P2 grandfathered flat layout.
+            # touchpoint-kit: Initiative 31 P4 — keyed by persona_id/channel_id (not plane/program_id).
             continue
         for program_dir in sorted(plane_dir.iterdir()):
             if not program_dir.is_dir():

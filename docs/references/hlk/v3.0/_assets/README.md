@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # HLK `_assets/` — Output 1 directory contract
 
 **Owner**: Compliance, Data Architecture (joint), with PMO as primary author for ADVOPS topics.  

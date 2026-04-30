@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Holistika-tracked GitHub repositories (canonical index)
 
 **Item type:** Canonical registry (see [PRECEDENCE.md](../../../compliance/PRECEDENCE.md))  

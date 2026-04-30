@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # HLK Knowledge Management: Topic, Fact, and Source Model
 
 **Item Name**: HLK Knowledge Management Topic–Fact–Source Contract  

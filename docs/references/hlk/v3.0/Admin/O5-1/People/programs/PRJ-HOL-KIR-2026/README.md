@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Program — `PRJ-HOL-KIR-2026` (People area)
 
 **Owner role**: CPO chain (specific role TBD — likely People Operations or Compliance Methodology)  

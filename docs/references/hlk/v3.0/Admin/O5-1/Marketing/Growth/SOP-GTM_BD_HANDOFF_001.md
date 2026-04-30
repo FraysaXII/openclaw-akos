@@ -1,4 +1,5 @@
 ---
+language: en
 Item Name: BD handoff from marketing qualification
 Item Number: thi_opera_dtp_289
 Object Class: Guideline and Procedure
@@ -10,7 +11,6 @@ Associated Workstream: End-to-End Marketing Lead Flow
 Version: 1.0
 Revision Date: 2026-04-17
 ---
-
 ## Purpose
 
 Standardize **handoff from marketing qualification to Business Development** for leads under [`End-to-End Marketing Lead Flow` `thi_opera_dtp_289`](../../../../../../compliance/process_list.csv) and parent [`LEADS WEB Centralization and BD Routing` `thi_opera_dtp_288`](../../../../../../compliance/process_list.csv).

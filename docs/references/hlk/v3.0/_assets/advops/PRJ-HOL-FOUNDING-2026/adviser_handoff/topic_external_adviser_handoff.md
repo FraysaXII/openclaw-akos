@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Topic: External Adviser Engagement (Founder Incorporation)
 
 **source_id**: `topic_external_adviser_handoff`  

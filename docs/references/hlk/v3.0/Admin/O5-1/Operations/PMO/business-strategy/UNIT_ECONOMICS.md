@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: Business Controller + Founder
 area: Operations / PMO
@@ -15,7 +16,6 @@ last_review: 2026-04-30
 deck_bound: true
 deck_slides_consumed: ["12-roadmap"]
 ---
-
 # Unit economics — LTV / CAC / payback per channel × ICP
 
 ## What this answers

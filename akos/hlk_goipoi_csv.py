@@ -38,4 +38,13 @@ GOIPOI_REGISTER_FIELDNAMES: tuple[str, ...] = (
     "voice_register",
     "language_preference",
     "pronoun_register",
+    # Initiative 31 P2.2 (D-IH-31-G) — distance dimension on the social graph.
+    # `distance_band`: ordinal N1|N2|N3|N4 (terminal at N4; N5+ collapses to N4).
+    # `bridge_via`: FK to another POI/GOI ref_id (the immediate intermediary on the path).
+    #   Null only when distance_band == "N1"; required for N2-N4.
+    # `distance_assessed_date`: ISO date when the distance was last validated.
+    #   Drives the quarterly re-assessment cadence per SOP-HLK_GOIPOI §4.X.
+    "distance_band",
+    "bridge_via",
+    "distance_assessed_date",
 )

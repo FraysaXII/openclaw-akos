@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: PMO
 area: Operations / PMO
@@ -12,7 +13,6 @@ intellectual_kind: business_strategy_index
 authority: Founder + PMO
 last_review: 2026-04-30
 ---
-
 # Business Strategy SSOT — index
 
 > **Initiative 29 P4.** Canonical layer of governed strategy artifacts that the company dossier (Initiative 28) and any future investor / partner deliverable pulls from. Each artifact below is registered as a topic in [`TOPIC_REGISTRY.csv`](../../../../../compliance/dimensions/TOPIC_REGISTRY.csv) with `parent_topic = topic_business_strategy`, so the agent can navigate from the parent topic to any leaf.

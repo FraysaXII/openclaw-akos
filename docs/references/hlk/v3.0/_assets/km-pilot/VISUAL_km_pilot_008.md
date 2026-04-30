@@ -1,3 +1,7 @@
+---
+language: en
+---
+
 # Diagram placeholder — manifesto / standard process illustration slot
 
 **source_id**: `VISUAL_km_pilot_008`  

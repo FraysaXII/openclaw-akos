@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: Business Controller + Founder
 area: Operations / PMO
@@ -15,7 +16,6 @@ last_review: 2026-04-30
 deck_bound: true
 deck_slides_consumed: ["10-business-model"]
 ---
-
 # Pricing model — service rates, KiRBe SaaS, partner revenue share
 
 ## What this answers

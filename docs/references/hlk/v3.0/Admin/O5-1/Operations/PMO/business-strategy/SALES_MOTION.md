@@ -1,4 +1,5 @@
 ---
+language: en
 status: active
 role_owner: Founder + PMO
 area: Operations / PMO
@@ -15,7 +16,6 @@ last_review: 2026-04-30
 deck_bound: true
 deck_slides_consumed: []
 ---
-
 # Sales motion — per ICP, how the deal actually closes
 
 ## What this answers
