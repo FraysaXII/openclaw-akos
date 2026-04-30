@@ -1,0 +1,247 @@
+---
+# Holistika Research — Company Dossier (Spanish)
+# Initiative 28 — Slide structured data SSOT
+# Driven by deck-brief.md + evidence-triage.md
+# Each slide drives the React preview (P3) and the Figma deck (P4).
+# Render rule: copy here is final external copy — no internal IDs, no TODO markers,
+# no jargon. The render-time TODO[OPERATOR] -> "Pregunta abierta" transform is a
+# safety net only; this YAML must already pass BRAND_JARGON_AUDIT §4.
+
+document:
+  title: "Holistika Research — Dossier de Compañía"
+  language: es
+  audience: ["enisa_adviser", "startup_certification_reader", "investor_like_reader"]
+  tone: hybrid_institutional_compelling
+  format: 16x9_deck
+  page_count: 14
+  brand_tokens_source: docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_VISUAL_PATTERNS.md
+  voice_source: docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_VOICE_FOUNDATION.md
+  jargon_audit_source: docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_JARGON_AUDIT.md
+  appendix_source: docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/dossier_es.md
+
+slides:
+  - id: 01-cover
+    layout: cover_hero
+    eyebrow: "Holística Research · Dossier de Compañía"
+    title: "Sistemas operativos para empresas que necesitan ordenar su operación antes de escalar."
+    subtitle: "Investigación aplicada, ingeniería empresarial y software propio. Madrid · 2026."
+    footer:
+      org: "Holística Research"
+      url: "holistikaresearch.com"
+      date: "2026"
+
+  - id: 02-problem
+    layout: section_opener
+    section_number: "01"
+    section_label: "El problema"
+    headline: "Las compañías están añadiendo herramientas e IA más rápido de lo que pueden poner en orden su operación."
+    body: |
+      La consecuencia diaria es decisiones que se repiten en silos, conocimiento que vive en correos y reuniones, automatizaciones a medias, y software que no resiste el paso de un equipo a otro. La promesa de productividad llega antes que la capacidad real de operarla.
+
+  - id: 03-insight
+    layout: section_opener
+    section_number: "02"
+    section_label: "La idea"
+    headline: "El cuello de botella no es comprar IA, es ordenar el conocimiento del negocio."
+    body: |
+      Cuando los procesos, las decisiones y los datos están bien estructurados, cualquier herramienta — incluida la IA — empieza a producir valor de forma medible. Hasta entonces, todo es ruido caro.
+
+  - id: 04-solution
+    layout: solution_three_lines
+    eyebrow: "Lo que hacemos"
+    headline: "Diseñamos el sistema operativo de la compañía y lo implementamos en software."
+    lines:
+      - title: "Inteligencia empresarial"
+        body: "Auditamos y estructuramos cómo decide y ejecuta la compañía hoy."
+      - title: "Ingeniería de procesos"
+        body: "Convertimos esa estructura en flujos auditables, automatizables y mantenibles."
+      - title: "Software propio (KiRBe)"
+        body: "Productizamos el método como plataforma SaaS para que se opere sin nosotros."
+
+  - id: 05-method
+    layout: method_three_columns
+    eyebrow: "Tres líneas, una sola disciplina"
+    headline: "Investigación, ingeniería y producto comparten la misma pila técnica y la misma exigencia de calidad."
+    columns:
+      - tag: "Investigación aplicada"
+        title: "Empezamos por entender, no por proponer"
+        body: "Cada engagement comienza con un mapa real de la operación. Decisiones, dependencias, riesgos, y dónde se pierde valor hoy."
+      - tag: "Ingeniería empresarial"
+        title: "Diseñamos sistemas, no entregables sueltos"
+        body: "Procesos, roles, métricas y controles definidos como un sistema interconectado, no como una colección de documentos."
+      - tag: "Software de método"
+        title: "Lo que construimos se puede operar sin nosotros"
+        body: "El método se materializa en código, en flujos automatizados y en una plataforma propia que el cliente — o nosotros — operamos."
+
+  - id: 06-proof
+    layout: capability_grid
+    eyebrow: "Tracción real"
+    headline: "Cinco entregas distintas en producción, una sola pila técnica, una sola disciplina de calidad."
+    stat_grid:
+      - num: "5"
+        label: "Entregas en producción"
+      - num: "3"
+        label: "Idiomas en el sitio público"
+      - num: "2023"
+        label: "Año de inicio del método"
+      - num: "1"
+        label: "Pila técnica replicada en 5 contextos"
+    cards:
+      - id: card-web
+        order: "01"
+        category: "Web pública + CRM"
+        title: "Sitio multilingüe con captura de leads"
+        outcome: "Sitio público, multilingüe (es / en / fr), pagos integrados y captación comercial extremo a extremo."
+        tags: ["3 idiomas", "Pagos integrados", "Pruebas extremo a extremo"]
+        footer: "holistikaresearch.com"
+      - id: card-erp
+        order: "02"
+        category: "ERP interno"
+        title: "Sistema de gestión propio"
+        outcome: "ERP multi-módulo en uso interno; tematización gobernada y verificación automática completa antes de cada despliegue."
+        tags: ["Multi-módulo", "Tematización gobernada", "Pruebas + cobertura"]
+        footer: "Producto interno · revisión bajo NDA"
+      - id: card-kirbe
+        order: "03"
+        category: "Producto SaaS propio"
+        title: "KiRBe — Plataforma de gestión de conocimiento"
+        outcome: "Búsqueda en lenguaje natural, aislamiento por organización, facturación por uso, despliegue cloud productivo."
+        tags: ["SaaS B2B", "Búsqueda natural", "Facturación por uso"]
+        footer: "Producto en operación"
+      - id: card-shopify
+        order: "04"
+        category: "Entrega para partner B2B"
+        title: "App publicada en el ecosistema Shopify"
+        outcome: "Panel de administración + extensión de tema en producción; internacionalizada en 6 idiomas; verificación multi-job."
+        tags: ["App publicada", "6 idiomas", "Calidad de producto"]
+        footer: "Entrega para partner B2B"
+      - id: card-rushly
+        order: "05"
+        category: "Diseño y scaffold de SaaS"
+        title: "Scaffold gobernado para partner SaaS"
+        outcome: "Arquitectura congelada, separación API/worker, contratos de tipo estrictos y verificación automática antes de codificar."
+        tags: ["Arquitectura congelada", "Monorepo estricto", "CI multi-job"]
+        footer: "Diseño para partner B2B"
+
+  - id: 07-product-spotlight
+    layout: product_spotlight
+    eyebrow: "Productización del método"
+    headline: "KiRBe convierte la metodología en software vendible."
+    body: |
+      KiRBe es la materialización en producto de cómo Holística estructura el conocimiento empresarial. Cada cliente carga sus fuentes propias y obtiene respuestas en lenguaje natural sobre su propio negocio, con aislamiento completo, auditoría y facturación por uso.
+    proof_points:
+      - "SaaS B2B en producción para uso interno y de clientes"
+      - "Búsqueda en lenguaje natural con re-clasificación semántica"
+      - "Aislamiento por organización + auditoría completa"
+      - "Facturación por uso integrada"
+    why_it_matters: |
+      No es una promesa: es la prueba viva de que el método se puede operar sin nosotros.
+
+  - id: 08-why-now
+    layout: section_opener
+    section_number: "03"
+    section_label: "Por qué ahora"
+    headline: "La adopción de IA empresarial está acelerando la presión por sistemas auditables, no por más demos."
+    body: |
+      Las compañías que ganen los próximos cinco años no serán las que tengan más herramientas, sino las que tengan operaciones suficientemente ordenadas como para que cualquier herramienta — incluida la IA — produzca resultados medibles. Holística está construida para ese problema.
+
+  - id: 09-market-icp
+    layout: market_icp
+    eyebrow: "Mercado y perfil de cliente"
+    headline: "Tres canales, un mismo método."
+    icps:
+      - title: "Pyme tecnológica"
+        body: "Empresas con 10–80 personas que necesitan estructurar su operación antes de escalar a la siguiente etapa."
+        signal: "Cliente directo · servicio profesional"
+      - title: "Partner B2B"
+        body: "Integradores, agencias y operadores que necesitan capacidad de ingeniería de producto sin contratar plantilla in-house."
+        signal: "Canal indirecto · entrega gobernada"
+      - title: "Cliente SaaS"
+        body: "Equipos que adoptan la plataforma KiRBe para gestionar su propio conocimiento empresarial."
+        signal: "Producto · ingreso recurrente"
+
+  - id: 10-business-model
+    layout: business_model_today_tomorrow
+    eyebrow: "Modelo de entrega"
+    headline: "Hoy facturamos servicio. Mañana facturamos producto. El puente está construido en código."
+    today:
+      title: "Hoy"
+      body: "Investigación aplicada, ingeniería empresarial e ingeniería de procesos como servicio profesional."
+      tag: "Servicio profesional"
+    tomorrow:
+      title: "Mañana"
+      body: "El mismo método, productizado y vendido como SaaS empresarial — con o sin nuestro acompañamiento."
+      tag: "SaaS recurrente"
+    bridge:
+      title: "El puente"
+      body: "KiRBe, ya en producción y en uso interno: cuando el método se ejecuta en software, el cliente puede operarlo sin nosotros."
+      tag: "Producto · método ejecutable"
+
+  - id: 11-moat
+    layout: moat_pillars
+    eyebrow: "Por qué es difícil replicar esto"
+    headline: "Una sola pila técnica, una sola disciplina de calidad, cinco contextos distintos resueltos."
+    pillars:
+      - title: "Internal-first"
+        body: "Operamos con nuestros propios productos antes de venderlos. El método se valida en casa."
+      - title: "Pila replicada"
+        body: "La misma arquitectura técnica entrega web, ERP, SaaS y aplicaciones de partner. No es retórica: es código compartido."
+      - title: "Marco de marca y voz canónica"
+        body: "Identidad visual, voz, registros y disciplina de comunicación auditadas. Madurez operativa que se nota en la primera reunión."
+      - title: "Velocidad con disciplina"
+        body: "Arquitectura congelada antes de codificar; verificación automática antes de cada despliegue; revisión por pares en cada cambio."
+
+  - id: 12-roadmap
+    layout: roadmap_three_phases
+    eyebrow: "Roadmap 0–24 meses"
+    headline: "El plan está dimensionado para crecer con disciplina, no a cualquier coste."
+    phases:
+      - window: "0 – 6 meses"
+        title: "Consolidación"
+        deliverables:
+          - "Constitución y certificación Empresa Emergente"
+          - "Tres engagements con cliente directo en producción"
+          - "KiRBe operando con primer cliente externo de pago"
+      - window: "6 – 12 meses"
+        title: "Productización"
+        deliverables:
+          - "KiRBe con 5–10 clientes B2B"
+          - "Equipo de 2–3 ingenieros senior en España"
+          - "Canal de partner B2B con 2 integraciones recurrentes"
+      - window: "12 – 24 meses"
+        title: "Escala"
+        deliverables:
+          - "Plataforma KiRBe como ingreso recurrente principal"
+          - "Operación distribuida con base en España y red de colaboradores"
+          - "Catálogo de soluciones replicables para sectores priorizados"
+
+  - id: 13-enisa-fit
+    layout: enisa_fit_use_of_funds
+    eyebrow: "Encaje ENISA · Empresa Emergente"
+    headline: "Innovación verificable, escalabilidad acreditada, presencia en España desde el día 1."
+    fit_points:
+      - title: "Innovación"
+        body: "Método propio + software propio (KiRBe) en producción desde 2023; cinco entregas distintas con la misma pila."
+      - title: "Escalabilidad"
+        body: "Servicio profesional hoy, ingreso SaaS recurrente mañana; canal de partner B2B activo."
+      - title: "Presencia en España"
+        body: "Domicilio social, banca operativa e infraestructura en España desde la constitución; plan de personal nacional."
+    use_of_funds:
+      title: "Hacia dónde van los recursos en los próximos 12 meses"
+      lines:
+        - "Productización de KiRBe (ingeniería + go-to-market)"
+        - "Contratación de 2–3 ingenieros senior en España"
+        - "Infraestructura productiva y observabilidad continua"
+        - "Asesoría legal, fiscal y de certificación"
+
+  - id: 14-ask
+    layout: ask_signature
+    eyebrow: "Siguiente paso"
+    headline: "Cerremos por escrito el encaje ENISA y el paquete legal antes de la firma."
+    ask_lines:
+      - "Confirmación del paquete CNAE + objeto social que mejor sostiene la narrativa de innovación."
+      - "Reparto documental ENISA: qué produce el fundador, qué produce la asesoría."
+      - "Ventana de 30 minutos esta semana para alinear plan de presentación."
+    closing: "Un saludo,"
+    signature: "Holística Research"
+    contact_hint: "holistikaresearch.com"

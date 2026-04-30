@@ -1,0 +1,902 @@
+/*
+ * Holistika Research — Company Dossier deck stylesheet.
+ *
+ * Initiative 28 P3. Mirrors deck-visual-system.md.
+ * Inlined into the rendered index.html by scripts/build_company_deck.py.
+ * Token values are sourced from BRAND_VISUAL_PATTERNS.md §1.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  /* Light surface */
+  --bg-light: hsl(40 20% 99%);
+  --bg-light-card: hsl(40 15% 98%);
+  --fg-light: hsl(220 12% 18%);
+  --fg-muted: hsl(220 8% 42%);
+  --border: hsl(220 8% 88%);
+
+  /* Dark surface */
+  --bg-dark: hsl(220 16% 7%);
+  --bg-dark-card: hsl(220 14% 10%);
+  --fg-dark: hsl(210 15% 90%);
+  --fg-dark-muted: hsl(210 12% 65%);
+  --border-dark: hsl(220 12% 22%);
+
+  /* Accents */
+  --teal: hsl(168 55% 38%);
+  --teal-dark: hsl(168 50% 44%);
+  --amber: hsl(38 80% 50%);
+  --amber-dark: hsl(38 75% 55%);
+  --risk: hsl(0 75% 55%);
+
+  /* Geometry */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 16px;
+
+  /* Slide canvas dimensions (16:9) */
+  --slide-w: 1440px;
+  --slide-h: 810px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: hsl(220 12% 14%);
+  color: var(--fg-light);
+  font-family: "Inter", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.deck-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 48px 24px 96px;
+}
+
+.deck-header {
+  width: var(--slide-w);
+  max-width: 90vw;
+  color: var(--fg-dark-muted);
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.deck-header strong {
+  color: var(--fg-dark);
+  letter-spacing: 0.18em;
+}
+
+/* ========================================================================
+ * Slide frame
+ * ======================================================================== */
+.slide {
+  width: var(--slide-w);
+  height: var(--slide-h);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  box-shadow: 0 22px 60px -20px rgba(0, 0, 0, 0.65);
+  page-break-after: always;
+  page-break-inside: avoid;
+  break-after: page;
+}
+
+.slide.slide-light {
+  background: var(--bg-light);
+  color: var(--fg-light);
+}
+
+.slide.slide-dark {
+  background: var(--bg-dark);
+  color: var(--fg-dark);
+}
+
+.slide-inner {
+  position: absolute;
+  inset: 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========================================================================
+ * Cover (slide 01)
+ * ======================================================================== */
+.slide-cover {
+  background:
+    radial-gradient(ellipse 65% 55% at 28% 32%, hsla(168, 55%, 38%, 0.22) 0%, transparent 62%),
+    radial-gradient(ellipse 85% 75% at 72% 65%, hsla(38, 80%, 50%, 0.16) 0%, transparent 72%),
+    linear-gradient(155deg, var(--bg-dark) 0%, var(--bg-dark-card) 50%, hsl(220 12% 13%) 100%);
+}
+
+.slide-cover .cover-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, hsla(168, 50%, 44%, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, hsla(168, 50%, 44%, 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, black 0%, transparent 75%);
+          mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, black 0%, transparent 75%);
+  pointer-events: none;
+}
+
+.brand-monogram {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid hsla(168, 50%, 44%, 0.4);
+  color: var(--teal-dark);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+}
+
+.slide-cover .cover-eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--teal-dark);
+  margin: 24px 0 0 0;
+}
+
+.slide-cover .cover-title {
+  font-size: 88px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--fg-dark);
+  margin: 96px 0 24px 0;
+  max-width: 1100px;
+}
+
+.slide-cover .cover-subtitle {
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--fg-dark);
+  opacity: 0.8;
+  max-width: 920px;
+}
+
+.slide-cover .cover-strip {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  bottom: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg-dark);
+  opacity: 0.78;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-top: 1px solid hsla(168, 50%, 44%, 0.4);
+  padding-top: 18px;
+}
+
+/* ========================================================================
+ * Section opener (slides 02, 03, 08)
+ * ======================================================================== */
+.slide-section {
+  background: var(--bg-dark);
+}
+
+.slide-section .section-number {
+  font-size: 220px;
+  font-weight: 700;
+  color: hsla(168, 50%, 44%, 0.18);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  margin: 0;
+}
+
+.slide-section .section-label {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--teal-dark);
+  margin: 8px 0 56px 0;
+}
+
+.slide-section .section-headline {
+  font-size: 60px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.018em;
+  color: var(--fg-dark);
+  max-width: 1180px;
+  margin: 0 0 24px 0;
+}
+
+.slide-section .section-body {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--fg-dark);
+  opacity: 0.78;
+  max-width: 980px;
+  line-height: 1.55;
+}
+
+/* ========================================================================
+ * Body slide common
+ * ======================================================================== */
+.slide-body .eyebrow {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--teal);
+  margin: 0 0 16px 0;
+}
+
+.slide-body .body-headline {
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+  color: var(--fg-light);
+  margin: 0;
+  max-width: 1180px;
+}
+
+.slide-body .body-paragraph {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg-light);
+  margin: 24px 0 0 0;
+  max-width: 1100px;
+}
+
+.slide-body .slide-footer {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  bottom: 36px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--fg-muted);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ========================================================================
+ * Solution three-line (slide 04)
+ * ======================================================================== */
+.solution-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 60px;
+}
+
+.solution-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 28px 28px 32px;
+  background: var(--bg-light-card);
+}
+
+.solution-card .solution-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--teal);
+  margin: 0 0 12px 0;
+}
+
+.solution-card .solution-body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg-light);
+  margin: 0;
+}
+
+/* ========================================================================
+ * Method three-column (slide 05)
+ * ======================================================================== */
+.method-stripes {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.method-stripe {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 36px;
+  align-items: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+}
+
+.method-stripe:last-child { border-bottom: 1px solid var(--border); }
+
+.method-tag {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--teal);
+  text-transform: uppercase;
+}
+
+.method-stripe.amber .method-tag { color: var(--amber); }
+
+.method-stripe-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fg-light);
+  margin: 0 0 8px 0;
+}
+
+.method-stripe-body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+/* ========================================================================
+ * Stat grid (slide 06 top band)
+ * ======================================================================== */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin: 28px 0 32px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.stat-block {
+  padding: 18px 24px 22px;
+  border-right: 1px solid var(--border);
+}
+
+.stat-block:last-child { border-right: none; }
+
+.stat-num {
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  margin: 0;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--fg-muted);
+  margin: 8px 0 0 0;
+  line-height: 1.3;
+}
+
+/* ========================================================================
+ * Capability grid (slide 06 cards)
+ * ======================================================================== */
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  margin-top: 8px;
+}
+
+.capability-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--bg-light-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.capability-card .card-head {
+  background: var(--fg-light);
+  color: var(--bg-light);
+  padding: 14px 16px 16px;
+}
+
+.capability-card .card-order {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--teal-dark);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.capability-card .card-category {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--fg-dark-muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 4px 0 6px 0;
+}
+
+.capability-card .card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fg-dark);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.capability-card .card-body {
+  padding: 14px 16px 12px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--fg-light);
+  flex: 1;
+}
+
+.capability-card .card-tags {
+  padding: 0 16px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag, .tag-amber {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+
+.tag {
+  background: hsla(168, 55%, 38%, 0.1);
+  color: var(--teal);
+}
+
+.tag-amber {
+  background: hsla(38, 80%, 50%, 0.14);
+  color: var(--amber);
+}
+
+.capability-card .card-foot {
+  padding: 10px 16px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-light-card);
+  font-size: 11px;
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
+/* ========================================================================
+ * Product spotlight (slide 07)
+ * ======================================================================== */
+.spotlight-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 56px;
+  margin-top: 48px;
+}
+
+.spotlight-points {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-left: 2px solid var(--teal);
+  padding-left: 24px;
+}
+
+.spotlight-point {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--fg-light);
+  line-height: 1.5;
+  position: relative;
+}
+
+.spotlight-point::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 2px;
+  background: var(--teal);
+  vertical-align: middle;
+  margin-right: 12px;
+}
+
+.pull-quote {
+  font-size: 22px;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--teal);
+  margin: 36px 0 0 0;
+  padding: 16px 0 0 0;
+  border-top: 1px solid var(--border);
+  max-width: 940px;
+  line-height: 1.45;
+}
+
+/* ========================================================================
+ * Market + ICP (slide 09)
+ * ======================================================================== */
+.icp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.icp-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 28px;
+  background: var(--bg-light-card);
+}
+
+.icp-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fg-light);
+  margin: 0 0 12px 0;
+}
+
+.icp-body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin: 0 0 20px 0;
+}
+
+.icp-signal {
+  display: inline-block;
+  background: hsla(168, 55%, 38%, 0.12);
+  color: var(--teal);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* ========================================================================
+ * Business model today/bridge/tomorrow (slide 10)
+ * ======================================================================== */
+.bm-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 44px;
+  position: relative;
+}
+
+.bm-row {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 36px;
+  align-items: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+}
+
+.bm-stack .bm-row:last-child { border-bottom: 1px solid var(--border); }
+
+.bm-tag {
+  display: inline-block;
+  background: hsla(168, 55%, 38%, 0.12);
+  color: var(--teal);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.bm-row.amber .bm-tag {
+  background: hsla(38, 80%, 50%, 0.14);
+  color: var(--amber);
+}
+
+.bm-row .bm-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fg-light);
+  margin: 0 0 6px 0;
+}
+
+.bm-row .bm-body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+/* ========================================================================
+ * Moat pillars (slide 11)
+ * ======================================================================== */
+.moat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+
+.moat-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px;
+  background: var(--bg-light-card);
+}
+
+.moat-card .moat-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--teal);
+  margin: 0 0 12px 0;
+}
+
+.moat-card .moat-body {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg-light);
+  margin: 0;
+}
+
+/* ========================================================================
+ * Roadmap three phases (slide 12)
+ * ======================================================================== */
+.roadmap-track {
+  margin-top: 48px;
+  position: relative;
+}
+
+.roadmap-track::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--teal);
+  opacity: 0.6;
+}
+
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+}
+
+.roadmap-window {
+  padding: 56px 24px 24px;
+  background: var(--bg-light-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  position: relative;
+}
+
+.roadmap-window::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 24px;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--teal);
+  border: 3px solid var(--bg-light);
+}
+
+.roadmap-window-window {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--teal);
+  margin: 0 0 6px 0;
+  display: block;
+}
+
+.roadmap-window-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fg-light);
+  margin: 0 0 16px 0;
+}
+
+.roadmap-window-deliverables {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.roadmap-window-deliverables li {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fg-light);
+  position: relative;
+  padding-left: 20px;
+}
+
+.roadmap-window-deliverables li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 10px;
+  height: 2px;
+  background: var(--teal);
+}
+
+/* ========================================================================
+ * ENISA fit + use of funds (slide 13)
+ * ======================================================================== */
+.enisa-fit {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 36px;
+}
+
+.enisa-fit .fit-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px;
+  background: var(--bg-light-card);
+}
+
+.fit-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--teal);
+  margin: 0 0 10px 0;
+}
+
+.fit-body {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--fg-light);
+  margin: 0;
+}
+
+.use-of-funds {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+
+.use-of-funds-title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--amber);
+  margin: 0 0 16px 0;
+}
+
+.use-of-funds ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.use-of-funds li {
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--fg-light);
+  position: relative;
+  padding-left: 22px;
+}
+
+.use-of-funds li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 12px;
+  height: 2px;
+  background: var(--amber);
+}
+
+/* ========================================================================
+ * Ask + signature (slide 14)
+ * ======================================================================== */
+.ask-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 56px;
+  max-width: 1080px;
+}
+
+.ask-line {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--fg-light);
+}
+
+.ask-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: hsla(168, 55%, 38%, 0.14);
+  color: var(--teal);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.ask-signature {
+  position: absolute;
+  left: 80px;
+  bottom: 80px;
+  font-size: 18px;
+  color: var(--fg-light);
+}
+
+.ask-signature .closing { display: block; font-weight: 400; color: var(--fg-muted); margin-bottom: 4px; }
+.ask-signature .signature { display: block; font-weight: 700; font-size: 22px; }
+.ask-signature .contact-hint { display: block; font-size: 14px; color: var(--fg-muted); margin-top: 4px; }
+
+/* ========================================================================
+ * Print to PDF
+ * ======================================================================== */
+@page {
+  size: 1440px 810px;
+  margin: 0;
+}
+
+@media print {
+  html, body { background: white; }
+  .deck-container { padding: 0; gap: 0; }
+  .deck-header { display: none; }
+  .slide {
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+  }
+}
