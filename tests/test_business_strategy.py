@@ -45,6 +45,9 @@ EXPECTED_ARTIFACTS = {
     "UNIT_ECONOMICS.md",
     "BOOTSTRAPPING_PLAN.md",
     "INVESTMENT_THESIS.md",
+    # Initiative 30 P1 + P3 additions
+    "MADEIRA_PLATFORM.md",
+    "GOVERNANCE_MOAT.md",
 }
 
 REQUIRED_FRONTMATTER_KEYS = {
@@ -135,8 +138,9 @@ def test_business_strategy_parent_topic_present():
 
 
 def test_eleven_business_strategy_topics_registered():
-    """Initiative 29 P4 added 11 topics: parent + 10 children
-    (incl. POC CSV topic)."""
+    """Initiative 29 P4 added 11 topics; Initiative 30 P1 + P3 added 2 more.
+
+    Total: parent + 12 children = 13 topics under topic_business_strategy."""
     canonical = _load_topic_ids()
     expected_children = {
         "topic_business_strategy",
@@ -150,9 +154,43 @@ def test_eleven_business_strategy_topics_registered():
         "topic_investment_thesis",
         "topic_strategy_decisions",
         "topic_poc_commercial_map",
+        # Initiative 30 P1 + P3 additions
+        "topic_madeira_platform",
+        "topic_governance_moat",
     }
     missing = expected_children - canonical
     assert not missing, f"missing business-strategy topics: {missing}"
+
+
+def test_madeira_platform_topic_resolves():
+    """Initiative 30 P1: MADEIRA_PLATFORM.md frontmatter must reference
+    topic_madeira_platform; the topic must be registered."""
+    canonical = _load_topic_ids()
+    assert "topic_madeira_platform" in canonical
+    text = (STRATEGY_DIR / "MADEIRA_PLATFORM.md").read_text(encoding="utf-8")
+    assert "topic_madeira_platform" in text
+    assert "MADEIRA" in text  # the artifact must talk about MADEIRA, not just reference the id
+
+
+def test_governance_moat_topic_resolves():
+    """Initiative 30 P3: GOVERNANCE_MOAT.md must reference topic_governance_moat
+    and the topic must be registered."""
+    canonical = _load_topic_ids()
+    assert "topic_governance_moat" in canonical
+    text = (STRATEGY_DIR / "GOVERNANCE_MOAT.md").read_text(encoding="utf-8")
+    assert "topic_governance_moat" in text
+
+
+def test_channel_strategy_includes_joint_equity_channel():
+    """Initiative 30 P2: Channel 6 (joint-equity SaaS pilot) must be present
+    in CHANNEL_STRATEGY.md with its TODO[OPERATOR-x] equity-band marker."""
+    text = (STRATEGY_DIR / "CHANNEL_STRATEGY.md").read_text(encoding="utf-8")
+    # Channel header
+    assert "Channel 6" in text or "Channel 6 — Partner joint-equity SaaS pilot" in text
+    # The equity-band TODO marker (operator decision)
+    assert "TODO[OPERATOR-channel6-equity-band]" in text
+    # Channel matrix summary row
+    assert "Partner joint-equity SaaS pilot" in text
 
 
 # ---- Deck-bound contract ---------------------------------------------------

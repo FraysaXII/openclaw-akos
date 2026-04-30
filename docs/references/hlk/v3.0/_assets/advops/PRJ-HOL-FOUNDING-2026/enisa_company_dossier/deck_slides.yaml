@@ -55,8 +55,8 @@ slides:
         body: "Auditamos y estructuramos cómo decide y ejecuta la compañía hoy."
       - title: "Ingeniería de procesos"
         body: "Convertimos esa estructura en flujos auditables, automatizables y mantenibles."
-      - title: "Software propio (KiRBe)"
-        body: "Productizamos el método como plataforma SaaS para que se opere sin nosotros."
+      - title: "Software propio (KiRBe + MADEIRA)"
+        body: "Productizamos el método: KiRBe como plataforma SaaS de conocimiento; MADEIRA como capa de agentes estandarizados. El cliente puede operar sin nosotros."
 
   - id: 05-method
     layout: method_three_columns
@@ -71,57 +71,57 @@ slides:
         body: "Procesos, roles, métricas y controles definidos como un sistema interconectado, no como una colección de documentos."
       - tag: "Software de método"
         title: "Lo que construimos se puede operar sin nosotros"
-        body: "El método se materializa en código, en flujos automatizados y en una plataforma propia que el cliente — o nosotros — operamos."
+        body: "El método se materializa en código, en flujos automatizados, en una plataforma propia (KiRBe) y en una capa de agentes estandarizados (MADEIRA) con sourcing y comportamiento gobernados. El cliente — o nosotros — lo operamos."
 
   - id: 06-proof
     layout: capability_grid
     eyebrow: "Tracción real"
-    headline: "Cinco entregas distintas en producción, una sola pila técnica, una sola disciplina de calidad."
+    headline: "Dos productos propios en operación, dos partners en demanda activa, una sola pila técnica gobernada."
     stat_grid:
-      - num: "5"
-        label: "Entregas en producción"
-      - num: "3"
-        label: "Idiomas en el sitio público"
+      - num: "2"
+        label: "Productos propios en operación"
+      - num: "2"
+        label: "Partners en demanda activa"
+      - num: "1.093"
+        label: "Procesos catalogados y gobernados"
       - num: "2023"
         label: "Año de inicio del método"
-      - num: "1"
-        label: "Pila técnica replicada en 5 contextos"
     cards:
-      - id: card-web
-        order: "01"
-        category: "Web pública + CRM"
-        title: "Sitio multilingüe con captura de leads"
-        outcome: "Sitio público, multilingüe (es / en / fr), pagos integrados y captación comercial extremo a extremo."
-        tags: ["3 idiomas", "Pagos integrados", "Pruebas extremo a extremo"]
-        footer: "holistikaresearch.com"
-      - id: card-erp
-        order: "02"
-        category: "ERP interno"
-        title: "Sistema de gestión propio"
-        outcome: "ERP multi-módulo en uso interno; tematización gobernada y verificación automática completa antes de cada despliegue."
-        tags: ["Multi-módulo", "Tematización gobernada", "Pruebas + cobertura"]
-        footer: "Producto interno · revisión bajo NDA"
       - id: card-kirbe
-        order: "03"
+        order: "01"
         category: "Producto SaaS propio"
         title: "KiRBe — Plataforma de gestión de conocimiento"
         outcome: "Búsqueda en lenguaje natural, aislamiento por organización, facturación por uso, despliegue cloud productivo."
         tags: ["SaaS B2B", "Búsqueda natural", "Facturación por uso"]
         footer: "Producto en operación"
+      - id: card-madeira
+        order: "02"
+        category: "Plataforma de agentes propia"
+        title: "MADEIRA — Capa agentic gobernada"
+        outcome: "Sourcing gobernado, habilidades versionadas, comportamiento auditable. Hoy operativa en interno y dentro de KiRBe."
+        tags: ["Agentes propios", "Sourcing gobernado", "Versionado por habilidades"]
+        footer: "Componente operativo · ruta SaaS evaluada"
       - id: card-shopify
-        order: "04"
-        category: "Entrega para partner B2B"
+        order: "03"
+        category: "Demanda de partner (B2B)"
         title: "App publicada en el ecosistema Shopify"
-        outcome: "Panel de administración + extensión de tema en producción; internacionalizada en 6 idiomas; verificación multi-job."
-        tags: ["App publicada", "6 idiomas", "Calidad de producto"]
-        footer: "Entrega para partner B2B"
+        outcome: "Panel de administración + extensión de tema en producción; internacionalizada en 6 idiomas; verificación multi-job. El partner mantiene la relación con el cliente final."
+        tags: ["Entrega recurrente", "6 idiomas", "Calidad de producto"]
+        footer: "Demanda activa de partner"
       - id: card-rushly
-        order: "05"
-        category: "Diseño y scaffold de SaaS"
+        order: "04"
+        category: "Demanda de partner (equidad conjunta)"
         title: "Scaffold gobernado para partner SaaS"
-        outcome: "Arquitectura congelada, separación API/worker, contratos de tipo estrictos y verificación automática antes de codificar."
-        tags: ["Arquitectura congelada", "Monorepo estricto", "CI multi-job"]
-        footer: "Diseño para partner B2B"
+        outcome: "Arquitectura congelada antes de codificar; separación API/worker; verificación automática. Partner que evalúa modelo de equidad conjunta para la fase de implementación."
+        tags: ["Arquitectura congelada", "Monorepo estricto", "Equidad conjunta evaluada"]
+        footer: "Demanda activa de partner"
+      - id: card-internal
+        order: "05"
+        category: "Validación interna"
+        title: "Operamos con nuestros propios productos antes de venderlos"
+        outcome: "Sitio público multilingüe + ERP interno multi-módulo; ambos gobernados con la misma pila y la misma disciplina de verificación que se aplica al cliente externo."
+        tags: ["Sitio público", "ERP interno", "Misma pila"]
+        footer: "Validación interna · revisión bajo NDA"
 
   - id: 07-product-spotlight
     layout: product_spotlight
@@ -153,9 +153,9 @@ slides:
       - title: "Pyme tecnológica"
         body: "Empresas con 10–80 personas que necesitan estructurar su operación antes de escalar a la siguiente etapa."
         signal: "Cliente directo · servicio profesional"
-      - title: "Partner B2B"
-        body: "Integradores, agencias y operadores que necesitan capacidad de ingeniería de producto sin contratar plantilla in-house."
-        signal: "Canal indirecto · entrega gobernada"
+      - title: "Partner B2B + equidad conjunta"
+        body: "Integradores, agencias y operadores con base de clientes propia que necesitan ingeniería de producto sin contratar plantilla. Algunos contratan servicio puro; otros co-construyen un SaaS con Holística a cambio de equidad o revenue share."
+        signal: "Canal indirecto · entrega gobernada · equidad conjunta"
       - title: "Cliente SaaS"
         body: "Equipos que adoptan la plataforma KiRBe para gestionar su propio conocimiento empresarial."
         signal: "Producto · ingreso recurrente"
@@ -170,11 +170,11 @@ slides:
       tag: "Servicio profesional"
     tomorrow:
       title: "Mañana"
-      body: "El mismo método, productizado y vendido como SaaS empresarial — con o sin nuestro acompañamiento."
-      tag: "SaaS recurrente"
+      body: "El mismo método, productizado en dos ejes: KiRBe como plataforma de conocimiento y MADEIRA como capa de agentes estandarizados. SaaS empresarial, con o sin nuestro acompañamiento."
+      tag: "SaaS recurrente · dos ejes de producto"
     bridge:
       title: "El puente"
-      body: "KiRBe, ya en producción y en uso interno: cuando el método se ejecuta en software, el cliente puede operarlo sin nosotros."
+      body: "KiRBe ya en producción; MADEIRA operativa en interno y dentro de KiRBe. Cuando el método se ejecuta en software, el cliente puede operarlo sin nosotros."
       tag: "Producto · método ejecutable"
 
   - id: 11-moat
@@ -182,14 +182,14 @@ slides:
     eyebrow: "Por qué es difícil replicar esto"
     headline: "Una sola pila técnica, una sola disciplina de calidad, cinco contextos distintos resueltos."
     pillars:
-      - title: "Internal-first"
-        body: "Operamos con nuestros propios productos antes de venderlos. El método se valida en casa."
+      - title: "Operación gobernada y medible"
+        body: "19 temas gobernados, 1.093 procesos catalogados, 65 roles definidos. Tres capas de validadores deterministas y compuertas automáticas en cada salida pública. Lo que se promete se puede auditar."
       - title: "Pila replicada"
-        body: "La misma arquitectura técnica entrega web, ERP, SaaS y aplicaciones de partner. No es retórica: es código compartido."
+        body: "La misma arquitectura técnica entrega web, ERP, SaaS, capa de agentes y aplicaciones de partner. No es retórica: es código compartido y verificado."
       - title: "Marco de marca y voz canónica"
         body: "Identidad visual, voz, registros y disciplina de comunicación auditadas. Madurez operativa que se nota en la primera reunión."
       - title: "Velocidad con disciplina"
-        body: "Arquitectura congelada antes de codificar; verificación automática antes de cada despliegue; revisión por pares en cada cambio."
+        body: "Arquitectura congelada antes de codificar; verificación automática antes de cada despliegue; descalado de un programa en una operación auditable de cuatro pasos."
 
   - id: 12-roadmap
     layout: roadmap_three_phases
@@ -211,7 +211,7 @@ slides:
       - window: "12 – 24 meses"
         title: "Escala"
         deliverables:
-          - "Plataforma KiRBe como ingreso recurrente principal"
+          - "Plataforma KiRBe como ingreso recurrente principal; primer cliente externo de MADEIRA (capa de agentes estandarizados gobernados)"
           - "Operación distribuida con base en España y red de colaboradores"
           - "Catálogo de soluciones replicables para sectores priorizados"
 

@@ -52,29 +52,29 @@ Holística diseña el sistema operativo de la compañía y lo implementa en soft
 
 - **Inteligencia empresarial.** Auditamos y estructuramos cómo decide y ejecuta la compañía hoy.
 - **Ingeniería de procesos.** Convertimos esa estructura en flujos auditables, automatizables y mantenibles.
-- **Software propio (KiRBe).** Productizamos el método como plataforma para que el cliente pueda operarlo sin nosotros.
+- **Software propio (KiRBe + MADEIRA).** Productizamos el método: KiRBe como plataforma SaaS de conocimiento; MADEIRA como capa de agentes estandarizados. El cliente puede operar sin nosotros.
 
 ## 05 · Tres líneas, una sola disciplina
 
-Las tres líneas comparten la misma pila técnica y la misma exigencia de calidad. Eso no es retórica: es código compartido entre cinco entregas distintas en producción.
+Las tres líneas comparten la misma pila técnica y la misma exigencia de calidad. Eso no es retórica: es código compartido entre cinco contextos distintos en producción.
 
 - **Investigación aplicada.** Empezamos por entender, no por proponer. Cada engagement comienza con un mapa real de la operación: decisiones, dependencias, riesgos, dónde se pierde valor hoy.
 - **Ingeniería empresarial.** Diseñamos sistemas, no entregables sueltos. Procesos, roles, métricas y controles definidos como un sistema interconectado.
-- **Software de método.** Lo que construimos se puede operar sin nosotros. El método se materializa en código y en una plataforma propia que el cliente — o nosotros — operamos.
+- **Software de método.** Lo que construimos se puede operar sin nosotros. El método se materializa en código, en flujos automatizados, en una plataforma propia (KiRBe) y en una capa de agentes estandarizados (MADEIRA) con sourcing y comportamiento gobernados. El cliente — o nosotros — lo operamos.
 
 ## 06 · Tracción real
 
-Cinco entregas distintas en producción, una sola pila técnica, una sola disciplina de calidad. La continuidad metodológica empezó en 2023 y se sostiene desde entonces.
+Dos productos propios en operación, dos partners en demanda activa, una sola pila técnica gobernada. La continuidad metodológica empezó en 2023 y se sostiene desde entonces sobre 1.093 procesos catalogados.
 
-**Las cinco entregas:**
+**Las cinco superficies de prueba:**
 
-1. **Web pública + CRM.** Sitio multilingüe (es / en / fr) con captura de leads y pagos integrados. La compañía construye y opera su propio canal de adquisición sobre la misma pila que vende.
-2. **ERP interno.** Sistema de gestión multi-módulo en uso interno; tematización gobernada y verificación automática completa antes de cada despliegue. Operamos con nuestro propio producto antes de exponerlo a terceros.
-3. **KiRBe — Plataforma SaaS.** Producto de gestión de conocimiento empresarial: búsqueda en lenguaje natural, aislamiento por organización, facturación por uso, despliegue cloud productivo.
-4. **App publicada en el ecosistema Shopify.** Entrega para partner B2B: panel de administración + extensión de tema en producción para los clientes finales del partner; internacionalizada en seis idiomas; verificación multi-job.
-5. **Scaffold gobernado para partner SaaS.** Diseño y arquitectura congelada para otro partner; separación API/worker, contratos de tipo estrictos y verificación automática **antes** de codificar la implementación pesada.
+1. **KiRBe — Plataforma SaaS propia.** Producto de gestión de conocimiento empresarial: búsqueda en lenguaje natural, aislamiento por organización, facturación por uso, despliegue cloud productivo.
+2. **MADEIRA — Capa de agentes propia.** Plataforma agentic con sourcing gobernado, habilidades versionadas y comportamiento auditable. Hoy operativa en interno y dentro de KiRBe; ruta a SaaS independiente bajo evaluación.
+3. **Demanda de partner B2B.** App publicada en el ecosistema Shopify para los clientes finales de un partner: panel de administración + extensión de tema, internacionalizada en seis idiomas, con verificación multi-job. El partner mantiene la relación con el cliente final.
+4. **Demanda de partner con equidad conjunta.** Scaffold gobernado para un partner SaaS — arquitectura congelada antes de codificar, separación API/worker, contratos de tipo estrictos. Partner que evalúa modelo de equidad conjunta para la fase de implementación.
+5. **Validación interna.** Sitio público multilingüe (es / en / fr) + ERP interno multi-módulo; ambos gobernados con la misma pila y la misma disciplina de verificación que se aplica al cliente externo. Operamos con nuestros propios productos antes de venderlos.
 
-**Lectura agregada.** No son trabajos disconexos: es la misma estrategia de ingeniería aplicada a cinco contextos distintos.
+**Lectura agregada.** Dos productos propios sostenidos por dos partners que vuelven, sobre una pila replicada cinco veces y validada en interno antes de cada despliegue.
 
 ## 07 · Productización del método (KiRBe)
 
@@ -96,7 +96,7 @@ La adopción de inteligencia artificial empresarial está acelerando la presión
 Tres canales distintos comparten un mismo método.
 
 - **Pyme tecnológica.** Empresas con 10–80 personas que necesitan estructurar su operación antes de escalar a la siguiente etapa. Cliente directo, servicio profesional.
-- **Partner B2B.** Integradores, agencias y operadores que necesitan capacidad de ingeniería de producto sin contratar plantilla in-house. Canal indirecto, entrega gobernada.
+- **Partner B2B + equidad conjunta.** Integradores, agencias y operadores con base de clientes propia que necesitan ingeniería de producto sin contratar plantilla. Algunos contratan servicio puro; otros co-construyen un SaaS con Holística a cambio de equidad o revenue share. Canal indirecto, entrega gobernada, equidad conjunta.
 - **Cliente SaaS.** Equipos que adoptan la plataforma KiRBe para gestionar su propio conocimiento empresarial. Producto, ingreso recurrente.
 
 ## 10 · Modelo de entrega
@@ -104,15 +104,15 @@ Tres canales distintos comparten un mismo método.
 Hoy facturamos servicio. Mañana facturamos producto. El puente está construido en código.
 
 - **Hoy** — Investigación aplicada, ingeniería empresarial e ingeniería de procesos como servicio profesional.
-- **Mañana** — El mismo método, productizado y vendido como SaaS empresarial — con o sin nuestro acompañamiento.
-- **El puente** — KiRBe, ya en producción y en uso interno: cuando el método se ejecuta en software, el cliente puede operarlo sin nosotros.
+- **Mañana** — El mismo método, productizado en dos ejes: KiRBe como plataforma de conocimiento y MADEIRA como capa de agentes estandarizados. SaaS empresarial, con o sin nuestro acompañamiento.
+- **El puente** — KiRBe ya en producción; MADEIRA operativa en interno y dentro de KiRBe. Cuando el método se ejecuta en software, el cliente puede operarlo sin nosotros.
 
 ## 11 · Por qué es difícil replicar esto
 
-- **Internal-first.** Operamos con nuestros propios productos antes de venderlos. El método se valida en casa.
-- **Pila replicada.** La misma arquitectura técnica entrega web, ERP, SaaS y aplicaciones de partner. No es retórica: es código compartido.
+- **Operación gobernada y medible.** 19 temas gobernados, 1.093 procesos catalogados, 65 roles definidos. Tres capas de validadores deterministas y compuertas automáticas en cada salida pública. Lo que se promete se puede auditar.
+- **Pila replicada.** La misma arquitectura técnica entrega web, ERP, SaaS, capa de agentes y aplicaciones de partner. No es retórica: es código compartido y verificado.
 - **Marco de marca y voz canónica.** Identidad visual, voz, registros y disciplina de comunicación auditadas. Madurez operativa que se nota en la primera reunión.
-- **Velocidad con disciplina.** Arquitectura congelada antes de codificar; verificación automática antes de cada despliegue; revisión por pares en cada cambio.
+- **Velocidad con disciplina.** Arquitectura congelada antes de codificar; verificación automática antes de cada despliegue; descalado de un programa en una operación auditable de cuatro pasos.
 
 ## 12 · Roadmap 0–24 meses
 
@@ -120,7 +120,7 @@ El plan está dimensionado para crecer con disciplina, no a cualquier coste.
 
 - **0 – 6 meses · Consolidación.** Constitución y certificación Empresa Emergente. Tres engagements con cliente directo en producción. KiRBe operando con primer cliente externo de pago.
 - **6 – 12 meses · Productización.** KiRBe con 5–10 clientes B2B. Equipo de 2–3 ingenieros senior en España. Canal de partner B2B con 2 integraciones recurrentes.
-- **12 – 24 meses · Escala.** Plataforma KiRBe como ingreso recurrente principal. Operación distribuida con base en España y red de colaboradores. Catálogo de soluciones replicables para sectores priorizados.
+- **12 – 24 meses · Escala.** Plataforma KiRBe como ingreso recurrente principal; primer cliente externo de MADEIRA (capa de agentes estandarizados gobernados). Operación distribuida con base en España y red de colaboradores. Catálogo de soluciones replicables para sectores priorizados.
 
 ## 13 · Encaje ENISA · Empresa Emergente
 
