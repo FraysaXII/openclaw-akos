@@ -1,0 +1,12 @@
+{
+  "skill_id": "SKILL-EXECUTOR-RUN-V1",
+  "name": "Executor plan execution",
+  "eval_baseline_pct": 90.0,
+  "frozen_at": "2026-04-30",
+  "frozen_by": "Initiative 32 P9",
+  "agents_supported": ["executor"],
+  "axes_consumed": ["artifact_class"],
+  "tools_required": ["Shell", "Read", "Write"],
+  "langfuse_trace_pattern": "session=agent:executor:*",
+  "notes": "Executor obeys safety protocol (trash > rm; no destructive without confirmation). Canary 2 trips at <= 88.0%."
+}

@@ -1,0 +1,12 @@
+{
+  "skill_id": "SKILL-MADEIRA-LOOKUP-V1",
+  "name": "Madeira HLK lookup",
+  "eval_baseline_pct": 92.0,
+  "frozen_at": "2026-04-30",
+  "frozen_by": "Initiative 32 P9 (D-IH-32-Q matures the eval substrate)",
+  "agents_supported": ["madeira"],
+  "axes_consumed": ["persona", "topic"],
+  "tools_required": ["hlk_role", "hlk_search", "hlk_process_tree"],
+  "langfuse_trace_pattern": "session=agent:madeira:*",
+  "notes": "Initiative 10 + 11 baseline; per-skill scorecard wired in I32 P9. Canary 2 threshold: 2.0pp. A drop to <= 90.0% trips the canary."
+}

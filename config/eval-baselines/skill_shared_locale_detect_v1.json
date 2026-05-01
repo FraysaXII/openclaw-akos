@@ -1,0 +1,12 @@
+{
+  "skill_id": "SKILL-SHARED-LOCALE-DETECT-V1",
+  "name": "Locale detection (shared)",
+  "eval_baseline_pct": 98.0,
+  "frozen_at": "2026-04-30",
+  "frozen_by": "Initiative 32 P9",
+  "agents_supported": ["shared"],
+  "axes_consumed": ["language"],
+  "tools_required": [],
+  "langfuse_trace_pattern": "skill=locale-detect",
+  "notes": "Rule-based; no LLM call; near-deterministic on EN/ES/FR text. Canary 2 trips at <= 96.0%."
+}

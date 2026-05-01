@@ -1,0 +1,12 @@
+{
+  "skill_id": "SKILL-ARCHITECT-PLAN-V1",
+  "name": "Architect plan production",
+  "eval_baseline_pct": 88.0,
+  "frozen_at": "2026-04-30",
+  "frozen_by": "Initiative 32 P9",
+  "agents_supported": ["architect"],
+  "axes_consumed": ["artifact_class", "topic"],
+  "tools_required": ["hlk_search"],
+  "langfuse_trace_pattern": "session=agent:architect:*",
+  "notes": "Plan production has no write tools. Canary 2 trips at <= 86.0%."
+}

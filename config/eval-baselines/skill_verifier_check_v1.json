@@ -1,0 +1,12 @@
+{
+  "skill_id": "SKILL-VERIFIER-CHECK-V1",
+  "name": "Verifier governance check",
+  "eval_baseline_pct": 95.0,
+  "frozen_at": "2026-04-30",
+  "frozen_by": "Initiative 32 P9",
+  "agents_supported": ["verifier"],
+  "axes_consumed": ["artifact_class"],
+  "tools_required": ["Shell", "Read"],
+  "langfuse_trace_pattern": "session=agent:verifier:*",
+  "notes": "Highest baseline (validators are deterministic). Canary 2 trips at <= 93.0%; a drop here likely signals a validator code regression."
+}
