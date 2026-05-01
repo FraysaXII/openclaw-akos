@@ -1,0 +1,34 @@
+{
+  "_note": "I45 P4: per-model token pricing for cost computation. USD per 1k tokens. Operator-edited (flagship/cheap pricing changes ~quarterly per Anthropic/OpenAI billing cycles). When a model_id is missing from this table, cost = 0.0 (warn at scrape time).",
+  "_last_reviewed": "2026-05-01",
+  "_owner_role": "FinOps",
+  "models": {
+    "deterministic:akos.intent.classify_request": {
+      "input_per_1k_usd": 0.0,
+      "output_per_1k_usd": 0.0,
+      "tier": "deterministic",
+      "_note": "Rule-based + Ollama embed; no LLM cost"
+    },
+    "ollama:nomic-embed-text": {
+      "input_per_1k_usd": 0.0,
+      "output_per_1k_usd": 0.0,
+      "tier": "cheap",
+      "_note": "Local Ollama embedding; no API cost"
+    },
+    "anthropic:claude-3-5-sonnet-20241022": {
+      "input_per_1k_usd": 0.003,
+      "output_per_1k_usd": 0.015,
+      "tier": "flagship"
+    },
+    "openai:gpt-4o-mini": {
+      "input_per_1k_usd": 0.00015,
+      "output_per_1k_usd": 0.0006,
+      "tier": "cheap"
+    },
+    "openai:gpt-4o": {
+      "input_per_1k_usd": 0.0025,
+      "output_per_1k_usd": 0.01,
+      "tier": "flagship"
+    }
+  }
+}

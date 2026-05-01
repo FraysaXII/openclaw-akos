@@ -141,11 +141,30 @@ def run_canary(
     *,
     threshold_pp: float = 2.0,
     overrides: dict[str, float] | None = None,
+    enforce_cost: bool = False,
 ) -> None:
-    """Per-skill scorecard + canary 2 (regression > threshold). Replaces eval_per_skill.py."""
+    """Per-skill scorecard + canary 2 (regression > threshold) + (P4) per-skill
+    cost+latency from cassette aggregation + optional cost ceiling enforcement.
+    """
     overrides = overrides or {}
     registry = _load_skill_registry()
     baselines = _load_baselines()
+
+    # I45 P4: load cost ceilings + per-skill metrics (best-effort; soft-fail on import error)
+    cost_ceilings: dict = {}
+    aggregate_skill_cost = None
+    evaluate_cost_ceiling = None
+    try:
+        from akos.eval_harness.cost_obs import (
+            aggregate_skill_cost as _agg,
+            evaluate_cost_ceiling as _eval,
+            load_cost_ceilings,
+        )
+        cost_ceilings = load_cost_ceilings()
+        aggregate_skill_cost = _agg
+        evaluate_cost_ceiling = _eval
+    except Exception as exc:
+        logger.debug("cost_obs unavailable: %s", exc)
 
     for sid in sorted(registry.keys()):
         row = registry[sid]
@@ -158,18 +177,55 @@ def run_canary(
         current = overrides.get(sid, baseline)
         delta = current - baseline
         tripped = delta < -threshold_pp
+
+        cost_usd: float | None = None
+        latency_p50: float | None = None
+        latency_p95: float | None = None
+        cost_failures: list[str] = []
+        cost_status: str = "SKIP"
+        cost_notes = ""
+
+        if aggregate_skill_cost is not None:
+            metrics = aggregate_skill_cost(sid)
+            if metrics is not None:
+                cost_usd = round(metrics.cost_usd_avg, 6)
+                latency_p50 = round(metrics.latency_ms_p50, 1)
+                latency_p95 = round(metrics.latency_ms_p95, 1)
+                ceiling = cost_ceilings.get(sid)
+                cost_eval = evaluate_cost_ceiling(sid, metrics, ceiling) if evaluate_cost_ceiling else None
+                if cost_eval is not None:
+                    cost_status = cost_eval.get("status", "SKIP")
+                    cost_failures = list(cost_eval.get("failures", []) or [])
+                    cost_notes = cost_eval.get("reason", "")
+
+        # Status: canary-2 still drives; cost_ceiling is additive when --enforce
+        status = "FAIL" if tripped else "PASS"
+        failures = [f"canary_2_regression:{abs(delta):.1f}pp"] if tripped else []
+        if enforce_cost and cost_status == "FAIL":
+            status = "FAIL"
+            failures.extend(cost_failures)
+        elif enforce_cost and cost_status == "WARN":
+            failures.extend(cost_failures)
+            # WARN does not fail the row; just surfaces
+
+        notes_parts = [row.get("lifecycle_status", "")]
+        if cost_notes:
+            notes_parts.append(f"cost:{cost_notes}")
         sc.add(
             ScoreRow(
                 mode="canary",
                 skill_id=sid,
                 name=row.get("name", ""),
-                status="FAIL" if tripped else "PASS",
+                status=status,
                 baseline_pct=baseline,
                 current_pct=current,
                 delta_pp=round(delta, 2),
                 canary_2_tripped=tripped,
-                failures=[f"canary_2_regression:{abs(delta):.1f}pp"] if tripped else [],
-                notes=row.get("lifecycle_status", ""),
+                cost_usd=cost_usd,
+                latency_ms_p50=latency_p50,
+                latency_ms_p95=latency_p95,
+                failures=failures,
+                notes="; ".join(p for p in notes_parts if p),
             )
         )
 
@@ -417,6 +473,7 @@ def run_modes(
     threshold_pp: float = 2.0,
     overrides: dict[str, float] | None = None,
     replay_skill: str | None = None,
+    enforce_cost: bool = False,
 ) -> Scorecard:
     """Run one or more modes; return unified Scorecard."""
     sc = Scorecard()
@@ -428,7 +485,7 @@ def run_modes(
     if "smoke" in modes:
         run_smoke(sc)
     if "canary" in modes:
-        run_canary(sc, threshold_pp=threshold_pp, overrides=overrides)
+        run_canary(sc, threshold_pp=threshold_pp, overrides=overrides, enforce_cost=enforce_cost)
     if "rubric" in modes:
         run_rubric(sc, suite_ids=suite_ids, governance_only=governance_only)
     if "replay" in modes:

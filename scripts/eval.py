@@ -198,6 +198,11 @@ def main() -> int:
         help="canary: override current score (--current SKILL-ID=PCT, repeatable)",
     )
     parser.add_argument("--replay-skill", default=None, help="replay: filter to one skill_id")
+    parser.add_argument(
+        "--enforce-cost",
+        action="store_true",
+        help="canary: enforce per-skill cost ceilings from POLICY_REGISTER (D-IH-45-D)",
+    )
     parser.add_argument("--json", action="store_true", help="emit JSON scorecard to stdout")
     parser.add_argument(
         "--exit-on-fail",
@@ -226,6 +231,7 @@ def main() -> int:
         threshold_pp=args.threshold,
         overrides=_parse_overrides(args.current),
         replay_skill=args.replay_skill,
+        enforce_cost=args.enforce_cost,
     )
 
     if args.json:

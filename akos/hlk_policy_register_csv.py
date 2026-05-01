@@ -33,6 +33,16 @@ POLICY_REGISTER_FIELDNAMES: tuple[str, ...] = (
 
 VALID_POLICY_CLASSES: frozenset[str] = frozenset({
     "rls", "service_role_rotation", "redaction", "pii_scope",
+    # I45 P4: per-skill cost ceiling. policy_text encodes the threshold
+    # (e.g., "max_usd_per_run=0.005"); enforced by scripts/eval.py --enforce.
+    "cost_ceiling",
+    # I45 P5: brand jargon / PII / prompt injection canary floors.
+    "adversarial_floor",
+    # I45 P7: skill graduation gate.
+    "promotion_gate",
+    # I46 P5 (conditional ship): which skills/topic_classes are eligible
+    # for GraphRAG-hybrid retrieval.
+    "graph_rag_eligibility",
 })
 
 VALID_CADENCES: frozenset[str] = frozenset({

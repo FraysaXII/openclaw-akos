@@ -106,12 +106,14 @@ def test_topic_policy_register_row_exists() -> None:
     assert "topic_policy_register" in topic_ids
 
 
-def test_seed_covers_all_4_policy_classes(rows: list[dict]) -> None:
-    """Per the I32 P4 plan: seed covers RLS + service_role_rotation + redaction + pii_scope."""
+def test_seed_covers_all_4_i32_policy_classes(rows: list[dict]) -> None:
+    """Per the I32 P4 plan: seed covers RLS + service_role_rotation + redaction + pii_scope.
+    I45 P4 added cost_ceiling as a 5th class; this test now asserts the I32 4 are present
+    (superset is OK)."""
     classes = {r["policy_class"] for r in rows}
-    assert classes == {"rls", "service_role_rotation", "redaction", "pii_scope"}, (
-        f"expected all 4 policy classes; got {classes}"
-    )
+    i32_required = {"rls", "service_role_rotation", "redaction", "pii_scope"}
+    missing = i32_required - classes
+    assert not missing, f"expected I32 P4 classes present; missing: {missing}"
 
 
 def test_seed_includes_i32_self_referential_row(rows: list[dict]) -> None:
