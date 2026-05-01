@@ -12,13 +12,15 @@ topic_ids:
 parent_topic: ""
 ---
 
-# Holistik Ops — the 5-axis operating system for human interactions
+# Holistik Ops — the 6-axis operating system for human interactions
 
-> **What this document is.** The meta-pattern that ties together every register, SOP, and template Initiative 31 produced. It names the 5 axes Holistika operates on when interacting with humans — Persona × Channel × Distance × Language × Artifact-class — and explains how cross-axis routing works in practice.
+> **What this document is (v2 — Initiative 32 P5).** The meta-pattern that ties together every register, SOP, and template Initiatives 31 and 32 produced. It names the **6 axes** Holistika operates on when interacting with humans — Persona × Channel × Distance × Language × Artifact-class × **Topic** — and explains how cross-axis routing works in practice.
 >
 > **Why it exists.** AKOS canonicals (CSVs, validators, mirrors) govern how Holistika *thinks*. Holistik Ops is the layer that governs how Holistika *talks to humans* — investors, advisors, talent, vendors, partners, customers, idea-proposers, the random inbound. Before Initiative 31, the founder reinvented the routing on every interaction. This document codifies the routing.
+>
+> **What changed in v2 (Initiative 32 P5).** Topic was promoted from informational tag to **axis 6** per D-IH-32-A. Today routing is `(persona × channel × distance × language × artifact-class × topic)` — making the topic explicit removes the "guess the topic" failure mode. Three new dimensions extend the substrate without changing the doctrine: Skill registry (P2), Touchpoint-kit cell registry (P3), Policy register (P4).
 
-## 1. The 5 axes
+## 1. The 6 axes
 
 ```mermaid
 flowchart LR
@@ -28,11 +30,13 @@ flowchart LR
     Distance["3. Distance<br/>(N1/N2/N3/N4)"]
     Language["4. Language<br/>(EN/ES/FR)"]
     Artifact["5. Artifact-class<br/>(intro / pack / followup / brief)"]
+    Topic["6. Topic<br/>(subject of conversation)"]
     Person --> Persona
     Person --> Channel
     Person --> Distance
     Person --> Language
     Person --> Artifact
+    Person --> Topic
 ```
 
 Each axis is a governed surface backed by a canonical artifact:
@@ -44,6 +48,17 @@ Each axis is a governed surface backed by a canonical artifact:
 | **Distance** | `distance_band` column on [`GOI_POI_REGISTER.csv`](../../../../compliance/GOI_POI_REGISTER.csv) (named individuals) + `typical_distance_band` on `PERSONA_REGISTRY.csv` (archetype expectation) | `compliance/` and `compliance/dimensions/` | 4 bands |
 | **Language** | `language:` frontmatter on every canonical Markdown + `BRAND_*_PATTERNS.md` rules | Distributed (every MD) + brand SSOT | 3 codes (EN, ES, FR-stub) |
 | **Artifact-class** | `intellectual_kind` frontmatter field + the touchpoint-kit folder convention | Distributed | 8-12 classes |
+| **Topic** *(NEW v2 — D-IH-32-A)* | [`TOPIC_REGISTRY.csv`](../../../../compliance/dimensions/TOPIC_REGISTRY.csv) + `topic_ids` / `linked_topic_ids` column on every dimension CSV | `compliance/dimensions/` | 26 topics (post-I32 P4) |
+
+### Three new substrate dimensions (Initiative 32, not new axes)
+
+These extend the operating substrate without changing the routing doctrine:
+
+| Dimension | Surface | Role |
+|:----------|:--------|:-----|
+| **Skill** (P2, D-IH-32-B) | [`SKILL_REGISTRY.csv`](../../../../compliance/dimensions/SKILL_REGISTRY.csv) | 7th canonical dimension. Each skill = `(intent, axes_consumed, tools_required, eval_baseline)` versioned bundle that one or more agents invoke. Tenant-aware schema; MADEIRA-SaaS productisation substrate. |
+| **Touchpoint-kit cell** (P3, D-IH-32-C) | [`TOUCHPOINT_KIT_CELL_REGISTRY.csv`](../../../../compliance/dimensions/TOUCHPOINT_KIT_CELL_REGISTRY.csv) | Each row mirrors one `(persona × channel × language)` template file. FS-vs-CSV drift detector enforces 1:1 parity with `_assets/touchpoint-kit/`. Makes the kit queryable from runtime. |
+| **Policy register** (P4, D-IH-32-Q4) | [`POLICY_REGISTER.csv`](../../../../compliance/dimensions/POLICY_REGISTER.csv) | RLS rules + `service_role` rotation cadences + redaction policies + PII scope as one queryable CSV. Self-referential: the policy register's own RLS rule is a row. |
 
 ## 2. Each axis in 30 seconds
 
@@ -87,6 +102,14 @@ Brand voice rules per locale:
 
 Each interaction produces a specific artifact: `intro_message`, `intro_pack`, `followup`, `brief`, `dossier`, `deck`, `sop`, `runbook`, etc. These live as files in the [touchpoint kit](../../../../v3.0/_assets/touchpoint-kit/) (per persona × per channel × per language) and in the various canonical folders (briefs in `Operations/PMO/sourcing-briefs/`, dossiers in `_assets/advops/<program>/`, etc.).
 
+### 2.6 Topic — what is this conversation about? (NEW v2, axis 6)
+
+A topic is the **subject** of the interaction: ENISA evidence, KiRBe billing-plane routing, the company strategy, the brand voice foundation, the adviser handoff, the founder incorporation, etc. Topics are governed by [`TOPIC_REGISTRY.csv`](../../../../compliance/dimensions/TOPIC_REGISTRY.csv) (Initiative 25) and reach 26 rows after I32 P4.
+
+Before v2 the topic was *implicit* — every dimension CSV carried a `linked_topic_ids` (or `topic_ids`) column but routing logic didn't read it. After v2, the routing flow has an explicit `detect_topic` step (§3 below) and the touchpoint-kit cell registry's `topic_ids` column drives template specialisation. A skill (P2 SKILL_REGISTRY) declares the topics it consumes via its `topic_ids` column; the runtime selects the right skill bundle by `(persona × channel × topic)`.
+
+The doctrinal shift from 5 to 6 axes is small (one more discrete dimension) but operationally significant: it removes ambiguity when two cells share the same `(persona × channel × language)` but address different topics. Today this is a hypothetical (no current cell collision); the registry makes it impossible going forward.
+
 ## 3. Cross-axis routing — the actual operational flow
 
 ```mermaid
@@ -96,21 +119,38 @@ flowchart TD
     detect_persona[Qualify persona archetype using<br/>channel.typical_personas + content signals]
     detect_distance[Assess distance N1/N2/N3/N4<br/>by checking GOI/POI hits + bridge mention]
     detect_language[Detect language from message body]
-    select_template[Select touchpoint-kit cell<br/>persona / channel / lang]
+    detect_topic[Detect topic from message keywords<br/>resolve to TOPIC_REGISTRY row]
+    select_skill[Select skill bundle<br/>by persona x channel x topic]
+    select_template[Select touchpoint-kit cell<br/>persona / channel / lang / topic]
     pick_variant[Pick N-variant section in template]
     handoff[Hand off to channel.response_owner_role<br/>and update GOI/POI register]
     inbound --> detect_channel
     detect_channel --> detect_persona
     detect_persona --> detect_distance
     detect_distance --> detect_language
-    detect_language --> select_template
+    detect_language --> detect_topic
+    detect_topic --> select_skill
+    select_skill --> select_template
     select_template --> pick_variant
     pick_variant --> handoff
 ```
 
-The 5 axes resolve **in order** for an inbound: channel first (we know where they showed up), persona second (we read the message), distance third (we check the register or assess fresh), language fourth (we detect the message body), template fifth (we pick the right cell + variant). The handoff updates the register so the next interaction with the same person inherits the assessed state.
+The **6 axes** resolve **in order** for an inbound: channel first (we know where they showed up), persona second (we read the message), distance third (we check the register or assess fresh), language fourth (we detect the message body), topic fifth (we read what the conversation is about and resolve to a TOPIC_REGISTRY row), skill / template sixth (we pick the right cell + variant). The handoff updates the register so the next interaction with the same person inherits the assessed state.
 
-For an outbound, the order is the same but in reverse: we decide the persona we want to reach (e.g., a designer at quality-band A), pick the channel that fits (`CHAN-DIRECT-DM` if `current_distance_band=N1`, otherwise `CHAN-LINKEDIN-DM` or `CHAN-EMAIL-INBOUND`), open the matching template variant, ship the brief.
+For an outbound, the order is the same but in reverse: we decide the persona we want to reach (e.g., a designer at quality-band A), pick the channel that fits (`CHAN-DIRECT-DM` if `current_distance_band=N1`, otherwise `CHAN-LINKEDIN-DM` or `CHAN-EMAIL-INBOUND`), pick the topic (e.g. `topic_sourcing_register`), open the matching template variant, ship the brief.
+
+### Worked example — `SKILL-MADEIRA-LOOKUP-V1` end-to-end
+
+1. **detect_channel**: operator opens the dashboard chat → `CHAN-DIRECT-DM` (in-app channel; bidirectional)
+2. **detect_persona**: operator's role resolves to `PERSONA-EXISTING-PARTNER` (founder is the dashboard's primary partner)
+3. **detect_distance**: `N1` (operator engages the dashboard directly; no intermediary)
+4. **detect_language**: `en` (default; switches to `es` if message body is Spanish)
+5. **detect_topic**: operator asks "what does the topic_external_adviser_handoff manifest say?" → topic resolves to `topic_external_adviser_handoff`
+6. **select_skill**: `SKILL-MADEIRA-LOOKUP-V1` (consumes axes `persona; topic`; tools `hlk_role; hlk_search; hlk_process_tree`); declared in [`SKILL_REGISTRY.csv`](../../../../compliance/dimensions/SKILL_REGISTRY.csv)
+7. **select_template**: no template needed for direct lookup; the skill returns the manifest excerpt
+8. **handoff**: write `compliance.validation_runs` row with `validator_name=skill_madeira_lookup_v1`, `notes="lookup served"`, `drift_detected=false`
+
+The same 6-axis flow drives every other agent's skills: `SKILL-ARCHITECT-PLAN-V1` consumes `(artifact_class; topic)`; `SKILL-EXECUTOR-RUN-V1` consumes `(artifact_class)`; `SKILL-VERIFIER-CHECK-V1` consumes `(artifact_class)`; `SKILL-SHARED-LOCALE-DETECT-V1` consumes `(language)` only.
 
 ## 4. Decomposability — each axis is independent
 

@@ -25,7 +25,15 @@ from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES
 from akos.io import REPO_ROOT
 from akos.models import OrgRole, ProcessItem
 
-GraphLabel = Literal["Role", "Process", "Program", "Topic"]
+GraphLabel = Literal[
+    "Role", "Process", "Program", "Topic",
+    # Initiative 32 P5/P6 (D-IH-32-M): 6 new node labels for the 6-axis
+    # Holistik Ops graph projection. Each label mirrors one canonical CSV
+    # in compliance/dimensions/. Same governance pattern as :Program /
+    # :Topic — Neo4j is a rebuildable read index, not an authoring surface.
+    "Persona", "Channel", "Sourcing",
+    "Skill", "TouchpointKitCell", "Policy",
+]
 EdgeType = Literal[
     "REPORTS_TO",
     "PARENT_OF",
@@ -41,7 +49,31 @@ EdgeType = Literal[
     "TOPIC_PARENT_OF",
     "RELATED_TO",
     "TOPIC_SUBSUMES",
+    # Initiative 32 P5/P6 (D-IH-32-A + D-IH-32-M): axis-6 typed edges.
+    # UNDER_TOPIC is the cross-axis edge from any dimension node to its
+    # declared :Topic via the row's topic_ids / linked_topic_ids column.
+    "UNDER_TOPIC",
 ]
+
+
+PERSONA_REGISTRY_CSV = (
+    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_REGISTRY.csv"
+)
+CHANNEL_TOUCHPOINT_REGISTRY_CSV = (
+    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "CHANNEL_TOUCHPOINT_REGISTRY.csv"
+)
+SOURCING_REGISTER_CSV = (
+    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SOURCING_REGISTER.csv"
+)
+SKILL_REGISTRY_CSV = (
+    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SKILL_REGISTRY.csv"
+)
+TOUCHPOINT_KIT_CELL_REGISTRY_CSV = (
+    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOUCHPOINT_KIT_CELL_REGISTRY.csv"
+)
+POLICY_REGISTER_CSV = (
+    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POLICY_REGISTER.csv"
+)
 
 
 PROGRAM_REGISTRY_CSV = (
@@ -536,3 +568,239 @@ def assert_graph_registry_parity(registry: HlkRegistry, nodes: list[GraphNode], 
             "process node count mismatch: "
             f"graph={counts['graph_process_nodes']} registry={counts['registry_processes']}"
         )
+
+
+# =====================================================================
+# Initiative 32 P5/P6 — 6-axis Holistik Ops graph projection extension
+# =====================================================================
+
+def _read_csv_rows(csv_path: Path, header_check: tuple[str, ...] | None = None) -> list[dict[str, str]]:
+    """Read CSV rows; return [] when file absent. Header-check mismatches return [] (validator-side gate)."""
+    if not csv_path.is_file():
+        return []
+    with csv_path.open(encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh)
+        if header_check is not None and list(reader.fieldnames or []) != list(header_check):
+            return []
+        return [dict(r) for r in reader]
+
+
+def _under_topic_edges(
+    from_label: GraphLabel,
+    from_id: str,
+    topic_ids_field: str,
+    topic_ids: set[str],
+) -> list[GraphEdge]:
+    """Emit (X)-[:UNDER_TOPIC]->(:Topic) edges for every topic in the row's topic_ids list."""
+    edges: list[GraphEdge] = []
+    for tid in _split_semicolon(topic_ids_field):
+        if tid in topic_ids:
+            edges.append(GraphEdge(
+                edge_type="UNDER_TOPIC",
+                from_label=from_label,
+                from_id=from_id,
+                to_label="Topic",
+                to_id=tid,
+            ))
+    return edges
+
+
+def _topic_ids_from_registry() -> set[str]:
+    """Load topic_id set from TOPIC_REGISTRY.csv for cross-axis FK resolution."""
+    return {
+        (r.get("topic_id") or "").strip()
+        for r in _read_csv_rows(TOPIC_REGISTRY_CSV)
+        if (r.get("topic_id") or "").strip()
+    }
+
+
+def build_persona_graph(csv_path: Path = PERSONA_REGISTRY_CSV) -> tuple[list[GraphNode], list[GraphEdge]]:
+    """Project PERSONA_REGISTRY.csv as :Persona nodes + :UNDER_TOPIC edges (axis 6)."""
+    rows = _read_csv_rows(csv_path)
+    if not rows:
+        return [], []
+    topic_ids = _topic_ids_from_registry()
+    nodes: list[GraphNode] = []
+    edges: list[GraphEdge] = []
+    for r in rows:
+        pid = (r.get("persona_id") or "").strip()
+        if not pid:
+            continue
+        nodes.append(GraphNode(
+            label="Persona", id=pid,
+            properties={
+                "persona_id": pid,
+                "name": (r.get("name") or "")[:256],
+                "direction": r.get("direction", ""),
+                "value_band": r.get("value_band", ""),
+                "typical_distance_band": r.get("typical_distance_band", ""),
+                "handoff_role": r.get("handoff_role", ""),
+            },
+        ))
+        edges.extend(_under_topic_edges("Persona", pid, r.get("linked_topic_ids", ""), topic_ids))
+    return nodes, edges
+
+
+def build_channel_graph(csv_path: Path = CHANNEL_TOUCHPOINT_REGISTRY_CSV) -> tuple[list[GraphNode], list[GraphEdge]]:
+    """Project CHANNEL_TOUCHPOINT_REGISTRY.csv as :Channel nodes + :UNDER_TOPIC edges."""
+    rows = _read_csv_rows(csv_path)
+    if not rows:
+        return [], []
+    topic_ids = _topic_ids_from_registry()
+    nodes: list[GraphNode] = []
+    edges: list[GraphEdge] = []
+    for r in rows:
+        cid = (r.get("channel_id") or "").strip()
+        if not cid:
+            continue
+        nodes.append(GraphNode(
+            label="Channel", id=cid,
+            properties={
+                "channel_id": cid,
+                "name": (r.get("name") or "")[:256],
+                "direction": r.get("direction", ""),
+                "supported_languages": r.get("supported_languages", ""),
+                "typical_distance_band_inbound": r.get("typical_distance_band_inbound", ""),
+                "response_owner_role": r.get("response_owner_role", ""),
+            },
+        ))
+        edges.extend(_under_topic_edges("Channel", cid, r.get("linked_topic_ids", ""), topic_ids))
+    return nodes, edges
+
+
+def build_sourcing_graph(csv_path: Path = SOURCING_REGISTER_CSV) -> tuple[list[GraphNode], list[GraphEdge]]:
+    """Project SOURCING_REGISTER.csv as :Sourcing nodes + :UNDER_TOPIC edges."""
+    rows = _read_csv_rows(csv_path)
+    if not rows:
+        return [], []
+    topic_ids = _topic_ids_from_registry()
+    nodes: list[GraphNode] = []
+    edges: list[GraphEdge] = []
+    for r in rows:
+        vid = (r.get("vendor_id") or "").strip()
+        if not vid:
+            continue
+        nodes.append(GraphNode(
+            label="Sourcing", id=vid,
+            properties={
+                "vendor_id": vid,
+                "discipline": r.get("discipline", ""),
+                "engagement_type": r.get("engagement_type", ""),
+                "languages_supported": r.get("languages_supported", ""),
+                "current_distance_band": r.get("current_distance_band", ""),
+            },
+        ))
+        edges.extend(_under_topic_edges("Sourcing", vid, r.get("linked_topic_ids", ""), topic_ids))
+    return nodes, edges
+
+
+def build_skill_graph(csv_path: Path = SKILL_REGISTRY_CSV) -> tuple[list[GraphNode], list[GraphEdge]]:
+    """Project SKILL_REGISTRY.csv as :Skill nodes + :UNDER_TOPIC edges (Initiative 32 P2)."""
+    rows = _read_csv_rows(csv_path)
+    if not rows:
+        return [], []
+    topic_ids = _topic_ids_from_registry()
+    nodes: list[GraphNode] = []
+    edges: list[GraphEdge] = []
+    for r in rows:
+        sid = (r.get("skill_id") or "").strip()
+        if not sid:
+            continue
+        nodes.append(GraphNode(
+            label="Skill", id=sid,
+            properties={
+                "skill_id": sid,
+                "name": (r.get("name") or "")[:256],
+                "agents_supported": r.get("agents_supported", ""),
+                "axes_consumed": r.get("axes_consumed", ""),
+                "version": r.get("version", ""),
+                "owner_role": r.get("owner_role", ""),
+                "tenant_scope": r.get("tenant_scope", ""),
+                "lifecycle_status": r.get("lifecycle_status", ""),
+            },
+        ))
+        edges.extend(_under_topic_edges("Skill", sid, r.get("topic_ids", ""), topic_ids))
+    return nodes, edges
+
+
+def build_touchpoint_kit_cell_graph(
+    csv_path: Path = TOUCHPOINT_KIT_CELL_REGISTRY_CSV,
+) -> tuple[list[GraphNode], list[GraphEdge]]:
+    """Project TOUCHPOINT_KIT_CELL_REGISTRY.csv as :TouchpointKitCell nodes + :UNDER_TOPIC edges."""
+    rows = _read_csv_rows(csv_path)
+    if not rows:
+        return [], []
+    topic_ids = _topic_ids_from_registry()
+    nodes: list[GraphNode] = []
+    edges: list[GraphEdge] = []
+    for r in rows:
+        cid = (r.get("cell_id") or "").strip()
+        if not cid:
+            continue
+        nodes.append(GraphNode(
+            label="TouchpointKitCell", id=cid,
+            properties={
+                "cell_id": cid,
+                "persona_id": r.get("persona_id", ""),
+                "channel_id": r.get("channel_id", ""),
+                "language": r.get("language", ""),
+                "template_path": r.get("template_path", ""),
+                "distance_variants_in_file": r.get("distance_variants_in_file", ""),
+                "lifecycle_status": r.get("lifecycle_status", ""),
+            },
+        ))
+        edges.extend(_under_topic_edges("TouchpointKitCell", cid, r.get("topic_ids", ""), topic_ids))
+    return nodes, edges
+
+
+def build_policy_graph(csv_path: Path = POLICY_REGISTER_CSV) -> tuple[list[GraphNode], list[GraphEdge]]:
+    """Project POLICY_REGISTER.csv as :Policy nodes + :UNDER_TOPIC edges (Initiative 32 P4)."""
+    rows = _read_csv_rows(csv_path)
+    if not rows:
+        return [], []
+    topic_ids = _topic_ids_from_registry()
+    nodes: list[GraphNode] = []
+    edges: list[GraphEdge] = []
+    for r in rows:
+        pid = (r.get("policy_id") or "").strip()
+        if not pid:
+            continue
+        nodes.append(GraphNode(
+            label="Policy", id=pid,
+            properties={
+                "policy_id": pid,
+                "policy_class": r.get("policy_class", ""),
+                "applies_to_schema": r.get("applies_to_schema", ""),
+                "applies_to_table": r.get("applies_to_table", ""),
+                "cadence": r.get("cadence", ""),
+                "owner_role": r.get("owner_role", ""),
+                "last_review": r.get("last_review", ""),
+                "next_review": r.get("next_review", ""),
+            },
+        ))
+        edges.extend(_under_topic_edges("Policy", pid, r.get("topic_ids", ""), topic_ids))
+    return nodes, edges
+
+
+def build_holistik_ops_axis_graph() -> tuple[list[GraphNode], list[GraphEdge]]:
+    """Initiative 32 P5/P6 convenience: build all 6 new node-label graphs in one call.
+
+    Returns the union of (:Persona, :Channel, :Sourcing, :Skill, :TouchpointKitCell, :Policy)
+    nodes and their :UNDER_TOPIC edges. The Topic nodes themselves are produced
+    by ``build_topic_graph`` (existing); this function only adds the new dimension
+    nodes and their cross-axis edges to topics.
+    """
+    all_nodes: list[GraphNode] = []
+    all_edges: list[GraphEdge] = []
+    for build_fn in (
+        build_persona_graph,
+        build_channel_graph,
+        build_sourcing_graph,
+        build_skill_graph,
+        build_touchpoint_kit_cell_graph,
+        build_policy_graph,
+    ):
+        nodes, edges = build_fn()
+        all_nodes.extend(nodes)
+        all_edges.extend(edges)
+    return all_nodes, all_edges

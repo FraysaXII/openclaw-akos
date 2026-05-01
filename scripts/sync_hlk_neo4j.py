@@ -88,6 +88,7 @@ def main() -> None:
     from akos.hlk_graph_model import (
         assert_graph_registry_parity,
         build_hlk_csv_graph,
+        build_holistik_ops_axis_graph,
         build_program_graph,
         build_topic_graph,
     )
@@ -101,15 +102,32 @@ def main() -> None:
     # Initiative 25 P-graph (D-IH-12 + D-IH-25-B): project the topic registry
     # after programs (UNDER_PROGRAM edges target :Program nodes).
     topic_nodes, topic_edges = build_topic_graph(reg)
+    # Initiative 32 P5/P6 (D-IH-32-A + D-IH-32-M): project the 6-axis Holistik
+    # Ops graph extension — :Persona, :Channel, :Sourcing, :Skill,
+    # :TouchpointKitCell, :Policy nodes plus :UNDER_TOPIC edges. Topic axis 6
+    # promotion is realised in the graph here.
+    axis_nodes, axis_edges = build_holistik_ops_axis_graph()
+    axis_label_counts: dict[str, int] = {}
+    for n in axis_nodes:
+        axis_label_counts[n.label] = axis_label_counts.get(n.label, 0) + 1
     logger.info(
-        "graph model: roles=%d processes=%d programs=%d topics=%d edges=%d (incl. %d program-side, %d topic-side)",
+        "graph model: roles=%d processes=%d programs=%d topics=%d "
+        "personas=%d channels=%d sourcing=%d skills=%d cells=%d policies=%d "
+        "edges=%d (incl. %d program-side, %d topic-side, %d axis-6)",
         sum(1 for n in nodes if n.label == "Role"),
         sum(1 for n in nodes if n.label == "Process"),
         len(prog_nodes),
         len(topic_nodes),
-        len(edges) + len(prog_edges) + len(topic_edges),
+        axis_label_counts.get("Persona", 0),
+        axis_label_counts.get("Channel", 0),
+        axis_label_counts.get("Sourcing", 0),
+        axis_label_counts.get("Skill", 0),
+        axis_label_counts.get("TouchpointKitCell", 0),
+        axis_label_counts.get("Policy", 0),
+        len(edges) + len(prog_edges) + len(topic_edges) + len(axis_edges),
         len(prog_edges),
         len(topic_edges),
+        len(axis_edges),
     )
 
     if args.dry_run:
