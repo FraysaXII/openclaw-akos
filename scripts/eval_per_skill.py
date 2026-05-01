@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Initiative 32 P9 — Per-skill eval scorecard generator.
 
+[DEPRECATED in I45 P1] Prefer ``py scripts/eval.py --mode canary``.
+This script remains as a backward-compat shim for one release cycle. Functional
+behavior preserved; tests/test_madeira_eval_per_skill.py imports continue to work.
+
 Reads SKILL_REGISTRY.csv + per-skill baseline JSONs from config/eval-baselines/,
 optionally computes a "current" score (placeholder; in a real runtime this
 reads Langfuse traces or a similar telemetry surface), and emits a per-skill
@@ -82,7 +86,14 @@ def _parse_current_overrides(current_args: list[str]) -> dict[str, float]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Per-skill eval scorecard generator (Initiative 32 P9)")
+    import os
+    if os.environ.get("AKOS_EVAL_NO_DEPRECATION_WARN", "") != "1":
+        sys.stderr.write(
+            "  [DEPRECATED] scripts/eval_per_skill.py is now a shim. Prefer:\n"
+            "    py scripts/eval.py --mode canary [--json] [--threshold 2.0] [--current SKILL=PCT]\n"
+            "  Set AKOS_EVAL_NO_DEPRECATION_WARN=1 to silence this notice.\n",
+        )
+    parser = argparse.ArgumentParser(description="Per-skill eval scorecard generator (Initiative 32 P9; shim in I45 P1)")
     parser.add_argument("--json", action="store_true", help="Emit JSON scorecard on stdout")
     parser.add_argument(
         "--threshold", type=float, default=2.0,

@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Agent reliability evaluation runner for AKOS.
 
+[DEPRECATED in I45 P1] Prefer ``py scripts/eval.py --mode rubric``.
+This script remains as a backward-compat shim for one release cycle. Functional
+behavior preserved; existing CI hooks (`scripts/release-gate.py` when
+`AKOS_EVAL_RUBRIC=1`) continue to work.
+
 Supports suite manifests under ``tests/evals/suites/<id>/`` and optional
 Langfuse v4 scoring via ``akos.telemetry.LangfuseReporter``.
 
@@ -181,7 +186,14 @@ def cmd_run(args: argparse.Namespace) -> int:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="AKOS agent reliability eval runner")
+    import os
+    if os.environ.get("AKOS_EVAL_NO_DEPRECATION_WARN", "") != "1":
+        sys.stderr.write(
+            "  [DEPRECATED] scripts/run-evals.py is now a shim. Prefer:\n"
+            "    py scripts/eval.py --mode rubric [--suite <id>] [--governance-rubric] [--json]\n"
+            "  Set AKOS_EVAL_NO_DEPRECATION_WARN=1 to silence this notice.\n",
+        )
+    parser = argparse.ArgumentParser(description="AKOS agent reliability eval runner (shim in I45 P1)")
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_list = sub.add_parser("list", help="List eval suites")
