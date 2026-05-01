@@ -1,0 +1,61 @@
+From: Holistika AKOS governance <founder@holistika.example>
+Subject: [KiRBe] Initiative 32 P7 — EXTERNAL_REPO_CONTRACT.md + akos-mirror.mdc seed
+Date: 2026-04-30
+
+This is a hand-applied PR patch (not a unified diff — operator copies the two files into
+the kirbe repo root and `.cursor/rules/` directory respectively, then commits).
+
+Two new files to land in the kirbe repository:
+
+==================================================================
+FILE 1: <kirbe-repo-root>/EXTERNAL_REPO_CONTRACT.md
+==================================================================
+
+Use the AKOS template at:
+  https://github.com/FraysaXII/openclaw-akos/blob/main/docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/EXTERNAL_REPO_CONTRACT_TEMPLATE.md
+
+Fill in the "Repository identity" block with:
+
+  - Repo class:        platform
+  - Repo slug:         kirbe-platform
+  - Primary owner role: System Owner
+  - Vault doc root in AKOS: docs/references/hlk/v3.0/Envoy Tech Lab/KiRBe/
+  - Last contract review: 2026-04-30
+
+Keep the rest of the template body verbatim. Do NOT edit the 3 invariants, 5 do-not rules,
+or 1 do rule — those are non-negotiable per D-IH-32-K.
+
+==================================================================
+FILE 2: <kirbe-repo-root>/.cursor/rules/akos-mirror.mdc
+==================================================================
+
+Copy verbatim from:
+  https://github.com/FraysaXII/openclaw-akos/blob/main/.cursor/rules/akos-mirror-template.mdc
+
+No edits needed — the template is repository-agnostic and uses GitHub URLs (not local paths)
+so it works on every developer's machine without configuration.
+
+This file lives alongside the existing 36 KiRBe cursor rules; it does not replace any of
+them. The `alwaysApply: true` frontmatter ensures it loads on every cursor session,
+imposing the AKOS HLK doctrine reminder on every developer interaction.
+
+==================================================================
+ACCEPTANCE
+==================================================================
+
+After both files land + KiRBe team merges:
+
+1. KiRBe team replies in writing acknowledging the seed merged.
+2. The next AKOS-side weekly REPO_HEALTH_SNAPSHOT will show:
+   - has_external_repo_contract=true (was false)
+   - has_akos_mirror_rule=true (was false)
+3. KiRBe team triages the existing 56 brand-jargon violations on a non-blocking timeline.
+4. KiRBe team begins adopting `language: en|es|fr` frontmatter on new MD files; existing 0%
+   compliance does not block but is a known follow-up.
+
+CROSS-REFERENCES
+
+- Initiative 32 P7 plan: https://github.com/FraysaXII/openclaw-akos/blob/main/docs/wip/planning/32-holistik-ops-maturation/master-roadmap.md
+- KiRBe handoff memo: see kirbe-handoff-memo-2026-04-30.md (sibling file in this folder)
+- KiRBe architecture audit: see kirbe-architecture-audit-2026-04-30.md (sibling file)
+- Cover-email drafts: kirbe-cover-email-en.md, kirbe-cover-email-es.md (sibling files)

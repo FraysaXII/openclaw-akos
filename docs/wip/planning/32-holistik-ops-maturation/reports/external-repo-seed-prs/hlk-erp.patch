@@ -1,0 +1,58 @@
+From: Holistika AKOS governance <founder@holistika.example>
+Subject: [hlk-erp] Initiative 32 P7 — EXTERNAL_REPO_CONTRACT.md + akos-mirror.mdc seed
+Date: 2026-04-30
+
+This is a hand-applied PR patch (not a unified diff — operator copies the two files into
+the hlk-erp repo root and `.cursor/rules/` directory respectively, then commits).
+
+Two new files to land in the hlk-erp repository:
+
+==================================================================
+FILE 1: <hlk-erp-repo-root>/EXTERNAL_REPO_CONTRACT.md
+==================================================================
+
+Use the AKOS template at:
+  https://github.com/FraysaXII/openclaw-akos/blob/main/docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/EXTERNAL_REPO_CONTRACT_TEMPLATE.md
+
+Fill in the "Repository identity" block with:
+
+  - Repo class:        platform
+  - Repo slug:         hlk-erp
+  - Primary owner role: System Owner
+  - Vault doc root in AKOS: (none yet — propose docs/references/hlk/v3.0/Envoy Tech Lab/ERP/ in I33)
+  - Last contract review: 2026-04-30
+
+==================================================================
+FILE 2: <hlk-erp-repo-root>/.cursor/rules/akos-mirror.mdc
+==================================================================
+
+Copy verbatim from:
+  https://github.com/FraysaXII/openclaw-akos/blob/main/.cursor/rules/akos-mirror-template.mdc
+
+This file lives alongside the existing 13 HLK-ERP cursor rules. The Q10 supersession
+recommendation (akos-mirror.mdc takes precedence over the local data-ssot.mdc rule)
+is documented in the architecture audit memo (sibling file). The local data-ssot.mdc
+stays in place but is now subordinate; remove or rewrite in a future Initiative 44.
+
+==================================================================
+ACCEPTANCE
+==================================================================
+
+After both files land + ERP team merges:
+
+1. ERP team replies in writing acknowledging the seed merged + the Q10 supersession path.
+2. Next AKOS weekly REPO_HEALTH_SNAPSHOT shows:
+   - has_external_repo_contract=true (was false)
+   - has_akos_mirror_rule=true (was false)
+3. ERP team triages the existing 23 brand-jargon violations.
+4. ERP team plans the archival of `other_documentation/kirbe/` and
+   `other_documentation/hlk/documentation-hlk/` (E14 stale snapshots) — replace with
+   pointer files linking to AKOS canonicals + KiRBe SSOT.
+5. ERP team adopts `language: en|es|fr` frontmatter on new MD files.
+
+CROSS-REFERENCES
+
+- Initiative 32 P7 plan + ERP architecture audit memo (sibling file in this folder)
+- Initiative 33 (deferred): ERP prod-readiness gates (auth, tenancy RLS, rollback runbook)
+- Initiative 44 (deferred): full rewrite of HLK-ERP data-ssot.mdc supersession
+- Cover-email drafts: hlk-erp-cover-email-en.md, hlk-erp-cover-email-es.md (sibling files)

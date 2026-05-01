@@ -1,0 +1,4 @@
+repo_slug,snapshot_date,commit_sha_at_snapshot,cursor_rule_count,has_external_repo_contract,has_akos_mirror_rule,language_frontmatter_compliance_pct,brand_jargon_violations,embedded_obsidian_snapshot_present,notes
+boilerplate,2026-05-01,f680c059e11a,0,false,false,0.0,6,false,scanned by snapshot_external_repos.py
+hlk-erp,2026-05-01,f5b7e42b2db7,13,false,false,0.0,23,false,scanned by snapshot_external_repos.py
+kirbe-platform,2026-05-01,d089b4ed7ce5,36,false,false,0.0,56,false,scanned by snapshot_external_repos.py

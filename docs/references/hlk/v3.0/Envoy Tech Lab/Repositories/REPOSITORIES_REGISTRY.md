@@ -29,9 +29,11 @@ language: en
 
 | repo_slug | github_url | class | primary_owner_role | topic_ids | vault_doc_root | api_spec_pointer | api_topic_id | notes |
 |-----------|------------|-------|--------------------|-----------|----------------|------------------|--------------|-------|
-| kirbe-platform | `https://github.com/FraysaXII/kirbe` | platform | System Owner | — | [../KiRBe/](../KiRBe/) | — | — | KiRBe application repository (operator-confirmed 2026-04-15). |
+| kirbe-platform | `https://github.com/FraysaXII/kirbe` | platform | System Owner | `topic_kirbe_billing_plane_routing`, `topic_holistik_ops_discovery` | [../KiRBe/](../KiRBe/) | `docs/api_reference.md` (v1.2; add `openapi.yaml` when published) | `topic_hlk_api_portfolio` | KiRBe application repository (operator-confirmed 2026-04-15). **v1.2 production**: 7 connectors (Discord/Gmail/Notion/Web/Google Drive/etc.), hybrid search (BM25 + vector + RRF), audit logging (SOC2/GDPR-ready, 2-year retention), Stripe billing with FDW + webhook, per-tenant usage metering with quotas, WebSocket progress streams, service-first DI, LlamaIndex readers, **its own local Neo4j** (independent of AKOS Neo4j per D-IH-32-M), Pydantic Logfire observability. Tracked by REPO_HEALTH_SNAPSHOT (I32 P7). |
 | madeira-hlk-runtime | `https://github.com/FraysaXII/openclaw-akos` | platform | AI Engineer | `topic_madeira_research_radar`, `topic_madeira_product_timeline` | [../MADEIRA/](../MADEIRA/) | `docs/references/hlk/v3.0/` (vault index; add `openapi.yaml` when published) | `topic_hlk_api_portfolio` | Canonical remote from `git remote get-url origin` on the AKOS workspace (2026-04-15). |
 | akos-telemetry-ci | `https://github.com/FraysaXII/openclaw-akos` | internal | System Owner | — | — | — | — | Same monorepo remote as `madeira-hlk-runtime`; **internal** class tags Langfuse/log-watcher/drift automation evidence (no second code tree). |
+| hlk-erp | `https://github.com/FraysaXII/hlk-erp` | platform | System Owner | `topic_holistik_ops_discovery` | — | — | — | **Initiative 32 P7 registration (D-IH-32-K).** Holistika ERP shell — internal operator UI for process registry, organization, components, sales overview. Stack: Next.js 14 + React + shadcn/ui + Tailwind + Supabase Auth + FastAPI. Has 13 local cursor rules with **no AKOS HLK SSOT cross-reference today** (E12); EXTERNAL_REPO_CONTRACT.md + akos-mirror.mdc PR patches staged in I32 P7 reports. Note local `data-ssot.mdc` rule contradicts AKOS PRECEDENCE.md (E13); Q10 supersession recommendation in P10 architecture audit. |
+| boilerplate | `https://github.com/FraysaXII/boilerplate` (operator confirms) | reference | Brand Manager | `topic_brand_visual_identity` | — | — | — | **Initiative 32 P11 registration (D-IH-32-N).** Marketing/web boilerplate. Carries Holistika brand assets (Holistika logo SVG, hero gradient, EN/ES/FR i18n), an embedded Obsidian vault snapshot at `app/dashboard/applications/kms/obsidian-holistika-main/` (NOT canonical — live vault is AKOS `docs/references/hlk/v3.0/`), its own Supabase project (10 schemas under `supabase/schemas/`), Pinecone integration, n8n workflows, Sentry. **Reference-only** per D-IH-32-N: no SSOT obligation, no `.cursor/rules/` to seed with akos-mirror.mdc; only the EXTERNAL_REPO_CONTRACT.md is shipped (light-touch). |
 | client-delivery-pilot | `https://github.com/<org>/<client-project-repo>` (operator sets) | client-delivery | PMO | `topic_pmo_client_delivery_hub` | — | — | — | No public delivery repo identified in org audit; keep placeholder until an engagement remote is known. |
 
 ### Class values
@@ -39,6 +41,7 @@ language: en
 - **platform** — Holistika product / core technical surface.
 - **internal** — Internal tooling (add rows as needed).
 - **client-delivery** — Client or engagement-specific repositories.
+- **reference** *(NEW Initiative 32 P11, D-IH-32-N)* — Tracked for visual / brand / pattern reference; carries no SSOT obligation. Boilerplate is the seed entry. Reference repos receive only the EXTERNAL_REPO_CONTRACT.md (light-touch); they do not receive the akos-mirror.mdc cursor rule unless they have a `.cursor/rules/` directory already.
 
 ---
 

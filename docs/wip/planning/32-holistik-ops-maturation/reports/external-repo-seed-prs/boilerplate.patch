@@ -1,0 +1,54 @@
+From: Holistika AKOS governance <founder@holistika.example>
+Subject: [boilerplate] Initiative 32 P11 — EXTERNAL_REPO_CONTRACT.md (light-touch)
+Date: 2026-04-30
+
+LIGHT-TOUCH PATCH per D-IH-32-N. Boilerplate is registered as `class=reference` in
+REPOSITORIES_REGISTRY.md and carries NO SSOT obligation. Only one file lands; no
+cursor rule mirror because the boilerplate repo has no `.cursor/rules/` directory.
+
+==================================================================
+FILE 1 (only): <boilerplate-repo-root>/EXTERNAL_REPO_CONTRACT.md
+==================================================================
+
+Use the AKOS template at:
+  https://github.com/FraysaXII/openclaw-akos/blob/main/docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/EXTERNAL_REPO_CONTRACT_TEMPLATE.md
+
+Fill in the "Repository identity" block with:
+
+  - Repo class:        reference
+  - Repo slug:         boilerplate
+  - Primary owner role: Brand Manager
+  - Vault doc root in AKOS: (none — reference-only)
+  - Last contract review: 2026-04-30
+
+ADD a note in the "How AKOS observes this repository" section explicitly stating:
+
+> Boilerplate is reference-only per D-IH-32-N. The embedded Obsidian vault snapshot at
+> `app/dashboard/applications/kms/obsidian-holistika-main/` is explicitly NOT canonical —
+> the live Obsidian-anchored vault lives at AKOS `docs/references/hlk/v3.0/`. This
+> repository's brand assets (Holistika logo SVG at `public/holistika-short-100x100.svg`,
+> hero gradient teal `hsl(168 55% 38%)`) remain the visual reference per
+> `BRAND_VISUAL_PATTERNS.md` in AKOS.
+
+==================================================================
+ACCEPTANCE
+==================================================================
+
+After this single file lands:
+
+1. Operator replies acknowledging the seed merged.
+2. Next AKOS weekly REPO_HEALTH_SNAPSHOT shows:
+   - has_external_repo_contract=true (was false) for boilerplate
+   - has_akos_mirror_rule=false (expected — no .cursor/rules/ in this repo)
+   - embedded_obsidian_snapshot_present is whatever it currently is (informational only)
+3. NO further obligations on the boilerplate side. Brand assets stay as visual reference;
+   embedded Obsidian snapshot stays as historical archive (NOT to be edited as live SSOT).
+4. Initiative 43 (deferred) — replace embedded snapshot with a pointer when the operator
+   migrates personal Obsidian workflow off boilerplate fully.
+
+CROSS-REFERENCES
+
+- D-IH-32-N (boilerplate reference-only registration)
+- REPOSITORIES_REGISTRY.md `reference` class definition (added in I32 P11)
+- Cover-email drafts: boilerplate-cover-email-en.md, boilerplate-cover-email-es.md
+  (very short, since this is light-touch)
