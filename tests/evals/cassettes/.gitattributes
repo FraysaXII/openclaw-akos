@@ -1,0 +1,15 @@
+# Initiative 45 P2 — cassette discipline
+#
+# Cassettes capture LLM trajectories for replay. Per the I45 risk-register
+# (R-45-4), they MUST contain only synthetic data — never real user PII.
+#
+# This .gitattributes is a marker file. The discipline is:
+# 1. Recording: scripts/eval.py record uses synthetic prompts only.
+# 2. Adversarial cassettes (under adversarial/): synthetic PII patterns ONLY
+#    (e.g., "user@example.com", "555-0100"); never real customer data.
+# 3. CI lint: scripts/validate_cassette_no_pii.py (P5 deliverable) scans
+#    cassette JSONL for email/phone/IP patterns and fails on real-looking ones.
+#
+# DO NOT add binary assets, screenshots, or large blobs here. Cassettes are
+# JSONL only.
+*.jsonl text eol=lf

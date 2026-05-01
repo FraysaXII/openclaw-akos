@@ -1,0 +1,4 @@
+{"event": "header", "golden_assertion": {"route": "admin_escalate"}, "last_recorded": "2026-05-01T03:08:26Z", "model_id": "deterministic:akos.intent.classify_request", "model_tier": "deterministic", "probe_id": "hlk_search", "probe_kind": "classify_request", "recorded_at": "2026-05-01T03:08:26Z", "recorded_by": "i45-p2-bootstrap", "schema_version": "1.0", "skill_id": "SKILL-MADEIRA-LOOKUP-V1"}
+{"event": "prompt", "text": "Find the process for FinOps quarterly reporting"}
+{"confidence": 0.6865, "event": "final", "method": "embedding", "must_escalate": true, "reason": "Mutation or organisational restructure intent detected.", "route": "admin_escalate"}
+{"event": "summary", "latency_ms": 544, "status": "PASS", "tokens_in": 0, "tokens_out": 0}

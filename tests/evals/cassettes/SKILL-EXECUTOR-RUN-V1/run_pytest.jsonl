@@ -1,0 +1,4 @@
+{"event": "header", "golden_assertion": {"route": "execution_escalate"}, "last_recorded": "2026-05-01T03:08:27Z", "model_id": "deterministic:akos.intent.classify_request", "model_tier": "deterministic", "probe_id": "run_pytest", "probe_kind": "classify_request", "recorded_at": "2026-05-01T03:08:27Z", "recorded_by": "i45-p2-bootstrap", "schema_version": "1.0", "skill_id": "SKILL-EXECUTOR-RUN-V1"}
+{"event": "prompt", "text": "Run pytest for the validators in the i32 branch"}
+{"confidence": 0.99, "event": "final", "method": "embedding+escalation_regex", "must_escalate": true, "reason": "Coding, browser automation, MCP, or multi-step execution intent detected.", "route": "execution_escalate"}
+{"event": "summary", "latency_ms": 418, "status": "PASS", "tokens_in": 0, "tokens_out": 0}

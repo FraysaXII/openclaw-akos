@@ -344,26 +344,25 @@ def run_smoke(sc: Scorecard) -> None:
         )
 
 
-def run_replay(sc: Scorecard, *, skill_id: str | None = None) -> None:
-    """Cassette replay. P2 will fill this in with real cassette I/O.
-
-    For now: stub that scans CASSETTE_ROOT and reports counts but does not execute.
-    Marks each as SKIP (placeholder) so overall status stays meaningful.
+def run_replay(
+    sc: Scorecard,
+    *,
+    skill_id: str | None = None,
+    include_adversarial: bool = False,
+) -> None:
+    """Cassette replay (P2). Walks tests/evals/cassettes/<skill_id>/*.jsonl and
+    asserts each cassette's recorded behavior still matches via the cassette
+    module's classify_request or live_llm replay path.
     """
-    if not CASSETTE_ROOT.is_dir():
-        sc.add(
-            ScoreRow(
-                mode="replay",
-                skill_id="__no_cassettes__",
-                status="SKIP",
-                notes=f"cassette root not yet created (P2): {CASSETTE_ROOT.relative_to(REPO_ROOT)}",
-            )
-        )
-        return
+    from akos.eval_harness.cassette import (
+        adversarial_cassettes,
+        list_cassettes,
+        replay_cassette,
+    )
 
-    targets = sorted(CASSETTE_ROOT.glob("*/*.jsonl"))
-    if skill_id:
-        targets = [p for p in targets if p.parent.name == skill_id]
+    targets = list_cassettes(skill_id=skill_id)
+    if include_adversarial:
+        targets += adversarial_cassettes(skill_id=skill_id)
 
     if not targets:
         sc.add(
@@ -371,19 +370,38 @@ def run_replay(sc: Scorecard, *, skill_id: str | None = None) -> None:
                 mode="replay",
                 skill_id=skill_id or "__no_cassettes__",
                 status="SKIP",
-                notes="no cassettes recorded yet (P2 will populate)",
+                notes=f"no cassettes recorded yet for {skill_id or '<any skill>'}",
             )
         )
         return
 
     for p in targets:
         sid = p.parent.name
+        try:
+            outcome = replay_cassette(p)
+        except Exception as e:
+            sc.add(
+                ScoreRow(
+                    mode="replay",
+                    skill_id=sid,
+                    status="FAIL",
+                    failures=[f"{type(e).__name__}: {e}"],
+                    notes=f"cassette={p.relative_to(REPO_ROOT)}",
+                )
+            )
+            continue
+
+        status = outcome.get("status", "FAIL")
         sc.add(
             ScoreRow(
                 mode="replay",
                 skill_id=sid,
-                status="SKIP",
-                notes=f"P2 stub: cassette={p.relative_to(REPO_ROOT)}",
+                status=status if status in ("PASS", "FAIL", "SKIP", "WARN") else "FAIL",
+                failures=list(outcome.get("failures", []) or []),
+                notes=(
+                    f"probe={p.stem}; age={outcome.get('age_days', '?')}d; "
+                    f"{outcome.get('stale', '?')}"
+                ),
             )
         )
 

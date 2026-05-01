@@ -86,23 +86,54 @@ def cmd_list() -> int:
 
 
 def cmd_record(args: argparse.Namespace) -> int:
-    # P2 deliverable. Stub here for CLI completeness; recording requires LLM access
-    # + AKOS_RECORD_LIVE=1 guard. P2 implementation will replace this stub.
-    import os
+    """Record a cassette. Two paths:
 
-    if os.environ.get("AKOS_RECORD_LIVE", "") != "1":
-        print(
-            "  [eval record] AKOS_RECORD_LIVE=1 is required to capture cassettes against live LLMs.\n"
-            "  This guard prevents accidental rerecording on CI.\n"
-            f"  To record: AKOS_RECORD_LIVE=1 py scripts/eval.py record --skill {args.skill or 'SKILL-ID'}",
-            file=sys.stderr,
-        )
-        return 2
-    print(
-        f"  [eval record] P2 stub: would record cassette for skill={args.skill}, "
-        f"mode={args.mode}. Implementation lands in P2.",
-        file=sys.stderr,
+    - --kind classify_request (default): deterministic; no LLM; safe without AKOS_RECORD_LIVE
+    - --kind live_llm: real LLM call; requires AKOS_RECORD_LIVE=1 (P6 fills in the actual LLM call)
+    """
+    import os
+    from akos.eval_harness.cassette import (
+        record_classify_request_cassette,
+        record_live_llm_cassette,
     )
+
+    if not args.prompt:
+        print("  [eval record] --prompt is required (the input text to capture)", file=sys.stderr)
+        return 2
+
+    if args.kind == "live_llm":
+        if os.environ.get("AKOS_RECORD_LIVE", "") != "1":
+            print(
+                "  [eval record] --kind live_llm requires AKOS_RECORD_LIVE=1 (cost-control guard).\n"
+                f"  Set the env var, then re-run: py scripts/eval.py record --skill {args.skill} ...",
+                file=sys.stderr,
+            )
+            return 2
+        try:
+            path = record_live_llm_cassette(
+                skill_id=args.skill,
+                probe_id=args.probe,
+                prompt=args.prompt,
+                recorded_by=args.by or "operator",
+                model_id=args.model_id or "unknown",
+                model_tier=args.model_tier or "flagship",
+                golden_rubric={
+                    "contains": args.contains or [],
+                    "forbidden": args.forbidden or [],
+                },
+            )
+        except PermissionError as e:
+            print(f"  [eval record] {e}", file=sys.stderr)
+            return 2
+    else:
+        path = record_classify_request_cassette(
+            skill_id=args.skill,
+            probe_id=args.probe,
+            prompt=args.prompt,
+            recorded_by=args.by or "operator",
+        )
+
+    print(f"  [eval record] wrote {path}", file=sys.stderr)
     return 0
 
 
@@ -126,11 +157,21 @@ def main() -> int:
 
     sub.add_parser("list", help="discover suites + skills + cassettes")
 
-    p_record = sub.add_parser("record", help="record a cassette (P2; requires AKOS_RECORD_LIVE=1)")
+    p_record = sub.add_parser("record", help="record a cassette (deterministic safe; live_llm requires AKOS_RECORD_LIVE=1)")
     p_record.add_argument("--skill", required=True, help="skill_id to record")
+    p_record.add_argument("--probe", required=True, help="probe_id (filename stem)")
+    p_record.add_argument("--prompt", required=True, help="input text to capture")
     p_record.add_argument(
-        "--mode", choices=("default", "adversarial"), default="default", help="cassette type"
+        "--kind",
+        choices=("classify_request", "live_llm"),
+        default="classify_request",
+        help="cassette type (default: classify_request, deterministic, no LLM)",
     )
+    p_record.add_argument("--by", default="", help="recorded_by handle")
+    p_record.add_argument("--model-id", default="", help="model id (for live_llm)")
+    p_record.add_argument("--model-tier", default="", help="model tier (for live_llm)")
+    p_record.add_argument("--contains", action="append", help="golden_rubric contains list (live_llm)")
+    p_record.add_argument("--forbidden", action="append", help="golden_rubric forbidden list (live_llm)")
 
     p_promote = sub.add_parser("promote", help="enforce skill graduation gate (P7)")
     p_promote.add_argument("--skill", required=True)

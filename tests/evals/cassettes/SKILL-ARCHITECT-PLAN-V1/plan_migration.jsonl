@@ -1,0 +1,4 @@
+{"event": "header", "golden_assertion": {"route": "execution_escalate"}, "last_recorded": "2026-05-01T03:08:26Z", "model_id": "deterministic:akos.intent.classify_request", "model_tier": "deterministic", "probe_id": "plan_migration", "probe_kind": "classify_request", "recorded_at": "2026-05-01T03:08:26Z", "recorded_by": "i45-p2-bootstrap", "schema_version": "1.0", "skill_id": "SKILL-ARCHITECT-PLAN-V1"}
+{"event": "prompt", "text": "Plan a 5-phase migration of the FinOps schema"}
+{"confidence": 0.6386, "event": "final", "method": "embedding", "must_escalate": true, "reason": "Coding, browser automation, MCP, or multi-step execution intent detected.", "route": "execution_escalate"}
+{"event": "summary", "latency_ms": 425, "status": "PASS", "tokens_in": 0, "tokens_out": 0}

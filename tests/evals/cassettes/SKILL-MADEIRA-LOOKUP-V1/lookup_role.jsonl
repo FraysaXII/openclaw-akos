@@ -1,0 +1,4 @@
+{"event": "header", "golden_assertion": {"route": "hlk_lookup"}, "last_recorded": "2026-05-01T03:08:25Z", "model_id": "deterministic:akos.intent.classify_request", "model_tier": "deterministic", "probe_id": "lookup_role", "probe_kind": "classify_request", "recorded_at": "2026-05-01T03:08:25Z", "recorded_by": "i45-p2-bootstrap", "schema_version": "1.0", "skill_id": "SKILL-MADEIRA-LOOKUP-V1"}
+{"event": "prompt", "text": "Look up the System Owner role definition"}
+{"confidence": 0.802, "event": "final", "method": "embedding", "must_escalate": false, "reason": "HLK lookup intent detected.", "route": "hlk_lookup"}
+{"event": "summary", "latency_ms": 716, "status": "PASS", "tokens_in": 0, "tokens_out": 0}
