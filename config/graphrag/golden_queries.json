@@ -1,0 +1,28 @@
+{
+  "_note": "I46 P3 — 20 golden vault queries for the GraphRAG PoC A/B test. Each query carries an expected_keyword set the response should contain (rubric-style; same shape as scripts/run-evals.py). Edit operator-side before running the PoC.",
+  "_skill_id": "SKILL-MADEIRA-LOOKUP-V1",
+  "_last_reviewed": "2026-05-01",
+  "_owner_role": "System Owner",
+  "queries": [
+    {"id": "q01_role_def", "query": "Who is the System Owner role responsible for?", "expected_keywords": ["role"], "intent": "role_lookup"},
+    {"id": "q02_role_chain", "query": "What is the chain of reporting from System Owner up to the Founder?", "expected_keywords": ["System Owner", "Founder"], "intent": "role_chain"},
+    {"id": "q03_process_owner", "query": "Which role owns the FinOps quarterly reporting process?", "expected_keywords": ["FinOps", "Business Controller"], "intent": "process_owner"},
+    {"id": "q04_process_tree", "query": "What are the child processes of the executor agent process tree?", "expected_keywords": ["executor", "process"], "intent": "process_tree"},
+    {"id": "q05_persona", "query": "What persona archetype is an investor-cold inbound contact?", "expected_keywords": ["investor", "cold"], "intent": "persona_lookup"},
+    {"id": "q06_channel", "query": "Which channels accept inbound LinkedIn DMs?", "expected_keywords": ["LinkedIn", "DM"], "intent": "channel_lookup"},
+    {"id": "q07_skill", "query": "What skills are available to the Madeira agent?", "expected_keywords": ["MADEIRA"], "intent": "skill_lookup"},
+    {"id": "q08_topic", "query": "What is the topic_holistik_ops_discovery about?", "expected_keywords": ["Holistik Ops", "axis"], "intent": "topic_lookup"},
+    {"id": "q09_program", "query": "Which program governs the KiRBe platform deliverable?", "expected_keywords": ["PRJ-HOL-KIR-2026", "KiRBe"], "intent": "program_lookup"},
+    {"id": "q10_policy", "query": "What is the RLS policy for compliance.skill_registry_mirror?", "expected_keywords": ["service_role", "anon"], "intent": "policy_lookup"},
+    {"id": "q11_multihop_skill_owner", "query": "Who owns the topic associated with the executor skill?", "expected_keywords": ["executor", "owner"], "intent": "multihop"},
+    {"id": "q12_multihop_persona_to_channel", "query": "Which channel is the right inbound surface for an investor-warm persona?", "expected_keywords": ["warm", "channel"], "intent": "multihop"},
+    {"id": "q13_multihop_program_skills", "query": "Which skills are scoped to the Founding program?", "expected_keywords": ["PRJ-HOL-FOUNDING-2026"], "intent": "multihop"},
+    {"id": "q14_topic_dependencies", "query": "What topics does topic_skill_registry depend on?", "expected_keywords": ["topic"], "intent": "graph_traversal"},
+    {"id": "q15_role_with_no_processes", "query": "Are there roles in the org chart without any owned processes?", "expected_keywords": ["role"], "intent": "anomaly_detection"},
+    {"id": "q16_process_with_no_owner", "query": "Are there processes in process_list.csv without a clear role owner?", "expected_keywords": ["process"], "intent": "anomaly_detection"},
+    {"id": "q17_program_ownership_overlap", "query": "Which roles appear in both Founding and KiRBe programs?", "expected_keywords": ["role", "program"], "intent": "graph_traversal"},
+    {"id": "q18_brand_voice_lookup", "query": "What does BRAND_VOICE_FOUNDATION say about pillar 3?", "expected_keywords": ["jargon", "external"], "intent": "doctrine_lookup"},
+    {"id": "q19_neo4j_strategy_lookup", "query": "What is the AKOS posture on agent memory in Neo4j?", "expected_keywords": ["defer", "trigger"], "intent": "doctrine_lookup"},
+    {"id": "q20_cost_ceiling_lookup", "query": "What is the cost ceiling for SKILL-EXECUTOR-RUN-V1?", "expected_keywords": ["max_usd_per_run", "0.10"], "intent": "policy_lookup"}
+  ]
+}
