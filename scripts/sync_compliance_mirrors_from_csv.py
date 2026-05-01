@@ -38,9 +38,13 @@ from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIE
 from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_persona_registry_csv import PERSONA_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_policy_register_csv import POLICY_REGISTER_FIELDNAMES  # noqa: E402  # I32 P4
 from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_repo_health_csv import REPO_HEALTH_SNAPSHOT_FIELDNAMES  # noqa: E402  # I32 P7
+from akos.hlk_skill_registry_csv import SKILL_REGISTRY_FIELDNAMES  # noqa: E402  # I32 P2
 from akos.hlk_sourcing_register_csv import SOURCING_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_topic_registry_csv import TOPIC_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_touchpoint_kit_cell_csv import TOUCHPOINT_KIT_CELL_FIELDNAMES  # noqa: E402  # I32 P3
 from akos.hlk_process_csv import (  # noqa: E402
     PROCESS_LIST_FIELDNAMES,
     normalize_process_row,
@@ -63,6 +67,11 @@ TOPIC_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / 
 PERSONA_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_REGISTRY.csv"
 CHANNEL_TOUCHPOINT_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "CHANNEL_TOUCHPOINT_REGISTRY.csv"
 SOURCING_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SOURCING_REGISTER.csv"
+# I32 P2/P3/P4/P7: 4 new mirrors
+SKILL_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SKILL_REGISTRY.csv"
+TOUCHPOINT_KIT_CELL_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOUCHPOINT_KIT_CELL_REGISTRY.csv"
+POLICY_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POLICY_REGISTER.csv"
+REPO_HEALTH_SNAPSHOT_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPO_HEALTH_SNAPSHOT.csv"
 
 # Must match sql-proposal-stack-20260417 §4.3
 BASELINE_FIELDNAMES: tuple[str, ...] = (
@@ -376,6 +385,137 @@ def _emit_program_registry_upserts(rows: list[dict[str, str]], source_git_sha: s
     return out
 
 
+def _emit_skill_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """Initiative 32 P2 — compliance.skill_registry_mirror upserts."""
+    cols_csv = ", ".join(SKILL_REGISTRY_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in SKILL_REGISTRY_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.skill_registry_mirror upserts (Initiative 32 P2)"]
+    for r in rows:
+        sid = (r.get("skill_id") or "").strip()
+        if not sid:
+            continue
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in SKILL_REGISTRY_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.skill_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (skill_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_touchpoint_kit_cell_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """Initiative 32 P3 — compliance.touchpoint_kit_cell_mirror upserts."""
+    cols_csv = ", ".join(TOUCHPOINT_KIT_CELL_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in TOUCHPOINT_KIT_CELL_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.touchpoint_kit_cell_mirror upserts (Initiative 32 P3)"]
+    for r in rows:
+        cid = (r.get("cell_id") or "").strip()
+        if not cid:
+            continue
+        # last_review is DATE in DDL; pass NULL when empty so PG doesn't reject ''
+        row_vals: list[str] = []
+        for c in TOUCHPOINT_KIT_CELL_FIELDNAMES:
+            raw = (r.get(c) or "").strip()
+            if c == "last_review" and not raw:
+                row_vals.append("NULL")
+            elif c == "last_review" and raw:
+                row_vals.append(f"DATE {_sql_text_literal(raw)}")
+            else:
+                row_vals.append(_sql_text_literal(raw))
+        vals_full = ", ".join(row_vals) + f", {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.touchpoint_kit_cell_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (cell_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_policy_register_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """Initiative 32 P4 — compliance.policy_register_mirror upserts."""
+    cols_csv = ", ".join(POLICY_REGISTER_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in POLICY_REGISTER_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.policy_register_mirror upserts (Initiative 32 P4)"]
+    date_columns = {"last_review", "next_review"}
+    for r in rows:
+        pid = (r.get("policy_id") or "").strip()
+        if not pid:
+            continue
+        row_vals: list[str] = []
+        for c in POLICY_REGISTER_FIELDNAMES:
+            raw = (r.get(c) or "").strip()
+            if c in date_columns and not raw:
+                row_vals.append("NULL")
+            elif c in date_columns and raw:
+                row_vals.append(f"DATE {_sql_text_literal(raw)}")
+            else:
+                row_vals.append(_sql_text_literal(raw))
+        vals_full = ", ".join(row_vals) + f", {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.policy_register_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (policy_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_repo_health_snapshot_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """Initiative 32 P7 — compliance.repo_health_snapshot_mirror upserts.
+
+    Append-only history; PK is (repo_slug, snapshot_date). UPDATE on conflict refreshes
+    the metrics (operator may rerun the snapshot script same-day; CSV always
+    reflects latest weekly snapshot).
+    """
+    cols_csv = ", ".join(REPO_HEALTH_SNAPSHOT_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in REPO_HEALTH_SNAPSHOT_FIELDNAMES if c not in ("repo_slug", "snapshot_date")]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.repo_health_snapshot_mirror upserts (Initiative 32 P7)"]
+    int_columns = {"cursor_rule_count", "brand_jargon_violations"}
+    bool_columns = {
+        "has_external_repo_contract",
+        "has_akos_mirror_rule",
+        "embedded_obsidian_snapshot_present",
+    }
+    for r in rows:
+        slug = (r.get("repo_slug") or "").strip()
+        sd = (r.get("snapshot_date") or "").strip()
+        if not slug or not sd:
+            continue
+        row_vals: list[str] = []
+        for c in REPO_HEALTH_SNAPSHOT_FIELDNAMES:
+            raw = (r.get(c) or "").strip()
+            if c == "snapshot_date":
+                row_vals.append(f"DATE {_sql_text_literal(raw)}")
+            elif c == "cursor_rule_count" or c == "brand_jargon_violations":
+                row_vals.append(raw if raw else "0")
+            elif c == "language_frontmatter_compliance_pct":
+                row_vals.append(raw if raw else "0.0")
+            elif c in bool_columns:
+                row_vals.append("TRUE" if raw.lower() == "true" else "FALSE")
+            else:
+                row_vals.append(_sql_text_literal(raw))
+        _ = int_columns  # silence unused (reserved for future strict casting)
+        vals_full = ", ".join(row_vals) + f", {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.repo_health_snapshot_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (repo_slug, snapshot_date) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         try:
@@ -461,6 +601,27 @@ def main() -> int:
         action="store_true",
         help="Only emit sourcing_register_mirror statements (requires dimensions/SOURCING_REGISTER.csv) [Initiative 31]",
     )
+    # I32 P2/P3/P4/P7 — 4 new flags
+    parser.add_argument(
+        "--skill-registry-only",
+        action="store_true",
+        help="Only emit skill_registry_mirror statements (requires dimensions/SKILL_REGISTRY.csv) [Initiative 32 P2]",
+    )
+    parser.add_argument(
+        "--touchpoint-kit-cell-only",
+        action="store_true",
+        help="Only emit touchpoint_kit_cell_mirror statements (requires dimensions/TOUCHPOINT_KIT_CELL_REGISTRY.csv) [Initiative 32 P3]",
+    )
+    parser.add_argument(
+        "--policy-register-only",
+        action="store_true",
+        help="Only emit policy_register_mirror statements (requires dimensions/POLICY_REGISTER.csv) [Initiative 32 P4]",
+    )
+    parser.add_argument(
+        "--repo-health-snapshot-only",
+        action="store_true",
+        help="Only emit repo_health_snapshot_mirror statements (requires REPO_HEALTH_SNAPSHOT.csv) [Initiative 32 P7]",
+    )
     parser.add_argument(
         "--no-begin-commit",
         action="store_true",
@@ -482,6 +643,10 @@ def main() -> int:
             args.persona_registry_only,
             args.channel_touchpoint_registry_only,
             args.sourcing_register_only,
+            args.skill_registry_only,
+            args.touchpoint_kit_cell_only,
+            args.policy_register_only,
+            args.repo_health_snapshot_only,
         )
         if x
     )
@@ -889,6 +1054,75 @@ def main() -> int:
             sys.stdout.write(text)
         return 0
 
+    # I32 P2/P3/P4/P7 — 4 new mirror branches use a compact factory pattern.
+    _i32_mirror_specs: list[tuple[bool, Path, tuple[str, ...], str, str]] = [
+        (
+            args.skill_registry_only, SKILL_REGISTRY_CSV, SKILL_REGISTRY_FIELDNAMES,
+            "compliance.skill_registry_mirror", "Initiative 32 P2",
+        ),
+        (
+            args.touchpoint_kit_cell_only, TOUCHPOINT_KIT_CELL_CSV, TOUCHPOINT_KIT_CELL_FIELDNAMES,
+            "compliance.touchpoint_kit_cell_mirror", "Initiative 32 P3",
+        ),
+        (
+            args.policy_register_only, POLICY_REGISTER_CSV, POLICY_REGISTER_FIELDNAMES,
+            "compliance.policy_register_mirror", "Initiative 32 P4",
+        ),
+        (
+            args.repo_health_snapshot_only, REPO_HEALTH_SNAPSHOT_CSV, REPO_HEALTH_SNAPSHOT_FIELDNAMES,
+            "compliance.repo_health_snapshot_mirror", "Initiative 32 P7",
+        ),
+    ]
+    _i32_emit_fns = {
+        "compliance.skill_registry_mirror": _emit_skill_registry_upserts,
+        "compliance.touchpoint_kit_cell_mirror": _emit_touchpoint_kit_cell_upserts,
+        "compliance.policy_register_mirror": _emit_policy_register_upserts,
+        "compliance.repo_health_snapshot_mirror": _emit_repo_health_snapshot_upserts,
+    }
+    _i32_count_keys = {
+        "compliance.skill_registry_mirror": "skill_registry_rows",
+        "compliance.touchpoint_kit_cell_mirror": "touchpoint_kit_cell_rows",
+        "compliance.policy_register_mirror": "policy_register_rows",
+        "compliance.repo_health_snapshot_mirror": "repo_health_snapshot_rows",
+    }
+    for flag, csv_path, fieldnames, mirror_table, initiative in _i32_mirror_specs:
+        if not flag:
+            continue
+        if not csv_path.is_file():
+            print("error: missing", csv_path, file=sys.stderr)
+            return 1
+        with csv_path.open(encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            fn = list(reader.fieldnames or [])
+            if fn != list(fieldnames):
+                print(f"error: {csv_path.name} header drift vs contract", file=sys.stderr)
+                print("  expected:", list(fieldnames), file=sys.stderr)
+                print("  got:     ", fn, file=sys.stderr)
+                return 1
+            i32_rows = [dict(r) for r in reader]
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            print(f"{_i32_count_keys[mirror_table]}={len(i32_rows)}")
+            return 0
+        blocks = _i32_emit_fns[mirror_table](i32_rows, sha)
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            f"-- Apply only after {mirror_table} exists ({initiative} DDL).",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
     if not PROC_CSV.is_file():
         print("error: missing", PROC_CSV, file=sys.stderr)
         return 1
@@ -1002,6 +1236,43 @@ def main() -> int:
                 sr_rows = [dict(r) for r in sr_reader]
                 sr_n = len(sr_rows)
 
+    # I32 P2/P3/P4/P7 — 4 new mirrors
+    skill_n = 0
+    skill_rows: list[dict[str, str]] = []
+    if SKILL_REGISTRY_CSV.is_file():
+        with SKILL_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            skr = csv.DictReader(f)
+            if list(skr.fieldnames or []) == list(SKILL_REGISTRY_FIELDNAMES):
+                skill_rows = [dict(r) for r in skr]
+                skill_n = len(skill_rows)
+
+    tkc_n = 0
+    tkc_rows: list[dict[str, str]] = []
+    if TOUCHPOINT_KIT_CELL_CSV.is_file():
+        with TOUCHPOINT_KIT_CELL_CSV.open(encoding="utf-8", newline="") as f:
+            tkr = csv.DictReader(f)
+            if list(tkr.fieldnames or []) == list(TOUCHPOINT_KIT_CELL_FIELDNAMES):
+                tkc_rows = [dict(r) for r in tkr]
+                tkc_n = len(tkc_rows)
+
+    pol_n = 0
+    pol_rows: list[dict[str, str]] = []
+    if POLICY_REGISTER_CSV.is_file():
+        with POLICY_REGISTER_CSV.open(encoding="utf-8", newline="") as f:
+            por = csv.DictReader(f)
+            if list(por.fieldnames or []) == list(POLICY_REGISTER_FIELDNAMES):
+                pol_rows = [dict(r) for r in por]
+                pol_n = len(pol_rows)
+
+    rhs_n = 0
+    rhs_rows: list[dict[str, str]] = []
+    if REPO_HEALTH_SNAPSHOT_CSV.is_file():
+        with REPO_HEALTH_SNAPSHOT_CSV.open(encoding="utf-8", newline="") as f:
+            rhsr = csv.DictReader(f)
+            if list(rhsr.fieldnames or []) == list(REPO_HEALTH_SNAPSHOT_FIELDNAMES):
+                rhs_rows = [dict(r) for r in rhsr]
+                rhs_n = len(rhs_rows)
+
     if args.count_only:
         print(f"source_git_sha={sha}")
         print(f"process_list_rows={len(proc_rows)}")
@@ -1016,6 +1287,11 @@ def main() -> int:
         print(f"persona_registry_rows={persona_n}")
         print(f"channel_touchpoint_registry_rows={ct_n}")
         print(f"sourcing_register_rows={sr_n}")
+        # I32 P2/P3/P4/P7 additions
+        print(f"skill_registry_rows={skill_n}")
+        print(f"touchpoint_kit_cell_rows={tkc_n}")
+        print(f"policy_register_rows={pol_n}")
+        print(f"repo_health_snapshot_rows={rhs_n}")
         return 0
 
     blocks: list[str] = []
@@ -1043,6 +1319,15 @@ def main() -> int:
         blocks.extend(_emit_channel_touchpoint_registry_upserts(ct_rows, sha))
     if not args.process_list_only and not args.baseline_only and sr_rows:
         blocks.extend(_emit_sourcing_register_upserts(sr_rows, sha))
+    # I32 P2/P3/P4/P7 — append the 4 new mirror upsert blocks to the full bundle.
+    if not args.process_list_only and not args.baseline_only and skill_rows:
+        blocks.extend(_emit_skill_registry_upserts(skill_rows, sha))
+    if not args.process_list_only and not args.baseline_only and tkc_rows:
+        blocks.extend(_emit_touchpoint_kit_cell_upserts(tkc_rows, sha))
+    if not args.process_list_only and not args.baseline_only and pol_rows:
+        blocks.extend(_emit_policy_register_upserts(pol_rows, sha))
+    if not args.process_list_only and not args.baseline_only and rhs_rows:
+        blocks.extend(_emit_repo_health_snapshot_upserts(rhs_rows, sha))
 
     preamble = [
         "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
