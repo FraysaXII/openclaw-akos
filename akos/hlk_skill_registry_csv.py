@@ -1,4 +1,4 @@
-"""Field contract for SKILL_REGISTRY.csv (Initiative 32 P2).
+"""Field contract for SKILL_REGISTRY.csv (Initiative 32 P2; extended I45 P3).
 
 Canonical CSV lives under ``docs/references/hlk/compliance/dimensions/``.
 Mirrored to ``compliance.skill_registry_mirror`` on Supabase.
@@ -18,6 +18,14 @@ descriptions; the full skill body loads only when the skill is invoked. The
 ``description`` field on this CSV is the cheap-load summary; the canonical
 skill body lives in the ``intro_artifact_path``-equivalent surface (each agent's
 ``IDENTITY.md`` + a future ``SKILL_<id>.md`` body file).
+
+I45 P3 additions:
+- ``routing_condition`` — kv-style filter expression evaluated by ``akos.skill_router``
+  to constrain candidate skills per intent. Empty = always-eligible (back-compat).
+  Supported keys: ``intent_in=<route1;route2>``, ``intent=<route>``, ``agent=<id>``.
+- ``tools_required_waived`` — boolean (``true``/``false``/empty=false). When true,
+  the validator does NOT warn about tools_required entries missing from
+  agent-capabilities.json. Used during the I45 P3 reconciliation period (R-45-6).
 """
 
 from __future__ import annotations
@@ -36,6 +44,8 @@ SKILL_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "tenant_scope",            # ^shared$ (D-IH-32-J: only 'shared' until Initiative 34)
     "lifecycle_status",        # active | deprecated | scaffold
     "topic_ids",               # semicolon-list FK to TOPIC_REGISTRY.csv (axis 6, populated in P5)
+    "routing_condition",       # I45 P3: empty | intent_in=<r1;r2> | intent=<r> | agent=<id>
+    "tools_required_waived",   # I45 P3: empty/false | true (waives tools_required FK warning)
     "description",             # short cheap-load summary (1-2 sentences; lazy-load contract)
     "notes",
 )

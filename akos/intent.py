@@ -166,12 +166,21 @@ def _classify_regex(query: str) -> str:
     return "other"
 
 
-def classify_request(query: str) -> dict[str, object]:
+def classify_request(query: str, *, agent: str | None = None) -> dict[str, object]:
     """Classify a user request into a flagship route.
 
     Tries the semantic embedding classifier first, falls back to regex when
-    Ollama is unreachable.  Returns ``route``, ``confidence``, ``method``,
-    ``must_escalate``, ``reason``, and ``operator_message``.
+    Ollama is unreachable. Returns ``route``, ``confidence``, ``method``,
+    ``must_escalate``, ``reason``, ``operator_message``, and (since I45 P3)
+    ``candidate_skills`` resolved from ``SKILL_REGISTRY.csv`` via
+    ``akos.skill_router``.
+
+    Args:
+        query: the input text to classify.
+        agent: optional caller-side agent id (madeira / architect / executor /
+            verifier / shared / orchestrator). When provided, candidate_skills
+            is filtered to skills whose routing_condition matches OR whose
+            agents_supported includes the agent. Closes E2 (registry-router gap).
     """
     text = query.strip()
     classifier = _get_classifier()
@@ -195,9 +204,22 @@ def classify_request(query: str) -> dict[str, object]:
             method = f"{method}+escalation_regex"
 
     route_info = _ROUTE_MESSAGES.get(route, _ROUTE_MESSAGES["other"])
+
+    # I45 P3: enrich response with SKILL_REGISTRY-driven candidate skills.
+    # Soft-fail: if the registry is missing or the router import fails, we
+    # don't break classify_request — caller still gets the route + escalation
+    # info exactly as before.
+    candidate_skills: list[str] = []
+    try:
+        from akos.skill_router import candidate_skill_ids
+        candidate_skills = candidate_skill_ids(route, agent=agent)
+    except Exception as exc:
+        logger.debug("skill_router unavailable: %s", exc)
+
     return {
         "route": route,
         "confidence": confidence,
         "method": method,
+        "candidate_skills": candidate_skills,  # I45 P3 NEW: never None; may be []
         **route_info,
     }

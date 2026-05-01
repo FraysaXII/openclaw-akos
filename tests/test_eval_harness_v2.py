@@ -133,14 +133,29 @@ def test_v2_run_rubric_returns_known_suites() -> None:
     assert any(r.skill_id == "suite:madeira-operator-coverage" for r in rubric_rows)
 
 
-def test_v2_run_replay_skips_when_cassette_root_empty_or_missing() -> None:
+def test_v2_run_replay_returns_one_row_per_cassette() -> None:
+    """After I45 P2 shipped seed cassettes, replay returns PASS for each.
+    The original P1 'SKIP when no cassettes' assertion no longer applies."""
     from akos.eval_harness.v2 import Scorecard, run_replay
 
     sc = Scorecard()
     run_replay(sc)
     rep = [r for r in sc.rows if r.mode == "replay"]
     assert len(rep) >= 1
-    assert all(r.status == "SKIP" for r in rep)
+    # All cassettes should pass or warn (warn would be staleness > 60d, not in P3 timeline)
+    bad = [r for r in rep if r.status not in ("PASS", "WARN", "SKIP")]
+    assert not bad, f"replay regressions: {[(r.skill_id, r.failures) for r in bad]}"
+
+
+def test_v2_run_replay_with_unknown_skill_id_skips() -> None:
+    """When --replay-skill targets a skill with no cassettes, returns one SKIP row."""
+    from akos.eval_harness.v2 import Scorecard, run_replay
+
+    sc = Scorecard()
+    run_replay(sc, skill_id="SKILL-NONEXISTENT-V99")
+    rep = [r for r in sc.rows if r.mode == "replay"]
+    assert len(rep) == 1
+    assert rep[0].status == "SKIP"
 
 
 def test_v2_run_modes_all_combines_smoke_canary_rubric() -> None:
@@ -199,16 +214,26 @@ def test_cli_mode_canary_with_synthetic_regression_exits_1() -> None:
     assert madeira["canary_2_tripped"] is True
 
 
-def test_cli_mode_replay_alone_skips_and_exits_zero() -> None:
+def test_cli_mode_replay_alone_returns_rows_and_exits_zero() -> None:
+    """After I45 P2 seeded 6 cassettes, replay returns PASS rows; overall pass."""
     p = _run_cli("--mode", "replay", "--json")
     assert p.returncode == 0
     parsed = json.loads(p.stdout)
     rep = [r for r in parsed["rows"] if r["mode"] == "replay"]
-    assert all(r["status"] == "SKIP" for r in rep)
+    assert len(rep) >= 1
+    bad = [r for r in rep if r["status"] not in ("PASS", "WARN", "SKIP")]
+    assert not bad, f"replay regressions: {bad}"
 
 
-def test_cli_record_without_live_env_exits_2() -> None:
-    p = _run_cli("record", "--skill", "SKILL-MADEIRA-LOOKUP-V1")
+def test_cli_record_live_kind_without_env_exits_2() -> None:
+    """live_llm cassettes require AKOS_RECORD_LIVE=1; classify_request kind does not."""
+    p = _run_cli(
+        "record",
+        "--skill", "SKILL-MADEIRA-LOOKUP-V1",
+        "--probe", "smoke-x",
+        "--prompt", "test prompt",
+        "--kind", "live_llm",
+    )
     assert p.returncode == 2
     assert "AKOS_RECORD_LIVE=1" in p.stderr
 

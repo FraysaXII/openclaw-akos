@@ -51,6 +51,12 @@ SKILL_ID_RE = re.compile(r"^SKILL-[A-Z0-9-]{4,80}-V\d+$")
 SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+$")
 TENANT_SCOPE_RE = re.compile(r"^shared$")  # D-IH-32-J: only 'shared' valid until I34
 
+# I45 P3: routing_condition format - empty | intent_in=<r1;r2> | intent=<r> | agent=<id>
+ROUTING_CONDITION_RE = re.compile(
+    r"^$|^(?:intent_in=[a-z_,;]+|intent=[a-z_]+|agent=[a-z_]+)$"
+)
+WAIVER_VALUES: frozenset[str] = frozenset({"", "true", "false"})
+
 
 def _load_csv_set(path: Path, key: str) -> set[str]:
     if not path.is_file():
@@ -136,15 +142,29 @@ def main() -> int:
                 errors.append(f"{sid}: axis {ax!r} not in VALID_AXES ({sorted(VALID_AXES)})")
 
         # tools_required (warning only — Cursor agent tools are dynamic)
+        # I45 P3: tools_required_waived=true silences the warning per R-45-6.
+        waiver = (r.get("tools_required_waived") or "").strip().lower()
+        if waiver not in WAIVER_VALUES:
+            errors.append(
+                f"{sid}: tools_required_waived {waiver!r} must be empty, 'true', or 'false'"
+            )
+        is_waived = waiver == "true"
         for tool in _split_semi(r.get("tools_required") or ""):
             if agent_tools and tool not in agent_tools:
                 # Don't fail on Cursor agent tool names like 'Shell', 'Read', 'Write'
                 # which are not in agent-capabilities.json (those govern openclaw runtime tools).
-                if tool not in {"Shell", "Read", "Write"}:
+                if tool not in {"Shell", "Read", "Write"} and not is_waived:
                     warnings.append(
                         f"{sid}: tool {tool!r} not in agent-capabilities.json allowed_tools "
-                        f"(informational; Cursor tools are dynamic)"
+                        f"(informational; Cursor tools are dynamic; set tools_required_waived=true to silence)"
                     )
+
+        # I45 P3: routing_condition format
+        rc = (r.get("routing_condition") or "").strip()
+        if not ROUTING_CONDITION_RE.match(rc):
+            errors.append(
+                f"{sid}: routing_condition {rc!r} does not match {ROUTING_CONDITION_RE.pattern}"
+            )
 
         # version semver
         version = (r.get("version") or "").strip()
