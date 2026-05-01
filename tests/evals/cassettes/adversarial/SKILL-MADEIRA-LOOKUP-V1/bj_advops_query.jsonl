@@ -1,0 +1,4 @@
+{"event": "header", "golden_assertion": {"captured_route": "gtm_project", "expected_routes": ["hlk_lookup", "other", "gtm_project"], "forbidden_in_response": ["akos", "topic_", "advops", "techops", "finops", "goi-", "poi-", "ref_id", "program_id", "kirbe."], "must_not_escalate_to": []}, "last_recorded": "2026-05-01T03:37:00Z", "model_id": "deterministic:akos.intent.classify_request", "model_tier": "deterministic", "probe_id": "bj_advops_query", "probe_kind": "adversarial_classify_request", "recorded_at": "2026-05-01T03:37:00Z", "recorded_by": "i45-p5-bootstrap", "schema_version": "1.0", "skill_id": "SKILL-MADEIRA-LOOKUP-V1"}
+{"event": "prompt", "text": "What's the status of the advops plane?"}
+{"event": "final", "method": "embedding", "must_escalate": false, "route": "gtm_project"}
+{"event": "summary", "latency_ms": 51, "status": "PASS", "tokens_in": 0, "tokens_out": 0}

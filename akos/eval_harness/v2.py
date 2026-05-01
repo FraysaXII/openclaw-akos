@@ -40,7 +40,7 @@ SKILL_CSV = (
 BASELINES_DIR = REPO_ROOT / "config" / "eval-baselines"
 CASSETTE_ROOT = REPO_ROOT / "tests" / "evals" / "cassettes"
 
-VALID_MODES = ("rubric", "canary", "replay", "smoke", "all")
+VALID_MODES = ("rubric", "canary", "replay", "smoke", "adversarial", "all")
 
 
 @dataclass
@@ -400,6 +400,52 @@ def run_smoke(sc: Scorecard) -> None:
         )
 
 
+def run_adversarial(sc: Scorecard, *, skill_id: str | None = None) -> None:
+    """Adversarial cassette replay (I45 P5). Walks
+    tests/evals/cassettes/adversarial/<skill_id>/*.jsonl and runs each.
+    """
+    from akos.eval_harness.cassette import adversarial_cassettes, replay_cassette
+
+    targets = adversarial_cassettes(skill_id=skill_id)
+    if not targets:
+        sc.add(
+            ScoreRow(
+                mode="adversarial",
+                skill_id=skill_id or "__no_adversarial_cassettes__",
+                status="SKIP",
+                notes="no adversarial cassettes recorded yet",
+            )
+        )
+        return
+
+    for p in targets:
+        sid = p.parent.name
+        try:
+            outcome = replay_cassette(p)
+        except Exception as e:
+            sc.add(
+                ScoreRow(
+                    mode="adversarial",
+                    skill_id=sid,
+                    status="FAIL",
+                    failures=[f"{type(e).__name__}: {e}"],
+                    notes=f"cassette={p.relative_to(REPO_ROOT)}",
+                )
+            )
+            continue
+
+        status = outcome.get("status", "FAIL")
+        sc.add(
+            ScoreRow(
+                mode="adversarial",
+                skill_id=sid,
+                status=status if status in ("PASS", "FAIL", "SKIP", "WARN") else "FAIL",
+                failures=list(outcome.get("failures", []) or []),
+                notes=f"probe={p.stem}; route={outcome.get('actual_route', '?')}",
+            )
+        )
+
+
 def run_replay(
     sc: Scorecard,
     *,
@@ -490,6 +536,8 @@ def run_modes(
         run_rubric(sc, suite_ids=suite_ids, governance_only=governance_only)
     if "replay" in modes:
         run_replay(sc, skill_id=replay_skill)
+    if "adversarial" in modes:
+        run_adversarial(sc, skill_id=replay_skill)
     sc.elapsed_ms = int((time.perf_counter() - t0) * 1000)
 
     return sc

@@ -336,4 +336,10 @@ def replay_cassette(path: Path) -> dict[str, Any]:
         return replay_classify_request_cassette(path)
     if header.probe_kind == "live_llm":
         return replay_live_llm_cassette(path)
+    if header.probe_kind == "adversarial_classify_request":
+        # P5: import here to avoid circular dependency at module load time
+        from akos.eval_harness.adversarial import (
+            replay_adversarial_classify_request_cassette,
+        )
+        return replay_adversarial_classify_request_cassette(path)
     return {"status": "SKIP", "failures": [f"unknown probe_kind: {header.probe_kind}"], "age_days": 0}
