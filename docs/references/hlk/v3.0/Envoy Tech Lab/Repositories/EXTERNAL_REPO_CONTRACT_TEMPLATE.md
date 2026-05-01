@@ -32,6 +32,10 @@ This is part of Initiative 32 P7 (cross-repo extraction discipline, D-IH-32-K + 
 - **Vault doc root in AKOS:** `<path under v3.0/Envoy Tech Lab/, or — if none>`
 - **Last contract review:** `<YYYY-MM-DD>`
 
+## Optional: Neo4j posture (where applicable)
+
+If this repository operates its own Neo4j instance (KiRBe today; possibly future client-delivery repos), the canonical doctrine for Neo4j use across Holistika lives at [`../Neo4j/NEO4J_STRATEGY.md`](../Neo4j/NEO4J_STRATEGY.md). The headline rule for cross-repo Neo4j: AKOS Neo4j (governance KG) and any other repo's Neo4j (e.g., KiRBe vault search) **stay separate** (D-IH-32-M). Do not propose cross-merging without an explicit initiative that revisits this doctrine.
+
 ## The 3 invariants this repository agrees to
 
 These are non-negotiable. Any future PR that breaks one of them will be flagged by the AKOS-side weekly REPO_HEALTH_SNAPSHOT and surfaced in the next initiative cycle.

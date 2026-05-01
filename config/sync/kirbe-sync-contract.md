@@ -151,5 +151,5 @@ AKOS observes KiRBe weekly via `scripts/snapshot_external_repos.py` writing one 
 
 - KiRBe billing-plane discipline (`hlk_billing_plane` metadata, `kirbe.*` vs `holistika_ops.*` separation) — unchanged.
 - KiRBe LlamaIndex pipeline and reader composition — unchanged.
-- KiRBe local Neo4j (vault search graph, per `kirbe/.cursor/rules/60-graphdb-neo4j.mdc`) — stays independent of AKOS Neo4j (D-IH-32-M).
+- KiRBe local Neo4j (vault search graph, per `kirbe/.cursor/rules/60-graphdb-neo4j.mdc`) — stays independent of AKOS Neo4j (D-IH-32-M reaffirmed in I46 P1 [`NEO4J_STRATEGY.md`](../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Neo4j/NEO4J_STRATEGY.md): AKOS Neo4j = governance KG; KiRBe Neo4j = vault search; do not cross-merge. Two independent stores, two independent lifecycles, two independent cost lines.).
 - KiRBe's existing 36 cursor rules — unchanged; akos-mirror.mdc adds, does not replace.

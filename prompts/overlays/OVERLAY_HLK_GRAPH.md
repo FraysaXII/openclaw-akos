@@ -2,6 +2,8 @@
 
 These tools apply only when the Neo4j mirror is configured (`NEO4J_*` in `~/.openclaw/.env`). The graph is **derived** from canonical CSVs and validated vault links — never authoritative over `baseline_organisation.csv` or `process_list.csv`.
 
+> **Doctrine:** the canonical strategy for what Neo4j IS (and is NOT) for at AKOS lives at [`NEO4J_STRATEGY.md`](../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Neo4j/NEO4J_STRATEGY.md) (3 use-cases: governance KG, GraphRAG vault, agent memory; see I46 P1 + D-IH-32-M for KiRBe Neo4j separation). This overlay is the prompt-side companion that tells agents which graph tools exist; the doctrine governs whether to add new ones.
+
 ## Tool ladder (graph)
 
 1. After you have a canonical `item_id` or `role_name` from `hlk_process` / `hlk_search` / `hlk_role`, you may use `hlk_graph_process_neighbourhood` or `hlk_graph_role_neighbourhood` for **multi-hop** relationship questions only.
