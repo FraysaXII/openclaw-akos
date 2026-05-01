@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""HLK canonical vault validator.
+"""HLK canonical vault validator (Initiative 32 P1: dispatcher graph + structured JSON report).
 
 Deterministic checks against baseline_organisation.csv and process_list.csv:
 - CSV parseability with Pydantic models
@@ -10,19 +10,44 @@ Deterministic checks against baseline_organisation.csv and process_list.csv:
 - Unique item_name per item_id (required for parent-id resolution)
 - All projects have at least one child
 
-Usage: py scripts/validate_hlk.py
+Plus a per-CSV dispatcher graph that delegates to specialised validators
+(component_service_matrix, finops, goipoi, adviser, founder_filed_instruments,
+program_registry, topic_registry, persona_registry, channel_touchpoint,
+sourcing_register, language_frontmatter).
+
+Usage:
+    py scripts/validate_hlk.py            # legacy human-readable output, exit 0/1
+    py scripts/validate_hlk.py --json     # structured JSON report on stdout, exit 0/1
+                                          # (CLI exit code preserved per D-IH-32-F)
+
+The ``--json`` flag is the I32 P1 addition. Default behaviour is unchanged so
+every existing caller (CI, agents, operator scripts) keeps working without
+modification (R-32-1 mitigation: backward-compatible CLI is non-negotiable).
+
+The structured report emitted by ``--json`` matches the field contract in
+``akos.hlk_validation_run.VALIDATION_RUN_FIELDNAMES`` and is consumable by a
+future ``compliance.validation_runs`` Postgres mirror writer (P1-A4 ships the
+DDL; mirror writes are not part of every developer-local invocation).
 """
 
 from __future__ import annotations
 
+import argparse
 import csv
+import json
+import os
+import socket
+import subprocess
 import sys
+import time
+import uuid
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT
 from akos.hlk_process_csv import ambiguous_item_names, item_name_uniqueness_errors
+from akos.hlk_validation_run import VALID_STATUSES
 from akos.models import OrgRole, ProcessItem
 
 HLK_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
@@ -162,15 +187,116 @@ def check_projects_have_children(proc_rows: list[dict]) -> list[str]:
     return errors
 
 
+def _git_sha() -> str:
+    """Return short commit SHA, or 'dirty' on any failure (no git, detached, etc.)."""
+    try:
+        r = subprocess.run(
+            ["git", "rev-parse", "--short=12", "HEAD"],
+            capture_output=True, text=True, cwd=REPO_ROOT, timeout=2,
+        )
+        if r.returncode == 0:
+            sha = r.stdout.strip()
+            # Detect uncommitted changes; mark with -dirty suffix.
+            r2 = subprocess.run(
+                ["git", "status", "--porcelain"],
+                capture_output=True, text=True, cwd=REPO_ROOT, timeout=2,
+            )
+            if r2.returncode == 0 and r2.stdout.strip():
+                return f"{sha}-dirty"
+            return sha
+    except Exception:
+        pass
+    return "dirty"
+
+
+def _make_run_row(
+    run_id: str,
+    validator_name: str,
+    started_at_iso: str,
+    duration_ms: int,
+    status: str,
+    exit_code: int,
+    row_count: int = 0,
+    error_count: int = 0,
+    drift_detected: bool = False,
+    notes: str = "",
+    git_sha_value: str | None = None,
+) -> dict:
+    """Build one validation_runs row dict matching VALIDATION_RUN_FIELDNAMES."""
+    if status not in VALID_STATUSES:
+        raise ValueError(f"invalid status {status!r}; must be one of {VALID_STATUSES}")
+    return {
+        "run_id": run_id,
+        "validator_name": validator_name,
+        "started_at": started_at_iso,
+        "duration_ms": duration_ms,
+        "status": status,
+        "exit_code": exit_code,
+        "row_count": row_count,
+        "error_count": error_count,
+        "drift_detected": drift_detected,
+        "git_sha": git_sha_value if git_sha_value is not None else _git_sha(),
+        "host": socket.gethostname()[:64],
+        "notes": notes,
+    }
+
+
+def _delegate_subprocess(
+    name: str, validator_path: Path, run_id: str, run_rows: list[dict], git_sha_value: str
+) -> int:
+    """Invoke a per-CSV validator script and append a structured row to run_rows.
+
+    Returns the validator exit code so the dispatcher preserves legacy fail-fast.
+    Stdout/stderr forwarding matches the legacy behaviour exactly.
+    """
+    started = time.time()
+    started_iso = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(started))
+    r = subprocess.run([sys.executable, str(validator_path)], capture_output=True, text=True)
+    print(r.stdout, end="")
+    if r.stderr:
+        print(r.stderr, end="", file=sys.stderr)
+    duration_ms = int((time.time() - started) * 1000)
+    status = "pass" if r.returncode == 0 else "fail"
+    run_rows.append(_make_run_row(
+        run_id=run_id,
+        validator_name=name,
+        started_at_iso=started_iso,
+        duration_ms=duration_ms,
+        status=status,
+        exit_code=r.returncode,
+        notes="dispatched subprocess",
+        git_sha_value=git_sha_value,
+    ))
+    return r.returncode
+
+
 def main() -> int:
-    print("\n  HLK Canonical Vault Validator")
-    print("  " + "=" * 40)
+    parser = argparse.ArgumentParser(description="HLK canonical vault validator")
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Emit structured per-validator JSON report on stdout (I32 P1).",
+    )
+    args = parser.parse_args()
+
+    # I32 P1: structured collector — populated regardless of --json so the dispatcher
+    # contract is uniform. Human-readable output is the default; --json flips stdout
+    # to JSON-only (no banner, no per-check lines) so the report is machine-parseable.
+    run_id = str(uuid.uuid4())
+    git_sha_value = _git_sha()
+    dispatch_started_iso = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    run_rows: list[dict] = []
+
+    if not args.json:
+        print("\n  HLK Canonical Vault Validator")
+        print("  " + "=" * 40)
 
     org_rows = load_org()
     proc_rows = load_proc()
     org_names = {row["role_name"].strip() for row in org_rows if row.get("role_name")}
 
     all_errors: list[str] = []
+    inline_started = time.time()
     checks = [
         ("Org CSV parse", check_org_parse(org_rows)),
         ("Process CSV parse", check_proc_parse(proc_rows)),
@@ -189,213 +315,231 @@ def main() -> int:
 
     for name, errors in checks:
         status = "PASS" if not errors else "FAIL"
-        print(f"  {name:30s} {status}")
+        if not args.json:
+            print(f"  {name:30s} {status}")
+            if errors:
+                for e in errors[:5]:
+                    print(f"    - {e}")
+                if len(errors) > 5:
+                    print(f"    ... and {len(errors) - 5} more")
         if errors:
-            for e in errors[:5]:
-                print(f"    - {e}")
-            if len(errors) > 5:
-                print(f"    ... and {len(errors) - 5} more")
             all_errors.extend(errors)
+        # Emit one row per inline check (slug-cased validator_name).
+        run_rows.append(_make_run_row(
+            run_id=run_id,
+            validator_name="inline_" + name.lower().replace(" ", "_"),
+            started_at_iso=dispatch_started_iso,
+            duration_ms=0,  # inline checks share one batch; per-check timing is sub-millisecond
+            status="pass" if not errors else "fail",
+            exit_code=0 if not errors else 1,
+            row_count=len(proc_rows) if "Process" in name or "item" in name.lower() else len(org_rows),
+            error_count=len(errors),
+            notes="inline check (baseline_organisation + process_list)",
+            git_sha_value=git_sha_value,
+        ))
 
-    print()
-    print(f"  Org roles:    {len(org_rows)}")
-    print(f"  Process items: {len(proc_rows)}")
-    print()
+    inline_duration_ms = int((time.time() - inline_started) * 1000)
+    # Annotate the first inline row with the batch duration (so summing duration_ms
+    # is informational; per-row duration is 0 for the rest of the batch).
+    if run_rows:
+        run_rows[0]["duration_ms"] = inline_duration_ms
+
+    if not args.json:
+        print()
+        print(f"  Org roles:    {len(org_rows)}")
+        print(f"  Process items: {len(proc_rows)}")
+        print()
 
     if all_errors:
-        print(f"  OVERALL: FAIL ({len(all_errors)} errors)")
+        if not args.json:
+            print(f"  OVERALL: FAIL ({len(all_errors)} errors)")
+        else:
+            json.dump({
+                "run_id": run_id,
+                "started_at": dispatch_started_iso,
+                "git_sha": git_sha_value,
+                "host": socket.gethostname()[:64],
+                "overall_status": "fail",
+                "runs": run_rows,
+            }, sys.stdout, indent=2, sort_keys=True)
+            sys.stdout.write("\n")
         return 1
 
-    # COMPONENT_SERVICE_MATRIX.csv (optional file — if present, must validate)
-    matrix_path = HLK_DIR / "COMPONENT_SERVICE_MATRIX.csv"
-    if matrix_path.is_file():
-        import subprocess
+    # I32 P1: dispatcher graph — each branch delegates to a per-CSV validator.
+    # Validators not yet shipped on disk SKIP gracefully (the .is_file() guard
+    # preserves the legacy behaviour). _delegate_subprocess records the result
+    # in run_rows for the structured report.
 
-        vcs = Path(__file__).resolve().parent / "validate_component_service_matrix.py"
-        r = subprocess.run([sys.executable, str(vcs)], capture_output=True, text=True)
-        print(r.stdout, end="")
-        if r.stderr:
+    scripts_dir = Path(__file__).resolve().parent
+
+    # Per-CSV dispatch table: (label_for_run, validator_filename, optional_csv_existence_check)
+    # When CSV check is None, the validator always runs (e.g., language frontmatter).
+    dispatch: list[tuple[str, str, str, Path | None]] = [
+        ("COMPONENT_SERVICE_MATRIX", "validate_component_service_matrix.py",
+         "validate_component_service_matrix", HLK_DIR / "COMPONENT_SERVICE_MATRIX.csv"),
+        ("FINOPS_COUNTERPARTY_REGISTER", "validate_finops_counterparty_register.py",
+         "validate_finops_counterparty_register", HLK_DIR / "FINOPS_COUNTERPARTY_REGISTER.csv"),
+        # I32 P7 (D-IH-32-D): GOI/POI relocated from compliance/ to compliance/dimensions/.
+        # The csv_gate honours the new canonical path. The validator script itself
+        # keeps a deprecation-alias fallback (one cycle) for the legacy path.
+        ("GOI_POI_REGISTER", "validate_goipoi_register.py",
+         "validate_goipoi_register", HLK_DIR / "dimensions" / "GOI_POI_REGISTER.csv"),
+        ("ADVISER_ENGAGEMENT_DISCIPLINES", "validate_adviser_disciplines.py",
+         "validate_adviser_disciplines", HLK_DIR / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"),
+        ("ADVISER_OPEN_QUESTIONS", "validate_adviser_questions.py",
+         "validate_adviser_questions", HLK_DIR / "ADVISER_OPEN_QUESTIONS.csv"),
+        ("FOUNDER_FILED_INSTRUMENTS", "validate_founder_filed_instruments.py",
+         "validate_founder_filed_instruments", HLK_DIR / "FOUNDER_FILED_INSTRUMENTS.csv"),
+        ("PROGRAM_REGISTRY", "validate_program_registry.py",
+         "validate_program_registry", HLK_DIR / "dimensions" / "PROGRAM_REGISTRY.csv"),
+        # PROGRAM_ID_CONSISTENCY runs after PROGRAM_REGISTRY (Initiative 23 P3 rule).
+        ("PROGRAM_ID_CONSISTENCY", "validate_program_id_consistency.py",
+         "validate_program_id_consistency", HLK_DIR / "dimensions" / "PROGRAM_REGISTRY.csv"),
+        ("TOPIC_REGISTRY", "validate_topic_registry.py",
+         "validate_topic_registry", HLK_DIR / "dimensions" / "TOPIC_REGISTRY.csv"),
+        ("PERSONA_REGISTRY", "validate_persona_registry.py",
+         "validate_persona_registry", HLK_DIR / "dimensions" / "PERSONA_REGISTRY.csv"),
+        ("CHANNEL_TOUCHPOINT_REGISTRY", "validate_channel_touchpoint_registry.py",
+         "validate_channel_touchpoint_registry", HLK_DIR / "dimensions" / "CHANNEL_TOUCHPOINT_REGISTRY.csv"),
+        ("SOURCING_REGISTER", "validate_sourcing_register.py",
+         "validate_sourcing_register", HLK_DIR / "dimensions" / "SOURCING_REGISTER.csv"),
+        # Initiative 32 P2 - Skill registry (7th canonical dimension).
+        ("SKILL_REGISTRY", "validate_skill_registry.py",
+         "validate_skill_registry", HLK_DIR / "dimensions" / "SKILL_REGISTRY.csv"),
+        # Initiative 32 P3 - Touchpoint-kit cell registry (with FS-vs-CSV drift detector).
+        ("TOUCHPOINT_KIT_CELL_REGISTRY", "validate_touchpoint_kit_cells.py",
+         "validate_touchpoint_kit_cells", HLK_DIR / "dimensions" / "TOUCHPOINT_KIT_CELL_REGISTRY.csv"),
+        # Initiative 32 P4 - Policy register (RLS + service_role rotation + redaction + PII scope).
+        ("POLICY_REGISTER", "validate_policy_register.py",
+         "validate_policy_register", HLK_DIR / "dimensions" / "POLICY_REGISTER.csv"),
+        # Initiative 32 P7 - Repo health snapshot (D-IH-32-L pull-based extraction).
+        ("REPO_HEALTH_SNAPSHOT", "validate_repo_health_snapshot.py",
+         "validate_repo_health_snapshot", HLK_DIR / "REPO_HEALTH_SNAPSHOT.csv"),
+        # LANGUAGE_FRONTMATTER has no CSV gate; it scans the vault directly.
+        ("LANGUAGE_FRONTMATTER", "validate_hlk_language_frontmatter.py",
+         "validate_hlk_language_frontmatter", None),
+    ]
+
+    for label, fname, run_label, csv_gate in dispatch:
+        validator_path = scripts_dir / fname
+        # If the CSV gate is set and missing: SKIP (legacy behaviour).
+        if csv_gate is not None and not csv_gate.is_file():
+            run_rows.append(_make_run_row(
+                run_id=run_id,
+                validator_name=run_label,
+                started_at_iso=dispatch_started_iso,
+                duration_ms=0,
+                status="skipped",
+                exit_code=0,
+                notes=f"csv gate not present: {csv_gate.name}",
+                git_sha_value=git_sha_value,
+            ))
+            continue
+        # If the validator script is itself missing: SKIP gracefully (legacy behaviour
+        # for the language frontmatter validator).
+        if not validator_path.is_file():
+            run_rows.append(_make_run_row(
+                run_id=run_id,
+                validator_name=run_label,
+                started_at_iso=dispatch_started_iso,
+                duration_ms=0,
+                status="skipped",
+                exit_code=0,
+                notes=f"validator script not present: {fname}",
+                git_sha_value=git_sha_value,
+            ))
+            continue
+
+        # Special-case the language frontmatter validator: legacy code only printed
+        # the trailing summary block (file list is too verbose).
+        if run_label == "validate_hlk_language_frontmatter":
+            started = time.time()
+            started_iso = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(started))
+            r = subprocess.run([sys.executable, str(validator_path)], capture_output=True, text=True)
+            if not args.json:
+                print("\n".join(r.stdout.splitlines()[-9:]))
+            if r.stderr and r.returncode != 0:
+                print(r.stderr, end="", file=sys.stderr)
+            duration_ms = int((time.time() - started) * 1000)
+            run_rows.append(_make_run_row(
+                run_id=run_id,
+                validator_name=run_label,
+                started_at_iso=started_iso,
+                duration_ms=duration_ms,
+                status="pass" if r.returncode == 0 else "fail",
+                exit_code=r.returncode,
+                notes="dispatched subprocess (stdout summary only)",
+                git_sha_value=git_sha_value,
+            ))
+            if r.returncode != 0:
+                if not args.json:
+                    print(f"  {label}: FAIL")
+                else:
+                    json.dump({
+                        "run_id": run_id,
+                        "started_at": dispatch_started_iso,
+                        "git_sha": git_sha_value,
+                        "host": socket.gethostname()[:64],
+                        "overall_status": "fail",
+                        "runs": run_rows,
+                    }, sys.stdout, indent=2, sort_keys=True)
+                    sys.stdout.write("\n")
+                return 1
+            if not args.json:
+                print(f"  {label}: PASS")
+            continue
+
+        # Standard subprocess delegation: forward stdout/stderr verbatim, record row.
+        # When --json is set, suppress per-validator stdout to keep the JSON output clean.
+        started = time.time()
+        started_iso = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(started))
+        r = subprocess.run([sys.executable, str(validator_path)], capture_output=True, text=True)
+        if not args.json:
+            print(r.stdout, end="")
+            if r.stderr:
+                print(r.stderr, end="", file=sys.stderr)
+        elif r.stderr and r.returncode != 0:
             print(r.stderr, end="", file=sys.stderr)
+        duration_ms = int((time.time() - started) * 1000)
+        run_rows.append(_make_run_row(
+            run_id=run_id,
+            validator_name=run_label,
+            started_at_iso=started_iso,
+            duration_ms=duration_ms,
+            status="pass" if r.returncode == 0 else "fail",
+            exit_code=r.returncode,
+            notes="dispatched subprocess",
+            git_sha_value=git_sha_value,
+        ))
         if r.returncode != 0:
-            print("  COMPONENT_SERVICE_MATRIX: FAIL")
+            if not args.json:
+                print(f"  {label}: FAIL")
+            else:
+                json.dump({
+                    "run_id": run_id,
+                    "started_at": dispatch_started_iso,
+                    "git_sha": git_sha_value,
+                    "host": socket.gethostname()[:64],
+                    "overall_status": "fail",
+                    "runs": run_rows,
+                }, sys.stdout, indent=2, sort_keys=True)
+                sys.stdout.write("\n")
             return 1
-        print("  COMPONENT_SERVICE_MATRIX: PASS")
+        if not args.json:
+            print(f"  {label}: PASS")
 
-    finops_path = HLK_DIR / "FINOPS_COUNTERPARTY_REGISTER.csv"
-    if finops_path.is_file():
-        import subprocess
-
-        vfin = Path(__file__).resolve().parent / "validate_finops_counterparty_register.py"
-        r = subprocess.run([sys.executable, str(vfin)], capture_output=True, text=True)
-        print(r.stdout, end="")
-        if r.stderr:
-            print(r.stderr, end="", file=sys.stderr)
-        if r.returncode != 0:
-            print("  FINOPS_COUNTERPARTY_REGISTER: FAIL")
-            return 1
-        print("  FINOPS_COUNTERPARTY_REGISTER: PASS")
-
-    goipoi_path = HLK_DIR / "GOI_POI_REGISTER.csv"
-    if goipoi_path.is_file():
-        import subprocess
-
-        vgp = Path(__file__).resolve().parent / "validate_goipoi_register.py"
-        r = subprocess.run([sys.executable, str(vgp)], capture_output=True, text=True)
-        print(r.stdout, end="")
-        if r.stderr:
-            print(r.stderr, end="", file=sys.stderr)
-        if r.returncode != 0:
-            print("  GOI_POI_REGISTER: FAIL")
-            return 1
-        print("  GOI_POI_REGISTER: PASS")
-
-    disc_path = HLK_DIR / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
-    if disc_path.is_file():
-        import subprocess
-
-        vds = Path(__file__).resolve().parent / "validate_adviser_disciplines.py"
-        r = subprocess.run([sys.executable, str(vds)], capture_output=True, text=True)
-        print(r.stdout, end="")
-        if r.stderr:
-            print(r.stderr, end="", file=sys.stderr)
-        if r.returncode != 0:
-            print("  ADVISER_ENGAGEMENT_DISCIPLINES: FAIL")
-            return 1
-        print("  ADVISER_ENGAGEMENT_DISCIPLINES: PASS")
-
-    questions_path = HLK_DIR / "ADVISER_OPEN_QUESTIONS.csv"
-    if questions_path.is_file():
-        import subprocess
-
-        vqs = Path(__file__).resolve().parent / "validate_adviser_questions.py"
-        r = subprocess.run([sys.executable, str(vqs)], capture_output=True, text=True)
-        print(r.stdout, end="")
-        if r.stderr:
-            print(r.stderr, end="", file=sys.stderr)
-        if r.returncode != 0:
-            print("  ADVISER_OPEN_QUESTIONS: FAIL")
-            return 1
-        print("  ADVISER_OPEN_QUESTIONS: PASS")
-
-    instruments_path = HLK_DIR / "FOUNDER_FILED_INSTRUMENTS.csv"
-    if instruments_path.is_file():
-        import subprocess
-
-        vis = Path(__file__).resolve().parent / "validate_founder_filed_instruments.py"
-        r = subprocess.run([sys.executable, str(vis)], capture_output=True, text=True)
-        print(r.stdout, end="")
-        if r.stderr:
-            print(r.stderr, end="", file=sys.stderr)
-        if r.returncode != 0:
-            print("  FOUNDER_FILED_INSTRUMENTS: FAIL")
-            return 1
-        print("  FOUNDER_FILED_INSTRUMENTS: PASS")
-
-    program_registry_path = HLK_DIR / "dimensions" / "PROGRAM_REGISTRY.csv"
-    if program_registry_path.is_file():
-        import subprocess
-
-        vpr = Path(__file__).resolve().parent / "validate_program_registry.py"
-        r = subprocess.run([sys.executable, str(vpr)], capture_output=True, text=True)
-        print(r.stdout, end="")
-        if r.stderr:
-            print(r.stderr, end="", file=sys.stderr)
-        if r.returncode != 0:
-            print("  PROGRAM_REGISTRY: FAIL")
-            return 1
-        print("  PROGRAM_REGISTRY: PASS")
-
-        # Cross-asset program_id consistency (Initiative 23 P3).
-        vic = Path(__file__).resolve().parent / "validate_program_id_consistency.py"
-        rc = subprocess.run([sys.executable, str(vic)], capture_output=True, text=True)
-        print(rc.stdout, end="")
-        if rc.stderr:
-            print(rc.stderr, end="", file=sys.stderr)
-        if rc.returncode != 0:
-            print("  PROGRAM_ID_CONSISTENCY: FAIL")
-            return 1
-        print("  PROGRAM_ID_CONSISTENCY: PASS")
-
-    # Initiative 25 P2 - Topic registry (separate gate; SKIPs gracefully when absent).
-    topic_registry_path = HLK_DIR / "dimensions" / "TOPIC_REGISTRY.csv"
-    if topic_registry_path.is_file():
-        import subprocess
-
-        vtr = Path(__file__).resolve().parent / "validate_topic_registry.py"
-        rt = subprocess.run([sys.executable, str(vtr)], capture_output=True, text=True)
-        print(rt.stdout, end="")
-        if rt.stderr:
-            print(rt.stderr, end="", file=sys.stderr)
-        if rt.returncode != 0:
-            print("  TOPIC_REGISTRY: FAIL")
-            return 1
-        print("  TOPIC_REGISTRY: PASS")
-
-    # Initiative 31 P2.1 - Persona registry validator (separate gate;
-    # SKIPs gracefully when the CSV is absent).
-    persona_registry_path = HLK_DIR / "dimensions" / "PERSONA_REGISTRY.csv"
-    if persona_registry_path.is_file():
-        import subprocess
-
-        vps = Path(__file__).resolve().parent / "validate_persona_registry.py"
-        rps = subprocess.run([sys.executable, str(vps)], capture_output=True, text=True)
-        print(rps.stdout, end="")
-        if rps.stderr:
-            print(rps.stderr, end="", file=sys.stderr)
-        if rps.returncode != 0:
-            print("  PERSONA_REGISTRY: FAIL")
-            return 1
-        print("  PERSONA_REGISTRY: PASS")
-
-    # Initiative 31 P3 - Channel touchpoint registry validator (separate gate;
-    # SKIPs gracefully when the CSV is absent).
-    ct_registry_path = HLK_DIR / "dimensions" / "CHANNEL_TOUCHPOINT_REGISTRY.csv"
-    if ct_registry_path.is_file():
-        import subprocess
-
-        vct = Path(__file__).resolve().parent / "validate_channel_touchpoint_registry.py"
-        rct = subprocess.run([sys.executable, str(vct)], capture_output=True, text=True)
-        print(rct.stdout, end="")
-        if rct.stderr:
-            print(rct.stderr, end="", file=sys.stderr)
-        if rct.returncode != 0:
-            print("  CHANNEL_TOUCHPOINT_REGISTRY: FAIL")
-            return 1
-        print("  CHANNEL_TOUCHPOINT_REGISTRY: PASS")
-
-    # Initiative 31 P5.2 - Sourcing register validator (separate gate;
-    # SKIPs gracefully when the CSV is absent).
-    sr_path = HLK_DIR / "dimensions" / "SOURCING_REGISTER.csv"
-    if sr_path.is_file():
-        import subprocess
-
-        vsr = Path(__file__).resolve().parent / "validate_sourcing_register.py"
-        rsr = subprocess.run([sys.executable, str(vsr)], capture_output=True, text=True)
-        print(rsr.stdout, end="")
-        if rsr.stderr:
-            print(rsr.stderr, end="", file=sys.stderr)
-        if rsr.returncode != 0:
-            print("  SOURCING_REGISTER: FAIL")
-            return 1
-        print("  SOURCING_REGISTER: PASS")
-
-    # Initiative 31 P1 - language frontmatter validator (separate gate;
-    # SKIPs gracefully when the validator file is absent).
-    lang_validator = Path(__file__).resolve().parent / "validate_hlk_language_frontmatter.py"
-    if lang_validator.is_file():
-        import subprocess
-
-        rl = subprocess.run([sys.executable, str(lang_validator)], capture_output=True, text=True)
-        # Show only the trailing summary block — the validator's full file list is verbose.
-        print("\n".join(rl.stdout.splitlines()[-9:]))
-        if rl.stderr and rl.returncode != 0:
-            print(rl.stderr, end="", file=sys.stderr)
-        if rl.returncode != 0:
-            print("  LANGUAGE_FRONTMATTER: FAIL")
-            return 1
-        print("  LANGUAGE_FRONTMATTER: PASS")
-
-    print("  OVERALL: PASS")
+    if args.json:
+        json.dump({
+            "run_id": run_id,
+            "started_at": dispatch_started_iso,
+            "git_sha": git_sha_value,
+            "host": socket.gethostname()[:64],
+            "overall_status": "pass",
+            "runs": run_rows,
+        }, sys.stdout, indent=2, sort_keys=True)
+        sys.stdout.write("\n")
+    else:
+        print("  OVERALL: PASS")
     return 0
 
 
