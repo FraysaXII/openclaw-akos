@@ -46,6 +46,7 @@ SKILL_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "topic_ids",               # semicolon-list FK to TOPIC_REGISTRY.csv (axis 6, populated in P5)
     "routing_condition",       # I45 P3: empty | intent_in=<r1;r2> | intent=<r> | agent=<id>
     "tools_required_waived",   # I45 P3: empty/false | true (waives tools_required FK warning)
+    "retrieval_mode",          # I46 P5: empty | vector_only | graph_rag | hybrid
     "description",             # short cheap-load summary (1-2 sentences; lazy-load contract)
     "notes",
 )
@@ -56,6 +57,12 @@ VALID_AXES: frozenset[str] = frozenset({
 
 VALID_LIFECYCLE_STATUSES: frozenset[str] = frozenset({
     "active", "deprecated", "scaffold",
+})
+
+# I46 P5: retrieval_mode enum. Empty = default (current path; Madeira's existing
+# hlk_role + hlk_search chain). Other values activate when I46 P3 PoC ships.
+VALID_RETRIEVAL_MODES: frozenset[str] = frozenset({
+    "", "vector_only", "graph_rag", "hybrid",
 })
 
 # Known agent ids — derived from config/workspace-scaffold/<agent>/IDENTITY.md.

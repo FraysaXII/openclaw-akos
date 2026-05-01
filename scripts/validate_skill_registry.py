@@ -39,6 +39,7 @@ from akos.hlk_skill_registry_csv import (
     SKILL_REGISTRY_FIELDNAMES,
     VALID_AXES,
     VALID_LIFECYCLE_STATUSES,
+    VALID_RETRIEVAL_MODES,
 )
 from akos.io import REPO_ROOT
 
@@ -164,6 +165,13 @@ def main() -> int:
         if not ROUTING_CONDITION_RE.match(rc):
             errors.append(
                 f"{sid}: routing_condition {rc!r} does not match {ROUTING_CONDITION_RE.pattern}"
+            )
+
+        # I46 P5: retrieval_mode enum
+        rm = (r.get("retrieval_mode") or "").strip()
+        if rm not in VALID_RETRIEVAL_MODES:
+            errors.append(
+                f"{sid}: retrieval_mode {rm!r} not in {sorted(VALID_RETRIEVAL_MODES)}"
             )
 
         # version semver
