@@ -49,7 +49,10 @@ HUB_PATH = (
     / "PMO"
     / "TOPIC_PMO_CLIENT_DELIVERY_HUB.md"
 )
-GOIPOI_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "GOI_POI_REGISTER.csv"
+_GOIPOI_NEW = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "GOI_POI_REGISTER.csv"
+_GOIPOI_LEGACY = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "GOI_POI_REGISTER.csv"
+# I32 P7 (D-IH-32-D): relocated to dimensions/; deprecation alias for one cycle.
+GOIPOI_CSV = _GOIPOI_NEW if _GOIPOI_NEW.is_file() else _GOIPOI_LEGACY
 DISCIPLINES_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
 QUESTIONS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "ADVISER_OPEN_QUESTIONS.csv"
 PROGRAM_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PROGRAM_REGISTRY.csv"

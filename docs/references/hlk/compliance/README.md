@@ -50,7 +50,16 @@ docs/references/hlk/compliance/
 │   └── COMPONENT_SERVICE_MATRIX.csv              (forward target — currently at root)
 │
 └── dimensions/                                   (cross-plane knowledge dimensions)
-    └── GOI_POI_REGISTER.csv                      (forward target — currently at root)
+    ├── GOI_POI_REGISTER.csv                      (RELOCATED Initiative 32 P7, D-IH-32-D)
+    ├── PROGRAM_REGISTRY.csv                      (Initiative 23)
+    ├── TOPIC_REGISTRY.csv                        (Initiative 25)
+    ├── PERSONA_REGISTRY.csv                      (Initiative 31 P2.1)
+    ├── CHANNEL_TOUCHPOINT_REGISTRY.csv           (Initiative 31 P3)
+    ├── SOURCING_REGISTER.csv                     (Initiative 31 P5.2)
+    ├── POC_TO_COMMERCIAL_MAP.csv                 (Initiative 29 P4)
+    ├── SKILL_REGISTRY.csv                        (Initiative 32 P2, D-IH-32-B)
+    ├── TOUCHPOINT_KIT_CELL_REGISTRY.csv          (Initiative 32 P3, D-IH-32-C)
+    └── POLICY_REGISTER.csv                       (Initiative 32 P4, D-IH-32-Q4)
 ```
 
 **Why `dimensions/` exists.** A *dimension* is a register that is FK-target for two or more planes (e.g. `GOI_POI_REGISTER.csv` joins ADVOPS open questions, ADVOPS filed instruments, future MKTOPS lead routing, future FINOPS counterparty enrichment). Putting it under any single plane would imply ownership it does not have.
@@ -61,7 +70,7 @@ docs/references/hlk/compliance/
 
 | Current path (do not move yet) | Forward path | Deferral rationale |
 |:-------------------------------|:-------------|:-------------------|
-| `compliance/GOI_POI_REGISTER.csv` | `compliance/dimensions/GOI_POI_REGISTER.csv` | Recently introduced (Initiative 21); waiting for second cross-plane consumer before move |
+| ~~`compliance/GOI_POI_REGISTER.csv`~~ **MOVED I32 P7** | `compliance/dimensions/GOI_POI_REGISTER.csv` | **Relocated 2026-04-30 per D-IH-32-D**. Legacy path supported via deprecation alias in `validate_goipoi_register.py` and `sync_compliance_mirrors_from_csv.py` for **one initiative cycle**; alias to be removed in I33. |
 | `compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv` | `compliance/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv` | Single-plane register; physical move deferred to FINOPS / ADVOPS expansion initiative |
 | `compliance/ADVISER_OPEN_QUESTIONS.csv` | `compliance/advops/ADVISER_OPEN_QUESTIONS.csv` | Same as above |
 | `compliance/FOUNDER_FILED_INSTRUMENTS.csv` | `compliance/advops/FILED_INSTRUMENTS.csv` | Rename + move; file name still encodes "founder" — should be program-keyed via `program_id` column instead |

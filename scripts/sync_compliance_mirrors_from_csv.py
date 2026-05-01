@@ -51,7 +51,10 @@ from akos.hlk_process_csv import (  # noqa: E402
 PROC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
 ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "baseline_organisation.csv"
 FINOPS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "FINOPS_COUNTERPARTY_REGISTER.csv"
-GOIPOI_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "GOI_POI_REGISTER.csv"
+_GOIPOI_CSV_NEW = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "GOI_POI_REGISTER.csv"
+_GOIPOI_CSV_LEGACY = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "GOI_POI_REGISTER.csv"
+# I32 P7 (D-IH-32-D): GOI/POI relocated to dimensions/. Deprecation alias for one cycle.
+GOIPOI_CSV = _GOIPOI_CSV_NEW if _GOIPOI_CSV_NEW.is_file() else _GOIPOI_CSV_LEGACY
 ADVISER_DISCIPLINES_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
 ADVISER_QUESTIONS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "ADVISER_OPEN_QUESTIONS.csv"
 FILED_INSTRUMENTS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "FOUNDER_FILED_INSTRUMENTS.csv"

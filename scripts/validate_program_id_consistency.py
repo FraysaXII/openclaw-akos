@@ -33,7 +33,10 @@ from akos.io import REPO_ROOT
 
 HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
 PROGRAM_REGISTRY_CSV = HLK_COMPLIANCE / "dimensions" / "PROGRAM_REGISTRY.csv"
-GOIPOI_CSV = HLK_COMPLIANCE / "GOI_POI_REGISTER.csv"
+_GOIPOI_NEW = HLK_COMPLIANCE / "dimensions" / "GOI_POI_REGISTER.csv"
+_GOIPOI_LEGACY = HLK_COMPLIANCE / "GOI_POI_REGISTER.csv"
+# I32 P7 (D-IH-32-D): relocated; deprecation alias for one cycle.
+GOIPOI_CSV = _GOIPOI_NEW if _GOIPOI_NEW.is_file() else _GOIPOI_LEGACY
 QUESTIONS_CSV = HLK_COMPLIANCE / "ADVISER_OPEN_QUESTIONS.csv"
 INSTRUMENTS_CSV = HLK_COMPLIANCE / "FOUNDER_FILED_INSTRUMENTS.csv"
 ASSETS_ROOT = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "_assets"

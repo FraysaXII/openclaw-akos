@@ -62,7 +62,10 @@ from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_pdf_render import render_docx, render_pdf, render_pdf_branded  # noqa: E402
 
 HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
-GOIPOI_CSV = HLK_COMPLIANCE / "GOI_POI_REGISTER.csv"
+_GOIPOI_NEW = HLK_COMPLIANCE / "dimensions" / "GOI_POI_REGISTER.csv"
+_GOIPOI_LEGACY = HLK_COMPLIANCE / "GOI_POI_REGISTER.csv"
+# I32 P7 (D-IH-32-D): relocated to dimensions/; deprecation alias for one cycle.
+GOIPOI_CSV = _GOIPOI_NEW if _GOIPOI_NEW.is_file() else _GOIPOI_LEGACY
 DISCIPLINES_CSV = HLK_COMPLIANCE / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
 PROGRAM_REGISTRY_CSV = HLK_COMPLIANCE / "dimensions" / "PROGRAM_REGISTRY.csv"
 BRAND_DIR = (

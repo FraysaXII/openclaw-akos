@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "GOI_POI_REGISTER.csv"
+CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "GOI_POI_REGISTER.csv"  # I32 P7 relocation
 HUB_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Operations" / "PMO" / "TOPIC_PMO_CLIENT_DELIVERY_HUB.md"
 
 DISTANCE_BANDS = {"N1", "N2", "N3", "N4"}

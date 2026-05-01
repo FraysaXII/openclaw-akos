@@ -17,7 +17,13 @@ from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES
 from akos.io import REPO_ROOT
 
 HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
-GOIPOI_CSV = HLK_COMPLIANCE / "GOI_POI_REGISTER.csv"
+# I32 P7 (D-IH-32-D): GOI/POI relocated from compliance/ to compliance/dimensions/.
+# Deprecation alias supported for one initiative cycle: validator falls back to
+# the legacy path when the dimensions/ path is absent. Remove the alias in I33.
+GOIPOI_CSV = HLK_COMPLIANCE / "dimensions" / "GOI_POI_REGISTER.csv"
+GOIPOI_CSV_LEGACY = HLK_COMPLIANCE / "GOI_POI_REGISTER.csv"  # deprecation alias
+if not GOIPOI_CSV.is_file() and GOIPOI_CSV_LEGACY.is_file():
+    GOIPOI_CSV = GOIPOI_CSV_LEGACY
 ORG_CSV = HLK_COMPLIANCE / "baseline_organisation.csv"
 PROC_CSV = HLK_COMPLIANCE / "process_list.csv"
 
