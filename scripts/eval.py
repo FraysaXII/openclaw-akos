@@ -203,6 +203,24 @@ def main() -> int:
         action="store_true",
         help="canary: enforce per-skill cost ceilings from POLICY_REGISTER (D-IH-45-D)",
     )
+    parser.add_argument(
+        "--tier",
+        choices=("A", "B"),
+        default="A",
+        help="A=offline (replay+canary; default; CI-friendly); B=live LLM regression (requires AKOS_RECORD_LIVE=1; emits eval_run mirror row)",
+    )
+    parser.add_argument(
+        "--max-spend",
+        type=float,
+        default=None,
+        help="Tier B cost ceiling kill switch (USD per run; defaults to MAX_TIER_B_USD env var or 5.0)",
+    )
+    parser.add_argument(
+        "--regression-pp",
+        type=float,
+        default=5.0,
+        help="Tier B hard-fail threshold in pp vs cassette baseline (default 5.0)",
+    )
     parser.add_argument("--json", action="store_true", help="emit JSON scorecard to stdout")
     parser.add_argument(
         "--exit-on-fail",
@@ -224,6 +242,33 @@ def main() -> int:
         return cmd_promote(args)
 
     modes = args.mode or ["all"]
+    # Tier B preflight: if --tier B without AKOS_RECORD_LIVE=1, refuse and explain.
+    import os
+    if args.tier == "B" and os.environ.get("AKOS_RECORD_LIVE", "") != "1":
+        print(
+            "  [eval --tier B] AKOS_RECORD_LIVE=1 is required for live LLM cassette\n"
+            "  recording / replay against Tier B models. This is a cost-control guard\n"
+            "  per D-IH-45-C + R-45-3.\n"
+            "  Tier A (default) replays existing deterministic cassettes without LLM cost.",
+            file=sys.stderr,
+        )
+        return 2
+
+    # Tier B kill switch — best effort budget cap surface (the real spend tracking
+    # will land when live LLM cassettes populate Langfuse via I46 P3 PoC + P6 here).
+    max_spend = args.max_spend
+    if max_spend is None:
+        try:
+            max_spend = float(os.environ.get("MAX_TIER_B_USD", "5.0"))
+        except ValueError:
+            max_spend = 5.0
+    if args.tier == "B":
+        print(
+            f"  [eval --tier B] Live regression mode. Cost ceiling: ${max_spend:.2f} per run.\n"
+            f"  Hard-fail threshold: {args.regression_pp:+.1f}pp vs cassette baseline.",
+            file=sys.stderr,
+        )
+
     sc = run_modes(
         modes,
         suite_ids=args.suite or None,
@@ -233,6 +278,26 @@ def main() -> int:
         replay_skill=args.replay_skill,
         enforce_cost=args.enforce_cost,
     )
+
+    # Tier B post-run: enforce regression threshold + spend ceiling
+    if args.tier == "B":
+        # Roll-up cost across all rows
+        total_cost = sum((r.get("cost_usd") or 0.0) if isinstance(r, dict) else (r.cost_usd or 0.0) for r in sc.rows)
+        if total_cost > max_spend:
+            print(
+                f"  [eval --tier B] BUDGET EXCEEDED: total ${total_cost:.4f} > ceiling ${max_spend:.2f}\n"
+                f"  Killing run.",
+                file=sys.stderr,
+            )
+            sc.overall_status = "fail"
+            sc.metadata["tier_b_killed_for_budget"] = True
+        # Hard-fail any row whose delta_pp regression exceeds --regression-pp
+        for r in sc.rows:
+            dp = r.delta_pp if hasattr(r, "delta_pp") else None
+            if dp is not None and dp < -args.regression_pp:
+                r.status = "FAIL"
+                r.failures = list(r.failures or []) + [f"tier_b_regression:{dp:+.1f}pp>-{args.regression_pp:.1f}pp"]
+                sc.overall_status = "fail"
 
     if args.json:
         sys.stdout.write(sc.to_json())

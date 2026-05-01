@@ -198,6 +198,31 @@
           "argv": ["scripts/render_wip_dashboard.py", "--check-only"]
         }
       ]
+    },
+    "eval_harness_smoke": {
+      "description": "Initiative 45 P6: pre_commit-eligible smoke run of the unified eval harness. Tier A only (deterministic; no LLM cost). Combines smoke + canary + rubric + replay + adversarial modes.",
+      "steps": [
+        {
+          "id": "eval_all_modes_tier_a",
+          "description": "Run scripts/eval.py --mode all + --mode replay + --mode adversarial under Tier A",
+          "argv": ["scripts/eval.py", "--mode", "all"]
+        },
+        {
+          "id": "eval_replay_tier_a",
+          "description": "Replay all cassettes (Tier A; no LLM cost)",
+          "argv": ["scripts/eval.py", "--mode", "replay"]
+        },
+        {
+          "id": "eval_adversarial_tier_a",
+          "description": "Adversarial cassette suite (12 probes; 3 vectors)",
+          "argv": ["scripts/eval.py", "--mode", "adversarial"]
+        },
+        {
+          "id": "eval_pii_lint",
+          "description": "Cassette PII linter (R-45-4 enforcement)",
+          "argv": ["scripts/lint_cassette_pii.py"]
+        }
+      ]
     }
   }
 }

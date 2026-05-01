@@ -1,0 +1,153 @@
+# Initiative 45 P6 — Tier B weekly live regression
+#
+# Runs once per week (Monday 06:00 UTC) plus on-demand via workflow_dispatch.
+# Matrix covers the cheap and flagship model tiers per D-IH-45-C (cadence)
+# and the model-prices.json table.
+#
+# Cost-control posture (D-IH-45-D + R-45-3):
+# - MAX_TIER_B_USD env var caps per-run spend (default $5)
+# - --regression-pp 5.0 hard-fails on any skill regressing >5pp vs cassette baseline
+# - SKIP gracefully when AKOS_RECORD_LIVE secret not set (avoids accidental
+#   no-op runs that look green but did nothing)
+#
+# Tier A runs continue on every PR via the standard pre_commit profile;
+# Tier B is the weekly live LLM smoke / regression layer.
+
+name: eval-tier-b
+
+on:
+  schedule:
+    # Monday 06:00 UTC (allows post-weekend batch alignment with Anthropic /
+    # OpenAI billing windows that flip on UTC midnight)
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      max_spend_usd:
+        description: 'Max spend per run (USD)'
+        required: false
+        default: '5.0'
+      regression_pp:
+        description: 'Hard-fail threshold (pp regression vs cassette baseline)'
+        required: false
+        default: '5.0'
+      skill_filter:
+        description: 'Limit to one skill_id (empty = all)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  tier-b:
+    if: ${{ vars.AKOS_TIER_B_ENABLED == 'true' }}  # Operator opt-in via repo var
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        model_tier:
+          - cheap     # e.g., openai:gpt-4o-mini
+          - flagship  # e.g., anthropic:claude-3-5-sonnet
+    timeout-minutes: 20
+    env:
+      AKOS_RECORD_LIVE: '1'
+      MAX_TIER_B_USD: ${{ github.event.inputs.max_spend_usd || '5.0' }}
+      AKOS_EVAL_NO_DEPRECATION_WARN: '1'
+      # Per-model API keys come from repo secrets; missing keys cause a clean
+      # SKIP (logged) rather than a confusing failure.
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      # Langfuse for trace correlation (optional)
+      LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+      LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+      LANGFUSE_HOST: ${{ secrets.LANGFUSE_HOST }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install deps (eval + telemetry only; not full GPU toolchain)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Pre-flight - confirm Tier B credentials present
+        id: preflight
+        run: |
+          if [ "${{ matrix.model_tier }}" = "cheap" ] && [ -z "$OPENAI_API_KEY" ]; then
+            echo "::warning::OPENAI_API_KEY missing; cheap tier will SKIP"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          elif [ "${{ matrix.model_tier }}" = "flagship" ] && [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::warning::ANTHROPIC_API_KEY missing; flagship tier will SKIP"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Tier A baseline (deterministic; runs always)
+        run: |
+          python scripts/eval.py --mode all --json > tier-a-${{ matrix.model_tier }}.json
+          python -c "import json; d=json.load(open('tier-a-${{ matrix.model_tier }}.json')); assert d['overall_status']=='pass', f'Tier A baseline regressed: {d[\"overall_status\"]}'; print('Tier A baseline OK')"
+
+      - name: Tier B live regression
+        if: steps.preflight.outputs.skip != 'true'
+        run: |
+          SKILL_ARG=""
+          if [ -n "${{ github.event.inputs.skill_filter }}" ]; then
+            SKILL_ARG="--replay-skill ${{ github.event.inputs.skill_filter }}"
+          fi
+          python scripts/eval.py \
+            --tier B \
+            --mode replay \
+            --max-spend $MAX_TIER_B_USD \
+            --regression-pp ${{ github.event.inputs.regression_pp || '5.0' }} \
+            $SKILL_ARG \
+            --json > tier-b-${{ matrix.model_tier }}.json
+        continue-on-error: false
+
+      - name: Tier B adversarial sweep
+        if: steps.preflight.outputs.skip != 'true'
+        run: |
+          python scripts/eval.py \
+            --tier B \
+            --mode adversarial \
+            --max-spend $MAX_TIER_B_USD \
+            --json > tier-b-adv-${{ matrix.model_tier }}.json
+
+      - name: Upload scorecards
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-scorecards-${{ matrix.model_tier }}
+          path: tier-*-${{ matrix.model_tier }}.json
+          retention-days: 90
+
+      - name: Surface failures into job summary
+        if: always()
+        run: |
+          {
+            echo "# Tier B (${{ matrix.model_tier }}) Eval Summary"
+            echo ""
+            for f in tier-*-${{ matrix.model_tier }}.json; do
+              if [ -f "$f" ]; then
+                echo "## $f"
+                python -c "
+          import json
+          d = json.load(open('$f'))
+          print(f'- overall_status: **{d[\"overall_status\"]}**')
+          print(f'- elapsed_ms: {d[\"elapsed_ms\"]}')
+          print(f'- modes_run: {\", \".join(d[\"modes_run\"])}')
+          fails = [r for r in d['rows'] if r['status'] == 'FAIL']
+          if fails:
+              print(f'- ❌ {len(fails)} FAIL rows:')
+              for r in fails[:10]:
+                  print(f'  - \`{r[\"skill_id\"]}\` ({r[\"mode\"]}): {r[\"failures\"]}')
+          else:
+              print(f'- ✅ all {len(d[\"rows\"])} rows green')
+          "
+              fi
+            done
+          } >> $GITHUB_STEP_SUMMARY
