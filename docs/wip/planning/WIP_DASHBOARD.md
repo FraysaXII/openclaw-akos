@@ -58,3 +58,17 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 - Renderer: [`scripts/render_wip_dashboard.py`](../../../scripts/render_wip_dashboard.py)
 - Verify profile: `wip_dashboard_render_smoke`
 - Determinism gate: sha256 stable across two consecutive runs
+
+## Operational health (hand-written; live signals operator-runs)
+
+Live-checked signals not visible in the auto-rendered table above. Operator runs each command on demand; the dashboard surfaces only the pointer.
+
+| Signal | Command | Last green |
+|:-------|:--------|:----------:|
+| Neo4j governance KG drift (Use-case A; per I46 P2) | `py scripts/graphrag_drift_canary.py` (or `--csv-only` when Aura unavailable) | operator-recorded |
+| Eval harness Tier A smoke (per I45 P6) | `py scripts/eval.py --mode all` | operator-recorded |
+| Cassette PII linter (per I45 P5; R-45-4) | `py scripts/lint_cassette_pii.py` | operator-recorded |
+| Adversarial floor (per I45 P5) | `py scripts/eval.py --mode adversarial` | operator-recorded |
+| Skill promotion gate (per I45 P7; check before any `tenant_scope` flip) | `py scripts/eval.py promote --skill <id>` | operator-recorded |
+
+When any of the above goes red, surface in the next initiative cycle's evidence-matrix.
