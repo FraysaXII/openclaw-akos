@@ -188,6 +188,16 @@
           "argv": ["scripts/render_km_diagrams.py", "--all", "--dry-run"]
         }
       ]
+    },
+    "wip_dashboard_render_smoke": {
+      "description": "Initiative 32 P10: verify the WIP dashboard auto-rendered section is in parity with each initiative's master-roadmap.md frontmatter. Runs render_wip_dashboard.py --check-only; FAILs on drift. Operator runs `py scripts/render_wip_dashboard.py` to refresh, then commits.",
+      "steps": [
+        {
+          "id": "render_wip_dashboard_check_only",
+          "description": "Verify WIP dashboard is in parity with each initiative master-roadmap",
+          "argv": ["scripts/render_wip_dashboard.py", "--check-only"]
+        }
+      ]
     }
   }
 }
