@@ -138,13 +138,40 @@ def cmd_record(args: argparse.Namespace) -> int:
 
 
 def cmd_promote(args: argparse.Namespace) -> int:
-    # P7 deliverable. Stub here for CLI completeness.
-    print(
-        f"  [eval promote] P7 stub: would gate skill={args.skill} on "
-        f"(3x Tier A green, 1x Tier B within 14d, adversarial pass, non-empty routing_condition). "
-        f"Implementation lands in P7.",
-        file=sys.stderr,
+    """I45 P7: enforce 4-criteria graduation gate for shared->tenant promotion."""
+    import json
+    from akos.eval_harness.promotion import evaluate_promotion
+
+    if args.override and not args.reason.strip():
+        print(
+            "  [eval promote] --override requires --reason '<text>' for audit trail (R-45-9)",
+            file=sys.stderr,
+        )
+        return 2
+
+    verdict = evaluate_promotion(
+        args.skill,
+        override=args.override,
+        override_reason=args.reason,
+        decided_by="operator",
     )
+
+    if args.json:
+        json.dump(verdict.to_dict(), sys.stdout, indent=2, sort_keys=True)
+        sys.stdout.write("\n")
+    else:
+        print(f"\n  Promotion verdict: {args.skill}")
+        print("  " + "=" * 60)
+        for c in verdict.criteria:
+            marker = {"PASS": " [+]", "FAIL": " [X]", "SKIP": " [~]", "OVERRIDE": " [!]"}.get(c.status, " [?]")
+            print(f"{marker} {c.name:32s} [{c.status}] {c.reason}")
+        print()
+        print(f"  OVERALL: {verdict.overall}")
+        if verdict.overall == "OVERRIDE":
+            print(f"  WARNING: operator override; audit row will be written to compliance.eval_run")
+
+    if verdict.overall == "FAIL":
+        return 1
     return 0
 
 
@@ -173,10 +200,11 @@ def main() -> int:
     p_record.add_argument("--contains", action="append", help="golden_rubric contains list (live_llm)")
     p_record.add_argument("--forbidden", action="append", help="golden_rubric forbidden list (live_llm)")
 
-    p_promote = sub.add_parser("promote", help="enforce skill graduation gate (P7)")
-    p_promote.add_argument("--skill", required=True)
-    p_promote.add_argument("--override", action="store_true")
-    p_promote.add_argument("--reason", default="")
+    p_promote = sub.add_parser("promote", help="enforce skill graduation gate (P7): 4-criteria check")
+    p_promote.add_argument("--skill", required=True, help="skill_id to evaluate for promotion")
+    p_promote.add_argument("--override", action="store_true", help="bypass all 4 criteria (requires --reason)")
+    p_promote.add_argument("--reason", default="", help="audit reason; mandatory with --override (R-45-9)")
+    p_promote.add_argument("--json", action="store_true", help="emit verdict as JSON")
 
     parser.add_argument(
         "--mode",
