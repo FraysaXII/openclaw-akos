@@ -199,6 +199,16 @@
         }
       ]
     },
+    "neo4j_governance_kg_drift_smoke": {
+      "description": "Initiative 46 P2: nightly drift canary comparing Neo4j label counts to canonical CSV row counts. SKIPs gracefully when Neo4j unconfigured. CSV-only mode prints CSV count summary without touching Neo4j.",
+      "steps": [
+        {
+          "id": "neo4j_drift_canary",
+          "description": "scripts/graphrag_drift_canary.py - asserts each axis-6 dimension is within tolerance (default 1 row)",
+          "argv": ["scripts/graphrag_drift_canary.py"]
+        }
+      ]
+    },
     "eval_harness_smoke": {
       "description": "Initiative 45 P6: pre_commit-eligible smoke run of the unified eval harness. Tier A only (deterministic; no LLM cost). Combines smoke + canary + rubric + replay + adversarial modes.",
       "steps": [

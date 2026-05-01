@@ -735,3 +735,104 @@ def role_neighbourhood(
         out["requested_role_name"] = role_name
         out["resolved_role_name"] = effective
     return out
+
+
+def skill_neighbourhood(
+    session: Session,
+    skill_id: str,
+    *,
+    depth: int = 2,
+    limit: int = 80,
+) -> dict[str, Any]:
+    """Initiative 46 P2 — first axis-6 traversal surface for MCP.
+
+    Return :Skill node + its connected :Topic, :Role (owner), and (when
+    depth>=2) sibling skills under the same topic. Lazy-loaded — does not
+    expand into POLICY_REGISTER unless --include-policies flag is passed
+    (R-46-7 mitigation).
+    """
+    depth = max(1, min(int(depth), 3))
+    limit = max(1, min(int(limit), 200))
+
+    root = session.run(
+        "MATCH (s:Skill {skill_id: $sid}) RETURN s LIMIT 1",
+        sid=skill_id,
+    ).single()
+    if not root:
+        return {"status": "not_found", "skill_id": skill_id, "nodes": [], "edges": []}
+
+    nodes: dict[str, dict] = {}
+    edges: list[dict] = []
+
+    def add_node(n: Any) -> str:
+        d = _node_to_dict(n)
+        nodes[d["element_id"]] = d
+        return d["element_id"]
+
+    s_eid = add_node(root["s"])
+
+    # depth=1: direct topics + owner role
+    rows = session.run(
+        """
+        MATCH (s:Skill {skill_id: $sid})
+        OPTIONAL MATCH (s)-[:UNDER_TOPIC]->(t:Topic)
+        OPTIONAL MATCH (s)-[:OWNED_BY]->(owner:Role)
+        RETURN collect(DISTINCT t) AS topics, collect(DISTINCT owner) AS owners
+        """,
+        sid=skill_id,
+    ).single()
+    if rows is not None:
+        for t in rows.get("topics", []) or []:
+            if t is None:
+                continue
+            t_eid = add_node(t)
+            edges.append({"type": "UNDER_TOPIC", "from": s_eid, "to": t_eid})
+        for owner in rows.get("owners", []) or []:
+            if owner is None:
+                continue
+            o_eid = add_node(owner)
+            edges.append({"type": "OWNED_BY", "from": s_eid, "to": o_eid})
+
+    # depth>=2: sibling skills under shared topics
+    if depth >= 2:
+        sibling_rows = session.run(
+            """
+            MATCH (s:Skill {skill_id: $sid})-[:UNDER_TOPIC]->(t:Topic)
+            MATCH (sib:Skill)-[:UNDER_TOPIC]->(t)
+            WHERE sib.skill_id <> $sid
+            RETURN collect(DISTINCT sib)[0..$lim] AS siblings, t.topic_id AS topic_id
+            """,
+            sid=skill_id,
+            lim=limit,
+        )
+        for r in sibling_rows:
+            for sib in r.get("siblings", []) or []:
+                if sib is None:
+                    continue
+                sib_eid = add_node(sib)
+                edges.append(
+                    {
+                        "type": "UNDER_TOPIC",
+                        "from": sib_eid,
+                        "to": _topic_eid_for(nodes, r.get("topic_id", "")),
+                    }
+                )
+
+    out_nodes = list(nodes.values())[:limit]
+    return {
+        "status": "ok",
+        "skill_id": skill_id,
+        "depth": depth,
+        "node_count": len(out_nodes),
+        "edge_count": len(edges),
+        "nodes": out_nodes,
+        "edges": edges,
+    }
+
+
+def _topic_eid_for(nodes: dict[str, dict], topic_id: str) -> str:
+    """Helper: return element_id of the Topic node with matching topic_id, or empty."""
+    for eid, n in nodes.items():
+        if "Topic" in n.get("labels", []) and n.get("properties", {}).get("topic_id") == topic_id:
+            return eid
+    return ""

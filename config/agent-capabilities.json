@@ -102,7 +102,8 @@
         "finance_quote", "finance_search", "finance_sentiment",
         "hlk_role", "hlk_role_chain", "hlk_area", "hlk_process",
         "hlk_process_tree", "hlk_projects", "hlk_gaps", "hlk_search",
-        "hlk_graph_summary", "hlk_graph_process_neighbourhood", "hlk_graph_role_neighbourhood"
+        "hlk_graph_summary", "hlk_graph_process_neighbourhood", "hlk_graph_role_neighbourhood",
+        "hlk_graph_skill_neighbourhood"
       ],
       "denied_tools": [
         "write_file", "delete_file", "shell_exec",

@@ -36,6 +36,7 @@ from akos.hlk_neo4j import (  # noqa: E402
     neo4j_configured,
     process_neighbourhood,
     role_neighbourhood,
+    skill_neighbourhood,
 )
 
 mcp = FastMCP("AKOS HLK Graph", host="127.0.0.1", port=8424)
@@ -103,6 +104,29 @@ def hlk_graph_role_neighbourhood(role_name: str, depth: int = 2, limit: int = 80
     try:
         with drv.session() as session:
             data = role_neighbourhood(session, role_name, depth=int(depth), limit=int(limit))
+    finally:
+        drv.close()
+    return json.dumps(data, indent=2)
+
+
+@mcp.tool()
+def hlk_graph_skill_neighbourhood(skill_id: str, depth: int = 2, limit: int = 80) -> str:
+    """Initiative 46 P2 — first axis-6 traversal surface.
+
+    Return :Skill node + its connected :Topic, :Role (owner), and (when
+    depth>=2) sibling skills under the same topic. Bounded depth + limit;
+    does not expand into POLICY_REGISTER unless future flag enables it
+    (R-46-7 mitigation).
+    """
+    err = _neo4j_tool_precheck()
+    if err:
+        return err
+    drv = get_neo4j_driver()
+    if drv is None:
+        return json.dumps({"status": "error", "detail": "Neo4j driver unavailable (install neo4j package)"})
+    try:
+        with drv.session() as session:
+            data = skill_neighbourhood(session, skill_id, depth=int(depth), limit=int(limit))
     finally:
         drv.close()
     return json.dumps(data, indent=2)
