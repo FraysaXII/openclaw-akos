@@ -49,6 +49,8 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **30** | [`30-deck-moat-surgery/`](30-deck-moat-surgery/) | Open (started 2026-04-30) | — | Initiative 30 — Deck moat surgery: MADEIRA, joint-equity, governance metrics |
 | **31** | [`31-holistik-ops-discovery/`](31-holistik-ops-discovery/) | Open (started 2026-04-30) | — | Initiative 31 — Holistik Ops Discovery: 5-axis operating system for human interactions |
 | **32** | [`32-holistik-ops-maturation/`](32-holistik-ops-maturation/) | Open (started 2026-04-30) | 2026-04-30 | Initiative 32 — Holistik Ops Maturation: 15-phase production-readiness pass |
+| **45** | [`45-live-eval-harness/`](45-live-eval-harness/) | Open (started 2026-05-01) | 2026-05-01 | Initiative 45 — Live Eval Harness Modernisation: 9-phase unification + cost + adversari... |
+| **46** | [`46-neo4j-strategic-posture/`](46-neo4j-strategic-posture/) | Open (started 2026-05-01) | 2026-05-01 | Initiative 46 — Neo4j Strategic Posture: doctrine + GraphRAG PoC + agent memory ADR |
 <!-- END AUTO -->
 
 ## Re-render contract
