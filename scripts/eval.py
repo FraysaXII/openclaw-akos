@@ -176,6 +176,16 @@ def cmd_promote(args: argparse.Namespace) -> int:
 
 
 def main() -> int:
+    # I45 P8: env bootstrap is the CLI's responsibility (not the runner's).
+    # Loading ~/.openclaw/.env here ensures classify_request etc. have access
+    # to operator secrets (Ollama URL, Langfuse, Neo4j) WITHOUT polluting
+    # pytest sessions that import the runner directly.
+    try:
+        from akos.io import bootstrap_openclaw_process_env
+        bootstrap_openclaw_process_env()
+    except Exception:
+        pass  # soft-fail; env may not be available in CI
+
     parser = argparse.ArgumentParser(
         prog="eval.py",
         description="AKOS unified eval CLI (Initiative 45 P1)",
