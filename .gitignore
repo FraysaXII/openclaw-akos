@@ -112,3 +112,7 @@ artifacts/agent-memory-triggers/*.json
 !artifacts/agent-memory-triggers/README.md
 !artifacts/agent-memory-triggers/MANUAL_FIRE.txt
 
+# Initiative 48 operator-facing UAT dossier outputs (per-run timestamped; regenerable)
+artifacts/uat-dossier/uat-dossier-*/
+!artifacts/uat-dossier/README.md
+

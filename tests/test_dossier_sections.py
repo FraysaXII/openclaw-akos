@@ -157,21 +157,18 @@ def test_section_10_governance_debt_always_re_parses() -> None:
 # PLACEHOLDER text appears when SectionData.placeholder=True
 # ---------------------------------------------------------------------------
 
-def test_skeleton_sections_emit_placeholder_in_p1() -> None:
-    """Sections 2-10 are P1 skeletons that emit PLACEHOLDER until P2 wires sources."""
-    for cls in (
-        SECTION_CLASSES[1],  # Section 02
-        SECTION_CLASSES[6],  # Section 07
-        SECTION_CLASSES[7],  # Section 08
-    ):
-        inst = cls()
-        md = inst.render_markdown(inst.gather(mode="snapshot"))
-        assert "[STALE / UNAVAILABLE]" in md, f"{cls.__name__} did not emit PLACEHOLDER"
+def test_section_07_drift_canaries_emits_placeholder_in_snapshot_mode() -> None:
+    """Section 07 (drift canaries) is the only remaining placeholder in snapshot mode
+    after P2 wired sources (live mode P3 will invoke graphrag_drift_canary.py)."""
+    inst = SECTION_CLASSES[6]()  # Section 07
+    md = inst.render_markdown(inst.gather(mode="snapshot"))
+    assert "[STALE / UNAVAILABLE]" in md
 
 
 def test_placeholder_includes_actionable_run_command() -> None:
     """PLACEHOLDER text must point operator at the live mode CLI."""
-    inst = Section02SchemaGovernance()
+    from akos.dossier.sections import Section07DriftCanaries
+    inst = Section07DriftCanaries()
     md = inst.render_markdown(inst.gather(mode="snapshot"))
     assert "py scripts/render_uat_dossier.py" in md
     assert "--mode live" in md

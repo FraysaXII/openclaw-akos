@@ -143,11 +143,58 @@ class Section01ExecutiveSummary(Section):
     default_open_html = True
     staleness_threshold_hours = 0  # always re-aggregated
 
-    def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
-        return SectionData(payload={"status": "PASS", "outcome": "PASS",
-                                    "section_count": 12, "fail_count": 0,
-                                    "skip_count": 0, "warn_count": 0,
-                                    "cost_total_usd": 0.0})
+    def gather(self, mode: str, filter: DossierFilter | None = None,
+               prior_results: list[DossierSectionResult] | None = None) -> SectionData:
+        """Compute outcome from prior section results (Sections 2-12).
+
+        Per dossier-section-spec.md: Section 1 is computed LAST (after all
+        other sections have gathered) but rendered FIRST. The orchestrator
+        passes ``prior_results`` containing the other 11 section outputs.
+        """
+        if not prior_results:
+            return SectionData(
+                payload={
+                    "outcome": "PASS",
+                    "section_count": 12,
+                    "fail_count": 0,
+                    "skip_count": 0,
+                    "warn_count": 0,
+                    "cost_total_usd": 0.0,
+                    "status": "PASS",
+                },
+            )
+        fails = sum(1 for r in prior_results if r.status == "FAIL")
+        warns = sum(1 for r in prior_results if r.status == "WARN")
+        skips = sum(1 for r in prior_results if r.status == "SKIP")
+        infos = sum(1 for r in prior_results if r.status == "INFO")
+        passes = sum(1 for r in prior_results if r.status == "PASS")
+        cost_total = 0.0
+        for r in prior_results:
+            cost = r.metrics.get("cost_total_usd")
+            if isinstance(cost, (int, float)):
+                cost_total += float(cost)
+        outcome = "FAIL" if fails > 0 else ("WARN" if warns > 0 else "PASS")
+        # Per-section-status table for the executive summary body
+        section_table = [
+            {"id": r.section_id, "name": r.name,
+             "status": r.status,
+             "data_age_hours": (r.data_age_seconds / 3600.0) if r.data_age_seconds is not None else None}
+            for r in sorted(prior_results, key=lambda x: x.section_id)
+        ]
+        return SectionData(
+            payload={
+                "outcome": outcome,
+                "section_count": len(prior_results) + 1,
+                "fail_count": fails,
+                "warn_count": warns,
+                "skip_count": skips,
+                "info_count": infos,
+                "pass_count": passes,
+                "cost_total_usd": cost_total,
+                "section_table": section_table,
+                "status": outcome if outcome != "WARN" else "PASS",
+            },
+        )
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
@@ -155,17 +202,31 @@ class Section01ExecutiveSummary(Section):
                                          data.error or "executive summary unavailable")
         p = data.payload
         outcome = p.get("outcome", "?")
-        return (
-            f"{_section_header(self.section_id, self.name)}\n"
-            f"\n"
-            f"**Outcome: {outcome}**\n"
-            f"\n"
-            f"- sections aggregated: {p.get('section_count', 0)}\n"
-            f"- FAIL count: {p.get('fail_count', 0)}\n"
-            f"- WARN count: {p.get('warn_count', 0)}\n"
-            f"- SKIP count: {p.get('skip_count', 0)}\n"
-            f"- cost_total_usd: ${p.get('cost_total_usd', 0.0):.4f}\n"
-        )
+        lines = [
+            _section_header(self.section_id, self.name),
+            "",
+            f"**Outcome: {outcome}**",
+            "",
+            f"- sections aggregated: {p.get('section_count', 0)}",
+            f"- FAIL count: {p.get('fail_count', 0)}",
+            f"- WARN count: {p.get('warn_count', 0)}",
+            f"- SKIP count: {p.get('skip_count', 0)}",
+            f"- INFO count: {p.get('info_count', 0)}",
+            f"- PASS count: {p.get('pass_count', 0)}",
+            f"- cost_total_usd: ${p.get('cost_total_usd', 0.0):.4f}",
+        ]
+        section_table = p.get("section_table")
+        if section_table:
+            lines.append("")
+            lines.append("| section | name | status | age (h) |")
+            lines.append("|:--:|:---|:--:|:--:|")
+            for row in section_table:
+                age = row.get("data_age_hours")
+                age_str = f"{age:.1f}" if isinstance(age, (int, float)) else "-"
+                lines.append(
+                    f"| {row['id']} | {row['name']} | {row['status']} | {age_str} |"
+                )
+        return "\n".join(lines) + "\n"
 
     def metrics_for_trend(self, data: SectionData) -> dict[str, Any]:
         p = data.payload
@@ -191,19 +252,24 @@ class Section02SchemaGovernance(Section):
     staleness_threshold_hours = 12
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
-        # P1 skeleton: PLACEHOLDER. Sources land in P2.
-        return SectionData(placeholder=True,
-                           error="P1 skeleton; data sources land in P2 sources.py")
+        from akos.dossier.sources import gather_schema_governance
+        return gather_schema_governance()
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
             return _placeholder_markdown(self.section_id, self.name,
                                          data.error or "validate_hlk not yet wired")
         p = data.payload
+        validate_status = p.get("validate_hlk_pass")
+        validate_label = (
+            "PASS" if validate_status is True else
+            "FAIL" if validate_status is False else
+            "(snapshot mode; live mode invokes validate_hlk)"
+        )
         return (
             f"{_section_header(self.section_id, self.name)}\n"
             f"\n"
-            f"- validate_hlk_pass: {p.get('validate_hlk_pass', False)}\n"
+            f"- validate_hlk: {validate_label}\n"
             f"- topics: {p.get('total_topics', 0)}\n"
             f"- skills: {p.get('total_skills', 0)}\n"
             f"- policies: {p.get('total_policies', 0)}\n"
@@ -236,8 +302,8 @@ class Section03EvalHealth(Section):
     staleness_threshold_hours = 12
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
-        return SectionData(placeholder=True,
-                           error="P1 skeleton; eval Scorecard embed lands in P2")
+        from akos.dossier.sources import gather_eval_health_snapshot
+        return gather_eval_health_snapshot()
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
@@ -275,8 +341,8 @@ class Section04PersonaCalibration(Section):
     staleness_threshold_hours = 24
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
-        return SectionData(placeholder=True,
-                           error="P1 skeleton; calibration source lands in P2")
+        from akos.dossier.sources import gather_persona_calibration
+        return gather_persona_calibration()
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
@@ -350,8 +416,8 @@ class Section06Recovery(Section):
     staleness_threshold_hours = None  # NEVER auto-refresh (read latest artifact)
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
-        return SectionData(placeholder=True,
-                           error="P1 skeleton; chaos artifact reader lands in P2")
+        from akos.dossier.sources import gather_recovery_chaos
+        return gather_recovery_chaos()
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
@@ -422,8 +488,8 @@ class Section08OperationalHealth(Section):
     staleness_threshold_hours = 12
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
-        return SectionData(placeholder=True,
-                           error="P1 skeleton; trigger watcher + cost ceiling + promotion gate wiring lands in P2")
+        from akos.dossier.sources import gather_operational_health
+        return gather_operational_health()
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
@@ -459,8 +525,8 @@ class Section09ExternalRepos(Section):
     staleness_threshold_hours = 7 * 24  # weekly cadence
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
-        return SectionData(placeholder=True,
-                           error="P1 skeleton; REPO_HEALTH_SNAPSHOT.csv reader lands in P2")
+        from akos.dossier.sources import gather_external_repos
+        return gather_external_repos()
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
@@ -495,8 +561,8 @@ class Section10GovernanceDebt(Section):
     staleness_threshold_hours = 0  # always re-parse
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
-        return SectionData(placeholder=True,
-                           error="P1 skeleton; OPS-* table parser lands in P2")
+        from akos.dossier.sources import gather_governance_debt
+        return gather_governance_debt(initiative_filter=(filter.initiative if filter else None))
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
