@@ -43,6 +43,10 @@ VALID_POLICY_CLASSES: frozenset[str] = frozenset({
     # I46 P5 (conditional ship): which skills/topic_classes are eligible
     # for GraphRAG-hybrid retrieval.
     "graph_rag_eligibility",
+    # I47 P12 (D-IH-47-J): LLM-as-judge per-axis pass threshold.
+    # policy_text encodes the threshold (e.g., "min_pass_score=4");
+    # enforced by akos.eval_harness.judge.load_judge_thresholds().
+    "judge_threshold",
 })
 
 VALID_CADENCES: frozenset[str] = frozenset({
