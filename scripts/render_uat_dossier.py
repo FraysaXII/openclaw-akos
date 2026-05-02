@@ -249,10 +249,20 @@ def _write_outputs(run: DossierRun, args: argparse.Namespace) -> dict[str, Path]
             if sidecar.is_file():
                 written["pdf_sidecar"] = sidecar
 
+    # Gather screenshots BEFORE HTML render so they can be inlined in the
+    # dossier as Appendix A (D-IH-48-K post-closure enhancement).
+    screenshots: list[Path] = []
+    if args.screenshots:
+        from akos.dossier.runner import take_browser_screenshots
+        screenshots = take_browser_screenshots(out_dir)
+        written["screenshots_dir"] = out_dir / "screenshots"
+
     if args.format in ("html", "all"):
         # P5: full render_dossier_html (markdown library + brand CSS + collapsible details + inline SVG sparkline support).
+        # D-IH-48-K: pass screenshots through so they embed as inline base64
+        # in Appendix A (preserves D-IH-48-I standalone-file invariant).
         from akos.dossier.html_render import render_dossier_html
-        html_text = render_dossier_html(run)
+        html_text = render_dossier_html(run, screenshots=screenshots)
         html_path = out_dir / "dossier.html"
         html_path.write_text(html_text, encoding="utf-8")
         written["html"] = html_path
@@ -268,12 +278,6 @@ def _write_outputs(run: DossierRun, args: argparse.Namespace) -> dict[str, Path]
             written["console"] = console_path
         except Exception as exc:  # noqa: BLE001 - console is best-effort
             logger.warning("console render skipped: %s", exc)
-
-    screenshots: list[Path] = []
-    if args.screenshots:
-        from akos.dossier.runner import take_browser_screenshots
-        screenshots = take_browser_screenshots(out_dir)
-        written["screenshots_dir"] = out_dir / "screenshots"
 
     pdf_path = written.get("pdf")
     manifest = run.to_manifest(

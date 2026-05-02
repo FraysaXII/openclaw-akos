@@ -221,3 +221,75 @@ def test_render_dossier_html_size_reasonable() -> None:
     run = _build_test_run()
     out = render_dossier_html(run)
     assert 5000 < len(out) < 200000, f"unexpected HTML size: {len(out)} chars"
+
+
+# ---------------------------------------------------------------------------
+# D-IH-48-K: screenshot appendix (post-closure enhancement)
+# ---------------------------------------------------------------------------
+
+# Minimal 1x1 transparent PNG (smallest valid PNG; fits inline easily).
+_TINY_PNG = bytes.fromhex(
+    "89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c489"
+    "0000000d49444154789c6260000000000200015e6c4cd60000000049454e44ae426082"
+)
+
+
+def test_render_dossier_html_no_appendix_when_screenshots_empty(tmp_path) -> None:
+    """No screenshots -> no appendix block (do not pollute the output)."""
+    run = _build_test_run()
+    out = render_dossier_html(run, screenshots=[])
+    assert "Appendix A" not in out
+    assert "<figure class=\"dossier-screenshot\">" not in out
+    assert "data:image/png;base64," not in out
+
+
+def test_render_dossier_html_no_appendix_when_screenshots_none(tmp_path) -> None:
+    """Default screenshots=None matches empty-list behaviour."""
+    run = _build_test_run()
+    out = render_dossier_html(run)
+    assert "Appendix A" not in out
+
+
+def test_render_dossier_html_embeds_screenshots_inline(tmp_path) -> None:
+    """D-IH-48-K: each PNG inlined as base64 (preserves D-IH-48-I)."""
+    run = _build_test_run()
+    p1 = tmp_path / "01-health.png"
+    p2 = tmp_path / "02-graph.png"
+    p1.write_bytes(_TINY_PNG)
+    p2.write_bytes(_TINY_PNG)
+    out = render_dossier_html(run, screenshots=[p1, p2])
+    assert "Appendix A" in out
+    assert "Operator screenshots (2)" in out
+    assert "data:image/png;base64," in out
+    assert "01-health.png" in out
+    assert "02-graph.png" in out
+    assert "<figure class=\"dossier-screenshot\">" in out
+
+
+def test_render_dossier_html_csp_allows_data_uri_for_images(tmp_path) -> None:
+    """CSP must permit inline data: URIs for images (otherwise base64 PNGs blocked)."""
+    run = _build_test_run()
+    out = render_dossier_html(run)
+    assert "img-src 'self' data:" in out
+
+
+def test_render_dossier_html_skips_missing_or_non_png_screenshots(tmp_path) -> None:
+    """Best-effort: missing files / non-PNGs silently skipped, others still embed."""
+    run = _build_test_run()
+    valid = tmp_path / "real.png"
+    valid.write_bytes(_TINY_PNG)
+    missing = tmp_path / "nope.png"  # never written
+    not_a_png = tmp_path / "readme.txt"
+    not_a_png.write_text("not a png")
+    out = render_dossier_html(run, screenshots=[valid, missing, not_a_png])
+    assert "Operator screenshots (1)" in out
+    assert "real.png" in out
+    assert "nope.png" not in out
+    assert "readme.txt" not in out
+
+
+def test_render_dossier_html_no_appendix_when_all_screenshots_invalid(tmp_path) -> None:
+    """If list is non-empty but nothing valid -> no appendix (no empty section)."""
+    run = _build_test_run()
+    out = render_dossier_html(run, screenshots=[tmp_path / "missing.png"])
+    assert "Appendix A" not in out
