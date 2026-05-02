@@ -49,11 +49,12 @@ from akos.dossier.run import (
     VALID_MODES,
     DossierFilter,
     DossierRun,
+    DossierSectionResult,
     is_tier_b_opted_in,
     resolve_max_dossier_usd,
     resolve_run_dir,
 )
-from akos.dossier.sections import SECTION_CLASSES, Section01ExecutiveSummary
+from akos.dossier.sections import SECTION_CLASSES, Section01ExecutiveSummary, Section11TrendLines
 
 logger = logging.getLogger("scripts.render_uat_dossier")
 
@@ -121,12 +122,38 @@ def _refuse_tier_b_without_optin(args: argparse.Namespace) -> int | None:
     return None
 
 
+def _extract_gh_pr_comment_body(md: str) -> str:
+    """Slice Section 1 markdown for ``gh pr comment`` (GitHub 65k limit)."""
+    lines = md.splitlines()
+    start: int | None = None
+    for i, line in enumerate(lines):
+        if line.startswith("## Section 1 "):
+            start = i
+            break
+    if start is None:
+        return md[:65000]
+    end = len(lines)
+    for j in range(start + 1, len(lines)):
+        if lines[j].startswith("## Section ") and not lines[j].startswith("## Section 1 "):
+            end = j
+            break
+    body = "\n".join(lines[start:end])
+    footer = (
+        "\n\n---\n_Auto-generated executive summary from "
+        "`py scripts/render_uat_dossier.py --gh-pr-comment` (Initiative 48)._"
+    )
+    return (body + footer)[:65000]
+
+
 def _build_dossier(args: argparse.Namespace) -> DossierRun:
     """Instantiate DossierRun + invoke each Section in SECTION_CLASSES order.
 
     Per dossier-section-spec.md: Section 1 (Executive summary) is computed LAST
     after Sections 2-12 have gathered, then placed FIRST in render order
     (DossierRun.to_markdown() handles the ordering invariant).
+
+    Section 11 is gathered after Sections 2-10 and 12 so a synthetic *current*
+    rollup can be appended to history for sparklines (P7).
     """
     git_sha = _resolve_git_sha()
     run = DossierRun(
@@ -137,15 +164,17 @@ def _build_dossier(args: argparse.Namespace) -> DossierRun:
             initiative=(args.initiative or None),
             persona_id=(args.persona or None),
             since=(args.since or None),
+            trend_window=int(args.trend_window) if getattr(args, "trend_window", None) else DEFAULT_TREND_WINDOW,
         ),
     )
     started_perf = time.perf_counter()
 
-    # Run sections 2-12 first (gather + render)
-    prior_results = []
+    prior_results: list[DossierSectionResult] = []
+    from akos.dossier.sources import gather_trend_sparklines
+
     for cls in SECTION_CLASSES:
-        if cls.section_id == 1:
-            continue  # defer Section 1 until end
+        if cls.section_id in (1, 11):
+            continue
         section = cls()
         if not args.quiet:
             sys.stderr.write(f"  [Section {section.section_id:02d}] gathering {section.name}...\n")
@@ -153,14 +182,34 @@ def _build_dossier(args: argparse.Namespace) -> DossierRun:
         prior_results.append(result)
         run.add(result)
 
-    # Now compute Section 1 from prior_results
+    s11 = Section11TrendLines()
+    if not args.quiet:
+        sys.stderr.write(f"  [Section {s11.section_id:02d}] gathering {s11.name}...\n")
+    d11 = gather_trend_sparklines(
+        trend_window=run.filter.trend_window,
+        since=run.filter.since,
+        prior_section_results=list(prior_results),
+        current_started_at=run.started_at,
+    )
+    r11 = DossierSectionResult(
+        section_id=11,
+        name=s11.name,
+        status=s11._infer_status(d11),
+        markdown=s11.render_markdown(d11),
+        metrics=s11.metrics_for_trend(d11),
+        data_age_seconds=0.0,
+        placeholder=d11.placeholder,
+        error=d11.error,
+    )
+    prior_results.append(r11)
+    run.add(r11)
+
     section1 = Section01ExecutiveSummary()
     if not args.quiet:
         sys.stderr.write("  [Section 01] computing executive summary from prior sections...\n")
     data = section1.gather(mode=run.mode, filter=run.filter, prior_results=prior_results)
     md = section1.render_markdown(data)
     metrics = section1.metrics_for_trend(data)
-    from akos.dossier.run import DossierSectionResult
     section1_result = DossierSectionResult(
         section_id=1, name=section1.name,
         status=data.payload.get("status", "PASS"),
@@ -221,6 +270,17 @@ def _write_outputs(run: DossierRun, args: argparse.Namespace) -> dict[str, Path]
         html_text=written.get("html") and written["html"].read_text(encoding="utf-8") or None,
         screenshots=screenshots,
     )
+    from akos.dossier.dossier_run_writer import write_dossier_run_row
+    md_sha = (manifest.get("files", {}).get("dossier.md") or {}).get("sha256") or ""
+    stats = write_dossier_run_row(
+        run_id=run.run_id,
+        started_at=run.started_at,
+        mode=run.mode,
+        git_sha=run.git_sha,
+        section_metrics=manifest.get("section_metrics") or {},
+        manifest_sha256=md_sha,
+    )
+    manifest["dossier_run_writer"] = stats
     manifest_path = out_dir / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
     written["manifest"] = manifest_path
@@ -235,6 +295,13 @@ def main(argv: list[str] | None = None) -> int:
     refuse = _refuse_tier_b_without_optin(args)
     if refuse is not None:
         return refuse
+
+    if args.gh_pr_comment:
+        args.quiet = True
+        run = _build_dossier(args)
+        sys.stdout.write(_extract_gh_pr_comment_body(run.to_markdown()))
+        sys.stdout.write("\n")
+        return 0
 
     cap = args.max_spend if args.max_spend is not None else resolve_max_dossier_usd()
     if not args.quiet:

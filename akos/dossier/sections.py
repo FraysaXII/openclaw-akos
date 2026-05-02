@@ -19,7 +19,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any
 
-from akos.dossier.run import DossierFilter, DossierSectionResult
+from akos.dossier.run import DEFAULT_TREND_WINDOW, DossierFilter, DossierSectionResult
 
 
 @dataclass
@@ -386,21 +386,43 @@ class Section04PersonaCalibration(Section):
         if mode in ("live", "tier-b"):
             from akos.dossier.runner import run_calibrate_scenarios
             run_calibrate_scenarios(persona=(filter.persona_id if filter else None))
-        from akos.dossier.sources import gather_persona_calibration
-        return gather_persona_calibration()
+        from akos.dossier.sources import gather_persona_calibration, gather_persona_prompt_diff
+        data = gather_persona_calibration()
+        # P6: when --persona is set, embed the MADEIRA prompt diff
+        if filter and filter.persona_id:
+            diff = gather_persona_prompt_diff(filter.persona_id)
+            data.payload["persona_prompt_diff"] = diff
+        return data
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
             return _placeholder_markdown(self.section_id, self.name,
                                          data.error or "calibration not yet wired")
         p = data.payload
-        return (
-            f"{_section_header(self.section_id, self.name)}\n"
-            f"\n"
-            f"- total scenarios: {p.get('total_scenarios', 0)}\n"
-            f"- total personas: {p.get('total_personas', 0)}\n"
-            f"- overall within tolerance: {p.get('overall_within_tolerance', False)}\n"
-        )
+        lines = [
+            _section_header(self.section_id, self.name),
+            "",
+            f"- total scenarios: {p.get('total_scenarios', 0)}",
+            f"- total personas: {p.get('total_personas', 0)}",
+            f"- overall within tolerance: {p.get('overall_within_tolerance', False)}",
+            f"- personas outside tolerance: {p.get('personas_outside_tolerance_count', 0)}",
+        ]
+        diff = p.get("persona_prompt_diff")
+        if diff:
+            lines.append("")
+            lines.append("### Persona-conditioned MADEIRA prompt diff (P6)")
+            lines.append("")
+            lines.append(f"- persona: `{diff.get('persona_id', '?')}`")
+            lines.append(f"- baseline chars (standard): {diff.get('baseline_chars', '?')}")
+            lines.append(f"- conditioned chars (--persona): {diff.get('conditioned_chars', '?')}")
+            lines.append(f"- delta_chars: {diff.get('delta_chars', '?')}")
+            lines.append(f"- bootstrapMaxChars headroom: {diff.get('headroom_chars', '?')}")
+            lines.append(f"- swapped_out_overlays: {', '.join(diff.get('swapped_out', []) or ['(none)'])}")
+            if diff.get("hints_path_present"):
+                lines.append(f"- per-persona hints: `{diff.get('hints_path')}`")
+            else:
+                lines.append("- per-persona hints: NOT FOUND (persona overlay falls back to framework only)")
+        return "\n".join(lines) + "\n"
 
     def metrics_for_trend(self, data: SectionData) -> dict[str, Any]:
         p = data.payload
@@ -707,8 +729,17 @@ class Section11TrendLines(Section):
     staleness_threshold_hours = 0  # always re-query
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
-        # P1 skeleton: emits INSUFFICIENT-DATA placeholder until P7 wires sparklines.
-        return SectionData(payload={"insufficient_data": True}, placeholder=False)
+        tw = (filter.trend_window if filter else None) or DEFAULT_TREND_WINDOW
+        since = filter.since if filter else None
+        from akos.dossier.sources import gather_trend_sparklines
+
+        _ = mode  # snapshot vs live uses same history sources for Section 11
+        return gather_trend_sparklines(
+            trend_window=tw,
+            since=since,
+            prior_section_results=None,
+            current_started_at=None,
+        )
 
     def render_markdown(self, data: SectionData) -> str:
         from akos.dossier.sparkline import INSUFFICIENT_DATA_PLACEHOLDER
@@ -719,7 +750,7 @@ class Section11TrendLines(Section):
                 f"\n"
                 f"{INSUFFICIENT_DATA_PLACEHOLDER}\n"
                 f"\n"
-                f"_Sparklines render starting at run #2 (this is run #1 OR mirror is unreachable)._\n"
+                f"_Sparklines need at least two datapoints (history + current rollup); have {p.get('point_count', 0)}._\n"
             )
         sparklines: dict[str, str] = p.get("sparklines", {})
         lines = [f"{_section_header(self.section_id, self.name)}", ""]

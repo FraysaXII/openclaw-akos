@@ -15,7 +15,7 @@ Single source of truth for **orchestrated** pre-commit and eval policy: [config/
 | All governance rubric eval suites (same set as `AKOS_EVAL_RUBRIC=1` in release gate) | `py scripts/run-evals.py run --governance-rubric` |
 | Single eval suite | `py scripts/run-evals.py run --suite <suite_id> --mode rubric` |
 
-`pre_commit` in [config/verification-profiles.json](../../config/verification-profiles.json) is equivalent to the former manual sequence: strict inventory, drift, `test.py all`, browser smoke with Playwright, API + Madeira pytest smoke, and `release-gate.py`.
+`pre_commit` in [config/verification-profiles.json](../../config/verification-profiles.json) is equivalent to the former manual sequence: strict inventory, drift, `test.py all`, browser smoke with Playwright, API + Madeira pytest smoke, `release-gate.py`, and **`scripts/render_uat_dossier.py`** snapshot (verify step id `dossier_smoke`).
 
 ## Eval and release gate
 
@@ -35,7 +35,7 @@ Single source of truth for **orchestrated** pre-commit and eval policy: [config/
 | Stripe billing plane | `py scripts/stripe_set_billing_plane.py` | Needs `STRIPE_SECRET_KEY` (not committed) |
 | Staging DB mirror check | `py scripts/verify_phase3_mirror_schema.py` | With `DATABASE_URL` or `SUPABASE_DB_URL` |
 | GTM hierarchy refine | `py scripts/refine_gtm_process_hierarchy.py` | Optional `--write` |
-| HLK KM manifests | `py scripts/validate_hlk_km_manifests.py` | When `v3.0/_assets/**/*.manifest.md` change |
+| Initiative 48 dossier snapshot | `py scripts/verify.py dossier_smoke` | Same as `py scripts/render_uat_dossier.py --mode snapshot --format md --quiet`; writes under `artifacts/uat-dossier/` |
 | mcporter paths | `py scripts/resolve-mcporter-paths.py` | After manual `mcporter.json` copy |
 
 ## Gateway tool policy

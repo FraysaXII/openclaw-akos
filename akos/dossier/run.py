@@ -46,6 +46,7 @@ class DossierFilter:
     initiative: str | None = None  # e.g. "47"
     persona_id: str | None = None  # e.g. "PERSONA-INVESTOR-COLD"
     since: str | None = None  # ISO date "YYYY-MM-DD"
+    trend_window: int = DEFAULT_TREND_WINDOW  # P7 Section 11 history depth
 
 
 @dataclass

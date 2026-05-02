@@ -85,7 +85,7 @@ def test_gather_schema_governance_reads_actual_csv_counts() -> None:
     p = data.payload
     assert p["total_topics"] >= 28  # I47 added 1; I48 may add more
     assert p["total_skills"] == 5
-    assert p["total_policies"] >= 25  # I47 P12 added 3
+    assert p["total_policies"] >= 26  # I48 P7 added POL-DOSSIER-RUN-RETENTION-V1
     assert p["total_personas"] == 16
     assert p["total_scenarios"] >= 326  # I47 P9 closed at 326
     assert p["validate_hlk_pass"] is None  # snapshot doesn't run validator

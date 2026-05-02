@@ -14,6 +14,7 @@ Migration **filename prefixes** must match the remote ledger (`schema_migrations
 | `20260420202847_i16_finops_vendor_register_mirror.sql` | `scripts/sql/i16_phase3_staging/20260420_i16_finops_vendor_mirror_up.sql` |
 | `20260423014144_i18_finops_counterparty_mirror_cutover.sql` | `scripts/sql/i18_phase1_staging/20260423_i18_finops_counterparty_mirror_up.sql` |
 | `20260423014326_i19_finops_ledger_phase1.sql` | `scripts/sql/i19_phase1_staging/20260423_i19_finops_ledger_phase1_up.sql` |
+| `20260502140000_i48_dossier_run_mirror.sql` | Initiative 48 — net-new `compliance.dossier_run` append-only trend store (no staging duplicate) |
 
 ## Pre-`db push` checklist (mandatory)
 

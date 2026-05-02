@@ -37,6 +37,21 @@
           "id": "release_gate",
           "description": "Unified release gate (HLK, process_list header, vault links, ...)",
           "argv": ["scripts/release-gate.py"]
+        },
+        {
+          "id": "dossier_smoke",
+          "description": "Initiative 48: operator UAT dossier snapshot (markdown only; writes artifacts/uat-dossier/)",
+          "argv": ["scripts/render_uat_dossier.py", "--mode", "snapshot", "--format", "md", "--quiet"]
+        }
+      ]
+    },
+    "dossier_smoke": {
+      "description": "Initiative 48 P9: standalone dossier snapshot smoke (same argv as pre_commit dossier_smoke step)",
+      "steps": [
+        {
+          "id": "render_uat_dossier_snapshot_md",
+          "description": "Render operator UAT dossier markdown via snapshot mode",
+          "argv": ["scripts/render_uat_dossier.py", "--mode", "snapshot", "--format", "md", "--quiet"]
         }
       ]
     },

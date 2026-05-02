@@ -2033,6 +2033,10 @@ This section explains how to operate the Holistika Knowledge Vault through MADEI
 
 **Operating rule:** Session state is disposable. Workspace state helps agents remember context. The vault is the source of truth. Never rely on session memory for business facts -- always ground answers in the vault.
 
+### 24.1.1 Operator-facing UAT dossier (Initiative 48)
+
+Use **`py scripts/render_uat_dossier.py`** for a single timestamped pack under `artifacts/uat-dossier/uat-dossier-<UTC>/`: `dossier.md`, optional `dossier.pdf` / `dossier.html`, and `manifest.json`. Default **`--mode snapshot`** reads existing artifacts only (fast). **`--mode live`** re-runs the orchestrated validators and eval CLI surface (~minutes). **`--mode tier-b`** is env-gated (`AKOS_DOSSIER_TIER_B=1`) and cost-capped via `MAX_DOSSIER_USD`. Trend sparklines (Section 11) append to `artifacts/uat-dossier/index.json` locally and optionally mirror to `compliance.dossier_run` when Supabase service-role env vars are set.
+
 ### 24.2 How You Use MADEIRA Day-to-Day
 
 MADEIRA is your single entrypoint for HLK operations. You talk to MADEIRA. MADEIRA queries the vault.

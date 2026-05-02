@@ -203,3 +203,22 @@ jobs:
               fi
             done
           } >> $GITHUB_STEP_SUMMARY
+
+      - name: Render UAT dossier (snapshot; per matrix cell)
+        if: always()
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          OUT="dossier-out-${{ matrix.model_tier }}-${{ matrix.persona }}"
+          python scripts/render_uat_dossier.py --mode snapshot --format md --quiet \
+            --persona "${{ steps.preflight.outputs.persona }}" \
+            --out-dir "$OUT"
+
+      - name: Upload UAT dossier artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uat-dossier-${{ matrix.model_tier }}-${{ matrix.persona }}
+          path: dossier-out-${{ matrix.model_tier }}-${{ matrix.persona }}/
+          retention-days: 90

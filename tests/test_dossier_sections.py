@@ -124,8 +124,15 @@ def test_section_11_trendlines_status_is_info() -> None:
     assert result.status == "INFO"
 
 
-def test_section_11_trendlines_emits_insufficient_data_placeholder_at_run_1() -> None:
+def test_section_11_trendlines_emits_insufficient_data_placeholder_at_run_1(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """Section 11 returns INSUFFICIENT-DATA when no prior runs exist."""
+    from akos.dossier import sources as dossier_sources
+
+    monkeypatch.setattr(dossier_sources, "_fetch_dossier_run_remote", lambda limit: [])
+    monkeypatch.setattr(dossier_sources, "_load_local_index_runs", lambda limit: [])
+
     inst = Section11TrendLines()
     md = inst.render_markdown(inst.gather(mode="snapshot"))
     assert "INSUFFICIENT-DATA" in md

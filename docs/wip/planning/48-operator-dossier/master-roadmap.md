@@ -1,6 +1,6 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 48-operator-dossier
 report_kind: master-roadmap
 program_id: shared
@@ -12,7 +12,7 @@ last_review: 2026-05-02
 # Initiative 48 — Operator-facing UAT Dossier
 
 **Folder:** `docs/wip/planning/48-operator-dossier/`
-**Status:** Open (started 2026-05-02)
+**Status:** Closed (2026-05-02)
 **Authoritative Cursor plan:** `~/.cursor/plans/i48_operator_dossier_7949bc1d.plan.md`
 **Predecessors:** [I27 P4](../27-enisa-dossier/master-roadmap.md) (`scripts/render_dossier.py` ENISA exemplar; the proven brand-aligned PDF pattern), [I32 P10](../32-holistik-ops-maturation/master-roadmap.md) (`scripts/render_wip_dashboard.py` auto-render-with-markers pattern), [I47 P15](../47-user-centric-uat/master-roadmap.md) (the dossier-shaped UAT closure report this initiative generalises).
 **Sister to:** I46 P5 conditional GraphRAG ship (consumer of dossier evidence), future I49 (multi-judge consensus + benchmark scoring; consumer of dossier trend lines).
@@ -84,7 +84,11 @@ flowchart TD
 | P6 | Per-initiative + per-persona scoping | `--initiative 47` filters to one initiative's reports; `--persona <id>` filters scenario stats + per-persona scorecard + persona-conditioned MADEIRA prompt diff; `--since <YYYY-MM-DD>` for date-window | ~10 |
 | P7 | Trend storage + sparklines | NEW `compliance.dossier_run` mirror table (run_id + timestamp + per-section pass/fail counts + roll-up metrics); reads last N runs to compute deltas; emits inline SVG sparklines per metric (eval pass rate, calibration drift, cost trend, drift canary count) | ~18 |
 | P8 | CI integration | `eval-tier-b.yml` matrix-cell trailing step uploads dossier as artifact; optional `gh pr comment` with executive summary; per-week dossier diff via `--since` flag | ~10 |
-| P9 | Closure: tests + UAT + CHANGELOG + WIP_DASHBOARD + live operator demo | UAT report at `reports/uat-i48-operator-dossier-2026-XX-XX.md` per akos-planning-traceability.mdc UAT contract | — |
+| P9 | Closure: tests + UAT + CHANGELOG + WIP_DASHBOARD + live operator demo | UAT report at `reports/uat-i48-operator-dossier-2026-05-02.md` per akos-planning-traceability.mdc UAT contract | — |
+
+## Closure (2026-05-02)
+
+All planned phases P0–P9 are implemented: `akos/dossier/` package, snapshot/live/tier-b modes, multi-format output, P6 filters, `compliance.dossier_run` DDL + best-effort writer + local `index.json` trend cache, CI steps, verify profile `dossier_smoke` wired into `pre_commit`, documentation sync, and closure UAT report with the 10-step results table. Remote Supabase apply of the new migration remains an operator follow-up when MasterData is linked.
 
 ## Verification matrix (governed; per `config/verification-profiles.json`)
 
@@ -100,13 +104,13 @@ flowchart TD
 ## Success metrics (closure conditions)
 
 - All 10 phases ship; ~122 new I48 tests PASS
-- `validate_hlk` OVERALL PASS includes new POLICY_REGISTER count (26 with `retention: 1`) + new `compliance.dossier_run_mirror`
+- `validate_hlk` OVERALL PASS includes new POLICY_REGISTER count (26 with `retention: 1`) + new `compliance.dossier_run` table (DDL shipped; remote apply operator-pending)
 - `dossier_smoke` profile in `pre_commit` chain and PASSES
 - UAT report captures the 10-step results table per akos-planning-traceability.mdc UAT contract
 - Branch `i48-operator-dossier` pushed to remote
 - Operator confirms `py scripts/render_uat_dossier.py` produces a "dossier-shaped" artifact in their preferred format
 - Doc sync per akos-docs-config-sync.mdc complete (ARCHITECTURE + USER_GUIDE + DEVELOPER_CHECKLIST + DEV_VERIFICATION_REFERENCE)
-- ≥2 dossier runs land in `compliance.dossier_run_mirror` (so sparklines render with real data)
+- ≥2 dossier runs land in `compliance.dossier_run` **or** local `artifacts/uat-dossier/index.json` (sparklines render with ≥2 datapoints)
 
 ## Risks + rollback
 
@@ -115,7 +119,7 @@ See [`risk-register.md`](risk-register.md). 10 risks tracked; key concerns: aggr
 ## Reporting artifacts
 
 - `reports/p<N>-*-YYYY-MM-DD.md` per phase
-- `reports/uat-i48-operator-dossier-2026-XX-XX.md` (P9 closure; per akos-planning-traceability.mdc UAT contract; 10-step results table)
+- `reports/uat-i48-operator-dossier-2026-05-02.md` (P9 closure; per akos-planning-traceability.mdc UAT contract; 10-step results table)
 
 ## Cross-cutting
 

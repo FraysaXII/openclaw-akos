@@ -16,6 +16,7 @@ Per [CONTRIBUTING.md](../CONTRIBUTING.md), run this phase checklist before every
 | 5 | `py -m pytest tests/test_api.py tests/test_madeira_interaction.py -v` | FastAPI control plane + Madeira interaction mode smoke |
 | 6 | `py scripts/release-gate.py` | Unified gate must report PASS (includes HLK vault validation). Optional: `AKOS_EVAL_RUBRIC=1` adds offline `run-evals.py` rubric slice. |
 | 6a | `py scripts/run-evals.py run --suite pathc-research-spine --mode rubric` | When changing eval suites or `akos/eval_harness.py` |
+| 6b | `py scripts/render_uat_dossier.py --mode snapshot --format md --quiet` | **Initiative 48:** operator UAT dossier snapshot (also runs as verify profile `dossier_smoke` and as the final step of `py scripts/verify.py pre_commit`) |
 | 7 | `py scripts/validate_hlk.py` | HLK canonical vault integrity — includes **`COMPONENT_SERVICE_MATRIX.csv`** and **`FINOPS_COUNTERPARTY_REGISTER.csv`** checks when those files exist (also run by release gate) |
 | 7a | `py scripts/validate_hlk_vault_links.py` | Internal v3.0 markdown link integrity (also run by release gate) |
 | 7b | `py scripts/merge_gtm_into_process_list.py` | Optional: merge GTM candidate CSV into `process_list.csv` after operator approval (`--write` applies) |

@@ -19,7 +19,7 @@ from __future__ import annotations
 # Keep in sync with docs/references/hlk/compliance/dimensions/POLICY_REGISTER.csv header row.
 POLICY_REGISTER_FIELDNAMES: tuple[str, ...] = (
     "policy_id",            # ^POL-[A-Z0-9-]{4,80}$
-    "policy_class",         # rls | service_role_rotation | redaction | pii_scope
+    "policy_class",         # rls | service_role_rotation | redaction | pii_scope | retention | ...
     "applies_to_schema",    # e.g., 'compliance', 'finops', 'holistika_ops', '*' for cross-schema
     "applies_to_table",     # e.g., 'goipoi_register_mirror', '*' for whole schema
     "policy_text",          # the actual rule (1-3 sentences; cite SOP if longer)
@@ -47,6 +47,8 @@ VALID_POLICY_CLASSES: frozenset[str] = frozenset({
     # policy_text encodes the threshold (e.g., "min_pass_score=4");
     # enforced by akos.eval_harness.judge.load_judge_thresholds().
     "judge_threshold",
+    # I48 P7: dossier_run mirror retention posture (R-48-5).
+    "retention",
 })
 
 VALID_CADENCES: frozenset[str] = frozenset({

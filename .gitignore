@@ -114,5 +114,6 @@ artifacts/agent-memory-triggers/*.json
 
 # Initiative 48 operator-facing UAT dossier outputs (per-run timestamped; regenerable)
 artifacts/uat-dossier/uat-dossier-*/
+artifacts/uat-dossier/index.json
 !artifacts/uat-dossier/README.md
 

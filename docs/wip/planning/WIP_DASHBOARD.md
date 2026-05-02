@@ -52,7 +52,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **45** | [`45-live-eval-harness/`](45-live-eval-harness/) | Open (started 2026-05-01) | 2026-05-01 | Initiative 45 — Live Eval Harness Modernisation: 9-phase unification + cost + adversari... |
 | **46** | [`46-neo4j-strategic-posture/`](46-neo4j-strategic-posture/) | Open (started 2026-05-01) | 2026-05-01 | Initiative 46 — Neo4j Strategic Posture: doctrine + GraphRAG PoC + agent memory ADR |
 | **47** | [`47-user-centric-uat/`](47-user-centric-uat/) | Closed (2026-05-02; all 16 phases shipped; 134 new tests; 326 scenarios; UAT ... | 2026-05-02 | Initiative 47 — User-centric UAT modernisation |
-| **48** | [`48-operator-dossier/`](48-operator-dossier/) | Open (started 2026-05-02) | 2026-05-02 | Initiative 48 — Operator-facing UAT Dossier |
+| **48** | [`48-operator-dossier/`](48-operator-dossier/) | Closed (2026-05-02) | 2026-05-02 | Initiative 48 — Operator-facing UAT Dossier |
 <!-- END AUTO -->
 
 ## Re-render contract

@@ -597,6 +597,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/madeira_interaction.py` | Madeira Ask vs Plan draft: `apply_madeira_interaction_to_soul`, `redeploy_all_souls_with_madeira_mode`, handoff schema loader |
 | `akos/telemetry.py` | `LangfuseReporter` wrapping the Langfuse SDK; `trace_metric()` for DX metrics; `trace_eval_outcome()` for suite runs; graceful no-op when credentials are absent |
 | `akos/eval_harness.py` | Suite manifest loading + rubric scoring shared by `scripts/run-evals.py` and pytest |
+| `akos/dossier/` | Initiative 48: `DossierRun` + twelve dossier sections + trend/sparkline helpers + branded PDF/HTML render adapters; entrypoint `scripts/render_uat_dossier.py` |
 | `akos/alerts.py` | `AlertEvaluator` -- checks real-time log entries against `alerts.json` and periodic metrics against `baselines.json` |
 | `akos/runpod_provider.py` | RunPod SDK wrapper: endpoint lifecycle, health checks, scaling, inference, GPU discovery (v0.3.0) |
 | `akos/openstack_provider.py` | ShadowGPU (OpenStack) SDK wrapper: Keystone auth, Nova instance lifecycle, Neutron security groups, floating IPs, spot termination detection, vLLM cloud-init deployment |
@@ -721,6 +722,7 @@ Launch: `python scripts/serve-api.py --port 8420`
 | `scripts/checkpoint.py` | Checkpoint CLI (create/list/restore workspace snapshots) |
 | `scripts/sync-runtime.py` | Hydrate runtime from repo SSOT |
 | `scripts/release-gate.py` | Unified release gate (tests + drift + smoke) |
+| `scripts/render_uat_dossier.py` | Initiative 48: operator-facing UAT dossier (markdown + PDF + HTML + manifest) aggregating governance validators, eval harness output, calibration/chaos/trigger artifacts, and OPS debt tables; `--mode snapshot|live|tier-b` |
 | `scripts/validate_hlk_km_manifests.py` | Validate HLK KM visual manifest frontmatter and raster paths under `v3.0/_assets/**/*.manifest.md` |
 | `scripts/validate_component_service_matrix.py` | Validate `COMPONENT_SERVICE_MATRIX.csv` (FKs to org, process_list, registry slugs); called from `validate_hlk.py` when the file exists |
 | `scripts/validate_finops_counterparty_register.py` | Validate `FINOPS_COUNTERPARTY_REGISTER.csv`; called from `validate_hlk.py` when the file exists |

@@ -21,6 +21,7 @@ import logging
 import os
 import re
 import time
+from datetime import date
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
@@ -391,6 +392,162 @@ def gather_governance_debt(*, initiative_filter: str | None = None) -> SectionDa
 
 
 # ──────────────────────────────────────────────────────────────────────────────
+# Section 11 — Trend lines (P7 history + sparklines)
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+def _fetch_dossier_run_remote(limit: int) -> list[dict[str, Any]]:
+    """Return newest-first rows from compliance.dossier_run (PostgREST)."""
+    url = (os.environ.get("SUPABASE_URL") or "").rstrip("/")
+    key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or ""
+    if not url or not key:
+        return []
+    try:
+        req = urllib.request.Request(
+            f"{url}/rest/v1/dossier_run?"
+            f"select=run_id,started_at,mode,git_sha,section_metrics,manifest_sha256"
+            f"&order=started_at.desc&limit={int(limit)}",
+            headers={
+                "apikey": key,
+                "Authorization": f"Bearer {key}",
+                "Accept-Profile": "compliance",
+                "Accept": "application/json",
+            },
+        )
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            rows = json.loads(resp.read().decode("utf-8"))
+            return rows if isinstance(rows, list) else []
+    except (urllib.error.URLError, urllib.error.HTTPError, OSError, ValueError, TypeError) as exc:
+        logger.debug("dossier_run mirror query failed: %s", exc)
+        return []
+
+
+def _load_local_index_runs(limit: int) -> list[dict[str, Any]]:
+    """Read ``artifacts/uat-dossier/index.json`` runs (newest last in file)."""
+    from akos.dossier.dossier_run_writer import LOCAL_INDEX_PATH
+
+    if not LOCAL_INDEX_PATH.is_file():
+        return []
+    try:
+        data = json.loads(LOCAL_INDEX_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    runs = data.get("runs")
+    if not isinstance(runs, list):
+        return []
+    return runs[-int(limit) :]
+
+
+def gather_trend_sparklines(
+    *,
+    trend_window: int,
+    since: str | None = None,
+    prior_section_results: list[Any] | None = None,
+    current_started_at: str | None = None,
+) -> SectionData:
+    """Build Section 11 body: 4 inline SVG series when >=2 total points.
+
+    Points come from (in order): remote ``compliance.dossier_run`` history if
+    reachable, else local ``index.json``, plus an optional synthetic *current*
+    point derived from sections 2–10 already gathered this run.
+    """
+    from akos.dossier.dossier_run_writer import compute_rollup_from_section_metrics
+    from akos.dossier.dossier_run_writer import compute_rollup_from_section_results
+    from akos.dossier.run import DEFAULT_TREND_WINDOW
+    from akos.dossier.sparkline import render_sparkline_svg
+
+    lim = int(trend_window) if trend_window > 0 else DEFAULT_TREND_WINDOW
+    remote_rows = _fetch_dossier_run_remote(lim + 5)
+
+    points: list[dict[str, Any]] = []
+    if remote_rows:
+        for row in reversed(remote_rows):  # chronological
+            sm = row.get("section_metrics") or {}
+            if not isinstance(sm, dict):
+                sm = {}
+            rollup = compute_rollup_from_section_metrics(sm)
+            points.append({
+                "started_at": str(row.get("started_at") or ""),
+                "rollup": rollup,
+                "source": "remote",
+            })
+    else:
+        for row in _load_local_index_runs(lim + 5):
+            rollup = row.get("rollup")
+            if not isinstance(rollup, dict):
+                continue
+            points.append({
+                "started_at": str(row.get("started_at") or ""),
+                "rollup": {
+                    "eval_pass_rate": float(rollup.get("eval_pass_rate") or 0.0),
+                    "calibration_ok": float(rollup.get("calibration_ok") or 0.0),
+                    "drift_canary_total": int(rollup.get("drift_canary_total") or 0),
+                    "cost_total_usd": float(rollup.get("cost_total_usd") or 0.0),
+                },
+                "source": "local",
+            })
+
+    if since:
+        try:
+            cutoff = date.fromisoformat(since.strip())
+            filt: list[dict[str, Any]] = []
+            for p in points:
+                ts = (p.get("started_at") or "")[:10]
+                try:
+                    if date.fromisoformat(ts) >= cutoff:
+                        filt.append(p)
+                except ValueError:
+                    continue
+            points = filt
+        except ValueError:
+            pass
+
+    if prior_section_results and current_started_at:
+        rollup_cur = compute_rollup_from_section_results(
+            [r for r in prior_section_results if 2 <= int(getattr(r, "section_id", 0)) <= 10]
+        )
+        points.append({
+            "started_at": current_started_at,
+            "rollup": rollup_cur,
+            "source": "current",
+        })
+
+    if len(points) > lim:
+        points = points[-lim:]
+
+    if len(points) < 2:
+        return SectionData(
+            payload={
+                "insufficient_data": True,
+                "point_count": len(points),
+            },
+            placeholder=False,
+        )
+
+    eval_rates = [float(p["rollup"]["eval_pass_rate"]) for p in points]
+    cal_ok = [float(p["rollup"]["calibration_ok"]) for p in points]
+    drifts = [float(p["rollup"]["drift_canary_total"]) for p in points]
+    costs = [float(p["rollup"]["cost_total_usd"]) for p in points]
+
+    sparklines = {
+        "Eval pass rate": render_sparkline_svg(eval_rates, label="eval_pass_rate"),
+        "Calibration health (1=in tolerance)": render_sparkline_svg(cal_ok, label="calibration_ok"),
+        "Drift canary total": render_sparkline_svg(drifts, label="drift_canary_total"),
+        "Eval cost (USD)": render_sparkline_svg(costs, label="cost_total_usd"),
+    }
+
+    return SectionData(
+        payload={
+            "insufficient_data": False,
+            "sparklines": sparklines,
+            "point_count": len(points),
+            "sources_mix": sorted({p.get("source") for p in points}),
+        },
+        placeholder=False,
+    )
+
+
+# ──────────────────────────────────────────────────────────────────────────────
 # WIP dashboard parse helper (active initiatives)
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -424,6 +581,75 @@ def _safe_relative(path: Path) -> str:
         return str(path.relative_to(REPO_ROOT))
     except ValueError:
         return str(path)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Section 04 (P6 extension) — persona MADEIRA prompt diff
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+def gather_persona_prompt_diff(persona_id: str) -> dict[str, Any]:
+    """Compute persona-conditioned MADEIRA prompt diff (P6 + I47 P11).
+
+    Invokes ``scripts/assemble-prompts.py --variant standard --dry-run`` twice:
+    1. baseline (no --persona)
+    2. conditioned (--persona <id>)
+
+    Returns ``{persona_id, baseline_chars, conditioned_chars, delta_chars,
+    headroom_chars, swapped_out, hints_path, hints_path_present}``.
+    """
+    from akos.dossier.runner import run_cli
+    import sys
+    BOOTSTRAP_MAX_CHARS = 20_000
+
+    # Hints path check
+    hints_path = REPO_ROOT / "prompts" / "personas" / persona_id / "MADEIRA_HINTS.md"
+
+    # Baseline (no --persona): parse "MADEIRA_PROMPT.standard.md: NNN chars" line
+    baseline_cli = run_cli(
+        [sys.executable, str(REPO_ROOT / "scripts" / "assemble-prompts.py"),
+         "--variant", "standard", "--dry-run"],
+        timeout=30,
+    )
+    baseline_chars = _parse_madeira_chars(baseline_cli.stdout)
+
+    # Conditioned (--persona X): parse "MADEIRA_PROMPT.standard.<persona>.md: NNN chars"
+    conditioned_cli = run_cli(
+        [sys.executable, str(REPO_ROOT / "scripts" / "assemble-prompts.py"),
+         "--variant", "standard", "--dry-run", "--persona", persona_id],
+        timeout=30,
+    )
+    conditioned_chars = _parse_madeira_chars(conditioned_cli.stdout, persona_id=persona_id)
+
+    swapped_out: list[str] = []
+    # Per I47 P11 architectural decision: persona-conditioned MADEIRA swaps OUT OVERLAY_HLK_GRAPH
+    if conditioned_chars is not None and baseline_chars is not None and conditioned_chars < baseline_chars:
+        swapped_out.append("OVERLAY_HLK_GRAPH.md (swapped for persona overlay; I47 P11)")
+
+    delta = (conditioned_chars - baseline_chars) if (conditioned_chars is not None and baseline_chars is not None) else None
+    headroom = (BOOTSTRAP_MAX_CHARS - conditioned_chars) if conditioned_chars is not None else None
+
+    return {
+        "persona_id": persona_id,
+        "baseline_chars": baseline_chars,
+        "conditioned_chars": conditioned_chars,
+        "delta_chars": delta,
+        "headroom_chars": headroom,
+        "swapped_out": swapped_out,
+        "hints_path": _safe_relative(hints_path),
+        "hints_path_present": hints_path.is_file(),
+    }
+
+
+def _parse_madeira_chars(stdout: str, *, persona_id: str | None = None) -> int | None:
+    """Parse MADEIRA_PROMPT.standard[.persona].md: NNN chars from assemble-prompts dry-run stdout."""
+    import re
+    if persona_id:
+        pattern = rf"MADEIRA_PROMPT\.standard\.{re.escape(persona_id)}\.md:\s*(\d+)\s*chars"
+    else:
+        pattern = r"MADEIRA_PROMPT\.standard\.md:\s*(\d+)\s*chars"
+    m = re.search(pattern, stdout)
+    return int(m.group(1)) if m else None
 
 
 # Generic helper: stale-badge text per dossier-section-spec.md
