@@ -202,9 +202,16 @@ def _write_outputs(run: DossierRun, args: argparse.Namespace) -> dict[str, Path]
         html_path.write_text(html_text, encoding="utf-8")
         written["html"] = html_path
 
+    screenshots: list[Path] = []
+    if args.screenshots:
+        from akos.dossier.runner import take_browser_screenshots
+        screenshots = take_browser_screenshots(out_dir)
+        written["screenshots_dir"] = out_dir / "screenshots"
+
     manifest = run.to_manifest(
         md_text=md_text,
         html_text=written.get("html") and written["html"].read_text(encoding="utf-8") or None,
+        screenshots=screenshots,
     )
     manifest_path = out_dir / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")

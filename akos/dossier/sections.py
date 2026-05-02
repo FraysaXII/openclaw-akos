@@ -253,7 +253,17 @@ class Section02SchemaGovernance(Section):
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
         from akos.dossier.sources import gather_schema_governance
-        return gather_schema_governance()
+        data = gather_schema_governance()
+        if mode in ("live", "tier-b"):
+            from akos.dossier.runner import run_validate_hlk
+            cli = run_validate_hlk()
+            data.payload["validate_hlk_pass"] = cli.ok
+            data.payload["validate_hlk_exit_code"] = cli.exit_code
+            data.payload["validate_hlk_duration_seconds"] = cli.duration_seconds
+            if not cli.ok:
+                data.payload["status"] = "FAIL"
+                data.payload["validate_hlk_error"] = (cli.stderr or cli.stdout)[-500:]
+        return data
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
@@ -302,6 +312,30 @@ class Section03EvalHealth(Section):
     staleness_threshold_hours = 12
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
+        if mode in ("live", "tier-b"):
+            from akos.dossier.runner import run_eval_mode_all_json
+            cli = run_eval_mode_all_json(persona=(filter.persona_id if filter else None))
+            if not cli.ok or cli.parsed_json is None:
+                return SectionData(
+                    placeholder=True,
+                    error=f"eval --mode all failed (exit={cli.exit_code}, error_class={cli.error_class}): {(cli.stderr or 'no stderr')[:200]}",
+                )
+            d = cli.parsed_json
+            rows = d.get("rows") or []
+            return SectionData(
+                payload={
+                    "overall_status": d.get("overall_status", "unknown"),
+                    "rows_total": len(rows),
+                    "rows_passed": sum(1 for r in rows if (r.get("status") or "").upper() == "PASS"),
+                    "rows_failed": sum(1 for r in rows if (r.get("status") or "").upper() == "FAIL"),
+                    "modes_run": d.get("modes_run", []),
+                    "elapsed_ms": d.get("elapsed_ms", 0),
+                    "cost_total_usd": sum(float(r.get("cost_usd") or 0.0) for r in rows),
+                    "cli_duration_seconds": cli.duration_seconds,
+                    "status": "PASS" if d.get("overall_status") == "pass" else "FAIL",
+                },
+                data_age_seconds=0.0,
+            )
         from akos.dossier.sources import gather_eval_health_snapshot
         return gather_eval_health_snapshot()
 
@@ -309,10 +343,17 @@ class Section03EvalHealth(Section):
         if data.placeholder:
             return _placeholder_markdown(self.section_id, self.name,
                                          data.error or "eval Scorecard not yet wired")
+        p = data.payload
         return (
             f"{_section_header(self.section_id, self.name)}\n"
             f"\n"
-            + str(data.payload.get("scorecard_markdown", "(no scorecard)"))
+            f"- overall_status: **{p.get('overall_status', 'unknown')}**\n"
+            f"- rows: {p.get('rows_total', 0)} total / {p.get('rows_passed', 0)} PASS / {p.get('rows_failed', 0)} FAIL\n"
+            f"- modes_run: {', '.join(p.get('modes_run', []) or ['-'])}\n"
+            f"- elapsed_ms: {p.get('elapsed_ms', 0)}\n"
+            f"- cost_total_usd: ${p.get('cost_total_usd', 0.0):.4f}\n"
+            + (f"- cli_duration_seconds: {p.get('cli_duration_seconds', 0):.2f}\n"
+               if p.get('cli_duration_seconds') is not None else "")
         )
 
     def metrics_for_trend(self, data: SectionData) -> dict[str, Any]:
@@ -341,6 +382,10 @@ class Section04PersonaCalibration(Section):
     staleness_threshold_hours = 24
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
+        # Live mode: re-run calibrate_scenarios.py first (writes fresh artifact); then read.
+        if mode in ("live", "tier-b"):
+            from akos.dossier.runner import run_calibrate_scenarios
+            run_calibrate_scenarios(persona=(filter.persona_id if filter else None))
         from akos.dossier.sources import gather_persona_calibration
         return gather_persona_calibration()
 
@@ -379,8 +424,31 @@ class Section05Adversarial(Section):
     staleness_threshold_hours = 24
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
+        if mode in ("live", "tier-b"):
+            from akos.dossier.runner import run_eval_mode_adversarial_json, run_lint_cassette_pii
+            cli = run_eval_mode_adversarial_json()
+            if not cli.ok or cli.parsed_json is None:
+                return SectionData(
+                    placeholder=True,
+                    error=f"eval --mode adversarial failed (exit={cli.exit_code}, error_class={cli.error_class}): {(cli.stderr or '')[:200]}",
+                )
+            d = cli.parsed_json
+            rows = d.get("rows") or []
+            pii_cli = run_lint_cassette_pii()
+            return SectionData(
+                payload={
+                    "adversarial_pass_count": sum(1 for r in rows if (r.get("status") or "").upper() == "PASS"),
+                    "adversarial_fail_count": sum(1 for r in rows if (r.get("status") or "").upper() == "FAIL"),
+                    "rows_total": len(rows),
+                    "pii_linter_clean": pii_cli.exit_code == 0,
+                    "pii_linter_exit_code": pii_cli.exit_code,
+                    "cli_duration_seconds": cli.duration_seconds,
+                    "status": "FAIL" if any((r.get("status") or "").upper() == "FAIL" for r in rows) else "PASS",
+                },
+                data_age_seconds=0.0,
+            )
         return SectionData(placeholder=True,
-                           error="P1 skeleton; eval --mode adversarial wiring lands in P2")
+                           error="snapshot mode does not run adversarial sweep; use --mode live")
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
@@ -392,7 +460,10 @@ class Section05Adversarial(Section):
             f"\n"
             f"- adversarial PASS count: {p.get('adversarial_pass_count', 0)}\n"
             f"- adversarial FAIL count: {p.get('adversarial_fail_count', 0)}\n"
+            f"- rows total: {p.get('rows_total', 0)}\n"
             f"- pii_linter_clean: {p.get('pii_linter_clean', True)}\n"
+            + (f"- cli_duration_seconds: {p.get('cli_duration_seconds', 0):.2f}\n"
+               if p.get('cli_duration_seconds') is not None else "")
         )
 
     def metrics_for_trend(self, data: SectionData) -> dict[str, Any]:
@@ -417,7 +488,15 @@ class Section06Recovery(Section):
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
         from akos.dossier.sources import gather_recovery_chaos
-        return gather_recovery_chaos()
+        data = gather_recovery_chaos()
+        if mode in ("live", "tier-b"):
+            # Live mode: invoke chaos --dry-run (gate-check only; never live rotation per R-47-13)
+            from akos.dossier.runner import run_recovery_chaos_dry_run
+            cli = run_recovery_chaos_dry_run()
+            data.payload["chaos_dry_run_status"] = cli.exit_code
+            data.payload["chaos_dry_run_ok"] = cli.ok
+            data.payload["cli_duration_seconds"] = cli.duration_seconds
+        return data
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
@@ -452,8 +531,36 @@ class Section07DriftCanaries(Section):
     staleness_threshold_hours = 24
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
+        if mode in ("live", "tier-b"):
+            from akos.dossier.runner import run_graphrag_drift_canary
+            cli = run_graphrag_drift_canary()
+            if not cli.ok:
+                return SectionData(
+                    placeholder=True,
+                    error=f"drift canary failed (exit={cli.exit_code}, {cli.error_class}): {(cli.stderr or cli.stdout)[:200]}",
+                )
+            # Parse drift count from stdout (canary writes table; total drift in last line)
+            import re
+            stdout = cli.stdout
+            total_drift = 0
+            for line in stdout.splitlines():
+                m = re.search(r"total drift:\s*(\d+)", line, re.IGNORECASE)
+                if m:
+                    total_drift = int(m.group(1))
+                    break
+            return SectionData(
+                payload={
+                    "drift_canary_total_drift": total_drift,
+                    "mirrors_stale_count": 0,
+                    "mirror_oldest_age_seconds": None,
+                    "cli_duration_seconds": cli.duration_seconds,
+                    "stdout_tail": stdout[-500:],
+                    "status": "FAIL" if total_drift > 1 else "PASS",
+                },
+                data_age_seconds=0.0,
+            )
         return SectionData(placeholder=True,
-                           error="P1 skeleton; drift canary + mirror staleness wiring lands in P2")
+                           error="snapshot mode does not run drift canary; use --mode live")
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
@@ -488,6 +595,10 @@ class Section08OperationalHealth(Section):
     staleness_threshold_hours = 12
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
+        # Live mode: re-run trigger watcher first (writes fresh artifact); then read.
+        if mode in ("live", "tier-b"):
+            from akos.dossier.runner import run_agent_memory_trigger_watcher
+            run_agent_memory_trigger_watcher()
         from akos.dossier.sources import gather_operational_health
         return gather_operational_health()
 
