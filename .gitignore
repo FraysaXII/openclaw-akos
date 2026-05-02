@@ -104,6 +104,7 @@ artifacts/chaos/*.json
 
 # Initiative 47 P10 calibration baseline outputs (regenerable via scripts/calibrate_scenarios.py)
 artifacts/calibration/*.json
+artifacts/calibration/*.md
 !artifacts/calibration/README.md
 
 # Initiative 47 P13 agent memory trigger watch outputs (regenerable cron)
