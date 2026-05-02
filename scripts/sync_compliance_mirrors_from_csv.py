@@ -386,20 +386,41 @@ def _emit_program_registry_upserts(rows: list[dict[str, str]], source_git_sha: s
 
 
 def _emit_skill_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
-    """Initiative 32 P2 — compliance.skill_registry_mirror upserts."""
+    """Initiative 32 P2 — compliance.skill_registry_mirror upserts.
+
+    I47 P13 item 2 (D-IH-47-G): boolean column emit fix per the I46 P7 lesson.
+    Boolean columns receive 'true' / 'false' / NULL keywords (not the empty
+    string ''), preventing the 22P02 'invalid input syntax for type boolean'
+    error that operator hit during I46 P7 mirror reseed. ``tools_required_waived``
+    is the canonical boolean column; if more boolean columns are added to
+    SKILL_REGISTRY in future initiatives, extend ``BOOL_COLUMNS`` accordingly.
+    """
     cols_csv = ", ".join(SKILL_REGISTRY_FIELDNAMES)
     cols_full = cols_csv + ", source_git_sha, synced_at"
     update_sets = ", ".join(
         [f"{c} = EXCLUDED.{c}" for c in SKILL_REGISTRY_FIELDNAMES]
         + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
     )
-    out: list[str] = ["-- compliance.skill_registry_mirror upserts (Initiative 32 P2)"]
+    BOOL_COLUMNS = {"tools_required_waived"}  # I45 P3 + I47 P13 item 2
+    out: list[str] = ["-- compliance.skill_registry_mirror upserts (Initiative 32 P2 + I47 P13 bool-emit fix)"]
     for r in rows:
         sid = (r.get("skill_id") or "").strip()
         if not sid:
             continue
-        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in SKILL_REGISTRY_FIELDNAMES)
-        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        row_vals: list[str] = []
+        for c in SKILL_REGISTRY_FIELDNAMES:
+            raw = (r.get(c) or "").strip()
+            if c in BOOL_COLUMNS:
+                low = raw.lower()
+                if low in ("true", "1", "yes", "y"):
+                    row_vals.append("true")
+                elif low in ("false", "0", "no", "n"):
+                    row_vals.append("false")
+                else:  # empty / unknown -> NULL (SKILL_REGISTRY treats blank as not waived)
+                    row_vals.append("NULL")
+            else:
+                row_vals.append(_sql_text_literal(raw))
+        vals_full = ", ".join(row_vals) + f", {_sql_text_literal(source_git_sha)}, now()"
         out.append(
             f"INSERT INTO compliance.skill_registry_mirror ({cols_full}) VALUES ({vals_full}) "
             f"ON CONFLICT (skill_id) DO UPDATE SET {update_sets};"

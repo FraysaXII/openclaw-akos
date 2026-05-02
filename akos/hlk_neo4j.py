@@ -167,19 +167,34 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
     # Initiative 23 P-graph: program-side projection (CSV-driven; no in-memory
     # registry mirror). Append nodes/edges to the same lists so the wipe-then-
     # rebuild transaction below sees them all.
-    from akos.hlk_graph_model import build_program_graph, build_topic_graph
+    from akos.hlk_graph_model import (
+        build_holistik_ops_axis_graph,
+        build_program_graph,
+        build_topic_graph,
+    )
 
     prog_nodes, prog_edges = build_program_graph(registry)
     # Initiative 25 P-graph: topic projection (CSV-driven). Topics depend on
     # Program nodes for UNDER_PROGRAM edges, so we project after Programs.
     topic_nodes, topic_edges = build_topic_graph(registry)
-    nodes = nodes + prog_nodes + topic_nodes
-    edges = edges + prog_edges + topic_edges
+    # Initiative 32 P5/P6 + I47 P13 item 1 (D-IH-47-G): project the 6 axis-6
+    # dimensions (Persona/Channel/Sourcing/Skill/TouchpointKitCell/Policy)
+    # PLUS their :UNDER_TOPIC edges. This closes the I46 drift canary catch
+    # where sync_csv_graph only wrote 4 of 10 dimensions.
+    axis_nodes, axis_edges = build_holistik_ops_axis_graph()
+    nodes = nodes + prog_nodes + topic_nodes + axis_nodes
+    edges = edges + prog_edges + topic_edges + axis_edges
 
     role_rows = [n.properties for n in nodes if n.label == "Role"]
     proc_rows = [n.properties for n in nodes if n.label == "Process"]
     prog_rows = [n.properties for n in nodes if n.label == "Program"]
     topic_rows = [n.properties for n in nodes if n.label == "Topic"]
+    persona_rows = [n.properties for n in nodes if n.label == "Persona"]
+    channel_rows = [n.properties for n in nodes if n.label == "Channel"]
+    sourcing_rows = [n.properties for n in nodes if n.label == "Sourcing"]
+    skill_rows = [n.properties for n in nodes if n.label == "Skill"]
+    cell_rows = [n.properties for n in nodes if n.label == "TouchpointKitCell"]
+    policy_rows = [n.properties for n in nodes if n.label == "Policy"]
     edge_rows = [
         {
             "etype": e.edge_type,
@@ -460,11 +475,142 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
                 rows=chunk,
             )
 
+        # Initiative 32 P5/P6 + I47 P13 item 1 (D-IH-47-G): write all 6 axis-6
+        # node types. Each MERGE keys on the dimension-specific id property.
+        for chunk in (persona_rows[i : i + batch] for i in range(0, len(persona_rows), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MERGE (n:Persona {persona_id: row.persona_id})
+                SET n.name = row.name,
+                    n.direction = row.direction,
+                    n.value_band = row.value_band,
+                    n.typical_distance_band = row.typical_distance_band,
+                    n.handoff_role = row.handoff_role
+                """,
+                rows=chunk,
+            )
+        for chunk in (channel_rows[i : i + batch] for i in range(0, len(channel_rows), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MERGE (n:Channel {channel_id: row.channel_id})
+                SET n.name = row.name,
+                    n.direction = row.direction,
+                    n.supported_languages = row.supported_languages,
+                    n.typical_distance_band_inbound = row.typical_distance_band_inbound,
+                    n.response_owner_role = row.response_owner_role
+                """,
+                rows=chunk,
+            )
+        for chunk in (sourcing_rows[i : i + batch] for i in range(0, len(sourcing_rows), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MERGE (n:Sourcing {vendor_id: row.vendor_id})
+                SET n.discipline = row.discipline,
+                    n.engagement_type = row.engagement_type,
+                    n.languages_supported = row.languages_supported,
+                    n.current_distance_band = row.current_distance_band
+                """,
+                rows=chunk,
+            )
+        for chunk in (skill_rows[i : i + batch] for i in range(0, len(skill_rows), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MERGE (n:Skill {skill_id: row.skill_id})
+                SET n.name = row.name,
+                    n.agents_supported = row.agents_supported,
+                    n.axes_consumed = row.axes_consumed,
+                    n.version = row.version,
+                    n.owner_role = row.owner_role,
+                    n.tenant_scope = row.tenant_scope,
+                    n.lifecycle_status = row.lifecycle_status
+                """,
+                rows=chunk,
+            )
+        for chunk in (cell_rows[i : i + batch] for i in range(0, len(cell_rows), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MERGE (n:TouchpointKitCell {cell_id: row.cell_id})
+                SET n.persona_id = row.persona_id,
+                    n.channel_id = row.channel_id,
+                    n.language = row.language,
+                    n.template_path = row.template_path,
+                    n.distance_variants_in_file = row.distance_variants_in_file,
+                    n.lifecycle_status = row.lifecycle_status
+                """,
+                rows=chunk,
+            )
+        for chunk in (policy_rows[i : i + batch] for i in range(0, len(policy_rows), batch)):
+            if not chunk:
+                continue
+            session.run(
+                """
+                UNWIND $rows AS row
+                MERGE (n:Policy {policy_id: row.policy_id})
+                SET n.policy_class = row.policy_class,
+                    n.applies_to_schema = row.applies_to_schema,
+                    n.applies_to_table = row.applies_to_table,
+                    n.cadence = row.cadence,
+                    n.owner_role = row.owner_role,
+                    n.last_review = row.last_review,
+                    n.next_review = row.next_review
+                """,
+                rows=chunk,
+            )
+
+        # Initiative 32 P5/P6 + I47 P13 item 1: write :UNDER_TOPIC edges
+        # from each axis-6 dimension to its linked topics.
+        # Each axis-6 dimension uses its own id field as the source MATCH key.
+        # We dispatch by from_label for portability across all 6 dimension types.
+        AXIS_KEY = {
+            "Persona": "persona_id",
+            "Channel": "channel_id",
+            "Sourcing": "vendor_id",
+            "Skill": "skill_id",
+            "TouchpointKitCell": "cell_id",
+            "Policy": "policy_id",
+        }
+        for from_label, key_field in AXIS_KEY.items():
+            ut_rows = [
+                r for r in edge_rows
+                if r["etype"] == "UNDER_TOPIC" and r["fa"] == from_label
+            ]
+            for chunk in (ut_rows[i : i + batch] for i in range(0, len(ut_rows), batch)):
+                if not chunk:
+                    continue
+                cypher = (
+                    "UNWIND $rows AS row "
+                    f"MATCH (a:{from_label} {{{key_field}: row.fid}}) "
+                    "MATCH (t:Topic {topic_id: row.tid}) "
+                    "MERGE (a)-[:UNDER_TOPIC]->(t)"
+                )
+                session.run(cypher, rows=chunk)
+
     return {
         "roles_written": len(role_rows),
         "processes_written": len(proc_rows),
         "programs_written": len(prog_rows),
         "topics_written": len(topic_rows),
+        "personas_written": len(persona_rows),
+        "channels_written": len(channel_rows),
+        "sourcing_written": len(sourcing_rows),
+        "skills_written": len(skill_rows),
+        "cells_written": len(cell_rows),
+        "policies_written": len(policy_rows),
         "edges_written": len(edge_rows),
     }
 

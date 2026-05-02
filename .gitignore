@@ -106,3 +106,8 @@ artifacts/chaos/*.json
 artifacts/calibration/*.json
 !artifacts/calibration/README.md
 
+# Initiative 47 P13 agent memory trigger watch outputs (regenerable cron)
+artifacts/agent-memory-triggers/*.json
+!artifacts/agent-memory-triggers/README.md
+!artifacts/agent-memory-triggers/MANUAL_FIRE.txt
+

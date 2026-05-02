@@ -26,10 +26,12 @@ Usage::
 from __future__ import annotations
 
 import argparse
+import subprocess
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT))
 
 from akos.eval_harness import list_suite_ids
 from akos.eval_harness.v2 import VALID_MODES, run_modes
@@ -393,6 +395,22 @@ def main() -> int:
                 r.status = "FAIL"
                 r.failures = list(r.failures or []) + [f"tier_b_regression:{dp:+.1f}pp>-{args.regression_pp:.1f}pp"]
                 sc.overall_status = "fail"
+
+    # I47 P13 item 4 (D-IH-47-G): live-write Scorecard rows to
+    # compliance.eval_run. Best-effort; silently no-ops when SUPABASE_URL +
+    # SUPABASE_SERVICE_ROLE_KEY env vars are unset.
+    try:
+        from akos.eval_harness.eval_run_writer import write_scorecard_rows
+        try:
+            git_sha = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=str(REPO_ROOT), text=True, timeout=3
+            ).strip()
+        except Exception:
+            git_sha = "unknown"
+        write_stats = write_scorecard_rows(sc, source_git_sha=git_sha)
+        sc.metadata["eval_run_writer"] = write_stats
+    except Exception as exc:  # pragma: no cover (defensive; writer is advisory)
+        sc.metadata["eval_run_writer_error"] = str(exc)[:200]
 
     if args.json:
         sys.stdout.write(sc.to_json())
