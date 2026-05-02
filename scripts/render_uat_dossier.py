@@ -187,13 +187,18 @@ def _write_outputs(run: DossierRun, args: argparse.Namespace) -> dict[str, Path]
     written["md"] = md_path
 
     if args.format in ("pdf", "all"):
-        # P4 will wire render_pdf_branded; for P2 just emit a markdown sidecar with placeholder header.
-        sidecar = out_dir / "dossier.pdf.placeholder.md"
-        sidecar.write_text(
-            "# PDF mode lands in P4 (--format pdf)\n\nUse --format md or --format html in snapshot mode for now.\n",
-            encoding="utf-8",
-        )
-        written["pdf_placeholder"] = sidecar
+        # P4: brand-aligned PDF via render_pdf_branded (D-IH-48-H + D-IH-48-H1).
+        # Soft-success: WeasyPrint -> fpdf2 -> pandoc -> markdown-sidecar fallback.
+        from akos.dossier.pdf_render import render_dossier_pdf
+        pdf_path = out_dir / "dossier.pdf"
+        rc = render_dossier_pdf(run, md_text, pdf_path)
+        if pdf_path.is_file():
+            written["pdf"] = pdf_path
+        else:
+            # Sidecar fallback wrote dossier.pdf.md instead
+            sidecar = out_dir / "dossier.pdf.md"
+            if sidecar.is_file():
+                written["pdf_sidecar"] = sidecar
 
     if args.format in ("html", "all"):
         # P5 will wire full render_dossier_html; for P2 just emit a minimal HTML with sections via section_to_html_details.
@@ -208,8 +213,10 @@ def _write_outputs(run: DossierRun, args: argparse.Namespace) -> dict[str, Path]
         screenshots = take_browser_screenshots(out_dir)
         written["screenshots_dir"] = out_dir / "screenshots"
 
+    pdf_path = written.get("pdf")
     manifest = run.to_manifest(
         md_text=md_text,
+        pdf_path=pdf_path if isinstance(pdf_path, Path) else None,
         html_text=written.get("html") and written["html"].read_text(encoding="utf-8") or None,
         screenshots=screenshots,
     )
