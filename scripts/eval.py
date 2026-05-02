@@ -269,6 +269,35 @@ def main() -> int:
     parser.add_argument(
         "--no-exit-on-fail", dest="exit_on_fail", action="store_false", help="always exit 0"
     )
+    # I47 P10 (D-IH-47-F): per-persona scorecard filter + difficulty meta-eval
+    parser.add_argument(
+        "--persona",
+        default="",
+        help="I47 P10: filter scorecard rows to one persona_id (e.g. PERSONA-INVESTOR-COLD).",
+    )
+    parser.add_argument(
+        "--difficulty",
+        default="",
+        choices=["", "trivial", "moderate", "hard", "impossible"],
+        help="I47 P10: filter scorecard rows to one difficulty class.",
+    )
+    parser.add_argument(
+        "--calibrate",
+        action="store_true",
+        help="I47 P10: emit calibration distribution (vs D-IH-47-C 40/40/10/10) and exit.",
+    )
+    # I47 P12 (D-IH-47-J): LLM-judge cost cap
+    parser.add_argument(
+        "--judge-cost-cap",
+        type=float,
+        default=0.01,
+        help="I47 P12: cap LLM-judge cost per scenario in USD (default 0.01).",
+    )
+    parser.add_argument(
+        "--no-judge",
+        action="store_true",
+        help="I47 P12: skip the LLM-judge axis evaluation (default: enabled when judge.py present).",
+    )
 
     args = parser.parse_args()
 
@@ -278,6 +307,16 @@ def main() -> int:
         return cmd_record(args)
     if args.cmd == "promote":
         return cmd_promote(args)
+
+    # I47 P10: --calibrate exits early after rendering distribution
+    if args.calibrate:
+        from akos.eval_harness.persona import (
+            calibration_distribution,
+            render_calibration_markdown,
+        )
+        results = calibration_distribution()
+        sys.stdout.write(render_calibration_markdown(results))
+        return 0 if all(r.overall_pass for r in results.values()) else 0  # warn-only by default
 
     modes = args.mode or ["all"]
     # Tier B preflight: if --tier B without AKOS_RECORD_LIVE=1, refuse and explain.
@@ -316,6 +355,24 @@ def main() -> int:
         replay_skill=args.replay_skill,
         enforce_cost=args.enforce_cost,
     )
+
+    # I47 P10 (D-IH-47-F): post-run persona / difficulty filter
+    if args.persona or args.difficulty:
+        kept = []
+        for r in sc.rows:
+            pid = getattr(r, "persona_id", None)
+            diff = getattr(r, "difficulty_class", None)
+            if args.persona and pid != args.persona:
+                continue
+            if args.difficulty and diff != args.difficulty:
+                continue
+            kept.append(r)
+        sc.rows = kept
+        sc.metadata["i47_filter"] = {
+            "persona_id": args.persona or None,
+            "difficulty_class": args.difficulty or None,
+            "rows_after_filter": len(kept),
+        }
 
     # Tier B post-run: enforce regression threshold + spend ceiling
     if args.tier == "B":

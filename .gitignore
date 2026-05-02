@@ -98,3 +98,11 @@ artifacts/exports/
 artifacts/probes/*.json
 !artifacts/probes/README.md
 
+# Initiative 47 P9 real-chaos runner outputs (operator-local; per-run timestamped)
+artifacts/chaos/*.json
+!artifacts/chaos/README.md
+
+# Initiative 47 P10 calibration baseline outputs (regenerable via scripts/calibrate_scenarios.py)
+artifacts/calibration/*.json
+!artifacts/calibration/README.md
+

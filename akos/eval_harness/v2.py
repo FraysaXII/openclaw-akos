@@ -60,6 +60,11 @@ class ScoreRow:
     latency_ms_p95: float | None = None  # P4 fills in
     failures: list[str] = field(default_factory=list)
     notes: str = ""
+    # I47 P10 + P12 extensions (D-IH-47-F + D-IH-47-J)
+    persona_id: str | None = None  # FK to PERSONA_REGISTRY (or 'OPERATOR'); None for non-persona rows
+    difficulty_class: str | None = None  # trivial|moderate|hard|impossible
+    scenario_class: str | None = None  # lookup|multihop|adversarial|recovery|benchmark|cross_axis|cannot_answer
+    judge_scores: dict[str, int] = field(default_factory=dict)  # P12: {brand_voice: 4, citation: 5, persona_fit: 4}
 
 
 @dataclass
@@ -104,6 +109,49 @@ class Scorecard:
             lines.append(
                 f"| {r.mode} | {r.skill_id} | {r.status} | {bl} | {cu} | {dp} | {fl} |"
             )
+
+        # I47 P10 (D-IH-47-F): per-persona section emitted only when ANY row has persona_id
+        persona_rows = [r for r in self.rows if r.persona_id]
+        if persona_rows:
+            from collections import Counter
+
+            lines.append("")
+            lines.append("## Per-persona breakdown (I47 P10)")
+            lines.append("")
+            lines.append("| persona_id | total | PASS | FAIL | SKIP | hard | moderate | trivial | impossible |")
+            lines.append("|:-----------|:-----:|:----:|:----:|:----:|:----:|:--------:|:-------:|:----------:|")
+            by_persona: dict[str, list[ScoreRow]] = {}
+            for r in persona_rows:
+                by_persona.setdefault(r.persona_id or "", []).append(r)
+            for pid in sorted(by_persona):
+                rows = by_persona[pid]
+                statuses = Counter(r.status for r in rows)
+                diffs = Counter(r.difficulty_class or "?" for r in rows)
+                lines.append(
+                    f"| {pid} | {len(rows)} | {statuses.get('PASS', 0)} | "
+                    f"{statuses.get('FAIL', 0)} | {statuses.get('SKIP', 0)} | "
+                    f"{diffs.get('hard', 0)} | {diffs.get('moderate', 0)} | "
+                    f"{diffs.get('trivial', 0)} | {diffs.get('impossible', 0)} |"
+                )
+
+        # I47 P12 (D-IH-47-J): per-judge-axis aggregate when judge_scores present
+        judge_rows = [r for r in self.rows if r.judge_scores]
+        if judge_rows:
+            lines.append("")
+            lines.append("## LLM-judge 3-axis (I47 P12)")
+            lines.append("")
+            lines.append("| axis | rows | mean | min | max | <4 (FAIL) |")
+            lines.append("|:-----|:----:|:----:|:---:|:---:|:---------:|")
+            for axis in ("brand_voice", "citation", "persona_fit"):
+                vals = [r.judge_scores[axis] for r in judge_rows if axis in r.judge_scores]
+                if not vals:
+                    continue
+                fails = sum(1 for v in vals if v < 4)
+                lines.append(
+                    f"| {axis} | {len(vals)} | "
+                    f"{sum(vals) / len(vals):.2f} | {min(vals)} | {max(vals)} | {fails} |"
+                )
+
         return "\n".join(lines) + "\n"
 
 
