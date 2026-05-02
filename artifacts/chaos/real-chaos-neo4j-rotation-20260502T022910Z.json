@@ -1,0 +1,14 @@
+{
+  "dry_run": false,
+  "gate_checks": {
+    "akos_real_chaos_ok": "1",
+    "forbidden_hosts": [
+      "cpibdpgaarsbfnamudya.databases.neo4j.io"
+    ],
+    "neo4j_uri_host": "test-throwaway-instance.databases.neo4j.io"
+  },
+  "reason": "--non-interactive requires --confirm-test-host to match the URI host exactly. Got 'wrong-host.example.com'; expected 'test-throwaway-instance.databases.neo4j.io'.",
+  "scenario": "neo4j-password-rotation",
+  "started_at": "2026-05-02T02:29:10.973526+00:00",
+  "status": "REFUSED"
+}

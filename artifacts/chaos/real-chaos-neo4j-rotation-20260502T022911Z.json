@@ -1,0 +1,24 @@
+{
+  "dry_run": true,
+  "gate_checks": {
+    "akos_real_chaos_ok": "1",
+    "all_gates_passed": true,
+    "forbidden_hosts": [
+      "cpibdpgaarsbfnamudya.databases.neo4j.io"
+    ],
+    "neo4j_uri_host": "test-throwaway-instance.databases.neo4j.io",
+    "operator_confirmation": "non_interactive_match"
+  },
+  "plan": [
+    "Read current NEO4J_PASSWORD from env (~/.openclaw/.env)",
+    "Rotate Aura password via Aura HTTP API (operator must have NEO4J_AURA_API_KEY set)",
+    "Wait 5s for propagation",
+    "Run scripts/graphrag_drift_canary.py with the OLD password (expect AuthError)",
+    "Restore the original password via Aura HTTP API",
+    "Run drift canary again with restored password (expect 0 drift)",
+    "Emit chaos report with timeline + drift-canary outputs"
+  ],
+  "scenario": "neo4j-password-rotation",
+  "started_at": "2026-05-02T02:29:11.529502+00:00",
+  "status": "PLANNED"
+}
