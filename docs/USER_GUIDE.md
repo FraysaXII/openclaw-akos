@@ -2037,6 +2037,8 @@ This section explains how to operate the Holistika Knowledge Vault through MADEI
 
 Use **`py scripts/render_uat_dossier.py`** for a single timestamped pack under `artifacts/uat-dossier/uat-dossier-<UTC>/`: `dossier.md`, optional `dossier.pdf` / `dossier.html`, and `manifest.json`. Default **`--mode snapshot`** reads existing artifacts only (fast). **`--mode live`** re-runs the orchestrated validators and eval CLI surface (~minutes). **`--mode tier-b`** is env-gated (`AKOS_DOSSIER_TIER_B=1`) and cost-capped via `MAX_DOSSIER_USD`. Trend sparklines (Section 11) append to `artifacts/uat-dossier/index.json` locally and optionally mirror to `compliance.dossier_run` when Supabase service-role env vars are set.
 
+When `--format html` (or `--format all`) is passed, a second standalone HTML file `dossier-console.html` is emitted alongside `dossier.html`. The **Operator Console** is a visual companion — same brand SSOT, no JS / no CDN — with nine panels: cover + system-status pills, trend small-multiples, persona × difficulty heatmap (`PERSONA_SCENARIO_REGISTRY.csv`), diversified scenario sample cards (prompt / expected / forbidden / topic chips), decisions taken across the last three initiatives, skill registry visual, recent dossier runs timeline, and one cassette transcript per skill (`tests/evals/cassettes/<skill_id>/*.jsonl`). Open it in any browser; it answers *what was asked, what the system did, what was decided*.
+
 ### 24.2 How You Use MADEIRA Day-to-Day
 
 MADEIRA is your single entrypoint for HLK operations. You talk to MADEIRA. MADEIRA queries the vault.

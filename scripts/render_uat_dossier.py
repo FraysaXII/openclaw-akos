@@ -257,6 +257,18 @@ def _write_outputs(run: DossierRun, args: argparse.Namespace) -> dict[str, Path]
         html_path.write_text(html_text, encoding="utf-8")
         written["html"] = html_path
 
+        # Operator Console (post-closure enhancement): qualitative companion
+        # with charts, persona heatmap, scenario cards, decision log, cassette
+        # samples. Standalone HTML; same brand SSOT; no JS / no CDN.
+        try:
+            from akos.dossier.console_render import render_console_html
+            console_text = render_console_html(run)
+            console_path = out_dir / "dossier-console.html"
+            console_path.write_text(console_text, encoding="utf-8")
+            written["console"] = console_path
+        except Exception as exc:  # noqa: BLE001 - console is best-effort
+            logger.warning("console render skipped: %s", exc)
+
     screenshots: list[Path] = []
     if args.screenshots:
         from akos.dossier.runner import take_browser_screenshots
@@ -270,6 +282,13 @@ def _write_outputs(run: DossierRun, args: argparse.Namespace) -> dict[str, Path]
         html_text=written.get("html") and written["html"].read_text(encoding="utf-8") or None,
         screenshots=screenshots,
     )
+    if "console" in written and written["console"].is_file():
+        import hashlib as _hashlib
+        console_text = written["console"].read_text(encoding="utf-8")
+        manifest.setdefault("files", {})["dossier-console.html"] = {
+            "sha256": _hashlib.sha256(console_text.encode("utf-8")).hexdigest(),
+            "char_count": len(console_text),
+        }
     from akos.dossier.dossier_run_writer import write_dossier_run_row
     md_sha = (manifest.get("files", {}).get("dossier.md") or {}).get("sha256") or ""
     stats = write_dossier_run_row(

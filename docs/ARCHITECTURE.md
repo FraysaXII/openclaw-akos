@@ -597,7 +597,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/madeira_interaction.py` | Madeira Ask vs Plan draft: `apply_madeira_interaction_to_soul`, `redeploy_all_souls_with_madeira_mode`, handoff schema loader |
 | `akos/telemetry.py` | `LangfuseReporter` wrapping the Langfuse SDK; `trace_metric()` for DX metrics; `trace_eval_outcome()` for suite runs; graceful no-op when credentials are absent |
 | `akos/eval_harness.py` | Suite manifest loading + rubric scoring shared by `scripts/run-evals.py` and pytest |
-| `akos/dossier/` | Initiative 48: `DossierRun` + twelve dossier sections + trend/sparkline helpers + branded PDF/HTML render adapters; entrypoint `scripts/render_uat_dossier.py` |
+| `akos/dossier/` | Initiative 48: `DossierRun` + twelve dossier sections + trend/sparkline helpers + branded PDF/HTML render adapters + post-closure `console_render.py` (Operator Console: persona heatmap, scenario cards, decision log, cassette samples; standalone HTML companion to `dossier.html`); entrypoint `scripts/render_uat_dossier.py` |
 | `akos/alerts.py` | `AlertEvaluator` -- checks real-time log entries against `alerts.json` and periodic metrics against `baselines.json` |
 | `akos/runpod_provider.py` | RunPod SDK wrapper: endpoint lifecycle, health checks, scaling, inference, GPU discovery (v0.3.0) |
 | `akos/openstack_provider.py` | ShadowGPU (OpenStack) SDK wrapper: Keystone auth, Nova instance lifecycle, Neutron security groups, floating IPs, spot termination detection, vLLM cloud-init deployment |
