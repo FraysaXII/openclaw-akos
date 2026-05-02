@@ -1,103 +1,356 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-i18n-root>
 <head>
   <meta charset="utf-8" />
-  <title>Madeira interaction mode — AKOS</title>
+  <title data-i18n="title">Madeira interaction mode — AKOS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" data-i18n="meta_description" content="Operator control plane for the Madeira interaction mode (ask vs plan_draft)." />
   <style>
-    :root { font-family: system-ui, sans-serif; line-height: 1.45; max-width: 52rem; margin: 1.5rem auto; padding: 0 1rem; }
-    h1 { font-size: 1.25rem; }
-    code, pre { background: #f4f4f5; padding: 0.2em 0.4em; border-radius: 4px; font-size: 0.9em; }
-    pre { padding: 1rem; overflow: auto; }
-    .row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
-    button { padding: 0.45rem 0.9rem; cursor: pointer; border-radius: 6px; border: 1px solid #ccc; background: #fff; }
-    button.primary { background: #111; color: #fff; border-color: #111; }
-    .status { margin: 1rem 0; padding: 0.75rem; background: #f9fafb; border-radius: 6px; }
-    .err { color: #b91c1c; }
-    a { color: #2563eb; }
+    :root {
+      --brand-h: 215;
+      --surface: oklch(98% 0.01 var(--brand-h));
+      --surface-2: oklch(96% 0.02 var(--brand-h));
+      --ink: oklch(22% 0.04 var(--brand-h));
+      --ink-2: oklch(40% 0.03 var(--brand-h));
+      --accent: oklch(56% 0.16 var(--brand-h));
+      --accent-ink: oklch(99% 0 var(--brand-h));
+      --line: oklch(82% 0.02 var(--brand-h));
+      --ring: oklch(58% 0.18 var(--brand-h));
+      --error: oklch(46% 0.20 27);
+      --error-bg: oklch(96% 0.05 27);
+      --max: 64ch;
+      font: 400 16px/1.5 system-ui, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --surface: oklch(16% 0.02 var(--brand-h));
+        --surface-2: oklch(20% 0.03 var(--brand-h));
+        --ink: oklch(96% 0.02 var(--brand-h));
+        --ink-2: oklch(80% 0.03 var(--brand-h));
+        --accent: oklch(70% 0.16 var(--brand-h));
+        --accent-ink: oklch(12% 0 var(--brand-h));
+        --line: oklch(36% 0.03 var(--brand-h));
+        --ring: oklch(72% 0.18 var(--brand-h));
+        --error: oklch(72% 0.20 27);
+        --error-bg: oklch(22% 0.06 27);
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { background: var(--surface); color: var(--ink); }
+    body { margin: 0; padding: 0; }
+    main { max-width: var(--max); margin: 1.5rem auto 4rem; padding: 0 1rem; }
+    header { margin-bottom: 1.75rem; }
+    .eyebrow { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+    h1 { font-size: 1.65rem; line-height: 1.2; margin: 0.25rem 0 0.5rem; }
+    .subtitle { color: var(--ink-2); margin: 0; max-width: 60ch; }
+    .locale {
+      display: flex; gap: 0.25rem; margin: 1rem 0 0.5rem; flex-wrap: wrap; align-items: center;
+    }
+    .locale span { font-size: 0.85rem; color: var(--ink-2); margin-right: 0.4rem; }
+    .locale button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+    section.card {
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      margin: 1.25rem 0;
+    }
+    section.card h2 { margin: 0 0 0.5rem; font-size: 1.05rem; }
+    section.card p { margin: 0.25rem 0 0.75rem; color: var(--ink-2); }
+    .modegroup { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    button {
+      font: inherit;
+      padding: 0.55rem 0.95rem;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+      transition: border-color 120ms ease, background 120ms ease;
+    }
+    button:hover { border-color: var(--accent); }
+    button:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+    button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+    button.secondary { background: transparent; }
+    .status {
+      margin: 1rem 0 0;
+      padding: 0.85rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .status[aria-busy="true"] { opacity: 0.7; }
+    .status dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 0.25rem 0.75rem; }
+    .status dt { color: var(--ink-2); font-weight: 500; }
+    .status dd { margin: 0; word-break: break-word; }
+    .status.error { background: var(--error-bg); border-color: var(--error); color: var(--error); }
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      overflow: auto;
+      font: 13px/1.45 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    }
+    code { font: inherit; }
+    a { color: var(--accent); }
+    a:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      button { transition: none; }
+    }
   </style>
 </head>
 <body>
-  <h1>Madeira — Ask / Plan draft</h1>
-  <p>
-    Control plane for <code>madeiraInteractionMode</code>. Open WebChat at
-    <code>http://127.0.0.1:18789/chat?session=agent:madeira:main</code> after applying a mode.
-    Mutations still use the <strong>Orchestrator</strong> swarm (Run path).
-  </p>
+  <main>
+    <header>
+      <p class="eyebrow" data-i18n="eyebrow">AKOS · MADEIRA control plane</p>
+      <h1 data-i18n="title_h1">Madeira interaction mode</h1>
+      <p class="subtitle" data-i18n="subtitle">
+        Switch between ask and plan_draft. Mutations still go through the Orchestrator swarm.
+      </p>
+      <div class="locale" role="group" aria-label="Language">
+        <span data-i18n="language_label">Language:</span>
+        <button type="button" data-locale-set="en" aria-pressed="true">EN</button>
+        <button type="button" data-locale-set="es" aria-pressed="false">ES</button>
+        <button type="button" data-locale-set="fr" aria-pressed="false">FR</button>
+      </div>
+    </header>
 
-  <div class="row">
-    <button type="button" class="primary" id="btn-ask">Set Ask (compact)</button>
-    <button type="button" class="primary" id="btn-plan">Set Plan draft (standard + overlay)</button>
-    <button type="button" id="btn-refresh">Refresh status</button>
-  </div>
+    <section class="card" aria-labelledby="mode-heading">
+      <h2 id="mode-heading" data-i18n="mode_heading">Interaction mode</h2>
+      <p data-i18n="mode_help">Pick the mode the next Madeira session should use.</p>
+      <div class="modegroup" role="group" aria-labelledby="mode-heading">
+        <button type="button" id="btn-ask" aria-pressed="false" data-i18n="btn_ask">Ask (compact)</button>
+        <button type="button" id="btn-plan" aria-pressed="false" data-i18n="btn_plan">Plan draft (standard + overlay)</button>
+        <button type="button" id="btn-refresh" class="secondary" data-i18n="btn_refresh">Refresh status</button>
+      </div>
 
-  <div class="status" id="status">Loading…</div>
+      <div class="status" id="status" role="status" aria-live="polite" aria-busy="true" data-i18n="status_loading">
+        Loading…
+      </div>
 
-  <h2>Handoff JSON schema</h2>
-  <p>Repo path: <code>config/schemas/madeira-plan-handoff.schema.json</code></p>
+      <p>
+        <a id="webchat-link" href="http://127.0.0.1:18789/chat?session=agent:madeira:main" rel="noopener" data-i18n="webchat_label">
+          Open WebChat for this session
+        </a>
+      </p>
+    </section>
 
-  <h3>Example handoff (copy)</h3>
-  <pre id="handoff-example">{
+    <section class="card" aria-labelledby="handoff-heading">
+      <h2 id="handoff-heading" data-i18n="handoff_heading">Handoff JSON example</h2>
+      <p data-i18n="handoff_help">
+        Repo path: <code>config/schemas/madeira-plan-handoff.schema.json</code>.
+      </p>
+      <pre id="handoff-example">{
   "schema_version": "1.0",
   "non_canonical": true,
   "goal": "Example goal line",
   "assumptions": ["Assumption one"],
   "citations": [{ "asset": "process_list.csv", "note": "Example row ref" }],
   "verification_matrix_ref": "docs/DEVELOPER_CHECKLIST.md",
-  "suggested_swarm": "Orchestrator → Architect → Executor → Verifier",
+  "suggested_swarm": "Orchestrator > Architect > Executor > Verifier",
   "risks": ["Example risk"],
   "phases_mermaid": "flowchart LR\\n  p0[Phase0] --> p1[Phase1]"
 }</pre>
-  <div class="row">
-    <button type="button" id="btn-copy">Copy example JSON</button>
-  </div>
+      <button type="button" id="btn-copy" data-i18n="btn_copy">Copy example JSON</button>
+    </section>
+  </main>
 
   <script>
+    const i18n = {
+      en: {
+        title: "Madeira interaction mode — AKOS",
+        meta_description: "Operator control plane for the Madeira interaction mode (ask vs plan_draft).",
+        eyebrow: "AKOS · MADEIRA control plane",
+        title_h1: "Madeira interaction mode",
+        subtitle: "Switch between ask and plan_draft. Mutations still go through the Orchestrator swarm.",
+        language_label: "Language:",
+        mode_heading: "Interaction mode",
+        mode_help: "Pick the mode the next Madeira session should use.",
+        btn_ask: "Ask (compact)",
+        btn_plan: "Plan draft (standard + overlay)",
+        btn_refresh: "Refresh status",
+        btn_copy: "Copy example JSON",
+        status_loading: "Loading…",
+        status_label_mode: "Mode",
+        status_label_prompt: "Prompt variant",
+        status_label_global: "Global variant",
+        status_label_overlay: "Plan overlay",
+        webchat_label: "Open WebChat for this session",
+        handoff_heading: "Handoff JSON example",
+        handoff_help: "Repo path: config/schemas/madeira-plan-handoff.schema.json.",
+        copied: "Copied JSON to clipboard.",
+        error_prefix: "Error:",
+      },
+      es: {
+        title: "Modo de interacción Madeira — AKOS",
+        meta_description: "Plano de control del operador para el modo de interacción Madeira (ask vs plan_draft).",
+        eyebrow: "AKOS · Plano de control MADEIRA",
+        title_h1: "Modo de interacción Madeira",
+        subtitle: "Alterna entre ask y plan_draft. Las mutaciones siguen pasando por el swarm Orchestrator.",
+        language_label: "Idioma:",
+        mode_heading: "Modo de interacción",
+        mode_help: "Elige el modo que debe usar la próxima sesión Madeira.",
+        btn_ask: "Ask (compacto)",
+        btn_plan: "Plan draft (estándar + overlay)",
+        btn_refresh: "Actualizar estado",
+        btn_copy: "Copiar JSON de ejemplo",
+        status_loading: "Cargando…",
+        status_label_mode: "Modo",
+        status_label_prompt: "Variante de prompt",
+        status_label_global: "Variante global",
+        status_label_overlay: "Overlay del plan",
+        webchat_label: "Abrir WebChat para esta sesión",
+        handoff_heading: "Ejemplo de JSON de handoff",
+        handoff_help: "Ruta del repo: config/schemas/madeira-plan-handoff.schema.json.",
+        copied: "JSON copiado al portapapeles.",
+        error_prefix: "Error:",
+      },
+      fr: {
+        title: "Mode d'interaction Madeira — AKOS",
+        meta_description: "Plan de contrôle opérateur du mode d'interaction Madeira (ask vs plan_draft).",
+        eyebrow: "AKOS · Plan de contrôle MADEIRA",
+        title_h1: "Mode d'interaction Madeira",
+        subtitle: "Basculer entre ask et plan_draft. Les mutations restent dans la swarm Orchestrator.",
+        language_label: "Langue :",
+        mode_heading: "Mode d'interaction",
+        mode_help: "Choisissez le mode que la prochaine session Madeira utilisera.",
+        btn_ask: "Ask (compact)",
+        btn_plan: "Plan draft (standard + overlay)",
+        btn_refresh: "Actualiser l'état",
+        btn_copy: "Copier le JSON d'exemple",
+        status_loading: "Chargement…",
+        status_label_mode: "Mode",
+        status_label_prompt: "Variante de prompt",
+        status_label_global: "Variante globale",
+        status_label_overlay: "Overlay du plan",
+        webchat_label: "Ouvrir WebChat pour cette session",
+        handoff_heading: "Exemple de JSON de handoff",
+        handoff_help: "Chemin du repo : config/schemas/madeira-plan-handoff.schema.json.",
+        copied: "JSON copié dans le presse-papiers.",
+        error_prefix: "Erreur :",
+      },
+    };
+
     const statusEl = document.getElementById("status");
-    const api = "";
+    const askBtn = document.getElementById("btn-ask");
+    const planBtn = document.getElementById("btn-plan");
+    const refreshBtn = document.getElementById("btn-refresh");
+    const copyBtn = document.getElementById("btn-copy");
+    const localeButtons = Array.from(document.querySelectorAll("[data-locale-set]"));
+
+    let currentLocale = "en";
+
+    function detectInitialLocale() {
+      const params = new URLSearchParams(window.location.search);
+      const candidates = [params.get("lang"), (navigator.language || "en").slice(0, 2)];
+      for (const cand of candidates) {
+        if (cand && i18n[cand]) return cand;
+      }
+      return "en";
+    }
+
+    function applyLocale(locale) {
+      if (!i18n[locale]) return;
+      currentLocale = locale;
+      document.documentElement.lang = locale;
+      document.title = i18n[locale].title;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute("content", i18n[locale].meta_description);
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.getAttribute("data-i18n");
+        if (i18n[locale][key]) el.textContent = i18n[locale][key];
+      });
+      localeButtons.forEach((btn) => {
+        btn.setAttribute("aria-pressed", btn.dataset.localeSet === locale ? "true" : "false");
+      });
+    }
+
+    function tr(key) {
+      return (i18n[currentLocale] && i18n[currentLocale][key]) || (i18n.en[key] || key);
+    }
+
+    function renderStatusValues(j) {
+      statusEl.classList.remove("error");
+      statusEl.removeAttribute("aria-busy");
+      statusEl.setAttribute("role", "status");
+      const dl = document.createElement("dl");
+      const rows = [
+        [tr("status_label_mode"), j.madeiraInteractionMode],
+        [tr("status_label_prompt"), j.madeiraPromptVariant],
+        [tr("status_label_global"), j.globalPromptVariant],
+        [tr("status_label_overlay"), String(j.planOverlayActive)],
+      ];
+      for (const [label, value] of rows) {
+        const dt = document.createElement("dt");
+        dt.textContent = label;
+        const dd = document.createElement("dd");
+        dd.textContent = value == null ? "—" : String(value);
+        dl.appendChild(dt);
+        dl.appendChild(dd);
+      }
+      statusEl.replaceChildren(dl);
+      askBtn.setAttribute("aria-pressed", j.madeiraInteractionMode === "ask" ? "true" : "false");
+      planBtn.setAttribute("aria-pressed", j.madeiraInteractionMode === "plan_draft" ? "true" : "false");
+    }
+
+    function renderError(message) {
+      statusEl.classList.add("error");
+      statusEl.setAttribute("role", "alert");
+      statusEl.removeAttribute("aria-busy");
+      statusEl.textContent = `${tr("error_prefix")} ${message}`;
+    }
 
     async function refresh() {
-      statusEl.textContent = "Loading…";
+      statusEl.setAttribute("aria-busy", "true");
+      statusEl.textContent = tr("status_loading");
       try {
-        const r = await fetch(api + "/agents/madeira/interaction-mode");
+        const r = await fetch("/agents/madeira/interaction-mode");
         const j = await r.json();
         if (!r.ok) throw new Error(j.detail || r.statusText);
-        statusEl.innerHTML =
-          "<strong>madeiraInteractionMode:</strong> " + j.madeiraInteractionMode +
-          "<br/><strong>madeiraPromptVariant:</strong> " + j.madeiraPromptVariant +
-          "<br/><strong>globalPromptVariant:</strong> " + j.globalPromptVariant +
-          "<br/><strong>planOverlayActive:</strong> " + j.planOverlayActive;
+        renderStatusValues(j);
       } catch (e) {
-        statusEl.innerHTML = '<span class="err">Error: ' + e.message + "</span>";
+        renderError(e.message);
       }
     }
 
     async function setMode(mode) {
-      statusEl.textContent = "Applying…";
+      statusEl.setAttribute("aria-busy", "true");
       try {
-        const r = await fetch(api + "/agents/madeira/interaction-mode", {
+        const r = await fetch("/agents/madeira/interaction-mode", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ mode, redeploy: true }),
         });
         const j = await r.json();
         if (!r.ok) throw new Error(j.detail || r.statusText);
-        statusEl.innerHTML =
-          "Updated. <strong>madeiraInteractionMode:</strong> " + j.madeiraInteractionMode +
-          (j.redeployed ? "<br/>SOUL prompts redeployed." : "");
+        renderStatusValues(j);
       } catch (e) {
-        statusEl.innerHTML = '<span class="err">Error: ' + e.message + "</span>";
+        renderError(e.message);
       }
     }
 
-    document.getElementById("btn-ask").onclick = () => setMode("ask");
-    document.getElementById("btn-plan").onclick = () => setMode("plan_draft");
-    document.getElementById("btn-refresh").onclick = refresh;
-    document.getElementById("btn-copy").onclick = async () => {
+    askBtn.addEventListener("click", () => setMode("ask"));
+    planBtn.addEventListener("click", () => setMode("plan_draft"));
+    refreshBtn.addEventListener("click", refresh);
+    copyBtn.addEventListener("click", async () => {
       const t = document.getElementById("handoff-example").textContent;
-      await navigator.clipboard.writeText(t);
-      alert("Copied");
-    };
+      try {
+        await navigator.clipboard.writeText(t);
+        statusEl.classList.remove("error");
+        statusEl.setAttribute("role", "status");
+        statusEl.removeAttribute("aria-busy");
+        statusEl.textContent = tr("copied");
+      } catch (e) {
+        renderError(e.message || "clipboard error");
+      }
+    });
+    localeButtons.forEach((btn) => {
+      btn.addEventListener("click", () => applyLocale(btn.dataset.localeSet));
+    });
+
+    applyLocale(detectInitialLocale());
     refresh();
   </script>
 </body>
