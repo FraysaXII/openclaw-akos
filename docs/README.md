@@ -31,7 +31,8 @@
 1. [USER_GUIDE](USER_GUIDE.md) — operators, MCP, deployment.  
 2. [SOP](SOP.md) — formal procedures.  
 3. [reference/DEV_VERIFICATION_REFERENCE](reference/DEV_VERIFICATION_REFERENCE.md) — optional scripts, Playwright, gateway triage.  
-4. [README.md](../README.md) — quick start and capabilities overview.
+4. [README.md](../README.md) — quick start and capabilities overview.  
+5. **MADEIRA management (Initiative 49):** [guides/madeira_operator_quickstart](guides/madeira_operator_quickstart.md) (nine o'clock card), [guides/madeira_dossier_workflow](guides/madeira_dossier_workflow.md); vault SOPs linked from [`references/hlk/v3.0/index.md`](references/hlk/v3.0/index.md) KNOWLEDGE MANAGEMENT table.
 
 ### I work on HLK / compliance / governance
 

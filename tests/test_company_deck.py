@@ -405,21 +405,14 @@ def test_slide_06_has_madeira_card():
 
 def test_slide_11_pillar_1_quotes_governance_metrics():
     """Initiative 30 P4 + D-IH-30-D: slide 11 pillar 1 must quote the governance
-    metrics — at least the topic count (17) and the process count (1.093)."""
+    metrics — at least the topic count (28) and the process count (1.100)."""
     txt = _load_yaml_text()
     assert "Operación gobernada y medible" in txt or "Operacion gobernada y medible" in txt, (
         "slide 11 pillar 1 title must be 'Operacion gobernada y medible'"
     )
-    # Spanish thousands separator is a period (1.093). Allow either spelling defensively.
-    assert "1.093 procesos" in txt or "1093 procesos" in txt, (
-        "slide 11 pillar 1 must quote the 1.093 governed-processes count"
-    )
-    # Topic count must match the live registry; assert it's a small integer phrase
-    # (the drift detector at tests/test_governance_moat_metrics.py keeps it in sync).
-    # Allow 1-3 digit topic count to absorb growth without nuisance failures.
-    assert re.search(r"\b\d{1,3} temas\b", txt), (
-        "slide 11 pillar 1 must quote a 'NN temas' governed-topics count "
-        "(live count enforced by test_governance_moat_metrics.py)"
+    assert "28 temas" in txt, "slide 11 pillar 1 must quote 28 governed topics per GOVERNANCE_MOAT parity"
+    assert "1.100 procesos" in txt or "1100 procesos" in txt, (
+        "slide 11 pillar 1 must quote the 1.100 governed-processes count"
     )
     assert "65 roles" in txt, (
         "slide 11 pillar 1 must quote the 65 defined-roles count"

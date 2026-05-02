@@ -100,6 +100,10 @@ Holistika-wide KM is governed by [HLK_KM_TOPIC_FACT_SOURCE.md](../compliance/HLK
 | Pilot Output 1 bundle (rasters + `*.manifest.md` + stubs) | [_assets/km-pilot/](_assets/km-pilot/) |
 | Workspace roadmap / traceability | [master-roadmap.md](../../../wip/planning/03-hlk-km-knowledge-base/master-roadmap.md) |
 | GitHub repository index (Holistika-tracked repos; GitHub is SSOT for code) | [Repositories/REPOSITORIES_REGISTRY.md](Envoy%20Tech%20Lab/Repositories/REPOSITORIES_REGISTRY.md) |
+| MADEIRA verdict and dossier cadence (`env_tech_dtp_madeira_verdict`) | [SOP-MADEIRA_VERDICT_AND_CADENCE_001.md](Admin/O5-1/Tech/System%20Owner/SOP-MADEIRA_VERDICT_AND_CADENCE_001.md) |
+| MADEIRA incident response (`env_tech_dtp_madeira_incident`) | [SOP-MADEIRA_INCIDENT_RESPONSE_001.md](Admin/O5-1/Tech/System%20Owner/SOP-MADEIRA_INCIDENT_RESPONSE_001.md) |
+| MADEIRA scenario lifecycle and telemetry (`env_tech_dtp_madeira_lifecycle`, `env_tech_dtp_madeira_telemetry`) | [SOP-MADEIRA_SCENARIO_LIFECYCLE_001.md](Admin/O5-1/Tech/System%20Owner/SOP-MADEIRA_SCENARIO_LIFECYCLE_001.md) |
+| MADEIRA quarterly UX review — control plane (`env_tech_dtp_madeira_uxreview`) | [SOP-MADEIRA_UX_REVIEW_001.md](Admin/O5-1/Tech/System%20Owner/SOP-MADEIRA_UX_REVIEW_001.md) |
 
 **Binary visuals (Output 1):** store under `v3.0/_assets/<topic_id>/` with a sidecar `*.manifest.md` and a short companion markdown stub for search. Do not use `.cursor/` or other tool-local paths for canonical assets.
 

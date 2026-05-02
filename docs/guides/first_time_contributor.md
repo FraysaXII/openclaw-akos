@@ -63,3 +63,4 @@ When your branch is feature-complete, run the same bar as the [DEVELOPER_CHECKLI
 - [Documentation map (docs/README)](../README.md) — where everything else lives.
 - [Understanding verification](understanding_verification.md) — how `verify` / `release-gate` / `run-evals` fit together.
 - [GLOSSARY](../GLOSSARY.md) — terms like SSOT, HLK, profile.
+- [MADEIRA contributor guide](madeira_contributor.md) — registry, quarantine, and pytest `madeira` group when touching the MADEIRA lane.

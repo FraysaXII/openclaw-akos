@@ -132,7 +132,7 @@ The `akos/` orchestration library and all scripts under `scripts/` follow these 
 - New test groups added in v0.4.0: `drift` (runtime drift detection), `live` (opt-in live provider smoke tests requiring `AKOS_LIVE_SMOKE=1`)
 - New test groups added in RunPod+Langfuse overhaul: `telemetry` (Langfuse reporter lifecycle, trace taxonomy, env normalization), `router` (FailoverRouter threshold, recovery, multi-provider)
 - New test group added in HLK Phase 2: `hlk` (HLK domain models, registry service, API endpoints)
-- `madeira` and `intent` groups: `py scripts/test.py madeira` / `py scripts/test.py intent` (`@pytest.mark.madeira` / `intent`)
+- `madeira` and `intent` groups: `py scripts/test.py madeira` / `py scripts/test.py intent` (`@pytest.mark.madeira` / `intent`) — for MADEIRA dossier filters, persona registry columns, telemetry promotion, control-plane accessibility, use `madeira` plus validators in [`docs/guides/madeira_contributor.md`](docs/guides/madeira_contributor.md).
 - Graph lane: `graph` (`pytest -m graph` via `py scripts/test.py graph`); live Bolt tests use `@pytest.mark.neo4j` (`python -m pytest -m "graph and neo4j"` when `NEO4J_*` is set)
 - Live smoke tests use `@pytest.mark.live` and are skipped by default
 - Default pre-commit chain (orchestrated from [config/verification-profiles.json](config/verification-profiles.json)): `py scripts/verify.py pre_commit` (see `py scripts/verify.py --list`). **Holistika compliance mirror SQL emit (not part of pre-commit):** `py scripts/verify.py compliance_mirror_emit` after HLK gates when CSVs change. For releases, also run the full `release-gate` (below).

@@ -140,8 +140,8 @@ def test_json_report_run_id_is_uuid(json_run: subprocess.CompletedProcess) -> No
 
 def test_json_report_baseline_row_counts_match_i31_uat(json_run: subprocess.CompletedProcess) -> None:
     """I29/I30/I31 baseline regression: row counts in inline checks match the
-    documented post-I31 vault state (12 programs / 1093 processes / 65 roles /
-    23 topics / 16 personas / 10 channels / 1 vendor / 6 GOI-POI rows)."""
+    documented post-I31 vault state plus Initiative 49 process tranche (12 programs / ~1100
+    processes / 65 roles)."""
     payload = json.loads(json_run.stdout)
     by_name = {row["validator_name"]: row for row in payload["runs"]}
     # Org rows = 65
@@ -149,9 +149,9 @@ def test_json_report_baseline_row_counts_match_i31_uat(json_run: subprocess.Comp
         "expected 65 org rows (I29/I30/I31 baseline); got "
         f"{by_name['inline_org_csv_parse']['row_count']}"
     )
-    # Process rows = 1093
-    assert by_name["inline_process_csv_parse"]["row_count"] == 1093, (
-        "expected 1093 process rows (I29/I30/I31 baseline); got "
+    # Process rows = 1100 (I49 +7 MADEIRA management)
+    assert by_name["inline_process_csv_parse"]["row_count"] == 1100, (
+        "expected 1100 process rows (I49 management tranche baseline); got "
         f"{by_name['inline_process_csv_parse']['row_count']}"
     )
 

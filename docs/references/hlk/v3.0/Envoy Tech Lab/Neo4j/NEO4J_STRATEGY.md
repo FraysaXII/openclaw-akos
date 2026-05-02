@@ -38,7 +38,7 @@ Background framing per **Tianpan.co "GraphRAG in production 2026"**: *Neo4j Grap
 ### What it is
 
 `scripts/sync_hlk_neo4j.py` rebuilds a Neo4j graph from the HLK CSV vault on demand. The graph carries:
-- **Node labels:** `:Role` (65), `:Process` (1093), `:Program` (12), `:Topic` (27), and the I32 P5/P6 axis-6 set: `:Persona` (16), `:Channel` (10), `:Sourcing` (1), `:Skill` (5), `:TouchpointKitCell` (15), `:Policy` (14)
+- **Node labels:** `:Role` (65), `:Process` (1100), `:Program` (12), `:Topic` (28), and the I32 P5/P6 axis-6 set: `:Persona` (16), `:Channel` (10), `:Sourcing` (1), `:Skill` (5), `:TouchpointKitCell` (15), `:Policy` (14)
 - **Edge types:** `:OWNED_BY`, `:PARENT_OF`, `:UNDER_PROGRAM`, `:UNDER_TOPIC`, `:DEPENDS_ON`, `:CONSUMES`, plus role/process reporting edges
 - **Read endpoints:** `GET /hlk/graph/summary`, `/hlk/graph/process/{item_id}/neighbourhood`, `/hlk/graph/role/{role_name}/neighbourhood`, `/hlk/graph/explorer` (HTML shell)
 - **MCP tools:** `hlk_graph_summary`, `hlk_graph_process_neighbourhood`, `hlk_graph_role_neighbourhood` (3 today; +`hlk_graph_skill_neighbourhood` in I46 P2)

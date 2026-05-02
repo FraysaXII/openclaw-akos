@@ -146,7 +146,7 @@ def test_existing_role_process_program_topic_unchanged() -> None:
     topic_nodes, _ = build_topic_graph(reg)
     # Sanity: counts match the I32 baseline post-P4.
     assert sum(1 for n in nodes if n.label == "Role") == 65
-    assert sum(1 for n in nodes if n.label == "Process") == 1093
+    assert sum(1 for n in nodes if n.label == "Process") == 1100
     assert len(prog_nodes) == 12
     # Topic registry grows by 1 per dimension/operational-mirror addition; post-I47 P1
     # the count is 28 (27 post-I32 P10 + persona_scenario_registry from I47 P1).

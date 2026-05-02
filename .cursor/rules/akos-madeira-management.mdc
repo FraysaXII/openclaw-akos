@@ -1,0 +1,94 @@
+---
+description: >-
+  MADEIRA management verdict rollup: three-tier doctrine (vault SOP, process_list,
+  repo guides); three-light GO criteria; dossier MADEIRA flavor; PERSONA_SCENARIO
+  priority fields; Docker preflight; telemetry promotion proposals; control plane UX.
+  Use when touching MADEIRA prompts, dossier MADEIRA flavor, MADEIRA CSV columns,
+  or MADEIRA vault SOPs.
+globs:
+  - prompts/base/MADEIRA_BASE.md
+  - prompts/MADEIRA_PROMPT.md
+  - prompts/personas/*/MADEIRA_HINTS.md
+  - static/madeira_control.html
+  - akos/madeira_*.py
+  - tests/test_madeira_*.py
+  - tests/evals/suites/madeira-operator-coverage/**
+  - docs/wip/planning/02-hlk-on-akos-madeira/**
+  - docs/wip/planning/49-madeira-management-rollup/**
+  - docs/uat/madeira_use_case_matrix.md
+  - docs/uat/dashboard_smoke.md
+  - docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-MADEIRA_*.md
+  - docs/guides/madeira_*.md
+  - scripts/render_uat_dossier.py
+  - akos/dossier/run.py
+  - akos/dossier/sections.py
+  - akos/dossier/sources.py
+alwaysApply: false
+---
+
+# AKOS — MADEIRA management verdict rollup (Initiative 49)
+
+## Three tiers (doctrine)
+
+| Tier | Location | Audience | Speed of change |
+|:-----|:---------|:---------|:----------------|
+| Vault SOP | `docs/references/hlk/v3.0/.../Tech/System Owner/SOP-MADEIRA_*` | Auditor, System Owner | Slow; audited; SOP-META |
+| `process_list` | `docs/references/hlk/compliance/process_list.csv` | Governance | Operator-approved IDs |
+| Operator guides | `docs/guides/madeira_*.md` | Daily operator | PR weekly; no canonical gate |
+
+Process rows under workstream **`env_tech_ws_madeira_quality`** (parent **`env_tech_prj_3`**): `env_tech_dtp_madeira_verdict`, `env_tech_dtp_madeira_dossier`, `env_tech_dtp_madeira_incident`, `env_tech_dtp_madeira_lifecycle`, `env_tech_dtp_madeira_telemetry`, `env_tech_dtp_madeira_uxreview`.
+
+Bidirectional verification: each SOP **Verification** table names dossier sections; MADEIRA dossier `--filter madeira` Section 1 rolls up three lights; Section 8 can carry MADEIRA Surface UX when flavor is active.
+
+Use-case growth adds **scenario rows** in `PERSONA_SCENARIO_REGISTRY.csv`, not new `process_list` workflows.
+
+## Priority score (P2 recap)
+
+Computed field `priority_score` on registry rows follows Initiative 49 formula implemented in **`scripts/calibrate_scenarios.py`**: Reach x Impact over Effort, with persona tier and scenario-class weights as defined there. **`safety_lane`** pins review order at top regardless of numeric score; **`release_blocking`** flags active rows that gate release.
+
+Recompute pathways: **`scripts/recalculate_persona_scenario_priorities.py`**, **`calibrate_scenarios.py --write-priority-scores`**.
+
+## Three lights (release GO)
+
+Release **GO** only when conversational, operator, **and** surface lights are green. Full definitions and numeric thresholds live in **`MADEIRA_HARDENING_CONSOLIDATED_PLAN.md`** Part H and **`docs/wip/planning/49-madeira-management-rollup/master-roadmap.md`**.
+
+Summaries:
+
+- **Conversational:** Tier-1/2 lanes + rubric calibration + judge thresholds satisfied for personas in dossier scope.
+- **Operator:** scenario-0 HTTP stability, freshness of dated UAT reports, safety lanes PASS, Docker reachable when Tier-3 or strict sandbox env is asserted.
+- **Surface:** critique artefact trajectory, accessibility signal, localization signal, offline brand lint as wired in dossier Section 8 (MADEIRA flavor).
+
+NO-GO: default; document amber follow-ups under Initiative `reports/` rather than implying silent ship.
+
+## Cadence (canonical trigger table)
+
+High level aligned to Part H (pre-commit daily, targeted per-PR, weekly dossier Tier-B, monthly Tier-3 UAT verdict, quarterly surface deep review). Do not shorten operator lanes without noting threshold breach in dossier narrative.
+
+## Tooling anchors
+
+- MADEIRA dossier: `py scripts/render_uat_dossier.py --filter madeira`
+- Sandbox preflight: `py scripts/doctor.py --docker-sandbox` (Tier-3: consider `AKOS_REQUIRE_DOCKER_PREFLIGHT=1` on automated smoke runner)
+- Registry validate: `py scripts/validate_persona_scenario_registry.py`
+- Telemetry proposals (**JSON only**, operator merges): `py scripts/promote_telemetry_to_scenario.py`
+- Quarantine: `py scripts/quarantine_scenario.py`
+- Brand fast lint: `py scripts/lint_brand_voice_offline.py`
+- Coverage rank: **`docs/wip/planning/17-madeira-cursor-mode-parity/coverage-matrix.md`** (`I49_review_order`)
+
+## Escalation (short map)
+
+| Signal | Owner | First action |
+|:-------|:------|:-------------|
+| SEV-1 style unsafe output or tooling misroute | System Owner per incident SOP | Contain → quarantine or revert → dossier-linked report |
+| Schema or enum change on PERSONA_SCENARIO or lifecycle | Governance | Decision log Initiative 49; `validate_hlk.py` PASS before merge |
+| Surface WCAG regressions blocking third light | System Owner quarterly path | Declare amber surface; tracking issue + UX SOP linkage |
+| Telemetry proposal noise | AI Engineer | Tighten clustering in promotion script before registry merge |
+
+## Governance
+
+CSV tranches touching `process_list` or canonical PERSONA_SCENARIO fields require explicit operator alignment per **`akos-governance-remediation.mdc`**.
+
+UAT closure evidence: dated **`docs/wip/planning/49-madeira-management-rollup/reports/uat-i49-madeira-management-*.md`** per **`akos-planning-traceability.mdc`**.
+
+## Closing an initiative — lessons in rules
+
+When Initiative 49 (or successors) adjusts doctrine, prefer updating this rule and **Part H** together so Cursor sessions, operators, and vault language stay synchronous. Do not fork parallel MADEIRA doctrines in ephemeral chat.
