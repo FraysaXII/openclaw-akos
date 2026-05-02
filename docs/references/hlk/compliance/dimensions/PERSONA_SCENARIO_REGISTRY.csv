@@ -1,0 +1,2 @@
+scenario_id,persona_id,skill_id,tenant_id,tier,scenario_class,difficulty_class,prompt_text,expected_route,expected_keywords,forbidden_keywords,expected_outcome_class,language,topic_ids,lifecycle_status,notes
+SCN-OP-SEED-001-V1,OPERATOR,SKILL-MADEIRA-LOOKUP-V1,,1,lookup,trivial,Look up the System Owner role,hlk_lookup,System Owner,akos;topic_;advops;techops;finops,GROUND,en,topic_persona_scenario_registry,scaffold,"P1 seed scenario; replaced by P2 operator library; serves as schema-validation anchor."

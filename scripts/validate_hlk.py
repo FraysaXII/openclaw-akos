@@ -415,6 +415,9 @@ def main() -> int:
         # Initiative 32 P7 - Repo health snapshot (D-IH-32-L pull-based extraction).
         ("REPO_HEALTH_SNAPSHOT", "validate_repo_health_snapshot.py",
          "validate_repo_health_snapshot", HLK_DIR / "REPO_HEALTH_SNAPSHOT.csv"),
+        # Initiative 47 P1 - Persona scenario registry (UAT scenario library; D-IH-47-A SSOT).
+        ("PERSONA_SCENARIO_REGISTRY", "validate_persona_scenario_registry.py",
+         "validate_persona_scenario_registry", HLK_DIR / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"),
         # LANGUAGE_FRONTMATTER has no CSV gate; it scans the vault directly.
         ("LANGUAGE_FRONTMATTER", "validate_hlk_language_frontmatter.py",
          "validate_hlk_language_frontmatter", None),
