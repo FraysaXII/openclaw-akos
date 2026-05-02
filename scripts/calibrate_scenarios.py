@@ -11,6 +11,7 @@ Run::
     py scripts/calibrate_scenarios.py
     py scripts/calibrate_scenarios.py --persona OPERATOR
     py scripts/calibrate_scenarios.py --hard-fail-on-drift   # CI-friendly mode
+    py scripts/calibrate_scenarios.py --write-priority-scores  # Initiative 49: refresh CSV priorities
 
 Exit codes:
 - 0: all calibrations within tolerance
@@ -52,6 +53,14 @@ def main() -> int:
         "--quiet",
         action="store_true",
         help="Print summary only; suppress full markdown output.",
+    )
+    parser.add_argument(
+        "--write-priority-scores",
+        action="store_true",
+        help=(
+            "Initiative 49 - after calibration, rewrite PERSONA_SCENARIO_REGISTRY.csv "
+            "priority_score via akos.hlk_persona_scenario_priority (deterministic)."
+        ),
     )
     args = parser.parse_args()
 
@@ -100,6 +109,22 @@ def main() -> int:
 
     if args.hard_fail_on_drift and failures:
         return 1
+
+    if args.write_priority_scores:
+        from akos.hlk_persona_scenario_priority import rewrite_persona_registry_priority_scores
+
+        csv_out = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
+        try:
+            n, delta = rewrite_persona_registry_priority_scores(csv_out)
+        except ValueError as e:
+            print(f"FAIL: could not rewrite priority_score - {e}")
+            return 1
+        msg = f"I49 priority_score rewrite: {n} rows written; {delta} cells changed.\n"
+        if not args.quiet:
+            print(msg)
+        else:
+            sys.stdout.write(msg)
+
     return 0
 
 

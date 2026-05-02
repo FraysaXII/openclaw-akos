@@ -3,6 +3,10 @@
 Six manual/automated browser smoke tests to validate the OpenCLAW dashboard
 is functioning correctly after deployment.
 
+## 0. Prerequisites
+
+- When using Docker-backed strict sandbox exec paths alongside these checks, run **`py scripts/doctor.py --docker-sandbox`** first (PASS). Tier-3 Playwright automation mirrors this optionally with **`AKOS_REQUIRE_DOCKER_PREFLIGHT=1`** and `py scripts/browser-smoke.py --playwright` (hard fail when the engine is down). Details: **`docs/USER_GUIDE.md`** section 14.3b.
+
 ---
 
 ## 1. dashboard_health

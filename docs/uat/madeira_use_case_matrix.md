@@ -2,7 +2,7 @@
 
 **Purpose:** Qualitative and tool-loop checks for **UC-IDs** that are not fully substitutable by HTTP Scenario 0. **Does not replace** [`hlk_admin_smoke.md`](hlk_admin_smoke.md) for HLK registry baselines.
 
-**Prerequisites:** OpenClaw gateway reachable; AKOS `serve-api` with HLK + finance routes; **tool-capable** model for Madeira when exercising MCP tools. Use a **clean session** (`/new`) before **M-NEG-*** cases.
+**Prerequisites:** OpenClaw gateway reachable; AKOS `serve-api` with HLK + finance routes; **tool-capable** model for Madeira when exercising MCP tools. **`py scripts/doctor.py --docker-sandbox`** should PASS before Playwright-heavy Tier-3 lanes when sandboxed Docker exec is assumed; set **`AKOS_REQUIRE_DOCKER_PREFLIGHT=1`** with `browser-smoke.py --playwright` to hard-fail if the engine is down (see **`docs/USER_GUIDE.md`** section 14.3b). Use a **clean session** (`/new`) before **M-NEG-*** cases.
 
 **Governance:** Record outcomes in a dated report under `docs/wip/planning/17-madeira-cursor-mode-parity/reports/uat-madeira-uc-<YYYYMMDD>.md` (PASS / SKIP / N/A, no secrets, no full prompts with PII).
 

@@ -36,6 +36,7 @@ from akos.hlk_persona_scenario_csv import (
 CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
 VALIDATOR = REPO_ROOT / "scripts" / "validate_persona_scenario_registry.py"
 MIGRATION = REPO_ROOT / "supabase" / "migrations" / "20260502033000_i47_persona_scenario_registry_mirror.sql"
+MIGRATION_I49_PRIORITY = REPO_ROOT / "supabase" / "migrations" / "20260503120000_i49_persona_scenario_registry_priority_columns.sql"
 DISPATCHER = REPO_ROOT / "scripts" / "validate_hlk.py"
 TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
 
@@ -54,6 +55,9 @@ def test_fieldnames_include_5_typed_dimensions() -> None:
         "scenario_class",     # P0 taxonomy
         "difficulty_class",   # D-IH-47-C
         "expected_outcome_class",  # P0 taxonomy
+        "priority_score",
+        "safety_lane",
+        "release_blocking",
     }
     missing = required - set(PERSONA_SCENARIO_REGISTRY_FIELDNAMES)
     assert not missing, f"missing required field(s): {missing}"
@@ -240,6 +244,17 @@ def test_migration_has_partial_tenant_index() -> None:
     assert re.search(r"where\s+tenant_id\s+is\s+not\s+null", sql), (
         "expected partial index on WHERE tenant_id IS NOT NULL"
     )
+
+
+def test_migration_i49_priority_columns_file_exists() -> None:
+    assert MIGRATION_I49_PRIORITY.is_file()
+
+
+def test_migration_i49_adds_priority_columns_to_mirror() -> None:
+    sql = MIGRATION_I49_PRIORITY.read_text(encoding="utf-8").lower()
+    assert "alter table compliance.persona_scenario_registry_mirror" in sql
+    for col in ("priority_score", "safety_lane", "release_blocking"):
+        assert f"add column if not exists {col}" in sql, f"missing ALTER for {col}"
 
 
 # ---------------------------------------------------------------------------

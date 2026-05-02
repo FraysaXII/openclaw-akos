@@ -7,6 +7,7 @@ RunPod config, Langfuse config, and permissions.
 
 Usage:
     py scripts/doctor.py
+    py scripts/doctor.py --docker-sandbox
     py scripts/doctor.py --json-log
 """
 
@@ -34,6 +35,7 @@ from akos.io import (
     resolve_openclaw_home,
     set_process_env_defaults,
 )
+from akos.docker_engine_probe import probe_docker_engine
 from akos.log import setup_logging
 from akos.policy import CapabilityMatrix
 from akos.runtime import (
@@ -638,11 +640,24 @@ def main() -> None:
     parser.add_argument(
         "--force-gateway-repair",
         action="store_true",
-        help="Pass aggressive repair mode to upstream OpenClaw doctor when repairing the gateway",
+        help="Pass aggressive repair mode to upstream OpenCLaw doctor when repairing the gateway",
+    )
+    parser.add_argument(
+        "--docker-sandbox",
+        action="store_true",
+        help="Tier-3 preflight only: verify Docker engine IPC (npipe/pipe or UNIX socket) is reachable",
     )
     args = parser.parse_args()
 
     setup_logging(json_output=args.json_log)
+
+    if args.docker_sandbox:
+        ok, detail = probe_docker_engine(timeout_sec=2.0)
+        print()
+        print("  Docker sandbox preflight")
+        print(f"    {'PASS' if ok else 'FAIL'}  {detail}")
+        print()
+        sys.exit(0 if ok else 1)
 
     preflight: list[tuple[str, str]] = []
     recovery: GatewayRecoveryResult | None = None

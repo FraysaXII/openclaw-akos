@@ -16,6 +16,10 @@ Env: ``AKOS_BROWSER_SMOKE_API_URL`` (optional) overrides the control plane base 
 Env: ``AKOS_BROWSER_SMOKE_HTTP_TIMEOUT`` (optional, default ``30``) seconds for urllib probes
 to the gateway and control plane (cold ``serve-api`` with Langfuse/RunPod init can exceed 5s).
 
+Env: ``AKOS_REQUIRE_DOCKER_PREFLIGHT=1`` (optional) - when set with ``--playwright``, fail fast
+if the Docker engine pipe/socket is unreachable (Tier-3 sandbox hygiene). Default is warn-only;
+``py scripts/doctor.py --docker-sandbox`` always exits non-zero when the engine is down.
+
 **Scenario 0 registry slice (HTTP):** after graph explorer checks, runs golden assertions on
 ``GET /hlk/roles/CTO``, ``GET /hlk/areas/Research``, ``GET /hlk/processes/KiRBe%20Platform/tree``,
 ``GET /routing/classify`` (admin + mixed utterance), ``GET /finance/quote/AAPL``,
@@ -52,6 +56,8 @@ try:
 except ImportError:
     sync_playwright = None  # type: ignore[misc, assignment]
     PLAYWRIGHT_AVAILABLE = False
+
+from akos.docker_engine_probe import probe_docker_engine
 
 logger = logging.getLogger("akos.browser-smoke")
 
@@ -795,6 +801,23 @@ def main() -> None:
             for s in PHASE1_SCENARIOS
         ]
     elif args.playwright:
+        if not args.playwright_worker:
+            ok_d, dock_msg = probe_docker_engine(timeout_sec=2.0)
+            require_docker = (os.environ.get("AKOS_REQUIRE_DOCKER_PREFLIGHT") or "").strip() == "1"
+            if not ok_d and require_docker:
+                logger.error("Docker engine preflight failed (AKOS_REQUIRE_DOCKER_PREFLIGHT=1): %s", dock_msg)
+                print()
+                print("  Browser Smoke Results")
+                print("  " + "-" * 60)
+                print(f"  [FAIL] {'docker_engine_preflight':30s} {dock_msg}")
+                print()
+                print("  Fix: start Docker Desktop / engine, then re-run.")
+                print("  Or: py scripts/doctor.py --docker-sandbox")
+                print("  Doc: docs/USER_GUIDE.md section 14.3b")
+                print()
+                sys.exit(1)
+            if not ok_d:
+                logger.warning("Docker engine preflight SKIP: %s", dock_msg)
         if not PLAYWRIGHT_AVAILABLE:
             logger.warning("Playwright requested but not installed. Run: pip install playwright && playwright install chromium")
             results = [

@@ -17,6 +17,8 @@ Schema enforcement:
 - ``language`` is in ``VALID_LANGUAGES``.
 - ``lifecycle_status`` is in ``VALID_LIFECYCLE_STATUSES``.
 - ``topic_ids`` (semicolon list) — each id resolves to ``TOPIC_REGISTRY.csv``.
+- ``priority_score`` (optional float string) — Initiative 49; non-negative if set.
+- ``safety_lane`` / ``release_blocking`` — empty or ``true``/``false``.
 - ``prompt_text`` is non-empty.
 
 Usage::
@@ -63,6 +65,15 @@ def _load_csv_set(path: Path, key: str) -> set[str]:
 
 def _split_semi(value: str) -> list[str]:
     return [s.strip() for s in (value or "").split(";") if s.strip()]
+
+
+def _validate_bool_csv(errors: list[str], sid: str, key: str, value: str | None) -> None:
+    """I49: safety_lane / release_blocking empty or true|false (case-insensitive)."""
+    v = (value or "").strip().lower()
+    if not v:
+        return
+    if v not in ("true", "false"):
+        errors.append(f"{sid}: {key} {v!r} must be empty, true, or false")
 
 
 def main() -> int:
@@ -158,6 +169,18 @@ def main() -> int:
         for tid in _split_semi(r.get("topic_ids") or ""):
             if topic_ids and tid not in topic_ids:
                 errors.append(f"{sid}: topic_id {tid!r} not in TOPIC_REGISTRY.csv")
+
+        ps = (r.get("priority_score") or "").strip().lower()
+        if ps:
+            try:
+                fv = float(ps.replace(",", "."))
+                if fv < 0:
+                    errors.append(f"{sid}: priority_score negative")
+            except ValueError:
+                errors.append(f"{sid}: priority_score {ps!r} not a float")
+
+        _validate_bool_csv(errors, sid, "safety_lane", r.get("safety_lane"))
+        _validate_bool_csv(errors, sid, "release_blocking", r.get("release_blocking"))
 
     print(f"  Rows validated: {len(rows)}")
     print(f"  Scenarios:      {len(seen)}")

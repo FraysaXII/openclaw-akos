@@ -1301,8 +1301,7 @@ Native Windows may not provide the isolation OpenClaw expects for **`sandbox.mod
 1. **Docker Desktop 4.58+** — Enable features required for [Docker Desktop sandboxes](https://docs.docker.com/ai/sandboxes/docker-desktop/) (microVM + isolated daemon + workspace sync). Use host **File Sharing** so `~/.openclaw` and your repo root are visible to the VM. Optional: `docker sandbox network proxy` / `docker sandbox network log` for egress visibility.
 2. **WSL2 (Ubuntu recommended)** — Run Ollama + OpenClaw gateway inside Linux; browse WebChat from Windows to `127.0.0.1:18789`.
 3. **Doctor hints** — `py scripts/doctor.py` prints **WARN** (non-fatal) lines about Docker CLI / WSL presence on Windows to remind operators of the above.
-
-When `scripts/log-watcher.py` fires Madeira grounding alerts (internal tool leakage, pseudo HLK paths, or UUID-shaped answers without `hlk_*` tool use), treat it like a narrow incident: pause or tighten tools if needed, review recent sessions, rotate secrets if compromise is suspected, then re-run the audit above.
+4. **Engine pipe check** — `py scripts/doctor.py --docker-sandbox` verifies the Docker engine IPC endpoint (named pipe or UNIX socket) within about two seconds and exits non-zero when it cannot connect. Tier-3 Playwright runs can optionally set **`AKOS_REQUIRE_DOCKER_PREFLIGHT=1`** so `py scripts/browser-smoke.py --playwright` fails fast with the same hygiene (default remains warn-only for CI laptops without Docker). (internal tool leakage, pseudo HLK paths, or UUID-shaped answers without `hlk_*` tool use), treat it like a narrow incident: pause or tighten tools if needed, review recent sessions, rotate secrets if compromise is suspected, then re-run the audit above.
 
 **OpenClaw CLI upgrade:** After `openclaw update`, restart the gateway and run `openclaw status --all`, `py scripts/doctor.py`, and AKOS gates (`verify_openclaw_inventory`, `check-drift`, `release-gate` or full matrix in `docs/DEVELOPER_CHECKLIST.md`). See [CONTRIBUTING.md](../CONTRIBUTING.md) — OpenClaw CLI upgrades.
 
@@ -2055,6 +2054,10 @@ MADEIRA is your single entrypoint for HLK operations. You talk to MADEIRA. MADEI
 | See all projects | "List all 11 top-level projects" | `hlk_projects` |
 | Find gaps | "What baselines need remediation?" | `hlk_gaps` |
 | Search anything | "Find everything related to HUMINT" | `hlk_search` |
+
+### 24.2.1 Three-light verdict and cadence (Initiative 49)
+
+Releases use a **three-light** model (all green = ship). Operator cadence and thresholds are written in the hardened MADEIRA plan **Part H** ([`MADEIRA_HARDENING_CONSOLIDATED_PLAN.md`](../wip/planning/02-hlk-on-akos-madeira/MADEIRA_HARDENING_CONSOLIDATED_PLAN.md) — section "Verdict and cadence"). Day-to-day commands stay in §24.1.1 (`py scripts/render_uat_dossier.py`; optional `--filter madeira` once enabled) and `docs/guides/madeira_operator_quickstart.md` when that guide lands.
 
 ### 24.3 Adding Knowledge to the Vault
 

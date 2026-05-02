@@ -252,6 +252,15 @@ def test_eval_script_persona_filter_argparse_only() -> None:
     assert "--judge-cost-cap" in proc.stdout
 
 
+def test_calibrate_script_help_lists_write_priority_scores_flag() -> None:
+    proc = subprocess.run(
+        [sys.executable, str(CALIBRATE_SCRIPT), "--help"],
+        cwd=REPO_ROOT, capture_output=True, text=True, encoding="utf-8", timeout=20,
+    )
+    assert proc.returncode == 0
+    assert "--write-priority-scores" in proc.stdout
+
+
 # ---------------------------------------------------------------------------
 # Supabase migration shape (D-IH-47-F + D-IH-47-J)
 # ---------------------------------------------------------------------------

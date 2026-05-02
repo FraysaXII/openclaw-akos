@@ -181,6 +181,7 @@ R1 assemble + inventory → R2 drift + pytest (router, e2e_pipeline, log-watcher
 - Madeira **read-only** at gateway: [prompts/base/MADEIRA_BASE.md](../../../../prompts/base/MADEIRA_BASE.md), [config/openclaw.json.example](../../../../config/openclaw.json.example) (`deny`: write, edit, apply_patch, exec, browser).
 - [config/agent-capabilities.json](../../../../config/agent-capabilities.json) mirrors policy.
 - **Current:** MADEIRA **compact** tier includes shipped invariant overlays (see model-tiers + `OVERLAY_*_COMPACT`).
+- **Cross-initiative MADEIRA map:** [`docs/wip/planning/49-madeira-management-rollup/madeira-program-index.md`](../../49-madeira-management-rollup/madeira-program-index.md) (Initiative 49).
 
 ---
 
@@ -237,6 +238,37 @@ flowchart LR
 - **FastAPI:** typed dependencies, response models, stable errors — [akos/api.py](../../../../akos/api.py) patterns.
 - **Pydantic:** eval + routing payloads validated; tests for invalid fixtures per CONTRIBUTING.
 - **Python:** `akos/process.py`, `akos/log.py`, no new deps without justification.
+
+---
+
+## Part H — Verdict and cadence (Initiative 49)
+
+Monthly management for the MADEIRA program uses a three-light verdict and stable operator cadences. Full program index and cross-initiative pointers: [`docs/wip/planning/49-madeira-management-rollup/madeira-program-index.md`](../../49-madeira-management-rollup/madeira-program-index.md).
+
+### Three-light GO / NO-GO
+
+Shipping a MADEIRA release is **GO** only when **all three** lights below are green; otherwise **NO-GO**.
+
+| Light | Meaning | Signals / thresholds |
+|:------|:--------|:----------------------|
+| **Conversational** | Tool-grounded replies, citations, escalation discipline | Tier-1 and Tier-2 eval rubrics PASS; persona calibration `__overall__` inside the D-IH-47-C ±5 percentage-point band (`py scripts/calibrate_scenarios.py`); offline LLM-as-judge axes meet POLICY_REGISTER `POL-EVAL-JUDGE-THRESHOLD-*` minima when exercised |
+| **Operator** | End-to-end operator workflow survives scenario-0 and safety UC lanes | Scenario-0 HTTP checks green (dashboard smoke paths); Tier-3 UAT report dated within 14 days; safety use cases mapped to negatives and escalation (`docs/wip/planning/17-madeira-cursor-mode-parity/coverage-matrix.md`): NEG and routing (`M-NEG-*`, `M-RT-*`) PASS; Tier-3 runner not BLOCKED solely for missing Docker sandbox when remediation is tracked |
+| **Surface** | Operator-facing control-plane and Tier-3 shell stay shippable | `/madeira/control` plus dashboard WebChat: latest Impeccable-style critique permits ship or tracked follow-ups; accessibility bar at WCAG-AA target for the control plane; external-bound copy passes the brand voice fast-lint where applicable |
+
+### Cadence table (canonical)
+
+| Cadence | Lane | Trigger | Owner | Threshold |
+|:--------|:-----|:--------|:------|:----------|
+| Pre-commit | Tier 1 + scenario-0 + `validate_persona_scenario_registry` + per-persona scorecard smoke | Local and CI | Automation | All green |
+| Per-PR (prompts, intent, registry) | Targeted use-case subset + calibration drift on touched persona | PR label | Automation | No calibration drift outside ±5pp for affected persona |
+| Weekly | Tier-B matrix + MADEIRA-filtered dossier emit | Scheduled | System Owner | Per-persona judge/cost thresholds met; weekly eval spend within policy |
+| Monthly | Tier-3 operator UAT on top-ranked use-case IDs + verdict review | Calendar | System Owner | Every targeted UC PASS or SKIP with reason; three-light verdict logged |
+| Quarterly | Impeccable critique + brand voice deep audit | Calendar | System Owner | Surface lane verdict re-issued with evidence |
+
+### Registry alignment
+
+- **Use-case growth** rows up in `PERSONA_SCENARIO_REGISTRY.csv` (priority fields: `priority_score`, `safety_lane`, `release_blocking` per D-IH-49-A); `process_list.csv` stays a small set of workflow types.
+- **Mirror:** `compliance.persona_scenario_registry_mirror` gains the same priority columns via migration `20260503120000_i49_persona_scenario_registry_priority_columns.sql` for query-side sorts.
 
 ---
 
