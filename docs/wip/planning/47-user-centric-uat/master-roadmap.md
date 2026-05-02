@@ -1,6 +1,6 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 47-user-centric-uat
 report_kind: master-roadmap
 program_id: shared
@@ -12,7 +12,7 @@ last_review: 2026-05-02
 # Initiative 47 — User-centric UAT modernisation
 
 **Folder:** `docs/wip/planning/47-user-centric-uat/`
-**Status:** Open (started 2026-05-02)
+**Status:** Closed (2026-05-02; all 16 phases shipped; 134 new tests; 326 scenarios; UAT report at [`reports/uat-i47-user-centric-uat-2026-05-02.md`](reports/uat-i47-user-centric-uat-2026-05-02.md))
 **Authoritative Cursor plan:** `~/.cursor/plans/i47_user-centric_uat_a51d490f.plan.md`
 **Predecessor:** [Initiative 45 — Live Eval Harness Modernisation](../45-live-eval-harness/master-roadmap.md) (closed 2026-05-01) and [Initiative 46 — Neo4j Strategic Posture](../46-neo4j-strategic-posture/master-roadmap.md) (closed 2026-05-01).
 **Sister initiative scope (RICE-expanded 2026-05-02):** absorbs 4 originally-out-of-scope items into in-scope.

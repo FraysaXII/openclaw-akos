@@ -148,6 +148,6 @@ def test_existing_role_process_program_topic_unchanged() -> None:
     assert sum(1 for n in nodes if n.label == "Role") == 65
     assert sum(1 for n in nodes if n.label == "Process") == 1093
     assert len(prog_nodes) == 12
-    # Topic registry grows by 1 per dimension/operational-mirror addition; post-I32 P10
-    # the count is 27 (24 from I31/I29 + skill + touchpoint-kit-cell + policy + repo-health).
-    assert len(topic_nodes) == 27
+    # Topic registry grows by 1 per dimension/operational-mirror addition; post-I47 P1
+    # the count is 28 (27 post-I32 P10 + persona_scenario_registry from I47 P1).
+    assert len(topic_nodes) == 28
