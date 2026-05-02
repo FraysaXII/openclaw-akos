@@ -25,7 +25,9 @@ import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
+
+DossierFlavor = Literal["default", "madeira"]
 
 logger = logging.getLogger("akos.dossier.run")
 
@@ -43,10 +45,12 @@ DEFAULT_TREND_WINDOW = 10  # P7 / Section 11
 class DossierFilter:
     """Per-run filter for --initiative / --persona / --since (P6)."""
 
-    initiative: str | None = None  # e.g. "47"
-    persona_id: str | None = None  # e.g. "PERSONA-INVESTOR-COLD"
+    initiative: str | None = None  # e.g. "47"; comma-separated for MADEIRA preset
+    persona_id: str | None = None  # e.g. "PERSONA-INVESTOR-COLD"; comma-separated allowed (I49)
     since: str | None = None  # ISO date "YYYY-MM-DD"
     trend_window: int = DEFAULT_TREND_WINDOW  # P7 Section 11 history depth
+    flavor: DossierFlavor = "default"
+    skill_id: str | None = None  # replay-skill forwarded to eval (MADEIRA preset)
 
 
 @dataclass
@@ -105,15 +109,21 @@ class DossierRun:
             f"- elapsed_ms: {self.elapsed_ms}",
             "",
         ]
-        if self.filter.initiative or self.filter.persona_id or self.filter.since:
+        filt = self.filter
+        if (
+            filt.initiative or filt.persona_id or filt.since or filt.skill_id or filt.flavor != "default"
+        ):
             lines.append("## Filter")
             lines.append("")
-            if self.filter.initiative:
-                lines.append(f"- initiative: `{self.filter.initiative}`")
-            if self.filter.persona_id:
-                lines.append(f"- persona_id: `{self.filter.persona_id}`")
-            if self.filter.since:
-                lines.append(f"- since: `{self.filter.since}`")
+            lines.append(f"- flavor: `{filt.flavor}`")
+            if filt.initiative:
+                lines.append(f"- initiative: `{filt.initiative}`")
+            if filt.persona_id:
+                lines.append(f"- persona_id: `{filt.persona_id}`")
+            if filt.skill_id:
+                lines.append(f"- skill_id: `{filt.skill_id}`")
+            if filt.since:
+                lines.append(f"- since: `{filt.since}`")
             lines.append("")
         for section_id in range(1, 13):
             result = self.section_by_id(section_id)
@@ -143,6 +153,8 @@ class DossierRun:
                 "initiative": self.filter.initiative,
                 "persona_id": self.filter.persona_id,
                 "since": self.filter.since,
+                "flavor": self.filter.flavor,
+                "skill_id": self.filter.skill_id,
             },
             "section_count": len(self.section_results),
             "section_metrics": {

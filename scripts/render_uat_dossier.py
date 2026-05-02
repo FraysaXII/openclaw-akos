@@ -43,6 +43,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
+from akos.dossier.madeira_preset import dossier_filter_madeira_preset
 from akos.dossier.run import (
     DEFAULT_TREND_WINDOW,
     VALID_FORMATS,
@@ -54,7 +55,14 @@ from akos.dossier.run import (
     resolve_max_dossier_usd,
     resolve_run_dir,
 )
-from akos.dossier.sections import SECTION_CLASSES, Section01ExecutiveSummary, Section11TrendLines
+from akos.dossier.sections import (
+    SECTION_CLASSES,
+    Section01ExecutiveSummary,
+    Section01ExecutiveSummaryMadeira,
+    Section11TrendLines,
+)
+
+VALID_FLAVORS = ("default", "madeira")
 
 logger = logging.getLogger("scripts.render_uat_dossier")
 
@@ -71,11 +79,16 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     # P6 filters
     p.add_argument("--initiative", default="",
-                   help="Filter to one initiative (e.g. 47)")
+                   help="Filter to one initiative (e.g. 47); ignored when --filter madeira sets a roster")
     p.add_argument("--persona", default="",
-                   help="Filter to one persona_id (e.g. PERSONA-INVESTOR-COLD)")
+                   help="Filter to one persona_id (e.g. PERSONA-INVESTOR-COLD); ignored when --filter madeira sets a roster")
     p.add_argument("--since", default="",
                    help="Filter trend section to date window (YYYY-MM-DD)")
+    # I49 P9: saved filter profile (composes persona + initiative + skill_id presets)
+    p.add_argument(
+        "--filter", dest="filter_preset", default="default", choices=list(VALID_FLAVORS),
+        help="Saved filter profile. 'madeira' composes the MADEIRA persona+initiative+skill roster and swaps in the three-light Section 1 (Initiative 49 D-IH-49-E).",
+    )
     # Cost + cache discipline
     p.add_argument("--max-staleness-hours", type=float, default=24.0,
                    help="Override per-section staleness threshold (default 24h)")
@@ -156,16 +169,24 @@ def _build_dossier(args: argparse.Namespace) -> DossierRun:
     rollup can be appended to history for sparklines (P7).
     """
     git_sha = _resolve_git_sha()
-    run = DossierRun(
-        git_sha=git_sha,
-        mode=args.mode,
-        formats=tuple([args.format] if args.format != "all" else ["md", "pdf", "html"]),
-        filter=DossierFilter(
+    flavor = getattr(args, "filter_preset", "default") or "default"
+    if flavor == "madeira":
+        dossier_filter = dossier_filter_madeira_preset(
+            since=(args.since or None),
+            trend_window=int(args.trend_window) if getattr(args, "trend_window", None) else DEFAULT_TREND_WINDOW,
+        )
+    else:
+        dossier_filter = DossierFilter(
             initiative=(args.initiative or None),
             persona_id=(args.persona or None),
             since=(args.since or None),
             trend_window=int(args.trend_window) if getattr(args, "trend_window", None) else DEFAULT_TREND_WINDOW,
-        ),
+        )
+    run = DossierRun(
+        git_sha=git_sha,
+        mode=args.mode,
+        formats=tuple([args.format] if args.format != "all" else ["md", "pdf", "html"]),
+        filter=dossier_filter,
     )
     started_perf = time.perf_counter()
 
@@ -204,9 +225,15 @@ def _build_dossier(args: argparse.Namespace) -> DossierRun:
     prior_results.append(r11)
     run.add(r11)
 
-    section1 = Section01ExecutiveSummary()
-    if not args.quiet:
-        sys.stderr.write("  [Section 01] computing executive summary from prior sections...\n")
+    section1: Section01ExecutiveSummary
+    if run.filter.flavor == "madeira":
+        section1 = Section01ExecutiveSummaryMadeira()
+        if not args.quiet:
+            sys.stderr.write("  [Section 01] computing MADEIRA three-light verdict from prior sections...\n")
+    else:
+        section1 = Section01ExecutiveSummary()
+        if not args.quiet:
+            sys.stderr.write("  [Section 01] computing executive summary from prior sections...\n")
     data = section1.gather(mode=run.mode, filter=run.filter, prior_results=prior_results)
     md = section1.render_markdown(data)
     metrics = section1.metrics_for_trend(data)
@@ -333,7 +360,7 @@ def main(argv: list[str] | None = None) -> int:
             f"  =========================\n"
             f"  mode: {args.mode}\n"
             f"  format: {args.format}\n"
-            f"  filter: initiative={args.initiative or '-'}, persona={args.persona or '-'}, since={args.since or '-'}\n"
+            f"  filter: flavor={getattr(args, 'filter_preset', 'default')}, initiative={args.initiative or '-'}, persona={args.persona or '-'}, since={args.since or '-'}\n"
             f"  cost cap: ${cap:.2f}/run\n\n"
         )
 

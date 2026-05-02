@@ -20,12 +20,22 @@ Phases (per docs/wip/planning/48-operator-dossier/master-roadmap.md):
 
 from __future__ import annotations
 
+from akos.dossier.madeira_preset import (
+    MADEIRA_DOSSIER_INITIATIVE_IDS,
+    MADEIRA_DOSSIER_PERSONA_IDS,
+    MADEIRA_DOSSIER_SKILL_ID,
+    dossier_filter_madeira_preset,
+    persona_id_set,
+    single_persona_for_cli,
+)
 from akos.dossier.run import DossierFilter, DossierRun, DossierSectionResult
 from akos.dossier.sections import (
     SECTION_CLASSES,
     Section,
     SectionData,
     Section01ExecutiveSummary,
+    Section01ExecutiveSummaryMadeira,
+    compute_madeira_three_lights,
     Section02SchemaGovernance,
     Section03EvalHealth,
     Section04PersonaCalibration,
@@ -48,6 +58,14 @@ __all__ = [
     "SectionData",
     "SECTION_CLASSES",
     "Section01ExecutiveSummary",
+    "Section01ExecutiveSummaryMadeira",
+    "compute_madeira_three_lights",
+    "MADEIRA_DOSSIER_INITIATIVE_IDS",
+    "MADEIRA_DOSSIER_PERSONA_IDS",
+    "MADEIRA_DOSSIER_SKILL_ID",
+    "dossier_filter_madeira_preset",
+    "persona_id_set",
+    "single_persona_for_cli",
     "Section02SchemaGovernance",
     "Section03EvalHealth",
     "Section04PersonaCalibration",

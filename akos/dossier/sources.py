@@ -174,8 +174,13 @@ def _query_eval_run_latest() -> dict[str, Any] | None:
 
 
 def gather_persona_calibration() -> SectionData:
-    """Read latest artifacts/calibration/*.json (P10 of I47 wrote these)."""
+    """Read latest artifacts/calibration/*.json (P10 of I47 wrote these).
+
+    Initiative 49 P10 extension: also reads PERSONA_SCENARIO_REGISTRY.csv
+    to surface ``quarantined`` row counts and the first 10 ids in the dossier.
+    """
     art = latest_artifact(ARTIFACTS_DIR / "calibration", "calibration-baseline-*.json")
+    quarantine = gather_persona_scenario_quarantine()
     if art is None:
         return SectionData(
             placeholder=True,
@@ -198,10 +203,132 @@ def gather_persona_calibration() -> SectionData:
             "personas_outside_tolerance": sorted(outside),
             "overall_pct": overall.get("pct", {}),
             "artifact_path": _safe_relative(art.path),
+            "quarantined_scenarios_count": quarantine["count"],
+            "quarantined_scenario_ids": quarantine["ids"],
             "status": "PASS" if overall.get("overall_pass") else "WARN",
         },
         data_age_seconds=art.age_seconds,
     )
+
+
+def gather_madeira_cost_rollup() -> dict[str, Any]:
+    """Initiative 49 P12 — read latest eval scorecard JSON for MADEIRA cost slice.
+
+    Reads the newest ``artifacts/eval-history/eval-scorecard-*.json`` (as
+    written by `scripts/eval.py --json` runs); when absent, returns an
+    informational stub. Operator narrative covers per-cassette-record cost.
+    """
+    out: dict[str, Any] = {
+        "total_usd": 0.0,
+        "per_mode": {},
+        "per_persona": {},
+        "per_judge_axis": {},
+        "ceiling_status": "unknown",
+        "source_artifact": None,
+    }
+    art = latest_artifact(ARTIFACTS_DIR / "eval-history", "eval-scorecard-*.json")
+    if art is None:
+        return out
+    try:
+        payload = json.loads(art.path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return out
+    rows = payload.get("rows") or []
+    total = 0.0
+    per_mode: dict[str, float] = {}
+    per_persona: dict[str, float] = {}
+    per_judge_axis: dict[str, float] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        cost = float(row.get("cost_usd") or 0.0)
+        total += cost
+        mode = str(row.get("mode") or row.get("eval_mode") or "")
+        if mode:
+            per_mode[mode] = round(per_mode.get(mode, 0.0) + cost, 6)
+        persona_id = str(row.get("persona_id") or "")
+        if persona_id:
+            per_persona[persona_id] = round(per_persona.get(persona_id, 0.0) + cost, 6)
+        for axis in ("brand_voice", "citation", "persona_fit"):
+            axis_cost = row.get(f"judge_{axis}_cost_usd")
+            if isinstance(axis_cost, (int, float)):
+                per_judge_axis[axis] = round(per_judge_axis.get(axis, 0.0) + float(axis_cost), 6)
+    out["total_usd"] = round(total, 6)
+    out["per_mode"] = per_mode
+    out["per_persona"] = per_persona
+    out["per_judge_axis"] = per_judge_axis
+    out["ceiling_status"] = "within_envelope" if total <= 77.0 else "breach"
+    out["source_artifact"] = _safe_relative(art.path)
+    return out
+
+
+def gather_madeira_surface_signals() -> dict[str, Any]:
+    """Initiative 49 P12 / P16 — derive Surface UX signal from latest critique artefacts.
+
+    Reads, in order of preference:
+    - ``docs/wip/planning/49-madeira-management-rollup/reports/impeccable-critique-madeira-control-*.md``
+    - ``docs/wip/planning/49-madeira-management-rollup/reports/impeccable-shape-madeira-control-*.md``
+
+    Returns dict with ``ship`` ('GREEN'|'AMBER'|'RED'|None) plus narrative
+    detail and evidence-path map. Absent reports return AMBER with explanatory
+    detail rather than placeholder.
+    """
+    reports_dir = REPO_ROOT / "docs" / "wip" / "planning" / "49-madeira-management-rollup" / "reports"
+    evidence: dict[str, str] = {}
+    if not reports_dir.is_dir():
+        return {"ship": "AMBER", "detail": "Initiative 49 reports folder absent", "evidence": evidence}
+    critique = sorted(reports_dir.glob("impeccable-critique-madeira-control-*.md"))
+    shape = sorted(reports_dir.glob("impeccable-shape-madeira-control-*.md"))
+    a11y = sorted(reports_dir.glob("a11y-axe-madeira-control-*.md"))
+    if critique:
+        evidence["critique"] = _safe_relative(critique[-1])
+    if shape:
+        evidence["shape_brief"] = _safe_relative(shape[-1])
+    if a11y:
+        evidence["axe_audit"] = _safe_relative(a11y[-1])
+    if not critique:
+        return {
+            "ship": "AMBER",
+            "detail": "No Impeccable critique artefact yet (P15 closure required for GREEN)",
+            "evidence": evidence,
+        }
+    body = ""
+    try:
+        body = critique[-1].read_text(encoding="utf-8")
+    except OSError:
+        body = ""
+    body_lower = body.lower()
+    if "verdict: ship" in body_lower or "ship\n" in body_lower:
+        ship = "GREEN"
+        detail = "Latest critique declares ship verdict"
+    elif "verdict: hold" in body_lower or "no-go" in body_lower:
+        ship = "RED"
+        detail = "Latest critique declares hold / no-go"
+    else:
+        ship = "AMBER"
+        detail = "Latest critique present but verdict not parseable"
+    return {"ship": ship, "detail": detail, "evidence": evidence}
+
+
+def gather_persona_scenario_quarantine() -> dict[str, Any]:
+    """Initiative 49 P10 — count rows where ``lifecycle_status='quarantined'``.
+
+    Returns ``{"count": int, "ids": list[str]}`` (first 10 ids only).
+    """
+    csv_path = PERSONA_SCENARIO_REGISTRY_CSV
+    if not csv_path.is_file():
+        return {"count": 0, "ids": []}
+    try:
+        with csv_path.open(encoding="utf-8", newline="") as fh:
+            rows = list(csv.DictReader(fh))
+    except OSError:
+        return {"count": 0, "ids": []}
+    quarantined_ids = [
+        (r.get("scenario_id") or "").strip()
+        for r in rows
+        if (r.get("lifecycle_status") or "").strip() == "quarantined"
+    ]
+    return {"count": len(quarantined_ids), "ids": sorted(quarantined_ids)[:10]}
 
 
 # ──────────────────────────────────────────────────────────────────────────────

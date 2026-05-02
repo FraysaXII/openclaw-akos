@@ -129,12 +129,16 @@ def run_validate_hlk() -> CliResult:
     )
 
 
-def run_eval_mode_all_json(*, persona: str | None = None) -> CliResult:
-    """Section 3 — invoke eval.py --mode all --json with optional persona filter."""
+def run_eval_mode_all_json(
+    *, persona: str | None = None, replay_skill: str | None = None,
+) -> CliResult:
+    """Section 3 — invoke eval.py --mode all --json with optional persona / skill replay filter."""
     cmd = [sys.executable, str(REPO_ROOT / "scripts" / "eval.py"),
            "--mode", "all", "--json", "--no-exit-on-fail"]
     if persona:
         cmd.extend(["--persona", persona])
+    if replay_skill:
+        cmd.extend(["--replay-skill", replay_skill])
     return run_cli(cmd, timeout=LONG_CLI_TIMEOUT_SECONDS, parse_stdout_json=True)
 
 

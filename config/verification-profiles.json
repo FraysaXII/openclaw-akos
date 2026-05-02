@@ -42,6 +42,11 @@
           "id": "dossier_smoke",
           "description": "Initiative 48: operator UAT dossier snapshot (markdown only; writes artifacts/uat-dossier/)",
           "argv": ["scripts/render_uat_dossier.py", "--mode", "snapshot", "--format", "md", "--quiet"]
+        },
+        {
+          "id": "brand_voice_lint_smoke",
+          "description": "Initiative 49 P12: offline brand-voice fast-lint of external prose defaults (deck story + slides; frontmatter and inline backtick paths skipped per BRAND_JARGON_AUDIT §4 scope).",
+          "argv": ["scripts/lint_brand_voice_offline.py", "--scan-defaults", "--quiet"]
         }
       ]
     },

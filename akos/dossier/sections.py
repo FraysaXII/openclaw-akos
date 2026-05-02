@@ -132,6 +132,53 @@ def _section_header(section_id: int, name: str) -> str:
     return f"## Section {section_id} — {name}"
 
 
+def _prior_sections_map(
+        prior_results: list[DossierSectionResult]) -> dict[int, DossierSectionResult]:
+    return {r.section_id: r for r in prior_results}
+
+
+def compute_madeira_three_lights(
+        *, prior_results: list[DossierSectionResult]) -> dict[str, Any]:
+    """Map Sections 3-8 status into conversational / operator / surface lights (Initiative 49)."""
+
+    m = _prior_sections_map(prior_results)
+    conversational_ids = (3, 4, 5, 6)
+    rows = [m.get(sid).status if m.get(sid) else "SKIP" for sid in conversational_ids]
+
+    def conv_light(statuses: list[str]) -> str:
+        if any(s == "FAIL" for s in statuses):
+            return "RED"
+        if any(s in ("WARN", "SKIP") for s in statuses):
+            return "AMBER"
+        return "GREEN"
+
+    conversational = conv_light(rows)
+    sec8 = m.get(8)
+    op_stat = sec8.status if sec8 else "SKIP"
+    if op_stat == "FAIL":
+        operator = "RED"
+    elif op_stat == "SKIP":
+        operator = "AMBER"
+    else:
+        operator = "GREEN"
+    metrics8 = dict(sec8.metrics or {}) if sec8 else {}
+    ship = metrics8.get("madeira_surface_ship")
+    if ship == "GREEN":
+        surface = "GREEN"
+    elif ship == "RED":
+        surface = "RED"
+    else:
+        surface = "AMBER"
+    ship_go = conversational == operator == surface == "GREEN"
+    return {
+        "madeira_ship_go": ship_go,
+        "light_conversational": conversational,
+        "light_operator": operator,
+        "light_surface": surface,
+        "three_light_detail": metrics8.get("madeira_surface_detail") or "",
+    }
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Section 01 — Executive summary (computed last; rendered first)
 # ──────────────────────────────────────────────────────────────────────────────
@@ -240,6 +287,95 @@ class Section01ExecutiveSummary(Section):
         }
 
 
+class Section01ExecutiveSummaryMadeira(Section01ExecutiveSummary):
+    """Section 1 variant for Initiative 49: three-light GO alongside legacy roll-up."""
+
+    name = "Executive summary (MADEIRA three-light verdict)"
+
+    def gather(self, mode: str, filter: DossierFilter | None = None,
+               prior_results: list[DossierSectionResult] | None = None) -> SectionData:
+        if not prior_results:
+            amb = SectionData(
+                payload={
+                    "outcome": "FAIL",
+                    "section_count": 12,
+                    "fail_count": 0,
+                    "skip_count": 0,
+                    "warn_count": 0,
+                    "cost_total_usd": 0.0,
+                    "status": "FAIL",
+                    "madeira_ship_go": False,
+                    "light_conversational": "AMBER",
+                    "light_operator": "AMBER",
+                    "light_surface": "AMBER",
+                },
+            )
+            return amb
+        base = Section01ExecutiveSummary.gather(self, mode, filter, prior_results)
+        if base.placeholder:
+            return base
+        p = dict(base.payload)
+        if prior_results:
+            lights = compute_madeira_three_lights(prior_results=prior_results)
+            p.update(lights)
+            ship = bool(lights.get("madeira_ship_go"))
+            p["outcome"] = "PASS" if ship else "FAIL"
+            p["status"] = "PASS" if ship else "FAIL"
+        else:
+            p.setdefault("madeira_ship_go", False)
+            p.setdefault("light_conversational", "AMBER")
+            p.setdefault("light_operator", "AMBER")
+            p.setdefault("light_surface", "AMBER")
+        return SectionData(
+            payload=p,
+            placeholder=base.placeholder,
+            error=base.error,
+            data_age_seconds=base.data_age_seconds,
+        )
+
+    def render_markdown(self, data: SectionData) -> str:
+        if data.placeholder:
+            return Section01ExecutiveSummary.render_markdown(self, data)
+        p = data.payload
+        verdict = "**GO**" if p.get("madeira_ship_go") else "**NO-GO**"
+        detail = str(p.get("three_light_detail") or "").strip()
+        hdr = [
+            _section_header(self.section_id, self.name),
+            "",
+            f"MADEIRA release verdict: {verdict}",
+            "",
+            "### Three-light rollup",
+            "",
+            "| Lane | Signal | Basis |",
+            "|:---|:---|:---|",
+            f"| Conversational | {p.get('light_conversational', '?')} | Sections 3-6 status roll-up |",
+            f"| Operator | {p.get('light_operator', '?')} | Section 8 Operational health status |",
+            f"| Surface | {p.get('light_surface', '?')} | Section 8 `madeira_surface_ship` when present; else AMBER pending UX evidence |",
+        ]
+        if detail:
+            hdr.extend(["", f"_Surface lane note:_ {detail}"])
+        hdr.extend(["", "---", "", "*Legacy sectional roll-up (Initiative 48 table):*", ""])
+        legacy = Section01ExecutiveSummary.render_markdown(
+            Section01ExecutiveSummary(), SectionData(payload=p))
+        legacy_lines = legacy.splitlines()
+        if legacy_lines and legacy_lines[0].startswith("## Section "):
+            legacy_lines = legacy_lines[2:]
+        hdr.extend(legacy_lines)
+        return "\n".join(hdr).rstrip() + "\n"
+
+    def metrics_for_trend(self, data: SectionData) -> dict[str, Any]:
+        base = Section01ExecutiveSummary.metrics_for_trend(self, data)
+        p = data.payload
+        base.update({
+            "flavor": "madeira",
+            "madeira_ship_go": bool(p.get("madeira_ship_go")),
+            "light_conversational": str(p.get("light_conversational", "")),
+            "light_operator": str(p.get("light_operator", "")),
+            "light_surface": str(p.get("light_surface", "")),
+        })
+        return base
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Section 02 — Schema + governance
 # ──────────────────────────────────────────────────────────────────────────────
@@ -313,8 +449,14 @@ class Section03EvalHealth(Section):
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
         if mode in ("live", "tier-b"):
+            from akos.dossier.madeira_preset import persona_id_set, single_persona_for_cli
             from akos.dossier.runner import run_eval_mode_all_json
-            cli = run_eval_mode_all_json(persona=(filter.persona_id if filter else None))
+            persona_csv = filter.persona_id if filter else None
+            cli_persona = single_persona_for_cli(persona_csv)
+            cli = run_eval_mode_all_json(
+                persona=cli_persona,
+                replay_skill=(filter.skill_id if filter else None),
+            )
             if not cli.ok or cli.parsed_json is None:
                 return SectionData(
                     placeholder=True,
@@ -322,6 +464,9 @@ class Section03EvalHealth(Section):
                 )
             d = cli.parsed_json
             rows = d.get("rows") or []
+            roster = persona_id_set(persona_csv) if cli_persona is None else set()
+            if roster:
+                rows = [r for r in rows if (r.get("persona_id") in roster)]
             return SectionData(
                 payload={
                     "overall_status": d.get("overall_status", "unknown"),
@@ -333,6 +478,7 @@ class Section03EvalHealth(Section):
                     "cost_total_usd": sum(float(r.get("cost_usd") or 0.0) for r in rows),
                     "cli_duration_seconds": cli.duration_seconds,
                     "status": "PASS" if d.get("overall_status") == "pass" else "FAIL",
+                    "post_filter_persona_roster": sorted(roster) if roster else [],
                 },
                 data_age_seconds=0.0,
             )
@@ -382,15 +528,16 @@ class Section04PersonaCalibration(Section):
     staleness_threshold_hours = 24
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
-        # Live mode: re-run calibrate_scenarios.py first (writes fresh artifact); then read.
+        from akos.dossier.madeira_preset import single_persona_for_cli
         if mode in ("live", "tier-b"):
             from akos.dossier.runner import run_calibrate_scenarios
-            run_calibrate_scenarios(persona=(filter.persona_id if filter else None))
+            cli_persona = single_persona_for_cli(filter.persona_id if filter else None)
+            run_calibrate_scenarios(persona=cli_persona)
         from akos.dossier.sources import gather_persona_calibration, gather_persona_prompt_diff
         data = gather_persona_calibration()
-        # P6: when --persona is set, embed the MADEIRA prompt diff
         if filter and filter.persona_id:
-            diff = gather_persona_prompt_diff(filter.persona_id)
+            head_pid = filter.persona_id.split(",")[0].strip()
+            diff = gather_persona_prompt_diff(head_pid)
             data.payload["persona_prompt_diff"] = diff
         return data
 
@@ -406,7 +553,15 @@ class Section04PersonaCalibration(Section):
             f"- total personas: {p.get('total_personas', 0)}",
             f"- overall within tolerance: {p.get('overall_within_tolerance', False)}",
             f"- personas outside tolerance: {p.get('personas_outside_tolerance_count', 0)}",
+            f"- quarantined scenarios (I49 P10): {p.get('quarantined_scenarios_count', 0)}",
         ]
+        ids = p.get("quarantined_scenario_ids") or []
+        if ids:
+            lines.append("")
+            lines.append("### Quarantined scenarios (sample)")
+            lines.append("")
+            for sid in ids:
+                lines.append(f"- `{sid}`")
         diff = p.get("persona_prompt_diff")
         if diff:
             lines.append("")
@@ -431,6 +586,7 @@ class Section04PersonaCalibration(Section):
             "total_personas": p.get("total_personas", 0),
             "overall_within_tolerance": p.get("overall_within_tolerance", False),
             "personas_outside_tolerance_count": p.get("personas_outside_tolerance_count", 0),
+            "quarantined_scenarios_count": p.get("quarantined_scenarios_count", 0),
         }
 
 
@@ -617,33 +773,75 @@ class Section08OperationalHealth(Section):
     staleness_threshold_hours = 12
 
     def gather(self, mode: str, filter: DossierFilter | None = None) -> SectionData:
-        # Live mode: re-run trigger watcher first (writes fresh artifact); then read.
         if mode in ("live", "tier-b"):
             from akos.dossier.runner import run_agent_memory_trigger_watcher
             run_agent_memory_trigger_watcher()
-        from akos.dossier.sources import gather_operational_health
-        return gather_operational_health()
+        from akos.dossier.sources import (
+            gather_madeira_cost_rollup,
+            gather_madeira_surface_signals,
+            gather_operational_health,
+        )
+        data = gather_operational_health()
+        if filter is not None and filter.flavor == "madeira":
+            data.payload["madeira_cost_rollup"] = gather_madeira_cost_rollup()
+            surface = gather_madeira_surface_signals()
+            data.payload["madeira_surface_ship"] = surface["ship"]
+            data.payload["madeira_surface_detail"] = surface["detail"]
+            data.payload["madeira_surface_evidence"] = surface["evidence"]
+        return data
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
             return _placeholder_markdown(self.section_id, self.name,
                                          data.error or "operational health sources not yet wired")
         p = data.payload
-        return (
-            f"{_section_header(self.section_id, self.name)}\n"
-            f"\n"
-            f"- agent memory triggers fired: {p.get('agent_memory_triggers_fired', 0)}\n"
-            f"- cost ceiling breaches: {p.get('cost_ceiling_breaches_count', 0)}\n"
-            f"- promotion gate PASS count (of 5): {p.get('promotion_gate_pass_count', 0)}\n"
-        )
+        lines = [
+            _section_header(self.section_id, self.name),
+            "",
+            f"- agent memory triggers fired: {p.get('agent_memory_triggers_fired', 0)}",
+            f"- cost ceiling breaches: {p.get('cost_ceiling_breaches_count', 0)}",
+            f"- promotion gate PASS count (of 5): {p.get('promotion_gate_pass_count', 0)}",
+        ]
+        rollup = p.get("madeira_cost_rollup")
+        if isinstance(rollup, dict):
+            lines.extend([
+                "",
+                "### MADEIRA cost rollup (Initiative 49 P12)",
+                "",
+                f"- last eval scorecard total: ${rollup.get('total_usd', 0.0):.4f}",
+                f"- per-mode breakdown: {rollup.get('per_mode') or '(no rows)'}",
+                f"- per-persona breakdown: {rollup.get('per_persona') or '(no rows)'}",
+                f"- per-judge-axis breakdown: {rollup.get('per_judge_axis') or '(no judge rows)'}",
+                f"- cost ceiling envelope: {rollup.get('ceiling_status', 'unknown')}",
+            ])
+        ship = p.get("madeira_surface_ship")
+        if ship is not None:
+            lines.extend([
+                "",
+                "### MADEIRA Surface UX (Initiative 49 P16)",
+                "",
+                f"- ship signal: {ship}",
+                f"- detail: {p.get('madeira_surface_detail', '(no detail)')}",
+            ])
+            for label, value in (p.get("madeira_surface_evidence") or {}).items():
+                lines.append(f"- {label}: {value}")
+        return "\n".join(lines) + "\n"
 
     def metrics_for_trend(self, data: SectionData) -> dict[str, Any]:
         p = data.payload
-        return {
+        out: dict[str, Any] = {
             "agent_memory_triggers_fired": p.get("agent_memory_triggers_fired", 0),
             "cost_ceiling_breaches_count": p.get("cost_ceiling_breaches_count", 0),
             "promotion_gate_pass_count": p.get("promotion_gate_pass_count", 0),
         }
+        rollup = p.get("madeira_cost_rollup")
+        if isinstance(rollup, dict):
+            out["madeira_cost_total_usd"] = float(rollup.get("total_usd") or 0.0)
+            out["madeira_cost_ceiling_status"] = str(rollup.get("ceiling_status") or "")
+        if "madeira_surface_ship" in p:
+            out["madeira_surface_ship"] = str(p.get("madeira_surface_ship", ""))
+            out["madeira_surface_detail"] = str(p.get("madeira_surface_detail", ""))
+        return out
 
 
 # ──────────────────────────────────────────────────────────────────────────────

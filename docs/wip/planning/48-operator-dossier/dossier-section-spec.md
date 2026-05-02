@@ -234,3 +234,20 @@ This makes incomplete data visible without crashing the dossier (R-48-1 graceful
 - D-IH-48-I (HTML interactivity scope: native `<details>`)
 - I32 P10 `render_wip_dashboard.py` BEGIN_AUTO/END_AUTO marker convention (reused for sections that mix auto-render with operator commentary)
 - I47 P15 closure UAT report (E4 — section template source)
+
+## Initiative 49 extension — MADEIRA flavor
+
+> Non-breaking extension to the contract above (D-IH-48-D ordering preserved). Activated via `--filter madeira` on `scripts/render_uat_dossier.py`; persisted on `DossierFilter.flavor` and forwarded into `compliance.dossier_run.section_metrics` for the row.
+
+| Aspect | Default flavor | `flavor='madeira'` |
+|:---|:---|:---|
+| Section 1 class | `Section01ExecutiveSummary` (legacy roll-up) | `Section01ExecutiveSummaryMadeira` — 12-row table preserved; new "Three-light rollup" sub-table added (Conversational / Operator / Surface) plus GO / NO-GO verdict line |
+| Persona scope | Single `--persona` value | Comma-separated MADEIRA roster (`PERSONA-INVESTOR-COLD,PERSONA-INVESTOR-WARM,PERSONA-ADVISOR-REFERRAL,PERSONA-CUSTOMER-KIRBE-PROSPECT,OPERATOR`); CLI calls fall back to no-persona + post-filter when CSV roster has more than one id |
+| Initiative scope | Single `--initiative` value | Comma-separated MADEIRA initiatives (`02,17,32,45,46,47,49`) used by Section 10 and operator narrative sections |
+| Skill replay | None unless `--replay-skill` set | `skill_madeira_lookup_v1` forwarded to `eval.py --replay-skill` |
+| Section 8 | Operational health rollup | Adds `madeira_surface_ship` + `madeira_surface_detail` metrics consumed by Section 1 lights when present |
+| Trend mirror row | `flavor=default` | `flavor=madeira` plus `light_conversational` / `light_operator` / `light_surface` strings |
+
+GO is set only when all three lights resolve to `GREEN`; otherwise verdict is **NO-GO** and Initiative 49 SOPs (`SOP-MADEIRA_VERDICT_AND_CADENCE_001`, incident SOP) become the canonical follow-up.
+
+Implementation references: `akos/dossier/madeira_preset.py`, `akos/dossier/sections.py::Section01ExecutiveSummaryMadeira`, `akos/dossier/sections.py::compute_madeira_three_lights`, `tests/test_dossier_madeira_flavor.py`. Doctrine anchor: [`docs/wip/planning/49-madeira-management-rollup/master-roadmap.md`](../49-madeira-management-rollup/master-roadmap.md) and [`MADEIRA_HARDENING_CONSOLIDATED_PLAN.md`](../02-hlk-on-akos-madeira/MADEIRA_HARDENING_CONSOLIDATED_PLAN.md) Part H.

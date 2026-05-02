@@ -39,7 +39,10 @@ PERSONA_SCENARIO_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "expected_outcome_class",   # PASS | GROUND | ESCALATE | REFUSE
     "language",                 # en | es | fr (per SOP-HLK_LOCALISATION_001.md)
     "topic_ids",                # semicolon-list FK to TOPIC_REGISTRY.csv
-    "lifecycle_status",         # active | deprecated | scaffold
+    "lifecycle_status",         # active | deprecated | scaffold (+ quarantined I49 P10)
+    "priority_score",           # I49 — non-negative float; empty allowed until calibrated
+    "safety_lane",              # I49 — true|false|empty (pinned for backlog sort)
+    "release_blocking",         # I49 — true|false|empty (active rows that gate releases)
     "notes",
 )
 
@@ -72,7 +75,7 @@ VALID_TIERS: frozenset[str] = frozenset({"1", "2", "3"})
 VALID_LANGUAGES: frozenset[str] = frozenset({"en", "es", "fr"})
 
 VALID_LIFECYCLE_STATUSES: frozenset[str] = frozenset({
-    "active", "deprecated", "scaffold",
+    "active", "deprecated", "scaffold", "quarantined",
 })
 
 # 'OPERATOR' is a special pseudo-persona for the founder/system-owner
