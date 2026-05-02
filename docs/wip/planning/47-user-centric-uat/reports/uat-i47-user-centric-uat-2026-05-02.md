@@ -100,6 +100,7 @@ Recommended action: operator-local fix (edit `~/.openclaw/openclaw.json` `agents
 | **OPS-47-6** | Review the 13 personas outside calibration tolerance; decide rebalance vs accept (R-47-2) | At I47 close + 30d |
 | **OPS-47-7** | Approve first real-chaos run when ready (test instance only; D-IH-47-L) | Operator-on-demand |
 | **OPS-47-8** | Approve LLM-judge live mode + pin model_id (D-IH-47-J + R-47-10) | Operator-on-demand |
+| **OPS-47-9** | Extend `scripts/sync_compliance_mirrors_from_csv.py` with `_emit_persona_scenario_registry_upserts()` to reseed the 326 P2-P9 scenarios to `compliance.persona_scenario_registry_mirror` (P1 mirror table is created but currently empty; the table is queryable but has no data until the sync script learns the new dimension) | Pre-Tier-B-first-run |
 
 ## Cross-references
 
