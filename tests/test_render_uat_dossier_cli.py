@@ -94,15 +94,15 @@ def test_snapshot_md_completes_under_30s(tmp_path: Path) -> None:
 # Multi-format --format all
 # ---------------------------------------------------------------------------
 
-def test_format_all_writes_md_and_html(tmp_path: Path) -> None:
-    """P2 + P5 (placeholder): --format all writes md + html. PDF placeholder until P4."""
+def test_format_all_writes_md_pdf_html(tmp_path: Path) -> None:
+    """P5: --format all writes md + html + pdf (or pdf sidecar fallback)."""
     out_dir = tmp_path / "all-formats"
     res = _run(["--mode", "snapshot", "--format", "all", "--out-dir", str(out_dir), "--quiet"])
     assert res.returncode == 0, res.stderr
     assert (out_dir / "dossier.md").is_file()
     assert (out_dir / "dossier.html").is_file()
-    # PDF placeholder (P4 will replace)
-    assert (out_dir / "dossier.pdf.placeholder.md").is_file()
+    # PDF (or sidecar fallback when WeasyPrint unavailable)
+    assert (out_dir / "dossier.pdf").is_file() or (out_dir / "dossier.pdf.md").is_file()
     assert (out_dir / "manifest.json").is_file()
 
 

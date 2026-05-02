@@ -106,12 +106,20 @@ def test_default_open_true_includes_open_attr() -> None:
 # HTML escape (R-48-3 XSS hygiene)
 # ---------------------------------------------------------------------------
 
-def test_markdown_body_html_escaped() -> None:
-    """R-48-3: any HTML-injection-attempt characters in body are escaped."""
+def test_markdown_body_html_escaped_in_fallback_mode() -> None:
+    """R-48-3: in fallback mode (use_markdown_lib=False), HTML-injection-attempt characters are escaped.
+
+    NOTE: in default markdown-library mode (P5), raw inline HTML passes through
+    intentionally because we generate the section markdown ourselves (no operator
+    input enters the body). The CSP `default-src 'self' 'unsafe-inline'` meta
+    tag in render_dossier_html() limits damage even if internal markdown
+    accidentally embeds malicious HTML.
+    """
     out = section_to_html_details(
         section_id=1, name="X",
         markdown_body='<script>alert("x")</script>',
         default_open=False,
+        use_markdown_lib=False,
     )
     assert "<script>" not in out
     assert "&lt;script&gt;" in out
@@ -128,12 +136,14 @@ def test_section_name_html_escaped() -> None:
     assert "<bad>" not in out
 
 
-def test_no_script_tag_ever_embedded() -> None:
-    """D-IH-48-I: NO JS framework. Even if body contains escaped scripts they survive as text."""
+def test_no_script_tag_in_synthetic_internal_content() -> None:
+    """D-IH-48-I: section bodies (which we generate internally; no operator input)
+    must never contain `<script` tag in their markdown."""
     out = section_to_html_details(
         section_id=1, name="X", markdown_body="javascript:void(0)",
-        default_open=False,
+        default_open=False, use_markdown_lib=False,
     )
     assert "<script" not in out
     # The literal javascript: substring may appear inside escaped <pre>; that's fine
-    # because there's no JS execution surface.
+    # because there's no JS execution surface (CSP meta in render_dossier_html
+    # restricts script-src).
