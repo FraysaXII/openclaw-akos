@@ -5,6 +5,18 @@ description = "AKOS orchestration library, scripts, and HLK control plane (works
 readme = "README.md"
 requires-python = ">=3.10"
 
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# Only the akos/ package ships in the editable install.
+# Sibling directories (config/, static/, prompts/, supabase/, artifacts/) are
+# workspace assets, not Python packages; pip 26.1's stricter setuptools
+# auto-discovery would otherwise refuse this flat layout (D-IH-48-J).
+[tool.setuptools.packages.find]
+include = ["akos*"]
+exclude = ["tests*", "scripts*", "config*", "static*", "prompts*", "supabase*", "artifacts*", "docs*"]
+
 [tool.pytest.ini_options]
 python_files = ["test_*.py", "validate_*.py", "e2e_*.py"]
 testpaths = ["tests"]
