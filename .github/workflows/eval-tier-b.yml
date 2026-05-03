@@ -222,3 +222,47 @@ jobs:
           name: uat-dossier-${{ matrix.model_tier }}-${{ matrix.persona }}
           path: dossier-out-${{ matrix.model_tier }}-${{ matrix.persona }}/
           retention-days: 90
+
+  # I51 P5 (D-IH-51-C): calibration drift hard-fail gate.
+  # Runs once per workflow (not per matrix cell). Pre-commit stays warn-only;
+  # this is the only --hard-fail-on-drift surface, per D-IH-51-C scope:
+  # eval_tier_b_weekly profile = hard-fail; everywhere else = warn-only.
+  calibration-drift-gate:
+    if: ${{ vars.AKOS_TIER_B_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    needs: tier-b
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install deps (calibration only; no LLM toolchain)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Calibration baseline + hard-fail-on-drift gate (D-IH-51-C)
+        run: |
+          # I51 P5: --hard-fail-on-drift is the eval_tier_b_weekly-only gate.
+          # Pre-commit (.pre-commit-config.yaml) does NOT invoke this script,
+          # preserving operator agency for rapid iteration.
+          # The script consults per-persona target_difficulty_band (I51 P3
+          # D-IH-51-A) and exits non-zero if any persona is outside +/-5pp
+          # against its own target.
+          python scripts/calibrate_scenarios.py --hard-fail-on-drift
+
+      - name: Upload calibration artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: calibration-baseline
+          path: |
+            artifacts/calibration/calibration-baseline-*.md
+            artifacts/calibration/calibration-baseline-*.json
+          retention-days: 90

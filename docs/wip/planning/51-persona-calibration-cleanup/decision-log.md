@@ -61,6 +61,31 @@ Four decisions seeded with defaults per the cursor plan; operator-ratified at gr
 
 ## Decisions made during execution
 
+### 2026-05-03 — P5 D-IH-51-C executed; --hard-fail-on-drift wired to eval_tier_b_weekly only
+
+I51/P5 lands the `calibration-drift-gate` job in
+`.github/workflows/eval-tier-b.yml` (runs after the matrix `tier-b`
+job, single invocation per workflow). The job invokes
+`py scripts/calibrate_scenarios.py --hard-fail-on-drift` against the
+per-persona `target_difficulty_band` values produced in P3, exits
+non-zero on any persona outside ±5pp of its own band, and uploads the
+resulting `calibration-baseline-*.{md,json}` as a 90-day-retention
+artifact. The script already supported `--hard-fail-on-drift`
+(I47/P10) so this phase is wiring + governance, not new code.
+
+Pre-commit stays warn-only by design: there is no
+`.pre-commit-config.yaml` calibration hook today and we are
+**deliberately not adding one** — D-IH-51-C scope explicitly bounds
+the hard-fail surface to the weekly Tier-B profile so operators can
+iterate freely on `target_difficulty_band` without per-keystroke
+gating.
+
+Local dry-run verification:
+`py scripts/calibrate_scenarios.py --hard-fail-on-drift --quiet` →
+exit 0 (0 / 17 personas outside tolerance; matches P3 closure state).
+
+Phase report: [`reports/p5-ci-tightening-2026-05-03.md`](reports/p5-ci-tightening-2026-05-03.md).
+
 ### 2026-05-03 — P4 D-IH-51-B executed; flake-threshold POLICY + bulk quarantine wired
 
 I51/P4 lands the **`POL-EVAL-FLAKE-THRESHOLD-V1`** POLICY row
