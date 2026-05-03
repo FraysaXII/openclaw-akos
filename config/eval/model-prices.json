@@ -1,7 +1,8 @@
 {
   "_note": "I45 P4: per-model token pricing for cost computation. USD per 1k tokens. Operator-edited (flagship/cheap pricing changes ~quarterly per Anthropic/OpenAI billing cycles). When a model_id is missing from this table, cost = 0.0 (warn at scrape time).",
-  "_last_reviewed": "2026-05-01",
+  "_last_reviewed": "2026-05-03",
   "_owner_role": "FinOps",
+  "_2026_q2_review_note": "I50 P2 truth-up (2026-05-03). All entries verified against published 2026-Q2 rates: Anthropic Claude 3.5 Sonnet $3/M input + $15/M output unchanged; OpenAI gpt-4o $2.50/M input + $10/M output unchanged; OpenAI gpt-4o-mini $0.15/M input + $0.60/M output unchanged; Ollama nomic-embed-text local-zero; deterministic intent classifier rule-based-zero. Note: gpt-4o is now classified legacy by OpenAI (superseded by gpt-5.x in 2026); pricing retained for historical reproducibility on stored cassettes. Multi-model judge roster expansion is the I52 P1 deliverable; this entry intentionally only refreshes existing keys.",
   "models": {
     "deterministic:akos.intent.classify_request": {
       "input_per_1k_usd": 0.0,
@@ -28,7 +29,8 @@
     "openai:gpt-4o": {
       "input_per_1k_usd": 0.0025,
       "output_per_1k_usd": 0.01,
-      "tier": "flagship"
+      "tier": "flagship",
+      "_note": "Legacy classification per OpenAI (2026-Q2): superseded by gpt-5.x family. Pricing retained for cassette reproducibility; new judge work should prefer current flagship models per I52 P1 roster."
     }
   }
 }

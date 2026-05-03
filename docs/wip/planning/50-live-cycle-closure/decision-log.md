@@ -66,4 +66,21 @@ Four decisions seeded with default positions per the cursor plan; operator-ratif
 
 ## Decisions made during execution
 
-_Append phased ratifications below as they land._
+- **2026-05-03 (D-IH-50-A execution)** — Formalize path taken. `cost_ceiling` `policy_class` was already present in `akos/hlk_policy_register_csv.py::VALID_POLICY_CLASSES` (added at I45 P4 for skill-level ceilings); no code change required to extend it for runtime ceilings. Three new POLICY rows shipped at the runtime envelope tier:
+  - **`POL-EVAL-COST-CEILING-DOSSIER-V1`** — `max_usd_per_run=5.00` (anchors `MAX_DOSSIER_USD` env default; canonical for first-live MADEIRA dossier emit in P3).
+  - **`POL-EVAL-COST-CEILING-PERSONA-V1`** — `max_usd_per_persona=5.00` (anchors `MAX_PERSONA_USD` env default; per-persona Tier-B envelope).
+  - **`POL-EVAL-COST-CEILING-JUDGE-V1`** — `max_usd_per_scenario=0.01` (anchors `--judge-cost-cap` CLI default; pre-sized for I52 multi-judge consensus voting).
+
+  Env vars + CLI flags **stay** as override paths; POLICY rows are the canonical source of truth (auditability + dossier traceability symmetry with I47 P12 `judge_threshold`). `validate_hlk.py` now reports **8 `cost_ceiling` rows** (5 skill-level pre-existing + 3 new runtime-envelope rows), all passing the POLICY_REGISTER validator. Post-write counts: 29 total POLICY rows.
+
+- **2026-05-03 (D-IH-50-A execution, FINOPS counterparty alignment)** — **No-op**. `FINOPS_COUNTERPARTY_REGISTER.csv` currently contains 2 placeholder rows (`finops_example_cloud_platform`, `finops_example_customer`); no actual Anthropic / OpenAI / Ollama / RunPod / Kalavai counterparty rows exist yet. Adding real vendor rows is a substantive future tranche requiring operator approval (out of I50/P2 scope). The **alignment** clause of D-IH-50-A is therefore **closed as N/A** for this cycle; if operator stands up real counterparty rows later, P2 of the next cycle should align them with `model-prices.json` then.
+
+- **2026-05-03 (D-IH-50-A execution, model-prices.json refresh)** — All five canonical model entries verified against published 2026-Q2 rates (web search 2026-05-03):
+  - `anthropic:claude-3-5-sonnet-20241022`: $3/M input + $15/M output → unchanged.
+  - `openai:gpt-4o`: $2.50/M input + $10/M output → unchanged. Annotated as **legacy** per OpenAI 2026-Q2 (superseded by gpt-5.x family); pricing retained for historical cassette reproducibility.
+  - `openai:gpt-4o-mini`: $0.15/M input + $0.60/M output → unchanged.
+  - `ollama:nomic-embed-text` + `deterministic:akos.intent.classify_request`: $0/$0 → unchanged.
+
+  No new model entries added in I50/P2 — multi-model judge roster expansion is the I52/P1 deliverable. `_last_reviewed` bumped to `2026-05-03`; `_2026_q2_review_note` field documents the verification + legacy classification.
+
+- **2026-05-03 (D-IH-50-A execution, schema test)** — `tests/test_model_prices.py` shipped (18 tests, all PASS): file existence, top-level keys, ISO date format, FinOps owner role, required per-model fields, valid tier enum, non-negative prices, output ≥ input invariant, cheap-tier strictly cheaper than flagship, deterministic/local zero-priced invariant, 2026-Q2 reference price hard-pin, review-note presence. Locks in the I50 P2 truth-up against silent regressions (R-50-1).
