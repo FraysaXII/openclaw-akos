@@ -1446,8 +1446,11 @@ py scripts/test.py browser      # same, via test runner
 |:-----|:-------|
 | `--playwright` | Run DOM-based checks (dashboard health, agent visibility, Swagger, Architect/Executor UI, workflow launch). Without this flag, only HTTP checks run. |
 | `--headed` | Show the browser window during runs (default: headless). |
+| `--axe` | **(Initiative 54 P1)** Run axe-core a11y audit on Playwright-loaded pages (today: `/madeira/control`). Requires `axe-playwright-python` from `requirements-dev.txt` (`pip install -r requirements-dev.txt`). SKIPs gracefully when the dev dep is not installed (R-54-1 / R-54-4). Fail bar: any **Critical** axe finding = release-gate fail (D-IH-54-A); **Serious** is warn-only at first run, escalates after one clean cycle. Combine with `--playwright`: `py scripts/browser-smoke.py --playwright --axe`. |
 
 If Playwright is not installed, `--playwright` is skipped with a clear message. The release gate runs browser smoke when Playwright is available.
+
+**Initiative 54 — Surface a11y hardening:** the `playwright_a11y_smoke` profile in `config/verification-profiles.json` runs the new `tests/playwright/` DOM-source contract tests (without Playwright installed; ~0.25s) plus `py scripts/browser-smoke.py --playwright --axe` (when the dev tooling is installed). This profile is opt-in at pre-commit (warn-only on Critical) and Critical-only-blocking at release-gate (D-IH-54-B split runner). See [`docs/wip/planning/54-surface-test-hardening/`](wip/planning/54-surface-test-hardening/) for the full operator-side install path + audit-report contract.
 
 #### 16.3.4 Smoke Test Checklist
 

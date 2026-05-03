@@ -58,6 +58,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **51** | [`51-persona-calibration-cleanup/`](51-persona-calibration-cleanup/) | Closed 2026-05-03. R-47-2 closes (13 / 17 → 0 / 17 outliers); OPS-47-9 + OPS-... | 2026-05-03 | Initiative 51 — Persona calibration cleanup |
 | **52** | [`52-multi-model-judge-and-cost-discipline/`](52-multi-model-judge-and-cost-discipline/) | **Closed (2026-05-03)** — all 9 phases executed (P0-P8). G-52-1, G-52-3, G-52... | 2026-05-03 | Initiative 52 — Multi-model LLM-judge live activation + RunPod/Kalavai cost discipline |
 | **53** | [`53-graphrag-poc-closure/`](53-graphrag-poc-closure/) | **Closed (2026-05-03)** on the no-ship path. P0-P2 audit + P3 NO-FIRE governa... | 2026-05-03 | Initiative 53 — GraphRAG PoC closure (closes I46 P3-P7) |
+| **54** | [`54-surface-test-hardening/`](54-surface-test-hardening/) | **Closed (2026-05-03)** on the dispatcher-validation path. P0-P5 all executed... | 2026-05-03 | Initiative 54 — Surface test hardening (Playwright + axe-core) |
 <!-- END AUTO -->
 
 ## Re-render contract

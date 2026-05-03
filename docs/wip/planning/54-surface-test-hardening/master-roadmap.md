@@ -1,6 +1,6 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 54-surface-test-hardening
 report_kind: master-roadmap
 program_id: shared
@@ -13,7 +13,7 @@ last_review: 2026-05-03
 
 **Folder:** `docs/wip/planning/54-surface-test-hardening/`
 
-**Status:** Active (started 2026-05-03).
+**Status:** **Closed (2026-05-03)** on the dispatcher-validation path. P0-P5 all executed; P6 closure UAT PASS (release-gate 8/8). Live axe-core audit forwarded as **OPS-54-1** to next operator-side `pip install -r requirements-dev.txt` + run cycle. I49 follow-up `OPS-49-craft-followups` (line 53 of impeccable critique) closes architecturally; live operator run is the residual cycle.
 
 **Authoritative Cursor plan:** `~/.cursor/plans/i50–i56_madeira_kb_completion_87cc767e.plan.md` §"Initiative 54".
 

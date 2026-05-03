@@ -55,4 +55,29 @@ Four decisions seeded; operator-ratified at I50-I56 master roadmap greenlight 20
 
 ## Decisions made during execution
 
-(Will be appended as P0-P6 phases execute.)
+### G-54-1 NO-FIRE governance event — 2026-05-03
+
+**Phase:** P4 (Fix Critical/Serious findings).
+
+**Decision:** **G-54-1 NO-FIRE this cycle.** The P3 a11y audit ran in
+dispatcher-validation (stub) mode because `axe-playwright-python` is not
+installed in this cursor session (R-54-4 anticipated). Per the gate
+contract — *"any breaking HTML structural change to fix Critical
+findings on shipped surfaces"* — there are no live Critical findings to
+react to; the gate has no input.
+
+The dispatcher-validation evidence (25 / 25 tests in `tests/playwright/`
+PASS; HTML-source baseline 12 / 12 PASS; DOM-source contract assertions
+all green) gives high prior probability that the live audit on this
+clean redesign baseline will return zero Critical / zero Serious. But
+that prior is not a substitute for a live measurement.
+
+**G-54-1 re-arms** for the operator-run OPS-54-1 cycle. If the live
+audit returns zero Critical, G-54-1 NO-FIRE again and the cycle ends.
+If any Critical, G-54-1 fires; `static/madeira_control.html` (or the
+dossier template) gets a focused fix; the impeccable critique runs again
+post-fix; a re-audit confirms zero Critical; CHANGELOG + decision-log
+record the fix.
+
+**Reversibility:** High — gates are per-cycle; OPS-54-1 will trigger the
+next G-54-1 evaluation.

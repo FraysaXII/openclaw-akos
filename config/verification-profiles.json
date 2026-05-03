@@ -229,6 +229,21 @@
         }
       ]
     },
+    "playwright_a11y_smoke": {
+      "description": "Initiative 54 P5: Playwright + axe-core a11y smoke audit on madeira_control + dossier HTML surfaces. Pre-commit: warn-only when axe-playwright-python is not installed (SKIP gracefully per R-54-1). Release-gate: Critical-only fail (D-IH-54-A). Run with: py scripts/browser-smoke.py --playwright --axe.",
+      "steps": [
+        {
+          "id": "playwright_dom_a11y_unit_tests",
+          "description": "Run tests/playwright/ DOM-source contract + wiring tests (run without Playwright installed; SKIP for live conditional-render tests when render_dossier_html signature differs).",
+          "argv": ["__pytest__", "tests/playwright/", "-v"]
+        },
+        {
+          "id": "browser_smoke_axe_audit",
+          "description": "scripts/browser-smoke.py --playwright --axe. SKIPs when Playwright workers unusable or axe-playwright-python missing (per R-54-1 / R-54-4). Emits Critical/Serious counts per in-scope surface in JSON_RESULTS for downstream gating.",
+          "argv": ["scripts/browser-smoke.py", "--playwright", "--axe"]
+        }
+      ]
+    },
     "eval_harness_smoke": {
       "description": "Initiative 45 P6: pre_commit-eligible smoke run of the unified eval harness. Tier A only (deterministic; no LLM cost). Combines smoke + canary + rubric + replay + adversarial modes.",
       "steps": [
