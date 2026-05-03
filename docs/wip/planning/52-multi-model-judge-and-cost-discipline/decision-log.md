@@ -86,4 +86,27 @@ Six decisions seeded with defaults per the cursor plan; operator-ratified at gre
 
 ## Decisions made during execution
 
-_Append phased ratifications below as they land._
+### 2026-05-03 — P1 D-IH-52-A executed; G-52-1 GREEN
+
+I52/P1 lands the initial multi-judge roster as committed at
+[`prompts/judge/JUDGE_ROSTER_V1.md`](../../../prompts/judge/JUDGE_ROSTER_V1.md):
+
+- Position 1: `anthropic:claude-3-5-sonnet-20241022` (flagship; tie-break primary)
+- Position 2: `openai:gpt-4o` (flagship; tie-break secondary; legacy classification per OpenAI 2026-Q2 — first known rotation candidate)
+
+Both members pinned in `config/eval/model-prices.json` with non-zero
+per-token rates (verified I50/P2 against 2026-Q2 published rates).
+Composition modes (consensus / per-axis / cost-aware tiered) are
+pre-declared in the roster file so the P2 dispatcher must support all
+three from day one — only consensus is active at launch.
+
+Cheap-tier (`openai:gpt-4o-mini`) and per-endpoint (RunPod / Kalavai)
+judges are documented as opt-in via `AKOS_JUDGE_ROSTER_CHEAP` env and
+P3 calibration-burn eligibility respectively. The system prompt
+[`prompts/judge/JUDGE_PROMPT_V1.md`](../../../prompts/judge/JUDGE_PROMPT_V1.md)
+is JSON-schema-locked; malformed roster output triggers offline
+fallback.
+
+Phase report: [`reports/p1-roster-survey-2026-05-03.md`](reports/p1-roster-survey-2026-05-03.md).
+
+_Append further phased ratifications below as they land._
