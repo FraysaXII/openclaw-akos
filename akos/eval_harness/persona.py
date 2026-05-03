@@ -110,7 +110,12 @@ def aggregate_by_persona(rows: list[Any]) -> dict[str, dict[str, int]]:
 
 @dataclass
 class CalibrationResult:
-    """One persona's measured-vs-target difficulty distribution."""
+    """One persona's measured-vs-target difficulty distribution.
+
+    I51 P3 D-IH-51-A: ``target`` is the per-persona ``target_difficulty_band``
+    when set on that persona's CSV rows; otherwise the global D-IH-47-C
+    default. ``target_source`` is ``persona`` or ``global``.
+    """
 
     persona_id: str
     total: int
@@ -119,6 +124,38 @@ class CalibrationResult:
     deltas_pp: dict[str, float]       # measured - target (signed)
     within_tolerance: dict[str, bool] # per-class within ±tolerance_pp
     overall_pass: bool                # all classes within tolerance
+    target: dict[str, float] = None   # type: ignore[assignment]  # I51 P3
+    target_source: str = "global"      # I51 P3 — "persona" or "global"
+
+
+def _resolve_persona_target(
+    rows: list[dict[str, str]],
+    *,
+    global_target: dict[str, float],
+) -> tuple[dict[str, float], str]:
+    """I51 P3 D-IH-51-A: resolve a persona's calibration target.
+
+    Returns (target, source). Source is "persona" if any row of this persona
+    carries a non-empty ``target_difficulty_band`` AND all rows agree;
+    otherwise "global" (fall through to the D-IH-47-C default). Inconsistent
+    rows trigger a fall-through to global — the validator script is the
+    canonical enforcement point; this function is intentionally tolerant.
+    """
+    # Local import to avoid touching the module-level imports surface.
+    from akos.hlk_persona_scenario_csv import parse_target_difficulty_band  # noqa: PLC0415
+
+    seen: set[str] = set()
+    for r in rows:
+        seen.add((r.get("target_difficulty_band") or "").strip())
+    seen.discard("")
+    if len(seen) == 1:
+        try:
+            parsed = parse_target_difficulty_band(next(iter(seen)))
+            if parsed is not None:
+                return parsed, "persona"
+        except ValueError:
+            pass
+    return global_target, "global"
 
 
 def calibration_distribution(
@@ -130,8 +167,14 @@ def calibration_distribution(
     """Compute per-persona calibration vs the D-IH-47-C target distribution.
 
     Returns ``{persona_id: CalibrationResult}`` plus an aggregate ``__overall__`` key.
+
+    I51 P3 D-IH-51-A: when a persona carries a non-empty
+    ``target_difficulty_band`` on its rows, that band is used in place of the
+    global D-IH-47-C default. ``__overall__`` always uses the global default
+    (the global aggregate continues to gate registry health independently of
+    any per-persona overrides).
     """
-    target = dict(target or CALIBRATION_TARGET)
+    global_target = dict(target or CALIBRATION_TARGET)
     by_persona: dict[str, list[dict[str, str]]] = {}
     if scenarios is None:
         scenarios = load_persona_scenarios()
@@ -147,42 +190,62 @@ def calibration_distribution(
     for pid, group in by_persona.items():
         if pid == "__overall__":
             group = [r for r in group if (r.get("lifecycle_status") or "active") == "active"]
+            persona_target = global_target
+            target_source = "global"
+        else:
+            persona_target, target_source = _resolve_persona_target(
+                group, global_target=global_target,
+            )
         total = len(group)
         if total == 0:
             continue
         counts = Counter(r.get("difficulty_class", "") for r in group)
-        pct = {k: 100.0 * counts.get(k, 0) / total for k in target}
-        deltas = {k: pct[k] - target[k] for k in target}
-        within = {k: abs(deltas[k]) <= tolerance_pp for k in target}
+        pct = {k: 100.0 * counts.get(k, 0) / total for k in persona_target}
+        deltas = {k: pct[k] - persona_target[k] for k in persona_target}
+        within = {k: abs(deltas[k]) <= tolerance_pp for k in persona_target}
         out[pid] = CalibrationResult(
             persona_id=pid,
             total=total,
-            counts={k: counts.get(k, 0) for k in target},
+            counts={k: counts.get(k, 0) for k in persona_target},
             pct=pct,
             deltas_pp=deltas,
             within_tolerance=within,
             overall_pass=all(within.values()),
+            target=persona_target,
+            target_source=target_source,
         )
     return out
 
 
 def render_calibration_markdown(results: dict[str, CalibrationResult]) -> str:
-    """Render a calibration summary in markdown for phase reports."""
+    """Render a calibration summary in markdown for phase reports.
+
+    I51 P3 D-IH-51-A: surfaces the per-persona target band and source, so
+    readers can audit which personas use ``target_difficulty_band`` vs the
+    D-IH-47-C global default.
+    """
     lines = [
         "# Calibration distribution (I47 P10; D-IH-47-C target 40/40/10/10)",
         "",
         f"Tolerance: +/- {CALIBRATION_TOLERANCE_PP} percentage points per class",
+        "Per-persona override: I51 P3 D-IH-51-A `target_difficulty_band` column",
         "",
-        "| persona_id | total | trivial% | moderate% | hard% | impossible% | within tol? |",
-        "|:-----------|:-----:|:--------:|:---------:|:-----:|:-----------:|:-----------:|",
+        "| persona_id | total | t/m/h/i target | source | trivial% | moderate% | hard% | impossible% | within tol? |",
+        "|:-----------|:-----:|:--------------:|:------:|:--------:|:---------:|:-----:|:-----------:|:-----------:|",
     ]
     # Sort: __overall__ first, then alphabetical.
     pids = sorted(results.keys(), key=lambda p: (p != "__overall__", p))
     for pid in pids:
         r = results[pid]
         flag = "YES" if r.overall_pass else "NO"
+        tgt = r.target or CALIBRATION_TARGET
+        target_str = (
+            f"{int(tgt.get('trivial', 0))}/{int(tgt.get('moderate', 0))}/"
+            f"{int(tgt.get('hard', 0))}/{int(tgt.get('impossible', 0))}"
+        )
         lines.append(
-            f"| {pid} | {r.total} | {r.pct['trivial']:.1f} | "
+            f"| {pid} | {r.total} | {target_str} | {r.target_source} | "
+            f"{r.pct['trivial']:.1f} | "
             f"{r.pct['moderate']:.1f} | {r.pct['hard']:.1f} | "
             f"{r.pct['impossible']:.1f} | **{flag}** |"
         )

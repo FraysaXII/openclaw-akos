@@ -61,6 +61,33 @@ Four decisions seeded with defaults per the cursor plan; operator-ratified at gr
 
 ## Decisions made during execution
 
+### 2026-05-03 — P3 G-51-1 fired; D-IH-51-A executed (R-47-2 closes)
+
+I51/P3 lands the per-persona `target_difficulty_band` column +
+calibrator/validator/mirror wiring. **G-51-1 GREEN with 0 / 17 outliers**
+(plan exit criterion was ≤ 2 personas outside tolerance). Four bands
+were refined post-P2 against the verification loop
+(CUSTOMER-SERVICE-PROSPECT, IDEA-PROPOSER, EXISTING-PARTNER,
+RANDOM-INBOUND); see phase report for the P2-proposed → P3-final
+table. **R-47-2 closes.**
+
+**OPS-50-1** investigated: cassette dispatch is `(skill_id, probe_id)`-
+keyed, not persona-keyed; `--persona` is a post-run filter. Wiring
+persona-keyed cassettes belongs naturally inside I52's multi-judge
+harness mode (avoids parallel cassette-layout churn). **Forwarded as
+OPS-51-1**, scoped to I52 P3/P4.
+
+**C-51-B** (per-persona target in calibration markdown) **closes**:
+`render_calibration_markdown` now surfaces `t/m/h/i target` and
+`source` (`persona`/`global`) columns.
+
+Mirror DDL: `supabase/migrations/20260503180000_i51_persona_scenario_target_difficulty_band.sql`
+(operator-applied via `mcp_supabase_apply_migration` or psql under
+`service_role`; D-IH-51-D cadence applies). Phase report:
+[`reports/p3-rebalance-2026-05-03.md`](reports/p3-rebalance-2026-05-03.md).
+
+10 new tests in `tests/test_persona_scenario_registry.py` (33 / 33 PASS).
+
 ### 2026-05-03 — P2 calibration audit emitted (R-47-2 baseline + remediation plan)
 
 I51/P2 lands the deterministic 13-outlier calibration audit:

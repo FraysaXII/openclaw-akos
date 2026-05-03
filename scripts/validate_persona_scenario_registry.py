@@ -45,6 +45,7 @@ from akos.hlk_persona_scenario_csv import (
     VALID_LIFECYCLE_STATUSES,
     VALID_SCENARIO_CLASSES,
     VALID_TIERS,
+    parse_target_difficulty_band,
 )
 from akos.io import REPO_ROOT
 
@@ -101,6 +102,10 @@ def main() -> int:
     seen: set[str] = set()
     per_persona: dict[str, int] = {}
     per_difficulty: dict[str, int] = {}
+    # I51 P3 D-IH-51-A: per-persona consistency check for target_difficulty_band.
+    # The column is a persona-level attribute carried on every row; all rows for
+    # a given persona must share the same (potentially empty) band string.
+    persona_band_seen: dict[str, set[str]] = {}
     for i, r in enumerate(rows, start=2):
         sid = (r.get("scenario_id") or "").strip()
         if not sid:
@@ -182,10 +187,35 @@ def main() -> int:
         _validate_bool_csv(errors, sid, "safety_lane", r.get("safety_lane"))
         _validate_bool_csv(errors, sid, "release_blocking", r.get("release_blocking"))
 
+        # I51 P3 D-IH-51-A: target_difficulty_band format + per-persona consistency.
+        band_raw = (r.get("target_difficulty_band") or "").strip()
+        try:
+            parse_target_difficulty_band(band_raw)
+        except ValueError as exc:
+            errors.append(f"{sid}: {exc}")
+        # Track per-persona band values (across all rows of that persona).
+        if persona:
+            persona_band_seen.setdefault(persona, set()).add(band_raw)
+
+    # I51 P3 D-IH-51-A: per-persona consistency enforcement.
+    inconsistent_personas: list[str] = []
+    for pid, bands in persona_band_seen.items():
+        if len(bands) > 1:
+            inconsistent_personas.append(f"{pid}: {sorted(bands)}")
+    if inconsistent_personas:
+        for s in inconsistent_personas:
+            errors.append(f"target_difficulty_band inconsistent within persona — {s}")
+
+    band_overrides = sum(
+        1 for pid, bands in persona_band_seen.items()
+        if len(bands) == 1 and next(iter(bands)) != ""
+    )
+
     print(f"  Rows validated: {len(rows)}")
     print(f"  Scenarios:      {len(seen)}")
     print(f"  By persona:     {len(per_persona)} distinct personas (incl. OPERATOR pseudo)")
     print(f"  By difficulty:  {dict(sorted(per_difficulty.items()))}")
+    print(f"  Personas with target_difficulty_band override: {band_overrides} / {len(persona_band_seen)}")
 
     if warnings:
         print("  Warnings (informational):")

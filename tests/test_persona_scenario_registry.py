@@ -37,6 +37,7 @@ CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimension
 VALIDATOR = REPO_ROOT / "scripts" / "validate_persona_scenario_registry.py"
 MIGRATION = REPO_ROOT / "supabase" / "migrations" / "20260502033000_i47_persona_scenario_registry_mirror.sql"
 MIGRATION_I49_PRIORITY = REPO_ROOT / "supabase" / "migrations" / "20260503120000_i49_persona_scenario_registry_priority_columns.sql"
+MIGRATION_I51_BAND = REPO_ROOT / "supabase" / "migrations" / "20260503180000_i51_persona_scenario_target_difficulty_band.sql"
 DISPATCHER = REPO_ROOT / "scripts" / "validate_hlk.py"
 TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
 
@@ -255,6 +256,138 @@ def test_migration_i49_adds_priority_columns_to_mirror() -> None:
     assert "alter table compliance.persona_scenario_registry_mirror" in sql
     for col in ("priority_score", "safety_lane", "release_blocking"):
         assert f"add column if not exists {col}" in sql, f"missing ALTER for {col}"
+
+
+# ---------------------------------------------------------------------------
+# I51 P3 (D-IH-51-A) — target_difficulty_band column
+# ---------------------------------------------------------------------------
+
+def test_fieldnames_include_target_difficulty_band() -> None:
+    """I51 P3: per-persona calibration target column is in the contract."""
+    assert "target_difficulty_band" in PERSONA_SCENARIO_REGISTRY_FIELDNAMES
+
+
+def test_target_difficulty_band_per_persona_consistent() -> None:
+    """All rows of a persona must share the same target_difficulty_band."""
+    rows = _read_csv()
+    by_pid: dict[str, set[str]] = {}
+    for r in rows:
+        pid = (r.get("persona_id") or "").strip()
+        if not pid:
+            continue
+        by_pid.setdefault(pid, set()).add((r.get("target_difficulty_band") or "").strip())
+    for pid, bands in by_pid.items():
+        assert len(bands) == 1, (
+            f"persona {pid!r} has inconsistent target_difficulty_band values: {sorted(bands)}"
+        )
+
+
+def test_target_difficulty_band_format_valid() -> None:
+    """Non-empty bands must parse as 4 ints summing to 100."""
+    from akos.hlk_persona_scenario_csv import parse_target_difficulty_band
+
+    rows = _read_csv()
+    for r in rows:
+        raw = (r.get("target_difficulty_band") or "").strip()
+        try:
+            parse_target_difficulty_band(raw)
+        except ValueError as exc:
+            raise AssertionError(f"row {r['scenario_id']}: {exc}") from exc
+
+
+def test_13_outlier_personas_have_band_overrides() -> None:
+    """Per the I51 P2 audit, the 13 outlier personas carry non-empty bands."""
+    rows = _read_csv()
+    expected_overrides = {
+        "OPERATOR",
+        "PERSONA-ADVISOR-COLD",
+        "PERSONA-CUSTOMER-KIRBE-PROSPECT",
+        "PERSONA-CUSTOMER-SERVICE-PROSPECT",
+        "PERSONA-EXISTING-CUSTOMER",
+        "PERSONA-EXISTING-PARTNER",
+        "PERSONA-IDEA-PROPOSER",
+        "PERSONA-INVESTOR-COLD",
+        "PERSONA-PARTNER-JOINT-EQUITY",
+        "PERSONA-PRESS",
+        "PERSONA-RANDOM-INBOUND",
+        "PERSONA-VENDOR-INBOUND",
+        "PERSONA-VENDOR-OUTBOUND",
+    }
+    by_pid: dict[str, str] = {}
+    for r in rows:
+        pid = (r.get("persona_id") or "").strip()
+        band = (r.get("target_difficulty_band") or "").strip()
+        if pid and band:
+            by_pid[pid] = band
+    missing = expected_overrides - set(by_pid.keys())
+    assert not missing, f"expected band overrides for {missing}"
+
+
+def test_4_passing_personas_have_no_band_override() -> None:
+    """The 4 already-passing personas fall through to the global default."""
+    rows = _read_csv()
+    expected_passing = {
+        "PERSONA-ADVISOR-REFERRAL",
+        "PERSONA-INVESTOR-WARM",
+        "PERSONA-PARTNER-SUBCONTRACT",
+        "PERSONA-TALENT-INBOUND",
+    }
+    for r in rows:
+        pid = (r.get("persona_id") or "").strip()
+        band = (r.get("target_difficulty_band") or "").strip()
+        if pid in expected_passing:
+            assert band == "", (
+                f"persona {pid!r} should fall through to global default; got band {band!r}"
+            )
+
+
+def test_calibration_distribution_uses_per_persona_band() -> None:
+    """I51 P3 D-IH-51-A: calibrator consults per-persona band; result.target reflects it."""
+    from akos.eval_harness.persona import calibration_distribution
+
+    results = calibration_distribution()
+    # OPERATOR has a band override of 15/40/35/10.
+    operator = results.get("OPERATOR")
+    assert operator is not None
+    assert operator.target_source == "persona"
+    assert operator.target == {"trivial": 15.0, "moderate": 40.0, "hard": 35.0, "impossible": 10.0}
+    # PERSONA-INVESTOR-WARM has no override; falls through to global default.
+    warm = results.get("PERSONA-INVESTOR-WARM")
+    assert warm is not None
+    assert warm.target_source == "global"
+    assert warm.target == {"trivial": 10.0, "moderate": 40.0, "hard": 40.0, "impossible": 10.0}
+
+
+def test_calibration_passes_after_p3_remediation() -> None:
+    """I51 P3 G-51-1 exit criterion: ≤ 2 personas outside tolerance against own target."""
+    from akos.eval_harness.persona import calibration_distribution
+
+    results = calibration_distribution()
+    outliers = [pid for pid, r in results.items() if pid != "__overall__" and not r.overall_pass]
+    # Plan exit criterion is ≤ 2; we verify ≤ 2 to lock the gate value, not 0
+    # (so future regressions surface, but we don't trip on band-edge floats).
+    assert len(outliers) <= 2, f"I51 P3 exit failed: {outliers}"
+
+
+def test_calibration_overall_uses_global_default() -> None:
+    """__overall__ aggregate always uses the global D-IH-47-C target."""
+    from akos.eval_harness.persona import calibration_distribution
+
+    results = calibration_distribution()
+    overall = results.get("__overall__")
+    assert overall is not None
+    assert overall.target_source == "global"
+    assert overall.overall_pass is True
+
+
+def test_migration_i51_target_difficulty_band_file_exists() -> None:
+    assert MIGRATION_I51_BAND.is_file()
+
+
+def test_migration_i51_adds_target_difficulty_band_column() -> None:
+    sql = MIGRATION_I51_BAND.read_text(encoding="utf-8").lower()
+    assert "alter table compliance.persona_scenario_registry_mirror" in sql
+    assert "add column if not exists target_difficulty_band" in sql
 
 
 # ---------------------------------------------------------------------------
