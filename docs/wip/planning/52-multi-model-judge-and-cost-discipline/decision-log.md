@@ -86,6 +86,32 @@ Six decisions seeded with defaults per the cursor plan; operator-ratified at gre
 
 ## Decisions made during execution
 
+### 2026-05-03 — P6 dossier surface wired (judge axes + endpoint cost)
+
+Three new dossier surfaces ship in P6, all sitting on infrastructure already
+landed in P2-P5:
+
+1. Section 03 MADEIRA judge-axis fail summary (per-axis FAIL count + worst
+   axis + judge member roster).
+2. Section 04 worst-axis cross-reference (same data, different angle, so
+   persona calibration outliers can be inspected against axis FAILs at a
+   glance).
+3. Section 08 endpoint cost subsection (per-endpoint status table +
+   per-status operator-action one-liners).
+
+All three surfaces honestly render "not yet" states when their upstream
+data is missing — multi-judge has not been live yet (E9), and endpoint
+probes are operator-driven. No silent zeros, no fake numbers.
+
+The Section 08 subsection separately visualises the per-token rollup
+(via `madeira_cost_rollup`, including `per_judge_axis`) and the per-
+GPU-hour surface (via `madeira_endpoint_cost`). This is the visible,
+operator-facing manifestation of D-IH-52-E (no mixed-unit aggregation):
+two subsections, two units, two ceiling sources.
+
+Phase report:
+[`reports/p6-dossier-surface-2026-05-03.md`](reports/p6-dossier-surface-2026-05-03.md).
+
 ### 2026-05-03 — P5 D-IH-52-D + D-IH-52-E activation: unit discriminator + no-mixing
 
 I52/P5 ships the per-GPU-hour cost surface alongside the existing per-token

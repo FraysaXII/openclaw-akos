@@ -467,30 +467,36 @@ class Section03EvalHealth(Section):
             roster = persona_id_set(persona_csv) if cli_persona is None else set()
             if roster:
                 rows = [r for r in rows if (r.get("persona_id") in roster)]
-            return SectionData(
-                payload={
-                    "overall_status": d.get("overall_status", "unknown"),
-                    "rows_total": len(rows),
-                    "rows_passed": sum(1 for r in rows if (r.get("status") or "").upper() == "PASS"),
-                    "rows_failed": sum(1 for r in rows if (r.get("status") or "").upper() == "FAIL"),
-                    "modes_run": d.get("modes_run", []),
-                    "elapsed_ms": d.get("elapsed_ms", 0),
-                    "cost_total_usd": sum(float(r.get("cost_usd") or 0.0) for r in rows),
-                    "cli_duration_seconds": cli.duration_seconds,
-                    "status": "PASS" if d.get("overall_status") == "pass" else "FAIL",
-                    "post_filter_persona_roster": sorted(roster) if roster else [],
-                },
-                data_age_seconds=0.0,
-            )
+            payload: dict[str, Any] = {
+                "overall_status": d.get("overall_status", "unknown"),
+                "rows_total": len(rows),
+                "rows_passed": sum(1 for r in rows if (r.get("status") or "").upper() == "PASS"),
+                "rows_failed": sum(1 for r in rows if (r.get("status") or "").upper() == "FAIL"),
+                "modes_run": d.get("modes_run", []),
+                "elapsed_ms": d.get("elapsed_ms", 0),
+                "cost_total_usd": sum(float(r.get("cost_usd") or 0.0) for r in rows),
+                "cli_duration_seconds": cli.duration_seconds,
+                "status": "PASS" if d.get("overall_status") == "pass" else "FAIL",
+                "post_filter_persona_roster": sorted(roster) if roster else [],
+            }
+            # I52 P6: madeira-flavor per-axis fail count + worst-axis trend.
+            if filter is not None and filter.flavor == "madeira":
+                from akos.dossier.sources import gather_madeira_judge_axis_fail_summary
+                payload["madeira_judge_axis_summary"] = gather_madeira_judge_axis_fail_summary()
+            return SectionData(payload=payload, data_age_seconds=0.0)
         from akos.dossier.sources import gather_eval_health_snapshot
-        return gather_eval_health_snapshot()
+        data = gather_eval_health_snapshot()
+        if filter is not None and filter.flavor == "madeira":
+            from akos.dossier.sources import gather_madeira_judge_axis_fail_summary
+            data.payload["madeira_judge_axis_summary"] = gather_madeira_judge_axis_fail_summary()
+        return data
 
     def render_markdown(self, data: SectionData) -> str:
         if data.placeholder:
             return _placeholder_markdown(self.section_id, self.name,
                                          data.error or "eval Scorecard not yet wired")
         p = data.payload
-        return (
+        out = (
             f"{_section_header(self.section_id, self.name)}\n"
             f"\n"
             f"- overall_status: **{p.get('overall_status', 'unknown')}**\n"
@@ -501,10 +507,28 @@ class Section03EvalHealth(Section):
             + (f"- cli_duration_seconds: {p.get('cli_duration_seconds', 0):.2f}\n"
                if p.get('cli_duration_seconds') is not None else "")
         )
+        axis = p.get("madeira_judge_axis_summary")
+        if isinstance(axis, dict):
+            fails = axis.get("per_axis_fail_count") or {}
+            totals = axis.get("per_axis_total") or {}
+            worst = axis.get("worst_axis")
+            members = axis.get("judge_member_ids") or []
+            out += "\n### MADEIRA judge-axis fail summary (I52 P6)\n\n"
+            for ax in ("brand_voice", "citation", "persona_fit"):
+                fc = int(fails.get(ax, 0) or 0)
+                tot = int(totals.get(ax, 0) or 0)
+                out += f"- `{ax}`: {fc} FAIL / {tot} judged\n"
+            if worst:
+                out += f"- worst axis: **`{worst}`** ({axis.get('worst_axis_fail_count', 0)} FAILs)\n"
+            else:
+                out += "- worst axis: (no judge rows yet — multi-judge not yet active in CI)\n"
+            if members:
+                out += f"- judge roster captured: {', '.join(f'`{m}`' for m in members)}\n"
+        return out
 
     def metrics_for_trend(self, data: SectionData) -> dict[str, Any]:
         p = data.payload
-        return {
+        out: dict[str, Any] = {
             "eval_overall_status_pass": p.get("overall_status") == "pass",
             "rows_total": p.get("rows_total", 0),
             "rows_passed": p.get("rows_passed", 0),
@@ -514,6 +538,17 @@ class Section03EvalHealth(Section):
             "judge_score_persona_fit_mean": p.get("judge_persona_fit_mean"),
             "cost_total_usd": float(p.get("cost_total_usd", 0.0)),
         }
+        axis = p.get("madeira_judge_axis_summary")
+        if isinstance(axis, dict):
+            fails = axis.get("per_axis_fail_count") or {}
+            out["judge_axis_fail_brand_voice"] = int(fails.get("brand_voice", 0) or 0)
+            out["judge_axis_fail_citation"] = int(fails.get("citation", 0) or 0)
+            out["judge_axis_fail_persona_fit"] = int(fails.get("persona_fit", 0) or 0)
+            out["judge_worst_axis"] = axis.get("worst_axis")
+            out["judge_worst_axis_fail_count"] = int(
+                axis.get("worst_axis_fail_count", 0) or 0
+            )
+        return out
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -539,6 +574,10 @@ class Section04PersonaCalibration(Section):
             head_pid = filter.persona_id.split(",")[0].strip()
             diff = gather_persona_prompt_diff(head_pid)
             data.payload["persona_prompt_diff"] = diff
+        # I52 P6: madeira-flavor worst-axis trend cross-reference (judge axis FAILs).
+        if filter is not None and filter.flavor == "madeira":
+            from akos.dossier.sources import gather_madeira_judge_axis_fail_summary
+            data.payload["madeira_judge_axis_summary"] = gather_madeira_judge_axis_fail_summary()
         return data
 
     def render_markdown(self, data: SectionData) -> str:
@@ -577,17 +616,41 @@ class Section04PersonaCalibration(Section):
                 lines.append(f"- per-persona hints: `{diff.get('hints_path')}`")
             else:
                 lines.append("- per-persona hints: NOT FOUND (persona overlay falls back to framework only)")
+        axis = p.get("madeira_judge_axis_summary")
+        if isinstance(axis, dict):
+            lines.append("")
+            lines.append("### Worst-axis trend (cross-reference, I52 P6)")
+            lines.append("")
+            worst = axis.get("worst_axis")
+            if worst:
+                lines.append(
+                    f"- worst judge axis: **`{worst}`** "
+                    f"({axis.get('worst_axis_fail_count', 0)} FAILs across "
+                    f"latest scorecard)"
+                )
+            else:
+                lines.append(
+                    "- worst judge axis: (no judge rows yet — multi-judge not yet "
+                    "active in CI; see Section 03)"
+                )
         return "\n".join(lines) + "\n"
 
     def metrics_for_trend(self, data: SectionData) -> dict[str, Any]:
         p = data.payload
-        return {
+        out: dict[str, Any] = {
             "total_scenarios": p.get("total_scenarios", 0),
             "total_personas": p.get("total_personas", 0),
             "overall_within_tolerance": p.get("overall_within_tolerance", False),
             "personas_outside_tolerance_count": p.get("personas_outside_tolerance_count", 0),
             "quarantined_scenarios_count": p.get("quarantined_scenarios_count", 0),
         }
+        axis = p.get("madeira_judge_axis_summary")
+        if isinstance(axis, dict):
+            out["judge_worst_axis"] = axis.get("worst_axis")
+            out["judge_worst_axis_fail_count"] = int(
+                axis.get("worst_axis_fail_count", 0) or 0
+            )
+        return out
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -778,6 +841,7 @@ class Section08OperationalHealth(Section):
             run_agent_memory_trigger_watcher()
         from akos.dossier.sources import (
             gather_madeira_cost_rollup,
+            gather_madeira_endpoint_cost_summary,
             gather_madeira_surface_signals,
             gather_operational_health,
         )
@@ -788,6 +852,8 @@ class Section08OperationalHealth(Section):
             data.payload["madeira_surface_ship"] = surface["ship"]
             data.payload["madeira_surface_detail"] = surface["detail"]
             data.payload["madeira_surface_evidence"] = surface["evidence"]
+            # I52 P6: endpoint cost subsection (RunPod / Kalavai per-GPU-hour).
+            data.payload["madeira_endpoint_cost"] = gather_madeira_endpoint_cost_summary()
         return data
 
     def render_markdown(self, data: SectionData) -> str:
@@ -825,6 +891,49 @@ class Section08OperationalHealth(Section):
             ])
             for label, value in (p.get("madeira_surface_evidence") or {}).items():
                 lines.append(f"- {label}: {value}")
+        endpoint = p.get("madeira_endpoint_cost")
+        if isinstance(endpoint, dict):
+            lines.extend([
+                "",
+                "### Endpoint cost surface (I52 P6: RunPod / Kalavai)",
+                "",
+            ])
+            if not endpoint.get("probe_present"):
+                lines.append(
+                    "- no endpoint cost probe yet — run `py scripts/endpoint_cost_probe.py "
+                    "--stub` (dispatcher validation) or `--runs-jsonl <path>` (real data) "
+                    "to populate this subsection."
+                )
+            else:
+                lines.append(
+                    f"- worst envelope status: **{endpoint.get('worst_envelope_status', 'SKIP')}**"
+                )
+                lines.append(f"- probe artefact: {endpoint.get('probe_artifact')}")
+                if endpoint.get("is_stub"):
+                    lines.append(
+                        "- mode: **STUB FIXTURE** (dispatcher validation only; no real "
+                        "RunPod/Kalavai data)"
+                    )
+                rows = endpoint.get("endpoints") or {}
+                if rows:
+                    lines.append("")
+                    lines.append(
+                        "| endpoint_id | runs | hours | $ / hour | proj 24h | status | operator action |"
+                    )
+                    lines.append("|:--|--:|--:|--:|--:|:--|:--|")
+                    for eid in sorted(rows.keys()):
+                        r = rows[eid]
+                        lines.append(
+                            f"| `{eid}` | {r['runs']} | {r['duration_hours_total']:.3f} | "
+                            f"${r['cost_usd_per_hour_avg']:.4f} | "
+                            f"${r['projected_daily_usd']:.2f} | {r['envelope_status']} | "
+                            f"{r['operator_action']} |"
+                        )
+                lines.append("")
+                lines.append(
+                    "- ceiling source: POLICY_REGISTER `cost_ceiling` rows whose "
+                    "policy_id contains `ENDPOINT-` (`POL-EVAL-COST-CEILING-ENDPOINT-{RUNPOD,KALAVAI}-V1`)."
+                )
         return "\n".join(lines) + "\n"
 
     def metrics_for_trend(self, data: SectionData) -> dict[str, Any]:
@@ -841,6 +950,13 @@ class Section08OperationalHealth(Section):
         if "madeira_surface_ship" in p:
             out["madeira_surface_ship"] = str(p.get("madeira_surface_ship", ""))
             out["madeira_surface_detail"] = str(p.get("madeira_surface_detail", ""))
+        endpoint = p.get("madeira_endpoint_cost")
+        if isinstance(endpoint, dict):
+            out["madeira_endpoint_probe_present"] = bool(endpoint.get("probe_present"))
+            out["madeira_endpoint_worst_status"] = str(
+                endpoint.get("worst_envelope_status") or ""
+            )
+            out["madeira_endpoint_count"] = len(endpoint.get("endpoints") or {})
         return out
 
 

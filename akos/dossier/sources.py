@@ -262,6 +262,181 @@ def gather_madeira_cost_rollup() -> dict[str, Any]:
     return out
 
 
+def gather_madeira_judge_axis_fail_summary() -> dict[str, Any]:
+    """I52 P6 — per-axis fail count + worst-axis trend across the latest scorecard.
+
+    Reads the same `eval-scorecard-*.json` artefact as
+    `gather_madeira_cost_rollup`. For each row, looks for
+    `judge_<axis>_status` (or `judge_<axis>_pass` boolean) on the three
+    governed axes (brand_voice, citation, persona_fit) and counts FAILs.
+
+    The "worst axis" is the axis with the most FAILs in the current
+    scorecard. When two axes tie, the lexicographic earlier wins (stable).
+
+    All values default to 0 / None when no judge fields are present, so
+    snapshot mode (no live judge) renders an honest "no judge rows yet"
+    line without raising.
+    """
+    out: dict[str, Any] = {
+        "per_axis_fail_count": {"brand_voice": 0, "citation": 0, "persona_fit": 0},
+        "per_axis_total": {"brand_voice": 0, "citation": 0, "persona_fit": 0},
+        "worst_axis": None,
+        "worst_axis_fail_count": 0,
+        "judge_member_ids": [],
+        "source_artifact": None,
+    }
+    art = latest_artifact(ARTIFACTS_DIR / "eval-history", "eval-scorecard-*.json")
+    if art is None:
+        return out
+    try:
+        payload = json.loads(art.path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return out
+    rows = payload.get("rows") or []
+    fails: dict[str, int] = {"brand_voice": 0, "citation": 0, "persona_fit": 0}
+    totals: dict[str, int] = {"brand_voice": 0, "citation": 0, "persona_fit": 0}
+    members: set[str] = set()
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        roster = row.get("judge_member_ids") or row.get("judge_roster")
+        if isinstance(roster, list):
+            for m in roster:
+                if isinstance(m, str) and m:
+                    members.add(m)
+        elif isinstance(roster, str) and roster:
+            for m in roster.split(","):
+                m = m.strip()
+                if m:
+                    members.add(m)
+        for axis in ("brand_voice", "citation", "persona_fit"):
+            status_val = row.get(f"judge_{axis}_status")
+            pass_val = row.get(f"judge_{axis}_pass")
+            score_val = row.get(f"judge_{axis}_score")
+            present = (
+                status_val is not None
+                or pass_val is not None
+                or score_val is not None
+            )
+            if not present:
+                continue
+            totals[axis] += 1
+            failed = False
+            if isinstance(status_val, str):
+                failed = status_val.upper() == "FAIL"
+            elif isinstance(pass_val, bool):
+                failed = not pass_val
+            elif isinstance(score_val, (int, float)):
+                failed = float(score_val) < 4.0  # POL-EVAL-JUDGE-THRESHOLD-*-V1 min_pass_score
+            if failed:
+                fails[axis] += 1
+    out["per_axis_fail_count"] = fails
+    out["per_axis_total"] = totals
+    if any(fails.values()):
+        worst = max(fails.items(), key=lambda kv: (kv[1], -ord(kv[0][0])))
+        out["worst_axis"] = worst[0]
+        out["worst_axis_fail_count"] = worst[1]
+    out["judge_member_ids"] = sorted(members)
+    out["source_artifact"] = _safe_relative(art.path)
+    return out
+
+
+def gather_madeira_endpoint_cost_summary() -> dict[str, Any]:
+    """I52 P6 — Section 8 endpoint cost subsection feed.
+
+    Reads the most recent endpoint cost probe sidecar from
+    ``artifacts/endpoint-cost/endpoint-cost-probe-*.json`` (written by
+    ``scripts/endpoint_cost_probe.py``) and reduces it to a Section 8
+    rollup with per-endpoint up/idle/projected-24h-burn signals.
+
+    Output schema:
+      {
+        "probe_present": bool,
+        "probe_artifact": Path | None,
+        "is_stub": bool,
+        "endpoints": {
+            endpoint_id: {
+              "runs": int,
+              "duration_hours_total": float,
+              "cost_usd_per_hour_avg": float,
+              "projected_daily_usd": float,
+              "envelope_status": "PASS"|"WARN"|"FAIL"|"SKIP",
+              "envelope_reason": str,
+              "operator_action": str,  # one-line nudge
+            }, ...
+        },
+        "worst_envelope_status": "PASS"|"WARN"|"FAIL"|"SKIP",
+      }
+
+    When the probe artefact is missing, returns ``probe_present=False``
+    so Section 8 can render an honest "no endpoint probe yet" line.
+    Snapshot-only operators are not penalised.
+    """
+    out: dict[str, Any] = {
+        "probe_present": False,
+        "probe_artifact": None,
+        "is_stub": False,
+        "endpoints": {},
+        "worst_envelope_status": "SKIP",
+    }
+    art = latest_artifact(
+        ARTIFACTS_DIR / "endpoint-cost", "endpoint-cost-probe-*.json"
+    )
+    if art is None:
+        return out
+    try:
+        payload = json.loads(art.path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return out
+    out["probe_present"] = True
+    out["probe_artifact"] = _safe_relative(art.path)
+    out["is_stub"] = bool(payload.get("is_stub"))
+    rank = {"PASS": 0, "WARN": 1, "FAIL": 2, "SKIP": -1}
+    worst_rank = -1
+    worst_label = "SKIP"
+    rendered: dict[str, dict[str, Any]] = {}
+    for eid, payload_row in (payload.get("endpoints") or {}).items():
+        if not isinstance(payload_row, dict):
+            continue
+        env = payload_row.get("envelope") or {}
+        status = str(env.get("status", "SKIP"))
+        reason = str(env.get("reason", ""))
+        per_hour = float(payload_row.get("cost_usd_per_hour_avg") or 0.0)
+        daily = float(payload_row.get("projected_daily_usd") or 0.0)
+        if status == "FAIL":
+            action = (
+                f"Scale endpoint {eid} down NOW; per-hour ${per_hour:.4f} "
+                f"breaches POL ceiling >20% (alarm hard-fail band)."
+            )
+        elif status == "WARN":
+            action = (
+                f"Investigate {eid}: per-hour ${per_hour:.4f} within 10-20%% of ceiling; "
+                f"projected_24h=${daily:.2f}."
+            ).replace("%%", "%")
+        elif status == "PASS":
+            action = f"OK; per-hour ${per_hour:.4f}, projected_24h=${daily:.2f}."
+        else:
+            action = "No envelope verdict (missing ceiling row or zero metrics)."
+        rendered[eid] = {
+            "runs": int(payload_row.get("runs") or 0),
+            "duration_hours_total": float(
+                payload_row.get("duration_hours_total") or 0.0
+            ),
+            "cost_usd_per_hour_avg": per_hour,
+            "projected_daily_usd": daily,
+            "envelope_status": status,
+            "envelope_reason": reason,
+            "operator_action": action,
+        }
+        r = rank.get(status, -1)
+        if r > worst_rank:
+            worst_rank = r
+            worst_label = status
+    out["endpoints"] = rendered
+    out["worst_envelope_status"] = worst_label if worst_rank >= 0 else "SKIP"
+    return out
+
+
 def gather_madeira_surface_signals() -> dict[str, Any]:
     """Initiative 49 P12 / P16 — derive Surface UX signal from latest critique artefacts.
 
