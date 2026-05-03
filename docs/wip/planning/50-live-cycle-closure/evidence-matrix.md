@@ -24,3 +24,29 @@ Structured observations that justified this initiative before and during executi
 | E7 | I47 OPS-47-9 (`compliance.persona_scenario_registry_mirror` empty) and OPS-47-1/2 (push, PR open) outstanding | I47 closure UAT operator follow-ups table | I50/P1 closes OPS-47-1/2; I51/P1 closes OPS-47-9 |
 | E8 | `tests/test_model_prices.py` does not exist; `model-prices.json` has no schema test | Glob check | P2 ships the test |
 
+## Three-light verdict — first live MADEIRA dossier emit (P3, 2026-05-03)
+
+| Lane | Signal | Basis |
+|:---|:---:|:---|
+| **Conversational** | **GREEN** | Sections 3–6 status roll-up (eval health PASS; persona/calibration PASS; adversarial 15/15 PASS; recovery 15/15 PASS, real chaos PLANNED-no-fail) |
+| **Operator** | **GREEN** | Section 8 Operational health PASS (0 cost-ceiling breaches; agent_memory triggers fired = 0; promotion_gate_pass_count null but no failures) |
+| **Surface** | **GREEN** | Section 8 `madeira_surface_ship=GREEN` (basis: latest Impeccable critique declares ship verdict; from I49 wave D craft critique 2026-05-03) |
+| **Ship verdict** | **GO** | All three lights GREEN |
+
+| Cost guard | Value |
+|:---|:---|
+| `MAX_DOSSIER_USD` envelope | **$5.00** (D-IH-50-B; sourced from `POL-EVAL-COST-CEILING-DOSSIER-V1`) |
+| Actual `cost_total_usd` | **$0.0000** (no live judge invocations; `compliance.eval_run` rows_total=0 since first Tier-B fires in P4) |
+| Spend headroom | 100% remaining |
+| Cost-cap raise fired? | **NO** — `aggregate_dossier_cost_under_cap` did not raise |
+
+| Artifact | Path |
+|:---|:---|
+| Local dossier | `artifacts/uat-dossier/uat-dossier-20260503T164343Z/dossier.md` (gitignored per `.gitignore` line 116) |
+| Manifest SHA-256 | `1db895e31f0c02ee469f0a65f4bc51be73ed95c56a2d3fa43ac244fc39f68a4f` |
+| Run ID | `dossier-c3d5c001e610` |
+| Git SHA at emit | `b2bfd8702e2229cb22ef769d54c4c4695ab272ac` (I50 P2 commit) |
+| Mode | `live` |
+| Filter | `flavor=madeira`, `skill_id=skill_madeira_lookup_v1`, 5 personas, 7 initiatives |
+| `compliance.dossier_run` write | **skipped** (no Supabase service-role configured in operator env; manifest captured locally) |
+
