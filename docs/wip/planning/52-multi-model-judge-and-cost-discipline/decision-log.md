@@ -86,6 +86,43 @@ Six decisions seeded with defaults per the cursor plan; operator-ratified at gre
 
 ## Decisions made during execution
 
+### 2026-05-03 — P7 G-52-3 + G-52-4 fire: multi-judge env wired + endpoint gate live
+
+P7 activates the CI surface for both halves of I52 simultaneously:
+
+**G-52-3 (multi-judge in CI):**
+`AKOS_JUDGE_ROSTER` and `MAX_JUDGE_USD_PER_RUN` are now wired into the
+`tier-b` matrix. Default roster is **empty** so the legacy single-judge /
+offline path stays engaged unless the operator explicitly opts in via:
+
+- `workflow_dispatch` input `judge_roster=…` (per-invocation), or
+- repo-level `vars.AKOS_JUDGE_ROSTER` (sticky across runs).
+
+This is a deliberate divergence from D-IH-52-A's "Sonnet + gpt-4o
+consensus by default" pin. The pin lives in
+`prompts/judge/JUDGE_ROSTER_V1.md` as the *operator-recommended* roster;
+the CI default stays empty so weekly spend doesn't escalate without an
+explicit operator decision. The promotion path is one
+`vars.AKOS_JUDGE_ROSTER` setting away.
+
+**G-52-4 (endpoint envelope gate live):**
+A new `endpoint-envelope-gate` job runs once per workflow after the
+`tier-b` matrix completes. It calls `scripts/endpoint_cost_probe.py
+--stub` then `scripts/endpoint_envelope_alarm.py --stub` and exits non-zero
+on any hard-fail-band breach (>20% over POL ceiling). The contract is
+identical for stub and real-data invocations, so swapping in operator-
+curated `--runs-jsonl` once OPS-52-2 lands is a one-line edit.
+
+Both gates respect `AKOS_TIER_B_ENABLED` repo-var gating. The workflow
+preserves I51 P5's `calibration-drift-gate` job unchanged.
+
+Phase report:
+[`reports/p7-ci-activation-2026-05-03.md`](reports/p7-ci-activation-2026-05-03.md).
+
+OPS-47-8 architecturally closes at P7 (multi-judge dispatcher fully wired
+end-to-end: code → roster → CI → spend cap → cost surface). Final status
+flip in OPS register lives in P8 closure.
+
 ### 2026-05-03 — P6 dossier surface wired (judge axes + endpoint cost)
 
 Three new dossier surfaces ship in P6, all sitting on infrastructure already

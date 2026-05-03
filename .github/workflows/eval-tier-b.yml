@@ -1,5 +1,6 @@
 # Initiative 45 P6 — Tier B weekly live regression
 # Initiative 47 P14 — extended to 4-D matrix: model_tier x persona x scenario_class x judge_axis
+# Initiative 52 P7 — multi-judge roster + endpoint envelope gate (G-52-3 + G-52-4)
 #
 # Runs once per week (Monday 06:00 UTC) plus on-demand via workflow_dispatch.
 #
@@ -21,10 +22,19 @@
 # - MAX_PERSONA_USD env var caps per-persona spend in the matrix (default $1; R-47-3)
 # - --regression-pp 5.0 hard-fails on any skill regressing >5pp vs cassette baseline
 # - --judge-cost-cap 0.01 caps LLM-judge cost per scenario (R-47-11)
+# - I52 P7 (D-IH-52-C): MAX_JUDGE_USD_PER_RUN env var caps multi-judge consensus
+#   spend per run (default $15; scales with roster size)
+# - I52 P7 (G-52-3): AKOS_JUDGE_ROSTER env var enables multi-judge dispatch
+#   (default empty -> falls back to offline rubric / single-judge per legacy
+#   behaviour; opt-in by setting roster to comma-separated model_ids)
+# - I52 P7 (G-52-4): endpoint-envelope-gate job runs scripts/endpoint_envelope_alarm.py
+#   once per workflow run; exit-2 on hard-fail-band breach blocks the whole run
 # - SKIP gracefully when AKOS_RECORD_LIVE secret not set
 #
 # Tier A runs continue on every PR via the standard pre_commit profile;
 # Tier B is the weekly live LLM smoke / regression layer.
+# Pre-commit + release_gate stay offline (cassette replay) regardless of this
+# workflow's roster setting.
 
 name: eval-tier-b
 
@@ -59,6 +69,14 @@ on:
         description: 'I47 P14: LLM-judge cost cap per scenario USD (R-47-11; default 0.01)'
         required: false
         default: '0.01'
+      max_judge_usd_per_run:
+        description: 'I52 P7 (D-IH-52-C): multi-judge consensus envelope per run (USD)'
+        required: false
+        default: '15.0'
+      judge_roster:
+        description: 'I52 P7 (G-52-3): comma-separated AKOS_JUDGE_ROSTER (e.g. anthropic:claude-3-5-sonnet-20241022,openai:gpt-4o); empty = offline / single-judge legacy path'
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -87,6 +105,14 @@ jobs:
       MAX_TIER_B_USD: ${{ github.event.inputs.max_spend_usd || '5.0' }}
       MAX_PERSONA_USD: ${{ github.event.inputs.max_persona_usd || '1.0' }}
       AKOS_JUDGE_COST_CAP: ${{ github.event.inputs.judge_cost_cap || '0.01' }}
+      # I52 P7 (D-IH-52-C): per-run multi-judge envelope. Sized for N=2
+      # consensus per default (POL-EVAL-COST-CEILING-JUDGE-V1 sets the
+      # per-scenario cap; this env var is the per-run roll-up).
+      MAX_JUDGE_USD_PER_RUN: ${{ github.event.inputs.max_judge_usd_per_run || '15.0' }}
+      # I52 P7 (G-52-3): empty roster keeps legacy single-judge / offline path;
+      # operator opts into multi-judge dispatch by setting comma-separated
+      # model_ids matching prompts/judge/JUDGE_ROSTER_V1.md.
+      AKOS_JUDGE_ROSTER: ${{ github.event.inputs.judge_roster || vars.AKOS_JUDGE_ROSTER || '' }}
       AKOS_EVAL_NO_DEPRECATION_WARN: '1'
       # I47 P13 item 4: live writes to compliance.eval_run via service_role
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -265,4 +291,59 @@ jobs:
           path: |
             artifacts/calibration/calibration-baseline-*.md
             artifacts/calibration/calibration-baseline-*.json
+          retention-days: 90
+
+  # I52 P7 (G-52-4): endpoint envelope hard-fail gate.
+  # Runs once per workflow (not per matrix cell). Exits non-zero when any
+  # endpoint exceeds its POLICY_REGISTER ceiling beyond the hard-fail band
+  # (>20% over `max_usd_per_hour`). The probe is fed by either:
+  #   1. real RunPod / Kalavai run-log JSONLs (operator-curated; future)
+  #   2. the built-in `--stub` fixture (current state; no live endpoint runs)
+  # Stub mode is sufficient for dispatcher validation and locks the alarm
+  # contract before the first AKOS_RECORD_LIVE endpoint run (OPS-52-2).
+  endpoint-envelope-gate:
+    if: ${{ vars.AKOS_TIER_B_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    needs: tier-b
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install deps (envelope gate; no LLM toolchain)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Endpoint cost probe (stub fixture; replace with --runs-jsonl when live)
+        run: |
+          # I52 P7 (G-52-4): stub-mode probe is the dispatcher-validation
+          # ground truth until OPS-52-2 produces real RunPod / Kalavai run
+          # logs. Once live, swap to:
+          #   py scripts/endpoint_cost_probe.py --runs-jsonl artifacts/endpoint-cost/observed-runs-*.jsonl
+          python scripts/endpoint_cost_probe.py --stub
+
+      - name: Endpoint envelope alarm (G-52-4 hard-fail)
+        run: |
+          # I52 P7 (G-52-4): exits 2 on any endpoint >20% over its
+          # POL-EVAL-COST-CEILING-ENDPOINT-{RUNPOD,KALAVAI}-V1 ceiling
+          # (per D-IH-45-D bands, reused by D-IH-52-D for symmetry).
+          # --stub here matches the probe step above; pivot to
+          # --probe-json on the latest probe sidecar when live.
+          python scripts/endpoint_envelope_alarm.py --stub
+
+      - name: Upload endpoint-cost artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: endpoint-cost-probe
+          path: |
+            artifacts/endpoint-cost/endpoint-cost-probe-*.md
+            artifacts/endpoint-cost/endpoint-cost-probe-*.json
           retention-days: 90
