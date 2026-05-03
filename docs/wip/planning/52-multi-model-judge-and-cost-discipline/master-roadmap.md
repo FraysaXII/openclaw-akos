@@ -1,6 +1,6 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 52-multi-model-judge-and-cost-discipline
 report_kind: master-roadmap
 program_id: shared
@@ -13,7 +13,7 @@ last_review: 2026-05-03
 
 **Folder:** `docs/wip/planning/52-multi-model-judge-and-cost-discipline/`
 
-**Status:** Execution starting 2026-05-03; depends on I51 closure ✓ (calibrated baseline at 0 / 17 outliers).
+**Status:** **Closed (2026-05-03)** — all 9 phases executed (P0-P8). G-52-1, G-52-3, G-52-4 fired; G-52-2 NO-FIRE this cycle. **OPS-47-8 architecturally closed**; OPS-51-1 closed; OPS-52-1 + OPS-52-2 forwarded for next AKOS_RECORD_LIVE cycle. Closure UAT: [`reports/uat-i52-multi-model-judge-and-cost-discipline-2026-05-03.md`](reports/uat-i52-multi-model-judge-and-cost-discipline-2026-05-03.md).
 
 **Authoritative Cursor plan:** `~/.cursor/plans/i50–i56_madeira_kb_completion_87cc767e.plan.md` §"Initiative 52".
 
