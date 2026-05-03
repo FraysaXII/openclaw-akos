@@ -1,6 +1,6 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 51-persona-calibration-cleanup
 report_kind: master-roadmap
 program_id: shared
@@ -13,7 +13,7 @@ last_review: 2026-05-03
 
 **Folder:** `docs/wip/planning/51-persona-calibration-cleanup/`
 
-**Status:** Execution in progress (started 2026-05-03; depends on I50 closure ✓).
+**Status:** Closed 2026-05-03. R-47-2 closes (13 / 17 → 0 / 17 outliers); OPS-47-9 + OPS-47-6 close; OPS-50-1 forwarded as OPS-51-1 to I52 P3/P4. Closure UAT: [`reports/uat-i51-persona-calibration-cleanup-2026-05-03.md`](reports/uat-i51-persona-calibration-cleanup-2026-05-03.md).
 
 **Authoritative Cursor plan:** `~/.cursor/plans/i50–i56_madeira_kb_completion_87cc767e.plan.md` §"Initiative 51".
 
