@@ -86,6 +86,28 @@ Six decisions seeded with defaults per the cursor plan; operator-ratified at gre
 
 ## Decisions made during execution
 
+### 2026-05-03 — P4 G-52-2 NO-FIRE this cycle; existing judge thresholds stand
+
+I52/P4 is conditional on the P3 calibration burn surfacing any axis below
+80% alignment. P3 returned 100% / 100% / 100% (dispatcher-validation
+mode), so **G-52-2 does not fire this cycle**. Existing
+`POL-EVAL-JUDGE-THRESHOLD-{BRAND-VOICE,CITATION,PERSONA-FIT}-V1` rows
+remain at `min_pass_score=4` (unchanged since I47/P12).
+
+G-52-2 is re-armed for fire when any of the following triggers:
+1. The operator-on-demand real-API calibration burn (OPS-52-1) produces
+   alignment < 80% on any axis.
+2. A roster member rotation causes the next dispatcher-validation burn
+   to expose an axis < 80%.
+3. Any operator-initiated change to `POL-EVAL-JUDGE-THRESHOLD-*-V1`
+   rows (CSV-edit gate per AKOS governance).
+
+This pattern (conditional gate's no-fire as a reportable governance
+event) mirrors I51/P4's G-51-2 (definition shipped; runtime fire on
+first operator-driven payload).
+
+Phase report: [`reports/p4-threshold-refresh-2026-05-03.md`](reports/p4-threshold-refresh-2026-05-03.md).
+
 ### 2026-05-03 — P3 D-IH-52-B activation: keep consensus default; OPS-51-1 closes; OPS-52-1 forwarded
 
 I52/P3 lands `scripts/judge_calibration_burn.py` and runs the dispatcher-
