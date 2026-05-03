@@ -61,4 +61,18 @@ Four decisions seeded with defaults per the cursor plan; operator-ratified at gr
 
 ## Decisions made during execution
 
-_Append phased ratifications below as they land._
+### 2026-05-03 — D-IH-51-D wired (P1 mirror-reseed emitter)
+
+I51/P1 lands the `_emit_persona_scenario_registry_upserts()` emitter +
+`--persona-scenario-registry-only` CLI mode in
+`scripts/sync_compliance_mirrors_from_csv.py`. CSV row-count parity
+verified at **329** (CSV header-anchored == `--count-only` ==
+`INSERT` count in emitted SQL). This makes the D-IH-51-D cadence
+("after every CSV tranche edit") mechanically executable: the operator
+can now run `--persona-scenario-registry-only --output ...` and apply
+under `service_role`. Phase report:
+[`reports/p1-mirror-reseed-2026-05-03.md`](reports/p1-mirror-reseed-2026-05-03.md).
+**Closes** OPS-47-9 on the data-plane side (one operator apply away
+from full mirror parity).
+
+_Append further phased ratifications below as they land._

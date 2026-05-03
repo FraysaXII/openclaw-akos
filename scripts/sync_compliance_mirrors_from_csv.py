@@ -38,6 +38,7 @@ from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIE
 from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_persona_registry_csv import PERSONA_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_persona_scenario_csv import PERSONA_SCENARIO_REGISTRY_FIELDNAMES  # noqa: E402  # I47 P1 + I49 (closes OPS-47-9 in I51 P1)
 from akos.hlk_policy_register_csv import POLICY_REGISTER_FIELDNAMES  # noqa: E402  # I32 P4
 from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_repo_health_csv import REPO_HEALTH_SNAPSHOT_FIELDNAMES  # noqa: E402  # I32 P7
@@ -65,6 +66,7 @@ FILED_INSTRUMENTS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
 PROGRAM_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PROGRAM_REGISTRY.csv"
 TOPIC_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
 PERSONA_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_REGISTRY.csv"
+PERSONA_SCENARIO_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
 CHANNEL_TOUCHPOINT_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "CHANNEL_TOUCHPOINT_REGISTRY.csv"
 SOURCING_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SOURCING_REGISTER.csv"
 # I32 P2/P3/P4/P7: 4 new mirrors
@@ -308,6 +310,50 @@ def _emit_persona_registry_upserts(rows: list[dict[str, str]], source_git_sha: s
         out.append(
             f"INSERT INTO compliance.persona_registry_mirror ({cols_full}) VALUES ({vals_full}) "
             f"ON CONFLICT (persona_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_persona_scenario_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """Initiative 51 P1 (closes OPS-47-9) — compliance.persona_scenario_registry_mirror upserts.
+
+    Mirror DDL was created at I47 P1 (`20260502033000_i47_persona_scenario_registry_mirror.sql`)
+    and extended at I49 with `priority_score` / `safety_lane` / `release_blocking`
+    columns (`20260503120000_i49_persona_scenario_registry_priority_columns.sql`),
+    but the CSV-to-mirror reseeder was never wired up. This emitter closes that
+    carrier. Same shape as `_emit_persona_registry_upserts`: DAMA-pure projection
+    of CSV; semicolon-list columns (`expected_keywords`, `forbidden_keywords`,
+    `topic_ids`) stored verbatim as TEXT.
+
+    `tenant_id` is emitted as `NULL` when blank to honor the D-IH-47-K shared-
+    scenario default (the DDL allows NULL but PostgreSQL would reject the empty
+    string for a TEXT column with a DEFAULT NULL only on INSERT-without-column;
+    explicit '' is a valid TEXT value but breaks the "NULL = shared" semantics).
+    All other columns retain the existing _sql_text_literal handling.
+    """
+    cols_csv = ", ".join(PERSONA_SCENARIO_REGISTRY_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in PERSONA_SCENARIO_REGISTRY_FIELDNAMES]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.persona_scenario_registry_mirror upserts (I47 P1 + I49; closes OPS-47-9 in I51 P1)"]
+    nullable_when_blank = {"tenant_id"}  # D-IH-47-K shared-scenario semantics
+    for r in rows:
+        sid = (r.get("scenario_id") or "").strip()
+        if not sid:
+            continue
+        row_vals: list[str] = []
+        for c in PERSONA_SCENARIO_REGISTRY_FIELDNAMES:
+            raw = (r.get(c) or "").strip()
+            if c in nullable_when_blank and not raw:
+                row_vals.append("NULL")
+            else:
+                row_vals.append(_sql_text_literal(raw))
+        vals_full = ", ".join(row_vals) + f", {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.persona_scenario_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (scenario_id) DO UPDATE SET {update_sets};"
         )
     return out
 
@@ -613,6 +659,11 @@ def main() -> int:
         help="Only emit persona_registry_mirror statements (requires dimensions/PERSONA_REGISTRY.csv) [Initiative 31]",
     )
     parser.add_argument(
+        "--persona-scenario-registry-only",
+        action="store_true",
+        help="Only emit persona_scenario_registry_mirror statements (requires dimensions/PERSONA_SCENARIO_REGISTRY.csv) [Initiative 47 P1 + I49; closes OPS-47-9 in I51 P1]",
+    )
+    parser.add_argument(
         "--channel-touchpoint-registry-only",
         action="store_true",
         help="Only emit channel_touchpoint_registry_mirror statements (requires dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv) [Initiative 31]",
@@ -662,6 +713,7 @@ def main() -> int:
             args.program_registry_only,
             args.topic_registry_only,
             args.persona_registry_only,
+            args.persona_scenario_registry_only,
             args.channel_touchpoint_registry_only,
             args.sourcing_register_only,
             args.skill_registry_only,
@@ -678,6 +730,7 @@ def main() -> int:
             "--adviser-disciplines-only, --adviser-questions-only, "
             "--founder-filed-instruments-only, --program-registry-only, "
             "--topic-registry-only, --persona-registry-only, "
+            "--persona-scenario-registry-only, "
             "--channel-touchpoint-registry-only",
             file=sys.stderr,
         )
@@ -997,6 +1050,46 @@ def main() -> int:
             sys.stdout.write(text)
         return 0
 
+    if args.persona_scenario_registry_only:
+        if not PERSONA_SCENARIO_REGISTRY_CSV.is_file():
+            print("error: missing", PERSONA_SCENARIO_REGISTRY_CSV, file=sys.stderr)
+            return 1
+        with PERSONA_SCENARIO_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            fn = list(reader.fieldnames or [])
+            if fn != list(PERSONA_SCENARIO_REGISTRY_FIELDNAMES):
+                print(
+                    "error: PERSONA_SCENARIO_REGISTRY.csv header drift vs PERSONA_SCENARIO_REGISTRY_FIELDNAMES",
+                    file=sys.stderr,
+                )
+                print("  expected:", list(PERSONA_SCENARIO_REGISTRY_FIELDNAMES), file=sys.stderr)
+                print("  got:     ", fn, file=sys.stderr)
+                return 1
+            psr_rows = [dict(r) for r in reader]
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            print(f"persona_scenario_registry_rows={len(psr_rows)}")
+            return 0
+        blocks = _emit_persona_scenario_registry_upserts(psr_rows, sha)
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            "-- Apply only after compliance.persona_scenario_registry_mirror exists (Initiative 47 P1 DDL + I49 priority columns).",
+            "-- I51 P1 closes OPS-47-9 (mirror reseed): emitter wired up.",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
     if args.sourcing_register_only:
         if not SOURCING_REGISTER_CSV.is_file():
             print("error: missing", SOURCING_REGISTER_CSV, file=sys.stderr)
@@ -1239,6 +1332,15 @@ def main() -> int:
                 persona_rows = [dict(r) for r in persona_reader]
                 persona_n = len(persona_rows)
 
+    psr_n = 0
+    psr_rows: list[dict[str, str]] = []
+    if PERSONA_SCENARIO_REGISTRY_CSV.is_file():
+        with PERSONA_SCENARIO_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            psr_reader = csv.DictReader(f)
+            if list(psr_reader.fieldnames or []) == list(PERSONA_SCENARIO_REGISTRY_FIELDNAMES):
+                psr_rows = [dict(r) for r in psr_reader]
+                psr_n = len(psr_rows)
+
     ct_n = 0
     ct_rows: list[dict[str, str]] = []
     if CHANNEL_TOUCHPOINT_REGISTRY_CSV.is_file():
@@ -1306,6 +1408,7 @@ def main() -> int:
         print(f"program_registry_rows={pr_n}")
         print(f"topic_registry_rows={tr_n}")
         print(f"persona_registry_rows={persona_n}")
+        print(f"persona_scenario_registry_rows={psr_n}")
         print(f"channel_touchpoint_registry_rows={ct_n}")
         print(f"sourcing_register_rows={sr_n}")
         # I32 P2/P3/P4/P7 additions
@@ -1336,6 +1439,8 @@ def main() -> int:
         blocks.extend(_emit_topic_registry_upserts(tr_rows, sha))
     if not args.process_list_only and not args.baseline_only and persona_rows:
         blocks.extend(_emit_persona_registry_upserts(persona_rows, sha))
+    if not args.process_list_only and not args.baseline_only and psr_rows:
+        blocks.extend(_emit_persona_scenario_registry_upserts(psr_rows, sha))
     if not args.process_list_only and not args.baseline_only and ct_rows:
         blocks.extend(_emit_channel_touchpoint_registry_upserts(ct_rows, sha))
     if not args.process_list_only and not args.baseline_only and sr_rows:
