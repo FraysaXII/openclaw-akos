@@ -121,3 +121,8 @@ artifacts/uat-dossier/index.json
 artifacts/telemetry-proposals/*.json
 !artifacts/telemetry-proposals/README.md
 
+# Initiative 52 P3 multi-judge calibration burn outputs (regenerable via scripts/judge_calibration_burn.py)
+artifacts/judge-calibration/*.json
+artifacts/judge-calibration/*.md
+!artifacts/judge-calibration/README.md
+

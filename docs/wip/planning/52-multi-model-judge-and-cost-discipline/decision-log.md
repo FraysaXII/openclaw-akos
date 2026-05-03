@@ -86,6 +86,39 @@ Six decisions seeded with defaults per the cursor plan; operator-ratified at gre
 
 ## Decisions made during execution
 
+### 2026-05-03 — P3 D-IH-52-B activation: keep consensus default; OPS-51-1 closes; OPS-52-1 forwarded
+
+I52/P3 lands `scripts/judge_calibration_burn.py` and runs the dispatcher-
+validation burn at N=50 across the active scenario set with the I52 P1
+roster (`anthropic:claude-3-5-sonnet-20241022,openai:gpt-4o`; consensus
+mode). Result: **100.0% alignment per axis** (trivial — both members fell
+back to offline heuristic without API credentials; report banner correctly
+flags `DISPATCHER VALIDATION ONLY`).
+
+**D-IH-52-B activation decision (logged):** keep **consensus voting
+(default)**. Per-axis specialization and cost-aware tiered escalation
+remain deferred until a real-API burn produces non-trivial alignment data.
+The dispatcher contract is verified end-to-end (300 axis-scoring calls
+across 50 scenarios × 2 members × 3 axes; cassette fingerprint stable;
+report rendering pipeline ships with explicit `DISPATCHER VALIDATION ONLY`
+flag).
+
+**OPS-51-1 closes** at this phase. Persona-keyed cassette dispatch is now
+naturally satisfied by the I52/P2 dispatcher: `JudgeRoster.score(response,
+scenario, persona=...)` preserves `persona_id` end-to-end through the
+composition functions, the `MemberScorer` invocations, and the cassette-
+attached fingerprint. The architectural concern from I51/P3 (cassettes
+were `(skill_id, probe_id)`-keyed; persona was a post-run filter) is
+resolved by the dispatcher's persona-aware contract.
+
+**OPS-52-1 forwards** (operator-on-demand): real live-API calibration burn
+against the I52 P1 roster. Trigger: operator sets `AKOS_JUDGE_LIVE_API=1`
++ provides per-provider API keys + approves first cost burn (~$5-15
+envelope). The dispatcher-validation burn output format is the
+operator-on-demand burn's exact contract; the script is unchanged.
+
+Phase report: [`reports/p3-calibration-burn-2026-05-03.md`](reports/p3-calibration-burn-2026-05-03.md).
+
 ### 2026-05-03 — P2 multi-judge dispatcher landed; OPS-47-8 closes architecturally
 
 I52/P2 lands the `JudgeRoster` dispatcher in `akos/eval_harness/judge.py`:
