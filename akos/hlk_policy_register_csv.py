@@ -49,6 +49,10 @@ VALID_POLICY_CLASSES: frozenset[str] = frozenset({
     "judge_threshold",
     # I48 P7: dossier_run mirror retention posture (R-48-5).
     "retention",
+    # I51 P4 (D-IH-51-B): flake-rate auto-quarantine threshold.
+    # policy_text encodes the threshold (e.g., "min_consecutive_failures=3");
+    # consumed by scripts/quarantine_scenario.py --auto-from-flake-history.
+    "flake_threshold",
 })
 
 VALID_CADENCES: frozenset[str] = frozenset({

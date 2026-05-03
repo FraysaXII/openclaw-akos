@@ -61,6 +61,20 @@ Four decisions seeded with defaults per the cursor plan; operator-ratified at gr
 
 ## Decisions made during execution
 
+### 2026-05-03 — P4 D-IH-51-B executed; flake-threshold POLICY + bulk quarantine wired
+
+I51/P4 lands the **`POL-EVAL-FLAKE-THRESHOLD-V1`** POLICY row
+(policy_class=`flake_threshold`; default `min_consecutive_failures=3`)
+plus the `quarantine_scenario.py --auto-from-flake-history` bulk mode.
+POLICY_REGISTER: 29 → 30 rows. **G-51-2 is a runtime gate** (fires
+on operator-driven bulk quarantine of live flake history); not fired
+in this phase since no live flake-history was processed. Module-level
+constants `FLAKE_QUARANTINE_NOTE_PREFIX="I51-FLAKE-QUARANTINE"`,
+`DEFAULT_FLAKE_THRESHOLD=3`, and `FLAKE_POLICY_ID` formalized.
+9 new tests in `tests/test_scenario_quarantine.py` (16 / 16 PASS).
+Phase report:
+[`reports/p4-flake-threshold-2026-05-03.md`](reports/p4-flake-threshold-2026-05-03.md).
+
 ### 2026-05-03 — P3 G-51-1 fired; D-IH-51-A executed (R-47-2 closes)
 
 I51/P3 lands the per-persona `target_difficulty_band` column +
