@@ -61,6 +61,22 @@ Four decisions seeded with defaults per the cursor plan; operator-ratified at gr
 
 ## Decisions made during execution
 
+### 2026-05-03 — P2 calibration audit emitted (R-47-2 baseline + remediation plan)
+
+I51/P2 lands the deterministic 13-outlier calibration audit:
+[`reports/calibration-audit-2026-05-03.md`](reports/calibration-audit-2026-05-03.md).
+Anchored to the calibration JSON
+`artifacts/calibration/calibration-baseline-20260503T172852Z.json`
+(`__overall__` PASS; 13 / 17 persona buckets outside ±5pp). Per-persona
+`target_difficulty_band` proposals ratified for I51/P3 under G-51-1.
+Two thin-N personas (CUSTOMER-SERVICE-PROSPECT, IDEA-PROPOSER; n=6 each)
+flagged as the explicit candidates for the "≤ 2 personas may remain
+outside tolerance" allowance at the P3 exit. Three carriers surfaced
+(C-51-A USER_GUIDE doc surface, C-51-B calibration markdown render,
+C-51-C persona-band-divergence policy). No CSV mutation; no operator
+gate fire; mirror state unchanged. Phase report:
+[`reports/p2-calibration-audit-2026-05-03.md`](reports/p2-calibration-audit-2026-05-03.md).
+
 ### 2026-05-03 — D-IH-51-D wired (P1 mirror-reseed emitter)
 
 I51/P1 lands the `_emit_persona_scenario_registry_upserts()` emitter +
