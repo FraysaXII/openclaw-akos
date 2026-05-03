@@ -1,18 +1,18 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 46-neo4j-strategic-posture
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
-last_review: 2026-05-01
+last_review: 2026-05-03
 ---
 
 # Initiative 46 — Neo4j Strategic Posture: doctrine + GraphRAG PoC + agent memory ADR
 
 **Folder:** `docs/wip/planning/46-neo4j-strategic-posture/`
-**Status:** Open (started 2026-05-01)
+**Status:** **Closed (2026-05-03)** via [Initiative 53 — GraphRAG PoC closure](../53-graphrag-poc-closure/master-roadmap.md). I46 P3-P7 closure is recorded in [`53-graphrag-poc-closure/reports/uat-i46-i53-graphrag-2026-05-03.md`](../53-graphrag-poc-closure/reports/uat-i46-i53-graphrag-2026-05-03.md). Ship-or-no-ship verdict: **NO-SHIP this cycle** (per `D-IH-46-Decision-P3-NO-SHIP-2026-05-03` in [`decision-log.md`](decision-log.md#decisions-made-during-execution)); cassettes preserved; live A/B forwarded as **OPS-53-1** to next AKOS_RECORD_LIVE cycle.
 **Authoritative Cursor plan:** `~/.cursor/plans/i45-i46_eval_and_neo4j_6a72e6d7.plan.md`
 **Predecessor:** [Initiative 7 — HLK Neo4j Graph Projection](../07-hlk-neo4j-graph-projection/master-roadmap.md) (built the projection) and [Initiative 32 P5/P6 — Topic axis + Neo4j extension](../32-holistik-ops-maturation/reports/p5-topic-axis-and-neo4j-extension-2026-04-30.md) (extended to 6 axes; D-IH-32-Q live sync proven 2026-05-01).
 **Sister initiative:** [Initiative 45 — Live Eval Harness Modernisation](../45-live-eval-harness/master-roadmap.md) (parallel; I46 P3 + P6 use I45 P2 cassettes).

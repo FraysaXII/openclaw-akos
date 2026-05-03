@@ -1,6 +1,6 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 53-graphrag-poc-closure
 report_kind: master-roadmap
 program_id: shared
@@ -13,7 +13,7 @@ last_review: 2026-05-03
 
 **Folder:** `docs/wip/planning/53-graphrag-poc-closure/`
 
-**Status:** Execution starting 2026-05-03; depends on I52 closure ✓ (live judge framework wired but live API activation deferred to OPS-52-1).
+**Status:** **Closed (2026-05-03)** on the no-ship path. P0-P2 audit + P3 NO-FIRE governance event + P4 NO-SHIP verdict (`D-IH-46-Decision-P3-NO-SHIP-2026-05-03`) + P5 SKIPPED + P6 verification + P7 closure UAT all executed. Live A/B forwarded as **OPS-53-1** (likely shared with **OPS-52-1**) to next AKOS_RECORD_LIVE cycle. Release-gate **PASS** (8/8). Cassettes, scaffold, and CSV+POLICY infrastructure all preserved ship-ready.
 
 **Authoritative Cursor plan:** `~/.cursor/plans/i50–i56_madeira_kb_completion_87cc767e.plan.md` §"Initiative 53".
 

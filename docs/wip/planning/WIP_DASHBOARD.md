@@ -50,13 +50,14 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **31** | [`31-holistik-ops-discovery/`](31-holistik-ops-discovery/) | Open (started 2026-04-30) | — | Initiative 31 — Holistik Ops Discovery: 5-axis operating system for human interactions |
 | **32** | [`32-holistik-ops-maturation/`](32-holistik-ops-maturation/) | Open (started 2026-04-30) | 2026-04-30 | Initiative 32 — Holistik Ops Maturation: 15-phase production-readiness pass |
 | **45** | [`45-live-eval-harness/`](45-live-eval-harness/) | Open (started 2026-05-01) | 2026-05-01 | Initiative 45 — Live Eval Harness Modernisation: 9-phase unification + cost + adversari... |
-| **46** | [`46-neo4j-strategic-posture/`](46-neo4j-strategic-posture/) | Open (started 2026-05-01) | 2026-05-01 | Initiative 46 — Neo4j Strategic Posture: doctrine + GraphRAG PoC + agent memory ADR |
+| **46** | [`46-neo4j-strategic-posture/`](46-neo4j-strategic-posture/) | **Closed (2026-05-03)** via [Initiative 53 — GraphRAG PoC closure](../53-grap... | 2026-05-03 | Initiative 46 — Neo4j Strategic Posture: doctrine + GraphRAG PoC + agent memory ADR |
 | **47** | [`47-user-centric-uat/`](47-user-centric-uat/) | Closed (2026-05-02; all 16 phases shipped; 134 new tests; 326 scenarios; UAT ... | 2026-05-02 | Initiative 47 — User-centric UAT modernisation |
 | **48** | [`48-operator-dossier/`](48-operator-dossier/) | Closed (2026-05-02) | 2026-05-02 | Initiative 48 — Operator-facing UAT Dossier |
 | **49** | [`49-madeira-management-rollup/`](49-madeira-management-rollup/) | **Closed (2026-05-03).** All 18 phases delivered; closure UAT [`reports/uat-i... | 2026-05-03 | Initiative 49 — MADEIRA management and verdict rollup |
 | **50** | [`50-live-cycle-closure/`](50-live-cycle-closure/) | **Closed (2026-05-03).** All seven phases delivered; release-gate PASS across... | 2026-05-03 | Initiative 50 — Live cycle closure + cost SSOT truth-up |
 | **51** | [`51-persona-calibration-cleanup/`](51-persona-calibration-cleanup/) | Closed 2026-05-03. R-47-2 closes (13 / 17 → 0 / 17 outliers); OPS-47-9 + OPS-... | 2026-05-03 | Initiative 51 — Persona calibration cleanup |
 | **52** | [`52-multi-model-judge-and-cost-discipline/`](52-multi-model-judge-and-cost-discipline/) | **Closed (2026-05-03)** — all 9 phases executed (P0-P8). G-52-1, G-52-3, G-52... | 2026-05-03 | Initiative 52 — Multi-model LLM-judge live activation + RunPod/Kalavai cost discipline |
+| **53** | [`53-graphrag-poc-closure/`](53-graphrag-poc-closure/) | **Closed (2026-05-03)** on the no-ship path. P0-P2 audit + P3 NO-FIRE governa... | 2026-05-03 | Initiative 53 — GraphRAG PoC closure (closes I46 P3-P7) |
 <!-- END AUTO -->
 
 ## Re-render contract

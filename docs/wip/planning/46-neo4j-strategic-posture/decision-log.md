@@ -128,4 +128,16 @@ Seven decisions seeded with default positions per the cursor plan; ratified by o
 
 ## Decisions made during execution
 
-These will be appended as P3 PoC outcomes land (e.g., `D-IH-46-Decision-P3-2026-05-XX` with the actual measured numbers and the ship/no-ship verdict).
+### D-IH-46-Decision-P3-NO-SHIP-2026-05-03
+
+**Date:** 2026-05-03
+**Closing initiative:** [Initiative 53 — GraphRAG PoC closure](../53-graphrag-poc-closure/master-roadmap.md), P4 (Ship/no-ship gate G-53-1).
+**Decision:** **NO-SHIP this cycle.** Live A/B run not executed (R-53-4 NO-FIRE governance event); per **D-IH-53-C non-additive trade-off**, partial-credit ship is forbidden and no-fire ⇒ no-ship automatically. None of the three D-IH-46-E bars (≥3pp accuracy lift / ≥30% latency reduction / ≥40% cost reduction) was met because none could be evaluated.
+
+**Effect:**
+- I46 P3 (PoC scaffold) **closed**; activation deferred to OPS-53-1.
+- I46 P5 (conditional ship infrastructure) **closed as scaffold**; the column + POLICY template remain in place; the per-skill CSV flip does not happen this cycle.
+- I46 P6 (test wiring + canaries) **closed**; cassettes folder, drift canary, adversarial probes preserved.
+- I46 P7 (closure UAT) **executes via I53 P7** on the no-ship path.
+
+**Reversibility:** When OPS-53-1 fires (next AKOS_RECORD_LIVE cycle), this decision is re-evaluated against live A/B numbers. The cassettes, scaffold, and registry+POLICY infrastructure all remain ship-ready.

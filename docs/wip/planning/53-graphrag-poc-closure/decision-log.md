@@ -75,4 +75,25 @@ The retrieval mode is a single-row CSV edit. Rollback path:
 
 ## Decisions made during execution
 
-(Will be appended as P0-P7 phases execute.)
+### D-IH-46-Decision-P3-NO-SHIP-2026-05-03 (also recorded in I46 decision-log)
+
+**Date:** 2026-05-03
+**Phase:** I53 P4 (Ship/no-ship gate G-53-1)
+**Decision:** **NO-SHIP this cycle.**
+
+**Bar evaluation:**
+
+| Bar (D-IH-53-C) | Threshold | Observed | Met? |
+|:--|:--|:--|:--:|
+| Accuracy lift over baseline | ≥3pp | n/a (no live A/B) | ✗ |
+| Latency reduction | ≥30% | n/a (no live A/B) | ✗ |
+| Cost reduction | ≥40% | n/a (no live A/B) | ✗ |
+
+**Rationale:** Per I53 P3 report, the live A/B was not executed this cycle (R-53-4 NO-FIRE governance event; OPS-53-1 forwarded). Per **D-IH-53-C non-additive trade-off**, partial-credit ship is forbidden, and **no-fire ⇒ no-ship** automatically. No bar was met (none could be evaluated).
+
+**Effect on downstream phases:**
+- **P5 SKIPPED** (CSV flip + POLICY clone require ship signal).
+- **P6 still executes** (drift canary + adversarial probes are non-conditional verification).
+- **P7 closes both I46 and I53 on the no-ship path** with cassettes preserved (D-IH-53-D).
+
+**Reversibility:** When OPS-53-1 fires (next AKOS_RECORD_LIVE cycle), this decision is re-evaluated against the live A/B numbers. If a bar is met then, a future initiative re-runs P4-P5 against the new evidence. The cassettes, the scaffold, and the registry+POLICY infrastructure all remain ship-ready.
