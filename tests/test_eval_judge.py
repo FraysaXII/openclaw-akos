@@ -235,8 +235,10 @@ def test_aggregate_cost_under_cap_overall_cap() -> None:
 # Live mode gating
 # ---------------------------------------------------------------------------
 
-def test_score_response_live_raises_not_implemented() -> None:
-    with pytest.raises(NotImplementedError, match="gated"):
+def test_score_response_live_raises_not_implemented(monkeypatch: pytest.MonkeyPatch) -> None:
+    """I52 P2 (D-IH-52-A): live mode requires AKOS_JUDGE_ROSTER; missing env raises."""
+    monkeypatch.delenv("AKOS_JUDGE_ROSTER", raising=False)
+    with pytest.raises(NotImplementedError, match="AKOS_JUDGE_ROSTER"):
         score_response_live("response", {"scenario_id": "X"})
 
 

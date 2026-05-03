@@ -86,6 +86,35 @@ Six decisions seeded with defaults per the cursor plan; operator-ratified at gre
 
 ## Decisions made during execution
 
+### 2026-05-03 — P2 multi-judge dispatcher landed; OPS-47-8 closes architecturally
+
+I52/P2 lands the `JudgeRoster` dispatcher in `akos/eval_harness/judge.py`:
+- `JudgeRoster` (`from_env`, `score`, `fingerprint`)
+- `MemberScore` + `MemberScorer` test-injection seam
+- `_compose_consensus` + `_compose_per_axis` + `_compose_tiered` (consensus
+  active by default; per-axis routes through `per_axis_routing` dict; tiered
+  collapses to position-1 until P3 alignment data arrives)
+- `_default_member_scorer` (per-provider dispatch with offline fallback;
+  catches NotImplementedError from `_call_member_via_api` placeholder)
+- 32 new tests in `tests/test_eval_judge_multi.py` (32 / 32 PASS); 1
+  pre-existing test in `tests/test_eval_judge.py` patched for the new
+  NotImplementedError message; combined 56 / 56 PASS.
+
+`score_response_live` no longer raises blanket NotImplementedError — it
+routes through `JudgeRoster.score(...)` when `AKOS_JUDGE_ROSTER` is set
+and raises an actionable NotImplementedError when it isn't. Operator-
+facing `score_response` decision tree: offline (CI default) → roster
+(if `AKOS_RECORD_LIVE=1` AND `AKOS_JUDGE_ROSTER` set) → single-model
+(legacy path; preserved) → offline.
+
+**OPS-47-8 closes architecturally** — the dispatcher is wired and gated
+by `AKOS_JUDGE_ROSTER`; the operator-pinned roster lives in
+`prompts/judge/JUDGE_ROSTER_V1.md` (P1). Activating real API calls is a
+P3 deliverable, but the P2 dispatcher is the keystone contract; the
+carrier is now blocked only on calibration evidence, not architecture.
+
+Phase report: [`reports/p2-judge-roster-dispatcher-2026-05-03.md`](reports/p2-judge-roster-dispatcher-2026-05-03.md).
+
 ### 2026-05-03 — P1 D-IH-52-A executed; G-52-1 GREEN
 
 I52/P1 lands the initial multi-judge roster as committed at

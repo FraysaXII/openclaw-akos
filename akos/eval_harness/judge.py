@@ -218,19 +218,310 @@ def score_response_live(
     scenario: dict,
     persona: dict | None = None,
     *,
-    model_id: str = "claude-3-5-haiku-20241022",
+    model_id: str | None = None,
     cost_cap_usd: float = DEFAULT_COST_CAP_USD,
+    member_scorer: "MemberScorer | None" = None,
 ) -> JudgeResult:
-    """Live LLM-judge scoring (placeholder; not yet wired).
+    """Live LLM-judge scoring via :class:`JudgeRoster` (I52 P2; D-IH-52-A).
 
-    Activated when operator pins the live API contract and approves the first
-    cost burn. Until then, raises NotImplementedError so callers know the live
-    path is gated.
+    Behaviour by env:
+
+    - ``AKOS_JUDGE_ROSTER`` set      -> route through :class:`JudgeRoster`
+      (multi-model consensus per :class:`prompts/judge/JUDGE_ROSTER_V1.md`).
+    - ``AKOS_JUDGE_ROSTER`` unset    -> NotImplementedError (preserves the
+      I47/P12 contract: never silently fall through to single-model live mode).
+
+    The ``member_scorer`` kwarg is the test-injection seam; production callers
+    leave it ``None`` and the default scorer dispatches per-provider via
+    :func:`_default_member_scorer`. Tests inject a deterministic stub.
+    """
+    roster_env = os.environ.get("AKOS_JUDGE_ROSTER", "").strip()
+    if not roster_env:
+        raise NotImplementedError(
+            "Live LLM-judge scoring requires AKOS_JUDGE_ROSTER env var "
+            "(comma-separated model_ids per prompts/judge/JUDGE_ROSTER_V1.md). "
+            "Use score_response_offline() for CI runs without a roster."
+        )
+    roster = JudgeRoster.from_env()
+    return roster.score(
+        response,
+        scenario,
+        persona=persona,
+        cost_cap_usd=cost_cap_usd,
+        member_scorer=member_scorer,
+    )
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Multi-model judge dispatcher (I52 P2; D-IH-52-A / D-IH-52-B)
+# ──────────────────────────────────────────────────────────────────────────────
+
+JUDGE_ROSTER_ENV = "AKOS_JUDGE_ROSTER"
+JUDGE_ROSTER_CHEAP_ENV = "AKOS_JUDGE_ROSTER_CHEAP"
+JUDGE_MODE_ENV = "AKOS_JUDGE_MODE"  # consensus | per_axis | tiered (default consensus)
+VALID_JUDGE_MODES: tuple[str, ...] = ("consensus", "per_axis", "tiered")
+DEFAULT_JUDGE_MODE = "consensus"
+
+
+@dataclass
+class MemberScore:
+    """One roster member's raw output for one scenario."""
+
+    model_id: str
+    scores: dict[str, int]  # axis -> 1-5
+    notes: dict[str, str] = field(default_factory=dict)
+    cost_usd: float = 0.0
+    latency_ms: int = 0
+    fallback_offline: bool = False
+    raw_error: str = ""
+
+
+# A MemberScorer takes (model_id, response, scenario, persona) and returns a
+# MemberScore. Production default dispatches per-provider; tests inject a stub.
+from typing import Callable
+
+MemberScorer = Callable[[str, str, dict, "dict | None"], MemberScore]
+
+
+def _default_member_scorer(
+    model_id: str,
+    response: str,
+    scenario: dict,
+    persona: dict | None,
+) -> MemberScore:
+    """Default member scorer: per-provider API call + graceful offline fallback.
+
+    Behaviour:
+
+    - ``offline:*``                    -> offline heuristic (cost = 0)
+    - ``deterministic:*``              -> offline heuristic (cost = 0)
+    - ``anthropic:*`` / ``openai:*``   -> if matching API key env present, call
+      API with :file:`prompts/judge/JUDGE_PROMPT_V1.md`; otherwise fall back to
+      offline heuristic and set ``fallback_offline=True``.
+
+    The actual HTTP call is intentionally NOT implemented in this module — it
+    is wired in :func:`_call_member_via_api` (P2 follow-up). For now the live
+    path falls through to offline with ``fallback_offline=True`` so cassette
+    capture, schema, and tests are exercised without burning credentials. The
+    operator activates real API calls in P3 by setting ``AKOS_JUDGE_LIVE_API=1``
+    AND providing the per-provider API key.
+    """
+    if model_id.startswith("offline:") or model_id.startswith("deterministic:"):
+        offline = score_response_offline(response, scenario, persona)
+        return MemberScore(
+            model_id=model_id,
+            scores=dict(offline.scores),
+            notes={axis: "offline-heuristic" for axis in JUDGE_AXES},
+            cost_usd=0.0,
+            latency_ms=offline.latency_ms,
+            fallback_offline=False,
+        )
+
+    api_live = os.environ.get("AKOS_JUDGE_LIVE_API") == "1"
+    has_creds = (
+        (model_id.startswith("anthropic:") and bool(os.environ.get("ANTHROPIC_API_KEY")))
+        or (model_id.startswith("openai:") and bool(os.environ.get("OPENAI_API_KEY")))
+    )
+
+    if api_live and has_creds:
+        try:
+            return _call_member_via_api(model_id, response, scenario, persona)
+        except Exception as exc:  # noqa: BLE001 - intentional broad fallback
+            offline = score_response_offline(response, scenario, persona)
+            return MemberScore(
+                model_id=model_id,
+                scores=dict(offline.scores),
+                notes={axis: "fallback-offline-api-error" for axis in JUDGE_AXES},
+                cost_usd=0.0,
+                latency_ms=offline.latency_ms,
+                fallback_offline=True,
+                raw_error=f"{type(exc).__name__}: {exc}",
+            )
+
+    offline = score_response_offline(response, scenario, persona)
+    reason = "no-api-key" if not has_creds else "no-live-api-flag"
+    return MemberScore(
+        model_id=model_id,
+        scores=dict(offline.scores),
+        notes={axis: f"fallback-offline-{reason}" for axis in JUDGE_AXES},
+        cost_usd=0.0,
+        latency_ms=offline.latency_ms,
+        fallback_offline=True,
+    )
+
+
+def _call_member_via_api(
+    model_id: str,
+    response: str,
+    scenario: dict,
+    persona: dict | None,
+) -> MemberScore:
+    """Per-provider live API dispatch (placeholder; activated in P3).
+
+    Raises NotImplementedError until P3 calibration burn approves the API
+    contract for each provider. Until then, the default scorer routes around
+    this function via the offline-fallback path so test infrastructure works.
     """
     raise NotImplementedError(
-        "Live LLM-judge scoring is gated until operator pins the API contract. "
-        "Use score_response_offline() for CI runs. Tracked as D-IH-47-J follow-up."
+        f"Live API call for {model_id!r} not yet wired; activate in I52 P3 "
+        "calibration burn or inject a MemberScorer stub for tests."
     )
+
+
+@dataclass
+class JudgeRoster:
+    """Multi-model judge roster + composition mode dispatcher (D-IH-52-A/B).
+
+    Members are ordered: position 1 wins ties under consensus mode.
+    """
+
+    members: list[str] = field(default_factory=list)
+    mode: str = DEFAULT_JUDGE_MODE
+    per_axis_routing: dict[str, str] = field(default_factory=dict)
+
+    @classmethod
+    def from_env(
+        cls,
+        *,
+        env_name: str = JUDGE_ROSTER_ENV,
+        mode_env_name: str = JUDGE_MODE_ENV,
+    ) -> "JudgeRoster":
+        roster_str = os.environ.get(env_name, "").strip()
+        if not roster_str:
+            raise ValueError(
+                f"{env_name} env var is empty; cannot construct JudgeRoster. "
+                "See prompts/judge/JUDGE_ROSTER_V1.md for the contract."
+            )
+        members = [m.strip() for m in roster_str.split(",") if m.strip()]
+        if len(members) < 1:
+            raise ValueError(f"{env_name} resolved to 0 members.")
+        mode = os.environ.get(mode_env_name, DEFAULT_JUDGE_MODE).strip().lower()
+        if mode not in VALID_JUDGE_MODES:
+            raise ValueError(
+                f"{mode_env_name}={mode!r} not in {VALID_JUDGE_MODES}; "
+                "see prompts/judge/JUDGE_ROSTER_V1.md."
+            )
+        return cls(members=members, mode=mode)
+
+    def fingerprint(self) -> str:
+        """Stable cassette-attached id for the roster + mode (preserves order)."""
+        if self.mode == "per_axis" and self.per_axis_routing:
+            axis_part = "|".join(
+                f"{a}={self.per_axis_routing.get(a, '?')}" for a in JUDGE_AXES
+            )
+            return f"roster[{','.join(self.members)}]/mode={self.mode}/{axis_part}"
+        return f"roster[{','.join(self.members)}]/mode={self.mode}"
+
+    def score(
+        self,
+        response: str,
+        scenario: dict,
+        *,
+        persona: dict | None = None,
+        cost_cap_usd: float = DEFAULT_COST_CAP_USD,
+        member_scorer: MemberScorer | None = None,
+    ) -> JudgeResult:
+        scorer = member_scorer or _default_member_scorer
+        scenario_id = scenario.get("scenario_id", "")
+        persona_id = scenario.get("persona_id") or (
+            persona.get("persona_id") if persona else None
+        )
+        thresholds = load_judge_thresholds()
+
+        member_scores: list[MemberScore] = []
+        for model_id in self.members:
+            ms = scorer(model_id, response, scenario, persona)
+            member_scores.append(ms)
+
+        if self.mode == "consensus":
+            scores = _compose_consensus(member_scores)
+        elif self.mode == "per_axis":
+            scores = _compose_per_axis(member_scores, self.per_axis_routing)
+        elif self.mode == "tiered":
+            scores = _compose_tiered(member_scores)
+        else:  # pragma: no cover - guarded by from_env
+            scores = _compose_consensus(member_scores)
+
+        pass_per_axis = {
+            axis: scores[axis] >= thresholds[axis] for axis in JUDGE_AXES
+        }
+        total_cost = sum(ms.cost_usd for ms in member_scores)
+        any_fallback = any(ms.fallback_offline for ms in member_scores)
+
+        notes_parts: list[str] = [self.fingerprint()]
+        if any_fallback:
+            fallbacks = [
+                ms.model_id for ms in member_scores if ms.fallback_offline
+            ]
+            notes_parts.append(f"fallback-offline:{','.join(fallbacks)}")
+
+        return JudgeResult(
+            scenario_id=scenario_id,
+            persona_id=persona_id,
+            scores=scores,
+            pass_per_axis=pass_per_axis,
+            overall_pass=all(pass_per_axis.values()),
+            model_id=self.fingerprint(),
+            cost_usd=total_cost,
+            latency_ms=max((ms.latency_ms for ms in member_scores), default=0),
+            notes="; ".join(notes_parts),
+        )
+
+
+def _compose_consensus(member_scores: list[MemberScore]) -> dict[str, int]:
+    """Per-axis majority vote; ties broken by position-1 (first member)."""
+    out: dict[str, int] = {}
+    for axis in JUDGE_AXES:
+        values = [ms.scores.get(axis, DEFAULT_PASS_THRESHOLD) for ms in member_scores]
+        if not values:
+            out[axis] = DEFAULT_PASS_THRESHOLD
+            continue
+        # Majority: pick the most-frequent value; tie-break by position-1 value.
+        from collections import Counter
+
+        counter = Counter(values)
+        top_count = max(counter.values())
+        winners = [v for v, c in counter.items() if c == top_count]
+        if len(winners) == 1:
+            out[axis] = winners[0]
+        else:
+            # Tie-break: position-1 (member_scores[0]) value, if it's a winner
+            position1_value = values[0]
+            out[axis] = position1_value if position1_value in winners else min(winners)
+    return out
+
+
+def _compose_per_axis(
+    member_scores: list[MemberScore],
+    per_axis_routing: dict[str, str],
+) -> dict[str, int]:
+    """Each axis routed to a specific roster member; missing routes fall back to position-1."""
+    by_model = {ms.model_id: ms for ms in member_scores}
+    fallback = member_scores[0] if member_scores else None
+    out: dict[str, int] = {}
+    for axis in JUDGE_AXES:
+        target = per_axis_routing.get(axis)
+        ms = by_model.get(target) if target else None
+        if ms is None and fallback is not None:
+            ms = fallback
+        out[axis] = (
+            ms.scores.get(axis, DEFAULT_PASS_THRESHOLD)
+            if ms is not None
+            else DEFAULT_PASS_THRESHOLD
+        )
+    return out
+
+
+def _compose_tiered(member_scores: list[MemberScore]) -> dict[str, int]:
+    """Cost-aware tiered escalation (placeholder; D-IH-52-B activation gated to P3).
+
+    At I52 P2 launch, tiered mode collapses to position-1's scores. The full
+    escalation logic (cheap first; flagship if cheap members disagree) lands in
+    P3 calibration burn once we have alignment data per axis.
+    """
+    if not member_scores:
+        return {axis: DEFAULT_PASS_THRESHOLD for axis in JUDGE_AXES}
+    return dict(member_scores[0].scores)
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -273,11 +564,42 @@ def score_response(
     *,
     model_id: str | None = None,
     cost_cap_usd: float = DEFAULT_COST_CAP_USD,
+    member_scorer: MemberScorer | None = None,
 ) -> JudgeResult:
-    """Dispatcher: chooses offline vs live based on AKOS_JUDGE_MODEL env var."""
+    """Operator-facing dispatcher.
+
+    Decision tree (in order):
+
+    1. If ``AKOS_RECORD_LIVE`` is not ``"1"``       -> offline (CI default).
+    2. Else if ``AKOS_JUDGE_ROSTER`` env is set      -> :class:`JudgeRoster`
+       (multi-model consensus per I52 P2; D-IH-52-A).
+    3. Else if ``AKOS_JUDGE_MODEL`` env is set       -> :func:`score_response_live`
+       single-model fallback (preserves I47/P12 contract; raises
+       NotImplementedError until roster-or-model env is set).
+    4. Else                                          -> offline.
+
+    The ``member_scorer`` kwarg is the test-injection seam; production callers
+    leave it ``None``.
+    """
+    if os.environ.get("AKOS_RECORD_LIVE") != "1":
+        return score_response_offline(response, scenario, persona)
+    if os.environ.get(JUDGE_ROSTER_ENV, "").strip():
+        roster = JudgeRoster.from_env()
+        return roster.score(
+            response,
+            scenario,
+            persona=persona,
+            cost_cap_usd=cost_cap_usd,
+            member_scorer=member_scorer,
+        )
     judge_model = (model_id or os.environ.get("AKOS_JUDGE_MODEL") or "offline").lower()
-    if judge_model == "offline" or os.environ.get("AKOS_RECORD_LIVE") != "1":
+    if judge_model == "offline":
         return score_response_offline(response, scenario, persona)
     return score_response_live(
-        response, scenario, persona, model_id=judge_model, cost_cap_usd=cost_cap_usd
+        response,
+        scenario,
+        persona,
+        model_id=judge_model,
+        cost_cap_usd=cost_cap_usd,
+        member_scorer=member_scorer,
     )
