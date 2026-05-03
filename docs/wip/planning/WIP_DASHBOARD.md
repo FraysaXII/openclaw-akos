@@ -56,6 +56,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **49** | [`49-madeira-management-rollup/`](49-madeira-management-rollup/) | **Closed (2026-05-03).** All 18 phases delivered; closure UAT [`reports/uat-i... | 2026-05-03 | Initiative 49 — MADEIRA management and verdict rollup |
 | **50** | [`50-live-cycle-closure/`](50-live-cycle-closure/) | **Closed (2026-05-03).** All seven phases delivered; release-gate PASS across... | 2026-05-03 | Initiative 50 — Live cycle closure + cost SSOT truth-up |
 | **51** | [`51-persona-calibration-cleanup/`](51-persona-calibration-cleanup/) | Closed 2026-05-03. R-47-2 closes (13 / 17 → 0 / 17 outliers); OPS-47-9 + OPS-... | 2026-05-03 | Initiative 51 — Persona calibration cleanup |
+| **52** | [`52-multi-model-judge-and-cost-discipline/`](52-multi-model-judge-and-cost-discipline/) | Execution starting 2026-05-03; depends on I51 closure ✓ (calibrated baseline ... | 2026-05-03 | Initiative 52 — Multi-model LLM-judge live activation + RunPod/Kalavai cost discipline |
 <!-- END AUTO -->
 
 ## Re-render contract
