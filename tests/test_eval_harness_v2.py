@@ -225,8 +225,14 @@ def test_cli_mode_replay_alone_returns_rows_and_exits_zero() -> None:
     assert not bad, f"replay regressions: {bad}"
 
 
-def test_cli_record_live_kind_without_env_exits_2() -> None:
-    """live_llm cassettes require AKOS_RECORD_LIVE=1; classify_request kind does not."""
+def test_cli_record_live_kind_without_env_exits_2(monkeypatch) -> None:
+    """live_llm cassettes require AKOS_RECORD_LIVE=1; classify_request kind does not.
+
+    Defensively clear ``AKOS_RECORD_LIVE`` for this test in case the dev shell has
+    set it for an unrelated Tier-B run (the env var leaks across pytest invocations
+    on the same shell). The fixture restores it after the test.
+    """
+    monkeypatch.delenv("AKOS_RECORD_LIVE", raising=False)
     p = _run_cli(
         "record",
         "--skill", "SKILL-MADEIRA-LOOKUP-V1",

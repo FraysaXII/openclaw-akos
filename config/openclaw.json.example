@@ -115,7 +115,7 @@
       "thinkingDefault": "low",
       "verboseDefault": "on",
       "sandbox": {
-        "mode": "all"
+        "mode": "strict"
       },
       "workspace": "~/.openclaw/workspace",
       "memorySearch": {

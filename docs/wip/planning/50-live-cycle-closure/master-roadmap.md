@@ -1,6 +1,6 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 50-live-cycle-closure
 report_kind: master-roadmap
 program_id: shared
@@ -13,7 +13,7 @@ last_review: 2026-05-03
 
 **Folder:** `docs/wip/planning/50-live-cycle-closure/`
 
-**Status:** Execution in progress (started 2026-05-03).
+**Status:** **Closed (2026-05-03).** All seven phases delivered; release-gate PASS across all 8 gates; 1571 tests PASS; MADEIRA SHIP verdict GO. Closure UAT: [`reports/uat-i50-live-cycle-closure-2026-05-03.md`](reports/uat-i50-live-cycle-closure-2026-05-03.md).
 
 **Authoritative Cursor plan:** `~/.cursor/plans/i50–i56_madeira_kb_completion_87cc767e.plan.md` (master roadmap I50–I56).
 

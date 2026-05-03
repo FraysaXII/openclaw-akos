@@ -203,8 +203,15 @@ def test_canary_without_enforce_does_not_block_on_cost() -> None:
 # ── Drift detector ────────────────────────────────────────────────────────────
 
 
-def test_policy_register_has_5_cost_ceiling_rows() -> None:
-    """If anyone removes a cost_ceiling row from POLICY_REGISTER, this fails fast."""
+def test_policy_register_has_cost_ceiling_rows() -> None:
+    """Locks in BOTH the I45 P4 skill-level ceiling set AND the I50 P2 runtime-envelope set.
+
+    - 5 skill-level rows (I45 P4): MADEIRA-LOOKUP, ARCHITECT-PLAN, EXECUTOR-RUN,
+      VERIFIER-CHECK, SHARED-LOCALE-DETECT.
+    - 3 runtime-envelope rows (I50 P2 / D-IH-50-A): DOSSIER, PERSONA, JUDGE.
+
+    If anyone removes a cost_ceiling row from POLICY_REGISTER, this fails fast.
+    """
     import csv as _csv
 
     p = (
@@ -215,7 +222,28 @@ def test_policy_register_has_5_cost_ceiling_rows() -> None:
         r for r in _csv.DictReader(p.open(encoding="utf-8"))
         if r.get("policy_class") == "cost_ceiling"
     ]
-    assert len(cost_rows) == 5
+    assert len(cost_rows) == 8, (
+        f"Expected 8 cost_ceiling rows (5 skill-level from I45 P4 + 3 runtime-envelope "
+        f"from I50 P2); got {len(cost_rows)}: {[r['policy_id'] for r in cost_rows]}"
+    )
+
+    skill_level = {
+        "POL-EVAL-COST-CEILING-MADEIRA-LOOKUP",
+        "POL-EVAL-COST-CEILING-ARCHITECT-PLAN",
+        "POL-EVAL-COST-CEILING-EXECUTOR-RUN",
+        "POL-EVAL-COST-CEILING-VERIFIER-CHECK",
+        "POL-EVAL-COST-CEILING-SHARED-LOCALE-DETECT",
+    }
+    runtime_envelope = {
+        "POL-EVAL-COST-CEILING-DOSSIER-V1",
+        "POL-EVAL-COST-CEILING-PERSONA-V1",
+        "POL-EVAL-COST-CEILING-JUDGE-V1",
+    }
+    actual = {r["policy_id"] for r in cost_rows}
+    missing_skill = skill_level - actual
+    missing_runtime = runtime_envelope - actual
+    assert not missing_skill, f"Missing skill-level cost_ceiling rows: {missing_skill}"
+    assert not missing_runtime, f"Missing runtime-envelope cost_ceiling rows: {missing_runtime}"
 
 
 def test_policy_class_enum_includes_i45_p4_p5_p7_and_i46_p5_classes() -> None:

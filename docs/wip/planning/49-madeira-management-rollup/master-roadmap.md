@@ -1,6 +1,6 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 49-madeira-management-rollup
 report_kind: master-roadmap
 program_id: shared
@@ -13,7 +13,7 @@ last_review: 2026-05-03
 
 **Folder:** `docs/wip/planning/49-madeira-management-rollup/`
 
-**Status:** Execution in progress.
+**Status:** **Closed (2026-05-03).** All 18 phases delivered; closure UAT [`reports/uat-i49-madeira-management-2026-05-03.md`](reports/uat-i49-madeira-management-2026-05-03.md).
 
 **Cross-references:**
 
