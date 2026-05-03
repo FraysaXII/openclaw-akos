@@ -126,3 +126,8 @@ artifacts/judge-calibration/*.json
 artifacts/judge-calibration/*.md
 !artifacts/judge-calibration/README.md
 
+# Initiative 52 P5 endpoint cost probe + envelope alarm outputs (regenerable via scripts/endpoint_cost_probe.py)
+artifacts/endpoint-cost/*.json
+artifacts/endpoint-cost/*.md
+!artifacts/endpoint-cost/README.md
+

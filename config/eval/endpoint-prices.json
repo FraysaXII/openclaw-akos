@@ -1,0 +1,27 @@
+{
+  "_note": "I52 P5 (D-IH-52-D / D-IH-52-E): per-endpoint per-GPU-hour pricing for serverless GPU endpoints (RunPod, Kalavai, ...). Deliberately separated from config/eval/model-prices.json so that token-based and gpu_hour-based costs never co-mingle in a single computation path. Operator-edited; FinOps owns. When an endpoint_id is missing from this table, cost = 0.0 (warn at scrape time per R-45-11 + R-52-3).",
+  "_last_reviewed": "2026-05-03",
+  "_owner_role": "FinOps",
+  "_unit_contract": "All entries are USD per GPU-hour (continuous wall-clock time). For endpoints that bill per-second internally, the operator records duration_hours = seconds / 3600 in the CostRecord; the rate stays per-hour for human-readable dashboards.",
+  "_2026_q2_review_note": "I52 P5 introduction (2026-05-03). Initial entries are placeholder-only; no live RunPod or Kalavai run has been executed against AKOS as of this review. Live pricing must be confirmed against the operator's contracted RunPod / Kalavai dashboard before the first AKOS_RECORD_LIVE=1 endpoint run. POL-EVAL-COST-CEILING-ENDPOINT-{RUNPOD,KALAVAI}-V1 in POLICY_REGISTER pin the per-endpoint hourly ceilings; this file pins the per-endpoint observed rates.",
+  "endpoints": {
+    "runpod:a100-80gb": {
+      "provider": "runpod",
+      "gpu_class": "A100-80GB-PCIe",
+      "usd_per_hour": 1.89,
+      "notes": "Placeholder per RunPod 2026-Q2 published serverless pricing; confirm against operator account before live run."
+    },
+    "runpod:h100-80gb": {
+      "provider": "runpod",
+      "gpu_class": "H100-80GB-SXM5",
+      "usd_per_hour": 3.99,
+      "notes": "Placeholder per RunPod 2026-Q2 published serverless pricing; confirm against operator account before live run."
+    },
+    "kalavai:default": {
+      "provider": "kalavai",
+      "gpu_class": "MIXED",
+      "usd_per_hour": 0.85,
+      "notes": "Kalavai 2026-Q2 reference rate for federated mixed-tier inference; community-pool pricing varies, refresh quarterly."
+    }
+  }
+}

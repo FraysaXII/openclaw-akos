@@ -86,6 +86,57 @@ Six decisions seeded with defaults per the cursor plan; operator-ratified at gre
 
 ## Decisions made during execution
 
+### 2026-05-03 — P5 D-IH-52-D + D-IH-52-E activation: unit discriminator + no-mixing
+
+I52/P5 ships the per-GPU-hour cost surface alongside the existing per-token
+surface. Both decisions activate together because they are inseparable:
+
+**D-IH-52-D — `CostRecord.unit` discriminator** is now a hard contract.
+`CostRecord(unit="token", model_id=None)` and
+`CostRecord(unit="gpu_hour", endpoint_id=None)` both raise `ValueError`
+at construction time (locked by `tests/test_eval_cost_endpoint.py`).
+`compute_cost_record(unit=…)` is the single entry point; an unknown unit
+raises immediately.
+
+**D-IH-52-E — No mixed-unit aggregation.** Token and gpu_hour costs never
+co-aggregate in a single ceiling. Implemented as physical separation:
+
+- Two SSOTs: `config/eval/model-prices.json` (token rates) ↔
+  `config/eval/endpoint-prices.json` (per-GPU-hour rates).
+- Two POLICY tranches (10 cost_ceiling rows total):
+    - 5 skill-level (I45 P4) + 3 runtime-envelope (I50 P2) read from
+      `load_cost_ceilings`.
+    - 2 endpoint-envelope (I52 P5: `POL-EVAL-COST-CEILING-ENDPOINT-RUNPOD-V1`,
+      `POL-EVAL-COST-CEILING-ENDPOINT-KALAVAI-V1`) read from
+      `load_endpoint_ceilings`.
+- Two aggregators: `aggregate_skill_cost` ↔ `aggregate_endpoint_cost`.
+- Two evaluators: `evaluate_cost_ceiling` ↔ `evaluate_endpoint_envelope`.
+
+The original D-IH-52-D draft framed this as `max_usd_per_day`. The shipping
+form is `max_usd_per_hour` for two reasons:
+
+1. The headline metric (`cost_usd_per_hour_avg`) is the rate at which the
+   endpoint accrues spend; the `projected_daily_usd` is informational
+   (24× projection assumes constant-rate operation).
+2. Operators can compare hourly rate directly against the published
+   RunPod / Kalavai dashboard rates without doing 24× math in their head.
+   (Quoted plan refinement: "human-readable dashboards for cost
+   visibility — per-token vs per-GPU-hour".)
+
+The original D-IH-52-E draft also covered the alarm-vs-auto-pause stance
+(alarm-only at launch). That stance is preserved by
+`scripts/endpoint_envelope_alarm.py` defaulting to exit-2 on hard-fail
+(blocking signal to the operator) without ever calling RunPod / Kalavai
+APIs to pause an endpoint. Auto-pause stays opt-in and out of scope until
+the operator has calibrated per-endpoint envelopes against real usage
+(forwarded as **OPS-52-2**).
+
+Phase report:
+[`reports/p5-endpoint-cost-surface-2026-05-03.md`](reports/p5-endpoint-cost-surface-2026-05-03.md).
+
+G-52-4 (envelope alarm wired) is satisfied by the stub-mode PASS run; live
+activation in CI is the P7 deliverable.
+
 ### 2026-05-03 — P4 G-52-2 NO-FIRE this cycle; existing judge thresholds stand
 
 I52/P4 is conditional on the P3 calibration burn surfacing any axis below

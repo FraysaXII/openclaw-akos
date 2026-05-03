@@ -204,11 +204,13 @@ def test_canary_without_enforce_does_not_block_on_cost() -> None:
 
 
 def test_policy_register_has_cost_ceiling_rows() -> None:
-    """Locks in BOTH the I45 P4 skill-level ceiling set AND the I50 P2 runtime-envelope set.
+    """Locks in three governed cost_ceiling tranches:
 
     - 5 skill-level rows (I45 P4): MADEIRA-LOOKUP, ARCHITECT-PLAN, EXECUTOR-RUN,
       VERIFIER-CHECK, SHARED-LOCALE-DETECT.
     - 3 runtime-envelope rows (I50 P2 / D-IH-50-A): DOSSIER, PERSONA, JUDGE.
+    - 2 endpoint-envelope rows (I52 P5 / D-IH-52-D + D-IH-52-E):
+      ENDPOINT-RUNPOD-V1, ENDPOINT-KALAVAI-V1.
 
     If anyone removes a cost_ceiling row from POLICY_REGISTER, this fails fast.
     """
@@ -222,9 +224,10 @@ def test_policy_register_has_cost_ceiling_rows() -> None:
         r for r in _csv.DictReader(p.open(encoding="utf-8"))
         if r.get("policy_class") == "cost_ceiling"
     ]
-    assert len(cost_rows) == 8, (
-        f"Expected 8 cost_ceiling rows (5 skill-level from I45 P4 + 3 runtime-envelope "
-        f"from I50 P2); got {len(cost_rows)}: {[r['policy_id'] for r in cost_rows]}"
+    assert len(cost_rows) == 10, (
+        f"Expected 10 cost_ceiling rows (5 skill-level I45 P4 + 3 runtime-envelope "
+        f"I50 P2 + 2 endpoint-envelope I52 P5); "
+        f"got {len(cost_rows)}: {[r['policy_id'] for r in cost_rows]}"
     )
 
     skill_level = {
@@ -239,11 +242,17 @@ def test_policy_register_has_cost_ceiling_rows() -> None:
         "POL-EVAL-COST-CEILING-PERSONA-V1",
         "POL-EVAL-COST-CEILING-JUDGE-V1",
     }
+    endpoint_envelope = {
+        "POL-EVAL-COST-CEILING-ENDPOINT-RUNPOD-V1",
+        "POL-EVAL-COST-CEILING-ENDPOINT-KALAVAI-V1",
+    }
     actual = {r["policy_id"] for r in cost_rows}
     missing_skill = skill_level - actual
     missing_runtime = runtime_envelope - actual
+    missing_endpoint = endpoint_envelope - actual
     assert not missing_skill, f"Missing skill-level cost_ceiling rows: {missing_skill}"
     assert not missing_runtime, f"Missing runtime-envelope cost_ceiling rows: {missing_runtime}"
+    assert not missing_endpoint, f"Missing endpoint-envelope cost_ceiling rows: {missing_endpoint}"
 
 
 def test_policy_class_enum_includes_i45_p4_p5_p7_and_i46_p5_classes() -> None:
