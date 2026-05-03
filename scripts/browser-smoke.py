@@ -57,6 +57,13 @@ except ImportError:
     sync_playwright = None  # type: ignore[misc, assignment]
     PLAYWRIGHT_AVAILABLE = False
 
+try:
+    from axe_playwright_python.sync_playwright import Axe  # type: ignore[import-not-found]
+    AXE_AVAILABLE = True
+except ImportError:
+    Axe = None  # type: ignore[misc, assignment]
+    AXE_AVAILABLE = False
+
 from akos.docker_engine_probe import probe_docker_engine
 
 logger = logging.getLogger("akos.browser-smoke")
@@ -781,6 +788,119 @@ def run_all_playwright(headed: bool, engine: str | None = None) -> list[dict[str
     return results
 
 
+# ---- Initiative 54 P1: axe-core wiring -----------------------------------
+
+AXE_IN_SCOPE_SURFACES: list[tuple[str, str]] = [
+    # (scenario_id, URL relative to API_URL)
+    ("axe_madeira_control", "/madeira/control"),
+]
+
+
+def _summarise_axe_violations(violations: list[dict]) -> dict[str, int]:
+    """Count axe-core violations by `impact` ({critical, serious, moderate, minor}).
+
+    `axe-playwright-python` returns each violation with `impact` in
+    {"critical", "serious", "moderate", "minor", None}. Aggregation keeps the
+    surface decision (D-IH-54-A: Critical-only fail; Serious warn-only first
+    cycle) trivial to compute downstream.
+    """
+    counts = {"critical": 0, "serious": 0, "moderate": 0, "minor": 0, "unknown": 0}
+    for v in violations or []:
+        impact = (v.get("impact") or "unknown").lower()
+        counts[impact if impact in counts else "unknown"] += 1
+    return counts
+
+
+def _check_axe_for_url(page, scenario_id: str, url_path: str, axe_runner) -> dict[str, str]:
+    """Run axe-core on `API_URL + url_path` via the provided `axe_runner` instance.
+
+    Status mapping (per D-IH-54-A):
+      - PASS = zero Critical, zero Serious findings.
+      - WARN-class FAIL detail when Serious > 0 (warn-only at first cycle; the
+        scenario still PASSes for CI, but the per-impact counts are surfaced).
+      - FAIL when Critical > 0 (the only release-gate-blocking severity).
+
+    Returns the canonical `{scenario, status, detail}` shape so that the
+    summary printout is uniform with the rest of `browser-smoke.py`.
+    """
+    try:
+        full_url = f"{API_URL}{url_path}"
+        res = page.goto(full_url, wait_until="domcontentloaded", timeout=15000)
+        if res and res.status != 200:
+            return {"scenario": scenario_id, "status": "FAIL", "detail": f"HTTP {res.status} on {full_url}"}
+        report = axe_runner.run(page)  # type: ignore[union-attr]
+        violations = getattr(report, "violations", None) or report.response.get("violations", []) or []
+        counts = _summarise_axe_violations(violations)
+        crit = counts["critical"]
+        serious = counts["serious"]
+        moderate = counts["moderate"]
+        minor = counts["minor"]
+        if crit > 0:
+            return {
+                "scenario": scenario_id,
+                "status": "FAIL",
+                "detail": f"axe-core: {crit} Critical / {serious} Serious / {moderate} Moderate / {minor} Minor on {url_path} (D-IH-54-A: Critical-only release-gate fail)",
+            }
+        if serious > 0:
+            return {
+                "scenario": scenario_id,
+                "status": "PASS",
+                "detail": f"axe-core: 0 Critical / {serious} Serious / {moderate} Moderate / {minor} Minor on {url_path} (Serious warn-only first cycle per D-IH-54-A)",
+            }
+        return {
+            "scenario": scenario_id,
+            "status": "PASS",
+            "detail": f"axe-core: 0 Critical / 0 Serious / {moderate} Moderate / {minor} Minor on {url_path}",
+        }
+    except Exception as e:
+        return {"scenario": scenario_id, "status": "FAIL", "detail": f"axe-core exception on {url_path}: {e}"}
+
+
+def run_axe_audits(headed: bool, engine: str | None = None) -> list[dict[str, str]]:
+    """Run axe-core against the surfaces in `AXE_IN_SCOPE_SURFACES`.
+
+    Returns SKIP for every scenario when:
+      - Playwright is not installed (axe needs Playwright as the runtime).
+      - `axe-playwright-python` is not installed (the user opted into --axe but
+        did not install the dev requirement; this is the documented path per
+        R-54-1 / R-54-4 + I54 P3 stub-mode).
+      - The gateway / API is not reachable (mirrors existing browser-smoke
+        SKIP semantics).
+
+    PASS / FAIL semantics are documented in `_check_axe_for_url`.
+    """
+    if not PLAYWRIGHT_AVAILABLE:
+        detail = "Playwright not installed. Run: pip install playwright && playwright install chromium"
+        return [{"scenario": s, "status": "SKIP", "detail": detail} for s, _ in AXE_IN_SCOPE_SURFACES]
+    if not AXE_AVAILABLE:
+        detail = "axe-playwright-python not installed. Run: pip install -r requirements-dev.txt (Initiative 54 P1)"
+        return [{"scenario": s, "status": "SKIP", "detail": detail} for s, _ in AXE_IN_SCOPE_SURFACES]
+    results: list[dict[str, str]] = []
+    browser_candidates = [engine] if engine else (["msedge", "chromium", "firefox"] if platform.system() == "Windows" else ["chromium", "firefox"])
+    with sync_playwright() as p:  # type: ignore[misc]
+        browser = None
+        errors: list[str] = []
+        for candidate in browser_candidates:
+            try:
+                browser = _launch_browser_with_engine(p, headed, candidate)
+                break
+            except Exception as e:
+                errors.append(f"{candidate}: {e}")
+                continue
+        if browser is None:
+            detail = "Browser launch failed for axe run: " + "; ".join(errors)
+            return [{"scenario": s, "status": "SKIP", "detail": detail} for s, _ in AXE_IN_SCOPE_SURFACES]
+        try:
+            context = browser.new_context(ignore_https_errors=True)
+            page = context.new_page()
+            axe_runner = Axe()  # type: ignore[misc]
+            for scenario_id, url_path in AXE_IN_SCOPE_SURFACES:
+                results.append(_check_axe_for_url(page, scenario_id, url_path, axe_runner))
+        finally:
+            browser.close()
+    return results
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="AKOS browser smoke test runner")
     parser.add_argument("--json-log", action="store_true", help="JSON logging output")
@@ -788,6 +908,7 @@ def main() -> None:
     parser.add_argument("--headed", action="store_true", help="Show browser window (only with --playwright)")
     parser.add_argument("--playwright-engine", choices=["msedge", "chromium", "firefox"], help=argparse.SUPPRESS)
     parser.add_argument("--playwright-worker", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--axe", action="store_true", help="Run axe-core a11y audit on Playwright-loaded pages (requires axe-playwright-python; Initiative 54 P1)")
     args = parser.parse_args()
 
     setup_logging(json_output=args.json_log)
@@ -866,6 +987,24 @@ def main() -> None:
             results = run_all_playwright(headed=args.headed, engine=args.playwright_engine)
     else:
         results = run_phase1_http()
+
+    if args.axe and args.playwright and not playwright_worker_unusable:
+        axe_results = run_axe_audits(headed=args.headed, engine=args.playwright_engine)
+        results.extend(axe_results)
+    elif args.axe and args.playwright and playwright_worker_unusable:
+        results.extend(
+            [
+                {"scenario": s, "status": "SKIP", "detail": "axe SKIP: Playwright worker unusable (see scenario SKIPs above for the underlying cause)"}
+                for s, _ in AXE_IN_SCOPE_SURFACES
+            ]
+        )
+    elif args.axe and not args.playwright:
+        results.extend(
+            [
+                {"scenario": s, "status": "SKIP", "detail": "--axe requires --playwright (Initiative 54 P1)"}
+                for s, _ in AXE_IN_SCOPE_SURFACES
+            ]
+        )
 
     print()
     print("  Browser Smoke Results")

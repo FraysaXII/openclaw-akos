@@ -1,0 +1,20 @@
+# AKOS dev-only dependencies (Initiative 54 P1).
+#
+# Install: pip install -r requirements-dev.txt
+#
+# Scope: tooling that runs as part of `pre_commit` / `release_gate` /
+# `playwright_a11y_smoke` profiles in `config/verification-profiles.json`,
+# but is NOT required to run AKOS at runtime.
+#
+# Runtime deps live in `requirements.txt`. Optional GPU / OpenStack deps
+# live in `requirements-gpu.txt` + `requirements-openstack.txt`.
+
+# Initiative 54 — Surface test hardening (Playwright + axe-core).
+# `axe-playwright-python` is a Python wrapper around the upstream
+# `axe-core` browser library used in Playwright contexts. License: MIT.
+# Pin minor version to avoid surprise rule-set drift between cycles.
+axe-playwright-python>=0.1.4,<0.2
+
+# Future cleanup (out of scope for I54 P1):
+#   - relocate `playwright>=1.40` from requirements.txt here once the
+#     `playwright_a11y_smoke` profile is the only --playwright caller.
