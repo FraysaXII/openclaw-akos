@@ -117,3 +117,7 @@ artifacts/uat-dossier/uat-dossier-*/
 artifacts/uat-dossier/index.json
 !artifacts/uat-dossier/README.md
 
+# Initiative 49 P11 + I50 P5 telemetry promotion proposals (operator-local; regenerate via promote_telemetry_to_scenario.py)
+artifacts/telemetry-proposals/*.json
+!artifacts/telemetry-proposals/README.md
+
