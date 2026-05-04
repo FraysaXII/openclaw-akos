@@ -48,6 +48,15 @@
       display: flex; gap: 0.25rem; margin: 1rem 0 0.5rem; flex-wrap: wrap; align-items: center;
     }
     .locale span { font-size: 0.85rem; color: var(--ink-2); margin-right: 0.4rem; }
+    /* I57 P1 / OPS-54-1.a — explicit high-contrast styling for inactive locale buttons.
+       axe-core flagged 3 instances of color-contrast (WCAG 1.4.3) on the locale switcher
+       (per docs/wip/planning/54-surface-test-hardening/reports/uat-i54-live-a11y-audit-20260504.md);
+       inheriting the generic `button { color: var(--ink); border-color: var(--line) }` produced
+       borderline ratios in some user-agent rendering paths. This rule pins the inactive-state
+       text to var(--ink) (~13:1 against var(--surface) in both light and dark modes) and the
+       border to var(--ink-2) (visible non-text contrast). The aria-pressed="true" rule below
+       wins on specificity for the active state. */
+    .locale button { color: var(--ink); border-color: var(--ink-2); }
     .locale button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
     section.card {
       background: var(--surface-2);
