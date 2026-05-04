@@ -84,3 +84,15 @@ Six decisions seeded; operator-ratified at I50-I56 master-roadmap session 2026-0
 - **Tests lock the contract**: `test_seed_includes_i55_advisor_update_threshold` asserts both POLICY-row presence AND parser extraction. If either side drifts in isolation, CI fails fast. Same posture as I47 P12 / I50 P2 / I51 P4 contract-locks for their respective POLICY rows.
 - **`min_files_changed=2` is in the POLICY row** despite not being in the original D-IH-55-D enumeration. Rationale documented in P6 decisions; the POLICY row is the canonical source. If operator wants a 3-axis-only threshold, they set `min_files_changed=999`.
 
+---
+
+## D-IH-55-G — Wave-2 brand voice traits operator-confirmed as canonical
+
+**Decision (2026-05-04):** The Wave-2 `brand_voice.voice_is` and `brand_voice.voice_is_not` traits in [operator-answers-wave2.yaml](../22a-i22-post-closure-followups/operator-answers-wave2.yaml) — agent-derived from the operator-supplied narrative pillars (Structure that scales / Plain words / Evidence over assertion) — are accepted as canonical without further refinement. YAML inline comments updated from "operator review and refinement" to "operator-confirmed 2026-05-04 (D-IH-55-G)".
+
+**Rationale:** The agent-derived traits faithfully extend the operator's supplied charter ("rigorous peer who removes uncertainty without performing expertise") and the three narrative pillars. Six weeks of dossier rendering against the existing [BRAND_VOICE_FOUNDATION.md](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_VOICE_FOUNDATION.md) (status: active since 2026-04-29) have not surfaced register conflicts. Continuing to mark them "pending operator review" understates the actual operator posture and blocks Wave-2 backfill validation paths from showing READY.
+
+**Reversibility:** High — the YAML comment is documentation-only; trait edits remain a single-PR change against this file with a corresponding decision-log update. `BRAND_VOICE_FOUNDATION.md` is not affected by this decision.
+
+**Cross-references:** rule [akos-planning-traceability.mdc](../../../../.cursor/rules/akos-planning-traceability.mdc) § Decision log; closes the Wave-2 voice-content cluster on the loop history (see master-roadmap).
+

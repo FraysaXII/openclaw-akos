@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **I55 D-IH-55-G Wave-2 brand voice operator-confirmed (2026-05-04)** — Wave-2 [`operator-answers-wave2.yaml`](docs/wip/planning/22a-i22-post-closure-followups/operator-answers-wave2.yaml) `brand_voice.voice_is` and `brand_voice.voice_is_not` traits (agent-derived from operator-supplied narrative pillars) accepted as canonical; YAML inline comments flipped from "operator review and refinement" to "operator-confirmed 2026-05-04 (D-IH-55-G)". `BRAND_VOICE_FOUNDATION.md` unchanged (status: active since 2026-04-29). `wave2_backfill.py --check-only` reports 0 pending leaves across 205. New decision-log entry [D-IH-55-G](docs/wip/planning/55-brand-ops-continuous-loop/decision-log.md) and Loop history bump in I55 [master-roadmap](docs/wip/planning/55-brand-ops-continuous-loop/master-roadmap.md). Closes the Wave-2 voice content cluster of OPS-55-1 (P1 Wave-2 Section 2 brand voice fill); P2-P5 of OPS-55-1 remain forwarded.
+
 ### Added
 
 - **Initiative 56 — First advisor response cycle bootstrap (2026-05-03)** — Closes the I50–I56 master-roadmap scaffolding line. Per the cycle-1 reframing this initiative ships **only P0 (governance scaffold)**; all execution phases P1–P8 are forwarded as **OPS-56-1** because they require the upstream G-24-3 fire (operator-only, IRREVERSIBLE per-fire) AND an actual advisor reply (external). AKOS does not synthesise replies, fabricate `POI-*` / `instrument_id` rows, or invent operator decisions — per AKOS doctrine §"Never invent HLK IDs locally" + D-IH-17. The honest cycle-1 posture is **rails-ready, awaiting first reply**.

@@ -147,3 +147,9 @@ I55 is **not** a one-shot "fire G-24-3 and close". It's a **continuous operating
 - Sending without operator hand-final-review (G-24-3 is per-fire IRREVERSIBLE).
 - Authoring brand voice from scratch (D-IH-17; we cite operator's lived protocols).
 - A one-shot send + close (the loop is the deliverable).
+
+## Loop history
+
+One-line ledger per material loop event (operator confirmations, dry-run regressions, send fires, threshold tunes). Cumulative log of cycles + silences lives at [`reports/loop-history.md`](reports/loop-history.md) per **D-IH-55-E**.
+
+- 2026-05-04: brand voice operator-confirmed (D-IH-55-G); Wave-2 voice content cluster closed.

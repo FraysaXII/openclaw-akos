@@ -220,8 +220,8 @@ brand_voice:
 
   voice_is:
     # 3 traits with a 1-line example each. Operator-supplied trait #1; #2 and #3
-    # derived from narrative pillars (Structure that scales / Plain words) for
-    # operator review and refinement.
+    # derived from narrative pillars (Structure that scales / Plain words);
+    # operator-confirmed 2026-05-04 (D-IH-55-G).
     - { trait: "Rigorous", example: "We base this decision on the 2026-04-01 fact pattern." }
     - { trait: "Structured", example: "Three options ranked by reversibility. Option A is recommended." }
     - { trait: "Plain", example: "We need to file the constitution before activating Stripe billing." }
@@ -229,7 +229,7 @@ brand_voice:
   voice_is_not:
     # 3 traits with one thing we'd refuse to say. Operator-supplied trait #1;
     # #2 and #3 are inverses of narrative pillars (Evidence over assertion /
-    # Plain words) for operator review and refinement.
+    # Plain words); operator-confirmed 2026-05-04 (D-IH-55-G).
     - { trait: "Performative", example: "We are delighted to announce our expert analysis." }
     - { trait: "Vague", example: "We feel this is the right approach overall." }
     - { trait: "Jargon-heavy (pretentious)", example: "Our holistic synergistic methodology paradigmatically de-risks the engagement." }
