@@ -1,6 +1,6 @@
 ---
 language: en
-status: active
+status: active-continuous-loop
 initiative: 55-brand-ops-continuous-loop
 report_kind: master-roadmap
 program_id: shared
@@ -13,7 +13,7 @@ last_review: 2026-05-03
 
 **Folder:** `docs/wip/planning/55-brand-ops-continuous-loop/`
 
-**Status:** Active (started 2026-05-03). I55 stays **Open** as a continuous loop after capability closure (D-IH-55-F).
+**Status:** **Loop tooling SHIPPED 2026-05-03 (P0 + P6 + P7 + P8).** I55 stays **Open as continuous loop** per **D-IH-55-F** — no fixed end date; revisit only if doctrine changes. Operator-content phases (P1–P5) deferred and forwarded as **OPS-55-1**. I24 master-roadmap stays **Open** (not Closed at capability) until P1–P5 land. See [`reports/uat-i55-loop-tooling-closure-2026-05-03.md`](reports/uat-i55-loop-tooling-closure-2026-05-03.md).
 
 **Authoritative Cursor plan:** `~/.cursor/plans/i50–i56_madeira_kb_completion_87cc767e.plan.md` §"Initiative 55".
 
