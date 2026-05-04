@@ -1,18 +1,18 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 45-live-eval-harness
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
-last_review: 2026-05-01
+last_review: 2026-05-04
 ---
 
 # Initiative 45 — Live Eval Harness Modernisation: 9-phase unification + cost + adversarial pass
 
 **Folder:** `docs/wip/planning/45-live-eval-harness/`
-**Status:** Open (started 2026-05-01)
+**Status:** **Closed (2026-05-04 via I57 P2)** — all 9 phases (P0–P8) PASS; closure UAT [`reports/uat-i45-live-eval-harness-2026-05-01.md`](reports/uat-i45-live-eval-harness-2026-05-01.md) declared closure 2026-05-01; status flipped after I57 P2 re-ran the verification matrix (134 / 134 I45 tests PASS in 21.11s; full sweep 1764 / 7 / 0). I57 P2 closeout: [`docs/wip/planning/57-cycle-closeout-live-validation/reports/p2-i45-closure-2026-05-04.md`](../57-cycle-closeout-live-validation/reports/p2-i45-closure-2026-05-04.md). Started 2026-05-01.
 **Authoritative Cursor plan:** `~/.cursor/plans/i45-i46_eval_and_neo4j_6a72e6d7.plan.md`
 **Predecessor:** [Initiative 10 — Madeira Eval Hardening](../10-madeira-eval-hardening/master-roadmap.md) (closed 2026-04-15) and [Initiative 32 P9 — Madeira eval canaries](../32-holistik-ops-maturation/reports/p9-madeira-eval-canaries-2026-04-30.md).
 **Sister initiative:** [Initiative 46 — Neo4j Strategic Posture](../46-neo4j-strategic-posture/master-roadmap.md) (parallel, converges at I45 P6).
