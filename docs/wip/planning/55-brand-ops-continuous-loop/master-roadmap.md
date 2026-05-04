@@ -153,3 +153,4 @@ I55 is **not** a one-shot "fire G-24-3 and close". It's a **continuous operating
 One-line ledger per material loop event (operator confirmations, dry-run regressions, send fires, threshold tunes). Cumulative log of cycles + silences lives at [`reports/loop-history.md`](reports/loop-history.md) per **D-IH-55-E**.
 
 - 2026-05-04: brand voice operator-confirmed (D-IH-55-G); Wave-2 voice content cluster closed.
+- 2026-05-04: first dry-run regression cycle (Tier-A replay 6/6 PASS + madeira snapshot dossier + first-cycle diff + dry-run propose) executed; baseline manifest established (D-IH-55-H). UAT: [`reports/uat-i55-dry-run-regression-cycle-20260504.md`](reports/uat-i55-dry-run-regression-cycle-20260504.md).

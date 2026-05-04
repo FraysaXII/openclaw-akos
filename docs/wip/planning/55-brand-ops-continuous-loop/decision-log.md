@@ -96,3 +96,15 @@ Six decisions seeded; operator-ratified at I50-I56 master-roadmap session 2026-0
 
 **Cross-references:** rule [akos-planning-traceability.mdc](../../../../.cursor/rules/akos-planning-traceability.mdc) § Decision log; closes the Wave-2 voice-content cluster on the loop history (see master-roadmap).
 
+---
+
+## D-IH-55-H — First dry-run regression cycle establishes baseline manifest
+
+**Decision (2026-05-04):** The dossier rendered at `artifacts/uat-dossier/uat-dossier-20260504T174458Z/` (filter=`madeira`, mode=`snapshot`, format=`all`) is recorded as the **baseline `manifest.json`** for future `regression_artifact_diff.py --last-sent <…>` invocations. The first-cycle `is_first_cycle: true` outcome is exactly the prototypical silence row contemplated by D-IH-55-E and the P6 first-cycle handling decision; `propose_advisor_update.py` correctly engaged the threshold parser, surfaced `should_propose: true` due to `min_files_changed=4` ≥ 2, and held the proposal in dry-run mode (no `proposal-advisor-send-2026-05-04.md` written).
+
+**Rationale:** The loop's value proposition only materializes when a `--last-sent` baseline exists; until then every cycle is a "first cycle" and the threshold logic engages on file-count alone. This dry-run produces the very first baseline candidate, unblocking the next cycle from starting against meaningful deltas. **The decision is purely operational** — no POLICY values or code change.
+
+**Reversibility:** High — re-running the dossier render at any point produces a new candidate baseline; the operator chooses which manifest is "last-sent" by passing it to `--last-sent` on the next diff invocation. The first-cycle threshold tuning candidate (raise `min_files_changed` to 999, or add `is_first_cycle` gating in `evaluate_thresholds`) is documented in the UAT report and deferred until at least one real-baseline cycle has run.
+
+**Cross-references:** [reports/uat-i55-dry-run-regression-cycle-20260504.md](reports/uat-i55-dry-run-regression-cycle-20260504.md) (the full evidence); D-IH-55-D (threshold defaults); D-IH-55-E (silence-is-also-signal telemetry); P6 + P7 closure reports for the underlying tooling.
+
