@@ -8,13 +8,14 @@ Migration **filename prefixes** must match the remote ledger (`schema_migrations
 
 | Migration file (this folder) | Staging source |
 |-----------------------------|----------------|
-| `20260418165339_i14_phase3_compliance_and_holistika_ops.sql` | `scripts/sql/i14_phase3_staging/20260417_i14_phase3_up.sql` |
+| `20260418165339_kirbe_monitoring_logs_retention.sql` | **reverse-imported 2026-05-04 (D-IH-OPS-3)** from remote `supabase_migrations.schema_migrations[20260418165339].statements`; body originally applied via Dashboard before this folder existed. Idempotent. |
 | `20260418183239_holistika_ops_lead_intake.sql` | `scripts/sql/i14_phase3_staging/20260418_holistika_ops_lead_intake_up.sql` |
 | `20260418193915_holistika_ops_lead_intake_captcha_columns.sql` | `scripts/sql/i14_phase3_staging/20260419_holistika_ops_lead_intake_captcha_columns_up.sql` |
 | `20260420202847_i16_finops_vendor_register_mirror.sql` | `scripts/sql/i16_phase3_staging/20260420_i16_finops_vendor_mirror_up.sql` |
 | `20260423014144_i18_finops_counterparty_mirror_cutover.sql` | `scripts/sql/i18_phase1_staging/20260423_i18_finops_counterparty_mirror_up.sql` |
 | `20260423014326_i19_finops_ledger_phase1.sql` | `scripts/sql/i19_phase1_staging/20260423_i19_finops_ledger_phase1_up.sql` |
 | `20260502140000_i48_dossier_run_mirror.sql` | Initiative 48 — net-new `compliance.dossier_run` append-only trend store (no staging duplicate) |
+| `20260503190000_i14_phase3_compliance_and_holistika_ops.sql` | `scripts/sql/i14_phase3_staging/20260417_i14_phase3_up.sql` — **renamed 2026-05-04 (D-IH-OPS-2)** from original `20260418165339_…`; that timestamp is now the reverse-imported kirbe-retention file. Idempotent reapply. |
 
 ## Pre-`db push` checklist (mandatory)
 
@@ -37,3 +38,10 @@ When Dashboard or break-glass applied migrations, the platform records **version
 5. Re-run `npx supabase migration list` until the matrix is clean, then proceed with normal `npx supabase db push` for **new** migrations only.
 
 **Large compliance mirror DML** (CSV → upserts) stays **out** of this folder—use `py scripts/verify.py compliance_mirror_emit` and operator-reviewed SQL batches (two-plane model).
+
+## Reconciliation log
+
+| Date | Decision | Action |
+|:---|:---|:---|
+| 2026-05-04 | D-IH-OPS-2 | Renamed `20260418165339_i14_phase3_compliance_and_holistika_ops.sql` → `20260503190000_i14_phase3_compliance_and_holistika_ops.sql` so the original timestamp could host the reverse-imported kirbe-retention body that lived on the remote ledger only. I14-phase-3 body is fully idempotent; reapply at the new tail timestamp produces zero schema delta. See [`docs/wip/planning/22a-i22-post-closure-followups/reports/sql-proposal-supabase-parity-20260504.md`](../../docs/wip/planning/22a-i22-post-closure-followups/reports/sql-proposal-supabase-parity-20260504.md). |
+| 2026-05-04 | D-IH-OPS-3 | Reverse-imported `kirbe.monitoring_logs_retention` body from remote `supabase_migrations.schema_migrations[20260418165339].statements` into new file `20260418165339_kirbe_monitoring_logs_retention.sql`. Idempotent. `supabase db push` will skip on the next push because remote already has the row at that version; git is now SSOT. |

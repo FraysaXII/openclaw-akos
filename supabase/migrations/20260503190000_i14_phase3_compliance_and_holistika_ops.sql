@@ -1,6 +1,17 @@
 -- Parity: scripts/sql/i14_phase3_staging/20260417_i14_phase3_up.sql
 -- Initiative 14 Phase 3 — compliance mirrors + holistika_ops (operator-approved)
 -- Idempotent where practical. See sql-proposal-stack-20260417.md §4–§6.
+--
+-- Reconciliation 2026-05-04 (D-IH-OPS-1 / D-IH-OPS-2):
+-- Originally landed at timestamp 20260418165339 in this folder; that ledger version
+-- on the remote (`supabase_migrations.schema_migrations`) was occupied by an
+-- unrelated `kirbe.monitoring_logs_retention` migration applied via Dashboard.
+-- The I14 phase 3 DDL itself was applied via Dashboard / break-glass without
+-- recording into the ledger. This file is renamed to a clean tail timestamp;
+-- every statement is idempotent (`IF NOT EXISTS` / `DROP POLICY IF EXISTS` /
+-- `GRANT`) so the next `supabase db push` re-applies safely with zero schema
+-- delta and the ledger gains the missing row. See
+-- docs/wip/planning/22a-i22-post-closure-followups/reports/sql-proposal-supabase-parity-20260504.md.
 
 CREATE SCHEMA IF NOT EXISTS compliance;
 COMMENT ON SCHEMA compliance IS 'HLK git-backed projections; SSOT remains docs/references/hlk/compliance/*.csv';
