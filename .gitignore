@@ -131,3 +131,6 @@ artifacts/endpoint-cost/*.json
 artifacts/endpoint-cost/*.md
 !artifacts/endpoint-cost/README.md
 
+# Initiative 54 OPS-54-1 live a11y audit detail dumps (per-run timestamped; regenerable via scripts/audit_a11y_live.py)
+artifacts/uat/i54-live-a11y/*/
+

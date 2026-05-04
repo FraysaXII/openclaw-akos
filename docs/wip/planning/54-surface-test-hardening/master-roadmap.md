@@ -6,14 +6,14 @@ report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
-last_review: 2026-05-03
+last_review: 2026-05-04
 ---
 
 # Initiative 54 — Surface test hardening (Playwright + axe-core)
 
 **Folder:** `docs/wip/planning/54-surface-test-hardening/`
 
-**Status:** **Closed (2026-05-03)** on the dispatcher-validation path. P0-P5 all executed; P6 closure UAT PASS (release-gate 8/8). Live axe-core audit forwarded as **OPS-54-1** to next operator-side `pip install -r requirements-dev.txt` + run cycle. I49 follow-up `OPS-49-craft-followups` (line 53 of impeccable critique) closes architecturally; live operator run is the residual cycle.
+**Status:** **Closed (2026-05-03 dispatcher-validation; OPS-54-1 closed 2026-05-04 live audit).** P0-P5 all executed; P6 closure UAT PASS (release-gate 8/8). **OPS-54-1 live audit** ran 2026-05-04 on Python 3.14.2 + Playwright 1.58.0 + axe-playwright-python 0.1.7 + msedge against `/madeira/control` — **0 Critical / 2 Serious / 0 Moderate / 0 Minor**; PASS per D-IH-54-A (Serious warn-only first cycle). Two findings recorded as residual fixes (`OPS-54-1.a` color-contrast, `OPS-54-1.b` keyboard scrollable region). See [reports/uat-i54-live-a11y-audit-20260504.md](reports/uat-i54-live-a11y-audit-20260504.md).
 
 **Authoritative Cursor plan:** `~/.cursor/plans/i50–i56_madeira_kb_completion_87cc767e.plan.md` §"Initiative 54".
 
