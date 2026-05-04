@@ -1,18 +1,18 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 32-holistik-ops-maturation
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
-last_review: 2026-04-30
+last_review: 2026-05-04
 ---
 
 # Initiative 32 — Holistik Ops Maturation: 15-phase production-readiness pass
 
 **Folder:** `docs/wip/planning/32-holistik-ops-maturation/`
-**Status:** Open (started 2026-04-30)
+**Status:** **Closed (2026-05-04 via I57 P3)** — all 15 phases (P0–P14) PASS; closure UAT [`reports/uat-i32-holistik-ops-maturation-2026-04-30.md`](reports/uat-i32-holistik-ops-maturation-2026-04-30.md) declared closure 2026-04-30; per-phase reports for P10-P13 added under I57 P3 ([P10 ERP handoff](reports/p10-erp-handoff-2026-05-04.md), [P11 boilerplate registration](reports/p11-boilerplate-reference-registration-2026-05-04.md), [P12 Madeira eval canaries cross-ref](reports/p12-madeira-eval-canaries-cross-ref-2026-05-04.md), [P13 WIP dashboard auto-render](reports/p13-wip-dashboard-auto-render-2026-05-04.md)); status flipped after I57 P3 re-ran the verification matrix (109+ I32 tests PASS in the 1764-test full sweep). I57 P3 closeout: [`docs/wip/planning/57-cycle-closeout-live-validation/reports/p3-i32-closure-2026-05-04.md`](../57-cycle-closeout-live-validation/reports/p3-i32-closure-2026-05-04.md). Started 2026-04-30.
 **Authoritative Cursor plan:** `~/.cursor/plans/i32_holistik_ops_maturation_a5099ce7.plan.md`
 **Predecessor:** [Initiative 31](../31-holistik-ops-discovery/master-roadmap.md) (Holistik Ops Discovery — 5-axis system).
 
