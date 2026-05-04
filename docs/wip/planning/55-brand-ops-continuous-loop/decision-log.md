@@ -68,4 +68,11 @@ Six decisions seeded; operator-ratified at I50-I56 master-roadmap session 2026-0
 
 ## Decisions made during execution
 
-(Will be appended as P0-P8 phases execute.)
+### P6 (2026-05-03) — Tooling shape decisions
+
+- **Diff record schema_version=1**, with five families (`cite_counts`, `scenario_deltas`, `judge_axes`, `endpoint_cost`, `brand_voice`) plus per-file sha256 status. Status vocabulary: `unchanged` / `changed` / `new` / `removed`. Numeric `delta` carried on `int|float` pairs only. Locked in tests.
+- **Section 03 + 04 merged for judge-axis diff** with Section 04 winning on overlap (`{**s03, **s04}`). Rationale: Section 04 (Persona library + calibration) carries the per-persona judge means in the I52 P6 dossier surface; Section 03 (Eval health) is currently a placeholder for many runs. Both are read so a future re-introduction of Section 03 means doesn't require re-coding the diff.
+- **First-cycle handling = silence by default; `--allow-first-cycle` opts in.** When the very first regression has no `last-sent` baseline, the diff record is generated but `propose_advisor_update.py` does not auto-propose. The operator must explicitly opt in to a first-send proposal via `--allow-first-cycle`. Symmetric with the silence-is-also-signal D-IH-55-E posture: the first cycle is the prototypical silence row in `loop-history.md`.
+- **`min_files_changed=2` added to the threshold POLICY's default token set** (D-IH-55-D defaults extended). Rationale: when no other axis moves but multiple dossier files have new sha256s, that is itself a material change worth a proposal review (e.g. major dossier-section refactor, brand-voice template overhaul). The operator can suppress by setting `min_files_changed=999` if undesired.
+- **SOP `status: review`** without a new `process_list.csv` row, because the SOP introduces no new `process_id` of its own — it codifies the loop *around* the existing `thi_mkt_prj_1` "Communication methodology" tranche. The named sub-tranche `thi_mkt_dtp_NN` for "Communication methodology maintenance" is still operator-pending (G-24-2 / OPS-55-1) and is referenced by the SOP, not invented inside it.
+

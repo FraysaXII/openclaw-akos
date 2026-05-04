@@ -244,6 +244,16 @@
         }
       ]
     },
+    "regression_loop_smoke": {
+      "description": "Initiative 55 P6: smoke run of the regression-to-advisor continuous loop tooling. Tier A only (no LLM cost; no SMTP). Verifies regression_artifact_diff.py + propose_advisor_update.py contracts, including the both-signal-and-silence telemetry path (D-IH-55-E). Does NOT fire G-24-3 (per-fire IRREVERSIBLE; operator-only).",
+      "steps": [
+        {
+          "id": "regression_loop_unit_tests",
+          "description": "Run tests/test_regression_artifact_diff.py + tests/test_propose_advisor_update.py (34 tests covering threshold parsing, evaluate, render, append, main).",
+          "argv": ["__pytest__", "tests/test_regression_artifact_diff.py", "tests/test_propose_advisor_update.py", "-v"]
+        }
+      ]
+    },
     "eval_harness_smoke": {
       "description": "Initiative 45 P6: pre_commit-eligible smoke run of the unified eval harness. Tier A only (deterministic; no LLM cost). Combines smoke + canary + rubric + replay + adversarial modes.",
       "steps": [
