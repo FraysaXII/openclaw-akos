@@ -53,6 +53,17 @@ VALID_POLICY_CLASSES: frozenset[str] = frozenset({
     # policy_text encodes the threshold (e.g., "min_consecutive_failures=3");
     # consumed by scripts/quarantine_scenario.py --auto-from-flake-history.
     "flake_threshold",
+    # I55 P7 (G-55-loop-1 + D-IH-55-D): material-change threshold for the
+    # regression-to-advisor continuous loop. policy_text encodes the
+    # operator-tuned thresholds as space/comma/semicolon-separated key=value
+    # tokens, e.g.:
+    #   "min_changed_scenarios=3 min_judge_axis_movement_pp=2
+    #    min_register_rows_added=1 min_files_changed=2"
+    # Consumed by scripts/propose_advisor_update.py to decide whether a
+    # regression cycle's diff warrants surfacing an advisor-send proposal.
+    # G-24-3 itself remains per-fire IRREVERSIBLE; this POLICY only governs
+    # *whether the loop proposes a send*, not whether the operator fires one.
+    "update_threshold",
 })
 
 VALID_CADENCES: frozenset[str] = frozenset({

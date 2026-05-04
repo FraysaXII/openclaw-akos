@@ -136,6 +136,49 @@ def test_seed_includes_brand_jargon_redaction(rows: list[dict]) -> None:
     assert any("BRAND_JARGON_AUDIT" in r["policy_text"] for r in reds)
 
 
+def test_seed_includes_i55_advisor_update_threshold(rows: list[dict]) -> None:
+    """I55 P7 (G-55-loop-1): material-change threshold POLICY for the
+    regression-to-advisor continuous loop. New policy_class=update_threshold;
+    the row's policy_text must encode the four well-known D-IH-55-D defaults
+    so scripts/propose_advisor_update.py can parse them."""
+    sys.path.insert(0, str(REPO_ROOT))
+    from akos.hlk_policy_register_csv import VALID_POLICY_CLASSES
+
+    assert "update_threshold" in VALID_POLICY_CLASSES, (
+        "update_threshold must be added to VALID_POLICY_CLASSES (I55 P7)"
+    )
+
+    update_thresholds = [r for r in rows if r["policy_class"] == "update_threshold"]
+    assert update_thresholds, "expected at least one update_threshold POLICY row (I55 P7)"
+
+    advisor = next(
+        (r for r in rows if r["policy_id"] == "POL-ADVISOR-UPDATE-MATERIAL-THRESHOLD-V1"),
+        None,
+    )
+    assert advisor is not None, "POL-ADVISOR-UPDATE-MATERIAL-THRESHOLD-V1 must exist"
+    text = advisor["policy_text"]
+    for token in (
+        "min_changed_scenarios=",
+        "min_judge_axis_movement_pp=",
+        "min_register_rows_added=",
+        "min_files_changed=",
+    ):
+        assert token in text, f"expected `{token}` in POL-ADVISOR-UPDATE-... policy_text"
+
+    sys.path.insert(0, str(REPO_ROOT / "scripts"))
+    import propose_advisor_update as paum  # type: ignore
+
+    parsed = paum._parse_policy_text(text)
+    for key in (
+        "min_changed_scenarios",
+        "min_judge_axis_movement_pp",
+        "min_register_rows_added",
+        "min_files_changed",
+    ):
+        assert key in parsed, f"propose_advisor_update parser must extract `{key}`"
+        assert isinstance(parsed[key], (int, float))
+
+
 def test_validator_script_exits_zero() -> None:
     r = subprocess.run(
         [sys.executable, str(VALIDATOR)],
