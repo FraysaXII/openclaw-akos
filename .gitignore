@@ -138,3 +138,6 @@ artifacts/endpoint-cost/*.md
 # Initiative 54 OPS-54-1 live a11y audit detail dumps (per-run timestamped; regenerable via scripts/audit_a11y_live.py)
 artifacts/uat/i54-live-a11y/*/
 
+# Initiative-tagged closure dossier artifacts (per-initiative timestamped; regenerable via scripts/render_uat_dossier.py with the matching --filter / --mode arguments)
+artifacts/dossier-i*/
+
