@@ -181,7 +181,7 @@ def test_madeira_control_no_blocking_alert_for_axe_keyboard_trap(html_text: str)
     assert "alert(" not in html_text
 
 
-# ---- 3. I57 P1 — OPS-54-1.a regression lock ----------------------------------
+# ---- 3. I57 P1 — OPS-54-1.a + OPS-54-1.b regression locks --------------------
 
 
 def test_i57_locale_buttons_have_explicit_high_contrast_styling(html_text: str) -> None:
@@ -194,4 +194,22 @@ def test_i57_locale_buttons_have_explicit_high_contrast_styling(html_text: str) 
     assert ".locale button { color: var(--ink); border-color: var(--ink-2); }" in html_text, (
         "OPS-54-1.a regression: the explicit `.locale button` color + border rule is missing; "
         "axe-core color-contrast (WCAG 1.4.3) Serious finding will return"
+    )
+
+
+def test_i57_handoff_example_is_keyboard_focusable(html_text: str) -> None:
+    """OPS-54-1.b (closes I54 audit F-2) — ``#handoff-example`` is a scrollable
+    ``<pre>`` region and must be reachable by keyboard (axe rule
+    ``scrollable-region-focusable``, WCAG 2.1.1 + 2.1.3).
+
+    The fix is ``tabindex="0"`` on the ``<pre id="handoff-example">`` element
+    plus an ``aria-label`` describing the region.
+    """
+    assert 'id="handoff-example" tabindex="0"' in html_text, (
+        "OPS-54-1.b regression: scrollable region #handoff-example must carry tabindex=0 "
+        "or axe scrollable-region-focusable (WCAG 2.1.1 + 2.1.3) Serious finding will return"
+    )
+    assert 'aria-label="Madeira plan handoff schema example (scrollable)"' in html_text, (
+        "OPS-54-1.b regression: keyboard-focusable scrollable region should expose an "
+        "aria-label so screen readers announce its purpose"
     )
