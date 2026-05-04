@@ -48,8 +48,8 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **29** | [`29-multi-phase-consolidation/`](29-multi-phase-consolidation/) | : In execution | — | Initiative 29 — Multi-phase consolidation (visual fixes, design governance, Impeccable,... |
 | **30** | [`30-deck-moat-surgery/`](30-deck-moat-surgery/) | Open (started 2026-04-30) | — | Initiative 30 — Deck moat surgery: MADEIRA, joint-equity, governance metrics |
 | **31** | [`31-holistik-ops-discovery/`](31-holistik-ops-discovery/) | Open (started 2026-04-30) | — | Initiative 31 — Holistik Ops Discovery: 5-axis operating system for human interactions |
-| **32** | [`32-holistik-ops-maturation/`](32-holistik-ops-maturation/) | Open (started 2026-04-30) | 2026-04-30 | Initiative 32 — Holistik Ops Maturation: 15-phase production-readiness pass |
-| **45** | [`45-live-eval-harness/`](45-live-eval-harness/) | Open (started 2026-05-01) | 2026-05-01 | Initiative 45 — Live Eval Harness Modernisation: 9-phase unification + cost + adversari... |
+| **32** | [`32-holistik-ops-maturation/`](32-holistik-ops-maturation/) | **Closed (2026-05-04 via I57 P3)** — all 15 phases (P0–P14) PASS; closure UAT... | 2026-05-04 | Initiative 32 — Holistik Ops Maturation: 15-phase production-readiness pass |
+| **45** | [`45-live-eval-harness/`](45-live-eval-harness/) | **Closed (2026-05-04 via I57 P2)** — all 9 phases (P0–P8) PASS; closure UAT [... | 2026-05-04 | Initiative 45 — Live Eval Harness Modernisation: 9-phase unification + cost + adversari... |
 | **46** | [`46-neo4j-strategic-posture/`](46-neo4j-strategic-posture/) | **Closed (2026-05-03)** via [Initiative 53 — GraphRAG PoC closure](../53-grap... | 2026-05-03 | Initiative 46 — Neo4j Strategic Posture: doctrine + GraphRAG PoC + agent memory ADR |
 | **47** | [`47-user-centric-uat/`](47-user-centric-uat/) | Closed (2026-05-02; all 16 phases shipped; 134 new tests; 326 scenarios; UAT ... | 2026-05-02 | Initiative 47 — User-centric UAT modernisation |
 | **48** | [`48-operator-dossier/`](48-operator-dossier/) | Closed (2026-05-02) | 2026-05-02 | Initiative 48 — Operator-facing UAT Dossier |
@@ -61,6 +61,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **54** | [`54-surface-test-hardening/`](54-surface-test-hardening/) | **Closed (2026-05-03 dispatcher-validation; OPS-54-1 closed 2026-05-04 live a... | 2026-05-04 | Initiative 54 — Surface test hardening (Playwright + axe-core) |
 | **55** | [`55-brand-ops-continuous-loop/`](55-brand-ops-continuous-loop/) | **Loop tooling SHIPPED 2026-05-03 (P0 + P6 + P7 + P8).** I55 stays **Open as ... | 2026-05-03 | Initiative 55 — Brand/Ops continuous improvement loop + advisor-update triggers (closes... |
 | **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | **Bootstrapped 2026-05-03 (P0 only).** All phases P1–P8 are forwarded as **OP... | 2026-05-03 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
+| **57** | [`57-cycle-closeout-live-validation/`](57-cycle-closeout-live-validation/) | Closed engineering side 2026-05-04 via [UAT-I57-2026-05-04](reports/uat-i57-c... | 2026-05-04 | Initiative 57 — Cycle closeout + first live-validation window |
 <!-- END AUTO -->
 
 ## Re-render contract
