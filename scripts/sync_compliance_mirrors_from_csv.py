@@ -382,21 +382,39 @@ def _emit_channel_touchpoint_registry_upserts(rows: list[dict[str, str]], source
 
 
 def _emit_sourcing_register_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
-    """Initiative 31 P5.2 mirror upsert emitter for compliance.sourcing_register_mirror."""
+    """Initiative 31 P5.2 mirror upsert emitter for compliance.sourcing_register_mirror.
+
+    I57 P1 (closes I22a F-22a-EMIT-1): empty CSV cells for DATE columns are
+    emitted as ``NULL`` instead of ``''``. PostgreSQL rejects the empty-string
+    literal for DATE/TIMESTAMP types (22007 invalid_datetime_format); the
+    ``last_engagement_date`` column is the canonical occurrence and was the
+    real-world cell that broke during the 2026-05-04 mirror reseed (see
+    ``docs/wip/planning/22a-i22-post-closure-followups/master-roadmap.md``
+    Open follow-ups). Same idiom as ``_emit_persona_scenario_registry_upserts``
+    ``nullable_when_blank``. If more DATE/TIMESTAMP columns are added to
+    SOURCING_REGISTER in future initiatives, extend ``DATE_COLUMNS``.
+    """
     cols_csv = ", ".join(SOURCING_REGISTER_FIELDNAMES)
     cols_full = cols_csv + ", source_git_sha, synced_at"
     update_sets = ", ".join(
         [f"{c} = EXCLUDED.{c}" for c in SOURCING_REGISTER_FIELDNAMES]
         + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
     )
+    DATE_COLUMNS = {"last_engagement_date"}  # I57 P1 — F-22a-EMIT-1 fix
     out: list[str] = []
-    out.append("-- compliance.sourcing_register_mirror upserts (Initiative 31)")
+    out.append("-- compliance.sourcing_register_mirror upserts (Initiative 31 + I57 P1 DATE-NULL fix)")
     for r in rows:
-        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in SOURCING_REGISTER_FIELDNAMES)
-        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
         vid = (r.get("vendor_id") or "").strip()
         if not vid:
             continue
+        row_vals: list[str] = []
+        for c in SOURCING_REGISTER_FIELDNAMES:
+            raw = (r.get(c) or "").strip()
+            if c in DATE_COLUMNS and not raw:
+                row_vals.append("NULL")
+            else:
+                row_vals.append(_sql_text_literal(raw))
+        vals_full = ", ".join(row_vals) + f", {_sql_text_literal(source_git_sha)}, now()"
         out.append(
             f"INSERT INTO compliance.sourcing_register_mirror ({cols_full}) VALUES ({vals_full}) "
             f"ON CONFLICT (vendor_id) DO UPDATE SET {update_sets};"

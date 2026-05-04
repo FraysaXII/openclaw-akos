@@ -8,6 +8,11 @@ import tempfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.sync_compliance_mirrors_from_csv import (  # noqa: E402
+    _emit_sourcing_register_upserts,
+)
 
 
 def test_sync_compliance_mirrors_count_only() -> None:
@@ -165,3 +170,67 @@ def test_sync_persona_scenario_registry_only_sql() -> None:
         if line.startswith("INSERT INTO compliance.persona_scenario_registry_mirror")
     )
     assert insert_count == 329, f"expected 329 INSERT rows, got {insert_count}"
+
+
+# ---------------------------------------------------------------------------
+# I57 P1 — F-22a-EMIT-1 regression tests
+#
+# Closes the I22a Open follow-up F-22a-EMIT-1 documented at
+# ``docs/wip/planning/22a-i22-post-closure-followups/master-roadmap.md``.
+# The defect was observed during the 2026-05-04 Supabase MasterData parity
+# reconciliation; it was patched in-batch on the apply side and now ships as
+# an upstream fix in ``sync_compliance_mirrors_from_csv``.
+# ---------------------------------------------------------------------------
+
+
+def test_i57_emit_sourcing_register_empty_date_emits_null() -> None:
+    """F-22a-EMIT-1 — empty DATE cell must emit NULL, not '' (22007 invalid_datetime_format)."""
+    rows = [
+        {
+            "vendor_id": "vendor_with_empty_date",
+            "discipline": "design",
+            "engagement_type": "fractional",
+            "languages_supported": "en",
+            "timezone_band": "europe",
+            "hourly_rate_band": "mid",
+            "quality_band": "trial",
+            "distance_band_at_first_contact": "warm",
+            "current_distance_band": "warm",
+            "last_engagement_date": "",  # the defect cell
+            "linked_topic_ids": "",
+            "notes": "",
+        },
+    ]
+    sql_lines = _emit_sourcing_register_upserts(rows, source_git_sha="abc1234")
+    insert_lines = [line for line in sql_lines if line.startswith("INSERT INTO")]
+    assert len(insert_lines) == 1, "expected one INSERT for one row"
+    insert = insert_lines[0]
+    # The empty DATE cell must serialize as the NULL keyword, never as ''.
+    assert ", NULL," in insert, f"expected NULL for empty last_engagement_date in: {insert}"
+    # Defensively: there should be no '' (empty TEXT literal) for the DATE column.
+    # The source_git_sha and other empty TEXT cells legitimately use '' so we
+    # only check the column's positional slot.
+    assert "''" in insert  # other empty TEXT cells (linked_topic_ids, notes) do use ''
+
+
+def test_i57_emit_sourcing_register_filled_date_round_trips() -> None:
+    """F-22a-EMIT-1 sanity — non-empty DATE cell still serializes as a TEXT literal."""
+    rows = [
+        {
+            "vendor_id": "vendor_with_real_date",
+            "discipline": "design",
+            "engagement_type": "fractional",
+            "languages_supported": "en",
+            "timezone_band": "europe",
+            "hourly_rate_band": "mid",
+            "quality_band": "trial",
+            "distance_band_at_first_contact": "warm",
+            "current_distance_band": "warm",
+            "last_engagement_date": "2026-04-15",  # populated cell
+            "linked_topic_ids": "",
+            "notes": "",
+        },
+    ]
+    sql_lines = _emit_sourcing_register_upserts(rows, source_git_sha="abc1234")
+    insert = next(line for line in sql_lines if line.startswith("INSERT INTO"))
+    assert "'2026-04-15'" in insert, f"expected populated DATE to round-trip in: {insert}"
