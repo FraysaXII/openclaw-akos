@@ -60,6 +60,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **53** | [`53-graphrag-poc-closure/`](53-graphrag-poc-closure/) | **Closed (2026-05-03)** on the no-ship path. P0-P2 audit + P3 NO-FIRE governa... | 2026-05-03 | Initiative 53 — GraphRAG PoC closure (closes I46 P3-P7) |
 | **54** | [`54-surface-test-hardening/`](54-surface-test-hardening/) | **Closed (2026-05-03)** on the dispatcher-validation path. P0-P5 all executed... | 2026-05-03 | Initiative 54 — Surface test hardening (Playwright + axe-core) |
 | **55** | [`55-brand-ops-continuous-loop/`](55-brand-ops-continuous-loop/) | **Loop tooling SHIPPED 2026-05-03 (P0 + P6 + P7 + P8).** I55 stays **Open as ... | 2026-05-03 | Initiative 55 — Brand/Ops continuous improvement loop + advisor-update triggers (closes... |
+| **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | **Bootstrapped 2026-05-03 (P0 only).** All phases P1–P8 are forwarded as **OP... | 2026-05-03 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
 <!-- END AUTO -->
 
 ## Re-render contract
