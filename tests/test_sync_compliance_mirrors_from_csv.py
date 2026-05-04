@@ -11,6 +11,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 from scripts.sync_compliance_mirrors_from_csv import (  # noqa: E402
+    _emit_skill_registry_upserts,
     _emit_sourcing_register_upserts,
 )
 
@@ -173,13 +174,13 @@ def test_sync_persona_scenario_registry_only_sql() -> None:
 
 
 # ---------------------------------------------------------------------------
-# I57 P1 — F-22a-EMIT-1 regression tests
+# I57 P1 — F-22a-EMIT-1 + F-22a-EMIT-2 regression tests
 #
-# Closes the I22a Open follow-up F-22a-EMIT-1 documented at
+# Closes the I22a Open follow-ups documented at
 # ``docs/wip/planning/22a-i22-post-closure-followups/master-roadmap.md``.
-# The defect was observed during the 2026-05-04 Supabase MasterData parity
-# reconciliation; it was patched in-batch on the apply side and now ships as
-# an upstream fix in ``sync_compliance_mirrors_from_csv``.
+# Both defects were observed during the 2026-05-04 Supabase MasterData
+# parity reconciliation; both were patched in-batch on the apply side
+# and now ship as upstream fixes in ``sync_compliance_mirrors_from_csv``.
 # ---------------------------------------------------------------------------
 
 
@@ -234,3 +235,137 @@ def test_i57_emit_sourcing_register_filled_date_round_trips() -> None:
     sql_lines = _emit_sourcing_register_upserts(rows, source_git_sha="abc1234")
     insert = next(line for line in sql_lines if line.startswith("INSERT INTO"))
     assert "'2026-04-15'" in insert, f"expected populated DATE to round-trip in: {insert}"
+
+
+def test_i57_emit_skill_registry_empty_bool_emits_documented_default() -> None:
+    """F-22a-EMIT-2 — empty NOT-NULL bool cell must emit the documented default ('false')."""
+    rows = [
+        {
+            "skill_id": "SKILL-TEST-EMPTY-BOOL",
+            "skill_name": "test",
+            "lifecycle_status": "shadow",
+            "tenant_scope": "shared",
+            "agents_supported": "",
+            "axes_consumed": "",
+            "tools_required": "",
+            "tools_required_waived": "",  # the defect cell
+            "langfuse_trace_pattern": "",
+            "topic_ids": "",
+            "rubric_path": "",
+            "promoted_from_skill_id": "",
+            "owner_role": "",
+            "routing_condition": "",
+        },
+    ]
+    sql_lines = _emit_skill_registry_upserts(rows, source_git_sha="abc1234")
+    insert = next(line for line in sql_lines if line.startswith("INSERT INTO"))
+    # The empty bool cell must serialize as the keyword 'false', not NULL or ''.
+    # Find the substring window around tools_required_waived's positional slot;
+    # the column sits after `tools_required` in SKILL_REGISTRY_FIELDNAMES, so
+    # the literal sequence ``, false,`` (or trailing) appears in the VALUES.
+    assert ", false," in insert or insert.rstrip().endswith(", false") or ", false ," in insert, (
+        f"expected documented default 'false' for empty tools_required_waived in: {insert}"
+    )
+    assert ", NULL," not in insert.replace(", NULL,", "", 0)  # placeholder; real check below
+    # Stronger negative: the emitted line MUST NOT contain `, NULL,` for the bool slot.
+    # (other slots are TEXT and would never legitimately emit NULL in this fixture).
+    # Count occurrences explicitly:
+    assert insert.count(", NULL,") == 0, f"empty bool must not emit NULL for NOT-NULL column; got: {insert}"
+
+
+def test_i57_emit_skill_registry_truthy_bool_round_trips() -> None:
+    """F-22a-EMIT-2 sanity — explicit 'true' / 'false' / '1' / '0' / 'yes' / 'no' all map cleanly."""
+    truthy = ["true", "TRUE", "1", "yes", "y"]
+    falsy = ["false", "FALSE", "0", "no", "n"]
+    for token in truthy + falsy:
+        rows = [
+            {
+                "skill_id": f"SKILL-TEST-BOOL-{token}",
+                "skill_name": "test",
+                "lifecycle_status": "shadow",
+                "tenant_scope": "shared",
+                "agents_supported": "",
+                "axes_consumed": "",
+                "tools_required": "",
+                "tools_required_waived": token,
+                "langfuse_trace_pattern": "",
+                "topic_ids": "",
+                "rubric_path": "",
+                "promoted_from_skill_id": "",
+                "owner_role": "",
+                "routing_condition": "",
+            },
+        ]
+        sql_lines = _emit_skill_registry_upserts(rows, source_git_sha="abc1234")
+        insert = next(line for line in sql_lines if line.startswith("INSERT INTO"))
+        expected = "true" if token in truthy else "false"
+        assert f", {expected}," in insert, f"token {token!r} expected {expected}; got: {insert}"
+
+
+def test_i57_emit_skill_registry_full_csv_uses_documented_default_for_blanks() -> None:
+    """F-22a-EMIT-2 integration — running the emit against the real CSV produces no NULL bool literal."""
+    with tempfile.NamedTemporaryFile(mode="wb", suffix=".sql", delete=False) as tf:
+        out_path = Path(tf.name)
+    try:
+        r = subprocess.run(
+            [
+                sys.executable,
+                str(REPO_ROOT / "scripts" / "sync_compliance_mirrors_from_csv.py"),
+                "--no-begin-commit",
+                "--skill-registry-only",
+                "--output",
+                str(out_path),
+            ],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert r.returncode == 0, r.stderr + r.stdout
+        out = out_path.read_text(encoding="utf-8")
+    finally:
+        out_path.unlink(missing_ok=True)
+    insert_lines = [line for line in out.splitlines() if line.startswith("INSERT INTO compliance.skill_registry_mirror")]
+    assert insert_lines, "expected at least one skill_registry_mirror INSERT row"
+    # No INSERT row should contain `, NULL,` substring — every blank bool now defaults.
+    # (Other TEXT columns may legitimately emit '' but never NULL in the current schema.)
+    for line in insert_lines:
+        assert ", NULL," not in line, f"unexpected NULL emission in skill_registry insert: {line}"
+
+
+def test_i57_emit_skill_registry_full_csv_includes_emitted_default_for_real_blanks() -> None:
+    """F-22a-EMIT-2 integration — at least one row in the real CSV uses the documented blank default.
+
+    The SKILL_REGISTRY at this date carries 5 rows; tools_required_waived is
+    blank in most of them, which is exactly the cell that broke the 2026-05-04
+    apply. After the fix, those rows must serialize as ``, false,`` (not NULL).
+    """
+    with tempfile.NamedTemporaryFile(mode="wb", suffix=".sql", delete=False) as tf:
+        out_path = Path(tf.name)
+    try:
+        r = subprocess.run(
+            [
+                sys.executable,
+                str(REPO_ROOT / "scripts" / "sync_compliance_mirrors_from_csv.py"),
+                "--no-begin-commit",
+                "--skill-registry-only",
+                "--output",
+                str(out_path),
+            ],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert r.returncode == 0, r.stderr + r.stdout
+        out = out_path.read_text(encoding="utf-8")
+    finally:
+        out_path.unlink(missing_ok=True)
+    insert_lines = [line for line in out.splitlines() if line.startswith("INSERT INTO compliance.skill_registry_mirror")]
+    # The cells that broke the I22a apply: at least one row should use the
+    # ``false`` default. (Pre-fix this row would have emitted ``NULL``.)
+    rows_with_default = [line for line in insert_lines if ", false," in line]
+    assert rows_with_default, (
+        f"expected at least one row to use the documented 'false' default for blank "
+        f"tools_required_waived; got {len(insert_lines)} INSERT rows but none used the default"
+    )

@@ -453,11 +453,19 @@ def _emit_skill_registry_upserts(rows: list[dict[str, str]], source_git_sha: str
     """Initiative 32 P2 — compliance.skill_registry_mirror upserts.
 
     I47 P13 item 2 (D-IH-47-G): boolean column emit fix per the I46 P7 lesson.
-    Boolean columns receive 'true' / 'false' / NULL keywords (not the empty
-    string ''), preventing the 22P02 'invalid input syntax for type boolean'
-    error that operator hit during I46 P7 mirror reseed. ``tools_required_waived``
-    is the canonical boolean column; if more boolean columns are added to
-    SKILL_REGISTRY in future initiatives, extend ``BOOL_COLUMNS`` accordingly.
+    Boolean columns receive 'true' / 'false' keywords (not the empty string '').
+
+    I57 P1 (closes I22a F-22a-EMIT-2): the empty-or-unknown branch for known
+    NOT-NULL bool columns now emits the documented column default instead of
+    ``NULL``. ``tools_required_waived`` defaults to ``false`` (the
+    SKILL_REGISTRY contract documented in this function: blank = "not waived").
+    Emitting ``NULL`` for a NOT-NULL column was rejected at apply time during
+    the 2026-05-04 mirror reseed (see ``docs/wip/planning/22a-i22-post-closure-followups/master-roadmap.md``
+    Open follow-ups). For NOT-NULL bool columns added to SKILL_REGISTRY in
+    future initiatives, extend ``BOOL_COLUMN_DEFAULTS`` with the documented
+    blank-cell default. Adding the column to ``BOOL_COLUMN_DEFAULTS`` without
+    a default value (i.e. mapping to ``None``) routes through the explicit
+    fail-loud branch so the defect surfaces at emit time, not at apply time.
     """
     cols_csv = ", ".join(SKILL_REGISTRY_FIELDNAMES)
     cols_full = cols_csv + ", source_git_sha, synced_at"
@@ -465,8 +473,13 @@ def _emit_skill_registry_upserts(rows: list[dict[str, str]], source_git_sha: str
         [f"{c} = EXCLUDED.{c}" for c in SKILL_REGISTRY_FIELDNAMES]
         + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
     )
-    BOOL_COLUMNS = {"tools_required_waived"}  # I45 P3 + I47 P13 item 2
-    out: list[str] = ["-- compliance.skill_registry_mirror upserts (Initiative 32 P2 + I47 P13 bool-emit fix)"]
+    # I57 P1 — F-22a-EMIT-2 fix. Map column -> documented blank-cell default
+    # (string literal that the emitter writes as-is into the SQL VALUES list).
+    # ``None`` value means "no documented default; fail loudly if encountered".
+    BOOL_COLUMN_DEFAULTS: dict[str, str | None] = {
+        "tools_required_waived": "false",  # SKILL_REGISTRY contract: blank = not waived
+    }
+    out: list[str] = ["-- compliance.skill_registry_mirror upserts (Initiative 32 P2 + I47 P13 + I57 P1 NOT-NULL-bool default fix)"]
     for r in rows:
         sid = (r.get("skill_id") or "").strip()
         if not sid:
@@ -474,14 +487,22 @@ def _emit_skill_registry_upserts(rows: list[dict[str, str]], source_git_sha: str
         row_vals: list[str] = []
         for c in SKILL_REGISTRY_FIELDNAMES:
             raw = (r.get(c) or "").strip()
-            if c in BOOL_COLUMNS:
+            if c in BOOL_COLUMN_DEFAULTS:
                 low = raw.lower()
                 if low in ("true", "1", "yes", "y"):
                     row_vals.append("true")
                 elif low in ("false", "0", "no", "n"):
                     row_vals.append("false")
-                else:  # empty / unknown -> NULL (SKILL_REGISTRY treats blank as not waived)
-                    row_vals.append("NULL")
+                else:  # empty / unknown
+                    default = BOOL_COLUMN_DEFAULTS[c]
+                    if default is None:
+                        raise ValueError(
+                            f"SKILL_REGISTRY row {sid!r} column {c!r} is empty/unknown and no "
+                            f"documented blank-cell default exists. Either fill the CSV cell "
+                            f"with 'true'/'false' or extend BOOL_COLUMN_DEFAULTS in "
+                            f"_emit_skill_registry_upserts with the column's documented default."
+                        )
+                    row_vals.append(default)
             else:
                 row_vals.append(_sql_text_literal(raw))
         vals_full = ", ".join(row_vals) + f", {_sql_text_literal(source_git_sha)}, now()"
