@@ -49,6 +49,8 @@ OpenCLAW-AKOS transforms a vanilla OpenCLAW deployment into an **Agentic Knowled
 
 The system supports three deployment environments -- local dev (Ollama), remote GPU (RunPod vLLM), and cloud APIs (OpenAI/Anthropic) -- switchable with a single command.
 
+**See also:** [`guides/akos_content_navigator.md`](guides/akos_content_navigator.md) — one-screen index of where to find live prompts, answers, test content, and status surfaces (dossier console, both gateways, WIP dashboard, scenario CSV, cassettes, brand SSOT, decision logs).
+
 ---
 
 ## 2. Prerequisites
