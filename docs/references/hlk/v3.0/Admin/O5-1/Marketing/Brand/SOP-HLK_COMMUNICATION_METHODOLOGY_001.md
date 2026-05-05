@@ -15,7 +15,7 @@ artifact_role: canonical
 intellectual_kind: methodology_map
 related_process_ids:
   - thi_mkt_prj_1
-  - thi_mkt_dtp_NN_communication_methodology_maintenance
+  - thi_mkt_dtp_293
 authority: Initiative 24 P1 + Wave-2 plan §"D-IH-10"
 last_review: 2026-04-29
 ---
@@ -121,7 +121,7 @@ The composer (`scripts/compose_adviser_message.py`, Initiative 24 P4) automates 
 
 | Gate | When | What |
 |:----:|:-----|:-----|
-| **G-24-2** | This SOP lands | `process_list.csv` named tranche `thi_mkt_dtp_NN` "Communication methodology maintenance" under `thi_mkt_prj_1`. |
+| **G-24-2** | This SOP lands | `process_list.csv` named tranche `thi_mkt_dtp_293` "Communication methodology maintenance" under `thi_mkt_prj_1` (merged 2026-04-29; G-24-2 satisfied at the row-creation level — flip of this SOP from `status: review` → `status: active` remains operator-gated per Brand Manager sign-off). |
 | **G-24-3** | Real adviser email send | **IRREVERSIBLE.** Pre-flight checklist (off-repo recipient resolved, sharing-label gate green, discipline-lens match, brand voice match per `BRAND_REGISTER_MATRIX.md`, archive copy committed, `.gitignore` review, SMTP `Sent` timestamp captured, founder sign-off in YAML Section 5). |
 
 ## 6. Drift detection
