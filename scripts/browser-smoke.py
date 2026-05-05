@@ -828,6 +828,15 @@ def _check_axe_for_url(page, scenario_id: str, url_path: str, axe_runner) -> dic
         res = page.goto(full_url, wait_until="domcontentloaded", timeout=15000)
         if res and res.status != 200:
             return {"scenario": scenario_id, "status": "FAIL", "detail": f"HTTP {res.status} on {full_url}"}
+        # I57 P6 follow-up — let the page's bootstrap JS settle before injecting
+        # axe-core. Without this, on Python 3.14 free-threaded builds + Windows
+        # msedge, axe can be invoked while the locale-detection / aria-pressed
+        # initialisation is still in-flight, producing a non-deterministic
+        # "1 Serious color-contrast" phantom finding even on pages that pass a
+        # cold sync_playwright + Axe inspection. The 500ms wait is small enough
+        # to be invisible in the smoke-test budget and stops a flaky-failure
+        # vector that already cost a P6 OPS-54-1.c follow-up cycle to diagnose.
+        page.wait_for_timeout(500)
         report = axe_runner.run(page)  # type: ignore[union-attr]
         violations = getattr(report, "violations", None) or report.response.get("violations", []) or []
         counts = _summarise_axe_violations(violations)

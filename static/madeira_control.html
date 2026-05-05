@@ -13,7 +13,18 @@
       --surface-2: oklch(96% 0.02 var(--brand-h));
       --ink: oklch(22% 0.04 var(--brand-h));
       --ink-2: oklch(40% 0.03 var(--brand-h));
-      --accent: oklch(56% 0.16 var(--brand-h));
+      /* I57 P6 follow-up / OPS-54-1.c — light-mode --accent deepened from
+         oklch(56%) to oklch(48%) so the active aria-pressed="true" state of
+         the locale switcher buttons clears the WCAG 1.4.3 4.5:1 contrast
+         boundary against --accent-ink (oklch 99%) in light mode. The previous
+         oklch(56%) value sat at the boundary and produced a residual
+         axe-core color-contrast Serious finding even after OPS-54-1.a hardened
+         the inactive state. The deepening also benefits the generic active
+         button state (#btn-ask aria-pressed="true"), the hover border color,
+         and link colour without affecting brand identity (same hue 215, same
+         chroma 0.16). Dark-mode --accent at line ~31 unchanged because dark-
+         mode contrast was already passing. */
+      --accent: oklch(48% 0.16 var(--brand-h));
       --accent-ink: oklch(99% 0 var(--brand-h));
       --line: oklch(82% 0.02 var(--brand-h));
       --ring: oklch(58% 0.18 var(--brand-h));

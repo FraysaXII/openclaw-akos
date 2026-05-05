@@ -213,3 +213,21 @@ def test_i57_handoff_example_is_keyboard_focusable(html_text: str) -> None:
         "OPS-54-1.b regression: keyboard-focusable scrollable region should expose an "
         "aria-label so screen readers announce its purpose"
     )
+
+
+def test_i57_p6_followup_light_mode_accent_is_deepened_for_wcag_contrast(html_text: str) -> None:
+    """OPS-54-1.c — the light-mode ``--accent`` must be deepened to oklch(48%)
+    so the active ``aria-pressed="true"`` state on locale buttons clears the
+    WCAG 1.4.3 4.5:1 contrast boundary against ``--accent-ink`` (oklch 99%).
+
+    The previous ``oklch(56%)`` value sat at the boundary and produced a
+    residual axe-core color-contrast Serious finding even after OPS-54-1.a
+    hardened the inactive state. This regression lock asserts the deepened
+    value is present in the light-mode ``:root`` block.
+    """
+    assert "--accent: oklch(48% 0.16 var(--brand-h));" in html_text, (
+        "OPS-54-1.c regression: light-mode --accent must be oklch(48%) (deepened from "
+        "oklch(56%)) or the active locale button color-contrast Serious finding will return"
+    )
+    # Dark-mode --accent at oklch(70%) was already passing and stays untouched;
+    # this test does NOT lock the dark-mode value (out of scope for OPS-54-1.c).
