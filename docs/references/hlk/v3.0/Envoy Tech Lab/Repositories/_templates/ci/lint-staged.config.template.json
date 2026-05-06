@@ -1,0 +1,13 @@
+{
+  "_comment": "AKOS template — lint-staged config for {{REPO_SLUG}}. Rendered by bless when stack=node.",
+  "*.{ts,tsx,js,jsx,mjs,cjs}": [
+    "eslint --fix",
+    "prettier --write"
+  ],
+  "*.{json,md,mdx,yaml,yml,css,scss}": [
+    "prettier --write"
+  ],
+  "*.{ts,tsx}": [
+    "bash -c 'tsc --noEmit'"
+  ]
+}

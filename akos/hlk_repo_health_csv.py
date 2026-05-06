@@ -29,5 +29,12 @@ REPO_HEALTH_SNAPSHOT_FIELDNAMES: tuple[str, ...] = (
     "language_frontmatter_compliance_pct",    # float in [0.0, 100.0]; only on .md files
     "brand_jargon_violations",                # int (informational; per BRAND_JARGON_AUDIT.md §4)
     "embedded_obsidian_snapshot_present",     # true | false (boilerplate-specific)
+    # CI/CD posture columns (Track G — bless pattern):
+    "ci_workflow_present",                    # true | false (.github/workflows/ci.yml exists)
+    "dependabot_present",                     # true | false (.github/dependabot.yml exists)
+    "codeowners_present",                     # true | false (.github/CODEOWNERS exists)
+    "license_present",                        # true | false (LICENSE | LICENSE.md | LICENSE.txt at root)
+    "akos_mirror_sha256_match",               # true | false (sha256 vs AKOS template; '' when N/A)
+    "secret_rotation_oldest_age_days",        # int days (0 if no runbook); -1 when unknown
     "notes",
 )

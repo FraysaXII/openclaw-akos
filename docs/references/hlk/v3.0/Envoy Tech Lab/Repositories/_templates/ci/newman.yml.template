@@ -1,0 +1,47 @@
+# AKOS template — Newman (Postman CLI) workflow for {{REPO_SLUG}}.
+# Rendered by `bless --with postman` into <repo>/.github/workflows/newman.yml.
+# Runs the canonical Postman collection against the deployed URL after each push to main
+# and on PRs that touch the postman/ folder. Ships JUnit + HTML reports as artifacts.
+name: Newman
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "postman/**"
+      - ".github/workflows/newman.yml"
+  pull_request:
+    paths:
+      - "postman/**"
+      - "app/api/**"
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+jobs:
+  newman:
+    name: postman / newman
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install newman
+        run: npm i -g newman newman-reporter-htmlextra
+      - name: Run collection
+        env:
+          BASE_URL: ${{ secrets.NEWMAN_BASE_URL || vars.NEWMAN_BASE_URL || format('https://{0}.example.com', '{{REPO_SLUG}}') }}
+        run: |
+          newman run postman/{{REPO_SLUG}}.postman_collection.json \
+            --env-var "baseUrl=${BASE_URL}" \
+            --reporters cli,junit,htmlextra \
+            --reporter-junit-export reports/newman-junit.xml \
+            --reporter-htmlextra-export reports/newman-report.html
+      - name: Upload Newman reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-reports
+          path: reports/
+          if-no-files-found: warn

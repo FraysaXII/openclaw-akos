@@ -24,12 +24,13 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import os
 import re
 import subprocess
 import sys
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -38,6 +39,7 @@ from akos.hlk_repo_health_csv import REPO_HEALTH_SNAPSHOT_FIELDNAMES
 from akos.io import REPO_ROOT
 
 CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPO_HEALTH_SNAPSHOT.csv"
+MIRROR_TEMPLATE = REPO_ROOT / ".cursor" / "rules" / "akos-mirror-template.mdc"
 
 DEFAULT_REPO_ROOTS: dict[str, Path] = {
     # Keys are repo_slug values from REPOSITORIES_REGISTRY.md (validator FK).
@@ -158,6 +160,59 @@ def _embedded_obsidian_present(repo_path: Path) -> bool:
     return any(c.is_dir() for c in candidates)
 
 
+def _ci_workflow_present(repo_path: Path) -> bool:
+    return (repo_path / ".github" / "workflows" / "ci.yml").is_file()
+
+
+def _dependabot_present(repo_path: Path) -> bool:
+    return (repo_path / ".github" / "dependabot.yml").is_file() or (repo_path / ".github" / "dependabot.yaml").is_file()
+
+
+def _codeowners_present(repo_path: Path) -> bool:
+    return (repo_path / ".github" / "CODEOWNERS").is_file() or (repo_path / "CODEOWNERS").is_file()
+
+
+def _license_present(repo_path: Path) -> bool:
+    for name in ("LICENSE", "LICENSE.md", "LICENSE.txt"):
+        if (repo_path / name).is_file():
+            return True
+    return False
+
+
+def _akos_mirror_sha256_match(repo_path: Path) -> str:
+    """Return 'true' / 'false' / '' when N/A (rule absent)."""
+    consumer = repo_path / ".cursor" / "rules" / "akos-mirror.mdc"
+    if not consumer.is_file() or not MIRROR_TEMPLATE.is_file():
+        return ""
+    h_consumer = hashlib.sha256(consumer.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
+    h_template = hashlib.sha256(MIRROR_TEMPLATE.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
+    return "true" if h_consumer == h_template else "false"
+
+
+def _secret_rotation_oldest_age_days(repo_path: Path) -> int:
+    """Return age (days) of the oldest tracked secret, or -1 when unknown."""
+    runbook = repo_path / "docs" / "runbooks" / "secrets-rotation.md"
+    if not runbook.is_file():
+        return -1
+    try:
+        text = runbook.read_text(encoding="utf-8", errors="ignore")
+    except Exception:
+        return -1
+    today = date.today()
+    ages: list[int] = []
+    fm = re.match(r"^---\s*\n(.*?)\n---", text, re.DOTALL)
+    if fm:
+        for m in re.finditer(r"^\s*-\s+name:\s*(\S+)\s*\n\s+last_rotated:\s*(\d{4}-\d{2}-\d{2})", fm.group(1), re.MULTILINE):
+            try:
+                d = datetime.strptime(m.group(2), "%Y-%m-%d").date()
+                ages.append((today - d).days)
+            except ValueError:
+                continue
+    if not ages:
+        return -1
+    return max(ages)
+
+
 def _row_for(repo_slug: str, repo_path: Path, snapshot_date: str) -> dict[str, str]:
     if not repo_path.is_dir():
         return {
@@ -170,6 +225,12 @@ def _row_for(repo_slug: str, repo_path: Path, snapshot_date: str) -> dict[str, s
             "language_frontmatter_compliance_pct": "0.0",
             "brand_jargon_violations": "0",
             "embedded_obsidian_snapshot_present": "false",
+            "ci_workflow_present": "false",
+            "dependabot_present": "false",
+            "codeowners_present": "false",
+            "license_present": "false",
+            "akos_mirror_sha256_match": "",
+            "secret_rotation_oldest_age_days": "-1",
             "notes": f"local clone not found at {repo_path}",
         }
     return {
@@ -182,6 +243,12 @@ def _row_for(repo_slug: str, repo_path: Path, snapshot_date: str) -> dict[str, s
         "language_frontmatter_compliance_pct": str(_language_frontmatter_pct(repo_path)),
         "brand_jargon_violations": str(_brand_jargon_violations(repo_path)),
         "embedded_obsidian_snapshot_present": str(_embedded_obsidian_present(repo_path)).lower(),
+        "ci_workflow_present": str(_ci_workflow_present(repo_path)).lower(),
+        "dependabot_present": str(_dependabot_present(repo_path)).lower(),
+        "codeowners_present": str(_codeowners_present(repo_path)).lower(),
+        "license_present": str(_license_present(repo_path)).lower(),
+        "akos_mirror_sha256_match": _akos_mirror_sha256_match(repo_path),
+        "secret_rotation_oldest_age_days": str(_secret_rotation_oldest_age_days(repo_path)),
         "notes": "scanned by snapshot_external_repos.py",
     }
 

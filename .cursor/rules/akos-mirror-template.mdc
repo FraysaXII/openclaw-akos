@@ -45,6 +45,14 @@ External-facing prose in this repository (public README sections, deployed web p
 
 Internal prose (developer code comments, implementation notes, internal SOPs) is unrestricted.
 
+## External-repo governance procedures
+
+The bless / drift / schema-propagation flow is procedurally documented in three SOPs (authored at `status: review` 2026-05-06; ratified to `status: active` per Initiative 63 P5):
+
+- [`SOP-EXTERNAL_REPO_BLESSING_001.md`](https://github.com/FraysaXII/openclaw-akos/blob/main/docs/references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/External%20Repos/SOP-EXTERNAL_REPO_BLESSING_001.md) — applying the AKOS governance + CI/CD + observability kit.
+- [`SOP-EXTERNAL_REPO_DRIFT_REMEDIATION_001.md`](https://github.com/FraysaXII/openclaw-akos/blob/main/docs/references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/External%20Repos/SOP-EXTERNAL_REPO_DRIFT_REMEDIATION_001.md) — detection + auto-PR loop for sha256 drift.
+- [`SOP-CROSS_REPO_SCHEMA_PROPAGATION_001.md`](https://github.com/FraysaXII/openclaw-akos/blob/main/docs/references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/Cross%20Repo/SOP-CROSS_REPO_SCHEMA_PROPAGATION_001.md) — TypeScript regen + Slack/issue notifications when canonical CSVs change.
+
 ## Cross-reference
 
 This rule is the cursor-side companion to the `EXTERNAL_REPO_CONTRACT.md` at the repository root. The contract is the human-readable agreement; this rule is the always-loaded reminder for cursor sessions.

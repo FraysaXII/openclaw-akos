@@ -1,0 +1,63 @@
+# AKOS template — governance issue form for {{REPO_SLUG}}.
+# Rendered by bless into <repo>/.github/ISSUE_TEMPLATE/governance.yml.
+# Use this for AKOS-doctrine-impacting work: ID requests, mirror drift, contract reviews,
+# brand-jargon escalations, compliance changes, SOP-spawn proposals.
+name: Governance / AKOS-impacting
+description: Change touches AKOS doctrine, IDs, mirror schemas, or external repo contracts.
+title: "[gov] "
+labels: ["governance", "akos-linked", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Read [`EXTERNAL_REPO_CONTRACT.md`](../../EXTERNAL_REPO_CONTRACT.md) and
+        AKOS [`USER_GUIDE.md`](https://github.com/FraysaXII/openclaw-akos/blob/main/docs/USER_GUIDE.md) §24.13 first.
+
+        Do **not** mint new IDs locally. Open a PR against the canonical AKOS CSV
+        and reference it here.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of governance change
+      options:
+        - new persona id
+        - new channel id
+        - new sourcing / vendor id
+        - new skill id
+        - new touchpoint kit cell
+        - new policy id
+        - new program id
+        - new topic id
+        - new GOI / POI ref id
+        - new process_list row
+        - new baseline_organisation row
+        - mirror schema change request
+        - external repo contract review
+        - brand-jargon escalation
+        - other
+    validations:
+      required: true
+  - type: input
+    id: akos-pr
+    attributes:
+      label: Linked AKOS PR (or URL of canonical CSV)
+      placeholder: https://github.com/FraysaXII/openclaw-akos/pull/123
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why does this change need to happen? What problem does it unblock?
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Downstream impact
+      description: Which mirrors, runtime consumers, or external repos are affected?
+  - type: input
+    id: review-by
+    attributes:
+      label: Requested review by (date)
+      placeholder: 2026-05-13

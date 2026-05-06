@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "{{REPO_SLUG}} — health & readiness",
+    "description": "AKOS-blessed Postman collection for {{REPO_SLUG}}. Maintained via the Postman MCP per `postman/README.md`. Endpoints listed here are guaranteed by the AKOS posture check; new ones must be added by PR.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /api/health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health"]
+        },
+        "description": "Liveness probe — returns 200 when the process is up."
+      },
+      "response": []
+    },
+    {
+      "name": "GET /api/ready",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/ready",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "ready"]
+        },
+        "description": "Readiness probe — returns 200 only when downstream dependencies (DB, queues, third-party APIs) are reachable."
+      },
+      "response": []
+    },
+    {
+      "name": "GET /api/status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/status",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "status"]
+        },
+        "description": "Public status payload — version, build sha, deploy time, freshness ribbon data."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://{{REPO_SLUG}}.example.com",
+      "type": "string"
+    }
+  ]
+}

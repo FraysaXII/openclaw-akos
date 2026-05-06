@@ -73,9 +73,12 @@ def validate_manifest(path: Path, org_names: set[str]) -> list[str]:
     if block is None:
         return [f"{rel_path}: {err}"]
 
+    intellectual_kind = scalar_line(block, "intellectual_kind") or ""
+    is_sop_manifest = intellectual_kind.lower() == "sop"
+
     if not re.search(r"^paths:", block, re.MULTILINE):
         errors.append(f"{rel_path}: missing `paths:`")
-    elif not re.search(r"^\s*raster:\s*\S+", block, re.MULTILINE):
+    elif not is_sop_manifest and not re.search(r"^\s*raster:\s*\S+", block, re.MULTILINE):
         errors.append(f"{rel_path}: missing indented `raster:` under paths")
 
     checks = [
@@ -106,6 +109,14 @@ def validate_manifest(path: Path, org_names: set[str]) -> list[str]:
                 errors.append(f"{rel_path}: output_type should be 1 for visual manifests, got {ot}")
         except ValueError:
             errors.append(f"{rel_path}: output_type not integer")
+
+    if is_sop_manifest:
+        # SOP manifests (e.g. SOP-INITIATIVE_GOVERNANCE_001.manifest.md) document
+        # markdown SOPs, not visual diagrams. They never have a raster — the
+        # `paths.sop:` entry is the canonical pointer.
+        if not re.search(r"^\s*sop:\s*\S+", block, re.MULTILINE):
+            errors.append(f"{rel_path}: missing indented `sop:` under paths (intellectual_kind=sop)")
+        return errors
 
     rel_raster = raster_relative(block)
     if rel_raster is None:

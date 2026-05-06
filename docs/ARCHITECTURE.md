@@ -973,10 +973,33 @@ To disconnect the AKOS architecture from OpenCLAW:
 2. Optionally remove `~/.mcporter/mcporter.json` to disable MCP servers
 3. Restart: `openclaw restart`
 
+## External Repositories
+
+AKOS is the canonical SSOT; **external repos consume AKOS, never the other way around**. Today we govern one external operator surface and one envoy stack:
+
+### `hlk-erp` — Mission Control (Initiative 62)
+
+A Next.js 14 + Supabase application that surfaces AKOS data through three Vercel projects per [`SUBDOMAINS_REGISTRY.md`](references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/SUBDOMAINS_REGISTRY.md):
+
+| Surface          | Vercel project       | Domain                  | Data plane                                | Auth                       |
+|:-----------------|:---------------------|:------------------------|:------------------------------------------|:---------------------------|
+| Operator surface | `hlk-erp`            | `erp.holistika.com`     | `live` (compliance.* mirrors + erp.*)     | Supabase Auth, RBAC 0–6    |
+| Public showcase  | `hlk-erp-showcase`   | `madeira.holistika.com` | `demo` (demo.* schema)                    | Open (optional preview pw) |
+| Status page      | shared with `hlk-erp`| `status.holistika.com`  | `live` (vw_public_health only)            | Open                       |
+
+The contract is captured in [`.cursor/rules/akos-mirror-template.mdc`](../.cursor/rules/akos-mirror-template.mdc) (mirrored as `.cursor/rules/akos-mirror.mdc` in `hlk-erp`) and enforced by:
+
+- `py scripts/validate_subdomains_registry.py` — schema, enum and uniqueness checks for the registry.
+- `py scripts/release-gate.py` — runs the registry validator alongside the existing HLK gates.
+- Three governed Supabase migrations under `supabase/migrations/20260506130*.sql` for `holistika_ops` RBAC, the `erp.*` views and the `demo.*` schema. They land via the SQL gate (`docs/wip/planning/14-holistika-internal-gtm-mops/reports/operator-sql-gate.md`).
+
+The full I62 plan, decision log, asset classification, evidence matrix and Impeccable shape reports live under [`docs/wip/planning/62-mission-control/`](wip/planning/62-mission-control/).
+
 ## References
 
 - Implementation task registry: [SOP.md Section 8.0](SOP.md#80-implementation-task-registry)
 - Full SOP (sections 1.0–7.0): [SOP.md](SOP.md)
 - Security controls: [SECURITY.md](../SECURITY.md)
 - EU AI Act compliance evidence: [`config/compliance/eu-ai-act-checklist.json`](../config/compliance/eu-ai-act-checklist.json)
+- Subdomain governance: [`SUBDOMAINS_REGISTRY.md`](references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/SUBDOMAINS_REGISTRY.md)
 

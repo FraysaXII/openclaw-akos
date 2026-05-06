@@ -2289,4 +2289,90 @@ The first concrete candidate is **I60 — Process List Harmonisation**, tracked 
 
 Actual process-list minting is **operator-approval-gated** per `.cursor/rules/akos-governance-remediation.mdc`: new `process_list.csv` rows require explicit operator approval before committing, must pass `py scripts/validate_hlk.py`, and trigger a corresponding update to this user guide (§24.4) if role or process counts change. Baseline-organisation rows needed by new processes share the same approval gate.
 
+### 24.12 Mission Control (hlk-erp external repo)
 
+Initiative 62 (I62) introduces **Mission Control**, the operator surface that consumes AKOS canonical data through the existing `compliance.*` Supabase mirrors. It lives in the external repo [`hlk-erp`](https://github.com/FraysaXII/hlk-erp) and is governed from this repo via:
+
+- The canonical [`SUBDOMAINS_REGISTRY.md`](references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/SUBDOMAINS_REGISTRY.md) — every Holistika subdomain (`erp.holistika.com`, `madeira.holistika.com`, `status.holistika.com`, plus reserved entries) is recorded here. Validation: `py scripts/validate_subdomains_registry.py` (also wired into `release-gate.py`).
+- Three governed Supabase migrations (`supabase/migrations/20260506130*.sql`) creating the `holistika_ops` RBAC tables, the read-side `erp.*` projection views, and the `demo.*` showcase schema. Operator approval gate: [`docs/wip/planning/62-mission-control/reports/sql-proposal-mission-control-2026-05-06.md`](wip/planning/62-mission-control/reports/sql-proposal-mission-control-2026-05-06.md).
+- The I62 master roadmap, decision log, asset classification, evidence matrix and Impeccable shape reports under [`docs/wip/planning/62-mission-control/`](wip/planning/62-mission-control/).
+
+**Operator topology**:
+
+| Surface       | URL                          | Auth  | Data mode | Notes |
+|:--------------|:-----------------------------|:------|:----------|:------|
+| Mission Control | `erp.holistika.com`        | Required (Supabase Auth, AKOS access_level 0–6) | live | Read-side only over `compliance.*` and `erp.*` |
+| Showcase     | `madeira.holistika.com`      | Open  | demo      | Seeded fictional data, no service-role key |
+| Status       | `status.holistika.com`       | Open  | live      | Aggregate health + last-sync, no row data |
+
+**Day-to-day operator commands** (from the AKOS root):
+
+```pwsh
+py scripts/validate_subdomains_registry.py
+py scripts/release-gate.py
+```
+
+When a new subdomain is needed, propose a row in the registry first, run the validator, then provision the Vercel custom domain — never the other way around.
+
+### 24.13 Blessing a new external repo
+
+The "bless" pattern lets you scaffold a new Holistika-tracked external repository (e.g. `kirbe`, future client-delivery repos) with the standard governance + CI/CD + observability artifacts in one command. AKOS stays SSOT; the consuming repo gets a deterministic, drift-detectable copy.
+
+**Prerequisite**: register the repo in [`docs/references/hlk/compliance/REPOSITORY_REGISTRY.csv`](references/hlk/compliance/REPOSITORY_REGISTRY.csv) (slug, GitHub URL, class, primary_owner_role, lifecycle_status). For `class=reference` (e.g. `boilerplate`), the bless script light-touches per D-IH-32-N.
+
+**One-time bless (operator-invoked)**:
+
+```pwsh
+py scripts/bless_external_repo.py --repo-slug <slug> --repo-path <abs-path> --dry-run
+py scripts/bless_external_repo.py --repo-slug <slug> --repo-path <abs-path>
+```
+
+What gets written (stack-aware):
+
+- `.cursor/rules/akos-mirror.mdc` (verbatim of the AKOS template) + `.akos-mirror.sha256` drift marker
+- `EXTERNAL_REPO_CONTRACT.md` (rendered from the canonical template, slug-aware)
+- `CONTRIBUTING.md` (root, rendered)
+- `.github/PULL_REQUEST_TEMPLATE.md`
+- `.gitattributes` (only when missing)
+- CI/CD baseline: `.github/workflows/ci.yml`, `dependabot.yml`, `CODEOWNERS`, `docs/runbooks/branch-protection.md` (when templates exist)
+- Issue templates and `LICENSE` (when templates exist)
+- Opt-in via `--with`: `sentry`, `slack`, `postman`, `sbom`, `semgrep`, `codecov`, `supabase-lint`
+
+**Idempotency**: subsequent runs SKIP files unchanged since last bless. Hand-edited files are refused unless `--force` is passed; the operator sees the diff before clobbering.
+
+**Drift auto-PR (nightly)**: `--auto-pr` opens a PR via `gh` against the consuming repo when sha256 drift is detected, gracefully no-opping if `gh` is unavailable.
+
+**Verification**:
+
+```pwsh
+py scripts/release-gate.py    # includes the external-repo contract check
+py -m pytest tests/test_bless_external_repo.py -v
+```
+
+Cross-references: [`SOP-EXTERNAL_REPO_BLESSING_001.md`](references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/External%20Repos/SOP-EXTERNAL_REPO_BLESSING_001.md), [I63 charter](wip/planning/63-external-repo-governance-codification/master-roadmap.md).
+
+#### 24.13 ¶3 — External repo governance (continuous loop)
+
+Once a repo is blessed, four nightly / weekly automations keep it in shape without operator effort:
+
+| Loop | Script | Cadence | What it does |
+|:---|:---|:---|:---|
+| Drift detection | `scripts/bless_external_repo.py --repo-slug <slug> --auto-pr` | nightly | Compares AKOS template sha256 against consumer copy; opens a PR via `gh` when drifted (idempotent on PR title). |
+| Posture | `scripts/check_external_repo_ci_posture.py [--auto-fix]` | nightly + release-gate | Checks `ci.yml` jobs, branch protection, Vercel projects, Sentry liveness, Slack webhook presence, secret rotation freshness. Optional `--auto-fix` opens tracking issues for fixable observability gaps. |
+| Snapshot | `scripts/snapshot_external_repos.py` | weekly | Writes a row into [`REPO_HEALTH_SNAPSHOT.csv`](references/hlk/compliance/REPO_HEALTH_SNAPSHOT.csv) with contract / mirror / CI / license / secret-rotation columns. |
+| Type regeneration | `scripts/regen_consumer_types.py [--auto-pr]` | on canonical CSV change | Emits TypeScript interfaces from each consumed mirror CSV into the consumer's `lib/types/akos-mirrors.generated.ts`. |
+| Canonical change broadcast | `scripts/notify_consumers_of_canonical_change.py --changed <name>[,…] [--open-issue]` | on canonical CSV change | Slack ops post + optional consumer issues for repos whose `consumes_mirrors` includes the changed name. |
+| Branch protection | `scripts/configure_branch_protection.py [--repo-slug <slug>]` | weekly | Idempotent PUT to GitHub branch protection on `main`; aligns reviews, status checks, force-push, deletion, conversation resolution. |
+| Vercel provisioning | `scripts/provision_vercel_project.py [--subdomain <slug>]` | on `SUBDOMAINS_REGISTRY.md` change | Ensures every active subdomain row has its named Vercel project + custom domain attached. |
+| Secret rotation reminders | `scripts/secret_rotation_reminders.py [--strict]` | daily | Markdown summary + Slack post of overdue / approaching secret rotations across all blessed repos. |
+| Un-blessed row detection | `scripts/detect_unblessed_registry_rows.py [--strict]` | release-gate | Surfaces `REPOSITORY_REGISTRY.csv` rows that are reachable on disk but missing the bless artefacts. |
+
+The release-gate runs the contract check, the CI/CD posture check, and the un-blessed row detection (soft) on every invocation. The other loops are intended for nightly cron / GitHub Actions schedule on AKOS itself.
+
+The three SOPs that procedurally document the bless / drift / propagation flow are:
+
+- [`SOP-EXTERNAL_REPO_BLESSING_001.md`](references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/External%20Repos/SOP-EXTERNAL_REPO_BLESSING_001.md) — apply the kit.
+- [`SOP-EXTERNAL_REPO_DRIFT_REMEDIATION_001.md`](references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/External%20Repos/SOP-EXTERNAL_REPO_DRIFT_REMEDIATION_001.md) — keep it aligned.
+- [`SOP-CROSS_REPO_SCHEMA_PROPAGATION_001.md`](references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/Cross%20Repo/SOP-CROSS_REPO_SCHEMA_PROPAGATION_001.md) — propagate canonical CSV changes.
+
+These ship at `status: review` 2026-05-06 (Initiative 63 P1). Promotion to `status: active` is gated by the I63 P3 operator review of the [CSV proposal](wip/planning/63-external-repo-governance-codification/reports/csv-proposal-2026-05-06.md).

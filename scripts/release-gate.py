@@ -124,6 +124,68 @@ def run_hlk_vault_links_validation() -> bool:
     return result.success
 
 
+def run_subdomains_registry_validation() -> bool:
+    """Validate canonical SUBDOMAINS_REGISTRY.md (I62 P0 / D-IH-62-P)."""
+    logger.info("Running SUBDOMAINS_REGISTRY.md validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_subdomains_registry.py")],
+        timeout=30,
+        capture=False,
+    )
+    return result.success
+
+
+def run_external_repo_contract_check() -> bool:
+    """Check governance posture of every non-reference Holistika-tracked repo.
+
+    Reads ``REPOSITORY_REGISTRY.csv`` + the latest ``REPO_HEALTH_SNAPSHOT.csv``
+    and validates: contract presence, mirror-rule presence, contract freshness
+    (default 90 days), and sha256 alignment between consumer mirror copy and
+    AKOS template. Failures here block the release per the bless pattern.
+    """
+    logger.info("Running external repo contract check ...")
+    freshness = os.environ.get("AKOS_EXTERNAL_REPO_FRESHNESS_DAYS", "90")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "check_external_repo_contract.py"),
+         "--freshness-days", freshness],
+        timeout=30,
+        capture=False,
+    )
+    return result.success
+
+
+def run_unblessed_registry_rows_detection() -> bool:
+    """Soft / informational: surface un-blessed external repo rows.
+
+    Never fails the gate by default — operators see a NEEDS_BLESS line and can
+    run ``scripts/bless_external_repo.py --repo-slug <slug>``.
+    Set ``AKOS_UNBLESSED_STRICT=1`` to flip to a hard FAIL (used in nightly
+    automation).
+    """
+    logger.info("Running un-blessed registry row detection ...")
+    cmd = [sys.executable, str(SCRIPTS_DIR / "detect_unblessed_registry_rows.py")]
+    if os.environ.get("AKOS_UNBLESSED_STRICT") == "1":
+        cmd.append("--strict")
+    result = proc.run(cmd, timeout=30, capture=False)
+    return result.success
+
+
+def run_external_repo_ci_posture_check() -> bool:
+    """Check CI/CD + observability posture of blessed external repos.
+
+    Filesystem-only by default in release-gate (live checks slow runs and
+    require ``gh`` / ``vercel`` auth). Set ``AKOS_EXTERNAL_REPO_CI_LIVE=1``
+    to enable live checks against GitHub / Vercel / Sentry.
+    """
+    logger.info("Running external repo CI/CD posture check ...")
+    live = os.environ.get("AKOS_EXTERNAL_REPO_CI_LIVE") == "1"
+    cmd = [sys.executable, str(SCRIPTS_DIR / "check_external_repo_ci_posture.py")]
+    if not live:
+        cmd.append("--skip-live")
+    result = proc.run(cmd, timeout=120, capture=False)
+    return result.success
+
+
 def run_operator_inbox_check() -> tuple[bool, int]:
     """Determinism check on docs/wip/planning/OPERATOR_INBOX.md (I59 P4).
 
@@ -194,6 +256,21 @@ def main() -> None:
 
     vault_links_ok = run_hlk_vault_links_validation()
     results.append(("PASS" if vault_links_ok else "FAIL", "HLK vault links (scripts/validate_hlk_vault_links.py)"))
+
+    subdomains_ok = run_subdomains_registry_validation()
+    results.append(("PASS" if subdomains_ok else "FAIL", "SUBDOMAINS_REGISTRY.md (scripts/validate_subdomains_registry.py)"))
+
+    repo_contract_ok = run_external_repo_contract_check()
+    results.append(("PASS" if repo_contract_ok else "FAIL", "External repo contract (scripts/check_external_repo_contract.py)"))
+
+    ci_posture_ok = run_external_repo_ci_posture_check()
+    results.append(("PASS" if ci_posture_ok else "FAIL", "External repo CI/CD posture (scripts/check_external_repo_ci_posture.py)"))
+
+    unblessed_ok = run_unblessed_registry_rows_detection()
+    if os.environ.get("AKOS_UNBLESSED_STRICT") == "1":
+        results.append(("PASS" if unblessed_ok else "FAIL", "REPOSITORY_REGISTRY un-blessed rows (scripts/detect_unblessed_registry_rows.py, strict)"))
+    else:
+        results.append(("INFO", "REPOSITORY_REGISTRY un-blessed rows (scripts/detect_unblessed_registry_rows.py, soft)"))
 
     if os.environ.get("AKOS_EVAL_RUBRIC") == "1":
         eval_ok = run_eval_rubric_slice()

@@ -1,0 +1,39 @@
+# AKOS template — Supabase migration linter for {{REPO_SLUG}}.
+# Rendered by `bless --with supabase-lint` (auto-rendered when supabase/migrations/ exists)
+# into <repo>/.github/workflows/supabase-migration-lint.yml.
+name: Supabase migration lint
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "supabase/migrations/**"
+      - "supabase/seed.sql"
+      - "supabase/config.toml"
+
+jobs:
+  migration-lint:
+    name: db-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Start local Supabase
+        run: supabase start
+      - name: Push migrations
+        run: supabase db push --include-all
+      - name: Lint
+        run: supabase db lint --level warning
+      - name: Diff (must be empty)
+        run: |
+          DIFF=$(supabase db diff --schema public,holistika_ops,erp,demo --use-migra)
+          if [ -n "$DIFF" ]; then
+            echo "::error::Migration drift detected:"
+            echo "$DIFF"
+            exit 1
+          fi
+      - name: Stop local Supabase
+        if: always()
+        run: supabase stop

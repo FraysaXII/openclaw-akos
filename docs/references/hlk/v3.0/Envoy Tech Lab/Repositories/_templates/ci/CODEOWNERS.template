@@ -1,0 +1,28 @@
+# AKOS template — CODEOWNERS for Holistika-tracked external repos.
+# Rendered by scripts/bless_external_repo.py into <repo>/.github/CODEOWNERS.
+# Placeholders: {{REPO_SLUG}}, {{PRIMARY_OWNER_ROLE}}.
+#
+# {{REPO_SLUG}} — primary owner role: {{PRIMARY_OWNER_ROLE}}.
+# After bless, edit the @handles below to match the GitHub user / team for this repo.
+
+* @FraysaXII
+
+# Governance and contract artefacts — extra-watch.
+EXTERNAL_REPO_CONTRACT.md       @FraysaXII
+.cursor/rules/                  @FraysaXII
+.cursor/rules/akos-mirror.mdc   @FraysaXII
+CONTRIBUTING.md                 @FraysaXII
+
+# CI / hygiene
+/.github/                       @FraysaXII
+/.github/workflows/             @FraysaXII
+/.github/CODEOWNERS             @FraysaXII
+
+# Runbooks
+/docs/runbooks/                 @FraysaXII
+/docs/runbooks/secrets-rotation.md      @FraysaXII
+/docs/runbooks/disaster-recovery.md     @FraysaXII
+/docs/runbooks/branch-protection.md     @FraysaXII
+
+# Database migrations (when present)
+/supabase/migrations/           @FraysaXII

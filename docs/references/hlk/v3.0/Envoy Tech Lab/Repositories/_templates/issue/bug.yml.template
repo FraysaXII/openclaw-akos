@@ -1,0 +1,57 @@
+# AKOS template — bug issue form for {{REPO_SLUG}}.
+# Rendered by bless into <repo>/.github/ISSUE_TEMPLATE/bug.yml.
+name: Bug report
+description: Something is broken in {{REPO_SLUG}}.
+title: "[bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing! Please give the operator enough context to reproduce.
+        AKOS-governed projects: link the AKOS decision id if the bug touches doctrine.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One-paragraph description of the bug.
+      placeholder: When I do X, Y happens instead of Z.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Numbered list. Include URL, env, browser/OS where relevant.
+      placeholder: |
+        1. Go to /mission-control/audit-log
+        2. Click "Filter by user"
+        3. Observe…
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      placeholder: production / preview / local; chrome 130; macOS 15.1
+  - type: input
+    id: akos-decision
+    attributes:
+      label: AKOS decision id (if governance-relevant)
+      placeholder: D-IH-XX-Y
+  - type: textarea
+    id: extra
+    attributes:
+      label: Logs, screenshots, Sentry link

@@ -1,0 +1,15 @@
+All Rights Reserved · Holística
+
+Copyright (c) 2024-2026 Holistika Research
+
+This software is proprietary. No license is granted, expressly or by implication, to make, use, sell,
+import, or copy this software in any form. Internal Holistika operators may use this software solely
+for the purposes of operating Holística products and services per their employment / engagement
+agreement.
+
+To switch {{REPO_SLUG}} to an open-source license (e.g. MIT, Apache-2.0), open a PR to the AKOS
+canonical repository (`openclaw-akos`) updating the corresponding `REPOSITORY_REGISTRY.csv` row, then
+replace this file with the chosen license text. Operator approval (Founder) is required for any
+license change.
+
+Contact: legal@holistika.com

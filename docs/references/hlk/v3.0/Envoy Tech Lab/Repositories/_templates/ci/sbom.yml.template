@@ -1,0 +1,47 @@
+# AKOS template — CycloneDX SBOM generator for {{REPO_SLUG}}.
+# Rendered by `bless --with sbom` into <repo>/.github/workflows/sbom.yml.
+# Uploads bom.xml + bom.json as artifacts; runs on push to main and on releases.
+name: SBOM (CycloneDX)
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sbom:
+    name: cyclonedx
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Generate SBOM (CycloneDX)
+        uses: CycloneDX/gh-node-module-generatebom@v1
+        with:
+          path: ./
+          output: bom.xml
+      - name: Upload SBOM (XML)
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-cyclonedx-xml
+          path: bom.xml
+          retention-days: 90
+      - name: Generate SBOM (JSON)
+        run: |
+          npm i -g @cyclonedx/cyclonedx-npm
+          cyclonedx-npm --output-format JSON --output-file bom.json
+      - name: Upload SBOM (JSON)
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-cyclonedx-json
+          path: bom.json
+          retention-days: 90

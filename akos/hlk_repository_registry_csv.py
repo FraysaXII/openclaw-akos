@@ -33,6 +33,10 @@ REPOSITORY_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "api_topic_id",         # FK to TOPIC_REGISTRY.csv or "—"
     "lifecycle_status",     # active | archived | reference
     "notes",                # free-form
+    # Initiative 63 P4 — cross-repo governance columns:
+    "consumes_compliance_types",  # yes | no — drives scripts/regen_consumer_types.py
+    "consumes_mirrors",           # ;-list of mirror names without .csv (e.g. PERSONA_REGISTRY;SKILL_REGISTRY)
+    "local_path",                 # repo-relative path from ${REPO_ROOT}/.. for AKOS scripts to resolve consumer
 )
 
 VALID_REPO_CLASSES: frozenset[str] = frozenset({
