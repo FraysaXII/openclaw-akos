@@ -124,6 +124,22 @@ def run_hlk_vault_links_validation() -> bool:
     return result.success
 
 
+def run_operator_inbox_check() -> tuple[bool, int]:
+    """Determinism check on docs/wip/planning/OPERATOR_INBOX.md (I59 P4).
+
+    Soft / informational: returns ``(stale, exit_code)`` where ``stale`` is
+    True only when the on-disk file would change on a fresh render. The
+    release-gate caller emits an INFO row but never fails the verdict on this.
+    """
+    logger.info("Running operator inbox determinism check ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "render_operator_inbox.py"), "--check-only"],
+        timeout=30,
+        capture=False,
+    )
+    return (not result.success, result.returncode if hasattr(result, "returncode") else (0 if result.success else 1))
+
+
 def run_eval_rubric_slice() -> bool:
     """Offline rubric eval slice (set AKOS_EVAL_RUBRIC=1 to enable in release gate)."""
     for suite in governance_rubric_suites():
@@ -182,6 +198,19 @@ def main() -> None:
     if os.environ.get("AKOS_EVAL_RUBRIC") == "1":
         eval_ok = run_eval_rubric_slice()
         results.append(("PASS" if eval_ok else "FAIL", "Eval rubric slice (AKOS_EVAL_RUBRIC=1, run-evals.py)"))
+
+    inbox_stale, _ = run_operator_inbox_check()
+    if inbox_stale:
+        results.append(("INFO", "Operator inbox stale — re-run scripts/render_operator_inbox.py (non-blocking; I59 P4)"))
+    else:
+        results.append(("INFO", "Operator inbox up to date (I59 P4)"))
+
+    freshness_result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "check_active_initiative_freshness.py")],
+        timeout=30,
+        capture=False,
+    )
+    results.append(("INFO", "Active initiative freshness canary (I59 P5)" + (" — stale items flagged" if freshness_result.success else "")))
 
     live_smoke = os.environ.get("AKOS_LIVE_SMOKE") == "1"
     if live_smoke:
