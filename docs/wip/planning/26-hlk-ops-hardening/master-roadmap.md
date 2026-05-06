@@ -1,3 +1,11 @@
+---
+language: en
+status: closed
+initiative_id: INIT-OPENCLAW_AKOS-26
+last_review: 2026-04-29
+closed_at: 2026-04-29
+closure_decision_id: D-IH-26-CLOSURE
+---
 # Initiative 26 — Operations hardening (small ops items + persistent triggers)
 
 **Folder:** `docs/wip/planning/26-hlk-ops-hardening/`

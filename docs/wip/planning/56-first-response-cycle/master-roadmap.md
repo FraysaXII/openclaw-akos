@@ -1,14 +1,15 @@
 ---
 language: en
-status: bootstrapped-pending-first-advisor-reply
+status: gated_external
 initiative: 56-first-response-cycle
+initiative_id: INIT-OPENCLAW_AKOS-56
 report_kind: master-roadmap
 program_id: shared
 plane: advops
 authority: Founder
 last_review: 2026-05-03
+gated_on: All execution phases after P0 are blocked until the first external adviser reply arrives and is captured.
 ---
-
 # Initiative 56 — First advisor response cycle (close the return-trip rails)
 
 **Folder:** `docs/wip/planning/56-first-response-cycle/`

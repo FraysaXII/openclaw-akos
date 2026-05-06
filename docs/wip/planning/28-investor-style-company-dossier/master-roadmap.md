@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 28-investor-style-company-dossier
+initiative_id: INIT-OPENCLAW_AKOS-28
 report_kind: master-roadmap
 program_id: PRJ-HOL-FOUNDING-2026
 plane: advops
 authority: Founder
 last_review: 2026-05-05
+closed_at: 2026-05-05
+closure_decision_id: D-IH-28-CLOSURE
 ---
-
 # Initiative 28 — Investor-Style Holistika Company Dossier
 
 **Document owner**: Compliance + Brand Manager (joint)

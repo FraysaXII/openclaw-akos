@@ -1,3 +1,11 @@
+---
+language: en
+status: closed
+initiative_id: INIT-OPENCLAW_AKOS-22A
+last_review: 2026-05-04
+closed_at: 2026-05-04
+closure_decision_id: D-IH-OPS-1
+---
 # Initiative 22a — Post-closure follow-ups + Wave-2 bootstrap
 
 **Folder:** `docs/wip/planning/22a-i22-post-closure-followups/`

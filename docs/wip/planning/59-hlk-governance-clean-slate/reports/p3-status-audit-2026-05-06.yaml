@@ -1,0 +1,444 @@
+# I59 P3 status audit — 47 master-roadmaps classified to the seven-value
+# `akos.planning.status_taxonomy.InitiativeStatus` taxonomy.
+#
+# Source: explore subagent audit pass (2026-05-06) + manual operator-style
+# overrides applied below to better fit the `gated_operator` cases per the
+# I59 plan and to ensure I02 / I07 / I15 close cleanly with closure decision IDs.
+#
+# Apply with:
+#   py scripts/apply_status_audit.py docs/wip/planning/59-hlk-governance-clean-slate/reports/p3-status-audit-2026-05-06.yaml --write
+#
+# This file is the authoritative INPUT to the apply script. It is not consumed
+# at runtime by validators or renderers; the resulting frontmatter edits and
+# REGISTRY rows are the post-apply SSOT.
+
+audit_date: 2026-05-06
+auditor: i59_p3_audit_apply
+
+initiatives:
+  - folder: 01-akos-full-roadmap
+    initiative_id: i01_akos_full_roadmap
+    title: "AKOS Full Roadmap"
+    inferred_status: continuous
+    continuous_rationale: "In-repo mirror of the Cursor execution roadmap for AKOS; maintained as phases evolve rather than a one-shot closure."
+    last_review: 2026-04-15
+    ops_action_ids: []
+
+  - folder: 02-hlk-on-akos-madeira
+    initiative_id: i02_hlk_on_akos_madeira
+    title: "HLK On AKOS Madeira Roadmap"
+    inferred_status: closed
+    closed_at: 2026-04-14
+    closure_decision_id: D-IH-02-CLOSURE
+    last_review: 2026-04-14
+    ops_action_ids: []
+
+  - folder: 03-hlk-km-knowledge-base
+    initiative_id: i03_hlk_km_knowledge_base
+    title: "HLK governed KM — workspace master roadmap"
+    inferred_status: active
+    last_review: 2026-04-08
+    ops_action_ids: []
+
+  - folder: 04-holistika-company-formation
+    initiative_id: i04_holistika_company_formation
+    title: "Holistika company formation — master roadmap"
+    inferred_status: program_line
+    cadence: event_driven
+    last_review: 2026-04-15
+    ops_action_ids: []
+
+  - folder: 05-hlk-vault-envoy-repos
+    initiative_id: i05_hlk_vault_envoy_repos
+    title: "Initiative 05 — HLK v3.0 Envoy repository hub + entity placement"
+    inferred_status: archived
+    archived_at: 2026-05-05
+    superseded_by: i32_holistik_ops_maturation
+    last_review: 2026-05-05
+    ops_action_ids: []
+
+  - folder: 06-planning-backlog-registry
+    initiative_id: i06_planning_backlog_registry
+    title: "Planning backlog registry (cross-initiative SSOT)"
+    inferred_status: continuous
+    continuous_rationale: "Cross-initiative backlog index by design; maintained whenever linked initiatives or backlog rows move."
+    last_review: 2026-04-15
+    ops_action_ids: []
+
+  - folder: 07-hlk-neo4j-graph-projection
+    initiative_id: i07_hlk_neo4j_graph_projection
+    title: "Initiative 07: HLK Neo4j graph projection"
+    inferred_status: closed
+    closed_at: 2026-04-15
+    closure_decision_id: D-IH-07-CLOSURE
+    last_review: 2026-04-15
+    ops_action_ids: []
+
+  - folder: 08-python-runtime-deployment
+    initiative_id: i08_python_runtime_deployment
+    title: "Initiative 08 — Python runtime, deployment, operator journey, Neo4j graph stack"
+    inferred_status: program_line
+    cadence: event_driven
+    last_review: 2026-04-15
+    ops_action_ids: []
+
+  - folder: 09-openclaw-hygiene
+    initiative_id: i09_openclaw_hygiene
+    title: "Initiative 09 — OpenClaw hygiene (gateway SSOT, security audit, bootstrap, CLI updates)"
+    inferred_status: archived
+    archived_at: 2026-04-16
+    superseded_by: i10_madeira_eval_hardening
+    last_review: 2026-04-16
+    ops_action_ids: []
+
+  - folder: 10-madeira-eval-hardening
+    initiative_id: i10_madeira_eval_hardening
+    title: "Initiative 10 — Madeira Path B+C, SOTA quality, eval harness"
+    inferred_status: closed
+    closed_at: 2026-04-15
+    closure_decision_id: D-IH-10-CLOSURE
+    last_review: 2026-04-15
+    ops_action_ids: []
+
+  - folder: 11-madeira-ops-copilot
+    initiative_id: i11_madeira_ops_copilot
+    title: "Initiative 11 — Madeira day-to-day ops copilot (SOTA-informed, governance-safe)"
+    inferred_status: active
+    last_review: 2026-04-15
+    ops_action_ids: []
+
+  - folder: 12-madeira-research-request
+    initiative_id: i12_madeira_research_request
+    title: "Initiative 12 — MADEIRA external research request"
+    inferred_status: gated_external
+    gated_on: "External research team intake; substantive closure depends on commissioned findings."
+    last_review: 2026-04-17
+    ops_action_ids: []
+
+  - folder: 13-madeira-research-followthrough
+    initiative_id: i13_madeira_research_followthrough
+    title: "Initiative 13 — MADEIRA research follow-through (SOTA-aligned)"
+    inferred_status: active
+    last_review: 2026-04-17
+    ops_action_ids: []
+
+  - folder: 14-holistika-internal-gtm-mops
+    initiative_id: i14_holistika_internal_gtm_mops
+    title: "Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned)"
+    inferred_status: program_line
+    cadence: weekly
+    last_review: 2026-04-18
+    ops_action_ids:
+      - OPS-14-1
+
+  - folder: 15-hlk-api-lifecycle-governance
+    initiative_id: i15_hlk_api_lifecycle_governance
+    title: "Initiative 15 — HLK API lifecycle governance + component matrix"
+    inferred_status: closed
+    closed_at: 2026-04-20
+    closure_decision_id: D-IH-15-CLOSURE
+    last_review: 2026-04-20
+    ops_action_ids: []
+
+  - folder: 16-hlk-finops-vendor-ssot
+    initiative_id: i16_hlk_finops_vendor_ssot
+    title: "Initiative 16 — FINOPS vendor SSOT + Supabase mirror"
+    inferred_status: archived
+    archived_at: 2026-04-23
+    superseded_by: i18_hlk_finops_counterparty_stripe
+    last_review: 2026-04-23
+    ops_action_ids: []
+
+  - folder: 17-madeira-cursor-mode-parity
+    initiative_id: i17_madeira_cursor_mode_parity
+    title: "Initiative 17 — MADEIRA Cursor mode parity (Ask / Plan / Run)"
+    inferred_status: active
+    last_review: 2026-04-15
+    ops_action_ids: []
+
+  - folder: 18-hlk-finops-counterparty-stripe
+    initiative_id: i18_hlk_finops_counterparty_stripe
+    title: "Initiative 18 — FINOPS counterparty SSOT + Stripe FDW"
+    inferred_status: closed
+    closed_at: 2026-04-23
+    closure_decision_id: D-IH-18-CLOSURE
+    last_review: 2026-04-23
+    ops_action_ids: []
+
+  - folder: 19-hlk-finops-ledger
+    initiative_id: i19_hlk_finops_ledger
+    title: "Initiative 19 — FINOPS finops.* ledger (Phase C)"
+    inferred_status: program_line
+    cadence: event_driven
+    last_review: 2026-04-23
+    ops_action_ids: []
+
+  - folder: 20-kalavai-shadow-llamacpp-trial
+    initiative_id: i20_kalavai_shadow_llamacpp_trial
+    title: "Initiative 20 — Kalavai trial closure + ShadowGPU /v1-compatible llamacpp endpoint"
+    inferred_status: archived
+    archived_at: 2026-05-05
+    superseded_by: i58_cycle_2_multi_track_forward
+    last_review: 2026-05-05
+    ops_action_ids: []
+
+  - folder: 21-hlk-adviser-engagement-and-goipoi
+    initiative_id: i21_hlk_adviser_engagement_goipoi
+    title: "Initiative 21 — Adviser Engagement plane + GOI/POI dimension"
+    inferred_status: closed
+    closed_at: 2026-04-28
+    closure_decision_id: D-IH-21-CLOSURE
+    last_review: 2026-04-28
+    ops_action_ids: []
+
+  - folder: 22-hlk-scalability-and-i21-closures
+    initiative_id: i22_hlk_scalability_i21_closures
+    title: "Initiative 22 — Scalable HLK hierarchy + Initiative 21 closures"
+    inferred_status: closed
+    closed_at: 2026-04-29
+    closure_decision_id: D-IH-22-CLOSURE
+    last_review: 2026-04-29
+    ops_action_ids: []
+
+  - folder: 22a-i22-post-closure-followups
+    initiative_id: i22a_post_closure_followups
+    title: "Initiative 22a — Post-closure follow-ups + Wave-2 bootstrap"
+    inferred_status: closed
+    closed_at: 2026-05-04
+    closure_decision_id: D-IH-OPS-1
+    last_review: 2026-05-04
+    ops_action_ids: []
+
+  - folder: 23-hlk-program-registry-and-program-2
+    initiative_id: i23_hlk_program_registry_program_2
+    title: "Initiative 23 — Program Registry + Onboarding Program 2"
+    inferred_status: closed
+    closed_at: 2026-04-29
+    closure_decision_id: D-IH-23-CLOSURE
+    last_review: 2026-04-29
+    ops_action_ids: []
+
+  - folder: 24-hlk-communication-methodology
+    initiative_id: i24_hlk_communication_methodology
+    title: "Initiative 24 — Communication Methodology + Eloquence-Layer Composer"
+    inferred_status: gated_operator
+    gated_on: "Wave-2 operator YAML Sections 2/3/5 and irreversible G-24-3 send checklist remain operator-owned gates."
+    operator_action: "Fill operator-answers-wave2.yaml Sections 2-3-5 and execute G-24-3 checklist when proceeding to real send."
+    last_review: 2026-05-04
+    ops_action_ids: []
+
+  - folder: 25-hlk-topic-graph-and-km-scalability
+    initiative_id: i25_hlk_topic_graph_km_scalability
+    title: "Initiative 25 — Topic Graph + Graph Projection + KM Scalability"
+    inferred_status: closed
+    closed_at: 2026-04-29
+    closure_decision_id: D-IH-25-CLOSURE
+    last_review: 2026-04-29
+    ops_action_ids: []
+
+  - folder: 26-hlk-ops-hardening
+    initiative_id: i26_hlk_ops_hardening
+    title: "Initiative 26 — Operations hardening (small ops items + persistent triggers)"
+    inferred_status: closed
+    closed_at: 2026-04-29
+    closure_decision_id: D-IH-26-CLOSURE
+    last_review: 2026-04-29
+    ops_action_ids: []
+
+  - folder: 28-investor-style-company-dossier
+    initiative_id: i28_investor_style_company_dossier
+    title: "Initiative 28 — Investor-Style Holistika Company Dossier"
+    inferred_status: closed
+    closed_at: 2026-05-05
+    closure_decision_id: D-IH-28-CLOSURE
+    last_review: 2026-05-05
+    ops_action_ids: []
+
+  - folder: 29-multi-phase-consolidation
+    initiative_id: i29_multi_phase_consolidation
+    title: "Initiative 29 — Multi-phase consolidation — governance bridges + deck/strategy SSOT"
+    inferred_status: closed
+    closed_at: 2026-05-05
+    closure_decision_id: D-IH-29-CLOSURE
+    last_review: 2026-05-05
+    ops_action_ids: []
+
+  - folder: 30-deck-moat-surgery
+    initiative_id: i30_deck_moat_surgery
+    title: "Initiative 30 — Deck Moat Surgery — governance-grade deck intelligence"
+    inferred_status: closed
+    closed_at: 2026-05-05
+    closure_decision_id: D-IH-30-CLOSURE
+    last_review: 2026-05-05
+    ops_action_ids: []
+
+  - folder: 31-holistik-ops-discovery
+    initiative_id: i31_holistik_ops_discovery
+    title: "Initiative 31 — Holistik Ops Discovery: 6-axis operating system for human interactions"
+    inferred_status: closed
+    closed_at: 2026-05-05
+    closure_decision_id: D-IH-31-CLOSURE
+    last_review: 2026-05-05
+    ops_action_ids: []
+
+  - folder: 32-holistik-ops-maturation
+    initiative_id: i32_holistik_ops_maturation
+    title: "Initiative 32 — Holistik Ops Maturation (enterprise-ready doctrine -> SSOT -> MCP)"
+    inferred_status: closed
+    closed_at: 2026-05-04
+    closure_decision_id: D-IH-32-CLOSURE
+    last_review: 2026-05-04
+    ops_action_ids: []
+
+  - folder: 45-live-eval-harness
+    initiative_id: i45_live_eval_harness
+    title: "Initiative 45 — Live Eval Harness Modernisation"
+    inferred_status: closed
+    closed_at: 2026-05-04
+    closure_decision_id: D-IH-45-CLOSURE
+    last_review: 2026-05-04
+    ops_action_ids: []
+
+  - folder: 46-neo4j-strategic-posture
+    initiative_id: i46_neo4j_strategic_posture
+    title: "Initiative 46 — Neo4j Strategic Posture: doctrine + GraphRAG PoC + agent memory ADR"
+    inferred_status: closed
+    closed_at: 2026-05-03
+    closure_decision_id: D-IH-46-CLOSURE
+    last_review: 2026-05-03
+    ops_action_ids:
+      - OPS-53-1
+
+  - folder: 47-user-centric-uat
+    initiative_id: i47_user_centric_uat
+    title: "Initiative 47 — User-centric UAT modernisation"
+    inferred_status: closed
+    closed_at: 2026-05-02
+    closure_decision_id: D-IH-47-CLOSURE
+    last_review: 2026-05-02
+    ops_action_ids: []
+
+  - folder: 48-operator-dossier
+    initiative_id: i48_operator_dossier
+    title: "Initiative 48 — Operator-facing UAT Dossier"
+    inferred_status: closed
+    closed_at: 2026-05-02
+    closure_decision_id: D-IH-48-CLOSURE
+    last_review: 2026-05-02
+    ops_action_ids: []
+
+  - folder: 49-madeira-management-rollup
+    initiative_id: i49_madeira_management_rollup
+    title: "Initiative 49 — MADEIRA management and verdict rollup"
+    inferred_status: closed
+    closed_at: 2026-05-03
+    closure_decision_id: D-IH-49-CLOSURE
+    last_review: 2026-05-03
+    ops_action_ids: []
+
+  - folder: 50-live-cycle-closure
+    initiative_id: i50_live_cycle_closure
+    title: "Initiative 50 — Live cycle closure + cost SSOT truth-up"
+    inferred_status: closed
+    closed_at: 2026-05-03
+    closure_decision_id: D-IH-50-CLOSURE
+    last_review: 2026-05-03
+    ops_action_ids:
+      - OPS-47-1
+      - OPS-47-2
+      - OPS-47-9
+
+  - folder: 51-persona-calibration-cleanup
+    initiative_id: i51_persona_calibration_cleanup
+    title: "Initiative 51 — Persona calibration cleanup"
+    inferred_status: closed
+    closed_at: 2026-05-03
+    closure_decision_id: D-IH-51-CLOSURE
+    last_review: 2026-05-03
+    ops_action_ids:
+      - OPS-47-6
+      - OPS-50-1
+      - OPS-51-1
+
+  - folder: 52-multi-model-judge-and-cost-discipline
+    initiative_id: i52_multi_model_judge_cost_discipline
+    title: "Initiative 52 — Multi-model judge roster + live calibration burn + endpoint cost truth-up"
+    inferred_status: closed
+    closed_at: 2026-05-03
+    closure_decision_id: D-IH-52-CLOSURE
+    last_review: 2026-05-03
+    ops_action_ids:
+      - OPS-47-8
+      - OPS-52-1
+      - OPS-52-2
+
+  - folder: 53-graphrag-poc-closure
+    initiative_id: i53_graphrag_poc_closure
+    title: "Initiative 53 — GraphRAG PoC closure"
+    inferred_status: closed
+    closed_at: 2026-05-03
+    closure_decision_id: D-IH-53-CLOSURE
+    last_review: 2026-05-03
+    ops_action_ids:
+      - OPS-53-1
+
+  - folder: 54-surface-test-hardening
+    initiative_id: i54_surface_test_hardening
+    title: "Initiative 54 — Surface test hardening"
+    inferred_status: closed
+    closed_at: 2026-05-04
+    closure_decision_id: D-IH-54-CLOSURE
+    last_review: 2026-05-04
+    ops_action_ids:
+      - OPS-54-1
+
+  - folder: 55-brand-ops-continuous-loop
+    initiative_id: i55_brand_ops_continuous_loop
+    title: "Initiative 55 — Brand Ops Continuous Loop (Adviser updates -> regression gates)"
+    inferred_status: continuous
+    continuous_rationale: "Per D-IH-55-F: tooling ships but the initiative intentionally has no fixed end date — runs as a regression-to-advisor loop."
+    last_review: 2026-05-03
+    ops_action_ids:
+      - OPS-55-1
+
+  - folder: 56-first-response-cycle
+    initiative_id: i56_first_response_cycle
+    title: "Initiative 56 — First-response cycle (Adviser engagement operationalisation)"
+    inferred_status: gated_external
+    gated_on: "All execution phases after P0 are blocked until the first external adviser reply arrives and is captured."
+    last_review: 2026-05-03
+    ops_action_ids:
+      - OPS-56-1
+
+  - folder: 57-cycle-closeout-live-validation
+    initiative_id: i57_cycle_closeout_live_validation
+    title: "Initiative 57 — Cycle closeout + live validation forward"
+    inferred_status: closed
+    closed_at: 2026-05-04
+    closure_decision_id: D-IH-57-CLOSURE
+    last_review: 2026-05-04
+    ops_action_ids:
+      - OPS-57-1
+      - OPS-57-2
+      - OPS-54-1.c
+
+  - folder: 58-cycle-2-multi-track-forward
+    initiative_id: i58_cycle_2_multi_track_forward
+    title: "Initiative 58 — Cycle 2 multi-track forward"
+    inferred_status: closed
+    closed_at: 2026-05-06
+    closure_decision_id: D-IH-58-CLOSURE
+    last_review: 2026-05-06
+    ops_action_ids:
+      - OPS-58-1
+      - OPS-58-2
+      - OPS-58-3
+      - OPS-58-4
+
+  - folder: 59-hlk-governance-clean-slate
+    initiative_id: i59_hlk_governance_clean_slate
+    title: "Initiative 59 — HLK governance promotion + clean slate cycle"
+    inferred_status: active
+    last_review: 2026-05-06
+    ops_action_ids:
+      - OPS-59-1

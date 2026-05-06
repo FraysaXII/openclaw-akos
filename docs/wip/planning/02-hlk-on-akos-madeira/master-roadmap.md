@@ -1,3 +1,11 @@
+---
+language: en
+status: closed
+initiative_id: INIT-OPENCLAW_AKOS-02
+last_review: 2026-04-14
+closed_at: 2026-04-14
+closure_decision_id: D-IH-02-CLOSURE
+---
 # HLK On AKOS Madeira Roadmap
 
 **Source plan**: `C:\Users\Shadow\.cursor\plans\hlk_madeira_proposal_3a66dc35.plan.md`

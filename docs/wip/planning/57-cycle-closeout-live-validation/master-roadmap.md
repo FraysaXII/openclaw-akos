@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 57-cycle-closeout-live-validation
+initiative_id: INIT-OPENCLAW_AKOS-57
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-04
+closed_at: 2026-05-04
+closure_decision_id: D-IH-57-CLOSURE
 ---
-
 # Initiative 57 — Cycle closeout + first live-validation window
 
 **Folder:** `docs/wip/planning/57-cycle-closeout-live-validation/`

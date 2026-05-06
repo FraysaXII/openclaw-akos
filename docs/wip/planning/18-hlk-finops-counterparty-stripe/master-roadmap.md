@@ -1,3 +1,11 @@
+---
+language: en
+status: closed
+initiative_id: INIT-OPENCLAW_AKOS-18
+last_review: 2026-04-23
+closed_at: 2026-04-23
+closure_decision_id: D-IH-18-CLOSURE
+---
 # Initiative 18 — FINOPS counterparty SSOT + Stripe FDW
 
 **Folder:** `docs/wip/planning/18-hlk-finops-counterparty-stripe/`  

@@ -1,1 +1,23 @@
 ops_action_id,title,originating_initiative_id,forwarded_to_initiative_id,owner_class,owner_role,status,rice_reach,rice_impact,rice_confidence_pct,rice_effort_person_weeks,rice_score,gate_id,linked_decision_ids,summary,operator_runbook_path,evidence_path,opened_at,closed_at,notes
+OPS-14-1,,INIT-OPENCLAW_AKOS-14,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-53-1,,INIT-OPENCLAW_AKOS-46,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-47-1,,INIT-OPENCLAW_AKOS-50,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-47-2,,INIT-OPENCLAW_AKOS-50,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-47-9,,INIT-OPENCLAW_AKOS-50,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-47-6,,INIT-OPENCLAW_AKOS-51,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-50-1,,INIT-OPENCLAW_AKOS-51,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-51-1,,INIT-OPENCLAW_AKOS-51,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-47-8,,INIT-OPENCLAW_AKOS-52,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-52-1,,INIT-OPENCLAW_AKOS-52,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-52-2,,INIT-OPENCLAW_AKOS-52,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-54-1,,INIT-OPENCLAW_AKOS-54,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-55-1,,INIT-OPENCLAW_AKOS-55,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-56-1,,INIT-OPENCLAW_AKOS-56,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-57-1,,INIT-OPENCLAW_AKOS-57,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-57-2,,INIT-OPENCLAW_AKOS-57,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-54-1.c,,INIT-OPENCLAW_AKOS-57,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-58-1,,INIT-OPENCLAW_AKOS-58,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-58-2,,INIT-OPENCLAW_AKOS-58,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-58-3,Fix _heuristic_persona_fit persona=None rubric gap,INIT-OPENCLAW_AKOS-58,,engineering,PMO,closed,,,,,149,,D-IH-58-J,resolve_persona reads PERSONA_REGISTRY.csv when persona=None; persona_fit heuristic now has real context,,docs/wip/planning/59-hlk-governance-clean-slate/reports/p6-ops-58-3-rubric-fix-2026-05-06.md,,2026-05-06,I59 P6 closed; 14 new tests in test_judge_persona_fit_offline.py
+OPS-58-4,,INIT-OPENCLAW_AKOS-58,,operator,PMO,open,,,,,,,,,,,,,seeded by I59 P3 audit pass; verify owner_class + RICE
+OPS-59-1,Merge telemetry promotion proposals into PERSONA_SCENARIO_REGISTRY.csv,INIT-OPENCLAW_AKOS-59,,operator,PMO,open,,,,,,,D-IH-59-K,Run promote_telemetry_to_scenario.py --since-days 30 when telemetry exists; merge proposals per SOP-MADEIRA_SCENARIO_LIFECYCLE_001 §5.4,,docs/wip/planning/59-hlk-governance-clean-slate/reports/p7-telemetry-triage-2026-05-06.md,,,"I59 P7; zero proposals at initial run (no telemetry data); re-run each cycle"

@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 58-cycle-2-multi-track-forward
+initiative_id: INIT-OPENCLAW_AKOS-58
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-06
+closed_at: 2026-05-06
+closure_decision_id: D-IH-58-CLOSURE
 ---
-
 # Initiative 58 — Cycle 2 multi-track forward (OPS-57-1 + strategy + KM polish + hygiene)
 
 **Folder:** `docs/wip/planning/58-cycle-2-multi-track-forward/`

@@ -1,3 +1,10 @@
+---
+language: en
+status: program_line
+initiative_id: INIT-OPENCLAW_AKOS-04
+last_review: 2026-04-15
+cadence: event_driven
+---
 # Holistika company formation — master roadmap
 
 **Initiative:** `04-holistika-company-formation`  

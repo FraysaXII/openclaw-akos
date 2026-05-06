@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 51-persona-calibration-cleanup
+initiative_id: INIT-OPENCLAW_AKOS-51
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-03
+closed_at: 2026-05-03
+closure_decision_id: D-IH-51-CLOSURE
 ---
-
 # Initiative 51 — Persona calibration cleanup
 
 **Folder:** `docs/wip/planning/51-persona-calibration-cleanup/`

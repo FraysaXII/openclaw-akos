@@ -1,14 +1,10 @@
 ---
 language: en
-status: active-continuous-loop
-initiative: 55-brand-ops-continuous-loop
-report_kind: master-roadmap
-program_id: shared
-plane: ops
-authority: Founder
+status: continuous
+initiative_id: INIT-OPENCLAW_AKOS-55
 last_review: 2026-05-03
+continuous_rationale: 'Per D-IH-55-F: tooling ships but the initiative intentionally has no fixed end date — runs as a regression-to-advisor loop.'
 ---
-
 # Initiative 55 — Brand/Ops continuous improvement loop + advisor-update triggers (closes I24 capability; stays open as ongoing loop)
 
 **Folder:** `docs/wip/planning/55-brand-ops-continuous-loop/`

@@ -1,3 +1,10 @@
+---
+language: en
+status: program_line
+initiative_id: INIT-OPENCLAW_AKOS-19
+last_review: 2026-04-23
+cadence: event_driven
+---
 # Initiative 19 — FINOPS `finops.*` ledger (Phase C)
 
 **Folder:** `docs/wip/planning/19-hlk-finops-ledger/`  

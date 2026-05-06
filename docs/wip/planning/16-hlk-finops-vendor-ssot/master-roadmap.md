@@ -1,3 +1,11 @@
+---
+language: en
+status: archived
+initiative_id: INIT-OPENCLAW_AKOS-16
+last_review: 2026-04-23
+archived_at: 2026-04-23
+superseded_by: INIT-OPENCLAW_AKOS-18
+---
 # Initiative 16 — FINOPS vendor SSOT + Supabase mirror
 
 > **Superseded for FINOPS commercial metadata:** [**Initiative 18** — FINOPS counterparty SSOT + Stripe FDW](../18-hlk-finops-counterparty-stripe/master-roadmap.md) replaces the vendor-only CSV and `finops_vendor_register_mirror` with **`FINOPS_COUNTERPARTY_REGISTER.csv`** and **`finops_counterparty_register_mirror`**. This folder remains historical traceability for the 2026-04-20 vendor tranche.

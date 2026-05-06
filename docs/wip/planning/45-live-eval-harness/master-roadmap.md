@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 45-live-eval-harness
+initiative_id: INIT-OPENCLAW_AKOS-45
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-04
+closed_at: 2026-05-04
+closure_decision_id: D-IH-45-CLOSURE
 ---
-
 # Initiative 45 — Live Eval Harness Modernisation: 9-phase unification + cost + adversarial pass
 
 **Folder:** `docs/wip/planning/45-live-eval-harness/`

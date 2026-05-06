@@ -46,6 +46,8 @@ TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensio
 
 DECISION_ID_STANDARD_RE = re.compile(r"^D-IH-\d{1,3}-[A-Z](-V\d+)?$")
 DECISION_ID_CLOSURE_RE = re.compile(r"^D-IH-\d{1,3}-Decision-P\d+(-[A-Z0-9-]+)?-\d{4}-\d{2}-\d{2}$")
+DECISION_ID_INITIATIVE_CLOSURE_RE = re.compile(r"^D-IH-\d{1,3}-CLOSURE(-[A-Z0-9-]+)?$")
+DECISION_ID_OPS_RE = re.compile(r"^D-IH-OPS-\d{1,3}$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 
@@ -61,7 +63,12 @@ def _split_semi(value: str) -> list[str]:
 
 
 def _decision_id_valid(did: str) -> bool:
-    return bool(DECISION_ID_STANDARD_RE.match(did) or DECISION_ID_CLOSURE_RE.match(did))
+    return bool(
+        DECISION_ID_STANDARD_RE.match(did)
+        or DECISION_ID_CLOSURE_RE.match(did)
+        or DECISION_ID_INITIATIVE_CLOSURE_RE.match(did)
+        or DECISION_ID_OPS_RE.match(did)
+    )
 
 
 def main() -> int:

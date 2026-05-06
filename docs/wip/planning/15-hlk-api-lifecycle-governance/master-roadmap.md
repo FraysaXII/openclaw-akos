@@ -1,3 +1,11 @@
+---
+language: en
+status: closed
+initiative_id: INIT-OPENCLAW_AKOS-15
+last_review: 2026-04-20
+closed_at: 2026-04-20
+closure_decision_id: D-IH-15-CLOSURE
+---
 # Initiative 15 — HLK API lifecycle governance + component matrix
 
 **Folder:** `docs/wip/planning/15-hlk-api-lifecycle-governance/`  

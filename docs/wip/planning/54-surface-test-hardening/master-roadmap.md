@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 54-surface-test-hardening
+initiative_id: INIT-OPENCLAW_AKOS-54
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-04
+closed_at: 2026-05-04
+closure_decision_id: D-IH-54-CLOSURE
 ---
-
 # Initiative 54 — Surface test hardening (Playwright + axe-core)
 
 **Folder:** `docs/wip/planning/54-surface-test-hardening/`

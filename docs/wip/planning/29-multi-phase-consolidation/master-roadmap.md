@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 29-multi-phase-consolidation
+initiative_id: INIT-OPENCLAW_AKOS-29
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-05
+closed_at: 2026-05-05
+closure_decision_id: D-IH-29-CLOSURE
 ---
-
 # Initiative 29 — Multi-phase consolidation (visual fixes, design governance, Impeccable, Business Strategy SSOT)
 
 **Document owner**: Brand Manager + System Owner + Founder (joint)

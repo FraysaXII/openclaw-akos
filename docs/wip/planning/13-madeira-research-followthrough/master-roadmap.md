@@ -1,3 +1,9 @@
+---
+language: en
+status: active
+initiative_id: INIT-OPENCLAW_AKOS-13
+last_review: 2026-04-17
+---
 # Initiative 13 — MADEIRA research follow-through (SOTA-aligned)
 
 **Status:** active (execution started 2026-04-17).  

@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 53-graphrag-poc-closure
+initiative_id: INIT-OPENCLAW_AKOS-53
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-03
+closed_at: 2026-05-03
+closure_decision_id: D-IH-53-CLOSURE
 ---
-
 # Initiative 53 — GraphRAG PoC closure (closes I46 P3-P7)
 
 **Folder:** `docs/wip/planning/53-graphrag-poc-closure/`

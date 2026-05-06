@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 47-user-centric-uat
+initiative_id: INIT-OPENCLAW_AKOS-47
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-02
+closed_at: 2026-05-02
+closure_decision_id: D-IH-47-CLOSURE
 ---
-
 # Initiative 47 — User-centric UAT modernisation
 
 **Folder:** `docs/wip/planning/47-user-centric-uat/`

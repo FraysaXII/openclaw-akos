@@ -51,7 +51,7 @@ ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "baseline_o
 TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
 PROCESS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
 
-INITIATIVE_ID_RE = re.compile(r"^INIT-[A-Z0-9_]+-\d{2,3}$")
+INITIATIVE_ID_RE = re.compile(r"^INIT-[A-Z0-9_]+-\d{2,3}[A-Z]?$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 

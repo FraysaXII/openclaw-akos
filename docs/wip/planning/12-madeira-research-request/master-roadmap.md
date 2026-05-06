@@ -1,3 +1,10 @@
+---
+language: en
+status: gated_external
+initiative_id: INIT-OPENCLAW_AKOS-12
+last_review: 2026-04-17
+gated_on: External research team intake; substantive closure depends on commissioned findings.
+---
 # Initiative 12 — MADEIRA external research request
 
 **Status:** active (handoff document published).  

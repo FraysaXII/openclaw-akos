@@ -1,3 +1,9 @@
+---
+language: en
+status: active
+initiative_id: INIT-OPENCLAW_AKOS-11
+last_review: 2026-04-15
+---
 # Initiative 11 — Madeira day-to-day ops copilot (SOTA-informed, governance-safe)
 
 **Status:** active (implementation started 2026-04-15).  

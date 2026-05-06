@@ -1,3 +1,9 @@
+---
+language: en
+status: active
+initiative_id: INIT-OPENCLAW_AKOS-03
+last_review: 2026-04-08
+---
 # HLK governed KM — workspace master roadmap
 
 **Initiative slug:** `hlk-km-knowledge-base`  

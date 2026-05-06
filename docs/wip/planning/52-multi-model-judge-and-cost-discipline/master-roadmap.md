@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 52-multi-model-judge-and-cost-discipline
+initiative_id: INIT-OPENCLAW_AKOS-52
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-03
+closed_at: 2026-05-03
+closure_decision_id: D-IH-52-CLOSURE
 ---
-
 # Initiative 52 — Multi-model LLM-judge live activation + RunPod/Kalavai cost discipline
 
 **Folder:** `docs/wip/planning/52-multi-model-judge-and-cost-discipline/`

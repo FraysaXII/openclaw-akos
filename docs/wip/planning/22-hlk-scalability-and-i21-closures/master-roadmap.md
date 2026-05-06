@@ -1,3 +1,11 @@
+---
+language: en
+status: closed
+initiative_id: INIT-OPENCLAW_AKOS-22
+last_review: 2026-04-29
+closed_at: 2026-04-29
+closure_decision_id: D-IH-22-CLOSURE
+---
 # Initiative 22 — Scalable HLK hierarchy + Initiative 21 closures
 
 **Folder:** `docs/wip/planning/22-hlk-scalability-and-i21-closures/`  

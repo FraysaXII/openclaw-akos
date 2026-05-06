@@ -1,3 +1,9 @@
+---
+language: en
+status: active
+initiative_id: INIT-OPENCLAW_AKOS-17
+last_review: 2026-04-15
+---
 # Initiative 17 — MADEIRA Cursor mode parity (Ask / Plan / Run)
 
 **Status:** execution in progress  

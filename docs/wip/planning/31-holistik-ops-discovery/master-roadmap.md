@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 31-holistik-ops-discovery
+initiative_id: INIT-OPENCLAW_AKOS-31
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-05
+closed_at: 2026-05-05
+closure_decision_id: D-IH-31-CLOSURE
 ---
-
 # Initiative 31 — Holistik Ops Discovery: 6-axis operating system for human interactions
 
 **Folder:** `docs/wip/planning/31-holistik-ops-discovery/`

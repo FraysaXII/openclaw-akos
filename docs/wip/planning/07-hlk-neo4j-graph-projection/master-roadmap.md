@@ -1,3 +1,11 @@
+---
+language: en
+status: closed
+initiative_id: INIT-OPENCLAW_AKOS-07
+last_review: 2026-04-15
+closed_at: 2026-04-15
+closure_decision_id: D-IH-07-CLOSURE
+---
 # Initiative 07: HLK Neo4j graph projection
 
 **Status:** Closeout — control-plane explorer, prompt DI (`OVERLAY_HLK_GRAPH`), browser-smoke parent fix, ops runbook.  

@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 49-madeira-management-rollup
+initiative_id: INIT-OPENCLAW_AKOS-49
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-03
+closed_at: 2026-05-03
+closure_decision_id: D-IH-49-CLOSURE
 ---
-
 # Initiative 49 — MADEIRA management and verdict rollup
 
 **Folder:** `docs/wip/planning/49-madeira-management-rollup/`

@@ -1,3 +1,10 @@
+---
+language: en
+status: program_line
+initiative_id: INIT-OPENCLAW_AKOS-14
+last_review: 2026-04-18
+cadence: weekly
+---
 # Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned)
 
 **Status:** active (execution started 2026-04-17).  

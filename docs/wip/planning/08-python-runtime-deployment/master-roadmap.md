@@ -1,3 +1,10 @@
+---
+language: en
+status: program_line
+initiative_id: INIT-OPENCLAW_AKOS-08
+last_review: 2026-04-15
+cadence: event_driven
+---
 # Initiative 08 — Python runtime, deployment, operator journey, Neo4j graph stack
 
 **Status:** execution in progress (repo implementation tracks this roadmap).  

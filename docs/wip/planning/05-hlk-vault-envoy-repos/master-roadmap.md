@@ -2,13 +2,15 @@
 language: en
 status: archived
 initiative: 05-hlk-vault-envoy-repos
+initiative_id: INIT-OPENCLAW_AKOS-05
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: System Owner
 last_review: 2026-05-05
+archived_at: 2026-05-05
+superseded_by: INIT-OPENCLAW_AKOS-32
 ---
-
 # Initiative 05 — HLK v3.0 Envoy repository hub + entity placement
 
 **Folder:** `docs/wip/planning/05-hlk-vault-envoy-repos/`

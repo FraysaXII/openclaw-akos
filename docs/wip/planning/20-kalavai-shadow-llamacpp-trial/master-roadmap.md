@@ -2,13 +2,15 @@
 language: en
 status: archived
 initiative: 20-kalavai-shadow-llamacpp-trial
+initiative_id: INIT-OPENCLAW_AKOS-20
 report_kind: master-roadmap
 program_id: shared
 plane: tech
 authority: System Owner
 last_review: 2026-05-05
+archived_at: 2026-05-05
+superseded_by: INIT-OPENCLAW_AKOS-58
 ---
-
 # Initiative 20 — Kalavai / Shadow llama.cpp trial: DeepSeek-R1-Distill-Llama-70B (Q4)
 
 **Folder:** `docs/wip/planning/20-kalavai-shadow-llamacpp-trial/`

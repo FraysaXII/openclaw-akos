@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 50-live-cycle-closure
+initiative_id: INIT-OPENCLAW_AKOS-50
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-03
+closed_at: 2026-05-03
+closure_decision_id: D-IH-50-CLOSURE
 ---
-
 # Initiative 50 — Live cycle closure + cost SSOT truth-up
 
 **Folder:** `docs/wip/planning/50-live-cycle-closure/`

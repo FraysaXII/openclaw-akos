@@ -1,3 +1,11 @@
+---
+language: en
+status: closed
+initiative_id: INIT-OPENCLAW_AKOS-10
+last_review: 2026-04-15
+closed_at: 2026-04-15
+closure_decision_id: D-IH-10-CLOSURE
+---
 # Initiative 10 — Madeira Path B+C, SOTA quality, eval harness
 
 **Status:** **complete** (2026-04-15). Closure notes: [`reports/phase-completion-report.md`](reports/phase-completion-report.md). **Phase 6 browser UAT evidence:** [`reports/uat-madeira-path-bc-browser-20260416.md`](reports/uat-madeira-path-bc-browser-20260416.md) (dated **addenda** + [`reports/SESSION_TROUBLESHOOTING.md`](reports/SESSION_TROUBLESHOOTING.md): WebChat step 5 PASS via Browser MCP; steps 6–7 may SKIP on **Ollama timeout** — use HTTP `scenario0_*` + warm-up).  

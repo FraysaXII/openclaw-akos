@@ -1,3 +1,11 @@
+---
+language: en
+status: archived
+initiative_id: INIT-OPENCLAW_AKOS-09
+last_review: 2026-04-16
+archived_at: 2026-04-16
+superseded_by: INIT-OPENCLAW_AKOS-10
+---
 # Initiative 09 — OpenClaw hygiene (gateway SSOT, security audit, bootstrap, CLI updates)
 
 **Source:** `.cursor/plans/openclaw_hygiene_triad_66fa92e1.plan.md`  

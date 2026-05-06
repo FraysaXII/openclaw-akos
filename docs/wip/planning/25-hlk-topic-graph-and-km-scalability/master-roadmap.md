@@ -1,3 +1,11 @@
+---
+language: en
+status: closed
+initiative_id: INIT-OPENCLAW_AKOS-25
+last_review: 2026-04-29
+closed_at: 2026-04-29
+closure_decision_id: D-IH-25-CLOSURE
+---
 # Initiative 25 — Topic Graph + Graph Projection + KM Scalability
 
 **Folder:** `docs/wip/planning/25-hlk-topic-graph-and-km-scalability/`  

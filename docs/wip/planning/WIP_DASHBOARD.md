@@ -15,32 +15,60 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (1)
+### Active (in execution) (4)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
-| **59** | [`59-hlk-governance-clean-slate/`](59-hlk-governance-clean-slate/) | active | 2026-05-06 | Initiative 59 — HLK governance promotion + clean slate cycle (5 dimensions + I60/I61 lo... |
+| **03** | [`03-hlk-km-knowledge-base/`](03-hlk-km-knowledge-base/) | active | 2026-04-08 | HLK governed KM — workspace master roadmap |
+| **11** | [`11-madeira-ops-copilot/`](11-madeira-ops-copilot/) | active | 2026-04-15 | Initiative 11 — Madeira day-to-day ops copilot (SOTA-informed, governance-safe) |
+| **13** | [`13-madeira-research-followthrough/`](13-madeira-research-followthrough/) | active | 2026-04-17 | Initiative 13 — MADEIRA research follow-through (SOTA-aligned) |
+| **17** | [`17-madeira-cursor-mode-parity/`](17-madeira-cursor-mode-parity/) | active | 2026-04-15 | Initiative 17 — MADEIRA Cursor mode parity (Ask / Plan / Run) |
 
-### Gated on external event (0)
-
-_(none)_
-
-### Gated on operator action (0)
-
-_(none)_
-
-### Continuous loops (active by design) (0)
-
-_(none)_
-
-### Program lines (cadence-driven) (0)
-
-_(none)_
-
-### Closed (17)
+### Gated on external event (2)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
+| **12** | [`12-madeira-research-request/`](12-madeira-research-request/) | gated_external | 2026-04-17 | Initiative 12 — MADEIRA external research request |
+| **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | gated_external | 2026-05-03 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
+
+### Gated on operator action (1)
+
+| Seq | Folder | Status | Last review | Title |
+|:---:|:-------|:-------|:-----------:|:------|
+| **24** | [`24-hlk-communication-methodology/`](24-hlk-communication-methodology/) | gated_operator | 2026-05-04 | Initiative 24 — Communication Methodology + Eloquence-Layer Composer |
+
+### Continuous loops (active by design) (3)
+
+| Seq | Folder | Status | Last review | Title |
+|:---:|:-------|:-------|:-----------:|:------|
+| **01** | [`01-akos-full-roadmap/`](01-akos-full-roadmap/) | continuous | 2026-04-15 | AKOS Full Roadmap |
+| **06** | [`06-planning-backlog-registry/`](06-planning-backlog-registry/) | continuous | 2026-04-15 | Planning backlog registry (cross-initiative SSOT) |
+| **55** | [`55-brand-ops-continuous-loop/`](55-brand-ops-continuous-loop/) | continuous | 2026-05-03 | Initiative 55 — Brand/Ops continuous improvement loop + advisor-update triggers (closes... |
+
+### Program lines (cadence-driven) (4)
+
+| Seq | Folder | Status | Last review | Title |
+|:---:|:-------|:-------|:-----------:|:------|
+| **04** | [`04-holistika-company-formation/`](04-holistika-company-formation/) | program_line | 2026-04-15 | Holistika company formation — master roadmap |
+| **08** | [`08-python-runtime-deployment/`](08-python-runtime-deployment/) | program_line | 2026-04-15 | Initiative 08 — Python runtime, deployment, operator journey, Neo4j graph stack |
+| **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | program_line | 2026-04-18 | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
+| **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | program_line | 2026-04-23 | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
+
+### Closed (29)
+
+| Seq | Folder | Status | Last review | Title |
+|:---:|:-------|:-------|:-----------:|:------|
+| **02** | [`02-hlk-on-akos-madeira/`](02-hlk-on-akos-madeira/) | closed | 2026-04-14 | HLK On AKOS Madeira Roadmap |
+| **07** | [`07-hlk-neo4j-graph-projection/`](07-hlk-neo4j-graph-projection/) | closed | 2026-04-15 | Initiative 07: HLK Neo4j graph projection |
+| **10** | [`10-madeira-eval-hardening/`](10-madeira-eval-hardening/) | closed | 2026-04-15 | Initiative 10 — Madeira Path B+C, SOTA quality, eval harness |
+| **15** | [`15-hlk-api-lifecycle-governance/`](15-hlk-api-lifecycle-governance/) | closed | 2026-04-20 | Initiative 15 — HLK API lifecycle governance + component matrix |
+| **18** | [`18-hlk-finops-counterparty-stripe/`](18-hlk-finops-counterparty-stripe/) | closed | 2026-04-23 | Initiative 18 — FINOPS counterparty SSOT + Stripe FDW |
+| **21** | [`21-hlk-adviser-engagement-and-goipoi/`](21-hlk-adviser-engagement-and-goipoi/) | closed | 2026-04-28 | Initiative 21 — Adviser Engagement plane + GOI/POI dimension |
+| **22** | [`22-hlk-scalability-and-i21-closures/`](22-hlk-scalability-and-i21-closures/) | closed | 2026-04-29 | Initiative 22 — Scalable HLK hierarchy + Initiative 21 closures |
+| **22a** | [`22a-i22-post-closure-followups/`](22a-i22-post-closure-followups/) | closed | 2026-05-04 | Initiative 22a — Post-closure follow-ups + Wave-2 bootstrap |
+| **23** | [`23-hlk-program-registry-and-program-2/`](23-hlk-program-registry-and-program-2/) | closed | 2026-04-29 | Initiative 23 — Program Registry + Onboarding Program 2 |
+| **25** | [`25-hlk-topic-graph-and-km-scalability/`](25-hlk-topic-graph-and-km-scalability/) | closed | 2026-04-29 | Initiative 25 — Topic Graph + Graph Projection + KM Scalability |
+| **26** | [`26-hlk-ops-hardening/`](26-hlk-ops-hardening/) | closed | 2026-04-29 | Initiative 26 — Operations hardening (small ops items + persistent triggers) |
 | **28** | [`28-investor-style-company-dossier/`](28-investor-style-company-dossier/) | closed | 2026-05-05 | Initiative 28 — Investor-Style Holistika Company Dossier |
 | **29** | [`29-multi-phase-consolidation/`](29-multi-phase-consolidation/) | closed | 2026-05-05 | Initiative 29 — Multi-phase consolidation (visual fixes, design governance, Impeccable,... |
 | **30** | [`30-deck-moat-surgery/`](30-deck-moat-surgery/) | closed | 2026-05-05 | Initiative 30 — Deck moat surgery: MADEIRA, joint-equity, governance metrics |
@@ -58,45 +86,20 @@ _(none)_
 | **54** | [`54-surface-test-hardening/`](54-surface-test-hardening/) | closed | 2026-05-04 | Initiative 54 — Surface test hardening (Playwright + axe-core) |
 | **57** | [`57-cycle-closeout-live-validation/`](57-cycle-closeout-live-validation/) | closed | 2026-05-04 | Initiative 57 — Cycle closeout + first live-validation window |
 | **58** | [`58-cycle-2-multi-track-forward/`](58-cycle-2-multi-track-forward/) | closed | 2026-05-06 | Initiative 58 — Cycle 2 multi-track forward (OPS-57-1 + strategy + KM polish + hygiene) |
+| **59** | [`59-hlk-governance-clean-slate/`](59-hlk-governance-clean-slate/) | closed | 2026-05-06 | Initiative 59 — HLK governance promotion + clean slate cycle (5 dimensions + I60/I61 lo... |
 
-### Archived (superseded) (2)
+### Archived (superseded) (4)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
 | **05** | [`05-hlk-vault-envoy-repos/`](05-hlk-vault-envoy-repos/) | archived | 2026-05-05 | Initiative 05 — HLK v3.0 Envoy repository hub + entity placement |
+| **09** | [`09-openclaw-hygiene/`](09-openclaw-hygiene/) | archived | 2026-04-16 | Initiative 09 — OpenClaw hygiene (gateway SSOT, security audit, bootstrap, CLI updates) |
+| **16** | [`16-hlk-finops-vendor-ssot/`](16-hlk-finops-vendor-ssot/) | archived | 2026-04-23 | Initiative 16 — FINOPS vendor SSOT + Supabase mirror |
 | **20** | [`20-kalavai-shadow-llamacpp-trial/`](20-kalavai-shadow-llamacpp-trial/) | archived | 2026-05-05 | Initiative 20 — Kalavai / Shadow llama.cpp trial: DeepSeek-R1-Distill-Llama-70B (Q4) |
 
-### Unknown / unclassified (27)
+### Unknown / unclassified (0)
 
-| Seq | Folder | Status | Last review | Title |
-|:---:|:-------|:-------|:-----------:|:------|
-| **01** | [`01-akos-full-roadmap/`](01-akos-full-roadmap/) | : Working copy for workspace traceability | — | AKOS Full Roadmap |
-| **02** | [`02-hlk-on-akos-madeira/`](02-hlk-on-akos-madeira/) | : Working copy for workspace traceability; original 6-phase HLK-on-AKOS progr... | — | HLK On AKOS Madeira Roadmap |
-| **03** | [`03-hlk-km-knowledge-base/`](03-hlk-km-knowledge-base/) | In progress (P0–P2 execution) | 2026-04-08 | HLK governed KM — workspace master roadmap |
-| **04** | [`04-holistika-company-formation/`](04-holistika-company-formation/) | Active program (promoted from report-only) | — | Holistika company formation — master roadmap |
-| **06** | [`06-planning-backlog-registry/`](06-planning-backlog-registry/) | Active | — | Planning backlog registry (cross-initiative SSOT) |
-| **07** | [`07-hlk-neo4j-graph-projection/`](07-hlk-neo4j-graph-projection/) | Closeout — control-plane explorer, prompt DI (`OVERLAY_HLK_GRAPH`), browser-s... | — | Initiative 07: HLK Neo4j graph projection |
-| **08** | [`08-python-runtime-deployment/`](08-python-runtime-deployment/) | execution in progress (repo implementation tracks this roadmap) | — | Initiative 08 — Python runtime, deployment, operator journey, Neo4j graph stack |
-| **09** | [`09-openclaw-hygiene/`](09-openclaw-hygiene/) | execution mirror (non-canonical; canonical planning workflow remains in Curso... | — | Initiative 09 — OpenClaw hygiene (gateway SSOT, security audit, bootstrap, CLI updates) |
-| **10** | [`10-madeira-eval-hardening/`](10-madeira-eval-hardening/) | **complete** (2026-04-15). Closure notes: [`reports/phase-completion-report.m... | — | Initiative 10 — Madeira Path B+C, SOTA quality, eval harness |
-| **11** | [`11-madeira-ops-copilot/`](11-madeira-ops-copilot/) | active (implementation started 2026-04-15) | — | Initiative 11 — Madeira day-to-day ops copilot (SOTA-informed, governance-safe) |
-| **12** | [`12-madeira-research-request/`](12-madeira-research-request/) | active (handoff document published) | — | Initiative 12 — MADEIRA external research request |
-| **13** | [`13-madeira-research-followthrough/`](13-madeira-research-followthrough/) | active (execution started 2026-04-17) | — | Initiative 13 — MADEIRA research follow-through (SOTA-aligned) |
-| **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | active (execution started 2026-04-17) | — | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
-| **15** | [`15-hlk-api-lifecycle-governance/`](15-hlk-api-lifecycle-governance/) | unknown | — | Initiative 15 — HLK API lifecycle governance + component matrix |
-| **16** | [`16-hlk-finops-vendor-ssot/`](16-hlk-finops-vendor-ssot/) | Executed (2026-04-20); vendor artifacts subsumed by Initiative 18 (2026-04-23) | — | Initiative 16 — FINOPS vendor SSOT + Supabase mirror |
-| **17** | [`17-madeira-cursor-mode-parity/`](17-madeira-cursor-mode-parity/) | execution in progress | — | Initiative 17 — MADEIRA Cursor mode parity (Ask / Plan / Run) |
-| **18** | [`18-hlk-finops-counterparty-stripe/`](18-hlk-finops-counterparty-stripe/) | Executed (2026-04-23) | — | Initiative 18 — FINOPS counterparty SSOT + Stripe FDW |
-| **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | Phase 1 DDL applied **MasterData** (`swrmqpelgoblaquequzb`) + git parity (202... | — | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
-| **21** | [`21-hlk-adviser-engagement-and-goipoi/`](21-hlk-adviser-engagement-and-goipoi/) | **Closed (2026-04-28)** — UAT report [`reports/uat-adviser-handoff-20260428.m... | — | Initiative 21 — Adviser Engagement plane + GOI/POI dimension |
-| **22** | [`22-hlk-scalability-and-i21-closures/`](22-hlk-scalability-and-i21-closures/) | **Closed (2026-04-29)** — UAT [`reports/uat-i22-scalability-and-closure-20260... | — | Initiative 22 — Scalable HLK hierarchy + Initiative 21 closures |
-| **22a** | [`22a-i22-post-closure-followups/`](22a-i22-post-closure-followups/) | **Closed (P1–P6 complete; P7 Supabase parity reconciled 2026-05-04 via D-IH-O... | — | Initiative 22a — Post-closure follow-ups + Wave-2 bootstrap |
-| **23** | [`23-hlk-program-registry-and-program-2/`](23-hlk-program-registry-and-program-2/) | **Closed (2026-04-29)** — UAT [`reports/uat-i23-program-registry-20260429.md`... | — | Initiative 23 — Program Registry + Onboarding Program 2 |
-| **24** | [`24-hlk-communication-methodology/`](24-hlk-communication-methodology/) | P0 + P0a-scaffold + P1 in progress (2026-04-29) | — | Initiative 24 — Communication Methodology + Eloquence-Layer Composer |
-| **25** | [`25-hlk-topic-graph-and-km-scalability/`](25-hlk-topic-graph-and-km-scalability/) | **Closed (2026-04-29)** — UAT [`reports/uat-i25-topic-graph-and-km-scalabilit... | — | Initiative 25 — Topic Graph + Graph Projection + KM Scalability |
-| **26** | [`26-hlk-ops-hardening/`](26-hlk-ops-hardening/) | **CLOSED for P0+P1+P2+P3+P5 (2026-04-29). P4 DEFERRED with persistent trigger... | — | Initiative 26 — Operations hardening (small ops items + persistent triggers) |
-| **55** | [`55-brand-ops-continuous-loop/`](55-brand-ops-continuous-loop/) | active-continuous-loop | 2026-05-03 | Initiative 55 — Brand/Ops continuous improvement loop + advisor-update triggers (closes... |
-| **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | bootstrapped-pending-first-advisor-reply | 2026-05-03 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
+_(none)_
 
 <!-- END AUTO -->
 

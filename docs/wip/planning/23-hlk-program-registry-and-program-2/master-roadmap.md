@@ -1,3 +1,11 @@
+---
+language: en
+status: closed
+initiative_id: INIT-OPENCLAW_AKOS-23
+last_review: 2026-04-29
+closed_at: 2026-04-29
+closure_decision_id: D-IH-23-CLOSURE
+---
 # Initiative 23 — Program Registry + Onboarding Program 2
 
 **Folder:** `docs/wip/planning/23-hlk-program-registry-and-program-2/`  

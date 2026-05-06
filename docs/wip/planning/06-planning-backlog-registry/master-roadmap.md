@@ -1,3 +1,10 @@
+---
+language: en
+status: continuous
+initiative_id: INIT-OPENCLAW_AKOS-06
+last_review: 2026-04-15
+continuous_rationale: Cross-initiative backlog index by design; maintained whenever linked initiatives or backlog rows move.
+---
 # Planning backlog registry (cross-initiative SSOT)
 
 **Initiative:** `06-planning-backlog-registry`  

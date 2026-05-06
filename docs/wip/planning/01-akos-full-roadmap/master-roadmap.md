@@ -1,3 +1,10 @@
+---
+language: en
+status: continuous
+initiative_id: INIT-OPENCLAW_AKOS-01
+last_review: 2026-04-15
+continuous_rationale: In-repo mirror of the Cursor execution roadmap for AKOS; maintained as phases evolve rather than a one-shot closure.
+---
 # AKOS Full Roadmap
 
 **Source plan**: `C:\Users\Shadow\.cursor\plans\akos_full_roadmap_92a6e0a8.plan.md`

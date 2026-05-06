@@ -1,18 +1,20 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 59-hlk-governance-clean-slate
+initiative_id: INIT-OPENCLAW_AKOS-59
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-06
+closed_at: 2026-05-06
+closure_decision_id: D-IH-59-N
 ---
-
 # Initiative 59 — HLK governance promotion + clean slate cycle (5 dimensions + I60/I61 lookahead)
 
 **Folder:** `docs/wip/planning/59-hlk-governance-clean-slate/`
-**Status:** **Active** — bootstrapped 2026-05-06.
+**Status:** **Closed** — P0-P10 all landed 2026-05-06.
 **Authoritative plan:** [`~/.cursor/plans/i59_clean_slate_taxonomy_5fea803a.plan.md`](#) (preserved verbatim; this master-roadmap is the canonical workspace artifact).
 **Predecessors:** [I58](../58-cycle-2-multi-track-forward/master-roadmap.md) (closed engineering + operator side 2026-05-06).
 

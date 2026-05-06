@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 48-operator-dossier
+initiative_id: INIT-OPENCLAW_AKOS-48
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-02
+closed_at: 2026-05-02
+closure_decision_id: D-IH-48-CLOSURE
 ---
-
 # Initiative 48 — Operator-facing UAT Dossier
 
 **Folder:** `docs/wip/planning/48-operator-dossier/`

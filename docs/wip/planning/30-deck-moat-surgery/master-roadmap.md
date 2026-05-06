@@ -2,13 +2,15 @@
 language: en
 status: closed
 initiative: 30-deck-moat-surgery
+initiative_id: INIT-OPENCLAW_AKOS-30
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder
 last_review: 2026-05-05
+closed_at: 2026-05-05
+closure_decision_id: D-IH-30-CLOSURE
 ---
-
 # Initiative 30 — Deck moat surgery: MADEIRA, joint-equity, governance metrics
 
 **Folder:** `docs/wip/planning/30-deck-moat-surgery/`

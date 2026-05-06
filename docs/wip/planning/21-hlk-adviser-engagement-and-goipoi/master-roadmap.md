@@ -1,3 +1,11 @@
+---
+language: en
+status: closed
+initiative_id: INIT-OPENCLAW_AKOS-21
+last_review: 2026-04-28
+closed_at: 2026-04-28
+closure_decision_id: D-IH-21-CLOSURE
+---
 # Initiative 21 — Adviser Engagement plane + GOI/POI dimension
 
 **Folder:** `docs/wip/planning/21-hlk-adviser-engagement-and-goipoi/`  
