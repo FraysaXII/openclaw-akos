@@ -24,3 +24,8 @@ networkx>=3.2
 scipy>=2.4.4
 # Optional: ingest Matriz / spreadsheet tooling (scripts/ingest_matriz_componentes_to_matrix.py)
 openpyxl>=3.1.0
+# I52 P3 / I58 OPS-58-1 — live multi-judge dispatch (anthropic + openai). Optional;
+# `akos.eval_harness.judge._call_member_via_api` falls back to the offline rubric
+# when these are missing or `AKOS_JUDGE_LIVE_API` is unset (no cost incurred).
+anthropic>=0.40.0
+openai>=1.50.0

@@ -324,20 +324,31 @@ class TestDefaultMemberScorerFallback:
         assert "fallback-offline-no-api-key" in ms.notes["brand_voice"]
 
     def test_live_api_call_raises_when_wired_path_attempted(self, monkeypatch):
-        # When AKOS_JUDGE_LIVE_API=1 AND key present, the default scorer attempts
-        # _call_member_via_api which currently raises NotImplementedError; the
-        # default scorer catches and falls back with the error captured.
+        # I52 P3 / OPS-58-1: with AKOS_JUDGE_LIVE_API=1 AND key present, the
+        # default scorer dispatches via `_call_member_via_api` which now
+        # performs a real provider call. We inject a stub client factory that
+        # raises a deterministic exception so the fallback path is exercised
+        # without a network round-trip.
+        from akos.eval_harness import judge as judge_mod
+
+        class _RaisingClient:
+            class _Messages:
+                def create(self, **kwargs):
+                    raise RuntimeError("simulated-transport-error")
+            messages = _Messages()
+
+        monkeypatch.setattr(judge_mod, "_anthropic_client_factory", lambda: _RaisingClient())
         monkeypatch.setenv("AKOS_JUDGE_LIVE_API", "1")
         monkeypatch.setenv("ANTHROPIC_API_KEY", "fake")
         ms = _default_member_scorer(
-            "anthropic:claude-3-5-sonnet",
+            "anthropic:claude-3-5-sonnet-20241022",
             "test",
             SCENARIO_FIXTURE,
             None,
         )
         assert ms.fallback_offline is True
         assert "fallback-offline-api-error" in ms.notes["brand_voice"]
-        assert "NotImplementedError" in ms.raw_error
+        assert "simulated-transport-error" in ms.raw_error
 
 
 # ──────────────────────────────────────────────────────────────────────────────

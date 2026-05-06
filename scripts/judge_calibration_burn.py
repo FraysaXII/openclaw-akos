@@ -47,6 +47,9 @@ from akos.eval_harness.judge import (  # noqa: E402
     JudgeRoster,
     score_response_offline,
 )
+from akos.io import bootstrap_openclaw_process_env  # noqa: E402
+
+bootstrap_openclaw_process_env()
 
 ARTIFACTS = REPO_ROOT / "artifacts" / "judge-calibration"
 ARTIFACTS.mkdir(parents=True, exist_ok=True)
@@ -109,6 +112,13 @@ def _alignment(a: dict[str, int], b: dict[str, int]) -> dict[str, int]:
     return {axis: int(a.get(axis) == b.get(axis)) for axis in JUDGE_AXES}
 
 
+_REASON_BLURB: dict[str, str] = {
+    "no-api-key": "no API credentials present for this provider",
+    "no-live-api-flag": "`AKOS_JUDGE_LIVE_API=1` is unset",
+    "api-error": "the live API call raised (network / auth / rate-limit / parse)",
+}
+
+
 def _render_markdown(
     *,
     n_scenarios: int,
@@ -118,18 +128,29 @@ def _render_markdown(
     overall_pct: float,
     misalignments: list[dict],
     fallback_count: int,
+    fallback_reasons: set[str],
     target_pp: float = 80.0,
 ) -> str:
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    fallback_banner = (
-        "\n> **DISPATCHER VALIDATION ONLY** — every roster member fell back to "
-        "the offline heuristic (no API credentials present or `AKOS_JUDGE_LIVE_API` "
-        "unset). Alignment is offline ↔ offline (trivially 100% per axis). The "
-        "real live calibration burn fires when the operator sets "
-        "`AKOS_JUDGE_LIVE_API=1` + provides per-provider API keys.\n"
-        if fallback_count == n_scenarios * len(roster.members)
-        else ""
-    )
+    fallback_banner = ""
+    if fallback_count == n_scenarios * len(roster.members):
+        if fallback_reasons:
+            blurbs = ", ".join(
+                _REASON_BLURB.get(r, r) for r in sorted(fallback_reasons)
+            )
+            fallback_banner = (
+                "\n> **DISPATCHER VALIDATION ONLY** — every roster member fell back "
+                f"to the offline heuristic. Reasons observed: {blurbs}. Alignment "
+                "is offline ↔ offline (trivially 100% per axis). The real live "
+                "calibration burn fires when the operator sets `AKOS_JUDGE_LIVE_API=1`, "
+                "provides per-provider API keys, AND the live wiring path succeeds.\n"
+            )
+        else:
+            fallback_banner = (
+                "\n> **DISPATCHER VALIDATION ONLY** — every roster member fell back "
+                "to the offline heuristic (reason channel empty). Alignment is "
+                "offline ↔ offline (trivially 100% per axis).\n"
+            )
 
     rows = []
     rows.append(f"# Judge live calibration burn — {ts}")
@@ -230,12 +251,23 @@ def main() -> int:
     aligned: dict[str, int] = Counter()
     misalignments: list[dict] = []
     fallback_count = 0
+    fallback_reasons: set[str] = set()
+    total_cost_usd = 0.0
     for sc in scenarios:
         response = _stub_response_for_scenario(sc)
         offline = score_response_offline(response, sc, persona=None)
         roster_result = roster.score(response, sc, persona=None)
-        if "fallback-offline" in (roster_result.notes or ""):
+        notes = roster_result.notes or ""
+        total_cost_usd += float(roster_result.cost_usd or 0.0)
+        if "fallback-offline" in notes:
             fallback_count += len(roster.members)
+        for part in notes.split(";"):
+            part = part.strip()
+            if part.startswith("fallback-reasons:"):
+                for r in part.split(":", 1)[1].split(","):
+                    r = r.strip()
+                    if r:
+                        fallback_reasons.add(r)
         per_axis = _alignment(offline.scores, roster_result.scores)
         for axis, ok in per_axis.items():
             if ok:
@@ -264,6 +296,7 @@ def main() -> int:
         overall_pct=overall_pct,
         misalignments=misalignments,
         fallback_count=fallback_count,
+        fallback_reasons=fallback_reasons,
         target_pp=args.target_pp,
     )
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -281,6 +314,8 @@ def main() -> int:
                 "alignment_pct": alignment_pcts,
                 "overall_pct": overall_pct,
                 "fallback_only": fallback_count == n * len(roster.members),
+                "fallback_reasons": sorted(fallback_reasons),
+                "live_total_cost_usd": round(total_cost_usd, 6),
                 "misalignments_count": len(misalignments),
                 "target_pp": args.target_pp,
             },
@@ -292,6 +327,7 @@ def main() -> int:
     print(f"Calibration burn report: {md_out}")
     print(f"Calibration burn JSON:   {json_out}")
     print(f"Overall alignment: {overall_pct:.1f}% (target >={args.target_pp:.0f}%)")
+    print(f"Live API cost (this run): ${total_cost_usd:.4f}")
     return 0
 
 

@@ -39,11 +39,13 @@ Tier B GitHub Action workflow_dispatch can opt-in to live mode via
 from __future__ import annotations
 
 import csv
+import json
 import os
 import re
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 POLICY_CSV = (
@@ -350,21 +352,226 @@ def _default_member_scorer(
     )
 
 
+# ──────────────────────────────────────────────────────────────────────────────
+# Live API dispatch (I52 P3 activation; OPS-58-1 closure)
+#
+# Per D-IH-52-B: the dispatcher dispatches one API call per roster member per
+# scenario, reads `prompts/judge/JUDGE_PROMPT_V1.md` as the system prompt,
+# parses the strict JSON output schema, tracks per-provider cost via the
+# pricing table below, and raises on parse failure so the caller's exception
+# fallback (in `_default_member_scorer`) attributes "fallback-offline-api-error"
+# to the run for operator visibility.
+#
+# Test seam: `_anthropic_client_factory` + `_openai_client_factory` are module
+# globals that tests monkey-patch with stub callables. Production callers leave
+# them unset and the lazy-imported SDK clients are constructed on first use.
+# ──────────────────────────────────────────────────────────────────────────────
+
+JUDGE_PROMPT_PATH = REPO_ROOT / "prompts" / "judge" / "JUDGE_PROMPT_V1.md"
+
+# USD per 1M tokens (input, output). Source: provider public pricing as of
+# 2026-05-05; refresh via I52 P5 endpoint cost probe when prices drift >5%.
+# Unknown models raise so an operator never silently overspends a roster
+# expansion.
+_JUDGE_PRICING_USD_PER_MTOK: dict[str, tuple[float, float]] = {
+    # Anthropic — current 4.5 family (2026-era)
+    "claude-sonnet-4-5": (3.0, 15.0),
+    "claude-haiku-4-5": (1.0, 5.0),
+    "claude-opus-4-5": (15.0, 75.0),
+    # Anthropic — legacy 3.5 family (kept for cassette replay; some accounts
+    # 404 on these as Anthropic deprecates older snapshots).
+    "claude-3-5-sonnet-20241022": (3.0, 15.0),
+    "claude-3-5-sonnet-latest": (3.0, 15.0),
+    "claude-3-5-haiku-20241022": (0.8, 4.0),
+    "claude-3-5-haiku-latest": (0.8, 4.0),
+    # OpenAI
+    "gpt-4o": (2.5, 10.0),
+    "gpt-4o-2024-08-06": (2.5, 10.0),
+    "gpt-4o-mini": (0.15, 0.6),
+    "gpt-4o-mini-2024-07-18": (0.15, 0.6),
+    "gpt-4.1": (2.0, 8.0),
+    "gpt-4.1-mini": (0.4, 1.6),
+}
+
+# Test-injection seams (None in production; tests monkeypatch with stubs that
+# return objects exposing the same `messages.create` / `chat.completions.create`
+# surface used below).
+_anthropic_client_factory: Callable[[], Any] | None = None
+_openai_client_factory: Callable[[], Any] | None = None
+
+
+def _load_judge_prompt() -> str:
+    """Return the JUDGE_PROMPT_V1.md system prompt body (without front-matter)."""
+    text = JUDGE_PROMPT_PATH.read_text(encoding="utf-8")
+    if text.startswith("---"):
+        end = text.find("\n---", 3)
+        if end != -1:
+            text = text[end + len("\n---") :].lstrip("\n")
+    return text
+
+
+def _build_judge_payload(
+    response: str,
+    scenario: dict,
+    persona: dict | None,
+) -> dict[str, Any]:
+    """Assemble the JSON payload the judge prompt expects as user message body."""
+    persona_context: dict[str, Any] | None = None
+    if persona:
+        persona_context = {
+            "typical_distance_band": persona.get("typical_distance_band"),
+            "typical_languages": persona.get("typical_languages"),
+            "qualification_gate": persona.get("qualification_gate"),
+        }
+    return {
+        "scenario_id": scenario.get("scenario_id", ""),
+        "persona_id": scenario.get("persona_id"),
+        "prompt": scenario.get("prompt") or scenario.get("input") or "",
+        "response": response,
+        "expected_outcome_class": (
+            scenario.get("expected_outcome_class") or ""
+        ).strip().upper(),
+        "persona_context": persona_context,
+    }
+
+
+def _compute_cost_usd(model: str, in_tokens: int, out_tokens: int) -> float:
+    """Convert (model, input_tokens, output_tokens) to USD via the pricing table."""
+    if model not in _JUDGE_PRICING_USD_PER_MTOK:
+        raise ValueError(
+            f"Unknown judge model {model!r}; add a pricing row to "
+            "_JUDGE_PRICING_USD_PER_MTOK before adding this member to the roster."
+        )
+    in_price, out_price = _JUDGE_PRICING_USD_PER_MTOK[model]
+    return (in_tokens * in_price + out_tokens * out_price) / 1_000_000.0
+
+
+def _parse_judge_output(text: str, scenario: dict) -> dict[str, Any]:
+    """Parse the strict JSON object the judge prompt mandates. Raises on drift."""
+    # Tolerate optional ```json fences even though the prompt forbids them.
+    body = text.strip()
+    if body.startswith("```"):
+        first_nl = body.find("\n")
+        if first_nl != -1:
+            body = body[first_nl + 1 :]
+        if body.endswith("```"):
+            body = body[: -3]
+    body = body.strip()
+    parsed = json.loads(body)
+    if not isinstance(parsed, dict):
+        raise ValueError("judge output is not a JSON object")
+    scores = parsed.get("scores")
+    if not isinstance(scores, dict):
+        raise ValueError("judge output missing 'scores' object")
+    out_scores: dict[str, int] = {}
+    for axis in JUDGE_AXES:
+        v = scores.get(axis)
+        if not isinstance(v, int) or not (1 <= v <= 5):
+            raise ValueError(f"axis {axis!r} score is not int in [1,5]: {v!r}")
+        out_scores[axis] = v
+    raw_notes = parsed.get("notes") or {}
+    out_notes: dict[str, str] = {}
+    if isinstance(raw_notes, dict):
+        for axis in JUDGE_AXES:
+            n = raw_notes.get(axis)
+            if isinstance(n, str):
+                out_notes[axis] = n
+    return {"scores": out_scores, "notes": out_notes}
+
+
+def _get_anthropic_client() -> Any:
+    if _anthropic_client_factory is not None:
+        return _anthropic_client_factory()
+    import anthropic  # lazy: keeps SDK optional at import time
+    return anthropic.Anthropic()
+
+
+def _get_openai_client() -> Any:
+    if _openai_client_factory is not None:
+        return _openai_client_factory()
+    import openai  # lazy: keeps SDK optional at import time
+    return openai.OpenAI()
+
+
+def _call_anthropic(model: str, system: str, user: str) -> tuple[str, int, int]:
+    """Returns (text, input_tokens, output_tokens)."""
+    client = _get_anthropic_client()
+    msg = client.messages.create(
+        model=model,
+        max_tokens=512,
+        system=system,
+        messages=[{"role": "user", "content": user}],
+    )
+    text_parts = [
+        block.text for block in (msg.content or []) if getattr(block, "type", "") == "text"
+    ]
+    text = "".join(text_parts) if text_parts else ""
+    in_tok = int(getattr(msg.usage, "input_tokens", 0) or 0)
+    out_tok = int(getattr(msg.usage, "output_tokens", 0) or 0)
+    return text, in_tok, out_tok
+
+
+def _call_openai(model: str, system: str, user: str) -> tuple[str, int, int]:
+    """Returns (text, input_tokens, output_tokens)."""
+    client = _get_openai_client()
+    resp = client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ],
+        max_tokens=512,
+        temperature=0.0,
+        response_format={"type": "json_object"},
+    )
+    text = resp.choices[0].message.content or ""
+    usage = getattr(resp, "usage", None)
+    in_tok = int(getattr(usage, "prompt_tokens", 0) or 0) if usage else 0
+    out_tok = int(getattr(usage, "completion_tokens", 0) or 0) if usage else 0
+    return text, in_tok, out_tok
+
+
 def _call_member_via_api(
     model_id: str,
     response: str,
     scenario: dict,
     persona: dict | None,
 ) -> MemberScore:
-    """Per-provider live API dispatch (placeholder; activated in P3).
+    """Per-provider live API dispatch (I52 P3 activation; D-IH-58-F).
 
-    Raises NotImplementedError until P3 calibration burn approves the API
-    contract for each provider. Until then, the default scorer routes around
-    this function via the offline-fallback path so test infrastructure works.
+    Raises on transport / parse error so :func:`_default_member_scorer`'s
+    exception path attributes ``fallback-offline-api-error`` to the result.
     """
-    raise NotImplementedError(
-        f"Live API call for {model_id!r} not yet wired; activate in I52 P3 "
-        "calibration burn or inject a MemberScorer stub for tests."
+    provider, _, model_name = model_id.partition(":")
+    if not model_name:
+        raise ValueError(f"model_id {model_id!r} missing ':<model>' suffix")
+
+    system_prompt = _load_judge_prompt()
+    payload = _build_judge_payload(response, scenario, persona)
+    user_message = json.dumps(payload, sort_keys=True)
+
+    started = time.time()
+    if provider == "anthropic":
+        text, in_tok, out_tok = _call_anthropic(model_name, system_prompt, user_message)
+    elif provider == "openai":
+        text, in_tok, out_tok = _call_openai(model_name, system_prompt, user_message)
+    else:
+        raise ValueError(
+            f"unsupported provider {provider!r} in {model_id!r}; "
+            "supported: anthropic, openai"
+        )
+    latency_ms = int((time.time() - started) * 1000)
+
+    parsed = _parse_judge_output(text, scenario)
+    cost_usd = _compute_cost_usd(model_name, in_tok, out_tok)
+
+    return MemberScore(
+        model_id=model_id,
+        scores=parsed["scores"],
+        notes=parsed.get("notes", {}),
+        cost_usd=cost_usd,
+        latency_ms=latency_ms,
+        fallback_offline=False,
     )
 
 
@@ -454,6 +661,22 @@ class JudgeRoster:
                 ms.model_id for ms in member_scores if ms.fallback_offline
             ]
             notes_parts.append(f"fallback-offline:{','.join(fallbacks)}")
+            # Surface distinct fallback reasons (D-IH-58-F: discriminate
+            # no-key / no-flag / api-error so the calibration burn banner
+            # can tell the operator WHY a member fell back).
+            reasons: set[str] = set()
+            for ms in member_scores:
+                if not ms.fallback_offline:
+                    continue
+                for axis_note in (ms.notes or {}).values():
+                    if isinstance(axis_note, str) and axis_note.startswith(
+                        "fallback-offline-"
+                    ):
+                        reasons.add(axis_note[len("fallback-offline-") :])
+            if reasons:
+                notes_parts.append(
+                    f"fallback-reasons:{','.join(sorted(reasons))}"
+                )
 
         return JudgeResult(
             scenario_id=scenario_id,
