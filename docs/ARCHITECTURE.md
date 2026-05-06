@@ -720,6 +720,22 @@ Launch: `python scripts/serve-api.py --port 8420`
 
 **Operator card:** [`supabase/README.md`](../supabase/README.md) (login, link, migration new, db push, list, repair). **Mirror emit:** `py scripts/verify.py compliance_mirror_emit`.
 
+### Planning workspace state model
+
+The planning workspace (`docs/wip/planning/`) uses a **markdown↔CSV two-layer SSOT design**. Each initiative's `master-roadmap.md` frontmatter carries structured metadata (status, owners, cycle, last-review date) that is also projected into canonical CSVs under `docs/references/hlk/compliance/`. The markdown layer is the operator's authoring surface; the CSV layer is the governed, queryable, mirrorable frame. `scripts/apply_status_audit.py` propagates validated frontmatter changes into the registry CSVs, and per-dimension validators enforce agreement between layers at commit time.
+
+Five governance dimensions form a **foreign-key web** across the planning workspace:
+
+| Dimension | CSV | FK targets |
+|:----------|:----|:-----------|
+| `INITIATIVE_REGISTRY` | `INITIATIVE_REGISTRY.csv` | → `CYCLE_REGISTER`, `DECISION_REGISTER` |
+| `CYCLE_REGISTER` | `CYCLE_REGISTER.csv` | → `INITIATIVE_REGISTRY` (via cycle scope) |
+| `DECISION_REGISTER` | `DECISION_REGISTER.csv` | → `INITIATIVE_REGISTRY`, `CYCLE_REGISTER` |
+| `OPS_REGISTER` | `OPS_REGISTER.csv` | → `INITIATIVE_REGISTRY` |
+| `REPOSITORY_REGISTRY` | `REPOSITORY_REGISTRY.csv` | standalone; joined by repo slug |
+
+Each CSV follows the existing HLK compliance pattern: a Pydantic schema defines the row shape, a dedicated validator script enforces schema + FK + enum constraints, and [`scripts/sync_compliance_mirrors_from_csv.py`](../scripts/sync_compliance_mirrors_from_csv.py) emits `INSERT … ON CONFLICT` SQL to refresh the corresponding `compliance.*_mirror` table in Supabase. The mirror-emit step is operator-gated — it runs only after approved DDL has been applied to the target database. Sync validators (`validate_initiative_registry.py`, `validate_decision_register.py`, and the dimension checks inside `validate_hlk.py`) enforce cross-CSV FK agreement so the two layers cannot silently diverge.
+
 ### Operator Scripts (v0.4.0)
 
 | Script | Purpose |

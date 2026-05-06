@@ -58,7 +58,18 @@ Initiative folders under `docs/wip/planning/` use a **two-digit prefix** (`01-` 
 
 ## At-a-glance dashboard
 
-For a deterministic per-initiative status table auto-rendered from each `master-roadmap.md` frontmatter and body, see [`WIP_DASHBOARD.md`](WIP_DASHBOARD.md) (Initiative 32 P10; renderer `scripts/render_wip_dashboard.py`; verify profile `wip_dashboard_render_smoke`).
+For a deterministic per-initiative status table auto-rendered from each `master-roadmap.md` frontmatter and body, see [`WIP_DASHBOARD.md`](WIP_DASHBOARD.md) (Initiative 32 P10 + I59 P2 section split; renderer `scripts/render_wip_dashboard.py`). The dashboard groups initiatives into eight sections by the I59 status taxonomy (`closed` / `archived` / `active` / `continuous` / `program_line` / `gated_external` / `gated_operator` / `unknown`).
+
+## Operator Action Inbox
+
+For a ranked, auto-rendered table of open operator/mixed-owned actions, see [`OPERATOR_INBOX.md`](OPERATOR_INBOX.md) (I59 P4; renderer `scripts/render_operator_inbox.py`; SSOT is `OPS_REGISTER.csv`).
+
+## Candidate initiatives
+
+Candidate initiative placeholders live under [`_candidates/`](_candidates/):
+
+- [`i60-process-list-harmonisation.md`](_candidates/i60-process-list-harmonisation.md) — Mint ~15 new `process_list.csv` rows across 4 program tranches; populate `INITIATIVE_REGISTRY.manifests_processes`.
+- [`i61-artifact-process-mapping.md`](_candidates/i61-artifact-process-mapping.md) — Deeper per-artifact-type process mapping (optional; low-priority).
 
 ## Rules
 

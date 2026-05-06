@@ -2243,4 +2243,50 @@ py scripts/export_adviser_handoff.py --discipline legal --format md --out artifa
 
 **Privacy posture (D-CH-2)**: Canonical text uses GOI/POI ref_ids only; raw names of private parties live off-repo. Public authorities (AEAT, ENISA, OEPM, mercantile registries) may be named directly. See `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_001.md` and `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md`.
 
+### 24.8 Initiative status taxonomy
+
+Every initiative under `docs/wip/planning/` carries a `status:` field in its `master-roadmap.md` frontmatter. The status uses a **seven-value taxonomy** defined in [`akos/planning/status_taxonomy.py`](../akos/planning/status_taxonomy.py) (the `InitiativeStatus` enum). Each value maps to a distinct operator expectation and determines which companion frontmatter fields are required:
+
+| Status | When to use | Required companion fields |
+|:-------|:------------|:--------------------------|
+| `closed` | Work is complete and accepted | `closed_at` (YYYY-MM-DD); typically `closure_decision_id` |
+| `archived` | Superseded or abandoned; kept for reference | `archived_at` (YYYY-MM-DD), `superseded_by` |
+| `active` | Currently under development | None required; `last_review` informs the freshness canary |
+| `continuous` | Ongoing operational concern with no target end date | `continuous_rationale` |
+| `program_line` | Recurring cadence-driven workstream | `cadence` (weekly \| monthly \| quarterly \| event_driven) |
+| `gated_external` | Blocked on an external party | `gated_on` (free-form prose) |
+| `gated_operator` | Blocked on an explicit operator action | `gated_on`, `operator_action` |
+
+The `scripts/render_wip_dashboard.py` renderer splits `WIP_DASHBOARD.md` into sections per status. Initiatives marked `gated_operator` surface in [`docs/wip/planning/OPERATOR_INBOX.md`](wip/planning/OPERATOR_INBOX.md), which is the operator's primary triage view. Adding a new status value requires extending the `InitiativeStatus` enum and adding a corresponding dashboard section.
+
+### 24.9 HLK initiative governance
+
+Initiative 59 introduced **five new compliance dimensions** that bring planning-workspace state under the same governed HLK pattern as the existing vault CSVs. Each dimension follows the standard lifecycle: **canonical CSV → Pydantic schema → validator script → optional Supabase compliance mirror**.
+
+| Dimension | CSV | Validator | Purpose |
+|:----------|:----|:----------|:--------|
+| `REPOSITORY_REGISTRY` | `docs/references/hlk/compliance/REPOSITORY_REGISTRY.csv` | `scripts/validate_hlk.py` | Holistika-tracked GitHub repositories |
+| `INITIATIVE_REGISTRY` | `docs/references/hlk/compliance/INITIATIVE_REGISTRY.csv` | `scripts/validate_initiative_registry.py` | Governed initiative metadata (status, owners, FK to cycles/decisions) |
+| `OPS_REGISTER` | `docs/references/hlk/compliance/OPS_REGISTER.csv` | `scripts/validate_hlk.py` | Operator actions and OPS-ticket audit trail |
+| `CYCLE_REGISTER` | `docs/references/hlk/compliance/CYCLE_REGISTER.csv` | `scripts/validate_hlk.py` | Execution cycles with date ranges |
+| `DECISION_REGISTER` | `docs/references/hlk/compliance/DECISION_REGISTER.csv` | `scripts/validate_decision_register.py` | Queryable `D-IH-XX-Y` decision metadata |
+
+The five dimensions form a **foreign-key web**: initiatives reference cycles and decisions; OPS actions reference initiatives; the decision register cross-links to initiative IDs. Validators enforce these FK constraints at commit time.
+
+Two new SOPs govern the lifecycle: [`SOP-INITIATIVE_GOVERNANCE_001.md`](references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-INITIATIVE_GOVERNANCE_001.md) (how to open, review, close, and archive initiatives) and [`SOP-INITIATIVE_PROCESS_HARMONISATION_001.md`](references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-INITIATIVE_PROCESS_HARMONISATION_001.md) (forward-looking process-list minting from initiative patterns).
+
+### 24.10 Decision audit trail
+
+The **`DECISION_REGISTER.csv`** at `docs/references/hlk/compliance/DECISION_REGISTER.csv` is the queryable SSOT for all governed decisions. Each row carries a `D-IH-XX-Y` identifier (where `XX` is the initiative number and `Y` is a per-initiative sequence), the decision date, status, rationale summary, and FK links to the initiative and cycle that produced it.
+
+Per-initiative `decision-log.md` files (e.g. `docs/wip/planning/59-hlk-governance-clean-slate/decision-log.md`) remain **canonical for prose** — they hold the full context, alternatives considered, and operator sign-off narrative. The CSV is the **governed metadata frame**: it enables programmatic queries, cross-initiative aggregation, and Supabase mirror projections without replacing the human-readable log. The validator `scripts/validate_decision_register.py` enforces schema, enum, and FK integrity at commit time.
+
+### 24.11 Process harmonisation (forward-looking)
+
+When recurring initiative patterns stabilise into repeatable operating procedures, they become candidates for **process-list minting** — the addition of new rows to the canonical `process_list.csv`. This lifecycle is governed by [`SOP-INITIATIVE_PROCESS_HARMONISATION_001.md`](references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-INITIATIVE_PROCESS_HARMONISATION_001.md).
+
+The first concrete candidate is **I60 — Process List Harmonisation**, tracked at [`docs/wip/planning/_candidates/i60-process-list-harmonisation.md`](wip/planning/_candidates/i60-process-list-harmonisation.md). It proposes minting `process_list.csv` rows for the initiative-governance and cycle-management patterns that I59 proved out.
+
+Actual process-list minting is **operator-approval-gated** per `.cursor/rules/akos-governance-remediation.mdc`: new `process_list.csv` rows require explicit operator approval before committing, must pass `py scripts/validate_hlk.py`, and trigger a corresponding update to this user guide (§24.4) if role or process counts change. Baseline-organisation rows needed by new processes share the same approval gate.
+
 

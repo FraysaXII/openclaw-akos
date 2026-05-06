@@ -1398,6 +1398,33 @@ This ledger is the immutable execution record for the governance-hardened runtim
 - **Eval harness (2026-04):** `akos/eval_harness.py`, `tests/evals/suites/pathc-research-spine/`, `scripts/run-evals.py list|run`, optional `AKOS_EVAL_RUBRIC=1` in `release-gate.py`; see `tests/evals/README.md`.
 - Verified on local Ollama `deepseek-r1:14b` (medium tier): zero Post-Compaction Audit warnings after the hardened prompts were deployed.
 
+### **9.14 HLK Initiative Governance and Operator Action Inbox (I59, May 2026)**
+
+The planning workspace is now governed by five HLK compliance dimensions shipped
+in Initiative 59: `REPOSITORY_REGISTRY.csv`, `INITIATIVE_REGISTRY.csv`,
+`OPS_REGISTER.csv`, `CYCLE_REGISTER.csv`, and `DECISION_REGISTER.csv`. Each
+follows the canonical HLK dimension pattern (Pydantic schema → procedural
+validator → Supabase mirror → RLS → PRECEDENCE.md registration).
+
+**Operator Action Inbox:** [`docs/wip/planning/OPERATOR_INBOX.md`](wip/planning/OPERATOR_INBOX.md)
+is auto-rendered from `OPS_REGISTER.csv` (filter: `status='open' AND
+owner_class IN ('operator', 'mixed') ORDER BY rice_score DESC`). Re-render:
+`py scripts/render_operator_inbox.py`. Release-gate reports its freshness as
+an informational row.
+
+**Status taxonomy:** Seven-value enum at `akos/planning/status_taxonomy.py`
+(`closed` / `archived` / `active` / `continuous` / `program_line` /
+`gated_external` / `gated_operator`) with companion-field rules. Used by both
+`master-roadmap.md` frontmatter and `INITIATIVE_REGISTRY.csv`.
+
+**Freshness canary:** `py scripts/check_active_initiative_freshness.py`
+flags `active` initiatives untouched for >14 days (soft warning; never blocks).
+
+**SOPs:** [`SOP-INITIATIVE_GOVERNANCE_001.md`](references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-INITIATIVE_GOVERNANCE_001.md)
+(initiative lifecycle) and
+[`SOP-INITIATIVE_PROCESS_HARMONISATION_001.md`](references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-INITIATIVE_PROCESS_HARMONISATION_001.md)
+(process_list integration recipe).
+
 ---
 
 #### **Works cited**
