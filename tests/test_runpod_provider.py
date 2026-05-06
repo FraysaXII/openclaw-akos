@@ -17,6 +17,7 @@ from akos.runpod_provider import (
     InferenceResult,
     RunPodEndpointConfig,
     RunPodProvider,
+    resolve_endpoint_url,
 )
 
 
@@ -315,4 +316,54 @@ class TestRunPodEndpointConfig:
         config = RunPodEndpointConfig()
         assert config.healthCheck.intervalSeconds == 60
         assert config.healthCheck.unhealthyThreshold == 3
+
+
+class TestEndpointUrlAliasSeam:
+    """D-IH-58-G: ``VLLM_*`` canonical wins over ``*_ENDPOINT_URL`` alias.
+
+    These tests pin the precedence behaviour so a future regression that
+    inverts the alias chain is caught at PR time.
+    """
+
+    def test_runpod_canonical_wins_over_alias(self):
+        env = {
+            "VLLM_RUNPOD_URL": "https://canonical.example/v1",
+            "RUNPOD_ENDPOINT_URL": "https://alias.example/v1",
+        }
+        assert resolve_endpoint_url("runpod", env=env) == "https://canonical.example/v1"
+
+    def test_runpod_alias_used_when_canonical_unset(self):
+        env = {"RUNPOD_ENDPOINT_URL": "https://alias.example/v1"}
+        assert resolve_endpoint_url("runpod", env=env) == "https://alias.example/v1"
+
+    def test_runpod_empty_canonical_falls_through_to_alias(self):
+        env = {
+            "VLLM_RUNPOD_URL": "",
+            "RUNPOD_ENDPOINT_URL": "https://alias.example/v1",
+        }
+        assert resolve_endpoint_url("runpod", env=env) == "https://alias.example/v1"
+
+    def test_runpod_returns_empty_when_neither_set(self):
+        env: dict[str, str] = {}
+        assert resolve_endpoint_url("runpod", env=env) == ""
+
+    def test_shadow_canonical_wins_over_alias(self):
+        env = {
+            "VLLM_SHADOW_URL": "https://shadow-canonical.example/v1",
+            "KALAVAI_ENDPOINT_URL": "https://kalavai-alias.example/v1",
+        }
+        assert resolve_endpoint_url("shadow", env=env) == "https://shadow-canonical.example/v1"
+
+    def test_shadow_alias_used_when_canonical_unset(self):
+        env = {"KALAVAI_ENDPOINT_URL": "https://kalavai-alias.example/v1"}
+        assert resolve_endpoint_url("shadow", env=env) == "https://kalavai-alias.example/v1"
+
+    def test_unknown_kind_raises_value_error(self):
+        with pytest.raises(ValueError, match="Unknown endpoint kind"):
+            resolve_endpoint_url("openai")  # type: ignore[arg-type]
+
+    def test_default_env_uses_os_environ(self, monkeypatch):
+        monkeypatch.setenv("VLLM_RUNPOD_URL", "https://from-os-environ.example/v1")
+        monkeypatch.delenv("RUNPOD_ENDPOINT_URL", raising=False)
+        assert resolve_endpoint_url("runpod") == "https://from-os-environ.example/v1"
 

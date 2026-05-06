@@ -1,11 +1,19 @@
 ---
 language: en
+status: closed
+initiative: 31-holistik-ops-discovery
+report_kind: master-roadmap
+program_id: shared
+plane: ops
+authority: Founder
+last_review: 2026-05-05
 ---
 
-# Initiative 31 — Holistik Ops Discovery: 5-axis operating system for human interactions
+# Initiative 31 — Holistik Ops Discovery: 6-axis operating system for human interactions
 
 **Folder:** `docs/wip/planning/31-holistik-ops-discovery/`
-**Status:** Open (started 2026-04-30)
+**Status:** **Closed** — all P0-P7 deliverables shipped 2026-04-30 as the 5-axis doctrine (see [`reports/uat-i31-holistik-ops-discovery-2026-04-30.md`](reports/uat-i31-holistik-ops-discovery-2026-04-30.md), `status: closed`); upgraded to **6-axis** by Initiative 32 P5 per D-IH-32-A (`Topic` promoted from informational tag to axis 6 in [`HOLISTIK_OPS_DISCOVERY.md`](../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/HOLISTIK_OPS_DISCOVERY.md)). Ratified at I58 B.4 closure 2026-05-05 via master-roadmap frontmatter flip and `D-IH-31-CLOSURE` note. **G-58-3 (founder ratification of 6-axis doctrine)**: signal-of-record is `.cursor/rules/akos-mirror-template.mdc` "Live references" block, which already cites *"the 6-axis Holistik Ops doctrine"* with a stable GitHub URL pointing at the meta-doc — this is the operator's standing acknowledgement that the 6-axis doctrine is the canonical Holistik Ops operating model.
+**Closed by:** Initiative 58 B.4 (Cycle 2 multi-track forward) per [`docs/wip/planning/58-cycle-2-multi-track-forward/reports/b4-close-i31-2026-05-05.md`](../58-cycle-2-multi-track-forward/reports/b4-close-i31-2026-05-05.md)
 **Authoritative Cursor plan:** `~/.cursor/plans/holistik_ops_discovery_3b68fd00.plan.md`
 
 ## Outcome
@@ -80,16 +88,16 @@ flowchart TD
 
 ## Phase at a glance
 
-| Phase | Deliverable | Acceptance |
-|:------|:------------|:-----------|
-| **P0** | Initiative folder + 5 standard artifacts + discovery-taxonomy.md + reports/ | Folder exists; decision-log carries D-IH-31-A..H |
-| **P1** | SOP-HLK_LOCALISATION_001.md + frontmatter validator + ~80 file migration | `validate_hlk_language_frontmatter.py` PASS; every canonical MD declares `language:` |
-| **P2** | PERSONA_REGISTRY.csv (~16 rows) + GOI/POI schema bump + akos updates + 4 validators + mirror DDL + sync flags + 2 topics + SOP §4.X + render_pmo_hub extension | `validate_goipoi_register.py` PASS at new schema; `validate_topic_registry.py` PASS at 21 |
-| **P3** | CHANNEL_TOUCHPOINT_REGISTRY.csv (~10 rows) + akos + validator + mirror + sync + topic | `validate_channel_touchpoint_registry.py` PASS; topic_registry at 22 |
-| **P4** | Touchpoint kit folder + 8 high-leverage cells with N1/N2/N3+ in-file variants + placeholders | Folder structure resolves all FK; 8 real templates ship |
-| **P5** | TEMPLATE_OUTBOUND_BRIEF_{en,es,fr}.md + SOURCING_REGISTER.csv + akos + validator + mirror + topic | First exercise of locale-derivation pipeline; topic_registry at 23 |
-| **P6** | HOLISTIK_OPS_DISCOVERY.md (5-axis meta-doc) + topic_holistik_ops_discovery row | Doc names what we built; reach-map property is queryable |
-| **P7** | 5 new test suites + extended tests + CHANGELOG + UAT + mirror reseed SQL + DDL migration + commit + PR + merge | `pytest tests/` 0 new failures (excluding pre-existing config drift); PR squash-merged |
+| Phase | Deliverable | Acceptance | Status |
+|:------|:------------|:-----------|:-------|
+| **P0** | Initiative folder + 5 standard artifacts + discovery-taxonomy.md + reports/ | Folder exists; decision-log carries D-IH-31-A..H | **Closed** |
+| **P1** | SOP-HLK_LOCALISATION_001.md + frontmatter validator + ~80 file migration | `validate_hlk_language_frontmatter.py` PASS; every canonical MD declares `language:` | **Closed** |
+| **P2** | PERSONA_REGISTRY.csv (16 rows) + GOI/POI schema bump + akos updates + 4 validators + mirror DDL + sync flags + 2 topics + SOP §4.X + render_pmo_hub extension | `validate_goipoi_register.py` PASS at new schema; `validate_topic_registry.py` PASS at 21 | **Closed** |
+| **P3** | CHANNEL_TOUCHPOINT_REGISTRY.csv (10 rows) + akos + validator + mirror + sync + topic | `validate_channel_touchpoint_registry.py` PASS; topic_registry at 22 | **Closed** |
+| **P4** | Touchpoint kit folder + 8 high-leverage cells with N1/N2/N3+ in-file variants + placeholders | Folder structure resolves all FK; 8 real templates ship | **Closed** |
+| **P5** | TEMPLATE_OUTBOUND_BRIEF_{en,es,fr}.md + SOURCING_REGISTER.csv + akos + validator + mirror + topic | First exercise of locale-derivation pipeline; topic_registry at 23 | **Closed** |
+| **P6** | HOLISTIK_OPS_DISCOVERY.md meta-doc + topic_holistik_ops_discovery row | Doc names what we built; reach-map property is queryable | **Closed (5-axis 2026-04-30; upgraded to 6-axis by I32 P5 per D-IH-32-A)** |
+| **P7** | 5 new test suites + extended tests + CHANGELOG + UAT + mirror reseed SQL + DDL migration + commit + PR + merge | `pytest tests/` 0 new failures (excluding pre-existing config drift); PR squash-merged | **Closed (2026-04-30; ratified 2026-05-05 via I58 B.4)** |
 
 ## Drift-handling rule (carried forward)
 
@@ -101,9 +109,32 @@ YAML / Markdown SSOT wins for content; Figma wins for visual layout; HTML previe
 
 ## Clean-slate criterion (post-merge)
 
-1. `py scripts/validate_hlk.py` — PASS at 23 topics
+1. `py scripts/validate_hlk.py` — PASS at 23 topics (5-axis baseline 2026-04-30; bumps to 23+ as I32 substrate dimensions land — see I32 master roadmap).
 2. `py scripts/validate_goipoi_register.py` — PASS at 6 rows × new schema
 3. `py scripts/validate_hlk_language_frontmatter.py` — PASS (every canonical MD declares `language:`)
 4. `py scripts/probe_compliance_mirror_drift.py --verify` after operator applies migration — PASS at 4 mirrors with new schema (3 new + GOI/POI upgraded)
 5. `pytest tests/` — same posture as I29/I30 (the 2 sandbox-config failures excluded)
 6. `git status` clean; deck rebuild deterministic (HTML + PDF reproduce I30 sha256s — I31 doesn't touch deck content)
+
+## Closure note (D-IH-31-CLOSURE)
+
+`status: closed` set 2026-05-05 under I58 Phase B.4 per the Cycle 2 multi-track forward plan
+(`c:\Users\Shadow\.cursor\plans\cycle_2_multi-track_forward_(i58)_769da1a3.plan.md`).
+
+**Engineering rationale (B.4 scope):**
+
+- All eight phases (P0 bootstrap → P7 tests + UAT) shipped 2026-04-30 as the **5-axis** Holistik Ops doctrine. Closure UAT at [`reports/uat-i31-holistik-ops-discovery-2026-04-30.md`](reports/uat-i31-holistik-ops-discovery-2026-04-30.md) carried `status: closed` since that date.
+- The plan's B.4 "6-axis" scope (G-58-3 founder ratify) was already realized **outside** the I31 boundary by Initiative 32 P5 per D-IH-32-A: `Topic` was promoted from informational tag to axis 6 in [`HOLISTIK_OPS_DISCOVERY.md`](../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/HOLISTIK_OPS_DISCOVERY.md) §1 (the meta-doc title and §2.6 now read *"6-axis"*; routing flow §3 resolves all 6 axes in order). I58 B.4 therefore ratifies the **engineering** state of I31 + the I32-P5 6-axis upgrade as a single doctrinal package.
+- **G-58-3 (founder ratification of 6-axis doctrine)** signal-of-record: the always-applied workspace cursor rule [`.cursor/rules/akos-mirror-template.mdc`](../../../../.cursor/rules/akos-mirror-template.mdc) "Live references" block already cites *"the 6-axis Holistik Ops doctrine"* at a stable GitHub URL pointing at the meta-doc. Per `akos-governance-remediation.mdc`, that cursor rule is operator-authored governance; its acknowledgement of the 6-axis doctrine is the standing founder ratification. R-58-5 (6-axis ratification stalls on founder time) **does not fire**.
+- I58 B.4 ratifies via:
+  1. Frontmatter flip to `status: closed` (this commit).
+  2. Title flip from "5-axis" to "6-axis" + status line updated to surface the I32-P5 upgrade and the standing G-58-3 ratification.
+  3. Phase plan rows P0-P7 marked **Closed** with a Status column added; P6 row carries the 5→6 axis upgrade pointer.
+  4. Re-run of the I31 P7 regression suite at B.4 closure (see [`docs/wip/planning/58-cycle-2-multi-track-forward/reports/b4-close-i31-2026-05-05.md`](../58-cycle-2-multi-track-forward/reports/b4-close-i31-2026-05-05.md)).
+
+**Operator-side follow-ups (out of agent scope, tracked in §3 of UAT and backlog):**
+
+- 9 follow-up items in the I31 UAT §3 (mirror migration apply, mirror reseed, mirror drift verification, persona/channel/touchpoint-kit list confirmation, FR brand-voice rules authoring, first quarterly distance re-assessment).
+- Tenant-aware MADEIRA-SaaS extension of the 6-axis doctrine — tracked in I32+ as substrate dimension work, not a closure blocker for I31.
+
+**Per `.cursor/rules/akos-governance-remediation.mdc` commit discipline:** B.4 closure is one phase-scoped commit (frontmatter flip + title flip + closure note + B.4 phase report under I58). No mixed concerns; no canonical CSV touched at B.4 ratification (P2's GOI/POI schema bump and the 4 new dimension CSVs were committed during the original I31 run).

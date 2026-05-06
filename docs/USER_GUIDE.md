@@ -707,6 +707,19 @@ The `runpod` field should show `"healthy"`. You can also test inference directly
 curl $VLLM_RUNPOD_URL/models
 ```
 
+#### 8.7.1 Endpoint URL alias seam (D-IH-58-G)
+
+Some external tools (and the I58 long-lived `~/.openclaw/.env` block) refer to the same endpoints with alias names: `RUNPOD_ENDPOINT_URL` (alias for `VLLM_RUNPOD_URL`) and `KALAVAI_ENDPOINT_URL` (alias for `VLLM_SHADOW_URL`). The single source of truth for resolving these is `akos.runpod_provider.resolve_endpoint_url(kind)`:
+
+```python
+from akos.runpod_provider import resolve_endpoint_url
+
+url = resolve_endpoint_url("runpod")   # VLLM_RUNPOD_URL > RUNPOD_ENDPOINT_URL
+url = resolve_endpoint_url("shadow")   # VLLM_SHADOW_URL > KALAVAI_ENDPOINT_URL
+```
+
+Precedence is fixed: the canonical `VLLM_*` name always wins when set. The alias fills in only when the canonical is unset or empty. **Empty alias values never shadow a populated canonical.** This means you can safely keep both pairs in `~/.openclaw/.env` for external-tool compatibility — the AKOS runtime ignores the aliases whenever the canonical names are populated.
+
 ### 8.8 ShadowGPU (OpenStack cloud)
 
 **ShadowGPU** is Shadow’s cloud GPU service: you connect through **OpenStack** (API, CLI, or Horizon) to run workloads on their EU GPU fleet. It is the sovereign-EU vLLM alternative to RunPod for this repo’s `gpu-shadow` profile. **ShadowPC** is a separate product (the local Windows dev/gaming machine); do not conflate the two when talking to operators or vendors.

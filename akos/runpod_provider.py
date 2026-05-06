@@ -83,6 +83,63 @@ class PodInfo:
 _RUNPOD_REST = "https://rest.runpod.io/v1"
 
 
+# ── Endpoint URL alias seam (D-IH-58-G) ──────────────────────────────
+#
+# Single source of truth for resolving GPU endpoint URLs across the AKOS
+# runtime. Two name pairs exist for historical reasons:
+#
+#   RunPod serverless vLLM:  ``VLLM_RUNPOD_URL``  (canonical)
+#                            ``RUNPOD_ENDPOINT_URL``  (alias, e.g. used by
+#                            external scripts and the ``~/.openclaw/.env``
+#                            long-lived block under I58 P0).
+#   Kalavai shadow llama.cpp: ``VLLM_SHADOW_URL``  (canonical)
+#                            ``KALAVAI_ENDPOINT_URL``  (alias, e.g. used by
+#                            the I20 Kalavai trial task notes).
+#
+# Precedence: ``VLLM_*`` wins, regardless of order. Empty / unset values are
+# treated as absent, so an empty alias never shadows a populated canonical.
+# Tests in ``tests/test_runpod_provider.py::TestEndpointUrlAliasSeam`` lock
+# this in.
+#
+# Documented in ``docs/ARCHITECTURE.md`` "Environment Profiles" and
+# ``docs/USER_GUIDE.md`` GPU section per ``akos-docs-config-sync.mdc``.
+
+_ENDPOINT_URL_ALIASES: dict[str, tuple[str, ...]] = {
+    "runpod": ("VLLM_RUNPOD_URL", "RUNPOD_ENDPOINT_URL"),
+    "shadow": ("VLLM_SHADOW_URL", "KALAVAI_ENDPOINT_URL"),
+}
+
+
+def resolve_endpoint_url(kind: str, *, env: dict[str, str] | None = None) -> str:
+    """Resolve a GPU endpoint URL from env with alias-seam precedence.
+
+    Args:
+        kind: One of ``"runpod"`` or ``"shadow"``.
+        env: Optional explicit env mapping. Defaults to ``os.environ``.
+
+    Returns:
+        The first non-empty env var in the canonical → alias precedence
+        chain, or an empty string when none is set.
+
+    Raises:
+        ValueError: when ``kind`` is not a known endpoint family.
+    """
+    try:
+        chain = _ENDPOINT_URL_ALIASES[kind]
+    except KeyError as exc:
+        raise ValueError(
+            f"Unknown endpoint kind {kind!r}; expected one of "
+            f"{sorted(_ENDPOINT_URL_ALIASES)}"
+        ) from exc
+
+    source = env if env is not None else os.environ
+    for var_name in chain:
+        value = source.get(var_name, "")
+        if value:
+            return value
+    return ""
+
+
 # ── Pod REST API (dedicated pods) ────────────────────────────────────
 
 

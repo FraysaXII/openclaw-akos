@@ -243,10 +243,11 @@ async def get_health() -> HealthResponse:
         health = rp.health_check()
         rp_status = "healthy" if health.healthy else "unhealthy"
 
-    vllm_url = os.environ.get("VLLM_RUNPOD_URL", "")
+    from akos.runpod_provider import RunPodProvider, resolve_endpoint_url
+
+    vllm_url = resolve_endpoint_url("runpod")
     vllm_status = "not-configured"
     if vllm_url:
-        from akos.runpod_provider import RunPodProvider
         probe = RunPodProvider.probe_vllm_health(vllm_url, timeout=3.0)
         vllm_status = "healthy" if probe.healthy else "unhealthy"
 

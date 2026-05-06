@@ -1,10 +1,22 @@
+---
+language: en
+status: closed
+initiative: 28-investor-style-company-dossier
+report_kind: master-roadmap
+program_id: PRJ-HOL-FOUNDING-2026
+plane: advops
+authority: Founder
+last_review: 2026-05-05
+---
+
 # Initiative 28 — Investor-Style Holistika Company Dossier
 
 **Document owner**: Compliance + Brand Manager (joint)
-**Version**: 0.1 (Draft)
-**Date**: 2026-04-30
-**Status**: In execution
+**Version**: 1.0 (Closed)
+**Date**: 2026-04-30 → closed 2026-05-05 (engineering side, via I58 B.1)
+**Status**: **Closed (engineering side)** — primary deck SSOT + HTML preview + PDF render + Figma file all shipped; G-24-3 SMTP send is operator action per D-IH-58-A coordinating-initiative model.
 **Program mapping**: Initiative 27 follow-up (G-24-3 closure unblocked by a deck-grade artifact)
+**Closed by**: Initiative 58 B.1 (Cycle 2 multi-track forward) per [`reports/p0-bootstrap-2026-05-05.md`](../58-cycle-2-multi-track-forward/reports/p0-bootstrap-2026-05-05.md)
 **Canonical plan**: `c:\Users\Shadow\.cursor\plans\investor_style_company_dossier_d4ca7ab6.plan.md`
 **Workspace mirror**: this file
 
@@ -57,13 +69,13 @@ Replace the founder dossier as the primary external send with a 12-14 slide deck
 
 | Phase | Goal | Primary outputs | Status |
 |:---|:---|:---|:---|
-| P0 | Deck brief + evidence triage | `deck-brief.md`, `evidence-triage.md` | In progress |
-| P1 | Narrative SSOT | `deck_story_es.md`, `deck_slides.yaml` | Pending |
-| P2 | Visual direction + design system mapping | `deck-visual-system.md` | Pending |
-| P3 | Web/HTML preview deck (governed v0-style) | `docs/presentations/holistika-company-dossier/index.html` + assets, served via repo file or HTTP | Pending |
-| P4 | Figma deck (capture + refine) | Figma file URL recorded in `figma-link.md` | Pending |
-| P5 | PDF export + send-pack assembly | `artifacts/exports/holistika-company-dossier-…pdf`, hashes recorded | Pending |
-| P6 | Governance + tests + closure | `tests/test_deck_jargon.py`, UAT update, decision-log close | Pending |
+| P0 | Deck brief + evidence triage | [`deck-brief.md`](deck-brief.md), [`evidence-triage.md`](evidence-triage.md) | **Closed** |
+| P1 | Narrative SSOT | [`deck_story_es.md`](../../../references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck_story_es.md), [`deck_slides.yaml`](../../../references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck_slides.yaml) | **Closed** |
+| P2 | Visual direction + design system mapping | [`deck-visual-system.md`](../../../references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck-visual-system.md) | **Closed** |
+| P3 | Web/HTML preview deck (governed v0-style) | [`docs/presentations/holistika-company-dossier/index.html`](../../../presentations/holistika-company-dossier/index.html) + [`styles.css`](../../../presentations/holistika-company-dossier/styles.css), served via repo file or HTTP | **Closed** |
+| P4 | Figma deck (capture + refine) | Figma file URL recorded in [`figma-link.md`](../../../references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/figma-link.md) (`yiPav7BLxUulNFrrsoKJqW`) | **Closed** |
+| P5 | PDF export + send-pack assembly | `artifacts/exports/holistika-company-dossier-enisa-2026-04-30.pdf` (sha256 `C5DBAB04FEE04B2B0B1E0017A48CC50855487D3CAFBA1A8D73AF8431918493EF`); manifest under `…manifest.json` | **Closed** |
+| P6 | Governance + tests + closure | [`tests/test_deck_jargon.py`](../../../../tests/test_deck_jargon.py) (3 tests), [`tests/test_deck_slides_schema.py`](../../../../tests/test_deck_slides_schema.py) (10 tests), [`reports/uat-company-dossier-send-2026-04-30.md`](reports/uat-company-dossier-send-2026-04-30.md), `dossier_es.md` `artifact_role` demoted to `adviser_evidence_appendix` (D-IH-28-6), I58 B.1 closure note (D-IH-28-CLOSURE) | **Closed (2026-05-05 via I58 B.1)** |
 
 ## 7. Asset classification
 
@@ -136,3 +148,23 @@ One commit per phase, phase-scoped. Each commit body includes the phase id, file
 - Tooling SOP: [`SOP-HLK_TOOLING_STANDARDS_001.md`](../../../references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/SOP-HLK_TOOLING_STANDARDS_001.md)
 - Existing dossier (now appendix): [`dossier_es.md`](../../../references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/dossier_es.md)
 - I27 UAT report: [`uat-adviser-email-sent-2026-04-29.md`](../24-hlk-communication-methodology/reports/uat-adviser-email-sent-2026-04-29.md)
+
+## 13. D-IH-28-CLOSURE — engineering-side closure (2026-05-05 via I58 B.1)
+
+**Decision:** **Initiative 28 closes engineering side at 2026-05-05** through Initiative 58 B.1 (Cycle 2 multi-track forward). The deck SSOT, narrative, visual system, HTML preview, PDF render, and Figma file are all shipped; the `dossier_es.md` role demotion to `adviser_evidence_appendix` (D-IH-28-6) landed in the same B.1 commit. The two P6 verification matrix tests (`tests/test_deck_jargon.py` + `tests/test_deck_slides_schema.py`) ship in B.1 — 13 tests total, all PASS.
+
+**G-24-3 SMTP send remains operator-initiated** per D-IH-58-A (engineering closure independent of operator funding/action). The UAT template at [`reports/uat-company-dossier-send-2026-04-30.md`](reports/uat-company-dossier-send-2026-04-30.md) captures the send protocol (Section 2 pre-flight + Section 3 SMTP manifest + Section 4 attachment integrity manifest with sha256 + Section 7 G-24-3 closure assertion). When the operator presses Send, they fill the UAT template and **G-24-3 closes by acclamation** — Initiative 28 master-roadmap status does not need to change after that point.
+
+**Cycle-2 (I58) commit:** B.1 closure ships in one commit per `.cursor/rules/akos-governance-remediation.mdc` discipline:
+
+- Frontmatter `status: closed` + last_review 2026-05-05.
+- Phase plan table phases 0–6 all `Closed`.
+- D-IH-28-CLOSURE note (this section).
+- `dossier_es.md` `artifact_role: canonical → adviser_evidence_appendix`.
+- `tests/test_deck_jargon.py` (NEW; 3 tests).
+- `tests/test_deck_slides_schema.py` (NEW; 10 tests).
+- I58 B.1 closure phase report under `docs/wip/planning/58-cycle-2-multi-track-forward/reports/b1-close-i28-2026-05-05.md`.
+
+**No content change to `deck_slides.yaml`, `deck_story_es.md`, `deck-visual-system.md`, `cover_email_company_dossier_es.md`, `figma-link.md`, or the HTML preview** — those landed in I28 P0–P5 and remain canonical.
+
+**Reversibility:** High at the master-roadmap level (one-line frontmatter flip back); medium at the dossier_es.md role level (the `role_change_note` in its frontmatter records the demotion date and the rationale, so re-promoting to `canonical` is one targeted edit + one mirror reseed if the brand SSOT needs the appendix back as primary).

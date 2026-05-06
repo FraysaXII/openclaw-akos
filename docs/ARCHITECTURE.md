@@ -281,6 +281,17 @@ OpenClaw's `${VAR}` substitution in `openclaw.json` crashes the gateway if an en
 
 `scripts/bootstrap.py` seeds `~/.openclaw/.env` from the shared runtime placeholder contract on first run, and `scripts/gpu.py` re-asserts missing placeholders after GPU deployments. Empty env values are also filtered during env loading (`if v:` guard on `os.environ.setdefault`).
 
+#### Endpoint URL alias seam (D-IH-58-G)
+
+Two name pairs resolve to the same physical endpoint for historical reasons:
+
+| Canonical (wins) | Alias |
+|:------|:------|
+| `VLLM_RUNPOD_URL` | `RUNPOD_ENDPOINT_URL` |
+| `VLLM_SHADOW_URL` | `KALAVAI_ENDPOINT_URL` |
+
+The single source of truth is `akos.runpod_provider.resolve_endpoint_url(kind)`. Precedence is fixed: the canonical `VLLM_*` name always wins when set; the alias fills in only when the canonical is unset or empty. Empty alias values never shadow a populated canonical. Tests in `tests/test_runpod_provider.py::TestEndpointUrlAliasSeam` (8 tests) lock in the precedence contract; `akos/api.py /health` consumes the helper directly. The aliases live in the long-lived `~/.openclaw/.env` block (per the I58 P0 enrichment) so external tools that read those names still resolve to the same endpoints without operator manual sync.
+
 ### Model Switching Workflow
 
 A single cross-platform command switches everything atomically:

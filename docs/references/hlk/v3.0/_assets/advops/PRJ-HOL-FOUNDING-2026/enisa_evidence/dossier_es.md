@@ -9,10 +9,19 @@ topic_ids:
   - topic_enisa_dossier_es
 parent_topic: topic_enisa_evidence
 language: es
-artifact_role: canonical
+artifact_role: adviser_evidence_appendix
 intellectual_kind: founder_dossier
 authority: Operator (Compliance + Legal Counsel)
-last_review: 2026-04-29
+last_review: 2026-05-05
+role_change_note: |
+  Role demoted from `canonical` to `adviser_evidence_appendix` on 2026-05-05 per
+  D-IH-28-6 (operator-confirmed at I28 master-roadmap session 2026-04-30) and
+  ratified at I58 B.1 closure. Content unchanged; only the artifact's role in the
+  external-send pipeline changes — the company dossier deck (Initiative 28
+  primary artifact at
+  `docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck_slides.yaml`)
+  is now the primary external send. This file goes only when the adviser asks
+  for technical-legal detail.
 sources:
   - docs/references/hlk/compliance/GOI_POI_REGISTER.csv
   - docs/references/hlk/compliance/ADVISER_OPEN_QUESTIONS.csv
