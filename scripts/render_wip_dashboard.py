@@ -1,19 +1,27 @@
 #!/usr/bin/env python3
-"""Initiative 32 P10 — WIP dashboard auto-renderer.
+"""WIP dashboard auto-renderer (Initiative 32 P10 + Initiative 59 P2 section split).
 
 Reads each ``docs/wip/planning/<NN>-*/master-roadmap.md`` and extracts:
 - the initiative number (from folder prefix)
 - the title (first H1)
-- the status (from ``Status:`` line if present, else "open")
+- the status — preferring ``status:`` from frontmatter (validated against the
+  ``akos.planning.status_taxonomy.InitiativeStatus`` SSOT enum); else falling
+  back to the legacy ``**Status:**`` line in the body; else ``unknown``
 - the date (from frontmatter ``last_review`` or ``Date:`` line)
 - the program_id / plane (from frontmatter)
 
-Emits a deterministic table between ``<!-- BEGIN AUTO -->`` and ``<!-- END AUTO -->``
+I59 P2 split: rows are **grouped into status taxonomy sections**
+(Closed / Archived / Active / Continuous / Program Lines / Gated (external) /
+Gated (operator) / Unknown) per ``DASHBOARD_SECTION_ORDER``. Within each section
+rows stay sorted by initiative number ascending. Legacy frontmatter values that
+do not match the taxonomy land in the **Unknown** section without crashing —
+they get normalised in P3 (status audit + tag).
+
+Emits a deterministic block between ``<!-- BEGIN AUTO -->`` and ``<!-- END AUTO -->``
 markers in ``docs/wip/planning/WIP_DASHBOARD.md``. Hand-written content above and
 below the markers is preserved.
 
-Determinism: the table is sorted by initiative number ascending; sha256 stable
-across two consecutive runs.
+Determinism: stable sort + stable section order ⇒ sha256 stable across runs.
 
 Usage::
 
@@ -32,6 +40,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT
+from akos.planning.status_taxonomy import (
+    DASHBOARD_SECTION_ORDER,
+    DASHBOARD_SECTION_TITLES,
+    VALID_INITIATIVE_STATUSES,
+    InitiativeStatus,
+)
 
 PLANNING_DIR = REPO_ROOT / "docs" / "wip" / "planning"
 DASHBOARD_PATH = PLANNING_DIR / "WIP_DASHBOARD.md"
@@ -40,10 +54,39 @@ H1_RE = re.compile(r"^#\s+(.+?)$", re.MULTILINE)
 STATUS_RE = re.compile(r"\*\*?Status:?\*?\*?\s*(.+?)$", re.MULTILINE | re.IGNORECASE)
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 LAST_REVIEW_RE = re.compile(r"^last_review\s*:\s*([^\s]+)\s*$", re.MULTILINE)
+FRONTMATTER_STATUS_RE = re.compile(r"^status\s*:\s*([^\s#]+)\s*$", re.MULTILINE)
 DATE_RE = re.compile(r"\*\*?Date:?\*?\*?\s*(\d{4}-\d{2}-\d{2})", re.MULTILINE | re.IGNORECASE)
 
 BEGIN_MARKER = "<!-- BEGIN AUTO -->"
 END_MARKER = "<!-- END AUTO -->"
+
+UNKNOWN_BUCKET = "unknown"
+
+
+def _classify_status(frontmatter_status: str | None, body_status_raw: str | None) -> tuple[str, str]:
+    """Classify a master-roadmap row into a taxonomy bucket.
+
+    Returns ``(taxonomy_bucket, display_status)`` where ``taxonomy_bucket`` is
+    one of ``DASHBOARD_SECTION_ORDER`` plus ``unknown``, and ``display_status``
+    is the human-readable status text shown in the rendered table.
+
+    Resolution order:
+    1. Frontmatter ``status:`` — if it matches ``VALID_INITIATIVE_STATUSES``,
+       use it as both bucket and display.
+    2. Frontmatter ``status:`` — if non-empty but not a taxonomy value, bucket
+       is ``unknown`` (legacy drift expected; P3 mass audit normalises).
+    3. Legacy body ``**Status:**`` line — bucket is ``unknown``, display is
+       the trimmed body string.
+    4. No status anywhere — bucket and display both ``unknown``.
+    """
+    if frontmatter_status:
+        normalised = frontmatter_status.strip().lower()
+        if normalised in VALID_INITIATIVE_STATUSES:
+            return normalised, normalised
+        return UNKNOWN_BUCKET, frontmatter_status.strip()
+    if body_status_raw:
+        return UNKNOWN_BUCKET, body_status_raw
+    return UNKNOWN_BUCKET, "unknown"
 
 
 def _read_initiative(folder: Path) -> dict[str, str] | None:
@@ -54,12 +97,12 @@ def _read_initiative(folder: Path) -> dict[str, str] | None:
     slug = m.group(2)
     roadmap = folder / "master-roadmap.md"
     if not roadmap.is_file():
+        bucket, display = _classify_status(None, None)
         return {
             "seq": seq, "slug": slug, "title": "(no master-roadmap.md)",
-            "status": "unknown", "date": "—", "folder": folder.name,
+            "status": display, "bucket": bucket, "date": "—", "folder": folder.name,
         }
     text = roadmap.read_text(encoding="utf-8")
-    # Strip frontmatter for H1 + Status + Date scans (these often appear in body).
     fm_match = FRONTMATTER_RE.match(text)
     body = text[fm_match.end():] if fm_match else text
     fm_block = fm_match.group(1) if fm_match else ""
@@ -67,14 +110,21 @@ def _read_initiative(folder: Path) -> dict[str, str] | None:
     h1 = H1_RE.search(body)
     title = h1.group(1).strip() if h1 else slug
 
-    status_match = STATUS_RE.search(body)
-    status = status_match.group(1).strip().rstrip(".") if status_match else "open"
-    # Trim noisy markup.
-    status = re.sub(r"\s+", " ", status)
-    if len(status) > 80:
-        status = status[:77] + "..."
+    fm_status_match = FRONTMATTER_STATUS_RE.search(fm_block)
+    fm_status = fm_status_match.group(1).strip() if fm_status_match else None
 
-    # Date: prefer frontmatter last_review; else body Date: line.
+    body_status_match = STATUS_RE.search(body)
+    body_status: str | None
+    if body_status_match:
+        body_status = body_status_match.group(1).strip().rstrip(".")
+        body_status = re.sub(r"\s+", " ", body_status)
+        if len(body_status) > 80:
+            body_status = body_status[:77] + "..."
+    else:
+        body_status = None
+
+    bucket, display = _classify_status(fm_status, body_status)
+
     date = "—"
     lr = LAST_REVIEW_RE.search(fm_block)
     if lr:
@@ -86,7 +136,7 @@ def _read_initiative(folder: Path) -> dict[str, str] | None:
 
     return {
         "seq": seq, "slug": slug, "title": title,
-        "status": status, "date": date, "folder": folder.name,
+        "status": display, "bucket": bucket, "date": date, "folder": folder.name,
     }
 
 
@@ -103,12 +153,16 @@ def _scan_initiatives() -> list[dict[str, str]]:
 
 
 def _render_table(rows: list[dict[str, str]]) -> str:
+    """Render a single flat table (legacy single-section output).
+
+    Retained for callers that want the un-grouped variant. The dashboard
+    output uses :func:`_render_grouped_table` instead since I59 P2.
+    """
     lines = [
         "| Seq | Folder | Status | Last review | Title |",
         "|:---:|:-------|:-------|:-----------:|:------|",
     ]
     for r in rows:
-        # Trim title to keep table readable.
         title = r["title"]
         if len(title) > 90:
             title = title[:87] + "..."
@@ -117,6 +171,45 @@ def _render_table(rows: list[dict[str, str]]) -> str:
             f"{r['status']} | {r['date']} | {title} |"
         )
     return "\n".join(lines) + "\n"
+
+
+def _render_grouped_table(rows: list[dict[str, str]]) -> str:
+    """Render rows grouped into status taxonomy sections (I59 P2).
+
+    Section order is fixed by ``DASHBOARD_SECTION_ORDER`` so the rendered
+    block is deterministic regardless of folder traversal order. Empty
+    sections still emit their header (with a "_(none)_" placeholder row)
+    so operators see at-a-glance which buckets are empty.
+    """
+    bucket_order = list(DASHBOARD_SECTION_ORDER) + [UNKNOWN_BUCKET]
+    bucket_titles: dict[str, str] = {**DASHBOARD_SECTION_TITLES, UNKNOWN_BUCKET: "Unknown / unclassified"}
+    grouped: dict[str, list[dict[str, str]]] = {b: [] for b in bucket_order}
+    for r in rows:
+        b = r.get("bucket", UNKNOWN_BUCKET)
+        if b not in grouped:
+            grouped[UNKNOWN_BUCKET].append(r)
+        else:
+            grouped[b].append(r)
+    out: list[str] = []
+    for bucket in bucket_order:
+        title = bucket_titles[bucket]
+        bucket_rows = grouped[bucket]
+        out.append(f"### {title} ({len(bucket_rows)})\n")
+        if not bucket_rows:
+            out.append("_(none)_\n")
+            continue
+        out.append("| Seq | Folder | Status | Last review | Title |")
+        out.append("|:---:|:-------|:-------|:-----------:|:------|")
+        for r in bucket_rows:
+            row_title = r["title"]
+            if len(row_title) > 90:
+                row_title = row_title[:87] + "..."
+            out.append(
+                f"| **{r['seq']}** | [`{r['folder']}/`]({r['folder']}/) | "
+                f"{r['status']} | {r['date']} | {row_title} |"
+            )
+        out.append("")
+    return "\n".join(out) + "\n"
 
 
 def _splice_into_dashboard(table: str) -> str:
@@ -157,7 +250,7 @@ def main() -> int:
     args = parser.parse_args()
 
     rows = _scan_initiatives()
-    table = _render_table(rows)
+    table = _render_grouped_table(rows)
     new_text = _splice_into_dashboard(table)
 
     existing = DASHBOARD_PATH.read_text(encoding="utf-8") if DASHBOARD_PATH.is_file() else ""

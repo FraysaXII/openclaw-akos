@@ -436,6 +436,10 @@ def main() -> int:
          "validate_ops_register", HLK_DIR / "OPS_REGISTER.csv"),
         ("DECISION_REGISTER_DECISION_LOG_MD_SYNC", "validate_decision_register_decision_log_md_sync.py",
          "validate_decision_register_decision_log_md_sync", HLK_DIR / "DECISION_REGISTER.csv"),
+        # I59 P2 — frontmatter-side enforcement. No CSV gate; scans planning workspace directly.
+        # Advisory mode by default (warnings printed; not failing); becomes strict at I59 P10.
+        ("MASTER_ROADMAP_FRONTMATTER", "validate_master_roadmap_frontmatter.py",
+         "validate_master_roadmap_frontmatter", None),
         # LANGUAGE_FRONTMATTER has no CSV gate; it scans the vault directly.
         ("LANGUAGE_FRONTMATTER", "validate_hlk_language_frontmatter.py",
          "validate_hlk_language_frontmatter", None),

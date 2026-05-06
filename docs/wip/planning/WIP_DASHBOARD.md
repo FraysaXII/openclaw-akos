@@ -15,13 +15,65 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
+### Active (in execution) (1)
+
+| Seq | Folder | Status | Last review | Title |
+|:---:|:-------|:-------|:-----------:|:------|
+| **59** | [`59-hlk-governance-clean-slate/`](59-hlk-governance-clean-slate/) | active | 2026-05-06 | Initiative 59 — HLK governance promotion + clean slate cycle (5 dimensions + I60/I61 lo... |
+
+### Gated on external event (0)
+
+_(none)_
+
+### Gated on operator action (0)
+
+_(none)_
+
+### Continuous loops (active by design) (0)
+
+_(none)_
+
+### Program lines (cadence-driven) (0)
+
+_(none)_
+
+### Closed (17)
+
+| Seq | Folder | Status | Last review | Title |
+|:---:|:-------|:-------|:-----------:|:------|
+| **28** | [`28-investor-style-company-dossier/`](28-investor-style-company-dossier/) | closed | 2026-05-05 | Initiative 28 — Investor-Style Holistika Company Dossier |
+| **29** | [`29-multi-phase-consolidation/`](29-multi-phase-consolidation/) | closed | 2026-05-05 | Initiative 29 — Multi-phase consolidation (visual fixes, design governance, Impeccable,... |
+| **30** | [`30-deck-moat-surgery/`](30-deck-moat-surgery/) | closed | 2026-05-05 | Initiative 30 — Deck moat surgery: MADEIRA, joint-equity, governance metrics |
+| **31** | [`31-holistik-ops-discovery/`](31-holistik-ops-discovery/) | closed | 2026-05-05 | Initiative 31 — Holistik Ops Discovery: 6-axis operating system for human interactions |
+| **32** | [`32-holistik-ops-maturation/`](32-holistik-ops-maturation/) | closed | 2026-05-04 | Initiative 32 — Holistik Ops Maturation: 15-phase production-readiness pass |
+| **45** | [`45-live-eval-harness/`](45-live-eval-harness/) | closed | 2026-05-04 | Initiative 45 — Live Eval Harness Modernisation: 9-phase unification + cost + adversari... |
+| **46** | [`46-neo4j-strategic-posture/`](46-neo4j-strategic-posture/) | closed | 2026-05-03 | Initiative 46 — Neo4j Strategic Posture: doctrine + GraphRAG PoC + agent memory ADR |
+| **47** | [`47-user-centric-uat/`](47-user-centric-uat/) | closed | 2026-05-02 | Initiative 47 — User-centric UAT modernisation |
+| **48** | [`48-operator-dossier/`](48-operator-dossier/) | closed | 2026-05-02 | Initiative 48 — Operator-facing UAT Dossier |
+| **49** | [`49-madeira-management-rollup/`](49-madeira-management-rollup/) | closed | 2026-05-03 | Initiative 49 — MADEIRA management and verdict rollup |
+| **50** | [`50-live-cycle-closure/`](50-live-cycle-closure/) | closed | 2026-05-03 | Initiative 50 — Live cycle closure + cost SSOT truth-up |
+| **51** | [`51-persona-calibration-cleanup/`](51-persona-calibration-cleanup/) | closed | 2026-05-03 | Initiative 51 — Persona calibration cleanup |
+| **52** | [`52-multi-model-judge-and-cost-discipline/`](52-multi-model-judge-and-cost-discipline/) | closed | 2026-05-03 | Initiative 52 — Multi-model LLM-judge live activation + RunPod/Kalavai cost discipline |
+| **53** | [`53-graphrag-poc-closure/`](53-graphrag-poc-closure/) | closed | 2026-05-03 | Initiative 53 — GraphRAG PoC closure (closes I46 P3-P7) |
+| **54** | [`54-surface-test-hardening/`](54-surface-test-hardening/) | closed | 2026-05-04 | Initiative 54 — Surface test hardening (Playwright + axe-core) |
+| **57** | [`57-cycle-closeout-live-validation/`](57-cycle-closeout-live-validation/) | closed | 2026-05-04 | Initiative 57 — Cycle closeout + first live-validation window |
+| **58** | [`58-cycle-2-multi-track-forward/`](58-cycle-2-multi-track-forward/) | closed | 2026-05-06 | Initiative 58 — Cycle 2 multi-track forward (OPS-57-1 + strategy + KM polish + hygiene) |
+
+### Archived (superseded) (2)
+
+| Seq | Folder | Status | Last review | Title |
+|:---:|:-------|:-------|:-----------:|:------|
+| **05** | [`05-hlk-vault-envoy-repos/`](05-hlk-vault-envoy-repos/) | archived | 2026-05-05 | Initiative 05 — HLK v3.0 Envoy repository hub + entity placement |
+| **20** | [`20-kalavai-shadow-llamacpp-trial/`](20-kalavai-shadow-llamacpp-trial/) | archived | 2026-05-05 | Initiative 20 — Kalavai / Shadow llama.cpp trial: DeepSeek-R1-Distill-Llama-70B (Q4) |
+
+### Unknown / unclassified (27)
+
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
 | **01** | [`01-akos-full-roadmap/`](01-akos-full-roadmap/) | : Working copy for workspace traceability | — | AKOS Full Roadmap |
 | **02** | [`02-hlk-on-akos-madeira/`](02-hlk-on-akos-madeira/) | : Working copy for workspace traceability; original 6-phase HLK-on-AKOS progr... | — | HLK On AKOS Madeira Roadmap |
 | **03** | [`03-hlk-km-knowledge-base/`](03-hlk-km-knowledge-base/) | In progress (P0–P2 execution) | 2026-04-08 | HLK governed KM — workspace master roadmap |
 | **04** | [`04-holistika-company-formation/`](04-holistika-company-formation/) | Active program (promoted from report-only) | — | Holistika company formation — master roadmap |
-| **05** | [`05-hlk-vault-envoy-repos/`](05-hlk-vault-envoy-repos/) | **Archived** (2026-05-05) — superseded by Initiatives 13 (HLK v3.0 vault) + 2... | 2026-05-05 | Initiative 05 — HLK v3.0 Envoy repository hub + entity placement |
 | **06** | [`06-planning-backlog-registry/`](06-planning-backlog-registry/) | Active | — | Planning backlog registry (cross-initiative SSOT) |
 | **07** | [`07-hlk-neo4j-graph-projection/`](07-hlk-neo4j-graph-projection/) | Closeout — control-plane explorer, prompt DI (`OVERLAY_HLK_GRAPH`), browser-s... | — | Initiative 07: HLK Neo4j graph projection |
 | **08** | [`08-python-runtime-deployment/`](08-python-runtime-deployment/) | execution in progress (repo implementation tracks this roadmap) | — | Initiative 08 — Python runtime, deployment, operator journey, Neo4j graph stack |
@@ -31,12 +83,11 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **12** | [`12-madeira-research-request/`](12-madeira-research-request/) | active (handoff document published) | — | Initiative 12 — MADEIRA external research request |
 | **13** | [`13-madeira-research-followthrough/`](13-madeira-research-followthrough/) | active (execution started 2026-04-17) | — | Initiative 13 — MADEIRA research follow-through (SOTA-aligned) |
 | **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | active (execution started 2026-04-17) | — | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
-| **15** | [`15-hlk-api-lifecycle-governance/`](15-hlk-api-lifecycle-governance/) | open | — | Initiative 15 — HLK API lifecycle governance + component matrix |
+| **15** | [`15-hlk-api-lifecycle-governance/`](15-hlk-api-lifecycle-governance/) | unknown | — | Initiative 15 — HLK API lifecycle governance + component matrix |
 | **16** | [`16-hlk-finops-vendor-ssot/`](16-hlk-finops-vendor-ssot/) | Executed (2026-04-20); vendor artifacts subsumed by Initiative 18 (2026-04-23) | — | Initiative 16 — FINOPS vendor SSOT + Supabase mirror |
 | **17** | [`17-madeira-cursor-mode-parity/`](17-madeira-cursor-mode-parity/) | execution in progress | — | Initiative 17 — MADEIRA Cursor mode parity (Ask / Plan / Run) |
 | **18** | [`18-hlk-finops-counterparty-stripe/`](18-hlk-finops-counterparty-stripe/) | Executed (2026-04-23) | — | Initiative 18 — FINOPS counterparty SSOT + Stripe FDW |
 | **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | Phase 1 DDL applied **MasterData** (`swrmqpelgoblaquequzb`) + git parity (202... | — | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
-| **20** | [`20-kalavai-shadow-llamacpp-trial/`](20-kalavai-shadow-llamacpp-trial/) | **Archived** (2026-05-05) — trial window closed 2026-05-01; endpoint absorbed... | 2026-05-05 | Initiative 20 — Kalavai / Shadow llama.cpp trial: DeepSeek-R1-Distill-Llama-70B (Q4) |
 | **21** | [`21-hlk-adviser-engagement-and-goipoi/`](21-hlk-adviser-engagement-and-goipoi/) | **Closed (2026-04-28)** — UAT report [`reports/uat-adviser-handoff-20260428.m... | — | Initiative 21 — Adviser Engagement plane + GOI/POI dimension |
 | **22** | [`22-hlk-scalability-and-i21-closures/`](22-hlk-scalability-and-i21-closures/) | **Closed (2026-04-29)** — UAT [`reports/uat-i22-scalability-and-closure-20260... | — | Initiative 22 — Scalable HLK hierarchy + Initiative 21 closures |
 | **22a** | [`22a-i22-post-closure-followups/`](22a-i22-post-closure-followups/) | **Closed (P1–P6 complete; P7 Supabase parity reconciled 2026-05-04 via D-IH-O... | — | Initiative 22a — Post-closure follow-ups + Wave-2 bootstrap |
@@ -44,26 +95,9 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **24** | [`24-hlk-communication-methodology/`](24-hlk-communication-methodology/) | P0 + P0a-scaffold + P1 in progress (2026-04-29) | — | Initiative 24 — Communication Methodology + Eloquence-Layer Composer |
 | **25** | [`25-hlk-topic-graph-and-km-scalability/`](25-hlk-topic-graph-and-km-scalability/) | **Closed (2026-04-29)** — UAT [`reports/uat-i25-topic-graph-and-km-scalabilit... | — | Initiative 25 — Topic Graph + Graph Projection + KM Scalability |
 | **26** | [`26-hlk-ops-hardening/`](26-hlk-ops-hardening/) | **CLOSED for P0+P1+P2+P3+P5 (2026-04-29). P4 DEFERRED with persistent trigger... | — | Initiative 26 — Operations hardening (small ops items + persistent triggers) |
-| **28** | [`28-investor-style-company-dossier/`](28-investor-style-company-dossier/) | : **Closed (engineering side)** — primary deck SSOT + HTML preview + PDF rend... | 2026-05-05 | Initiative 28 — Investor-Style Holistika Company Dossier |
-| **29** | [`29-multi-phase-consolidation/`](29-multi-phase-consolidation/) | : **Closed** — all six phases shipped (P1 Figma fix pass + P2 governance scaf... | 2026-05-05 | Initiative 29 — Multi-phase consolidation (visual fixes, design governance, Impeccable,... |
-| **30** | [`30-deck-moat-surgery/`](30-deck-moat-surgery/) | **Closed** — all P0-P6 deliverables shipped 2026-04-30 (see [`reports/uat-i30... | 2026-05-05 | Initiative 30 — Deck moat surgery: MADEIRA, joint-equity, governance metrics |
-| **31** | [`31-holistik-ops-discovery/`](31-holistik-ops-discovery/) | **Closed** — all P0-P7 deliverables shipped 2026-04-30 as the 5-axis doctrine... | 2026-05-05 | Initiative 31 — Holistik Ops Discovery: 6-axis operating system for human interactions |
-| **32** | [`32-holistik-ops-maturation/`](32-holistik-ops-maturation/) | **Closed (2026-05-04 via I57 P3)** — all 15 phases (P0–P14) PASS; closure UAT... | 2026-05-04 | Initiative 32 — Holistik Ops Maturation: 15-phase production-readiness pass |
-| **45** | [`45-live-eval-harness/`](45-live-eval-harness/) | **Closed (2026-05-04 via I57 P2)** — all 9 phases (P0–P8) PASS; closure UAT [... | 2026-05-04 | Initiative 45 — Live Eval Harness Modernisation: 9-phase unification + cost + adversari... |
-| **46** | [`46-neo4j-strategic-posture/`](46-neo4j-strategic-posture/) | **Closed (2026-05-03)** via [Initiative 53 — GraphRAG PoC closure](../53-grap... | 2026-05-03 | Initiative 46 — Neo4j Strategic Posture: doctrine + GraphRAG PoC + agent memory ADR |
-| **47** | [`47-user-centric-uat/`](47-user-centric-uat/) | Closed (2026-05-02; all 16 phases shipped; 134 new tests; 326 scenarios; UAT ... | 2026-05-02 | Initiative 47 — User-centric UAT modernisation |
-| **48** | [`48-operator-dossier/`](48-operator-dossier/) | Closed (2026-05-02) | 2026-05-02 | Initiative 48 — Operator-facing UAT Dossier |
-| **49** | [`49-madeira-management-rollup/`](49-madeira-management-rollup/) | **Closed (2026-05-03).** All 18 phases delivered; closure UAT [`reports/uat-i... | 2026-05-03 | Initiative 49 — MADEIRA management and verdict rollup |
-| **50** | [`50-live-cycle-closure/`](50-live-cycle-closure/) | **Closed (2026-05-03).** All seven phases delivered; release-gate PASS across... | 2026-05-03 | Initiative 50 — Live cycle closure + cost SSOT truth-up |
-| **51** | [`51-persona-calibration-cleanup/`](51-persona-calibration-cleanup/) | Closed 2026-05-03. R-47-2 closes (13 / 17 → 0 / 17 outliers); OPS-47-9 + OPS-... | 2026-05-03 | Initiative 51 — Persona calibration cleanup |
-| **52** | [`52-multi-model-judge-and-cost-discipline/`](52-multi-model-judge-and-cost-discipline/) | **Closed (2026-05-03)** — all 9 phases executed (P0-P8). G-52-1, G-52-3, G-52... | 2026-05-03 | Initiative 52 — Multi-model LLM-judge live activation + RunPod/Kalavai cost discipline |
-| **53** | [`53-graphrag-poc-closure/`](53-graphrag-poc-closure/) | **Closed (2026-05-03)** on the no-ship path. P0-P2 audit + P3 NO-FIRE governa... | 2026-05-03 | Initiative 53 — GraphRAG PoC closure (closes I46 P3-P7) |
-| **54** | [`54-surface-test-hardening/`](54-surface-test-hardening/) | **Closed (2026-05-03 dispatcher-validation; OPS-54-1 closed 2026-05-04 live a... | 2026-05-04 | Initiative 54 — Surface test hardening (Playwright + axe-core) |
-| **55** | [`55-brand-ops-continuous-loop/`](55-brand-ops-continuous-loop/) | **Loop tooling SHIPPED 2026-05-03 (P0 + P6 + P7 + P8).** I55 stays **Open as ... | 2026-05-03 | Initiative 55 — Brand/Ops continuous improvement loop + advisor-update triggers (closes... |
-| **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | **Bootstrapped 2026-05-03 (P0 only).** All phases P1–P8 are forwarded as **OP... | 2026-05-03 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
-| **57** | [`57-cycle-closeout-live-validation/`](57-cycle-closeout-live-validation/) | Closed engineering side 2026-05-04 via [UAT-I57-2026-05-04](reports/uat-i57-c... | 2026-05-04 | Initiative 57 — Cycle closeout + first live-validation window |
-| **58** | [`58-cycle-2-multi-track-forward/`](58-cycle-2-multi-track-forward/) | **Closed (engineering-side AND operator-side)** 2026-05-06 per [`reports/e0-c... | 2026-05-06 | Initiative 58 — Cycle 2 multi-track forward (OPS-57-1 + strategy + KM polish + hygiene) |
-| **59** | [`59-hlk-governance-clean-slate/`](59-hlk-governance-clean-slate/) | **Active** — bootstrapped 2026-05-06 | 2026-05-06 | Initiative 59 — HLK governance promotion + clean slate cycle (5 dimensions + I60/I61 lo... |
+| **55** | [`55-brand-ops-continuous-loop/`](55-brand-ops-continuous-loop/) | active-continuous-loop | 2026-05-03 | Initiative 55 — Brand/Ops continuous improvement loop + advisor-update triggers (closes... |
+| **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | bootstrapped-pending-first-advisor-reply | 2026-05-03 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
+
 <!-- END AUTO -->
 
 ## Re-render contract
