@@ -63,6 +63,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | **Bootstrapped 2026-05-03 (P0 only).** All phases P1–P8 are forwarded as **OP... | 2026-05-03 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
 | **57** | [`57-cycle-closeout-live-validation/`](57-cycle-closeout-live-validation/) | Closed engineering side 2026-05-04 via [UAT-I57-2026-05-04](reports/uat-i57-c... | 2026-05-04 | Initiative 57 — Cycle closeout + first live-validation window |
 | **58** | [`58-cycle-2-multi-track-forward/`](58-cycle-2-multi-track-forward/) | **Closed (engineering-side AND operator-side)** 2026-05-06 per [`reports/e0-c... | 2026-05-06 | Initiative 58 — Cycle 2 multi-track forward (OPS-57-1 + strategy + KM polish + hygiene) |
+| **59** | [`59-hlk-governance-clean-slate/`](59-hlk-governance-clean-slate/) | **Active** — bootstrapped 2026-05-06 | 2026-05-06 | Initiative 59 — HLK governance promotion + clean slate cycle (5 dimensions + I60/I61 lo... |
 <!-- END AUTO -->
 
 ## Re-render contract
