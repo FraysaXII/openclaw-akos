@@ -52,9 +52,48 @@ POLICY_CSV = (
     REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POLICY_REGISTER.csv"
 )
 
+PERSONA_CSV = (
+    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_REGISTRY.csv"
+)
+
 JUDGE_AXES: tuple[str, str, str] = ("brand_voice", "citation", "persona_fit")
 DEFAULT_PASS_THRESHOLD = 4
 DEFAULT_COST_CAP_USD = 0.01
+
+_PERSONA_CACHE: dict[str, dict[str, str]] = {}
+
+
+def _load_persona_registry() -> dict[str, dict[str, str]]:
+    """Return ``{persona_id: row_dict}`` from PERSONA_REGISTRY.csv (cached)."""
+    if _PERSONA_CACHE:
+        return _PERSONA_CACHE
+    if not PERSONA_CSV.is_file():
+        return _PERSONA_CACHE
+    with PERSONA_CSV.open(encoding="utf-8", newline="") as fh:
+        for row in csv.DictReader(fh):
+            pid = (row.get("persona_id") or "").strip()
+            if pid:
+                _PERSONA_CACHE[pid] = dict(row)
+    return _PERSONA_CACHE
+
+
+def resolve_persona(scenario: dict, persona: dict | None = None) -> dict | None:
+    """Resolve a persona dict from the scenario's ``persona_id`` when ``persona`` is ``None``.
+
+    I59 P6 (OPS-58-3): the root cause of the 0% persona_fit alignment in
+    I58 calibration burns was ``persona=None`` flowing through to
+    ``_heuristic_persona_fit``, which returned a flat 3 for every response.
+    This helper resolves the persona from ``PERSONA_REGISTRY.csv`` so the
+    heuristic has real ``typical_distance_band`` / ``qualification_gate``
+    context to reason about.
+    """
+    if persona is not None:
+        return persona
+    pid = (scenario.get("persona_id") or "").strip()
+    if not pid:
+        return None
+    registry = _load_persona_registry()
+    return registry.get(pid)
 
 # Policy row IDs for thresholds (3 rows added to POLICY_REGISTER in P12)
 POLICY_IDS: dict[str, str] = {
@@ -191,15 +230,23 @@ def score_response_offline(
     scenario: dict,
     persona: dict | None = None,
 ) -> JudgeResult:
-    """Deterministic offline scoring; runs in CI; cost = 0."""
+    """Deterministic offline scoring; runs in CI; cost = 0.
+
+    I59 P6 (OPS-58-3): when ``persona`` is ``None`` but ``scenario`` carries a
+    ``persona_id``, the persona is resolved from ``PERSONA_REGISTRY.csv`` so
+    ``_heuristic_persona_fit`` has real context instead of returning a flat 3.
+    """
+    resolved_persona = resolve_persona(scenario, persona)
     scenario_id = scenario.get("scenario_id", "")
-    persona_id = scenario.get("persona_id") or (persona.get("persona_id") if persona else None)
+    persona_id = scenario.get("persona_id") or (
+        resolved_persona.get("persona_id") if resolved_persona else None
+    )
     thresholds = load_judge_thresholds()
 
     scores = {
         "brand_voice": _heuristic_brand_voice(response),
         "citation": _heuristic_citation(response),
-        "persona_fit": _heuristic_persona_fit(response, persona),
+        "persona_fit": _heuristic_persona_fit(response, resolved_persona),
     }
     pass_per_axis = {axis: scores[axis] >= thresholds[axis] for axis in JUDGE_AXES}
     return JudgeResult(
