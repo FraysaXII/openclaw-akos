@@ -418,6 +418,24 @@ def main() -> int:
         # Initiative 47 P1 - Persona scenario registry (UAT scenario library; D-IH-47-A SSOT).
         ("PERSONA_SCENARIO_REGISTRY", "validate_persona_scenario_registry.py",
          "validate_persona_scenario_registry", HLK_DIR / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"),
+        # Initiative 59 P1 - HLK governance dimensions (5 new CSVs + 3 sync gates).
+        # REPOSITORY_REGISTRY first because INITIATIVE_REGISTRY FKs into it.
+        ("REPOSITORY_REGISTRY", "validate_repository_registry.py",
+         "validate_repository_registry", HLK_DIR / "REPOSITORY_REGISTRY.csv"),
+        ("REPOSITORY_REGISTRY_MD_CSV_SYNC", "validate_repository_registry_md_csv_sync.py",
+         "validate_repository_registry_md_csv_sync", HLK_DIR / "REPOSITORY_REGISTRY.csv"),
+        ("CYCLE_REGISTER", "validate_cycle_register.py",
+         "validate_cycle_register", HLK_DIR / "CYCLE_REGISTER.csv"),
+        ("DECISION_REGISTER", "validate_decision_register.py",
+         "validate_decision_register", HLK_DIR / "DECISION_REGISTER.csv"),
+        ("INITIATIVE_REGISTRY", "validate_initiative_registry.py",
+         "validate_initiative_registry", HLK_DIR / "INITIATIVE_REGISTRY.csv"),
+        ("INITIATIVE_REGISTRY_FRONTMATTER_SYNC", "validate_initiative_registry_frontmatter_sync.py",
+         "validate_initiative_registry_frontmatter_sync", HLK_DIR / "INITIATIVE_REGISTRY.csv"),
+        ("OPS_REGISTER", "validate_ops_register.py",
+         "validate_ops_register", HLK_DIR / "OPS_REGISTER.csv"),
+        ("DECISION_REGISTER_DECISION_LOG_MD_SYNC", "validate_decision_register_decision_log_md_sync.py",
+         "validate_decision_register_decision_log_md_sync", HLK_DIR / "DECISION_REGISTER.csv"),
         # LANGUAGE_FRONTMATTER has no CSV gate; it scans the vault directly.
         ("LANGUAGE_FRONTMATTER", "validate_hlk_language_frontmatter.py",
          "validate_hlk_language_frontmatter", None),

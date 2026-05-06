@@ -36,12 +36,17 @@ from akos.hlk_adviser_questions_csv import ADVISER_OPEN_QUESTIONS_FIELDNAMES  # 
 from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIELDNAMES  # noqa: E402
 from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_cycle_register_csv import CYCLE_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.4
+from akos.hlk_decision_register_csv import DECISION_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.5
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
+from akos.hlk_initiative_registry_csv import INITIATIVE_REGISTRY_FIELDNAMES  # noqa: E402  # I59 P1.2
+from akos.hlk_ops_register_csv import OPS_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.3
 from akos.hlk_persona_registry_csv import PERSONA_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_persona_scenario_csv import PERSONA_SCENARIO_REGISTRY_FIELDNAMES  # noqa: E402  # I47 P1 + I49 (closes OPS-47-9 in I51 P1)
 from akos.hlk_policy_register_csv import POLICY_REGISTER_FIELDNAMES  # noqa: E402  # I32 P4
 from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_repo_health_csv import REPO_HEALTH_SNAPSHOT_FIELDNAMES  # noqa: E402  # I32 P7
+from akos.hlk_repository_registry_csv import REPOSITORY_REGISTRY_FIELDNAMES  # noqa: E402  # I59 P1.1
 from akos.hlk_skill_registry_csv import SKILL_REGISTRY_FIELDNAMES  # noqa: E402  # I32 P2
 from akos.hlk_sourcing_register_csv import SOURCING_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_topic_registry_csv import TOPIC_REGISTRY_FIELDNAMES  # noqa: E402
@@ -74,6 +79,12 @@ SKILL_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / 
 TOUCHPOINT_KIT_CELL_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOUCHPOINT_KIT_CELL_REGISTRY.csv"
 POLICY_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POLICY_REGISTER.csv"
 REPO_HEALTH_SNAPSHOT_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPO_HEALTH_SNAPSHOT.csv"
+# I59 P1: 5 new HLK governance mirrors (planning workspace dimensions)
+REPOSITORY_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPOSITORY_REGISTRY.csv"
+INITIATIVE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "INITIATIVE_REGISTRY.csv"
+OPS_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "OPS_REGISTER.csv"
+CYCLE_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "CYCLE_REGISTER.csv"
+DECISION_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "DECISION_REGISTER.csv"
 
 # Must match sql-proposal-stack-20260417 §4.3
 BASELINE_FIELDNAMES: tuple[str, ...] = (
@@ -622,6 +633,140 @@ def _emit_repo_health_snapshot_upserts(rows: list[dict[str, str]], source_git_sh
     return out
 
 
+# ---- I59 P1 — five HLK governance dimensions ---------------------------------
+
+
+def _emit_repository_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """I59 P1.1 — compliance.repository_registry_mirror upserts.
+
+    PK = repo_slug. CSV is canonical (machine-readable); REPOSITORIES_REGISTRY.md is
+    canonical for prose. Sync validator enforces slug-set consistency between the two.
+    """
+    cols_csv = ", ".join(REPOSITORY_REGISTRY_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in REPOSITORY_REGISTRY_FIELDNAMES if c != "repo_slug"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.repository_registry_mirror upserts (Initiative 59 P1.1)"]
+    for r in rows:
+        slug = (r.get("repo_slug") or "").strip()
+        if not slug:
+            continue
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in REPOSITORY_REGISTRY_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.repository_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (repo_slug) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_initiative_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """I59 P1.2 — compliance.initiative_registry_mirror upserts.
+
+    PK = initiative_id (e.g. ``i59_hlk_governance``). CSV is canonical for metadata
+    (status, last_review, ...); master-roadmap.md frontmatter is canonical for prose.
+    Sync validator enforces frontmatter ↔ CSV agreement on (status, last_review).
+    """
+    cols_csv = ", ".join(INITIATIVE_REGISTRY_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in INITIATIVE_REGISTRY_FIELDNAMES if c != "initiative_id"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.initiative_registry_mirror upserts (Initiative 59 P1.2)"]
+    for r in rows:
+        iid = (r.get("initiative_id") or "").strip()
+        if not iid:
+            continue
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in INITIATIVE_REGISTRY_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.initiative_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (initiative_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_ops_register_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """I59 P1.3 — compliance.ops_register_mirror upserts.
+
+    PK = ops_action_id (e.g. ``OPS-58-1``). Operator/mixed-owned rows feed
+    docs/wip/planning/OPERATOR_INBOX.md (auto-rendered).
+    """
+    cols_csv = ", ".join(OPS_REGISTER_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in OPS_REGISTER_FIELDNAMES if c != "ops_action_id"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.ops_register_mirror upserts (Initiative 59 P1.3)"]
+    for r in rows:
+        oid = (r.get("ops_action_id") or "").strip()
+        if not oid:
+            continue
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in OPS_REGISTER_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.ops_register_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (ops_action_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_cycle_register_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """I59 P1.4 — compliance.cycle_register_mirror upserts.
+
+    PK = cycle_id (e.g. ``cycle_2_multi_track_forward``). One row per coordinating
+    cycle; coordinated_initiative_ids is a comma-separated FK list.
+    """
+    cols_csv = ", ".join(CYCLE_REGISTER_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in CYCLE_REGISTER_FIELDNAMES if c != "cycle_id"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.cycle_register_mirror upserts (Initiative 59 P1.4)"]
+    for r in rows:
+        cid = (r.get("cycle_id") or "").strip()
+        if not cid:
+            continue
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in CYCLE_REGISTER_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.cycle_register_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (cycle_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_decision_register_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """I59 P1.5 — compliance.decision_register_mirror upserts.
+
+    PK = decision_id (e.g. ``D-IH-58-I``). Markdown decision-log files remain prose
+    canonical; CSV is metadata canonical (status, reversibility, FK linkages).
+    """
+    cols_csv = ", ".join(DECISION_REGISTER_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in DECISION_REGISTER_FIELDNAMES if c != "decision_id"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.decision_register_mirror upserts (Initiative 59 P1.5)"]
+    for r in rows:
+        did = (r.get("decision_id") or "").strip()
+        if not did:
+            continue
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in DECISION_REGISTER_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.decision_register_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (decision_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         try:
@@ -733,6 +878,32 @@ def main() -> int:
         action="store_true",
         help="Only emit repo_health_snapshot_mirror statements (requires REPO_HEALTH_SNAPSHOT.csv) [Initiative 32 P7]",
     )
+    # I59 P1 — five HLK governance dimensions (planning workspace SSOT)
+    parser.add_argument(
+        "--repository-registry-only",
+        action="store_true",
+        help="Only emit repository_registry_mirror statements (requires REPOSITORY_REGISTRY.csv) [Initiative 59 P1.1]",
+    )
+    parser.add_argument(
+        "--initiative-registry-only",
+        action="store_true",
+        help="Only emit initiative_registry_mirror statements (requires INITIATIVE_REGISTRY.csv) [Initiative 59 P1.2]",
+    )
+    parser.add_argument(
+        "--ops-register-only",
+        action="store_true",
+        help="Only emit ops_register_mirror statements (requires OPS_REGISTER.csv) [Initiative 59 P1.3]",
+    )
+    parser.add_argument(
+        "--cycle-register-only",
+        action="store_true",
+        help="Only emit cycle_register_mirror statements (requires CYCLE_REGISTER.csv) [Initiative 59 P1.4]",
+    )
+    parser.add_argument(
+        "--decision-register-only",
+        action="store_true",
+        help="Only emit decision_register_mirror statements (requires DECISION_REGISTER.csv) [Initiative 59 P1.5]",
+    )
     parser.add_argument(
         "--no-begin-commit",
         action="store_true",
@@ -759,6 +930,11 @@ def main() -> int:
             args.touchpoint_kit_cell_only,
             args.policy_register_only,
             args.repo_health_snapshot_only,
+            args.repository_registry_only,
+            args.initiative_registry_only,
+            args.ops_register_only,
+            args.cycle_register_only,
+            args.decision_register_only,
         )
         if x
     )
@@ -770,7 +946,10 @@ def main() -> int:
             "--founder-filed-instruments-only, --program-registry-only, "
             "--topic-registry-only, --persona-registry-only, "
             "--persona-scenario-registry-only, "
-            "--channel-touchpoint-registry-only",
+            "--channel-touchpoint-registry-only, "
+            "--repository-registry-only, --initiative-registry-only, "
+            "--ops-register-only, --cycle-register-only, "
+            "--decision-register-only",
             file=sys.stderr,
         )
         return 1
@@ -1276,6 +1455,81 @@ def main() -> int:
             sys.stdout.write(text)
         return 0
 
+    # I59 P1 — 5 new HLK governance dimensions reuse the same compact factory pattern.
+    _i59_mirror_specs: list[tuple[bool, Path, tuple[str, ...], str, str]] = [
+        (
+            args.repository_registry_only, REPOSITORY_REGISTRY_CSV, REPOSITORY_REGISTRY_FIELDNAMES,
+            "compliance.repository_registry_mirror", "Initiative 59 P1.1",
+        ),
+        (
+            args.initiative_registry_only, INITIATIVE_REGISTRY_CSV, INITIATIVE_REGISTRY_FIELDNAMES,
+            "compliance.initiative_registry_mirror", "Initiative 59 P1.2",
+        ),
+        (
+            args.ops_register_only, OPS_REGISTER_CSV, OPS_REGISTER_FIELDNAMES,
+            "compliance.ops_register_mirror", "Initiative 59 P1.3",
+        ),
+        (
+            args.cycle_register_only, CYCLE_REGISTER_CSV, CYCLE_REGISTER_FIELDNAMES,
+            "compliance.cycle_register_mirror", "Initiative 59 P1.4",
+        ),
+        (
+            args.decision_register_only, DECISION_REGISTER_CSV, DECISION_REGISTER_FIELDNAMES,
+            "compliance.decision_register_mirror", "Initiative 59 P1.5",
+        ),
+    ]
+    _i59_emit_fns = {
+        "compliance.repository_registry_mirror": _emit_repository_registry_upserts,
+        "compliance.initiative_registry_mirror": _emit_initiative_registry_upserts,
+        "compliance.ops_register_mirror": _emit_ops_register_upserts,
+        "compliance.cycle_register_mirror": _emit_cycle_register_upserts,
+        "compliance.decision_register_mirror": _emit_decision_register_upserts,
+    }
+    _i59_count_keys = {
+        "compliance.repository_registry_mirror": "repository_registry_rows",
+        "compliance.initiative_registry_mirror": "initiative_registry_rows",
+        "compliance.ops_register_mirror": "ops_register_rows",
+        "compliance.cycle_register_mirror": "cycle_register_rows",
+        "compliance.decision_register_mirror": "decision_register_rows",
+    }
+    for flag, csv_path, fieldnames, mirror_table, initiative in _i59_mirror_specs:
+        if not flag:
+            continue
+        if not csv_path.is_file():
+            print("error: missing", csv_path, file=sys.stderr)
+            return 1
+        with csv_path.open(encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            fn = list(reader.fieldnames or [])
+            if fn != list(fieldnames):
+                print(f"error: {csv_path.name} header drift vs contract", file=sys.stderr)
+                print("  expected:", list(fieldnames), file=sys.stderr)
+                print("  got:     ", fn, file=sys.stderr)
+                return 1
+            i59_rows = [dict(r) for r in reader]
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            print(f"{_i59_count_keys[mirror_table]}={len(i59_rows)}")
+            return 0
+        blocks = _i59_emit_fns[mirror_table](i59_rows, sha)
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            f"-- Apply only after {mirror_table} exists ({initiative} DDL).",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
     if not PROC_CSV.is_file():
         print("error: missing", PROC_CSV, file=sys.stderr)
         return 1
@@ -1435,6 +1689,52 @@ def main() -> int:
                 rhs_rows = [dict(r) for r in rhsr]
                 rhs_n = len(rhs_rows)
 
+    # I59 P1 — 5 new HLK governance dimensions
+    repo_reg_n = 0
+    repo_reg_rows: list[dict[str, str]] = []
+    if REPOSITORY_REGISTRY_CSV.is_file():
+        with REPOSITORY_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            rrr = csv.DictReader(f)
+            if list(rrr.fieldnames or []) == list(REPOSITORY_REGISTRY_FIELDNAMES):
+                repo_reg_rows = [dict(r) for r in rrr]
+                repo_reg_n = len(repo_reg_rows)
+
+    init_reg_n = 0
+    init_reg_rows: list[dict[str, str]] = []
+    if INITIATIVE_REGISTRY_CSV.is_file():
+        with INITIATIVE_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            irr = csv.DictReader(f)
+            if list(irr.fieldnames or []) == list(INITIATIVE_REGISTRY_FIELDNAMES):
+                init_reg_rows = [dict(r) for r in irr]
+                init_reg_n = len(init_reg_rows)
+
+    ops_reg_n = 0
+    ops_reg_rows: list[dict[str, str]] = []
+    if OPS_REGISTER_CSV.is_file():
+        with OPS_REGISTER_CSV.open(encoding="utf-8", newline="") as f:
+            orr = csv.DictReader(f)
+            if list(orr.fieldnames or []) == list(OPS_REGISTER_FIELDNAMES):
+                ops_reg_rows = [dict(r) for r in orr]
+                ops_reg_n = len(ops_reg_rows)
+
+    cycle_reg_n = 0
+    cycle_reg_rows: list[dict[str, str]] = []
+    if CYCLE_REGISTER_CSV.is_file():
+        with CYCLE_REGISTER_CSV.open(encoding="utf-8", newline="") as f:
+            crr = csv.DictReader(f)
+            if list(crr.fieldnames or []) == list(CYCLE_REGISTER_FIELDNAMES):
+                cycle_reg_rows = [dict(r) for r in crr]
+                cycle_reg_n = len(cycle_reg_rows)
+
+    dec_reg_n = 0
+    dec_reg_rows: list[dict[str, str]] = []
+    if DECISION_REGISTER_CSV.is_file():
+        with DECISION_REGISTER_CSV.open(encoding="utf-8", newline="") as f:
+            drr = csv.DictReader(f)
+            if list(drr.fieldnames or []) == list(DECISION_REGISTER_FIELDNAMES):
+                dec_reg_rows = [dict(r) for r in drr]
+                dec_reg_n = len(dec_reg_rows)
+
     if args.count_only:
         print(f"source_git_sha={sha}")
         print(f"process_list_rows={len(proc_rows)}")
@@ -1455,6 +1755,12 @@ def main() -> int:
         print(f"touchpoint_kit_cell_rows={tkc_n}")
         print(f"policy_register_rows={pol_n}")
         print(f"repo_health_snapshot_rows={rhs_n}")
+        # I59 P1 additions
+        print(f"repository_registry_rows={repo_reg_n}")
+        print(f"initiative_registry_rows={init_reg_n}")
+        print(f"ops_register_rows={ops_reg_n}")
+        print(f"cycle_register_rows={cycle_reg_n}")
+        print(f"decision_register_rows={dec_reg_n}")
         return 0
 
     blocks: list[str] = []
@@ -1493,6 +1799,17 @@ def main() -> int:
         blocks.extend(_emit_policy_register_upserts(pol_rows, sha))
     if not args.process_list_only and not args.baseline_only and rhs_rows:
         blocks.extend(_emit_repo_health_snapshot_upserts(rhs_rows, sha))
+    # I59 P1 — append the 5 new HLK governance mirror upsert blocks to the full bundle.
+    if not args.process_list_only and not args.baseline_only and repo_reg_rows:
+        blocks.extend(_emit_repository_registry_upserts(repo_reg_rows, sha))
+    if not args.process_list_only and not args.baseline_only and init_reg_rows:
+        blocks.extend(_emit_initiative_registry_upserts(init_reg_rows, sha))
+    if not args.process_list_only and not args.baseline_only and ops_reg_rows:
+        blocks.extend(_emit_ops_register_upserts(ops_reg_rows, sha))
+    if not args.process_list_only and not args.baseline_only and cycle_reg_rows:
+        blocks.extend(_emit_cycle_register_upserts(cycle_reg_rows, sha))
+    if not args.process_list_only and not args.baseline_only and dec_reg_rows:
+        blocks.extend(_emit_decision_register_upserts(dec_reg_rows, sha))
 
     preamble = [
         "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",

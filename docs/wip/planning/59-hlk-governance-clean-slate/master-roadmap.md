@@ -97,8 +97,8 @@ P1 is the long pole (5 HLK dimensions atomic commit). P2 reuses P1's enum module
 
 | # | Phase | Output | Status |
 |:--:|:------|:-------|:-------|
-| **P0** | Bootstrap | Six governance artefacts under `docs/wip/planning/59-hlk-governance-clean-slate/`; planning README row 59; CHANGELOG entry | This commit |
-| **P1** | 5 HLK dimensions | `REPOSITORY_REGISTRY.csv` + `INITIATIVE_REGISTRY.csv` + `OPS_REGISTER.csv` + `CYCLE_REGISTER.csv` + `DECISION_REGISTER.csv` + Pydantic schemas + 5 validators + 3 sync validators + 5 migrations + 5 mirror-emit helpers + 2 new SOPs at `status: review` | Engineering |
+| **P0** | Bootstrap | Six governance artefacts under `docs/wip/planning/59-hlk-governance-clean-slate/`; planning README row 59; CHANGELOG entry | **Done** (2026-05-06) |
+| **P1** | 5 HLK dimensions | `REPOSITORY_REGISTRY.csv` + `INITIATIVE_REGISTRY.csv` + `OPS_REGISTER.csv` + `CYCLE_REGISTER.csv` + `DECISION_REGISTER.csv` + Pydantic schemas + 5 validators + 3 sync validators + 5 migrations + 5 mirror-emit helpers + 2 new SOPs at `status: review` | **Done** (2026-05-06) |
 | **P2** | Status taxonomy SSOT | `akos/planning/status_taxonomy.py` enum module + frontmatter validator + dashboard renderer section split + frontmatter↔CSV sync validator | Engineering |
 | **P3** | Audit + tag + REGISTRY seed | All ~50 master-roadmap.md status flips + 5 CSVs seeded + close I02/I07/I15 + archive I09 + doc-sync I22a/I55 stale rows | Engineering + G-59-A/B/C |
 | **P4** | Operator Inbox SSOT | `docs/wip/planning/OPERATOR_INBOX.md` auto-rendered from OPS_REGISTER.csv via new `scripts/render_operator_inbox.py` | Engineering |
