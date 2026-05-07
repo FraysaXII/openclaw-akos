@@ -153,3 +153,11 @@ Format: ID · question · options considered · decision · rationale · date ·
 - **Decision.** All required MCPs already installed (Supabase ×2, Sentry, Vercel, Stripe, Langfuse, RunPod, Slack, browser, Postman). No new MCP requests at planning time.
 - **Rationale.** Lean execution; if a new need emerges (e.g., Cloudflare DNS during P10.5), surface in the affected phase report and request then.
 - **Date.** 2026-05-06 · **Status.** Active.
+
+## D-IH-62-W — P2 deferred pending mirror DDL
+
+- **Q.** Apply the I62 P2 `erp.*` projection-views migration on 2026-05-07 against `MasterData` Supabase project, given prerequisite mirrors are missing?
+- **Options.** (1) Apply P2 as-written (fails); (2) Adapt P2 to current schema (column harmonisation) but still missing two mirror tables; (3) Defer P2, apply P1 + P3 only, queue a follow-up (P11) for mirror DDL + view re-application.
+- **Decision.** Option 3 — apply P1 (RBAC) + P3 (demo schema) only. Defer P2 pending creation of `compliance.initiative_registry_mirror` and `compliance.ops_register_mirror`. Queue OPS-62-P11.
+- **Rationale.** P1 + P3 are independent and self-contained; P2 hits two missing tables (`initiative_registry_mirror`, `ops_register_mirror`) and at least 7 column mismatches; rushing P2 risks polluting `erp.*` with views that always 500. The hlk-erp Mission Control already gracefully degrades when `vw_*` returns nothing (renders Demo banner). Better to land the dependency mirrors first via a clean migration that survives release-gate. See [`reports/migration-application-2026-05-07.md`](reports/migration-application-2026-05-07.md) for the gap detail.
+- **Date.** 2026-05-07 · **Status.** Active.
