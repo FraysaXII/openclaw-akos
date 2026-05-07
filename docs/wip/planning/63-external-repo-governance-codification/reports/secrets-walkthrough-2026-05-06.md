@@ -1,10 +1,14 @@
 ---
 language: en
-status: applied
+status: applied-partial
 initiative: 63-external-repo-governance-codification
 report_kind: operator-walkthrough
 last_review: 2026-05-07
+supersedes: none
+superseded_by_partial: reports/secrets-mcp-application-2026-05-07.md
 ---
+
+> **Update 2026-05-07.** A subsequent MCP-side run captured the actual reach of automation in [`secrets-mcp-application-2026-05-07.md`](secrets-mcp-application-2026-05-07.md). Use that report's "Updated operator checklist" — it reduces the work to 4 browser tabs (~10 min). The detail below is preserved for reference.
 
 # GitHub repo secrets walkthrough — 2026-05-07
 

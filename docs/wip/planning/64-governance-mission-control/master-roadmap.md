@@ -1,6 +1,6 @@
 ---
 language: en
-status: charter
+status: active
 initiative: 64-governance-mission-control
 initiative_id: INIT-OPENCLAW_AKOS-64
 report_kind: master-roadmap
@@ -13,7 +13,7 @@ last_review: 2026-05-07
 # Initiative 64 — Governance Mission Control (in hlk-erp)
 
 **Folder:** `docs/wip/planning/64-governance-mission-control/`
-**Status:** **Charter** — created 2026-05-07 alongside I63 P5 close as a sibling initiative to [I62](../62-mission-control/master-roadmap.md) (operator dashboard for MADEIRA + ERP) and [I63](../63-external-repo-governance-codification/master-roadmap.md) (external repo governance codification). Promotion to `active` requires operator approval of the page spec in [`reports/page-spec-2026-05-06.md`](reports/page-spec-2026-05-06.md).
+**Status:** **Active** — promoted from charter on 2026-05-07 after the v2 page-spec rewrite landed in [`reports/page-spec-2026-05-06.md`](reports/page-spec-2026-05-06.md). v2 supersedes [`reports/archive/page-spec-v1-2026-05-06.md`](reports/archive/page-spec-v1-2026-05-06.md) by adding 5 user journeys, OKLCH brand-aligned color tokens, layout hierarchy (verdict band > 6-panel grid), and explicit rejection of 4 anti-patterns. Sibling to [I62](../62-mission-control/master-roadmap.md) (operator dashboard) and [I63](../63-external-repo-governance-codification/master-roadmap.md) (external repo governance codification).
 
 ## Outcome
 

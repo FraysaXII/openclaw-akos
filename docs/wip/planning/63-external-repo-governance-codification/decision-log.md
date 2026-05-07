@@ -103,3 +103,28 @@ implicit in P0; new decisions are recorded as P1-P6 unfold.
   SOP manifests cleanly.
 - **Trace:** `tests/` coverage and `OVERALL: PASS` on 16/16 manifests
   after the extension.
+
+## D-IH-63-G — Bounded MCP automation for secrets walkthrough
+
+- **Date:** 2026-05-07
+- **Question:** Operate the I63 secrets walkthrough end-to-end via
+  MCPs.
+- **Decision:** Apply the parts that MCPs actually cover (Sentry org/
+  team/DSN discovery, Slack channel discovery, GitHub repo-secret
+  set/list via gh CLI). Defer the four user-bound flows (Sentry
+  project creation, Sentry auth token creation, Vercel token
+  creation, Slack webhook URL creation, GitHub fine-grained PAT
+  creation) to a 4-tab, ~10-minute operator checklist captured in
+  [`reports/secrets-mcp-application-2026-05-07.md`](reports/secrets-mcp-application-2026-05-07.md).
+- **Rationale:** Sentry MCP `create_project` returned HTTP 403
+  (account is org member, not manager). Slack MCP has no webhook-
+  creation tool. Vercel MCP has no env-var or token tool. GitHub MCP
+  is not installed. The current `gh` token has `gist`, `read:org`,
+  `repo` — sufficient for repo-level secret-set, missing `admin:org`
+  for org-level. Recommended: `gh auth refresh -h github.com -s
+  admin:org,workflow` once before running org-level `gh secret set`
+  commands.
+- **Trace:** [`reports/secrets-mcp-application-2026-05-07.md`](reports/secrets-mcp-application-2026-05-07.md);
+  [`reports/secrets-walkthrough-2026-05-06.md`](reports/secrets-walkthrough-2026-05-06.md)
+  frontmatter flipped `applied → applied-partial` with pointer to the
+  newer report.
