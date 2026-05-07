@@ -140,18 +140,18 @@ def test_json_report_run_id_is_uuid(json_run: subprocess.CompletedProcess) -> No
 
 def test_json_report_baseline_row_counts_match_i31_uat(json_run: subprocess.CompletedProcess) -> None:
     """I29/I30/I31 baseline regression: row counts in inline checks match the
-    documented post-I31 vault state plus Initiative 49 process tranche (12 programs / ~1100
-    processes / 65 roles)."""
+    documented post-I31 vault state plus Initiative 49 process tranche (12 programs / 1100
+    processes / 65 roles), bumped to 1103 after I63 P4 minted three external-repo SOP
+    rows (1100 → 1103: SOP-EXTERNAL_REPO_BLESSING_001, SOP-EXTERNAL_REPO_DRIFT_REMEDIATION_001,
+    SOP-CROSS_REPO_SCHEMA_PROPAGATION_001)."""
     payload = json.loads(json_run.stdout)
     by_name = {row["validator_name"]: row for row in payload["runs"]}
-    # Org rows = 65
     assert by_name["inline_org_csv_parse"]["row_count"] == 65, (
         "expected 65 org rows (I29/I30/I31 baseline); got "
         f"{by_name['inline_org_csv_parse']['row_count']}"
     )
-    # Process rows = 1100 (I49 +7 MADEIRA management)
-    assert by_name["inline_process_csv_parse"]["row_count"] == 1100, (
-        "expected 1100 process rows (I49 management tranche baseline); got "
+    assert by_name["inline_process_csv_parse"]["row_count"] == 1103, (
+        "expected 1103 process rows (I49 management tranche baseline + I63 P4 SOP tranche); got "
         f"{by_name['inline_process_csv_parse']['row_count']}"
     )
 

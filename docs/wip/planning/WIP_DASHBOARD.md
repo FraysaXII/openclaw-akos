@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (6)
+### Active (in execution) (8)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -23,8 +23,10 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **11** | [`11-madeira-ops-copilot/`](11-madeira-ops-copilot/) | active | 2026-04-15 | Initiative 11 — Madeira day-to-day ops copilot (SOTA-informed, governance-safe) |
 | **13** | [`13-madeira-research-followthrough/`](13-madeira-research-followthrough/) | active | 2026-04-17 | Initiative 13 — MADEIRA research follow-through (SOTA-aligned) |
 | **17** | [`17-madeira-cursor-mode-parity/`](17-madeira-cursor-mode-parity/) | active | 2026-04-15 | Initiative 17 — MADEIRA Cursor mode parity (Ask / Plan / Run) |
-| **62** | [`62-mission-control/`](62-mission-control/) | active | 2026-05-06 | Initiative 62 — Mission Control (hlk-erp magnificent ERP) |
-| **63** | [`63-external-repo-governance-codification/`](63-external-repo-governance-codification/) | active | 2026-05-06 | Initiative 63 — External Repo Governance Codification |
+| **62** | [`62-mission-control/`](62-mission-control/) | active | 2026-05-07 | Initiative 62 — Mission Control (hlk-erp magnificent ERP) |
+| **63** | [`63-external-repo-governance-codification/`](63-external-repo-governance-codification/) | active | 2026-05-07 | Initiative 63 — External Repo Governance Codification |
+| **64** | [`64-governance-mission-control/`](64-governance-mission-control/) | active | 2026-05-07 | Initiative 64 — Governance Mission Control (in hlk-erp) |
+| **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | active | 2026-05-07 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
 
 ### Gated on external event (2)
 
