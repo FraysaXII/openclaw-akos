@@ -5,12 +5,12 @@ A row is considered un-blessed when:
 
 - ``class != reference``
 - ``github_url`` is not the AKOS repo itself
-- A local path is resolvable (via the ``path`` column or ``--repo-path-map``),
+- A local path is resolvable (via the ``local_path`` column or ``--repo-path-map``),
   AND the consumer is missing ``EXTERNAL_REPO_CONTRACT.md`` or
   ``.cursor/rules/akos-mirror.mdc``.
 
 When local paths are NOT resolvable, the row is reported as ``UNREACHABLE`` so
-operators can decide whether to add a path or accept it as a placeholder.
+operators can decide whether to add a `local_path` value or accept it as a placeholder.
 
 This is a NUDGE check: it surfaces work to be done but does not fail
 release-gate by default. ``--strict`` flips it to a hard fail.
@@ -99,7 +99,7 @@ def main(argv: Iterable[str] | None = None) -> int:
     for slug in needs_bless:
         print(f"  [NEEDS_BLESS] {slug}  -> py scripts/bless_external_repo.py --repo-slug {slug}")
     for slug in unreachable:
-        print(f"  [UNREACHABLE] {slug}  -> add `path` column or pass --repo-path-map")
+        print(f"  [UNREACHABLE] {slug}  -> add `local_path` column value or pass --repo-path-map")
     print()
 
     if args.strict and needs_bless:
