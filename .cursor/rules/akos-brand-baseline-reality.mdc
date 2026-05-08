@@ -1,0 +1,96 @@
+---
+description: Dual-register contract — internal CORPINT/HUMINT vocabulary stays internal; external surfaces use the translated capability register
+globs:
+  - "docs/references/hlk/v3.0/_assets/advops/**/*.md"
+  - "docs/references/hlk/v3.0/_assets/advops/**/*.yaml"
+  - "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/**/*.md"
+  - "docs/wip/intelligence/**/*.md"
+  - "**/*.objections.md"
+  - "**/*.counterparty-brief.md"
+alwaysApply: false
+---
+
+# AKOS Brand Baseline Reality — Dual-register contract
+
+Use this rule whenever authoring, editing, or generating prose for **public**-facing surfaces (`boilerplate/`, `hlk-erp/app/(public)/**`, decks, dossiers, press, founder bio, email signatures, recruiter-facing copy, ENISA evidence body, partner pitch body) **or** internal counterparty-side artefacts (`*.counterparty-brief.md`, `*.objections.md`, `docs/wip/intelligence/`).
+
+Codifies decision **D-IH-66-M** (Initiative 66 P2) — the dual-register design that separates CORPINT-grounded vocabulary (internal, restricted to operator + cleared collaborators + agents) from translated capability messaging (external, the canonical for any non-cleared audience).
+
+## The contract (one paragraph)
+
+Holistika operates a **CORPINT (corporate intelligence) research methodology** internally. The methodology is grounded — by adaptation, not by literal application — in HUMINT tradecraft (US Army FM 2-22.3 public release). The internal register names this clearly: counterparty, elicitation, reliability grading, intelligence collection, intelligence report, approach techniques, baseline reality assessment. The external register translates the **same discipline** into language each audience reads as professional research, structured methodology, evidence-based strategy. **External surfaces never use the internal vocabulary.** Internal surfaces use both — the internal register for operator-private SOPs + per-engagement counterparty briefs, the external register for any prose that will be quoted, exported, or rendered to a non-cleared audience.
+
+## Allowed contexts (internal register OK)
+
+| Surface | Internal register allowed? |
+|:---|:---|
+| `docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md` | YES (this is the canonical matrix; access level 5) |
+| `docs/wip/intelligence/**/*.md` (working space; access level 5) | YES |
+| Operator-private SOPs under `docs/references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/` (created I66 P3) | YES |
+| Per-engagement counterparty briefs (`*.counterparty-brief.md` companions to decks; created I66 P6) | YES |
+| Per-engagement objections briefs (`*.objections.md` companions to decks; created I66 P6) | YES |
+| Internal AKOS-vault SOPs / decision logs / risk registers (`docs/wip/planning/**`) | YES |
+| Cursor rules + commit messages + PR bodies | YES |
+| Agent transcripts (`agent-transcripts/`) | YES |
+
+## Forbidden contexts (external register only)
+
+| Surface | Internal register allowed? |
+|:---|:---|
+| `boilerplate/` rendered DOM (any prose visible at `holistikaresearch.com`) | NO |
+| `boilerplate/messages/*.json` (i18n strings rendered to public DOM) | NO |
+| `hlk-erp/app/(public)/**` (sign-in, public-facing surfaces) | NO |
+| Investor / advisor / ENISA / partner / recruiter / customer **deck slide bodies** (`docs/references/hlk/v3.0/_assets/advops/**/deck/*.yaml`, `deck_slides.yaml`) | NO |
+| External dossiers (`docs/references/hlk/v3.0/_assets/advops/**/dossier_*.md`) | NO |
+| Founder bio canonical (`SOP-PEOPLE_FOUNDER_BIO_001.md`, P3) | NO (founder bio is public) |
+| Email signatures (P6) | NO |
+| Press kit, recruiter copy, partner pitch bodies (P6) | NO |
+| Any artefact whose `intellectual_kind:` frontmatter is not a counterparty-brief variant | NO |
+
+## When generating prose, ask one question
+
+Before writing any prose that will reach a customer, investor, advisor, ENISA reviewer, partner, recruiter, collaborator, or press journalist, the agent must ask itself:
+
+> *"Does the recipient assume the tradecraft frame? If no, translate to external register before rendering."*
+
+The translation table is canonical in [`BRAND_BASELINE_REALITY_MATRIX.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md) §3:
+
+| Internal token | External rendering |
+|:---|:---|
+| counterparty | client / advisor / counterparty-of-engagement (depending on context); often "client" for B2B SME, "investor" for fundraise, "regulator" for ENISA |
+| elicitation | structured discovery / discovery-call / discovery-questionnaire (the act of gathering insight from a counterparty) |
+| reliability grading | source confidence / source quality / data confidence (the act of grading a source's trustworthiness) |
+| intelligence collection | research / market research / structured research / context-gathering |
+| intelligence report | research brief / engagement report / context memo / discovery output |
+| approach techniques | engagement design / outreach approach / discovery design |
+| baseline reality assessment | counterparty understanding / context understanding / audience analysis |
+
+If the agent finds itself reaching for an internal token in external prose, **translate first; never render the internal token to an external audience.**
+
+## Drift gate
+
+[`scripts/validate_brand_baseline_reality_drift.py`](../../scripts/validate_brand_baseline_reality_drift.py) (created I66 P2) implements the dual-register contract mechanically:
+
+- Scans `docs/references/hlk/v3.0/_assets/advops/**/deck/*.yaml`, `**/dossier_*.md`, `**/deck_slides.yaml` for internal-register tokens.
+- Scans sibling `boilerplate/app/`, `boilerplate/components/`, `boilerplate/messages/*.json` (when present).
+- Skips `*.objections.md` and `*.counterparty-brief.md` companions (intentionally exempt — they carry the internal register).
+- Returns exit 1 with a per-line error report when internal tokens leak into external surfaces.
+
+The validator is wired into `release-gate.py` as **INFO** (informational) until I66 P5 closes (boilerplate rewrite); it flips to **FAIL** at P7 (drift gates promotion). Until then, hits surface as warnings the operator must triage.
+
+## Self-discipline rules for agents
+
+1. **Default to external register.** When in doubt about which surface a piece of prose will reach, render in the external register. Translation back is harder than translation forward.
+2. **Never auto-translate the canonical matrix.** Edits to `BRAND_BASELINE_REALITY_MATRIX.md` must preserve the dual-register structure (internal column + external column side by side). Collapsing to a single column is a brand-canon-collapse failure.
+3. **Cite the matrix when in doubt.** If the agent is unsure which side of the register a token belongs to, link to the matrix and ask the operator. The matrix is the SSOT.
+4. **No HUMINT-as-ornament.** Do not gratuitously sprinkle internal-register tokens into private docs to "sound CORPINT". The vocabulary is functional; use it where it carries information value, not as branding.
+5. **External register is not "dumber" than internal.** The external register translates discipline into recipient-readable language; it is not a simplification or a softening. Drafts that read as marketing-fluff in the external register are evidence of bad translation, not evidence that the internal register is being lost.
+
+## Cross-references
+
+- [`BRAND_BASELINE_REALITY_MATRIX.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md) — the canonical matrix (this rule's SSOT).
+- [`BRAND_JARGON_AUDIT.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_JARGON_AUDIT.md) §4.1 — broader external-jargon list (this rule's superset).
+- [`BRAND_DO_DONT.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_DO_DONT.md) — voice traits.
+- [`scripts/validate_brand_baseline_reality_drift.py`](../../scripts/validate_brand_baseline_reality_drift.py) — drift gate.
+- I66 master-roadmap §"P2 — Drift gates and rules" — the phase that ships this rule.
+- D-IH-66-M in `docs/wip/planning/66-brand-vision-ops-sweep/decision-log.md`.

@@ -1,0 +1,110 @@
+---
+description: Discipline for long-running multi-phase initiatives — operator pause points + agent self-checkpoints
+globs:
+  - "docs/wip/planning/**/*.md"
+  - "docs/wip/planning/**/master-roadmap.md"
+  - ".cursor/plans/**/*.md"
+alwaysApply: false
+---
+
+# AKOS Agent Checkpoint Discipline
+
+Use this rule when planning, executing, or auditing a **long-running multi-phase initiative** (≥ 5 phases, ≥ 1 calendar week, or any initiative explicitly labelled with "operator pause points" / "agent self-checkpoints"). Codifies decision **D-IH-66-Q** (agent checkpoint discipline as a Cursor rule, Initiative 66 P2).
+
+## Why this rule exists
+
+A 5.5-week initiative — like I66 — would otherwise drift silently across dozens of phases without operator visibility. Two interleaved checkpoint mechanisms keep the loop tight:
+
+- **Operator pause points** are formal hand-off moments where the operator **must review** before the next phase begins. They block engineering progress until the operator signs off (or explicitly defers).
+- **Agent self-checkpoints** are informal pre-flight observations where the agent records what it has read, authored, and identified as outstanding **before** starting the next sub-task. They do not block; they make the next move auditable.
+
+The two patterns are complementary: operator pause points control *direction*; agent self-checkpoints control *reasoning quality*.
+
+## Operator pause point contract
+
+When a phase has a designated pause point, the agent must:
+
+1. **Stop** at the documented stop point. Do not auto-start the next phase.
+2. **File** a `reports/p<N>-pause-record-<YYYY-MM-DD>.md` documenting:
+   - **Mechanical evidence** (files created / modified / deleted with paths + line counts; validators run with verdicts; tests added).
+   - **Documentary evidence** (decisions encoded; cross-canon link integrity; CHANGELOG entry).
+   - **Pre-next-phase self-checkpoint** (what's outstanding; what's not blocking; first actions for next phase).
+   - **Operator approval checklist** (numbered confirmations the operator must validate before next-phase entry).
+3. **Wait** for the operator's explicit approval signal before continuing.
+
+A pause point is "fired" when the pause record exists and the operator has acknowledged it (via reply, commit message reference, or follow-up instruction). If the operator's acknowledgement explicitly says *"continue"* / *"proceed"* / *"do not stop"*, the agent may continue — but **only after filing the pause record**, never before.
+
+## Agent self-checkpoint contract
+
+When a phase will produce **multiple substantive deliverables** (3+ canonicals, ≥ 1 day of work, or a multi-file refactor), the agent should file an agent self-checkpoint **before** starting that work:
+
+```
+reports/checkpoints/sc-<purpose>-<YYYY-MM-DD>.md
+```
+
+Where `<purpose>` is one of:
+
+- `pre-p<N>` — observation before starting phase N
+- `mid-p<N>-<topic>` — observation mid-phase before a substantive sub-deliverable
+- `post-p<N>-<topic>` — reflection after a sub-deliverable lands and before the next one starts
+
+Self-checkpoint contents:
+
+1. **What I have read** (file paths or topic descriptors; what I now know that I didn't know before this checkpoint).
+2. **What I have authored** (file paths + brief description; what's already committed to disk vs in-progress).
+3. **What is outstanding** (numbered list of next actions in execution order).
+4. **What I have decided not to do** (out-of-scope deferrals, with reason — e.g. "DEFER to phase X" or "OUT OF SCOPE per D-IH-NN-X").
+5. **First three concrete next actions** (specific files, specific changes).
+
+Self-checkpoints are **not** operator-facing review artefacts. They are a discipline mechanism that the agent voluntarily files to make its reasoning auditable and to surface gaps before they become rework.
+
+## Pause-point depth heuristic
+
+Not every phase warrants a pause point. Use these heuristics:
+
+| Trigger | Recommended pause-point density |
+|:---|:---|
+| Single-phase / single-day work | 0 pause points |
+| 2-3 phases / ≤ 3 days | 1 pause point at closure |
+| 4-6 phases / 1-2 weeks | 2-3 pause points (phase boundaries) |
+| 7+ phases / ≥ 3 weeks | 1 pause point per 2-3 phases (≥ 4 total) |
+| ≥ 5 weeks (e.g. I66) | 1 pause point per phase (≥ 8 total) |
+| Touching canonical CSV (`process_list.csv`, `baseline_organisation.csv`) | **mandatory** pause point at the canonical-CSV gate |
+| Trademark filings / legal templates | **mandatory** pause point at handoff |
+| Public-facing prose rewrite (boilerplate / press / decks) | **mandatory** pause point before publish |
+
+## Self-checkpoint depth heuristic
+
+| Phase scope | Recommended self-checkpoints |
+|:---|:---|
+| 1-2 deliverables | 1 self-checkpoint (pre-phase) |
+| 3-5 deliverables | 2 self-checkpoints (pre + mid) |
+| 6+ deliverables / mixed-asset-class phase | 3 self-checkpoints (pre + mid × 2 + post) |
+
+## What pause-point fatigue looks like (and how to avoid it)
+
+The risk: too many operator pause points create reviewer fatigue, the operator stops engaging substantively, and pause-point review becomes a rubber stamp.
+
+Mitigations:
+
+- **Front-load** the substantive operator review at P0 (charter) and P1 (canon hardening or equivalent). Once architecture is operator-approved, downstream pauses are mostly "did you do what you said you would do?" — much faster to review.
+- **Make pause records skimmable.** Mechanical evidence first (10 lines of file paths + verdicts). Documentary evidence second (links to decisions encoded). Approval checklist last (≤ 7 items).
+- **Allow batched approvals.** If P3 + P4 are tightly coupled, the operator can pre-authorise a "P3 closes → P4 may auto-start" batch — but the pause records for both still get filed.
+- **Distinguish soft vs hard pauses.** Hard pauses (canonical CSV gate, trademark filings, public-prose publish) are non-skippable. Soft pauses (intermediate canon hardening) can be auto-cleared if operator silence ≥ 24h **and** validators pass.
+
+## Drift gate / enforcement
+
+This rule is process-only; there is no automated drift gate that reads pause-record YAML and asserts ordering. The intended enforcement is:
+
+- **Self-discipline.** Agents must file pause records honestly.
+- **Operator audit.** Operators may spot-check pause records during cycle close-out (P8-equivalent).
+- **Risk-register tracking.** Initiatives that span ≥ 4 weeks should encode "agent skipped a pause point" as a risk row in the risk register.
+
+A future I-NN initiative may codify the pause-record schema as a CSV and add a `validate_pause_records.py` validator. Out of scope for I66 P2.
+
+## Cross-references
+
+- [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) — sister rule on planning content requirements (this rule is its execution-discipline complement).
+- [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) — phase + commit discipline (this rule is its operator-side cadence complement).
+- I66 master-roadmap §"Pause and checkpoint discipline" — the canonical worked example of this rule in practice.
+- D-IH-66-Q in `docs/wip/planning/66-brand-vision-ops-sweep/decision-log.md`.

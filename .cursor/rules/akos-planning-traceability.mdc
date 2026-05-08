@@ -99,3 +99,16 @@ Drift detection: `validate_hlk_km_manifests.py` FK-resolves manifest `topic_ids:
 - A Cursor plan under `~/.cursor/plans/` (or `%USERPROFILE%\.cursor\plans\` on Windows) may be **authoritative for phase detail**, but execution-ready initiatives should still mirror **phase dependencies** into `docs/wip/planning/<NN>-<slug>/master-roadmap.md` per the contract above (collaborators and git history).
 - **Before closing** an initiative that touched **Supabase DDL**, **compliance mirrors**, **FDW/Wrappers**, **`holistika_ops`**, **GTM/CRM tables**, or **any new git-canonical compliance CSV / mirror**: if you discovered a **repeatable** Holistika ops pattern, **extend `.cursor/rules/`** (e.g. [akos-holistika-operations.mdc](akos-holistika-operations.mdc)) or this file—do not leave the lesson only in the Cursor plan.
 - Optional: add a short **“Post-documentation — cursor rules”** checklist row to the initiative `master-roadmap.md` or execution report when the user expects recurring work of the same class.
+
+## Long-running initiatives: pause-point + self-checkpoint discipline
+
+For initiatives with **≥ 5 phases**, **≥ 1 calendar week** of execution, or any initiative that explicitly schedules **operator pause points** or **agent self-checkpoints**, the planner and executor must follow [`akos-agent-checkpoint-discipline.mdc`](akos-agent-checkpoint-discipline.mdc).
+
+Highlights of that rule, summarized here so this rule remains self-sufficient for shorter initiatives:
+
+- **Operator pause points** are formal hand-offs filed as `reports/p<N>-pause-record-<YYYY-MM-DD>.md`. They block the next phase until the operator signals approval (explicit reply, commit-message reference, or "continue" / "do not stop" instruction). Pause records carry **mechanical evidence** (files, validators, tests), **documentary evidence** (decisions, cross-canon links, CHANGELOG), and a numbered **operator approval checklist** ≤ 7 items.
+- **Agent self-checkpoints** are voluntary pre-flight notes filed as `reports/checkpoints/sc-<purpose>-<YYYY-MM-DD>.md`. They make the agent's reasoning auditable: what's been read, authored, decided not-to-do, and the next three concrete actions. They do not block.
+- **Mandatory pause points** apply to: canonical-CSV gates (`process_list.csv`, `baseline_organisation.csv`), trademark filings, legal-template handoff, and public-facing prose publish.
+- **Pause-fatigue avoidance**: front-load substantive review at P0 and P1; make pause records skimmable; allow batched approvals when phases are tightly coupled; soft-pauses may auto-clear after 24h of operator silence + clean validators.
+
+For shorter initiatives (≤ 3 days, ≤ 3 phases), a single closure pause record at the end is sufficient; a self-checkpoint per phase is optional.

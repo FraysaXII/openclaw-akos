@@ -135,6 +135,73 @@ def run_subdomains_registry_validation() -> bool:
     return result.success
 
 
+def run_brand_canon_drift_validation() -> bool:
+    """Validate brand-canon self-consistency (I66 P2 / D-IH-66-J).
+
+    Hard-fails on drift (missing canonical, internal token in external column,
+    missing cross-refs, supersedes drift). The upstream boilerplate visual
+    check is informational-only inside the validator.
+    """
+    logger.info("Running BRAND canon drift validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_brand_canon_drift.py")],
+        timeout=30,
+        capture=False,
+    )
+    return result.success
+
+
+def run_brand_jargon_validation() -> tuple[bool, int]:
+    """Run brand-jargon validation against external public surfaces (I66 P2).
+
+    Returns ``(ok, exit_code)``. Wired as **INFO** in the gate verdict until
+    Initiative 66 P5 closes (boilerplate rewrite). Strict-fail mode flips on
+    when ``AKOS_BRAND_JARGON_STRICT=1`` is set.
+    """
+    logger.info("Running BRAND jargon validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_brand_jargon.py")],
+        timeout=60,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
+def run_brand_voice_register_validation() -> tuple[bool, int]:
+    """Run per-locale voice-register validation (I66 P2).
+
+    Returns ``(ok, exit_code)``. Wired as **INFO** until I66 P5 closes
+    (boilerplate i18n rewrite). Flips to FAIL when
+    ``AKOS_BRAND_VOICE_REGISTER_STRICT=1``.
+    """
+    logger.info("Running BRAND voice-register validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_brand_voice_register.py")],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
+def run_brand_baseline_reality_validation() -> tuple[bool, int]:
+    """Run dual-register contract validation (I66 P2 / D-IH-66-M).
+
+    Returns ``(ok, exit_code)``. Wired as **INFO** until I66 P5+P6 close
+    (decks land with proper companion structure). Flips to FAIL when
+    ``AKOS_BRAND_BASELINE_REALITY_STRICT=1``.
+    """
+    logger.info("Running BRAND baseline-reality dual-register validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_brand_baseline_reality_drift.py")],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_external_repo_contract_check() -> bool:
     """Check governance posture of every non-reference Holistika-tracked repo.
 
@@ -259,6 +326,36 @@ def main() -> None:
 
     subdomains_ok = run_subdomains_registry_validation()
     results.append(("PASS" if subdomains_ok else "FAIL", "SUBDOMAINS_REGISTRY.md (scripts/validate_subdomains_registry.py)"))
+
+    brand_canon_ok = run_brand_canon_drift_validation()
+    results.append(("PASS" if brand_canon_ok else "FAIL", "BRAND canon drift (scripts/validate_brand_canon_drift.py, I66 P2)"))
+
+    jargon_ok, jargon_rc = run_brand_jargon_validation()
+    if os.environ.get("AKOS_BRAND_JARGON_STRICT") == "1":
+        results.append(("PASS" if jargon_ok else "FAIL", "BRAND jargon (scripts/validate_brand_jargon.py, strict)"))
+    else:
+        results.append((
+            "INFO",
+            f"BRAND jargon (scripts/validate_brand_jargon.py, soft until I66 P5; exit={jargon_rc})",
+        ))
+
+    voice_ok, voice_rc = run_brand_voice_register_validation()
+    if os.environ.get("AKOS_BRAND_VOICE_REGISTER_STRICT") == "1":
+        results.append(("PASS" if voice_ok else "FAIL", "BRAND voice register (scripts/validate_brand_voice_register.py, strict)"))
+    else:
+        results.append((
+            "INFO",
+            f"BRAND voice register (scripts/validate_brand_voice_register.py, soft until I66 P5; exit={voice_rc})",
+        ))
+
+    baseline_ok, baseline_rc = run_brand_baseline_reality_validation()
+    if os.environ.get("AKOS_BRAND_BASELINE_REALITY_STRICT") == "1":
+        results.append(("PASS" if baseline_ok else "FAIL", "BRAND baseline-reality (scripts/validate_brand_baseline_reality_drift.py, strict)"))
+    else:
+        results.append((
+            "INFO",
+            f"BRAND baseline-reality (scripts/validate_brand_baseline_reality_drift.py, soft until I66 P6; exit={baseline_rc})",
+        ))
 
     repo_contract_ok = run_external_repo_contract_check()
     results.append(("PASS" if repo_contract_ok else "FAIL", "External repo contract (scripts/check_external_repo_contract.py)"))
