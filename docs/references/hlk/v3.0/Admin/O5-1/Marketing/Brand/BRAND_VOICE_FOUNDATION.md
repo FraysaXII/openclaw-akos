@@ -43,7 +43,12 @@ See companion [`BRAND_REGISTER_MATRIX.md`](BRAND_REGISTER_MATRIX.md) for the `(r
 
 ## Language patterns
 
-Spanish-language patterns (salutations, register matching, jargon-to-refuse) are captured in [`BRAND_SPANISH_PATTERNS.md`](BRAND_SPANISH_PATTERNS.md) — hand-authored companion sourced from real Holistika ↔ external-counsel exchanges. The composer cites it at Layer 4 when `language_preference: es` resolves. English / bilingual patterns get added as separate companions (`BRAND_ENGLISH_PATTERNS.md`, etc.) when the operator surfaces enough lived examples.
+Per-locale pattern canonicals capture the salutations, register matching, jargon-to-refuse, and per-audience tonal sub-tables that the language-agnostic foundation cannot cover:
+
+- [`BRAND_SPANISH_PATTERNS.md`](BRAND_SPANISH_PATTERNS.md) — Spanish (canonical; substantially expanded I66 P1 with sub-mark differentiation, per-audience sub-tables, and LATAM adjustments).
+- [`BRAND_FRENCH_PATTERNS.md`](BRAND_FRENCH_PATTERNS.md) — French (canonical; promoted from stub I66 P1 with full anglicism table + register matrix + reference exchange).
+
+The composer cites the locale-appropriate companion at Layer 4 when `language_preference` resolves. English / bilingual patterns get added as separate companions (`BRAND_ENGLISH_PATTERNS.md`, etc.) when the operator surfaces enough lived examples.
 
 ## How this is used
 
@@ -64,7 +69,16 @@ The **eloquence layer** (Layer 4) operates **inside** the brand voice — it adj
 
 ## Related
 
-- [`BRAND_REGISTER_MATRIX.md`](BRAND_REGISTER_MATRIX.md)
-- [`BRAND_DO_DONT.md`](BRAND_DO_DONT.md)
-- [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md)
+- [`BRAND_ARCHITECTURE.md`](BRAND_ARCHITECTURE.md) — Branded House architecture (defines the umbrella + sub-marks that this voice charter speaks for; created I66 P1).
+- [`BRAND_VISION.md`](BRAND_VISION.md) — vision doctrine (internal + public; the "why" this voice serves; created I66 P1).
+- [`BRAND_BASELINE_REALITY_MATRIX.md`](BRAND_BASELINE_REALITY_MATRIX.md) — per-audience baseline reality + dual register (internal/external; CORPINT-grounded; created I66 P1).
+- [`BRAND_ABBREVIATIONS.md`](BRAND_ABBREVIATIONS.md) — short-form governance (HLK / MA / KB / EV / TB / TL); created I66 P1.
+- [`BRAND_LOGO_SYSTEM.md`](BRAND_LOGO_SYSTEM.md) — visual canonical (Hi monogram + HOLÍSTIKA wordmark); created I66 P1.
+- [`BRAND_REGISTER_MATRIX.md`](BRAND_REGISTER_MATRIX.md) — `(relationship, channel) → register` lookup.
+- [`BRAND_DO_DONT.md`](BRAND_DO_DONT.md) — voice IS / IS NOT.
+- [`BRAND_JARGON_AUDIT.md`](BRAND_JARGON_AUDIT.md) — forbidden tokens registry.
+- [`BRAND_SPANISH_PATTERNS.md`](BRAND_SPANISH_PATTERNS.md) — ES locale canonical.
+- [`BRAND_FRENCH_PATTERNS.md`](BRAND_FRENCH_PATTERNS.md) — FR locale canonical (promoted from stub I66 P1).
+- [`BRAND_VISUAL_PATTERNS.md`](BRAND_VISUAL_PATTERNS.md) — visual tokens + typography + layout (boilerplate is upstream).
+- [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md) — 4-layer methodology.
 - Cross-program glossary §"Voice register": [`docs/reference/glossary-cross-program.md`](../../../../../../reference/glossary-cross-program.md)

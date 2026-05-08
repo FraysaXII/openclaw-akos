@@ -33,7 +33,13 @@ Common register tokens: `formal_legal`, `peer_consulting`, `casual_internal`, `r
 
 ## Related
 
-- [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md)
-- [`BRAND_DO_DONT.md`](BRAND_DO_DONT.md)
-- [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md) §3 Use-case layer
+- [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md) — language-agnostic charter (this matrix is its operational lookup).
+- [`BRAND_ARCHITECTURE.md`](BRAND_ARCHITECTURE.md) — Branded House architecture (created I66 P1; defines the umbrella + sub-marks the registers serve).
+- [`BRAND_BASELINE_REALITY_MATRIX.md`](BRAND_BASELINE_REALITY_MATRIX.md) — per-audience baseline reality + dual register (internal/external; created I66 P1; complementary lens — register here is *how* you write, baseline reality is *what the recipient already assumes*).
+- [`BRAND_DO_DONT.md`](BRAND_DO_DONT.md) — voice IS / IS NOT.
+- [`BRAND_JARGON_AUDIT.md`](BRAND_JARGON_AUDIT.md) — forbidden-token registry.
+- [`BRAND_ABBREVIATIONS.md`](BRAND_ABBREVIATIONS.md) — short-form governance (created I66 P1).
+- [`BRAND_SPANISH_PATTERNS.md`](BRAND_SPANISH_PATTERNS.md) — ES locale-specific register-application (substantially expanded I66 P1 with sub-mark + per-audience sub-tables).
+- [`BRAND_FRENCH_PATTERNS.md`](BRAND_FRENCH_PATTERNS.md) — FR locale canonical (promoted from stub I66 P1).
+- [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md) §3 Use-case layer.
 - Cross-program glossary §"Voice register": [`docs/reference/glossary-cross-program.md`](../../../../../../reference/glossary-cross-program.md)

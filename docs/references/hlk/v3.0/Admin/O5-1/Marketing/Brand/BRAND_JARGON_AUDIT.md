@@ -60,6 +60,10 @@ These tokens MUST NOT appear in external prose. They MAY appear inside the struc
 - `repo_slug` — drop; cite repos by their public name
 - `holistika_ops.*`, `kirbe.*`, `compliance.*` (schema names) — drop
 - `process_list.csv`, `<register>.csv` — drop; cite the artefact by its purpose (*"nuestro registro de cuestiones abiertas"*)
+- `HLK` standalone (per [`BRAND_ABBREVIATIONS.md`](BRAND_ABBREVIATIONS.md) §2.1) — forbidden in external prose; the canonical sub-mark name is `HLK Tech Lab` (paired); the umbrella is `Holistika`
+- `MA` / `KB` / `EV` / `TB` / `TL` (product/sub-mark short-forms per [`BRAND_ABBREVIATIONS.md`](BRAND_ABBREVIATIONS.md) §2.2–§2.6) — forbidden in all contexts (external + internal); spell out in full
+- `HRS` (per [`BRAND_ABBREVIATIONS.md`](BRAND_ABBREVIATIONS.md) §2.8) — forbidden in external prose; allowed only in internal financial/legal filings
+- HUMINT / CORPINT-derived register tokens (per [`BRAND_BASELINE_REALITY_MATRIX.md`](BRAND_BASELINE_REALITY_MATRIX.md) §3) — `counterparty`, `elicitation`, `reliability grading`, `intelligence collection`, `intelligence report`, `approach techniques`, `baseline reality assessment` — forbidden in external prose (rendered DOM, decks, press, public surfaces); allowed in internal SOPs + agent transcripts + AKOS-vault
 
 ### 4.2 Stack / framework jargon (replace with outcome)
 
@@ -157,9 +161,14 @@ Expected: a small list of matches, all confined to the Q-tracker appendix tables
 ## 8. Cross-references
 
 - [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md) — pillar 3 *"Plain words externally; jargon stays internal"*
+- [`BRAND_ARCHITECTURE.md`](BRAND_ARCHITECTURE.md) — Branded House architecture (created I66 P1; defines the entities the canonical short-forms refer to)
+- [`BRAND_ABBREVIATIONS.md`](BRAND_ABBREVIATIONS.md) — short-form governance (HLK / MA / KB / EV / TB / TL / HRS) — created I66 P1; complements §4.1 with explicit allow/forbid table
+- [`BRAND_BASELINE_REALITY_MATRIX.md`](BRAND_BASELINE_REALITY_MATRIX.md) — internal vs external register vocabulary (CORPINT-grounded) — created I66 P1; §4.1 HUMINT-token forbid list operationalizes its dual register
+- [`BRAND_LOGO_SYSTEM.md`](BRAND_LOGO_SYSTEM.md) — visual canonical (Hi monogram + HOLÍSTIKA wordmark) — created I66 P1
 - [`BRAND_DO_DONT.md`](BRAND_DO_DONT.md) — voice IS NOT row "Jargon-leaking (internal codenames externally)"
 - [`BRAND_REGISTER_MATRIX.md`](BRAND_REGISTER_MATRIX.md) — register selection matrix
-- [`BRAND_SPANISH_PATTERNS.md`](BRAND_SPANISH_PATTERNS.md) — Spanish-language patterns from real exchanges
+- [`BRAND_SPANISH_PATTERNS.md`](BRAND_SPANISH_PATTERNS.md) — Spanish-language patterns from real exchanges (substantially expanded I66 P1)
+- [`BRAND_FRENCH_PATTERNS.md`](BRAND_FRENCH_PATTERNS.md) — French-language patterns (promoted from stub I66 P1; includes anglicism table that complements §4.2)
 - [`BRAND_VISUAL_PATTERNS.md`](BRAND_VISUAL_PATTERNS.md) — visual identity for external rendered output
 - [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md) — four-layer methodology
 - [`SOP-HLK_TOOLING_STANDARDS_001.md`](../../Tech/System%20Owner/SOP-HLK_TOOLING_STANDARDS_001.md) — sister SOP for tooling invocations

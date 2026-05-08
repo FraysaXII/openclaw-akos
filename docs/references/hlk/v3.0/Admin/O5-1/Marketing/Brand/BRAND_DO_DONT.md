@@ -44,6 +44,11 @@ When ambiguous, the composer flags the message for operator review rather than a
 
 ## Related
 
-- [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md)
-- [`BRAND_REGISTER_MATRIX.md`](BRAND_REGISTER_MATRIX.md)
-- [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md)
+- [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md) — language-agnostic charter.
+- [`BRAND_ARCHITECTURE.md`](BRAND_ARCHITECTURE.md) — Branded House architecture (created I66 P1).
+- [`BRAND_BASELINE_REALITY_MATRIX.md`](BRAND_BASELINE_REALITY_MATRIX.md) — per-audience baseline + dual register; ensures the "Plain externally" trait extends to register-aware vocabulary swaps (created I66 P1).
+- [`BRAND_REGISTER_MATRIX.md`](BRAND_REGISTER_MATRIX.md) — `(relationship, channel) → register` lookup.
+- [`BRAND_JARGON_AUDIT.md`](BRAND_JARGON_AUDIT.md) — explicit forbidden-token list (this canonical's "Voice IS NOT — Jargon-heavy" trait operationalized).
+- [`BRAND_ABBREVIATIONS.md`](BRAND_ABBREVIATIONS.md) — short-form governance (created I66 P1).
+- [`BRAND_SPANISH_PATTERNS.md`](BRAND_SPANISH_PATTERNS.md) / [`BRAND_FRENCH_PATTERNS.md`](BRAND_FRENCH_PATTERNS.md) — locale-specific instantiation of these traits.
+- [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md) — 4-layer methodology that consumes this canonical at Layer 1.
