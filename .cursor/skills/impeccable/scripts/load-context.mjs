@@ -1,33 +1,42 @@
 /**
  * Shared context loader for every impeccable command that needs to know
- * "who is this for" and "what does this look like".
+ * "who is this for", "what does this look like", and "how does each
+ * audience read it".
  *
  * Input: project root (process.cwd()).
  *
  * Output (JSON to stdout):
  *   {
- *     hasProduct: boolean,        // PRODUCT.md found (or auto-migrated)
- *     product: string | null,     // PRODUCT.md contents
- *     productPath: string | null, // relative path
- *     hasDesign: boolean,         // DESIGN.md found
- *     design: string | null,      // DESIGN.md contents
+ *     hasProduct: boolean,                  // PRODUCT.md found (or auto-migrated)
+ *     product: string | null,               // PRODUCT.md contents
+ *     productPath: string | null,           // relative path
+ *     hasDesign: boolean,                   // DESIGN.md found
+ *     design: string | null,                // DESIGN.md contents
  *     designPath: string | null,
- *     migrated: boolean,          // true if we auto-renamed .impeccable.md -> PRODUCT.md
- *     contextDir: string,         // absolute path of the directory the files were found in
+ *     hasBaselineReality: boolean,          // BASELINE_REALITY.md found (v3.1+)
+ *     baselineReality: string | null,       // BASELINE_REALITY.md contents
+ *     baselineRealityPath: string | null,
+ *     migrated: boolean,                    // true if we auto-renamed .impeccable.md -> PRODUCT.md
+ *     contextDir: string,                   // absolute path of the directory the files were found in
  *   }
  *
- * Filename matching is case-insensitive for PRODUCT.md and DESIGN.md. The
- * Google DESIGN.md convention is uppercase at repo root; Kiro-style and
- * lowercase variants are also matched so users don't get punished for case.
+ * Filename matching is case-insensitive for PRODUCT.md, DESIGN.md, and
+ * BASELINE_REALITY.md. The Google convention is uppercase at repo root;
+ * Kiro-style and lowercase variants are also matched so users don't get
+ * punished for case.
  *
  * Lookup directory resolution (first match wins):
  *   1. process.env.IMPECCABLE_CONTEXT_DIR (absolute or relative to cwd)
- *   2. cwd, if PRODUCT.md / DESIGN.md / .impeccable.md is there (back-compat)
+ *   2. cwd, if PRODUCT.md / DESIGN.md / BASELINE_REALITY.md / .impeccable.md is there
  *   3. Auto-fallback subdirectories of cwd: .agents/context/, then docs/
  *   4. cwd as a default "no context found" location
  *
  * Legacy `.impeccable.md` -> PRODUCT.md migration only fires at cwd root;
  * fallback directories are read-only as far as auto-rename is concerned.
+ *
+ * v3.1 (D-IH-66-S, 2026-05-08): BASELINE_REALITY.md added as 5th setup gate.
+ * Existing projects without it remain back-compat; the loader returns
+ * hasBaselineReality:false and downstream commands nudge once per session.
  */
 
 import fs from 'node:fs';
@@ -35,6 +44,12 @@ import path from 'node:path';
 
 const PRODUCT_NAMES = ['PRODUCT.md', 'Product.md', 'product.md'];
 const DESIGN_NAMES = ['DESIGN.md', 'Design.md', 'design.md'];
+const BASELINE_REALITY_NAMES = [
+  'BASELINE_REALITY.md',
+  'Baseline_Reality.md',
+  'baseline_reality.md',
+  'BaselineReality.md',
+];
 const LEGACY_NAMES = ['.impeccable.md'];
 const FALLBACK_DIRS = ['.agents/context', 'docs'];
 
@@ -53,15 +68,16 @@ export function resolveContextDir(cwd = process.cwd()) {
 
   // 2. cwd wins if any canonical or legacy file is there. We check legacy too
   //    so the auto-migration path in loadContext stays predictable.
-  if (firstExisting(cwd, [...PRODUCT_NAMES, ...DESIGN_NAMES, ...LEGACY_NAMES])) {
+  if (firstExisting(cwd, [...PRODUCT_NAMES, ...DESIGN_NAMES, ...BASELINE_REALITY_NAMES, ...LEGACY_NAMES])) {
     return cwd;
   }
 
-  // 3. Auto-fallback subdirs. Match if PRODUCT.md or DESIGN.md is present;
-  //    legacy `.impeccable.md` does not pull the lookup into a fallback dir.
+  // 3. Auto-fallback subdirs. Match if PRODUCT.md, DESIGN.md, or
+  //    BASELINE_REALITY.md is present; legacy `.impeccable.md` does not pull
+  //    the lookup into a fallback dir.
   for (const rel of FALLBACK_DIRS) {
     const candidate = path.resolve(cwd, rel);
-    if (firstExisting(candidate, [...PRODUCT_NAMES, ...DESIGN_NAMES])) {
+    if (firstExisting(candidate, [...PRODUCT_NAMES, ...DESIGN_NAMES, ...BASELINE_REALITY_NAMES])) {
       return candidate;
     }
   }
@@ -99,8 +115,12 @@ export function loadContext(cwd = process.cwd()) {
   // 3. DESIGN.md (case-insensitive)
   const designPath = firstExisting(contextDir, DESIGN_NAMES);
 
+  // 4. BASELINE_REALITY.md (case-insensitive). Optional 5th setup gate (v3.1).
+  const baselineRealityPath = firstExisting(contextDir, BASELINE_REALITY_NAMES);
+
   const product = productPath ? safeRead(productPath) : null;
   const design = designPath ? safeRead(designPath) : null;
+  const baselineReality = baselineRealityPath ? safeRead(baselineRealityPath) : null;
 
   return {
     hasProduct: !!product,
@@ -109,6 +129,9 @@ export function loadContext(cwd = process.cwd()) {
     hasDesign: !!design,
     design,
     designPath: designPath ? path.relative(cwd, designPath) : null,
+    hasBaselineReality: !!baselineReality,
+    baselineReality,
+    baselineRealityPath: baselineRealityPath ? path.relative(cwd, baselineRealityPath) : null,
     migrated,
     contextDir,
   };

@@ -1,9 +1,11 @@
 ---
 name: impeccable
 description: Use when the user wants to design, redesign, shape, critique, audit, polish, clarify, distill, harden, optimize, adapt, animate, colorize, extract, or otherwise improve a frontend interface. Covers websites, landing pages, dashboards, product UI, app shells, components, forms, settings, onboarding, and empty states. Handles UX review, visual hierarchy, information architecture, cognitive load, accessibility, performance, responsive behavior, theming, anti-patterns, typography, fonts, spacing, layout, alignment, color, motion, micro-interactions, UX copy, error states, edge cases, i18n, and reusable design systems or tokens. Also use for bland designs that need to become bolder or more delightful, loud designs that should become quieter, live browser iteration on UI elements, or ambitious visual effects that should feel technically extraordinary. Not for backend-only or non-UI tasks.
-version: 3.0.5
+version: 3.1.0
 license: Apache 2.0. Based on Anthropic's frontend-design skill. See NOTICE.md for attribution.
 ---
+
+> **v3.1 — Baseline Reality gate added (D-IH-66-S, 2026-05-08).** When designing for an audience whose normal differs from the operator's, a fifth setup file (`BASELINE_REALITY.md`) is required. It captures per-audience assumed-normal, bridge frame, objections, decision criteria, and trusted evidence. Surfaces that lack BASELINE_REALITY.md keep working in their existing form (back-compat), but `craft` and `shape` will nudge once per session if it's missing on a project that has identified ≥2 distinct audiences in PRODUCT.md.
 
 Designs and iterates production-grade frontend interfaces. Real working code, committed design choices, exceptional craft.
 
@@ -13,8 +15,9 @@ Before any design work or file edits, pass these gates. Skipping them produces g
 
 | Gate | Required check | If fail |
 |---|---|---|
-| Context | The PRODUCT.md / DESIGN.md loader result is known from `node .cursor/skills/impeccable/scripts/load-context.mjs`. | Run the loader before continuing. |
+| Context | The PRODUCT.md / DESIGN.md / BASELINE_REALITY.md loader result is known from `node .cursor/skills/impeccable/scripts/load-context.mjs`. | Run the loader before continuing. |
 | Product | PRODUCT.md exists and is not empty or placeholder (`[TODO]` markers, <200 chars). | Run `/impeccable teach`, refresh context, then resume. Never synthesize PRODUCT.md from the user's original prompt alone. |
+| Baseline reality | If PRODUCT.md identifies ≥2 distinct audiences (or marks a `register: brand` for marketing surfaces with mixed audiences), BASELINE_REALITY.md exists and is not empty or placeholder. | Nudge once: *"Run `/impeccable teach baseline-reality` to anchor per-audience reading; otherwise prose may collapse to a single audience."* Then proceed with a single-audience caveat in the output. Hard-fail only on `craft` for surfaces explicitly tagged `audience: <multi>`. |
 | Command | The matching command reference is loaded when a sub-command is used. | Load the reference before continuing. |
 | Craft | `/impeccable craft` has a user-confirmed shape brief for this task. `teach` / PRODUCT.md never counts as shape. | Run `/impeccable shape` and wait for explicit brief confirmation. |
 | Image | Required visual probes / mocks are generated or skipped with a reason. | Resolve the image-generation gate in `shape.md` or `craft.md` before code. |
@@ -23,7 +26,7 @@ Before any design work or file edits, pass these gates. Skipping them produces g
 Codex-style agents must state this before editing files:
 
 ```text
-IMPECCABLE_PREFLIGHT: context=pass product=pass command_reference=pass shape=pass|not_required image_gate=pass|skipped:<reason> mutation=open
+IMPECCABLE_PREFLIGHT: context=pass product=pass baseline_reality=pass|not_required|nudged command_reference=pass shape=pass|not_required image_gate=pass|skipped:<reason> mutation=open
 ```
 
 For `/impeccable craft`, `shape=pass` is only valid after a separate user response approving the shape design brief, or when the user provided an already-confirmed brief in the request. Do not mark `shape=pass` after writing PRODUCT.md, summarizing assumptions, or drafting an unconfirmed brief yourself.
@@ -32,12 +35,13 @@ Other harnesses should follow the same checklist when they can expose this state
 
 ### 1. Context gathering
 
-Two files, case-insensitive. The loader looks at the project root by default and falls back to `.agents/context/` and `docs/` if the root is clean. Override with `IMPECCABLE_CONTEXT_DIR=path/to/dir` (absolute or relative to cwd).
+Three files, case-insensitive. The loader looks at the project root by default and falls back to `.agents/context/` and `docs/` if the root is clean. Override with `IMPECCABLE_CONTEXT_DIR=path/to/dir` (absolute or relative to cwd).
 
 - **PRODUCT.md** — required. Users, brand, tone, anti-references, strategic principles.
 - **DESIGN.md** — optional, strongly recommended. Colors, typography, elevation, components.
+- **BASELINE_REALITY.md** — optional, strongly recommended for any surface with ≥2 distinct audiences. Per-audience assumed-normal, bridge frame, objection patterns, decision criteria, evidence types trusted, first-doubt trigger. When the surface speaks to one audience that diverges from the operator's normal, BASELINE_REALITY anchors the prose.
 
-Load both in one call:
+Load all three in one call:
 
 ```bash
 node .cursor/skills/impeccable/scripts/load-context.mjs
@@ -52,6 +56,8 @@ If the output is already in this session's conversation history, don't re-run. E
 If PRODUCT.md is missing, empty, or placeholder (`[TODO]` markers, <200 chars): run `/impeccable teach`, then resume the user's original task with the fresh context. If the original task was `/impeccable craft`, resume into `/impeccable shape` before any implementation work.
 
 If DESIGN.md is missing: nudge once per session (*"Run `/impeccable document` for more on-brand output"*), then proceed.
+
+If BASELINE_REALITY.md is missing AND PRODUCT.md identifies ≥2 distinct audiences: nudge once per session (*"Run `/impeccable teach baseline-reality` to anchor per-audience reading; otherwise prose may collapse to a single audience"*), then proceed with a session-cached `audience: <single|inferred>` caveat in the output. Hard-fail only on `/impeccable craft` for surfaces explicitly tagged `audience: <multi>`.
 
 ### 2. Register
 
