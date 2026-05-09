@@ -140,6 +140,7 @@ This section lists every SOP that has gone through the §4 process and is curren
 | :---- | :---- | :---- | :---- | :---- |
 | SOP-LEGAL\_TRADEMARK\_MONITORING\_001 | [`v3.0/Admin/O5-1/People/Legal/SOP-LEGAL_TRADEMARK_MONITORING_001.md`](../v3.0/Admin/O5-1/People/Legal/SOP-LEGAL_TRADEMARK_MONITORING_001.md) | hol\_lgl\_prc\_trademark\_monitoring\_001 | Legal Counsel | Quarterly |
 | SOP-LEGAL\_IP\_REGISTER\_MAINTENANCE\_001 | [`v3.0/Admin/O5-1/People/Legal/SOP-LEGAL_IP_REGISTER_MAINTENANCE_001.md`](../v3.0/Admin/O5-1/People/Legal/SOP-LEGAL_IP_REGISTER_MAINTENANCE_001.md) | hol\_lgl\_prc\_ip\_register\_mtnce\_001 | Legal Counsel | Quarterly |
+| SOP-TRADEMARK\_NAMING\_GOVERNANCE\_001 | [`v3.0/Admin/O5-1/People/Legal/SOP-TRADEMARK_NAMING_GOVERNANCE_001.md`](../v3.0/Admin/O5-1/People/Legal/SOP-TRADEMARK_NAMING_GOVERNANCE_001.md) | hol\_lgl\_prc\_trademark\_naming\_governance\_001 | Legal Counsel | Per-introduction |
 
 7.5 People Operations (Initiative I66 P3)
 

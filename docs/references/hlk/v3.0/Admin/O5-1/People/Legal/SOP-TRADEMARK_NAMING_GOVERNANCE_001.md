@@ -1,123 +1,156 @@
 ---
+sop_id: SOP-TRADEMARK_NAMING_GOVERNANCE_001
+title: Trademark Naming Governance — adding new sub-marks or product brands
+version: 1.0
+status: active
+classification: canonical
+access_level: 4
 language: en
+register: internal
+process_id: hol_lgl_prc_trademark_naming_governance_001
+role_owner: Legal Counsel
+role_parent_1: CPO
+area: Legal
+entity: Holistika
+governance:
+  - D-IH-66-A (Branded House architecture)
+  - D-IH-66-C (per-jurisdiction filing matrix)
+  - D-IH-66-V (sub-mark/product-brand introduction governance)
+linked_initiative: I66
+created: 2026-05-09
+last_review: 2026-05-09
+sister_sops:
+  - SOP-LEGAL_TRADEMARK_MONITORING_001
+  - SOP-LEGAL_IP_REGISTER_MAINTENANCE_001
 ---
 
-STANDARD OPERATING PROCEDURE
+# SOP-TRADEMARK_NAMING_GOVERNANCE_001 — Trademark Naming Governance
 
-* Item Name: Trademark and Naming Governance  
-* Item Number: SOP-TRADEMARK_NAMING_GOVERNANCE_001  
-* Process Registry ID: thi_legal_dtp_303  
-* Object Class: Guideline & Procedure  
-* Confidence Level: High  
-* Security Level: 2 (Internal Use)  
-* Entity Owner: Think Big  
-* Area Owner: Legal Counsel  
-* Associated Workstream: Founder Entity and IP Governance  
-* Version: 0.1  
-* Revision Date: 2026-04-08
+> Legal-Counsel-owned **per-introduction process** that governs the addition of a new sub-mark or product brand into Holistika's trademark portfolio. Sister to `SOP-LEGAL_TRADEMARK_MONITORING_001` (which monitors existing marks) and `SOP-LEGAL_IP_REGISTER_MAINTENANCE_001` (which maintains the standing register).
 
----
+## 1. Purpose and scope
 
-Table of Contents
+When the Founder + Brand Manager identify a need for a **new sub-mark** (a fourth operational arm beyond Holistika R&S / Think Big / HLK Tech Lab) or **new product brand** (beyond MADEIRA / KiRBe / ENVOY / InfraMonitor / Financial Analyst), this SOP governs the process from **naming candidate** to **filed mark**.
 
-* 1.0 Description  
-* 2.0 Purpose  
-* 3.0 Scope  
-* 4.0 Procedure  
-  * 4.1. Brand Hierarchy Definition  
-  * 4.2. Territory and Class Strategy  
-  * 4.3. Clearance and Conflict Review  
-  * 4.4. Filing Decision and Fee Validation  
-  * 4.5. Post-Filing Evidence and Change Control  
-* 5.0 Roles and Responsibilities  
-* 6.0 Addendum  
-  * A.1: Asset-Type Decision Matrix  
-  * A.2: Minimum Filing Log
+Without this SOP, the failure modes are:
 
----
+- A naming candidate is committed to (logo created, copy written, public surfaces deployed) before a clearance search reveals a fatal collision.
+- A new mark is filed in classes inconsistent with the Branded House architecture.
+- A new mark is named in a register-collapsing form (forbidden short-form per `BRAND_ABBREVIATIONS.md`; or external-register leakage of internal vocabulary).
 
-1.0 Description
+Out of scope: post-filing opposition response (covered by `SOP-LEGAL_TRADEMARK_MONITORING_001`); renewal calendar (same).
 
-This document defines the procedure for deciding what naming and trademark assets should be protected, in which territory, in which classes, and under whose legal ownership. It exists to prevent premature filing, under-scoped filing, or reliance on non-official fee assumptions.
+## 2. Cadence
 
-The procedure treats trademark work as a governance activity rather than a single transactional filing. The goal is to align company naming, product/lab naming, brand hierarchy, legal ownership, and filing timing before funds are committed.
+**Per-introduction** (no fixed cadence). Trigger: Founder or Brand Manager proposes a new sub-mark or product brand.
 
-2.0 Purpose
+## 3. Inputs
 
-* To standardize naming and trademark decisions before filing.  
-* To distinguish company name, trade name, word mark, logo mark, and other protectable assets.  
-* To require official-fee validation and class strategy before approval.  
-* To create a durable record of the filing logic and ownership assumptions.
+- Naming candidate (string — wordmark form).
+- Proposed positioning: sub-mark vs product brand.
+- Proposed Nice class scope (target goods/services).
+- `BRAND_ARCHITECTURE.md` and `BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md` (architectural constraints).
+- `BRAND_ABBREVIATIONS.md` (short-form governance).
+- `BRAND_LOGO_SYSTEM.md` (if a design mark is also proposed).
 
-3.0 Scope
+## 4. Process steps
 
-This SOP applies to naming and trademark decisions owned by Legal Counsel with Brand input where a founder, product, lab, or entity is considering registration in Spain, the European Union, or another jurisdiction. It covers pre-filing governance, validation, and evidence capture. It does not replace specialist trademark counsel where opposition, cross-border conflict, or advanced portfolio strategy is involved.
+### Step 1 — Naming candidate review (15 min)
 
-4.0 Procedure
+Before any clearance search, validate the candidate against canonical constraints:
 
-4.1. Brand Hierarchy Definition
+- **Branded House compatibility**: Does the candidate fit as a sub-mark (delivery-mode-specific) or product brand (technology product)? Reject if it would conflict with the umbrella `Holistika` (e.g., "Holistika Plus" reads as a tier of the umbrella, not a separate mark).
+- **Abbreviation governance** (per `BRAND_ABBREVIATIONS.md`): Is the candidate a forbidden short-form (HLK, MA, KB, EV, TB, TL, HRS standalone)? Reject. Is it a paired form (e.g., "HLK Tech Lab") that complies with §2.1? Allowed.
+- **Visual canonicals** (per `BRAND_LOGO_SYSTEM.md`): Does the candidate require a paired wordmark with the umbrella (per Tier-2 sub-mark visual rules)? Document.
+- **Voice tier mapping** (per `BRAND_REGISTER_MATRIX.md`): Which tier (Tier-1 R&S vs Tier-2 ops/tech) does this mark live in? Document.
 
-* **Trigger:** A naming asset is being considered for external use, filing, or budget allocation.  
-* **Action:** Legal Counsel and Brand classify the asset as company name, trade name, word mark, logo mark, mixed mark, product name, lab name, paper/publication identity, or method/framework naming.  
-* **Action:** Ownership is assigned explicitly, including whether the asset belongs to the entity, a program, a product, or a shared brand layer.  
-* **Output:** A brand-hierarchy decision note for the asset under review.
+### Step 2 — Pre-search collision-risk assessment (30 min)
 
-4.2. Territory and Class Strategy
+Without yet running clearance, assess collision risk based on the candidate's properties:
 
-* **Trigger:** The asset is approved for filing analysis.  
-* **Action:** Legal Counsel records the target territory or territory sequence, including Spain-only, EU-wide, or staged filing logic.  
-* **Action:** Goods/services classes are identified and justified in plain-language business terms before filing.  
-* **Output:** A territory-and-classes recommendation with stated assumptions.
+- **Generic-phrase risk**: How common is the candidate phrase in business/motivational/technology literature? (Think Big = high; KiRBe = low.)
+- **Geographic-name risk**: Does the candidate share any geographic-name (city, region, country)? (MADEIRA = high; ENVOY = nil.)
+- **Existing-product-name risk**: Quick Google search for `<candidate>` + industry keywords. Flag any operating company in similar Nice scope.
+- **Cultural-translation risk**: Does the candidate carry unintended meaning in any target-market language (Spanish, French, German, Portuguese)? Brand Manager review.
 
-4.3. Clearance and Conflict Review
+Output: a **collision-risk grade** (low / medium / high / very-high) that drives the clearance search depth + filing strategy.
 
-* **Trigger:** Territory and class scope are provisionally defined.  
-* **Action:** A clearance search is requested before any filing recommendation is finalized.  
-* **Action:** Risks are logged, including near-conflicts, weak differentiators, over-broad filing scope, and naming drift between company and product assets.  
-* **Output:** A conflict-review status of clear, caution, or blocked.
+### Step 3 — Formal clearance search (60-180 min, scaled to risk grade)
 
-4.4. Filing Decision and Fee Validation
+Per `TRADEMARK_FILING_STRATEGY_2026-05.md` §3, run the standard clearance template:
 
-* **Trigger:** The asset clears preliminary review or the risk posture is accepted by decision-makers.  
-* **Action:** Legal Counsel validates official filing fees against the competent office and separates those fees from any service-provider charges.  
-* **Action:** The filing path is approved only after fee, territory, classes, and ownership are all documented.  
-* **Output:** A filing-ready decision package.
+1. EUIPO eSearch — exact + 1-edit-distance + phonetic similarity.
+2. OEPM Sitadex — same.
+3. WIPO Madrid Monitor — international register.
+4. EU corporate-register cross-reference.
+5. Domain-name cross-reference.
+6. Common-law usage scan (Google).
 
-4.5. Post-Filing Evidence and Change Control
+Document each search's hits in a per-mark `clearance-<mark-slug>-<YYYY-MM>.md` under `_assets/legal/trademark-clearance/`.
 
-* **Trigger:** A filing is submitted or deferred.  
-* **Action:** Filing references, receipts, dates, and deferred actions are stored in the legal evidence log.  
-* **Action:** Any later change to brand hierarchy, territory, or class coverage is treated as a controlled update rather than an informal verbal change.  
-* **Output:** A durable legal-brand evidence trail.
+### Step 4 — Filing-strategy decision (30 min, founder + counsel)
 
-5.0 Roles and Responsibilities
+Based on collision-risk grade + clearance findings:
 
-* **Legal Counsel:** Owns territory, class, ownership, and filing-governance decisions.  
-* **Brand Manager:** Owns brand hierarchy, naming consistency, and differentiation inputs.  
-* **Founder / Asset Sponsor:** Approves filing scope, budget, and sequencing.  
-* **Copywriter / Design:** Provide naming or mark-format context when the asset includes verbal or visual brand components.
+- **Low/no collision**: standard EUIPO + OEPM both jurisdictions; broad Nice scope.
+- **Medium collision**: EUIPO + OEPM both; narrower Nice scope per the high-risk classes; coexistence-agreement template prepared in case opposition surfaces.
+- **High collision**: EUIPO-only OR OEPM-only (national-scope-only); narrow Nice scope; brand protection in unclaimed jurisdictions via use-in-trade.
+- **Very-high collision**: defer filing; brand-protect via use-in-trade only; revisit when commercial validation justifies the cost of fighting opposition.
 
-6.0 Addendum
+Document the decision + rationale in `BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md` (append to §3 or dedicated section for the new mark).
 
-A.1: Asset-Type Decision Matrix
+### Step 5 — Filing prep (60 min, counsel)
 
-* Company name  
-* Trade name  
-* Word mark  
-* Logo mark  
-* Mixed mark  
-* Product or lab name  
-* Publication title  
-* Method or framework name
+Per `TRADEMARK_FILING_STRATEGY_2026-05.md` §5 template, produce ready-to-sign data for the new mark:
 
-A.2: Minimum Filing Log
+- Frozen filing string.
+- Applicant block (Holistika Research SL).
+- Per-jurisdiction Nice classes + goods/services translations (EN for EUIPO; ES for OEPM).
+- Disclaimers / limitations (e.g., for high-collision marks — explicit class-exclusion language).
 
-* Asset under review  
-* Owner  
-* Territory  
-* Classes  
-* Clearance status  
-* Official fee source  
-* Service-provider fee source  
-* Filing decision  
-* Follow-up date
+### Step 6 — Operator approval gate (founder + Brand Manager)
+
+Before filing, founder + Brand Manager confirm:
+
+1. Naming candidate is brand-coherent (passes Step 1 governance).
+2. Collision-risk grade is acceptable for the filing strategy chosen (Step 4).
+3. Filing-day budget is allocated (per `BRAND_HIERARCHY` §5 fee guidance + filing-agent quote).
+4. Operator-side power-of-attorney is in place.
+
+This is a **mandatory hard pause** per `akos-agent-checkpoint-discipline.mdc` — new trademark filings warrant operator-pause-point review.
+
+### Step 7 — Filing submission (counsel-driven)
+
+Counsel transcribes Step 5 data into EUIPO TM-1 / OEPM portal, submits, captures filing receipt + filing number, updates the IP register (per `SOP-LEGAL_IP_REGISTER_MAINTENANCE_001`).
+
+### Step 8 — Post-filing (governed by sister SOPs)
+
+Hand off to:
+
+- `SOP-LEGAL_TRADEMARK_MONITORING_001` — quarterly status + opposition + renewal calendar.
+- `SOP-LEGAL_IP_REGISTER_MAINTENANCE_001` — quarterly register snapshot.
+
+## 5. Outputs
+
+- Per-mark naming review record (Step 1 output).
+- Per-mark clearance search record (Step 3 output).
+- Filing-strategy decision in BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md (Step 4 output).
+- Per-mark filing-prep packet in TRADEMARK_FILING_STRATEGY (or appended) (Step 5 output).
+- Filing receipt + filing number (Step 7 output).
+- IP register update (Step 8 output).
+
+## 6. Anti-patterns
+
+- **Logo-first commit.** Designing a logo before clearance is complete creates sunk-cost pressure to file even if collision risk surfaces. Always do clearance before visual investment.
+- **Class-bloat filing.** Filing in many Nice classes "just in case" is expensive (per-class fees) and generates opposition risk in classes where Holistika doesn't actually operate. Always file the narrowest scope that captures actual product use.
+- **Naming-without-Brand-Manager.** Founder-driven naming without Brand Manager sign-off can produce marks that conflict with voice tier / register matrix / abbreviation governance. Brand Manager is a non-skippable Step 1 reviewer.
+- **Skipping Step 6 operator gate.** Filings are budget-material + brand-strategy-material; never skip the founder approval pause.
+
+## 7. Cross-references
+
+- [`BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md`](BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md) — architectural constraints.
+- [`TRADEMARK_FILING_STRATEGY_2026-05.md`](TRADEMARK_FILING_STRATEGY_2026-05.md) — per-mark filing-prep template.
+- [`BRAND_ABBREVIATIONS.md`](../../Marketing/Brand/BRAND_ABBREVIATIONS.md) — short-form governance.
+- [`BRAND_LOGO_SYSTEM.md`](../../Marketing/Brand/BRAND_LOGO_SYSTEM.md) — visual canonicals.
+- Sister SOPs: `SOP-LEGAL_TRADEMARK_MONITORING_001.md`, `SOP-LEGAL_IP_REGISTER_MAINTENANCE_001.md`.
+- D-IH-66-A (Branded House), D-IH-66-V (this SOP introduction).
