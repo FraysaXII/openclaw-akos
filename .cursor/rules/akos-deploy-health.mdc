@@ -1,0 +1,180 @@
+---
+description: Deploy health discipline — CICD smoke testing across Vercel + Render + sibling repos with multi-device coverage
+globs:
+  - "../root_cd/**/next.config.*"
+  - "../root_cd/**/components/**/*.tsx"
+  - "../root_cd/**/app/**/*.tsx"
+  - "../root_cd/**/i18n/messages/*.json"
+  - "docs/wip/planning/**/master-roadmap.md"
+alwaysApply: false
+---
+
+# AKOS Deploy Health — recurrent CICD smoke discipline
+
+> Codifies the recurrent pattern for verifying that consumer repos (`boilerplate`, `hlk-erp`, `kirbe`, `kirbe-frontend`) deploy + render correctly after every meaningful change. **This is a runtime / pre-merge discipline**, distinct from design-time skills like Impeccable. Established during I66 P5 (2026-05-09 build-fix incident) per operator request: "this process will be recurrent as part of CICD."
+
+## Why a separate rule
+
+Three different concerns, three different tools:
+
+| Concern | Tool | When it runs |
+|:---|:---|:---|
+| **Design-time** (page authoring, brand alignment, voice tier) | [`impeccable` skill](../../.cursor/skills/impeccable/SKILL.md) — uses `PRODUCT.md`, `DESIGN.md`, `BASELINE_REALITY.md` | When a page is being designed or rewritten |
+| **Pre-merge automated regression** (build, type, lint, e2e) | Playwright multi-viewport suite + Lighthouse + `validate_brand_*` gates | Every PR + every push to a feature branch (Vercel preview deploy) |
+| **Pre-merge operator UAT** (visual smoke + UX judgement) | Browser-use subagent + operator manual check | Before operator review of a PR or significant change |
+| **Continuous deploy health** | Vercel MCP `list_deployments` + `get_deployment_build_logs` + Render MCP `list_deploys` + `list_logs` | Polled at start of every operator turn that touches a consumer repo |
+| **Visual regression** (future) | Percy / Argos / Chromatic | Per-PR (deferred to a future I-NN) |
+
+Impeccable answers "is this page designed well?" — NOT "did the deploy succeed?" or "does it work on mobile?". Use the right tool for the right question.
+
+## Standard CICD smoke checklist (run at start of every consumer-repo turn)
+
+### Step 1 — Deploy status check (≤ 2 min)
+
+For every consumer repo touched in the current session:
+
+```python
+# Vercel
+list_deployments(teamId, projectId, limit=5)
+# Render (kirbe backend)
+list_deploys(serviceId)
+```
+
+Flag if any of the last 5 deployments are `ERROR` (Vercel) or `failed` (Render). Red flag: ≥ 3 consecutive failures usually means a code regression that's blocking everyone, not a transient infra issue.
+
+### Step 2 — Build log inspection on failure (≤ 5 min)
+
+If the most recent deploy is ERROR, fetch + parse the build log:
+
+```python
+get_deployment_build_logs(teamId, idOrUrl, limit=400)
+```
+
+Look in the LAST ~30 events for the actual error trail (the first events are clone + npm install warnings, which are noise). Common patterns:
+
+- **TypeScript error** (`Failed to compile.` followed by `Type error: ...`) — see §"Common build failures" below.
+- **Sentry CLI failure** (`unhandledRejection ... sentry-cli releases new ...`) — wrap in `errorHandler` (we already did; see `boilerplate/next.config.mjs`).
+- **Static prerender error** (`Error occurred prerendering page`) — usually env vars missing at build OR module-level instantiation that throws (Supabase, etc.). Fix with `force-dynamic` + lazy init.
+- **OOM** (`JavaScript heap out of memory`) — bump `NODE_OPTIONS=--max-old-space-size=4096` in Vercel project env.
+- **Module not found** — usually a path-alias misconfig in `tsconfig.json` or a missing dep.
+
+### Step 3 — Visual smoke (≤ 15 min)
+
+After a successful deploy, run multi-viewport visual smoke via the **browser-use subagent**. Standard viewports:
+
+- **375×667** (iPhone SE) — narrowest mobile common case.
+- **414×896** (iPhone 11 / 12 / 13 / 14 / 15) — wider mobile.
+- **768×1024** (iPad portrait) — tablet.
+- **1280×800** (desktop default) — most-common laptop.
+- **1920×1080** (wide desktop) — large monitor.
+
+The subagent prompt should explicitly enumerate:
+
+1. Pages to load + key elements to verify (hero, footer, brand-canonical content per the change).
+2. Locale switching (EN → ES → FR for boilerplate; per-locale verifications.
+3. Console errors / 404s (cumulative).
+4. Mobile-specific overflow / overlap / illegibility checks.
+
+Report format: HIGH / MEDIUM / LOW severity findings; actionable remediation per finding.
+
+### Step 4 — Build-time optimization gates
+
+Maintain build-time discipline. Operator's target: **< 2 min per preview build**.
+
+If preview build > 2 min:
+
+- Check if Sentry source-map upload is gated to production only (per `next.config.mjs` `disableServerWebpackPlugin: process.env.VERCEL_ENV !== 'production'`).
+- Check for stale build cache invalidation (a fresh dependency install means the cache wasn't restored).
+- Check for unnecessary static prerender of dynamic routes (use `force-dynamic` + lazy init pattern).
+- Consider Turbopack opt-in (Next.js 14+ experimental) for further compile-time gains.
+- If build is dominated by a single slow page, check that page's data-fetching pattern.
+
+Profile via `get_deployment_build_logs` timestamps:
+
+- `Cloning completed: Xs`
+- `added N packages` (npm install end)
+- `Compiled successfully` (next build end)
+- `Checking validity of types ...` start
+- `Generating static pages (X/Y)` (prerender step)
+- `Done in Xs` (final)
+
+## Common build failures + canonical fixes
+
+Catalogued from real incidents. When a new failure mode is encountered, append it here.
+
+### Failure 1 — Duplicate `declare global { interface Window { ... } }`
+
+**Symptom**: `Property 'X' does not exist on type '(...args: unknown[]) => void'` or similar declaration-merging error.
+
+**Root cause**: Two or more files declare `Window.X` with incompatible shapes. TypeScript's declaration merging produces an intersection that loses methods or properties.
+
+**Canonical fix**: One canonical declaration in `types/global.d.ts`. Remove all per-component `declare global` blocks. See `boilerplate/types/global.d.ts` for the template.
+
+### Failure 2 — Sentry CLI `releases new` 504 / network error
+
+**Symptom**: `unhandledRejection Error: Command failed: ... sentry-cli releases new <SHA>` followed by `Error: Command "npm run build" exited with 1`.
+
+**Root cause**: Transient Sentry-API outage during source-map upload. Should NOT block the build.
+
+**Canonical fix**: Add `errorHandler` to `withSentryConfig` in `next.config.mjs`:
+
+```js
+errorHandler: (err, invokeErr, compilation) => {
+  compilation.warnings.push(`[sentry] non-blocking error: ${err.message}`);
+}
+```
+
+Plus skip Sentry source-map upload on previews:
+
+```js
+disableServerWebpackPlugin: process.env.VERCEL_ENV !== 'production',
+disableClientWebpackPlugin: process.env.VERCEL_ENV !== 'production',
+```
+
+### Failure 3 — Static prerender fails on Supabase route
+
+**Symptom**: `Error occurred prerendering page "..."` followed by `Error: Your project's URL and Key are required to create a Supabase client!`.
+
+**Root cause**: Module-level instantiation of a Supabase client (e.g., `const xxx = new XQueries();`) runs at build-time prerender even with `"use client"` directive.
+
+**Canonical fix** (cleanest): Replace module-level instantiation with a lazy singleton getter:
+
+```ts
+let _client: XQueries | null = null;
+function getClient(): XQueries {
+  if (!_client) _client = new XQueries();
+  return _client;
+}
+
+export default function Page() {
+  const client = getClient();  // called only on render
+  // ...
+}
+```
+
+`force-dynamic` alone is **not sufficient** — Next.js still evaluates module-level code during route-segment-config extraction.
+
+### Failure 4 — Mobile navbar overflow / no hamburger
+
+**Symptom**: Operator (or visual smoke test) reports navbar links squeezed horizontally on viewports ≤ 768px, no hamburger menu.
+
+**Canonical fix**: Two-pattern navbar — `hidden md:flex` for inline desktop, `flex md:hidden` for compact mobile pill with hamburger button + slide-down drawer. See `boilerplate/components/ui/FloatingNavbar.tsx` for the template.
+
+### Failure 5 — Sticky secondary header overlapping floating navbar on mobile
+
+**Symptom**: A sticky `top-0` secondary header (e.g., article reader breadcrumb bar) overlaps with the floating navbar on mobile because the floating navbar wraps to multiple lines.
+
+**Canonical fix**: 
+- (a) Fix the floating navbar to be compact on mobile (Failure 4 fix).
+- (b) Adjust the secondary header's top-padding: `pt-16 md:pt-20` (mobile gets less because the navbar pill is shorter).
+- (c) Hide UX-context-dependent actions (share, bookmark — anything requiring auth) at `<sm` breakpoint: `hidden sm:flex`.
+
+## Cross-references
+
+- [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) — the per-initiative file-changes CSV (this rule is its runtime-health complement).
+- [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) — phase + commit discipline (this rule is its post-deploy verification complement).
+- `boilerplate/next.config.mjs` — example of Sentry non-blocking config.
+- `boilerplate/types/global.d.ts` — example of canonical `Window` augmentation.
+- `boilerplate/components/ui/FloatingNavbar.tsx` — example of mobile-hamburger + desktop-inline pattern.
+- `docs/wip/planning/66-brand-vision-ops-sweep/files-modified.csv` — every commit landed under I66 with `validators_run` + `requires_operator_gate` cols (extends to deploy gates by convention).
+- I66 P5 ChangeLog entry "I66 P5 increments 6-7" (2026-05-09) — the build-fix incident this rule was extracted from.
