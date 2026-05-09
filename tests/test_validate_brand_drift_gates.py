@@ -163,13 +163,17 @@ class TestBrandJargon:
         assert "app\\page.tsx" in rel_strs or "app/page.tsx" in rel_strs
         assert all("dashboard" not in s for s in rel_strs)
 
-    def test_strict_empty_fails_when_no_consumer_repos(self) -> None:
+    def test_strict_empty_fails_when_no_consumer_repos(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Skip-default-roots: assert rc == 1 when no consumer repos resolve and --strict-empty is set."""
+        monkeypatch.setattr(brand_jargon, "DEFAULT_CONSUMER_ROOTS", ())
         rc = brand_jargon.main(["--strict-empty", "--consumer-root", "/nonexistent/path/here"])
         assert rc == 1
 
-    def test_graceful_skip_when_no_consumer_repos(self, tmp_path: Path) -> None:
+    def test_graceful_skip_when_no_consumer_repos(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Skip-default-roots: graceful skip is the no-strict-empty case."""
+        monkeypatch.setattr(brand_jargon, "DEFAULT_CONSUMER_ROOTS", ())
         rc = brand_jargon.main(["--consumer-root", str(tmp_path / "nonexistent")])
-        assert rc in {0, 1}
+        assert rc == 0
 
 
 # ---------------------------------------------------------------------------

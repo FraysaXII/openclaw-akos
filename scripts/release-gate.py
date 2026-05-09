@@ -154,9 +154,11 @@ def run_brand_canon_drift_validation() -> bool:
 def run_brand_jargon_validation() -> tuple[bool, int]:
     """Run brand-jargon validation against external public surfaces (I66 P2).
 
-    Returns ``(ok, exit_code)``. Wired as **INFO** in the gate verdict until
-    Initiative 66 P5 closes (boilerplate rewrite). Strict-fail mode flips on
-    when ``AKOS_BRAND_JARGON_STRICT=1`` is set.
+    Returns ``(ok, exit_code)``. Wired as **strict-FAIL by default** since
+    Initiative 66 P5 increment 3 (2026-05-09) — boilerplate is jargon-clean
+    (0 hits across 134 scanned files). Soft-INFO mode is now the opt-out via
+    ``AKOS_BRAND_JARGON_SOFT=1`` (used during a known-broken state, e.g. a
+    refactor of forbidden-token list that temporarily produces signal).
     """
     logger.info("Running BRAND jargon validation ...")
     result = proc.run(
@@ -171,9 +173,11 @@ def run_brand_jargon_validation() -> tuple[bool, int]:
 def run_brand_voice_register_validation() -> tuple[bool, int]:
     """Run per-locale voice-register validation (I66 P2).
 
-    Returns ``(ok, exit_code)``. Wired as **INFO** until I66 P5 closes
-    (boilerplate i18n rewrite). Flips to FAIL when
-    ``AKOS_BRAND_VOICE_REGISTER_STRICT=1``.
+    Returns ``(ok, exit_code)``. Wired as **strict-FAIL by default** since
+    Initiative 66 P5 increment 3 (2026-05-09) — boilerplate i18n rewrite
+    (`framework`→`marco metodológico` ES + KiRBe descriptions cleaned EN/ES/FR)
+    closes the previous register hits. Soft-INFO mode is now the opt-out via
+    ``AKOS_BRAND_VOICE_REGISTER_SOFT=1``.
     """
     logger.info("Running BRAND voice-register validation ...")
     result = proc.run(
@@ -331,22 +335,22 @@ def main() -> None:
     results.append(("PASS" if brand_canon_ok else "FAIL", "BRAND canon drift (scripts/validate_brand_canon_drift.py, I66 P2)"))
 
     jargon_ok, jargon_rc = run_brand_jargon_validation()
-    if os.environ.get("AKOS_BRAND_JARGON_STRICT") == "1":
-        results.append(("PASS" if jargon_ok else "FAIL", "BRAND jargon (scripts/validate_brand_jargon.py, strict)"))
-    else:
+    if os.environ.get("AKOS_BRAND_JARGON_SOFT") == "1":
         results.append((
             "INFO",
-            f"BRAND jargon (scripts/validate_brand_jargon.py, soft until I66 P5; exit={jargon_rc})",
+            f"BRAND jargon (scripts/validate_brand_jargon.py, soft mode opted-in via AKOS_BRAND_JARGON_SOFT=1; exit={jargon_rc})",
         ))
+    else:
+        results.append(("PASS" if jargon_ok else "FAIL", "BRAND jargon (scripts/validate_brand_jargon.py, strict — default since I66 P5 incr 3)"))
 
     voice_ok, voice_rc = run_brand_voice_register_validation()
-    if os.environ.get("AKOS_BRAND_VOICE_REGISTER_STRICT") == "1":
-        results.append(("PASS" if voice_ok else "FAIL", "BRAND voice register (scripts/validate_brand_voice_register.py, strict)"))
-    else:
+    if os.environ.get("AKOS_BRAND_VOICE_REGISTER_SOFT") == "1":
         results.append((
             "INFO",
-            f"BRAND voice register (scripts/validate_brand_voice_register.py, soft until I66 P5; exit={voice_rc})",
+            f"BRAND voice register (scripts/validate_brand_voice_register.py, soft mode opted-in via AKOS_BRAND_VOICE_REGISTER_SOFT=1; exit={voice_rc})",
         ))
+    else:
+        results.append(("PASS" if voice_ok else "FAIL", "BRAND voice register (scripts/validate_brand_voice_register.py, strict — default since I66 P5 incr 3)"))
 
     baseline_ok, baseline_rc = run_brand_baseline_reality_validation()
     if os.environ.get("AKOS_BRAND_BASELINE_REALITY_STRICT") == "1":
