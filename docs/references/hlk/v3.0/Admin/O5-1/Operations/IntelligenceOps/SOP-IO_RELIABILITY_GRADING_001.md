@@ -1,8 +1,8 @@
----
+﻿---
 sop_id: SOP-IO_RELIABILITY_GRADING_001
 title: Source Reliability Grading
-version: 0.1
-status: draft
+version: 1.0
+status: active
 classification: canonical
 access_level: 5
 register: internal

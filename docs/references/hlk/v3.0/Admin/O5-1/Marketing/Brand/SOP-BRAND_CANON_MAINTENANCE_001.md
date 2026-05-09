@@ -1,8 +1,8 @@
----
+﻿---
 sop_id: SOP-BRAND_CANON_MAINTENANCE_001
 title: Brand Canon Maintenance
-version: 0.1
-status: draft
+version: 1.0
+status: active
 classification: canonical
 access_level: 4
 register: internal

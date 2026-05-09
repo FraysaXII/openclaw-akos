@@ -187,20 +187,53 @@ Cross-references that consume this architecture:
 | Domain | Document | What it cites here |
 |:---|:---|:---|
 | Trademark filings | [`BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md`](../../People/Legal/BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md) | Brand asset ownership posture; 5-mark filing strategy. |
-| Service catalog | [`SERVICE_OFFERING_CATALOG.md`](../../Operations/PMO/SERVICE_OFFERING_CATALOG.md) (created I66 P3) | 6 services × 3 arms × 3 tiers matrix. |
+| Service catalog | [`SERVICE_OFFERING_CATALOG.md`](SERVICE_OFFERING_CATALOG.md) (created I66 P3) | 6 services × 3 arms matrix; lives in this same `Marketing/Brand/` folder per D-IH-66-E. |
 | Investor materials | `_assets/advops/PRJ-HOL-FOUNDING-2026/` | Branded House diagram on slide 3; flywheel on slide 4; product stack on slide 6. |
 | Public website | `boilerplate/app/manifiesto/`, `boilerplate/app/services/`, `boilerplate/app/tech-lab/`, `boilerplate/app/how-we-work/`, `boilerplate/app/vision/` | All consume; never fork. |
 | Operator surfaces | `hlk-erp/app/(operator)/*` | Cite the Branded House diagram in `/governance/external-repos` panel; cite the lab → channel pipeline in `/planning/*` drill-ins. |
 | Cursor rules | [`.cursor/rules/akos-mirror-template.mdc`](../../../../../../.cursor/rules/akos-mirror-template.mdc) | "Live references" block points to this file. |
 
-## 8. Maintenance
+## 8. Sub-mark accountability — the org-ownership note (D-IH-66-R)
 
-- **Annual review** (P3 process_list row "annual brand-architecture review"; cadence: yearly).
-- **Drift detection.** Three drift gates:
-  - `validate_brand_canon_drift.py` (P2) — HSL token equality across boilerplate / hlk-erp / dossier renderer.
-  - `validate_brand_jargon.py` (P2) — Rendered DOM scan for forbidden tokens including sub-mark misuse (e.g., "Think Big LLC" or "Think Big subsidiary").
-  - `validate_brand_voice_register.py` (P2) — FR + ES copy alignment with `BRAND_REGISTER_MATRIX.md`.
-- **Decision authority.** Founder + Brand Manager. Sub-mark Lead role rows in `baseline_organisation.csv` (created I66 P3) own per-sub-mark voice register modulation.
+Per **D-IH-66-R** (Initiative 66 P3, Half 2 operator decision), sub-marks are a **brand-naming + delivery-mode framework**, **not** an org-chart role partition. There are **no dedicated `Holistika R&S Lead` / `Think Big Lead` / `HLK Tech Lab Lead` role rows** in [`baseline_organisation.csv`](../../../../compliance/baseline_organisation.csv).
+
+The accountability cascade for sub-marks is:
+
+| Sub-mark concern | Owned by | Rationale |
+|:---|:---|:---|
+| Sub-mark **brand expression** (voice register modulation, visual identity, market-facing presence consistency) | **Brand Manager** (existing role; reports to CMO; team includes Copy / AV / Design when populated) | Brand Manager already owns brand expression across all sub-marks — splitting expression by sub-mark would conflict with cross-sub-mark consistency discipline. |
+| **Holistika R&S** delivery mode | **Holistik Researcher** (existing role; reports to O5-1; already governs the four methodology pillars per role description) | The methodology pillars (Process Engineering, Business Engineering, Factor Combination, Foresight) **are** the substance of R&S — the existing role already owns it. |
+| **Think Big** delivery mode | **CMO + COO** (existing roles; collaborate on operational delivery in this delivery mode) | Strategy operationalisation, GTM-system implementation, and growth experimentation cleanly map to existing CMO + COO scope. |
+| **HLK Tech Lab** delivery mode | **CTO** (existing role; reports to O5-1) | Engineering, technical infrastructure, AI / agent integrations, and product-stack delivery cleanly map to existing CTO scope. |
+| **Cross-sub-mark integration** + **sub-mark introduction / deprecation decisions** | **CBO / O5-1** (existing top operational role) | At current org size, the CBO is the de facto Lead of all three sub-marks; this is reflected in the existing role description ("translates strategic governance into operational execution across all entities"). |
+
+### Why this decision
+
+1. **Org-size reality.** At the current org size (~2-5 person team), introducing 3 dedicated sub-mark Lead roles creates **empty-team coordinator roles** without direct reports — matrix roles without strong sponsorship under-deliver.
+2. **Brand Manager team conflict avoidance.** Putting sub-mark Leads under Brand Manager would conflate **expression** (Brand Manager's domain across all sub-marks) with **delivery** (each delivery mode's domain).
+3. **KB drift mitigation.** Each baseline role cascades into the KB structure. 3 sub-mark Lead nodes with no team children = empty KB pages = drift waiting to happen.
+4. **Existing-role sufficiency.** The methodology pillars + sub-mark delivery modes already map cleanly to existing C-level + Holistik Researcher scope.
+
+### When to revisit
+
+The decision sunsets when **any** of:
+
+- Org grows past ~10-15 person team and the founder can no longer plausibly Lead all three sub-marks personally.
+- One sub-mark crosses ≥ 50% of revenue and warrants its own dedicated leadership tier.
+- A sub-mark hires its own dedicated team that needs a distinct reporting line.
+- An external counterparty pattern (investor, partner, customer) consistently asks "who runs Think Big specifically?" in a way that "the founder" doesn't satisfy.
+
+Revisit triggers a new tranche to add the relevant sub-mark Lead row(s) to `baseline_organisation.csv`. The trademark posture (per `BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md`) is independent of this decision — sub-marks remain registered marks regardless of whether they have dedicated org-chart Leads.
+
+## 9. Maintenance
+
+- **Annual review** (P3 process_list row `tbi_mkt_prc_brand_canon_mtnce_001`; cadence: yearly under SOP-BRAND_CANON_MAINTENANCE_001).
+- **Drift detection.** Four drift gates (I66 P2):
+  - [`validate_brand_canon_drift.py`](../../../../../../scripts/validate_brand_canon_drift.py) — strict-FAIL — canon self-consistency + dual-register external-column cleanliness.
+  - [`validate_brand_jargon.py`](../../../../../../scripts/validate_brand_jargon.py) — soft-INFO until P5 — rendered DOM scan for forbidden tokens including sub-mark misuse.
+  - [`validate_brand_voice_register.py`](../../../../../../scripts/validate_brand_voice_register.py) — soft-INFO until P5 — FR + ES copy alignment with `BRAND_REGISTER_MATRIX.md`.
+  - [`validate_brand_baseline_reality_drift.py`](../../../../../../scripts/validate_brand_baseline_reality_drift.py) — soft-INFO until P6 — internal-register tokens never leak to external surfaces.
+- **Decision authority.** Founder (CBO/O5-1) + Brand Manager. Per D-IH-66-R (§8 above), there are no sub-mark Lead role rows in `baseline_organisation.csv`; per-sub-mark voice register modulation is owned by Brand Manager (with input from the relevant existing function head per delivery mode).
 
 ## 9. Related canonicals
 

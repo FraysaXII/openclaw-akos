@@ -1,8 +1,8 @@
----
+﻿---
 sop_id: SOP-LEGAL_TRADEMARK_MONITORING_001
 title: Trademark Monitoring
-version: 0.1
-status: draft
+version: 1.0
+status: active
 classification: canonical
 access_level: 4
 register: internal

@@ -1,8 +1,8 @@
----
+﻿---
 sop_id: SOP-IO_ELICITATION_DISCIPLINE_001
 title: Elicitation Discipline
-version: 0.1
-status: draft
+version: 1.0
+status: active
 classification: canonical
 access_level: 5
 register: internal

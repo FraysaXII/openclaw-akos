@@ -1,8 +1,8 @@
----
+﻿---
 sop_id: SOP-PEOPLE_FOUNDER_BIO_001
 title: Founder Bio Canonical Maintenance
-version: 0.1
-status: draft
+version: 1.0
+status: active
 classification: canonical
 access_level: 4
 register: external (with internal-register annotations)
