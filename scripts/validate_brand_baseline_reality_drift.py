@@ -196,7 +196,7 @@ def _scan_advops_decks_and_dossiers(tokens: list[InternalToken]) -> list[Baselin
 def _scan_boilerplate(consumer_roots: list[Path], tokens: list[InternalToken]) -> list[BaselineHit]:
     hits: list[BaselineHit] = []
     for root in consumer_roots:
-        for sub in ("app", "messages", "components"):
+        for sub in ("app", "messages", "i18n/messages", "components"):
             base = root / sub
             if not base.exists():
                 continue

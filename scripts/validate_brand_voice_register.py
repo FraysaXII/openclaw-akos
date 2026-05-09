@@ -71,7 +71,7 @@ DEFAULT_CONSUMER_ROOTS = (
     REPO_ROOT.parent / "root_cd" / "hlk-erp",
 )
 
-MESSAGE_RELATIVE_PATHS = ("messages",)
+MESSAGE_RELATIVE_PATHS = ("messages", "i18n/messages")
 
 
 @dataclass(frozen=True)

@@ -76,7 +76,7 @@ DEFAULT_CONSUMER_ROOTS = (
 )
 
 SCANNED_SUBPATHS_BY_REPO = {
-    "boilerplate": ("app", "components", "messages"),
+    "boilerplate": ("app", "components", "messages", "i18n/messages"),
     "hlk-erp": ("app/(public)",),
 }
 

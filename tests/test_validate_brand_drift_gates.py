@@ -234,7 +234,9 @@ class TestBrandVoiceRegister:
         hits = voice_register._scan_message_file(msg, rules)
         assert hits == [], "EN locale has no register rules in I66 P1; expected 0 hits"
 
-    def test_main_graceful_skip_on_empty(self) -> None:
+    def test_main_graceful_skip_on_empty(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Skip-default-roots: assert rc == 0 when no consumer repos resolve."""
+        monkeypatch.setattr(voice_register, "DEFAULT_CONSUMER_ROOTS", ())
         rc = voice_register.main(["--consumer-root", "/nonexistent/path"])
         assert rc == 0
 
