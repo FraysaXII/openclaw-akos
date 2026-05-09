@@ -113,29 +113,35 @@ The CSV lives at `docs/wip/planning/<NN-slug>/files-modified.csv`. **Per-initiat
 - Bounded size — each CSV stays at 50–200 rows max; grep + diff stay fast.
 - Aggregation surface already exists via [`docs/wip/planning/README.md`](../../docs/wip/planning/README.md) initiative index.
 
-### Schema (14 columns, exact header order)
+### Schema (18 columns, exact header order)
 
 ```
-phase,commit_sha,commit_date,change_kind,file_path,file_kind,lines_delta,decision_ids,process_ids,linked_canonicals,change_summary,validators_run,requires_operator_gate,notes
+phase,commit_sha,commit_date,change_kind,lines_delta,repo,file_path,file_kind,role_owner,area,entity,decision_ids,process_ids,linked_canonicals,validators_run,requires_operator_gate,change_summary,notes
 ```
+
+> Schema extended from 14 → 18 cols on 2026-05-09 (D-IH-66-Z) per operator request: "process_ids being empty is strange as normally we should have a process for each in process_list.csv. Also I'd like to have role_owner there and other relevant that you see fit." Added `role_owner`, `area`, `entity`, `repo`. Re-attributed `process_ids` thoroughly so every brand-related file maps to at least its governing process.
 
 **Per-column rules**:
 
 | Column | Type | Vocabulary / format |
 |:---|:---|:---|
 | `phase` | enum | `P0` / `P1` / … / `P<N>-H1` / `P<N>-H2` / `P<N>-followup` / `P<N>-closure` — match the commit's phase tag in initiative roadmap. |
-| `commit_sha` | string (7-char) | Short SHA of the commit landing the change. Captured via `git log --pretty=format:%h`. |
+| `commit_sha` | string (7-char) | Short SHA of the commit landing the change. Captured via `git log --pretty=format:%h`. Special markers: `akos-pending` (committed in same logical wave but in a different commit), `boilerplate-pending` (sibling-repo commit happens later). |
 | `commit_date` | date | `YYYY-MM-DD` (commit date, not author date). |
 | `change_kind` | enum | `created` / `modified` / `deleted` / `renamed` / `cross-ref-update` (existing-file edit that only adds cross-references) / `data-row-append` (CSV append) / `frontmatter-only` (e.g., status promotion). |
-| `file_path` | string | Repo-root-relative POSIX-style path. |
-| `file_kind` | enum | `canonical` (HLK canonical CSV / canonical Markdown SSOT) / `mirrored` / `reference` / `planning` (under `docs/wip/planning/`) / `sop` / `template` (legal/agent template) / `script` / `test` / `cursor-rule` / `changelog` / `data` (other) / `skill` (Cursor skill) / `config`. |
 | `lines_delta` | string | Net line delta as `+N` / `-N` / `+N/-M` (created/deleted/modified). `n/a` for binary. |
+| `repo` | enum | `openclaw-akos` (default; this repo) / `boilerplate` / `hlk-erp` / `kirbe` / `<other-sibling-slug>` per `REPOSITORY_REGISTRY.csv`. Distinguishes AKOS-internal changes from sibling-repo carry-overs. |
+| `file_path` | string | Repo-root-relative POSIX-style path **within the named `repo`** (no `boilerplate:` prefix; that lives in the `repo` column). |
+| `file_kind` | enum | `canonical` (HLK canonical CSV / canonical Markdown SSOT) / `mirrored` / `reference` / `planning` (under `docs/wip/planning/`) / `sop` / `template` (legal/agent template) / `script` / `test` / `cursor-rule` / `changelog` / `data` (other) / `skill` (Cursor skill) / `config`. |
+| `role_owner` | string | The role responsible for the work-class this file represents. Drawn from `baseline_organisation.csv` `role_name` column. Examples: `Brand Manager`, `Holistik Researcher`, `Legal Counsel`, `Talent`, `System Owner`, `CTO`. |
+| `area` | enum | `MKT` / `Research` / `Legal` / `People` / `Tech` / `Admin` — same vocabulary as `process_list.csv` `area` column. |
+| `entity` | enum | `Holistika` (umbrella) / `Think Big` (sub-mark) / `HLK Tech Lab` (sub-mark). Same vocabulary as `process_list.csv` `entity` column. |
 | `decision_ids` | semicolon-list | `D-IH-NN-X;D-IH-NN-Y` — every governing decision encoded in this change. Empty if none. |
-| `process_ids` | semicolon-list | Every `process_list.csv` `item_id` operationalised by this change. Empty if N/A. |
+| `process_ids` | semicolon-list | **Every** `process_list.csv` `item_id` operationalised by this change. **Default expectation**: brand-related files map to at least `tbi_mkt_prc_brand_canon_mtnce_001` (Brand Manager canon maintenance) plus their specific governing process. Empty only when the file is genuinely meta (planning docs without a maintenance process, e.g. risk-register, decision-log) — in which case `notes` should clarify "initiative-meta". |
 | `linked_canonicals` | semicolon-list | Canonical files this change references or modifies — by short name (e.g., `BRAND_VISION.md`) or path. |
-| `change_summary` | string (1 line) | Single-line description; ≤ 140 chars; not a copy of the commit message. |
 | `validators_run` | semicolon-list | Validator scripts that exercised this file post-change (e.g., `validate_hlk.py;validate_brand_canon_drift.py`). Empty if no validator. |
 | `requires_operator_gate` | enum | `yes` (canonical CSV gate, trademark filing, public-prose publish, or other mandatory pause) / `no`. |
+| `change_summary` | string (1 line) | Single-line description; ≤ 140 chars; not a copy of the commit message. |
 | `notes` | string (1 line) | Free-text; ≤ 140 chars; access-level callout, status notes, special context. Empty if none. |
 
 ### When to update the CSV
