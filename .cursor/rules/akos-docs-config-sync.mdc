@@ -134,7 +134,8 @@ needs a corresponding update. These contracts are ordered by trigger.
 
 | Trigger file | Docs / artifact to update | Section / area |
 |:-------------|:----------------------------|:---------------|
-| New `docs/wip/planning/NN-<slug>/` folder | `docs/wip/planning/README.md` | Initiative index table (next `NN` slot, title, link to folder) |
+| New `docs/wip/planning/NN-<slug>/` folder | `docs/wip/planning/README.md` + `docs/wip/planning/<NN-slug>/files-modified.csv` | Initiative index table (next `NN` slot, title, link to folder) **AND** seed an empty `files-modified.csv` with the 14-column header per [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) §"Per-initiative file-changes CSV". |
+| Any commit that lands files under `docs/wip/planning/<NN-slug>/` or that is governed by an active initiative | `docs/wip/planning/<NN-slug>/files-modified.csv` | Append one row per file changed in the commit, with all 14 columns populated per the schema. Backfill on next material commit if missed. |
 | `docs/wip/planning/**/master-roadmap.md` (material phase or dependency change) | Same initiative folder; optional `reference/` plan mirror | Phase dependency narrative, mermaid diagram, and phase-at-a-glance stay aligned with the **authoritative** Cursor plan; fix internal links |
 | `docs/wip/planning/**/reference/*.md` (git-tracked plan mirror) | Initiative `master-roadmap.md` link section | When the mirror is collaboration SSOT, update pointer text if the Cursor plan filename or path changes |
 | Execution changes `docs/references/hlk/compliance/*.csv` or `docs/references/hlk/v3.0/**` | `docs/USER_GUIDE.md`, `docs/ARCHITECTURE.md` | Same as **HLK compliance changes** above when those trees actually change (wip roadmap drafts alone do not require USER_GUIDE edits) |
