@@ -102,3 +102,48 @@ A.1: Process Definition Template (for `process_list.csv`)
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
 | (unique\_id) | (Descriptive Name) | (project/workstream/process/task) | (Name of parent item) | (Role responsible) | (Holistika/Think Big/etc.) | (Ops/Tech/MKT/etc.) | ... |
 
+7.0 Registered SOP Cross-References
+
+This section lists every SOP that has gone through the §4 process and is currently active. New SOPs added under §4 must append a row here so the registry stays the canonical "what SOPs do we have?" lookup. Drift detection: every active SOP file must appear in this table; every row here must point to an existing file with `status: active`.
+
+7.1 Brand Operations (Initiative I66 P3)
+
+| SOP ID | File | process\_id | role\_owner | cadence |
+| :---- | :---- | :---- | :---- | :---- |
+| SOP-BRAND\_CANON\_MAINTENANCE\_001 | [`v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_CANON_MAINTENANCE_001.md`](../v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_CANON_MAINTENANCE_001.md) | tbi\_mkt\_prc\_brand\_canon\_mtnce\_001 | Brand Manager | Quarterly |
+| SOP-BRAND\_VOICE\_DRIFT\_TRIAGE\_001 | [`v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_VOICE_DRIFT_TRIAGE_001.md`](../v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_VOICE_DRIFT_TRIAGE_001.md) | tbi\_mkt\_prc\_voice\_drift\_triage\_001 | Brand Manager | Monthly |
+| SOP-BRAND\_REGISTER\_MATRIX\_REVIEW\_001 | [`v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_REGISTER_MATRIX_REVIEW_001.md`](../v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_REGISTER_MATRIX_REVIEW_001.md) | tbi\_mkt\_prc\_register\_matrix\_review\_001 | Brand Manager | Bi-annual |
+| SOP-BRAND\_JARGON\_AUDIT\_REVIEW\_001 | [`v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_JARGON_AUDIT_REVIEW_001.md`](../v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_JARGON_AUDIT_REVIEW_001.md) | tbi\_mkt\_prc\_jargon\_audit\_review\_001 | Brand Manager | Quarterly |
+| SOP-BRAND\_TEMPLATE\_REGISTRY\_MTNCE\_001 | [`v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_TEMPLATE_REGISTRY_MTNCE_001.md`](../v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_TEMPLATE_REGISTRY_MTNCE_001.md) | tbi\_mkt\_prc\_template\_registry\_mtnce\_001 | Brand Manager | Quarterly |
+| SOP-BRAND\_DRIFT\_GATE\_OPS\_001 | [`v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_DRIFT_GATE_OPS_001.md`](../v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_DRIFT_GATE_OPS_001.md) | tbi\_mkt\_prc\_drift\_gate\_ops\_001 | Brand Manager | Quarterly |
+
+7.2 Intelligence Operations (Initiative I66 P3 — HUMINT-derived)
+
+| SOP ID | File | process\_id | role\_owner | cadence |
+| :---- | :---- | :---- | :---- | :---- |
+| SOP-IO\_COUNTERPARTY\_BASELINE\_ASSESSMENT\_001 | [`v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md`](../v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md) | hol\_res\_prc\_counterparty\_baseline\_assess\_001 | Holistik Researcher | Per-engagement |
+| SOP-IO\_ELICITATION\_DISCIPLINE\_001 | [`v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_ELICITATION_DISCIPLINE_001.md`](../v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_ELICITATION_DISCIPLINE_001.md) | hol\_res\_prc\_elicitation\_discipline\_001 | Holistik Researcher | Per-engagement |
+| SOP-IO\_RELIABILITY\_GRADING\_001 | [`v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_RELIABILITY_GRADING_001.md`](../v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_RELIABILITY_GRADING_001.md) | hol\_res\_prc\_reliability\_grading\_001 | Holistik Researcher | Per-engagement |
+| SOP-IO\_INTELLIGENCE\_REPORT\_001 | [`v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_INTELLIGENCE_REPORT_001.md`](../v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_INTELLIGENCE_REPORT_001.md) | hol\_res\_prc\_intelligence\_report\_001 | Holistik Researcher | Per-engagement (24h post-engagement filing) |
+
+7.3 Engagement Operations (Initiative I66 P3)
+
+| SOP ID | File | process\_id | role\_owner | cadence |
+| :---- | :---- | :---- | :---- | :---- |
+| SOP-ENG\_DISCOVERY\_QUESTIONNAIRE\_001 | [`v3.0/Admin/O5-1/Operations/Engagement/SOP-ENG_DISCOVERY_QUESTIONNAIRE_001.md`](../v3.0/Admin/O5-1/Operations/Engagement/SOP-ENG_DISCOVERY_QUESTIONNAIRE_001.md) | hol\_eng\_prc\_discovery\_questionnaire\_001 | Holistik Researcher | Per-engagement |
+| SOP-ENG\_PROPOSAL\_001 | [`v3.0/Admin/O5-1/Operations/Engagement/SOP-ENG_PROPOSAL_001.md`](../v3.0/Admin/O5-1/Operations/Engagement/SOP-ENG_PROPOSAL_001.md) | hol\_eng\_prc\_proposal\_001 | Brand Manager | Per-engagement |
+| SOP-ENG\_ENGAGEMENT\_DESIGN\_001 | [`v3.0/Admin/O5-1/Operations/Engagement/SOP-ENG_ENGAGEMENT_DESIGN_001.md`](../v3.0/Admin/O5-1/Operations/Engagement/SOP-ENG_ENGAGEMENT_DESIGN_001.md) | hol\_eng\_prc\_engagement\_design\_001 | Holistik Researcher | Per-engagement (multi-cell only) |
+
+7.4 Brand Legal Operations (Initiative I66 P3)
+
+| SOP ID | File | process\_id | role\_owner | cadence |
+| :---- | :---- | :---- | :---- | :---- |
+| SOP-LEGAL\_TRADEMARK\_MONITORING\_001 | [`v3.0/Admin/O5-1/People/Legal/SOP-LEGAL_TRADEMARK_MONITORING_001.md`](../v3.0/Admin/O5-1/People/Legal/SOP-LEGAL_TRADEMARK_MONITORING_001.md) | hol\_lgl\_prc\_trademark\_monitoring\_001 | Legal Counsel | Quarterly |
+| SOP-LEGAL\_IP\_REGISTER\_MAINTENANCE\_001 | [`v3.0/Admin/O5-1/People/Legal/SOP-LEGAL_IP_REGISTER_MAINTENANCE_001.md`](../v3.0/Admin/O5-1/People/Legal/SOP-LEGAL_IP_REGISTER_MAINTENANCE_001.md) | hol\_lgl\_prc\_ip\_register\_mtnce\_001 | Legal Counsel | Quarterly |
+
+7.5 People Operations (Initiative I66 P3)
+
+| SOP ID | File | process\_id | role\_owner | cadence |
+| :---- | :---- | :---- | :---- | :---- |
+| SOP-PEOPLE\_FOUNDER\_BIO\_001 | [`v3.0/Admin/O5-1/People/SOP-PEOPLE_FOUNDER_BIO_001.md`](../v3.0/Admin/O5-1/People/SOP-PEOPLE_FOUNDER_BIO_001.md) | tbi\_ppl\_prc\_founder\_bio\_mtnce\_001 | Talent | Quarterly |
+

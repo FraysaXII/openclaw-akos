@@ -201,7 +201,7 @@ The accountability cascade for sub-marks is:
 
 | Sub-mark concern | Owned by | Rationale |
 |:---|:---|:---|
-| Sub-mark **brand expression** (voice register modulation, visual identity, market-facing presence consistency) | **Brand Manager** (existing role; reports to CMO; team includes Copy / AV / Design when populated) | Brand Manager already owns brand expression across all sub-marks — splitting expression by sub-mark would conflict with cross-sub-mark consistency discipline. |
+| Sub-mark **brand expression** (voice register modulation, visual identity, market-facing presence consistency) | **Brand Manager** (existing role `org_031`; reports to CMO; team already populated in baseline: **AV** `org_009`, **Copywriter** `org_040`, **Design** `org_025`, **UX Designer** `org_049` — all four reporting to Brand Manager per the existing Brand Manager `role_full_description`: *"Oversees AV, Copywriter, Design, and UX Designer"*) | Brand Manager already owns brand expression across all sub-marks; splitting expression by sub-mark would conflict with cross-sub-mark consistency discipline. The existing Brand Manager **team** (4 specialty roles) absorbs the per-sub-mark expression work without creating sub-mark-specific Lead positions. |
 | **Holistika R&S** delivery mode | **Holistik Researcher** (existing role; reports to O5-1; already governs the four methodology pillars per role description) | The methodology pillars (Process Engineering, Business Engineering, Factor Combination, Foresight) **are** the substance of R&S — the existing role already owns it. |
 | **Think Big** delivery mode | **CMO + COO** (existing roles; collaborate on operational delivery in this delivery mode) | Strategy operationalisation, GTM-system implementation, and growth experimentation cleanly map to existing CMO + COO scope. |
 | **HLK Tech Lab** delivery mode | **CTO** (existing role; reports to O5-1) | Engineering, technical infrastructure, AI / agent integrations, and product-stack delivery cleanly map to existing CTO scope. |
@@ -210,9 +210,10 @@ The accountability cascade for sub-marks is:
 ### Why this decision
 
 1. **Org-size reality.** At the current org size (~2-5 person team), introducing 3 dedicated sub-mark Lead roles creates **empty-team coordinator roles** without direct reports — matrix roles without strong sponsorship under-deliver.
-2. **Brand Manager team conflict avoidance.** Putting sub-mark Leads under Brand Manager would conflate **expression** (Brand Manager's domain across all sub-marks) with **delivery** (each delivery mode's domain).
-3. **KB drift mitigation.** Each baseline role cascades into the KB structure. 3 sub-mark Lead nodes with no team children = empty KB pages = drift waiting to happen.
-4. **Existing-role sufficiency.** The methodology pillars + sub-mark delivery modes already map cleanly to existing C-level + Holistik Researcher scope.
+2. **Brand Manager team is already populated.** Per the I66 P3 follow-up audit (D-IH-66-X, 2026-05-09), the four Brand-Manager direct-report roles (AV `org_009`, Copywriter `org_040`, Design `org_025`, UX Designer `org_049`) already exist in `baseline_organisation.csv` and are referenced in Brand Manager's own `role_full_description`. Brand expression across all sub-marks is therefore already absorbable by the existing team, not gated on hiring sub-mark-specific Leads.
+3. **Brand Manager team conflict avoidance.** Putting sub-mark Leads under Brand Manager would conflate **expression** (Brand Manager's domain across all sub-marks) with **delivery** (each delivery mode's domain).
+4. **KB drift mitigation.** Each baseline role cascades into the KB structure. 3 sub-mark Lead nodes with no team children = empty KB pages = drift waiting to happen.
+5. **Existing-role sufficiency.** The methodology pillars + sub-mark delivery modes already map cleanly to existing C-level + Holistik Researcher scope.
 
 ### When to revisit
 
