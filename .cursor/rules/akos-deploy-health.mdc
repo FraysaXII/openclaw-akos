@@ -1,5 +1,5 @@
 ---
-description: Deploy health discipline — CICD smoke testing across Vercel + Render + sibling repos with multi-device coverage
+description: Deploy health discipline — CICD smoke testing across consumer repos with multi-device coverage
 globs:
   - "../root_cd/**/next.config.*"
   - "../root_cd/**/components/**/*.tsx"
@@ -11,19 +11,19 @@ alwaysApply: false
 
 # AKOS Deploy Health — recurrent CICD smoke discipline
 
-> Codifies the recurrent pattern for verifying that consumer repos (`boilerplate`, `hlk-erp`, `kirbe`, `kirbe-frontend`) deploy + render correctly after every meaningful change. **This is a runtime / pre-merge discipline**, distinct from design-time skills like Impeccable. Established during I66 P5 (2026-05-09 build-fix incident) per operator request: "this process will be recurrent as part of CICD."
+> Codifies the recurrent pattern for verifying that **any consumer repo tracked in `REPOSITORY_REGISTRY.csv`** deploys + renders correctly after meaningful changes. **This is a runtime / pre-merge discipline**, distinct from design-time skills like Impeccable. Established during I66 P5 (2026-05-09 build-fix incident) and intended to apply to all current and future Holistika consumer repos: web frontends, internal operator surfaces, public APIs, agentic systems, and any deployable artefact governed by the AKOS bless pattern.
 
 ## Why a separate rule
 
-Three different concerns, three different tools:
+Three (now four) different concerns, three different tools:
 
 | Concern | Tool | When it runs |
 |:---|:---|:---|
-| **Design-time** (page authoring, brand alignment, voice tier) | [`impeccable` skill](../../.cursor/skills/impeccable/SKILL.md) — uses `PRODUCT.md`, `DESIGN.md`, `BASELINE_REALITY.md` | When a page is being designed or rewritten |
-| **Pre-merge automated regression** (build, type, lint, e2e) | Playwright multi-viewport suite + Lighthouse + `validate_brand_*` gates | Every PR + every push to a feature branch (Vercel preview deploy) |
+| **Design-time** (page authoring, brand alignment, voice tier) | [`impeccable` skill](../../.cursor/skills/impeccable/SKILL.md) — uses `PRODUCT.md`, `DESIGN.md`, `BASELINE_REALITY.md` | When a page or component is being designed or rewritten |
+| **Pre-merge automated regression** (build, type, lint, e2e) | Per-repo Playwright/Jest/Vitest suite + Lighthouse + brand drift gates | Every PR + every push to a feature branch |
 | **Pre-merge operator UAT** (visual smoke + UX judgement) | Browser-use subagent + operator manual check | Before operator review of a PR or significant change |
-| **Continuous deploy health** | Vercel MCP `list_deployments` + `get_deployment_build_logs` + Render MCP `list_deploys` + `list_logs` | Polled at start of every operator turn that touches a consumer repo |
-| **Visual regression** (future) | Percy / Argos / Chromatic | Per-PR (deferred to a future I-NN) |
+| **Continuous deploy health** | Hosting-platform MCP polling (Vercel, Render, etc.) | At start of every operator turn that touches a consumer repo |
+| **Visual regression** (future I-NN initiative) | Percy / Argos / Chromatic — see [`docs/wip/planning/68-cicd-scalability-and-visual-regression/master-roadmap.md`](../../docs/wip/planning/68-cicd-scalability-and-visual-regression/master-roadmap.md) | Per-PR (chartered I68; pending launch) |
 
 Impeccable answers "is this page designed well?" — NOT "did the deploy succeed?" or "does it work on mobile?". Use the right tool for the right question.
 
@@ -31,111 +31,98 @@ Impeccable answers "is this page designed well?" — NOT "did the deploy succeed
 
 ### Step 1 — Deploy status check (≤ 2 min)
 
-For every consumer repo touched in the current session:
+For every consumer repo touched in the current session, poll the relevant hosting platform's MCP. The repo-to-platform mapping is the source of truth in [`REPOSITORY_REGISTRY.csv`](../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/REPOSITORY_REGISTRY.csv) (column: `hosting_platform`). Common platforms and their MCP polling tools:
 
-```python
-# Vercel
-list_deployments(teamId, projectId, limit=5)
-# Render (kirbe backend)
-list_deploys(serviceId)
-```
+- **Vercel** (Next.js / static frontends): `list_deployments(teamId, projectId, limit=5)`
+- **Render** (backends, workers, Postgres, static sites): `list_deploys(serviceId, limit=5)`
+- **Other** (GitHub Pages, Cloudflare, AWS, etc.): document polling tool when added.
 
-Flag if any of the last 5 deployments are `ERROR` (Vercel) or `failed` (Render). Red flag: ≥ 3 consecutive failures usually means a code regression that's blocking everyone, not a transient infra issue.
+Flag if any of the last 5 deployments are **terminal-error** (`ERROR` on Vercel, `failed` / `update_failed` on Render, equivalent elsewhere). Heuristic — three or more consecutive terminal-errors usually means a code regression that's blocking everyone, not a transient infra issue.
 
 ### Step 2 — Build log inspection on failure (≤ 5 min)
 
-If the most recent deploy is ERROR, fetch + parse the build log:
+If the most recent deploy is terminal-error, fetch + parse the build log:
 
-```python
-get_deployment_build_logs(teamId, idOrUrl, limit=400)
-```
+- **Vercel**: `get_deployment_build_logs(teamId, idOrUrl, limit=400)`
+- **Render**: `list_logs(serviceId, deployId, limit=400)`
 
-Look in the LAST ~30 events for the actual error trail (the first events are clone + npm install warnings, which are noise). Common patterns:
-
-- **TypeScript error** (`Failed to compile.` followed by `Type error: ...`) — see §"Common build failures" below.
-- **Sentry CLI failure** (`unhandledRejection ... sentry-cli releases new ...`) — wrap in `errorHandler` (we already did; see `boilerplate/next.config.mjs`).
-- **Static prerender error** (`Error occurred prerendering page`) — usually env vars missing at build OR module-level instantiation that throws (Supabase, etc.). Fix with `force-dynamic` + lazy init.
-- **OOM** (`JavaScript heap out of memory`) — bump `NODE_OPTIONS=--max-old-space-size=4096` in Vercel project env.
-- **Module not found** — usually a path-alias misconfig in `tsconfig.json` or a missing dep.
+Look in the **last ~30 events** for the actual error trail (the first events are typically clone + dep-install warnings, which are noise). See §"Common build failures" below for the catalogue of known patterns + canonical fixes.
 
 ### Step 3 — Visual smoke (≤ 15 min)
 
-After a successful deploy, run multi-viewport visual smoke via the **browser-use subagent**. Standard viewports:
+After a successful deploy, run a multi-viewport visual smoke via the **browser-use subagent**. Standard viewports — apply judgement; not every repo needs all of them (e.g., backend-only services skip this entirely):
 
-- **375×667** (iPhone SE) — narrowest mobile common case.
-- **414×896** (iPhone 11 / 12 / 13 / 14 / 15) — wider mobile.
-- **768×1024** (iPad portrait) — tablet.
-- **1280×800** (desktop default) — most-common laptop.
-- **1920×1080** (wide desktop) — large monitor.
+- **375 × 667** (iPhone SE) — narrowest mobile common case.
+- **414 × 896** (iPhone 11 / 12 / 13 / 14 / 15) — wider mobile.
+- **768 × 1024** (iPad portrait) — tablet.
+- **1280 × 800** (desktop default) — most-common laptop.
+- **1920 × 1080** (wide desktop) — large monitor.
 
 The subagent prompt should explicitly enumerate:
 
-1. Pages to load + key elements to verify (hero, footer, brand-canonical content per the change).
-2. Locale switching (EN → ES → FR for boilerplate; per-locale verifications.
+1. Pages or routes to load + key elements to verify (relative to the change being shipped).
+2. Locale switching where applicable (per-repo `i18n` configuration).
 3. Console errors / 404s (cumulative).
 4. Mobile-specific overflow / overlap / illegibility checks.
+5. Auth state (preview deployments may be behind Vercel Authentication / similar — pass session credentials or operator-pre-authenticated browser tab).
 
-Report format: HIGH / MEDIUM / LOW severity findings; actionable remediation per finding.
+Report format: HIGH / MEDIUM / LOW severity findings; actionable remediation per finding. Skimmable for operator review.
 
 ### Step 4 — Build-time optimization gates
 
-Maintain build-time discipline. Operator's target: **< 2 min per preview build**.
+Maintain build-time discipline. Operator's stated target: **< 2 min per preview build** for typical frontend repos.
 
-If preview build > 2 min:
+If preview build > 2 min, profile the build log timestamps:
 
-- Check if Sentry source-map upload is gated to production only (per `next.config.mjs` `disableServerWebpackPlugin: process.env.VERCEL_ENV !== 'production'`).
-- Check for stale build cache invalidation (a fresh dependency install means the cache wasn't restored).
-- Check for unnecessary static prerender of dynamic routes (use `force-dynamic` + lazy init pattern).
-- Consider Turbopack opt-in (Next.js 14+ experimental) for further compile-time gains.
-- If build is dominated by a single slow page, check that page's data-fetching pattern.
+- Clone time
+- Dependency install time (note total package count)
+- Compile time (the typical bottleneck)
+- Type-check time (if any)
+- Static-prerender or generation time
+- Source-map upload time (if observability provider integrated)
 
-Profile via `get_deployment_build_logs` timestamps:
+Then apply targeted optimizations per platform / framework:
 
-- `Cloning completed: Xs`
-- `added N packages` (npm install end)
-- `Compiled successfully` (next build end)
-- `Checking validity of types ...` start
-- `Generating static pages (X/Y)` (prerender step)
-- `Done in Xs` (final)
+- **Source-map upload to observability vendors** (Sentry, Datadog, etc.): make non-blocking + skip on previews; restrict to production builds only.
+- **Stale build cache**: ensure the cache is restored across deploys. Any "fresh dependency install" line means the cache was missed.
+- **Static prerender of dynamic routes**: use route-segment `force-dynamic` + lazy-init pattern (see Failure 3 below).
+- **Framework-level**: Next.js Turbopack opt-in (14+); Vite for SPAs; SWC over Babel; etc.
+- **Single slow page**: profile that page's data-fetching pattern (avoid blocking server fetches at build time).
 
 ## Common build failures + canonical fixes
 
-Catalogued from real incidents. When a new failure mode is encountered, append it here.
+Catalogued from real incidents. **When a new failure mode is encountered, append a Failure N entry below.** Each entry should specify: symptom (the error message you'll see in logs), root cause (the why), canonical fix (the recommended remediation), framework-applicability (where this pattern matters).
 
 ### Failure 1 — Duplicate `declare global { interface Window { ... } }`
 
-**Symptom**: `Property 'X' does not exist on type '(...args: unknown[]) => void'` or similar declaration-merging error.
+**Framework**: TypeScript projects (any framework).
 
-**Root cause**: Two or more files declare `Window.X` with incompatible shapes. TypeScript's declaration merging produces an intersection that loses methods or properties.
+**Symptom**: `Property 'X' does not exist on type '(...args: unknown[]) => void'` or similar declaration-merging error during `tsc` / `next build` / `vite build`.
 
-**Canonical fix**: One canonical declaration in `types/global.d.ts`. Remove all per-component `declare global` blocks. See `boilerplate/types/global.d.ts` for the template.
+**Root cause**: Two or more files declare `Window.X` (or any global type) with incompatible shapes. TypeScript's declaration merging produces an intersection that loses methods or properties.
 
-### Failure 2 — Sentry CLI `releases new` 504 / network error
+**Canonical fix**: One canonical declaration in a project-root `types/global.d.ts` (or equivalent — `src/types/`, `app/types/`, etc.). Remove all per-component `declare global` blocks. Ensure the types directory is in `tsconfig.json` `include`.
 
-**Symptom**: `unhandledRejection Error: Command failed: ... sentry-cli releases new <SHA>` followed by `Error: Command "npm run build" exited with 1`.
+### Failure 2 — Observability SDK CLI fails build (e.g. Sentry, Datadog) on transient API error
 
-**Root cause**: Transient Sentry-API outage during source-map upload. Should NOT block the build.
+**Framework**: any project that uploads source maps / release artefacts during build.
 
-**Canonical fix**: Add `errorHandler` to `withSentryConfig` in `next.config.mjs`:
+**Symptom**: `unhandledRejection Error: Command failed: ... <vendor>-cli releases new <SHA>` followed by `Error: Command "<build cmd>" exited with 1`. Often a 504/5xx from the vendor's API.
 
-```js
-errorHandler: (err, invokeErr, compilation) => {
-  compilation.warnings.push(`[sentry] non-blocking error: ${err.message}`);
-}
-```
+**Root cause**: Transient outage during source-map / release upload. Should NOT block the build.
 
-Plus skip Sentry source-map upload on previews:
+**Canonical fix**: Two changes per platform's webpack/build plugin:
 
-```js
-disableServerWebpackPlugin: process.env.VERCEL_ENV !== 'production',
-disableClientWebpackPlugin: process.env.VERCEL_ENV !== 'production',
-```
+1. Add a non-blocking error handler that logs the error as a warning instead of failing the build.
+2. Skip source-map upload on **preview / non-production** environments via the platform's environment indicator (e.g., `process.env.VERCEL_ENV !== 'production'`, `process.env.NODE_ENV !== 'production'`, etc.). Production builds still upload.
 
-### Failure 3 — Static prerender fails on Supabase route
+### Failure 3 — Static prerender fails on data-source-dependent route
 
-**Symptom**: `Error occurred prerendering page "..."` followed by `Error: Your project's URL and Key are required to create a Supabase client!`.
+**Framework**: Next.js / Remix / SvelteKit / any framework with build-time prerender.
 
-**Root cause**: Module-level instantiation of a Supabase client (e.g., `const xxx = new XQueries();`) runs at build-time prerender even with `"use client"` directive.
+**Symptom**: `Error occurred prerendering page "..."` followed by an error from a database / auth / API client (e.g., "URL and Key are required to create a client").
+
+**Root cause**: Module-level instantiation of a client (e.g., `const queries = new XQueries();`) runs at build-time prerender even with `"use client"` / framework-specific dynamic flags, because the bundler still loads the module to extract route-segment configuration.
 
 **Canonical fix** (cleanest): Replace module-level instantiation with a lazy singleton getter:
 
@@ -152,29 +139,47 @@ export default function Page() {
 }
 ```
 
-`force-dynamic` alone is **not sufficient** — Next.js still evaluates module-level code during route-segment-config extraction.
+Route-segment `force-dynamic` (Next.js) / equivalent **alone is not sufficient** — the bundler still evaluates module-level code during route-segment-config extraction.
 
 ### Failure 4 — Mobile navbar overflow / no hamburger
 
-**Symptom**: Operator (or visual smoke test) reports navbar links squeezed horizontally on viewports ≤ 768px, no hamburger menu.
+**Framework**: web frontends with a top navigation bar.
 
-**Canonical fix**: Two-pattern navbar — `hidden md:flex` for inline desktop, `flex md:hidden` for compact mobile pill with hamburger button + slide-down drawer. See `boilerplate/components/ui/FloatingNavbar.tsx` for the template.
+**Symptom**: Operator (or visual smoke test) reports navbar links squeezed horizontally on viewports ≤ 768 px, no hamburger menu.
 
-### Failure 5 — Sticky secondary header overlapping floating navbar on mobile
+**Canonical fix**: Two-pattern navbar — `hidden md:flex` (or framework equivalent) for inline desktop, `flex md:hidden` for compact mobile pill with hamburger button + slide-down drawer. The mobile pill should auto-close the drawer on scroll-down or link tap.
 
-**Symptom**: A sticky `top-0` secondary header (e.g., article reader breadcrumb bar) overlaps with the floating navbar on mobile because the floating navbar wraps to multiple lines.
+### Failure 5 — Sticky secondary header overlapping primary navbar on mobile
 
-**Canonical fix**: 
-- (a) Fix the floating navbar to be compact on mobile (Failure 4 fix).
-- (b) Adjust the secondary header's top-padding: `pt-16 md:pt-20` (mobile gets less because the navbar pill is shorter).
-- (c) Hide UX-context-dependent actions (share, bookmark — anything requiring auth) at `<sm` breakpoint: `hidden sm:flex`.
+**Framework**: web frontends with a sticky / fixed primary navbar AND a route-level sticky sub-header (article reader, breadcrumb, action bar).
+
+**Symptom**: A sticky `top-0` secondary header overlaps with the primary navbar on mobile because the primary navbar wraps to multiple lines or has different intrinsic height across breakpoints.
+
+**Canonical fix**:
+
+- (a) Fix the primary navbar to be compact on mobile (Failure 4 fix).
+- (b) Adjust the secondary header's top-padding to be breakpoint-responsive (e.g., `pt-16 md:pt-20` — mobile gets less because the navbar pill is shorter).
+- (c) Hide UX-context-dependent actions (share, bookmark — anything requiring auth) below the `sm` breakpoint: `hidden sm:flex`.
+
+### Adding new failure modes
+
+When you encounter a new build / deploy failure pattern:
+
+1. Reproduce it in the build log.
+2. Add a new `### Failure N — <one-line title>` section below following the same template (Framework / Symptom / Root cause / Canonical fix).
+3. Reference any reusable template files in the consumer repo (e.g., a config snippet) by **path**, not by full content — the rule should stay reasonably short.
+4. Update the I66 P5 ChangeLog entry list (or wherever the historical incident is logged) with a back-reference.
 
 ## Cross-references
 
 - [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) — the per-initiative file-changes CSV (this rule is its runtime-health complement).
 - [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) — phase + commit discipline (this rule is its post-deploy verification complement).
-- `boilerplate/next.config.mjs` — example of Sentry non-blocking config.
-- `boilerplate/types/global.d.ts` — example of canonical `Window` augmentation.
-- `boilerplate/components/ui/FloatingNavbar.tsx` — example of mobile-hamburger + desktop-inline pattern.
-- `docs/wip/planning/66-brand-vision-ops-sweep/files-modified.csv` — every commit landed under I66 with `validators_run` + `requires_operator_gate` cols (extends to deploy gates by convention).
-- I66 P5 ChangeLog entry "I66 P5 increments 6-7" (2026-05-09) — the build-fix incident this rule was extracted from.
+- [`REPOSITORY_REGISTRY.csv`](../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/REPOSITORY_REGISTRY.csv) — source of truth for consumer-repo → hosting-platform mapping.
+- I68 (chartered) — CICD scalability + visual regression initiative; will operationalise this rule's pre-merge automated and continuous-deploy lanes.
+- Reference templates (in consumer repos):
+  - Canonical `Window` type augmentation pattern.
+  - Observability SDK non-blocking + skip-on-preview pattern.
+  - Mobile-hamburger + desktop-inline navbar pattern.
+  - Sticky-header breakpoint-responsive padding pattern.
+
+  These are intentionally referenced by **path / convention**, not by inline code, so each consumer repo can adapt to its own framework conventions.
