@@ -113,6 +113,15 @@ GROUPS: dict[str, dict] = {
         "files": [],
         "pytest_extra": ["-m", "intent"],
     },
+    "cicd": {
+        "description": (
+            "I68 CICD-baseline + observability validators (pytest -m cicd): "
+            "Playwright canonical-template validator (P2); Sentry release-format validator (P4 — added when validators land); "
+            "CICD baseline validator (P5 — added when REPOSITORY_REGISTRY ci_baseline_version column ships)."
+        ),
+        "files": [],
+        "pytest_extra": ["-m", "cicd"],
+    },
     "validate-hlk": {
         "description": "HLK canonical vault integrity validation (standalone)",
         "files": [],
@@ -139,6 +148,7 @@ def list_groups() -> None:
     print("    api          — after akos/api.py or control-plane contract changes")
     print("    madeira      — after akos/madeira_interaction.py, madeira_trajectory, Madeira handoff / UC matrix")
     print("    intent       — after akos/intent.py or config/intent-exemplars.json")
+    print("    cicd         — after akos/playwright_baseline.py, akos/sentry_release.py, akos/cicd_baseline.py, or scripts/validate_{playwright_baseline,sentry_release_format,cicd_baseline}.py (I68)")
     print()
     print("  Usage: py scripts/test.py <group>")
     print("         py scripts/test.py uat       (live Swagger server)")

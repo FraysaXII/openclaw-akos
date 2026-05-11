@@ -135,6 +135,24 @@ def run_subdomains_registry_validation() -> bool:
     return result.success
 
 
+def run_playwright_baseline_validation() -> bool:
+    """Validate Playwright canonical template + (opt-in) consumer-repo configs (I68 P2 / D-IH-68-B).
+
+    Default mode: only validates the AKOS canonical template at
+    ``docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/_templates/playwright.config.ts.tmpl``.
+    Set ``AKOS_PLAYWRIGHT_BASELINE_SCAN_CONSUMERS=1`` to additionally scan
+    sibling consumer-repo ``playwright.config.ts`` files for drift; this
+    becomes default-strict in I68 P5 once sibling-repo carry-overs land.
+    """
+    logger.info("Running Playwright baseline validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_playwright_baseline.py")],
+        timeout=30,
+        capture=False,
+    )
+    return result.success
+
+
 def run_brand_canon_drift_validation() -> bool:
     """Validate brand-canon self-consistency (I66 P2 / D-IH-66-J).
 
@@ -355,6 +373,18 @@ def main() -> None:
 
     brand_canon_ok = run_brand_canon_drift_validation()
     results.append(("PASS" if brand_canon_ok else "FAIL", "BRAND canon drift (scripts/validate_brand_canon_drift.py, I66 P2)"))
+
+    playwright_ok = run_playwright_baseline_validation()
+    if os.environ.get("AKOS_PLAYWRIGHT_BASELINE_SCAN_CONSUMERS") == "1":
+        results.append((
+            "PASS" if playwright_ok else "FAIL",
+            "Playwright baseline (scripts/validate_playwright_baseline.py, I68 P2; consumer-scan strict via AKOS_PLAYWRIGHT_BASELINE_SCAN_CONSUMERS=1)",
+        ))
+    else:
+        results.append((
+            "PASS" if playwright_ok else "FAIL",
+            "Playwright baseline (scripts/validate_playwright_baseline.py, I68 P2; canonical-template only — set AKOS_PLAYWRIGHT_BASELINE_SCAN_CONSUMERS=1 for consumer-repo scan)",
+        ))
 
     jargon_ok, jargon_rc = run_brand_jargon_validation()
     if os.environ.get("AKOS_BRAND_JARGON_SOFT") == "1":

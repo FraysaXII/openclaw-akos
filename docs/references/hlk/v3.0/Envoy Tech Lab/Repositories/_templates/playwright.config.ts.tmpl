@@ -1,0 +1,51 @@
+// playwright.config.ts.tmpl
+//
+// AKOS canonical Playwright config template (Initiative 68 P2; D-IH-68-B).
+// Operator-applied via `scripts/bless_external_repo.py --with playwright-config`
+// (extension landing in I68 P5). Until then, copy verbatim into a consumer
+// repo's `playwright.config.ts` and replace the BASE_URL_DEFAULT below if
+// the repo's local dev server runs on a different port.
+//
+// Carries the 5 standard viewports per
+//   `.cursor/rules/akos-deploy-health.mdc` §"Step 3 - Multi-viewport visual smoke"
+// so multi-viewport visual regression coverage is uniform across the
+// Holistika consumer-repo fleet (`boilerplate`, `hlk-erp`, `kirbe-platform`,
+// future class=platform/reference repos).
+//
+// Per-repo opt-out: when a repo cannot run a viewport (e.g. backend-only),
+// the opt-out is encoded in `REPOSITORY_REGISTRY.csv ci_baseline_optouts`
+// (column added in I68 P5 PAUSE POINT #3 - canonical CSV gate per
+// `.cursor/rules/akos-governance-remediation.mdc`); the validator
+// `scripts/validate_playwright_baseline.py` reads that opt-out list and
+// allows the corresponding viewport to be missing from the projects array.
+//
+// Drift detection: every consumer-repo `playwright.config.ts` mirrors this
+// template; drift is detected by `validate_playwright_baseline.py`
+// (which lands in I68 P2 alongside this template).
+
+import { defineConfig, devices } from '@playwright/test';
+
+const BASE_URL_DEFAULT = 'http://localhost:3000';
+
+export default defineConfig({
+  testDir: './playwright',
+  retries: process.env.CI ? 2 : 0,
+  reporter: process.env.CI ? 'github' : 'list',
+  use: {
+    baseURL: process.env.PREVIEW_URL ?? BASE_URL_DEFAULT,
+    trace: 'on-first-retry',
+  },
+  // 5 standard viewports per akos-deploy-health.mdc §"Step 3":
+  //   iphone-se   375x667   - smallest mobile we care about (iPhone SE)
+  //   iphone-11   414x896   - common iPhone 11+ width
+  //   ipad        768x1024  - iPad portrait (tablet breakpoint)
+  //   desktop     1280x800  - laptop default
+  //   wide        1920x1080 - wide desktop / 1080p monitor
+  projects: [
+    { name: 'iphone-se', use: { ...devices['iPhone SE'] } },
+    { name: 'iphone-11', use: { ...devices['iPhone 11'] } },
+    { name: 'ipad',      use: { viewport: { width: 768,  height: 1024 } } },
+    { name: 'desktop',   use: { viewport: { width: 1280, height: 800  } } },
+    { name: 'wide',      use: { viewport: { width: 1920, height: 1080 } } },
+  ],
+});

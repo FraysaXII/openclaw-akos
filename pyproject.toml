@@ -27,4 +27,5 @@ markers = [
     "executor_harness: optional ephemeral patch + pytest oracle; set AKOS_EXECUTOR_HARNESS=1",
     "madeira: marks Madeira interaction/trajectory tests (see `py scripts/test.py madeira`)",
     "intent: marks intent classification and golden tests (see `py scripts/test.py intent`)",
+    "cicd: marks I68 CICD-baseline + observability validators (Playwright baseline / Sentry release format / CICD baseline)",
 ]
