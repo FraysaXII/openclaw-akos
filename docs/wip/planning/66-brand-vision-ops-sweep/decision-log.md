@@ -253,6 +253,18 @@ Format: ID · question · options considered · decision · rationale · implica
 - **Implication.** I67 charter title: "RevOps Discovery." First initiative; chartered at I66 close; P0 of I67 will be operator-driven research definition; agent does NOT lock vocabulary to "MarOps" or "MktOps" without operator approval (one of 8 decision-points in I67 scaffold).
 - **Date.** 2026-05-08 · **Status.** Active.
 
+## D-IH-66-AD — Direct-access service and method pages
+
+- **Q.** P5 requires `/services` and `/how-we-work`, but the operator is not ready to expose those routes through normal public navigation because the RevOps/marketing sweep has not yet matured the surrounding journeys. Should the pages ship publicly, be deferred, or exist only for known-route access?
+- **Options.**
+  1. **Public navigation now** — add both routes to the main navigation, footer, CTAs, and sitemap.
+  2. **Defer entirely** — leave the P5 deliverable unimplemented until I67.
+  3. **Direct-access only** — create the routes, keep them out of visible navigation and sitemap exposure, and mark them `noindex` until I67 decides whether/how to promote them.
+- **Decision.** Option 3. `/services` renders the SERVICE_OFFERING_CATALOG 6 x 3 matrix; `/how-we-work` renders the engagement rhythm. Both are direct-access pages: available by exact URL, absent from navigation/footer/home CTAs, and marked `noindex, nofollow`.
+- **Rationale.** This preserves the P5 implementation obligation and gives operator-mediated readers a precise route, while preventing premature market leakage before the RevOps Discovery initiative clarifies audience journeys, channel strategy, and offer packaging.
+- **Implication.** Promotion from direct-access to public navigation becomes an I67/P8 operator decision, not a silent code change. Any future nav/footer/sitemap addition must cite this decision and update the route metadata intentionally.
+- **Date.** 2026-05-09 · **Status.** Active.
+
 ## Cross-references
 
 - All 20 decisions targeted for `DECISION_REGISTER.csv` mirror at I66 closure (P8).
@@ -260,6 +272,7 @@ Format: ID · question · options considered · decision · rationale · implica
 - D-IH-66-M, D-IH-66-S affect Impeccable + the new baseline-reality drift gate.
 - D-IH-66-K, D-IH-66-T affect I67 scaffold (P8 Part C).
 - D-IH-66-P affects two new cursor rules (P2).
+- D-IH-66-AD affects boilerplate `/services` and `/how-we-work` direct-access routing (P5).
 
 ## Status transitions
 
