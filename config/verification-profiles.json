@@ -255,7 +255,7 @@
       ]
     },
     "cicd_baseline_check": {
-      "description": "Initiative 68 P2 + P4: standalone CICD-baseline + observability validator suite. Today wraps `validate_playwright_baseline.py` (P2 / D-IH-68-B) and `validate_sentry_release_format.py` (P4 / D-IH-68-I). P5 will append `validate_cicd_baseline.py`. Set `AKOS_PLAYWRIGHT_BASELINE_SCAN_CONSUMERS=1` / `AKOS_SENTRY_RELEASE_SCAN_CONSUMERS=1` to enable consumer-repo scanning (default-off until sibling-repo carry-overs land).",
+      "description": "Initiative 68 P2 + P4 + P5: standalone CICD-baseline + observability validator suite. Today wraps `validate_playwright_baseline.py` (P2 / D-IH-68-B), `validate_sentry_release_format.py` (P4 / D-IH-68-I), and `validate_cicd_baseline.py` (P5 / D-IH-68-D). Set `AKOS_PLAYWRIGHT_BASELINE_SCAN_CONSUMERS=1` / `AKOS_SENTRY_RELEASE_SCAN_CONSUMERS=1` / `AKOS_CICD_BASELINE_SCAN_CONSUMERS=1` to enable consumer-repo scanning (default-off until sibling-repo carry-overs land + canonical CSV gate at PAUSE POINT #3 ships the new REPOSITORY_REGISTRY.csv columns).",
       "steps": [
         {
           "id": "validate_playwright_baseline",
@@ -266,6 +266,11 @@
           "id": "validate_sentry_release_format",
           "description": "Validate the AKOS canonical Sentry dashboard doc + optionally each consumer-repo's Sentry init code (per `AKOS_SENTRY_RELEASE_SCAN_CONSUMERS` env var)",
           "argv": ["scripts/validate_sentry_release_format.py"]
+        },
+        {
+          "id": "validate_cicd_baseline",
+          "description": "Validate the AKOS canonical SOP-CICD_BASELINE_001 + GitHub Actions workflow template + Render YAML stub + optionally each REPOSITORY_REGISTRY.csv row's ci_baseline_* columns (per `AKOS_CICD_BASELINE_SCAN_CONSUMERS` env var)",
+          "argv": ["scripts/validate_cicd_baseline.py"]
         }
       ]
     },

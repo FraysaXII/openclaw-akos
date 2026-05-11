@@ -173,6 +173,26 @@ def run_sentry_release_format_validation() -> bool:
     return result.success
 
 
+def run_cicd_baseline_validation() -> bool:
+    """Validate CICD baseline canonical SOP + workflow templates + (opt-in) consumer scan (I68 P5 / D-IH-68-D).
+
+    Default mode: validates only the canonical SOP at
+    ``docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-CICD_BASELINE_001.md``
+    + the canonical workflow template + Render YAML stub. Set
+    ``AKOS_CICD_BASELINE_SCAN_CONSUMERS=1`` to additionally scan each
+    ``REPOSITORY_REGISTRY.csv`` row for valid ``ci_baseline_version`` /
+    ``build_time_target_seconds`` / ``ci_baseline_optouts`` columns; becomes
+    default-strict in I68 P8 closure once the canonical CSV gate ships those columns.
+    """
+    logger.info("Running CICD baseline validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_cicd_baseline.py")],
+        timeout=30,
+        capture=False,
+    )
+    return result.success
+
+
 def run_brand_canon_drift_validation() -> bool:
     """Validate brand-canon self-consistency (I66 P2 / D-IH-66-J).
 
@@ -416,6 +436,18 @@ def main() -> None:
         results.append((
             "PASS" if sentry_release_ok else "FAIL",
             "Sentry release-format (scripts/validate_sentry_release_format.py, I68 P4; canonical-doc only — set AKOS_SENTRY_RELEASE_SCAN_CONSUMERS=1 for consumer-repo scan)",
+        ))
+
+    cicd_baseline_ok = run_cicd_baseline_validation()
+    if os.environ.get("AKOS_CICD_BASELINE_SCAN_CONSUMERS") == "1":
+        results.append((
+            "PASS" if cicd_baseline_ok else "FAIL",
+            "CICD baseline (scripts/validate_cicd_baseline.py, I68 P5; consumer-scan strict via AKOS_CICD_BASELINE_SCAN_CONSUMERS=1)",
+        ))
+    else:
+        results.append((
+            "PASS" if cicd_baseline_ok else "FAIL",
+            "CICD baseline (scripts/validate_cicd_baseline.py, I68 P5; canonical-SOP+templates only — set AKOS_CICD_BASELINE_SCAN_CONSUMERS=1 for consumer-row scan)",
         ))
 
     jargon_ok, jargon_rc = run_brand_jargon_validation()

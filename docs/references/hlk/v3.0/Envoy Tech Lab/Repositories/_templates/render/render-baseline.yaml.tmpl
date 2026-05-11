@@ -1,0 +1,94 @@
+# render-baseline.yaml.tmpl
+#
+# AKOS canonical Render render.yaml stub for Initiative 68 P5 (D-IH-68-D).
+#
+# This stub documents the canonical Render service patterns the Holistika fleet
+# uses for class=platform repos that deploy to Render (today: kirbe-platform).
+# Operators copy this stub into a consumer repo's render.yaml and edit per
+# service; the stub is NOT a sha256-stamped strict mirror because Render YAMLs
+# vary too much per service for rigid mirroring.
+#
+# Operator-applied via `scripts/bless_external_repo.py --with ci-baseline`
+# (extension lands at I68 P5 PAUSE POINT #3 — canonical CSV gate).
+#
+# Patterns documented (per SOP-CICD_BASELINE_001 §4.2):
+#   1. Build-cache pattern (Docker BuildKit layer cache; explicit buildFilter).
+#   2. Healthcheck pattern (`/health` returns release-format JSON).
+#   3. Cold-start pattern (numInstances >= 1 for production).
+#   4. Auto-deploy filter (only `branch=main` triggers production; previews on
+#      `preview-*` branches with `previewsEnabled: true`).
+#   5. Sentry release-tag environment variable injection (D-IH-68-I).
+#
+# Cross-references:
+#   - SOP: docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-CICD_BASELINE_001.md §4.2
+#   - Sentry: docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/SENTRY_DASHBOARD_HOLISTIKA.md §3.2
+#   - Health rule: .cursor/rules/akos-deploy-health.mdc §"Step 1 — Deploy status check"
+
+services:
+  - type: web
+    name: <SERVICE_NAME_PLACEHOLDER>
+    runtime: docker
+    plan: starter # production services use `standard` or higher per cold-start pattern.
+    region: oregon # operator-edited; canonical is the region closest to Holistika operator base.
+    branch: main
+    autoDeploy: true
+    previewsEnabled: true
+    rootDir: . # operator-edited if the repo is a monorepo with the service in a subdirectory.
+
+    # ----- 1. Build-cache pattern -----
+    # Docker BuildKit layer cache via Render's caching. The buildCommand path is
+    # operator-edited per service; the `--cache-from` invocation is canonical.
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    buildFilter:
+      paths:
+        - Dockerfile
+        - package.json
+        - package-lock.json
+        - pyproject.toml
+        - requirements*.txt
+        - src/**
+        - app/**
+      ignoredPaths:
+        - "**/*.md"
+        - docs/**
+        - .github/**
+
+    # ----- 2. Healthcheck pattern -----
+    # /health endpoint returns 200 with JSON body { status: "ok", release: "<repo>@<sha>" }
+    # per SENTRY_DASHBOARD_HOLISTIKA.md §3.2 release-format contract.
+    healthCheckPath: /health
+
+    # ----- 3. Cold-start pattern -----
+    # Production services run >= 1 instance always. Free-tier scale-to-zero is
+    # the dominant tail-latency contributor and is rejected per akos-deploy-health.mdc
+    # Failure 4 (cold-start regression).
+    numInstances: 1
+    autoscaling:
+      enabled: false # explicit; operator opts in per service when traffic warrants.
+
+    # ----- 4. Auto-deploy filter -----
+    # Branch=main triggers production deploys. Branch=preview-* triggers preview
+    # deploys (env: preview; sentry skip-on-preview per D-IH-68-C).
+    # Render does not natively distinguish preview vs production environments at
+    # the service level; the application code reads RENDER_GIT_BRANCH to decide.
+
+    # ----- 5. Environment variables -----
+    envVars:
+      # Render-injected (do not set manually; documented for transparency):
+      # - RENDER_SERVICE_TYPE     (e.g. "web", "preview")
+      # - RENDER_GIT_BRANCH       (e.g. "main", "preview-foo")
+      # - RENDER_GIT_COMMIT       (full 40-char SHA; used by Sentry release-format)
+      # - RENDER_INSTANCE_ID
+
+      # Operator-set (each requires a value in Render dashboard → Environment):
+      - key: SENTRY_DSN
+        sync: false # operator pastes the per-repo DSN value
+      - key: NODE_ENV # for Node-based Render services
+        value: production
+      - key: PYTHON_ENV # for Python FastAPI Render services (e.g. kirbe-platform)
+        value: production
+
+      # Application-derived (read from RENDER_GIT_COMMIT in the application code per
+      # SENTRY_DASHBOARD_HOLISTIKA.md §3.2; documented here for transparency).
+      # SENTRY_RELEASE = `${REPO_SLUG}@${RENDER_GIT_COMMIT[:8]}`
