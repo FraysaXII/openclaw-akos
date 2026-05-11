@@ -255,12 +255,17 @@
       ]
     },
     "cicd_baseline_check": {
-      "description": "Initiative 68 P2: standalone CICD-baseline + observability validator suite. Today wraps `validate_playwright_baseline.py` (P2 / D-IH-68-B). P4 will append `validate_sentry_release_format.py`; P5 will append `validate_cicd_baseline.py`. Set `AKOS_PLAYWRIGHT_BASELINE_SCAN_CONSUMERS=1` to enable consumer-repo scanning (default-off until sibling-repo carry-overs land).",
+      "description": "Initiative 68 P2 + P4: standalone CICD-baseline + observability validator suite. Today wraps `validate_playwright_baseline.py` (P2 / D-IH-68-B) and `validate_sentry_release_format.py` (P4 / D-IH-68-I). P5 will append `validate_cicd_baseline.py`. Set `AKOS_PLAYWRIGHT_BASELINE_SCAN_CONSUMERS=1` / `AKOS_SENTRY_RELEASE_SCAN_CONSUMERS=1` to enable consumer-repo scanning (default-off until sibling-repo carry-overs land).",
       "steps": [
         {
           "id": "validate_playwright_baseline",
           "description": "Validate the AKOS canonical Playwright config template + optionally each consumer-repo's playwright.config.ts (per `AKOS_PLAYWRIGHT_BASELINE_SCAN_CONSUMERS` env var)",
           "argv": ["scripts/validate_playwright_baseline.py"]
+        },
+        {
+          "id": "validate_sentry_release_format",
+          "description": "Validate the AKOS canonical Sentry dashboard doc + optionally each consumer-repo's Sentry init code (per `AKOS_SENTRY_RELEASE_SCAN_CONSUMERS` env var)",
+          "argv": ["scripts/validate_sentry_release_format.py"]
         }
       ]
     },

@@ -153,6 +153,26 @@ def run_playwright_baseline_validation() -> bool:
     return result.success
 
 
+def run_sentry_release_format_validation() -> bool:
+    """Validate Sentry release-format canonical doc + (opt-in) consumer scan (I68 P4 / D-IH-68-I).
+
+    Default mode: validates only the canonical doc at
+    ``docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/SENTRY_DASHBOARD_HOLISTIKA.md``
+    (presence + carries canonical ``{repo_slug}@{sha_short}`` example).
+    Set ``AKOS_SENTRY_RELEASE_SCAN_CONSUMERS=1`` to additionally scan
+    sibling consumer-repo ``sentry.*.config.ts`` / Python ``sentry_sdk.init(...)``
+    sites for the ``release:`` field; becomes default-strict in I68 P5 once
+    sibling-repo carry-overs land.
+    """
+    logger.info("Running Sentry release-format validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_sentry_release_format.py")],
+        timeout=60,
+        capture=False,
+    )
+    return result.success
+
+
 def run_brand_canon_drift_validation() -> bool:
     """Validate brand-canon self-consistency (I66 P2 / D-IH-66-J).
 
@@ -384,6 +404,18 @@ def main() -> None:
         results.append((
             "PASS" if playwright_ok else "FAIL",
             "Playwright baseline (scripts/validate_playwright_baseline.py, I68 P2; canonical-template only — set AKOS_PLAYWRIGHT_BASELINE_SCAN_CONSUMERS=1 for consumer-repo scan)",
+        ))
+
+    sentry_release_ok = run_sentry_release_format_validation()
+    if os.environ.get("AKOS_SENTRY_RELEASE_SCAN_CONSUMERS") == "1":
+        results.append((
+            "PASS" if sentry_release_ok else "FAIL",
+            "Sentry release-format (scripts/validate_sentry_release_format.py, I68 P4; consumer-scan strict via AKOS_SENTRY_RELEASE_SCAN_CONSUMERS=1)",
+        ))
+    else:
+        results.append((
+            "PASS" if sentry_release_ok else "FAIL",
+            "Sentry release-format (scripts/validate_sentry_release_format.py, I68 P4; canonical-doc only — set AKOS_SENTRY_RELEASE_SCAN_CONSUMERS=1 for consumer-repo scan)",
         ))
 
     jargon_ok, jargon_rc = run_brand_jargon_validation()
