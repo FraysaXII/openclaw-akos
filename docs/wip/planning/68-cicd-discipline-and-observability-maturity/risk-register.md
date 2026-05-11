@@ -1,6 +1,6 @@
 ---
 linked_initiative: I68
-last_review: 2026-05-09
+last_review: 2026-05-10
 ---
 
 # I68 Risk Register
@@ -15,5 +15,7 @@ last_review: 2026-05-09
 | R-IH-68-6 | CI baseline applied retroactively breaks existing tests | M | M | P5 rolls out as PRs per repo, not bulk apply. Each PR validated independently. Per-repo opt-out documented (D-IH-68-J). |
 | R-IH-68-7 | Sentry source-map storage costs as repo count grows | L | L | P4 standardises release lifecycle (delete releases > 90 days). Negligible at current scale. |
 | R-IH-68-8 | Vercel preview-protection blocks visual-regression CI from accessing previews | M | H | P3 documents shareable-preview-link OR vercel-bypass-secret pattern. Reusable in CI. |
-| R-IH-68-9 | Operator burnout if I68 spans concurrently with active I66 | M | M | I68 explicitly chartered, not active; gates on I66 P8 closure. |
+| R-IH-68-9 | Operator burnout if I68 spans concurrently with active I66 | M | M | I68 explicitly chartered, not active; gates on I66 P8 closure. (**Mitigated** 2026-05-09 — I66 closed; I68 promoted active 2026-05-10.) |
 | R-IH-68-10 | InfraMonitor v0 reads vendor APIs that rate-limit | L | M | P7 implements client-side caching (~5-min TTL) + Vercel ISR-equivalent on the dashboard. |
+| **R-IH-68-11 NEW (Round 2; 2026-05-10)** | InfraMonitor module-namespace prematurely couples with future SaaS multi-tenancy (D-IH-68-K reframe risk) | M | M | v0 stays single-tenant; modules ESM-bundled per route (no shared global state across modules); the multi-tenant boundary is the I69 candidate's first phase; chassis sharing with I62/I64/I65 is **structural** (middleware + brand tokens + audit-log) not **hierarchical** (no shared module data store). The route namespace `/operator/infra-monitor/<module>/` is forward-compatible with module spin-out into a separate Next.js app router shared module or npm package when the I69 spin-out trigger fires. |
+| **R-IH-68-12 NEW (Round 2; 2026-05-10)** | Argos GitHub App PR-from-fork permission constraint blocks visual-regression on community PRs | L | M | P3 documents the `pull_request_target` workflow trigger + `vetted-by-owner` PR label pattern; the workflow refuses to run when `github.event.pull_request.head.repo.fork=true` unless the PR carries the vetted label. For the foreseeable future Holistika repos are not community-contribution-heavy so this is a low-volume edge case (currently zero open community PRs across `boilerplate` + `hlk-erp` + `kirbe-platform`). |

@@ -1,12 +1,27 @@
 ---
 linked_initiative: I68
 date: 2026-05-09
-status: operator_action_required
+status: cleared
+status_history:
+  - 2026-05-09 operator_action_required (filed)
+  - 2026-05-10 cleared (operator confirmation)
 kind: mcp_auth_troubleshooting
 server: plugin-render-render
+closure_decision: D-IH-68-K (Round 2 plan acceptance includes Render unblock confirmation)
+last_review: 2026-05-10
 ---
 
-# Render MCP Auth Troubleshooting — 2026-05-09
+> **2026-05-10 closure note (Round 2 plan).** The Render MCP `unauthorized` blocker described below is **CLEARED**. Operator confirmation received during the I68 Round-2 plan review. Effects on the I68 roadmap:
+>
+> - **P4** (Sentry deploy-health telemetry) and **P5** (CI baseline) now include `kirbe-platform` (Render-hosted) in their main paths from day 1 — no deferred P4b / P5b slices.
+> - The proposed `OPS-68-1` Render-discovery action is **withdrawn** (not minted to `OPS_REGISTER.csv`).
+> - **R-IH-68-11** in the plan's earlier draft ("Render MCP persists") is **dropped**; replaced by R-IH-68-11 NEW (InfraMonitor module-namespace prematurely couples with future SaaS multi-tenancy — see [`risk-register.md`](../risk-register.md)).
+> - Phase-dependency mermaid in [`master-roadmap.md`](../master-roadmap.md) §3 is simplified (no Render-gating node).
+> - Calendar effect: **zero** — the parallelism in the original plan absorbed the Render slice without slipping critical path.
+>
+> The original troubleshooting body below is preserved as historical reference and as the runbook to consult if the Render MCP credential expires / rotates again in the future.
+
+# Render MCP Auth Troubleshooting — 2026-05-09 (CLEARED 2026-05-10)
 
 ## Current observed state
 

@@ -1,6 +1,6 @@
 ---
 linked_initiative: I68
-last_review: 2026-05-09
+last_review: 2026-05-10
 authority: Founder + System Owner + CTO + Brand Manager
 ---
 
@@ -94,3 +94,45 @@ authority: Founder + System Owner + CTO + Brand Manager
 - Documented in each repo's `.akos-bless/ci-posture.json` (extending I63 bless metadata).
 
 **Status**: open — finalised in P5.
+
+## D-IH-68-K — InfraMonitor architectural reframe (Round 2 NEW; closed in P0)
+
+**Question**: How does the I68 charter's "InfraMonitor seed dashboard" relate to the Branded House captured in [BRAND_ARCHITECTURE](../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_ARCHITECTURE.md)? Should it be a flat operator surface peer to I62 / I64 / I65, or a product-brand namespace with internal modules?
+
+**Options**:
+
+1. Keep as flat surface at `/operator/infra-health` peer to I62 / I64 / I65 (charter Round 1).
+2. Promote InfraMonitor to product-brand namespace; ship InfraHealth as the first module under `/operator/infra-monitor/health/` (Round 2 reframe).
+3. Collapse I62 / I64 / I65 under InfraMonitor as modules.
+
+**Decision (Round 2)**: **Option 2** — InfraMonitor is the product-brand namespace; InfraHealth is its first module. v0 ships in `hlk-erp` reusing the I62 chassis structurally (auth + RBAC + audit-log + brand tokens + Cmd+K + freshness ribbon + locale + time-travel) without absorbing sibling routes. SaaS spin-out (multi-tenant + customer-facing + paid) is the **I69 candidate** scaffolded at P8.
+
+**Rationale**:
+
+- Aligns with the [I66 BRAND_ARCHITECTURE](../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_ARCHITECTURE.md) tree which already positions **InfraMonitor 2026** as a sibling product brand under HLK Tech Lab (alongside MADEIRA / KiRBe / ENVOY).
+- Option 3 was wrong on three independent axes:
+  - **Audience**: I62 / I64 / I65 serve Holistika's own System Owner (`baseline_organisation.access_level >= 4`); InfraMonitor (as product brand) serves external customers' system owners with multi-tenancy + billing + per-tenant RBAC + data-sovereignty demands.
+  - **SaaS intent**: I62 / I64 / I65 are internal Holistika ops; InfraMonitor is commercial intent.
+  - **Data sovereignty**: I62 / I64 / I65 read directly from AKOS canonical CSVs + `compliance.*_mirror` Supabase tables (Holistika data); InfraMonitor SaaS would need per-tenant Supabase projects + GDPR-controlled customer data deletion + audit-log scoping per tenant.
+- Option 1 would have required renaming `/operator/infra-health` to a product-brand-aware namespace later anyway — the future modules (AppPulse / TenantHealth / AuditTrail / CostPulse) need a parent namespace.
+
+**Owner**: System Owner + Brand Manager.
+**Status**: closed in P0 (this plan).
+**Cross-references**: [BRAND_ARCHITECTURE.md](../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_ARCHITECTURE.md), [I62 master-roadmap](../62-mission-control/master-roadmap.md), [I64 master-roadmap](../64-governance-mission-control/master-roadmap.md), [I65 master-roadmap](../65-akos-planning-workspace-panel/master-roadmap.md), I69 candidate (scaffolded P8).
+
+## D-IH-68-L — Route namespace `/operator/infra-monitor/` shell + `/operator/infra-monitor/health/` first module sub-route (Round 2 NEW; closed in P0)
+
+**Question**: What's the URL structure for the InfraMonitor product brand inside `hlk-erp` v0 such that future modules slot in without renames?
+
+**Decision (Round 2)**:
+
+- `/operator/infra-monitor/` — namespace shell (module-picker home + verdict band + future-module placeholder cards rendered as `coming with I69`).
+- `/operator/infra-monitor/health/` — InfraHealth module landing (per-repo cards + aggregated 3-repo verdict).
+- `/operator/infra-monitor/health/[repo-slug]/` — per-repo drill-in (timeline + recent errors + build-time chart).
+- Future modules: `/operator/infra-monitor/app-pulse/`, `/operator/infra-monitor/tenant-health/`, `/operator/infra-monitor/audit-trail/`, `/operator/infra-monitor/cost-pulse/` — slot in as additional sub-routes without renaming the namespace shell or InfraHealth module.
+
+**Rationale**: The original charter route `/operator/infra-health` would have collided with future module names (e.g., `/operator/app-pulse` peer would lose the InfraMonitor namespace context). The hierarchical `/operator/<product-brand>/<module>/` pattern is consistent with how product-brand parent + module children are named in software (Vercel `/dashboard/projects/`, Sentry `/issues/`, Stripe `/payments/customers/`).
+
+**Owner**: System Owner.
+**Status**: closed in P0 (this plan).
+**Operationalised in**: P7 (TSX route files in `hlk-erp/app/operator/infra-monitor/`).

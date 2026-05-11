@@ -35,11 +35,12 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **12** | [`12-madeira-research-request/`](12-madeira-research-request/) | gated_external | 2026-04-17 | Initiative 12 — MADEIRA external research request |
 | **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | gated_external | 2026-05-03 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
 
-### Gated on operator action (1)
+### Gated on operator action (2)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
 | **24** | [`24-hlk-communication-methodology/`](24-hlk-communication-methodology/) | gated_operator | 2026-05-04 | Initiative 24 — Communication Methodology + Eloquence-Layer Composer |
+| **67** | [`67-revops-discovery/`](67-revops-discovery/) | gated_operator | 2026-05-09 | Initiative 67 — RevOps Discovery |
 
 ### Continuous loops (active by design) (3)
 
@@ -58,7 +59,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | program_line | 2026-04-18 | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
 | **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | program_line | 2026-04-23 | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
 
-### Closed (29)
+### Closed (30)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -91,6 +92,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **57** | [`57-cycle-closeout-live-validation/`](57-cycle-closeout-live-validation/) | closed | 2026-05-04 | Initiative 57 — Cycle closeout + first live-validation window |
 | **58** | [`58-cycle-2-multi-track-forward/`](58-cycle-2-multi-track-forward/) | closed | 2026-05-06 | Initiative 58 — Cycle 2 multi-track forward (OPS-57-1 + strategy + KM polish + hygiene) |
 | **59** | [`59-hlk-governance-clean-slate/`](59-hlk-governance-clean-slate/) | closed | 2026-05-06 | Initiative 59 — HLK governance promotion + clean slate cycle (5 dimensions + I60/I61 lo... |
+| **66** | [`66-brand-vision-ops-sweep/`](66-brand-vision-ops-sweep/) | closed | 2026-05-09 | Initiative 66 — Brand, Vision, Ops Sweep |
 
 ### Archived (superseded) (4)
 
@@ -101,9 +103,11 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **16** | [`16-hlk-finops-vendor-ssot/`](16-hlk-finops-vendor-ssot/) | archived | 2026-04-23 | Initiative 16 — FINOPS vendor SSOT + Supabase mirror |
 | **20** | [`20-kalavai-shadow-llamacpp-trial/`](20-kalavai-shadow-llamacpp-trial/) | archived | 2026-05-05 | Initiative 20 — Kalavai / Shadow llama.cpp trial: DeepSeek-R1-Distill-Llama-70B (Q4) |
 
-### Unknown / unclassified (0)
+### Unknown / unclassified (1)
 
-_(none)_
+| Seq | Folder | Status | Last review | Title |
+|:---:|:-------|:-------|:-----------:|:------|
+| **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active (promoted 2026-05-10).** Activation gates satisfied: (a) I66 closed 20... | — | I68 â€” CICD Discipline + Observability Maturity |
 
 <!-- END AUTO -->
 
