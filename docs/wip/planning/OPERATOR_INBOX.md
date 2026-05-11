@@ -16,10 +16,13 @@ continuous_rationale: Auto-rendered Operator Action Inbox (I59 P4) — re-render
 
 <!-- BEGIN AUTO -->
 
-_Rows: 21 (open · operator/mixed · ranked by RICE desc)._
+_Rows: 24 (open · operator/mixed · ranked by RICE desc)._
 
 | OPS ID | Initiative | Owner | RICE | What | Notes |
 | --- | --- | --- | --- | --- | --- |
+| `OPS-66-2` | INIT-OPENCLAW_AKOS-66 — Initiative 66 - Brand Vision Ops Sweep | operator (System Owner) | 2040 | Apply P6 governance Supabase migration | Fallback rows keep panels usable before apply |
+| `OPS-67-1` | INIT-OPENCLAW_AKOS-66 — Initiative 66 - Brand Vision Ops Sweep | operator (Brand Manager) | 1920 | Kick off I67 RevOps Discovery research | Launch gate for I67 |
+| `OPS-66-1` | INIT-OPENCLAW_AKOS-66 — Initiative 66 - Brand Vision Ops Sweep | operator (Legal Counsel) | 840 | Submit trademark filings with counsel | Counsel and operator credentials required |
 | `OPS-14-1` | INIT-OPENCLAW_AKOS-14 — Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-47-1` | INIT-OPENCLAW_AKOS-50 — Initiative 50 — Live cycle closure + cost SSOT truth-up | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-47-2` | INIT-OPENCLAW_AKOS-50 — Initiative 50 — Live cycle closure + cost SSOT truth-up | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
