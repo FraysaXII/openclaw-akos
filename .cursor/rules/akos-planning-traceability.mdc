@@ -82,6 +82,99 @@ Initiatives that **only consume** an existing Topic (read-only reference) are ex
 
 Drift detection: `validate_hlk_km_manifests.py` FK-resolves manifest `topic_ids:` into `TOPIC_REGISTRY.csv` (Initiative 25 P1). The `compliance_mirror_drift_probe` covers `topic_registry_mirror` parity. The `render_pmo_hub_smoke` and `render_km_diagrams_batch_smoke` verify profiles surface stale auto-rendered views.
 
+## Plan-quality bar (I66 / I68 precedent; mandatory for execution-grade Cursor plans)
+
+When an agent authors a Cursor plan for a substantial initiative, the `Governance Content Requirements` above are necessary but not sufficient. The I66 brand-vision-ops sweep and the I68 CICD-discipline + observability-maturity Round 2 plan established a higher quality bar that should be the default — not a one-off operator request. Reference plans:
+
+- `~/.cursor/plans/brand_vision_ops_sweep_4f4c51dd.plan.md` (I66; 8 todos averaging 6-8 sentences each; 3 mermaid diagrams; 20 inline decisions; 10 inline risks; per-phase deep sections).
+- `~/.cursor/plans/i68_cicd_activation_roadmap_592a78e2.plan.md` (I68 Round 2; same shape; demonstrates the Round-expansions pattern when revising a plan).
+
+This section codifies that bar so future agents inherit it by default.
+
+### When this bar applies
+
+A plan **must** meet every requirement in this section when **any** of the following are true:
+
+- The initiative has **≥ 5 phases**.
+- The execution window is **≥ 1 calendar week**.
+- The plan touches a **canonical CSV** (`process_list.csv`, `baseline_organisation.csv`, any `compliance/dimensions/*.csv`, `INITIATIVE_REGISTRY.csv`, `OPS_REGISTER.csv`, `DECISION_REGISTER.csv`, `REPOSITORY_REGISTRY.csv`).
+- The plan carries **multi-repo** (`bless_external_repo.py`-tracked) sibling-repo PRs against `hlk-erp`, `boilerplate`, `kirbe-platform`, or any other consumer repo registered in `REPOSITORY_REGISTRY.csv`.
+- The plan is a **revision** of an earlier draft (in which case the Round-expansions sub-section below is mandatory).
+
+Plans below this bar (1-3 phase quick fixes, single-file refactors, ad-hoc proposals under `docs/wip/planning/99-proposals/`) are **exempt**; the existing `## Governance Content Requirements` is sufficient for them.
+
+### YAML frontmatter — multi-sentence todos
+
+Cursor-plan YAML frontmatter `todos:` entries must be **multi-sentence** (not one-liners). Each todo specifies for its phase: scope (1-2 sentences), files-to-create or files-to-modify (named with paths), validators-to-mint (with module path + Pydantic model name where applicable), pause-point classification (`PAUSE POINT #N` or `none`), and self-checkpoint count. Each todo carries a stable `id` matching the phase header so they can be cross-referenced across the plan body and the implementing TodoWrite session.
+
+Reference template:
+
+```yaml
+todos:
+  - id: pN-<short-purpose-slug>
+    content: "PN (<effort> days; PAUSE POINT #M if applicable) — <one-sentence purpose>. (a) <deliverable 1 with file paths>. (b) <deliverable 2 with validator name + module>. (c) <verification rule>. (d) <decision close-outs>. ..."
+    status: pending
+```
+
+### Round-expansions narrative (revisions only)
+
+When a plan is revised in response to operator feedback, the new top of the body **must** contain a `## What changed since <prior-version>` section organised as `### Round N` sub-blocks (Round 1 → Round 2 → ...) naming what changed and why per round. Each round paragraph cites operator-supplied evidence (timestamp, quote, decision ID) and the structural delta to the plan (sections added, sections removed, scope shifts, gates dropped). This makes plan history auditable without diffing the file.
+
+Reference: I66 plan §"What expanded from the prior plan" (Round 1 + Round 2 + Round 3); I68 Round 2 plan §"What changed since the I68 charter".
+
+### Three mermaid diagrams (required for ≥ 5-phase plans)
+
+Every qualifying plan body **must** include:
+
+1. **Architecture mermaid** — the *system being designed* (e.g., I66 Branded House tree; I68 InfraMonitor product/module model + operator-surface chassis sharing).
+2. **Module / sub-component mermaid** — when the deliverable family has internal structure worth visualising (optional but encouraged when the system in (1) has ≥ 4 sub-components).
+3. **Phase-dependency mermaid** — execution sequence with explicit parallelism + gating relationships. When a previously-gating blocker clears (e.g., MCP auth fixed, external dependency resolved), redraw the diagram without the gating node rather than leaving stale `<X>Clear`-style placeholders.
+
+All mermaid follows the `<system-communication>` mermaid syntax rules: camelCase / PascalCase / underscores for node IDs (no spaces); avoid reserved keywords (`end`, `graph`, `subgraph`, `flowchart`); quote labels containing parentheses, brackets, colons, or commas; no explicit fill colours or `classDef` styling (renderer applies theme colours; explicit colours break in dark mode).
+
+### Per-phase deep-section template
+
+Each phase header in the plan body uses the form `## P<N> — <name> (<effort> days; PAUSE POINT #M if applicable)` and contains at minimum:
+
+- **Scope** — 1 paragraph: what + why.
+- **Files** — organised as: canonical (new + modified, with full repo paths); mirrored / derived (per consumer-repo, with `repo=<slug>` notation matching `files-modified.csv` schema); validators (Pydantic model path in `akos/<module>.py` + script path in `scripts/<name>.py` + test path in `tests/test_<name>.py`); templates (when introducing reusable bless-pattern templates under `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/_templates/`).
+- **Verification** — commands or vendor-API observable signals (Sentry queries, Vercel deploy IDs, Render service IDs).
+- **Pause-point classification** — when applicable, which `akos-agent-checkpoint-discipline.mdc` category: canonical-CSV gate / trademark filing / public-prose publish / page-spec gate (I64 v2 precedent) / standard.
+- **Self-checkpoint count** — per the `akos-agent-checkpoint-discipline.mdc` cadence heuristic for the phase's deliverable count.
+- **Cursor-rules adherence** — 1-line citation per phase noting which rules the phase operationalises (e.g. `akos-deploy-health.mdc §Step 3` operationalised; `akos-holistika-operations.mdc` two-plane Supabase respected; `akos-mirror-template.mdc` AKOS-as-SSOT preserved).
+
+Reference: I66 plan §§"P0 — Charter" through "P8"; I68 Round 2 plan §§"P0" through "P8".
+
+### Decision-log preview (inline table)
+
+The plan body **must** contain a table preview of every `D-IH-NN-X` decision: ID, question (one line), owner, status entering the plan, close-out phase. The full register stays in the initiative's `decision-log.md`; the inline preview is for readers who skim the plan body. Decisions added in a revision Round are flagged with **NEW** in the table.
+
+Reference: I66 plan §"P0" decisions D-IH-66-A..T listed inline; I68 Round 2 plan §"Decisions (preview)" with D-IH-68-K + D-IH-68-L tagged NEW.
+
+### Inline risk register
+
+The plan body **must** contain a table preview of every `R-IH-NN-N` risk: ID, risk, likelihood, impact, mitigation. The full register stays in the initiative's `risk-register.md`. Risks added or dropped in a revision Round are flagged with **NEW** / **DROPPED** in the table.
+
+Reference: I66 plan §"P0" R1-R10; I68 Round 2 plan §"Risks" R-IH-68-1..12 with R-IH-68-11 NEW + R-IH-68-12 NEW (charter R-IH-68-11 DROPPED in the same revision).
+
+### CONTRIBUTING.md adherence callouts for new validators
+
+Every plan that mints new Python validators **must** explicitly note that they follow [`CONTRIBUTING.md`](../../CONTRIBUTING.md) §"Python Code Standards":
+
+- Pydantic models in `akos/<module>.py` (never hand-written `assert` chains for JSON validation).
+- Type hints on every function signature + return type.
+- Structured logging via `akos.log.setup_logging` (not `print()`).
+- `akos.process.run` for any subprocess shell-out (with explicit timeout; never bare `subprocess.run` / `os.system`).
+- Cross-platform `pathlib.Path` + `os.environ` (no shell-specific constructs).
+- Tests in `tests/test_<module>.py` with valid + invalid input pairs, registered under an appropriate `@pytest.mark.<group>` and added to the `scripts/test.py` group list.
+- Wired into `scripts/release-gate.py` and `config/verification-profiles.json` per [`CONTRIBUTING.md`](../../CONTRIBUTING.md) §"Pre-commit Checklist".
+
+These callouts go inline in the per-phase **Files** sub-section that introduces the validator, not as a generic appendix — operator review should not need to flip to `CONTRIBUTING.md` to verify a validator's compliance.
+
+### File-path density
+
+Every commit, file, validator, route, mirror, view, template, and SOP referenced in the plan **must** carry a clickable markdown link to its full repo path on first mention. Relative paths are preferred when the plan is checked into the repo (under `docs/wip/planning/<NN-slug>/`); absolute repo paths via the `<repo-root>/<path>` form work for out-of-repo Cursor plans (under `~/.cursor/plans/`). Subsequent mentions may use bare backticks once the link target is established. This is a hard rule: a plan that lists "Mint `validate_<X>.py`" without linking the script path or its parent directory fails the bar.
+
 ## Quality Checks
 
 - Reference the original source plan path in the copied markdown.
