@@ -206,6 +206,28 @@ def run_brand_baseline_reality_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_brand_vision_drift_validation() -> bool:
+    """Run public vision drift validation (I66 P7)."""
+    logger.info("Running BRAND vision drift validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_brand_vision_drift.py")],
+        timeout=30,
+        capture=False,
+    )
+    return result.success
+
+
+def run_dossier_companion_drift_validation() -> bool:
+    """Run deck/dossier companion validation (I66 P7)."""
+    logger.info("Running dossier companion drift validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_dossier_companion_drift.py")],
+        timeout=30,
+        capture=False,
+    )
+    return result.success
+
+
 def run_external_repo_contract_check() -> bool:
     """Check governance posture of every non-reference Holistika-tracked repo.
 
@@ -360,6 +382,12 @@ def main() -> None:
             "INFO",
             f"BRAND baseline-reality (scripts/validate_brand_baseline_reality_drift.py, soft until I66 P6; exit={baseline_rc})",
         ))
+
+    brand_vision_ok = run_brand_vision_drift_validation()
+    results.append(("PASS" if brand_vision_ok else "FAIL", "BRAND vision drift (scripts/validate_brand_vision_drift.py, I66 P7)"))
+
+    dossier_companion_ok = run_dossier_companion_drift_validation()
+    results.append(("PASS" if dossier_companion_ok else "FAIL", "Dossier companion drift (scripts/validate_dossier_companion_drift.py, I66 P7)"))
 
     repo_contract_ok = run_external_repo_contract_check()
     results.append(("PASS" if repo_contract_ok else "FAIL", "External repo contract (scripts/check_external_repo_contract.py)"))

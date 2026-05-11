@@ -28,6 +28,8 @@ import scripts.validate_brand_canon_drift as canon_drift  # noqa: E402
 import scripts.validate_brand_jargon as brand_jargon  # noqa: E402
 import scripts.validate_brand_voice_register as voice_register  # noqa: E402
 import scripts.validate_brand_baseline_reality_drift as baseline_reality  # noqa: E402
+import scripts.validate_brand_vision_drift as vision_drift  # noqa: E402
+import scripts.validate_dossier_companion_drift as companion_drift  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
@@ -292,3 +294,96 @@ class TestBaselineRealityDrift:
     def test_default_run_passes_against_clean_repo(self) -> None:
         rc = baseline_reality.main([])
         assert rc == 0
+
+
+# ---------------------------------------------------------------------------
+# validate_brand_vision_drift.py
+# ---------------------------------------------------------------------------
+
+
+class TestBrandVisionDrift:
+    def test_extract_public_region_requires_ordered_markers(self) -> None:
+        text = "x\n<!-- public-vision:start -->\nPublic\n<!-- public-vision:end -->\ny"
+        assert vision_drift.extract_public_region(text) == "Public"
+
+    def test_extract_public_region_fails_without_markers(self) -> None:
+        with pytest.raises(ValueError):
+            vision_drift.extract_public_region("No markers")
+
+    def test_real_vision_gate_passes(self) -> None:
+        errors = vision_drift.check_vision_drift()
+        assert errors == []
+
+
+# ---------------------------------------------------------------------------
+# validate_dossier_companion_drift.py
+# ---------------------------------------------------------------------------
+
+
+class TestDossierCompanionDrift:
+    def _write_deck_set(self, root: Path, name: str = "sample") -> None:
+        root.mkdir(parents=True, exist_ok=True)
+        (root / f"{name}.deck.md").write_text(
+            textwrap.dedent(
+                """\
+                ---
+                status: active
+                companions:
+                  - sample.counterparty-brief.md
+                ---
+
+                # Public deck
+
+                Clean public prose.
+                """
+            ),
+            encoding="utf-8",
+        )
+        (root / f"{name}.objections.md").write_text(
+            textwrap.dedent(
+                """\
+                ---
+                access_level: 5
+                classification: operator_private
+                artifact_kind: deck_objection_companion
+                ---
+
+                # Objections
+                """
+            ),
+            encoding="utf-8",
+        )
+        (root / f"{name}.counterparty-brief.md").write_text(
+            textwrap.dedent(
+                """\
+                ---
+                access_level: 5
+                classification: operator_private
+                artifact_kind: deck_counterparty_brief
+                ---
+
+                # Brief
+                """
+            ),
+            encoding="utf-8",
+        )
+
+    def test_complete_deck_set_passes(self, tmp_path: Path) -> None:
+        self._write_deck_set(tmp_path)
+        assert companion_drift.check_dossier_companions(tmp_path) == []
+
+    def test_public_deck_body_rejects_internal_token(self, tmp_path: Path) -> None:
+        self._write_deck_set(tmp_path)
+        deck = tmp_path / "sample.deck.md"
+        deck.write_text(
+            deck.read_text(encoding="utf-8") + "\nCounterparty wording leaks.\n",
+            encoding="utf-8",
+        )
+        errors = companion_drift.check_dossier_companions(tmp_path)
+        assert any(e.rule == "internal_token_in_public_deck" for e in errors)
+
+    def test_missing_companion_fails(self, tmp_path: Path) -> None:
+        self._write_deck_set(tmp_path)
+        (tmp_path / "sample.objections.md").unlink()
+        errors = companion_drift.check_dossier_companions(tmp_path)
+        assert any(e.rule == "missing_companion" for e in errors)
