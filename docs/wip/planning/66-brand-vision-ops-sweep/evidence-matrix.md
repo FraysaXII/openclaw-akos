@@ -118,7 +118,7 @@ If a phase advances without one of the three, the phase is incomplete.
 | Founder bio canonical | `FOUNDER_BIO.md` with long/medium/short × EN/ES/FR + per-audience FAQ + methodology track-record | Mechanical |
 | Press kit | `PRESS_KIT.md` with logos + boilerplate prose + bio + FAQ | Mechanical |
 | Onboarding kit | `ONBOARDING_KIT.md` with welcome doc + brand digest + canonicals tour + Cursor / MCP setup | Mechanical |
-| Discovery questionnaire SOP | `SOP-DISCOVERY_QUESTIONNAIRE_001.md` (HUMINT-grounded) | Mechanical |
+| Discovery questionnaire SOP | `SOP-ENG_DISCOVERY_QUESTIONNAIRE_001.md` (HUMINT-grounded) | Mechanical |
 | Proposal template | `PROPOSAL_TEMPLATE.md` | Mechanical |
 | Engagement playbook | `ENGAGEMENT_PLAYBOOK.md` | Mechanical |
 | `governance.brand_template_registry_view` | Supabase view ships; `compliance_mirror_emit` job runs | Mechanical |

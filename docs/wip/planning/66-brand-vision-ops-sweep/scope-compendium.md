@@ -138,7 +138,7 @@ The full IN/OUT catalog. When an agent or operator says "is this in scope?", thi
 - FOUNDER_BIO.md canonical: long / medium / short × EN / ES / FR + per-audience FAQ reservoir + methodology track-record block (anonymized fitness-franchise per D-IH-66-Q).
 - PRESS_KIT.md canonical: logos package + boilerplate prose + founder bio + per-audience FAQ.
 - ONBOARDING_KIT.md canonical: welcome + brand digest + canonicals tour + Cursor / MCP setup.
-- SOP-DISCOVERY_QUESTIONNAIRE_001 (HUMINT-grounded; external-register translated).
+- SOP-ENG_DISCOVERY_QUESTIONNAIRE_001 (HUMINT-grounded; external-register translated).
 - PROPOSAL_TEMPLATE.md (3-tier).
 - ENGAGEMENT_PLAYBOOK.md.
 - Supabase view `governance.brand_template_registry_view` (joins canonicals → operator surface).
