@@ -161,6 +161,30 @@ Route-segment `force-dynamic` (Next.js) / equivalent **alone is not sufficient**
 - (b) Adjust the secondary header's top-padding to be breakpoint-responsive (e.g., `pt-16 md:pt-20` — mobile gets less because the navbar pill is shorter).
 - (c) Hide UX-context-dependent actions (share, bookmark — anything requiring auth) below the `sm` breakpoint: `hidden sm:flex`.
 
+### Failure 6 (speculative; awaits P3 confirmation) — Visual-regression false positive on font subpixel rendering across CI runners
+
+**Framework**: any project using a visual-regression vendor (Argos / Lost Pixel / Percy / Chromatic) with Playwright + multi-viewport snapshots.
+
+**Symptom**: Visual-regression vendor flags pixel diffs on text-heavy regions across runs even when no UI code changed. Diff regions are restricted to text edges; non-text regions match. Reproduces inconsistently across runs (sometimes greenish, sometimes flagged).
+
+**Root cause**: GitHub Actions runners (`ubuntu-latest`) have non-deterministic font subpixel positioning depending on the runner's underlying VM build. Anti-aliasing differs at the sub-pixel level; the vendor's diff threshold detects these as changes.
+
+**Canonical fix**: Add `--disable-font-subpixel-positioning` to the Chromium launch args for **visual-regression projects only** (not for functional Playwright tests, where this flag would mask real regressions). Reference: `_templates/playwright.config.ts.tmpl` (P2 deliverable) projects array entry for visual-regression. If the vendor offers an "ignore anti-aliasing" threshold, prefer that as the primary mitigation; this flag is the fallback when the vendor lacks the option.
+
+**Status**: Speculative — added at I68 P8 from the charter §P8 "speculative Failure-N entries" list. Promotes to confirmed when first observed in real CI on the P3 visual-regression rollout (`boilerplate` first; gated at PAUSE POINT #2). On confirmation, replace the "Speculative" line with an incident date + commit SHA + run URL.
+
+### Failure 7 (speculative; awaits P6 confirmation) — Render auto-deploy timeout on cold-start of a fresh worker
+
+**Framework**: Render-hosted services with `numInstances: 1` (no scale-to-zero) on a Starter or Standard plan.
+
+**Symptom**: First request to a freshly-deployed Render worker times out after ~30s. Render dashboard shows the deploy as "Live" but the healthcheck endpoint never responded in the deploy-completion window. Subsequent requests succeed once the worker has spun up.
+
+**Root cause**: Render's deploy completion is tied to the healthcheck endpoint responding within the deploy-completion timeout. If `healthCheckPath` is unset or set to a route that triggers cold-start work (e.g., loading a heavy ML model on first invocation), the healthcheck fails before the worker is ready.
+
+**Canonical fix**: Set `healthCheckPath` explicitly in `render.yaml` to a lightweight endpoint (`/health` returning `200 OK` with the release-format JSON `{"release": "<repo>@<sha-short>", "ok": true}`) that does **not** trigger cold-start work. Reference: `_templates/render/render-baseline.yaml.tmpl` (P5 deliverable) for the canonical pattern. For services that genuinely need cold-start work for the first request, increase `healthCheckTimeout` to accommodate the cold-start budget (Render allows up to 5 min) AND ensure the healthcheck route remains separate from the cold-start-heavy routes.
+
+**Status**: Speculative — added at I68 P8 from the charter §P8 "speculative Failure-N entries" list. Promotes to confirmed when first observed in real Render deploys during P6 build-time optimization sweep on `kirbe-platform` (gated; requires Render MCP API calls). On confirmation, replace the "Speculative" line with an incident date + commit SHA + Render service ID.
+
 ### Adding new failure modes
 
 When you encounter a new build / deploy failure pattern:
@@ -175,11 +199,19 @@ When you encounter a new build / deploy failure pattern:
 - [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) — the per-initiative file-changes CSV (this rule is its runtime-health complement).
 - [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) — phase + commit discipline (this rule is its post-deploy verification complement).
 - [`REPOSITORY_REGISTRY.csv`](../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/REPOSITORY_REGISTRY.csv) — source of truth for consumer-repo → hosting-platform mapping.
-- I68 (chartered) — CICD scalability + visual regression initiative; will operationalise this rule's pre-merge automated and continuous-deploy lanes.
+- I68 (active 2026-05-09) — CICD discipline + observability maturity initiative ([`docs/wip/planning/68-cicd-discipline-and-observability-maturity/`](../../docs/wip/planning/68-cicd-discipline-and-observability-maturity/)) operationalises this rule's pre-merge automated and continuous-deploy lanes:
+  - **P2 deliverable** — canonical multi-viewport Playwright config template at [`docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/_templates/playwright.config.ts.tmpl`](../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/_templates/playwright.config.ts.tmpl) (referenced by Failure 6 fix).
+  - **P4 deliverable** — canonical Sentry release format `<repo>@<sha-short>` + dashboard runbook at [`docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/SENTRY_DASHBOARD_HOLISTIKA.md`](../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/SENTRY_DASHBOARD_HOLISTIKA.md).
+  - **P5 deliverable** — canonical CI/CD baseline SOP at [`docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-CICD_BASELINE_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/SOP-CICD_BASELINE_001.md) + GHA workflow template + Render YAML stub at [`_templates/render/render-baseline.yaml.tmpl`](../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/_templates/render/render-baseline.yaml.tmpl) (referenced by Failure 7 fix).
+  - **P7 deliverable** — InfraMonitor namespace shell + InfraHealth module v0 page-spec at [`docs/wip/planning/68-cicd-discipline-and-observability-maturity/reports/p7-page-spec-impeccable-2026-05-10.md`](../../docs/wip/planning/68-cicd-discipline-and-observability-maturity/reports/p7-page-spec-impeccable-2026-05-10.md) → operator-facing observability surface that surfaces this rule's metrics in `hlk-erp` at `/operator/infra-monitor/health/`.
+  - **P8 deliverable** — Failure 6 + Failure 7 (speculative entries above) added at I68 closure; promote to confirmed on first observation in real CI.
 - Reference templates (in consumer repos):
   - Canonical `Window` type augmentation pattern.
   - Observability SDK non-blocking + skip-on-preview pattern.
   - Mobile-hamburger + desktop-inline navbar pattern.
   - Sticky-header breakpoint-responsive padding pattern.
+  - Canonical Playwright config template (I68 P2): `_templates/playwright.config.ts.tmpl`.
+  - Canonical Render baseline YAML (I68 P5): `_templates/render/render-baseline.yaml.tmpl`.
+  - Canonical GitHub Actions baseline workflow (I68 P5): `_templates/github-workflows/ci-baseline.yml.tmpl`.
 
   These are intentionally referenced by **path / convention**, not by inline code, so each consumer repo can adapt to its own framework conventions.
