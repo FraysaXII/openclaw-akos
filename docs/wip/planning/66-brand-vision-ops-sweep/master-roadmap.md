@@ -1,19 +1,20 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 66-brand-vision-ops-sweep
 initiative_id: INIT-OPENCLAW_AKOS-66
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder + Brand Manager + System Owner + Legal Counsel
-last_review: 2026-05-08
+last_review: 2026-05-09
+closed_at: 2026-05-09
 ---
 
 # Initiative 66 — Brand, Vision, Ops Sweep
 
 **Folder:** `docs/wip/planning/66-brand-vision-ops-sweep/`
-**Status:** **Active** — operator-approved charter on 2026-05-08; P0 in progress (same-day promotion to active per the I65 precedent).
+**Status:** **Closed** — P0-P8 completed on 2026-05-09; I67 RevOps Discovery scaffolded as gated successor.
 **Authoritative plan:** `~/.cursor/plans/brand_vision_ops_sweep_4f4c51dd.plan.md` (out-of-repo; this `master-roadmap.md` is the workspace mirror per [`akos-planning-traceability.mdc`](../../../../.cursor/rules/akos-planning-traceability.mdc)).
 
 Sibling to [I62](../62-mission-control/master-roadmap.md), [I63](../63-external-repo-governance-codification/master-roadmap.md), [I64](../64-governance-mission-control/master-roadmap.md), [I65](../65-akos-planning-workspace-panel/master-roadmap.md). Bootstraps successor [I67](../67-revops-discovery/) (RevOps Discovery, scaffold-only at I66 closure; charter pending the next agent's research).
