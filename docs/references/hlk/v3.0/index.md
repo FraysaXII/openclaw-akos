@@ -208,11 +208,15 @@ Envoy Tech Lab/
 
 ### Think Big (Entity: Think Big)
 
+Two physical roots per the [Workspace Blueprint](Admin/O5-1/Operations/PMO/WORKSPACE_BLUEPRINT_HOLISTIKA.md): `Clients/` for **outbound** engagements where Holistika provides (customer, partner, product, and internal-capacity via the reserved `internal-` slug prefix); `Advisers/` for **inbound** engagements where Holistika is the customer of external advisers. `Projects/` was retired per D-W13-I (P13.5, 2026-05-11) — everything at Think Big is a project-shaped engagement under one of the two roots.
+
 ```
 Think Big/
-  README.md                       Scope: non-repo artifacts; link to Envoy registry for code
-  Projects/                       Client and internal project documentation (non-repo)
-  Clients/                        Client-specific materials (non-repo)
+  README.md                       Scope: non-repo artifacts; two-root model; link to Envoy registry for code
+  Clients/                        Outbound engagements (types 1 / 2 / 3 / 5); slug pattern <YYYY>-<slug>/ or <YYYY>-internal-<slug>/
+    _engagement-template/         Literal copy-target for new outbound engagements (P13.3)
+  Advisers/                       Inbound engagements (type 4); slug pattern <YYYY>-<slug>/
+    _engagement-template/         Literal copy-target for new inbound engagements (P13.3)
 ```
 
 ## Cross-references

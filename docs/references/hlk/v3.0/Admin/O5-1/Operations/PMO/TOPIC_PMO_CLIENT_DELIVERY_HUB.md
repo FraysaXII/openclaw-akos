@@ -106,18 +106,22 @@ Add rows sparingly; prefer **one row per external organisation**, not per email 
 
 ### Case layer
 
-- Placeholder: add Think Big `Clients/` or `Projects/` paths when engagements are active.
+- Outbound engagements live under [`Think Big/Clients/`](../../../../Think%20Big/Clients/) (per P13 blueprint, external slugs `<YYYY>-<slug>/`; internal-capacity slugs `<YYYY>-internal-<slug>/`).
+- Inbound engagements live under [`Think Big/Advisers/`](../../../../Think%20Big/Advisers/) (per P13 blueprint, slugs `<YYYY>-<slug>/`).
+- Active case folders are listed in the bundle section below.
 
 ### Linked Git repositories
 
 - Canonical registry: [REPOSITORIES_REGISTRY.md](../../../../Envoy%20Tech%20Lab/Repositories/REPOSITORIES_REGISTRY.md) — see row `client-delivery-pilot` (replace GitHub URL placeholders when live).
 - Optional stubs: [client-delivery/README.md](../../../../Envoy%20Tech%20Lab/Repositories/client-delivery/README.md)
 
-### Think Big (non-repo artifacts)
+### Think Big (non-repo artifacts; per P13 blueprint two-root model)
 
-- [Think Big/README.md](../../../../Think%20Big/README.md)
-- `Think Big/Clients/` — client-scoped vault files  
-- `Think Big/Projects/` — project documentation not stored as a repo root
+- [Think Big/README.md](../../../../Think%20Big/README.md) — two-root scope
+- [Think Big/Clients/](../../../../Think%20Big/Clients/) — **outbound** engagements (types 1/2/3/5); active: [`2026-suez-webuy/`](../../../../Think%20Big/Clients/2026-suez-webuy/), [`2026-asesoria-hosteleria/`](../../../../Think%20Big/Clients/2026-asesoria-hosteleria/)
+- [Think Big/Advisers/](../../../../Think%20Big/Advisers/) — **inbound** engagements (type 4); active: [`2026-holistika-incorporation/`](../../../../Think%20Big/Advisers/2026-holistika-incorporation/)
+- [Think Big/Clients/\_engagement-template/](../../../../Think%20Big/Clients/_engagement-template/) and [Think Big/Advisers/\_engagement-template/](../../../../Think%20Big/Advisers/_engagement-template/) — literal copy-targets for new engagements
+- Canonical blueprint: [WORKSPACE_BLUEPRINT_HOLISTIKA.md](WORKSPACE_BLUEPRINT_HOLISTIKA.md) — engagement-types matrix, per-root folder shape, four-channel persistence doctrine
 
 ### External backlog index (non-SSOT)
 
