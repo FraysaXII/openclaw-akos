@@ -104,7 +104,14 @@ def test_brand_tokens_light_match_pattern_doc():
 def test_brand_pdf_css_contains_all_dossier_classes():
     """Initiative 27 follow-up — visual upgrade replaced the old single-block
     cover (`.cover-rule` / `.cover-meta`) with a clean cover-strip + eyebrow
-    + oversized title layout. The remaining mandatory primitives stay."""
+    + oversized title layout. The remaining mandatory primitives stay.
+
+    P10 update — emitted brand colors are checked in the legacy comma-separated
+    `hsl(H, S%, L%)` form because WeasyPrint <53 (the operator workstation
+    ships 52.5) silently drops modern space-separated calls. The SSOT tokens
+    in `BRAND_TOKENS_LIGHT/DARK` keep the modern form (matching
+    `BRAND_VISUAL_PATTERNS.md`); the renderer converts at emit time.
+    """
     mod = importlib.import_module("akos.hlk_pdf_render")
     css = mod._brand_pdf_css(profile="dossier")
     for needed in (
@@ -116,11 +123,34 @@ def test_brand_pdf_css_contains_all_dossier_classes():
         "callout-risk",
         "page-break-after: always",
         "Inter",
-        "hsl(168 55% 38%)",
-        "hsl(38 80% 50%)",
-        "hsl(220 16% 7%)",
+        "hsl(168, 55%, 38%)",
+        "hsl(38, 80%, 50%)",
+        "hsl(220, 16%, 7%)",
     ):
         assert needed in css, f"branded PDF CSS missing: {needed!r}"
+
+
+def test_brand_pdf_css_emits_legacy_hsl_only():
+    """Drift safeguard for the WeasyPrint <53 incompatibility (P10).
+
+    WeasyPrint 52.5 silently drops modern space-separated `hsl(H S% L%)` calls.
+    The renderer's `_to_legacy_hsl` converter is applied at the
+    `_brand_pdf_css` return boundary; this test asserts no modern call leaks
+    through. If this test fails, brand colors are about to drop again.
+    """
+    import re
+
+    mod = importlib.import_module("akos.hlk_pdf_render")
+    css = mod._brand_pdf_css(profile="dossier")
+    modern_calls = re.findall(
+        r"hsl\(\s*-?\d+(?:\.\d+)?(?:deg)?\s+-?\d+(?:\.\d+)?%\s+-?\d+(?:\.\d+)?%\s*\)",
+        css,
+    )
+    assert not modern_calls, (
+        "Modern space-separated hsl() leaked into emitted CSS — "
+        "WeasyPrint <53 will drop these; first leaks: "
+        f"{modern_calls[:5]}"
+    )
 
 
 def test_render_pdf_branded_signature():

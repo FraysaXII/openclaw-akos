@@ -1,0 +1,231 @@
+Madrid, España
+Fayçal Njoya
++34 619 646 295
+fay.njoya@gmail.com
+Data Governance & Project Management
+PROFILE
+I am a strategic project manager with 10+ years of experience implementing frameworks such as Data Governance
+(DAMA/DMBOK), ITIL, Scrum, and Project Management (PMP/PMBOK) and developed data management
+strategies that encompass everything from architecture to data quality and security, ensuring that stakeholders
+and users are well-supported. I have worked in several domains, including Insurance (Multiassistance &
+Generali/Europ Assistance), Finance (Volvo & GMA Corporate) & IT (Econocom & IBM).
+My focus is to tackle complex data analysis and management projects with the team (both technical and business),
+ensuring documentation that facilitates the necessary collaboration to achieve project success. This also makes it
+easier to maintain consistent, reliable reporting to each stakeholder to ensure cohesion through the project
+outcome.
+LANGUAGES
+ENGLISH - Fluent
+SPANISH - Native
+FRENCH - Native
+PROFESSIONAL EXPERIENCE
+RCD Legal — Data Governance Project Manager
+NOV 2023 - Current
+Led the efforts to create and run a new Data Governance Department and a PMO.
+Data Management:
+● Strategy
+○ Planned and executed an end-to-end Data Management plan that included architecture,
+modeling, warehousing, transformation, quality, security, roles, and reporting.
+○ Utilized data profiling techniques to support the remediation of data quality issues, ensuring a
+comprehensive understanding of data challenges.
+○ Managed the SQL server for data warehousing, including data cleaning, re-modeling, and
+exploiting BI capabilities for stakeholders.
+○ Led a project to create a hybrid architecture by moving key components into Azure, ensuring low
+impact on operations and calculating the Azure benefits to existing projects.
+● PMO & ITIL Implementation:
+○ Created a PMO to standardize and unify the project-based model of the company, integrating
+strategy into all actions and improving communication and reporting.
+○ Implemented the ITIL v4 framework to better assist the IT Department and all projects, ensuring
+alignment with organizational priorities, this included migrating CMDB provider to inhouse
+processes
+
+--- PAGE BREAK ---
+
+Data Quality Improvement & Governance:
+● Collaborated with various stakeholders to assess, improve, and govern the quality and ongoing suitability
+of critical data assets.
+● Led the implementation of data quality tools and frameworks to prioritize issues, establish definitions,
+and enhance the visibility of data quality within the organization. To achieve this, we conveyed target
+goals for data quality improvement and identified optimal approaches for resolving data quality issues in
+alignment with organizational priorities.
+● Delivered data quality improvement initiatives as defined, agreed upon, and prioritized by working
+collaboratively with cross-functional teams.
+Data Analytics:
+● Designed and implemented a reporting framework, extracting data from the ticketing system (Zoho’s
+PostgreSQL) and the company’s SQL Server, to transform it in Dataverse and load it in PowerBI to be
+visualized.
+● Led the data cleaning processes, personalized the reports from singular sources to be relevant to 3 main
+levels of stakeholders (managers, directors and partners), standardized the semantic models so my team
+members could process data for reports.
+● This role also required the quantitative data shown and structured to be accompanied by my team’s
+business insights into pain points, root cause analysis, resource management, market trends,
+dependencies and operational recommendations for optimization.
+● My incremental plans included the implementation of improved analysis tools and components such as
+Pyspark, Azure Data Lake and Purview.
+Engagement with Data Domain Managers:
+● Worked closely with Data Domain Managers to quantify and articulate the business impact of data quality
+issues, ensuring alignment with organizational objectives.
+● Collaborated with Data Stewards to understand the root cause of reported data issues, facilitating the
+resolution of underlying problems and associated symptoms.
+● Developed and monitored Key Performance Indicators (KPIs) and metrics to optimize data quality,
+providing insights for continuous improvement.
+● Documented methodologies, procedures, and project results, presenting them to senior stakeholders
+across different functions.
+Europ Assistance/Generali — Data Governance Project Manager
+APRIL 2022 - AUG 2023
+Tasked to lead the Data Governance Project between Europ Assistance Spain and the Generali Group starting with
+promoting Insurance processes.
+Data Management & Strategy:
+● Created the company's architecture and selected its components, launching projects including Data
+Management, Benchmark, RFP, and management of external specialized vendors.
+● Planned and executed an end-to-end Data Management plan, including architecture, modeling,
+warehousing, transformation, quality, security, roles, and reporting.
+● Utilized data profiling techniques to support the remediation of data quality issues, ensuring a
+comprehensive understanding of data challenges.
+Data Quality Improvement & Governance:
+● Implemented a Data Governance project replacing a previous external vendor, appointing Chief Data
+Users, Data Owners, Data Stewards, and Data System Owners.
+● Collaborated with various stakeholders to assess, improve, and govern the quality and ongoing suitability
+of critical data assets.
+● Led the implementation of data quality tools and frameworks to prioritize issues, establish definitions,
+and enhance the visibility of data quality within the organization.
+Engagement with Data Domain Managers & Stewards:
+● Worked closely with Data Domain Managers to quantify and articulate the business impact of data quality
+issues, ensuring alignment with organizational objectives.
+● Collaborated with Data Stewards to understand the root cause of reported data issues, facilitating the
+resolution of underlying problems and associated symptoms.
+● Actively collaborated with the Data Quality Leader to unify all previous processes with the Generali Group
+structure and its representatives.
+PMO & ITIL Implementation:
+● Created a PMO to standardize and unify the project-based model of the company, integrating strategy into
+
+--- PAGE BREAK ---
+
+all actions and improving communication and reporting.
+● Implemented the ITIL framework to better assist the IT Department and all projects, ensuring alignment
+with organizational priorities.
+● Led the integration of the architecture data with the group architecture by launching a parallel project
+with the Group CDO and his project team.
+Cloud Integration & Compliance model:
+● Led a project to create a hybrid architecture by moving key components into Azure, ensuring low impact
+on operations and calculating the Azure benefits to existing projects.
+● Managed the SQL server for data warehousing, including data cleaning, re-modeling, and exploiting BI
+capabilities for stakeholders.
+● Utilized various tools and technologies including Data Bricks, Power BI, SAP S/4HANA, Microsoft Power
+Automate, PowerApps, Azure Data Lake, Azure Factory, Information Security Framework, Active Directory,
+SharePoint with Teams, AWS, and Microsoft Dynamics.
+Information Security & Risk Management:
+● Implemented an Information Security Framework to ensure the protection of data assets and compliance
+with regulatory requirements.
+● Conducted IT Risk Management, including Pen Testing and Analysis of Functional Requirements, to
+identify and mitigate potential security threats.
+● Developed and monitored security KPIs and metrics to ensure continuous improvement and alignment
+with industry best practices: ISO 27001, GDPR, NIST, SWIFT & LOPD (this last one was only applicable for
+Spain).
+Freelance — Strategy Advisor
+JUNE 2016 - MARCH 2023
+Managing Partner: Creation of the company B. with the brand and its expansion plan that includes a digital
+strategy, corporate strategy with organization chart, departments and processes, the creation of an ecommerce
+and a franchise of stores with several products and services simultaneously that has 3 stores in Madrid and
+Valencia.
+Strategy Consultant: Several international projects in various industries with clients in EMEA.
+Data Consultant: Several projects that include Data Analytics, Data Governance, Master Data Management, IT
+Asset Management and Development.
+GMA Corporate — Data Analytics Project Manager
+OCT 2021 - FEB 2022
+Freelance E2E project. The goal was to analyze the work and processes of the investment fund's Asset
+Management team to design the final deliverables and bring them to fruition. The purpose was to create the
+company's official financial report, with which management would value its assets.
+All finance processes were reworked in order to accomplish this project, including Banking & Investment-related
+processes like SCIB/CIB, factoring, financial data flow & Data Quality Models to ensure traceability, and more.
+Using Data Design Scheme, Data Modeling, Information Security Framework, IT Risk Management Framework,
+DMBOK, Agile PMP (PMBOK), Analysis of Functional Requirements, Pen Testing & Resiliency Services, Data
+Catalog, Data flow, Data Quality Control Models, Master Data Management, Power BI, PowerAPP, Dataverse,
+Dynamics, Navision, Microsoft Power Automate, and Sharepoint/Teams.
+Volvo — Finance Operations Data Analyst
+MAR 2018 - MAR 2020
+Main goal: Optimization of Order to Cash accounting operations including the creation of FTEs calculator available
+to Global Managers, the harmonization of O2C accounting processes and the mapping of processes for clarity of
+the COO and CFO of Volvo Global and Spain. Using Data Modeling, Excel, SQL, VBA and Power BI.
+Co-creation of KPIs for all entities globally for the company for a harmonized Data Governance and Data
+
+--- PAGE BREAK ---
+
+Management framework. Using Data Modeling, Data Design Scheme, Analysis of Functional Requirements, Data
+Catalog, Data flow, Data Quality Control Models, Risk Management Framework (to manage users & API Access),
+Power BI, SAP API, Sharepoint/Teams and Active Directory.
+Monitoring the Banking & ESG activity of Spain, Belgium, France, Portugal, USA and Sweden. Global SPOC
+Order-to-Cash (O2C) for CIB/SCIB processes.
+Econocom — IT Project Manager
+FEB 2017 - FEB 2018
+Main goal: Leading IT teams and their projects to provide services form EMEA clients, by implementing ITIL v3
+framework while directly reporting to the COO and CTO.
+Analyze and report KPIs and SLAs directly to the client. Execute root cause analysis and report status to both client
+and internal staff (Team Lead Coordinator, Management Board or Contract Manager).
+Some services we offered through the projects I led: Creation of user systems and company systems through
+Active Directory, Service Now CMDB, and Citrix; with Service Now ITSM for Service Management.
+Recurrent proocesses: Analysis of Functional Requirements, Data Catalog, Data flow and Data Quality Control
+Models to Design telecommunication channels to ensure a help desk service to 3 clients with international
+coverage in 6 languages each (French, English, Spanish, Italian, German & Dutch). Creation of frameworks, scripts
+and other Data applications for work and team management with output on Sharepoint/Teams.
+Other processes involved: IT Risk Management (E2E), Business Resiliency & Recovery Service, Service Level
+Agreement & Service Delivery Management
+BICG —Strategy Consultant/Change Manager
+JUN 2015 - JUL 2016
+Member of the design and conception committee for a national top 3 legal branch’s strategic plan to be used from 2016 to
+2019, including brand management, market research, business plan, HR and operations.
+Design of the internal process structure of the Generali Tower and the Generali Academy located in Italy. Leading IT
+Strategic Plan for Generali Academy and reporting its performance to the brand’s CTO.
+Support for the international expansion and ESG strategies for a number of clients.
+IBM —Business Analyst
+JUL 2012 - JUL 2015
+Data Modeling and Data design scheme for Global sales Funnel performances. I Reported to IBM Global
+Operations, Program Management & Data Management teams daily progress on the transactional databases
+relying on IBM Cognos, CIB processes, Excel/SQL and Sharepoint, in coordination with every project team.
+Created a project in SQL and VBA that allowed Managers to calculate FTEs for their teams based on real-time
+performance and contract signings. I was the lone responsible for Data Modeling on this project.
+HR also requested me to provide Excel training to IBM Spain and its European delegation on a quarterly basis. In it, we teached
+the following skills: Analysis of Functional Requirements, Data Catalog, Data flow, Data Quality Control Models, .
+Mulstiassistance — Business Analyst
+DIC 2008 - JUN 2011
+Lead, monitor and coordinate the work of the French Insurance B2B Invoicing team, working with Pacifica & GCE.
+Co-creating Business Data Catalog, Data flow and leading the analysis of functional requirements to deliver,
+
+--- PAGE BREAK ---
+
+reporting kpis and creating tables in Excel and SQL.
+Reporting to France delegation’s COO and CFO.
+TECH STACK
+Cloud environments:
+● Microsoft Azure (DataLake, ML, Lab, Devops, Server, IAM, Kubernetes, Network) & Microsoft Power Platform
+(PowerApps, PowerBI, Dataverse, Admin, Purview, Project, Jira Integration).
+● Google Cloud Console (Storage, Compute, Looker, IAM, Network, VertexAI, etc) & Google Workspace.
+● Amazon Web Services (specially S3 protocol).
+Standalone-environments:
+● Databases: S3 Cloud, SQL Server, Dataverse, Azure Data Lake, PostgreSQL, Supabase
+● Postman
+● AI: Vector Embeddings and Database management, Semantic Chunking & Search, Graph RAG,
+Mixture-Of-Agents, ReAct Agents, LLM Routing, Context Window Management, Token Management (count &
+pricing)
+● AI DEVOPS: HuggingFace, Langchain, Langsmith, Ollama, Groq, LlamaIndex, and other similar AI/ML
+Frameworks
+● Hosting/Deployment: Docker, Hostinger, Vercel, Cloudify, Cloudflare (plus medium knowledge of
+● CloudFlare KV)
+● PM: Jira, Trello, Monday, Wrike, Microsoft Project, IBM Cognos
+● Data Governance & ITIL: Service Now CMDB & ITSM, IBM Infosphere, Microsoft Purview
+● IDE: VS Studio, Jupyter Notebooks, Conda
+● Languages: Javascript, Nodejs, Nextjs, Python
+● Misc: Excalidraw, Airtable, Figma, RPAs (Make, Alteryx, Pipedrive, Zapier, n8n..)
+Management Framework in order of usage:
+PMBOK, DMBOK, ITIL v3 & v4, Agile Project Management/Scrum, Lean Six Sigma, Lean Startup, Kanban
+EDUCATION
+DATA SCIENCE SPECIALIZATION PROGRAM - IBM
+MAY 2020 - JANUARY 2021
+BUSINESS STRATEGY SPECIALIZATION PROGRAM - University of Virginia, Madrid
+APRIL 2020 - FEBRUARY 2021
+CORPORATE INTELLIGENCE PROFESSIONAL CERTIFICATE - CISDE - Universidad de San Pablo CEU,
+Madrid
+MARCH 2020 - NOVEMBER 2020
+ITIL V3 - Global Knowledge Belgium - Skillsoft
+2017
+LAW DEGREE, specialized in International Commerce- Universidad Autónoma de Madrid
+2009 - 2015

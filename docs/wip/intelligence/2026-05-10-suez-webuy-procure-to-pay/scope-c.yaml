@@ -1,0 +1,104 @@
+engagement_slug: 2026-05-10-suez-webuy-procure-to-pay-scope-c
+counterparty_label: Counterparty enterprise (FR) — Variant C (full operationalisation + capability transfer)
+country_code: FR
+start_date: 2026-05-19
+notes: |
+  Variant C — full operationalisation. Adds a Phase 2 multi-category lightweight web application,
+  an additional operator training wave, and an extended documentation handover on top of Variant B.
+  Web application stays inside Holistika's compliance-friendly delivery environment until counterparty
+  IT validates a future production migration (out of scope of this engagement). Bridge entity
+  present. Brand Manager not assigned to any package for an automation + SOP scope.
+packages:
+  - package_id: WP-C1-discovery-kickoff
+    method_id: discovery_kickoff
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-C2-discovery-interviews
+    method_id: discovery_interviews
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-C3-baseline-synthesis
+    method_id: discovery_synthesis
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-C4-design-workshop
+    method_id: design_workshop
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-C5-cdc-functional-spec
+    method_id: design_specification
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-C6-feasibility-procurement-portal
+    method_id: build_integration_study
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-C7-feasibility-reporting-layer
+    method_id: build_integration_study
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-C8-poc-phase1-prototype
+    method_id: build_prototype_excel
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-C9-poc-phase2-webapp
+    method_id: build_webapp
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-C10-operator-training-wave1
+    method_id: transfer_training
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+  - package_id: WP-C11-operator-training-wave2
+    method_id: transfer_training
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+  - package_id: WP-C12-operational-handover
+    method_id: transfer_documentation
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+  - package_id: WP-C13-extended-documentation
+    method_id: transfer_documentation
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+  - package_id: WP-C14-close-review
+    method_id: close_review
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr

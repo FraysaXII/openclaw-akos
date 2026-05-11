@@ -144,3 +144,24 @@ artifacts/uat/i54-live-a11y/*/
 # Initiative-tagged closure dossier artifacts (per-initiative timestamped; regenerable via scripts/render_uat_dossier.py with the matching --filter / --mode arguments)
 artifacts/dossier-i*/
 
+# Engagement-private operator-supplied source binaries (P9 cleanup of the SUEZ-WeBuy
+# engagement; pattern generalised so future engagements can drop temporary
+# operator-supplied audio / docx / xlsx into the workspace without polluting
+# git). Redacted text extracts under docs/wip/intelligence/<engagement>/extracts/
+# remain committed; the binaries themselves stay operator-private.
+temp-delete-or-move/
+temp-move-or-delete/
+*.opus
+*.m4a
+docs/wip/intelligence/**/*.docx
+docs/wip/intelligence/**/*.pdf
+docs/wip/intelligence/**/*.xlsx
+docs/wip/intelligence/**/*.pptx
+
+# I67/P12.3 — Think Big client-engagement folder shape (per WORKSPACE_BLUEPRINT_HOLISTIKA.md
+# and BRAND_COBRANDING_PATTERN.md). Rendered PDFs regenerate deterministically from
+# markdown via scripts/render_*.py; export folders are operator-local artifacts.
+docs/references/hlk/v3.0/Think Big/Clients/*/_exports/
+!docs/references/hlk/v3.0/Think Big/Clients/*/_exports/.gitkeep
+!docs/references/hlk/v3.0/Think Big/Clients/*/_exports/README.md
+

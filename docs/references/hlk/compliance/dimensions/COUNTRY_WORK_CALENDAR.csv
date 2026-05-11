@@ -1,0 +1,3 @@
+country_code,country_name,legal_hours_per_day,public_holidays_per_year_avg,locale_uplift_pct,notes
+ES,Spain,8.0,14,0,"Madrid SME consulting baseline. Uplift = 0 (canonical reference for SOP-ENG_ESTIMATION_DISCIPLINE_001 §4 hourly rates). 14 public-holiday-equivalent days/year averages national + regional holidays (e.g. Madrid)."
+FR,France,7.0,11,20,"French market. legal_hours_per_day uses the conventional 35h-week → 7h/day. 11 jours fériés nationaux on average. Locale uplift 20% reflects FR vs ES rate index for enterprise consulting; applied at proposal time via the locale_uplift_fr multiplier."

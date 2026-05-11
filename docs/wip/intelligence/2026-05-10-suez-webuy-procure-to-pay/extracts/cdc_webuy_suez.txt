@@ -1,0 +1,290 @@
+# extract: CDC_WeBuy_SUEZ.docx
+# bytes_in: 23268
+# chars_out: 16242
+# redaction: emails+phones+operator-tokens
+
+[Normal] SUEZ RV MATERIEL & LOGISTIQUE
+[Normal] Service Engins TP — Approvisionnements
+[Normal] CAHIER DES CHARGES
+[Normal] Automatisation du Processus de Commande
+[Normal] WeBuy — Gestion des litiges & traçabilité
+[Heading 1] Sommaire
+[Normal] 1.  Contexte et enjeux
+[Normal] 2.  Objectifs du projet
+[Normal] 3.  Périmètre fonctionnel
+[Normal] 4.  Description des besoins
+[Normal] 5.  Architecture de la solution
+[Normal] 6.  Spécifications fonctionnelles détaillées
+[Normal] 7.  Gestion des litiges et alertes
+[Normal] 8.  Exigences techniques
+[Normal] 9.  Sécurité et conformité
+[Normal] 10. Planning et phases
+[Normal] 11. Indicateurs de performance (KPIs)
+[Normal] 12. Annexes
+[Heading 1] 1. Contexte et Enjeux
+[Heading 2] 1.1 Présentation du contexte
+[Normal] SUEZ RV Matériel & Logistique gère un parc d'engins de chantier important, nécessitant des achats fréquents auprès de nombreux fournisseurs (locations, maintenances, transports, pièces, CAPEX). Ces commandes sont aujourd'hui saisies manuellement par les gestionnaires de commandes via le logiciel WeBuy, à partir :
+[List Paragraph] D'e-mails transmis par les Responsables d'Intervention (R.I.)
+[List Paragraph] De devis/proforma reçus des fournisseurs
+[List Paragraph] D'un fichier Excel de référence du parc engins
+[Heading 2] 1.2 Problématiques identifiées
+[Heading 2] 1.3 Enjeu principal — La gestion du litige
+[Normal] Le numéro de commande (ex. : PO01791818) doit impérativement figurer sur toute facture. Il est généré par WeBuy lors de la création de la demande d'achat et transmis automatiquement au fournisseur, sauf si la case « Sans envoi du bon de commande » est cochée.
+[Heading 1] 2. Objectifs du Projet
+[Heading 2] 2.1 Objectif principal
+[Normal] Développer un outil de semi-automatisation des demandes d'achat WeBuy, alimenté par un fichier Excel de données, permettant de réduire drastiquement le temps de saisie et d'éliminer les erreurs génératrices de litiges.
+[Heading 2] 2.2 Objectifs spécifiques
+[List Paragraph] Automatiser la génération des libellés de commande selon la règle de nommage définie
+[List Paragraph] Pré-remplir les champs WeBuy à partir des données du fichier Excel et du mail de demande
+[List Paragraph] Tracer chaque commande passée avec son numéro PO dans un registre centralisé
+[List Paragraph] Alerter automatiquement le fournisseur et le gestionnaire en cas de risque de litige
+[List Paragraph] Fournir un tableau de bord de suivi des commandes et des litiges en cours
+[Heading 1] 3. Périmètre Fonctionnel
+[Heading 2] 3.1 Catégories de commandes concernées
+[Heading 2] 3.2 Périmètre organisationnel
+[Heading 1] 4. Description des Besoins
+[Heading 2] 4.1 Besoin 1 — Interface de saisie guidée
+[Normal] L'outil doit proposer un formulaire structuré reprenant les données nécessaires à la création de la demande d'achat, organisé par catégorie.
+[Normal] Données d'entrée :
+[List Paragraph] Catégorie de demande (liste déroulante)
+[List Paragraph] Code type d'intervention (liste filtrée par catégorie)
+[List Paragraph] Numéro de parc de l'engin (saisie ou import Excel)
+[List Paragraph] Nom du fournisseur + SIREN / SIRET / contact
+[List Paragraph] Numéro de devis ou facture fournisseur
+[List Paragraph] Prix unitaire HT
+[List Paragraph] Date de livraison souhaitée
+[List Paragraph] Adresse de livraison
+[Normal] Données auto-calculées / générées :
+[List Paragraph] Libellé (règle de nommage automatique)
+[List Paragraph] Compte comptable (selon catégorie)
+[List Paragraph] Ressource / Ordre interne (202 - Engins, par défaut)
+[List Paragraph] Centre de profit (7MA2 - MM_Engins, par défaut)
+[Heading 2] 4.2 Besoin 2 — Règle de nommage automatique
+[Normal] Le libellé doit être construit automatiquement selon la règle suivante :
+[Normal] L'outil doit rejeter tout libellé non conforme avant soumission et afficher un aperçu en temps réel.
+[Heading 2] 4.3 Besoin 3 — Import depuis fichier Excel parc engins
+[Normal] Le fichier Excel de référence du parc contient les informations de chaque engin (numéro de parc, type d'engin, code métier, centre de coût, affectation de site…). L'outil doit permettre :
+[List Paragraph] L'import et la mise à jour périodique de ce fichier
+[List Paragraph] La récupération automatique des informations liées à un numéro de parc saisi
+[List Paragraph] La pré-population des champs correspondants dans le formulaire
+[Heading 2] 4.4 Besoin 4 — Registre des commandes (suivi PO)
+[Normal] Chaque commande finalisée doit être enregistrée dans un registre centralisé :
+[Heading 2] 4.5 Besoin 5 — Prévention et gestion des litiges
+[Normal] L'outil doit intégrer un module de prévention active des litiges.
+[Normal] Déclencheurs de litige potentiel :
+[List Paragraph] Facture reçue sans numéro PO correspondant dans le registre
+[List Paragraph] Montant facturé différent du montant commandé (tolérance de ±5% à valider)
+[List Paragraph] Fournisseur non reconnu dans la base
+[Normal] Actions automatiques :
+[List Paragraph] Envoi d'un rappel email au fournisseur avec le numéro PO à rappeler
+[List Paragraph] Notification au gestionnaire de commandes
+[List Paragraph] Création d'une fiche litige dans le tableau de bord
+[Heading 1] 5. Architecture de la Solution
+[Heading 2] 5.1 Options technologiques
+[Heading 1] 6. Spécifications Fonctionnelles Détaillées
+[Heading 2] 6.1 Champs communs à toutes les catégories
+[Heading 2] 6.2 Champs spécifiques par catégorie
+[Heading 1] 7. Gestion des Litiges et Alertes
+[Heading 2] 7.1 Processus de prévention
+[Normal] Le processus de prévention repose sur la transmission systématique du numéro PO au fournisseur dès la création de la commande, et sur le rapprochement automatique à réception de chaque facture.
+[Heading 2] 7.2 Template email de relance fournisseur
+[Heading 2] 7.3 Tableau de bord des litiges
+[Normal] Le tableau de bord doit afficher en temps réel :
+[List Paragraph] Nombre de factures en litige (en cours)
+[List Paragraph] Montant total bloqué en litige
+[List Paragraph] Ancienneté des litiges (J, J+7, J+30, >J+30)
+[List Paragraph] Fournisseurs récurrents en litige
+[List Paragraph] Taux de résolution sur 30 jours glissants
+[Heading 1] 8. Exigences Techniques
+[Heading 2] 8.1 Compatibilité
+[List Paragraph] Compatible avec les navigateurs Chrome et Edge
+[List Paragraph] Accessible depuis les postes Windows du réseau SUEZ
+[List Paragraph] Compatible avec le format Excel (.xlsx) du parc engins
+[List Paragraph] Pas d'installation requise côté poste utilisateur
+[Heading 2] 8.2 Intégration WeBuy
+[Normal] WeBuy ne disposant pas d'API publique documentée à ce stade, la solution adoptera une approche en deux temps :
+[Heading 2] 8.3 Performance
+[Heading 1] 9. Sécurité et Conformité
+[Heading 2] 9.1 Gestion des accès
+[Heading 2] 9.2 Données personnelles (RGPD)
+[Normal] Les données traitées (coordonnées fournisseurs, contacts) sont couvertes par les Conditions Générales d'Achat SUEZ (article 20). La solution devra respecter les obligations RGPD et ne pas stocker de données personnelles en dehors des systèmes homologués SUEZ.
+[Heading 2] 9.3 Traçabilité
+[Normal] Toute action (création, modification, suppression) doit être loguée avec l'identifiant utilisateur et la date/heure, conformément aux exigences de contrôle interne SUEZ.
+[Heading 1] 10. Planning et Phases
+[Heading 1] 11. Indicateurs de Performance (KPIs)
+[Heading 1] 12. Annexes
+[Heading 2] Annexe A — Codes types d'intervention
+[Heading 2] Annexe B — Informations du bon de commande de référence (PO01791818)
+[Heading 2] Annexe C — Contacts clés
+[Normal] Document soumis pour validation — toute modification doit faire l'objet d'un avenant numéroté.
+
+[Table 1]
+Référence | CDC-WEBUY-[REDACTED-PHONE]
+
+[Table 2]
+Date | Avril 2026
+
+[Table 3]
+Statut | Version 1.0 — Pour validation
+
+[Table 4]
+Demandeur | Service Engins TP / Approvisionnements
+
+[Table 5]
+Rédacteur | Consultant Externe
+
+[Table 6]
+Destinataires | Gestionnaires de commandes, DSI SUEZ
+
+[Table 7]
+Problématique | Impact
+Saisie manuelle répétitive dans WeBuy | Perte de temps, risque d'erreur humaine
+Règle de nommage complexe à 5 composantes | Non-conformité fréquente du libellé
+Facturation sans numéro de commande | Factures en litige, blocage du paiement fournisseur
+Absence de traçabilité centralisée | Difficultés de suivi et de contrôle
+Multiples catégories avec des logiques différentes | Complexité de traitement, formations longues
+
+[Table 8]
+Lorsqu'un fournisseur envoie une facture SANS numéro de bon de commande (PO), le système WeBuy la classe automatiquement en LITIGE. Cela entraîne des retards de paiement, des échanges chronophages pour régularisation, et une dégradation des relations commerciales.
+
+[Table 9]
+Code | Catégorie | Cas d'utilisation
+CAP | CAPEX — Investissement | Achat nouvel engin
+FSR / FSC / PMS / PMR / PMC / PMV | Interventions de maintenance | Réparation, casse, VGP, entretien
+PMF | Fourniture de pièces | Pièces détachées, pièces d'usure
+FST / PMT | Transport d'engins | Transfert de site
+FSL / PML | Location d'engins | Engin de remplacement
+— | Pneus | Remplacement pneus engins
+
+[Table 10]
+Acteur | Rôle dans le processus
+Gestionnaires de commandes | Utilisateurs principaux de l'outil, création des DA dans WeBuy
+Responsables d'intervention (R.I.) | Prescripteurs : émettent les demandes par e-mail
+Fournisseurs (EN CO, Volvo CE, Goodyear…) | Reçoivent le bon de commande et émettent les factures
+DSI / Informatique SUEZ | Hébergement et maintenance de la solution
+
+[Table 11]
+[Initiales demandeur] - [N° parc] - [Code intervention] - [Fournisseur] - [N° devis/facture]     Exemple : AC-ENG5855-FSL-ENCO-[REDACTED-PHONE]
+
+[Table 12]
+Champ | Description
+N° PO | Numéro bon de commande WeBuy (ex. : PO01791818)
+Date commande | Date de création dans WeBuy
+N° devis fournisseur | Référence du devis source
+Fournisseur | Raison sociale
+Contact email | Adresse email de réception du BC
+Parc engin | Code parc concerné
+Catégorie | FSL, FSR, PMR, etc.
+Montant HT | Montant commandé
+Statut | En cours / Réceptionné / Facturé / Litige
+N° facture | Renseigné à réception
+Ecart | Différence montant facturé vs commandé
+
+[Table 13]
+Option | Description | Avantages | Inconvénients
+A — Excel VBA / Power Query | Macros Excel pour automatiser la génération des libellés et le registre | Pas de nouveau logiciel, familier aux équipes | Limité, maintenance difficile
+B — Application Web légère (Recommandée) | Interface web simple hébergée en interne ou sur cloud | Ergonomique, accessible depuis n'importe quel poste | Développement initial requis
+C — RPA (Robotic Process Automation) | Robot simulant les clics dans WeBuy pour saisie automatique | Automatisation totale de la saisie WeBuy | Coût élevé, fragile aux mises à jour WeBuy
+
+[Table 14]
+Recommandation : Option B (Application Web), éventuellement couplée à une automatisation partielle de type Option A pour le court terme (Phase 1).
+
+[Table 15]
+Champ | Type | Obligatoire | Valeur par défaut
+Initiales demandeur | Texte (2-3 car.) | Oui | Profil utilisateur
+Catégorie de demande | Liste déroulante | Oui | —
+Code type intervention | Liste filtrée | Oui | —
+Numéro de parc | Texte + recherche Excel | Oui | —
+Fournisseur (SIREN) | Liste + recherche | Oui | —
+Etablissement (SIRET) | Liste filtrée | Oui | —
+Contact fournisseur | Email, liste filtrée | Oui | —
+N° devis / facture | Texte | Oui | —
+Prix unitaire HT | Numérique | Oui | —
+Date de livraison | Date | Oui | Lendemain (J+1)
+Centre de profit | Texte | Oui | 7MA2 — MM_Engins
+Commentaire fournisseur | Texte libre | Non | —
+Pièce jointe | Fichier | Recommandé | —
+
+[Table 16]
+Catégorie | Champs supplémentaires | Compte comptable automatique
+CAPEX | N° D.I., eOTP, tonnage | IMMO EN COURS TECH IMMOB CORPORELLES
+Maintenance (FSR/FSC/PMR…) | — | Entretien et réparations véhicules
+Pneus | — | Pneus et chambres
+Fourniture pièces (PMF) | Type de pièce (usure / détachée) | Petit matériel et outillage
+Transport (FST/PMT) | Origine -> Destination | Sous-traitance transport amont
+Location (FSL/PML) | Tonnage, engagement horaire mensuel | Location matériels <6 mois
+
+[Table 17]
+Etape | Action | Responsable
+1. Création commande | Génération du N° PO dans WeBuy + enregistrement registre | Gestionnaire
+2. Envoi BC fournisseur | WeBuy envoie automatiquement le BC avec N° PO | WeBuy (auto)
+3. Emission facture | Fournisseur intègre le N° PO sur sa facture | Fournisseur
+4. Réception facture | Rapprochement automatique facture / registre PO | Outil (auto)
+5a. PO trouvé | Traitement normal, validation paiement | Comptabilité
+5b. PO absent | Alerte litige + email de régularisation au fournisseur | Outil (auto)
+
+[Table 18]
+Objet : [SUEZ] Regularisation necessaire — Facture n° [XXX] — Numero de commande manquant  Madame, Monsieur,  Nous avons bien receptionne votre facture n° [XXX] d'un montant de [MONTANT] EUR HT. Afin de proceder au reglement dans les delais contractuels, nous vous demandons de rappeler imperativement le numero de bon de commande suivant sur votre facture ou sur une facture rectificative :  N° Commande : [PO_NUMBER]  Sans ce numero, votre facture sera retournee.  Contact gestionnaire : [NOM] — [EMAIL]
+
+[Table 19]
+Phase | Approche | Description
+Phase 1 (court terme) | Fiche pré-remplie | L'outil génère une fiche de saisie que le gestionnaire utilise pour copier-coller dans WeBuy
+Phase 2 (moyen terme) | Intégration directe | Étudier les mécanismes disponibles : import de fichiers, API interne, ou RPA
+
+[Table 20]
+Critère | Exigence
+Chargement du formulaire | < 3 secondes
+Recherche dans la base parc engins | < 1 seconde
+Disponibilité | 99% aux heures ouvrées (lun–ven, 7h–19h)
+Sauvegarde du registre | Quotidienne, automatique
+
+[Table 21]
+Profil | Droits
+Gestionnaire de commandes | Créer, modifier, consulter les commandes
+Responsable d'intervention | Consultation et soumission de demandes
+Administrateur | Accès complet, gestion des référentiels
+Lecture seule | Consultation du registre PO uniquement
+
+[Table 22]
+Phase | Contenu | Durée | Livrable
+Phase 1 Solution Excel | Fichier Excel avancé avec formulaire de saisie, générateur de libellé, registre PO, formation gestionnaires | 4 semaines | Fichier Excel opérationnel + guide utilisateur
+Phase 2 Application Web | Interface web multi-catégories, import Excel parc engins, module anti-litige, alertes email, tableau de bord, recette et formation | 8 semaines | Application web déployée + documentation
+Phase 3 Automatisation avancée | Etude de faisabilité intégration WeBuy (API/RPA), développement, tests, déploiement progressif | 8 semaines | Rapport de faisabilité + solution d'intégration
+
+[Table 23]
+KPI | Cible | Fréquence
+Temps moyen de saisie d'une commande | Réduction de 70% vs situation actuelle | Mensuel
+Taux de libellés conformes à la règle de nommage | > 99% | Mensuel
+Taux de factures en litige (sans N° PO) | < 2% | Mensuel
+Délai moyen de résolution d'un litige | < 5 jours ouvrés | Mensuel
+Taux de satisfaction des gestionnaires | > 80% (enquête) | Trimestriel
+Couverture du registre PO | 100% des commandes tracées | Hebdomadaire
+
+[Table 24]
+Code | Définition | Catégorie
+CAP | Capex — Achat nouvel engin | Investissement
+PMR | Plan de Maintenance Réparation | Maintenance
+PMC | Plan de Maintenance Casse | Maintenance
+PMS | Plan de Maintenance Stationnement | Maintenance
+PMV | Plan de Maintenance Vérification (VGP) | Maintenance
+FSC | Full Service Casse | Maintenance
+FSR | Full Service Réparation | Maintenance
+PMF | Plan de Maintenance Fournitures | Fourniture de pièces
+FST | Full Service Transport | Transport
+PMT | Plan de Maintenance Transport | Transport
+FSL | Full Service Location | Location
+PML | Plan de Maintenance Location | Location
+
+[Table 25]
+Information | Valeur
+Emetteur | SUEZ RV MATERIEL ET LOGISTIQUE (SIREN [REDACTED-PHONE])
+Conditions de paiement | 30 jours net / Virement SEPA en EUR
+Adresse de livraison standard | 6 RUE DES PRES D'AULNAY — 91220 BRETIGNY SUR ORGE
+Adresse de facturation | ALTIPLANO, 4 PLACE DE LA PYRAMIDE — 92800 PUTEAUX
+Envoi des factures (mail) | [REDACTED-EMAIL]
+Envoi des factures (courrier) | SUEZ RV MATERIEL ET LOGISTIQUE — TSA 57432 — 69307 LYON CEDEX 07
+
+[Table 26]
+Rôle | Nom | Email
+Gestionnaire de commandes | Mélanie ZITOUNI | [REDACTED-EMAIL]
+Demandeur référent | [REDACTED] CAMIN | [REDACTED][REDACTED-EMAIL]

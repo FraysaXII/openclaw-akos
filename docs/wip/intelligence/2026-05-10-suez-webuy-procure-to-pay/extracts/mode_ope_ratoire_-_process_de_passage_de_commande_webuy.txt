@@ -1,0 +1,1011 @@
+# extract: Mode opératoire - Process de passage de commande WeBuy.pdf
+# bytes_in: 3601423
+# chars_out: 32999
+# redaction: emails+phones+operator-tokens
+
+
+
+=== page 001 ===
+
+Process de passage de commandes
+Webuy
+
+
+=== page 002 ===
+
+Table des matières
+I. Workflow de demande d’achat ........................................................................... 3
+II. Définition des codes types d’intervention ............................................................ 4
+III. Catégorie investissement CAPEX .................................................................... 5
+a) Sélection de l’article à ajouter au panier ................................................... 5
+b) Informations principales de la demande d’achats (orienté appro. SUEZ) ..... 6
+c) Informations concernant l’article (orienté fournisseur) ............................... 7
+IV. Catégorie intervention de maintenance .............................................................. 9
+INTERVENTIONS DE MAINTENANCE ................................................................... 9
+a) Sélection de l’article à ajouter au panier ................................................... 9
+b) Informations principales de la demande d’achats (orienté appro. SUEZ) ... 10
+c) Informations concernant l’article (orienté fournisseur) ............................. 11
+PNEUS ............................................................................................................ 13
+a) Sélection de l’article à ajouter au panier ................................................. 13
+b) Informations principales de la demande d’achats (orienté appro. SUEZ) ... 14
+c) Informations concernant l’article (orienté fournisseur) ............................. 15
+FOURNITURE DE PIECES ................................................................................. 17
+a) Sélection de l’article à ajouter au panier ................................................. 17
+b) Informations principales de la demande d’achats (orienté appro. SUEZ) ... 18
+c) Informations concernant l’article (orienté fournisseur) ............................. 19
+V. Catégorie transport d’engins ............................................................................ 21
+a) Sélection de l’article à ajouter au panier ................................................. 21
+b) Informations principales de la demande d’achats (orienté appro. SUEZ) ... 22
+c) Informations concernant l’article (orienté fournisseur) ............................. 23
+VI. Catégorie location d’engins .......................................................................... 25
+a) Sélection de l’article à ajouter au panier ................................................. 25
+b) Informations principales de la demande d’achats (orienté appro. SUEZ) ... 26
+c) Informations concernant l’article (orienté fournisseur) ............................. 27
+2
+
+
+=== page 003 ===
+
+I. Workflow de demande d’achat
+
+
+=== page 004 ===
+
+II. Définition des codes types d’intervention SUEZ
+Les codes types d’interventions à utiliser selon les catégories sont les suivants :
+Catégories de Codes type
+Définition Cas d’utilisation
+demande de demande
+Achet de nouvel engin
+CAPEX CAP Capex
+(investissement)
+Plan de Maintenance Réparation sur engins
+PMR
+Réparation en gestion PM
+Plan de Maintenance Casse sur engins en
+PMC
+Casse gestion PM
+Plan de Maintenance
+PMS Entretien
+Stationnement
+Interventions
+Plan de Maintenance VGP sur engins en
+de PMV
+Vérification gestion PM
+maintenance
+Casse sur engins en
+FSC Full Service Casse
+gestion FS
+Réparation sur engins
+FSR Full Service Réparation
+en gestion FS
+Fourniture de pièces
+Plan de Maintenance
+PMF pour un engin en
+Fournitures
+gestion PM
+Transport d’un engin en
+FST Full Service Transport
+gestion FS
+Transport
+Plan de Maintenance Transport d’un engin en
+PMT
+Transport gestion PM
+Location d’un engin
+Plan de Maintenance
+PML pour remplacer un
+Location
+engin en gestion PM
+Location
+Location d’un engin
+FSL Full Service Location pour remplacer un
+engin en gestion FS
+Pour toutes les catégories, vous recevez les informations par mail avec les informations
+nécessaires pour réaliser la demande d’achat (numéro de parc, code métier …). Grâce
+au parc d’engins, vous identifiez le numéro de parc cet vous récupérez les informations.
+
+
+=== page 004 table 1 ===
+
+Catégories de
+demande | Codes type
+de demande | Définition | Cas d’utilisation
+CAPEX | CAP | Capex | Achet de nouvel engin
+(investissement)
+Interventions
+de
+maintenance | PMR | Plan de Maintenance
+Réparation | Réparation sur engins
+en gestion PM
+ | PMC | Plan de Maintenance
+Casse | Casse sur engins en
+gestion PM
+ | PMS | Plan de Maintenance
+Stationnement | Entretien
+ | PMV | Plan de Maintenance
+Vérification | VGP sur engins en
+gestion PM
+ | FSC | Full Service Casse | Casse sur engins en
+gestion FS
+ | FSR | Full Service Réparation | Réparation sur engins
+en gestion FS
+ | PMF | Plan de Maintenance
+Fournitures | Fourniture de pièces
+pour un engin en
+gestion PM
+Transport | FST | Full Service Transport | Transport d’un engin en
+gestion FS
+ | PMT | Plan de Maintenance
+Transport | Transport d’un engin en
+gestion PM
+Location | PML | Plan de Maintenance
+Location | Location d’un engin
+pour remplacer un
+engin en gestion PM
+ | FSL | Full Service Location | Location d’un engin
+pour remplacer un
+engin en gestion FS
+
+
+=== page 004 table 2 ===
+
+Catégories de
+demande
+
+
+=== page 004 table 3 ===
+
+Codes type
+de demande
+
+
+=== page 004 table 4 ===
+
+Interventions
+de
+maintenance
+
+
+=== page 005 ===
+
+III. Catégorie investissement CAPEX
+Dès réception de la demande d’achat, il convient d’envoyer le numéro de la D.I.
+(demande d’investissement) à la responsable de la comptabilité afin qu’elle ouvre une
+oETP (cette oETP ne sera disponible que le lendemain dans l’interface).
+a) Sélection de l’article à ajouter au panier
+Dans la barre de recherche WeBuy, cliquez sur Articles puis sur Rechercher des
+produits. Cliquez ensuite sur les encadrés rouges ci-dessous :
+Vous arrivez ensuite sur la page de sélection du nouveau matériel. Dans ce type de
+commandes, il faut sélectionner le type d’engin concerné. Exemple : ENG6133 → Type
+d’engins : Chargeur sur chenilles. Cliquez sur Ajouter au panier dans l’encadré rouge ci-
+dessous :
+Dans l’encadré vert ci-dessus, précisez
+le tonnage correspondant au nouveau
+matériel et l’ajouter au panier.
+5
+Cliquez sur Valider le panier
+
+
+=== page 006 ===
+
+b) Informations principales de la demande d’achats (orienté appro. SUEZ)
+Cochez obligatoirement la case « DA 2M »
+Cochez obligatoirement la case « Sans envoi du bon de commande »
+Les champs à remplir sur cette interface sont les suivants :
+- Libellé : Règle de nommage
+1. Initiales du demandeur,
+2. Numéro de parc de l’engin,
+3. Copier-coller l’objet du mail de la demande CAPEX
+- Centre de profit : Toujours 7MA2 – MM_ Engins,
+- Adresse de livraison : Renseignez impérativement l’adresse du site où le nouveau
+matériel doit être livré,
+- Demande d’investissement : Renseignez le numéro de la D.I. (transmis dans le
+mail),
+- eOTP : C’est ce numéro qui est transmis par la responsable de la comptabilité,
+- Commentaires : Rajouter le numéro de la DI et la précision de cette D.I.,
+- Rajouter la pièce jointe de la demande.
+6
+
+
+=== page 007 ===
+
+c) Informations concernant l’article (orienté fournisseur)
+Cliquez sur le crayon (encadré rouge) pour modifier le détail de l’article :
+1
+2
+3
+4
+7
+
+
+=== page 008 ===
+
+Actions à réaliser sur l’interface ci-dessus :
+Section Champ à remplir Information à saisir
+Par défaut c’est le nom de la catégorie qui
+Libellé de l’article
+est inscrit.
+1
+Date de livraison Mettre fin de l’année du délai
+Prix unitaire Renseignez le prix unitaire hors taxe
+Section Champ à remplir Information à saisir
+Sélectionnez le fournisseur dans le menu
+Fournisseur (SIREN)*
+déroulant
+Sélectionnez l’établissement dans le menu
+2 Etablissement (SIRET)*
+déroulant
+Sélectionnez le contact fournisseur (l’adresse
+Contact fournisseur*
+e-mail qui doit recevoir les informations)
+*Pour les 3 astérisques ci-dessus, se référer au document fournit par le fournisseur
+pour identifier le SIREN / SIRET / contact fournisseur.
+Section Champ à remplir Information à saisir
+Ajouter la pièce jointe transmise par le
+3 Pièce jointe
+fournisseur
+Section Champ à remplir Information à saisir
+Vérifier que le choix est :
+Compte comptable IMMO EN COURS TECH IMMOB
+CORPORELLES
+Vérifier que le choix est automatiquement le
+Centre de coût / eOTP
+4 code eOTP précédemment inscrit
+Sélectionnez dans le menu déroulant :
+Ressource / Ordre interne
+202 - Engins
+Sélectionnez l’engin concerné par la
+Code parc
+demande d’achat
+Cliquez ensuite sur le bouton « Enregistrer et fermer »
+Cliquez ensuite sur « Soumettre à validation »
+Demande d’achat finalisée !
+8
+
+
+=== page 008 table 1 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+1 |  |  | Libellé de l’article |  |  | Par défaut c’est le nom de la catégorie qui
+est inscrit. |  | 
+ |  |  | Date de livraison |  |  | Mettre fin de l’année du délai |  | 
+ |  |  | Prix unitaire |  |  | Renseignez le prix unitaire hors taxe |  |
+
+
+=== page 008 table 2 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+2 |  |  | Fournisseur (SIREN)* |  |  | Sélectionnez le fournisseur dans le menu
+déroulant |  | 
+ |  |  | Etablissement (SIRET)* |  |  | Sélectionnez l’établissement dans le menu
+déroulant |  | 
+ |  |  | Contact fournisseur* |  |  | Sélectionnez le contact fournisseur (l’adresse
+e-mail qui doit recevoir les informations) |  |
+
+
+=== page 008 table 3 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+3 |  |  | Pièce jointe |  |  | Ajouter la pièce jointe transmise par le
+fournisseur |  |
+
+
+=== page 008 table 4 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+4 |  |  | Compte comptable |  |  | Vérifier que le choix est :
+IMMO EN COURS TECH IMMOB
+CORPORELLES |  | 
+ |  |  | Centre de coût / eOTP |  |  | Vérifier que le choix est automatiquement le
+code eOTP précédemment inscrit |  | 
+ |  |  | Ressource / Ordre interne |  |  | Sélectionnez dans le menu déroulant :
+202 - Engins |  | 
+ |  |  | Code parc |  |  | Sélectionnez l’engin concerné par la
+demande d’achat |  |
+
+
+=== page 009 ===
+
+IV. Catégorie intervention de maintenance
+INTERVENTIONS DE MAINTENANCE
+Dans cette partie, nous retrouvons les codes d’interventions suivant : PMR, PMC, PMS,
+PMV, FSC, FSR.
+a) Sélection de l’article à ajouter au panier
+Dans la barre de recherche WeBuy, cliquez sur Articles puis sur Rechercher des
+produits. Cliquez ensuite sur les encadrés rouges ci-dessous :
+Peu importe l’engin
+concerné par la demande,
+sélectionnez l’article ci-
+dessous :
+Sélectionnez l’article « Engins de
+chantier (Hors full services) –
+Maintenance et service – Autre » puis
+cliquez sur « Ajouter au panier ».
+9
+
+
+=== page 010 ===
+
+b) Informations principales de la demande d’achats (orienté appro. SUEZ)
+Le numéro de la demande d’achat est automatiquement créé « REQ01416093 » sur
+notre exemple ci-dessus.
+Les champs à remplir sur cette interface sont les suivants :
+- Libellé : Règle de nommage
+1. Initiales du demandeur,
+2. Numéro de parc de l’engin,
+3. Code type d’interventions*,
+4. Nom du fournisseur,
+5. N° de devis / Facture.
+- Centre de profit : Toujours 7MA2 – MM_ Engins
+- Adresse de livraison : SUEZ RV MATERIEL & LOGISTIQUE (BRETIGNY)
+- Centre de coût : Se référer au parc engins pour identifier le code métier (ex : Z-
+[REDACTED-PHONE] – MB Locations TP Engins – LMM)
+- Rajouter la pièce jointe de la demande
+10
+
+
+=== page 011 ===
+
+c) Informations concernant l’article (orienté fournisseur)
+Cliquez sur le crayon (encadré rouge) pour modifier le détail de l’article :
+1
+2
+3
+4
+11
+
+
+=== page 012 ===
+
+Actions à réaliser sur l’interface ci-dessus :
+Section Champ à remplir Information à saisir
+Par défaut c’est le nom de la catégorie qui
+est inscrit.
+Supprimez et renseignez le numéro de devis
+Libellé de l’article du fournisseur en rajoutant le code type
+1 d’intervention SUEZ (précisé par le
+demandeur)
+(Ex : DEVIS BRO00000759 FSR)
+Date de livraison Toujours mettre la date du lendemain
+Prix unitaire Renseignez le prix unitaire hors taxe
+Section Champ à remplir Information à saisir
+Sélectionnez le fournisseur dans le menu
+Fournisseur (SIREN)*
+déroulant
+Sélectionnez l’établissement dans le menu
+Etablissement (SIRET)*
+déroulant
+2 Sélectionnez le contact fournisseur (l’adresse
+Contact fournisseur*
+e-mail qui doit recevoir les informations)
+Rajoutez le libellé de la demande pour le
+Commentaire fournisseur
+(Ex : Resserrage raccords)
+*Pour les 3 astérisques ci-dessus, se référer au document fournit par le fournisseur
+pour identifier le SIREN / SIRET / contact fournisseur.
+Section Champ à remplir Information à saisir
+Ajouter la pièce jointe transmise par le
+3 Pièce jointe
+fournisseur
+Section Champ à remplir Information à saisir
+Compte comptable Entretien et réparations véhicules
+Sélectionnez dans le menu déroulant :
+Ressource / Ordre interne
+4 202 - Engins
+Sélectionnez l’engin concerné par la
+Code parc
+demande d’achat
+Cliquez ensuite sur le bouton « Enregistrer et fermer »
+Cliquez ensuite sur « Soumettre à validation »
+Demande d’achat finalisée ! 12
+
+
+=== page 012 table 1 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+1 |  |  | Libellé de l’article |  |  | Par défaut c’est le nom de la catégorie qui
+est inscrit.
+Supprimez et renseignez le numéro de devis
+du fournisseur en rajoutant le code type
+d’intervention SUEZ (précisé par le
+demandeur)
+(Ex : DEVIS BRO00000759 FSR) |  | 
+ |  |  | Date de livraison |  |  | Toujours mettre la date du lendemain |  | 
+ |  |  | Prix unitaire |  |  | Renseignez le prix unitaire hors taxe |  |
+
+
+=== page 012 table 2 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+2 |  |  | Fournisseur (SIREN)* |  |  | Sélectionnez le fournisseur dans le menu
+déroulant |  | 
+ |  |  | Etablissement (SIRET)* |  |  | Sélectionnez l’établissement dans le menu
+déroulant |  | 
+ |  |  | Contact fournisseur* |  |  | Sélectionnez le contact fournisseur (l’adresse
+e-mail qui doit recevoir les informations) |  | 
+ |  |  | Commentaire |  |  | Rajoutez le libellé de la demande pour le
+fournisseur
+(Ex : Resserrage raccords) |  |
+
+
+=== page 012 table 3 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+3 |  |  | Pièce jointe |  |  | Ajouter la pièce jointe transmise par le
+fournisseur |  |
+
+
+=== page 012 table 4 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+4 |  |  | Compte comptable |  |  | Entretien et réparations véhicules |  | 
+ |  |  | Ressource / Ordre interne |  |  | Sélectionnez dans le menu déroulant :
+202 - Engins |  | 
+ |  |  | Code parc |  |  | Sélectionnez l’engin concerné par la
+demande d’achat |  |
+
+
+=== page 013 ===
+
+PNEUS
+a) Sélection de l’article à ajouter au panier
+Dans la barre de recherche WeBuy, cliquez sur Articles puis sur Rechercher des
+produits.
+Cliquez ensuite sur les encadrés rouges ci-dessous :
+13
+
+
+=== page 014 ===
+
+b) Informations principales de la demande d’achats (orienté appro. SUEZ)
+Le numéro de la demande d’achat est automatiquement créé « REQ01423543 » sur
+notre exemple ci-dessus :
+Les champs à remplir sur cette interface sont les suivants :
+- Libellé : Règle de nommage
+1. Initiales du demandeur,
+2. Numéro de parc de l’engin,
+3. Code type d’interventions*,
+4. Nom du fournisseur,
+5. N° de devis / Facture.
+*Ce code est fourni par la personne qui vous demande de réaliser la demande d’achat
+(Responsable d’intervention, responsable du service Engins TP ou gestionnaire de
+planification)
+- Centre de profit : Toujours 7MA2 – MM_ Engins
+- Adresse de livraison : SUEZ RV MATERIEL & LOGISTIQUE (BRETIGNY)
+- Centre de coût : Se référer au parc engins pour identifier le code métier (ex : Z-
+[REDACTED-PHONE] – MB Locations TP Engins – LMM)
+- Rajouter la pièce jointe de la demande
+14
+
+
+=== page 015 ===
+
+c) Informations concernant l’article (orienté fournisseur)
+1
+1
+2
+3
+4
+15
+
+
+=== page 016 ===
+
+Actions à réaliser sur l’interface ci-dessus :
+Section Champ à remplir Information à saisir
+Par défaut c’est le nom de la catégorie qui
+est inscrit.
+Supprimez et renseignez le numéro de devis
+Libellé de l’article du fournisseur en rajoutant le code type
+1 d’intervention SUEZ (précisé par le
+demandeur)
+(Ex : DEVIS BRO00000759 FSR)
+Date de livraison Toujours mettre la date du lendemain
+Prix unitaire Renseignez le prix unitaire hors taxe
+Section Champ à remplir Information à saisir
+Sélectionnez le fournisseur dans le menu
+Fournisseur (SIREN)*
+déroulant
+Sélectionnez l’établissement dans le menu
+Etablissement (SIRET)*
+déroulant
+2 Sélectionnez le contact fournisseur (l’adresse
+Contact fournisseur*
+e-mail qui doit recevoir les informations)
+Rajoutez le libellé de la demande pour le
+Commentaire fournisseur
+(Ex : Remplacement 4 pneus – ENG6072)
+*Pour les 3 astérisques ci-dessus, se référer au document fournit par le fournisseur
+pour identifier le SIREN / SIRET / contact fournisseur.
+Section Champ à remplir Information à saisir
+Ajouter la pièce jointe transmise par le
+3 Pièce jointe
+fournisseur
+Section Champ à remplir Information à saisir
+Compte comptable Pneus et chambres
+Sélectionnez dans le menu déroulant :
+Ressource / Ordre interne
+4 202 - Engins
+Sélectionnez l’engin concerné par la
+Code parc
+demande d’achat
+Cliquez ensuite sur le bouton « Enregistrer et fermer »
+Cliquez ensuite sur « Soumettre à validation »
+16
+Demande d’achat finalisée !
+
+
+=== page 016 table 1 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+1 |  |  | Libellé de l’article |  |  | Par défaut c’est le nom de la catégorie qui
+est inscrit.
+Supprimez et renseignez le numéro de devis
+du fournisseur en rajoutant le code type
+d’intervention SUEZ (précisé par le
+demandeur)
+(Ex : DEVIS BRO00000759 FSR) |  | 
+ |  |  | Date de livraison |  |  | Toujours mettre la date du lendemain |  | 
+ |  |  | Prix unitaire |  |  | Renseignez le prix unitaire hors taxe |  |
+
+
+=== page 016 table 2 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+2 |  |  | Fournisseur (SIREN)* |  |  | Sélectionnez le fournisseur dans le menu
+déroulant |  | 
+ |  |  | Etablissement (SIRET)* |  |  | Sélectionnez l’établissement dans le menu
+déroulant |  | 
+ |  |  | Contact fournisseur* |  |  | Sélectionnez le contact fournisseur (l’adresse
+e-mail qui doit recevoir les informations) |  | 
+ |  |  | Commentaire |  |  | Rajoutez le libellé de la demande pour le
+fournisseur
+(Ex : Remplacement 4 pneus – ENG6072) |  |
+
+
+=== page 016 table 3 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+3 |  |  | Pièce jointe |  |  | Ajouter la pièce jointe transmise par le
+fournisseur |  |
+
+
+=== page 016 table 4 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+4 |  |  | Compte comptable |  |  | Pneus et chambres |  | 
+ |  |  | Ressource / Ordre interne |  |  | Sélectionnez dans le menu déroulant :
+202 - Engins |  | 
+ |  |  | Code parc |  |  | Sélectionnez l’engin concerné par la
+demande d’achat |  |
+
+
+=== page 017 ===
+
+FOURNITURE DE PIECES
+a) Sélection de l’article à ajouter au panier
+Dans la barre de recherche WeBuy, cliquez sur Articles puis sur Rechercher des
+produits.
+Cliquez ensuite sur les encadrés rouges ci-dessous :
+Vous arrivez ensuite sur la page de sélection de l’article. Dans ce type de commandes, il
+faut sélectionner le type d’engin concerné. Exemple : ENG5866 → Type d’engins : Pelle
+sur pneus. Cliquez sur Ajouter au panier dans l’encadré rouge ci-dessous :
+Dans l’encadré vert, sélectionnez le type de pièce, cliquez sur Ajouter au panier puis
+sur Valider le panier.
+17
+
+
+=== page 018 ===
+
+Si jamais, vous ne trouvez pas le type d’engins dans le menu de sélection de
+l’article, vous devez sélectionnez la catégorie ci-dessous :
+ENGINS DE CHANTIER HORS FULL SERVICES – ACCESSOIRES ET PIECES
+DE RECHANGE – AUTRES ENGINS DE CHANTIER
+b) Informations principales de la demande d’achats (orienté appro. SUEZ)
+Le numéro de la demande d’achat est automatiquement créé « REQ01424218 » sur
+notre exemple ci-dessus.
+Les champs à remplir sur cette interface sont les suivants :
+- Libellé :
+1. Initiales du demandeur,
+2. Numéro de parc de l’engin,
+3. Code type d’interventions*,
+4. Nom du fournisseur,
+5. N° de devis / Facture.
+- Centre de profit : Toujours 7MA2 – MM_ Engins
+- Adresse de livraison : Renseignez impérativement le site de livraison de la pièce.
+- Centre de coût : Se référer au parc engins pour identifier le code métier (ex : Z-
+[REDACTED-PHONE] – MB Locations TP Engins – LMM)
+- Rajouter la pièce jointe de la demande
+18
+
+
+=== page 019 ===
+
+c) Informations concernant l’article (orienté fournisseur)
+Cliquez sur le crayon (encadré rouge) pour modifier le détail de l’article :
+1
+2
+3
+4
+19
+
+
+=== page 020 ===
+
+Actions à réaliser sur l’interface ci-dessus :
+Section Champ à remplir Information à saisir
+Par défaut c’est le nom de la catégorie qui est
+inscrit.
+Supprimez et renseignez le numéro de devis
+Libellé de l’article du fournisseur en rajoutant le code type
+1 d’intervention SUEZ (précisé par le
+demandeur)
+(Ex : DEVIS BRO00000759 PMF)
+Date de livraison Toujours mettre la date du lendemain
+Prix unitaire Renseignez le prix unitaire hors taxe
+Section Champ à remplir Information à saisir
+Sélectionnez le fournisseur dans le menu
+Fournisseur (SIREN)*
+déroulant
+Sélectionnez l’établissement dans le menu
+Etablissement (SIRET)*
+déroulant
+2 Sélectionnez le contact fournisseur (l’adresse
+Contact fournisseur*
+e-mail qui doit recevoir les informations)
+Rajoutez le libellé de la demande pour le
+Commentaire fournisseur
+(Ex : Fourniture de 4 bidons lave-glace)
+*Pour les 3 astérisques ci-dessus, se référer au document fournit par le fournisseur
+pour identifier le SIREN / SIRET / contact fournisseur.
+Section Champ à remplir Information à saisir
+Ajouter la pièce jointe transmise par le
+3 Pièce jointe
+fournisseur
+Section Champ à remplir Information à saisir
+Compte comptable Petit matériel et outillage
+Sélectionnez dans le menu déroulant :
+Ressource / Ordre interne
+4 202 - Engins
+Sélectionnez l’engin concerné par la
+Code parc
+demande d’achat
+Cliquez ensuite sur le bouton « Enregistrer et fermer »
+Cliquez ensuite sur « Soumettre à validation »
+20
+Demande d’achat finalisée !
+
+
+=== page 020 table 1 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+1 |  |  | Libellé de l’article |  |  | Par défaut c’est le nom de la catégorie qui est
+inscrit.
+Supprimez et renseignez le numéro de devis
+du fournisseur en rajoutant le code type
+d’intervention SUEZ (précisé par le
+demandeur)
+(Ex : DEVIS BRO00000759 PMF) |  | 
+ |  |  | Date de livraison |  |  | Toujours mettre la date du lendemain |  | 
+ |  |  | Prix unitaire |  |  | Renseignez le prix unitaire hors taxe |  |
+
+
+=== page 020 table 2 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+2 |  |  | Fournisseur (SIREN)* |  |  | Sélectionnez le fournisseur dans le menu
+déroulant |  | 
+ |  |  | Etablissement (SIRET)* |  |  | Sélectionnez l’établissement dans le menu
+déroulant |  | 
+ |  |  | Contact fournisseur* |  |  | Sélectionnez le contact fournisseur (l’adresse
+e-mail qui doit recevoir les informations) |  | 
+ |  |  | Commentaire |  |  | Rajoutez le libellé de la demande pour le
+fournisseur
+(Ex : Fourniture de 4 bidons lave-glace) |  |
+
+
+=== page 020 table 3 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+3 |  |  | Pièce jointe |  |  | Ajouter la pièce jointe transmise par le
+fournisseur |  |
+
+
+=== page 020 table 4 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+4 |  |  | Compte comptable |  |  | Petit matériel et outillage |  | 
+ |  |  | Ressource / Ordre interne |  |  | Sélectionnez dans le menu déroulant :
+202 - Engins |  | 
+ |  |  | Code parc |  |  | Sélectionnez l’engin concerné par la
+demande d’achat |  |
+
+
+=== page 021 ===
+
+V. Catégorie transport d’engins
+a) Sélection de l’article à ajouter au panier
+Dans la barre de recherche WeBuy, cliquez sur Articles puis sur Rechercher des
+produits.
+Cliquez ensuite sur les encadrés rouges ci-dessous :
+Cliquez ensuite sur « Ajouter au Panier », votre panier s’actualise (encadré rouge) et
+vous devez Valider le panier pour passer à la suite.
+21
+
+
+=== page 022 ===
+
+b) Informations principales de la demande d’achats (orienté appro. SUEZ)
+Le numéro de la demande d’achat est automatiquement créé « REQ01416093 » sur
+notre exemple ci-dessus.
+Les champs à remplir sur cette interface sont les suivants :
+- Libellé :
+1. Initiales du demandeur,
+2. Numéro de parc de l’engin,
+3. Code type d’interventions*,
+4. Nom du fournisseur,
+5. N° de devis / Facture.
+- Centre de profit : Toujours 7MA2 – MM_ Engins
+- Adresse de livraison : SUEZ RV MATERIEL & LOGISTIQUE (BRETIGNY)
+- Centre de coût : Se référer au parc engins pour identifier le code métier (ex : Z-
+[REDACTED-PHONE] – MB Locations TP Engins – LMM)
+- Rajouter la pièce jointe de la demande
+22
+
+
+=== page 023 ===
+
+c) Informations concernant l’article (orienté fournisseur)
+Cliquez sur le crayon (encadré rouge) pour modifier le détail de l’article :
+1
+1
+2
+3
+4
+23
+
+
+=== page 024 ===
+
+Actions à réaliser sur l’interface ci-dessus :
+Section Champ à remplir Information à saisir
+Par défaut c’est le nom de la catégorie qui
+est inscrit.
+Supprimez et renseignez le numéro de devis
+Libellé de l’article du fournisseur en rajoutant le code type
+d’intervention SUEZ (précisé par le
+1
+demandeur)
+(Ex : Devis CAPELLE [REDACTED-PHONE] FST)
+Date de livraison Toujours mettre la date du lendemain
+Renseignez le prix unitaire hors taxe
+Prix unitaire
+Section Champ à remplir Information à saisir
+Sélectionnez le fournisseur dans le menu
+Fournisseur (SIREN)*
+déroulant
+Sélectionnez l’établissement dans le menu
+Etablissement (SIRET)*
+déroulant
+2 Sélectionnez le contact fournisseur (l’adresse
+Contact fournisseur*
+e-mail qui doit recevoir les informations)
+Rajoutez le libellé de la demande pour le
+Commentaire fournisseur
+(Ex : Transfert ENG5846 TORCY → KLEBER 21)
+*Pour les 3 astérisques ci-dessus, se référer au document fournit par le fournisseur
+pour identifier le SIREN / SIRET / contact fournisseur.
+Section Champ à remplir Information à saisir
+Ajouter la pièce jointe transmise par le
+3 Pièce jointe
+fournisseur
+Section Champ à remplir Information à saisir
+Sélectionnez dans le menu déroulant :
+Compte comptable
+Sous-traitance transport amont
+4
+Sélectionnez dans le menu déroulant :
+Ressource / Ordre interne
+202 - Engins
+Cliquez ensuite sur le bouton « Enregistrer et fermer »
+Cliquez ensuite sur « Soumettre à validation »
+Demande d’achat finalisée !
+24
+
+
+=== page 024 table 1 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+1 |  |  | Libellé de l’article |  |  | Par défaut c’est le nom de la catégorie qui
+est inscrit.
+Supprimez et renseignez le numéro de devis
+du fournisseur en rajoutant le code type
+d’intervention SUEZ (précisé par le
+demandeur)
+(Ex : Devis CAPELLE [REDACTED-PHONE] FST) |  | 
+ |  |  | Date de livraison |  |  | Toujours mettre la date du lendemain |  | 
+ |  |  | Prix unitaire |  |  | Renseignez le prix unitaire hors taxe |  |
+
+
+=== page 024 table 2 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+2 |  |  | Fournisseur (SIREN)* |  |  | Sélectionnez le fournisseur dans le menu
+déroulant |  | 
+ |  |  | Etablissement (SIRET)* |  |  | Sélectionnez l’établissement dans le menu
+déroulant |  | 
+ |  |  | Contact fournisseur* |  |  | Sélectionnez le contact fournisseur (l’adresse
+e-mail qui doit recevoir les informations) |  | 
+ |  |  | Commentaire |  |  | Rajoutez le libellé de la demande pour le
+fournisseur
+(Ex : Transfert ENG5846 TORCY → KLEBER 21) |  |
+
+
+=== page 024 table 3 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+3 |  |  | Pièce jointe |  |  | Ajouter la pièce jointe transmise par le
+fournisseur |  |
+
+
+=== page 024 table 4 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+4 |  |  | Compte comptable |  |  | Sélectionnez dans le menu déroulant :
+Sous-traitance transport amont |  | 
+ |  |  | Ressource / Ordre interne |  |  | Sélectionnez dans le menu déroulant :
+202 - Engins |  |
+
+
+=== page 025 ===
+
+VI. Catégorie location d’engins
+a) Sélection de l’article à ajouter au panier
+Dans la barre de recherche WeBuy, cliquez sur Articles puis sur Rechercher des
+produits.
+Cliquez ensuite sur les encadrés rouges ci-dessous :
+Dans cet exemple nous prenons l’engin 5866 qui est une pelle sur pneus. Il faut donc
+dans le menu suivant sélectionner le bon article pour l’ajouter au panier. Une fenêtre
+s’ouvre (encadré vert ci-dessous) pour que vous puissiez rajouter les informations de
+tonnage et également l’engagement horaire mensuel (par défaut, sélectionnez AUTRE)
+Validez ensuite le panier
+25
+
+
+=== page 025 table 1 ===
+
+ |
+
+
+=== page 026 ===
+
+b) Informations principales de la demande d’achats (orienté appro. SUEZ)
+Le numéro de la demande d’achat est automatiquement créé « REQ01423573 » sur
+notre exemple ci-dessus :
+Les champs à remplir sur cette interface sont les suivants :
+- Libellé : Règle de nommage
+1. Initiales du demandeur,
+2. Numéro de parc de l’engin,
+3. Code type d’interventions*,
+4. Nom du fournisseur,
+5. N° de devis / Facture.
+*Ce code est fourni par la personne qui vous demande de réaliser la demande d’achat
+(Responsable d’intervention, responsable du service Engins TP ou gestionnaire de
+planification)
+- Centre de profit : Toujours 7MA2 – MM_ Engins
+- Adresse de livraison : SUEZ RV MATERIEL & LOGISTIQUE (BRETIGNY)
+- Centre de coût : Se référer au parc engins pour identifier le code métier (ex : Z-
+[REDACTED-PHONE] – MB Locations TP Engins – LMM)
+- Rajouter la pièce jointe de la demande
+26
+
+
+=== page 027 ===
+
+c) Informations concernant l’article (orienté fournisseur)
+Cliquez sur le crayon (encadré rouge) pour modifier le détail de l’article :
+1
+2
+3
+4
+Actions à réaliser sur l’interface ci-dessus :
+27
+
+
+=== page 028 ===
+
+Section Champ à remplir Information à saisir
+Par défaut c’est le nom de la catégorie qui
+est inscrit.
+Supprimez et renseignez le numéro de devis
+Libellé de l’article
+du fournisseur en rajoutant le code type
+1
+d’intervention SUEZ
+(Ex : Devis ENCO [REDACTED-PHONE] FSL)
+Date de livraison Toujours mettre la date du lendemain
+Prix unitaire Renseignez le prix unitaire hors taxe
+Section Champ à remplir Information à saisir
+Sélectionnez le fournisseur dans le menu
+Fournisseur (SIREN)*
+déroulant
+Sélectionnez l’établissement dans le menu
+Etablissement (SIRET)*
+déroulant
+2 Sélectionnez le contact fournisseur (l’adresse
+Contact fournisseur*
+e-mail qui doit recevoir les informations)
+Rajoutez le libellé de la demande pour le
+Commentaire fournisseur
+(Ex : Location relai ET1820 – Décembre 2025)
+*Pour les 3 astérisques ci-dessus, se référer au document fournit par le fournisseur
+pour identifier le SIREN / SIRET / contact fournisseur.
+Section Champ à remplir Information à saisir
+Ajouter la pièce jointe transmise par le
+3 Pièce jointe
+fournisseur
+Section Champ à remplir Information à saisir
+Sélectionnez dans le menu déroulant :
+Compte comptable
+Location matériels <6 mois
+Sélectionnez dans le menu déroulant :
+Ressource / Ordre interne
+202 - Engins
+4
+Le montant renseigné dans la section 1 doit
+s’afficher automatiquement. Dans le cas
+Montant H. T
+contraire, le rajouter directement dans la
+zone prévue.
+Cliquez ensuite sur le bouton « Enregistrer et fermer »
+Copiez ensuite le numéro final de la demande d’achat : puis cliquer sur « Soumettre
+à validation »
+28
+Demande d’achat finalisée !
+
+
+=== page 028 table 1 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+1 |  |  | Libellé de l’article |  |  | Par défaut c’est le nom de la catégorie qui
+est inscrit.
+Supprimez et renseignez le numéro de devis
+du fournisseur en rajoutant le code type
+d’intervention SUEZ
+(Ex : Devis ENCO [REDACTED-PHONE] FSL) |  | 
+ |  |  | Date de livraison |  |  | Toujours mettre la date du lendemain |  | 
+ |  |  | Prix unitaire |  |  | Renseignez le prix unitaire hors taxe |  |
+
+
+=== page 028 table 2 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+2 |  |  | Fournisseur (SIREN)* |  |  | Sélectionnez le fournisseur dans le menu
+déroulant |  | 
+ |  |  | Etablissement (SIRET)* |  |  | Sélectionnez l’établissement dans le menu
+déroulant |  | 
+ |  |  | Contact fournisseur* |  |  | Sélectionnez le contact fournisseur (l’adresse
+e-mail qui doit recevoir les informations) |  | 
+ |  |  | Commentaire |  |  | Rajoutez le libellé de la demande pour le
+fournisseur
+(Ex : Location relai ET1820 – Décembre 2025) |  |
+
+
+=== page 028 table 3 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+3 |  |  | Pièce jointe |  |  | Ajouter la pièce jointe transmise par le
+fournisseur |  |
+
+
+=== page 028 table 4 ===
+
+ | Section |  |  | Champ à remplir |  |  | Information à saisir | 
+4 |  |  | Compte comptable |  |  | Sélectionnez dans le menu déroulant :
+Location matériels <6 mois |  | 
+ |  |  | Ressource / Ordre interne |  |  | Sélectionnez dans le menu déroulant :
+202 - Engins |  | 
+ |  |  | Montant H. T |  |  | Le montant renseigné dans la section 1 doit
+s’afficher automatiquement. Dans le cas
+contraire, le rajouter directement dans la
+zone prévue. |  |

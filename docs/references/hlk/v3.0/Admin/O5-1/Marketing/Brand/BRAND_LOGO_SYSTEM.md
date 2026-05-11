@@ -108,6 +108,17 @@ Per [`BRAND_ARCHITECTURE.md`](BRAND_ARCHITECTURE.md) Layer 3 + Layer 4:
 
 Sub-mark + product marks **never** stand alone visually. The umbrella mark (HOLÍSTIKA Research) appears in the same surface (header / footer / sidebar) so that umbrella never disappears.
 
+### 2.6 Co-branding (host / guest pattern)
+
+When a Holistika-led engagement is co-presented with a partner organisation (a `partner` or `collaborator` GOI/POI row), see [`BRAND_COBRANDING_PATTERN.md`](BRAND_COBRANDING_PATTERN.md) for the canonical host/guest pattern. Summary of logo-system implications:
+
+- The **host** (typically Holistika in a Holistika-delivered engagement) keeps full clearspace and chromatic rendering of its primary mark (Hi monogram) and / or formal canonical wordmark per §2.1 / §2.2.
+- The **guest** logo appears at **0.7× host scale**, mono-flattened to the host's foreground tone (charcoal `hsl(220 12% 18%)` on light surfaces; off-white `hsl(210 15% 90%)` on dark) on the host-card slide-02 primitive and on cover-strip ornaments.
+- The cover-strip extends from 3 fields to **4 fields** (Programme / Date / Discipline / `En collaboration avec`); the localized strip-label key is `EN COLLABORATION` (FR), `IN COLLABORATION WITH` (EN), `EN COLABORACIÓN CON` (ES).
+- A polarity flip applies when the host posture inverts (Holistika is the guest on a partner-led artefact); same primitives, host and guest swapped. Holistika's eligible borrow tone in that case is the muted slate `--border` `hsl(220 8% 88%)` — never teal or amber.
+
+The full host/guest semantics, host-card primitive specification, color-bridge rules, and anti-patterns live in [`BRAND_COBRANDING_PATTERN.md`](BRAND_COBRANDING_PATTERN.md).
+
 ## 3. Color + accent guardrails
 
 Per [`BRAND_VISUAL_PATTERNS.md`](BRAND_VISUAL_PATTERNS.md):
@@ -165,4 +176,5 @@ Per [`BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md`](../../People/Legal/BRAND_
 - [`BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md`](../../People/Legal/BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md) — trademark posture (this canon's filing-scope cross-reference).
 - [`BRAND_ABBREVIATIONS.md`](BRAND_ABBREVIATIONS.md) — HLK / MA / KB governance (this canon's abbreviation cross-reference).
 - [`BRAND_DO_DONT.md`](BRAND_DO_DONT.md) — voice rules that complement these visual rules.
+- [`BRAND_COBRANDING_PATTERN.md`](BRAND_COBRANDING_PATTERN.md) — host / guest pattern for co-branded surfaces (cross-referenced in §2.6).
 - [`TRADEMARK_FILING_STRATEGY_2026-05.md`](../../People/Legal/TRADEMARK_FILING_STRATEGY_2026-05.md) (created I66 P4) — full filing strategy.

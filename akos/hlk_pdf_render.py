@@ -110,21 +110,60 @@ BRAND_TOKENS_DARK: dict[str, str] = {
 }
 
 
+# WeasyPrint <53 (we ship 52.5 in the operator workstation) does NOT understand
+# CSS Color Module Level 4 space-separated `hsl()` syntax (e.g. `hsl(168 55% 38%)`).
+# Unrecognized values silently fall through to transparent — which is why brand
+# colors had been silently dropping in every rendered PDF until P10. The
+# canonical SSOT keeps the modern syntax (matching `BRAND_VISUAL_PATTERNS.md`
+# and the boilerplate `globals.css` upstream); we convert to legacy
+# comma-separated syntax only at the WeasyPrint emit boundary.
+_LEGACY_HSL_RE = re.compile(
+    r"hsl\(\s*(?P<h>-?\d+(?:\.\d+)?(?:deg)?)\s+(?P<s>-?\d+(?:\.\d+)?%)\s+(?P<l>-?\d+(?:\.\d+)?%)\s*\)",
+)
+
+
+def _to_legacy_hsl(css: str) -> str:
+    """Convert modern space-separated ``hsl(H S% L%)`` to legacy ``hsl(H, S%, L%)``.
+
+    Idempotent: legacy-syntax already-comma-separated calls are left untouched
+    because the regex only matches the modern, space-separated form. ``hsla(...)``
+    calls are also left untouched since this codebase already uses
+    comma-separated `hsla(...)` everywhere; if that changes, extend this helper
+    to handle the modern alpha-slash syntax `hsl(H S% L% / A)`.
+
+    Drift safeguard: a unit test (`test_brand_pdf_css_emits_legacy_hsl`) asserts
+    the emitted CSS contains no space-separated `hsl(...)` calls.
+    """
+    return _LEGACY_HSL_RE.sub(
+        lambda m: f"hsl({m.group('h')}, {m.group('s')}, {m.group('l')})",
+        css,
+    )
+
+
 def _brand_pdf_css(*, profile: str = "dossier") -> str:
     """Return the brand-aligned CSS string used by ``render_pdf_branded``.
 
-    Initiative 27 follow-up — visual upgrade per operator feedback (PDF "not
+    Initiative 27 follow-up, visual upgrade per operator feedback (PDF "not
     appealing"). Inspired by modern proposal/dossier design patterns: oversized
     cover title with generous whitespace, numbered section indicators (CSS
     counters on body H1s), stat callouts (.stat-grid), pull-quote class for
     margin emphasis, capability cards with tag pills, friendly open-question
     callouts, cleaner page footer.
 
+    Profiles:
+      * ``dossier`` (default) -- portrait A4, cover-hero + dossier body styling.
+      * ``slides`` -- landscape A4, deliberately slide-shaped composition with
+        per-slide layout primitives (P11 customer pack). No cover-hero is
+        injected by the renderer; the slide deck markdown is expected to
+        supply its own ``<section class="slide slide-cover">``.
+
     Keep token references in sync with ``BRAND_TOKENS_LIGHT`` / ``BRAND_TOKENS_DARK``.
     """
+    if profile == "slides":
+        return _brand_pdf_css_slides()
     L = BRAND_TOKENS_LIGHT
     D = BRAND_TOKENS_DARK
-    return (
+    css = (
         # ---- Page setup + footer string ------------------------------------
         "@page { size: A4; margin: 22mm 20mm 24mm 20mm; "
         "@bottom-center { content: string(footerline); font-family: Inter, 'Segoe UI', Arial, sans-serif; "
@@ -142,20 +181,31 @@ def _brand_pdf_css(*, profile: str = "dossier") -> str:
         "strong { color: " + L["foreground"] + "; font-weight: 600; }\n"
         "em { color: " + L["foreground"] + "; }\n"
 
-        # ---- Cover hero (clean, oversized title; metadata moved to footer band) -----
-        ".cover-hero { min-height: 297mm; padding: 30mm 24mm 28mm 24mm; color: " + D["foreground"] + "; "
+        # ---- Cover hero ----------------------------------------------------------
+        # Layout discipline (P11 fix):
+        #   * `height: 297mm` + `box-sizing: border-box` makes the hero *exactly*
+        #     the page size; without this the cover-hero was 355mm tall (content-box
+        #     default + 58mm padding), and `position: absolute; bottom:` then placed
+        #     the strip *behind* the flowed subtitle on the visible page.
+        #   * Top of cover (eyebrow + monogram) stays in normal flow.
+        #   * `.cover-title-block` is absolute-positioned at a known offset from
+        #     the bottom; strip stays at bottom: 24mm. Gap between subtitle bottom
+        #     and strip top is now deterministic (~26mm).
+        ".cover-hero { height: 297mm; box-sizing: border-box; padding: 30mm 24mm 28mm 24mm; "
+        "color: " + D["foreground"] + "; "
         "background: "
         "radial-gradient(ellipse 65% 55% at 28% 32%, hsla(168, 55%, 38%, 0.22) 0%, transparent 62%), "
         "radial-gradient(ellipse 85% 75% at 72% 65%, hsla(38, 80%, 50%, 0.14) 0%, transparent 72%), "
         "linear-gradient(155deg, " + D["background"] + " 0%, " + D["card"] + " 50%, hsl(220 12% 13%) 100%); "
-        "page-break-after: always; position: relative; }\n"
+        "page-break-after: always; position: relative; overflow: hidden; }\n"
         ".cover-hero .cover-eyebrow { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.18em; color: " + D["accent_primary"] + "; "
-        "font-weight: 600; margin: 0 0 8mm 0; opacity: 0.95; }\n"
-        ".cover-hero .cover-monogram { width: 24mm; height: 24mm; margin-bottom: 60mm; opacity: 0.95; }\n"
-        ".cover-hero h1 { font-size: 44pt; font-weight: 700; margin: 0 0 8mm 0; color: " + D["foreground"] + "; "
-        "line-height: 1.05; letter-spacing: -0.025em; max-width: 130mm; }\n"
-        ".cover-hero .cover-subtitle { font-size: 14pt; color: " + D["foreground"] + "; opacity: 0.78; "
-        "margin: 0 0 0 0; font-weight: 400; max-width: 120mm; line-height: 1.4; }\n"
+        "font-weight: 600; margin: 0 0 10mm 0; opacity: 0.95; }\n"
+        ".cover-hero .cover-monogram { width: 22mm; height: 22mm; opacity: 0.95; display: block; }\n"
+        ".cover-hero .cover-title-block { position: absolute; left: 24mm; right: 24mm; bottom: 65mm; }\n"
+        ".cover-hero .cover-title-block h1 { font-size: 44pt; font-weight: 700; margin: 0 0 6mm 0; color: " + D["foreground"] + "; "
+        "line-height: 1.05; letter-spacing: -0.025em; max-width: 150mm; }\n"
+        ".cover-hero .cover-title-block .cover-subtitle { font-size: 13pt; color: " + D["foreground"] + "; opacity: 0.72; "
+        "margin: 0; font-weight: 400; max-width: 130mm; line-height: 1.45; }\n"
         ".cover-hero .cover-strip { position: absolute; left: 24mm; right: 24mm; bottom: 24mm; "
         "border-top: 1px solid hsla(168, 50%, 44%, 0.4); padding-top: 8mm; "
         "display: flex; justify-content: space-between; font-size: 9pt; "
@@ -287,6 +337,327 @@ def _brand_pdf_css(*, profile: str = "dossier") -> str:
         "li { margin-bottom: 1.5mm; line-height: 1.55; }\n"
         "li::marker { color: " + L["accent_primary"] + "; }\n"
     )
+    return _to_legacy_hsl(css)
+
+
+def _brand_pdf_css_slides() -> str:
+    """Slide-deck CSS profile (P11 customer-impeccable pack).
+
+    Landscape A4 (297mm x 210mm), one slide per page. Layout primitives are
+    deliberately varied across slides (no identical card grids). Uses
+    `display: table` instead of CSS grid because WeasyPrint 52.5 has no grid
+    support; basic flex is used only for top-of-slide meta strips and the
+    cover slide's bottom strip (matching the dossier cover behaviour).
+
+    The deck markdown is expected to author its own slide structure with
+    ``<section class="slide ...">`` elements; the renderer does not inject a
+    cover-hero in slides profile.
+    """
+    L = BRAND_TOKENS_LIGHT
+    D = BRAND_TOKENS_DARK
+    css = (
+        # ---- Page setup (landscape, no margins, no per-page footer) -----------
+        "@page { size: A4 landscape; margin: 0; "
+        "@bottom-center { content: ''; } @bottom-right { content: ''; } }\n"
+
+        # ---- Base typography --------------------------------------------------
+        "html { font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif; "
+        "font-size: 11pt; line-height: 1.55; color: " + L["foreground"] + "; "
+        "background: " + L["background"] + "; }\n"
+        "body { margin: 0; padding: 0; }\n"
+        "p { margin: 0 0 1em 0; }\n"
+        "strong { color: " + L["foreground"] + "; font-weight: 600; }\n"
+
+        # ---- Slide page (one per <section class='slide'>) ---------------------
+        ".slide { width: 297mm; height: 210mm; box-sizing: border-box; "
+        "padding: 14mm 26mm 12mm 26mm; page-break-after: always; "
+        "position: relative; overflow: hidden; "
+        "background: " + L["background"] + "; color: " + L["foreground"] + "; }\n"
+        ".slide:last-child { page-break-after: auto; }\n"
+
+        # ---- Slide cover (dark, gradient, mirrors dossier hero in landscape) -
+        ".slide.slide-cover { padding: 22mm 32mm; "
+        "background: "
+        "radial-gradient(ellipse 65% 55% at 28% 32%, hsla(168, 55%, 38%, 0.22) 0%, transparent 62%), "
+        "radial-gradient(ellipse 85% 75% at 72% 65%, hsla(38, 80%, 50%, 0.14) 0%, transparent 72%), "
+        "linear-gradient(155deg, " + D["background"] + " 0%, " + D["card"] + " 50%, hsl(220 12% 13%) 100%); "
+        "color: " + D["foreground"] + "; }\n"
+        ".slide-cover .cover-eyebrow { font-size: 10pt; text-transform: uppercase; letter-spacing: 0.18em; "
+        "color: " + D["accent_primary"] + "; font-weight: 600; margin: 0 0 10mm 0; }\n"
+        ".slide-cover .cover-monogram { width: 22mm; height: 22mm; opacity: 0.95; display: block; }\n"
+        ".slide-cover .cover-title-block { position: absolute; left: 32mm; right: 32mm; bottom: 60mm; }\n"
+        ".slide-cover h1 { font-size: 48pt; font-weight: 700; margin: 0 0 6mm 0; "
+        "color: " + D["foreground"] + "; line-height: 1.05; letter-spacing: -0.025em; max-width: 200mm; }\n"
+        ".slide-cover .cover-subtitle { font-size: 14pt; color: " + D["foreground"] + "; opacity: 0.72; "
+        "max-width: 180mm; line-height: 1.5; margin: 0; }\n"
+        ".slide-cover .cover-strip { position: absolute; left: 32mm; right: 32mm; bottom: 22mm; "
+        "border-top: 1px solid hsla(168, 50%, 44%, 0.4); padding-top: 6mm; "
+        "display: flex; justify-content: space-between; font-size: 9pt; "
+        "color: " + D["foreground"] + "; opacity: 0.78; letter-spacing: 0.04em; }\n"
+        ".slide-cover .cover-strip .strip-item .strip-label { display: block; font-size: 7.5pt; "
+        "text-transform: uppercase; letter-spacing: 0.16em; color: " + D["accent_secondary"] + "; "
+        "margin-bottom: 1.5mm; }\n"
+        ".slide-cover .cover-strip .strip-item .strip-value { font-weight: 600; "
+        "color: " + D["foreground"] + "; }\n"
+
+        # ---- Slide meta strip (top: number + section eyebrow) ----------------
+        ".slide-meta { display: flex; justify-content: space-between; align-items: baseline; "
+        "font-size: 9pt; letter-spacing: 0.16em; text-transform: uppercase; "
+        "margin: 0 0 9mm 0; padding-bottom: 3mm; "
+        "border-bottom: 1px solid " + L["border"] + "; }\n"
+        ".slide-meta .number { color: " + L["accent_primary"] + "; font-weight: 700; "
+        "font-size: 10pt; letter-spacing: 0.2em; }\n"
+        ".slide-meta .eyebrow { color: " + L["muted_foreground"] + "; font-weight: 600; }\n"
+
+        # ---- Slide headline + sub --------------------------------------------
+        ".slide h2 { font-size: 30pt; font-weight: 700; margin: 0 0 5mm 0; "
+        "line-height: 1.1; letter-spacing: -0.02em; max-width: 230mm; "
+        "color: " + L["foreground"] + "; border: none; padding: 0; }\n"
+        ".slide h2::before { display: none; }\n"
+        ".slide .slide-sub { font-size: 12pt; line-height: 1.5; max-width: 210mm; "
+        "color: " + L["muted_foreground"] + "; margin: 0 0 9mm 0; font-weight: 400; }\n"
+
+        # ---- Slide 02: stat-narrative (asymmetric, anchor + context column) -
+        ".stat-narrative { display: table; width: 100%; margin-top: 8mm; }\n"
+        ".stat-narrative .anchor { display: table-cell; vertical-align: middle; "
+        "padding-right: 18mm; width: 55%; }\n"
+        ".stat-narrative .anchor-row { white-space: nowrap; }\n"
+        ".stat-narrative .anchor-num { font-size: 96pt; font-weight: 700; line-height: 0.95; "
+        "color: " + L["accent_primary"] + "; letter-spacing: -0.04em; display: inline-block; "
+        "vertical-align: middle; }\n"
+        ".stat-narrative .anchor-arrow { font-size: 56pt; font-weight: 300; "
+        "color: " + L["muted_foreground"] + "; display: inline-block; "
+        "vertical-align: middle; margin: 0 8mm; line-height: 0.95; }\n"
+        ".stat-narrative .anchor-label { font-size: 11pt; line-height: 1.5; "
+        "color: " + L["muted_foreground"] + "; margin-top: 6mm; max-width: 130mm; }\n"
+        ".stat-narrative .context { display: table-cell; vertical-align: middle; "
+        "padding-left: 18mm; border-left: 1px solid " + L["border"] + "; width: 45%; }\n"
+        ".stat-narrative .context-item { margin-bottom: 8mm; }\n"
+        ".stat-narrative .context-item:last-child { margin-bottom: 0; }\n"
+        ".stat-narrative .context-num { font-size: 24pt; font-weight: 700; "
+        "color: " + L["foreground"] + "; letter-spacing: -0.02em; line-height: 1; "
+        "display: block; margin-bottom: 2mm; }\n"
+        ".stat-narrative .context-label { font-size: 10pt; color: " + L["muted_foreground"] + "; "
+        "line-height: 1.5; }\n"
+
+        # ---- Slides 03 + 05 + 08: 2x2 typographic grid (no card boxing) ------
+        ".grid-2x2 { display: table; width: 100%; border-collapse: collapse; }\n"
+        ".grid-2x2 .row { display: table-row; }\n"
+        ".grid-2x2 .cell { display: table-cell; vertical-align: top; "
+        "padding: 8mm 12mm; width: 50%; "
+        "border-bottom: 1px solid " + L["border"] + "; }\n"
+        ".grid-2x2 .row:first-child .cell { padding-top: 4mm; }\n"
+        ".grid-2x2 .row:last-child .cell { border-bottom: none; padding-bottom: 4mm; }\n"
+        ".grid-2x2 .cell + .cell { border-left: 1px solid " + L["border"] + "; }\n"
+        ".grid-2x2 .cell-num { font-size: 9pt; font-weight: 700; color: " + L["accent_primary"] + "; "
+        "text-transform: uppercase; letter-spacing: 0.16em; margin-bottom: 4mm; display: block; }\n"
+        ".grid-2x2 .cell-title { font-size: 14pt; font-weight: 600; margin: 0 0 3mm 0; "
+        "color: " + L["foreground"] + "; line-height: 1.3; }\n"
+        ".grid-2x2 .cell-body { font-size: 10pt; line-height: 1.55; "
+        "color: " + L["foreground"] + "; margin: 0; }\n"
+
+        # ---- Slide 04: 4-step horizontal flow --------------------------------
+        ".flow-4 { display: table; width: 100%; border-spacing: 4mm 0; "
+        "margin-top: 6mm; }\n"
+        ".flow-4 .step { display: table-cell; padding: 10mm 8mm; width: 25%; "
+        "vertical-align: top; background: " + L["card"] + "; "
+        "border-top: 2px solid " + L["accent_primary"] + "; }\n"
+        ".flow-4 .step .step-num { font-size: 9pt; font-weight: 700; "
+        "color: " + L["accent_primary"] + "; letter-spacing: 0.16em; text-transform: uppercase; "
+        "margin-bottom: 4mm; display: block; }\n"
+        ".flow-4 .step .step-title { font-size: 14pt; font-weight: 600; margin: 0 0 4mm 0; "
+        "color: " + L["foreground"] + "; }\n"
+        ".flow-4 .step .step-body { font-size: 10pt; line-height: 1.55; "
+        "color: " + L["muted_foreground"] + "; margin: 0; }\n"
+
+        # ---- Slide 06: 5-step horizontal timeline ----------------------------
+        ".timeline-5 { display: table; width: 100%; border-spacing: 6mm 0; "
+        "margin-top: 6mm; position: relative; }\n"
+        ".timeline-5 .step { display: table-cell; width: 20%; vertical-align: top; "
+        "padding: 14mm 4mm 0 0; position: relative; }\n"
+        ".timeline-5 .step::before { content: ''; position: absolute; top: 0; left: 0; "
+        "width: 5mm; height: 5mm; border-radius: 50%; "
+        "background: " + L["accent_primary"] + "; }\n"
+        ".timeline-5 .step::after { content: ''; position: absolute; top: 2.2mm; left: 5mm; "
+        "right: -6mm; height: 1px; background: hsla(168, 55%, 38%, 0.35); }\n"
+        ".timeline-5 .step:last-child::after { display: none; }\n"
+        ".timeline-5 .step .step-num { font-size: 8pt; font-weight: 700; "
+        "color: " + L["accent_primary"] + "; letter-spacing: 0.14em; text-transform: uppercase; "
+        "margin-bottom: 3mm; display: block; }\n"
+        ".timeline-5 .step .step-title { font-size: 14pt; font-weight: 600; margin: 0 0 3mm 0; "
+        "color: " + L["foreground"] + "; }\n"
+        ".timeline-5 .step .step-body { font-size: 9.5pt; line-height: 1.5; "
+        "color: " + L["muted_foreground"] + "; margin: 0; }\n"
+
+        # ---- Slide 07: 3-column variant comparison ---------------------------
+        ".variants-3 { display: table; width: 100%; border-spacing: 5mm 0; "
+        "margin-top: 4mm; }\n"
+        ".variants-3 .variant { display: table-cell; width: 33.33%; "
+        "padding: 9mm 9mm; vertical-align: top; "
+        "background: " + L["card"] + "; border: 1px solid " + L["border"] + "; }\n"
+        ".variants-3 .variant.featured { border: 2px solid " + L["accent_primary"] + "; "
+        "padding: 8mm 8mm; }\n"
+        ".variants-3 .v-eyebrow { font-size: 8pt; font-weight: 700; "
+        "color: " + L["muted_foreground"] + "; text-transform: uppercase; letter-spacing: 0.14em; "
+        "margin-bottom: 2mm; display: block; }\n"
+        ".variants-3 .featured .v-eyebrow { color: " + L["accent_primary"] + "; }\n"
+        ".variants-3 .v-name { font-size: 20pt; font-weight: 700; margin: 0 0 3mm 0; "
+        "color: " + L["foreground"] + "; letter-spacing: -0.015em; }\n"
+        ".variants-3 .v-tag { display: inline-block; font-size: 7pt; font-weight: 700; "
+        "padding: 1mm 2.5mm; background: " + L["accent_primary"] + "; "
+        "color: " + L["background"] + "; border-radius: 1mm; margin-bottom: 4mm; "
+        "letter-spacing: 0.12em; text-transform: uppercase; }\n"
+        ".variants-3 .v-row { font-size: 9.5pt; line-height: 1.5; margin-bottom: 3mm; "
+        "padding-bottom: 3mm; border-bottom: 1px dashed " + L["border"] + "; }\n"
+        ".variants-3 .v-row:last-child { border-bottom: none; padding-bottom: 0; "
+        "margin-bottom: 0; }\n"
+        ".variants-3 .v-row strong { font-size: 7.5pt; font-weight: 700; "
+        "color: " + L["muted_foreground"] + "; text-transform: uppercase; "
+        "letter-spacing: 0.12em; display: block; margin-bottom: 1mm; }\n"
+
+        # ---- Slide 09: closing (dark) -----------------------------------------
+        ".slide.closing { padding: 22mm 32mm 20mm 32mm; "
+        "background: linear-gradient(155deg, " + D["background"] + " 0%, " + D["card"] + " 100%); "
+        "color: " + D["foreground"] + "; }\n"
+        ".slide.closing .slide-meta { border-bottom-color: hsla(168, 50%, 44%, 0.3); }\n"
+        ".slide.closing .slide-meta .number { color: " + D["accent_primary"] + "; }\n"
+        ".slide.closing .slide-meta .eyebrow { color: " + D["foreground"] + "; opacity: 0.65; }\n"
+        ".slide.closing h2 { color: " + D["foreground"] + "; font-size: 36pt; max-width: 220mm; }\n"
+        ".slide.closing .slide-sub { color: " + D["foreground"] + "; opacity: 0.75; max-width: 200mm; }\n"
+        ".slide.closing .closing-cols { display: table; width: 100%; border-spacing: 12mm 0; "
+        "margin-top: 8mm; padding-top: 6mm; "
+        "border-top: 1px solid hsla(168, 50%, 44%, 0.3); }\n"
+        ".slide.closing .closing-cols .col { display: table-cell; width: 50%; "
+        "vertical-align: top; }\n"
+        ".slide.closing .closing-cols h3 { font-size: 10pt; font-weight: 700; "
+        "color: " + D["accent_primary"] + "; text-transform: uppercase; letter-spacing: 0.14em; "
+        "margin: 0 0 4mm 0; }\n"
+        ".slide.closing .closing-cols ul { margin: 0; padding: 0; list-style: none; }\n"
+        ".slide.closing .closing-cols li { padding: 3mm 0; font-size: 11pt; line-height: 1.45; "
+        "color: " + D["foreground"] + "; "
+        "border-bottom: 1px solid hsla(168, 50%, 44%, 0.18); }\n"
+        ".slide.closing .closing-cols li:last-child { border-bottom: none; }\n"
+        ".slide.closing .closing-sig { position: absolute; bottom: 18mm; "
+        "left: 32mm; right: 32mm; "
+        "font-size: 8.5pt; letter-spacing: 0.16em; text-transform: uppercase; "
+        "color: " + D["accent_primary"] + "; padding-top: 6mm; "
+        "border-top: 1px solid hsla(168, 50%, 44%, 0.3); }\n"
+
+        # ---- P12.7: co-branding host-card (slide 02) -------------------------
+        # Asymmetric two-column block per BRAND_COBRANDING_PATTERN.md §3.1:
+        # host (Holistika, left) gets slightly more visual weight than guest
+        # (EFA Académie, right). The `accent_primary` rail on the host side is
+        # the color-bridge accent (§3.3 borrow-one rule); guest stays neutral
+        # so the two marks read as collaborators rather than peers.
+        ".host-card { display: table; width: 100%; border-spacing: 8mm 0; "
+        "margin-top: 6mm; }\n"
+        ".host-card .host, .host-card .guest { display: table-cell; "
+        "width: 50%; padding: 9mm 9mm; vertical-align: top; "
+        "background: " + L["card"] + "; border: 1px solid " + L["border"] + "; }\n"
+        ".host-card .host { border-top: 3px solid " + L["accent_primary"] + "; }\n"
+        ".host-card .guest { border-top: 3px solid " + L["border"] + "; }\n"
+        ".host-card .host-mark, .host-card .guest-mark { width: 16mm; "
+        "height: 16mm; display: block; margin: 0 0 5mm 0; "
+        "object-fit: contain; }\n"
+        ".host-card .host-name { font-size: 14pt; font-weight: 700; "
+        "margin: 0 0 3mm 0; color: " + L["foreground"] + "; "
+        "letter-spacing: -0.01em; }\n"
+        ".host-card .guest-name { font-size: 14pt; font-weight: 700; "
+        "margin: 0 0 3mm 0; color: " + L["foreground"] + "; "
+        "letter-spacing: -0.01em; }\n"
+        ".host-card .host-line, .host-card .guest-line { font-size: 10pt; "
+        "line-height: 1.5; color: " + L["muted_foreground"] + "; margin: 0; }\n"
+        ".slide-foot { font-size: 9pt; line-height: 1.5; "
+        "color: " + L["muted_foreground"] + "; margin: 6mm 0 0 0; "
+        "max-width: 230mm; font-style: italic; }\n"
+
+        # ---- P12.7: three-lines (slides 03 + 05) -----------------------------
+        # Three stacked typographic rows. No card boxing; relies on a teal
+        # accent rail per row to give each line equal visual weight. Used for
+        # "Holistika in three lines" and "How we work today".
+        ".three-lines { display: table; width: 100%; border-collapse: collapse; "
+        "margin-top: 4mm; }\n"
+        ".three-lines .line { display: table-row; }\n"
+        ".three-lines .line .line-title, .three-lines .line .line-body { "
+        "display: table-cell; padding: 6mm 0 6mm 8mm; "
+        "border-bottom: 1px solid " + L["border"] + "; vertical-align: top; }\n"
+        ".three-lines .line .line-title { width: 36%; font-size: 14pt; "
+        "font-weight: 600; color: " + L["foreground"] + "; "
+        "border-left: 3px solid " + L["accent_primary"] + "; padding-left: 6mm; "
+        "letter-spacing: -0.005em; line-height: 1.3; margin: 0; }\n"
+        ".three-lines .line .line-body { width: 64%; font-size: 10pt; "
+        "line-height: 1.55; color: " + L["foreground"] + "; padding-left: 8mm; "
+        "margin: 0; }\n"
+        ".three-lines .line:last-child .line-title, "
+        ".three-lines .line:last-child .line-body { border-bottom: none; }\n"
+
+        # ---- P12.7: method-anchors (slide 04) --------------------------------
+        # Three numbered anchor cards laid out in 3 columns. Used for the
+        # "Deux récits, une seule discipline" method-lineage slide.
+        ".method-anchors { display: table; width: 100%; border-spacing: 6mm 0; "
+        "margin-top: 4mm; }\n"
+        ".method-anchors .anchor { display: table-cell; width: 33.33%; "
+        "padding: 9mm 9mm 9mm 9mm; vertical-align: top; "
+        "background: " + L["card"] + "; "
+        "border: 1px solid " + L["border"] + "; "
+        "border-top: 2px solid " + L["accent_primary"] + "; }\n"
+        ".method-anchors .anchor .anchor-num { font-size: 9pt; font-weight: 700; "
+        "color: " + L["accent_primary"] + "; letter-spacing: 0.16em; "
+        "text-transform: uppercase; margin: 0 0 4mm 0; display: block; }\n"
+        ".method-anchors .anchor .anchor-title { font-size: 13pt; font-weight: 600; "
+        "margin: 0 0 4mm 0; color: " + L["foreground"] + "; "
+        "letter-spacing: -0.005em; line-height: 1.3; }\n"
+        ".method-anchors .anchor .anchor-body { font-size: 10pt; line-height: 1.55; "
+        "color: " + L["muted_foreground"] + "; margin: 0; }\n"
+
+        # ---- P12.7: grid-3x2 (slide 09 — five features + quiet card) --------
+        # 3 columns x 2 rows. The 6th cell carries class `quiet` to mark the
+        # "Compétence interne préservée" out-of-scope tile, which is rendered
+        # with a muted background and dashed border to read as deliberately
+        # non-feature.
+        # P12.8 fix: tighter padding + spacing because the 6 cells with one
+        # multi-line cell-body (F·05 litige module ~5 lines) overflowed past
+        # the 210mm landscape height. Combined with the slide-09 specific
+        # h2 + slide-sub margin reductions below.
+        ".grid-3x2 { display: table; width: 100%; border-spacing: 3mm 3mm; "
+        "margin-top: 1mm; }\n"
+        ".grid-3x2 .cell { display: table-cell; width: 33.33%; "
+        "padding: 5mm 5mm; vertical-align: top; "
+        "background: " + L["card"] + "; "
+        "border: 1px solid " + L["border"] + "; "
+        "border-top: 2px solid " + L["accent_primary"] + "; }\n"
+        ".grid-3x2 .cell.quiet { background: " + L["background"] + "; "
+        "border: 1px dashed " + L["border"] + "; "
+        "border-top: 1px dashed " + L["muted_foreground"] + "; }\n"
+        ".grid-3x2 .cell .cell-num { font-size: 7.5pt; font-weight: 700; "
+        "color: " + L["accent_primary"] + "; letter-spacing: 0.16em; "
+        "text-transform: uppercase; margin: 0 0 2mm 0; display: block; }\n"
+        ".grid-3x2 .cell.quiet .cell-num { color: " + L["muted_foreground"] + "; }\n"
+        ".grid-3x2 .cell .cell-title { font-size: 10.5pt; font-weight: 600; "
+        "margin: 0 0 2mm 0; color: " + L["foreground"] + "; "
+        "line-height: 1.25; }\n"
+        ".grid-3x2 .cell .cell-body { font-size: 8.5pt; line-height: 1.45; "
+        "color: " + L["foreground"] + "; margin: 0; }\n"
+        ".grid-3x2 .cell.quiet .cell-body { color: " + L["muted_foreground"] + "; }\n"
+        # Slides hosting `.grid-3x2` opt in to tighter top metrics via the
+        # `slide-tight` modifier class. WeasyPrint 52.5 has no `:has()`
+        # support, so the markdown applies `class="slide slide-tight"` on the
+        # slide that hosts the dense 6-cell grid (slide 09).
+        ".slide.slide-tight { padding-top: 12mm; padding-bottom: 10mm; }\n"
+        ".slide.slide-tight h2 { font-size: 26pt; margin-bottom: 3mm; "
+        "line-height: 1.08; max-width: 250mm; }\n"
+        ".slide.slide-tight .slide-sub { margin-bottom: 5mm; "
+        "font-size: 11pt; max-width: 240mm; }\n"
+        ".slide.slide-tight .slide-meta { margin-bottom: 6mm; "
+        "padding-bottom: 2mm; }\n"
+
+        # ---- Misc primitives kept identical to the dossier profile -----------
+        "img { max-width: 100%; height: auto; }\n"
+        "ul, ol { margin: 0 0 1em 0; padding-left: 4mm; }\n"
+        "li { margin-bottom: 1.2mm; line-height: 1.5; }\n"
+        "li::marker { color: " + L["accent_primary"] + "; }\n"
+    )
+    return _to_legacy_hsl(css)
 
 
 # Initiative 27 follow-up: friendly open-question callouts.
@@ -313,26 +684,29 @@ _TODO_OPERATOR_BLOCKQUOTE_RE = re.compile(
 )
 
 
+_CALLOUT_QUESTION_LABEL: dict[str, str] = {
+    "es": "Pregunta abierta para tu confirmación",
+    "en": "Open question for your confirmation",
+    "fr": "Question ouverte pour confirmation",
+}
+
+
 def _friendly_callout_labels_html(html: str, *, language: str = "es") -> str:
     """Rewrite ``<blockquote>`` blocks that lead with ``<strong>TODO[OPERATOR]</strong>``.
 
     Replaces the operator-side label with an amber-tinted callout heading
-    (``Pregunta abierta para tu confirmación`` in Spanish; ``Open question for
-    your confirmation`` in English) and tags the blockquote with
+    localized to the deliverable's language and tags the blockquote with
     ``class="callout-question"`` so the brand CSS styles it.
 
     Args:
         html: HTML emitted by ``markdown.markdown(...)``.
-        language: Language hint (``"es"`` or ``"en"``). Defaults to Spanish.
+        language: Language hint (``"es"``, ``"en"``, or ``"fr"``). Defaults to
+            Spanish; unknown values fall back to English.
 
     Returns:
         HTML with all ``TODO[OPERATOR]`` blockquotes rewritten.
     """
-    label = (
-        "Pregunta abierta para tu confirmación"
-        if language == "es"
-        else "Open question for your confirmation"
-    )
+    label = _CALLOUT_QUESTION_LABEL.get(language, _CALLOUT_QUESTION_LABEL["en"])
 
     def _rewrite(match: "re.Match[str]") -> str:
         existing_attrs = match.group("attrs") or ""
@@ -356,6 +730,38 @@ def _friendly_callout_labels_html(html: str, *, language: str = "es") -> str:
     return _TODO_OPERATOR_BLOCKQUOTE_RE.sub(_rewrite, html)
 
 
+_COVER_STRIP_LABELS: dict[str, dict[str, str]] = {
+    "es": {
+        "program": "Programa",
+        "date": "Fecha",
+        "discipline": "Disciplina",
+        "status": "Estado",
+        "collaboration": "En colaboración con",
+        "eyebrow_default": "Holística Research · Dossier",
+    },
+    "en": {
+        "program": "Program",
+        "date": "Date",
+        "discipline": "Discipline",
+        "status": "Status",
+        "collaboration": "In collaboration with",
+        "eyebrow_default": "Holistika Research · Dossier",
+    },
+    "fr": {
+        "program": "Programme",
+        "date": "Date",
+        "discipline": "Discipline",
+        "status": "Statut",
+        "collaboration": "En collaboration avec",
+        "eyebrow_default": "Holistika Research",
+    },
+}
+
+
+def _cover_labels_for(language: str) -> dict[str, str]:
+    return _COVER_STRIP_LABELS.get(language, _COVER_STRIP_LABELS["en"])
+
+
 def _build_cover_html(
     *,
     title: str,
@@ -365,30 +771,41 @@ def _build_cover_html(
     issue_date: str | None = None,
     status_label: str | None = None,
     monogram_path: str | None = None,
-    eyebrow: str | None = "Holística Research · Dossier",
+    eyebrow: str | None = None,
+    language: str = "es",
+    collaboration_partner: str | None = None,
 ) -> str:
     """Return the cover-page HTML fragment used by ``render_pdf_branded``.
 
-    Initiative 27 follow-up — visual upgrade. Layout:
+    Initiative 27 follow-up, visual upgrade. Layout (P11 fix, deterministic):
 
-      [eyebrow caps]
-      [monogram]
-
-      ...generous whitespace...
-
-      [oversized title]
+      [eyebrow caps]      <- normal flow, top of cover
+      [monogram]          <- normal flow, just below eyebrow
+                          <- gradient fills the empty middle
+      [oversized title]   <- absolute, bottom: 65mm
       [subtitle, smaller]
+                          <- ~26mm visual buffer
+      [bottom strip]      <- absolute, bottom: 24mm
 
-      [bottom strip: program | date | discipline]
+    P12.7 (co-branding extension): when ``collaboration_partner`` is set, a
+    4th strip-item is appended at the right of the cover-strip, attributed
+    with the ``collaboration`` label localized via ``_COVER_STRIP_LABELS``.
+    Per ``BRAND_COBRANDING_PATTERN.md`` §3.2 the host (Holistika) leads the
+    strip; the guest (e.g. EFA Académie) appears in 4th position only — never
+    elevated to eyebrow / monogram.
     """
+    labels = _cover_labels_for(language)
+    eyebrow_text = eyebrow if eyebrow is not None else labels["eyebrow_default"]
+    monogram_alt = "Holística Research" if language == "es" else "Holistika Research"
+
     monogram_html = ""
     if monogram_path and Path(monogram_path).is_file():
         uri = Path(monogram_path).resolve().as_uri()
-        monogram_html = f'<img class="cover-monogram" src="{uri}" alt="Holística Research" />'
+        monogram_html = f'<img class="cover-monogram" src="{uri}" alt="{monogram_alt}" />'
 
     eyebrow_html = (
-        f'<div class="cover-eyebrow">{eyebrow}</div>'
-        if eyebrow
+        f'<div class="cover-eyebrow">{eyebrow_text}</div>'
+        if eyebrow_text
         else ""
     )
     subtitle_html = (
@@ -401,18 +818,23 @@ def _build_cover_html(
     strip_items: list[str] = []
     if program_id:
         strip_items.append(
-            f'<div class="strip-item"><span class="strip-label">Programa</span>'
+            f'<div class="strip-item"><span class="strip-label">{labels["program"]}</span>'
             f'<span class="strip-value">{program_id}</span></div>'
         )
     if issue_date:
         strip_items.append(
-            f'<div class="strip-item"><span class="strip-label">Fecha</span>'
+            f'<div class="strip-item"><span class="strip-label">{labels["date"]}</span>'
             f'<span class="strip-value">{issue_date}</span></div>'
         )
     if discipline:
         strip_items.append(
-            f'<div class="strip-item"><span class="strip-label">Disciplina</span>'
+            f'<div class="strip-item"><span class="strip-label">{labels["discipline"]}</span>'
             f'<span class="strip-value">{discipline}</span></div>'
+        )
+    if collaboration_partner:
+        strip_items.append(
+            f'<div class="strip-item"><span class="strip-label">{labels["collaboration"]}</span>'
+            f'<span class="strip-value">{collaboration_partner}</span></div>'
         )
     # Status label is intentionally dropped from the visual cover (kept in
     # frontmatter / footer string only) to reduce visual clutter per operator
@@ -428,8 +850,7 @@ def _build_cover_html(
         '<section class="cover-hero">'
         f'{eyebrow_html}'
         f'{monogram_html}'
-        f'<h1>{title}</h1>'
-        f'{subtitle_html}'
+        f'<div class="cover-title-block"><h1>{title}</h1>{subtitle_html}</div>'
         f'{strip_html}'
         "</section>"
     )
@@ -448,6 +869,11 @@ def render_pdf_branded(
     status_label: str | None = None,
     monogram_path: str | None = None,
     source_label: str = "hlk_pdf_render_branded",
+    language: str | None = None,
+    eyebrow: str | None = None,
+    collaboration_partner: str | None = None,
+    guest_logo_path: str | None = None,
+    guest_logo_light_path: str | None = None,
 ) -> int:
     """Render Markdown to a brand-aligned PDF (Initiative 27 P1).
 
@@ -479,18 +905,35 @@ def render_pdf_branded(
             on the cover. If ``None`` or unreadable, the cover renders without
             it.
         source_label: Label used in stderr/stdout messages for traceability.
+        collaboration_partner: P12.7 co-branding extension. When set, the
+            dossier cover-strip emits a 4th strip-item attributed with the
+            ``collaboration`` label localized via ``_COVER_STRIP_LABELS``
+            (e.g. ``"En collaboration avec EFA Académie"`` in FR).
+            ``None`` keeps solo-host posture per ``BRAND_COBRANDING_PATTERN.md``
+            §3.2 default-host rule.
+        guest_logo_path: P12.7 co-branding extension. Filesystem path to the
+            guest organisation's primary mark (e.g. EFA Académie color logo).
+            If set and the markdown contains ``{{EFA_LOGO_URI}}``, the
+            placeholder is substituted with a ``file://`` URI before render.
+            Used by the slides profile's host-card primitive (slide 02).
+        guest_logo_light_path: P12.7 co-branding extension. Filesystem path
+            to the guest organisation's mark *on a light background* (the
+            "fonds blancs" variant). Substitutes ``{{EFA_LOGO_LIGHT_URI}}``
+            in the markdown. If unset but ``guest_logo_path`` is, the same
+            URI is used for both placeholders so the host-card still resolves.
 
     Returns:
         ``0`` on success (including soft-success when the renderer chain falls
         back to writing only the markdown sidecar). Non-zero only when an
         explicit subprocess (e.g. pandoc) fails.
     """
-    if profile != "dossier":
+    if profile not in ("dossier", "slides"):
         print(
             f"warning: {source_label}: profile={profile!r} not implemented; "
             "falling back to dossier styling.",
             file=sys.stderr,
         )
+        profile = "dossier"
 
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -503,20 +946,60 @@ def render_pdf_branded(
     if _md_lib is None:
         return render_pdf(md_text, out_path, source_label=source_label)
 
+    # ``{{MONOGRAM_URI}}`` substitution lets slide-deck markdown reference the
+    # monogram without hard-coding an absolute path: the renderer resolves the
+    # `monogram_path` kwarg to a `file://` URI and substitutes it pre-render.
+    monogram_uri = ""
+    if monogram_path and Path(monogram_path).is_file():
+        monogram_uri = Path(monogram_path).resolve().as_uri()
+    if monogram_uri and "{{MONOGRAM_URI}}" in md_text:
+        md_text = md_text.replace("{{MONOGRAM_URI}}", monogram_uri)
+
+    # P12.7: ``{{EFA_LOGO_URI}}`` + ``{{EFA_LOGO_LIGHT_URI}}`` substitutions
+    # are the co-branding analogues used by the slides-profile host-card
+    # (slide 02). Per ``BRAND_COBRANDING_PATTERN.md`` §3.3 the guest mark is
+    # decoupled from the host mark so each can be referenced independently.
+    # If ``guest_logo_light_path`` is unset, the primary path is used for both
+    # placeholders (host-cards still resolve on a light background; just less
+    # contrast-tuned).
+    guest_uri = ""
+    guest_light_uri = ""
+    if guest_logo_path and Path(guest_logo_path).is_file():
+        guest_uri = Path(guest_logo_path).resolve().as_uri()
+    if guest_logo_light_path and Path(guest_logo_light_path).is_file():
+        guest_light_uri = Path(guest_logo_light_path).resolve().as_uri()
+    if not guest_light_uri:
+        guest_light_uri = guest_uri
+    if guest_uri and "{{EFA_LOGO_URI}}" in md_text:
+        md_text = md_text.replace("{{EFA_LOGO_URI}}", guest_uri)
+    if guest_light_uri and "{{EFA_LOGO_LIGHT_URI}}" in md_text:
+        md_text = md_text.replace("{{EFA_LOGO_LIGHT_URI}}", guest_light_uri)
+
     body_html = _md_lib.markdown(md_text, extensions=MD_EXTENSIONS)
 
-    # Detect language from the cover-side metadata or default to Spanish.
-    # The language hint controls the friendly callout label (es/en).
-    language_hint = "es"
-    if subtitle and any(
-        word in (subtitle or "").lower()
-        for word in ("certification", "the ", "english", "operator brief")
-    ):
-        language_hint = "en"
+    # Resolve language: explicit kwarg > heuristic from subtitle > Spanish default.
+    if language:
+        language_hint = language
+    else:
+        language_hint = "es"
+        if subtitle and any(
+            word in (subtitle or "").lower()
+            for word in ("certification", "the ", "english", "operator brief")
+        ):
+            language_hint = "en"
     body_html = _friendly_callout_labels_html(body_html, language=language_hint)
 
     cover_html = ""
-    if title:
+    footer_div = ""
+    body_wrapper_open = '<main class="dossier-body">'
+    body_wrapper_close = "</main>"
+    if profile == "slides":
+        # Slides profile: deck markdown supplies its own cover slide; renderer
+        # does NOT inject cover-hero, footer-string, or .dossier-body wrapper
+        # (each ``<section class="slide">`` is a self-contained page).
+        body_wrapper_open = ""
+        body_wrapper_close = ""
+    elif title:
         cover_html = _build_cover_html(
             title=title,
             subtitle=subtitle,
@@ -525,11 +1008,15 @@ def render_pdf_branded(
             issue_date=issue_date,
             status_label=status_label,
             monogram_path=monogram_path,
+            language=language_hint,
+            eyebrow=eyebrow,
+            collaboration_partner=collaboration_partner,
         )
-
-    footer_parts = [p for p in (program_id, discipline, issue_date) if p]
-    footer_text = " · ".join(footer_parts) if footer_parts else ""
-    footer_div = f'<div class="footer-string">{footer_text}</div>' if footer_text else ""
+        footer_parts = [p for p in (program_id, discipline, issue_date) if p]
+        footer_text = " · ".join(footer_parts) if footer_parts else ""
+        footer_div = (
+            f'<div class="footer-string">{footer_text}</div>' if footer_text else ""
+        )
 
     css = _brand_pdf_css(profile=profile)
     html_doc = (
@@ -537,7 +1024,7 @@ def render_pdf_branded(
         f"<style>{css}</style></head><body>"
         f"{cover_html}"
         f"{footer_div}"
-        f'<main class="dossier-body">{body_html}</main>'
+        f"{body_wrapper_open}{body_html}{body_wrapper_close}"
         "</body></html>"
     )
 
@@ -593,15 +1080,16 @@ def render_pdf_branded(
                 pdf.ln(8)
                 pdf.set_x(16)
                 pdf.set_font(family, "", 10)
+                _fb_labels = _cover_labels_for(language_hint)
                 meta_lines = []
                 if program_id:
-                    meta_lines.append(f"Programa: {program_id}")
+                    meta_lines.append(f"{_fb_labels['program']}: {program_id}")
                 if discipline:
-                    meta_lines.append(f"Disciplina: {discipline}")
+                    meta_lines.append(f"{_fb_labels['discipline']}: {discipline}")
                 if status_label:
-                    meta_lines.append(f"Estado: {status_label}")
+                    meta_lines.append(f"{_fb_labels['status']}: {status_label}")
                 if issue_date:
-                    meta_lines.append(f"Fecha: {issue_date}")
+                    meta_lines.append(f"{_fb_labels['date']}: {issue_date}")
                 for line in meta_lines:
                     pdf.set_x(16)
                     pdf.cell(0, 6, line, ln=1)

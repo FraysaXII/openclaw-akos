@@ -24,6 +24,8 @@ PROCESS_LIST_FIELDNAMES: list[str] = [
     "item_id",
     "item_granularity",
     "time_hours_par",
+    "time_hours_min",
+    "time_hours_max",
     "description",
     "instructions",
     "addundum_extras",

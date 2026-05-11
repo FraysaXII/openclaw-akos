@@ -1,0 +1,118 @@
+﻿.cursor/rules/akos-docs-config-sync.mdc
+.gitignore
+CHANGELOG.md
+akos/engagement_estimation.py
+akos/hlk_pdf_render.py
+akos/hlk_process_csv.py
+artifacts/uat-dossier/README.md
+docs/references/hlk/business-intent/2026-04-08 - EFA project prospection.mp3.md
+docs/references/hlk/compliance/INITIATIVE_REGISTRY.csv
+docs/references/hlk/compliance/baseline_organisation.csv
+docs/references/hlk/compliance/dimensions/COUNTRY_WORK_CALENDAR.csv
+docs/references/hlk/compliance/dimensions/GOI_POI_REGISTER.csv
+docs/references/hlk/compliance/process_list.csv
+docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_COBRANDING_PATTERN.md
+docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_LOGO_SYSTEM.md
+docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_VISUAL_PATTERNS.md
+docs/references/hlk/v3.0/Admin/O5-1/Operations/Engagement/SOP-ENG_ESTIMATION_DISCIPLINE_001.md
+docs/references/hlk/v3.0/Admin/O5-1/People/FOUNDER_TRAJECTORY_INTERNAL.md
+docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-HLK_TOOLING_STANDARDS_001.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/00-internal/deck-suez-webuy.counterparty-brief.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/00-internal/deck-suez-webuy.objections.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/01-operator-pack/README.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/01-operator-pack/cdc-feasibility-shape.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/01-operator-pack/deck-suez-webuy.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/01-operator-pack/discovery-questionnaire.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/01-operator-pack/proposal.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/02-customer-pack/deck.customer.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/02-customer-pack/proposal.customer.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/02-customer-pack/tarification.customer.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/README.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_archive/2026-05-10-pre-efa-collab/README.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_archive/2026-05-10-pre-efa-collab/cdc-feasibility-shape.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_archive/2026-05-10-pre-efa-collab/deck-suez-webuy.counterparty-brief.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_archive/2026-05-10-pre-efa-collab/deck-suez-webuy.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_archive/2026-05-10-pre-efa-collab/deck-suez-webuy.objections.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_archive/2026-05-10-pre-efa-collab/deck.customer.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_archive/2026-05-10-pre-efa-collab/discovery-questionnaire.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_archive/2026-05-10-pre-efa-collab/proposal.customer.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_archive/2026-05-10-pre-efa-collab/proposal.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_archive/2026-05-10-pre-efa-collab/tarification.customer.fr.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_external_marks/README.md
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_external_marks/efa-academie-logo-light.png
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_external_marks/efa-academie-logo-on-white.png
+docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_external_marks/efa-academie-logo.png
+docs/references/hlk/v3.0/Think Big/Clients/README.md
+docs/references/hlk/v3.0/_assets/advops/shared/2026-suez-webuy/README.md
+docs/references/hlk/v3.0/_assets/operations/shared/engagement/estimation/estimation-template.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/README.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p0-extraction-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p1-folders-and-goipoi-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p10-customer-impeccable-pack-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p11-slip-offs-and-customer-deck-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12-closing-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.6-pause-record-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/deck-customer-slide-01-cover.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/deck-customer-slide-02-host-card.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/deck-customer-slide-04-method-anchors.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/deck-customer-slide-09-grid-3x2.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/final-deck-page-01.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/final-deck-page-02.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/final-deck-page-04.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/final-deck-page-05.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/final-deck-page-06.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/final-deck-page-09.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/final-deck-page-12.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/final-deck-page-13.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/proposal-customer-cover-fresh.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/proposal-customer-cover.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-rasters/tarification-customer-cover.png
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p12.8-render-verify-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p2-internal-brief-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p3a-mint-discipline-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p3b-csv-extensions-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p3c-suez-application-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p4-cdc-feasibility-shape-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p6-proposal-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p7-deck-and-companions-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p8-render-and-drift-gates-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p9-cleanup-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/sc-mid-p12-content-draft-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/sc-mid-p12-voice-fidelity-2026-05-10.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/commercial-schedule-a.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/commercial-schedule-b.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/commercial-schedule-c.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/commercial-schedule.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/counterparty-brief.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/efa-redacted.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/elicitation-plan.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/extracts/cdc_webuy_suez.txt
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/extracts/founder_cv_raw.txt
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/extracts/mode_ope_ratoire_-_process_de_passage_de_commande_webuy.txt
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/inspiration-redacted.md
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/scope-a.yaml
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/scope-b.yaml
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/scope-c.yaml
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/scope.yaml
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/source-grade.csv
+docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/voice-corpus.md
+docs/wip/planning/66-brand-vision-ops-sweep/files-modified.csv
+docs/wip/planning/66-brand-vision-ops-sweep/reports/p6-pause-record-2026-05-09.md
+docs/wip/planning/68-cicd-discipline-and-observability-maturity/asset-classification.md
+docs/wip/planning/68-cicd-discipline-and-observability-maturity/decision-log.md
+docs/wip/planning/68-cicd-discipline-and-observability-maturity/evidence-matrix.md
+docs/wip/planning/68-cicd-discipline-and-observability-maturity/files-modified.csv
+docs/wip/planning/68-cicd-discipline-and-observability-maturity/master-roadmap.md
+docs/wip/planning/68-cicd-discipline-and-observability-maturity/reports/p0-pause-record-2026-05-10.md
+docs/wip/planning/68-cicd-discipline-and-observability-maturity/reports/render-mcp-auth-troubleshooting-2026-05-09.md
+docs/wip/planning/68-cicd-discipline-and-observability-maturity/risk-register.md
+docs/wip/planning/README.md
+docs/wip/planning/WIP_DASHBOARD.md
+docs/wip/planning/_candidates/customer-engagements-2026.md
+scripts/estimate_engagement.py
+scripts/extract_engagement_pdfs.py
+scripts/render_suez_engagement_pdfs.py
+tests/test_engagement_estimation.py
+tests/test_estimation_constants_match_sop.py
+tests/test_extract_engagement_pdfs.py
+tests/test_render_dossier.py

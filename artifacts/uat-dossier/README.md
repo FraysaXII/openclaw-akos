@@ -5,7 +5,7 @@ status: active
 
 # Operator-facing UAT Dossier outputs
 
-Per-run artifact pack from `scripts/render_uat_dossier.py` (Initiative 48).
+Per-run artifact pack from `scripts/render_uat_dossier. py` (Initiative 48).
 
 Files in this directory are gitignored except this README. Regenerate with:
 

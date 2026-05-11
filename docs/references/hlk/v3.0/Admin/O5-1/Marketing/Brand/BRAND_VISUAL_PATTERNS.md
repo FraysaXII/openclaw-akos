@@ -172,6 +172,17 @@ Three variants (CSS class names land in `render_pdf_branded`):
 - Hairlines: 1px `--border` (`#dee0e3`).
 - Caption: H3 sized + muted caption directly above.
 
+### 3.5 Co-branding (host-card + 4-field cover-strip)
+
+When a customer-facing surface is co-presented with a partner organisation, two primitives extend the cover-page and the body-page primitives without replacing them. Full canonical at [`BRAND_COBRANDING_PATTERN.md`](BRAND_COBRANDING_PATTERN.md); summary of visual implications:
+
+- **Cover-page (§3.1) extension.** The cover-strip extends from 3 fields (Programme / Date / Discipline) to **4 fields** (Programme / Date / Discipline / *En collaboration avec*). The fourth field carries the partner / guest entity name. Localized strip-label key `EN COLLABORATION` (FR), `IN COLLABORATION WITH` (EN), `EN COLABORACIÓN CON` (ES).
+- **Host-card primitive (slide deck only, slide 02).** A two-column layout where the **host** (typically Holistika in a Holistika-delivered engagement) appears on the left at full-color logo and full clearspace; the **guest** (the partner) appears on the right with a logo at **0.7× host scale**, mono-flattened to the host's foreground tone. Both cards are same-sized boxes; the asymmetry lives inside each card (logo scale + chromatic flattening), not in the overall layout. The guest-card has a 1px bottom-edge accent in a single neutral / warm tone borrowed from the guest palette ("color-bridge rule": one accent, used once, never on body type).
+- **Method-anchors primitive.** A three-column layout for slide 04 of co-branded decks, listing three method anchors derived from the host's experience. Each anchor cell is a `display: table` cell (WeasyPrint 52.5 friendly), with a small numbered eyebrow and a one-paragraph body. This primitive is not strictly co-branding (it works on solo Holistika decks too), but its first canonical use is the SUEZ engagement co-branded deck.
+- **Palette governance.** The host palette (Holistika light variant) is the canvas. The guest contributes **exactly one** color, used **exactly once or twice**, in a deliberately neutral or warm tone — never a saturated brand red / blue / signature highlight, which would compete with the host's accent system. Full color-bridge rules in [`BRAND_COBRANDING_PATTERN.md`](BRAND_COBRANDING_PATTERN.md) §3.
+
+These extensions are **multiplicative** with the rest of the visual system: every other primitive (callouts, tables, typography, page-number footer) renders identically to the solo-host case. Co-branding is concentrated on the cover-strip and slide 02; body pages do not change.
+
 ## 4. Iconography & assets
 
 Repository-relative paths under `https://github.com/FraysaXII/<holistika-research-boilerplate>` (operator workstation clone path: `c:\Users\Shadow\cd_shadow\root_cd\boilerplate`):
@@ -215,4 +226,6 @@ When `render_pdf_branded(profile="dossier")` runs, the boilerplate's web-first i
 - **Brand voice** (sister canonical): [`BRAND_VOICE_FOUNDATION.md`](BRAND_VOICE_FOUNDATION.md), [`BRAND_REGISTER_MATRIX.md`](BRAND_REGISTER_MATRIX.md), [`BRAND_DO_DONT.md`](BRAND_DO_DONT.md), [`BRAND_SPANISH_PATTERNS.md`](BRAND_SPANISH_PATTERNS.md)
 - **Communication SOP**: [`SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`](SOP-HLK_COMMUNICATION_METHODOLOGY_001.md)
 - **PDF helper that consumes these tokens**: [`akos/hlk_pdf_render.py`](../../../../../../../akos/hlk_pdf_render.py) `render_pdf_branded`
+- **Co-branding pattern** (host / guest, color-bridge, polarity-flip): [`BRAND_COBRANDING_PATTERN.md`](BRAND_COBRANDING_PATTERN.md) (cross-referenced from §3.5)
+- **Logo system** (host / guest logo placement rules): [`BRAND_LOGO_SYSTEM.md`](BRAND_LOGO_SYSTEM.md) §2.6
 - **Canonical dossier output template**: [`docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/dossier_es.md`](../../../../_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/dossier_es.md)

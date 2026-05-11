@@ -1,0 +1,86 @@
+engagement_slug: 2026-05-10-suez-webuy-procure-to-pay
+counterparty_label: Counterparty enterprise (FR) — Recommended scope (CDC + faisabilité + Phase 1 POC)
+country_code: FR
+start_date: 2026-05-19
+notes: |
+  Variant B — recommended central scope. Adds an Excel / Power Query Phase 1 prototype + a joint
+  design workshop + a first operator training wave on top of Variant A. POC stays inside an
+  approved compliance-friendly environment (no access to the live procurement portal required).
+  Bridge entity present. Brand Manager intentionally not assigned to any package for an automation
+  + SOP scope; brand-voice work distributes to Holistik Researcher + Project Manager + the founder
+  via the bridge.
+packages:
+  - package_id: WP-01-discovery-kickoff
+    method_id: discovery_kickoff
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-02-discovery-interviews
+    method_id: discovery_interviews
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-03-baseline-synthesis
+    method_id: discovery_synthesis
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-04-design-workshop
+    method_id: design_workshop
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-05-cdc-functional-spec
+    method_id: design_specification
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-06-feasibility-procurement-portal
+    method_id: build_integration_study
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-07-feasibility-reporting-layer
+    method_id: build_integration_study
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-08-poc-phase1-prototype
+    method_id: build_prototype_excel
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-09-operator-training
+    method_id: transfer_training
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+  - package_id: WP-10-operational-handover
+    method_id: transfer_documentation
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+  - package_id: WP-11-close-review
+    method_id: close_review
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr

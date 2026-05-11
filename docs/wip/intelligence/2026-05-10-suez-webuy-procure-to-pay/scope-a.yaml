@@ -1,0 +1,65 @@
+engagement_slug: 2026-05-10-suez-webuy-procure-to-pay-scope-a
+counterparty_label: Counterparty enterprise (FR) — Variant A (CDC + faisabilité)
+country_code: FR
+start_date: 2026-05-19
+notes: |
+  Variant A — safe-fallback first commit (cahier des charges + feasibility study, no application access).
+  Bridge entity present (collaboration partner). Brand Manager intentionally not assigned to any package
+  for an automation + SOP scope; brand-voice work distributes to Holistik Researcher + Project Manager
+  + the founder via the bridge. Multipliers reflect enterprise procurement chain, bridged delivery,
+  French market vs Madrid baseline, and first-of-kind engagement archetype.
+packages:
+  - package_id: WP-A1-discovery-kickoff
+    method_id: discovery_kickoff
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-A2-discovery-interviews
+    method_id: discovery_interviews
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-A3-baseline-synthesis
+    method_id: discovery_synthesis
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-A4-cdc-functional-spec
+    method_id: design_specification
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-A5-feasibility-procurement-portal
+    method_id: build_integration_study
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-A6-feasibility-reporting-layer
+    method_id: build_integration_study
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+      - first_of_kind
+  - package_id: WP-A7-operational-handover
+    method_id: transfer_documentation
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
+  - package_id: WP-A8-close-review
+    method_id: close_review
+    multiplier_ids:
+      - enterprise_premium
+      - bridge_entity
+      - locale_uplift_fr
