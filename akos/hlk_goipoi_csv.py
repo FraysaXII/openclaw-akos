@@ -51,4 +51,9 @@ GOIPOI_REGISTER_FIELDNAMES: tuple[str, ...] = (
     "distance_band",
     "bridge_via",
     "distance_assessed_date",
+    # P13.4 (D-W13-D) — related-party disclosure for engagements with family
+    # members, board members, advisors-with-equity, or other rows where SOC
+    # disclosure norms require an explicit flag. Enum: "true" | "false" | "".
+    # Empty default is backwards-compatible for every Initiative 21 row.
+    "related_party",
 )

@@ -78,6 +78,10 @@ PRONOUN_REGISTERS = {"", "tu", "usted"}
 DISTANCE_BANDS = {"N1", "N2", "N3", "N4"}
 ISO_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
+# P13.4 (D-W13-D) — related-party disclosure flag.
+# Empty default is backwards-compatible for every Initiative 21 / 22 / 24 / 31 row.
+RELATED_PARTY = {"", "true", "false"}
+
 REF_ID_RE = re.compile(r"^(POI|GOI)-[A-Z0-9]{2,5}-[A-Z0-9-]{1,40}-\d{4}$")
 PROGRAM_ID_RE = re.compile(r"^(PRJ-[A-Z0-9]+-[A-Z0-9]+-\d{4})?$")
 LENS_RE = re.compile(r"^[a-z][a-z0-9_]{1,40}$")
@@ -229,6 +233,13 @@ def main() -> int:
         elif not ISO_DATE_RE.match(assessed):
             errors.append(
                 f"row {i}: distance_assessed_date {assessed!r} not in ISO format (YYYY-MM-DD)"
+            )
+
+        # P13.4 (D-W13-D): optional related-party disclosure flag.
+        related = (r.get("related_party") or "").strip().lower()
+        if related not in RELATED_PARTY:
+            errors.append(
+                f"row {i}: invalid related_party {related!r}; expected 'true', 'false', or empty"
             )
 
     # Pass 2: bridge_via FK + cycle detection. Collect all ref_ids first.

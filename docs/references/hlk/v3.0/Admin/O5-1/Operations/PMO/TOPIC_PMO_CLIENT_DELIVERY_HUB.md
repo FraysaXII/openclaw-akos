@@ -63,13 +63,19 @@ Inspired by the **Groups of Interest / Persons of Interest** pattern (filters: t
 |:-------|:------|:---------|:-----------|:-----|:------------|:-----------|:--------------:|:------|
 | `GOI-ADV-ENTITY-2026` | `external_adviser` | `N1` | — | `entity_readiness` | `internal` | `PRJ-HOL-FOUNDING-2026` | 10 | Seed row from PMO hub stakeholder index. Real firm name kept off-repo per redaction SOP. Backfilled distance_band=N1 ... |
 | `GOI-BNK-INC-2026` | `banking_channel` | `N1` | — | `incorporation` | `confidential` | `PRJ-HOL-FOUNDING-2026` | 1 | Seed row from PMO hub stakeholder index. Real bank name kept off-repo. Backfilled distance_band=N1 (operator engages ... |
+| `GOI-CUS-ASES-2026` | `client_org` | `N1` | — | `customer_engagement` | `confidential` | `` | 0 | Related-party customer engagement (operator's family-owned SME). Holistika provides methodology + tooling support; co... |
+| `GOI-CUS-SUEZ-2026` | `client_org` | `N2` | `GOI-PRT-EFA-2026` | `customer_engagement` | `internal` | `` | 0 | First-customer engagement candidate sourced via GOI-PRT-EFA-2026. Real entity name (SUEZ RV Materiel et Logistique) k... |
+| `GOI-PRT-EFA-2026` | `partner` | `N1` | — | `partner_engagement` | `internal` | `` | 0 | Partner organisation that brings the SUEZ WeBuy first-customer opportunity to Holistika. Collaboration since October ... |
 | `POI-ADV-INTAKE-LEAD-2026` | `external_adviser` | `N1` | — | `entity_readiness` | `internal` | `PRJ-HOL-FOUNDING-2026` | 0 | Pre-kick-off intake-stage contact at adviser firm. Operator-managed identity mapping kept off-repo. Backfilled distan... |
 | `POI-BNK-DESK-LEAD-2026` | `banking_channel` | `N1` | — | `incorporation` | `confidential` | `PRJ-HOL-FOUNDING-2026` | 1 | Operator-managed identity mapping kept off-repo. Backfilled distance_band=N1 (operator engages directly). |
+| `POI-CUS-SUEZ-LEAD-2026` | `client_org` | `N2` | `POI-PRT-EFA-LEAD-2026` | `customer_engagement` | `internal` | `` | 0 | Primary SUEZ-side counterparty for the WeBuy CDC review meeting. Operator-managed identity mapping kept off-repo. Dis... |
 | `POI-LEG-ENISA-LEAD-2026` | `external_adviser` | `N1` | — | `entity_readiness` | `internal` | `PRJ-HOL-FOUNDING-2026` | 4 | Operator-managed identity mapping kept off-repo. Backfilled distance_band=N1 (operator engages directly). |
 | `POI-LEG-FISCAL-LEAD-2026` | `external_adviser` | `N1` | — | `fiscal_readiness` | `internal` | `PRJ-HOL-FOUNDING-2026` | 2 | Operator-managed identity mapping kept off-repo. Backfilled distance_band=N1 (operator engages directly). |
+| `POI-PRT-EFA-LEAD-2026` | `partner` | `N1` | — | `partner_engagement` | `internal` | `` | 0 | Bilingual partner lead currently working as a contract operator inside the SUEZ procure-to-pay process — two-hat post... |
 
-**Source counts:** 6 GOI/POI rows; 12 programs; 12 open questions.
-<!-- END_AUTOGEN section_id=pmo_stakeholder_index_v1 sha256=e0a0a5a3b8c4d5dee0a39b42a8d87c46298b1c36a54b423a1a4800b642b41818 -->
+**Source counts:** 11 GOI/POI rows; 12 programs; 12 open questions.
+<!-- END_AUTOGEN section_id=pmo_stakeholder_index_v1 sha256=97c9ab7bd1789a0d5daa8112315f717014944df56d031cda30657f638af1a10d -->
+
 
 
 
