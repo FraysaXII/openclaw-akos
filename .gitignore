@@ -158,10 +158,15 @@ docs/wip/intelligence/**/*.pdf
 docs/wip/intelligence/**/*.xlsx
 docs/wip/intelligence/**/*.pptx
 
-# I67/P12.3 — Think Big client-engagement folder shape (per WORKSPACE_BLUEPRINT_HOLISTIKA.md
-# and BRAND_COBRANDING_PATTERN.md). Rendered PDFs regenerate deterministically from
-# markdown via scripts/render_*.py; export folders are operator-local artifacts.
-docs/references/hlk/v3.0/Think Big/Clients/*/_exports/
+# I12/P12 follow-up — Think Big client-engagement folder shape (per WORKSPACE_BLUEPRINT_HOLISTIKA.md
+# and BRAND_COBRANDING_PATTERN.md). Branded PDFs are tracked deliverables: this repo is shared
+# with non-technical readers via git + Google Drive sync, and most stakeholders consume PDFs,
+# not markdown. Track *.pdf + render-manifest.json (sha256 audit trail). Keep markdown sidecars
+# ignored — they are render-time duplicates of the canonical sources in 01-operator-pack/ +
+# 02-customer-pack/, and tracking them creates drift risk.
+docs/references/hlk/v3.0/Think Big/Clients/*/_exports/*
 !docs/references/hlk/v3.0/Think Big/Clients/*/_exports/.gitkeep
 !docs/references/hlk/v3.0/Think Big/Clients/*/_exports/README.md
+!docs/references/hlk/v3.0/Think Big/Clients/*/_exports/*.pdf
+!docs/references/hlk/v3.0/Think Big/Clients/*/_exports/render-manifest.json
 

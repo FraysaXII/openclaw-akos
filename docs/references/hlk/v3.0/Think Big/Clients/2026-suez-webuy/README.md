@@ -23,7 +23,7 @@ This is the canonical engagement folder for the SUEZ WeBuy procure-to-pay automa
 | [`02-customer-pack/`](02-customer-pack/) | Customer-facing pack: pricing-free proposal, deck, separate tarification annex | SUEZ (customer) |
 | [`_external_marks/`](_external_marks/) | EFA Académie brand assets used in co-branded surfaces (logos, palette references) | render pipeline |
 | [`_archive/`](_archive/) | Dated snapshots of prior versions (rollback only) | rollback only |
-| [`_exports/`](_exports/) | Rendered PDFs (generated from markdown; not committed to git) | distribution |
+| [`_exports/`](_exports/) | Rendered branded PDFs (generated from markdown; **tracked in git** so non-technical readers and Drive-synced collaborators get readable artifacts directly) | distribution |
 
 ## Intelligence inflows (Option A hybrid: intelligence stays in wip)
 
@@ -57,7 +57,7 @@ Notes on these rows are updated at P12.6 (notes-only; class enum stays `partner`
 
 ## Render pipeline
 
-PDFs are generated from the markdowns in this folder by [`scripts/render_suez_engagement_pdfs.py`](../../../../../../scripts/render_suez_engagement_pdfs.py). The script's `SOURCES` dict points to the audience sub-folders here. Rendered output lands in [`_exports/`](_exports/), which is in `.gitignore` patterns.
+PDFs are generated from the markdowns in this folder by [`scripts/render_suez_engagement_pdfs.py`](../../../../../../scripts/render_suez_engagement_pdfs.py). The script's `SOURCES` dict points to the audience sub-folders here. Rendered output lands in [`_exports/`](_exports/) and is **tracked in git** as a distribution surface — this repo is shared with non-technical readers via git + Google Drive sync, and most stakeholders consume PDFs, not markdown. The `.gitignore` allowlists `*.pdf` + `render-manifest.json` and continues to ignore the markdown sidecars (which are render-time duplicates of the canonical sources in `01-operator-pack/` + `02-customer-pack/`, and would create drift risk if tracked).
 
 ## Status
 

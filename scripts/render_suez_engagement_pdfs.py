@@ -24,8 +24,12 @@ sub-folders ``01-operator-pack/`` and ``02-customer-pack/`` (per
 ``BRAND_COBRANDING_PATTERN.md`` and the engagement README).
 
 Output PDFs land at the engagement's own ``_exports/`` sub-folder with a
-sha256 manifest for the checkpoint trail. The ``_exports/`` folder is
-gitignored (PDFs regenerate deterministically from markdown).
+sha256 manifest for the checkpoint trail. The PDFs and ``render-manifest.json``
+are **tracked in git** as a distribution surface (this repo is shared with
+non-technical readers via git + Google Drive sync; most stakeholders consume
+PDFs, not markdown). The render-time markdown sidecars in ``_exports/`` are
+gitignored — they duplicate the canonical sources in the audience sub-folders
+and tracking them would create drift risk.
 
 Each surface carries its own cover metadata (title / subtitle / discipline) so
 the brand cover hero band reads naturally in FR. The ``Programme`` field
