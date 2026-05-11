@@ -31,6 +31,14 @@ ENTITY_KINDS = {"person", "organisation"}
 # `class` enum — Initiative 22 P4 (D-IH-5) extended set so the dimension supports
 # multi-program reuse across MKTOPS / FINOPS / ADVOPS / public-affairs touchpoints.
 # Backwards-compatible: existing rows (Initiative 21) only use the first nine entries.
+#
+# P13.2 (D-W13-C): `collaborator` vs `partner` maturity distinction is doctrinal
+# (operator discipline), not validator-enforced — both values are accepted here.
+# The boundary is sharpened in SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001 §4.10:
+# `collaborator` is informal / single-project / no co-branding / no maintenance
+# commitment; `partner` is strategic / contractual / co-branded / maintenance-bearing.
+# Ramp is one-directional (`collaborator` → `partner`). See SOP §4.10 for the
+# four-condition test and the canonical EFA partnership example.
 CLASSES = {
     # Original Initiative 21 set (founder-incorporation seed scope)
     "external_adviser",

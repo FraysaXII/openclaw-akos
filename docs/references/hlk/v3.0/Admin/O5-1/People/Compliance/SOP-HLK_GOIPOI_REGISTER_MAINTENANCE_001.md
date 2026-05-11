@@ -193,6 +193,42 @@ Distance also drives the touchpoint-kit cell selection: the same persona arrivin
 
 Failures fail the validator and block PR merge until resolved.
 
+### 4.10 Class enum maturity ramp — `collaborator` vs `partner` (P13.2 / D-W13-C)
+
+The `class` enum accepts both `collaborator` (Initiative-21 seed set) and `partner` (Initiative-22 P4 extension). They are NOT duplicates — they encode a real maturity distinction. Per P13.2 pause record (2026-05-11), the boundary is sharpened as follows.
+
+#### `collaborator` — informal, single-project, no co-branding, no maintenance commitment
+
+A relationship that is **all four of**:
+
+- **Informal** — no written contract, no MoU, no LOI.
+- **Single-project** — engagement is one-off; no commitment to repeat.
+- **No co-branding** — Holistika does not appear alongside the counterparty's marks in any rendered surface; the counterparty does not appear in `_external_marks/` of any Think Big engagement folder.
+- **No maintenance commitment** — neither party is on the hook for ongoing capacity, response SLAs, or product-evolution alignment.
+
+Typical examples: a one-off referral source for a single customer intro; an unpaid advisor who reviews a single document; a community contributor to a single research artifact.
+
+If ANY of the four conditions fails, the row is `partner`, not `collaborator`.
+
+#### `partner` — strategic, repeating, contractual, co-branded, maintenance-bearing
+
+A relationship that is **at least three of**:
+
+- **Strategic** — both parties expect the relationship to repeat across multiple projects.
+- **Contractual** — there is a written contract, MoU, LOI, or persistent commercial framework.
+- **Co-branding posture** — host/guest brand assets cohabit per [`BRAND_COBRANDING_PATTERN.md`](../../Marketing/Brand/BRAND_COBRANDING_PATTERN.md); the counterparty's marks may appear in `_external_marks/` of relevant engagement folders.
+- **Capacity or maintenance commitment** — at least one party commits to ongoing capacity, response SLAs, or product-evolution alignment.
+
+Canonical example: `GOI-PRT-EFA-2026` (EFA Académie) — strategic since October 2025, contractual via the SUEZ engagement schedule, co-branded host/guest per D-12-7, and the partner lead has committed to assume post-launch operational maintenance of the SUEZ procure-to-pay automation.
+
+#### One-directional ramp
+
+If a row is unsure, default to `collaborator` (lower bar; preserves the option to promote later). The maturity ramp is one-directional: rows promote from `collaborator` → `partner` when conditions strengthen; they do not demote. A promoted row updates the `class` cell in the same row (no `ref_id` recycling); the `notes` column captures the promotion date and rationale.
+
+#### Validator cross-reference
+
+The `class` enum in [`scripts/validate_goipoi_register.py`](../../../../../../../scripts/validate_goipoi_register.py) accepts both values without distinguishing maturity — operator discipline at the SOP level is the authoritative gate. The validator inline doc cross-links this section so future maintainers find the doctrine without reading the SOP top-to-bottom.
+
 ## 5.0 Roles and Responsibilities
 
 | Role | Responsibility |
