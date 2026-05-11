@@ -2048,6 +2048,8 @@ This section explains how to operate the Holistika Knowledge Vault through MADEI
 
 **Initiative 14 (internal GTM / marketing ops):** Planning and SOPs live under [`docs/wip/planning/14-holistika-internal-gtm-mops/`](wip/planning/14-holistika-internal-gtm-mops/master-roadmap.md); new `process_list.csv` rows include `holistika_gtm_dtp_*` (merged per governed tranche).
 
+**Engagement folder doctrine (P13):** Every Think Big engagement folder (outbound under `Clients/`, inbound under `Advisers/`) conforms to the canonical shape locked in [`WORKSPACE_BLUEPRINT_HOLISTIKA.md`](references/hlk/v3.0/Admin/O5-1/Operations/PMO/WORKSPACE_BLUEPRINT_HOLISTIKA.md). The blueprint encodes the engagement-types matrix, per-root folder shape, file-tracking policy (branded PDFs tracked; markdown sidecars ignored), and the role-owner-canonical vs `compliance/`-tightened-mirror contract.
+
 **Operating rule:** Session state is disposable. Workspace state helps agents remember context. The vault is the source of truth. Never rely on session memory for business facts -- always ground answers in the vault.
 
 ### 24.1.1 Operator-facing UAT dossier (Initiative 48)
