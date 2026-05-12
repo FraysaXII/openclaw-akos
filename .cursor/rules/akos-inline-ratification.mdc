@@ -1,0 +1,89 @@
+---
+description: Inline AskQuestion ratification pattern (replaces real-stop operator pauses in execution)
+globs:
+  - "docs/wip/**/*.md"
+  - ".cursor/plans/**/*.plan.md"
+  - "**/*.plan.md"
+alwaysApply: true
+---
+
+# AKOS Inline-Ratification Pattern
+
+Use this rule whenever you author a plan with phased execution OR when you execute a phased plan that contains operator-input gates. It replaces the **real-stop pause** anti-pattern with the **inline `AskQuestion` ratify** pattern.
+
+## The pattern in one sentence
+
+When execution surfaces an evidence-dependent or spot-check operator decision, the agent **runs the evidence sweep + surfaces a structured option set via `AskQuestion`** in the same chat — not in a separate "operator pause" cycle that requires the agent to halt, write a pause-record file, and wait for a new chat session.
+
+## When to use (in plans)
+
+When you author a plan and you would be tempted to write `OPERATOR PAUSE POINT`, ask first: is this decision...
+
+- **Architectural** (a fork in the road that affects what gets built)? → planning-time question; resolve it during plan-finalization via `AskQuestion`. Do not defer to execution.
+- **Evidence-dependent** (the decision needs investigation work first)? → use inline `AskQuestion` during the relevant phase. Agent runs the evidence sweep; ratifies inline.
+- **Spot-check / approval gate** (the operator just needs to confirm a generated artifact looks right)? → use inline `AskQuestion`. Agent generates, surfaces, ratifies.
+
+If **architectural**, the plan is incomplete; finish planning before declaring it ready.
+If **evidence-dependent or spot-check**, never write "OPERATOR PAUSE POINT"; write **"inline-ratify gate via `AskQuestion`"**.
+
+## When to use (in execution)
+
+When a phase reaches an inline-ratify gate, the executing agent:
+
+1. **Runs the prerequisite evidence sweep / generation work** in full (`Grep`, `Read`, generate artifact, etc.). Do not abort early to ask.
+2. **Distills findings into 2-5 ranked options** with citations (file paths, line ranges, evidence snippets).
+3. **Surfaces via `AskQuestion`** — single question or batch (≤6 questions per batch). Each option carries the rationale; the operator picks.
+4. **Continues execution** in the same chat as soon as the operator answers. No file-based pause-record artifact needed for inline-ratify gates (only for genuine `opt-stop-report` blockers).
+
+## When NOT to use
+
+- **Validator failures, broken builds, missing files, security incidents.** These trigger `opt-stop-report` (the AKOS governance rule): stop execution, write a 5-line summary at `docs/wip/planning/<NN-initiative>/reports/p<NN>-blocker-<date>.md`, await operator. Inline `AskQuestion` is for **decisions**, not **blockers**.
+- **Decisions that change the plan's architecture** (a sub-decision that ripples back to multiple phases). These need planning-time resolution; emit a `STOP-AND-CLARIFY` summary, then re-plan.
+- **Decisions the operator already ratified during planning.** Don't re-ask; consult the Conundrum Index + Decision Register first.
+
+## Authoring contract for plans
+
+Every plan section that contains an operator-input gate must declare the gate type explicitly:
+
+- **`gate_type: inline-ratify`** — agent does work, surfaces options inline. NO real-stop pause.
+- **`gate_type: stop-and-clarify`** — agent halts and writes a blocker report. Used ONLY for validator failures, security incidents, or genuine architectural unknowns surfaced mid-execution.
+- **`gate_type: ratified-at-planning`** — already decided; no execution-time gate. Cite the Decision Register row.
+
+In phase-section headers, use the suffix `(inline-ratify gate at §N.N)` instead of `(OPERATOR PAUSE POINT)`. Example:
+
+    ## Phase 8 — Engagement registry (inline-ratify gate at §8.7)
+
+NOT:
+
+    ## Phase 8 — Engagement registry (OPERATOR PAUSE POINT)
+
+## Inline-AskQuestion authoring guidelines
+
+When the agent reaches an inline-ratify gate:
+
+1. **One `AskQuestion` per gate**, batched. Combine related sub-decisions into a single multi-question call (the tool supports up to 6+ questions per call).
+2. **Each option carries rationale.** Operators decide better with reasoning attached than from bare option labels.
+3. **Mark a recommended default** when one exists. Use the `(recommended ...)` suffix in the option label.
+4. **Cite evidence inline.** Each option label may reference the supporting file path or line range.
+5. **Time-box the operator's window.** If the operator doesn't respond within a reasonable window AND the agent has a sensible default, fall back to the recommended option AND log the auto-decision in the Decision Register with `decision_source: agent_inline_default`.
+
+## Worked example (from I70 Phase 8 §8.7)
+
+The GOI class regression hunt requires evidence sweep across 6 sources before the operator can ratify which candidate classes to add to the enum. Pre-fifth-pass formulation: "OPERATOR PAUSE POINT — second". Post-fifth-pass formulation: "inline-ratify gate via `AskQuestion`".
+
+Execution sequence:
+1. Agent runs `Grep` + `Read` across `temp-context/`, `R&L/`, `previous-project/`, `Clients/` engagements, `baseline_organisation.csv`, `decision-log/`. Produces a candidate-class table with citations.
+2. Agent posts an `AskQuestion` with one question per candidate class: option-A "add to enum + Phase 8 §8.7 deliverable", option-B "reject — not a real class", option-C "defer to I72 follow-up".
+3. Operator answers in batch. Agent updates `GOI_POI_REGISTER.csv` accordingly.
+4. Phase 8 commit proceeds without halting between sweep + ratify + write.
+
+Total elapsed: same chat session. No pause-record file. No new-chat handoff.
+
+## Cross-references
+
+- AKOS Governance-Hardened Remediation Guardrails (`.cursor/rules/akos-governance-remediation.mdc`) — `opt-stop-report` posture for blockers.
+- AKOS Planning Traceability (`.cursor/rules/akos-planning-traceability.mdc`) — phase-plan structure + UAT vs automated smoke discipline.
+- I70 plan `holistika_os_self-governance_foundation_63841b81.plan.md` — the worked-example plan that codified this pattern (search for "H1" + "inline-ratify").
+
+@.cursor/rules/akos-governance-remediation.mdc
+@.cursor/rules/akos-planning-traceability.mdc
