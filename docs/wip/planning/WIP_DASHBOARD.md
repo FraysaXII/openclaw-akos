@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (8)
+### Active (in execution) (9)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -27,6 +27,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **63** | [`63-external-repo-governance-codification/`](63-external-repo-governance-codification/) | active | 2026-05-07 | Initiative 63 — External Repo Governance Codification |
 | **64** | [`64-governance-mission-control/`](64-governance-mission-control/) | active | 2026-05-07 | Initiative 64 — Governance Mission Control (in hlk-erp) |
 | **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | active | 2026-05-07 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
+| **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
 
 ### Gated on external event (2)
 
@@ -103,11 +104,9 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **16** | [`16-hlk-finops-vendor-ssot/`](16-hlk-finops-vendor-ssot/) | archived | 2026-04-23 | Initiative 16 — FINOPS vendor SSOT + Supabase mirror |
 | **20** | [`20-kalavai-shadow-llamacpp-trial/`](20-kalavai-shadow-llamacpp-trial/) | archived | 2026-05-05 | Initiative 20 — Kalavai / Shadow llama.cpp trial: DeepSeek-R1-Distill-Llama-70B (Q4) |
 
-### Unknown / unclassified (1)
+### Unknown / unclassified (0)
 
-| Seq | Folder | Status | Last review | Title |
-|:---:|:-------|:-------|:-----------:|:------|
-| **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active (promoted 2026-05-10).** Activation gates satisfied: (a) I66 closed 20... | — | I68 â€” CICD Discipline + Observability Maturity |
+_(none)_
 
 <!-- END AUTO -->
 

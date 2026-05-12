@@ -1,4 +1,4 @@
-﻿---
+---
 initiative_id: INIT-OPENCLAW_AKOS-68
 title: CICD Discipline + Observability Maturity (Visual Regression + Build-Time Discipline + InfraMonitor v0 with InfraHealth as first module)
 status: active
