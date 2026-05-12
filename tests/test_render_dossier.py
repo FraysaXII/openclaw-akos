@@ -56,6 +56,7 @@ BRAND_VISUAL_PATTERNS_MD = (
     / "O5-1"
     / "Marketing"
     / "Brand"
+    / "canonicals"
     / "BRAND_VISUAL_PATTERNS.md"
 )
 ADVISER_QUESTIONS_CSV = (

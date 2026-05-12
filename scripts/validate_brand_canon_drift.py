@@ -69,6 +69,7 @@ CANON_DIR = (
     / "O5-1"
     / "Marketing"
     / "Brand"
+    / "canonicals"
 )
 LEGAL_DIR = (
     REPO_ROOT

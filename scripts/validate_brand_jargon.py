@@ -66,6 +66,7 @@ CANON_DIR = (
     / "O5-1"
     / "Marketing"
     / "Brand"
+    / "canonicals"
 )
 JARGON_AUDIT_PATH = CANON_DIR / "BRAND_JARGON_AUDIT.md"
 ABBREVIATIONS_PATH = CANON_DIR / "BRAND_ABBREVIATIONS.md"

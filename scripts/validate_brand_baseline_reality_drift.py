@@ -74,6 +74,7 @@ CANON_DIR = (
     / "O5-1"
     / "Marketing"
     / "Brand"
+    / "canonicals"
 )
 MATRIX_PATH = CANON_DIR / "BRAND_BASELINE_REALITY_MATRIX.md"
 

@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (9)
+### Active (in execution) (10)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -28,6 +28,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **64** | [`64-governance-mission-control/`](64-governance-mission-control/) | active | 2026-05-07 | Initiative 64 — Governance Mission Control (in hlk-erp) |
 | **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | active | 2026-05-07 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
 | **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
+| **70** | [`70-holistika-os-self-governance/`](70-holistika-os-self-governance/) | active | 2026-05-12 | I70 — Holistika OS Self-Governance Foundation |
 
 ### Gated on external event (2)
 

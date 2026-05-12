@@ -29,6 +29,7 @@ VISION_PATH = (
     / "O5-1"
     / "Marketing"
     / "Brand"
+    / "canonicals"
     / "BRAND_VISION.md"
 )
 BOILERPLATE_ROOT = REPO_ROOT.parent / "root_cd" / "boilerplate"

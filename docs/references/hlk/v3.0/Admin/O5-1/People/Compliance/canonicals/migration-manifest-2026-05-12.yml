@@ -1,0 +1,322 @@
+# Migration manifest for I70 P4.5 federal canonicals migration
+# Authored: 2026-05-12 (this commit). Operator-ratified via inline AskQuestion before wave 1 executes.
+# 3 waves; each wave is a separate atomic commit.
+# Per H5 ratification: legacy folder docs/references/hlk/compliance/ deleted post-wave-3 with MIGRATED.md tombstone.
+
+version: 1
+authored_at: 2026-05-12
+ratified_at: 2026-05-12
+operator_ratified_via: inline AskQuestion (per H1 + .cursor/rules/akos-inline-ratification.mdc)
+
+waves:
+  - wave: 1
+    label: "Brand canonicals (pilot pattern test)"
+    moves:
+      - canonical_id: brand_vision
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_VISION.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_VISION.md"
+        validator: validate_brand_vision_drift.py
+      - canonical_id: brand_architecture
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_ARCHITECTURE.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_ARCHITECTURE.md"
+        validator: validate_brand_canon_drift.py
+      - canonical_id: brand_voice_foundation
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_VOICE_FOUNDATION.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_VOICE_FOUNDATION.md"
+        validator: validate_brand_voice_register.py
+      - canonical_id: brand_register_matrix
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_REGISTER_MATRIX.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_REGISTER_MATRIX.md"
+        validator: validate_brand_voice_register.py
+      - canonical_id: brand_french_patterns
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_FRENCH_PATTERNS.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_FRENCH_PATTERNS.md"
+        validator: validate_brand_voice_register.py
+      - canonical_id: brand_spanish_patterns
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_SPANISH_PATTERNS.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_SPANISH_PATTERNS.md"
+        validator: validate_brand_voice_register.py
+      - canonical_id: brand_visual_patterns
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_VISUAL_PATTERNS.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_VISUAL_PATTERNS.md"
+        validator: validate_brand_canon_drift.py
+      - canonical_id: brand_logo_system
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_LOGO_SYSTEM.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_LOGO_SYSTEM.md"
+        validator: validate_brand_canon_drift.py
+      - canonical_id: brand_cobranding_pattern
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_COBRANDING_PATTERN.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_COBRANDING_PATTERN.md"
+        validator: validate_brand_canon_drift.py
+      - canonical_id: brand_jargon_audit
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_JARGON_AUDIT.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_JARGON_AUDIT.md"
+        validator: validate_brand_jargon.py
+      - canonical_id: brand_baseline_reality_matrix
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_BASELINE_REALITY_MATRIX.md"
+        validator: validate_brand_baseline_reality_drift.py
+      - canonical_id: brand_abbreviations
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_ABBREVIATIONS.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_ABBREVIATIONS.md"
+        validator: validate_brand_jargon.py
+      - canonical_id: brand_do_dont
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_DO_DONT.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_DO_DONT.md"
+      - canonical_id: brand_template_registry
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_TEMPLATE_REGISTRY.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_TEMPLATE_REGISTRY.md"
+        validator: validate_dossier_companion_drift.py
+      - canonical_id: sop_brand_template_registry_mtnce_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_TEMPLATE_REGISTRY_MTNCE_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/SOP-BRAND_TEMPLATE_REGISTRY_MTNCE_001.md"
+      - canonical_id: sop_brand_voice_drift_triage_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/SOP-BRAND_VOICE_DRIFT_TRIAGE_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/SOP-BRAND_VOICE_DRIFT_TRIAGE_001.md"
+        validator: validate_brand_voice_register.py
+      - canonical_id: service_offering_catalog
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/SERVICE_OFFERING_CATALOG.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/SERVICE_OFFERING_CATALOG.md"
+  - wave: 2
+    label: "compliance master + dimensions + master CSVs (CPO L6 home)"
+    moves:
+      - canonical_id: precedence
+        source: "docs/references/hlk/compliance/PRECEDENCE.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md"
+        validator: validate_hlk.py
+      - canonical_id: access_levels
+        source: "docs/references/hlk/compliance/ACCESS_LEVELS.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ACCESS_LEVELS.md"
+      - canonical_id: confidence_levels
+        source: "docs/references/hlk/compliance/CONFIDENCE_LEVELS.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CONFIDENCE_LEVELS.md"
+      - canonical_id: source_taxonomy
+        source: "docs/references/hlk/compliance/SOURCE_TAXONOMY.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/SOURCE_TAXONOMY.md"
+      - canonical_id: hlk_km_topic_fact_source
+        source: "docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/HLK_KM_TOPIC_FACT_SOURCE.md"
+        validator: validate_hlk.py
+      - canonical_id: sop_meta_process_mgmt_001
+        source: "docs/references/hlk/compliance/SOP-META_PROCESS_MGMT_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/SOP-META_PROCESS_MGMT_001.md"
+        validator: validate_hlk.py
+      - canonical_id: readme_compliance
+        source: "docs/references/hlk/compliance/README.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/README.md"
+      - canonical_id: decision_register
+        source: "docs/references/hlk/compliance/DECISION_REGISTER.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv"
+        validator: validate_decision_register.py
+      - canonical_id: initiative_registry
+        source: "docs/references/hlk/compliance/INITIATIVE_REGISTRY.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv"
+        validator: validate_hlk.py
+      - canonical_id: ops_register
+        source: "docs/references/hlk/compliance/OPS_REGISTER.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv"
+        validator: validate_hlk.py
+      - canonical_id: baseline_organisation
+        source: "docs/references/hlk/compliance/baseline_organisation.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv"
+        validator: validate_hlk.py
+      - canonical_id: process_list
+        source: "docs/references/hlk/compliance/process_list.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv"
+        validator: validate_hlk.py
+      - canonical_id: classification_lattice
+        source: "docs/references/hlk/compliance/dimensions/CLASSIFICATION_LATTICE.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CLASSIFICATION_LATTICE.md"
+        validator: validate_hlk.py
+      - canonical_id: goi_poi_register
+        source: "docs/references/hlk/compliance/dimensions/GOI_POI_REGISTER.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv"
+        validator: validate_goipoi_register.py
+      - canonical_id: repository_registry
+        source: "docs/references/hlk/compliance/REPOSITORY_REGISTRY.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPOSITORY_REGISTRY.csv"
+      - canonical_id: finops_counterparty_register
+        source: "docs/references/hlk/compliance/FINOPS_COUNTERPARTY_REGISTER.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FINOPS_COUNTERPARTY_REGISTER.csv"
+        validator: validate_hlk.py
+      - canonical_id: adviser_engagement_disciplines
+        source: "docs/references/hlk/compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+        validator: validate_adviser_disciplines.py
+      - canonical_id: adviser_open_questions
+        source: "docs/references/hlk/compliance/ADVISER_OPEN_QUESTIONS.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv"
+        validator: validate_adviser_questions.py
+      - canonical_id: founder_filed_instruments
+        source: "docs/references/hlk/compliance/FOUNDER_FILED_INSTRUMENTS.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv"
+        validator: validate_founder_filed_instruments.py
+      - canonical_id: component_service_matrix
+        source: "docs/references/hlk/compliance/COMPONENT_SERVICE_MATRIX.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/COMPONENT_SERVICE_MATRIX.csv"
+      - canonical_id: cycle_register
+        source: "docs/references/hlk/compliance/CYCLE_REGISTER.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CYCLE_REGISTER.csv"
+        validator: validate_hlk.py
+      - canonical_id: repo_health_snapshot
+        source: "docs/references/hlk/compliance/REPO_HEALTH_SNAPSHOT.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPO_HEALTH_SNAPSHOT.csv"
+      - canonical_id: touchpoint_kit_cell_registry
+        source: "docs/references/hlk/compliance/dimensions/TOUCHPOINT_KIT_CELL_REGISTRY.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOUCHPOINT_KIT_CELL_REGISTRY.csv"
+      - canonical_id: country_work_calendar
+        source: "docs/references/hlk/compliance/dimensions/COUNTRY_WORK_CALENDAR.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COUNTRY_WORK_CALENDAR.csv"
+      - canonical_id: policy_register
+        source: "docs/references/hlk/compliance/dimensions/POLICY_REGISTER.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/POLICY_REGISTER.csv"
+        validator: validate_hlk.py
+      - canonical_id: persona_scenario_registry
+        source: "docs/references/hlk/compliance/dimensions/PERSONA_SCENARIO_REGISTRY.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv"
+      - canonical_id: topic_registry
+        source: "docs/references/hlk/compliance/dimensions/TOPIC_REGISTRY.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOPIC_REGISTRY.csv"
+        validator: validate_hlk.py
+      - canonical_id: skill_registry
+        source: "docs/references/hlk/compliance/dimensions/SKILL_REGISTRY.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SKILL_REGISTRY.csv"
+      - canonical_id: sourcing_register
+        source: "docs/references/hlk/compliance/dimensions/SOURCING_REGISTER.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SOURCING_REGISTER.csv"
+      - canonical_id: persona_registry
+        source: "docs/references/hlk/compliance/dimensions/PERSONA_REGISTRY.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_REGISTRY.csv"
+      - canonical_id: channel_touchpoint_registry
+        source: "docs/references/hlk/compliance/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv"
+      - canonical_id: poc_to_commercial_map
+        source: "docs/references/hlk/compliance/dimensions/POC_TO_COMMERCIAL_MAP.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/POC_TO_COMMERCIAL_MAP.csv"
+      - canonical_id: program_registry
+        source: "docs/references/hlk/compliance/dimensions/PROGRAM_REGISTRY.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PROGRAM_REGISTRY.csv"
+        validator: validate_hlk.py
+  - wave: 3
+    label: "all remaining areas + legacy-link sweep + delete legacy folder + MIGRATED.md tombstone"
+    moves:
+      - canonical_id: workspace_blueprint_holistika
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/WORKSPACE_BLUEPRINT_HOLISTIKA.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/WORKSPACE_BLUEPRINT_HOLISTIKA.md"
+        validator: validate_hlk_vault_links.py
+      - canonical_id: km_channel_value_narrative
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/KM_CHANNEL_VALUE_NARRATIVE.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/KM_CHANNEL_VALUE_NARRATIVE.md"
+        validator: validate_brand_jargon.py
+      - canonical_id: topic_pmo_client_delivery_hub
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/TOPIC_PMO_CLIENT_DELIVERY_HUB.md"
+        validator: validate_hlk_vault_links.py
+      - canonical_id: sop_pmo_vault_promotion_gate_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-PMO_VAULT_PROMOTION_GATE_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/SOP-PMO_VAULT_PROMOTION_GATE_001.md"
+      - canonical_id: bootstrapping_plan
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/business-strategy/BOOTSTRAPPING_PLAN.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/business-strategy/BOOTSTRAPPING_PLAN.md"
+      - canonical_id: channel_strategy
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/business-strategy/CHANNEL_STRATEGY.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/business-strategy/CHANNEL_STRATEGY.md"
+      - canonical_id: market_thesis
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/business-strategy/MARKET_THESIS.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/business-strategy/MARKET_THESIS.md"
+      - canonical_id: strategy_decision_log
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/business-strategy/STRATEGY_DECISION_LOG.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/business-strategy/STRATEGY_DECISION_LOG.md"
+      - canonical_id: governance_moat
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/business-strategy/GOVERNANCE_MOAT.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/business-strategy/GOVERNANCE_MOAT.md"
+      - canonical_id: sop_eng_discovery_questionnaire_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/Engagement/SOP-ENG_DISCOVERY_QUESTIONNAIRE_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Operations/Engagement/canonicals/SOP-ENG_DISCOVERY_QUESTIONNAIRE_001.md"
+      - canonical_id: sop_eng_estimation_discipline_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/Engagement/SOP-ENG_ESTIMATION_DISCIPLINE_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Operations/Engagement/canonicals/SOP-ENG_ESTIMATION_DISCIPLINE_001.md"
+      - canonical_id: sop_io_elicitation_discipline_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_ELICITATION_DISCIPLINE_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/SOP-IO_ELICITATION_DISCIPLINE_001.md"
+      - canonical_id: sop_io_intelligence_report_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_INTELLIGENCE_REPORT_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/SOP-IO_INTELLIGENCE_REPORT_001.md"
+      - canonical_id: sop_hlk_goipoi_register_maintenance_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md"
+        validator: validate_goipoi_register.py
+      - canonical_id: sop_hlk_transcript_redaction_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/SOP-HLK_TRANSCRIPT_REDACTION_001.md"
+      - canonical_id: brand_hierarchy_and_trademark_scope_2026_04
+        source: "docs/references/hlk/v3.0/Admin/O5-1/People/Legal/BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Legal/canonicals/BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md"
+      - canonical_id: founder_entity_formation_decision_memo_2026_04
+        source: "docs/references/hlk/v3.0/Admin/O5-1/People/Legal/FOUNDER_ENTITY_FORMATION_DECISION_MEMO_2026-04.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Legal/canonicals/FOUNDER_ENTITY_FORMATION_DECISION_MEMO_2026-04.md"
+      - canonical_id: founder_fact_pattern_related_entities
+        source: "docs/references/hlk/v3.0/Admin/O5-1/People/Legal/FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Legal/canonicals/FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md"
+      - canonical_id: trademark_filing_strategy_2026_05
+        source: "docs/references/hlk/v3.0/Admin/O5-1/People/Legal/TRADEMARK_FILING_STRATEGY_2026-05.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Legal/canonicals/TRADEMARK_FILING_STRATEGY_2026-05.md"
+      - canonical_id: founder_bio
+        source: "docs/references/hlk/v3.0/Admin/O5-1/People/FOUNDER_BIO.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/FOUNDER_BIO.md"
+      - canonical_id: founder_trajectory_internal
+        source: "docs/references/hlk/v3.0/Admin/O5-1/People/FOUNDER_TRAJECTORY_INTERNAL.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/FOUNDER_TRAJECTORY_INTERNAL.md"
+      - canonical_id: sop_hlk_tooling_standards_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-HLK_TOOLING_STANDARDS_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-HLK_TOOLING_STANDARDS_001.md"
+      - canonical_id: sop_cicd_baseline_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-CICD_BASELINE_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-CICD_BASELINE_001.md"
+        validator: validate_cicd_baseline.py
+      - canonical_id: sop_hlk_component_service_matrix_maintenance_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-HLK_COMPONENT_SERVICE_MATRIX_MAINTENANCE_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-HLK_COMPONENT_SERVICE_MATRIX_MAINTENANCE_001.md"
+      - canonical_id: sop_mcp_server_definition
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-MCP_SERVER_DEFINITION.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-MCP_SERVER_DEFINITION.md"
+      - canonical_id: sop_madeira_ux_review_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-MADEIRA_UX_REVIEW_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-MADEIRA_UX_REVIEW_001.md"
+      - canonical_id: sop_madeira_verdict_and_cadence_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-MADEIRA_VERDICT_AND_CADENCE_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-MADEIRA_VERDICT_AND_CADENCE_001.md"
+      - canonical_id: sop_madeira_scenario_lifecycle_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-MADEIRA_SCENARIO_LIFECYCLE_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-MADEIRA_SCENARIO_LIFECYCLE_001.md"
+      - canonical_id: sentry_dashboard_holistika
+        source: "docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/SENTRY_DASHBOARD_HOLISTIKA.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/Repositories/SENTRY_DASHBOARD_HOLISTIKA.md"
+        validator: validate_sentry_release_format.py
+      - canonical_id: figma_files_registry
+        source: "docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/FIGMA_FILES_REGISTRY.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/Repositories/FIGMA_FILES_REGISTRY.md"
+      - canonical_id: subdomains_registry
+        source: "docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/SUBDOMAINS_REGISTRY.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/Repositories/SUBDOMAINS_REGISTRY.md"
+        validator: validate_subdomains_registry.py
+      - canonical_id: founder_capitalization_decision_note_2026_04
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Finance/Business Controller/Taxes/FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Finance/Business Controller/canonicals/FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04.md"
+      - canonical_id: sop_founder_company_funding_001
+        source: "docs/references/hlk/v3.0/Admin/O5-1/Finance/Business Controller/Taxes/SOP-FOUNDER_COMPANY_FUNDING_001.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/Finance/Business Controller/canonicals/SOP-FOUNDER_COMPANY_FUNDING_001.md"
+    legacy_link_sweep:
+      pattern: "docs/references/hlk/compliance/"
+      types: [md, csv, yml, yaml, ts, tsx, py, json]
+      verify_zero_after_sweep: true
+    delete_legacy_folder:
+      path: "docs/references/hlk/compliance/"
+      preserve_as_tombstone: "docs/references/hlk/compliance/MIGRATED.md"
+      tombstone_lifetime_releases: 1
+      cleanup_in_initiative: I71
+
+# Already-at-federated-home (no move needed):
+#   - sop_external_repo_blessing_001: docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/External Repos/SOP-EXTERNAL_REPO_BLESSING_001.md (already at federated home)
+#   - sop_external_repo_drift_remediation_001: docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/External Repos/SOP-EXTERNAL_REPO_DRIFT_REMEDIATION_001.md (already at federated home)
+#   - sop_cross_repo_schema_propagation_001: docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/Cross Repo/SOP-CROSS_REPO_SCHEMA_PROPAGATION_001.md (already at federated home)

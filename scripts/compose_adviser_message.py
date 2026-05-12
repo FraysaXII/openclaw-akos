@@ -78,6 +78,7 @@ BRAND_DIR = (
     / "O5-1"
     / "Marketing"
     / "Brand"
+    / "canonicals"
 )
 BRAND_VOICE = BRAND_DIR / "BRAND_VOICE_FOUNDATION.md"
 
@@ -218,7 +219,7 @@ def render_md(
     if pronoun:
         lines.append(f"- **Pronoun register**: `{pronoun}`")
     lines.append("")
-    lines.append("Brand foundation: see [`BRAND_VOICE_FOUNDATION.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_VOICE_FOUNDATION.md). The eloquence layer below operates **inside** the brand voice envelope — it does not override it.")
+    lines.append("Brand foundation: see [`BRAND_VOICE_FOUNDATION.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_VOICE_FOUNDATION.md). The eloquence layer below operates **inside** the brand voice envelope — it does not override it.")
     lines.append("")
     lines.append("## Layer 2 — Concept (canonical facts)")
     lines.append("")

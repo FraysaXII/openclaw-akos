@@ -62,6 +62,7 @@ CANON_DIR = (
     / "O5-1"
     / "Marketing"
     / "Brand"
+    / "canonicals"
 )
 FRENCH_PATTERNS_PATH = CANON_DIR / "BRAND_FRENCH_PATTERNS.md"
 SPANISH_PATTERNS_PATH = CANON_DIR / "BRAND_SPANISH_PATTERNS.md"
