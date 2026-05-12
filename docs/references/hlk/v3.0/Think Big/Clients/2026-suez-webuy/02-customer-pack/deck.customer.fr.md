@@ -13,8 +13,8 @@ brand_companion_to: proposal.customer.fr.md
 collaboration_partner: EFA Académie
 collaboration_since: 2025-10
 mission_posture: Mission portée conjointement
-slide_count: 13
-last_review: 2026-05-10
+slide_count: 14
+last_review: 2026-05-12
 ---
 
 <!-- Slide 01 — Cover -->
@@ -22,8 +22,8 @@ last_review: 2026-05-10
   <div class="cover-eyebrow">Holistika Research · Présentation</div>
   <img class="cover-monogram" src="{{MONOGRAM_URI}}" alt="Holistika Research" />
   <div class="cover-title-block">
-    <h1>Faciliter votre processus de demande d'achat WeBuy</h1>
-    <div class="cover-subtitle">Présentation à votre direction des engins TP, sur l'automatisation de la demande d'achat.</div>
+    <h1>Facilitez votre processus de demande d'achat WeBuy</h1>
+    <div class="cover-subtitle">Automatiser la composition. Tracer la commande. Prévenir le litige.</div>
   </div>
   <div class="cover-strip">
     <div class="strip-item"><span class="strip-label">Programme</span><span class="strip-value">ENG-SUEZ-WEBUY-2026</span></div>
@@ -56,7 +56,7 @@ last_review: 2026-05-10
 <!-- Slide 03 — Holistika en trois lignes -->
 <section class="slide">
   <div class="slide-meta"><span class="number">03</span><span class="eyebrow">Qui nous sommes</span></div>
-  <h2>Une discipline qui tient en trois lignes.</h2>
+  <h2>Notre métier tient en trois lignes.</h2>
   <p class="slide-sub">Holistika Research est une société de recherche, d'opérations et de technologie, fondée pour faire travailler ensemble ce que beaucoup d'organisations gardent séparé.</p>
   <div class="three-lines">
     <div class="line">
@@ -69,31 +69,31 @@ last_review: 2026-05-10
     </div>
     <div class="line">
       <h3 class="line-title">Technologie en bout de chaîne.</h3>
-      <p class="line-body">Une application logicielle est livrée seulement quand la règle qu'elle automatise tient sans elle. Le code suit le cadrage, pas l'inverse.</p>
+      <p class="line-body">Une application logicielle est livrée seulement quand la règle qu'elle automatise tient sans elle. Le cadrage précède le code.</p>
     </div>
   </div>
 </section>
 
-<!-- Slide 04 — Deux récits, une seule discipline -->
+<!-- Slide 04 — Deux récits, une même méthode -->
 <section class="slide">
   <div class="slide-meta"><span class="number">04</span><span class="eyebrow">D'où vient la méthode</span></div>
-  <h2>Deux récits, une seule discipline.</h2>
+  <h2>Deux récits, une même méthode.</h2>
   <p class="slide-sub">Le cas WeBuy combine deux récits qu'Holistika a déjà tenus ailleurs. La méthode n'est pas inventée pour vous ; elle est ajustée à votre contexte.</p>
   <div class="method-anchors">
     <div class="anchor">
       <span class="anchor-num">01</span>
-      <h3 class="anchor-title">Discipline qualité-donnée</h3>
-      <p class="anchor-body">Décider de la qualité d'une donnée avant qu'elle entre dans un système. C'est le réflexe qui prévient un litige avant qu'il existe.</p>
+      <h3 class="anchor-title">Cadrer la qualité avant l'entrée</h3>
+      <p class="anchor-body">Décider de la qualité d'une donnée avant qu'elle entre dans un système. Le litige se prévient à l'entrée, pas à la facturation.</p>
     </div>
     <div class="anchor">
       <span class="anchor-num">02</span>
-      <h3 class="anchor-title">Discipline gouvernance multinationale</h3>
-      <p class="anchor-body">Tenir une règle qui voyage entre filiales, sites, devises, langues. C'est le réflexe qui protège l'opération quand elle change d'échelle.</p>
+      <h3 class="anchor-title">Tenir la règle entre filiales</h3>
+      <p class="anchor-body">Tenir une règle qui voyage entre filiales, sites, devises, langues. La règle protège l'opération quand l'échelle change.</p>
     </div>
     <div class="anchor">
       <span class="anchor-num">03</span>
-      <h3 class="anchor-title">Discipline projet vers logiciel</h3>
-      <p class="anchor-body">Traduire un cadre projet (RACI, SLA, cadence de revue) en primitives logicielles plutôt qu'en pratiques de réunion. C'est le réflexe qui rend une mission reproductible sans son auteur.</p>
+      <h3 class="anchor-title">Du cadre projet au logiciel</h3>
+      <p class="anchor-body">Traduire un cadre projet (RACI, SLA, cadence de revue) en primitives logicielles plutôt qu'en pratiques de réunion. Une mission reproductible sans son auteur — voilà le test.</p>
     </div>
   </div>
 </section>
@@ -101,7 +101,7 @@ last_review: 2026-05-10
 <!-- Slide 05 — Comment nous travaillons aujourd'hui -->
 <section class="slide">
   <div class="slide-meta"><span class="number">05</span><span class="eyebrow">Comment nous travaillons</span></div>
-  <h2>Une mémoire opérationnelle, pas une équipe sur étagère.</h2>
+  <h2>La matière documentaire que nous tenons en interne est celle que vous récupérez.</h2>
   <p class="slide-sub">Holistika gouverne ses missions par la documentation. Chaque décision, chaque règle, chaque livrable est consigné dans un système de connaissance qui rend le travail reproductible et la passation totale.</p>
   <div class="three-lines">
     <div class="line">
@@ -113,7 +113,7 @@ last_review: 2026-05-10
       <p class="line-body">Notre système d'orchestration interne lit cette matière et la mobilise pour cadrer chaque mission. La règle qui a fait ses preuves chez nous est celle que nous proposons d'abord chez vous.</p>
     </div>
     <div class="line">
-      <h3 class="line-title">Une passation totale, pas un attachement.</h3>
+      <h3 class="line-title">La passation est totale.</h3>
       <p class="line-body">Cette même matière est ce que vous récupérez en fin de mission. La documentation que vous lirez à la passation est la documentation à laquelle nous nous tenons en interne. Aucune dépendance résiduelle n'est conservée.</p>
     </div>
   </div>
@@ -122,8 +122,8 @@ last_review: 2026-05-10
 <!-- Slide 06 — Le constat -->
 <section class="slide">
   <div class="slide-meta"><span class="number">06</span><span class="eyebrow">Le constat</span></div>
-  <h2>Une mécanique répétée, un litige à éviter, sur un parc qui double.</h2>
-  <p class="slide-sub">La friction n'est pas la décision. C'est la répétition d'un calcul que l'application logicielle peut prendre en charge, et la chaîne de relances qu'un litige déclenche.</p>
+  <h2>Vingt à cinquante demandes par jour, un parc qui double.</h2>
+  <p class="slide-sub">La friction réside dans la répétition d'un calcul que l'application peut prendre en charge, et dans la chaîne de relances qu'un litige déclenche.</p>
   <div class="stat-narrative">
     <div class="anchor">
       <div class="anchor-row"><span class="anchor-num">20</span><span class="anchor-arrow">↔</span><span class="anchor-num">50</span></div>
@@ -369,4 +369,12 @@ last_review: 2026-05-10
     </div>
   </div>
   <div class="closing-sig">Holistika Research SL · 2026 · ENG-SUEZ-WEBUY-2026 · En collaboration avec EFA Académie</div>
+</section>
+
+<!-- Slide 14 — Counter-cover (closing) -->
+<section class="slide slide-counter-cover">
+  <div class="counter-eyebrow">Holistika Research · ENG-SUEZ-WEBUY-2026</div>
+  <h1>Merci.</h1>
+  <p class="counter-sub">À très bientôt.</p>
+  <div class="counter-strip">En collaboration avec EFA Académie</div>
 </section>

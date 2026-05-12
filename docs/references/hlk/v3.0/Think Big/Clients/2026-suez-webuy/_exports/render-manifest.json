@@ -1,13 +1,13 @@
 {
   "engagement_slug": "2026-suez-webuy",
-  "issue_date": "2026-05-11",
+  "issue_date": "2026-05-12",
   "monogram_path": "C:\\Users\\Shadow\\cd_shadow\\root_cd\\boilerplate\\public\\holistika-short-100x100.svg",
   "program_id": "ENG-SUEZ-WEBUY-2026",
   "surfaces": [
     {
       "discipline": "Cadrage fonctionnel et faisabilit\u00e9",
       "rendered_pdf": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_exports/cdc-feasibility-shape.fr.pdf",
-      "rendered_pdf_sha256": "3f98051f415b21ecce7a77de2e63ef8302d88ce4c5f5684e47c1cef35c740e77",
+      "rendered_pdf_sha256": "72d48197095ede55b82ce70e59fcfdf0109c18516821c68928bd318348d6712c",
       "renderer_rc": 0,
       "source_md": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/01-operator-pack/cdc-feasibility-shape.fr.md",
       "source_md_sha256": "d8b873fb78b35c4dd1bff6ebad75f6ba7d7510eb8c81b7819fafc2903dfbeccf",
@@ -18,7 +18,7 @@
     {
       "discipline": "D\u00e9couverte client",
       "rendered_pdf": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_exports/discovery-questionnaire.fr.pdf",
-      "rendered_pdf_sha256": "0c963fe687bb0880267bde3fe9e5b7e8b044b0756f2376a6c3abb40d2d362295",
+      "rendered_pdf_sha256": "4f6161230a554592136415f905e60b28355e9ca570322c5a40b959653726bcc8",
       "renderer_rc": 0,
       "source_md": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/01-operator-pack/discovery-questionnaire.fr.md",
       "source_md_sha256": "48e6ab1be0ae7e4f0c3612c7042bfadf921991f43888e1aca663a2ab06a6c576",
@@ -29,7 +29,7 @@
     {
       "discipline": "Engagement, version commerciale et collaborateurs",
       "rendered_pdf": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_exports/proposal.fr.pdf",
-      "rendered_pdf_sha256": "2a03b1226e202433391eb759af9d6b5a4be4f0fc2371f9be3145b74dbe7562e9",
+      "rendered_pdf_sha256": "11672fd6af8899f0431f702236a2af0d3e804beea69883e0c83519f8704a0001",
       "renderer_rc": 0,
       "source_md": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/01-operator-pack/proposal.fr.md",
       "source_md_sha256": "6da3bfa14dc80c469931e28aef7ef19fead1813d33b08aa3bc20d0b9dbd9d1a0",
@@ -40,7 +40,7 @@
     {
       "discipline": "Pr\u00e9sentation commerciale",
       "rendered_pdf": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_exports/deck-suez-webuy.fr.pdf",
-      "rendered_pdf_sha256": "9737d81ae9d857a26756a01483e3075a75b1e8ac7e594aa73cb45aa1a7e07144",
+      "rendered_pdf_sha256": "b234007804e6ebc5b48235167839cd142bea6b60e770a6b9ae430f3c32e9822c",
       "renderer_rc": 0,
       "source_md": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/01-operator-pack/deck-suez-webuy.fr.md",
       "source_md_sha256": "d76bca3f5629f80454e7fde985aa0b45b59de6ca528f56ab9da5b29d27e4217a",
@@ -51,10 +51,10 @@
     {
       "discipline": "Automatisation de la demande d'achat WeBuy",
       "rendered_pdf": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_exports/proposal.customer.fr.pdf",
-      "rendered_pdf_sha256": "bf7f518fe63921844191702a47dbc966d02f003df8d84d3dc5d4d61f3f04e3bc",
+      "rendered_pdf_sha256": "a62025e4758cd4c547bfbb4947584fbd5f90fd2e8bdd837627294d79494c2c0b",
       "renderer_rc": 0,
       "source_md": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/02-customer-pack/proposal.customer.fr.md",
-      "source_md_sha256": "dab941bf0f6d4429ec7eafe02ffd78f3febf85386b8a06528e0a1f00894308f5",
+      "source_md_sha256": "cef80d789d3a434dc7f2a5ea61b0cc40f9dd7ce7abf3d5e0f8b19bde3a8f5844",
       "subtitle": "Cadrer \u00b7 prototyper \u00b7 transf\u00e9rer",
       "surface": "proposal_customer",
       "title": "Proposition d'engagement"
@@ -62,7 +62,7 @@
     {
       "discipline": "Annexe \u00e0 la Proposition d'engagement",
       "rendered_pdf": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_exports/tarification.customer.fr.pdf",
-      "rendered_pdf_sha256": "cba75afab825b20e6df43d8c39a2ab20cddf7ab7e587d6bc8ad8edd401c3b837",
+      "rendered_pdf_sha256": "3e671ba8fed9268c24208e503930a8c9b411cbba199eac0536b0efc1ea26cf37",
       "renderer_rc": 0,
       "source_md": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/02-customer-pack/tarification.customer.fr.md",
       "source_md_sha256": "31645f120acf7d1ed50094bfe979c96ac8cc2cbf03cabb4d37f7419a764fec33",
@@ -73,13 +73,13 @@
     {
       "discipline": "Pr\u00e9sentation commerciale",
       "rendered_pdf": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/_exports/deck.customer.fr.pdf",
-      "rendered_pdf_sha256": "dfdbaa20dab836803d8172b1963985dd2699cf5254bd014a175734be31e272f0",
+      "rendered_pdf_sha256": "467a4acacb9a8816027940adda9af65094f6e15e5f6d37f81b59fed6b83b866e",
       "renderer_rc": 0,
       "source_md": "docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/02-customer-pack/deck.customer.fr.md",
-      "source_md_sha256": "9c486fb2e45b18fd0552e792522aab839ddde092ddfa6fe5a8aecee3d52f0f1e",
-      "subtitle": "Pr\u00e9sentation \u00e0 votre direction des engins TP",
+      "source_md_sha256": "abd5c04f4ac065b4b4cce4675923c0b55b4e108e0ccfe2d4d538fc4d8a8e43c7",
+      "subtitle": "Automatiser la composition. Tracer la commande. Pr\u00e9venir le litige.",
       "surface": "deck_customer",
-      "title": "Faciliter votre processus de demande d'achat"
+      "title": "Facilitez votre processus de demande d'achat WeBuy"
     }
   ]
 }

@@ -16,7 +16,7 @@ mission_posture: Mission portée conjointement
 last_review: 2026-05-10
 ---
 
-<p class="lead">Vos équipes traitent entre vingt et une cinquantaine de demandes WeBuy par jour, selon la cadence du parc. La friction n'est pas la durée de saisie. C'est la facture qui arrive sans numéro de commande, le frais de transport ajouté hors devis, le rapprochement qui ne tient pas, et la chaîne de relances qui en découle. Nous proposons une mécanique qui prévient ces ruptures à la source : cadrer la règle, prototyper l'outil, transférer la maîtrise.</p>
+<p class="lead">Vos équipes traitent entre vingt et une cinquantaine de demandes WeBuy par jour, selon la cadence du parc. La friction se loge dans la facture qui arrive sans numéro de commande, le frais de transport ajouté hors devis, le rapprochement qui ne tient pas, et la chaîne de relances qui en découle. Nous proposons une mécanique qui prévient ces ruptures à la source : cadrer la règle, prototyper l'outil, transférer la maîtrise.</p>
 
 <div class="stat-grid">
   <div class="stat"><span class="stat-num">20 ↔ 50</span><span class="stat-label">Demandes par jour, selon cadence du parc</span></div>
@@ -26,7 +26,7 @@ last_review: 2026-05-10
 
 # Notre lecture de votre situation
 
-Le processus actuel est entièrement déterministe : à partir d'un numéro d'engin, d'une catégorie et d'un devis fournisseur, l'opérateur construit la demande WeBuy en suivant des règles stables — compte comptable, libellé, magasin, périmètre PR ou SQS. La friction n'est pas la décision. Elle est la **répétition** d'un calcul qu'une application logicielle peut prendre en charge, et la **chaîne de relances** qu'un litige déclenche.
+Le processus actuel est entièrement déterministe : à partir d'un numéro d'engin, d'une catégorie et d'un devis fournisseur, l'opérateur construit la demande WeBuy en suivant des règles stables — compte comptable, libellé, magasin, périmètre PR ou SQS. La friction réside dans la **répétition** d'un calcul qu'une application logicielle peut prendre en charge, et dans la **chaîne de relances** qu'un litige déclenche.
 
 Cinq signaux, croisés avec le contexte que vous décrivez, orientent notre lecture :
 

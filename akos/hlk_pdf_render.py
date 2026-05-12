@@ -400,6 +400,30 @@ def _brand_pdf_css_slides() -> str:
         ".slide-cover .cover-strip .strip-item .strip-value { font-weight: 600; "
         "color: " + D["foreground"] + "; }\n"
 
+        # ---- Slide counter-cover (dark, gradient, closing bookend) -----------
+        # Mirrors .slide-cover gradient + dark tokens; centered alignment; no
+        # slide-meta. Reusable primitive for any future counter-cover slide.
+        # I70 P0 §0.5 (option B ratified 2026-05-12).
+        ".slide.slide-counter-cover { padding: 22mm 32mm; "
+        "background: "
+        "radial-gradient(ellipse 65% 55% at 28% 32%, hsla(168, 55%, 38%, 0.22) 0%, transparent 62%), "
+        "radial-gradient(ellipse 85% 75% at 72% 65%, hsla(38, 80%, 50%, 0.14) 0%, transparent 72%), "
+        "linear-gradient(155deg, " + D["background"] + " 0%, " + D["card"] + " 50%, hsl(220 12% 13%) 100%); "
+        "color: " + D["foreground"] + "; "
+        "display: flex; flex-direction: column; align-items: center; justify-content: center; "
+        "text-align: center; }\n"
+        ".slide-counter-cover .counter-eyebrow { font-size: 10pt; text-transform: uppercase; "
+        "letter-spacing: 0.18em; color: " + D["accent_primary"] + "; font-weight: 600; "
+        "margin: 0 0 12mm 0; }\n"
+        ".slide-counter-cover h1 { font-size: 96pt; font-weight: 700; margin: 0 0 8mm 0; "
+        "color: " + D["foreground"] + "; line-height: 1; letter-spacing: -0.04em; }\n"
+        ".slide-counter-cover .counter-sub { font-size: 18pt; color: " + D["foreground"] + "; "
+        "opacity: 0.72; margin: 0; font-weight: 400; }\n"
+        ".slide-counter-cover .counter-strip { position: absolute; left: 32mm; right: 32mm; "
+        "bottom: 22mm; border-top: 1px solid hsla(168, 50%, 44%, 0.4); padding-top: 6mm; "
+        "text-align: center; font-size: 9pt; color: " + D["foreground"] + "; opacity: 0.78; "
+        "letter-spacing: 0.04em; }\n"
+
         # ---- Slide meta strip (top: number + section eyebrow) ----------------
         ".slide-meta { display: flex; justify-content: space-between; align-items: baseline; "
         "font-size: 9pt; letter-spacing: 0.16em; text-transform: uppercase; "
