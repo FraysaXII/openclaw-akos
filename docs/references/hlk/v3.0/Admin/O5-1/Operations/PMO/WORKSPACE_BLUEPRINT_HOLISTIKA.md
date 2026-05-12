@@ -316,4 +316,170 @@ Per §6 invariant 3. Tracked as a deferred candidate; not in P13 scope. Anticipa
 | Cursor rule — governance remediation | [`akos-governance-remediation.mdc`](../../../../../../../../.cursor/rules/akos-governance-remediation.mdc) | Canonical-CSV gate discipline; P13.4 mirror DDL invariant |
 | Cursor rule — docs/config sync | [`akos-docs-config-sync.mdc`](../../../../../../../../.cursor/rules/akos-docs-config-sync.mdc) | When this blueprint changes, dependent READMEs and the PMO hub must update; encoded as a sync row in P13.5 |
 
+## 11. Classification lattice (the meta-categories)
+
+> Added I70 P4 (per ratified Phase 3 framing 2026-05-12). Resolves operator framing 2026-05-10: *"fact, way of working, active research radar priority, selling point for investors, whatever you see fit."*
+
+Every governed asset declares one or more of five classes in its frontmatter (`classification:`):
+
+- **`fact`** — auditable verifiable claim (per [`HLK_KM_TOPIC_FACT_SOURCE.md`](../../../../compliance/HLK_KM_TOPIC_FACT_SOURCE.md) fact definition; cites at least one source). Examples: every CSV row, every founder-trajectory milestone, every engagement deliverable date. Home-channel: `compliance/` (until P4.5 federates per area-role).
+- **`way_of_working`** — operational doctrine, SOP, discipline canonical. Examples: [`SOP-META_PROCESS_MGMT_001`](../../../../compliance/SOP-META_PROCESS_MGMT_001.md), `BRAND_DISCIPLINE_ONTOLOGY` (P5), `BRAND_COPYWRITING_DISCIPLINE` (P5). Home-channel: `v3.0/Admin/O5-1/<area>/<role>/canonicals/`.
+- **`active_research_radar`** — open research item the operator is currently watching; promoted to `fact` or `way_of_working` when resolved. Examples: future-OS-shape scenarios (§15.2), new GOI class proposals (P8 §8.7), validator-rule candidates. Home-channel: `docs/wip/intelligence/<slug>/`.
+- **`selling_point`** — outward-facing claim Holistika sells (investor pitch, partner brief, customer cover). Examples: [`KM_CHANNEL_VALUE_NARRATIVE.md`](KM_CHANNEL_VALUE_NARRATIVE.md), `BRAND_VISION` outward-facing pillars, multilingual-operability claim (P7). Home-channel: cross-references `way_of_working` plus carries an outward-facing render variant.
+- **`reference_only`** — historical or cited material the canonicals reference but don't author. Examples: [`docs/references/hlk/Research & Logic/`](../../../../Research%20%26%20Logic/) folder contents, [`previous-project-for-product-owner-example-only/`](../../../../previous-project-for-product-owner-example-only/), third-party SOPs, regulatory texts. Home-channel: `Research & Logic/` or equivalent reference paths.
+
+**Multi-class allowed.** Example: `FOUNDER_METHODOLOGY_VERSIONING.md` (P9) is `fact + selling_point` (auditable AND sellable). `BRAND_VISION.md` is `way_of_working + selling_point` with a `<!-- public-vision:start -->`-bracketed region for the public-render extraction.
+
+**Validator hook.** [`scripts/validate_hlk.py`](../../../../../../scripts/validate_hlk.py) extends in P4 (or via a new `validate_classification_lattice.py` script per CLASSIFICATION_LATTICE.md spec) to confirm every governed `.md` declares `classification:` with valid values.
+
+**Why this resolves "where does X live."** The lattice + the home-channel rule resolves recurring placement ambiguity: every artifact's classification dictates its home channel. `fact` lives in `compliance/`; `way_of_working` lives in role-canonicals; `active_research_radar` lives in `docs/wip/intelligence/` until promoted; `selling_point` cross-references `way_of_working` plus carries an outward-facing render; `reference_only` lives in `Research & Logic/`. This is the load-bearing answer to "why are there two compliance folders, why is wip in docs, where does v3.0 vs wip live."
+
+Full spec at [`docs/references/hlk/compliance/dimensions/CLASSIFICATION_LATTICE.md`](../../../../compliance/dimensions/CLASSIFICATION_LATTICE.md) (NEW; P4 deliverable).
+
+## 12. Continuous improvement loop
+
+> Added I70 P4. Resolves operator framing 2026-05-10: *"should be properly designed for governance, operability, Continuous improvement and everything."*
+
+```mermaid
+flowchart LR
+    Engage[Engagement reveals gap]
+    Synth[Synthesis checkpoint in docs/wip/intelligence]
+    Decide[Decision in DECISION_REGISTER]
+    Author[Canonical authored or extended]
+    Validate[Validator extended]
+    Mirror[Mirror DDL updated if needed]
+    Drive[Drive sync auto-propagates]
+    Engage --> Synth
+    Synth --> Decide
+    Decide --> Author
+    Author --> Validate
+    Validate --> Mirror
+    Mirror --> Drive
+    Drive --> Engage
+```
+
+Every engagement is a stress-test (engagement-as-org-diagnostic pattern, F-51); every gap surfaces in a synthesis checkpoint; every decision is registered; every canonical extension is validator-backed; every CSV mirror update propagates through Supabase to ERP. The SUEZ engagement → I70 plan is the first worked example of this loop (the SUEZ deck's leaked-instruction text + AI-tone prose at P13.6 surfaced the brand sub-discipline ontology gap → P5 closes it).
+
+## 13. WIP-to-canonical promotion discipline
+
+> Added I70 P4. Resolves operator framing 2026-05-10: *"w[ip] promoted to official topic."*
+
+`docs/wip/intelligence/<engagement-or-topic>/` (Tier 1; see §17) is the staging ground for `active_research_radar`-class artifacts. Promotion to `fact` or `way_of_working` (and the corresponding canonical home) follows a four-step ladder:
+
+1. **Stage 1 — investigate.** Checkpoints, synthesis docs, evidence-matrix sketches under `docs/wip/intelligence/<slug>/`. Lifecycle: stays here while the topic is active research.
+2. **Stage 2 — propose.** A candidate document at `docs/wip/intelligence/<slug>/checkpoints/<NN>-promotion-proposal.md` declaring intent to promote, target canonical home, target classification, validator implications.
+3. **Stage 3 — ratify.** **Inline-ratify gate via `AskQuestion`** per H1 ratification + the [`akos-inline-ratification.mdc`](../../../../../../../.cursor/rules/akos-inline-ratification.mdc) cursor rule (agent surfaces the promotion proposal + the target canonical home + classification + downstream impact, operator answers in the same chat, no real-stop pause); a row is added to `DECISION_REGISTER` (`D-PROMOTE-<slug>`) and approval is recorded in `OPS_REGISTER`.
+4. **Stage 4 — promote.** Canonical authored at target home; cross-references updated; validator extended if applicable; the WIP source moved to `docs/wip/intelligence/<slug>/_promoted/<YYYY-MM-DD>-superseded-by-<canonical-path>/` as audit trail.
+
+This codifies what's been happening informally (the existing canonicals all started life as WIP synthesis) into a governed pattern. Extends [`scripts/validate_hlk_vault_links.py`](../../../../../../scripts/validate_hlk_vault_links.py) to detect orphan WIP docs that have been stuck in Stage 1 too long (forward-looking enforcement; warning-only initially).
+
+A dedicated `SOP-WIP_LIFECYCLE_001.md` is reserved for I71 to fully codify timeboxing, abandonment policy, and archival posture (PMO meta-governance per §17).
+
+## 14. Agent-only content channel pattern
+
+> Added I70 P4. Resolves operator framing 2026-05-10: *"v3.0 is, in reality hosted in drive under R&L folder, so yes, it's duplicated in order for me to have content for you, without affecting upstream … only v3.0 is synced with gdrive, the entire repo is synced with gh anyways."*
+
+A recognized ops-pattern: maintain a content mirror specifically for agent reading-context, distinct from the canonical Drive surface. Codified:
+
+- **Channel name:** *agent-context channel* (sometimes called the "fifth channel" alongside the four KM channels in §1, but conceptually it's an extension of git-source not a separate persistence layer).
+- **Pattern.** When an upstream content surface (Drive folder, third-party doc) needs to be readable by the agent without affecting the canonical home, mirror a working copy into git under a clearly-named path (`docs/references/hlk/Research & Logic/` is the canonical example; future agent-only mirrors follow the same convention).
+- **Invariants.** The mirror is `reference_only` classification per §11; the canonical authority remains upstream; drift between mirror and upstream is acceptable as long as the mirror is frozen-in-time at sync moments.
+- **Disaster-recovery property.** Because git is sha-replicated, the agent-context channel is also a recovery channel — if upstream is lost, the operator continues from the last git-synced moment (operator-stated, F-72: *"the entire repo is synced with gh anyways, so if I lose this I can continue right away"*).
+
+This codifies the existing R&L pattern as governed and reusable when future surfaces need similar treatment.
+
+## 15. Founder-corpus registry hook + future-OS-shape scenarios register
+
+### 15.1 Founder-corpus registry hook
+
+Pointer to [`FOUNDER_CORPUS_INVENTORY.md`](../../../People/FOUNDER_CORPUS_INVENTORY.md) (P9 deliverable). The blueprint's §15 is the operational stub; the inventory itself lives at `Admin/O5-1/People/`. Establishes that founder personal artifacts (notebooks, self-audios, R&L spreadsheets, CVs, epistemology images, Bâtard organigram) are first-class governed entities with retention class + confidentiality + digitization status. Closes Gap 7 + Gap 8 from I70 P2 synthesis.
+
+### 15.2 Future-OS-shape scenarios register + 4 named OS-migration triggers
+
+Operator quote 2026-05-10: *"we'll eventually ship madeira differently from this openclaw form, probably migrating to anandex for full flexibility or another solution of having this as OS or even as a library to be used by the data detached MADEIRA or using only supabase and this as OS."* Codified as `active_research_radar` items + named triggers + migration script spec.
+
+**The four named scenarios** (each with trigger conditions, governance impact, engagement impact, forward-link slot):
+
+- **Scenario A — anandex platform migration.** Move `docs/wip` + canonicals to anandex tooling; KM doctrine survives; persistence channels reshape.
+- **Scenario B — OS-library fork.** Extract canonicals + validators + render pipeline into a reusable library that consuming repos import. Sub-flavor B': data-detached MADEIRA — MADEIRA shipped as a data-detached layer that consumes external data sources. The library form decouples doctrine from any specific data persistence; consumers (MADEIRA, KiRBe, ENVOY, future products) bring their own data layer.
+- **Scenario C — Supabase-only OS.** Collapse the git layer; canonicals live in Supabase Storage; mirror becomes source.
+- **Scenario D — openclaw-akos-as-OS-current.** Keep current shape; mature it; ship MADEIRA as separate consumer.
+
+**The four named MIGRATION TRIGGERS** (any one tips OS migration; all surfaced from operator phrasing per Conundrum 5 ratification):
+
+1. **TRIGGER-1 — MADEIRA productizes data-detached.** When MADEIRA is ready to ship as a standalone product consumed by 3+ external organizations and the data layer needs to be detached from the operator's openclaw-akos repo. Activates Scenario B' (library fork sub-flavor) — the canonical doctrine becomes a published library; MADEIRA imports it with its own data persistence. Drift signal: external organization requests MADEIRA without the AKOS canonicals folder.
+
+2. **TRIGGER-2 — AKOS-as-library consumed externally.** When a non-Holistika organization (advisor's portfolio company, partner shop, sister-business) wants to import the canonical doctrine + validators + render pipeline as a library into their own KM stack. Activates Scenario B (full OS-library fork). Drift signal: 2+ external requests for AKOS doctrine without source-fork.
+
+3. **TRIGGER-3 — docs/wip nests as a product.** When WIP volume + diversity makes top-level `docs/wip` too operationally heavy + invites visible-to-non-operator audiences (partners reading it; ERP exposing it). Activates Scenario A (anandex migration where WIP becomes managed in tool) or D-mature (folds wip into MADEIRA-AKOS reserved folder per §4.8 of the I70 plan). Drift signal: `docs/wip` exceeds 100 active initiatives or operator opens it for external read access.
+
+4. **TRIGGER-4 — external operator invitation.** When the operator decides to invite a second human (advisor, partner founder, hire) into the system and they need write-access to canonicals. Activates Scenario C (Supabase-only) or D-mature (multi-operator git workflow). Drift signal: ERP panels need 2-way-sync per Phase 4.6 with multiple human inputs concurrently.
+
+**Migration script + UAT contract** (executed only when a trigger activates):
+
+- `scripts/migrate_os_shape.py <scenario-id>` (NEW; reserved) — performs filesystem migration per scenario manifest at `v3.0/Envoy Tech Lab/MADEIRA-AKOS/migration-manifests/<scenario-id>.yml` (P4.8 NEW). Each manifest describes: source paths → target paths, validators to run pre/post, Supabase schema deltas, rollback procedure.
+- **UAT contract:** post-migration, all existing `validate_*.py` pass + `release-gate.py` passes + a representative engagement renders without breakage.
+- Manifest files live as `active_research_radar` until trigger activates.
+
+**MADEIRA-AKOS as the destination home.** Per Conundrum 5 + D-IH-70-K, `v3.0/Envoy Tech Lab/MADEIRA-AKOS/` (created at P4.8 NEW) is the reserved folder where the migration lands. MADEIRA-AKOS doubles as: (a) the eventual MADEIRA productization home, (b) a non-MADEIRA AI-agent registry under `historical-AIC/` per the P2.5 audit ratification D-IH-70-V (operator's interactions with the Cursor agent today are MADEIRA's empirical proof point per founder principle 2.7). 
+
+## 16. Render pipeline ownership matrix (cross-link to Phase 10)
+
+Stub section. The Render pipeline ([`scripts/render_*_engagement_pdfs.py`](../../../../../../scripts/) and [`akos/hlk_pdf_render.py`](../../../../../../akos/hlk_pdf_render.py)) is NOT a Tech-Lab artifact; it is jointly owned by:
+
+- **Brand sub-disciplines** (UX-Designer + Copywriter + Design + AV) for the visual + voice + asset primitives (P5 + P6 charters).
+- **PMO** for engagement-deliverable orchestration.
+- **RevOps** (future I72 — Marketing Area Governance) for the engagement template + registry.
+- **HLK Tech Lab** for runtime + dependencies.
+- **SMO** (Operations/SMO/, newly active per P8 §8.6) for service-management surface around the rendered artifact (delivery cadence, customer-success follow-up, version release notes).
+- **Account Management** (Marketing/Resonance/, newly active per P8 §8.4) for relationship + retention deployment of the rendered artifacts.
+
+Phase 10 §10.5 carries the full ownership matrix table with transition triggers (PMO → RevOps; HLK Tech Lab → productization tied to future-OS-shape scenarios per §15.2).
+
+## 17. Three-tier WIP topology
+
+> Added I70 P4. Resolves Conundrum 6 (D-IH-70-O ratified). Operator decision: PMO meta-governs WIP lifecycle universally; Research owns intelligence-class WIP; areas/roles own area-scoped WIP.
+
+**Tier 1 — `docs/wip/intelligence/` (Research-owned, cross-area).** Where any cross-area research, knowledge-base development, ontology drafts, classification-lattice candidates, taxonomy proposals, or methodology-pillar exploration lives BEFORE promotion to canonical. Owned by Research area (P4.7 NEW); KM Officer role authors + curates. Examples: a draft topic-fact-source mapping; a new-GOI-class hunt result; a methodology-pillar prototype.
+
+**Tier 2 — `docs/wip/planning/` (PMO-owned, initiative-scoped).** Where active initiatives (current pattern: `NN-initiative-slug` folders) live during their phased execution. Owned by PMO via [`SOP-META_PROCESS_MGMT_001`](../../../../compliance/SOP-META_PROCESS_MGMT_001.md). Each `<NN-initiative-slug>/` folder is a planning packet (master-roadmap, decision-log, files-modified, evidence-matrix, reports/, risk-register). At initiative-completion, contents are promoted (canonicals to `v3.0/<area>/<role>/canonicals/`; learnings to `LOGIC_CHANGE_LOG.md`; report archives stay in place per §13).
+
+**Tier 3 — `<area>/<role>/wip/` (area-scoped, role-owned).** Where role-internal works-in-progress live (drafts that are NOT cross-area research and NOT spanning multiple roles). Examples: `Marketing/Brand/Copywriter/wip/2026-impeccable-copywriting/` (the prior-art research brief + drafts for `BRAND_COPYWRITING_DISCIPLINE` per P5); `Operations/SMO/wip/<service-spec-draft>/`; `People/Ethics/wip/<policy-draft>/`. Tier 3 promotes upward to canonical at the same role-folder when ratified.
+
+**PMO meta-governance role across all 3 tiers.** PMO (via `SOP-META_PROCESS_MGMT_001` + `SOP-WIP_LIFECYCLE_001` reserved for I71) governs WIP lifecycle meta-rules: timeboxing, promotion criteria, abandonment policy, archival posture. Research owns Tier 1 content; per-area roles own Tier 3 content; PMO owns the universal lifecycle contract that spans all three tiers.
+
+```mermaid
+flowchart TB
+    subgraph T1 [Tier 1: cross-area research]
+        Intel[docs/wip/intelligence/]
+    end
+    subgraph T2 [Tier 2: initiative-scoped]
+        Plan[docs/wip/planning/NN-slug/]
+    end
+    subgraph T3 [Tier 3: area-scoped]
+        AreaWIP1[Marketing/Brand/Copywriter/wip/]
+        AreaWIP2[Operations/SMO/wip/]
+        AreaWIP3[People/Ethics/wip/]
+    end
+    PMO[PMO meta-governance: lifecycle SOP]
+    Research[Research area: owns Tier 1 content]
+    Roles[Per-area roles: own Tier 3 content]
+    PMO --> T1
+    PMO --> T2
+    PMO --> T3
+    Research --> T1
+    Roles --> T3
+```
+
+## Cross-references for §11-§17
+
+- I70 plan §4 + §17: [`.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md`](../../../../../../../.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md)
+- KM_CHANNEL_VALUE_NARRATIVE.md: [companion canonical](KM_CHANNEL_VALUE_NARRATIVE.md) (sellable framing per §11 `selling_point` class)
+- CLASSIFICATION_LATTICE.md: [full spec](../../../../compliance/dimensions/CLASSIFICATION_LATTICE.md) (5-class taxonomy)
+- Cursor rule (H1): [`akos-inline-ratification.mdc`](../../../../../../../.cursor/rules/akos-inline-ratification.mdc) (governs §13 Stage-3 inline-ratify gate)
+- Cursor rule (governance): [`akos-governance-remediation.mdc`](../../../../../../../.cursor/rules/akos-governance-remediation.mdc) (canonical-CSV gate discipline)
+- Phase 4.7 NEW: Research as new top-level area with 4 disciplines (forward-link)
+- Phase 4.8 NEW: MADEIRA-AKOS reserved folder (forward-link from §15.2)
+- Phase 10 §10.5: full Render pipeline ownership matrix (forward-link from §16)
+
 End of WORKSPACE_BLUEPRINT_HOLISTIKA.
