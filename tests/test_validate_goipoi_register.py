@@ -1,11 +1,18 @@
-"""P13.4 (D-W13-D) — Tests for the GOI/POI `related_party` column.
+"""P13.4 (D-W13-D) + I70 P8.5 (D-IH-70-AD) — Tests for the GOI/POI optional
+schema-extension columns: `related_party` (P13.4) and `stance` (I70 P8.5).
 
 Covers:
-- The new `related_party` column is present in the canonical CSV header.
-- The `GOIPOI_REGISTER_FIELDNAMES` tuple includes `related_party` as the last column.
-- Default-empty values are backwards-compatible for every Initiative 21 / 22 / 24 / 31 row.
-- The new `GOI-CUS-ASES-2026` row carries `related_party=true` per the P13.4 tranche.
-- The validator script (`scripts/validate_goipoi_register.py`) exits 0 with the expanded enum.
+- The `related_party` column is present in the canonical CSV header.
+- The `stance` column is present in the canonical CSV header AND is the LAST
+  column (forward-compatible-append invariant moved from related_party to
+  stance after I70 P8.5).
+- The `GOIPOI_REGISTER_FIELDNAMES` tuple includes both columns; stance is last.
+- Default-empty values are backwards-compatible for every Initiative 21 / 22 /
+  24 / 31 / P13.4 row.
+- The `GOI-CUS-ASES-2026` row carries `related_party=true` per the P13.4 tranche.
+- Every row's `stance` value is in the enum {'', 'ally', 'neutral', 'enemy', 'unknown'}.
+- The validator script (`scripts/validate_goipoi_register.py`) exits 0 with the
+  expanded enum (P13.4 + I70 P8.5).
 """
 from __future__ import annotations
 
@@ -33,20 +40,33 @@ def test_related_party_column_present_in_header():
         reader = csv.reader(fh)
         header = next(reader)
     assert "related_party" in header, "related_party column missing from GOI_POI_REGISTER.csv header"
-    assert header[-1] == "related_party", (
-        f"related_party should be the LAST column for forward-compatible appends; got header={header[-1]!r}"
+
+
+def test_stance_column_present_and_last():
+    """I70 P8.5 (D-IH-70-AD) — `stance` is the new last column for
+    forward-compatible appends; the invariant moved from related_party to
+    stance when the v2.7 ally/neutral/enemy doctrine landed in v3.1."""
+    with CSV_PATH.open(encoding="utf-8", newline="") as fh:
+        reader = csv.reader(fh)
+        header = next(reader)
+    assert "stance" in header, "stance column missing from GOI_POI_REGISTER.csv header"
+    assert header[-1] == "stance", (
+        f"stance should be the LAST column for forward-compatible appends; got header={header[-1]!r}"
     )
 
 
-def test_fieldnames_tuple_includes_related_party():
+def test_fieldnames_tuple_includes_related_party_and_stance():
     sys.path.insert(0, str(REPO_ROOT))
     from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES
 
     assert "related_party" in GOIPOI_REGISTER_FIELDNAMES, (
         "GOIPOI_REGISTER_FIELDNAMES does not include 'related_party'"
     )
-    assert GOIPOI_REGISTER_FIELDNAMES[-1] == "related_party", (
-        "related_party must be the last entry in GOIPOI_REGISTER_FIELDNAMES (forward-compatible appends)"
+    assert "stance" in GOIPOI_REGISTER_FIELDNAMES, (
+        "GOIPOI_REGISTER_FIELDNAMES does not include 'stance' (I70 P8.5 D-IH-70-AD)"
+    )
+    assert GOIPOI_REGISTER_FIELDNAMES[-1] == "stance", (
+        "stance must be the last entry in GOIPOI_REGISTER_FIELDNAMES (forward-compatible appends)"
     )
 
 
@@ -101,6 +121,19 @@ def test_goi_cus_ases_2026_is_related_party():
     assert (row.get("related_party") or "").strip().lower() == "true", (
         f"GOI-CUS-ASES-2026: related_party should be 'true', got {row.get('related_party')!r}"
     )
+
+
+def test_stance_enum_valid():
+    """Every row's `stance` value must be in the enum
+    {'', 'ally', 'neutral', 'enemy', 'unknown'} (I70 P8.5 D-IH-70-AD)."""
+    rows = _rows()
+    valid = {"", "ally", "neutral", "enemy", "unknown"}
+    for row in rows:
+        stance = (row.get("stance") or "").strip().lower()
+        assert stance in valid, (
+            f"row {row['ref_id']}: invalid stance={stance!r}; "
+            f"expected one of {sorted(valid)}"
+        )
 
 
 def test_validate_goipoi_register_script_passes():

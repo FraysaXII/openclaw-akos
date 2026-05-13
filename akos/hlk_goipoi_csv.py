@@ -56,4 +56,13 @@ GOIPOI_REGISTER_FIELDNAMES: tuple[str, ...] = (
     # disclosure norms require an explicit flag. Enum: "true" | "false" | "".
     # Empty default is backwards-compatible for every Initiative 21 row.
     "related_party",
+    # I70 P8.5 (D-IH-70-AD) — stance dimension on the social graph encoding the
+    # operator's v2.7 ally/neutral/enemy intelligence-ops doctrine
+    # (canonical: docs/references/hlk/v3.0/Research/Intelligence/canonicals/
+    # GOI_POI_STANCE_DOCTRINE.md). Independent of distance_band; powers
+    # engagement-posture rules (free for allies, market for neutrals, never-
+    # accept-payment for enemies). Enum: "ally" | "neutral" | "enemy" |
+    # "unknown" | "". Empty default is backwards-compatible for every
+    # Initiative 21 / 22 / 24 / 31 / P13.4 row.
+    "stance",
 )

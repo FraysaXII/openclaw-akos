@@ -57,6 +57,12 @@ CLASSES = {
     "regulator",       # public regulator authority (typically is_public_entity=true)
     "vendor",          # paid commercial supplier (FINOPS counterparty); cross-references FINOPS_COUNTERPARTY_REGISTER.csv
     "media",           # press, podcast host, public-relations contact
+    # Initiative 70 P8.5 extension (D-IH-70-AC) — six-source evidence sweep
+    # ratified at A14 inline-ratify gate. New classes:
+    "legal_counsel_external",         # legal-track adviser firm (split off from external_adviser)
+    "supplier_infrastructure",        # GPU/cloud/hosting supplier candidate (sub-type of supplier)
+    "competitor_intelligence_target", # IntelOps audit subject; relationship-row enabling stance scoring
+    "recruiter",                      # third-party recruiter / talent-sourcing counterpart (pre-emptive)
 }
 SENSITIVITY = {"public", "internal", "confidential", "restricted"}
 BOOLS = {"true", "false"}
@@ -81,6 +87,12 @@ ISO_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 # P13.4 (D-W13-D) — related-party disclosure flag.
 # Empty default is backwards-compatible for every Initiative 21 / 22 / 24 / 31 row.
 RELATED_PARTY = {"", "true", "false"}
+
+# I70 P8.5 (D-IH-70-AD) — stance dimension. Operator's v2.7 ally/neutral/enemy
+# intelligence-ops doctrine; codified canonically at
+# docs/references/hlk/v3.0/Research/Intelligence/canonicals/GOI_POI_STANCE_DOCTRINE.md.
+# Empty / "unknown" defaults are backwards-compatible for every legacy row.
+STANCES = {"", "ally", "neutral", "enemy", "unknown"}
 
 REF_ID_RE = re.compile(r"^(POI|GOI)-[A-Z0-9]{2,5}-[A-Z0-9-]{1,40}-\d{4}$")
 PROGRAM_ID_RE = re.compile(r"^(PRJ-[A-Z0-9]+-[A-Z0-9]+-\d{4})?$")
@@ -240,6 +252,14 @@ def main() -> int:
         if related not in RELATED_PARTY:
             errors.append(
                 f"row {i}: invalid related_party {related!r}; expected 'true', 'false', or empty"
+            )
+
+        # I70 P8.5 (D-IH-70-AD): optional stance dimension.
+        stance = (r.get("stance") or "").strip().lower()
+        if stance not in STANCES:
+            errors.append(
+                f"row {i}: invalid stance {stance!r}; expected one of "
+                f"{sorted(STANCES - {''})} or empty"
             )
 
     # Pass 2: bridge_via FK + cycle detection. Collect all ref_ids first.
