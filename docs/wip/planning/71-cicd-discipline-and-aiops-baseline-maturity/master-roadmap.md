@@ -18,34 +18,46 @@ parent_closure: INIT-OPENCLAW_AKOS-70 (I70; validator deferrals + release-taxono
 
 # I71 — CI/CD Discipline and AIOps Baseline Maturity
 
-> **status: active (chartered 2026-05-13).** Absorbs I70-deferred **validator rule packs** (P5 / P6 / P7 / P10) and establishes an **AIOps baseline** (Strand B) cross-linked from [`WORKSPACE_BLUEPRINT_HOLISTIKA.md`](../../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/WORKSPACE_BLUEPRINT_HOLISTIKA.md) section 18. Sibling initiative to **I68** (consumer-repo CI baseline, InfraMonitor): I71 focuses on **AKOS-side brand/render validators** + **observability routing**, not duplicate I68’s Playwright/Sentry release-format templates.
+> **Status: active (chartered 2026-05-13).** Three strands: **A** validator rule packs (absorbs I70-deferred P5 / P6 / P7 / P10), **B** AIOps baseline (Sentry + Langfuse via operator MCPs), **C** governance disciplines that I70 forward-charted (release taxonomy + review-stamp dimension). Sibling to **I68** (consumer-repo CI baseline + InfraMonitor): I71 owns **AKOS-side brand/render validators** + **observability routing** + **release-policy SSOT**, not duplicates of I68's Playwright/Sentry release-format templates.
+
+## Operating story
+
+I70 closed with a clean OS-shaped foundation (federated canonicals, ERP architecture, brand sub-disciplines, multilingual contract, founder methodology versioning). Two governance gaps remained explicitly forward-charted in [`p70-closing.md`](../70-holistika-os-self-governance/reports/p70-closing.md):
+
+1. **Validator coverage** for the disciplines I70 authored (voice register, Gantt confidence, multilingual locale-suffix, render pipeline ownership) — without validators, the disciplines drift; the canonicals become aspirational; brand failures leak into customer-visible artifacts (the SUEZ deck's leaked instruction text was exactly this failure mode).
+2. **Release/version discipline** — I70 advanced methodology toward v3.1-shaped governance payloads but deliberately deferred the annotated git tag because "release baseline" had no agreed criteria. The vault folder path stayed `v3.0/` (renaming would be its own initiative). SemVer + CHANGELOG remained the working line.
+
+I71 closes both. Strand A operationalizes I70's brand discipline as enforced contract. Strand B introduces an observability baseline so the validator packs (and the broader runtime) get **routing** when they fail — not just "FAIL in CI" but "FAIL → owner → channel → severity → playbook" per [`WORKSPACE_BLUEPRINT_HOLISTIKA.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/WORKSPACE_BLUEPRINT_HOLISTIKA.md) §18. Strand C ratifies the release taxonomy (three lanes: methodology / vault folder / repo SemVer+tag — `D-IH-71-D` supersedes `D-IH-70-CLOSURE` deferral) and codifies the review-stamp dimension so processes / decisions / artifacts / registry-rows carry a `last_review_at` cell that the operator inbox can surface as freshness signal.
+
+The cohering principle: **validators + observability + release policy + review stamps make canonicals enforceable, observable, releasable, and freshness-tracked**. After I71 closes, every canonical in the vault has (a) a validator that can fail CI when it drifts, (b) a routing row in §18 when it fails, (c) a release lane it ships under, and (d) a review stamp the operator can audit.
 
 ## Strand A — Validator rule packs (four packs)
 
-Execution target: each pack lands as **Python script + rule-pack YAML + tests + `release-gate.py` wiring** in phased commits (P1–P4).
+Execution target: each pack lands as **Python script + rule-pack YAML + tests + `release-gate.py` wiring** in phased commits.
 
-| Pack | Working name | Primary canonical / contract |
-|:---|:---|:---|
-| **A1** | Brand voice register expansion | [`BRAND_COPYWRITING_DISCIPLINE.md`](../../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_COPYWRITING_DISCIPLINE.md); extends [`scripts/validate_brand_voice_register.py`](../../../../scripts/validate_brand_voice_register.py) with 7 tic-family enforcement, locale-aware register checks, audience-matrix hooks; boundary check per **D-IH-70-X** (Storytelling vs Resonance). |
-| **A2** | Brand Gantt confidence ladder | [`BRAND_GANTT_DISCIPLINE.md`](../../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_GANTT_DISCIPLINE.md); new `validate_brand_gantt_confidence.py` (5-level ladder + 4-quadrant audience matrix). |
-| **A3** | Brand multilingual locale suffix | Conundrum 7 / **D-IH-70-P**; new `validate_brand_multilingual.py` for README pointer + `README.fr.md` + `README.en.md` + per-locale frontmatter. |
-| **A4** | Render pipeline ownership | [`WORKSPACE_BLUEPRINT_HOLISTIKA.md`](../../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/WORKSPACE_BLUEPRINT_HOLISTIKA.md) section 16; new `validate_render_ownership.py` for per-deliverable owner coverage + transition-trigger hints. |
+| Pack | Working name | Primary canonical / contract | I70 anchor |
+|:---|:---|:---|:---|
+| **A1** | Brand voice register expansion | [`BRAND_COPYWRITING_DISCIPLINE.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_COPYWRITING_DISCIPLINE.md); extends [`scripts/validate_brand_voice_register.py`](../../../scripts/validate_brand_voice_register.py) with 7 tic-family enforcement, locale-aware register checks, audience-matrix hooks; boundary check per **D-IH-70-X** (Storytelling-authors / Resonance-consumes). | I70 P5 + D-IH-70-X |
+| **A2** | Brand Gantt confidence ladder | [`BRAND_GANTT_DISCIPLINE.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_GANTT_DISCIPLINE.md); new `scripts/validate_brand_gantt_confidence.py` (5-level ladder + 4-quadrant audience matrix). | I70 P6 |
+| **A3** | Brand multilingual locale suffix | Conundrum 7 / **D-IH-70-P**; new `scripts/validate_brand_multilingual.py` for `README.md` (5-line pointer) + `README.fr.md` + `README.en.md` + per-locale frontmatter cohesion. | I70 P7 + D-IH-70-P |
+| **A4** | Render pipeline ownership | [`WORKSPACE_BLUEPRINT_HOLISTIKA.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/WORKSPACE_BLUEPRINT_HOLISTIKA.md) §16; new `scripts/validate_render_ownership.py` for per-deliverable owner coverage + transition-trigger hints (PMO → RevOps; PMO → HLK Tech Lab). | I70 P10 |
 
 ## Strand B — AIOps baseline
 
 - **Sentry**: operator MCP (`user-sentry`) for deploy-health and error triage; aligns with I68 release-format doctrine.
 - **Langfuse**: operator MCP (`user-langfuse` / docs MCP) for trace-backed AI ops signals where applicable.
-- **Routing**: failure routing and ownership live in **WORKSPACE_BLUEPRINT section 18** (observability routing matrix).
+- **Routing**: failure routing and ownership live in **WORKSPACE_BLUEPRINT §18** (observability routing matrix).
+- **Out of scope (P0–P5)**: production deployment of dedicated Sentry/Langfuse instances; full model/prompt versioning catalog; AI failure-mode library — deferred to a follow-on initiative when usage volume justifies.
 
 ## Strand C — Release taxonomy + review-stamp dimension
 
-Absorbs the **forward-charter slot** explicitly handed off by [`D-IH-70-CLOSURE`](../../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) and [`p70-closing.md`](../../70-holistika-os-self-governance/reports/p70-closing.md) §4–§5. Two sub-strands.
+Absorbs the **forward-charter slot** explicitly handed off by [`D-IH-70-CLOSURE`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) and [`p70-closing.md`](../70-holistika-os-self-governance/reports/p70-closing.md) §4–§5. Two sub-strands.
 
 ### C1 — Three release lanes (do not conflate)
 
 | Lane | Carrier | Bump trigger | Tag in this repo? |
 |:---|:---|:---|:---|
-| **Methodology `major.minor`** | [`LOGIC_CHANGE_LOG.md`](../../../../references/hlk/v3.0/Admin/O5-1/People/canonicals/LOGIC_CHANGE_LOG.md) + `D-IH-*` rows (e.g. `D-IH-70-Z`, `AA`–`AD` describe v3.1-shaped schema work). | A logic-change row that re-versions the methodology; **not** a folder rename or a git tag. | No. |
+| **Methodology `major.minor`** | [`LOGIC_CHANGE_LOG.md`](../../../references/hlk/v3.0/Admin/O5-1/People/canonicals/LOGIC_CHANGE_LOG.md) + `D-IH-*` rows (e.g. `D-IH-70-Z`, `AA`–`AD` describe v3.1-shaped schema work). | A logic-change row that re-versions the methodology; **not** a folder rename or a git tag. | No. |
 | **HLK vault folder path** | `docs/references/hlk/v3.0/` | Renaming to `v3.1/` would be a large, churny migration — **its own initiative, not I71**. | No (and renaming is **not** inferred from methodology or git-tag bumps). |
 | **Openclaw-akos SemVer + CHANGELOG + git tag** | `CHANGELOG.md` + `vMAJOR.MINOR.PATCH` annotated tags | Conventional release judgment: PATCH for fixes, MINOR for additive, MAJOR for breaking. **Not** one-to-one with every `D-IH` row. | Yes (when ratified). |
 
@@ -53,29 +65,130 @@ Absorbs the **forward-charter slot** explicitly handed off by [`D-IH-70-CLOSURE`
 
 ### C2 — Review-stamp / last-version-visited dimension
 
-Today, none of the canonical CSVs carry a "last version we visited this row" stamp. Operator-driven reviews (process, decision, artifact, registry-row) are tracked outside the schema. `D-IH-71-E` introduces a **thin governance slice** that adds optional columns (or a dedicated review-stamp table — design decision is part of P3 below):
+Today, none of the canonical CSVs carry a "last version we visited this row" stamp. Operator-driven reviews (process, decision, artifact, registry-row) are tracked outside the schema. `D-IH-71-E` introduces a **thin governance slice** that adds optional columns (or a dedicated review-stamp table — design decision is part of P4 below):
 
 - **Subject classes**: process (`process_list.csv`), decision (`DECISION_REGISTER.csv`), artifact (canonical files via `CANONICAL_REGISTRY.csv`), registry-row (other dimension CSVs).
-- **Stamp shape (proposal, refinable in P3)**: `last_review_at: DATE`, `last_review_by: role_id`, `last_review_decision_id: TEXT?`, `methodology_version_at_review: SEMVER` (cross-link to `LOGIC_CHANGE_LOG`).
+- **Stamp shape (proposal, refinable in P4)**: `last_review_at: DATE`, `last_review_by: role_id`, `last_review_decision_id: TEXT?`, `methodology_version_at_review: SEMVER` (cross-link to `LOGIC_CHANGE_LOG`).
 - **Mirror posture**: thin Supabase mirror (or column-extension for tables that already mirror), service-role-only RLS, governance view for ERP panel consumption.
 - **Validator**: extend `validate_canonical_registry.py` (or sibling) with a freshness window and surface stale rows to `OPERATOR_INBOX.md`.
 
 Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-stamp schema slice). The validator pack work (Strand A) and AIOps baseline (Strand B) remain on their original P1–P2 / P5 timeline.
 
-## Phased execution (scaffold)
+## Phase status table
 
-| Phase | Scope |
-|:---|:---|
-| **P0** | Charter + registries + blueprint section 18 (this commit) + Strand C scope expansion (this update). |
-| **P1–P2** | Ship packs A1–A4 (order may follow dependency; A4 often unblocks I72 engagement machinery). |
-| **P3** | **Strand C1 — release-taxonomy ratification.** Codify the three lanes, document tag criteria, update `CHANGELOG.md` policy header + `docs/SOP.md` release section. Decide whether to push `v3.1.0` annotated tag now (if the I70 closure cut is the ratified release baseline) or keep `[Unreleased]` until P6 closure. Closes `OPS-71-2`. |
-| **P4** | **Strand C2 — review-stamp dimension.** Pick column-extension vs separate table; author migration + canonical CSV update + validator + ERP panel slot reservation. Closes `OPS-71-3`. |
-| **P5** | Strand B hardening: scripted smoke for MCP availability notes; optional dashboard links (no production deploy scope in P0). |
-| **P6** | Closure UAT + initiative registry closure row + close `OPS-71-1` (Strand A) + verify all OPS-71-* are closed. |
+| Phase | Title | Strand | Status | Closes OPS |
+|:---|:---|:---:|:---|:---:|
+| **P0** | Charter + registries + WORKSPACE §18 + Strand C scope expansion | A+B+C | **SHIPPED** (`e129bac`, `eb4c1b4`) | — |
+| **P1** | Pack A1 (voice register expansion) | A | pending | — |
+| **P2** | Packs A2–A3 (Gantt confidence + multilingual locale suffix) | A | pending | — |
+| **P3** | Strand C1 — release-taxonomy ratification + tag-criteria SOP | C | pending | OPS-71-2 |
+| **P4** | Strand C2 — review-stamp dimension (column-or-table choice + migration + validator) | C | pending | OPS-71-3 |
+| **P5** | Pack A4 (render ownership) + Strand B hardening (MCP smoke + dashboard cross-links) | A+B | pending | — |
+| **P6** | Closing UAT + initiative registry closure row + close OPS-71-1 | — | pending | OPS-71-1 |
+
+## Per-phase scoping (scope / prerequisites / deliverables / verification)
+
+### P0 — Charter (SHIPPED)
+
+- **Scope**: charter ratification + INITIATIVE / DECISION / OPS rows + WORKSPACE_BLUEPRINT §18 + Strand C scope expansion.
+- **Prerequisites**: I70 P11 closure (`8ba8be9`) on `main`.
+- **Deliverables**: this `master-roadmap.md` + `reports/p0-charter-2026-05-13.md` + 5 D-IH-71 rows + 3 OPS-71 rows + `WORKSPACE_BLUEPRINT_HOLISTIKA.md` §18.
+- **Verification**: `validate_decision_register.py`, `validate_initiative_registry.py`, `validate_ops_register.py`, `validate_hlk.py` all PASS (post-edit re-run 2026-05-13).
+
+### P1 — Pack A1 (Brand voice register expansion)
+
+- **Scope**: extend [`scripts/validate_brand_voice_register.py`](../../../scripts/validate_brand_voice_register.py) with 7 tic-family enforcement (per `BRAND_COPYWRITING_DISCIPLINE.md` §3); add a `register-pack.yml` rule-pack file at `docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/register-pack.yml`; author tests at `tests/test_validate_brand_voice_register_expansion.py`; wire into `scripts/release-gate.py`.
+- **Prerequisites**: P0 closed; `BRAND_COPYWRITING_DISCIPLINE.md` (I70 P5) is the canonical anchor.
+- **Deliverables**: validator extension + rule-pack YAML + tests + release-gate wiring + `CHANGELOG.md` entry.
+- **Verification**: `py scripts/validate_brand_voice_register.py` (strict mode) PASS on consumer repos that already pass; expected-fail fixtures detect 7 tic-family violations; `py scripts/release-gate.py` integrates the pack as a `[PASS]` row.
+- **Key risk**: regex breadth (false positives on legitimate prose). Mitigation: per-locale fixture suite + opt-out token list maintained at the YAML.
+
+### P2 — Packs A2 + A3 (Gantt confidence + multilingual locale-suffix)
+
+- **Scope**:
+  - **A2**: new `scripts/validate_brand_gantt_confidence.py` enforcing the 5-level confidence ladder + 4-quadrant audience matrix from `BRAND_GANTT_DISCIPLINE.md`; rule-pack at `docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/gantt-pack.yml`; tests + release-gate.
+  - **A3**: new `scripts/validate_brand_multilingual.py` enforcing the 3-file pattern (`README.md` 5-line pointer + `README.fr.md` + `README.en.md`) per `D-IH-70-P` + `BRAND_MULTILINGUAL_CONTRACT.md`; tests + release-gate.
+- **Prerequisites**: P1 closed; `BRAND_GANTT_DISCIPLINE.md` (I70 P6) and `BRAND_MULTILINGUAL_CONTRACT.md` (I70 P7) are the canonical anchors; SUEZ engagement is the ground-truth fixture for A3.
+- **Deliverables**: 2 validators + 2 rule-pack YAMLs + 2 test modules + release-gate integration + CHANGELOG entries.
+- **Verification**: A2 detects out-of-ladder confidence cells in fixture Gantt files; A3 detects engagements that ship only `README.md` without locale variants OR without 5-line pointer; release-gate green.
+
+### P3 — Strand C1 (release-taxonomy ratification)
+
+- **Scope**: codify the three release lanes; author `docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-RELEASE_TAXONOMY_001.md` (or short section in `docs/SOP.md`); update `CHANGELOG.md` policy header to point to it; decide whether to push `v3.1.0` annotated tag at the I70 closure cut OR keep `[Unreleased]` until I71 P6 closure.
+- **Prerequisites**: `D-IH-71-D` (P0); `LOGIC_CHANGE_LOG.md` and `CHANGELOG.md` exist; I70 closure commit `8ba8be9` is on `main`.
+- **Deliverables**: SOP-RELEASE_TAXONOMY_001.md (~150 lines) + CHANGELOG header update + (optionally) `v3.1.0` annotated tag + `master-roadmap.md` entry under each impacted initiative pointing to the SOP.
+- **Verification**: `validate_hlk_vault_links.py` PASS; SOP cross-linked from `WORKSPACE_BLUEPRINT_HOLISTIKA.md` §10; `OPS-71-2` closes with `closed_at` + closure decision row.
+- **Inline-ratify gate**: tag-now vs hold for I71 P6 closure (`AskQuestion` at gate; default = hold for P6 closure to keep tags semantically clean).
+
+### P4 — Strand C2 (review-stamp dimension)
+
+- **Scope**: pick **column-extension** vs **separate review-stamp table**; author migration at `supabase/migrations/<ts>_i71_p4_review_stamp.sql`; update affected canonical CSVs (and their `akos.*` SSOT tuples in `akos/hlk_*_csv.py`); extend `validate_canonical_registry.py` (or sibling) with freshness-window logic; surface stale rows to `OPERATOR_INBOX.md`; reserve ERP panel slot in `HLK_ERP_ARCHITECTURE.md` §4.
+- **Prerequisites**: P3 closed; `D-IH-71-E` (P0); compliance-schema-drift validator PASS state.
+- **Deliverables**: design ratification doc at `reports/p4-design-2026-MM-DD.md` (column vs table); SQL migration; CSV header(s) updated; validator extension + tests; ERP panel slot reserved; `master-roadmap.md` for downstream initiatives points to the freshness-window canonical.
+- **Verification**: `validate_compliance_schema_drift.py` PASS (header alignment); `validate_canonical_registry.py` PASS with freshness-window check live; `release-gate.py` green; `OPS-71-3` closes.
+- **Inline-ratify gate**: column-extension vs separate table (`AskQuestion` at gate; default = column-extension where the table already exists; separate table for unmirrored canonicals).
+
+### P5 — Pack A4 + Strand B hardening
+
+- **Scope**:
+  - **A4**: `scripts/validate_render_ownership.py` enforcing per-deliverable owner coverage from `WORKSPACE_BLUEPRINT_HOLISTIKA.md` §16; transition-trigger hints (PMO → RevOps; PMO → HLK Tech Lab) surface as advisory output rows.
+  - **Strand B**: scripted MCP-availability smoke (`scripts/check_observability_mcps.py`) verifies `user-sentry` + `user-langfuse` MCPs are reachable; optional dashboard cross-link surfacing in `WORKSPACE_BLUEPRINT_HOLISTIKA.md` §18.
+- **Prerequisites**: P4 closed; ENGAGEMENT_REGISTRY mirror live (I70 P8.1); `HLK_ERP_ARCHITECTURE.md` §4 panel slot.
+- **Deliverables**: `validate_render_ownership.py` + tests + release-gate wiring + observability MCP smoke script + WORKSPACE §18 dashboard link entries.
+- **Verification**: render-ownership validator PASS on every active engagement; MCP smoke advisory; release-gate green.
+
+### P6 — Closing UAT
+
+- **Scope**: operator UAT pass per the §3 acceptance criteria below; close `INIT-OPENCLAW_AKOS-71` and `OPS-71-1`; author `reports/p71-closing.md`; CHANGELOG closure entry; (optionally) annotated tag if P3 deferred.
+- **Prerequisites**: P1–P5 shipped on `main`; release-gate green; OPS-71-2 + OPS-71-3 closed.
+- **Deliverables**: `reports/p71-closing.md` + INITIATIVE / OPS closure rows + `D-IH-71-CLOSURE` decision + CHANGELOG closure entry.
+- **Verification**: full validator matrix PASS; operator UAT bands A–D PASS via inline `AskQuestion`.
+
+## Conundrums (open at P0; ratify during execution per [`.cursor/rules/akos-inline-ratification.mdc`](../../../../.cursor/rules/akos-inline-ratification.mdc))
+
+1. **C-71-1 — Pack A1 strictness ladder**: should tic-family violations fail-loud on the first offense or escalate via a soft → strict cadence (like `validate_cicd_baseline.py`)? **Default**: soft for first 30 days post-P1, strict thereafter; ratify at P1 inline-ratify gate.
+2. **C-71-2 — Pack A3 SUEZ vs general-engagement strictness**: SUEZ ships full bilingual; future engagements may launch monolingual then add a locale. Should A3 fail-loud on missing locale variants or warn? **Default**: warn until two consecutive engagements land bilingual; ratify at P2 inline-ratify gate.
+3. **C-71-3 — Strand C1 tag-now vs hold**: ratification at P3 inline-ratify; default = hold for P6 closure.
+4. **C-71-4 — Strand C2 column vs table**: ratification at P4 inline-ratify; default = column-extension for already-mirrored tables; separate table for unmirrored canonicals.
+5. **C-71-5 — Strand B observability cardinality**: how many failure modes warrant a routing row in §18 vs a generic "PMO triages"? **Default**: every CI gate has its own row; non-CI failures ride generic row; ratify at P5 inline-ratify.
+
+## Decision preview (D-IH-71-* rows likely to mint during execution)
+
+- **D-IH-71-F** — Pack A1 ratification (post-P1 inline-ratify gate; tic-family strictness ladder).
+- **D-IH-71-G** — Pack A2 ratification (Gantt confidence ladder enforcement scope).
+- **D-IH-71-H** — Pack A3 ratification (multilingual locale-suffix strictness).
+- **D-IH-71-I** — Strand C1 tag-now-vs-hold ratification (P3).
+- **D-IH-71-J** — Strand C2 column-vs-table ratification (P4).
+- **D-IH-71-K** — Pack A4 ratification (render-ownership coverage thresholds).
+- **D-IH-71-L** — Strand B observability cardinality ratification (P5).
+- **D-IH-71-CLOSURE** — initiative closure (P6).
+
+## Risk register (top 5)
+
+| Risk | Severity | Mitigation |
+|:---|:---:|:---|
+| Validator pack false positives erode operator trust | High | Per-locale fixture suite + soft → strict cadence + token opt-out lists in YAML rule packs. |
+| Strand C1 tag-now creates a v3.1.0 cut without C2 review-stamp landing → semantic mismatch | Medium | Default to hold for P6; revisit at P3 inline-ratify gate with the operator's explicit tag-meaning ratification. |
+| Strand C2 column-extension breaks existing mirrors | High | `NOT VALID + VALIDATE CONSTRAINT` pattern (per I70 P8.5 precedent); compliance-schema-drift validator gate must PASS before the migration commit. |
+| Strand B MCP unavailability blocks CI gates | Medium | MCP smoke is **advisory** (`[INFO]` row in release-gate); never blocks. |
+| Sibling I68 + I71 scope overlap on observability | Medium | Strict surface split: I68 owns consumer-repo CI templates + InfraMonitor; I71 owns AKOS-side validators + WORKSPACE §18 routing. Cross-link only. |
+
+## Verification matrix (P6 acceptance — operator UAT inputs)
+
+- [ ] Strand A: 4 packs ship with validator + YAML + tests + release-gate integration; full release-gate PASS includes the 4 new rows.
+- [ ] Strand B: MCP smoke advisory surfaces in release-gate `[INFO]` rows; WORKSPACE §18 carries dashboard cross-links.
+- [ ] Strand C1: `SOP-RELEASE_TAXONOMY_001.md` lives in vault at the canonical path; `CHANGELOG.md` policy header points to it; tag decision recorded as `D-IH-71-I`.
+- [ ] Strand C2: review-stamp migration applied; freshness-window validator green; ERP panel slot reserved.
+- [ ] All five `D-IH-71-A`/`B`/`C`/`D`/`E` rows + `D-IH-71-CLOSURE` exist in `DECISION_REGISTER.csv`.
+- [ ] `OPS-71-1`, `OPS-71-2`, `OPS-71-3` all `closed`.
 
 ## Cross-references
 
-- Ratification: [`reports/p0-charter-2026-05-13.md`](reports/p0-charter-2026-05-13.md)
-- I70 plan (I71 P0 inline charter): [`.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md`](../../../../.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md)
-- Promoted candidate provenance: [`promoted-candidate-2026-05-12.md`](promoted-candidate-2026-05-12.md)
-- OPS tracking: **OPS-71-1** — Validator pack productization (Strand A).
+- I70 plan (I71 P0 inline charter): [`.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md`](../../../../.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md).
+- I70 closing checkpoint: [`p70-closing.md`](../70-holistika-os-self-governance/reports/p70-closing.md).
+- I70 regression sweep: [`p70-regression-2026-05-13.md`](../70-holistika-os-self-governance/reports/p70-regression-2026-05-13.md).
+- Sibling I68 (consumer-repo CI baseline): [`docs/wip/planning/68-cicd-discipline-and-observability-maturity/master-roadmap.md`](../68-cicd-discipline-and-observability-maturity/master-roadmap.md).
+- Promoted candidate provenance: [`promoted-candidate-2026-05-12.md`](promoted-candidate-2026-05-12.md).
+- WORKSPACE_BLUEPRINT §16 (render pipeline ownership): [`WORKSPACE_BLUEPRINT_HOLISTIKA.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/WORKSPACE_BLUEPRINT_HOLISTIKA.md).
+- WORKSPACE_BLUEPRINT §18 (observability routing matrix): same file, section 18.
+- Charter ratification record: [`reports/p0-charter-2026-05-13.md`](reports/p0-charter-2026-05-13.md).
