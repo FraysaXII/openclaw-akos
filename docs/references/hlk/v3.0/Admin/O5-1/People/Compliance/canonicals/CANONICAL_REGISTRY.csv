@@ -93,7 +93,7 @@ brand_ux_designer_charter,Brand UX-Designer Charter,Marketing,Brand/UX Designer,
 brand_gantt_discipline,Brand Gantt Discipline,Marketing,Brand/UX Designer,,discipline,marketing_ux_designer,,,,way_of_working,internal,2026-05-12,,proposed,Future-reserved; authored at P6.
 brand_multilingual_contract,Brand Multilingual Contract,Marketing,Brand,,md,marketing_brand,,,,way_of_working,internal,2026-05-12,,proposed,Future-reserved; authored at P7.
 brand_counterparty_readme_contract,Brand Counterparty README Contract,Marketing,Brand,,md,marketing_brand,,,,way_of_working,internal,2026-05-12,,proposed,Future-reserved; authored at P7.
-engagement_registry,Engagement Registry,Operations,PMO,,csv,operations_pmo,,,,fact,internal,2026-05-12,,proposed,Future-reserved; authored at P8.
+engagement_registry,Engagement Registry,Operations,PMO,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv,csv,compliance,engagement_registry_mirror,engagement_registry_view,op_pmo_engagements,fact;source,internal,2026-05-13,validate_canonical_registry.py,active,I70 P8.1 — 6 seed rows; 9-class enum (extends per §8.17 GOI hunt); compliance.engagement_registry_mirror + governance.engagement_registry_view + archived audit view.
 service_catalog,Service Catalog (SMO),Operations,SMO,,csv,operations_smo,,,,fact,internal,2026-05-12,,proposed,Future-reserved; authored at P8.
 sop_service_mgmt_001,SOP Service Management 001 (SMO),Operations,SMO,,md,operations_smo,,,,way_of_working,internal,2026-05-12,,proposed,Future-reserved; authored at P8.
 sla_matrix,SLA Matrix (SMO),Operations,SMO,,md,operations_smo,,,,way_of_working,internal,2026-05-12,,proposed,Future-reserved; authored at P8.
