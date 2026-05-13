@@ -17,6 +17,22 @@ from akos.models import HlkResponse, OrgRole, ProcessItem
 client = TestClient(app)
 
 
+def _canonical_project_count() -> int:
+    """Count project-granularity rows in the canonical process_list.csv.
+
+    Compute-from-canonical pattern adopted in the 2026-05-11 release-gate
+    hygiene pass: project rows grow as new initiatives charter program lines
+    (Initiative 23 +1, I32 +n, I66 +3, P13.4 +1, future +k). Hardcoding a
+    magic number ('assert == 11') would re-break the test every initiative.
+    Asserting against the canonical CSV makes the test contract honest:
+    'the registry parses N projects; the API surfaces N projects; the CSV
+    declares N projects'.
+    """
+    p = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
+    with p.open("r", encoding="utf-8", newline="") as f:
+        return sum(1 for row in csv.DictReader(f) if (row.get("item_granularity") or "").strip() == "project")
+
+
 class TestHlkModels:
     """Validate that Pydantic models parse real CSV-shaped data."""
 
@@ -149,7 +165,7 @@ class TestHlkRegistry:
     def test_project_summary(self):
         resp = self.reg.get_project_summary()
         assert resp.status == "ok"
-        assert resp.process_count == 11
+        assert resp.process_count == _canonical_project_count()
 
     def test_gaps(self):
         resp = self.reg.get_gaps()
@@ -222,7 +238,7 @@ class TestHlkApi:
         r = client.get("/hlk/processes")
         assert r.status_code == 200
         data = r.json()
-        assert data["process_count"] == 11
+        assert data["process_count"] == _canonical_project_count()
 
     def test_hlk_process_by_id(self):
         r = client.get("/hlk/processes/hol_resea_prj_1")
@@ -354,9 +370,16 @@ class TestHlkProvenance:
         research_roles = [r for r in self.reg._roles if r.area == "Research"]
         assert len(research_roles) >= 7
 
-    def test_eleven_projects(self):
+    def test_canonical_project_count_matches_csv(self):
+        """Registry's project count equals the canonical CSV's project count.
+
+        Renamed from ``test_eleven_projects`` in the 2026-05-11 release-gate
+        hygiene pass after the canonical project count grew past 11 with I22 /
+        I32 / I66 / P13 work. The contract is now compute-from-canonical, not
+        magic-number-locked.
+        """
         projects = [p for p in self.reg._processes if p.item_granularity == "project"]
-        assert len(projects) == 11
+        assert len(projects) == _canonical_project_count()
 
     def test_canonical_process_list_has_no_ambiguous_item_names(self):
         """Duplicate item_name values block parent-id resolution; canonical data must have none."""

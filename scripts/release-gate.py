@@ -113,6 +113,25 @@ def run_process_list_header_check() -> bool:
     return result.success
 
 
+def run_compliance_schema_drift_check() -> bool:
+    """Verify every canonical compliance CSV header matches its akos.* SSOT tuple.
+
+    Generalization of run_process_list_header_check() to the full canonical CSV
+    set (22 CSVs). Authored in the 2026-05-11 release-gate hygiene pass as the
+    structural prevention layer that catches the class of bug that caused the
+    BASELINE_FIELDNAMES drift: a canonical CSV mutated (column appended) but a
+    downstream consumer (sync script tuple / mirror DDL) was not updated in
+    lockstep. Per akos-governance-remediation.mdc Design-for-Invariance.
+    """
+    logger.info("Running compliance schema drift check ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_compliance_schema_drift.py")],
+        timeout=30,
+        capture=False,
+    )
+    return result.success
+
+
 def run_hlk_vault_links_validation() -> bool:
     """Validate internal markdown links under docs/references/hlk/v3.0/."""
     logger.info("Running HLK vault link validation ...")
@@ -404,6 +423,12 @@ def main() -> None:
 
     header_ok = run_process_list_header_check()
     results.append(("PASS" if header_ok else "FAIL", "process_list.csv header (scripts/check_process_list_header.py)"))
+
+    schema_drift_ok = run_compliance_schema_drift_check()
+    results.append((
+        "PASS" if schema_drift_ok else "FAIL",
+        "Compliance schema drift (scripts/validate_compliance_schema_drift.py — 22 canonical CSVs vs akos.* SSOT tuples; release-gate hygiene 2026-05-11)",
+    ))
 
     vault_links_ok = run_hlk_vault_links_validation()
     results.append(("PASS" if vault_links_ok else "FAIL", "HLK vault links (scripts/validate_hlk_vault_links.py)"))

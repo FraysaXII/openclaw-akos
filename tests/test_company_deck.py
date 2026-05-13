@@ -404,18 +404,40 @@ def test_slide_06_has_madeira_card():
 
 
 def test_slide_11_pillar_1_quotes_governance_metrics():
-    """Initiative 30 P4 + D-IH-30-D: slide 11 pillar 1 must quote the governance
-    metrics — at least the topic count (28) and the process count (1.100)."""
+    """Initiative 30 P4 + D-IH-30-D: slide 11 pillar 1 must quote the governance metrics.
+
+    Refactored in the 2026-05-11 release-gate hygiene pass: the hardcoded
+    ``1.100 procesos`` / ``65 roles`` quotes re-broke this test every initiative
+    that touched the canonical CSVs. The contract now asserts that the slide
+    quotes whatever the canonical CSV row counts currently are (the deck is a
+    hand-synced artifact per D-IH-30-D; tests verify the sync is current).
+    """
+    import csv as _csv
+
+    from akos.io import REPO_ROOT as _REPO_ROOT
+
     txt = _load_yaml_text()
     assert "Operación gobernada y medible" in txt or "Operacion gobernada y medible" in txt, (
         "slide 11 pillar 1 title must be 'Operacion gobernada y medible'"
     )
-    assert "28 temas" in txt, "slide 11 pillar 1 must quote 28 governed topics per GOVERNANCE_MOAT parity"
-    assert "1.100 procesos" in txt or "1100 procesos" in txt, (
-        "slide 11 pillar 1 must quote the 1.100 governed-processes count"
+
+    def _csv_rows(rel: str) -> int:
+        with (_REPO_ROOT / rel).open("r", encoding="utf-8", newline="") as f:
+            return sum(1 for _ in _csv.DictReader(f))
+
+    topic_count = _csv_rows("docs/references/hlk/compliance/dimensions/TOPIC_REGISTRY.csv")
+    process_count = _csv_rows("docs/references/hlk/compliance/process_list.csv")
+    role_count = _csv_rows("docs/references/hlk/compliance/baseline_organisation.csv")
+
+    assert f"{topic_count} temas" in txt, (
+        f"slide 11 pillar 1 must quote {topic_count} governed topics per GOVERNANCE_MOAT parity"
     )
-    assert "65 roles" in txt, (
-        "slide 11 pillar 1 must quote the 65 defined-roles count"
+    process_es_thousands = f"{process_count // 1000}.{process_count % 1000:03d}"
+    assert f"{process_es_thousands} procesos" in txt or f"{process_count} procesos" in txt, (
+        f"slide 11 pillar 1 must quote {process_count} (or '{process_es_thousands}') governed-processes count"
+    )
+    assert f"{role_count} roles" in txt, (
+        f"slide 11 pillar 1 must quote the {role_count} defined-roles count"
     )
 
 

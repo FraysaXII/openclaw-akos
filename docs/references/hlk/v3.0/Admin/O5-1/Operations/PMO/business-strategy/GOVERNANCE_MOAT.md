@@ -29,8 +29,8 @@ A fecha de **2026-04-30**, el repositorio canónico de Holística contiene:
 | Métrica | Valor | Cómo se verifica |
 |:--------|:------|:-----------------|
 | **Temas gobernados** | **28** | `py scripts/validate_topic_registry.py` reporta `Rows validated: 28` (Initiative 32 P10: +4 — skill_registry, touchpoint_kit_cell_registry, policy_register, repo_health_snapshot; Initiative 47 P1: +1 — persona_scenario_registry) |
-| **Procesos gobernados** | **1.103** | `py scripts/sync_compliance_mirrors_from_csv.py --count-only` reporta `process_list_rows=1103` (Initiative 49: +7 filas MADEIRA quality / verdict / lifecycle management; Initiative 63 P4: +3 filas blessing/drift/schema-propagation, role_owner=DevOPS/System Owner) |
-| **Roles definidos** | **65** | `py scripts/sync_compliance_mirrors_from_csv.py --count-only` reporta `baseline_organisation_rows=65` |
+| **Procesos gobernados** | **1.125** | `py scripts/sync_compliance_mirrors_from_csv.py --count-only` reporta `process_list_rows=1125` (Initiative 49: +7 filas MADEIRA quality / verdict / lifecycle management; Initiative 63 P4: +3 filas blessing/drift/schema-propagation, role_owner=DevOPS/System Owner; Initiative 66: +22 filas brand canon + IntelligenceOps + Engagement Operations + Trademark Naming Governance) |
+| **Roles definidos** | **66** | `py scripts/sync_compliance_mirrors_from_csv.py --count-only` reporta `baseline_organisation_rows=66` (P13.4 D-W13-E: +1 fila `Holistik Researcher Trainee` bajo `Holistik Researcher`, access_level=2, rate 25/35/50) |
 | **Manifests Output 1 (KM visuales)** | **16** | `py scripts/validate_hlk_km_manifests.py` reporta 16 archivos con `OVERALL: PASS` (Initiative 59 P9: +2 — SOP-INITIATIVE_GOVERNANCE_001, SOP-INITIATIVE_PROCESS_HARMONISATION_001; Initiative 63 P0: +3 — SOP-EXTERNAL_REPO_BLESSING_001, SOP-EXTERNAL_REPO_DRIFT_REMEDIATION_001, SOP-CROSS_REPO_SCHEMA_PROPAGATION_001) |
 
 Cada cifra está respaldada por un CSV canónico con un validador determinista. No son promesas: son inventarios vivos que fallan la integración continua si alguien los altera sin actualizar la fuente.

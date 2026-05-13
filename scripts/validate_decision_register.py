@@ -3,8 +3,10 @@
 
 Schema enforcement:
 - Required header matches DECISION_REGISTER_FIELDNAMES.
-- decision_id matches the standard ^D-IH-\\d{1,3}-[A-Z](-V\\d+)?$ pattern OR the
-  closure-decision pattern ^D-IH-\\d{1,3}-Decision-P\\d+(-[A-Z0-9-]+)?-\\d{4}-\\d{2}-\\d{2}$.
+- decision_id matches the standard ^D-IH-\\d{1,3}-[A-Z]{1,2}(-V\\d+)?$ pattern (single-
+  letter A-Z OR double-letter AA-ZZ; the latter was added in the 2026-05-11 release-gate
+  hygiene pass after I66 minted decisions U..AD without the regex tolerating AA-AD) OR
+  the closure-decision pattern ^D-IH-\\d{1,3}-Decision-P\\d+(-[A-Z0-9-]+)?-\\d{4}-\\d{2}-\\d{2}$.
 - initiating_initiative_id FK to INITIATIVE_REGISTRY.csv.
 - linked_initiative_ids / linked_ops_action_ids / linked_policies / linked_topic_ids FK
   to their respective registries (semicolon lists; nullable).
@@ -44,7 +46,7 @@ OPS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "OPS_REGIST
 POLICY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POLICY_REGISTER.csv"
 TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
 
-DECISION_ID_STANDARD_RE = re.compile(r"^D-IH-\d{1,3}-[A-Z](-V\d+)?$")
+DECISION_ID_STANDARD_RE = re.compile(r"^D-IH-\d{1,3}-[A-Z]{1,2}(-V\d+)?$")
 DECISION_ID_CLOSURE_RE = re.compile(r"^D-IH-\d{1,3}-Decision-P\d+(-[A-Z0-9-]+)?-\d{4}-\d{2}-\d{2}$")
 DECISION_ID_INITIATIVE_CLOSURE_RE = re.compile(r"^D-IH-\d{1,3}-CLOSURE(-[A-Z0-9-]+)?$")
 DECISION_ID_OPS_RE = re.compile(r"^D-IH-OPS-\d{1,3}$")

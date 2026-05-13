@@ -127,9 +127,21 @@ def test_sync_dry_run_reports_six_new_labels() -> None:
         assert needle in output, f"missing log fragment {needle!r} in:\n{output}"
 
 
-def test_existing_role_process_program_topic_unchanged() -> None:
-    """R-32-15 mitigation: additive extension does not perturb existing graph."""
+def test_graph_label_counts_match_registry() -> None:
+    """R-32-15 mitigation: additive extension does not perturb existing graph.
+
+    Renamed from ``test_existing_role_process_program_topic_unchanged`` in the
+    2026-05-11 release-gate hygiene pass. The original assertions hardcoded the
+    I32-baseline-post-P4 snapshot counts (65 roles / 1103 processes / 12 programs
+    / 28 topics), which re-broke this test every initiative that touched the
+    canonical CSVs (P13.4 +1 role, I66 +22 processes, etc.). The contract is now
+    "graph node counts match the registry's loaded row counts" — a structural
+    invariant that captures the same R-32-15 mitigation without locking the
+    test to a particular point in the vault's lifecycle.
+    """
     sys.path.insert(0, str(REPO_ROOT))
+    import csv as _csv
+
     from akos.hlk import get_hlk_registry
     from akos.hlk_graph_model import (
         assert_graph_registry_parity,
@@ -140,14 +152,28 @@ def test_existing_role_process_program_topic_unchanged() -> None:
 
     reg = get_hlk_registry()
     nodes, edges = build_hlk_csv_graph(reg)
-    # Existing parity check still holds (no new label perturbs it).
     assert_graph_registry_parity(reg, nodes, edges)
     prog_nodes, _ = build_program_graph(reg)
     topic_nodes, _ = build_topic_graph(reg)
-    # Sanity: counts match the I32 baseline post-P4.
-    assert sum(1 for n in nodes if n.label == "Role") == 65
-    assert sum(1 for n in nodes if n.label == "Process") == 1103
-    assert len(prog_nodes) == 12
-    # Topic registry grows by 1 per dimension/operational-mirror addition; post-I47 P1
-    # the count is 28 (27 post-I32 P10 + persona_scenario_registry from I47 P1).
-    assert len(topic_nodes) == 28
+
+    role_count = sum(1 for n in nodes if n.label == "Role")
+    process_count = sum(1 for n in nodes if n.label == "Process")
+    assert role_count == len(reg._roles), (
+        f"graph 'Role' label count {role_count} != registry roles {len(reg._roles)}"
+    )
+    assert process_count == len(reg._processes), (
+        f"graph 'Process' label count {process_count} != registry processes {len(reg._processes)}"
+    )
+
+    def _csv_rows(rel: str) -> int:
+        with (REPO_ROOT / rel).open("r", encoding="utf-8", newline="") as f:
+            return sum(1 for _ in _csv.DictReader(f))
+
+    prog_csv_rows = _csv_rows("docs/references/hlk/compliance/dimensions/PROGRAM_REGISTRY.csv")
+    topic_csv_rows = _csv_rows("docs/references/hlk/compliance/dimensions/TOPIC_REGISTRY.csv")
+    assert len(prog_nodes) == prog_csv_rows, (
+        f"program graph node count {len(prog_nodes)} != PROGRAM_REGISTRY rows {prog_csv_rows}"
+    )
+    assert len(topic_nodes) == topic_csv_rows, (
+        f"topic graph node count {len(topic_nodes)} != TOPIC_REGISTRY rows {topic_csv_rows}"
+    )

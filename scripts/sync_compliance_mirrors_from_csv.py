@@ -33,6 +33,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from akos.hlk_adviser_disciplines_csv import ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES  # noqa: E402
 from akos.hlk_adviser_questions_csv import ADVISER_OPEN_QUESTIONS_FIELDNAMES  # noqa: E402
+from akos.hlk_baseline_org_csv import BASELINE_ORGANISATION_FIELDNAMES  # noqa: E402  # release-gate hygiene 2026-05-11
 from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIELDNAMES  # noqa: E402
 from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES  # noqa: E402
@@ -86,21 +87,14 @@ OPS_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "O
 CYCLE_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "CYCLE_REGISTER.csv"
 DECISION_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "DECISION_REGISTER.csv"
 
-# Must match sql-proposal-stack-20260417 §4.3
-BASELINE_FIELDNAMES: tuple[str, ...] = (
-    "org_uuid",
-    "role_name",
-    "role_description",
-    "role_full_description",
-    "access_level",
-    "reports_to",
-    "area",
-    "entity",
-    "org_id",
-    "sop_url",
-    "responsible_processes",
-    "components_used",
-)
+# SSOT for the baseline_organisation column contract is akos.hlk_baseline_org_csv.
+# This local alias preserves the existing in-module name without re-declaring the
+# tuple body (release-gate hygiene 2026-05-11: closes a 3-column drift between
+# the prior 12-column hardcode and the 15-column CSV header that has carried the
+# role_hourly_*_eur rate trio since at least the I12 P12 commit 8296512).
+# Per akos-governance-remediation.mdc DI principle: extend SSOT instead of
+# duplicating; the canonical fieldnames live in akos/, scripts import.
+BASELINE_FIELDNAMES = BASELINE_ORGANISATION_FIELDNAMES
 
 
 def _git_head_sha() -> str:

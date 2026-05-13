@@ -138,21 +138,34 @@ def test_json_report_run_id_is_uuid(json_run: subprocess.CompletedProcess) -> No
         assert row["run_id"] == run_id
 
 
-def test_json_report_baseline_row_counts_match_i31_uat(json_run: subprocess.CompletedProcess) -> None:
-    """I29/I30/I31 baseline regression: row counts in inline checks match the
-    documented post-I31 vault state plus Initiative 49 process tranche (12 programs / 1100
-    processes / 65 roles), bumped to 1103 after I63 P4 minted three external-repo SOP
-    rows (1100 → 1103: SOP-EXTERNAL_REPO_BLESSING_001, SOP-EXTERNAL_REPO_DRIFT_REMEDIATION_001,
-    SOP-CROSS_REPO_SCHEMA_PROPAGATION_001)."""
+def test_json_report_baseline_row_counts_match_csv(json_run: subprocess.CompletedProcess) -> None:
+    """Dispatcher emits inline row counts that match the canonical CSVs (compute-from-canonical).
+
+    Renamed from ``test_json_report_baseline_row_counts_match_i31_uat`` in the
+    2026-05-11 release-gate hygiene pass. The original hardcoded ``== 65`` /
+    ``== 1103`` magic numbers re-broke this test every initiative that touched
+    ``baseline_organisation.csv`` or ``process_list.csv``. The contract is now
+    "the dispatcher's emitted row count matches the canonical CSV's actual row
+    count" — a structural invariant that doesn't drift with legitimate growth.
+    """
+    import csv as _csv
+
     payload = json.loads(json_run.stdout)
     by_name = {row["validator_name"]: row for row in payload["runs"]}
-    assert by_name["inline_org_csv_parse"]["row_count"] == 65, (
-        "expected 65 org rows (I29/I30/I31 baseline); got "
-        f"{by_name['inline_org_csv_parse']['row_count']}"
+
+    def _row_count(rel: str) -> int:
+        with (REPO_ROOT / rel).open("r", encoding="utf-8", newline="") as f:
+            return sum(1 for _ in _csv.DictReader(f))
+
+    expected_org = _row_count("docs/references/hlk/compliance/baseline_organisation.csv")
+    expected_proc = _row_count("docs/references/hlk/compliance/process_list.csv")
+    assert by_name["inline_org_csv_parse"]["row_count"] == expected_org, (
+        f"dispatcher org row_count drift: dispatcher emitted "
+        f"{by_name['inline_org_csv_parse']['row_count']}; canonical CSV has {expected_org}"
     )
-    assert by_name["inline_process_csv_parse"]["row_count"] == 1103, (
-        "expected 1103 process rows (I49 management tranche baseline + I63 P4 SOP tranche); got "
-        f"{by_name['inline_process_csv_parse']['row_count']}"
+    assert by_name["inline_process_csv_parse"]["row_count"] == expected_proc, (
+        f"dispatcher process row_count drift: dispatcher emitted "
+        f"{by_name['inline_process_csv_parse']['row_count']}; canonical CSV has {expected_proc}"
     )
 
 

@@ -1,7 +1,17 @@
-"""Smoke tests for sync_compliance_mirrors_from_csv.py."""
+"""Smoke tests for sync_compliance_mirrors_from_csv.py.
+
+Row-count assertions follow the compute-from-canonical pattern adopted in the
+2026-05-11 release-gate hygiene pass: every count is derived from the canonical
+CSV at test time rather than hardcoded. This makes the tests structurally
+resilient to legitimate CSV growth (new I22 / I31 / P13.4 / future-initiative
+rows) while still catching real script bugs (the emitted count diverging from
+the CSV's actual count). The tripwire concern — "did the canonical row count
+change?" — belongs elsewhere (release-notes / changelog), not in this test.
+"""
 
 from __future__ import annotations
 
+import csv
 import subprocess
 import sys
 import tempfile
@@ -16,7 +26,36 @@ from scripts.sync_compliance_mirrors_from_csv import (  # noqa: E402
 )
 
 
+def _csv_row_count(rel_path: str) -> int:
+    """Count non-header rows in a canonical CSV (relative to repo root)."""
+    p = REPO_ROOT / rel_path
+    with p.open("r", encoding="utf-8", newline="") as f:
+        return sum(1 for _ in csv.DictReader(f))
+
+
+# Canonical CSVs whose row counts the sync script's --count-only output mirrors.
+# Each key is the script's emitted counter name; each value is the canonical CSV
+# path relative to repo root. Keep this map in sync with sync_compliance_mirrors_from_csv
+# whenever a new mirror is added.
+_COUNTED_CSVS: dict[str, str] = {
+    "process_list_rows": "docs/references/hlk/compliance/process_list.csv",
+    "baseline_organisation_rows": "docs/references/hlk/compliance/baseline_organisation.csv",
+    "finops_counterparty_register_rows": "docs/references/hlk/compliance/FINOPS_COUNTERPARTY_REGISTER.csv",
+    "goipoi_register_rows": "docs/references/hlk/compliance/dimensions/GOI_POI_REGISTER.csv",
+    "adviser_engagement_disciplines_rows": "docs/references/hlk/compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv",
+    "adviser_open_questions_rows": "docs/references/hlk/compliance/ADVISER_OPEN_QUESTIONS.csv",
+    "founder_filed_instruments_rows": "docs/references/hlk/compliance/FOUNDER_FILED_INSTRUMENTS.csv",
+    "program_registry_rows": "docs/references/hlk/compliance/dimensions/PROGRAM_REGISTRY.csv",
+    "topic_registry_rows": "docs/references/hlk/compliance/dimensions/TOPIC_REGISTRY.csv",
+    "persona_registry_rows": "docs/references/hlk/compliance/dimensions/PERSONA_REGISTRY.csv",
+    "persona_scenario_registry_rows": "docs/references/hlk/compliance/dimensions/PERSONA_SCENARIO_REGISTRY.csv",
+    "channel_touchpoint_registry_rows": "docs/references/hlk/compliance/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv",
+    "sourcing_register_rows": "docs/references/hlk/compliance/dimensions/SOURCING_REGISTER.csv",
+}
+
+
 def test_sync_compliance_mirrors_count_only() -> None:
+    """Every emitted counter matches its canonical CSV's row count (compute-from-CSV)."""
     r = subprocess.run(
         [sys.executable, str(REPO_ROOT / "scripts" / "sync_compliance_mirrors_from_csv.py"), "--count-only"],
         cwd=REPO_ROOT,
@@ -25,23 +64,13 @@ def test_sync_compliance_mirrors_count_only() -> None:
         check=False,
     )
     assert r.returncode == 0, r.stderr + r.stdout
-    assert "process_list_rows=1103" in r.stdout
-    assert "baseline_organisation_rows=" in r.stdout
-    assert "finops_counterparty_register_rows=2" in r.stdout
-    assert "goipoi_register_rows=6" in r.stdout
-    assert "adviser_engagement_disciplines_rows=6" in r.stdout
-    assert "adviser_open_questions_rows=12" in r.stdout
-    assert "founder_filed_instruments_rows=1" in r.stdout
-    assert "program_registry_rows=12" in r.stdout
-    # Initiative 32 P2/P3/P4/P7: +4 topic rows; Initiative 47 P1: +1 (persona_scenario_registry) -> 28.
-    assert "topic_registry_rows=28" in r.stdout
-    # Initiative 31 P2.1 / P3 / P5.2 — three new dimension registers.
-    assert "persona_registry_rows=16" in r.stdout
-    # I51 P1 (closes OPS-47-9): persona_scenario_registry mirror reseed wired up.
-    # Row count: 326 (I47 base) + 3 telemetry-merged scaffolds (I50 P5) = 329.
-    assert "persona_scenario_registry_rows=329" in r.stdout
-    assert "channel_touchpoint_registry_rows=10" in r.stdout
-    assert "sourcing_register_rows=" in r.stdout
+    for counter, csv_path in _COUNTED_CSVS.items():
+        expected = _csv_row_count(csv_path)
+        needle = f"{counter}={expected}"
+        assert needle in r.stdout, (
+            f"counter mismatch: expected '{needle}' (from {csv_path}); "
+            f"--count-only stdout was:\n{r.stdout}"
+        )
     assert "source_git_sha=" in r.stdout
 
 
@@ -164,13 +193,15 @@ def test_sync_persona_scenario_registry_only_sql() -> None:
     assert first_row, "expected SCN-OP-001-V1 row in emitted SQL"
     # SCN-OP-001-V1 has empty tenant_id in the CSV; assert the NULL emission.
     assert "'OPERATOR', 'SKILL-MADEIRA-LOOKUP-V1', NULL," in first_row
-    # Row count assertion: 329 INSERT statements (one per scenario row).
     insert_count = sum(
         1
         for line in out.splitlines()
         if line.startswith("INSERT INTO compliance.persona_scenario_registry_mirror")
     )
-    assert insert_count == 329, f"expected 329 INSERT rows, got {insert_count}"
+    expected = _csv_row_count("docs/references/hlk/compliance/dimensions/PERSONA_SCENARIO_REGISTRY.csv")
+    assert insert_count == expected, (
+        f"expected {expected} INSERT rows (one per scenario row in canonical CSV), got {insert_count}"
+    )
 
 
 # ---------------------------------------------------------------------------
