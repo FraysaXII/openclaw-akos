@@ -530,6 +530,11 @@ class OrgRole(BaseModel):
     sop_url: str = ""
     responsible_processes: str = ""
     components_used: str = ""
+    role_hourly_min_eur: str = ""
+    role_hourly_par_eur: str = ""
+    role_hourly_max_eur: str = ""
+    sub_area: str = ""
+    status: str = ""
 
 
 class ProcessItem(BaseModel):

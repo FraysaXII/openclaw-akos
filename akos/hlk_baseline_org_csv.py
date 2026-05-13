@@ -22,6 +22,12 @@ from __future__ import annotations
 # pricing initiative (rate bands per role for SOP-ENG_ESTIMATION_DISCIPLINE_001
 # and downstream proposal-tarification rendering) and remained un-mirrored
 # until the 2026-05-11 hygiene pass added them to the mirror DDL.
+# Columns 16-17 (sub_area + status) were added by I70 P8 §8.14 (operator
+# ratification 2026-05-13, D-IH-70-Z) as part of the v3.1 methodology
+# versioning rework: sub_area enables hierarchical encoding within an area
+# (e.g. Marketing/Reach, People/Compliance, Operations/SMO); status enables
+# soft-state tracking (active / deprecated / pending) without hard-removing
+# rows when an org-design refinement is in flight.
 BASELINE_ORGANISATION_FIELDNAMES: tuple[str, ...] = (
     "org_uuid",
     "role_name",
@@ -38,4 +44,6 @@ BASELINE_ORGANISATION_FIELDNAMES: tuple[str, ...] = (
     "role_hourly_min_eur",
     "role_hourly_par_eur",
     "role_hourly_max_eur",
+    "sub_area",
+    "status",
 )
