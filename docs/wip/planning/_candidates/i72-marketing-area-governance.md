@@ -6,6 +6,7 @@ authored: 2026-05-12
 parent_initiative: 70 (closing scaffold)
 priority: 2
 supersedes: I67 (RevOps Discovery)
+language: en
 ---
 
 # I72 candidate — Marketing Area Governance

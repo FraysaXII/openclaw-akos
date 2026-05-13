@@ -5,6 +5,7 @@ status: candidate
 authored: 2026-05-12
 parent_initiative: 70 (closing scaffold)
 priority: 3
+language: en
 ---
 
 # I73 candidate — People Operations + Learning curriculum

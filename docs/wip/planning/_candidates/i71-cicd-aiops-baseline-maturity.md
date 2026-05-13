@@ -5,6 +5,7 @@ status: candidate
 authored: 2026-05-12
 parent_initiative: 70 (closing scaffold)
 priority: 1
+language: en
 ---
 
 # I71 candidate — CICD + AI-ops baseline maturity

@@ -5,6 +5,7 @@ status: candidate
 authored: 2026-05-12
 parent_initiative: 70 (closing scaffold)
 priority: 4
+language: en
 ---
 
 # I74 candidate — Brand-tooling productization
