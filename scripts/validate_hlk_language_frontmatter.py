@@ -80,6 +80,15 @@ SKIP_PATH_PATTERNS = [
     re.compile(r"docs[\\/]references[\\/]hlk[\\/]previous-project-for-product-owner-example-only[\\/]"),
     # Older closed initiatives' top-level artifacts (only the latest few new initiatives carry the frontmatter contract).
     re.compile(r"docs[\\/]wip[\\/]planning[\\/](?!31-)\d+[a-z]?-[^\\/]+[\\/](?!.*language)"),
+    # Engagement source-materials (I70 P9.7, 2026-05-13): raw inputs to engagements
+    # (3rd-party transcripts, EFA-authored CDC, gdrive document snapshots, audio
+    # source files). These are NOT authored canonicals subject to the language-
+    # frontmatter contract; they're upstream artifacts we synthesize into canonical
+    # outputs. Same spirit as `Research & Logic/v2.7/` exclusion above.
+    re.compile(r"[\\/]source-materials[\\/]"),
+    # Engagement-pack archived deliverable copies (e.g., `_archive/2026-05-10-pre-efa-collab/`).
+    # These are frozen historical exports, not editable canonicals.
+    re.compile(r"[\\/]_archive[\\/]"),
 ]
 
 ALLOWED_LANGUAGES = {"en", "es", "fr"}
