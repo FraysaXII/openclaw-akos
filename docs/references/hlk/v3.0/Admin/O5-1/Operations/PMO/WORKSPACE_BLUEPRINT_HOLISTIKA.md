@@ -423,18 +423,50 @@ Operator quote 2026-05-10: *"we'll eventually ship madeira differently from this
 
 **MADEIRA-AKOS as the destination home.** Per Conundrum 5 + D-IH-70-K, `v3.0/Envoy Tech Lab/MADEIRA-AKOS/` (created at P4.8 NEW) is the reserved folder where the migration lands. MADEIRA-AKOS doubles as: (a) the eventual MADEIRA productization home, (b) a non-MADEIRA AI-agent registry under `historical-AIC/` per the P2.5 audit ratification D-IH-70-V (operator's interactions with the Cursor agent today are MADEIRA's empirical proof point per founder principle 2.7). 
 
-## 16. Render pipeline ownership matrix (cross-link to Phase 10)
+## 16. Render pipeline ownership matrix (full table; I70 P10 expansion)
 
-Stub section. The Render pipeline ([`scripts/render_*_engagement_pdfs.py`](../../../../../../scripts/) and [`akos/hlk_pdf_render.py`](../../../../../../akos/hlk_pdf_render.py)) is NOT a Tech-Lab artifact; it is jointly owned by:
+> Authored I70 P10 per plan section 10. Extends the prior §16 stub with the full per-owner responsibility table + transition triggers + per-deliverable owner-coverage check.
 
-- **Brand sub-disciplines** (UX-Designer + Copywriter + Design + AV) for the visual + voice + asset primitives (P5 + P6 charters).
-- **PMO** for engagement-deliverable orchestration.
-- **RevOps** (future I72 — Marketing Area Governance) for the engagement template + registry.
-- **HLK Tech Lab** for runtime + dependencies.
-- **SMO** (Operations/SMO/, newly active per P8 §8.6) for service-management surface around the rendered artifact (delivery cadence, customer-success follow-up, version release notes).
-- **Account Management** (Marketing/Resonance/, newly active per P8 §8.4) for relationship + retention deployment of the rendered artifacts.
+The Render pipeline ([`scripts/render_*_engagement_pdfs.py`](../../../../../../scripts/) and [`akos/hlk_pdf_render.py`](../../../../../../akos/hlk_pdf_render.py)) is **jointly owned by 6 areas/roles**. Per the load-bearing rule: every customer-facing rendered artifact passes the gate of **all 6 owners** before ship.
 
-Phase 10 §10.5 carries the full ownership matrix table with transition triggers (PMO → RevOps; HLK Tech Lab → productization tied to future-OS-shape scenarios per §15.2).
+### 16.1 Per-owner responsibility table
+
+| Owner | Primary responsibility | Sub-deliverable artifacts | Validators / gates | Transition trigger |
+|:---|:---|:---|:---|:---|
+| **Brand/AV** (Marketing/Brand/AV) | audio + video primitives | future founder-bio podcast cuts; investor-pitch video render path (BRAND_AV_CHARTER reserved) | (none active today; reserved) | First AV deliverable activates discipline |
+| **Brand/Copywriter** (Marketing/Brand/Copywriter) | sentence-level prose register | per-engagement deck/proposal/Gantt prose; BRAND_COPYWRITING_DISCIPLINE 7-tic-families | `validate_brand_voice_register.py` (active strict; copywriting-discipline rule pack reserved I71) | Becomes mandatory mechanical gate when I71 rule pack ships |
+| **Brand/Design** (Marketing/Brand/Design) | visual-systems primitives | BRAND_TOKENS_LIGHT/DARK; BRAND_VISUAL_PATTERNS; BRAND_LOGO_SYSTEM; BRAND_COBRANDING_PATTERN | `validate_brand_canon_drift.py` (active) | Already active; no transition |
+| **Brand/UX-Designer** (Marketing/Brand/UX-Designer) | interaction patterns + IA primitives | slide layout primitives in `_brand_pdf_css_slides()`; BRAND_GANTT_DISCIPLINE; BRAND_COUNTERPARTY_README_CONTRACT; slide-legibility QA discipline | `validate_brand_gantt_discipline.py` reserved I71; slide-legibility QA mostly operator-eye today | Becomes mechanical when I71 rule pack ships |
+| **PMO** (Operations/PMO) | engagement-deliverable orchestration | per-engagement deck/proposal/tarification/Gantt; engagement folder structure; BRAND_TEMPLATE_REGISTRY; engagement-template (Clients + Advisers) | `validate_dossier_companion_drift.py` (active); WORKSPACE_BLUEPRINT_HOLISTIKA cross-references | **Transition: PMO → RevOps** when I72 RevOps activates Marketing Area Governance; PMO retains meta-governance per §17 |
+| **RevOps** (Marketing/Reach + Marketing/Resonance via I72) | engagement template promotion machine + per-customer template selection + acquisition→engagement lifecycle | per-engagement template fork pattern (per P2.4 previous-project annex 6 patterns); ENGAGEMENT_REGISTRY consumer; engagement-as-product framing | (forward-link to I72 deliverables) | **Transition: future I72 charter activation** |
+| **HLK Tech Lab** (Tech/System Owner / Envoy Tech Lab) | runtime + dependencies + infra | render-script Python deps (WeasyPrint 52.5; pypdf); CSS engine constraints; build pipeline (per SOP-CICD_BASELINE_001 future state) | `validate_cicd_baseline.py` (active soft) | **Transition: HLK Tech Lab → productization** tied to future-OS-shape scenarios per §15.2 (Scenario B / B' library fork); render pipeline becomes library-imported |
+| **SMO** (Operations/SMO; active per P8 §8.6) | service-management surface around rendered artifact | delivery cadence per `SLA_MATRIX.md` tier; customer-success follow-up; version release notes per artifact | `SLA_MATRIX` Tier 2 (Standard) default for customer-pack deliverables | Already active per P8; no transition |
+| **Account Management** (Marketing/Resonance/Account Management; active per P8 §8.4) | per-account relationship + retention; per-engagement narrative-artifact deployment | per-customer engagement narrative briefs; case-study deployments; relationship-health signals back to Storytelling | (forward-link to ACCOUNT_MANAGEMENT_CHARTER reserved P8 follow-on) | Already active per P8; no transition |
+
+### 16.2 Per-deliverable owner-coverage check
+
+Every customer-facing rendered artifact (deck.customer.fr.pdf, proposal.customer.fr.pdf, tarification.customer.fr.pdf, gantt.customer.fr.md/pdf, dossier per investor-pack) must demonstrate coverage by ALL 6 currently-active owners (Brand sub-disciplines + PMO + HLK Tech Lab + SMO + Account Management; AV + RevOps reserved). The owner-coverage check is a forward-link to I71 + I72:
+
+- **I71 (CICD + AI-ops baseline maturity)**: extends `release-gate.py` with `validate_render_pipeline_owner_coverage.py` that confirms each customer-pack deliverable passes the per-owner validators.
+- **I72 (Marketing Area Governance, renamed from I67 RevOps Discovery per Conundrum 12)**: activates the RevOps owner; introduces engagement-template promotion machine.
+
+Today the owner-coverage is operator-eye; mechanical enforcement at I71 ship.
+
+### 16.3 Transition triggers
+
+Two specific transitions are forward-tracked here (aligned with §15.2 future-OS-shape scenarios + 4 OS-migration triggers):
+
+- **PMO → RevOps transition**: when I72 ships its P0 charter + first engagement-template promotion. PMO retains meta-governance (per §17 3-tier WIP topology); RevOps owns acquisition-driven template promotion. Drift signal: when 3+ engagements consume the same template pattern, RevOps takes over template-iteration responsibility.
+- **HLK Tech Lab → productization transition**: tied to TRIGGER-1 / TRIGGER-2 in §15.2 (MADEIRA productizes data-detached / AKOS-as-library consumed externally). When either trigger fires, HLK Tech Lab's render-pipeline ownership shifts from "internal pipeline maintenance" to "library publication maintenance" (different cadence + audience). Drift signal: external organization requests AKOS-render-pipeline-without-source-fork.
+
+### 16.4 Cross-references
+
+- BRAND_DISCIPLINE_ONTOLOGY (Marketing/Brand/canonicals/) §3 — single-ownership rule applies inside Brand sub-disciplines; this matrix extends the rule to the full render pipeline.
+- HLK_ERP_ARCHITECTURE (Operations/PMO/canonicals/) §4 — per-area ERP panel inventory; future panel `/operator/operations/pmo/render-pipeline/` reserves an ownership-matrix surface (P10.5).
+- SOP-SERVICE_MGMT_001 (Operations/SMO/canonicals/) — SMO ownership in this matrix.
+- MARKETING_AREA_M3_REDESIGN (Marketing/canonicals/) — Marketing M3 sub-area boundary (Brand sub-disciplines vs Reach vs Resonance vs Storytelling vs Experimentation).
+- I72 (Marketing Area Governance) — RevOps owner activation (renamed from I67 RevOps Discovery per Conundrum 12 + D-IH-70-T).
+- I71 (CICD + AI-ops baseline maturity) — `validate_render_pipeline_owner_coverage.py` reserves mechanical owner-coverage gate.
 
 ## 17. Three-tier WIP topology
 
