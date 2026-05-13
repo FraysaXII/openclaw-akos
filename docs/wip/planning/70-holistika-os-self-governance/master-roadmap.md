@@ -1,10 +1,12 @@
 ---
 initiative_id: INIT-OPENCLAW_AKOS-70
 title: Holistika OS Self-Governance Foundation
-status: active
+status: closed
 owner_role: Founder + PMO + System Owner
 inception: 2026-05-12
-last_review: 2026-05-12
+last_review: 2026-05-13
+closed_at: 2026-05-13
+closure_decision_id: D-IH-70-CLOSURE
 linked_decisions:
   - D-IH-70-A (federal canonicals architecture)
   - D-IH-70-B (Envoy Tech Lab consolidation + full v3.0 file-structure regression)
@@ -32,7 +34,7 @@ authoritative_plan: .cursor/plans/holistika_os_self-governance_foundation_63841b
 
 # I70 — Holistika OS Self-Governance Foundation
 
-> **status: active.** 17 phases (Phase 0 through Phase 11 with sub-phases 4.5/4.6/4.7/4.8 + 10.5) + 1 pre-phase prep step (Pre-Phase-0 H1 cursor rule). Federated SSOT architecture (canonicals owned per area-role; CANONICAL_REGISTRY at People/Compliance), workspace topology, brand sub-discipline governance, multilingual engagement contract, ERP architecture canonical (Phase 4.6) + TSX scaffolds end-of-line at Phase 10.5, Research as new top-level area (Methodology / Intelligence / Diagnosis / Validation), Marketing redesign (Brand / Reach / Resonance / Storytelling / Experimentation), People restructure (Compliance / Ethics / Learning / People Ops), SMO active role with ITIL charter, founder methodology versioning v0 to v3.0, personal-knowledge-corpus governance.
+> **status: closed (2026-05-13).** 17 phases (Phase 0 through Phase 11 with sub-phases 4.5/4.6/4.7/4.8 + 10.5) + 1 pre-phase prep step (Pre-Phase-0 H1 cursor rule). Federated SSOT architecture (canonicals owned per area-role; CANONICAL_REGISTRY at People/Compliance), workspace topology, brand sub-discipline governance, multilingual engagement contract, ERP architecture canonical (Phase 4.6) + TSX scaffolds end-of-line at Phase 10.5, Research as new top-level area (Methodology / Intelligence / Diagnosis / Validation), Marketing redesign (Brand / Reach / Resonance / Storytelling / Experimentation), People restructure (Compliance / Ethics / Learning / People Ops), SMO active role with ITIL charter, founder methodology versioning v0 to v3.0, personal-knowledge-corpus governance.
 
 The authoritative plan body lives in [.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md](../../../../.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md). This master-roadmap is a thin pointer + the WIP planning packet.
 

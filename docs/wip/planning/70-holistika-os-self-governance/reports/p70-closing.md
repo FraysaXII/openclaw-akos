@@ -1,11 +1,11 @@
 ---
 language: en
-status: review
+status: active
 phase: P11 (closing UAT + v3.1 release flag)
 phase_kind: closing-checkpoint
 parent_initiative: 70-holistika-os-self-governance
 authored: 2026-05-12
-last_review: 2026-05-12
+last_review: 2026-05-13
 role_owner: Founder + PMO
 classification: fact
 ssot: false
@@ -13,18 +13,13 @@ ssot: false
 
 # I70 P11 — Closing checkpoint (per-phase deliverable + UAT acceptance)
 
-> Authored I70 P11 per plan section 11. Consolidated phase-by-phase deliverable summary + commit references + UAT acceptance criteria + I71-I75 candidate scaffolds + v3.1 release flag (per operator-stated trigger: "v3.1 release tag follows initiative completion"). Status `review` pending operator UAT pass per §3 below.
+> Operator UAT bands **A through E PASS** on **2026-05-13** (inline `AskQuestion`). Initiative closed via [`D-IH-70-CLOSURE`](../../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) + `INIT-OPENCLAW_AKOS-70` + `OPS-70-1`. Annotated **git tag `v3.1` deferred**: separate lanes for (a) repo tag, (b) methodology major.minor, (c) HLK vault folder `v3.0/` (unchanged until a vault-migration initiative). See section 5.
 
 ## 1. Summary by the numbers
 
 - **17 phases** scoped per plan: Pre-P0 + P0 + P1 + P2 + P3 + P4 + P4.5 + P4.6 + P4.7 + P4.8 + P5 + P6 + P7 + P8 + P9 + P10 + P10.5 + P11.
-- **16 phases shipped** in this session: Pre-P0 + P0 + P1 + P2 + P3 + P4 + P4.5 wave 1 + P4.6 + P4.7 + P4.8 + P5 + P6 + P7 + P8 + P9 + P10.
-- **2 sub-phases deferred** to dedicated operator-driven sessions:
-  - **P4.5 wave 2 + 3** (federated-canonicals migration: 33 + 33 git mv operations + ~24 script-path updates + legacy-link sweep + delete + tombstone). Scope: ~5 days; coordinates with operator's pre-existing release-gate hygiene work.
-  - **P10.5** (TSX scaffolds in `hlk-erp` sibling repo at `C:\Users\Shadow\cd_shadow\root_cd\hlk-erp`). Scope: ~3 days; sibling-repo write access required.
-- **Sub-deliverables also deferred** (alongside P4.5 wave 2/3):
-  - P8 CSV updates: ~10 baseline_organisation.csv role rows + ~10 process_list.csv ops processes + ENGAGEMENT_REGISTRY.csv full build + GOI class regression hunt with inline-ratify §8.7.
-  - P9 §9.8 69-file temp migration matrix CSV + script + execute (with inline-ratify gate per H1).
+- **17 phase scopes shipped** on `main` (including P4.5 waves 2–3, full P8 tranche through P8.5, P9.7 temp migration, P10.5 sibling-repo ERP panels + AKOS cross-links).
+- **No remaining I70 execution deferrals** on the authoritative plan path; follow-on work is chartered forward (I71+).
 
 ## 2. Per-phase deliverable + commit reference
 
@@ -37,120 +32,100 @@ ssot: false
 | **P3** | 25 ratifications recorded (D-IH-70-A through T main + U-Y sub-decisions) + INITIATIVE_REGISTRY + OPS_REGISTER rows + pause-record | `8b030f4` | 5 | n/a (ratified at planning) |
 | **P4** | WORKSPACE_BLUEPRINT §11-§17 + KM_CHANNEL_VALUE_NARRATIVE.md + CLASSIFICATION_LATTICE.md | `8c3915e` | 3 | n/a |
 | **P4.5 W1** | Federal canonicals Wave 1 (Brand pilot, 17 git mv) + CANONICAL_REGISTRY.csv (106 rows) + migration-manifest YAML + executor + validator scripts + 14 in-scope companion fixes | `637b547` | 35 | manifest approval (`opt-approve-execute`) ratified |
-| **P4.5 W2/3** | Federated-canonicals Wave 2 + 3 (66 git mv + legacy-link sweep + delete + tombstone) | **DEFERRED** | — | — |
+| **P4.5 W2** | Federated-canonicals Wave 2 (compliance master + dimensions migration + dependent path updates) | `61e958f` | many | n/a |
+| **P4.5 W3** | Federated-canonicals Wave 3 (remaining areas + legacy-link sweep + tombstone) | `f0c8e9f` | many | n/a |
 | **P4.6** | HLK_ERP_ARCHITECTURE.md heavy-depth canonical (~265 lines) | `318d6d5` | 1 | n/a |
 | **P4.7** | Research as new top-level area + 4 discipline charters + Tier 1 WIP README | `1e2637f` | 6 | n/a |
 | **P4.8** | MADEIRA-AKOS reserved folder + 4 OS-migration triggers + AIC-as-category codification | `e155f66` | 5 | n/a |
 | **P5** | Brand sub-discipline ontology + 4 charters (AV/Copywriter/Design/UX-Designer) + BRAND_COPYWRITING_DISCIPLINE.md (7 tic families + 11 anti-pattern seeds) | `240c448` | 5 | n/a |
 | **P6** | BRAND_GANTT_DISCIPLINE.md + SUEZ Gantt Variant B proof-of-discipline | `070aa53` | 2 | n/a |
 | **P7** | BRAND_MULTILINGUAL_CONTRACT.md + BRAND_COUNTERPARTY_README_CONTRACT.md + SUEZ bilingual READMEs (3-file pattern) | `98c80f2` | 5 | n/a |
-| **P8** | Marketing M3 redesign parent + People restructure parent + SMO active charter + SERVICE_CATALOG.csv + SLA_MATRIX.md (CSV mass updates + GOI hunt deferred) | `8f2559b` | 5 | §8.7 GOI hunt **DEFERRED** |
-| **P9** | FOUNDER_METHODOLOGY_VERSIONING.md + LOGIC_CHANGE_LOG.md + FOUNDER_CORPUS_INVENTORY.md + ETHICAL_AUTOMATION_POSTURE.md (69-file temp migration deferred) | `882a946` | 4 | §9.8 temp migration **DEFERRED** |
+| **P8** | Marketing M3 + People + SMO + Engagement registry + P8.5 GOI hunt (commits through P8.5) | `8f2559b` … `5b3b9be` | many | §8.7 + §8.5 inline-ratify |
+| **P9** | Founder methodology + corpus + P9.7 temp migration executed | `882a946` + `258e8a2` | many | §9.8 inline-ratify (matrix) |
 | **P10** | WORKSPACE_BLUEPRINT §16 render pipeline ownership matrix expansion | `37ae64c` | 1 | n/a |
-| **P10.5** | TSX panel scaffolds in `hlk-erp` sibling repo + 2-way-sync stubs + auth/RLS + UAT inline-ratify | **DEFERRED** | — | §10.5 UAT **DEFERRED** |
-| **P11** | Closing checkpoint + I71-I75 candidate scaffolds + CHANGELOG I70 entry + v3.1 release flag | (this commit) | TBD | n/a |
+| **P10.5** | TSX panels + `/operator` routes + sibling API stub + RLS template SQL + AKOS ERP doc cross-link (hlk-erp PR 22 squash `66a8feb`) | `7ebecab` (AKOS) | 2 + sibling | UAT band E PASS 2026-05-13 |
+| **P11** | Registry closure + this checkpoint + CHANGELOG entry | this commit on `main` | 6 | n/a |
 
-**Total commits shipped: 17 (Pre-P0 through P10 + this P11 commit; +1 P10.5 deferred + P4.5 wave 2/3 + P8 sub-CSV + P9 §9.8 deferred to operator-driven follow-on sessions).**
+**Total commits:** span Pre-P0 through P11; major tranche SHAs cited above.
 
 ## 3. UAT acceptance criteria (operator drives)
 
-Per plan section 11.4 + each phase's UAT acceptance criteria, the closing UAT validates:
+Per plan section 11.4 + each phase's UAT acceptance criteria, the closing UAT validates. **Verdict:** operator bands **A–E PASS** 2026-05-13.
 
 ### 3.1 Architectural deliverables (canonical authoring)
 
-- [ ] WORKSPACE_BLUEPRINT_HOLISTIKA §1-§17 reads coherently end-to-end.
-- [ ] BRAND_DISCIPLINE_ONTOLOGY + 4 sub-discipline charters + BRAND_COPYWRITING_DISCIPLINE.md (7 tic families) ship at federated home.
-- [ ] BRAND_MULTILINGUAL_CONTRACT + BRAND_COUNTERPARTY_README_CONTRACT.md ship at federated home.
-- [ ] BRAND_GANTT_DISCIPLINE.md + SUEZ Gantt worked example ship.
-- [ ] HLK_ERP_ARCHITECTURE.md (heavy-depth) ships at Operations/PMO/canonicals/.
-- [ ] CANONICAL_REGISTRY.csv (106 rows) + migration-manifest YAML ship.
-- [ ] Research top-level area + 4 discipline charters ship.
-- [ ] MADEIRA-AKOS reserved folder + STATUS.md + AIC-as-category + 4 OS-migration triggers ship.
-- [ ] MARKETING_AREA_M3_REDESIGN.md + PEOPLE_AREA_RESTRUCTURE.md + SOP-SERVICE_MGMT_001 + SERVICE_CATALOG.csv + SLA_MATRIX.md ship.
-- [ ] FOUNDER_METHODOLOGY_VERSIONING + LOGIC_CHANGE_LOG + FOUNDER_CORPUS_INVENTORY + ETHICAL_AUTOMATION_POSTURE ship.
-- [ ] WORKSPACE_BLUEPRINT §16 full render pipeline ownership matrix ships.
+- [x] WORKSPACE_BLUEPRINT_HOLISTIKA §1-§17 reads coherently end-to-end.
+- [x] BRAND_DISCIPLINE_ONTOLOGY + 4 sub-discipline charters + BRAND_COPYWRITING_DISCIPLINE.md (7 tic families) ship at federated home.
+- [x] BRAND_MULTILINGUAL_CONTRACT + BRAND_COUNTERPARTY_README_CONTRACT.md ship at federated home.
+- [x] BRAND_GANTT_DISCIPLINE.md + SUEZ Gantt worked example ship.
+- [x] HLK_ERP_ARCHITECTURE.md (heavy-depth) ships at Operations/PMO/canonicals/.
+- [x] CANONICAL_REGISTRY.csv (106 rows) + migration-manifest YAML ship.
+- [x] Research top-level area + 4 discipline charters ship.
+- [x] MADEIRA-AKOS reserved folder + STATUS.md + AIC-as-category + 4 OS-migration triggers ship.
+- [x] MARKETING_AREA_M3_REDESIGN.md + PEOPLE_AREA_RESTRUCTURE.md + SOP-SERVICE_MGMT_001 + SERVICE_CATALOG.csv + SLA_MATRIX.md ship.
+- [x] FOUNDER_METHODOLOGY_VERSIONING + LOGIC_CHANGE_LOG + FOUNDER_CORPUS_INVENTORY + ETHICAL_AUTOMATION_POSTURE ship.
+- [x] WORKSPACE_BLUEPRINT §16 full render pipeline ownership matrix ships.
 
 ### 3.2 Decision register coverage
 
-- [ ] All 14 D-IH-70-A through D-IH-70-N decisions in DECISION_REGISTER.csv with `status: active`.
-- [ ] All 6 D-IH-70-O through D-IH-70-T conundrum-derived decisions in DECISION_REGISTER.csv.
-- [ ] All 5 D-IH-70-U through D-IH-70-Y P2.5 sub-decisions in DECISION_REGISTER.csv.
-- [ ] INIT-OPENCLAW_AKOS-70 row in INITIATIVE_REGISTRY.csv with `status: active`.
-- [ ] OPS-70-1 row in OPS_REGISTER.csv linking all 25 D-IH-70-* IDs.
+- [x] All D-IH-70-A through D-IH-70-N decisions in DECISION_REGISTER.csv with `status: active`.
+- [x] All D-IH-70-O through D-IH-70-T conundrum-derived decisions in DECISION_REGISTER.csv.
+- [x] All D-IH-70-U through D-IH-70-Y P2.5 sub-decisions in DECISION_REGISTER.csv.
+- [x] Execution-phase decisions D-IH-70-Z through D-IH-70-AD appended per P8–P8.5 and P11 closure row `D-IH-70-CLOSURE`.
+- [x] INIT-OPENCLAW_AKOS-70 row closed (`status: closed`, `closed_at`, `closure_decision_id`).
+- [x] OPS-70-1 row closed; `linked_decision_ids` includes D-IH-70-A through D-IH-70-CLOSURE.
 
 ### 3.3 Validator gates green
 
-- [ ] `validate_hlk.py`: PASS (post-OPS-70-1 + INIT-70 + DECISION fixes per P3 commit).
-- [ ] `validate_brand_jargon.py`: PASS (CANON_DIR points to canonicals/ post-P4.5 W1).
-- [ ] `validate_brand_voice_register.py`: PASS (CANON_DIR points to canonicals/).
-- [ ] `validate_brand_canon_drift.py`: PASS (CANON_DIR + 13 canonicals at federated home).
-- [ ] `validate_brand_vision_drift.py`: PASS (VISION_PATH points to canonicals/).
-- [ ] `validate_brand_baseline_reality_drift.py`: PASS.
-- [ ] `validate_dossier_companion_drift.py`: PASS.
-- [ ] `validate_canonical_registry.py`: PASS (86 active canonicals exist at file_path; no multi-claims).
-- [ ] `validate_hlk_vault_links.py`: PASS.
-- [ ] `release-gate.py` overall: 21 of 22 PASS (browser-smoke pre-existing Windows Playwright environmental carry-over remains).
+- [x] `validate_hlk.py`: PASS (post-registry closure row).
+- [x] `validate_brand_jargon.py`: PASS (CANON_DIR points to canonicals/ post-P4.5 W1).
+- [x] `validate_brand_voice_register.py`: PASS (CANON_DIR points to canonicals/).
+- [x] `validate_brand_canon_drift.py`: PASS (CANON_DIR + 13 canonicals at federated home).
+- [x] `validate_brand_vision_drift.py`: PASS (VISION_PATH points to canonicals/).
+- [x] `validate_brand_baseline_reality_drift.py`: PASS.
+- [x] `validate_dossier_companion_drift.py`: PASS.
+- [x] `validate_canonical_registry.py`: PASS (86 active canonicals exist at file_path; no multi-claims).
+- [x] `validate_hlk_vault_links.py`: PASS.
+- [x] `release-gate.py` overall: 21 of 22 PASS (browser-smoke pre-existing Windows Playwright environmental carry-over remains).
 
 ### 3.4 SUEZ engagement integrity
 
-- [ ] `deck.customer.fr.pdf` (14 pages with Slide 14 counter-cover) renders cleanly.
-- [ ] `proposal.customer.fr.pdf` carries the 11-rewrite + section 1 + section 6 polish.
-- [ ] `tarification.customer.fr.pdf` ships unchanged.
-- [ ] `gantt.customer.fr.md` (P6 worked example) renders inline (no PDF render path yet; mermaid native).
-- [ ] `README.md` (5-line pointer) + `README.fr.md` + `README.en.md` (P7 3-file bilingual pattern) ship.
-- [ ] All 7 PDF surfaces in `_exports/` regenerated with new sha256 in `render-manifest.json`.
+- [x] `deck.customer.fr.pdf` (14 pages with Slide 14 counter-cover) renders cleanly.
+- [x] `proposal.customer.fr.pdf` carries the 11-rewrite + section 1 + section 6 polish.
+- [x] `tarification.customer.fr.pdf` ships unchanged.
+- [x] `gantt.customer.fr.md` (P6 worked example) renders inline (no PDF render path yet; mermaid native).
+- [x] `README.md` (5-line pointer) + `README.fr.md` + `README.en.md` (P7 3-file bilingual pattern) ship.
+- [x] All 7 PDF surfaces in `_exports/` regenerated with new sha256 in `render-manifest.json`.
 
 ### 3.5 Doc cohesion
 
-- [ ] All cross-references resolve (forward-link to deferred P4.5 W2/3 + P8 CSV + P9 §9.8 + P10.5 + I71-I75 are explicit; non-deferred cross-links resolve mechanically).
-- [ ] `validate_hlk_vault_links.py` PASS.
-- [ ] No orphaned canonical files.
+- [x] Deferred scopes called out explicitly where still relevant (§4); non-deferred cross-links resolve mechanically.
+- [x] `validate_hlk_vault_links.py` PASS.
+- [x] No orphaned canonical files.
 
 ## 4. Deferred work (carry-over to operator-driven sessions)
 
-Three carry-over scopes, each requires a dedicated operator-driven session:
+**Update (closure):** the large P4.5/P8/P9/P10.5 deferral list from mid-initiative checkpoints is **cleared** on `main` (see §2 commit references). **Forward charters:**
 
-1. **P4.5 wave 2 + 3** (federated-canonicals migration completion):
-   - 33 compliance/ git mv to People/Compliance/canonicals/.
-   - 33 remaining-areas git mv (PMO + Engagement + IntelligenceOps + People + Tech + Finance + Envoy).
-   - Repo-wide legacy-link sweep across ~24 Python scripts + ~30 markdown SOPs.
-   - Delete legacy `docs/references/hlk/compliance/` folder.
-   - Author MIGRATED.md tombstone (one release cycle).
-   - Coordinates with operator's pre-existing release-gate hygiene work uncommitted at session-start.
-
-2. **P8 sub-deliverable CSV updates + GOI hunt**:
-   - ~10 baseline_organisation.csv updates (4 People sub-roles + 5+ Marketing M3 sub-area roles + Account Management).
-   - ~10 process_list.csv updates (per-sub-area ops processes; Talent re-attribution).
-   - ENGAGEMENT_REGISTRY.csv full build (~5 rows + Supabase mirror DDL + governance.engagement_registry view + ERP panel slot).
-   - GOI_POI_REGISTER.csv class enum extension (trainee + sister-business per D-IH-70-N) + multi-source regression hunt with inline-ratify §8.7.
-   - Account Management charter at Marketing/Resonance/Account Management/canonicals/.
-
-3. **P9 §9.8 69-file temp migration**:
-   - `temp-move-or-delete-hlk-business-context/` ~69 files (per session-start git status).
-   - Migration matrix CSV per FOUNDER_CORPUS_INVENTORY.md 8-section schema.
-   - Per-section operator-decided destination (some files migrate to engagement folders; some to corpus inventory; some delete).
-   - Inline-ratify gate per H1 + new cursor rule.
-
-4. **P10.5 TSX scaffolds in `hlk-erp` sibling repo**:
-   - ~20 TSX panels per HLK_ERP_ARCHITECTURE §4 inventory.
-   - 2-way-sync stubs per §6.
-   - auth/RLS policies per §7.
-   - UAT inline-ratify on 5 most-important panels.
-   - Commit + push to `C:\Users\Shadow\cd_shadow\root_cd\hlk-erp`.
-   - Cross-link from openclaw-akos at HLK_ERP_ARCHITECTURE end-of-canonical.
+1. **I71** (and siblings): CI/CD + AI-ops baseline maturity; optional **release taxonomy** decision (when to advance openclaw-akos git tags vs methodology `LOGIC_CHANGE_LOG` vs renaming vault path `v3.0/`).
+2. **I72** placeholder (`INIT-OPENCLAW_AKOS-72`): Marketing-area governance + IntelligenceOps follow-ups from P8.5.
+3. **Last-reviewed / versionvisited stamps** for processes, decisions, and key artifacts: propose schema in I71 or a small governance tranche (not blocking I70 closure).
 
 ## 5. v3.1 release flag
 
-Per founder-stated trigger ("v3.1 release tag follows initiative completion"):
+Three distinct notions (do not conflate):
 
-- v3.0 → v3.1 increments per founder principle 2.6 (breakthrough-driven re-versioning).
-- Logged at `LOGIC_CHANGE_LOG.md` row BT-05 (`v3.0 -> v3.1 (post-I70-closure)`).
-- The v3.1 tag activates **after** the deferred work (P4.5 W2/3 + P8 sub-CSV + P9 §9.8 + P10.5) lands. This closing checkpoint represents the **structural readiness** for v3.1; the actual git tag happens post-deferred-execution per operator decision.
-- CHANGELOG entry per §6 below documents the structural readiness.
+| Lane | What it is | I70 closure posture |
+|:---|:---|:---|
+| **Methodology major.minor** | `LOGIC_CHANGE_LOG.md` + D-IH methodology rows (e.g. D-IH-70-Z, AA, AB, AC, AD) | **Advanced** toward v3.1-shaped governance payloads. |
+| **HLK vault folder** | `docs/references/hlk/v3.0/` | **Unchanged** until a dedicated vault migration initiative renames the tree (high churn; out of I70 scope). |
+| **Git tag on openclaw-akos** | Annotated tag `v3.1` on a closure commit | **Deferred** at closure: operator requested explicit policy for tag vs next initiatives vs e2e sweep **before** pushing tags (`D-IH-70-CLOSURE` notes). |
+
+When a ratified policy exists, tag as `git tag -a v3.1 <sha>` and `git push origin v3.1`. Until then, SemVer + CHANGELOG `[Unreleased]` remain the day-to-day repo version line; patch bumps follow conventional change magnitude (not every logic-change row forces a semver minor; `LOGIC_CHANGE_LOG` remains the SSOT for methodology lineage).
 
 ## 6. CHANGELOG entry
 
-A CHANGELOG.md entry under [Unreleased] / Added documents the I70 master initiative shipping (sibling commit). Cross-reference: this closing checkpoint at `docs/wip/planning/70-holistika-os-self-governance/reports/p70-closing.md`.
+CHANGELOG.md under `[Unreleased]` / **Added** documents this closure (sibling commit to registry rows). Cross-reference: this file.
 
 ## 7. I71-I75 candidate scaffolds
 
@@ -171,4 +146,4 @@ Per plan §11.6, 5 candidate initiatives scaffolded under `docs/wip/planning/_ca
 - Phase 2 synthesis: [docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p13.0-canonical-dig-synthesis.md](../../../intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p13.0-canonical-dig-synthesis.md).
 - Phase 2 previous-project annex: [docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p13.0b-previous-project-pattern-extraction.md](../../../intelligence/2026-05-10-suez-webuy-procure-to-pay/checkpoints/p13.0b-previous-project-pattern-extraction.md).
 - I71-I75 candidate scaffolds: `docs/wip/planning/_candidates/i71-*.md` (this commit; see §7 above).
-- All 17 I70 commits (per §2 table) span from `32b364a` to (this P11 commit).
+- All 17 I70 commits (per §2 table) span from `32b364a` through the P11 closure commit on `main` (see git log).
