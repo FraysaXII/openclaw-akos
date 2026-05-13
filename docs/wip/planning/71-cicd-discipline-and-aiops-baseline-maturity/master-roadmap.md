@@ -11,7 +11,9 @@ linked_decisions:
   - D-IH-71-A (validator pack definition — four packs)
   - D-IH-71-B (AIOps tool selection — Sentry + Langfuse)
   - D-IH-71-C (I71 charter ratification)
-parent_closure: INIT-OPENCLAW_AKOS-70 (I70; validator deferrals absorbed)
+  - D-IH-71-D (release-taxonomy ratification — three lanes: methodology / vault folder / repo SemVer+tag)
+  - D-IH-71-E (review-stamp / last-version-visited dimension — process + decision + artifact)
+parent_closure: INIT-OPENCLAW_AKOS-70 (I70; validator deferrals + release-taxonomy + review-stamp absorbed)
 ---
 
 # I71 — CI/CD Discipline and AIOps Baseline Maturity
@@ -35,14 +37,41 @@ Execution target: each pack lands as **Python script + rule-pack YAML + tests + 
 - **Langfuse**: operator MCP (`user-langfuse` / docs MCP) for trace-backed AI ops signals where applicable.
 - **Routing**: failure routing and ownership live in **WORKSPACE_BLUEPRINT section 18** (observability routing matrix).
 
+## Strand C — Release taxonomy + review-stamp dimension
+
+Absorbs the **forward-charter slot** explicitly handed off by [`D-IH-70-CLOSURE`](../../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) and [`p70-closing.md`](../../70-holistika-os-self-governance/reports/p70-closing.md) §4–§5. Two sub-strands.
+
+### C1 — Three release lanes (do not conflate)
+
+| Lane | Carrier | Bump trigger | Tag in this repo? |
+|:---|:---|:---|:---|
+| **Methodology `major.minor`** | [`LOGIC_CHANGE_LOG.md`](../../../../references/hlk/v3.0/Admin/O5-1/People/canonicals/LOGIC_CHANGE_LOG.md) + `D-IH-*` rows (e.g. `D-IH-70-Z`, `AA`–`AD` describe v3.1-shaped schema work). | A logic-change row that re-versions the methodology; **not** a folder rename or a git tag. | No. |
+| **HLK vault folder path** | `docs/references/hlk/v3.0/` | Renaming to `v3.1/` would be a large, churny migration — **its own initiative, not I71**. | No (and renaming is **not** inferred from methodology or git-tag bumps). |
+| **Openclaw-akos SemVer + CHANGELOG + git tag** | `CHANGELOG.md` + `vMAJOR.MINOR.PATCH` annotated tags | Conventional release judgment: PATCH for fixes, MINOR for additive, MAJOR for breaking. **Not** one-to-one with every `D-IH` row. | Yes (when ratified). |
+
+`D-IH-71-D` ratifies this three-lane separation as the canonical release-policy SSOT and replaces the deferral in `D-IH-70-CLOSURE` notes. Tag criteria: an annotated tag means **"release baseline"** (a coherent, externally-visible repo cut), not "every methodology checkpoint" — so tags lag methodology versioning by intent. Day-to-day, `[Unreleased]` in CHANGELOG remains the working line; tag and bump SemVer when the next big rework initiative (or a release-driven event such as a public deploy) lands.
+
+### C2 — Review-stamp / last-version-visited dimension
+
+Today, none of the canonical CSVs carry a "last version we visited this row" stamp. Operator-driven reviews (process, decision, artifact, registry-row) are tracked outside the schema. `D-IH-71-E` introduces a **thin governance slice** that adds optional columns (or a dedicated review-stamp table — design decision is part of P3 below):
+
+- **Subject classes**: process (`process_list.csv`), decision (`DECISION_REGISTER.csv`), artifact (canonical files via `CANONICAL_REGISTRY.csv`), registry-row (other dimension CSVs).
+- **Stamp shape (proposal, refinable in P3)**: `last_review_at: DATE`, `last_review_by: role_id`, `last_review_decision_id: TEXT?`, `methodology_version_at_review: SEMVER` (cross-link to `LOGIC_CHANGE_LOG`).
+- **Mirror posture**: thin Supabase mirror (or column-extension for tables that already mirror), service-role-only RLS, governance view for ERP panel consumption.
+- **Validator**: extend `validate_canonical_registry.py` (or sibling) with a freshness window and surface stale rows to `OPERATOR_INBOX.md`.
+
+Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-stamp schema slice). The validator pack work (Strand A) and AIOps baseline (Strand B) remain on their original P1–P2 / P5 timeline.
+
 ## Phased execution (scaffold)
 
 | Phase | Scope |
 |:---|:---|
-| **P0** | Charter + registries + blueprint section 18 (this commit). |
-| **P1–P4** | Ship packs A1–A4 (order may follow dependency; A4 often unblocks I72 engagement machinery). |
+| **P0** | Charter + registries + blueprint section 18 (this commit) + Strand C scope expansion (this update). |
+| **P1–P2** | Ship packs A1–A4 (order may follow dependency; A4 often unblocks I72 engagement machinery). |
+| **P3** | **Strand C1 — release-taxonomy ratification.** Codify the three lanes, document tag criteria, update `CHANGELOG.md` policy header + `docs/SOP.md` release section. Decide whether to push `v3.1.0` annotated tag now (if the I70 closure cut is the ratified release baseline) or keep `[Unreleased]` until P6 closure. Closes `OPS-71-2`. |
+| **P4** | **Strand C2 — review-stamp dimension.** Pick column-extension vs separate table; author migration + canonical CSV update + validator + ERP panel slot reservation. Closes `OPS-71-3`. |
 | **P5** | Strand B hardening: scripted smoke for MCP availability notes; optional dashboard links (no production deploy scope in P0). |
-| **P6** | Closure UAT + initiative registry closure row + OPS-71-1 closure. |
+| **P6** | Closure UAT + initiative registry closure row + close `OPS-71-1` (Strand A) + verify all OPS-71-* are closed. |
 
 ## Cross-references
 
