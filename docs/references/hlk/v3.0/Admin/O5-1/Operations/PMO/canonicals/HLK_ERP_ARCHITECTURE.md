@@ -269,9 +269,11 @@ Today the `hlk-erp` repo (`C:\Users\Shadow\cd_shadow\root_cd\hlk-erp`) has these
 
 | Field | Value |
 |:---|:---|
-| **Branch** | `i70-p10-5-tsx-scaffolds` |
-| **Commit (local clone)** | [`ee05d62`](https://github.com/FraysaXII/hlk-erp/commit/ee05d625dd7e1aa94c0e193ae944422029160599) (`ee05d625dd7e1aa94c0e193ae944422029160599`) |
+| **PR** | [#22](https://github.com/FraysaXII/hlk-erp/pull/22) (squash-merged to `main` 2026-05-13) |
+| **Merge commit on `origin/main`** | [`66a8feb`](https://github.com/FraysaXII/hlk-erp/commit/66a8febcdf58988e5a6df3235492b3ca1f01f569) (`66a8febcdf58988e5a6df3235492b3ca1f01f569`) |
+| **Pre-squash branch tip** | `ee05d62` on `i70-p10-5-tsx-scaffolds` (superseded by squash merge; retained for forensics only) |
 | **Deliverables** | ~20 panel definitions in `lib/erp/panels.ts`; catch-all UI at `/operator` + `/operator/[[...slug]]` (matches §4 `/operator/<area>/<role>/` routes); `components/erp/erp-panel-scaffold.tsx` header strip + GitHub links to federal canonicals; `app/api/erp/[...slug]/route.ts` GET + PUT (PUT disabled until `NEXT_PUBLIC_ERP_2WAY_SYNC=true`); `supabase/migrations/20260513220000_i70_p105_erp_rls_policy_templates.sql` RLS intent template |
-| **Push gate** | Operator-driven `git push` per **H13** — confirm branch protection + remote; after merge to default branch, re-verify this subsection still points at the SHA on `origin` |
+| **CI + Vercel** | Verified green on PR (lint, unit tests, build, Lighthouse + Playwright on preview, Vercel preview deployment); merge after all checks passed |
+| **Push gate** | Closed — branch `i70-p10-5-tsx-scaffolds` deleted on remote after squash-merge |
 
 **Spot-check UAT routes (5 panels):** `/operator/marketing/brand`, `/operator/operations/pmo`, `/operator/people/compliance`, `/operator/research/methodology`, `/operator/envoy-tech-lab/madeira-akos`.
