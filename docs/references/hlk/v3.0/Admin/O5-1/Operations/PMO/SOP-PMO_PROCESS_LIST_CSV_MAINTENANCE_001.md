@@ -13,7 +13,7 @@ Revision Date: 2026-04-15
 ---
 ## Purpose
 
-Define how operators and integrators **maintain** the canonical process registry **`docs/references/hlk/compliance/process_list.csv`** after initial promotion from Trello or WIP (see **SOP-PMO_VAULT_PROMOTION_GATE_001**). Covers **column schema**, **parent identifiers**, **unique display names**, **forks and older checkouts**, and **recovery from duplicate `item_name` collisions**.
+Define how operators and integrators **maintain** the canonical process registry **`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv`** after initial promotion from Trello or WIP (see **SOP-PMO_VAULT_PROMOTION_GATE_001**). Covers **column schema**, **parent identifiers**, **unique display names**, **forks and older checkouts**, and **recovery from duplicate `item_name` collisions**.
 
 ## Canonical authority
 

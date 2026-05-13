@@ -4,7 +4,7 @@
 Asserts that:
 
 1. The AKOS canonical SOP at
-   ``docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-CICD_BASELINE_001.md``
+   ``docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-CICD_BASELINE_001.md``
    is present + carries a ``status:`` of ``review`` or ``active`` + a known
    ``version:`` (per :data:`akos.cicd_baseline.KNOWN_SOP_VERSIONS`).
 2. The AKOS canonical workflow template at
@@ -66,6 +66,7 @@ CANONICAL_SOP_PATH = (
     / "O5-1"
     / "Tech"
     / "System Owner"
+    / "canonicals"
     / "SOP-CICD_BASELINE_001.md"
 )
 CANONICAL_GHA_TEMPLATE_PATH = (

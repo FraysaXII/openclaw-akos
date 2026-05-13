@@ -53,7 +53,7 @@ Background framing per **Tianpan.co "GraphRAG in production 2026"**: *Neo4j Grap
 
 ### What it is NOT for
 
-- **NOT the SSOT** — HLK CSVs in `docs/references/hlk/compliance/` remain SSOT. Neo4j is rebuildable projection. Loss of the Aura instance = single `sync_hlk_neo4j.py` re-run away from full restoration.
+- **NOT the SSOT** — HLK CSVs in `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` remain SSOT. Neo4j is rebuildable projection. Loss of the Aura instance = single `sync_hlk_neo4j.py` re-run away from full restoration.
 - **NOT for KiRBe vault search** — KiRBe operates its own local Neo4j for tenant document search. AKOS Neo4j and KiRBe Neo4j **do not cross-merge** (D-IH-32-M). Two separate stores, two separate purposes, two separate cost lines.
 - **NOT for agent memory** — that's use-case C. Different schema, different lifecycle, different access pattern.
 
@@ -61,7 +61,7 @@ Background framing per **Tianpan.co "GraphRAG in production 2026"**: *Neo4j Grap
 
 A new dimension wanting a Neo4j projection follows this 4-step contract (codified in `akos.hlk_graph_model`):
 
-1. The dimension has a canonical CSV under `docs/references/hlk/compliance/dimensions/` with an akos field contract + validator.
+1. The dimension has a canonical CSV under `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/` with an akos field contract + validator.
 2. Add the new `GraphLabel` + `EdgeType` enum members to `akos/hlk_graph_model.py`.
 3. Add a `build_<dimension>_graph(registry) → (nodes, edges)` function.
 4. Wire into `sync_hlk_naco4j.py` so the next `sync` re-run projects it.

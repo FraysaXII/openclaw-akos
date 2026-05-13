@@ -876,7 +876,7 @@ The HLK Registry MCP gives agents read-only access to the Holistika organisation
 | `hlk_gaps()` | Identify items with missing metadata, TBD owners, or empty descriptions |
 | `hlk_search(query)` | Fuzzy search across roles and processes by name, description, or ID |
 
-**Data source:** All tools read from the canonical vault CSVs (`docs/references/hlk/compliance/baseline_organisation.csv` and `process_list.csv`). The CSVs remain SSOT; optional Neo4j (below) is a mirrored index only.
+**Data source:** All tools read from the canonical vault CSVs (`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv` and `process_list.csv`). The CSVs remain SSOT; optional Neo4j (below) is a mirrored index only.
 
 **Setup:** Requires `pip install mcp`. No API keys needed. Prompt behaviour: `OVERLAY_HLK.md` plus `OVERLAY_HLK_GRAPH.md` (standard/full variants in `config/model-tiers.json`) teach graph tools; compact Madeira uses `OVERLAY_HLK_COMPACT.md` only (no `hlk_graph_*` in prompt ladder).
 
@@ -2089,7 +2089,7 @@ Releases use a **three-light** model (all green = ship). Operator cadence and th
 
 ### 24.3.1 Governed KM (Topic–Fact–Source and Output 1)
 
-For **visuals and other knowledge artifacts** that must stay traceable across Obsidian, Drive, and git, follow the Topic–Fact–Source contract in `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md`:
+For **visuals and other knowledge artifacts** that must stay traceable across Obsidian, Drive, and git, follow the Topic–Fact–Source contract in `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/HLK_KM_TOPIC_FACT_SOURCE.md`:
 
 - **Output 1 (images / Excalidraw exports):** keep binaries under `docs/references/hlk/v3.0/_assets/<topic_id>/` with a `*.manifest.md` sidecar and a short companion `.md` stub for search.
 - **Tags:** use only the controlled vocabulary and prefixes defined in that contract.
@@ -2111,8 +2111,8 @@ Use this order:
 | Working synthesis | Redacted interpretation, validation, source comparison | `docs/wip/` (see `docs/wip/README.md`; HLK KM stubs under `docs/wip/hlk-km/`) |
 | Case docs | Current founder/entity decisions, evidence packs, rationale notes | `docs/references/hlk/v3.0/` |
 | SOPs | Repeatable procedures with stable inputs/outputs | `docs/references/hlk/v3.0/` |
-| Registry rows | Runtime-discoverable projects, workstreams, processes, tasks | `docs/references/hlk/compliance/process_list.csv` |
-| Org changes | Role ownership changes only | `docs/references/hlk/compliance/baseline_organisation.csv` |
+| Registry rows | Runtime-discoverable projects, workstreams, processes, tasks | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv` |
+| Org changes | Role ownership changes only | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv` |
 
 **Current founder-governance bundle examples:**
 
@@ -2147,17 +2147,17 @@ Holistika tracks **many GitHub repositories** (platform, internal tools, client-
 |:------|:-------------------|:--------------|
 | **Which repos exist, class, owner role, topic links** | `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md` | GitHub remote |
 | **Optional API metadata** (`api_spec_pointer`, `api_topic_id` on registry rows) | Same registry table | OpenAPI/AsyncAPI **files** live in the repo (path pointed to) |
-| **CTO-chain component/service inventory** (per-component `api_exposure`, owners, runbooks; join on `repo_slug`) | `docs/references/hlk/compliance/COMPONENT_SERVICE_MATRIX.csv` | — |
+| **CTO-chain component/service inventory** (per-component `api_exposure`, owners, runbooks; join on `repo_slug`) | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/COMPONENT_SERVICE_MATRIX.csv` | — |
 | **Policy** (pointer-first, submodule criteria) | `docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/README.md` | — |
 | **Non-repo client/program files** (SOWs, commercials, decks) | `docs/references/hlk/v3.0/Think Big/` (see `Think Big/README.md`) | — |
 
 **API lifecycle:** `docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-HLK_API_LIFECYCLE_MANAGEMENT_001.md`. **Matrix maintenance (CTO chain):** `SOP-HLK_COMPONENT_SERVICE_MATRIX_MAINTENANCE_001.md` in the same folder.
 
-Cross-engagement topic index (pilot): `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md` (includes the **PMO project portfolio SSOT** table and GOI/POI-style stakeholder index). Full placement rules: `docs/references/hlk/v3.0/index.md` (Entity placement). Precedence: `docs/references/hlk/compliance/PRECEDENCE.md` (GitHub repositories vs vault authority).
+Cross-engagement topic index (pilot): `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md` (includes the **PMO project portfolio SSOT** table and GOI/POI-style stakeholder index). Full placement rules: `docs/references/hlk/v3.0/index.md` (Entity placement). Precedence: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md` (GitHub repositories vs vault authority).
 
 ### 24.4 Maintaining Baselines
 
-The canonical baselines live in `docs/references/hlk/compliance/`:
+The canonical baselines live in `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/`:
 
 | File | What to edit | When |
 |:-----|:-------------|:-----|
@@ -2219,7 +2219,7 @@ docs/references/hlk/
 | Where do new program-scoped vault docs go? | Under the role folder's `programs/<program_id>/` subfolder (Initiative 22 P3) — e.g. `docs/references/hlk/v3.0/Admin/O5-1/People/Legal/programs/PRJ-HOL-FOUNDING-2026/` |
 | Where do new KM Output-1 visuals go? | Under `_assets/<plane>/<program_id>/<topic_id>/` (Initiative 22 P2) — see `docs/references/hlk/v3.0/_assets/README.md` |
 | How do I render a KM Mermaid diagram? | `py scripts/render_km_diagrams.py <path>.mmd --update-manifest` (Initiative 22 P5; uses `mmdc` if installed, else mermaid.ink HTTP fallback) |
-| Where is the program registry? | `docs/references/hlk/compliance/dimensions/PROGRAM_REGISTRY.csv` (Initiative 23 P1; 12 programs with unique 3-letter `program_code`s; canonical `program_id` is PRJ-HOL-style per D-IH-8). |
+| Where is the program registry? | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PROGRAM_REGISTRY.csv` (Initiative 23 P1; 12 programs with unique 3-letter `program_code`s; canonical `program_id` is PRJ-HOL-style per D-IH-8). |
 | Where is the cross-program glossary? | [`docs/reference/glossary-cross-program.md`](reference/glossary-cross-program.md) (Initiative 23 P5; program codes, discipline codes, sensitivity bands, sharing labels, GOI/POI class taxonomy, status enums, voice registers). |
 | How do I check for compliance mirror drift? | `py scripts/probe_compliance_mirror_drift.py --emit-sql` (prints SELECT for `user-supabase` MCP `execute_sql`), paste JSON to `artifacts/probes/mirror-drift-<YYYYMMDD>.json`, then `py scripts/probe_compliance_mirror_drift.py --verify` (or profile `compliance_mirror_drift_probe`). SKIPs gracefully when no fresh artifact exists (Initiative 23 P4). |
 | How do I onboard a new program? | (1) Add a row to `PROGRAM_REGISTRY.csv` with unique `program_code`. (2) Create `_assets/<plane>/<program_id>/<topic_id>/` for the first topic. (3) Add `programs/<program_id>/README.md` under each role-folder root that has program-specific casework (evidence-based — only roots with supporting `process_list.csv` rows). (4) Run `validate_hlk.py` (covers PROGRAM_REGISTRY + cross-asset consistency). See [Initiative 23 PRJ-HOL-KIR-2026 onboarding](wip/planning/23-hlk-program-registry-and-program-2/reports/uat-i23-program-registry-20260429.md) as a worked example. |
@@ -2267,11 +2267,11 @@ Initiative 59 introduced **five new compliance dimensions** that bring planning-
 
 | Dimension | CSV | Validator | Purpose |
 |:----------|:----|:----------|:--------|
-| `REPOSITORY_REGISTRY` | `docs/references/hlk/compliance/REPOSITORY_REGISTRY.csv` | `scripts/validate_hlk.py` | Holistika-tracked GitHub repositories |
-| `INITIATIVE_REGISTRY` | `docs/references/hlk/compliance/INITIATIVE_REGISTRY.csv` | `scripts/validate_initiative_registry.py` | Governed initiative metadata (status, owners, FK to cycles/decisions) |
-| `OPS_REGISTER` | `docs/references/hlk/compliance/OPS_REGISTER.csv` | `scripts/validate_hlk.py` | Operator actions and OPS-ticket audit trail |
-| `CYCLE_REGISTER` | `docs/references/hlk/compliance/CYCLE_REGISTER.csv` | `scripts/validate_hlk.py` | Execution cycles with date ranges |
-| `DECISION_REGISTER` | `docs/references/hlk/compliance/DECISION_REGISTER.csv` | `scripts/validate_decision_register.py` | Queryable `D-IH-XX-Y` decision metadata |
+| `REPOSITORY_REGISTRY` | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPOSITORY_REGISTRY.csv` | `scripts/validate_hlk.py` | Holistika-tracked GitHub repositories |
+| `INITIATIVE_REGISTRY` | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv` | `scripts/validate_initiative_registry.py` | Governed initiative metadata (status, owners, FK to cycles/decisions) |
+| `OPS_REGISTER` | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv` | `scripts/validate_hlk.py` | Operator actions and OPS-ticket audit trail |
+| `CYCLE_REGISTER` | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CYCLE_REGISTER.csv` | `scripts/validate_hlk.py` | Execution cycles with date ranges |
+| `DECISION_REGISTER` | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv` | `scripts/validate_decision_register.py` | Queryable `D-IH-XX-Y` decision metadata |
 
 The five dimensions form a **foreign-key web**: initiatives reference cycles and decisions; OPS actions reference initiatives; the decision register cross-links to initiative IDs. Validators enforce these FK constraints at commit time.
 
@@ -2279,7 +2279,7 @@ Two new SOPs govern the lifecycle: [`SOP-INITIATIVE_GOVERNANCE_001.md`](referenc
 
 ### 24.10 Decision audit trail
 
-The **`DECISION_REGISTER.csv`** at `docs/references/hlk/compliance/DECISION_REGISTER.csv` is the queryable SSOT for all governed decisions. Each row carries a `D-IH-XX-Y` identifier (where `XX` is the initiative number and `Y` is a per-initiative sequence), the decision date, status, rationale summary, and FK links to the initiative and cycle that produced it.
+The **`DECISION_REGISTER.csv`** at `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv` is the queryable SSOT for all governed decisions. Each row carries a `D-IH-XX-Y` identifier (where `XX` is the initiative number and `Y` is a per-initiative sequence), the decision date, status, rationale summary, and FK links to the initiative and cycle that produced it.
 
 Per-initiative `decision-log.md` files (e.g. `docs/wip/planning/59-hlk-governance-clean-slate/decision-log.md`) remain **canonical for prose** — they hold the full context, alternatives considered, and operator sign-off narrative. The CSV is the **governed metadata frame**: it enables programmatic queries, cross-initiative aggregation, and Supabase mirror projections without replacing the human-readable log. The validator `scripts/validate_decision_register.py` enforces schema, enum, and FK integrity at commit time.
 
@@ -2320,7 +2320,7 @@ When a new subdomain is needed, propose a row in the registry first, run the val
 
 The "bless" pattern lets you scaffold a new Holistika-tracked external repository (e.g. `kirbe`, future client-delivery repos) with the standard governance + CI/CD + observability artifacts in one command. AKOS stays SSOT; the consuming repo gets a deterministic, drift-detectable copy.
 
-**Prerequisite**: register the repo in [`docs/references/hlk/compliance/REPOSITORY_REGISTRY.csv`](references/hlk/compliance/REPOSITORY_REGISTRY.csv) (slug, GitHub URL, class, primary_owner_role, lifecycle_status). For `class=reference` (e.g. `boilerplate`), the bless script light-touches per D-IH-32-N.
+**Prerequisite**: register the repo in [`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPOSITORY_REGISTRY.csv`](references/hlk/compliance/REPOSITORY_REGISTRY.csv) (slug, GitHub URL, class, primary_owner_role, lifecycle_status). For `class=reference` (e.g. `boilerplate`), the bless script light-touches per D-IH-32-N.
 
 **One-time bless (operator-invoked)**:
 

@@ -39,9 +39,9 @@ sister_sops:
 
 | Input | Path | Owner | What it provides |
 |:---|:---|:---|:---|
-| Role × hourly-rate matrix | `docs/references/hlk/compliance/baseline_organisation.csv` | CPO + Business Controller | Per-role triangle (`role_hourly_min_eur` / `_par_` / `_max_`) — Madrid SME consulting baseline. |
-| Process × effort hours | `docs/references/hlk/compliance/process_list.csv` | PMO | Per-process triangle (`time_hours_min` / `_par` / `_max`) for engagement-execution items. |
-| Country work calendar | `docs/references/hlk/compliance/dimensions/COUNTRY_WORK_CALENDAR.csv` | Business Controller | Per-country `legal_hours_per_day`, `public_holidays_per_year_avg`, `locale_uplift_pct`. |
+| Role × hourly-rate matrix | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv` | CPO + Business Controller | Per-role triangle (`role_hourly_min_eur` / `_par_` / `_max_`) — Madrid SME consulting baseline. |
+| Process × effort hours | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv` | PMO | Per-process triangle (`time_hours_min` / `_par` / `_max`) for engagement-execution items. |
+| Country work calendar | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COUNTRY_WORK_CALENDAR.csv` | Business Controller | Per-country `legal_hours_per_day`, `public_holidays_per_year_avg`, `locale_uplift_pct`. |
 | Engagement scope | `docs/wip/intelligence/<slug>/scope.yaml` | Project Manager | Per-package method × role-mix × multipliers. |
 
 ## 3. Method library (~12 methods)
@@ -91,7 +91,7 @@ Multipliers compound onto the **price**, not the effort. They are listed in `ako
 
 ## 6. Country calendar
 
-Country-specific working-hour and public-holiday parameters live in `docs/references/hlk/compliance/dimensions/COUNTRY_WORK_CALENDAR.csv`.
+Country-specific working-hour and public-holiday parameters live in `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COUNTRY_WORK_CALENDAR.csv`.
 
 | Country | legal_hours_per_day | public_holidays_per_year_avg | locale_uplift_pct |
 |:---|:---|:---|:---|

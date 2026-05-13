@@ -31,7 +31,7 @@ Table of Contents
 
 ## 1.0 Description
 
-This SOP governs the **canonical component and service inventory** for Holistika-tracked technology: **`docs/references/hlk/compliance/COMPONENT_SERVICE_MATRIX.csv`**. The matrix is the **CTO-chain** analogue of the **COO-chain** `process_list.csv` and the **CPO-chain** `baseline_organisation.csv`: it records **what systems and services exist**, how they are **owned and classified**, how they **integrate**, and where **runbooks and specs** live—without duplicating GitHub file trees or Supabase schemas.
+This SOP governs the **canonical component and service inventory** for Holistika-tracked technology: **`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/COMPONENT_SERVICE_MATRIX.csv`**. The matrix is the **CTO-chain** analogue of the **COO-chain** `process_list.csv` and the **CPO-chain** `baseline_organisation.csv`: it records **what systems and services exist**, how they are **owned and classified**, how they **integrate**, and where **runbooks and specs** live—without duplicating GitHub file trees or Supabase schemas.
 
 The matrix **joins** to:
 
@@ -56,7 +56,7 @@ The matrix **joins** to:
 
 ### 4.1 Column contract and schema authority
 
-* **SSOT file:** `docs/references/hlk/compliance/COMPONENT_SERVICE_MATRIX.csv` per [PRECEDENCE.md](../../../../compliance/PRECEDENCE.md).  
+* **SSOT file:** `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/COMPONENT_SERVICE_MATRIX.csv` per [PRECEDENCE.md](../../../../compliance/PRECEDENCE.md).  
 * **Schema authority:** `COMPONENT_SERVICE_FIELDNAMES` in `akos/hlk_component_service_csv.py`. Do not add or reorder columns without updating that module and this SOP.  
 * **Encoding:** UTF-8, single header row, Unix line endings preferred in git.
 

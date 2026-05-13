@@ -6,7 +6,7 @@ Canonical lifecycle **what**: [SOP-MADEIRA_SCENARIO_LIFECYCLE_001.md](../referen
 
 ## Before you edit
 
-1. Pick the persona and skill row in `docs/references/hlk/compliance/dimensions/PERSONA_SCENARIO_REGISTRY.csv`; note `scenario_id`, `lifecycle_status`, `priority_score`, `safety_lane`, `release_blocking`.
+1. Pick the persona and skill row in `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv`; note `scenario_id`, `lifecycle_status`, `priority_score`, `safety_lane`, `release_blocking`.
 2. Map your change to a use-case id in [`docs/wip/planning/17-madeira-cursor-mode-parity/coverage-matrix.md`](../wip/planning/17-madeira-cursor-mode-parity/coverage-matrix.md) when the work is UAT-visible.
 3. Run the narrow pytest group for fast feedback:
 

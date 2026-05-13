@@ -64,7 +64,7 @@ When you mark an initiative **complete** or write a **phase completion** report:
 | `docs/ARCHITECTURE.md` (Finance) | Changes to finance response models or MCP tool signatures |
 | `docs/ARCHITECTURE.md` (HLK) | Changes to `akos/hlk.py`, `akos/hlk_graph_model.py`, `akos/hlk_neo4j.py`, `akos/hlk_vault_links.py`, `akos/hlk_component_service_csv.py`, `akos/graph_stack.py`, `scripts/serve-api.py`, or `/hlk/*` and `/hlk/graph/*` API endpoints |
 | `docs/references/hlk/v3.0/**/*.md` (links) | Run `py scripts/validate_hlk_vault_links.py` when editing cross-links |
-| `docs/references/hlk/compliance/` | Changes to canonical vault CSVs or compliance taxonomy documents |
+| `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` | Changes to canonical vault CSVs or compliance taxonomy documents |
 | `docs/references/hlk/v3.0/_assets/**/*.manifest.md` | Run `py scripts/validate_hlk_km_manifests.py`; update companion stubs if `source_id` changes |
 
 ## Playwright Setup (Optional)

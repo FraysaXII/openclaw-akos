@@ -43,7 +43,7 @@ is forward-compatible during the I63 charter ship.
 ## Triggers
 
 - A push to `main` of `openclaw-akos` that modifies any file under
-  `docs/references/hlk/compliance/*.csv`.
+  `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/*.csv`.
 - Equivalently: an operator-applied DML migration that mints rows in a
   `compliance.*_mirror` table (when the schema deltas surface in CSV form).
 

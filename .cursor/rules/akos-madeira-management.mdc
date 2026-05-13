@@ -33,7 +33,7 @@ alwaysApply: false
 | Tier | Location | Audience | Speed of change |
 |:-----|:---------|:---------|:----------------|
 | Vault SOP | `docs/references/hlk/v3.0/.../Tech/System Owner/SOP-MADEIRA_*` | Auditor, System Owner | Slow; audited; SOP-META |
-| `process_list` | `docs/references/hlk/compliance/process_list.csv` | Governance | Operator-approved IDs |
+| `process_list` | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv` | Governance | Operator-approved IDs |
 | Operator guides | `docs/guides/madeira_*.md` | Daily operator | PR weekly; no canonical gate |
 
 Process rows under workstream **`env_tech_ws_madeira_quality`** (parent **`env_tech_prj_3`**): `env_tech_dtp_madeira_verdict`, `env_tech_dtp_madeira_dossier`, `env_tech_dtp_madeira_incident`, `env_tech_dtp_madeira_lifecycle`, `env_tech_dtp_madeira_telemetry`, `env_tech_dtp_madeira_uxreview`.

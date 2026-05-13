@@ -32,7 +32,7 @@ and the mirror rule template at `.cursor/rules/akos-mirror-template.mdc`.
 ## Preconditions
 
 1. The repo is registered in
-   [`docs/references/hlk/compliance/REPOSITORY_REGISTRY.csv`](../../../../../compliance/REPOSITORY_REGISTRY.csv)
+   [`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPOSITORY_REGISTRY.csv`](../../../../../compliance/REPOSITORY_REGISTRY.csv)
    with `class != reference` (per D-IH-32-N reference repos receive only the
    light-touch contract, not the full bless kit).
 2. The operator has a working tree of the consumer repo on the local

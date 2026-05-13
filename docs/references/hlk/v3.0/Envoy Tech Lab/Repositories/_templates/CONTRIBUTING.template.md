@@ -14,7 +14,7 @@
 ## Governance flow (read this first)
 
 1. **AKOS wins on conflict.** If a doctrine statement here disagrees with the AKOS canonical, AKOS is correct. Open a PR to AKOS, not a workaround here.
-2. **Never invent governed IDs locally.** Persona, channel, vendor, skill, cell, policy, program, topic, GOI/POI, process, org IDs are all minted in AKOS via PRs to the canonical CSVs in [`docs/references/hlk/compliance/`](https://github.com/FraysaXII/openclaw-akos/tree/main/docs/references/hlk/compliance/).
+2. **Never invent governed IDs locally.** Persona, channel, vendor, skill, cell, policy, program, topic, GOI/POI, process, org IDs are all minted in AKOS via PRs to the canonical CSVs in [`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/`](https://github.com/FraysaXII/openclaw-akos/tree/main/docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/).
 3. **Brand-jargon scan applies to external prose.** Public READMEs, deployed pages, user-facing UI strings on showcase surfaces, generated dossiers/invoices/cover-emails must avoid the forbidden tokens listed in [`BRAND_JARGON_AUDIT.md`](https://github.com/FraysaXII/openclaw-akos/blob/main/docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_JARGON_AUDIT.md) §4. Internal prose (developer comments, implementation notes) is unrestricted.
 4. **Operator SQL gate.** No ad-hoc DDL/DML against production. Any schema change goes through the gate per [`operator-sql-gate.md`](https://github.com/FraysaXII/openclaw-akos/blob/main/docs/wip/planning/14-holistika-internal-gtm-mops/reports/operator-sql-gate.md): proposal → operator approval → versioned migration.
 

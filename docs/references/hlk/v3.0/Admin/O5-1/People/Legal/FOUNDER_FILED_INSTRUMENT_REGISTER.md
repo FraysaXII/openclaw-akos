@@ -18,9 +18,9 @@ language: en
 
 **Per-discipline human view** of legal / fiscal / IP / banking / certification / notary instruments filed or to be filed for the founder incorporation program (`PRJ-HOL-FOUNDING-2026`).
 
-> **SSOT note** — This document is a **derived view**. The single source of truth for filed instruments is the canonical CSV `docs/references/hlk/compliance/FOUNDER_FILED_INSTRUMENTS.csv`, validated by `py scripts/validate_founder_filed_instruments.py` (also via `validate_hlk.py`). Operators **edit the CSV first**, then update this view (or regenerate it via `scripts/export_adviser_handoff.py` once available). Do **not** treat this MD as authoritative.
+> **SSOT note** — This document is a **derived view**. The single source of truth for filed instruments is the canonical CSV `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv`, validated by `py scripts/validate_founder_filed_instruments.py` (also via `validate_hlk.py`). Operators **edit the CSV first**, then update this view (or regenerate it via `scripts/export_adviser_handoff.py` once available). Do **not** treat this MD as authoritative.
 
-**Handoff entrypoint**: [EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md](EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md). Plane SOP: [SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md](../../Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md). Discipline lookup: `docs/references/hlk/compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv`. GOI/POI references: `docs/references/hlk/compliance/GOI_POI_REGISTER.csv`.
+**Handoff entrypoint**: [EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md](EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md). Plane SOP: [SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md](../../Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md). Discipline lookup: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv`. GOI/POI references: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/GOI_POI_REGISTER.csv`.
 
 ---
 
@@ -79,7 +79,7 @@ _(no instruments yet — add rows with `discipline_id = notary` and prefix `INST
 
 ## Maintenance
 
-- **Edit** `docs/references/hlk/compliance/FOUNDER_FILED_INSTRUMENTS.csv` (canonical SSOT).
+- **Edit** `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv` (canonical SSOT).
 - **Validate**: `py scripts/validate_founder_filed_instruments.py` (and `py scripts/validate_hlk.py`).
 - **Mirror sync** (live since Initiative 22 P7, 2026-04-29): `py scripts/sync_compliance_mirrors_from_csv.py --founder-filed-instruments-only --output <out.sql>` against `compliance.founder_filed_instruments_mirror` (DDL: `supabase/migrations/20260429081800_i21_compliance_founder_filed_instruments_mirror.sql`; staging: `scripts/sql/i21_phase1_staging/20260428_i21_compliance_founder_filed_instruments_mirror_up.sql`). Apply DML via user-supabase MCP `execute_sql` with `service_role`.
 - **Refresh this view** after CSV changes: edit the per-discipline tables here, or regenerate via `scripts/export_adviser_handoff.py` (Initiative 21 / P7).

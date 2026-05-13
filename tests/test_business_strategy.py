@@ -24,7 +24,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 STRATEGY_DIR = (
     REPO_ROOT
     / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Operations"
-    / "PMO" / "business-strategy"
+    / "PMO" / "canonicals" / "business-strategy"
 )
 TOPIC_REGISTRY = (
     REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"

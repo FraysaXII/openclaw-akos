@@ -43,6 +43,8 @@ REGISTRY_PATH = (
     / "references"
     / "hlk"
     / "v3.0"
+    / "Admin"
+    / "O5-1"
     / "Envoy Tech Lab"
     / "Repositories"
     / "SUBDOMAINS_REGISTRY.md"

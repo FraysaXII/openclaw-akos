@@ -6,7 +6,7 @@
 
 **Governance:** Record outcomes in a dated report under `docs/wip/planning/17-madeira-cursor-mode-parity/reports/uat-madeira-uc-<YYYYMMDD>.md` (PASS / SKIP / N/A, no secrets, no full prompts with PII).
 
-**Citation SSOT:** [`docs/references/hlk/compliance/PRECEDENCE.md`](../references/hlk/compliance/PRECEDENCE.md).
+**Citation SSOT:** [`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md`](../references/hlk/compliance/PRECEDENCE.md).
 
 | UC-ID | Objective | Steps (high level) | Pass criteria |
 |:------|:------------|:-------------------|:--------------|

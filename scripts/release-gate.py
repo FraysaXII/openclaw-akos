@@ -176,7 +176,7 @@ def run_sentry_release_format_validation() -> bool:
     """Validate Sentry release-format canonical doc + (opt-in) consumer scan (I68 P4 / D-IH-68-I).
 
     Default mode: validates only the canonical doc at
-    ``docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/SENTRY_DASHBOARD_HOLISTIKA.md``
+    ``docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/Repositories/SENTRY_DASHBOARD_HOLISTIKA.md``
     (presence + carries canonical ``{repo_slug}@{sha_short}`` example).
     Set ``AKOS_SENTRY_RELEASE_SCAN_CONSUMERS=1`` to additionally scan
     sibling consumer-repo ``sentry.*.config.ts`` / Python ``sentry_sdk.init(...)``
@@ -196,7 +196,7 @@ def run_cicd_baseline_validation() -> bool:
     """Validate CICD baseline canonical SOP + workflow templates + (opt-in) consumer scan (I68 P5 / D-IH-68-D).
 
     Default mode: validates only the canonical SOP at
-    ``docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-CICD_BASELINE_001.md``
+    ``docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-CICD_BASELINE_001.md``
     + the canonical workflow template + Render YAML stub. Set
     ``AKOS_CICD_BASELINE_SCAN_CONSUMERS=1`` to additionally scan each
     ``REPOSITORY_REGISTRY.csv`` row for valid ``ci_baseline_version`` /

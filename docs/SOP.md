@@ -46,7 +46,7 @@ To achieve "Deep Research" parity with commercial models, the OpenCLAW agent mus
 * **Direct and Indirect Impact Analysis:** Quantitative scoring used by the reasoning engine to prioritize context.8  
 * **Generational Filters and PESTEL:** Analytical frameworks applied dynamically to the data to understand nuanced behaviors and strategic trends.14
 
-* **Holistika v3.0 KM contract:** For governed Topic–Fact–Source traceability and Output 1 (visual) manifests, follow `docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md`, store canonical binaries under `docs/references/hlk/v3.0/_assets/`, and run `py scripts/validate_hlk_km_manifests.py` when manifests change.
+* **Holistika v3.0 KM contract:** For governed Topic–Fact–Source traceability and Output 1 (visual) manifests, follow `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/HLK_KM_TOPIC_FACT_SOURCE.md`, store canonical binaries under `docs/references/hlk/v3.0/_assets/`, and run `py scripts/validate_hlk_km_manifests.py` when manifests change.
 
 ### **2.3 Processes: Modular Execution via MCP**
 

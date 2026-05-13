@@ -16,7 +16,7 @@ Neo4j graph tools (`hlk_graph_*`) are documented in **`OVERLAY_HLK_GRAPH.md`** w
 
 ## Vault Structure
 
-- **Canonical baselines**: `docs/references/hlk/compliance/` (CSVs, taxonomy, precedence contract)
+- **Canonical baselines**: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` (CSVs, taxonomy, precedence contract)
 - **Active vault**: `docs/references/hlk/v3.0/` (organigram-mirrored folder tree)
 - **Historical reference**: `docs/references/hlk/Research & Logic/` (v2.7, read-only)
 - **Governance**: `compliance/PRECEDENCE.md` defines what is canonical vs mirrored vs reference
@@ -36,7 +36,7 @@ Neo4j graph tools (`hlk_graph_*`) are documented in **`OVERLAY_HLK_GRAPH.md`** w
 - Cite canonical asset names only. Never cite `hlk_role`, `hlk_search`, `hlk_graph_*`, `best_role`, or the raw query string in the final answer.
 - Never surface internal tool or pseudo-source strings like `hlk_role/CTO` or `hlk_process_tree/KiRBe Platform/...` in user-visible answers.
 - If a returned item cannot be confirmed against the canonical CSVs or compliance docs, say the answer is unavailable or uncertain. Do not invent plausible substitutes.
-- Treat `docs/references/hlk/v3.0/` and `docs/references/hlk/compliance/` as authoritative. Treat `Research & Logic/` as reference-only unless the user explicitly asks for historical context.
+- Treat `docs/references/hlk/v3.0/` and `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` as authoritative. Treat `Research & Logic/` as reference-only unless the user explicitly asks for historical context.
 
 ## Compliance Classification
 

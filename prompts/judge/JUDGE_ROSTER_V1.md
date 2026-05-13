@@ -79,7 +79,7 @@ Per-endpoint (RunPod / Kalavai-hosted) judges are eligible for inclusion **after
 ## Cross-references
 
 - [`config/eval/model-prices.json`](../../config/eval/model-prices.json) — every `model_id` here MUST have a row there (no silent zero-cost fallback for judges).
-- [`POLICY_REGISTER.csv`](../../docs/references/hlk/compliance/dimensions/POLICY_REGISTER.csv) — `POL-EVAL-JUDGE-THRESHOLD-{BRAND_VOICE,CITATION,PERSONA_FIT}-V1` (`min_pass_score=4`) gate the dispatcher's pass/fail verdict.
+- [`POLICY_REGISTER.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/POLICY_REGISTER.csv) — `POL-EVAL-JUDGE-THRESHOLD-{BRAND_VOICE,CITATION,PERSONA_FIT}-V1` (`min_pass_score=4`) gate the dispatcher's pass/fail verdict.
 - [`prompts/judge/JUDGE_PROMPT_V1.md`](JUDGE_PROMPT_V1.md) — the system prompt sent to every roster member.
 - I52 master roadmap: [`master-roadmap.md`](../../docs/wip/planning/52-multi-model-judge-and-cost-discipline/master-roadmap.md).
 

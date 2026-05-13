@@ -13,7 +13,7 @@ Revision Date: 2026-04-14
 ---
 ## Purpose
 
-Define how PMO moves **stable operating intent** from **Trello**, **board JSON imports**, and **`docs/wip/`** into the canonical registry **`docs/references/hlk/compliance/process_list.csv`** without mixing backlog columns or scratch notes into compliance SSOT.
+Define how PMO moves **stable operating intent** from **Trello**, **board JSON imports**, and **`docs/wip/`** into the canonical registry **`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv`** without mixing backlog columns or scratch notes into compliance SSOT.
 
 ## Preconditions
 

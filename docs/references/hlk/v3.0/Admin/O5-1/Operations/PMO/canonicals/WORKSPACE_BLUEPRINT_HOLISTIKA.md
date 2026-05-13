@@ -79,7 +79,7 @@ flowchart TD
 
 | Sub-mark | Function | Authored outputs | Engagement role |
 |:---|:---|:---|:---|
-| **Holistika** (umbrella + R&S) | Canon, intel, SOPs, capabilities for the whole company | [`docs/references/hlk/v3.0/Admin/O5-1/**`](../../) + [`docs/references/hlk/compliance/**`](../../../../../compliance/) | Vertical provider — feeds methodology + governance into every engagement folder; NOT itself an engagement counterparty |
+| **Holistika** (umbrella + R&S) | Canon, intel, SOPs, capabilities for the whole company | [`docs/references/hlk/v3.0/Admin/O5-1/**`](../../) + [`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/**`](../../../../../compliance/) | Vertical provider — feeds methodology + governance into every engagement folder; NOT itself an engagement counterparty |
 | **HLK Tech Lab** | Tech for everyone (internal + external) | MADEIRA / KiRBe / ENVOY / InfraMonitor / Financial Analyst product brands; client-delivery repos registered in [`REPOSITORIES_REGISTRY.md`](../../../../Envoy%20Tech%20Lab/Repositories/REPOSITORIES_REGISTRY.md) | Tech delivery layer — powers product engagements + internal tooling; folders live in code repos, not under Think Big |
 | **Think Big** | Engagement projects (outbound + inbound) | [`Think Big/Clients/`](../../../../Think%20Big/Clients/) (outbound — Holistika provides) + [`Think Big/Advisers/`](../../../../Think%20Big/Advisers/) (inbound — Holistika contracts) | Engagement arm — the only sub-mark with engagement folder roots; every folder under Think Big is a project-shaped engagement |
 
@@ -197,7 +197,7 @@ User-clarified doctrine 2026-05-11 (D-W13-G). The contract is THE answer to "whe
 | Asset class | Home | Authority | Audience |
 |:---|:---|:---|:---|
 | **Role-owner canonical** (SOPs, topic indexes, narrative SSOTs) | [`docs/references/hlk/v3.0/<Area>/<role-folder>/<file>.md`](../../) | Authoritative SOURCE — the human-readable canonical the role-owner edits | Operators, agents reading prose, decks generated from prose |
-| **`compliance/` tightened mirror** (CSV registers) | [`docs/references/hlk/compliance/*.csv`](../../../../../compliance/) + [`dimensions/*.csv`](../../../../../compliance/dimensions/) | Tightened MACHINE-READABLE companion — what validators + SQL mirrors + ERP panels consume | Validators, mirrors, downstream tooling |
+| **`compliance/` tightened mirror** (CSV registers) | [`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/*.csv`](../../../../../compliance/) + [`dimensions/*.csv`](../../../../../compliance/dimensions/) | Tightened MACHINE-READABLE companion — what validators + SQL mirrors + ERP panels consume | Validators, mirrors, downstream tooling |
 
 ### Cross-reference invariants
 
@@ -208,7 +208,7 @@ User-clarified doctrine 2026-05-11 (D-W13-G). The contract is THE answer to "whe
 
 ### Concrete examples
 
-- **GOI/POI register.** Narrative SOP: [`SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md`](../../People/Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md). Tightened mirror: [`docs/references/hlk/compliance/dimensions/GOI_POI_REGISTER.csv`](../../../../../compliance/dimensions/GOI_POI_REGISTER.csv). The SOP defines `class` enum semantics; the CSV holds the rows; the validator [`validate_goipoi_register.py`](../../../../../../../scripts/validate_goipoi_register.py) enforces the projection.
+- **GOI/POI register.** Narrative SOP: [`SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md`](../../People/Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md). Tightened mirror: [`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv`](../../../../../compliance/dimensions/GOI_POI_REGISTER.csv). The SOP defines `class` enum semantics; the CSV holds the rows; the validator [`validate_goipoi_register.py`](../../../../../../../scripts/validate_goipoi_register.py) enforces the projection.
 - **Baseline organisation.** Narrative SOP: [`SOP-META_PROCESS_MGMT_001.md`](../../../../../compliance/SOP-META_PROCESS_MGMT_001.md) (canonical lives in `compliance/` for this one — historical placement). Tightened mirror: [`baseline_organisation.csv`](../../../../../compliance/baseline_organisation.csv). The SOP defines role taxonomy; the CSV holds the rows.
 
 ---
@@ -334,7 +334,7 @@ Every governed asset declares one or more of five classes in its frontmatter (`c
 
 **Why this resolves "where does X live."** The lattice + the home-channel rule resolves recurring placement ambiguity: every artifact's classification dictates its home channel. `fact` lives in `compliance/`; `way_of_working` lives in role-canonicals; `active_research_radar` lives in `docs/wip/intelligence/` until promoted; `selling_point` cross-references `way_of_working` plus carries an outward-facing render; `reference_only` lives in `Research & Logic/`. This is the load-bearing answer to "why are there two compliance folders, why is wip in docs, where does v3.0 vs wip live."
 
-Full spec at [`docs/references/hlk/compliance/dimensions/CLASSIFICATION_LATTICE.md`](../../../../compliance/dimensions/CLASSIFICATION_LATTICE.md) (NEW; P4 deliverable).
+Full spec at [`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CLASSIFICATION_LATTICE.md`](../../../../compliance/dimensions/CLASSIFICATION_LATTICE.md) (NEW; P4 deliverable).
 
 ## 12. Continuous improvement loop
 

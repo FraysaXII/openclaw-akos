@@ -26,8 +26,8 @@ This document defines the promotion ladder for founder-governance knowledge in t
 | Working synthesis | Redacted interpretation and cross-checking | No | `docs/wip/` |
 | Case layer | Current founder/entity decisions and evidence packs | Yes | `docs/references/hlk/v3.0/` |
 | SOP layer | Repeatable operating procedure | Yes | `docs/references/hlk/v3.0/` |
-| Registry layer | Runtime-discoverable project/workstream/process/task model | Yes | `docs/references/hlk/compliance/process_list.csv` |
-| Org layer | Role ownership model | Yes | `docs/references/hlk/compliance/baseline_organisation.csv` |
+| Registry layer | Runtime-discoverable project/workstream/process/task model | Yes | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv` |
+| Org layer | Role ownership model | Yes | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv` |
 | PMO portfolio layer | Program metadata SSOT (status, links, GOI/POI handles); not a second narrative vault | Yes (thin) | [TOPIC_PMO_CLIENT_DELIVERY_HUB.md](../../Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md) |
 
 ## Operating Rule

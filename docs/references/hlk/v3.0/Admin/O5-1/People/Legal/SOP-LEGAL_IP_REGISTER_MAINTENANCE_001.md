@@ -29,7 +29,7 @@ sister_sops:
 
 The IP register is the operator-facing source-of-truth for "what marks does Holistika own / pending / lost / sold". Where `SOP-LEGAL_TRADEMARK_MONITORING_001` produces a per-quarter snapshot, this SOP maintains the **standing register** that the snapshot updates.
 
-The register is a small CSV under `docs/references/hlk/compliance/` (created in P3 Half 2 follow-up tranche, or as part of the I66 P4 trademark-filing strategy phase). Until the CSV exists, the register lives as a canonical Markdown table inside `BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md`.
+The register is a small CSV under `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` (created in P3 Half 2 follow-up tranche, or as part of the I66 P4 trademark-filing strategy phase). Until the CSV exists, the register lives as a canonical Markdown table inside `BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md`.
 
 ## 2. Cadence
 
@@ -66,7 +66,7 @@ For all `status: registered` marks, recompute days-to-next-renewal. Flag entries
 
 ### Step 4 — File register snapshot (5 min)
 
-Snapshot the current register state to `docs/references/hlk/compliance/IP_REGISTER_SNAPSHOT_<YYYY-Q[1-4]>.md` for institutional-memory purposes. The standing register is mutable; the snapshot is immutable.
+Snapshot the current register state to `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/IP_REGISTER_SNAPSHOT_<YYYY-Q[1-4]>.md` for institutional-memory purposes. The standing register is mutable; the snapshot is immutable.
 
 ### Step 5 — File quarterly review report (10 min)
 

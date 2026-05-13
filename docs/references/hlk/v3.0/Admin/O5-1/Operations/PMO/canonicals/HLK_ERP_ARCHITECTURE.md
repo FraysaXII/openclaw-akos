@@ -254,7 +254,7 @@ Today the `hlk-erp` repo (`C:\Users\Shadow\cd_shadow\root_cd\hlk-erp`) has these
 - **Master CANONICAL_REGISTRY.csv** — [`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CANONICAL_REGISTRY.csv`](../../../People/Compliance/canonicals/CANONICAL_REGISTRY.csv) — defines all 106 canonicals with `mirror_table` + `view_name` + `panel_slot` columns this architecture consumes.
 - **WORKSPACE_BLUEPRINT_HOLISTIKA** — [`WORKSPACE_BLUEPRINT_HOLISTIKA.md`](../WORKSPACE_BLUEPRINT_HOLISTIKA.md) §1 (four-channel architecture), §15.2 (future-OS-shape scenarios + migration triggers).
 - **KM_CHANNEL_VALUE_NARRATIVE** — [`KM_CHANNEL_VALUE_NARRATIVE.md`](../KM_CHANNEL_VALUE_NARRATIVE.md) — the sellable framing this architecture instantiates.
-- **CLASSIFICATION_LATTICE** — [`docs/references/hlk/compliance/dimensions/CLASSIFICATION_LATTICE.md`](../../../../../compliance/dimensions/CLASSIFICATION_LATTICE.md) — 5-class taxonomy that drives panel header badges.
+- **CLASSIFICATION_LATTICE** — [`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CLASSIFICATION_LATTICE.md`](../../../../../compliance/dimensions/CLASSIFICATION_LATTICE.md) — 5-class taxonomy that drives panel header badges.
 - **D-IH-70-J** — Mirrors completeness ratification (in DECISION_REGISTER): mandates the per-canonical mirror+view+panel triplet pattern.
 - **D-IH-70-K** — docs/wip placement + MADEIRA-AKOS reserved folder: ties this architecture to the future-OS-shape migration triggers.
 - **H4 ratification** (Pre-handoff): TSX panel scaffolds split to Phase 10.5 (~3 days, post-Phase-10 ownership matrix). This canonical specifies the architecture; Phase 10.5 ships the scaffolds in the sibling repo.

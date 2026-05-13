@@ -23,8 +23,8 @@ This repository is governed by the AKOS HLK doctrine. The Single Source of Truth
 
 - AKOS repository: `https://github.com/FraysaXII/openclaw-akos`
 - HLK vault: `https://github.com/FraysaXII/openclaw-akos/tree/main/docs/references/hlk/v3.0/`
-- Compliance canonicals: `https://github.com/FraysaXII/openclaw-akos/tree/main/docs/references/hlk/compliance/`
-- Precedence ledger: `https://github.com/FraysaXII/openclaw-akos/blob/main/docs/references/hlk/compliance/PRECEDENCE.md`
+- Compliance canonicals: `https://github.com/FraysaXII/openclaw-akos/tree/main/docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/`
+- Precedence ledger: `https://github.com/FraysaXII/openclaw-akos/blob/main/docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md`
 - 6-axis doctrine: `https://github.com/FraysaXII/openclaw-akos/blob/main/docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/HOLISTIK_OPS_DISCOVERY.md`
 
 GitHub URLs are stable; local paths to a developer's AKOS clone vary.
@@ -37,7 +37,7 @@ If a doctrine statement in this repository's local docs (e.g., `docs/data_polici
 
 Do not create new `persona_id`, `channel_id`, `vendor_id`, `skill_id`, `cell_id`, `policy_id`, `program_id`, `topic_id`, GOI/POI `ref_id`, `process item_id`, `org_id`, or any other governed identifier locally.
 
-To add a new ID: open a PR against the AKOS canonical CSV (e.g. `docs/references/hlk/compliance/dimensions/SKILL_REGISTRY.csv` for a new skill).
+To add a new ID: open a PR against the AKOS canonical CSV (e.g. `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SKILL_REGISTRY.csv` for a new skill).
 
 ## Brand-jargon audit applies to all external prose
 

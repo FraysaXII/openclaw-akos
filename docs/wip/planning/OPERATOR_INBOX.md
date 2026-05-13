@@ -6,7 +6,7 @@ continuous_rationale: Auto-rendered Operator Action Inbox (I59 P4) — re-render
 
 # Operator Action Inbox
 
-> **SSOT** is `docs/references/hlk/compliance/OPS_REGISTER.csv`. This file is
+> **SSOT** is `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv`. This file is
 > auto-rendered by `scripts/render_operator_inbox.py` on every change to that
 > CSV. Filter: `status='open'` AND `owner_class IN ('operator', 'mixed')`,
 > ordered by `rice_score DESC`.

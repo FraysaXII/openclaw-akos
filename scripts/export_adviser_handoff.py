@@ -95,7 +95,7 @@ def _section_sharing_legend() -> str:
         "| `restricted` | `internal_only` | Excluded from this export by default (use `--include-restricted` to include) |\n\n"
         "All ref_ids resolve via `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/GOI_POI_REGISTER.csv`. "
         "Real names of private entities and persons are kept off-repo per "
-        "`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_001.md`.\n\n"
+        "`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/SOP-HLK_TRANSCRIPT_REDACTION_001.md`.\n\n"
     )
 
 
@@ -120,7 +120,7 @@ def _section_fact_pattern(goipoi: list[dict[str, str]], program_id: str) -> str:
         "## Fact pattern (GOI/POI ref_ids)\n\n"
         "Display names are obfuscated for private entities. See the canonical fact-pattern document "
         "[`FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md`]"
-        "(../../docs/references/hlk/v3.0/Admin/O5-1/People/Legal/FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md).\n\n"
+        "(../../docs/references/hlk/v3.0/Admin/O5-1/People/Legal/canonicals/FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md).\n\n"
         + _md_table(
             ["ref_id", "entity_kind", "class", "display_name", "lens", "sensitivity", "role_owner"],
             body_rows,

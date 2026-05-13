@@ -6,10 +6,10 @@ description: >-
   lookup, the open-questions / filed-instruments registers, the counsel
   handoff package, or transcripts under delete-legal-transcripts/.
 globs:
-  - "docs/references/hlk/compliance/GOI_POI_REGISTER.csv"
-  - "docs/references/hlk/compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
-  - "docs/references/hlk/compliance/ADVISER_OPEN_QUESTIONS.csv"
-  - "docs/references/hlk/compliance/FOUNDER_FILED_INSTRUMENTS.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/GOI_POI_REGISTER.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv"
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_GOIPOI_*"
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_*"
   - "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-EXTERNAL_ADVISER_*"

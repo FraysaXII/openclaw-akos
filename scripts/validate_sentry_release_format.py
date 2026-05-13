@@ -9,7 +9,7 @@ Sentry init code emits a release string matching the canonical
 The check is **forward-compatible**:
 
 - Default mode (no env var) only validates the canonical doc at
-  ``docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/SENTRY_DASHBOARD_HOLISTIKA.md``
+  ``docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/Repositories/SENTRY_DASHBOARD_HOLISTIKA.md``
   (presence of the canonical-format example block).
 - ``AKOS_SENTRY_RELEASE_SCAN_CONSUMERS=1`` enables a per-consumer-repo scan
   that walks each repo's Sentry config files (``sentry.client.config.ts``,
@@ -61,6 +61,8 @@ CANONICAL_DOC_PATH = (
     / "references"
     / "hlk"
     / "v3.0"
+    / "Admin"
+    / "O5-1"
     / "Envoy Tech Lab"
     / "Repositories"
     / "SENTRY_DASHBOARD_HOLISTIKA.md"

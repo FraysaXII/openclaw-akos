@@ -1,7 +1,7 @@
 """Initiative 30 P3 + P6 — drift detector for GOVERNANCE_MOAT.md.
 
 The moat artifact at
-``docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/business-strategy/GOVERNANCE_MOAT.md``
+``docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/business-strategy/GOVERNANCE_MOAT.md``
 quotes four hero metrics that the deck slide 11 pillar 1 then re-quotes:
 
 - Topics (count from ``TOPIC_REGISTRY.csv``)

@@ -10,8 +10,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 SOP_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Marketing" / "Brand" / "SOP-HLK_LOCALISATION_001.md"  # I32 P7 (D-IH-32-E) relocation
 BRAND_FR_STUB = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Marketing" / "Brand" / "canonicals" / "BRAND_FRENCH_PATTERNS.md"
 VALIDATOR = REPO_ROOT / "scripts" / "validate_hlk_language_frontmatter.py"
-MADEIRA_MD = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Operations" / "PMO" / "business-strategy" / "MADEIRA_PLATFORM.md"
-GOVERNANCE_MOAT_MD = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Operations" / "PMO" / "business-strategy" / "GOVERNANCE_MOAT.md"
+MADEIRA_MD = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Operations" / "PMO" / "canonicals" / "business-strategy" / "MADEIRA_PLATFORM.md"
+GOVERNANCE_MOAT_MD = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Operations" / "PMO" / "canonicals" / "business-strategy" / "GOVERNANCE_MOAT.md"
 
 
 def _read_lang(path: Path) -> str | None:

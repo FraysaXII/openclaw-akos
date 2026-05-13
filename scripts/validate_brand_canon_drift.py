@@ -81,6 +81,7 @@ LEGAL_DIR = (
     / "O5-1"
     / "People"
     / "Legal"
+    / "canonicals"
 )
 
 REQUIRED_CANONICALS = (

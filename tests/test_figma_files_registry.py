@@ -16,7 +16,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 REGISTRY = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Envoy Tech Lab"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Envoy Tech Lab"
     / "Repositories" / "FIGMA_FILES_REGISTRY.md"
 )
 TOPIC_REGISTRY = (

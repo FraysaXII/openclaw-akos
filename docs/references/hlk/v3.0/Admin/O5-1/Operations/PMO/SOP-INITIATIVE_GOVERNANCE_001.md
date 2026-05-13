@@ -92,7 +92,7 @@ A `master-roadmap.md` whose frontmatter `status:` does not match `InitiativeStat
 
 - Anchor process row (planned, **not yet minted**, deferred to Initiative 60 candidate): `gtm_pm_st_initgov` "Initiative governance lifecycle" under **Think Big Operational Excellence**. Until that row exists, this SOP cites itself directly via `hlk_process` from initiative master-roadmaps.
 - Related SOPs: [SOP-PMO_VAULT_PROMOTION_GATE_001.md](SOP-PMO_VAULT_PROMOTION_GATE_001.md), [SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md](SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md), [SOP-INITIATIVE_PROCESS_HARMONISATION_001.md](SOP-INITIATIVE_PROCESS_HARMONISATION_001.md).
-- Canonical CSVs: `INITIATIVE_REGISTRY.csv`, `OPS_REGISTER.csv`, `CYCLE_REGISTER.csv`, `DECISION_REGISTER.csv`, `REPOSITORY_REGISTRY.csv` (all under `docs/references/hlk/compliance/`).
+- Canonical CSVs: `INITIATIVE_REGISTRY.csv`, `OPS_REGISTER.csv`, `CYCLE_REGISTER.csv`, `DECISION_REGISTER.csv`, `REPOSITORY_REGISTRY.csv` (all under `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/`).
 - Status SSOT: `akos/planning/status_taxonomy.py` (`InitiativeStatus` StrEnum + companion-field rules).
 
 ## Ratification

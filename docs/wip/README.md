@@ -1,6 +1,6 @@
 # Work-in-progress documentation (`docs/wip`)
 
-This tree holds **non-canonical** drafts: planning copies, proposals, and interpretation-layer syntheses. **Canonical** Holistika knowledge remains under [`docs/references/hlk/v3.0/`](../references/hlk/v3.0/) and [`docs/references/hlk/compliance/`](../references/hlk/compliance/) per [PRECEDENCE.md](../references/hlk/compliance/PRECEDENCE.md).
+This tree holds **non-canonical** drafts: planning copies, proposals, and interpretation-layer syntheses. **Canonical** Holistika knowledge remains under [`docs/references/hlk/v3.0/`](../references/hlk/v3.0/) and [`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/`](../references/hlk/compliance/) per [PRECEDENCE.md](../references/hlk/compliance/PRECEDENCE.md).
 
 ## Layout
 

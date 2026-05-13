@@ -118,7 +118,7 @@ Schema expansions (new columns, new lifecycle enum value) require **explicit** d
 
 ## 8. References
 
-* `docs/references/hlk/compliance/dimensions/PERSONA_SCENARIO_REGISTRY.csv`  
+* `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv`  
 * `scripts/migrate_persona_registry_i49_columns.py`  
 * `scripts/recalculate_persona_scenario_priorities.py`  
 * `SOP-MADEIRA_INCIDENT_RESPONSE_001.md`  

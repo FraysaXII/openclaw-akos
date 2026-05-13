@@ -1,7 +1,7 @@
 """CICD baseline Pydantic models for I68 P5 (D-IH-68-D, D-IH-68-J).
 
 Models the per-class CI/CD baseline matrix codified in
-``docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/SOP-CICD_BASELINE_001.md``
+``docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-CICD_BASELINE_001.md``
 §3 + the per-repo opt-out matrix in §7.
 
 Forward-compatible: tolerates absence of the new ``REPOSITORY_REGISTRY.csv``

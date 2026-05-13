@@ -26,7 +26,7 @@ references_goipoi:
 
 ## Why this exists
 
-Holistika operates in a partnership ecosystem (`partner` and `collaborator` GOI/POI classes per [`GOI_POI_REGISTER.csv`](../../../../../../../docs/references/hlk/compliance/dimensions/GOI_POI_REGISTER.csv)). Some engagements are **brought to us** by a partner who introduces, vouches for, or operates alongside us with the customer. The natural temptation in such cases is to either:
+Holistika operates in a partnership ecosystem (`partner` and `collaborator` GOI/POI classes per [`GOI_POI_REGISTER.csv`](../../../../../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv)). Some engagements are **brought to us** by a partner who introduces, vouches for, or operates alongside us with the customer. The natural temptation in such cases is to either:
 
 1. **Erase the partner from the surface** — which under-credits the introduction and can damage the partnership over time, or
 2. **Equal-share the brand surface** — which collapses the host's identity, dilutes the customer's read of who is accountable for delivery, and creates a "joint venture" optical that neither side intended.
@@ -220,4 +220,4 @@ A single engagement may, over its lifecycle, switch host posture between artefac
 - [`BRAND_DO_DONT.md`](BRAND_DO_DONT.md) — IS / IS NOT (the §6 anti-patterns above extend the IS NOT side for co-branded contexts).
 - [`akos/hlk_pdf_render.py`](../../../../../../../akos/hlk_pdf_render.py) — the renderer whose primitives realise this canonical (`host-card` CSS class, `_COVER_STRIP_LABELS` localized keys, `_build_cover_html` `collaboration_partner` keyword, `{{GUEST_LOGO_URI}}` substitution).
 - [`tests/test_render_dossier.py`](../../../../../../../tests/test_render_dossier.py) — drift safeguard for renderer-emitted selectors (extends to assert `.host-card` and `.method-anchors` selectors when co-branded surfaces are produced).
-- [`GOI_POI_REGISTER.csv`](../../../../../../../docs/references/hlk/compliance/dimensions/GOI_POI_REGISTER.csv) — partner / collaborator registry (a co-branded engagement requires the partner to have a row with `class: partner` or `class: collaborator` and a `lens: partner_engagement` notation; absence is a precondition violation).
+- [`GOI_POI_REGISTER.csv`](../../../../../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv) — partner / collaborator registry (a co-branded engagement requires the partner to have a row with `class: partner` or `class: collaborator` and a `lens: partner_engagement` notation; absence is a precondition violation).

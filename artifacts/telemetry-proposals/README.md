@@ -16,7 +16,7 @@ JSON files named `telemetry-proposals-<UTC>.json`, each emitted by a single run 
 
 1. **Emit proposals** — `py scripts/promote_telemetry_to_scenario.py --since-days 30`
 2. **Triage** — review the JSON; pick 1–3 highest-leverage clusters.
-3. **Merge** — append rows to `docs/references/hlk/compliance/dimensions/PERSONA_SCENARIO_REGISTRY.csv` with `lifecycle_status=scaffold` and `notes` citing the proposal_id + telemetry source.
+3. **Merge** — append rows to `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv` with `lifecycle_status=scaffold` and `notes` citing the proposal_id + telemetry source.
 4. **Validate** — `py scripts/validate_persona_scenario_registry.py` and `py scripts/validate_hlk.py` must pass.
 5. **Decision-log** — per-row entry in the active initiative's decision-log per the `G-50-2`-style operator-merge gate.
 
@@ -25,5 +25,5 @@ JSON files named `telemetry-proposals-<UTC>.json`, each emitted by a single run 
 ## Cross-references
 
 - [`SOP-MADEIRA_SCENARIO_LIFECYCLE_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/SOP-MADEIRA_SCENARIO_LIFECYCLE_001.md) §5.4 (operator-merge policy).
-- [`PERSONA_SCENARIO_REGISTRY.csv`](../../docs/references/hlk/compliance/dimensions/PERSONA_SCENARIO_REGISTRY.csv) (canonical destination).
+- [`PERSONA_SCENARIO_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv) (canonical destination).
 - [`scripts/promote_telemetry_to_scenario.py`](../../scripts/promote_telemetry_to_scenario.py) (emitter).

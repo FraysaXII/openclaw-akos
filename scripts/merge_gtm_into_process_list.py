@@ -424,7 +424,7 @@ def new_container_rows() -> list[dict[str, str]]:
             "time_hours_par": "",
             "description": (
                 "Governed path from Trello/WIP to process_list.csv. "
-                "See docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-PMO_VAULT_PROMOTION_GATE_001.md."
+                "See docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/SOP-PMO_VAULT_PROMOTION_GATE_001.md."
             ),
             "instructions": "Follow SOP-PMO_VAULT_PROMOTION_GATE_001 before merging registry tranches.",
             "addundum_extras": "Planning matrix: docs/wip/planning/02-hlk-on-akos-madeira/reports/trello-list-to-workstream-matrix.md",
