@@ -42,7 +42,7 @@ from akos.dossier.html_render import BRAND_CSS_VARS, _html_escape
 logger = logging.getLogger("akos.dossier.console_render")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-DIMENSIONS_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions"
+DIMENSIONS_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions"
 PLANNING_DIR = REPO_ROOT / "docs" / "wip" / "planning"
 CASSETTES_DIR = REPO_ROOT / "tests" / "evals" / "cassettes"
 INDEX_JSON = REPO_ROOT / "artifacts" / "uat-dossier" / "index.json"
@@ -300,7 +300,7 @@ def _panel_c_trend_small_multiples(idx_path: Path, run: Any) -> str:
 
 
 def _panel_d_persona_heatmap(rr: Path) -> str:
-    csv_path = rr / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
+    csv_path = rr / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
     rows = _read_scenario_csv(csv_path)
     if not rows:
         return f"""
@@ -360,7 +360,7 @@ def _panel_d_persona_heatmap(rr: Path) -> str:
 
 
 def _panel_e_scenario_samples(rr: Path, run: Any) -> str:
-    csv_path = rr / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
+    csv_path = rr / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
     rows = _read_scenario_csv(csv_path)
     if not rows:
         return ""
@@ -436,7 +436,7 @@ def _panel_f_decisions_taken(rr: Path) -> str:
 
 
 def _panel_g_skill_registry(rr: Path) -> str:
-    csv_path = rr / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SKILL_REGISTRY.csv"
+    csv_path = rr / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "SKILL_REGISTRY.csv"
     if not csv_path.is_file():
         return ""
     try:

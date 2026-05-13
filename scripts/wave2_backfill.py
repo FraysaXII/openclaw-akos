@@ -252,10 +252,7 @@ def cmd_write(
 
 _PROGRAM_REGISTRY_CSV = (
     REPO_ROOT
-    / "docs"
-    / "references"
-    / "hlk"
-    / "compliance"
+    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
     / "dimensions"
     / "PROGRAM_REGISTRY.csv"
 )
@@ -278,7 +275,7 @@ def _write_program_registry(
 
     Reads the YAML's `programs:` mapping (one mapping per row, keyed by either
     `program_id` (PRJ-HOL-...) or `process_item_id` (e.g. env_tech_prj_2)) and
-    writes `docs/references/hlk/compliance/dimensions/PROGRAM_REGISTRY.csv` with
+    writes `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PROGRAM_REGISTRY.csv` with
     column order matching `akos.hlk_program_registry_csv.PROGRAM_REGISTRY_FIELDNAMES`.
 
     The YAML key is treated as the **canonical program_id** when it matches

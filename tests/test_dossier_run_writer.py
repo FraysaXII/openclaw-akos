@@ -125,10 +125,7 @@ def test_i48_migration_defines_dossier_run_table() -> None:
 def test_policy_register_has_dossier_retention_row() -> None:
     csv_path = (
         Path(__file__).resolve().parent.parent
-        / "docs"
-        / "references"
-        / "hlk"
-        / "compliance"
+        / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
         / "dimensions"
         / "POLICY_REGISTER.csv"
     )

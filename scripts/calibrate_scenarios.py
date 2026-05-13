@@ -113,7 +113,7 @@ def main() -> int:
     if args.write_priority_scores:
         from akos.hlk_persona_scenario_priority import rewrite_persona_registry_priority_scores
 
-        csv_out = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
+        csv_out = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
         try:
             n, delta = rewrite_persona_registry_priority_scores(csv_out)
         except ValueError as e:

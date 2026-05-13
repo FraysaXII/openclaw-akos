@@ -42,7 +42,7 @@ All machine keys originate in the canonical vault files. The database receives t
 ### Direction of Authority
 
 ```
-AKOS canonical vault (docs/references/hlk/compliance/)
+AKOS canonical vault (docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/)
     |
     v  (one-way sync, canonical always wins per PRECEDENCE.md)
     |
@@ -133,7 +133,7 @@ Future sync automation should follow these principles:
 
 ## 6. Approval Gate
 
-All sync operations and DB cleanup actions described here are gated behind explicit operator approval per `docs/references/hlk/compliance/PRECEDENCE.md`. No automated sync runs until the stable-key policy is frozen and the operator confirms the cleanup list.
+All sync operations and DB cleanup actions described here are gated behind explicit operator approval per `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md`. No automated sync runs until the stable-key policy is frozen and the operator confirms the cleanup list.
 
 ## 11. Cross-repo contract (NEW Initiative 32 P7, D-IH-32-K)
 

@@ -1,12 +1,12 @@
 """Field contract for FINOPS_COUNTERPARTY_REGISTER.csv (Initiative 18).
 
-Canonical CSV lives under docs/references/hlk/compliance/.
+Canonical CSV lives under docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/.
 Mirrored to compliance.finops_counterparty_register_mirror on Supabase.
 """
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/FINOPS_COUNTERPARTY_REGISTER.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FINOPS_COUNTERPARTY_REGISTER.csv header row.
 FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES: tuple[str, ...] = (
     "counterparty_id",
     "counterparty_type",

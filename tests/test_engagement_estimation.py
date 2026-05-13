@@ -293,7 +293,7 @@ def test_render_commercial_schedule_markdown_snapshot_shape() -> None:
 
 
 def test_load_role_rates_from_canonical_csv_is_well_formed() -> None:
-    csv_path = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "baseline_organisation.csv"
+    csv_path = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "baseline_organisation.csv"
     rates = load_role_rates(csv_path)
     assert "Project Manager" in rates
     assert "O5-1" in rates
@@ -303,7 +303,7 @@ def test_load_role_rates_from_canonical_csv_is_well_formed() -> None:
 
 
 def test_load_calendar_returns_es_and_fr() -> None:
-    csv_path = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "COUNTRY_WORK_CALENDAR.csv"
+    csv_path = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "COUNTRY_WORK_CALENDAR.csv"
     if not csv_path.exists():
         pytest.skip("COUNTRY_WORK_CALENDAR.csv not yet seeded (P3b in progress)")
     cals = load_calendar(csv_path)
@@ -326,9 +326,9 @@ def test_suez_application_produces_a_full_schedule() -> None:
         / "2026-05-10-suez-webuy-procure-to-pay"
         / "scope.yaml"
     )
-    rates_path = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "baseline_organisation.csv"
+    rates_path = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "baseline_organisation.csv"
     cal_path = (
-        REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "COUNTRY_WORK_CALENDAR.csv"
+        REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "COUNTRY_WORK_CALENDAR.csv"
     )
     if not (scope_path.exists() and cal_path.exists()):
         pytest.skip("SUEZ scope.yaml or COUNTRY_WORK_CALENDAR.csv not yet authored")

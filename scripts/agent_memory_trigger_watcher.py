@@ -44,7 +44,7 @@ REPO = Path(__file__).resolve().parent.parent
 ARTIFACTS = REPO / "artifacts" / "agent-memory-triggers"
 ARTIFACTS.mkdir(parents=True, exist_ok=True)
 
-SKILL_CSV = REPO / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SKILL_REGISTRY.csv"
+SKILL_CSV = REPO / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "SKILL_REGISTRY.csv"
 
 
 @dataclass

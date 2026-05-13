@@ -4,7 +4,7 @@
 Per D-IH-59-C two-layer SSOT: the markdown table at
 ``docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/REPOSITORIES_REGISTRY.md``
 stays canonical for operator-readable narrative; the CSV at
-``docs/references/hlk/compliance/REPOSITORY_REGISTRY.csv`` becomes canonical for
+``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPOSITORY_REGISTRY.csv`` becomes canonical for
 machine-readable FK joins. This validator asserts both stay in sync at the row
 level (one repo_slug per row in each surface; no orphans).
 
@@ -28,7 +28,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT
 
-CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPOSITORY_REGISTRY.csv"
+CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "REPOSITORY_REGISTRY.csv"
 MD_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Envoy Tech Lab" / "Repositories" / "REPOSITORIES_REGISTRY.md"
 
 REPO_SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]{1,80}$")

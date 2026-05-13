@@ -1,6 +1,6 @@
 """Field contract for INITIATIVE_REGISTRY.csv (Initiative 59 P1.2).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/INITIATIVE_REGISTRY.csv``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv``.
 Mirrored to ``compliance.initiative_registry_mirror`` on Supabase.
 
 Central registry for every planning initiative across all Holistika-tracked
@@ -32,7 +32,7 @@ FK targets:
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/INITIATIVE_REGISTRY.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv header row.
 INITIATIVE_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "initiative_id",          # ^INIT-[A-Z0-9_]+-\d{2,3}$ ; PRIMARY KEY
     "repo_slug",              # FK to REPOSITORY_REGISTRY.repo_slug

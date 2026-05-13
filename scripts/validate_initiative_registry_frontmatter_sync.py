@@ -31,7 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from akos.io import REPO_ROOT
 from akos.planning.status_taxonomy import VALID_INITIATIVE_STATUSES
 
-CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "INITIATIVE_REGISTRY.csv"
+CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "INITIATIVE_REGISTRY.csv"
 PLANNING_ROOT = REPO_ROOT / "docs" / "wip" / "planning"
 
 FOLDER_RE = re.compile(r"^(\d{2}[a-z]?)-(.+)$")

@@ -49,11 +49,11 @@ from typing import Any, Callable
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 POLICY_CSV = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POLICY_REGISTER.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "POLICY_REGISTER.csv"
 )
 
 PERSONA_CSV = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_REGISTRY.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PERSONA_REGISTRY.csv"
 )
 
 JUDGE_AXES: tuple[str, str, str] = ("brand_voice", "citation", "persona_fit")

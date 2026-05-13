@@ -42,7 +42,7 @@ SUBS: list[tuple[re.Pattern[str], str, str]] = [
 
 REDACTION_HEADER = (
     "<!-- Initiative 21 / P2 redacted forward-only per SOP-HLK_TRANSCRIPT_REDACTION_001 -->\n"
-    "<!-- Substitutions: ref_ids resolve in docs/references/hlk/compliance/GOI_POI_REGISTER.csv -->\n"
+    "<!-- Substitutions: ref_ids resolve in docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/GOI_POI_REGISTER.csv -->\n"
 )
 
 

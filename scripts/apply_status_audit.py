@@ -10,9 +10,9 @@ Reads the audit YAML produced in P3 (one entry per initiative) and:
    non-conflicting frontmatter keys are preserved verbatim.
 
 2. **CSV side (bulk seed)**: writes one row per audited initiative into
-   ``docs/references/hlk/compliance/INITIATIVE_REGISTRY.csv`` (status + last_review
+   ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv`` (status + last_review
    + decision FKs + cycle FK) and one row per ``ops_action_id`` reference into
-   ``docs/references/hlk/compliance/OPS_REGISTER.csv`` (status='open' for
+   ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv`` (status='open' for
    forwarded references unless the audit marks them otherwise).
 
 The script is **idempotent**: running it again with the same YAML produces the
@@ -50,7 +50,7 @@ from akos.planning.status_taxonomy import (
 )
 
 PLANNING_DIR = REPO_ROOT / "docs" / "wip" / "planning"
-HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 INITIATIVE_REGISTRY_CSV = HLK_COMPLIANCE / "INITIATIVE_REGISTRY.csv"
 OPS_REGISTER_CSV = HLK_COMPLIANCE / "OPS_REGISTER.csv"
 

@@ -1,6 +1,6 @@
 """Field contract for ADVISER_ENGAGEMENT_DISCIPLINES.csv (Initiative 21).
 
-Canonical CSV lives under docs/references/hlk/compliance/.
+Canonical CSV lives under docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/.
 Mirrored to compliance.adviser_engagement_disciplines_mirror on Supabase.
 
 Defines the small lookup of external-adviser engagement **disciplines** (legal,
@@ -12,7 +12,7 @@ reference rows here by ``discipline_id`` to drive per-discipline routing in
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv header row.
 ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES: tuple[str, ...] = (
     "discipline_id",
     "discipline_code",

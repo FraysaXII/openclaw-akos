@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES
 from akos.io import REPO_ROOT
 
-HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 # I32 P7 (D-IH-32-D): GOI/POI relocated from compliance/ to compliance/dimensions/.
 # Deprecation alias supported for one initiative cycle: validator falls back to
 # the legacy path when the dimensions/ path is absent. Remove the alias in I33.

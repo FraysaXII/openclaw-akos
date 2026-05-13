@@ -31,9 +31,9 @@ from akos.hlk_repository_registry_csv import (
 )
 from akos.io import REPO_ROOT
 
-CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPOSITORY_REGISTRY.csv"
-ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "baseline_organisation.csv"
-TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
+CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "REPOSITORY_REGISTRY.csv"
+ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "baseline_organisation.csv"
+TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"
 
 REPO_SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]{1,80}$")
 

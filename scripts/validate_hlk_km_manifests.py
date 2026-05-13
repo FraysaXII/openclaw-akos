@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT
 
-HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 ORG_CSV = HLK_COMPLIANCE / "baseline_organisation.csv"
 ASSETS_ROOT = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "_assets"
 
@@ -144,7 +144,7 @@ def load_topic_registry_ids() -> set[str]:
     Returns empty set when the CSV is absent (Initiative 25 not yet shipped),
     in which case manifest topic_ids are not FK-checked.
     """
-    csv_path = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
+    csv_path = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"
     if not csv_path.is_file():
         return set()
     import csv as _csv

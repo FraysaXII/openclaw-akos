@@ -18,7 +18,7 @@ Every governed compliance asset is keyed by **at most three** stable axes:
 
 | Axis | Values (current) | Where it lives in the canonical row |
 |:-----|:-----------------|:------------------------------------|
-| **Plane** | `compliance` (cross-cutting), `finops`, `advops`, `techops`, `dimensions` (knowledge dimensions used across planes), `marops`, `devops` | Subfolder under `docs/references/hlk/compliance/` (forward) |
+| **Plane** | `compliance` (cross-cutting), `finops`, `advops`, `techops`, `dimensions` (knowledge dimensions used across planes), `marops`, `devops` | Subfolder under `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` (forward) |
 | **Program / engagement** | `PRJ-HOL-FOUNDING-2026`, future `PRJ-HOL-*-YYYY` | `program_id` column on the canonical row (already present on Initiative-21 registers) |
 | **Topic / register name** | e.g. `adviser_open_questions`, `filed_instruments`, `goipoi_register` | The CSV file basename and / or `topic_id` in the matching KM manifest |
 
@@ -27,7 +27,7 @@ Three axes are sufficient — deeper trees become role/topic concerns and live i
 ## Forward layout (target)
 
 ```
-docs/references/hlk/compliance/
+docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/
 ├── README.md                                     (this file)
 ├── PRECEDENCE.md                                 (canonical precedence ledger)
 ├── SOP-META_PROCESS_MGMT_001.md                  (governing SOP for process registry)

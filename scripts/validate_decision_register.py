@@ -40,11 +40,11 @@ from akos.hlk_decision_register_csv import (
 )
 from akos.io import REPO_ROOT
 
-CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "DECISION_REGISTER.csv"
-INITIATIVE_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "INITIATIVE_REGISTRY.csv"
-OPS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "OPS_REGISTER.csv"
-POLICY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POLICY_REGISTER.csv"
-TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
+CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "DECISION_REGISTER.csv"
+INITIATIVE_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "INITIATIVE_REGISTRY.csv"
+OPS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "OPS_REGISTER.csv"
+POLICY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "POLICY_REGISTER.csv"
+TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"
 
 DECISION_ID_STANDARD_RE = re.compile(r"^D-IH-\d{1,3}-[A-Z]{1,2}(-V\d+)?$")
 DECISION_ID_CLOSURE_RE = re.compile(r"^D-IH-\d{1,3}-Decision-P\d+(-[A-Z0-9-]+)?-\d{4}-\d{2}-\d{2}$")

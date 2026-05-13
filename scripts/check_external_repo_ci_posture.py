@@ -75,7 +75,7 @@ from akos.log import setup_logging
 
 logger = logging.getLogger("akos.ci-posture")
 
-REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPOSITORY_REGISTRY.csv"
+REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "REPOSITORY_REGISTRY.csv"
 SUBDOMAINS_MD = (
     REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Envoy Tech Lab" / "Repositories" / "SUBDOMAINS_REGISTRY.md"
 )

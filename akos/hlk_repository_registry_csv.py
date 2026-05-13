@@ -1,6 +1,6 @@
 """Field contract for REPOSITORY_REGISTRY.csv (Initiative 59 P1.1).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/REPOSITORY_REGISTRY.csv``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPOSITORY_REGISTRY.csv``.
 Mirrored to ``compliance.repository_registry_mirror`` on Supabase.
 
 Repository = a tracked GitHub remote, with a class (platform / internal /
@@ -21,7 +21,7 @@ FK uses:
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/REPOSITORY_REGISTRY.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPOSITORY_REGISTRY.csv header row.
 REPOSITORY_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "repo_slug",            # ^[a-z0-9][a-z0-9-]{1,80}$ ; PRIMARY KEY
     "github_url",           # canonical https URL

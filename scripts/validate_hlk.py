@@ -50,7 +50,7 @@ from akos.hlk_process_csv import ambiguous_item_names, item_name_uniqueness_erro
 from akos.hlk_validation_run import VALID_STATUSES
 from akos.models import OrgRole, ProcessItem
 
-HLK_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+HLK_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 ORG_CSV = HLK_DIR / "baseline_organisation.csv"
 PROC_CSV = HLK_DIR / "process_list.csv"
 

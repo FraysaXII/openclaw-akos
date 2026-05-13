@@ -1,6 +1,6 @@
 """Field contract for FOUNDER_FILED_INSTRUMENTS.csv (Initiative 21 / P5).
 
-Canonical CSV lives under docs/references/hlk/compliance/.
+Canonical CSV lives under docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/.
 Mirrored to compliance.founder_filed_instruments_mirror on Supabase.
 
 Replaces the markdown register ``FOUNDER_FILED_INSTRUMENT_REGISTER.md`` as
@@ -10,7 +10,7 @@ becomes a derived human view filtered by program/discipline.
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/FOUNDER_FILED_INSTRUMENTS.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv header row.
 FOUNDER_FILED_INSTRUMENTS_FIELDNAMES: tuple[str, ...] = (
     "instrument_id",
     "discipline_id",

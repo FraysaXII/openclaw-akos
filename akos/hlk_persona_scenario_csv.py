@@ -1,6 +1,6 @@
 """Field contract for PERSONA_SCENARIO_REGISTRY.csv (Initiative 47 P1).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/dimensions/``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/``.
 Mirrored to ``compliance.persona_scenario_registry_mirror`` on Supabase.
 
 The persona-driven UAT scenario library. Joins:
@@ -23,7 +23,7 @@ NULL (default; "shared scenario applies to all tenants") OR a tenant string
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/dimensions/PERSONA_SCENARIO_REGISTRY.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv header row.
 PERSONA_SCENARIO_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "scenario_id",              # ^SCN-[A-Z0-9-]{4,80}-V\d+$
     "persona_id",               # FK to PERSONA_REGISTRY.csv (or 'OPERATOR' for operator-shaped scenarios)

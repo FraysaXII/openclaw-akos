@@ -94,7 +94,7 @@ CANONICAL_RENDER_STUB_PATH = (
 )
 
 REPOSITORY_REGISTRY_PATH = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPOSITORY_REGISTRY.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "REPOSITORY_REGISTRY.csv"
 )
 
 SCANNED_CLASSES: frozenset[str] = frozenset({"platform", "reference"})

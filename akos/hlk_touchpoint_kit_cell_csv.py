@@ -1,6 +1,6 @@
 """Field contract for TOUCHPOINT_KIT_CELL_REGISTRY.csv (Initiative 32 P3).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/dimensions/``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/``.
 Mirrored to ``compliance.touchpoint_kit_cell_mirror`` on Supabase.
 
 A touchpoint-kit cell = one (persona × channel × language) template file under
@@ -22,7 +22,7 @@ across the 15 file rows.
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/dimensions/TOUCHPOINT_KIT_CELL_REGISTRY.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOUCHPOINT_KIT_CELL_REGISTRY.csv header row.
 TOUCHPOINT_KIT_CELL_FIELDNAMES: tuple[str, ...] = (
     "cell_id",                    # ^CELL-[A-Z0-9-]{4,80}-(EN|ES|FR)$
     "persona_id",                 # FK to PERSONA_REGISTRY.csv

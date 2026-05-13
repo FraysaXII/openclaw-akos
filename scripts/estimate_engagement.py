@@ -2,8 +2,8 @@
 """Apply the AKOS estimation discipline to a per-engagement ``scope.yaml``.
 
 Reads:
-  * ``docs/references/hlk/compliance/baseline_organisation.csv`` — role × hourly-rate triangle.
-  * ``docs/references/hlk/compliance/dimensions/COUNTRY_WORK_CALENDAR.csv`` — country calendar.
+  * ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv`` — role × hourly-rate triangle.
+  * ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COUNTRY_WORK_CALENDAR.csv`` — country calendar.
   * ``<scope.yaml>`` — operator-supplied scope (engagement slug, counterparty label, country, packages).
 
 Writes:
@@ -43,9 +43,9 @@ from akos.log import setup_logging
 
 logger = logging.getLogger("akos.estimate_engagement")
 
-ROLES_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "baseline_organisation.csv"
+ROLES_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "baseline_organisation.csv"
 CALENDAR_CSV = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "COUNTRY_WORK_CALENDAR.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "COUNTRY_WORK_CALENDAR.csv"
 )
 
 

@@ -1,6 +1,6 @@
 """Field contract for CHANNEL_TOUCHPOINT_REGISTRY.csv (Initiative 31 P3).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/dimensions/``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/``.
 Mirrored to ``compliance.channel_touchpoint_registry_mirror`` on Supabase.
 
 A channel touchpoint is **where humans physically reach Holistika** (LinkedIn
@@ -19,7 +19,7 @@ and the SLA per :doc:`HOLISTIK_OPS_DISCOVERY.md` 5-axis system.
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv header row.
 CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "channel_id",
     "name",

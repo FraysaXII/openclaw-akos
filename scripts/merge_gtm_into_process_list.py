@@ -22,8 +22,8 @@ if str(REPO_ROOT) not in sys.path:
 
 from akos.hlk_process_csv import normalize_process_row, resolve_all_parent_ids, write_process_csv
 
-PROC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
-ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "baseline_organisation.csv"
+PROC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "process_list.csv"
+ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "baseline_organisation.csv"
 CANDIDATE_CSV = (
     REPO_ROOT / "docs" / "wip" / "planning" / "02-hlk-on-akos-madeira" / "candidate_gtm_process_rows.csv"
 )

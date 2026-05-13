@@ -282,7 +282,7 @@ def test_auto_quarantine_reports_unknown_scenarios(tmp_path: Path) -> None:
 def test_canonical_policy_register_has_flake_threshold_row() -> None:
     """The canonical POLICY_REGISTER.csv must define POL-EVAL-FLAKE-THRESHOLD-V1."""
     from akos.hlk_policy_register_csv import POLICY_REGISTER_FIELDNAMES, VALID_POLICY_CLASSES
-    p = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POLICY_REGISTER.csv"
+    p = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "POLICY_REGISTER.csv"
     with p.open(encoding="utf-8", newline="") as fh:
         rows = list(csv.DictReader(fh))
     flake_rows = [r for r in rows if r["policy_id"] == "POL-EVAL-FLAKE-THRESHOLD-V1"]

@@ -30,7 +30,7 @@ from akos.hlk_process_csv import (  # noqa: E402
     write_process_csv,
 )
 
-PROC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
+PROC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "process_list.csv"
 
 
 def main() -> int:

@@ -34,7 +34,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 MODEL_PRICES_PATH = REPO_ROOT / "config" / "eval" / "model-prices.json"
 ENDPOINT_PRICES_PATH = REPO_ROOT / "config" / "eval" / "endpoint-prices.json"
 POLICY_REGISTER_CSV = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POLICY_REGISTER.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "POLICY_REGISTER.csv"
 )
 
 COST_REGRESSION_HARD_FAIL_PCT = 20.0  # D-IH-45-D

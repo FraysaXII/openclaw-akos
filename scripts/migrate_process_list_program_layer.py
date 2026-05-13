@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Insert Pattern 3 program workstreams (hlk_prog_*) and re-parent selected GTM workstreams.
 
-Reads and writes docs/references/hlk/compliance/process_list.csv. Idempotent: safe to
+Reads and writes docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv. Idempotent: safe to
 re-run when program rows already exist.
 
 Usage (repo root):
@@ -22,7 +22,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from akos.hlk_process_csv import PROCESS_LIST_FIELDNAMES, normalize_process_row, resolve_all_parent_ids, write_process_csv
 
-PROC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
+PROC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "process_list.csv"
 
 PROJ_MADEIRA = "MADEIRA Platform"
 PROJ_THINK = "Think Big Operational Excellence"

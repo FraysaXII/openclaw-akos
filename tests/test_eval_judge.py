@@ -39,7 +39,7 @@ from akos.eval_harness.judge import (
 )
 from akos.hlk_policy_register_csv import VALID_POLICY_CLASSES
 
-POLICY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POLICY_REGISTER.csv"
+POLICY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "POLICY_REGISTER.csv"
 
 
 # ---------------------------------------------------------------------------
@@ -137,7 +137,7 @@ def test_citation_high_for_canonical_path() -> None:
     """5/5 citation when response cites docs/references/hlk/ path."""
     scenario = {"scenario_id": "X"}
     r = score_response_offline(
-        "See docs/references/hlk/compliance/dimensions/PERSONA_REGISTRY.csv for the row.",
+        "See docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_REGISTRY.csv for the row.",
         scenario,
     )
     assert r.scores["citation"] == 5
@@ -191,7 +191,7 @@ def test_overall_pass_requires_all_axes_pass() -> None:
     scenario = {"scenario_id": "X"}
     # Response with high brand-voice + citation + persona-fit
     r = score_response_offline(
-        "Per Holistik Ops, see docs/references/hlk/compliance/PRECEDENCE.md (System Owner authority).",
+        "Per Holistik Ops, see docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md (System Owner authority).",
         scenario,
         persona={"qualification_gate": "Confirm fit"},
     )

@@ -4,7 +4,7 @@
 Implements the **dry-run** surface described in
 ``docs/wip/planning/02-hlk-on-akos-madeira/phase-kirbe-sync-daemons-plan.md``:
 fingerprints ``baseline_organisation.csv`` and ``process_list.csv`` under
-``docs/references/hlk/compliance/`` without writing to canonical assets.
+``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/`` without writing to canonical assets.
 
 Authority: canonical HLK CSVs win on conflict (NBT.2 / D-KSD-1).
 
@@ -37,7 +37,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from akos.io import REPO_ROOT
 from akos.process import run
 
-HLK_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+HLK_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 ORG_CSV = HLK_DIR / "baseline_organisation.csv"
 PROC_CSV = HLK_DIR / "process_list.csv"
 

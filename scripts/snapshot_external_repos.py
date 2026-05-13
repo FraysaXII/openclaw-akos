@@ -2,7 +2,7 @@
 """Initiative 32 P7 (D-IH-32-L) — pull-based snapshot of external Holistika repos.
 
 Reads each external repo's local clone, derives compliance signals, and writes
-one row per repo to ``docs/references/hlk/compliance/REPO_HEALTH_SNAPSHOT.csv``.
+one row per repo to ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPO_HEALTH_SNAPSHOT.csv``.
 
 Default clone roots (override via env ``AKOS_EXTERNAL_REPO_ROOTS`` — JSON map):
 - boilerplate: ``c:\\Users\\Shadow\\cd_shadow\\root_cd\\boilerplate``
@@ -38,7 +38,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from akos.hlk_repo_health_csv import REPO_HEALTH_SNAPSHOT_FIELDNAMES
 from akos.io import REPO_ROOT
 
-CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPO_HEALTH_SNAPSHOT.csv"
+CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "REPO_HEALTH_SNAPSHOT.csv"
 MIRROR_TEMPLATE = REPO_ROOT / ".cursor" / "rules" / "akos-mirror-template.mdc"
 
 DEFAULT_REPO_ROOTS: dict[str, Path] = {

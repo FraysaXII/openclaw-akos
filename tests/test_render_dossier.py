@@ -60,14 +60,11 @@ BRAND_VISUAL_PATTERNS_MD = (
     / "BRAND_VISUAL_PATTERNS.md"
 )
 ADVISER_QUESTIONS_CSV = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "ADVISER_OPEN_QUESTIONS.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "ADVISER_OPEN_QUESTIONS.csv"
 )
 TOPIC_REGISTRY_CSV = (
     REPO_ROOT
-    / "docs"
-    / "references"
-    / "hlk"
-    / "compliance"
+    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
     / "dimensions"
     / "TOPIC_REGISTRY.csv"
 )

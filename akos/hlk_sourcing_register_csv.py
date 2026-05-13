@@ -1,6 +1,6 @@
 """Field contract for SOURCING_REGISTER.csv (Initiative 31 P5.2).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/dimensions/``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/``.
 Mirrored to ``compliance.sourcing_register_mirror`` on Supabase.
 
 Records every external professional Holistika has engaged or considered
@@ -20,7 +20,7 @@ in the off-repo redaction sheet alongside GOI/POI mappings.
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/dimensions/SOURCING_REGISTER.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SOURCING_REGISTER.csv header row.
 SOURCING_REGISTER_FIELDNAMES: tuple[str, ...] = (
     "vendor_id",
     "discipline",

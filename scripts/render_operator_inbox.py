@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Operator Action Inbox auto-renderer (Initiative 59 P4).
 
-Reads ``docs/references/hlk/compliance/OPS_REGISTER.csv`` and emits a single
+Reads ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv`` and emits a single
 ranked, FK-joined operator-readable surface at
 ``docs/wip/planning/OPERATOR_INBOX.md``. The CSV is the SSOT; this surface is
 the one place the operator looks to know "what genuinely needs me right now".
@@ -53,7 +53,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from akos.io import REPO_ROOT
 
 PLANNING_DIR = REPO_ROOT / "docs" / "wip" / "planning"
-HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 OPS_REGISTER_CSV = HLK_COMPLIANCE / "OPS_REGISTER.csv"
 INITIATIVE_REGISTRY_CSV = HLK_COMPLIANCE / "INITIATIVE_REGISTRY.csv"
 ORG_CSV = HLK_COMPLIANCE / "baseline_organisation.csv"
@@ -172,7 +172,7 @@ continuous_rationale: Auto-rendered Operator Action Inbox (I59 P4) — re-render
 
 # Operator Action Inbox
 
-> **SSOT** is `docs/references/hlk/compliance/OPS_REGISTER.csv`. This file is
+> **SSOT** is `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv`. This file is
 > auto-rendered by `scripts/render_operator_inbox.py` on every change to that
 > CSV. Filter: `status='open'` AND `owner_class IN ('operator', 'mixed')`,
 > ordered by `rice_score DESC`.

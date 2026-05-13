@@ -13,7 +13,7 @@ from datetime import date
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPO_HEALTH_SNAPSHOT.csv"
+CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "REPO_HEALTH_SNAPSHOT.csv"
 TEMPLATE_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Envoy Tech Lab" / "Repositories" / "EXTERNAL_REPO_CONTRACT_TEMPLATE.md"
 MIRROR_RULE_TEMPLATE = REPO_ROOT / ".cursor" / "rules" / "akos-mirror-template.mdc"
 REPOS_REGISTRY = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Envoy Tech Lab" / "Repositories" / "REPOSITORIES_REGISTRY.md"

@@ -52,7 +52,7 @@ def test_format_priority_stable_string() -> None:
 
 
 def test_rewrite_is_idempotent_on_copy(tmp_path: Path) -> None:
-    shutil.copy(REPO_ROOT / "docs/references/hlk/compliance/dimensions/PERSONA_SCENARIO_REGISTRY.csv", tmp_path / "P.csv")
+    shutil.copy(REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv", tmp_path / "P.csv")
     csv_p = tmp_path / "P.csv"
     n, _ = rewrite_persona_registry_priority_scores(csv_p)
     n2, delta2 = rewrite_persona_registry_priority_scores(csv_p)

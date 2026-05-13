@@ -17,8 +17,8 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-NEW_GOIPOI = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "GOI_POI_REGISTER.csv"
-LEGACY_GOIPOI = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "GOI_POI_REGISTER.csv"
+NEW_GOIPOI = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "GOI_POI_REGISTER.csv"
+LEGACY_GOIPOI = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "GOI_POI_REGISTER.csv"
 NEW_LOCALISATION = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Marketing" / "Brand" / "SOP-HLK_LOCALISATION_001.md"
 LEGACY_LOCALISATION = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Tech" / "System Owner" / "SOP-HLK_LOCALISATION_001.md"
 
@@ -79,13 +79,13 @@ def test_sync_script_alias_falls_back_to_legacy_path_if_new_is_absent() -> None:
 
 def test_compliance_readme_documents_relocation() -> None:
     """compliance/README.md alias-map must mark GOI/POI as MOVED I32 P7."""
-    src = (REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "README.md").read_text(encoding="utf-8")
+    src = (REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "README.md").read_text(encoding="utf-8")
     assert "MOVED I32 P7" in src
     assert "D-IH-32-D" in src
 
 
 def test_precedence_md_canonical_row_uses_new_path() -> None:
-    """PRECEDENCE.md canonical row for GOI/POI points at the new path."""
-    src = (REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "PRECEDENCE.md").read_text(encoding="utf-8")
-    assert "compliance/dimensions/GOI_POI_REGISTER.csv" in src
+    """PRECEDENCE.md canonical row for GOI/POI points at the new federal path (post-I70 P4.5 W2)."""
+    src = (REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "PRECEDENCE.md").read_text(encoding="utf-8")
+    assert "canonicals/dimensions/GOI_POI_REGISTER.csv" in src
     assert "Initiative 32 P7" in src or "D-IH-32-D" in src

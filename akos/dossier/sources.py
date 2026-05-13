@@ -35,7 +35,7 @@ logger = logging.getLogger("akos.dossier.sources")
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 ARTIFACTS_DIR = REPO_ROOT / "artifacts"
 PLANNING_DIR = REPO_ROOT / "docs" / "wip" / "planning"
-COMPLIANCE_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+COMPLIANCE_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 DIMENSIONS_DIR = COMPLIANCE_DIR / "dimensions"
 WIP_DASHBOARD = PLANNING_DIR / "WIP_DASHBOARD.md"
 

@@ -2,7 +2,7 @@
 """Notify consumer repos when an AKOS canonical CSV changes.
 
 Triggered (typically) from a GitHub Actions workflow on AKOS that watches
-``docs/references/hlk/compliance/*.csv``. For every row in
+``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/*.csv``. For every row in
 ``REPOSITORY_REGISTRY.csv`` whose ``consumes_mirrors`` includes a changed
 mirror, this script:
 
@@ -83,7 +83,7 @@ def _open_consumer_issue(repo_url: str, slug: str, mirrors: list[str], *, dry_ru
         "Run `py scripts/regen_consumer_types.py --repo-slug "
         + slug
         + "` against AKOS, or wait for the nightly auto-PR.\n\n"
-        "Source: https://github.com/FraysaXII/openclaw-akos/tree/main/docs/references/hlk/compliance/\n"
+        "Source: https://github.com/FraysaXII/openclaw-akos/tree/main/docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/\n"
     )
     try:
         result = subprocess.run(

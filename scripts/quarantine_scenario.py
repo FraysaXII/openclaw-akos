@@ -27,7 +27,7 @@ Flake-history JSON schema (``--auto-from-flake-history``):
 Threshold sourced from POLICY row ``POL-EVAL-FLAKE-THRESHOLD-V1``
 (``policy_text`` token ``min_consecutive_failures=N``); default 3 if the row
 is missing (warn). The threshold is documented in
-``docs/references/hlk/compliance/dimensions/POLICY_REGISTER.csv``.
+``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/POLICY_REGISTER.csv``.
 
 Refer to ``SOP-MADEIRA_SCENARIO_LIFECYCLE_001.md`` §5.2 for the operator
 contract; this script is the deterministic execution path. Schema gating is
@@ -58,19 +58,13 @@ from akos.io import REPO_ROOT as IO_REPO_ROOT
 
 CSV_PATH = (
     IO_REPO_ROOT
-    / "docs"
-    / "references"
-    / "hlk"
-    / "compliance"
+    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
     / "dimensions"
     / "PERSONA_SCENARIO_REGISTRY.csv"
 )
 POLICY_CSV = (
     IO_REPO_ROOT
-    / "docs"
-    / "references"
-    / "hlk"
-    / "compliance"
+    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
     / "dimensions"
     / "POLICY_REGISTER.csv"
 )

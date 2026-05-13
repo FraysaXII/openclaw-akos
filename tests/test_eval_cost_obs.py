@@ -218,7 +218,7 @@ def test_policy_register_has_cost_ceiling_rows() -> None:
 
     p = (
         Path(__file__).resolve().parent.parent
-        / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POLICY_REGISTER.csv"
+        / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "POLICY_REGISTER.csv"
     )
     cost_rows = [
         r for r in _csv.DictReader(p.open(encoding="utf-8"))

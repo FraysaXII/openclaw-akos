@@ -166,7 +166,7 @@ def test_policy_register_has_promotion_gate_row() -> None:
 
     p = (
         REPO_ROOT
-        / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POLICY_REGISTER.csv"
+        / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "POLICY_REGISTER.csv"
     )
     rows = [r for r in _csv.DictReader(p.open(encoding="utf-8")) if r.get("policy_class") == "promotion_gate"]
     assert len(rows) == 1

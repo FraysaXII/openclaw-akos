@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Initiative 25 P3: deterministic topic-graph renderer.
 
-Reads `docs/references/hlk/compliance/dimensions/TOPIC_REGISTRY.csv` and
+Reads `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOPIC_REGISTRY.csv` and
 emits `_assets/_meta/topic_graph.{mmd,png,svg}` showing all topics + edges
 + program clusters (subgraphs by `program_id`).
 
@@ -29,7 +29,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from akos.io import REPO_ROOT as IO_REPO_ROOT  # noqa: E402,F401
 
-CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
+CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"
 META_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "_assets" / "_meta"
 MMD_PATH = META_DIR / "topic_graph.mmd"
 RENDER_SCRIPT = REPO_ROOT / "scripts" / "render_km_diagrams.py"

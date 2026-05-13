@@ -27,10 +27,10 @@ STRATEGY_DIR = (
     / "PMO" / "business-strategy"
 )
 TOPIC_REGISTRY = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"
 )
 POC_CSV = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "POC_TO_COMMERCIAL_MAP.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "POC_TO_COMMERCIAL_MAP.csv"
 )
 SYNC_SCRIPT = REPO_ROOT / "scripts" / "sync_deck_from_strategy.py"
 

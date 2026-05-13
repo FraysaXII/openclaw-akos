@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES
 from akos.io import REPO_ROOT
 
-HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 FINOPS_CSV = HLK_COMPLIANCE / "FINOPS_COUNTERPARTY_REGISTER.csv"
 ORG_CSV = HLK_COMPLIANCE / "baseline_organisation.csv"
 PROC_CSV = HLK_COMPLIANCE / "process_list.csv"

@@ -30,8 +30,8 @@ logger = logging.getLogger("akos.graph_stack")
 _SUPERVISOR: GraphStackSupervisor | None = None
 
 _CANONICAL_CSVS: tuple[Path, ...] = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "baseline_organisation.csv",
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv",
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "baseline_organisation.csv",
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "process_list.csv",
 )
 
 

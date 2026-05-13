@@ -85,14 +85,14 @@ waves:
         target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md"
         validator: validate_hlk.py
       - canonical_id: access_levels
-        source: "docs/references/hlk/compliance/ACCESS_LEVELS.md"
-        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ACCESS_LEVELS.md"
+        source: "docs/references/hlk/compliance/access_levels.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/access_levels.md"
       - canonical_id: confidence_levels
-        source: "docs/references/hlk/compliance/CONFIDENCE_LEVELS.md"
-        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CONFIDENCE_LEVELS.md"
+        source: "docs/references/hlk/compliance/confidence_levels.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/confidence_levels.md"
       - canonical_id: source_taxonomy
-        source: "docs/references/hlk/compliance/SOURCE_TAXONOMY.md"
-        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/SOURCE_TAXONOMY.md"
+        source: "docs/references/hlk/compliance/source_taxonomy.md"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/source_taxonomy.md"
       - canonical_id: hlk_km_topic_fact_source
         source: "docs/references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md"
         target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/HLK_KM_TOPIC_FACT_SOURCE.md"

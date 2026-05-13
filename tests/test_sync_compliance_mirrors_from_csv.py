@@ -38,19 +38,19 @@ def _csv_row_count(rel_path: str) -> int:
 # path relative to repo root. Keep this map in sync with sync_compliance_mirrors_from_csv
 # whenever a new mirror is added.
 _COUNTED_CSVS: dict[str, str] = {
-    "process_list_rows": "docs/references/hlk/compliance/process_list.csv",
-    "baseline_organisation_rows": "docs/references/hlk/compliance/baseline_organisation.csv",
-    "finops_counterparty_register_rows": "docs/references/hlk/compliance/FINOPS_COUNTERPARTY_REGISTER.csv",
-    "goipoi_register_rows": "docs/references/hlk/compliance/dimensions/GOI_POI_REGISTER.csv",
-    "adviser_engagement_disciplines_rows": "docs/references/hlk/compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv",
-    "adviser_open_questions_rows": "docs/references/hlk/compliance/ADVISER_OPEN_QUESTIONS.csv",
-    "founder_filed_instruments_rows": "docs/references/hlk/compliance/FOUNDER_FILED_INSTRUMENTS.csv",
-    "program_registry_rows": "docs/references/hlk/compliance/dimensions/PROGRAM_REGISTRY.csv",
-    "topic_registry_rows": "docs/references/hlk/compliance/dimensions/TOPIC_REGISTRY.csv",
-    "persona_registry_rows": "docs/references/hlk/compliance/dimensions/PERSONA_REGISTRY.csv",
-    "persona_scenario_registry_rows": "docs/references/hlk/compliance/dimensions/PERSONA_SCENARIO_REGISTRY.csv",
-    "channel_touchpoint_registry_rows": "docs/references/hlk/compliance/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv",
-    "sourcing_register_rows": "docs/references/hlk/compliance/dimensions/SOURCING_REGISTER.csv",
+    "process_list_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv",
+    "baseline_organisation_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv",
+    "finops_counterparty_register_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FINOPS_COUNTERPARTY_REGISTER.csv",
+    "goipoi_register_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv",
+    "adviser_engagement_disciplines_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv",
+    "adviser_open_questions_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv",
+    "founder_filed_instruments_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv",
+    "program_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PROGRAM_REGISTRY.csv",
+    "topic_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOPIC_REGISTRY.csv",
+    "persona_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_REGISTRY.csv",
+    "persona_scenario_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv",
+    "channel_touchpoint_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv",
+    "sourcing_register_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SOURCING_REGISTER.csv",
 }
 
 
@@ -198,7 +198,7 @@ def test_sync_persona_scenario_registry_only_sql() -> None:
         for line in out.splitlines()
         if line.startswith("INSERT INTO compliance.persona_scenario_registry_mirror")
     )
-    expected = _csv_row_count("docs/references/hlk/compliance/dimensions/PERSONA_SCENARIO_REGISTRY.csv")
+    expected = _csv_row_count("docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv")
     assert insert_count == expected, (
         f"expected {expected} INSERT rows (one per scenario row in canonical CSV), got {insert_count}"
     )

@@ -2,7 +2,7 @@
 """Cross-asset `program_id` consistency check (Initiative 23 P3).
 
 Asserts that every `program_id` referenced anywhere in the canonical assets
-resolves to a row in `docs/references/hlk/compliance/dimensions/PROGRAM_REGISTRY.csv`.
+resolves to a row in `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PROGRAM_REGISTRY.csv`.
 
 Scanned references:
 
@@ -31,7 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT
 
-HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 PROGRAM_REGISTRY_CSV = HLK_COMPLIANCE / "dimensions" / "PROGRAM_REGISTRY.csv"
 _GOIPOI_NEW = HLK_COMPLIANCE / "dimensions" / "GOI_POI_REGISTER.csv"
 _GOIPOI_LEGACY = HLK_COMPLIANCE / "GOI_POI_REGISTER.csv"

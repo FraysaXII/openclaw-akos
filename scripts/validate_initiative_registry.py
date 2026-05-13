@@ -43,13 +43,13 @@ from akos.planning.status_taxonomy import (
     VALID_INITIATIVE_STATUSES,
 )
 
-CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "INITIATIVE_REGISTRY.csv"
-REPOSITORY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPOSITORY_REGISTRY.csv"
-CYCLE_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "CYCLE_REGISTER.csv"
-DECISION_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "DECISION_REGISTER.csv"
-ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "baseline_organisation.csv"
-TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
-PROCESS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
+CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "INITIATIVE_REGISTRY.csv"
+REPOSITORY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "REPOSITORY_REGISTRY.csv"
+CYCLE_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "CYCLE_REGISTER.csv"
+DECISION_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "DECISION_REGISTER.csv"
+ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "baseline_organisation.csv"
+TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"
+PROCESS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "process_list.csv"
 
 INITIATIVE_ID_RE = re.compile(r"^INIT-[A-Z0-9_]+-\d{2,3}[A-Z]?$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")

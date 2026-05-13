@@ -169,8 +169,8 @@ def test_graph_label_counts_match_registry() -> None:
         with (REPO_ROOT / rel).open("r", encoding="utf-8", newline="") as f:
             return sum(1 for _ in _csv.DictReader(f))
 
-    prog_csv_rows = _csv_rows("docs/references/hlk/compliance/dimensions/PROGRAM_REGISTRY.csv")
-    topic_csv_rows = _csv_rows("docs/references/hlk/compliance/dimensions/TOPIC_REGISTRY.csv")
+    prog_csv_rows = _csv_rows("docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PROGRAM_REGISTRY.csv")
+    topic_csv_rows = _csv_rows("docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOPIC_REGISTRY.csv")
     assert len(prog_nodes) == prog_csv_rows, (
         f"program graph node count {len(prog_nodes)} != PROGRAM_REGISTRY rows {prog_csv_rows}"
     )

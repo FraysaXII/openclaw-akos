@@ -1,6 +1,6 @@
 """Field contract for CYCLE_REGISTER.csv (Initiative 59 P1.4).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/CYCLE_REGISTER.csv``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CYCLE_REGISTER.csv``.
 Mirrored to ``compliance.cycle_register_mirror`` on Supabase.
 
 Formalizes coordinating cycles like Initiatives 57, 58, 59. Cycles differ
@@ -20,7 +20,7 @@ FK targets:
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/CYCLE_REGISTER.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CYCLE_REGISTER.csv header row.
 CYCLE_REGISTER_FIELDNAMES: tuple[str, ...] = (
     "cycle_id",                       # ^CYC-\d{1,3}$ ; PRIMARY KEY
     "title",                          # human-readable

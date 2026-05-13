@@ -1,6 +1,6 @@
 """Field contract for REPO_HEALTH_SNAPSHOT.csv (Initiative 32 P7 / v0.2 P8).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/``.
 Mirrored to ``compliance.repo_health_snapshot_mirror`` on Supabase (operational
 mirror; same posture as ``finops.registered_fact``).
 
@@ -18,7 +18,7 @@ repo triggers Initiative 42 (cross-repo CI integration).
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/REPO_HEALTH_SNAPSHOT.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPO_HEALTH_SNAPSHOT.csv header row.
 REPO_HEALTH_SNAPSHOT_FIELDNAMES: tuple[str, ...] = (
     "repo_slug",                              # FK to REPOSITORIES_REGISTRY.md
     "snapshot_date",                          # YYYY-MM-DD

@@ -56,10 +56,7 @@ ARTIFACTS.mkdir(parents=True, exist_ok=True)
 
 PERSONA_SCENARIO_CSV = (
     REPO_ROOT
-    / "docs"
-    / "references"
-    / "hlk"
-    / "compliance"
+    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
     / "dimensions"
     / "PERSONA_SCENARIO_REGISTRY.csv"
 )
@@ -88,7 +85,7 @@ def _stub_response_for_scenario(scenario: dict) -> str:
     reproducible across environments and isolates the dispatcher signal.
     """
     expected = (scenario.get("expected_outcome_class") or "").strip().upper()
-    citation = "docs/references/hlk/compliance/dimensions/PERSONA_SCENARIO_REGISTRY.csv"
+    citation = "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv"
     if expected == "REFUSE":
         return (
             "I cannot answer that. Per the Holistik Ops Founder qualification "

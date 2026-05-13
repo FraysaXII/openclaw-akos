@@ -190,7 +190,7 @@ def main() -> int:
     fixed = resolve_all_parent_ids([normalize_process_row(r) for r in rows])
     write_process_csv(output, fixed)
     print(f"\nCandidate rows written to: {output}")
-    print("IMPORTANT: Review these rows before appending to docs/references/hlk/compliance/process_list.csv")
+    print("IMPORTANT: Review these rows before appending to docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv")
     print("Run: py scripts/validate_hlk.py after merging to verify integrity")
     return 0
 

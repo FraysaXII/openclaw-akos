@@ -77,10 +77,7 @@ sys.path.insert(0, str(REPO_ROOT))
 
 POLICY_REGISTER_CSV = (
     REPO_ROOT
-    / "docs"
-    / "references"
-    / "hlk"
-    / "compliance"
+    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
     / "dimensions"
     / "POLICY_REGISTER.csv"
 )

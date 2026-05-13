@@ -35,7 +35,7 @@ logger = logging.getLogger("akos.eval.v2")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 SKILL_CSV = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SKILL_REGISTRY.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "SKILL_REGISTRY.csv"
 )
 BASELINES_DIR = REPO_ROOT / "config" / "eval-baselines"
 CASSETTE_ROOT = REPO_ROOT / "tests" / "evals" / "cassettes"
@@ -374,9 +374,9 @@ def run_smoke(sc: Scorecard) -> None:
             mod = __import__(mod_name, fromlist=[const_name])
             fields = getattr(mod, const_name)
             if fname == "REPO_HEALTH_SNAPSHOT.csv":
-                path = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / fname
+                path = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / fname
             else:
-                path = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / fname
+                path = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / fname
             rows = list(csv.DictReader(path.read_text(encoding="utf-8").splitlines()))
             assert len(rows) >= min_rows, f"expected >={min_rows}, got {len(rows)}"
             missing = set(fields) - (set(rows[0].keys()) if rows else set())

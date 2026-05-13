@@ -32,7 +32,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT
 
-CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "DECISION_REGISTER.csv"
+CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "DECISION_REGISTER.csv"
 PLANNING_ROOT = REPO_ROOT / "docs" / "wip" / "planning"
 
 DECISION_HEADER_RE = re.compile(r"^##\s+(D-IH-[A-Za-z0-9-]+)\s*[—-]")

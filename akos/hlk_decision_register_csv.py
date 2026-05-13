@@ -1,6 +1,6 @@
 """Field contract for DECISION_REGISTER.csv (Initiative 59 P1.5; **D-IH-59-E**).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/DECISION_REGISTER.csv``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv``.
 Mirrored to ``compliance.decision_register_mirror`` on Supabase.
 
 Folded into I59 (vs I60 deferral) so ``INITIATIVE_REGISTRY.inception_decision_id``
@@ -33,7 +33,7 @@ FK targets:
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/DECISION_REGISTER.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv header row.
 DECISION_REGISTER_FIELDNAMES: tuple[str, ...] = (
     "decision_id",                # PRIMARY KEY
     "title",                      # human-readable

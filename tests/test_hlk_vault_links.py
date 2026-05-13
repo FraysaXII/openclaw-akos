@@ -11,7 +11,7 @@ pytestmark = pytest.mark.graph
 
 def test_resolve_markdown_target_relative():
     src = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "index.md"
-    target = "../compliance/PRECEDENCE.md"
+    target = "Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md"
     got = resolve_markdown_target(src, target, REPO_ROOT)
     assert got is not None
     assert got.name == "PRECEDENCE.md"

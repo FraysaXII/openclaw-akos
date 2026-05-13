@@ -30,9 +30,9 @@ from akos.hlk_cycle_register_csv import (
 )
 from akos.io import REPO_ROOT
 
-CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "CYCLE_REGISTER.csv"
-INITIATIVE_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "INITIATIVE_REGISTRY.csv"
-TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
+CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "CYCLE_REGISTER.csv"
+INITIATIVE_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "INITIATIVE_REGISTRY.csv"
+TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"
 
 CYCLE_ID_RE = re.compile(r"^CYC-\d{1,3}$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")

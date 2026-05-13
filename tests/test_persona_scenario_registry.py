@@ -33,13 +33,13 @@ from akos.hlk_persona_scenario_csv import (
     VALID_TIERS,
 )
 
-CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
+CSV_PATH = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
 VALIDATOR = REPO_ROOT / "scripts" / "validate_persona_scenario_registry.py"
 MIGRATION = REPO_ROOT / "supabase" / "migrations" / "20260502033000_i47_persona_scenario_registry_mirror.sql"
 MIGRATION_I49_PRIORITY = REPO_ROOT / "supabase" / "migrations" / "20260503120000_i49_persona_scenario_registry_priority_columns.sql"
 MIGRATION_I51_BAND = REPO_ROOT / "supabase" / "migrations" / "20260503180000_i51_persona_scenario_target_difficulty_band.sql"
 DISPATCHER = REPO_ROOT / "scripts" / "validate_hlk.py"
-TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
+TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"
 
 
 # ---------------------------------------------------------------------------

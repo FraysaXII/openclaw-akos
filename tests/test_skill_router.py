@@ -202,7 +202,7 @@ def test_intent_classify_request_back_compat_no_candidate_skills_breakage(monkey
 def test_skill_registry_csv_has_routing_condition_column() -> None:
     csv_path = (
         Path(__file__).resolve().parent.parent
-        / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SKILL_REGISTRY.csv"
+        / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "SKILL_REGISTRY.csv"
     )
     with csv_path.open(encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(fh)

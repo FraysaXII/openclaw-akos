@@ -21,7 +21,7 @@ from akos.models import HlkResponse, OrgRole, ProcessItem
 
 logger = logging.getLogger("akos.hlk")
 
-HLK_COMPLIANCE_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+HLK_COMPLIANCE_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 ORG_CSV = HLK_COMPLIANCE_DIR / "baseline_organisation.csv"
 PROCESS_CSV = HLK_COMPLIANCE_DIR / "process_list.csv"
 MAX_SEARCH_RESULTS_PER_TYPE = 8

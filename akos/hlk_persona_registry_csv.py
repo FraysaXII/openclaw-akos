@@ -1,6 +1,6 @@
 """Field contract for PERSONA_REGISTRY.csv (Initiative 31 P2.1).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/dimensions/``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/``.
 Mirrored to ``compliance.persona_registry_mirror`` on Supabase.
 
 Persona = archetype (the **shape** of who's interacting) — distinct from
@@ -16,7 +16,7 @@ touchpoint kit (per :doc:`HOLISTIK_OPS_DISCOVERY.md` 5-axis system).
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/dimensions/PERSONA_REGISTRY.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_REGISTRY.csv header row.
 PERSONA_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "persona_id",
     "name",

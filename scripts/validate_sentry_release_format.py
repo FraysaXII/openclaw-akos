@@ -67,7 +67,7 @@ CANONICAL_DOC_PATH = (
 )
 
 REPOSITORY_REGISTRY_PATH = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPOSITORY_REGISTRY.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "REPOSITORY_REGISTRY.csv"
 )
 
 # Repo classes that must carry a Sentry release-format. ``internal`` and

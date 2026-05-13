@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate `docs/references/hlk/compliance/dimensions/TOPIC_REGISTRY.csv`.
+"""Validate `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOPIC_REGISTRY.csv`.
 
 Initiative 25 P2 (D-IH-12). Enforces:
 
@@ -32,7 +32,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from akos.hlk_topic_registry_csv import TOPIC_REGISTRY_FIELDNAMES
 from akos.io import REPO_ROOT
 
-HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 TOPIC_REGISTRY_CSV = HLK_COMPLIANCE / "dimensions" / "TOPIC_REGISTRY.csv"
 PROGRAM_REGISTRY_CSV = HLK_COMPLIANCE / "dimensions" / "PROGRAM_REGISTRY.csv"
 ORG_CSV = HLK_COMPLIANCE / "baseline_organisation.csv"

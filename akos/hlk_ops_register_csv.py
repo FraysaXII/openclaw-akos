@@ -1,6 +1,6 @@
 """Field contract for OPS_REGISTER.csv (Initiative 59 P1.3).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/OPS_REGISTER.csv``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv``.
 Mirrored to ``compliance.ops_register_mirror`` on Supabase.
 
 Formalizes ``OPS-XX-Y`` action items previously scattered across per-initiative
@@ -24,7 +24,7 @@ FK targets:
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/OPS_REGISTER.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv header row.
 OPS_REGISTER_FIELDNAMES: tuple[str, ...] = (
     "ops_action_id",                # ^OPS-\d{1,3}-\d+(\.[a-z0-9]+)?$ ; PRIMARY KEY
     "title",                        # human-readable

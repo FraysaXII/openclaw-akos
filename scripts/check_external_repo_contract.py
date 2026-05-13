@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Verify governance posture of every non-reference Holistika-tracked repo.
 
-Reads ``docs/references/hlk/compliance/REPOSITORY_REGISTRY.csv`` and the
-latest ``docs/references/hlk/compliance/REPO_HEALTH_SNAPSHOT.csv`` row per
+Reads ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPOSITORY_REGISTRY.csv`` and the
+latest ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPO_HEALTH_SNAPSHOT.csv`` row per
 slug, then enforces:
 
 1. ``has_external_repo_contract`` is ``true`` for every non-reference repo.
@@ -47,8 +47,8 @@ from akos.log import setup_logging
 
 logger = logging.getLogger("akos.repo-contract")
 
-REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPOSITORY_REGISTRY.csv"
-SNAPSHOT_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPO_HEALTH_SNAPSHOT.csv"
+REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "REPOSITORY_REGISTRY.csv"
+SNAPSHOT_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "REPO_HEALTH_SNAPSHOT.csv"
 MIRROR_TEMPLATE = REPO_ROOT / ".cursor" / "rules" / "akos-mirror-template.mdc"
 
 DEFAULT_FRESHNESS_DAYS = 90

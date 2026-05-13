@@ -32,7 +32,7 @@ logger = logging.getLogger("akos.skill_router")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SKILL_CSV = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SKILL_REGISTRY.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "SKILL_REGISTRY.csv"
 )
 
 

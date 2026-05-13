@@ -50,7 +50,7 @@ from scripts.bless_external_repo import (
 
 logger = logging.getLogger("akos.regen_types")
 
-COMPLIANCE_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+COMPLIANCE_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 
 
 def _ts_safe_name(s: str) -> str:
@@ -134,7 +134,7 @@ def regen_one(meta: RepoMeta, repo_path: Path, *, dry_run: bool, auto_pr: bool) 
         body = (
             "Auto-regenerated TypeScript interfaces from AKOS canonical CSVs.\n\n"
             f"Mirrors: {', '.join(meta.consumes_mirrors)}\n\n"
-            "Source: https://github.com/FraysaXII/openclaw-akos/tree/main/docs/references/hlk/compliance/\n"
+            "Source: https://github.com/FraysaXII/openclaw-akos/tree/main/docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/\n"
         )
         try:
             subprocess.run(

@@ -3,10 +3,10 @@
 
 Initiative 21 / P7 deliverable. Reads the canonical compliance CSVs (SSOTs):
 
-- docs/references/hlk/compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv
-- docs/references/hlk/compliance/GOI_POI_REGISTER.csv
-- docs/references/hlk/compliance/ADVISER_OPEN_QUESTIONS.csv
-- docs/references/hlk/compliance/FOUNDER_FILED_INSTRUMENTS.csv
+- docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv
+- docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/GOI_POI_REGISTER.csv
+- docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv
+- docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv
 
 …and writes a stable-ordered Markdown handoff (Cover -> Sharing legend -> Fact
 pattern -> Filed instruments -> Open questions -> Exhibit list with relative links).
@@ -43,7 +43,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 DISCIPLINES_CSV = HLK_COMPLIANCE / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
 _GOIPOI_NEW = HLK_COMPLIANCE / "dimensions" / "GOI_POI_REGISTER.csv"
 _GOIPOI_LEGACY = HLK_COMPLIANCE / "GOI_POI_REGISTER.csv"
@@ -85,7 +85,7 @@ def _section_cover(*, program_id: str, disciplines: list[str], generated_iso: st
 def _section_sharing_legend() -> str:
     return (
         "## Binding ladder & sharing legend\n\n"
-        "Sensitivity bands map to sharing labels per `docs/references/hlk/compliance/PRECEDENCE.md` "
+        "Sensitivity bands map to sharing labels per `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md` "
         "and Initiative 21 decision **D-CH-7**:\n\n"
         "| Sensitivity | Sharing label | Notes |\n"
         "|:---|:---|:---|\n"
@@ -93,7 +93,7 @@ def _section_sharing_legend() -> str:
         "| `internal` | `counsel_ok` | Internal-use rows; counsel and named counterparty may see |\n"
         "| `confidential` | `counsel_and_named_counterparty` | Limit forwarding; bank/desk-level details |\n"
         "| `restricted` | `internal_only` | Excluded from this export by default (use `--include-restricted` to include) |\n\n"
-        "All ref_ids resolve via `docs/references/hlk/compliance/GOI_POI_REGISTER.csv`. "
+        "All ref_ids resolve via `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/GOI_POI_REGISTER.csv`. "
         "Real names of private entities and persons are kept off-repo per "
         "`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_001.md`.\n\n"
     )
@@ -153,7 +153,7 @@ def _section_filed_instruments(
     return (
         "## Filed instruments\n\n"
         "Per-discipline filings (drafts → signed → filed → superseded). SSOT: "
-        "`docs/references/hlk/compliance/FOUNDER_FILED_INSTRUMENTS.csv`.\n\n"
+        "`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv`.\n\n"
         + _md_table(
             [
                 "instrument_id",
@@ -180,7 +180,7 @@ def _section_open_questions(
 ) -> str:
     out = ["## Open questions and actions\n"]
     out.append(
-        "Grouped by discipline. SSOT: `docs/references/hlk/compliance/ADVISER_OPEN_QUESTIONS.csv` "
+        "Grouped by discipline. SSOT: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv` "
         "(see also derived view `FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md`).\n\n"
     )
     for d in disciplines:

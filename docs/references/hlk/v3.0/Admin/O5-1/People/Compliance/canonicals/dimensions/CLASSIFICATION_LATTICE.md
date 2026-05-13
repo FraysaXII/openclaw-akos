@@ -95,7 +95,7 @@ flowchart LR
 
 The lattice is enforced mechanically by:
 
-- **Frontmatter presence check.** Every governed `.md` under `docs/references/hlk/v3.0/**` and `docs/references/hlk/compliance/**` must declare `classification:` in frontmatter. Validator: `scripts/validate_hlk.py` (extended at P4) or new `scripts/validate_classification_lattice.py` (TBD).
+- **Frontmatter presence check.** Every governed `.md` under `docs/references/hlk/v3.0/**` and `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/**` must declare `classification:` in frontmatter. Validator: `scripts/validate_hlk.py` (extended at P4) or new `scripts/validate_classification_lattice.py` (TBD).
 - **Enum membership check.** Each declared class must be one of the five canonical values. Multi-class declarations validate each value independently.
 - **Home-channel consistency check.** An artifact's location must match its class's home channel (per §3 priority). Mis-homed artifacts (e.g., a `fact`-class CSV outside `compliance/`) flag as warnings until P4.5 federation completes; flag as errors after.
 

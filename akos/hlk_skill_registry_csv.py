@@ -1,6 +1,6 @@
 """Field contract for SKILL_REGISTRY.csv (Initiative 32 P2; extended I45 P3).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/dimensions/``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/``.
 Mirrored to ``compliance.skill_registry_mirror`` on Supabase.
 
 Skill = a versioned bundle of (intent, axes_to_resolve, tools_called,
@@ -30,7 +30,7 @@ I45 P3 additions:
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/dimensions/SKILL_REGISTRY.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SKILL_REGISTRY.csv header row.
 SKILL_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "skill_id",                # ^SKILL-[A-Z0-9-]{4,80}-V\d+$
     "name",                    # human-readable name

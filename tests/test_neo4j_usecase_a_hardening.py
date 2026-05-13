@@ -73,7 +73,7 @@ def test_drift_canary_csv_count_logic() -> None:
     )
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    n = mod.csv_row_count(REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SKILL_REGISTRY.csv")
+    n = mod.csv_row_count(REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "SKILL_REGISTRY.csv")
     assert n == 5
 
 

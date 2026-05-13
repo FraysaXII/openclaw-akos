@@ -1,4 +1,4 @@
-"""Field contract for `docs/references/hlk/compliance/dimensions/TOPIC_REGISTRY.csv`.
+"""Field contract for `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOPIC_REGISTRY.csv`.
 
 Initiative 25 P2 (D-IH-12). Topics are first-class governed entities with
 cross-topic edges (parent/depends/related/subsumes) projected from CSV into

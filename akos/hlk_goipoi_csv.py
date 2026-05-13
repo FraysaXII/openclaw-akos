@@ -1,7 +1,7 @@
 """Field contract for GOI_POI_REGISTER.csv (Initiative 21; relocated I32 P7).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/dimensions/`` (per
-D-IH-32-D, relocated from ``docs/references/hlk/compliance/`` in Initiative 32
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/`` (per
+D-IH-32-D, relocated from ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/`` in Initiative 32
 P7 to align with the I22 forward-layout convention; all other dimension CSVs
 already live in ``dimensions/``).
 
@@ -18,7 +18,7 @@ display label safe for public repository visibility.
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/dimensions/GOI_POI_REGISTER.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv header row.
 #
 # Initiative 24 P2 (D-IH-11) added three optional voice-profile columns at the
 # end (`voice_register`, `language_preference`, `pronoun_register`) so the

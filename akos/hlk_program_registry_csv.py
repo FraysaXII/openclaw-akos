@@ -1,4 +1,4 @@
-"""Field contract for `docs/references/hlk/compliance/dimensions/PROGRAM_REGISTRY.csv`.
+"""Field contract for `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PROGRAM_REGISTRY.csv`.
 
 Initiative 23 P1 (D-IH-8): the Program Registry is a separate canonical CSV
 under the new `compliance/dimensions/` subfolder per the Initiative 22 forward

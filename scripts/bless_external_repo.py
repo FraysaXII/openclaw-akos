@@ -52,7 +52,7 @@ Cross-references:
 
 - ``docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/EXTERNAL_REPO_CONTRACT_TEMPLATE.md``
 - ``docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/_templates/`` (this script's input)
-- ``docs/references/hlk/compliance/REPOSITORY_REGISTRY.csv`` (slug FK)
+- ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPOSITORY_REGISTRY.csv`` (slug FK)
 - ``.cursor/rules/akos-mirror-template.mdc`` (mirror rule template)
 """
 
@@ -77,7 +77,7 @@ from akos.log import setup_logging
 logger = logging.getLogger("akos.bless")
 
 REGISTRY_CSV = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "REPOSITORY_REGISTRY.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "REPOSITORY_REGISTRY.csv"
 )
 MIRROR_TEMPLATE = REPO_ROOT / ".cursor" / "rules" / "akos-mirror-template.mdc"
 TEMPLATES_DIR = (

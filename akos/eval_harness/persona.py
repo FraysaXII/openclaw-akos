@@ -27,7 +27,7 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_REGISTRY = (
     REPO_ROOT
-    / "docs" / "references" / "hlk" / "compliance" / "dimensions"
+    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions"
     / "PERSONA_SCENARIO_REGISTRY.csv"
 )
 

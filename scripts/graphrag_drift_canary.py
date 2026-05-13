@@ -32,8 +32,8 @@ from akos.io import REPO_ROOT, bootstrap_openclaw_process_env
 
 logger = logging.getLogger("akos.graphrag_drift_canary")
 
-DIM = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions"
-COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "compliance"
+DIM = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions"
+COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
 
 # (CSV path, label/key column, Neo4j node label, friendly name)
 DIMENSIONS = [

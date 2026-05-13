@@ -28,7 +28,7 @@ def _canonical_project_count() -> int:
     'the registry parses N projects; the API surfaces N projects; the CSV
     declares N projects'.
     """
-    p = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
+    p = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "process_list.csv"
     with p.open("r", encoding="utf-8", newline="") as f:
         return sum(1 for row in csv.DictReader(f) if (row.get("item_granularity") or "").strip() == "project")
 
@@ -383,7 +383,7 @@ class TestHlkProvenance:
 
     def test_canonical_process_list_has_no_ambiguous_item_names(self):
         """Duplicate item_name values block parent-id resolution; canonical data must have none."""
-        proc_csv = REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "process_list.csv"
+        proc_csv = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "process_list.csv"
         assert proc_csv.is_file()
         with proc_csv.open(encoding="utf-8", newline="") as f:
             rows = list(csv.DictReader(f))

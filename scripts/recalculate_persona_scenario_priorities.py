@@ -21,7 +21,7 @@ sys.path.insert(0, str(REPO_ROOT))
 from akos.hlk_persona_scenario_priority import rewrite_persona_registry_priority_scores
 from akos.io import REPO_ROOT as IO_REPO_ROOT
 
-CSV_PATH = IO_REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
+CSV_PATH = IO_REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"
 
 
 def main() -> int:

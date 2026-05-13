@@ -60,7 +60,7 @@ def cmd_list() -> int:
 
     skill_csv = (
         Path(__file__).resolve().parent.parent
-        / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "SKILL_REGISTRY.csv"
+        / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "SKILL_REGISTRY.csv"
     )
     if skill_csv.is_file():
         import csv

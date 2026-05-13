@@ -20,7 +20,7 @@ REGISTRY = (
     / "Repositories" / "FIGMA_FILES_REGISTRY.md"
 )
 TOPIC_REGISTRY = (
-    REPO_ROOT / "docs" / "references" / "hlk" / "compliance" / "dimensions" / "TOPIC_REGISTRY.csv"
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"
 )
 
 EXPECTED_COLUMNS = (

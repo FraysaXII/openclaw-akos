@@ -157,8 +157,8 @@ def test_json_report_baseline_row_counts_match_csv(json_run: subprocess.Complete
         with (REPO_ROOT / rel).open("r", encoding="utf-8", newline="") as f:
             return sum(1 for _ in _csv.DictReader(f))
 
-    expected_org = _row_count("docs/references/hlk/compliance/baseline_organisation.csv")
-    expected_proc = _row_count("docs/references/hlk/compliance/process_list.csv")
+    expected_org = _row_count("docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv")
+    expected_proc = _row_count("docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv")
     assert by_name["inline_org_csv_parse"]["row_count"] == expected_org, (
         f"dispatcher org row_count drift: dispatcher emitted "
         f"{by_name['inline_org_csv_parse']['row_count']}; canonical CSV has {expected_org}"

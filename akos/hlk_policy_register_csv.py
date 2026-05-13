@@ -1,6 +1,6 @@
 """Field contract for POLICY_REGISTER.csv (Initiative 32 P4).
 
-Canonical CSV lives under ``docs/references/hlk/compliance/dimensions/``.
+Canonical CSV lives under ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/``.
 Mirrored to ``compliance.policy_register_mirror`` on Supabase.
 
 Promotes RLS rules, ``service_role`` rotation cadences, redaction policies, and
@@ -16,7 +16,7 @@ After P4 ships, every RLS rule in ``supabase/migrations/`` resolves to one
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/compliance/dimensions/POLICY_REGISTER.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/POLICY_REGISTER.csv header row.
 POLICY_REGISTER_FIELDNAMES: tuple[str, ...] = (
     "policy_id",            # ^POL-[A-Z0-9-]{4,80}$
     "policy_class",         # rls | service_role_rotation | redaction | pii_scope | retention | ...

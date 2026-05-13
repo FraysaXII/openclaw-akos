@@ -37,10 +37,7 @@ from akos.eval_harness.cost_obs import (
 REPO_ROOT = Path(__file__).resolve().parent.parent
 POLICY_REGISTER_CSV = (
     REPO_ROOT
-    / "docs"
-    / "references"
-    / "hlk"
-    / "compliance"
+    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
     / "dimensions"
     / "POLICY_REGISTER.csv"
 )
