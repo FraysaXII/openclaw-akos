@@ -395,7 +395,11 @@ class TestHlkApiEdgeCases:
     """Test API edge cases and input safety."""
 
     def test_role_with_special_chars(self):
-        r = client.get("/hlk/roles/Ethics%20%26%20Learning")
+        # URL-encoding fidelity: spaces (%20) in role names must round-trip.
+        # Updated 2026-05-13 (I70 P8.3 D-IH-70-Q): legacy "Ethics & Learning"
+        # role hard-removed; substituted with Susana Madeira (still extant,
+        # still exercises percent-encoded space chars).
+        r = client.get("/hlk/roles/Susana%20Madeira")
         assert r.status_code == 200
         assert r.json()["status"] == "ok"
 
