@@ -1,9 +1,11 @@
 ---
 candidate_id: I71
 title: CICD + AI-ops baseline maturity (priority 1)
-status: candidate
+status: promoted
+promoted_to: docs/wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/
+promoted_at: 2026-05-13
 authored: 2026-05-12
-parent_initiative: 70 (closing scaffold)
+parent_initiative: INIT-OPENCLAW_AKOS-70
 priority: 1
 language: en
 ---

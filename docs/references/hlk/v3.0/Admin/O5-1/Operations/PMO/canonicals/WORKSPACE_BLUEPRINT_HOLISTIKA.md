@@ -503,7 +503,22 @@ flowchart TB
     Roles --> T3
 ```
 
-## Cross-references for §11-§17
+## 18. Observability routing matrix (I71 AIOps baseline)
+
+> Added I71 P0 (2026-05-13). Complements section 16 (who owns each render pipeline stage) with **where operational and AI-observability signals are reviewed** and which **role class** is the first routing hop. This is a routing contract, not a deployment guide.
+
+| Signal class | Typical source | First routing hop (role class) | Notes |
+|:---|:---|:---|:---|
+| Brand voice register drift | `validate_brand_voice_register.py` (I71 pack A1) | Marketing / Copywriter charter owner | Escalate to Brand Manager if cross-sub-discipline |
+| Gantt confidence / audience matrix | `validate_brand_gantt_confidence.py` (I71 pack A2) | Brand discipline owner + PMO (timeline truth) | Ties to `BRAND_GANTT_DISCIPLINE.md` |
+| Multilingual README / locale files | `validate_brand_multilingual.py` (I71 pack A3) | Brand + engagement lead for the client folder | Per **D-IH-70-P** three-file pattern |
+| Render ownership gap | `validate_render_ownership.py` (I71 pack A4) | PMO + area role from section 16 row | Feeds I72 template promotion when owner missing |
+| Deploy / runtime errors | Sentry (consumer repos; I68 format) | System Owner + owning repo’s role from `REPOSITORY_REGISTRY.csv` | Use operator MCP (`user-sentry`) |
+| AI trace / eval regressions | Langfuse (where wired) | System Owner + PMO for methodology experiments | Use operator MCP (`user-langfuse`); scope grows I71 P5+ |
+
+**Strand B scope (P0):** MCP cross-links and this matrix only; no mandate to provision new SaaS tenants in this commit.
+
+## Cross-references for §11-§18
 
 - I70 plan §4 + §17: [`.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md`](../../../../../../../.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md)
 - KM_CHANNEL_VALUE_NARRATIVE.md: [companion canonical](KM_CHANNEL_VALUE_NARRATIVE.md) (sellable framing per §11 `selling_point` class)
@@ -513,5 +528,6 @@ flowchart TB
 - Phase 4.7 NEW: Research as new top-level area with 4 disciplines (forward-link)
 - Phase 4.8 NEW: MADEIRA-AKOS reserved folder (forward-link from §15.2)
 - Phase 10 §10.5: full Render pipeline ownership matrix (forward-link from §16)
+- I71 P0: [`docs/wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/master-roadmap.md`](../../../../../../../wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/master-roadmap.md) — validator packs + AIOps baseline; extends this file at **§18**.
 
 End of WORKSPACE_BLUEPRINT_HOLISTIKA.

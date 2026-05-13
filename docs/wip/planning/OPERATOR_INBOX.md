@@ -16,7 +16,7 @@ continuous_rationale: Auto-rendered Operator Action Inbox (I59 P4) — re-render
 
 <!-- BEGIN AUTO -->
 
-_Rows: 24 (open · operator/mixed · ranked by RICE desc)._
+_Rows: 25 (open · operator/mixed · ranked by RICE desc)._
 
 | OPS ID | Initiative | Owner | RICE | What | Notes |
 | --- | --- | --- | --- | --- | --- |
@@ -44,6 +44,7 @@ _Rows: 24 (open · operator/mixed · ranked by RICE desc)._
 | `OPS-58-2` | INIT-OPENCLAW_AKOS-58 — Initiative 58 — Cycle 2 multi-track forward | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-58-4` | INIT-OPENCLAW_AKOS-58 — Initiative 58 — Cycle 2 multi-track forward | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-59-1` | INIT-OPENCLAW_AKOS-59 — Initiative 59 — HLK governance promotion + clean slate cycle | operator (PMO) | — | Merge telemetry promotion proposals into PERSONA_SCENARIO_REGISTRY.csv | I59 P7; zero proposals at initial run (no telemetry data); re-run each cycle |
+| `OPS-71-1` | INIT-OPENCLAW_AKOS-71 — CI/CD Discipline and AIOps Baseline Maturity | operator (PMO) | — | Validator pack productization (I71 Strand A) | Opened at I71 P0 charter; closure targeted I71 P6. |
 
 <!-- END AUTO -->
 
