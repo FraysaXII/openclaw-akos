@@ -572,6 +572,16 @@ def main() -> None:
     vault_links_ok = run_hlk_vault_links_validation()
     results.append(("PASS" if vault_links_ok else "FAIL", "HLK vault links (scripts/validate_hlk_vault_links.py)"))
 
+    revops_spine_proc = subprocess.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_revops_spine.py")],
+        cwd=str(REPO_ROOT),
+        check=False,
+    )
+    results.append((
+        "PASS" if revops_spine_proc.returncode == 0 else "FAIL",
+        "RevOps Spine integrity (scripts/validate_revops_spine.py, I72 P7 D-IH-72-M)",
+    ))
+
     subdomains_ok = run_subdomains_registry_validation()
     results.append(("PASS" if subdomains_ok else "FAIL", "SUBDOMAINS_REGISTRY.md (scripts/validate_subdomains_registry.py)"))
 
