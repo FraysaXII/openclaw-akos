@@ -1,0 +1,4 @@
+adapter_id,registry_class,vendor,adapter_kind,status,owner_role,linked_sop_path,linked_runbook_path,linked_decision_id,feature_flag,notes,last_review_at,last_review_by,last_review_decision_id,methodology_version_at_review
+cal_com,SCHEDULING,Cal.com,direct_native,planned,RevOps Lead,TODO[I72-followup-scheduling-integration-sop],TODO[I72-followup-calcom-runbook],D-IH-72-T,gated_release_gate,Open-source scheduling planned,2026-05-14,CMO,D-IH-72-O,v3.0
+savvycal,SCHEDULING,SavvyCal,normalized_shim,inactive,RevOps Lead,TODO[I72-followup-scheduling-integration-sop],,D-IH-72-T,gated_release_gate,Inactive,2026-05-14,CMO,D-IH-72-O,v3.0
+calendly,SCHEDULING,Calendly,normalized_shim,inactive,RevOps Lead,TODO[I72-followup-scheduling-integration-sop],,D-IH-72-T,gated_release_gate,Inactive,2026-05-14,CMO,D-IH-72-O,v3.0

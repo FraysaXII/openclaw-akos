@@ -1,0 +1,4 @@
+adapter_id,registry_class,vendor,adapter_kind,status,owner_role,linked_sop_path,linked_runbook_path,linked_decision_id,feature_flag,notes,last_review_at,last_review_by,last_review_decision_id,methodology_version_at_review
+holistika_attribution,ATTRIBUTION,Holistika attribution (AKOS-internal),first_party_internal,active,Brand Manager,TODO[I72-followup-attribution-integration-sop],TODO[I72-followup-attribution-runbook],D-IH-72-T,always_on,AKOS-internal seed; per-engagement attribution via process_list axis cells,2026-05-14,CMO,D-IH-72-O,v3.0
+plausible,ATTRIBUTION,Plausible,normalized_shim,planned,Brand Manager,TODO[I72-followup-attribution-integration-sop],,D-IH-72-T,gated_release_gate,Privacy-friendly analytics planned,2026-05-14,CMO,D-IH-72-O,v3.0
+segment,ATTRIBUTION,Segment,normalized_shim,inactive,Brand Manager,TODO[I72-followup-attribution-integration-sop],,D-IH-72-T,gated_release_gate,Customer data platform inactive,2026-05-14,CMO,D-IH-72-O,v3.0

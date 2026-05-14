@@ -582,6 +582,26 @@ def main() -> None:
         "RevOps Spine integrity (scripts/validate_revops_spine.py, I72 P7 D-IH-72-M)",
     ))
 
+    adapter_registries_proc = subprocess.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_adapter_registries.py")],
+        cwd=str(REPO_ROOT),
+        check=False,
+    )
+    results.append((
+        "PASS" if adapter_registries_proc.returncode == 0 else "FAIL",
+        "Adapter registries (scripts/validate_adapter_registries.py, I72 P9 D-IH-72-O + D-IH-72-T + D-IH-72-W)",
+    ))
+
+    process_list_pairing_proc = subprocess.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_process_list_pairing.py")],
+        cwd=str(REPO_ROOT),
+        check=False,
+    )
+    results.append((
+        "PASS" if process_list_pairing_proc.returncode == 0 else "FAIL",
+        "Process_list pairing (scripts/validate_process_list_pairing.py, I72 P9 D-IH-72-U)",
+    ))
+
     subdomains_ok = run_subdomains_registry_validation()
     results.append(("PASS" if subdomains_ok else "FAIL", "SUBDOMAINS_REGISTRY.md (scripts/validate_subdomains_registry.py)"))
 

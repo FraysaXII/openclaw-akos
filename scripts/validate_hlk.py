@@ -418,6 +418,13 @@ def main() -> int:
         ("INTELLIGENCEOPS_REGISTER", "validate_intelligenceops_register.py",
          "validate_intelligenceops_register",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Research" / "Intelligence" / "canonicals" / "dimensions" / "INTELLIGENCEOPS_REGISTER.csv"),
+        # Initiative 72 P9 - 8 adapter registries (Normalized Adapter Pattern per D-IH-72-O + D-IH-72-T MarTech breadth + D-IH-72-W feature-flag pattern).
+        ("ADAPTER_REGISTRIES", "validate_adapter_registries.py",
+         "validate_adapter_registries",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Operations" / "RevOps" / "canonicals" / "dimensions" / "REVOPS_ADAPTER_REGISTRY.csv"),
+        # Initiative 72 P9 - process_list pairing gate (per D-IH-72-U: every cadence-bound process_list row points at a paired SOP+runbook).
+        ("PROCESS_LIST_PAIRING", "validate_process_list_pairing.py",
+         "validate_process_list_pairing", HLK_DIR / "process_list.csv"),
         # Initiative 32 P3 - Touchpoint-kit cell registry (with FS-vs-CSV drift detector).
         ("TOUCHPOINT_KIT_CELL_REGISTRY", "validate_touchpoint_kit_cells.py",
          "validate_touchpoint_kit_cells", HLK_DIR / "dimensions" / "TOUCHPOINT_KIT_CELL_REGISTRY.csv"),
