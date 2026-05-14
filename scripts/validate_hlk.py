@@ -406,6 +406,10 @@ def main() -> int:
         # Initiative 32 P2 - Skill registry (7th canonical dimension).
         ("SKILL_REGISTRY", "validate_skill_registry.py",
          "validate_skill_registry", HLK_DIR / "dimensions" / "SKILL_REGISTRY.csv"),
+        # Initiative 72 P2 - Engagement template registry (sibling canonical at Operations/RevOps/canonicals/dimensions/ per D-IH-72-Y; D-IH-72-F sibling pattern).
+        ("ENGAGEMENT_TEMPLATE_REGISTRY", "validate_engagement_template_registry.py",
+         "validate_engagement_template_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Operations" / "RevOps" / "canonicals" / "dimensions" / "ENGAGEMENT_TEMPLATE_REGISTRY.csv"),
         # Initiative 32 P3 - Touchpoint-kit cell registry (with FS-vs-CSV drift detector).
         ("TOUCHPOINT_KIT_CELL_REGISTRY", "validate_touchpoint_kit_cells.py",
          "validate_touchpoint_kit_cells", HLK_DIR / "dimensions" / "TOUCHPOINT_KIT_CELL_REGISTRY.csv"),

@@ -72,7 +72,7 @@ todos:
       validate_brand_voice_register.py --strict PASS on all 5 charter prose bodies; release-gate green.
       Pause-point classification: standard per-charter inline-ratify gate (5 gates batched). Self-checkpoint count:
       2 (pre-P1 + mid-P1 after 2-3 charters land).
-    status: in_progress
+    status: completed
   - id: p2-strand-a2-registry
     content: |
       P2 (~3-4 days) — Strand A.2 ENGAGEMENT_TEMPLATE_REGISTRY canonical + Supabase mirror + ERP panel.
@@ -94,7 +94,7 @@ todos:
       validate_compliance_schema_drift.py PASS; validate_canonical_registry.py PASS; mirror migration applied via
       compliance_mirror_emit profile; release-gate green. Pause-point classification: MANDATORY canonical-CSV gate.
       Self-checkpoint count: 2 (pre-P2 + mid-P2 after registry CSV body + before mirror DDL).
-    status: pending
+    status: in_progress
   - id: p3-strand-a2-promotion-sop
     content: |
       P3 (~2-3 days) — Strand A.2 SOP-ENGAGEMENT_TEMPLATE_PROMOTION_001 + promotion-rule validator.
