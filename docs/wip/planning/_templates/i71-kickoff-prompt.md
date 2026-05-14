@@ -44,7 +44,7 @@ Step 1 — Cursor plan minting (small lift; don't over-author):
 Step 2 — P1 execution (Pack A1 — Brand voice register expansion):
 SCOPE:
 - Extend scripts/validate_brand_voice_register.py with:
-    a. 7 tic-family enforcement (per BRAND_COPYWRITING_DISCIPLINE.md section 3)
+    a. 7 tic-family enforcement (per BRAND_COPYWRITING_DISCIPLINE.md section 2)
     b. Locale-aware register checks (FR/EN/ES per BRAND_REGISTER_MATRIX)
     c. Audience-matrix hooks (4 quadrants from BRAND_GANTT_DISCIPLINE)
     d. Storytelling-vs-Resonance boundary check per D-IH-70-X
