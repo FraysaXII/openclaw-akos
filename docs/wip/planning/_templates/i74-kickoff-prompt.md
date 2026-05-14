@@ -43,6 +43,14 @@ If **≥2 signals from distinct orgs** within a 6-month rolling window, **TRIGGE
 Goal: Drive INIT-OPENCLAW_AKOS-74 (Brand-tooling productization) from "candidate, dormant" to
 "active P0 charter shipped on main", in the same inline-AskQuestion style as the I70 transcript.
 
+CRITICAL — PLAN SCOPE (binding; non-negotiable):
+The Cursor plan you mint MUST cover the ENTIRE I74 INITIATIVE (P0 through P6, all 4 strands A/B/C/D)
+in ONE file at .cursor/plans/i74-brand-tooling-productization_<8hex>.plan.md. The reference shape
+is the I70 plan at .cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md — ONE
+strategic plan covering 17 phases, drilled-down through 5 regression rounds. That is the SOTA
+bar. DO NOT mint phase-scoped or strand-scoped files. Filename has NO phase or strand prefix.
+Regression rounds (Round 1 / Round 2 / ...) drill into depth ON THE SAME FILE.
+
 PRECONDITION VERIFICATION (run BEFORE any other action; STOP if any FAIL):
 - Confirm TRIGGER-2 evidence: list at least 2 external-org requests with org name + date + ask.
   These must live in docs/wip/intelligence/external-interest/ or equivalent.

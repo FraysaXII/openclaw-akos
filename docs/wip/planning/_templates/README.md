@@ -47,3 +47,9 @@ Every template carries these sections (so you don't have to remember anything):
 ## Why per-initiative and not just the generic trio
 
 The generic [`initiative-planning-prompts.md`](initiative-planning-prompts.md) trio is the **author's reference**: it teaches an agent the discipline. The per-initiative kickoff templates are the **operator's runbook**: each one is a concrete launch command for one initiative, pre-filled with the right canonicals to read, the right conundrums to surface, and the right external sources to research. You copy the whole file into a new chat and the agent has the entire context — no substitution work, no guessing.
+
+## Plan-scope principle (binding)
+
+**One Cursor plan per INITIATIVE — not per phase, not per strand, not per execution slice.** The reference shape is `.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md` — one ~4 300-line strategic plan covering 17 phases, drilled-down through five regression rounds, with verbatim operator-quote capture and inline `AskQuestion` ratification throughout. Every kickoff in this folder carries the same SCOPE guardrail: filename `<initiative-slug>_<8hex>.plan.md` (no phase prefix); depth grows via regression rounds **inside the same file**, not by spawning sibling files.
+
+Phase-scoped plan files have appeared by accident in past sessions (e.g. `i71_p1_pack_a1_brand_voice_register_*.plan.md` during the I71 P1 ratification). That is documented as a divergence from the reference shape; the corrected templates loud-forbid the pattern so future agents stay on the I70 strategic-plan bar.

@@ -21,6 +21,16 @@ ssot: false
 Goal: Drive INIT-OPENCLAW_AKOS-75 (Research area governance) from "candidate" to "active P0 charter
 shipped on main", in the same inline-AskQuestion style as the I70 transcript.
 
+CRITICAL — PLAN SCOPE (binding; non-negotiable):
+The Cursor plan you mint MUST cover the ENTIRE I75 INITIATIVE (P0 through P7, all 4 strands A/B/C/D)
+in ONE file at .cursor/plans/i75-research-area-governance_<8hex>.plan.md. The reference shape
+is the I70 plan at .cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md — ONE
+strategic plan covering 17 phases, drilled-down through 5 regression rounds. That is the SOTA
+bar. I75 is the deepest of the candidate set in SOP authoring volume; the plan WILL be long, but
+it lives in ONE FILE. DO NOT mint per-discipline files (e.g. i75_methodology_*.plan.md). DO NOT
+mint phase-scoped or strand-scoped files. Filename has NO phase or strand prefix. Regression
+rounds (Round 1 / Round 2 / ...) drill into depth ON THE SAME FILE.
+
 Read first (in this order; do not skip):
 - .cursor/rules/akos-inline-ratification.mdc
 - .cursor/rules/akos-planning-traceability.mdc

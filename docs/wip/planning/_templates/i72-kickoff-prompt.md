@@ -30,6 +30,15 @@ Register Expansion) from "gated_operator" to "active P0 charter shipped on main"
 inline-AskQuestion style as the I70 plan-creation transcript. Three super-strands per the existing
 INIT row title, NOT just Marketing.
 
+CRITICAL — PLAN SCOPE (binding; non-negotiable):
+The Cursor plan you mint MUST cover the ENTIRE I72 INITIATIVE (P0 through P7, all 3 super-strands)
+in ONE file at .cursor/plans/i72-marketing-area-governance-and-persona-registry-expansion_<8hex>.plan.md.
+The reference shape is the I70 plan at .cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md
+— ONE strategic plan covering 17 phases, drilled-down through 5 regression rounds. That is the
+SOTA bar. DO NOT mint phase-scoped files (e.g. i72_p1_*.plan.md), strand-scoped files (e.g.
+i72_strand_a_*.plan.md), or super-strand-scoped files (one per A/B/C). Filename has NO phase or
+strand prefix. Regression rounds (Round 1 / Round 2 / ...) drill into depth ON THE SAME FILE.
+
 PRECONDITION VERIFICATION (run BEFORE any other action; STOP at first FAIL):
 - Read INITIATIVE_REGISTRY.csv row 58 — confirm INIT-OPENCLAW_AKOS-72 exists with:
     folder_path = docs/wip/planning/72-marketing-area-governance-and-persona-registry-expansion/

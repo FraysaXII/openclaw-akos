@@ -19,6 +19,18 @@ ssot: false
 Goal: (a) author a Cursor plan for INIT-OPENCLAW_AKOS-71 from the existing workspace master-roadmap,
       then (b) execute I71 P1 (Pack A1 — Brand voice register expansion) as one atomic commit.
 
+CRITICAL — PLAN SCOPE (binding; non-negotiable):
+The Cursor plan you mint MUST cover the ENTIRE I71 INITIATIVE (P0 through P6) in ONE file at
+.cursor/plans/i71-cicd-discipline-and-aiops-baseline-maturity_<8hex>.plan.md. The reference
+shape is the I70 plan at .cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md
+— ONE strategic plan covering 17 phases, drilled-down through 5 regression rounds. That is the
+SOTA bar. DO NOT mint a phase-scoped file (e.g. i71_p1_pack_a1_<8hex>.plan.md). DO NOT fragment
+P1 / P2 / P3 / P4 / P5 / P6 into separate plan files. Filename has NO phase prefix.
+Regression rounds (Round 1 / Round 2 / ...) drill into depth ON THE SAME FILE. If a phase needs
+heavy detail, that detail goes IN the file under that phase's section, not in a sibling file.
+A phase-scoped file like i71_p1_pack_a1_brand_voice_register_*.plan.md has appeared in the past
+during I71 P1 execution; that is a documented divergence and corrected by this guardrail.
+
 Read first (in this order; do not skip):
 - .cursor/rules/akos-inline-ratification.mdc
 - .cursor/rules/akos-planning-traceability.mdc

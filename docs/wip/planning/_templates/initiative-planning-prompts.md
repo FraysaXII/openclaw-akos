@@ -111,13 +111,42 @@ OPS_REGISTER yet (those land at P0 in Prompt 2).
 ```
 Goal: Author the Cursor plan for [INITIATIVE_TITLE] (number [INITIATIVE_NUMBER]).
 
+CRITICAL — PLAN SCOPE (binding; non-negotiable):
+The Cursor plan you author MUST cover the ENTIRE INITIATIVE (every phase: P0 through PN), in
+ONE single .plan.md file. The reference shape is the I70 plan at
+.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md — ONE strategic plan
+covering 17 phases, drilled-down through 5 regression rounds, ~4 300 lines. That is the SOTA bar.
+
+DO:
+- Mint a SINGLE plan file at .cursor/plans/<initiative-slug>_<8hex>.plan.md (no phase suffix).
+- Cover every phase of the initiative (P0 through PN) with full per-phase decomposition.
+- Drill into depth via REGRESSION ROUNDS inside the same file (Round 1 / Round 2 / Round 3 ...).
+  Each regression round narrative documents what expanded vs the prior round, captures verbatim
+  operator feedback, and refines the existing sections — it does NOT spawn a new plan file.
+
+DO NOT:
+- Mint a phase-scoped plan file like i7N_p1_<thing>_<8hex>.plan.md, i7N_p2_<thing>_*.plan.md,
+  i7N_strand_a_*.plan.md, etc. The filename has NO phase prefix or strand prefix.
+- Fragment the initiative into multiple plan files (one per phase, one per strand). The whole
+  initiative lives in ONE file. If a phase has heavy execution detail, that detail goes IN
+  the file under that phase's section, not in a sibling file.
+- Confuse the per-phase REPORT files (docs/wip/planning/<NN>-<slug>/reports/p<N>-*.md) with the
+  Cursor plan. Reports are post-execution artifacts; the plan is the pre-execution strategic
+  document. Both exist; they are NOT alternatives.
+
+Phase-scoped plan files have appeared by accident in past sessions (e.g. i71_p1_pack_a1_*.plan.md
+during I71 P1 execution). That is a divergence from the I70 reference shape and is corrected by
+this guardrail. If you find yourself about to name a file with a phase prefix, STOP and consult
+the operator.
+
 Preconditions (verify before writing a single line of plan):
 - Discovery report exists and ends with operator-confirmed PROMOTE next-step.
 - All conundrums in the report are ratified OR explicitly tagged "deferred to execution-time
   inline-ratify gate" with the gate location pre-allocated.
 
 Outputs (in order):
-A. .cursor/plans/<slug>_<8hex>.plan.md — the authoritative Cursor plan.
+A. .cursor/plans/<initiative-slug>_<8hex>.plan.md — the authoritative Cursor plan, INITIATIVE-
+   SCOPED, covering all phases (NOT a phase-scoped file).
 B. docs/wip/planning/[INITIATIVE_NUMBER]-<slug>/master-roadmap.md — workspace mirror per
    .cursor/rules/akos-planning-traceability.mdc.
 C. docs/wip/planning/[INITIATIVE_NUMBER]-<slug>/reports/p0-charter-<date>.md — ratification record.

@@ -21,6 +21,15 @@ ssot: false
 Goal: Drive INIT-OPENCLAW_AKOS-73 (People Operations + Learning curriculum) from "candidate" to
 "active P0 charter shipped on main", in the same inline-AskQuestion style as the I70 transcript.
 
+CRITICAL — PLAN SCOPE (binding; non-negotiable):
+The Cursor plan you mint MUST cover the ENTIRE I73 INITIATIVE (P0 through P6, all 4 strands A/B/C/D)
+in ONE file at .cursor/plans/i73-people-operations-and-learning-curriculum_<8hex>.plan.md. The
+reference shape is the I70 plan at .cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md
+— ONE strategic plan covering 17 phases, drilled-down through 5 regression rounds. That is the
+SOTA bar. DO NOT mint phase-scoped files (e.g. i73_p1_*.plan.md) or strand-scoped files. Filename
+has NO phase or strand prefix. Regression rounds (Round 1 / Round 2 / ...) drill into depth ON
+THE SAME FILE.
+
 Read first (in this order; do not skip):
 - .cursor/rules/akos-inline-ratification.mdc
 - .cursor/rules/akos-planning-traceability.mdc

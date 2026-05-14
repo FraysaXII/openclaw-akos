@@ -22,6 +22,17 @@ Goal: Drive INIT-OPENCLAW_AKOS-76 (MADEIRA elevation) from "candidate" to "activ
 shipped on main", in the same inline-AskQuestion style as the I70 transcript. Strand A external
 research is MANDATORY pre-charter; do not skip it.
 
+CRITICAL — PLAN SCOPE (binding; non-negotiable):
+The Cursor plan you mint MUST cover the ENTIRE I76 INITIATIVE (P-1 through P6, all strands A/B/C/D/E/F)
+in ONE file at .cursor/plans/i76-madeira-elevation_<8hex>.plan.md. The reference shape is the
+I70 plan at .cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md — ONE strategic
+plan covering 17 phases, drilled-down through 5 regression rounds. That is the SOTA bar. DO NOT
+mint phase-scoped, strand-scoped, or AICs-framing-scoped files. Filename has NO phase, strand, or
+framing prefix. The Strand A external research report (P-1 deliverable) lives at
+docs/wip/planning/_candidates/i76-strand-a-research-<date>.md — that is a research DOCUMENT, not
+a Cursor plan. The plan absorbs Strand A's findings as its first regression round and proceeds
+to ratify C-76-1 + scope all subsequent phases in the SAME file.
+
 Read first (in this order; do not skip):
 - .cursor/rules/akos-inline-ratification.mdc
 - .cursor/rules/akos-planning-traceability.mdc
