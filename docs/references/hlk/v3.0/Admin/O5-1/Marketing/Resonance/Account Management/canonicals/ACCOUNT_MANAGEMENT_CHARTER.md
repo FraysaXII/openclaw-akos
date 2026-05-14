@@ -19,7 +19,7 @@ companion_to:
 
 # ACCOUNT_MANAGEMENT_CHARTER — Marketing/Resonance/Account Management sub-discipline
 
-> Authored I72 P1 per `D-IH-72-A` (P0 charter) + `D-IH-70-R` (Account Management surfaced as first-class role from SUEZ engagement diagnostic). Account Management owns the **1:1 counterparty relationship lifecycle** post-engagement-handoff: kickoff, mid-engagement health, expansion proposals, renewal cycles, and structured close. Sibling to Community Manager (which owns peer-cohort + many-to-one community relationships) under the Resonance umbrella.
+> Authored I72 P1 per `D-IH-72-A` (P0 charter) + `D-IH-70-R` (Account Management surfaced as first-class role from SUEZ engagement diagnostic). Account Management owns the **1:1 counterparty relationship lifecycle** post-engagement-handoff: kickoff, mid-engagement health, expansion proposals, renewal cycles, and structured close. Per `D-IH-72-AN` (regression-amend 2026-05-15): the legacy Community Manager role row was deleted; the Community-Management discipline (peer-cohort + many-to-one community relationships) is now held by Resonance Manager directly as a discipline of that generalist role.
 
 ## 1. Mission
 
@@ -36,7 +36,7 @@ Account Management exists to **own the relationship health of every active count
 Account Management is a **sub-discipline within Resonance**, not a parallel sub-area. The boundary:
 
 - **Account Management owns 1:1 counterparty health** (single-account focus).
-- **Community Manager owns 1:many cohort moments** (peer-cohort programs, customer-advisory boards, community channels).
+- **Resonance Manager (Community-Management discipline per D-IH-72-AN) owns 1:many cohort moments** (peer-cohort programs, customer-advisory boards, community channels).
 - Both report to **Resonance Manager** (sub-area lead).
 
 Account Management is the **primary contract-side counterpart** for the operator + the named delivery team during an active engagement. CRM-of-record interactions, Calendly scheduling for QBRs, expansion-proposal authoring all flow through Account Management.
@@ -81,7 +81,7 @@ Per `D-IH-70-R` codification + this charter:
 
 - Parent: [`RESONANCE_AREA_CHARTER.md`](../../canonicals/RESONANCE_AREA_CHARTER.md) §2.
 - Grandparent: [`MARKETING_AREA_M3_REDESIGN.md`](../../../canonicals/MARKETING_AREA_M3_REDESIGN.md) §2 (Resonance sub-area).
-- Sibling: Community Manager (under Resonance Manager; community-cohort discipline).
+- Sibling: Community-Management discipline now held by Resonance Manager directly (legacy Community Manager role row deleted at I72 R-D per D-IH-72-AN).
 - Cross-area: `Operations/RevOps/canonicals/REVOPS_AREA_CHARTER.md` (revenue-impact mapping); `Operations/RevOps/canonicals/dimensions/ENGAGEMENT_TEMPLATE_REGISTRY.csv` (P2; renewal patterns); `Operations/RevOps/canonicals/SOP-REVOPS_QBR_001.md` (P4; paired with account QBR).
 - Brand: `Marketing/Brand/canonicals/BRAND_COUNTERPARTY_README_CONTRACT.md` (DPA + sub-processor disclosure); `Marketing/Brand/canonicals/BRAND_BASELINE_REALITY_MATRIX.md` (counterparty external register).
 - Decisions: `D-IH-72-A` (P0 charter), `D-IH-70-R` (Account Management first-class role), `D-IH-72-AB` (3-function umbrella).

@@ -63,9 +63,9 @@ Per Conundrum 12 + D-IH-70-T (Marketing area redesign at P8 §8.4):
 
 - **Brand (saying)** — owns the four sub-disciplines above. This ontology lives here.
 - **Reach (extending)** — acquisition + Demand Generation + Paid Media. Cross-references Brand for voice/visual register but doesn't author it.
-- **Resonance (deepening)** — Account Management + Community Manager. **CONSUMES** Brand-authored artifacts in 1:1 relationship contexts (per D-IH-70-X forward-context).
-- **Storytelling (conveying)** — PR + Thought Leadership + Corporate Marketing. **AUTHORS** narrative artifacts that integrate Brand sub-discipline outputs (case studies, press releases, employer-brand collateral). Single-ownership boundary: Storytelling integrates Brand voice; Brand never authors the integrated narrative.
-- **Experimentation (testing)** — Growth Hacker + Marketing Analytics. Tests Brand-authored prose/visual variants against engagement metrics; never authors register itself.
+- **Resonance (deepening)** — Resonance Manager (generalist holding Community-Management discipline per D-IH-72-AN) + Account Management Manager (kept). **CONSUMES** Brand-authored artifacts in 1:1 relationship contexts (per D-IH-70-X forward-context).
+- **Storytelling (conveying)** — Storytelling Manager (generalist holding Thought-Leadership-Editorial + Corporate-Marketing disciplines per D-IH-72-AN) + PR Manager (kept). **AUTHORS** narrative artifacts that integrate Brand sub-discipline outputs (case studies, press releases, employer-brand collateral). Single-ownership boundary: Storytelling integrates Brand voice; Brand never authors the integrated narrative. **MERGES with Brand at R-E into Brand & Narrative sub-area per D-IH-72-AO** (regression-amend 2026-05-15).
+- **Experimentation (testing)** — Experimentation Manager (generalist holding Growth-Hacker discipline per D-IH-72-AN) + Marketing Analytics Manager (kept). Tests Brand-authored prose/visual variants against engagement metrics; never authors register itself.
 
 The Storytelling-authors / Resonance-consumes boundary (D-IH-70-X) extends here:
 

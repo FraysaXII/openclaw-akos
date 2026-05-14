@@ -32,9 +32,8 @@ Experimentation roles cluster under the **Operations-side function** of the 3-fu
 
 | Role | `org_id` | Function umbrella | Discipline |
 |:---|:---|:---|:---|
-| **Experimentation Manager** | (org row) | Operations (cross-cutting) | Sub-area lead; experiment registry governance; statistical-significance gate authority; cross-discipline experiment-brief reviewer. |
-| **Growth Hacker** | (org row) | Operations | Variant generation execution; rapid-iteration experiment authoring; channel-experimentation specialist. NOT a "Growth role" in the legacy sense (legacy Growth dissolved per M3); the title preserves industry-recognised vocabulary while the role lives under Experimentation. |
-| **Marketing Analytics Manager** | (org row) | Operations | Instrumentation design; per-platform tracking implementation; statistical-significance computation; per-experiment writeup authoring; cross-link to RevOps Spine (P7) for revenue-impact attribution. |
+| **Experimentation Manager** (generalist) | (org row) | Operations (cross-cutting) | Sub-area lead; experiment registry governance; statistical-significance gate authority; cross-discipline experiment-brief reviewer. **Plus** (per D-IH-72-AN regression-amend 2026-05-15): Growth-Hacker discipline (variant generation execution, rapid-iteration experiment authoring, channel-experimentation specialist, variant hypothesis authoring across acquisition/activation/retention/revenue funnels). The "Growth Hacker" title preserves industry-recognised vocabulary as a discipline label without being a separate role row. |
+| **Marketing Analytics Manager** (kept) | (org row) | Operations | Instrumentation design; per-platform tracking implementation; statistical-significance computation; per-experiment writeup authoring; cross-link to RevOps Spine (P7) for revenue-impact attribution. **Kept as separate role** per `D-IH-72-AN` because of distinct cross-sub-area measurement substrate mandate (Reach reach-rates, Resonance retention curves, Storytelling narrative-resonance scores all flow through this role). |
 
 Cross-function ties:
 - **To Operations function (RevOps)**: Per-experiment metric attribution flows through P7 RevOps Spine `engagement_revenue_view` join. Boundary: Experimentation reports lift; RevOps reports revenue-impact.

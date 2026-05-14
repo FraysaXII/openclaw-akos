@@ -27,15 +27,15 @@ Reach exists to **extend the audience for Holistika narrative artefacts** withou
 
 The verb is **extending**: Reach takes a narrative artefact (case study, thought-leadership post, employer-brand collateral, ENISA evidence dossier) authored by Storytelling, integrating Brand register + Research outputs, and amplifies it through the right channel mix to reach the right audience at the right time.
 
-## 2. Roles + 3-function umbrella (per D-IH-72-AB)
+## 2. Roles + 3-function umbrella (per D-IH-72-AB; updated per D-IH-72-AN regression-amend 2026-05-15)
 
-Reach roles cluster under the **Demand-side function** of the 3-function umbrella (Demand / Supply / Operations). Each role owns a single discipline:
+Reach roles cluster under the **Demand-side function** of the 3-function umbrella (Demand / Supply / Operations).
 
-| Role | `org_id` | Function umbrella | Discipline |
+Per `D-IH-72-AN` (regression-amend 2026-05-15) and the operator's "disciplines ≠ roles, no horizontal bloat" principle, the role taxonomy is **slim**: Reach Manager is a generalist holding all Reach disciplines (Demand-Generation + Paid-Media absorbed as disciplines). Headcount expansion at growth stage uses additional Reach Manager seats with discipline-specifying suffix (e.g., Reach Manager - Demand Gen / Reach Manager - Paid Media), not separate role rows.
+
+| Role | `org_id` | Function umbrella | Disciplines held |
 |:---|:---|:---|:---|
-| **Reach Manager** | (org row at baseline_organisation.csv) | Demand | Sub-area lead; channel mix governance; per-engagement reach plan; cross-area liaison with Storytelling + Experimentation. |
-| **Demand Generation Manager** | (org row) | Demand | Inbound capture; lead-flow instrumentation; SLA enforcement (per `SOP-GTM_INBOUND_SLA_001.md`); CRM + Calendly integration. |
-| **Paid Media Manager** | `org_004` | Demand | Paid spend governance; ad-platform vendor management; creative-variant brief authoring (variants → Experimentation for measurement); per-channel budget envelopes. |
+| **Reach Manager** (generalist) | (org row at baseline_organisation.csv) | Demand | Sub-area lead; channel mix governance; per-engagement reach plan; cross-area liaison with Storytelling + Experimentation. **Plus** (per D-IH-72-AN): Demand-Generation discipline (inbound capture; lead-flow instrumentation; SLA enforcement per `SOP-GTM_INBOUND_SLA_001.md`; CRM + Calendly integration; SEO/SEM execution; MQL/SQL pipeline progression) + Paid-Media discipline (paid spend governance; ad-platform vendor management; creative-variant brief authoring with variants flowing to Experimentation for measurement; per-channel budget envelopes). |
 
 Cross-function ties:
 - **To Operations function (RevOps)**: Reach hands off captured leads to RevOps engagement-template promotion (per `SOP-ENGAGEMENT_TEMPLATE_PROMOTION_001.md` at `Operations/RevOps/canonicals/`, P3 deliverable).

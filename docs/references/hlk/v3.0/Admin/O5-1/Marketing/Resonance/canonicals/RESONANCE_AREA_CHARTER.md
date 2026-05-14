@@ -33,9 +33,8 @@ Resonance roles cluster under the **Demand-side function** of the 3-function umb
 
 | Role | `org_id` | Function umbrella | Discipline |
 |:---|:---|:---|:---|
-| **Resonance Manager** | (org row at baseline_organisation.csv) | Demand (post-capture) | Sub-area lead; relationship-health KPI ownership; cross-role coordination between Account Management + Community Manager. |
-| **Account Management Manager** | (org row) | Demand (post-capture) | 1:1 counterparty relationship maintenance; renewals; expansion proposals; per-account QBR cadence. New first-class role per `D-IH-70-R`. See nested charter `Account Management/canonicals/ACCOUNT_MANAGEMENT_CHARTER.md`. |
-| **Community Manager** | `org_032` | Demand (post-capture) | Community moments (events, peer-cohort programs, customer-advisory boards); narrative artefact deployment in community channels; sub_area=Resonance per `D-IH-72-AA` migration from legacy Social. |
+| **Resonance Manager** (generalist) | (org row at baseline_organisation.csv) | Demand (post-capture) | Sub-area lead; relationship-health KPI ownership; cross-role coordination with Account Management. **Plus** (per D-IH-72-AN regression-amend 2026-05-15): Community-Management discipline (community moments — events, peer-cohort programs, customer-advisory boards; narrative artefact deployment in community channels; absorbed from legacy `Community Manager` role row deleted at R-D). |
+| **Account Management Manager** (kept) | (org row) | Demand (post-capture) | 1:1 counterparty relationship maintenance; renewals; expansion proposals; per-account QBR cadence. First-class role per `D-IH-70-R`; **kept as separate role** per `D-IH-72-AN` because of distinct external customer-facing mandate. See nested charter `Account Management/canonicals/ACCOUNT_MANAGEMENT_CHARTER.md`. |
 
 Cross-function ties:
 - **To Operations function (RevOps)**: Resonance owns relationship-health signals; RevOps owns the engagement-revenue spine (per P7) that monetises those signals into renewal + expansion forecasts. Boundary: Resonance reports relationship-health; RevOps reports revenue-impact.

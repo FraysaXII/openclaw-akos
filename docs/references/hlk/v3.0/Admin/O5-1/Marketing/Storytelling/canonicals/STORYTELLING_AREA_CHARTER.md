@@ -33,10 +33,8 @@ Storytelling roles cluster under the **Supply-side function** of the 3-function 
 
 | Role | `org_id` | Function umbrella | Discipline |
 |:---|:---|:---|:---|
-| **Storytelling Manager** | (org row) | Supply | Sub-area lead; narrative-artefact lifecycle governance; cross-discipline integration with Brand + Research; per-engagement narrative plan. |
-| **PR Manager** | (org row) | Supply | Press posts; journalist relationships; press-release authoring; embargo + release-cycle governance. Cross-link to `INTELLIGENCEOPS_REGISTER.csv` (P6) for media counterparty rows per `D-IH-72-J`. |
-| **Thought Leadership Editor** | (org row) | Supply | Long-form thought-leadership posts; founder-bio integration; conference + speaking-engagement narrative authoring. |
-| **Corporate Marketing** | `org_034` | Supply | Employer-brand collateral; recruiter-facing narrative; investor-facing collateral. Sub-area=Storytelling per `D-IH-70-X` migration from legacy People/Talent. |
+| **Storytelling Manager** (generalist; merging into Brand & Narrative Manager at R-E) | (org row) | Supply | Sub-area lead; narrative-artefact lifecycle governance; cross-discipline integration with Brand + Research; per-engagement narrative plan. **Plus** (per D-IH-72-AN regression-amend 2026-05-15): Thought-Leadership-Editorial discipline (long-form essays, founder-corpus integration, editorial calendar coherence, conference + speaking-engagement narrative) + Corporate-Marketing discipline (employer-brand collateral, recruiter-facing narrative, investor-facing collateral, internal-comms templates, leadership-bio materials). FORWARD: at R-E (per D-IH-72-AO), this role MERGES with Brand Manager into Brand & Narrative Manager. |
+| **PR Manager** (kept) | (org row) | Supply | Press posts; journalist relationships; press-release authoring; embargo + release-cycle governance. **Kept as separate role** per `D-IH-72-AN` because of distinct external press-identity mandate. Cross-link to `INTELLIGENCEOPS_REGISTER.csv` (P6) for media counterparty rows per `D-IH-72-J`. |
 
 Cross-function ties:
 - **To Demand function (Reach + Resonance)**: Storytelling produces; Reach amplifies via channels; Resonance deploys in 1:1 contexts. Boundary: Storytelling never deploys; never amplifies. Resonance + Reach never author.
