@@ -303,10 +303,19 @@ def run_brand_voice_vale() -> tuple[str, str]:
       install via the operator-host package manager). The generator + style
       files still land at commit time; CI integration becomes live once the
       operator installs Vale.
-    - **Vale binary present**: invoke ``vale --config=.vale.ini docs/`` and
-      report PASS / FAIL based on exit code. Because ``MinAlertLevel = warning``
+    - **Vale binary present**: invoke
+      ``vale --config=.vale.ini docs/references/hlk/v3.0/`` and report
+      PASS / FAIL based on exit code. Because ``MinAlertLevel = warning``
       per C-71-Vale-1 default, any warning-level hit causes a FAIL row; the
       operator can promote / demote the level by editing ``.vale.ini``.
+
+    Scope rationale: Vale runs against the **active vault only**
+    (``docs/references/hlk/v3.0/``) per ``PRECEDENCE.md`` reference-only /
+    canonical boundary. The ``Research & Logic/`` (v2.7) subtree is
+    reference-only and not governed by v3.0 brand canonicals — see
+    ``SOP-RELEASE_TAXONOMY_001 §5`` (cross-lane interaction). Scoping the
+    invocation prevents Vale from tripping over malformed YAML frontmatter
+    in historical reference docs that are intentionally out of governance.
 
     Sibling row to ``run_brand_voice_register_validation()`` -- both surfaces
     run alongside one another (regex chassis names violations cheaply; Vale
@@ -328,9 +337,13 @@ def run_brand_voice_vale() -> tuple[str, str]:
             "BRAND voice Vale sibling (.vale.ini absent at repo root; regenerate via "
             "scripts/generate_vale_styles.py + author .vale.ini per I71 P2 §P2 Step 2d)",
         )
-    docs_dir = REPO_ROOT / "docs"
+    # Scope Vale to docs/references/hlk/v3.0/ (active vault) per PRECEDENCE.md
+    # reference-only / canonical boundary; the v2.7 Research & Logic subtree is
+    # reference-only and not governed by v3.0 brand canonicals (see I71 P3
+    # SOP-RELEASE_TAXONOMY_001 §5 cross-lane interaction).
+    vale_scan_target = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0"
     result = proc.run(
-        ["vale", f"--config={config_path}", str(docs_dir)],
+        ["vale", f"--config={config_path}", str(vale_scan_target)],
         timeout=120,
         capture=False,
     )
