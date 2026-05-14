@@ -42,6 +42,19 @@ PROCESS_LIST_FIELDNAMES: list[str] = [
     "last_review_by",
     "last_review_decision_id",
     "methodology_version_at_review",
+    # I72 P4 value-mapping function schema extension (D-IH-72-AF + D-IH-72-AG).
+    # 4 axis FKs + 3 revenue value cells. Sparse population — most existing rows
+    # carry NULL (empty) for all 7 cells; rows authored by RevOps Lead/Analyst
+    # (post-P4 activation) populate the relevant axis cells. Per D-IH-72-V cascade:
+    # this schema change cascades to akos SSOT module (this file) + Pydantic model
+    # (extra=allow on ProcessItem) + Supabase mirror DDL + release-gate.
+    "m3_sub_area",                # Marketing M3 axis FK; nullable; enum brand|reach|resonance|storytelling|experimentation
+    "engagement_template_id",     # Template axis FK to ENGAGEMENT_TEMPLATE_REGISTRY.template_id; nullable
+    "persona_id",                 # Persona axis FK to PERSONA_REGISTRY.persona_id; nullable; expands at I72 P5
+    "cadence_type",               # Cadence axis enum on_demand|scheduled|event_triggered|gated_operator per D-IH-72-Q
+    "min_rev_value_eur",          # Declared minimum revenue value attributable to this process under the axis combination; nullable
+    "par_rev_value_eur",          # Declared par/expected revenue value; nullable
+    "max_rev_value_eur",          # Declared maximum revenue value; nullable
 ]
 
 
