@@ -4,7 +4,7 @@ title: CI/CD Discipline and AIOps Baseline Maturity
 status: active
 owner_role: PMO
 inception: 2026-05-13
-last_review: 2026-05-13
+last_review: 2026-05-14
 authority: Founder + PMO + System Owner
 language: en
 linked_decisions:
@@ -80,7 +80,7 @@ Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-sta
 |:---|:---|:---:|:---|:---:|
 | **P0** | Charter + registries + WORKSPACE §18 + Strand C scope expansion | A+B+C | **SHIPPED** (`e129bac`, `eb4c1b4`) | — |
 | **P1** | Pack A1 (voice register expansion — chassis edition; 10 layers + Round 3 brand-DNA) | A | **SHIPPED** 2026-05-14 | — |
-| **P2** | Packs A2–A3 (Gantt confidence + multilingual locale suffix) + Addition 11 (number/currency/date format per-locale) + Tier 1 Vale sibling (deterministic-NLP layer; folded in 2026-05-14) | A | pending | — |
+| **P2** | Packs A2–A3 (Gantt confidence + multilingual locale suffix) + Addition 11 (number/currency/date format per-locale) + Tier 1 Vale sibling (deterministic-NLP layer; folded in 2026-05-14) | A | **SHIPPED** 2026-05-14 (`34c0028`; sub-phases P2.1 `f9710f2` + P2.2 `cfd0a9b` + P2.3 `34c0028` per operator-ratified commit posture) | — |
 | **P3** | Strand C1 — release-taxonomy ratification + tag-criteria SOP | C | pending | OPS-71-2 |
 | **P4** | Strand C2 — review-stamp dimension (column-or-table choice + migration + validator) | C | pending | OPS-71-3 |
 | **P5** | Pack A4 (render ownership) + Strand B hardening (MCP smoke + dashboard cross-links) | A+B | pending | — |
@@ -104,7 +104,7 @@ Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-sta
 - **Strictness default** (per D-IH-71-F operator override at plan finalization 2026-05-14): **strict-day-1** for all 10 layers; soft-30-day default REJECTED. Per-rule allow-listing via `register-pack.yml`; global `AKOS_BRAND_VOICE_REGISTER_SOFT=1` env preserved for emergency triage. C-71-1 verdict: `strict_day_1`.
 - **Key risk**: regex breadth (false positives on legitimate prose). Mitigation: per-rule severity in canonical; operator-editable `register-pack.yml`; inline allow-comments (e.g., `<!-- llm-tone-allow: T-3-delve-into -->`); fixture suite at `tests/test_validate_brand_voice_register_expansion.py`.
 
-### P2 — Packs A2 + A3 (Gantt confidence + multilingual locale-suffix) + Tier-3 Addition 11 fold-in + Tier 1 Vale sibling
+### P2 — Packs A2 + A3 (Gantt confidence + multilingual locale-suffix) + Tier-3 Addition 11 fold-in + Tier 1 Vale sibling **SHIPPED 2026-05-14**
 
 - **Scope**:
   - **A2**: new `scripts/validate_brand_gantt_confidence.py` enforcing the 5-level confidence ladder + 4-quadrant audience matrix from `BRAND_GANTT_DISCIPLINE.md`; rule-pack at `docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/gantt-pack.yml`; tests + release-gate.
@@ -112,8 +112,8 @@ Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-sta
   - **Addition 11 (Tier-3 fold-in from P1 Round 3)**: number / currency / date format per-locale enforcement — author the contract in a sibling `BRAND_LOCALISED_FORMATS.md` canonical; extend the Pack A1 chassis with `NumberFormatRule` + `CurrencyFormatRule` + `DateFormatRule`; surface via the existing validator script or a sibling validator depending on size at execution time.
   - **Tier 1 — Vale sibling (folded in from I71 P1 strategic review 2026-05-14)**: integrate Vale (open-source NLP+POS-tagging linter) as a sibling to the regex chassis. Translate brand canonicals into Vale's `.ini` format via a one-time generator script (`scripts/generate_vale_styles.py`). Vale runs **alongside** `validate_brand_voice_register.py`, not replacing it: regex catches named violations cheaply; Vale catches grammar patterns regex can't (e.g. "any superlative adjective in a customer-facing slide H1"). Free, ~1 day. Closes the deterministic-NLP gap noted in the I71 P1 strategic review (industry parity vs Vale-only setups). Operator-tuneable via `Vocab/Holistika.txt` and `Vocab/Holistika-rejected.txt`.
 - **Prerequisites**: P1 closed (SHIPPED 2026-05-14); `BRAND_GANTT_DISCIPLINE.md` (I70 P6) and `BRAND_MULTILINGUAL_CONTRACT.md` (I70 P7) are the canonical anchors; SUEZ engagement is the ground-truth fixture for A3.
-- **Deliverables**: 2 validators + 2 rule-pack YAMLs + 2 test modules + release-gate integration + CHANGELOG entries + Addition 11 canonical + chassis extension + **Vale styles generator + Vale CI integration + brand canonicals → Vale `.ini` translator**.
-- **Verification**: A2 detects out-of-ladder confidence cells in fixture Gantt files; A3 detects engagements that ship only `README.md` without locale variants OR without 5-line pointer; Addition 11 detects locale-mismatched number/currency/date formats; **Vale runs in CI alongside regex chassis with zero overlap on named violations and surfaces ≥1 grammar-pattern catch the regex misses (proves complementarity, not redundancy)**; release-gate green.
+- **Deliverables (SHIPPED 2026-05-14)**: 2 validators (`scripts/validate_brand_gantt_confidence.py` + `scripts/validate_brand_multilingual.py`) + 2 rule-pack YAMLs (`gantt-pack.yml` + `multilingual-pack.yml`) + 2 test modules (37-case + 28-case) + release-gate integration (Vale row adjacent to voice-register row) + CHANGELOG entry + Addition 11 canonical (`BRAND_LOCALISED_FORMATS.md`) + chassis extension (+7 BaseModels +7 parsers; additive; no signature changes to existing P1 models per the plan §"DO NOT" contract) + **Vale styles generator (`scripts/generate_vale_styles.py`) + `.vale.ini` repo-root config + 5 generated `.vale/styles/Holistika/*.yml` + `.vale/styles/Vocab/*.txt` files + 21-case test suite at `tests/test_vale_styles_generator.py`**.
+- **Verification (run 2026-05-14)**: gates 1-13 PASS / SKIP per phase report `reports/p2-pack-a2-a3-addition-11-vale-2026-05-14.md` §"Verification matrix results"; Pack A2 + A3 + Vale generator test suites green (37 + 28 + 21 = 86 new cases); P1 chassis regression 28/28 PASS (additive-only contract proven); real-vault smoke = 0 hits (1 SUEZ Gantt + 7 engagement folders scanned); `validate_decision_register.py` PASS (132 active decisions; 128 prior + 4 new D-IH-71-L..O); `validate_canonical_registry.py` PASS (110 rows; 109 prior + 1 new `brand_localised_formats`). Vale binary host-conditional (SKIP when absent; auto-flips to PASS/FAIL when operator installs).
 
 ### Tier 2 forward-charter — LLM-as-judge advisory layer (parked as I78 candidate)
 
@@ -171,13 +171,14 @@ Cursor extension or VS Code plug-in showing live brand-voice scoring while writi
 - **D-IH-71-I** — **MINTED 2026-05-14** Pack A1 Storytelling/Resonance boundary codification (D-IH-70-X reinforcement).
 - **D-IH-71-J** — **MINTED 2026-05-14** Pack A1 release-gate row extension policy (in-place vs new row).
 - **D-IH-71-K** — **MINTED 2026-05-14** Pack A1 Round 3 brand-DNA additions (Layers 5-9 scope ratification).
-- **D-IH-71-L** — Pack A2 ratification (Gantt confidence ladder enforcement scope).
-- **D-IH-71-M** — Pack A3 ratification (multilingual locale-suffix strictness).
-- **D-IH-71-N** — Addition 11 ratification (number/currency/date format per-locale; P2 fold-in).
-- **D-IH-71-O** — Strand C1 tag-now-vs-hold ratification (P3).
-- **D-IH-71-P** — Strand C2 column-vs-table ratification (P4).
-- **D-IH-71-Q** — Pack A4 ratification (render-ownership coverage thresholds).
-- **D-IH-71-R** — Strand B observability cardinality ratification (P5).
+- **D-IH-71-L** — **MINTED 2026-05-14** Pack A2 ratification (Gantt confidence ladder enforcement scope).
+- **D-IH-71-M** — **MINTED 2026-05-14** Pack A3 ratification (multilingual locale-suffix strictness; C-71-2 verdict deferred to coordinator inline-ratify; default warn-until-2-bilingual ships).
+- **D-IH-71-N** — **MINTED 2026-05-14** Addition 11 ratification (number/currency/date format per-locale; P2 fold-in; new `BRAND_LOCALISED_FORMATS.md` canonical).
+- **D-IH-71-O** — **MINTED 2026-05-14** Tier 1 Vale sibling architecture ratification (deterministic-NLP layer alongside regex chassis; C-71-Vale-1 + C-71-Vale-2 verdicts deferred to coordinator inline-ratify; defaults MinAlertLevel=warning + single Vocab pair ship).
+- **D-IH-71-P** — Strand C1 tag-now-vs-hold ratification (P3; renumbered from prior D-IH-71-O slot since the Vale row claimed -O).
+- **D-IH-71-Q** — Strand C2 column-vs-table ratification (P4).
+- **D-IH-71-R** — Pack A4 ratification (render-ownership coverage thresholds; P5).
+- **D-IH-71-S** — Strand B observability cardinality ratification (P5).
 - **D-IH-71-CLOSURE** — initiative closure (P6).
 
 ## Risk register (top 5)

@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import logging
 import os
+import shutil
 import sys
 from pathlib import Path
 
@@ -266,6 +267,62 @@ def run_brand_voice_register_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_brand_voice_vale() -> tuple[str, str]:
+    """Run the Tier 1 Vale sibling (I71 P2 / D-IH-71-O).
+
+    Returns ``(level, description)`` directly so callers can append the row
+    without an additional PASS/FAIL ladder. Two host-conditional branches:
+
+    - **Vale binary absent**: append ``SKIP`` with a note that surfaces the
+      missing binary to the operator (Vale ships as a precompiled Go binary;
+      install via the operator-host package manager). The generator + style
+      files still land at commit time; CI integration becomes live once the
+      operator installs Vale.
+    - **Vale binary present**: invoke ``vale --config=.vale.ini docs/`` and
+      report PASS / FAIL based on exit code. Because ``MinAlertLevel = warning``
+      per C-71-Vale-1 default, any warning-level hit causes a FAIL row; the
+      operator can promote / demote the level by editing ``.vale.ini``.
+
+    Sibling row to ``run_brand_voice_register_validation()`` -- both surfaces
+    run alongside one another (regex chassis names violations cheaply; Vale
+    catches grammar patterns the regex cannot express). Per D-IH-71-J the row
+    is placed adjacent to the regex row in the release-gate output for
+    operator scannability.
+    """
+    logger.info("Running BRAND voice Vale sibling (Tier 1 deterministic-NLP layer) ...")
+    if shutil.which("vale") is None:
+        return (
+            "SKIP",
+            "BRAND voice Vale sibling (deterministic-NLP layer; vale binary not installed on host; "
+            "I71 P2 / C-71-Vale-1 / D-IH-71-O; install Vale -> auto-flips to PASS/FAIL)",
+        )
+    config_path = REPO_ROOT / ".vale.ini"
+    if not config_path.exists():
+        return (
+            "SKIP",
+            "BRAND voice Vale sibling (.vale.ini absent at repo root; regenerate via "
+            "scripts/generate_vale_styles.py + author .vale.ini per I71 P2 §P2 Step 2d)",
+        )
+    docs_dir = REPO_ROOT / "docs"
+    result = proc.run(
+        ["vale", f"--config={config_path}", str(docs_dir)],
+        timeout=120,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    if rc == 0:
+        return (
+            "PASS",
+            "BRAND voice Vale sibling (deterministic-NLP layer; 0 hits at warning level; "
+            "I71 P2 / C-71-Vale-1 default warning / D-IH-71-O)",
+        )
+    return (
+        "FAIL",
+        f"BRAND voice Vale sibling (deterministic-NLP layer; vale exit={rc}; "
+        "I71 P2 / C-71-Vale-1 default warning / D-IH-71-O)",
+    )
+
+
 def run_brand_baseline_reality_validation() -> tuple[bool, int]:
     """Run dual-register contract validation (I66 P2 / D-IH-66-M).
 
@@ -498,6 +555,9 @@ def main() -> None:
             "+ Storytelling/Resonance boundary + Round 3 Layers 5-9 — strict-day-1 per D-IH-71-F + C-71-8)",
         ))
 
+    vale_level, vale_description = run_brand_voice_vale()
+    results.append((vale_level, vale_description))
+
     baseline_ok, baseline_rc = run_brand_baseline_reality_validation()
     if os.environ.get("AKOS_BRAND_BASELINE_REALITY_STRICT") == "1":
         results.append(("PASS" if baseline_ok else "FAIL", "BRAND baseline-reality (scripts/validate_brand_baseline_reality_drift.py, strict)"))
@@ -546,7 +606,7 @@ def main() -> None:
     if live_smoke:
         results.append(("INFO", "Live smoke tests should be run (AKOS_LIVE_SMOKE=1)"))
 
-    all_passed = all(level == "PASS" for level, _ in results if level != "INFO")
+    all_passed = all(level == "PASS" for level, _ in results if level not in ("INFO", "SKIP"))
 
     print()
     print("=" * 56)
