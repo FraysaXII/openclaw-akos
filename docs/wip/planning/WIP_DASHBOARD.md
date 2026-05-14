@@ -28,7 +28,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **64** | [`64-governance-mission-control/`](64-governance-mission-control/) | active | 2026-05-07 | Initiative 64 — Governance Mission Control (in hlk-erp) |
 | **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | active | 2026-05-07 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
 | **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
-| **71** | [`71-cicd-discipline-and-aiops-baseline-maturity/`](71-cicd-discipline-and-aiops-baseline-maturity/) | active | 2026-05-13 | I71 — CI/CD Discipline and AIOps Baseline Maturity |
+| **72** | [`72-marketing-area-governance-and-persona-registry-expansion/`](72-marketing-area-governance-and-persona-registry-expansion/) | active | 2026-05-14 | I72 — Marketing Area Governance + Persona Registry + IntelligenceOps Register Expansion... |
 | **77** | [`77-impeccable-brand-bridge-refresh/`](77-impeccable-brand-bridge-refresh/) | active | 2026-05-14 | I77 — Impeccable Brand-Bridge Refresh + Drift Gate |
 
 ### Gated on external event (2)
@@ -62,7 +62,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | program_line | 2026-04-18 | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
 | **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | program_line | 2026-04-23 | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
 
-### Closed (31)
+### Closed (32)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -97,6 +97,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **59** | [`59-hlk-governance-clean-slate/`](59-hlk-governance-clean-slate/) | closed | 2026-05-06 | Initiative 59 — HLK governance promotion + clean slate cycle (5 dimensions + I60/I61 lo... |
 | **66** | [`66-brand-vision-ops-sweep/`](66-brand-vision-ops-sweep/) | closed | 2026-05-09 | Initiative 66 — Brand, Vision, Ops Sweep |
 | **70** | [`70-holistika-os-self-governance/`](70-holistika-os-self-governance/) | closed | 2026-05-13 | I70 — Holistika OS Self-Governance Foundation |
+| **71** | [`71-cicd-discipline-and-aiops-baseline-maturity/`](71-cicd-discipline-and-aiops-baseline-maturity/) | closed | 2026-05-14 | I71 — CI/CD Discipline and AIOps Baseline Maturity |
 
 ### Archived (superseded) (4)
 

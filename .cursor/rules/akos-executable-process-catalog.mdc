@@ -1,0 +1,124 @@
+# AKOS Executable Process Catalog
+
+Use this rule when authoring **process catalogs**, **automation playbooks**, **adapter/integration registries**, or **any canonical that registers executable actions** (whether human-run, agent-run, or hybrid). Codifies decisions **D-IH-72-N** (process catalog architecture), **D-IH-72-O** (adapter status metadata), **D-IH-72-Q** (cadence taxonomy), and the cross-cutting RULE introduced at I72 Round 5: **every executable process needs a paired human-readable SOP**.
+
+## Why this rule exists
+
+As Holistika's foundations polish out (per the operator's 2026-05-14 framing), process catalogs will proliferate — RevOps process catalog, MADEIRA workflow catalog, KM curation catalog, advisor-engagement catalog, etc. Each catalog risks one of two failure modes:
+
+1. **AI-only fragility** — the process is documented as YAML / JSON / runbook script, executable by agents but unreadable by humans. When the agent fails or the operator needs to run it manually, the runbook is opaque.
+2. **Human-only un-automatable** — the process is documented as a Markdown SOP, readable by humans but with no executable counterpart. Every run is manual; no agent can be delegated; no scheduling possible.
+
+The pairing rule codified here ensures every governed executable process carries **both surfaces** — the human-facing SOP for understanding + the agent-facing runbook for automation — and that both stay in sync as SSOT.
+
+## When this rule applies
+
+- Authoring a new process catalog under any owning role (Marketing/Resonance/RevOps, Operations/PMO, People/People Operations, etc.).
+- Adding a new entry to an existing process catalog.
+- Authoring a new adapter / integration registry (CRM adapters, billing adapters, communication adapters, etc.).
+- Authoring a new SOP at `docs/references/hlk/v3.0/<area>/<role>/canonicals/SOP-*.md` that codifies an executable action.
+- Authoring a new automation script under `scripts/` that operationalises a process_list.csv row.
+
+## RULE 1 — SOP + executable runbook pairing (binding)
+
+Every executable process registered in `process_list.csv` (or any sibling process catalog) **must** have:
+
+1. **A paired human-readable SOP** at the canonical path `docs/references/hlk/v3.0/<area>/<role>/canonicals/SOP-<purpose>_<NNN>.md`, authored to the I70 P8.4 SMO-charter quality bar (Purpose / Scope / Inputs / Steps / Outputs / Failure modes / Cross-references). The SOP is the **operator-facing canonical**.
+
+2. **An agent-facing executable runbook** at one of:
+   - `scripts/<purpose>.py` (Python script per [`CONTRIBUTING.md`](../../CONTRIBUTING.md) §"Python Code Standards" — Pydantic models in `akos/<module>.py`, type hints, structured logging, `pathlib`, tests, release-gate wiring).
+   - A YAML entry in a process catalog (e.g., `Marketing/Resonance/RevOps/canonicals/REVOPS_PROCESS_CATALOG.yaml`) when the process is short enough for declarative spec.
+   - A multi-step workflow defined in MADEIRA / KiRBe / external orchestrator when applicable.
+
+3. **Bidirectional cross-references**: the SOP cites the runbook path; the runbook docstring/header cites the SOP path. Both live as **SSOT for the same process** — neither supersedes the other; the SOP is the readable contract; the runbook is the executable contract.
+
+4. **Operator activation choice preserved**: every paired process can be run **either** by an agent (via the runbook) OR by a human operator (via the SOP) **OR by an AIC (Agent in Charge) acting as the named role_owner** — AICs consume SOPs as instructions just like humans do. Neither path is privileged. This guarantees Holistika is never locked into "AI-only" or "human-only" execution for any governed process. AIC role_owner integration is forward-referenced from the I76 candidate (C-76-1; full architecture F1-F5 framings ratify when I76 P0 charter lands); per `D-IH-72-S` (I72 Round 6), the binary AC axis classifies AIC SOP consumption on the AC-HUMAN side (humans + AICs are SOP-readers) while AC-AUTOMATION covers unattended runbook firing (cron / event / dispatch script).
+
+5. **Acceptance criteria per catalog entry (binding for executable process catalogs)**: every entry in a process catalog (e.g., `REVOPS_PROCESS_CATALOG.yaml`) MUST declare both `acceptance_criteria_human` (a human or AIC role_owner can run via paired SOP without invoking the runbook) AND `acceptance_criteria_automation` (the runbook fires unattended). Validator `validate_process_list_pairing.py` enforces both AC fields exist per entry. This operationalises the "AI route OR human route" doctrine measurably.
+
+### Enforcement
+
+When the next operator-driven `process_list.csv` tranche lands (I60 candidate forward), each new row's `cadence` and `owner_role` cells must point to a SOP path AND a runbook path. The companion `validate_process_list_pairing.py` validator (**owned by I72 P9 — full validator covering all 4 Cursor rule dimensions: pairing + status enum + cadence enum + DAMA Data Owner**, per `D-IH-72-U`) will fail CI if either is missing.
+
+Until I72 P9 ships, the pairing is operator-discipline-enforced; reviewers should reject PRs that mint a `process_list.csv` row without both surfaces.
+
+## RULE 2 — Adapter / integration registry status metadata (binding)
+
+Every adapter / integration registry (CRM adapters, billing adapters, communication adapters, etc.) **must** carry a `status` column with the following enum:
+
+- **`active`** — the adapter is wired up, tested, and in production use.
+- **`inactive`** — the adapter exists but is not currently wired (e.g., HubSpot adapter shimmed but no HubSpot account connected yet).
+- **`planned`** — the adapter is documented as a future integration but no implementation exists yet (spec-only).
+- **`deprecated`** — the adapter was once active but is being phased out; do not extend; replace with successor.
+- **`experimental`** — the adapter is in proof-of-concept; may be promoted to `active` or rolled back to `inactive`.
+
+This metadata is **mandatory** for every adapter row in adapter / integration registries. Concrete instances landing in I72 P9 (per `D-IH-72-O` Round 5 + `D-IH-72-T` Round 6 MarTech breadth):
+
+- **`CRM_ADAPTER_REGISTRY.csv`** (Marketing/Reach/canonicals/dimensions/) — HubSpot / Salesforce / Pipedrive / Close / Attio / Copper / Folk / Odoo / Apollo / SalesLoft / holistika_ops; per Truto/Unified.to/Apideck Normalized Adapter Pattern 2026.
+- **`REVOPS_ADAPTER_REGISTRY.csv`** (Marketing/Resonance/RevOps/canonicals/dimensions/) — Finance / Data / Tech / GTM-CRM / People / Legal / Research / MADEIRA cross-area handoff bridges.
+- **`EMAIL_ADAPTER_REGISTRY.csv`** (Marketing/Reach/canonicals/dimensions/) — Resend / Mailchimp / SendGrid / Postmark / Brevo / holistika_ops outbound.
+- **`ATTRIBUTION_ADAPTER_REGISTRY.csv`** (Marketing/Experimentation/canonicals/dimensions/) — Vercel Analytics / UTM tagging / Dreamdata / Northbeam.
+- **`BILLING_ADAPTER_REGISTRY.csv`** (Marketing/Resonance/Account Management/canonicals/dimensions/) — Stripe (FDW + finops.registered_fact) / manual invoicing / Chargebee / Recurly.
+- **`COMMUNICATION_ADAPTER_REGISTRY.csv`** (Operations/PMO/canonicals/dimensions/) — Slack / Discord / email / WhatsApp Business.
+- **`SCHEDULING_ADAPTER_REGISTRY.csv`** (Marketing/Reach/canonicals/dimensions/) — Cal.com / Calendly / SavvyCal.
+- **`CONTRACT_ADAPTER_REGISTRY.csv`** (Marketing/Resonance/Account Management/canonicals/dimensions/) — DocuSign / PandaDoc / HelloSign / manual PDF.
+
+Future categories (when promoted by successor initiatives): marketing automation, enrichment (Apollo/Clay/Clearbit), Customer Data Platform (Segment/RudderStack/PostHog), iPaaS (Make/Zapier/n8n), feature flags (LaunchDarkly/Statsig), incident management (PagerDuty/incident.io), survey (Typeform/Tally), file storage adapters, etc.
+
+Per DAMA-DMBOK 2.0 Metadata Management knowledge area, status metadata is the load-bearing signal for operator + agent decision-making about which adapters can be invoked.
+
+### Enforcement
+
+Validators for adapter registries (`scripts/validate_<adapter>_registry.py`) must enforce the status enum at load time. Pydantic models in `akos/hlk_<adapter>_csv.py` must declare `status: Literal['active', 'inactive', 'planned', 'deprecated', 'experimental']`.
+
+Operator-facing surfaces (HLK-ERP panels, OPERATOR_INBOX, dossiers) must filter / surface by status — `active` adapters in primary view; `planned` in roadmap view; `deprecated` with strikethrough or grey treatment.
+
+## RULE 3 — Process catalog cadence taxonomy (binding)
+
+Every executable process catalog entry **must** declare its activation cadence as one of:
+
+- **`on_demand`** — operator (or agent on operator instruction) triggers ad-hoc. Default for one-off audits, regression sweeps, and exploratory runs.
+- **`scheduled`** — fires on a deterministic schedule (cron-like). Examples: daily / weekly / monthly / quarterly. Encoded as `cadence_schedule: <cron-expression>` or `cadence_schedule: weekly`.
+- **`event_triggered`** — fires when a specific event occurs in the system. Examples: "fires when 3 engagements consume the same template" (RevOps template promotion); "fires when a new persona row lands in PERSONA_REGISTRY"; "fires when a deploy hits ERROR status 3+ times consecutively".
+- **`gated_operator`** — runs **after** explicit operator approval. The runbook is registered + invocable, but each invocation requires an `AskQuestion` ratification gate before execution. Used for irreversible / high-blast-radius actions (e.g., template promotion ratification, mirror reseed, advisor-update send).
+
+The cadence enum is encoded in `process_list.csv` `cadence` column AND mirrored into any sibling YAML catalog as `cadence_type`. When a process supports multiple cadences (e.g., a regression sweep that runs both on-demand AND quarterly), record the primary cadence + use `cadence_secondary` field for the alternate.
+
+### Enforcement
+
+Future I72 P8 deliverable `scripts/validate_process_catalog_cadence.py` will enforce the enum at load time. Until then, operator-discipline-enforced.
+
+## RULE 4 — DAMA-DMBOK 2.0 alignment posture (binding)
+
+Process catalogs and adapter registries inherit the Holistika DAMA-DMBOK 2.0 alignment posture per **D-IH-72-M** Strand D charter. The 3 most relevant knowledge areas:
+
+- **Reference & Master Data Management (RMDM)**: every process catalog references canonical CSVs as SSOT for the entities it operates on. `ENGAGEMENT_TEMPLATE_REGISTRY` is RMDM for template patterns; `PERSONA_REGISTRY` is RMDM for personas; `INTELLIGENCEOPS_REGISTER` is RMDM for intelligence targets. Process runbooks must FK against these registries, not duplicate the data.
+- **Metadata Management**: adapter `status` metadata + cadence metadata + cross-reference metadata + last-review metadata (per I71 P4 Strand C2 forward) must be present on every catalog entry. "Data about data" is not optional.
+- **Data Integration & Interoperability**: cross-area integrations (RevOps→Finance, RevOps→Tech, RevOps→People, RevOps→Legal, RevOps→Research) must use the **Normalized Adapter Pattern** (per Truto/Unified.to/Apideck industry consensus 2026) — NOT point-to-point integrations. Each adapter abstracts behind a unified interface; the integration spine joins them.
+
+The **Data Owner** for each process catalog (per DAMA-DMBOK Data Owner = "business person accountable for decisions within a domain") is named in the catalog frontmatter. For RevOps process catalog at `Operations/RevOps/canonicals/REVOPS_PROCESS_CATALOG.yaml` (path per `D-IH-72-Y` Round 7 placement), Data Owner = **PMO interim until CRO activation per `D-IH-72-AD` Round 7** (forward: when CRO + COO activate, Data Owner shifts to CRO; CRO reports to COO reports to Founder/CEO per Round 7 executive layer forward-charter). For adapter registries at Marketing/Reach + Marketing/Experimentation + Marketing/Resonance/Account Management + Operations/PMO paths, Data Owner = the area that consumes the integration (e.g., RevOps for engagement-template adapters at `Operations/RevOps/canonicals/dimensions/`; FINOPS for billing adapters at `Marketing/Resonance/Account Management/canonicals/dimensions/BILLING_ADAPTER_REGISTRY.csv` per Round 6 + Round 7 placement logic).
+
+**Path placement note (Round 7):** RevOps-owned deliverables (process catalog + adapter registries owned by RevOps + engagement template registry + 3 SOPs + 2 ERP panel routes) live at `Operations/RevOps/canonicals/` per `D-IH-72-Y`. Marketing-flavored adapters (CRM + EMAIL + ATTRIBUTION + SCHEDULING + BILLING + CONTRACT) stay at their Marketing-area paths because their Data Owner is the consuming Marketing sub-area, not RevOps. COMMUNICATION_ADAPTER stays at Operations/PMO because its Data Owner is PMO. Treat path placement as a function of Data Owner, not of which area happens to invoke the adapter.
+
+## When this rule does NOT apply
+
+- One-off scripts under `scripts/` that are not registered in `process_list.csv` (e.g., one-off migration scripts, prototype experiments). Those are scope-limited and don't require a paired SOP.
+- Automation that lives entirely in CI (e.g., release-gate.py invocations) — those are wired into existing governance via `release-gate.py` + `verification-profiles.json` and don't require a separate SOP.
+- Internal helper scripts inside `akos/` modules (e.g., `akos/io.py` helpers) — those are library code, not governed processes.
+
+## Cross-references
+
+- [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) §"HLK compliance governance" — canonical-CSV gate discipline (process_list.csv tranche approvals).
+- [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc) §"New git-canonical compliance registers (pattern)" — canonical CSV + Pydantic SSOT + validator + Supabase mirror pattern (applies to every adapter registry).
+- [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) §"Plan-quality bar" — per-phase deep section template (Scope / Files / Verification / Pause-point classification / Self-checkpoint count / Cursor-rules adherence). Process catalog phases inherit this bar.
+- [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) — `gated_operator` cadence inherits the inline-ratify pattern (every gated invocation surfaces an AskQuestion before execution).
+- [`akos-mirror-template.mdc`](akos-mirror-template.mdc) — when adapter registries reference sibling-repo (e.g., `hlk-erp` panel routes), AKOS stays SSOT.
+- DAMA-DMBOK 2.0 (2024 revision) — Reference & Master Data Management + Metadata Management + Data Integration & Interoperability knowledge areas.
+- I72 master-roadmap §"Strand D — RevOps Integration Spine + Process Catalog": `docs/wip/planning/72-marketing-area-governance-and-persona-registry-expansion/master-roadmap.md`.
+- I72 P8 (Strand D.2 Process Catalog) — first concrete instantiation of this rule.
+- I72 P9 (Strand D.3 Cross-area integration) — first concrete instantiation of the multi-CRM adapter pattern + active/inactive metadata.
+- Truto + Unified.to + Apideck industry consensus on Normalized Adapter Pattern (2026): cited in I72 promoted-candidate §6.2 external pattern catalog.
+- Industry CRM coverage targets (per I72 P9 multi-CRM adapter scope): HubSpot, Salesforce, Pipedrive, Close, Attio, Copper, Folk, Odoo (open-source), Apollo + SalesLoft (sales-engagement adjacencies).
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv
+@docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md

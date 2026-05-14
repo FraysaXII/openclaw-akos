@@ -1,7 +1,7 @@
 ---
 initiative_id: INIT-OPENCLAW_AKOS-72
 title: Marketing Area Governance + Persona Registry + IntelligenceOps Register Expansion + RevOps Integration Spine + Process Catalog
-status: gated_operator
+status: active
 owner_role: CMO
 inception: 2026-05-13
 last_review: 2026-05-14
