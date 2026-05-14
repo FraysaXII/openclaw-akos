@@ -4,7 +4,7 @@ date: 2026-05-14
 initiative_id: INIT-OPENCLAW_AKOS-71
 phase: P5
 status: SHIPPED
-commit: <sha-pending-commit>
+commit: 8fa7c9d
 decisions_minted:
   - D-IH-71-S (Pack A4 ratification — chassis-extension verdict + transition-trigger advisory model + render-ownership coverage thresholds)
   - D-IH-71-T (Strand B observability cardinality — C-71-5 every-CI-gate-its-own-row default applied + 8 per-gate WORKSPACE §18.2 rows + SOC posture for dashboard URLs)
