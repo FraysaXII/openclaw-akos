@@ -45,6 +45,10 @@ PERSONA_SCENARIO_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "release_blocking",         # I49 — true|false|empty (active rows that gate releases)
     "target_difficulty_band",   # I51 P3 D-IH-51-A — per-persona "<t>/<m>/<h>/<i>" pp summing to 100; empty = global D-IH-47-C 40/40/10/10 fallthrough
     "notes",
+    "last_review_at",                  # I71 P4 follow-up (D-IH-71-R) review-stamp (DATE; ISO YYYY-MM-DD)
+    "last_review_by",                  # I71 P4 follow-up (D-IH-71-R) review-stamp (FK-by-convention to baseline_organisation.csv role_name)
+    "last_review_decision_id",         # I71 P4 follow-up (D-IH-71-R) review-stamp (FK-by-convention to DECISION_REGISTER.csv decision_id; nullable)
+    "methodology_version_at_review",   # I71 P4 follow-up (D-IH-71-R) review-stamp (LOGIC_CHANGE_LOG.md methodology version at review time; vMAJOR.MINOR per D-IH-71-D)
 )
 
 VALID_SCENARIO_CLASSES: frozenset[str] = frozenset({

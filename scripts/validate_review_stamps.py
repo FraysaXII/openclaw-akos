@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
-"""I71 P4 — Review-stamp freshness validator (Strand C2).
+"""I71 P4 + P4 follow-up — Review-stamp freshness validator (Strand C2).
 
-Walks the four canonical CSVs that carry review-stamp columns (`process_list.csv`,
-``DECISION_REGISTER.csv``, ``INITIATIVE_REGISTRY.csv``, ``OPS_REGISTER.csv``) and emits
-three rule classes per the I71 P4 design ratification doc:
+Walks every canonical CSV that carries review-stamp columns + the Artifact subject class
+(``CANONICAL_REGISTRY.csv``) and emits three rule classes per the I71 P4 design + P4
+follow-up design ratification docs:
+
+P4 baseline (commit ``bb04f08``): 4 mirrored canonicals (process_list / decision_register /
+initiative_registry / ops_register).
+
+P4 follow-up (D-IH-71-R; this commit): 17 additional mirrored canonicals get the same
+4-column review-stamp shape; CANONICAL_REGISTRY.csv (Artifact subject class) gets an
+additional scan path that treats its existing ``last_review`` column as the stamp date.
+Total surfaces validated: 21 (4 P4 mirrors + 17 follow-up mirrors) + 1 Artifact scan.
 
 - ``stale-row`` (severity ``warning``): ``last_review_at`` populated AND days-since-review
   exceeds the freshness window (default 180 days; 6 months).
@@ -69,10 +77,27 @@ from typing import Iterable
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
+from akos.hlk_adviser_disciplines_csv import ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES  # noqa: E402
+from akos.hlk_adviser_questions_csv import ADVISER_OPEN_QUESTIONS_FIELDNAMES  # noqa: E402
+from akos.hlk_baseline_org_csv import BASELINE_ORGANISATION_FIELDNAMES  # noqa: E402
+from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_decision_register_csv import DECISION_REGISTER_FIELDNAMES  # noqa: E402
+from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES  # noqa: E402
+from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIELDNAMES  # noqa: E402
+from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_initiative_registry_csv import INITIATIVE_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_ops_register_csv import OPS_REGISTER_FIELDNAMES  # noqa: E402
+from akos.hlk_persona_registry_csv import PERSONA_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_persona_scenario_csv import PERSONA_SCENARIO_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_policy_register_csv import POLICY_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_process_csv import PROCESS_LIST_FIELDNAMES  # noqa: E402
+from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_repo_health_csv import REPO_HEALTH_SNAPSHOT_FIELDNAMES  # noqa: E402
+from akos.hlk_repository_registry_csv import REPOSITORY_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_skill_registry_csv import SKILL_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_sourcing_register_csv import SOURCING_REGISTER_FIELDNAMES  # noqa: E402
+from akos.hlk_topic_registry_csv import TOPIC_REGISTRY_FIELDNAMES  # noqa: E402
+from akos.hlk_touchpoint_kit_cell_csv import TOUCHPOINT_KIT_CELL_FIELDNAMES  # noqa: E402
 
 CANONICALS_DIR = (
     REPO_ROOT
@@ -86,11 +111,35 @@ CANONICALS_DIR = (
     / "Compliance"
     / "canonicals"
 )
+DIMENSIONS_DIR = CANONICALS_DIR / "dimensions"
 
+# P4 baseline (4 mirrors)
 DECISION_REGISTER_CSV = CANONICALS_DIR / "DECISION_REGISTER.csv"
 INITIATIVE_REGISTRY_CSV = CANONICALS_DIR / "INITIATIVE_REGISTRY.csv"
 OPS_REGISTER_CSV = CANONICALS_DIR / "OPS_REGISTER.csv"
 PROCESS_LIST_CSV = CANONICALS_DIR / "process_list.csv"
+
+# P4 follow-up additions (17 mirrors + Artifact via CANONICAL_REGISTRY)
+BASELINE_ORGANISATION_CSV = CANONICALS_DIR / "baseline_organisation.csv"
+FINOPS_COUNTERPARTY_REGISTER_CSV = CANONICALS_DIR / "FINOPS_COUNTERPARTY_REGISTER.csv"
+GOIPOI_REGISTER_CSV = DIMENSIONS_DIR / "GOI_POI_REGISTER.csv"
+ADVISER_ENGAGEMENT_DISCIPLINES_CSV = CANONICALS_DIR / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+ADVISER_OPEN_QUESTIONS_CSV = CANONICALS_DIR / "ADVISER_OPEN_QUESTIONS.csv"
+FOUNDER_FILED_INSTRUMENTS_CSV = CANONICALS_DIR / "FOUNDER_FILED_INSTRUMENTS.csv"
+PROGRAM_REGISTRY_CSV = DIMENSIONS_DIR / "PROGRAM_REGISTRY.csv"
+TOPIC_REGISTRY_CSV = DIMENSIONS_DIR / "TOPIC_REGISTRY.csv"
+PERSONA_REGISTRY_CSV = DIMENSIONS_DIR / "PERSONA_REGISTRY.csv"
+PERSONA_SCENARIO_REGISTRY_CSV = DIMENSIONS_DIR / "PERSONA_SCENARIO_REGISTRY.csv"
+CHANNEL_TOUCHPOINT_REGISTRY_CSV = DIMENSIONS_DIR / "CHANNEL_TOUCHPOINT_REGISTRY.csv"
+SOURCING_REGISTER_CSV = DIMENSIONS_DIR / "SOURCING_REGISTER.csv"
+SKILL_REGISTRY_CSV = DIMENSIONS_DIR / "SKILL_REGISTRY.csv"
+TOUCHPOINT_KIT_CELL_REGISTRY_CSV = DIMENSIONS_DIR / "TOUCHPOINT_KIT_CELL_REGISTRY.csv"
+POLICY_REGISTER_CSV = DIMENSIONS_DIR / "POLICY_REGISTER.csv"
+REPO_HEALTH_SNAPSHOT_CSV = CANONICALS_DIR / "REPO_HEALTH_SNAPSHOT.csv"
+REPOSITORY_REGISTRY_CSV = CANONICALS_DIR / "REPOSITORY_REGISTRY.csv"
+
+# Artifact subject class — CANONICAL_REGISTRY.csv (unmirrored; standalone-table path)
+CANONICAL_REGISTRY_CSV = CANONICALS_DIR / "CANONICAL_REGISTRY.csv"
 
 DEFAULT_INBOX_PATH = REPO_ROOT / "docs" / "wip" / "planning" / "REVIEW_STAMP_INBOX.md"
 
@@ -117,6 +166,7 @@ class CanonicalSpec:
 
 
 _REGISTRY: tuple[CanonicalSpec, ...] = (
+    # ------------------------- P4 baseline (4 mirrors) -------------------------
     CanonicalSpec(
         csv_path=PROCESS_LIST_CSV,
         fieldnames=tuple(PROCESS_LIST_FIELDNAMES),
@@ -145,7 +195,138 @@ _REGISTRY: tuple[CanonicalSpec, ...] = (
         authored_date_column="opened_at",
         label="ops_register",
     ),
+    # ------------------ P4 follow-up (D-IH-71-R; 17 mirrors) -------------------
+    CanonicalSpec(
+        csv_path=BASELINE_ORGANISATION_CSV,
+        fieldnames=tuple(BASELINE_ORGANISATION_FIELDNAMES),
+        pk_column="org_uuid",
+        authored_date_column=None,
+        label="baseline_organisation",
+    ),
+    CanonicalSpec(
+        csv_path=FINOPS_COUNTERPARTY_REGISTER_CSV,
+        fieldnames=tuple(FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES),
+        pk_column="counterparty_id",
+        authored_date_column=None,
+        label="finops_counterparty_register",
+    ),
+    CanonicalSpec(
+        csv_path=GOIPOI_REGISTER_CSV,
+        fieldnames=tuple(GOIPOI_REGISTER_FIELDNAMES),
+        pk_column="ref_id",
+        authored_date_column="distance_assessed_date",
+        label="goipoi_register",
+    ),
+    CanonicalSpec(
+        csv_path=ADVISER_ENGAGEMENT_DISCIPLINES_CSV,
+        fieldnames=tuple(ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES),
+        pk_column="discipline_id",
+        authored_date_column=None,
+        label="adviser_engagement_disciplines",
+    ),
+    CanonicalSpec(
+        csv_path=ADVISER_OPEN_QUESTIONS_CSV,
+        fieldnames=tuple(ADVISER_OPEN_QUESTIONS_FIELDNAMES),
+        pk_column="question_id",
+        authored_date_column="target_date",
+        label="adviser_open_questions",
+    ),
+    CanonicalSpec(
+        csv_path=FOUNDER_FILED_INSTRUMENTS_CSV,
+        fieldnames=tuple(FOUNDER_FILED_INSTRUMENTS_FIELDNAMES),
+        pk_column="instrument_id",
+        authored_date_column="effective_or_filing_date",
+        label="founder_filed_instruments",
+    ),
+    CanonicalSpec(
+        csv_path=PROGRAM_REGISTRY_CSV,
+        fieldnames=tuple(PROGRAM_REGISTRY_FIELDNAMES),
+        pk_column="program_id",
+        authored_date_column="start_date",
+        label="program_registry",
+    ),
+    CanonicalSpec(
+        csv_path=TOPIC_REGISTRY_CSV,
+        fieldnames=tuple(TOPIC_REGISTRY_FIELDNAMES),
+        pk_column="topic_id",
+        authored_date_column=None,
+        label="topic_registry",
+    ),
+    CanonicalSpec(
+        csv_path=PERSONA_REGISTRY_CSV,
+        fieldnames=tuple(PERSONA_REGISTRY_FIELDNAMES),
+        pk_column="persona_id",
+        authored_date_column=None,
+        label="persona_registry",
+    ),
+    CanonicalSpec(
+        csv_path=PERSONA_SCENARIO_REGISTRY_CSV,
+        fieldnames=tuple(PERSONA_SCENARIO_REGISTRY_FIELDNAMES),
+        pk_column="scenario_id",
+        authored_date_column=None,
+        label="persona_scenario_registry",
+    ),
+    CanonicalSpec(
+        csv_path=CHANNEL_TOUCHPOINT_REGISTRY_CSV,
+        fieldnames=tuple(CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES),
+        pk_column="channel_id",
+        authored_date_column=None,
+        label="channel_touchpoint_registry",
+    ),
+    CanonicalSpec(
+        csv_path=SOURCING_REGISTER_CSV,
+        fieldnames=tuple(SOURCING_REGISTER_FIELDNAMES),
+        pk_column="vendor_id",
+        authored_date_column="last_engagement_date",
+        label="sourcing_register",
+    ),
+    CanonicalSpec(
+        csv_path=SKILL_REGISTRY_CSV,
+        fieldnames=tuple(SKILL_REGISTRY_FIELDNAMES),
+        pk_column="skill_id",
+        authored_date_column=None,
+        label="skill_registry",
+    ),
+    CanonicalSpec(
+        csv_path=TOUCHPOINT_KIT_CELL_REGISTRY_CSV,
+        fieldnames=tuple(TOUCHPOINT_KIT_CELL_FIELDNAMES),
+        pk_column="cell_id",
+        authored_date_column="last_review",
+        label="touchpoint_kit_cell",
+    ),
+    CanonicalSpec(
+        csv_path=POLICY_REGISTER_CSV,
+        fieldnames=tuple(POLICY_REGISTER_FIELDNAMES),
+        pk_column="policy_id",
+        authored_date_column="last_review",
+        label="policy_register",
+    ),
+    CanonicalSpec(
+        csv_path=REPO_HEALTH_SNAPSHOT_CSV,
+        fieldnames=tuple(REPO_HEALTH_SNAPSHOT_FIELDNAMES),
+        pk_column="snapshot_date",
+        authored_date_column="snapshot_date",
+        label="repo_health_snapshot",
+    ),
+    CanonicalSpec(
+        csv_path=REPOSITORY_REGISTRY_CSV,
+        fieldnames=tuple(REPOSITORY_REGISTRY_FIELDNAMES),
+        pk_column="repo_slug",
+        authored_date_column=None,
+        label="repository_registry",
+    ),
 )
+
+
+# Artifact subject class — separate scan path. CANONICAL_REGISTRY.csv has a different
+# column shape (no review-stamp columns; uses its existing `last_review` column as the
+# stamp date). The scan emits advisories under canonical label "canonical_registry_artifact"
+# and pk = canonical_id.
+ARTIFACT_REGISTRY_LABEL = "canonical_registry_artifact"
+ARTIFACT_REGISTRY_PK_COLUMN = "canonical_id"
+ARTIFACT_REGISTRY_PATH_COLUMN = "file_path"
+ARTIFACT_REGISTRY_STAMP_COLUMN = "last_review"
+ARTIFACT_REGISTRY_STATUS_COLUMN = "status"
 
 
 @dataclass
@@ -276,6 +457,78 @@ def _check_one_csv(
                         pk=pk,
                         detail="; ".join(detail_parts),
                         age_days=authored_age,
+                    )
+                )
+    return report
+
+
+def _scan_canonical_md_artifacts(
+    *,
+    today: date,
+    threshold_days: int,
+    decision_ids: set[str],
+) -> CanonicalReport:
+    """I71 P4 follow-up — Artifact subject class scan over CANONICAL_REGISTRY.csv.
+
+    Walks every row in CANONICAL_REGISTRY.csv and treats its existing ``last_review``
+    column as the review-stamp date. Emits the same three rule classes as the column-
+    extension scan (stale-row / missing-stamp / invalid-decision-ref).
+
+    Per the P4 follow-up design §4.2: this scan reads CSV (not Supabase) for the same
+    reason the P4 validator reads CSVs — keeps the validator hot path Supabase-free
+    and avoids a service_role round-trip per run. The standalone-table backfill at
+    migration time is a forward-provisioning move; richer stamps via the standalone
+    table land in a future commit when the operator drives them.
+
+    Rows with empty ``file_path`` (status='proposed' future-reserved canonicals) are
+    skipped — there's no stamp surface to rate.
+    """
+    report = CanonicalReport(
+        label=ARTIFACT_REGISTRY_LABEL,
+        csv_path=_safe_relative_path(CANONICAL_REGISTRY_CSV),
+    )
+    if not CANONICAL_REGISTRY_CSV.exists():
+        return report
+    with CANONICAL_REGISTRY_CSV.open("r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        for r in reader:
+            file_path = (r.get(ARTIFACT_REGISTRY_PATH_COLUMN) or "").strip()
+            if not file_path:
+                # status='proposed' / future-reserved row with no path — skip silently
+                continue
+            report.rows_total += 1
+            pk = (r.get(ARTIFACT_REGISTRY_PK_COLUMN) or "").strip() or "(unkeyed)"
+            stamp_value = (r.get(ARTIFACT_REGISTRY_STAMP_COLUMN) or "").strip()
+            stamp_date = _parse_iso_date(stamp_value) if stamp_value else None
+            # CANONICAL_REGISTRY.csv has no last_review_decision_id column today — skip
+            # invalid-decision-ref rule for the Artifact scan. (When richer stamps land
+            # via compliance.review_stamps_standalone, that scan path picks up the rule.)
+
+            if stamp_date is not None:
+                report.rows_with_stamp += 1
+                age = (today - stamp_date).days
+                if age > threshold_days:
+                    report.rows_stale += 1
+                    report.advisories.append(
+                        Advisory(
+                            severity="warning",
+                            rule="stale-row",
+                            canonical=ARTIFACT_REGISTRY_LABEL,
+                            pk=f"{pk} ({file_path})",
+                            detail=f"last_review={stamp_value} is {age} days old (threshold={threshold_days}d)",
+                            age_days=age,
+                        )
+                    )
+            else:
+                # No authored-date proxy; flag every empty-stamp row as missing-stamp info.
+                report.rows_missing_stamp += 1
+                report.advisories.append(
+                    Advisory(
+                        severity="info",
+                        rule="missing-stamp",
+                        canonical=ARTIFACT_REGISTRY_LABEL,
+                        pk=f"{pk} ({file_path})",
+                        detail="last_review empty; operator backfill recommended",
                     )
                 )
     return report
@@ -448,6 +701,14 @@ def main(argv: list[str] | None = None) -> int:
             return 2
         reports.append(
             _check_one_csv(spec, today=today, threshold_days=args.threshold_days, decision_ids=decision_ids)
+        )
+
+    # I71 P4 follow-up — Artifact subject class scan over CANONICAL_REGISTRY.csv.
+    if CANONICAL_REGISTRY_CSV.exists():
+        reports.append(
+            _scan_canonical_md_artifacts(
+                today=today, threshold_days=args.threshold_days, decision_ids=decision_ids
+            )
         )
 
     if args.json_log:

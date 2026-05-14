@@ -650,7 +650,239 @@ class TestInboxSurfacing:
 
 class TestRealCanonicalsSmoke:
     def test_real_validate_review_stamps_no_error_advisories(self, tmp_path):
-        """Smoke-check that the actual 4 mirrored canonicals don't carry invalid-decision-ref errors."""
+        """Smoke-check that the actual mirrored canonicals don't carry invalid-decision-ref errors."""
         inbox = tmp_path / "REVIEW_STAMP_INBOX.md"
         ec = vrs.main(["--inbox-path", str(inbox), "--json-log", "--no-inbox"])
         assert ec == 0  # exit 0 means no errors (info advisories OK)
+
+
+# ---------------------------------------------------------------------------
+# I71 P4 follow-up — Round-2 expansion (D-IH-71-R)
+# ---------------------------------------------------------------------------
+
+
+class TestRegistryExpansion:
+    """Confirms the validator's _REGISTRY grew from 4 (P4) to 21 (P4 + follow-up) entries."""
+
+    def test_registry_has_21_entries(self):
+        assert len(vrs._REGISTRY) == 21
+
+    def test_registry_includes_all_p4_followup_labels(self):
+        labels = {spec.label for spec in vrs._REGISTRY}
+        # P4 baseline (4)
+        assert "process_list" in labels
+        assert "decision_register" in labels
+        assert "initiative_registry" in labels
+        assert "ops_register" in labels
+        # P4 follow-up (17)
+        for label in (
+            "baseline_organisation",
+            "finops_counterparty_register",
+            "goipoi_register",
+            "adviser_engagement_disciplines",
+            "adviser_open_questions",
+            "founder_filed_instruments",
+            "program_registry",
+            "topic_registry",
+            "persona_registry",
+            "persona_scenario_registry",
+            "channel_touchpoint_registry",
+            "sourcing_register",
+            "skill_registry",
+            "touchpoint_kit_cell",
+            "policy_register",
+            "repo_health_snapshot",
+            "repository_registry",
+        ):
+            assert label in labels, f"missing {label}"
+
+
+class TestColumnExtensionMigrationExpanded:
+    """One assertion per newly-extended SSOT tuple confirms it carries the 4 review-stamp columns."""
+
+    def _assert_tuple_carries_stamps(self, fieldnames: tuple[str, ...], name: str) -> None:
+        for col in vrs.REVIEW_STAMP_COLUMNS:
+            assert col in fieldnames, f"{name} missing {col}"
+
+    def test_baseline_organisation(self):
+        from akos.hlk_baseline_org_csv import BASELINE_ORGANISATION_FIELDNAMES
+        self._assert_tuple_carries_stamps(BASELINE_ORGANISATION_FIELDNAMES, "BASELINE_ORGANISATION_FIELDNAMES")
+
+    def test_finops_counterparty_register(self):
+        from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES
+        self._assert_tuple_carries_stamps(FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES, "FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES")
+
+    def test_goipoi_register(self):
+        from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES
+        self._assert_tuple_carries_stamps(GOIPOI_REGISTER_FIELDNAMES, "GOIPOI_REGISTER_FIELDNAMES")
+
+    def test_adviser_engagement_disciplines(self):
+        from akos.hlk_adviser_disciplines_csv import ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES
+        self._assert_tuple_carries_stamps(ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES, "ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES")
+
+    def test_adviser_open_questions(self):
+        from akos.hlk_adviser_questions_csv import ADVISER_OPEN_QUESTIONS_FIELDNAMES
+        self._assert_tuple_carries_stamps(ADVISER_OPEN_QUESTIONS_FIELDNAMES, "ADVISER_OPEN_QUESTIONS_FIELDNAMES")
+
+    def test_founder_filed_instruments(self):
+        from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIELDNAMES
+        self._assert_tuple_carries_stamps(FOUNDER_FILED_INSTRUMENTS_FIELDNAMES, "FOUNDER_FILED_INSTRUMENTS_FIELDNAMES")
+
+    def test_program_registry(self):
+        from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES
+        self._assert_tuple_carries_stamps(PROGRAM_REGISTRY_FIELDNAMES, "PROGRAM_REGISTRY_FIELDNAMES")
+
+    def test_topic_registry(self):
+        from akos.hlk_topic_registry_csv import TOPIC_REGISTRY_FIELDNAMES
+        self._assert_tuple_carries_stamps(TOPIC_REGISTRY_FIELDNAMES, "TOPIC_REGISTRY_FIELDNAMES")
+
+    def test_persona_registry(self):
+        from akos.hlk_persona_registry_csv import PERSONA_REGISTRY_FIELDNAMES
+        self._assert_tuple_carries_stamps(PERSONA_REGISTRY_FIELDNAMES, "PERSONA_REGISTRY_FIELDNAMES")
+
+    def test_persona_scenario_registry(self):
+        from akos.hlk_persona_scenario_csv import PERSONA_SCENARIO_REGISTRY_FIELDNAMES
+        self._assert_tuple_carries_stamps(PERSONA_SCENARIO_REGISTRY_FIELDNAMES, "PERSONA_SCENARIO_REGISTRY_FIELDNAMES")
+
+    def test_channel_touchpoint_registry(self):
+        from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES
+        self._assert_tuple_carries_stamps(CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES, "CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES")
+
+    def test_sourcing_register(self):
+        from akos.hlk_sourcing_register_csv import SOURCING_REGISTER_FIELDNAMES
+        self._assert_tuple_carries_stamps(SOURCING_REGISTER_FIELDNAMES, "SOURCING_REGISTER_FIELDNAMES")
+
+    def test_skill_registry(self):
+        from akos.hlk_skill_registry_csv import SKILL_REGISTRY_FIELDNAMES
+        self._assert_tuple_carries_stamps(SKILL_REGISTRY_FIELDNAMES, "SKILL_REGISTRY_FIELDNAMES")
+
+    def test_touchpoint_kit_cell(self):
+        from akos.hlk_touchpoint_kit_cell_csv import TOUCHPOINT_KIT_CELL_FIELDNAMES
+        self._assert_tuple_carries_stamps(TOUCHPOINT_KIT_CELL_FIELDNAMES, "TOUCHPOINT_KIT_CELL_FIELDNAMES")
+
+    def test_policy_register(self):
+        from akos.hlk_policy_register_csv import POLICY_REGISTER_FIELDNAMES
+        self._assert_tuple_carries_stamps(POLICY_REGISTER_FIELDNAMES, "POLICY_REGISTER_FIELDNAMES")
+
+    def test_repo_health_snapshot(self):
+        from akos.hlk_repo_health_csv import REPO_HEALTH_SNAPSHOT_FIELDNAMES
+        self._assert_tuple_carries_stamps(REPO_HEALTH_SNAPSHOT_FIELDNAMES, "REPO_HEALTH_SNAPSHOT_FIELDNAMES")
+
+    def test_repository_registry(self):
+        from akos.hlk_repository_registry_csv import REPOSITORY_REGISTRY_FIELDNAMES
+        self._assert_tuple_carries_stamps(REPOSITORY_REGISTRY_FIELDNAMES, "REPOSITORY_REGISTRY_FIELDNAMES")
+
+
+class TestArtifactScan:
+    """I71 P4 follow-up — Artifact subject class scan over CANONICAL_REGISTRY.csv."""
+
+    def _write_canonical_registry(self, path: Path, rows: list[dict[str, str]]) -> None:
+        header = [
+            "canonical_id", "name", "owning_area", "owning_role", "file_path",
+            "artifact_type", "supabase_schema", "mirror_table", "view_name",
+            "panel_slot", "classification", "confidentiality", "last_review",
+            "validator", "status", "notes",
+        ]
+        _write_csv(path, header, rows)
+
+    def test_fresh_canonical_no_advisory(self, tmp_path, monkeypatch):
+        today = date(2026, 5, 14)
+        fixture = tmp_path / "CANONICAL_REGISTRY.csv"
+        self._write_canonical_registry(fixture, [
+            {"canonical_id": "brand_vision", "file_path": "docs/.../BRAND_VISION.md",
+             "last_review": (today - timedelta(days=10)).isoformat(), "status": "active"},
+        ])
+        monkeypatch.setattr(vrs, "CANONICAL_REGISTRY_CSV", fixture)
+        report = vrs._scan_canonical_md_artifacts(today=today, threshold_days=180, decision_ids=set())
+        assert report.rows_total == 1
+        assert report.rows_with_stamp == 1
+        assert report.rows_stale == 0
+        assert report.rows_missing_stamp == 0
+        assert len(report.advisories) == 0
+
+    def test_stale_canonical_emits_warning(self, tmp_path, monkeypatch):
+        today = date(2026, 5, 14)
+        fixture = tmp_path / "CANONICAL_REGISTRY.csv"
+        self._write_canonical_registry(fixture, [
+            {"canonical_id": "old_canonical", "file_path": "docs/.../OLD.md",
+             "last_review": (today - timedelta(days=200)).isoformat(), "status": "active"},
+        ])
+        monkeypatch.setattr(vrs, "CANONICAL_REGISTRY_CSV", fixture)
+        report = vrs._scan_canonical_md_artifacts(today=today, threshold_days=180, decision_ids=set())
+        assert report.rows_stale == 1
+        assert report.advisories[0].severity == "warning"
+        assert report.advisories[0].rule == "stale-row"
+        assert "OLD.md" in report.advisories[0].pk
+
+    def test_missing_stamp_emits_info(self, tmp_path, monkeypatch):
+        today = date(2026, 5, 14)
+        fixture = tmp_path / "CANONICAL_REGISTRY.csv"
+        self._write_canonical_registry(fixture, [
+            {"canonical_id": "no_stamp_canonical", "file_path": "docs/.../NEW.md",
+             "last_review": "", "status": "active"},
+        ])
+        monkeypatch.setattr(vrs, "CANONICAL_REGISTRY_CSV", fixture)
+        report = vrs._scan_canonical_md_artifacts(today=today, threshold_days=180, decision_ids=set())
+        assert report.rows_missing_stamp == 1
+        assert report.advisories[0].severity == "info"
+        assert report.advisories[0].rule == "missing-stamp"
+
+    def test_proposed_canonical_without_path_skipped(self, tmp_path, monkeypatch):
+        """status='proposed' rows with empty file_path must be skipped silently."""
+        today = date(2026, 5, 14)
+        fixture = tmp_path / "CANONICAL_REGISTRY.csv"
+        self._write_canonical_registry(fixture, [
+            {"canonical_id": "future_reserved", "file_path": "",
+             "last_review": today.isoformat(), "status": "proposed"},
+        ])
+        monkeypatch.setattr(vrs, "CANONICAL_REGISTRY_CSV", fixture)
+        report = vrs._scan_canonical_md_artifacts(today=today, threshold_days=180, decision_ids=set())
+        assert report.rows_total == 0  # proposed/no-path row is silently skipped
+        assert len(report.advisories) == 0
+
+    def test_threshold_boundary_at_180_no_advisory(self, tmp_path, monkeypatch):
+        """Exactly 180-day-old stamp is NOT stale (>threshold is the trigger)."""
+        today = date(2026, 5, 14)
+        fixture = tmp_path / "CANONICAL_REGISTRY.csv"
+        self._write_canonical_registry(fixture, [
+            {"canonical_id": "boundary_canonical", "file_path": "docs/.../BOUNDARY.md",
+             "last_review": (today - timedelta(days=180)).isoformat(), "status": "active"},
+        ])
+        monkeypatch.setattr(vrs, "CANONICAL_REGISTRY_CSV", fixture)
+        report = vrs._scan_canonical_md_artifacts(today=today, threshold_days=180, decision_ids=set())
+        assert report.rows_stale == 0
+
+
+class TestComplianceSchemaDriftRegression:
+    """Regression: validate_compliance_schema_drift.py PASSes for all 22 registry CSVs after follow-up."""
+
+    def test_drift_validator_passes_after_p4_followup(self):
+        import subprocess
+        result = subprocess.run(
+            [sys.executable, str(REPO_ROOT / "scripts" / "validate_compliance_schema_drift.py")],
+            capture_output=True, text=True, timeout=60,
+        )
+        assert result.returncode == 0, f"drift validator FAILED:\n{result.stdout}\n{result.stderr}"
+        assert "PASS: every canonical CSV header aligns" in result.stdout
+
+
+class TestRealCanonicalsSmokeExpanded:
+    """I71 P4 follow-up — smoke-check the validator runs cleanly across all 21 surfaces + Artifact."""
+
+    def test_validator_exits_zero_post_followup(self, tmp_path):
+        inbox = tmp_path / "REVIEW_STAMP_INBOX.md"
+        ec = vrs.main(["--inbox-path", str(inbox), "--no-inbox"])
+        assert ec == 0  # exit 0 means no errors (info advisories OK)
+
+    def test_validator_reports_22_surfaces_in_human_output(self, tmp_path, capsys):
+        ec = vrs.main(["--no-inbox"])
+        assert ec == 0
+        captured = capsys.readouterr()
+        # 21 mirrors + 1 Artifact scan = 22 reports
+        assert "checked 22 canonical CSVs" in captured.out
+
+    def test_artifact_scan_label_present_in_output(self, tmp_path, capsys):
+        ec = vrs.main(["--no-inbox"])
+        assert ec == 0
+        captured = capsys.readouterr()
+        assert "canonical_registry_artifact" in captured.out

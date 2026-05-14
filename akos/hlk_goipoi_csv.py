@@ -65,4 +65,8 @@ GOIPOI_REGISTER_FIELDNAMES: tuple[str, ...] = (
     # "unknown" | "". Empty default is backwards-compatible for every
     # Initiative 21 / 22 / 24 / 31 / P13.4 row.
     "stance",
+    "last_review_at",                  # I71 P4 follow-up (D-IH-71-R) review-stamp (DATE; ISO YYYY-MM-DD)
+    "last_review_by",                  # I71 P4 follow-up (D-IH-71-R) review-stamp (FK-by-convention to baseline_organisation.csv role_name)
+    "last_review_decision_id",         # I71 P4 follow-up (D-IH-71-R) review-stamp (FK-by-convention to DECISION_REGISTER.csv decision_id; nullable)
+    "methodology_version_at_review",   # I71 P4 follow-up (D-IH-71-R) review-stamp (LOGIC_CHANGE_LOG.md methodology version at review time; vMAJOR.MINOR per D-IH-71-D)
 )
