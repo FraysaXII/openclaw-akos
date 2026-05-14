@@ -55,7 +55,7 @@ todos:
       + USER_GUIDE.md per-phase sub-deliverables); akos-mirror-template.mdc (AKOS-as-SSOT for hlk-erp panel
       TSX sibling-repo carry-overs at P7 + P9); NEW akos-executable-process-catalog.mdc (first instantiation
       P8 + P9).
-    status: in_progress
+    status: completed
   - id: p1-strand-a1
     content: |
       P1 (~3-5 days) — Strand A.1 sub-area charter authoring. Author 5 new canonicals: REACH_DISCIPLINE_CHARTER.md,
@@ -72,7 +72,7 @@ todos:
       validate_brand_voice_register.py --strict PASS on all 5 charter prose bodies; release-gate green.
       Pause-point classification: standard per-charter inline-ratify gate (5 gates batched). Self-checkpoint count:
       2 (pre-P1 + mid-P1 after 2-3 charters land).
-    status: pending
+    status: in_progress
   - id: p2-strand-a2-registry
     content: |
       P2 (~3-4 days) — Strand A.2 ENGAGEMENT_TEMPLATE_REGISTRY canonical + Supabase mirror + ERP panel.

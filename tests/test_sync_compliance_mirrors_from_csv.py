@@ -98,7 +98,7 @@ def test_sync_compliance_mirrors_sql_contains_holistika_and_conflict() -> None:
         out_path.unlink(missing_ok=True)
     assert "compliance.process_list_mirror" in out
     assert "ON CONFLICT (item_id) DO UPDATE SET" in out
-    assert "holistika_gtm_dtp_001" in out
+    assert "holistika_reach_dtp_001" in out
 
 
 def test_sync_finops_counterparty_register_only_sql() -> None:

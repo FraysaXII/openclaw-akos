@@ -71,12 +71,13 @@ flowchart LR
 
 Each sub-area gets a charter at its `canonicals/` folder (forward-link; per-sub-area charter authoring lands as P8 sub-tasks or in I72 - Marketing Area Governance):
 
-- `Marketing/Brand/canonicals/` — already federated (P4.5 wave 1; commit 637b547); 4 sub-discipline charters at P5 (commit 240c448).
-- `Marketing/Reach/canonicals/` — RESERVED (charter authored at I72 P0 or P8 follow-on; absorbs legacy Growth GTM SOPs).
-- `Marketing/Resonance/canonicals/` — RESERVED (Account Management charter authored as part of P8 finalization; Community Manager role migrates from Social).
-- `Marketing/Resonance/Account Management/canonicals/` — RESERVED for `ACCOUNT_MANAGEMENT_CHARTER.md` (sibling commit; or P8 follow-on).
-- `Marketing/Storytelling/canonicals/` — RESERVED (PR + Thought Leadership + Corporate Marketing roles' charters; Corporate Marketing migrates from People/Talent per D-IH-70-X).
-- `Marketing/Experimentation/canonicals/` — RESERVED (Growth Hacker + Marketing Analytics charters; new sub-area).
+- `Marketing/Brand/canonicals/` — federated (P4.5 wave 1; commit 637b547); 4 sub-discipline charters at P5 (commit 240c448).
+- [`Marketing/Reach/canonicals/REACH_AREA_CHARTER.md`](../Reach/canonicals/REACH_AREA_CHARTER.md) — **AUTHORED** I72 P1 per `D-IH-72-A` + `D-IH-72-Z`. Absorbs legacy Growth GTM SOPs (3 SOPs migrated to `Reach/canonicals/`; `holistika_gtm_dtp_001..003` renamed to `holistika_reach_dtp_001..003`). Replaces the `Marketing/Growth/` legacy folder.
+- [`Marketing/Resonance/canonicals/RESONANCE_AREA_CHARTER.md`](../Resonance/canonicals/RESONANCE_AREA_CHARTER.md) — **AUTHORED** I72 P1 per `D-IH-72-A` + `D-IH-72-AA`. Community Manager `sub_area` migrated from legacy Social to Resonance (already reflected in `baseline_organisation.csv` pre-I72; charter cites it).
+- [`Marketing/Resonance/Account Management/canonicals/ACCOUNT_MANAGEMENT_CHARTER.md`](../Resonance/Account%20Management/canonicals/ACCOUNT_MANAGEMENT_CHARTER.md) — **AUTHORED** I72 P1 per `D-IH-72-A` + `D-IH-70-R`. Account Management as first-class sub-discipline under Resonance Manager; nested charter for the 1:1 counterparty relationship lifecycle.
+- [`Marketing/Storytelling/canonicals/STORYTELLING_AREA_CHARTER.md`](../Storytelling/canonicals/STORYTELLING_AREA_CHARTER.md) — **AUTHORED** I72 P1 per `D-IH-72-A` + `D-IH-70-X` + `D-IH-72-J`. PR Manager + Thought Leadership Editor + Corporate Marketing charters consolidated; Corporate Marketing `sub_area` migrated from legacy People/Talent to Storytelling per `D-IH-70-X`.
+- [`Marketing/Experimentation/canonicals/EXPERIMENTATION_AREA_CHARTER.md`](../Experimentation/canonicals/EXPERIMENTATION_AREA_CHARTER.md) — **AUTHORED** I72 P1 per `D-IH-72-A` + `D-IH-72-E`. Growth Hacker + Marketing Analytics consolidated under Experimentation Manager; new sub-area as standalone 5th sub-area (NOT folded under Reach).
+- [`Operations/RevOps/canonicals/REVOPS_AREA_CHARTER.md`](../../Operations/RevOps/canonicals/REVOPS_AREA_CHARTER.md) — **AUTHORED** I72 P1 per `D-IH-72-AH` (Round 8 Tier-1 closure). New sibling area to Marketing M3; owns engagement-template + engagement-revenue spine + cross-area adapter registries; activation gated to P4 (per `D-IH-72-AC` on I71 P5 Pack A4).
 
 ## 5. CSV updates (DEFERRED to operator-driven session)
 

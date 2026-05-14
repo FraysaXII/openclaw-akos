@@ -1,7 +1,7 @@
 ---
 language: en
 Item Name: Holistika Internal GTM Proof Run (90-Day)
-Item Number: holistika_gtm_dtp_001
+Item Number: holistika_reach_dtp_001
 Object Class: Guideline and Procedure
 Confidence Level: Safe
 Security Level: 2 (Internal Use)
@@ -13,7 +13,7 @@ Revision Date: 2026-04-17
 ---
 ## Purpose
 
-Run a **disciplined 90-day internal proof** of GTM motions for Holistika as a **services firm**, tied to **`holistika_gtm_dtp_001`** in [`process_list.csv`](../../../../../../compliance/process_list.csv).
+Run a **disciplined 90-day internal proof** of GTM motions for Holistika as a **services firm**, tied to **`holistika_reach_dtp_001`** (renamed from `holistika_gtm_dtp_001` per `D-IH-72-Z` Round 7 GTM-to-Reach migration; cross-link `Marketing/Reach/canonicals/REACH_AREA_CHARTER.md`) in [`process_list.csv`](../../../../../../compliance/process_list.csv).
 
 ## Scope
 

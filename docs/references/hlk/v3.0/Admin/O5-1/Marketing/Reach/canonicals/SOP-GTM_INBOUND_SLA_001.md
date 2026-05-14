@@ -1,7 +1,7 @@
 ---
 language: en
 Item Name: Inbound Response SLA (Holistika Services)
-Item Number: holistika_gtm_dtp_003
+Item Number: holistika_reach_dtp_003
 Object Class: Guideline and Procedure
 Confidence Level: Safe
 Security Level: 2 (Internal Use)
@@ -13,7 +13,7 @@ Revision Date: 2026-04-17
 ---
 ## Purpose
 
-Define **first-response and routing SLAs** for inbound marketing and services leads aligned to [`End-to-End Marketing Lead Flow` `thi_opera_dtp_289`](../../../../../../hlk/compliance/process_list.csv) and the merged process row **`holistika_gtm_dtp_003`**.
+Define **first-response and routing SLAs** for inbound marketing and services leads aligned to [`End-to-End Marketing Lead Flow` `thi_opera_dtp_289`](../../../../../../hlk/compliance/process_list.csv) and the merged process row **`holistika_reach_dtp_003`** (renamed from `holistika_gtm_dtp_003` per `D-IH-72-Z` Round 7 GTM-to-Reach migration; PMO co-owns SLA enforcement per cross-area routing).
 
 ## Scope
 

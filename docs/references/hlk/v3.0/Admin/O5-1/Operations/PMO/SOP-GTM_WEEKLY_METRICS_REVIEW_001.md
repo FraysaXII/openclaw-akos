@@ -18,7 +18,7 @@ Weekly **metrics forum** for Holistika internal GTM—pipeline contribution, vel
 
 ## Agenda (30–45 min)
 
-1. Inbound volume and SLA (see **SOP-GTM_INBOUND_SLA_001** / `holistika_gtm_dtp_003`).
+1. Inbound volume and SLA (see **SOP-GTM_INBOUND_SLA_001** at `Marketing/Reach/canonicals/` / `holistika_reach_dtp_003`, renamed from `holistika_gtm_dtp_003` per `D-IH-72-Z`).
 2. Qualification and BD handoff conversion (see **SOP-GTM_BD_HANDOFF_001**).
 3. Channel experiments and **event taxonomy** alignment [`env_tech_dtp_243`](../../../../../../../hlk/compliance/process_list.csv).
 4. Risks and blockers (tools, consent, data quality).

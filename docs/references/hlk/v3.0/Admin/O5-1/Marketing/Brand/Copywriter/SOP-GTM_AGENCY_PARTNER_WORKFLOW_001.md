@@ -1,7 +1,7 @@
 ---
 language: en
 Item Name: Agency Partner Proposal Intake and Fit Assessment
-Item Number: holistika_gtm_dtp_002
+Item Number: holistika_reach_dtp_002
 Object Class: Guideline and Procedure
 Confidence Level: Safe
 Security Level: 2 (Internal Use)
@@ -13,7 +13,7 @@ Revision Date: 2026-04-17
 ---
 ## Purpose
 
-Govern **agency and partner proposals** from any platform (not vendor-specific): **proposal → fit assessment → integration design → documentation → map to `process_list` / SOPs** for row **`holistika_gtm_dtp_002`**.
+Govern **agency and partner proposals** from any platform (not vendor-specific): **proposal → fit assessment → integration design → documentation → map to `process_list` / SOPs** for row **`holistika_reach_dtp_002`** (renamed from `holistika_gtm_dtp_002` per `D-IH-72-Z` Round 7 GTM-to-Reach migration; Brand/Copywriter co-authors copy + cross-references `Marketing/Reach/canonicals/REACH_AREA_CHARTER.md` for channel posture).
 
 ## Scope
 
