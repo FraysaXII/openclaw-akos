@@ -208,11 +208,15 @@ Internal Spanish prose uses *tú* by default; this is the Holistika internal-tea
 
 Per the Branded House decision in [`BRAND_ARCHITECTURE.md`](BRAND_ARCHITECTURE.md) Layer 3, the three operational sub-marks (Holistika R&S, Think Big, HLK Tech Lab) carry slightly different ES voice flavors that **never break the umbrella voice**, only soften it for context:
 
+<!-- vale off -->
+
 | Sub-mark | ES voice flavor | Example phrase |
 |:---|:---|:---|
 | **Holistika R&S** | Most peer-grade; authoritative-but-warm; mirrors academic register without the academic stiffness | `Lo que la evidencia hasta ahora nos sugiere es que...` |
 | **Think Big (consulting)** | Most action-oriented; less hedge-laden than R&S; closer to operational direction | `Recomendamos avanzar con la opción B; te explico por qué.` |
 | **HLK Tech Lab (technology)** | Most technical; tolerates more anglicisms (API, SaaS, runtime) but never marketing-jargon (transformative, paradigm-shifting); precision-oriented | `El runtime ahora soporta tres proveedores; falla deterministamente si el primario cae.` |
+
+<!-- vale on -->
 
 The Tier-1 umbrella voice remains the master — sub-mark voices may **soften** that master, never contradict it. Operators copying from one sub-mark surface to another should re-read the target sub-mark's voice signature first.
 
