@@ -94,7 +94,7 @@ todos:
       validate_compliance_schema_drift.py PASS; validate_canonical_registry.py PASS; mirror migration applied via
       compliance_mirror_emit profile; release-gate green. Pause-point classification: MANDATORY canonical-CSV gate.
       Self-checkpoint count: 2 (pre-P2 + mid-P2 after registry CSV body + before mirror DDL).
-    status: in_progress
+    status: completed
   - id: p3-strand-a2-promotion-sop
     content: |
       P3 (~2-3 days) — Strand A.2 SOP-ENGAGEMENT_TEMPLATE_PROMOTION_001 + promotion-rule validator.
@@ -112,7 +112,7 @@ todos:
       template 3+ times yet — by design at this stage); SOP cross-linked from WORKSPACE_BLUEPRINT_HOLISTIKA.md §16.3
       + Account Management charter; validate_hlk.py PASS. Pause-point classification: MANDATORY canonical-CSV gate
       (process_list.csv row mint). Self-checkpoint count: 2 (pre-P3 + post-SOP/pre-validator).
-    status: pending
+    status: in_progress
   - id: p4-strand-a3-revops-activation
     content: |
       P4 (~2-3 days; GATED on I71 P5 Pack A4 ship) — Strand A.3 RevOps owner activation. Flip RevOps row in

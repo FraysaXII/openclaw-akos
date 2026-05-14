@@ -410,6 +410,10 @@ def main() -> int:
         ("ENGAGEMENT_TEMPLATE_REGISTRY", "validate_engagement_template_registry.py",
          "validate_engagement_template_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Operations" / "RevOps" / "canonicals" / "dimensions" / "ENGAGEMENT_TEMPLATE_REGISTRY.csv"),
+        # Initiative 72 P3 - Engagement template promotion gate (paired with SOP-ENGAGEMENT_TEMPLATE_PROMOTION_001.md per akos-executable-process-catalog.mdc Rule 1).
+        ("ENGAGEMENT_TEMPLATE_PROMOTION", "validate_engagement_template_promotion.py",
+         "validate_engagement_template_promotion",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Operations" / "RevOps" / "canonicals" / "dimensions" / "ENGAGEMENT_TEMPLATE_REGISTRY.csv"),
         # Initiative 32 P3 - Touchpoint-kit cell registry (with FS-vs-CSV drift detector).
         ("TOUCHPOINT_KIT_CELL_REGISTRY", "validate_touchpoint_kit_cells.py",
          "validate_touchpoint_kit_cells", HLK_DIR / "dimensions" / "TOUCHPOINT_KIT_CELL_REGISTRY.csv"),
