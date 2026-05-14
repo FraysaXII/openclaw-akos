@@ -7,21 +7,31 @@ and emits deterministic Vale style + per-canonical Vocab files at:
 - ``.vale/styles/Holistika/LLMToneTells.yml``    -- from BRAND_LLM_TONE_TELLS.md
 - ``.vale/styles/Holistika/TicFamilies.yml``     -- from BRAND_COPYWRITING_DISCIPLINE.md §2
 - ``.vale/styles/Holistika/MBADeckJargon.yml``   -- from BRAND_ENGLISH_PATTERNS.md §5.1
-- ``.vale/styles/Vocab/Holistika-CopywritingDiscipline.txt``           -- accept (Holistika sub-marks)
-- ``.vale/styles/Vocab/Holistika-CopywritingDiscipline-rejected.txt``  -- reject (tic-family canonical absent → empty)
-- ``.vale/styles/Vocab/Holistika-EnglishPatterns.txt``                 -- accept (minimal EN-specific)
-- ``.vale/styles/Vocab/Holistika-EnglishPatterns-rejected.txt``        -- reject (MBA-deck jargon)
-- ``.vale/styles/Vocab/Holistika-LLMToneTells.txt``                    -- accept (empty)
-- ``.vale/styles/Vocab/Holistika-LLMToneTells-rejected.txt``           -- reject (LLM tone tells)
-- ``.vale/styles/Vocab/Holistika-FrenchPatterns.txt``                  -- accept (FR brand surface)
-- ``.vale/styles/Vocab/Holistika-FrenchPatterns-rejected.txt``         -- reject (FR anglicisms + performative)
-- ``.vale/styles/Vocab/Holistika-SpanishPatterns.txt``                 -- accept (ES brand surface)
-- ``.vale/styles/Vocab/Holistika-SpanishPatterns-rejected.txt``        -- reject (ES anglicisms + performative)
+- ``.vale/styles/config/vocabularies/Holistika-CopywritingDiscipline/accept.txt``  -- (Holistika sub-marks)
+- ``.vale/styles/config/vocabularies/Holistika-CopywritingDiscipline/reject.txt``  -- (tic-family detection in YAML; empty by design)
+- ``.vale/styles/config/vocabularies/Holistika-EnglishPatterns/accept.txt``        -- (minimal EN-specific)
+- ``.vale/styles/config/vocabularies/Holistika-EnglishPatterns/reject.txt``        -- (MBA-deck jargon)
+- ``.vale/styles/config/vocabularies/Holistika-LLMToneTells/accept.txt``           -- (empty)
+- ``.vale/styles/config/vocabularies/Holistika-LLMToneTells/reject.txt``           -- (LLM tone tells)
+- ``.vale/styles/config/vocabularies/Holistika-FrenchPatterns/accept.txt``         -- (FR brand surface)
+- ``.vale/styles/config/vocabularies/Holistika-FrenchPatterns/reject.txt``         -- (FR anglicisms + performative)
+- ``.vale/styles/config/vocabularies/Holistika-SpanishPatterns/accept.txt``        -- (ES brand surface)
+- ``.vale/styles/config/vocabularies/Holistika-SpanishPatterns/reject.txt``        -- (ES anglicisms + performative)
+
+Vale 3.14 expects per-Vocab subdirectories under ``<StylesPath>/config/vocabularies/``
+with literal ``accept.txt`` / ``reject.txt`` filenames. The pre-3.14 flat layout
+(``.vale/styles/Vocab/<Name>.txt`` + ``<Name>-rejected.txt``) silently parsed in
+older Vale releases but fails in 3.14 with ``E100 [vocab] Runtime error``. The
+generator therefore emits the directory layout and ``--clean`` removes both the
+legacy flat ``Vocab/`` tree and the new per-Vocab directories before
+regenerating to keep stale files from accumulating during the transition.
 
 The per-canonical Vocab strategy was ratified at the C-71-Vale-2 inline-ratify
 gate (2026-05-14): each brand canonical maintains its own accept/reject pair so
 canonical edits regenerate one localised pair rather than the global Holistika
-pair. The Vocab packages list lives in `.vale.ini`'s ``Vocab =`` line.
+pair. The Vocab packages list lives in `.vale.ini`'s ``Vocab =`` line and is
+unchanged by the layout fix; only the on-disk shape moves from flat to
+per-directory.
 
 Determinism contract::
 
@@ -35,7 +45,8 @@ CLI::
     py scripts/generate_vale_styles.py            # write the files
     py scripts/generate_vale_styles.py --dry-run  # print would-write paths only
     py scripts/generate_vale_styles.py --check    # exit 1 if any file would change
-    py scripts/generate_vale_styles.py --clean    # rm -rf .vale/styles/Vocab before regenerating
+    py scripts/generate_vale_styles.py --clean    # remove legacy flat Vocab/ +
+                                                  # per-Vocab dirs before regen
 
 Cross-references::
 
@@ -46,9 +57,11 @@ Cross-references::
     BRAND_SPANISH_PATTERNS.md         -- ES anglicisms + performative (Vocab only).
     akos/brand_voice_register.py      -- chassis (Pydantic models + parsers).
     .vale.ini                          -- repo-root config (StylesPath = .vale/styles).
+    https://vale.sh/docs/keys/vocab   -- Vale Vocab layout reference.
     I71 P2 plan §P2 Step 2d           -- Tier 1 Vale sibling architecture.
     D-IH-71-O                          -- Tier 1 Vale sibling ratification.
     C-71-Vale-2                        -- per-canonical Vocab ratification 2026-05-14.
+    I71 P3 post-P2.3 chore             -- Vale 3.14 layout repair 2026-05-14.
 """
 
 from __future__ import annotations
@@ -84,23 +97,37 @@ logger = logging.getLogger("akos.generate_vale_styles")
 VALE_ROOT = REPO_ROOT / ".vale"
 STYLES_DIR = VALE_ROOT / "styles"
 HOLISTIKA_STYLES_DIR = STYLES_DIR / "Holistika"
-VOCAB_DIR = STYLES_DIR / "Vocab"
+
+# Vale 3.14 per-Vocab directory root. Vale searches under
+# ``<StylesPath>/config/vocabularies/<VocabName>/{accept,reject}.txt`` for each
+# entry in the ``.vale.ini`` ``Vocab = ...`` list. The legacy flat ``Vocab/``
+# directory is left to ``--clean`` so old checkouts shed it cleanly.
+VOCAB_DIR = STYLES_DIR / "config" / "vocabularies"
+
+# Legacy pre-3.14 flat ``Vocab/`` directory; only referenced by ``--clean`` so
+# transitioning checkouts drop it. New writes never go here.
+LEGACY_FLAT_VOCAB_DIR = STYLES_DIR / "Vocab"
 
 LLM_TONE_TELLS_PATH = HOLISTIKA_STYLES_DIR / "LLMToneTells.yml"
 TIC_FAMILIES_PATH = HOLISTIKA_STYLES_DIR / "TicFamilies.yml"
 MBA_DECK_JARGON_PATH = HOLISTIKA_STYLES_DIR / "MBADeckJargon.yml"
 
-# Per-canonical Vocab pair paths (10 files; 5 accept + 5 reject) per C-71-Vale-2
-VOCAB_COPYWRITING_ACCEPT_PATH = VOCAB_DIR / "Holistika-CopywritingDiscipline.txt"
-VOCAB_COPYWRITING_REJECT_PATH = VOCAB_DIR / "Holistika-CopywritingDiscipline-rejected.txt"
-VOCAB_ENGLISH_ACCEPT_PATH = VOCAB_DIR / "Holistika-EnglishPatterns.txt"
-VOCAB_ENGLISH_REJECT_PATH = VOCAB_DIR / "Holistika-EnglishPatterns-rejected.txt"
-VOCAB_LLM_ACCEPT_PATH = VOCAB_DIR / "Holistika-LLMToneTells.txt"
-VOCAB_LLM_REJECT_PATH = VOCAB_DIR / "Holistika-LLMToneTells-rejected.txt"
-VOCAB_FRENCH_ACCEPT_PATH = VOCAB_DIR / "Holistika-FrenchPatterns.txt"
-VOCAB_FRENCH_REJECT_PATH = VOCAB_DIR / "Holistika-FrenchPatterns-rejected.txt"
-VOCAB_SPANISH_ACCEPT_PATH = VOCAB_DIR / "Holistika-SpanishPatterns.txt"
-VOCAB_SPANISH_REJECT_PATH = VOCAB_DIR / "Holistika-SpanishPatterns-rejected.txt"
+# Per-canonical Vocab pair paths (10 files; 5 directories × {accept,reject}.txt)
+# per C-71-Vale-2 + Vale 3.14 layout repair 2026-05-14.
+VOCAB_COPYWRITING_ACCEPT_PATH = (
+    VOCAB_DIR / "Holistika-CopywritingDiscipline" / "accept.txt"
+)
+VOCAB_COPYWRITING_REJECT_PATH = (
+    VOCAB_DIR / "Holistika-CopywritingDiscipline" / "reject.txt"
+)
+VOCAB_ENGLISH_ACCEPT_PATH = VOCAB_DIR / "Holistika-EnglishPatterns" / "accept.txt"
+VOCAB_ENGLISH_REJECT_PATH = VOCAB_DIR / "Holistika-EnglishPatterns" / "reject.txt"
+VOCAB_LLM_ACCEPT_PATH = VOCAB_DIR / "Holistika-LLMToneTells" / "accept.txt"
+VOCAB_LLM_REJECT_PATH = VOCAB_DIR / "Holistika-LLMToneTells" / "reject.txt"
+VOCAB_FRENCH_ACCEPT_PATH = VOCAB_DIR / "Holistika-FrenchPatterns" / "accept.txt"
+VOCAB_FRENCH_REJECT_PATH = VOCAB_DIR / "Holistika-FrenchPatterns" / "reject.txt"
+VOCAB_SPANISH_ACCEPT_PATH = VOCAB_DIR / "Holistika-SpanishPatterns" / "accept.txt"
+VOCAB_SPANISH_REJECT_PATH = VOCAB_DIR / "Holistika-SpanishPatterns" / "reject.txt"
 
 # ---------------------------------------------------------------------------
 # Per-canonical accept-list curation
@@ -693,9 +720,13 @@ def write_styles(
     the real repo. When ``None`` (default), writes to the canonical
     ``REPO_ROOT/.vale/`` location.
 
-    ``clean=True`` removes ``<root>/.vale/styles/Vocab/`` before regenerating
-    so stale Vocab files (e.g., the pre-C-71-Vale-2 single-pair files
-    ``Holistika.txt`` + ``Holistika-rejected.txt``) are not left behind.
+    ``clean=True`` removes BOTH the new per-Vocab directory tree at
+    ``<root>/.vale/styles/config/vocabularies/`` AND the legacy pre-3.14 flat
+    ``<root>/.vale/styles/Vocab/`` tree before regenerating, so stale files
+    (e.g., pre-C-71-Vale-2 single-pair ``Holistika.txt`` /
+    ``Holistika-rejected.txt`` and post-C-71-Vale-2 flat-layout
+    ``Holistika-<Canonical>.txt`` / ``-rejected.txt`` pairs) are not left
+    behind during the Vale 3.14 layout transition.
     """
     outputs = _build_outputs()
     if target_root is not None:
@@ -703,10 +734,13 @@ def write_styles(
     if clean:
         if target_root is None:
             vocab_root = VOCAB_DIR
+            legacy_root = LEGACY_FLAT_VOCAB_DIR
         else:
             vocab_root = target_root / VOCAB_DIR.relative_to(REPO_ROOT)
-        if vocab_root.exists():
-            shutil.rmtree(vocab_root)
+            legacy_root = target_root / LEGACY_FLAT_VOCAB_DIR.relative_to(REPO_ROOT)
+        for stale in (vocab_root, legacy_root):
+            if stale.exists():
+                shutil.rmtree(stale)
     for path, contents in outputs.items():
         _write_deterministic(path, contents)
     return outputs
@@ -766,9 +800,10 @@ def main(argv: list[str] | None = None) -> int:
         "--clean",
         action="store_true",
         help=(
-            "Remove .vale/styles/Vocab/ before regenerating to drop stale Vocab "
-            "files (e.g., pre-C-71-Vale-2 single-pair Holistika.txt / "
-            "Holistika-rejected.txt). No effect with --check / --dry-run."
+            "Remove both the new .vale/styles/config/vocabularies/ tree and the "
+            "legacy pre-3.14 .vale/styles/Vocab/ tree before regenerating to drop "
+            "stale Vocab files (pre-C-71-Vale-2 single-pair files, post-C-71-Vale-2 "
+            "flat-layout files). No effect with --check / --dry-run."
         ),
     )
     parser.add_argument("--json-log", action="store_true", help="JSON logging output.")

@@ -6,13 +6,19 @@ Covers:
   the same canonicals produce byte-identical bytes).
 - Vale-YAML validity (each generated ``Holistika/*.yml`` parses as YAML and
   carries the required keys ``extends`` / ``message`` / ``level``).
-- Per-canonical Vocab correctness (10 files emitted; 5 accept + 5 reject;
-  per C-71-Vale-2 ratification 2026-05-14). Each pair carries the tokens
-  parsed from its specific canonical.
+- Per-canonical Vocab correctness (10 files emitted; 5 directories × {accept,
+  reject}.txt; per C-71-Vale-2 ratification 2026-05-14 + Vale 3.14 layout
+  repair 2026-05-14). Each pair carries the tokens parsed from its specific
+  canonical and lives at ``.vale/styles/config/vocabularies/<Name>/{accept,
+  reject}.txt`` per https://vale.sh/docs/keys/vocab.
 - ``--check`` mode behaviour (in-sync vs drifted).
-- ``--clean`` flag wipes the Vocab dir before regenerating.
+- ``--clean`` flag wipes both the new per-Vocab dirs and the legacy flat
+  ``Vocab/`` dir before regenerating.
 - Graceful skip when a brand canonical is absent (placeholder style emits;
   no exception).
+- Vale 3.14 ``ls-config`` parses the emitted layout without
+  ``E100 [vocab] Runtime error`` (host-conditional; skipped when ``vale``
+  binary is unavailable on the test host).
 
 Runs under ``pytest -m brand`` per ``pyproject.toml``.
 """
@@ -20,6 +26,9 @@ Runs under ``pytest -m brand`` per ``pyproject.toml``.
 from __future__ import annotations
 
 import contextlib
+import os
+import shutil as _shutil
+import subprocess
 import sys
 from pathlib import Path
 from unittest import mock
@@ -36,21 +45,58 @@ import scripts.generate_vale_styles as vale_gen  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
-# Per-canonical Vocab inventory (the 10 files expected per C-71-Vale-2)
+# Per-canonical Vocab inventory (10 files expected per C-71-Vale-2 +
+# Vale 3.14 layout repair). Each Vocab name owns a directory under
+# ``config/vocabularies/`` carrying literal ``accept.txt`` / ``reject.txt``.
 # ---------------------------------------------------------------------------
 
-EXPECTED_VOCAB_FILES: tuple[str, ...] = (
-    "Holistika-CopywritingDiscipline.txt",
-    "Holistika-CopywritingDiscipline-rejected.txt",
-    "Holistika-EnglishPatterns.txt",
-    "Holistika-EnglishPatterns-rejected.txt",
-    "Holistika-LLMToneTells.txt",
-    "Holistika-LLMToneTells-rejected.txt",
-    "Holistika-FrenchPatterns.txt",
-    "Holistika-FrenchPatterns-rejected.txt",
-    "Holistika-SpanishPatterns.txt",
-    "Holistika-SpanishPatterns-rejected.txt",
+EXPECTED_VOCAB_NAMES: tuple[str, ...] = (
+    "Holistika-CopywritingDiscipline",
+    "Holistika-EnglishPatterns",
+    "Holistika-LLMToneTells",
+    "Holistika-FrenchPatterns",
+    "Holistika-SpanishPatterns",
 )
+
+EXPECTED_VOCAB_RELATIVE_PATHS: tuple[str, ...] = tuple(
+    f"config/vocabularies/{name}/{leaf}"
+    for name in EXPECTED_VOCAB_NAMES
+    for leaf in ("accept.txt", "reject.txt")
+)
+
+
+def _yaml(outputs: dict[Path, str], basename: str) -> Path:
+    """Return the absolute path to a generated Holistika style YAML."""
+    matches = [p for p in outputs if p.name == basename and p.suffix == ".yml"]
+    assert matches, f"missing yaml file {basename}"
+    assert len(matches) == 1, f"multiple matches for {basename}: {matches}"
+    return matches[0]
+
+
+def _vocab_relpath(outputs: dict[Path, str], target_root: Path, basename: str) -> Path:
+    """Return the absolute path to a per-canonical Vocab file in ``outputs``.
+
+    ``basename`` is one of the EXPECTED_VOCAB_NAMES values; the leaf is
+    inferred from whether the caller asks for accept (``...txt``) or reject
+    (``...rejected.txt``) via the ``-rejected`` suffix convention used by the
+    pre-3.14 tests. The function maps the legacy basename to the new
+    per-directory layout transparently.
+    """
+    if basename.endswith("-rejected.txt"):
+        vocab_name = basename[: -len("-rejected.txt")]
+        leaf = "reject.txt"
+    elif basename.endswith(".txt"):
+        vocab_name = basename[: -len(".txt")]
+        leaf = "accept.txt"
+    else:
+        raise ValueError(f"unexpected vocab basename: {basename}")
+    expected = (
+        target_root / ".vale" / "styles" / "config" / "vocabularies" / vocab_name / leaf
+    )
+    assert expected in outputs, (
+        f"missing vocab file {basename!r} (mapped to {expected.relative_to(target_root)})"
+    )
+    return expected
 
 
 # ---------------------------------------------------------------------------
@@ -144,46 +190,80 @@ class TestValeYamlValidity:
 
 
 class TestPerCanonicalVocabInventory:
-    """The 10-file per-canonical inventory must always be emitted."""
+    """The 10-file per-canonical inventory must always be emitted under the
+    Vale 3.14 ``config/vocabularies/<Name>/{accept,reject}.txt`` layout."""
 
     @pytest.fixture(autouse=True)
     def write_to_tmp(self, tmp_path: Path) -> None:
         self.outputs = vale_gen.write_styles(target_root=tmp_path)
         self.tmp_root = tmp_path
 
-    def _vocab_filenames(self) -> set[str]:
+    def _vocab_relpaths(self) -> set[str]:
+        styles_root = self.tmp_root / ".vale" / "styles"
         return {
-            path.name
+            str(path.relative_to(styles_root)).replace("\\", "/")
             for path in self.outputs
-            if "Vocab" in path.parts
+            if "vocabularies" in path.parts
         }
 
     def test_all_10_per_canonical_vocab_files_emitted(self) -> None:
-        emitted = self._vocab_filenames()
-        for required in EXPECTED_VOCAB_FILES:
+        emitted = self._vocab_relpaths()
+        for required in EXPECTED_VOCAB_RELATIVE_PATHS:
             assert required in emitted, (
                 f"missing per-canonical Vocab file {required!r}; "
                 f"emitted Vocab files: {sorted(emitted)}"
             )
-        # Exactly 10 Vocab files (5 accept + 5 reject) per C-71-Vale-2.
+        # Exactly 10 Vocab files (5 dirs × accept.txt + reject.txt).
         assert len(emitted) == 10, (
-            f"expected exactly 10 Vocab files per C-71-Vale-2; "
-            f"got {len(emitted)}: {sorted(emitted)}"
+            f"expected exactly 10 Vocab files per C-71-Vale-2 + Vale 3.14 "
+            f"layout repair; got {len(emitted)}: {sorted(emitted)}"
         )
 
-    def test_no_legacy_single_pair_files_emitted(self) -> None:
-        # The pre-C-71-Vale-2 single-pair Holistika.txt + Holistika-rejected.txt
-        # MUST NOT be emitted by the post-ratification generator.
-        emitted = self._vocab_filenames()
-        assert "Holistika.txt" not in emitted, (
-            "legacy single-pair Holistika.txt emitted; per C-71-Vale-2 "
-            "ratification 2026-05-14 the per-canonical pairs replace it"
+    def test_each_vocab_dir_has_accept_and_reject(self) -> None:
+        styles_root = self.tmp_root / ".vale" / "styles"
+        for name in EXPECTED_VOCAB_NAMES:
+            vocab_dir = styles_root / "config" / "vocabularies" / name
+            assert (vocab_dir / "accept.txt").exists(), (
+                f"missing accept.txt under {vocab_dir.relative_to(styles_root)}"
+            )
+            assert (vocab_dir / "reject.txt").exists(), (
+                f"missing reject.txt under {vocab_dir.relative_to(styles_root)}"
+            )
+
+    def test_no_legacy_flat_vocab_files_emitted(self) -> None:
+        # Neither the pre-C-71-Vale-2 single-pair files nor the post-C-71-Vale-2
+        # flat-layout files (the pre-3.14 layout this commit repairs) MUST be
+        # emitted by the post-repair generator.
+        emitted_flat = {
+            path.name
+            for path in self.outputs
+            if "Vocab" in path.parts and "vocabularies" not in path.parts
+        }
+        assert emitted_flat == set(), (
+            f"flat-layout Vocab files unexpectedly emitted: {sorted(emitted_flat)}"
         )
-        assert "Holistika-rejected.txt" not in emitted, (
-            "legacy single-pair Holistika-rejected.txt emitted; per "
-            "C-71-Vale-2 ratification 2026-05-14 the per-canonical pairs "
-            "replace it"
-        )
+        for legacy in (
+            "Holistika.txt",
+            "Holistika-rejected.txt",
+            "Holistika-CopywritingDiscipline.txt",
+            "Holistika-CopywritingDiscipline-rejected.txt",
+            "Holistika-EnglishPatterns.txt",
+            "Holistika-EnglishPatterns-rejected.txt",
+            "Holistika-LLMToneTells.txt",
+            "Holistika-LLMToneTells-rejected.txt",
+            "Holistika-FrenchPatterns.txt",
+            "Holistika-FrenchPatterns-rejected.txt",
+            "Holistika-SpanishPatterns.txt",
+            "Holistika-SpanishPatterns-rejected.txt",
+        ):
+            for path in self.outputs:
+                assert not (
+                    path.name == legacy and "vocabularies" not in path.parts
+                ), (
+                    f"legacy flat-layout Vocab file {legacy!r} emitted; the "
+                    f"Vale 3.14 layout repair (2026-05-14) replaces it with "
+                    f"config/vocabularies/<Name>/{{accept,reject}}.txt"
+                )
 
 
 class TestPerCanonicalVocabContents:
@@ -195,11 +275,7 @@ class TestPerCanonicalVocabContents:
         self.tmp_root = tmp_path
 
     def _vocab_lines(self, basename: str) -> list[str]:
-        target = next(
-            (path for path in self.outputs if path.name == basename),
-            None,
-        )
-        assert target is not None, f"missing vocab file {basename}"
+        target = _vocab_relpath(self.outputs, self.tmp_root, basename)
         return [
             line.strip()
             for line in target.read_text(encoding="utf-8").splitlines()
@@ -338,34 +414,79 @@ class TestCheckMode:
         assert mutated_path is not None
         mutated_path.write_bytes(b"# manually mutated content -- drift signal\n")
 
-        # Patch every per-file path constant inside the generator so check_styles
-        # inspects the tmp tree, not the real repo. Generator now emits 13
-        # files (3 styles + 10 Vocab files) per C-71-Vale-2.
-        patches = [
-            ("LLM_TONE_TELLS_PATH", "LLMToneTells.yml"),
-            ("TIC_FAMILIES_PATH", "TicFamilies.yml"),
-            ("MBA_DECK_JARGON_PATH", "MBADeckJargon.yml"),
-            ("VOCAB_COPYWRITING_ACCEPT_PATH", "Holistika-CopywritingDiscipline.txt"),
+        # Patch every per-file path constant inside the generator so
+        # check_styles inspects the tmp tree, not the real repo. Generator
+        # emits 13 files (3 YAML styles + 10 Vocab files = 5 dirs × {accept,
+        # reject}.txt) per C-71-Vale-2 + Vale 3.14 layout repair.
+        patches: list[tuple[str, Path]] = [
+            ("LLM_TONE_TELLS_PATH", _yaml(target_outputs, "LLMToneTells.yml")),
+            ("TIC_FAMILIES_PATH", _yaml(target_outputs, "TicFamilies.yml")),
+            ("MBA_DECK_JARGON_PATH", _yaml(target_outputs, "MBADeckJargon.yml")),
+            (
+                "VOCAB_COPYWRITING_ACCEPT_PATH",
+                _vocab_relpath(
+                    target_outputs, tmp_path, "Holistika-CopywritingDiscipline.txt"
+                ),
+            ),
             (
                 "VOCAB_COPYWRITING_REJECT_PATH",
-                "Holistika-CopywritingDiscipline-rejected.txt",
+                _vocab_relpath(
+                    target_outputs,
+                    tmp_path,
+                    "Holistika-CopywritingDiscipline-rejected.txt",
+                ),
             ),
-            ("VOCAB_ENGLISH_ACCEPT_PATH", "Holistika-EnglishPatterns.txt"),
-            ("VOCAB_ENGLISH_REJECT_PATH", "Holistika-EnglishPatterns-rejected.txt"),
-            ("VOCAB_LLM_ACCEPT_PATH", "Holistika-LLMToneTells.txt"),
-            ("VOCAB_LLM_REJECT_PATH", "Holistika-LLMToneTells-rejected.txt"),
-            ("VOCAB_FRENCH_ACCEPT_PATH", "Holistika-FrenchPatterns.txt"),
-            ("VOCAB_FRENCH_REJECT_PATH", "Holistika-FrenchPatterns-rejected.txt"),
-            ("VOCAB_SPANISH_ACCEPT_PATH", "Holistika-SpanishPatterns.txt"),
-            ("VOCAB_SPANISH_REJECT_PATH", "Holistika-SpanishPatterns-rejected.txt"),
+            (
+                "VOCAB_ENGLISH_ACCEPT_PATH",
+                _vocab_relpath(
+                    target_outputs, tmp_path, "Holistika-EnglishPatterns.txt"
+                ),
+            ),
+            (
+                "VOCAB_ENGLISH_REJECT_PATH",
+                _vocab_relpath(
+                    target_outputs,
+                    tmp_path,
+                    "Holistika-EnglishPatterns-rejected.txt",
+                ),
+            ),
+            (
+                "VOCAB_LLM_ACCEPT_PATH",
+                _vocab_relpath(target_outputs, tmp_path, "Holistika-LLMToneTells.txt"),
+            ),
+            (
+                "VOCAB_LLM_REJECT_PATH",
+                _vocab_relpath(
+                    target_outputs, tmp_path, "Holistika-LLMToneTells-rejected.txt"
+                ),
+            ),
+            (
+                "VOCAB_FRENCH_ACCEPT_PATH",
+                _vocab_relpath(
+                    target_outputs, tmp_path, "Holistika-FrenchPatterns.txt"
+                ),
+            ),
+            (
+                "VOCAB_FRENCH_REJECT_PATH",
+                _vocab_relpath(
+                    target_outputs, tmp_path, "Holistika-FrenchPatterns-rejected.txt"
+                ),
+            ),
+            (
+                "VOCAB_SPANISH_ACCEPT_PATH",
+                _vocab_relpath(
+                    target_outputs, tmp_path, "Holistika-SpanishPatterns.txt"
+                ),
+            ),
+            (
+                "VOCAB_SPANISH_REJECT_PATH",
+                _vocab_relpath(
+                    target_outputs, tmp_path, "Holistika-SpanishPatterns-rejected.txt"
+                ),
+            ),
         ]
         with contextlib.ExitStack() as stack:
-            for attr_name, basename in patches:
-                target = next(
-                    (p for p in target_outputs if p.name == basename),
-                    None,
-                )
-                assert target is not None, f"missing tmp output {basename}"
+            for attr_name, target in patches:
                 stack.enter_context(mock.patch.object(vale_gen, attr_name, target))
             in_sync, drifted = vale_gen.check_styles()
         assert not in_sync
@@ -384,31 +505,53 @@ class TestCheckMode:
 
 
 class TestCleanFlag:
-    def test_clean_removes_legacy_single_pair_files(self, tmp_path: Path) -> None:
-        # Seed the tmp tree with legacy single-pair files (mimicking a stale
-        # checkout pre-C-71-Vale-2 ratification). After --clean regeneration,
-        # those files MUST be gone.
-        vocab_dir = tmp_path / ".vale" / "styles" / "Vocab"
-        vocab_dir.mkdir(parents=True)
-        (vocab_dir / "Holistika.txt").write_text("legacy accept\n", encoding="utf-8")
-        (vocab_dir / "Holistika-rejected.txt").write_text(
-            "legacy reject\n", encoding="utf-8"
+    def test_clean_removes_legacy_flat_layout_files(self, tmp_path: Path) -> None:
+        # Seed the tmp tree with BOTH pre-C-71-Vale-2 single-pair files AND
+        # the post-C-71-Vale-2 pre-3.14 flat-layout files (mimicking the two
+        # stale checkout shapes ``--clean`` must drop). After regeneration
+        # with ``clean=True``, the entire ``Vocab/`` flat tree must be gone
+        # and the new ``config/vocabularies/<Name>/{accept,reject}.txt``
+        # layout must be the only thing on disk.
+        legacy_flat_dir = tmp_path / ".vale" / "styles" / "Vocab"
+        legacy_flat_dir.mkdir(parents=True)
+        (legacy_flat_dir / "Holistika.txt").write_text(
+            "legacy single-pair accept\n", encoding="utf-8"
+        )
+        (legacy_flat_dir / "Holistika-rejected.txt").write_text(
+            "legacy single-pair reject\n", encoding="utf-8"
+        )
+        (legacy_flat_dir / "Holistika-CopywritingDiscipline.txt").write_text(
+            "pre-3.14 flat-layout accept\n", encoding="utf-8"
+        )
+        (legacy_flat_dir / "Holistika-CopywritingDiscipline-rejected.txt").write_text(
+            "pre-3.14 flat-layout reject\n", encoding="utf-8"
         )
 
         outputs = vale_gen.write_styles(target_root=tmp_path, clean=True)
 
-        # Legacy files must be gone.
-        assert not (vocab_dir / "Holistika.txt").exists()
-        assert not (vocab_dir / "Holistika-rejected.txt").exists()
-        # Per-canonical files must be present.
-        for required in EXPECTED_VOCAB_FILES:
-            assert (vocab_dir / required).exists(), (
-                f"missing per-canonical Vocab file {required!r} after --clean"
+        # Legacy flat layout (both shapes) must be gone.
+        assert not legacy_flat_dir.exists(), (
+            f"legacy flat .vale/styles/Vocab/ tree still present at "
+            f"{legacy_flat_dir} after --clean"
+        )
+        # Per-canonical directory layout must be present with both leaves.
+        new_root = tmp_path / ".vale" / "styles" / "config" / "vocabularies"
+        for name in EXPECTED_VOCAB_NAMES:
+            assert (new_root / name / "accept.txt").exists(), (
+                f"missing accept.txt under {name} after --clean"
+            )
+            assert (new_root / name / "reject.txt").exists(), (
+                f"missing reject.txt under {name} after --clean"
             )
         # Outputs map mirrors disk state.
-        emitted_names = {path.name for path in outputs if "Vocab" in path.parts}
-        assert "Holistika.txt" not in emitted_names
-        assert "Holistika-rejected.txt" not in emitted_names
+        flat_names_in_outputs = {
+            path.name
+            for path in outputs
+            if "Vocab" in path.parts and "vocabularies" not in path.parts
+        }
+        assert flat_names_in_outputs == set(), (
+            f"unexpected flat-layout outputs: {flat_names_in_outputs}"
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -503,3 +646,61 @@ class TestHelpers:
     ) -> None:
         absent = tmp_path / "does_not_exist.md"
         assert vale_gen._parse_spanish_anglicism_tokens(absent) == []
+
+
+# ---------------------------------------------------------------------------
+# Vale binary parses the emitted layout (host-conditional smoke)
+# ---------------------------------------------------------------------------
+
+
+class TestValeBinaryParsesLayout:
+    """Run ``vale ls-config`` against the real repo's .vale.ini + emitted
+    styles tree.
+
+    Vale 3.14 fails with ``E100 [vocab] Runtime error`` when any Vocab named
+    in ``.vale.ini`` does not have a matching
+    ``<StylesPath>/config/vocabularies/<Name>/`` directory. This test is the
+    smoke-gate that the layout repair in this commit is correctly emitted.
+
+    Skipped when the ``vale`` binary is unavailable on the test host so CI
+    runners without Vale installed don't fail; the unit tests above cover the
+    layout shape independently.
+    """
+
+    @staticmethod
+    def _vale_binary() -> str | None:
+        # Honour an explicit override first (test harness or operator-set
+        # absolute path); otherwise probe PATH the way subprocess will.
+        explicit = os.environ.get("AKOS_VALE_BIN")
+        if explicit and Path(explicit).exists():
+            return explicit
+        located = _shutil.which("vale")
+        return located
+
+    def test_vale_ls_config_parses_emitted_layout(self) -> None:
+        binary = self._vale_binary()
+        if binary is None:
+            pytest.skip(
+                "vale binary not available on this host; skipping Vale 3.14 "
+                "ls-config smoke (set AKOS_VALE_BIN or install vale to enable)"
+            )
+        # Resolve --config absolutely so PowerShell shell-quoting can't drop the
+        # leading dot when forwarding from this subprocess.
+        config_path = REPO_ROOT / ".vale.ini"
+        proc = subprocess.run(
+            [binary, "--config", str(config_path), "ls-config"],
+            capture_output=True,
+            text=True,
+            cwd=str(REPO_ROOT),
+        )
+        assert proc.returncode == 0, (
+            f"vale ls-config failed with exit {proc.returncode}; this means the "
+            f"Vale config or styles layout is unparseable. stdout=\n{proc.stdout}\n"
+            f"stderr=\n{proc.stderr}"
+        )
+        # Vale's ls-config prints a JSON-shaped block; the StylesPath should
+        # resolve relative to the repo root and the Vocab list should round-trip.
+        assert "Holistika-CopywritingDiscipline" in proc.stdout, (
+            "ls-config output missing Holistika-CopywritingDiscipline Vocab "
+            "name; .vale.ini may have drifted from the layout repair"
+        )
