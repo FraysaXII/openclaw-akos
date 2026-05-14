@@ -81,7 +81,7 @@ Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-sta
 | **P0** | Charter + registries + WORKSPACE §18 + Strand C scope expansion | A+B+C | **SHIPPED** (`e129bac`, `eb4c1b4`) | — |
 | **P1** | Pack A1 (voice register expansion — chassis edition; 10 layers + Round 3 brand-DNA) | A | **SHIPPED** 2026-05-14 | — |
 | **P2** | Packs A2–A3 (Gantt confidence + multilingual locale suffix) + Addition 11 (number/currency/date format per-locale) + Tier 1 Vale sibling (deterministic-NLP layer; folded in 2026-05-14) | A | **SHIPPED** 2026-05-14 (`34c0028`; sub-phases P2.1 `f9710f2` + P2.2 `cfd0a9b` + P2.3 `34c0028` per operator-ratified commit posture) | — |
-| **P3** | Strand C1 — release-taxonomy ratification + tag-criteria SOP | C | pending | OPS-71-2 |
+| **P3** | Strand C1 — release-taxonomy ratification + tag-criteria SOP + customer-invisible versioning posture | C | **SHIPPED** 2026-05-14 (`392e050`) | OPS-71-2 (closed) |
 | **P4** | Strand C2 — review-stamp dimension (column-or-table choice + migration + validator) | C | pending | OPS-71-3 |
 | **P5** | Pack A4 (render ownership) + Strand B hardening (MCP smoke + dashboard cross-links) | A+B | pending | — |
 | **P6** | Closing UAT + initiative registry closure row + close OPS-71-1 | — | pending | OPS-71-1 |
@@ -123,13 +123,13 @@ The I71 P1 strategic review session (2026-05-14) identified a third evolution la
 
 Cursor extension or VS Code plug-in showing live brand-voice scoring while writing. Backend reuses I78 P1 judge module (when I78 promotes). Trigger: ≥3 marketing writers concurrently authoring brand prose (today: operator + agent only). Until then, CLI + CI gate is the right surface. Do not mint a candidate scaffold yet — track in this forward-charter section as the open option.
 
-### P3 — Strand C1 (release-taxonomy ratification)
+### P3 — Strand C1 (release-taxonomy ratification) **SHIPPED 2026-05-14**
 
-- **Scope**: codify the three release lanes; author `docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-RELEASE_TAXONOMY_001.md` (or short section in `docs/SOP.md`); update `CHANGELOG.md` policy header to point to it; decide whether to push `v3.1.0` annotated tag at the I70 closure cut OR keep `[Unreleased]` until I71 P6 closure.
-- **Prerequisites**: `D-IH-71-D` (P0); `LOGIC_CHANGE_LOG.md` and `CHANGELOG.md` exist; I70 closure commit `8ba8be9` is on `main`.
-- **Deliverables**: SOP-RELEASE_TAXONOMY_001.md (~150 lines) + CHANGELOG header update + (optionally) `v3.1.0` annotated tag + `master-roadmap.md` entry under each impacted initiative pointing to the SOP.
-- **Verification**: `validate_hlk_vault_links.py` PASS; SOP cross-linked from `WORKSPACE_BLUEPRINT_HOLISTIKA.md` §10; `OPS-71-2` closes with `closed_at` + closure decision row.
-- **Inline-ratify gate**: tag-now vs hold for I71 P6 closure (`AskQuestion` at gate; default = hold for P6 closure to keep tags semantically clean).
+- **Scope (SHIPPED)**: codify the three release lanes ratified at P0 via `D-IH-71-D`; author `docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-RELEASE_TAXONOMY_001.md`; update `CHANGELOG.md` policy header to point to the SOP; codify the **customer-invisible versioning posture** (load-bearing per operator intent verbatim: *"intuitive clever versioning — do not let the customer know it's a new version"*) at SOP §6; decide whether to push `v3.1.0` annotated tag at I71 P6 closure (C-71-3 inline-ratify; default = hold).
+- **Prerequisites**: `D-IH-71-D` (P0); `LOGIC_CHANGE_LOG.md` and `CHANGELOG.md` exist; I70 closure commit `8ba8be9` is on `main`; P2 SHIPPED 2026-05-14.
+- **Deliverables (SHIPPED 2026-05-14)**: `SOP-RELEASE_TAXONOMY_001.md` (~180 lines; 8 sections: three lanes + tag criteria + SemVer judgment + `[Unreleased]` discipline + cross-lane non-implication + load-bearing customer-invisible posture with 5 invariants + anti-patterns table + 5 rendering surfaces + cross-references + maintenance) + `CHANGELOG.md` Policy header pointer + `[Unreleased] / Added` entry + `CANONICAL_REGISTRY.csv` +1 row `sop_release_taxonomy_001` (111 total) + `PRECEDENCE.md` Canonical-assets table extended with Release-taxonomy-SOP row + `DECISION_REGISTER.csv` +1 row `D-IH-71-P` (133 total) + `OPS-71-2` closed with `closure_decision_id: D-IH-71-P` + `closed_at: 2026-05-14` + `INIT-OPENCLAW_AKOS-71` notes appended (P3 SHIPPED) + phase report `reports/p3-release-taxonomy-2026-05-14.md`.
+- **Verification (run 2026-05-14)**: `validate_hlk.py` PASS; `validate_decision_register.py` PASS (133 active decisions; 132 prior + 1 new `D-IH-71-P`); `validate_initiative_registry.py` PASS; `validate_ops_register.py` PASS (`OPS-71-2` closed cleanly); `validate_canonical_registry.py` PASS (111 rows; 110 prior + 1 new); `release-gate.py` green for I71 P3 scope. Vale CI flip captured at §"Vale CI flip observations" in the phase report (now that operator installed `vale` v3.14.1 via winget 2026-05-14, the release-gate row auto-flips from SKIP to PASS/FAIL).
+- **Inline-ratify gate (C-71-3)**: tag-now-vs-hold for I71 P6 closure verdict **RATIFIED 2026-05-14 via coordinator inline-ratify AskQuestion: HOLD for I71 P6 closure** (matches SOP-RELEASE_TAXONOMY_001 §2 discipline + Pack A1 precedent; CHANGELOG [Unreleased] continues accumulating until P6 cuts v3.1.0). Recorded in `D-IH-71-P` summary.
 
 ### P4 — Strand C2 (review-stamp dimension)
 
@@ -159,7 +159,7 @@ Cursor extension or VS Code plug-in showing live brand-voice scoring while writi
 
 1. **C-71-1 — Pack A1 strictness ladder**: should tic-family violations fail-loud on the first offense or escalate via a soft → strict cadence (like `validate_cicd_baseline.py`)? ~~Default: soft for first 30 days post-P1, strict thereafter.~~ **RESOLVED at P1 inline-ratify gate (2026-05-14): strict-day-1** per D-IH-71-F operator override; per-rule allow-listing via `register-pack.yml`; emergency soft-mode toggle via `AKOS_BRAND_VOICE_REGISTER_SOFT=1` env preserved.
 2. **C-71-2 — Pack A3 SUEZ vs general-engagement strictness**: SUEZ ships full bilingual; future engagements may launch monolingual then add a locale. Should A3 fail-loud on missing locale variants or warn? **Default**: warn until two consecutive engagements land bilingual; ratify at P2 inline-ratify gate.
-3. **C-71-3 — Strand C1 tag-now vs hold**: ratification at P3 inline-ratify; default = hold for P6 closure.
+3. **C-71-3 — Strand C1 tag-now vs hold**: ratification at P3 inline-ratify; default = hold for P6 closure. **Verdict: `HOLD for I71 P6 closure (ratified 2026-05-14)`** — matches SOP-RELEASE_TAXONOMY_001 §2 discipline + Pack A1 precedent; CHANGELOG [Unreleased] continues accumulating until P6 cuts `v3.1.0` as a single coherent I71-closure release baseline.
 4. **C-71-4 — Strand C2 column vs table**: ratification at P4 inline-ratify; default = column-extension for already-mirrored tables; separate table for unmirrored canonicals.
 5. **C-71-5 — Strand B observability cardinality**: how many failure modes warrant a routing row in §18 vs a generic "PMO triages"? **Default**: every CI gate has its own row; non-CI failures ride generic row; ratify at P5 inline-ratify.
 
@@ -175,7 +175,7 @@ Cursor extension or VS Code plug-in showing live brand-voice scoring while writi
 - **D-IH-71-M** — **MINTED 2026-05-14** Pack A3 ratification (multilingual locale-suffix strictness; C-71-2 verdict deferred to coordinator inline-ratify; default warn-until-2-bilingual ships).
 - **D-IH-71-N** — **MINTED 2026-05-14** Addition 11 ratification (number/currency/date format per-locale; P2 fold-in; new `BRAND_LOCALISED_FORMATS.md` canonical).
 - **D-IH-71-O** — **MINTED 2026-05-14** Tier 1 Vale sibling architecture ratification (deterministic-NLP layer alongside regex chassis; C-71-Vale-1 + C-71-Vale-2 verdicts deferred to coordinator inline-ratify; defaults MinAlertLevel=warning + single Vocab pair ship).
-- **D-IH-71-P** — Strand C1 tag-now-vs-hold ratification (P3; renumbered from prior D-IH-71-O slot since the Vale row claimed -O).
+- **D-IH-71-P** — **MINTED 2026-05-14** Strand C1 release-taxonomy SOP authored + customer-invisible versioning posture codified + C-71-3 tag-now-vs-hold verdict (renumbered from prior D-IH-71-O slot since the Vale row claimed -O at P2). C-71-3 verdict `HOLD for I71 P6 closure (ratified 2026-05-14)`.
 - **D-IH-71-Q** — Strand C2 column-vs-table ratification (P4).
 - **D-IH-71-R** — Pack A4 ratification (render-ownership coverage thresholds; P5).
 - **D-IH-71-S** — Strand B observability cardinality ratification (P5).
@@ -195,7 +195,7 @@ Cursor extension or VS Code plug-in showing live brand-voice scoring while writi
 
 - [ ] Strand A: 4 packs ship with validator + YAML + tests + release-gate integration; full release-gate PASS includes the 4 new rows.
 - [ ] Strand B: MCP smoke advisory surfaces in release-gate `[INFO]` rows; WORKSPACE §18 carries dashboard cross-links.
-- [ ] Strand C1: `SOP-RELEASE_TAXONOMY_001.md` lives in vault at the canonical path; `CHANGELOG.md` policy header points to it; tag decision recorded as `D-IH-71-I`.
+- [x] Strand C1 (SHIPPED 2026-05-14): `SOP-RELEASE_TAXONOMY_001.md` lives in vault at the canonical path; `CHANGELOG.md` policy header points to it; tag decision recorded as `D-IH-71-P` (verdict `HOLD for I71 P6 closure (ratified 2026-05-14)`).
 - [ ] Strand C2: review-stamp migration applied; freshness-window validator green; ERP panel slot reserved.
 - [ ] All five `D-IH-71-A`/`B`/`C`/`D`/`E` rows + `D-IH-71-CLOSURE` exist in `DECISION_REGISTER.csv`.
 - [ ] `OPS-71-1`, `OPS-71-2`, `OPS-71-3` all `closed`.
