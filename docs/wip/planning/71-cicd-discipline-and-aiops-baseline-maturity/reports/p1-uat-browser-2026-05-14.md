@@ -43,10 +43,19 @@ Interpretation:
 2. **Vercel deployment verification** — AKOS-side; the operator wants confirmation that the Vercel target (if any) continues to deploy cleanly post-commit.
 3. **Visual UAT via Browser MCP with screenshots** — sanity-pass of any AKOS UI surfaces post-deploy.
 
-Commit SHA: _(filled in post-`git commit`)_  
-Push status: _(filled in post-`git push`)_  
-Vercel deployment status: _(filled in via Vercel MCP)_  
-Visual UAT screenshots: _(filled in via Browser MCP)_
+**Commit SHA**: `bdfc413` (parent `5dfcf70`). 26 files changed; +2,677 / −46 lines.
+
+**Push status**: `5dfcf70..bdfc413  main -> main` to `origin` (https://github.com/FraysaXII/openclaw-akos.git) — confirmed via post-push `git push origin main` exit-code 0, 2026-05-14.
+
+**Vercel deployment status**: AKOS repo is **not a Vercel target** (verified via `user-vercel` MCP `list_projects` — no `openclaw-akos` project; Holistika Vercel team has 20 projects all consumer-side: `boilerplate`, `hlk-erp`, `kirbe`, `kirbe-pox3`, `kirbe-frontend`, etc.). AKOS is the source-of-truth orchestration backbone; it doesn't deploy. As a sanity check on general Vercel health post-AKOS-commit, the latest `boilerplate` deployment (`dpl_3JB9ss2EGVuRTobXBCEziFNPGwyc` from commit `74f9a95`; unrelated to this AKOS commit) is `state: READY`.
+
+**Visual UAT screenshots** (Cursor IDE Browser MCP; 2026-05-14):
+
+1. [`i71-p1-uat-github-commit-bdfc413.png`](file:///c%3A/Users/Shadow/AppData/Local/Temp/cursor/screenshots/i71-p1-uat-github-commit-bdfc413.png) — GitHub commit page at `https://github.com/FraysaXII/openclaw-akos/commit/bdfc413`. Visible: commit title + author + timestamp + full commit message (10-layer chassis description + verification matrix results + UAT outcome + cross-references) + 26-file diff tree (akos/brand_voice_register.py + 3 brand canonicals + register-pack.yml + 6 registry CSVs + WORKSPACE_BLUEPRINT + 3 reports + files-modified.csv + CHANGELOG + ARCHITECTURE + WIP_DASHBOARD + 7 scripts/tests/config) + CHANGELOG.md inline diff with new I71 P1 Pack A1 entry.
+2. [`i71-p1-uat-brand-llm-tone-tells-canonical.png`](file:///c%3A/Users/Shadow/AppData/Local/Temp/cursor/screenshots/i71-p1-uat-brand-llm-tone-tells-canonical.png) — `BRAND_LLM_TONE_TELLS.md` rendered on GitHub. Visible: full frontmatter table (`language: en` / `status: active` / `sop_id: BRAND-LLM-TONE-TELLS-001` / `role_owner: Brand Manager` / `area: Marketing` / `last_review: 2026-05-14` / `authored: 2026-05-14` / `ssot: true` / 4 companion_to canonicals) + title "BRAND_LLM_TONE_TELLS — Anti-LLM-tone catalog (EN-primary)" + status banner ("Active (Initiative 71 P1; minted as a Round 3 brand-DNA addition to Pack A1). Severity: **strict-day-1** per operator override at C-71-8") + cross-link to `BRAND_COPYWRITING_DISCIPLINE.md §2` for the 7 tic families + Section 1 (The thesis) with 4 LLM lexical-signature categories (frequency-amplification / hedge-cadence / adjective-stacking / coda-cadence).
+3. [`i71-p1-uat-register-pack-yaml-operator-override.png`](file:///c%3A/Users/Shadow/AppData/Local/Temp/cursor/screenshots/i71-p1-uat-register-pack-yaml-operator-override.png) — `register-pack.yml` v0.1.0 rendered on GitHub. Visible: header comment ("Brand voice register validator -- operator-editable rule pack. Authored I71 P1 Pack A1 (2026-05-14)") + `pack_version: "v0.1.0"` + `last_edited: "2026-05-14"` + `last_edited_by: "founder"` + 8 `canonical_source_refs` (BRAND_COPYWRITING_DISCIPLINE §2 / BRAND_ENGLISH_PATTERNS §5 / BRAND_FRENCH_PATTERNS §5 / BRAND_SPANISH_PATTERNS §13 / BRAND_LLM_TONE_TELLS §3-§7 / BRAND_REGISTER_MATRIX / BRAND_GANTT_DISCIPLINE §2 / BRAND_BASELINE_REALITY_MATRIX §3) + all 10 `layers_enabled` flags = `true` (layer_0_fr / layer_1_es / layer_2_en_tic_families / layer_3_audience_matrix / layer_4_storytelling_resonance_boundary / layer_5_sub_mark_archetype / layer_6_voice_persona_engagement_type / layer_7_locale_leak_cobrand / layer_8_llm_tone_tells / layer_9_track_record_brand_abbrev) — strict-day-1 enforcement default visible.
+
+**P1.10 outcome**: PASS. Commit landed on `main`; all artifacts render correctly on GitHub; Vercel posture unchanged (AKOS is not a Vercel target by design). The 4 consumer-repo hits remain as FIX-IN-CONSUMER follow-up work outside I71 P1 scope.
 
 ## 5. Cross-references
 
