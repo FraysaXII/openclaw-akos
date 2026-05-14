@@ -414,6 +414,10 @@ def main() -> int:
         ("ENGAGEMENT_TEMPLATE_PROMOTION", "validate_engagement_template_promotion.py",
          "validate_engagement_template_promotion",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Operations" / "RevOps" / "canonicals" / "dimensions" / "ENGAGEMENT_TEMPLATE_REGISTRY.csv"),
+        # Initiative 72 P6 - IntelligenceOps register (sibling canonical at Research/Intelligence/canonicals/dimensions/ per D-IH-72-H; not GOI_POI col-extension).
+        ("INTELLIGENCEOPS_REGISTER", "validate_intelligenceops_register.py",
+         "validate_intelligenceops_register",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Research" / "Intelligence" / "canonicals" / "dimensions" / "INTELLIGENCEOPS_REGISTER.csv"),
         # Initiative 32 P3 - Touchpoint-kit cell registry (with FS-vs-CSV drift detector).
         ("TOUCHPOINT_KIT_CELL_REGISTRY", "validate_touchpoint_kit_cells.py",
          "validate_touchpoint_kit_cells", HLK_DIR / "dimensions" / "TOUCHPOINT_KIT_CELL_REGISTRY.csv"),
