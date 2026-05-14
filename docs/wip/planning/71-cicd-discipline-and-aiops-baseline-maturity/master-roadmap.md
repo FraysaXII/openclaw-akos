@@ -80,7 +80,7 @@ Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-sta
 |:---|:---|:---:|:---|:---:|
 | **P0** | Charter + registries + WORKSPACE §18 + Strand C scope expansion | A+B+C | **SHIPPED** (`e129bac`, `eb4c1b4`) | — |
 | **P1** | Pack A1 (voice register expansion — chassis edition; 10 layers + Round 3 brand-DNA) | A | **SHIPPED** 2026-05-14 | — |
-| **P2** | Packs A2–A3 (Gantt confidence + multilingual locale suffix) + Tier-3 deferred (number/currency/date format per-locale; Addition 11) | A | pending | — |
+| **P2** | Packs A2–A3 (Gantt confidence + multilingual locale suffix) + Addition 11 (number/currency/date format per-locale) + Tier 1 Vale sibling (deterministic-NLP layer; folded in 2026-05-14) | A | pending | — |
 | **P3** | Strand C1 — release-taxonomy ratification + tag-criteria SOP | C | pending | OPS-71-2 |
 | **P4** | Strand C2 — review-stamp dimension (column-or-table choice + migration + validator) | C | pending | OPS-71-3 |
 | **P5** | Pack A4 (render ownership) + Strand B hardening (MCP smoke + dashboard cross-links) | A+B | pending | — |
@@ -104,15 +104,24 @@ Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-sta
 - **Strictness default** (per D-IH-71-F operator override at plan finalization 2026-05-14): **strict-day-1** for all 10 layers; soft-30-day default REJECTED. Per-rule allow-listing via `register-pack.yml`; global `AKOS_BRAND_VOICE_REGISTER_SOFT=1` env preserved for emergency triage. C-71-1 verdict: `strict_day_1`.
 - **Key risk**: regex breadth (false positives on legitimate prose). Mitigation: per-rule severity in canonical; operator-editable `register-pack.yml`; inline allow-comments (e.g., `<!-- llm-tone-allow: T-3-delve-into -->`); fixture suite at `tests/test_validate_brand_voice_register_expansion.py`.
 
-### P2 — Packs A2 + A3 (Gantt confidence + multilingual locale-suffix) + Tier-3 Addition 11 fold-in
+### P2 — Packs A2 + A3 (Gantt confidence + multilingual locale-suffix) + Tier-3 Addition 11 fold-in + Tier 1 Vale sibling
 
 - **Scope**:
   - **A2**: new `scripts/validate_brand_gantt_confidence.py` enforcing the 5-level confidence ladder + 4-quadrant audience matrix from `BRAND_GANTT_DISCIPLINE.md`; rule-pack at `docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/gantt-pack.yml`; tests + release-gate.
   - **A3**: new `scripts/validate_brand_multilingual.py` enforcing the 3-file pattern (`README.md` 5-line pointer + `README.fr.md` + `README.en.md`) per `D-IH-70-P` + `BRAND_MULTILINGUAL_CONTRACT.md`; tests + release-gate.
   - **Addition 11 (Tier-3 fold-in from P1 Round 3)**: number / currency / date format per-locale enforcement — author the contract in a sibling `BRAND_LOCALISED_FORMATS.md` canonical; extend the Pack A1 chassis with `NumberFormatRule` + `CurrencyFormatRule` + `DateFormatRule`; surface via the existing validator script or a sibling validator depending on size at execution time.
+  - **Tier 1 — Vale sibling (folded in from I71 P1 strategic review 2026-05-14)**: integrate Vale (open-source NLP+POS-tagging linter) as a sibling to the regex chassis. Translate brand canonicals into Vale's `.ini` format via a one-time generator script (`scripts/generate_vale_styles.py`). Vale runs **alongside** `validate_brand_voice_register.py`, not replacing it: regex catches named violations cheaply; Vale catches grammar patterns regex can't (e.g. "any superlative adjective in a customer-facing slide H1"). Free, ~1 day. Closes the deterministic-NLP gap noted in the I71 P1 strategic review (industry parity vs Vale-only setups). Operator-tuneable via `Vocab/Holistika.txt` and `Vocab/Holistika-rejected.txt`.
 - **Prerequisites**: P1 closed (SHIPPED 2026-05-14); `BRAND_GANTT_DISCIPLINE.md` (I70 P6) and `BRAND_MULTILINGUAL_CONTRACT.md` (I70 P7) are the canonical anchors; SUEZ engagement is the ground-truth fixture for A3.
-- **Deliverables**: 2 validators + 2 rule-pack YAMLs + 2 test modules + release-gate integration + CHANGELOG entries + Addition 11 canonical + chassis extension.
-- **Verification**: A2 detects out-of-ladder confidence cells in fixture Gantt files; A3 detects engagements that ship only `README.md` without locale variants OR without 5-line pointer; Addition 11 detects locale-mismatched number/currency/date formats; release-gate green.
+- **Deliverables**: 2 validators + 2 rule-pack YAMLs + 2 test modules + release-gate integration + CHANGELOG entries + Addition 11 canonical + chassis extension + **Vale styles generator + Vale CI integration + brand canonicals → Vale `.ini` translator**.
+- **Verification**: A2 detects out-of-ladder confidence cells in fixture Gantt files; A3 detects engagements that ship only `README.md` without locale variants OR without 5-line pointer; Addition 11 detects locale-mismatched number/currency/date formats; **Vale runs in CI alongside regex chassis with zero overlap on named violations and surfaces ≥1 grammar-pattern catch the regex misses (proves complementarity, not redundancy)**; release-gate green.
+
+### Tier 2 forward-charter — LLM-as-judge advisory layer (parked as I78 candidate)
+
+The I71 P1 strategic review session (2026-05-14) identified a third evolution layer **above** Pack A1 + Vale: an LLM-as-judge advisory layer that catches paraphrased violations the regex + NLP layers cannot. Promotion criteria: when the regex list visibly pushes back (operator-articulated paraphrase patterns the regex misses; ≥2 trigger signals per [`docs/wip/planning/_candidates/i78-brand-voice-llm-judge.md`](../_candidates/i78-brand-voice-llm-judge.md) §6). I78 candidate scaffold authored 2026-05-14 captures the design + cost math (~$10-50/month at our volume) + bias-mitigation plan + soft-then-strict cadence + DIY vendor-free posture (rejects Acrolinx / Writer.com / Grammarly Business as adoption candidates).
+
+### Tier 3 forward-charter — Writer-facing inline UX (deferred behind team-scale trigger)
+
+Cursor extension or VS Code plug-in showing live brand-voice scoring while writing. Backend reuses I78 P1 judge module (when I78 promotes). Trigger: ≥3 marketing writers concurrently authoring brand prose (today: operator + agent only). Until then, CLI + CI gate is the right surface. Do not mint a candidate scaffold yet — track in this forward-charter section as the open option.
 
 ### P3 — Strand C1 (release-taxonomy ratification)
 
@@ -200,3 +209,5 @@ Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-sta
 - WORKSPACE_BLUEPRINT §16 (render pipeline ownership): [`WORKSPACE_BLUEPRINT_HOLISTIKA.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/WORKSPACE_BLUEPRINT_HOLISTIKA.md).
 - WORKSPACE_BLUEPRINT §18 (observability routing matrix): same file, section 18.
 - Charter ratification record: [`reports/p0-charter-2026-05-13.md`](reports/p0-charter-2026-05-13.md).
+- **Tier 2 forward-charter (LLM-as-judge advisory layer)**: [`docs/wip/planning/_candidates/i78-brand-voice-llm-judge.md`](../_candidates/i78-brand-voice-llm-judge.md) — sibling initiative authored from I71 P1 strategic review; promotes to active when regex list visibly pushes back (≥2 trigger signals per the candidate's §6).
+- **I71 P1 strategic review** (the conversation that surfaced Tier 1 Vale fold-in + Tier 2 forward-charter): see [`reports/p1-pack-a1-2026-05-14.md`](reports/p1-pack-a1-2026-05-14.md) §post-ship-strategic-review (if authored) OR the underlying I71 P1 plan at [`.cursor/plans/i71_p1_pack_a1_brand_voice_register_bcb06a90.plan.md`](../../../.cursor/plans/i71_p1_pack_a1_brand_voice_register_bcb06a90.plan.md).
