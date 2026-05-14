@@ -22,6 +22,7 @@ from typing import Literal
 
 from akos.hlk import HlkRegistry
 from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES
+from akos.hlk_topic_registry_csv import TOPIC_REGISTRY_FIELDNAMES
 from akos.io import REPO_ROOT
 from akos.models import OrgRole, ProcessItem
 
@@ -385,22 +386,14 @@ def build_program_graph(
     return nodes, edges
 
 
-TOPIC_REGISTRY_FIELDNAMES_MIN: tuple[str, ...] = (
-    "topic_id",
-    "title",
-    "topic_class",
-    "lifecycle_status",
-    "primary_owner_role",
-    "program_id",
-    "plane",
-    "parent_topic",
-    "related_topics",
-    "depends_on",
-    "subsumes",
-    "subsumed_by",
-    "manifest_path",
-    "notes",
-)
+# Header equality is checked against the canonical SSOT tuple from
+# `akos.hlk_topic_registry_csv` (which `validate_compliance_schema_drift.py`
+# also pins against the on-disk CSV header). Re-importing here keeps the
+# projector aligned with the AKOS SSOT contract — no parallel tuple to drift
+# (release-gate hygiene 2026-05-11). Pre-I71-P4 versions kept a duplicate
+# `TOPIC_REGISTRY_FIELDNAMES_MIN` tuple here that silently went stale when the
+# 4-column review-stamp suffix landed (D-IH-71-R), causing `build_topic_graph`
+# to return zero nodes and `test_graph_label_counts_match_registry` to fail.
 
 
 def _read_topic_registry_rows(csv_path: Path = TOPIC_REGISTRY_CSV) -> list[dict[str, str]]:
@@ -409,7 +402,7 @@ def _read_topic_registry_rows(csv_path: Path = TOPIC_REGISTRY_CSV) -> list[dict[
         return []
     with csv_path.open(encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(fh)
-        if list(reader.fieldnames or []) != list(TOPIC_REGISTRY_FIELDNAMES_MIN):
+        if list(reader.fieldnames or []) != list(TOPIC_REGISTRY_FIELDNAMES):
             return []
         return [dict(r) for r in reader]
 

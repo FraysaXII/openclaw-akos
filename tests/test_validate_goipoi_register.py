@@ -4,9 +4,14 @@ schema-extension columns: `related_party` (P13.4) and `stance` (I70 P8.5).
 Covers:
 - The `related_party` column is present in the canonical CSV header.
 - The `stance` column is present in the canonical CSV header AND is the LAST
-  column (forward-compatible-append invariant moved from related_party to
-  stance after I70 P8.5).
-- The `GOIPOI_REGISTER_FIELDNAMES` tuple includes both columns; stance is last.
+  NON-review-stamp column (the forward-compatible-append invariant moved from
+  related_party to stance after I70 P8.5; then the I71 P4 follow-up
+  D-IH-71-R appended the 4-column review-stamp suffix at the very end of every
+  mirrored canonical CSV — see `scripts/validate_review_stamps.py
+  REVIEW_STAMP_COLUMNS` — so stance is now the last column BEFORE that
+  suffix, not the absolute last column).
+- The `GOIPOI_REGISTER_FIELDNAMES` tuple includes both columns; stance sits
+  immediately before the review-stamp suffix.
 - Default-empty values are backwards-compatible for every Initiative 21 / 22 /
   24 / 31 / P13.4 row.
 - The `GOI-CUS-ASES-2026` row carries `related_party=true` per the P13.4 tranche.
@@ -42,22 +47,44 @@ def test_related_party_column_present_in_header():
     assert "related_party" in header, "related_party column missing from GOI_POI_REGISTER.csv header"
 
 
-def test_stance_column_present_and_last():
+def test_stance_column_present_and_last_before_review_stamp_suffix():
     """I70 P8.5 (D-IH-70-AD) — `stance` is the new last column for
     forward-compatible appends; the invariant moved from related_party to
-    stance when the v2.7 ally/neutral/enemy doctrine landed in v3.1."""
+    stance when the v2.7 ally/neutral/enemy doctrine landed in v3.1.
+
+    I71 P4 follow-up (D-IH-71-R) — the review-stamp 4-tuple
+    (`last_review_at`, `last_review_by`, `last_review_decision_id`,
+    `methodology_version_at_review`) was appended to every mirrored canonical
+    CSV (see `scripts/validate_review_stamps.py` `REVIEW_STAMP_COLUMNS`), so
+    `stance` is no longer the absolute last column — it's the last column
+    BEFORE the review-stamp suffix. Renamed from
+    `test_stance_column_present_and_last` in the post-I71 release-gate hygiene
+    pass; assertion semantics adjusted to recognize the review-stamp doctrine
+    while preserving the forward-compatible-append intent for the stance row.
+    """
+    sys.path.insert(0, str(REPO_ROOT))
+    from scripts.validate_review_stamps import REVIEW_STAMP_COLUMNS
+
     with CSV_PATH.open(encoding="utf-8", newline="") as fh:
         reader = csv.reader(fh)
         header = next(reader)
     assert "stance" in header, "stance column missing from GOI_POI_REGISTER.csv header"
-    assert header[-1] == "stance", (
-        f"stance should be the LAST column for forward-compatible appends; got header={header[-1]!r}"
+    suffix_len = len(REVIEW_STAMP_COLUMNS)
+    assert tuple(header[-suffix_len:]) == REVIEW_STAMP_COLUMNS, (
+        f"GOI_POI_REGISTER.csv must end with the review-stamp suffix "
+        f"{REVIEW_STAMP_COLUMNS}; got trailing columns={tuple(header[-suffix_len:])!r}"
+    )
+    assert header[-(suffix_len + 1)] == "stance", (
+        f"stance should be the LAST column BEFORE the review-stamp suffix "
+        f"(forward-compatible-append invariant per I70 P8.5 + I71 P4 D-IH-71-R); "
+        f"got header[-{suffix_len + 1}]={header[-(suffix_len + 1)]!r}"
     )
 
 
 def test_fieldnames_tuple_includes_related_party_and_stance():
     sys.path.insert(0, str(REPO_ROOT))
     from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES
+    from scripts.validate_review_stamps import REVIEW_STAMP_COLUMNS
 
     assert "related_party" in GOIPOI_REGISTER_FIELDNAMES, (
         "GOIPOI_REGISTER_FIELDNAMES does not include 'related_party'"
@@ -65,8 +92,16 @@ def test_fieldnames_tuple_includes_related_party_and_stance():
     assert "stance" in GOIPOI_REGISTER_FIELDNAMES, (
         "GOIPOI_REGISTER_FIELDNAMES does not include 'stance' (I70 P8.5 D-IH-70-AD)"
     )
-    assert GOIPOI_REGISTER_FIELDNAMES[-1] == "stance", (
-        "stance must be the last entry in GOIPOI_REGISTER_FIELDNAMES (forward-compatible appends)"
+    suffix_len = len(REVIEW_STAMP_COLUMNS)
+    assert GOIPOI_REGISTER_FIELDNAMES[-suffix_len:] == REVIEW_STAMP_COLUMNS, (
+        f"GOIPOI_REGISTER_FIELDNAMES must end with the review-stamp suffix "
+        f"{REVIEW_STAMP_COLUMNS}; got trailing entries="
+        f"{GOIPOI_REGISTER_FIELDNAMES[-suffix_len:]!r}"
+    )
+    assert GOIPOI_REGISTER_FIELDNAMES[-(suffix_len + 1)] == "stance", (
+        "stance must be the last entry in GOIPOI_REGISTER_FIELDNAMES BEFORE "
+        "the review-stamp suffix (forward-compatible appends per I70 P8.5 + "
+        "I71 P4 D-IH-71-R)"
     )
 
 
