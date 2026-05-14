@@ -33,6 +33,15 @@ PROCESS_LIST_FIELDNAMES: list[str] = [
     "count_name",
     "frequency",
     "quality",
+    # I71 P4 review-stamp dimension (D-IH-71-Q; column-extension verdict per C-71-4 default).
+    # See sibling akos/hlk_decision_register_csv.py / hlk_initiative_registry_csv.py /
+    # hlk_ops_register_csv.py for the same 4-column extension on the other 3 mirrored
+    # governance canonicals. Empty by default; operator backfills incrementally per
+    # docs/wip/planning/REVIEW_STAMP_INBOX.md workflow (sidecar to OPERATOR_INBOX.md).
+    "last_review_at",
+    "last_review_by",
+    "last_review_decision_id",
+    "methodology_version_at_review",
 ]
 
 

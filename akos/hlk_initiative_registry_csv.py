@@ -55,6 +55,10 @@ INITIATIVE_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "manifests_processes",     # semicolon-list FK to process_list.csv item_id (nullable; D-IH-59-G)
     "linked_topic_ids",        # semicolon-list FK to TOPIC_REGISTRY.csv (nullable)
     "notes",
+    "last_review_at",                  # I71 P4 review-stamp (DATE; ISO YYYY-MM-DD); orthogonal to existing `last_review` column (which tracks plan-update cadence; `last_review_at` tracks doctrine-review cadence per D-IH-71-E)
+    "last_review_by",                  # I71 P4 review-stamp (FK-by-convention to baseline_organisation.csv role_name)
+    "last_review_decision_id",         # I71 P4 review-stamp (FK-by-convention to DECISION_REGISTER.csv decision_id; nullable)
+    "methodology_version_at_review",   # I71 P4 review-stamp (LOGIC_CHANGE_LOG.md methodology version at review time; vMAJOR.MINOR per D-IH-71-D)
 )
 
 VALID_CADENCES: frozenset[str] = frozenset({

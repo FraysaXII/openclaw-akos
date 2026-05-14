@@ -16,13 +16,14 @@ continuous_rationale: Auto-rendered Operator Action Inbox (I59 P4) — re-render
 
 <!-- BEGIN AUTO -->
 
-_Rows: 27 (open · operator/mixed · ranked by RICE desc)._
+_Rows: 26 (open · operator/mixed · ranked by RICE desc)._
 
 | OPS ID | Initiative | Owner | RICE | What | Notes |
 | --- | --- | --- | --- | --- | --- |
 | `OPS-66-2` | INIT-OPENCLAW_AKOS-66 — Initiative 66 - Brand Vision Ops Sweep | operator (System Owner) | 2040 | Apply P6 governance Supabase migration | Fallback rows keep panels usable before apply |
 | `OPS-67-1` | INIT-OPENCLAW_AKOS-66 — Initiative 66 - Brand Vision Ops Sweep | operator (Brand Manager) | 1920 | Kick off I67 RevOps Discovery research | Launch gate for I67 |
 | `OPS-66-1` | INIT-OPENCLAW_AKOS-66 — Initiative 66 - Brand Vision Ops Sweep | operator (Legal Counsel) | 840 | Submit trademark filings with counsel | Counsel and operator credentials required |
+| `OPS-77-1` | INIT-OPENCLAW_AKOS-77 — Initiative 77 - Impeccable Brand-Bridge Refresh + Drift Gate | operator (Brand Manager) | 500 | Impeccable bridge refresh + drift gate execution (I77 P1-P3) | Opened at I77 P0 charter; closure targeted I77 P3 UAT. |
 | `OPS-14-1` | INIT-OPENCLAW_AKOS-14 — Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-47-1` | INIT-OPENCLAW_AKOS-50 — Initiative 50 — Live cycle closure + cost SSOT truth-up | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-47-2` | INIT-OPENCLAW_AKOS-50 — Initiative 50 — Live cycle closure + cost SSOT truth-up | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
@@ -44,9 +45,7 @@ _Rows: 27 (open · operator/mixed · ranked by RICE desc)._
 | `OPS-58-2` | INIT-OPENCLAW_AKOS-58 — Initiative 58 — Cycle 2 multi-track forward | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-58-4` | INIT-OPENCLAW_AKOS-58 — Initiative 58 — Cycle 2 multi-track forward | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-59-1` | INIT-OPENCLAW_AKOS-59 — Initiative 59 — HLK governance promotion + clean slate cycle | operator (PMO) | — | Merge telemetry promotion proposals into PERSONA_SCENARIO_REGISTRY.csv | I59 P7; zero proposals at initial run (no telemetry data); re-run each cycle |
-| `OPS-71-1` | INIT-OPENCLAW_AKOS-71 — CI/CD Discipline and AIOps Baseline Maturity | operator (PMO) | — | Validator pack productization (I71 Strand A) | Opened at I71 P0 charter; closure targeted I71 P6. |
-| `OPS-71-2` | INIT-OPENCLAW_AKOS-71 — CI/CD Discipline and AIOps Baseline Maturity | operator (PMO) | — | Release-taxonomy ratification + tag-criteria SOP (I71 Strand C1) | Opened at I71 P0 charter scope expansion; closure targeted I71 P3. Discharges the deferral in D-IH-70-CLOSURE. |
-| `OPS-71-3` | INIT-OPENCLAW_AKOS-71 — CI/CD Discipline and AIOps Baseline Maturity | operator (PMO) | — | Review-stamp / last-version-visited dimension (I71 Strand C2) | Opened at I71 P0 charter scope expansion; closure targeted I71 P4. Closes the forward-charter pointer in p70-closing.md section 4 bullet 3. |
+| `OPS-71-1` | INIT-OPENCLAW_AKOS-71 — CI/CD Discipline and AIOps Baseline Maturity | operator (PMO) | — | Validator pack productization (I71 Strand A) | Opened at I71 P0 charter; closure targeted I71 P6. Pack A1 ratified 2026-05-14 (P1). Pack A2 + A3 + Addition 11 + Tier 1 Vale sibling SHIPPED 2026-05-14 (P2). Pack A4 (render ownership) + Strand B hardening forward (P5). |
 
 <!-- END AUTO -->
 

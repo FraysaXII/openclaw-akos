@@ -248,6 +248,31 @@ def run_brand_jargon_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_review_stamp_validation() -> tuple[bool, int]:
+    """Run review-stamp freshness validation (I71 P4 Strand C2).
+
+    Returns ``(ok, exit_code)``. Wired as **INFO** (advisory only; never blocks the
+    release gate). Walks the four mirrored canonical CSVs that gained the 4
+    review-stamp columns at I71 P4 (`process_list.csv`, `DECISION_REGISTER.csv`,
+    `INITIATIVE_REGISTRY.csv`, `OPS_REGISTER.csv`) and emits stale-row (warning),
+    missing-stamp (info), and invalid-decision-ref (error) advisories. Stale +
+    missing rows surface to the sidecar inbox at
+    ``docs/wip/planning/REVIEW_STAMP_INBOX.md`` for incremental operator backfill.
+
+    Exit 0 = no errors (warnings + info still possible); release-gate row stays
+    INFO regardless of validator exit code per the kickoff "advisory row in
+    release-gate, never blocks" contract for the freshness signal.
+    """
+    logger.info("Running review-stamp freshness validation (I71 P4) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_review_stamps.py"), "--no-inbox"],
+        timeout=60,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_brand_voice_register_validation() -> tuple[bool, int]:
     """Run per-locale voice-register validation (I66 P2).
 
@@ -588,6 +613,12 @@ def main() -> None:
     if os.environ.get("AKOS_EVAL_RUBRIC") == "1":
         eval_ok = run_eval_rubric_slice()
         results.append(("PASS" if eval_ok else "FAIL", "Eval rubric slice (AKOS_EVAL_RUBRIC=1, run-evals.py)"))
+
+    review_stamp_ok, review_stamp_rc = run_review_stamp_validation()
+    results.append((
+        "INFO",
+        f"Review-stamp freshness (scripts/validate_review_stamps.py — 4 mirrored canonicals process_list/decision/initiative/ops; 180-day window; advisory only; I71 P4 D-IH-71-Q; exit={review_stamp_rc})",
+    ))
 
     inbox_stale, _ = run_operator_inbox_check()
     if inbox_stale:

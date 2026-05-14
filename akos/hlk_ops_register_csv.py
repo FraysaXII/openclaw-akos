@@ -46,6 +46,10 @@ OPS_REGISTER_FIELDNAMES: tuple[str, ...] = (
     "opened_at",                    # YYYY-MM-DD
     "closed_at",                    # YYYY-MM-DD (nullable; required when status=closed)
     "notes",
+    "last_review_at",                  # I71 P4 review-stamp (DATE; ISO YYYY-MM-DD)
+    "last_review_by",                  # I71 P4 review-stamp (FK-by-convention to baseline_organisation.csv role_name)
+    "last_review_decision_id",         # I71 P4 review-stamp (FK-by-convention to DECISION_REGISTER.csv decision_id; nullable)
+    "methodology_version_at_review",   # I71 P4 review-stamp (LOGIC_CHANGE_LOG.md methodology version at review time; vMAJOR.MINOR per D-IH-71-D)
 )
 
 VALID_OPS_OWNER_CLASSES: frozenset[str] = frozenset({
