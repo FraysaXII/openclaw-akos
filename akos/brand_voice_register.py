@@ -39,7 +39,7 @@ import re
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 # -----------------------------------------------------------------------------
 # Type aliases (Literal-based enums per cicd_baseline.py chassis pattern)
@@ -140,6 +140,22 @@ CANONICAL_PATHS: dict[str, str] = {
     "register_pack_yaml": (
         "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/"
         "register-pack.yml"
+    ),
+    "gantt_pack_yaml": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/"
+        "gantt-pack.yml"
+    ),
+    "multilingual_pack_yaml": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/"
+        "multilingual-pack.yml"
+    ),
+    "multilingual_contract": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/"
+        "BRAND_MULTILINGUAL_CONTRACT.md"
+    ),
+    "localised_formats": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/"
+        "BRAND_LOCALISED_FORMATS.md"
     ),
 }
 
@@ -531,6 +547,243 @@ class BrandAbbreviationRule(BaseModel):
 
 
 # -----------------------------------------------------------------------------
+# I71 P2 -- Pack A2 -- Gantt confidence ladder + audience-quadrant rules
+# (additive; no signature changes to existing models per kickoff §"DO NOT")
+# -----------------------------------------------------------------------------
+
+
+_CONFIDENCE_BAND_LABELS: dict[int, str] = {
+    1: "Reserved",
+    2: "Hypothesis",
+    3: "Posture",
+    4: "Probable",
+    5: "Confirmed",
+}
+
+
+class GanttConfidenceRule(BaseModel):
+    """One row of the 5-level confidence ladder per BRAND_GANTT_DISCIPLINE.md §4.
+
+    Pack A2 emits one violation per Gantt artifact whose ``confidence_band``
+    frontmatter falls outside the ladder, or whose declared ``gantt_variant``
+    is not in ``allowed_variants`` for the artifact's band. Pack A2 also uses
+    this rule set to detect ``confidence inflation`` (e.g., a Variant A
+    posture-sketch declaring band 4 Probable when §4 reserves Probable for
+    Variant B post-acceptance).
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    band: int = Field(ge=1, le=5)
+    label: Literal["Reserved", "Hypothesis", "Posture", "Probable", "Confirmed"]
+    allowed_variants: tuple[GanttVariant, ...]
+    display_rule: str = Field(min_length=1)
+    default_severity: Severity = "error"
+    canonical_section: str = "BRAND_GANTT_DISCIPLINE.md §4"
+
+    @model_validator(mode="after")
+    def _label_matches_band(self) -> "GanttConfidenceRule":
+        expected = _CONFIDENCE_BAND_LABELS[self.band]
+        if self.label != expected:
+            raise ValueError(
+                f"band {self.band} expects label {expected!r}, got {self.label!r}"
+            )
+        return self
+
+
+class AudienceQuadrantRule(BaseModel):
+    """One quadrant-assignment rule per BRAND_GANTT_DISCIPLINE.md §2.
+
+    Codifies the discipline rule that customer-pack only ships Variant A or B
+    (low or high data maturity); operator-internal only ships Variant C or D.
+    Pack A2 emits a violation when a Gantt artifact's surface class (derived
+    from path: ``02-customer-pack/`` vs ``01-operator-pack/``) disagrees with
+    the declared ``gantt_variant`` frontmatter per the per-variant
+    ``forbidden_in_customer_pack`` / ``forbidden_in_operator_pack`` flags.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    variant: GanttVariant
+    audience_facing: Literal["customer", "operator"]
+    data_maturity: Literal["low", "high"]
+    forbidden_in_customer_pack: bool
+    forbidden_in_operator_pack: bool
+    default_severity: Severity = "error"
+    canonical_section: str = "BRAND_GANTT_DISCIPLINE.md §2"
+
+
+# -----------------------------------------------------------------------------
+# I71 P2 -- Pack A3 -- multilingual locale suffix + README triad
+# (additive; no signature changes to existing models)
+# -----------------------------------------------------------------------------
+
+
+class LocaleSuffixRule(BaseModel):
+    """Per-locale README suffix discipline per BRAND_MULTILINGUAL_CONTRACT.md §2.
+
+    Asserts that a per-locale README (e.g., ``README.fr.md``) declares the
+    matching ``language:`` frontmatter value. Pack A3 emits a violation when
+    a README's suffix says one locale and its frontmatter says another.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    locale: Locale
+    expected_suffix: str = Field(min_length=1)
+    frontmatter_language_value: str = Field(min_length=1)
+    default_severity: Severity = "error"
+    canonical_section: str = "BRAND_MULTILINGUAL_CONTRACT.md §2"
+
+
+class ReadmeTriadRule(BaseModel):
+    """3-file README triad rule per BRAND_MULTILINGUAL_CONTRACT.md §2 + D-IH-70-P.
+
+    Asserts that an engagement folder declaring ``README.fr.md`` and / or
+    ``README.en.md`` link targets in its 5-line pointer ``README.md`` also
+    has those files present on disk, and that the pointer matches the 5-line
+    skeleton (title + blank + intro + bullets + closing blank).
+
+    Severity downgradable to ``warning`` via the C-71-2 inline-ratify gate
+    (default at P2 = warn-until-2-bilingual; promote to ``error`` when the
+    second consecutive bilingual engagement ships per master-roadmap §P2).
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    pointer_line_count_min: int = Field(ge=2, le=12, default=3)
+    pointer_line_count_max: int = Field(ge=3, le=20, default=12)
+    required_pointer_keywords: tuple[str, ...] = (
+        "Per-language READMEs:",
+    )
+    per_locale_readme_required: bool = True
+    default_severity: Severity = "warning"
+    canonical_section: str = (
+        "BRAND_MULTILINGUAL_CONTRACT.md §2 + BRAND_COUNTERPARTY_README_CONTRACT.md + D-IH-70-P"
+    )
+
+
+# -----------------------------------------------------------------------------
+# I71 P2 -- Addition 11 -- per-locale number / currency / date formats
+# (additive; no signature changes to existing models)
+# -----------------------------------------------------------------------------
+
+
+class NumberFormatRule(BaseModel):
+    """Per-locale number format rule per BRAND_LOCALISED_FORMATS.md §1.
+
+    Codifies thousands-separator + decimal-separator per locale. Surfaces via
+    Pack A2's validator (Gantt confidence cells frequently carry money/dates
+    in their per-deliverable copy). en uses ',' + '.'; fr uses NARROW NO-BREAK
+    SPACE U+202F + ','; es uses '.' + ','.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    locale: Locale
+    thousands_separator: str
+    decimal_separator: str
+    canonical_section: str = "BRAND_LOCALISED_FORMATS.md §1"
+    default_severity: Severity = "error"
+
+
+class CurrencyFormatRule(BaseModel):
+    """Per-currency × per-locale format rule per BRAND_LOCALISED_FORMATS.md §2.
+
+    EUR symbol position varies by locale (fr suffix, en prefix, es suffix).
+    USD prefix all locales. GBP prefix all locales.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    locale: Locale
+    currency: Literal["EUR", "USD", "GBP", "CHF"]
+    symbol_position: Literal["prefix", "suffix"]
+    symbol_separator: str = " "
+    canonical_section: str = "BRAND_LOCALISED_FORMATS.md §2"
+    default_severity: Severity = "error"
+
+
+class DateFormatRule(BaseModel):
+    """Per-locale × per-format-class date format rule per BRAND_LOCALISED_FORMATS.md §3.
+
+    ISO 8601 canonical / technical contexts (all locales); per-locale
+    natural-language formats: en "May 14, 2026" / fr "14 mai 2026" /
+    es "14 de mayo de 2026".
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    locale: Locale
+    format_class: Literal["iso", "natural_long", "natural_short"]
+    pattern: str = Field(min_length=1)
+    example: str = Field(min_length=1)
+    canonical_section: str = "BRAND_LOCALISED_FORMATS.md §3"
+    default_severity: Severity = "warning"
+
+
+# -----------------------------------------------------------------------------
+# I71 P2 -- Gantt operator-override pack (sibling to BrandVoiceRegisterPack)
+# -----------------------------------------------------------------------------
+
+
+class BrandGanttPack(BaseModel):
+    """Operator-editable Gantt confidence + audience-quadrant override pack.
+
+    Loaded from `docs/.../Brand/canonicals/_validators/gantt-pack.yml` via
+    ``parse_gantt_pack_yaml``. Operator overrides apply over canonical
+    defaults; the YAML pack is the final word at runtime.
+
+    Carries the Pack A2 + Addition 11 surfaces under a single typed pack so
+    the validator can resolve all Gantt-adjacent rules from one operator
+    artifact. ``register-pack.yml`` (Pack A1) remains untouched.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    pack_version: str = Field(pattern=r"^v[0-9]+\.[0-9]+\.[0-9]+$")
+    last_edited: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
+    last_edited_by: str = Field(min_length=1)
+    canonical_source_refs: tuple[str, ...]
+    layers_enabled: dict[str, bool] = Field(default_factory=dict)
+    gantt_confidence_rules: tuple[GanttConfidenceRule, ...] = ()
+    audience_quadrant_rules: tuple[AudienceQuadrantRule, ...] = ()
+    number_format_rules: tuple[NumberFormatRule, ...] = ()
+    currency_format_rules: tuple[CurrencyFormatRule, ...] = ()
+    date_format_rules: tuple[DateFormatRule, ...] = ()
+
+
+# -----------------------------------------------------------------------------
+# I71 P2 -- Pack A3 multilingual operator-override pack
+# -----------------------------------------------------------------------------
+
+
+class BrandMultilingualPack(BaseModel):
+    """Operator-editable multilingual locale-suffix + README triad pack.
+
+    Loaded from `docs/.../Brand/canonicals/_validators/multilingual-pack.yml`
+    via ``parse_multilingual_pack_yaml``. Carries the Pack A3 surfaces under
+    a single typed pack so the validator can resolve locale + triad rules
+    from one operator artifact.
+
+    Severity-override knob ``default_triad_severity`` operationalises the
+    C-71-2 inline-ratify gate (``warning`` = warn-until-2-bilingual default;
+    ``error`` = strict-day-1 override matching Pack A1 precedent).
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    pack_version: str = Field(pattern=r"^v[0-9]+\.[0-9]+\.[0-9]+$")
+    last_edited: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
+    last_edited_by: str = Field(min_length=1)
+    canonical_source_refs: tuple[str, ...]
+    layers_enabled: dict[str, bool] = Field(default_factory=dict)
+    default_triad_severity: Severity = "warning"
+    locale_suffix_rules: tuple[LocaleSuffixRule, ...] = ()
+    readme_triad_rules: tuple[ReadmeTriadRule, ...] = ()
+
+
+# -----------------------------------------------------------------------------
 # Composite pack -- single Pydantic model loaded from register-pack.yml
 # -----------------------------------------------------------------------------
 
@@ -857,6 +1110,280 @@ def parse_register_pack_yaml(path: Path) -> BrandVoiceRegisterPack | None:
     return BrandVoiceRegisterPack.model_validate(raw)
 
 
+# -----------------------------------------------------------------------------
+# I71 P2 -- Pack A2 + A3 + Addition 11 parsers (additive)
+# -----------------------------------------------------------------------------
+
+
+def parse_gantt_confidence_rules(path: Path) -> list[GanttConfidenceRule]:
+    """Return the 5-level confidence ladder per BRAND_GANTT_DISCIPLINE.md §4.
+
+    The §4 structure is stable (5 named bands with allowed-variant assignment
+    derived from the discipline's §4 "When to use" column). The parser emits
+    the 5 rules directly with canonical labels rather than fragile
+    markdown-table regex parsing (same approach as ``parse_audience_quadrants``
+    for §2). Returns ``[]`` when the canonical is absent (graceful skip).
+
+    Allowed-variant assignment from §4 "When to use":
+        Band 5 Confirmed  -> Variant B post-contract.
+        Band 4 Probable   -> Variant B mid-acceptance.
+        Band 3 Posture    -> Variant A + Variant C.
+        Band 2 Hypothesis -> Variant C only.
+        Band 1 Reserved   -> Variant A only.
+    """
+    if not path.exists():
+        return []
+    return [
+        GanttConfidenceRule(
+            band=5,
+            label="Confirmed",
+            allowed_variants=("B",),
+            display_rule="solid bar + dates in title",
+        ),
+        GanttConfidenceRule(
+            band=4,
+            label="Probable",
+            allowed_variants=("B",),
+            display_rule="solid bar + dates with ~ prefix",
+        ),
+        GanttConfidenceRule(
+            band=3,
+            label="Posture",
+            allowed_variants=("A", "C"),
+            display_rule="dotted bar + dates with ~ prefix + footnote-mark",
+        ),
+        GanttConfidenceRule(
+            band=2,
+            label="Hypothesis",
+            allowed_variants=("C",),
+            display_rule="dotted bar + dates with ? prefix + explicit hypothesis footnote",
+        ),
+        GanttConfidenceRule(
+            band=1,
+            label="Reserved",
+            allowed_variants=("A",),
+            display_rule="phase ribbon only; no bars",
+        ),
+    ]
+
+
+def parse_audience_quadrant_rules(path: Path) -> list[AudienceQuadrantRule]:
+    """Return the 4 quadrant-assignment rules per BRAND_GANTT_DISCIPLINE.md §2.
+
+    Codifies the §2 4-quadrant matrix as enforceable variant-vs-surface rules:
+    customer-pack ships Variant A or B; operator-internal ships Variant C or D.
+    Returns ``[]`` when the canonical is absent.
+    """
+    if not path.exists():
+        return []
+    return [
+        AudienceQuadrantRule(
+            variant="A",
+            audience_facing="customer",
+            data_maturity="low",
+            forbidden_in_customer_pack=False,
+            forbidden_in_operator_pack=True,
+        ),
+        AudienceQuadrantRule(
+            variant="B",
+            audience_facing="customer",
+            data_maturity="high",
+            forbidden_in_customer_pack=False,
+            forbidden_in_operator_pack=True,
+        ),
+        AudienceQuadrantRule(
+            variant="C",
+            audience_facing="operator",
+            data_maturity="low",
+            forbidden_in_customer_pack=True,
+            forbidden_in_operator_pack=False,
+        ),
+        AudienceQuadrantRule(
+            variant="D",
+            audience_facing="operator",
+            data_maturity="high",
+            forbidden_in_customer_pack=True,
+            forbidden_in_operator_pack=False,
+        ),
+    ]
+
+
+def parse_gantt_pack_yaml(path: Path) -> BrandGanttPack | None:
+    """Load `gantt-pack.yml` and return a typed pack, or None if absent.
+
+    Same contract as ``parse_register_pack_yaml`` for the sibling Pack A1
+    surface: graceful absence; yaml import-tolerant; Pydantic schema is the
+    contract.
+    """
+    if not path.exists():
+        return None
+    try:
+        import yaml
+    except ImportError:
+        return None
+    raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return BrandGanttPack.model_validate(raw)
+
+
+def parse_locale_suffix_rules(path: Path) -> list[LocaleSuffixRule]:
+    """Return the 3 per-locale README suffix rules per BRAND_MULTILINGUAL_CONTRACT.md §2.
+
+    The §2 contract enumerates 3 active audience languages: fr (Tier 0), es
+    (Tier 1), en (Tier 2). Returns ``[]`` when the canonical is absent.
+    """
+    if not path.exists():
+        return []
+    return [
+        LocaleSuffixRule(
+            locale="en",
+            expected_suffix=".en.md",
+            frontmatter_language_value="en",
+        ),
+        LocaleSuffixRule(
+            locale="fr",
+            expected_suffix=".fr.md",
+            frontmatter_language_value="fr",
+        ),
+        LocaleSuffixRule(
+            locale="es",
+            expected_suffix=".es.md",
+            frontmatter_language_value="es",
+        ),
+    ]
+
+
+def parse_readme_triad_rules(path: Path) -> list[ReadmeTriadRule]:
+    """Return the 5-line README triad rule per BRAND_MULTILINGUAL_CONTRACT.md §2 + D-IH-70-P.
+
+    Returns one default rule with the pointer line-count window 5-12 (5-line
+    skeleton + reasonable expansion room), required pointer keyword
+    ``"Per-language READMEs:"`` from the §2 canonical example, and
+    severity ``warning`` (downgradable to ``error`` via the C-71-2
+    inline-ratify gate operationalised as ``default_triad_severity`` on
+    ``BrandMultilingualPack``).
+    """
+    if not path.exists():
+        return []
+    return [
+        ReadmeTriadRule(
+            pointer_line_count_min=3,
+            pointer_line_count_max=12,
+            required_pointer_keywords=("Per-language READMEs:",),
+            per_locale_readme_required=True,
+            default_severity="warning",
+        ),
+    ]
+
+
+def parse_multilingual_pack_yaml(path: Path) -> BrandMultilingualPack | None:
+    """Load `multilingual-pack.yml` and return a typed pack, or None if absent.
+
+    Same contract as ``parse_register_pack_yaml`` for the sibling Pack A1
+    surface.
+    """
+    if not path.exists():
+        return None
+    try:
+        import yaml
+    except ImportError:
+        return None
+    raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return BrandMultilingualPack.model_validate(raw)
+
+
+def parse_localised_format_rules(
+    path: Path,
+) -> tuple[
+    list[NumberFormatRule],
+    list[CurrencyFormatRule],
+    list[DateFormatRule],
+]:
+    """Return per-locale number / currency / date format rules per BRAND_LOCALISED_FORMATS.md.
+
+    The canonical declares fixed per-locale rules (en / fr / es). The parser
+    emits them directly rather than parsing the canonical's markdown table
+    fragilely; the canonical's existence remains the authority for "is this
+    layer enabled" (parser returns empty triples when canonical is absent).
+    """
+    if not path.exists():
+        return [], [], []
+
+    NBSP_NARROW = "\u202F"  # U+202F NARROW NO-BREAK SPACE per fr thousands
+    number_rules = [
+        NumberFormatRule(
+            locale="en",
+            thousands_separator=",",
+            decimal_separator=".",
+        ),
+        NumberFormatRule(
+            locale="fr",
+            thousands_separator=NBSP_NARROW,
+            decimal_separator=",",
+        ),
+        NumberFormatRule(
+            locale="es",
+            thousands_separator=".",
+            decimal_separator=",",
+        ),
+    ]
+    currency_rules = [
+        CurrencyFormatRule(
+            locale="en", currency="EUR", symbol_position="prefix", symbol_separator=""
+        ),
+        CurrencyFormatRule(
+            locale="fr", currency="EUR", symbol_position="suffix", symbol_separator=" "
+        ),
+        CurrencyFormatRule(
+            locale="es", currency="EUR", symbol_position="suffix", symbol_separator=" "
+        ),
+        CurrencyFormatRule(
+            locale="en", currency="USD", symbol_position="prefix", symbol_separator=""
+        ),
+        CurrencyFormatRule(
+            locale="en", currency="GBP", symbol_position="prefix", symbol_separator=""
+        ),
+    ]
+    date_rules = [
+        DateFormatRule(
+            locale="en",
+            format_class="iso",
+            pattern=r"^\d{4}-\d{2}-\d{2}$",
+            example="2026-05-14",
+        ),
+        DateFormatRule(
+            locale="fr",
+            format_class="iso",
+            pattern=r"^\d{4}-\d{2}-\d{2}$",
+            example="2026-05-14",
+        ),
+        DateFormatRule(
+            locale="es",
+            format_class="iso",
+            pattern=r"^\d{4}-\d{2}-\d{2}$",
+            example="2026-05-14",
+        ),
+        DateFormatRule(
+            locale="en",
+            format_class="natural_long",
+            pattern=r"^[A-Z][a-z]+ \d{1,2}, \d{4}$",
+            example="May 14, 2026",
+        ),
+        DateFormatRule(
+            locale="fr",
+            format_class="natural_long",
+            pattern=r"^\d{1,2} [a-zéûôîà]+ \d{4}$",
+            example="14 mai 2026",
+        ),
+        DateFormatRule(
+            locale="es",
+            format_class="natural_long",
+            pattern=r"^\d{1,2} de [a-záéíóúñ]+ de \d{4}$",
+            example="14 de mayo de 2026",
+        ),
+    ]
+    return number_rules, currency_rules, date_rules
+
+
 __all__ = [
     "Locale",
     "Severity",
@@ -885,10 +1412,28 @@ __all__ = [
     "ArchetypeViolation",
     "BrandedHouseViolation",
     "BrandVoiceRegisterPack",
+    # I71 P2 -- Pack A2 + A3 + Addition 11 additive surfaces
+    "GanttConfidenceRule",
+    "AudienceQuadrantRule",
+    "LocaleSuffixRule",
+    "ReadmeTriadRule",
+    "NumberFormatRule",
+    "CurrencyFormatRule",
+    "DateFormatRule",
+    "BrandGanttPack",
+    "BrandMultilingualPack",
     "parse_tic_families_from_canonical",
     "parse_english_register_rules",
     "parse_llm_tone_tells",
     "parse_register_matrix",
     "parse_audience_quadrants",
     "parse_register_pack_yaml",
+    # I71 P2 -- Pack A2 + A3 + Addition 11 parsers
+    "parse_gantt_confidence_rules",
+    "parse_audience_quadrant_rules",
+    "parse_gantt_pack_yaml",
+    "parse_locale_suffix_rules",
+    "parse_readme_triad_rules",
+    "parse_multilingual_pack_yaml",
+    "parse_localised_format_rules",
 ]

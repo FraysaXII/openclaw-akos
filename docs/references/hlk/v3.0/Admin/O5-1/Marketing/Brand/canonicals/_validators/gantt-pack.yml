@@ -1,0 +1,71 @@
+# Brand Gantt confidence + audience-quadrant validator -- operator-editable pack.
+#
+# Authored I71 P2 Pack A2 (2026-05-14). Consumed by
+# `akos.brand_voice_register.parse_gantt_pack_yaml`. Loaded by
+# `scripts/validate_brand_gantt_confidence.py` at runtime; overrides apply
+# over BRAND_GANTT_DISCIPLINE.md canonical defaults.
+#
+# Edit-then-PR: any change to this file requires operator approval (Brand
+# Manager + UX Designer joint owners). Document each override's rationale in
+# the PR description; link to the surfacing deliverable if applicable.
+#
+# Schema authority: `akos.brand_voice_register.BrandGanttPack`.
+# Schema-validation runs at validator startup; pack/schema drift fails fast.
+#
+# Sibling pack: `register-pack.yml` (Pack A1; brand voice register).
+# Sibling pack: `multilingual-pack.yml` (Pack A3; multilingual locale-suffix).
+#
+# Cross-references:
+#   - canonicals/_validators/README.md -- folder-level guide.
+#   - .cursor/plans/i71-cicd-discipline-and-aiops-baseline-maturity_a71c0d6e.plan.md §P2
+#   - docs/wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/master-roadmap.md
+#   - BRAND_GANTT_DISCIPLINE.md §§2,4,7
+
+pack_version: "v0.1.0"
+last_edited: "2026-05-14"
+last_edited_by: "Founder"
+
+canonical_source_refs:
+  - "BRAND_GANTT_DISCIPLINE.md §2 (4-quadrant audience matrix)"
+  - "BRAND_GANTT_DISCIPLINE.md §4 (5-level confidence ladder)"
+  - "BRAND_GANTT_DISCIPLINE.md §7 (validator forward-link to I71)"
+  - "BRAND_LOCALISED_FORMATS.md (Addition 11; per-locale number/currency/date)"
+
+# Per-layer enable flags (default: all true; strict-day-1 per the kickoff
+# §"Step 2a" rule for Pack A2; default_triad_severity governs the Pack A3
+# C-71-2 split which lives in `multilingual-pack.yml`).
+#
+# Operator may disable a layer temporarily for emergency triage; re-enable as
+# soon as the emergency is resolved; record the rationale in the PR
+# description.
+layers_enabled:
+  # Layer 2a-1 -- confidence band validity (band missing / out-of-ladder).
+  confidence_band_validity: true
+  # Layer 2a-2 -- variant/quadrant consistency (customer-pack only A|B; etc).
+  variant_quadrant_consistency: true
+  # Layer 2a-3 -- confidence inflation (Variant + Band allowed-variants).
+  confidence_inflation: true
+  # Layer 2a-4 -- data-maturity inversion (Variant A with band 4-5 / etc).
+  data_maturity_inversion: true
+  # Layer 2c (Addition 11) -- localised number/currency/date format scan.
+  # Loaded as INFO-level chassis at P2; concrete prose-walking is forward-charter
+  # per the plan's design-time pick (rule cardinality stays under sibling-spinout
+  # threshold; co-located in this pack until 2026-12 reassessment).
+  localised_formats: true
+
+# Typed pack surfaces (operator-loaded rules). Empty at the day-1 pack;
+# canonical defaults provide full coverage. Operators populate these only
+# when augmenting or overriding canonical rules.
+#
+# Schema for each surface lives in `akos.brand_voice_register`:
+#   - gantt_confidence_rules  -> GanttConfidenceRule
+#   - audience_quadrant_rules -> AudienceQuadrantRule
+#   - number_format_rules     -> NumberFormatRule
+#   - currency_format_rules   -> CurrencyFormatRule
+#   - date_format_rules       -> DateFormatRule
+
+gantt_confidence_rules: []
+audience_quadrant_rules: []
+number_format_rules: []
+currency_format_rules: []
+date_format_rules: []

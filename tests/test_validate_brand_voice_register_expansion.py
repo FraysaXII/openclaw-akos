@@ -78,7 +78,12 @@ class TestChassisModels:
         )
 
     def test_canonical_paths_keys_match_expected(self) -> None:
-        expected_keys = {
+        # P1 baseline keys MUST remain present (additive-only chassis extension
+        # contract per .cursor/rules/akos-governance-remediation.mdc + I71 P2
+        # kickoff §"DO NOT change existing model signatures"). P2 additively
+        # added gantt_pack_yaml + multilingual_pack_yaml + multilingual_contract
+        # + localised_formats; subsequent phases may add further keys.
+        p1_baseline_keys = {
             "copywriting_discipline",
             "english_patterns",
             "french_patterns",
@@ -88,7 +93,10 @@ class TestChassisModels:
             "gantt_discipline",
             "register_pack_yaml",
         }
-        assert set(CANONICAL_PATHS.keys()) == expected_keys
+        assert p1_baseline_keys <= set(CANONICAL_PATHS.keys()), (
+            f"P1 chassis CANONICAL_PATHS keys must remain (additive-only); "
+            f"missing: {p1_baseline_keys - set(CANONICAL_PATHS.keys())}"
+        )
 
     def test_tic_family_rejects_unknown_name(self) -> None:
         with pytest.raises(ValueError):
