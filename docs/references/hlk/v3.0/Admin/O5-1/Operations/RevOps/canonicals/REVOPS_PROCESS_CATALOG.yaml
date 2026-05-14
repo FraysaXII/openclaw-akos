@@ -1,0 +1,169 @@
+# REVOPS_PROCESS_CATALOG — Initiative 72 P8 (Round 6 split-P8: registry SHELLS at P8 entry)
+# Per D-IH-72-N (process catalog architecture = process_list.csv + REVOPS_PROCESS_CATALOG.yaml + paired SOPs;
+# all three SSOT for the same process per akos-executable-process-catalog.mdc Rule 1).
+# Per D-IH-72-Q cadence taxonomy: on_demand | scheduled | event_triggered | gated_operator.
+# Per D-IH-72-P RPA scaffolder: scripts/scaffold_engagement.py.
+# Per D-IH-72-S AIC role_owner pattern: AICs consume SOPs as humans do per akos-executable-process-catalog.mdc.
+#
+# Cross-references:
+#   .cursor/rules/akos-executable-process-catalog.mdc — Cursor rule mandating SOP + executable runbook pairing.
+#   docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv — governance SSOT (mirrored to process_list_mirror).
+#   scripts/revops_dispatch.py — runbook dispatcher (reads this YAML; routes by cadence per D-IH-72-Q).
+#   scripts/scaffold_engagement.py — RPA scaffolder for engagement-template instantiation (D-IH-72-P).
+
+version: 1
+authored: 2026-05-14
+authored_by: CMO
+authored_decision_id: D-IH-72-N
+last_review_at: 2026-05-14
+last_review_by: CMO
+last_review_decision_id: D-IH-72-N
+methodology_version_at_review: v3.0
+
+# Each process has: id, name, cadence, sop_path, runbook_pointer, role_owner_human,
+# role_owner_aic (AIC executor when applicable per D-IH-72-S), description, acceptance_criteria_human,
+# acceptance_criteria_automation, lifecycle_status.
+processes:
+
+  - id: revops_qbr_cycle
+    name: RevOps Quarterly Business Review cadence
+    cadence: scheduled
+    schedule_cron: "0 9 1 1,4,7,10 *"  # 9am day-1 of Jan/Apr/Jul/Oct (quarterly)
+    sop_path: SOP-REVOPS_QBR_001.md
+    runbook_pointer: scripts/validate_engagement_template_registry.py
+    process_list_id: tbi_ops_dtp_revops_qbr_001
+    role_owner_human: PMO
+    role_owner_aic: revops-analyst-aic
+    description: >
+      Quarterly Business Review reconciling per-engagement revenue + surfacing engagement-template promotion candidates +
+      calibrating forward-pipeline confidence + identifying cross-area portfolio risks.
+    acceptance_criteria_human: |
+      PMO interim (or RevOps Lead/Analyst post-activation) runs SOP §4 cycle manually.
+      QBR report authored at docs/wip/planning/72-marketing-area-governance-and-persona-registry-expansion/reports/qbr-YYYY-Qn.md.
+    acceptance_criteria_automation: |
+      validate_engagement_template_registry.py PASS + validate_engagement_template_promotion.py PASS + validate_hlk.py PASS.
+    lifecycle_status: scaffold
+
+  - id: engagement_template_promotion
+    name: Engagement template promotion ratification
+    cadence: gated_operator
+    sop_path: SOP-ENGAGEMENT_TEMPLATE_PROMOTION_001.md
+    runbook_pointer: scripts/validate_engagement_template_promotion.py
+    process_list_id: tbi_mkt_dtp_revops_template_promotion_001
+    role_owner_human: CMO
+    role_owner_aic: revops-lead-aic
+    description: >
+      Operator-gated promotion workflow flipping engagement templates from scaffold to active when 3+ engagements consume
+      the same template pattern per D-IH-72-B threshold.
+    acceptance_criteria_human: |
+      CMO + Account Management Manager review evidence pack; ratify or reject; PR-author commits via SOP §4.
+    acceptance_criteria_automation: |
+      validate_engagement_template_promotion.py PASS on the updated row (active templates require valid promotion_decision_id).
+    lifecycle_status: scaffold
+
+  - id: engagement_scaffold
+    name: Engagement RPA scaffolder
+    cadence: event_triggered
+    trigger: template_promoted
+    sop_path: SOP-ENGAGEMENT_SCAFFOLDING_001.md
+    runbook_pointer: scripts/scaffold_engagement.py
+    process_list_id: tbi_ops_dtp_revops_engagement_scaffold_001
+    role_owner_human: PMO
+    role_owner_aic: revops-analyst-aic
+    description: >
+      RPA scaffolder per D-IH-72-P: takes engagement_id + template_id args; copies Think Big/Clients/_engagement-template/
+      skeleton to Think Big/Clients/<slug>/; seeds frontmatter; opens PR.
+    acceptance_criteria_human: |
+      PMO reviews scaffolded folder + opens PR + assigns reviewer.
+    acceptance_criteria_automation: |
+      scaffold_engagement.py exits 0 with new folder + frontmatter; PR auto-opens; CI green.
+    lifecycle_status: scaffold
+
+  - id: revenue_rollup
+    name: Per-engagement revenue rollup refresh
+    cadence: scheduled
+    schedule_cron: "0 6 * * MON"  # 6am every Monday (weekly)
+    sop_path: TODO[I72-P9-revenue-rollup-sop]
+    runbook_pointer: governance.engagement_revenue_view
+    process_list_id: tbi_ops_dtp_revops_revenue_rollup_001
+    role_owner_human: RevOps Analyst
+    role_owner_aic: revops-analyst-aic
+    description: >
+      Weekly refresh of governance.engagement_revenue_view; surfaces variance vs forecast; triggers ad-hoc QBR-cycle
+      adjustments when variance exceeds threshold (10% per D-IH-72-N initial cut).
+    acceptance_criteria_human: |
+      RevOps Analyst reviews variance report + flags out-of-band engagements + reports to PMO.
+    acceptance_criteria_automation: |
+      governance.engagement_revenue_view query returns rows; per-engagement variance computed.
+    lifecycle_status: scaffold
+
+  - id: persona_audit
+    name: Persona registry audit
+    cadence: on_demand
+    sop_path: TODO[I72-followup-persona-audit-sop]
+    runbook_pointer: scripts/validate_persona_registry.py
+    process_list_id: tbi_ops_dtp_revops_persona_audit_001
+    role_owner_human: CMO
+    role_owner_aic: revops-analyst-aic
+    description: >
+      On-demand audit of PERSONA_REGISTRY.csv + PERSONA_SCENARIO_REGISTRY.csv; surfaces stale rows + missing cross-links;
+      proposes new persona rows from observed inbound patterns.
+    acceptance_criteria_human: |
+      CMO reviews audit report; ratifies new persona-row proposals or marks stale rows for deprecation.
+    acceptance_criteria_automation: |
+      validate_persona_registry.py + validate_persona_scenario_registry.py PASS.
+    lifecycle_status: scaffold
+
+  - id: crm_sync
+    name: CRM adapter sync
+    cadence: scheduled
+    schedule_cron: "0 4 * * *"  # 4am daily
+    sop_path: TODO[I72-P9-sop-crm-integration]  # SOP-CRM_INTEGRATION_001.md (P9 deliverable per D-IH-72-O)
+    runbook_pointer: TODO[I72-P9-runbook-crm-sync]  # CRM_ADAPTER_REGISTRY.csv driven dispatch (P9)
+    process_list_id: tbi_ops_dtp_revops_crm_sync_001
+    role_owner_human: RevOps Lead
+    role_owner_aic: revops-systems-specialist-aic
+    description: >
+      Daily sync per active CRM adapter row in CRM_ADAPTER_REGISTRY.csv (P9 deliverable per D-IH-72-O Normalized Adapter Pattern).
+      Holistika-internal AKOS holistika_ops adapter (status active) seeds the registry until external CRM adapters activate.
+    acceptance_criteria_human: |
+      RevOps Lead reviews sync report; reconciles drift; flags blocked adapters.
+    acceptance_criteria_automation: |
+      CRM_ADAPTER_REGISTRY.csv validator PASS (P9 deliverable); per-adapter sync exit code 0.
+    lifecycle_status: scaffold
+
+  - id: regulator_relationship_checkpoint
+    name: Regulator-relationship checkpoint
+    cadence: scheduled
+    schedule_cron: "0 9 1 */3 *"  # 9am day-1 every 3 months (quarterly checkpoint per ENISA cycle)
+    sop_path: ../../../Research/Intelligence/canonicals/SOP-REGULATOR_RELATIONSHIP_001.md
+    runbook_pointer: scripts/validate_intelligenceops_register.py
+    process_list_id: tbi_ops_dtp_revops_regulator_checkpoint_001
+    role_owner_human: Compliance
+    role_owner_aic: compliance-aic
+    description: >
+      Per-regulator quarterly checkpoint per SOP-REGULATOR_RELATIONSHIP_001.md cycle. ENISA-specific worked example;
+      generic body applies to any future regulator added to INTELLIGENCEOPS_REGISTER.csv with target_class=regulator.
+    acceptance_criteria_human: |
+      Compliance role_owner runs SOP §4 cycle for each active regulator row; updates evidence pack.
+    acceptance_criteria_automation: |
+      validate_intelligenceops_register.py PASS on the updated row + validate_hlk.py PASS.
+    lifecycle_status: scaffold
+
+  - id: media_counterparty_review
+    name: Media counterparty review
+    cadence: event_triggered
+    trigger: new_pr_engagement
+    sop_path: ../../../Marketing/Storytelling/canonicals/SOP-MEDIA_ONBOARDING_001.md
+    runbook_pointer: scripts/validate_intelligenceops_register.py
+    process_list_id: tbi_ops_dtp_revops_media_review_001
+    role_owner_human: Brand Manager
+    role_owner_aic: brand-manager-aic
+    description: >
+      Event-triggered review when new PR engagement lands (inbound press request OR Holistika-initiated story placement).
+      Onboards via SOP-MEDIA_ONBOARDING_001.md; tracks reliability progression C->B at 2+ accurate quotes.
+    acceptance_criteria_human: |
+      Brand Manager runs onboarding §4 flow; engagement record created at docs/wip/research/media/<slug>-engagement-record.md.
+    acceptance_criteria_automation: |
+      validate_intelligenceops_register.py PASS on the new row + validate_hlk.py PASS.
+    lifecycle_status: scaffold
