@@ -1,7 +1,7 @@
 ---
 language: en
 status: active
-role_owner: Brand Manager
+role_owner: Brand & Narrative Manager
 area: Marketing
 entity: Holistika Research SL
 program_id: shared

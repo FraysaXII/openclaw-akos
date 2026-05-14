@@ -2,7 +2,7 @@
 language: en
 status: active
 sop_id: BRAND-FRENCH-PATTERNS-001
-role_owner: Brand Manager
+role_owner: Brand & Narrative Manager
 area: Marketing
 entity: Holistika Research SL
 program_id: shared

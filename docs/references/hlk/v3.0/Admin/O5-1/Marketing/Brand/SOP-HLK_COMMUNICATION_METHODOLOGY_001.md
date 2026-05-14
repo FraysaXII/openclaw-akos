@@ -2,7 +2,7 @@
 language: en
 sop_id: SOP-HLK_COMMUNICATION_METHODOLOGY_001
 status: review
-role_owner: Brand Manager
+role_owner: Brand & Narrative Manager
 co_owners:
   - PMO
   - Compliance Manager

@@ -8,7 +8,7 @@ access_level: 4
 language: en
 register: external
 process_id: hol_eng_prc_proposal_001
-role_owner: Brand Manager
+role_owner: Brand & Narrative Manager
 role_parent_1: CMO
 area: MKT
 entity: Holistika

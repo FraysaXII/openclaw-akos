@@ -2,7 +2,7 @@
 language: en
 sop_id: SOP-HLK_REGRESSION_TO_ADVISOR_LOOP_001
 status: review
-role_owner: Brand Manager
+role_owner: Brand & Narrative Manager
 co_owners:
   - PMO
   - Business Controller

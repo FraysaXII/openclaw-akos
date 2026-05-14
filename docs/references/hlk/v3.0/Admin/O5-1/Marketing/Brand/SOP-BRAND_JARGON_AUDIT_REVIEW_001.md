@@ -8,7 +8,7 @@ access_level: 4
 language: en
 register: internal
 process_id: tbi_mkt_prc_jargon_audit_review_001
-role_owner: Brand Manager
+role_owner: Brand & Narrative Manager
 role_parent_1: CMO
 area: MKT
 entity: Holistika

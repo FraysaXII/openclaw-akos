@@ -2,7 +2,7 @@
 language: en
 status: active
 canonical: true
-role_owner: Storytelling Manager
+role_owner: Brand & Narrative Manager
 classification: way_of_working
 intellectual_kind: charter
 ssot: true

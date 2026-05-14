@@ -2,14 +2,14 @@
 language: en
 status: review
 canonical: true
-role_owner: Brand Manager
+role_owner: Brand & Narrative Manager
 classification: way_of_working
 intellectual_kind: SOP
 ssot: true
 authored: 2026-05-14
 last_review: 2026-05-14
 last_review_at: 2026-05-14
-last_review_by: Brand Manager
+last_review_by: Brand & Narrative Manager
 last_review_decision_id: D-IH-72-J
 methodology_version_at_review: v3.0
 companion_to:

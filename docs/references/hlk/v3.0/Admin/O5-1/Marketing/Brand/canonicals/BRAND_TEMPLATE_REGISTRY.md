@@ -5,7 +5,7 @@ classification: canonical
 access_level: 4
 language: en
 register: internal
-role_owner: Brand Manager
+role_owner: Brand & Narrative Manager
 area: MKT
 entity: Think Big
 process_id: tbi_mkt_prc_template_registry_mtnce_001
