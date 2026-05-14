@@ -1,0 +1,82 @@
+# Render-pipeline ownership coverage validator -- operator-editable pack.
+#
+# Authored I71 P5 Pack A4 (2026-05-14). Consumed by
+# `akos.brand_voice_register.parse_render_ownership_pack_yaml`. Loaded by
+# `scripts/validate_render_ownership.py` at runtime; overrides apply over
+# WORKSPACE_BLUEPRINT_HOLISTIKA.md §16 canonical defaults.
+#
+# Edit-then-PR: any change to this file requires operator approval (PMO +
+# Brand Manager joint owners; WORKSPACE_BLUEPRINT §16 carries joint
+# role_owner). Document each override's rationale in the PR description;
+# link to the surfacing engagement deliverable if applicable.
+#
+# Schema authority: `akos.brand_voice_register.RenderOwnershipPack`.
+# Schema-validation runs at validator startup; pack/schema drift fails fast.
+#
+# Sibling packs:
+#   - `register-pack.yml`      (Pack A1; brand voice register).
+#   - `gantt-pack.yml`         (Pack A2; Gantt confidence ladder).
+#   - `multilingual-pack.yml`  (Pack A3; multilingual locale-suffix).
+#
+# Cross-references:
+#   - canonicals/_validators/README.md -- folder-level guide.
+#   - .cursor/plans/i71-cicd-discipline-and-aiops-baseline-maturity_a71c0d6e.plan.md §P5
+#   - docs/wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/master-roadmap.md
+#   - WORKSPACE_BLUEPRINT_HOLISTIKA.md §16 (canonical 9-row matrix)
+#   - WORKSPACE_BLUEPRINT_HOLISTIKA.md §18 (observability routing; Pack A4 row)
+#   - D-IH-71-S (Pack A4 ratification)
+
+pack_version: "v0.1.0"
+last_edited: "2026-05-14"
+last_edited_by: "Founder"
+
+canonical_source_refs:
+  - "WORKSPACE_BLUEPRINT_HOLISTIKA.md §16 (Render pipeline ownership matrix; full 9-deliverable canonical)"
+  - "WORKSPACE_BLUEPRINT_HOLISTIKA.md §16.1 (Per-owner responsibility table)"
+  - "WORKSPACE_BLUEPRINT_HOLISTIKA.md §16.2 (Per-deliverable owner-coverage check)"
+  - "WORKSPACE_BLUEPRINT_HOLISTIKA.md §16.3 (Transition triggers; PMO -> RevOps; PMO -> HLK Tech Lab)"
+  - "BRAND_COUNTERPARTY_README_CONTRACT.md (counterparty-brief 5-line pointer pattern)"
+  - "BRAND_GANTT_DISCIPLINE.md §7 (Gantt artifact forward-link to validator)"
+  - "D-IH-71-S (Pack A4 ratification: render-ownership coverage thresholds + transition-trigger advisory + chassis-extension verdict)"
+
+# Pack A4 default posture: advisory (warning + info). Render-ownership
+# enforcement is forward-tracked -- transition hints don't block CI. Operators
+# can promote individual rules to `error` severity via the typed
+# render_ownership_rules surface below.
+#
+# Per-layer enable flags (default: all true). Disable a layer temporarily for
+# emergency triage; re-enable as soon as the emergency is resolved; record the
+# rationale in the PR description.
+layers_enabled:
+  # Layer P5-1 -- render-ownership coverage scan (per-deliverable role_owner
+  # frontmatter check against the canonical §16 9-row matrix).
+  render_ownership_coverage: true
+  # Layer P5-2 -- transition-trigger hint emission (PMO -> RevOps when
+  # pipeline >= 3 active engagements; operator-curated hints in the
+  # transition_trigger_hints tuple below).
+  transition_trigger_hints: true
+
+# Typed pack surfaces (operator-loaded rules). Empty at the day-1 pack;
+# canonical defaults provide full coverage (9 rules per WORKSPACE §16).
+# Operators populate these only when augmenting or overriding canonical
+# rules (e.g., promoting a deliverable_kind to `error` severity, or
+# remapping a deliverable_kind to a different role_owner when an
+# engagement-specific assignment differs from the canonical default).
+#
+# Schema for each surface lives in `akos.brand_voice_register`:
+#   - render_ownership_rules   -> RenderOwnershipRule (frozen Pydantic)
+#   - transition_trigger_hints -> tuple[str, ...] (free-form advisory prose)
+
+render_ownership_rules: []
+
+# §16.3 forward-tracked transition advisories. Each string surfaces as an
+# `info` advisory row in the validator output. Examples (commented; uncomment
+# + edit when a transition trigger fires):
+#
+#   - "Render tooling complexity exceeds operator-handled threshold (3 distinct"
+#     " WeasyPrint CSS regressions in last 30 days). PMO -> HLK Tech Lab"
+#     " productization transition trigger fired per WORKSPACE §16.3."
+#   - "ENGAGEMENT_TEMPLATE_REGISTRY shows 4 engagements consuming the same"
+#     " template pattern. PMO -> RevOps transition trigger fired per"
+#     " D-IH-72-B 3+-engagement drift signal."
+transition_trigger_hints: []

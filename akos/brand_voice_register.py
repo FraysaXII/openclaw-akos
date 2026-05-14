@@ -157,7 +157,47 @@ CANONICAL_PATHS: dict[str, str] = {
         "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/"
         "BRAND_LOCALISED_FORMATS.md"
     ),
+    "workspace_blueprint": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/"
+        "WORKSPACE_BLUEPRINT_HOLISTIKA.md"
+    ),
+    "render_ownership_pack_yaml": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/"
+        "render-ownership-pack.yml"
+    ),
 }
+
+
+# -----------------------------------------------------------------------------
+# I71 P5 -- Pack A4 -- render-pipeline ownership coverage (WORKSPACE §16)
+# Additive; no signature changes to existing models per the additive-only
+# chassis contract (P1 28-case regression suite locks signatures).
+# -----------------------------------------------------------------------------
+
+
+DeliverableKind = Literal[
+    "deck",
+    "proposal",
+    "tarification",
+    "gantt",
+    "dossier",
+    "counterparty_brief",
+    "objections",
+    "press",
+    "advisor_email",
+]
+
+STANDARD_DELIVERABLE_KINDS: tuple[str, ...] = (
+    "deck",
+    "proposal",
+    "tarification",
+    "gantt",
+    "dossier",
+    "counterparty_brief",
+    "objections",
+    "press",
+    "advisor_email",
+)
 
 
 # -----------------------------------------------------------------------------
@@ -1384,6 +1424,156 @@ def parse_localised_format_rules(
     return number_rules, currency_rules, date_rules
 
 
+# -----------------------------------------------------------------------------
+# I71 P5 -- Pack A4 -- RenderOwnershipRule + RenderOwnershipPack chassis
+# -----------------------------------------------------------------------------
+
+
+class RenderOwnershipRule(BaseModel):
+    """One row of WORKSPACE_BLUEPRINT_HOLISTIKA.md §16 render-pipeline ownership.
+
+    Maps a per-deliverable-kind expected `role_owner` (matches a `role_name`
+    from baseline_organisation.csv) to a surface glob describing where this
+    deliverable lives in engagement folders (e.g.,
+    ``02-customer-pack/deck.customer.*.md``).
+
+    Pack A4 default_severity is ``warning`` per the discipline -- render
+    ownership is forward-tracked advisory (transition triggers PMO -> RevOps
+    when pipeline >= 3 active engagements; PMO -> HLK Tech Lab when render
+    tooling complexity exceeds operator-handled threshold); transition hints
+    don't block CI. Operators can promote to ``error`` via
+    ``render-ownership-pack.yml`` per-rule overrides.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    deliverable_kind: DeliverableKind
+    expected_role_owner: str = Field(min_length=1)
+    surface_pattern: str = Field(min_length=1)
+    default_severity: Severity = "warning"
+    canonical_section: str = "WORKSPACE_BLUEPRINT_HOLISTIKA.md §16"
+
+
+class RenderOwnershipPack(BaseModel):
+    """Operator-editable render-ownership override pack.
+
+    Loaded from `docs/.../Brand/canonicals/_validators/render-ownership-pack.yml`
+    via ``parse_render_ownership_pack_yaml``. Same shape as
+    ``BrandGanttPack`` / ``BrandMultilingualPack`` sibling packs.
+
+    ``transition_trigger_hints`` carries the §16.3 forward-tracked transition
+    advisories (PMO -> RevOps; PMO -> HLK Tech Lab) as free-form prose that
+    the validator surfaces as ``info`` advisories when pipeline cardinality
+    exceeds the threshold codified at WORKSPACE §16.3.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    pack_version: str = Field(pattern=r"^v[0-9]+\.[0-9]+\.[0-9]+$")
+    last_edited: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
+    last_edited_by: str = Field(min_length=1)
+    canonical_source_refs: tuple[str, ...]
+    layers_enabled: dict[str, bool] = Field(default_factory=dict)
+    render_ownership_rules: tuple[RenderOwnershipRule, ...] = ()
+    transition_trigger_hints: tuple[str, ...] = ()
+
+
+# -----------------------------------------------------------------------------
+# I71 P5 -- Pack A4 parsers
+# -----------------------------------------------------------------------------
+
+
+def parse_render_ownership_rules(path: Path) -> list[RenderOwnershipRule]:
+    """Return the 9 canonical render-ownership rules per WORKSPACE §16.
+
+    The §16 structure is stable (per-owner table at §16.1 + per-deliverable
+    owner-coverage check at §16.2 + transition triggers at §16.3). The parser
+    emits the 9 rules directly with canonical ``role_owner`` (matching
+    ``baseline_organisation.csv`` ``role_name`` values) rather than fragile
+    markdown-table regex parsing (same approach as ``parse_audience_quadrants``
+    for §2 of BRAND_GANTT_DISCIPLINE). Returns ``[]`` when the canonical is
+    absent (graceful skip).
+
+    Deliverable -> role_owner mapping derived from WORKSPACE §16.1:
+
+        deck                 -> Copywriter       (Brand/Copywriter authors prose)
+        proposal             -> PMO              (engagement orchestration)
+        tarification         -> PMO              (engagement orchestration; financial)
+        gantt                -> UX Designer      (Brand/UX-Designer; gantt discipline)
+        dossier              -> PMO              (per-engagement companion artifact)
+        counterparty_brief   -> Copywriter       (5-line README pointer per multilingual contract)
+        objections           -> Account Manager  (per-account relationship signals)
+        press                -> Storytelling Manager (M3 Storytelling sub-area; PR Manager subordinate)
+        advisor_email        -> PMO              (engagement orchestration; advisor track)
+    """
+    if not path.exists():
+        return []
+    return [
+        RenderOwnershipRule(
+            deliverable_kind="deck",
+            expected_role_owner="Copywriter",
+            surface_pattern="02-customer-pack/deck.customer.*.md",
+        ),
+        RenderOwnershipRule(
+            deliverable_kind="proposal",
+            expected_role_owner="PMO",
+            surface_pattern="02-customer-pack/proposal.*.md",
+        ),
+        RenderOwnershipRule(
+            deliverable_kind="tarification",
+            expected_role_owner="PMO",
+            surface_pattern="02-customer-pack/tarification.*.md",
+        ),
+        RenderOwnershipRule(
+            deliverable_kind="gantt",
+            expected_role_owner="UX Designer",
+            surface_pattern="02-customer-pack/gantt.*.md",
+        ),
+        RenderOwnershipRule(
+            deliverable_kind="dossier",
+            expected_role_owner="PMO",
+            surface_pattern="02-customer-pack/dossier.*.md",
+        ),
+        RenderOwnershipRule(
+            deliverable_kind="counterparty_brief",
+            expected_role_owner="Copywriter",
+            surface_pattern="README*.md",
+        ),
+        RenderOwnershipRule(
+            deliverable_kind="objections",
+            expected_role_owner="Account Manager",
+            surface_pattern="01-operator-pack/objections*.md",
+        ),
+        RenderOwnershipRule(
+            deliverable_kind="press",
+            expected_role_owner="Storytelling Manager",
+            surface_pattern="02-customer-pack/press*.md",
+        ),
+        RenderOwnershipRule(
+            deliverable_kind="advisor_email",
+            expected_role_owner="PMO",
+            surface_pattern="02-customer-pack/advisor-email*.md",
+        ),
+    ]
+
+
+def parse_render_ownership_pack_yaml(path: Path) -> RenderOwnershipPack | None:
+    """Load `render-ownership-pack.yml` and return a typed pack, or None if absent.
+
+    Same contract as ``parse_register_pack_yaml`` for the sibling Pack A1/A2/A3
+    surfaces: graceful absence; yaml import-tolerant; Pydantic schema is the
+    contract.
+    """
+    if not path.exists():
+        return None
+    try:
+        import yaml
+    except ImportError:
+        return None
+    raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return RenderOwnershipPack.model_validate(raw)
+
+
 __all__ = [
     "Locale",
     "Severity",
@@ -1392,8 +1582,10 @@ __all__ = [
     "SubMarkClass",
     "VoicePersonaClass",
     "EngagementTypeClass",
+    "DeliverableKind",
     "STANDARD_TIC_FAMILY_NAMES",
     "STANDARD_REGISTER_TOKEN_NAMES",
+    "STANDARD_DELIVERABLE_KINDS",
     "CANONICAL_PATHS",
     "TicFamily",
     "RegisterRule",
@@ -1436,4 +1628,9 @@ __all__ = [
     "parse_readme_triad_rules",
     "parse_multilingual_pack_yaml",
     "parse_localised_format_rules",
+    # I71 P5 -- Pack A4 additive surfaces + parsers
+    "RenderOwnershipRule",
+    "RenderOwnershipPack",
+    "parse_render_ownership_rules",
+    "parse_render_ownership_pack_yaml",
 ]

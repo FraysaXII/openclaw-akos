@@ -505,18 +505,45 @@ flowchart TB
 
 ## 18. Observability routing matrix (I71 AIOps baseline)
 
-> Added I71 P0 (2026-05-13). Complements section 16 (who owns each render pipeline stage) with **where operational and AI-observability signals are reviewed** and which **role class** is the first routing hop. This is a routing contract, not a deployment guide.
+> Added I71 P0 (2026-05-13). Expanded I71 P5 (2026-05-14) to per-CI-gate routing rows per **C-71-5 every-gate-its-own-row** default ratified via `D-IH-71-T`. Complements section 16 (who owns each render pipeline stage) with **where operational and AI-observability signals are reviewed** and which **role class** is the first routing hop. This is a routing contract, not a deployment guide.
+
+### 18.1 Signal-class routing (high-level)
 
 | Signal class | Typical source | First routing hop (role class) | Notes |
 |:---|:---|:---|:---|
 | Brand voice register drift | `validate_brand_voice_register.py` (I71 Pack A1, ACTIVE: 10-layer chassis — see `BRAND_COPYWRITING_DISCIPLINE.md §2` + `canonicals/_validators/register-pack.yml`) | Marketing / Copywriter charter owner | Escalate to Brand Manager if cross-sub-discipline; strict-day-1 per D-IH-71-F (FAIL on any error-severity hit) |
 | Gantt confidence / audience matrix | `validate_brand_gantt_confidence.py` (I71 pack A2) | Brand discipline owner + PMO (timeline truth) | Ties to `BRAND_GANTT_DISCIPLINE.md` |
 | Multilingual README / locale files | `validate_brand_multilingual.py` (I71 pack A3) | Brand + engagement lead for the client folder | Per **D-IH-70-P** three-file pattern |
-| Render ownership gap | `validate_render_ownership.py` (I71 pack A4) | PMO + area role from section 16 row | Feeds I72 template promotion when owner missing |
-| Deploy / runtime errors | Sentry (consumer repos; I68 format) | System Owner + owning repo’s role from `REPOSITORY_REGISTRY.csv` | Use operator MCP (`user-sentry`) |
-| AI trace / eval regressions | Langfuse (where wired) | System Owner + PMO for methodology experiments | Use operator MCP (`user-langfuse`); scope grows I71 P5+ |
+| Render ownership gap | `validate_render_ownership.py` (I71 pack A4) | PMO + area role from section 16 row | Feeds I72 template promotion when owner missing; D-IH-71-S |
+| Deploy / runtime errors | Sentry (consumer repos; I68 format) | System Owner + owning repo's role from `REPOSITORY_REGISTRY.csv` | Use operator MCP (`user-sentry`); D-IH-71-T MCP smoke advisory row in release-gate |
+| AI trace / eval regressions | Langfuse (where wired) | System Owner + PMO for methodology experiments | Use operator MCP (`user-langfuse`); D-IH-71-T MCP smoke advisory row in release-gate; scope grows I71 P5+ |
 
-**Strand B scope (P0):** MCP cross-links and this matrix only; no mandate to provision new SaaS tenants in this commit.
+### 18.2 Per-CI-gate routing rows (C-71-5 every-gate-its-own-row; I71 P5)
+
+> Added I71 P5 (2026-05-14) per **C-71-5** default ratified via `D-IH-71-T`. Every CI gate that exists today carries its own row + owner + channel + severity + playbook. Per `.cursor/rules/akos-holistika-operations.mdc` SOC posture: dashboard URLs surface as role-based-access pointers (not secret-leaking URLs); secrets never appear in the table cells.
+
+| CI gate | Owner role | First-hop channel | Default severity | Playbook | Dashboard cross-link (SOC-redacted) |
+|:---|:---|:---|:---|:---|:---|
+| `validate_brand_voice_register.py` (Pack A1) | Brand Manager → Copywriter | Slack `#brand-validators` + email to Copywriter | strict (FAIL) | [`BRAND_COPYWRITING_DISCIPLINE.md §2`](../../Marketing/Brand/Copywriter/canonicals/BRAND_COPYWRITING_DISCIPLINE.md) + [`register-pack.yml`](../../Marketing/Brand/canonicals/_validators/register-pack.yml) | (none today; Vale sibling supplements regex chassis) |
+| `validate_brand_gantt_confidence.py` (Pack A2) | Brand Manager → UX Designer | Slack `#brand-validators` + email to UX Designer | strict (FAIL) | [`BRAND_GANTT_DISCIPLINE.md §4`](../../Marketing/Brand/UX%20Designer/canonicals/BRAND_GANTT_DISCIPLINE.md) + [`gantt-pack.yml`](../../Marketing/Brand/canonicals/_validators/gantt-pack.yml) | (none today) |
+| `validate_brand_multilingual.py` (Pack A3) | Brand Manager → Copywriter + PMO (engagement lead) | Slack `#brand-validators` + per-engagement folder thread | strict-day-1 per `D-IH-71-M` C-71-2 ratified | [`BRAND_MULTILINGUAL_CONTRACT.md §2`](../../Marketing/Brand/canonicals/BRAND_MULTILINGUAL_CONTRACT.md) + [`multilingual-pack.yml`](../../Marketing/Brand/canonicals/_validators/multilingual-pack.yml) | (none today) |
+| `validate_render_ownership.py` (Pack A4) | Brand Manager + PMO | Slack `#brand-validators` + per-engagement folder thread | advisory (warning + info; never blocks) per `D-IH-71-S` | [`WORKSPACE_BLUEPRINT_HOLISTIKA.md §16`](WORKSPACE_BLUEPRINT_HOLISTIKA.md) + [`render-ownership-pack.yml`](../../Marketing/Brand/canonicals/_validators/render-ownership-pack.yml) | (none today; transition hints surface as `info` advisories) |
+| `validate_brand_voice_vale` (Tier 1 Vale sibling) | Brand Manager → Copywriter | Slack `#brand-validators` | warning per `D-IH-71-O` C-71-Vale-1 default; host-conditional SKIP when binary absent | [`.vale.ini`](../../../../../../../../.vale.ini) + [`scripts/generate_vale_styles.py`](../../../../../../../../scripts/generate_vale_styles.py) | (none today) |
+| `validate_review_stamps.py` (Strand C2; I71 P4) | PMO + System Owner | Slack `#governance-validators` + `REVIEW_STAMP_INBOX.md` sidecar | advisory (INFO; never blocks) per `D-IH-71-Q` | [`SOP-RELEASE_TAXONOMY_001.md`](../../Tech/System%20Owner/canonicals/SOP-RELEASE_TAXONOMY_001.md) + [`REVIEW_STAMP_INBOX.md`](../../../../../../../../docs/wip/planning/REVIEW_STAMP_INBOX.md) | (none today; future panel `/operator/governance/freshness-dashboard/` reserved per `HLK_ERP_ARCHITECTURE.md §4`) |
+| `check_observability_mcps.py` (Strand B MCP smoke; I71 P5) | System Owner + PMO | Slack `#aiops-baseline` | advisory (INFO; never blocks) per `D-IH-71-T` | [`akos-holistika-operations.mdc`](../../../../../../../../.cursor/rules/akos-holistika-operations.mdc) §"SOC / Security" | Sentry dashboard + Langfuse project (role-based-access via operator MCPs `user-sentry` + `user-langfuse`; URLs surfaced through Cursor MCP session, not in CI logs) |
+| `release-gate.py` (meta-gate failure) | System Owner | Slack `#governance-validators` (escalate to PMO) | FAIL (when meta-gate breaks for non-validator reasons: missing scripts, broken Python env, etc.) | [`SOP-CICD_BASELINE_001.md`](../../Tech/System%20Owner/canonicals/SOP-CICD_BASELINE_001.md) | (none today) |
+
+**Severity ladder (per-row):**
+
+- **strict (FAIL)** — release-gate blocks; CI red; commit blocked unless emergency soft-toggle env override.
+- **warning** — release-gate row reports level=`FAIL` for warning-level hits; operator-resolvable without env override.
+- **advisory (INFO; never blocks)** — release-gate row reports level=`INFO` regardless of validator hits; operator-resolvable on cadence; never blocks CI.
+
+**Playbook posture:** each playbook link points at the canonical that defines the rule + the operator-editable `<pack>.yml` that carries the override surface. When a row fires, the operator reads the canonical (what the discipline says), the pack YAML (what's currently allowed), and the validator hit (which deliverable surface drifted) -- then opens a PR against the canonical or pack as appropriate.
+
+**Dashboard cross-link posture (SOC):** per `.cursor/rules/akos-holistika-operations.mdc` §"SOC / Security", dashboard URLs are surfaced through role-based-access channels (operator Cursor MCP session for Sentry + Langfuse), never via secret-leaking direct URLs in this table. The `user-sentry` and `user-langfuse` MCPs handle the URL → role-checked-access flow; CI logs surface only the reachability bit (yes/partial/no) per `check_observability_mcps.py`.
+
+**Strand B scope (P0+P5):** P0 added the matrix scaffold + MCP cross-links + reservation slot. P5 expanded to per-CI-gate routing rows per C-71-5 default + wired `check_observability_mcps.py` advisory smoke into release-gate. No mandate to provision new SaaS tenants in this commit; Sentry + Langfuse remain operator-MCP-routed.
 
 ## Cross-references for §11-§18
 

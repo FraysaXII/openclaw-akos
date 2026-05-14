@@ -248,6 +248,50 @@ def run_brand_jargon_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_render_ownership_validation() -> tuple[bool, int]:
+    """Run render-pipeline ownership coverage validation (I71 P5 Pack A4).
+
+    Returns ``(ok, exit_code)``. Wired as **advisory** row (WARNING level by
+    default per the §16 discipline -- render-ownership coverage is forward-
+    tracked; transition hints don't block CI). Promote to PASS/FAIL by
+    setting ``AKOS_RENDER_OWNERSHIP_STRICT=1`` (per-rule severity overrides
+    available via ``canonicals/_validators/render-ownership-pack.yml``).
+
+    Closes the I71 validator-pack quartet (A1 voice register + A2 Gantt
+    confidence + A3 multilingual + A4 render ownership) per D-IH-71-S.
+    """
+    logger.info("Running RENDER OWNERSHIP coverage validation (I71 P5 Pack A4) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_render_ownership.py")],
+        timeout=60,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
+def run_observability_mcps_check() -> tuple[bool, int]:
+    """Check user-sentry + user-langfuse MCP reachability (I71 P5 Strand B).
+
+    Returns ``(ok, exit_code)``. Wired as **INFO** row (advisory only; never
+    blocks the release gate). Populates the WORKSPACE_BLUEPRINT §18 Strand B
+    observability routing rows with deterministic reachability data per
+    C-71-5 every-gate-its-own-row default applied at P5 inline-ratify (see
+    D-IH-71-T).
+
+    Filesystem-only Option C implementation -- no live MCP probe, no secret
+    values logged. SOC posture per ``.cursor/rules/akos-holistika-operations.mdc``.
+    """
+    logger.info("Running OBSERVABILITY MCP smoke (I71 P5 Strand B) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "check_observability_mcps.py")],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_review_stamp_validation() -> tuple[bool, int]:
     """Run review-stamp freshness validation (I71 P4 Strand C2).
 
@@ -631,6 +675,24 @@ def main() -> None:
     results.append((
         "INFO",
         f"Review-stamp freshness (scripts/validate_review_stamps.py — 4 mirrored canonicals process_list/decision/initiative/ops; 180-day window; advisory only; I71 P4 D-IH-71-Q; exit={review_stamp_rc})",
+    ))
+
+    render_ownership_ok, render_ownership_rc = run_render_ownership_validation()
+    if os.environ.get("AKOS_RENDER_OWNERSHIP_STRICT") == "1":
+        results.append((
+            "PASS" if render_ownership_ok else "FAIL",
+            f"BRAND render ownership (scripts/validate_render_ownership.py, STRICT via AKOS_RENDER_OWNERSHIP_STRICT=1; I71 P5 Pack A4 / D-IH-71-S; exit={render_ownership_rc})",
+        ))
+    else:
+        results.append((
+            "INFO",
+            f"BRAND render ownership (scripts/validate_render_ownership.py — WORKSPACE_BLUEPRINT §16 canonical 9-row matrix; advisory default per §16 discipline; I71 P5 Pack A4 / D-IH-71-S; exit={render_ownership_rc})",
+        ))
+
+    observability_ok, observability_rc = run_observability_mcps_check()
+    results.append((
+        "INFO",
+        f"Strand B observability MCP smoke (scripts/check_observability_mcps.py — user-sentry + user-langfuse reachability; never blocks; I71 P5 / D-IH-71-T; C-71-5 every-gate-its-own-row; reachable={'yes' if observability_ok else 'partial'}; exit={observability_rc})",
     ))
 
     inbox_stale, _ = run_operator_inbox_check()
