@@ -83,7 +83,7 @@ processes:
     name: Per-engagement revenue rollup refresh
     cadence: scheduled
     schedule_cron: "0 6 * * MON"  # 6am every Monday (weekly)
-    sop_path: TODO[I72-P9-revenue-rollup-sop]
+    sop_path: SOP-REVENUE_ROLLUP_001.md
     runbook_pointer: governance.engagement_revenue_view
     process_list_id: tbi_ops_dtp_revops_revenue_rollup_001
     role_owner_human: RevOps Analyst
@@ -100,7 +100,7 @@ processes:
   - id: persona_audit
     name: Persona registry audit
     cadence: on_demand
-    sop_path: TODO[I72-followup-persona-audit-sop]
+    sop_path: SOP-PERSONA_AUDIT_001.md
     runbook_pointer: scripts/validate_persona_registry.py
     process_list_id: tbi_ops_dtp_revops_persona_audit_001
     role_owner_human: CMO
@@ -118,8 +118,8 @@ processes:
     name: CRM adapter sync
     cadence: scheduled
     schedule_cron: "0 4 * * *"  # 4am daily
-    sop_path: TODO[I72-P9-sop-crm-integration]  # SOP-CRM_INTEGRATION_001.md (P9 deliverable per D-IH-72-O)
-    runbook_pointer: TODO[I72-P9-runbook-crm-sync]  # CRM_ADAPTER_REGISTRY.csv driven dispatch (P9)
+    sop_path: ../../../Marketing/Reach/canonicals/SOP-CRM_INTEGRATION_001.md
+    runbook_pointer: scripts/revops_dispatch.py  # CRM_ADAPTER_REGISTRY.csv driven dispatch (shipped at I72 P8 per D-IH-72-P)
     process_list_id: tbi_ops_dtp_revops_crm_sync_001
     role_owner_human: RevOps Lead
     role_owner_aic: revops-systems-specialist-aic
