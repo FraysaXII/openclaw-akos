@@ -4,7 +4,7 @@ globs:
   - "docs/wip/planning/**/*.md"
   - "docs/wip/planning/**/master-roadmap.md"
   - ".cursor/plans/**/*.md"
-alwaysApply: false
+alwaysApply: true
 ---
 
 # AKOS Agent Checkpoint Discipline

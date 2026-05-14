@@ -1,6 +1,11 @@
+---
+description: AKOS executable process catalog rule — SOP + executable runbook pairing, adapter/integration registry status enum, cadence taxonomy, DAMA-DMBOK alignment, AC-binary axis. Cross-cutting governance for every process catalog and adapter registry.
+alwaysApply: true
+---
+
 # AKOS Executable Process Catalog
 
-Use this rule when authoring **process catalogs**, **automation playbooks**, **adapter/integration registries**, or **any canonical that registers executable actions** (whether human-run, agent-run, or hybrid). Codifies decisions **D-IH-72-N** (process catalog architecture), **D-IH-72-O** (adapter status metadata), **D-IH-72-Q** (cadence taxonomy), and the cross-cutting RULE introduced at I72 Round 5: **every executable process needs a paired human-readable SOP**.
+Use this rule when authoring **process catalogs**, **automation playbooks**, **adapter/integration registries**, or **any canonical that registers executable actions** (whether human-run, agent-run, or hybrid). Codifies decisions **D-IH-72-N** (process catalog architecture), **D-IH-72-O** (adapter status metadata), **D-IH-72-Q** (cadence taxonomy), and the cross-cutting RULE introduced at I72 Round 5: **every executable process needs a paired human-readable SOP**. Path-placement corrections per **D-IH-72-AI** (I72 regression amendment 2026-05-15) reflect the as-shipped layout, not the original P0 planning paths.
 
 ## Why this rule exists
 
@@ -55,13 +60,13 @@ Every adapter / integration registry (CRM adapters, billing adapters, communicat
 This metadata is **mandatory** for every adapter row in adapter / integration registries. Concrete instances landing in I72 P9 (per `D-IH-72-O` Round 5 + `D-IH-72-T` Round 6 MarTech breadth):
 
 - **`CRM_ADAPTER_REGISTRY.csv`** (Marketing/Reach/canonicals/dimensions/) — HubSpot / Salesforce / Pipedrive / Close / Attio / Copper / Folk / Odoo / Apollo / SalesLoft / holistika_ops; per Truto/Unified.to/Apideck Normalized Adapter Pattern 2026.
-- **`REVOPS_ADAPTER_REGISTRY.csv`** (Marketing/Resonance/RevOps/canonicals/dimensions/) — Finance / Data / Tech / GTM-CRM / People / Legal / Research / MADEIRA cross-area handoff bridges.
+- **`REVOPS_ADAPTER_REGISTRY.csv`** (Operations/RevOps/canonicals/dimensions/) — Finance / Data / Tech / GTM-CRM / People / Legal / Research / MADEIRA cross-area handoff bridges. (Path corrected per D-IH-72-AI; was Marketing/Resonance/RevOps/ in P0 planning.)
 - **`EMAIL_ADAPTER_REGISTRY.csv`** (Marketing/Reach/canonicals/dimensions/) — Resend / Mailchimp / SendGrid / Postmark / Brevo / holistika_ops outbound.
 - **`ATTRIBUTION_ADAPTER_REGISTRY.csv`** (Marketing/Experimentation/canonicals/dimensions/) — Vercel Analytics / UTM tagging / Dreamdata / Northbeam.
-- **`BILLING_ADAPTER_REGISTRY.csv`** (Marketing/Resonance/Account Management/canonicals/dimensions/) — Stripe (FDW + finops.registered_fact) / manual invoicing / Chargebee / Recurly.
-- **`COMMUNICATION_ADAPTER_REGISTRY.csv`** (Operations/PMO/canonicals/dimensions/) — Slack / Discord / email / WhatsApp Business.
+- **`BILLING_ADAPTER_REGISTRY.csv`** (Operations/RevOps/canonicals/dimensions/) — Stripe (FDW + finops.registered_fact) / manual invoicing / Chargebee / Recurly. (Path corrected per D-IH-72-AI; was Marketing/Resonance/Account Management/ in P0 planning.)
+- **`COMMUNICATION_ADAPTER_REGISTRY.csv`** (Marketing/Reach/canonicals/dimensions/) — Slack / Discord / email / WhatsApp Business. (Path corrected per D-IH-72-AI; was Operations/PMO/ in P0 planning.)
 - **`SCHEDULING_ADAPTER_REGISTRY.csv`** (Marketing/Reach/canonicals/dimensions/) — Cal.com / Calendly / SavvyCal.
-- **`CONTRACT_ADAPTER_REGISTRY.csv`** (Marketing/Resonance/Account Management/canonicals/dimensions/) — DocuSign / PandaDoc / HelloSign / manual PDF.
+- **`CONTRACT_ADAPTER_REGISTRY.csv`** (Operations/SMO/canonicals/dimensions/) — DocuSign / PandaDoc / HelloSign / manual PDF. (Path corrected per D-IH-72-AI; was Marketing/Resonance/Account Management/ in P0 planning.)
 
 Future categories (when promoted by successor initiatives): marketing automation, enrichment (Apollo/Clay/Clearbit), Customer Data Platform (Segment/RudderStack/PostHog), iPaaS (Make/Zapier/n8n), feature flags (LaunchDarkly/Statsig), incident management (PagerDuty/incident.io), survey (Typeform/Tally), file storage adapters, etc.
 
@@ -96,9 +101,9 @@ Process catalogs and adapter registries inherit the Holistika DAMA-DMBOK 2.0 ali
 - **Metadata Management**: adapter `status` metadata + cadence metadata + cross-reference metadata + last-review metadata (per I71 P4 Strand C2 forward) must be present on every catalog entry. "Data about data" is not optional.
 - **Data Integration & Interoperability**: cross-area integrations (RevOps→Finance, RevOps→Tech, RevOps→People, RevOps→Legal, RevOps→Research) must use the **Normalized Adapter Pattern** (per Truto/Unified.to/Apideck industry consensus 2026) — NOT point-to-point integrations. Each adapter abstracts behind a unified interface; the integration spine joins them.
 
-The **Data Owner** for each process catalog (per DAMA-DMBOK Data Owner = "business person accountable for decisions within a domain") is named in the catalog frontmatter. For RevOps process catalog at `Operations/RevOps/canonicals/REVOPS_PROCESS_CATALOG.yaml` (path per `D-IH-72-Y` Round 7 placement), Data Owner = **PMO interim until CRO activation per `D-IH-72-AD` Round 7** (forward: when CRO + COO activate, Data Owner shifts to CRO; CRO reports to COO reports to Founder/CEO per Round 7 executive layer forward-charter). For adapter registries at Marketing/Reach + Marketing/Experimentation + Marketing/Resonance/Account Management + Operations/PMO paths, Data Owner = the area that consumes the integration (e.g., RevOps for engagement-template adapters at `Operations/RevOps/canonicals/dimensions/`; FINOPS for billing adapters at `Marketing/Resonance/Account Management/canonicals/dimensions/BILLING_ADAPTER_REGISTRY.csv` per Round 6 + Round 7 placement logic).
+The **Data Owner** for each process catalog (per DAMA-DMBOK Data Owner = "business person accountable for decisions within a domain") is named in the catalog frontmatter. For RevOps process catalog at `Operations/RevOps/canonicals/REVOPS_PROCESS_CATALOG.yaml` (path per `D-IH-72-Y` Round 7 placement), Data Owner = **PMO interim until CRO activation per `D-IH-72-AD` Round 7** (forward: when CRO + COO activate, Data Owner shifts to CRO; CRO reports to COO reports to Founder/CEO per Round 7 executive layer forward-charter). For adapter registries, Data Owner = the area that consumes the integration: Marketing/Reach (CRM + EMAIL + COMMUNICATION + SCHEDULING), Marketing/Experimentation (ATTRIBUTION), Operations/RevOps (REVOPS + BILLING — RevOps owns engagement-template adapters and billing rollup; FINOPS is the downstream consumer not the Data Owner), Operations/SMO (CONTRACT — SMO owns contract lifecycle per ITIL service-management discipline).
 
-**Path placement note (Round 7):** RevOps-owned deliverables (process catalog + adapter registries owned by RevOps + engagement template registry + 3 SOPs + 2 ERP panel routes) live at `Operations/RevOps/canonicals/` per `D-IH-72-Y`. Marketing-flavored adapters (CRM + EMAIL + ATTRIBUTION + SCHEDULING + BILLING + CONTRACT) stay at their Marketing-area paths because their Data Owner is the consuming Marketing sub-area, not RevOps. COMMUNICATION_ADAPTER stays at Operations/PMO because its Data Owner is PMO. Treat path placement as a function of Data Owner, not of which area happens to invoke the adapter.
+**Path placement note (as-shipped, Round 7 + D-IH-72-AI corrections):** RevOps-owned deliverables (process catalog + REVOPS_ADAPTER_REGISTRY + BILLING_ADAPTER_REGISTRY + engagement template registry + 3 SOPs + 2 ERP panel routes) live at `Operations/RevOps/canonicals/` per `D-IH-72-Y` + `D-IH-72-AI`. SMO-owned CONTRACT_ADAPTER lives at `Operations/SMO/canonicals/dimensions/` (SMO is the contract lifecycle owner). Marketing/Reach hosts CRM + EMAIL + COMMUNICATION + SCHEDULING adapters (top-of-funnel + outbound + inbound channel governance). Marketing/Experimentation hosts ATTRIBUTION_ADAPTER. Treat path placement as a function of Data Owner, not of which area happens to invoke the adapter. The original P0 (2026-05-13) plan had BILLING + CONTRACT + COMMUNICATION mis-routed to Marketing/Resonance/Account Management and Operations/PMO; D-IH-72-AI (regression amendment 2026-05-15) corrected the rule to match the as-shipped layout.
 
 ## When this rule does NOT apply
 

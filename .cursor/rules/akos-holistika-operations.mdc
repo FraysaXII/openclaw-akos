@@ -17,7 +17,7 @@ globs:
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/**"
   - "docs/wip/planning/**"
   - "config/verification-profiles.json"
-alwaysApply: false
+alwaysApply: true
 ---
 
 # AKOS — Holistika operations (MasterData, compliance, Supabase)
