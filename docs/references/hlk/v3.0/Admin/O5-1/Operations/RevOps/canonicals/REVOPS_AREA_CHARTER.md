@@ -33,22 +33,22 @@ RevOps exists to **make revenue legible across Marketing, Sales, Finance, Data, 
 
 The verb is **value-mapping**: RevOps doesn't sell, doesn't market, doesn't deliver, doesn't account. RevOps **connects** the operational data trails left by each function into a single revenue-attribution view, enabling executive decision-making on engagement-portfolio health, sub-area ROI, and forward-pipeline confidence.
 
-## 2. Roles + 3-function umbrella (per D-IH-72-AB + D-IH-72-AD)
+## 2. Roles + 3-function umbrella (per D-IH-72-AB + D-IH-72-AD; updated per D-IH-72-AM regression-amend 2026-05-15)
 
-RevOps roles cluster under the **Operations-side function** of the 3-function umbrella (Demand / Supply / Operations). RevOps is the cross-cutting integration discipline that observes Demand + Supply outputs and translates them into Operations-readable signals:
+RevOps roles cluster under the **Operations-side function** of the 3-function umbrella (Demand / Supply / Operations). RevOps is the cross-cutting integration discipline that observes Demand + Supply outputs and translates them into Operations-readable signals.
 
-| Role | `org_id` | Activation | Discipline |
+Per `D-IH-72-AM` (regression-amend 2026-05-15) and the operator's "disciplines ≠ roles, no horizontal bloat" principle, the role taxonomy is **slim**: 2 active operational roles (RevOps Lead generalist + RevOps Analyst specialist) + 1 forward-charter executive (CRO) + 1 existing executive (COO). The 4 P0-planned expansion role rows (Systems Specialist, Process Architect, Enablement Lead, Data Engineer) are **disciplines** of the RevOps Lead generalist, not separate role rows. Headcount expansion at growth stage uses additional RevOps Lead seats.
+
+| Role | `org_id` | Activation | Disciplines held |
 |:---|:---|:---|:---|
-| **RevOps Lead** | (P4 mint) | P4 (gated on I71 P5 Pack A4) | Area lead; engagement-revenue spine governance; cross-area adapter lifecycle authority; QBR cadence convener. |
-| **RevOps Analyst** | (P4 mint) | P4 (gated on I71 P5 Pack A4) | Per-engagement revenue-attribution analysis; engagement-template promotion gatekeeping; per-quarter portfolio-health reporting. |
-| **RevOps Engineer (Adapter Owner)** | (P4 mint) | P4 (gated; expansion role) | `gated_operator` until adapter-volume crosses threshold; owns adapter-lifecycle code at `Operations/RevOps/canonicals/adapters/`. |
-| **RevOps Engineer (Spine Owner)** | (P4 mint) | P4 (gated; expansion role) | `gated_operator`; owns Supabase migration + governance views for the engagement-revenue spine. |
-| **RevOps Data Steward** | (P4 mint) | P4 (gated; expansion role) | `gated_operator`; per-axis FK steward for the 4-axis value-mapping schema (per `D-IH-72-AF`). |
-| **RevOps Strategist** | (P4 mint) | P4 (gated; expansion role) | `gated_operator`; quarterly portfolio-strategy authoring; cross-engagement pattern-mining. |
-| **CRO** | (P4 mint; forward-charter) | P4 (forward-charter; activates when team scales) | Chief Revenue Officer; reports to CEO; ultimate revenue-portfolio accountability. Per `D-IH-72-AD` forward-charter: minted in baseline_organisation.csv at P4 with status=`gated_operator`; activates when revenue-portfolio scale + team size cross threshold. |
+| **RevOps Lead** (generalist) | (P4 mint) | P4 (gated on I71 P5 Pack A4) | Area lead; engagement-revenue spine governance; cross-area adapter lifecycle authority; QBR cadence convener. **Plus** (per D-IH-72-AM): Systems-Specialist discipline (CRM + automation platform configuration + per-platform integration governance); Process-Architect discipline (cross-area process design + handoff codification + paired SOP + executable runbook authoring per `akos-executable-process-catalog.mdc`); Enablement-Lead discipline (RevOps tooling adoption + cross-area training + per-team operating-model documentation); Data-Engineer discipline (RevOps Spine maintenance + per-axis FK steward for the 4-axis value-mapping schema + adapter data-pipeline owner). |
+| **RevOps Analyst** (specialist) | (P4 mint) | P4 (gated on I71 P5 Pack A4) | Per-engagement revenue-attribution analysis; engagement-template promotion gatekeeping; per-quarter portfolio-health reporting. Holistika-specific role minted from day-1 (vs industry default of 0 analysts at startup stage) because the value-mapping core function per `D-IH-72-Y` requires Analyst capability immediately. |
+| **CRO** (executive forward-charter) | (P4 mint; forward-charter) | P4 (forward-charter; activates when team scales) | Chief Revenue Officer; reports to COO per `D-IH-72-AD` reporting chain; ultimate revenue-portfolio accountability. Probably becomes a new area long-term (not Operations sub-area; possibly Executive area) when activation lands + Holistika scales. |
 | **COO** | `org_013` | active | Chief Operating Officer; existing role; RevOps area reports through COO until CRO activates per `D-IH-72-AD`. |
 
-Per `D-IH-72-AC` (Round 7 RevOps activation gating): RevOps Lead + RevOps Analyst flip from gated to active at P4 entry **only after** I71 P5 Pack A4 ships (Pydantic agentic-flow finalization). The 4 expansion roles + CRO remain `gated_operator` indefinitely.
+Per `D-IH-72-AC` (Round 7 RevOps activation gating): RevOps Lead + RevOps Analyst flip from gated to active at P4 entry **only after** I71 P5 Pack A4 ships (Pydantic agentic-flow finalization). The CRO row remains `gated_ahead_of_executive_activation`.
+
+**Expansion pattern (per D-IH-72-AM):** when RevOps work volume exceeds the 2-role bandwidth (typically at $5-25M ARR per UnifyGTM RevOps Team Structure 2026 + RevenueTools.io 2026), expand by **adding RevOps Lead seats** (e.g., RevOps Lead - Systems / RevOps Lead - Spine / RevOps Lead - Enablement / RevOps Lead - Data) rather than minting separate role rows for each discipline. This preserves the discipline-holding generalist pattern while permitting headcount growth.
 
 ## 3. Area boundary (single-ownership)
 

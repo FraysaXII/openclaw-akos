@@ -68,7 +68,7 @@ Until the RevOps Lead row flips from `gated_operator` to `active`, the weekly no
 
 ## 4. Failure modes
 
-- `governance.engagement_revenue_view` query times out → escalate to RevOps Data Engineer (when activated; until then PMO interim).
+- `governance.engagement_revenue_view` query times out → escalate to RevOps Lead (Data-Engineer discipline per D-IH-72-AM); PMO interim until RevOps Lead activates per D-IH-72-AC.
 - `ENGAGEMENT_REGISTRY.csv` forecast cell empty → flag the row in the operator inbox; do not compute variance for that engagement.
 - Multiple weeks missed → next run authors a backfill note covering the gap window.
 
