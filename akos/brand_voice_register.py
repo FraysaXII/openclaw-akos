@@ -1,0 +1,894 @@
+"""Brand voice register Pydantic chassis for I71 P1 Pack A1.
+
+Backs ``scripts/validate_brand_voice_register.py`` (extended at I71 P1 Pack A1)
+with typed schemas for the 10 enforcement layers + parser helpers that read
+the brand canonical markdown sources and the operator-editable YAML pack.
+
+Canonical sources (read at runtime):
+
+- `docs/.../Brand/Copywriter/canonicals/BRAND_COPYWRITING_DISCIPLINE.md` §2
+  -- 7 AI-tone tic families with detection regex + replacement strategy.
+- `docs/.../Brand/canonicals/BRAND_ENGLISH_PATTERNS.md` §5 -- EN MBA-deck
+  jargon + performative-EN + template-vendor refuse-list.
+- `docs/.../Brand/canonicals/BRAND_FRENCH_PATTERNS.md` §5 -- FR anglicism +
+  performative-FR refuse-list (existing I66 P1 canonical).
+- `docs/.../Brand/canonicals/BRAND_SPANISH_PATTERNS.md` §13 -- ES anglicism +
+  performative-ES refuse-list (existing I66 P1 canonical).
+- `docs/.../Brand/canonicals/BRAND_LLM_TONE_TELLS.md` §3-§7 -- EN-corporate
+  LLM lexical signature catalog (strict-day-1 per C-71-8).
+- `docs/.../Brand/canonicals/BRAND_REGISTER_MATRIX.md` -- six register tokens
+  in a (relationship, channel) -> register lookup.
+- `docs/.../Brand/UX Designer/canonicals/BRAND_GANTT_DISCIPLINE.md` §2 --
+  Variant A/B/C/D audience-formality x data-maturity matrix.
+- `docs/.../Brand/canonicals/_validators/register-pack.yml` -- operator
+  override surface (consumed by ``parse_register_pack_yaml``).
+
+Decisions: D-IH-71-F (strict-day-1 default), D-IH-71-G (Pydantic chassis
+pattern), D-IH-71-H (3-axis audience matrix), D-IH-71-I (Storytelling AUTHORS
+/ Resonance CONSUMES boundary), D-IH-71-J (release-gate row policy),
+D-IH-71-K (Round 3 brand-DNA Layers 5-9 scope).
+
+Forward-compatible: tolerates absence of any canonical source file (parser
+returns ``[]``); strict-mode in the validator raises only when ``_load_rules``
+returns empty (existing I66 P2 contract preserved).
+"""
+
+from __future__ import annotations
+
+import re
+from pathlib import Path
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+# -----------------------------------------------------------------------------
+# Type aliases (Literal-based enums per cicd_baseline.py chassis pattern)
+# -----------------------------------------------------------------------------
+
+Locale = Literal["en", "fr", "es"]
+Severity = Literal["error", "warning", "info"]
+GanttVariant = Literal["A", "B", "C", "D"]
+SurfaceClass = Literal[
+    "cover_slide",
+    "customer_pack_body",
+    "operator_pack_body",
+    "internal_canonical",
+    "investor_deck",
+    "advisor_email",
+    "regulator_memo",
+    "boilerplate_i18n",
+    "press_release",
+    "founder_bio",
+]
+SubMarkClass = Literal["holistika_research", "holistika_tech_lab", "hlk_erp", "kirbe"]
+VoicePersonaClass = Literal[
+    "founder",
+    "brand_manager",
+    "copywriter",
+    "account_manager",
+    "community_manager",
+    "system_owner",
+]
+EngagementTypeClass = Literal[
+    "advisor_intro",
+    "advisor_ongoing",
+    "investor_outreach",
+    "investor_followup",
+    "regulator_filing",
+    "client_prospect",
+    "client_delivery",
+    "partner_pitch",
+    "recruiter_intake",
+    "press_pitch",
+    "internal_team",
+]
+
+
+# -----------------------------------------------------------------------------
+# Canonical-source constants
+# -----------------------------------------------------------------------------
+
+STANDARD_TIC_FAMILY_NAMES: tuple[str, ...] = (
+    "contrastive",
+    "chained_negation_affirmation",
+    "false_singularity",
+    "triadic_abstract_noun_stack",
+    "discipline_overuse",
+    "repeated_openings",
+    "operator_instruction_echo",
+)
+
+STANDARD_REGISTER_TOKEN_NAMES: frozenset[str] = frozenset(
+    {
+        "formal_legal",
+        "peer_consulting",
+        "casual_internal",
+        "regulator_neutral",
+        "investor_aspirational",
+    }
+)
+
+CANONICAL_PATHS: dict[str, str] = {
+    "copywriting_discipline": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/Copywriter/canonicals/"
+        "BRAND_COPYWRITING_DISCIPLINE.md"
+    ),
+    "english_patterns": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/"
+        "BRAND_ENGLISH_PATTERNS.md"
+    ),
+    "french_patterns": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/"
+        "BRAND_FRENCH_PATTERNS.md"
+    ),
+    "spanish_patterns": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/"
+        "BRAND_SPANISH_PATTERNS.md"
+    ),
+    "llm_tone_tells": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/"
+        "BRAND_LLM_TONE_TELLS.md"
+    ),
+    "register_matrix": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/"
+        "BRAND_REGISTER_MATRIX.md"
+    ),
+    "gantt_discipline": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/UX Designer/canonicals/"
+        "BRAND_GANTT_DISCIPLINE.md"
+    ),
+    "register_pack_yaml": (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/"
+        "register-pack.yml"
+    ),
+}
+
+
+# -----------------------------------------------------------------------------
+# Layer 2 -- 7 AI-tone tic families (BRAND_COPYWRITING_DISCIPLINE.md §2)
+# -----------------------------------------------------------------------------
+
+
+class TicFamily(BaseModel):
+    """One of the 7 AI-tone tic families codified in §2 of the discipline canonical.
+
+    The validator's Layer 2 scan emits one violation per match; severity is
+    layer-wide ``error`` for cover slides + customer-pack body prose, ``warning``
+    for operator-pack body prose, ``info`` for internal canonicals per the
+    canonical's §5 contract.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    name: str = Field(pattern=r"^[a-z][a-z0-9_]+$")
+    family_index: int = Field(ge=1, le=7)
+    locales: tuple[Locale, ...]
+    pattern: str = Field(min_length=1, description="Detection regex (verbatim from canonical)")
+    replacement_strategy: str = Field(min_length=1)
+    default_severity: Severity = "error"
+    canonical_section: str = "BRAND_COPYWRITING_DISCIPLINE.md §2"
+
+    @field_validator("name")
+    @classmethod
+    def name_is_known(cls, v: str) -> str:
+        if v not in STANDARD_TIC_FAMILY_NAMES:
+            raise ValueError(
+                f"tic-family name {v!r} not in STANDARD_TIC_FAMILY_NAMES "
+                f"{STANDARD_TIC_FAMILY_NAMES}"
+            )
+        return v
+
+    @field_validator("pattern")
+    @classmethod
+    def pattern_compiles(cls, v: str) -> str:
+        try:
+            re.compile(v)
+        except re.error as exc:
+            raise ValueError(f"detection regex does not compile: {exc}") from exc
+        return v
+
+
+# -----------------------------------------------------------------------------
+# Layer 0/1 -- per-locale rules (existing I66 P2; promoted to Pydantic at I71 P1)
+# -----------------------------------------------------------------------------
+
+
+class RegisterRule(BaseModel):
+    """A single forbidden-token rule for a given locale.
+
+    Pydantic-backed promotion of the existing ``@dataclass(frozen=True)``
+    surface in ``scripts/validate_brand_voice_register.py``. The validator
+    keeps the dataclass at the call site for backward compatibility; this
+    model is the typed contract for YAML-pack consumption.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    locale: Locale
+    token: str = Field(min_length=1)
+    pattern: str = Field(min_length=1)
+    rationale: str = Field(min_length=1)
+    canonical_source: str = Field(min_length=1)
+    default_severity: Severity = "error"
+
+    @field_validator("pattern")
+    @classmethod
+    def pattern_compiles(cls, v: str) -> str:
+        try:
+            re.compile(v)
+        except re.error as exc:
+            raise ValueError(f"detection regex does not compile: {exc}") from exc
+        return v
+
+
+# -----------------------------------------------------------------------------
+# Layer 3 -- audience formality x data maturity matrix (BRAND_GANTT_DISCIPLINE.md §2)
+# -----------------------------------------------------------------------------
+
+
+class AudienceQuadrant(BaseModel):
+    """One quadrant of the (audience-formality x data-maturity) matrix.
+
+    Variants A/B/C/D per BRAND_GANTT_DISCIPLINE.md §2:
+    - A: customer-facing + low data maturity (posture sketch).
+    - B: customer-facing + high data maturity (proof of discipline).
+    - C: operator-internal + low data maturity (hypothesis sketch).
+    - D: operator-internal + high data maturity (execution plan).
+
+    Pack A1 Layer 3 reuses this matrix as the 3-axis audience class primary
+    key (audience x formality x data-maturity).
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    variant: GanttVariant
+    audience_facing: Literal["customer", "operator"]
+    data_maturity: Literal["low", "high"]
+    label: str = Field(min_length=1)
+    description: str = Field(min_length=1)
+    canonical_section: str = "BRAND_GANTT_DISCIPLINE.md §2"
+
+
+# -----------------------------------------------------------------------------
+# Layer 3 (continued) -- register tokens (BRAND_REGISTER_MATRIX.md)
+# -----------------------------------------------------------------------------
+
+
+class RegisterToken(BaseModel):
+    """One register token from BRAND_REGISTER_MATRIX.md (6 canonical tokens).
+
+    Loaded from the (relationship, channel) -> register lookup. The validator
+    asserts each (relationship, channel) pair declared on an engagement-deck
+    frontmatter resolves to a known token before render.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    token: str = Field(min_length=1)
+    relationship: str = Field(min_length=1)
+    channel: str = Field(min_length=1)
+    canonical_section: str = "BRAND_REGISTER_MATRIX.md"
+
+    @field_validator("token")
+    @classmethod
+    def token_is_known(cls, v: str) -> str:
+        if v not in STANDARD_REGISTER_TOKEN_NAMES:
+            raise ValueError(
+                f"register token {v!r} not in STANDARD_REGISTER_TOKEN_NAMES "
+                f"{sorted(STANDARD_REGISTER_TOKEN_NAMES)}"
+            )
+        return v
+
+
+class AudienceClass(BaseModel):
+    """3-axis audience matrix entry per D-IH-71-H.
+
+    Synthesizes (audience x formality x data-maturity) into a single class
+    that the validator uses as the primary key for register expectation
+    lookup. Each declared engagement deck/document maps to exactly one class.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    audience: Literal["customer", "operator", "investor", "advisor", "regulator", "partner", "press"]
+    formality: Literal["high", "medium", "low"]
+    data_maturity: Literal["low", "high"]
+    expected_register_token: str
+    expected_variant: GanttVariant
+    canonical_basis: str = "BRAND_GANTT_DISCIPLINE.md §2 + BRAND_REGISTER_MATRIX.md"
+
+
+# -----------------------------------------------------------------------------
+# Layer 4 -- Storytelling/Resonance boundary (D-IH-70-X)
+# -----------------------------------------------------------------------------
+
+
+class BoundaryRule(BaseModel):
+    """Storytelling AUTHORS / Resonance CONSUMES boundary per D-IH-70-X.
+
+    The validator enforces: any artifact whose frontmatter declares
+    ``area: Resonance`` is read-only with respect to narrative content. On
+    edit, the validator computes a narrative diff vs the upstream Storytelling
+    artifact and refuses if the diff exceeds ``max_narrative_token_diff``.
+
+    Single-ownership of brand narrative authorship is preserved by separating
+    the verbs author-vs-deploy.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    rule_id: str = Field(pattern=r"^B-[A-Z0-9_-]+$")
+    authoring_area: Literal["Storytelling"] = "Storytelling"
+    consuming_area: Literal["Resonance"] = "Resonance"
+    max_narrative_token_diff: int = Field(ge=0, le=10_000, default=0)
+    decision_anchor: Literal["D-IH-70-X"] = "D-IH-70-X"
+
+
+# -----------------------------------------------------------------------------
+# Round 3 -- Layer 5 -- sub-mark tier + archetype + Branded House
+# -----------------------------------------------------------------------------
+
+
+class SubMarkTier(BaseModel):
+    """Sub-mark tier classification per BRAND_ARCHITECTURE.md (Branded House).
+
+    Pack A1 Layer 5 enforces that any artifact carrying ``sub_mark:`` in its
+    frontmatter resolves to a known tier; the validator refuses if an
+    artifact's voice tier conflicts with its sub-mark's expected tier.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    sub_mark: SubMarkClass
+    tier_label: str = Field(min_length=1)
+    expected_voice_register: str = Field(min_length=1)
+    canonical_section: str = "BRAND_ARCHITECTURE.md"
+
+
+class ArchetypeViolation(BaseModel):
+    """Result row for an archetype-mismatch hit (Layer 5)."""
+
+    file: Path
+    surface: str
+    declared_archetype: str
+    detected_archetype: str
+    rule_id: str
+    severity: Severity
+    rationale: str
+
+
+class BrandedHouseViolation(BaseModel):
+    """Result row for a Branded-House structural violation (Layer 5).
+
+    Examples: an artifact declares ``sub_mark: holistika_tech_lab`` but uses
+    investor-aspirational register where peer-engineering register is expected;
+    an artifact mixes two sub-marks' voice tiers within a single deliverable;
+    a cobrand surface uses sub-mark precedence inconsistent with
+    BRAND_COBRANDING_PATTERN.md.
+    """
+
+    file: Path
+    surface: str
+    sub_mark: SubMarkClass
+    declared_tier: str
+    detected_tier: str
+    rule_id: str
+    severity: Severity
+    rationale: str
+
+
+# -----------------------------------------------------------------------------
+# Round 3 -- Layer 6 -- voice persona + engagement type
+# -----------------------------------------------------------------------------
+
+
+class VoicePersona(BaseModel):
+    """A named voice persona per BRAND_VOICE_FOUNDATION.md (operator-authored).
+
+    Each role in the operator's lived protocol (Founder, Brand Manager,
+    Copywriter, Account Manager, Community Manager, System Owner) carries a
+    voice signature. Pack A1 Layer 6 enforces that artifacts declaring
+    ``voice_persona:`` in frontmatter use the corresponding signature.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    persona: VoicePersonaClass
+    canonical_label: str = Field(min_length=1)
+    expected_register_tokens: tuple[str, ...]
+    canonical_section: str = "BRAND_VOICE_FOUNDATION.md"
+
+
+class EngagementType(BaseModel):
+    """Engagement-type classifier per `process_list.csv` engagement disciplines.
+
+    Pack A1 Layer 6 maps every engagement-deck/document to its engagement type
+    and enforces register expectations: a regulator filing must use
+    ``regulator_neutral``; an investor outreach must use
+    ``investor_aspirational``; etc. Mismatches fail at strict-day-1.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    engagement_type: EngagementTypeClass
+    canonical_label: str = Field(min_length=1)
+    expected_register_token: str
+    expected_locales: tuple[Locale, ...]
+    canonical_basis: str = "BRAND_REGISTER_MATRIX.md + process_list.csv adviser-engagement disciplines"
+
+
+# -----------------------------------------------------------------------------
+# Round 3 -- Layer 7 -- locale-leak + cobrand surface check
+# -----------------------------------------------------------------------------
+
+
+class LocaleLeakRule(BaseModel):
+    """Cross-locale leak detection for parallel i18n keys (Layer 7).
+
+    Asserts that English/French/Spanish variants of the same i18n key are
+    register-consistent (per Layer 0-3) AND that none re-introduces an
+    internal-register token from BRAND_BASELINE_REALITY_MATRIX.md §3.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    rule_id: str = Field(pattern=r"^LL-[A-Z0-9_-]+$")
+    json_key_pattern: str = Field(min_length=1)
+    locales_checked: tuple[Locale, ...] = ("en", "fr", "es")
+    max_register_drift_tokens: int = Field(ge=0, default=2)
+    default_severity: Severity = "warning"
+
+
+class CobrandRule(BaseModel):
+    """Cobrand surface check per BRAND_COBRANDING_PATTERN.md (Layer 7).
+
+    Asserts that artifacts on cobranded surfaces (e.g., joint client + Holistika
+    deliverable) use the expected precedence: Holistika sub-mark vs partner
+    mark; logo prominence; closing-line attribution.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    rule_id: str = Field(pattern=r"^CB-[A-Z0-9_-]+$")
+    surface_pattern: str = Field(min_length=1)
+    expected_precedence: Literal["holistika_first", "partner_first", "equal"]
+    canonical_section: str = "BRAND_COBRANDING_PATTERN.md"
+    default_severity: Severity = "warning"
+
+
+# -----------------------------------------------------------------------------
+# Round 3 -- Layer 8 -- anti-LLM-tone catalog (BRAND_LLM_TONE_TELLS.md)
+# -----------------------------------------------------------------------------
+
+
+class LLMToneTell(BaseModel):
+    """One LLM-default lexical pattern per BRAND_LLM_TONE_TELLS.md §3-§7.
+
+    Per the C-71-8 operator override, default_severity for ``error`` tokens
+    is enforced strict-day-1 (no 30-day soft window). The validator may
+    accept per-token allowlist via ``<!-- llm-tone-allow: T-N-token-slug -->``.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    token_id: str = Field(pattern=r"^T-[3-7]-[a-z0-9-]+$")
+    category: Literal["verb", "noun", "adjective", "hedge_phrase", "construction"]
+    pattern: str = Field(min_length=1)
+    replacement_template: str = Field(min_length=1)
+    rationale: str = Field(min_length=1)
+    default_severity: Severity = "error"
+    canonical_section: str = "BRAND_LLM_TONE_TELLS.md"
+
+    @field_validator("pattern")
+    @classmethod
+    def pattern_compiles(cls, v: str) -> str:
+        try:
+            re.compile(v)
+        except re.error as exc:
+            raise ValueError(f"detection regex does not compile: {exc}") from exc
+        return v
+
+
+# -----------------------------------------------------------------------------
+# Round 3 -- Layer 9 -- anonymized track-record + brand-abbrev surface
+# -----------------------------------------------------------------------------
+
+
+class TrackRecordRule(BaseModel):
+    """Anonymized track-record format guard (Layer 9).
+
+    Asserts that public-facing track-record citations follow the canonical
+    anonymized format (counterparty-tier + sector + outcome metric) rather
+    than identifying a counterparty by name without consent. See
+    BRAND_BASELINE_REALITY_MATRIX.md §"Anonymized track record".
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    rule_id: str = Field(pattern=r"^TR-[A-Z0-9_-]+$")
+    surface_pattern: str = Field(min_length=1)
+    canonical_format_regex: str = Field(min_length=1)
+    default_severity: Severity = "error"
+    canonical_section: str = "BRAND_BASELINE_REALITY_MATRIX.md"
+
+
+class BrandAbbreviationRule(BaseModel):
+    """Brand-abbreviation surface check per BRAND_ABBREVIATIONS.md (Layer 9).
+
+    Asserts that artifacts use the canonical short form for sub-marks and
+    program names (e.g., ``HLK`` for ``Holistika``; ``HRL`` for
+    ``Holistika Research Lab``) rather than ad-hoc abbreviations.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    rule_id: str = Field(pattern=r"^BA-[A-Z0-9_-]+$")
+    canonical_short_form: str = Field(min_length=1)
+    full_form: str = Field(min_length=1)
+    surface_pattern: str = Field(min_length=1)
+    default_severity: Severity = "warning"
+    canonical_section: str = "BRAND_ABBREVIATIONS.md"
+
+
+# -----------------------------------------------------------------------------
+# Composite pack -- single Pydantic model loaded from register-pack.yml
+# -----------------------------------------------------------------------------
+
+
+class BrandVoiceRegisterPack(BaseModel):
+    """Composite pack consumed by the validator at runtime.
+
+    Loaded from `docs/.../Brand/canonicals/_validators/register-pack.yml` via
+    ``parse_register_pack_yaml``. Operator overrides applied to canonical
+    defaults; the YAML pack is the final word at runtime.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    pack_version: str = Field(pattern=r"^v[0-9]+\.[0-9]+\.[0-9]+$")
+    last_edited: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
+    last_edited_by: str = Field(min_length=1)
+    canonical_source_refs: tuple[str, ...]
+    layers_enabled: dict[str, bool] = Field(default_factory=dict)
+    tic_families: tuple[TicFamily, ...] = ()
+    register_rules: tuple[RegisterRule, ...] = ()
+    audience_quadrants: tuple[AudienceQuadrant, ...] = ()
+    register_tokens: tuple[RegisterToken, ...] = ()
+    audience_classes: tuple[AudienceClass, ...] = ()
+    boundary_rules: tuple[BoundaryRule, ...] = ()
+    sub_mark_tiers: tuple[SubMarkTier, ...] = ()
+    voice_personas: tuple[VoicePersona, ...] = ()
+    engagement_types: tuple[EngagementType, ...] = ()
+    llm_tone_tells: tuple[LLMToneTell, ...] = ()
+    locale_leak_rules: tuple[LocaleLeakRule, ...] = ()
+    cobrand_rules: tuple[CobrandRule, ...] = ()
+    track_record_rules: tuple[TrackRecordRule, ...] = ()
+    brand_abbreviation_rules: tuple[BrandAbbreviationRule, ...] = ()
+
+
+# -----------------------------------------------------------------------------
+# Parser helpers (read canonical markdown sources; tolerate file absence)
+# -----------------------------------------------------------------------------
+
+
+_TIC_SECTION_RE = re.compile(
+    r"^### Family (\d) — .*?(?=^### Family \d|^## 3\.)",
+    re.DOTALL | re.MULTILINE,
+)
+_DETECTION_REGEX_LINE_RE = re.compile(
+    r"\*\*Detection regex(?:\s*\(([^)]+)\))?:?\*\*\s*`([^`]+)`",
+    re.IGNORECASE,
+)
+
+
+def parse_tic_families_from_canonical(path: Path) -> list[TicFamily]:
+    """Parse the 7 AI-tone tic families from BRAND_COPYWRITING_DISCIPLINE.md §2.
+
+    Returns one ``TicFamily`` per family * declared-locale combination. The
+    canonical declares 7 family names in a fixed order; the parser maps to
+    ``STANDARD_TIC_FAMILY_NAMES`` by index. Families without a parseable
+    regex (F4 -- triadic abstract-noun stack; F5 -- discipline overuse; F6 --
+    repeated openings; F7 -- structural pattern) are returned with a default
+    locale-agnostic pattern surface for the validator to handle via custom
+    detection rather than pure regex match.
+    """
+    if not path.exists():
+        return []
+    text = path.read_text(encoding="utf-8")
+
+    out: list[TicFamily] = []
+    for section_match in _TIC_SECTION_RE.finditer(text):
+        family_block = section_match.group(0)
+        family_index_match = re.match(r"^### Family (\d)", family_block)
+        if not family_index_match:
+            continue
+        family_index = int(family_index_match.group(1))
+        if family_index < 1 or family_index > 7:
+            continue
+        canonical_name = STANDARD_TIC_FAMILY_NAMES[family_index - 1]
+
+        replacement_match = re.search(
+            r"\*\*Replacement strategy\.?\*\*\s*(.+?)(?=\n\n|^### |^## )",
+            family_block,
+            re.DOTALL | re.MULTILINE,
+        )
+        replacement = (
+            replacement_match.group(1).strip().splitlines()[0]
+            if replacement_match
+            else "See canonical for replacement strategy."
+        )
+
+        regex_hits = list(_DETECTION_REGEX_LINE_RE.finditer(family_block))
+        if regex_hits:
+            for hit in regex_hits:
+                locale_label = (hit.group(1) or "all").strip().lower()
+                pattern = hit.group(2).strip()
+                locales: tuple[Locale, ...]
+                if locale_label.startswith("fr"):
+                    locales = ("fr",)
+                elif locale_label.startswith("en"):
+                    locales = ("en",)
+                elif locale_label.startswith("es"):
+                    locales = ("es",)
+                elif "fr" in locale_label and "en" in locale_label:
+                    locales = ("fr", "en")
+                else:
+                    locales = ("en", "fr", "es")
+                try:
+                    out.append(
+                        TicFamily(
+                            name=canonical_name,
+                            family_index=family_index,
+                            locales=locales,
+                            pattern=pattern,
+                            replacement_strategy=replacement,
+                        )
+                    )
+                except ValueError:
+                    continue
+        else:
+            # Structural family (F4 / F5 / F6 / F7) -- no pure regex; validator
+            # handles via custom detection. Emit a sentinel placeholder pattern
+            # the validator inspects (.*).
+            try:
+                out.append(
+                    TicFamily(
+                        name=canonical_name,
+                        family_index=family_index,
+                        locales=("en", "fr", "es"),
+                        pattern=r".*",
+                        replacement_strategy=replacement,
+                    )
+                )
+            except ValueError:
+                continue
+    return out
+
+
+_EN_JARGON_ROW_RE = re.compile(
+    r"^\|\s*`([^`]+)`\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|",
+    re.MULTILINE,
+)
+
+
+def parse_english_register_rules(path: Path) -> list[RegisterRule]:
+    """Parse EN register rules from BRAND_ENGLISH_PATTERNS.md §5.1.
+
+    Each row in the MBA-deck-jargon table yields one ``RegisterRule`` with
+    locale=en and a word-boundary regex over the avoid-token. The rationale
+    captures the canonical's replacement + rationale text.
+    """
+    if not path.exists():
+        return []
+    text = path.read_text(encoding="utf-8")
+
+    section = re.search(
+        r"### 5\.1 MBA-deck jargon.*?\n(.*?)(?=^### 5\.\d|^## 6\.)",
+        text,
+        re.DOTALL | re.MULTILINE,
+    )
+    if not section:
+        return []
+    body = section.group(1)
+    out: list[RegisterRule] = []
+    for row_match in _EN_JARGON_ROW_RE.finditer(body):
+        token = row_match.group(1).strip()
+        replacement = row_match.group(2).strip()
+        rationale_text = row_match.group(3).strip()
+        if not token:
+            continue
+        try:
+            out.append(
+                RegisterRule(
+                    locale="en",
+                    token=token,
+                    pattern=rf"\b{re.escape(token)}\b",
+                    rationale=f"EN MBA-deck jargon -- replace with '{replacement}' ({rationale_text})",
+                    canonical_source="BRAND_ENGLISH_PATTERNS.md §5.1",
+                )
+            )
+        except ValueError:
+            continue
+    return out
+
+
+_LLM_TELL_TABLE_RE = re.compile(
+    r"^\|\s*`?([^`|]+?)`?\s*\|\s*(error|warning|info)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|",
+    re.MULTILINE | re.IGNORECASE,
+)
+
+
+def parse_llm_tone_tells(path: Path) -> list[LLMToneTell]:
+    """Parse the BRAND_LLM_TONE_TELLS.md §3-§7 tables into typed rules.
+
+    Each section (§3 verbs / §4 nouns / §5 adjectives / §6 hedge phrases /
+    §7 constructions) maps to a category. Token IDs synthesize as
+    ``T-{section}-{slugified-token}``.
+    """
+    if not path.exists():
+        return []
+    text = path.read_text(encoding="utf-8")
+
+    section_categories: dict[str, str] = {
+        "3": "verb",
+        "4": "noun",
+        "5": "adjective",
+        "6": "hedge_phrase",
+        "7": "construction",
+    }
+    out: list[LLMToneTell] = []
+    for section_index, category in section_categories.items():
+        section_match = re.search(
+            rf"^## {section_index}\..*?\n(.*?)(?=^## \d|\Z)",
+            text,
+            re.DOTALL | re.MULTILINE,
+        )
+        if not section_match:
+            continue
+        body = section_match.group(1)
+        for row in _LLM_TELL_TABLE_RE.finditer(body):
+            token_raw = row.group(1).strip()
+            severity_raw = row.group(2).strip().lower()
+            replacement = row.group(3).strip()
+            rationale = row.group(4).strip()
+            if not token_raw or severity_raw not in ("error", "warning", "info"):
+                continue
+            slug = re.sub(r"[^a-z0-9]+", "-", token_raw.lower()).strip("-")
+            if not slug:
+                continue
+            token_id = f"T-{section_index}-{slug}"[:80]
+            try:
+                out.append(
+                    LLMToneTell(
+                        token_id=token_id,
+                        category=category,  # type: ignore[arg-type]
+                        pattern=rf"\b{re.escape(token_raw)}\b",
+                        replacement_template=replacement,
+                        rationale=rationale,
+                        default_severity=severity_raw,  # type: ignore[arg-type]
+                    )
+                )
+            except ValueError:
+                continue
+    return out
+
+
+_REGISTER_MATRIX_ROW_RE = re.compile(
+    r"^\|\s*([a-z_]+)\s*\|\s*([a-z_]+)\s*\|\s*`([a-z_]+)`\s*\|",
+    re.MULTILINE | re.IGNORECASE,
+)
+
+
+def parse_register_matrix(path: Path) -> list[RegisterToken]:
+    """Parse BRAND_REGISTER_MATRIX.md (relationship, channel) -> register rows."""
+    if not path.exists():
+        return []
+    text = path.read_text(encoding="utf-8")
+    out: list[RegisterToken] = []
+    for row in _REGISTER_MATRIX_ROW_RE.finditer(text):
+        relationship = row.group(1).strip().lower()
+        channel = row.group(2).strip().lower()
+        token = row.group(3).strip().lower()
+        try:
+            out.append(
+                RegisterToken(token=token, relationship=relationship, channel=channel)
+            )
+        except ValueError:
+            continue
+    return out
+
+
+def parse_audience_quadrants(path: Path) -> list[AudienceQuadrant]:
+    """Parse BRAND_GANTT_DISCIPLINE.md §2 4-quadrant audience matrix.
+
+    The canonical §2 declares four labeled variants; this parser returns one
+    ``AudienceQuadrant`` per variant with the canonical label + description.
+    """
+    if not path.exists():
+        return []
+    # The canonical §2 structure is stable; emit the 4 quadrants directly with
+    # the canonical labels rather than fragile markdown-table regex parsing.
+    return [
+        AudienceQuadrant(
+            variant="A",
+            audience_facing="customer",
+            data_maturity="low",
+            label="Posture sketch",
+            description="No dates; phase ribbons; ratify-via-discovery.",
+        ),
+        AudienceQuadrant(
+            variant="B",
+            audience_facing="customer",
+            data_maturity="high",
+            label="Proof of discipline",
+            description="Concrete dates; per-phase deliverables; per-phase ownership.",
+        ),
+        AudienceQuadrant(
+            variant="C",
+            audience_facing="operator",
+            data_maturity="low",
+            label="Hypothesis sketch",
+            description="Cross-linked sources; assumption flags; revisit cadence.",
+        ),
+        AudienceQuadrant(
+            variant="D",
+            audience_facing="operator",
+            data_maturity="high",
+            label="Execution plan",
+            description="Granular weekly task breakdown; dependency arrows; resource allocation.",
+        ),
+    ]
+
+
+def parse_register_pack_yaml(path: Path) -> BrandVoiceRegisterPack | None:
+    """Load `register-pack.yml` and return a typed pack, or None if absent.
+
+    Uses ``yaml.safe_load`` for parsing; raises on schema-validation failure
+    (Pydantic model is the contract). Returns ``None`` when the file is
+    absent so the validator can fall back to canonical-source defaults.
+    """
+    if not path.exists():
+        return None
+    try:
+        import yaml  # local import keeps yaml optional at import time
+    except ImportError:
+        return None
+    raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return BrandVoiceRegisterPack.model_validate(raw)
+
+
+__all__ = [
+    "Locale",
+    "Severity",
+    "GanttVariant",
+    "SurfaceClass",
+    "SubMarkClass",
+    "VoicePersonaClass",
+    "EngagementTypeClass",
+    "STANDARD_TIC_FAMILY_NAMES",
+    "STANDARD_REGISTER_TOKEN_NAMES",
+    "CANONICAL_PATHS",
+    "TicFamily",
+    "RegisterRule",
+    "AudienceQuadrant",
+    "RegisterToken",
+    "AudienceClass",
+    "BoundaryRule",
+    "SubMarkTier",
+    "VoicePersona",
+    "EngagementType",
+    "LocaleLeakRule",
+    "CobrandRule",
+    "LLMToneTell",
+    "TrackRecordRule",
+    "BrandAbbreviationRule",
+    "ArchetypeViolation",
+    "BrandedHouseViolation",
+    "BrandVoiceRegisterPack",
+    "parse_tic_families_from_canonical",
+    "parse_english_register_rules",
+    "parse_llm_tone_tells",
+    "parse_register_matrix",
+    "parse_audience_quadrants",
+    "parse_register_pack_yaml",
+]

@@ -618,6 +618,7 @@ All AKOS automation scripts share a typed Python library under `akos/`. This eli
 | `akos/policy.py` | Role capability matrix loader, tool profile generation, drift detection (v0.4.0) |
 | `akos/router.py` | `FailoverRouter` — automatic provider failover with 3-failure threshold, recovery probe, SOC alert integration |
 | `akos/checkpoints.py` | Workspace snapshot/restore via tarballs for reversible execution (v0.3.0) |
+| `akos/brand_voice_register.py` | I71 P1 Pack A1: Pydantic chassis for the brand voice register validator (10 enforcement layers). Models: `TicFamily`, `RegisterRule`, `AudienceQuadrant`, `RegisterToken`, `AudienceClass`, `BoundaryRule`, `SubMarkTier`, `VoicePersona`, `EngagementType`, `LLMToneTell`, `LocaleLeakRule`, `CobrandRule`, `TrackRecordRule`, `BrandAbbreviationRule`, `ArchetypeViolation`, `BrandedHouseViolation`, `BrandVoiceRegisterPack` (composite). Parsers: `parse_tic_families_from_canonical` (BRAND_COPYWRITING_DISCIPLINE §2), `parse_english_register_rules` (BRAND_ENGLISH_PATTERNS §5.1), `parse_llm_tone_tells` (BRAND_LLM_TONE_TELLS §3-§7), `parse_register_matrix` (BRAND_REGISTER_MATRIX), `parse_audience_quadrants` (BRAND_GANTT_DISCIPLINE §2), `parse_register_pack_yaml` (operator-editable override surface). Strict-day-1 default per D-IH-71-F; Round 3 brand-DNA Layers 5-9 per D-IH-71-K. Consumed by `scripts/validate_brand_voice_register.py`. |
 
 All scripts (`bootstrap.py`, `switch-model.py`, `assemble-prompts.py`, `log-watcher.py`, `gpu.py`) import from `akos/` and accept `--json-log` for structured CI output.
 

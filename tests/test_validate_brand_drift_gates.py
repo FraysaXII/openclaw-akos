@@ -22,6 +22,8 @@ from pathlib import Path
 
 import pytest
 
+pytestmark = pytest.mark.brand
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import scripts.validate_brand_canon_drift as canon_drift  # noqa: E402

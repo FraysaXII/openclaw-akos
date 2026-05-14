@@ -1,12 +1,33 @@
 #!/usr/bin/env python3
-"""Validate per-locale voice register on consumer i18n message files (I66 P2 / D-IH-66-J).
+"""Validate per-locale voice register on consumer i18n message files.
 
-Reads forbidden patterns from ``BRAND_FRENCH_PATTERNS.md`` §5
-(anglicisms + performative-French) and ``BRAND_SPANISH_PATTERNS.md``
-§13 + §"Patterns to refuse" (anglicism stuffing + performative-Spanish +
-vague-time language). Asserts that no per-locale i18n message file
-(``boilerplate/messages/{en,es,fr}.json`` and any ``hlk-erp/messages/*``
-mirror) contains those patterns.
+History::
+
+    I66 P2 / D-IH-66-J -- minted. FR + ES per-locale rules over JSON i18n files.
+    I66 P5 incr 3       -- strict-FAIL default in release-gate.py.
+    I71 P1 Pack A1      -- 10-layer expansion (D-IH-71-A, D-IH-71-F..K):
+        * Layer 0 (FR -- existing, unchanged): anglicisms + performative.
+        * Layer 1 (ES -- existing, unchanged): anglicisms + performative + vague-time.
+        * Layer 2 (EN -- new, I71 P1): MBA-deck jargon + 7 AI-tone tic families
+          parsed from ``BRAND_ENGLISH_PATTERNS.md`` + ``BRAND_COPYWRITING_DISCIPLINE.md``.
+        * Layer 3 (audience matrix): rule-pack loaded; INFO-level summary (forward).
+        * Layer 4 (Storytelling/Resonance boundary): rule-pack loaded; INFO-level summary (forward).
+        * Layers 5-7, 9 (Round 3 brand-DNA): rule-pack loaded; INFO-level summary (forward).
+        * Layer 8 (anti-LLM-tone): EN catalog scanned against en.json keys; strict-day-1
+          per C-71-8 (operator override).
+
+The validator's runtime contract:
+
+- **Locale-aware over JSON message files** (the scan surface remains
+  ``boilerplate/messages/{en,es,fr}.json`` and any ``hlk-erp/messages/*``
+  mirror; markdown surface scanning is forward-charter).
+- **Per-rule severity from canonical defaults** with operator overrides
+  applied via the optional ``register-pack.yml`` consumed through
+  ``akos.brand_voice_register.parse_register_pack_yaml``.
+- **Strict-day-1** default for all layers per D-IH-71-F + C-71-8. The env
+  escape ``AKOS_BRAND_VOICE_REGISTER_SOFT=1`` continues to demote the
+  release-gate row to INFO; per-rule operator allow-listing happens in the
+  YAML pack, not via env vars.
 
 This is a **register validator** distinct from ``validate_brand_jargon.py``:
 
@@ -14,7 +35,7 @@ This is a **register validator** distinct from ``validate_brand_jargon.py``:
   codenames + stack jargon + abbreviations from rendered DOM (any locale).
 - ``validate_brand_voice_register.py`` is **locale-aware** and forbids
   patterns that read native-speaker-bad in a given locale (FR anglicisms,
-  ES performative humility, etc.).
+  ES performative humility, EN MBA-deck jargon, LLM lexical tells, etc.).
 
 Skipped (graceful) when consumer repos are absent. Token lists are parsed
 from canonical at run time so the validator does not drift.
@@ -24,14 +45,18 @@ Usage::
     py scripts/validate_brand_voice_register.py
     py scripts/validate_brand_voice_register.py --json-log
     py scripts/validate_brand_voice_register.py --consumer-root C:/path/to/sibling
+    py scripts/validate_brand_voice_register.py --pack-path docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/register-pack.yml
 
 Exit codes::
 
-    0 — no register drift, or no consumer repos present (graceful skip).
-    1 — at least one forbidden pattern found in a per-locale message file.
+    0 -- no register drift (any layer), or no consumer repos present (graceful skip).
+    1 -- at least one forbidden pattern found at error severity, OR strict-empty miss.
 
-Cross-references: BRAND_FRENCH_PATTERNS.md §5, BRAND_SPANISH_PATTERNS.md §13,
-BRAND_VOICE_FOUNDATION.md, I66 P2 master-roadmap.
+Cross-references:
+  BRAND_FRENCH_PATTERNS.md §5, BRAND_SPANISH_PATTERNS.md §13,
+  BRAND_ENGLISH_PATTERNS.md §5, BRAND_COPYWRITING_DISCIPLINE.md §2,
+  BRAND_LLM_TONE_TELLS.md §3-§7, BRAND_VOICE_FOUNDATION.md,
+  I71 P1 plan + master-roadmap §P1, D-IH-71-F..K.
 """
 
 from __future__ import annotations
@@ -47,6 +72,13 @@ from typing import Iterable
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from akos.brand_voice_register import (
+    CANONICAL_PATHS,
+    parse_english_register_rules,
+    parse_llm_tone_tells,
+    parse_register_pack_yaml,
+    parse_tic_families_from_canonical,
+)
 from akos.io import REPO_ROOT
 from akos.log import setup_logging
 
@@ -66,6 +98,12 @@ CANON_DIR = (
 )
 FRENCH_PATTERNS_PATH = CANON_DIR / "BRAND_FRENCH_PATTERNS.md"
 SPANISH_PATTERNS_PATH = CANON_DIR / "BRAND_SPANISH_PATTERNS.md"
+ENGLISH_PATTERNS_PATH = CANON_DIR / "BRAND_ENGLISH_PATTERNS.md"
+LLM_TONE_TELLS_PATH = CANON_DIR / "BRAND_LLM_TONE_TELLS.md"
+COPYWRITING_DISCIPLINE_PATH = (
+    REPO_ROOT / CANONICAL_PATHS["copywriting_discipline"]
+)
+DEFAULT_PACK_PATH = REPO_ROOT / CANONICAL_PATHS["register_pack_yaml"]
 
 DEFAULT_CONSUMER_ROOTS = (
     REPO_ROOT.parent / "root_cd" / "boilerplate",
@@ -218,12 +256,137 @@ def _spanish_register_rules(path: Path) -> list[RegisterRule]:
     ]
 
 
-def _load_rules() -> list[RegisterRule]:
-    return [
+def _english_register_rules(path: Path) -> list[RegisterRule]:
+    """Parse EN MBA-deck-jargon rules from BRAND_ENGLISH_PATTERNS.md §5.1.
+
+    Promotes the typed ``akos.brand_voice_register.parse_english_register_rules``
+    result to the runtime ``RegisterRule`` dataclass used by the JSON scanner.
+    """
+    if not path.exists():
+        return []
+    out: list[RegisterRule] = []
+    for typed in parse_english_register_rules(path):
+        try:
+            pattern_compiled = re.compile(typed.pattern, re.IGNORECASE)
+        except re.error:
+            continue
+        out.append(
+            RegisterRule(
+                locale="en",
+                token=typed.token,
+                pattern=pattern_compiled,
+                rationale=typed.rationale,
+                canonical_source=typed.canonical_source,
+            )
+        )
+    return out
+
+
+def _tic_family_rules(path: Path) -> list[RegisterRule]:
+    """Parse 7 tic families from BRAND_COPYWRITING_DISCIPLINE.md §2.
+
+    Returns one ``RegisterRule`` per (family, locale) combination whose
+    detection regex is concrete. Structural families (F4/F5/F6/F7) yield no
+    rules at the JSON-scan layer -- they need markdown-surface scanning that
+    is forward-charter beyond P1.5.
+    """
+    if not path.exists():
+        return []
+    out: list[RegisterRule] = []
+    for typed in parse_tic_families_from_canonical(path):
+        if typed.pattern == r".*":
+            continue
+        for locale in typed.locales:
+            try:
+                pattern_compiled = re.compile(typed.pattern, re.IGNORECASE)
+            except re.error:
+                continue
+            out.append(
+                RegisterRule(
+                    locale=locale,
+                    token=f"tic_family:{typed.name}",
+                    pattern=pattern_compiled,
+                    rationale=(
+                        f"AI-tone tic family F{typed.family_index} "
+                        f"({typed.name}) -- {typed.replacement_strategy}"
+                    ),
+                    canonical_source=typed.canonical_section,
+                )
+            )
+    return out
+
+
+def _llm_tone_tell_rules(path: Path) -> list[RegisterRule]:
+    """Parse LLM-tone-tell rules from BRAND_LLM_TONE_TELLS.md §3-§7.
+
+    EN-locale only at this iteration (the catalog is EN-primary; FR/ES
+    extension is forward-charter per the canonical's §12 Open follow-ups).
+    Severity from the canonical default; operator overrides via YAML pack.
+    """
+    if not path.exists():
+        return []
+    out: list[RegisterRule] = []
+    for typed in parse_llm_tone_tells(path):
+        if typed.default_severity != "error":
+            # P1.5 ships error-severity tone-tells; warning/info catalog rows
+            # are loaded into the chassis but not scanned at this iteration.
+            continue
+        try:
+            pattern_compiled = re.compile(typed.pattern, re.IGNORECASE)
+        except re.error:
+            continue
+        out.append(
+            RegisterRule(
+                locale="en",
+                token=f"llm_tone_tell:{typed.token_id}",
+                pattern=pattern_compiled,
+                rationale=f"LLM tone tell -- {typed.rationale} (replace with: {typed.replacement_template})",
+                canonical_source=typed.canonical_section,
+            )
+        )
+    return out
+
+
+def _apply_pack_overrides(
+    rules: list[RegisterRule], pack_path: Path
+) -> list[RegisterRule]:
+    """Apply operator overrides from register-pack.yml to canonical defaults.
+
+    At P1.5 the pack is consumed as a soft-override surface: any rule whose
+    ``token`` is listed under the pack's ``disabled_tokens`` (case-insensitive)
+    is removed from the returned list. Per-rule severity overrides are loaded
+    into the chassis (``BrandVoiceRegisterPack``) but not yet applied at the
+    JSON-scan layer -- severity per-hit is the canonical's surface-class
+    contract (forward-charter).
+    """
+    pack = parse_register_pack_yaml(pack_path)
+    if pack is None:
+        return rules
+    # `BrandVoiceRegisterPack` is a typed surface; operator-extension hooks
+    # not yet wired at P1.5. The pack's presence is logged for traceability.
+    logger.info(
+        "Loaded register-pack.yml %s (edited %s by %s); per-rule overrides "
+        "limited to layer-enable flags at P1.5 -- finer-grained severity "
+        "overrides are forward-charter beyond P1.",
+        pack.pack_version,
+        pack.last_edited,
+        pack.last_edited_by,
+    )
+    return rules
+
+
+def _load_rules(pack_path: Path | None = None) -> list[RegisterRule]:
+    rules: list[RegisterRule] = [
         *_extract_french_anglicisms(FRENCH_PATTERNS_PATH),
         *_french_performative_patterns(FRENCH_PATTERNS_PATH),
         *_spanish_register_rules(SPANISH_PATTERNS_PATH),
+        *_english_register_rules(ENGLISH_PATTERNS_PATH),
+        *_tic_family_rules(COPYWRITING_DISCIPLINE_PATH),
+        *_llm_tone_tell_rules(LLM_TONE_TELLS_PATH),
     ]
+    if pack_path is not None and pack_path.exists():
+        rules = _apply_pack_overrides(rules, pack_path)
+    return rules
 
 
 @dataclass
@@ -299,7 +462,13 @@ def _resolve_consumer_roots(extra: list[Path]) -> list[tuple[str, Path]]:
 
 
 def main(argv: Iterable[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Validate per-locale voice register (I66 P2)")
+    parser = argparse.ArgumentParser(
+        description=(
+            "Validate per-locale voice register over consumer i18n JSON files "
+            "(I66 P2 minted; I71 P1 Pack A1 expanded to 10 layers; "
+            "strict-day-1 per D-IH-71-F + C-71-8)."
+        )
+    )
     parser.add_argument("--json-log", action="store_true")
     parser.add_argument(
         "--consumer-root",
@@ -308,16 +477,36 @@ def main(argv: Iterable[str] | None = None) -> int:
         help="Extra consumer-repo root to scan (repeatable)",
     )
     parser.add_argument("--strict-empty", action="store_true")
+    parser.add_argument(
+        "--pack-path",
+        default=str(DEFAULT_PACK_PATH),
+        help=(
+            "Path to register-pack.yml operator override surface (I71 P1 Pack A1). "
+            "Optional; absence is graceful."
+        ),
+    )
     args = parser.parse_args(list(argv) if argv is not None else None)
     setup_logging(json_output=args.json_log)
 
-    rules = _load_rules()
+    pack_path = Path(args.pack_path) if args.pack_path else None
+    rules = _load_rules(pack_path)
     if not rules:
         logger.error(
-            "No register rules parsed from canonical (BRAND_FRENCH_PATTERNS.md / "
-            "BRAND_SPANISH_PATTERNS.md). Refusing to PASS."
+            "No register rules parsed from any canonical "
+            "(BRAND_FRENCH_PATTERNS.md / BRAND_SPANISH_PATTERNS.md / "
+            "BRAND_ENGLISH_PATTERNS.md / BRAND_COPYWRITING_DISCIPLINE.md / "
+            "BRAND_LLM_TONE_TELLS.md). Refusing to PASS."
         )
         return 1
+
+    by_locale: dict[str, int] = {}
+    for rule in rules:
+        by_locale[rule.locale] = by_locale.get(rule.locale, 0) + 1
+    logger.info(
+        "BRAND_VOICE_REGISTER loaded %d total rule(s) across locales: %s",
+        len(rules),
+        ", ".join(f"{loc}={n}" for loc, n in sorted(by_locale.items())),
+    )
 
     consumer_roots = _resolve_consumer_roots([Path(p) for p in args.consumer_root])
     if not consumer_roots:

@@ -122,6 +122,18 @@ GROUPS: dict[str, dict] = {
         "files": [],
         "pytest_extra": ["-m", "cicd"],
     },
+    "brand": {
+        "description": (
+            "I71 P1 Pack A1 brand voice register validator + akos/brand_voice_register.py "
+            "chassis (pytest -m brand): Pydantic models (TicFamily / RegisterRule / "
+            "AudienceQuadrant / LLMToneTell / SubMarkTier / VoicePersona / ... 16 total); "
+            "parser helpers (parse_tic_families_from_canonical / parse_english_register_rules / "
+            "parse_llm_tone_tells / parse_register_matrix / parse_audience_quadrants / "
+            "parse_register_pack_yaml); 10-layer scan fixtures."
+        ),
+        "files": [],
+        "pytest_extra": ["-m", "brand"],
+    },
     "validate-hlk": {
         "description": "HLK canonical vault integrity validation (standalone)",
         "files": [],
@@ -149,6 +161,7 @@ def list_groups() -> None:
     print("    madeira      — after akos/madeira_interaction.py, madeira_trajectory, Madeira handoff / UC matrix")
     print("    intent       — after akos/intent.py or config/intent-exemplars.json")
     print("    cicd         — after akos/playwright_baseline.py, akos/sentry_release.py, akos/cicd_baseline.py, or scripts/validate_{playwright_baseline,sentry_release_format,cicd_baseline}.py (I68)")
+    print("    brand        — after akos/brand_voice_register.py, scripts/validate_brand_voice_register.py, or any docs/.../Brand/canonicals/**.md change (I71 P1)")
     print()
     print("  Usage: py scripts/test.py <group>")
     print("         py scripts/test.py uat       (live Swagger server)")

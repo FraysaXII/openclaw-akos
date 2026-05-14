@@ -1,0 +1,99 @@
+# Brand voice register validator -- operator-editable rule pack.
+#
+# Authored I71 P1 Pack A1 (2026-05-14). Consumed by
+# `akos.brand_voice_register.parse_register_pack_yaml`. Loaded by
+# `scripts/validate_brand_voice_register.py` at runtime; overrides apply over
+# canonical-source defaults.
+#
+# Edit-then-PR: any change to this file requires operator approval (Brand
+# Manager or Founder). Document each override's rationale in the PR
+# description; link to the surfacing deliverable if applicable.
+#
+# Schema authority: `akos.brand_voice_register.BrandVoiceRegisterPack`.
+# Schema-validation runs at validator startup; pack/schema drift fails fast.
+#
+# Cross-references:
+#   - canonicals/_validators/README.md -- folder-level guide.
+#   - .cursor/plans/i71_p1_pack_a1_brand_voice_register_bcb06a90.plan.md
+#   - docs/wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/master-roadmap.md
+
+pack_version: "v0.1.0"
+last_edited: "2026-05-14"
+last_edited_by: "Founder"
+
+canonical_source_refs:
+  - "BRAND_COPYWRITING_DISCIPLINE.md §2 (7 AI-tone tic families)"
+  - "BRAND_ENGLISH_PATTERNS.md §5 (EN MBA-deck jargon + performative-EN + template-vendor filler)"
+  - "BRAND_FRENCH_PATTERNS.md §5 (FR anglicism + performative-FR)"
+  - "BRAND_SPANISH_PATTERNS.md §13 (ES anglicism + performative-ES)"
+  - "BRAND_LLM_TONE_TELLS.md §3-§7 (anti-LLM-tone catalog; strict-day-1 per C-71-8)"
+  - "BRAND_REGISTER_MATRIX.md (6 register tokens)"
+  - "BRAND_GANTT_DISCIPLINE.md §2 (4-quadrant audience matrix)"
+  - "BRAND_BASELINE_REALITY_MATRIX.md §3 (translation rules)"
+
+# Per-layer enable flags (default: all true; strict-day-1 per D-IH-71-F).
+# Operator may disable a layer temporarily for emergency triage; do not
+# disable any layer in normal operations. Re-enable as soon as the
+# emergency is resolved; record the rationale in the PR description.
+layers_enabled:
+  # Layer 0 -- existing FR rules (I66 P2; unchanged at I71 P1).
+  layer_0_fr: true
+  # Layer 1 -- existing ES rules (I66 P2; unchanged at I71 P1).
+  layer_1_es: true
+  # Layer 2 -- new EN MBA-deck + 7 tic families (I71 P1).
+  layer_2_en_tic_families: true
+  # Layer 3 -- audience-formality x data-maturity x register-token matrix.
+  # Loaded as INFO-level chassis at P1.5; concrete scan logic forward-charter.
+  layer_3_audience_matrix: true
+  # Layer 4 -- Storytelling AUTHORS / Resonance CONSUMES boundary (D-IH-70-X).
+  # Loaded as INFO-level chassis at P1.5; concrete scan logic forward-charter.
+  layer_4_storytelling_resonance_boundary: true
+  # Layer 5 -- sub-mark tier + archetype + Branded House (Round 3).
+  # Loaded as INFO-level chassis at P1.5; concrete scan logic forward-charter.
+  layer_5_sub_mark_archetype: true
+  # Layer 6 -- voice persona + engagement type (Round 3).
+  # Loaded as INFO-level chassis at P1.5; concrete scan logic forward-charter.
+  layer_6_voice_persona_engagement_type: true
+  # Layer 7 -- locale-leak + cobrand surface check (Round 3).
+  # Loaded as INFO-level chassis at P1.5; concrete scan logic forward-charter.
+  layer_7_locale_leak_cobrand: true
+  # Layer 8 -- anti-LLM-tone (BRAND_LLM_TONE_TELLS.md). Strict-day-1 per C-71-8.
+  layer_8_llm_tone_tells: true
+  # Layer 9 -- anonymized track-record + brand-abbrev surface (Round 3).
+  # Loaded as INFO-level chassis at P1.5; concrete scan logic forward-charter.
+  layer_9_track_record_brand_abbrev: true
+
+# Typed pack surfaces (operator-loaded rules). Empty at the day-1 pack;
+# canonical defaults provide full coverage. Operators populate these only
+# when augmenting or overriding canonical rules.
+#
+# Schema for each surface lives in `akos.brand_voice_register`:
+#   - tic_families        -> TicFamily
+#   - register_rules      -> RegisterRule
+#   - audience_quadrants  -> AudienceQuadrant
+#   - register_tokens     -> RegisterToken
+#   - audience_classes    -> AudienceClass
+#   - boundary_rules      -> BoundaryRule
+#   - sub_mark_tiers      -> SubMarkTier
+#   - voice_personas      -> VoicePersona
+#   - engagement_types    -> EngagementType
+#   - llm_tone_tells      -> LLMToneTell
+#   - locale_leak_rules   -> LocaleLeakRule
+#   - cobrand_rules       -> CobrandRule
+#   - track_record_rules  -> TrackRecordRule
+#   - brand_abbreviation_rules -> BrandAbbreviationRule
+
+tic_families: []
+register_rules: []
+audience_quadrants: []
+register_tokens: []
+audience_classes: []
+boundary_rules: []
+sub_mark_tiers: []
+voice_personas: []
+engagement_types: []
+llm_tone_tells: []
+locale_leak_rules: []
+cobrand_rules: []
+track_record_rules: []
+brand_abbreviation_rules: []

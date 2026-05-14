@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (10)
+### Active (in execution) (11)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -29,6 +29,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | active | 2026-05-07 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
 | **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
 | **71** | [`71-cicd-discipline-and-aiops-baseline-maturity/`](71-cicd-discipline-and-aiops-baseline-maturity/) | active | 2026-05-13 | I71 — CI/CD Discipline and AIOps Baseline Maturity |
+| **77** | [`77-impeccable-brand-bridge-refresh/`](77-impeccable-brand-bridge-refresh/) | active | 2026-05-14 | I77 — Impeccable Brand-Bridge Refresh + Drift Gate |
 
 ### Gated on external event (2)
 

@@ -79,8 +79,8 @@ Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-sta
 | Phase | Title | Strand | Status | Closes OPS |
 |:---|:---|:---:|:---|:---:|
 | **P0** | Charter + registries + WORKSPACE §18 + Strand C scope expansion | A+B+C | **SHIPPED** (`e129bac`, `eb4c1b4`) | — |
-| **P1** | Pack A1 (voice register expansion) | A | pending | — |
-| **P2** | Packs A2–A3 (Gantt confidence + multilingual locale suffix) | A | pending | — |
+| **P1** | Pack A1 (voice register expansion — chassis edition; 10 layers + Round 3 brand-DNA) | A | **SHIPPED** 2026-05-14 | — |
+| **P2** | Packs A2–A3 (Gantt confidence + multilingual locale suffix) + Tier-3 deferred (number/currency/date format per-locale; Addition 11) | A | pending | — |
 | **P3** | Strand C1 — release-taxonomy ratification + tag-criteria SOP | C | pending | OPS-71-2 |
 | **P4** | Strand C2 — review-stamp dimension (column-or-table choice + migration + validator) | C | pending | OPS-71-3 |
 | **P5** | Pack A4 (render ownership) + Strand B hardening (MCP smoke + dashboard cross-links) | A+B | pending | — |
@@ -95,22 +95,24 @@ Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-sta
 - **Deliverables**: this `master-roadmap.md` + `reports/p0-charter-2026-05-13.md` + 5 D-IH-71 rows + 3 OPS-71 rows + `WORKSPACE_BLUEPRINT_HOLISTIKA.md` §18.
 - **Verification**: `validate_decision_register.py`, `validate_initiative_registry.py`, `validate_ops_register.py`, `validate_hlk.py` all PASS (post-edit re-run 2026-05-13).
 
-### P1 — Pack A1 (Brand voice register expansion)
+### P1 — Pack A1 (Brand voice register expansion — chassis edition) **SHIPPED 2026-05-14**
 
-- **Scope**: extend [`scripts/validate_brand_voice_register.py`](../../../scripts/validate_brand_voice_register.py) with 7 tic-family enforcement (per `BRAND_COPYWRITING_DISCIPLINE.md` §3); add a `register-pack.yml` rule-pack file at `docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/register-pack.yml`; author tests at `tests/test_validate_brand_voice_register_expansion.py`; wire into `scripts/release-gate.py`.
-- **Prerequisites**: P0 closed; `BRAND_COPYWRITING_DISCIPLINE.md` (I70 P5) is the canonical anchor.
-- **Deliverables**: validator extension + rule-pack YAML + tests + release-gate wiring + `CHANGELOG.md` entry.
-- **Verification**: `py scripts/validate_brand_voice_register.py` (strict mode) PASS on consumer repos that already pass; expected-fail fixtures detect 7 tic-family violations; `py scripts/release-gate.py` integrates the pack as a `[PASS]` row.
-- **Key risk**: regex breadth (false positives on legitimate prose). Mitigation: per-locale fixture suite + opt-out token list maintained at the YAML.
+- **Scope (Round 2 + Round 3 final)**: chassis-form expansion at 10 enforcement layers (0-9): existing FR/ES + 7 AI-tone tic families (per `BRAND_COPYWRITING_DISCIPLINE.md` **§2** — corrected from §3) + EN locale (new `BRAND_ENGLISH_PATTERNS.md`) + 3-axis audience matrix (Variant A/B/C/D × register-token) + Storytelling/Resonance boundary (D-IH-70-X codified) + Round 3 brand-DNA Layers 5-9 (sub-mark / archetype / Branded House / voice persona / engagement type / locale-leak / cobrand / anti-LLM-tone / track-record / brand-abbrev). Mint `akos/brand_voice_register.py` Pydantic chassis (16 models + 6 parser helpers). Author `BRAND_LLM_TONE_TELLS.md` + `_validators/README.md` + `_validators/register-pack.yml` + `BRAND_ENGLISH_PATTERNS.md`.
+- **Prerequisites**: P0 closed; `BRAND_COPYWRITING_DISCIPLINE.md` §2 + `BRAND_REGISTER_MATRIX.md` + `BRAND_GANTT_DISCIPLINE.md` §2 + D-IH-70-X (canonical anchors).
+- **Deliverables**: 3 new canonicals + Pydantic chassis + validator extension + YAML rule pack + tests (28-case) + release-gate row in-place edit + WORKSPACE §16/§18 cross-link + 6 D-IH-71-F..K + CHANGELOG entry + phase report.
+- **Verification**: `py scripts/validate_brand_voice_register.py --pack-path canonicals/_validators/register-pack.yml` reports 54 rules loaded; pytest `-m brand` PASS (61 tests); release-gate row carries the I71 P1 Pack A1 expansion label.
+- **Strictness default** (per D-IH-71-F operator override at plan finalization 2026-05-14): **strict-day-1** for all 10 layers; soft-30-day default REJECTED. Per-rule allow-listing via `register-pack.yml`; global `AKOS_BRAND_VOICE_REGISTER_SOFT=1` env preserved for emergency triage. C-71-1 verdict: `strict_day_1`.
+- **Key risk**: regex breadth (false positives on legitimate prose). Mitigation: per-rule severity in canonical; operator-editable `register-pack.yml`; inline allow-comments (e.g., `<!-- llm-tone-allow: T-3-delve-into -->`); fixture suite at `tests/test_validate_brand_voice_register_expansion.py`.
 
-### P2 — Packs A2 + A3 (Gantt confidence + multilingual locale-suffix)
+### P2 — Packs A2 + A3 (Gantt confidence + multilingual locale-suffix) + Tier-3 Addition 11 fold-in
 
 - **Scope**:
   - **A2**: new `scripts/validate_brand_gantt_confidence.py` enforcing the 5-level confidence ladder + 4-quadrant audience matrix from `BRAND_GANTT_DISCIPLINE.md`; rule-pack at `docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/gantt-pack.yml`; tests + release-gate.
   - **A3**: new `scripts/validate_brand_multilingual.py` enforcing the 3-file pattern (`README.md` 5-line pointer + `README.fr.md` + `README.en.md`) per `D-IH-70-P` + `BRAND_MULTILINGUAL_CONTRACT.md`; tests + release-gate.
-- **Prerequisites**: P1 closed; `BRAND_GANTT_DISCIPLINE.md` (I70 P6) and `BRAND_MULTILINGUAL_CONTRACT.md` (I70 P7) are the canonical anchors; SUEZ engagement is the ground-truth fixture for A3.
-- **Deliverables**: 2 validators + 2 rule-pack YAMLs + 2 test modules + release-gate integration + CHANGELOG entries.
-- **Verification**: A2 detects out-of-ladder confidence cells in fixture Gantt files; A3 detects engagements that ship only `README.md` without locale variants OR without 5-line pointer; release-gate green.
+  - **Addition 11 (Tier-3 fold-in from P1 Round 3)**: number / currency / date format per-locale enforcement — author the contract in a sibling `BRAND_LOCALISED_FORMATS.md` canonical; extend the Pack A1 chassis with `NumberFormatRule` + `CurrencyFormatRule` + `DateFormatRule`; surface via the existing validator script or a sibling validator depending on size at execution time.
+- **Prerequisites**: P1 closed (SHIPPED 2026-05-14); `BRAND_GANTT_DISCIPLINE.md` (I70 P6) and `BRAND_MULTILINGUAL_CONTRACT.md` (I70 P7) are the canonical anchors; SUEZ engagement is the ground-truth fixture for A3.
+- **Deliverables**: 2 validators + 2 rule-pack YAMLs + 2 test modules + release-gate integration + CHANGELOG entries + Addition 11 canonical + chassis extension.
+- **Verification**: A2 detects out-of-ladder confidence cells in fixture Gantt files; A3 detects engagements that ship only `README.md` without locale variants OR without 5-line pointer; Addition 11 detects locale-mismatched number/currency/date formats; release-gate green.
 
 ### P3 — Strand C1 (release-taxonomy ratification)
 
@@ -146,7 +148,7 @@ Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-sta
 
 ## Conundrums (open at P0; ratify during execution per [`.cursor/rules/akos-inline-ratification.mdc`](../../../../.cursor/rules/akos-inline-ratification.mdc))
 
-1. **C-71-1 — Pack A1 strictness ladder**: should tic-family violations fail-loud on the first offense or escalate via a soft → strict cadence (like `validate_cicd_baseline.py`)? **Default**: soft for first 30 days post-P1, strict thereafter; ratify at P1 inline-ratify gate.
+1. **C-71-1 — Pack A1 strictness ladder**: should tic-family violations fail-loud on the first offense or escalate via a soft → strict cadence (like `validate_cicd_baseline.py`)? ~~Default: soft for first 30 days post-P1, strict thereafter.~~ **RESOLVED at P1 inline-ratify gate (2026-05-14): strict-day-1** per D-IH-71-F operator override; per-rule allow-listing via `register-pack.yml`; emergency soft-mode toggle via `AKOS_BRAND_VOICE_REGISTER_SOFT=1` env preserved.
 2. **C-71-2 — Pack A3 SUEZ vs general-engagement strictness**: SUEZ ships full bilingual; future engagements may launch monolingual then add a locale. Should A3 fail-loud on missing locale variants or warn? **Default**: warn until two consecutive engagements land bilingual; ratify at P2 inline-ratify gate.
 3. **C-71-3 — Strand C1 tag-now vs hold**: ratification at P3 inline-ratify; default = hold for P6 closure.
 4. **C-71-4 — Strand C2 column vs table**: ratification at P4 inline-ratify; default = column-extension for already-mirrored tables; separate table for unmirrored canonicals.
@@ -154,13 +156,19 @@ Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-sta
 
 ## Decision preview (D-IH-71-* rows likely to mint during execution)
 
-- **D-IH-71-F** — Pack A1 ratification (post-P1 inline-ratify gate; tic-family strictness ladder).
-- **D-IH-71-G** — Pack A2 ratification (Gantt confidence ladder enforcement scope).
-- **D-IH-71-H** — Pack A3 ratification (multilingual locale-suffix strictness).
-- **D-IH-71-I** — Strand C1 tag-now-vs-hold ratification (P3).
-- **D-IH-71-J** — Strand C2 column-vs-table ratification (P4).
-- **D-IH-71-K** — Pack A4 ratification (render-ownership coverage thresholds).
-- **D-IH-71-L** — Strand B observability cardinality ratification (P5).
+- **D-IH-71-F** — **MINTED 2026-05-14** Pack A1 strict-day-1 enforcement ratification.
+- **D-IH-71-G** — **MINTED 2026-05-14** Pack A1 Pydantic chassis pattern (akos/brand_voice_register.py).
+- **D-IH-71-H** — **MINTED 2026-05-14** Pack A1 3-axis audience matrix shape (Variant × register-token × surface-class).
+- **D-IH-71-I** — **MINTED 2026-05-14** Pack A1 Storytelling/Resonance boundary codification (D-IH-70-X reinforcement).
+- **D-IH-71-J** — **MINTED 2026-05-14** Pack A1 release-gate row extension policy (in-place vs new row).
+- **D-IH-71-K** — **MINTED 2026-05-14** Pack A1 Round 3 brand-DNA additions (Layers 5-9 scope ratification).
+- **D-IH-71-L** — Pack A2 ratification (Gantt confidence ladder enforcement scope).
+- **D-IH-71-M** — Pack A3 ratification (multilingual locale-suffix strictness).
+- **D-IH-71-N** — Addition 11 ratification (number/currency/date format per-locale; P2 fold-in).
+- **D-IH-71-O** — Strand C1 tag-now-vs-hold ratification (P3).
+- **D-IH-71-P** — Strand C2 column-vs-table ratification (P4).
+- **D-IH-71-Q** — Pack A4 ratification (render-ownership coverage thresholds).
+- **D-IH-71-R** — Strand B observability cardinality ratification (P5).
 - **D-IH-71-CLOSURE** — initiative closure (P6).
 
 ## Risk register (top 5)

@@ -28,4 +28,5 @@ markers = [
     "madeira: marks Madeira interaction/trajectory tests (see `py scripts/test.py madeira`)",
     "intent: marks intent classification and golden tests (see `py scripts/test.py intent`)",
     "cicd: marks I68 CICD-baseline + observability validators (Playwright baseline / Sentry release format / CICD baseline)",
+    "brand: marks I71 P1 Pack A1 brand voice register validator + chassis tests (Pydantic models + parsers + 10-layer scan)",
 ]

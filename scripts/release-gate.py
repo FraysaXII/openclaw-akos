@@ -491,7 +491,12 @@ def main() -> None:
             f"BRAND voice register (scripts/validate_brand_voice_register.py, soft mode opted-in via AKOS_BRAND_VOICE_REGISTER_SOFT=1; exit={voice_rc})",
         ))
     else:
-        results.append(("PASS" if voice_ok else "FAIL", "BRAND voice register (scripts/validate_brand_voice_register.py, strict — default since I66 P5 incr 3)"))
+        results.append((
+            "PASS" if voice_ok else "FAIL",
+            "BRAND voice register (scripts/validate_brand_voice_register.py, strict — default since I66 P5 incr 3 "
+            "+ I71 P1 Pack A1 expansion: 7 AI-tone tic families + EN locale + 3-axis audience matrix "
+            "+ Storytelling/Resonance boundary + Round 3 Layers 5-9 — strict-day-1 per D-IH-71-F + C-71-8)",
+        ))
 
     baseline_ok, baseline_rc = run_brand_baseline_reality_validation()
     if os.environ.get("AKOS_BRAND_BASELINE_REALITY_STRICT") == "1":

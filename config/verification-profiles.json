@@ -298,6 +298,21 @@
           "argv": ["scripts/lint_cassette_pii.py"]
         }
       ]
+    },
+    "brand_voice_register_smoke": {
+      "description": "Initiative 71 P1 Pack A1: standalone brand voice register validator smoke (10 enforcement layers; strict-day-1 per D-IH-71-F + C-71-8). Loads register-pack.yml from canonicals/_validators/. Scans consumer i18n JSON files for FR anglicisms + ES patterns + EN MBA-deck jargon + 7 AI-tone tic families + anti-LLM-tone catalog. Layers 3-7 + 9 (audience matrix; Storytelling/Resonance boundary; sub-mark archetype; voice persona; locale-leak; cobrand; track-record; brand-abbrev) load as INFO-level chassis pending forward-charter markdown-surface scan.",
+      "steps": [
+        {
+          "id": "validate_brand_voice_register_strict_empty",
+          "description": "Run scripts/validate_brand_voice_register.py --strict-empty --pack-path canonicals/_validators/register-pack.yml",
+          "argv": [
+            "scripts/validate_brand_voice_register.py",
+            "--strict-empty",
+            "--pack-path",
+            "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/register-pack.yml"
+          ]
+        }
+      ]
     }
   }
 }
