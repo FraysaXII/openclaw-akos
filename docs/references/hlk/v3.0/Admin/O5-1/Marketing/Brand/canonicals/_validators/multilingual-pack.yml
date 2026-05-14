@@ -1,0 +1,75 @@
+# Brand multilingual locale-suffix + README triad validator -- operator-editable pack.
+#
+# Authored I71 P2 Pack A3 (2026-05-14). Consumed by
+# `akos.brand_voice_register.parse_multilingual_pack_yaml`. Loaded by
+# `scripts/validate_brand_multilingual.py` at runtime; overrides apply over
+# BRAND_MULTILINGUAL_CONTRACT.md canonical defaults.
+#
+# Edit-then-PR: any change to this file requires operator approval (Brand
+# Manager + UX Designer + PMO joint owners; BRAND_MULTILINGUAL_CONTRACT.md
+# carries joint role_owner). Document each override's rationale in the PR
+# description; link to the surfacing deliverable if applicable.
+#
+# Schema authority: `akos.brand_voice_register.BrandMultilingualPack`.
+# Schema-validation runs at validator startup; pack/schema drift fails fast.
+#
+# Sibling pack: `register-pack.yml` (Pack A1; brand voice register).
+# Sibling pack: `gantt-pack.yml` (Pack A2; Gantt confidence ladder).
+#
+# Cross-references:
+#   - canonicals/_validators/README.md -- folder-level guide.
+#   - .cursor/plans/i71-cicd-discipline-and-aiops-baseline-maturity_a71c0d6e.plan.md §P2
+#   - docs/wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/master-roadmap.md
+#   - BRAND_MULTILINGUAL_CONTRACT.md §2 (per-engagement language; 3-file pattern)
+#   - BRAND_COUNTERPARTY_README_CONTRACT.md (5-line pointer skeleton)
+#   - D-IH-70-P (I70 P3 bilingual README pattern ratification)
+
+pack_version: "v0.1.0"
+last_edited: "2026-05-14"
+last_edited_by: "Founder"
+
+canonical_source_refs:
+  - "BRAND_MULTILINGUAL_CONTRACT.md §2 (per-engagement language declaration; 3-file pattern)"
+  - "BRAND_MULTILINGUAL_CONTRACT.md §3 (four-surface multilingual matrix)"
+  - "BRAND_MULTILINGUAL_CONTRACT.md §5 (cross-language consistency contract)"
+  - "BRAND_COUNTERPARTY_README_CONTRACT.md (5-line pointer skeleton + non-technical register)"
+  - "D-IH-70-P (I70 P3 bilingual README pattern ratification)"
+
+# C-71-2 inline-ratify gate: Pack A3 SUEZ strictness ratification.
+#
+#   warning -- (prior default) warn-until-2-bilingual; never shipped because
+#              the operator ratified strict-day-1 at the C-71-2 gate before
+#              first execution.
+#   error   -- (RATIFIED 2026-05-14) strict-day-1 matching Pack A1 D-IH-71-F
+#              precedent; every multilingual engagement must ship the 3-file
+#              pattern from day 1 of its bilingual phase. Operator-stated
+#              rationale: post-meeting mail discipline requires versioning
+#              enforced now (the founder will continue sending bilingual mails
+#              from this point forward; allowing a soft warn window risks the
+#              first non-SUEZ bilingual engagement skipping the 3-file pattern
+#              in flight). Mirrors Pack A1 D-IH-71-F strict-day-1 precedent.
+default_triad_severity: error
+
+# Per-layer enable flags (default: all true). Detection (c) (per-locale
+# frontmatter cohesion) is always enforced at error severity per the
+# LocaleSuffixRule chassis contract -- the per_locale_frontmatter flag
+# toggles it on/off; severity is the rule's own default ("error").
+layers_enabled:
+  # Layer 2b-1 -- per-locale frontmatter cohesion (README.fr.md -> language: fr).
+  locale_suffix_cohesion: true
+  # Layer 2b-2 -- README triad pointer skeleton (5-line pointer when per-locale
+  # siblings exist; pointer link targets resolve to existing files).
+  readme_triad_pointer: true
+  # Layer 2b-3 -- per-locale frontmatter declaration required.
+  per_locale_frontmatter: true
+
+# Typed pack surfaces (operator-loaded rules). Empty at the day-1 pack;
+# canonical defaults provide full coverage. Operators populate these only
+# when augmenting or overriding canonical rules.
+#
+# Schema for each surface lives in `akos.brand_voice_register`:
+#   - locale_suffix_rules -> LocaleSuffixRule
+#   - readme_triad_rules  -> ReadmeTriadRule
+
+locale_suffix_rules: []
+readme_triad_rules: []
