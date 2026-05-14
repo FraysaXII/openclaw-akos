@@ -156,7 +156,7 @@ flowchart TD
 | **P3** | Strand C1 — release-taxonomy ratification + tag-criteria SOP + customer-invisible versioning posture | C | **SHIPPED 2026-05-14** | `392e050` | `OPS-71-2` (closed) |
 | **P4** | Strand C2 — review-stamp dimension (column-extension on 4 mirrored canonicals + freshness validator + ERP panel slot) | C | **SHIPPED** 2026-05-14 (`6efc93e`) | `D-IH-71-Q` MINTED | `OPS-71-3` (closed) |
 | **P5** | Pack A4 (render ownership) + Strand B hardening (MCP smoke + dashboard cross-links) | A + B | **SHIPPED 2026-05-14** | `8fa7c9d` | `D-IH-71-S` + `D-IH-71-T` MINTED |
-| **P6** | Closing UAT bands A-D + INITIATIVE_REGISTRY closure + OPS-71-1 closure + CHANGELOG `v3.1.0` cut + annotated `v3.1.0` tag attached at closure cut per `C-71-3` HOLD | — | **SHIPPED 2026-05-14** | commit 1 `0bb68e8` (bulk review-stamp backfill across 22 surfaces + `D-IH-71-CLOSURE` advance-mint) + commit 2 `<sha-pending-commit>` (closure ceremony + `v3.1.0` tag) | `OPS-71-1` (closed); `D-IH-71-CLOSURE` MINTED |
+| **P6** | Closing UAT bands A-D + INITIATIVE_REGISTRY closure + OPS-71-1 closure + CHANGELOG `v3.1.0` cut + annotated `v3.1.0` tag attached at closure cut per `C-71-3` HOLD | — | **SHIPPED 2026-05-14** | commit 1 `0bb68e8` (bulk review-stamp backfill across 22 surfaces + `D-IH-71-CLOSURE` advance-mint) + commit 2 `bad55d2` (closure ceremony + `v3.1.0` tag) | `OPS-71-1` (closed); `D-IH-71-CLOSURE` MINTED |
 
 ## Cross-walk — promoted-candidate scope → master-roadmap phases → plan §
 

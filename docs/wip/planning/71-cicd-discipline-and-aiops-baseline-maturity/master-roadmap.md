@@ -95,7 +95,7 @@ Both C1 and C2 are scoped to **P3** (charter-time policy) and **P4** (review-sta
 | **P3** | Strand C1 — release-taxonomy ratification + tag-criteria SOP + customer-invisible versioning posture | C | **SHIPPED** 2026-05-14 (`392e050`) | OPS-71-2 (closed) |
 | **P4** | Strand C2 — review-stamp dimension (column-extension on 4 mirrored canonicals + freshness validator + ERP panel slot) | C | **SHIPPED** 2026-05-14 (`6efc93e`) | OPS-71-3 (closed) |
 | **P5** | Pack A4 (render ownership) + Strand B hardening (MCP smoke + dashboard cross-links) | A+B | **SHIPPED** 2026-05-14 (`8fa7c9d`) | — |
-| **P6** | Closing UAT bands A-D + INITIATIVE_REGISTRY closure + OPS-71-1 closure + CHANGELOG `v3.1.0` cut + `v3.1.0` annotated tag attached at closure cut per C-71-3 HOLD | — | **SHIPPED** 2026-05-14 (commit 1 `0bb68e8` review-stamp backfill + commit 2 `<sha-pending-commit>` closure ceremony) | OPS-71-1 (closed) |
+| **P6** | Closing UAT bands A-D + INITIATIVE_REGISTRY closure + OPS-71-1 closure + CHANGELOG `v3.1.0` cut + `v3.1.0` annotated tag attached at closure cut per C-71-3 HOLD | — | **SHIPPED** 2026-05-14 (commit 1 `0bb68e8` review-stamp backfill + commit 2 `bad55d2` closure ceremony) | OPS-71-1 (closed) |
 
 ## Per-phase scoping (scope / prerequisites / deliverables / verification)
 
