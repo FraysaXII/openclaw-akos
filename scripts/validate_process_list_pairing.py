@@ -52,6 +52,7 @@ def _runbook_discoverable(item_id: str) -> bool:
     candidates.extend(sorted(SCRIPTS_DIR.glob("peopl_engagement*.py")))
     candidates.extend(sorted(SCRIPTS_DIR.glob("peopl_agentic*.py")))
     candidates.extend(sorted(SCRIPTS_DIR.glob("tech_agentic*.py")))
+    candidates.extend(sorted(SCRIPTS_DIR.glob("peopl_cross_area*.py")))
     for p in candidates:
         if not p.exists():
             continue
