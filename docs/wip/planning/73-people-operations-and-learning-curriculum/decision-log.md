@@ -190,6 +190,13 @@ language: en
 - **Decision.** **Option A — default `methodology-anchor`.** Accepted via operator skip during P2 execution; **no** companion `DECISION_REGISTER.csv` row minted.
 - **Close-out.** P2.
 
+## C-73-3 — Quarterly Ethics + Learning review facilitator (P5 inline-ratify)
+
+- **Question.** Who facilitates the quarterly co-review mandated by [`ETHICAL_AUTOMATION_POSTURE.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Ethics/canonicals/ETHICAL_AUTOMATION_POSTURE.md) §5 (*Ethics + Learning inseparability contract*)?
+- **Options.** **A.** Ethics Advisor leads with Learning Curator as mandatory co-reviewer. **B.** Learning Curator leads; Ethics audits after-the-fact.
+- **Decision.** **Option A — Ethics-led with mandatory Learning co-review.** Accepted via operator skip during P5 execution; ratification captured here only (**no** companion `DECISION_REGISTER.csv` row minted).
+- **Close-out.** P5 (`SOP-ETHICS_LEARNING_REVIEW_001.md` + `hol_peopl_dtp_316`).
+
 ## Forward-charter decisions
 
 The following decisions remain pre-allocated to per-phase inline-ratify gates:

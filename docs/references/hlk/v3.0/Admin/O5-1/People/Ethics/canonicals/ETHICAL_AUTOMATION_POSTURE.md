@@ -109,6 +109,7 @@ Concretely:
 - Parent: [`PEOPLE_AREA_RESTRUCTURE.md`](../../canonicals/PEOPLE_AREA_RESTRUCTURE.md) §3 — brand-positioning thesis "we become unethical when we unlearn".
 - Sister: `FOUNDER_METHODOLOGY_VERSIONING.md` (People/canonicals/) §3.2.1 + §3.2.2 — founder principles 2.1 + 2.2.
 - Sister: `BRAND_COPYWRITING_DISCIPLINE.md` (Marketing/Brand/Copywriter/canonicals/) — anti-AI-tone discipline operates the AI-coexistence design constraint at the prose register level.
+- Sister: [`SOP-ETHICS_LEARNING_REVIEW_001.md`](SOP-ETHICS_LEARNING_REVIEW_001.md) — quarterly Ethics + Learning co-review cadence (I73 P5).
 - Sister: KM_CHANNEL_VALUE_NARRATIVE.md (Operations/PMO/) §5 Claim 4 (AI coexists with human judgment) + §6 anti-claim 2 (not AI-replacement-for-humans).
 - HLK_ERP_ARCHITECTURE.md §8 (AKOS-complete-enough trigger) — pre-trigger gate invokes §2.1 impact assessment.
 - D-IH-70-Q (P3 ratification) — Ethics as standalone sub-role.

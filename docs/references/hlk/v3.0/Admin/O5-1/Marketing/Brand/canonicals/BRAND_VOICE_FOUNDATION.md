@@ -10,12 +10,16 @@ topic_ids:
 artifact_role: canonical
 intellectual_kind: brand_asset
 authority: Operator (lived protocols)
-last_review: 2026-04-29
+last_review: 2026-05-15
 ssot: true
 ---
 # BRAND_VOICE_FOUNDATION
 
 > **Status — Active (Initiative 24 P0a; Operator-authored 2026-04-29).** Operator-lived brand voice per D-IH-17. Maintained by the Brand Manager (CMO chain); annual review trigger lives in `process_list.csv` `thi_mkt_dtp_293` (Initiative 24 P1).
+
+## Ethics-learning thesis (internal positioning)
+
+Holistika's operated thesis *we become unethical when we unlearn* ([`PEOPLE_AREA_RESTRUCTURE.md`](../../People/canonicals/PEOPLE_AREA_RESTRUCTURE.md) §3; elaborated in [`ETHICAL_AUTOMATION_POSTURE.md`](../../People/Ethics/canonicals/ETHICAL_AUTOMATION_POSTURE.md) §3) belongs in the **internal register** for brand-strategy reasoning: ethical posture starves without a live Learning curriculum. Layer 1 voice charter still governs customer-facing wording via [`BRAND_BASELINE_REALITY_MATRIX.md`](BRAND_BASELINE_REALITY_MATRIX.md) dual-register rules — **do not** paste this thesis verbatim into external-register surfaces until Brand promotes explicit external copy.
 
 ## Voice charter
 

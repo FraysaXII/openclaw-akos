@@ -45,6 +45,7 @@ def _runbook_discoverable(item_id: str) -> bool:
     candidates: list[Path] = [
         SCRIPTS_DIR / "revops_dispatch.py",
         SCRIPTS_DIR / "scaffold_engagement.py",
+        SCRIPTS_DIR / "check_ethics_learning_review_due.py",
         HLK_VAULT / "Admin" / "O5-1" / "Operations" / "RevOps" / "canonicals" / "REVOPS_PROCESS_CATALOG.yaml",
     ]
     candidates.extend(sorted(SCRIPTS_DIR.glob("peopl_engagement*.py")))
