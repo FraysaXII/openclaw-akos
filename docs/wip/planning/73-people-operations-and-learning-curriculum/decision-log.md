@@ -176,6 +176,20 @@ language: en
 - **Reversibility.** medium (column can be dropped, but downstream SOPs and KB-view routes would need rewrite).
 - **Close-out.** P1.
 
+## C-73-1 — Default apprentice cohort size (P2 inline-ratify)
+
+- **Question.** Default cohort size for Holistik Researcher onboarding backlog tracking (`LEARNING_OPS_BACKLOG.csv`) until hiring velocity materially exceeds solo-operator pacing?
+- **Options.** **A.** Fixed cohort size 1 by default (append backlog rows one apprentice at a time). **B.** Variable cohort size with quarterly sizing ritual (extra CSV discipline).
+- **Decision.** **Option A — default cohort size 1.** Accepted via operator skip / silent continuation during P2 execution (inline-ratify per [`akos-inline-ratification.mdc`](../../../../.cursor/rules/akos-inline-ratification.mdc)); **no** companion `DECISION_REGISTER.csv` row minted (operator-discipline ratification recorded here only).
+- **Close-out.** P2.
+
+## C-73-2 — Curriculum methodology versioning anchor (P2 inline-ratify)
+
+- **Question.** Anchor `methodology_version_at_onboarding` in `LEARNING_OPS_BACKLOG.csv` to I71 review-stamp posture (`methodology-anchor` / methodology lane) vs inventing a Learning-only cadence slug?
+- **Options.** **A.** Default `methodology-anchor` for curriculum-bound rows (reuse I71 P4 column semantics). **B.** Separate Learning-only version token (extra taxonomy work).
+- **Decision.** **Option A — default `methodology-anchor`.** Accepted via operator skip during P2 execution; **no** companion `DECISION_REGISTER.csv` row minted.
+- **Close-out.** P2.
+
 ## Forward-charter decisions
 
 The following decisions remain pre-allocated to per-phase inline-ratify gates:

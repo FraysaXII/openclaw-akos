@@ -42,11 +42,12 @@ TODO_MARKER_RE = re.compile(r"TODO\[(I7[0-9]+|OPERATOR)[-:][A-Za-z0-9_\-]+\]")
 
 def _runbook_discoverable(item_id: str) -> bool:
     """Heuristic: a runbook is discoverable if a script or YAML catalog references the item_id."""
-    candidates = [
+    candidates: list[Path] = [
         SCRIPTS_DIR / "revops_dispatch.py",
         SCRIPTS_DIR / "scaffold_engagement.py",
         HLK_VAULT / "Admin" / "O5-1" / "Operations" / "RevOps" / "canonicals" / "REVOPS_PROCESS_CATALOG.yaml",
     ]
+    candidates.extend(sorted(SCRIPTS_DIR.glob("peopl_engagement*.py")))
     for p in candidates:
         if not p.exists():
             continue

@@ -98,8 +98,8 @@ flowchart TD
 | Phase | Title | Strand | Pause class | Closes OPS | Status |
 |:---|:---|:---:|:---|:---:|:---|
 | **P0** | Charter + registries + master-roadmap | — | standard | — | **SHIPPED** (this commit) |
-| **P1** | ENGAGEMENT_MODEL_REGISTRY mint + ENGAGEMENT_REGISTRY 17-col extension + process_list tranche | E | canonical-CSV gate | OPS-73-1 | pending |
-| **P2** | Learning charter + Holistik Researcher curriculum + LEARNING_OPS_BACKLOG | A | standard | OPS-73-2 | pending |
+| **P1** | ENGAGEMENT_MODEL_REGISTRY mint + ENGAGEMENT_REGISTRY 17-col extension + process_list tranche | E | canonical-CSV gate | OPS-73-1 | **SHIPPED** (precondition commit `9aeee38`) |
+| **P2** | Learning charter + Holistik Researcher curriculum + LEARNING_OPS_BACKLOG | A | standard | OPS-73-2 | **SHIPPED** (this phase commit) |
 | **P3** | 4 Engagement-lifecycle SOPs (hiring / onboarding / payroll / offboarding) | C | standard | OPS-73-3 | pending |
 | **P4** | HISTORICAL_ENGAGEMENT_CASE_LAW (Bâtard / Mark-II / Alias V / RCD Legal / L'Oréal arrangement) | F | standard | OPS-73-4 | pending |
 | **P5** | SOP-ETHICS_LEARNING_REVIEW + BRAND_VOICE_FOUNDATION refresh | B | standard | OPS-73-5 | pending |
