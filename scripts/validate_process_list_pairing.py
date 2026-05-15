@@ -50,6 +50,7 @@ def _runbook_discoverable(item_id: str) -> bool:
         HLK_VAULT / "Admin" / "O5-1" / "Operations" / "RevOps" / "canonicals" / "REVOPS_PROCESS_CATALOG.yaml",
     ]
     candidates.extend(sorted(SCRIPTS_DIR.glob("peopl_engagement*.py")))
+    candidates.extend(sorted(SCRIPTS_DIR.glob("peopl_agentic*.py")))
     for p in candidates:
         if not p.exists():
             continue
