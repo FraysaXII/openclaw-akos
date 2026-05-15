@@ -48,7 +48,7 @@ Updated every time an initiative is promoted, closed, or has a TRIGGER-watch sta
 | **I70** | Holistika OS Self-Governance | closed (2026-05-13) | — | [§11.1](PLANNING_COMPENDIUM.md#§111-i70--holistika-os-self-governance-foundation-closed-2026-05-13) |
 | **I71** | CICD Discipline + AIOps Baseline Maturity | closed (2026-05-14) | — | [§11.2](PLANNING_COMPENDIUM.md#§112-i71--cicd-discipline-and-aiops-baseline-maturity-closed-2026-05-14) |
 | **I72** | Marketing Area Governance + Persona Registry + IntelligenceOps + RevOps + Process Catalog | closed (2026-05-14) | — | [§11.3](PLANNING_COMPENDIUM.md#§113-i72--marketing-area-governance--persona-registry--intelligenceops--revops--process-catalog-closed-2026-05-14) |
-| **I73** | People Operations + Learning curriculum | candidate | Founder hire commit + People Ops Lead onboard (PENDING) | [§11.4](PLANNING_COMPENDIUM.md#§114-i73--people-operations--learning-curriculum-candidate) |
+| **I73** | People Operations + Engagement Models + Methodology IP (mega-initiative) | active (P0 ratified 2026-05-15) | — (P1 ENGAGEMENT_MODEL_REGISTRY canonical-CSV PAUSE POINT pending) | [§11.4](PLANNING_COMPENDIUM.md#§114-i73--people-operations--engagement-models--methodology-ip-active) |
 | **I74** | Brand-tooling productization | candidate (TRIGGER-watch) | TRIGGER-2 not fired (0 external requests) | [§11.5](PLANNING_COMPENDIUM.md#§115-i74--brand-tooling-productization-candidate--trigger-watch) |
 | **I75** | Research area governance | candidate | I73 P0 + Research Director commit (PENDING) | [§11.6](PLANNING_COMPENDIUM.md#§116-i75--research-area-governance-candidate) |
 | **I76** | MADEIRA elevation | candidate | Strand A external research + AIC architecture ratification (PENDING) | [§11.7](PLANNING_COMPENDIUM.md#§117-i76--madeira-elevation-candidate) |
@@ -70,7 +70,7 @@ The following files are kept as 10-line redirect stubs only. They were the prior
 - [`initiative-planning-prompts.md`](initiative-planning-prompts.md) — generic Discovery / Plan-Author / Pre-flight trio. Now → `PLANNING_COMPENDIUM.md` §3-§5.
 - [`i71-kickoff-prompt.md`](i71-kickoff-prompt.md) — I71 per-initiative template. Initiative closed; appendix § now in compendium §11.2.
 - [`i72-kickoff-prompt.md`](i72-kickoff-prompt.md) — I72 per-initiative template. Initiative closed; appendix § now in compendium §11.3.
-- [`i73-kickoff-prompt.md`](i73-kickoff-prompt.md) — I73 per-initiative template. Now → compendium §11.4 + universal kickstart `fresh` mode.
+- [`i73-kickoff-prompt.md`](i73-kickoff-prompt.md) — I73 per-initiative template. Initiative active (P0 ratified 2026-05-15); appendix § now in compendium §11.4. `fresh` mode no longer needed for I73 (use `mid-execution` mode in `UNIVERSAL_KICKSTART.md`).
 - [`i74-kickoff-prompt.md`](i74-kickoff-prompt.md) — I74 per-initiative template. Now → compendium §11.5 (TRIGGER-watch).
 - [`i75-kickoff-prompt.md`](i75-kickoff-prompt.md) — I75 per-initiative template. Now → compendium §11.6.
 - [`i76-kickoff-prompt.md`](i76-kickoff-prompt.md) — I76 per-initiative template. Now → compendium §11.7.
