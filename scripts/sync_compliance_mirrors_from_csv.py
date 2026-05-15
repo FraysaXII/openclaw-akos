@@ -40,6 +40,7 @@ from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY
 from akos.hlk_cycle_register_csv import CYCLE_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.4
 from akos.hlk_decision_register_csv import DECISION_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.5
 from akos.hlk_engagement_model_csv import ENGAGEMENT_MODEL_FIELDNAMES  # noqa: E402  # I73 P1 (D-IH-73-C sibling-dimension; D-IH-73-D 7-class taxonomy)
+from akos.hlk_design_pattern_csv import DESIGN_PATTERN_FIELDNAMES  # noqa: E402  # I79 P2 (D-IH-79-C/D People design pattern library)
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_initiative_registry_csv import INITIATIVE_REGISTRY_FIELDNAMES  # noqa: E402  # I59 P1.2
 from akos.hlk_ops_register_csv import OPS_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.3
@@ -89,6 +90,8 @@ CYCLE_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin
 DECISION_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "DECISION_REGISTER.csv"
 # I73 P1 — Engagement Model Registry (sibling dimension at People Operations per D-IH-73-C).
 ENGAGEMENT_MODEL_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "People Operations" / "canonicals" / "dimensions" / "ENGAGEMENT_MODEL_REGISTRY.csv"
+# I79 P2 — People Design Pattern Registry (cross-area design pattern library SSOT per D-IH-79-C/D).
+DESIGN_PATTERN_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PEOPLE_DESIGN_PATTERN_REGISTRY.csv"
 
 # SSOT for the baseline_organisation column contract is akos.hlk_baseline_org_csv.
 # This local alias preserves the existing in-module name without re-declaring the
@@ -777,6 +780,35 @@ def _emit_engagement_model_upserts(rows: list[dict[str, str]], source_git_sha: s
     return out
 
 
+def _emit_design_pattern_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """I79 P2 - compliance.people_design_pattern_registry_mirror upserts.
+
+    PK = pattern_id (e.g. ``pattern_register_csv_pydantic_validator_mirror``). All
+    columns are TEXT except ``last_review`` which is DATE in the mirror. The
+    DATE column is emitted as a quoted ISO literal (PostgreSQL coerces to date).
+    Per D-IH-79-C/D pattern library shape; D-IH-79-N anti-jargon drift gate
+    pairing covers the canonical CSV.
+    """
+    cols_csv = ", ".join(DESIGN_PATTERN_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in DESIGN_PATTERN_FIELDNAMES if c != "pattern_id"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.people_design_pattern_registry_mirror upserts (Initiative 79 P2)"]
+    for r in rows:
+        pid = (r.get("pattern_id") or "").strip()
+        if not pid:
+            continue
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in DESIGN_PATTERN_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.people_design_pattern_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (pattern_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
 def _emit_decision_register_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
     """I59 P1.5 — compliance.decision_register_mirror upserts.
 
@@ -946,6 +978,11 @@ def main() -> int:
         help="Only emit engagement_model_registry_mirror statements (requires ENGAGEMENT_MODEL_REGISTRY.csv) [Initiative 73 P1]",
     )
     parser.add_argument(
+        "--design-pattern-registry-only",
+        action="store_true",
+        help="Only emit people_design_pattern_registry_mirror statements (requires PEOPLE_DESIGN_PATTERN_REGISTRY.csv) [Initiative 79 P2]",
+    )
+    parser.add_argument(
         "--no-begin-commit",
         action="store_true",
         help="Omit BEGIN/COMMIT wrapper",
@@ -977,6 +1014,7 @@ def main() -> int:
             args.cycle_register_only,
             args.decision_register_only,
             args.engagement_model_only,
+            args.design_pattern_registry_only,
         )
         if x
     )
@@ -1524,6 +1562,11 @@ def main() -> int:
             args.engagement_model_only, ENGAGEMENT_MODEL_REGISTRY_CSV, ENGAGEMENT_MODEL_FIELDNAMES,
             "compliance.engagement_model_registry_mirror", "Initiative 73 P1",
         ),
+        # I79 P2 — People Design Pattern Registry (cross-area design pattern library; D-IH-79-C/D).
+        (
+            args.design_pattern_registry_only, DESIGN_PATTERN_REGISTRY_CSV, DESIGN_PATTERN_FIELDNAMES,
+            "compliance.people_design_pattern_registry_mirror", "Initiative 79 P2",
+        ),
     ]
     _i59_emit_fns = {
         "compliance.repository_registry_mirror": _emit_repository_registry_upserts,
@@ -1532,6 +1575,7 @@ def main() -> int:
         "compliance.cycle_register_mirror": _emit_cycle_register_upserts,
         "compliance.decision_register_mirror": _emit_decision_register_upserts,
         "compliance.engagement_model_registry_mirror": _emit_engagement_model_upserts,
+        "compliance.people_design_pattern_registry_mirror": _emit_design_pattern_upserts,
     }
     _i59_count_keys = {
         "compliance.repository_registry_mirror": "repository_registry_rows",
@@ -1540,6 +1584,7 @@ def main() -> int:
         "compliance.cycle_register_mirror": "cycle_register_rows",
         "compliance.decision_register_mirror": "decision_register_rows",
         "compliance.engagement_model_registry_mirror": "engagement_model_registry_rows",
+        "compliance.people_design_pattern_registry_mirror": "people_design_pattern_registry_rows",
     }
     for flag, csv_path, fieldnames, mirror_table, initiative in _i59_mirror_specs:
         if not flag:
@@ -1794,6 +1839,16 @@ def main() -> int:
                 eng_model_rows = [dict(r) for r in emr]
                 eng_model_n = len(eng_model_rows)
 
+    # I79 P2 — People Design Pattern Registry (cross-area design pattern library; D-IH-79-C/D).
+    design_pattern_n = 0
+    design_pattern_rows: list[dict[str, str]] = []
+    if DESIGN_PATTERN_REGISTRY_CSV.is_file():
+        with DESIGN_PATTERN_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            dpr = csv.DictReader(f)
+            if list(dpr.fieldnames or []) == list(DESIGN_PATTERN_FIELDNAMES):
+                design_pattern_rows = [dict(r) for r in dpr]
+                design_pattern_n = len(design_pattern_rows)
+
     if args.count_only:
         print(f"source_git_sha={sha}")
         print(f"process_list_rows={len(proc_rows)}")
@@ -1822,6 +1877,8 @@ def main() -> int:
         print(f"decision_register_rows={dec_reg_n}")
         # I73 P1 addition
         print(f"engagement_model_registry_rows={eng_model_n}")
+        # I79 P2 addition
+        print(f"people_design_pattern_registry_rows={design_pattern_n}")
         return 0
 
     blocks: list[str] = []
@@ -1874,6 +1931,9 @@ def main() -> int:
     # I73 P1 — append engagement-model upserts to the full bundle.
     if not args.process_list_only and not args.baseline_only and eng_model_rows:
         blocks.extend(_emit_engagement_model_upserts(eng_model_rows, sha))
+    # I79 P2 — append design pattern registry upserts to the full bundle.
+    if not args.process_list_only and not args.baseline_only and design_pattern_rows:
+        blocks.extend(_emit_design_pattern_upserts(design_pattern_rows, sha))
 
     preamble = [
         "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",

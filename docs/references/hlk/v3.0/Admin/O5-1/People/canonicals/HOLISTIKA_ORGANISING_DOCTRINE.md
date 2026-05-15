@@ -100,7 +100,7 @@ Concretely:
 
 The Tech Lab area owns the **infrastructure** that makes the knowledge base work — file format compatibility (Obsidian-readable; Markdown-first), embedders and transformers, the path under which collaborators access knowledge through enterprise tools. Tech Lab's stewardship is technical; People's stewardship is doctrinal. Where the two layers intersect — for instance, when a knowledge-management decision affects both readable surfaces and the indexing infrastructure — People's stewardship is primary and Tech Lab co-signs.
 
-We design the knowledge base to be agnostic by construction: the prose we write should travel from Markdown to a structured database to a customer-facing portal without losing meaning. That is what *Obsidian-compatible, embedder-agnostic, transformer-agnostic, ERP-transformable* means in plain language: nothing in our doctrine should bind us to a single tool or vendor.
+We design the knowledge base to be agnostic by construction: the prose we write should travel from Markdown to a structured database to a customer-facing portal without losing meaning. In plain language, that means our doctrine reads in Obsidian today, stays portable to whichever indexing or rewriting tool comes next tomorrow, and transforms cleanly into the customer-facing surfaces of our enterprise knowledge tool. Nothing in our doctrine should bind us to a single vendor or tool.
 
 ---
 

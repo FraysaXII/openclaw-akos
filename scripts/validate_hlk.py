@@ -442,6 +442,11 @@ def main() -> int:
         ("ENGAGEMENT_MODEL_REGISTRY", "validate_engagement_model_registry.py",
          "validate_engagement_model_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "People Operations" / "canonicals" / "dimensions" / "ENGAGEMENT_MODEL_REGISTRY.csv"),
+        # Initiative 79 P2 - People Design Pattern Registry (CSV registry mode; jargon-scan mode invoked separately
+        # via verification-profiles.json profile design_pattern_registry_jargon_scan + pre_commit composition).
+        # Codifies People-as-discipline-of-disciplines per D-IH-79-A/C/D + anti-jargon drift gate per D-IH-79-N.
+        ("PEOPLE_DESIGN_PATTERN_REGISTRY", "validate_design_pattern_registry.py",
+         "validate_design_pattern_registry", HLK_DIR / "dimensions" / "PEOPLE_DESIGN_PATTERN_REGISTRY.csv"),
         # Initiative 59 P1 - HLK governance dimensions (5 new CSVs + 3 sync gates).
         # REPOSITORY_REGISTRY first because INITIATIVE_REGISTRY FKs into it.
         ("REPOSITORY_REGISTRY", "validate_repository_registry.py",

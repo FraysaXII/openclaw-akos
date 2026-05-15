@@ -47,6 +47,11 @@
           "id": "brand_voice_lint_smoke",
           "description": "Initiative 49 P12: offline brand-voice fast-lint of external prose defaults (deck story + slides; frontmatter and inline backtick paths skipped per BRAND_JARGON_AUDIT §4 scope).",
           "argv": ["scripts/lint_brand_voice_offline.py", "--scan-defaults", "--quiet"]
+        },
+        {
+          "id": "people_design_pattern_jargon_scan",
+          "description": "Initiative 79 P2: anti-jargon drift gate over People canonicals (D-IH-79-N). Forbids Tech-Lab framework names, infra jargon, and codenames in People-owned canonicals; Tech Lab canonicals are out of scope and may carry framework names freely.",
+          "argv": ["scripts/validate_design_pattern_registry.py", "--jargon-scan"]
         }
       ]
     },
@@ -306,6 +311,21 @@
           "id": "validate_engagement_model_registry",
           "description": "Run scripts/validate_engagement_model_registry.py",
           "argv": ["scripts/validate_engagement_model_registry.py"]
+        }
+      ]
+    },
+    "people_design_pattern_registry_smoke": {
+      "description": "Initiative 79 P2: standalone PEOPLE_DESIGN_PATTERN_REGISTRY validator smoke (registry mode + jargon-scan mode). Runs scripts/validate_design_pattern_registry.py twice — once in default registry mode (header drift + Pydantic per row + FK resolution to DECISION_REGISTER + INITIATIVE_REGISTRY + consumer_areas semicolon-token validation) and once in --jargon-scan mode (anti-jargon drift gate over People canonicals per D-IH-79-N; mirrors I66 brand-baseline-reality drift gate shape). Tech Lab canonicals are exempt from the jargon scan (they legitimately carry framework names).",
+      "steps": [
+        {
+          "id": "validate_design_pattern_registry_csv",
+          "description": "Run scripts/validate_design_pattern_registry.py (registry mode)",
+          "argv": ["scripts/validate_design_pattern_registry.py"]
+        },
+        {
+          "id": "validate_design_pattern_registry_jargon_scan",
+          "description": "Run scripts/validate_design_pattern_registry.py --jargon-scan (anti-jargon drift gate per D-IH-79-N)",
+          "argv": ["scripts/validate_design_pattern_registry.py", "--jargon-scan"]
         }
       ]
     },
