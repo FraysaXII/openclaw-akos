@@ -2,56 +2,85 @@
 language: en
 status: active
 authored: 2026-05-13
-last_review: 2026-05-13
+last_review: 2026-05-15
 role_owner: PMO
 classification: fact
 ssot: true
 ---
 
-# Initiative kickoff templates
+# Planning templates — index
 
-Per-initiative copy-pasteable prompts you hand to a fresh agent (Cursor agent, Cloud Agent, or background subagent). Each template is **pre-filled for that specific initiative** — pick the right file, copy the entire content into a new Cursor chat, and the agent has everything it needs.
+The three files in this folder are the SSOT for how Holistika initiatives are discovered, planned, ratified, and executed inside Cursor. Previous trio + per-initiative kickoff files (`initiative-planning-prompts.md` + `i71..i76-kickoff-prompt.md`) are **superseded** as of 2026-05-15 (see §"Legacy artefacts" below).
 
-All six templates plug into the same Cursor rules:
+## Compendium SSOT
 
-- [`.cursor/rules/akos-inline-ratification.mdc`](../../../../.cursor/rules/akos-inline-ratification.mdc) — never write `OPERATOR PAUSE POINT`; surface options inline via `AskQuestion`.
-- [`.cursor/rules/akos-planning-traceability.mdc`](../../../../.cursor/rules/akos-planning-traceability.mdc) — phase plan structure, master-roadmap mirror discipline.
-- [`.cursor/rules/akos-governance-remediation.mdc`](../../../../.cursor/rules/akos-governance-remediation.mdc) — phase structure (scope / prerequisites / deliverables / verification).
-- [`.cursor/rules/akos-mirror-template.mdc`](../../../../.cursor/rules/akos-mirror-template.mdc) — external-repo SSOT pointer.
+> [`PLANNING_COMPENDIUM.md`](PLANNING_COMPENDIUM.md) — the discipline.
 
-For the **generic** prompt trio (Discovery / Plan-Author / Pre-flight) when authoring a brand-new initiative from scratch, see [`initiative-planning-prompts.md`](initiative-planning-prompts.md).
+~1500 lines. The single source of truth for initiative discipline: 12-row plan-quality bar (with self-critique gate + CHANGELOG entry as Rows 11 & 12), Discovery / Plan-Author / Pre-flight pipelines, inline-ratify authoring guide, external-research bar (≥4 sources with full schema), per-phase deep-section template, decision-log + risk-register preview format, mermaid diagram discipline, anti-patterns. §11 is the per-initiative appendix (one section per active or candidate initiative; points at canonicals rather than re-encoding content).
 
-## Index
+Read end-to-end at the start of any planning session.
 
-| Initiative | Current state | Template | Best next move | When to run |
+## Kickstart paste-snippet
+
+> [`UNIVERSAL_KICKSTART.md`](UNIVERSAL_KICKSTART.md) — the paste-snippet.
+
+~120 lines. Paste this into a fresh Cursor chat. Routes the agent through:
+
+1. Mandatory read-pass (the compendium + the dep map).
+2. Mode routing (fresh / gated_operator activation / mid-execution / TRIGGER-watch).
+3. Per-mode entry checklist.
+4. Self-critique gate hand-off.
+5. Inline-ratify discipline reminder.
+6. Phase + commit discipline reminder.
+
+## Dependency map
+
+> [`INITIATIVE_DEPENDENCIES.md`](INITIATIVE_DEPENDENCIES.md) — the dep map.
+
+Mermaid graph LR covering I59..I78 + per-initiative blocker table + cross-strand linkages section. Read this alongside the compendium during compendium §3.2 read-pass.
+
+Updated every time an initiative is promoted, closed, or has a TRIGGER-watch state change.
+
+## Per-initiative state (at a glance)
+
+| Initiative | Slug | State | Blockers (today) | Compendium appendix |
 |:---|:---|:---|:---|:---|
-| **I71** — CI/CD + AIOps baseline | active, **P0 + P1 shipped** (P1 Pack A1 = brand voice register; commit `bdfc413` 2026-05-14) | [`i71-kickoff-prompt.md`](i71-kickoff-prompt.md) (now retargeted for **P2**) | **P2** = Packs A2 + A3 + Addition 11 + **Tier 1 Vale sibling** (folded in 2026-05-14 from I71 P1 strategic review) | Anytime; sequential P2 → P3 → P4 → P5 → P6. |
-| **I72** — Marketing Area Governance + Persona Registry + IntelligenceOps Register Expansion | gated_operator (existing INIT row at registry line 58) | [`i72-kickoff-prompt.md`](i72-kickoff-prompt.md) | **Discovery + Plan-Author + P0 charter** (3 super-strands; activates existing INIT row, does NOT mint a fresh one) | P0–P3 + P5 + P6 can run anytime; only **P4 (RevOps activation)** is hard-gated on **I71 P5 Pack A4** (`validate_render_ownership.py`). |
-| **I73** — People Ops + Learning curriculum | candidate | [`i73-kickoff-prompt.md`](i73-kickoff-prompt.md) | **Discovery + Plan-Author + P0 charter** | After I72 P0 + first Holistik Researcher hire commitment. |
-| **I74** — Brand-tooling productization | candidate (dormant by design) | [`i74-kickoff-prompt.md`](i74-kickoff-prompt.md) | **Hold** — TRIGGER-2 has not fired (0 external requests). Template includes the trigger-fired Discovery prompt. | Only when ≥2 external orgs request AKOS doctrine consumption without source-fork. |
-| **I75** — Research area governance | candidate | [`i75-kickoff-prompt.md`](i75-kickoff-prompt.md) | **Discovery + Plan-Author + P0 charter** | After I71 + I72 + I73 P0 charters ship + Research Director commitment. |
-| **I76** — MADEIRA elevation | candidate | [`i76-kickoff-prompt.md`](i76-kickoff-prompt.md) | **Strand A external research → C-76-1 ratification → Plan-Author → P0 charter** | After Strand A research completes (the AICs F1–F5 question must ratify before charter). |
-| **I77** — Impeccable Brand-Bridge Refresh + Drift Gate | active (P0 charter ratified 2026-05-14) | (no kickoff template yet — minted via direct charter session, not via prompt-trio) | **P1 Strand A** (3 bridges PRODUCT.md + DESIGN.md + new BASELINE_REALITY.md cross-referencing 15+ canonicals; depends on I71 P1 Pack A1 = MET) | Anytime; runs in parallel with I71 P2. |
-| **I78** — Brand-voice LLM-as-judge advisory layer (Tier 2) | candidate (forward-charter from I71 P1 strategic review 2026-05-14) | (kickoff template TBD on promotion) | **Hold** — promotes when the regex list visibly pushes back (≥2 trigger signals per the candidate's §6) | Reactive; not on calendar. |
+| **I70** | Holistika OS Self-Governance | closed (2026-05-13) | — | [§11.1](PLANNING_COMPENDIUM.md#§111-i70--holistika-os-self-governance-foundation-closed-2026-05-13) |
+| **I71** | CICD Discipline + AIOps Baseline Maturity | closed (2026-05-14) | — | [§11.2](PLANNING_COMPENDIUM.md#§112-i71--cicd-discipline-and-aiops-baseline-maturity-closed-2026-05-14) |
+| **I72** | Marketing Area Governance + Persona Registry + IntelligenceOps + RevOps + Process Catalog | closed (2026-05-14) | — | [§11.3](PLANNING_COMPENDIUM.md#§113-i72--marketing-area-governance--persona-registry--intelligenceops--revops--process-catalog-closed-2026-05-14) |
+| **I73** | People Operations + Learning curriculum | candidate | Founder hire commit + People Ops Lead onboard (PENDING) | [§11.4](PLANNING_COMPENDIUM.md#§114-i73--people-operations--learning-curriculum-candidate) |
+| **I74** | Brand-tooling productization | candidate (TRIGGER-watch) | TRIGGER-2 not fired (0 external requests) | [§11.5](PLANNING_COMPENDIUM.md#§115-i74--brand-tooling-productization-candidate--trigger-watch) |
+| **I75** | Research area governance | candidate | I73 P0 + Research Director commit (PENDING) | [§11.6](PLANNING_COMPENDIUM.md#§116-i75--research-area-governance-candidate) |
+| **I76** | MADEIRA elevation | candidate | Strand A external research + AIC architecture ratification (PENDING) | [§11.7](PLANNING_COMPENDIUM.md#§117-i76--madeira-elevation-candidate) |
+| **I77** | Impeccable Brand-Bridge Refresh + Drift Gate | active (P0 ratified 2026-05-14) | — (P1 Strand A pending) | [§11.8](PLANNING_COMPENDIUM.md#§118-i77--impeccable-brand-bridge-refresh--drift-gate-active) |
+| **I78** | Brand-voice LLM-as-judge advisory | candidate (TRIGGER-watch) | TRIGGER not fired (0 regex pushback signals) | [§11.9](PLANNING_COMPENDIUM.md#§119-i78--brand-voice-llm-as-judge-advisory-layer-candidate--trigger-watch) |
 
-## How each template is structured
-
-Every template carries these sections (so you don't have to remember anything):
-
-1. **Goal** — one line.
-2. **Inputs to substitute** — usually just `[OPERATOR_NOTES]`; everything else is pre-filled.
-3. **Read first** — the rules and canonicals the agent must read before acting.
-4. **Initiative-specific guidance** — what to focus on, what conundrums matter most, what external sources to query.
-5. **Inline-ratify discipline** — explicit reminder.
-6. **Outputs** — the deliverables.
-7. **Validation + commit** — the gates before commit.
-
-## Why per-initiative and not just the generic trio
-
-The generic [`initiative-planning-prompts.md`](initiative-planning-prompts.md) trio is the **author's reference**: it teaches an agent the discipline. The per-initiative kickoff templates are the **operator's runbook**: each one is a concrete launch command for one initiative, pre-filled with the right canonicals to read, the right conundrums to surface, and the right external sources to research. You copy the whole file into a new chat and the agent has the entire context — no substitution work, no guessing.
+State truth: [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) + candidate files under [`_candidates/`](../_candidates/). The compendium appendix sub-sections point at these canonicals; this table is a navigation surface, not a state SSOT.
 
 ## Plan-scope principle (binding)
 
-**One Cursor plan per INITIATIVE — not per phase, not per strand, not per execution slice.** The reference shape is `.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md` — one ~4 300-line strategic plan covering 17 phases, drilled-down through five regression rounds, with verbatim operator-quote capture and inline `AskQuestion` ratification throughout. Every kickoff in this folder carries the same SCOPE guardrail: filename `<initiative-slug>_<8hex>.plan.md` (no phase prefix); depth grows via regression rounds **inside the same file**, not by spawning sibling files.
+**One Cursor plan per INITIATIVE — not per phase, not per strand, not per execution slice.** The reference shape is `~/.cursor/plans/holistika_os_self-governance_foundation_63841b81.plan.md` — one ~4 300-line strategic plan covering 17 phases, 5 regression rounds, verbatim operator-quote capture, inline `AskQuestion` ratification throughout. Filename `<initiative-slug>_<8hex>.plan.md` (no phase prefix). Depth grows via regression rounds **inside the same file**, not by spawning sibling files.
 
-Phase-scoped plan files have appeared by accident in past sessions (e.g. `i71_p1_pack_a1_brand_voice_register_*.plan.md` during the I71 P1 ratification). That is documented as a divergence from the reference shape; the corrected templates loud-forbid the pattern so future agents stay on the I70 strategic-plan bar.
+Per `PLANNING_COMPENDIUM.md` §12.1, phase-scoped or strand-scoped plan files are an explicit anti-pattern.
+
+## Legacy artefacts (SUPERSEDED)
+
+The following files are kept as 10-line redirect stubs only. They were the prior generic-trio + per-initiative kickoff templates, superseded by the compendium + universal kickstart pair on 2026-05-15:
+
+- [`initiative-planning-prompts.md`](initiative-planning-prompts.md) — generic Discovery / Plan-Author / Pre-flight trio. Now → `PLANNING_COMPENDIUM.md` §3-§5.
+- [`i71-kickoff-prompt.md`](i71-kickoff-prompt.md) — I71 per-initiative template. Initiative closed; appendix § now in compendium §11.2.
+- [`i72-kickoff-prompt.md`](i72-kickoff-prompt.md) — I72 per-initiative template. Initiative closed; appendix § now in compendium §11.3.
+- [`i73-kickoff-prompt.md`](i73-kickoff-prompt.md) — I73 per-initiative template. Now → compendium §11.4 + universal kickstart `fresh` mode.
+- [`i74-kickoff-prompt.md`](i74-kickoff-prompt.md) — I74 per-initiative template. Now → compendium §11.5 (TRIGGER-watch).
+- [`i75-kickoff-prompt.md`](i75-kickoff-prompt.md) — I75 per-initiative template. Now → compendium §11.6.
+- [`i76-kickoff-prompt.md`](i76-kickoff-prompt.md) — I76 per-initiative template. Now → compendium §11.7.
+
+Each stub points at the relevant compendium anchor + carries frontmatter `status: superseded`, `superseded_by: docs/wip/planning/_templates/PLANNING_COMPENDIUM.md`, `superseded_date: 2026-05-15`.
+
+## Cursor rules (always-applied) that operationalise this folder
+
+- [`.cursor/rules/akos-planning-traceability.mdc`](../../../../.cursor/rules/akos-planning-traceability.mdc) — plan-quality bar, master-roadmap mirror, UAT vs automated smoke, files-modified CSV.
+- [`.cursor/rules/akos-inline-ratification.mdc`](../../../../.cursor/rules/akos-inline-ratification.mdc) — inline `AskQuestion`; never `OPERATOR PAUSE POINT`.
+- [`.cursor/rules/akos-governance-remediation.mdc`](../../../../.cursor/rules/akos-governance-remediation.mdc) — phase + commit discipline; SCOPE / PREREQUISITES / DELIVERABLES / VERIFICATION.
+- [`.cursor/rules/akos-agent-checkpoint-discipline.mdc`](../../../../.cursor/rules/akos-agent-checkpoint-discipline.mdc) — operator pause-point contract + agent self-checkpoint contract.
+- [`.cursor/rules/akos-mirror-template.mdc`](../../../../.cursor/rules/akos-mirror-template.mdc) — AKOS-as-SSOT for external repos.
