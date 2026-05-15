@@ -218,6 +218,13 @@ language: en
 - **Decision.** **HLK-ERP panel filter routes** — four presets under `/operator/people/kb-views/` (see **[`reports/kb-human-readability-erp-route-spec.md`](reports/kb-human-readability-erp-route-spec.md)**); AKOS carries charter + sibling PR spec only (`hlk-erp` absent from this repo). Ratified consistent with **`D-IH-73-G`** in [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv); **no** new `DECISION_REGISTER.csv` row minted for C-73-7.
 - **Close-out.** P7 ([`KB_HUMAN_READABILITY_CHARTER.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/KB_HUMAN_READABILITY_CHARTER.md)).
 
+## C-73-6 — Methodology IP licensing model (P8 inline-ratify)
+
+- **Question.** Proprietary vs CC-BY-NC vs CC-BY-SA vs hybrid for methodology corpus outputs?
+- **Options.** Per **D-IH-73-F**: **decision-deferred-with-criteria-matrix** at filing/editorial freeze vs forcing a single repo-wide license in P8.
+- **Decision.** **Asset-deferred** — record per deliverable in Legal handoff + counsel memo; [`METHODOLOGY_IP_MINTING_PATH.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/METHODOLOGY_IP_MINTING_PATH.md) §"Licensing posture" encodes the hold. **No** new `DECISION_REGISTER.csv` row minted ( **`D-IH-73-F`** remains the governing decision row).
+- **Close-out.** P8.
+
 ## Release gate Part C — deterministic FAIL backlog vs environmental FAIL backlog (2026-05-15)
 
 - **Scope.** Sync deck pillar counts + dossier persona fixture + engagement estimation baseline-role parity + regenerated operator inbox; **`release-gate.py` verdict remains FAIL** until browser-smoke listener + strict BRAND voice register + Vale sibling rows green on operator host (recorded in [`reports/release-gate-triage-2026-05-15.md`](reports/release-gate-triage-2026-05-15.md)).
