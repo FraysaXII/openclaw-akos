@@ -1,7 +1,8 @@
 ---
 initiative_id: INIT-OPENCLAW_AKOS-73
 title: People Operations + Engagement Models + Methodology IP (mega-initiative)
-status: active
+status: closed
+closed_at: 2026-05-15
 owner_role: People Operations Lead
 co_owner_role: PMO
 inception: 2026-05-15
@@ -16,6 +17,7 @@ linked_decisions:
   - D-IH-73-E (outsourced helper separate engagement class with extra SOC layer)
   - D-IH-73-F (Methodology IP brand-vs-name decision-deferred-with-criteria-matrix; per-asset filing decision at filing time)
   - D-IH-73-G (KB human-readability 4 personas mapped 1:1 to engagement classes)
+  - D-IH-73-CLOSURE (initiative closure 2026-05-15)
 parent_dependency:
   - INIT-OPENCLAW_AKOS-70 (Holistika OS Self-Governance Foundation; closed 2026-05-13)
   - INIT-OPENCLAW_AKOS-71 (CI/CD Discipline + AIOps Baseline Maturity; closed 2026-05-14; review-stamp dimension dependency)
@@ -28,7 +30,7 @@ sibling_initiatives:
 
 # I73 — People Operations + Engagement Models + Methodology IP (mega-initiative)
 
-> **Status: active (P0 charter ratified 2026-05-15).** 8 strands across 11 phases (P0 → P11). Workspace mirror of the authoritative Cursor plan at [`~/.cursor/plans/i73-people-ops-engagement-models-methodology-ip-c9d4e7f3.plan.md`](file:///~/.cursor/plans/i73-people-ops-engagement-models-methodology-ip-c9d4e7f3.plan.md). The Cursor plan body carries the full per-phase deep sections + decision-log preview + risk-register preview + external research catalog + 12-row self-critique gate; this file mirrors phase dependencies + phase-at-a-glance for git collaboration and history.
+> **Status: closed (P11 closure `D-IH-73-CLOSURE`; 2026-05-15).** Eight strands shipped P0→P11: registry + learning + lifecycle SOPs + case-law + ethics + compliance boundary + KB readability charter + methodology IP path + honest UAT (`uat-i73-p9-2026-05-15.md`) + integration verification (`p10-integration-verification-2026-05-15.md`). Authoritative Cursor plan remains at [`~/.cursor/plans/i73-people-ops-engagement-models-methodology-ip-c9d4e7f3.plan.md`](file:///~/.cursor/plans/i73-people-ops-engagement-models-methodology-ip-c9d4e7f3.plan.md). **Operational carry-over:** `hlk-erp` kb-views routes are specified in-repo only (**sibling PR**); **`py scripts/release-gate.py`** may remain FAIL on browser/Vale/sibling-repo rows per existing triage.
 
 ## Authoritative plan link
 
@@ -108,7 +110,7 @@ flowchart TD
 | **P8** | METHODOLOGY_IP_MINTING_PATH + brand-vs-name decision matrix | H | brand/legal gate | OPS-73-8 | **SHIPPED** (2026-05-15; counsel-before-filing reiterated) |
 | **P9** | First engagement onboarded under new model (operator UAT) | — | standard | OPS-73-9 | **SHIPPED** (2026-05-15; `uat-i73-p9-2026-05-15.md` — SKIP rows for live/on-listener checks) |
 | **P10** | Cross-strand integration verification | — | standard | OPS-73-10 | **SHIPPED** (2026-05-15; `p10-integration-verification-2026-05-15.md`) |
-| **P11** | Closure UAT + INITIATIVE_REGISTRY status flip + dep map update | — | closure gate | — | pending |
+| **P11** | Closure — INITIATIVE_REGISTRY + DECISION_REGISTER + dep map sync | — | closure gate | — | **SHIPPED** (2026-05-15; `D-IH-73-CLOSURE`; `OPS-73-*` CLOSED prior rows) |
 
 The Cursor plan §"Phase scaffold (deep sections)" has the full SCOPE / PREREQUISITES / DELIVERABLES / VERIFICATION / pause-point class / self-checkpoint count / cursor-rules adherence per phase.
 

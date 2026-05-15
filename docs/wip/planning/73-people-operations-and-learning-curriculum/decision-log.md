@@ -231,11 +231,9 @@ language: en
 
 ## Forward-charter decisions
 
-The following decisions remain pre-allocated to per-phase inline-ratify gates:
+Minted **`D-IH-73-CLOSURE`** (2026-05-15) — see [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) + P11 closure commit notes in [`master-roadmap.md`](master-roadmap.md).
 
-- **D-IH-73-CLOSURE** — initiative closure (P11).
-
-Additional D-IH-73-* rows will be minted as conundrums C-73-1..C-73-8 are ratified at their per-phase inline-ratify gates (C-73-1 at P2; C-73-2 at P2; C-73-3 at P5; C-73-4 at P3; C-73-5 at P6; C-73-6 at P8; C-73-7 at P7; C-73-8 at P4).
+Historical: conundrums **C-73-1..C-73-8** were ratified across P2–P8 (see sections above); **`D-IH-73-CLOSURE`** closes the initiative umbrella only — follow-on legal filings + `hlk-erp` implementation remain **out of I73 closure scope**.
 
 ## Cross-references
 

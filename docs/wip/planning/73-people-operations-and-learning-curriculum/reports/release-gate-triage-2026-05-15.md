@@ -24,3 +24,7 @@ Raw captured output from an earlier full run lives beside this note at [`release
 
 ---
 **Decision stub:** Remaining FAIL surfaces above recorded under initiative bookkeeping (`operator_inline_default_accepted_via_skip` posture stops at mechanical AKOS fixes; browser + brand strict lanes remain operator-/Brand-owned unless reopened).
+
+## Post-I73-P11 re-check (same day)
+
+After **`INIT-OPENCLAW_AKOS-73`** closure (`D-IH-73-CLOSURE`; P11 commit), `py scripts/release-gate.py` is expected to remain **FAIL** on the same **Browser smoke + BRAND voice register + Vale sibling** rows documented above until the environmental/sibling-repo backlog is cleared. I73 closure explicitly **does not** require an exit-0 full gate per operator instruction (honest carry-over).

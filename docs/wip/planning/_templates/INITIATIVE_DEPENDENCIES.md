@@ -33,9 +33,9 @@ flowchart LR
     i70[I70 - Holistika OS Self-Governance Foundation]:::closed
     i71[I71 - CICD Discipline and AIOps Baseline Maturity]:::closed
     i72[I72 - Marketing Area Governance and Persona Registry Expansion]:::closed
+    i73[I73 - People Operations + Engagement Models + Methodology IP]:::closed
 
     %% Active initiatives
-    i73[I73 - People Operations + Engagement Models + Methodology IP]:::active
     i77[I77 - Impeccable Brand-Bridge Refresh and Drift Gate]:::active
 
     %% Candidate initiatives (promotable when hold-gates clear)
@@ -107,14 +107,14 @@ flowchart LR
 | **I70** — Holistika OS Self-Governance Foundation | closed | I66 + I67 closed | I66 + I67 | I71 + I73 + I75 + I76 | — | closed |
 | **I71** — CICD Discipline + AIOps Baseline Maturity | closed | I68 + I70 closed | I68 + I70 | I73 (review-stamp dimension) + I77 (brand canonicals lib) | — | closed |
 | **I72** — Marketing Area Governance + Persona Registry + IntelligenceOps + RevOps + Process Catalog | closed | — | — | I73 (paired SOP rule) + I76 (adapter pattern) | — | closed |
-| **I73** — People Ops + Engagement Models + Methodology IP (mega-initiative) | active | I70 + I71 + I72 closed (MET); founder-hire + People-Ops-Lead reframed as charter-satisfies-gate per **D-IH-73-B** | I70 + I71 + I72 | I75 (HR curriculum cross-link) | — | P0 charter SHIPPED 2026-05-15 (`INIT-OPENCLAW_AKOS-73`); P1 ENGAGEMENT_MODEL_REGISTRY canonical-CSV PAUSE POINT pending |
+| **I73** — People Ops + Engagement Models + Methodology IP (mega-initiative) | closed | I70 + I71 + I72 closed (MET) | I70 + I71 + I72 | I75 (HR curriculum cross-link) | — | **CLOSED 2026-05-15** (`INIT-OPENCLAW_AKOS-73`; `D-IH-73-CLOSURE`) — P7–P11 kb-readability + methodology IP + UAT + integration |
 | **I74** — Brand-tooling productization | TRIGGER-watch | TRIGGER-2: ≥2 external orgs request AKOS doctrine consumption without source-fork (0 today) | external market signal | (none yet) | TRIGGER-2 = ≥2 external requests | dormant |
 | **I75** — Research area governance | candidate | I70 closed (MET); I71 + I72 + I73 P0 (I73 PENDING); Research Director commit (PENDING) | I73 + founder approvals | I76 (cross-strand methodology pillars) | — | candidate |
 | **I76** — MADEIRA elevation | candidate | I70 + I72 closed (MET); Strand A external research on AIC F1-F5 completes (PENDING) | external research + operator ratification | (forward-charter linkage to I72 RevOps roles) | — | candidate |
 | **I77** — Impeccable Brand-Bridge Refresh + Drift Gate | active | I71 P1 Pack A1 ship (MET — I71 fully closed) | I71 closed | (forward — Impeccable v3.1 chassis stays operational across all initiatives) | — | P0 charter ratified 2026-05-14; P1 Strand A pending |
 | **I78** — Brand-voice LLM-as-judge advisory | TRIGGER-watch | TRIGGER: ≥2 regex pushback signals on I71 deterministic gate (0 today) | external regex pushback | (forward — advisory layer to I71's deterministic gate) | TRIGGER = ≥2 pushback signals | dormant |
 
-State truth: row 56 of [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) (I70), row 57 (I71), row 58 (I72), row 59 (I77), row 60 (I73 — minted 2026-05-15). I74/I75/I76/I78 have no INIT row yet; state is read from candidate files under [`docs/wip/planning/_candidates/`](../_candidates/).
+State truth: row 56 of [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) (I70), row 57 (I71), row 58 (I72), row 59 (I77), row 60 (I73 — **closed 2026-05-15**). I74/I75/I76/I78 have no INIT row yet; state is read from candidate files under [`docs/wip/planning/_candidates/`](../_candidates/).
 
 ---
 
@@ -165,7 +165,7 @@ For the agent: when promoting any candidate to active, confirm these gates via t
 - [x] I70 closing UAT — MET 2026-05-13.
 - [x] I71 P0 charter — MET.
 - [x] I72 P0 charter — MET.
-- [ ] I73 P0 charter — PENDING (cross-strand HR curriculum dependency).
+- [ ] I73 P0 charter — **MET** (I73 **closed** 2026-05-15 per `INIT-OPENCLAW_AKOS-73`; see **D-IH-73-CLOSURE**).
 - [ ] Research Director commitment — PENDING (operator decision).
 
 ### I76 promotion gates
@@ -191,3 +191,4 @@ For the agent: when promoting any candidate to active, confirm these gates via t
 |:---|:---|:---|
 | 2026-05-15 | Initial authoring. Covers I59..I78 with state truth from `INITIATIVE_REGISTRY.csv` + `_candidates/` files. I71, I72 closed reflected. | PMO |
 | 2026-05-15 | I73 promoted from candidate to active (P0 charter shipped 2026-05-15; `INIT-OPENCLAW_AKOS-73` minted). Mega-initiative absorbing 8 strands (Learning + Ethics+Learning + People Ops engagement-lifecycle + Compliance/Ethics boundary + ENGAGEMENT_MODEL_REGISTRY + Historical case-law + KB human-readability + Methodology IP minting) across 11 phases. Hold-gate reframing per **D-IH-73-B** (charter-satisfies-gate; bootstrapping reality). 7 charter-time decisions ratified (D-IH-73-A..G). 10 OPS-73-* rows minted. Mermaid classDef flipped candidate → active; blocker table row updated; §4 hold-gates flipped to MET with footnote on reframe; §5 history extended. | PMO |
+| 2026-05-15 | I73 **`INIT-OPENCLAW_AKOS-73` closed** — P11; **`D-IH-73-CLOSURE`** minted; **`INITIATIVE_REGISTRY.csv`** row 60 `status=closed` + `closed_at=2026-05-15`. Mermaid `i73` → `:::closed`. Blocker table + I75 promotion gate **I73 P0** → **MET**. All **`OPS-73-*`** rows closed. Carry-over: **`hlk-erp`** kb-views as sibling PR; **`release-gate.py`** environmental FAIL lanes per triage unchanged. | PMO |
