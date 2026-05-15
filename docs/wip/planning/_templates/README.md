@@ -48,12 +48,13 @@ Updated every time an initiative is promoted, closed, or has a TRIGGER-watch sta
 | **I70** | Holistika OS Self-Governance | closed (2026-05-13) | — | [§11.1](PLANNING_COMPENDIUM.md#§111-i70--holistika-os-self-governance-foundation-closed-2026-05-13) |
 | **I71** | CICD Discipline + AIOps Baseline Maturity | closed (2026-05-14) | — | [§11.2](PLANNING_COMPENDIUM.md#§112-i71--cicd-discipline-and-aiops-baseline-maturity-closed-2026-05-14) |
 | **I72** | Marketing Area Governance + Persona Registry + IntelligenceOps + RevOps + Process Catalog | closed (2026-05-14) | — | [§11.3](PLANNING_COMPENDIUM.md#§113-i72--marketing-area-governance--persona-registry--intelligenceops--revops--process-catalog-closed-2026-05-14) |
-| **I73** | People Operations + Engagement Models + Methodology IP (mega-initiative) | active (P0 ratified 2026-05-15) | — (P1 ENGAGEMENT_MODEL_REGISTRY canonical-CSV PAUSE POINT pending) | [§11.4](PLANNING_COMPENDIUM.md#§114-i73--people-operations--engagement-models--methodology-ip-active) |
+| **I73** | People Operations + Engagement Models + Methodology IP (mega-initiative) | closed (2026-05-15) | — | [§11.4](PLANNING_COMPENDIUM.md#§114-i73--people-operations--engagement-models--methodology-ip-active) |
 | **I74** | Brand-tooling productization | candidate (TRIGGER-watch) | TRIGGER-2 not fired (0 external requests) | [§11.5](PLANNING_COMPENDIUM.md#§115-i74--brand-tooling-productization-candidate--trigger-watch) |
 | **I75** | Research area governance | candidate | I73 P0 + Research Director commit (PENDING) | [§11.6](PLANNING_COMPENDIUM.md#§116-i75--research-area-governance-candidate) |
 | **I76** | MADEIRA elevation | candidate | Strand A external research + AIC architecture ratification (PENDING) | [§11.7](PLANNING_COMPENDIUM.md#§117-i76--madeira-elevation-candidate) |
 | **I77** | Impeccable Brand-Bridge Refresh + Drift Gate | active (P0 ratified 2026-05-14) | — (P1 Strand A pending) | [§11.8](PLANNING_COMPENDIUM.md#§118-i77--impeccable-brand-bridge-refresh--drift-gate-active) |
 | **I78** | Brand-voice LLM-as-judge advisory | candidate (TRIGGER-watch) | TRIGGER not fired (0 regex pushback signals) | [§11.9](PLANNING_COMPENDIUM.md#§119-i78--brand-voice-llm-as-judge-advisory-layer-candidate--trigger-watch) |
+| **I79** | People Manifesto + Knowledge Hygiene + Cross-area Design Patterns + AI Governance (mega-initiative; follow-up to I73 doctrinal layer) | active (P0 ratified 2026-05-15) | — (P1 manifest publish PAUSE pending) | [`docs/wip/planning/79-people-manifesto-and-pattern-library/master-roadmap.md`](../79-people-manifesto-and-pattern-library/master-roadmap.md) |
 
 State truth: [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) + candidate files under [`_candidates/`](../_candidates/). The compendium appendix sub-sections point at these canonicals; this table is a navigation surface, not a state SSOT.
 

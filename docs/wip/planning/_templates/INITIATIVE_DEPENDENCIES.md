@@ -8,7 +8,7 @@ classification: fact
 ssot: true
 ---
 
-# Initiative dependency map (I59..I78)
+# Initiative dependency map (I59..I79)
 
 > **Purpose.** Single visual + tabular source of truth for how Holistika initiatives block, unblock, or loosely couple to each other. Companion to [`PLANNING_COMPENDIUM.md`](PLANNING_COMPENDIUM.md) and entry point for the agent during compendium §3.2 read-pass.
 >
@@ -37,6 +37,7 @@ flowchart LR
 
     %% Active initiatives
     i77[I77 - Impeccable Brand-Bridge Refresh and Drift Gate]:::active
+    i79[I79 - People Manifesto + Pattern Library + AI Governance + Knowledge Hygiene]:::active
 
     %% Candidate initiatives (promotable when hold-gates clear)
     i75[I75 - Research Area Governance]:::candidate
@@ -62,6 +63,7 @@ flowchart LR
     i71 --> i77
     i72 --> i73
     i72 --> i76
+    i73 --> i79
 
     %% Soft / strand-level cross-links (dotted)
     i71 -.->|review-stamp dimension| i73
@@ -71,6 +73,9 @@ flowchart LR
     i73 -.->|HR curriculum| i75
     i75 -.->|methodology pillars| i73
     i76 -.->|AIC role_owner| i72
+    i79 -.->|design pattern library| i75
+    i79 -.->|design pattern library| i77
+    i79 -.->|agentic doctrine input| i76
 
     %% TRIGGER-watch hold-gates (dashed)
     i74 -.->|TRIGGER-2: >=2 external requests| extReq[External org consumption requests]
@@ -113,8 +118,9 @@ flowchart LR
 | **I76** — MADEIRA elevation | candidate | I70 + I72 closed (MET); Strand A external research on AIC F1-F5 completes (PENDING) | external research + operator ratification | (forward-charter linkage to I72 RevOps roles) | — | candidate |
 | **I77** — Impeccable Brand-Bridge Refresh + Drift Gate | active | I71 P1 Pack A1 ship (MET — I71 fully closed) | I71 closed | (forward — Impeccable v3.1 chassis stays operational across all initiatives) | — | P0 charter ratified 2026-05-14; P1 Strand A pending |
 | **I78** — Brand-voice LLM-as-judge advisory | TRIGGER-watch | TRIGGER: ≥2 regex pushback signals on I71 deterministic gate (0 today) | external regex pushback | (forward — advisory layer to I71's deterministic gate) | TRIGGER = ≥2 pushback signals | dormant |
+| **I79** — People Manifesto + Pattern Library + AI Governance + Knowledge Hygiene (mega-initiative) | active | I73 closed (MET 2026-05-15) | I73 | I75 (design pattern library input) + I77 (design pattern library input) + I76 (agentic doctrine input) | — | **P0 charter ratified 2026-05-15** (`INIT-OPENCLAW_AKOS-79`; charter-satisfies-gate per `D-IH-79-A`); P1 manifest publish pending |
 
-State truth: row 56 of [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) (I70), row 57 (I71), row 58 (I72), row 59 (I77), row 60 (I73 — **closed 2026-05-15**). I74/I75/I76/I78 have no INIT row yet; state is read from candidate files under [`docs/wip/planning/_candidates/`](../_candidates/).
+State truth: row 56 of [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) (I70), row 57 (I71), row 58 (I72), row 59 (I77), row 60 (I73 — **closed 2026-05-15**), row 61 (I79 — **active 2026-05-15**). I74/I75/I76/I78 have no INIT row yet; state is read from candidate files under [`docs/wip/planning/_candidates/`](../_candidates/).
 
 ---
 
@@ -192,3 +198,4 @@ For the agent: when promoting any candidate to active, confirm these gates via t
 | 2026-05-15 | Initial authoring. Covers I59..I78 with state truth from `INITIATIVE_REGISTRY.csv` + `_candidates/` files. I71, I72 closed reflected. | PMO |
 | 2026-05-15 | I73 promoted from candidate to active (P0 charter shipped 2026-05-15; `INIT-OPENCLAW_AKOS-73` minted). Mega-initiative absorbing 8 strands (Learning + Ethics+Learning + People Ops engagement-lifecycle + Compliance/Ethics boundary + ENGAGEMENT_MODEL_REGISTRY + Historical case-law + KB human-readability + Methodology IP minting) across 11 phases. Hold-gate reframing per **D-IH-73-B** (charter-satisfies-gate; bootstrapping reality). 7 charter-time decisions ratified (D-IH-73-A..G). 10 OPS-73-* rows minted. Mermaid classDef flipped candidate → active; blocker table row updated; §4 hold-gates flipped to MET with footnote on reframe; §5 history extended. | PMO |
 | 2026-05-15 | I73 **`INIT-OPENCLAW_AKOS-73` closed** — P11; **`D-IH-73-CLOSURE`** minted; **`INITIATIVE_REGISTRY.csv`** row 60 `status=closed` + `closed_at=2026-05-15`. Mermaid `i73` → `:::closed`. Blocker table + I75 promotion gate **I73 P0** → **MET**. All **`OPS-73-*`** rows closed. Carry-over: **`hlk-erp`** kb-views as sibling PR; **`release-gate.py`** environmental FAIL lanes per triage unchanged. | PMO |
+| 2026-05-15 | I79 **`INIT-OPENCLAW_AKOS-79`** P0 charter ratified — Holistika People Manifesto + Knowledge Hygiene + Cross-area Design Patterns + AI Governance (mega-initiative; follow-up to closed I73 doctrinal layer). Mega-initiative absorbing 6 strands (A Manifesto + B Pattern Library + C-People AI Doctrine + Ethics Anchor + C-TechLab Framework Landscape + D Cross-area Breakthrough Propagation + E Orphan Hygiene + F process_list 8th-col FK) across 10 phases (P0..P8 with P3a/P3b split). 14 charter-time decisions ratified (D-IH-79-A..N) per round 1 + round 3 inline-ratify gates. 10 OPS-79-* rows minted. New always-applied Cursor rule [`.cursor/rules/akos-people-discipline-of-disciplines.mdc`](../../../../.cursor/rules/akos-people-discipline-of-disciplines.mdc) ratified at P0 per `D-IH-79-H`. Mermaid `i79` node added (active); `i73 --> i79` hard-block edge added; soft-link arrows `i79 -.-> i75/i77/i76` added; blocker table row added; §5 history extended. Authoritative Cursor plan: `~/.cursor/plans/i79_people_doctrine_4e309f45.plan.md`. Workspace mirror at [`docs/wip/planning/79-people-manifesto-and-pattern-library/`](../79-people-manifesto-and-pattern-library/). | PMO |

@@ -1,0 +1,103 @@
+---
+description: AKOS People-as-Discipline-of-Disciplines rule — codifies People stewardship of consulting design patterns, KB-accessibility responsibility, anti-jargon mandate, agentic-as-DoD-recursive framing, jargon-goes-to-Tech-Lab partition.
+alwaysApply: true
+---
+
+# AKOS People as Discipline of Disciplines
+
+Use this rule whenever an agent or operator works on **anything that touches the People area as a steward of cross-area methodology** — manifesto, design pattern library, AI / agentic governance, knowledge-base accessibility, cross-area breakthrough propagation, vault hygiene, or any artefact that travels between People and another area (Marketing / Tech Lab / Research / Operations / Legal / Compliance / Ethics).
+
+Codifies decisions ratified in I79 P0 (2026-05-15): **D-IH-79-A** (mega charter) + **D-IH-79-F** (AI governance refined: jargon-side to Tech Lab, clarity-side to People) + **D-IH-79-H** (this rule's mint) + **D-IH-79-K** (KB-stewardship-is-People-responsibility) + **D-IH-79-L** (Strand C P3a/P3b split) + **D-IH-79-M** (Tech Lab landscape canonical ownership) + **D-IH-79-N** (anti-jargon drift gate).
+
+## Why this rule exists
+
+People is **not just an operations area**. People is the discipline that designs how every other discipline operates inside Holistika. Without this stewardship explicit, three failure modes recur:
+
+1. **Other areas re-invent design patterns People already minted** — engagement-model registry; paired SOP+runbook; persona registry; classification lattice; access-level scaffolding; intelligenceops register pattern. Each re-invention is a process-singularity loss.
+2. **AI/agentic governance gets absorbed by Ethics** as if AI were an external thing People supervises. But agentic is itself a discipline of disciplines (recursive); AI consumes the same KB humans do, under the same access scaffolding humans do. People owns it.
+3. **Jargon leaks into People-facing canonicals** (manifesto, pattern library, Agentic Doctrine), breaking the *simple / actionable / shareable / democratic / friendly* mandate. People then loses the ability to drive process-singularity through clarity.
+
+This rule names the architecture so future initiatives, agents, and operators inherit it by default.
+
+## When this rule applies
+
+- Authoring or revising the People manifesto ([`HOLISTIKA_ORGANISING_DOCTRINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_ORGANISING_DOCTRINE.md)).
+- Authoring or revising the People design pattern library ([`PEOPLE_DESIGN_PATTERN_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv) + [`PEOPLE_DESIGN_PATTERN_LIBRARY.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/PEOPLE_DESIGN_PATTERN_LIBRARY.md)).
+- Authoring AI / agentic governance content ([`HOLISTIKA_AGENTIC_DOCTRINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_AGENTIC_DOCTRINE.md), [`SOP-PEOPLE_AGENTIC_OPERATIONS_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_AGENTIC_OPERATIONS_001.md), [`ETHICAL_AGENTIC_BOUNDARIES.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Ethics/canonicals/ETHICAL_AGENTIC_BOUNDARIES.md), [`AGENTIC_FRAMEWORK_LANDSCAPE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/canonicals/AGENTIC_FRAMEWORK_LANDSCAPE.md), [`SOP-TECH_AGENTIC_INFRA_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/canonicals/SOP-TECH_AGENTIC_INFRA_001.md)).
+- Cross-area breakthrough propagation ([`SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md)).
+- Vault hygiene / orphan inventories on any tree under `docs/references/hlk/`, `docs/wip/`, or sibling planning surfaces.
+- Adding a new design pattern row that other areas should inherit from — including future patterns not yet imagined.
+
+## RULE 1 — People owns the consulting design patterns; areas author their own processes (binding)
+
+**People is the discipline of disciplines.** People mints **patterns** — engagement-model registry, paired SOP+runbook, persona registry, classification lattice, lifecycle SOP shape, access-level scaffolding, intelligenceops register, normalized adapter pattern, and any pattern minted by future initiatives.
+
+**Other areas author their own processes** under their own area `canonicals/` folder. Marketing/Resonance authors Marketing SOPs; Tech Lab / System Owner authors Tech SOPs; Research authors Research SOPs; Operations authors Operations SOPs. People does **not** author another area's processes for them.
+
+**People supports breakthroughs.** When People mints a new design pattern row in [`PEOPLE_DESIGN_PATTERN_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv), the breakthrough propagates to consuming areas via [`SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md) + paired runbook [`scripts/peopl_cross_area_breakthrough_announce.py`](../../scripts/peopl_cross_area_breakthrough_announce.py). People supports the consuming area's adoption — not by writing their SOPs, but by clarifying the pattern, providing examples, and iterating the pattern row when feedback comes back.
+
+**Process-singularity lever (D-IH-79-E).** [`process_list.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv) carries an `inherited_pattern_id` column (FK to `PEOPLE_DESIGN_PATTERN_REGISTRY.pattern_id`, nullable). Any area's process row can declare which People pattern parents it. This makes the doctrine countable: `SELECT COUNT(*) FROM process_list WHERE inherited_pattern_id = '<X>'` yields the adoption surface for pattern X.
+
+## RULE 2 — KB-accessibility is People's responsibility across every role (binding)
+
+The Holistika knowledge base is the substrate every role / engagement class / AI collaborator depends on. People owns the **stewardship layer** — accessibility, persona-routing, anti-jargon clarity, growth cadence — even though Tech Lab owns the **infrastructure layer** (Obsidian compatibility, embedders, transformers, ERP transformability).
+
+The clean split:
+
+- **People owns**: KB persona-routing per [`KB_HUMAN_READABILITY_CHARTER.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/KB_HUMAN_READABILITY_CHARTER.md); access-level scaffolding per [`access_levels.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/access_levels.md); confidence + source taxonomy per [`confidence_levels.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/confidence_levels.md) + [`source_taxonomy.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/source_taxonomy.md); doctrine-of-clarity (jargon-free People canonicals).
+- **Tech Lab owns**: KB infrastructure (storage, indexing, embedders, transformers, MCP wiring, Obsidian/ERP compatibility, framework landscape) per [`AGENTIC_FRAMEWORK_LANDSCAPE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/canonicals/AGENTIC_FRAMEWORK_LANDSCAPE.md).
+
+When a knowledge-management decision affects **both** layers, People's stewardship is primary and Tech Lab co-signs.
+
+## RULE 3 — Agentic is a discipline of disciplines, recursive (binding)
+
+AI / agentic is **not** an external thing People supervises through an Ethics canonical. **Agentic is itself a discipline of disciplines** — a recursive mirror of People-as-DoD. The technical sub-disciplines (LangChain, LangGraph, Ollama, LlamaIndex, OpenClaw, CrewAI, VercelAI, Groq, MCP, embedders, transformers) are **owned by Tech Lab** as legitimate stack jargon. The **doctrine of how Holistika collaborates with agents** is owned by People.
+
+Architecture (D-IH-79-F + D-IH-79-L + D-IH-79-M):
+
+- **People doctrine** (jargon-free; AL5; reads to any People collaborator):
+  - [`HOLISTIKA_AGENTIC_DOCTRINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_AGENTIC_DOCTRINE.md) — agentic = DoD; Madeira named-explicit + role-class footnote; consent-to-consume; KB-access posture; anti-jargon mandate echoed.
+  - [`SOP-PEOPLE_AGENTIC_OPERATIONS_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_AGENTIC_OPERATIONS_001.md) — cadence (knowledge-test rhythm; collaborator training; escalation when AI confidence drops).
+- **Tech Lab landscape** (jargon-bearing; legitimate stack vocabulary):
+  - [`AGENTIC_FRAMEWORK_LANDSCAPE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/canonicals/AGENTIC_FRAMEWORK_LANDSCAPE.md) — framework rows + KB infrastructure + MCP postures + tooling matrix.
+  - [`SOP-TECH_AGENTIC_INFRA_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/canonicals/SOP-TECH_AGENTIC_INFRA_001.md) — Tech Lab ops (MCP wiring; pipelines; framework upgrades).
+- **Ethics anchor** (red lines only; minimal):
+  - [`ETHICAL_AGENTIC_BOUNDARIES.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Ethics/canonicals/ETHICAL_AGENTIC_BOUNDARIES.md) — harm-prevention; refuse-conditions; audit triggers. Cross-references both People doctrine and Tech Lab landscape.
+
+When a People canonical needs to refer to a framework, it does so via cross-reference to the Tech Lab landscape — never by inline framework name.
+
+## RULE 4 — Anti-jargon discipline (binding; mechanically enforced)
+
+People canonicals must read as **simple / actionable / shareable / democratic / friendly**. People is the area that drives Holistika's process-singularity goal *by fighting through jargon-minefields until everything is explained that way*. People canonicals practising what they preach is non-negotiable.
+
+**Forbidden token list** in People canonicals (Manifesto, Agentic Doctrine, People Agentic SOP, Pattern Library MD, Cross-area Breakthrough SOP, Ethics Boundaries):
+
+`LangChain`, `LangGraph`, `Ollama`, `LlamaIndex`, `OpenClaw`, `CrewAI`, `VercelAI`, `Groq`, `MCP`, `embedder`, `transformer`, `FDW`, `RLS`, `pgvector`, `AKOS`.
+
+**Allowed token list** (these may appear in People canonicals because they are *People's own* vocabulary):
+
+`agentic`, `AI`, `AIC`, `Madeira`, `KB` / `knowledge base`, `process_list`, `engagement_model`, `pattern`, `discipline`, `singularity`, `manifesto`, `doctrine`.
+
+**Drift gate**: [`scripts/validate_design_pattern_registry.py --jargon-scan`](../../scripts/validate_design_pattern_registry.py) (P2 deliverable of I79; mirrors I66 brand-baseline-reality drift gate pattern). Wired into [`scripts/validate_hlk.py`](../../scripts/validate_hlk.py) + [`config/verification-profiles.json`](../../config/verification-profiles.json) `pre_commit`. Fails CI on any forbidden token in any People canonical. Tech Lab canonicals are exempt — `AGENTIC_FRAMEWORK_LANDSCAPE.md` legitimately carries the framework names.
+
+## RULE 5 — Madeira named-explicit, role-class anchored (binding)
+
+Madeira is the current AI O5-1 in Holistika. People canonicals that name Madeira do so **explicitly** with a **role-class footnote** so future agents (next-generation Madeira; alternate AICs) inherit the doctrine without the doctrine going stale.
+
+Canonical phrasing pattern: *"Madeira (current AI O5-1)"* on first mention; *"Madeira"* thereafter; footnote on first mention reads *"AI O5-1 is the role class; Madeira is the current embodiment per [I76 candidate](../../docs/wip/planning/_candidates/i76-madeira-elevation.md). When the role-class population grows beyond one, this canonical refers to the class; specific embodiments are documented at [`docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/MADEIRA-AKOS/STATUS.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/MADEIRA-AKOS/STATUS.md)."*
+
+This pattern carries forward into I76 (MADEIRA elevation) and beyond.
+
+## Cross-references
+
+- [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) — initiative discipline + per-initiative file-changes CSV (this rule operationalises the People-area dimension).
+- [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc) — paired SOP+runbook pairing rule (every People SOP minted under this rule carries a paired runbook).
+- [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc) — sister discipline: dual-register (internal vocabulary vs external rendering). The anti-jargon drift gate is structurally the same shape as the brand-baseline-reality drift gate.
+- [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc) — when a People design pattern requires a new git-canonical CSV register, the Holistika-operations rule governs the mint pattern (Pydantic + validator + Supabase mirror).
+- [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) — every cross-area breakthrough propagation runs through inline-ratify gates, not file-based pause records.
+- I79 master-roadmap: [`docs/wip/planning/79-people-manifesto-and-pattern-library/master-roadmap.md`](../../docs/wip/planning/79-people-manifesto-and-pattern-library/master-roadmap.md) — the initiative that ratifies this rule + the canonicals it points at.
+- I79 decision log: [`docs/wip/planning/79-people-manifesto-and-pattern-library/decision-log.md`](../../docs/wip/planning/79-people-manifesto-and-pattern-library/decision-log.md) — full rationale for D-IH-79-A..N.
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_ORGANISING_DOCTRINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_AGENTIC_DOCTRINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv
