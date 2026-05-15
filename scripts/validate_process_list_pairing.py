@@ -46,6 +46,7 @@ def _runbook_discoverable(item_id: str) -> bool:
         SCRIPTS_DIR / "revops_dispatch.py",
         SCRIPTS_DIR / "scaffold_engagement.py",
         SCRIPTS_DIR / "check_ethics_learning_review_due.py",
+        SCRIPTS_DIR / "peopl_recruiter_onboarding_checklist_stub.py",
         HLK_VAULT / "Admin" / "O5-1" / "Operations" / "RevOps" / "canonicals" / "REVOPS_PROCESS_CATALOG.yaml",
     ]
     candidates.extend(sorted(SCRIPTS_DIR.glob("peopl_engagement*.py")))

@@ -61,4 +61,4 @@ Commands run on Windows after P5 edits (representative gate set):
 
 ## 7. Deferred TODOs (explicit)
 
-- **`TODO[I73-SOP-RECRUITER_ONBOARDING_001]`** — remains on [`INTELLIGENCEOPS_REGISTER.csv`](../../../../references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv) placeholder row (`IO-REC-PLACEHOLDER-001`); **not** an I73 P2–P5 engagement-model scope item — track under recruiter onboarding charter when scheduled.
+- **Recruiter onboarding (`IO-REC-PLACEHOLDER-001`)** — closed AskQuestion **2026-05-15**: [`SOP-RECRUITER_ONBOARDING_001.md`](../../../../references/hlk/v3.0/Admin/O5-1/People/People%20Operations/canonicals/SOP-RECRUITER_ONBOARDING_001.md) + [`scripts/peopl_recruiter_onboarding_checklist_stub.py`](../../../../../scripts/peopl_recruiter_onboarding_checklist_stub.py) + **`process_list.csv`** `tbi_peopl_dtp_recruiter_onboarding_001` (supersedes prior `TODO[I73-SOP-RECRUITER_ONBOARDING_001]` placeholder note).

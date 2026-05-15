@@ -197,6 +197,11 @@ language: en
 - **Decision.** **Option A — Ethics-led with mandatory Learning co-review.** Accepted via operator skip during P5 execution; ratification captured here only (**no** companion `DECISION_REGISTER.csv` row minted).
 - **Close-out.** P5 (`SOP-ETHICS_LEARNING_REVIEW_001.md` + `hol_peopl_dtp_316`).
 
+## Operator ratification — recruiter onboarding closure + methodology IP note (AskQuestion 2026-05-15)
+
+- **Recruiter onboarding.** Closed `TODO[I73-SOP-RECRUITER_ONBOARDING_001]` / `TODO[I73-runbook-recruiter-onboarding]` placeholders on [`INTELLIGENCEOPS_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv) row **`IO-REC-PLACEHOLDER-001`** by wiring **`linked_sop_path`** → [`SOP-RECRUITER_ONBOARDING_001.md`](../../../references/hlk/v3.0/Admin/O5-1/People/People%20Operations/canonicals/SOP-RECRUITER_ONBOARDING_001.md) and **`linked_runbook_path`** → [`scripts/peopl_recruiter_onboarding_checklist_stub.py`](../../../../scripts/peopl_recruiter_onboarding_checklist_stub.py). Minted **`process_list.csv`** row **`tbi_peopl_dtp_recruiter_onboarding_001`** (`cadence_type=event_triggered`, `role_owner=People Operations Lead`, paired SOP/runbook cells). **`DECISION_REGISTER.csv`** rows **not** minted for this closure wave per operator scope (`validate_decision_register.py` FK hygiene unchanged).
+- **methodology_IP_default (P8 seed).** Operator verbatim intent captured for Strand H: **Holistika** by default; founder sole investor; anchors — **process engineering** / **business engineering** / **foresight**.
+
 ## Forward-charter decisions
 
 The following decisions remain pre-allocated to per-phase inline-ratify gates:

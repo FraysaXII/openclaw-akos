@@ -88,7 +88,7 @@ Cadences follow [`akos-executable-process-catalog.mdc`](../../../../../../../../
 - Parent: [`MARKETING_AREA_M3_REDESIGN.md`](../../canonicals/MARKETING_AREA_M3_REDESIGN.md) §2 (Storytelling sub-area) + §3 (single-ownership).
 - Sister sub-areas: Brand, Reach, Resonance, Experimentation.
 - Cross-area sister: `Operations/RevOps/canonicals/REVOPS_AREA_CHARTER.md`.
-- Cross-area integrations: `INTELLIGENCEOPS_REGISTER.csv` (P6 — media counterparty per `D-IH-72-J`); `SOP-MEDIA_ONBOARDING_001.md` (P6); `SOP-RECRUITER_ONBOARDING_001.md` (target I73 per `D-IH-72-K`).
+- Cross-area integrations: `INTELLIGENCEOPS_REGISTER.csv` (P6 — media counterparty per `D-IH-72-J`); `SOP-MEDIA_ONBOARDING_001.md` (P6); [`SOP-RECRUITER_ONBOARDING_001.md`](../../../People/People%20Operations/canonicals/SOP-RECRUITER_ONBOARDING_001.md) (I73 bootstrap per `D-IH-72-K`).
 - Brand sources: `BRAND_REGISTER_MATRIX.md`, `BRAND_BASELINE_REALITY_MATRIX.md`, `BRAND_VISION.md`, `BRAND_DISCIPLINE_ONTOLOGY.md`.
 - Cursor rule: [`akos-executable-process-catalog.mdc`](../../../../../../../../../.cursor/rules/akos-executable-process-catalog.mdc) Rules 3 + 4.
 - Decisions: `D-IH-72-A` (P0 charter), `D-IH-70-X` (Corporate Marketing → Storytelling), `D-IH-72-J` (media counterparty IntelligenceOps row), `D-IH-72-K` (recruiter onboarding cross-link), `D-IH-72-AB` (3-function umbrella).

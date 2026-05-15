@@ -33,6 +33,8 @@ Release lane definitions, SemVer judgment, `[Unreleased]` working-line disciplin
 
 ### Changed
 
+- **I73 recruiter onboarding bootstrap (2026-05-15)** — Adds [`SOP-RECRUITER_ONBOARDING_001.md`](docs/references/hlk/v3.0/Admin/O5-1/People/People%20Operations/canonicals/SOP-RECRUITER_ONBOARDING_001.md) + paired [`scripts/peopl_recruiter_onboarding_checklist_stub.py`](scripts/peopl_recruiter_onboarding_checklist_stub.py); clears IntelligenceOps [`INTELLIGENCEOPS_REGISTER.csv`](docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv) `IO-REC-PLACEHOLDER-001` TODO paths; mints **`process_list.csv`** `tbi_peopl_dtp_recruiter_onboarding_001`; extends `validate_process_list_pairing.py` discovery + smoke test [`tests/test_peopl_recruiter_onboarding_checklist_stub_smoke.py`](tests/test_peopl_recruiter_onboarding_checklist_stub_smoke.py).
+
 - _New entries land here._
 
 ### Deprecated
