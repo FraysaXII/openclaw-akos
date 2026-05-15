@@ -101,7 +101,7 @@ flowchart TD
 | **P1** | ENGAGEMENT_MODEL_REGISTRY mint + ENGAGEMENT_REGISTRY 17-col extension + process_list tranche | E | canonical-CSV gate | OPS-73-1 | **SHIPPED** (precondition commit `9aeee38`) |
 | **P2** | Learning charter + Holistik Researcher curriculum + LEARNING_OPS_BACKLOG | A | standard | OPS-73-2 | **SHIPPED** (this phase commit) |
 | **P3** | 5 Engagement SOPs + 6 paired runbooks + Learning pairing stub | C | standard | OPS-73-3 | **SHIPPED** (this phase commit) |
-| **P4** | HISTORICAL_ENGAGEMENT_CASE_LAW (Bâtard / Mark-II / Alias V / RCD Legal / L'Oréal arrangement) | F | standard | OPS-73-4 | pending |
+| **P4** | HISTORICAL_ENGAGEMENT_CASE_LAW (anonymized patterns + registry mapping) | F | standard | OPS-73-4 | **SHIPPED** (2026-05-15) |
 | **P5** | SOP-ETHICS_LEARNING_REVIEW + BRAND_VOICE_FOUNDATION refresh | B | standard | OPS-73-5 | pending |
 | **P6** | PEOPLE_COMPLIANCE_VS_ETHICS_BOUNDARY + process_list orphan reassignments | D | canonical-CSV gate | OPS-73-6 | pending |
 | **P7** | KB_HUMAN_READABILITY_CHARTER + 4 hlk-erp panel filter routes | G | standard | OPS-73-7 | pending |

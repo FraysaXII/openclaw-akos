@@ -16,7 +16,7 @@ continuous_rationale: Auto-rendered Operator Action Inbox (I59 P4) — re-render
 
 <!-- BEGIN AUTO -->
 
-_Rows: 33 (open · operator/mixed · ranked by RICE desc)._
+_Rows: 32 (open · operator/mixed · ranked by RICE desc)._
 
 | OPS ID | Initiative | Owner | RICE | What | Notes |
 | --- | --- | --- | --- | --- | --- |
@@ -46,7 +46,6 @@ _Rows: 33 (open · operator/mixed · ranked by RICE desc)._
 | `OPS-58-4` | INIT-OPENCLAW_AKOS-58 — Initiative 58 — Cycle 2 multi-track forward | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-59-1` | INIT-OPENCLAW_AKOS-59 — Initiative 59 — HLK governance promotion + clean slate cycle | operator (PMO) | — | Merge telemetry promotion proposals into PERSONA_SCENARIO_REGISTRY.csv | I59 P7; zero proposals at initial run (no telemetry data); re-run each cycle |
 | `OPS-73-10` | INIT-OPENCLAW_AKOS-73 — I73 — People Operations + Engagement Models + Methodology IP (mega-initiative) | mixed (PMO) | — | P10 Cross-strand integration verification — all 8 strands cohere; SOPs reference Engagement Registry; IP minting flagged in advisor pipeline; Learning references registry for apprentice onboarding; Ethics quarterly review covers IP cadence | Closure target P10 (~1 day after P9 closes). Precedes P11 closure. |
-| `OPS-73-3` | INIT-OPENCLAW_AKOS-73 — I73 — People Operations + Engagement Models + Methodology IP (mega-initiative) | mixed (People Operations Lead) | — | Strand C Engagement-lifecycle SOPs (hiring + onboarding + payroll + offboarding) parameterized by engagement_model_id + paired runbooks per akos-executable-process-catalog.mdc Rule 1 | Closure target P3 (~3-4 days). Inline-ratify gate C-73-4 SOP shape (default parameterized; split if >6 cases). |
 | `OPS-73-4` | INIT-OPENCLAW_AKOS-73 — I73 — People Operations + Engagement Models + Methodology IP (mega-initiative) | operator (People Operations Lead) | — | Strand F HISTORICAL_ENGAGEMENT_CASE_LAW codification (Bâtard 2020 + Mark-II + Alias V + RCD Legal + L'Oréal arrangement; access_level=5 register=internal frontmatter) | Closure target P4 (~2 days). Inline-ratify gate C-73-8 anonymization scope (default anonymize counterparty names; preserve case codenames). akos-brand-baseline-reality.mdc forbidden contexts apply. |
 | `OPS-73-5` | INIT-OPENCLAW_AKOS-73 — I73 — People Operations + Engagement Models + Methodology IP (mega-initiative) | mixed (Ethics Advisor) | — | Strand B SOP-ETHICS_LEARNING_REVIEW quarterly co-review SOP + BRAND_VOICE_FOUNDATION refresh with we-become-unethical-when-we-unlearn thesis | Closure target P5 (~1-2 days). Inline-ratify gate C-73-3 review owner (default Ethics-led with Learning co-reviewer per PEOPLE_AREA_RESTRUCTURE §3). |
 | `OPS-73-6` | INIT-OPENCLAW_AKOS-73 — I73 — People Operations + Engagement Models + Methodology IP (mega-initiative) | mixed (CPO) | — | Strand D PEOPLE_COMPLIANCE_VS_ETHICS_BOUNDARY + process_list orphan reassignments (canonical-CSV gate) | Closure target P6 (~1-2 days). PAUSE POINT #2 - canonical-CSV gate (process_list tranche). Inline-ratify gate C-73-5 boundary edge cases (default Compliance owns regulatory; Ethics owns AI-overreach; joint AI-content-disclosure). |
