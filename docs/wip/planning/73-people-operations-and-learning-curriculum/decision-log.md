@@ -211,6 +211,14 @@ The following decisions remain pre-allocated to per-phase inline-ratify gates:
 
 Additional D-IH-73-* rows will be minted as conundrums C-73-1..C-73-8 are ratified at their per-phase inline-ratify gates (C-73-1 at P2; C-73-2 at P2; C-73-3 at P5; C-73-4 at P3; C-73-5 at P6; C-73-6 at P8; C-73-7 at P7; C-73-8 at P4).
 
+## C-73-5 — Compliance vs Ethics boundary defaults (P6 inline-ratify)
+
+- **Question.** When a People-area process sits ambiguously between Compliance methodology ownership and Ethics doctrine ownership (legacy Talent monolith residue), what default splits apply for GDPR vs AI-overreach vs AI customer disclosure?
+- **Options.** **A.** Compliance owns regulatory/data-protection; Ethics owns AI-overreach posture; AI-assisted customer disclosure is joint (Compliance + Ethics RACI). **B.** Collapse everything under Compliance. **C.** Collapse everything under Ethics.
+- **Decision.** **Option A.** Accepted via `operator_inline_default_accepted_via_skip` for P6 subagent execution (no AskQuestion in chat) after mechanical evidence landed in [`PEOPLE_COMPLIANCE_VS_ETHICS_BOUNDARY.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PEOPLE_COMPLIANCE_VS_ETHICS_BOUNDARY.md); **no** companion `DECISION_REGISTER.csv` row minted (ratification recorded here only).
+- **Mechanical follow-through.** `process_list.csv` rows `hol_peopl_dtp_139` → `Ethics Advisor`; `hol_peopl_dtp_286` → `Learning Curator`; `OPS-73-6` closed.
+- **Close-out.** P6.
+
 ## Cross-references
 
 - Canonical decision register: [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv).
