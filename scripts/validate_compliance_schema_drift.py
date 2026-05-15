@@ -154,6 +154,12 @@ _REGISTRY: tuple[tuple[str, str, str], ...] = (
         "akos.hlk_decision_register_csv",
         "DECISION_REGISTER_FIELDNAMES",
     ),
+    # I73 P1 (D-IH-73-C sibling-dimension; D-IH-73-D 7-class taxonomy).
+    (
+        "docs/references/hlk/v3.0/Admin/O5-1/People/People Operations/canonicals/dimensions/ENGAGEMENT_MODEL_REGISTRY.csv",
+        "akos.hlk_engagement_model_csv",
+        "ENGAGEMENT_MODEL_FIELDNAMES",
+    ),
 )
 
 

@@ -1,7 +1,8 @@
 ---
 status: active
-last_review: 2026-05-13
+last_review: 2026-05-15
 authoring_initiative: I70 P8.1
+last_review_initiative: I73 P1
 canonical_id: engagement_registry
 owning_area: Operations
 owning_role: PMO
@@ -28,7 +29,7 @@ The registry promotes engagement metadata into a queryable governance table so t
 - Cross-references from `INITIATIVE_REGISTRY.csv` and `process_list.csv` resolve back to a stable `engagement_id`.
 - The 9-class enum (`engagement_class`) is the audit-grade source of truth used by GOI/POI ratifications (per §8.17 hunt).
 
-## 2. Schema (16 columns)
+## 2. Schema (17 columns; 17th column added at I73 P1 D-IH-73-N)
 
 | Column | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -48,6 +49,7 @@ The registry promotes engagement metadata into a queryable governance table so t
 | `related_initiatives` | text | optional | Semicolon-list of initiative IDs (`I12;I66`). |
 | `classification` | text | optional | Semicolon-list per `CLASSIFICATION_LATTICE.md` axes (`fact;source`, `way_of_working`, etc.). |
 | `notes` | text | optional | Free-form context. |
+| `engagement_model_id` | text | optional (backwards-compat) | I73 P1 (D-IH-73-N): FK to [`ENGAGEMENT_MODEL_REGISTRY.csv`](../../../People%20Operations/canonicals/dimensions/ENGAGEMENT_MODEL_REGISTRY.csv) `engagement_model_id`. Empty (NULL in mirror) for engagements that predate the I73 7-class taxonomy; backfilled at P9 UAT per D-IH-73-B charter-satisfies-gate. When non-empty, MUST match one of the 7 D-IH-73-D classes (hourly_consultant / milestone_consultant / percentage_collaborator / apprentice_learner / investor_advisor / outsourced_helper / operator_self). |
 
 ## 3. Engagement class enum (current)
 

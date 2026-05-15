@@ -109,15 +109,80 @@ language: en
 - **Reversibility.** medium (4 hlk-erp routes can be merged or split; KB charter prose can be rewritten).
 - **Close-out.** P7.
 
+## D-IH-73-H — Per-class enum ratification — eng_model_hourly_consultant
+
+- **Question.** What are the canonical enum values for the `eng_model_hourly_consultant` row (retribution_pattern / soc_posture / access_level_default / ip_clause_class / knowledge_access_level / payment_cadence)?
+- **Decision.** `retribution_pattern=hourly` / `soc_posture=cleared` / `access_level_default=4` (Confidential per [`access_levels.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/access_levels.md)) / `ip_clause_class=standard_consultant` / `knowledge_access_level=full_by_engagement` / `payment_cadence=per_hour`. Onboarding pattern `nda_then_sow_kickoff`; offboarding `final_invoice_then_access_revoke`. Default legal template: NDA + SoW (hourly).
+- **Rationale.** Direct-engagement freelancer (Advisers-template shape per [`WORKSPACE_BLUEPRINT_HOLISTIKA.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/WORKSPACE_BLUEPRINT_HOLISTIKA.md) §16). Cleared collaborator SOC with full access bounded by engagement scope. Maps to pre-bootstrapping consultant pattern. Standard work-for-hire IP clause.
+- **Decision source.** `operator_inline_default_accepted_via_skip` (Gate B 2026-05-15; recommended defaults from operator brief).
+- **Status.** active. **Reversibility.** low. **Close-out.** P1 (this commit).
+- **Supersedes**: D-IH-73-D (parent taxonomy decision).
+
+## D-IH-73-I — Per-class enum ratification — eng_model_milestone_consultant
+
+- **Question.** Same as D-IH-73-H but for `eng_model_milestone_consultant`.
+- **Decision.** `retribution_pattern=milestone` / `soc_posture=cleared` / `access_level_default=4` / `ip_clause_class=milestone_handoff` / `knowledge_access_level=partial_by_engagement` / `payment_cadence=per_milestone`. Onboarding `nda_then_milestone_kickoff`; offboarding `handoff_review_then_archive`. Default legal template: NDA + SoW + milestone schedule.
+- **Rationale.** Milestone-deliverable retribution (Bâtard pattern of bundled deliverable handoff). Partial-by-engagement access scope (only context relevant to the milestone is exposed). Historical: RCD Legal landing as customer.
+- **Decision source.** `operator_inline_default_accepted_via_skip` (Gate B 2026-05-15).
+- **Status.** active. **Reversibility.** low. **Close-out.** P1.
+- **Supersedes**: D-IH-73-D.
+
+## D-IH-73-J — Per-class enum ratification — eng_model_percentage_collaborator
+
+- **Question.** Same as D-IH-73-H but for `eng_model_percentage_collaborator`.
+- **Decision.** `retribution_pattern=percentage` / `soc_posture=cleared` / `access_level_default=4` / `ip_clause_class=collaborator_share` / `knowledge_access_level=full_by_engagement` / `payment_cadence=per_deal_outcome`. Onboarding `nda_collaborator_share_agreement`; offboarding `final_payout_reconciliation_then_archive`. Default legal template: NDA + collaborator-share agreement.
+- **Rationale.** Revenue-share retribution without cap-table presence (Bâtard 2020 percentage-collaborator pattern). Reconciliation cadence at deal outcome; cross-link to [`FINOPS_COUNTERPARTY_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FINOPS_COUNTERPARTY_REGISTER.csv) for payout tracking per [`akos-holistika-operations.mdc`](../../../../.cursor/rules/akos-holistika-operations.mdc) no-duplication rule.
+- **Decision source.** `operator_inline_default_accepted_via_skip` (Gate B 2026-05-15).
+- **Status.** active. **Reversibility.** low. **Close-out.** P1.
+- **Supersedes**: D-IH-73-D.
+
+## D-IH-73-K — Per-class enum ratification — eng_model_apprentice_learner
+
+- **Question.** Same as D-IH-73-H but for `eng_model_apprentice_learner`.
+- **Decision.** `retribution_pattern=barter_for_training` / `soc_posture=training_only` / `access_level_default=3` (Internal per access_levels.md) / `ip_clause_class=training_recipient` / `knowledge_access_level=training_curriculum_only` / `payment_cadence=barter_continuous`. Onboarding `nda_training_agreement_curriculum_assignment`; offboarding `graduation_review_then_optional_promotion`. Default legal template: NDA + training agreement (no money flow).
+- **Rationale.** Work-for-training arrangement (Mark-II + Alias V archetype per `FOUNDER_TRAJECTORY_INTERNAL.md` §2). Training-only SOC posture (under-training cleared but bounded to curriculum). Apprentice ↔ curriculum binding executed at P2 (Learning charter + Holistik Researcher curriculum). No money flow; retribution is the curriculum itself.
+- **Decision source.** `operator_inline_default_accepted_via_skip` (Gate B 2026-05-15).
+- **Status.** active. **Reversibility.** low. **Close-out.** P1 + P2 (curriculum binding).
+- **Supersedes**: D-IH-73-D.
+
+## D-IH-73-L — Per-class enum ratification — eng_model_investor_advisor
+
+- **Question.** Same as D-IH-73-H but for `eng_model_investor_advisor`.
+- **Decision.** `retribution_pattern=equity_advisor` / `soc_posture=cleared` / `access_level_default=5` (Highly Confidential per access_levels.md) / `ip_clause_class=advisor_nda` / `knowledge_access_level=full_by_engagement` / `payment_cadence=per_round`. Onboarding `advisor_nda_safe_or_convertible`; offboarding `round_exit_review_then_archive`. Default legal template: advisor NDA + SAFE/convertible.
+- **Rationale.** Equity / advisor-grant retribution; cap-table presence or formal advisor grant (Bâtard 2020 investor pattern). Cleared SOC at access_level=5 because cap-table participants see C-level / strategic governance content. Round-lifecycle cadence.
+- **Decision source.** `operator_inline_default_accepted_via_skip` (Gate B 2026-05-15).
+- **Status.** active. **Reversibility.** low. **Close-out.** P1.
+- **Supersedes**: D-IH-73-D.
+
+## D-IH-73-M — Per-class enum ratification — eng_model_outsourced_helper
+
+- **Question.** Same as D-IH-73-H but for `eng_model_outsourced_helper` (cross-link to D-IH-73-E parent SOC posture decision).
+- **Decision.** `retribution_pattern=hourly_low_trust` / `soc_posture=low_trust` / `access_level_default=1` (Community per access_levels.md) / `ip_clause_class=outsourced_workproduct_only` / `knowledge_access_level=work_product_scope_only` / `payment_cadence=per_hour_capped`. Onboarding `minimal_nda_workproduct_scope_brief`; offboarding `workproduct_handoff_then_access_revoke`. Default legal template: minimal NDA + work-product-only handoff (€400/mo cap default).
+- **Rationale.** Portal-mediated freelancer (Fiverr/Cameroon helper pattern; €400/mo cap class). Low-trust SOC posture per D-IH-73-E (separate engagement class with extra access-control SOC, not sub-class of hourly). Access_level=1 — scoped + redacted KB view; no methodology exposure. Queryable canonical row (vs free-text contract-clause grep) is the load-bearing P7 KB-view low-trust route policy hook per [`akos-mirror-template.mdc`](../../../../.cursor/rules/akos-mirror-template.mdc).
+- **Decision source.** `operator_inline_default_accepted_via_skip` (Gate B 2026-05-15).
+- **Status.** active. **Reversibility.** low. **Close-out.** P1 (registry row) + P7 (KB-view enforcement).
+- **Supersedes**: D-IH-73-E (parent SOC posture decision).
+
+## D-IH-73-N — ENGAGEMENT_REGISTRY.csv 17-col extension
+
+- **Question.** Add `engagement_model_id` FK column to existing 16-col `ENGAGEMENT_REGISTRY.csv` at P1, or defer to a separate maintenance commit?
+- **Options considered.**
+  - **A. Add column at P1** (recommended) — atomic landing with the sibling-dimension registry. Existing 6 rows backfill to empty; FK constraint NOT VALID until P9 UAT backfill. ENGAGEMENT_REGISTRY.md §2 updated to reflect 17-col schema. Companion `supabase/migrations/20260515180001_i73_engagement_registry_add_engagement_model_id.sql` migration.
+  - **B. Defer column to separate commit** — keeps ENGAGEMENT_REGISTRY.csv frozen at 16-col for this commit; column-add lands in P9 UAT or in a P2/P3 backfill commit. Pros: smaller P1 diff. Cons: forces P3 SOPs to parameterize without a real FK column to dereference; orphans the registry from existing engagement instances.
+- **Decision.** **Option A — add column at P1.** Recommended default accepted via Gate B (P1 inline-ratify) + Gate C (PAUSE POINT canonical CSV preview).
+- **Rationale.** P3 engagement-lifecycle SOPs reference `engagement_model_id` for parameterization (C-73-4 default). Adding the column at P1 means P3 SOP commits can reference a real FK column from day 1 without retrofit. NULL-tolerant constraint preserves backwards-compat for existing rows; backfill happens at P9 first-engagement-onboarded UAT.
+- **Decision source.** `operator_inline_default_accepted_via_skip` (Gate B + Gate C 2026-05-15).
+- **Status.** active.
+- **Reversibility.** medium (column can be dropped, but downstream SOPs and KB-view routes would need rewrite).
+- **Close-out.** P1.
+
 ## Forward-charter decisions
 
-The following decisions are pre-allocated to per-phase inline-ratify gates:
+The following decisions remain pre-allocated to per-phase inline-ratify gates:
 
-- **D-IH-73-H..M** — per-class enum ratifications (one per engagement model class; P1).
-- **D-IH-73-N** — `ENGAGEMENT_REGISTRY.csv` 17-col extension ratification (P1).
 - **D-IH-73-CLOSURE** — initiative closure (P11).
 
-Additional D-IH-73-* rows will be minted as conundrums C-73-1..C-73-8 are ratified at their per-phase inline-ratify gates.
+Additional D-IH-73-* rows will be minted as conundrums C-73-1..C-73-8 are ratified at their per-phase inline-ratify gates (C-73-1 at P2; C-73-2 at P2; C-73-3 at P5; C-73-4 at P3; C-73-5 at P6; C-73-6 at P8; C-73-7 at P7; C-73-8 at P4).
 
 ## Cross-references
 

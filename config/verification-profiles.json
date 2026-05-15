@@ -299,6 +299,16 @@
         }
       ]
     },
+    "engagement_model_registry_smoke": {
+      "description": "Initiative 73 P1: standalone ENGAGEMENT_MODEL_REGISTRY validator smoke (D-IH-73-C sibling-dimension; D-IH-73-D 7-class taxonomy). Runs scripts/validate_engagement_model_registry.py against the canonical CSV at docs/references/hlk/v3.0/Admin/O5-1/People/People Operations/canonicals/dimensions/ENGAGEMENT_MODEL_REGISTRY.csv. Per-row Pydantic instantiation (Literal enums + slug regex + access_level int 0-6) + 7-class taxonomy completeness check + FK to baseline_organisation.csv (People Operations Lead = Data Owner per D-IH-73-C).",
+      "steps": [
+        {
+          "id": "validate_engagement_model_registry",
+          "description": "Run scripts/validate_engagement_model_registry.py",
+          "argv": ["scripts/validate_engagement_model_registry.py"]
+        }
+      ]
+    },
     "brand_voice_register_smoke": {
       "description": "Initiative 71 P1 Pack A1: standalone brand voice register validator smoke (10 enforcement layers; strict-day-1 per D-IH-71-F + C-71-8). Loads register-pack.yml from canonicals/_validators/. Scans consumer i18n JSON files for FR anglicisms + ES patterns + EN MBA-deck jargon + 7 AI-tone tic families + anti-LLM-tone catalog. Layers 3-7 + 9 (audience matrix; Storytelling/Resonance boundary; sub-mark archetype; voice persona; locale-leak; cobrand; track-record; brand-abbrev) load as INFO-level chassis pending forward-charter markdown-surface scan.",
       "steps": [

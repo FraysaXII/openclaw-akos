@@ -39,6 +39,7 @@ from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIE
 from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_cycle_register_csv import CYCLE_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.4
 from akos.hlk_decision_register_csv import DECISION_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.5
+from akos.hlk_engagement_model_csv import ENGAGEMENT_MODEL_FIELDNAMES  # noqa: E402  # I73 P1 (D-IH-73-C sibling-dimension; D-IH-73-D 7-class taxonomy)
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_initiative_registry_csv import INITIATIVE_REGISTRY_FIELDNAMES  # noqa: E402  # I59 P1.2
 from akos.hlk_ops_register_csv import OPS_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.3
@@ -86,6 +87,8 @@ INITIATIVE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "
 OPS_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "OPS_REGISTER.csv"
 CYCLE_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "CYCLE_REGISTER.csv"
 DECISION_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "DECISION_REGISTER.csv"
+# I73 P1 — Engagement Model Registry (sibling dimension at People Operations per D-IH-73-C).
+ENGAGEMENT_MODEL_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "People Operations" / "canonicals" / "dimensions" / "ENGAGEMENT_MODEL_REGISTRY.csv"
 
 # SSOT for the baseline_organisation column contract is akos.hlk_baseline_org_csv.
 # This local alias preserves the existing in-module name without re-declaring the
@@ -735,6 +738,45 @@ def _emit_cycle_register_upserts(rows: list[dict[str, str]], source_git_sha: str
     return out
 
 
+def _emit_engagement_model_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """I73 P1 — compliance.engagement_model_registry_mirror upserts.
+
+    PK = engagement_model_id (e.g. ``eng_model_hourly_consultant``). Sibling
+    dimension to the engagement_registry_mirror per D-IH-73-C. ``access_level_default``
+    is SMALLINT (CHECK 0..6); emitted as a bare integer literal (not text-quoted)
+    when present, NULL when blank. All other columns are TEXT with verbatim
+    quoting.
+    """
+    cols_csv = ", ".join(ENGAGEMENT_MODEL_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in ENGAGEMENT_MODEL_FIELDNAMES if c != "engagement_model_id"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.engagement_model_registry_mirror upserts (Initiative 73 P1)"]
+    for r in rows:
+        eid = (r.get("engagement_model_id") or "").strip()
+        if not eid:
+            continue
+        row_vals: list[str] = []
+        for c in ENGAGEMENT_MODEL_FIELDNAMES:
+            raw = (r.get(c) or "").strip()
+            if c == "access_level_default":
+                # SMALLINT column; emit bare int literal or NULL.
+                if not raw:
+                    row_vals.append("NULL")
+                else:
+                    row_vals.append(raw)  # int literal; CHECK constraint validates 0..6
+            else:
+                row_vals.append(_sql_text_literal(raw))
+        vals_full = ", ".join(row_vals) + f", {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.engagement_model_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (engagement_model_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
 def _emit_decision_register_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
     """I59 P1.5 — compliance.decision_register_mirror upserts.
 
@@ -899,6 +941,11 @@ def main() -> int:
         help="Only emit decision_register_mirror statements (requires DECISION_REGISTER.csv) [Initiative 59 P1.5]",
     )
     parser.add_argument(
+        "--engagement-model-only",
+        action="store_true",
+        help="Only emit engagement_model_registry_mirror statements (requires ENGAGEMENT_MODEL_REGISTRY.csv) [Initiative 73 P1]",
+    )
+    parser.add_argument(
         "--no-begin-commit",
         action="store_true",
         help="Omit BEGIN/COMMIT wrapper",
@@ -929,6 +976,7 @@ def main() -> int:
             args.ops_register_only,
             args.cycle_register_only,
             args.decision_register_only,
+            args.engagement_model_only,
         )
         if x
     )
@@ -1471,6 +1519,11 @@ def main() -> int:
             args.decision_register_only, DECISION_REGISTER_CSV, DECISION_REGISTER_FIELDNAMES,
             "compliance.decision_register_mirror", "Initiative 59 P1.5",
         ),
+        # I73 P1 — engagement-model registry (sibling dimension; D-IH-73-C).
+        (
+            args.engagement_model_only, ENGAGEMENT_MODEL_REGISTRY_CSV, ENGAGEMENT_MODEL_FIELDNAMES,
+            "compliance.engagement_model_registry_mirror", "Initiative 73 P1",
+        ),
     ]
     _i59_emit_fns = {
         "compliance.repository_registry_mirror": _emit_repository_registry_upserts,
@@ -1478,6 +1531,7 @@ def main() -> int:
         "compliance.ops_register_mirror": _emit_ops_register_upserts,
         "compliance.cycle_register_mirror": _emit_cycle_register_upserts,
         "compliance.decision_register_mirror": _emit_decision_register_upserts,
+        "compliance.engagement_model_registry_mirror": _emit_engagement_model_upserts,
     }
     _i59_count_keys = {
         "compliance.repository_registry_mirror": "repository_registry_rows",
@@ -1485,6 +1539,7 @@ def main() -> int:
         "compliance.ops_register_mirror": "ops_register_rows",
         "compliance.cycle_register_mirror": "cycle_register_rows",
         "compliance.decision_register_mirror": "decision_register_rows",
+        "compliance.engagement_model_registry_mirror": "engagement_model_registry_rows",
     }
     for flag, csv_path, fieldnames, mirror_table, initiative in _i59_mirror_specs:
         if not flag:
@@ -1729,6 +1784,16 @@ def main() -> int:
                 dec_reg_rows = [dict(r) for r in drr]
                 dec_reg_n = len(dec_reg_rows)
 
+    # I73 P1 — engagement-model registry (sibling dimension; D-IH-73-C).
+    eng_model_n = 0
+    eng_model_rows: list[dict[str, str]] = []
+    if ENGAGEMENT_MODEL_REGISTRY_CSV.is_file():
+        with ENGAGEMENT_MODEL_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            emr = csv.DictReader(f)
+            if list(emr.fieldnames or []) == list(ENGAGEMENT_MODEL_FIELDNAMES):
+                eng_model_rows = [dict(r) for r in emr]
+                eng_model_n = len(eng_model_rows)
+
     if args.count_only:
         print(f"source_git_sha={sha}")
         print(f"process_list_rows={len(proc_rows)}")
@@ -1755,6 +1820,8 @@ def main() -> int:
         print(f"ops_register_rows={ops_reg_n}")
         print(f"cycle_register_rows={cycle_reg_n}")
         print(f"decision_register_rows={dec_reg_n}")
+        # I73 P1 addition
+        print(f"engagement_model_registry_rows={eng_model_n}")
         return 0
 
     blocks: list[str] = []
@@ -1804,6 +1871,9 @@ def main() -> int:
         blocks.extend(_emit_cycle_register_upserts(cycle_reg_rows, sha))
     if not args.process_list_only and not args.baseline_only and dec_reg_rows:
         blocks.extend(_emit_decision_register_upserts(dec_reg_rows, sha))
+    # I73 P1 — append engagement-model upserts to the full bundle.
+    if not args.process_list_only and not args.baseline_only and eng_model_rows:
+        blocks.extend(_emit_engagement_model_upserts(eng_model_rows, sha))
 
     preamble = [
         "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",

@@ -437,6 +437,11 @@ def main() -> int:
         # Initiative 47 P1 - Persona scenario registry (UAT scenario library; D-IH-47-A SSOT).
         ("PERSONA_SCENARIO_REGISTRY", "validate_persona_scenario_registry.py",
          "validate_persona_scenario_registry", HLK_DIR / "dimensions" / "PERSONA_SCENARIO_REGISTRY.csv"),
+        # Initiative 73 P1 - Engagement Model Registry (sibling dimension at People Operations per D-IH-73-C;
+        # 7-class taxonomy per D-IH-73-D; not GOI/POI or ENGAGEMENT_REGISTRY col-extension).
+        ("ENGAGEMENT_MODEL_REGISTRY", "validate_engagement_model_registry.py",
+         "validate_engagement_model_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "People Operations" / "canonicals" / "dimensions" / "ENGAGEMENT_MODEL_REGISTRY.csv"),
         # Initiative 59 P1 - HLK governance dimensions (5 new CSVs + 3 sync gates).
         # REPOSITORY_REGISTRY first because INITIATIVE_REGISTRY FKs into it.
         ("REPOSITORY_REGISTRY", "validate_repository_registry.py",
