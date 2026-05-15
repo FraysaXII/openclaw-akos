@@ -211,6 +211,13 @@ language: en
 - **Mechanical follow-through.** `process_list.csv` rows `hol_peopl_dtp_139` → `Ethics Advisor`; `hol_peopl_dtp_286` → `Learning Curator`; `OPS-73-6` closed.
 - **Close-out.** P6.
 
+## C-73-7 — Persona KB view implementation shape (P7 inline-ratify)
+
+- **Question.** Separate static KB surfaces vs one role-tagged surface vs **HLK-ERP panel filter routes** per persona (**D-IH-73-G**)?
+- **Options.** Per authoritative Cursor plan P7 todo: ERP panel filter routes (recommended default) vs alternatives.
+- **Decision.** **HLK-ERP panel filter routes** — four presets under `/operator/people/kb-views/` (see **[`reports/kb-human-readability-erp-route-spec.md`](reports/kb-human-readability-erp-route-spec.md)**); AKOS carries charter + sibling PR spec only (`hlk-erp` absent from this repo). Ratified consistent with **`D-IH-73-G`** in [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv); **no** new `DECISION_REGISTER.csv` row minted for C-73-7.
+- **Close-out.** P7 ([`KB_HUMAN_READABILITY_CHARTER.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/KB_HUMAN_READABILITY_CHARTER.md)).
+
 ## Release gate Part C — deterministic FAIL backlog vs environmental FAIL backlog (2026-05-15)
 
 - **Scope.** Sync deck pillar counts + dossier persona fixture + engagement estimation baseline-role parity + regenerated operator inbox; **`release-gate.py` verdict remains FAIL** until browser-smoke listener + strict BRAND voice register + Vale sibling rows green on operator host (recorded in [`reports/release-gate-triage-2026-05-15.md`](reports/release-gate-triage-2026-05-15.md)).
