@@ -106,7 +106,7 @@ flowchart TD
 | **P6** | PEOPLE_COMPLIANCE_VS_ETHICS_BOUNDARY + process_list orphan reassignments | D | canonical-CSV gate | OPS-73-6 | **SHIPPED** (2026-05-15) |
 | **P7** | KB_HUMAN_READABILITY_CHARTER + 4 hlk-erp panel filter routes | G | standard | OPS-73-7 | **SHIPPED** (2026-05-15; ERP spec carry-over sibling repo) |
 | **P8** | METHODOLOGY_IP_MINTING_PATH + brand-vs-name decision matrix | H | brand/legal gate | OPS-73-8 | **SHIPPED** (2026-05-15; counsel-before-filing reiterated) |
-| **P9** | First engagement onboarded under new model (operator UAT) | — | standard | OPS-73-9 | pending |
+| **P9** | First engagement onboarded under new model (operator UAT) | — | standard | OPS-73-9 | **SHIPPED** (2026-05-15; `uat-i73-p9-2026-05-15.md` — SKIP rows for live/on-listener checks) |
 | **P10** | Cross-strand integration verification | — | standard | OPS-73-10 | pending |
 | **P11** | Closure UAT + INITIATIVE_REGISTRY status flip + dep map update | — | closure gate | — | pending |
 
