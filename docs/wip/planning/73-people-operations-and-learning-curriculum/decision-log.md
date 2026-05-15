@@ -203,14 +203,6 @@ language: en
 - **`TODO[OPERATOR-goi-recruiter-001]`** — **Document-only / operator-supplied ID**: agents do **not** mint `goi_*` locally; clearing stub lives at [`reports/pending-goi-recruiter-001.md`](reports/pending-goi-recruiter-001.md) until the operator replaces the placeholder `target_id` on **`IO-REC-PLACEHOLDER-001`** with a governed GOI row.
 - **methodology_IP_default (P8 seed).** Operator verbatim intent captured for Strand H: **Holistika** by default; founder sole investor; anchors — **process engineering** / **business engineering** / **foresight**.
 
-## Forward-charter decisions
-
-The following decisions remain pre-allocated to per-phase inline-ratify gates:
-
-- **D-IH-73-CLOSURE** — initiative closure (P11).
-
-Additional D-IH-73-* rows will be minted as conundrums C-73-1..C-73-8 are ratified at their per-phase inline-ratify gates (C-73-1 at P2; C-73-2 at P2; C-73-3 at P5; C-73-4 at P3; C-73-5 at P6; C-73-6 at P8; C-73-7 at P7; C-73-8 at P4).
-
 ## C-73-5 — Compliance vs Ethics boundary defaults (P6 inline-ratify)
 
 - **Question.** When a People-area process sits ambiguously between Compliance methodology ownership and Ethics doctrine ownership (legacy Talent monolith residue), what default splits apply for GDPR vs AI-overreach vs AI customer disclosure?
@@ -218,6 +210,18 @@ Additional D-IH-73-* rows will be minted as conundrums C-73-1..C-73-8 are ratifi
 - **Decision.** **Option A.** Accepted via `operator_inline_default_accepted_via_skip` for P6 subagent execution (no AskQuestion in chat) after mechanical evidence landed in [`PEOPLE_COMPLIANCE_VS_ETHICS_BOUNDARY.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PEOPLE_COMPLIANCE_VS_ETHICS_BOUNDARY.md); **no** companion `DECISION_REGISTER.csv` row minted (ratification recorded here only).
 - **Mechanical follow-through.** `process_list.csv` rows `hol_peopl_dtp_139` → `Ethics Advisor`; `hol_peopl_dtp_286` → `Learning Curator`; `OPS-73-6` closed.
 - **Close-out.** P6.
+
+## Release gate Part C — deterministic FAIL backlog vs environmental FAIL backlog (2026-05-15)
+
+- **Scope.** Sync deck pillar counts + dossier persona fixture + engagement estimation baseline-role parity + regenerated operator inbox; **`release-gate.py` verdict remains FAIL** until browser-smoke listener + strict BRAND voice register + Vale sibling rows green on operator host (recorded in [`reports/release-gate-triage-2026-05-15.md`](reports/release-gate-triage-2026-05-15.md)).
+
+## Forward-charter decisions
+
+The following decisions remain pre-allocated to per-phase inline-ratify gates:
+
+- **D-IH-73-CLOSURE** — initiative closure (P11).
+
+Additional D-IH-73-* rows will be minted as conundrums C-73-1..C-73-8 are ratified at their per-phase inline-ratify gates (C-73-1 at P2; C-73-2 at P2; C-73-3 at P5; C-73-4 at P3; C-73-5 at P6; C-73-6 at P8; C-73-7 at P7; C-73-8 at P4).
 
 ## Cross-references
 

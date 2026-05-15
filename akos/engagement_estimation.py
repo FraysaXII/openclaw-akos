@@ -150,7 +150,7 @@ METHODS: dict[MethodId, EstimationMethod] = {
         method_id="design_specification",
         label="Design — functional + technical specification",
         effort_hours=TriEstimate(min=24, par=40, max=72),
-        default_role_mix={"Tech Lead": 0.5, "Project Manager": 0.3, "UX Designer": 0.2},
+        default_role_mix={"Tech Lead": 0.5, "Project Manager": 0.3, "Brand & Narrative Manager": 0.2},
         description="Functional specification + technical specification + scope-out + acceptance criteria.",
     ),
     "build_prototype_excel": EstimationMethod(
@@ -166,10 +166,9 @@ METHODS: dict[MethodId, EstimationMethod] = {
         effort_hours=TriEstimate(min=140, par=240, max=400),
         default_role_mix={
             "Back-End Developer": 0.35,
-            "Front-End Developer": 0.25,
+            "Front-End Developer": 0.35,
             "Tech Lead": 0.2,
             "Project Manager": 0.1,
-            "UX Designer": 0.1,
         },
         description="Multi-category web app (Next.js or equivalent) covering the form, register, supplier base, and dispute dashboard.",
     ),

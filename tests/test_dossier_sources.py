@@ -83,10 +83,15 @@ def test_gather_schema_governance_reads_actual_csv_counts() -> None:
     """Snapshot mode: read CSV directly (no validate_hlk subprocess)."""
     data = gather_schema_governance()
     p = data.payload
+    def _csv_row_count(path: Path) -> int:
+        with path.open(encoding="utf-8", newline="") as fh:
+            return sum(1 for _ in csv.DictReader(fh))
+
     assert p["total_topics"] >= 28  # I47 added 1; I48 may add more
     assert p["total_skills"] == 5
     assert p["total_policies"] >= 26  # I48 P7 added POL-DOSSIER-RUN-RETENTION-V1
-    assert p["total_personas"] == 16
+    expected_personas = _csv_row_count(REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_REGISTRY.csv")
+    assert p["total_personas"] == expected_personas
     assert p["total_scenarios"] >= 326  # I47 P9 closed at 326
     assert p["validate_hlk_pass"] is None  # snapshot doesn't run validator
     assert p["snapshot_mode"] is True
