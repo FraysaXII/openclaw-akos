@@ -68,14 +68,15 @@ def _sop_discoverable(role_owner: str, item_name: str) -> bool:
     we use a permissive scan."""
     if not role_owner.strip():
         return False
-    role_token = role_owner.lower().replace(" ", "_")
+    role_plain = role_owner.lower().strip()
+    role_token = role_plain.replace(" ", "_")
     name_token = item_name.lower().replace(" ", "_")[:30] if item_name else ""
     for sop in HLK_VAULT.rglob("SOP-*.md"):
         try:
             body = sop.read_text(encoding="utf-8", errors="replace").lower()
         except Exception:
             continue
-        if role_token in body or (name_token and name_token in body):
+        if role_plain in body or role_token in body or (name_token and name_token in body):
             return True
     return False
 
