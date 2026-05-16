@@ -2,7 +2,7 @@
 language: en
 status: active
 authored: 2026-05-13
-last_review: 2026-05-15
+last_review: 2026-05-16
 role_owner: PMO
 classification: fact
 ssot: true
@@ -55,6 +55,8 @@ Updated every time an initiative is promoted, closed, or has a TRIGGER-watch sta
 | **I77** | Impeccable Brand-Bridge Refresh + Drift Gate | active (P0 ratified 2026-05-14) | — (P1 Strand A pending) | [§11.8](PLANNING_COMPENDIUM.md#§118-i77--impeccable-brand-bridge-refresh--drift-gate-active) |
 | **I78** | Brand-voice LLM-as-judge advisory | candidate (TRIGGER-watch) | TRIGGER not fired (0 regex pushback signals) | [§11.9](PLANNING_COMPENDIUM.md#§119-i78--brand-voice-llm-as-judge-advisory-layer-candidate--trigger-watch) |
 | **I79** | People Manifesto + Knowledge Hygiene + Cross-area Design Patterns + AI Governance (mega-initiative; follow-up to I73 doctrinal layer) | closed 2026-05-15 (`D-IH-79-CLOSURE`) | P0–P8 mega-initiative six strands + UAT + integration verification; 24/1165 process_list FK seeds; anti-jargon drift gate operational | [`docs/wip/planning/79-people-manifesto-and-pattern-library/master-roadmap.md`](../79-people-manifesto-and-pattern-library/master-roadmap.md) |
+| **I80** | I79 Lessons-Learned (SOP Body/Addendum Pattern + Stakeholder Lenses + Inline-Ratify Craft Skill) | active P0 ratified 2026-05-16 (`D-IH-80-A..G`) | P1 SOP body/addendum pattern mint + P2 stakeholder lenses paired files + P3 inline-ratify craft skill + P4 I79 retrofit + P5 I73 lifecycle retrofit + P6 UAT + I81 forward-charter + P7 closure | [`docs/wip/planning/80-i79-lessons-learned/master-roadmap.md`](../80-i79-lessons-learned/master-roadmap.md) |
+| **I81** | Full-Vault SOP Body/Addendum Retrofit (forward-charter from I80 D-IH-80-D Option C; ~30+ SOPs across 11 areas) | candidate (forward-charter) | I80 P6 candidate-stub mint pending | (forward-charter; appendix to be authored once I80 P6 ships) |
 
 State truth: [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) + candidate files under [`_candidates/`](../_candidates/). The compendium appendix sub-sections point at these canonicals; this table is a navigation surface, not a state SSOT.
 
