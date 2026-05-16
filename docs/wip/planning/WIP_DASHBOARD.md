@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (11)
+### Active (in execution) (10)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -29,7 +29,6 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | active | 2026-05-07 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
 | **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
 | **77** | [`77-impeccable-brand-bridge-refresh/`](77-impeccable-brand-bridge-refresh/) | active | 2026-05-14 | I77 — Impeccable Brand-Bridge Refresh + Drift Gate |
-| **79** | [`79-people-manifesto-and-pattern-library/`](79-people-manifesto-and-pattern-library/) | active | 2026-05-15 | I79 — Holistika People Manifesto + Knowledge Hygiene + Cross-area Design Patterns + AI ... |
 
 ### Gated on external event (2)
 
@@ -62,7 +61,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | program_line | 2026-04-18 | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
 | **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | program_line | 2026-04-23 | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
 
-### Closed (34)
+### Closed (36)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -100,6 +99,8 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **71** | [`71-cicd-discipline-and-aiops-baseline-maturity/`](71-cicd-discipline-and-aiops-baseline-maturity/) | closed | 2026-05-14 | I71 — CI/CD Discipline and AIOps Baseline Maturity |
 | **72** | [`72-marketing-area-governance-and-persona-registry-expansion/`](72-marketing-area-governance-and-persona-registry-expansion/) | closed | 2026-05-14 | I72 — Marketing Area Governance + Persona Registry + IntelligenceOps Register Expansion... |
 | **73** | [`73-people-operations-and-learning-curriculum/`](73-people-operations-and-learning-curriculum/) | closed | 2026-05-15 | I73 — People Operations + Engagement Models + Methodology IP (mega-initiative) |
+| **79** | [`79-people-manifesto-and-pattern-library/`](79-people-manifesto-and-pattern-library/) | closed | 2026-05-15 | I79 — Holistika People Manifesto + Knowledge Hygiene + Cross-area Design Patterns + AI ... |
+| **80** | [`80-i79-lessons-learned/`](80-i79-lessons-learned/) | closed | 2026-05-16 | I80 — I79 Lessons-Learned (SOP Body/Addendum Pattern + Stakeholder Lenses + Inline-Rati... |
 
 ### Archived (superseded) (4)
 

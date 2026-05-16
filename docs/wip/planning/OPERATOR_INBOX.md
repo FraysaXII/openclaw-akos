@@ -16,7 +16,7 @@ continuous_rationale: Auto-rendered Operator Action Inbox (I59 P4) — re-render
 
 <!-- BEGIN AUTO -->
 
-_Rows: 29 (open · operator/mixed · ranked by RICE desc)._
+_Rows: 25 (open · operator/mixed · ranked by RICE desc)._
 
 | OPS ID | Initiative | Owner | RICE | What | Notes |
 | --- | --- | --- | --- | --- | --- |
@@ -45,10 +45,6 @@ _Rows: 29 (open · operator/mixed · ranked by RICE desc)._
 | `OPS-58-2` | INIT-OPENCLAW_AKOS-58 — Initiative 58 — Cycle 2 multi-track forward | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-58-4` | INIT-OPENCLAW_AKOS-58 — Initiative 58 — Cycle 2 multi-track forward | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-59-1` | INIT-OPENCLAW_AKOS-59 — Initiative 59 — HLK governance promotion + clean slate cycle | operator (PMO) | — | Merge telemetry promotion proposals into PERSONA_SCENARIO_REGISTRY.csv | I59 P7; zero proposals at initial run (no telemetry data); re-run each cycle |
-| `OPS-73-10` | INIT-OPENCLAW_AKOS-73 — I73 — People Operations + Engagement Models + Methodology IP (mega-initiative) | mixed (PMO) | — | P10 Cross-strand integration verification — all 8 strands cohere; SOPs reference Engagement Registry; IP minting flagged in advisor pipeline; Learning references registry for apprentice onboarding; Ethics quarterly review covers IP cadence | Closure target P10 (~1 day after P9 closes). Precedes P11 closure. |
-| `OPS-73-7` | INIT-OPENCLAW_AKOS-73 — I73 — People Operations + Engagement Models + Methodology IP (mega-initiative) | mixed (PMO) | — | Strand G KB_HUMAN_READABILITY_CHARTER + 4 hlk-erp panel filter routes (operator-managed / cleared-collaborator / low-trust-outsourced / apprentice) mapped 1:1 to engagement classes | Closure target P7 (~2-3 days). Inline-ratify gate C-73-7 persona view technology (default role-tagged single surface with per-persona ERP panel filters). |
-| `OPS-73-8` | INIT-OPENCLAW_AKOS-73 — I73 — People Operations + Engagement Models + Methodology IP (mega-initiative) | mixed (Brand & Narrative Manager) | — | Strand H METHODOLOGY_IP_MINTING_PATH brand-vs-name decision matrix (brand/legal PAUSE POINT) | Closure target P8 (~2 days). PAUSE POINT #3 - brand/legal gate. Inline-ratify gate C-73-6 licensing model (default decision-deferred-with-criteria-matrix per D-IH-73-F). |
-| `OPS-73-9` | INIT-OPENCLAW_AKOS-73 — I73 — People Operations + Engagement Models + Methodology IP (mega-initiative) | operator (PMO) | — | P9 UAT - first engagement onboarded under new model (operator-self ratification option a OR first apprentice cohort option b) | Closure target P9 (~1 day after P7+P8 land). Operator-driven; agent does not block on it. |
 
 <!-- END AUTO -->
 
