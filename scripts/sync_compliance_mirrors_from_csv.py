@@ -41,6 +41,7 @@ from akos.hlk_cycle_register_csv import CYCLE_REGISTER_FIELDNAMES  # noqa: E402 
 from akos.hlk_decision_register_csv import DECISION_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.5
 from akos.hlk_engagement_model_csv import ENGAGEMENT_MODEL_FIELDNAMES  # noqa: E402  # I73 P1 (D-IH-73-C sibling-dimension; D-IH-73-D 7-class taxonomy)
 from akos.hlk_design_pattern_csv import DESIGN_PATTERN_FIELDNAMES  # noqa: E402  # I79 P2 (D-IH-79-C/D People design pattern library)
+from akos.hlk_substrate_registry_csv import SUBSTRATE_REGISTRY_FIELDNAMES  # noqa: E402  # I84 P3 (D-IH-84-F substrate doctrine registry)
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_initiative_registry_csv import INITIATIVE_REGISTRY_FIELDNAMES  # noqa: E402  # I59 P1.2
 from akos.hlk_ops_register_csv import OPS_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.3
@@ -92,6 +93,8 @@ DECISION_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Ad
 ENGAGEMENT_MODEL_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "People Operations" / "canonicals" / "dimensions" / "ENGAGEMENT_MODEL_REGISTRY.csv"
 # I79 P2 — People Design Pattern Registry (cross-area design pattern library SSOT per D-IH-79-C/D).
 DESIGN_PATTERN_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PEOPLE_DESIGN_PATTERN_REGISTRY.csv"
+# I84 P3 — Substrate Registry (substrate doctrine SSOT per D-IH-84-A/F/G).
+SUBSTRATE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "SUBSTRATE_REGISTRY.csv"
 
 # SSOT for the baseline_organisation column contract is akos.hlk_baseline_org_csv.
 # This local alias preserves the existing in-module name without re-declaring the
@@ -809,6 +812,34 @@ def _emit_design_pattern_upserts(rows: list[dict[str, str]], source_git_sha: str
     return out
 
 
+def _emit_substrate_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """I84 P3 - compliance.substrate_registry_mirror upserts.
+
+    PK = substrate_id (matches ``^SUBS-[A-Z0-9-]+$``; e.g. ``SUBS-HOLISTIKA-OPENCLAW``).
+    All columns are TEXT except ``last_audit_date`` which is DATE in the mirror;
+    DATE column is emitted as a quoted ISO literal (PostgreSQL coerces date).
+    Per D-IH-84-A/F/G substrate doctrine.
+    """
+    cols_csv = ", ".join(SUBSTRATE_REGISTRY_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in SUBSTRATE_REGISTRY_FIELDNAMES if c != "substrate_id"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.substrate_registry_mirror upserts (Initiative 84 P3)"]
+    for r in rows:
+        sid = (r.get("substrate_id") or "").strip()
+        if not sid:
+            continue
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in SUBSTRATE_REGISTRY_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.substrate_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (substrate_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
 def _emit_decision_register_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
     """I59 P1.5 — compliance.decision_register_mirror upserts.
 
@@ -983,6 +1014,11 @@ def main() -> int:
         help="Only emit people_design_pattern_registry_mirror statements (requires PEOPLE_DESIGN_PATTERN_REGISTRY.csv) [Initiative 79 P2]",
     )
     parser.add_argument(
+        "--substrate-registry-only",
+        action="store_true",
+        help="Only emit substrate_registry_mirror statements (requires SUBSTRATE_REGISTRY.csv) [Initiative 84 P3]",
+    )
+    parser.add_argument(
         "--no-begin-commit",
         action="store_true",
         help="Omit BEGIN/COMMIT wrapper",
@@ -1015,6 +1051,7 @@ def main() -> int:
             args.decision_register_only,
             args.engagement_model_only,
             args.design_pattern_registry_only,
+            args.substrate_registry_only,
         )
         if x
     )
@@ -1567,6 +1604,11 @@ def main() -> int:
             args.design_pattern_registry_only, DESIGN_PATTERN_REGISTRY_CSV, DESIGN_PATTERN_FIELDNAMES,
             "compliance.people_design_pattern_registry_mirror", "Initiative 79 P2",
         ),
+        # I84 P3 — Substrate Registry (substrate doctrine SSOT; D-IH-84-A/F/G).
+        (
+            args.substrate_registry_only, SUBSTRATE_REGISTRY_CSV, SUBSTRATE_REGISTRY_FIELDNAMES,
+            "compliance.substrate_registry_mirror", "Initiative 84 P3",
+        ),
     ]
     _i59_emit_fns = {
         "compliance.repository_registry_mirror": _emit_repository_registry_upserts,
@@ -1576,6 +1618,7 @@ def main() -> int:
         "compliance.decision_register_mirror": _emit_decision_register_upserts,
         "compliance.engagement_model_registry_mirror": _emit_engagement_model_upserts,
         "compliance.people_design_pattern_registry_mirror": _emit_design_pattern_upserts,
+        "compliance.substrate_registry_mirror": _emit_substrate_registry_upserts,
     }
     _i59_count_keys = {
         "compliance.repository_registry_mirror": "repository_registry_rows",
@@ -1585,6 +1628,7 @@ def main() -> int:
         "compliance.decision_register_mirror": "decision_register_rows",
         "compliance.engagement_model_registry_mirror": "engagement_model_registry_rows",
         "compliance.people_design_pattern_registry_mirror": "people_design_pattern_registry_rows",
+        "compliance.substrate_registry_mirror": "substrate_registry_rows",
     }
     for flag, csv_path, fieldnames, mirror_table, initiative in _i59_mirror_specs:
         if not flag:
@@ -1849,6 +1893,16 @@ def main() -> int:
                 design_pattern_rows = [dict(r) for r in dpr]
                 design_pattern_n = len(design_pattern_rows)
 
+    # I84 P3 — Substrate Registry (substrate doctrine SSOT; D-IH-84-A/F/G).
+    substrate_reg_n = 0
+    substrate_reg_rows: list[dict[str, str]] = []
+    if SUBSTRATE_REGISTRY_CSV.is_file():
+        with SUBSTRATE_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            srr = csv.DictReader(f)
+            if list(srr.fieldnames or []) == list(SUBSTRATE_REGISTRY_FIELDNAMES):
+                substrate_reg_rows = [dict(r) for r in srr]
+                substrate_reg_n = len(substrate_reg_rows)
+
     if args.count_only:
         print(f"source_git_sha={sha}")
         print(f"process_list_rows={len(proc_rows)}")
@@ -1879,6 +1933,8 @@ def main() -> int:
         print(f"engagement_model_registry_rows={eng_model_n}")
         # I79 P2 addition
         print(f"people_design_pattern_registry_rows={design_pattern_n}")
+        # I84 P3 addition
+        print(f"substrate_registry_rows={substrate_reg_n}")
         return 0
 
     blocks: list[str] = []
@@ -1934,6 +1990,9 @@ def main() -> int:
     # I79 P2 — append design pattern registry upserts to the full bundle.
     if not args.process_list_only and not args.baseline_only and design_pattern_rows:
         blocks.extend(_emit_design_pattern_upserts(design_pattern_rows, sha))
+    # I84 P3 — substrate registry (substrate doctrine; D-IH-84-A/F/G).
+    if not args.process_list_only and not args.baseline_only and substrate_reg_rows:
+        blocks.extend(_emit_substrate_registry_upserts(substrate_reg_rows, sha))
 
     preamble = [
         "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",

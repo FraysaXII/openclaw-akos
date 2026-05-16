@@ -506,6 +506,12 @@ def main() -> int:
         # the AKOS canonical vault. Forward-charters Supabase mirror + hlk-erp panel + AI Archivist (I83).
         ("KNOWLEDGE_PAIRING_REGISTRY", "validate_knowledge_pairing_registry.py",
          "validate_knowledge_pairing_registry", HLK_DIR / "dimensions" / "KNOWLEDGE_PAIRING_REGISTRY.csv"),
+        # Initiative 84 P3 - Substrate Registry (substrate doctrine SSOT per D-IH-84-A/F/G).
+        # 18-column schema + 8 enum frozensets; canonical-CSV gate seeded with 18 rows
+        # (8 framework + 7 agent-SDK + 3 architectural-posture); Research-area paired
+        # with SUBSTRATE_LANDSCAPE_DOCTRINE.md at Research/Methodology/canonicals/.
+        ("SUBSTRATE_REGISTRY", "validate_substrate_registry.py",
+         "validate_substrate_registry", HLK_DIR / "dimensions" / "SUBSTRATE_REGISTRY.csv"),
         # Initiative 59 P1 - HLK governance dimensions (5 new CSVs + 3 sync gates).
         # REPOSITORY_REGISTRY first because INITIATIVE_REGISTRY FKs into it.
         ("REPOSITORY_REGISTRY", "validate_repository_registry.py",

@@ -160,6 +160,12 @@ _REGISTRY: tuple[tuple[str, str, str], ...] = (
         "akos.hlk_engagement_model_csv",
         "ENGAGEMENT_MODEL_FIELDNAMES",
     ),
+    # I84 P3 (D-IH-84-F 18-column schema + 8 enum frozensets; substrate doctrine canonical).
+    (
+        "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SUBSTRATE_REGISTRY.csv",
+        "akos.hlk_substrate_registry_csv",
+        "SUBSTRATE_REGISTRY_FIELDNAMES",
+    ),
 )
 
 
