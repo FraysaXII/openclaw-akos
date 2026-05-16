@@ -234,3 +234,67 @@ The following conundrums (`C-79-*`) are **not** ratified at P0; they will be inl
 | C-79-8 | P7 | UAT row outcomes (Madeira knowledge-test + jargon-scan + landscape audit) |
 
 Each conundrum is recorded here with operator's answer + decision_source after the inline-ratify gate fires. This pattern follows `akos-inline-ratification.mdc` discipline.
+
+---
+
+## Round 5 — P5 inline-ratify outcomes (orphan housekeeping per D-IH-79-J; 2026-05-15)
+
+> Round 5 records the per-cluster `AskQuestion` verdicts from P5 cluster ratification. Per D-IH-79-J, orphan housekeeping is **case-by-case via inline-ratify**; this section is the audit trail of that policy in action.
+
+### D-IH-79-O — `v3.0/index.md` full SSOT rewrite
+
+**Question.** P5 audit surfaced that `index.md` was stale (predates I70 Research-area promotion + I22 forward-layout `programs/` convention + post-federation broken `../compliance/...` link paths). Patch scope: minimal patch / full rewrite / skip?
+
+**Decision.** **Full rewrite** (operator option B). Authored at I79 P5 cluster C commit `0501420`. Frontmatter extended (status=active, canonical=true, ssot=true, last_review=2026-05-15). All broken `../compliance/...` paths fixed (post-I70 P4.5 federation orphans). §Vault Structure rewritten to mirror on-disk reality including 5 top-level entities (Admin / Envoy Tech Lab / Research / Think Big / `_assets/`), every per-role `canonicals/` + `programs/` + `dimensions/` subfolder named, every RESERVED scaffolding folder annotated. §Cross-references extended from 10 to 19 rows.
+
+**Rationale.** Operator framing (round 5 verbatim): *"the index specifically falls into the knowledge design pattern. other initiatives will profit from this and myself as an human need a SSOT of all the craziness that are below and in between the sub folders. i know it's a lot but i hope you understand."* The index is a **knowledge design pattern surface** — it instantiates Pattern P-PEOPLE-001 (KB human-readability over machine-only) at the vault level. Operator explicitly accepted the cost of the larger-scope option.
+
+**Reversibility.** High (entire document is git-tracked; revert via `git revert` if needed).
+
+**Decision_source.** `operator_inline_text_response_via_askquestion_freeform` (round 5 — `p5-index-research-patch`).
+
+**Note on ID.** Cluster C commit `0501420` referenced this decision as "D-IH-79-K" — that was an authoring error (D-IH-79-K already documents the baseline_organisation posture, ratified Round 1). The mint is canonically **D-IH-79-O** here; the commit-message ID is a documented corrigendum (the commit content itself is correct).
+
+---
+
+### D-IH-79-P — `_candidates/i60-process-list-harmonisation.md` superseded note
+
+**Question.** I60 candidate is substantively absorbed by I79 P6 (`process_list.csv` 8th column for `inherited_pattern_id` FK + tranche-paced operator review). Bookmark with superseded note, leave-alone, or delete?
+
+**Decision.** **Bookmark with superseded note** (per orphan-inventory verdict). Frontmatter extended with `status: superseded`, `superseded_by: I79 P6`, `superseded_decision: D-IH-79-K`. Body opens with a 1-paragraph header explaining the absorption. Title suffixed `[SUPERSEDED]`. File remains in `_candidates/` so the candidate-list grep still finds it; readers see it is closed.
+
+**Rationale.** Operator's general guidance during round 2 (D-IH-79-J): bookmark over delete when the artifact still has signal. The candidate carries reasoning that may be useful when I79 P6 lands its tranche; deleting would lose context.
+
+**Reversibility.** High (additive metadata only; the body text is preserved).
+
+**Decision_source.** `operator_inline_default_accepted_via_skip` (P5 audit recommendation accepted as part of cluster C bundle pick).
+
+---
+
+### D-IH-79-Q — Orphan-folder housekeeping cadence (gated_operator)
+
+**Question.** Recurring cadence for the orphan-folder audit pattern surfaced at P5: gated_operator / scheduled_quarterly / scheduled_yearly / skip?
+
+**Decision.** **`gated_operator`**. The audit is judgement-heavy (case-per-case verdicts, operator authority over deletes per D-IH-79-J). Calendar-driven cadence would surface false-positive noise (most "orphan-looking" folders are legitimate baseline scaffolding); operator-triggered cadence preserves signal-to-noise. SOP mint deferred to **P7** to avoid scope creep in P5; SOP path will be `docs/references/hlk/v3.0/Admin/O5-1/People/People Operations/canonicals/SOP-PEOPLE_ORPHAN_FOLDER_AUDIT_001.md` (owner: People Operations Lead per the People = discipline-of-disciplines posture from the manifesto).
+
+**Rationale.** Operator pick (round 5 — `p5-orphan-cadence` → `gated-operator`). Aligns with the `D-IH-72-W` gated_operator pattern for ethics-class operator-authority work. The audit pattern itself is now codified in the orphan-inventory report; P7 mint formalises the SOP scaffolding.
+
+**Reversibility.** Low (cadence type is a process_list column; can be lifted to scheduled later if pattern stabilises).
+
+**Decision_source.** `operator_inline_explicit_via_askquestion` (round 5 — `p5-orphan-cadence`).
+
+---
+
+### Per-cluster verdicts (closes C-79-6)
+
+| Cluster | Item | Verdict | `AskQuestion` ID | Commit |
+|---|---|---|---|---|
+| A | `docs/wip/wip_proposals/` | DELETE | `p5-delete-wip_proposals` | `55bfaed` |
+| A | `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/business-strategy/` (empty PMO root, **NOT** PMO/canonicals/business-strategy/) | DELETE | `p5-delete-pmo-business-strategy` | `55bfaed` |
+| A | `docs/references/hlk/compliance/MIGRATED.md` + `compliance/dimensions/` empty | DELETE | `p5-delete-compliance-tombstone` | `55bfaed` |
+| B | `Admin/AI/{AIC, Susana Madeira}/RESERVED.md` | RESERVED-mark | `p5-ai-reserved-mark` | `c0c74d0` |
+| C | `v3.0/index.md` rewrite (full) | bookmark + rewrite | `p5-index-research-patch` | `0501420` |
+| C | `_candidates/i60-process-list-harmonisation.md` | bookmark | (additive — auto-applied per plan §P5d) | `0501420` |
+| D | Orphan-inventory report registration + cadence record | (this commit) | `p5-orphan-cadence` | (this commit) |
+
+All cluster ratifications were inline-ratify per `akos-inline-ratification.mdc` Round 5 §"Worked example". No real-stop pause record was filed because the inline-ratify pattern replaced the legacy operator-pause-real-stop posture (3 DELETEs were ratified inline before applying, then atomic per-cluster commits landed — which is exactly the pattern the rule names as the worked example).

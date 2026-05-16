@@ -25,6 +25,9 @@ linked_decisions:
   - D-IH-79-L (Strand C split into P3a People+Ethics + P3b Tech Lab — total phases 9 → 10)
   - D-IH-79-M (Tech Lab landscape canonical owned by System Owner under Envoy Tech Lab/canonicals/AGENTIC_FRAMEWORK_LANDSCAPE.md)
   - D-IH-79-N (anti-jargon drift gate — validate_design_pattern_registry.py --jargon-scan; mirrors I66 brand-baseline-reality drift gate pattern)
+  - D-IH-79-O (P5 cluster C — full v3.0/index.md SSOT rewrite per operator option B; the index is now an authoritative wayfinding canonical, not a stale snapshot; supersedes the cluster-C commit-message ID typo of "K")
+  - D-IH-79-P (P5 cluster C — _candidates/i60-process-list-harmonisation.md superseded note pointing at I79 P6; bookmark-with-superseded-note posture per orphan-inventory verdict)
+  - D-IH-79-Q (P5 cluster D — orphan-folder housekeeping cadence ratified as gated_operator; SOP-PEOPLE_ORPHAN_FOLDER_AUDIT_001 mint deferred to P7 to avoid scope creep)
 parent_dependency:
   - INIT-OPENCLAW_AKOS-73 (People Operations + Engagement Models + Methodology IP; closed 2026-05-15 D-IH-73-CLOSURE)
 sibling_initiatives:
@@ -107,8 +110,8 @@ flowchart LR
 | **P2** | Strand B Pattern library (CSV + MD + Pydantic + validator + jargon-scan + Supabase mirror) | B | standard | OPS-79-2 | pending |
 | **P3a** | Strand C-People AI doctrine + ops + Ethics anchor | C-People | Ethics-anchor canonical gate | OPS-79-3 | pending |
 | **P3b** | Strand C-Tech-Lab framework landscape + infra SOP | C-Tech-Lab | standard | OPS-79-4 | pending |
-| **P4** | Strand D Cross-area breakthrough-escalation SOP + paired runbook | D | standard | OPS-79-5 | pending |
-| **P5** | Strand E Orphan inventory across 7 trees + per-cluster inline-ratify housekeeping | E | only-on-deletes | OPS-79-6 | pending |
+| **P4** | Strand D Cross-area breakthrough-escalation SOP + paired runbook | D | standard | OPS-79-5 | **SHIPPED** `79149f6` |
+| **P5** | Strand E Orphan inventory across 7 trees + per-cluster inline-ratify housekeeping | E | only-on-deletes | OPS-79-6 | **SHIPPED** `55bfaed` (cluster A deletes) + `c0c74d0` (cluster B RESERVED-marks) + `0501420` (cluster C bookmarks + index.md SSOT rewrite) + cluster D (this commit) |
 | **P6** | Strand F process_list 8th col `inherited_pattern_id` mint + seeded FKs | F | canonical CSV gate | OPS-79-7 + OPS-79-8 | pending |
 | **P7** | UAT (Madeira knowledge-test + jargon-scan + landscape audit) + integration verification | — | standard | OPS-79-9 | pending |
 | **P8** | Closure — D-IH-79-CLOSURE; registry flip; dep map sync | — | closure gate | OPS-79-10 | pending |
