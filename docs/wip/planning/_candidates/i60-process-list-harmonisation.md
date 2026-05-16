@@ -1,10 +1,17 @@
 ---
 language: en
-status: candidate
+status: superseded
+superseded_by: I79 P6
+superseded_date: 2026-05-15
+superseded_decision: D-IH-79-K
 initiative: I60 — Process_list harmonisation (mint)
 ---
 
-# I60 candidate — Process_list harmonisation (mint)
+> **SUPERSEDED — 2026-05-15.** This candidate is **substantively absorbed by Initiative 79 Phase 6** (`process_list.csv` 8th column for `inherited_pattern_id` Foreign Key into `PEOPLE_DESIGN_PATTERN_REGISTRY.csv` + the accompanying baseline tranche). Per **D-IH-79-K** (I79 P5 cluster C bookmark), do not reopen this candidate as a fresh initiative. The structural mechanism that I60 contemplated (process_list grooming + tranche-paced operator review) is now executed under I79 P6's process-singularity gate, and any residual program-tranche backlog folds into successor initiatives' standard CSV-tranche pause-point discipline.
+>
+> **Reference cross-link:** [`docs/wip/planning/79-people-manifesto-and-pattern-library/master-roadmap.md`](../79-people-manifesto-and-pattern-library/master-roadmap.md) §P6.
+
+# I60 candidate — Process_list harmonisation (mint) [SUPERSEDED]
 
 ## Scope
 
