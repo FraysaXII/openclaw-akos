@@ -1,3 +1,17 @@
+---
+audience: [J-OP]
+register: internal
+intellectual_kind: bridge_file
+last_review: 2026-05-16
+ssot: false
+notes: |
+  I85 P3 audience-tag frontmatter applied per D-IH-85-A (multi-audience CSV
+  register pattern). audience: [J-OP] — operator-only readers (founder + future
+  BrandOps Lead); FK to AUDIENCE_REGISTRY.csv row J-OP. Stays explicitly
+  unrendered to external surfaces (validate_brand_baseline_reality_drift.py
+  scans this file).
+---
+
 # BASELINE_REALITY — Holistika Research
 
 > **Bridge file for Impeccable Style** (`.cursor/skills/impeccable/` v3.1+ — multi-audience setup gate per [`SKILL.md`](.cursor/skills/impeccable/SKILL.md) line 8). Per [`SOP-HLK_TOOLING_STANDARDS_001.md`](docs/references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/canonicals/SOP-HLK_TOOLING_STANDARDS_001.md) §3.7, this file is a **thin redirect** to canonical baseline-reality SSOT under [`BRAND_BASELINE_REALITY_MATRIX.md`](docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_BASELINE_REALITY_MATRIX.md). It does **not** duplicate audience-matrix content. Impeccable skills MUST read the canonical file before any multi-audience design task.

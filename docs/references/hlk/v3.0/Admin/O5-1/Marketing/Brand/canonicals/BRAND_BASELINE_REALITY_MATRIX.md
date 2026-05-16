@@ -244,6 +244,44 @@ Operator copies the templates per-engagement; instantiates with counterparty-spe
 
 The drift gate is wired into `release-gate.py`. CI breaks on internal-register leakage.
 
+### 4.6 Multi-audience composition recipe (I85 P3 / D-IH-85-B)
+
+When a single surface speaks to ≥ 2 distinct audiences simultaneously (e.g., a `/services` page that lands customer-SME + partner + investor traffic; a founder bio that lands investor + recruiter + advisor traffic), apply the **composition recipe** rather than choosing one audience and leaving the others under-served.
+
+**Recipe** (always applied in this order):
+
+1. **Enumerate audiences in YAML frontmatter as a list**, primary-first. Schema follows the [`AUDIENCE_REGISTRY.csv`](../../../People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv) FK index per [`SOP-AUDIENCE_TAG_GOVERNANCE_001.md`](SOP-AUDIENCE_TAG_GOVERNANCE_001.md):
+
+   ```yaml
+   audience: [J-IN, J-CU, J-PT]
+   ```
+
+   The first entry is the **primary read** (whose lens governs voice, vocabulary, and structural choices). Subsequent entries are **secondary reads** (whose bridge-frames are honored but whose lens does not dominate).
+
+2. **Read each row in this matrix per-audience**. For a 3-audience surface, read three rows. Note each audience's:
+   - Bridge frame (what to lead with).
+   - Objection pattern (what to defuse).
+   - First-doubt trigger (what to avoid).
+
+3. **Locate intersection bridges**. Where two audiences share an objection-pattern marker, address it once and credit both. Where two audiences want the same evidence type, surface it prominently for both. Where two audiences have incompatible first-doubt triggers, the **primary audience's trigger** wins; the secondary's trigger gets a softer treatment elsewhere on the surface.
+
+4. **Honor the dual-register rule**. Multi-audience composition does **not** loosen the external-register requirement. Every surface staying multi-audience reads in the **external register only**. Internal-register multi-audience composition only happens on operator-private artefacts (intelligence reports, counterparty briefs).
+
+5. **Validator scope**. [`scripts/validate_audience_tags.py`](../../../../../../../scripts/validate_audience_tags.py) (forward-scoped to I85 P2) will assert: (a) every `audience:` value resolves to a row in `AUDIENCE_REGISTRY.csv`, (b) operator-only `J-OP` does not appear on external surfaces alongside external audiences (J-OP is exclusionary).
+
+**Worked example** — A `/services` page targeting customer-SME primary + partner + investor:
+
+```yaml
+audience: [J-CU, J-PT, J-IN]
+```
+
+- **Lead** with customer-SME outcome-clarity (J-CU primary read).
+- **Bridge** to partner via service-catalog clarity (J-PT secondary read intersects: both want predictability).
+- **Surface** investor-flavored credibility cues (track record + lab-to-channel) without making the page feel pitch-deck-ish (J-IN third read; honored, not dominant).
+- **Avoid** all three audiences' first-doubt triggers: no English-when-Spanish-started (J-CU), no "we do everything" (J-PT), no numbers without dates (J-IN).
+
+**When NOT to apply this recipe**: when a surface speaks to a single audience (then read the relevant row directly), or when the surface is operator-only (`audience: [J-OP]`).
+
 ## 5. Maintenance
 
 - **Author.** Founder (sole). Brand Manager reviews + maintains drift detection.
