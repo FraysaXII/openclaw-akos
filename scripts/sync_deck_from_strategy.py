@@ -2,7 +2,7 @@
 """Wire the company-dossier deck slides to the Business Strategy SSOT.
 
 Initiative 29 P5. Reads every Markdown file under
-``docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/business-strategy/``
+``docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/business-strategy/``
 that declares ``deck_bound: true`` in its frontmatter, extracts its
 ``## Deck-bound facts`` block (a fenced code block in YAML-ish form), and
 reports / applies the values into ``deck_slides.yaml``.
@@ -56,6 +56,7 @@ STRATEGY_DIR = (
     / "O5-1"
     / "Operations"
     / "PMO"
+    / "canonicals"
     / "business-strategy"
 )
 DECK_YAML = (
