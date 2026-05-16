@@ -2,7 +2,7 @@
 
 Covers:
 - Each strategy artifact under
-  ``docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/business-strategy/``
+  ``docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/business-strategy/``
   has the required frontmatter keys.
 - Each artifact's ``topic_ids`` resolves into ``TOPIC_REGISTRY.csv``.
 - Deck-bound artifacts have a ``## Deck-bound facts`` block with at least
