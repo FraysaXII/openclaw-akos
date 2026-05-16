@@ -89,6 +89,18 @@ _tmp_*.json
 # Cursor IDE personal settings (Initiative 22 hygiene; not shared)
 .cursor/settings.json
 
+# Cursor IDE workspace-local plans (canonical Cursor plan home is ~/.cursor/plans/
+# per akos-planning-traceability.mdc; workspace-local copies stay operator-local
+# and the collaborator-visible mirror is docs/wip/planning/<NN>-slug/master-roadmap.md).
+.cursor/plans/
+
+# Raw release-gate / validator stdout dumps under planning reports
+# (transient; per-run timestamped; canonical evidence is the structured
+# reports/p<N>-*.md or reports/uat-*.md). Regenerable via re-running the
+# corresponding validator or `py scripts/release-gate.py`.
+docs/wip/planning/**/reports/*-raw-*.txt
+docs/wip/planning/**/reports/release-gate-raw-*.txt
+
 # Obsidian local state under HLK vault (per-operator; not canonical)
 docs/references/hlk/v3.0/.obsidian/
 
