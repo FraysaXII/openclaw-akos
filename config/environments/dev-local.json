@@ -3,7 +3,7 @@
     "defaults": {
       "model": {
         "primary": "ollama/deepseek-r1:14b",
-        "fallbacks": ["ollama/qwen3:8b"]
+        "fallbacks": ["ollama/llama3.1:8b"]
       },
       "thinkingDefault": "medium",
       "verboseDefault": "on"

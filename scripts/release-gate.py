@@ -285,6 +285,24 @@ def run_render_ownership_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_openclaw_plugin_pinning_validation() -> tuple[bool, int]:
+    """Run OpenClaw plugin pinning validation (I87 P2 / D-IH-87-B).
+
+    Returns ``(ok, exit_code)``. Wired as **INFO** row (advisory only; never
+    blocks the release gate) per D-IH-87-B — the canonical
+    config/openclaw.json.example carries the recommended allow-list;
+    per-operator overrides are expected and not a release blocker.
+    """
+    logger.info("Running OPENCLAW plugin pinning validation (I87 P2) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_openclaw_plugin_pinning.py")],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_observability_mcps_check() -> tuple[bool, int]:
     """Check user-sentry + user-langfuse MCP reachability (I71 P5 Strand B).
 
@@ -789,6 +807,12 @@ def main() -> None:
     results.append((
         "INFO",
         f"Strand B observability MCP smoke (scripts/check_observability_mcps.py — user-sentry + user-langfuse reachability; never blocks; I71 P5 / D-IH-71-T; C-71-5 every-gate-its-own-row; reachable={'yes' if observability_ok else 'partial'}; exit={observability_rc})",
+    ))
+
+    plugin_pinning_ok, plugin_pinning_rc = run_openclaw_plugin_pinning_validation()
+    results.append((
+        "INFO",
+        f"OpenClaw plugin pinning (scripts/validate_openclaw_plugin_pinning.py — config/openclaw.json.example allow-list policy; advisory only; I87 P2 / D-IH-87-B; ok={'yes' if plugin_pinning_ok else 'no'}; exit={plugin_pinning_rc})",
     ))
 
     inbox_stale, _ = run_operator_inbox_check()

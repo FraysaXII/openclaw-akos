@@ -11,15 +11,6 @@
         "api": "ollama",
         "models": [
           {
-            "id": "qwen3:8b",
-            "name": "Qwen3 8B",
-            "reasoning": true,
-            "input": ["text"],
-            "contextWindow": 16384,
-            "maxTokens": 16384,
-            "cost": { "input": 0, "output": 0 }
-          },
-          {
             "id": "llama3.1:8b",
             "name": "Llama 3.1 8B",
             "reasoning": false,
@@ -110,7 +101,7 @@
     "defaults": {
       "model": {
         "primary": "ollama/deepseek-r1:14b",
-        "fallbacks": ["ollama/qwen3:8b"]
+        "fallbacks": ["ollama/llama3.1:8b"]
       },
       "thinkingDefault": "low",
       "verboseDefault": "on",

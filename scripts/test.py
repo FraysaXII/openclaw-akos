@@ -122,6 +122,15 @@ GROUPS: dict[str, dict] = {
         "files": [],
         "pytest_extra": ["-m", "cicd"],
     },
+    "openclaw_runtime": {
+        "description": (
+            "I87 OpenClaw operator-runtime hardening tests (pytest -m openclaw_runtime): "
+            "plugin pinning validator (D-IH-87-B) + modelsConfig hygiene (D-IH-87-C) + "
+            "escalation patch (D-IH-87-A)"
+        ),
+        "files": [],
+        "pytest_extra": ["-m", "openclaw_runtime"],
+    },
     "brand": {
         "description": (
             "I71 P1 Pack A1 brand voice register validator + akos/brand_voice_register.py "
