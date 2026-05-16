@@ -114,7 +114,7 @@ flowchart LR
 | **P4** | Strand D Cross-area breakthrough-escalation SOP + paired runbook | D | standard | OPS-79-5 | **SHIPPED** `79149f6` |
 | **P5** | Strand E Orphan inventory across 7 trees + per-cluster inline-ratify housekeeping | E | only-on-deletes | OPS-79-6 | **SHIPPED** `55bfaed` (cluster A deletes) + `c0c74d0` (cluster B RESERVED-marks) + `0501420` (cluster C bookmarks + index.md SSOT rewrite) + `83ac4f1` (cluster D closure) |
 | **P6** | Strand F process_list 8th col `inherited_pattern_id` mint + seeded FKs | F | canonical CSV gate (inline-ratify replaces real-stop pause) | OPS-79-7 + OPS-79-8 | **SHIPPED** `38256cb` (schema + Pydantic + validator + Supabase migration) + `68dcc3f` (wave 1: 15 FK seeds) + `cb4d7cc` (wave 2: 9 additional FK seeds + D-IH-79-R doctrinal framing call) + closure (this commit) |
-| **P7** | UAT (Madeira knowledge-test + jargon-scan + landscape audit) + integration verification | — | standard | OPS-79-9 | pending |
+| **P7** | UAT (Madeira knowledge-test + jargon-scan + landscape audit) + integration verification | — | standard | OPS-79-9 | **SHIPPED** (this commit) — automated UAT all PASS; Madeira knowledge-test session + operator browser session of `index.md` recorded SKIP per `akos-planning-traceability.mdc` §"UAT evidence contract"; D-IH-79-R doctrinal call recorded `agent_inline_default` per round 6 free-text |
 | **P8** | Closure — D-IH-79-CLOSURE; registry flip; dep map sync | — | closure gate | OPS-79-10 | pending |
 
 The Cursor plan §"Phase scaffold" has the full SCOPE / PREREQUISITES / DELIVERABLES / VERIFICATION / pause-point class / self-checkpoint count / cursor-rules adherence per phase.
