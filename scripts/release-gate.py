@@ -285,6 +285,23 @@ def run_render_ownership_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_audience_tags_validation() -> tuple[bool, int]:
+    """Run audience-tag FK + J-OP exclusion validation (I85 P2 / D-IH-85-A/B/D).
+
+    Returns ``(ok, exit_code)``. Wired as **INFO** row (advisory only; never
+    blocks the release gate) per I85 master-roadmap — promotes to PASS/FAIL
+    at I85 P4 closure after the operator-gated sweep completes.
+    """
+    logger.info("Running AUDIENCE TAG drift validation (I85 P2) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_audience_tags.py")],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_openclaw_plugin_pinning_validation() -> tuple[bool, int]:
     """Run OpenClaw plugin pinning validation (I87 P2 / D-IH-87-B).
 
@@ -813,6 +830,12 @@ def main() -> None:
     results.append((
         "INFO",
         f"OpenClaw plugin pinning (scripts/validate_openclaw_plugin_pinning.py — config/openclaw.json.example allow-list policy; advisory only; I87 P2 / D-IH-87-B; ok={'yes' if plugin_pinning_ok else 'no'}; exit={plugin_pinning_rc})",
+    ))
+
+    audience_tags_ok, audience_tags_rc = run_audience_tags_validation()
+    results.append((
+        "INFO",
+        f"Audience-tag drift (scripts/validate_audience_tags.py — AUDIENCE_REGISTRY.csv FK-validation + J-OP exclusion; advisory until I85 P4 sweep closure; I85 P2 / D-IH-85-A/B/D; ok={'yes' if audience_tags_ok else 'no'}; exit={audience_tags_rc})",
     ))
 
     inbox_stale, _ = run_operator_inbox_check()
