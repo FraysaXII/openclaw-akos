@@ -14,7 +14,7 @@ language: en
 
 # I84 P2 — Substrate scorecard (2026-Q2)
 
-> **Scope (per sc-resume Wave 2 §3.5).** Operator-readable scorecard comparing the 17 substrates audited in [`p1-substrate-landscape-2026-05-17.md`](p1-substrate-landscape-2026-05-17.md) across six operator-named dimensions: governance fit, operator-runtime maturity, cost, lock-in risk, AKOS-as-SSOT compatibility, and MADEIRA elevation alignment per [`i76-madeira-elevation.md`](../../_candidates/i76-madeira-elevation.md). The scorecard is **decision-supporting** evidence for the P4 batched ratification of `D-IH-84-B/C/D/E` per [`decision-log.md`](../decision-log.md); it does **not** ratify those decisions itself. P4 ratification is operator-gated and out of scope for this chat per sc-resume §6.
+> **Scope (per sc-resume Wave 2 §3.5).** Operator-readable scorecard comparing the 18 substrates audited in [`p1-substrate-landscape-2026-05-17.md`](p1-substrate-landscape-2026-05-17.md) across six operator-named dimensions: governance fit, operator-runtime maturity, cost, lock-in risk, AKOS-as-SSOT compatibility, and MADEIRA elevation alignment per [`i76-madeira-elevation.md`](../../_candidates/i76-madeira-elevation.md). The scorecard is **decision-supporting** evidence for the P4 batched ratification of `D-IH-84-B/C/D/E` per [`decision-log.md`](../decision-log.md); it does **not** ratify those decisions itself. P4 ratification is operator-gated and out of scope for this chat per sc-resume §6.
 
 ## 1. Scoring rubric
 
@@ -230,7 +230,7 @@ Per-dimension scoring methodology is defined inline in each of §2.1–§2.6 bel
 | 5.2 | Hybrid (Cursor + OpenClaw) | STRONG | **Inherits Cursor SDK's STRONG on operator-interaction surface + OpenClaw's STRONG on governance/SSOT.** Net: STRONG because the two strengths are additive — operator gets Cursor-grade interaction + MADEIRA stays in AKOS compliance via policy backend. F1 native fit at frontend; any framing at backend. |
 | 5.3 | MADEIRA-direct | NEUTRAL | Build-your-own gives full design freedom but no operator-interaction shortcut; would need to build the Cursor-grade UX from scratch. |
 
-## 3. Aggregate scorecard grid (17 × 6)
+## 3. Aggregate scorecard grid (18 × 6)
 
 Compressed view; full per-dimension rationale in §2. Read left-to-right per row to see a substrate's profile across all 6 dimensions; read top-to-bottom per column to see which substrates lead on a given dimension.
 

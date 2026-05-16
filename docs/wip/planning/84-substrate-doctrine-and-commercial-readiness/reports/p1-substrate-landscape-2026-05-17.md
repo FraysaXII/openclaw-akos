@@ -35,7 +35,7 @@ The following audit threads from [master-roadmap §3 P1](../master-roadmap.md) a
 
 These threads are surfaced as P3 entry options (see [`p2-substrate-scorecard-2026-05-17.md`](p2-substrate-scorecard-2026-05-17.md) §7 closing decision).
 
-## 2. Substrate taxonomy (3 classes; 17 substrates audited)
+## 2. Substrate taxonomy (3 classes; 18 substrates audited)
 
 Three substrate classes carry meaningfully different governance profiles:
 
