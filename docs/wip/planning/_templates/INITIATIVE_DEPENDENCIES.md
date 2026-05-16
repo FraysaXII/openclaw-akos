@@ -35,15 +35,17 @@ flowchart LR
     i72[I72 - Marketing Area Governance and Persona Registry Expansion]:::closed
     i73[I73 - People Operations + Engagement Models + Methodology IP]:::closed
     i79[I79 - People Manifesto + Pattern Library + AI Governance + Knowledge Hygiene]:::closed
+    i80[I80 - I79 Lessons-Learned SOP Body/Addendum + Lenses + Inline-Ratify Skill]:::closed
 
     %% Active initiatives
     i77[I77 - Impeccable Brand-Bridge Refresh and Drift Gate]:::active
-    i80[I80 - I79 Lessons-Learned SOP Body/Addendum + Lenses + Inline-Ratify Skill]:::active
 
     %% Candidate initiatives (promotable when hold-gates clear)
     i75[I75 - Research Area Governance]:::candidate
     i76[I76 - MADEIRA Elevation]:::candidate
     i81[I81 - Full-Vault SOP Body/Addendum Retrofit]:::candidate
+    i82[I82 - Holistika Capability Doctrine and Commercial Readiness]:::candidate
+    i83[I83 - AI Archivist and KiRBe Ingestor]:::candidate
 
     %% TRIGGER-watch candidates (dormant by design)
     i74[I74 - Brand-Tooling Productization]:::trigger
@@ -68,6 +70,8 @@ flowchart LR
     i73 --> i79
     i79 --> i80
     i80 --> i81
+    i80 --> i82
+    i82 --> i83
 
     %% Soft / strand-level cross-links (dotted)
     i71 -.->|review-stamp dimension| i73
@@ -83,6 +87,10 @@ flowchart LR
     i80 -.->|inline-ratify skill| i76
     i80 -.->|SOP body/addendum pattern| i75
     i80 -.->|SOP body/addendum pattern| i77
+    i80 -.->|KNOWLEDGE_PAIRING_REGISTRY| i82
+    i80 -.->|KNOWLEDGE_PAIRING_REGISTRY| i83
+    i82 -.->|capability surfacing capability| i76
+    i82 -.->|use case archive consumed by KiRBe| i83
 
     %% TRIGGER-watch hold-gates (dashed)
     i74 -.->|TRIGGER-2: >=2 external requests| extReq[External org consumption requests]
@@ -126,10 +134,12 @@ flowchart LR
 | **I77** — Impeccable Brand-Bridge Refresh + Drift Gate | active | I71 P1 Pack A1 ship (MET — I71 fully closed) | I71 closed | (forward — Impeccable v3.1 chassis stays operational across all initiatives) | — | P0 charter ratified 2026-05-14; P1 Strand A pending |
 | **I78** — Brand-voice LLM-as-judge advisory | TRIGGER-watch | TRIGGER: ≥2 regex pushback signals on I71 deterministic gate (0 today) | external regex pushback | (forward — advisory layer to I71's deterministic gate) | TRIGGER = ≥2 pushback signals | dormant |
 | **I79** — People Manifesto + Pattern Library + AI Governance + Knowledge Hygiene (mega-initiative) | closed | I73 closed (MET 2026-05-15) | I73 | I75 (design pattern library input) + I77 (design pattern library input) + I76 (agentic doctrine input) + I80 (lessons-learned input) | — | **CLOSED 2026-05-15** (`INIT-OPENCLAW_AKOS-79`; `D-IH-79-CLOSURE`) — P0–P8 mega-initiative six strands + UAT + integration verification; 24/1165 process_list FK seeds; anti-jargon drift gate operational |
-| **I80** — I79 Lessons-Learned (SOP Body/Addendum + Stakeholder Lenses + Inline-Ratify Skill) | active | I79 closed (MET 2026-05-15) | I79 | I81 (full-vault SOP body/addendum retrofit forward-charter) + I76 (inline-ratify skill consumed) + I75/I77 (SOP body/addendum pattern adopted) | — | **P0 charter ratified 2026-05-16** (`INIT-OPENCLAW_AKOS-80`; `D-IH-80-A..G`) — 8 phases (P0–P7); charter-satisfies-gate; 3 tracks (lenses + SOP body/addendum + inline-ratify skill) + retrofit pilots P4 (3 I79 SOPs) + P5 (5 I73 lifecycle SOPs); single PAUSE at P7 closure |
+| **I80** — I79 Lessons-Learned (SOP Body/Addendum + Stakeholder Lenses + Inline-Ratify Skill) | closed | I79 closed (MET 2026-05-15) | I79 | I81 (full-vault SOP body/addendum retrofit forward-charter) + I76 (inline-ratify skill consumed) + I75/I77 (SOP body/addendum pattern adopted) | — | **CLOSED 2026-05-16** (`INIT-OPENCLAW_AKOS-80`; `D-IH-80-CLOSURE`) — 8 atomic commits P0..P7; 3 tracks delivered: stakeholder lenses paired files + SOP body/addendum pattern (8 paired-file instantiations) + inline-ratify craft skill |
 | **I81** — Full-Vault SOP Body/Addendum Retrofit | candidate | I80 P6 forward-charter MET-pending | I80 P6 | (forward — vault-wide DAMA-readiness across ~30+ SOPs in 11 areas) | — | candidate (forward-charter from I80 D-IH-80-D Option C; continuous initiative posture per I01 precedent) |
+| **I82** — Holistika Capability Doctrine + Commercial Readiness | candidate | I80 closed (MET); operator ratifies doctrine name + 4-facet shape; Talent role activation pre-condition (PENDING) | I80 + operator ratification | I83 (use case archive consumed); I76 (capability surfacing meta-capability cross-link) | — | candidate (forward-charter from I80 P7; doctrine-class initiative; operator inline-ratify Round 9 ratified shape) |
+| **I83** — AI Archivist + KiRBe Ingestor | candidate | I82 P3 closed (use case archive minted); Tech Lab Lead bandwidth | I82 P3 + Tech Lab capacity | (forward — knowledge surfacing system consuming I82 + I80 P6.5 registries) | — | candidate (Tech-area-led product-shaped; 9-12d MVP estimate) |
 
-State truth: row 56 of [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) (I70), row 57 (I71), row 58 (I72), row 59 (I77), row 60 (I73 — **closed 2026-05-15**), row 61 (I79 — **closed 2026-05-15**), row 62 (I80 — **active P0 ratified 2026-05-16**). I74/I75/I76/I78/I81 have no INIT row yet; state is read from candidate files under [`docs/wip/planning/_candidates/`](../_candidates/).
+State truth: row 56 of [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) (I70), row 57 (I71), row 58 (I72), row 59 (I77), row 60 (I73 — **closed 2026-05-15**), row 61 (I79 — **closed 2026-05-15**), row 62 (I80 — **closed 2026-05-16**). I74/I75/I76/I78/I81/I82/I83 have no INIT row yet; state is read from candidate files under [`docs/wip/planning/_candidates/`](../_candidates/).
 
 ---
 
@@ -210,3 +220,4 @@ For the agent: when promoting any candidate to active, confirm these gates via t
 | 2026-05-15 | I79 **`INIT-OPENCLAW_AKOS-79`** P0 charter ratified — Holistika People Manifesto + Knowledge Hygiene + Cross-area Design Patterns + AI Governance (mega-initiative; follow-up to closed I73 doctrinal layer). Mega-initiative absorbing 6 strands (A Manifesto + B Pattern Library + C-People AI Doctrine + Ethics Anchor + C-TechLab Framework Landscape + D Cross-area Breakthrough Propagation + E Orphan Hygiene + F process_list 8th-col FK) across 10 phases (P0..P8 with P3a/P3b split). 14 charter-time decisions ratified (D-IH-79-A..N) per round 1 + round 3 inline-ratify gates. 10 OPS-79-* rows minted. New always-applied Cursor rule [`.cursor/rules/akos-people-discipline-of-disciplines.mdc`](../../../../.cursor/rules/akos-people-discipline-of-disciplines.mdc) ratified at P0 per `D-IH-79-H`. Mermaid `i79` node added (active); `i73 --> i79` hard-block edge added; soft-link arrows `i79 -.-> i75/i77/i76` added; blocker table row added; §5 history extended. Authoritative Cursor plan: `~/.cursor/plans/i79_people_doctrine_4e309f45.plan.md`. Workspace mirror at [`docs/wip/planning/79-people-manifesto-and-pattern-library/`](../79-people-manifesto-and-pattern-library/). | PMO |
 | 2026-05-15 | I79 **`INIT-OPENCLAW_AKOS-79` closed** — P8; **`D-IH-79-CLOSURE`** minted; **`INITIATIVE_REGISTRY.csv`** row 61 `status=closed` + `closed_at=2026-05-15` + `closure_decision_id=D-IH-79-CLOSURE`. Mermaid `i79` → `:::closed` (moved from active set to closed set). Blocker table row updated to **CLOSED**. All **`OPS-79-1..OPS-79-10`** rows closed. 18 D-IH-79-* decisions ratified across 7 rounds (charter A-N + runtime O-R + closure). Phase ship SHAs: P0 `f88d600` + P1 `c1c4ab6` + P2 `b91ed97` + P3a `081614b` + P3b `b248057` + P4 `79149f6` + P5 (4-cluster atomic) `55bfaed`/`c0c74d0`/`0501420`/`83ac4f1` + P6 (4-step atomic) `38256cb`/`68dcc3f`/`cb4d7cc`/`9de986a` + P7 `1117b99` + P8 closure (this commit). Process-singularity FK adoption surface seeded: 24/1165 rows; 8 of 12 patterns adopted. Anti-jargon drift gate operational. Forward-charters carried: `pattern_classification_lattice` + `pattern_dual_register_internal_external` + `pattern_inline_ratify_via_askquestion` + `pattern_program_topic_layout` zero-adoption (universal canonicals; per-row seeding judgement-rich; deferred to future tranches per Round 7 closure rationale); SOP-PEOPLE_ORPHAN_FOLDER_AUDIT_001 mint deferred to a future I-NN per `D-IH-79-Q` cadence ratification. | PMO |
 | 2026-05-16 | I80 **`INIT-OPENCLAW_AKOS-80`** P0 charter ratified — I79 lessons-learned follow-up: 3-track absorption (Track 1 stakeholder lenses paired files + agent reflection; Track 2 SOP body/addendum pattern mint + retrofit pilot; Track 3 inline-ratify craft skill + Cursor rule extension) across 8 phases (P0..P7). Charter-satisfies-gate inherits from I79 D-IH-79-A (which inherited I73 D-IH-73-B). 7 charter-time decisions ratified (D-IH-80-A..G) per round 1 inline-ratify gates: A mega-charter scope + B SOP body/addendum paired-file default for DAMA-readiness + C stakeholder lenses paired-files (level 4 body + level 5 addendum) + D retrofit Option-B pilot at I80 with Option-C forward-charter to I81 + E inline-ratify craft skill home + F jargon-gate `*.addendum.md` glob exclusion + G pattern_class taxonomy extension `documentation_layering` as 11th class. 7 OPS-80-* rows minted. Mermaid `i80` node added (active); `i79 --> i80` hard-block edge added; `i80 --> i81` forward-charter edge added; soft-link arrows `i80 -.-> i75/i76/i77` added; blocker table row added; I81 candidate row added; §5 history extended. Authoritative plan: in-repo at [`docs/wip/planning/80-i79-lessons-learned/master-roadmap.md`](../80-i79-lessons-learned/master-roadmap.md) (no out-of-repo Cursor plan companion needed for I80 — small-initiative posture). | PMO |
+| 2026-05-16 | I80 **`INIT-OPENCLAW_AKOS-80` closed** — P7; **`D-IH-80-CLOSURE`** minted; **`INITIATIVE_REGISTRY.csv`** I80 row `status=closed` + `closed_at=2026-05-16` + `closure_decision_id=D-IH-80-CLOSURE`. Mermaid `i80` → `:::closed` (moved from active set to closed set). Blocker table row updated to **CLOSED 2026-05-16**. All **`OPS-80-1..OPS-80-7`** rows closed. 8 D-IH-80-* decisions total (charter A-G + closure). Phase ship SHAs across P0-P6 (P7 = this commit). 8 paired-file instantiations of `pattern_sop_addendum_split` shipped (P2 stakeholder lenses + P4 2 I79 SOPs + P5 5 I73 lifecycle SOPs). I81 candidate stub minted at P6 per `D-IH-80-D` Option C forward-charter (~40 SOP bodies remaining; non-time-pressured). DAMA-DMBOK 2.0 alignment thread woven through every architectural decision. Inline-ratify craft skill operational at `.cursor/skills/inline-ratify-craft/SKILL.md` (per `D-IH-80-E`). | PMO |

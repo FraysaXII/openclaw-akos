@@ -494,6 +494,11 @@ def main() -> int:
         # Codifies People-as-discipline-of-disciplines per D-IH-79-A/C/D + anti-jargon drift gate per D-IH-79-N.
         ("PEOPLE_DESIGN_PATTERN_REGISTRY", "validate_design_pattern_registry.py",
          "validate_design_pattern_registry", HLK_DIR / "dimensions" / "PEOPLE_DESIGN_PATTERN_REGISTRY.csv"),
+        # Initiative 80 P6.5 - Knowledge Pairing Registry (documentation-relationship registry).
+        # Per D-IH-80-H: governs paired-file / index-entry / doctrine-companion relationships across
+        # the AKOS canonical vault. Forward-charters Supabase mirror + hlk-erp panel + AI Archivist (I83).
+        ("KNOWLEDGE_PAIRING_REGISTRY", "validate_knowledge_pairing_registry.py",
+         "validate_knowledge_pairing_registry", HLK_DIR / "dimensions" / "KNOWLEDGE_PAIRING_REGISTRY.csv"),
         # Initiative 59 P1 - HLK governance dimensions (5 new CSVs + 3 sync gates).
         # REPOSITORY_REGISTRY first because INITIATIVE_REGISTRY FKs into it.
         ("REPOSITORY_REGISTRY", "validate_repository_registry.py",

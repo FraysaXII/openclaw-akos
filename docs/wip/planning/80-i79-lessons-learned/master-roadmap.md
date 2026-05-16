@@ -1,8 +1,10 @@
 ---
 initiative_id: INIT-OPENCLAW_AKOS-80
 title: I79 Lessons-Learned — SOP Body/Addendum Pattern + Stakeholder Lenses + Inline-Ratify Craft Skill
-status: active
+status: closed
 authored: 2026-05-16
+closed_at: 2026-05-16
+closure_decision_id: D-IH-80-CLOSURE
 last_review: 2026-05-16
 owner_role: People Operations Lead
 co_owner_role: PMO
@@ -93,7 +95,8 @@ flowchart LR
 | **P4** | I79 SOP retrofit pilot (3 files) | retrofit | standard | OPS-80-4 | pending |
 | **P5** | I73 lifecycle SOP retrofit pilot (5 files; DAMA-readiness demonstration) | retrofit | standard | OPS-80-5 | pending |
 | **P6** | UAT + integration verification + I81 candidate stub (full-vault retrofit forward-charter) | — | standard | OPS-80-6 | pending |
-| **P7** | Closure — D-IH-80-CLOSURE; registry flip; dep map sync; closure pause record | — | closure gate | OPS-80-7 | pending |
+| **P6.5** | KNOWLEDGE_PAIRING_REGISTRY.csv mint (per `D-IH-80-H`) — documentation-relationship registry for DAMA + SSOT + mirror + hlk-erp + AI Archivist scope; inserted between P6 and P7 per operator inline-ratify Round 9 | mint | standard | OPS-80-8 | pending |
+| **P7** | Closure — D-IH-80-CLOSURE; registry flip; dep map sync; closure pause record; I82 + I83 candidate stubs (capability commercial readiness doctrine + AI Archivist forward-charter) | — | closure gate | OPS-80-7 | pending |
 
 ## PAUSE points
 
@@ -112,6 +115,7 @@ Inline-ratify gates may fire during P5 (which 5 of the I73 lifecycle SOPs have a
 | **D-IH-80-E** | Inline-ratify craft skill home — .cursor/skills/inline-ratify-craft/ + rule extension | System Owner | Active | P0 (this commit); operationalised P3 |
 | **D-IH-80-F** | Jargon-gate refinement — `*.addendum.md` glob exclusion (DAMA Data Integration alignment) | System Owner | Active | P0 (this commit); operationalised P1 |
 | **D-IH-80-G** | Pattern_class taxonomy extension — `documentation_layering` as 11th class | People Operations Lead | Active | P0 (this commit); operationalised P1 |
+| **D-IH-80-H** | KNOWLEDGE_PAIRING_REGISTRY.csv mint — documentation-relationship registry (paired-file / index / doctrine-companion governance for DAMA + SSOT + mirror + hlk-erp + AI Archivist scope) | People Operations Lead | Active | P6.5 (operator inline-ratify Round 9; 2026-05-16) |
 | **D-IH-80-CLOSURE** | Initiative closure | PMO | (pending) | P7 |
 
 ## Risks (preview)
