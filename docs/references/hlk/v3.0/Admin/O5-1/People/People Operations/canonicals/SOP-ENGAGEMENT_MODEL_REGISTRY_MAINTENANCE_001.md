@@ -7,9 +7,13 @@ area: People
 entity: Holistika
 intellectual_kind: sop
 authored: 2026-05-15
-last_review: 2026-05-15
+last_review: 2026-05-16
+last_review_decision_id: D-IH-80-D
+methodology_version_at_review: v3.1
 process_list_id: tbi_peopl_dtp_engagement_model_registry_mtnce_001
 paired_runbook: scripts/peopl_engagement_engagement_model_registry_mtnce.py
+companion_to:
+  - SOP-ENGAGEMENT_MODEL_REGISTRY_MAINTENANCE_001.addendum.md
 ---
 
 # SOP-ENGAGEMENT_MODEL_REGISTRY_MAINTENANCE_001 — Engagement Model Registry maintenance

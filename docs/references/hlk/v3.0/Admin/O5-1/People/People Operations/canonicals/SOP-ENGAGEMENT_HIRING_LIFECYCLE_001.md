@@ -7,9 +7,13 @@ area: People
 entity: Holistika
 intellectual_kind: sop
 authored: 2026-05-15
-last_review: 2026-05-15
+last_review: 2026-05-16
+last_review_decision_id: D-IH-80-D
+methodology_version_at_review: v3.1
 process_list_id: tbi_peopl_dtp_engagement_model_classification_001
 paired_runbook: scripts/peopl_engagement_model_classification_intake.py
+companion_to:
+  - SOP-ENGAGEMENT_HIRING_LIFECYCLE_001.addendum.md
 ---
 
 # SOP-ENGAGEMENT_HIRING_LIFECYCLE_001 — Hiring / intake classification by engagement_model_id

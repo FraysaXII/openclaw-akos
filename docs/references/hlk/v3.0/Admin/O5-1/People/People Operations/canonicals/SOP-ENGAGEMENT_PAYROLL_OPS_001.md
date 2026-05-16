@@ -7,9 +7,13 @@ area: People
 entity: Holistika
 intellectual_kind: sop
 authored: 2026-05-15
-last_review: 2026-05-15
+last_review: 2026-05-16
+last_review_decision_id: D-IH-80-D
+methodology_version_at_review: v3.1
 process_list_ids: tbi_peopl_dtp_outsourced_helper_soc_review_001;tbi_peopl_dtp_percentage_collaborator_payout_001
 paired_runbooks: scripts/peopl_engagement_outsourced_soc_review.py;scripts/peopl_engagement_percentage_payout.py
+companion_to:
+  - SOP-ENGAGEMENT_PAYROLL_OPS_001.addendum.md
 ---
 
 # SOP-ENGAGEMENT_PAYROLL_OPS_001 — Payroll-adjacent ops + outsourced SOC review
