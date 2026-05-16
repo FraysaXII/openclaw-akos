@@ -5,7 +5,7 @@ access_level: 4
 language: en
 register: external
 artifact_kind: deck_template
-audience: advisor
+audience: [J-AD]
 slide_count: 4
 role_owner: Brand Manager
 linked_initiative: I66

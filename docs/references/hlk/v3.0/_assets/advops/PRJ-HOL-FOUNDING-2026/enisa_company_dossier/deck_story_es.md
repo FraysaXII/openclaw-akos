@@ -22,6 +22,7 @@ sources:
   - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_SPANISH_PATTERNS.md
   - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_JARGON_AUDIT.md
 slide_data: docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck_slides.yaml
+audience: [J-ENISA]
 ---
 
 # Holistika Research — Dossier de Compañía

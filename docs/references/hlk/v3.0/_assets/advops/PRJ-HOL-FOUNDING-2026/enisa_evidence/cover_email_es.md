@@ -22,6 +22,7 @@ sources:
   - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_SPANISH_PATTERNS.md
   - docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/dossier_es.md
   - docs/references/hlk/compliance/ADVISER_OPEN_QUESTIONS.csv
+audience: [J-ENISA]
 ---
 
 # Cover email (ES) — POI-LEG-ENISA-LEAD-2026

@@ -1,13 +1,13 @@
 ---
 sop_id: SOP-AUDIENCE_TAG_GOVERNANCE_001
 title: Audience-tag governance
-version: 1.0
-status: review
+version: 1.1
+status: active
 classification: canonical
 access_level: 4
 register: internal
 language: en
-process_id: TODO[I85-P4-process-mint]
+process_id: tbi_mkt_prc_audience_tag_governance_001
 role_owner: Brand & Narrative Manager
 role_parent_1: CMO
 area: MKT
@@ -16,10 +16,20 @@ governance:
   - D-IH-85-A (narrow FK index scope)
   - D-IH-85-B (YAML list multi-audience encoding)
   - D-IH-85-C (operator-batch-approve sweep posture)
+  - D-IH-85-D (J-OP exclusion rule)
+  - Q2 Wave 2 ratify (status:review -> status:active after I85 P2 sweep retagged 11 surfaces)
 linked_initiative: I85
-linked_runbook: TODO[I85-P2-audience-tag-runbook]
+linked_runbook: scripts/validate_audience_tags.py
+linked_runbook_secondary: scripts/validate_brand_baseline_reality_drift.py
 created: 2026-05-16
 last_review: 2026-05-16
+last_review_by: Brand & Narrative Manager
+last_review_decision_id: D-IH-85-A
+promotion_history:
+  - status: review
+    at: 2026-05-16 (I85 P0 mint)
+  - status: active
+    at: 2026-05-16 (Q2 Wave 2 ratify; sweep threshold 11/6 surfaces)
 ---
 
 # SOP-AUDIENCE_TAG_GOVERNANCE_001 — Audience-tag governance

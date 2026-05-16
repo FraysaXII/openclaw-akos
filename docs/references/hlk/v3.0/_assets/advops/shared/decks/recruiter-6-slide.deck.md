@@ -5,7 +5,7 @@ access_level: 4
 language: en
 register: external
 artifact_kind: deck_template
-audience: recruiter-candidate
+audience: [J-RC]
 slide_count: 6
 role_owner: Talent
 linked_initiative: I66
