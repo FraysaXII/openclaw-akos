@@ -100,19 +100,33 @@ flowchart TB
 
 Spotlight owners **facilitate** wave narrative and surface blockers to the PMO + System Owner pair; they **do not** replace sibling `role_owner` authority on each initiative's charter.
 
-### 1.3 Coordinated sibling burndown checklist
+### 1.3 Coordinated sibling burndown checklist (updated 2026-05-16 Wave 1 mid-burn)
 
-| Sibling | INIT slug (when minted) | Gate type today | Wave emphasis | Notes |
-|:---|:---|:---|:---:|:---|
-| I81 | INIT-OPENCLAW_AKOS-81 (forward) | candidate | 1-2 + background 4-8 | Feeds `kb-integrity-matrix` to I82 Wave 4. |
-| I84 | INIT-OPENCLAW_AKOS-84 (forward; folder active) | active | 1-5 | P4 unlocks I76, I74, I83 framework narrowing; compare OpenClaw baseline after I87 when possible. |
-| I85 | INIT-OPENCLAW_AKOS-85 (forward) | candidate | 4 slot recommended | After Wave 1; feeds `audience_tags_coverage` column into I81 matrix when I85 P1 lands. |
-| I82 | INIT-OPENCLAW_AKOS-82 (forward) | candidate | 3-4 | Waits on I84 P4 ratifications + I81 P1 integrity for registry mint. |
-| I83 | INIT-OPENCLAW_AKOS-83 (forward) | candidate | 5 | Gates: I82 P4 USE_CASE_ARCHIVE + I84 P4 D-IH-84-E. |
-| I74 | INIT-OPENCLAW_AKOS-74 (forward) | TRIGGER-watch | 3-4 | TRIGGER-2 external requests; D-IH-84-D unlocks charter timing. |
-| I75 | INIT-OPENCLAW_AKOS-75 (forward) | candidate | 2 end | Before I84 P6 Research-area canonical pair mints. |
-| I76 | INIT-OPENCLAW_AKOS-76 (forward) | candidate | 3 | D-IH-84-C unlocks P0 charter. |
-| I87 | INIT-OPENCLAW_AKOS-87 (forward) | candidate stub | 1-2 recommended | Operational OpenClaw hardening; see [`i87-openclaw-operator-runtime-hardening.md`](../_candidates/i87-openclaw-operator-runtime-hardening.md). |
+| Sibling | INIT slug | Status today | Phases closed | Wave emphasis | Notes |
+|:---|:---|:---|:---|:---:|:---|
+| I81 | INIT-OPENCLAW_AKOS-81 | **active** (`dbdb551`) | P0 | 1-2 + background 4-8 | P0 charter landed Wave 1; P1 vault-integrity baseline deferred to focused work-block. Feeds `kb-integrity-matrix` to I82 Wave 4. |
+| I84 | INIT-OPENCLAW_AKOS-84 | active | charter | 1-5 | P4 unlocks I76, I74, I83 framework narrowing; compare OpenClaw baseline after I87 when possible. |
+| I85 | INIT-OPENCLAW_AKOS-85 | **active** (`bde7060`) | P0+P1+P2-infra+P3 | 1 (landed) | Wave 1 closeable; only P2-sweep + P4-promotion remain (both operator-gated). |
+| I82 | INIT-OPENCLAW_AKOS-82 | **active** (`dbdb551`) | P0 | 3-4 | P0 charter landed Wave 1; P1+ waits on I84 P4 ratifications + I81 P1 integrity for registry mint. |
+| I83 | INIT-OPENCLAW_AKOS-83 (forward) | candidate | — | 5 | Gates: I82 P4 USE_CASE_ARCHIVE + I84 P4 D-IH-84-E. |
+| I74 | INIT-OPENCLAW_AKOS-74 (forward) | TRIGGER-watch | — | 3-4 | TRIGGER-2 external requests; D-IH-84-D unlocks charter timing. |
+| I75 | INIT-OPENCLAW_AKOS-75 (forward) | candidate | — | 2 end | Before I84 P6 Research-area canonical pair mints. |
+| I76 | INIT-OPENCLAW_AKOS-76 (forward) | candidate | — | 3 | D-IH-84-C unlocks P0 charter. |
+| I87 | INIT-OPENCLAW_AKOS-87 | **active** (`bde7060`) | P0+P2+P3+P4 | 1 (landed) | 4 of 6 phases closed Wave 1; P1 escalation patch + P5 SOP+runbook + P6 closure UAT remain. |
+
+### 1.4 Wave 1 mid-burn status (2026-05-16; 13 commits landed)
+
+| Aggregate | Count | Detail |
+|:---|:---|:---|
+| Siblings flipped candidate → active | **4** | I85, I87, I81, I82 |
+| Phases closed (across all siblings) | **9** | I85 P0+P1+P2infra+P3 (4); I87 P0+P2+P3+P4 (4); I81 P0 (1); I82 P0 (1) |
+| Canonical CSV rows appended | **14** | 4 INITIATIVE_REGISTRY + 18 DECISION_REGISTER + 4 OPS_REGISTER |
+| Decisions ratified `agent_inline_default` | **18** | I85 (5) + I87 (3) + I81 (5) + I82 (5) — operator-confirmed 2026-05-16 |
+| New validators wired (INFO rows in release-gate) | **2** | `validate_audience_tags.py` + `validate_openclaw_plugin_pinning.py` |
+| New tests added | **32** | 15 audience_registry + 10 audience_tags_drift + 7 openclaw_plugin_pinning |
+| Hard FAILs encountered | **0** | All validator pre-existing gates remained green throughout |
+
+Operator hand-back batch (folds into surface-ratify-batch-final per the I86 todo list): I85 P2 sweep tranches + I85 P4 SOP promotion + I82 P1 Talent baseline_organisation row + I81 P2 layout tranche 1 + (when eligible) I84 P4 batched decisions. Full snapshot at [`reports/checkpoints/sc-wave1-midburn-2026-05-16.md`](reports/checkpoints/sc-wave1-midburn-2026-05-16.md).
 
 ## 2. Architecture — cluster coordinator (diagram 1 of 3)
 
