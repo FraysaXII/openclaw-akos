@@ -17,7 +17,7 @@ language: en
 
 > **Verbatim operator framing (2026-05-16 inline-ratify Round 9):** *"It's also good for other things we may build atop our system, like our AI Archivist and all-in-one ingestor (sort of like Composio, but with a wider scope), KiRBe. That's how it's tied to the knowledge base and why we also call it AI Archivist. We're from People so maybe the final specs are not like that, that for other areas to answer. We've just thought about archives and thanks to Research's info we thought of this, we leave other areas to decide what's best."*
 
-I83 builds the **system** that operationalises the Capability Doctrine's use-case-archive facet (I82 P3) and the audience-aware capability surfacing capability (I82 doctrine itself). The People area minted the doctrine + the registries; the Tech area builds the ingestor + the surfacing API + the UI panels.
+I83 builds the **system** that operationalises the Capability Doctrine's use-case-archive facet (**I82 P4**) and the audience-aware capability surfacing capability (I82 doctrine itself). The People area minted the doctrine + the registries; the Tech area builds the ingestor + the surfacing API + the UI panels.
 
 **KiRBe** is the operator's chosen working name (see I81 candidate stub naming-flexibility commentary; final name TBD). The ingestor is conceptually similar to Composio (a unified API to many tools) but with a *wider scope*: it ingests from internal knowledge base + use case archive + capability registry + confidence registry + linked artefacts, AND from external sources (engagement reports + research diagnoses + brand canon assets + decision logs), AND surfaces them through an audience-aware translation layer.
 
@@ -78,7 +78,7 @@ Total estimated effort: **9-12 days** for MVP (read-only Knowledge panel surfaci
 
 | ID | Risk | L | I | Mitigation |
 |:---|:---|:---:|:---:|:---|
-| **R-IH-83-1** | I82 not far enough along when I83 promotes — KiRBe has nothing to ingest | High | High | Hard prerequisite: I82 P3 closed (use case archive minted) before I83 P0 |
+| **R-IH-83-1** | I82 not far enough along when I83 promotes — KiRBe has nothing to ingest | High | High | Hard prerequisite: **I82 P4** closed (use case archive minted) before I83 P0 |
 | **R-IH-83-2** | Composio scope expansion is hard — building native is expensive | Medium | High | P0 conundrum; may scope down to read-only from existing canonical CSVs (cheap) |
 | **R-IH-83-3** | RLS posture on kirbe.* schema unclear (level 5 internal-cleared canonicals must not leak) | Medium | High | Defaults: deny anon + authenticated; service_role only; classification-aware row filters per `KNOWLEDGE_PAIRING_REGISTRY.access_level` (forward-spec) |
 | **R-IH-83-4** | Audience translation hallucinates beyond canonical sources | Medium | High | Hard rule: KiRBe surfaces only registered rows; no LLM inference outside the registry-bounded answer space |
@@ -86,7 +86,7 @@ Total estimated effort: **9-12 days** for MVP (read-only Knowledge panel surfaci
 
 ## 7. Cross-references
 
-- [I82 candidate — Holistika Capability Doctrine](i82-holistika-capability-doctrine-and-commercial-readiness.md) — hard prerequisite (must be at P3+ before I83 P0).
+- [I82 candidate — Holistika Capability Doctrine](i82-holistika-capability-doctrine-and-commercial-readiness.md) — hard prerequisite (must be at **P4+** before I83 P0; P4 mints `USE_CASE_ARCHIVE.csv`).
 - [`KNOWLEDGE_PAIRING_REGISTRY.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/KNOWLEDGE_PAIRING_REGISTRY.csv) — primary registry KiRBe consumes (I80 P6.5).
 - [`AGENTIC_FRAMEWORK_LANDSCAPE.md`](../../../docs/references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/canonicals/AGENTIC_FRAMEWORK_LANDSCAPE.md) — Tech Lab framework choice rails (I79 P3b).
 - [`BRAND_BASELINE_REALITY_MATRIX.md`](../../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md) — register translation rails (I66; consumed by KiRBe audience translation layer).
@@ -95,7 +95,7 @@ Total estimated effort: **9-12 days** for MVP (read-only Knowledge panel surfaci
 
 ## 8. Promotion criteria (P0 charter trigger)
 
-- I82 P3 closed (use case archive minted; KiRBe has a registry to ingest).
+- **I82 P4** closed (use case archive minted; KiRBe has a registry to ingest).
 - Tech Lab Lead + System Owner ratify P0 charter shape.
 - One concrete consumer surface available (hlk-erp Knowledge panel OR external request UAT).
 - C-83-1 (framework) + C-83-2 (schema home) + C-83-5 (Composio vs native) ratified inline at P0.

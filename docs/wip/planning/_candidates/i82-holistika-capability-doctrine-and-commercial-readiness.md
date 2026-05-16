@@ -11,7 +11,9 @@ language: en
 
 # I82 candidate — Holistika Capability Doctrine and Commercial Readiness
 
-> **Candidate scaffold authored at I80 P7 per operator inline-ratify Round 9 (2026-05-16) framing.** Promoted to `active` when (a) operator confirms the doctrine name + canonical home + primary phase shape (P0 doctrine mint + 4 facet operationalisation phases + P5/P6 closure); (b) the four named facets (capability inventory + confidence rating + use case archive + eloquence translation) have at least one role_owner each ratified to deliver them; (c) a first concrete commercial use case (incoming customer / advisor / investor request) provides the live test for the audience-aware capability surfacing capability. The forward-charter language is deliberately *non-time-pressured*: this is a doctrine-class initiative, not a sprint deliverable.
+> **Candidate scaffold authored at I80 P7 per operator inline-ratify Round 9 (2026-05-16) framing.** **Extended 2026-05-16:** **Talent activation** (`baseline_organisation.csv`) **and authoritative `CAPABILITY_REGISTRY` seeds** SHOULD consume the **I81 P1 knowledge-base integrity matrix** (`kb-integrity-matrix-*` + audit narrative) unless the operator issues an explicit **prerequisite waiver decision** (`D-IH-82-*`). See sibling [I81 candidate](i81-full-vault-sop-addendum-retrofit.md) §2c–§2d (integrity sprint + Compliance layout reorganisation).
+>
+> Promoted to `active` when (a) operator confirms doctrine name + canonical home + phase shape below, (b) four facets each have ratified delivery owner OR Talent interim owner named, (c) first live capability-surfacing UAT scenario exists **OR** waived, (d) **I81 P1 integrity CLOSED or waived**.
 
 ## 1. Operating story
 
@@ -44,7 +46,15 @@ flowchart TB
 
 `process_list.csv` is the **inventory** of what every area can do. The Talent role (newly activated per `D-IH-79-A` baseline forward-charter; not yet at `baseline_organisation.csv` row but anticipated) translates the inventory into a **capabilities/skills list** that external counterparties can read. Each row carries: skill_id (FK to `SKILL_REGISTRY.csv`), capability_name, area, role_owner, originating_process_ids (semicolon list), description (plain-language register for People-area; technical register for Tech-area; commercial register for cross-area presentation).
 
-The operator framing: *"hopefully Talent will be able to translate our inventory — process_list — into capabilities/skill list, governed and that will be the best talent I've seen because not many companies are able to explain to someone 'what you guys can do' in such a governed, clear, scalable, tangible, demonstrable way."* The deliverable: **`CAPABILITY_REGISTRY.csv`** at `Admin/O5-1/People/canonicals/dimensions/` (sibling of `SKILL_REGISTRY.csv`) + Pydantic SSOT + validator.
+The operator framing: *"hopefully Talent will be able to translate our inventory — process_list — into capabilities/skill list, governed and that will be the best talent I've seen because not many companies are able to explain to someone 'what you guys can do' in such a governed, clear, scalable, tangible, demonstrable way."*
+
+The governed deliverable: **`CAPABILITY_REGISTRY.csv`** lives under **`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/`** (same dimensional pattern as [`SKILL_REGISTRY.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SKILL_REGISTRY.csv)) + Pydantic SSOT (`akos/hlk_capability_registry_csv.py` — mint at charter) + `scripts/validate_capability_registry.py` + tests — **wired into `validate_hlk.py`**.
+
+**Operational dependency:** Capability rows SHOULD trace to **audited `process_list.csv` references** surfaced in **[I81 P1](i81-full-vault-sop-addendum-retrofit.md) `kb-integrity-matrix-*`** (prevents Capability Registry launching on orphaned paths).
+
+### 2a.1 Talent role activation (baseline facet—unblocks organisational work operators deferred)
+
+Talent is the **human/AIC role_owner** accountable for translating process inventory ↔ external-readable capability/skills narratives. Activation requires **`baseline_organisation.csv` operator-approved tranche** (canonical-CSV gate per [`akos-governance-remediation.mdc`](../../../.cursor/rules/akos-governance-remediation.mdc)). Schedule as **I82 P1** *after* doctrine charter ratification—or **parallel** once baseline approval is queued—coordinate with **`process_list.csv`** edits if Talent owns net-new upkeep processes (`inherited_pattern_id` FK posture per I79). This tranche satisfies operator intent: *activate Talent + other prerequisites we couldn't do before* once organisational confidence improves (fed by **I81 P1** integrity run).
 
 ### 2b. Confidence rating (Keter / Euclid / Safe — names cameo, truth canonical)
 
@@ -80,27 +90,31 @@ The deliverable: **extension of `BRAND_BASELINE_REALITY_MATRIX.md`** with §N "C
 
 ## 3. Phase shape (proposed; ratified at P0 promotion)
 
+**Recommended dependency:** **`CAPABILITY_REGISTRY` mint (phase P2 below)** SHOULD **not merge** until **I81 P1 knowledge-base integrity is CLOSED** OR operator documents an explicit prerequisite waiver (**e.g. `D-IH-82-PREREQ`**). Earlier work — doctrine prose (P0) and Talent `baseline` tranche prep (phase P1) — may proceed once charter approvals exist.
+
 | Phase | Purpose | Deliverable | Effort |
 |:---|:---|:---|---:|
-| **P0** | Charter + doctrine mint (paired body + addendum per pattern_sop_addendum_split first instantiated at I80 P2) | `HOLISTIKA_CAPABILITY_DOCTRINE.md` (level 4 body) + `.addendum.md` (level 5 addendum) at `People/canonicals/`; charter decisions D-IH-82-A..G; OPS-82-1..5 | 1d |
-| **P1** | Capability inventory facet | `CAPABILITY_REGISTRY.csv` (16-col); Pydantic + validator + tests; seed rows from current `process_list.csv` | 1d |
-| **P2** | Confidence rating facet | `CAPABILITY_CONFIDENCE_REGISTRY.csv` (paired body+addendum + brand-naming canonical co-signed by Marketing/Brand); SCP-cameo + plain-language tables | 1d |
-| **P3** | Use case archive facet | `USE_CASE_ARCHIVE.csv` (paired body+addendum); seed rows from named POCs (GDF + Hosteleria + RCD + documentation-team + Shopify) | 1d |
-| **P4** | Eloquence translation facet | `BRAND_BASELINE_REALITY_MATRIX.md` §N capability-messaging extension; per-audience tables | 0.5d |
-| **P5** | Integration with hlk-erp panels + Supabase mirror forward-spec | mirror migrations + ERP panel route specs (Tech Lab cosign); KNOWLEDGE_PAIRING_REGISTRY rows for each new paired file | 0.5d |
-| **P6** | UAT (live test: one incoming customer/advisor/investor request) + closure + I83 forward-charter | UAT report + I83 candidate stub (already authored at I80 P7 — this phase ratifies + may extend) | 0.5d |
+| **P0** | Charter + doctrine mint (paired body + addendum per `pattern_sop_addendum_split`; I80 P2 precedent) | `HOLISTIKA_CAPABILITY_DOCTRINE.md` (level 4 body) + `.addendum.md` (level 5 addendum) at `People/canonicals/`; charter decisions (`D-IH-82-A..*`); OPS scaffolding rows | ~1d |
+| **P1** | **`baseline_organisation.csv` Talent activation tranche** *(canonical operator gate)* + optional accompaniment row(s) in `process_list.csv` defining Talent upkeep mechanics | Formal Talent `role_owner` lineage; synced [`docs/USER_GUIDE.md`](../../../docs/USER_GUIDE.md) / [`docs/ARCHITECTURE.md`](../../../docs/ARCHITECTURE.md) per governance rule bundle when counts shift | gated |
+| **P2** | Capability inventory facet | `dimensions/CAPABILITY_REGISTRY.csv` (+ Pydantic + validator + tests + `validate_hlk.py` wiring + `PRECEDENCE.md`); seed rows anchored to **audited `process_list` paths via I81 matrix** | ~1–2d |
+| **P3** | Confidence rating facet | `CAPABILITY_CONFIDENCE_*` artefacts (paired body+addendum + Marketing/Brand naming co‑sign); numeric + SCP-cameo + plain registers | ~1d |
+| **P4** | Use case archive facet | `USE_CASE_ARCHIVE.csv` + POC seed narratives (GDF + Hosteleria + RCD + documentation-team + Shopify) | ~1d |
+| **P5** | Eloquence translation facet | `BRAND_BASELINE_REALITY_MATRIX.md` §N capability‑messaging extension | ~0.5d |
+| **P6** | hlk‑erp + mirrors forward‑spec alignment | Mirrors + ERP route specs (**coordinate path hygiene with I81 P2 layout waves**) | ~0.5d |
+| **P7** | Live capability‑surfacing UAT + closure + **I83** promotion bolster | UAT dossier dated OR explicit waiver narrative | ~0.5d |
 
-Total estimated effort: **5 days** continuous OR absorbed into existing area review cadences over 2-3 quarters.
+Continuous execution estimate **≈ 7–10 engineer‑days excluding operator pause windows** (+ parallel **I81** work tracked separately).
 
-## 4. Conundrums (top 5)
+## 4. Conundrums (top 7)
 
 | ID | Question | Owner | Window |
 |:---|:---|:---|:---|
 | **C-82-1** | Doctrine final name (HOLISTIKA_CAPABILITY_DOCTRINE.md vs HOLISTIKA_ELOQUENCE_DOCTRINE.md vs other) | Founder + People Operations Lead | P0 inline-ratify |
-| **C-82-2** | Confidence rating naming policy — SCP-cameo vs numbers vs plain language as PRIMARY vs cameo | Founder + Brand Manager | P2 inline-ratify |
-| **C-82-3** | AI Archivist / KiRBe ingestor home — I82 internal vs I83 forward-charter (current recommendation: I83) | System Owner + People Operations Lead | P3 inline-ratify (or already ratified) |
-| **C-82-4** | Talent role activation in `baseline_organisation.csv` (currently anticipated; not yet a row) — pre-condition for I82 P1 or co-deliverable? | Founder + People Operations Lead | P0 inline-ratify |
-| **C-82-5** | Confidence rating cadence — when a capability's confidence rating is updated; who has approval; how conflicts surface to PRECEDENCE.md | People Operations Lead + Operations/SMO | P2 inline-ratify |
+| **C-82-2** | Confidence rating naming policy — SCP-cameo vs numbers vs plain language as PRIMARY vs cameo | Founder + Brand Manager | **P3** inline-ratify |
+| **C-82-3** | AI Archivist / KiRBe ingestor home — I82 internal vs **I83** forward‑charter (recommended: **I83**) | System Owner + People Operations Lead | P0 charter acknowledgement |
+| **C-82-4** | **Talent CSV tranche timing** vs **Capability registry** vs **integrity baseline sequencing** (`baseline` gate may land before OR after doctrine—default: **Doctrine P0 ratified → Talent CSV P1 queued → Capability registry awaits I81 integrity OR waiver**) | Founder + People Operations Lead | **P0** inline‑ratify |
+| **C-82-5** | Confidence rating cadence — ownership + conflict routing to `PRECEDENCE.md` | People Operations Lead + Operations/SMO | **P3** inline-ratify |
+| **C-82-6** | **Skip / waive** I81 integrity prerequisite for Capability registry acceptable when? (Only after explicit reversible decision with logged risk acceptance) | Founder + PMO | P0 charter |
 
 ## 5. Decision preview
 
@@ -108,15 +122,16 @@ Total estimated effort: **5 days** continuous OR absorbed into existing area rev
 |:---|:---|:---|:---|:---|
 | **D-IH-82-A** | Mega-charter scope — 4-facet doctrine | Founder | Proposed | P0 |
 | **D-IH-82-B** | Doctrine canonical home — `People/canonicals/` (matching existing 2 doctrines) | People Operations Lead | Recommended | P0 |
-| **D-IH-82-C** | Confidence rating naming — SCP-cameo + numbers + plain (audience-aware multi-register) | Founder + Brand Manager | Proposed | P2 |
-| **D-IH-82-D** | Capability inventory primary key shape (FK to `SKILL_REGISTRY.csv` vs new ID space) | People Operations Lead | Proposed | P1 |
-| **D-IH-82-E** | Use case archive redaction policy — paraphrase default; case-by-case anonymise | Compliance Officer | Proposed | P3 |
+| **D-IH-82-C** | Confidence rating naming — SCP-cameo + numbers + plain (multi-register posture) | Founder + Brand Manager | Proposed | **P3** |
+| **D-IH-82-D** | Capability inventory PK + FK posture (`SKILL_REGISTRY` linkage + `process_list` anchoring policy) | People Operations Lead | Proposed | **P2** |
+| **D-IH-82-PREREQ** | **Prerequisite waiver / acceptance** bridging I81 integrity deliverables ↔ I82 Capability registry readiness | Founder + PMO | Optional | **P2** entrance |
+| **D-IH-82-E** | Use case archive redaction policy — paraphrase default; case-by-case anonymise | Compliance Officer | Proposed | **P4** |
 
 ## 6. Risks (top 5)
 
 | ID | Risk | L | I | Mitigation |
 |:---|:---|:---:|:---:|:---|
-| **R-IH-82-1** | Doctrine remains aspirational without a live test — first capability surfacing event never happens | Medium | High | P6 acceptance criteria binds promotion to one live external request handled end-to-end |
+| **R-IH-82-1** | Doctrine remains aspirational without a live test — first capability surfacing event never happens | Medium | High | **P7** acceptance binds promotion to one live external rehearsal **or explicit waiver narrative** recorded in closure decision row |
 | **R-IH-82-2** | SCP-Foundation cameo confuses audiences who don't get the reference | Medium | Medium | Per Round 9 operator framing — naming is audience-aware multi-register; cameo only for methodology-curious |
 | **R-IH-82-3** | Capability inventory drifts from `process_list.csv` over time | High | Medium | FK to `process_list.csv` `item_id`s; validator enforces FK resolution; quarterly sync cadence |
 | **R-IH-82-4** | Use case archive contains commercially-sensitive customer references | High | High | Default redaction = paraphrase; explicit redaction_class enum; Compliance Officer sign-off per row before external surfacing |
@@ -126,17 +141,19 @@ Total estimated effort: **5 days** continuous OR absorbed into existing area rev
 
 - [`HOLISTIKA_ORGANISING_DOCTRINE.md`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_ORGANISING_DOCTRINE.md) — first foundational doctrine (I79 P1).
 - [`HOLISTIKA_AGENTIC_DOCTRINE.md`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_AGENTIC_DOCTRINE.md) — second foundational doctrine (I79 P3a).
-- [`BRAND_BASELINE_REALITY_MATRIX.md`](../../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md) — dual-register translation rails (I66; capability-messaging extension at I82 P4).
-- [`KNOWLEDGE_PAIRING_REGISTRY.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/KNOWLEDGE_PAIRING_REGISTRY.csv) — paired-file governance (I80 P6.5; consumed by every I82 P1..P4 paired-file mint).
-- [`PEOPLE_DESIGN_PATTERN_REGISTRY.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv) — pattern_sop_addendum_split (I80 P1) used for every I82 paired-file deliverable.
-- [`process_list.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv) — capability inventory source (I82 P1 translates to `CAPABILITY_REGISTRY.csv`).
-- [`SKILL_REGISTRY.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SKILL_REGISTRY.csv) — skill taxonomy (I82 P1 may FK).
+- [`BRAND_BASELINE_REALITY_MATRIX.md`](../../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md) — dual-register translation rails (I66; capability-messaging extension at **I82 P5**).
+- [`KNOWLEDGE_PAIRING_REGISTRY.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/KNOWLEDGE_PAIRING_REGISTRY.csv) — paired-file governance (I80 P6.5).
+- [`PEOPLE_DESIGN_PATTERN_REGISTRY.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv) — `pattern_sop_addendum_split` (I80 P1) referenced by doctrine + facet paired artefacts as chartered.
+- [`process_list.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv) — capability inventory anchoring (**I82 P2** `CAPABILITY_REGISTRY` FK surface; primed via **I81 P1 integrity matrix**).
+- [`baseline_organisation.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv) — Talent activation tranche (**I82 P1** operator gate); see sibling [I81](i81-full-vault-sop-addendum-retrofit.md) for integrity + vault layout groundwork.
+- [`SKILL_REGISTRY.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SKILL_REGISTRY.csv) — skill taxonomy (**FK target for I82 P2** capability rows—schema at charter-time).
 - [I83 candidate](i83-ai-archivist-and-kirbe-ingestor.md) — sibling forward-charter for the AI Archivist / KiRBe ingestor system (Tech-area-led).
 
 ## 8. Promotion criteria (P0 charter trigger)
 
 - Operator confirms doctrine name (C-82-1).
 - Operator confirms primary 4-facet shape OR amends.
-- At least one role_owner per facet ratified.
-- A first concrete commercial use case (incoming external request) provides the live test for P6 UAT.
-- Talent role activation in `baseline_organisation.csv` ratified or explicitly deferred to a follow-up tranche (C-82-4).
+- At least one role_owner per facet ratified (Talent may deputise transitional ownership before role row activates—explicitly documented if so).
+- **I81 P1 integrity accepted OR waived** (`D-IH-82-PREREQ` narrative) prior to **`CAPABILITY_REGISTRY` merge**.
+- Talent role activation in `baseline_organisation.csv` ratified **or explicitly deferred with logged risk** (C-82-4 / C-82-6).
+- A concrete capability-surfacing rehearsal (incoming external stakeholder request) satisfies **P7** **or explicit waiver narrative** binds closure transparency.
