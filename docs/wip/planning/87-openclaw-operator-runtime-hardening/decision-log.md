@@ -8,6 +8,16 @@ last_review: 2026-05-16
 
 > Charter decisions ratified at P0 (2026-05-16) under I86 batch inline-ratify. All three carry `decision_source: agent_inline_default` because the operator skipped the explicit AskQuestion batch with the directive *"continue with information you already have"*; defaults are reversible per [`akos-inline-ratification.mdc`](../../../.cursor/rules/akos-inline-ratification.mdc) §"Time-box recovery".
 
+## D-IH-87-WAVE2-PAIRING — SOP+process_list pairing strategy (Q5 verdict)
+
+**Question**: Should I87 P5 mint `SOP-OPENCLAW_RUNTIME_HEALTH_TRIAGE_001.md` (at status:review) without a process_list.csv tranche, or in one combined operator-gated tranche?
+
+**Source**: Operator inline ratify 2026-05-16 (Wave 2 Q5 batch); see [`docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/q1-q6-ratify-2026-05-16.md`](../../86-initiative-cluster-execution-coordinator/reports/q1-q6-ratify-2026-05-16.md).
+
+**Verdict**: **mint SOP + add process_list.csv row in one operator-gated tranche**. `env_tech_dtp_openclaw_runtime_health_triage_001` added under role_owner=System Owner / parent=env_tech_prj_4. Pairing rule per [`akos-executable-process-catalog.mdc`](../../../.cursor/rules/akos-executable-process-catalog.mdc) Rule 1 + SOP-META rule per [`akos-governance-remediation.mdc`](../../../.cursor/rules/akos-governance-remediation.mdc) both fully respected. SOP at status:review pending P6 closure UAT promotion.
+
+**Closes**: SOP-META blocker on P5 → P6 transition. **Activated**: 2026-05-16. **decision_source**: operator inline ratify (not default).
+
 ## D-IH-87-A — Escalation sink for health-monitor failure loops
 
 **Question**: When the OpenClaw health monitor records N (default 3) consecutive 30-min failure cycles for the same root cause, where does the operator-visible signal go?
