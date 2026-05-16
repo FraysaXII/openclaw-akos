@@ -476,6 +476,9 @@ def main() -> int:
         ("RENDERING_PIPELINE_REGISTRY", "validate_rendering_pipeline_registry.py",
          "validate_rendering_pipeline_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Envoy Tech Lab" / "canonicals" / "dimensions" / "RENDERING_PIPELINE_REGISTRY.csv"),
+        # Initiative 85 P1 - Audience Registry (narrow FK index for audience: [J-*] frontmatter per D-IH-85-A,B).
+        ("AUDIENCE_REGISTRY", "validate_audience_registry.py",
+         "validate_audience_registry", HLK_DIR / "dimensions" / "AUDIENCE_REGISTRY.csv"),
         # Initiative 32 P3 - Touchpoint-kit cell registry (with FS-vs-CSV drift detector).
         ("TOUCHPOINT_KIT_CELL_REGISTRY", "validate_touchpoint_kit_cells.py",
          "validate_touchpoint_kit_cells", HLK_DIR / "dimensions" / "TOUCHPOINT_KIT_CELL_REGISTRY.csv"),
