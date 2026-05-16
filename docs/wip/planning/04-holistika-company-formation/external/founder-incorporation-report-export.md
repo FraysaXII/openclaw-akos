@@ -61,7 +61,7 @@ You need to translate your architecture, manifesto, and market thesis into legal
 3. Decisions Already Implied By The Calls
 These decisions are not fully closed, but they are already strongly implied:
 
-The first operating company is expected to be Holística Research.
+The first operating company is expected to be Holistika Research.
 You are planning to start as sole shareholder, sole administrator, and founder-operator.
 The first registered office is likely to be your home address.
 The first entity will probably start lean, with low initial capital and a mix of cash and in-kind assets rather than a heavily funded structure.
@@ -76,7 +76,7 @@ Is company 1 primarily a research/intelligence vehicle, a business consultancy, 
 
 Everything else depends on how you answer that.
 4. Immediate Founder Action Checklist
-Decide the legal story of entity 1 in one sentence. Example structure: "Holística Research is a corporate intelligence and business engineering company with a technology-enabled, scalable methodology and future productization path."
+Decide the legal story of entity 1 in one sentence. Example structure: "Holistika Research is a corporate intelligence and business engineering company with a technology-enabled, scalable methodology and future productization path."
 Ask the advisers for a written recommendation on the incorporation route. Require them to compare CIRCE/statutes type versus ordinary constitution with custom object social specifically for your ENISA and future-structure goals.
 Build a written capital and funding plan. Include cash available at day 1, in-kind assets, monthly operating burn, and how pre-revenue expenses will be covered.
 Build the incorporation document pack. Include identity, employment/pluriactivity evidence, Social Security data, working-life or employment proof, home-office data, and the asset inventory if using contributions in kind.

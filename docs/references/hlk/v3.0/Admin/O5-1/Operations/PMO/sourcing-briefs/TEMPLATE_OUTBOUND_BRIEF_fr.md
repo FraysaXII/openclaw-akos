@@ -14,13 +14,13 @@ derived_from: docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/sourcing-briefs
 
 > **Note opérateur.** Ce fichier est l'**exercice de la chaîne de dérivation locale** — la première instance d'un sibling FR canonical né d'un sibling EN canonical (per [`SOP-HLK_LOCALISATION_001.md`](../../../Tech/System%20Owner/SOP-HLK_LOCALISATION_001.md)). Statut `stub` jusqu'à ce qu'un premier livrable FR réel arrive et déclenche la promotion vers `active`. Les règles de ton FR définitives vivront dans [`BRAND_FRENCH_PATTERNS.md`](../../../Marketing/Brand/BRAND_FRENCH_PATTERNS.md) lorsque cette ressource sera promue de stub à canonique.
 >
-> **Voix actuelle (provisoire).** Vouvoiement par défaut ; ouverture `Bonjour [Prénom],` ; clôture `Cordialement,` ; signature `Holística Research`. Le ton suit les principes locale-agnostiques de `BRAND_VOICE_FOUNDATION.md` (peer-grade, jargon-free, spécifique).
+> **Voix actuelle (provisoire).** Vouvoiement par défaut ; ouverture `Bonjour [Prénom],` ; clôture `Cordialement,` ; signature `Holistika Research`. Le ton suit les principes locale-agnostiques de `BRAND_VOICE_FOUNDATION.md` (peer-grade, jargon-free, spécifique).
 
 ---
 
 ## 1. Contexte
 
-**Qui nous sommes.** Holística Research est une société espagnole d'ingénierie opérationnelle. Nous productivisons notre propre méthode sous la forme du SaaS KiRBe et de la plateforme agentic MADEIRA. Notre socle interne est gouverné par des centaines d'artefacts canoniques (registres de processus, validateurs, sondes de drift) ; la voix de marque est codifiée dans [`BRAND_VOICE_FOUNDATION.md`](../../../Marketing/Brand/BRAND_VOICE_FOUNDATION.md).
+**Qui nous sommes.** Holistika Research est une société espagnole d'ingénierie opérationnelle. Nous productivisons notre propre méthode sous la forme du SaaS KiRBe et de la plateforme agentic MADEIRA. Notre socle interne est gouverné par des centaines d'artefacts canoniques (registres de processus, validateurs, sondes de drift) ; la voix de marque est codifiée dans [`BRAND_VOICE_FOUNDATION.md`](../../../Marketing/Brand/BRAND_VOICE_FOUNDATION.md).
 
 **Pourquoi cette mission.** [TODO[OPERATOR-brief-context] — un paragraphe : pour quelle initiative, pourquoi maintenant, quel rôle joue le livrable]
 

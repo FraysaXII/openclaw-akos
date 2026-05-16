@@ -61,7 +61,7 @@ The deck is built **net new** at slide level — copy is rewritten, not pasted �
 
 - "Full disclosure" is honoured: all five capability cards remain in the deck.
 - Partner names (Websitz, Rushly) appear **once**, in the proof captions, in small text. The lever in the narrative is *what we did and how we worked*, not *who we worked with*.
-- The Holística public domain (`holistikaresearch.com`) is allowed to appear in the cover and in the website-card footer.
+- The Holistika public domain (`holistikaresearch.com`) is allowed to appear in the cover and in the website-card footer.
 - KiRBe is named everywhere — it is our own product.
 - "HLK ERP" is named as our internal ERP; product name is fine, no codenames.
 - The capability card numbers stay 1-5; the slide-6 layout shows all 5 simultaneously, then slide 7 spotlights KiRBe.
@@ -93,7 +93,7 @@ These are real founder decisions that affect deck copy, not appendix content:
 |:---|:---|:---|:---|
 | D-IH-28-DECK-1 | What public URL appears on the cover and in the website card? | `holistikaresearch.com` | Cover, slide 6 card 1 footer |
 | D-IH-28-DECK-2 | Do we name partner Websitz / Rushly explicitly on slide 6, or only as "partner B2B" / "partner SaaS"? | Mention by name, low-key, in the card footer only ("Entrega para Websitz" / "Diseño para Rushly"); never on slide 1 / 4 / 11 | Slide 6 cards 4–5 |
-| D-IH-28-DECK-3 | Do we put the founder's name on the cover or only "Holística Research"? | Holística Research; founder name appears on slide 14 (Ask) signature only | Cover + slide 14 |
+| D-IH-28-DECK-3 | Do we put the founder's name on the cover or only "Holistika Research"? | Holistika Research; founder name appears on slide 14 (Ask) signature only | Cover + slide 14 |
 | D-IH-28-DECK-4 | What's the single-sentence positioning at the top of the deck? | "Sistemas operativos para empresas que ordenan su operación antes de escalar" | Slide 1 (cover subtitle) |
 
 These are low-risk decisions and the deck can ship with the recommended values; the founder confirms them before the actual external send (not before the build).

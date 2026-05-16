@@ -761,7 +761,7 @@ _COVER_STRIP_LABELS: dict[str, dict[str, str]] = {
         "discipline": "Disciplina",
         "status": "Estado",
         "collaboration": "En colaboración con",
-        "eyebrow_default": "Holística Research · Dossier",
+        "eyebrow_default": "Holistika Research · Dossier",
     },
     "en": {
         "program": "Program",
@@ -820,7 +820,7 @@ def _build_cover_html(
     """
     labels = _cover_labels_for(language)
     eyebrow_text = eyebrow if eyebrow is not None else labels["eyebrow_default"]
-    monogram_alt = "Holística Research" if language == "es" else "Holistika Research"
+    monogram_alt = "Holistika Research" if language == "es" else "Holistika Research"
 
     monogram_html = ""
     if monogram_path and Path(monogram_path).is_file():

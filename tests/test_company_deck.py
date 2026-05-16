@@ -316,7 +316,7 @@ def test_cover_email_uses_brand_spanish_patterns():
     # Closer pattern.
     assert "Un saludo," in body, "cover email missing the canonical Spanish closer"
     # Brand signature.
-    assert "Holística Research" in body or "Holistica Research" in body
+    assert "Holistika Research" in body or "Holistica Research" in body
 
 
 # ---------------------------------------------------------------------------

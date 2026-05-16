@@ -1,4 +1,4 @@
-# Impeccable critique + audit findings — Holística company dossier (HTML preview)
+# Impeccable critique + audit findings — Holistika company dossier (HTML preview)
 
 **Date**: 2026-04-30
 **Target**: [`docs/presentations/holistika-company-dossier/index.html`](../../../presentations/holistika-company-dossier/index.html) (rendered from `deck_slides.yaml` via `scripts/build_company_deck.py`)
@@ -63,7 +63,7 @@
 2. **Section openers are the right device.** The `01` / `02` / `03` faded-teal numerals create thematic transitions without slide ornaments. The dark surface contrasts against the cream body slides for natural pacing.
 3. **Capability grid is information-dense without being cluttered.** Five cards in one row, each with order number + category eyebrow + title + outcome + tag pills + visibility footer. The reader gets a 5-deliverable proof in one glance.
 4. **The pull-quote on slide 7 lands.** "No es una promesa: es la prueba viva de que el método se puede operar sin nosotros." That's a sharp claim, brand-voice-correct, and visually emphasized by the teal italic.
-5. **Footer band is restrained.** Small uppercase letterspaced `Holística Research · Dossier de Compañía` + `06 / 14` — auditable without being decorative.
+5. **Footer band is restrained.** Small uppercase letterspaced `Holistika Research · Dossier de Compañía` + `06 / 14` — auditable without being decorative.
 
 ---
 

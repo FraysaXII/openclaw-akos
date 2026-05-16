@@ -34,7 +34,7 @@ This initiative creates the new artifact, demotes the existing dossier to an **a
 
 Replace the founder dossier as the primary external send with a 12-14 slide deck that:
 
-- positions Holística Research as a serious operating company;
+- positions Holistika Research as a serious operating company;
 - proves capability with shipped products, not promises;
 - explains the service-to-product path (KiRBe productization);
 - demonstrates ENISA fit without leading with paperwork;
@@ -47,7 +47,7 @@ Replace the founder dossier as the primary external send with a 12-14 slide deck
 | D-IH-28-1 | Audience = ENISA adviser + certifier-style reader + investor-like reader (single deck for all three) | Operator confirmation 2026-04-30 |
 | D-IH-28-2 | Format = Figma deck (visual SSOT) + PDF deck (export, disposable) + governed Markdown narrative SSOT | Operator confirmation 2026-04-30 |
 | D-IH-28-3 | Tone = hybrid: institutional enough for ENISA, compelling enough for a certifier or investor | Operator confirmation 2026-04-30 |
-| D-IH-28-4 | Disclosure = full, but Holística-execution-led; partner names secondary, kept low-key (we may have many other partners; the lever is how we handle delivery, not who) | Operator confirmation 2026-04-30 |
+| D-IH-28-4 | Disclosure = full, but Holistika-execution-led; partner names secondary, kept low-key (we may have many other partners; the lever is how we handle delivery, not who) | Operator confirmation 2026-04-30 |
 | D-IH-28-5 | Workflow = Markdown narrative SSOT → React/HTML preview deck (governed) → optional Figma capture/refinement → PDF export | Plan canonical |
 | D-IH-28-6 | Existing `dossier_es.md` is renamed in role to "Adviser Evidence Appendix" and is no longer the primary external send | Plan canonical |
 | D-IH-28-7 | External tools (v0.dev, Lovable, Bolt, Gamma, Beautiful.ai, Claude Artifacts) are **inspiration-only**; canonical source stays in this repo | Plan canonical |
@@ -58,7 +58,7 @@ Replace the founder dossier as the primary external send with a 12-14 slide deck
 - **Out of scope**: building a full pitch tool, fundraising pitch deck for a specific round, marketing website redesign, web product redesign.
 - **Out of scope**: re-architecting the existing `render_pdf_branded` pipeline — the new deck PDF comes from Figma export or a new HTML→PDF flow, not the dossier renderer.
 - **Out of scope**: replacing the `dossier_es.md` content — it stays canonical for adviser-evidence purposes; only its **role** changes.
-- **Constraint**: every slide claim must be traceable to a Holística-shipped artefact (existing repos, existing canonical CSV, brand asset). No fabricated metrics.
+- **Constraint**: every slide claim must be traceable to a Holistika-shipped artefact (existing repos, existing canonical CSV, brand asset). No fabricated metrics.
 - **Constraint**: jargon-free per `BRAND_JARGON_AUDIT.md`. The existing render-time `TODO[OPERATOR]` → "Pregunta abierta" transform remains as a safety net, but the deck SSOT must be jargon-free in source.
 
 ## 5. Current-state reality

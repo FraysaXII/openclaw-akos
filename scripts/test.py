@@ -129,7 +129,10 @@ GROUPS: dict[str, dict] = {
             "AudienceQuadrant / LLMToneTell / SubMarkTier / VoicePersona / ... 16 total); "
             "parser helpers (parse_tic_families_from_canonical / parse_english_register_rules / "
             "parse_llm_tone_tells / parse_register_matrix / parse_audience_quadrants / "
-            "parse_register_pack_yaml); 10-layer scan fixtures."
+            "parse_register_pack_yaml); 10-layer scan fixtures. I77 P2 extends this group with "
+            "akos/impeccable_bridge.py chassis (CanonicalCrossReference / BridgeFileSpec / "
+            "BridgeCoverageReport) + tests/test_impeccable_bridge.py (19 tests covering parsers, "
+            "coverage computation, drift gate, generator)."
         ),
         "files": [],
         "pytest_extra": ["-m", "brand"],
@@ -161,7 +164,7 @@ def list_groups() -> None:
     print("    madeira      — after akos/madeira_interaction.py, madeira_trajectory, Madeira handoff / UC matrix")
     print("    intent       — after akos/intent.py or config/intent-exemplars.json")
     print("    cicd         — after akos/playwright_baseline.py, akos/sentry_release.py, akos/cicd_baseline.py, or scripts/validate_{playwright_baseline,sentry_release_format,cicd_baseline}.py (I68)")
-    print("    brand        — after akos/brand_voice_register.py, scripts/validate_brand_voice_register.py, or any docs/.../Brand/canonicals/**.md change (I71 P1)")
+    print("    brand        — after akos/brand_voice_register.py, scripts/validate_brand_voice_register.py, or any docs/.../Brand/canonicals/**.md change (I71 P1); also covers akos/impeccable_bridge.py + scripts/validate_impeccable_bridge_drift.py + scripts/generate_impeccable_bridges.py + PRODUCT/DESIGN/BASELINE_REALITY bridges (I77 P2)")
     print()
     print("  Usage: py scripts/test.py <group>")
     print("         py scripts/test.py uat       (live Swagger server)")

@@ -20,11 +20,11 @@ deck_slides_consumed: ["11-moat"]
 
 ## Lo que responde este documento
 
-Por qué la disciplina operativa de Holística es un foso real (no una narrativa de marketing), expresado en cifras que cualquier auditor puede verificar en el repositorio. Es la fuente de la diapositiva 11 (Pilar 1: "Operación gobernada y medible").
+Por qué la disciplina operativa de Holistika es un foso real (no una narrativa de marketing), expresado en cifras que cualquier auditor puede verificar en el repositorio. Es la fuente de la diapositiva 11 (Pilar 1: "Operación gobernada y medible").
 
 ## 1. Cuatro cifras que se pueden auditar
 
-A fecha de **2026-04-30**, el repositorio canónico de Holística contiene:
+A fecha de **2026-04-30**, el repositorio canónico de Holistika contiene:
 
 | Métrica | Valor | Cómo se verifica |
 |:--------|:------|:-----------------|
@@ -70,7 +70,7 @@ Reproducir la salida es trivial: `git checkout <sha> && py scripts/build_company
 
 ## 5. La consecuencia operativa: descalado sin impacto
 
-Lo que las cifras y validadores producen no es solo trazabilidad — es **descalado limpio**. Holística puede:
+Lo que las cifras y validadores producen no es solo trazabilidad — es **descalado limpio**. Holistika puede:
 
 - **Dar de baja un programa** en una operación de cuatro pasos: borrar la fila en `PROGRAM_REGISTRY.csv`, archivar la carpeta `_assets/<plane>/<program_id>/`, archivar la carpeta `programs/<program_id>/` en cada rol relevante, ejecutar `validate_hlk` para confirmar cero referencias huérfanas. Tiempo: minutos. Sin código que reescribir.
 - **Reactivar un programa** restaurando los cuatro elementos. El estado vuelve a ser auditable como si el programa nunca se hubiera detenido.
@@ -80,7 +80,7 @@ Esa es la propiedad real: la operación no se rompe cuando un programa empieza, 
 
 ## 6. Por qué es difícil replicar
 
-| Dimensión | Consultoría tradicional | Boutique digital | Holística |
+| Dimensión | Consultoría tradicional | Boutique digital | Holistika |
 |:----------|:------------------------|:-----------------|:----------|
 | Inventario auditado de procesos | No | Parcial | 1.093 procesos en CSV canónico |
 | Validadores deterministas | No | Ad hoc | 3 capas integradas en CI |
@@ -88,7 +88,7 @@ Esa es la propiedad real: la operación no se rompe cuando un programa empieza, 
 | Coste de descalado | Alto (todo se rompe) | Medio | Bajo (cuatro pasos auditables) |
 | Trazabilidad cliente-a-decisión | Memoria del consultor | Documental | CSV → tema → SOP → registro |
 
-Replicar esta capa es un proyecto de 12-24 meses con un equipo dedicado. Pre-existir con ella desde el día 1 — porque Holística la construyó para sí misma — es la diferencia que un inversor cuenta.
+Replicar esta capa es un proyecto de 12-24 meses con un equipo dedicado. Pre-existir con ella desde el día 1 — porque Holistika la construyó para sí misma — es la diferencia que un inversor cuenta.
 
 ## Deck-bound facts
 

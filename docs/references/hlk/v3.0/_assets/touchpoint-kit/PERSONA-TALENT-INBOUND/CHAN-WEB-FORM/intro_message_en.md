@@ -26,7 +26,7 @@ If that interests you, please reply with:
 We'll add you to the sourcing register and reach out when a brief fits. We typically engage via the [Outbound Brief template](../../../../Admin/O5-1/Operations/PMO/sourcing-briefs/TEMPLATE_OUTBOUND_BRIEF_en.md) so the scope, quality gates, and payment terms are clear from day one.
 
 — [PMO contact]
-Holística Research
+Holistika Research
 
 > **Brand voice rule (BRAND_VOICE_FOUNDATION):** N4 talent inbound — peer-grade, structured ask, transparent about the sourcing model. No false promise of immediate engagement; honest about the rolling-register pattern.
 

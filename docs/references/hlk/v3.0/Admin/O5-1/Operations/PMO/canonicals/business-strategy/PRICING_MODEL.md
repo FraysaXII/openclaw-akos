@@ -20,7 +20,7 @@ deck_slides_consumed: ["10-business-model"]
 
 ## What this answers
 
-What does it cost to engage Holística, in three currencies of value: service engagements, KiRBe SaaS subscriptions, partner revenue share.
+What does it cost to engage Holistika, in three currencies of value: service engagements, KiRBe SaaS subscriptions, partner revenue share.
 
 ## 1. Three price schedules (one company, three pricing surfaces)
 
@@ -33,7 +33,7 @@ We do **not** sell day-rate consulting. Engagements are scoped, fixed-price pack
 | **Strategic Audit** | Mapped operating system + 90-day roadmap + 1 SOP draft | TODO[OPERATOR-pricing-audit] (band: €4 000 - €8 000) | 2 - 3 weeks | Most common entry point |
 | **Operating System Build** | Designed operating system + 5 SOPs + 2 process automations + handoff documentation | TODO[OPERATOR-pricing-osys] (band: €15 000 - €40 000) | 6 - 10 weeks | After audit, when client commits |
 | **Software Sprint** | One delivered piece of software (web feature, internal tool, KiRBe extension, Shopify app, etc.) | TODO[OPERATOR-pricing-sprint] (band: €8 000 - €25 000) per sprint | 2 - 6 weeks | Recurring; can be a retainer |
-| **Embedded Engineering** | Holística engineer(s) embedded in client team for capacity | TODO[OPERATOR-pricing-embed] (band: €18 000 - €30 000 / month / engineer) | Monthly retainer, 3-month minimum | Channel-only initially (Websitz pattern); rare direct |
+| **Embedded Engineering** | Holistika engineer(s) embedded in client team for capacity | TODO[OPERATOR-pricing-embed] (band: €18 000 - €30 000 / month / engineer) | Monthly retainer, 3-month minimum | Channel-only initially (Websitz pattern); rare direct |
 
 > **Why fixed-price not day-rate.** Day-rate maximises argument over hours and prevents productisation. Fixed-price aligns the client with the outcome and lets us reuse internal tooling without giving away margin.
 
@@ -52,14 +52,14 @@ Per 2026 SaaS pricing research: 3 tiers (not 4-5) is the converting structure; u
 
 ### 1.3 Partner revenue share
 
-For partner-channel engagements (Websitz, Rushly-class collaborations) where Holística delivers software for the partner's end client.
+For partner-channel engagements (Websitz, Rushly-class collaborations) where Holistika delivers software for the partner's end client.
 
-| Partner shape | Holística share | Partner share | Notes |
+| Partner shape | Holistika share | Partner share | Notes |
 |:---|:---|:---|:---|
-| **Sub-contracted delivery** (partner sells, Holística delivers) | 65 - 75 % | 25 - 35 % | Holística carries delivery risk; partner carries client relationship |
+| **Sub-contracted delivery** (partner sells, Holistika delivers) | 65 - 75 % | 25 - 35 % | Holistika carries delivery risk; partner carries client relationship |
 | **Joint delivery** (both names on the contract) | 50 % | 50 % | Used when both sides bring real capacity |
-| **Holística-led, partner-introduced** (partner refers, Holística closes + delivers) | 85 - 90 % | 10 - 15 % (referral fee) | Standard SaaS-style channel referral |
-| **KiRBe reseller** (partner sells KiRBe to their book; Holística supplies platform + ops) | 70 - 80 % platform | 20 - 30 % reseller margin | Future state; not active today |
+| **Holistika-led, partner-introduced** (partner refers, Holistika closes + delivers) | 85 - 90 % | 10 - 15 % (referral fee) | Standard SaaS-style channel referral |
+| **KiRBe reseller** (partner sells KiRBe to their book; Holistika supplies platform + ops) | 70 - 80 % platform | 20 - 30 % reseller margin | Future state; not active today |
 
 > **TODO[OPERATOR-partner-share]** — confirm the 65 / 50 / 85 splits or refine. Current Websitz arrangement is operator-confirmed at one of these tiers; future partnerships use this schedule as a starting point.
 

@@ -18,7 +18,7 @@ derived_locales: [es, fr]
 
 ## 1. Context
 
-**Who we are.** Holística Research is a Spanish operations-engineering company. We productize our own method as KiRBe SaaS + the MADEIRA agentic platform. Our internal stack is governed by hundreds of canonical artifacts (process registries, validators, drift probes); brand voice is codified in [`BRAND_VOICE_FOUNDATION.md`](../../../Marketing/Brand/BRAND_VOICE_FOUNDATION.md).
+**Who we are.** Holistika Research is a Spanish operations-engineering company. We productize our own method as KiRBe SaaS + the MADEIRA agentic platform. Our internal stack is governed by hundreds of canonical artifacts (process registries, validators, drift probes); brand voice is codified in [`BRAND_VOICE_FOUNDATION.md`](../../../Marketing/Brand/BRAND_VOICE_FOUNDATION.md).
 
 **Why this engagement.** [TODO[OPERATOR-brief-context] — one paragraph: what initiative is this for, why now, what role does the deliverable play in the bigger picture]
 

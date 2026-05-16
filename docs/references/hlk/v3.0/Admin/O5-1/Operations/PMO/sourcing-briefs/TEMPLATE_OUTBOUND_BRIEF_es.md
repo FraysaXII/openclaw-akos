@@ -18,7 +18,7 @@ derived_from: docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/sourcing-briefs
 
 ## 1. Contexto
 
-**Quiénes somos.** Holística Research es una empresa española de ingeniería operativa. Productizamos nuestro propio método en KiRBe SaaS y la plataforma agentic MADEIRA. Operamos sobre cientos de artefactos canónicos gobernados (registros de procesos, validadores, sondas de drift); la voz de marca está codificada en [`BRAND_VOICE_FOUNDATION.md`](../../../Marketing/Brand/BRAND_VOICE_FOUNDATION.md) y [`BRAND_SPANISH_PATTERNS.md`](../../../Marketing/Brand/BRAND_SPANISH_PATTERNS.md).
+**Quiénes somos.** Holistika Research es una empresa española de ingeniería operativa. Productizamos nuestro propio método en KiRBe SaaS y la plataforma agentic MADEIRA. Operamos sobre cientos de artefactos canónicos gobernados (registros de procesos, validadores, sondas de drift); la voz de marca está codificada en [`BRAND_VOICE_FOUNDATION.md`](../../../Marketing/Brand/BRAND_VOICE_FOUNDATION.md) y [`BRAND_SPANISH_PATTERNS.md`](../../../Marketing/Brand/BRAND_SPANISH_PATTERNS.md).
 
 **Por qué este encargo.** [TODO[OPERATOR-brief-context] — un párrafo: qué iniciativa, por qué ahora, qué papel juega el entregable en el conjunto]
 

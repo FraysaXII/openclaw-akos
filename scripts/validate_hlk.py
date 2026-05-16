@@ -472,6 +472,10 @@ def main() -> int:
         # Initiative 72 P9 - process_list pairing gate (per D-IH-72-U: every cadence-bound process_list row points at a paired SOP+runbook).
         ("PROCESS_LIST_PAIRING", "validate_process_list_pairing.py",
          "validate_process_list_pairing", HLK_DIR / "process_list.csv"),
+        # Initiative 77 P4.C - Rendering Pipeline Registry (orphan-rendering-pipeline governance discovery per D-IH-77-I).
+        ("RENDERING_PIPELINE_REGISTRY", "validate_rendering_pipeline_registry.py",
+         "validate_rendering_pipeline_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Envoy Tech Lab" / "canonicals" / "dimensions" / "RENDERING_PIPELINE_REGISTRY.csv"),
         # Initiative 32 P3 - Touchpoint-kit cell registry (with FS-vs-CSV drift detector).
         ("TOUCHPOINT_KIT_CELL_REGISTRY", "validate_touchpoint_kit_cells.py",
          "validate_touchpoint_kit_cells", HLK_DIR / "dimensions" / "TOUCHPOINT_KIT_CELL_REGISTRY.csv"),

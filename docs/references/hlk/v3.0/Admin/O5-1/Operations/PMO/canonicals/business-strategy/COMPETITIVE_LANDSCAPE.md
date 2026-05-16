@@ -20,7 +20,7 @@ deck_slides_consumed: ["11-moat"]
 
 ## What this answers
 
-Where Holística overlaps with other players, where we deliberately don't, and the positioning statement that lands in the deck.
+Where Holistika overlaps with other players, where we deliberately don't, and the positioning statement that lands in the deck.
 
 ## 1. Player map (3 categories)
 
@@ -29,25 +29,25 @@ Where Holística overlaps with other players, where we deliberately don't, and t
 - **Strength**: Methodological rigour, broad enterprise reach, deep deck production.
 - **Weakness**: High cost (€2 000 - 5 000 / day rate equivalent), slow (6 - 12 month engagements), rarely ship software, low post-engagement operability.
 - **Who they serve**: Enterprise (≥ 1 000 employees), regulated industries with deep pockets.
-- **Holística overlap**: Minimal. Different price band, different speed, different outcome.
+- **Holistika overlap**: Minimal. Different price band, different speed, different outcome.
 
 ### 1.2 Boutique product agencies (Spanish + EU; Websitz-class players)
 
 - **Strength**: Ship software fast, design-heavy delivery, modern tech stacks.
 - **Weakness**: Method light or absent, no audit trail, client owns the chaos post-delivery.
 - **Who they serve**: Tech-forward SMEs, scale-ups, pre-product companies.
-- **Holística overlap**: Real overlap on capability ("we can ship a Shopify app, an internal tool, a SaaS scaffold"). We **deliberately partner** with them rather than compete (slide 6 cards 4-5). We're the method + governance layer they don't carry.
+- **Holistika overlap**: Real overlap on capability ("we can ship a Shopify app, an internal tool, a SaaS scaffold"). We **deliberately partner** with them rather than compete (slide 6 cards 4-5). We're the method + governance layer they don't carry.
 
 ### 1.3 Pure SaaS tools (Notion, Asana, Monday, Linear, Coda, Airtable, plus AI-native: Glean, Gleen.ai, Hebbia, You.com)
 
 - **Strength**: Cheap (€10 - 100 / user / month), fast onboarding, large feature surface.
 - **Weakness**: Require already-ordered operations to be useful; quickly become noise without governance.
 - **Who they serve**: Anyone who'll pay; success rate is low without operational substrate.
-- **Holística overlap**: Zero head-on. We use Notion / Asana etc. as **delivery tools**, not as substitutes. KiRBe overlaps with the AI-native category but solves a different problem (governed retrieval over the customer's *own* knowledge, not generic web search).
+- **Holistika overlap**: Zero head-on. We use Notion / Asana etc. as **delivery tools**, not as substitutes. KiRBe overlaps with the AI-native category but solves a different problem (governed retrieval over the customer's *own* knowledge, not generic web search).
 
 ## 2. Positioning statement
 
-> Holística Research entrega el **sistema operativo de la compañía**: el mismo equipo que diseña tu modelo de operación implementa el software que lo ejecuta. Lo que la consultoría tradicional escribe en un PowerPoint, nosotros lo desplegamos. Lo que las plataformas SaaS asumen que ya tienes, nosotros lo construimos primero.
+> Holistika Research entrega el **sistema operativo de la compañía**: el mismo equipo que diseña tu modelo de operación implementa el software que lo ejecuta. Lo que la consultoría tradicional escribe en un PowerPoint, nosotros lo desplegamos. Lo que las plataformas SaaS asumen que ya tienes, nosotros lo construimos primero.
 
 (One-paragraph version for slide 11 / cover. Spanish primary; English variant authored on demand.)
 
@@ -61,7 +61,7 @@ The positioning is a **diagonal** through the existing market, not a head-to-hea
 
 ## 4. Competitive dynamics (next 12 months)
 
-| Move | Who's likely to make it | Holística response |
+| Move | Who's likely to make it | Holistika response |
 |:---|:---|:---|
 | Big consulting opens a productized SME line | Deloitte / EY in Spain | Stay below their cost band; emphasise speed + software shipped, not deck production |
 | Boutique agency adds a "method" layer | One of our partners | Convert into a deeper partner relationship, not a fight |

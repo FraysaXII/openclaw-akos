@@ -26,7 +26,7 @@ sources:
 
 # Cover email (ES) — POI-LEG-ENISA-LEAD-2026
 
-> **Asunto sugerido**: `Dossier ENISA — PRJ-HOL-FOUNDING-2026 (Holística Research) + preguntas abiertas`
+> **Asunto sugerido**: `Dossier ENISA — PRJ-HOL-FOUNDING-2026 (Holistika Research) + preguntas abiertas`
 
 Buenos días, Guillermo,
 

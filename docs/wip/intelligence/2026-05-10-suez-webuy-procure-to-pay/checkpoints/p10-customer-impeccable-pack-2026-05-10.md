@@ -86,13 +86,13 @@ py -m pytest tests/test_render_dossier.py tests/test_dossier_console.py \
 
 ## 4. FR localization — cover strip + friendly callouts + eyebrow
 
-`render_pdf_branded` previously hardcoded Spanish cover-strip labels (`Programa`, `Fecha`, `Disciplina`) and the eyebrow (`Holística Research · Dossier`) on every rendered PDF — including the four French SUEZ surfaces in P8/P9. That alone was a brand-drift issue on a French customer document.
+`render_pdf_branded` previously hardcoded Spanish cover-strip labels (`Programa`, `Fecha`, `Disciplina`) and the eyebrow (`Holistika Research · Dossier`) on every rendered PDF — including the four French SUEZ surfaces in P8/P9. That alone was a brand-drift issue on a French customer document.
 
 Fix:
 
 - `_COVER_STRIP_LABELS` table in `akos/hlk_pdf_render.py` carrying `es` / `en` / `fr` columns (`Programa` / `Program` / `Programme`, etc.).
 - `_CALLOUT_QUESTION_LABEL` table extended with `fr` ("Question ouverte pour confirmation").
-- `render_pdf_branded` accepts a new `language: str | None` parameter (auto-detected from subtitle hints when unset; defaults to `es`); also a new `eyebrow: str | None` for per-surface override (fallback: `Holistika Research` for `fr` / `en`, `Holística Research · Dossier` for `es`).
+- `render_pdf_branded` accepts a new `language: str | None` parameter (auto-detected from subtitle hints when unset; defaults to `es`); also a new `eyebrow: str | None` for per-surface override (fallback: `Holistika Research` for `fr` / `en`, `Holistika Research · Dossier` for `es`).
 - `scripts/render_suez_engagement_pdfs.py` now passes `language="fr"` and a per-surface `eyebrow` for each of the six surfaces, e.g. `Holistika Research · Cadrage fonctionnel`, `Holistika Research · Découverte`, `Holistika Research · Proposition`, `Holistika Research · Calendrier commercial`.
 
 ## 5. Customer pack content — what shipped

@@ -23,7 +23,7 @@ We have a brief for [discipline]. Attached is the structured brief — same temp
 Reply with availability + an estimate; if we land on terms today, the brief becomes the engagement contract.
 
 — [PMO contact / Founder]
-Holística Research
+Holistika Research
 
 > **Brand voice rule (BRAND_VOICE_FOUNDATION):** N1 vendor — direct, structured-brief-first, fast-cycle. No need to re-establish credibility; the relationship is the credibility.
 
@@ -45,7 +45,7 @@ Attached is the structured brief: deliverable, timeline, quality gates, brand vo
 If we land on terms, the brief becomes the engagement contract. If not, no harm — the brief stays a clean ask.
 
 — [PMO contact / Founder]
-Holística Research
+Holistika Research
 
 > **Brand voice rule:** N3 / N4 vendor — transparent about the cold sourcing pattern, structured brief-as-contract, no salesy back-and-forth. Specificity buys trust faster than warmth here.
 

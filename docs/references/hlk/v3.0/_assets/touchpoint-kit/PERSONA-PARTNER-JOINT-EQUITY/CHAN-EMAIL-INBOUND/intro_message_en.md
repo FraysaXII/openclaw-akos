@@ -24,7 +24,7 @@ To accelerate: here's the compact shape of how we run this model.
 I propose 30 minutes to understand your product hypothesis and see whether the fit lands. If you prefer a written brief first, that also works.
 
 — [Founder name]
-Holística Research
+Holistika Research
 
 > **Brand voice rule (BRAND_VOICE_FOUNDATION):** N2 joint-equity — name the bridge, state the model in bullets, list the 3 entry criteria explicitly (non-negotiable). Peer-grade tone.
 

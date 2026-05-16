@@ -24,7 +24,7 @@ Responde con disponibilidad + estimación; si cerramos términos hoy, el brief s
 
 Un saludo,
 [Contacto PMO / Fundador]
-Holística Research
+Holistika Research
 
 > **Regla de voz (BRAND_SPANISH_PATTERNS):** N1 proveedor — directo, brief-first, ciclo rápido. La relación ya es la credibilidad.
 
@@ -47,7 +47,7 @@ Si cerramos términos, el brief sirve de contrato de encargo. Si no, sin problem
 
 Un saludo,
 [Contacto PMO / Fundador]
-Holística Research
+Holistika Research
 
 > **Regla de voz:** N3 / N4 proveedor — transparente sobre el modelo de sourcing en frío, brief-as-contract, sin negociación abierta. La especificidad genera confianza más rápido que la cordialidad.
 

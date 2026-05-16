@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Holística company-dossier HTML preview deck.
+"""Build the Holistika company-dossier HTML preview deck.
 
 Initiative 28 P3. Reads the slide structured data at
 ``docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck_slides.yaml``
@@ -181,7 +181,7 @@ def render_cover_hero(slide: dict[str, Any], idx: int, total: int, doc: dict[str
     title = esc(slide.get("title"))
     subtitle = esc(slide.get("subtitle"))
     footer = slide.get("footer", {}) or {}
-    org = esc(footer.get("org") or "Holística Research")
+    org = esc(footer.get("org") or "Holistika Research")
     url = esc(footer.get("url") or "holistikaresearch.com")
     date = esc(footer.get("date") or _dt.datetime.now(_dt.UTC).strftime("%Y"))
     return (
@@ -537,7 +537,7 @@ def render_document(data: dict[str, Any], css: str, source_sha: str) -> str:
         renderer = LAYOUT_RENDERERS[slide["layout"]]
         body_parts.append(renderer(slide, i, n, document))
     body_html = "".join(body_parts)
-    title = esc(document.get("title", "Holística Research — Dossier"))
+    title = esc(document.get("title", "Holistika Research — Dossier"))
     lang = esc(document.get("language", "es"))
     today = _dt.datetime.now(_dt.UTC).date().isoformat()
     header = (

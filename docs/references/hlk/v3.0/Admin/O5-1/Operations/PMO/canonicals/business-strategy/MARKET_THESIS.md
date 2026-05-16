@@ -26,7 +26,7 @@ Why now, what shift is structural, who's already serving the market, and where t
 
 Companies are adopting AI tools faster than they can operationalise them. The bottleneck isn't access to models — it's the messy, undocumented business knowledge that AI needs to do useful work. The companies that win the next 5 years aren't the ones with more tools; they're the ones whose operations are ordered enough that any tool — including AI — produces measurable results.
 
-Holística sits at that bottleneck. We turn messy operations into systems that can be executed, automated, audited, and improved.
+Holistika sits at that bottleneck. We turn messy operations into systems that can be executed, automated, audited, and improved.
 
 ## 2. Why now (three forces compounding)
 
@@ -54,7 +54,7 @@ Three player categories serve adjacent problems today:
 - **Boutique product agencies** — Spanish + EU agencies; ship software but rarely come with method or operations rigour.
 - **Pure SaaS** — Notion, Asana, Monday, etc.; sell tools but require the customer to have already-ordered operations.
 
-Holística occupies the **diagonal** — method + software + governed delivery — that none of the three serve well.
+Holistika occupies the **diagonal** — method + software + governed delivery — that none of the three serve well.
 
 ## 5. Anti-thesis (what we don't believe)
 

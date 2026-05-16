@@ -18,7 +18,7 @@ supersedes: 2026-04-08 v1.0
 
 # BRAND_HIERARCHY_AND_TRADEMARK_SCOPE — Branded House posture (rewritten I66 P1)
 
-> **Status — Active (rewritten Initiative 66 P1; 2026-05-08).** Supersedes the 2026-04-08 v1.0 draft, which left the question "is Holistica or Holística first entity, or is the umbrella name a separate filing target?" open. **Decision [D-IH-66-A](../../../../wip/planning/66-brand-vision-ops-sweep/decision-log.md#d-ih-66-a) closes that question: Branded House.** This document encodes the resolved architecture and the resulting trademark filing scope.
+> **Status — Active (rewritten Initiative 66 P1; 2026-05-08).** Supersedes the 2026-04-08 v1.0 draft, which left the question "is Holistica or Holistika first entity, or is the umbrella name a separate filing target?" open. **Decision [D-IH-66-A](../../../../wip/planning/66-brand-vision-ops-sweep/decision-log.md#d-ih-66-a) closes that question: Branded House.** This document encodes the resolved architecture and the resulting trademark filing scope.
 
 ## 1. Resolved architecture — Branded House
 
@@ -47,7 +47,7 @@ Holistika is a **Branded House** (McKinsey-style — single legal entity, single
 
 The diacritic-Í wordmark is filed as a **separate design mark** alongside the plain word mark. This protects both: (a) the plain "Holistika" word in trade, (b) the visual canonical with diacritic. Filing both is a standard EUIPO + OEPM practice for brands with Latin-extended wordmarks.
 
-**Why one umbrella and not "Holistica" + "Holística" both:** D-IH-66-A resolves any prior diacritic ambiguity. The plain word is "Holistika" (with K — not "Holistica" with C, which would have read as a Spanish-only spelling). The K is canonical; the diacritic-Í on the wordmark is a stylistic + visual decision, not a separate brand.
+**Why one umbrella and not "Holistica" + "Holistika" both:** D-IH-66-A resolves any prior diacritic ambiguity. The plain word is "Holistika" (with K — not "Holistica" with C, which would have read as a Spanish-only spelling). The K is canonical; the diacritic-Í on the wordmark is a stylistic + visual decision, not a separate brand.
 
 ### 2.2 Layer 3 — sub-marks
 

@@ -79,7 +79,7 @@ Each layout is named in `deck_slides.yaml` (`layout:` key). The HTML preview and
 - Eyebrow line (uppercase, tracked) at 18 % from top.
 - Oversized headline at 35 % from top, 60 % width, left-aligned.
 - Subtitle directly under headline, 50 % width, muted opacity.
-- Bottom strip (single horizontal line, full width inside safe area): three columns — `Holística Research`, `holistikaresearch.com`, `2026`.
+- Bottom strip (single horizontal line, full width inside safe area): three columns — `Holistika Research`, `holistikaresearch.com`, `2026`.
 - No page number on cover.
 
 ### 4.2 `section_opener` (slides 02, 03, 08)
@@ -159,7 +159,7 @@ Each layout is named in `deck_slides.yaml` (`layout:` key). The HTML preview and
 - Light surface, restrained.
 - Eyebrow + headline.
 - Three ask lines stacked vertically, each prefixed with a teal arrow.
-- Closing block bottom-left: "Un saludo, **Holística Research**" + contact hint.
+- Closing block bottom-left: "Un saludo, **Holistika Research**" + contact hint.
 
 ## 5. Components (Figma + HTML names)
 

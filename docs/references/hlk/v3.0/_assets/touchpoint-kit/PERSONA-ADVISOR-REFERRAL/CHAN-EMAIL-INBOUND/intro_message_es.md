@@ -22,7 +22,7 @@ Propongo 30 min en cualquier hueco que te encaje. Si prefieres respuesta por esc
 
 Un saludo,
 [Nombre del fundador]
-Holística Research
+Holistika Research
 
 > **Regla de voz (BRAND_SPANISH_PATTERNS):** N1 con asesor — directo, profesional, sin cushioning. Adjunta el dossier técnico desde el primer mensaje.
 
@@ -44,7 +44,7 @@ Propongo 30 min en una ventana de la semana que viene. Si prefieres respuesta po
 
 Un saludo,
 [Nombre del fundador]
-Holística Research
+Holistika Research
 
 > **Regla de voz:** Asesor referido — abrir nombrando al puente, contexto rápido en bullet, propuesta de seguimiento eficiente. Tono `formal_legal` o `peer_consulting` según el voice_register del POI en GOI/POI.
 

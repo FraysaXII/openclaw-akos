@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export the Holística company-dossier HTML preview to a deck-grade PDF.
+"""Export the Holistika company-dossier HTML preview to a deck-grade PDF.
 
 Initiative 28 P5. Reads the rendered HTML at
 ``docs/presentations/holistika-company-dossier/index.html`` (built by

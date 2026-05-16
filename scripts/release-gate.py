@@ -13,6 +13,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import datetime as _dt
 import logging
 import os
 import shutil
@@ -30,6 +31,19 @@ from akos.verification_profiles import governance_rubric_suites
 logger = logging.getLogger("akos.release")
 
 SCRIPTS_DIR = REPO_ROOT / "scripts"
+
+
+def _today_iso() -> str:
+    """Return today's date as YYYY-MM-DD.
+
+    Used by dated default-flip helpers (e.g. D-IH-77-E IMPECCABLE bridge drift
+    strict-default at 2026-06-15). Allows ``AKOS_RELEASE_GATE_TODAY=YYYY-MM-DD``
+    override for testing date-aware promotions deterministically.
+    """
+    override = os.environ.get("AKOS_RELEASE_GATE_TODAY")
+    if override:
+        return override
+    return _dt.date.today().isoformat()
 
 
 def run_tests() -> bool:
@@ -434,6 +448,23 @@ def run_brand_vision_drift_validation() -> bool:
     return result.success
 
 
+def run_impeccable_bridge_drift_validation() -> tuple[bool, int]:
+    """Run Impeccable bridge drift gate (I77 P2 / D-IH-77-C).
+
+    Returns ``(ok, exit_code)``. Wired as **INFO** until I77 P3 closure
+    (per master-roadmap §"Drift gate" soft-30d-then-strict default).
+    Flips to **PASS / FAIL** when ``AKOS_IMPECCABLE_BRIDGE_DRIFT_STRICT=1``.
+    """
+    logger.info("Running IMPECCABLE bridge drift validation ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_impeccable_bridge_drift.py")],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_dossier_companion_drift_validation() -> bool:
     """Run deck/dossier companion validation (I66 P7)."""
     logger.info("Running dossier companion drift validation ...")
@@ -603,6 +634,16 @@ def main() -> None:
         "Process_list pairing (scripts/validate_process_list_pairing.py, I72 P9 D-IH-72-U)",
     ))
 
+    rendering_registry_proc = subprocess.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_rendering_pipeline_registry.py")],
+        cwd=str(REPO_ROOT),
+        check=False,
+    )
+    results.append((
+        "PASS" if rendering_registry_proc.returncode == 0 else "FAIL",
+        "Rendering pipeline registry (scripts/validate_rendering_pipeline_registry.py, I77 P4.C D-IH-77-I)",
+    ))
+
     subdomains_ok = run_subdomains_registry_validation()
     results.append(("PASS" if subdomains_ok else "FAIL", "SUBDOMAINS_REGISTRY.md (scripts/validate_subdomains_registry.py)"))
 
@@ -682,6 +723,30 @@ def main() -> None:
 
     brand_vision_ok = run_brand_vision_drift_validation()
     results.append(("PASS" if brand_vision_ok else "FAIL", "BRAND vision drift (scripts/validate_brand_vision_drift.py, I66 P7)"))
+
+    impeccable_bridge_ok, impeccable_bridge_rc = run_impeccable_bridge_drift_validation()
+    # I77 P3 D-IH-77-E ratified dual-strict posture (Q2 Option C, 2026-05-16):
+    # - Today (P2 ship 2026-05-16): soft default + env-var override available.
+    # - 2026-06-15 onward: strict default (no env var needed) per dated promotion below.
+    # - CI workflows: set AKOS_IMPECCABLE_BRIDGE_DRIFT_STRICT=1 today so CI is already
+    #   strict pre-promotion (zero-surprise; the 2026-06-15 default-flip only changes
+    #   local-dev behavior). See docs/wip/planning/77-impeccable-brand-bridge-refresh/
+    #   reports/uat-impeccable-all-surfaces-2026-05-16.md §6 D-IH-77-E.
+    _impeccable_default_strict = (
+        os.environ.get("AKOS_IMPECCABLE_BRIDGE_DRIFT_STRICT") == "1"
+        or _today_iso() >= "2026-06-15"
+    )
+    if _impeccable_default_strict:
+        results.append((
+            "PASS" if impeccable_bridge_ok else "FAIL",
+            "IMPECCABLE bridge drift (scripts/validate_impeccable_bridge_drift.py, strict)",
+        ))
+    else:
+        results.append((
+            "INFO",
+            f"IMPECCABLE bridge drift (scripts/validate_impeccable_bridge_drift.py, "
+            f"soft until 2026-06-15 default-flip per D-IH-77-E; exit={impeccable_bridge_rc})",
+        ))
 
     dossier_companion_ok = run_dossier_companion_drift_validation()
     results.append(("PASS" if dossier_companion_ok else "FAIL", "Dossier companion drift (scripts/validate_dossier_companion_drift.py, I66 P7)"))

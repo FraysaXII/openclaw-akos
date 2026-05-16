@@ -29,7 +29,7 @@ Pick a slot here: [Cal scheduling link]. Or pick three windows that work for you
 
 Hi [Name],
 
-[Bridge name] mentioned you might be interested in what we're building at Holística. Thanks for taking the time.
+[Bridge name] mentioned you might be interested in what we're building at Holistika. Thanks for taking the time.
 
 For the first 5 minutes of context: Holistika is the operations-engineering company [Bridge name] knows from [Bridge context]. We productize the operations method as KiRBe SaaS + MADEIRA agentic platform; today's revenue is service-led, with the bridge to recurring already built in code.
 
@@ -37,7 +37,7 @@ If that's still relevant after the 5-minute version, I'd suggest a 30-min call �
 
 Pick a slot here: [Cal scheduling link]. Or pick three windows and I'll match.
 
-— [Founder name], Holística Research
+— [Founder name], Holistika Research
 
 > **Brand voice rule:** N2 opens by **explicitly naming the bridge** (no "a friend mentioned"). The bridge is the credibility carry. Specificity in the bridge mention strengthens the relationship.
 

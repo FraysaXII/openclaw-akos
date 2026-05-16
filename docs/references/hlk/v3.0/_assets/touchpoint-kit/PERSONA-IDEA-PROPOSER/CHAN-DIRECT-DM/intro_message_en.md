@@ -18,7 +18,7 @@ Thanks for sharing the idea. Before committing anything, give me three lines of 
 2. Your role: how do you fit inside the idea (customer, seller, operator, investor)?
 3. Timeline: what's the urgency for you?
 
-With that I'll tell you whether it makes sense for Holística (service, joint-equity, honest decline) and propose the next step. If the idea fits our joint-equity model, I'll send you the evaluation format we use.
+With that I'll tell you whether it makes sense for Holistika (service, joint-equity, honest decline) and propose the next step. If the idea fits our joint-equity model, I'll send you the evaluation format we use.
 
 — [Founder name]
 
@@ -36,10 +36,10 @@ Hi [Name],
 2. Your role: how do you fit inside the idea (customer, seller, operator, investor)?
 3. Timeline: what's the urgency?
 
-With that I'll tell you whether it fits Holística (professional service, joint-equity, honest decline). If it fits, I'll send you the next-step format.
+With that I'll tell you whether it fits Holistika (professional service, joint-equity, honest decline). If it fits, I'll send you the next-step format.
 
 — [Founder name]
-Holística Research
+Holistika Research
 
 > **Brand voice rule:** N2 idea-proposer — open by naming the bridge, three questions, same format as N1 with a bit more context.
 

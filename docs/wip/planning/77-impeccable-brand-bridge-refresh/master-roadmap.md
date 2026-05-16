@@ -1,18 +1,34 @@
 ---
 initiative_id: INIT-OPENCLAW_AKOS-77
-title: Impeccable Brand-Bridge Refresh + Drift Gate
-status: active
-owner_role: Brand Manager
+title: Impeccable Brand-Bridge Refresh + Drift Gate + Brand-Canon Collapse Remediation + Rendering-Governance Discovery
+status: closed
+status_history:
+  - 2026-05-14 active (P0 charter)
+  - 2026-05-16 closed (P3 PASS via superseded D-IH-77-CLOSURE)
+  - 2026-05-16 reopened active (P3 review uncovered brand-canon collapse; D-IH-77-G scope expansion to P4)
+  - 2026-05-16 closed V2 (P4 SHIPPED via D-IH-77-CLOSURE-V2; 4.A wide-prose sweep + 4.B visual UAT render + 4.C rendering-pipeline registry mint)
+closure_date: 2026-05-16
+closure_decision_id: D-IH-77-CLOSURE-V2
+target_close: 2026-05-16 (closed V2 via D-IH-77-CLOSURE-V2)
+owner_role: Brand & Narrative Manager
 co_owner_role: System Owner
 inception: 2026-05-14
-last_review: 2026-05-14
+last_review: 2026-05-16
 authority: Founder + Brand Manager + System Owner
 language: en
 linked_decisions:
   - D-IH-77-A (charter ratification — inception)
   - D-IH-77-B (Strand A scope — 3 bridges + 15-canonical cross-reference)
-  - D-IH-77-C (Strand B posture — generator script + drift gate; soft-30d then strict)
+  - D-IH-77-C (Strand B posture — generator script + drift gate; soft-30d then strict; superseded by D-IH-77-E)
   - D-IH-77-D (dependency on I71 P1 ship — Layer 2 EN canonical + Layer 8 anti-LLM-tone canonical must exist before P1.3 cross-references them)
+  - D-IH-77-E (P3 ratified dual-strict drift-gate posture — 2026-06-15 default-flip via dated _today_iso helper + CI env-var pre-strict pattern; supersedes D-IH-77-C)
+  - D-IH-77-F (P3 ratified UAT capture format — reusable template at _templates/uat-impeccable-template.md v1.0 + full critique paste per surface + operator-UX optimizations)
+  - D-IH-77-CLOSURE (initiative closure v1 — SUPERSEDED 2026-05-16 by D-IH-77-G after brand-canon-collapse uncovered in P3 review)
+  - D-IH-77-G (P4 scope expansion — reopen I77 to absorb brand-canon-collapse remediation + visual UAT rendering + rendering-pipeline governance discovery; supersedes D-IH-77-CLOSURE)
+  - D-IH-77-H (P4 4.A ratified — wide-prose brand-canon sweep T1-T10 minus T11 transcripts; 193 instances)
+  - D-IH-77-I (P4 4.B + 4.C ratified — visual UAT render discipline + orphan-rendering-pipeline registry mint as scalable governed pattern)
+  - D-IH-77-CLOSURE-V2 (initiative closure V2 — 2026-05-16; P4.A + 4.B + 4.C SHIPPED; supersedes D-IH-77-CLOSURE)
+superseded_decisions: [D-IH-77-CLOSURE]
 parent_dependency: INIT-OPENCLAW_AKOS-71 (P1 Pack A1 must commit before I77 P1 starts; the new BRAND_ENGLISH_PATTERNS.md + BRAND_LLM_TONE_TELLS.md canonicals authored at I71 P1.3 are referenced by I77 P1 bridge refresh)
 sibling_initiatives:
   - INIT-OPENCLAW_AKOS-29 (multi-phase consolidation P3 — origin of PRODUCT.md + DESIGN.md bridges)
@@ -23,9 +39,9 @@ sibling_initiatives:
   - INIT-OPENCLAW_AKOS-76 (MADEIRA elevation candidate — soft-depends on brand-DNA-aware design for L6 founder companion)
 ---
 
-# I77 — Impeccable Brand-Bridge Refresh + Drift Gate
+# I77 — Impeccable Brand-Bridge Refresh + Drift Gate + Brand-Canon Collapse Remediation + Rendering-Governance Discovery
 
-> **Status: active (chartered 2026-05-14).** Three strands: **A** refresh PRODUCT.md + DESIGN.md + author missing BASELINE_REALITY.md as thin redirects to canonical brand SSOT; **B** mint generator script + drift gate so bridges never go stale; **C** operator UAT via `/critique` or `/polish` on a real Holistika surface. Sibling-pair to **I71 Pack A1** (voice validator) closing the brand-DNA discipline loop at both validate-time (Pack A1) and design-time (Impeccable bridge refresh).
+> **Status: CLOSED V2 2026-05-16 via [D-IH-77-CLOSURE-V2](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv).** Originally three strands (A bridges + B drift gate + C UAT) shipped same-day as PASS, then reopened when P3 UAT review uncovered an agent-hallucinated brand-canon variant ("Holística" framed as a Spanish-locale brand form when the brand is **Holistika universally**) AND surfaced the operator directive to govern rendering pipelines as a scalable discipline (not orphan processes per initiative). **P4 absorbed three sub-strands and CLOSED V2 same-day**: **4.A** total-prose brand-canon sweep across 10 file-class tiers (193 instances) **SHIPPED**; **4.B** UAT rendered as brand-aligned visual artifact via [`scripts/render_impeccable_uat.py`](../../../../scripts/render_impeccable_uat.py) → [`docs/presentations/uat-impeccable-all-surfaces-2026-05-16/`](../../../../docs/presentations/uat-impeccable-all-surfaces-2026-05-16/) **SHIPPED**; **4.C** orphan-rendering-pipeline registry [`RENDERING_PIPELINE_REGISTRY.csv`](../../../references/hlk/v3.0/Envoy%20Tech%20Lab/canonicals/dimensions/RENDERING_PIPELINE_REGISTRY.csv) (18 seed rows) + Pydantic [`akos/hlk_rendering_pipeline_csv.py`](../../../../akos/hlk_rendering_pipeline_csv.py) + validator + paired SOP + paired runbook + 20 governance tests **SHIPPED**. All validators green. See [`reports/p4-brand-canon-collapse-remediation-2026-05-16.md`](reports/p4-brand-canon-collapse-remediation-2026-05-16.md) for the closure narrative.
 
 ## Operating story
 
@@ -71,10 +87,11 @@ Record verdicts in `reports/p3-uat-impeccable-<YYYY-MM-DD>.md` per `.cursor/rule
 
 | Phase | Title | Strand | Status | Closes OPS |
 |:---|:---|:---:|:---|:---:|
-| **P0** | Charter + registries + master-roadmap | A+B+C | **SHIPPED** (this commit, 2026-05-14) | — |
-| **P1** | Strand A — bridge refresh (3 files) | A | pending; **gated on I71 P1 ship** | — |
-| **P2** | Strand B — generator + drift gate | B | pending; follows P1 | — |
-| **P3** | Strand C — operator UAT + closure | C | pending; follows P2 | OPS-77-1 |
+| **P0** | Charter + registries + master-roadmap | A+B+C | **SHIPPED** (2026-05-14) | — |
+| **P1** | Strand A — bridge refresh (3 files) | A | **SHIPPED** (2026-05-16; see `reports/p1-bridge-refresh-2026-05-16.md`) | — |
+| **P2** | Strand B — generator + drift gate | B | **SHIPPED** (2026-05-16; see `reports/p2-generator-drift-gate-2026-05-16.md`) | — |
+| **P3** | Strand C — operator UAT + closure | C | **SHIPPED** (2026-05-16; see `reports/uat-impeccable-all-surfaces-2026-05-16.md`) | **OPS-77-1 closed** |
+| **Closure** | INIT-OPENCLAW_AKOS-77 closed via D-IH-77-CLOSURE (2026-05-16) | — | **CLOSED** | — |
 
 ## Phase dependency chain (narrative)
 

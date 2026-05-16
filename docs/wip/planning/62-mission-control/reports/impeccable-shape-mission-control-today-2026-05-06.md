@@ -47,7 +47,7 @@ The `app/dashboard/page.tsx` exists but reads `lib/data.ts` mock helpers (~2706 
 ```
 [Top bar — persistent across operator surfaces]
   ┌─────────────────────────────────────────────────────────────────────────┐
-  │ [Holística]  [Verdict chip · GO]  [Cmd+K]  [🔔]  [👤 founder ▾]      │
+  │ [Holistika]  [Verdict chip · GO]  [Cmd+K]  [🔔]  [👤 founder ▾]      │
   └─────────────────────────────────────────────────────────────────────────┘
 
 [Hero band — dark slate, full-width]

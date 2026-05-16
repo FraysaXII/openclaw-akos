@@ -16,7 +16,7 @@ Hola [Nombre],
 
 Para acelerar la conversación, te paso el alcance compacto de cómo trabajamos en este modelo:
 
-- Holística entrega ingeniería + operación; el partner aporta el conocimiento del cliente final y la demanda.
+- Holistika entrega ingeniería + operación; el partner aporta el conocimiento del cliente final y la demanda.
 - Arquitectura congelada antes de codificar; entrega gobernada con verificación automática.
 - Modelo de remuneración: equidad / revenue share según el caso (a confirmar tras evaluar encaje).
 - Criterios de entrada (necesitamos los tres): demanda recurrente real del cliente del partner, reutilización ≥ 60 % de nuestra pila técnica, y proyección de payback alineada con nuestro umbral interno LTV:CAC.
@@ -25,7 +25,7 @@ Propongo 30 min para entender tu hipótesis de producto y ver si encajamos. Si p
 
 Un saludo,
 [Nombre del fundador]
-Holística Research
+Holistika Research
 
 > **Regla de voz (BRAND_SPANISH_PATTERNS):** N2 partner joint-equity — abrir nombrando al puente, declarar el modelo en bullet, listar los **3 criterios de entrada** (no se negocian). Tono peer_consulting, "tú".
 

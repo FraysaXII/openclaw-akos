@@ -33,7 +33,7 @@ Internal benchmarks for the four operating zones per 2026 SaaS data:
 | **Growth-ready** | 3.0 - 4.5 : 1 | Venture-scale ready | Increase paid acquisition |
 | **Elite** | ≥ 5.0 : 1 | Highly efficient | Increase marketing spend immediately |
 
-Holística targets **sustainable to growth-ready** (2 - 4 : 1 LTV:CAC) given the bootstrapped posture. For SaaS specifically, the benchmark CAC payback is **12 - 18 months**; for PLG with sub-€5 k ACV, **3 - 6 months**.
+Holistika targets **sustainable to growth-ready** (2 - 4 : 1 LTV:CAC) given the bootstrapped posture. For SaaS specifically, the benchmark CAC payback is **12 - 18 months**; for PLG with sub-€5 k ACV, **3 - 6 months**.
 
 ## Channel × ICP unit economics matrix
 
@@ -58,7 +58,7 @@ Holística targets **sustainable to growth-ready** (2 - 4 : 1 LTV:CAC) given the
 
 | Metric | Value / band |
 |:---|:---|
-| ACV per engagement | €15 000 - €100 000 (Holística share, after partner-share deducted) |
+| ACV per engagement | €15 000 - €100 000 (Holistika share, after partner-share deducted) |
 | Customer lifespan | 1 - 2 years (engagement-recurring, sometimes annual retainer) |
 | LTV (gross) | TODO[OPERATOR-le-pb2b] (band: €40 000 × 1.5 years × 65 % gross margin = €39 000) |
 | CAC | ~€0 (partner runs the relationship) |

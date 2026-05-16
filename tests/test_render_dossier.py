@@ -256,7 +256,7 @@ def test_dossier_includes_5_capability_cards():
         "Sitio público y CRM",          # 01 — boilerplate marketing site
         "HLK ERP",                       # 02 — internal ERP (kept brand label)
         "KiRBe",                         # 03 — KM SaaS product
-        "Holística × Websitz",           # 04 — Shopify partner app
+        "Holistika × Websitz",           # 04 — Shopify partner app
         "Rushly",                        # 05 — partner SaaS scaffold
     ):
         assert card_marker in md, f"capability card missing: {card_marker!r}"

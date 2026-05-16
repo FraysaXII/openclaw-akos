@@ -24,7 +24,7 @@ sources:
 slide_data: docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck_slides.yaml
 ---
 
-# Holística Research — Dossier de Compañía
+# Holistika Research — Dossier de Compañía
 
 > **Estado.** Narrativa canónica del dossier de compañía (no del expediente de constitución). Acompaña a `deck_slides.yaml` como fuente única de verdad de la copy del deck. La capa visual (HTML preview en `docs/presentations/holistika-company-dossier/` y deck en Figma) consume estos textos sin re-escribirlos.
 >
@@ -36,7 +36,7 @@ slide_data: docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_
 
 **Subtítulo.** Investigación aplicada, ingeniería empresarial y software propio. Madrid · 2026.
 
-**Pie.** Holística Research · holistikaresearch.com · 2026.
+**Pie.** Holistika Research · holistikaresearch.com · 2026.
 
 ## 02 · El problema
 
@@ -48,7 +48,7 @@ El cuello de botella no es comprar más herramientas o más modelos. Es ordenar 
 
 ## 04 · La solución
 
-Holística diseña el sistema operativo de la compañía y lo implementa en software. Trabajamos en tres líneas:
+Holistika diseña el sistema operativo de la compañía y lo implementa en software. Trabajamos en tres líneas:
 
 - **Inteligencia empresarial.** Auditamos y estructuramos cómo decide y ejecuta la compañía hoy.
 - **Ingeniería de procesos.** Convertimos esa estructura en flujos auditables, automatizables y mantenibles.
@@ -78,7 +78,7 @@ Dos productos propios en operación, dos partners en demanda activa, una sola pi
 
 ## 07 · Productización del método (KiRBe)
 
-KiRBe es la materialización en producto de cómo Holística estructura el conocimiento empresarial. Cada cliente carga sus fuentes propias y obtiene respuestas en lenguaje natural sobre su propio negocio, con aislamiento completo, auditoría y facturación por uso.
+KiRBe es la materialización en producto de cómo Holistika estructura el conocimiento empresarial. Cada cliente carga sus fuentes propias y obtiene respuestas en lenguaje natural sobre su propio negocio, con aislamiento completo, auditoría y facturación por uso.
 
 - SaaS B2B en producción para uso interno y de clientes.
 - Búsqueda en lenguaje natural con re-clasificación semántica de resultados.
@@ -89,14 +89,14 @@ KiRBe es la materialización en producto de cómo Holística estructura el conoc
 
 ## 08 · Por qué ahora
 
-La adopción de inteligencia artificial empresarial está acelerando la presión por sistemas auditables, no por más demos. Las compañías que ganen los próximos cinco años no serán las que tengan más herramientas, sino las que tengan operaciones suficientemente ordenadas como para que cualquier herramienta produzca resultados medibles. Holística está construida para ese problema.
+La adopción de inteligencia artificial empresarial está acelerando la presión por sistemas auditables, no por más demos. Las compañías que ganen los próximos cinco años no serán las que tengan más herramientas, sino las que tengan operaciones suficientemente ordenadas como para que cualquier herramienta produzca resultados medibles. Holistika está construida para ese problema.
 
 ## 09 · Mercado y perfil de cliente
 
 Tres canales distintos comparten un mismo método.
 
 - **Pyme tecnológica.** Empresas con 10–80 personas que necesitan estructurar su operación antes de escalar a la siguiente etapa. Cliente directo, servicio profesional.
-- **Partner B2B + equidad conjunta.** Integradores, agencias y operadores con base de clientes propia que necesitan ingeniería de producto sin contratar plantilla. Algunos contratan servicio puro; otros co-construyen un SaaS con Holística a cambio de equidad o revenue share. Canal indirecto, entrega gobernada, equidad conjunta.
+- **Partner B2B + equidad conjunta.** Integradores, agencias y operadores con base de clientes propia que necesitan ingeniería de producto sin contratar plantilla. Algunos contratan servicio puro; otros co-construyen un SaaS con Holistika a cambio de equidad o revenue share. Canal indirecto, entrega gobernada, equidad conjunta.
 - **Cliente SaaS.** Equipos que adoptan la plataforma KiRBe para gestionar su propio conocimiento empresarial. Producto, ingreso recurrente.
 
 ## 10 · Modelo de entrega
@@ -141,7 +141,7 @@ Cerremos por escrito el encaje ENISA y el paquete legal antes de la firma.
 - Ventana de 30 minutos esta semana para alinear plan de presentación.
 
 Un saludo,
-**Holística Research**
+**Holistika Research**
 holistikaresearch.com
 
 ---

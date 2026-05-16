@@ -115,11 +115,11 @@ A render-time test in [`tests/test_render_dossier.py`](../../../../../../../test
 
 **Before**:
 
-> El plano de entrega de Holística Research está documentado en el topic `topic_external_adviser_handoff` (Initiative 21 / 22) y se resume así: el routing de billing entre `kirbe.*` y `holistika_ops.*` está documentado en el topic `topic_kirbe_billing_plane_routing`.
+> El plano de entrega de Holistika Research está documentado en el topic `topic_external_adviser_handoff` (Initiative 21 / 22) y se resume así: el routing de billing entre `kirbe.*` y `holistika_ops.*` está documentado en el topic `topic_kirbe_billing_plane_routing`.
 
 **After**:
 
-> Holística Research entrega hoy investigación estructurada e ingeniería empresarial como servicio facturado, y al mismo tiempo opera la plataforma de gestión de conocimiento (KiRBe) que productiza ese método. Servicio y producto comparten infraestructura, métricas y facturación.
+> Holistika Research entrega hoy investigación estructurada e ingeniería empresarial como servicio facturado, y al mismo tiempo opera la plataforma de gestión de conocimiento (KiRBe) que productiza ese método. Servicio y producto comparten infraestructura, métricas y facturación.
 
 ### 5.3 Open question (Spanish, ENISA dossier)
 

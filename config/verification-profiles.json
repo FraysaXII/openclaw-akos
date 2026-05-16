@@ -343,6 +343,21 @@
           ]
         }
       ]
+    },
+    "impeccable_bridge_drift_smoke": {
+      "description": "Initiative 77 P2: Impeccable bridge drift gate smoke. Asserts every active brand canonical in CANONICAL_REGISTRY.csv (owning_area=Marketing AND owning_role=Brand AND non-SOP) is cited as a cross-reference in >= 1 of the 3 workspace-root bridges (PRODUCT.md / DESIGN.md / BASELINE_REALITY.md) per SOP-HLK_TOOLING_STANDARDS_001.md §3.7 thin-redirect contract. Soft-30d-then-strict default per D-IH-77-C; promote to strict with AKOS_IMPECCABLE_BRIDGE_DRIFT_STRICT=1. Also runs sibling generator in --check mode for coverage report. Pydantic chassis: akos/impeccable_bridge.py.",
+      "steps": [
+        {
+          "id": "validate_impeccable_bridge_drift",
+          "description": "Run scripts/validate_impeccable_bridge_drift.py (soft mode default)",
+          "argv": ["scripts/validate_impeccable_bridge_drift.py"]
+        },
+        {
+          "id": "generate_impeccable_bridges_check",
+          "description": "Run scripts/generate_impeccable_bridges.py --check (coverage report; non-mutating)",
+          "argv": ["scripts/generate_impeccable_bridges.py", "--check"]
+        }
+      ]
     }
   }
 }

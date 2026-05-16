@@ -44,7 +44,7 @@ We run with **runway = months of cash on hand at current burn rate**. Below 6 mo
 | Savings / pension contribution | TODO[OPERATOR] (band: €0 - €500) |
 | **Personal monthly total** | **TODO[OPERATOR-personal-total]** (band: €1 150 - €3 850; mid-band ~€2 500) |
 
-## 3. Business expense baseline (Holística)
+## 3. Business expense baseline (Holistika)
 
 | Category | Monthly band (EUR) | Notes |
 |:---|:---|:---|
@@ -70,12 +70,12 @@ We run with **runway = months of cash on hand at current burn rate**. Below 6 mo
 
 ## 5. Cash on hand
 
-> **TODO[OPERATOR-cash-D1]** — current cash position (personal + Holística initial capital, post-incorporation).
+> **TODO[OPERATOR-cash-D1]** — current cash position (personal + Holistika initial capital, post-incorporation).
 
 | Source | Amount (EUR) |
 |:---|:---|
 | Personal savings dedicated to runway | TODO[OPERATOR] |
-| Holística initial capital (post-`Q-LEG-004` decision) | TODO[OPERATOR] (band: €1 - €3 000+ per `FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04.md`) |
+| Holistika initial capital (post-`Q-LEG-004` decision) | TODO[OPERATOR] (band: €1 - €3 000+ per `FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04.md`) |
 | **Total cash on hand at month 0** | TODO[OPERATOR-cash-total] |
 
 ## 6. Three-scenario runway forecast

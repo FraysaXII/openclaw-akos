@@ -40,7 +40,7 @@ Hueco directo aquí: [Cal scheduling link]. O propónme tres ventanas y nos cuad
 
 Un saludo,
 [Nombre del fundador]
-Holística Research
+Holistika Research
 
 > **Regla de voz:** N2 abre **nombrando explícitamente al puente**. La credibilidad la lleva el puente; la especificidad refuerza la relación.
 

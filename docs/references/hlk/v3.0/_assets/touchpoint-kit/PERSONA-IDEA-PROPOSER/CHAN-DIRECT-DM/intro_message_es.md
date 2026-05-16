@@ -41,7 +41,7 @@ Con eso te respondo si encaja con Holistika (servicio profesional, equidad conju
 
 Un saludo,
 [Nombre del fundador]
-Holística Research
+Holistika Research
 
 > **Regla de voz:** N2 idea-proposer — abrir nombrando al puente, tres preguntas, mismo formato que N1 con un poco más de contexto.
 

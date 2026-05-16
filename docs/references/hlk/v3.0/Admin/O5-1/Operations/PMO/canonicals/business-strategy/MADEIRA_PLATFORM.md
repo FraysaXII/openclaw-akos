@@ -20,11 +20,11 @@ deck_slides_consumed: ["04-solution", "05-method", "06-proof", "11-moat", "12-ro
 
 ## Lo que responde este documento
 
-Qué es MADEIRA, por qué es el segundo eje de producto de Holística (junto con KiRBe), qué validación interna ya tiene hoy, y cómo recorre el camino comercial *interno → puente → SaaS*. Sirve de fuente para las diapositivas 04, 05, 06, 11 y 12 del dossier de compañía.
+Qué es MADEIRA, por qué es el segundo eje de producto de Holistika (junto con KiRBe), qué validación interna ya tiene hoy, y cómo recorre el camino comercial *interno → puente → SaaS*. Sirve de fuente para las diapositivas 04, 05, 06, 11 y 12 del dossier de compañía.
 
 ## 1. Qué es MADEIRA, en una frase
 
-**MADEIRA es la capa de agentes estandarizados de Holística**: un marco operativo que estructura cómo los asistentes y agentes de inteligencia artificial obtienen su contexto, qué habilidades pueden ejecutar y cómo se comportan dentro de la operación de un cliente — todo gobernado por la misma disciplina que rige el resto del método.
+**MADEIRA es la capa de agentes estandarizados de Holistika**: un marco operativo que estructura cómo los asistentes y agentes de inteligencia artificial obtienen su contexto, qué habilidades pueden ejecutar y cómo se comportan dentro de la operación de un cliente — todo gobernado por la misma disciplina que rige el resto del método.
 
 Comparable, en categoría, a un Copilot o a un asistente Gemini empresarial — pero con dos diferencias que importan:
 
@@ -33,13 +33,13 @@ Comparable, en categoría, a un Copilot o a un asistente Gemini empresarial — 
 
 ## 2. Por qué ahora
 
-El mercado de agentes empresariales en 2026 vive una tensión clara: las plataformas genéricas (Copilot, Gemini) ofrecen asistentes potentes pero con contexto débil; las soluciones a medida son potentes pero no escalan entre clientes. Holística llega con la respuesta operativa al medio: una plataforma genérica al usar, específica al contexto de cada cliente, gobernada por defecto.
+El mercado de agentes empresariales en 2026 vive una tensión clara: las plataformas genéricas (Copilot, Gemini) ofrecen asistentes potentes pero con contexto débil; las soluciones a medida son potentes pero no escalan entre clientes. Holistika llega con la respuesta operativa al medio: una plataforma genérica al usar, específica al contexto de cada cliente, gobernada por defecto.
 
-La misma disciplina que ha permitido a Holística entregar cinco productos distintos sobre una sola pila técnica es la que permite a MADEIRA escalar a múltiples clientes sin reinventar el agente cada vez.
+La misma disciplina que ha permitido a Holistika entregar cinco productos distintos sobre una sola pila técnica es la que permite a MADEIRA escalar a múltiples clientes sin reinventar el agente cada vez.
 
 ## 3. Evidencia interna ya disponible
 
-MADEIRA no es una promesa: es un componente que ya opera dentro de Holística para productividad, investigación y entrega.
+MADEIRA no es una promesa: es un componente que ya opera dentro de Holistika para productividad, investigación y entrega.
 
 | Superficie interna | Evidencia |
 |:-------------------|:----------|
@@ -47,17 +47,17 @@ MADEIRA no es una promesa: es un componente que ya opera dentro de Holística pa
 | Repositorio de plataforma | `Envoy Tech Lab/Repositories/platform/README.md` |
 | Sección estratégica "Pensar en grande" | `Think Big/README.md` |
 | Onboarding del programa KiRBe | `Admin/O5-1/People/programs/PRJ-HOL-KIR-2026/README.md` |
-| Validación operativa | Holística usa MADEIRA en su propia entrega antes de venderla — la misma disciplina *internal-first* que aplicamos a KiRBe |
+| Validación operativa | Holistika usa MADEIRA en su propia entrega antes de venderla — la misma disciplina *internal-first* que aplicamos a KiRBe |
 
 Todas las superficies anteriores son nombrables ante un auditor: el auditor puede leer las SOPs y verificar que MADEIRA no es marketing sino operación.
 
 ## 4. El camino comercial (hoy → puente → mañana)
 
-| Fase | Quién paga | Qué entrega Holística | Qué demuestra |
+| Fase | Quién paga | Qué entrega Holistika | Qué demuestra |
 |:-----|:-----------|:----------------------|:--------------|
-| **Hoy — embebida en servicio** | Cliente del servicio profesional | Holística entrega ingeniería empresarial; MADEIRA está dentro de la entrega como capa operativa que acelera la propia entrega | El método llega al cliente con una capa agentic ya operativa, sin coste extra |
+| **Hoy — embebida en servicio** | Cliente del servicio profesional | Holistika entrega ingeniería empresarial; MADEIRA está dentro de la entrega como capa operativa que acelera la propia entrega | El método llega al cliente con una capa agentic ya operativa, sin coste extra |
 | **Puente — capa común con KiRBe** | Cliente KiRBe SaaS | Cuando el cliente accede a KiRBe, los agentes de MADEIRA son los que ejecutan búsqueda, re-clasificación y razonamiento sobre su corpus | KiRBe es el escaparate; MADEIRA es la maquinaria — cada cliente KiRBe es ya un cliente MADEIRA |
-| **Mañana — SaaS independiente** | Empresas que necesitan una runtime de agentes con sourcing gobernado pero no necesitan KiRBe | Holística empaqueta MADEIRA como producto separado: runtime de agentes + plano de gobernanza + biblioteca de habilidades versionadas | Segundo eje de ingreso recurrente independiente del servicio profesional |
+| **Mañana — SaaS independiente** | Empresas que necesitan una runtime de agentes con sourcing gobernado pero no necesitan KiRBe | Holistika empaqueta MADEIRA como producto separado: runtime de agentes + plano de gobernanza + biblioteca de habilidades versionadas | Segundo eje de ingreso recurrente independiente del servicio profesional |
 
 ## 5. Diferenciación competitiva
 

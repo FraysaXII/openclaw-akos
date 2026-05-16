@@ -46,18 +46,18 @@ For each of the three ICPs, the discovery → qualification → proposal → clo
 
 ## ICP 2 — Partner B2B (canal indirecto, entrega gobernada)
 
-**Deal size**: €15 000 - €100 000 per partner-led engagement (Holística delivers; partner owns relationship).
+**Deal size**: €15 000 - €100 000 per partner-led engagement (Holistika delivers; partner owns relationship).
 **Cycle length**: 2 - 6 weeks from partner intro to scope-signed (because the partner has already qualified the client).
-**Motion**: Partner-led with Holística technical due diligence.
+**Motion**: Partner-led with Holistika technical due diligence.
 
 ### Stages
 
 | Stage | What happens | Time | Common objection |
 |:---|:---|:---|:---|
 | **Partner intro** | Partner sends a brief: "client X needs Y, can you deliver?" | < 1 week | (Partner has handled this) |
-| **Technical scope** | Holística engineer + founder review the brief; estimate effort; propose architecture | 1 - 2 weeks | "Effort estimate too high" |
-| **Joint proposal** | Partner + Holística draft joint scope; partner-share negotiated per `PRICING_MODEL.md` §1.3 | < 1 week | "Margin too thin for partner" |
-| **Close** | Partner signs with end client; Holística sub-contracts | < 1 week | (Partner closes) |
+| **Technical scope** | Holistika engineer + founder review the brief; estimate effort; propose architecture | 1 - 2 weeks | "Effort estimate too high" |
+| **Joint proposal** | Partner + Holistika draft joint scope; partner-share negotiated per `PRICING_MODEL.md` §1.3 | < 1 week | "Margin too thin for partner" |
+| **Close** | Partner signs with end client; Holistika sub-contracts | < 1 week | (Partner closes) |
 
 ### Objection responses
 

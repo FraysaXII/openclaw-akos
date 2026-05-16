@@ -26,7 +26,7 @@ sources:
 
 # Cover email — Holistika Research Company Dossier (Spanish)
 
-> **Asunto sugerido**: `Holística Research — Dossier de Compañía + encaje ENISA (PRJ-HOL-FOUNDING-2026)`
+> **Asunto sugerido**: `Holistika Research — Dossier de Compañía + encaje ENISA (PRJ-HOL-FOUNDING-2026)`
 >
 > **Adjuntos**:
 >
@@ -37,7 +37,7 @@ sources:
 
 Hola Guillermo,
 
-Te envío el dossier de compañía de Holística Research que preparamos para tu lectura antes de la firma. Son 14 páginas; se lee en menos de cinco minutos. Cubre el problema que abordamos, el método, las cinco entregas que ya tenemos en producción (incluida nuestra propia plataforma KiRBe), el modelo de entrega servicio → producto, el roadmap a 24 meses y el encaje con Empresa Emergente.
+Te envío el dossier de compañía de Holistika Research que preparamos para tu lectura antes de la firma. Son 14 páginas; se lee en menos de cinco minutos. Cubre el problema que abordamos, el método, las cinco entregas que ya tenemos en producción (incluida nuestra propia plataforma KiRBe), el modelo de entrega servicio → producto, el roadmap a 24 meses y el encaje con Empresa Emergente.
 
 Lo que necesito cerrar contigo, idealmente esta semana:
 
@@ -49,7 +49,7 @@ Si prefieres dejar comentarios por escrito sobre el dossier antes de hablar, per
 
 Un saludo,
 
-Holística Research
+Holistika Research
 holistikaresearch.com
 
 ---

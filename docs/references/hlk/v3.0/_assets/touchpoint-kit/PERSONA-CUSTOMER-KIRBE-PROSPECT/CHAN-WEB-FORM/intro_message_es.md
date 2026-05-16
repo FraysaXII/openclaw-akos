@@ -24,7 +24,7 @@ Con esos cinco datos podemos confirmar encaje en menos de 24h y proponer el sigu
 
 Un saludo,
 [Contacto System Owner]
-Holística Research
+Holistika Research
 
 > **Regla de voz (BRAND_SPANISH_PATTERNS):** N4 prospecto SaaS — peer_consulting, "tú", apertura "Hola", cierre "Un saludo,". Cinco preguntas concretas; promesa explícita de respuesta en 24h. Honestidad sobre encaje (no se vende a todo el mundo).
 

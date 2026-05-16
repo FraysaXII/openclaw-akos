@@ -39,7 +39,7 @@ sources:
 
 # Resumen ejecutivo
 
-<p class="lead">Holística Research es una compañía de investigación aplicada e ingeniería empresarial. Construimos métodos de trabajo que se prueban primero internamente y, cuando funcionan, se escalan al cliente o se convierten en software. Este dossier consolida la información necesaria para la candidatura ENISA — Empresa Emergente.</p>
+<p class="lead">Holistika Research es una compañía de investigación aplicada e ingeniería empresarial. Construimos métodos de trabajo que se prueban primero internamente y, cuando funcionan, se escalan al cliente o se convierten en software. Este dossier consolida la información necesaria para la candidatura ENISA — Empresa Emergente.</p>
 
 El primer vehículo legal en España (`PRJ-HOL-FOUNDING-2026`) cubre tres líneas de actividad bajo un mismo objeto social: investigación aplicada, ingeniería empresarial e ingeniería de procesos, con una cuarta línea opcional de productización de software propio. La elección es deliberada: el método se ha desarrollado internamente desde 2023, está respaldado por cinco entregas de software ya en producción, y la transición de servicio a producto está en curso (la plataforma KiRBe).
 
@@ -112,7 +112,7 @@ Administrador único (fundador) en el arranque. El asesor cierra los puntos fino
 
 ## Tesis de innovación
 
-Holística Research está construyendo un método en el que:
+Holistika Research está construyendo un método en el que:
 
 - la arquitectura empresarial y el conocimiento de procesos se capturan de forma sistemática (registros canónicos, mapas de proceso, procedimientos versionados);
 - la inteligencia artificial puede leer y operar **sobre** dicha arquitectura, no en lugar de ella, con un modo auditado que sólo usa hechos verificables;
@@ -284,12 +284,12 @@ Próximas entradas previstas: escritura firmada, poderes, modelo 036 y ficha ENI
 
 # Apéndice C — Capacidades demostradas
 
-<p class="lead">Cinco entregas de software ya en producción que sostienen la narrativa de innovación, escalabilidad y capacidad de ejecución de Holística Research. Disponibles para revisión técnica bajo NDA si el asesor lo solicita.</p>
+<p class="lead">Cinco entregas de software ya en producción que sostienen la narrativa de innovación, escalabilidad y capacidad de ejecución de Holistika Research. Disponibles para revisión técnica bajo NDA si el asesor lo solicita.</p>
 
 <div class="capability-card">
   <div class="card-head">
     <span class="card-eyebrow">01 · Marketing + Intake comercial</span>
-    <div class="card-title">Holística Research — Sitio público y CRM</div>
+    <div class="card-title">Holistika Research — Sitio público y CRM</div>
   </div>
   <div class="card-tags">
     <span class="tag">Sitio en producción</span>
@@ -346,7 +346,7 @@ Próximas entradas previstas: escritura firmada, poderes, modelo 036 y ficha ENI
 <div class="capability-card">
   <div class="card-head">
     <span class="card-eyebrow">04 · Entrega para partner B2B</span>
-    <div class="card-title">Aplicación Shopify para Holística × Websitz</div>
+    <div class="card-title">Aplicación Shopify para Holistika × Websitz</div>
   </div>
   <div class="card-tags">
     <span class="tag">App publicada</span>
@@ -376,7 +376,7 @@ Próximas entradas previstas: escritura firmada, poderes, modelo 036 y ficha ENI
   </div>
   <div class="card-body">
     <p>SaaS B2B para marcas de e-commerce y operadores de vídeo, en fase de diseño con scaffold operativo: arquitectura congelada, separación clara de responsabilidades entre API y worker, contratos de tipo estrictos, gobernanza versionada y verificación automática completa antes de empezar la implementación pesada.</p>
-    <p><strong>Lectura para la persona certificadora.</strong> Patrón "compliance-aware product program": disciplina de planificar, congelar arquitectura y poner verificación automática <em>antes</em> de codificar. Es la metodología Holística aplicada al diseño de un producto de partner.</p>
+    <p><strong>Lectura para la persona certificadora.</strong> Patrón "compliance-aware product program": disciplina de planificar, congelar arquitectura y poner verificación automática <em>antes</em> de codificar. Es la metodología Holistika aplicada al diseño de un producto de partner.</p>
   </div>
   <div class="card-foot">Partner: confirmar al envío si se cita el nombre. Estado: diseño con scaffold productivo.</div>
 </div>
@@ -398,7 +398,7 @@ Los términos transversales que aparecen en este dossier (clasificaciones de sta
 # Apéndice E — Trazabilidad y procedencia
 
 - **Generador**: este `dossier_es.md` es la fuente única de verdad. La versión PDF se produce mediante el script de renderizado interno en cuanto se cierran las cinco preguntas marcadas como *abiertas*.
-- **Identificador de programa**: `PRJ-HOL-FOUNDING-2026` (cartera Holística Research).
+- **Identificador de programa**: `PRJ-HOL-FOUNDING-2026` (cartera Holistika Research).
 - **Identificador del documento en nuestro registro de evidencias**: `topic_enisa_dossier_es`, hijo de `topic_enisa_evidence`.
 - **Etiquetas de difusión**: `internal_only` para borradores; `counsel_and_named_counterparty` para envío al asesor de certificación; `counsel_ok` sólo después de cerrar las decisiones del fundador.
 - **Sensibilidad de las filas referenciadas**: las identidades reales (nombres, correos, teléfonos) se mantienen fuera del repositorio y se citan únicamente vía referencia interna. El operador resuelve la dirección real sólo en el momento del envío.

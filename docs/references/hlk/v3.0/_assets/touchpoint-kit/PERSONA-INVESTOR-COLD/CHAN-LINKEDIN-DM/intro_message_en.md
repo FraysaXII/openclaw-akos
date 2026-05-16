@@ -20,7 +20,7 @@ Thanks for reaching out. To make sure we're a fit before scheduling time:
 
 If that aligns roughly with where you invest, send me a one-pager on your fund and I'll send a 12-page deck back. Otherwise, no harm — happy to keep in touch.
 
-— [Founder name], Holística Research
+— [Founder name], Holistika Research
 
 > **Brand voice rule (BRAND_VOICE_FOUNDATION):** peer-grade, specific, no salesy cushion. The cold response is short by design — qualification first, deck second.
 

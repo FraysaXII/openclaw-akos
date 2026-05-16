@@ -10,7 +10,7 @@
 
 ## 1. Single sentence promise
 
-Holística Research turns messy company operations into systems that can be executed, automated, audited, and improved — and we ship the software that proves it.
+Holistika Research turns messy company operations into systems that can be executed, automated, audited, and improved — and we ship the software that proves it.
 
 ## 2. The deck must answer (in this order, in 5 minutes of reading)
 
@@ -34,7 +34,7 @@ The deck must satisfy all three with one artefact, not three. Where audiences pu
 
 ## 4. Promise (one paragraph version, in Spanish)
 
-> Holística Research diseña sistemas operativos para empresas que necesitan ordenar su operación antes de escalar. Combinamos investigación aplicada, ingeniería empresarial e ingeniería de procesos, y los productizamos en software propio (KiRBe). En 2025-2026 hemos puesto en producción cinco entregas distintas — sitio + CRM, ERP interno, plataforma SaaS de gestión de conocimiento, app B2B para partner y scaffold gobernado para otro partner — todas sobre la misma pila técnica y la misma disciplina de calidad.
+> Holistika Research diseña sistemas operativos para empresas que necesitan ordenar su operación antes de escalar. Combinamos investigación aplicada, ingeniería empresarial e ingeniería de procesos, y los productizamos en software propio (KiRBe). En 2025-2026 hemos puesto en producción cinco entregas distintas — sitio + CRM, ERP interno, plataforma SaaS de gestión de conocimiento, app B2B para partner y scaffold gobernado para otro partner — todas sobre la misma pila técnica y la misma disciplina de calidad.
 
 ## 5. Proof points (must each appear visually in the deck)
 
@@ -91,7 +91,7 @@ Voice: *peer experto que retira la incertidumbre sin actuar la experiencia*. Fra
 - Capability slides: 5 cards on one slide, each card 2 lines + 3 tags + footer (no long paragraphs in cards on the deck — long form lives in the appendix).
 - Roadmap: horizontal three-band timeline (0–6, 6–12, 12–24 months), each band with a single phrase + 2 deliverables.
 - Stat callouts: oversized number in teal, tiny uppercase label below, max 4 per slide.
-- Footer (every body slide): `Holística Research · Dossier · 2026 · página X / Y` in small-caps, charcoal-muted.
+- Footer (every body slide): `Holistika Research · Dossier · 2026 · página X / Y` in small-caps, charcoal-muted.
 
 ## 11. References
 

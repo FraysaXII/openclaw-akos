@@ -23,7 +23,7 @@ Thanks for the interest in KiRBe. To make the next conversation useful, we need 
 With those five data points we'll confirm fit in under 24 hours and propose the next step (demo, pilot trial, technical conversation). If it fits, we'll send you platform access to try; if it doesn't, we'll say so honestly and recommend alternatives.
 
 — [System Owner contact]
-Holística Research
+Holistika Research
 
 > **Brand voice rule (BRAND_VOICE_FOUNDATION):** N4 SaaS prospect — peer-grade, five concrete questions, explicit 24h promise, honest about fit (we don't sell to everyone).
 

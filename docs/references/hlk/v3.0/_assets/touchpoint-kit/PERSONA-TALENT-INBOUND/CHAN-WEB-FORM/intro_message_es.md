@@ -27,7 +27,7 @@ Te añadimos al registro y te contactamos cuando llegue un encargo que encaje. N
 
 Un saludo,
 [Contacto PMO]
-Holística Research
+Holistika Research
 
 > **Regla de voz (BRAND_SPANISH_PATTERNS):** N4 talento — peer_consulting, "tú", apertura "Hola", cierre "Un saludo,". Honesto sobre el modelo de registro rotativo (no prometer contratación inmediata).
 

@@ -24,7 +24,7 @@ The **primary** external artifact is now the **company dossier** (Initiative 28)
 ## 2. Pre-flight checklist (tick every box before pressing Send)
 
 - [ ] **Recipient resolved off-repo** — real email address for `POI-LEG-ENISA-LEAD-2026` retrieved from the off-repo identity store and pasted into the email client at SMTP step (never written into git).
-- [ ] **Cover email body** — copy from `cover_email_company_dossier_es.md` matches what's pasted into the email client. Subject line: `Holística Research — Dossier de Compañía + encaje ENISA (PRJ-HOL-FOUNDING-2026)`.
+- [ ] **Cover email body** — copy from `cover_email_company_dossier_es.md` matches what's pasted into the email client. Subject line: `Holistika Research — Dossier de Compañía + encaje ENISA (PRJ-HOL-FOUNDING-2026)`.
 - [ ] **Sharing-label gate honoured** — body cites only `counsel_and_named_counterparty` or lower; no `restricted`-sensitivity content referenced. The Spanish body in `cover_email_company_dossier_es.md` references the deck and offers the appendix on request only.
 - [ ] **Discipline-lens match** — `discipline=LEG` (Legal Counsel) maps to recipient lens `legal_certification`. Voice register `peer_consulting` × pronoun `tu` per `BRAND_REGISTER_MATRIX.md`.
 - [ ] **Brand voice match** — opener `Hola Guillermo,` + closer `Un saludo,` + mixed peer register per `BRAND_SPANISH_PATTERNS.md` §"Founder reply pattern". Body length ≈ 165 words.

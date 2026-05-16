@@ -57,7 +57,7 @@ In plain founder terms, the calls are telling you this:
 
 These decisions are not fully closed, but they are already strongly implied:
 
-- The first operating company is expected to be `Holística Research`.
+- The first operating company is expected to be `Holistika Research`.
 - You are planning to start as sole shareholder, sole administrator, and founder-operator.
 - The first registered office is likely to be your home address.
 - The first entity will probably start lean, with low initial capital and a mix of cash and in-kind assets rather than a heavily funded structure.
@@ -75,7 +75,7 @@ Everything else depends on how you answer that.
 ## 4. Immediate Founder Action Checklist
 
 1. Decide the legal story of entity 1 in one sentence.
-   Example structure: "Holística Research is a corporate intelligence and business engineering company with a technology-enabled, scalable methodology and future productization path."
+   Example structure: "Holistika Research is a corporate intelligence and business engineering company with a technology-enabled, scalable methodology and future productization path."
 2. Ask the advisers for a written recommendation on the incorporation route.
    Require them to compare `CIRCE/statutes type` versus `ordinary constitution with custom object social` specifically for your ENISA and future-structure goals.
 3. Build a written capital and funding plan.

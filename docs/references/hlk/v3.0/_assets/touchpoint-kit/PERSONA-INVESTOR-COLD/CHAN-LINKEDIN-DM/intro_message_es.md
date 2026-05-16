@@ -14,7 +14,7 @@ Hola [Nombre],
 
 Gracias por escribir. Antes de buscar hueco para hablar, te paso lo más relevante para que veas si encaja:
 
-- Etapa / sector. Holística es una compañía española de ingeniería operativa que productiza el mismo método que vendemos como servicio (KiRBe SaaS, plataforma agentic MADEIRA). Sin ingresos SaaS aún; el servicio profesional financia la operación.
+- Etapa / sector. Holistika es una compañía española de ingeniería operativa que productiza el mismo método que vendemos como servicio (KiRBe SaaS, plataforma agentic MADEIRA). Sin ingresos SaaS aún; el servicio profesional financia la operación.
 - Banda de ticket. Hoy no estamos levantando ronda; cuando lo hagamos, será en la banda seed europea para SaaS. Si encaja igualmente, hablamos cuando esté claro.
 - Geografía. Madrid · trabajamos en EN/ES/FR.
 
@@ -22,7 +22,7 @@ Si encaja con tu tesis, envíame una página resumen del fondo y te paso un deck
 
 Un saludo,
 [Nombre del fundador]
-Holística Research
+Holistika Research
 
 > **Regla de voz (BRAND_SPANISH_PATTERNS):** registro peer_consulting, "tú", apertura "Hola", cierre "Un saludo,". La respuesta fría es deliberadamente corta — primero cualificación, después deck.
 

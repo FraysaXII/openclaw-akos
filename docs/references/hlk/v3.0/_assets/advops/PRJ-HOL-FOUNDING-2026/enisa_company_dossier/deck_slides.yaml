@@ -22,11 +22,11 @@ document:
 slides:
   - id: 01-cover
     layout: cover_hero
-    eyebrow: "Holística Research · Dossier de Compañía"
+    eyebrow: "Holistika Research · Dossier de Compañía"
     title: "Sistemas operativos para empresas que necesitan ordenar su operación antes de escalar."
     subtitle: "Investigación aplicada, ingeniería empresarial y software propio. Madrid · 2026."
     footer:
-      org: "Holística Research"
+      org: "Holistika Research"
       url: "holistikaresearch.com"
       date: "2026"
 
@@ -128,7 +128,7 @@ slides:
     eyebrow: "Productización del método"
     headline: "KiRBe convierte la metodología en software vendible."
     body: |
-      KiRBe es la materialización en producto de cómo Holística estructura el conocimiento empresarial. Cada cliente carga sus fuentes propias y obtiene respuestas en lenguaje natural sobre su propio negocio, con aislamiento completo, auditoría y facturación por uso.
+      KiRBe es la materialización en producto de cómo Holistika estructura el conocimiento empresarial. Cada cliente carga sus fuentes propias y obtiene respuestas en lenguaje natural sobre su propio negocio, con aislamiento completo, auditoría y facturación por uso.
     proof_points:
       - "SaaS B2B en producción para uso interno y de clientes"
       - "Búsqueda en lenguaje natural con re-clasificación semántica"
@@ -143,7 +143,7 @@ slides:
     section_label: "Por qué ahora"
     headline: "La adopción de IA empresarial está acelerando la presión por sistemas auditables, no por más demos."
     body: |
-      Las compañías que ganen los próximos cinco años no serán las que tengan más herramientas, sino las que tengan operaciones suficientemente ordenadas como para que cualquier herramienta — incluida la IA — produzca resultados medibles. Holística está construida para ese problema.
+      Las compañías que ganen los próximos cinco años no serán las que tengan más herramientas, sino las que tengan operaciones suficientemente ordenadas como para que cualquier herramienta — incluida la IA — produzca resultados medibles. Holistika está construida para ese problema.
 
   - id: 09-market-icp
     layout: market_icp
@@ -154,7 +154,7 @@ slides:
         body: "Empresas con 10–80 personas que necesitan estructurar su operación antes de escalar a la siguiente etapa."
         signal: "Cliente directo · servicio profesional"
       - title: "Partner B2B + equidad conjunta"
-        body: "Integradores, agencias y operadores con base de clientes propia que necesitan ingeniería de producto sin contratar plantilla. Algunos contratan servicio puro; otros co-construyen un SaaS con Holística a cambio de equidad o revenue share."
+        body: "Integradores, agencias y operadores con base de clientes propia que necesitan ingeniería de producto sin contratar plantilla. Algunos contratan servicio puro; otros co-construyen un SaaS con Holistika a cambio de equidad o revenue share."
         signal: "Canal indirecto · entrega gobernada · equidad conjunta"
       - title: "Cliente SaaS"
         body: "Equipos que adoptan la plataforma KiRBe para gestionar su propio conocimiento empresarial."
@@ -243,5 +243,5 @@ slides:
       - "Reparto documental ENISA: qué produce el fundador, qué produce la asesoría."
       - "Ventana de 30 minutos esta semana para alinear plan de presentación."
     closing: "Un saludo,"
-    signature: "Holística Research"
+    signature: "Holistika Research"
     contact_hint: "holistikaresearch.com"

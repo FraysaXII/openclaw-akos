@@ -105,7 +105,7 @@ The **single primary task**: scan status sections, identify stalled or gated ini
 | IN-F | Time-travel "as-of" toggle re-queries the view; eyebrow line changes; URL updates with `?asof=YYYY-MM-DD` | Playwright |
 | IN-G | Page renders within budget on a 60-row dataset (LCP < 2.5s, no jank on section toggle) | Lighthouse |
 | IN-H | Print stylesheet emits a single linear list grouped by status with title + ID + last review | Manual |
-| IN-I | Page brand-jargon clean for showcase variant (no `AKOS`, `RBAC`, etc.); shows "Holística program line" instead of "AKOS planning workspace" in showcase | `npm run lint:jargon -- --route /initiatives --variant showcase` |
+| IN-I | Page brand-jargon clean for showcase variant (no `AKOS`, `RBAC`, etc.); shows "Holistika program line" instead of "AKOS planning workspace" in showcase | `npm run lint:jargon -- --route /initiatives --variant showcase` |
 
 ## 7. Cross-reference
 
