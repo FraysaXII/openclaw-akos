@@ -338,3 +338,26 @@ Total: **24 / 1165 rows** seeded (2.06% adoption surface). Seven of the 12 patte
 ### Note on no-new-baseline-role
 
 Per `D-IH-79-K` (Round 1) and the cluster D ratification (`D-IH-79-Q`, Round 5), no new `baseline_organisation` role row was minted in I79. P6 reached the only point where the decision could be revisited — operator confirmed `no-new-role-confirm` via AskQuestion `p6-baseline-tranche` (Round 6). The KB-stewardship-as-People-area-wide responsibility framing absorbed into the manifesto §3 (`HOLISTIKA_PEOPLE_MANIFESTO.md`) stands; the orphan-folder housekeeping cadence (D-IH-79-Q) stays under People Operations Lead remit; no Knowledge Base Steward role mint.
+
+---
+
+## Round 7 — P8 closure (2026-05-15)
+
+### D-IH-79-CLOSURE — I79 initiative closure
+
+**Context.** P0–P8 mega-initiative all phases shipped: charter (P0) + manifesto (P1) + pattern library + jargon-scan validator (P2) + People AI doctrine + Ethics anchor (P3a) + Tech Lab framework landscape (P3b) + cross-area breakthrough propagation SOP (P4) + 4-cluster orphan housekeeping with `index.md` SSOT rewrite (P5) + `process_list.csv` 35-col extension + 24 FK seeds across 2 waves (P6) + UAT and integration verification (P7). Zero new release-gate FAIL lanes vs I73 closure baseline. All automated validators PASS. Closure pause record filed at [`reports/p8-closure-pause-record-2026-05-15.md`](reports/p8-closure-pause-record-2026-05-15.md).
+
+**Decision.** Mint `D-IH-79-CLOSURE` row in canonical [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv); flip [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) `INIT-OPENCLAW_AKOS-79` `status=closed` + `closed_at=2026-05-15` + `closure_decision_id=D-IH-79-CLOSURE`; flip all 10 `OPS-79-*` rows in [`OPS_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv) `status=closed`; sync [`INITIATIVE_DEPENDENCIES.md`](../_templates/INITIATIVE_DEPENDENCIES.md) (mermaid + blocker table + history); sync [`docs/wip/planning/_templates/README.md`](../_templates/README.md) per-initiative state table; flip this `master-roadmap.md` frontmatter `status: closed` + `closed_at: 2026-05-15` + `closure_decision_id: D-IH-79-CLOSURE`.
+
+**Forward-charter carry-overs (NOT closure-blockers).** Per [`reports/p8-closure-pause-record-2026-05-15.md`](reports/p8-closure-pause-record-2026-05-15.md) §"Forward-charter carry-overs":
+
+- 4 of 12 patterns at zero FK adoption (classification_lattice / dual_register / inline_ratify / program_topic_layout) — universal canonical-architecture conventions; future tranches grow adoption per the cross-area breakthrough propagation SOP (P4).
+- SOP-PEOPLE_ORPHAN_FOLDER_AUDIT_001 mint deferred to a future I-NN per `D-IH-79-Q` (operator-judgement-heavy work).
+- PLANNING_COMPENDIUM.md §11.10 sub-section for I79 deferred to compendium next-pass refresh.
+- Madeira knowledge-test session + operator browser session reading `v3.0/index.md` are operator-action-required with first follow-up window 2026-06.
+
+**Reversibility.** Low (initiative closure is the standard one-way operation; further changes flow through successor initiatives per `INITIATIVE_REGISTRY.csv` lifecycle).
+
+**Decision_source.** `agent_inline_default` (mechanical closure step following P7 PASS posture; no operator-action-required gate per `akos-agent-checkpoint-discipline.mdc` time-box for closure pause records when validators are green and forward-charter carry-overs are explicitly enumerated).
+
+**Closes.** All 10 `OPS-79-*` rows. Initiative is now in steady-state per the `closed` lifecycle row.
