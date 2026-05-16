@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (10)
+### Active (in execution) (11)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -29,6 +29,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | active | 2026-05-07 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
 | **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
 | **84** | [`84-substrate-doctrine-and-commercial-readiness/`](84-substrate-doctrine-and-commercial-readiness/) | active | 2026-05-16 | I84 — Substrate Doctrine and Commercial Readiness |
+| **86** | [`86-initiative-cluster-execution-coordinator/`](86-initiative-cluster-execution-coordinator/) | active | 2026-05-16 | I86 — Initiative Cluster Execution Coordinator |
 
 ### Gated on external event (2)
 
