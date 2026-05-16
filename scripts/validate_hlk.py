@@ -187,6 +187,52 @@ def check_projects_have_children(proc_rows: list[dict]) -> list[str]:
     return errors
 
 
+def _load_design_pattern_ids() -> set[str]:
+    """Return the set of valid pattern_id values from PEOPLE_DESIGN_PATTERN_REGISTRY.csv.
+
+    Empty set when the file is missing, which causes any populated
+    inherited_pattern_id cell to fail FK resolution (correct fail-closed posture).
+    Per I79 P6 D-IH-79-E (process-singularity FK lever).
+    """
+    pattern_csv = HLK_DIR / "dimensions" / "PEOPLE_DESIGN_PATTERN_REGISTRY.csv"
+    if not pattern_csv.exists():
+        return set()
+    out: set[str] = set()
+    with open(pattern_csv, encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            pid = (row.get("pattern_id") or "").strip()
+            if pid:
+                out.add(pid)
+    return out
+
+
+def check_inherited_pattern_id_fk(proc_rows: list[dict]) -> list[str]:
+    """FK resolution for ``inherited_pattern_id`` against PEOPLE_DESIGN_PATTERN_REGISTRY.
+
+    Empty cells are valid (the column is nullable). Populated cells must resolve.
+    Per I79 P6 D-IH-79-E (the "process singularity" lever — countable adoption surface).
+    """
+    valid_ids = _load_design_pattern_ids()
+    errors: list[str] = []
+    for row in proc_rows:
+        ipid = (row.get("inherited_pattern_id") or "").strip()
+        if not ipid:
+            continue
+        if not valid_ids:
+            errors.append(
+                f"item_id={row.get('item_id', '?')!r} carries inherited_pattern_id="
+                f"{ipid!r} but PEOPLE_DESIGN_PATTERN_REGISTRY.csv could not be loaded"
+            )
+            continue
+        if ipid not in valid_ids:
+            errors.append(
+                f"item_id={row.get('item_id', '?')!r} carries inherited_pattern_id={ipid!r} "
+                f"which does not resolve to any pattern_id in PEOPLE_DESIGN_PATTERN_REGISTRY.csv"
+            )
+    return errors
+
+
 def _git_sha() -> str:
     """Return short commit SHA, or 'dirty' on any failure (no git, detached, etc.)."""
     try:
@@ -312,6 +358,7 @@ def main() -> int:
     checks.append(("Broken parent refs", broken))
     checks.append(("Orphan items", orphans))
     checks.append(("Parent id consistency", check_parent_id_consistency(proc_rows)))
+    checks.append(("Inherited pattern_id FK", check_inherited_pattern_id_fk(proc_rows)))
 
     for name, errors in checks:
         status = "PASS" if not errors else "FAIL"

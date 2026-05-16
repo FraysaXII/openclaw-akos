@@ -55,6 +55,16 @@ PROCESS_LIST_FIELDNAMES: list[str] = [
     "min_rev_value_eur",          # Declared minimum revenue value attributable to this process under the axis combination; nullable
     "par_rev_value_eur",          # Declared par/expected revenue value; nullable
     "max_rev_value_eur",          # Declared maximum revenue value; nullable
+    # I79 P6 process-singularity FK (D-IH-79-E + D-IH-79-O cluster D Round 5 ratification).
+    # Nullable Foreign Key into PEOPLE_DESIGN_PATTERN_REGISTRY.pattern_id. When populated,
+    # makes the cross-area inheritance lattice countable: any area's process declares which
+    # People design pattern parents it. Validator enforces FK resolution only when populated;
+    # empty string is the default for the existing 1166-row corpus and remains valid. Seeded
+    # at I79 P6 via inline-ratify gate for ~17-20 obvious processes (engagement-model rows +
+    # paired-SOP rows + adapter rows + I79 self-instantiation rows). Cascades to Pydantic
+    # ProcessItem (extra=allow tolerated) + Supabase mirror DDL (ALTER TABLE ADD COLUMN
+    # inherited_pattern_id text NULL) + release-gate FK regex + jargon-scan untouched.
+    "inherited_pattern_id",
 ]
 
 
