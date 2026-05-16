@@ -8,12 +8,15 @@ confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
   - People Operations Lead
-last_review: 2026-05-15
+last_review: 2026-05-16
 last_review_by: People Operations Lead
+last_review_decision_id: D-IH-80-D
+methodology_version_at_review: v3.1
 ratifying_decisions:
   - D-IH-79-A
   - D-IH-79-F
   - D-IH-79-L
+  - D-IH-80-D
 status: active
 register: internal
 linked_canonicals:
@@ -25,6 +28,8 @@ linked_runbooks:
   - scripts/peopl_agentic_knowledge_test.py
 linked_processes:
   - tbi_peopl_dtp_agentic_ops_mtnce_001
+companion_to:
+  - SOP-PEOPLE_AGENTIC_OPERATIONS_001.addendum.md
 cadence: scheduled
 cadence_schedule: monthly
 cadence_secondary: event_triggered
@@ -79,7 +84,7 @@ When a canonical has changed since the last cadence, the test bank is updated. N
 
 Run the harness at [`scripts/peopl_agentic_knowledge_test.py`](../../../../../../scripts/peopl_agentic_knowledge_test.py). The harness presents each question to the agent, records the agent's answer, and emits a structured result file under `docs/wip/planning/79-people-manifesto-and-pattern-library/reports/knowledge-tests/<YYYY-MM>/<agent-name>.md`.
 
-The harness has zero framework dependencies. It reads canonicals as plain text and writes results as plain text. People's tooling stays portable across whatever underlying agent infrastructure Tech Lab chooses.
+The harness reads canonicals as plain text and writes results as plain text. The why behind that choice (zero-framework on purpose; methodology-version agnostic; portable across infrastructure changes) lives in [`SOP-PEOPLE_AGENTIC_OPERATIONS_001.addendum.md`](SOP-PEOPLE_AGENTIC_OPERATIONS_001.addendum.md) §A.
 
 ### 4. Score the results
 

@@ -8,11 +8,14 @@ confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
   - People Operations Lead
-last_review: 2026-05-15
+last_review: 2026-05-16
 last_review_by: People Operations Lead
+last_review_decision_id: D-IH-80-D
+methodology_version_at_review: v3.1
 ratifying_decisions:
   - D-IH-79-A
   - D-IH-79-I
+  - D-IH-80-D
 status: active
 register: internal
 linked_canonicals:
@@ -25,6 +28,8 @@ linked_runbooks:
   - scripts/peopl_cross_area_breakthrough_announce.py
 linked_processes:
   - tbi_peopl_dtp_cross_area_breakthrough_001
+companion_to:
+  - SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.addendum.md
 cadence: event_triggered
 cadence_trigger: substantive update to PEOPLE_DESIGN_PATTERN_REGISTRY.csv or sibling-canonical revision
 cadence_secondary: scheduled
@@ -97,7 +102,9 @@ Decisions land in the area's own decision log, and the digest carries a back-lin
 
 ### 4. Tech Lab pingback for agentic doctrine revisions
 
-When the trigger is a substantive revision to [`HOLISTIKA_AGENTIC_DOCTRINE.md`](HOLISTIKA_AGENTIC_DOCTRINE.md), the runbook explicitly pings the Tech Lab landscape (`AGENTIC_FRAMEWORK_LANDSCAPE.md`) and SOP (`SOP-TECH_AGENTIC_INFRA_001.md`). System Owner reads the People-side change within one week and assesses whether the framework rows, the integration postures, or the knowledge base infrastructure dimensions need to revise to stay coherent. The cross-area breakthrough log records the Tech Lab assessment outcome (revise / no-action / scheduled-revise-at-next-quarterly).
+When the trigger is a substantive revision to [`HOLISTIKA_AGENTIC_DOCTRINE.md`](HOLISTIKA_AGENTIC_DOCTRINE.md), the runbook explicitly pings the Tech Lab landscape (`AGENTIC_FRAMEWORK_LANDSCAPE.md`) and SOP (`SOP-TECH_AGENTIC_INFRA_001.md`). System Owner reads the People-side change within one week and decides one of three outcomes: revise, no-action, or scheduled-revise-at-next-quarterly. The cross-area breakthrough log records the outcome.
+
+The detail of *what* System Owner specifically assesses (which framework rows, which integration postures, which knowledge-base tiers) lives in [`SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.addendum.md`](SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.addendum.md) §A. The executor running this SOP step does not need that detail; System Owner reads the addendum when the pingback fires.
 
 This pingback is the structural defence against the People doctrine + Tech Lab landscape + Ethics anchor triangle going out of sync.
 
