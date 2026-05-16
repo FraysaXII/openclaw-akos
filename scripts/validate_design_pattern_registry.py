@@ -115,6 +115,7 @@ PEOPLE_CANONICALS_RELATIVE: tuple[str, ...] = (
     "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_AGENTIC_OPERATIONS_001.md",
     "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/PEOPLE_DESIGN_PATTERN_LIBRARY.md",
     "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md",
+    "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_STAKEHOLDER_LENSES.md",
     "docs/references/hlk/v3.0/Admin/O5-1/People/Ethics/canonicals/ETHICAL_AGENTIC_BOUNDARIES.md",
 )
 
