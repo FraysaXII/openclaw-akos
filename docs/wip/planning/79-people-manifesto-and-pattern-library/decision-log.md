@@ -298,3 +298,43 @@ Each conundrum is recorded here with operator's answer + decision_source after t
 | D | Orphan-inventory report registration + cadence record | (this commit) | `p5-orphan-cadence` | (this commit) |
 
 All cluster ratifications were inline-ratify per `akos-inline-ratification.mdc` Round 5 §"Worked example". No real-stop pause record was filed because the inline-ratify pattern replaced the legacy operator-pause-real-stop posture (3 DELETEs were ratified inline before applying, then atomic per-cluster commits landed — which is exactly the pattern the rule names as the worked example).
+
+---
+
+## Round 6 — P6 inline-ratify outcomes (process_list FK seeds; 2026-05-15)
+
+> Round 6 records the per-wave `AskQuestion` verdicts from P6 inherited_pattern_id FK seeding. Per `D-IH-79-E` (process_list 8th col mint at P6) + the inline-ratify discipline, two waves of operator picks landed.
+
+### D-IH-79-R — Pattern-pick framing for engagement-model class rows (paired_sop_runbook vs engagement_model_taxonomy)
+
+**Question.** For three rows that are *both* paired SOP+runbook *and* specifically instantiate one engagement-model class (`tbi_peopl_dtp_outsourced_helper_soc_review_001`, `tbi_peopl_dtp_percentage_collaborator_payout_001`, `tbi_peopl_dtp_investor_advisor_round_review_001`), the FK column allows only one `pattern_id` value. Which framing parents these rows?
+
+**Decision.** **`pattern_engagement_model_taxonomy`** (origin pattern), NOT `pattern_paired_sop_runbook` (implementation pattern). Operator's framing (round 6 verbatim): *"option A but I wonder why option D seems right too. I will need your expertise here to choose what's best, but I want them all"*. Operator-explicit pick was bulk-A; operator deferred the framing call to agent expert judgement; agent picked origin-over-implementation per the rationale below.
+
+**Rationale (the doctrinal call).**
+
+1. **Origin-over-implementation principle.** The FK is a *parent-pattern declaration*. The engagement-model taxonomy is the *unique* parent of those rows — they exist *because* of the 7-class taxonomy doctrine (`D-IH-73-D`). Without the taxonomy, there's no "outsourced_helper review", no "percentage_collaborator payout", no "investor_advisor round review". The paired-SOP-runbook pattern is the *implementation style* (per `akos-executable-process-catalog.mdc` Rule 1) — it answers "how do we deliver this process" rather than "why does this process exist".
+2. **Signal-to-noise.** The paired_sop_runbook pattern is the *baseline contract* for every cadence-bound row in `process_list.csv` (per Rule 1). If we used `pattern_paired_sop_runbook` as the FK for any cadence-bound row, the FK loses signal — every cadence row would carry the same value and the count becomes meaningless. By contrast, `pattern_engagement_model_taxonomy` carries unique informational weight: "4 processes parent on the engagement-model taxonomy" is a meaningful adoption count; "many processes are paired SOPs" is universally true and uninteresting.
+3. **Independent enforcement of paired-SOP-runbook.** Rule 1 compliance is enforced mechanically by [`scripts/validate_process_list_pairing.py`](../../../../scripts/validate_process_list_pairing.py) — the SOP+runbook contract has its own validator and doesn't need the FK column to be countable. Counting Rule-1 compliance via the FK would duplicate the validator's job.
+4. **Process singularity countability.** The "process singularity" lever (`D-IH-79-E`) is countable adoption surface: `SELECT COUNT(*) FROM process_list WHERE inherited_pattern_id = '<X>'`. For that count to be informative, each row's FK should point to its *load-bearing* parent — the pattern whose absence would invalidate the row's reason for existing.
+
+**Future-proofing.** When a process has multiple legitimate pattern parents (paired SOP+runbook AND engagement-model class AND drift-gate validator AND classification lattice), this single-FK column will need to grow into a many-to-many relation. That's an I-NN-future schema extension — out of I79 scope. For I79 P6, single-FK with origin-over-implementation discipline is the correct stake-in-the-ground.
+
+**Reversibility.** High (single FK swap per row; backwards-compatible).
+
+**Decision_source.** `agent_inline_default` for the framing call (operator deferred to expertise per round 6 free-text). `operator_inline_explicit_via_askquestion` for the bulk pick (option A all 9).
+
+---
+
+### Per-wave seed summary (closes C-79-7)
+
+| Wave | Commit | Rows seeded | Patterns covered |
+|---|---|---|---|
+| 1 | `68dcc3f` | 15 | register_csv (×2) + persona_registry + drift_gate + engagement_model_taxonomy (×4) + paired_sop_runbook (×4) + cross_area_breakthrough_propagation + intelligenceops_register (×2) |
+| 2 | (this commit) | 9 | paired_sop_runbook (×5) + normalized_adapter + engagement_model_taxonomy (×3) |
+
+Total: **24 / 1165 rows** seeded (2.06% adoption surface). Seven of the 12 patterns now carry at least one process. The remaining 5 patterns (classification_lattice, dual_register_internal_external, inline_ratify_via_askquestion, program_topic_layout, paired_sop_runbook still applies broadly) are either too universal (paired_sop_runbook) or judgement-rich per row (the rest); further waves can ride future I-NN initiatives' standard tranche-paced operator review per the deferred-to-future-tranche posture.
+
+### Note on no-new-baseline-role
+
+Per `D-IH-79-K` (Round 1) and the cluster D ratification (`D-IH-79-Q`, Round 5), no new `baseline_organisation` role row was minted in I79. P6 reached the only point where the decision could be revisited — operator confirmed `no-new-role-confirm` via AskQuestion `p6-baseline-tranche` (Round 6). The KB-stewardship-as-People-area-wide responsibility framing absorbed into the manifesto §3 (`HOLISTIKA_PEOPLE_MANIFESTO.md`) stands; the orphan-folder housekeeping cadence (D-IH-79-Q) stays under People Operations Lead remit; no Knowledge Base Steward role mint.
