@@ -28,6 +28,7 @@ linked_decisions:
   - D-IH-79-O (P5 cluster C — full v3.0/index.md SSOT rewrite per operator option B; the index is now an authoritative wayfinding canonical, not a stale snapshot; supersedes the cluster-C commit-message ID typo of "K")
   - D-IH-79-P (P5 cluster C — _candidates/i60-process-list-harmonisation.md superseded note pointing at I79 P6; bookmark-with-superseded-note posture per orphan-inventory verdict)
   - D-IH-79-Q (P5 cluster D — orphan-folder housekeeping cadence ratified as gated_operator; SOP-PEOPLE_ORPHAN_FOLDER_AUDIT_001 mint deferred to P7 to avoid scope creep)
+  - D-IH-79-R (P6 wave 2 — origin-over-implementation framing for the 3 engagement-model class rows that are simultaneously paired-SOP-runbook AND engagement-model-taxonomy users; single-FK column forces the call; agent expert judgement requested by operator round 6 picked the load-bearing parent over the implementation pattern)
 parent_dependency:
   - INIT-OPENCLAW_AKOS-73 (People Operations + Engagement Models + Methodology IP; closed 2026-05-15 D-IH-73-CLOSURE)
 sibling_initiatives:
@@ -111,8 +112,8 @@ flowchart LR
 | **P3a** | Strand C-People AI doctrine + ops + Ethics anchor | C-People | Ethics-anchor canonical gate | OPS-79-3 | pending |
 | **P3b** | Strand C-Tech-Lab framework landscape + infra SOP | C-Tech-Lab | standard | OPS-79-4 | pending |
 | **P4** | Strand D Cross-area breakthrough-escalation SOP + paired runbook | D | standard | OPS-79-5 | **SHIPPED** `79149f6` |
-| **P5** | Strand E Orphan inventory across 7 trees + per-cluster inline-ratify housekeeping | E | only-on-deletes | OPS-79-6 | **SHIPPED** `55bfaed` (cluster A deletes) + `c0c74d0` (cluster B RESERVED-marks) + `0501420` (cluster C bookmarks + index.md SSOT rewrite) + cluster D (this commit) |
-| **P6** | Strand F process_list 8th col `inherited_pattern_id` mint + seeded FKs | F | canonical CSV gate | OPS-79-7 + OPS-79-8 | pending |
+| **P5** | Strand E Orphan inventory across 7 trees + per-cluster inline-ratify housekeeping | E | only-on-deletes | OPS-79-6 | **SHIPPED** `55bfaed` (cluster A deletes) + `c0c74d0` (cluster B RESERVED-marks) + `0501420` (cluster C bookmarks + index.md SSOT rewrite) + `83ac4f1` (cluster D closure) |
+| **P6** | Strand F process_list 8th col `inherited_pattern_id` mint + seeded FKs | F | canonical CSV gate (inline-ratify replaces real-stop pause) | OPS-79-7 + OPS-79-8 | **SHIPPED** `38256cb` (schema + Pydantic + validator + Supabase migration) + `68dcc3f` (wave 1: 15 FK seeds) + `cb4d7cc` (wave 2: 9 additional FK seeds + D-IH-79-R doctrinal framing call) + closure (this commit) |
 | **P7** | UAT (Madeira knowledge-test + jargon-scan + landscape audit) + integration verification | — | standard | OPS-79-9 | pending |
 | **P8** | Closure — D-IH-79-CLOSURE; registry flip; dep map sync | — | closure gate | OPS-79-10 | pending |
 
