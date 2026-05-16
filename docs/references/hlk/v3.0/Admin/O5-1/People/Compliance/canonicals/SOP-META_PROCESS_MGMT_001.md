@@ -25,6 +25,7 @@ Table of Contents
   * 4.3. SOP Documentation  
   * 4.4. Process Data Ingestion & Update  
   * 4.5. Review & Maintenance  
+  * 4.6. Body and Addendum split (I80 P1; D-IH-80-B + D-IH-80-G)  
 * 5.0 Roles and Responsibilities  
 * 6.0 Addendum  
   * A.1: Process Definition Template
@@ -86,6 +87,25 @@ The lifecycle of a process follows these key stages:
 * **Trigger:** A scheduled review (e.g., annually) or a change in the underlying process.  
 * **Action:** The Process Owner reviews the SOP and its corresponding graph representation for accuracy. If changes are needed, the process returns to step 4.2.  
 * **Output:** An up-to-date and validated process model and documentation.
+
+4.6. Body and Addendum split (I80 P1; D-IH-80-B + D-IH-80-G)
+
+* **Trigger:** Any SOP authored from 2026-05-16 forward, or any existing SOP undergoing scheduled review (§4.5) that carries cross-area technical jargon, validator names, mirror table references, or other supporting documentation that the executor does not need to perform the work end-to-end.
+* **Action:** The Process Owner authors **two paired files** as the default contract:
+  1. **Body** at `<area>/<role>/canonicals/SOP-<purpose>_<NNN>.md` — plain-language; speaks the executor's home dialect (Data canonicals speak data; Tech Lab canonicals speak tech; Finance canonicals speak finance; People canonicals speak plain language because People is for people); habilitates the executor to perform the work end-to-end with the relevant context — nothing more.
+  2. **Addendum** at `<area>/<role>/canonicals/SOP-<purpose>_<NNN>.addendum.md` — carries everything else: cross-area jargon, validator names, mirror table details, system-owner audit material, scoring rubrics, integration postures, infrastructure dimensions.
+* **What goes where (5-row rubric).** When in doubt about whether content belongs in the body or the addendum, apply this rubric in order:
+  1. *Does the executor need this to perform the action?* → body.
+  2. *Does this name a system, validator, mirror, or cross-area artifact the executor does not operate?* → addendum.
+  3. *Does this carry jargon from another area?* → addendum (unless the executor's role natively spans both areas).
+  4. *Does this require auditor or system-owner context for compliance evidence?* → addendum.
+  5. *Could a new hire in the executor's role complete the SOP without this?* → addendum if yes.
+* **Frontmatter contract.** Body and addendum each carry their **own complete frontmatter** (access_level, register, role_owner, classification, last_review, last_review_decision_id, methodology_version_at_review, ssot, intellectual_kind). Body and addendum **may diverge** on `access_level` / `classification` / `role_owner` (legitimate independent classification) and on `last_review` / `last_review_decision_id` (legitimate independent review cadences); they **must converge** on `methodology_version_at_review` (semantic version of the SOP itself). Both files cross-link in their frontmatter: body lists addendum under `companion_to`; addendum lists body under `parent_sop`.
+* **Single-file degenerate case.** If an SOP body is fully self-sufficient and has no addendum-worthy content, do not split. Single-file is the **degenerate case** of the pattern, not a violation. Promote to paired-file when an addendum review concludes content has accumulated that does not belong in the body.
+* **Anti-jargon drift gate scope.** Per **D-IH-80-F**, the People-canonical anti-jargon drift gate ([`scripts/validate_design_pattern_registry.py --jargon-scan`](../../../../../../scripts/validate_design_pattern_registry.py)) glob-excludes any file whose name ends with `.addendum.md` from scan scope at file-selection time. Addenda may legitimately carry cross-area jargon. The body must read plain.
+* **Pattern provenance.** This contract instantiates [`pattern_sop_addendum_split`](../canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv) (`pattern_class=documentation_layering`; the 11th class added at I80 P1 per **D-IH-80-G**). The narrative companion is at [`PEOPLE_DESIGN_PATTERN_LIBRARY.md` `#pattern-sop-addendum-split`](../../canonicals/PEOPLE_DESIGN_PATTERN_LIBRARY.md#pattern-sop-addendum-split).
+* **DAMA-DMBOK 2.0 alignment.** Paired-file is structurally aligned with three DAMA knowledge areas: **Metadata Management** (each file is a discrete metadata row consumable by KM systems without parsing markdown structure); **Reference & Master Data Management** (independent review cadences body vs addendum); **Data Integration & Interoperability** (Supabase RLS at file-level, not section-level; ERP panel filter routing becomes a join, not a regex).
+* **Output:** A paired SOP body and addendum (or a single-file SOP body when the degenerate case applies), both registered in §7 of this document and in `process_list.csv` if the SOP operationalises a `process_list` row.
 
 5.0 Roles and Responsibilities
 

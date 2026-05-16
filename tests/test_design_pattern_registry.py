@@ -80,13 +80,58 @@ def test_csv_column_count_is_15() -> None:
 
 
 def test_at_least_one_row_per_pattern_class_seeded() -> None:
-    """The seed registry should exercise breadth across the 10-class taxonomy.
+    """The seed registry should exercise breadth across the 11-class taxonomy
+    (10 original from I79 P2 + ``documentation_layering`` from I80 P1 D-IH-80-G).
     A minimum of 5 distinct pattern_class values must appear in the seed data.
     """
     rows = _read_rows()
     classes = {(r.get("pattern_class") or "").strip() for r in rows}
     assert len(classes) >= 5, (
         f"seed registry too narrow; only {len(classes)} pattern_class values present: {sorted(classes)}"
+    )
+
+
+def test_documentation_layering_class_in_enum() -> None:
+    """I80 P1 D-IH-80-G: ``documentation_layering`` must be in the pattern_class enum
+    as the 11th class anchoring ``pattern_sop_addendum_split``.
+    """
+    assert "documentation_layering" in VALID_PATTERN_CLASSES, (
+        "documentation_layering missing from VALID_PATTERN_CLASSES; "
+        "I80 P1 D-IH-80-G enum extension not applied"
+    )
+
+
+def test_pattern_class_enum_size_is_11() -> None:
+    """I80 P1 D-IH-80-G: the pattern_class enum has exactly 11 members
+    (10 original from I79 P2 + ``documentation_layering`` from I80 P1).
+    """
+    assert len(VALID_PATTERN_CLASSES) == 11, (
+        f"expected 11-class pattern_class taxonomy; got {len(VALID_PATTERN_CLASSES)}: "
+        f"{sorted(VALID_PATTERN_CLASSES)}"
+    )
+
+
+def test_pattern_sop_addendum_split_row_present() -> None:
+    """I80 P1: the ``pattern_sop_addendum_split`` row must be present in the
+    canonical CSV with pattern_class ``documentation_layering`` (D-IH-80-B + D-IH-80-G).
+    """
+    rows = _read_rows()
+    matches = [r for r in rows if r.get("pattern_id") == "pattern_sop_addendum_split"]
+    assert len(matches) == 1, (
+        f"expected exactly one pattern_sop_addendum_split row; got {len(matches)}"
+    )
+    row = matches[0]
+    assert row["pattern_class"] == "documentation_layering", (
+        f"pattern_sop_addendum_split.pattern_class expected 'documentation_layering'; "
+        f"got {row['pattern_class']!r}"
+    )
+    assert row["ratifying_decision_id"] == "D-IH-80-B", (
+        f"pattern_sop_addendum_split.ratifying_decision_id expected 'D-IH-80-B'; "
+        f"got {row['ratifying_decision_id']!r}"
+    )
+    assert row["originating_initiative_id"] == "INIT-OPENCLAW_AKOS-80", (
+        f"pattern_sop_addendum_split.originating_initiative_id expected "
+        f"'INIT-OPENCLAW_AKOS-80'; got {row['originating_initiative_id']!r}"
     )
 
 

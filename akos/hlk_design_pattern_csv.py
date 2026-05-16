@@ -63,6 +63,7 @@ VALID_PATTERN_CLASSES: frozenset[str] = frozenset({
     "inline_ratify",
     "forward_layout",
     "adapter",
+    "documentation_layering",
 })
 
 
@@ -126,6 +127,7 @@ class DesignPatternRow(BaseModel):
         "inline_ratify",
         "forward_layout",
         "adapter",
+        "documentation_layering",
     ]
     discipline_origin: Literal[
         "compliance",

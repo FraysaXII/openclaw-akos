@@ -8,12 +8,14 @@ source_taxonomy: holistika-internal-doctrine
 authors:
   - People Operations Lead
   - Compliance Officer
-last_review: 2026-05-15
-last_review_by: Compliance Officer
+last_review: 2026-05-16
+last_review_by: People Operations Lead
 ratifying_decisions:
   - D-IH-79-A
   - D-IH-79-C
   - D-IH-79-D
+  - D-IH-80-B
+  - D-IH-80-G
 status: active
 linked_csv: docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv
 ---
@@ -212,6 +214,20 @@ A pattern row in the CSV that has no narrative section here is a drift signal. T
 **How to instantiate it.** Mint the directories under the standard prefixes. Add the program row to `PROGRAM_REGISTRY.csv` and the topic row to `TOPIC_REGISTRY.csv`. Wire the manifest's `paths.mermaid` slot.
 
 **What it does not do.** It does not require a flat-to-forward migration of existing surfaces. Migration is a separate initiative.
+
+---
+
+## Pattern: SOP body and addendum split {#pattern-sop-addendum-split}
+
+**What it is.** Every SOP that carries supporting documentation beyond what an executor needs to perform the work is split into two paired files: the body (`SOP-XYZ_001.md`) and the addendum (`SOP-XYZ_001.addendum.md`). The body is plain-language and habilitates the executor end-to-end with the relevant context they need to do the work — nothing more. The addendum carries the rest: cross-area jargon, validator names, mirror table details, system-owner audit material, scoring rubrics, integration postures, infrastructure dimensions. Both files live as discrete metadata rows; both are canonical SSOT for their layer.
+
+**When to reach for it.** Whenever an SOP would otherwise carry technical jargon from another area in its main body. Each area speaks its own dialect: Data canonicals speak data, Tech Lab canonicals speak tech, Finance canonicals speak finance, People canonicals speak plain language because People is for people. The body stays in the executor's home dialect. Cross-area depth lives in the addendum. If the SOP body is fully self-sufficient and has no addendum-worthy content, do not split — single-file is the degenerate case of the pattern.
+
+**What it gives you.** Two independently consumable artefacts. The body reads like the manifesto reads — clear, navigable, executor-empowering. The addendum carries everything an auditor or system-owner needs without intruding on the executor's reading path. Each file carries its own complete frontmatter (access_level, register, role_owner, classification, last_review, ssot, intellectual_kind), so knowledge management systems consume them as discrete rows without parsing markdown structure. Independent review cadences become possible — body annual or per-cadence, addendum per-major-event. Anti-jargon drift gates apply only to the body; the addendum is exempt by file-suffix convention. Access tier separation becomes mechanical at the data layer — body might mirror at one access policy, addendum at another.
+
+**How to instantiate it.** Author the body at `<area>/<role>/canonicals/SOP-<purpose>_<NNN>.md` to the standard SOP shape (Purpose / Scope / Inputs / Steps / Outputs / Failure modes / Cross-references) in the executor's home dialect. Identify the supporting content that does not belong in the body using the rubric from `SOP-META_PROCESS_MGMT_001.md` §"Body and Addendum split": (1) does the executor need this to perform the action — body; (2) does this name a system, validator, mirror, or cross-area artifact the executor doesn't operate — addendum; (3) does this carry jargon from another area — addendum unless the executor's role natively spans both areas; (4) does this require auditor or system-owner context for compliance evidence — addendum; (5) could a new hire in the executor's role complete the SOP without this — addendum if yes. Author the addendum at `<area>/<role>/canonicals/SOP-<purpose>_<NNN>.addendum.md` with frontmatter that mirrors the body's where appropriate (same `methodology_version_at_review`) and diverges where appropriate (own `access_level`, own `last_review`, own `last_review_decision_id`). Cross-link both: the body's frontmatter lists the addendum as a companion; the addendum's frontmatter lists the body as the parent. Anti-jargon validators glob-exclude `*.addendum.md` from scope.
+
+**What it does not do.** It does not replace the paired-SOP-runbook contract. That pattern (sibling: [Pattern: Paired SOP and runbook](#pattern-paired-sop-runbook)) is about executable artefacts — the SOP a human reads to perform the work and the runbook an agent fires unattended. The body and addendum split is about reader-audience layering at the documentation level — the executor body and the auditor or system-owner addendum. The two patterns compose: a process can have a paired SOP and runbook AND a body and addendum split on the SOP itself.
 
 ---
 

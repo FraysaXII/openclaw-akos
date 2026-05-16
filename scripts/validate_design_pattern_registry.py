@@ -13,7 +13,14 @@ tests) per `D-IH-79-N` (anti-jargon drift gate via shared validator):
 2. **--jargon-scan mode** — anti-jargon drift gate: scans People-area canonicals
    for forbidden technical jargon (per ``akos-people-discipline-of-disciplines.mdc``
    §4 + D-IH-79-N). Mirrors the ``validate_brand_baseline_reality_drift.py`` shape
-   (scan + token-list + INFO-then-FAIL graduation).
+   (scan + token-list + INFO-then-FAIL graduation). Per **D-IH-80-F** (I80 P1):
+   ``*.addendum.md`` files are excluded at file-selection time — addenda may
+   legitimately carry cross-area jargon since the executor reads only the body;
+   auditors / system-owners read addenda. The exclusion is suffix-based (cleaner
+   than parsing markdown section structure) and aligns the validator with the
+   data integration boundary every other consumer adopts (Supabase mirror /
+   Neo4j projection / Obsidian / RAG pipelines / ERP panel filters operate at
+   file-level, not section-level).
 
 The split mirrors I66's brand-baseline-reality drift gate logic for the
 brand-DNA dual-register: same shape, different vocabulary, different audience.
@@ -99,6 +106,9 @@ FORBIDDEN_TOKENS: tuple[str, ...] = (
 
 # People canonicals scanned for jargon leakage.
 # Tech Lab canonicals are EXEMPT — they legitimately carry framework names.
+# *.addendum.md files are EXEMPT per D-IH-80-F (SOP body/addendum pattern;
+# addenda may legitimately carry cross-area jargon since the executor reads only
+# the body; auditors / system-owners read addenda).
 PEOPLE_CANONICALS_RELATIVE: tuple[str, ...] = (
     "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_ORGANISING_DOCTRINE.md",
     "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_AGENTIC_DOCTRINE.md",
@@ -107,6 +117,14 @@ PEOPLE_CANONICALS_RELATIVE: tuple[str, ...] = (
     "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md",
     "docs/references/hlk/v3.0/Admin/O5-1/People/Ethics/canonicals/ETHICAL_AGENTIC_BOUNDARIES.md",
 )
+
+# Addendum exclusion glob suffix per D-IH-80-F (I80 P1 SOP body/addendum pattern mint).
+# Files whose name ends with this suffix are excluded from jargon-scan even if listed
+# above. The exclusion runs at file-selection time (cleaner than parsing markdown
+# section structure) and aligns the validator with the data integration boundary
+# every other consumer adopts (Supabase mirror / Neo4j projection / Obsidian /
+# RAG pipelines / ERP panel filters operate at file-level, not section-level).
+ADDENDUM_SUFFIX: str = ".addendum.md"
 
 # Skip-line discipline: lines that mention the token inside a markdown code fence,
 # inline code span, or a markdown link target are skipped to reduce false positives.
@@ -252,28 +270,66 @@ def _scan_file_for_jargon(path: Path) -> list[JargonHit]:
     return hits
 
 
+def _discover_sibling_addenda(body_paths: list[Path]) -> list[Path]:
+    """Return any sibling ``*.addendum.md`` files alongside the listed body files.
+
+    Per D-IH-80-F (I80 P1): addenda are auto-discovered for visibility (count
+    surfaced in the scan footer) but never scanned. The addendum exemption is
+    file-level — a file whose name ends with ``.addendum.md`` is exempt from
+    jargon-scan even if explicitly listed in ``PEOPLE_CANONICALS_RELATIVE``.
+    """
+    addenda: list[Path] = []
+    for body in body_paths:
+        # Sibling discovery: same parent folder, body filename swapped to addendum suffix.
+        # E.g. ``SOP-PEOPLE_AGENTIC_OPERATIONS_001.md`` ->
+        #      ``SOP-PEOPLE_AGENTIC_OPERATIONS_001.addendum.md``.
+        stem = body.name.removesuffix(".md")
+        candidate = body.with_name(f"{stem}{ADDENDUM_SUFFIX}")
+        if candidate.is_file():
+            addenda.append(candidate)
+    return addenda
+
+
 def run_jargon_scan_mode() -> int:
-    """Scan People canonicals for forbidden technical jargon (D-IH-79-N)."""
+    """Scan People canonicals for forbidden technical jargon (D-IH-79-N).
+
+    Per D-IH-80-F (I80 P1): excludes any ``*.addendum.md`` file at file-selection
+    time. Addenda may legitimately carry cross-area jargon since the executor
+    reads only the body; auditors / system-owners read addenda.
+    """
     print("\n  PEOPLE_DESIGN_PATTERN_REGISTRY anti-jargon drift gate")
     print("  " + "=" * 50)
 
     all_hits: list[JargonHit] = []
     files_scanned = 0
     files_missing: list[Path] = []
+    files_excluded_addendum: list[Path] = []
+    body_paths: list[Path] = []
     for rel in PEOPLE_CANONICALS_RELATIVE:
         path = REPO_ROOT / rel
+        # D-IH-80-F: exclude *.addendum.md at file-selection time even if explicitly listed.
+        if path.name.endswith(ADDENDUM_SUFFIX):
+            files_excluded_addendum.append(path)
+            continue
         if not path.is_file():
             files_missing.append(path)
             continue
         files_scanned += 1
+        body_paths.append(path)
         all_hits.extend(_scan_file_for_jargon(path))
 
-    print(f"  Files scanned:         {files_scanned}")
-    print(f"  Files not yet authored: {len(files_missing)} (informational; phases ship them)")
-    print(f"  Forbidden tokens:      {len(FORBIDDEN_TOKENS)}")
+    # Auto-discover sibling addenda for visibility (informational; not scanned).
+    discovered_addenda = _discover_sibling_addenda(body_paths)
+
+    print(f"  Files scanned (body):       {files_scanned}")
+    print(f"  Files not yet authored:     {len(files_missing)} (informational; phases ship them)")
+    print(f"  Sibling addenda discovered: {len(discovered_addenda)} (exempt per D-IH-80-F SOP body/addendum pattern)")
+    if files_excluded_addendum:
+        print(f"  Listed addenda excluded:    {len(files_excluded_addendum)} (defense-in-depth; suffix-based reject at scan time)")
+    print(f"  Forbidden tokens:           {len(FORBIDDEN_TOKENS)}")
 
     if all_hits:
-        print(f"  FAIL: {len(all_hits)} forbidden-token leak(s) in People canonicals")
+        print(f"  FAIL: {len(all_hits)} forbidden-token leak(s) in People canonicals (body)")
         for hit in all_hits[:30]:
             rel = hit.path.relative_to(REPO_ROOT).as_posix()
             print(f"    - {rel}:{hit.line_number} -> {hit.token!r}")
@@ -282,9 +338,11 @@ def run_jargon_scan_mode() -> int:
         print("  See .cursor/rules/akos-people-discipline-of-disciplines.mdc §4 for the allowed-token list.")
         print("  Tech Lab canonicals (AGENTIC_FRAMEWORK_LANDSCAPE.md, SOP-TECH_AGENTIC_INFRA_001.md)")
         print("  are EXEMPT — they legitimately carry the framework names.")
+        print("  *.addendum.md siblings are EXEMPT per D-IH-80-F — extra context lives there;")
+        print("  body must read plain. Move cross-area jargon out of the body into the addendum.")
         return 1
 
-    print("  PASS — no forbidden tokens in People canonicals")
+    print("  PASS — no forbidden tokens in People canonicals body")
     return 0
 
 
