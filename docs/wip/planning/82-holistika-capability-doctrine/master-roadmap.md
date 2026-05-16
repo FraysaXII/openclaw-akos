@@ -10,7 +10,7 @@ parent_initiatives: [80]
 related_initiatives: [66, 71, 79, 81, 83, 85, 86]
 priority: 3
 language: en
-charter_decisions: [D-IH-82-A, D-IH-82-B, D-IH-82-F, D-IH-82-G, D-IH-82-H]
+charter_decisions: [D-IH-82-A, D-IH-82-B, D-IH-82-F, D-IH-82-G, D-IH-82-H, D-IH-82-I]
 deferred_decisions: [D-IH-82-C, D-IH-82-D, D-IH-82-E, D-IH-82-PREREQ]
 ops_records: [OPS-82-1]
 risk_register: [R-IH-82-1, R-IH-82-2, R-IH-82-3, R-IH-82-4, R-IH-82-5]
@@ -83,7 +83,7 @@ I82 mints the **third foundational doctrine** of Holistika — sibling to [`HOLI
 | Phase | Milestone | Effort | Deliverable | Gate |
 |:---|:---|:---|:---|:---|
 | **P0 — Charter + doctrine mint** (this commit + follow-up) | I82-CHARTER + I82-DOCTRINE-MINT | 1d | Folder + 6 planning files + INIT/DEC/OPS rows + INITIATIVE_DEPENDENCIES + planning README; **followup**: `HOLISTIKA_CAPABILITY_DOCTRINE.md` paired body + addendum at `People/canonicals/` | inline-ratify (this commit) + operator approval (doctrine prose) |
-| **P1 — Talent activation** | I82-TALENT-ACTIVATION | gated | `baseline_organisation.csv` Talent role tranche + optional `process_list.csv` Talent upkeep rows | **operator approval** (canonical-CSV gate) |
+| **P1 — Talent activation (split-tree)** | I82-TALENT-ACTIVATION | gated | `baseline_organisation.csv` **Talent-H + Talent-A** split-tree row tranche (D-IH-82-I Q3 ratify) + `process_list.csv` Talent-H / Talent-A class-axis-prefixed rows. Talent-A rows `status=planned` forward-referencing I76 MADEIRA candidate. | **operator approval** (canonical-CSV gate; prerequisite: HOLISTIKA_CAPABILITY_DOCTRINE.md §"Capability bearer classes" minted at status:review) |
 | **P2 — Capability registry** | I82-CAPABILITY-REGISTRY-MINT | 1-2d | `dimensions/CAPABILITY_REGISTRY.csv` (+ `akos/hlk_capability_registry_csv.py` Pydantic + `scripts/validate_capability_registry.py` + `tests/test_capability_registry.py` + `validate_hlk.py` wiring + `PRECEDENCE.md` row); seed rows anchored to **audited `process_list.csv` paths via I81 P1 integrity matrix** | **operator approval** (canonical-CSV gate; consumes I81 P1 evidence OR waives via D-IH-82-PREREQ) |
 | **P3 — Confidence rating** | I82-CONFIDENCE-REGISTRY-MINT | 1d | `CAPABILITY_CONFIDENCE_REGISTRY.csv` paired body+addendum + Marketing/Brand naming co-sign (SCP-cameo + numbers + plain registers) | operator approval (D-IH-82-C close) |
 | **P4 — Use case archive** | I82-USE-CASE-ARCHIVE | 1d | `USE_CASE_ARCHIVE.csv` + 5 POC seed narratives (GDF + Hosteleria + RCD + documentation-team + Shopify); redaction policy ratified | operator approval (D-IH-82-E close) |

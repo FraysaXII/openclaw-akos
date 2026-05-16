@@ -4,6 +4,43 @@ Full rationale for every `D-IH-82-*` decision. Source-of-truth row lives in [`DE
 
 Cross-reference: [I82 master-roadmap §2](master-roadmap.md#2-charter-decisions-ratified-at-p0-agent-default-operator-skip-2026-05-16).
 
+## D-IH-82-I — Talent P1 split-tree architecture (Q3 Wave 2 ratify)
+
+**Source**: Operator inline ratify 2026-05-16 (Wave 2 Q3 batch); see [`docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/q1-q6-ratify-2026-05-16.md`](../../86-initiative-cluster-execution-coordinator/reports/q1-q6-ratify-2026-05-16.md).
+
+**Question**: I82 P1 Talent activation — mint as a monolith (Talent role + sub-roles), defer entirely to I76 (MADEIRA elevation) for AI-side discipline, or split into Talent-Human (Talent-H) + Talent-Artificial (Talent-A) sub-trees from day-one?
+
+**Options considered (per the AskQuestion batch)**:
+- (A) `approve-now-human-only` — human-side rows only; AI Talent deferred to I76.
+- (B) `approve-now-both` — combined: human-side rows + AI Talent slot linked to I76.
+- (C) `defer-to-i76-first` (recommended at the time) — pause Talent canonical mint until I76 P0 lands; clean post-MADEIRA mint.
+- (D) `split-talent-tree` (novel framing) — split into Talent-H + Talent-A sub-trees from day-one; each canonical row carries explicit class axis; AI-side rows forward-reference I76 candidate.
+
+**Verdict**: **D — split-talent-tree**. Operator selected the novel framing. Rationale (operator-implicit): clean separation from day-one means the canonical CSV row schema carries an axis distinguishing human vs AI capability-bearers; each row knows its own class; cross-area cross-references stay typed; the I76 MADEIRA elevation lands cleanly as Talent-A rows (no schema migration needed when I76 promotes).
+
+**Architectural implications**:
+
+1. **`baseline_organisation.csv` row mint at P1** carries TWO role-name conventions:
+   - **Talent-H** roles: human-bearer roles (e.g., "Talent Lead — Human Operations" or whatever the doctrine names them) with `reports_to=CPO`, `area=People`, `sub_area=Talent`, `status=active`.
+   - **Talent-A** roles: AI-bearer roles (forward-reference to I76 MADEIRA elevation; e.g., "Talent Slot — Madeira (AI O5-1)") with `reports_to=Founder` (per [`akos-people-discipline-of-disciplines.mdc`](../../../.cursor/rules/akos-people-discipline-of-disciplines.mdc) RULE 5 — Madeira named-explicit), `area=People`, `sub_area=Talent`, `status=planned` (until I76 P0 charter lands), with explicit cross-reference to I76 in `role_full_description`.
+
+2. **`process_list.csv` Talent rows at P1 sub-tranche** likewise carry the class axis — `Talent-H` process_ids prefixed `hol_peopl_talent_h_*`; `Talent-A` process_ids prefixed `hol_peopl_talent_a_*`. Process descriptions name the bearer class explicitly.
+
+3. **`HOLISTIKA_CAPABILITY_DOCTRINE.md` (P0 followup)** must articulate the split — adds §"Capability bearer classes" with Talent-H + Talent-A axes; cross-references [`akos-people-discipline-of-disciplines.mdc`](../../../.cursor/rules/akos-people-discipline-of-disciplines.mdc) RULE 3 (agentic-as-DoD).
+
+4. **Cross-reference to I76**: when I76 P0 charter lands, Talent-A `status` flips from `planned` → `active`; explicit forward-link recorded in `last_review_decision_id` of the Talent-A rows.
+
+**Verdict prerequisites** (all blocking P1 operator-gate fire):
+
+1. `HOLISTIKA_CAPABILITY_DOCTRINE.md` minted at `status: review` (P0 followup) — currently NOT minted; deferred to sc-resume-wave2-architectural.md per Q6.
+2. Doctrine §"Capability bearer classes" authored explicitly naming Talent-H + Talent-A axes.
+3. Talent role-name conventions decided (operator co-sign with Brand & Narrative Manager).
+4. I76 P0 charter exists at least as `status: candidate` for the Talent-A forward-reference to point at — I76 candidate exists at [`_candidates/i76-madeira-elevation.md`](../../_candidates/i76-madeira-elevation.md) per I76 forward-charter; PASS.
+
+**Closes**: Q3 architectural fork. **Activated**: 2026-05-16 (architecture-only; canonical rows pending P1 operator gate after doctrine mint). **decision_source**: `operator_inline_ratify` (not default).
+
+**Cross-link**: This decision shapes the I82 P1 phase definition; master-roadmap §3 P1 description is updated in the same commit to reflect the split-tree posture.
+
 ## P0 — ratified 2026-05-16 (`decision_source: agent_inline_default`; user confirmation 2026-05-16 evening: "answered all 18 questions; please continue")
 
 ### D-IH-82-A — Mega-charter scope (4-facet doctrine vs split)
