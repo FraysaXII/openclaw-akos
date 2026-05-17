@@ -105,7 +105,7 @@ The vault, the canonicals, the validators, the rendering pipeline, and the engag
 
 - **v3.0** is the active version (post-I70-completion will be v3.1 per operator-stated trigger).
 - **Future versions** are insight-driven per principle 2.6. When a breakthrough triggers a version jump, this canonical updates §2 with a new row + cross-link to `LOGIC_CHANGE_LOG.md`.
-- **Naming** uses semantic version-style (major.minor): major = paradigm shift; minor = methodology refinement.
+- **Naming** uses semantic version-style (major.minor): major = foundational change; minor = methodology refinement.
 - **The operator (founder) is the sole authority** on version increments. AKOS canonicals codify decisions; only the founder mints version numbers.
 
 ## 6. Cross-references

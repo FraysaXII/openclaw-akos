@@ -53,7 +53,7 @@ Source levels use a `category.sublevel` numbering scheme where the integer part 
 | 984f7f2f-257b-49f1-b038-c93ae124ab1c | 3.3 | Research Standardisation | 3 | Academia | Standards and benchmarks established within the research sector |
 | c0715b8c-97a2-4ecb-92c6-5a1d59b69ef7 | 4.1 | Mainstream Job Knowledge | 4 | Professional | Insights based on common industry practices and job experiences |
 | 547cb321-9dfc-4a14-bd90-c42a21b90b9d | 4.2 | Par Job Knowledge | 4 | Professional | Partial insights serving as preliminary references from industry roles |
-| b23bdc69-c524-491a-9ba4-4cd08ae47f5a | 4.3 | State-Of-The-Art | 4 | Professional | Cutting-edge research reflecting the latest best practices |
+| b23bdc69-c524-491a-9ba4-4cd08ae47f5a | 4.3 | Leading-Edge | 4 | Professional | Leading research reflecting the current best practices |
 | 8ab8182a-2349-49d2-97e7-ae790136b4c6 | 5.1 | Organisation Capability Improver | 5 | Organisational | Data and methods aimed at enhancing organizational performance |
 | f1f26be4-2be5-45b5-84cf-5193e44349c8 | 5.2 | Organisation Capability Designer | 5 | Organisational | Concepts for designing robust organizational capabilities |
 | d9d7a049-8ed1-4ad4-9899-308fa2c4acd6 | 5.3 | Organisation Capability Approver | 5 | Organisational | Validated approaches for organizational improvement |
