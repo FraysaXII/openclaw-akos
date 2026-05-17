@@ -228,7 +228,7 @@ Architecture:
 - **Tactical layer (today through 2026-Q4)**: B3-shaped hybrid (Cursor SDK frontend + OpenClaw policy backend) with the **retractability axiom** as binding architectural principle. Single integration boundary; same provider interface as `akos/model_catalog.py`; parity-with-OpenClaw is the retractability gate; ADVOPS engagement gates the contract surface.
 - **Strategic layer (2026-Q4+ trajectory)**: deep self-owned substrate (LlamaIndex or successor open-source) as orchestration anchor; Cursor SDK reverts to optional operator-DX layer or full retraction once self-owned substrate matures.
 
-Substrate-registry encoding (already live): `SUBS-PATTERN-OPENCLAW-THIN-ADAPTER` (B1 anchor; in-production) + `SUBS-PATTERN-HYBRID-CURSOR-OPENCLAW` (B3/B5 anchor; forecasted; flips to pilot at first integration) + `SUBS-RUN-LLAMA-LLAMAINDEX` (strategic-endgame anchor; active). A future `SUBS-PATTERN-DEEP-SELF-OWNED-LLAMAINDEX-CENTRIC` pattern row is forward-charter (operator-pending; not in I84 scope).
+Substrate-registry encoding (already live): `SUBS-PATTERN-OPENCLAW-THIN-ADAPTER` (B1 anchor; in-production) + `SUBS-PATTERN-HYBRID-CURSOR-OPENCLAW` (B3/B5 anchor; forecasted; flips to pilot at first integration) + `SUBS-RUN-LLAMA-LLAMAINDEX` (strategic-endgame anchor; active). A future deep-self-owned-LlamaIndex-centric pattern row is forward-charter (operator-pending; not in I84 scope; substrate_id assigned at mint time).
 
 ### 6.2 D-IH-84-C — AIC framing ratified as **F5**
 
@@ -263,7 +263,7 @@ Rationale: best fit for KiRBe's pipeline-shaped INGESTOR role; preserves KiRBe s
 ### 6.6 Risk-register updates
 
 - **R-IH-84-3 (4-decision batched ratification produces operator fatigue + rubber-stamp outcomes)** — **closed**. Operator engaged substantively at all 4 gates (delegated B with explicit principle; cleanly selected C/D; asked for help on E with mixed signals → follow-up AskQuestion ratified). No rubber-stamping observed; inline-ratify-craft principles held.
-- **R-IH-84-2 (SUBSTRATE_REGISTRY.csv column shape locks early; later ALTER cost)** — **monitor** (no change in this cycle). 18 columns + 9 enum frozensets remain coherent through P4; first ALTER likely triggered by SUBS-PATTERN-DEEP-SELF-OWNED-LLAMAINDEX-CENTRIC row mint (forward-charter).
+- **R-IH-84-2 (SUBSTRATE_REGISTRY.csv column shape locks early; later ALTER cost)** — **monitor** (no change in this cycle). 18 columns + 9 enum frozensets remain coherent through P4; first ALTER likely triggered by the forecasted deep-self-owned-LlamaIndex-centric pattern row mint (forward-charter; substrate_id assigned at mint time).
 - **R-IH-84-NEW-ADVOPS** — **mitigation in flight** per ADVOPS scoping note; operator activation gate Options A-D.
 - **R-IH-84-NEW-CURSOR-TOS-VELOCITY** — **mitigated by B5 retractability axiom**. Any Cursor SDK GA-related ToS change is contained behind the integration boundary; B5 trajectory is to retract toward self-owned substrate regardless.
 
