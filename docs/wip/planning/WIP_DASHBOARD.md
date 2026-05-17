@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (13)
+### Active (in execution) (15)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -28,6 +28,8 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **64** | [`64-governance-mission-control/`](64-governance-mission-control/) | active | 2026-05-07 | Initiative 64 — Governance Mission Control (in hlk-erp) |
 | **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | active | 2026-05-07 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
 | **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
+| **81** | [`81-vault-integrity-layout-milestones-retrofit/`](81-vault-integrity-layout-milestones-retrofit/) | active | 2026-05-16 | I81 — Vault integrity sweep + layout migration + named-milestone schema + SOP body/adde... |
+| **82** | [`82-holistika-capability-doctrine/`](82-holistika-capability-doctrine/) | active | 2026-05-16 | I82 — Holistika Capability Doctrine and Commercial Readiness |
 | **84** | [`84-substrate-doctrine-and-commercial-readiness/`](84-substrate-doctrine-and-commercial-readiness/) | active | 2026-05-16 | I84 — Substrate Doctrine and Commercial Readiness |
 | **85** | [`85-audience-tag-canonicalization/`](85-audience-tag-canonicalization/) | active | 2026-05-16 | I85 — Audience-tag canonicalization |
 | **86** | [`86-initiative-cluster-execution-coordinator/`](86-initiative-cluster-execution-coordinator/) | active | 2026-05-16 | I86 — Initiative Cluster Execution Coordinator |
