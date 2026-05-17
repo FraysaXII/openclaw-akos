@@ -16,14 +16,17 @@ continuous_rationale: Auto-rendered Operator Action Inbox (I59 P4) — re-render
 
 <!-- BEGIN AUTO -->
 
-_Rows: 25 (open · operator/mixed · ranked by RICE desc)._
+_Rows: 29 (open · operator/mixed · ranked by RICE desc)._
 
 | OPS ID | Initiative | Owner | RICE | What | Notes |
 | --- | --- | --- | --- | --- | --- |
 | `OPS-66-2` | INIT-OPENCLAW_AKOS-66 — Initiative 66 - Brand Vision Ops Sweep | operator (System Owner) | 2040 | Apply P6 governance Supabase migration | Fallback rows keep panels usable before apply |
 | `OPS-67-1` | INIT-OPENCLAW_AKOS-66 — Initiative 66 - Brand Vision Ops Sweep | operator (Brand & Narrative Manager) | 1920 | Kick off I67 RevOps Discovery research | Launch gate for I67 |
 | `OPS-66-1` | INIT-OPENCLAW_AKOS-66 — Initiative 66 - Brand Vision Ops Sweep | operator (Legal Counsel) | 840 | Submit trademark filings with counsel | Counsel and operator credentials required |
-| `OPS-77-1` | INIT-OPENCLAW_AKOS-77 — Initiative 77 - Impeccable Brand-Bridge Refresh + Drift Gate | operator (Brand & Narrative Manager) | 500 | Impeccable bridge refresh + drift gate execution (I77 P1-P3) | Opened at I77 P0 charter; closure targeted I77 P3 UAT. |
+| `OPS-85-1` | INIT-OPENCLAW_AKOS-85 — I85 - Audience-tag canonicalization (J-* codes from brand matrix prose to canonical CSV + frontmatter migration + drift gate) | mixed (Brand & Narrative Manager) | 18 | I85 P2 tag-migration sweep coordination across three file-class tranches | Cluster wave-1 burndown sibling per I86 D-IH-86-A; D-IH-85-C tranches encoded in evidence-matrix.md P2 row. |
+| `OPS-87-1` | INIT-OPENCLAW_AKOS-87 — I87 - OpenClaw operator-runtime hardening (health-monitor escalation + plugin pinning + modelsConfig hygiene + gateway-token UX + SOP+runbook pairing) | mixed (System Owner) | 17 | I87 P2 plugins.allow validator + P5 SOP+runbook + P6 closure UAT coordination | Recommended cluster slot before I84 Wave 3; closes R-IH-86-3 substrate-decision-lag mitigation. |
+| `OPS-81-1` | INIT-OPENCLAW_AKOS-81 — I81 - Vault integrity sweep + Compliance layout reorganisation + named-milestone schema + full-vault SOP body/addendum retrofit | mixed (PMO) | 10 | I81 P1 vault integrity + DQ sprint + P2 layout-migration tranches coordination | Cluster wave-1 burndown sibling per I86 D-IH-86-A; D-IH-81-A absorbed mode allows parallel waves. |
+| `OPS-82-1` | INIT-OPENCLAW_AKOS-82 — I82 - Holistika Capability Doctrine and Commercial Readiness (audience-aware capability surfacing) | mixed (PMO) | 9 | I82 doctrine mint + Talent activation + 3 facet-registry mints + live capability-surfacing UAT scheduling | Cluster wave-1 burndown sibling per I86 D-IH-86-A; consumes I81 P1 and I85 P1 outputs; forward-charters I83. |
 | `OPS-14-1` | INIT-OPENCLAW_AKOS-14 — Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-47-1` | INIT-OPENCLAW_AKOS-50 — Initiative 50 — Live cycle closure + cost SSOT truth-up | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-47-2` | INIT-OPENCLAW_AKOS-50 — Initiative 50 — Live cycle closure + cost SSOT truth-up | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
@@ -45,6 +48,7 @@ _Rows: 25 (open · operator/mixed · ranked by RICE desc)._
 | `OPS-58-2` | INIT-OPENCLAW_AKOS-58 — Initiative 58 — Cycle 2 multi-track forward | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-58-4` | INIT-OPENCLAW_AKOS-58 — Initiative 58 — Cycle 2 multi-track forward | operator (PMO) | — | (seed; needs operator triage) | seeded by I59 P3 audit pass; verify owner_class + RICE |
 | `OPS-59-1` | INIT-OPENCLAW_AKOS-59 — Initiative 59 — HLK governance promotion + clean slate cycle | operator (PMO) | — | Merge telemetry promotion proposals into PERSONA_SCENARIO_REGISTRY.csv | I59 P7; zero proposals at initial run (no telemetry data); re-run each cycle |
+| `OPS-86-1` | INIT-OPENCLAW_AKOS-86 — I86 - Initiative Cluster Execution Coordinator (Waves 1-5 burndown) | mixed (PMO) | — | I86 cluster coordination - Waves 1-5 nine-sibling burndown | Cadence event-driven per D-IH-86-B; spotlight facilitation per D-IH-86-A; sibling charters remain authoritative for scope. |
 
 <!-- END AUTO -->
 
