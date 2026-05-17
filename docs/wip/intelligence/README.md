@@ -14,6 +14,7 @@ authored: 2026-05-12
 
 - **Cross-area research** — investigations that span multiple areas (Marketing + Operations + People + Tech + Data) before promotion to a single canonical home.
 - **Engagement intelligence folders** — per-engagement intelligence-collection working space (e.g., [`2026-05-10-suez-webuy-procure-to-pay/`](2026-05-10-suez-webuy-procure-to-pay/)).
+- **Substrate-audit quarterly folders** — `substrate-audit-YYYY-QN/` (e.g. [`substrate-audit-2026-Q2/`](substrate-audit-2026-Q2/)) per [`SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md`](../../references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md) (I84 P6 paired SOP). Off-cycle event-trigger audits append a suffix (e.g. `substrate-audit-2026-Q3-off-cycle-cursor-ga`).
 - **Knowledge-base drafts** — topic-fact-source drafts before promotion to `compliance/HLK_KM_TOPIC_FACT_SOURCE.md` (or its post-P4.5 federated home).
 - **Ontology / taxonomy proposals** — classification-lattice candidates (P4 §11), 3-tier WIP topology refinements, future-OS-shape scenario investigations.
 - **Methodology-pillar prototypes** — research-discipline candidates before promotion to `Research/Methodology/`.

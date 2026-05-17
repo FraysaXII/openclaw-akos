@@ -344,6 +344,21 @@
         }
       ]
     },
+    "substrate_audit_smoke": {
+      "description": "Initiative 84 P6: Research Substrate Audit Cadence runbook smoke (paired with SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md per akos-executable-process-catalog.mdc Rule 1). Runs scripts/peopl_research_substrate_audit_cadence.py --staleness-check (verifies no SUBSTRATE_REGISTRY row's last_audit_date is > 90 days old per D-IH-84-H quarterly cadence) plus the dedicated pytest suite tests/test_peopl_research_substrate_audit_cadence.py (CLI mode coverage: --staleness-check / --uat-mode / --emit-delta / --list-quarters / default).",
+      "steps": [
+        {
+          "id": "peopl_research_substrate_audit_staleness_check",
+          "description": "Run scripts/peopl_research_substrate_audit_cadence.py --staleness-check",
+          "argv": ["scripts/peopl_research_substrate_audit_cadence.py", "--staleness-check"]
+        },
+        {
+          "id": "peopl_research_substrate_audit_pytest",
+          "description": "Run tests/test_peopl_research_substrate_audit_cadence.py via pytest",
+          "argv": ["__pytest__", "tests/test_peopl_research_substrate_audit_cadence.py", "-q"]
+        }
+      ]
+    },
     "impeccable_bridge_drift_smoke": {
       "description": "Initiative 77 P2: Impeccable bridge drift gate smoke. Asserts every active brand canonical in CANONICAL_REGISTRY.csv (owning_area=Marketing AND owning_role=Brand AND non-SOP) is cited as a cross-reference in >= 1 of the 3 workspace-root bridges (PRODUCT.md / DESIGN.md / BASELINE_REALITY.md) per SOP-HLK_TOOLING_STANDARDS_001.md §3.7 thin-redirect contract. Soft-30d-then-strict default per D-IH-77-C; promote to strict with AKOS_IMPECCABLE_BRIDGE_DRIFT_STRICT=1. Also runs sibling generator in --check mode for coverage report. Pydantic chassis: akos/impeccable_bridge.py.",
       "steps": [
