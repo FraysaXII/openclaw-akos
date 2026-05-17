@@ -58,9 +58,20 @@ This UAT shipped with **6 substitution-pending rows** (rows 2, 3, 4, 5, 11, plus
 - Row 11 flips from `pending P4` to **PASS** once cross-area cascade stub-edit commit SHAs are recorded.
 - Rows 18-20 flip from `operator-pending` to **PASS** at the canonical-CSV gate closure batch (operator approval required).
 
-## 4. Pre-existing advisory warnings (not caused by I84)
+## 4. Pre-existing advisory warnings + release-gate failures (not caused by I84)
+
+### 4.1 validate_hlk advisory warnings
 
 Per [`validate_hlk.py`](../../../../scripts/validate_hlk.py) MASTER_ROADMAP_FRONTMATTER validator: 1 advisory warning on `docs/wip/planning/77-impeccable-brand-bridge-refresh/master-roadmap.md` `status='closed'` requiring companion field `closed_at` (missing or empty). **This warning is pre-existing and not caused by I84.** Documented here for completeness per UAT evidence discipline. Remediation is out of I84 scope; flagged for a follow-on I77 hygiene tranche if operator desires.
+
+### 4.2 release-gate.py pre-existing test failures
+
+Per Wave C `py scripts/release-gate.py` invocation: 2 test failures (exit code 1; 2486 passed; 2 failed; 17 skipped). **Both failures are pre-existing and not caused by I84** — full disposition + remediation recommendations in [`reports/p8-blocker-2026-05-17-release-gate-preexisting-failures.md`](p8-blocker-2026-05-17-release-gate-preexisting-failures.md):
+
+- `tests/test_company_deck.py::test_slide_11_pillar_1_quotes_governance_metrics` FAILED — deck YAML quote drift (deck quotes "1.166 procesos"; canonical CSV is at 1168). Last touched in I77 P4 commit `4cdf736`; D-IH-30-D hand-sync pattern means every initiative that touches process_list.csv risks this regression. Remediation: single-line deck quote bump.
+- `tests/validate_configs.py::TestStrictAkosInventoryContract::test_ollama_model_count` FAILED — `config/openclaw.json.example` has 3 Ollama models; validator expects 4. Last touched in I87 P2/P3 commit `e40fae1`. Remediation: either add the 4th model back OR update the validator to expect 3.
+
+Neither failure traces to any I84 Wave A+B feature commit or Wave C chore commit. Per opt-stop-report classification in the blocker report section 4, these are operator-triage items outside I84 scope.
 
 ## 5. Verification artifact summary
 
