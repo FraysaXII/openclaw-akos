@@ -216,52 +216,97 @@ The Research & Logic v2.7 folder carries Holistika's historical framework docume
 
 ## 6. P4 ratifications block
 
-<!-- post-P4 substitution: D-IH-84-B/C/D/E batched ratification outcomes -->
-<!-- ============================================================== -->
-<!-- This block awaits operator answers on the I84 P4 batched         -->
-<!-- inline-ratify gate (D-IH-84-B substrate baseline + D-IH-84-C AIC -->
-<!-- framing F1-F5 + D-IH-84-D MADEIRA productization shape + D-IH-84-E -->
-<!-- KiRBe framework narrowing). The parent agent substitutes this    -->
-<!-- block with the ratified outcomes once operator answers in the    -->
-<!-- foreground. Structure per cycle:                                 -->
-<!--   - D-IH-84-B ratified option (B1 / B2 / B3) + rationale         -->
-<!--   - D-IH-84-C ratified option (F1 / F2 / F3 / F4 / F5) + rationale -->
-<!--   - D-IH-84-D ratified option (D1 / D2 / D3) + rationale         -->
-<!--   - D-IH-84-E narrowed finalists (2 substrates) + rationale     -->
-<!--   - Forward-charter implications for each ratification           -->
-<!--   - Risk-register updates (R-IH-84-3 batched ratification        -->
-<!--     fatigue closeout; R-IH-84-2 column-shape lock-in monitor)   -->
-<!-- ============================================================== -->
+> **Substituted 2026-05-17.** P4 batched inline-ratify gate (parent agent foreground; commit `3900787`) ratified all 4 architectural shape decisions. Full per-decision rationale + cross-decision coupling in [`docs/wip/planning/84-substrate-doctrine-and-commercial-readiness/decision-log.md`](../../planning/84-substrate-doctrine-and-commercial-readiness/decision-log.md) + the formal ratification record at [`reports/p4-shape-ratification-batch-2026-05-17.md`](../../planning/84-substrate-doctrine-and-commercial-readiness/reports/p4-shape-ratification-batch-2026-05-17.md).
 
-**Pending P4 substitution.** Until the operator answers, this cycle report reflects the **pre-ratification evidence baseline**. The scorecard surface in section 2 + the regulatory + competitive + past-PoC analyses in sections 3-5 are the inputs the P4 batched ratification weighs; the ratification outcome lands here.
+### 6.1 D-IH-84-B — AKOS substrate-baseline ratified as **B5** (novel framing)
+
+**Ratified option**: **B5 — Bridge-with-strict-retractability (tactical) + deep-self-owned-LlamaIndex-or-similar-substrate (strategic endgame)**.
+
+Operator delegated craft at the P4 gate ("trust you can browse our context and intent to craft the best solution"); encoded as `decision_source: agent_executive_call_per_operator_delegation` per `inline-ratify-craft/SKILL.md` Principle 6.
+
+Architecture:
+- **Tactical layer (today through 2026-Q4)**: B3-shaped hybrid (Cursor SDK frontend + OpenClaw policy backend) with the **retractability axiom** as binding architectural principle. Single integration boundary; same provider interface as `akos/model_catalog.py`; parity-with-OpenClaw is the retractability gate; ADVOPS engagement gates the contract surface.
+- **Strategic layer (2026-Q4+ trajectory)**: deep self-owned substrate (LlamaIndex or successor open-source) as orchestration anchor; Cursor SDK reverts to optional operator-DX layer or full retraction once self-owned substrate matures.
+
+Substrate-registry encoding (already live): `SUBS-PATTERN-OPENCLAW-THIN-ADAPTER` (B1 anchor; in-production) + `SUBS-PATTERN-HYBRID-CURSOR-OPENCLAW` (B3/B5 anchor; forecasted; flips to pilot at first integration) + `SUBS-RUN-LLAMA-LLAMAINDEX` (strategic-endgame anchor; active). A future `SUBS-PATTERN-DEEP-SELF-OWNED-LLAMAINDEX-CENTRIC` pattern row is forward-charter (operator-pending; not in I84 scope).
+
+### 6.2 D-IH-84-C — AIC framing ratified as **F5**
+
+**Ratified option**: **F5 — Hybrid; per-task operator picks**.
+
+Preserves the I76 candidate F1-F5 framing as a choice-surface rather than a single binding. `SUBSTRATE_REGISTRY.csv` `aic_pattern_role` column across 18 rows already enumerates supervisor / sub-agent / peer / dispatcher / single-agent-rich-tools / not-applicable — F5 is the only option that does not reject half the inventory.
+
+Couples cleanly with B5: hybrid substrate exposes multiple agentic patterns through the same provider abstraction — F5 is the agentic-pattern analog of B5's substrate-pattern hybrid posture.
+
+### 6.3 D-IH-84-D — MADEIRA productization ratified as **D3**
+
+**Ratified option**: **D3 — Hybrid: library for technically-mature customers + hosted agent for less-technical customers**.
+
+Maps cleanly to BOTH TRIGGER-1 (hosted-agent when ≥3 external orgs request data-detached) AND TRIGGER-2 (library when ≥2 external orgs request AKOS-as-library) per `MADEIRA-AKOS/STATUS.md` §3 — D1 / D2 each ignore one trigger.
+
+Couples cleanly with B5: hybrid productization mirrors hybrid substrate; library customers operate on their own substrate (any open-source stack the B5 self-governance principle endorses); hosted-agent customers operate on Holistika's B5-retractable-tactical + self-owned-strategic substrate.
+
+### 6.4 D-IH-84-E — KiRBe narrowing ratified as **E1**
+
+**Ratified option**: **E1 — LlamaIndex-continue + LangGraph-workflow** (2 finalists; I83 P0 picks between them or composes both).
+
+Both finalists are **MIT open-source** aligned with B5 self-governance + retractability + no-vendor-lock-in principle. The "somehow D" Cursor SDK option from the initial gate was structurally precluded by the B5 principle (Cursor SDK license_class=proprietary-saas conflicts with self-governance endgame); follow-up AskQuestion presented the B5-grounded analysis and operator ratified E1.
+
+Rationale: best fit for KiRBe's pipeline-shaped INGESTOR role; preserves KiRBe substrate continuity per `SUBSTRATE_LANDSCAPE_DOCTRINE.md` §4 principle 2 ("incremental evolution over discontinuous migration"); LangGraph dispatcher pattern matches F3 in F5 framing.
+
+### 6.5 Forward-charter implications
+
+- **DECISION_REGISTER.csv canonical row mints for D-IH-84-B/C/D/E** remain operator-pending forward-charter (canonical-CSV gate per `akos-governance-remediation.mdc` §"HLK compliance governance"). Recommend bundling with the next operator-approved canonical-CSV tranche.
+- **Per-candidate D-IH-NN-X pre-ratification rows** (D-IH-76-A inheriting D-IH-84-C; D-IH-74-D inheriting D-IH-84-D; D-IH-83-A inheriting D-IH-84-E) land at each candidate's P0 charter when promoted — not in I84 scope.
+- **ADVOPS engagement** per [`reports/advops-engagement-scoping-2026-05-17.md`](../../planning/84-substrate-doctrine-and-commercial-readiness/reports/advops-engagement-scoping-2026-05-17.md) is the B5 tactical-layer contract-surface gate for any binding Cursor SDK integration. Operator decides timing (engage now vs defer to first concrete Cursor SDK integration).
+
+### 6.6 Risk-register updates
+
+- **R-IH-84-3 (4-decision batched ratification produces operator fatigue + rubber-stamp outcomes)** — **closed**. Operator engaged substantively at all 4 gates (delegated B with explicit principle; cleanly selected C/D; asked for help on E with mixed signals → follow-up AskQuestion ratified). No rubber-stamping observed; inline-ratify-craft principles held.
+- **R-IH-84-2 (SUBSTRATE_REGISTRY.csv column shape locks early; later ALTER cost)** — **monitor** (no change in this cycle). 18 columns + 9 enum frozensets remain coherent through P4; first ALTER likely triggered by SUBS-PATTERN-DEEP-SELF-OWNED-LLAMAINDEX-CENTRIC row mint (forward-charter).
+- **R-IH-84-NEW-ADVOPS** — **mitigation in flight** per ADVOPS scoping note; operator activation gate Options A-D.
+- **R-IH-84-NEW-CURSOR-TOS-VELOCITY** — **mitigated by B5 retractability axiom**. Any Cursor SDK GA-related ToS change is contained behind the integration boundary; B5 trajectory is to retract toward self-owned substrate regardless.
 
 ## 7. Cross-area implications
 
-<!-- post-P4 substitution: cross-area cascade per D-IH-84-B/C/D/E      -->
-<!-- ============================================================== -->
-<!-- This block awaits operator answers on the I84 P4 batched         -->
-<!-- inline-ratify gate. After P4, the parent agent substitutes this  -->
-<!-- block with the per-candidate cross-area cascade summary:         -->
-<!--   - I76 (MADEIRA elevation): unlocked by D-IH-84-C ratification  -->
-<!--     (closes C-76-1 AIC framing); Strand A external research      -->
-<!--     deliverable substituted by I84 P1 audit dossier              -->
-<!--   - I74 (brand-tooling productization): unlocked by D-IH-84-D     -->
-<!--     ratification (closes C-74-3 MADEIRA gate-criteria); Cursor   -->
-<!--     SDK ToS findings inform C-74-4 license-separation            -->
-<!--     enforceability                                                -->
-<!--   - I83 (AI archivist + KiRBe ingestor): unlocked by D-IH-84-E    -->
-<!--     framework narrowing (closes C-83-1 to 2-finalist choice);    -->
-<!--     KiRBe-P0 picks between finalists                              -->
-<!--   - I82 (capability doctrine + commercial readiness):            -->
-<!--     CAPABILITY_REGISTRY extends with substrate_id FK to          -->
-<!--     SUBSTRATE_REGISTRY                                            -->
-<!--   - Recommended cross-area pings: Tech Lab                       -->
-<!--     AGENTIC_FRAMEWORK_LANDSCAPE.md extension per D-IH-84-B/C;    -->
-<!--     People HOLISTIKA_AGENTIC_DOCTRINE.md cross-reference review  -->
-<!--     for any AIC framing implications surfaced                    -->
-<!-- ============================================================== -->
+> **Substituted 2026-05-17.** P4 batched ratification cascade landed at commit `3900787` with non-destructive candidate-stub cross-reference headers. Pre-staged handoff document at [`reports/cross-area-unlock-handoff-2026-05-17.md`](../../planning/84-substrate-doctrine-and-commercial-readiness/reports/cross-area-unlock-handoff-2026-05-17.md) carries the full per-candidate cascade specification.
 
-**Pending P4 substitution.** Cross-area cascade fires per [`SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md`](../../../references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md) workflow once the P4 ratification lands. Pre-staged handoff document at [`docs/wip/planning/84-substrate-doctrine-and-commercial-readiness/reports/cross-area-unlock-handoff-2026-05-17.md`](../../planning/84-substrate-doctrine-and-commercial-readiness/reports/cross-area-unlock-handoff-2026-05-17.md) (sibling to this report; carries the same P4-substitution placeholder structure).
+### 7.1 I76 (MADEIRA elevation) — unlocked by D-IH-84-C F5 ratification
+
+- C-76-1 AIC framing **closed** as F5 hybrid per-task.
+- Strand A external research deliverable **substituted** by the I84 P1 audit dossier + this founding-cycle quarterly report + the 3 Tier-1 WIP threads.
+- I76 P0 charter is now free to focus on **per-pattern instantiation** (which task-classes default to F1 / F2 / F3 / F4 in operator workflow).
+- D-IH-76-A pre-ratification row appends to i76 decision register at I76 P0 charter (forward-charter).
+- Candidate stub `i76-madeira-elevation.md` carries non-destructive cascade header per commit `3900787`.
+
+### 7.2 I74 (brand-tooling productization) — unlocked by D-IH-84-D D3 ratification
+
+- C-74-3 MADEIRA gate-criteria **closed** as D3 hybrid library + agent platform.
+- C-74-4 license-separation enforceability **informed** by Cursor SDK MSA + IP-indemnity analyses in [`regulatory-tos-forecast.md`](regulatory-tos-forecast.md) §4 + §5; ADVOPS engagement recommended pre-binding per [`reports/advops-engagement-scoping-2026-05-17.md`](../../planning/84-substrate-doctrine-and-commercial-readiness/reports/advops-engagement-scoping-2026-05-17.md).
+- I74 P0 charter is free to focus on **library API surface + hosted-agent runtime architecture** decisions.
+- D-IH-74-D pre-ratification row appends to i74 decision register at I74 P0 charter (forward-charter).
+- Candidate stub `i74-brand-tooling-productization.md` carries non-destructive cascade header per commit `3900787`.
+
+### 7.3 I83 (AI archivist + KiRBe ingestor) — unlocked by D-IH-84-E E1 narrowing
+
+- C-83-1 framework-class-narrowing **closed to 2 finalists**: `SUBS-RUN-LLAMA-LLAMAINDEX` + `SUBS-LANGCHAIN-AI-LANGGRAPH`. I83 P0 picks between them or composes both (likely outcome since they natively compose via langchain-native tool protocol).
+- `SUBS-LETTA-LETTA` flagged as candidate memory-layer pair (orthogonal; KiRBe P0 evaluates per product-roadmap fit).
+- I83 P0 charter is free to focus on the orchestration anchor pick + composition pattern + memory-layer evaluation.
+- D-IH-83-A pre-ratification row appends to i83 decision register at I83 P0 charter (forward-charter).
+- Candidate stub `i83-ai-archivist-and-kirbe-ingestor.md` carries non-destructive cascade header per commit `3900787`.
+
+### 7.4 I82 (capability doctrine + commercial readiness) — CAPABILITY_REGISTRY FK target now live
+
+- CAPABILITY_REGISTRY column-spec **should extend** to include `substrate_id` nullable FK to SUBSTRATE_REGISTRY for capabilities that name an underlying technical substrate.
+- 18-row SUBSTRATE_REGISTRY canonical (live; Supabase mirror harmonized) is the FK target.
+- I82 P0 charter incorporates the column-spec refresh into the CAPABILITY_REGISTRY.csv mint scope (P2 facet 2a).
+- Candidate stub `i82-holistika-capability-doctrine-and-commercial-readiness.md` carries non-destructive cascade header per commit `3900787`.
+
+### 7.5 Recommended cross-area pings (operator-pending forward-charter)
+
+- **Tech Lab `AGENTIC_FRAMEWORK_LANDSCAPE.md` extension** — original master-roadmap §3 P3 contract; as-shipped P3a minted the sibling Research-area `SUBSTRATE_LANDSCAPE_DOCTRINE.md` (per `D-IH-84-G` DoD-recursive posture). Tech-Lab extension can ship as a separate follow-on tranche if operator desires (the doctrine canonical is currently complete enough to support I84 P4 ratification; extension is value-added, not blocking).
+- **People `HOLISTIKA_AGENTIC_DOCTRINE.md` cross-reference review** — F5 hybrid per-task framing may warrant a cross-reference paragraph from the People doctrine to this Research doctrine + the Tech-Lab landscape per the agentic-triangle pattern. Light-touch; no anti-jargon risk since the cross-reference is hyperlink-only.
+- **SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md propagation** — fires when the substrate-audit-cadence SOP promotes from `status:review` to `status:active` (gated on operator-pending `process_list.csv` row `env_tech_dtp_substrate_landscape_mtnce_001` mint).
 
 ## 8. Cross-references
 

@@ -63,23 +63,18 @@ The four candidates have different unblocking profiles per the SHAPE/EXECUTION s
 - The C-76-2 through C-76-7 conundrums per I76 candidate section 5 (persistence shape, mode parity, tool catalog, sub-agents-or-not, etc.).
 - Promotion criteria gate: operator promotes I76 candidate to active when ready post-cascade.
 
-### 2.3 Recommended edits to `i76-madeira-elevation.md` (deferred to parent agent post-P4)
+### 2.3 Stub-edit landed for `i76-madeira-elevation.md` (substituted 2026-05-17; commit `3900787`)
 
-<!-- post-P4 substitution: i76 edits -->
-<!-- ============================================================ -->
-<!-- After operator answers D-IH-84-C at the I84 P4 batched gate, -->
-<!-- the parent agent edits the i76 candidate stub:                -->
-<!--   - Strand A section: replace "External research must complete -->
-<!--     BEFORE planning" with cross-reference to I84 P1 audit      -->
-<!--     dossier + founding-cycle 2026-Q2 quarterly report          -->
-<!--   - Section 2 F1-F5 conundrum: replace pre-charter open status -->
-<!--     with D-IH-84-C ratified-option close + cross-ref to        -->
-<!--     decision-log.md                                            -->
-<!--   - Section 6 promotion criteria: update to reflect I84-closed -->
-<!--     state; promotion gate now operator-discretionary           -->
-<!--   - Add new D-IH-76-A pre-ratification row to i76 decision     -->
-<!--     register inheriting from D-IH-84-C                         -->
-<!-- ============================================================ -->
+D-IH-84-C ratified as **F5 — Hybrid; per-task operator picks** at the I84 P4 batched gate. Parent agent landed a **non-destructive cascade header** on the i76 candidate stub in commit `3900787` (`feat(i84): P4 batched ratification - decision-log + report + candidate-stub cascade for D-IH-84-B/C/D/E`). The header note:
+
+- Cites D-IH-84-C closure + D-IH-76-A pre-ratification (F5 framing).
+- Substitutes I76 Strand A external-research deliverable with the I84 P1 audit dossier + Tier-1 WIP threads (Q2 2026) at [`docs/wip/intelligence/substrate-audit-2026-Q2/`](../../../intelligence/substrate-audit-2026-Q2/).
+- Refreshes promotion criteria: I76 now promotes when (a) I84 closes — DONE, (b) I11 / I13 / I17 scope-overlap review completes (operator-driven), (c) operator chooses to promote.
+- Names F5 as the I76 P0 starting point (rather than a discovery-led F1-F5 question).
+
+Operator-pending forward-charter at I76 P0 charter time:
+- Mint `D-IH-76-A` row in I76 decision register inheriting from `D-IH-84-C`.
+- Edit Strand A body + Section 2 conundrum table to reference the cascade (optional; the header note already cites — body edits are I76-P0-time work).
 
 ### 2.4 Cross-references
 
@@ -102,24 +97,20 @@ The four candidates have different unblocking profiles per the SHAPE/EXECUTION s
 - The C-74-1 + C-74-2 + C-74-5 + remaining conundrums per I74 candidate section 4.
 - Promotion criteria gate: operator promotes I74 candidate to active when ready post-cascade.
 
-### 3.3 Recommended edits to `i74-brand-tooling-productization.md` (deferred to parent agent post-P4)
+### 3.3 Stub-edit landed for `i74-brand-tooling-productization.md` (substituted 2026-05-17; commit `3900787`)
 
-<!-- post-P4 substitution: i74 edits -->
-<!-- ============================================================ -->
-<!-- After operator answers D-IH-84-D at the I84 P4 batched gate, -->
-<!-- the parent agent edits the i74 candidate stub:                -->
-<!--   - Strand C C-74-3 conundrum: replace open status with        -->
-<!--     D-IH-84-D ratified-option close + cross-ref to             -->
-<!--     decision-log.md                                            -->
-<!--   - Strand C C-74-4 license-separation: cite Cursor MSA + SDK  -->
-<!--     ToS analysis from regulatory-tos-forecast.md + IP/IT       -->
-<!--     ADVOPS engagement deliverable (when landed)               -->
-<!--   - Section 4 conundrum table: update C-74-3 + C-74-4 statuses -->
-<!--   - Section 6 promotion criteria: update to reflect            -->
-<!--     I84-closed state                                          -->
-<!--   - Add new D-IH-74-D pre-ratification row to i74 decision     -->
-<!--     register inheriting from D-IH-84-D                         -->
-<!-- ============================================================ -->
+D-IH-84-D ratified as **D3 — Hybrid library + agent platform** at the I84 P4 batched gate. Parent agent landed a **non-destructive cascade header** on the i74 candidate stub in commit `3900787`. The header note:
+
+- Cites D-IH-84-D closure + D-IH-74-D pre-ratification (D3 shape).
+- Closes C-74-3 MADEIRA gate-criteria conundrum.
+- Informs C-74-4 license-separation enforceability via the regulatory + ADVOPS analyses.
+- Cross-links [`reports/advops-engagement-scoping-2026-05-17.md`](advops-engagement-scoping-2026-05-17.md) ADVOPS engagement recommendation as the pre-binding contract-surface gate.
+- Frees I74 P0 charter to focus on library API surface + hosted-agent runtime architecture rather than productization-shape meta-decision.
+
+Operator-pending forward-charter at I74 P0 charter time:
+- Mint `D-IH-74-D` row in I74 decision register inheriting from `D-IH-84-D`.
+- Edit Strand C body + Section 4 conundrum table to reference the cascade (optional body-level work).
+- Schedule ADVOPS engagement per Options A-D in the scoping note before binding any Cursor SDK integration architecture.
 
 ### 3.4 Cross-references
 
@@ -143,23 +134,20 @@ The four candidates have different unblocking profiles per the SHAPE/EXECUTION s
 - The C-83-2 through C-83-N remaining conundrums per I83 candidate section 4.
 - Promotion criteria gate: operator promotes I83 candidate to active when ready post-cascade.
 
-### 4.3 Recommended edits to `i83-ai-archivist-and-kirbe-ingestor.md` (deferred to parent agent post-P4)
+### 4.3 Stub-edit landed for `i83-ai-archivist-and-kirbe-ingestor.md` (substituted 2026-05-17; commit `3900787`)
 
-<!-- post-P4 substitution: i83 edits -->
-<!-- ============================================================ -->
-<!-- After operator answers D-IH-84-E at the I84 P4 batched gate, -->
-<!-- the parent agent edits the i83 candidate stub:                -->
-<!--   - Section 4 C-83-1 framework-narrowing: replace open status  -->
-<!--     with D-IH-84-E ratified narrowing-to-2 finalists +         -->
-<!--     cross-ref to decision-log.md                               -->
-<!--   - Section 4 add C-83-N (new): execution choice between the   -->
-<!--     2 finalists (deferred to KiRBe-P0 owning)                  -->
-<!--   - Section 4 add Letta as candidate memory-layer pair note   -->
-<!--   - Section 6 promotion criteria: update to reflect            -->
-<!--     I84-closed state                                          -->
-<!--   - Add new D-IH-83-A pre-charter ratification row to i83      -->
-<!--     decision register inheriting from D-IH-84-E                -->
-<!-- ============================================================ -->
+D-IH-84-E ratified as **E1 — LlamaIndex-continue + LangGraph-workflow** (2 finalists; I83 P0 picks between them or composes both) at the I84 P4 batched gate (initial gate + follow-up gate; operator asked for narrowing-help; agent presented B5-grounded analysis; operator ratified E1). Parent agent landed a **non-destructive cascade header** on the i83 candidate stub in commit `3900787`. The header note:
+
+- Cites D-IH-84-E closure + D-IH-83-A pre-ratification (E1 narrowing).
+- Names both finalists (`SUBS-RUN-LLAMA-LLAMAINDEX` + `SUBS-LANGCHAIN-AI-LANGGRAPH`) with substrate-row citations.
+- Surfaces the likely composition outcome (LlamaIndex-for-retrieval + LangGraph-for-workflow-orchestration via langchain-native tool protocol).
+- Notes `SUBS-LETTA-LETTA` as candidate memory-layer pair (orthogonal; KiRBe P0 evaluates).
+- Rules out Cursor SDK + LlamaIndex (the operator's "somehow D" preference) per the B5 self-governance + retractability + open-source principle ratified at D-IH-84-B.
+
+Operator-pending forward-charter at I83 P0 charter time:
+- Mint `D-IH-83-A` row in I83 decision register inheriting from `D-IH-84-E`.
+- Edit Section 4 C-83-1 + add Section 4 Letta-as-memory-pair note (optional body-level work).
+- KiRBe P0 picks primary orchestration anchor or composes both finalists.
 
 ### 4.4 Cross-references
 
@@ -183,24 +171,19 @@ I82 is structurally different from I76 / I74 / I83 — it doesn't have a specifi
 - The capability rows themselves (operator-gated canonical-CSV mint per discipline).
 - The commercial readiness analysis (independent of I84 substrate evidence in scope).
 
-### 5.3 Recommended edits to `i82-holistika-capability-doctrine-and-commercial-readiness.md` (deferred to parent agent post-P4)
+### 5.3 Stub-edit landed for `i82-holistika-capability-doctrine-and-commercial-readiness.md` (substituted 2026-05-17; commit `3900787`)
 
-<!-- post-P4 substitution: i82 edits -->
-<!-- ============================================================ -->
-<!-- After operator answers D-IH-84-B/C/D/E at the I84 P4 batched -->
-<!-- gate, the parent agent edits the i82 candidate stub:          -->
-<!--   - Section 2a CAPABILITY_REGISTRY column-spec: extend with   -->
-<!--     substrate_id column (nullable FK to SUBSTRATE_REGISTRY)   -->
-<!--   - Section 2a add CAPABILITY_REGISTRY x SUBSTRATE_REGISTRY   -->
-<!--     FK semantics note: mandatory when capability names a       -->
-<!--     substrate; nullable when substrate-agnostic                -->
-<!--   - Section N (commercial readiness): cross-link to            -->
-<!--     I84 founding-cycle 2026-Q2 quarterly for substrate-cost    -->
-<!--     evidence informing capability pricing                      -->
-<!--   - Section 6 promotion criteria: cross-link I84-closed as     -->
-<!--     enabling evidence (not blocking; I82 can promote          -->
-<!--     independently)                                            -->
-<!-- ============================================================ -->
+All 4 D-IH-84-B/C/D/E ratifications relevant as evidence inputs to I82 (per Section 5.2 above — I82 doesn't have a specific conundrum that I84 P4 closes; it has a register-shape extension). Parent agent landed a **non-destructive cascade header** on the i82 candidate stub in commit `3900787`. The header note:
+
+- Cites the I84 P4 batched ratification + the I84 P3b live 18-row SUBSTRATE_REGISTRY canonical (+ Supabase mirror) as the FK target now live.
+- Specifies the CAPABILITY_REGISTRY column-spec extension: nullable `substrate_id` FK to SUBSTRATE_REGISTRY for capabilities that name an underlying technical substrate (e.g., "capability X depends on substrate Y"); leave blank for substrate-agnostic methodology capabilities.
+- Surfaces the queryability gain (e.g., "all capabilities that depend on LlamaIndex" / "all capabilities exposed via OpenClaw thin-adapter").
+- Confirms no I82 promotion-criteria changes; just a column-spec refresh consumed at I82 P0 charter.
+
+Operator-pending forward-charter at I82 P0 charter time:
+- Incorporate the `substrate_id` FK column into the `CAPABILITY_REGISTRY.csv` mint scope (P2 facet 2a).
+- Author the substrate-agnostic-vs-substrate-named semantics in the I82 doctrine prose (P1 doctrine authoring).
+- Cross-link the I84 founding-cycle 2026-Q2 quarterly report for substrate-cost evidence informing capability pricing positioning.
 
 ### 5.4 Cross-references
 
