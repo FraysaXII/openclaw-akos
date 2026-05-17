@@ -8,6 +8,7 @@ status_history:
   - 2026-05-16 reopened active (P3 review uncovered brand-canon collapse; D-IH-77-G scope expansion to P4)
   - 2026-05-16 closed V2 (P4 SHIPPED via D-IH-77-CLOSURE-V2; 4.A wide-prose sweep + 4.B visual UAT render + 4.C rendering-pipeline registry mint)
 closure_date: 2026-05-16
+closed_at: 2026-05-16
 closure_decision_id: D-IH-77-CLOSURE-V2
 target_close: 2026-05-16 (closed V2 via D-IH-77-CLOSURE-V2)
 owner_role: Brand & Narrative Manager
