@@ -1,9 +1,13 @@
 ---
 language: en
-status: active
+status: archived
 initiative_id: INIT-OPENCLAW_AKOS-13
-last_review: 2026-04-17
+last_review: 2026-05-17
+archived_at: 2026-05-17
+superseded_by: INIT-OPENCLAW_AKOS-84
 ---
+
+> **Update 2026-05-17 — superseded by I84.** Follow-through lineage replaced by I84 continuous Research-area substrate-audit discipline per `D-IH-84-CLOSURE`. See [`docs/wip/planning/84-substrate-doctrine-and-commercial-readiness/`](../84-substrate-doctrine-and-commercial-readiness/) for the successor initiative.
 # Initiative 13 — MADEIRA research follow-through (SOTA-aligned)
 
 **Status:** active (execution started 2026-04-17).  

@@ -15,13 +15,12 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (15)
+### Active (in execution) (13)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
 | **03** | [`03-hlk-km-knowledge-base/`](03-hlk-km-knowledge-base/) | active | 2026-04-08 | HLK governed KM — workspace master roadmap |
 | **11** | [`11-madeira-ops-copilot/`](11-madeira-ops-copilot/) | active | 2026-04-15 | Initiative 11 — Madeira day-to-day ops copilot (SOTA-informed, governance-safe) |
-| **13** | [`13-madeira-research-followthrough/`](13-madeira-research-followthrough/) | active | 2026-04-17 | Initiative 13 — MADEIRA research follow-through (SOTA-aligned) |
 | **17** | [`17-madeira-cursor-mode-parity/`](17-madeira-cursor-mode-parity/) | active | 2026-04-15 | Initiative 17 — MADEIRA Cursor mode parity (Ask / Plan / Run) |
 | **62** | [`62-mission-control/`](62-mission-control/) | active | 2026-05-07 | Initiative 62 — Mission Control (hlk-erp magnificent ERP) |
 | **63** | [`63-external-repo-governance-codification/`](63-external-repo-governance-codification/) | active | 2026-05-07 | Initiative 63 — External Repo Governance Codification |
@@ -30,16 +29,14 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
 | **81** | [`81-vault-integrity-layout-milestones-retrofit/`](81-vault-integrity-layout-milestones-retrofit/) | active | 2026-05-16 | I81 — Vault integrity sweep + layout migration + named-milestone schema + SOP body/adde... |
 | **82** | [`82-holistika-capability-doctrine/`](82-holistika-capability-doctrine/) | active | 2026-05-16 | I82 — Holistika Capability Doctrine and Commercial Readiness |
-| **84** | [`84-substrate-doctrine-and-commercial-readiness/`](84-substrate-doctrine-and-commercial-readiness/) | active | 2026-05-16 | I84 — Substrate Doctrine and Commercial Readiness |
 | **85** | [`85-audience-tag-canonicalization/`](85-audience-tag-canonicalization/) | active | 2026-05-16 | I85 — Audience-tag canonicalization |
 | **86** | [`86-initiative-cluster-execution-coordinator/`](86-initiative-cluster-execution-coordinator/) | active | 2026-05-16 | I86 — Initiative Cluster Execution Coordinator |
 | **87** | [`87-openclaw-operator-runtime-hardening/`](87-openclaw-operator-runtime-hardening/) | active | 2026-05-16 | I87 — OpenClaw operator-runtime hardening |
 
-### Gated on external event (2)
+### Gated on external event (1)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
-| **12** | [`12-madeira-research-request/`](12-madeira-research-request/) | gated_external | 2026-04-17 | Initiative 12 — MADEIRA external research request |
 | **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | gated_external | 2026-05-03 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
 
 ### Gated on operator action (2)
@@ -66,7 +63,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | program_line | 2026-04-18 | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
 | **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | program_line | 2026-04-23 | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
 
-### Closed (37)
+### Closed (38)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -107,13 +104,16 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **77** | [`77-impeccable-brand-bridge-refresh/`](77-impeccable-brand-bridge-refresh/) | closed | 2026-05-16 | I77 — Impeccable Brand-Bridge Refresh + Drift Gate + Brand-Canon Collapse Remediation +... |
 | **79** | [`79-people-manifesto-and-pattern-library/`](79-people-manifesto-and-pattern-library/) | closed | 2026-05-15 | I79 — Holistika People Manifesto + Knowledge Hygiene + Cross-area Design Patterns + AI ... |
 | **80** | [`80-i79-lessons-learned/`](80-i79-lessons-learned/) | closed | 2026-05-16 | I80 — I79 Lessons-Learned (SOP Body/Addendum Pattern + Stakeholder Lenses + Inline-Rati... |
+| **84** | [`84-substrate-doctrine-and-commercial-readiness/`](84-substrate-doctrine-and-commercial-readiness/) | closed | 2026-05-17 | I84 — Substrate Doctrine and Commercial Readiness |
 
-### Archived (superseded) (4)
+### Archived (superseded) (6)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
 | **05** | [`05-hlk-vault-envoy-repos/`](05-hlk-vault-envoy-repos/) | archived | 2026-05-05 | Initiative 05 — HLK v3.0 Envoy repository hub + entity placement |
 | **09** | [`09-openclaw-hygiene/`](09-openclaw-hygiene/) | archived | 2026-04-16 | Initiative 09 — OpenClaw hygiene (gateway SSOT, security audit, bootstrap, CLI updates) |
+| **12** | [`12-madeira-research-request/`](12-madeira-research-request/) | archived | 2026-05-17 | Initiative 12 — MADEIRA external research request |
+| **13** | [`13-madeira-research-followthrough/`](13-madeira-research-followthrough/) | archived | 2026-05-17 | Initiative 13 — MADEIRA research follow-through (SOTA-aligned) |
 | **16** | [`16-hlk-finops-vendor-ssot/`](16-hlk-finops-vendor-ssot/) | archived | 2026-04-23 | Initiative 16 — FINOPS vendor SSOT + Supabase mirror |
 | **20** | [`20-kalavai-shadow-llamacpp-trial/`](20-kalavai-shadow-llamacpp-trial/) | archived | 2026-05-05 | Initiative 20 — Kalavai / Shadow llama.cpp trial: DeepSeek-R1-Distill-Llama-70B (Q4) |
 

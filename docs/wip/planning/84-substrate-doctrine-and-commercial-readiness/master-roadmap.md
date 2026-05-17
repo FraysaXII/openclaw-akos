@@ -1,9 +1,10 @@
 ---
 initiative_id: I84
 title: Substrate Doctrine and Commercial Readiness — Cursor-SDK-class agentic-substrate intelligence + Madeira / AIC / KiRBe positioning baseline
-status: active
+status: closed
+closed_at: 2026-05-17
 charter_date: 2026-05-16
-last_review: 2026-05-16
+last_review: 2026-05-17
 parent_initiative: 79 (lessons-learned closure + agentic-as-DoD doctrine); 80 (inline-ratify-craft codification — I84 is its first cross-area deployment); founder directive 2026-05-16
 inception_decision_id: D-IH-84-A
 priority: 1

@@ -1,10 +1,14 @@
 ---
 language: en
-status: gated_external
+status: archived
 initiative_id: INIT-OPENCLAW_AKOS-12
-last_review: 2026-04-17
+last_review: 2026-05-17
+archived_at: 2026-05-17
+superseded_by: INIT-OPENCLAW_AKOS-84
 gated_on: External research team intake; substantive closure depends on commissioned findings.
 ---
+
+> **Update 2026-05-17 — superseded by I84.** Vendor-handoff lineage replaced by I84 continuous Research-area substrate-audit discipline per `D-IH-84-CLOSURE`. See [`docs/wip/planning/84-substrate-doctrine-and-commercial-readiness/`](../84-substrate-doctrine-and-commercial-readiness/) for the successor initiative (substrate doctrine + 18-row SUBSTRATE_REGISTRY canonical + paired SOP+runbook + founding-cycle 2026-Q2 quarterly audit baseline).
 # Initiative 12 — MADEIRA external research request
 
 **Status:** active (handoff document published).  
