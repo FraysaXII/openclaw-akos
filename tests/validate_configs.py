@@ -444,10 +444,17 @@ class TestStrictAkosInventoryContract:
         assert set(allow) == {"madeira", "orchestrator", "architect", "executor", "verifier"}
 
     def test_ollama_model_count(self, config_dir):
+        # I87 P3 (D-IH-87-C, 2026-05-16, commit e40fae1) intentionally removed the
+        # `qwen3:8b` row from `ollama.models` per the operator-ratified hygiene pass
+        # (gateway logs showed fallback to vLLM was already happening; the row was
+        # observability drift, not functional). Canonical state since I87 P3 is 3:
+        # `llama3.1:8b`, `deepseek-r1:14b`, `nomic-embed-text`. If a 4th model is
+        # re-added intentionally in a future initiative, bump this assertion + cite
+        # the ratifying decision id.
         data = load_json(config_dir / "openclaw.json.example")
         ollama_models = data["models"]["providers"]["ollama"]["models"]
-        assert len(ollama_models) == 4, (
-            f"Expected 4 Ollama models, got {len(ollama_models)}: "
+        assert len(ollama_models) == 3, (
+            f"Expected 3 Ollama models per D-IH-87-C, got {len(ollama_models)}: "
             f"{[m['id'] for m in ollama_models]}"
         )
 
