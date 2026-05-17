@@ -11,6 +11,8 @@ language: en
 
 # I76 candidate — MADEIRA elevation
 
+> **Update 2026-05-17 — I84 P4 pre-ratification cascade (D-IH-84-C closed; D-IH-76-A pre-ratified as F5).** Strand A discovery is now complete via I84 P1 substrate-landscape audit + Tier-1 WIP dossier (Q2 2026) at [`docs/wip/intelligence/substrate-audit-2026-Q2/`](../../intelligence/substrate-audit-2026-Q2/). The AIC framing question (Strand C C-76-1) is **closed**: I84 P4 ratified **F5 — Hybrid; per-task operator picks** as the load-bearing AIC framing per [`decision-log.md` D-IH-84-C](../84-substrate-doctrine-and-commercial-readiness/decision-log.md). I76 P0 charter is now free to focus on **per-pattern instantiation** (which task-classes default to F1 / F2 / F3 / F4 in operator workflow) rather than the meta-decision of which single framing to adopt. **Promotion criteria refresh**: I76 promotes when (a) I84 closes — DONE, (b) the I11 / I13 / I17 scope-overlap review completes (operator-driven), (c) operator chooses to promote. AIC-as-people framing F5 is the I76 P0 starting point (rather than a discovery-led question).
+
 > **Candidate scaffold (deepened 2026-05-13).** Promoted to `active` only AFTER (a) external research (Strand A) is complete and the **AIC-as-people framing** is ratified or rejected via inline `AskQuestion`, and (b) the active MADEIRA stack (I11 / I13 / I17) is reviewed for scope-overlap. This is **explicitly framed as discovery-led**: the operator surfaced the AICs idea but asked for outside research first ("don't want to influence you... look outside"). Prompt 1 from [`docs/wip/planning/_templates/initiative-planning-prompts.md`](../_templates/initiative-planning-prompts.md) is the right entry point when promoting.
 
 ## 1. Operating story
