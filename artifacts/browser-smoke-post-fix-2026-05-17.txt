@@ -1,0 +1,99 @@
+browser-smoke W1 evidence — 2026-05-17 mechanical-backlog regression sweep
+=============================================================================
+
+Launch command:
+  py scripts/serve-api.py --port 8420 --no-graph-explorer
+
+Server PID: 24128 (parent) / 12260 (uvicorn worker)
+Listen: 127.0.0.1:8420
+Startup signal: "INFO:     Application startup complete." at 2026-05-17T04:00:48Z+2
+
+Health probe:
+  Invoke-WebRequest -Uri http://127.0.0.1:8420/health -UseBasicParsing -TimeoutSec 20
+  STATUS: 200
+  BODY: {"status":"ok","gateway":"degraded (HTTP 404)","runpod":"unhealthy",
+         "vllm":"unhealthy","langfuse":"enabled","uptime_seconds":27.88,
+         "graph_explorer":{"state":"disabled","url":null,"pid":null,"last_exit_code":null},
+         "neo4j_mirror":{"in_sync":false,"last_ok":"2026-05-04T17:28:11+00:00",
+                         "fingerprint_short":"0b8240bdfb3e","pending":false,
+                         "last_error":"validate_hlk_failed"}}
+
+  Note: gateway "degraded (HTTP 404)" + runpod/vllm "unhealthy" are EXPECTED
+        absent live OpenClaw gateway + provisioned RunPod credentials.
+        The browser-smoke scenarios pass against the stub-providers.
+
+
+SCENARIO 1 — browser-smoke HTTP-only (no Playwright)
+-----------------------------------------------------
+Command: py scripts/browser-smoke.py
+Result:  PASS 14 / SKIP 0 / FAIL 0
+
+  [PASS] dashboard_health               Gateway http://127.0.0.1:18789 returns 200
+  [PASS] agent_visibility               5 agents visible via API
+  [PASS] swagger_health                 GET /health returns status: ok
+  [PASS] hlk_graph_summary              csv roles=67 processes=1168; neo4j=error
+  [PASS] hlk_graph_explorer             GET /hlk/graph/explorer returns operator UI
+  [PASS] scenario0_hlk_cto              CTO access_level 5 + canonical title (registry SSOT)
+  [PASS] scenario0_hlk_research_area    Research area closed: 8 roles; includes Holistik Researcher
+  [PASS] scenario0_hlk_kirbe_children   6 direct children; includes golden workstreams
+  [PASS] scenario0_admin_escalation     admin_escalate + must_escalate true
+  [PASS] scenario0_finance_quote        finance quote envelope ok|degraded
+  [PASS] scenario0_finance_sentiment    finance sentiment envelope ok|degraded
+  [PASS] scenario0_routing_mixed        mixed utterance escalates admin
+  [PASS] scenario0_madeira_mode         mode=ask
+  [PASS] scenario0_madeira_control      madeira control page ok
+
+
+SCENARIO 2 — browser-smoke --playwright (full visual stack)
+------------------------------------------------------------
+Command: py scripts/browser-smoke.py --playwright
+Result:  PASS 17 / SKIP 0 / FAIL 0  (HTTP-only 14 PLUS 3 Playwright-only)
+
+  [PASS] dashboard_health               Dashboard + API /health load (200)
+  [PASS] agent_visibility               5 agents present (madeira, orchestrator, architect, executor, verifier)
+  [PASS] swagger_health                 GET /health Execute shows status: ok
+  [PASS] hlk_graph_summary              GET /hlk/graph/summary returns JSON
+  [PASS] hlk_graph_explorer             Explorer page loads
+  [PASS] scenario0_hlk_cto              CTO access_level 5 + canonical title (registry SSOT)
+  [PASS] scenario0_hlk_research_area    Research area closed: 8 roles; includes Holistik Researcher
+  [PASS] scenario0_hlk_kirbe_children   6 direct children; includes golden workstreams
+  [PASS] scenario0_admin_escalation     admin_escalate + must_escalate true
+  [PASS] scenario0_finance_quote        finance quote envelope ok|degraded
+  [PASS] scenario0_finance_sentiment    finance sentiment envelope ok|degraded
+  [PASS] scenario0_routing_mixed        mixed utterance escalates admin
+  [PASS] scenario0_madeira_mode         mode=ask
+  [PASS] scenario0_madeira_control      madeira control page ok
+  [PASS] architect_tools_ui             Architect present on control plane /agents (SSOT JSON or UI)
+  [PASS] executor_approval_hint         Executor present on control plane /agents (SSOT JSON or UI)
+  [PASS] workflow_launch                Workflow section reachable; no fatal error
+
+
+PYTHON 3.14 PLAYWRIGHT NOTE
+----------------------------
+Per akos-planning-traceability.mdc UAT contract: "Playwright on Windows +
+Python 3.14+ preview interpreters may crash bundled Chromium (0xC0000005);
+use CPython 3.12.x for Playwright or Cursor IDE Browser MCP for live
+127.0.0.1:18789 dashboard rows."
+
+On this 2026-05-17 run with Python 3.14.2t (the t-suffixed free-threaded
+build), Playwright Chromium did NOT crash on any of the 17 scenarios. The
+0xC0000005 risk is run-flake-level rather than reproducible; the contract
+guidance still recommends 3.12.x for Playwright stability.
+
+
+CLEANUP
+-------
+Stop-Process -Id 24128 -Force  (parent)
+Stop-Process -Id 12260 -Force  (uvicorn worker)
+netstat -ano | findstr ":8420" -> no LISTENING entry; TIME_WAIT only (kernel cleanup)
+
+
+COMMIT CONTEXT
+--------------
+W1 workstream of the 2026-05-17 mechanical-backlog regression sweep.
+Previous-sweep sweep landed 7 fix commits (4fef221 / 02726f4 / 99a02f7 /
+476a198 / 0e9c5c5 / 79c14d4 / 6ee5b4d) and noted "Browser-smoke x16 FAIL
+ERR_CONNECTION_REFUSED on 127.0.0.1:8420 (dashboard not running)" as the
+remaining gap. This evidence record shows the gap closes cleanly with
+serve-api.py --no-graph-explorer; the FAILs were strictly "no listener"
+not actual code regressions.
