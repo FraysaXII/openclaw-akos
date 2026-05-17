@@ -19,9 +19,9 @@ canonical_dependencies:
   - scripts/validate_rendering_pipeline_registry.py
   - scripts/list_rendering_pipelines.py
 governance_rules:
-  - .cursor/rules/akos-executable-process-catalog.mdc (Rule 1: SOP+runbook pairing; Rule 2: status taxonomy; Rule 3: cadence taxonomy; Rule 4: DAMA Data Owner)
-  - .cursor/rules/akos-brand-baseline-reality.mdc (every brand-token-consuming pipeline must respect dual-register contract)
-  - .cursor/rules/akos-planning-traceability.mdc (per-initiative file-changes CSV must record additions to this registry)
+  - ".cursor/rules/akos-executable-process-catalog.mdc (Rule 1: SOP+runbook pairing; Rule 2: status taxonomy; Rule 3: cadence taxonomy; Rule 4: DAMA Data Owner)"
+  - ".cursor/rules/akos-brand-baseline-reality.mdc (every brand-token-consuming pipeline must respect dual-register contract)"
+  - ".cursor/rules/akos-planning-traceability.mdc (per-initiative file-changes CSV must record additions to this registry)"
 methodology_version: v3.0
 ---
 
