@@ -78,9 +78,24 @@ After operator selected Option A at the post-Option-D P3-entry AskQuestion, the 
 | 30 | `a77c15d` | P3c | [`docs/USER_GUIDE.md`](../../../../../USER_GUIDE.md) §24.1 Initiative 84 paragraph | +1 | feat |
 | 31 | `a77c15d` | P3c | [`.cursor/rules/akos-docs-config-sync.mdc`](../../../../../../.cursor/rules/akos-docs-config-sync.mdc) trigger row | +1 | feat |
 | 32 | `4cc8bd2` | P3c | files-modified.csv SHA backfill | edit | chore |
-| 33 | pending | post-P3c | this self-checkpoint final update + closing AskQuestion | edit | chore |
+| 33 | `f2f2e61` | post-P3c | this self-checkpoint final update v3 | edit | chore |
 
-**Total at final chat closure (chat phase 3)**: 6 substantive feature commits + 5 backfill chore commits + 2 checkpoint chore commits = **~13 commits**. **~2700 net new lines authored** across:
+### 2.3 Supabase live application (chat phase 4; Option F1 → H1 execution)
+
+After operator selected Option F1 (apply Supabase mirror DDL now), `supabase migration list` revealed pre-existing 42-migration drift (30 pending local + 12 remote-only) spanning 12 prior initiatives, blocking blind `supabase db push`. Operator selected Option H1 (selective MCP apply for I84-only; defer broader drift) at the recovery gate.
+
+| # | Operation | Result |
+|:---|:---|:---|
+| 34 | Supabase MCP `apply_migration` (project MasterData / `swrmqpelgoblaquequzb`) with the I84 DDL body | `success` — `compliance.substrate_registry_mirror` table created with 20 cols (18 + `source_git_sha` + `synced_at`); 4 indexes; 9 CHECK constraints; RLS enabled service_role-only |
+| 35 | Generate substrate upserts via `py scripts/sync_compliance_mirrors_from_csv.py --substrate-registry-only --no-begin-commit` | 22-line SQL file produced (18 INSERT...ON CONFLICT...DO UPDATE statements) |
+| 36 | Apply 18 row upserts via 3 batches of MCP `execute_sql` (6 rows per batch) | All 3 batches `success` |
+| 37 | Verification via MCP `execute_sql`: `SELECT COUNT(*), status counts, akos_integration_state filters, audit date range` | total_rows=18, distinct_ids=18, active=15, experimental=1, candidate=1, forecasted=1, rejected_state=2, earliest_audit=latest_audit=2026-05-17 — **PASS** |
+| 38 | `npx supabase migration list` → ghost timestamp `20260517001257` discovered (MCP applies under wall-clock not file timestamp) | Diagnosed; `migration repair` required |
+| 39 | `npx supabase migration repair --status reverted 20260517001257` | `success` |
+| 40 | `npx supabase migration repair --status applied 20260517000000` | `success` (after one transient SASL auth flake on first attempt) |
+| 41 | `npx supabase migration list` final check | `20260517000000 | 20260517000000 | 2026-05-17 00:00:00` — local + remote both have canonical timestamp; ledger harmonized |
+
+**Total at final chat closure (chat phase 4)**: 6 substantive feature commits + 5 backfill chore commits + 3 checkpoint chore commits = **~14 git commits** + **8 Supabase operations** (1 MCP apply_migration + 3 MCP execute_sql batches + 1 MCP execute_sql verification + 1 supabase migration list audit + 2 supabase migration repair). **~2800 net new lines authored** across:
 - 2 operator-readable reports (P1 + P2)
 - 1 self-checkpoint (evolving across 3 chat phases)
 - 3 Tier-1 WIP threads + 1 folder README
@@ -105,15 +120,15 @@ After operator selected Option A at the post-Option-D P3-entry AskQuestion, the 
 
 ## 4. What is outstanding (per sc-resume §6 + §3.5)
 
-**Update 2026-05-17 after three inline-ratify gates**: operator ratified Option D (Tier-1 WIP dossier first; landed 2.1) → Option D1 (execute in this chat) → Option A (full P3 canonical mint chain; landed 2.2 via P3a + P3b + P3c) → approve-full-17-rows P3b CSV seed (with Devin/Replit as `rejected`) → Option E1 (P3c full cascade in this chat). All five gates answered with structured operator selections per [`inline-ratify-craft/SKILL.md`](../../../../.cursor/skills/inline-ratify-craft/SKILL.md) discipline.
+**Update 2026-05-17 after six inline-ratify gates**: operator ratified Option D (Tier-1 WIP dossier first; landed 2.1) → Option D1 (execute in this chat) → Option A (full P3 canonical mint chain; landed 2.2 via P3a + P3b + P3c) → approve-full-17-rows P3b CSV seed (with Devin/Replit as `rejected`) → Option E1 (P3c full cascade in this chat) → Option F1 (Supabase DDL apply) → Option H1 (I84-only selective MCP apply given broader drift; landed 2.3). All six gates answered with structured operator selections per [`inline-ratify-craft/SKILL.md`](../../../../.cursor/skills/inline-ratify-craft/SKILL.md) discipline.
 
 Status now:
 
-1. **P3 canonical mint complete** — SUBSTRATE_REGISTRY.csv (18 rows) + SUBSTRATE_LANDSCAPE_DOCTRINE.md (status:review) + Pydantic SSOT + validator + tests + Supabase mirror DDL (authored not applied) + sync emit fn + drift validator + validate_hlk umbrella + docs cascade (ARCHITECTURE + USER_GUIDE + akos-docs-config-sync) all landed. See §2.2 for the per-commit breakdown.
+1. **P3 canonical mint complete** — SUBSTRATE_REGISTRY.csv (18 rows) + SUBSTRATE_LANDSCAPE_DOCTRINE.md (status:review) + Pydantic SSOT + validator + tests + Supabase mirror DDL + sync emit fn + drift validator + validate_hlk umbrella + docs cascade (ARCHITECTURE + USER_GUIDE + akos-docs-config-sync) all landed. See §2.2 for the per-commit breakdown.
+
+2. **Supabase live application complete (chat phase 4)** — `compliance.substrate_registry_mirror` table created on remote MasterData project (`swrmqpelgoblaquequzb`) via selective MCP apply_migration; 18 rows seeded via 3 batches of MCP execute_sql upserts; verification SELECT confirmed total_rows=18, distinct_ids=18, active=15, experimental=1, candidate=1, forecasted=1, rejected_state=2 (Devin+Replit per audit-trail discipline). Migration ledger harmonized via `migration repair --status reverted 20260517001257 && migration repair --status applied 20260517000000` (ghost wall-clock timestamp removed; canonical file timestamp aligned). See §2.3 for the per-step breakdown.
 
 Remaining operator-gated:
-
-2. **Supabase DDL apply** — operator runs `supabase db push` per [`akos-holistika-operations.mdc`](../../../../.cursor/rules/akos-holistika-operations.mdc) §"Operator SQL gate" Step 4 to apply `supabase/migrations/20260517000000_i84_substrate_registry_mirror.sql` to live Supabase. Quick step (single command); operator-scheduled.
 
 3. **P4 substrate-decision rehearsal** — D-IH-84-B (AKOS substrate baseline) + D-IH-84-C (AIC framing F1-F5) + D-IH-84-D (MADEIRA productization shape) + D-IH-84-E (KiRBe framework narrowing) batched ratification per master-roadmap §3 P4. Evidence stack now complete: P1 audit + P2 scorecard + Tier-1 WIP dossier (3 threads) + P3 SUBSTRATE_REGISTRY.csv 18 rows + SUBSTRATE_LANDSCAPE_DOCTRINE.md. Operator schedules when ready.
 
