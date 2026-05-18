@@ -1,0 +1,170 @@
+---
+description: Default posture for surfacing architectural conflicts via novel framing with blocker-trackers and scope-overlap-trackers (Option 5 / D-IH-86-O)
+globs:
+  - "docs/wip/**/*.md"
+  - "docs/wip/planning/**/*.md"
+  - ".cursor/plans/**/*.plan.md"
+  - "**/*.plan.md"
+alwaysApply: true
+---
+
+# AKOS Conflict-Surfacing and Blocker-Trackers (Option 5 default posture)
+
+Use this rule whenever the agent is executing a multi-task push (e.g. a Lane / Bundle / Wave) and discovers that **some-but-not-all of the named tasks meet their own activation criteria**, OR when active siblings need consolidation but the consolidation has phase-specific tradeoffs that would over-commit operator attention if collapsed into a single up-front decision.
+
+Codifies decision **D-IH-86-O** (operator ratified Option 5 at A0 meta-ratify gate, 2026-05-18). Sister rule to [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) — that rule governs *when* and *how* to inline-ratify; this rule governs *what to do when the conflict surfaced by ratification is structural*.
+
+## The pattern in one sentence
+
+When some-but-not-all activation gates are met for a batch of named work, the agent **mints full-doctrine artifacts where activation gates are met + governance-shape tracker artifacts where they aren't**, instead of speculatively promoting all of the batch (debt) or blocking the entire batch (operator-intent erasure) or stub-charting all of it (deferred debt).
+
+## Operator quote (the verbatim source)
+
+> *"i'd like yo to be on guard forr other sc tasks that have conflicct or other topics in wihch optionE /5 is applicale, that wwiil be tthe defalt way tto go forward because it'll make yo suurface otthehr qestions and that's ohw we will worrk together hhuman and AI to make this flawless"* — operator, 2026-05-18, A0 meta-ratify gate ratification.
+
+The doctrine is: **conflicts get surfaced, not absorbed**. The agent's job is to make conflicts visible as durable governance shapes that the operator can revisit deterministically — not to paper over them with speculative promotion or to defer them into invisible OPS rows.
+
+## Trigger conditions (when to use)
+
+The default posture fires when **any** of the following are true during a multi-task push:
+
+1. **Promotion-blocker conflict.** A candidate initiative is named in the push scope but its candidate-file activation gates are not all met. Speculatively promoting (creating an INITIATIVE_REGISTRY row) would create the same shape as the reverted `D-IH-86-F` / `D-IH-86-G` precedent (promotion → revert → tracker pattern, made durable).
+2. **Active-sibling consolidation conflict.** A new initiative being chartered overlaps in scope with active siblings (e.g. I76 with I11/I13/I17), and a single up-front "supersede / extend / parallel" decision would over-commit operator attention to a question with phase-specific tradeoffs.
+3. **Operator-content gate conflict.** A push contains tasks that genuinely require operator content decisions (per-persona content quality, per-area discipline alignment, per-pillar narrative reception) at a density that exceeds the chat's ratify-gate budget.
+4. **Reverted-promotion lineage.** A prior promotion of the same artifact was reverted by operator correction (`D-IH-86-F` → `D-IH-86-G` precedent); doing it again without surfacing the prior revert reasoning would repeat the failure mode.
+
+When NONE of (1)-(4) fires, this rule does not apply and the work proceeds normally per [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc).
+
+## Decision tree (which artifact shape to mint)
+
+For each named task in the conflicted batch, walk this tree:
+
+```mermaid
+flowchart TB
+  Start[Named task with surfaced conflict]
+  GatesMet{Activation gates<br/>all met?}
+  ActiveSibling{Active sibling<br/>scope overlap?}
+  OperatorContent{Operator content<br/>required at high<br/>ratify density?}
+  PriorRevert{Prior promotion<br/>reverted?}
+
+  FullCharter[Full v3.1-doctrine charter<br/>with inline-ratify gates<br/>at phase entries]
+  ScopeOverlapTracker[Scope-overlap-tracker<br/>governance artifact<br/>at _trackers/]
+  BlockerTracker[Blocker-tracker<br/>governance artifact<br/>at _blockers/]
+  ForwardCharter[Forward-charter<br/>to next chat session<br/>or successor initiative]
+
+  Start --> GatesMet
+  GatesMet -- yes --> ActiveSibling
+  ActiveSibling -- yes --> ScopeOverlapTrackerAndCharter[Charter + Scope-Overlap-Tracker]
+  ActiveSibling -- no --> OperatorContent
+  OperatorContent -- yes --> ForwardCharter
+  OperatorContent -- no --> FullCharter
+  GatesMet -- no --> PriorRevert
+  PriorRevert -- yes --> BlockerTrackerStrong[Blocker-tracker<br/>with reverted-promotion<br/>lineage section]
+  PriorRevert -- no --> BlockerTracker
+
+  ScopeOverlapTrackerAndCharter --> ScopeOverlapTracker
+  ScopeOverlapTrackerAndCharter --> FullCharter
+```
+
+The four artifact shapes:
+
+- **Full v3.1-doctrine charter** at `docs/wip/planning/<NN-slug>/master-roadmap.md` (+ companion files) per [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) §"Plan-quality bar". Used when the task's activation gates are met and operator content is not the primary blocker.
+- **Scope-overlap-tracker** at `docs/wip/planning/_trackers/<short-slug>-scope-overlap-tracker.md`. Used when new charter overlaps active siblings; defers per-sibling consolidation to phase-specific ratify gates inside the new initiative; preserves sibling visibility in INITIATIVE_REGISTRY (their rows stay active) until consolidation gate fires.
+- **Blocker-tracker** at `docs/wip/planning/_blockers/<short-slug>-promotion-blocker-tracker.md`. Used when activation gates are not met; preserves operator intent visibility (the candidate was considered for this push) without speculative-promotion debt.
+- **Forward-charter** to a separate chat session or successor initiative. Used when operator content is required at a ratify density that would overflow the current chat's working space; the agent commits the durable parts of the work and surfaces the operator-content-dependent parts as named OPS rows for next-cycle execution.
+
+## Blocker-tracker file shape (binding template)
+
+Every blocker-tracker minted under this rule must contain at minimum the following sections (file path: `docs/wip/planning/_blockers/<candidate-slug>-promotion-blocker-tracker.md`):
+
+```yaml
+---
+intellectual_kind: blocker_tracker
+sharing_label: internal_only
+parent_candidate: <candidate ID e.g. I74>
+candidate_file: docs/wip/planning/_candidates/<candidate-slug>.md
+authored: <YYYY-MM-DD>
+last_review: <YYYY-MM-DD>
+next_review_trigger: <human-readable trigger condition>
+linked_decisions:
+  - D-IH-NN-A   # parent initiative inception decision
+  - D-IH-86-O   # default posture decision
+status: active
+role_owner: <PMO | System Owner | other>
+language: en
+---
+```
+
+Body sections:
+
+1. **§1 Why <candidate> is not promoted today** — table of activation criteria from candidate file vs status today, with citations.
+2. **§2 Already-cleared sub-decisions** (optional) — pre-ratifications that survive even though promotion is blocked.
+3. **§3 Resolution conditions (when does this tracker close)** — numbered list of conditions that must all be met for promotion.
+4. **§4 Next-review trigger** — human-readable cadence + condition.
+5. **§5 Reverted-promotion lineage** (only if applicable) — citation to `D-IH-86-F`/`G`-shaped revert pattern.
+6. **§6 Cross-references** — links to candidate file + parent initiative master-roadmap + governing rules + governing decisions.
+
+## Scope-overlap-tracker file shape (binding template)
+
+Every scope-overlap-tracker minted under this rule must contain at minimum (file path: `docs/wip/planning/_trackers/<short-slug>-scope-overlap-tracker.md`):
+
+```yaml
+---
+intellectual_kind: scope_overlap_tracker
+sharing_label: internal_only
+parent_initiative: <new initiative INIT ID>
+tracked_initiatives:
+  - <sibling 1 INIT ID>
+  - <sibling 2 INIT ID>
+  - <sibling 3 INIT ID>
+authored: <YYYY-MM-DD>
+last_review: <YYYY-MM-DD>
+next_review_trigger: <e.g. "I76 P1 entry">
+linked_decisions:
+  - D-IH-NN-A
+  - D-IH-86-O
+status: active
+role_owner: <System Owner | PMO | other>
+co_owner_role: <optional>
+language: en
+---
+```
+
+Body sections:
+
+1. **§1 Why this tracker exists** — narrative explaining the overlap + why a single up-front consolidation decision over-commits operator attention.
+2. **§2 Per-sibling scope-overlap inventory** — table with sibling ID + owner + status + scope summary + new-initiative phase where consolidation question is sharpest + default consolidation framing.
+3. **§3 Per-phase consolidation ratify gates (forward-chartered)** — one subsection per sibling describing the gate trigger phase, the four-option ratify set (typically: decommission / merge into new initiative / remain parallel as legacy code-path / forward-charter to NN-b), the default if not ratified before phase entry, and current status (open / ratified — option X).
+4. **§4 Tracker status update cadence** — when entries get updated; when tracker can be archived.
+5. **§5 Cross-references**.
+
+## Anti-patterns (what NOT to do)
+
+This rule explicitly forbids the following alternatives that the A0 meta-ratify gate considered and rejected:
+
+- **Anti-pattern A: Stub-promote-and-defer.** Mint INITIATIVE_REGISTRY rows for all named candidates at active status with thin charter stubs and "real charter coming next cycle" promises. Failure mode: speculative-promotion debt; downstream agents treat thin stubs as canonical; the prior `D-IH-86-F` revert was about exactly this.
+- **Anti-pattern B: Block-the-task.** Refuse to ship anything until all named candidates' activation gates are met. Failure mode: erases the operator's intent (Lane 5 was named for a reason); blocks high-value work (I76 charter is clean) on unrelated low-value work.
+- **Anti-pattern C: Stub-charters-with-deferred-OPS.** Mint thin master-roadmaps for all candidates + put deferral notes in OPS rows. Failure mode: same as A but with extra steps; the OPS rows hide the conflict instead of surfacing it.
+- **Anti-pattern D: Single-up-front-consolidation.** Force the operator to ratify "supersede / extend / parallel" for all active siblings at parent-charter time. Failure mode: over-commits operator attention to a question with phase-specific tradeoffs; consolidation decisions degrade in quality when made too early.
+
+## Worked example (I76 P0 charter, 2026-05-18)
+
+The I76 P0 charter applied this rule's four artifact shapes simultaneously:
+
+- **Full charter** for I76 (activation gates met: D-IH-84-C AICs F5 pre-ratification + I84 closed): `docs/wip/planning/76-madeira-elevation/master-roadmap.md` + companions.
+- **Scope-overlap-tracker** for I11/I13/I17 (active siblings; consolidation has phase-specific tradeoffs): `docs/wip/planning/_trackers/i11-i13-i17-scope-overlap-tracker.md`.
+- **Blocker-trackers** for I74/I75/I83 (activation gates not met; reverted-promotion lineage for I74/I75 from `D-IH-86-F`/`G`): `docs/wip/planning/_blockers/i74-/i75-/i83-promotion-blocker-tracker.md`.
+- **Forward-charter via OPS-76-1** for I76 P1..P6 execution (operator-ratify density requires next-cycle engagement at phase entries).
+
+All four shapes were minted in the same commit (Wave A: `534ce3f`). Operator visibility preserved across all four candidates; speculative-promotion debt avoided; consolidation decisions deferred to the phases where they're sharpest.
+
+## Cross-references
+
+- [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) — sister rule (the *when* + *how* of ratification; this rule is the *what to do when ratification surfaces structural conflict*).
+- [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) §"Plan-quality bar" — the doctrine the full-charter shape inherits from.
+- [`akos-agent-checkpoint-discipline.mdc`](akos-agent-checkpoint-discipline.mdc) — pause-point + self-checkpoint discipline applies independently of which shape was chosen.
+- [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) §"HLK compliance governance" — canonical-CSV gate discipline applies to INITIATIVE_REGISTRY appends regardless of shape.
+- D-IH-86-O — operator-ratification of this default posture.
+- D-IH-86-F + D-IH-86-G — reverted-promotion precedent that motivated this rule.
+- I76 master-roadmap (`docs/wip/planning/76-madeira-elevation/master-roadmap.md`) — first worked-example application.
+- I80 master-roadmap (`docs/wip/planning/80-i79-lessons-learned/master-roadmap.md`) — sister precedent (promoting craft-on-individual-agent to craft-as-skill via inline-ratify-craft skill).

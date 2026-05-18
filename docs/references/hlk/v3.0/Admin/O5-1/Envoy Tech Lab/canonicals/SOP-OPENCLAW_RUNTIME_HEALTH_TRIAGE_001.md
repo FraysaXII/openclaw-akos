@@ -8,13 +8,14 @@ confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
   - System Owner
-last_review: 2026-05-16
+last_review: 2026-05-19
 last_review_by: System Owner
 ratifying_decisions:
   - D-IH-87-A
   - D-IH-87-B
   - D-IH-87-C
-status: review
+  - D-IH-87-CLOSURE
+status: active
 register: internal
 linked_canonicals:
   - OPS_REGISTER.csv
@@ -31,7 +32,7 @@ cadence_secondary_trigger: operator-observed runtime symptom outside the five kn
 
 # SOP — OpenClaw runtime health triage
 
-> **Status: `review`** — minted under I87 P5 (D-IH-87-A/B/C charter). Promotes to `active` after I87 P6 closure UAT exercises the rails on a synthetic three-failure-cycle scenario per [`SOP-META_PROCESS_MGMT_001.md`](../../People/canonicals/SOP-META_PROCESS_MGMT_001.md) §4.3.
+> **Status: `active`** (promoted `review` → `active` 2026-05-19 at I87 P6 closure UAT per D-IH-87-CLOSURE; UAT report at [`docs/wip/planning/87-openclaw-operator-runtime-hardening/reports/uat-i87-closure-2026-05-19.md`](../../../../../wip/planning/87-openclaw-operator-runtime-hardening/reports/uat-i87-closure-2026-05-19.md) — synthetic 3-symptom-class dry-run drill PASS for ws-token-expiration + docker-sandbox-churn + low-context-warning).
 
 ## 1. Purpose
 

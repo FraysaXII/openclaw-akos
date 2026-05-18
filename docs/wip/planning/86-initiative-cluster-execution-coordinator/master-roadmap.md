@@ -115,7 +115,7 @@ Spotlight owners **facilitate** wave narrative and surface blockers to the PMO +
 | I74 | INIT-OPENCLAW_AKOS-74 (forward) | TRIGGER-watch (blocker-tracker active 2026-05-18 per D-IH-86-O) | — | 3-4 | TRIGGER-2 reactive count 0; resolution requires ≥2 external requests + I71/I72/I73 closure + I76 P3 closure. Tracker: docs/wip/planning/_blockers/i74-promotion-blocker-tracker.md. |
 | I75 | INIT-OPENCLAW_AKOS-75 (forward) | candidate (blocker-tracker active 2026-05-18 per D-IH-86-O) | — | 2 end | Blocker: I72 P0 + I73 P0 + Research Director hire pending. Tracker: docs/wip/planning/_blockers/i75-promotion-blocker-tracker.md. |
 | I76 | INIT-OPENCLAW_AKOS-76 | **active** (Wave A 2026-05-18 under D-IH-76-A + Option 5 default posture D-IH-86-O) | P0 | 3-5 | P0 charter landed Wave A; 7-phase shape P0..P6; scope-overlap-tracker docs/wip/planning/_trackers/i11-i13-i17-scope-overlap-tracker.md governs I11/I13/I17 consolidation at P1/P3/P4 entries. AICs F5 framing inherited from D-IH-84-C. Co-owner PMO. |
-| I87 | INIT-OPENCLAW_AKOS-87 | **active** (`bde7060`) | P0+P2+P3+P4 | 1 (landed) | 4 of 6 phases closed Wave 1; P1 escalation patch + P5 SOP+runbook + P6 closure UAT remain. |
+| I87 | INIT-OPENCLAW_AKOS-87 | **closed** (Wave B 2026-05-19 per D-IH-87-CLOSURE) | P0..P6 | 1+B (landed) | All 6 phases closed; SOP-OPENCLAW_RUNTIME_HEALTH_TRIAGE_001 promoted review->active; UAT report at reports/uat-i87-closure-2026-05-19.md (synthetic 3-class drill PASS). 4 of 10 cluster siblings now closed. |
 
 ### 1.4 Wave 1 mid-burn status (2026-05-16; 13 commits landed)
 

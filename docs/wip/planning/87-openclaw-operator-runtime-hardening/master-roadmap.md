@@ -1,15 +1,18 @@
 ---
 initiative_id: I87
 title: OpenClaw operator-runtime hardening (health-monitor escalation + plugin pinning + modelsConfig hygiene + gateway-token UX + SOP+runbook pairing)
-status: active
+status: closed
 authored: 2026-05-16
-last_review: 2026-05-16
+last_review: 2026-05-19
+closed_at: 2026-05-19
+closure_decision_id: D-IH-87-CLOSURE
 owner_role: System Owner
 parent_initiatives: [84, 86]
 related_initiatives: [09]
 priority: 4
 language: en
-charter_decisions: [D-IH-87-A, D-IH-87-B, D-IH-87-C]
+charter_decisions: [D-IH-87-A, D-IH-87-B, D-IH-87-C, D-IH-87-WAVE2-PAIRING]
+closure_decisions: [D-IH-87-CLOSURE]
 ops_records: [OPS-87-1]
 risk_register: [R-IH-87-1, R-IH-87-2, R-IH-87-3, R-IH-87-4]
 ---
