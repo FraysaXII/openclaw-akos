@@ -109,7 +109,7 @@ Spotlight owners **facilitate** wave narrative and surface blockers to the PMO +
 |:---|:---|:---|:---|:---:|:---|
 | I81 | INIT-OPENCLAW_AKOS-81 | **active** (`dbdb551`) | P0 | 1-2 + background 4-8 | P0 charter landed Wave 1; P1 vault-integrity baseline deferred to focused work-block. Feeds `kb-integrity-matrix` to I82 Wave 4. |
 | I84 | INIT-OPENCLAW_AKOS-84 | active | charter | 1-5 | P4 unlocks I76, I74, I83 framework narrowing; compare OpenClaw baseline after I87 when possible. |
-| I85 | INIT-OPENCLAW_AKOS-85 | **active** (`bde7060`) | P0+P1+P2-infra+P3 | 1 (landed) | Wave 1 closeable; only P2-sweep + P4-promotion remain (both operator-gated). |
+| I85 | INIT-OPENCLAW_AKOS-85 | **closed** (Wave C 2026-05-19 per D-IH-85-CLOSURE) | P0..P4 | 1+C (landed) | All 4 phases closed; SOP-AUDIENCE_TAG_GOVERNANCE_001 active; 11 surfaces tagged; UAT report at reports/uat-i85-closure-2026-05-19.md. 5 of 10 cluster siblings now closed. |
 | I82 | INIT-OPENCLAW_AKOS-82 | **active** (`dbdb551`) | P0 | 3-4 | P0 charter landed Wave 1; P1+ waits on I84 P4 ratifications + I81 P1 integrity for registry mint. |
 | I83 | INIT-OPENCLAW_AKOS-83 (forward) | candidate (blocker-tracker active 2026-05-18 per D-IH-86-O) | — | 5 | Blocker: I82 P4 USE_CASE_ARCHIVE + I76 P3 (AICs F5 substrate). Tracker: docs/wip/planning/_blockers/i83-promotion-blocker-tracker.md. |
 | I74 | INIT-OPENCLAW_AKOS-74 (forward) | TRIGGER-watch (blocker-tracker active 2026-05-18 per D-IH-86-O) | — | 3-4 | TRIGGER-2 reactive count 0; resolution requires ≥2 external requests + I71/I72/I73 closure + I76 P3 closure. Tracker: docs/wip/planning/_blockers/i74-promotion-blocker-tracker.md. |

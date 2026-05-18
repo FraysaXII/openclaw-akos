@@ -1,9 +1,11 @@
 ---
 initiative_id: I85
 title: Audience-tag canonicalization (J-* codes → canonical CSV + frontmatter migration + drift gate)
-status: active
+status: closed
 authored: 2026-05-16
-last_review: 2026-05-16
+last_review: 2026-05-19
+closed_at: 2026-05-19
+closure_decision_id: D-IH-85-CLOSURE
 owner_role: Brand & Narrative Manager
 co_owner_role: System Owner
 parent_initiatives: [77, 81]
@@ -11,6 +13,7 @@ related_initiatives: [66, 71, 74, 86]
 priority: 5
 language: en
 charter_decisions: [D-IH-85-A, D-IH-85-B, D-IH-85-C, D-IH-85-D, D-IH-85-E]
+closure_decisions: [D-IH-85-CLOSURE]
 ops_records: [OPS-85-1]
 risk_register: [R-IH-85-1, R-IH-85-2, R-IH-85-3, R-IH-85-4, R-IH-85-5]
 ---
