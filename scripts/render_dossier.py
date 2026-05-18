@@ -53,6 +53,24 @@ DEFAULT_LANGUAGE = "es"
 DEFAULT_PLANE = "advops"
 DEFAULT_TOPIC_DIR = "enisa_evidence"
 
+# Per D-IH-89-H (2026-05-18): ADVOPS plane asset-bucket dirnames use engagement-slug
+# (external register) instead of program_id (internal register). Map program_id -> dirname.
+# Other planes keep dirname = program_id (the I22 forward layout convention).
+ADVOPS_ENGAGEMENT_SLUG_BY_PROGRAM_ID: dict[str, str] = {
+    "PRJ-HOL-FOUNDING-2026": "2026-holistika-incorporation",
+}
+
+
+def _asset_bucket_dirname(plane: str, program: str) -> str:
+    """Resolve the asset-bucket dirname for a (plane, program_id) pair.
+
+    - ADVOPS plane: returns the engagement-slug (per D-IH-89-H); falls back to program_id.
+    - Other planes: returns program_id (I22 forward layout).
+    """
+    if plane == "advops":
+        return ADVOPS_ENGAGEMENT_SLUG_BY_PROGRAM_ID.get(program, program)
+    return program
+
 DOSSIER_TITLE_BY_LANGUAGE: dict[str, str] = {
     "es": "Dossier ENISA",
     "en": "ENISA Dossier",
@@ -80,6 +98,7 @@ BOILERPLATE_LOGO_PATH = (
 
 def resolve_dossier_md(*, program: str, language: str) -> Path:
     """Return the canonical dossier markdown path for a given program + language."""
+    bucket_dirname = _asset_bucket_dirname(DEFAULT_PLANE, program)
     return (
         REPO_ROOT
         / "docs"
@@ -88,7 +107,7 @@ def resolve_dossier_md(*, program: str, language: str) -> Path:
         / "v3.0"
         / "_assets"
         / DEFAULT_PLANE
-        / program
+        / bucket_dirname
         / DEFAULT_TOPIC_DIR
         / f"dossier_{language}.md"
     )

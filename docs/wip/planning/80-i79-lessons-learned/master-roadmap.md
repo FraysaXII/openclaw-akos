@@ -22,7 +22,7 @@ linked_decisions:
 parent_dependency:
   - INIT-OPENCLAW_AKOS-79 (People Manifesto + Knowledge Hygiene + Cross-area Design Patterns + AI Governance; closed 2026-05-15 D-IH-79-CLOSURE)
 sibling_initiatives:
-  - INIT-OPENCLAW_AKOS-77 (Impeccable Brand-Bridge Refresh + Drift Gate; active — sibling drift-gate discipline)
+  - INIT-OPENCLAW_AKOS-77 (Impeccable Brand-Bridge Refresh + Drift Gate; closed 2026-05-16 `D-IH-77-CLOSURE-V2`)
   - I76 candidate (MADEIRA elevation; inherits I80 inline-ratify craft skill as agent-onboarding input)
   - I81 candidate (forward-charter — full-vault SOP body/addendum retrofit per D-IH-80-D Option C)
 authoritative_plan: docs/wip/planning/80-i79-lessons-learned/master-roadmap.md (this file is authoritative; no out-of-repo Cursor plan companion needed for I80 — small enough to live entirely in repo)

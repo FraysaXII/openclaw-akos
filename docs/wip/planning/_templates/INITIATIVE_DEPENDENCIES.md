@@ -2,7 +2,7 @@
 language: en
 status: active
 authored: 2026-05-15
-last_review: 2026-05-16
+last_review: 2026-05-17
 role_owner: PMO
 classification: fact
 ssot: true
@@ -36,17 +36,16 @@ flowchart LR
     i73[I73 - People Operations + Engagement Models + Methodology IP]:::closed
     i79[I79 - People Manifesto + Pattern Library + AI Governance + Knowledge Hygiene]:::closed
     i80[I80 - I79 Lessons-Learned SOP Body/Addendum + Lenses + Inline-Ratify Skill]:::closed
+    i77[I77 - Impeccable Brand-Bridge Refresh + Drift Gate + Brand-Canon Collapse + Rendering Governance]:::closed
+    i84[I84 - Substrate Doctrine and Commercial Readiness]:::closed
 
     %% Active initiatives
     i81[I81 - KB integrity + Compliance layout + SOP retrofit]:::active
     i82[I82 - Holistika Capability Doctrine and Commercial Readiness]:::active
-    i84[I84 - Substrate Doctrine and Commercial Readiness]:::active
+    i78[I78 - Brand-Voice LLM-as-Judge]:::active
     i85[I85 - Audience-tag canonicalization]:::active
     i86[I86 - Initiative Cluster Execution Coordinator]:::active
     i87[I87 - OpenClaw operator-runtime hardening]:::active
-
-    %% Recently closed
-    i77[I77 - Impeccable Brand-Bridge Refresh + Drift Gate + Brand-Canon Collapse + Rendering Governance]:::closed
 
     %% Candidate initiatives (promotable when hold-gates clear)
     i75[I75 - Research Area Governance]:::candidate
@@ -55,7 +54,6 @@ flowchart LR
 
     %% TRIGGER-watch candidates (dormant by design)
     i74[I74 - Brand-Tooling Productization]:::trigger
-    i78[I78 - Brand-Voice LLM-as-Judge]:::trigger
 
     %% Hard blocks (prior must close before successor starts)
     i59 --> i63
@@ -124,10 +122,13 @@ flowchart LR
     i86 -.->|cluster-coordination| i75
     i86 -.->|cluster-coordination| i76
     i86 -.->|cluster-coordination| i87
+    i86 -.->|cluster-coordination| i78
+
+    %% Advisory stack above closed I71 deterministic brand gate
+    i71 -.->|Tier2 brand-voice LLM advisory| i78
 
     %% TRIGGER-watch hold-gates (dashed)
     i74 -.->|TRIGGER-2: >=2 external requests| extReq[External org consumption requests]
-    i78 -.->|TRIGGER: >=2 regex pushback signals| extReg[Regex pushback signals]
 
     classDef closed stroke-width:2px,stroke-dasharray: 0
     classDef active stroke-width:3px,stroke-dasharray: 0
@@ -164,19 +165,19 @@ flowchart LR
 | **I74** — Brand-tooling productization | TRIGGER-watch | TRIGGER-2: ≥2 external orgs request AKOS doctrine consumption without source-fork (0 today) | external market signal | (none yet) | TRIGGER-2 = ≥2 external requests | dormant |
 | **I75** — Research area governance | candidate | I70 closed (MET); I71 + I72 + I73 P0 (I73 PENDING); Research Director commit (PENDING) | I73 + founder approvals | I76 (cross-strand methodology pillars) | — | candidate |
 | **I76** — MADEIRA elevation | candidate | I70 + I72 closed (MET); Strand A external research on AIC F1-F5 completes (PENDING) | external research + operator ratification | (forward-charter linkage to I72 RevOps roles) | — | candidate |
-| **I77** — Impeccable Brand-Bridge Refresh + Drift Gate | active | I71 P1 Pack A1 ship (MET — I71 fully closed) | I71 closed | (forward — Impeccable v3.1 chassis stays operational across all initiatives) | — | P0 charter ratified 2026-05-14; P1 Strand A pending |
-| **I78** — Brand-voice LLM-as-judge advisory | TRIGGER-watch | TRIGGER: ≥2 regex pushback signals on I71 deterministic gate (0 today) | external regex pushback | (forward — advisory layer to I71's deterministic gate) | TRIGGER = ≥2 pushback signals | dormant |
+| **I77** — Impeccable Brand-Bridge Refresh + Drift Gate | closed | I71 P1 Pack A1 ship (MET) | I71 closed | (forward — Impeccable v3.1 chassis stays operational across initiatives) | — | **CLOSED 2026-05-16** (`INIT-OPENCLAW_AKOS-77`; `D-IH-77-CLOSURE-V2`) |
+| **I78** — Brand-voice LLM-as-judge advisory | **active** | — (registry activated per **`D-IH-78-A`**; prior TRIGGER-only posture superseded for CSV purposes) | closed **I71** Pack A1 deterministic floor (MET) | Advisory semantics layer atop [`validate_brand_voice_register.py`](../../../../scripts/validate_brand_voice_register.py) stack | §6 regex-pushback telemetry remains **bias-audit / strict-mode timing** signal (candidate Strand D), not a registry promotion gate | **P0 governance complete**; **P1** judge Pydantic chassis + CLI + release-gate INFO wiring **pending** ([`master-roadmap.md`](../78-brand-voice-llm-as-judge/master-roadmap.md)) |
 | **I79** — People Manifesto + Pattern Library + AI Governance + Knowledge Hygiene (mega-initiative) | closed | I73 closed (MET 2026-05-15) | I73 | I75 (design pattern library input) + I77 (design pattern library input) + I76 (agentic doctrine input) + I80 (lessons-learned input) | — | **CLOSED 2026-05-15** (`INIT-OPENCLAW_AKOS-79`; `D-IH-79-CLOSURE`) — P0–P8 mega-initiative six strands + UAT + integration verification; 24/1165 process_list FK seeds; anti-jargon drift gate operational |
 | **I80** — I79 Lessons-Learned (SOP Body/Addendum + Stakeholder Lenses + Inline-Ratify Skill) | closed | I79 closed (MET 2026-05-15) | I79 | I81 (full-vault SOP body/addendum retrofit forward-charter) + I76 (inline-ratify skill consumed) + I75/I77 (SOP body/addendum pattern adopted) | — | **CLOSED 2026-05-16** (`INIT-OPENCLAW_AKOS-80`; `D-IH-80-CLOSURE`) — 8 atomic commits P0..P7; 3 tracks delivered: stakeholder lenses paired files + SOP body/addendum pattern (8 paired-file instantiations) + inline-ratify craft skill |
 | **I81** — Knowledge-base integrity sweep (vault + planning surface) + Compliance layout reorganisation + named-milestone migration + full-vault SOP retrofit | **active** | Operator approval per P2 layout-migration tranche (canonical-CSV gates); D-IH-81-F/G/I/J close at later phases | **I80 P7 closed** (`D-IH-80-CLOSURE`) **+ KNOWLEDGE_PAIRING pattern live** (`D-IH-80-H`) | **I82** (consumes integrity matrix + unlocks Confidence in folder layout hygiene) **+ all future initiatives** (named-milestone schema becomes permanent vocabulary at P3) **+ downstream mirror/ERP path consumers** | — | **P0 charter ratified 2026-05-16** (`INIT-OPENCLAW_AKOS-81`); D-IH-81-A/B/C/E/H ratified via I86 Wave 1 batch with `decision_source: agent_inline_default` after operator skip; ~10-25d total (absorbed mode per D-IH-81-A) |
 | **I82** — Holistika Capability Doctrine + Commercial Readiness | **active** | P1 Talent activation + P2 CAPABILITY_REGISTRY mint (canonical-CSV gates); P2 gated on I81 P1 integrity CLOSED OR D-IH-82-PREREQ waiver | **I80 closed** + **I81 P1** (or waiver) + **Talent CSV approval queued** | **I83** (Archivist ingestor consumes registries once I82 facets land) **+ Investor/collateral surfaces** | — | **P0 charter ratified 2026-05-16** (`INIT-OPENCLAW_AKOS-82`); D-IH-82-A/B/F/G/H ratified via I86 Wave 1 batch with `decision_source: agent_inline_default` after operator skip; ~7-10d total |
 | **I83** — AI Archivist + KiRBe Ingestor | candidate | I82 P4 closed (use case archive minted); **I84 P4 `D-IH-84-E` framework-class-narrowing ratified**; Tech Lab Lead bandwidth | I82 P4 + I84 P4 + Tech Lab capacity | (forward — knowledge surfacing system consuming I82 + I80 P6.5 registries) | — | candidate (Tech-area-led product-shaped; 9-12d MVP estimate); **C-83-1 framework choice now deferred to I84 P4 per `D-IH-84-E` per 2026-05-16 cluster sequencing** |
-| **I84** — Substrate Doctrine + Commercial Readiness | **active** | Founder directive 2026-05-16 (MET); I79 closed (MET); I80 closed inline-ratify-craft skill consumable (MET); **parallel-track with I81 P1 wave 1 + P2+P3 wave 2** per `D-IH-84-I` | I79 + I80 closed | **I76 (D-IH-84-C AIC framing) + I74 (D-IH-84-D productization shape) + I83 (D-IH-84-E framework narrowing) + I82 (SUBSTRATE_REGISTRY FK target) + I75 (Research-area governance frame needed for P6 canonical pair) + I12/I13 (superseded — continuous Research-area discipline replaces vendor handoff)** | — | **P0 charter ratified 2026-05-16** (`INIT-OPENCLAW_AKOS-84` operator-pending); P1 substrate-landscape audit launches next session in true parallel with I81 P1; 8 D-IH-84-A..H decisions + 12 R-IH-84-1..12 risks; supersedes I12+I13 |
+| **I84** — Substrate Doctrine + Commercial Readiness | closed | Founder directive 2026-05-16 (MET); parallel-track execution with I81 per `D-IH-84-I` completed through closure | I79 + I80 closed | **I76 + I74 + I83 + I82 + I75** (ratifications per closure batch); **I12/I13 archived** superseded | — | **CLOSED 2026-05-17** (`INIT-OPENCLAW_AKOS-84`; `D-IH-84-CLOSURE`). Quarterly substrate-audit cadence continues as operational discipline (see I84 master-roadmap + registry narrative). |
 | **I85** — Audience-tag canonicalization | **active** | Operator-batch-approve gates per tag-migration tranche (P2); canonical-CSV gate at P1 mint | (none hard-blocking; forward-link wire to I81 P1) | I81 P1 evidence pack (adds `audience_tags_coverage` column once I85 P1 ships); future Impeccable invocations gain mechanical audience-tag identification | — | **P0 charter ratified 2026-05-16** (`INIT-OPENCLAW_AKOS-85`); D-IH-85-A..E ratified via I86 wave-1 batch with `decision_source: agent_inline_default` after operator skip; ~3.5d total |
-| **I86** — Initiative Cluster Execution Coordinator | **active** | — (coordination initiative; does not replace sibling charter authority) | PMO + System Owner co-own per **D-IH-86-A** | nine coordinated siblings reach **closed** with **D-IH-86-D** cross-check logged each time | — | **P0 charter 2026-05-16** (`INIT-OPENCLAW_AKOS-86`); continuous Waves 1–5 burndown surface per [`master-roadmap.md`](../86-initiative-cluster-execution-coordinator/master-roadmap.md); cadence **event-driven** per **D-IH-86-B** |
+| **I86** — Initiative Cluster Execution Coordinator | **active** | — (coordination initiative; does not replace sibling charter authority) | PMO + System Owner co-own per **D-IH-86-A** | ten coordinated siblings reach **closed** with **D-IH-86-D** cross-check logged each time | — | **P0 charter 2026-05-16** (`INIT-OPENCLAW_AKOS-86`); continuous Waves 1–5 burndown surface per [`master-roadmap.md`](../86-initiative-cluster-execution-coordinator/master-roadmap.md); cadence **event-driven** per **D-IH-86-B** |
 | **I87** — OpenClaw operator-runtime hardening | **active** | — | — | Patched OpenClaw baseline before I84 Wave 3 substrate ratification (recommended slot per substrate audit §2) | — | **P0 charter ratified 2026-05-16** (`INIT-OPENCLAW_AKOS-87`); D-IH-87-A..C ratified via I86 wave-1 batch with `decision_source: agent_inline_default` after operator skip; ~5-7d total |
 
-State truth: row 56 of [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) (I70), row 57 (I71), row 58 (I72), row 59 (I77), row 60 (I73 — **closed 2026-05-15**), row 61 (I79 — **closed 2026-05-15**), row 62 (I80 — **closed 2026-05-16**), row 63 (**I86** — **`INIT-OPENCLAW_AKOS-86` active 2026-05-16**). I74/I75/I76/I78/I81/I82/I83/I84/I87 still have **no** INIT row except where noted as operator-pending in sibling stubs; I84 INIT mint remains **operator-pending** in parallel with this coordinator mint; state is read from candidate files under [`docs/wip/planning/_candidates/`](../_candidates/) and from active initiative folders under [`docs/wip/planning/<NN-slug>/`](../).
+State truth (sync with [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv)): **Closed** — includes I70–I73, I71, I72, I77, I79, I80, **I84**. **Active** — I78, I81, I82, I85, I86, I87 (each has `INIT-OPENCLAW_AKOS-NN`). **Candidates** — I75, I76, I83. **TRIGGER-watch without promotion yet** — I74. Design-depth SSOT for I78 remains [`i78-brand-voice-llm-judge.md`](../_candidates/i78-brand-voice-llm-judge.md); execution mirror + registry SSOT row [`78-brand-voice-llm-as-judge/master-roadmap.md`](../78-brand-voice-llm-as-judge/master-roadmap.md). Promotion = operator gate + registry mint. If this dependency map disagrees with the CSV, **update this file**.
 
 ---
 
@@ -226,7 +227,7 @@ Per `D-IH-84-I` (2026-05-16 inline-ratify Q1 Option B + Q2 Option B), I81 (KB in
 
 ### 3.8 I86 cluster coordination posture (Waves 1–5 burndown)
 
-[`INIT-OPENCLAW_AKOS-86`](../86-initiative-cluster-execution-coordinator/master-roadmap.md) is an **operational portfolio orchestrator** (sibling posture to I64 / I65 mission-control surfaces): it mints **no** new vault SSOT CSV families; it runs **continuous coordination** until nine siblings (I81 I84 I85 I82 I83 I74 I75 I76 I87) each reaches **`status: closed`** in [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv), with **D-IH-86-D** closure cross-check evidence filed before each sibling closure ratifies.
+[`INIT-OPENCLAW_AKOS-86`](../86-initiative-cluster-execution-coordinator/master-roadmap.md) is an **operational portfolio orchestrator** (sibling posture to I64 / I65 mission-control surfaces): it mints **no** new vault SSOT CSV families; it runs **continuous coordination** until ten siblings (I81 I84 I85 I82 I83 I74 I75 I76 I87 **I78**) each reaches **`status: closed`** in [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv), with **D-IH-86-D** closure cross-check evidence filed before each sibling closure ratifies.
 
 Decisions **D-IH-86-A..E** (2026-05-16) encode: **PMO + System Owner co-own** with **per-wave spotlight facilitators**; **event-driven pulse + 14-day quiet floor**; **wave-boundary AskQuestion batches + blocker-overflow lane**; **active mint + `_candidates/` redirect stub** for discoverability.
 
@@ -273,9 +274,12 @@ For the agent: when promoting any candidate to active, confirm these gates via t
 
 - [ ] TRIGGER-2: ≥2 external orgs request AKOS doctrine consumption without source-fork — **NOT FIRED** (0 requests as of 2026-05-15).
 
-### I78 TRIGGER-watch
+### I78 active execution
 
-- [ ] TRIGGER: ≥2 regex pushback signals on I71 deterministic gate — **NOT FIRED** (0 signals as of 2026-05-15; I71 just closed).
+- [x] **`INIT-OPENCLAW_AKOS-78` mint + `D-IH-78-A`** — MET 2026-05-17 (operator-directed activation; prior TRIGGER-only registry posture superseded).
+- [ ] **P1 engineering** — judge Pydantic chassis + CLI + release-gate `[INFO]` advisory row — PENDING (see [`78-brand-voice-llm-as-judge/master-roadmap.md`](../78-brand-voice-llm-as-judge/master-roadmap.md)).
+- [ ] **Closure** — `D-IH-78-CLOSURE` + `validate_hlk` clean when P1–P5 complete — PENDING.
+- **Telemetry:** candidate §6 regex-pushback signals remain useful for **bias-audit cadence + strict-mode promotion** (Strand D); they are no longer the registry promotion gate after **`D-IH-78-A`**.
 
 ---
 
@@ -297,3 +301,5 @@ For the agent: when promoting any candidate to active, confirm these gates via t
 | 2026-05-16 | **I86 coordinator mint + I87 candidate stub.** New **`INIT-OPENCLAW_AKOS-86`** active initiative — Initiative Cluster Execution Coordinator (Waves 1–5 burndown). Ratifies **D-IH-86-A..E** (ownership + spotlight posture; event-driven cadence with quiet floor; wave-boundary AskQuestion batches + blocker-overflow; gated sibling closure cross-check; active mint with `_candidates/` redirect). Opens **`OPS-86-1`**. Mermaid gains **`i86` active** + **`i87` candidate** nodes plus nine **`cluster-coordination`** dotted edges from `i86` to `i81/i84/i85/i82/i83/i74/i75/i76/i87`. New cross-strand **§3.8** documents coordinator posture + wave summary table. Blocker table gains **I86** + **I87** rows. Candidate stub [`i87-openclaw-operator-runtime-hardening.md`](../_candidates/i87-openclaw-operator-runtime-hardening.md) absorbs substrate audit §2 five-strand scope verbatim. Workspace mirror at [`docs/wip/planning/86-initiative-cluster-execution-coordinator/`](../86-initiative-cluster-execution-coordinator/). | PMO |
 | 2026-05-16 | **I86 Wave 1 cluster batch ratify — I85 + I87 promoted to active.** Per **D-IH-86-C** (wave-boundary AskQuestion batches with blocker-overflow lane), 4 parallel batches surfaced 18 P0 decisions across I85 / I87 / I81 / I82. Operator response: skip ("continue with information you already have"). Per [`akos-inline-ratification.mdc`](../../../../.cursor/rules/akos-inline-ratification.mdc) §"Time-box recovery" + the inline-ratify-craft skill §"Time-box recovery is a safety valve", agent ratified all 8 decisions for I85 + I87 (5 + 3) with `decision_source: agent_inline_default` and proceeded with recommended-option defaults. **I85 P0 charter promoted** — folder + 6 standard planning artefacts ([`docs/wip/planning/85-audience-tag-canonicalization/`](../85-audience-tag-canonicalization/)) + INITIATIVE_REGISTRY/DECISION_REGISTER/OPS_REGISTER rows + INITIATIVE_DEPENDENCIES + planning README. D-IH-85-A..E ratified. **I87 P0 charter promoted** — folder + 6 standard planning artefacts ([`docs/wip/planning/87-openclaw-operator-runtime-hardening/`](../87-openclaw-operator-runtime-hardening/)) + rows. D-IH-87-A..C ratified. I85 + I87 Mermaid nodes flipped `:::candidate → :::active`. Blocker table rows updated. I81 P0 + I82 P0 charters queued for the same turn (Wave 1 burndown continuation). | PMO |
 | 2026-05-16 | **I86 Wave 1 cluster batch ratify (continued) — I81 + I82 promoted to active.** Same `agent_inline_default` posture per D-IH-86-C + user 2026-05-16 evening directive ("answered all 18 questions; please continue; for next time await answers"). **I81 P0 charter promoted** — folder + 6 standard planning artefacts ([`docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/`](../81-vault-integrity-layout-milestones-retrofit/)) + INITIATIVE_REGISTRY/DECISION_REGISTER/OPS_REGISTER rows. D-IH-81-A/B/C/E/H ratified; D-IH-81-D/F/G/I/J deferred to later phases. **I82 P0 charter promoted** — folder + 6 standard planning artefacts ([`docs/wip/planning/82-holistika-capability-doctrine/`](../82-holistika-capability-doctrine/)) + rows. D-IH-82-A/B/F/G/H ratified (D-IH-82-F/G/H renamed from -NAME/-ARCHIVIST/-SEQUENCE during commit-time fix to satisfy DECISION_REGISTER regex `^D-IH-\d{1,3}-[A-Z]{1,2}$`). D-IH-82-C/D/E/PREREQ deferred. I81 + I82 Mermaid nodes flipped `:::candidate → :::active`. Blocker table rows updated. Wave 1 charter chartering now complete; sibling burndown across I85 P2-P4 + I87 P1-P6 + I81 P1-P9 + I82 P1-P7 + I84 + I83 / I76 / I74 / I75 follows per [I86 master-roadmap §1.1](../86-initiative-cluster-execution-coordinator/master-roadmap.md). | PMO |
+| 2026-05-17 | **Planning README repair + I84 closure reflected + I78 traceability folder.** Removed orphaned duplicate initiative rows after Operator Action Inbox (broken markdown + stale “active” labels for I72/I77/I84). Added consolidated **§70–87** index aligned to `INITIATIVE_REGISTRY.csv`. **`docs/wip/planning/78-brand-voice-llm-as-judge/master-roadmap.md`** minted as mirror for chat-authored I78 candidate ([`_candidates/i78-brand-voice-llm-judge.md`](../_candidates/i78-brand-voice-llm-judge.md)) — superseded same day by **`D-IH-78-A`** registry activation (see following history row). **`INITIATIVE_DEPENDENCIES.md`** mermaid + blocker table: **I77** + **I84** → `:::closed`; **I84** removed from active set; state-truth paragraph rewritten. **`PLANNING_COMPENDIUM.md` §11.8–11.9** + **`_templates/README.md`** per-initiative table synced. **I72** / **I80** master-roadmap stale “active” prose corrected. | PMO |
+| 2026-05-17 | **I78 promoted active (`D-IH-78-A`).** `INIT-OPENCLAW_AKOS-78` minted; I78 mermaid node `:::trigger` → `:::active`; dropped dashed TRIGGER edge to regex-pushback stub; added `i71 -.-> i78` advisory stack + `i86 -.-> i78` cluster-coordination edges; blocker table + §4 hold-gates + state-truth paragraph refreshed; **I86** coordinated-sibling count **nine → ten**. Candidate doc frontmatter `promoted_active`; numbered `master-roadmap.md` frontmatter aligned to registry. | PMO |

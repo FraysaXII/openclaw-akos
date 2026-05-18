@@ -124,8 +124,14 @@ Per the federated-canonicals architecture (D-IH-70-A), each owning area-role exp
 | Data | Governance | `/operator/data/governance/` | (data canonicals reserved) | reserved long-term |
 | Data | Science | `/operator/data/science/` | (data canonicals reserved) | reserved long-term |
 | Finance | Business Controller | `/operator/finance/business-controller/` | FOUNDER_CAPITALIZATION_DECISION_NOTE + SOP-FOUNDER_COMPANY_FUNDING_001 + tarification/pricing canonicals | reserved (P10.5) |
+| Operations | PMO | `/operator/operations/pmo/program-rollup/` | `governance.initiative_program_rollup_view` (full PMO slice; raw `PRJ-HOL-*` ids) | reserved (I86 P3 D-IH-86-K spec ready; TSX implementation forward-chartered to I89 candidate) |
+| Marketing | Brand & Narrative Manager | `/operator/marketing/brand/program-rollup/` | `governance.initiative_program_rollup_view` (Marketing program slice; raw) | reserved (I86 P3 D-IH-86-K; forward-chartered to I89) |
+| Research | Intelligence | `/operator/research/intelligence/program-rollup/` | `governance.initiative_program_rollup_view` (Research program slice; raw); gated until I75 candidate activates | reserved (I86 P3 D-IH-86-K + I75 dependency; forward-chartered to I89) |
+| People | Compliance + Talent + Madeira | `/operator/people/program-rollup/` | `governance.initiative_program_rollup_view` (People program slice incl. Founder/Madeira-class rows; raw) | reserved (I86 P3 D-IH-86-K; forward-chartered to I89) |
+| People | Founder | `/operator/people/founder/program-rollup/` | `governance.initiative_program_rollup_view` (full; meta-persona; raw); CPO L6 read | reserved (I86 P3 D-IH-86-K; forward-chartered to I89) |
+| (public-advops) | Adviser-external | `/operator/(public-advops)/program-rollup/` | `governance.initiative_program_rollup_view` rendered with **REDACTED** substitutions (`PRJ-HOL-*` → `[INTERNAL-PROGRAM]`) per BBR external-register translation (D-IH-86-L); panel TSX enforces redaction at render time | reserved (I86 P3 D-IH-86-K; **MANDATORY pause-point** per `akos-agent-checkpoint-discipline.mdc` public-prose category; forward-chartered to I89 candidate with adviser-external scope review) |
 
-**Total panel inventory: ~20 panels** at full federation. P10.5 ships TSX scaffolds for all of them per H4 ratification.
+**Total panel inventory: ~26 panels** at full federation (20 base + 6 rollup-aware added at I86 P3 per D-IH-86-K). P10.5 ships TSX scaffolds for the base 20; rollup-aware 6 ship in I89 candidate after charter ratification.
 
 ## 5. Per-area panel design specs
 

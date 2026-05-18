@@ -1,17 +1,19 @@
 ---
 candidate_id: I78
 title: Brand-voice LLM-as-judge advisory layer (Tier 2 evolution from I71 P1 strategic review)
-status: candidate
+status: promoted_active
+promotion_decision_id: D-IH-78-A
 authored: 2026-05-14
-last_review: 2026-05-14
+last_review: 2026-05-17
 parent_initiative: 71 (P1 strategic review forward-charter)
-priority: 6 (deferred until "regex list pushes back" trigger fires)
+priority: 6 (candidate TRIGGER posture superseded for registry activation — bias-audit / strict-mode Strand D unchanged)
 language: en
+planning_traceability_folder: docs/wip/planning/78-brand-voice-llm-as-judge/master-roadmap.md
 ---
 
 # I78 candidate — Brand-voice LLM-as-judge advisory layer
 
-> **Candidate scaffold (authored 2026-05-14).** Forward-charter from the I71 P1 Pack A1 strategic review session (operator-asked: *"do I have to put a never-ending list of words here? Are things like Grammarly LLM/AI terrain? Is it worth it? Costly? Overengineered? Popular?"*). The I71 agent's web-grounded answer mapped 2026 brand-voice tooling into four working patterns and three evolution tiers; **Tier 2 is this candidate**. Promoted to `active` only when the regex list visibly pushes back (the trigger condition is concrete: see §6 below). Until then, this scaffold sits in `_candidates/` so the design + cost math + bias-mitigation plan are captured while the memory is fresh.
+> **Promoted active (`promoted_active` frontmatter; registry `INIT-OPENCLAW_AKOS-78` per `D-IH-78-A` 2026-05-17).** This file remains the **deep scaffold** (strands, cost math, bias mitigation, §6 telemetry). Forward-charter from the I71 P1 Pack A1 strategic review session (operator-asked: *"do I have to put a never-ending list of words here? Are things like Grammarly LLM/AI terrain? Is it worth it? Costly? Overengineered? Popular?"*). The I71 agent's web-grounded answer mapped 2026 brand-voice tooling into four working patterns and three evolution tiers; **Tier 2 is this initiative**. Registry activation no longer waits on §6 signals — engineering backlog ships per [`../78-brand-voice-llm-as-judge/master-roadmap.md`](../78-brand-voice-llm-as-judge/master-roadmap.md). §6 remains **useful telemetry** for Strand D bias-audit + strict-mode promotion timing.
 
 ## 1. Operating story
 
@@ -28,7 +30,7 @@ The cohering principle: **Pack A1 lives at the deterministic floor; I78 lives on
 The I71 agent's synthesis recommended this be a separate initiative for three structural reasons:
 
 1. **Different decision posture.** Pack A1-A4 are deterministic regex / Vale rules — the rule **is** the decision. I78 introduces **non-determinism** (LLM-judge output), bias-audit cadence, prompt versioning, and per-locale judge tuning. That's a different governance shape and warrants its own charter.
-2. **Different release cadence.** Pack A1-A4 ship behind I71 P1-P5. I78 should not ship until the regex chassis has pushed back enough that the operator can articulate concrete paraphrase patterns the regex misses. That signal hasn't fired yet (Pack A1 just shipped).
+2. **Different release cadence.** Pack A1-A4 ship behind I71 P1-P5. *Drafting posture:* I78 was framed as shipping after regex "pushback" signals so the operator could name concrete paraphrase gaps. **`D-IH-78-A` (2026-05-17)** superseded that **registry** gate — execution proceeds per [`master-roadmap.md`](../78-brand-voice-llm-as-judge/master-roadmap.md); §6 signals remain useful **telemetry** for phasing P1 work and for Strand D strict-mode promotion.
 3. **Different cost surface.** Pack A1-A4 are free (Python + open-source + CI compute). I78 carries a per-call API cost ($10-50/month at our volume) that warrants explicit budget ratification.
 
 Folding I78 into I71 would either delay I71's closure or create a phase that's structurally different from its siblings. Cleaner: I78 stands on its own.
@@ -91,14 +93,16 @@ Folding I78 into I71 would either delay I71's closure or create a phase that's s
 
 ## 6. Spin-out trigger conditions
 
-This candidate **does not promote to active on a calendar trigger**. It promotes when **the regex list visibly pushes back** — the operator can articulate concrete paraphrase patterns the regex misses. Concrete signals:
+> **Governance supersession:** Operator minted **`INIT-OPENCLAW_AKOS-78`** + **`D-IH-78-A`** (2026-05-17), activating the initiative **before** §6 signals fired. The bullets below remain **operational telemetry** — especially for bias-audit timing and P1 scope prioritisation — but they are **no longer** the INITIATIVE_REGISTRY promotion gate.
+
+*Historical drafting posture:* this scaffold **did not** promote to active on a calendar trigger alone; it was framed as promoting when **the regex list visibly pushes back** — when the operator can articulate concrete paraphrase patterns the regex misses. Concrete signals:
 
 - Operator adds a regex to `register-pack.yml` and notes "this took >20 min to think of all the variations" (the I71 agent's stated tipping point).
 - A customer-visible artifact ships with a paraphrase that the regex didn't catch but the operator immediately recognizes as off-voice.
 - Pack A2 (Gantt confidence) or Pack A3 (multilingual locale-suffix) hits the same regex-cardinality problem during their own ratification.
 - I77 (Impeccable Brand-Bridge Refresh) closes and produces a per-bridge brand-voice expectation that the regex chassis can't represent without explosion of rule cardinality.
 
-Until at least 2 of these signals fire, I78 stays in `_candidates/` and the regex chassis remains the SSOT.
+When **≥2** of these signals fire, prioritise P1 judge coverage toward the surfaced paraphrase classes and accelerate Strand C bias-audit prep — the regex chassis remains the deterministic SSOT **floor** either way.
 
 ## 7. Risk register (top 5)
 
@@ -136,4 +140,4 @@ Until at least 2 of these signals fire, I78 stays in `_candidates/` and the rege
 
 The I71 agent's web-grounded read in plain terms (verbatim transcription, edited for length): *"What we shipped is the rule-based half of the current best practice. The semantic half is exactly an evolution of this product, not a replacement. The architecture we just built is the load-bearing half. The other half plugs in next to it, not on top of it."* That framing is the entire reason I78 is a sibling initiative, not a Pack A5.
 
-When the trigger fires (per §6), the right entry point is `docs/wip/planning/_templates/initiative-planning-prompts.md` Prompt 1 (Discovery), substituting `[INITIATIVE_NUMBER] = 78` and the operator-notes block with the trigger evidence (which paraphrase did the regex miss?). The Discovery agent will have this candidate file as its primary input plus the I71 P1 Pack A1 plan as architectural context.
+Registry activation already landed via **`D-IH-78-A`**. For **P1 execution**, the entry point remains [`docs/wip/planning/78-brand-voice-llm-as-judge/master-roadmap.md`](../78-brand-voice-llm-as-judge/master-roadmap.md) plus `docs/wip/planning/_templates/initiative-planning-prompts.md` Prompt 1 (Discovery) if you want a fresh chat — paste §6 signal evidence when available so the judge corpus targets observed paraphrase gaps first.

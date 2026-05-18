@@ -73,4 +73,4 @@ Program workstreams for `PRJ-HOL-FOUNDING-2026` are defined in [TOPIC_PMO_CLIENT
 - [SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md](../../Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md)
 - [SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md](../Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md)
 - [SOP-HLK_TRANSCRIPT_REDACTION_001.md](../Compliance/SOP-HLK_TRANSCRIPT_REDACTION_001.md)
-- KM Topic manifest: [`docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/adviser_handoff/topic_external_adviser_handoff.manifest.md`](../../../_assets/advops/PRJ-HOL-FOUNDING-2026/adviser_handoff/topic_external_adviser_handoff.manifest.md)
+- KM Topic manifest: [`docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/adviser_handoff/topic_external_adviser_handoff.manifest.md`](../../../_assets/advops/2026-holistika-incorporation/adviser_handoff/topic_external_adviser_handoff.manifest.md)

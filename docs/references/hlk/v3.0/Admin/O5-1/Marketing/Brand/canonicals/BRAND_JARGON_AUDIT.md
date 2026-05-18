@@ -153,7 +153,7 @@ Run this before pressing Send. Five questions; if any is "no", revise.
 If the operator wants to run a one-off audit without rendering:
 
 ```powershell
-py -c "import re,pathlib; t = pathlib.Path('docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/dossier_es.md').read_text(encoding='utf-8'); print(re.findall(r'(?i)\b(?:AKOS|topic_\w+|ADVOPS|TECHOPS|FINOPS|MKTOPS|GOI-\w+|POI-\w+|ref_id|program_id|holistika_ops\.|kirbe\.|repo_slug)\b', t))"
+py -c "import re,pathlib; t = pathlib.Path('docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_evidence/dossier_es.md').read_text(encoding='utf-8'); print(re.findall(r'(?i)\b(?:AKOS|topic_\w+|ADVOPS|TECHOPS|FINOPS|MKTOPS|GOI-\w+|POI-\w+|ref_id|program_id|holistika_ops\.|kirbe\.|repo_slug)\b', t))"
 ```
 
 Expected: a small list of matches, all confined to the Q-tracker appendix tables, the metadata footer, and the YAML frontmatter (which gets stripped at render).

@@ -50,7 +50,7 @@ supersedes:
 | **fresh** | Operator says "let's plan a new initiative" with a loose idea. | This compendium §2..§10 + §11 (only the relevant candidate sub-section) + [`INITIATIVE_DEPENDENCIES.md`](INITIATIVE_DEPENDENCIES.md). | Discovery pipeline (§3) → Plan-author pipeline (§4) → Pre-flight pipeline (§5). |
 | **gated_operator** | The candidate exists in [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) with `status: gated_operator` and the operator says "activate". | This compendium + [`INITIATIVE_DEPENDENCIES.md`](INITIATIVE_DEPENDENCIES.md) + the candidate scaffold under `docs/wip/planning/_candidates/`. | Confirm hold-gates met via §1.3 checklist → run Discovery skipping operator-context capture (use candidate's existing story) → Plan-author → Pre-flight. |
 | **mid-execution** | Operator says "continue I7N P3" or similar. | This compendium §6 (inline-ratify) + §8 (per-phase template) + the initiative's `master-roadmap.md` + the Cursor plan. | Self-checkpoint (`reports/checkpoints/sc-pre-p<N>-<date>.md`) → execute phase → ONE atomic commit → inline-ratify gate before next phase. |
-| **TRIGGER-watch** | Candidate is `gated_external` or `TRIGGER-watch` (e.g. I74 waiting on ≥2 external requests; I78 waiting on ≥2 regex-pushback signals). | This compendium §11 (the candidate's appendix sub-section). | No-op unless the trigger has fired. If asked to plan anyway, surface an `AskQuestion` confirming operator override. |
+| **TRIGGER-watch** | Candidate is `gated_external` or `TRIGGER-watch` (e.g. I74 waiting on ≥2 external requests). **I78** was TRIGGER-shaped in drafting but registry **`active`** per **`D-IH-78-A`** — treat operational closure like any other active initiative. | This compendium §11 (the candidate's appendix sub-section). | No-op unless the trigger has fired — **unless** operator mints an INIT row early (I78 precedent). If asked to plan anyway, surface an `AskQuestion` confirming operator override. |
 
 ### §1.3 Hold-gate quick-check (before starting a new phase)
 
@@ -755,24 +755,26 @@ flowchart LR
 | Conundrums (open at candidate stage) | **C-76-1** AIC SOP-consumption posture — humans-and-AIC share SOP-reader role on the AC-HUMAN axis (per `D-IH-72-S`) vs AIC has its own intermediate axis. Strand A external research will inform this. |
 | Cross-link surfaces | I72 `D-IH-72-S` (binary AC axis ratification); [`.cursor/rules/akos-executable-process-catalog.mdc`](../../../../.cursor/rules/akos-executable-process-catalog.mdc) RULE 1 (SOP + runbook pairing); I72 P9 adapter registries (cross-area handoff pattern). |
 
-### §11.8 I77 — Impeccable Brand-Bridge Refresh + Drift Gate (ACTIVE)
+### §11.8 I77 — Impeccable Brand-Bridge Refresh + Drift Gate (CLOSED 2026-05-16)
 
 | Field | Value |
 |:---|:---|
-| State | **active** per registry row `INIT-OPENCLAW_AKOS-77` (P0 charter ratified 2026-05-14 per D-IH-77-A). |
-| Hold-gates for P1 | I71 P1 Pack A1 ship lands `BRAND_ENGLISH_PATTERNS.md` + `BRAND_LLM_TONE_TELLS.md` canonicals (MET — I71 fully closed). P1 Strand A may start. |
-| Scope summary | Refresh `PRODUCT.md` + `DESIGN.md` bridges and author missing `BASELINE_REALITY.md` cross-referencing 15+ canonicals (Strand A); mint `scripts/generate_impeccable_bridges.py` + `scripts/validate_impeccable_bridge_drift.py` (Strand B); operator UAT at P3 (Strand C closing). |
+| State | **closed** per registry row `INIT-OPENCLAW_AKOS-77` (`D-IH-77-CLOSURE-V2`; includes P4 brand-canon remediation + rendering-pipeline registry). |
+| Hold-gates (historical) | I71 P1 Pack A1 ship — MET. |
+| Scope summary | Refresh `PRODUCT.md` + `DESIGN.md` bridges; drift gate scripts; rendering governance — shipped under closure V2. |
 | Workspace mirror | [`docs/wip/planning/77-impeccable-brand-bridge-refresh/master-roadmap.md`](../77-impeccable-brand-bridge-refresh/master-roadmap.md). |
-| Conundrums (open at planning) | (Charter ratified; remaining open conundrums tracked in plan body.) |
+| Conundrums (open at planning) | (Closed — residual items tracked only via forward-charter stubs such as I74.) |
 
-### §11.9 I78 — Brand-voice LLM-as-judge advisory layer (CANDIDATE — TRIGGER-watch)
+### §11.9 I78 — Brand-voice LLM-as-judge advisory layer (ACTIVE — execution)
 
 | Field | Value |
 |:---|:---|
-| State | **candidate** per [`docs/wip/planning/_candidates/i78-brand-voice-llm-judge.md`](../_candidates/i78-brand-voice-llm-judge.md). Forward-charter from I71 P1 strategic review 2026-05-14. |
-| TRIGGER-condition | Promotes when the I71 regex list visibly pushes back (≥2 trigger signals per the candidate's §6 — e.g. operator-flagged false-positive cluster, sibling-repo authors complain about gate noise). |
-| Scope summary (if triggered) | LLM-as-judge advisory layer on top of the I71 deterministic regex gate. Tier 2 validator that the deterministic gate calls when regex match is ambiguous. Cross-coordinates with I72 brand+storytelling sub-area generalists (per R-A regression amendment). |
-| Cross-link surfaces | I71 P2 deliverables (`validate_brand_voice_register.py` + `validate_brand_french_patterns.py`); [`BRAND_LLM_TONE_TELLS.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_LLM_TONE_TELLS.md). |
+| State | **active** per [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) row **`INIT-OPENCLAW_AKOS-78`** (`D-IH-78-A` inception 2026-05-17). Prior TRIGGER-only drafting posture superseded for CSV lifecycle purposes. |
+| Hold-gates | Closed **I71** Pack A1 deterministic floor (MET). **P1–P5 engineering + governance** per [`master-roadmap.md`](../78-brand-voice-llm-as-judge/master-roadmap.md). |
+| Scope summary | LLM-as-judge **advisory** layer above regex/Vale deterministic gate; bias-audit cadence before strict-mode promotion (see candidate Strand D). |
+| Design-depth SSOT | [`docs/wip/planning/_candidates/i78-brand-voice-llm-judge.md`](../_candidates/i78-brand-voice-llm-judge.md) (`promoted_active` frontmatter). §6 regex-pushback signals = **telemetry** for bias-audit timing, not registry promotion gate after **`D-IH-78-A`**. |
+| Workspace mirror | [`docs/wip/planning/78-brand-voice-llm-as-judge/master-roadmap.md`](../78-brand-voice-llm-as-judge/master-roadmap.md). |
+| Cross-link surfaces | I71 P2 deliverables (`validate_brand_voice_register.py` + `validate_brand_french_patterns.py`); [`BRAND_LLM_TONE_TELLS.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_LLM_TONE_TELLS.md). Distinct from **I52** persona/eval judge harness unless explicitly bridged. |
 
 ### §11.10 I79 — People Manifesto + Pattern Library + AI Governance + Knowledge Hygiene (CLOSED 2026-05-15)
 

@@ -228,4 +228,4 @@ When `render_pdf_branded(profile="dossier")` runs, the boilerplate's web-first i
 - **PDF helper that consumes these tokens**: [`akos/hlk_pdf_render.py`](../../../../../../../akos/hlk_pdf_render.py) `render_pdf_branded`
 - **Co-branding pattern** (host / guest, color-bridge, polarity-flip): [`BRAND_COBRANDING_PATTERN.md`](BRAND_COBRANDING_PATTERN.md) (cross-referenced from §3.5)
 - **Logo system** (host / guest logo placement rules): [`BRAND_LOGO_SYSTEM.md`](BRAND_LOGO_SYSTEM.md) §2.6
-- **Canonical dossier output template**: [`docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/dossier_es.md`](../../../../_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/dossier_es.md)
+- **Canonical dossier output template**: [`docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_evidence/dossier_es.md`](../../../../_assets/advops/2026-holistika-incorporation/enisa_evidence/dossier_es.md)

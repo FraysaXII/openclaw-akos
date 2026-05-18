@@ -2,7 +2,7 @@
 """Build the Holistika company-dossier HTML preview deck.
 
 Initiative 28 P3. Reads the slide structured data at
-``docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck_slides.yaml``
+``docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_company_dossier/deck_slides.yaml``
 and emits a self-contained HTML preview at
 ``docs/presentations/holistika-company-dossier/index.html``.
 
@@ -52,7 +52,7 @@ SLIDES_YAML = (
     / "v3.0"
     / "_assets"
     / "advops"
-    / "PRJ-HOL-FOUNDING-2026"
+    / "2026-holistika-incorporation"
     / "enisa_company_dossier"
     / "deck_slides.yaml"
 )

@@ -74,5 +74,5 @@ The sync script reads each strategy file's `## Deck-bound facts` block, validate
 - [`PRECEDENCE.md`](../../../../../compliance/PRECEDENCE.md) — overall compliance ranking
 - [`SOP-HLK_TOOLING_STANDARDS_001.md`](../../Tech/System%20Owner/SOP-HLK_TOOLING_STANDARDS_001.md) — tooling SOP
 - [`BRAND_JARGON_AUDIT.md`](../../Marketing/Brand/BRAND_JARGON_AUDIT.md) — forbidden tokens for external-bound content
-- [`docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/`](../../../../_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/) — company dossier consuming this layer
+- [`docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_company_dossier/`](../../../../_assets/advops/2026-holistika-incorporation/enisa_company_dossier/) — company dossier consuming this layer
 - [`docs/wip/planning/29-multi-phase-consolidation/master-roadmap.md`](../../../../../../wip/planning/29-multi-phase-consolidation/master-roadmap.md) — initiative master roadmap

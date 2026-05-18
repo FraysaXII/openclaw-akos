@@ -54,6 +54,7 @@ INITIATIVE_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "closure_decision_id",     # FK to DECISION_REGISTER.decision_id (nullable; required when status=closed)
     "manifests_processes",     # semicolon-list FK to process_list.csv item_id (nullable; D-IH-59-G)
     "linked_topic_ids",        # semicolon-list FK to TOPIC_REGISTRY.csv (nullable)
+    "program_anchors",         # I86 P2 (D-IH-86-J): semicolon-list FK to PROGRAM_REGISTRY.csv program_id (nullable; Stage B promotion of the Stage A "Program anchors:" prefix in notes per D-IH-86-H)
     "notes",
     "last_review_at",                  # I71 P4 review-stamp (DATE; ISO YYYY-MM-DD); orthogonal to existing `last_review` column (which tracks plan-update cadence; `last_review_at` tracks doctrine-review cadence per D-IH-71-E)
     "last_review_by",                  # I71 P4 review-stamp (FK-by-convention to baseline_organisation.csv role_name)

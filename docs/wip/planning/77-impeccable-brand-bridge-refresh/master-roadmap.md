@@ -79,7 +79,7 @@ Run `/critique` or `/polish` on a real Holistika surface via Cursor IDE Browser 
 
 - `boilerplate/` home page (Tier 1 master umbrella surface).
 - `hlk-erp/` operator dashboard chrome (Tier 1 ERP).
-- A deck slide from `_assets/advops/PRJ-HOL-FOUNDING-2026/` (Tier-1 customer-facing).
+- A deck slide from `_assets/advops/2026-holistika-incorporation/` (Tier-1 customer-facing).
 - A dossier prose page (Tier-2 sub-mark context).
 
 Record verdicts in `reports/p3-uat-impeccable-<YYYY-MM-DD>.md` per `.cursor/rules/akos-planning-traceability.mdc` §"UAT evidence contract" (results table: step / PASS / SKIP / N/A / short note).

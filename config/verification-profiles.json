@@ -52,6 +52,16 @@
           "id": "people_design_pattern_jargon_scan",
           "description": "Initiative 79 P2: anti-jargon drift gate over People canonicals (D-IH-79-N). Forbids Tech-Lab framework names, infra jargon, and codenames in People-owned canonicals; Tech Lab canonicals are out of scope and may carry framework names freely.",
           "argv": ["scripts/validate_design_pattern_registry.py", "--jargon-scan"]
+        },
+        {
+          "id": "validate_initiative_program_anchors",
+          "description": "Initiative 86 P1 (D-IH-86-H): INITIATIVE_REGISTRY notes 'Program anchors:' prefix FK-resolves to PROGRAM_REGISTRY.csv. Stage A advisory (validator no-ops rows without the prefix; Stage B promotes anchors to a first-class column at I86 P2 / D-IH-86-J).",
+          "argv": ["scripts/validate_initiative_program_anchors.py"]
+        },
+        {
+          "id": "validate_brand_baseline_reality_drift",
+          "description": "Initiative 89 P0 (D-IH-89-E, 2026-05-17): BBR dual-register drift gate flipped from INFO to FAIL. Scans external surfaces (boilerplate/, _assets/advops/**/deck/, **/dossier_*.md, **/founder-filed/, **/adviser-handoff/, hlk-erp public surfaces) for internal-register tokens (PRJ-HOL-*, counterparty, elicitation, etc.) per BRAND_BASELINE_REALITY_MATRIX.md §3. Required from day one; CI-block expected on 7 pre-existing PRJ-HOL-FOUNDING-2026 leaks in ENISA founder-filed dossiers until ADVOPS triage closes OPS-86-5. Hot-fix lane: AKOS_BRAND_BASELINE_REALITY_SOFT=1 env var temporarily downgrades to advisory.",
+          "argv": ["scripts/validate_brand_baseline_reality_drift.py"]
         }
       ]
     },

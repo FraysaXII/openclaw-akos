@@ -15,7 +15,7 @@ last_review: 2026-05-09
 - `docs/wip/intelligence/_templates/`.
 - Operator-supplied transcripts from business development, researcher onboarding, ENISA/company formation, hospitality consulting, partner discovery, and WhatsApp fragments.
 - Existing touchpoint kit under `_assets/touchpoint-kit/`.
-- Existing company dossier work under `_assets/advops/PRJ-HOL-FOUNDING-2026/`.
+- Existing company dossier work under `_assets/advops/2026-holistika-incorporation/`.
 
 ## External Benchmarks To Research
 

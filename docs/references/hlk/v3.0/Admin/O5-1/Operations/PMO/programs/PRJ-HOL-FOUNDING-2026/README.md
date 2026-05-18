@@ -21,7 +21,7 @@ This folder is the **program-scoped landing point** for PMO coordination on Holi
 
 ## Cross-references
 
-- KM Topic manifest: [`docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/adviser_handoff/topic_external_adviser_handoff.manifest.md`](../../../../../../_assets/advops/PRJ-HOL-FOUNDING-2026/adviser_handoff/topic_external_adviser_handoff.manifest.md)
+- KM Topic manifest: [`docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/adviser_handoff/topic_external_adviser_handoff.manifest.md`](../../../../../../_assets/advops/2026-holistika-incorporation/adviser_handoff/topic_external_adviser_handoff.manifest.md)
 - Legal program folder: [`Admin/O5-1/People/Legal/programs/PRJ-HOL-FOUNDING-2026/README.md`](../../../../People/Legal/programs/PRJ-HOL-FOUNDING-2026/README.md)
 - Compliance program folder: [`Admin/O5-1/People/Compliance/programs/PRJ-HOL-FOUNDING-2026/README.md`](../../../../People/Compliance/programs/PRJ-HOL-FOUNDING-2026/README.md)
 - Initiative 21: [`docs/wip/planning/21-hlk-adviser-engagement-and-goipoi/master-roadmap.md`](../../../../../../../../wip/planning/21-hlk-adviser-engagement-and-goipoi/master-roadmap.md)

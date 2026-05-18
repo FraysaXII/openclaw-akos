@@ -526,6 +526,11 @@ def main() -> int:
          "validate_initiative_registry", HLK_DIR / "INITIATIVE_REGISTRY.csv"),
         ("INITIATIVE_REGISTRY_FRONTMATTER_SYNC", "validate_initiative_registry_frontmatter_sync.py",
          "validate_initiative_registry_frontmatter_sync", HLK_DIR / "INITIATIVE_REGISTRY.csv"),
+        # Initiative 86 P1 — INITIATIVE_REGISTRY -> PROGRAM_REGISTRY anchor prefix (D-IH-86-H).
+        # Stage A: validates the "Program anchors:" prefix in notes; Stage B (I86 P2 / D-IH-86-J)
+        # promotes anchors to a first-class column. Validator no-ops rows without the prefix.
+        ("INITIATIVE_PROGRAM_ANCHORS", "validate_initiative_program_anchors.py",
+         "validate_initiative_program_anchors", HLK_DIR / "INITIATIVE_REGISTRY.csv"),
         ("OPS_REGISTER", "validate_ops_register.py",
          "validate_ops_register", HLK_DIR / "OPS_REGISTER.csv"),
         ("DECISION_REGISTER_DECISION_LOG_MD_SYNC", "validate_decision_register_decision_log_md_sync.py",

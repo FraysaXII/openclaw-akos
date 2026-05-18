@@ -2238,7 +2238,7 @@ The **External Adviser Engagement** plane (ADVOPS) sits parallel to MKTOPS / FIN
 - Plane SOP — `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md`
 - Router — `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/EXTERNAL_ADVISER_ROUTER.md`
 - Cursor rule — `.cursor/rules/akos-adviser-engagement.mdc`
-- KM Topic — `docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/adviser_handoff/topic_external_adviser_handoff.manifest.md`
+- KM Topic — `docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/adviser_handoff/topic_external_adviser_handoff.manifest.md`
 - Initiative folder — `docs/wip/planning/21-hlk-adviser-engagement-and-goipoi/`
 
 **Day-to-day operator commands:**

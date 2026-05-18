@@ -77,8 +77,40 @@ def collect_csv_program_ids(csv_path: Path) -> list[tuple[str, int, str]]:
     return out
 
 
+def _read_program_id_from_bucket_readme(program_dir: Path) -> str | None:
+    """If `<program_dir>/README.md` carries a `program_id:` frontmatter field, return it.
+
+    Enables planes whose asset-bucket dirname is an engagement-slug (e.g., ADVOPS
+    plane post-2026-05-18 D-IH-89-H rename) to anchor the validator on the README
+    frontmatter rather than the directory name.
+    """
+    readme = program_dir / "README.md"
+    if not readme.is_file():
+        return None
+    try:
+        text = readme.read_text(encoding="utf-8")
+    except (UnicodeDecodeError, PermissionError):
+        return None
+    # Parse frontmatter block
+    match = re.match(r"^---\s*\n(.*?)\n---\s*\n", text, re.DOTALL)
+    if not match:
+        return None
+    for line in match.group(1).splitlines():
+        line = line.strip()
+        if line.startswith("program_id:"):
+            value = line.split(":", 1)[1].strip().strip("\"'")
+            return value or None
+    return None
+
+
 def collect_assets_program_ids() -> list[tuple[str, int, str]]:
-    """Return path-derived program_ids from `_assets/<plane>/<program_id>/<topic_id>/`.
+    """Return path-derived program_ids from `_assets/<plane>/<program_id_or_slug>/<topic_id>/`.
+
+    Per D-IH-89-H (2026-05-18): for planes whose asset-bucket dirname is an
+    engagement-slug (e.g., ADVOPS `_assets/advops/2026-holistika-incorporation/`),
+    the canonical program_id lives in the bucket README's `program_id:` frontmatter
+    field. The validator prefers that over the dirname when the dirname doesn't
+    match the PROGRAM_ID_RE pattern.
 
     Skips the grandfathered `_assets/km-pilot/` flat layout (Initiative 22 P2)
     and the cross-program `_meta/` aggregate area.
@@ -98,6 +130,12 @@ def collect_assets_program_ids() -> list[tuple[str, int, str]]:
                 continue
             if program_dir.name in RESERVED_KEYWORDS:
                 continue
+            # Prefer README.md frontmatter program_id if the dirname doesn't match the pattern
+            if not PROGRAM_ID_RE.match(program_dir.name):
+                from_readme = _read_program_id_from_bucket_readme(program_dir)
+                if from_readme:
+                    out.append((_origin_label(program_dir), 0, from_readme))
+                    continue
             out.append((_origin_label(program_dir), 0, program_dir.name))
     return out
 

@@ -26,6 +26,6 @@ This folder is the **program-scoped landing point** for Legal casework on Holist
 
 - ADVOPS plane SOP: [`SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md`](../../../../Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md)
 - ADVOPS router: [`EXTERNAL_ADVISER_ROUTER.md`](../../../../Operations/PMO/EXTERNAL_ADVISER_ROUTER.md)
-- KM Topic manifest: [`docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/adviser_handoff/topic_external_adviser_handoff.manifest.md`](../../../../../../_assets/advops/PRJ-HOL-FOUNDING-2026/adviser_handoff/topic_external_adviser_handoff.manifest.md)
+- KM Topic manifest: [`docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/adviser_handoff/topic_external_adviser_handoff.manifest.md`](../../../../../../_assets/advops/2026-holistika-incorporation/adviser_handoff/topic_external_adviser_handoff.manifest.md)
 - Initiative 21 (handoff promotion): [`docs/wip/planning/21-hlk-adviser-engagement-and-goipoi/master-roadmap.md`](../../../../../../../../wip/planning/21-hlk-adviser-engagement-and-goipoi/master-roadmap.md)
 - Initiative 22 (this restructure): [`docs/wip/planning/22-hlk-scalability-and-i21-closures/master-roadmap.md`](../../../../../../../../wip/planning/22-hlk-scalability-and-i21-closures/master-roadmap.md)

@@ -33,7 +33,7 @@ DECK_SLIDES_YAML = (
     / "v3.0"
     / "_assets"
     / "advops"
-    / "PRJ-HOL-FOUNDING-2026"
+    / "2026-holistika-incorporation"
     / "enisa_company_dossier"
     / "deck_slides.yaml"
 )
@@ -45,7 +45,7 @@ DECK_STORY_MD = (
     / "v3.0"
     / "_assets"
     / "advops"
-    / "PRJ-HOL-FOUNDING-2026"
+    / "2026-holistika-incorporation"
     / "enisa_company_dossier"
     / "deck_story_es.md"
 )
@@ -57,7 +57,7 @@ COVER_EMAIL_MD = (
     / "v3.0"
     / "_assets"
     / "advops"
-    / "PRJ-HOL-FOUNDING-2026"
+    / "2026-holistika-incorporation"
     / "enisa_company_dossier"
     / "cover_email_company_dossier_es.md"
 )
@@ -310,12 +310,18 @@ def test_html_deck_has_14_slides():
 
 
 def test_cover_email_uses_brand_spanish_patterns():
+    """D-IH-89-N (2026-05-18 ref-placeholder doctrine): recipient names are
+    resolved at SMTP-send time from the GOI/POI register off-repo, not committed
+    to artifacts. The canonical opener pattern is therefore ``Hola [nombre del
+    asesor],`` (the placeholder shape) — the substitution to a real name happens
+    at send time per ``SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md``.
+    """
     body = _strip_internal_notes(_strip_frontmatter(COVER_EMAIL_MD.read_text(encoding="utf-8")))
-    # Opener pattern: "Hola Guillermo," (peer_consulting + tu register)
-    assert "Hola Guillermo," in body, "cover email missing the canonical Spanish opener"
-    # Closer pattern.
+    assert "Hola [nombre del asesor]," in body or "Hola Guillermo," in body, (
+        "cover email missing the canonical Spanish opener — expected "
+        "'Hola [nombre del asesor],' (post-D-IH-89-N) or legacy 'Hola Guillermo,'"
+    )
     assert "Un saludo," in body, "cover email missing the canonical Spanish closer"
-    # Brand signature.
     assert "Holistika Research" in body or "Holistica Research" in body
 
 

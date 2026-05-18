@@ -183,7 +183,7 @@ This pulls `pypandoc_binary` (which bundles pandoc as a wheel). Bare `pandoc` is
 **Bridge files (canonical contract).** Impeccable's loader at `.cursor/skills/impeccable/scripts/load-context.mjs` reads two files at the repo root before every command: `PRODUCT.md` (audience, voice, anti-references) and `DESIGN.md` (visual identity, tokens, layout). Instead of running `/impeccable teach` and accepting its auto-generated content, the operator hand-writes both as **thin redirects** to the canonical brand SSOT:
 
 - [`PRODUCT.md`](../../../../../../../PRODUCT.md) — points at `BRAND_VOICE_FOUNDATION.md`, `BRAND_DO_DONT.md`, `BRAND_REGISTER_MATRIX.md`, `BRAND_SPANISH_PATTERNS.md`, `BRAND_JARGON_AUDIT.md`. Contains a one-page summary derived from those files plus an explicit AKOS-precedence rule.
-- [`DESIGN.md`](../../../../../../../DESIGN.md) — points at `BRAND_VISUAL_PATTERNS.md` and the deck-specific [`deck-visual-system.md`](../../../../_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck-visual-system.md). Contains a token snapshot, typography snapshot, layout-primitive list, and visual anti-patterns — all sourced from the canonical files.
+- [`DESIGN.md`](../../../../../../../DESIGN.md) — points at `BRAND_VISUAL_PATTERNS.md` and the deck-specific [`deck-visual-system.md`](../../../../_assets/advops/2026-holistika-incorporation/enisa_company_dossier/deck-visual-system.md). Contains a token snapshot, typography snapshot, layout-primitive list, and visual anti-patterns — all sourced from the canonical files.
 
 Both bridges include a **non-negotiable AKOS-precedence rule** at the bottom: when Impeccable suggestions conflict with `.cursor/rules/akos-*.mdc`, the AKOS rule wins.
 

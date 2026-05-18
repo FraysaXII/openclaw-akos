@@ -36,7 +36,7 @@ Each fact references **at least one source_id** below. Facts must use **GOI/POI 
 - **F-004** — `POI-ADV-INTAKE-LEAD-2026` is the intake contact at `GOI-ADV-ENTITY-2026` (pre-kick-off). Sources: `S-CSV-GOIPOI-2026`, `S-TRANSCRIPT-PRE-2026-04-06`.
 - **F-005** — `GOI-BNK-INC-2026` is the constitution-desk bank for the program; `POI-BNK-DESK-LEAD-2026` is the named desk lead. Sources: `S-CSV-GOIPOI-2026`.
 - **F-006** — Six adviser disciplines are recognised in canonical scope: `legal`, `fiscal`, `ip`, `banking`, `certification`, `notary`. Source: `S-CSV-DISCIPLINES-2026`.
-- **F-007** — Twelve open questions/actions span the disciplines (`Q-LEG-001..009`, `Q-FIS-001..003`) as of 2026-04-28. Source: `S-CSV-QUESTIONS-2026`.
+- **F-007** — Twelve open questions span the disciplines: `Q-LEG-001..005` (5 legal), `Q-FIS-001..002` (2 fiscal), `Q-IPT-001` (1 IP), `Q-BNK-001` (1 banking), `Q-CRT-001..003` (3 certification) as of 2026-05-18. Source: `S-CSV-QUESTIONS-2026`.
 - **F-008** — One legal instrument is currently tracked in `draft` status: `INST-LEG-ESCRITURA-DRAFT-2026` (escritura de constitución, ES). Counterparty `GOI-ADV-ENTITY-2026`. Source: `S-CSV-INSTRUMENTS-2026`.
 - **F-009** — Privacy posture is **redact-forward** per [D-CH-2](../../../../../../../wip/planning/21-hlk-adviser-engagement-and-goipoi/decision-log.md): canonical text uses GOI/POI ref_ids; raw history is not rewritten. Sources: `S-MD-DECISIONLOG-2026`, `S-SOP-REDACTION-2026`.
 - **F-010** — Open questions and filed instruments are **graduated to canonical CSVs**; the corresponding vault MDs are derived per-discipline views. Sources: `S-CSV-QUESTIONS-2026`, `S-CSV-INSTRUMENTS-2026`, `S-PRECEDENCE-2026`.

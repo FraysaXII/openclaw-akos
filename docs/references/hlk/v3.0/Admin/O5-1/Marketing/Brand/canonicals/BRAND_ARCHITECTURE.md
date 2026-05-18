@@ -188,7 +188,7 @@ Cross-references that consume this architecture:
 |:---|:---|:---|
 | Trademark filings | [`BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md`](../../People/Legal/BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md) | Brand asset ownership posture; 5-mark filing strategy. |
 | Service catalog | [`SERVICE_OFFERING_CATALOG.md`](SERVICE_OFFERING_CATALOG.md) (created I66 P3) | 6 services × 3 arms matrix; lives in this same `Marketing/Brand/` folder per D-IH-66-E. |
-| Investor materials | `_assets/advops/PRJ-HOL-FOUNDING-2026/` | Branded House diagram on slide 3; flywheel on slide 4; product stack on slide 6. |
+| Investor materials | `_assets/advops/2026-holistika-incorporation/` | Branded House diagram on slide 3; flywheel on slide 4; product stack on slide 6. |
 | Public website | `boilerplate/app/manifiesto/`, `boilerplate/app/services/`, `boilerplate/app/tech-lab/`, `boilerplate/app/how-we-work/`, `boilerplate/app/vision/` | All consume; never fork. |
 | Operator surfaces | `hlk-erp/app/(operator)/*` | Cite the Branded House diagram in `/governance/external-repos` panel; cite the lab → channel pipeline in `/planning/*` drill-ins. |
 | Cursor rules | [`.cursor/rules/akos-mirror-template.mdc`](../../../../../../.cursor/rules/akos-mirror-template.mdc) | "Live references" block points to this file. |

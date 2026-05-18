@@ -219,8 +219,8 @@ def default_targets() -> list[Path]:
     scan deck story body + deck slides body (frontmatter skipped automatically).
     """
     candidates = [
-        REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "_assets" / "advops" / "PRJ-HOL-FOUNDING-2026" / "enisa_company_dossier" / "deck_story_es.md",
-        REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "_assets" / "advops" / "PRJ-HOL-FOUNDING-2026" / "enisa_company_dossier" / "deck_slides.yaml",
+        REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "_assets" / "advops" / "2026-holistika-incorporation" / "enisa_company_dossier" / "deck_story_es.md",
+        REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "_assets" / "advops" / "2026-holistika-incorporation" / "enisa_company_dossier" / "deck_slides.yaml",
     ]
     return [p for p in candidates if p.exists()]
 

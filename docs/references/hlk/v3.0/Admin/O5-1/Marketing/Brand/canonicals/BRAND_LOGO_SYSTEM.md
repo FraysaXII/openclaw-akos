@@ -56,7 +56,7 @@ ssot: true
   - Legal contracts (header).
   - SiteFooter on `boilerplate` (legal block; `<small>` tag with the trademark posture line per I66 P5).
   - Press kit (canonical wordmark download).
-  - Investor dossier cover (`_assets/advops/PRJ-HOL-FOUNDING-2026/`).
+  - Investor dossier cover (`_assets/advops/2026-holistika-incorporation/`).
   - Trademark filings (EUIPO + OEPM applications per I66 P4) target this wordmark as the design + word mark.
 - **Constraints.**
   - Diacritic on Í is **required** in this canonical form. Substituting plain "I" produces the prose form (see §2.4), not the canonical form.

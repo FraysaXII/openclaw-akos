@@ -1,15 +1,13 @@
 ---
 language: en
-status: gated_operator
+status: active
 initiative: 67-revops-discovery
 initiative_id: INIT-OPENCLAW_AKOS-67
 report_kind: master-roadmap
 program_id: shared
 plane: mktops
 authority: Founder + Brand Manager + CMO + CBO/O5-1
-gated_on: I66 closure review + operator approval to start research
-operator_action: Approve the research-first brief and schedule the operator interview block.
-last_review: 2026-05-09
+last_review: 2026-05-17
 ---
 
 # Initiative 67 — RevOps Discovery
@@ -18,7 +16,9 @@ last_review: 2026-05-09
 
 ## Status
 
-`gated_operator`. Launch only after:
+`active` in [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) per **D-IH-86-G** (2026-05-17). Prior `gated_operator` posture cleared at registry layer; research-first brief + interview cadence remain plan-local discipline.
+
+Launch hygiene (still recommended before heavy spend):
 
 - I66 closure review is accepted.
 - Operator confirms the research brief.

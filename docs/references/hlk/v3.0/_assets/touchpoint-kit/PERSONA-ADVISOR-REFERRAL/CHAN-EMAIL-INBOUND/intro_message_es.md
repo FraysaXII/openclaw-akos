@@ -50,4 +50,4 @@ Holistika Research
 
 ---
 
-> **Nota operativa (no se envía).** Si el asesor solicita material adicional, derivar a `dossier_es.md` de la evidencia ENISA en `_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/`. Registrar al asesor en `GOI_POI_REGISTER.csv` con `class=external_adviser`, `distance_band=N2`, `bridge_via=<puente>`.
+> **Nota operativa (no se envía).** Si el asesor solicita material adicional, derivar a `dossier_es.md` de la evidencia ENISA en `_assets/advops/2026-holistika-incorporation/enisa_evidence/`. Registrar al asesor en `GOI_POI_REGISTER.csv` con `class=external_adviser`, `distance_band=N2`, `bridge_via=<puente>`.

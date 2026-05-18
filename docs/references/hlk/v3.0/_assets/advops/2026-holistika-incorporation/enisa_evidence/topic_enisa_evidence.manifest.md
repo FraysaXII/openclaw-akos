@@ -41,7 +41,7 @@ Schema: [`HLK_KM_TOPIC_FACT_SOURCE.md`](../../../../../compliance/HLK_KM_TOPIC_F
 
 Companion narrative (Output 2): [`topic_enisa_evidence.md`](./topic_enisa_evidence.md).
 Source-of-truth (Mermaid): [`topic_enisa_evidence.mmd`](./topic_enisa_evidence.mmd).
-Renderer: `py scripts/render_km_diagrams.py docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/topic_enisa_evidence.mmd`.
+Renderer: `py scripts/render_km_diagrams.py docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_evidence/topic_enisa_evidence.mmd`.
 
 Topic edge: `topic_enisa_evidence` `depends_on=topic_external_adviser_handoff` per `TOPIC_REGISTRY.csv` (Initiative 25 P6).
 

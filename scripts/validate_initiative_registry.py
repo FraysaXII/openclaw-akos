@@ -17,6 +17,7 @@ Schema enforcement:
 - inception_decision_id / closure_decision_id FK to DECISION_REGISTER.csv (nullable).
 - superseded_by FK to INITIATIVE_REGISTRY (nullable; required when status=archived).
 - linked_topic_ids FK to TOPIC_REGISTRY.csv (semicolon list; nullable).
+- program_anchors FK to PROGRAM_REGISTRY.csv (semicolon list; nullable; I86 P2 / D-IH-86-J Stage B).
 - inception_date / last_review / closed_at / archived_at YYYY-MM-DD when set.
 
 Usage::
@@ -50,6 +51,7 @@ DECISION_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O
 ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "baseline_organisation.csv"
 TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"
 PROCESS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "process_list.csv"
+PROGRAM_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PROGRAM_REGISTRY.csv"  # I86 P2 / D-IH-86-J Stage B
 
 INITIATIVE_ID_RE = re.compile(r"^INIT-[A-Z0-9_]+-\d{2,3}[A-Z]?$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -79,6 +81,7 @@ def main() -> int:
     org_roles = _load_csv_set(ORG_CSV, "role_name")
     topic_ids = _load_csv_set(TOPIC_CSV, "topic_id")
     process_ids = _load_csv_set(PROCESS_CSV, "item_id")
+    program_ids = _load_csv_set(PROGRAM_CSV, "program_id")
 
     errors: list[str] = []
     with CSV_PATH.open(encoding="utf-8", newline="") as fh:
@@ -154,6 +157,10 @@ def main() -> int:
         for pid in _split_semi(r.get("manifests_processes") or ""):
             if process_ids and pid not in process_ids:
                 errors.append(f"{iid}: manifests_processes {pid!r} not in process_list.csv")
+
+        for anchor in _split_semi(r.get("program_anchors") or ""):
+            if program_ids and anchor not in program_ids:
+                errors.append(f"{iid}: program_anchors {anchor!r} not in PROGRAM_REGISTRY.csv (I86 P2 / D-IH-86-J)")
 
     print(f"  Rows validated:     {len(rows)}")
     print(f"  Initiatives:        {len(seen)}")

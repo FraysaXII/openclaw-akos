@@ -16,7 +16,7 @@ last_review: 2026-04-30
 sources:
   - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_VISUAL_PATTERNS.md
   - docs/wip/planning/28-investor-style-company-dossier/deck-brief.md
-  - docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck_slides.yaml
+  - docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_company_dossier/deck_slides.yaml
 ---
 # Deck visual system — Investor-style company dossier
 

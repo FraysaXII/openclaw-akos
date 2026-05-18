@@ -92,6 +92,7 @@ DEFAULT_INTERNAL_TOKENS = (
     "intelligence report",
     "approach techniques",
     "baseline reality assessment",
+    "PRJ-HOL-",
 )
 
 
@@ -156,6 +157,31 @@ def _is_exempt(path: Path) -> bool:
     return any(name.endswith(suf) for suf in EXEMPT_FILE_SUFFIXES)
 
 
+_FRONTMATTER_RE = re.compile(r"^---\s*\n.*?\n---\s*\n", re.DOTALL)
+
+
+def _strip_frontmatter_for_scan(path: Path, text: str) -> str:
+    """For markdown files, replace the frontmatter region with whitespace before
+    scanning for internal-register tokens. Frontmatter is operator metadata
+    (program_id, plane, sources, role_owner, etc.) — never rendered to the external
+    reader. Per D-IH-89-H (2026-05-18) operator metadata may carry internal tokens
+    (e.g., `program_id: PRJ-HOL-FOUNDING-2026`) without violating BBR; only the body
+    prose that ships to advisers / regulators must hold the external register.
+
+    Replaces with whitespace (rather than removing) so line numbers in error reports
+    still match the original file.
+    """
+    if path.suffix.lower() not in {".md", ".mmd"}:
+        return text
+    match = _FRONTMATTER_RE.match(text)
+    if not match:
+        return text
+    span = match.group(0)
+    # Replace non-newline chars with space; preserve newlines for line-number fidelity
+    blanked = re.sub(r"[^\n]", " ", span)
+    return blanked + text[len(span):]
+
+
 def _scan_text(path: Path, tokens: list[InternalToken]) -> list[BaselineHit]:
     if _is_exempt(path):
         return []
@@ -164,20 +190,22 @@ def _scan_text(path: Path, tokens: list[InternalToken]) -> list[BaselineHit]:
     except OSError:
         return []
 
+    scan_text = _strip_frontmatter_for_scan(path, text)
+
     hits: list[BaselineHit] = []
     for tok in tokens:
-        for match in tok.pattern.finditer(text):
-            ln = _line_number(text, match.start())
-            line_start = text.rfind("\n", 0, match.start()) + 1
-            line_end = text.find("\n", match.end())
+        for match in tok.pattern.finditer(scan_text):
+            ln = _line_number(scan_text, match.start())
+            line_start = scan_text.rfind("\n", 0, match.start()) + 1
+            line_end = scan_text.find("\n", match.end())
             if line_end < 0:
-                line_end = len(text)
+                line_end = len(scan_text)
             hits.append(
                 BaselineHit(
                     file=path,
                     line=ln,
                     token=tok,
-                    snippet=text[line_start:line_end].strip()[:140],
+                    snippet=scan_text[line_start:line_end].strip()[:140],
                 )
             )
     return hits
@@ -187,7 +215,19 @@ def _scan_advops_decks_and_dossiers(tokens: list[InternalToken]) -> list[Baselin
     if not ADVOPS_DIR.exists():
         return []
     hits: list[BaselineHit] = []
-    for pattern in ("**/deck/*.yaml", "**/dossier_*.md", "**/deck_slides.yaml"):
+    # I86 P3 (D-IH-86-L) extension: the adviser-surface glob set widens P2's deck+dossier
+    # scope to include founder-filed instrument prose, adviser handoff exports, and any
+    # markdown under _assets/advops/**/founder-filed/. These are operator-authored prose
+    # destined for adviser review; they must not carry the internal-register `PRJ-HOL-*`
+    # program-anchor ids. Companion files (*.objections.md / *.counterparty-brief.md) remain
+    # exempt via EXEMPT_FILE_SUFFIXES because they intentionally carry the internal register.
+    for pattern in (
+        "**/deck/*.yaml",
+        "**/dossier_*.md",
+        "**/deck_slides.yaml",
+        "**/founder-filed/**/*.md",
+        "**/adviser-handoff/*.md",
+    ):
         for path in ADVOPS_DIR.glob(pattern):
             if path.is_file():
                 hits.extend(_scan_text(path, tokens))

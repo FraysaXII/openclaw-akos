@@ -15,36 +15,36 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (13)
+### Active (in execution) (18)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
 | **03** | [`03-hlk-km-knowledge-base/`](03-hlk-km-knowledge-base/) | active | 2026-04-08 | HLK governed KM — workspace master roadmap |
 | **11** | [`11-madeira-ops-copilot/`](11-madeira-ops-copilot/) | active | 2026-04-15 | Initiative 11 — Madeira day-to-day ops copilot (SOTA-informed, governance-safe) |
 | **17** | [`17-madeira-cursor-mode-parity/`](17-madeira-cursor-mode-parity/) | active | 2026-04-15 | Initiative 17 — MADEIRA Cursor mode parity (Ask / Plan / Run) |
+| **24** | [`24-hlk-communication-methodology/`](24-hlk-communication-methodology/) | active | 2026-05-17 | Initiative 24 — Communication Methodology + Eloquence-Layer Composer |
+| **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | active | 2026-05-17 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
 | **62** | [`62-mission-control/`](62-mission-control/) | active | 2026-05-07 | Initiative 62 — Mission Control (hlk-erp magnificent ERP) |
 | **63** | [`63-external-repo-governance-codification/`](63-external-repo-governance-codification/) | active | 2026-05-07 | Initiative 63 — External Repo Governance Codification |
 | **64** | [`64-governance-mission-control/`](64-governance-mission-control/) | active | 2026-05-07 | Initiative 64 — Governance Mission Control (in hlk-erp) |
 | **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | active | 2026-05-07 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
+| **67** | [`67-revops-discovery/`](67-revops-discovery/) | active | 2026-05-17 | Initiative 67 — RevOps Discovery |
 | **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
+| **78** | [`78-brand-voice-llm-as-judge/`](78-brand-voice-llm-as-judge/) | active | 2026-05-17 | I78 — Brand-voice LLM-as-judge advisory layer |
 | **81** | [`81-vault-integrity-layout-milestones-retrofit/`](81-vault-integrity-layout-milestones-retrofit/) | active | 2026-05-16 | I81 — Vault integrity sweep + layout migration + named-milestone schema + SOP body/adde... |
 | **82** | [`82-holistika-capability-doctrine/`](82-holistika-capability-doctrine/) | active | 2026-05-16 | I82 — Holistika Capability Doctrine and Commercial Readiness |
 | **85** | [`85-audience-tag-canonicalization/`](85-audience-tag-canonicalization/) | active | 2026-05-16 | I85 — Audience-tag canonicalization |
-| **86** | [`86-initiative-cluster-execution-coordinator/`](86-initiative-cluster-execution-coordinator/) | active | 2026-05-16 | I86 — Initiative Cluster Execution Coordinator |
+| **86** | [`86-initiative-cluster-execution-coordinator/`](86-initiative-cluster-execution-coordinator/) | active | 2026-05-17 | I86 — Initiative Cluster Execution Coordinator |
 | **87** | [`87-openclaw-operator-runtime-hardening/`](87-openclaw-operator-runtime-hardening/) | active | 2026-05-16 | I87 — OpenClaw operator-runtime hardening |
+| **89** | [`89-hlk-erp-program-rollup-implementation/`](89-hlk-erp-program-rollup-implementation/) | active | 2026-05-17 | I89 — HLK-ERP persona-rollup panel implementation |
 
-### Gated on external event (1)
+### Gated on external event (0)
 
-| Seq | Folder | Status | Last review | Title |
-|:---:|:-------|:-------|:-----------:|:------|
-| **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | gated_external | 2026-05-03 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
+_(none)_
 
-### Gated on operator action (2)
+### Gated on operator action (0)
 
-| Seq | Folder | Status | Last review | Title |
-|:---:|:-------|:-------|:-----------:|:------|
-| **24** | [`24-hlk-communication-methodology/`](24-hlk-communication-methodology/) | gated_operator | 2026-05-04 | Initiative 24 — Communication Methodology + Eloquence-Layer Composer |
-| **67** | [`67-revops-discovery/`](67-revops-discovery/) | gated_operator | 2026-05-09 | Initiative 67 — RevOps Discovery |
+_(none)_
 
 ### Continuous loops (active by design) (3)
 

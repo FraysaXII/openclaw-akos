@@ -1,10 +1,8 @@
 ---
 language: en
-status: gated_operator
+status: active
 initiative_id: INIT-OPENCLAW_AKOS-24
-last_review: 2026-05-04
-gated_on: Wave-2 operator YAML Sections 2/3/5 and irreversible G-24-3 send checklist remain operator-owned gates.
-operator_action: Fill operator-answers-wave2.yaml Sections 2-3-5 and execute G-24-3 checklist when proceeding to real send.
+last_review: 2026-05-17
 ---
 # Initiative 24 — Communication Methodology + Eloquence-Layer Composer
 

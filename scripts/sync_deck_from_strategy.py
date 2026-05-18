@@ -67,7 +67,7 @@ DECK_YAML = (
     / "v3.0"
     / "_assets"
     / "advops"
-    / "PRJ-HOL-FOUNDING-2026"
+    / "2026-holistika-incorporation"
     / "enisa_company_dossier"
     / "deck_slides.yaml"
 )

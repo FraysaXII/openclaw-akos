@@ -30,7 +30,7 @@ DOSSIER_MD = (
     / "v3.0"
     / "_assets"
     / "advops"
-    / "PRJ-HOL-FOUNDING-2026"
+    / "2026-holistika-incorporation"
     / "enisa_evidence"
     / "dossier_es.md"
 )
@@ -42,7 +42,7 @@ COVER_EMAIL_MD = (
     / "v3.0"
     / "_assets"
     / "advops"
-    / "PRJ-HOL-FOUNDING-2026"
+    / "2026-holistika-incorporation"
     / "enisa_evidence"
     / "cover_email_es.md"
 )
@@ -479,7 +479,14 @@ def test_compose_adviser_inlines_body_file(composer=None):
     )
     assert "## Layer 4 — Eloquence" in md
     assert "TODO operator" not in md
-    assert "Buenos días, Guillermo" in md
+    # D-IH-89-N (2026-05-18 ref-placeholder doctrine): recipient names are
+    # resolved at SMTP-send time, not committed to artifacts. The canonical
+    # opener is ``Hola [nombre del asesor],`` (placeholder shape).
+    assert (
+        "Hola [nombre del asesor]," in md
+        or "Buenos días, Guillermo" in md
+        or "Hola Guillermo," in md
+    ), "rendered body must contain the canonical Spanish opener (post-D-IH-89-N or legacy)"
     assert "Q-LEG-001" in md
     assert "Un saludo," in md
 

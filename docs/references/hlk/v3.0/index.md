@@ -105,7 +105,7 @@ Holistika-wide KM is governed by [HLK_KM_TOPIC_FACT_SOURCE.md](Admin/O5-1/People
 | Adviser-call transcript redaction policy (forward-only) | [SOP-HLK_TRANSCRIPT_REDACTION_001.md](Admin/O5-1/People/Compliance/canonicals/SOP-HLK_TRANSCRIPT_REDACTION_001.md) |
 | External Adviser Engagement (ADVOPS) plane SOP | [SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md](Admin/O5-1/Operations/PMO/canonicals/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md) |
 | External Adviser router (Legal / Fiscal / IP / Banking / Certification / Notary) | [EXTERNAL_ADVISER_ROUTER.md](Admin/O5-1/Operations/PMO/canonicals/EXTERNAL_ADVISER_ROUTER.md) |
-| Topic-Fact-Source manifest for ADVOPS plane | [topic_external_adviser_handoff.manifest.md](_assets/advops/PRJ-HOL-FOUNDING-2026/adviser_handoff/topic_external_adviser_handoff.manifest.md) |
+| Topic-Fact-Source manifest for ADVOPS plane | [topic_external_adviser_handoff.manifest.md](_assets/advops/2026-holistika-incorporation/adviser_handoff/topic_external_adviser_handoff.manifest.md) |
 | `_assets/` directory contract (forward layout) | [_assets/README.md](_assets/README.md) |
 | WIP topic syntheses (interpretation layer) | [docs/wip/hlk-km/](../../../wip/hlk-km/) |
 | Pilot Output 1 bundle (rasters + `*.manifest.md` + stubs) | [_assets/km-pilot/](_assets/km-pilot/) |

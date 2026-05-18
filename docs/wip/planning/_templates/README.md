@@ -2,7 +2,7 @@
 language: en
 status: active
 authored: 2026-05-13
-last_review: 2026-05-16
+last_review: 2026-05-17
 role_owner: PMO
 classification: fact
 ssot: true
@@ -37,7 +37,7 @@ Read end-to-end at the start of any planning session.
 
 > [`INITIATIVE_DEPENDENCIES.md`](INITIATIVE_DEPENDENCIES.md) — the dep map.
 
-Mermaid graph LR covering I59..I78 + per-initiative blocker table + cross-strand linkages section. Read this alongside the compendium during compendium §3.2 read-pass.
+Mermaid graph LR covering I59..I87 + per-initiative blocker table + cross-strand linkages section. Read this alongside the compendium during compendium §3.2 read-pass.
 
 Updated every time an initiative is promoted, closed, or has a TRIGGER-watch state change.
 
@@ -50,15 +50,19 @@ Updated every time an initiative is promoted, closed, or has a TRIGGER-watch sta
 | **I72** | Marketing Area Governance + Persona Registry + IntelligenceOps + RevOps + Process Catalog | closed (2026-05-14) | — | [§11.3](PLANNING_COMPENDIUM.md#§113-i72--marketing-area-governance--persona-registry--intelligenceops--revops--process-catalog-closed-2026-05-14) |
 | **I73** | People Operations + Engagement Models + Methodology IP (mega-initiative) | closed (2026-05-15) | — | [§11.4](PLANNING_COMPENDIUM.md#§114-i73--people-operations--engagement-models--methodology-ip-active) |
 | **I74** | Brand-tooling productization | candidate (TRIGGER-watch) | TRIGGER-2 not fired (0 external requests) | [§11.5](PLANNING_COMPENDIUM.md#§115-i74--brand-tooling-productization-candidate--trigger-watch) |
-| **I75** | Research area governance | candidate | I73 P0 + Research Director commit (PENDING) | [§11.6](PLANNING_COMPENDIUM.md#§116-i75--research-area-governance-candidate) |
+| **I75** | Research area governance | candidate | I73 closed (MET); Research Director / KM framing commits still pending | [§11.6](PLANNING_COMPENDIUM.md#§116-i75--research-area-governance-candidate) |
 | **I76** | MADEIRA elevation | candidate | Strand A external research + AIC architecture ratification (PENDING) | [§11.7](PLANNING_COMPENDIUM.md#§117-i76--madeira-elevation-candidate) |
-| **I77** | Impeccable Brand-Bridge Refresh + Drift Gate | active (P0 ratified 2026-05-14) | — (P1 Strand A pending) | [§11.8](PLANNING_COMPENDIUM.md#§118-i77--impeccable-brand-bridge-refresh--drift-gate-active) |
-| **I78** | Brand-voice LLM-as-judge advisory | candidate (TRIGGER-watch) | TRIGGER not fired (0 regex pushback signals) | [§11.9](PLANNING_COMPENDIUM.md#§119-i78--brand-voice-llm-as-judge-advisory-layer-candidate--trigger-watch) |
+| **I77** | Impeccable Brand-Bridge Refresh + Drift Gate | closed (2026-05-16 `D-IH-77-CLOSURE-V2`) | — | [§11.8](PLANNING_COMPENDIUM.md#§118-i77--impeccable-brand-bridge-refresh--drift-gate-closed-2026-05-16) |
+| **I78** | Brand-voice LLM-as-judge advisory | **active** (`INIT-OPENCLAW_AKOS-78`; `D-IH-78-A`) | P1 judge chassis + CLI pending; [`master-roadmap.md`](../78-brand-voice-llm-as-judge/master-roadmap.md) | [§11.9](PLANNING_COMPENDIUM.md#§119-i78--brand-voice-llm-as-judge-advisory-layer-active--execution) |
 | **I79** | People Manifesto + Knowledge Hygiene + Cross-area Design Patterns + AI Governance (mega-initiative; follow-up to I73 doctrinal layer) | closed 2026-05-15 (`D-IH-79-CLOSURE`) | P0–P8 mega-initiative six strands + UAT + integration verification; 24/1165 process_list FK seeds; anti-jargon drift gate operational | [`docs/wip/planning/79-people-manifesto-and-pattern-library/master-roadmap.md`](../79-people-manifesto-and-pattern-library/master-roadmap.md) |
 | **I80** | I79 Lessons-Learned (SOP Body/Addendum Pattern + Stakeholder Lenses + Inline-Ratify Craft Skill) | **CLOSED 2026-05-16** (`D-IH-80-CLOSURE`) | All P0..P7 phases shipped: pattern minted + 8 paired-file instantiations + inline-ratify skill + UAT + I81 forward-charter | [`docs/wip/planning/80-i79-lessons-learned/master-roadmap.md`](../80-i79-lessons-learned/master-roadmap.md) |
-| **I81** | KB integrity sweep (**vault + planning surface**) + Compliance forward-layout reorganisation + **named-milestone schema migration + Class B drift validator** + full-vault SOP body/addendum retrofit (~40 SOPs; Initiative 22 layout execution; `process_list`×SOP×addendum×pairing×mirrors vault sweep + `_candidates`×dep-map×master-roadmaps planning-surface sweep) | candidate (stub; expanded twice 2026-05-16: morning Wave 1 = vault integrity + Compliance layout; evening Wave 2 = planning-surface integrity + named-milestone schema replacing magic-number `I<NN> P<n>` cross-references; **permanent vocabulary** for all future initiatives via `akos-planning-traceability.mdc` extension) | Operator charter; **`baseline`/process approvals** layout tranches + integrity sign-off priorities; **named-milestone schema (D-IH-81-H) ratified at P0** + closed-initiative frozen-reference policy (D-IH-81-J) + validator strictness (D-IH-81-I) ratified at P3 | [`docs/wip/planning/_candidates/i81-full-vault-sop-addendum-retrofit.md`](../_candidates/i81-full-vault-sop-addendum-retrofit.md) |
-| **I82** | Holistika Capability Doctrine + Commercial Readiness (audience-aware capability surfacing — 4 facets; **Talent `baseline` tranche phase**; Capability registry FK’d to audited process inventory via **I81 P1**) | candidate (stub; expanded 2026-05-16) | Operator ratifications; **`baseline`/process approvals** where applicable | [`docs/wip/planning/_candidates/i82-holistika-capability-doctrine-and-commercial-readiness.md`](../_candidates/i82-holistika-capability-doctrine-and-commercial-readiness.md) |
+| **I81** | Vault integrity + Compliance layout + named-milestone schema + SOP retrofit | **active** (`INIT-OPENCLAW_AKOS-81`; charter 2026-05-16) | Operator gates per P2 tranche; see roadmap Verification | [`docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/master-roadmap.md`](../81-vault-integrity-layout-milestones-retrofit/master-roadmap.md) |
+| **I82** | Holistika Capability Doctrine + Commercial Readiness | **active** (`INIT-OPENCLAW_AKOS-82`) | `baseline_organisation` Talent tranche + registry mint gates | [`docs/wip/planning/82-holistika-capability-doctrine/master-roadmap.md`](../82-holistika-capability-doctrine/master-roadmap.md) |
 | **I83** | AI Archivist + KiRBe Ingestor (Tech-area-led; consumes I82 use case archive + I80 P6.5 KNOWLEDGE_PAIRING_REGISTRY; 9-12d MVP) | candidate (stub minted at I80 P7) | I82 P4 closed (use case archive minted); Tech Lab Lead bandwidth; framework choice + schema home + Composio adoption ratifications | [`docs/wip/planning/_candidates/i83-ai-archivist-and-kirbe-ingestor.md`](../_candidates/i83-ai-archivist-and-kirbe-ingestor.md) |
+| **I84** | Substrate Doctrine + Commercial Readiness | **closed** (2026-05-17 `D-IH-84-CLOSURE`) | Quarterly substrate-audit cadence (operational); SOP `status: review` until process_list row | [`docs/wip/planning/84-substrate-doctrine-and-commercial-readiness/master-roadmap.md`](../84-substrate-doctrine-and-commercial-readiness/master-roadmap.md) |
+| **I85** | Audience-tag canonicalization | **active** (`INIT-OPENCLAW_AKOS-85`) | P2 tag-migration tranche approvals | [`docs/wip/planning/85-audience-tag-canonicalization/master-roadmap.md`](../85-audience-tag-canonicalization/master-roadmap.md) |
+| **I86** | Initiative Cluster Execution Coordinator | **active** (`INIT-OPENCLAW_AKOS-86`) | Siblings not all closed | [`docs/wip/planning/86-initiative-cluster-execution-coordinator/master-roadmap.md`](../86-initiative-cluster-execution-coordinator/master-roadmap.md) |
+| **I87** | OpenClaw operator-runtime hardening | **active** (`INIT-OPENCLAW_AKOS-87`) | Phases P1–P6 per roadmap | [`docs/wip/planning/87-openclaw-operator-runtime-hardening/master-roadmap.md`](../87-openclaw-operator-runtime-hardening/master-roadmap.md) |
 
 State truth: [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) + candidate files under [`_candidates/`](../_candidates/). The compendium appendix sub-sections point at these canonicals; this table is a navigation surface, not a state SSOT.
 

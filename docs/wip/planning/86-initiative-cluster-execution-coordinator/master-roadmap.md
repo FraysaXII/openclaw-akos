@@ -1,9 +1,9 @@
 ---
 initiative_id: INIT-OPENCLAW_AKOS-86
-title: Initiative Cluster Execution Coordinator — Waves 1-5 burndown (I81 I84 I85 I82 I83 I74 I75 I76 I87)
+title: Initiative Cluster Execution Coordinator — Waves 1-5 burndown (I81 I84 I85 I82 I83 I74 I75 I76 I87 I78)
 status: active
 charter_date: 2026-05-16
-last_review: 2026-05-16
+last_review: 2026-05-17
 owner_role: PMO
 co_owner_role: System Owner
 inception_decision_id: D-IH-86-A
@@ -27,19 +27,22 @@ sibling_coordinated_initiatives:
   - I75 Research-area governance (candidate)
   - I76 MADEIRA elevation (candidate)
   - I87 OpenClaw operator-runtime hardening (candidate stub this commit)
+  - I78 Brand-voice LLM-as-judge advisory layer (active; P1 engineering pending)
 authoritative_plan: docs/wip/planning/86-initiative-cluster-execution-coordinator/master-roadmap.md (this file; no out-of-repo Cursor plan companion required)
 todos:
   - id: p0-charter
     content: "P0 (same-day; inline-ratify gate CLOSED in chat 2026-05-16) — Mint I86 operational coordinator folder + INIT/DECISION/OPS canonical rows + INITIATIVE_DEPENDENCIES §3.8 + planning README row + I87 candidate stub + candidate redirect stub i86 per D-IH-86-E. (a) Author master-roadmap.md + decision-log.md + risk-register.md + asset-classification.md + evidence-matrix.md + files-modified.csv per akos-planning-traceability.mdc plan-quality bar (three mermaid diagrams + decision preview + risk preview). (b) Record D-IH-86-A..E in DECISION_REGISTER.csv same commit. (c) Open OPS-86-1 cluster coordination. (d) Agent self-checkpoint at reports/checkpoints/sc-pre-p0-2026-05-16.md. Self-checkpoint count: 1."
     status: completed
   - id: continuous-cluster-burndown
-    content: "Continuous — Waves 1-5 operational surface (NOT sequential I86 phases): drive nine sibling initiatives from candidate or TRIGGER-watch or active through closed; cadence per D-IH-86-B (event-driven pulse on sibling state change plus 14-day quiet-period floor); AskQuestion batching per D-IH-86-C (default wave-boundary mega-batch; blocker-overflow lane when cross-cluster blocker cannot wait); before each sibling mints closure_decision_id run D-IH-86-D gated cross-check against INITIATIVE_DEPENDENCIES.md hard edges + blocker table. Wave spotlight role_owner per wave per D-IH-86-A tables below — runs standup narrative for that wave; does not co-own INIT row. Close OPS-86-1 when all nine siblings status closed and I86 closure decision minted (future D-IH-86-CLOSURE)."
+    content: "Continuous — Waves 1-5 operational surface (NOT sequential I86 phases): drive ten sibling initiatives from candidate or TRIGGER-watch or active through closed; cadence per D-IH-86-B (event-driven pulse on sibling state change plus 14-day quiet-period floor); AskQuestion batching per D-IH-86-C (default wave-boundary mega-batch; blocker-overflow lane when cross-cluster blocker cannot wait); before each sibling mints closure_decision_id run D-IH-86-D gated cross-check against INITIATIVE_DEPENDENCIES.md hard edges + blocker table. Wave spotlight role_owner per wave per D-IH-86-A tables below — runs standup narrative for that wave; does not co-own INIT row. Close OPS-86-1 when all ten siblings status closed and I86 closure decision minted (future D-IH-86-CLOSURE)."
     status: in_progress
 ---
 
 # I86 — Initiative Cluster Execution Coordinator
 
-> **Operational initiative.** I86 mints **no** git-canonical SSOT under `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` beyond the standard initiative registers ([`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv), [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv), [`OPS_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv)). Its deliverable is the **mechanical burndown** of nine coordinated sibling initiatives from candidate, TRIGGER-watch, or active, to **closed**, with cluster-level coordination discipline. Success criterion: coordinated backlog reaches zero (all nine siblings `status: closed` in INITIATIVE_REGISTRY.csv, with D-IH-86-D cross-check recorded each time).
+> **Operational initiative.** I86 mints **no** git-canonical SSOT under `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` beyond the standard initiative registers ([`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv), [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv), [`OPS_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv)). Its deliverable is the **mechanical burndown** of ten coordinated sibling initiatives from candidate, TRIGGER-watch, or active, to **closed**, with cluster-level coordination discipline. Success criterion: coordinated backlog reaches zero (all ten siblings `status: closed` in INITIATIVE_REGISTRY.csv, with D-IH-86-D cross-check recorded each time).
+
+> **Scoped exception — program-anchor robustness (Round 2; P1 shipped 2026-05-17; P2 shipped 2026-05-17; P3 shipped 2026-05-17).** Per **D-IH-86-I** (ratified 2026-05-17) I86 minted anchor-specific tooling — Pydantic chassis ([`akos/hlk_initiative_program_anchors.py`](../../../../akos/hlk_initiative_program_anchors.py)), validator ([`scripts/validate_initiative_program_anchors.py`](../../../../scripts/validate_initiative_program_anchors.py); column-read default with `--legacy-notes-parser` deprecation flag), paired runbook ([`scripts/pmo_program_anchor_backfill.py`](../../../../scripts/pmo_program_anchor_backfill.py)), and Operations/PMO SOP ([`SOP-PMO_INITIATIVE_PROGRAM_ANCHORS_001.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/SOP-PMO_INITIATIVE_PROGRAM_ANCHORS_001.md)). **P2 (Stage B) completed 2026-05-17**: `program_anchors` first-class semicolon-list FK column promoted on [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) (24 rows migrated via single-use [`_oneshot_anchors_notes_to_column.py`](../../../../scripts/_oneshot_anchors_notes_to_column.py); notes prefix stripped); Supabase migration [`20260517163635_i86_p2_program_anchors_column.sql`](../../../../supabase/migrations/20260517163635_i86_p2_program_anchors_column.sql) applied to MasterData 2026-05-17 (version `20260517163635`); FK block live in [`scripts/validate_initiative_registry.py`](../../../../scripts/validate_initiative_registry.py); operator approval checklist in [`reports/p2-pause-record-2026-05-17.md`](reports/p2-pause-record-2026-05-17.md). **P3 (persona-view rollup) completed 2026-05-17 — I86 CLOSES at end of P3 per D-IH-86-N**: SQL view [`governance.initiative_program_rollup_view`](../../../../supabase/migrations/20260517163648_i86_p3_initiative_program_rollup_view.sql) + six-persona spec ([`reports/persona-view-spec-2026-05-19.md`](reports/persona-view-spec-2026-05-19.md)) + BBR drift-gate scope extension (founder-filed + adviser-handoff per D-IH-86-L) + six rollup-aware ERP route slots in [`HLK_ERP_ARCHITECTURE.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/HLK_ERP_ARCHITECTURE.md) §4 + UAT acceptance ([`docs/uat/i86-p3-persona-rollup-acceptance.md`](../../../uat/i86-p3-persona-rollup-acceptance.md)) carved into D1-D5 self-attestable + E1-E4 forward-chartered. **Migrations live 2026-05-17 (operator carry-forward executed)**: P2 column applied (MCP version `20260517163635`); P3 view applied (MCP version `20260517163648`); 16 mirrored initiatives seeded with `program_anchors` (8 anchored rows still need operator-side full mirror reseed via `compliance_mirror_emit` — R-IH-86-10 closed for the 16 rows present in mirror; 8 unanchored rows tracked as residual operator work); rollup view returns 62 rows (27 with anchor); no new security advisors. TSX panel implementation + Adviser-external REDACTED rendering forward-chartered to **I89 active** ([`docs/wip/planning/89-hlk-erp-program-rollup-implementation/master-roadmap.md`](../89-hlk-erp-program-rollup-implementation/master-roadmap.md); **promoted 2026-05-17** from candidate per operator inline-ratify batch; five inception decisions D-IH-89-A..E ratified same-day; tri-co-owned PMO + System Owner + Brand & Narrative Manager per D-IH-89-D; BBR drift-gate flipped INFO→FAIL at I89 P0 per D-IH-89-E — `OPS-86-4` (I89 promotion trigger) **closed 2026-05-17** in [`OPS_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv)) as MANDATORY public-prose pause-point per `akos-agent-checkpoint-discipline.mdc`. ADVOPS triage of 7 pre-existing `PRJ-HOL-FOUNDING-2026` leaks in ENISA dossiers routed to **OPS-86-5** for Brand & Narrative Manager + ADVOPS co-owner. All anchor work inherits the existing `pattern_paired_sop_runbook` pattern row — no new register dimension is created.
 
 > **Structural siblings.** I86 sits alongside [I64 Governance Mission Control](../64-governance-mission-control/master-roadmap.md) and [I65 AKOS Planning Workspace Panel](../65-akos-planning-workspace-panel/master-roadmap.md) as a **coordination** initiative — portfolio orchestration rather than vault SSOT minting.
 
@@ -215,7 +218,7 @@ Full rationale: [`decision-log.md`](decision-log.md).
 
 | ID | Risk | Mitigation |
 |:---|:---|:---|
-| R-IH-86-1 | PMO bandwidth saturated across nine threads | D-IH-86-B pulse collapses noise to event-driven + spotlight distributes facilitation |
+| R-IH-86-1 | PMO bandwidth saturated across ten threads | D-IH-86-B pulse collapses noise to event-driven + spotlight distributes facilitation |
 | R-IH-86-2 | Wave spotlight handoff drops context between waves | Single paragraph handoff in `reports/wave-N-handoff-YYYY-MM-DD.md` (pattern established Wave 1 close) |
 | R-IH-86-3 | 14-day quiet floor masks stalled sibling | OPS_REGISTER aging + operator inbox review |
 | R-IH-86-4 | D-IH-86-D cross-check misses soft dependency | Explicit INITIATIVE_DEPENDENCIES §3.8 review each closure |
@@ -227,7 +230,7 @@ Full register: [`risk-register.md`](risk-register.md).
 ## 7. Verification
 
 - `py scripts/validate_hlk.py` after canonical CSV append.
-- Cluster burndown verification is **INITIATIVE_REGISTRY.csv** nine siblings `status: closed` + OPS-86-1 closed + [`evidence-matrix.md`](evidence-matrix.md) closure row PASS.
+- Cluster burndown verification is **INITIATIVE_REGISTRY.csv** ten siblings `status: closed` + OPS-86-1 closed + [`evidence-matrix.md`](evidence-matrix.md) closure row PASS.
 
 ## 8. Sync rule
 

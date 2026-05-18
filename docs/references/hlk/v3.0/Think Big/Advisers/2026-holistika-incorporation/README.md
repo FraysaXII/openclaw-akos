@@ -4,10 +4,11 @@ status: active
 role_owner: PMO
 area: PMO
 entity: Holistika Research SL
-last_review: 2026-05-11
+last_review: 2026-05-18
 engagement_slug: 2026-holistika-incorporation
 engagement_name: "Founder incorporation + ENISA evidence + fiscal readiness (inbound legal/fiscal/banking advisers)"
 linked_program_id: PRJ-HOL-FOUNDING-2026
+linked_program_asset_bucket: docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/
 discipline_cluster:
   - legal_constitution
   - banking_kyc
@@ -56,8 +57,8 @@ Inbound engagement covering the founder-incorporation program: four adviser disc
 
 | Folder | State | Purpose |
 |:---|:---|:---|
-| `00-internal/` | placeholder | Will hold operator notes; mandate-phase tracker; GOI/POI cross-link table (drafted in this README for now) |
-| `01-our-pack/` | placeholder | Will hold redacted-safe scope-of-mandate + KYC pack per `EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md` |
+| `00-internal/` | placeholder | Operator notes; mandate-phase tracker; GOI/POI cross-link table (drafted in this README for now) |
+| `01-our-pack/` | **populated (2026-05-18)** | Outbound material to advisers: scope-of-mandate, KYC pack, legal-constitutor handoff. Currently holds: [`legal-constitutor-handoff-2026-05-18.md`](01-our-pack/legal-constitutor-handoff-2026-05-18.md). |
 | `02-adviser-pack/` | placeholder | Will hold received legal opinions, ENISA evidence statements, banking confirmations, fiscal-readiness statements |
 | `_archive/` | placeholder | Dated rollback snapshots |
 | `_exports/` | placeholder | Branded PDFs once any our-pack material renders |
@@ -71,5 +72,11 @@ This folder will populate progressively as the inbound engagement produces and r
 - [`../../Admin/O5-1/Operations/PMO/WORKSPACE_BLUEPRINT_HOLISTIKA.md`](../../../Admin/O5-1/Operations/PMO/WORKSPACE_BLUEPRINT_HOLISTIKA.md) — engagement-types matrix
 - [`../_engagement-template/`](../_engagement-template/) — canonical inbound template this folder was populated from
 - [`../../Admin/O5-1/Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md`](../../../Admin/O5-1/Operations/PMO/TOPIC_PMO_CLIENT_DELIVERY_HUB.md) — `PRJ-HOL-FOUNDING-2026` portfolio row cross-links here
+
+## Cross-references — program asset bucket (rendered external collateral)
+
+- [`../../../_assets/advops/2026-holistika-incorporation/README.md`](../../../_assets/advops/2026-holistika-incorporation/README.md) — **program asset bucket** (rendered external collateral: ENISA evidence dossier, company-dossier deck, adviser-handoff topic visual). The asset bucket sits under `_assets/advops/` keyed by `program_id`; this engagement folder sits under `Think Big/Advisers/` keyed by `engagement_slug`. The two coexist intentionally — see the asset-bucket README for the two-slug rationale.
+- [`../../../_assets/advops/2026-holistika-incorporation/enisa_evidence/dossier_es.md`](../../../_assets/advops/2026-holistika-incorporation/enisa_evidence/dossier_es.md) — ENISA-reviewer-facing evidence appendix (Spanish).
+- [`../../../_assets/advops/2026-holistika-incorporation/enisa_company_dossier/deck_slides.yaml`](../../../_assets/advops/2026-holistika-incorporation/enisa_company_dossier/deck_slides.yaml) — Visual deck companion for the ENISA evidence appendix.
 
 End of unified entry point.

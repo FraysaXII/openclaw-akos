@@ -302,6 +302,24 @@ def run_audience_tags_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_initiative_program_anchors_validation() -> tuple[bool, int]:
+    """Run INITIATIVE_REGISTRY -> PROGRAM_REGISTRY anchor validation (I86 P1 / D-IH-86-H).
+
+    Returns ``(ok, exit_code)``. Stage A advisory mode (never blocks release
+    gate) until I86 P2 promotes anchors from the ``notes`` prefix to a
+    first-class ``program_anchors`` semicolon-list column with FK resolution
+    in ``validate_initiative_registry.py`` (D-IH-86-J).
+    """
+    logger.info("Running INITIATIVE program-anchors validation (I86 P1) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_initiative_program_anchors.py")],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_openclaw_plugin_pinning_validation() -> tuple[bool, int]:
     """Run OpenClaw plugin pinning validation (I87 P2 / D-IH-87-B).
 
@@ -748,13 +766,20 @@ def main() -> None:
     results.append((vale_level, vale_description))
 
     baseline_ok, baseline_rc = run_brand_baseline_reality_validation()
-    if os.environ.get("AKOS_BRAND_BASELINE_REALITY_STRICT") == "1":
-        results.append(("PASS" if baseline_ok else "FAIL", "BRAND baseline-reality (scripts/validate_brand_baseline_reality_drift.py, strict)"))
-    else:
+    # I89 P0 D-IH-89-E ratified 2026-05-17: BBR drift-gate flipped from INFO to FAIL
+    # immediately at I89 P0. Maximum drift protection from day one. OPS-86-5 ADVOPS
+    # triage closed 2026-05-18 (D-IH-89-G + D-IH-89-H) - all PRJ-HOL- internal-register
+    # leaks cleared from external-facing ENISA dossiers + adviser-handoff exports +
+    # boilerplate prose. Hot-fix lane: set AKOS_BRAND_BASELINE_REALITY_SOFT=1 to
+    # temporarily downgrade to INFO if a future regression blocks an urgent commit
+    # (R-IH-89-1 mitigation). Re-flip immediately after the blocking commit lands.
+    if os.environ.get("AKOS_BRAND_BASELINE_REALITY_SOFT") == "1":
         results.append((
             "INFO",
-            f"BRAND baseline-reality (scripts/validate_brand_baseline_reality_drift.py, soft until I66 P6; exit={baseline_rc})",
+            f"BRAND baseline-reality (scripts/validate_brand_baseline_reality_drift.py, soft via AKOS_BRAND_BASELINE_REALITY_SOFT=1; exit={baseline_rc})",
         ))
+    else:
+        results.append(("PASS" if baseline_ok else "FAIL", "BRAND baseline-reality (scripts/validate_brand_baseline_reality_drift.py, strict — default since I89 P0 D-IH-89-E)"))
 
     brand_vision_ok = run_brand_vision_drift_validation()
     results.append(("PASS" if brand_vision_ok else "FAIL", "BRAND vision drift (scripts/validate_brand_vision_drift.py, I66 P7)"))
@@ -836,6 +861,12 @@ def main() -> None:
     results.append((
         "INFO",
         f"Audience-tag drift (scripts/validate_audience_tags.py — AUDIENCE_REGISTRY.csv FK-validation + J-OP exclusion; advisory until I85 P4 sweep closure; I85 P2 / D-IH-85-A/B/D; ok={'yes' if audience_tags_ok else 'no'}; exit={audience_tags_rc})",
+    ))
+
+    initiative_anchors_ok, initiative_anchors_rc = run_initiative_program_anchors_validation()
+    results.append((
+        "INFO",
+        f"INITIATIVE program-anchors (scripts/validate_initiative_program_anchors.py — INITIATIVE_REGISTRY.notes prefix FK-resolves to PROGRAM_REGISTRY.csv; Stage A advisory until I86 P2 column-promotion; I86 P1 / D-IH-86-H + D-IH-86-J; ok={'yes' if initiative_anchors_ok else 'no'}; exit={initiative_anchors_rc})",
     ))
 
     inbox_stale, _ = run_operator_inbox_check()

@@ -43,4 +43,4 @@ Schema: [`HLK_KM_TOPIC_FACT_SOURCE.md`](../../../../../compliance/HLK_KM_TOPIC_F
 
 Companion narrative (Output 2): [`topic_external_adviser_handoff.md`](./topic_external_adviser_handoff.md).
 Source-of-truth (Mermaid): [`topic_external_adviser_handoff.mmd`](./topic_external_adviser_handoff.mmd).
-Renderer: `py scripts/render_km_diagrams.py docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/adviser_handoff/topic_external_adviser_handoff.mmd`.
+Renderer: `py scripts/render_km_diagrams.py docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/adviser_handoff/topic_external_adviser_handoff.mmd`.

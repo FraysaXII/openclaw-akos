@@ -20,7 +20,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LINTER_PATH = REPO_ROOT / "scripts" / "lint_brand_voice_offline.py"
 
-DECK_SSOT_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "_assets" / "advops" / "PRJ-HOL-FOUNDING-2026" / "enisa_company_dossier"
+DECK_SSOT_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "_assets" / "advops" / "2026-holistika-incorporation" / "enisa_company_dossier"
 
 DECK_SSOT_FILES = (
     DECK_SSOT_DIR / "deck_slides.yaml",

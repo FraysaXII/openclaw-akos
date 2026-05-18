@@ -2,8 +2,9 @@
 status: active
 role_owner: Brand Manager
 area: Marketing
-entity: Holistika Research
+entity: Holistika Research SL
 program_id: PRJ-HOL-FOUNDING-2026
+program_label: "Holistika Research SL — Programa de fundación 2026"
 plane: advops
 topic_ids:
   - topic_enisa_company_dossier
@@ -12,16 +13,16 @@ language: es
 artifact_role: canonical
 intellectual_kind: company_dossier_narrative
 authority: Founder + Brand Manager
-last_review: 2026-04-30
+last_review: 2026-05-18
 sources:
   - docs/wip/planning/28-investor-style-company-dossier/deck-brief.md
   - docs/wip/planning/28-investor-style-company-dossier/evidence-triage.md
-  - docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/dossier_es.md
-  - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_VISUAL_PATTERNS.md
-  - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_VOICE_FOUNDATION.md
-  - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_SPANISH_PATTERNS.md
-  - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_JARGON_AUDIT.md
-slide_data: docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck_slides.yaml
+  - docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_evidence/dossier_es.md
+  - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_VISUAL_PATTERNS.md
+  - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_VOICE_FOUNDATION.md
+  - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_SPANISH_PATTERNS.md
+  - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_JARGON_AUDIT.md
+slide_data: "./deck_slides.yaml"
 audience: [J-ENISA]
 ---
 
@@ -37,7 +38,7 @@ audience: [J-ENISA]
 
 **Subtítulo.** Investigación aplicada, ingeniería empresarial y software propio. Madrid · 2026.
 
-**Pie.** Holistika Research · holistikaresearch.com · 2026.
+**Pie.** Holistika Research SL · holistikaresearch.com · 2026.
 
 ## 02 · El problema
 
@@ -142,15 +143,23 @@ Cerremos por escrito el encaje ENISA y el paquete legal antes de la firma.
 - Ventana de 30 minutos esta semana para alinear plan de presentación.
 
 Un saludo,
-**Holistika Research**
+**Holistika Research SL**
 holistikaresearch.com
+
+<!-- ============================================================
+     APÉNDICE OPERADOR — Cómo se construyó este dossier (no publicar)
+     ============================================================ -->
 
 ---
 
-## Apéndice — Cómo se construyó este dossier
+## Apéndice operador — Cómo se construyó este dossier
 
-Este documento es la **narrativa canónica** del dossier de compañía. Acompaña al fichero estructurado `deck_slides.yaml`, que es la fuente única de los datos del deck en HTML preview y en Figma. Cualquier cambio de copy se hace primero en este documento; el HTML y la Figma se re-construyen a partir de aquí.
+> Esta sección es **operator-side** (apéndice de gobernanza). No se publica como parte del deck visual ni se renderiza al PDF de envío.
 
-El dossier técnico-legal completo (preguntas abiertas a asesores, instrumentos archivados, cuestionario CNAE, etc.) vive como **apéndice de evidencias para asesoría externa** en `docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_evidence/dossier_es.md`. Cuando un asesor pide detalle, ese documento se adjunta. La regla de envío es: **dossier de compañía primero, apéndice de evidencias segundo**.
+Este documento es la **narrativa canónica** del dossier de compañía. Acompaña al fichero estructurado `deck_slides.yaml` (en esta misma carpeta), que es la fuente única de los datos del deck en HTML preview y en Figma. Cualquier cambio de copy se hace primero en este documento; el HTML y la Figma se re-construyen a partir de aquí.
 
-El proceso de auditoría de jerga (`BRAND_JARGON_AUDIT.md`) se aplicó sobre cada slide antes de cerrar este documento. Ningún identificador interno, ninguna marca de tecnología, ningún registro canónico aparece en la copy externa.
+El **apéndice técnico-legal** (instrumentos legales en curso, capacidades demostradas, glosario, trazabilidad) vive en la carpeta hermana `../enisa_evidence/dossier_es.md` y es el documento que se adjunta cuando un asesor pide ampliación. La regla de envío es: **dossier de compañía primero, apéndice de evidencias segundo**.
+
+El proceso de auditoría de jerga (`BRAND_JARGON_AUDIT.md`) + el control dual-register baseline-reality (`BRAND_BASELINE_REALITY_MATRIX.md` + drift gate `validate_brand_baseline_reality_drift.py`) se aplican sobre cada slide antes de cerrar este documento. Ningún identificador interno, ninguna marca de tecnología, ningún registro canónico, ningún token `PRJ-HOL-*` aparece en la copy externa.
+
+**Refresh history.** Revisado 2026-05-18 (I86 / OPS-86-5) para alinear con la marca "Holistika Research SL", abstraer las referencias de path a la carpeta hermana, y endurecer la separación operator-internal vs external-facing del Apéndice operador.

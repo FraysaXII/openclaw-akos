@@ -9,7 +9,7 @@ The visual canon has expanded since the original 2 sources (I29 P3, 2026-05-05) 
 ### Tokens + typography + layout primitives
 
 - **Brand tokens, typography, hero gradient, layout primitives, anti-patterns** → [`BRAND_VISUAL_PATTERNS.md`](docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_VISUAL_PATTERNS.md)
-- **Deck-specific layout primitives, slide layouts, anti-patterns** (surface-specific for the company-dossier deck family) → [`deck-visual-system.md`](docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck-visual-system.md)
+- **Deck-specific layout primitives, slide layouts, anti-patterns** (surface-specific for the company-dossier deck family) → [`deck-visual-system.md`](docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_company_dossier/deck-visual-system.md)
 - **Per-locale number / currency / date formats** (visual formatting on dates and figures) → [`BRAND_LOCALISED_FORMATS.md`](docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_LOCALISED_FORMATS.md)
 
 ### Visual identity
@@ -43,7 +43,7 @@ Radius scale: 4 px (tag pills, hairlines), 8 px (cards, callouts), 16 px (cover 
 - **Letter spacing**: −0.025em on cover title; +0.14em uppercase on small-caps labels.
 - **Caption / source citations**: 8.5 pt italic muted-foreground.
 
-For complete type scale and per-element specs, read [`deck-visual-system.md`](docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck-visual-system.md) §3.
+For complete type scale and per-element specs, read [`deck-visual-system.md`](docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_company_dossier/deck-visual-system.md) §3.
 
 ## Logo system snapshot
 
@@ -51,7 +51,7 @@ Logo lockups, monogram clear space, minimum sizes, and per-surface usage rules l
 
 ## Layout primitives (deck context)
 
-Twelve canonical primitives are documented in [`deck-visual-system.md`](docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck-visual-system.md) §4 and inventoried in [`figma-link.md`](docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/figma-link.md). Examples:
+Twelve canonical primitives are documented in [`deck-visual-system.md`](docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_company_dossier/deck-visual-system.md) §4 and inventoried in [`figma-link.md`](docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_company_dossier/figma-link.md). Examples:
 
 - Cover hero (dark gradient, oversized title, monogram, bottom strip)
 - Section opener (big two-digit number, label, headline, dark surface)
@@ -116,7 +116,7 @@ If an Impeccable command's visual / layout / motion suggestion conflicts with `.
 - Token suggestions (hex → CSS var) MUST use names from `BRAND_VISUAL_PATTERNS.md` §1; raw hex codes are forbidden when a token exists.
 - Logo suggestions MUST cite `BRAND_LOGO_SYSTEM.md`; ad-hoc logo arrangements outside the lockup variants are forbidden.
 - Layout suggestions stay phase-scoped per `akos-planning-traceability.mdc`; one commit per phase.
-- Component / token additions to the deck visual system require an update to [`deck-visual-system.md`](docs/references/hlk/v3.0/_assets/advops/PRJ-HOL-FOUNDING-2026/enisa_company_dossier/deck-visual-system.md) before any rendered output changes.
+- Component / token additions to the deck visual system require an update to [`deck-visual-system.md`](docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_company_dossier/deck-visual-system.md) before any rendered output changes.
 - Cobranded-surface visual work MUST cite `BRAND_COBRANDING_PATTERN.md` precedence before placing partner logos.
 
 ## Cross-references
