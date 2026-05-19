@@ -324,6 +324,33 @@ def run_external_render_trail_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_brand_voice_judge_self_test() -> tuple[bool, int]:
+    """Run brand-voice judge chassis self-test (I78 P2 INFO advisory; D-IH-78-CLOSURE Wave H).
+
+    Sister advisory to ``run_locale_orthography_validation`` and a one-layer-up
+    companion to the deterministic Pack A1 regex floor (``validate_brand_voice_register.py``).
+    The self-test exercises the mock provider round-trip (2/2 verdicts: pass +
+    fail paraphrase exemplars) + cache-key determinism so the chassis stays
+    importable and the CLI stays invokable as the codebase evolves.
+
+    Per I78 cluster-burndown axis-2 pragmatic-closure executive call: the
+    *production prose-scanning* judge run is forward-chartered to a successor
+    strict-mode-promotion follow-up initiative (gated on Strand C bias-audit
+    cadence + Strand D D-IH-78-PROMOTE ratify); this release-gate row stays
+    INFO advisory until that follow-up activates.
+
+    Exit code 0 PASS (self-test green); 1 FAIL (chassis broke); 2 misconfig.
+    """
+    logger.info("Running BRAND-VOICE-JUDGE chassis self-test (I78 P2 INFO advisory; D-IH-78-CLOSURE) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "judge_brand_voice.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_locale_orthography_validation() -> tuple[bool, int]:
     """Run locale-orthography drift gate (I86 Wave F / Wave G B-G1 / D-IH-86-R).
 
@@ -927,6 +954,12 @@ def main() -> None:
     results.append((
         "PASS" if orthography_ok else "FAIL",
         f"Locale orthography (scripts/validate_locale_orthography.py --strict-en - EN promoted INFO -> PASS/FAIL on 2026-05-19 via D-IH-86-R after Wave G B-G1 shipped render-step auto-curl + post-curl validator semantics; ES + FR remain advisory; per-locale strict via --strict-es/--strict-fr or AKOS_LOCALE_ORTHOGRAPHY_STRICT=1; I86 Wave F + Wave G B-G1; ok={'yes' if orthography_ok else 'no'}; exit={orthography_rc})",
+    ))
+
+    judge_ok, judge_rc = run_brand_voice_judge_self_test()
+    results.append((
+        "INFO",
+        f"Brand-voice judge chassis (scripts/judge_brand_voice.py --self-test - I78 P2 INFO advisory; exercises mock provider round-trip + cache-key determinism; production prose-scanning forward-chartered to strict-mode-promotion follow-up per D-IH-78-CLOSURE axis-2 pragmatic-closure; I86 Wave H lane-1; ok={'yes' if judge_ok else 'no'}; exit={judge_rc})",
     ))
 
     initiative_anchors_ok, initiative_anchors_rc = run_initiative_program_anchors_validation()

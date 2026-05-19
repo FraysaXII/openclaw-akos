@@ -2,12 +2,14 @@
 language: en
 initiative_id: INIT-OPENCLAW_AKOS-78
 title: Brand-voice LLM-as-judge advisory layer (Tier 2 evolution from I71 P1 strategic review)
-status: active
+status: closed
 inception_date: 2026-05-14
-last_review: 2026-05-17
+last_review: 2026-05-19
+closed_at: 2026-05-19
 owner_role: Brand & Narrative Manager
 co_owner_role: System Owner
 inception_decision_id: D-IH-78-A
+closure_decision_id: D-IH-78-CLOSURE
 authority: Founder + Brand Manager + System Owner
 ---
 
@@ -52,8 +54,16 @@ authority: Founder + Brand Manager + System Owner
 - Umbrella: `py scripts/validate_hlk.py`
 - Mirror emit when `.csv` mint touches mirrors operator workflow: `py scripts/verify.py compliance_mirror_emit` (if initiative mirror parity CI expects emit artefacts refreshed).
 
+## Closure note (D-IH-78-CLOSURE, 2026-05-19)
+
+I78 closed at **engineering-done** (P1 + P2 shipped) per the I86 cluster burndown plan §6 axis-2 pragmatic-closure executive call. P3 + P4 + P5 (Strand C bias audit, Strand D promotion-to-strict ratify, closure UAT) **forward-chartered** to a successor strict-mode-promotion follow-up initiative that activates when (a) operator configures a live LLM provider under `config/openclaw.json` and (b) Strand D `D-IH-78-PROMOTE` ratifies the quantitative bias-audit thresholds per C-78-4. Full closure trace in [`reports/2026-05-19-closure.md`](reports/2026-05-19-closure.md). Reversibility = single-diff flip of `status: closed → active` here + `INITIATIVE_REGISTRY.csv` row + new `D-IH-78-REOPEN` decision.
+
 ## Cross-references
 
 - [`decision-log.md`](decision-log.md)
+- [`reports/2026-05-19-closure.md`](reports/2026-05-19-closure.md) (closure report + 3 executive calls)
 - [`71-cicd-discipline-and-aiops-baseline-maturity/master-roadmap.md`](../71-cicd-discipline-and-aiops-baseline-maturity/master-roadmap.md) § Tier 2 forward-charter
 - [`scripts/validate_brand_voice_register.py`](../../../scripts/validate_brand_voice_register.py)
+- [`akos/brand_voice_judge.py`](../../../akos/brand_voice_judge.py) (P1 chassis)
+- [`scripts/judge_brand_voice.py`](../../../scripts/judge_brand_voice.py) (P1 CLI runbook)
+- [`docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/judge-pack.yml`](../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/_validators/judge-pack.yml) (operator-editable pack)

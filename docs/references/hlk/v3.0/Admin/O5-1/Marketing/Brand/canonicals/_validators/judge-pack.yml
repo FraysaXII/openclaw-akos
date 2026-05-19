@@ -1,0 +1,78 @@
+# Brand-voice LLM-as-judge — operator-editable pack (I78 P1).
+#
+# Authored I78 P1 Wave H lane-1 (2026-05-19). Consumed by
+# `scripts/judge_brand_voice.py` via
+# `akos.brand_voice_judge.BrandVoiceJudgeConfig.model_validate`. Sister surface
+# to `register-pack.yml` (I71 P1 Pack A1 — deterministic regex floor); this
+# pack governs the advisory semantic layer.
+#
+# Edit-then-PR: any change to this file requires operator approval (Brand &
+# Narrative Manager). Document the override rationale in the PR description.
+#
+# Schema authority: `akos.brand_voice_judge.BrandVoiceJudgeConfig`.
+# Schema-validation runs at CLI startup; pack/schema drift fails fast.
+#
+# Cross-references:
+#   - .cursor/rules/akos-brand-baseline-reality.mdc (dual-register contract;
+#     enforces audience-class → canonical-set mapping at the judge layer).
+#   - .cursor/rules/akos-executable-process-catalog.mdc RULE 1 (paired SOP +
+#     runbook discipline; judge_brand_voice.py is the runbook).
+#   - docs/wip/planning/78-brand-voice-llm-as-judge/master-roadmap.md
+#   - docs/wip/planning/_candidates/i78-brand-voice-llm-judge.md (deep scaffold).
+
+pack_version: "v0.1.0"
+last_edited: "2026-05-19"
+last_edited_by: "Brand & Narrative Manager"
+
+# Master enable flag for the judge layer. When false, scripts/judge_brand_voice.py
+# CLI still loads + the chassis stays importable, but the release-gate INFO
+# advisory step becomes a no-op. Default: true (the chassis is offline-safe
+# under the mock provider).
+enabled: true
+
+# Provider defaults per C-78-1 (multi-provider rotation; Anthropic = default
+# when live). P1+P2 only wire `mock`; concrete API providers
+# (anthropic / openai / deepseek-r1-local / ollama) are framework scaffolds
+# that raise NotImplementedError today — wiring is forward-chartered to the
+# strict-mode-promotion follow-up initiative.
+default_provider: "mock"
+
+# Mode default per C-78-7 + Strand B. `soft` = INFO-only; never blocks.
+# Promotion to `strict` is gated on Strand C bias-audit completion +
+# D-IH-78-PROMOTE explicit operator ratify (forward-chartered).
+default_mode: "soft"
+
+# Hard cost ceiling per C-78-2 (€50/month default; circuit-breaker fires when
+# exceeded). Cost tracking landed in akos/brand_voice_judge.JudgeVerdict.cost_eur;
+# aggregation surface lives at the strict-mode-promotion follow-up.
+cost_ceiling_eur_month: 50
+
+# Cache directory per C-78-3 (aggressive caching: SHA256(prose + audience_class
+# + provider + prompt_version + locale + canonical_paths)). Cache lives in
+# repo-relative `.akos-cache/judge/` and is gitignored.
+cache_dir: ".akos-cache/judge"
+
+# Per C-78-7 default: judge fires only on prose Pack A1 passed (avoids
+# redundant runs on regex-caught violations). Operator may override per-spot
+# via `--judge-all-surfaces` flag.
+run_after_pack_a1_only: true
+
+# Bias categories that stay opt-out of strict mode until Strand C audit
+# completes per category. Empty here = no opt-outs yet (Strand C deferred);
+# operators add category names ("position" / "verbosity" / "self_preference"
+# / "authority") as audit rows accumulate.
+per_bias_category_strict_optout: []
+
+# Prompt-version registry per C-78-6 (full invalidation on bump). Empty here
+# means the chassis default `v1.0.0` applies. When real prompts get authored
+# under the strict-mode-promotion follow-up, populate entries shaped per
+# akos.brand_voice_judge.JudgePromptVersion.
+prompt_versions: []
+
+notes: |
+  P1 stub — operator-tunable surface for the brand-voice LLM-as-judge
+  advisory layer. The pack stays at the safe defaults until the strict-mode-
+  promotion follow-up initiative activates (gated on Strand C bias-audit
+  cadence + D-IH-78-PROMOTE ratify). Until then, the only live path is the
+  mock provider used by the release-gate INFO self-test + the tests under
+  `tests/test_brand_voice_judge.py`.
