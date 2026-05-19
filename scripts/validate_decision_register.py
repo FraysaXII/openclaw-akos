@@ -3,10 +3,14 @@
 
 Schema enforcement:
 - Required header matches DECISION_REGISTER_FIELDNAMES.
-- decision_id matches the standard ^D-IH-\\d{1,3}-[A-Z]{1,2}(-[A-Z]{1,2})?(-V\\d+)?$ pattern (single-
-  letter A-Z OR double-letter AA-ZZ; the latter was added in the 2026-05-11 release-gate
-  hygiene pass after I66 minted decisions U..AD without the regex tolerating AA-AD) OR
-  the closure-decision pattern ^D-IH-\\d{1,3}-Decision-P\\d+(-[A-Z0-9-]+)?-\\d{4}-\\d{2}-\\d{2}$.
+- decision_id matches the standard ^D-IH-\\d{1,3}-[A-Z][A-Z0-9]{0,7}(-[A-Z]{1,2})?(-V\\d+)?$ pattern
+  (single letter A-Z; double letter AA-ZZ; descriptive alphanumeric W3CNORM-style
+  suffix up to 8 chars; multi-segment letter-suffix D-IH-86-RH-A..H; V-suffix versions)
+  OR the closure-decision pattern ^D-IH-\\d{1,3}-Decision-P\\d+(-[A-Z0-9-]+)?-\\d{4}-\\d{2}-\\d{2}$.
+  Lineage: (a) 2026-05-11 release-gate hygiene pass widened single→double letter for
+  I66 D-IH-66-U..AD; (b) Lane D Wave H 2026-05-19 widened to accept multi-segment
+  D-IH-86-RH-A..H; (c) Wave H closure commit 2026-05-19 (D-IH-86-W3CNORM) widened
+  first segment from [A-Z]{1,2} to [A-Z][A-Z0-9]{0,7} for descriptive workflow-norm IDs.
 - initiating_initiative_id FK to INITIATIVE_REGISTRY.csv.
 - linked_initiative_ids / linked_ops_action_ids / linked_policies / linked_topic_ids FK
   to their respective registries (semicolon lists; nullable).
@@ -46,7 +50,7 @@ OPS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" 
 POLICY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "POLICY_REGISTER.csv"
 TOPIC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"
 
-DECISION_ID_STANDARD_RE = re.compile(r"^D-IH-\d{1,3}-[A-Z]{1,2}(-[A-Z]{1,2})?(-V\d+)?$")
+DECISION_ID_STANDARD_RE = re.compile(r"^D-IH-\d{1,3}-[A-Z][A-Z0-9]{0,7}(-[A-Z]{1,2})?(-V\d+)?$")
 DECISION_ID_CLOSURE_RE = re.compile(r"^D-IH-\d{1,3}-Decision-P\d+(-[A-Z0-9-]+)?-\d{4}-\d{2}-\d{2}$")
 DECISION_ID_INITIATIVE_CLOSURE_RE = re.compile(r"^D-IH-\d{1,3}-CLOSURE(-[A-Z0-9-]+)?$")
 DECISION_ID_OPS_RE = re.compile(r"^D-IH-OPS-\d{1,3}$")

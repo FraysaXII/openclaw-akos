@@ -217,7 +217,9 @@ flowchart TB
 
 **Inline-ratify gates planned**
 
-- 3 gates: I76 P1 entry (I11 consolidation framing), I76 P3 entry (I13 + I17 consolidation framing), I78 P1 → closure transition.
+- 3 gates: I76 P1 entry (**I17** consolidation framing), I76 P3 entry (**I11** consolidation framing), I78 P1 → closure transition.[^wave-h-i13-correction]
+
+[^wave-h-i13-correction]: **Correction 2026-05-19** (operator scratchpad L60; landed in Wave H closure commit alongside D-IH-86-W3CNORM): the prior draft claimed Wave H fires `I17+I11+I13` consolidations. The correct mapping is **Wave H fires I17 (P1 entry) + I11 (P3 entry); I13 fires at I76 P4 = Wave I scope** per scope-overlap-tracker [`i11-i13-i17-scope-overlap-tracker.md`](../_trackers/i11-i13-i17-scope-overlap-tracker.md) phase-binding table. I13 is therefore folded into Wave I's pause-point inventory (P-I.1 MANDATORY canonical-CSV at I76 P4 absorbs the I13 consolidation framing), not Wave H's. Cross-ref: [`reports/2026-05-19-wave-h-closure.md`](../reports/2026-05-19-wave-h-closure.md) §5 Forward signals to Wave I.
 
 **Self-checkpoint count**
 

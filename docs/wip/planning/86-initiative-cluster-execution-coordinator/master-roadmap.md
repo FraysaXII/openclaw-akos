@@ -149,6 +149,26 @@ Operator hand-back batch (folds into surface-ratify-batch-final per the I86 todo
 
 Bundle D push closes 5 of the 10 cluster siblings; remaining 3 active (I81 + I82 + I76) plus 3 candidates (I74 + I75 + I83) tracked via blocker-trackers. See [`reports/uat-killer-dossier-2026-05-19.md`](reports/uat-killer-dossier-2026-05-19.md) §5 for the full Wave A-D summary.
 
+### 1.6 Wave H closure (2026-05-19; 5 lanes ratified across W3-C INLINE-STREAMING cadence)
+
+**Wave H closure (2026-05-19):** All 5 lanes committed (`5e90dd4` → `aa72d0a` → `735a1c5` → `d38c8e4` → `dbe9365`). **23 decisions ratified** (9× D-IH-76-E..M + 5× D-IH-86-AB/AC/AD/AE/AF + 8× D-IH-86-RH-A..H + 1× D-IH-86-W3CNORM minted at closure commit). See [`reports/2026-05-19-wave-h-closure.md`](reports/2026-05-19-wave-h-closure.md) for full lane-by-lane closure.
+
+| Aggregate | Count | Detail |
+|:---|:---|:---|
+| Lanes committed | **5** | Lane A persistence + Lane C personality/voice + Lane E canonical-enrichment-freshness + Lane D Research-Head discipline + Lane F application governance |
+| Files touched | **~44** | 5 new canonicals + 3 new SOPs + 4 new Pydantic chassis + 4 new/extended validators + 1 new cursor rule + 1 skill extension + 1 new runbook + register / CHANGELOG / files-modified appends |
+| Decisions ratified | **23** | 9 (I76 P3: D-IH-76-E..M) + 5 (cross-cutting governance: D-IH-86-AB/AC/AD/AE/AF) + 8 (Research-Head: D-IH-86-RH-A..H) + 1 (W3-C norm: D-IH-86-W3CNORM) |
+| New SOPs minted | **3** | SOP-TECH_MADEIRA_PERSONALITY_001 + SOP-TECH_APPLICATION_GOVERNANCE_001 + RESEARCH_HEAD_DISCIPLINE.md (People canonical meta-discipline shape) |
+| New People canonicals | **1** | RESEARCH_HEAD_DISCIPLINE.md (5-pillar Holistika-fit ResearchOps reduction + §6 Backfill protocol + §7 anti-patterns) |
+| New cursor rules | **1** | `.cursor/rules/akos-applied-research-discipline.mdc` (always-applied) |
+| Skill extensions | **1** | `inline-ratify-craft/SKILL.md` Principle 1.5 (research-sweep when novel) |
+| New validators wired into release-gate | **4** | validate_madeira_persistence_vehicle + extended madeira_personality_check + validate_canonical_enrichment_freshness + extended validate_repository_registry --strict-app-class |
+| New tests | **150+** | 55 voice + 38 freshness + 36 inventory + 28 personality + Lane A integration |
+| Inline-ratify gates handled | **7** | Density ~1 per 25-30min execution time; zero operator pauses; **operator promoted W3-C INLINE-STREAMING to Wave I+ norm** at scratchpad L55 → formalised as D-IH-86-W3CNORM |
+| Hard FAILs encountered | **0** | All validator pre-existing gates remained green throughout |
+
+**Doctrine moves crystallised**: (1) W3-C INLINE-STREAMING cadence is the Wave I+ default; (2) canonical-enrichment freshness now mechanically gated (3d/30d/90d staleness); (3) applied-research-as-Holistika-competitive-advantage codified as always-applied cursor rule + People canonical; (4) application governance now mechanically inventoried (55 repos × 12 governance-metadata cols × paired SOP+runbook+quarterly cadence); (5) MADEIRA `memory_class` enum (working/episodic/semantic/procedural/archival) established as I76 P4+ foundation. Cluster status unchanged structurally — 5 closed (I79 + I80 + I84 + I85 + I87); 3 active engineering surfaces (I76 mid-P3→P4 next wave + I81 + I82); 3 candidate-blocker-tracker (I74 + I75 + I83); I78 P1 closure deferred to Wave I scope per cluster-burndown-plan.md.
+
 ## 2. Architecture — cluster coordinator (diagram 1 of 3)
 
 ```mermaid
