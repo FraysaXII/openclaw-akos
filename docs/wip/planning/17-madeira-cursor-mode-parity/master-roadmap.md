@@ -1,12 +1,14 @@
 ---
 language: en
-status: active
+status: closed
 initiative_id: INIT-OPENCLAW_AKOS-17
-last_review: 2026-04-15
+last_review: 2026-05-19
+closed_at: 2026-05-19
+closure_decision_id: D-IH-17-CLOSURE
 ---
 # Initiative 17 — MADEIRA Cursor mode parity (Ask / Plan / Run)
 
-**Status:** execution in progress  
+**Status:** **closed 2026-05-19** at I76 P1 closure per per-deliverable triage (D-IH-76-B → D-IH-17-CLOSURE). Substrate distributed: 6 deliverables merged into [I76 P1 MADEIRA_MODE_PARITY.md](../../../references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/canonicals/MADEIRA_MODE_PARITY.md) §2 substrate-inheritance section; 2 forward-chartered (pytest+log-watcher to I68 P3; executor_harness to I78); 2 decommissioned (3-mode `/madeira/control` UI + swarm overlay docs). 5-mode taxonomy (Ask + Plan + Agent + Debug + Methodology) supersedes 3-mode (Ask + Plan + Run). See [I17 per-deliverable triage](../76-madeira-elevation/reports/i17-deliverable-triage-2026-05-19.md) for the substrate-handling map.  
 **Authoritative Cursor plan (out-of-repo):** `C:\Users\Shadow\.cursor\plans\madeira_unified_cursor_parity_b436652c.plan.md` (do not edit from automation)  
 **Optional git mirror:** [`reference/CURSOR_PLAN_POINTER.md`](reference/CURSOR_PLAN_POINTER.md) · **Eval fusion mirror:** [`reference/MADEIRA_AGENTIC_EVAL_FUSION.md`](reference/MADEIRA_AGENTIC_EVAL_FUSION.md)
 

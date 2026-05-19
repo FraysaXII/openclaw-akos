@@ -66,7 +66,7 @@ The tracker defers three ratify gates to specific I76 phases. Each gate is an in
 
 **Default if not ratified before P1 entry.** Option B (merge); the agent carries forward I17 deliverables as P1 input and explicitly cites them in the new SOPs.
 
-**Status.** Open; awaits I76 P1 entry.
+**Status.** **Ratified 2026-05-19 — Option E (per-deliverable triage; novel framing).** See [`docs/wip/planning/76-madeira-elevation/reports/i17-deliverable-triage-2026-05-19.md`](../76-madeira-elevation/reports/i17-deliverable-triage-2026-05-19.md). Triage classifies 10 I17 deliverables: 6 substrate-worthy (merge into I76 P1 input); 2 obsolete (decommission 3-mode UI + swarm overlays); 2 forward-charter (pytest+log-watcher to I68 P3; executor_harness to I78). I17 INITIATIVE_REGISTRY row flips `active` → `closed` at I76 P1 closure with `D-IH-17-CLOSURE`.
 
 ### 3.2 I11 consolidation gate (fires at I76 P3 entry)
 
@@ -81,7 +81,7 @@ The tracker defers three ratify gates to specific I76 phases. Each gate is an in
 
 **Default if not ratified before P3 entry.** Option C (remain parallel); the safest default given I11's ops-copilot scope may legitimately exceed I76 P3's mode-shape scope.
 
-**Status.** Open; awaits I76 P3 entry.
+**Status.** **Ratified 2026-05-19 — Option E (criterion-now-defer-decision-to-evidence; novel framing).** See [`docs/wip/planning/76-madeira-elevation/reports/i11-consolidation-criterion-2026-05-19.md`](../76-madeira-elevation/reports/i11-consolidation-criterion-2026-05-19.md). Criterion: coverage = (I11 use-cases addressed by I76 P1+P3 SOPs) / (12 inventoried use-cases). Threshold 70% MERGE / 40-70 PARALLEL / < 40% FORWARD-CHARTER-TO-I76b ; tie at boundary = inline-ratify. Pre-measurement at this ratification: 67% (8 of 12) projects **PARALLEL** auto-decision when I76 P3 entry fires. Final measurement uses actual SOP §Scope coverage at P3 entry.
 
 ### 3.3 I13 consolidation gate (fires at I76 P4 entry)
 
