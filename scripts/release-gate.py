@@ -303,16 +303,46 @@ def run_audience_tags_validation() -> tuple[bool, int]:
 
 
 def run_external_render_trail_validation() -> tuple[bool, int]:
-    """Run external-render trail drift gate (I86 Wave E / D-IH-86-P).
+    """Run external-render trail drift gate (I86 Wave E / D-IH-86-P + Wave F closure / D-IH-86-Q).
 
-    Exit code 0 PASS, 1 FAIL. INFO-mode by default; promotes to FAIL via
-    --strict flag or AKOS_RENDER_TRAIL_STRICT=1 env, once the
-    external-render-pending-tracker.md reaches zero entries and operator
-    ratifies the closure decision row.
+    Exit code 0 PASS, 1 FAIL. Promoted from INFO advisory to FAIL blocking on
+    2026-05-19 (D-IH-86-Q) once the external-render-pending-tracker.md reached
+    zero entries and the strict + strict-freshness modes both PASS. Now runs
+    with --strict (every external surface must carry a render trail) +
+    --strict-freshness (manifest source_sha256 must match current source sha).
+
+    Demotion procedures (soft via env, hard via revert) per the paired
+    runbook ``SOP-EXTERNAL_RENDER_GATE_PROMOTION_001`` section 6.
     """
-    logger.info("Running EXTERNAL-RENDER trail validation (I86 Wave E / D-IH-86-P) ...")
+    logger.info("Running EXTERNAL-RENDER trail validation (I86 Wave E + Wave F / D-IH-86-P + D-IH-86-Q; --strict --strict-freshness) ...")
     result = proc.run(
-        [sys.executable, str(SCRIPTS_DIR / "validate_external_render_trail.py")],
+        [sys.executable, str(SCRIPTS_DIR / "validate_external_render_trail.py"), "--strict", "--strict-freshness"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
+def run_locale_orthography_validation() -> tuple[bool, int]:
+    """Run locale-orthography drift gate (I86 Wave F / B1 ratify 2026-05-19).
+
+    Sister validator to ``run_external_render_trail_validation`` — gates the
+    *orthographic quality* (diacritics, cedillas, smart quotes) of language-
+    tagged source markdown, where the trail validator gates the *existence*
+    of an external-render artifact.
+
+    Exit code 0 PASS, 1 FAIL. INFO-mode by default per operator B1 ratify
+    (strict modes per locale via ``--strict-es`` / ``--strict-fr`` /
+    ``--strict-en`` flags or ``AKOS_LOCALE_ORTHOGRAPHY_STRICT=1`` env).
+    Per-locale promotion timing: ES + FR ready for strict promotion at Wave
+    F closure (0 hits today). EN strict-promotion deferred to a follow-up
+    wave pending UAT triage of 68 straight-quote findings (deck-visual-system
+    + legal-constitutor-handoff per Wave F UAT report).
+    """
+    logger.info("Running LOCALE-ORTHOGRAPHY validation (I86 Wave F / B1 ratify) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_locale_orthography.py")],
         timeout=30,
         capture=False,
     )
@@ -883,8 +913,14 @@ def main() -> None:
 
     render_trail_ok, render_trail_rc = run_external_render_trail_validation()
     results.append((
+        "FAIL" if not render_trail_ok else "PASS",
+        f"External-render trail (scripts/validate_external_render_trail.py --strict --strict-freshness - audience-class to render-format matrix + sha256 freshness; promoted INFO -> FAIL 2026-05-19 via D-IH-86-Q after render-pending-tracker reached zero entries; I86 Wave E / D-IH-86-P + Wave F / D-IH-86-Q; ok={'yes' if render_trail_ok else 'no'}; exit={render_trail_rc})",
+    ))
+
+    orthography_ok, orthography_rc = run_locale_orthography_validation()
+    results.append((
         "INFO",
-        f"External-render trail (scripts/validate_external_render_trail.py - audience-class to render-format matrix; advisory until external-render-pending-tracker.md reaches zero entries; I86 Wave E / D-IH-86-P; ok={'yes' if render_trail_ok else 'no'}; exit={render_trail_rc})",
+        f"Locale orthography (scripts/validate_locale_orthography.py - ES/FR/EN word-list + smart-quote anti-patterns over language-tagged surfaces; advisory default per operator B1 ratify; per-locale strict via --strict-es/--strict-fr/--strict-en or AKOS_LOCALE_ORTHOGRAPHY_STRICT=1; I86 Wave F; ok={'yes' if orthography_ok else 'no'}; exit={orthography_rc})",
     ))
 
     initiative_anchors_ok, initiative_anchors_rc = run_initiative_program_anchors_validation()

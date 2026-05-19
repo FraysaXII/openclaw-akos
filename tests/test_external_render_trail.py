@@ -346,3 +346,131 @@ def test_external_audience_in_pending_tracker_strict_passes(
     monkeypatch.setattr(drift, "EXPORTS_DIR", tmp_path / "exports")
     drift._MANIFEST_INDEX_CACHE = {}
     assert drift.validate(strict=True) == 0
+
+
+# ---- Section 8: channel-touchpoint FK-resolution (Wave F / RULE 7 / D-IH-86-P) ----
+
+
+@pytest.mark.brand
+def test_extract_channel_single_string() -> None:
+    text = "---\naudience: J-IN\nchannel: CHAN-EMAIL-OUTBOUND\n---\n\n# Body\n"
+    assert drift._extract_channel(text) == ["CHAN-EMAIL-OUTBOUND"]
+
+
+@pytest.mark.brand
+def test_extract_channel_list_inline() -> None:
+    text = "---\naudience: J-IN\nchannel: [CHAN-EMAIL-OUTBOUND, CHAN-LINKEDIN-DM]\n---\n\n# Body\n"
+    assert drift._extract_channel(text) == ["CHAN-EMAIL-OUTBOUND", "CHAN-LINKEDIN-DM"]
+
+
+@pytest.mark.brand
+def test_extract_channel_no_field_returns_none() -> None:
+    text = "---\naudience: J-IN\n---\n\n# Body\n"
+    assert drift._extract_channel(text) is None
+
+
+@pytest.mark.brand
+def test_extract_channel_no_frontmatter_returns_none() -> None:
+    text = "# No frontmatter\n"
+    assert drift._extract_channel(text) is None
+
+
+@pytest.mark.brand
+def test_channel_registry_loads_canonical_codes() -> None:
+    """The canonical CHANNEL_TOUCHPOINT_REGISTRY.csv is FK-resolvable."""
+    drift._CHANNEL_CODES_CACHE = None
+    codes = drift._channel_codes()
+    assert "CHAN-LINKEDIN-DM" in codes
+    assert "CHAN-EMAIL-INBOUND" in codes
+    assert "CHAN-WEB-FORM" in codes
+
+
+@pytest.mark.brand
+def test_known_channel_advisory_no_op(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Surface declaring a known CHAN- code passes (FK-resolves)."""
+    drift._CHANNEL_CODES_CACHE = None
+    fake_file = tmp_path / "cover_email_es.md"
+    fake_file.write_text(
+        textwrap.dedent(
+            """\
+            ---
+            audience: [J-IN]
+            channel: CHAN-EMAIL-OUTBOUND
+            ---
+
+            # Investor cover body
+            """
+        ),
+        encoding="utf-8",
+    )
+    paired_html = tmp_path / "cover_email_es.html"
+    paired_html.write_text("<html></html>", encoding="utf-8")
+    monkeypatch.setattr(drift, "_iter_target_files", lambda: [fake_file])
+    monkeypatch.setattr(drift, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(drift, "EXPORTS_DIR", tmp_path / "exports")
+    drift._MANIFEST_INDEX_CACHE = {}
+    assert drift.validate(strict=True) == 0
+
+
+@pytest.mark.brand
+def test_unknown_channel_logs_info_does_not_fail(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture,
+) -> None:
+    """Surface declaring an UN-registered CHAN- code surfaces INFO; never FAILs."""
+    drift._CHANNEL_CODES_CACHE = None
+    fake_file = tmp_path / "cover_email_es.md"
+    fake_file.write_text(
+        textwrap.dedent(
+            """\
+            ---
+            audience: [J-IN]
+            channel: CHAN-UNKNOWN-FUTURE-PATH
+            ---
+
+            # Investor cover body
+            """
+        ),
+        encoding="utf-8",
+    )
+    paired_html = tmp_path / "cover_email_es.html"
+    paired_html.write_text("<html></html>", encoding="utf-8")
+    monkeypatch.setattr(drift, "_iter_target_files", lambda: [fake_file])
+    monkeypatch.setattr(drift, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(drift, "EXPORTS_DIR", tmp_path / "exports")
+    drift._MANIFEST_INDEX_CACHE = {}
+    import logging as _logging
+    with caplog.at_level(_logging.INFO):
+        result = drift.validate(strict=True)
+    assert result == 0
+    info_messages = [r.getMessage() for r in caplog.records if r.levelno == _logging.INFO]
+    assert any("channel FK-unresolved" in m and "CHAN-UNKNOWN-FUTURE-PATH" in m for m in info_messages)
+
+
+@pytest.mark.brand
+def test_absent_channel_no_finding(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Surface WITHOUT channel: frontmatter is unaffected (Wave F backfill posture)."""
+    drift._CHANNEL_CODES_CACHE = None
+    fake_file = tmp_path / "cover_email_es.md"
+    fake_file.write_text(
+        textwrap.dedent(
+            """\
+            ---
+            audience: [J-IN]
+            ---
+
+            # Investor cover body
+            """
+        ),
+        encoding="utf-8",
+    )
+    paired_html = tmp_path / "cover_email_es.html"
+    paired_html.write_text("<html></html>", encoding="utf-8")
+    monkeypatch.setattr(drift, "_iter_target_files", lambda: [fake_file])
+    monkeypatch.setattr(drift, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(drift, "EXPORTS_DIR", tmp_path / "exports")
+    drift._MANIFEST_INDEX_CACHE = {}
+    assert drift.validate(strict=True) == 0

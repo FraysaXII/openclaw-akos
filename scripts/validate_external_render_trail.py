@@ -1,6 +1,11 @@
 """Validate external-render trail per audience-class matrix (D-IH-86-P).
 
-Per `akos-external-render-discipline.mdc` RULE 4 + RULE 6.
+Per `akos-external-render-discipline.mdc` RULE 4 + RULE 6 + RULE 7.
+
+Paired SOP (per `akos-executable-process-catalog.mdc` Rule 1): see
+`docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-EXTERNAL_RENDER_GATE_PROMOTION_001.md`
+for the operator-facing runbook (when to promote/demote; pre-flight checks;
+verification matrix; rollback path). This script IS the paired runbook.
 
 For every markdown surface under the rule's globs that carries an external
 audience tag (J-IN / J-CU / J-PT / J-AD / J-ENISA / J-RC / J-CO), this
@@ -62,6 +67,13 @@ REGISTRY_PATH = (
     / "AUDIENCE_REGISTRY.csv"
 )
 
+CHANNEL_REGISTRY_PATH = (
+    REPO_ROOT
+    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1"
+    / "People" / "Compliance" / "canonicals" / "dimensions"
+    / "CHANNEL_TOUCHPOINT_REGISTRY.csv"
+)
+
 PENDING_TRACKER_PATH = (
     REPO_ROOT
     / "docs" / "wip" / "planning" / "_trackers"
@@ -106,6 +118,8 @@ FRONTMATTER_PATTERN = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 AUDIENCE_FIELD_PATTERN = re.compile(r"^audience\s*:\s*(.+?)$", re.MULTILINE)
 AUDIENCE_LIST_INLINE = re.compile(r"^\s*\[(.+?)\]\s*$")
 AUDIENCE_CODE_PATTERN = re.compile(r"J-[A-Z]{2,8}")
+CHANNEL_FIELD_PATTERN = re.compile(r"^channel\s*:\s*(.+?)$", re.MULTILINE)
+CHANNEL_CODE_PATTERN = re.compile(r"CHAN-[A-Z0-9-]+")
 ARTIFACT_KIND_PATTERN = re.compile(r"^artifact_kind\s*:\s*(.+?)$", re.MULTILINE)
 URL_PATTERN = re.compile(r"https?://[^\s<>\"'`]+", re.IGNORECASE)
 UUID_PATTERN = re.compile(
@@ -130,6 +144,34 @@ def _load_valid_audience_codes() -> set[str]:
     return codes
 
 
+def _load_valid_channel_codes() -> set[str]:
+    """Load CHANNEL_TOUCHPOINT_REGISTRY.csv `channel_id` column (RULE 7).
+
+    Returns empty set on missing-registry (advisory only; absence does not
+    block CI). Cached at process scope via the module-level cache below.
+    """
+    codes: set[str] = set()
+    if not CHANNEL_REGISTRY_PATH.exists():
+        return codes
+    with CHANNEL_REGISTRY_PATH.open("r", encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            code = (row.get("channel_id") or "").strip()
+            if code:
+                codes.add(code)
+    return codes
+
+
+_CHANNEL_CODES_CACHE: set[str] | None = None
+
+
+def _channel_codes() -> set[str]:
+    global _CHANNEL_CODES_CACHE
+    if _CHANNEL_CODES_CACHE is None:
+        _CHANNEL_CODES_CACHE = _load_valid_channel_codes()
+    return _CHANNEL_CODES_CACHE
+
+
 def _should_skip(path: Path) -> bool:
     rel = path.as_posix()
     return any(pattern.search(rel) for pattern in SKIP_PATTERNS)
@@ -151,6 +193,31 @@ def _extract_audience(text: str) -> list[str] | None:
     if raw_value.startswith("J-"):
         return [raw_value.split()[0]]
     return AUDIENCE_CODE_PATTERN.findall(raw_value) or None
+
+
+def _extract_channel(text: str) -> list[str] | None:
+    """Extract optional `channel:` frontmatter (RULE 7; INFO-only).
+
+    Returns the list of channel codes declared in frontmatter, or None when
+    frontmatter or the `channel:` field is absent. Absence is not a finding —
+    channel tagging is optional in Wave F; the validator only FK-resolves
+    declared codes against ``CHANNEL_TOUCHPOINT_REGISTRY.csv``.
+    """
+    match = FRONTMATTER_PATTERN.match(text)
+    if not match:
+        return None
+    frontmatter = match.group(1)
+    channel_match = CHANNEL_FIELD_PATTERN.search(frontmatter)
+    if not channel_match:
+        return None
+    raw_value = channel_match.group(1).strip()
+    list_match = AUDIENCE_LIST_INLINE.match(raw_value)
+    if list_match:
+        codes = [c.strip() for c in list_match.group(1).split(",")]
+        return [c for c in codes if c]
+    if raw_value.startswith("CHAN-"):
+        return [raw_value.split()[0]]
+    return CHANNEL_CODE_PATTERN.findall(raw_value) or None
 
 
 def _is_template_surface(text: str) -> bool:
@@ -424,11 +491,15 @@ def validate(strict: bool = False, strict_freshness: bool = False) -> int:
         logger.error("FAIL: AUDIENCE_REGISTRY.csv unreadable or empty")
         return 1
 
+    valid_channel_codes = _channel_codes()
+
     files_scanned = 0
     files_external = 0
     files_with_trail = 0
     files_pending = 0
     files_stale = 0
+    files_with_channel = 0
+    unknown_channels: list[tuple[str, list[str]]] = []
     missing_trail: list[tuple[str, list[str]]] = []
     stale_renders: list[tuple[str, list[tuple[str, str, str]]]] = []
 
@@ -453,6 +524,15 @@ def validate(strict: bool = False, strict_freshness: bool = False) -> int:
 
         files_external += 1
         rel_path = path.relative_to(REPO_ROOT).as_posix()
+
+        channels = _extract_channel(text)
+        if channels is not None:
+            files_with_channel += 1
+            if valid_channel_codes:
+                unknown = [c for c in channels if c not in valid_channel_codes]
+                if unknown:
+                    unknown_channels.append((rel_path, unknown))
+
         has_trail, satisfied = _has_render_trail(path)
 
         if has_trail:
@@ -493,9 +573,17 @@ def validate(strict: bool = False, strict_freshness: bool = False) -> int:
                     current[:12],
                 )
 
+    if unknown_channels:
+        for rel_path, channels in unknown_channels:
+            logger.info(
+                "channel FK-unresolved (INFO; RULE 7 advisory): %s declared channel(s) %s not in CHANNEL_TOUCHPOINT_REGISTRY.csv — register the code or correct the frontmatter",
+                rel_path,
+                channels,
+            )
+
     summary_level = logger.error if is_fail else logger.info
     summary_level(
-        "%s: validate_external_render_trail — scanned %d ; external-tagged %d ; with trail %d ; pending tracker %d ; missing trail %d ; stale renders %d (strict=%s ; strict_freshness=%s)",
+        "%s: validate_external_render_trail — scanned %d ; external-tagged %d ; with trail %d ; pending tracker %d ; missing trail %d ; stale renders %d ; with channel-tag %d ; unknown channel codes %d (strict=%s ; strict_freshness=%s)",
         "FAIL" if is_fail else "PASS",
         files_scanned,
         files_external,
@@ -503,6 +591,8 @@ def validate(strict: bool = False, strict_freshness: bool = False) -> int:
         files_pending,
         len(missing_trail),
         files_stale,
+        files_with_channel,
+        len(unknown_channels),
         is_strict,
         is_strict_freshness,
     )

@@ -4,21 +4,27 @@ classification: governance-shape
 intellectual_kind: render-pending-tracker
 authority: Brand Manager + System Owner (joint)
 artifact_role: durable
-ratifying_decisions: [D-IH-86-P]
+ratifying_decisions: [D-IH-86-P, D-IH-86-Q]
 parent_rule: .cursor/rules/akos-external-render-discipline.mdc
 parent_skill: .cursor/skills/external-render-craft/SKILL.md
+paired_runbook: docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-EXTERNAL_RENDER_GATE_PROMOTION_001.md
 language: en
 last_review: 2026-05-19
 audience: J-OP
+gate_state: strict
+gate_promoted_at: 2026-05-19
+gate_promoted_by: D-IH-86-Q
 ---
 
 # External-Render Pending Tracker
+
+> **GATE STATE — STRICT (2026-05-19).** The render-trail validator was promoted from INFO advisory to FAIL blocking on 2026-05-19 via **D-IH-86-Q** (Wave F doctrine closure). The validator now runs with `--strict --strict-freshness` in both [`config/verification-profiles.json`](../../../../config/verification-profiles.json) (`validate_external_render_trail` step) and [`scripts/release-gate.py`](../../../../scripts/release-gate.py) (`run_external_render_trail_validation`). Any new external-tagged surface authored after this date must co-mint a render trail OR file a tracker entry below. Demotion procedures (soft via `AKOS_RENDER_TRAIL_NO_STRICT=1` env or hard via argv revert) are documented in the paired runbook [`SOP-EXTERNAL_RENDER_GATE_PROMOTION_001`](../../../references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/canonicals/SOP-EXTERNAL_RENDER_GATE_PROMOTION_001.md) §6.
 
 **Purpose** — Durable governance shape (per `akos-external-render-discipline.mdc` RULE 6) that tracks every external-facing markdown surface known to the workspace that lacks a paired render artifact (PDF / Web / ERP / Mail / Slide / Broadcast). Same shape as the blocker-tracker pattern from Wave A (D-IH-86-O / `akos-conflict-surfacing-and-blocker-trackers.mdc`).
 
 **Why this exists** — When a surface tagged for an external audience cannot be rendered today (missing tooling, incomplete content, deferred to next initiative), the agent **must NOT silently degrade** by attaching the markdown. Instead, the agent files a tracker entry here. This makes the gap durable and visible; it is the difference between "we know this is render-pending" (governed) and "we forgot about this surface" (drift).
 
-**Drift gate ramp** — While this tracker has > 0 entries, [`scripts/validate_external_render_trail.py`](../../../../scripts/validate_external_render_trail.py) runs at INFO. Once entries reach zero AND operator ratifies a closure decision row, the validator promotes to FAIL on every release-gate run. Same posture pattern as `validate_brand_baseline_reality_drift.py` (INFO at I66 P2 → FAIL at I66 P7).
+**Drift gate ramp** — Originally ran at INFO while this tracker had > 0 entries. Promoted to FAIL on 2026-05-19 via D-IH-86-Q closure decision after the tracker reached zero entries AND the strict + strict-freshness modes both passed at the closure commit. Same posture pattern as `validate_brand_baseline_reality_drift.py` (INFO at I66 P2 → FAIL at I66 P7).
 
 ## Tracker entries
 

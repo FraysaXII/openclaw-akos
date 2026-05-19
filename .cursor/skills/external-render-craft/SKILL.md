@@ -19,6 +19,49 @@ Load (read) this skill before any of the following moves:
 - Triaging an entry in the [external-render-pending-tracker](../../../docs/wip/planning/_trackers/external-render-pending-tracker.md).
 - Reviewing or amending [`AUDIENCE_REGISTRY.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv) when the change implies a new render path.
 
+## Surface 0 — Audience × Channel × Language × Objective lookup (run BEFORE picking a surface)
+
+Per [`akos-external-render-discipline.mdc`](../../rules/akos-external-render-discipline.mdc) RULE 7 (Wave F, 2026-05-19), every external surface answers three questions, not two. Surface 0 is the lookup procedure that runs *before* you pick which of the six render surfaces (1–6 below) to author. Skipping Surface 0 is how surfaces end up technically rendered but tonally / strategically mis-aimed — the right format reaches the right audience through the wrong channel in the wrong language for the wrong objective.
+
+### The 4-question pre-flight
+
+Run these four questions in order. Each question's answer narrows the surface-picker space for the next.
+
+1. **Audience — who is the recipient?** Look up the audience-class tag (J-IN / J-CU / J-PT / J-AD / J-ENISA / J-RC / J-CO / J-OP) from [`AUDIENCE_REGISTRY.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv). RULE 2's audience-class matrix tells you which subset of the six surfaces is acceptable. J-ENISA narrows immediately to `pdf` (mandatory). J-OP exempts the surface entirely from render-trail enforcement — operator-internal markdown is fine.
+2. **Channel — through what inbound / outbound path is the surface reaching them?** Look up the channel code from [`CHANNEL_TOUCHPOINT_REGISTRY.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv). Examples: CHAN-EMAIL-OUTBOUND (you initiate); CHAN-EMAIL-INBOUND (they initiated; you respond); CHAN-LINKEDIN-DM (live conversational); CHAN-WEB-FORM (they submitted a form); CHAN-CAL-SCHEDULE (they booked a slot); CHAN-EVENT-MEETING (in-person / video). Channel narrows surface differently than audience: a J-IN reached via CHAN-EMAIL-OUTBOUND wants a `pdf` (sealed deck) plus a `mail` body (cover); the same J-IN reached via CHAN-EVENT-MEETING wants a `slide` (live-pitch deck) plus a `pdf` (leave-behind). Record the chosen channel in the surface's `channel:` frontmatter for downstream auditability (Wave F validator FK-resolves the value INFO-only).
+3. **Language — which BRAND_<LANG>_PATTERNS contract governs the prose?** Look up the audience's working language (or fall back to the project default per [`BRAND_MULTILINGUAL_CONTRACT.md`](../../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_MULTILINGUAL_CONTRACT.md)). Set `language:` frontmatter (es / fr / en or locale variant). Language gates the orthography validator + the per-locale brand-voice register pack. A Spanish J-IN wants BRAND_SPANISH_PATTERNS-aligned prose; a French J-ENISA wants BRAND_FRENCH_PATTERNS + cybersécurité-discipline vocabulary; an English J-CO wants BRAND_ENGLISH_PATTERNS + smart-quote discipline.
+4. **Objective — what concrete decision / action does the recipient walk away with?** This is the question the discipline most often skips. Examples: "investor agrees to a 30-minute follow-up call"; "regulator marks dossier as compliant"; "advisor signs the NDA"; "customer requests a SOW". Write the objective in one sentence in the surface's frontmatter (`objective:` field — informal; not yet validator-gated). This is the test against which `change_summary` + `notes` columns in `files-modified.csv` get written when the surface lands.
+
+### Surface-picker decision tree (after Surface 0)
+
+```text
+Audience answers narrow the format set per RULE 2 matrix.
+   ↓
+Channel answers select WHICH formats from that set actually fit.
+   ↓
+Language answers gate the orthography + voice-register quality.
+   ↓
+Objective answers gate the prose-craft (every sentence earns its place).
+   ↓
+NOW pick the surface(s) below (Surfaces 1-6) and author.
+```
+
+### Two-surface composition is normal
+
+Most engagement-grade external touches compose at least two surfaces:
+- **Investor outbound (CHAN-EMAIL-OUTBOUND, J-IN, es/en/fr):** `mail` (cover body) + `pdf` (sealed deck attachment) → see Surface 4 (Mail) + Surface 1 (PDF).
+- **ENISA regulator filing (CHAN-EMAIL-OUTBOUND, J-ENISA, es):** `mail` (cover body) + `pdf` (sealed dossier with sha256 manifest) → see Surface 4 + Surface 1.
+- **Adviser pre-NDA (CHAN-EMAIL-OUTBOUND, J-AD, es/en):** `mail` (cover body) + `pdf` (engagement brief; redacted to AL3) → see Surface 4 + Surface 1.
+- **Founder bio publish (CHAN-AD-CAMPAIGN, J-CU / J-RC, en):** `web` (canonical page on holistikaresearch.com) + `broadcast` (shared link in adverts) → see Surface 2 (Web) + Surface 6 (Broadcast).
+
+Per the Surface 0 contract, don't go to Surface 1 without first answering the four questions. The render trail will validate either way; the *taste* will only land if Surface 0 was honoured.
+
+### Surface 0 anti-patterns (skip → render anyway → operator catches the mis-aim later)
+
+- **Picking PDF for an audience that wanted `mail` (or vice versa).** A J-CU SME prospect reading on mobile prefers a `mail` body to a 12-page PDF attachment. A J-ENISA reviewer requires a sealed PDF — a mail body is non-compliant.
+- **Picking the right format but in the wrong language.** A French J-AD adviser reading English copy parses you as "default-English company"; a Spanish J-IN reading auto-translated English copy parses you as "no Spanish-native authoring discipline". Both undermine the trust the surface is supposed to build.
+- **Picking the right format + language but with no objective in the operator's head.** The surface lands; the recipient reads; nothing happens. The surface satisfied the render trail without satisfying the engagement objective.
+
 ## Surface 1 — `pdf` (Portable Document Format)
 
 The default external-delivery surface for sealed dossiers, briefs, and one-pagers. Mandatory for J-ENISA (regulator integrity claim).

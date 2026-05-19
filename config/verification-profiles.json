@@ -65,8 +65,13 @@
         },
         {
           "id": "validate_external_render_trail",
-          "description": "I86 Wave E (D-IH-86-P, 2026-05-19): External-render discipline drift gate. Scans external-tagged surfaces under _assets/advops/**, _assets/touchpoint-kit/**, Think Big/Advisers/**, Marketing/Brand/** for paired render artifacts (PDF/Web/ERP/Mail/Slide/Broadcast). Audience-class to render-format matrix per akos-external-render-discipline.mdc RULE 2. Runs at INFO via release-gate flow until external-render-pending-tracker.md reaches zero entries; then promotes to FAIL via AKOS_RENDER_TRAIL_STRICT=1 env or --strict flag. Template surfaces (artifact_kind: deck_template) and J-OP-only surfaces are exempt.",
-          "argv": ["scripts/validate_external_render_trail.py"]
+          "description": "I86 Wave E (D-IH-86-P, 2026-05-19) + Wave F closure (D-IH-86-Q, 2026-05-19): External-render discipline drift gate. Scans external-tagged surfaces under _assets/advops/**, _assets/touchpoint-kit/**, Think Big/Advisers/**, Marketing/Brand/** for paired render artifacts (PDF/Web/ERP/Mail/Slide/Broadcast). Audience-class to render-format matrix per akos-external-render-discipline.mdc RULE 2. Promoted INFO -> FAIL on 2026-05-19 (D-IH-86-Q) once render-pending-tracker.md reached zero entries; now runs with --strict (require trail for every external surface) + --strict-freshness (source_sha256 must match current sha). Template surfaces (artifact_kind: deck_template) and J-OP-only surfaces are exempt. Demotion procedure (soft/hard) per SOP-EXTERNAL_RENDER_GATE_PROMOTION_001 section 6.",
+          "argv": ["scripts/validate_external_render_trail.py", "--strict", "--strict-freshness"]
+        },
+        {
+          "id": "validate_locale_orthography",
+          "description": "I86 Wave F (D-IH-86-P sibling + operator B1 ratify, 2026-05-19): Locale-orthography drift gate over external-tagged + language-tagged surfaces under _assets/advops/**, _assets/touchpoint-kit/**, Think Big/Advisers/**. Word-list anti-pattern catalogue per locale (ES diacritic/tilde; FR diacritic/cedilla; EN smart-quote threshold) in akos/orthography.py; SSOT for the rules cites BRAND_<LANG>_PATTERNS.md. Default INFO advisory; per-locale promotion via --strict-es / --strict-fr / --strict-en or env AKOS_LOCALE_ORTHOGRAPHY_STRICT=1. Language-untagged surfaces are no-op (skip).",
+          "argv": ["scripts/validate_locale_orthography.py"]
         }
       ]
     },

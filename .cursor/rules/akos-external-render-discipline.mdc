@@ -100,6 +100,42 @@ Operator ratified `full-backfill` at the rule-mint ratify gate (2026-05-19). Thi
 - **Bounded scope of "every":** the inventory is taken once at rule-mint commit; surfaces that don't yet have audience tags are inventoried + tagged + render-traced in the same pass. New surfaces created after 2026-05-19 fall under the forward-only rule (co-mint render trail).
 - **Render-pending tracker** ([`docs/wip/planning/_trackers/external-render-pending-tracker.md`](../../docs/wip/planning/_trackers/external-render-pending-tracker.md)) is the durable record of any surface that the rule-mint commit + follow-ups did not reach render parity for. Each tracker row carries: surface path; audience tags; reason for pending; remediation owner; ETA. The tracker is the governance shape for "we tried; here's what's left."
 - **Drift gate INFO→FAIL ramp.** While the tracker has > 0 rows, the validator runs at INFO. Once the tracker reaches zero (operator confirms in a closure decision row), the validator flips to FAIL on every release-gate run. This is the same posture pattern as `validate_brand_baseline_reality_drift.py` (INFO at I66 P2 → FAIL at I66 P7).
+- **Gate flipped to FAIL on 2026-05-19** via **D-IH-86-Q** (Wave F doctrine closure). At promotion commit: render-pending tracker had zero entries, `--strict --strict-freshness` modes both PASS, all 6 external surfaces had valid manifests with current `source_sha256`. The validator now runs with `--strict --strict-freshness` in [`config/verification-profiles.json`](../../config/verification-profiles.json) (`validate_external_render_trail` step) + [`scripts/release-gate.py`](../../scripts/release-gate.py) (`run_external_render_trail_validation`). Demotion procedure (soft or hard) is documented in the paired runbook [`SOP-EXTERNAL_RENDER_GATE_PROMOTION_001`](../../docs/references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/canonicals/SOP-EXTERNAL_RENDER_GATE_PROMOTION_001.md) §6.
+
+## RULE 7 — Channel-touchpoint cross-reference axis (advisory; codified at Wave F, 2026-05-19)
+
+The discipline so far has named two axes: **audience** (who) + **format** (how it lands). Operator feedback at the Wave F second axis-2 ratify gate (2026-05-19) named a third axis the doctrine had not surfaced: **channel** (through which inbound / outbound channel the rendered surface reaches the recipient). This rule codifies the channel-touchpoint axis at advisory tier — it is an *enabling* layer for picking the right render-format for an audience-channel pair, not a new blocking gate.
+
+### The 3-axis framing (audience × channel × format)
+
+A given external surface answers three questions, not two:
+
+1. **Audience (who?)** — answered by the `audience:` frontmatter tag, FK-resolved against [`AUDIENCE_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv) per RULE 2 (J-IN / J-CU / J-PT / J-AD / J-ENISA / J-RC / J-CO).
+2. **Channel (through what inbound/outbound path?)** — optionally answered by a new `channel:` frontmatter tag, FK-resolved against [`CHANNEL_TOUCHPOINT_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv) (CHAN-LINKEDIN-DM / CHAN-EMAIL-INBOUND / CHAN-EMAIL-OUTBOUND / CHAN-WEB-FORM / CHAN-CAL-SCHEDULE / CHAN-EVENT-MEETING / CHAN-AD-CAMPAIGN / etc.). When absent, the validator no-ops (channel is optional metadata; absence is not a finding).
+3. **Format (in what surface shape?)** — answered by which render heuristic the surface satisfies per RULE 4 (PDF / Web / ERP / Mail / Slide / Broadcast).
+
+### Channel × format compatibility (non-binding guidance)
+
+Channel codes are inbound/outbound *paths*; render formats are the *shape* of the rendered surface. The mapping is many-to-many — same render format can serve multiple channels, same channel can carry multiple formats. The intent of recording channel metadata is to make audience-channel-format reasoning **legible** to the operator + agent, not to mechanically enforce a tight binding.
+
+| Channel code | Typical formats | Notes |
+|:---|:---|:---|
+| CHAN-EMAIL-OUTBOUND / CHAN-EMAIL-INBOUND | `mail` (body) + optionally `pdf` (attachment) | Cover email body is `mail` surface; attached dossier is `pdf` surface. Two surfaces, one channel. |
+| CHAN-WEB-FORM | `web` (intake page) + `mail` (auto-acknowledge) | Form-on-site is `web`; the auto-ack reply is `mail`. |
+| CHAN-LINKEDIN-DM / CHAN-LINKEDIN-POST-RESPONSE | (no 6-surface mapping) | Live conversational channel; rendered surfaces are typically external follow-ups (PDF / Web / Slide) not the DM itself. |
+| CHAN-CAL-SCHEDULE | `erp` (Cal.com record) + `mail` (calendar invite) | Cal.com is an ERP-class portal; the invite body is `mail`. |
+| CHAN-EVENT-MEETING | (no 6-surface mapping) | Live audio/video; render trails live in pre-meeting (PDF/Slide) + post-meeting (PDF/Mail) surfaces. |
+| CHAN-AD-CAMPAIGN | `web` (landing page) + `broadcast` (shared link) | Ad-driven traffic to a landing page is `web`; the ad creative itself is `broadcast`. |
+
+This table is **non-exhaustive and non-binding**. Future operator + agent reasoning may legitimately pair channels and formats differently — record the pairing in `channel:` + render-trail, and let the audit trail accumulate. The skill section `Surface 0` (in [`external-render-craft/SKILL.md`](../skills/external-render-craft/SKILL.md)) provides a worked-example lookup procedure.
+
+### Drift gate behaviour
+
+[`scripts/validate_external_render_trail.py`](../../scripts/validate_external_render_trail.py) at Wave F extends with an **INFO-only** channel-resolution sub-check: when a surface declares `channel:`, the validator FK-resolves the value against `CHANNEL_TOUCHPOINT_REGISTRY.csv` and emits an INFO finding if the code is unknown. Unknown codes never block CI — they surface as advisory hints for the operator to inventory + register. Channel-absent surfaces are unaffected; this rule does not retroactively require channel tagging.
+
+### Why advisory at Wave F
+
+Mandating channel tagging today would create a backfill burden on every existing external-tagged surface (the ~6 rendered artifacts that satisfy Wave E + the surfaces added since). Per the Option 5 default posture in [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc), the right move is to surface the axis as advisory + let the channel tag accumulate organically on newly authored surfaces, then promote to mandatory in a follow-up wave once the inventory is meaningful. A successor initiative or wave may flip channel from optional-INFO to required-FAIL when (a) operator is ready to backfill, AND (b) the channel-format pairing table proves stable across actual engagement patterns.
 
 ## Cross-references
 
@@ -109,6 +145,8 @@ Operator ratified `full-backfill` at the rule-mint ratify gate (2026-05-19). Thi
 - [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc) — render-pending-tracker is the same shape as blocker-tracker.
 - [`akos-mirror-template.mdc`](akos-mirror-template.mdc) — external-repo prose hygiene (BBR jargon list); this rule adds the rendering layer.
 - [`AUDIENCE_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv) — the FK source for audience tags.
+- [`CHANNEL_TOUCHPOINT_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv) — the FK source for channel tags (RULE 7 third axis).
+- [`scripts/validate_locale_orthography.py`](../../scripts/validate_locale_orthography.py) — sibling validator gating *orthographic quality* of language-tagged source markdown (Wave F Strand 3a; ES + FR + EN word-list anti-patterns + EN smart-quote threshold).
 - [`.cursor/skills/external-render-craft/SKILL.md`](../skills/external-render-craft/SKILL.md) — the *how* layer paired with this *when* rule.
 - [`scripts/validate_external_render_trail.py`](../../scripts/validate_external_render_trail.py) — the drift gate.
 - [`docs/wip/planning/_trackers/external-render-pending-tracker.md`](../../docs/wip/planning/_trackers/external-render-pending-tracker.md) — the render-pending governance shape.
@@ -116,4 +154,5 @@ Operator ratified `full-backfill` at the rule-mint ratify gate (2026-05-19). Thi
 - D-IH-86-P in `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv`.
 
 @docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv
+@docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv
 @docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_BASELINE_REALITY_MATRIX.md
