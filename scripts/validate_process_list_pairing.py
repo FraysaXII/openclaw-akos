@@ -53,6 +53,8 @@ def _runbook_discoverable(item_id: str) -> bool:
     candidates.extend(sorted(SCRIPTS_DIR.glob("peopl_agentic*.py")))
     candidates.extend(sorted(SCRIPTS_DIR.glob("tech_agentic*.py")))
     candidates.extend(sorted(SCRIPTS_DIR.glob("peopl_cross_area*.py")))
+    # I86 Wave H Lane F (D-IH-86-AE) — app governance runbook glob.
+    candidates.extend(sorted(SCRIPTS_DIR.glob("inventory_github*.py")))
     for p in candidates:
         if not p.exists():
             continue
@@ -146,7 +148,7 @@ def main() -> int:
             print(f"    ... and {len(warnings) - 10} more (truncated)")
     if errors:
         print()
-        print(f"  ERRORS:")
+        print("  ERRORS:")
         for e in errors:
             print(f"    - {e}")
         print("  FAIL")
