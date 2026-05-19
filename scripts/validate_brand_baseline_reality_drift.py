@@ -33,6 +33,13 @@ The internal-register token list is parsed from
 BRAND_BASELINE_REALITY_MATRIX.md §3 ("Translation rules") at run time, so the
 validator does not drift from canon: edit the canonical and re-run.
 
+Per the I76 P3 Lane 3 refactor (2026-05-19): the scan helpers
+(``InternalToken``, ``BaselineHit``, ``scan_text``, ``load_canonical_tokens``)
+moved from this script into :mod:`akos.brand_baseline_reality` so the same
+scanner powers ``scripts/madeira_personality_check.py`` (Madeira's per-output
+self-policing call surface). This script is now a thin CLI shim around the
+shared module — argv + exit codes + log output are unchanged.
+
 Usage::
 
     py scripts/validate_brand_baseline_reality_drift.py
@@ -51,32 +58,39 @@ from __future__ import annotations
 
 import argparse
 import logging
-import re
 import sys
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from akos.brand_baseline_reality import (
+    BaselineHit,
+    InternalToken,
+    MATRIX_PATH,
+    load_canonical_tokens,
+    scan_text,
+)
+from akos.brand_baseline_reality import (
+    _build_token_patterns,
+    _extract_internal_tokens_from_matrix,
+)
 from akos.io import REPO_ROOT
 from akos.log import setup_logging
 
-logger = logging.getLogger("akos.brand_baseline_reality")
+__all__ = [
+    "BaselineHit",
+    "InternalToken",
+    "MATRIX_PATH",
+    "load_canonical_tokens",
+    "scan_text",
+    "_build_token_patterns",
+    "_extract_internal_tokens_from_matrix",
+    "_scan_text",
+    "main",
+]
 
-CANON_DIR = (
-    REPO_ROOT
-    / "docs"
-    / "references"
-    / "hlk"
-    / "v3.0"
-    / "Admin"
-    / "O5-1"
-    / "Marketing"
-    / "Brand"
-    / "canonicals"
-)
-MATRIX_PATH = CANON_DIR / "BRAND_BASELINE_REALITY_MATRIX.md"
+logger = logging.getLogger("akos.brand_baseline_reality")
 
 ADVOPS_DIR = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "_assets" / "advops"
 
@@ -84,131 +98,34 @@ DEFAULT_CONSUMER_ROOTS = (REPO_ROOT.parent / "root_cd" / "boilerplate",)
 
 EXEMPT_FILE_SUFFIXES = (".objections.md", ".counterparty-brief.md")
 
-DEFAULT_INTERNAL_TOKENS = (
-    "counterparty",
-    "elicitation",
-    "reliability grading",
-    "intelligence collection",
-    "intelligence report",
-    "approach techniques",
-    "baseline reality assessment",
-    "PRJ-HOL-",
-)
-
-
-@dataclass(frozen=True)
-class InternalToken:
-    token: str
-    pattern: re.Pattern[str]
-
-
-def _build_token_patterns(tokens: Iterable[str]) -> list[InternalToken]:
-    return [
-        InternalToken(token=t, pattern=re.compile(rf"\b{re.escape(t)}\b", re.IGNORECASE))
-        for t in tokens
-    ]
-
-
-def _extract_internal_tokens_from_matrix(path: Path) -> list[InternalToken]:
-    """Best-effort parse of BRAND_BASELINE_REALITY_MATRIX.md §3 for the internal
-    token list. Falls back to ``DEFAULT_INTERNAL_TOKENS`` if the section can't
-    be located (so the validator never silently weakens)."""
-    if not path.exists():
-        return _build_token_patterns(DEFAULT_INTERNAL_TOKENS)
-    text = path.read_text(encoding="utf-8")
-
-    section = re.search(
-        r"^## 3\.\s*Translation rules.*?\n(.*?)(?=^## 4\.|^## 5\.)",
-        text,
-        re.DOTALL | re.MULTILINE,
-    )
-    if not section:
-        return _build_token_patterns(DEFAULT_INTERNAL_TOKENS)
-
-    extracted: set[str] = set()
-    for match in re.finditer(r"^\|\s*Internal[^|]*\|\s*([^|]+)\|", section.group(1), re.MULTILINE):
-        cell = match.group(1).strip()
-        for raw in re.findall(r"`([^`]+)`", cell):
-            tok = raw.strip().strip(",")
-            if tok and len(tok) >= 4 and tok.lower() not in {"internal", "external"}:
-                extracted.add(tok)
-
-    if not extracted:
-        return _build_token_patterns(DEFAULT_INTERNAL_TOKENS)
-
-    merged = sorted(extracted | set(DEFAULT_INTERNAL_TOKENS), key=lambda s: (-len(s), s))
-    return _build_token_patterns(merged)
-
-
-@dataclass
-class BaselineHit:
-    file: Path
-    line: int
-    token: InternalToken
-    snippet: str
-
-
-def _line_number(text: str, offset: int) -> int:
-    return text.count("\n", 0, offset) + 1
-
 
 def _is_exempt(path: Path) -> bool:
     name = path.name.lower()
     return any(name.endswith(suf) for suf in EXEMPT_FILE_SUFFIXES)
 
 
-_FRONTMATTER_RE = re.compile(r"^---\s*\n.*?\n---\s*\n", re.DOTALL)
+def _scan_path(path: Path, tokens: list[InternalToken]) -> list[BaselineHit]:
+    """Read ``path`` and scan it via ``akos.brand_baseline_reality.scan_text``.
 
-
-def _strip_frontmatter_for_scan(path: Path, text: str) -> str:
-    """For markdown files, replace the frontmatter region with whitespace before
-    scanning for internal-register tokens. Frontmatter is operator metadata
-    (program_id, plane, sources, role_owner, etc.) — never rendered to the external
-    reader. Per D-IH-89-H (2026-05-18) operator metadata may carry internal tokens
-    (e.g., `program_id: PRJ-HOL-FOUNDING-2026`) without violating BBR; only the body
-    prose that ships to advisers / regulators must hold the external register.
-
-    Replaces with whitespace (rather than removing) so line numbers in error reports
-    still match the original file.
+    Honours the validator-local exemption rule (``EXEMPT_FILE_SUFFIXES``) and
+    the markdown / mermaid frontmatter strip rule.
     """
-    if path.suffix.lower() not in {".md", ".mmd"}:
-        return text
-    match = _FRONTMATTER_RE.match(text)
-    if not match:
-        return text
-    span = match.group(0)
-    # Replace non-newline chars with space; preserve newlines for line-number fidelity
-    blanked = re.sub(r"[^\n]", " ", span)
-    return blanked + text[len(span):]
-
-
-def _scan_text(path: Path, tokens: list[InternalToken]) -> list[BaselineHit]:
     if _is_exempt(path):
         return []
     try:
         text = path.read_text(encoding="utf-8", errors="replace")
     except OSError:
         return []
+    strip_frontmatter = path.suffix.lower() in {".md", ".mmd"}
+    return scan_text(
+        text,
+        tokens=tokens,
+        strip_frontmatter=strip_frontmatter,
+        file=path,
+    )
 
-    scan_text = _strip_frontmatter_for_scan(path, text)
 
-    hits: list[BaselineHit] = []
-    for tok in tokens:
-        for match in tok.pattern.finditer(scan_text):
-            ln = _line_number(scan_text, match.start())
-            line_start = scan_text.rfind("\n", 0, match.start()) + 1
-            line_end = scan_text.find("\n", match.end())
-            if line_end < 0:
-                line_end = len(scan_text)
-            hits.append(
-                BaselineHit(
-                    file=path,
-                    line=ln,
-                    token=tok,
-                    snippet=scan_text[line_start:line_end].strip()[:140],
-                )
-            )
-    return hits
+_scan_text = _scan_path
 
 
 def _scan_advops_decks_and_dossiers(tokens: list[InternalToken]) -> list[BaselineHit]:
@@ -230,7 +147,7 @@ def _scan_advops_decks_and_dossiers(tokens: list[InternalToken]) -> list[Baselin
     ):
         for path in ADVOPS_DIR.glob(pattern):
             if path.is_file():
-                hits.extend(_scan_text(path, tokens))
+                hits.extend(_scan_path(path, tokens))
     return hits
 
 
@@ -248,7 +165,7 @@ def _scan_boilerplate(consumer_roots: list[Path], tokens: list[InternalToken]) -
                     continue
                 if any(part in {"node_modules", ".next", ".turbo", "dist"} for part in path.parts):
                     continue
-                hits.extend(_scan_text(path, tokens))
+                hits.extend(_scan_path(path, tokens))
     return hits
 
 
@@ -274,7 +191,7 @@ def main(argv: Iterable[str] | None = None) -> int:
     args = parser.parse_args(list(argv) if argv is not None else None)
     setup_logging(json_output=args.json_log)
 
-    tokens = _extract_internal_tokens_from_matrix(MATRIX_PATH)
+    tokens = load_canonical_tokens(MATRIX_PATH)
     if not tokens:
         logger.error("Could not extract internal-register token list. Refusing to PASS.")
         return 1
@@ -291,9 +208,9 @@ def main(argv: Iterable[str] | None = None) -> int:
     if all_hits:
         for hit in all_hits[:200]:
             try:
-                rel = hit.file.relative_to(REPO_ROOT.parent)
+                rel = hit.file.relative_to(REPO_ROOT.parent) if hit.file else Path("<in-memory>")
             except ValueError:
-                rel = hit.file
+                rel = hit.file if hit.file else Path("<in-memory>")
             logger.error(
                 "%s:%d  internal-register token %r leaked into external surface: %s",
                 rel,
@@ -306,7 +223,7 @@ def main(argv: Iterable[str] | None = None) -> int:
         logger.error(
             "BRAND_BASELINE_REALITY: %d internal-register leakage(s) across %d file(s)",
             len(all_hits),
-            len({h.file for h in all_hits}),
+            len({h.file for h in all_hits if h.file is not None}),
         )
         return 1
 

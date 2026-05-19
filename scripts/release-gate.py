@@ -302,6 +302,40 @@ def run_audience_tags_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_canonical_freshness_validation() -> tuple[bool, int]:
+    """Run canonical-enrichment freshness audit (I86 Wave H Lane E / D-IH-86-AB proposed).
+
+    Operator-ratified 3-tier staleness taxonomy (3d / 30d / 90d) per operator
+    quote 2026-05-19: "Option D but make it 3 days, because we're real fast
+    today. It'll be medium term 30 days then 90 days long term." Scans every
+    v3.0 area canonical under ``docs/references/hlk/v3.0/Admin/O5-1/**/canonicals/**/*.md``
+    for ``last_review_at:`` (preferred) or ``last_review:`` (fallback)
+    frontmatter and categorises into fresh / medium / long-term / stale.
+
+    Runs INFO-only at mint (advisory; ``--exit-code-mode info``) so the gate
+    surfaces enrichment-cadence pressure without blocking CI. Promotion to
+    FAIL is a successor wave decision once long-term + stale rows are
+    triaged via the per-wave-boundary checklist. Paired chassis at
+    ``akos/canonical_freshness.py``; paired SOP
+    ``SOP-TECH_CANONICAL_FRESHNESS_AUDIT_001`` mint pending.
+
+    Exit code 0 PASS (advisory); semantics flip when the gate is promoted.
+    """
+    logger.info("Running CANONICAL-FRESHNESS audit (I86 Wave H Lane E / D-IH-86-AB proposed; 3d/30d/90d tiers; --exit-code-mode info) ...")
+    result = proc.run(
+        [
+            sys.executable,
+            str(SCRIPTS_DIR / "validate_canonical_enrichment_freshness.py"),
+            "--exit-code-mode",
+            "info",
+        ],
+        timeout=60,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_external_render_trail_validation() -> tuple[bool, int]:
     """Run external-render trail drift gate (I86 Wave E / D-IH-86-P + Wave F closure / D-IH-86-Q).
 
@@ -362,6 +396,41 @@ def run_madeira_tool_rbac_validation() -> tuple[bool, int]:
     logger.info("Running MADEIRA tool-RBAC validation (I76 P2 / --strict) ...")
     result = proc.run(
         [sys.executable, str(SCRIPTS_DIR / "validate_madeira_tool_rbac.py"), "--strict"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
+def run_madeira_persistence_vehicle_validation() -> tuple[bool, int]:
+    """Run MADEIRA persistence vehicle validation (I76 P3 / D-IH-76-F).
+
+    Canonical-CSV validator for MADEIRA_PERSISTENCE_VEHICLE_REGISTRY.csv.
+    Enforces header parity (21 cols), per-row Pydantic schema (9 Literal
+    enums covering scope / target_audience / write_authority / read_cadence /
+    staleness_posture / provenance / memory_class / status /
+    methodology_version_at_review; 4 model_validators covering target_audience
+    semicolon-list semantics + topic_ids + depends_on_vehicle_ids pattern +
+    self-FK + staleness_days + staleness_posture alignment), registry-level
+    uniqueness + depends_on_vehicle_ids closure across rows.
+
+    Runs with ``--strict`` so both last_review_decision_id FK against
+    DECISION_REGISTER.csv AND topic_ids FK against TOPIC_REGISTRY.csv miss
+    FAIL the gate (default would be advisory WARN; release gate uses strict
+    to keep the canonical CSV honest).
+
+    Exit code 0 PASS, 1 FAIL, 2 unparseable.
+    """
+    logger.info(
+        "Running MADEIRA persistence vehicle validation (I76 P3 / D-IH-76-F / --strict) ..."
+    )
+    result = proc.run(
+        [
+            sys.executable,
+            str(SCRIPTS_DIR / "validate_madeira_persistence_vehicle.py"),
+            "--strict",
+        ],
         timeout=30,
         capture=False,
     )
@@ -1030,6 +1099,12 @@ def main() -> None:
         f"Locale orthography (scripts/validate_locale_orthography.py --strict-en - EN promoted INFO -> PASS/FAIL on 2026-05-19 via D-IH-86-R after Wave G B-G1 shipped render-step auto-curl + post-curl validator semantics; ES + FR remain advisory; per-locale strict via --strict-es/--strict-fr or AKOS_LOCALE_ORTHOGRAPHY_STRICT=1; I86 Wave F + Wave G B-G1; ok={'yes' if orthography_ok else 'no'}; exit={orthography_rc})",
     ))
 
+    canonical_freshness_ok, canonical_freshness_rc = run_canonical_freshness_validation()
+    results.append((
+        "INFO",
+        f"Canonical-enrichment freshness (scripts/validate_canonical_enrichment_freshness.py --exit-code-mode info - 3-tier staleness 3d/30d/90d per operator ratify 2026-05-19; scans v3.0 Admin/O5-1/**/canonicals/**/*.md for last_review_at: (preferred) or last_review: (fallback); INFO-only at mint, promotion to FAIL gated on successor-wave triage; I86 Wave H Lane E / D-IH-86-AB proposed; ok={'yes' if canonical_freshness_ok else 'no'}; exit={canonical_freshness_rc})",
+    ))
+
     judge_ok, judge_rc = run_brand_voice_judge_self_test()
     results.append((
         "INFO",
@@ -1052,6 +1127,12 @@ def main() -> None:
     results.append((
         "PASS" if madeira_rbac_ok else "FAIL",
         f"MADEIRA tool RBAC (scripts/validate_madeira_tool_rbac.py --strict - I76 P2 canonical-CSV gate; --strict promotes last_review_decision_id FK miss to FAIL; ok={'yes' if madeira_rbac_ok else 'no'}; exit={madeira_rbac_rc})",
+    ))
+
+    madeira_persistence_ok, madeira_persistence_rc = run_madeira_persistence_vehicle_validation()
+    results.append((
+        "PASS" if madeira_persistence_ok else "FAIL",
+        f"MADEIRA persistence vehicle (scripts/validate_madeira_persistence_vehicle.py --strict - I76 P3 canonical-CSV gate D-IH-76-F; 21-col schema with per-vehicle staleness_days + audience matrix; --strict promotes both last_review_decision_id FK + topic_ids FK miss to FAIL; ok={'yes' if madeira_persistence_ok else 'no'}; exit={madeira_persistence_rc})",
     ))
 
     initiative_anchors_ok, initiative_anchors_rc = run_initiative_program_anchors_validation()

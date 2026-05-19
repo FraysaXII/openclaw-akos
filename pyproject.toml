@@ -31,4 +31,6 @@ markers = [
     "brand: marks I71 P1 Pack A1 brand voice register validator + chassis tests (Pydantic models + parsers + 10-layer scan)",
     "openclaw_runtime: marks I87 OpenClaw operator-runtime hardening tests (plugin pinning validator + modelsConfig hygiene + escalation patch)",
     "hlk: marks HLK-canonical-CSV validator and registry tests (process_list / INITIATIVE_REGISTRY / PROGRAM_REGISTRY / DECISION_REGISTER / OPS_REGISTER)",
+    "compliance: marks I76 P3 + cluster sibling compliance / persistence vehicle tests (MADEIRA persistence vehicle registry validator + Pydantic SSOT)",
+    "unit: marks fast unit tests with no IO / network dependencies (I86 Wave H Lane E canonical-freshness chassis + future unit-tier additions)",
 ]

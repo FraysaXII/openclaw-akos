@@ -74,6 +74,11 @@
           "argv": ["scripts/validate_locale_orthography.py", "--strict-en"]
         },
         {
+          "id": "validate_canonical_enrichment_freshness",
+          "description": "I86 Wave H Lane E (D-IH-86-AB proposed; canonical row appended by parent after Lane A + Lane C land, 2026-05-19): canonical-enrichment-freshness drift gate. Operator-ratified 3-tier staleness (3 days short / 30 days medium / 90 days long-term) per operator quote 'Option D but make it 3 days, because we're real fast today'. Scans `docs/references/hlk/v3.0/Admin/O5-1/**/canonicals/**/*.md` for `last_review_at:` (preferred) or `last_review:` (fallback) frontmatter, categorises every surface into fresh / medium / long-term / stale, and emits a per-area summary table to stdout. Paired Pydantic chassis at akos/canonical_freshness.py (FreshnessThresholds + CanonicalFreshnessRow + FreshnessAreaSummary). Paired SOP `SOP-TECH_CANONICAL_FRESHNESS_AUDIT_001` mint pending. Runs INFO-only at mint per the L86 Lane E acceptance contract; promoting to FAIL is a successor wave decision once long-term + stale rows have been triaged via per-wave-boundary checklist.",
+          "argv": ["scripts/validate_canonical_enrichment_freshness.py", "--exit-code-mode", "info"]
+        },
+        {
           "id": "judge_brand_voice_self_test",
           "description": "I78 P2 (D-IH-78-CLOSURE Wave H lane-1, 2026-05-19) — INFO advisory self-test for the brand-voice LLM-as-judge chassis. Exercises akos/brand_voice_judge.py Pydantic models + scripts/judge_brand_voice.py mock provider round-trip (2/2 verdicts: PASS exemplar + FAIL paraphrase exemplar) + cache-key determinism. The judge runs one layer above the deterministic Pack A1 regex floor (validate_brand_voice_register.py) as advisory semantics. Production prose-scanning rollout is gated on Strand C bias-audit cadence + Strand D D-IH-78-PROMOTE ratify, both forward-chartered to a strict-mode-promotion follow-up initiative per I78 cluster-burndown axis-2 pragmatic-closure executive call.",
           "argv": ["scripts/judge_brand_voice.py", "--self-test"]
@@ -92,6 +97,11 @@
           "id": "validate_madeira_tool_rbac",
           "description": "I76 P2 (Wave H 2026-05-19): canonical-CSV validator for MADEIRA_TOOL_RBAC.csv. Enforces header parity, per-row Pydantic schema (tool_id pattern, 3-value per-mode permission enum, conditional_constraint semantics: non-empty when any cell is conditional + empty when none are), tool_id uniqueness across rows. --strict flag promotes last_review_decision_id FK-resolution to FAIL (default: advisory WARN).",
           "argv": ["scripts/validate_madeira_tool_rbac.py", "--strict"]
+        },
+        {
+          "id": "validate_madeira_persistence_vehicle",
+          "description": "I76 P3 (Wave H 2026-05-19; D-IH-76-F): canonical-CSV validator for MADEIRA_PERSISTENCE_VEHICLE_REGISTRY.csv. Enforces header parity (21 cols), per-row Pydantic schema (vehicle_id pattern, 9 Literal enums for scope/audience/write_authority/cadence/posture/provenance/memory_class/status/methodology_version, target_audience semicolon-list with no duplicates, topic_ids + depends_on_vehicle_ids pattern + format, staleness_days+staleness_posture alignment via model_validator catching stale-constraint drift), registry-level uniqueness + depends_on_vehicle_ids closure across rows. --strict flag promotes both last_review_decision_id FK-resolution against DECISION_REGISTER.csv AND topic_ids FK-resolution against TOPIC_REGISTRY.csv to FAIL (default: advisory WARN). 16-row seed at I76 P3 mint (11 active + 4 planned + 1 inactive Cursor memory placeholder).",
+          "argv": ["scripts/validate_madeira_persistence_vehicle.py", "--strict"]
         }
       ]
     },
