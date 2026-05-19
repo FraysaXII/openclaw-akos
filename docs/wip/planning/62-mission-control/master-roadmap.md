@@ -1,19 +1,21 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 62-mission-control
 initiative_id: INIT-OPENCLAW_AKOS-62
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder + System Owner
-last_review: 2026-05-07
+last_review: 2026-05-19
+closed_at: 2026-05-19
+closure_decision_id: D-IH-86-AK
 ---
 
 # Initiative 62 — Mission Control (hlk-erp magnificent ERP)
 
 **Folder:** `docs/wip/planning/62-mission-control/`
-**Status:** **Active** — P0 bootstrapped 2026-05-06.
+**Status:** **CLOSED 2026-05-19** per `D-IH-86-AK` (Wave I L66 Q5=A) — UAT 2026-05-06 + 5/6 SQL views applied = closure evidence; ERP UI mocked-data forward-chartered to `I-NN-MISSION-CONTROL-UI` candidate (separate scope; NOT I62). Originally bootstrapped P0 2026-05-06.
 **Authoritative plan:** `~/.cursor/plans/hlk-erp_mission_control_magnificent_5aa05486.plan.md` (preserved verbatim; this master-roadmap is the canonical workspace mirror).
 **Predecessors:** [I32](../32-holistik-ops-maturation/master-roadmap.md) (ERP handoff bundle 2026-04-30), [I59](../59-hlk-governance-clean-slate/master-roadmap.md) (5 HLK-governed dimensions + status taxonomy + OPERATOR_INBOX).
 
