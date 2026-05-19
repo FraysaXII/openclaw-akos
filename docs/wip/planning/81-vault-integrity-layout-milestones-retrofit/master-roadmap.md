@@ -18,11 +18,13 @@ milestones:
   - id: I81-CHARTER
     phase: P0
     purpose: Charter ratified + canonical CSV rows seeded
-    status: in_progress
+    status: closed
   - id: I81-VAULT-INTEGRITY-BASELINE
     phase: P1
     purpose: Vault integrity + DQ baseline (matrix CSV + audit + KNOWLEDGE_PAIRING gap list)
-    status: planned
+    status: closed
+    closure_decision_id: D-IH-81-K
+    closure_date: 2026-05-19
   - id: I81-LAYOUT-MIGRATION
     phase: P2
     purpose: Initiative 22 forward-layout moves in operator-approved tranches
@@ -78,10 +80,11 @@ The vault has substrate (SOPs + addenda + canonicals + pairing registry + valida
 **Deferred decisions** (close at later phases):
 
 - **D-IH-81-D** — Forward-extension to non-SOP canonicals → P9 closure stub.
-- **D-IH-81-F** — Integrity matrix methodology + PASS threshold → P1 close.
+- ~~**D-IH-81-F** — Integrity matrix methodology + PASS threshold → P1 close.~~ **Ratified at P1 close (2026-05-19; Wave H lane-2)** — 5-signal model + 95% threshold per [`reports/2026-05-19-p1-closure.md`](reports/2026-05-19-p1-closure.md) §2.1; threshold NOT enforced at P1 baseline (CI INFO advisory), strict promotion gated at P9 closure UAT.
 - **D-IH-81-G** — Layout migration wave plan + deprecation-alias policy → P2 close (operator gates per tranche).
 - **D-IH-81-I** — Validator wiring scope + strictness → P3 close.
 - **D-IH-81-J** — Closed-initiative frozen-reference policy → P3 close.
+- **D-IH-81-K (NEW)** — I81 P1 phase ratification (Wave H lane-2 closure; execution class) → ratified at this commit per [`reports/2026-05-19-p1-closure.md`](reports/2026-05-19-p1-closure.md) §1.
 
 ## 3. Phase shape
 

@@ -324,6 +324,35 @@ def run_external_render_trail_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_kb_integrity_audit() -> tuple[bool, int]:
+    """Run KB integrity baseline audit (I81 P1 INFO advisory; D-IH-81-K Wave H lane-2).
+
+    Walks ``process_list.csv`` executable rows (item_granularity in
+    {task, process}) + joins against ``KNOWLEDGE_PAIRING_REGISTRY.csv`` +
+    the v3.0 SOP corpus + cadence column. Emits the matrix CSV + audit
+    narrative under ``docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/``.
+
+    Per I81 master-roadmap §3 P1 deliverable + D-IH-81-F integrity-matrix
+    methodology: the gate runs WITHOUT ``--strict`` so the pass-rate floor
+    is not enforced at P1 baseline (audience_tags_status is deferred for
+    every row pending I85 wire follow-up, pulling pass_rate to ~0% by
+    design). Promotion to ``--strict`` mode lives at I81 P9 closure UAT
+    when pass_rate has been lifted to ≥ 95% by P4-P8 retrofit waves +
+    the I85 audience-tag wire commit.
+
+    Exit code 0 PASS (artifacts emitted; no strict gating today); 1 FAIL
+    (canonical CSV missing); 2 schema error.
+    """
+    logger.info("Running KB-INTEGRITY-AUDIT (I81 P1 INFO advisory; D-IH-81-K Wave H lane-2) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "audit_kb_integrity.py")],
+        timeout=60,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_brand_voice_judge_self_test() -> tuple[bool, int]:
     """Run brand-voice judge chassis self-test (I78 P2 INFO advisory; D-IH-78-CLOSURE Wave H).
 
@@ -960,6 +989,12 @@ def main() -> None:
     results.append((
         "INFO",
         f"Brand-voice judge chassis (scripts/judge_brand_voice.py --self-test - I78 P2 INFO advisory; exercises mock provider round-trip + cache-key determinism; production prose-scanning forward-chartered to strict-mode-promotion follow-up per D-IH-78-CLOSURE axis-2 pragmatic-closure; I86 Wave H lane-1; ok={'yes' if judge_ok else 'no'}; exit={judge_rc})",
+    ))
+
+    kb_integrity_ok, kb_integrity_rc = run_kb_integrity_audit()
+    results.append((
+        "INFO",
+        f"KB integrity baseline (scripts/audit_kb_integrity.py - I81 P1 INFO advisory; emits matrix CSV + narrative under reports/i81/; walks process_list.csv executable rows + joins KNOWLEDGE_PAIRING + v3.0 SOP scan + cadence; ~95%% pass-rate threshold per D-IH-81-F gated at I81 P9 closure UAT not here; I86 Wave H lane-2; ok={'yes' if kb_integrity_ok else 'no'}; exit={kb_integrity_rc})",
     ))
 
     initiative_anchors_ok, initiative_anchors_rc = run_initiative_program_anchors_validation()

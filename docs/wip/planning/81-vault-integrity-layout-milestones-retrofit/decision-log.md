@@ -57,10 +57,51 @@ Cross-reference: [I81 master-roadmap §2](master-roadmap.md#2-charter-decisions-
 
 ## Deferred decisions (close at later phases)
 
-| ID | Question | Owner | Close-out phase |
-|:---|:---|:---|:---|
-| D-IH-81-D | Forward-extension to non-SOP canonicals (registries + doctrines) | People Operations Lead | P9 |
-| D-IH-81-F | Integrity matrix methodology + PASS threshold — what constitutes CLOSED-P1? | PMO + System Owner | P1 |
-| D-IH-81-G | Layout migration wave plan — which root files move in which tranche; deprecation-alias policy | Data Architect + Compliance Officer | P2 (per-tranche) |
-| D-IH-81-I | Validator wiring scope + strictness — `validate_hlk.py` umbrella + `release-gate.py` + `pre_commit` profile + transition-window allowlist | System Owner | P3 |
-| D-IH-81-J | Closed-initiative frozen-reference policy — closed roadmaps never retroactively migrated | PMO | P3 |
+| ID | Question | Owner | Close-out phase | Status |
+|:---|:---|:---|:---|:---|
+| D-IH-81-D | Forward-extension to non-SOP canonicals (registries + doctrines) | People Operations Lead | P9 | open |
+| D-IH-81-F | Integrity matrix methodology + PASS threshold — what constitutes CLOSED-P1? | PMO + System Owner | P1 | **ratified 2026-05-19 at P1 close (Wave H lane-2)** |
+| D-IH-81-G | Layout migration wave plan — which root files move in which tranche; deprecation-alias policy | Data Architect + Compliance Officer | P2 (per-tranche) | open |
+| D-IH-81-I | Validator wiring scope + strictness — `validate_hlk.py` umbrella + `release-gate.py` + `pre_commit` profile + transition-window allowlist | System Owner | P3 | open |
+| D-IH-81-J | Closed-initiative frozen-reference policy — closed roadmaps never retroactively migrated | PMO | P3 | open |
+
+## P1 — ratified 2026-05-19 (Wave H lane-2 subagent stream)
+
+### D-IH-81-F — Integrity matrix methodology + PASS threshold
+
+**Question:** What constitutes the I81 P1 "vault integrity matrix" methodology + PASS threshold per the master-roadmap §3 P1 deliverable + §9 closure criteria?
+
+**Verdict:** **5 coverage signals per executable row, aggregated to a 3-value verdict via deterministic `compute_verdict()`, with a 95% pass-rate threshold gated at I81 P9 closure UAT (NOT at P1 baseline).**
+
+- **Executable predicate**: `item_granularity in {task, process}` per `process_list.csv` (1085 rows in the real corpus today).
+- **5 signals**: `knowledge_pairing_status` (substring scan against KNOWLEDGE_PAIRING_REGISTRY.csv) + `paired_sop_status` (substring scan against v3.0 SOP corpus) + `mirror_coverage_status` (default `covered_by_emit` by construction; future commits can flip individual rows to `mirror_skip`) + `audience_tags_status` (deferred at P1 baseline; forward-charter to I85 wire follow-up) + `cadence_status` (lookup against the 4-value canonical enum per `akos-executable-process-catalog.mdc` RULE 3).
+- **Verdict aggregation**: `pass` when ALL 5 signals in good state; `fail` when `mirror_coverage_status == mirror_skip`; `partial` otherwise.
+- **PASS threshold**: 95% matches I71 + I80 retrofit precedent. Not enforced at P1 baseline (the audit runs as CI INFO advisory); strict-mode promotion gated at I81 P9 closure UAT when pass_rate has been lifted to ≥ 95% by P4-P8 retrofits + the I85 audience-tags wire follow-up commit.
+
+Full rationale + reversibility in [`reports/2026-05-19-p1-closure.md`](reports/2026-05-19-p1-closure.md) §2.1.
+
+### D-IH-81-K — I81 P1 vault-integrity baseline milestone closed
+
+**Question:** Is I81 P1 (milestone `I81-VAULT-INTEGRITY-BASELINE`) ready to close?
+
+**Verdict:** **Yes.** Deliverables landed per master-roadmap §3:
+
+1. [`akos/hlk_kb_integrity.py`](../../../../akos/hlk_kb_integrity.py) — Pydantic chassis (2 models + 3 type aliases + ITEM_ID_RE + path constants; frozen + extra-forbid per `CONTRIBUTING.md`).
+2. [`scripts/audit_kb_integrity.py`](../../../../scripts/audit_kb_integrity.py) — paired runbook per `akos-executable-process-catalog.mdc` RULE 1.
+3. [`reports/i81/kb-integrity-matrix-2026-05-19.csv`](i81/kb-integrity-matrix-2026-05-19.csv) — 1085 executable rows × 12 columns.
+4. [`reports/i81/kb-integrity-audit-2026-05-19.md`](i81/kb-integrity-audit-2026-05-19.md) — 8-section narrative + per-area distribution + top-gap analysis + next-action routing.
+5. [`tests/test_audit_kb_integrity.py`](../../../../tests/test_audit_kb_integrity.py) — 26 tests at `@pytest.mark.hlk`; all PASS in 0.68s including 2 smoke tests against real corpus.
+6. CI wiring (release-gate INFO advisory + verification-profile step).
+7. [`reports/2026-05-19-p1-closure.md`](reports/2026-05-19-p1-closure.md) — closure report with 3 executive calls + reversibility documented per `akos-inline-ratification.mdc` recovery pattern.
+
+I81 itself stays `active` per the absorbed-mode plan; P2-P9 remain open. Cluster sibling count unchanged at 7/13 closed.
+
+**Reversibility:** Single-diff at three sites — (a) milestone frontmatter `status: closed → planned`; (b) revert audit-script commits; (c) mint a new `D-IH-81-REOPEN` decision row. Phase closures are reversible in principle but the underlying artifacts (chassis + audit + matrix + tests) are forward-only and any reopen would be a no-op unless the data sources change materially.
+
+## Executive calls under D-IH-81-K (Wave H lane-2 subagent stream)
+
+The subagent stream cannot post `AskQuestion` to inline-ratify; instead each architectural choice is documented with the 4-line executive-call pattern per [`akos-inline-ratification.mdc`](../../../../.cursor/rules/akos-inline-ratification.mdc) + [`akos-conflict-surfacing-and-blocker-trackers.mdc`](../../../../.cursor/rules/akos-conflict-surfacing-and-blocker-trackers.mdc):
+
+1. **5-signal methodology + 95% threshold (closes D-IH-81-F).** Operator override via heuristic change request or threshold tune. Full trace at [`reports/2026-05-19-p1-closure.md`](reports/2026-05-19-p1-closure.md) §2.1.
+2. **Matrix as report-class, not canonical SSOT.** Operator override via PRECEDENCE row + Supabase mirror request. Full trace §2.2.
+3. **Audience-tags wire forward-chartered to follow-up commit.** Operator override via authoring the join logic in `build_matrix_rows`. Full trace §2.3.
