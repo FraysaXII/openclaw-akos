@@ -53,6 +53,7 @@ from akos.orthography import (  # noqa: E402
     FRONTMATTER_PATTERN,
     OrthographyAntiPattern,
     VALID_LOCALES,
+    apply_smart_quotes,
     extract_language,
     strip_non_prose,
 )
@@ -106,13 +107,27 @@ def _scan_word_list(body: str, patterns: tuple[OrthographyAntiPattern, ...]) -> 
 
 
 def _scan_en_smart_quotes(body: str) -> int:
-    """Count straight double-quote characters in body prose (heuristic).
+    """Count straight double-quote characters that SURVIVE auto-curl (delivery-gate).
 
-    Returns the count; the validator flags when count >= EN_STRAIGHT_QUOTE_THRESHOLD.
+    Wave G Bundle B-G1 (D-IH-86-R, 2026-05-19): gate semantics shifted from
+    "source must be curly" to "delivery surface (after render-step auto-curl)
+    must be curly". The validator runs ``apply_smart_quotes(body, "en")``
+    first, then counts remaining straight double-quotes. Quotes that survive
+    auto-curl are anomalies — unbalanced quotation in prose, or quotes that
+    sit inside protected regions (code / URL / HTML attr) that legitimately
+    stay straight.
+
     Single-quote scanning is deliberately omitted (apostrophe / contraction
-    ambiguity produces too many false positives).
+    ambiguity produces too many false positives). The validator flags when
+    the remaining count >= EN_STRAIGHT_QUOTE_THRESHOLD.
+
+    Rationale per operator stance (2026-05-19 Wave F UAT § 7 closure):
+    *"auto-curl is for rendered outputs, not for hand-authored markdown
+    source-of-truth"* — i.e., the validator should gate the DELIVERY-surface
+    typography, not the source-keystroke convenience.
     """
-    return body.count('"')
+    curled = apply_smart_quotes(body, language="en")
+    return curled.count('"')
 
 
 def _iter_target_files() -> list[Path]:

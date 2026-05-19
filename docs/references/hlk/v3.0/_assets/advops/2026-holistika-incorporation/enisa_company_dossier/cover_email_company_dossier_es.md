@@ -26,6 +26,7 @@ sources:
   - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_VOICE_FOUNDATION.md
   - docs/references/hlk/v3.0/_assets/advops/2026-holistika-incorporation/enisa_company_dossier/deck_story_es.md
 audience: [J-ENISA]
+channel: [CHAN-DIRECT-DM]
 ---
 
 # Cover email — Holistika Research SL company dossier (ES)

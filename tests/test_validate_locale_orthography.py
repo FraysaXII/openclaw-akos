@@ -219,21 +219,38 @@ class TestFrenchAntiPatternScan:
 
 
 class TestEnglishSmartQuoteScan:
-    """EN smart-quote threshold heuristic."""
+    """EN smart-quote threshold heuristic (Wave G B-G1 post-curl semantics; D-IH-86-R).
 
-    def test_below_threshold_clean(self):
+    The validator's EN scan now applies ``apply_smart_quotes(body, "en")``
+    before counting straight double-quotes. Balanced prose quotes survive
+    auto-curl as curly U+201C/U+201D and contribute 0 to the count. Only
+    quotes inside protected regions (code/URL/HTML-attr) or genuinely
+    unbalanced quotation contribute to the count.
+    """
+
+    def test_below_threshold_balanced_prose_post_curls_to_zero(self):
         body = 'A single "quoted" word is fine.'
-        assert validator._scan_en_smart_quotes(body) == 2
+        assert validator._scan_en_smart_quotes(body) == 0
 
-    def test_above_threshold_flags(self):
+    def test_balanced_multi_quote_post_curls_to_zero(self):
         body = '"One" "two" "three" "four" "five"'
-        count = validator._scan_en_smart_quotes(body)
-        assert count == 10
-        assert count >= validator.EN_STRAIGHT_QUOTE_THRESHOLD
+        assert validator._scan_en_smart_quotes(body) == 0
 
-    def test_curly_quotes_not_flagged(self):
+    def test_already_curly_quotes_not_flagged(self):
         body = "Curly \u201cone\u201d and \u201ctwo\u201d and \u201cthree\u201d."
         assert validator._scan_en_smart_quotes(body) == 0
+
+    def test_quotes_inside_protected_html_attr_survive(self):
+        """HTML attribute values legitimately carry straight quotes after auto-curl."""
+        body = '<a href="https://example.com">click</a> <a href="https://example.com">click</a>'
+        count = validator._scan_en_smart_quotes(body)
+        assert count >= 4
+
+    def test_quotes_inside_code_block_survive(self):
+        """Code blocks legitimately carry straight quotes after auto-curl."""
+        body = 'Some prose.\n<pre>let x = "code";\nlet y = "more";\n</pre>'
+        count = validator._scan_en_smart_quotes(body)
+        assert count >= 2
 
 
 class TestValidatorEndToEnd:
@@ -309,6 +326,46 @@ class TestValidatorEndToEnd:
         )
         fr_only = validator.validate(strict_fr=True)
         assert fr_only == 0
+
+    def test_strict_en_clean_surface_passes(self, tmp_path, monkeypatch):
+        """Wave G B-G1: balanced prose curls cleanly; --strict-en passes (D-IH-86-R)."""
+        monkeypatch.setattr(validator, "REPO_ROOT", tmp_path)
+        self._write_advops_surface(
+            tmp_path,
+            "handoff_en.md",
+            "en",
+            'The candidate names are "Holistika Research" and "Holistika Studio". '
+            'Both are "Branded House compatible" per the canonical posture.',
+        )
+        exit_code = validator.validate(strict_en=True)
+        assert exit_code == 0
+
+    def test_strict_en_excessive_protected_quotes_fails(self, tmp_path, monkeypatch):
+        """Post-curl quotes inside HTML attributes trip the threshold under --strict-en."""
+        monkeypatch.setattr(validator, "REPO_ROOT", tmp_path)
+        excessive_attrs = " ".join(
+            f'<a href="https://example.com/{i}">link</a>' for i in range(10)
+        )
+        self._write_advops_surface(
+            tmp_path,
+            "handoff_attr_en.md",
+            "en",
+            f"Prose lead.\n\n{excessive_attrs}\n\nProse trail.",
+        )
+        exit_code = validator.validate(strict_en=True)
+        assert exit_code == 1
+
+    def test_strict_en_does_not_force_es_fr(self, tmp_path, monkeypatch):
+        """--strict-en is per-locale; ES findings remain advisory unless --strict-es."""
+        monkeypatch.setattr(validator, "REPO_ROOT", tmp_path)
+        self._write_advops_surface(
+            tmp_path,
+            "dossier_es.md",
+            "es",
+            "Sin informacion clara.",
+        )
+        exit_code = validator.validate(strict_en=True)
+        assert exit_code == 0
 
     def test_no_language_frontmatter_skipped(self, tmp_path, monkeypatch):
         monkeypatch.setattr(validator, "REPO_ROOT", tmp_path)

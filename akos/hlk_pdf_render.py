@@ -1013,6 +1013,16 @@ def render_pdf_branded(
             language_hint = "en"
     body_html = _friendly_callout_labels_html(body_html, language=language_hint)
 
+    # Wave G Bundle B-G1 (D-IH-86-R, 2026-05-19): render-step auto-curl.
+    # Convert straight ASCII quotes in body_html to locale-correct curly quotes
+    # BEFORE WeasyPrint renders. The helper protects code blocks, HTML tags
+    # (and their attribute values), URLs, and HTML comments — so only prose
+    # quotation marks are curled. Source markdown stays operator-author-friendly
+    # (typing ``"`` is easier than typing ``"``); delivery surface carries
+    # brand-correct typography per BRAND_<LANG>_PATTERNS canonicals.
+    from akos.orthography import apply_smart_quotes  # local import to avoid circular at module load
+    body_html = apply_smart_quotes(body_html, language=language_hint)
+
     cover_html = ""
     footer_div = ""
     body_wrapper_open = '<main class="dossier-body">'

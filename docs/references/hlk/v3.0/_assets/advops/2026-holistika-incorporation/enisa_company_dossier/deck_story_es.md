@@ -24,6 +24,7 @@ sources:
   - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_JARGON_AUDIT.md
 slide_data: "./deck_slides.yaml"
 audience: [J-ENISA]
+channel: [CHAN-DIRECT-DM]
 ---
 
 # Holistika Research — Dossier de Compañía

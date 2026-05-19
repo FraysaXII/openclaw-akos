@@ -325,24 +325,30 @@ def run_external_render_trail_validation() -> tuple[bool, int]:
 
 
 def run_locale_orthography_validation() -> tuple[bool, int]:
-    """Run locale-orthography drift gate (I86 Wave F / B1 ratify 2026-05-19).
+    """Run locale-orthography drift gate (I86 Wave F / Wave G B-G1 / D-IH-86-R).
 
     Sister validator to ``run_external_render_trail_validation`` — gates the
     *orthographic quality* (diacritics, cedillas, smart quotes) of language-
     tagged source markdown, where the trail validator gates the *existence*
     of an external-render artifact.
 
-    Exit code 0 PASS, 1 FAIL. INFO-mode by default per operator B1 ratify
-    (strict modes per locale via ``--strict-es`` / ``--strict-fr`` /
-    ``--strict-en`` flags or ``AKOS_LOCALE_ORTHOGRAPHY_STRICT=1`` env).
-    Per-locale promotion timing: ES + FR ready for strict promotion at Wave
-    F closure (0 hits today). EN strict-promotion deferred to a follow-up
-    wave pending UAT triage of 68 straight-quote findings (deck-visual-system
-    + legal-constitutor-handoff per Wave F UAT report).
+    Wave G Bundle B-G1 closure (D-IH-86-R, 2026-05-19): EN promoted to
+    ``--strict-en`` after the F+1 auto-curl pass + post-curl validator
+    semantics shipped. The EN smart-quote scan now applies
+    ``apply_smart_quotes(body, 'en')`` before counting straight quotes, so
+    the gate reads delivery-surface typography (post-curl) rather than
+    source-keystroke convenience. The 68 EN findings from the Wave F UAT
+    triage (deck-visual-system + legal-constitutor-handoff) drop to 0 under
+    the post-curl semantics. ES + FR remain advisory pending operator
+    ratification of strict promotion. Demotion path: revert to argv without
+    ``--strict-en`` (validator still defaults to INFO on individual hit
+    log-levels; the strict flag gates the exit code only).
+
+    Exit code 0 PASS, 1 FAIL.
     """
-    logger.info("Running LOCALE-ORTHOGRAPHY validation (I86 Wave F / B1 ratify) ...")
+    logger.info("Running LOCALE-ORTHOGRAPHY validation (I86 Wave F + Wave G B-G1 / D-IH-86-R; --strict-en) ...")
     result = proc.run(
-        [sys.executable, str(SCRIPTS_DIR / "validate_locale_orthography.py")],
+        [sys.executable, str(SCRIPTS_DIR / "validate_locale_orthography.py"), "--strict-en"],
         timeout=30,
         capture=False,
     )
@@ -919,8 +925,8 @@ def main() -> None:
 
     orthography_ok, orthography_rc = run_locale_orthography_validation()
     results.append((
-        "INFO",
-        f"Locale orthography (scripts/validate_locale_orthography.py - ES/FR/EN word-list + smart-quote anti-patterns over language-tagged surfaces; advisory default per operator B1 ratify; per-locale strict via --strict-es/--strict-fr/--strict-en or AKOS_LOCALE_ORTHOGRAPHY_STRICT=1; I86 Wave F; ok={'yes' if orthography_ok else 'no'}; exit={orthography_rc})",
+        "PASS" if orthography_ok else "FAIL",
+        f"Locale orthography (scripts/validate_locale_orthography.py --strict-en - EN promoted INFO -> PASS/FAIL on 2026-05-19 via D-IH-86-R after Wave G B-G1 shipped render-step auto-curl + post-curl validator semantics; ES + FR remain advisory; per-locale strict via --strict-es/--strict-fr or AKOS_LOCALE_ORTHOGRAPHY_STRICT=1; I86 Wave F + Wave G B-G1; ok={'yes' if orthography_ok else 'no'}; exit={orthography_rc})",
     ))
 
     initiative_anchors_ok, initiative_anchors_rc = run_initiative_program_anchors_validation()

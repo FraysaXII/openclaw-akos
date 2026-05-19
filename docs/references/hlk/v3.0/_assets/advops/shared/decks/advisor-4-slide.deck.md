@@ -6,6 +6,7 @@ language: en
 register: external
 artifact_kind: deck_template
 audience: [J-AD]
+channel: [CHAN-EVENT-MEETING, CHAN-DIRECT-DM]
 slide_count: 4
 role_owner: Brand Manager
 linked_initiative: I66

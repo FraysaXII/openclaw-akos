@@ -10,6 +10,7 @@ topic_ids:
   - topic_enisa_dossier_es
 parent_topic: topic_enisa_evidence
 language: es
+channel: [CHAN-DIRECT-DM]
 artifact_role: adviser_evidence_appendix
 intellectual_kind: founder_dossier
 authority: Operator (Compliance + Legal Counsel)

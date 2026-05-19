@@ -70,8 +70,8 @@
         },
         {
           "id": "validate_locale_orthography",
-          "description": "I86 Wave F (D-IH-86-P sibling + operator B1 ratify, 2026-05-19): Locale-orthography drift gate over external-tagged + language-tagged surfaces under _assets/advops/**, _assets/touchpoint-kit/**, Think Big/Advisers/**. Word-list anti-pattern catalogue per locale (ES diacritic/tilde; FR diacritic/cedilla; EN smart-quote threshold) in akos/orthography.py; SSOT for the rules cites BRAND_<LANG>_PATTERNS.md. Default INFO advisory; per-locale promotion via --strict-es / --strict-fr / --strict-en or env AKOS_LOCALE_ORTHOGRAPHY_STRICT=1. Language-untagged surfaces are no-op (skip).",
-          "argv": ["scripts/validate_locale_orthography.py"]
+          "description": "I86 Wave F (D-IH-86-P sibling + operator B1 ratify, 2026-05-19) + Wave G Bundle B-G1 closure (D-IH-86-R, 2026-05-19): Locale-orthography drift gate. EN promoted to --strict-en after Wave G B-G1 shipped render-step auto-curl + post-curl validator semantics: the EN smart-quote scan now applies apply_smart_quotes(body, 'en') before counting straight quotes, so the gate reads delivery-surface typography (post-curl) rather than source-keystroke convenience. ES + FR remain advisory pending operator ratification of strict promotion. Word-list catalogue per locale lives in akos/orthography.py (ES diacritic/tilde; FR diacritic/cedilla; EN post-curl threshold). Per-locale promotion: --strict-es / --strict-fr stay opt-in. AKOS_LOCALE_ORTHOGRAPHY_STRICT=1 env enables all-strict. Language-untagged surfaces are no-op (skip).",
+          "argv": ["scripts/validate_locale_orthography.py", "--strict-en"]
         }
       ]
     },

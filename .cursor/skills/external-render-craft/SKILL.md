@@ -246,6 +246,66 @@ For intentionally multicast surfaces — blog posts, press kits, shared deck lin
 
 The distinction matters for audience-tag reasoning: a press-kit page has multiple intended audiences (J-IN + J-PT + J-RC); a deep customer-portal page has one (J-CU).
 
+## Authoring `channel:` frontmatter (forward enhancement F+4 onboarding pattern)
+
+> Codified at Wave G B-G2 (D-IH-86-S; 2026-05-19). Companion section to Surface 0 above; this section is the *authoring craft* — when to add `channel:` to a surface's frontmatter, what registry to draw from, and what the validator does with the value at parse time.
+
+### When to add `channel:`
+
+Add `channel:` frontmatter when authoring or editing any markdown surface that:
+
+1. Carries an external `audience:` tag (J-IN / J-CU / J-PT / J-AD / J-ENISA / J-RC / J-CO); AND
+2. Has a known delivery path you can name (founder's outbound email; a scheduled investor meeting; a paid-ad landing page; etc.); AND
+3. Is **not** a template skeleton (`artifact_kind: deck_template` etc. — those are template canonicals; downstream per-engagement instances copied from the template should carry `channel:`, not the template itself).
+
+When you do **not** know the channel yet — e.g., you're authoring a draft that may go to multiple recipients across different paths — omit `channel:`. Per [`akos-external-render-discipline.mdc`](../../rules/akos-external-render-discipline.mdc) RULE 7, the validator no-ops on absent `channel:` (absence is not a finding). Add the field when delivery is committed.
+
+### What channel codes to use
+
+Pull only from existing canonical codes in [`CHANNEL_TOUCHPOINT_REGISTRY.csv`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv). Do NOT invent local codes per [`akos-mirror-template.mdc`](../../rules/akos-mirror-template.mdc) §"Never invent HLK IDs locally". Current registered set (Wave G B-G2 baseline):
+
+- `CHAN-LINKEDIN-DM`, `CHAN-LINKEDIN-POST-RESPONSE` — LinkedIn-class
+- `CHAN-EMAIL-INBOUND` — inbound to holistika@ shared inbox
+- `CHAN-DIRECT-DM` — bidirectional founder-personal-channel (covers founder's outbound personal email + WhatsApp + SMS)
+- `CHAN-WEB-FORM`, `CHAN-SEARCH-ORGANIC`, `CHAN-AD-CAMPAIGN` — site-class inbound
+- `CHAN-CAL-SCHEDULE` — scheduled-meeting inbound
+- `CHAN-PARTNER-REFERRAL` — bridged inbound
+- `CHAN-EVENT-MEETING` — bidirectional live event / video meeting
+
+When no existing code fits cleanly (e.g., you're authoring a J-ENISA cover email and want `CHAN-EMAIL-OUTBOUND` specifically — not minted as of Wave F), prefer:
+
+1. The closest existing bidirectional code (`CHAN-DIRECT-DM` covers founder-outbound personal email per the registry `notes` column).
+2. Omit `channel:` until the new code is minted via canonical-CSV gate.
+3. **Never** invent a local code. The drift gate reports unknown codes at INFO advisory, but the discipline is to keep the unknown-code counter at 0 — every populated `channel:` field FK-resolves cleanly.
+
+### Multi-channel composition
+
+Compose multiple channels when delivery is multi-path. Common patterns:
+
+```yaml
+channel: [CHAN-EVENT-MEETING, CHAN-DIRECT-DM]   # deck presented + sealed-PDF follow-up
+channel: [CHAN-SEARCH-ORGANIC, CHAN-AD-CAMPAIGN] # public page + paid amplification
+channel: [CHAN-DIRECT-DM]                        # founder-initiated outbound (default)
+```
+
+### Reusable snippet template
+
+The canonical authoring template lives at [`docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/_templates/external-render/channel-frontmatter.snippet.md`](../../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/_templates/external-render/channel-frontmatter.snippet.md). It carries the snippet body + lookup procedure + 3 realistic case blocks (founder-initiated outbound; web + paid-ad; deck used in meeting + sent as sealed). Copy from there when adding `channel:` to a new surface.
+
+### What happens at validation time
+
+When the surface lands in CI:
+
+1. [`scripts/validate_external_render_trail.py`](../../../scripts/validate_external_render_trail.py) parses the YAML frontmatter and extracts the `channel:` value.
+2. Each `CHAN-*` code is FK-resolved against the registry's `channel_id` column.
+3. Unknown codes emit a per-file INFO finding `unknown-channel-code: <CHAN-X> at <surface>`. Never fails CI.
+4. The validator summary line includes `with channel-tag <N>` and `unknown channel codes <M>` counters. The discipline is `M == 0` always; `N` grows over time as more surfaces get tagged.
+
+### Forward enhancement (out of Wave G scope)
+
+- **Mint `CHAN-EMAIL-OUTBOUND` + `CHAN-PDF-DOWNLOAD`** in `CHANNEL_TOUCHPOINT_REGISTRY.csv` to cover the two most common gaps surfaced during the Wave G B-G2 onboarding sweep. Requires canonical-CSV operator gate per [`akos-governance-remediation.mdc`](../../rules/akos-governance-remediation.mdc) §"HLK compliance governance". Until minted, use `CHAN-DIRECT-DM` (bidirectional founder-personal) as the closest fit for outbound dossier/cover-email surfaces.
+- **Promote `channel:` from optional to required** for in-scope external surfaces once the registry covers all common gaps. The promotion would mirror the RULE 6 INFO→FAIL ramp pattern (Wave F precedent); deferred to a successor wave.
+
 ## Pre-render checklist (10 items; walk before any render)
 
 Before invoking any render command:

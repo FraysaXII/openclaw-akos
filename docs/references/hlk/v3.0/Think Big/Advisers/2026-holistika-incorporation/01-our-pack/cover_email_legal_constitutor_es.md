@@ -19,6 +19,7 @@ voice_register: peer_consulting
 pronoun_register: tu
 sharing_label: counsel_and_named_counterparty
 language: es
+channel: [CHAN-DIRECT-DM]
 last_review: 2026-05-18
 sources:
   - docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_SPANISH_PATTERNS.md

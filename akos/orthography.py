@@ -15,10 +15,25 @@ appear without their canonical diacritic in body prose. Low-confidence rules
 **deliberately excluded** to keep false-positive risk near zero at strict-mode
 default.
 
-Consumed by ``scripts/validate_locale_orthography.py``.
+Wave G Bundle B-G1 extension (2026-05-19, D-IH-86-R): adds
+``apply_smart_quotes(text, language)`` — the render-step auto-curl helper. The
+function transforms straight ASCII quotes into locale-correct curly quotes
+(EN: U+201C/U+201D + U+2018/U+2019; ES/FR: U+00AB/U+00BB + U+2018/U+2019) while
+protecting code blocks, URLs, and HTML attribute values. Hooked into
+``render_pdf_branded`` so rendered PDFs carry curly typography regardless of
+source-markdown keystroke convenience. The locale-orthography validator's EN
+smart-quote scan also calls this helper before counting straight quotes — the
+gate semantics shift from "source must be curly" to "delivery surface (after
+auto-curl) must be curly". Per operator stance: *auto-curl is for rendered
+outputs, not for hand-authored markdown source-of-truth.*
+
+Consumed by ``scripts/validate_locale_orthography.py`` and
+``akos/hlk_pdf_render.py``.
 
 Decision lineage:
 - D-IH-86-P (external-render discipline canonization; parent doctrine)
+- D-IH-86-Q (Wave F INFO->FAIL gate promotion; parent strand)
+- D-IH-86-R (Wave G B-G1 auto-curl + strict-EN promotion; this strand)
 - Operator B1 ratify (2026-05-19 axis-2 second gate; strict per locale)
 """
 from __future__ import annotations
@@ -429,3 +444,173 @@ def extract_language(frontmatter_text: str) -> str | None:
     if len(raw) >= 2 and raw[:2] in VALID_LOCALES:
         return raw[:2]
     return None
+
+
+# ============================================================================
+# Render-step auto-curl (Wave G Bundle B-G1; D-IH-86-R; 2026-05-19)
+# ============================================================================
+#
+# ``apply_smart_quotes`` transforms straight ASCII quotes into locale-correct
+# curly typography while preserving code blocks, URLs, and HTML attribute
+# values. Hooked into ``render_pdf_branded`` so the rendered HTML body carries
+# curly quotes regardless of how the source markdown was authored.
+#
+# Algorithm (executive design call, documented for operator review):
+#
+# 1. Multi-pass placeholder protection of regions where straight quotes are
+#    semantically meaningful and must NOT be curled:
+#      - ``<pre>...</pre>`` fenced blocks (and markdown ``` ... ``` if any
+#        survived the markdown->HTML transform);
+#      - ``<code>...</code>`` inline code;
+#      - HTML attribute values inside any tag (matched by the generic
+#        ``<tag ...>`` pattern; the quotes inside the tag-string are
+#        consequently protected);
+#      - URLs of the form ``https://...`` (defence-in-depth for bare URLs
+#        that escaped link-target wrapping; tag-attr capture handles
+#        ``<a href="...">`` cases);
+#      - HTML comments;
+#      - Markdown fenced code blocks (defence-in-depth if helper is called on
+#        pre-markdown text).
+# 2. Apply state-machine smart-quote conversion on the remaining "plain
+#    text" segments. The state machine uses simple regex with look-behind
+#    semantics (opening quote after whitespace/sentence-start vs. closing
+#    quote elsewhere).
+# 3. Restore placeholders.
+#
+# Apostrophe disambiguation in EN: ``'`` always becomes U+2019 (right single
+# quote) regardless of position. This is the smartypants convention — U+2019
+# doubles as apostrophe and closing single-quote (the visual glyph is the
+# same in practice). Opening single quotes (e.g., ``'twas``) become U+2018
+# only when preceded by whitespace/sentence-start. The disambiguation falls
+# out of the regex order: opening pattern fires first; remaining ``'``
+# become closing/apostrophe.
+#
+# ES + FR convention: outer quotes become French/Spanish guillemets ``« »``
+# (U+00AB / U+00BB). Inner single quotes use U+2018 / U+2019 for nested
+# quotation (matches BRAND_SPANISH_PATTERNS / BRAND_FRENCH_PATTERNS reference
+# exchange). Non-breaking spaces inside guillemets (the strictest French
+# typography convention) are NOT inserted here to keep the helper string-safe
+# for renderers that don't honor NBSP; downstream CSS can add letter-spacing
+# polish if desired.
+
+# Protected-region regexes. Order matters: pre/code blocks before generic
+# tag-attribute capture because pre/code can contain tags inside that must
+# stay literal.
+_AUTOCURL_PROTECT_PATTERNS: tuple[re.Pattern[str], ...] = (
+    re.compile(r"<pre\b[^>]*>.*?</pre>", re.DOTALL | re.IGNORECASE),
+    re.compile(r"<code\b[^>]*>.*?</code>", re.DOTALL | re.IGNORECASE),
+    re.compile(r"<!--.*?-->", re.DOTALL),
+    re.compile(r"```[\s\S]*?```"),
+    re.compile(r"`[^`\n]+`"),
+    # Any HTML opening tag (captures attribute values via greedy [^>]* match).
+    re.compile(r"<[a-zA-Z][^>]*>"),
+    # Any HTML closing tag (no attributes; protected for symmetry).
+    re.compile(r"</[a-zA-Z][^>]*>"),
+    # Plain URLs (defence-in-depth for bare URLs in text).
+    re.compile(r"https?://[^\s<>\"'`]+", re.IGNORECASE),
+)
+
+# Placeholder sentinel uses ASCII NUL bytes so it cannot collide with any
+# legitimate HTML or text content.
+_AUTOCURL_PLACEHOLDER_RE = re.compile(r"\x00APROT_(\d+)\x00")
+
+
+def _stash_protected_regions(text: str) -> tuple[str, list[str]]:
+    """Replace protected regions with sentinel placeholders.
+
+    Returns (text_with_placeholders, stash). The stash is a list whose index
+    matches the digit in each sentinel; ``_unstash_protected_regions`` reverses.
+    """
+    stash: list[str] = []
+
+    def _replace(match: "re.Match[str]") -> str:
+        idx = len(stash)
+        stash.append(match.group(0))
+        return f"\x00APROT_{idx}\x00"
+
+    for pattern in _AUTOCURL_PROTECT_PATTERNS:
+        text = pattern.sub(_replace, text)
+    return text, stash
+
+
+def _unstash_protected_regions(text: str, stash: list[str]) -> str:
+    """Restore protected regions from sentinel placeholders.
+
+    Robust to multiple-pass placeholder restoration (in case a restored
+    region itself contains a placeholder pattern, though that shouldn't
+    happen given the NUL byte sentinel).
+    """
+
+    def _replace(match: "re.Match[str]") -> str:
+        idx = int(match.group(1))
+        return stash[idx] if 0 <= idx < len(stash) else match.group(0)
+
+    return _AUTOCURL_PLACEHOLDER_RE.sub(_replace, text)
+
+
+# Characters that mark "the start of a new quotation" — preceding char
+# context that signals an opening quote (rather than a closing quote /
+# apostrophe). Sentence start, whitespace, opening brackets/parens, em-dash,
+# colon, and a few HTML-friendly markers.
+_AUTOCURL_OPEN_PREFIX_CLASS = r"(?:^|[\s\(\[\{>—\-:;,])"
+
+
+def _apply_quotes_en(text: str) -> str:
+    """Curl EN straight quotes in already-protected text.
+
+    - Double quote after open-prefix → U+201C (left double); other ``"`` → U+201D.
+    - Single quote after open-prefix → U+2018 (left single); other ``'`` → U+2019.
+    """
+    text = re.sub(_AUTOCURL_OPEN_PREFIX_CLASS + r'"', lambda m: m.group(0)[:-1] + "\u201c", text)
+    text = text.replace('"', "\u201d")
+    text = re.sub(_AUTOCURL_OPEN_PREFIX_CLASS + r"'", lambda m: m.group(0)[:-1] + "\u2018", text)
+    text = text.replace("'", "\u2019")
+    return text
+
+
+def _apply_quotes_guillemet(text: str) -> str:
+    """Curl ES / FR straight double quotes to guillemets and single quotes to U+2018/U+2019.
+
+    Used for both ``es`` and ``fr`` per the simple convention (no NBSP inside
+    guillemets here; downstream CSS can polish spacing).
+    """
+    text = re.sub(_AUTOCURL_OPEN_PREFIX_CLASS + r'"', lambda m: m.group(0)[:-1] + "\u00ab", text)
+    text = text.replace('"', "\u00bb")
+    text = re.sub(_AUTOCURL_OPEN_PREFIX_CLASS + r"'", lambda m: m.group(0)[:-1] + "\u2018", text)
+    text = text.replace("'", "\u2019")
+    return text
+
+
+_AUTOCURL_DISPATCH: dict[str, "callable[[str], str]"] = {
+    "en": _apply_quotes_en,
+    "es": _apply_quotes_guillemet,
+    "fr": _apply_quotes_guillemet,
+}
+
+
+def apply_smart_quotes(text: str, language: str) -> str:
+    """Convert ASCII straight quotes to locale-correct curly quotes.
+
+    Args:
+        text: Source text. Can be raw markdown, HTML, or plain text — the
+            helper preserves code blocks, HTML tags (and their attribute
+            values), URLs, HTML comments, and markdown inline/fenced code.
+        language: Locale code. ``"en"`` produces U+201C/U+201D + U+2018/U+2019.
+            ``"es"`` and ``"fr"`` produce U+00AB/U+00BB + U+2018/U+2019. Any
+            other value is treated as a no-op (returns input unchanged).
+
+    Returns:
+        Text with straight quotes curled outside protected regions. Idempotent
+        for already-curly text (no double-conversion).
+
+    Used by ``akos.hlk_pdf_render.render_pdf_branded`` (auto-curl on body_html
+    before WeasyPrint render) and ``scripts/validate_locale_orthography.py``
+    (post-curl simulation for the EN delivery-gate scan).
+    """
+    if not text:
+        return text
+    if language not in _AUTOCURL_DISPATCH:
+        return text
+    protected, stash = _stash_protected_regions(text)
+    curled = _AUTOCURL_DISPATCH[language](protected)
+    return _unstash_protected_regions(curled, stash)

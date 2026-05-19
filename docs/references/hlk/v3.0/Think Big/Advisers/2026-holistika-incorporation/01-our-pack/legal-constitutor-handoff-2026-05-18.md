@@ -9,6 +9,7 @@ program_id: PRJ-HOL-FOUNDING-2026
 engagement_slug: 2026-holistika-incorporation
 adviser_pack_kind: legal-constitutor-handoff
 audience: [J-AD]
+channel: [CHAN-DIRECT-DM]
 authority: Founder + Legal Counsel
 sharing_label: counsel_ok
 language_body: en+es (bilingual; Spanish for filing-string blocks)

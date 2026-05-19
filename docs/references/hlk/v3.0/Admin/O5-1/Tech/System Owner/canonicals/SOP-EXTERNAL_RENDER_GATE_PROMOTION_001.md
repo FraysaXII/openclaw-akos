@@ -13,6 +13,7 @@ linked_initiative: INIT-OPENCLAW_AKOS-86
 linked_decisions:
   - D-IH-86-P (external-render discipline canonization)
   - D-IH-86-Q (Wave F INFO-to-FAIL gate promotion; ratified at this SOP mint)
+  - D-IH-86-R (Wave G B-G1 closure — auto-curl + strict-EN orthography promotion)
 canonical_dependencies:
   - .cursor/rules/akos-external-render-discipline.mdc
   - .cursor/skills/external-render-craft/SKILL.md
@@ -150,6 +151,20 @@ Per [`akos-executable-process-catalog.mdc`](../../../../../../../../.cursor/rule
 - **`acceptance_criteria_human` (this SOP)**: an operator (or AIC acting as System Owner) can run the §4 procedure end-to-end without invoking the runbook directly — reading this SOP front-to-back, then executing the §4.1 commands, then performing the §4.3 + §4.4 edits, then running §4.5 verification. The SOP carries enough detail to act without the script.
 - **`acceptance_criteria_automation` (paired runbook)**: `scripts/validate_external_render_trail.py --strict --strict-freshness` runs unattended in CI per the [`config/verification-profiles.json`](../../../../../../../../config/verification-profiles.json) `pre_commit` profile + the [`scripts/release-gate.py`](../../../../../../../../scripts/release-gate.py) end-to-end gate. Exit code 0 = PASS; exit code 1 = FAIL. No operator interaction required at runtime.
 
+## 6.1 — Sibling promotion: locale-orthography EN strict (Wave G B-G1; D-IH-86-R)
+
+The locale-orthography sibling validator [`scripts/validate_locale_orthography.py`](../../../../../../../../scripts/validate_locale_orthography.py) follows the same INFO → strict ramp pattern as the trail validator, but on the **per-locale** axis. Wave G Bundle B-G1 closure (D-IH-86-R, 2026-05-19) promoted **EN** to `--strict-en` after:
+
+1. The F+1 render-step auto-curl (`akos.orthography.apply_smart_quotes`) shipped, hooking into [`akos.hlk_pdf_render.render_pdf_branded`](../../../../../../../../akos/hlk_pdf_render.py) so rendered PDFs and HTMLs carry curly typography regardless of source-markdown keystroke convenience.
+2. The validator's EN smart-quote scan was updated to apply `apply_smart_quotes(body, "en")` before counting straight quotes — gate semantics shifted from "source must be curly" to "delivery surface (post-curl) must be curly", per operator stance: *auto-curl is for rendered outputs, not for hand-authored markdown source-of-truth.*
+3. The 68 EN findings from the Wave F UAT triage (deck-visual-system + legal-constitutor-handoff, per [`uat-render-quality-2026-05-19.md`](../../../../../../../../docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/uat-render-quality-2026-05-19.md)) dropped to **0** under the post-curl semantics.
+
+**Promotion mechanics (mirror of §4.3):** the [`config/verification-profiles.json`](../../../../../../../../config/verification-profiles.json) `validate_locale_orthography` step extends its argv to `["scripts/validate_locale_orthography.py", "--strict-en"]`; [`scripts/release-gate.py`](../../../../../../../../scripts/release-gate.py) `run_locale_orthography_validation()` matches the argv and the result row flips from `INFO` to `PASS / FAIL`.
+
+**ES + FR remain advisory** at Wave G B-G1 closure (operator has not yet ratified per-locale strict promotion for those locales). Per-locale promotion is one operator-ratified decision away: append the `--strict-es` and/or `--strict-fr` flag to the same argv after the ES / FR backfill scan returns 0 hits.
+
+**Demotion mechanics (mirror of §5):** soft demotion uses `AKOS_LOCALE_ORTHOGRAPHY_STRICT_EN_SOFT=1` env-var override (future enhancement; today the env var family covers `AKOS_LOCALE_ORTHOGRAPHY_STRICT=1` for full-strict); hard demotion reverts the same two edits (config + release-gate) in a fresh commit + appends a `D-IH-86-*` decision row documenting the demotion. The same precedent applies as §5.
+
 ## 7 — Process_list.csv row (deferred)
 
 Per [`akos-governance-remediation.mdc`](../../../../../../../../.cursor/rules/akos-governance-remediation.mdc) §"HLK compliance governance — SOP-META order", this SOP does **not** mint a `process_list.csv` row at its inception commit (no `process_list.csv` tranche was operator-approved for Wave F). The row will be added in a follow-up tranche with one of the next operator-approved CSV gates. Suggested `item_id`: `env_tech_prc_extrender_gate_001`, area `Tech`, role_owner `System Owner`, cadence `gated_operator`, paired with this SOP path + the validator runbook path.
@@ -163,4 +178,4 @@ When the row lands, this SOP graduates from `partial` to `governed` governance c
 - [`akos-executable-process-catalog.mdc`](../../../../../../../../.cursor/rules/akos-executable-process-catalog.mdc) Rule 1 — the SOP+runbook pairing contract.
 - [`SOP-RENDERING_PIPELINE_GOVERNANCE_001`](SOP-RENDERING_PIPELINE_GOVERNANCE_001.md) — sister SOP governing the full rendering-pipeline catalog.
 - [`SOP-CICD_BASELINE_001`](SOP-CICD_BASELINE_001.md) — sister SOP under the same System Owner area; precedent for `--strict` env-var promotion patterns.
-- D-IH-86-P + D-IH-86-Q in [`DECISION_REGISTER.csv`](../../../../People/Compliance/canonicals/DECISION_REGISTER.csv).
+- D-IH-86-P + D-IH-86-Q + D-IH-86-R in [`DECISION_REGISTER.csv`](../../../../People/Compliance/canonicals/DECISION_REGISTER.csv).
