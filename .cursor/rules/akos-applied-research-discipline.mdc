@@ -1,0 +1,162 @@
+---
+description: Always-applied rule that mechanically calls out research-first authoring discipline on every canonical / cursor rule / skill / decision mint. Pairs with RESEARCH_HEAD_DISCIPLINE.md canonical + inline-ratify-craft skill Principle 1.5.
+globs:
+  - docs/references/hlk/v3.0/**/canonicals/*.md
+  - docs/references/hlk/v3.0/**/canonicals/dimensions/*.csv
+  - .cursor/rules/akos-*.mdc
+  - .cursor/skills/*/SKILL.md
+  - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv
+alwaysApply: true
+---
+
+# AKOS Applied Research Discipline
+
+Use this rule whenever authoring or revising **canonicals**, **cursor rules**,
+**skills**, or **decision-register rows** in this workspace. Codifies operator
+ratification at I86 Wave H of D-IH-86-T cluster burndown + the Combo C+D
+disposition for the Research Head discipline (operator's framing 2026-05-19:
+*"applied research is a hot topic today and a competitive advantage if
+properly industrialized"*).
+
+This rule is the mechanically-enforced layer of the
+[`RESEARCH_HEAD_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/RESEARCH_HEAD_DISCIPLINE.md)
+canonical. The canonical describes the discipline; this rule names when it
+fires. Read both together.
+
+## RULE 1 — Canonical-CSV mints require internal + external research backing (binding)
+
+Whenever a net-new canonical CSV is minted (per
+[`akos-holistika-operations.mdc`](akos-holistika-operations.mdc) §"New
+git-canonical compliance registers"), the authoring discipline must include:
+
+1. **Internal research pass**: documented inventory of which existing
+   canonicals, decision-register rows, process_list rows, and
+   baseline_organisation rows bear on the new register. Output captured in
+   the ratifying decision row's rationale or in a planning-notes file
+   referenced from the decision row.
+2. **External research pass**: at least one external industry source cited
+   in the ratifying decision row when the register introduces a novel
+   framing not yet seen in Holistika or industry. (If the register is a
+   pure clone of an existing pattern — e.g., a new sibling adapter registry
+   following the established Normalised Adapter Pattern — external citation
+   is optional; the cite-by-existing-pattern is sufficient.)
+
+The two passes' outputs are documented in:
+
+- The ratifying decision row's `rationale` cell (or a short pointer to a
+  planning-notes file).
+- The canonical's `linked_canonicals` frontmatter (for internal links).
+- The canonical's body (or its companion Evidence-base section per the
+  RESEARCH_HEAD_DISCIPLINE §6 Backfill protocol).
+
+## RULE 2 — Doctrine canonicals and rule mints cite at least one external source when novel framing (binding)
+
+Whenever a net-new doctrine canonical (any `intellectual_kind: doctrine`,
+`area_charter`, `discipline_charter`, `people-canonical`,
+`research-area-canonical`, `tech-canonical`, or `brand-canonical` file under
+`docs/references/hlk/v3.0/**/canonicals/`) is minted, OR a net-new cursor
+rule under `.cursor/rules/akos-*.mdc`, OR a net-new skill under
+`.cursor/skills/*/SKILL.md`:
+
+If the new canonical / rule / skill introduces a **novel framing** (a
+position Holistika has not previously committed to), the authoring must
+cite at least one external industry source. Cited inline in the body OR in
+the Evidence-base section.
+
+If the canonical / rule / skill is a **refinement** of an already-ratified
+Holistika position (e.g., a v2 extension of a v1 doctrine, a tightening of
+an existing rule), external citation is optional; the prior Holistika
+ratification IS the precedent.
+
+The novelty test: would a future reader, reading this canonical / rule /
+skill cold, encounter a position they could not derive from prior Holistika
+doctrine + first-principles thinking? If yes, the framing is novel and an
+external citation is mandatory. If no, refinement-only and external citation
+is optional.
+
+## RULE 3 — Wave-closure reports include a "Research enrichment" subsection (binding)
+
+Whenever a wave (per the I86 cluster burndown lineage; also any future
+analogous coordination structure) closes via a closure report at
+`docs/wip/planning/<NN>/reports/<YYYY-MM-DD>-wave-<X>-*-closure.md`, the
+closure report includes a `## Research enrichment` subsection naming:
+
+- **Which canonicals were enriched** with new research material during the
+  wave (with Evidence-base section additions or `linked_canonicals`
+  frontmatter additions).
+- **Which canonicals were identified as needing enrichment** but deferred
+  to a future wave (forward-charter forward-pointer).
+- **Which external sources were newly surfaced** during the wave that should
+  inform future authoring (a short list of authoritative URLs).
+
+This subsection makes the operator's lived research practice **trackable
+across waves** — closing the continuity gap the operator named verbatim in
+the I86 Wave H Lane D dispatch.
+
+The subsection can be brief (5-15 lines per wave). It is not a deep
+research narrative; it is a research-state-of-the-wave snapshot.
+
+## When this rule does NOT apply
+
+This rule does NOT fire for:
+
+- **Mechanical authoring** — typo fixes, link-rot fixes, formatting
+  normalisations, markdown lint fixes, YAML-frontmatter normalisations.
+- **Bugfix commits** — code-level bug fixes that do not touch canonical
+  doctrine.
+- **Refactors of already-researched canonicals** — when the underlying
+  research base does not change; e.g., splitting a section into two for
+  readability, renaming a heading.
+- **Test additions** — adding tests that exercise existing code or
+  canonical contracts without introducing new doctrine.
+- **Per-engagement WIP synthesis** — covered by Research/Intelligence
+  discipline charters + Tier 1 WIP rules at `docs/wip/intelligence/`.
+- **Operator-discretion exemption** — when the operator explicitly invokes
+  the exemption in a commit message ("rule-exempt-research-discipline:
+  <one-clause reason>") for time-pressed or scope-limited work. The
+  exemption surfaces in the next wave's "Research enrichment" subsection
+  as a deferred-backfill flag.
+
+## Self-discipline rules for agents
+
+When generating prose under the rule's globs:
+
+1. **Default to the inventory pass.** Before authoring, sweep the closest
+   sibling canonical + linked canonicals + decision-register lineage. The
+   sweep is operationalised in the
+   [RESEARCH_HEAD_DISCIPLINE §4 internal-research checklist](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/RESEARCH_HEAD_DISCIPLINE.md).
+2. **Distinguish evidence-sweep from research-sweep.** Evidence-sweep is
+   `Grep / Read / Glob` over repo state (covered by `akos-inline-ratification.mdc`
+   Principle 1 + skill-craft Principle 1). Research-sweep is `WebSearch /
+   WebFetch` over industry precedent (this rule's RULE 2). The two are not
+   substitutes; novel framings require both.
+3. **Cite inline.** External citations belong in the canonical's body or
+   its Evidence-base section, not in a separate dossier. The citation is
+   half of the load-bearing claim.
+4. **Honour the anti-patterns.** Research-as-ornament, research-after-the-
+   fact-to-justify, research-as-procrastination, copy-paste-citations are
+   anti-pattern per RESEARCH_HEAD_DISCIPLINE §7. Counter-tests applied
+   before commit.
+
+## Cross-references
+
+- [`RESEARCH_HEAD_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/RESEARCH_HEAD_DISCIPLINE.md)
+  — the canonical this rule operationalises.
+- [`akos-people-discipline-of-disciplines.mdc`](akos-people-discipline-of-disciplines.mdc)
+  — parent rule; the canonical's home in People follows that rule's
+  Rule 1.
+- [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) — sister
+  rule; Principle 1 evidence-sweep is the closest analog to RULE 1 here.
+- [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) — the
+  plan-quality bar that wave-closure reports inherit (RULE 3 extends it
+  with the Research enrichment subsection).
+- [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc)
+  §"New git-canonical compliance registers" — the canonical-CSV mint
+  pattern RULE 1 attaches to.
+- [`.cursor/skills/inline-ratify-craft/SKILL.md`](../skills/inline-ratify-craft/SKILL.md)
+  Principle 1.5 — the skill craft that operationalises research-sweep at
+  inline-ratify gates.
+- D-IH-86-T (cluster burndown plan) + D-IH-86-RH-A through D-IH-86-RH-H
+  (Combo C+D Lane D operator blanket-ratification 2026-05-19).
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/RESEARCH_HEAD_DISCIPLINE.md

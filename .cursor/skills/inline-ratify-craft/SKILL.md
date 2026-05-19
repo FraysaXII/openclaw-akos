@@ -33,6 +33,77 @@ The evidence sweep is non-negotiable. Skipping it produces options that look lik
 
 The sweep is also the agent's own thinking aid. About half the time the sweep collapses what the agent thought were two or three plausible options into one obvious option (because the repo state already commits to a direction). The other half it reveals an option neither the agent nor the operator had named.
 
+### Principle 1.5 — Research-sweep when the question is novel
+
+Principle 1 names the evidence sweep — `Grep`, `Read`, `Glob`,
+`SemanticSearch` over **repo state**. This is the right move for most
+inline-ratify gates because most decisions can be ratified from what the
+repo already commits to.
+
+But some inline-ratify gates pose questions the repo has no prior
+commitment on. The operator's framing is genuinely novel; the closest
+sibling canonical does not yet take a position; no decision-register row
+ratifies the relevant axis. For these gates, the evidence sweep collapses
+to "the repo is silent" and the agent needs a second sweep: the
+**research sweep** over industry precedent.
+
+The research sweep is `WebSearch` + `WebFetch` + (optionally) reads of
+named precedent corpus (DAMA-DMBOK 3.0; ResearchOps Community publications;
+Kate Towsey *Research That Scales*; industry analyst notes; academic
+papers). The sweep is **conditional on novelty** — if the evidence sweep
+already converged on an obvious authoring direction, research sweep is
+light (1-2 confirmatory queries). If the evidence sweep surfaced genuine
+silence, research sweep is heavier (5-10 queries; multiple precedent
+sources).
+
+How to know when novelty fires:
+
+- The inline-ratify gate's options that the agent can draft from repo state
+  alone all carry low-confidence rationales (every option boils down to
+  "the operator should pick because we don't know"). That is the signal
+  that the repo cannot make the call alone.
+- The closest sibling canonical's `last_review` predates the topic the gate
+  poses (e.g., posing a 2026 LLM substrate question against a canonical
+  whose last review was 2025).
+- The topic appears in `RESEARCH_BACKLOG_TRELLO_REGISTRY.md` as a
+  `candidate` (i.e., the operator has flagged it for research but has not
+  yet written the synthesis).
+- The topic surfaces in `docs/wip/intelligence/` as in-flight WIP without
+  yet a canonical home.
+
+When novelty fires, the agent runs the research sweep BEFORE posing the
+inline-ratify gate. The sweep's output enriches the option set with
+industry-precedent framings the agent could not have generated from repo
+state alone. This is responsible for the "third path" emergence Principle
+6 names — many of those third paths are not novel-to-the-industry, they
+are novel-to-Holistika because the agent surfaced them via research sweep.
+
+Cite the research sweep inline in the inline-ratify call's option labels
+(per Principle 4: cite evidence inline by file path or URL). Example:
+
+```
+Option C — adopt the ResearchOps 8-Pillar shape (novel framing —
+ResearchOps Community canonical at https://researchops.community/about/
+adopted in 2018 + reaffirmed in Kate Towsey 2024)
+```
+
+The research sweep's full output (URLs + retrieval dates + relevance
+summaries) goes in the Evidence-base section of whichever canonical the
+inline-ratify gate ratifies into (per `RESEARCH_HEAD_DISCIPLINE.md` §6
+Backfill protocol). The inline-ratify call cites only the load-bearing
+snippet, not the full sweep.
+
+Cross-references for this principle:
+
+- [`RESEARCH_HEAD_DISCIPLINE.md`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/RESEARCH_HEAD_DISCIPLINE.md)
+  §3.2 (Sourcing pillar) + §5 (External-research checklist).
+- [`akos-applied-research-discipline.mdc`](../../../.cursor/rules/akos-applied-research-discipline.mdc)
+  RULE 2 (external citation when novel framing).
+- Principle 1 (evidence sweep) above — the foundation; Principle 1.5
+  extends rather than replaces.
+- Principle 6 (welcome novel framings) below — the receiver; many novel
+  framings emerge from research sweeps.
+
 ### Principle 2 — Distil to ranked options with rationale embedded inline
 
 Two to five options per question. More than five and the operator's working memory degrades; fewer than two and you do not need an inline-ratify in the first place — you need an executive call (which is a different posture; do not gate-ask when the right move is just-do).

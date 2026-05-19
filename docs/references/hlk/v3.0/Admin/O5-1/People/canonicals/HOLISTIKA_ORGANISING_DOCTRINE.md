@@ -219,6 +219,7 @@ When this manifesto and a sub-canonical disagree, this manifesto governs. When t
 ### Sibling (this initiative I79)
 
 - [`HOLISTIKA_AGENTIC_DOCTRINE.md`](HOLISTIKA_AGENTIC_DOCTRINE.md) (P3a) — agentic-as-discipline-of-disciplines doctrine.
+- [`RESEARCH_HEAD_DISCIPLINE.md`](RESEARCH_HEAD_DISCIPLINE.md) — companion: research-first canonical-authoring discipline (Research Head doctrine; I86 Wave H Lane D, `D-IH-86-RH-A`..`H`).
 - [`PEOPLE_DESIGN_PATTERN_LIBRARY.md`](PEOPLE_DESIGN_PATTERN_LIBRARY.md) (P2) — human narrative for the design pattern library.
 - [`PEOPLE_DESIGN_PATTERN_REGISTRY.csv`](../Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv) (P2) — queryable design pattern rows.
 - [`SOP-PEOPLE_AGENTIC_OPERATIONS_001.md`](SOP-PEOPLE_AGENTIC_OPERATIONS_001.md) (P3a) — agentic ops cadence.

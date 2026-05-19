@@ -94,6 +94,7 @@ To prevent dilution with existing areas:
 
 ## 8. Cross-references
 
+- [`../../Admin/O5-1/People/canonicals/RESEARCH_HEAD_DISCIPLINE.md`](../../Admin/O5-1/People/canonicals/RESEARCH_HEAD_DISCIPLINE.md) — Research-Head meta-discipline of research-first canonical authoring (I86 Wave H Lane D; People canonical per `D-IH-86-RH-A`).
 - **D-IH-70-S** — Research as new top-level area: see [`docs/wip/planning/70-holistika-os-self-governance/reports/p3-topology-decisions-pause-record.md`](../../../../wip/planning/70-holistika-os-self-governance/reports/p3-topology-decisions-pause-record.md) §3.
 - **D-IH-70-W** — IntelligenceOps placement under Research/Intelligence (sub-decision of D-IH-70-B from P2.5 audit).
 - **WORKSPACE_BLUEPRINT_HOLISTIKA** §17 (3-tier WIP topology) — Research owns Tier 1.
