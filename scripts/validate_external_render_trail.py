@@ -23,6 +23,15 @@ Manifest-shaped surfaces (`*.manifest.md`, `topic_*.md` Output-1 manifests)
 are exempt.
 Engagement-template skeletons are exempt.
 
+Sha256-freshness sub-check (Tier-1 hygiene, 2026-05-19):
+For every surface satisfied by the PDF heuristic via a manifest reverse-lookup
+match, compare the manifest's `source_sha256` against the current source's
+sha256. Mismatches surface as advisory ``stale-render`` warnings unless
+``--strict-freshness`` (or ``AKOS_RENDER_FRESHNESS_STRICT=1``) is set, in which
+case stale renders FAIL alongside missing trails. Default posture is advisory
+so render artifacts can be regenerated on a deliberate cadence rather than on
+every operator save.
+
 Exit code: 0 PASS or INFO (advisory); 1 FAIL when promoted.
 The validator runs at INFO until the render-pending tracker reaches zero
 entries (per RULE 6 backfill posture); promotes to FAIL at that closure.
@@ -30,6 +39,8 @@ entries (per RULE 6 backfill posture); promotes to FAIL at that closure.
 from __future__ import annotations
 
 import csv
+import hashlib
+import json
 import logging
 import os
 import re
@@ -169,36 +180,97 @@ def _has_uuid(text: str) -> bool:
     return bool(UUID_PATTERN.search(text))
 
 
-def _load_manifest_source_paths() -> set[str]:
-    """Reverse-lookup: collect every source path referenced by a manifest."""
-    sources: set[str] = set()
+SOURCE_PATH_KEYS: tuple[str, ...] = (
+    "source_path", "source_md", "source_md_path",
+    "source_md_relpath", "source_html", "source_html_path",
+)
+
+
+def _normalise_source(value: str) -> str:
+    """Normalise a manifest-recorded source path to a repo-relative POSIX string."""
+    normalised = value.replace("\\", "/")
+    repo_str = str(REPO_ROOT).replace("\\", "/")
+    if normalised.startswith(repo_str):
+        normalised = normalised[len(repo_str) + 1:]
+    return normalised
+
+
+def _load_manifest_index() -> dict[str, list[dict]]:
+    """Reverse-lookup: map repo-relative source path -> list of manifest dicts.
+
+    Each manifest dict contains the parsed JSON plus ``_manifest_path`` (the
+    absolute path to the ``*.manifest.json`` file) for diagnostic logging.
+    """
+    index: dict[str, list[dict]] = {}
     if not EXPORTS_DIR.exists():
-        return sources
-    import json
+        return index
     for manifest in EXPORTS_DIR.rglob("*.manifest.json"):
         try:
             data = json.loads(manifest.read_text(encoding="utf-8"))
         except (OSError, UnicodeDecodeError, ValueError):
             continue
-        for key in ("source_path", "source_md", "source_md_path",
-                    "source_md_relpath", "source_html", "source_html_path"):
+        if not isinstance(data, dict):
+            continue
+        data["_manifest_path"] = str(manifest)
+        for key in SOURCE_PATH_KEYS:
             value = data.get(key)
             if isinstance(value, str) and value:
-                normalised = value.replace("\\", "/")
-                if normalised.startswith(str(REPO_ROOT).replace("\\", "/")):
-                    normalised = normalised[len(str(REPO_ROOT).replace("\\", "/")) + 1:]
-                sources.add(normalised)
-    return sources
+                index.setdefault(_normalise_source(value), []).append(data)
+    return index
 
 
-_MANIFEST_SOURCES_CACHE: set[str] | None = None
+_MANIFEST_INDEX_CACHE: dict[str, list[dict]] | None = None
+
+
+def _manifest_index() -> dict[str, list[dict]]:
+    global _MANIFEST_INDEX_CACHE
+    if _MANIFEST_INDEX_CACHE is None:
+        _MANIFEST_INDEX_CACHE = _load_manifest_index()
+    return _MANIFEST_INDEX_CACHE
 
 
 def _manifest_sources() -> set[str]:
-    global _MANIFEST_SOURCES_CACHE
-    if _MANIFEST_SOURCES_CACHE is None:
-        _MANIFEST_SOURCES_CACHE = _load_manifest_source_paths()
-    return _MANIFEST_SOURCES_CACHE
+    """Backwards-compatible accessor for tests + heuristics that just need the keys."""
+    return set(_manifest_index().keys())
+
+
+def _compute_sha256(path: Path) -> str | None:
+    """Compute hex sha256 of a file's bytes; return None on unreadable."""
+    try:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError:
+        return None
+
+
+def _check_freshness(path: Path) -> tuple[bool, list[tuple[str, str, str]]]:
+    """Return (is_fresh, stale_records) for a source markdown.
+
+    A surface is "fresh" if every manifest that references it carries a
+    ``source_sha256`` matching the current source's sha256. Manifests without
+    a ``source_sha256`` field are skipped (advisory: not stale, just unknown).
+
+    Returns ``(True, [])`` when no manifests exist for the source — freshness
+    is undefined, not stale.
+    """
+    rel_path = path.relative_to(REPO_ROOT).as_posix()
+    manifests = _manifest_index().get(rel_path, [])
+    if not manifests:
+        return (True, [])
+    current = _compute_sha256(path)
+    if current is None:
+        return (True, [])
+    stale: list[tuple[str, str, str]] = []
+    for manifest in manifests:
+        recorded = manifest.get("source_sha256")
+        if not isinstance(recorded, str) or not recorded:
+            continue
+        if recorded != current:
+            stale.append((
+                manifest.get("_manifest_path", "<unknown>"),
+                recorded,
+                current,
+            ))
+    return (len(stale) == 0, stale)
 
 
 def _check_pdf_heuristic(path: Path) -> bool:
@@ -346,7 +418,7 @@ def _iter_target_files() -> list[Path]:
     return deduped
 
 
-def validate(strict: bool = False) -> int:
+def validate(strict: bool = False, strict_freshness: bool = False) -> int:
     valid_codes = _load_valid_audience_codes()
     if not valid_codes:
         logger.error("FAIL: AUDIENCE_REGISTRY.csv unreadable or empty")
@@ -356,7 +428,9 @@ def validate(strict: bool = False) -> int:
     files_external = 0
     files_with_trail = 0
     files_pending = 0
+    files_stale = 0
     missing_trail: list[tuple[str, list[str]]] = []
+    stale_renders: list[tuple[str, list[tuple[str, str, str]]]] = []
 
     for path in _iter_target_files():
         files_scanned += 1
@@ -384,6 +458,10 @@ def validate(strict: bool = False) -> int:
         if has_trail:
             files_with_trail += 1
             logger.debug("trail OK: %s -> %s", rel_path, satisfied)
+            is_fresh, stale_records = _check_freshness(path)
+            if not is_fresh:
+                files_stale += 1
+                stale_renders.append((rel_path, stale_records))
         elif _is_pending_in_tracker(rel_path):
             files_pending += 1
             logger.info("render-pending (tracked): %s -> %s", rel_path, external)
@@ -391,7 +469,8 @@ def validate(strict: bool = False) -> int:
             missing_trail.append((rel_path, external))
 
     is_strict = strict or os.environ.get("AKOS_RENDER_TRAIL_STRICT") == "1"
-    is_fail = is_strict and missing_trail
+    is_strict_freshness = strict_freshness or os.environ.get("AKOS_RENDER_FRESHNESS_STRICT") == "1"
+    is_fail = (is_strict and missing_trail) or (is_strict_freshness and stale_renders)
 
     if missing_trail:
         for rel_path, audiences in missing_trail:
@@ -402,23 +481,38 @@ def validate(strict: bool = False) -> int:
                 audiences,
             )
 
+    if stale_renders:
+        for rel_path, records in stale_renders:
+            level = logger.error if is_strict_freshness else logger.warning
+            for manifest_path, recorded, current in records:
+                level(
+                    "stale-render: %s — manifest %s recorded source_sha256=%s.. but current source sha256=%s.. (regenerate via paired runbook)",
+                    rel_path,
+                    Path(manifest_path).name,
+                    recorded[:12],
+                    current[:12],
+                )
+
     summary_level = logger.error if is_fail else logger.info
     summary_level(
-        "%s: validate_external_render_trail — scanned %d ; external-tagged %d ; with trail %d ; pending tracker %d ; missing trail %d (strict=%s)",
+        "%s: validate_external_render_trail — scanned %d ; external-tagged %d ; with trail %d ; pending tracker %d ; missing trail %d ; stale renders %d (strict=%s ; strict_freshness=%s)",
         "FAIL" if is_fail else "PASS",
         files_scanned,
         files_external,
         files_with_trail,
         files_pending,
         len(missing_trail),
+        files_stale,
         is_strict,
+        is_strict_freshness,
     )
     return 1 if is_fail else 0
 
 
 def main() -> int:
     strict = "--strict" in sys.argv or "-S" in sys.argv
-    return validate(strict=strict)
+    strict_freshness = "--strict-freshness" in sys.argv
+    return validate(strict=strict, strict_freshness=strict_freshness)
 
 
 if __name__ == "__main__":

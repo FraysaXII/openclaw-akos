@@ -884,7 +884,7 @@ def main() -> None:
     render_trail_ok, render_trail_rc = run_external_render_trail_validation()
     results.append((
         "INFO",
-        f"External-render trail (scripts/validate_external_render_trail.py — audience-class\u2192render-format matrix; advisory until external-render-pending-tracker.md reaches zero entries; I86 Wave E / D-IH-86-P; ok={'yes' if render_trail_ok else 'no'}; exit={render_trail_rc})",
+        f"External-render trail (scripts/validate_external_render_trail.py - audience-class to render-format matrix; advisory until external-render-pending-tracker.md reaches zero entries; I86 Wave E / D-IH-86-P; ok={'yes' if render_trail_ok else 'no'}; exit={render_trail_rc})",
     ))
 
     initiative_anchors_ok, initiative_anchors_rc = run_initiative_program_anchors_validation()
