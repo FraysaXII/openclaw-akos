@@ -82,6 +82,16 @@
           "id": "audit_kb_integrity",
           "description": "I81 P1 (D-IH-81-K Wave H lane-2, 2026-05-19) — INFO advisory KB integrity baseline audit per master-roadmap §3 P1 deliverable. Walks process_list.csv executable rows (item_granularity in {task, process}) + joins KNOWLEDGE_PAIRING_REGISTRY.csv + v3.0 SOP corpus scan + cadence column; emits matrix CSV + audit narrative under docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/. PASS threshold ≥ 95% per D-IH-81-F gates at I81 P9 closure UAT (not here at P1 baseline) — pass_rate is expected to be near-zero at baseline because audience_tags_status is deferred for every row pending I85 wire follow-up. The metric becomes meaningful as P4-P8 retrofits land + the I85 wire commit flips audience_tags_deferred → audience_tags_matched. Pydantic chassis: akos/hlk_kb_integrity.py (KbIntegrityMatrixRow + KbIntegrityAuditSummary). Paired runbook per akos-executable-process-catalog.mdc RULE 1.",
           "argv": ["scripts/audit_kb_integrity.py"]
+        },
+        {
+          "id": "validate_madeira_mode_parity",
+          "description": "I76 P1 (D-IH-76-D phase closure 2026-05-19): paired runbook for MADEIRA_MODE_PARITY.md canonical. Parses §3.1 mode-enum table + cross-checks against akos.hlk_madeira_mode CANONICAL_REGISTRY; FAILs on missing/extra/mismatched mode rows. The 5-mode taxonomy (Ask + Plan + Agent + Debug + Methodology) is the substrate for I76 P2 tool RBAC + I76 P3 persistence/personality SOPs + I76 P4 AICs F5 dispatcher.",
+          "argv": ["scripts/validate_madeira_mode_parity.py"]
+        },
+        {
+          "id": "validate_madeira_tool_rbac",
+          "description": "I76 P2 (Wave H 2026-05-19): canonical-CSV validator for MADEIRA_TOOL_RBAC.csv. Enforces header parity, per-row Pydantic schema (tool_id pattern, 3-value per-mode permission enum, conditional_constraint semantics: non-empty when any cell is conditional + empty when none are), tool_id uniqueness across rows. --strict flag promotes last_review_decision_id FK-resolution to FAIL (default: advisory WARN).",
+          "argv": ["scripts/validate_madeira_tool_rbac.py", "--strict"]
         }
       ]
     },

@@ -324,6 +324,51 @@ def run_external_render_trail_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_madeira_mode_parity_validation() -> tuple[bool, int]:
+    """Run MADEIRA mode-parity validation (I76 P1 / D-IH-76-D).
+
+    Paired runbook for MADEIRA_MODE_PARITY.md. Parses the §3.1 mode-enum table
+    and cross-checks it against ``akos.hlk_madeira_mode.CANONICAL_REGISTRY``.
+    Fails on missing / extra / mismatched mode rows. The 5-mode taxonomy
+    (Ask + Plan + Agent + Debug + Methodology) is the substrate for I76 P2
+    tool RBAC + I76 P3 persistence/personality SOPs + I76 P4 AICs F5
+    dispatcher.
+
+    Exit code 0 PASS, 1 FAIL, 2 unparseable.
+    """
+    logger.info("Running MADEIRA mode-parity validation (I76 P1 / D-IH-76-D) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_madeira_mode_parity.py")],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
+def run_madeira_tool_rbac_validation() -> tuple[bool, int]:
+    """Run MADEIRA tool-RBAC validation (I76 P2 / Wave H 2026-05-19).
+
+    Canonical-CSV validator for MADEIRA_TOOL_RBAC.csv. Enforces header parity,
+    per-row Pydantic schema (tool_id pattern, 3-value per-mode permission
+    enum, conditional_constraint semantics: non-empty when any cell is
+    ``conditional`` AND empty when none are), tool_id uniqueness across rows.
+    Runs with ``--strict`` so last_review_decision_id FK-resolution misses
+    FAIL the gate (default behaviour without ``--strict`` would be advisory
+    WARN; release gate uses strict to keep the canonical CSV honest).
+
+    Exit code 0 PASS, 1 FAIL, 2 unparseable.
+    """
+    logger.info("Running MADEIRA tool-RBAC validation (I76 P2 / --strict) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_madeira_tool_rbac.py"), "--strict"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_kb_integrity_audit() -> tuple[bool, int]:
     """Run KB integrity baseline audit (I81 P1 INFO advisory; D-IH-81-K Wave H lane-2).
 
@@ -995,6 +1040,18 @@ def main() -> None:
     results.append((
         "INFO",
         f"KB integrity baseline (scripts/audit_kb_integrity.py - I81 P1 INFO advisory; emits matrix CSV + narrative under reports/i81/; walks process_list.csv executable rows + joins KNOWLEDGE_PAIRING + v3.0 SOP scan + cadence; ~95%% pass-rate threshold per D-IH-81-F gated at I81 P9 closure UAT not here; I86 Wave H lane-2; ok={'yes' if kb_integrity_ok else 'no'}; exit={kb_integrity_rc})",
+    ))
+
+    madeira_mode_ok, madeira_mode_rc = run_madeira_mode_parity_validation()
+    results.append((
+        "PASS" if madeira_mode_ok else "FAIL",
+        f"MADEIRA mode parity (scripts/validate_madeira_mode_parity.py - I76 P1 paired runbook for MADEIRA_MODE_PARITY.md 5-mode taxonomy; ok={'yes' if madeira_mode_ok else 'no'}; exit={madeira_mode_rc})",
+    ))
+
+    madeira_rbac_ok, madeira_rbac_rc = run_madeira_tool_rbac_validation()
+    results.append((
+        "PASS" if madeira_rbac_ok else "FAIL",
+        f"MADEIRA tool RBAC (scripts/validate_madeira_tool_rbac.py --strict - I76 P2 canonical-CSV gate; --strict promotes last_review_decision_id FK miss to FAIL; ok={'yes' if madeira_rbac_ok else 'no'}; exit={madeira_rbac_rc})",
     ))
 
     initiative_anchors_ok, initiative_anchors_rc = run_initiative_program_anchors_validation()
