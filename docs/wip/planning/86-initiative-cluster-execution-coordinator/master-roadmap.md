@@ -46,6 +46,8 @@ todos:
 
 > **Structural siblings.** I86 sits alongside [I64 Governance Mission Control](../64-governance-mission-control/master-roadmap.md) and [I65 AKOS Planning Workspace Panel](../65-akos-planning-workspace-panel/master-roadmap.md) as a **coordination** initiative — portfolio orchestration rather than vault SSOT minting.
 
+> **Cluster burndown orchestration plan.** The operational closure sequence for the remaining cluster (5 active initiatives + 3 blocker-trackers + 9 open OPS rows targeting `D-IH-86-CLOSURE`) is sequenced in the dedicated [`cluster-burndown-plan.md`](cluster-burndown-plan.md) (5-wave H..L shape; minted at Wave G B-G3b commit per `D-IH-86-T` 2026-05-19), anchored on the [`cluster-burndown-inventory.md`](cluster-burndown-inventory.md) evidence pass (commit [`6253260`](https://github.com/FraysaXII/openclaw-akos/commit/6253260) per B-G3a). The burndown plan's §10 closure criteria operationalise the §7 verification criterion below.
+
 ## 1. Operating story
 
 Holistika is executing a **dense cluster** of interdependent initiatives (substrate doctrine, vault integrity, capability doctrine, KiRBe ingestor, Madeira elevation, brand tooling, audience tags, research-area governance, OpenClaw runtime hardening). Left unmanaged, the cluster produces context-switching cost, missed coordination points (for example I81 P3 named-milestone schema before I84 P5 cascade), and silent drift (for example multi-hour OpenClaw health-monitor failure without escalation — see [`openclaw-observed-symptoms-2026-05-16.md`](../../intelligence/substrate-audit-2026-Q2/openclaw-observed-symptoms-2026-05-16.md)).
