@@ -13,7 +13,7 @@ language: es
 artifact_role: adviser_evidence_appendix
 intellectual_kind: founder_dossier
 authority: Operator (Compliance + Legal Counsel)
-last_review: 2026-05-18
+last_review: 2026-05-19
 sharing_label: counsel_ok
 role_change_note: |
   Demoted from `canonical` to `adviser_evidence_appendix` on 2026-05-05; ratified at
@@ -24,6 +24,10 @@ role_change_note: |
   Refreshed 2026-05-18 (I86 / OPS-86-5): operator-internal questions removed from
   prose; entity name aligned to `Holistika Research SL`; cross-references redirected
   to the legal-constitutor handoff under `Think Big/Advisers/2026-holistika-incorporation/01-our-pack/`.
+  KILLER 5-pillar re-architecture 2026-05-19 (Bundle D Wave D / D-IH-89-O): structural
+  shift from 4-ENISA-pillar (Mercantil/Mercado/Financiación/Operativa) to 5-PITCH-pillar
+  (WHO/WHAT/WHY-DIFFERENT/TRACTION/ASK) with explicit ENISA-pillar mappings preserved;
+  executive-summary one-liner-per-audience added; 5-appendix tail unchanged.
 sources:
   - docs/references/hlk/compliance/GOI_POI_REGISTER.csv
   - docs/references/hlk/compliance/ADVISER_OPEN_QUESTIONS.csv
@@ -43,9 +47,9 @@ audience: [J-ENISA]
 
 # Resumen ejecutivo
 
-<p class="lead">Holistika Research es una compañía de investigación aplicada e ingeniería empresarial. Construimos métodos de trabajo que se prueban primero internamente y, cuando funcionan, se escalan al cliente o se convierten en software. Este dossier consolida la información necesaria para la candidatura ENISA — Empresa Emergente.</p>
+<p class="lead">Holistika Research es una compañía de investigación aplicada e ingeniería empresarial. Construimos métodos de trabajo que se prueban primero internamente y, cuando funcionan, se escalan al cliente o se convierten en software. Este dossier consolida la información necesaria para la candidatura ENISA — Empresa Emergente y, en una sola lectura, responde a las cinco preguntas que la persona certificadora, el inversor y el partner se hacen al revisarnos.</p>
 
-**Holistika Research SL** es la primera sociedad operativa del grupo, domiciliada en España como Sociedad Limitada (SL). Cubre tres líneas de actividad bajo un mismo objeto social: investigación aplicada, ingeniería empresarial e ingeniería de procesos, con una cuarta línea opcional de productización de software propio. La elección es deliberada: el método se ha desarrollado internamente desde 2023, está respaldado por cinco entregas de software ya en producción, y la transición de servicio a producto está en curso a través de la plataforma KiRBe.
+**Holistika Research SL** es la primera sociedad operativa del grupo, domiciliada en España como Sociedad Limitada (SL). Cubre tres líneas de actividad bajo un mismo objeto social — investigación aplicada, ingeniería empresarial e ingeniería de procesos — con una cuarta línea opcional de productización de software propio. La elección es deliberada: el método se ha desarrollado internamente desde 2023, está respaldado por cinco entregas de software ya en producción, y la transición de servicio a producto está en curso a través de la plataforma KiRBe.
 
 <div class="stat-grid">
   <div class="stat"><span class="stat-num">5</span><span class="stat-label">Entregas en producción</span></div>
@@ -54,19 +58,51 @@ audience: [J-ENISA]
   <div class="stat"><span class="stat-num">2026</span><span class="stat-label">Año de constitución prevista</span></div>
 </div>
 
-El dossier se organiza en cuatro pilares — Mercantil, Mercado, Financiación y Operativa — seguidos de cinco apéndices: instrumentos archivados (Apéndice A), capacidades demostradas (Apéndice B), glosario cruzado (Apéndice C), preguntas abiertas a asesoría externa (Apéndice D) y trazabilidad documental (Apéndice E).
+## Cinco pilares — una sola lectura
+
+El dossier se estructura en cinco pilares, en este orden, cada uno mapeado al pilar ENISA correspondiente para preservar la trazabilidad de la candidatura:
+
+| # | Pilar | En una línea | Mapea a ENISA |
+|:-:|:---|:---|:---|
+| **I** | **WHO** — Quiénes somos | Sociedad mercantil española, fundador único, marca-paraguas Holistika con sub-marcas operativas. | Pilar I (Mercantil) |
+| **II** | **WHAT** — Qué hacemos | Tres líneas bajo un mismo objeto social: investigación aplicada, ingeniería empresarial e ingeniería de procesos, más productización de software propio. | Pilar I + II (actividad + innovación scope) |
+| **III** | **WHY-DIFFERENT** — Por qué somos diferentes | El método se ejecuta en código antes de proponerse al cliente; KiRBe + MADEIRA productizan la disciplina; pila gobernada y replicada. | Pilar II (diferenciación / innovación) |
+| **IV** | **TRACTION** — Tracción y momentum | Cinco entregas de software en producción desde 2023; capital + uso de fondos dimensionado para arrancar con runway operativo real. | Pilar III + IV (Financiación + Operativa-evidencia) |
+| **V** | **ASK** — Qué pedimos / qué ofrecemos | Confirmación conjunta CNAE primario + objeto social antes de firma; co-cierre del reparto documental ENISA; ventana de 30 minutos para alinear plan. | Pilar I (certificación) + framing inversor / partner |
+
+A los cinco pilares siguen cinco apéndices: instrumentos archivados (Apéndice A), capacidades demostradas (Apéndice B), glosario cruzado (Apéndice C), preguntas abiertas a asesoría externa (Apéndice D) y trazabilidad documental (Apéndice E).
 
 > **En una línea para la persona certificadora.** Ya operamos con método propio, ya tenemos software de producción que lo demuestra, y queremos consolidar la sociedad antes de la firma con el texto exacto del *objeto social* y el paquete CNAE confirmados por escrito.
 
+> **En una línea para el inversor.** Servicio profesional hoy, ingreso SaaS recurrente mañana; el puente está construido en código, no en un roadmap; la tracción es el método ya productizado.
+
+> **En una línea para el partner B2B.** Capacidad de ingeniería de producto sin contratar plantilla in-house; arquitectura congelada antes de codificar; equidad conjunta evaluable cuando el partner aporta base de clientes.
+
 ---
 
-# Pilar I — Mercantil
+# Pilar I — WHO (Quiénes somos)
+
+> **Mapea a ENISA Pilar I (Mercantil).** Quién es la empresa registrada, cómo se gobierna, bajo qué arquitectura de marca opera.
 
 <p class="lead">Holistika Research SL es una sociedad mercantil española, con un único socio fundador en arranque, diseñada para soportar a la vez servicio profesional y futura productización de software.</p>
 
 ## Estructura societaria
 
 **Una sola sociedad operativa, fundador-líder, socio único en arranque.** Postergamos deliberadamente cualquier estructura de holding o segunda entidad hasta que el modelo de ingresos lo requiera. La actividad sigue siendo principalmente de servicio + investigación, y la complejidad estructural prematura suma carga legal sin retorno proporcional. La separación entre la línea de investigación y una eventual *Tech Lab* queda registrada como opción para más adelante. La sociedad opera bajo arquitectura de **marca-paraguas** (*Branded House*): Holistika Research SL es el vehículo legal único; "Holistika" es la marca-paraguas (registro EUIPO + OEPM en curso); las sub-marcas operativas "Think Big" (consultoría española) y "HLK Tech Lab" (laboratorio de producto) derivan de la paraguas.
+
+## Gobierno y administración
+
+**Administrador único: el fundador.** Sin órgano colegiado en el arranque. Los puntos finos de estatutos — *drag-along*, derechos de adquisición preferente, restricciones que limitarían un eventual holding futuro — se redactan con el asesor para no cerrar opciones de forma prematura.
+
+<div class="pull-quote">Una sola sociedad, fundador-líder, marca-paraguas — la estructura más sencilla compatible con la narrativa de innovación que sostiene la candidatura ENISA.</div>
+
+---
+
+# Pilar II — WHAT (Qué hacemos)
+
+> **Mapea a ENISA Pilar I + II (actividad económica + innovación scope).** Qué actividades cubre el objeto social, cómo se entregan hoy y cómo se productizarán.
+
+<p class="lead">Tres líneas operativas bajo un mismo objeto social — investigación aplicada, ingeniería empresarial e ingeniería de procesos — más una cuarta línea opcional de productización de software propio. Hoy se entregan como servicio facturado; en paralelo, el método se materializa en código (KiRBe + MADEIRA) que el cliente puede operar sin nosotros.</p>
 
 ## Objeto social y CNAE
 
@@ -81,28 +117,29 @@ Texto del objeto social (esqueleto operador; redacción final del notario):
 
 <div class="pull-quote">Inteligencia corporativa, investigación aplicada e ingeniería empresarial, incluyendo el diseño y desarrollo de metodologías propias y herramientas tecnológicas que automatizan, instrumentan y escalan dichas actividades. Comprende la prestación de servicios de análisis estratégico, ingeniería de procesos y arquitectura organizacional, así como la investigación, desarrollo y comercialización de productos de software propios derivados de dicha actividad.</div>
 
-## Ruta de constitución
+## Modelo de entrega
 
-Se elige la **ruta CIRCE telemática** a través del proveedor de constitución contratado por el fundador (paquete consolidado que incluye procesamiento CIRCE, notaría partner con banco de constitución, gestoría 12 meses post-constitución y subsidio parcial de cuota durante el primer año). La elección concilia velocidad de tramitación con fidelidad legal de la redacción: la plantilla CIRCE acepta variantes bespoke razonables del objeto social cuando la notaría partner las revisa y, en caso límite, el mismo proveedor escala a escritura no-CIRCE manteniendo continuidad de servicio. La coherencia con la candidatura ENISA Empresa Emergente — que depende de un objeto social y un paquete CNAE expresivos — se preserva con la confirmación conjunta legal + ENISA del CNAE primario antes de firmar (ver `Q-LEG-001` y `Q-CRT-001` en el Apéndice D).
+- **Hoy** — investigación estructurada, ingeniería empresarial e ingeniería de procesos facturadas como servicio profesional.
+- **Mañana** — el mismo método, productizado en software, vendido como SaaS empresarial.
+- **El puente** — está implementado en código, no sobre presentaciones. La plataforma KiRBe (ver Apéndice B, ficha 3) ya está desplegada en producción para uso interno; MADEIRA, la capa de agentes estandarizados, es operativa en interno y dentro de KiRBe.
 
-## Capital social inicial
+<div class="pull-quote">El método no es retórica de pitch: cada componente está acreditado por al menos una entrega productiva listada en el Apéndice B.</div>
 
-**Capital social objetivo: 3.000 €** (mixto: aportación dineraria + aportación en especie). La política interna de capitalización descarta la ruta de capital nominal 1 € por formación sucesiva: los gastos recurrentes de infraestructura ya son conocidos (≈ 150 € / mes en *idle*, 300–500 € / mes en uso pleno) y un capital simbólico introduciría fricción narrativa innecesaria con bancos y con la certificadora. El umbral 3.000 € equivale aproximadamente a 6× el burn idle + 1× el burn activo y permite arrancar con runway operativo real desde el día 1.
+## Plan de personal en España
 
-La aportación se divide en dos componentes:
+España domicilia la sociedad desde el día 1. La operación mantiene presencia en territorio español en infraestructura productiva y banca operativa, alineada con los criterios ENISA. El criterio "personal en España" se valida en el momento de la presentación efectiva con la línea base operativa siguiente:
 
-- **Aportación dineraria** — transferencia desde la cuenta personal del fundador a la cuenta de constitución en el banco (importe a confirmar en función del valor en especie).
-- **Aportación en especie** — equipamiento ya en uso operativo (ordenador, teléfono, equipamiento adicional listado), valorado bajo el régimen de la SL (sin requerimiento de informe de experto independiente), hasta completar los 3.000 €.
-
-## Gobierno y administración
-
-**Administrador único: el fundador.** Sin órgano colegiado en el arranque. Los puntos finos de estatutos — *drag-along*, derechos de adquisición preferente, restricciones que limitarían un eventual holding futuro — se redactan con el asesor para no cerrar opciones de forma prematura.
+- **Día 1.** Fundador único, residente y operando desde España.
+- **Primer ejercicio.** Crecimiento previsto a 2–3 ingenieros senior en territorio nacional si entra financiación o cliente ancla. Red de colaboradores externos contractualizada como freelance, preferentemente desde España.
+- **Año 2–3.** Operación distribuida con base en España y red de colaboradores; equipo nuclear permanente residente en territorio nacional.
 
 ---
 
-# Pilar II — Mercado
+# Pilar III — WHY-DIFFERENT (Por qué somos diferentes)
 
-<p class="lead">No vendemos dictamen experto puntual. Construimos un método operativo estructurado para empresas que necesitan ordenar su operación interna antes de escalar.</p>
+> **Mapea a ENISA Pilar II (diferenciación / innovación).** Qué hace que la propuesta sea innovadora, replicable y atestable — no retórica de pitch.
+
+<p class="lead">No vendemos dictamen experto puntual. Construimos un método operativo estructurado, ejecutable en código, y lo productizamos antes de venderlo. La diferenciación es la disciplina, no el discurso.</p>
 
 ## Tesis de innovación
 
@@ -136,19 +173,25 @@ Los dos factores realmente materiales para esta candidatura son políticos-regul
 - **Político / Regulatorio.** Ley de Startups (Ley 28/2022) + marco ENISA — Empresa Emergente: ventana fiscal y administrativa favorable durante los primeros 5 años. Obligación correlativa de mantener el objeto social y los CNAE coherentes con la narrativa I+D para no perder la calificación. La sociedad ha redactado su objeto social a medida precisamente para soportar esa coherencia.
 - **Tecnológico.** Aceleración del despliegue de inteligencia artificial generativa en operación empresarial: la presión por sistemas auditables, gobernados y replicables se acentúa. Esto abre oportunidad real para metodologías que separan el ruido del producto productivo — exactamente el espacio que Holistika ocupa.
 
-## Por qué España y la Unión Europea
-
-España domicilia la sociedad desde el día 1. La operación mantiene presencia en territorio español en infraestructura productiva y banca operativa, alineada con los criterios ENISA. El criterio "personal en España" se valida en el momento de la presentación efectiva con la línea base operativa siguiente:
-
-- **Día 1.** Fundador único, residente y operando desde España.
-- **Primer ejercicio.** Crecimiento previsto a 2–3 ingenieros senior en territorio nacional si entra financiación o cliente ancla. Red de colaboradores externos contractualizada como freelance, preferentemente desde España.
-- **Año 2–3.** Operación distribuida con base en España y red de colaboradores; equipo nuclear permanente residente en territorio nacional.
-
 ---
 
-# Pilar III — Financiación
+# Pilar IV — TRACTION (Tracción y momentum)
 
-<p class="lead">Lanzamos con caja suficiente para operar de verdad, no con un capital simbólico que dependa de aportaciones improvisadas del fundador.</p>
+> **Mapea a ENISA Pilar III + IV (Financiación + Operativa-evidencia).** Qué hemos entregado ya, cómo se financia el arranque, con qué runway operamos.
+
+<p class="lead">Cinco entregas de software en producción desde 2023 — sitio público propio, ERP interno, plataforma SaaS KiRBe, app B2B publicada en Shopify, scaffold para SaaS de partner. Capital + uso de fondos dimensionado para arrancar con runway operativo real, no con un capital simbólico que dependa de aportaciones improvisadas del fundador.</p>
+
+## Capacidades demostradas — referencia
+
+Las cinco entregas se desglosan en el Apéndice B con su pila técnica, su lectura para la persona certificadora y su visibilidad pública. Resumen:
+
+| # | Entrega | Tipo | Lectura |
+|:-:|:---|:---|:---|
+| 1 | Sitio público + CRM Holistika | Marca propia | Adquisición operada con la misma pila que se vende. |
+| 2 | HLK ERP interno | Producto interno | "Internal-first": el método se valida en casa antes de exponerlo. |
+| 3 | KiRBe SaaS | Producto B2B en operación | Productización del método; demuestra la transición servicio → producto. |
+| 4 | App Shopify Holistika × Websitz | Entrega B2B | Capacidad de operar como ingeniería externalizada con calidad de producto. |
+| 5 | Rushly scaffold | Diseño con scaffold | "Compliance-aware product program": disciplina antes de codificar. |
 
 ## Modelo de capitalización
 
@@ -177,42 +220,46 @@ Líneas de gasto previsibles, presentadas como rangos para preservar margen oper
 
 Hay infraestructura financiada por el fundador antes de la constitución (servidores, dominios, suscripciones, equipos). Recomendación interna: tratarla como **aportación en especie capitalizable** en sede de constitución cuando los activos sean identificables, valorables y útiles para la actividad; el resto, como reembolso documentado de gastos.
 
-## Vínculo con ayudas ENISA
-
-La narrativa de innovación + escalabilidad de los pilares II y IV está construida deliberadamente para satisfacer los dos criterios ENISA centrales (artículos 3 y 4 Ley 28/2022). El expediente no asume que ENISA financiará automáticamente: la candidatura es una **opción de extensión** del programa, no un prerrequisito del lanzamiento operativo.
-
 ---
 
-# Pilar IV — Operativa
+# Pilar V — ASK (Qué pedimos / qué ofrecemos)
 
-<p class="lead">Hoy entregamos investigación e ingeniería empresarial como servicio facturado. En paralelo operamos nuestra propia plataforma de software (KiRBe) que productiza el método. Servicio y producto comparten infraestructura, métricas y disciplina de calidad.</p>
+> **Mapea a ENISA Pilar I (certificación) + framing inversor / partner.** Qué necesitamos cerrar antes de la firma; qué ofrecemos a cada audiencia para que la conversación avance con una próxima acción concreta.
 
-## Modelo de entrega
+<p class="lead">Antes de la firma necesitamos confirmación conjunta del CNAE primario + objeto social, co-cierre del reparto documental ENISA, y una ventana de 30 minutos para alinear el plan de presentación. A cada audiencia le ofrecemos algo concreto: a la persona certificadora, narrativa I+D auditable; al inversor, ingreso recurrente con puente construido en código; al partner, equidad conjunta evaluable.</p>
 
-- **Hoy** — investigación estructurada, ingeniería empresarial e ingeniería de procesos facturadas como servicio profesional.
-- **Mañana** — el mismo método, productizado en software, vendido como SaaS empresarial.
-- **El puente** — está implementado en código, no sobre presentaciones. La plataforma KiRBe (ver Apéndice B, ficha 3) ya está desplegada en producción para uso interno.
+## Ruta de constitución
 
-<div class="pull-quote">El método no es retórica de pitch: cada componente está acreditado por al menos una entrega productiva listada en el Apéndice B.</div>
+Se elige la **ruta CIRCE telemática** a través del proveedor de constitución contratado por el fundador (paquete consolidado que incluye procesamiento CIRCE, notaría partner con banco de constitución, gestoría 12 meses post-constitución y subsidio parcial de cuota durante el primer año). La elección concilia velocidad de tramitación con fidelidad legal de la redacción: la plantilla CIRCE acepta variantes bespoke razonables del objeto social cuando la notaría partner las revisa y, en caso límite, el mismo proveedor escala a escritura no-CIRCE manteniendo continuidad de servicio. La coherencia con la candidatura ENISA Empresa Emergente — que depende de un objeto social y un paquete CNAE expresivos — se preserva con la confirmación conjunta legal + ENISA del CNAE primario antes de firmar (ver `Q-LEG-001` y `Q-CRT-001` en el Apéndice D).
 
-## Pila tecnológica
+## Capital social inicial
 
-Consolidada y comprobada en producción. Sin entrar en detalles de marca o de proveedor — esos quedan para una conversación técnica posterior — la pila cubre, de extremo a extremo:
+**Capital social objetivo: 3.000 €** (mixto: aportación dineraria + aportación en especie). La política interna de capitalización descarta la ruta de capital nominal 1 € por formación sucesiva: los gastos recurrentes de infraestructura ya son conocidos (≈ 150 € / mes en *idle*, 300–500 € / mes en uso pleno) y un capital simbólico introduciría fricción narrativa innecesaria con bancos y con la certificadora. El umbral 3.000 € equivale aproximadamente a 6× el burn idle + 1× el burn activo y permite arrancar con runway operativo real desde el día 1.
 
-- **Web pública e intake comercial** en producción, multilingüe, con seguimiento analítico y manejo de errores configurados.
-- **API de servicio y backend de producto** en lenguajes modernos, con validación estricta, observabilidad continua y despliegue en cloud productivo.
-- **Datos** en bases relacionales con búsqueda en lenguaje natural integrada y sincronización a un grafo de conocimiento.
-- **Operaciones** con flujos de trabajo auditables, pagos integrados y control de acceso por roles a nivel de base de datos.
+La aportación se divide en dos componentes:
 
-Cada pieza está acreditada por una entrega real listada en el Apéndice B.
+- **Aportación dineraria** — transferencia desde la cuenta personal del fundador a la cuenta de constitución en el banco (importe a confirmar en función del valor en especie).
+- **Aportación en especie** — equipamiento ya en uso operativo (ordenador, teléfono, equipamiento adicional listado), valorado bajo el régimen de la SL (sin requerimiento de informe de experto independiente), hasta completar los 3.000 €.
 
-## Gobernanza del conocimiento
+## Vínculo con ayudas ENISA
 
-Operamos sobre un sistema de conocimiento interno que separa los hechos canónicos (en registros versionados) de las narrativas y los diagramas. Este propio dossier es un caso de uso del método: cada afirmación está respaldada por una fila en uno de nuestros registros internos, y cualquier dato sensible (identidad de asesores, contrapartes) se cita por una referencia interna que el equipo resuelve fuera del repositorio.
+La narrativa de innovación + escalabilidad de los pilares III y IV está construida deliberadamente para satisfacer los dos criterios ENISA centrales (artículos 3 y 4 Ley 28/2022). El expediente no asume que ENISA financiará automáticamente: la candidatura es una **opción de extensión** del programa, no un prerrequisito del lanzamiento operativo.
 
-## Plan de personal en España
+## Encaje ENISA — innovación + escalabilidad + presencia España
 
-Ver más arriba (Pilar II §"Por qué España y la Unión Europea") la línea base y la pregunta abierta para el fundador.
+| Criterio ENISA | Cómo lo satisface el expediente | Evidencia |
+|:---|:---|:---|
+| **Innovación** | Método propio + software propio (KiRBe + MADEIRA) en producción desde 2023; cinco entregas distintas con la misma pila gobernada. | Apéndice B (Capacidades demostradas) |
+| **Escalabilidad** | Servicio profesional hoy, ingreso SaaS recurrente mañana; canal de partner B2B activo con equidad conjunta evaluable. | Pilar IV TRACTION + Apéndice B |
+| **Presencia en España** | Domicilio social, banca operativa e infraestructura en España desde la constitución; plan de personal nacional en Pilar II. | Pilar I + Pilar II |
+
+## Próxima acción concreta
+
+A la persona certificadora ENISA (Guillermo): **revisión a tres** legal + certificación + fundador para co-cerrar el reparto documental (`Q-CRT-001`) antes de la firma. Disponibilidad operador: 30-minute window esta semana.
+
+A la asesoría legal-constitutor (Noelia): **confirmación conjunta** CNAE 7219 primario + objeto social bespoke (`Q-LEG-001`, `Q-LEG-002`, `Q-LEG-003`) en el mismo huso de revisión a tres. Handoff completo en `Think Big/Advisers/2026-holistika-incorporation/01-our-pack/legal-constitutor-handoff-2026-05-18.md`.
+
+Al inversor / partner: **canal abierto** vía `holistikaresearch.com`. Para el inversor, KiRBe en operación + roadmap 0-24 meses; para el partner, ingeniería de producto sin contratar plantilla in-house + modelo de equidad conjunta evaluable.
 
 ---
 
@@ -372,8 +419,10 @@ Este apéndice consolida, con identificador estable, las preguntas que el fundad
 # Apéndice E — Trazabilidad y procedencia
 
 - **Generador.** Este `dossier_es.md` es la fuente única de verdad. La versión PDF se produce mediante el procedimiento interno de renderizado, en cuanto los puntos pendientes con el asesor de constitución y el asesor de certificación quedan cerrados por escrito.
+- **Estructura.** Cinco pilares (WHO / WHAT / WHY-DIFFERENT / TRACTION / ASK) seguidos de cinco apéndices (Instrumentos / Capacidades / Glosario / Preguntas / Trazabilidad). Cada pilar mapea explícitamente a su pilar ENISA correspondiente para preservar la trazabilidad de la candidatura.
 - **Cartera y programa.** Cartera Holistika Research SL — Programa de fundación 2026. La identificación interna del programa queda registrada en el portafolio operativo de la sociedad y se omite aquí por no aportar valor al lector externo.
 - **Etiquetas de difusión** (régimen interno de control documental). `internal_only` durante borradores; `counsel_and_named_counterparty` para envío al asesor de certificación y al banco de constitución; `counsel_ok` tras la firma de la escritura.
 - **Sensibilidad de las identidades referenciadas.** Las identidades reales de asesores, contrapartes y entidades bancarias se mantienen fuera del documento y se resuelven en el momento del envío a la contraparte concreta. El presente documento se entrega al asesor ENISA con esas identidades resueltas.
-- **Trazabilidad de versiones.** Cada revisión sustantiva del dossier queda registrada con su fecha en el régimen interno de control documental de la sociedad. La revisión actual está fechada al 2026-05-18.
+- **Trazabilidad de versiones.** Cada revisión sustantiva del dossier queda registrada con su fecha en el régimen interno de control documental de la sociedad. La revisión actual (5-pillar KILLER re-architecture) está fechada al 2026-05-19, bajo decisión `D-IH-89-O`. La versión inmediatamente anterior (4-pilar ENISA: Mercantil / Mercado / Financiación / Operativa) está datada al 2026-05-18.
 - **Marco de marca aplicado.** Identidad visual pública (sistema de tokens de marca); voz canónica de marca; patrones idiomáticos en español; auditoría de jerga para comunicaciones externas (el presente dossier ha pasado dicha auditoría antes del envío).
+- **Tiempo de lectura.** ENISA evaluator: 5 minutos (lectura completa de los 5 pilares); inversor: 3 minutos (resumen ejecutivo + Pilar IV TRACTION + Pilar V ASK); partner B2B: 4 minutos (resumen + Pilares III WHY-DIFFERENT + IV TRACTION + V ASK).

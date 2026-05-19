@@ -103,7 +103,7 @@ flowchart TB
 
 Spotlight owners **facilitate** wave narrative and surface blockers to the PMO + System Owner pair; they **do not** replace sibling `role_owner` authority on each initiative's charter.
 
-### 1.3 Coordinated sibling burndown checklist (updated 2026-05-16 Wave 1 mid-burn)
+### 1.3 Coordinated sibling burndown checklist (updated 2026-05-19 Bundle D Wave A-D push: I76 promotion + I85 + I87 closure + KILLER dossier rewrite)
 
 | Sibling | INIT slug | Status today | Phases closed | Wave emphasis | Notes |
 |:---|:---|:---|:---|:---:|:---|
@@ -130,6 +130,22 @@ Spotlight owners **facilitate** wave narrative and surface blockers to the PMO +
 | Hard FAILs encountered | **0** | All validator pre-existing gates remained green throughout |
 
 Operator hand-back batch (folds into surface-ratify-batch-final per the I86 todo list): I85 P2 sweep tranches + I85 P4 SOP promotion + I82 P1 Talent baseline_organisation row + I81 P2 layout tranche 1 + (when eligible) I84 P4 batched decisions. Full snapshot at [`reports/checkpoints/sc-wave1-midburn-2026-05-16.md`](reports/checkpoints/sc-wave1-midburn-2026-05-16.md).
+
+### 1.5 Bundle D push status (2026-05-19; 4 commits landed across Wave A → Wave D)
+
+| Aggregate | Count | Detail |
+|:---|:---|:---|
+| Cluster siblings closed | **5 of 10** | I79 + I80 + I84 + I85 (Wave C 2026-05-19 D-IH-85-CLOSURE) + I87 (Wave B 2026-05-19 D-IH-87-CLOSURE) |
+| Cluster siblings active | **3 of 10** | I81 + I82 + I76 (Wave A 2026-05-18 promotion under Option 5 default posture) |
+| Cluster siblings on blocker-tracker | **3 of 10** | I74 + I75 + I83 — see `docs/wip/planning/_blockers/` (next-review triggers documented) |
+| Sibling promotions this push | **1** | I76 (Wave A; clean activation of clean-activation candidate) |
+| Wave-D dossier deliverable | **1** | KILLER dossier 5-pillar rewrite per D-IH-89-O (handoff §3.4 deferred deliverable; 8/8 acceptance criteria PASS; UAT at `reports/uat-killer-dossier-2026-05-19.md`) |
+| New Cursor rules minted | **1** | `.cursor/rules/akos-conflict-surfacing-and-blocker-trackers.mdc` (codifies Option 5 default posture per D-IH-86-O; closed OPS-86-6) |
+| New governance-shape artifacts minted | **4** | 3 blocker-trackers (I74 + I75 + I83) + 1 scope-overlap-tracker (I11/I13/I17 vs I76) |
+| Decisions ratified | **3 closure + 1 architecture** | D-IH-87-CLOSURE + D-IH-85-CLOSURE + D-IH-89-O + D-IH-76-A (charter) + D-IH-86-O (default posture) |
+| Validators run (all PASS) | **8+** | validate_hlk + validate_brand_baseline_reality_drift + validate_audience_registry + validate_audience_tags + validate_openclaw_plugin_pinning + 25+101+13 governance tests |
+
+Bundle D push closes 5 of the 10 cluster siblings; remaining 3 active (I81 + I82 + I76) plus 3 candidates (I74 + I75 + I83) tracked via blocker-trackers. See [`reports/uat-killer-dossier-2026-05-19.md`](reports/uat-killer-dossier-2026-05-19.md) §5 for the full Wave A-D summary.
 
 ## 2. Architecture — cluster coordinator (diagram 1 of 3)
 
