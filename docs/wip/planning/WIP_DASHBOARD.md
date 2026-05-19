@@ -15,13 +15,12 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (17)
+### Active (in execution) (15)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
 | **03** | [`03-hlk-km-knowledge-base/`](03-hlk-km-knowledge-base/) | active | 2026-04-08 | HLK governed KM — workspace master roadmap |
 | **11** | [`11-madeira-ops-copilot/`](11-madeira-ops-copilot/) | active | 2026-04-15 | Initiative 11 — Madeira day-to-day ops copilot (SOTA-informed, governance-safe) |
-| **17** | [`17-madeira-cursor-mode-parity/`](17-madeira-cursor-mode-parity/) | active | 2026-04-15 | Initiative 17 — MADEIRA Cursor mode parity (Ask / Plan / Run) |
 | **24** | [`24-hlk-communication-methodology/`](24-hlk-communication-methodology/) | active | 2026-05-17 | Initiative 24 — Communication Methodology + Eloquence-Layer Composer |
 | **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | active | 2026-05-17 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
 | **62** | [`62-mission-control/`](62-mission-control/) | active | 2026-05-07 | Initiative 62 — Mission Control (hlk-erp magnificent ERP) |
@@ -31,7 +30,6 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **67** | [`67-revops-discovery/`](67-revops-discovery/) | active | 2026-05-17 | Initiative 67 — RevOps Discovery |
 | **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
 | **76** | [`76-madeira-elevation/`](76-madeira-elevation/) | active | 2026-05-18 | I76 — MADEIRA elevation (operator-interaction quality at Cursor-grade) |
-| **78** | [`78-brand-voice-llm-as-judge/`](78-brand-voice-llm-as-judge/) | active | 2026-05-17 | I78 — Brand-voice LLM-as-judge advisory layer |
 | **81** | [`81-vault-integrity-layout-milestones-retrofit/`](81-vault-integrity-layout-milestones-retrofit/) | active | 2026-05-16 | I81 — Vault integrity sweep + layout migration + named-milestone schema + SOP body/adde... |
 | **82** | [`82-holistika-capability-doctrine/`](82-holistika-capability-doctrine/) | active | 2026-05-16 | I82 — Holistika Capability Doctrine and Commercial Readiness |
 | **86** | [`86-initiative-cluster-execution-coordinator/`](86-initiative-cluster-execution-coordinator/) | active | 2026-05-17 | I86 — Initiative Cluster Execution Coordinator |
@@ -62,7 +60,7 @@ _(none)_
 | **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | program_line | 2026-04-18 | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
 | **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | program_line | 2026-04-23 | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
 
-### Closed (40)
+### Closed (42)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -70,6 +68,7 @@ _(none)_
 | **07** | [`07-hlk-neo4j-graph-projection/`](07-hlk-neo4j-graph-projection/) | closed | 2026-04-15 | Initiative 07: HLK Neo4j graph projection |
 | **10** | [`10-madeira-eval-hardening/`](10-madeira-eval-hardening/) | closed | 2026-04-15 | Initiative 10 — Madeira Path B+C, SOTA quality, eval harness |
 | **15** | [`15-hlk-api-lifecycle-governance/`](15-hlk-api-lifecycle-governance/) | closed | 2026-04-20 | Initiative 15 — HLK API lifecycle governance + component matrix |
+| **17** | [`17-madeira-cursor-mode-parity/`](17-madeira-cursor-mode-parity/) | closed | 2026-05-19 | Initiative 17 — MADEIRA Cursor mode parity (Ask / Plan / Run) |
 | **18** | [`18-hlk-finops-counterparty-stripe/`](18-hlk-finops-counterparty-stripe/) | closed | 2026-04-23 | Initiative 18 — FINOPS counterparty SSOT + Stripe FDW |
 | **21** | [`21-hlk-adviser-engagement-and-goipoi/`](21-hlk-adviser-engagement-and-goipoi/) | closed | 2026-04-28 | Initiative 21 — Adviser Engagement plane + GOI/POI dimension |
 | **22** | [`22-hlk-scalability-and-i21-closures/`](22-hlk-scalability-and-i21-closures/) | closed | 2026-04-29 | Initiative 22 — Scalable HLK hierarchy + Initiative 21 closures |
@@ -101,6 +100,7 @@ _(none)_
 | **72** | [`72-marketing-area-governance-and-persona-registry-expansion/`](72-marketing-area-governance-and-persona-registry-expansion/) | closed | 2026-05-14 | I72 — Marketing Area Governance + Persona Registry + IntelligenceOps Register Expansion... |
 | **73** | [`73-people-operations-and-learning-curriculum/`](73-people-operations-and-learning-curriculum/) | closed | 2026-05-15 | I73 — People Operations + Engagement Models + Methodology IP (mega-initiative) |
 | **77** | [`77-impeccable-brand-bridge-refresh/`](77-impeccable-brand-bridge-refresh/) | closed | 2026-05-16 | I77 — Impeccable Brand-Bridge Refresh + Drift Gate + Brand-Canon Collapse Remediation +... |
+| **78** | [`78-brand-voice-llm-as-judge/`](78-brand-voice-llm-as-judge/) | closed | 2026-05-19 | I78 — Brand-voice LLM-as-judge advisory layer |
 | **79** | [`79-people-manifesto-and-pattern-library/`](79-people-manifesto-and-pattern-library/) | closed | 2026-05-15 | I79 — Holistika People Manifesto + Knowledge Hygiene + Cross-area Design Patterns + AI ... |
 | **80** | [`80-i79-lessons-learned/`](80-i79-lessons-learned/) | closed | 2026-05-16 | I80 — I79 Lessons-Learned (SOP Body/Addendum Pattern + Stakeholder Lenses + Inline-Rati... |
 | **84** | [`84-substrate-doctrine-and-commercial-readiness/`](84-substrate-doctrine-and-commercial-readiness/) | closed | 2026-05-17 | I84 — Substrate Doctrine and Commercial Readiness |

@@ -154,6 +154,16 @@ GROUPS: dict[str, dict] = {
         "description": "KiRBe sync daemon dry-run helper",
         "files": ["test_kirbe_sync_daemon.py"],
     },
+    "unit": {
+        "description": (
+            "I86 Wave H Lane E (D-IH-86-AB proposed) — fast unit tests for "
+            "akos/canonical_freshness.py + scripts/validate_canonical_enrichment_freshness.py "
+            "(3-tier staleness chassis; boundary categorisation; date math; "
+            "Pydantic threshold ordering; integration synthesis)."
+        ),
+        "files": ["test_canonical_freshness.py"],
+        "pytest_extra": ["-m", "unit"],
+    },
 }
 
 
