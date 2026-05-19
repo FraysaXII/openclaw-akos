@@ -1,0 +1,119 @@
+---
+description: External-render discipline — never ship .md to a non-cleared audience; PDF / Web / ERP / Mail / Slide / Broadcast are the canonical delivery surfaces (D-IH-86-P)
+globs:
+  - "docs/references/hlk/v3.0/_assets/advops/**/*.md"
+  - "docs/references/hlk/v3.0/_assets/touchpoint-kit/**/*.md"
+  - "docs/references/hlk/v3.0/Think Big/Advisers/**/*.md"
+  - "docs/references/hlk/v3.0/_assets/touchpoint_kits/**/*.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/**/*.md"
+alwaysApply: true
+---
+
+# AKOS External-Render Discipline — Six-Surface Delivery Contract
+
+Use this rule whenever authoring, editing, or proposing to **deliver** prose to any non-cleared audience: investors (J-IN), customers (J-CU), partners (J-PT), advisors (J-AD pre-NDA), regulators (J-ENISA), recruiters (J-RC), or external collaborators (J-CO). Codifies decision **D-IH-86-P** (operator ratified at 2026-05-19, post-Bundle D closure: *"i can't send .md. no one will see them except our collaborators. for externals, pdf only or a web or erp or mail or something like that. let it be canon"*).
+
+This rule is the **delivery-format axis**. Its sister rule [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc) governs the **vocabulary-register axis** (CORPINT-internal vs translated-external). The two are orthogonal and stack: any external delivery must satisfy *both* — translated register AND rendered surface. Markdown that is jargon-clean but un-rendered still violates the discipline because no external recipient should be reading raw markdown.
+
+The paired skill [`.cursor/skills/external-render-craft/SKILL.md`](../skills/external-render-craft/SKILL.md) carries the *how* layer (which script renders which surface, what the soft-success fallback is, where the artifact lands, what the sha256 trail looks like). This rule is the *when*.
+
+## The doctrine in one sentence
+
+**External recipients receive rendered surfaces — PDF, Web, ERP, Mail, Slide, or Broadcast — never raw markdown files; markdown is the SSOT for content authoring; rendering is the act of crossing the trust boundary into a non-cleared audience.**
+
+## RULE 1 — Six-surface canonical enum (binding)
+
+Every artifact intended for an external recipient must be delivered through exactly one (or composed across multiple) of the following six surfaces:
+
+| Code | Surface | Defining property | Examples in this repo |
+|:---|:---|:---|:---|
+| **`pdf`** | Portable Document Format | Self-contained file the recipient can open offline; sealed with sha256 in a manifest sidecar | `artifacts/exports/dossier-enisa-PRJ-HOL-FOUNDING-2026-2026-04-29.pdf` (via `scripts/render_dossier.py`); `artifacts/exports/holistika-company-dossier-enisa-2026-04-30.pdf` (via `scripts/export_company_deck_pdf.py`) |
+| **`web`** | Deployed page on a registered domain | Publicly addressable URL; the recipient hits an HTTP(S) endpoint and reads HTML | `holistikaresearch.com/...` (boilerplate-rendered); `kirbe.com/...`; `hlk-erp.app/(public)/...` public route |
+| **`erp`** | Sealed record inside the ERP / CRM | The recipient logs into a system (HLK-ERP panel; KiRBe portal; Stripe-portal sealed record) and reads the artifact gated behind their authenticated identity | `kirbe-platform/...` engagement panel routes; `hlk-erp/app/[panels]/...` |
+| **`mail`** | Rendered HTML body inside an email | The body of the email itself, NOT a link to a markdown file; produced from `cover_email_*.md` SSOT via mail-rendering pipeline | `cover_email_es.md` rendered into mail body at SMTP-send time |
+| **`slide`** | Deck export (Figma frame export OR HTML-to-PDF deck render) | A presentation-shaped artifact (1:1 sender to one or many viewers) | The 14-slide founding deck: Figma file `yiPav7BLxUulNFrrsoKJqW` + HTML preview at `docs/presentations/holistika-company-dossier/index.html` + PDF export via `scripts/export_company_deck_pdf.py` |
+| **`broadcast`** | Published 1:N surface meant for many recipients at once | Distinct from `web` because it is *intentionally* multicast (blog post, press kit, shared deck link, registered case study); distinct from `mail` because the recipient list is open-ended | `docs/presentations/<engagement>/index.html` published to a stable URL; press-kit pages on `holistikaresearch.com/press/`; shared deck links on Figma; case-study pages |
+
+**Extension rule:** when a new surface emerges that doesn't fit any of the six (e.g., voice-rendered audio briefings; SMS bundles; interactive notebooks), an initiative must amend this enum + add a row to the matrix in §RULE 2 + extend [`scripts/validate_external_render_trail.py`](../../scripts/validate_external_render_trail.py) before the new surface ships externally. No silent additions.
+
+## RULE 2 — Audience-class → render-format matrix (binding; mechanically enforced)
+
+Audience tags from [`AUDIENCE_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv) (I85 P2) determine which render surfaces are acceptable per audience:
+
+| Audience tag | Acceptable surfaces | Notes |
+|:---|:---|:---|
+| **`J-IN` (Investor)** | `pdf` ; `slide` ; `broadcast` ; `web` | Investors typically want a sealed deck (PDF or slide-shared link) + a public hero page (web). Mail body is acceptable for cover; the dossier itself must be PDF. **Never .md.** |
+| **`J-CU` (Customer SME)** | `pdf` ; `web` ; `mail` ; `erp` | Customers want a proposal PDF or a web product page or a sealed ERP-gated quote. Mail body for outreach. **Never .md.** |
+| **`J-PT` (Partner)** | `pdf` ; `web` ; `mail` ; `erp` ; `broadcast` | Partners want a partnership brief (PDF), a partner-program page (web/broadcast), or a portal record (erp). **Never .md.** |
+| **`J-AD` (Advisor)** | `pdf` ; `mail` ; `erp` (post-NDA: also `web` if the advisor's dashboard is gated) | Pre-NDA: PDF + mail only. Post-NDA: ERP-gated handoff packs become acceptable per [`akos-adviser-engagement.mdc`](akos-adviser-engagement.mdc). **Never .md** even post-NDA. |
+| **`J-ENISA` (Regulator)** | `pdf` (mandatory; sealed sha256 trail) | ENISA reviewers consume **PDF only** with the sha256 manifest as the integrity claim. Mail body is acceptable for cover correspondence; the dossier MUST be PDF with sealed trail. **Never .md, never web.** |
+| **`J-RC` (Recruiter)** | `pdf` ; `web` ; `mail` ; `broadcast` | Recruiters want job posts (web/broadcast) + role briefs (PDF) + outreach (mail). **Never .md.** Currently `inactive` per registry; flips to active per I75. |
+| **`J-CO` (Collaborator)** | `pdf` ; `web` ; `broadcast` ; `mail` | Methodology peers + open-source contributors. Currently `planned`. **Never .md** when surface is intentionally external; .md is fine when surface is a public README that the collaborator reads via GitHub web UI (which is `web` surface, not `.md` delivery). |
+| **`J-OP` (Operator internal)** | `.md` (markdown-OK) | Operator + cleared agents + AICs consuming internal CORPINT register. **This is the only audience for which raw markdown is the canonical delivery.** Validators MUST exempt J-OP-only-tagged surfaces from render-trail enforcement. |
+
+The matrix is enforced mechanically by [`scripts/validate_external_render_trail.py`](../../scripts/validate_external_render_trail.py) (created at this rule's mint commit). The validator FK-resolves `audience:` frontmatter against `AUDIENCE_REGISTRY.csv`, then for any surface tagged with at least one external audience class, checks for a paired render artifact via the heuristics in §RULE 4.
+
+## RULE 3 — Markdown-as-SSOT, render-as-delivery (binding)
+
+This rule does **not** prohibit authoring in markdown. Markdown is the canonical authoring substrate for almost every prose surface in this repo, including external-delivery surfaces. The discipline is:
+
+1. **`.md` is the SSOT for content** — the words, structure, and semantic meaning live in `.md` (or `.yaml` for slide content).
+2. **Rendering is the trust-boundary crossing** — the act of producing a PDF / web / ERP / mail / slide / broadcast artifact is the act of preparing content for an external recipient.
+3. **External delivery references the rendered artifact**, not the `.md` source — cover emails attach the PDF, not the markdown. Web pages are linked by URL, not by source path. ERP records carry the rendered HTML/PDF, not the markdown.
+4. **Rendered artifacts carry sha256 manifests** — every PDF/HTML render writes a `.manifest.json` sidecar at the same path with `source_sha256` + `render_sha256` + `rendered_at` + `render_tool` + `render_version` (per [Initiative 24 G-24-3](../../docs/wip/planning/24-hlk-evidence-integrity/master-roadmap.md) closure trail). The manifest is the integrity claim that backstops the rendered artifact.
+
+## RULE 4 — Render-trail detection heuristics (for the drift gate)
+
+[`scripts/validate_external_render_trail.py`](../../scripts/validate_external_render_trail.py) detects whether a tagged-external surface has a paired render artifact via these heuristics, in order:
+
+1. **PDF heuristic.** For a markdown at `<engagement>/<dossier_or_handoff>.md`, look for a paired PDF at `artifacts/exports/<derived-stem>.pdf` OR a `paths.pdf` slot in a sibling `*.manifest.md`. Resolve via `scripts/render_dossier.py --dry-run` if the output path is parameterised.
+2. **Web heuristic.** Look for a sibling `web-link.md` or a `paths.web` slot in a sibling `*.manifest.md` containing a stable URL (must match `https?://` regex; must not be a `file://` or `localhost` URL). Empty / placeholder URLs do not satisfy the heuristic.
+3. **ERP heuristic.** Look for a sibling `erp-record.md` containing a `record_id:` field with a non-empty UUID-shaped value, OR a `paths.erp_record_id` slot in the manifest.
+4. **Mail heuristic.** For a `cover_email_*.md`, look for a paired `cover_email_*.html` rendered body OR a `mail-render.md` sibling that records the SMTP-send-time render policy (e.g., "rendered inline at send via `scripts/render_cover_email.py` — body sha256 captured per send").
+5. **Slide heuristic.** For deck-shaped content (`deck_*.md` or `deck_*.yaml`), look for a sibling `figma-link.md` with a non-empty Figma URL OR a paired PDF in `artifacts/exports/` matching the deck-export naming pattern.
+6. **Broadcast heuristic.** Look for a sibling `broadcast-link.md` or a `paths.broadcast` slot containing a stable URL on `holistikaresearch.com`, `kirbe.com`, or another registered domain (must match the registered-domain allow-list).
+
+**Exemption rules:**
+
+- **J-OP-only surfaces** (markdown carries `audience: J-OP` exclusively) are exempt entirely.
+- **Manifest-shaped surfaces** (`*.manifest.md`, `topic_*.md` Output-1 manifests per Initiative 25) are exempt — they are governance scaffolding, not external prose. Detection: filename matches `*.manifest.md` OR `topic_*.md` OR file is under `docs/references/hlk/v3.0/_assets/<plane>/<program>/<topic>/topic_*.md`.
+- **Engagement-template skeletons** (`docs/references/hlk/v3.0/Think Big/Advisers/_engagement-template/**`) are exempt — they are templates, not delivered artifacts.
+- **README.md files inside engagement folders** are exempt when their `audience:` is unset or J-OP — README is operator-internal navigation.
+
+The drift gate runs at INFO until backfill closure (per RULE 6); promotes to FAIL after the render-pending tracker reaches zero entries.
+
+## RULE 5 — Self-discipline rules for agents
+
+When generating prose for any of the surfaces under this rule's globs, the agent must:
+
+1. **Default to asking the audience question first.** Before authoring `.md` to a path that matches an external-delivery folder, ask: which audience tag(s) does this surface carry? If any external tag (J-IN, J-CU, J-PT, J-AD, J-ENISA, J-RC, J-CO) is in the answer, the surface needs a render trail.
+2. **Co-mint the render trail with the markdown.** When authoring an external-delivery `.md`, also propose the render path in the same commit (PDF render script invocation + manifest sidecar; web link entry; ERP record id; mail render policy). The render trail is part of the deliverable, not a follow-up chore.
+3. **Use the paired skill.** Read [`.cursor/skills/external-render-craft/SKILL.md`](../skills/external-render-craft/SKILL.md) before posting any external-render workflow proposal. The skill contains the per-surface render commands, the soft-success fallback policy, and the manifest schema.
+4. **Refuse to send `.md` to externals.** When asked to "send X to Y" where Y is an external audience and X is a markdown file, the agent must either render X first OR surface the gap as an inline-ratify gate per [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc). Never silently attach a `.md`.
+5. **Track render-pending state explicitly.** If the local environment cannot render a surface (e.g., WeasyPrint not installed), the agent files an entry in [`docs/wip/planning/_trackers/external-render-pending-tracker.md`](../../docs/wip/planning/_trackers/external-render-pending-tracker.md) with the surface path + audience tags + reason + remediation owner + remediation date. The tracker is the durable governance shape for "we know this needs a render and we're not pretending it does."
+
+## RULE 6 — Backfill posture (full backfill, ratified)
+
+Operator ratified `full-backfill` at the rule-mint ratify gate (2026-05-19). This means:
+
+- **Every external-facing markdown** authored before 2026-05-19 that targets a non-J-OP audience class **must reach render parity** within the bounded scope of this rule's mint commit + follow-up commits.
+- **Bounded scope of "every":** the inventory is taken once at rule-mint commit; surfaces that don't yet have audience tags are inventoried + tagged + render-traced in the same pass. New surfaces created after 2026-05-19 fall under the forward-only rule (co-mint render trail).
+- **Render-pending tracker** ([`docs/wip/planning/_trackers/external-render-pending-tracker.md`](../../docs/wip/planning/_trackers/external-render-pending-tracker.md)) is the durable record of any surface that the rule-mint commit + follow-ups did not reach render parity for. Each tracker row carries: surface path; audience tags; reason for pending; remediation owner; ETA. The tracker is the governance shape for "we tried; here's what's left."
+- **Drift gate INFO→FAIL ramp.** While the tracker has > 0 rows, the validator runs at INFO. Once the tracker reaches zero (operator confirms in a closure decision row), the validator flips to FAIL on every release-gate run. This is the same posture pattern as `validate_brand_baseline_reality_drift.py` (INFO at I66 P2 → FAIL at I66 P7).
+
+## Cross-references
+
+- [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc) — sister rule on vocabulary register (the orthogonal axis).
+- [`akos-adviser-engagement.mdc`](akos-adviser-engagement.mdc) — adviser-specific render-pack discipline (this rule is the broader umbrella).
+- [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) — when a surface lacks render trail, surface as inline-ratify gate.
+- [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc) — render-pending-tracker is the same shape as blocker-tracker.
+- [`akos-mirror-template.mdc`](akos-mirror-template.mdc) — external-repo prose hygiene (BBR jargon list); this rule adds the rendering layer.
+- [`AUDIENCE_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv) — the FK source for audience tags.
+- [`.cursor/skills/external-render-craft/SKILL.md`](../skills/external-render-craft/SKILL.md) — the *how* layer paired with this *when* rule.
+- [`scripts/validate_external_render_trail.py`](../../scripts/validate_external_render_trail.py) — the drift gate.
+- [`docs/wip/planning/_trackers/external-render-pending-tracker.md`](../../docs/wip/planning/_trackers/external-render-pending-tracker.md) — the render-pending governance shape.
+- [`scripts/render_dossier.py`](../../scripts/render_dossier.py), [`scripts/export_company_deck_pdf.py`](../../scripts/export_company_deck_pdf.py), [`scripts/export_adviser_handoff.py`](../../scripts/export_adviser_handoff.py), [`scripts/render_uat_dossier.py`](../../scripts/render_uat_dossier.py), [`scripts/render_suez_engagement_pdfs.py`](../../scripts/render_suez_engagement_pdfs.py), [`scripts/render_operator_inbox.py`](../../scripts/render_operator_inbox.py), [`scripts/render_pmo_hub.py`](../../scripts/render_pmo_hub.py), [`scripts/render_wip_dashboard.py`](../../scripts/render_wip_dashboard.py), [`scripts/render_topic_graph.py`](../../scripts/render_topic_graph.py), [`scripts/render_km_diagrams.py`](../../scripts/render_km_diagrams.py), [`scripts/render_impeccable_uat.py`](../../scripts/render_impeccable_uat.py) — the existing render infrastructure (9 render scripts + 2 export scripts).
+- D-IH-86-P in `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv`.
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv
+@docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_BASELINE_REALITY_MATRIX.md

@@ -302,6 +302,24 @@ def run_audience_tags_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_external_render_trail_validation() -> tuple[bool, int]:
+    """Run external-render trail drift gate (I86 Wave E / D-IH-86-P).
+
+    Exit code 0 PASS, 1 FAIL. INFO-mode by default; promotes to FAIL via
+    --strict flag or AKOS_RENDER_TRAIL_STRICT=1 env, once the
+    external-render-pending-tracker.md reaches zero entries and operator
+    ratifies the closure decision row.
+    """
+    logger.info("Running EXTERNAL-RENDER trail validation (I86 Wave E / D-IH-86-P) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_external_render_trail.py")],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_initiative_program_anchors_validation() -> tuple[bool, int]:
     """Run INITIATIVE_REGISTRY -> PROGRAM_REGISTRY anchor validation (I86 P1 / D-IH-86-H).
 
@@ -861,6 +879,12 @@ def main() -> None:
     results.append((
         "INFO",
         f"Audience-tag drift (scripts/validate_audience_tags.py — AUDIENCE_REGISTRY.csv FK-validation + J-OP exclusion; advisory until I85 P4 sweep closure; I85 P2 / D-IH-85-A/B/D; ok={'yes' if audience_tags_ok else 'no'}; exit={audience_tags_rc})",
+    ))
+
+    render_trail_ok, render_trail_rc = run_external_render_trail_validation()
+    results.append((
+        "INFO",
+        f"External-render trail (scripts/validate_external_render_trail.py — audience-class\u2192render-format matrix; advisory until external-render-pending-tracker.md reaches zero entries; I86 Wave E / D-IH-86-P; ok={'yes' if render_trail_ok else 'no'}; exit={render_trail_rc})",
     ))
 
     initiative_anchors_ok, initiative_anchors_rc = run_initiative_program_anchors_validation()

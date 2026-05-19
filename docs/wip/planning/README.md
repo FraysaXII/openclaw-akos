@@ -121,3 +121,11 @@ Candidate initiative placeholders live under [`_candidates/`](_candidates/):
 
 - New **program** initiative: add the next free **NN** row here and create `planning/NN-<kebab-slug>/` with a `master-roadmap.md` per [`docs/wip/README.md`](../README.md).
 - Keep long-lived **reports** under each slug’s `reports/` directory.
+
+## Workspace-doctrine artifacts (not initiative-bound)
+
+Cross-cutting governance shapes minted under I86 cluster orchestration but applying workspace-wide rather than to a single initiative folder:
+
+- [`_blockers/`](_blockers/) — Promotion blocker-trackers (I74 / I75 / I83) per [`akos-conflict-surfacing-and-blocker-trackers.mdc`](../../../.cursor/rules/akos-conflict-surfacing-and-blocker-trackers.mdc) (D-IH-86-O).
+- [`_trackers/i11-i13-i17-scope-overlap-tracker.md`](_trackers/i11-i13-i17-scope-overlap-tracker.md) — Scope-overlap tracker for I76 with I11/I13/I17 active siblings.
+- [`_trackers/external-render-pending-tracker.md`](_trackers/external-render-pending-tracker.md) — Render-pending governance shape per [`akos-external-render-discipline.mdc`](../../../.cursor/rules/akos-external-render-discipline.mdc) (D-IH-86-P, 2026-05-19); pairs with skill [`.cursor/skills/external-render-craft/SKILL.md`](../../../.cursor/skills/external-render-craft/SKILL.md) and validator [`scripts/validate_external_render_trail.py`](../../../scripts/validate_external_render_trail.py). Operator doctrine: *external recipients receive rendered surfaces (PDF / Web / ERP / Mail / Slide / Broadcast) — never raw markdown.*

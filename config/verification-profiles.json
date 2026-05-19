@@ -62,6 +62,11 @@
           "id": "validate_brand_baseline_reality_drift",
           "description": "Initiative 89 P0 (D-IH-89-E, 2026-05-17): BBR dual-register drift gate flipped from INFO to FAIL. Scans external surfaces (boilerplate/, _assets/advops/**/deck/, **/dossier_*.md, **/founder-filed/, **/adviser-handoff/, hlk-erp public surfaces) for internal-register tokens (PRJ-HOL-*, counterparty, elicitation, etc.) per BRAND_BASELINE_REALITY_MATRIX.md §3. Required from day one; CI-block expected on 7 pre-existing PRJ-HOL-FOUNDING-2026 leaks in ENISA founder-filed dossiers until ADVOPS triage closes OPS-86-5. Hot-fix lane: AKOS_BRAND_BASELINE_REALITY_SOFT=1 env var temporarily downgrades to advisory.",
           "argv": ["scripts/validate_brand_baseline_reality_drift.py"]
+        },
+        {
+          "id": "validate_external_render_trail",
+          "description": "I86 Wave E (D-IH-86-P, 2026-05-19): External-render discipline drift gate. Scans external-tagged surfaces under _assets/advops/**, _assets/touchpoint-kit/**, Think Big/Advisers/**, Marketing/Brand/** for paired render artifacts (PDF/Web/ERP/Mail/Slide/Broadcast). Audience-class to render-format matrix per akos-external-render-discipline.mdc RULE 2. Runs at INFO via release-gate flow until external-render-pending-tracker.md reaches zero entries; then promotes to FAIL via AKOS_RENDER_TRAIL_STRICT=1 env or --strict flag. Template surfaces (artifact_kind: deck_template) and J-OP-only surfaces are exempt.",
+          "argv": ["scripts/validate_external_render_trail.py"]
         }
       ]
     },

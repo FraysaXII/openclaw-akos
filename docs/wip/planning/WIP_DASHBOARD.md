@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (18)
+### Active (in execution) (17)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -30,12 +30,11 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | active | 2026-05-07 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
 | **67** | [`67-revops-discovery/`](67-revops-discovery/) | active | 2026-05-17 | Initiative 67 — RevOps Discovery |
 | **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
+| **76** | [`76-madeira-elevation/`](76-madeira-elevation/) | active | 2026-05-18 | I76 — MADEIRA elevation (operator-interaction quality at Cursor-grade) |
 | **78** | [`78-brand-voice-llm-as-judge/`](78-brand-voice-llm-as-judge/) | active | 2026-05-17 | I78 — Brand-voice LLM-as-judge advisory layer |
 | **81** | [`81-vault-integrity-layout-milestones-retrofit/`](81-vault-integrity-layout-milestones-retrofit/) | active | 2026-05-16 | I81 — Vault integrity sweep + layout migration + named-milestone schema + SOP body/adde... |
 | **82** | [`82-holistika-capability-doctrine/`](82-holistika-capability-doctrine/) | active | 2026-05-16 | I82 — Holistika Capability Doctrine and Commercial Readiness |
-| **85** | [`85-audience-tag-canonicalization/`](85-audience-tag-canonicalization/) | active | 2026-05-16 | I85 — Audience-tag canonicalization |
 | **86** | [`86-initiative-cluster-execution-coordinator/`](86-initiative-cluster-execution-coordinator/) | active | 2026-05-17 | I86 — Initiative Cluster Execution Coordinator |
-| **87** | [`87-openclaw-operator-runtime-hardening/`](87-openclaw-operator-runtime-hardening/) | active | 2026-05-16 | I87 — OpenClaw operator-runtime hardening |
 | **89** | [`89-hlk-erp-program-rollup-implementation/`](89-hlk-erp-program-rollup-implementation/) | active | 2026-05-17 | I89 — HLK-ERP persona-rollup panel implementation |
 
 ### Gated on external event (0)
@@ -63,7 +62,7 @@ _(none)_
 | **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | program_line | 2026-04-18 | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
 | **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | program_line | 2026-04-23 | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
 
-### Closed (38)
+### Closed (40)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -105,6 +104,8 @@ _(none)_
 | **79** | [`79-people-manifesto-and-pattern-library/`](79-people-manifesto-and-pattern-library/) | closed | 2026-05-15 | I79 — Holistika People Manifesto + Knowledge Hygiene + Cross-area Design Patterns + AI ... |
 | **80** | [`80-i79-lessons-learned/`](80-i79-lessons-learned/) | closed | 2026-05-16 | I80 — I79 Lessons-Learned (SOP Body/Addendum Pattern + Stakeholder Lenses + Inline-Rati... |
 | **84** | [`84-substrate-doctrine-and-commercial-readiness/`](84-substrate-doctrine-and-commercial-readiness/) | closed | 2026-05-17 | I84 — Substrate Doctrine and Commercial Readiness |
+| **85** | [`85-audience-tag-canonicalization/`](85-audience-tag-canonicalization/) | closed | 2026-05-19 | I85 — Audience-tag canonicalization |
+| **87** | [`87-openclaw-operator-runtime-hardening/`](87-openclaw-operator-runtime-hardening/) | closed | 2026-05-19 | I87 — OpenClaw operator-runtime hardening |
 
 ### Archived (superseded) (6)
 
