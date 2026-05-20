@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (14)
+### Active (in execution) (13)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -25,7 +25,6 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | active | 2026-05-17 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
 | **63** | [`63-external-repo-governance-codification/`](63-external-repo-governance-codification/) | active | 2026-05-07 | Initiative 63 — External Repo Governance Codification |
 | **64** | [`64-governance-mission-control/`](64-governance-mission-control/) | active | 2026-05-07 | Initiative 64 — Governance Mission Control (in hlk-erp) |
-| **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | active | 2026-05-07 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
 | **67** | [`67-revops-discovery/`](67-revops-discovery/) | active | 2026-05-17 | Initiative 67 — RevOps Discovery |
 | **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
 | **76** | [`76-madeira-elevation/`](76-madeira-elevation/) | active | 2026-05-18 | I76 — MADEIRA elevation (operator-interaction quality at Cursor-grade) |
@@ -59,7 +58,7 @@ _(none)_
 | **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | program_line | 2026-04-18 | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
 | **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | program_line | 2026-04-23 | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
 
-### Closed (43)
+### Closed (44)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -94,6 +93,7 @@ _(none)_
 | **58** | [`58-cycle-2-multi-track-forward/`](58-cycle-2-multi-track-forward/) | closed | 2026-05-06 | Initiative 58 — Cycle 2 multi-track forward (OPS-57-1 + strategy + KM polish + hygiene) |
 | **59** | [`59-hlk-governance-clean-slate/`](59-hlk-governance-clean-slate/) | closed | 2026-05-06 | Initiative 59 — HLK governance promotion + clean slate cycle (5 dimensions + I60/I61 lo... |
 | **62** | [`62-mission-control/`](62-mission-control/) | closed | 2026-05-19 | Initiative 62 — Mission Control (hlk-erp magnificent ERP) |
+| **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | closed | 2026-05-20 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
 | **66** | [`66-brand-vision-ops-sweep/`](66-brand-vision-ops-sweep/) | closed | 2026-05-09 | Initiative 66 — Brand, Vision, Ops Sweep |
 | **70** | [`70-holistika-os-self-governance/`](70-holistika-os-self-governance/) | closed | 2026-05-13 | I70 — Holistika OS Self-Governance Foundation |
 | **71** | [`71-cicd-discipline-and-aiops-baseline-maturity/`](71-cicd-discipline-and-aiops-baseline-maturity/) | closed | 2026-05-14 | I71 — CI/CD Discipline and AIOps Baseline Maturity |
