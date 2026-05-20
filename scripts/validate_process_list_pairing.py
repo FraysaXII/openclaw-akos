@@ -55,6 +55,8 @@ def _runbook_discoverable(item_id: str) -> bool:
     candidates.extend(sorted(SCRIPTS_DIR.glob("peopl_cross_area*.py")))
     # I86 Wave H Lane F (D-IH-86-AE) — app governance runbook glob.
     candidates.extend(sorted(SCRIPTS_DIR.glob("inventory_github*.py")))
+    # I86 Wave I Lane I-B (D-IH-86-AN) — operational cohesion doctrine runbook glob.
+    candidates.extend(sorted(SCRIPTS_DIR.glob("render_operational_cohesion*.py")))
     for p in candidates:
         if not p.exists():
             continue
