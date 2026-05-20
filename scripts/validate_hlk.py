@@ -512,6 +512,15 @@ def main() -> int:
         # with SUBSTRATE_LANDSCAPE_DOCTRINE.md at Research/Methodology/canonicals/.
         ("SUBSTRATE_REGISTRY", "validate_substrate_registry.py",
          "validate_substrate_registry", HLK_DIR / "dimensions" / "SUBSTRATE_REGISTRY.csv"),
+        # Initiative 86 Wave K + L - 4-layer output architecture beneath the 5-axis Quality Fabric.
+        # Composite validator covers Layer 1 OUTPUT_TYPE_REGISTRY + Layer 2 ARTIFACT_CLASS_REGISTRY +
+        # Layer 3 COMPONENT_PRIMITIVE_REGISTRY in one pass. Also FK-resolves
+        # ARTIFACT_CLASS.output_type_codes and ARTIFACT_CLASS.typical_audience_codes and
+        # COMPONENT_PRIMITIVE.parent_artifact_class_codes across the 3 layers and into
+        # AUDIENCE_REGISTRY. Per D-IH-86-BB (Wave K mint) + D-IH-86-BG (Wave L Pydantic + mirror).
+        # Gate keyed off OUTPUT_TYPE_REGISTRY.csv presence; if missing, all 3 layers SKIP.
+        ("OUTPUT_ARCHITECTURE_REGISTRIES", "validate_output_architecture_registries.py",
+         "validate_output_architecture_registries", HLK_DIR / "dimensions" / "OUTPUT_TYPE_REGISTRY.csv"),
         # Initiative 59 P1 - HLK governance dimensions (5 new CSVs + 3 sync gates).
         # REPOSITORY_REGISTRY first because INITIATIVE_REGISTRY FKs into it.
         ("REPOSITORY_REGISTRY", "validate_repository_registry.py",

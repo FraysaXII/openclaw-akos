@@ -526,6 +526,33 @@ def run_locale_orthography_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_output_architecture_registries_validation() -> tuple[bool, int]:
+    """Run output-architecture-registries validation (I86 Wave L / D-IH-86-BG).
+
+    Composite validator covering the 3 layers of the 4-layer output
+    architecture beneath the 5-axis Quality Fabric (D-IH-86-BB Wave K mint):
+    Layer 1 OUTPUT_TYPE_REGISTRY + Layer 2 ARTIFACT_CLASS_REGISTRY + Layer 3
+    COMPONENT_PRIMITIVE_REGISTRY. Header drift gates + Pydantic per-row
+    validation + cross-FK resolution across the 3 layers and into
+    AUDIENCE_REGISTRY + DECISION_REGISTER.
+
+    Strict from day one (the registries minted at Wave K already pass the
+    validator after Wave L round-1 fix-ups for 1 row that had unquoted
+    commas in the quality_fabric_invocation column and 1 row that had a
+    malformed output_type_codes value).
+
+    Returns ``(ok, exit_code)``. Exit code 0 PASS, 1 FAIL.
+    """
+    logger.info("Running OUTPUT-ARCHITECTURE-REGISTRIES validation (I86 Wave L / D-IH-86-BG) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_output_architecture_registries.py")],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_initiative_program_anchors_validation() -> tuple[bool, int]:
     """Run INITIATIVE_REGISTRY -> PROGRAM_REGISTRY anchor validation (I86 P1 / D-IH-86-H).
 
@@ -1103,6 +1130,12 @@ def main() -> None:
     results.append((
         "INFO",
         f"Canonical-enrichment freshness (scripts/validate_canonical_enrichment_freshness.py --exit-code-mode info - 3-tier staleness 3d/30d/90d per operator ratify 2026-05-19; scans v3.0 Admin/O5-1/**/canonicals/**/*.md for last_review_at: (preferred) or last_review: (fallback); INFO-only at mint, promotion to FAIL gated on successor-wave triage; I86 Wave H Lane E / D-IH-86-AB proposed; ok={'yes' if canonical_freshness_ok else 'no'}; exit={canonical_freshness_rc})",
+    ))
+
+    output_arch_ok, output_arch_rc = run_output_architecture_registries_validation()
+    results.append((
+        "PASS" if output_arch_ok else "FAIL",
+        f"Output-architecture registries (scripts/validate_output_architecture_registries.py - 4-layer architecture mechanical hardening: Layer 1 OUTPUT_TYPE_REGISTRY + Layer 2 ARTIFACT_CLASS_REGISTRY + Layer 3 COMPONENT_PRIMITIVE_REGISTRY composite validator; header drift + Pydantic per-row + cross-FK resolution across 3 layers + AUDIENCE_REGISTRY + DECISION_REGISTER; strict from day one per D-IH-86-BG; I86 Wave L; ok={'yes' if output_arch_ok else 'no'}; exit={output_arch_rc})",
     ))
 
     judge_ok, judge_rc = run_brand_voice_judge_self_test()

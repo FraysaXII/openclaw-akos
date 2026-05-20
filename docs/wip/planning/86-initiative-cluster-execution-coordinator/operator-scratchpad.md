@@ -309,4 +309,42 @@ This **subsumes** the previously-named I-NN-MESSAGE-COMPONENT-LIBRARY (D-IH-86-A
 
 [Wave K execution begins after operator ratifies the 4-layer hierarchy shape; G1+G2+G4+G9 mechanical fixes can land regardless]
 
+### 2026-05-21 00:00 — Wave L drain + closure (operator opt-uat-backfill-now + go-all-out P0..P5 ratify 2026-05-20)
+
+**Operator question (verbatim):** *"Thanks a lot! What's your recommendations and steps? Also, are we properly mirroring in Supabase and pushing to git? has the UAT been performed? is the ERP in prod? what about the other steps"*
+
+**Operator scope ratification (verbatim):** *"is full P0 to P5 an option? I prefer to go all out"* + UAT stance: `opt-uat-backfill-now`.
+
+**Wave L execution (atomic; one session; one commit):**
+
+- **P0 — Git push posture restored.** 5 commits ahead → `origin/main`. Side-effects committed at `a9fa9a4`. Wave J + Wave K + side-effects all pushed. **Operator question answered: yes, pushing to git.** **[processed 2026-05-21 wave-L closure]**
+
+- **P1 — Pydantic SSOT chassis (3 models + 20 tests).** Wave K landed 3 canonical CSVs but no Pydantic chassis — closing the doctrine debt that Wave K's same-day execution left open. New: `akos/hlk_output_type_registry_csv.py` + `akos/hlk_artifact_class_registry_csv.py` + `akos/hlk_component_primitive_registry_csv.py` per `CONTRIBUTING.md` §"Python Code Standards". `kind` field on component primitives intentionally `str` (not `Literal`) to support semicolon-multi-kind values like `prose;visual` per `D-IH-86-BF` — token-validation against `VALID_KINDS` frozenset happens at validator layer per `D-IH-86-BG`. **[processed 2026-05-21 wave-L closure]**
+
+- **P2 — Composite validator + release-gate wired.** New: `scripts/validate_output_architecture_registries.py` (header drift + Pydantic + cross-FK against AUDIENCE_REGISTRY + DECISION_REGISTER + sibling registries). Wired into `validate_hlk.py` + `verification-profiles.json` `pre_commit` + `release-gate.py` PASS/FAIL. **Caught + fixed 3 data errors during mint:** AC-DOSSIER comma-escape inside `fabric.compose()` (commas → slashes); AC-RUNBOOK-SCRIPT `output_type_codes` simplified from prose to `OT-PROSE-MARKDOWN`; CP `kind` schema relaxed `Literal` → `str`. Final: 17 OT + 21 AC + 25 CP rows PASS. **[processed 2026-05-21 wave-L closure]**
+
+- **P3 — Supabase mirroring (DDL + DML applied).** New: `supabase/migrations/20260521003459_i86_wave_l_output_architecture_mirrors.sql` — 3 mirror tables + 3 governance views + RLS deny-all-except-`service_role` + CHECK constraints (Literal enums) + regex CHECK constraints (code patterns) + TEXT for semicolon-list FK columns. Applied to MasterData (`swrmqpelgoblaquequzb`) via `plugin-supabase-supabase apply_migration` MCP. `sync_compliance_mirrors_from_csv.py` extended with 3 emit functions + 3 CLI flags + dispatch map. Mirror DML synced via `execute_sql` MCP: 17 OT + 21 AC + 25 CP rows; SELECT count verified parity. **Operator question answered: yes, properly mirroring in Supabase.** **[processed 2026-05-21 wave-L closure]**
+
+- **P4 — UAT backfill (2 closure reports authored).** `_templates/uat-closure-template.md` used. `reports/uat-wave-j-2026-05-19.md` covers Wave J Quality Fabric meta-doctrine + Vercel hotfix (deploy `dpl_8N4pqRVEhhUCMMV82A8RUzYAfixo` READY); 5 of 7 UAT classes exercised (closure + brand + render + regression + deploy). `reports/uat-wave-k-2026-05-20.md` covers Wave K 4-layer architecture; 5 of 11 classes exercised including new `accessibility` + `privacy` classes. Both `verdict: PASS-WITH-FOLLOWUP` + `closure_decision_source: operator_explicit`. **Operator question answered: yes, UAT performed (backfilled).** **[processed 2026-05-21 wave-L closure]**
+
+- **P5 — People-DoD pattern propagation.** Pattern `pattern_4layer_output_architecture_below_quality_fabric` minted in PEOPLE_DESIGN_PATTERN_REGISTRY.csv (consumer_areas: all 9 areas). Paired cross-area-breakthrough at `reports/cross-area-breakthrough-output-architecture-2026-05-21.md` per `SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001` contract. Names per-area consumption contracts (Marketing primary; Research / Tech Lab / Operations heavy; Legal / Compliance / Ethics / Finance light) + activation-gate clearance trail. **[processed 2026-05-21 wave-L closure]**
+
+- **6 new decisions ratified.** D-IH-86-BE (pattern propagation) + BF (Pydantic SSOT chassis) + BG (composite validator) + BH (Supabase migration) + BI (mirror DML) + BJ (UAT backfill cadence). All decisions reference operator `go all out P0..P5` ratification (2026-05-20).
+
+**Forward-charters preserved (not closed at Wave L scope):**
+
+- **ERP in prod?** — answered: HLK-ERP is **deployed at https://hlk-erp.vercel.app** with the Wave J hotfix `dpl_8N4pqRVEhhUCMMV82A8RUzYAfixo` READY. The 4-layer architecture is **not yet surfaced inside ERP UI** — that work is forward-chartered to `_candidates/i-nn-output-architecture.md` P6. Activation gates A1+A2+A3 still pending. **Conclusion: ERP itself is in prod; ERP-surfaced output-architecture is forward-chartered.**
+
+- **What about the other steps?** — answered: 2 forward-charters preserved (NOT collapsed into Wave L scope to honour inline-ratify discipline of *charter the right initiative for the right work* over *do everything in one wave*):
+  - **P6 forward-charter**: HLK-ERP surfacing of 4-layer architecture (operator inbox + planning workspace panels). Lives in `_candidates/i-nn-output-architecture.md` §2 P6.
+  - **P7 forward-charter**: ~52 per-row doctrine pages reaching Shadcn-shape depth (9 sections per page: anatomy / variants / composition / research / a11y / brand / open-code-templates / worked-exemplars / anti-patterns). Lives in `_candidates/i-nn-output-architecture.md` §2 P7. Multi-wave execution post-activation.
+
+**Doctrine moves crystallised at Wave L:**
+
+1. **SSOT-drift protection at every layer of the responsibility stack** — canonical CSV → Pydantic chassis → composite validator → release-gate wiring → Supabase mirror → governance view; future agents cannot append a malformed row without CI failing.
+2. **UAT backfill discipline** (operator's `opt-uat-backfill-now`) becomes precedent for closing future Waves where same-day execution outpaces UAT authoring.
+3. **People-DoD propagation** runs end-to-end (pattern row + cross-area-breakthrough announcement); `peopl_cross_area_breakthrough_announce.py` runbook fires at next operator session per SOP contract.
+4. **Operator's 5-question framing answered atomically**: are we mirroring in Supabase? **yes** (3 mirror tables + 3 governance views + 63 rows synced). Are we pushing to git? **yes** (5 commits ahead → in-sync). Has UAT been performed? **yes** (Wave J + Wave K closure reports authored). Is ERP in prod? **yes** (https://hlk-erp.vercel.app/`dpl_8N4pqRVEhhUCMMV82A8RUzYAfixo` READY). What about other steps? **2 forward-charters preserved; not collapsed into Wave L to honour inline-ratify discipline.**
+5. **Continuous discovery posture preserved** per operator's verbatim *"this is a continuous process of discovery research design determine test mint repeat"* — Wave L closes the doctrine debt cleanly without forcing premature activation of the content doctrine work (the ~52 per-row doctrine pages); next iteration of *discovery → research → design → determine → test → mint* fires when the I-NN-OUTPUT-ARCHITECTURE candidate's activation gates clear.
+
 <!-- end of entries -->

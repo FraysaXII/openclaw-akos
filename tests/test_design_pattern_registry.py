@@ -101,13 +101,25 @@ def test_documentation_layering_class_in_enum() -> None:
     )
 
 
-def test_pattern_class_enum_size_is_11() -> None:
-    """I80 P1 D-IH-80-G: the pattern_class enum has exactly 11 members
-    (10 original from I79 P2 + ``documentation_layering`` from I80 P1).
+def test_pattern_class_enum_size_is_12() -> None:
+    """I86 Wave L D-IH-86-BE: the pattern_class enum has exactly 12 members
+    (10 original from I79 P2 + ``documentation_layering`` from I80 P1 +
+    ``output_architecture_hierarchy`` from I86 Wave L).
     """
-    assert len(VALID_PATTERN_CLASSES) == 11, (
-        f"expected 11-class pattern_class taxonomy; got {len(VALID_PATTERN_CLASSES)}: "
+    assert len(VALID_PATTERN_CLASSES) == 12, (
+        f"expected 12-class pattern_class taxonomy; got {len(VALID_PATTERN_CLASSES)}: "
         f"{sorted(VALID_PATTERN_CLASSES)}"
+    )
+
+
+def test_output_architecture_hierarchy_class_in_enum() -> None:
+    """I86 Wave L D-IH-86-BE: ``output_architecture_hierarchy`` must be in the
+    pattern_class enum as the 12th class anchoring
+    ``pattern_4layer_output_architecture_below_quality_fabric``.
+    """
+    assert "output_architecture_hierarchy" in VALID_PATTERN_CLASSES, (
+        "output_architecture_hierarchy missing from VALID_PATTERN_CLASSES; "
+        "I86 Wave L D-IH-86-BE enum extension not applied"
     )
 
 

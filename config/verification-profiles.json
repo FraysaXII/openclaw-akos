@@ -84,6 +84,11 @@
           "argv": ["scripts/judge_brand_voice.py", "--self-test"]
         },
         {
+          "id": "validate_output_architecture_registries",
+          "description": "Initiative 86 Wave L (D-IH-86-BG, 2026-05-21): composite validator over the 3 registries that compose the 4-layer output architecture beneath the 5-axis Quality Fabric (D-IH-86-BB Wave K mint). Layer 1 OUTPUT_TYPE_REGISTRY (medium / shape) + Layer 2 ARTIFACT_CLASS_REGISTRY (named purpose) + Layer 3 COMPONENT_PRIMITIVE_REGISTRY (Shadcn-shape granular primitives). Header drift gates + Pydantic per-row validation + cross-FK resolution: ARTIFACT_CLASS.output_type_codes -> OUTPUT_TYPE_REGISTRY ; ARTIFACT_CLASS.typical_audience_codes -> AUDIENCE_REGISTRY ; COMPONENT_PRIMITIVE.parent_artifact_class_codes -> ARTIFACT_CLASS_REGISTRY ; *.last_review_decision_id -> DECISION_REGISTER ; render_targets tokens -> VALID_RENDER_TARGETS ; kind tokens -> VALID_KINDS. Strict from day one (the registries minted at Wave K already pass).",
+          "argv": ["scripts/validate_output_architecture_registries.py"]
+        },
+        {
           "id": "audit_kb_integrity",
           "description": "I81 P1 (D-IH-81-K Wave H lane-2, 2026-05-19) — INFO advisory KB integrity baseline audit per master-roadmap §3 P1 deliverable. Walks process_list.csv executable rows (item_granularity in {task, process}) + joins KNOWLEDGE_PAIRING_REGISTRY.csv + v3.0 SOP corpus scan + cadence column; emits matrix CSV + audit narrative under docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/. PASS threshold ≥ 95% per D-IH-81-F gates at I81 P9 closure UAT (not here at P1 baseline) — pass_rate is expected to be near-zero at baseline because audience_tags_status is deferred for every row pending I85 wire follow-up. The metric becomes meaningful as P4-P8 retrofits land + the I85 wire commit flips audience_tags_deferred → audience_tags_matched. Pydantic chassis: akos/hlk_kb_integrity.py (KbIntegrityMatrixRow + KbIntegrityAuditSummary). Paired runbook per akos-executable-process-catalog.mdc RULE 1.",
           "argv": ["scripts/audit_kb_integrity.py"]

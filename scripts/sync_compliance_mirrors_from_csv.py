@@ -42,6 +42,9 @@ from akos.hlk_decision_register_csv import DECISION_REGISTER_FIELDNAMES  # noqa:
 from akos.hlk_engagement_model_csv import ENGAGEMENT_MODEL_FIELDNAMES  # noqa: E402  # I73 P1 (D-IH-73-C sibling-dimension; D-IH-73-D 7-class taxonomy)
 from akos.hlk_design_pattern_csv import DESIGN_PATTERN_FIELDNAMES  # noqa: E402  # I79 P2 (D-IH-79-C/D People design pattern library)
 from akos.hlk_substrate_registry_csv import SUBSTRATE_REGISTRY_FIELDNAMES  # noqa: E402  # I84 P3 (D-IH-84-F substrate doctrine registry)
+from akos.hlk_output_type_registry_csv import OUTPUT_TYPE_REGISTRY_FIELDNAMES  # noqa: E402  # I86 Wave L (D-IH-86-BG output architecture Layer 1)
+from akos.hlk_artifact_class_registry_csv import ARTIFACT_CLASS_REGISTRY_FIELDNAMES  # noqa: E402  # I86 Wave L (D-IH-86-BG output architecture Layer 2)
+from akos.hlk_component_primitive_registry_csv import COMPONENT_PRIMITIVE_REGISTRY_FIELDNAMES  # noqa: E402  # I86 Wave L (D-IH-86-BG output architecture Layer 3)
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_initiative_registry_csv import INITIATIVE_REGISTRY_FIELDNAMES  # noqa: E402  # I59 P1.2
 from akos.hlk_ops_register_csv import OPS_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.3
@@ -95,6 +98,10 @@ ENGAGEMENT_MODEL_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.
 DESIGN_PATTERN_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PEOPLE_DESIGN_PATTERN_REGISTRY.csv"
 # I84 P3 — Substrate Registry (substrate doctrine SSOT per D-IH-84-A/F/G).
 SUBSTRATE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "SUBSTRATE_REGISTRY.csv"
+# I86 Wave L — 4-layer output architecture (Layer 1/2/3) per D-IH-86-BG.
+OUTPUT_TYPE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "OUTPUT_TYPE_REGISTRY.csv"
+ARTIFACT_CLASS_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "ARTIFACT_CLASS_REGISTRY.csv"
+COMPONENT_PRIMITIVE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "COMPONENT_PRIMITIVE_REGISTRY.csv"
 
 # SSOT for the baseline_organisation column contract is akos.hlk_baseline_org_csv.
 # This local alias preserves the existing in-module name without re-declaring the
@@ -840,6 +847,83 @@ def _emit_substrate_registry_upserts(rows: list[dict[str, str]], source_git_sha:
     return out
 
 
+def _emit_output_type_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """I86 Wave L (D-IH-86-BG) - compliance.output_type_registry_mirror upserts.
+
+    PK = output_type_code (matches ``^OT-[A-Z0-9][A-Z0-9-]+$``; e.g. ``OT-PROSE-MARKDOWN``).
+    All columns are TEXT except ``added_at`` and ``last_review_at`` which are DATE in
+    the mirror; DATE columns are emitted as quoted ISO literals (PostgreSQL coerces).
+    """
+    cols_csv = ", ".join(OUTPUT_TYPE_REGISTRY_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in OUTPUT_TYPE_REGISTRY_FIELDNAMES if c != "output_type_code"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.output_type_registry_mirror upserts (I86 Wave L)"]
+    for r in rows:
+        code = (r.get("output_type_code") or "").strip()
+        if not code:
+            continue
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in OUTPUT_TYPE_REGISTRY_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.output_type_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (output_type_code) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_artifact_class_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """I86 Wave L (D-IH-86-BG) - compliance.artifact_class_registry_mirror upserts.
+
+    PK = artifact_class_code (matches ``^AC-[A-Z0-9][A-Z0-9-]+$``; e.g. ``AC-DOSSIER``).
+    """
+    cols_csv = ", ".join(ARTIFACT_CLASS_REGISTRY_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in ARTIFACT_CLASS_REGISTRY_FIELDNAMES if c != "artifact_class_code"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.artifact_class_registry_mirror upserts (I86 Wave L)"]
+    for r in rows:
+        code = (r.get("artifact_class_code") or "").strip()
+        if not code:
+            continue
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in ARTIFACT_CLASS_REGISTRY_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.artifact_class_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (artifact_class_code) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_component_primitive_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """I86 Wave L (D-IH-86-BG) - compliance.component_primitive_registry_mirror upserts.
+
+    PK = component_primitive_code (matches ``^CP-[A-Z0-9][A-Z0-9-]+$``; e.g. ``CP-CTA``).
+    """
+    cols_csv = ", ".join(COMPONENT_PRIMITIVE_REGISTRY_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in COMPONENT_PRIMITIVE_REGISTRY_FIELDNAMES if c != "component_primitive_code"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.component_primitive_registry_mirror upserts (I86 Wave L)"]
+    for r in rows:
+        code = (r.get("component_primitive_code") or "").strip()
+        if not code:
+            continue
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in COMPONENT_PRIMITIVE_REGISTRY_FIELDNAMES)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.component_primitive_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (component_primitive_code) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
 def _emit_decision_register_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
     """I59 P1.5 — compliance.decision_register_mirror upserts.
 
@@ -1019,6 +1103,21 @@ def main() -> int:
         help="Only emit substrate_registry_mirror statements (requires SUBSTRATE_REGISTRY.csv) [Initiative 84 P3]",
     )
     parser.add_argument(
+        "--output-type-registry-only",
+        action="store_true",
+        help="Only emit output_type_registry_mirror statements (requires OUTPUT_TYPE_REGISTRY.csv) [I86 Wave L D-IH-86-BG]",
+    )
+    parser.add_argument(
+        "--artifact-class-registry-only",
+        action="store_true",
+        help="Only emit artifact_class_registry_mirror statements (requires ARTIFACT_CLASS_REGISTRY.csv) [I86 Wave L D-IH-86-BG]",
+    )
+    parser.add_argument(
+        "--component-primitive-registry-only",
+        action="store_true",
+        help="Only emit component_primitive_registry_mirror statements (requires COMPONENT_PRIMITIVE_REGISTRY.csv) [I86 Wave L D-IH-86-BG]",
+    )
+    parser.add_argument(
         "--no-begin-commit",
         action="store_true",
         help="Omit BEGIN/COMMIT wrapper",
@@ -1052,6 +1151,9 @@ def main() -> int:
             args.engagement_model_only,
             args.design_pattern_registry_only,
             args.substrate_registry_only,
+            args.output_type_registry_only,
+            args.artifact_class_registry_only,
+            args.component_primitive_registry_only,
         )
         if x
     )
@@ -1609,8 +1711,26 @@ def main() -> int:
             args.substrate_registry_only, SUBSTRATE_REGISTRY_CSV, SUBSTRATE_REGISTRY_FIELDNAMES,
             "compliance.substrate_registry_mirror", "Initiative 84 P3",
         ),
+        # I86 Wave L — Output architecture mirrors (D-IH-86-BG; 4-layer architecture
+        # beneath the 5-axis Quality Fabric). Layer 1 + Layer 2 + Layer 3 in dispatch order
+        # so cross-FKs resolve cleanly when emitted in sequence.
+        (
+            args.output_type_registry_only, OUTPUT_TYPE_REGISTRY_CSV, OUTPUT_TYPE_REGISTRY_FIELDNAMES,
+            "compliance.output_type_registry_mirror", "I86 Wave L (Layer 1)",
+        ),
+        (
+            args.artifact_class_registry_only, ARTIFACT_CLASS_REGISTRY_CSV, ARTIFACT_CLASS_REGISTRY_FIELDNAMES,
+            "compliance.artifact_class_registry_mirror", "I86 Wave L (Layer 2)",
+        ),
+        (
+            args.component_primitive_registry_only, COMPONENT_PRIMITIVE_REGISTRY_CSV, COMPONENT_PRIMITIVE_REGISTRY_FIELDNAMES,
+            "compliance.component_primitive_registry_mirror", "I86 Wave L (Layer 3)",
+        ),
     ]
     _i59_emit_fns = {
+        "compliance.output_type_registry_mirror": _emit_output_type_registry_upserts,
+        "compliance.artifact_class_registry_mirror": _emit_artifact_class_registry_upserts,
+        "compliance.component_primitive_registry_mirror": _emit_component_primitive_registry_upserts,
         "compliance.repository_registry_mirror": _emit_repository_registry_upserts,
         "compliance.initiative_registry_mirror": _emit_initiative_registry_upserts,
         "compliance.ops_register_mirror": _emit_ops_register_upserts,
