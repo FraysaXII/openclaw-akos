@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (15)
+### Active (in execution) (14)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -23,7 +23,6 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **11** | [`11-madeira-ops-copilot/`](11-madeira-ops-copilot/) | active | 2026-04-15 | Initiative 11 — Madeira day-to-day ops copilot (SOTA-informed, governance-safe) |
 | **24** | [`24-hlk-communication-methodology/`](24-hlk-communication-methodology/) | active | 2026-05-17 | Initiative 24 — Communication Methodology + Eloquence-Layer Composer |
 | **56** | [`56-first-response-cycle/`](56-first-response-cycle/) | active | 2026-05-17 | Initiative 56 — First advisor response cycle (close the return-trip rails) |
-| **62** | [`62-mission-control/`](62-mission-control/) | active | 2026-05-07 | Initiative 62 — Mission Control (hlk-erp magnificent ERP) |
 | **63** | [`63-external-repo-governance-codification/`](63-external-repo-governance-codification/) | active | 2026-05-07 | Initiative 63 — External Repo Governance Codification |
 | **64** | [`64-governance-mission-control/`](64-governance-mission-control/) | active | 2026-05-07 | Initiative 64 — Governance Mission Control (in hlk-erp) |
 | **65** | [`65-akos-planning-workspace-panel/`](65-akos-planning-workspace-panel/) | active | 2026-05-07 | Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp) |
@@ -60,7 +59,7 @@ _(none)_
 | **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | program_line | 2026-04-18 | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
 | **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | program_line | 2026-04-23 | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
 
-### Closed (42)
+### Closed (43)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -94,6 +93,7 @@ _(none)_
 | **57** | [`57-cycle-closeout-live-validation/`](57-cycle-closeout-live-validation/) | closed | 2026-05-04 | Initiative 57 — Cycle closeout + first live-validation window |
 | **58** | [`58-cycle-2-multi-track-forward/`](58-cycle-2-multi-track-forward/) | closed | 2026-05-06 | Initiative 58 — Cycle 2 multi-track forward (OPS-57-1 + strategy + KM polish + hygiene) |
 | **59** | [`59-hlk-governance-clean-slate/`](59-hlk-governance-clean-slate/) | closed | 2026-05-06 | Initiative 59 — HLK governance promotion + clean slate cycle (5 dimensions + I60/I61 lo... |
+| **62** | [`62-mission-control/`](62-mission-control/) | closed | 2026-05-19 | Initiative 62 — Mission Control (hlk-erp magnificent ERP) |
 | **66** | [`66-brand-vision-ops-sweep/`](66-brand-vision-ops-sweep/) | closed | 2026-05-09 | Initiative 66 — Brand, Vision, Ops Sweep |
 | **70** | [`70-holistika-os-self-governance/`](70-holistika-os-self-governance/) | closed | 2026-05-13 | I70 — Holistika OS Self-Governance Foundation |
 | **71** | [`71-cicd-discipline-and-aiops-baseline-maturity/`](71-cicd-discipline-and-aiops-baseline-maturity/) | closed | 2026-05-14 | I71 — CI/CD Discipline and AIOps Baseline Maturity |

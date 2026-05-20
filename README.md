@@ -68,6 +68,7 @@ See [SECURITY.md](SECURITY.md) for the full security policy.
 
 - **[docs/README.md](docs/README.md)** — map by role (contributor, operator, HLK, planning) and where narrative vs reference lives.
 - **[docs/guides/first_time_contributor.md](docs/guides/first_time_contributor.md)** — first-PR style tutorial (bootstrap, dry-run verification, targeted tests).
+- **Operator landing** (single-pane "where am I"): [`docs/wip/planning/dashboards/2026-05-19/index.md`](docs/wip/planning/dashboards/2026-05-19/index.md) — regenerated per dated snapshot; links to WIP Dashboard + Operator Inbox + I86 cluster burndown + cross-area canonicals with "what it gives" annotations (Wave I Lane I-A per D-IH-86-AL).
 - Deep reference remains in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/USER_GUIDE.md](docs/USER_GUIDE.md), and [docs/DEVELOPER_CHECKLIST.md](docs/DEVELOPER_CHECKLIST.md); see the map for a full list.
 
 ## Quick Start
