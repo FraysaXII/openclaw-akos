@@ -1,19 +1,19 @@
 ---
 language: en
-status: active
+status: closed
 initiative: 65-akos-planning-workspace-panel
 initiative_id: INIT-OPENCLAW_AKOS-65
 report_kind: master-roadmap
 program_id: shared
 plane: ops
 authority: Founder + System Owner
-last_review: 2026-05-07
+last_review: 2026-05-20
 ---
 
 # Initiative 65 — AKOS Planning Workspace Panel (in hlk-erp)
 
 **Folder:** `docs/wip/planning/65-akos-planning-workspace-panel/`
-**Status:** **Active** — chartered and promoted in the same session on 2026-05-07. Charter package ([`reports/page-spec-impeccable-2026-05-07.md`](reports/page-spec-impeccable-2026-05-07.md), [`reports/journeys-2026-05-07.md`](reports/journeys-2026-05-07.md), [`reports/data-model-2026-05-07.md`](reports/data-model-2026-05-07.md)) was operator-approved alongside the user request *"We don't have an AKOS panel where we can see what we do in `docs/wip/planning/`. Let's fix that."* Sibling to [I62](../62-mission-control/master-roadmap.md) (Mission Control), [I63](../63-external-repo-governance-codification/master-roadmap.md) (External Repo Governance), [I64](../64-governance-mission-control/master-roadmap.md) (Governance Mission Control).
+**Status:** **CLOSED** at I86 Wave J (2026-05-20). P3 drill-in components + P4 atlas/queue/stream routes shipped at hlk-erp `398d9db` + AKOS `62ea95a`. Vercel hotfix `ec3f883` (D-IH-86-AT) recovered from server-only-import deploy regression. Closure UAT [`reports/uat-i65-2026-05-19.md`](reports/uat-i65-2026-05-19.md) reworked to the Quality Fabric 5-of-7 class bar (closure + brand + render + regression + deploy) at PASS-WITH-FOLLOWUP. Followups tracked: optional Wave J5 cursor-ide-browser walkthrough; hlk-erp tsc-debt remediation. Sibling to [I62](../62-mission-control/master-roadmap.md) (Mission Control), [I63](../63-external-repo-governance-codification/master-roadmap.md) (External Repo Governance), [I64](../64-governance-mission-control/master-roadmap.md) (Governance Mission Control).
 
 ## Outcome
 

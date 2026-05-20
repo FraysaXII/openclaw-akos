@@ -1,0 +1,121 @@
+# AKOS Quality Fabric
+
+Use this rule whenever authoring, reviewing, or shipping a **quality-bound artifact** in this workspace. Codifies operator decision **D-IH-86-AU** (operator-ratified the 5-axis composition architecture, 2026-05-20). Mechanical companion to the meta-canonical [`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md).
+
+This rule does **not** define the doctrine — that lives in the canonical. This rule names the mechanical bar that future agents and operators inherit by default when handling any artifact whose quality bar is non-trivial.
+
+## What counts as a "quality-bound artifact"
+
+An artifact is quality-bound — and therefore in scope for this rule — when **at least one** of:
+
+- It carries an `audience:` frontmatter tag that resolves to any class other than (or in addition to) J-OP / J-AIC.
+- It is a closure UAT report or any other report that gates an INITIATIVE_REGISTRY status flip.
+- It is rendered for external delivery (PDF / Web / ERP / Mail / Slide / Broadcast per [`akos-external-render-discipline.mdc`](akos-external-render-discipline.mdc) RULE 1).
+- It is a brand-touching surface (deck slide body, dossier prose, web page, email body, dashboard chrome, identity asset).
+- It is shipped to a sibling repository (`hlk-erp`, `boilerplate`, `kirbe-platform`) and triggers a deploy.
+- It is a Quality-Fabric-specialty canonical (UAT_DISCIPLINE, UX_DISCIPLINE, channel-doctrines) or a cursor rule that materialises a specialty compose() function.
+
+Artifacts NOT in scope: code-only refactors with no human-facing surface; internal scratchpad entries; agent self-checkpoints; debugging notes; test fixtures; ephemeral one-off scripts.
+
+## RULE 1 — Five-axis resolution discipline (binding)
+
+Every quality-bound artifact's frontmatter (or its parent initiative's master-roadmap frontmatter, when the artifact lives inside an initiative folder) **must** carry resolvable values for the five axes:
+
+1. **Audience axis.** `audience:` tag (single value or `;`-separated list). FK-resolves against [`AUDIENCE_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv). Multi-audience tags resolve to the **strictest** constraint per downstream axis.
+2. **Channel axis.** `channel:` tag (optional today; advisory per [`akos-external-render-discipline.mdc`](akos-external-render-discipline.mdc) RULE 7). When present, FK-resolves against [`CHANNEL_TOUCHPOINT_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv). When absent, the bar derives audience-only and channel-side constraints fall back to the audience-class default.
+3. **Scenario axis.** `scenario:` tag (optional today). When present, FK-resolves against [`PERSONA_SCENARIO_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Resonance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv). When absent, scenario falls back to the artifact's parent-initiative scope description.
+4. **Brand axis.** Always non-null. The variable is the **register** (CORPINT-internal vs translated-external per [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc)).
+5. **Governance axis.** Always non-null. Determined by the artifact's asset class per [`PRECEDENCE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md) + the cursor rules that scope it.
+
+When any of axes 1-3 is unresolvable, the artifact is **under-specified**. Under-specified artifacts cannot reach a PASS verdict in their UAT/UX bar — the agent must either resolve the axis (via inline-ratify per [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc)) or carry the under-specification flag explicitly in `notes:` frontmatter with a closure-target.
+
+## RULE 2 — Multiplicative-AND composition (binding)
+
+The five axes compose **multiplicatively**: every constraint from every axis must be satisfied. Composition is **not** additive (no axis dominates) and **not** sequential (no last-axis-wins). When two axes appear to conflict, BOTH constraints apply. Genuine conflicts surface as inline-ratify gates per [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) — the agent does not silently pick one axis.
+
+This rule operationalises the doctrine in [`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) §3 (the load-bearing claim of the fabric) by binding it to artifact authoring practice.
+
+## RULE 3 — Closure UAT for sibling-repo work must include deploy-class verification (binding)
+
+When a closure UAT report's parent initiative ships work to a sibling repository (`hlk-erp`, `boilerplate`, `kirbe-platform`, or any other repo registered in [`REPOSITORY_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPOSITORY_REGISTRY.csv)) AND that work triggers a deploy, the closure UAT report **must** include a deploy-class verification section (per [`UAT_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md) §3.7).
+
+Minimum content:
+
+- Deploy ID + source sha + state (READY / ERROR / BUILDING) verified via vendor MCP.
+- For Vercel deploys: `user-vercel` MCP `get_deployment` call output evidence.
+- For Render deploys: equivalent Render service-status check.
+- If state is ERROR and was recovered, both the ERROR and READY phases are recorded with the hotfix lineage between them.
+- A reproducible MCP-call command future readers can re-run.
+
+**Why this is binding.** The Vercel `dpl_6uNfwjKVUNwqqd2MZ65vySkvd834` regression on 2026-05-20 (server-only-import poisoning client bundle; production-broken for ~14 hours before operator caught it) demonstrated that local `tsc` PASS does not imply vendor-side build PASS. Build-context-class regressions are routinely caught only at vendor-MCP verification time. This rule's existence ensures that gap is closed mechanically.
+
+## RULE 4 — Brand-class UAT must reference Figma source-of-truth when one exists (binding when applicable)
+
+When a brand-class UAT (per [`UAT_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md) §3.2) exercises a surface that has a corresponding entry in [`FIGMA_FILES_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/dimensions/FIGMA_FILES_REGISTRY.csv), the UAT report's findings table **must** include a row checking divergence against the Figma source-of-truth at the documented breakpoint.
+
+When the surface does **not** have a Figma source-of-truth, the rule no-ops — but the agent should consider whether minting one is appropriate (forward-charter scope; not blocking).
+
+## RULE 5 — External-audience artifacts must satisfy compose_render() before send (binding)
+
+For any artifact tagged `audience:` with one or more external classes (J-IN, J-CU, J-PT, J-AD, J-ENISA, J-RC, J-CO), the render-class UAT bar in [`akos-external-render-discipline.mdc`](akos-external-render-discipline.mdc) RULE 4 + RULE 6 applies. The compose_render() output (which 6-surface format is required, what manifest sidecar is required, what render-pending tracker entry is needed if render parity is not yet reached) must be explicitly addressed in the artifact's UAT report or in its parent initiative closure UAT.
+
+This rule is the umbrella that binds the existing render-discipline rule to the broader Quality Fabric architecture.
+
+## RULE 6 — Inline-ratify when an axis is contested (binding)
+
+When two axes' constraints appear to conflict on a specific decision (e.g., audience demands brevity but governance demands completeness; brand demands warmth but channel demands transactional terseness), the agent surfaces an inline-ratify gate per [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) before drafting the conflicting prose.
+
+Pattern: in the `AskQuestion` body, name the two conflicting axes + their respective constraints + the proposed reconciliation options + a recommended default. The operator's ratification embeds in the artifact's `linked_decisions:` frontmatter.
+
+This rule operationalises the multi-axis composition from RULE 2 in agent practice.
+
+## RULE 7 — Specialty canonicals inherit the fabric (advisory)
+
+When authoring a new specialty canonical that materialises a compose() function for a domain (the existing precedents are UAT_DISCIPLINE.md + UX_DISCIPLINE.md forward-charter + akos-external-render-discipline.mdc), the canonical:
+
+1. **Cross-references** [`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) as parent meta-doctrine.
+2. **Names its compose() function explicitly** (e.g., `compose_UAT(audience, channel, scenario, brand, governance) → 7-class UAT shape`).
+3. **Lands at `status: charter`** if not yet exercised by a real worked example; promotes to `status: active` per the Quality Fabric §10 promotion criteria.
+4. **Cites internal precedents** (existing UAT reports, existing render-trail manifests, existing brand-canon edits) for each construct it introduces.
+5. **Cites at least one external research source** when the framing is novel (per [`akos-applied-research-discipline.mdc`](akos-applied-research-discipline.mdc) RULE 2).
+
+## When this rule does NOT apply
+
+- One-off scripts under `scripts/` that are not registered in `process_list.csv`.
+- Internal helper modules inside `akos/` (no human-facing surface).
+- Test fixtures + ephemeral debugging artifacts.
+- Pre-2026-05-20 closure UAT reports (no retroactive backfill required; new bar applies forward-only per `akos-planning-traceability.mdc` UAT quality bar §migration posture).
+- Operator-internal scratchwork (scratchpads + agent self-checkpoints + debugging notes).
+
+## Self-discipline rules for agents
+
+When generating prose under this rule's globs:
+
+1. **Resolve the 5 axes BEFORE drafting.** Skipping the resolution and reverse-engineering the bar after-the-fact is the most common failure mode and produces brand drift + audience-mismatch + missing deploy-verification.
+2. **Cite the resolved axes inline in frontmatter.** `audience:`, `channel:` (when known), `scenario:` (when known), `linked_decisions:` (governance axis), brand-register-implicit-via-content. Absence of these tags is a quality signal.
+3. **Compose, don't substitute.** Two axes' constraints both apply. When they conflict, surface as inline-ratify (RULE 6).
+4. **Read the per-axis doctrine before drafting.** Do not infer brand voice from prior outputs; read [`BRAND_DO_DONT.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_DO_DONT.md). Do not infer channel norms from intuition; read the per-channel doctrine (when minted) or call out the gap in `notes:`.
+5. **Refuse under-specified artifacts.** When asked to produce an artifact whose audience or channel cannot be resolved, refuse or surface as inline-ratify before proceeding.
+
+## Cross-references
+
+- Meta-canonical: [`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) (the doctrine this rule mechanically binds).
+- First specialty instantiation: [`UAT_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md) (compose_UAT + 7-class taxonomy + deploy-class).
+- Sister cursor rules:
+  - [`akos-external-render-discipline.mdc`](akos-external-render-discipline.mdc) — render-axis specialty rule.
+  - [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc) — brand-axis dual-register rule.
+  - [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) §"UAT quality bar" — closure-UAT bar materialisation.
+  - [`akos-people-discipline-of-disciplines.mdc`](akos-people-discipline-of-disciplines.mdc) — People owns the cross-area pattern (this rule's lineage parent).
+  - [`akos-applied-research-discipline.mdc`](akos-applied-research-discipline.mdc) — research grounding required for novel framings (specialty canonicals must comply).
+  - [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) — RULE 6 operationalises this rule for axis conflicts.
+- Ratifying decisions:
+  - **D-IH-86-AU** — operator-ratified the architecture mint (the load-bearing decision).
+  - **D-IH-86-AS** — UAT quality-bar canonization (the closure-class materialisation already in place).
+  - **D-IH-86-AT** — Vercel deploy regression hotfix (the worked example for RULE 3).
+  - **D-IH-86-AV** — UAT_DISCIPLINE.md mint (the first specialty instantiation).
+  - **D-IH-86-AW** — I-NN-CHANNEL-DOCTRINES forward-charter (the channel-axis backfill).
+  - **D-IH-86-AX** — UX_DISCIPLINE.md forward-charter (the second specialty instantiation).
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv

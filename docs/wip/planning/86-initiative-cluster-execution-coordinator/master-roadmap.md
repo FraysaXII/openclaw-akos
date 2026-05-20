@@ -189,6 +189,33 @@ Bundle D push closes 5 of the 10 cluster siblings; remaining 3 active (I81 + I82
 
 **Evidence base.** [`reports/lane-visibility-sweep-2026-05-19.md`](reports/lane-visibility-sweep-2026-05-19.md) — comprehensive 4-axis sweep (AKOS internal / HLK external / HLK-ERP / cohesion) with ranked option set §6 + recommendation §7 + 5 open questions §8 (all 5 ratified in this charter). The sweep report itself lands as part of this Wave I charter commit (parent-written during inter-lane gap; correctly excluded from Wave H closure per scope discipline).
 
+### 1.8 Wave J — Quality Fabric mint + I65 closure (chartered + executed 2026-05-20 per inline-ratify gates)
+
+Wave J emerged inside the I65 closure post-flow when operator surfaced two compounding concerns: (a) the `hlk-erp` push of I65 P3+P4 work failed at Vercel (`dpl_6uNfwjKVUNwqqd2MZ65vySkvd834` ERROR via server-only-import poisoning client bundle); (b) the existing closure UAT pattern was insufficient for the mature multi-class verification needed for sibling-repo work. The wave produced both an emergency hotfix AND a meta-doctrine codifying how quality bars are derived for any Holistika artifact — answering the operator's verbatim challenge "we need to engineer properly the link between [audience and artifact]... channels... scenarios... brand... governance. And scalable."
+
+**Wave J composition** (eight phases; J0-J3 mechanical-fix preceded J4-J9 doctrine-mint per same-day execution):
+
+| Phase | Trigger | Deliverable | Decision row |
+|----|---|---|---|
+| **J0** Vercel hotfix | `dpl_6uNfwjKVUNwqqd2MZ65vySkvd834` ERROR | `hlk-erp` `ec3f883` extracts `lib/planning/github-urls.ts` as client-safe URL helpers; 4 client components migrated; Vercel `dpl_8N4pqRVEhhUCMMV82A8RUzYAfixo` READY | D-IH-86-AT |
+| **J1** Post-push management | Operator post-push request | hlk-erp 71d3ebe rebased + pushed (flatten cb19f81 merge, drop already-upstream 31df5c5); operator WIP restored from stash | (mechanical) |
+| **J2** UAT closure template | Operator "rework UAT, we have way better standards now" | [`docs/wip/planning/_templates/uat-closure-template.md`](_templates/uat-closure-template.md) minted; cites World Quality Report 2024 + Yuri Kan + Playwright MCP audit-trail + 5 internal precedents | (mechanical; D-IH-86-AS body) |
+| **J3** UAT quality bar rule extension | Operator "make UAT properly governed" | [`akos-planning-traceability.mdc`](../../../../.cursor/rules/akos-planning-traceability.mdc) §"UAT quality bar" subsection added — binding contract on closure-UAT shape | D-IH-86-AS |
+| **P0** Quality Fabric meta-doctrine | Operator "engineer the link [audience↔artifact]... and scalable. Do you accept?" | [`HOLISTIKA_QUALITY_FABRIC.md`](../../../references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) at `status: charter` — 5-axis compose() architecture (audience × channel × scenario × brand × governance multiplicative) | D-IH-86-AU |
+| **P1** UAT_DISCIPLINE first specialty | Quality Fabric needs first instantiation to validate | [`UAT_DISCIPLINE.md`](../../../references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md) — 7-class taxonomy (closure / brand / send / render / regression / persona / **deploy** [NEW from J0 evidence]); `compose_UAT(audience, channel, scenario, brand, governance) → UAT shape` | D-IH-86-AV |
+| **P2** I65 UAT rework | Closure-UAT for I65 needed Quality Fabric materialisation | [`uat-i65-2026-05-19.md`](../65-akos-planning-workspace-panel/reports/uat-i65-2026-05-19.md) reworked to satisfy 5 of 7 classes (closure + brand + render + regression + deploy); the J0 ERROR→READY trail is the worked example for the deploy-class; verdict: PASS-WITH-FOLLOWUP | (composite of D-IH-86-AT + AS + AV) |
+| **P3** Mechanical companion rule | Quality Fabric needs mechanical bar | [`akos-quality-fabric.mdc`](../../../../.cursor/rules/akos-quality-fabric.mdc) — RULE 1 axis-resolution + RULE 2 multiplicative-AND + RULE 3 deploy-verification for sibling-repo + RULE 4 Figma-source-check + RULE 5 compose_render() + RULE 6 inline-ratify on conflict + RULE 7 specialty-canonical contract | (composite of D-IH-86-AU) |
+
+**Wave J forward-charters.** Three follow-on initiatives forward-chartered as candidate-shape per `akos-conflict-surfacing-and-blocker-trackers.mdc` Option 5 default posture (preserves operator-intent visibility without speculative-promotion debt):
+
+- **D-IH-86-AW** — `I-NN-CHANNEL-DOCTRINES` per-channel goods/bads research initiative (the operator-named gap: every channel has its own rules but most lack written doctrine). Activation gates: this Quality Fabric at active + UAT_DISCIPLINE at active + 1 channel research POC.
+- **D-IH-86-AX** — `UX_DISCIPLINE.md` mint as second specialty instantiation (sibling to UAT_DISCIPLINE.md). Depends on ≥1 channel doctrine so channel-aware UX bar derives from real channel rules, not speculation.
+- **`scripts/derive_quality_bar.py` runbook** — given (audience, channel, scenario_id, surface_class), compute the binding bar by composing the 5 axes; emit JSON for ERP panel + Markdown for human reading. The "engineering of the link" runbook the operator named verbatim.
+
+**I65 status closure.** I65 row in [`INITIATIVE_REGISTRY.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) flipped `active → closed` at this commit; `last_review_decision_id: D-IH-86-AT`. Lane I-D is now fully closed end-to-end (charter at D-IH-86-AI → execution at D-IH-86-AQ → final closure at this Wave J commit).
+
+**Wave J doctrine moves crystallised.** (1) Quality Fabric 5-axis compose() architecture is the durable record of operator intent for cross-area scalable quality; (2) UAT discipline now formalises 7 classes with mechanical bars including the new deploy-class motivated by the Vercel ERROR→READY evidence; (3) build-context-class regression vector (server-only-import bundle poisoning) added to recurring-risk awareness; (4) sibling-repo deploy verification is now binding via vendor-MCP per `akos-quality-fabric.mdc` RULE 3; (5) doctrine pipeline established for materialising specialty compose() functions (UX_DISCIPLINE next; per-channel doctrines next).
+
 ## 2. Architecture — cluster coordinator (diagram 1 of 3)
 
 ```mermaid

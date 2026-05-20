@@ -45,6 +45,86 @@ When a roadmap becomes execution-relevant, `docs/wip/planning/<NN-initiative-slu
 - If a row was **not** run, record **SKIP** or **N/A** with a one-line reason (e.g. Langfuse not configured, Neo4j mirror absent). **Do not** close with only "run `py scripts/verify.py pre_commit`" / the checklist doc when browser UAT was in scope.
 - **Precedent:** [`docs/wip/planning/07-hlk-neo4j-graph-projection/reports/uat-graph-explorer-browser-20260415.md`](../../docs/wip/planning/07-hlk-neo4j-graph-projection/reports/uat-graph-explorer-browser-20260415.md) and [`reports/uat-neo4j-graph-evidence-template.md`](../../docs/wip/planning/07-hlk-neo4j-graph-projection/reports/uat-neo4j-graph-evidence-template.md). Madeira / gateway WebChat baselines live under [`docs/uat/hlk_admin_smoke.md`](../../docs/uat/hlk_admin_smoke.md); initiative reports should **point there** when reusing scenarios, and still record **closure-specific** outcomes when the plan added new acceptance rows. The repo’s governed automated gate set is defined by profile `pre_commit` and related entries in [config/verification-profiles.json](../../config/verification-profiles.json); [docs/DEVELOPER_CHECKLIST.md](../../docs/DEVELOPER_CHECKLIST.md) summarizes the golden path.
 
+## UAT quality bar (post-2026-05-19; binding for closure UAT)
+
+> Codifies the I85 + I87 closure UAT shape (Bundle D Wave B + Wave C, 2026-05-19) as the new bar. Promoted from craft-on-individual-agent to rule-mandated discipline at I86 Wave J via D-IH-86-AS (operator ratification 2026-05-20). The companion template lives at [`docs/wip/planning/_templates/uat-closure-template.md`](../../docs/wip/planning/_templates/uat-closure-template.md). Read both together — this section is the *when*; the template is the *how*.
+
+**External research grounding** (per [`akos-applied-research-discipline.mdc`](akos-applied-research-discipline.mdc) RULE 2): bar is grounded in the **World Quality Report 2024** (organisations with structured UAT documentation report 38% fewer post-release defects + 52% fewer project escalations) + **Standish Group CHAOS Report 2023** (inadequate user involvement is the second most common cause of project failure, 15% of failed IT projects) + **2026 Playwright-MCP + audit-trail pattern** (screenshot + accessibility-snapshot + sha256 + timestamp at decision points, because API logs alone cannot prove what an operator saw on screen). Cited inline in the template's §"External research grounding".
+
+**Internal precedent grounding** (RULE 1): I47 user-centric-uat (persona-driven scenario library + calibration) + I77 impeccable-template (per-surface deep-section + verdict_history + remediation narrative) + I85 closure-criteria-PASS-table + I87 substrate-test-coverage-with-counts + I86 P3 persona-rollup acceptance dimension-checklist + Wave F render-quality multi-dimensional findings.
+
+### When this bar applies (mandatory)
+
+The closure UAT for an initiative **must** follow the [`uat-closure-template.md`](../../docs/wip/planning/_templates/uat-closure-template.md) shape when **any** of:
+
+- The initiative has **≥ 5 phases**.
+- The initiative touches a **canonical CSV** under `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/`.
+- The initiative ships **sibling-repo work** (per [`bless_external_repo.py`](../../scripts/bless_external_repo.py) tracked repos in `REPOSITORY_REGISTRY.csv`).
+- The initiative is part of an **I86 cluster** (D-IH-86-D mechanical cross-check applies).
+- The initiative promised **browser**, **dashboard**, **WebChat**, **Cursor IDE Browser MCP**, or other **human-in-the-loop** verification.
+
+When **none** of those fire (1-3 phase quick fixes, single-file refactors, ad-hoc proposals under `_candidates/` or `99-proposals/`), the prior contract above (results table with PASS / SKIP / N/A + short notes) remains sufficient.
+
+### Mandatory frontmatter fields
+
+Every closure UAT under this bar **must** carry the following frontmatter fields beyond the prior `status:` enum:
+
+- **`verdict:`** one of `PASS` / `PASS-WITH-FOLLOWUP` / `FAIL` / `PENDING-OPERATOR-WALK`. Closures cannot be ambiguous about whether the gate cleared.
+- **`closure_decision_source:`** `agent_inline_default` (per Time-box recovery) / `operator_explicit` / `n/a`.
+- **`ratifying_decisions:`** YAML list of every `D-IH-<NN>-<X>` row this UAT evidences (including the closure decision when applicable).
+- **`linked_runbooks:`** YAML list of every `scripts/<name>.py` runbook the parent initiative shipped (per [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc) Rule 1 SOP+runbook pairing).
+- **`verdict_history:`** YAML list — **mandatory** if the report is an amendment of a prior version (per I77 P3-P4 amendment precedent); **optional** otherwise.
+
+### Mandatory sections (binding ordering)
+
+The template's 11 sections are binding for any closure UAT under this bar; they may be collapsed to one-line N/A statements when not applicable but cannot be omitted:
+
+1. **§1 Closure summary** — TL;DR table with Target / Actual / Status columns; <30s read for J-OP.
+2. **§2 Closure-criteria verification** — every row in master-roadmap §"Closure criteria" gets a `Verification command` column with reproducible commands.
+3. **§3 Mechanical evidence** — verbatim validator outputs + pytest counts + tsc/lint counts + (when in scope) **§3.4 browser-evidence pattern** with screenshot + accessibility-snapshot + sha256 + timestamp.
+4. **§4 Per-dimension findings** — multi-column table when initiative has multiple acceptance dimensions; collapsable to single-row.
+5. **§5 D-IH-86-D mechanical cross-check** — four-signal table (release-gate INFO / validate_hlk PASS / paired-runbook contract / UAT report present); mandatory for cluster siblings.
+6. **§6 SOP+runbook pair** — when the parent initiative shipped a `process_list.csv` row; AC-HUMAN + AC-AUTOMATION acceptance criteria from `akos-executable-process-catalog.mdc` Rule 1 §5.
+7. **§7 Risk-register closure** — every R-IH-<NN>-<N> row with status MITIGATED / NOT-TRIGGERED / DEFERRED.
+8. **§8 Decision close-outs** — every D-IH-<NN>-<X> row's activation status + reversibility.
+9. **§9 Closure registry edits** — exact INITIATIVE_REGISTRY / DECISION_REGISTER / OPS_REGISTER / cluster sibling-table after-states.
+10. **§10 Verdict + 7-item operator sign-off checklist** — per [`akos-agent-checkpoint-discipline.mdc`](akos-agent-checkpoint-discipline.mdc) §"Operator pause point contract"; ≤ 7 items; auto-clear after 24h+ silence + clean validators on reversible items only.
+11. **§11 Cross-references** — parent master-roadmap + decision-log + risk-register + files-modified + cluster coordinator + sibling-precedent UAT + governing rules.
+
+### Browser-evidence audit-trail bar (when browser UAT is in scope)
+
+Per the 2026 Playwright-MCP + audit-trail pattern, browser UAT requires **persistent evidence at every decision point**:
+
+- **Screenshot** at each route entry + each form interaction + each error state, saved under `artifacts/uat-screenshots/<initiative-slug>-<YYYY-MM-DD>/`.
+- **Accessibility-snapshot text** captured alongside (token-efficient ~200-400 tokens vs thousands for full DOM; deterministic via element refs).
+- **sha256 manifest** sidecar at the same path with `screenshot_sha256` + `captured_at` + `route` + `auth_state`.
+- **Code-evidence fallback** when operator credentials are unavailable mid-session: cite the source file + line range that proves the component invariant statically; mark verdict `CODE-EVIDENCE` (not `PASS`) to preserve the live-walk distinction.
+
+API logs / pytest output **do not satisfy** this bar — per the PageBolt-MCP audit pattern, *"API logs alone cannot prove to auditors what happened — for example, whether a form actually submitted or if error messages appeared."*
+
+### Reproducibility bar
+
+Every PASS row in §2 + §3 must carry a **reproducible command**. A reader without access to the authoring session must be able to verify the verdict from the report alone — this is what the World Quality Report 2024's 38%/52% improvement statistic operationalises.
+
+### Sign-off finality bar
+
+Per Yuri Kan (Senior QA Lead, "UAT Documentation: Complete Guide"), formal sign-off is the load-bearing artefact that converts UAT from compliance theatre into operational discipline. The §10 7-item checklist is the operator's binding signal; closures are **not** complete until the operator (or AIC role_owner) acknowledges every row PASS / N/A / DEFERRED, OR the 24h+ Time-box recovery applies (reversible items only, never irreversible items per [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) §"Time-box recovery").
+
+### Cluster-sibling D-IH-86-D mechanical contract
+
+Initiatives inside an I86 cluster (per the cluster coordinator master-roadmap §1.3 sibling table) inherit a four-signal mechanical cross-check at closure:
+
+1. ✓ `release-gate.py` INFO advisory: parent initiative row green.
+2. ✓ `validate_hlk.py` OVERALL PASS.
+3. ✓ Paired-runbook contract honored (when SOP shipped) — SOP frontmatter `linked_runbooks:` populated AND scripts exist.
+4. ✓ UAT report present (this report).
+
+When any signal is N/A (e.g. initiative did not mint a SOP+runbook pair), state the reason explicitly. **Never use ✓ for an N/A row.** All four signals must be ✓ or N/A-with-reason before INITIATIVE_REGISTRY closure flip.
+
+### Migration posture for pre-2026-05-19 initiatives
+
+Initiatives that closed before 2026-05-19 are **not** retroactively required to backfill to this bar. The bar is forward-only from D-IH-86-AS (2026-05-20). When a pre-bar UAT report is **amended** (e.g. operator review uncovers a brand-canon collapse, per the I77 P3→P4 amendment precedent), the amendment **may** opt into this bar by adding the new frontmatter fields + restructuring sections; doing so is encouraged but not mandatory.
+
 ## Scope Split
 
 - General HLK planning method belongs in the personal skill `hlk-planning-system`.
