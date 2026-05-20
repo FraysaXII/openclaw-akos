@@ -107,6 +107,52 @@ axis must be satisfied. Composition is **not** additive (where any one
 axis can dominate) and **not** sequential (where the last axis "wins").
 This is the load-bearing claim of the fabric and what makes it generative.
 
+### 3.1 The 4-layer output hierarchy parametrised by the fabric
+
+The 5 axes resolve **what** quality bar applies to an artifact. They do
+not resolve **what shape the artifact takes**. Operator G4 extension at
+Wave K (2026-05-20 per `D-IH-86-BB`):
+
+> *"we are speaking of components in a UI and there could be more
+> scenarios, slides of pdf/pptx, images, voice for agents, reading for
+> different readers platforms, scenarios, etc, excalidraw, mermaids,
+> graphs, gantts, please try to think of a way to properly organize the
+> output type"*
+
+Below the 5-axis fabric sit **4 layers** that name the artifact's shape
+decomposition:
+
+```
+Quality Fabric (Audience × Channel × Scenario × Brand × Governance)
+   ↓ derives quality bar, parametrised at every layer:
+Layer 1: OUTPUT TYPE (medium / shape — prose / slide / image / voice /
+         mermaid / gantt / excalidraw / web / pdf / video; ~17 codes)
+   ↓ assembled into:
+Layer 2: ARTIFACT CLASS (named purpose — dossier / cover_email /
+         intro_message / deck / topic_graph / km_diagram / uat_report;
+         ~20 codes)
+   ↓ composed of:
+Layer 3: COMPONENT PRIMITIVE (sub-units — greeting / hook / CTA /
+         signature / evidence-block / slide-hero / slide-the-ask;
+         ~25 codes; Shadcn-shape per-primitive doctrine)
+   ↓ rendered to:
+Layer 4: RENDER SURFACE (PDF / Web / ERP / Mail / Slide / Broadcast —
+         already exists per akos-external-render-discipline.mdc RULE 1)
+```
+
+Each layer = registry CSV + canonical MD library doctrine. The Quality
+Fabric is **not** extended with a 6th axis; the 4-layer hierarchy is
+**parametrised by** the 5 axes (every layer's bar derives from
+`compose(audience, channel, scenario, brand, governance)`). The 4 layers
+land as registries + libraries at Wave K (`D-IH-86-BB` + `D-IH-86-BC`)
+under the new initiative
+[I-NN-OUTPUT-ARCHITECTURE](../../../../../../docs/wip/planning/_candidates/i-nn-output-architecture.md).
+Per-layer Shadcn-equivalent depth (Layer 3 component-primitive doctrine
+pages with variants × accessibility × research grounding × composition
+rules) matures at I-NN-OUTPUT-ARCHITECTURE P1-P3 once activation gates
+clear. Reference the `D-IH-86-BB` rationale + the candidate file for the
+load-bearing structural claim and orthogonality argument.
+
 The reason composition is multiplicative rather than additive is that
 quality is governed by the most-constrained axis on each dimension:
 
@@ -138,14 +184,30 @@ RULE 2 (audience × format matrix). No further mint required for v1.
 
 **Status: partial.** Registry exists (per
 [`akos-external-render-discipline.mdc`](../../../../../../.cursor/rules/akos-external-render-discipline.mdc)
-RULE 7 mint at Wave F, 2026-05-19) with channel codes
-(CHAN-LINKEDIN-DM, CHAN-EMAIL-INBOUND, CHAN-EMAIL-OUTBOUND,
-CHAN-WEB-FORM, CHAN-CAL-SCHEDULE, CHAN-EVENT-MEETING,
-CHAN-AD-CAMPAIGN, etc.). **Per-channel doctrine documents — naming the
-specific goods and bads of each channel — are largely missing.** This
-is the operator-named gap. Forward-chartered as initiative
+RULE 7 mint at Wave F, 2026-05-19) with **10 registered channel codes**
+as of Wave J (2026-05-20): CHAN-LINKEDIN-DM, CHAN-LINKEDIN-POST-RESPONSE,
+CHAN-EMAIL-INBOUND, CHAN-WEB-FORM, CHAN-CAL-SCHEDULE, CHAN-AD-CAMPAIGN,
+CHAN-SEARCH-ORGANIC, CHAN-DIRECT-DM, CHAN-PARTNER-REFERRAL,
+CHAN-EVENT-MEETING. **Per-channel doctrine documents — naming the
+specific goods and bads of each channel — are largely missing for ALL
+10.** This is the operator-named gap. Forward-chartered as initiative
 **I-NN-CHANNEL-DOCTRINES** (candidate-shape file under
 `docs/wip/planning/_candidates/`).
+
+Additional channel codes that surfaced in Wave G B-G2 closure +
+Wave J regression as forward-charters (NOT yet in registry; require
+canonical-CSV gate per `akos-holistika-operations.mdc` "New git-canonical
+compliance registers"; gating prerequisite for **I-NN-CHANNEL-DOCTRINES P0**):
+**CHAN-EMAIL-OUTBOUND** (operator-initiated cold/warm send),
+**CHAN-EMAIL-MARKETING** (campaign send at scale; distinct UX norms),
+**CHAN-EMAIL-TRANSACTIONAL** (account / verification / calendar invite),
+**CHAN-PDF-DOWNLOAD** (rendered dossier delivered as link or attachment),
+**CHAN-WHATSAPP-DM** (Holistik mobile inbound; per R-31-10 risk),
+**CHAN-VOICE-NOTE** (founder mobile voice memo), **CHAN-DECK-SHARE**
+(Figma file shared as broadcast surface), **CHAN-PRESS-KIT** (publish
+to /press/ on holistikaresearch.com). Registry expansion 10→18 is P0
+of I-NN-CHANNEL-DOCTRINES; per-channel doctrine MDs are P1+ of the
+same initiative.
 
 Channels that need per-channel doctrine MDs (non-exhaustive list per
 operator scope at 2026-05-20):
@@ -266,16 +328,21 @@ for the specialty's domain.
 
 | Specialty | Materialisation canonical | Status | Compose function |
 |:---|:---|:---|:---|
-| **UAT (verification)** | `UAT_DISCIPLINE.md` (in flight; this Wave J P1) | charter→active when minted | `compose_UAT(audience, channel, scenario, brand, governance) → UAT shape (closure / brand / send / render / regression / persona / deploy class)` |
-| **UX (research + design + accessibility)** | `UX_DISCIPLINE.md` (forward-charter; depends on channel doctrines) | forward-chartered | `compose_UX(audience, channel, scenario, brand, governance) → UX research methods + design constraints + a11y bar` |
+| **UAT (verification)** | `UAT_DISCIPLINE.md` (Wave J P1 mint at status: charter; 11-class promotion gated on `D-IH-86-AY`) | charter→active when 11-class lands | `compose_UAT(audience, channel, scenario, brand, governance) → UAT shape (closure / brand / send / render / regression / persona / deploy class — extending to 11-class on activation: + localisation + accessibility + performance + privacy)` |
+| **UX (research + design + accessibility)** | `UX_DISCIPLINE.md` (forward-charter `D-IH-86-AX`; depends on channel doctrines; owned by Brand & Narrative Manager per 2026-05-15 absorption + Front-End Developer co-owner) | forward-chartered | `compose_UX(audience, channel, scenario, brand, governance) → UX research methods + design constraints + a11y bar + i18n strategy` |
 | **Brand render** | `akos-external-render-discipline.mdc` RULE 2 (audience × format matrix) | active | `compose_render(audience, channel, brand, governance) → 6-surface format choice + manifest contract` |
 | **Send evidence** | (sub-section of UAT_DISCIPLINE.md and external-render-discipline) | partial | `compose_send(audience, channel, governance) → send-evidence trail (sha256 + SMTP + manifest)` |
 | **Closure gate** | `akos-planning-traceability.mdc` §"UAT quality bar" + `akos-governance-remediation.mdc` §"Verification matrix" | active | `compose_closure(governance) → mechanical evidence + sign-off + registry edits` |
+| **MKTOPS (campaign / GTM funnel quality)** | `MKTOPS_DISCIPLINE.md` (forward-charter `D-IH-86-AZ`; Operations-plane sister to People-plane UAT/UX; owned by Marketing/Reach + Operations/RevOps) | forward-chartered | `compose_MKTOPS(audience, channel, scenario, brand, governance) → campaign quality bar + funnel-stage UX + landing-page conversion + attribution trail` |
+| **TECHOPS (system uptime / observability / Web Vitals)** | `TECHOPS_DISCIPLINE.md` (forward-charter `D-IH-86-AZ`; owned by Tech/System Owner + DevOPS) | forward-chartered | `compose_TECHOPS(audience, channel, scenario, brand, governance) → system quality bar + uptime SLO + Core Web Vitals threshold + observability evidence` |
+| **DATAOPS (data quality / pipeline integrity / mirror sync)** | `DATAOPS_DISCIPLINE.md` (forward-charter `D-IH-86-AZ`; owned by Tech/Data + System Owner) | forward-chartered | `compose_DATAOPS(audience, channel, scenario, brand, governance) → data quality bar + pipeline freshness + mirror parity + FDW posture` |
+| **Output-architecture (4-layer hierarchy)** | `OUTPUT_TYPE_LIBRARY.md` + `ARTIFACT_CLASS_LIBRARY.md` + `COMPONENT_PRIMITIVE_LIBRARY.md` (Wave K skeleton mint per `D-IH-86-BB`; full doctrine matures at I-NN-OUTPUT-ARCHITECTURE P1-P3) | charter | `compose_layer(audience, channel, scenario, brand, governance, layer: output-type|artifact-class|component-primitive) → per-layer bar (medium-specific authoring rule / artifact-class purpose+composition / Shadcn-shape primitive doctrine)` |
 
-Future specialty materialisations (e.g. accessibility, i18n, security
-review, performance budget) inherit the same compose() pattern — each is
-a new column in this table without changing the fabric itself. This is
-the scalability claim.
+Future specialty materialisations inherit the same compose() pattern —
+each is a new row in this table without changing the fabric itself. This
+is the scalability claim. Wave K demonstrates the claim by extending
+from 5 → 9 materialisations (MKTOPS / TECHOPS / DATAOPS / output-architecture
+added) without touching the 5-axis composition rule itself.
 
 ## 7. Forward-charter inventory
 
@@ -365,7 +432,20 @@ Promotion to **`status: active`** requires:
 3. **Cursor rule `akos-quality-fabric.mdc`** minted referencing this
    canonical's compose() contract (mechanical enforcement of frontmatter
    axis-tag presence on quality-bound artifacts).
-4. **Operator-explicit ratification** of the promotion (not
+4. **`scripts/derive_quality_bar.py` runbook lands** (per `D-IH-86-BA`
+   Wave K regression) — implements compose() as code. Without the
+   runbook, the fabric is unfalsifiable in CI. The runbook signature:
+   `derive_quality_bar(audience, channel, scenario, brand, governance, *, layer)`
+   returns a Pydantic-validated `QualityBar` with per-layer derivation
+   when `layer` is set (per the 4-layer hierarchy in §3.1). Runbook
+   delegates to `compose_UAT` / `compose_UX` / `compose_render` /
+   `compose_send` / `compose_closure` / `compose_MKTOPS` /
+   `compose_TECHOPS` / `compose_DATAOPS` / `compose_layer` for specialty
+   bars per the §6 materialisation table. Tests in
+   `tests/test_derive_quality_bar.py` exercise paired audience/channel/
+   scenario/brand/governance fixtures across all 9 audience codes
+   (J-OP / J-AIC / J-IN / J-CU / J-PT / J-AD / J-ENISA / J-RC / J-CO).
+5. **Operator-explicit ratification** of the promotion (not
    agent-default).
 
 Until promotion, this canonical is the durable record of the operator's

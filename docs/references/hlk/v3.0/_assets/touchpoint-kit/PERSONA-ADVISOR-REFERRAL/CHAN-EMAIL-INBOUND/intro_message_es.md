@@ -2,7 +2,17 @@
 language: es
 persona_id: PERSONA-ADVISOR-REFERRAL
 channel_id: CHAN-EMAIL-INBOUND
-artifact_class: intro_message
+output_type_source: OT-PROSE-MARKDOWN
+output_type_render: OT-PROSE-EMAIL-RICH
+artifact_class: AC-INTRO-MESSAGE
+component_primitive_inventory:
+  - CP-GREETING
+  - CP-CONTEXT-ANCHOR
+  - CP-HOOK
+  - CP-BODY
+  - CP-CTA
+  - CP-SIGNATURE
+layered_architecture_version: D-IH-86-BB
 brand_voice: BRAND_SPANISH_PATTERNS
 distance_variants_covered: [N1, N2]
 last_review: 2026-04-30

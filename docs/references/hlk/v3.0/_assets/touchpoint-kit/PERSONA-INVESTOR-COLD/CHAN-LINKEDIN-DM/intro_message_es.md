@@ -2,7 +2,16 @@
 language: es
 persona_id: PERSONA-INVESTOR-COLD
 channel_id: CHAN-LINKEDIN-DM
-artifact_class: intro_message
+output_type_source: OT-PROSE-MARKDOWN
+output_type_render: OT-PROSE-DM
+artifact_class: AC-INTRO-MESSAGE
+component_primitive_inventory:
+  - CP-GREETING
+  - CP-CONTEXT-ANCHOR
+  - CP-BODY
+  - CP-CTA
+  - CP-SIGNATURE
+layered_architecture_version: D-IH-86-BB
 brand_voice: BRAND_SPANISH_PATTERNS
 distance_variants_covered: [N3, N4]
 last_review: 2026-04-30

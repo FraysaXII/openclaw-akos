@@ -99,4 +99,214 @@ The scratchpad is for thoughts that don't fit either: persistent ideas, deferrab
 - **UAT WALKTHROUGH (deferred)** — uat-i65-2026-05-19.md ships with 14-row checklist reserved (sign-in → drill-in → 4 routes → filters → links). Walkthrough fills in PASS/SKIP/N/A per row after deferral-1 clears (sign-in session against the live deploy). **ACTION ITEM**: post-push, walk the checklist + append `## 3. Outcomes` section to the UAT report.
 - **I65 STATUS FLIP (deferred)** — I65 stays `active` in INITIATIVE_REGISTRY.csv until UAT walkthrough lands. flip from `active` to `closed` queued as next-AKOS-commit-after-deferrals-clear; will mint `last_review_decision_id = D-IH-86-AQ` on the I65 row + bump master-roadmap.md `last_review:` frontmatter. **ACTION ITEM**: at status-flip commit, also activate I90 candidate criterion A1 fully (currently A1=partial per D-IH-86-AQ closure note).
 - **I90 candidate** — A1 (I65 closure) now partial: implementation done, deployment + status flip pending. A2 (≥1 customer engagement) + A3 (≥1 investor engagement) untouched. Tracker hygiene: 90-day `_candidates/`→`_blockers/` clock keeps ticking from 2026-05-19 mint date.
+
+### 2026-05-20 22:05 — Wave J post-commit regression (11 gaps; 3 critical, 4 high, 2 medium, 2 low)
+
+**Operator framing (verbatim, 2026-05-20):** *"please do a regression over my decisions and or executions to detect flaws or things i haven't taken into account ... we need scalability or key pairing to go deeper into the items that compose our messages that we output with our different types over the different channels for the different audiences in a way that properly accomplishes what the component is meant to achieve and lets a creative user make the most of each (so research per component), while having a clear order with where UI starts or where other things cross area starts. Where does this live? I don't know, but we added UX as a role and we didn't account for it in this commit."*
+
+The operator's example bar = **Shadcn / NextUI / Radix / Aceternity**: each UI primitive (Button / Input / Card / Dialog / Form / Combobox) carries its own doctrine page with variants × states × accessibility × composition. Holistika needs the equivalent for **message primitives** (subject / hook / CTA / signature / evidence-block / regulator-greeting). This regression catches my Wave J commits at exactly that depth and surfaces the gaps.
+
+#### CRITICAL (hard bugs requiring fix-forward regardless of doctrine disposition)
+
+**G1 — Dangling FK: `J-AIC` referenced in fresh canonicals but never registered in `AUDIENCE_REGISTRY.csv`.**
+- Where: `HOLISTIKA_QUALITY_FABRIC.md` + `UAT_DISCIPLINE.md` + my own decision-rationale prose in D-IH-86-AU/AV all reference `audience: J-OP;J-AIC` or `J-AIC` as a class.
+- Reality: `AUDIENCE_REGISTRY.csv` has 8 codes — J-IN, J-CU, J-PT, J-ENISA, J-AD, J-RC, J-CO, J-OP. **No J-AIC row.**
+- This violates `akos-external-render-discipline.mdc` RULE 4 detection heuristics + `validate_external_render_trail.py` FK resolution + dual-register matrix integrity. The audit trail I just minted points to a non-existent registry row.
+- Disposition: either (a) **mint J-AIC row** (intent: AICs / Madeira consuming canonicals as instructions; register_side: internal; bridge: HOLISTIKA_AGENTIC_DOCTRINE.md; status: active) and update the 4-5 references — OR (b) **rewrite to reuse J-OP** with explicit "J-OP includes humans + cleared agents + AICs per registry notes column". Registry notes column for J-OP already says "Operator + cleared agents + AICs" — so option (b) is structurally cleaner; the registry already disambiguates.
+
+**G2 — Dangling channel codes: Quality Fabric §4.2 lists ~12 channels but `CHANNEL_TOUCHPOINT_REGISTRY.csv` has 10, and key codes I implied don't exist.**
+- Registry has: CHAN-LINKEDIN-DM, CHAN-LINKEDIN-POST-RESPONSE, CHAN-EMAIL-INBOUND, CHAN-WEB-FORM, CHAN-CAL-SCHEDULE, CHAN-AD-CAMPAIGN, CHAN-SEARCH-ORGANIC, CHAN-DIRECT-DM, CHAN-PARTNER-REFERRAL, CHAN-EVENT-MEETING (10 rows).
+- Fabric implied: cold email outbound, marketing email, transactional email, WhatsApp, ENISA cover, investor deck-share, press kit, advisor handoff. **None exist as registered codes.**
+- Two real consequences: (a) the channel-axis count in fabric §4.2 is wrong; (b) `I-NN-CHANNEL-DOCTRINES` candidate I forward-chartered should explicitly enumerate "extend registry from 10 → ~18 channels" as P0 of that initiative — not be silent on it.
+- Disposition: **back-edit fabric §4.2** to (i) cite registry count of 10 + 1 (CHAN-LINKEDIN-POST-RESPONSE was added 2026-05-15 per D-IH-72-AO), (ii) name registry extension as gating prerequisite for I-NN-CHANNEL-DOCTRINES P0.
+
+**G3 — Component-primitive doctrine layer entirely missing (operator's example).**
+- The operator's catch verbatim. Shadcn / NextUI / Radix / Aceternity define **per-primitive depth**: each component has variants, states, accessibility patterns, composition rules, anti-patterns, research grounding. This is the layer that lets a creative user "make the most of each".
+- Holistika has the audience axis (registry) + channel axis (registry, 10 codes) + brand axis (BRAND_VOICE_FOUNDATION + BRAND_BASELINE_REALITY_MATRIX) + governance axis (decisions / rules / Quality Fabric). **Holistika has NO per-message-component primitive registry.**
+- Existing scaffold: `docs/references/hlk/v3.0/_assets/touchpoint-kit/PERSONA-*/CHAN-*/intro_message_*.md` — 15 files, but each treats `intro_message` as **atomic** (one file = greeting + hook + qualification-list + CTA + signature + brand-rule-callout + operator-note all bundled). No primitive decomposition exists. I never referenced touchpoint-kit in Wave J at all.
+- The operator is right: where does this live? It's not UI (UI is owned by Front-End Developer per baseline_organisation.csv L47 + by Brand & Narrative Manager for visual primitives per L36 absorbing UX-Des sub-discipline). It's not channel (channels are assemblies). It's a **layer below channel and above brand voice**: **message-component primitive doctrine**.
+- Proposed naming: `MESSAGE_COMPONENT_REGISTRY.csv` (canonical CSV) + `MESSAGE_COMPONENT_LIBRARY.md` (Shadcn-equivalent doctrine prose with per-component pages). Owned by **Brand & Narrative Manager** (already absorbed UX-Des sub-discipline per D-IH-72-AO 2026-05-15 → it's structurally the right home). Sister registry to PERSONA × CHANNEL pairing.
+- Component candidates inventoried from existing touchpoint-kit + ENISA dossier + investor deck + cover-email pattern: `<Greeting>`, `<Bridge-citation>`, `<Hook>` (problem framing one-line), `<Qualification-list>` (3-row stage/sector/ticket fields), `<Body-paragraph>`, `<Evidence-block>` (citation + sha256 trail), `<CTA>`, `<Sign-off>`, `<Signature>`, `<Brand-rule-callout>`, `<Operator-note>` (not-sent), `<Footer-attestation>` (regulator-only). ~12 primitives at v1; extensible.
+- Per-primitive doctrine page would carry: purpose / inputs / variants by audience-class / variants by channel / brand-voice rules / accessibility (when channel is web/email-rendered) / anti-patterns / examples (good + bad) / research grounding / cross-references. **Exactly Shadcn-shape.**
+- Crosswalk: this is the **6th axis** of the Quality Fabric — `Component`. The 5-axis fabric I just minted is incomplete. Either (a) **promote the fabric to 6-axis** (Audience × Channel × Scenario × Brand × Governance × **Component**) — note the operator already named scalability, so adding axes is doctrine-anticipated — or (b) treat Component as a *sub-axis of Brand* (since Brand & Narrative owns it). Option (a) is cleaner because Component is genuinely orthogonal to Brand (a `<CTA>` primitive has accessibility + variant-by-channel rules that are not Brand-side).
+
+#### HIGH (architectural gaps with downstream blast radius)
+
+**G4 — UX as discipline forward-chartered without role-attachment clarity.**
+- D-IH-86-AX forward-charters `UX_DISCIPLINE.md` mint. But the operator's framing implies UX as a *role* should exist. baseline_organisation.csv has UX-Design folded into Brand & Narrative Manager (line 36, per D-IH-72-AO 2026-05-15 absorption). So UX-as-discipline is **already attached** to Brand & Narrative Manager — but the forward-charter didn't say so. Future agent reading D-IH-86-AX cold could mint a stand-alone UX role row, contradicting the 2026-05-15 absorption.
+- Disposition: edit D-IH-86-AX rationale to **cite the 2026-05-15 absorption** + state that UX_DISCIPLINE.md will be **owned by Brand & Narrative Manager** with co-ownership from Front-End Developer for implementation-side concerns. No new role row needed.
+
+**G5 — UAT 7-class taxonomy is incomplete.**
+- I named: closure / brand / send / render / regression / persona / deploy. Missing classes I should have surfaced:
+  - **Localisation-class** (per-language UAT; orthography + cultural register; ES smart-quote + FR diacritics + EN word-list anti-patterns per `validate_locale_orthography.py`). Currently buried in render-class.
+  - **Accessibility-class** (WCAG 2.2 AA verification; keyboard nav; screen reader; color contrast). Forward-chartered to UX_DISCIPLINE but not classified as UAT.
+  - **Performance-class** (Core Web Vitals; bundle size; load time; relevant for hlk-erp + boilerplate web surfaces). Not classified.
+  - **Privacy-class** (GDPR cookie consent; data-retention claims; PII redaction; relevant for J-CU + J-PT + J-RC engagement). Not classified.
+- Disposition: **promote 7-class to 11-class** (closure / brand / send / render / regression / persona / deploy / **localisation** / **accessibility** / **performance** / **privacy**) when UAT_DISCIPLINE.md flips charter→active. Each new class needs internal precedent identification + external research grounding per `akos-applied-research-discipline.mdc` RULE 2.
+
+**G6 — Quality Fabric materialisation table (§6) lists 5 specialty composes; missing 3 areas.**
+- I named: UAT / UX / brand-render / send / closure. **Missing:**
+  - **MKTOPS** (campaigns / GTM funnel / landing-page conversion quality). Operator framing 2026-05-19: *"i don't know if from the MKT/Tech side of things our UAT holds"* — this is a direct call-out I didn't fully address.
+  - **TECHOPS** (system uptime / observability / Core Web Vitals beyond per-deploy). Partially in deploy-class but broader scope.
+  - **DATAOPS** (data quality / pipeline integrity / mirror sync correctness / FDW posture). Distinct from regression-class.
+- Disposition: extend §6 materialisation table to 8 specialties + forward-charter 3 more discipline canonicals (MKTOPS_DISCIPLINE.md / TECHOPS_DISCIPLINE.md / DATAOPS_DISCIPLINE.md) under **Operations** plane alongside the People-plane disciplines.
+
+**G7 — Specialty canonicals authored but no `compose_*()` runbook layer.**
+- HOLISTIKA_QUALITY_FABRIC.md §10 forward-charters `scripts/derive_quality_bar.py`. UAT_DISCIPLINE.md §3 asserts a `compose_UAT(audience, channel, scenario, brand, governance)` function. Neither exists as code today. The doctrine is unfalsifiable in CI.
+- Real consequence: agents resolve the 5 axes by reading docs each time → slow + drift-prone. The whole point of compose() is mechanical resolution.
+- Disposition: charter→active gate for the fabric **must require** `derive_quality_bar.py` lands first. Add this as gate item 4 in §10.
+
+#### MEDIUM (governance gaps; not blocking but noted)
+
+**G8 — `validate_uat_report.py` Pydantic frontmatter validator forward-chartered but UAT reports are appended often.**
+- Subtle frontmatter divergence (verdict enum / sign-off table format / linked_decisions list-vs-string) accumulates between mint and validator. Each pre-validator UAT report becomes potential migration debt.
+- Disposition: prioritise validator mint at next wave (not multiple waves out).
+
+**G9 — No `files-modified.csv` row appended for Wave J commits in I86.**
+- Per `akos-planning-traceability.mdc` Per-initiative file-changes CSV (mandatory): every commit lands rows in `docs/wip/planning/<NN>/files-modified.csv`. Wave J's commit `5446b34` (11 files; +1739/-63) and `ec3f883` (Vercel hotfix) and `66a8feb..71d3ebe` (hlk-erp push) — none recorded in I86 files-modified.csv.
+- Disposition: backfill in next commit.
+
+#### LOW (worth noting, deferrable)
+
+**G10 — `D-IH-86-AQ` parent decision row not back-updated for status flip.**
+- D-IH-86-AQ documented I65 closure with 3 deferrals. Now that status is flipped (Wave J7) + UAT reworked + Vercel READY, AQ should carry `superseded_by: D-IH-86-AT` or `notes: closure completed at Wave J via D-IH-86-AT`. Current AQ row remains as-original.
+- Disposition: minor; update at next commit if convenient.
+
+**G11 — Quality Fabric scalability claim asserted, not demonstrated.**
+- §3 asserts the fabric is extensible (add 6th axis = mechanical). Wave J only demonstrated UAT + UX forward-chartered. The proof-of-extension exercise (e.g. adding Component as 6th axis per G3 above) would prove the architecture.
+- Disposition: **G3 disposition naturally provides this proof** if Component lands as 6th axis. Bundle.
+
+#### Summary by severity
+
+- **3 critical** (G1 J-AIC dangling FK / G2 channel-code dangling refs / G3 component-primitive doctrine missing) — first 2 are hard bugs, third is the operator's specific challenge.
+- **4 high** (G4 UX role-attachment clarity / G5 UAT class taxonomy 7→11 / G6 fabric §6 materialisation 5→8 specialties / G7 compose() runbook gating).
+- **2 medium** (G8 validator priority / G9 files-modified.csv backfill).
+- **2 low** (G10 AQ row back-update / G11 scalability proof — bundles with G3).
+
+#### Self-challenge to operator
+
+The operator's bar is Shadcn-class depth per primitive. Wave J shipped the **architectural meta-fabric** but at component depth the doctrine is shallow:
+- Quality Fabric is 5-axis but should likely be 6-axis (add Component);
+- UAT_DISCIPLINE has 7 classes but should be 11;
+- Materialisation table has 5 specialties but should be 8;
+- The compose() functions are asserted, not implemented;
+- The component-primitive layer (the operator's specific gap) doesn't exist at all and should be the **next initiative** — `I-NN-MESSAGE-COMPONENT-LIBRARY` — minted as candidate, owned by Brand & Narrative Manager + co-owned by Front-End Developer for implementation, sister to `I-NN-CHANNEL-DOCTRINES` (D-IH-86-AW).
+
+The pattern: my Wave J was correct architecturally but **named without decomposing**. Future agents (and operator) need the next layer down per axis. Without it, the fabric is high-resolution paper and low-resolution practice.
+
+#### Forward actions surfaced for ratify
+
+1. Fix G1 + G2 in fix-forward commit this turn (hard FK bugs).
+2. Decide on Component as 6th axis OR sub-axis of Brand (G3).
+3. Decide on UAT class taxonomy 7→11 promotion (G5).
+4. Decide on fabric §6 materialisation 5→8 specialties (G6).
+5. Decide on prioritising compose() runbook before any further specialty mints (G7).
+6. Backfill files-modified.csv (G9) — non-controversial, defaults to YES.
+
+[ratify gate following this entry will batch the 5 substantive decisions; G1+G2+G9 fix-forward without ratify needed once operator confirms direction]
+
+### 2026-05-20 22:30 — Wave J regression ratify outcomes + operator G4 architectural extension
+
+**5 substantive decisions ratified clean** (g3-component-axis=opt-6th-axis / g5-uat-classes=opt-promote-11 / g6-materialisation=opt-extend-8 / g7-compose-runbook=opt-gate-active / g4-ux-attachment=opt-edit-ax). All 5 mappable to D-IH-86-AY through D-IH-86-BC (5 new decisions to ratify when Wave K commit lands).
+
+**Operator G4 extension (verbatim 2026-05-20):** *"please bear in mind that we are speaking of components in a UI and there could be more scenarios, slides of pdf/pptx, images, voice for agents, reading for different readers platforms, scenarios, etc, excalidraw, mermaids, graphs, gantts, please try to think of a way to properly organize the output type"*
+
+This expansion **fundamentally reshapes G3**. Components aren't just UI-shaped. They're shape-shifting across output media: prose, slides, raster images, vector images, voice for agent rendering, accessible-reader friendly variants, Excalidraw drawings, Mermaid diagrams, Gantt charts. The operator is right that this needs proper organisation — and Wave J's 5-axis fabric + 6th-axis-Component decision was structurally too thin.
+
+#### Inventory of existing output-type infrastructure (sanity check)
+
+The output-type space already exists implicitly. Mechanical evidence:
+
+- **11 render scripts** in `scripts/render_*.py`: render_operational_cohesion_index / render_cover_email / render_dossier / render_impeccable_uat / render_topic_graph / render_pmo_hub / render_operator_inbox / render_suez_engagement_pdfs / render_wip_dashboard / render_uat_dossier / render_km_diagrams. Each renders a specific *output type* to a *render surface*.
+- **`artifact_class: intro_message`** is already used in 15 touchpoint-kit frontmatter rows. Precedent for artifact-class taxonomy in v3.0.
+- **Discovered artifact classes** from filesystem: intro_message, dossier, cover_email, deck_story, deck (with size variants 4/6/8/12-slide), mail-render, topic_graph, km_diagram, uat_report, engagement_pdf, pmo_hub, operator_inbox, wip_dashboard, sop, operational_cohesion_index, recruiter-deck, partner-deck, advisor-deck, investor-deck, enisa-deck.
+- **Discovered output media** from filesystem: prose-markdown, slide-deck-yaml, mermaid-diagram-mmd, html-rendered, pdf-rendered, png-screenshot.
+
+The space is real; what's missing is the **organising registry layer**.
+
+#### Proposed 4-layer hierarchy below the Quality Fabric (architecture)
+
+Three orthogonal hidden axes plus the existing Render Surface axis from `akos-external-render-discipline.mdc`:
+
+```
+Quality Fabric (Audience × Channel × Scenario × Brand × Governance)
+   ↓ derives quality bar
+Layer 1: OUTPUT TYPE (the medium/shape)
+   ↓ assembled into
+Layer 2: ARTIFACT CLASS (named purpose)
+   ↓ composed of
+Layer 3: COMPONENT PRIMITIVE (sub-units)
+   ↓ rendered to
+Layer 4: RENDER SURFACE (PDF / Web / ERP / Mail / Slide / Broadcast — already exists)
+```
+
+**Layer 1 — `OUTPUT_TYPE_REGISTRY.csv` + `OUTPUT_TYPE_LIBRARY.md` (proposed):**
+- Codes (~17 v1): `OT-PROSE-MARKDOWN`, `OT-PROSE-EMAIL-RICH`, `OT-PROSE-DM`, `OT-SLIDE-DECK`, `OT-IMAGE-RASTER`, `OT-IMAGE-VECTOR-SVG`, `OT-DIAGRAM-MERMAID`, `OT-DIAGRAM-EXCALIDRAW`, `OT-CHART-GANTT`, `OT-CHART-DATA`, `OT-TABLE-CSV-RAW`, `OT-TABLE-RENDERED`, `OT-VIDEO`, `OT-AUDIO-VOICE`, `OT-WEB-PAGE`, `OT-WEB-FORM`, `OT-PDF-DOCUMENT`.
+- Each row: `output_type_code, name, render_targets (FK to render-surface enum), authoring_tool, accessibility_concerns, brand_visual_anchor, status, last_review_at`.
+- Owner: Front-End Developer (technical) + Brand & Narrative Manager (visual/voice).
+
+**Layer 2 — `ARTIFACT_CLASS_REGISTRY.csv` + `ARTIFACT_CLASS_LIBRARY.md` (proposed):**
+- Codes (~20 v1): `AC-INTRO-MESSAGE`, `AC-DOSSIER`, `AC-COVER-EMAIL`, `AC-DECK-STORY`, `AC-DECK-SLIDE-PACK`, `AC-TOPIC-GRAPH`, `AC-KM-DIAGRAM`, `AC-UAT-REPORT`, `AC-ENGAGEMENT-PDF`, `AC-PROCESS-CATALOG`, `AC-OPERATOR-INBOX`, `AC-WIP-DASHBOARD`, `AC-SOP`, `AC-PRECEDENCE-LEDGER`, `AC-PMO-HUB`, `AC-OPERATIONAL-COHESION-INDEX`, `AC-DECISION-REGISTER-ROW`, `AC-VOICE-RECORDING`, `AC-AGENT-INSTRUCTION-PROMPT`, `AC-MERMAID-FLOWCHART`.
+- Each row: `artifact_class_code, name, output_type (FK Layer 1), purpose, typical_audiences (FK AUDIENCE_REGISTRY), typical_channels (FK CHANNEL_TOUCHPOINT_REGISTRY), render_script_path, owner_role, last_review_at`.
+- Owner: Brand & Narrative Manager (per 2026-05-15 absorption).
+
+**Layer 3 — `COMPONENT_PRIMITIVE_REGISTRY.csv` + `COMPONENT_PRIMITIVE_LIBRARY.md` (proposed):**
+- Codes (~25 v1): `CP-GREETING`, `CP-BRIDGE-CITATION`, `CP-HOOK`, `CP-QUALIFICATION-LIST`, `CP-BODY-PARAGRAPH`, `CP-EVIDENCE-BLOCK`, `CP-CTA`, `CP-SIGN-OFF`, `CP-SIGNATURE`, `CP-BRAND-RULE-CALLOUT`, `CP-OPERATOR-NOTE`, `CP-FOOTER-ATTESTATION`, `CP-SUBJECT-LINE`, `CP-PREHEADER`, `CP-UNSUBSCRIBE-FOOTER`, `CP-CONSENT-LINE`, `CP-SLIDE-HERO`, `CP-SLIDE-PROOF-POINT`, `CP-SLIDE-THE-PROBLEM`, `CP-SLIDE-THE-SOLUTION`, `CP-SLIDE-THE-TEAM`, `CP-SLIDE-THE-ASK`, `CP-DIAGRAM-NODE-LABEL`, `CP-VOICE-INTRO-CADENCE`, `CP-OPERATOR-CHECKLIST-ROW`.
+- Each row: `primitive_code, name, applicable_artifact_classes (FK Layer 2), accessibility_pattern, brand_voice_rules, anti_patterns, research_grounding (per akos-applied-research-discipline.mdc RULE 2), last_review_at`.
+- Per-primitive doctrine page = Shadcn-shape: purpose / inputs / variants by audience / variants by channel / brand-voice rules / accessibility / anti-patterns / good+bad examples / research grounding / cross-references.
+- Owner: Brand & Narrative Manager primary; Front-End Developer co-owner for web/email-rendered primitives.
+
+**Layer 4 — Render Surface (already exists):** PDF / Web / ERP / Mail / Slide / Broadcast per `akos-external-render-discipline.mdc` RULE 1. Mapping: `output_type → render_surface` is many-to-many (slide-deck output renders to PDF or Slide; mermaid-diagram renders to Web or Image or PDF).
+
+**Cross-axis relationship (the load-bearing claim):**
+
+Quality Fabric still applies at every layer, but the **derived bar varies by layer**:
+- A `<CTA>` primitive's quality bar = "1 verb-anchored ask + brand-voice register + accessibility (button label, screen-reader text)".
+- An `intro_message` artifact-class quality bar = "all required component primitives present + audience-appropriate brand register + within channel SLA".
+- An `OT-SLIDE-DECK` output-type quality bar = "Figma source link + 16:9 aspect + slide-pack readability AAA + render to PDF surface produces sealed manifest".
+
+The Quality Fabric `compose()` function (G7) takes (audience, channel, scenario, brand, governance) → returns a **derived bar PER LAYER**. The 4-layer hierarchy is the structural decomposition that makes compose() implementable.
+
+#### Why this is structurally clean
+
+1. **Orthogonality preserved.** Output type (medium) ⊥ artifact class (purpose) ⊥ component primitive (sub-unit). A `mermaid-diagram` (output type) can be a `topic_graph` (artifact class) OR a `process_flowchart` (artifact class) OR an `architecture_diagram` (artifact class). Not collapsing.
+
+2. **Each layer FK-resolves to existing canonicals.** Layer 1 → render-surface (existing). Layer 2 → audience + channel registries (existing). Layer 3 → brand voice + accessibility patterns (existing). Net FK additions: 3 new registries; 0 retroactive FK churn on existing data.
+
+3. **Operator's Shadcn-bar achievable.** Layer 3 = the Shadcn-equivalent. Per-primitive doctrine pages with variants × accessibility × research + composition rules = exactly Shadcn / NextUI / Radix shape.
+
+4. **Existing artifacts retro-tag cheaply.** Touchpoint-kit's 15 files can be tagged with `output_type: OT-PROSE-DM` + `artifact_class: AC-INTRO-MESSAGE` + per-file component_primitive_inventory in a single backfill commit.
+
+5. **Render scripts retro-classify.** All 11 `render_*.py` scripts can register against Layer 2 `render_script_path` cleanly without code changes.
+
+6. **The Quality Fabric scales mechanically.** Adding a 7th axis (e.g. `Locale` for multi-language surfaces) is now demonstrable: compose(audience, channel, scenario, brand, governance, **locale**) just adds a parameter; the 4-layer hierarchy still resolves.
+
+7. **G3 6th-axis decision (opt-6th-axis ratified) reframes cleanly:** "Component" as a single 6th axis is too coarse. It's actually 3 layers (Layer 1 + Layer 2 + Layer 3) below the fabric. The fabric stays at 5 axes; the 4-layer hierarchy sits **below** the fabric, parametrised by the 5 axes.
+
+#### Forward-charter shape for next initiative
+
+**`I-NN-OUTPUT-ARCHITECTURE` (renamed/expanded from previously-proposed I-NN-MESSAGE-COMPONENT-LIBRARY):**
+- P0: Charter + 4-layer architecture spec + retro-tag plan for existing artifacts.
+- P1: Mint Layer 1 OUTPUT_TYPE_REGISTRY.csv (~17 codes) + OUTPUT_TYPE_LIBRARY.md.
+- P2: Mint Layer 2 ARTIFACT_CLASS_REGISTRY.csv (~20 codes) + ARTIFACT_CLASS_LIBRARY.md + retro-tag 11 render scripts.
+- P3: Mint Layer 3 COMPONENT_PRIMITIVE_REGISTRY.csv (~25 codes) + COMPONENT_PRIMITIVE_LIBRARY.md (Shadcn-shape per-primitive doctrine pages).
+- P4: Backfill touchpoint-kit's 15 files with `output_type` + `artifact_class` + `component_primitive_inventory` frontmatter.
+- P5: Mint `scripts/derive_quality_bar.py` (compose() runbook from G7) that takes (audience, channel, scenario, brand, governance) + (output_type | artifact_class | component_primitive) → returns derived bar.
+- P6: Wire into ERP planning panel + dossier generation + UAT report → quality bar visible in operator-facing surfaces.
+- P7: UAT closure.
+- Owner: Brand & Narrative Manager primary + Front-End Developer co-owner. Activation gates: Quality Fabric at active + UAT_DISCIPLINE at active + ≥1 channel doctrine POC.
+
+This **subsumes** the previously-named I-NN-MESSAGE-COMPONENT-LIBRARY (D-IH-86-AU forward-charter referenced "Component as 6th axis"; now reframed as 3-layer hierarchy below fabric).
+
+#### Action items (Wave K)
+
+1. Land mechanical fixes: G1 (J-AIC → use J-OP per registry notes) + G2 (channel count correction in fabric §4.2) + G4 (edit D-IH-86-AX rationale citing 2026-05-15 absorption) + G9 (files-modified.csv backfill for Wave J commits).
+2. Mint 5 new decisions: D-IH-86-AY (UAT 11-class promotion gate per G5) + D-IH-86-AZ (fabric materialisation 8-specialty extension per G6) + D-IH-86-BA (compose() runbook gates charter→active per G7) + D-IH-86-BB (4-layer output-architecture per operator G4 extension) + D-IH-86-BC (forward-charter I-NN-OUTPUT-ARCHITECTURE).
+3. Mint candidate file `_candidates/i-nn-output-architecture.md` with activation gates + 4-layer architecture spec.
+4. Edit HOLISTIKA_QUALITY_FABRIC.md §3 + §6 + §10 to reference 4-layer hierarchy + 8 specialties + compose() gating.
+5. Edit UAT_DISCIPLINE.md §4 to flag 11-class promotion path.
+6. Commit + push as Wave K — single atomic landing.
+
+[Wave K execution begins after operator ratifies the 4-layer hierarchy shape; G1+G2+G4+G9 mechanical fixes can land regardless]
+
 <!-- end of entries -->

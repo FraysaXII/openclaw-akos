@@ -2,7 +2,16 @@
 language: en
 persona_id: PERSONA-IDEA-PROPOSER
 channel_id: CHAN-DIRECT-DM
-artifact_class: intro_message
+output_type_source: OT-PROSE-MARKDOWN
+output_type_render: OT-PROSE-DM
+artifact_class: AC-INTRO-MESSAGE
+component_primitive_inventory:
+  - CP-GREETING
+  - CP-CONTEXT-ANCHOR
+  - CP-BODY
+  - CP-CTA
+  - CP-SIGNATURE
+layered_architecture_version: D-IH-86-BB
 brand_voice: BRAND_VOICE_FOUNDATION
 distance_variants_covered: [N1, N2]
 last_review: 2026-04-30

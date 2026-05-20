@@ -2,7 +2,15 @@
 language: en
 persona_id: PERSONA-TALENT-INBOUND
 channel_id: CHAN-WEB-FORM
-artifact_class: intro_message
+output_type_source: OT-PROSE-MARKDOWN
+output_type_render: OT-PROSE-MARKDOWN
+artifact_class: AC-INTRO-MESSAGE
+component_primitive_inventory:
+  - CP-GREETING
+  - CP-BODY
+  - CP-CTA
+  - CP-SIGNATURE
+layered_architecture_version: D-IH-86-BB
 brand_voice: BRAND_VOICE_FOUNDATION
 distance_variants_covered: [N4]
 last_review: 2026-04-30

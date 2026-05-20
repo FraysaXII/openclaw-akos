@@ -288,7 +288,8 @@ for Render deploys; equivalent MCP for any future deploy target.
 ## 4. Compose_UAT — the rule that picks the class
 
 Given an artifact, the relevant UAT classes are derived from the five
-Quality Fabric axes:
+Quality Fabric axes (7-class taxonomy at status: charter; 11-class
+promotion gated on `D-IH-86-AY` per Wave K regression — see §4.1):
 
 ```
 classes = []
@@ -299,6 +300,11 @@ if audience.is_external(artifact): classes += [render]
 if governance.has_validator_suite(artifact): classes += [regression]
 if scenario.is_persona_conditioned(artifact): classes += [persona]
 if governance.touches_sibling_repo(artifact): classes += [deploy]
+# 11-class extension (post-D-IH-86-AY promotion):
+if artifact.has_locale_variants(): classes += [localisation]
+if artifact.is_human_facing_ui_or_doc(): classes += [accessibility]
+if artifact.has_load_or_render_budget(): classes += [performance]
+if artifact.touches_pii_or_eu_data_subjects(): classes += [privacy]
 ```
 
 Multiple classes may fire on the same artifact. When they do, the UAT
@@ -316,6 +322,56 @@ Resolved classes: closure + brand + render + regression + deploy. Five
 of seven. The reworked uat-i65 must satisfy all five bars; this is why
 the existing stub (regression + closure only) was insufficient and the
 operator's call to rework it was correct.
+
+### 4.1 11-class promotion (forward-charter at `D-IH-86-AY`)
+
+Wave J regression G5 surfaced 4 missing UAT classes that 7-class
+taxonomy folded ambiguously into existing classes. Wave K regression
+operator-ratified `opt-promote-11` 2026-05-20 (per `D-IH-86-AY`):
+when this canonical promotes from `status: charter` to `status: active`,
+the taxonomy promotes from 7 → 11 classes by adding:
+
+- **`localisation`** — per-language UAT verifying orthography +
+  cultural register + word-list anti-patterns. Internal precedent:
+  [`scripts/validate_locale_orthography.py`](../../../../../../scripts/validate_locale_orthography.py)
+  (ES smart-quote + FR diacritics + EN word-list anti-patterns).
+  External grounding: ISO 639-1 language codes; ICU locale rules;
+  CLDR plural-forms specification. Fires when the artifact has
+  `language:` frontmatter listing > 1 locale OR when its parent
+  initiative spans multi-locale audiences (J-IN/J-CU/J-PT/J-AD/J-ENISA
+  bands span en/es/fr per `AUDIENCE_REGISTRY.csv` `supported_languages`).
+- **`accessibility`** — WCAG 2.2 AA verification for keyboard nav,
+  screen reader semantics, color contrast, focus-visible state,
+  text-reflow at zoom, motion-prefers-reduced. Internal precedent:
+  Lane I-D `hlk-erp` Radix UI primitives (already AA-compliant by
+  default); brand-class UAT references this when surface is
+  human-facing UI. External grounding: WCAG 2.2 (W3C, 2023);
+  Section 508 Refresh; EN 301 549 (EU public sector requirement).
+  Fires for any output type that renders to a human-facing UI surface
+  (Layer 1 OUTPUT_TYPE = OT-WEB-PAGE / OT-WEB-FORM / OT-PDF-DOCUMENT /
+  OT-SLIDE-DECK).
+- **`performance`** — Core Web Vitals (LCP / INP / CLS) + bundle size
+  + load-time budgets for web/email-rendered surfaces. Internal
+  precedent: `hlk-erp` deploy verification per `akos-quality-fabric.mdc`
+  RULE 3 (Vercel deploy-evidence trail). External grounding: Lighthouse
+  scoring; Web.dev Core Web Vitals thresholds; Vercel Speed Insights;
+  Calibre Performance Budget patterns. Fires when the artifact's
+  Layer 4 RENDER_SURFACE is `web` or `mail` (HTML rendering happens
+  recipient-side and load-time matters).
+- **`privacy`** — GDPR cookie consent verification + data-retention
+  claim accuracy + PII redaction + DPIA-required-when-fires. Internal
+  precedent: `holistika_ops` schema RLS posture + finops register PII
+  exclusion patterns. External grounding: GDPR Art 5 (data minimisation)
+  + Art 13-14 (transparency) + Art 35 (DPIA); ePrivacy Directive
+  2002/58/EC; CNIL guidance. Fires when audience class is in
+  EU-data-subject set (J-CU / J-PT / J-AD / J-ENISA / J-RC always; J-IN
+  when EU-domiciled investor; J-CO when EU-based collaborator).
+
+The 11-class promotion lands at this canonical's charter→active
+transition. Until promotion, agents may choose to invoke the additional
+4 classes voluntarily on artifacts that demand them (e.g., a J-ENISA
+dossier should include privacy-class UAT today even though the formal
+promotion has not happened).
 
 ## 5. Cross-area inheritance contract
 
