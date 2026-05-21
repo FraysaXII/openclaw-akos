@@ -499,4 +499,32 @@ This **subsumes** the previously-named I-NN-MESSAGE-COMPONENT-LIBRARY (D-IH-86-A
 
 [processed 2026-05-22 wave-P-close]
 
+### 2026-05-22 01:30 — Wave-Q close drain
+
+**Wave-Q closed** (commits `894aa2a` CSV 1 → `[CSV 2]` → `a1d866a` CSV 3 → `f0da48f` CSV 4 → `d6bc0eb` SUBSTRATE backfill, per one-CSV-per-push policy).
+
+- **D-IH-82-Q** — `CAPABILITY_CONFIDENCE_REGISTRY` seed-v1-unrated baseline (1092 rows at `rating_method=seed_v1_unrated`; all 5-axis scores=1; aggregate=1.0). Quarterly P3 review flips to `numeric_v1`. C-82-2 conundrum auto-defaulted to numeric per HOLISTIKA_CAPABILITY_DOCTRINE.md §6; SCP-cameo + plain-register addendum stubs forward-chartered to Marketing/Brand co-sign.
+- **D-IH-82-R** — `USE_CASE_ARCHIVE` infrastructure mint with 1 honest demonstrator row (`USE-000001` = I86 cluster coordination realises `CAP-HOL-OPERA-DTP-310` PMO project portfolio SSOT; `lifecycle_event=first_realisation`).
+- **D-IH-82-S** — `AIC_REGISTRY` (parent; 5 seeds: Madeira-on-Cursor, Madeira-on-OpenClaw forecasted, KiRBe-on-LlamaIndex, Cursor-borrowed, Cursor-SDK forecasted) + `MADEIRA_AIC_PER_TASK_REGISTRY` (child; 3 demonstrators for AIC-MADEIRA-ON-CURSOR: code-authoring + doctrine-curation + uat-verification). **Pull-forward from Wave R** — AIC_REGISTRY now in Wave Q so MADEIRA_AIC_PER_TASK's FK resolves. **OPS-86-11 Wave R scope amended**: AIC_REGISTRY no longer minted at Wave R (already done); Wave R still mints AGENTIC_TOOLING_OBSERVATIONS + AIC_INTERACTION_PATTERNS_REGISTRY.
+- **D-IH-83-G** — `SUBSTRATE_REGISTRY` backfill: `SUBS-HOLISTIKA-KIRBE` (active / in-production) + `SUBS-HOLISTIKA-OBSIDIAN-READER` (experimental / pilot / not multi-tenant). Cross-references REPOSITORY_REGISTRY for obsidian-reader. I83 master-roadmap §"Charter expansion" updated to cite the backfilled rows.
+
+**Wave-Q close regression sweep** (`regression-sweep-2026-05-22.md`): **6 clean / 0 drift / 53 gap / 0 blocked**.
+- **Clean improvement +2** from Wave-P (4→6 clean) — DIM-03 + DIM-12 drift fully closed by Wave-P close; DIM-13 stayed clean across the entire Wave Q burst (Pydantic FK enforcement + ghost-role batch held).
+- **Zero drift findings** — Wave Q minted 4 canonical CSVs + 1 backfill + 4 decisions + 1 OPS amendment **without introducing any drift**. This is the doctrinal cadence working as intended.
+- **53 gap findings (same long-tail)** — already covered by `D-IH-86-CP` defer-OPS → `OPS-86-14` Wave R aggregate consolidation. No new dispositions needed.
+
+**I76 P1 substantive execution — NOT executed in this push** (intentional respect for operator forward-charter). `D-IH-76-P` (Wave P Push 3 ratification) explicitly states: *"Compressing into agent-only push window before operator ratification produces shallow work incompatible with v3.1 doctrine quality bar."* The TODO listed I76 P1 as the next item; per akos-inline-ratification.mdc + akos-governance-remediation.mdc, the agent **must not override** the operator's forward-charter even when a TODO suggests proceeding. `OPS-76-5` continues to track I76 P1+P2+P3 status across operator ratification cycles. **Next ratification touchpoint: operator schedules an engaged session for the 5 mode SOPs authoring + tool-catalog RBAC matrix + persistence + personality + I17 MERGE absorption + I11 MERGE absorption work.**
+
+**Cumulative session deliverable summary** (post-Wave-Q close):
+- 5 atomic commits pushed to `main` (894aa2a → CSV 2 → a1d866a → f0da48f → d6bc0eb).
+- 4 net-new canonical CSV registries minted (CAPABILITY_CONFIDENCE_REGISTRY + USE_CASE_ARCHIVE + AIC_REGISTRY + MADEIRA_AIC_PER_TASK_REGISTRY) + 2 SUBSTRATE_REGISTRY backfill rows = 23 → 25 dimension CSVs.
+- 4 net-new Pydantic SSOT modules + 4 net-new validators + 1 seed runbook + 3 net-new test files = release-gate-wired + tested.
+- 4 net-new decision register rows (D-IH-82-Q, D-IH-82-R, D-IH-82-S, D-IH-83-G).
+- 1 OPS amendment (OPS-86-11 Wave R scope reduced).
+- 2 regression sweeps run (Wave-P close + Wave-Q close); zero new drift introduced across the burst.
+- 2 baseline index sweeps (both 8/8 fresh after each push).
+- All push validators PASS at every commit (`validate_hlk.py` umbrella + per-CSV validators + Pydantic round-trip tests).
+
+[processed 2026-05-22 wave-Q-close]
+
 <!-- end of entries -->

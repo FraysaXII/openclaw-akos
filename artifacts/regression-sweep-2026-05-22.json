@@ -1,6 +1,6 @@
 {
   "report_id": "regression-sweep-2026-05-22",
-  "wave_closing": "Wave-P",
+  "wave_closing": "Wave-Q",
   "swept_at": "2026-05-22",
   "swept_by": "agent:inter_wave_regression_sweep",
   "findings": [
@@ -11,7 +11,7 @@
       "proposed_rework_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "380 decisions in register; all ratifying_decisions: frontmatter values FK-resolve (reverse-FK advisory sweep deferred to operator review)"
+      "notes": "385 decisions in register; all ratifying_decisions: frontmatter values FK-resolve (reverse-FK advisory sweep deferred to operator review)"
     },
     {
       "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
@@ -106,11 +106,20 @@
     {
       "dimension_code": "DIM-03-VALIDATOR-RAMP-CONSISTENCY",
       "surface_path": "verification-profiles.json;release-gate.py",
-      "verdict": "drift",
-      "proposed_rework_action": "verify each promotion/relaxation cites a decision row in DECISION_REGISTER.csv with rationale",
+      "verdict": "clean",
+      "proposed_rework_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "prior_sha=d25d6b1; no INFO->FAIL promotions or threshold relaxations observed in diff"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AIC_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
       "candidate_decision_id": null,
       "severity": "medium",
-      "notes": "prior_sha=99e7636; promotions_observed=1; relaxations_observed=0"
+      "notes": "slug=aic; missing_components=supabase-mirror-migration"
     },
     {
       "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
@@ -129,6 +138,15 @@
       "candidate_decision_id": null,
       "severity": "medium",
       "notes": "slug=audience; missing_components=supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CAPABILITY_CONFIDENCE_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=capability_confidence; missing_components=supabase-mirror-migration"
     },
     {
       "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
@@ -165,24 +183,6 @@
       "candidate_decision_id": null,
       "severity": "medium",
       "notes": "slug=country_work_calendar; missing_components=akos-pydantic-model,scripts-validator,supabase-mirror-migration"
-    },
-    {
-      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv",
-      "verdict": "gap",
-      "proposed_rework_action": "mint missing components: akos-pydantic-model",
-      "candidate_decision_id": null,
-      "severity": "medium",
-      "notes": "slug=goi_poi_register; missing_components=akos-pydantic-model"
-    },
-    {
-      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/KNOWLEDGE_PAIRING_REGISTRY.csv",
-      "verdict": "gap",
-      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
-      "candidate_decision_id": null,
-      "severity": "medium",
-      "notes": "slug=knowledge_pairing; missing_components=supabase-mirror-migration"
     },
     {
       "dimension_code": "DIM-05-SOP-RUNBOOK-PAIRING",
@@ -520,11 +520,11 @@
     {
       "dimension_code": "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
       "surface_path": "docs/wip/planning/86-initiative-cluster-execution-coordinator/operator-scratchpad.md",
-      "verdict": "drift",
-      "proposed_rework_action": "append wave-close drain entry citing all wave decisions",
+      "verdict": "clean",
+      "proposed_rework_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "last scratchpad date=2026-05-21; HEAD commit date=2026-05-22; scratchpad older than HEAD"
+      "notes": "last_entry_date=2026-05-22; HEAD_date=2026-05-22; continuity OK"
     },
     {
       "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
@@ -536,8 +536,8 @@
       "notes": "roles=70; process_owners=45; orphan_processes=0; ghost_roles=0"
     }
   ],
-  "clean_count": 4,
-  "drift_count": 2,
+  "clean_count": 6,
+  "drift_count": 0,
   "gap_count": 53,
   "blocked_count": 0,
   "skip_count": 0,

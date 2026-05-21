@@ -1,15 +1,15 @@
-# Regression sweep — Wave-P close — 2026-05-22
+# Regression sweep — Wave-Q close — 2026-05-22
 
 **Report ID:** `regression-sweep-2026-05-22`  
 **Swept by:** agent:inter_wave_regression_sweep  
-**Wave closing:** Wave-P  
+**Wave closing:** Wave-Q  
 
 ## Counts
 
 | Verdict | Count |
 | --- | --- |
-| clean | 4 |
-| drift | 2 |
+| clean | 6 |
+| drift | 0 |
 | gap | 53 |
 | blocked | 0 |
 | skip | 0 |
@@ -19,7 +19,7 @@
 
 | Dimension | Surface | Verdict | Severity | Proposed action | Notes |
 | --- | --- | --- | --- | --- | --- |
-| DIM-01-DECISION-LINEAGE | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv` | clean | low |  | 380 decisions in register; all ratifying_decisions: frontmatter values FK-resolve (reverse-FK advisory sweep deferred to operator review) |
+| DIM-01-DECISION-LINEAGE | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv` | clean | low |  | 385 decisions in register; all ratifying_decisions: frontmatter values FK-resolve (reverse-FK advisory sweep deferred to operator review) |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md` | gap | low | land 'SOP-TECH_DATAOPS_QUALITY_001.md (paired SOP; activation gate when canonical promotes to active)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'SOP-TECH_DATAOPS_QUALITY_001.md (paired SOP; activation gate when canonical promotes to active)' has no observable carryover signal (no _candidates/ match, no OPS row) |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md` | gap | low | land 'I-NN-CHANNEL-DOCTRINES (per-channel goods/bads research; activation gates HOLISTIKA_QUALITY_FABRIC P1 + 1 channel research pass)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'I-NN-CHANNEL-DOCTRINES (per-channel goods/bads research; activation gates HOLISTIKA_QUALITY_FABRIC P1 + 1 channel research pass)' has no observable carryover signal (no _candidates/ match, no OPS row) |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md` | gap | low | land 'process_list.csv row hol_peopl_dtp_index_integrity_001' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'process_list.csv row hol_peopl_dtp_index_integrity_001' has no observable carryover signal (no _candidates/ match, no OPS row) |
@@ -30,15 +30,15 @@
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md` | gap | low | land 'process_list.csv row hol_peopl_dtp_inter_wave_regression_001' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'process_list.csv row hol_peopl_dtp_inter_wave_regression_001' has no observable carryover signal (no _candidates/ match, no OPS row) |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md` | gap | low | land 'PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_inter_wave_regression_discipline' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_inter_wave_regression_discipline' has no observable carryover signal (no _candidates/ match, no OPS row) |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md` | gap | low | land 'paired runbook scripts/inter_wave_regression_sweep.py (P2)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'paired runbook scripts/inter_wave_regression_sweep.py (P2)' has no observable carryover signal (no _candidates/ match, no OPS row) |
-| DIM-03-VALIDATOR-RAMP-CONSISTENCY | `verification-profiles.json;release-gate.py` | drift | medium | verify each promotion/relaxation cites a decision row in DECISION_REGISTER.csv with rationale | prior_sha=99e7636; promotions_observed=1; relaxations_observed=0 |
+| DIM-03-VALIDATOR-RAMP-CONSISTENCY | `verification-profiles.json;release-gate.py` | clean | low |  | prior_sha=d25d6b1; no INFO->FAIL promotions or threshold relaxations observed in diff |
+| DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AIC_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration | slug=aic; missing_components=supabase-mirror-migration |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ARTIFACT_CLASS_REGISTRY.csv` | gap | medium | mint missing components: scripts-validator, supabase-mirror-migration | slug=artifact_class; missing_components=scripts-validator,supabase-mirror-migration |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration | slug=audience; missing_components=supabase-mirror-migration |
+| DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CAPABILITY_CONFIDENCE_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration | slug=capability_confidence; missing_components=supabase-mirror-migration |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CAPABILITY_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration | slug=capability; missing_components=supabase-mirror-migration |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration | slug=channel_touchpoint; missing_components=supabase-mirror-migration |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COMPONENT_PRIMITIVE_REGISTRY.csv` | gap | medium | mint missing components: scripts-validator, supabase-mirror-migration | slug=component_primitive; missing_components=scripts-validator,supabase-mirror-migration |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COUNTRY_WORK_CALENDAR.csv` | gap | medium | mint missing components: akos-pydantic-model, scripts-validator, supabase-mirror-migration | slug=country_work_calendar; missing_components=akos-pydantic-model,scripts-validator,supabase-mirror-migration |
-| DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv` | gap | medium | mint missing components: akos-pydantic-model | slug=goi_poi_register; missing_components=akos-pydantic-model |
-| DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/KNOWLEDGE_PAIRING_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration | slug=knowledge_pairing; missing_components=supabase-mirror-migration |
 | DIM-05-SOP-RUNBOOK-PAIRING | `process_list:thi_data_prj_1` | gap | low | mint paired SOP under <area>/<role>/canonicals/ AND runbook under scripts/ per akos-executable-process-catalog.mdc RULE 1 | no SOP or runbook token-match for item_id; tokens=['data'] |
 | DIM-05-SOP-RUNBOOK-PAIRING | `process_list:thi_data_ws_1` | gap | low | mint paired SOP under <area>/<role>/canonicals/ AND runbook under scripts/ per akos-executable-process-catalog.mdc RULE 1 | no SOP or runbook token-match for item_id; tokens=['data'] |
 | DIM-05-SOP-RUNBOOK-PAIRING | `process_list:thi_data_ws_2` | gap | low | mint paired SOP under <area>/<role>/canonicals/ AND runbook under scripts/ per akos-executable-process-catalog.mdc RULE 1 | no SOP or runbook token-match for item_id; tokens=['data'] |
@@ -76,7 +76,7 @@
 | DIM-11-CURSOR-RULE-SKILL-PAIRING | `.cursor/rules/akos-conflict-surfacing-and-blocker-trackers.mdc` | gap | low | mint paired skill under .cursor/skills/ OR file forward-charter candidate per D-IH-80-E precedent | rule body mentions craft/skill but no paired SKILL.md or _candidates/ match for token 'conflictsurfacingandblockertrackers' |
 | DIM-11-CURSOR-RULE-SKILL-PAIRING | `.cursor/rules/akos-deploy-health.mdc` | gap | low | mint paired skill under .cursor/skills/ OR file forward-charter candidate per D-IH-80-E precedent | rule body mentions craft/skill but no paired SKILL.md or _candidates/ match for token 'deployhealth' |
 | DIM-11-CURSOR-RULE-SKILL-PAIRING | `.cursor/rules/akos-docs-config-sync.mdc` | gap | low | mint paired skill under .cursor/skills/ OR file forward-charter candidate per D-IH-80-E precedent | rule body mentions craft/skill but no paired SKILL.md or _candidates/ match for token 'docsconfigsync' |
-| DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY | `docs/wip/planning/86-initiative-cluster-execution-coordinator/operator-scratchpad.md` | drift | low | append wave-close drain entry citing all wave decisions | last scratchpad date=2026-05-21; HEAD commit date=2026-05-22; scratchpad older than HEAD |
+| DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY | `docs/wip/planning/86-initiative-cluster-execution-coordinator/operator-scratchpad.md` | clean | low |  | last_entry_date=2026-05-22; HEAD_date=2026-05-22; continuity OK |
 | DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` | clean | low |  | roles=70; process_owners=45; orphan_processes=0; ghost_roles=0 |
 
 ---
