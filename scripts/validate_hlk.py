@@ -512,6 +512,8 @@ def main() -> int:
         # with SUBSTRATE_LANDSCAPE_DOCTRINE.md at Research/Methodology/canonicals/.
         ("SUBSTRATE_REGISTRY", "validate_substrate_registry.py",
          "validate_substrate_registry", HLK_DIR / "dimensions" / "SUBSTRATE_REGISTRY.csv"),
+        ("CAPABILITY_REGISTRY", "validate_capability_registry.py",
+         "validate_capability_registry", HLK_DIR / "dimensions" / "CAPABILITY_REGISTRY.csv"),
         # Initiative 86 Wave K + L - 4-layer output architecture beneath the 5-axis Quality Fabric.
         # Composite validator covers Layer 1 OUTPUT_TYPE_REGISTRY + Layer 2 ARTIFACT_CLASS_REGISTRY +
         # Layer 3 COMPONENT_PRIMITIVE_REGISTRY in one pass. Also FK-resolves
