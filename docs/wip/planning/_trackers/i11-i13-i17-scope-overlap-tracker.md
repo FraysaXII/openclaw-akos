@@ -7,11 +7,16 @@ tracked_initiatives:
   - INIT-OPENCLAW_AKOS-13
   - INIT-OPENCLAW_AKOS-17
 authored: 2026-05-18
-last_review: 2026-05-18
-next_review_trigger: I76 P4 entry (AICs implementation phase)
+last_review: 2026-05-21
+next_review_trigger: I76 P4 entry (I13 consolidation only; I17 + I11 ratified MERGE at Wave P Push 3)
 linked_decisions:
   - D-IH-76-A
+  - D-IH-76-B
+  - D-IH-76-C
+  - D-IH-76-N
+  - D-IH-76-O
   - D-IH-86-O
+  - D-IH-86-CJ
   - D-IH-84-C
 status: active
 role_owner: System Owner
@@ -66,7 +71,7 @@ The tracker defers three ratify gates to specific I76 phases. Each gate is an in
 
 **Default if not ratified before P1 entry.** Option B (merge); the agent carries forward I17 deliverables as P1 input and explicitly cites them in the new SOPs.
 
-**Status.** **Ratified 2026-05-19 — Option E (per-deliverable triage; novel framing).** See [`docs/wip/planning/76-madeira-elevation/reports/i17-deliverable-triage-2026-05-19.md`](../76-madeira-elevation/reports/i17-deliverable-triage-2026-05-19.md). Triage classifies 10 I17 deliverables: 6 substrate-worthy (merge into I76 P1 input); 2 obsolete (decommission 3-mode UI + swarm overlays); 2 forward-charter (pytest+log-watcher to I68 P3; executor_harness to I78). I17 INITIATIVE_REGISTRY row flips `active` → `closed` at I76 P1 closure with `D-IH-17-CLOSURE`.
+**Status.** **RATIFIED 2026-05-19 (v1) via D-IH-76-B — Option E (per-deliverable triage; novel framing)** OVERRIDDEN BY **RATIFIED 2026-05-21 (v2) via D-IH-76-O — Option B (clean MERGE) per Wave P Push 3 operator override (D-IH-76-O `supersedes_decision_id = D-IH-76-B`).** Operator Q7 framing 2026-05-21: *"scope-up-i17-i11-merge-now"*. The v2 override consolidates the v1 per-deliverable triage outcome into a clean MERGE disposition for the 8 non-obsolete I17 deliverables (6 substrate-worthy already merge-targeted + 2 forward-chartered now reclassified as MERGE-with-followup-tracking via OPS-76-2 P1 execution forward-charter). The 2 obsolete deliverables (3-mode UI + swarm overlays) remain DECOMMISSIONED per v1 triage. The 2 v1 forward-charters to I68 P3 + I78 remain INTACT as cross-initiative dependencies but no longer block I17 closure. I17 INITIATIVE_REGISTRY row flips `active` → `closed` at I76 P1 closure with `D-IH-17-CLOSURE` per the v1 plan; the v2 override simplifies the closure rationale from "per-deliverable triage executed" to "clean MERGE into I76 P1" (audit-trail preserved in both reports). See [`docs/wip/planning/76-madeira-elevation/reports/i17-deliverable-triage-2026-05-19.md`](../76-madeira-elevation/reports/i17-deliverable-triage-2026-05-19.md) for v1 evidence baseline.
 
 ### 3.2 I11 consolidation gate (fires at I76 P3 entry)
 
@@ -81,7 +86,7 @@ The tracker defers three ratify gates to specific I76 phases. Each gate is an in
 
 **Default if not ratified before P3 entry.** Option C (remain parallel); the safest default given I11's ops-copilot scope may legitimately exceed I76 P3's mode-shape scope.
 
-**Status.** **Ratified 2026-05-19 — Option E (criterion-now-defer-decision-to-evidence; novel framing).** See [`docs/wip/planning/76-madeira-elevation/reports/i11-consolidation-criterion-2026-05-19.md`](../76-madeira-elevation/reports/i11-consolidation-criterion-2026-05-19.md). Criterion: coverage = (I11 use-cases addressed by I76 P1+P3 SOPs) / (12 inventoried use-cases). Threshold 70% MERGE / 40-70 PARALLEL / < 40% FORWARD-CHARTER-TO-I76b ; tie at boundary = inline-ratify. Pre-measurement at this ratification: 67% (8 of 12) projects **PARALLEL** auto-decision when I76 P3 entry fires. Final measurement uses actual SOP §Scope coverage at P3 entry.
+**Status.** **RATIFIED 2026-05-19 (v1) via D-IH-76-C — Option E (criterion-now-defer-decision-to-evidence; novel framing)** OVERRIDDEN BY **RATIFIED 2026-05-21 (v2) via D-IH-76-N — Option B (clean MERGE) per Wave P Push 3 operator override (D-IH-76-N `supersedes_decision_id = D-IH-76-C`).** Operator Q7 framing 2026-05-21: *"scope-up-i17-i11-merge-now"*. The v1 criterion projected 67% coverage → PARALLEL auto-decision; v2 override accepts the 4 uncovered use-cases as P3 SOP scope-extension targets (rather than as PARALLEL maintenance burden), bringing the 12 I11 use-cases under unified I76 P3 stewardship. Practical effect: I76 P3 expands `SOP-TECH_MADEIRA_PERSISTENCE_001` + `SOP-TECH_MADEIRA_PERSONALITY_001` scope to cover the 4 previously-uncovered I11 use-cases (ops-copilot-specific persistence patterns + ops-copilot-specific personality affordances). I11 INITIATIVE_REGISTRY row flips `active` → `closed` at I76 P3 closure with `D-IH-11-CLOSURE`. Audit-trail preserved: v1 criterion report at [`docs/wip/planning/76-madeira-elevation/reports/i11-consolidation-criterion-2026-05-19.md`](../76-madeira-elevation/reports/i11-consolidation-criterion-2026-05-19.md) is the evidence baseline; v2 override decision-row D-IH-76-N captures the rationale shift from "PARALLEL by default" to "MERGE by operator-explicit Q7 ratify".
 
 ### 3.3 I13 consolidation gate (fires at I76 P4 entry)
 

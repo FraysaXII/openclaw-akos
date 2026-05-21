@@ -19,7 +19,13 @@ sibling_initiatives:
   - INIT-OPENCLAW_AKOS-71
 linked_decisions:
   - D-IH-76-A
+  - D-IH-76-B
+  - D-IH-76-C
+  - D-IH-76-N
+  - D-IH-76-O
+  - D-IH-76-P
   - D-IH-86-O
+  - D-IH-86-CJ
 linked_canonicals:
   - docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/MADEIRA-AKOS/STATUS.md
   - docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/canonicals/AGENTIC_FRAMEWORK_LANDSCAPE.md
@@ -29,7 +35,23 @@ authoritative_plan: docs/wip/planning/76-madeira-elevation/master-roadmap.md
 
 # I76 — MADEIRA elevation (operator-interaction quality at Cursor-grade)
 
-> **Status: active (charter ratified 2026-05-18 by D-IH-76-A; Wave A of Bundle D push under I86 cluster orchestration).** Promoted from candidate per operator inline-ratify gate A1 Option D (novel framing — full P0..P6 charter + minted scope-overlap-tracker for I11/I13/I17 active stack). I84 P4 D-IH-84-C pre-ratified the AICs framing as F5 (Hybrid; per-task operator picks) so charter is free to focus on per-pattern instantiation, not the meta-decision. AIC-as-people framing per `D-IH-70-V` and the I79 People-as-Discipline-of-Disciplines RULE 5 Madeira role-class footnote. Madeira (current AI O5-1) is the named embodiment; AI O5-1 is the role class.
+> **Status: active (charter ratified 2026-05-18 by D-IH-76-A; I17 + I11 consolidation v1 ratified Wave H 2026-05-19 by D-IH-76-B + D-IH-76-C; Wave M canonical-CSV gates D-IH-76-D..M; scope-up MERGE override ratified Wave P Push 3 2026-05-21 by D-IH-76-N + D-IH-76-O + D-IH-76-P; Wave A of Bundle D push under I86 cluster orchestration).** Promoted from candidate per operator inline-ratify gate A1 Option D (novel framing — full P0..P6 charter + minted scope-overlap-tracker for I11/I13/I17 active stack). I84 P4 D-IH-84-C pre-ratified the AICs framing as F5 (Hybrid; per-task operator picks) so charter is free to focus on per-pattern instantiation, not the meta-decision. AIC-as-people framing per `D-IH-70-V` and the I79 People-as-Discipline-of-Disciplines RULE 5 Madeira role-class footnote. Madeira (current AI O5-1) is the named embodiment; AI O5-1 is the role class.
+
+## Wave P Push 3 scope-up (2026-05-21; operator Q7 ratification)
+
+Operator Q7 at Wave P kickoff ratify gate (2026-05-21): *"scope-up-i17-i11-merge-now"*. This overrides the Wave H v1 consolidation rationales (I17 v1 = D-IH-76-B Option E per-deliverable triage; I11 v1 = D-IH-76-C Option E criterion-deferred at 67% projected PARALLEL) with **Option B clean MERGE** for both initiatives at I76 P1 + P3 absorption points.
+
+**Three Wave P Push 3 decisions ratified inline:**
+
+- **D-IH-76-N (I11 consolidation gate MERGE override; supersedes D-IH-76-C)**: RATIFIED to Option B = MERGE at P3 absorption. The 12 inventoried I11 ops-copilot use-cases come under unified I76 P3 stewardship; the 4 uncovered use-cases become explicit scope-extension targets in the persistence + personality SOPs. I11 INITIATIVE_REGISTRY row flips `active` → `closed` at P3 closure.
+- **D-IH-76-O (I17 consolidation gate MERGE override; supersedes D-IH-76-B)**: RATIFIED to Option B = MERGE at P1 absorption. The 8 non-obsolete I17 deliverables consolidated into I76 P1 MERGE disposition; 2 obsolete deliverables remain DECOMMISSIONED with audit trail; 2 cross-initiative forward-charters to I68 P3 + I78 remain INTACT but non-blocking. I17 INITIATIVE_REGISTRY row flips `active` → `closed` at P1 closure.
+- **D-IH-76-P (execution forward-charter)**: RATIFIED at Wave P Push 3 — scope-up at Push 3 + execute at next push window with operator engagement at sub-gates. I76 P1+P2+P3 substantive execution (5 mode SOPs authoring + tool catalog RBAC matrix + persistence + personality + I17 MERGE absorption + I11 MERGE absorption) requires operator-engaged sessions (each ~1-2d work touching substantial SOP authoring + canonical-CSV mints). Compressing into agent-only push window before operator ratification produces shallow work incompatible with v3.1 doctrine quality bar (precedent: D-IH-86-CJ Wave P kickoff forward-charter). OPS-76-5 tracks the forward-charter status across operator ratification cycle.
+
+**I13 consolidation gate NOT pre-ratified at Wave P Push 3** — operator Q7 named only I17 + I11 in the MERGE-NOW directive. I13's AIC-management scope overlaps with I76 F5 implementation in a way that genuinely requires P4-phase evidence to disposition (cannot be pre-ratified without P4 dispatcher pattern in hand). I13 consolidation gate stays at P4 per the original charter; default outcome at P4 entry if not ratified = Option C remain-parallel per scope-overlap-tracker §3.3.
+
+**Net effect on phase shape**: P1 + P3 absorb I17 + I11 MERGE respectively (each closes the corresponding INITIATIVE_REGISTRY row at phase close); P4 reduces from 3 consolidation inline-ratifies → 1 (I13 only). P5 + P6 unchanged.
+
+**Stale decisions-table note**: The "Decisions (preview)" section below was authored at Wave A 2026-05-18 with speculative IDs that never materialised (the plan slotted I17/I11/I13 gates at D-IH-76-F/G/H but Wave M reused F..M for unrelated MADEIRA persistence + voice + anti-sycophancy decisions). The table is a **stale artifact** that a Wave-cleanup initiative will reconcile separately; the Wave H + Wave M + Wave P Push 3 reality lives in DECISION_REGISTER.csv (canonical SSOT) and is summarised in this Wave P Push 3 section + the matching rows below.
 
 ## Lineage (why I76 follows I70 + I84)
 
@@ -195,14 +217,16 @@ flowchart LR
 
 **Cursor-rules adherence.** This phase operationalises [`akos-planning-traceability.mdc`](../../../.cursor/rules/akos-planning-traceability.mdc) §"Plan-quality bar" (multi-sentence YAML todos minted via the I76 frontmatter; three mermaid diagrams ratified above; per-initiative `files-modified.csv` will land at this charter mint commit) + [`akos-inline-ratification.mdc`](../../../.cursor/rules/akos-inline-ratification.mdc) (gate A1 Option D fired before charter authoring) + [`akos-people-discipline-of-disciplines.mdc`](../../../.cursor/rules/akos-people-discipline-of-disciplines.mdc) RULE 5 (Madeira role-class footnote applied above) + [`akos-governance-remediation.mdc`](../../../.cursor/rules/akos-governance-remediation.mdc) (commit-and-phase discipline, one commit per phase planned).
 
-### P1 — Mode parity baseline (1-2 days)
+### P1 — Mode parity baseline + I17 MERGE absorption (1-2 days; absorbs I17 per D-IH-76-O ratified Wave P Push 3)
 
-**Scope.** Author 5 mode definitions (Ask + Plan + Agent + Debug + Methodology). Each mode definition specifies: tool affordances (which tools available); RBAC posture (read / read+plan-write / full / read+observability / methodology-checkpoint); transition rules (when does the mode switch fire); session state retention. Methodology mode is the MADEIRA delta: every interaction surfaces as a `LOGIC_CHANGE_LOG` candidate row + a `DECISION_REGISTER` candidate row + a brand-voice register check. Coordinates with I17 (Cursor mode parity) deliverables; consolidation question deferred to scope-overlap-tracker §3.
+**Scope.** Author 5 mode definitions (Ask + Plan + Agent + Debug + Methodology). Each mode definition specifies: tool affordances (which tools available); RBAC posture (read / read+plan-write / full / read+observability / methodology-checkpoint); transition rules (when does the mode switch fire); session state retention. Methodology mode is the MADEIRA delta: every interaction surfaces as a `LOGIC_CHANGE_LOG` candidate row + a `DECISION_REGISTER` candidate row + a brand-voice register check. **I17 MERGE absorption (per D-IH-76-O Wave P Push 3 ratification; supersedes D-IH-76-B v1 per-deliverable triage)**: 8 non-obsolete I17 deliverables explicitly cited as P1 input + carry-forward in the 5 mode SOPs (preserved from v1 per-deliverable triage report at `reports/i17-deliverable-triage-2026-05-19.md`); 2 obsolete deliverables (3-mode UI + swarm overlays) remain DECOMMISSIONED with audit trail; 2 cross-initiative forward-charters (pytest+log-watcher → I68 P3 ; executor_harness → I78) remain INTACT as non-blocking cross-references. I17 INITIATIVE_REGISTRY row flips `active` → `closed` at P1 closure via `D-IH-17-CLOSURE`.
 
 **Files (canonical).**
 - New: `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/canonicals/MADEIRA_MODE_PARITY.md` (mode taxonomy + per-mode RBAC overview).
 - New: `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/canonicals/MADEIRA_METHODOLOGY_MODE.md` (NEW mode spec; methodology-checkpoint discipline).
-- Modified: `docs/wip/planning/_trackers/i11-i13-i17-scope-overlap-tracker.md` §3 (I17 mode-parity consolidation ratify gate fires here).
+- Modified: `docs/wip/planning/_trackers/i11-i13-i17-scope-overlap-tracker.md` §3.1 (I17 MERGE absorption status update from v2 RATIFIED → CLOSED-AT-P1).
+- Modified: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv` (I17 row status `active` → `closed`).
+- New: `docs/wip/planning/76-madeira-elevation/reports/p1-i17-merge-absorption-<YYYYMMDD>.md` (deliverable-by-deliverable absorption ledger; cross-references v1 per-deliverable triage report + names which mode SOP absorbs each substrate-worthy I17 deliverable).
 
 **Verification.** Validator stub `scripts/validate_madeira_mode_parity.py` (Pydantic model `akos/hlk_madeira_mode.py` enforcing the mode enum + RBAC posture per mode); `py scripts/validate_hlk.py` extension; review-stamp dimension applied per I71 P4.
 
@@ -226,15 +250,18 @@ flowchart LR
 
 **Self-checkpoint count.** 2.
 
-### P3 — Operator UX + persistence + personality (1-2 days; parallel-eligible with P1)
+### P3 — Operator UX + persistence + personality + I11 MERGE absorption (1-2 days; parallel-eligible with P1; absorbs I11 per D-IH-76-N ratified Wave P Push 3)
 
-**Scope.** Persistence policy (default: methodology-scoped read-only; MADEIRA can read recent decisions + LOGIC_CHANGE_LOG rows but doesn't write across sessions without explicit ratification); personality (default: neutral; operator-voice mirror under explicit flag per Strand A research findings absorbed from I84 P1 Tier-1 WIP); brand-jargon hygiene (per `D-IH-70-I` strict mode + `akos-brand-baseline-reality.mdc` dual-register contract).
+**Scope.** Persistence policy (default: methodology-scoped read-only; MADEIRA can read recent decisions + LOGIC_CHANGE_LOG rows but doesn't write across sessions without explicit ratification); personality (default: neutral; operator-voice mirror under explicit flag per Strand A research findings absorbed from I84 P1 Tier-1 WIP); brand-jargon hygiene (per `D-IH-70-I` strict mode + `akos-brand-baseline-reality.mdc` dual-register contract). **I11 MERGE absorption (per D-IH-76-N Wave P Push 3 ratification; supersedes D-IH-76-C v1 criterion-deferred)**: 12 inventoried I11 ops-copilot use-cases brought under unified I76 P3 stewardship; per the v1 measurement at `reports/i11-consolidation-criterion-2026-05-19.md`, 8 of 12 already covered by I76 P1+P3 SOP scope; the 4 uncovered ops-copilot-specific use-cases become explicit scope-extension targets in `SOP-TECH_MADEIRA_PERSISTENCE_001` (ops-copilot persistence patterns) + `SOP-TECH_MADEIRA_PERSONALITY_001` (ops-copilot personality affordances). I11 INITIATIVE_REGISTRY row flips `active` → `closed` at P3 closure via `D-IH-11-CLOSURE`.
 
 **Files (canonical).**
-- New: `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/canonicals/SOP-TECH_MADEIRA_PERSISTENCE_001.md`.
-- New: `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/canonicals/SOP-TECH_MADEIRA_PERSONALITY_001.md`.
+- New: `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/canonicals/SOP-TECH_MADEIRA_PERSISTENCE_001.md` (extended scope includes the 4 uncovered I11 ops-copilot persistence use-cases).
+- New: `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/canonicals/SOP-TECH_MADEIRA_PERSONALITY_001.md` (extended scope includes the 4 uncovered I11 ops-copilot personality use-cases when applicable; otherwise the persistence SOP covers all 4).
 - New: `scripts/madeira_persistence_check.py` (paired runbook for the persistence SOP).
 - New: `scripts/madeira_personality_check.py` (paired runbook for the personality SOP).
+- Modified: `docs/wip/planning/_trackers/i11-i13-i17-scope-overlap-tracker.md` §3.2 (I11 MERGE absorption status update from v2 RATIFIED → CLOSED-AT-P3).
+- Modified: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv` (I11 row status `active` → `closed`).
+- New: `docs/wip/planning/76-madeira-elevation/reports/p3-i11-merge-absorption-<YYYYMMDD>.md` (use-case-by-use-case absorption ledger; cross-references v1 criterion report + names which SOP section absorbs each I11 use-case).
 
 **Verification.** Both SOPs have paired runbooks per `akos-executable-process-catalog.mdc` Rule 1. `py scripts/validate_hlk.py` + cross-reference to BBR drift gate.
 
@@ -242,9 +269,9 @@ flowchart LR
 
 **Self-checkpoint count.** 2.
 
-### P4 — AICs implementation per F5 hybrid + I11/I13/I17 consolidation ratify (2-3 days)
+### P4 — AICs implementation per F5 hybrid + I13 consolidation ratify (2-3 days; reduced from I11+I13+I17 to I13-only)
 
-**Scope.** F5 (Hybrid; per-task operator picks) means MADEIRA dispatches AICs from a per-task config — F1 supervised-sub-agents for some task classes; F2 peer-companions for others; F3 ad-hoc-dispatch for one-shots; F4 single-agent rich-tools as the trivial case. Implementation: a per-task registry (`MADEIRA_AIC_PER_TASK_REGISTRY.csv`) with rows (task_class, default_framing, dispatcher_pattern, escalation_path). The I11/I13/I17 consolidation question (i76-madeira-elevation.md C-76-5) ratifies here per scope-overlap-tracker §3 — three sub-ratifies (one per active sibling), each picking from {decommission / merge into I76 / remain parallel as legacy code-path / forward-charter to I76b}. Per scope-overlap-tracker the consolidation ratify is per-phase-of-I76, not all-at-once.
+**Scope.** F5 (Hybrid; per-task operator picks) means MADEIRA dispatches AICs from a per-task config — F1 supervised-sub-agents for some task classes; F2 peer-companions for others; F3 ad-hoc-dispatch for one-shots; F4 single-agent rich-tools as the trivial case. Implementation: a per-task registry (`MADEIRA_AIC_PER_TASK_REGISTRY.csv`) with rows (task_class, default_framing, dispatcher_pattern, escalation_path). **Scope reduction (per Wave P Push 3 D-IH-76-N + D-IH-76-O ratifications)**: I17 + I11 consolidation gates pre-ratified to MERGE at P1 + P3 respectively, closing both initiatives before P4. Only **I13 consolidation gate** remains at P4 — single inline-ratify gate per scope-overlap-tracker §3.3 (I13's AIC-management scope overlaps with I76 F5 implementation in a way that genuinely requires P4-phase evidence to disposition; cannot be pre-ratified at Wave P Push 3 like I17 + I11).
 
 **Files (canonical).**
 - New: `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/canonicals/dimensions/MADEIRA_AIC_PER_TASK_REGISTRY.csv`.
@@ -252,13 +279,13 @@ flowchart LR
 - New: `scripts/validate_madeira_aic_per_task.py` (validator).
 - New: `scripts/madeira_aic_dispatch.py` (paired runbook — given a task_class, returns the F-framing config).
 - New: `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/canonicals/SOP-TECH_MADEIRA_AIC_DISPATCH_001.md`.
-- Modified: `docs/wip/planning/_trackers/i11-i13-i17-scope-overlap-tracker.md` §3 (3 consolidation ratify gates close).
+- Modified: `docs/wip/planning/_trackers/i11-i13-i17-scope-overlap-tracker.md` §3.3 (I13 consolidation ratify gate closes; §3.1 + §3.2 already closed at P1 + P3 respectively).
 
-**Verification.** Per-task registry validator green; consolidation ratify gates close (3 entries in scope-overlap-tracker §3 ratified or forward-chartered); I11 / I13 / I17 INITIATIVE_REGISTRY rows updated (closed if consolidated; status preserved if remain-parallel).
+**Verification.** Per-task registry validator green; I13 consolidation ratify gate closes (1 entry in scope-overlap-tracker §3.3 ratified or forward-chartered); I13 INITIATIVE_REGISTRY row updated (closed if consolidated; status preserved if remain-parallel).
 
-**Pause-point classification.** Three operator-gated inline-ratifies (one per active sibling consolidation decision); each is reversible (decommission can be reverted; remain-parallel is the safe default); none are canonical-CSV mutations beyond the new MADEIRA_AIC_PER_TASK_REGISTRY which lands inline.
+**Pause-point classification.** One operator-gated inline-ratify (I13 consolidation decision; reversible); plus canonical-CSV append for the new MADEIRA_AIC_PER_TASK_REGISTRY which lands inline per the new-canonical-CSV-pattern in `akos-holistika-operations.mdc`. Scope reduction from 3 inline-ratifies → 1 (per Wave P Push 3 pre-ratification of I17 + I11).
 
-**Self-checkpoint count.** 3 (pre-P4 + mid-P4 after dispatcher pattern lands + post-P4 after consolidation gates close).
+**Self-checkpoint count.** 2 (pre-P4 + mid-P4 after dispatcher pattern lands; reduced from 3 → 2 because P4 scope reduction removes one consolidation cycle).
 
 ### P5 — Five-engagement UAT (3-5 days; calendar-spread)
 
@@ -292,15 +319,24 @@ flowchart LR
 
 | Decision | Question | Owner | Status entering | Close-out phase |
 |:---|:---|:---|:---|:---|
-| **D-IH-76-A** | I76 charter inception (Wave A 2026-05-18 promotion under Option D) | System Owner + PMO | NEW (this commit) | P0 |
+| **D-IH-76-A** | I76 charter inception (Wave A 2026-05-18 promotion under Option D) | System Owner + PMO | RATIFIED (Wave A) | P0 |
 | **D-IH-76-B** | Mode taxonomy (4 modes vs 5; Methodology mode shape) | System Owner | Proposed | P1 |
 | **D-IH-76-C** | Tool catalog + per-mode RBAC architecture | System Owner | Proposed | P2 |
 | **D-IH-76-D** | Persistence shape (ephemeral / session / methodology) | System Owner + Founder | Proposed | P3 |
 | **D-IH-76-E** | Personality ratification (neutral / operator-voice / named) | Founder | Proposed | P3 |
-| **D-IH-76-F** | I11 consolidation gate | Founder | Proposed | P4 |
-| **D-IH-76-G** | I13 consolidation gate | Founder | Proposed | P4 |
-| **D-IH-76-H** | I17 consolidation gate | Founder | Proposed | P4 |
-| **D-IH-76-I** | I74 Strand C handoff trigger (productization gate) | Founder | Proposed | P6 |
+| **D-IH-76-F** | MADEIRA persistence vehicle registry mint (canonical-CSV gate) | System Owner + Founder | RATIFIED Wave M (2026-05-19) — MADEIRA_PERSISTENCE_VEHICLE_REGISTRY.csv minted with 16 seed rows | Wave M |
+| **D-IH-76-G** | MADEIRA voice canonical shape (PROSE-FIRST SOP + Pydantic chassis only at v1) | Founder + System Owner | RATIFIED Wave M (2026-05-19) — `not overengineered` framing | Wave M |
+| **D-IH-76-H** | MADEIRA voice trait vocabulary closed at 9 traits | Founder | RATIFIED Wave M (2026-05-19) — STANDARD_TRAIT_VOCABULARY frozenset | Wave M |
+| **D-IH-76-I** | MADEIRA voice audience_constraint v1 set ratified at 3 classes | Founder | RATIFIED Wave M (2026-05-19) — {J-OP, J-AD-post-NDA, J-CO} | Wave M |
+| **D-IH-76-J** | MADEIRA anti-sycophancy friction injection at 3-consecutive-agreement threshold | Founder | RATIFIED Wave M (2026-05-19) — `anti_sycophancy_threshold` default = 3 | Wave M |
+| **D-IH-76-K** | MADEIRA corpus access FK-only per OperatorVoiceProfile.corpus_paths | Founder + System Owner | RATIFIED Wave M (2026-05-19) — preserves access_level 5 confidentiality | Wave M |
+| **D-IH-76-L** | MADEIRA voice knowledge-test cadence quarterly inline-ratify default | Founder | RATIFIED Wave M (2026-05-19) — 90-day default per OperatorVoiceProfile.knowledge_test_cadence_days | Wave M |
+| **D-IH-76-M** | MADEIRA cross-AIC handling per-AIC re-load on switch (no shared session state) | Founder + System Owner | RATIFIED Wave M (2026-05-19) — extensible to N>1 AICs via per-AIC re-load contract | Wave M |
+| **D-IH-76-N** | I11 consolidation gate MERGE override (supersedes D-IH-76-C) | Founder | **RATIFIED Wave P Push 3 (2026-05-21): Option B = MERGE** per operator Q7 override; overrides v1 D-IH-76-C Option E criterion-deferred (67% PARALLEL auto-decision); accepts 4 uncovered I11 use-cases as P3 SOP scope-extension targets | Wave P Push 3 (was P4) |
+| **D-IH-76-O** | I17 consolidation gate MERGE override (supersedes D-IH-76-B) | Founder | **RATIFIED Wave P Push 3 (2026-05-21): Option B = MERGE** per operator Q7 override; overrides v1 D-IH-76-B Option E per-deliverable triage; 8 non-obsolete I17 deliverables consolidated into I76 P1 MERGE disposition; 2 obsolete deliverables remain DECOMMISSIONED; 2 cross-initiative forward-charters to I68 P3 + I78 remain INTACT but non-blocking | Wave P Push 3 (was P4) |
+| **D-IH-76-P** | I76 P1+P2+P3 substantive execution forward-charter | Founder + System Owner | **RATIFIED Wave P Push 3 (2026-05-21)** per operator Q7 framing: scope-up at Push 3 + execute at next push window with operator engagement at sub-gates (5 mode SOPs authoring + tool catalog RBAC matrix + persistence + personality + I17 MERGE absorption + I11 MERGE absorption). Compressing into agent-only push window before operator ratification produces shallow work incompatible with v3.1 doctrine quality bar (precedent: D-IH-86-CJ). OPS-76-5 tracks status across operator ratification cycle. | Wave P Push 3 |
+| **D-IH-76-Q** | I13 consolidation gate (remaining at P4 per Wave P Push 3 scope; operator Q7 did not pre-ratify) | Founder | Proposed | P4 |
+| **D-IH-76-R** | I74 Strand C handoff trigger (productization gate) | Founder | Proposed | P6 |
 | **D-IH-76-CLOSURE** | initiative closure | Founder + System Owner | Proposed | P6 |
 
 Inherited (pre-ratified at I84 P4):
