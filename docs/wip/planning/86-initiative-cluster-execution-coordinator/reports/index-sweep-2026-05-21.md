@@ -2,7 +2,7 @@
 
 - **Report ID**: `index-sweep-2026-05-21`
 - **Sweep trigger**: `wave_close`
-- **Swept by**: `wave-o-promotion`
+- **Swept by**: `wave-p-kickoff`
 - **Total findings**: 8 (fresh=8, drift=0, gap=0, blocked=0, skip=0)
 
 ## Findings
@@ -11,8 +11,8 @@
 |:---|:---|:---|:---|:---|
 | `IDX-01-PLANNING-README-INITIATIVE-COUNT` | `README.md` | fresh | low | _folder_count=73 == registry_count=73_ |
 | `IDX-02-PRECEDENCE-CSV-COVERAGE` | `PRECEDENCE.md` | fresh | low | _all 34 CSVs mentioned in PRECEDENCE.md_ |
-| `IDX-03-CHANGELOG-WAVE-COVERAGE` | `CHANGELOG.md` | fresh | low | _CHANGELOG.md mentions Wave-N_ |
-| `IDX-04-INITIATIVE-DEPENDENCIES-FRESHNESS` | `INITIATIVE_DEPENDENCIES.md` | fresh | low | _deps last-edited 2026-05-21, registry last-edited 2026-05-20 (delta=-1d, threshold=7d)_ |
+| `IDX-03-CHANGELOG-WAVE-COVERAGE` | `CHANGELOG.md` | fresh | low | _CHANGELOG.md mentions Wave-O_ |
+| `IDX-04-INITIATIVE-DEPENDENCIES-FRESHNESS` | `INITIATIVE_DEPENDENCIES.md` | fresh | low | _deps last-edited 2026-05-21, registry last-edited 2026-05-21 (delta=0d, threshold=7d)_ |
 | `IDX-05-USER-GUIDE-ROLE-PROCESS-COUNTS` | `USER_GUIDE.md` | fresh | low | _baseline=67roles / process_list=1174; no contradicting counts found in USER_GUIDE_ |
 | `IDX-06-ARCHITECTURE-HLK-REGISTRY-COVERAGE` | `ARCHITECTURE.md` | fresh | low | _all 20 dimension CSVs mentioned in ARCHITECTURE.md_ |
 | `IDX-07-PLANNING-FOLDER-FILESYSTEM-PARITY` | `README.md` | fresh | low | _all 73 folders FK-resolved in README; all 73 README links FK-resolved on filesystem_ |

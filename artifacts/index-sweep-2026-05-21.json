@@ -2,7 +2,7 @@
   "report_id": "index-sweep-2026-05-21",
   "sweep_trigger": "wave_close",
   "swept_at": "2026-05-21",
-  "swept_by": "wave-o-promotion",
+  "swept_by": "wave-p-kickoff",
   "findings": [
     {
       "dimension_code": "IDX-01-PLANNING-README-INITIATIVE-COUNT",
@@ -32,7 +32,7 @@
       "proposed_fix_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "CHANGELOG.md mentions Wave-N"
+      "notes": "CHANGELOG.md mentions Wave-O"
     },
     {
       "dimension_code": "IDX-04-INITIATIVE-DEPENDENCIES-FRESHNESS",
@@ -42,7 +42,7 @@
       "proposed_fix_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "deps last-edited 2026-05-21, registry last-edited 2026-05-20 (delta=-1d, threshold=7d)"
+      "notes": "deps last-edited 2026-05-21, registry last-edited 2026-05-21 (delta=0d, threshold=7d)"
     },
     {
       "dimension_code": "IDX-05-USER-GUIDE-ROLE-PROCESS-COUNTS",

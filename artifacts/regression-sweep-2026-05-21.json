@@ -1,6 +1,6 @@
 {
   "report_id": "regression-sweep-2026-05-21",
-  "wave_closing": "Wave-N",
+  "wave_closing": "Wave-O",
   "swept_at": "2026-05-21",
   "swept_by": "agent:inter_wave_regression_sweep",
   "findings": [
@@ -11,7 +11,7 @@
       "proposed_rework_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "360 decisions in register; all ratifying_decisions: frontmatter values FK-resolve (reverse-FK advisory sweep deferred to operator review)"
+      "notes": "363 decisions in register; all ratifying_decisions: frontmatter values FK-resolve (reverse-FK advisory sweep deferred to operator review)"
     },
     {
       "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
@@ -106,11 +106,11 @@
     {
       "dimension_code": "DIM-03-VALIDATOR-RAMP-CONSISTENCY",
       "surface_path": "verification-profiles.json;release-gate.py",
-      "verdict": "drift",
-      "proposed_rework_action": "verify each promotion/relaxation cites a decision row in DECISION_REGISTER.csv with rationale",
+      "verdict": "clean",
+      "proposed_rework_action": "",
       "candidate_decision_id": null,
-      "severity": "medium",
-      "notes": "prior_sha=68dcc3f; promotions_observed=2; relaxations_observed=0"
+      "severity": "low",
+      "notes": "prior_sha=99e7636; no INFO->FAIL promotions or threshold relaxations observed in diff"
     },
     {
       "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
@@ -527,8 +527,8 @@
       "notes": "last_entry_date=2026-05-21; HEAD_date=2026-05-21; continuity OK"
     }
   ],
-  "clean_count": 4,
-  "drift_count": 1,
+  "clean_count": 5,
+  "drift_count": 0,
   "gap_count": 53,
   "blocked_count": 0,
   "skip_count": 0,

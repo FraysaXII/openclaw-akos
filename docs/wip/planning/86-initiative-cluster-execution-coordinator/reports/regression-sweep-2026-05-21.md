@@ -1,15 +1,15 @@
-# Regression sweep — Wave-N close — 2026-05-21
+# Regression sweep — Wave-O close — 2026-05-21
 
 **Report ID:** `regression-sweep-2026-05-21`  
 **Swept by:** agent:inter_wave_regression_sweep  
-**Wave closing:** Wave-N  
+**Wave closing:** Wave-O  
 
 ## Counts
 
 | Verdict | Count |
 | --- | --- |
-| clean | 4 |
-| drift | 1 |
+| clean | 5 |
+| drift | 0 |
 | gap | 53 |
 | blocked | 0 |
 | skip | 0 |
@@ -19,7 +19,7 @@
 
 | Dimension | Surface | Verdict | Severity | Proposed action | Notes |
 | --- | --- | --- | --- | --- | --- |
-| DIM-01-DECISION-LINEAGE | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv` | clean | low |  | 360 decisions in register; all ratifying_decisions: frontmatter values FK-resolve (reverse-FK advisory sweep deferred to operator review) |
+| DIM-01-DECISION-LINEAGE | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv` | clean | low |  | 363 decisions in register; all ratifying_decisions: frontmatter values FK-resolve (reverse-FK advisory sweep deferred to operator review) |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md` | gap | low | land 'SOP-TECH_DATAOPS_QUALITY_001.md (paired SOP; activation gate when canonical promotes to active)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'SOP-TECH_DATAOPS_QUALITY_001.md (paired SOP; activation gate when canonical promotes to active)' has no observable carryover signal (no _candidates/ match, no OPS row) |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md` | gap | low | land 'I-NN-CHANNEL-DOCTRINES (per-channel goods/bads research; activation gates HOLISTIKA_QUALITY_FABRIC P1 + 1 channel research pass)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'I-NN-CHANNEL-DOCTRINES (per-channel goods/bads research; activation gates HOLISTIKA_QUALITY_FABRIC P1 + 1 channel research pass)' has no observable carryover signal (no _candidates/ match, no OPS row) |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md` | gap | low | land 'process_list.csv row hol_peopl_dtp_index_integrity_001' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'process_list.csv row hol_peopl_dtp_index_integrity_001' has no observable carryover signal (no _candidates/ match, no OPS row) |
@@ -30,7 +30,7 @@
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md` | gap | low | land 'process_list.csv row hol_peopl_dtp_inter_wave_regression_001' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'process_list.csv row hol_peopl_dtp_inter_wave_regression_001' has no observable carryover signal (no _candidates/ match, no OPS row) |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md` | gap | low | land 'PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_inter_wave_regression_discipline' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_inter_wave_regression_discipline' has no observable carryover signal (no _candidates/ match, no OPS row) |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md` | gap | low | land 'paired runbook scripts/inter_wave_regression_sweep.py (P2)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'paired runbook scripts/inter_wave_regression_sweep.py (P2)' has no observable carryover signal (no _candidates/ match, no OPS row) |
-| DIM-03-VALIDATOR-RAMP-CONSISTENCY | `verification-profiles.json;release-gate.py` | drift | medium | verify each promotion/relaxation cites a decision row in DECISION_REGISTER.csv with rationale | prior_sha=68dcc3f; promotions_observed=2; relaxations_observed=0 |
+| DIM-03-VALIDATOR-RAMP-CONSISTENCY | `verification-profiles.json;release-gate.py` | clean | low |  | prior_sha=99e7636; no INFO->FAIL promotions or threshold relaxations observed in diff |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ARTIFACT_CLASS_REGISTRY.csv` | gap | medium | mint missing components: scripts-validator, supabase-mirror-migration | slug=artifact_class; missing_components=scripts-validator,supabase-mirror-migration |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration | slug=audience; missing_components=supabase-mirror-migration |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration | slug=channel_touchpoint; missing_components=supabase-mirror-migration |
