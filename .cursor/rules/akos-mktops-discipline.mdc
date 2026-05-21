@@ -1,0 +1,99 @@
+# AKOS MKTOps Discipline
+
+Use this rule whenever authoring or reviewing **campaign briefs**,
+**creative assets**, **landing pages**, **adapter registries** (CRM /
+EMAIL / COMMUNICATION / SCHEDULING / ATTRIBUTION), **funnel-stage
+measurement plans**, or **persona-targeting metadata**. Codifies the
+mechanical layer of
+[`MKTOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md)
+(Wave M P5 mint per D-IH-86-BW).
+
+## When this rule applies
+
+- Author or modify a campaign brief, creative asset, or landing page
+  spec under `docs/references/hlk/v3.0/Admin/O5-1/Marketing/**`.
+- Mint or modify an adapter registry row under any of the 5 MKTOps
+  adapter registries (CRM / EMAIL / COMMUNICATION / SCHEDULING /
+  ATTRIBUTION).
+- Modify campaign metadata (`target_persona_ids`, `lifecycle_state`,
+  UTM tagging) in any campaign artifact.
+- Touch brand-canon-bound external-facing prose per
+  `akos-brand-baseline-reality.mdc` + `akos-external-render-discipline.mdc`.
+
+## RULE 1 — Campaign artefacts must satisfy the 7 MKTOps dimensions (binding)
+
+Every campaign artefact (brief / creative / landing page / sequence)
+must pass the 7 MKTOps dimensions defined in
+[`MKTOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md)
+§2 before launch:
+
+- **MKT-01** Campaign lifecycle quality → all 5 lifecycle gates
+  pass with operator approval
+- **MKT-02** Funnel-stage UX → UX bar inherited from
+  `UX_DISCIPLINE.md` (UX-05 + UX-07) per stage class
+- **MKT-03** Landing-page conversion → Core Web Vitals + persona-
+  class conversion benchmark
+- **MKT-04** Attribution trail → UTM consistency + adapter status
+- **MKT-05** Channel coverage → adapter registry `status: active`
+  for all in-use adapters
+- **MKT-06** Persona-fit → ≥ 1 FK-resolved persona target per
+  campaign
+- **MKT-07** Brand-voice integrity →
+  `validate_brand_baseline_reality_drift.py` PASS + brand-jargon-audit
+  scan clean
+
+Mechanical enforcement happens via adapter-registry validators +
+brand-drift validator + planned `mktops_campaign_quality_check.py`
+runbook (forward-chartered).
+
+## RULE 2 — Adapter status metadata is load-bearing (binding)
+
+Every adapter registry row carries a `status` column with the 5-value
+enum per `akos-executable-process-catalog.mdc` Rule 2
+(`active` / `inactive` / `planned` / `deprecated` / `experimental`).
+MKTOps consumes this metadata: campaigns may only invoke `active`
+adapters; `inactive` or `deprecated` invocations are a release-gate
+FAIL.
+
+When a new adapter is registered, the mint follows the Normalised
+Adapter Pattern: paired canonical Pydantic model + paired registry
+CSV + paired validator + paired test + paired release-gate wiring.
+
+## RULE 3 — External-facing artefacts must pass brand-baseline-reality (binding)
+
+Every external-facing campaign artefact (landing page body, email
+body, ad creative copy, deck slide, dossier) must pass
+`scripts/validate_brand_baseline_reality_drift.py` per
+`akos-brand-baseline-reality.mdc` before publish. CORPINT-internal
+register tokens are forbidden in external surfaces; translation to
+external register is mandatory.
+
+This rule is a sibling to MKT-07 (brand-voice integrity); the cursor
+rule names the enforcement contract; the discipline canonical names
+the multi-dimensional bar.
+
+## When this rule does NOT apply
+
+- Internal-only operator dashboards (J-OP audience only); inherit
+  lighter brand-axis only.
+- Operator scratchwork or session notes.
+- Test fixtures.
+
+## Cross-references
+
+- [`MKTOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md)
+  — the canonical this rule operationalises.
+- [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc)
+  Rule 2 — adapter status metadata enum.
+- [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc)
+  — dual-register vocabulary contract (MKT-07 backbone).
+- [`akos-external-render-discipline.mdc`](akos-external-render-discipline.mdc)
+  — 6-surface render enum + audience × channel × format matrix.
+- [`akos-ux-discipline.mdc`](akos-ux-discipline.mdc) — sister rule;
+  MKT-02 funnel-stage UX inherits from UX-05 + UX-07.
+- D-IH-86-BW — Wave M P5 Cluster B sub-decision (operator-ratified
+  rework-now mint).
+- D-IH-72-AD — CRO + COO executive activation forward-charter (Data
+  Owner shifts when activated).
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md

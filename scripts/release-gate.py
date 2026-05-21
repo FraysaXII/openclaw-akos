@@ -553,6 +553,35 @@ def run_output_architecture_registries_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_inter_wave_regression_self_test() -> tuple[bool, int]:
+    """Run inter-wave regression self-test (I86 Wave M / D-IH-86-BO).
+
+    Self-test mode of ``scripts/inter_wave_regression_sweep.py`` — validates
+    the paired Pydantic SSOT (``akos/hlk_inter_wave_regression.py``
+    RegressionFindingRow + RegressionSweepReport frozen models) + the
+    runbook's PROBE_REGISTRY shape (12 probes, one per dimension code
+    DIM-01..DIM-12). Does NOT run the actual 12-dimension sweep — that's
+    on_demand cadence per the INTER_WAVE_REGRESSION_DISCIPLINE.md canonical
+    §4 + process_list.csv hol_peopl_dtp_inter_wave_regression_001 cadence
+    column (event_triggered, not pre_commit).
+
+    Per R-86-WaveM-7 mitigation: keeping the sweep out of pre_commit avoids
+    the CI-cost regression a 12-dimension full-sweep would impose at every
+    commit. Self-test mode stays at ~2s runtime — well under the chassis-
+    test budget.
+
+    Returns ``(ok, exit_code)``. Exit code 0 PASS, 1 FAIL.
+    """
+    logger.info("Running INTER-WAVE-REGRESSION self-test (I86 Wave M / D-IH-86-BO; --self-test) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "inter_wave_regression_sweep.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_initiative_program_anchors_validation() -> tuple[bool, int]:
     """Run INITIATIVE_REGISTRY -> PROGRAM_REGISTRY anchor validation (I86 P1 / D-IH-86-H).
 
@@ -1136,6 +1165,12 @@ def main() -> None:
     results.append((
         "PASS" if output_arch_ok else "FAIL",
         f"Output-architecture registries (scripts/validate_output_architecture_registries.py - 4-layer architecture mechanical hardening: Layer 1 OUTPUT_TYPE_REGISTRY + Layer 2 ARTIFACT_CLASS_REGISTRY + Layer 3 COMPONENT_PRIMITIVE_REGISTRY composite validator; header drift + Pydantic per-row + cross-FK resolution across 3 layers + AUDIENCE_REGISTRY + DECISION_REGISTER; strict from day one per D-IH-86-BG; I86 Wave L; ok={'yes' if output_arch_ok else 'no'}; exit={output_arch_rc})",
+    ))
+
+    inter_wave_ok, inter_wave_rc = run_inter_wave_regression_self_test()
+    results.append((
+        "PASS" if inter_wave_ok else "FAIL",
+        f"Inter-wave regression self-test (scripts/inter_wave_regression_sweep.py --self-test - Pydantic SSOT + 12-probe registry shape validation; on_demand 12-dimension sweep deferred to wave-close gate per R-86-WaveM-7 CI-cost mitigation; paired runbook for INTER_WAVE_REGRESSION_DISCIPLINE.md canonical; I86 Wave M / D-IH-86-BO; ok={'yes' if inter_wave_ok else 'no'}; exit={inter_wave_rc})",
     ))
 
     judge_ok, judge_rc = run_brand_voice_judge_self_test()

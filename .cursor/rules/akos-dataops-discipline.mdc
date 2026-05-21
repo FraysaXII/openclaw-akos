@@ -1,0 +1,91 @@
+# AKOS DataOps Discipline
+
+Use this rule whenever authoring or reviewing artefacts that touch
+**canonical CSVs**, **Supabase mirrors / FDW projections**,
+**`holistika_ops` operational tables**, **Pydantic SSOT modules under
+`akos/`**, **mirror sync scripts**, or **observability evidence trails**
+covering data quality. Codifies the mechanical layer of
+[`DATAOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md)
+(Wave M P5 mint per D-IH-86-BV).
+
+## When this rule applies
+
+- Mint or modify any canonical CSV under
+  `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/`.
+- Mint or modify any Pydantic SSOT module under `akos/hlk_*_csv.py`.
+- Mint or modify any Supabase migration under `supabase/migrations/`.
+- Modify mirror sync script `scripts/sync_compliance_mirrors_from_csv.py`
+  or add a new mirror-emit step to `compliance_mirror_emit` profile.
+- Touch FDW server definitions or `holistika_ops` schemas.
+
+## RULE 1 — Canonical-CSV authoring must satisfy the 7 DataOps dimensions (binding)
+
+Every canonical-CSV mint or schema change must pass the 7 DataOps
+dimensions defined in
+[`DATAOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md)
+§2 before commit:
+
+- **DATA-01** FK integrity → `validate_hlk.py` PASS
+- **DATA-02** Mirror parity → `compliance_mirror_emit` dry-run clean
+- **DATA-03** FDW health → not applicable for non-FDW canonicals;
+  mandatory for FDW additions
+- **DATA-04** Pipeline freshness → not applicable at mint; applies
+  post-mirror-sync
+- **DATA-05** Schema drift → Pydantic FIELDNAMES tuple = CSV header
+  row = mirror DDL column names
+- **DATA-06** Lineage → `PRECEDENCE.md` row added for the new
+  canonical
+- **DATA-07** DAMA quality metrics → at least one validator covers
+  completeness + validity per row
+
+Mechanical enforcement happens via `validate_hlk.py` + paired
+`validate_<X>_csv.py` validators + `release-gate.py` integration.
+
+## RULE 2 — Schema changes must coordinate across 3 surfaces (binding)
+
+When a canonical CSV header changes (column add / rename / drop), the
+PR or commit must update all three coordinated surfaces atomically:
+
+1. The CSV header row + all data rows.
+2. The Pydantic `FIELDNAMES` tuple + `BaseModel` field declarations
+   in `akos/hlk_<X>_csv.py`.
+3. The Supabase mirror DDL in a new `supabase/migrations/<timestamp>_<desc>.sql`.
+
+A commit that updates one surface without the others creates Schema
+Drift (DATA-05) which is a release-gate FAIL per
+`akos-holistika-operations.mdc` §"Two-plane model".
+
+## RULE 3 — Mirror parity must hold at release-gate (binding post-promotion)
+
+While DataOps canonical sits at `charter`, mirror parity (DATA-02)
+runs at INFO advisory in release-gate. Post-promotion to `active`,
+mirror parity becomes a release-gate FAIL — any divergence between
+canonical CSV row count and Supabase mirror row count blocks the gate.
+
+The forward promotion gate is defined in
+[`DATAOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md)
+§4 (cadence) + tracked via the paired runbook
+`scripts/dataops_quality_check.py` (forward-chartered).
+
+## When this rule does NOT apply
+
+- Test fixtures or ephemeral artifacts under `tests/`.
+- One-off migration scripts under `scripts/legacy/` not registered in
+  `process_list.csv`.
+- Internal scratchwork or debugging notes.
+
+## Cross-references
+
+- [`DATAOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md)
+  — the canonical this rule operationalises.
+- [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc)
+  §"Two-plane model" — sister rule for Supabase DDL vs mirror DML
+  governance.
+- [`akos-quality-fabric.mdc`](akos-quality-fabric.mdc) (forward-charter)
+  — DataOps is the 8th specialty materialisation.
+- [`akos-inter-wave-regression.mdc`](akos-inter-wave-regression.mdc) —
+  DIM-12 (canonical-CSV mirror parity) is DataOps's regression probe.
+- D-IH-86-BV — Wave M P5 Cluster B sub-decision (operator-ratified
+  rework-now mint).
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md

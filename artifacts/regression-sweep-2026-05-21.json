@@ -1,0 +1,275 @@
+{
+  "report_id": "regression-sweep-2026-05-21",
+  "wave_closing": "Wave-L",
+  "swept_at": "2026-05-21",
+  "swept_by": "agent:inter_wave_regression_sweep",
+  "findings": [
+    {
+      "dimension_code": "DIM-01-CLOSING-WAVE-SURFACES",
+      "surface_path": "git-log:Wave-L",
+      "verdict": "clean",
+      "proposed_rework_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "23 files touched across 2 commits; all present"
+    },
+    {
+      "dimension_code": "DIM-02-SIBLING-INITIATIVE-STATUS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv",
+      "verdict": "clean",
+      "proposed_rework_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "all status enum values valid; FK sweep skipped (Supabase MCP not invoked in self-test)"
+    },
+    {
+      "dimension_code": "DIM-03-I86-COORDINATOR-STATE",
+      "surface_path": "docs/wip/planning/86-initiative-cluster-execution-coordinator/master-roadmap.md",
+      "verdict": "clean",
+      "proposed_rework_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "last_review=2026-05-17; days_since=4"
+    },
+    {
+      "dimension_code": "DIM-04-QUALITY-FABRIC-SPECIALTIES",
+      "surface_path": "HOLISTIKA_QUALITY_FABRIC.md::DATAOPS_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "mint DATAOPS_DISCIPLINE.md or update fabric to drop the reference",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "§6 references DATAOPS_DISCIPLINE.md but file not found under canonicals/"
+    },
+    {
+      "dimension_code": "DIM-04-QUALITY-FABRIC-SPECIALTIES",
+      "surface_path": "HOLISTIKA_QUALITY_FABRIC.md::MKTOPS_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "mint MKTOPS_DISCIPLINE.md or update fabric to drop the reference",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "§6 references MKTOPS_DISCIPLINE.md but file not found under canonicals/"
+    },
+    {
+      "dimension_code": "DIM-04-QUALITY-FABRIC-SPECIALTIES",
+      "surface_path": "HOLISTIKA_QUALITY_FABRIC.md::TECHOPS_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "mint TECHOPS_DISCIPLINE.md or update fabric to drop the reference",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "§6 references TECHOPS_DISCIPLINE.md but file not found under canonicals/"
+    },
+    {
+      "dimension_code": "DIM-04-QUALITY-FABRIC-SPECIALTIES",
+      "surface_path": "HOLISTIKA_QUALITY_FABRIC.md::UX_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "mint UX_DISCIPLINE.md or update fabric to drop the reference",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "§6 references UX_DISCIPLINE.md but file not found under canonicals/"
+    },
+    {
+      "dimension_code": "DIM-05-FORWARD-CHARTER-GATES",
+      "surface_path": "docs/wip/planning/_candidates",
+      "verdict": "clean",
+      "proposed_rework_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "no candidates exceed 90-day staleness threshold"
+    },
+    {
+      "dimension_code": "DIM-06-SIBLING-REPO-DEPLOY-POSTURE",
+      "surface_path": "sibling-repos:hlk-erp;boilerplate;kirbe-platform",
+      "verdict": "skip",
+      "proposed_rework_action": "re-probe with Vercel/Render MCP at P3 sweep with --mcp flag",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "MCP probes deferred to live sweep; runbook smoke-tested without external deps"
+    },
+    {
+      "dimension_code": "DIM-07-RENDER-PENDING-TRACKER",
+      "surface_path": "docs/wip/planning/_trackers/external-render-pending-tracker.md",
+      "verdict": "clean",
+      "proposed_rework_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "approx_pending_rows=4; last_review=2026-05-19"
+    },
+    {
+      "dimension_code": "DIM-08-PRE-EXISTING-RELEASE-GATE-FAILS",
+      "surface_path": "scripts/release-gate.py",
+      "verdict": "skip",
+      "proposed_rework_action": "invoke release-gate --dry-run at P3 sweep (deferred to live run)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "self-test path defers release-gate invocation to avoid recursion / runtime cost"
+    },
+    {
+      "dimension_code": "DIM-09-CURSOR-RULES-DRIFT",
+      "surface_path": ".cursor/rules/",
+      "verdict": "clean",
+      "proposed_rework_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "18 akos-*.mdc rules present; deep parity check deferred to P3 sweep"
+    },
+    {
+      "dimension_code": "DIM-10-SKILLS-DRIFT",
+      "surface_path": ".cursor/skills/",
+      "verdict": "clean",
+      "proposed_rework_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "3 SKILL.md files present; deep parity deferred to P3 sweep"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": ".cursor/rules/akos-deploy-health.mdc",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=.cursor/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=.cursor/"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": ".cursor/rules/akos-docs-config-sync.mdc",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=.cursor/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=.cursor/"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": ".cursor/rules/akos-madeira-management.mdc",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=.cursor/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=.cursor/"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": ".cursor/rules/akos-quality-fabric.mdc",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=.cursor/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=.cursor/"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": "akos/hlk_design_pattern_csv.py",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=akos/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=akos/"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": "config/verification-profiles.json",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=other)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=other"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=docs/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=docs/"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=docs/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=docs/"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=docs/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=docs/"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=docs/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=docs/"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": "docs/wip/planning/86-initiative-cluster-execution-coordinator/files-modified.csv",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=docs/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=docs/"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": "scripts/release-gate.py",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=scripts/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=scripts/"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": "tests/test_design_pattern_registry.py",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=other)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=other"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": ".cursor/rules/akos-inter-wave-regression.mdc",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=.cursor/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=.cursor/"
+    },
+    {
+      "dimension_code": "DIM-11-UNTRACKED-FILES-AUDIT",
+      "surface_path": "akos/hlk_inter_wave_regression.py",
+      "verdict": "drift",
+      "proposed_rework_action": "stage + commit OR add to .gitignore (bucket=akos/)",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "untracked/modified file in classification bucket=akos/"
+    },
+    {
+      "dimension_code": "DIM-12-CANONICAL-CSV-MIRROR-PARITY",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals",
+      "verdict": "skip",
+      "proposed_rework_action": "invoke `py scripts/verify.py compliance_mirror_emit` at live P3 sweep",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "34 canonical CSVs found; live mirror parity deferred to MCP-enabled run"
+    }
+  ],
+  "clean_count": 7,
+  "drift_count": 15,
+  "gap_count": 4,
+  "blocked_count": 0,
+  "skip_count": 3,
+  "total_findings": 29
+}

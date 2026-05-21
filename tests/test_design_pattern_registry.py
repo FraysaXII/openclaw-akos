@@ -101,13 +101,17 @@ def test_documentation_layering_class_in_enum() -> None:
     )
 
 
-def test_pattern_class_enum_size_is_12() -> None:
-    """I86 Wave L D-IH-86-BE: the pattern_class enum has exactly 12 members
+def test_pattern_class_enum_size_is_14() -> None:
+    """I86 Wave M P5 D-IH-86-BU: the pattern_class enum has exactly 14 members
     (10 original from I79 P2 + ``documentation_layering`` from I80 P1 +
-    ``output_architecture_hierarchy`` from I86 Wave L).
+    ``output_architecture_hierarchy`` from I86 Wave L +
+    ``inter_wave_regression_cadence`` from I86 Wave M P1 +
+    ``quality_fabric_specialty_canonical`` from I86 Wave M P5
+    Cluster B umbrella for the 4 fresh specialty mints
+    DATAOPS/MKTOPS/TECHOPS/UX_DISCIPLINE.md).
     """
-    assert len(VALID_PATTERN_CLASSES) == 12, (
-        f"expected 12-class pattern_class taxonomy; got {len(VALID_PATTERN_CLASSES)}: "
+    assert len(VALID_PATTERN_CLASSES) == 14, (
+        f"expected 14-class pattern_class taxonomy; got {len(VALID_PATTERN_CLASSES)}: "
         f"{sorted(VALID_PATTERN_CLASSES)}"
     )
 

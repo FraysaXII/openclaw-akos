@@ -26,6 +26,12 @@ linked_canonicals:
   - RESEARCH_HEAD_DISCIPLINE.md
   - HOLISTIKA_AGENTIC_DOCTRINE.md
   - HOLISTIKA_STAKEHOLDER_LENSES.md
+  - UAT_DISCIPLINE.md
+  - INTER_WAVE_REGRESSION_DISCIPLINE.md
+  - DATAOPS_DISCIPLINE.md
+  - MKTOPS_DISCIPLINE.md
+  - TECHOPS_DISCIPLINE.md
+  - UX_DISCIPLINE.md
   - ../Compliance/canonicals/PRECEDENCE.md
   - ../Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv
   - ../Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv
@@ -43,8 +49,6 @@ companion_to:
   - RESEARCH_HEAD_DISCIPLINE.md
 forward_charters:
   - I-NN-CHANNEL-DOCTRINES (per-channel goods/bads research; activation gates HOLISTIKA_QUALITY_FABRIC P1 + 1 channel research pass)
-  - UAT_DISCIPLINE.md (first instantiation; in flight at I86 Wave J)
-  - UX_DISCIPLINE.md (second instantiation; depends on channel doctrines)
   - scripts/derive_quality_bar.py (the derivation runbook)
 ---
 
@@ -329,24 +333,28 @@ for the specialty's domain.
 | Specialty | Materialisation canonical | Status | Compose function |
 |:---|:---|:---|:---|
 | **UAT (verification)** | `UAT_DISCIPLINE.md` (Wave J P1 mint at status: charter; 11-class promotion gated on `D-IH-86-AY`) | charter→active when 11-class lands | `compose_UAT(audience, channel, scenario, brand, governance) → UAT shape (closure / brand / send / render / regression / persona / deploy class — extending to 11-class on activation: + localisation + accessibility + performance + privacy)` |
-| **UX (research + design + accessibility)** | `UX_DISCIPLINE.md` (forward-charter `D-IH-86-AX`; depends on channel doctrines; owned by Brand & Narrative Manager per 2026-05-15 absorption + Front-End Developer co-owner) | forward-chartered | `compose_UX(audience, channel, scenario, brand, governance) → UX research methods + design constraints + a11y bar + i18n strategy` |
+| **UX (research + design + accessibility)** | `UX_DISCIPLINE.md` (Wave M P5 mint at status: charter per `D-IH-86-BY`; fulfils forward-charter `D-IH-86-AX`; owned by Brand & Narrative Manager + Front-End Developer co-owner) | charter | `compose_UX(audience, channel, scenario, brand, governance) → UX research methods + design constraints + a11y bar + i18n strategy` |
 | **Brand render** | `akos-external-render-discipline.mdc` RULE 2 (audience × format matrix) | active | `compose_render(audience, channel, brand, governance) → 6-surface format choice + manifest contract` |
 | **Send evidence** | (sub-section of UAT_DISCIPLINE.md and external-render-discipline) | partial | `compose_send(audience, channel, governance) → send-evidence trail (sha256 + SMTP + manifest)` |
 | **Closure gate** | `akos-planning-traceability.mdc` §"UAT quality bar" + `akos-governance-remediation.mdc` §"Verification matrix" | active | `compose_closure(governance) → mechanical evidence + sign-off + registry edits` |
-| **MKTOPS (campaign / GTM funnel quality)** | `MKTOPS_DISCIPLINE.md` (forward-charter `D-IH-86-AZ`; Operations-plane sister to People-plane UAT/UX; owned by Marketing/Reach + Operations/RevOps) | forward-chartered | `compose_MKTOPS(audience, channel, scenario, brand, governance) → campaign quality bar + funnel-stage UX + landing-page conversion + attribution trail` |
-| **TECHOPS (system uptime / observability / Web Vitals)** | `TECHOPS_DISCIPLINE.md` (forward-charter `D-IH-86-AZ`; owned by Tech/System Owner + DevOPS) | forward-chartered | `compose_TECHOPS(audience, channel, scenario, brand, governance) → system quality bar + uptime SLO + Core Web Vitals threshold + observability evidence` |
-| **DATAOPS (data quality / pipeline integrity / mirror sync)** | `DATAOPS_DISCIPLINE.md` (forward-charter `D-IH-86-AZ`; owned by Tech/Data + System Owner) | forward-chartered | `compose_DATAOPS(audience, channel, scenario, brand, governance) → data quality bar + pipeline freshness + mirror parity + FDW posture` |
+| **MKTOPS (campaign / GTM funnel quality)** | `MKTOPS_DISCIPLINE.md` (Wave M P5 mint at status: charter per `D-IH-86-BW`; fulfils forward-charter `D-IH-86-AZ`; owned by Marketing/Reach + Operations/RevOps + CRO forward) | charter | `compose_MKTOPS(audience, channel, scenario, brand, governance) → campaign quality bar + funnel-stage UX + landing-page conversion + attribution trail` |
+| **TECHOPS (system uptime / observability / Web Vitals)** | `TECHOPS_DISCIPLINE.md` (Wave M P5 mint at status: charter per `D-IH-86-BX`; fulfils forward-charter `D-IH-86-AZ`; owned by Tech/System Owner + DevOPS) | charter | `compose_TECHOPS(audience, channel, scenario, brand, governance) → system quality bar + uptime SLO + Core Web Vitals threshold + observability evidence` |
+| **DATAOPS (data quality / pipeline integrity / mirror sync)** | `DATAOPS_DISCIPLINE.md` (Wave M P5 mint at status: charter per `D-IH-86-BV`; fulfils forward-charter `D-IH-86-AZ`; owned by Tech/Data + System Owner) | charter | `compose_DATAOPS(audience, channel, scenario, brand, governance) → data quality bar + pipeline freshness + mirror parity + FDW posture` |
 | **Output-architecture (4-layer hierarchy)** | `OUTPUT_TYPE_LIBRARY.md` + `ARTIFACT_CLASS_LIBRARY.md` + `COMPONENT_PRIMITIVE_LIBRARY.md` (Wave K skeleton mint per `D-IH-86-BB`; full doctrine matures at I-NN-OUTPUT-ARCHITECTURE P1-P3) | charter | `compose_layer(audience, channel, scenario, brand, governance, layer: output-type|artifact-class|component-primitive) → per-layer bar (medium-specific authoring rule / artifact-class purpose+composition / Shadcn-shape primitive doctrine)` |
+| **Inter-wave regression (multi-wave initiative integrity)** | `INTER_WAVE_REGRESSION_DISCIPLINE.md` (Wave M P1 mint at status: charter per `D-IH-86-BK`; 12-dimension sweep + 5-option inline-ratify enum + INFO→FAIL ramp per `D-IH-86-BN`) | charter | `compose_REGRESSION(audience, channel, scenario, brand, governance, wave_closing) → 12-dimension regression sweep (7 baseline + 5 conditional) + per-finding inline-ratify gate` |
 
 Future specialty materialisations inherit the same compose() pattern —
 each is a new row in this table without changing the fabric itself. This
-is the scalability claim. Wave K demonstrates the claim by extending
+is the scalability claim. Wave K demonstrated the claim by extending
 from 5 → 9 materialisations (MKTOPS / TECHOPS / DATAOPS / output-architecture
-added) without touching the 5-axis composition rule itself.
+added) without touching the 5-axis composition rule itself; Wave M extends
+to 10 (inter-wave regression added) under the same scalability claim.
 
 ## 7. Forward-charter inventory
 
-Three forward-chartered initiatives surface from this canonical's mint:
+Two forward-chartered initiatives surface from this canonical's mint
+(reduced from three at Wave M P5 — UX_DISCIPLINE.md landed per
+`D-IH-86-BY`):
 
 1. **I-NN-CHANNEL-DOCTRINES** — Per-channel goods/bads research +
    doctrine MDs + registry enrichment + drift-gate extension. Activation
@@ -354,19 +362,16 @@ Three forward-chartered initiatives surface from this canonical's mint:
    ≥ 1 channel research pass complete (proof of concept). Candidate-shape
    file to mint at `docs/wip/planning/_candidates/i-nn-channel-doctrines.md`.
 
-2. **UX_DISCIPLINE.md mint** — Sibling to UAT_DISCIPLINE.md under
-   People canonicals; UX research methodology + Figma-driven design +
-   impeccable redesign skill + accessibility + i18n. Depends on
-   I-NN-CHANNEL-DOCTRINES P1 (so the channel-aware UX bar derives from
-   resolved channel doctrines, not from speculation).
-
-3. **`scripts/derive_quality_bar.py` runbook** — Given (audience,
+2. **`scripts/derive_quality_bar.py` runbook** — Given (audience,
    channel, scenario_id, surface_class), compute the binding bar by
    composing the 5 axes; emit as JSON for ERP panel consumption + as
    Markdown for human reading. The "engineering of the link" runbook the
    operator named verbatim. Lands in a successor initiative after the
    per-channel doctrines are partially populated (otherwise the runbook
-   has nothing to compose for the channel axis).
+   has nothing to compose for the channel axis). The runbook signature
+   now resolves the 4 fresh specialty bars (`compose_DATAOPS` /
+   `compose_MKTOPS` / `compose_TECHOPS` / `compose_UX`) in addition to
+   the 6 prior bars per the §6 materialisation table (10 total).
 
 ## 8. Self-discipline rules for agents
 

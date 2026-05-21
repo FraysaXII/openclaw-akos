@@ -1,0 +1,101 @@
+# AKOS TechOps Discipline
+
+Use this rule whenever authoring or reviewing artefacts that touch
+**Vercel / Render / Supabase deploys**, **observability configuration**
+(Sentry / Vercel Analytics / Render service status / external uptime
+monitors), **security posture** (RLS / secret rotation / dependency
+audit), **incident-response runbooks**, or **Core Web Vitals
+measurement**. Codifies the mechanical layer of
+[`TECHOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md)
+(Wave M P5 mint per D-IH-86-BX).
+
+## When this rule applies
+
+- Deploy to Vercel / Render / Supabase (any environment tier).
+- Modify observability configuration (Sentry DSN, alert rules,
+  trace sampling, log aggregation endpoints).
+- Touch security posture (RLS policies, secret rotation runbooks,
+  dependency upgrade PRs).
+- Author or modify an incident-response runbook under
+  `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/**/runbooks/`.
+- Modify Core Web Vitals measurement infrastructure (Lighthouse CI
+  config, Vercel Analytics config).
+
+## RULE 1 — Production deploys must satisfy the 7 TechOps dimensions (binding)
+
+Every production deploy (Vercel / Render / Supabase) must pass the
+7 TechOps dimensions defined in
+[`TECHOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md)
+§2 either pre-deploy or as part of the post-deploy verification:
+
+- **TECH-01** Uptime SLO → external monitor reports last-30d ≥ 99.9%
+- **TECH-02** Core Web Vitals → mobile P75 LCP < 2.5s, INP < 200ms,
+  CLS < 0.1 on every public route
+- **TECH-03** Error budget tracking → Sentry error rate within
+  budget for the rolling 24h window
+- **TECH-04** Deploy posture → previous deploy success + rollback
+  target retained
+- **TECH-05** Security posture → Supabase `get_advisors security`
+  clean for any new schema; `npm audit` / `pip-audit` clean for
+  dependency updates
+- **TECH-06** Observability evidence → critical path has Sentry
+  trace coverage + log emission
+- **TECH-07** Incident management → runbook exists for the service;
+  on-call rotation populated
+
+Preview / staging tiers carry lighter thresholds per the canonical's
+§3 tier modifier.
+
+## RULE 2 — Hotfix workflow inherits the deploy-health contract (binding)
+
+Hotfix deploys follow the validate-deploy contract from
+`akos-deploy-health.mdc`: validate locally → deploy to preview →
+smoke-test preview → promote to production → verify production
+post-deploy. Each step has explicit operator-gate or automated-gate
+classification per `akos-deploy-health.mdc`.
+
+TechOps adds: every hotfix produces a Sev-2 (or higher) post-mortem
+within 7 days per TECH-07, regardless of resolution speed. This is
+the institutional learning surface that prevents repeat incidents.
+
+## RULE 3 — Observability gaps must be tracked, not silently absorbed (binding)
+
+When a critical path lacks Sentry trace coverage or log emission
+(TECH-06), the gap must surface via:
+
+- A row in `docs/wip/planning/_trackers/observability-coverage-tracker.md`
+  (mint if not yet existing) with surface path + criticality + remediation
+  owner + ETA.
+- An OPS_REGISTER row tagged with appropriate area + persona pickup
+  if the gap is meaningful enough to schedule.
+
+Silent gaps are an anti-pattern; the discipline's purpose is to make
+them legible so operator can disposition.
+
+## When this rule does NOT apply
+
+- Internal dev / local-only environments (no production audience).
+- Test fixtures or ephemeral artifacts.
+- Documentation-only changes that do not affect runtime behaviour.
+
+## Cross-references
+
+- [`TECHOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md)
+  — the canonical this rule operationalises.
+- [`akos-deploy-health.mdc`](akos-deploy-health.mdc) — sister rule;
+  hotfix-validate-deploy workflow.
+- [`akos-mirror-template.mdc`](akos-mirror-template.mdc) — AKOS-as-SSOT
+  contract for sibling-repo deploys (`hlk-erp` / `boilerplate` /
+  `kirbe-platform`).
+- [`akos-dataops-discipline.mdc`](akos-dataops-discipline.mdc) —
+  sister discipline; TECH-05 (security) overlaps with DATA-06 (lineage
+  RLS audit).
+- [`akos-inter-wave-regression.mdc`](akos-inter-wave-regression.mdc) —
+  DIM-06 (sibling-repo deploy posture) + DIM-08 (release-gate fails)
+  are TechOps's regression probes.
+- D-IH-86-BX — Wave M P5 Cluster B sub-decision (operator-ratified
+  rework-now mint).
+- D-IH-86-AT — Vercel hotfix precedent that motivated deploy-class
+  UAT axis (which this canonical underpins).
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md

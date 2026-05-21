@@ -347,4 +347,39 @@ This **subsumes** the previously-named I-NN-MESSAGE-COMPONENT-LIBRARY (D-IH-86-A
 4. **Operator's 5-question framing answered atomically**: are we mirroring in Supabase? **yes** (3 mirror tables + 3 governance views + 63 rows synced). Are we pushing to git? **yes** (5 commits ahead → in-sync). Has UAT been performed? **yes** (Wave J + Wave K closure reports authored). Is ERP in prod? **yes** (https://hlk-erp.vercel.app/`dpl_8N4pqRVEhhUCMMV82A8RUzYAfixo` READY). What about other steps? **2 forward-charters preserved; not collapsed into Wave L to honour inline-ratify discipline.**
 5. **Continuous discovery posture preserved** per operator's verbatim *"this is a continuous process of discovery research design determine test mint repeat"* — Wave L closes the doctrine debt cleanly without forcing premature activation of the content doctrine work (the ~52 per-row doctrine pages); next iteration of *discovery → research → design → determine → test → mint* fires when the I-NN-OUTPUT-ARCHITECTURE candidate's activation gates clear.
 
+### 2026-05-21 — Wave M closure drain
+
+**Wave M shipped (atomic commit):** Inter-Wave Regression Discipline minted as the **10th Quality Fabric specialty** with the full SOP+runbook+Pydantic chassis per `akos-executable-process-catalog.mdc` Rule 1.
+
+**Per-phase summary:**
+
+- **P1 — Discipline doctrine + paired Cursor rule + paired SOP + Quality Fabric integration + pattern_class enum extension 12→13.** New: [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md) at `status:active` (8 sections), [`akos-inter-wave-regression.mdc`](../../../.cursor/rules/akos-inter-wave-regression.mdc) (4 RULES), [`SOP-PEOPLE_INTER_WAVE_REGRESSION_001.md`](../../references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_INTER_WAVE_REGRESSION_001.md), `HOLISTIKA_QUALITY_FABRIC.md` §6 row append, pattern registry row append, `process_list.csv` row append. Decisions D-IH-86-BK..BQ (skip BO; reserved for P2). **[processed 2026-05-21 wave-M closure]**
+
+- **P2 — Paired Python runbook + Pydantic SSOT + 62 tests + release-gate wiring.** New: [`akos/hlk_inter_wave_regression.py`](../../../akos/hlk_inter_wave_regression.py) (RegressionFindingRow + RegressionSweepReport frozen Pydantic), [`scripts/inter_wave_regression_sweep.py`](../../../scripts/inter_wave_regression_sweep.py) (12 probes + CLI + self-test mode), [`tests/test_inter_wave_regression.py`](../../../tests/test_inter_wave_regression.py) (62 cases under `@pytest.mark.hlk`), `verification-profiles.json` `pre_commit` step + `release-gate.py` function. Decision D-IH-86-BO. **[processed 2026-05-21 wave-M closure]**
+
+- **P3 — First live 12-dimension regression sweep against Wave-L close.** 85 raw findings (6 clean + 72 drift + 4 gap + 0 blocked + 3 skip). Cluster-collapse analysis per inline-ratify-craft Principle 5: 79 non-clean findings collapse to 3 substantive cluster decisions. Heavy-always depth-posture RATIFIED by lived experience (probe-noise made the DIM-02 bug legible at the right time). Decision D-IH-86-BR. **[processed 2026-05-21 wave-M closure]**
+
+- **P4 — Cluster-collapse AskQuestion (3-question batch per Principle 5).** Operator-ratified: **Cluster A** rework-now-fix-probe-in-Wave-M; **Cluster B** engrave-properly OVERRIDE (mint 4 *full* specialty canonicals not stubs); **Cluster C** rework-now-via-P7-atomic-commit. Decisions D-IH-86-BS (umbrella) + BT (Cluster A) + BU (Cluster B OVERRIDE) + BV (Cluster C). **[processed 2026-05-21 wave-M closure]**
+
+- **P5 — Ratified rework execution.** Cluster A: DIM-02 probe `valid_statuses` frozenset extended 7→11 values; 58 false-positive drifts cleared (85→29 finding count drop verified). Cluster B engrave-properly mint: 4 fresh specialty canonicals at `status:charter` — [`DATAOPS_DISCIPLINE.md`](../../references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md) + [`MKTOPS_DISCIPLINE.md`](../../references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md) + [`TECHOPS_DISCIPLINE.md`](../../references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md) + [`UX_DISCIPLINE.md`](../../references/hlk/v3.0/Admin/O5-1/People/canonicals/UX_DISCIPLINE.md) each with 7 dimensions + `compose_X()` rule + cadence + sister-discipline integration + research grounding; 4 paired Cursor rules minted; `HOLISTIKA_QUALITY_FABRIC.md` §6 table flipped 4 statuses `forward-chartered` → `charter`; `pattern_class` enum extended 13→14 (`quality_fabric_specialty_canonical`); 4 specialty pattern rows + 4 cluster decisions + 2 OPS deferrals (OPS-86-8 + OPS-86-9) + 4 forward-charter `_candidates/` files. Cluster C: clears on P7 atomic commit. **[processed 2026-05-21 wave-M closure]**
+
+- **P6 — Closure UAT.** [`uat-wave-m-2026-05-21.md`](reports/uat-wave-m-2026-05-21.md) following `uat-closure-template.md` (5 of 11 dimension classes: closure + brand + regression-meta + governance + accessibility); verdict `PASS-WITH-FOLLOWUP`; `closure_decision_source: operator_explicit`. All 4 D-IH-86-D mechanical cross-check signals ✓. All 7 risks closed. All 12 decisions active. **[processed 2026-05-21 wave-M closure]**
+
+- **P7 — Atomic commit + push + cross-area-breakthrough announcement (9 areas) + this drain.** 9 per-area digests written under [`docs/wip/planning/79-people-manifesto-and-pattern-library/reports/breakthroughs/2026-05/`](../../79-people-manifesto-and-pattern-library/reports/breakthroughs/2026-05/) via `scripts/peopl_cross_area_breakthrough_announce.py --since 2026-05-21`. **[processed 2026-05-21 wave-M closure]**
+
+**Forward-charters preserved:**
+
+- **OPS-86-8** (Wave N): refactor `_probe_dimension_2_sibling_initiative_status_sweep` to load `valid_statuses` dynamically from `INITIATIVE_REGISTRY.csv` at sweep time (canonical-CSV-as-SSOT pattern); same refactor for DIM-04 specialty list.
+- **OPS-86-9** (Wave N+): mint 4 paired runbooks for the specialty canonicals (`scripts/dataops_quality_check.py` + `scripts/mktops_campaign_quality_check.py` + `scripts/techops_reliability_check.py` + `SOP-PEOPLE_UX_RESEARCH_001.md`) to flip the 4 canonicals from `status:charter` → `status:active`. 4 candidates filed under `_candidates/`.
+- **`UAT_DISCIPLINE.md`** stays in `forward_charters` (Cluster B OVERRIDE scoped to 4 named canonicals only per operator response).
+- **Wave N regression sweep cadence shift** per Cluster C lessons: future sweeps run AFTER the wave-commit lands (post-commit cadence) rather than against pending state — eliminates self-referential drift class structurally.
+
+**Doctrine moves crystallised at Wave M:**
+
+1. **Cluster-collapse via Principle 5** is the durable batched-decision pattern for high-cardinality regression-sweep finding sets (85→3 cluster decisions kept operator ratify-budget bounded without losing substantive content).
+2. **Engrave-properly OVERRIDE** as a *third path* operator pattern when the agent's plan offers Option A (defer) + Option B (stub) and the operator surfaces a structurally-richer Option C — codified in inline-ratify-craft Principle 6 (novel framings welcome).
+3. **Probe-noise as legibility surface**: bugs discovered through false-positive findings during the FIRST live sweep are the *expected* heavy-always-doctrine payoff; D-IH-86-BR (depth-posture heavy-always) ratified by lived experience.
+4. **Self-referential drift classes** are structural properties of wave-self-introspection cadence, not probe bugs — clears automatically on atomic commit; forward-cadence shifts to post-commit-of-evaluated-wave.
+5. **`quality_fabric_specialty_canonical`** as the 14th `pattern_class` enum value is the umbrella categorisation for sister specialty canonicals minted as a cohort under engrave-properly OVERRIDE — preserves cluster-decision lineage in `PEOPLE_DESIGN_PATTERN_REGISTRY.csv` row shape.
+
 <!-- end of entries -->

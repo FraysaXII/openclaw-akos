@@ -1,0 +1,125 @@
+---
+alwaysApply: true
+---
+# AKOS Inter-Wave Regression Discipline
+
+Use this rule whenever closing a wave inside a multi-wave initiative
+(I86 precedent: 12+ waves; future analogous coordinators). Codifies
+operator decision **D-IH-86-BK** (operator-ratified the wave-close
+regression cadence as discipline rather than agent-discretion,
+2026-05-21). Mechanical companion to
+[`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md).
+
+This rule does **not** define the doctrine — that lives in the canonical.
+This rule names the mechanical bar that future agents and operators
+inherit by default when closing any wave of a multi-wave initiative.
+
+## When this rule applies
+
+A wave-close is in scope for this rule when **any** of:
+
+- The parent initiative is registered in [`INITIATIVE_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv) and carries a wave-cadence master-roadmap (cluster coordinator pattern; I86 precedent).
+- The wave's deliverables span ≥ 2 canonicals OR ≥ 2 cursor rules OR touch any canonical CSV.
+- The wave is named in a cluster-coordinator master-roadmap §"Waves" section.
+- The wave's UAT report would fire ≥ 2 UAT classes per `compose_UAT` in [`UAT_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md) §4.
+
+Waves NOT in scope: trivial single-commit chore waves (typo fixes; link-rot fixes; formatting normalisations) per the canonical's §4 Exception 3.
+
+## RULE 1 — Run the 12-dimension sweep before the wave's UAT verdict (binding)
+
+Every in-scope wave-close MUST execute the 12-dimension regression sweep before the wave's UAT report verdict line is filled in. The sweep output (`reports/regression-sweep-<date>.md` under the wave's parent initiative folder) is a §3.3 row in the wave's UAT report under the regression class.
+
+The 12 dimensions are defined in [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md) §2. Summary:
+
+| # | Dimension | Probe heuristic |
+|:--|:---|:---|
+| 1 | decision_lineage | FK-resolve DECISION_REGISTER decision_id ↔ canonical frontmatter ratifying_decisions; bidirectional |
+| 2 | forward_charter_carryover | Glob prior canonicals; resolve forward_charters against subsequent waves' deliverables + OPS_REGISTER |
+| 3 | validator_ramp_consistency | Diff verification-profiles.json + release-gate.py across the wave; surface threshold changes without paired decision |
+| 4 | canonical_csv_pair_completeness | For each new CSV under canonicals/dimensions/, verify Pydantic + validator + Supabase mirror + PRECEDENCE row |
+| 5 | sop_runbook_pairing | FK-resolve process_list.csv item_id → SOP + runbook paths; AC-HUMAN + AC-AUTOMATION both present |
+| 6 | uat_report_class_completeness | For closed INITIATIVE_REGISTRY rows, verify UAT classes match `compose_UAT` output |
+| 7 | render_trail_audience_match | Re-run `scripts/validate_external_render_trail.py --strict --strict-freshness` |
+| 8 | brand_baseline_register_match | Re-run `scripts/validate_brand_baseline_reality_drift.py` |
+| 9 | cross_area_breakthrough_announcement | FK-resolve new PEOPLE_DESIGN_PATTERN_REGISTRY pattern_ids → announcement evidence under reports/cross-area-breakthrough-*.md |
+| 10 | deploy_evidence_completeness | For each Wave-N-P* file-row with repo != openclaw-akos, verify deploy_id + state=READY + HTTP 200 hero route |
+| 11 | cursor_rule_skill_pairing | For each new akos-*.mdc, verify paired skill exists OR forward-charter row exists |
+| 12 | operator_scratchpad_continuity | Verify last operator-scratchpad entry timestamp ≥ last wave-close commit timestamp; decisions cited |
+
+7 dimensions (1-6, 12) are baseline + always fire. 5 dimensions (7-11) are conditional per the `compose_REGRESSION` rule in `INTER_WAVE_REGRESSION_DISCIPLINE.md` §3.
+
+## RULE 2 — Findings disposition via inline-ratify 5-option enum (binding)
+
+Every WARN or FAIL finding from the sweep MUST be dispositioned via an inline `AskQuestion` gate per [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) + the paired [`inline-ratify-craft`](../skills/inline-ratify-craft/SKILL.md) skill, using the 5-option enum codified in `INTER_WAVE_REGRESSION_DISCIPLINE.md` §6:
+
+1. **rework-now** (default for FAIL on baseline dimensions).
+2. **forward-charter-next-wave** (default for WARN on conditional dimensions).
+3. **defer-OPS** (default for INFO).
+4. **accept-as-canon** (operator ratifies the drift was deliberate; appends contra-precedent + decision row).
+5. **escalate-to-blocker-tracker** (cannot be dispositioned in-chat; mints `_blockers/<slug>-tracker.md` per [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc)).
+
+When findings exceed 10, the agent splits the gates into 2 `AskQuestion` batches (per inline-ratify-craft Principle 5 batching guidance). When findings exceed 20, the agent halts and proposes splitting the wave into Wave-M + Wave-M.5 (the bandwidth recovery pattern). Per `akos-inline-ratification.mdc` Time-box section: 24h+ operator silence + clean validators + reversible dispositions auto-default to the recommended option; irreversible dispositions NEVER auto-default.
+
+## RULE 3 — Sweep cadence per canonical §4 (binding)
+
+Default cadence: every wave-close. Exceptions (codified in `INTER_WAVE_REGRESSION_DISCIPLINE.md` §4):
+
+- **Chore-only waves**: MAY skip the 5 conditional dimensions; baseline 7 still fire.
+- **Continuous-closure initiatives (5+ daily waves)**: MAY skip 2 of every 3 wave-closes IF operator-explicit decision row records the deferral.
+- **Single-commit chore waves**: exempt entirely.
+
+No other exemptions. "We're in a hurry" / "we'll do it next wave" / "operator wants to ship" are NOT exemptions per the operator's 2026-05-21 framing.
+
+## RULE 4 — Self-test step wired into pre_commit (binding from D-IH-86-BO ratification)
+
+The runbook `scripts/inter_wave_regression_sweep.py --self-test` mode verifies the 12 probe functions exist + return well-formed `RegressionFindingRow` Pydantic models. The self-test runs at every `py scripts/verify.py pre_commit` invocation via [`config/verification-profiles.json`](../../config/verification-profiles.json) `validate_inter_wave_regression_self_test` step + [`scripts/release-gate.py`](../../scripts/release-gate.py) `run_inter_wave_regression_self_test`.
+
+The full sweep (--wave-closing `<wave-letter>`) runs at wave-close only — NOT at every pre_commit (which would be too expensive). The self-test is the always-on circuit-breaker; the full sweep is the wave-close gate.
+
+Per `D-IH-86-BN` INFO → FAIL ramp:
+- Wave M (mint): self-test PASS at pre_commit; full sweep runs once for Wave L deliverables.
+- Wave M+1..M+2: full sweep runs at each wave-close; self-test stays PASS.
+- Wave M+3 or later: sweep promoted to release-gate INFO advisory at every wave-close commit; eventually FAIL when findings count ≤ 2 across 3+ consecutive waves.
+
+## When this rule does NOT apply
+
+- **Single-commit chore waves** — typo / link-rot / formatting fixes; no canonical CSVs touched.
+- **Standalone (non-cluster-coordinator) initiatives** — when an initiative has no wave-cadence master-roadmap, no inter-wave concept applies; the initiative's closure UAT carries the full burden per `akos-planning-traceability.mdc` §"UAT quality bar".
+- **Initiatives explicitly scoped to ≤ 1 wave** — the closure UAT bar already covers structural integrity; no inter-wave dimension applies.
+
+## Self-discipline rules for agents
+
+When closing an in-scope wave:
+
+1. **Run the self-test before drafting the wave commit message.** `py scripts/inter_wave_regression_sweep.py --self-test` must PASS; if FAIL, the runbook itself is broken — fix it before continuing.
+2. **Run the full sweep before drafting the wave's UAT verdict.** `py scripts/inter_wave_regression_sweep.py --wave-closing <wave-letter>` emits the per-dimension findings table at the dated report path.
+3. **Compute findings count before posting the `AskQuestion` batch.** ≤ 10 fits one batch; 11-20 splits into 2 batches; > 20 triggers the wave-split bandwidth-recovery pattern (halt + propose Wave-N.5).
+4. **For every PASS-WITH-FOLLOWUP disposition, record a reproducible follow-up.** Either a tracker file under `_trackers/`, an OPS_REGISTER row with a named owner + ETA, OR a candidate-shaped forward-charter file under `_candidates/`.
+5. **For every accept-as-canon disposition, append the contra-precedent.** The affected canonical's frontmatter `last_review_decision_id` must point to the ratifying decision row that records the intentional drift; the canonical's body must add a §"Contra-precedent ratification" sub-section citing the decision.
+6. **For every escalate-to-blocker-tracker disposition, mint the tracker file.** The tracker MUST follow the shape in `akos-conflict-surfacing-and-blocker-trackers.mdc` §"Blocker-tracker file shape (binding template)".
+7. **Update operator-scratchpad before the wave's commit.** The wave's summary, decision IDs, gaps, and forward-pointers MUST land in `docs/wip/intelligence/operator-scratchpad.md` before the wave's atomic commit lands (dimension 12 is then guaranteed to PASS).
+
+## Cross-references
+
+- Parent canonical: [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md) — the doctrine.
+- Parent meta-doctrine: [`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) — the 5-axis composition.
+- Sister cursor rules:
+  [`akos-quality-fabric.mdc`](akos-quality-fabric.mdc) (parent fabric; multiplicative-AND verdict),
+  [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) (UAT quality bar; dimension 6),
+  [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) (disposition gate; RULE 2),
+  [`akos-agent-checkpoint-discipline.mdc`](akos-agent-checkpoint-discipline.mdc) (operator-scratchpad continuity; dimension 12),
+  [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc) (canonical-CSV pair completeness; dimension 4),
+  [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc) (SOP+runbook pairing; dimension 5),
+  [`akos-external-render-discipline.mdc`](akos-external-render-discipline.mdc) (render trail; dimension 7),
+  [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc) (brand register; dimension 8),
+  [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc) (escalate option; RULE 2 option 5).
+- Paired SOP at charter status: [`SOP-PEOPLE_INTER_WAVE_REGRESSION_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_INTER_WAVE_REGRESSION_001.md).
+- Paired runbook: [`scripts/inter_wave_regression_sweep.py`](../../scripts/inter_wave_regression_sweep.py).
+- Pydantic models: [`akos/hlk_inter_wave_regression.py`](../../akos/hlk_inter_wave_regression.py).
+- Process catalog row: `hol_peopl_dtp_inter_wave_regression_001` in [`process_list.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv).
+- Pattern registry row: `pattern_inter_wave_regression_discipline` (class `inter_wave_regression_cadence`) in [`PEOPLE_DESIGN_PATTERN_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv).
+- Decision lineage: D-IH-86-BK (this rule's mint), D-IH-86-BL (5-option enum), D-IH-86-BM (10th-specialty tagging), D-IH-86-BN (ramp), D-IH-86-BP (pairing), D-IH-86-BQ (Pydantic Literal extension), D-IH-86-BO (P2 self-test landing).
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md
