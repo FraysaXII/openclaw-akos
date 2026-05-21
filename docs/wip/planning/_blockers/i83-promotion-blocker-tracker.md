@@ -4,19 +4,24 @@ sharing_label: internal_only
 parent_candidate: I83
 candidate_file: docs/wip/planning/_candidates/i83-ai-archivist-and-kirbe-ingestor.md
 authored: 2026-05-18
-last_review: 2026-05-18
-next_review_trigger: I82 P4 USE_CASE_ARCHIVE mint completion
+last_review: 2026-05-21
+next_review_trigger: superseded
 linked_decisions:
   - D-IH-76-A
   - D-IH-86-O
-status: active
+  - D-IH-86-CC
+  - D-IH-83-A
+status: superseded
+superseded_by: D-IH-86-CC + D-IH-83-A (I86 Wave O OVERRIDE 2026-05-21)
 role_owner: PMO
 co_owner_role: System Owner
 language: en
 ---
 
-# I83 — Promotion Blocker Tracker
+# I83 — Promotion Blocker Tracker (SUPERSEDED)
 
+> **SUPERSEDED 2026-05-21**: I83 promoted to `active` status during I86 Wave O OVERRIDE per `D-IH-86-CC`. Operator accepted speculative-promotion debt; resolution conditions in §3 below are no longer gating. Active master-roadmap at [`83-ai-archivist-and-kirbe-ingestor/master-roadmap.md`](../83-ai-archivist-and-kirbe-ingestor/master-roadmap.md). Tracker preserved for audit lineage of the original blocker-tracker → OVERRIDE-promotion governance pattern.
+>
 > Governance-shape artifact minted at I76 P0 charter (2026-05-18) per A0 Option 5 default posture (D-IH-86-O). Documents why I83 cannot be promoted in this Wave A push despite being named in Bundle D scope, and tracks the conditions that resolve the blocker. Not a charter; governance artifact.
 
 ## 1. Why I83 is not promoted today

@@ -4,20 +4,25 @@ sharing_label: internal_only
 parent_candidate: I74
 candidate_file: docs/wip/planning/_candidates/i74-brand-tooling-productization.md
 authored: 2026-05-18
-last_review: 2026-05-18
-next_review_trigger: TRIGGER-2 first external request OR I71/I72/I73 closure (whichever is later)
+last_review: 2026-05-21
+next_review_trigger: superseded
 linked_decisions:
   - D-IH-76-A
   - D-IH-86-O
   - D-IH-84-D
-status: active
+  - D-IH-86-CC
+  - D-IH-74-A
+status: superseded
+superseded_by: D-IH-86-CC + D-IH-74-A (I86 Wave O OVERRIDE 2026-05-21)
 role_owner: PMO
 co_owner_role: System Owner
 language: en
 ---
 
-# I74 — Promotion Blocker Tracker
+# I74 — Promotion Blocker Tracker (SUPERSEDED)
 
+> **SUPERSEDED 2026-05-21**: I74 promoted to `active` status during I86 Wave O OVERRIDE per `D-IH-86-CC`. Operator accepted speculative-promotion debt (TRIGGER-2 zero-count override-accepted; P4 external pilot still gated on actual TRIGGER-2 firing). Active master-roadmap at [`74-brand-tooling-productization/master-roadmap.md`](../74-brand-tooling-productization/master-roadmap.md). Tracker preserved for audit lineage of the original blocker-tracker → OVERRIDE-promotion governance pattern.
+>
 > Governance-shape artifact minted at I76 P0 charter (2026-05-18) per A0 Option 5 default posture (D-IH-86-O). Documents why I74 cannot be promoted in this Wave A push despite being named in the Bundle D scope, and tracks the conditions that resolve the blocker. This file is **NOT a charter**; it is a governance artifact preserving operator intent visibility (Lane 5 promotion was considered) without speculative-promotion debt (the candidate's own activation criteria are not yet met).
 
 ## 1. Why I74 is not promoted today

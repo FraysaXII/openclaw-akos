@@ -4,19 +4,26 @@ sharing_label: internal_only
 parent_candidate: I75
 candidate_file: docs/wip/planning/_candidates/i75-research-area-governance.md
 authored: 2026-05-18
-last_review: 2026-05-18
-next_review_trigger: I72 P0 closure OR I73 P0 closure OR Research Director hire (whichever first)
+last_review: 2026-05-21
+next_review_trigger: superseded
 linked_decisions:
   - D-IH-76-A
   - D-IH-86-O
-status: active
+  - D-IH-86-CC
+  - D-IH-75-A
+  - D-IH-84-G
+  - D-IH-84-H
+status: superseded
+superseded_by: D-IH-86-CC + D-IH-75-A (I86 Wave O OVERRIDE 2026-05-21)
 role_owner: PMO
 co_owner_role: Research Director (interim Founder)
 language: en
 ---
 
-# I75 — Promotion Blocker Tracker
+# I75 — Promotion Blocker Tracker (SUPERSEDED)
 
+> **SUPERSEDED 2026-05-21**: I75 promoted to `active` status during I86 Wave O OVERRIDE per `D-IH-86-CC`. Operator accepted speculative-promotion debt (Research Director hire decision deferred so SOP buildout proceeds in parallel). Active master-roadmap at [`75-research-area-governance/master-roadmap.md`](../75-research-area-governance/master-roadmap.md). Tracker preserved for audit lineage of the original blocker-tracker → OVERRIDE-promotion governance pattern.
+>
 > Governance-shape artifact minted at I76 P0 charter (2026-05-18) per A0 Option 5 default posture (D-IH-86-O). Documents why I75 cannot be promoted in this Wave A push despite being conditionally named in handoff §2.2 ("if Lane 1 promoted"), and tracks the conditions that resolve the blocker. Not a charter; governance artifact.
 
 ## 1. Why I75 is not promoted today

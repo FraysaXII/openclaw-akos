@@ -3,10 +3,14 @@ language: en
 sharing_label: internal_only
 intellectual_kind: initiative_dependency_matrix
 last_generated: 2026-05-21
-generated_by: Wave-N sub-lane N.4 (I86 cluster execution coordinator)
+generated_by: Wave-O sub-lane (I86 cluster execution coordinator; updated for I74 + I75 + I83 active-promotion)
 ratifying_decisions:
   - D-IH-86-CD
-  - D-IH-86-CG-UMBRELLA
+  - D-IH-86-CG
+  - D-IH-86-CC
+  - D-IH-83-A
+  - D-IH-74-A
+  - D-IH-75-A
 ---
 
 # INITIATIVE_DEPENDENCIES.md — cross-initiative dependency narrative
@@ -64,13 +68,13 @@ flowchart TB
 | I76 MADEIRA elevation | active | I84 closed (AICs F5 pre-ratification per D-IH-84-C); I86 (Option-5 default posture per D-IH-86-O) | Inception D-IH-76-A 2026-05-18. P0 charter shipped Wave A. P1-P6 forward-chartered to per-phase ratify gates. Scope-overlap with I11/I13/I17 deferred to per-phase consolidation gates per `_trackers/i11-i13-i17-scope-overlap-tracker.md` (planning workspace). |
 | I81 vault integrity retrofit | active | I59 closed (governance clean slate); I80 closed (lessons learned) | Inception D-IH-81-A. P0 charter + P1 audit shipped. P2+ forward-chartered. |
 | I82 capability doctrine | active | I84 closed (substrate doctrine ratified); I79 closed (People-DoD ratified) | Inception D-IH-82-A. P0 charter shipped. P1 Talent activation requires canonical-CSV operator-approval. |
-| I83 AI archivist + KiRBe ingestor | candidate (blocker-tracker active) | I82 P4 USE_CASE_ARCHIVE mint; I76 P3 AICs F5 substrate; C-83-1 framework-class narrowing per D-IH-84-E | Strand B substrate ready 2026-05-13 via `CRM_ADAPTER_REGISTRY.csv`. Strand A blocked. Tracker: `_blockers/i83-promotion-blocker-tracker.md` (planning workspace). |
+| I83 AI archivist + KiRBe ingestor | active (Wave-O OVERRIDE 2026-05-21) | I82 P4 USE_CASE_ARCHIVE mint (deferred per D-IH-86-CC speculative-promotion debt); I76 P3 AICs F5 substrate; D-IH-84-E framework narrowing | Inception D-IH-83-A 2026-05-21. Master-roadmap shipped Wave O. Strand B substrate ready 2026-05-13 via `CRM_ADAPTER_REGISTRY.csv`. Per D-IH-86-CC OVERRIDE: Strand A unblocked despite parent dependencies not closed. Prior blocker-tracker `_blockers/i83-promotion-blocker-tracker.md` superseded. |
 | I85 audience tag canonicalization | closed (2026-05-19) | — | D-IH-85-CLOSURE. UAT `85-audience-tag-canonicalization/reports/uat-i85-closure-2026-05-19.md` (planning workspace). |
 | I87 OpenClaw runtime hardening | closed (2026-05-19) | — | D-IH-87-CLOSURE. UAT `87-openclaw-operator-runtime-hardening/reports/uat-i87-closure-2026-05-19.md` (planning workspace). |
 | I89 HLK-ERP program rollup | active | I86 P3 forward-charter (D-IH-86-K + D-IH-86-N); I77 closed (impeccable bridge refresh) | Inception D-IH-89-A..E 2026-05-17. Tri-co-owned PMO + System Owner + Brand & Narrative Manager (D-IH-89-D). BBR drift-gate flipped INFO→FAIL at P0 (D-IH-89-E). P3 + P4 carry MANDATORY public-prose pause-points. |
 | I78 brand voice LLM-as-judge | active | I71 P1 closed (Tier 1 Vale baseline) | Inception D-IH-78-A. P1 judge chassis pending. |
-| I74 brand tooling productization | candidate (TRIGGER-watch) | I71/I72/I73 closed; I76 P3 closure; ≥2 external requests; Founder + Brand Manager approval; HLK Tech Lab capacity | Tracker: `_blockers/i74-promotion-blocker-tracker.md` (planning workspace). D-IH-84-D ratification preserved. |
-| I75 research area governance | candidate | I72 P0 closed; I73 P0 closed; Research Director hire OR founder-takes-role; I84 closure | Tracker: `_blockers/i75-promotion-blocker-tracker.md` (planning workspace). |
+| I74 brand tooling productization | active (Wave-O OVERRIDE 2026-05-21) | I71/I72/I73 closed; I76 P3 closure (deferred per D-IH-86-CC); D-IH-84-D ratification preserved | Inception D-IH-74-A 2026-05-21. Master-roadmap shipped Wave O. Per D-IH-86-CC OVERRIDE: TRIGGER-2 (≥2 external requests) zero-count override-accepted; P4 external pilot still gated on actual TRIGGER-2 firing. Prior blocker-tracker `_blockers/i74-promotion-blocker-tracker.md` superseded. |
+| I75 research area governance | active (Wave-O OVERRIDE 2026-05-21) | I72 P0 closed; I73 P0 closed; I84 closed; Research Director hire OR founder-takes-role (deferred per D-IH-86-CC) | Inception D-IH-75-A 2026-05-21. Master-roadmap shipped Wave O. Per D-IH-86-CC OVERRIDE: SOP buildout proceeds in parallel with hire decision. Multiple canonical-CSV gates at P1-P4. Prior blocker-tracker `_blockers/i75-promotion-blocker-tracker.md` superseded. |
 
 ### I86 internal wave dependencies (cluster burndown)
 
