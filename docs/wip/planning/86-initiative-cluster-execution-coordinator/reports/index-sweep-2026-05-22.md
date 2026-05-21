@@ -10,11 +10,11 @@
 | Dimension | Index | Verdict | Severity | Drift / proposed fix |
 |:---|:---|:---|:---|:---|
 | `IDX-01-PLANNING-README-INITIATIVE-COUNT` | `README.md` | fresh | low | _folder_count=73 == registry_count=73_ |
-| `IDX-02-PRECEDENCE-CSV-COVERAGE` | `PRECEDENCE.md` | fresh | low | _all 36 CSVs mentioned in PRECEDENCE.md_ |
-| `IDX-03-CHANGELOG-WAVE-COVERAGE` | `CHANGELOG.md` | fresh | low | _CHANGELOG.md mentions Wave-P_ |
+| `IDX-02-PRECEDENCE-CSV-COVERAGE` | `PRECEDENCE.md` | fresh | low | _all 37 CSVs mentioned in PRECEDENCE.md_ |
+| `IDX-03-CHANGELOG-WAVE-COVERAGE` | `CHANGELOG.md` | fresh | low | _CHANGELOG.md mentions Wave-Q_ |
 | `IDX-04-INITIATIVE-DEPENDENCIES-FRESHNESS` | `INITIATIVE_DEPENDENCIES.md` | fresh | low | _deps last-edited 2026-05-21, registry last-edited 2026-05-21 (delta=0d, threshold=7d)_ |
 | `IDX-05-USER-GUIDE-ROLE-PROCESS-COUNTS` | `USER_GUIDE.md` | fresh | low | _baseline=70roles / process_list=1179; no contradicting counts found in USER_GUIDE_ |
-| `IDX-06-ARCHITECTURE-HLK-REGISTRY-COVERAGE` | `ARCHITECTURE.md` | fresh | low | _all 22 dimension CSVs mentioned in ARCHITECTURE.md_ |
+| `IDX-06-ARCHITECTURE-HLK-REGISTRY-COVERAGE` | `ARCHITECTURE.md` | fresh | low | _all 23 dimension CSVs mentioned in ARCHITECTURE.md_ |
 | `IDX-07-PLANNING-FOLDER-FILESYSTEM-PARITY` | `README.md` | fresh | low | _all 73 folders FK-resolved in README; all 73 README links FK-resolved on filesystem_ |
 | `IDX-08-QUALITY-FABRIC-SPECIALTY-COUNT` | `HOLISTIKA_QUALITY_FABRIC.md` | fresh | low | _all 8 *_DISCIPLINE.md files referenced in HOLISTIKA_QUALITY_FABRIC.md_ |
 

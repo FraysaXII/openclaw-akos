@@ -517,6 +517,9 @@ def main() -> int:
         ("CAPABILITY_CONFIDENCE_REGISTRY", "validate_capability_confidence_registry.py",
          "validate_capability_confidence_registry",
          HLK_DIR / "dimensions" / "CAPABILITY_CONFIDENCE_REGISTRY.csv"),
+        ("USE_CASE_ARCHIVE", "validate_use_case_archive.py",
+         "validate_use_case_archive",
+         HLK_DIR / "dimensions" / "USE_CASE_ARCHIVE.csv"),
         # Initiative 86 Wave K + L - 4-layer output architecture beneath the 5-axis Quality Fabric.
         # Composite validator covers Layer 1 OUTPUT_TYPE_REGISTRY + Layer 2 ARTIFACT_CLASS_REGISTRY +
         # Layer 3 COMPONENT_PRIMITIVE_REGISTRY in one pass. Also FK-resolves
