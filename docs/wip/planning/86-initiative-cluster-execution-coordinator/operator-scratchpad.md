@@ -527,4 +527,37 @@ This **subsumes** the previously-named I-NN-MESSAGE-COMPONENT-LIBRARY (D-IH-86-A
 
 [processed 2026-05-22 wave-Q-close]
 
+### 2026-05-22 01:50 — Wave R Lane A: AIC_CAPABILITY_IMPLEMENTATION_MATRIX mint (D-IH-86-CQ; closes OPS-86-11)
+
+Operator inline-ratify gate 2026-05-22 (post-Wave-Q-close acknowledgement: *"thanks, we can continue as you wanted to do. AskQuestion-ratified anytime"*) — agent posed 4-option Wave R lane batch; operator selected **Lane A**.
+
+**Minted**:
+- `docs/.../dimensions/AIC_CAPABILITY_IMPLEMENTATION_MATRIX.csv` (14-col schema; 7 honest seed cells).
+- `akos/hlk_aic_capability_implementation_matrix_csv.py` (Pydantic chassis; 2 enum frozensets).
+- `scripts/validate_aic_capability_implementation_matrix.py` (9 checks: header + Pydantic + matrix_id uniqueness + capability_id FK + aic_id FK + paired_madeira_task_id FK with cross-AIC integrity + realisation_refs semicolon-list FK + DECISION_REGISTER FK + (capability_id, aic_id) pair uniqueness).
+- `tests/test_validate_aic_capability_implementation_matrix.py` (4 PASS).
+
+**Wired**: validate_hlk.py umbrella (OVERALL PASS) + PRECEDENCE.md row + ARCHITECTURE.md registry-count 25 → 26.
+
+**Honest seed inventory** (no speculative authorship):
+1. `ACIM-0001` CAP-ENV-TECH-DTP-MADEIRA-VERDICT × AIC-MADEIRA-ON-CURSOR → implemented (paired MTASK-CURSOR-UAT-VERIFICATION).
+2. `ACIM-0002` CAP-ENV-TECH-DTP-MADEIRA-DOSSIER × AIC-MADEIRA-ON-CURSOR → implemented (paired MTASK-CURSOR-DOCTRINE-CURATION).
+3. `ACIM-0003` CAP-ENV-TECH-DTP-MADEIRA-INCIDENT × AIC-MADEIRA-ON-CURSOR → implemented (paired MTASK-CURSOR-DOCTRINE-CURATION).
+4. `ACIM-0004` CAP-ENV-TECH-DTP-MADEIRA-LIFECYCLE × AIC-MADEIRA-ON-CURSOR → implemented (paired MTASK-CURSOR-DOCTRINE-CURATION).
+5. `ACIM-0005` CAP-ENV-TECH-DTP-MADEIRA-TELEMETRY × AIC-MADEIRA-ON-CURSOR → implemented (paired MTASK-CURSOR-DOCTRINE-CURATION).
+6. `ACIM-0006` CAP-ENV-TECH-DTP-MADEIRA-UXREVIEW × AIC-MADEIRA-ON-CURSOR → implemented (paired MTASK-CURSOR-UAT-VERIFICATION).
+7. `ACIM-0007` CAP-ENV-TECH-DTP-MADEIRA-VERDICT × AIC-MADEIRA-ON-OPENCLAW → forecasted (substrate-portability forecast; activation gated on OpenClaw repackaging per AIC_REGISTRY status=forecasted).
+
+**Decision**: D-IH-86-CQ (mint + Lane A selection + 7-cell seed + OPS-86-11 closure linkage).
+**OPS**: OPS-86-11 flipped `open` → `closed` (closed_at=2026-05-22; decision linkage updated to D-IH-86-CQ).
+
+**Lanes not taken (deferred to subsequent operator ratification)**:
+- Lane B (OPS-86-14 long-tail 53-finding consolidation) — still open; ~3 person-days estimated.
+- Lane C (I76 P1 substantive with D-IH-76-P override) — remains forward-chartered per D-IH-76-P (operator did not select override).
+- Lane D (I81 P2 vault-integrity + compliance layout) — not selected.
+
+**Forecasted next operator ratification**: pick next Wave R lane (B / C-with-override / D) OR redirect to a different cluster need.
+
+[processed 2026-05-22 wave-R-lane-A]
+
 <!-- end of entries -->
