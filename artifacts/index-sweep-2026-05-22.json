@@ -22,7 +22,7 @@
       "proposed_fix_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "all 37 CSVs mentioned in PRECEDENCE.md"
+      "notes": "all 39 CSVs mentioned in PRECEDENCE.md"
     },
     {
       "dimension_code": "IDX-03-CHANGELOG-WAVE-COVERAGE",
@@ -62,7 +62,7 @@
       "proposed_fix_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "all 23 dimension CSVs mentioned in ARCHITECTURE.md"
+      "notes": "all 25 dimension CSVs mentioned in ARCHITECTURE.md"
     },
     {
       "dimension_code": "IDX-07-PLANNING-FOLDER-FILESYSTEM-PARITY",

@@ -520,6 +520,12 @@ def main() -> int:
         ("USE_CASE_ARCHIVE", "validate_use_case_archive.py",
          "validate_use_case_archive",
          HLK_DIR / "dimensions" / "USE_CASE_ARCHIVE.csv"),
+        ("AIC_REGISTRY", "validate_aic_registry.py",
+         "validate_aic_registry",
+         HLK_DIR / "dimensions" / "AIC_REGISTRY.csv"),
+        ("MADEIRA_AIC_PER_TASK_REGISTRY", "validate_madeira_aic_per_task.py",
+         "validate_madeira_aic_per_task",
+         HLK_DIR / "dimensions" / "MADEIRA_AIC_PER_TASK_REGISTRY.csv"),
         # Initiative 86 Wave K + L - 4-layer output architecture beneath the 5-axis Quality Fabric.
         # Composite validator covers Layer 1 OUTPUT_TYPE_REGISTRY + Layer 2 ARTIFACT_CLASS_REGISTRY +
         # Layer 3 COMPONENT_PRIMITIVE_REGISTRY in one pass. Also FK-resolves
