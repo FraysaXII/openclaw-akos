@@ -1,23 +1,30 @@
-"""Tests for akos.hlk_inter_wave_regression + scripts/inter_wave_regression_sweep.py (Wave M P2).
+"""Tests for akos.hlk_inter_wave_regression + scripts/inter_wave_regression_sweep.py.
 
 Covers:
 - Pydantic models RegressionFindingRow + RegressionSweepReport
   validate enum membership for dimension_code, verdict, severity.
-- Slug regex on report_id; ISO date on swept_at + last_review; wave
-  code pattern (Wave-X or Wave-X.Y).
+- Slug regex on report_id; ISO date on swept_at; wave code pattern
+  (Wave-X or Wave-X.Y).
 - Optional candidate_decision_id pattern (D-IH-NN-X).
 - Runbook PROBE_REGISTRY contains exactly 12 entries matching
-  ALL_DIMENSIONS.
-- Each of the 12 _probe_dimension_N smoke-functions returns a non-empty
-  list of valid RegressionFindingRow instances.
-- ``self_test()`` exits 0; ``main()`` exits 1 on missing --wave-closing.
+  ALL_DIMENSIONS (doctrine-aligned dimension names).
+- BASELINE_DIMENSION_CODES (7) and CONDITIONAL_DIMENSION_CODES (5) are
+  disjoint and their union equals VALID_DIMENSION_CODES per the
+  canonical §3 compose_REGRESSION baseline / conditional split.
+- Each of the 12 _probe_dimension_N smoke-functions returns a list
+  (possibly empty) of valid RegressionFindingRow instances.
+- self_test() exits 0; main() exits 1 on missing --wave-closing.
 - Markdown + JSON emit functions write parseable output.
 
 Per CONTRIBUTING.md Python Code Standards: type hints, ValidationError
 guards, no print statements, registered under @pytest.mark.hlk so the
 suite is picked up by the HLK marker group.
 
-Decision lineage: D-IH-86-BO (paired runbook + Pydantic + tests).
+Decision lineage:
+- D-IH-86-BO (paired runbook + Pydantic + tests at Wave M P2 initial mint).
+- D-IH-86-BW (Wave M.5 hotfix; doctrine-wins reconciliation; this test
+  module rewritten to assert the doctrine-aligned dimension names + the
+  baseline / conditional split invariants).
 """
 from __future__ import annotations
 
@@ -33,6 +40,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 from akos.hlk_inter_wave_regression import (  # noqa: E402
+    BASELINE_DIMENSION_CODES,
+    CONDITIONAL_DIMENSION_CODES,
     REGRESSION_FINDING_FIELDNAMES,
     REGRESSION_SWEEP_FIELDNAMES,
     VALID_DIMENSION_CODES,
@@ -45,9 +54,45 @@ from akos.hlk_inter_wave_regression import (  # noqa: E402
 RUNBOOK_PATH = REPO_ROOT / "scripts" / "inter_wave_regression_sweep.py"
 
 
+ALL_DOCTRINE_DIMENSIONS: tuple[str, ...] = (
+    "DIM-01-DECISION-LINEAGE",
+    "DIM-02-FORWARD-CHARTER-CARRYOVER",
+    "DIM-03-VALIDATOR-RAMP-CONSISTENCY",
+    "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+    "DIM-05-SOP-RUNBOOK-PAIRING",
+    "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+    "DIM-07-RENDER-TRAIL-AUDIENCE-MATCH",
+    "DIM-08-BRAND-BASELINE-REGISTER-MATCH",
+    "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+    "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+    "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+    "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+)
+
+
+EXPECTED_BASELINE: frozenset[str] = frozenset({
+    "DIM-01-DECISION-LINEAGE",
+    "DIM-02-FORWARD-CHARTER-CARRYOVER",
+    "DIM-03-VALIDATOR-RAMP-CONSISTENCY",
+    "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+    "DIM-05-SOP-RUNBOOK-PAIRING",
+    "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+    "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+})
+
+
+EXPECTED_CONDITIONAL: frozenset[str] = frozenset({
+    "DIM-07-RENDER-TRAIL-AUDIENCE-MATCH",
+    "DIM-08-BRAND-BASELINE-REGISTER-MATCH",
+    "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+    "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+    "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+})
+
+
 def _minimal_finding(**overrides) -> RegressionFindingRow:
     base = {
-        "dimension_code": "DIM-01-CLOSING-WAVE-SURFACES",
+        "dimension_code": "DIM-01-DECISION-LINEAGE",
         "surface_path": "docs/example.md",
         "verdict": "clean",
         "proposed_rework_action": "",
@@ -84,17 +129,23 @@ def _minimal_report(findings: list[RegressionFindingRow] | None = None) -> Regre
 class TestRegressionFindingRow:
     def test_finding_row_valid_minimum(self):
         f = _minimal_finding()
-        assert f.dimension_code == "DIM-01-CLOSING-WAVE-SURFACES"
+        assert f.dimension_code == "DIM-01-DECISION-LINEAGE"
         assert f.verdict == "clean"
         assert f.severity == "low"
 
     def test_finding_row_valid_with_decision_id(self):
-        f = _minimal_finding(candidate_decision_id="D-IH-86-BT")
-        assert f.candidate_decision_id == "D-IH-86-BT"
+        f = _minimal_finding(candidate_decision_id="D-IH-86-BW")
+        assert f.candidate_decision_id == "D-IH-86-BW"
 
     def test_finding_row_invalid_dimension_enum(self):
         with pytest.raises(ValidationError):
             _minimal_finding(dimension_code="DIM-99-NOT-A-REAL-DIMENSION")
+
+    def test_finding_row_invalid_old_dimension_name_rejected(self):
+        """Wave M.5 hotfix invariant: old codes like 'DIM-01-CLOSING-WAVE-SURFACES'
+        (pre-D-IH-86-BW) must now raise — the doctrine-aligned codes are SSOT."""
+        with pytest.raises(ValidationError):
+            _minimal_finding(dimension_code="DIM-01-CLOSING-WAVE-SURFACES")
 
     def test_finding_row_invalid_verdict_enum(self):
         with pytest.raises(ValidationError):
@@ -152,10 +203,32 @@ class TestEnumExports:
     def test_dimension_codes_count(self):
         assert len(VALID_DIMENSION_CODES) == 12
 
+    def test_dimension_codes_match_doctrine(self):
+        """Wave M.5 hotfix invariant: the 12 codes mirror the canonical
+        INTER_WAVE_REGRESSION_DISCIPLINE.md §2 table exactly."""
+        assert VALID_DIMENSION_CODES == set(ALL_DOCTRINE_DIMENSIONS)
+
     def test_dimension_codes_naming(self):
         for code in VALID_DIMENSION_CODES:
             assert code.startswith("DIM-")
-            assert code.split("-")[1].isdigit()
+            parts = code.split("-")
+            assert parts[1].isdigit() and 1 <= int(parts[1]) <= 12
+
+    def test_baseline_count_is_seven(self):
+        """Per canonical §3 compose_REGRESSION: 7 baseline dimensions fire every wave-close."""
+        assert len(BASELINE_DIMENSION_CODES) == 7
+        assert BASELINE_DIMENSION_CODES == EXPECTED_BASELINE
+
+    def test_conditional_count_is_five(self):
+        """Per canonical §3 compose_REGRESSION: 5 conditional dimensions fire only when axis predicate fires."""
+        assert len(CONDITIONAL_DIMENSION_CODES) == 5
+        assert CONDITIONAL_DIMENSION_CODES == EXPECTED_CONDITIONAL
+
+    def test_baseline_and_conditional_are_disjoint(self):
+        assert not (BASELINE_DIMENSION_CODES & CONDITIONAL_DIMENSION_CODES)
+
+    def test_baseline_union_conditional_equals_all(self):
+        assert BASELINE_DIMENSION_CODES | CONDITIONAL_DIMENSION_CODES == VALID_DIMENSION_CODES
 
     def test_verdicts_canonical(self):
         assert VALID_VERDICTS == {"clean", "drift", "gap", "blocked", "skip"}
@@ -187,28 +260,25 @@ class TestRunbookProbes:
     def test_probe_registry_matches_all_dimensions(self):
         assert set(self.iwrs.PROBE_REGISTRY.keys()) == set(self.iwrs.ALL_DIMENSIONS)
 
-    @pytest.mark.parametrize("dim_code", [
-        "DIM-01-CLOSING-WAVE-SURFACES",
-        "DIM-02-SIBLING-INITIATIVE-STATUS",
-        "DIM-03-I86-COORDINATOR-STATE",
-        "DIM-04-QUALITY-FABRIC-SPECIALTIES",
-        "DIM-05-FORWARD-CHARTER-GATES",
-        "DIM-06-SIBLING-REPO-DEPLOY-POSTURE",
-        "DIM-07-RENDER-PENDING-TRACKER",
-        "DIM-08-PRE-EXISTING-RELEASE-GATE-FAILS",
-        "DIM-09-CURSOR-RULES-DRIFT",
-        "DIM-10-SKILLS-DRIFT",
-        "DIM-11-UNTRACKED-FILES-AUDIT",
-        "DIM-12-CANONICAL-CSV-MIRROR-PARITY",
-    ])
+    def test_probe_registry_matches_pydantic_enum(self):
+        """SSOT invariant: the runbook's PROBE_REGISTRY keys equal the Pydantic VALID_DIMENSION_CODES."""
+        assert set(self.iwrs.PROBE_REGISTRY.keys()) == VALID_DIMENSION_CODES
+
+    @pytest.mark.parametrize("dim_code", list(ALL_DOCTRINE_DIMENSIONS))
     def test_probe_dimension_N_smoke(self, dim_code: str):
+        """Each probe returns a list of valid RegressionFindingRow instances.
+
+        Per the doctrine, probes may legitimately return an empty list when
+        the dimension has no surfaces to inspect — the canonical §3 says
+        "empty result is valid". We only assert that the return type is a
+        list and that every element (if any) is well-formed.
+        """
         probe = self.iwrs.PROBE_REGISTRY[dim_code]
-        if dim_code == "DIM-01-CLOSING-WAVE-SURFACES":
+        if dim_code in self.iwrs.WAVE_AWARE_DIMENSIONS:
             findings = probe("Wave-L")
         else:
             findings = probe()
         assert isinstance(findings, list)
-        assert len(findings) >= 1
         for f in findings:
             assert isinstance(f, RegressionFindingRow)
             assert f.dimension_code == dim_code
@@ -216,19 +286,29 @@ class TestRunbookProbes:
     def test_run_sweep_with_subset(self):
         report = self.iwrs.run_sweep(
             "Wave-L",
-            dimensions=("DIM-09-CURSOR-RULES-DRIFT", "DIM-10-SKILLS-DRIFT"),
+            dimensions=(
+                "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+                "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+            ),
         )
         assert isinstance(report, RegressionSweepReport)
         assert report.wave_closing == "Wave-L"
-        assert report.total_findings >= 2
-
-    def test_run_sweep_full_12_dimensions(self):
-        report = self.iwrs.run_sweep("Wave-L")
-        assert report.total_findings >= 12
         assert (
             report.clean_count + report.drift_count + report.gap_count
             + report.blocked_count + report.skip_count == report.total_findings
         )
+
+    def test_run_sweep_full_12_dimensions(self):
+        report = self.iwrs.run_sweep("Wave-L")
+        assert (
+            report.clean_count + report.drift_count + report.gap_count
+            + report.blocked_count + report.skip_count == report.total_findings
+        )
+
+    def test_wave_aware_dimensions_subset_of_all(self):
+        """WAVE_AWARE_DIMENSIONS exists and is a subset of the 12 dimensions."""
+        assert hasattr(self.iwrs, "WAVE_AWARE_DIMENSIONS")
+        assert set(self.iwrs.WAVE_AWARE_DIMENSIONS).issubset(set(self.iwrs.ALL_DIMENSIONS))
 
 
 @pytest.mark.hlk
@@ -283,7 +363,7 @@ class TestEmitFunctions:
         iwrs.emit_markdown_report(report, out)
         text = out.read_text(encoding="utf-8")
         assert "Wave-L" in text
-        assert "DIM-01-CLOSING-WAVE-SURFACES" in text
+        assert "DIM-01-DECISION-LINEAGE" in text
         assert "| Verdict | Count |" in text
 
     def test_emit_json_writes_valid_json(self, tmp_path: Path):
@@ -295,4 +375,4 @@ class TestEmitFunctions:
         assert data["report_id"] == "regression-sweep-2026-05-21"
         assert data["wave_closing"] == "Wave-L"
         assert len(data["findings"]) == 1
-        assert data["findings"][0]["dimension_code"] == "DIM-01-CLOSING-WAVE-SURFACES"
+        assert data["findings"][0]["dimension_code"] == "DIM-01-DECISION-LINEAGE"

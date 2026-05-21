@@ -5,7 +5,12 @@ Paired runbook: ``scripts/inter_wave_regression_sweep.py``
 Paired SOP: ``docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_INTER_WAVE_REGRESSION_001.md``
 Companion cursor rule: ``.cursor/rules/akos-inter-wave-regression.mdc``
 Wave M decision lineage: D-IH-86-BK (canonical mint), D-IH-86-BL (5-option enum),
-D-IH-86-BO (this Pydantic + runbook + tests + release-gate wiring).
+D-IH-86-BO (initial Pydantic + runbook + tests + release-gate wiring),
+D-IH-86-BW (Wave M.5 hotfix; doctrine-wins reconciliation: the 12 dimension
+codes here now mirror the canonical INTER_WAVE_REGRESSION_DISCIPLINE.md
+section 2 table exactly, and the ``BASELINE_DIMENSION_CODES`` /
+``CONDITIONAL_DIMENSION_CODES`` frozensets reflect the canonical section 3
+``compose_REGRESSION`` baseline / conditional split).
 
 Two frozen models:
 
@@ -60,18 +65,38 @@ REGRESSION_SWEEP_FIELDNAMES: tuple[str, ...] = (
 
 
 VALID_DIMENSION_CODES: frozenset[str] = frozenset({
-    "DIM-01-CLOSING-WAVE-SURFACES",
-    "DIM-02-SIBLING-INITIATIVE-STATUS",
-    "DIM-03-I86-COORDINATOR-STATE",
-    "DIM-04-QUALITY-FABRIC-SPECIALTIES",
-    "DIM-05-FORWARD-CHARTER-GATES",
-    "DIM-06-SIBLING-REPO-DEPLOY-POSTURE",
-    "DIM-07-RENDER-PENDING-TRACKER",
-    "DIM-08-PRE-EXISTING-RELEASE-GATE-FAILS",
-    "DIM-09-CURSOR-RULES-DRIFT",
-    "DIM-10-SKILLS-DRIFT",
-    "DIM-11-UNTRACKED-FILES-AUDIT",
-    "DIM-12-CANONICAL-CSV-MIRROR-PARITY",
+    "DIM-01-DECISION-LINEAGE",
+    "DIM-02-FORWARD-CHARTER-CARRYOVER",
+    "DIM-03-VALIDATOR-RAMP-CONSISTENCY",
+    "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+    "DIM-05-SOP-RUNBOOK-PAIRING",
+    "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+    "DIM-07-RENDER-TRAIL-AUDIENCE-MATCH",
+    "DIM-08-BRAND-BASELINE-REGISTER-MATCH",
+    "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+    "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+    "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+    "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+})
+
+
+BASELINE_DIMENSION_CODES: frozenset[str] = frozenset({
+    "DIM-01-DECISION-LINEAGE",
+    "DIM-02-FORWARD-CHARTER-CARRYOVER",
+    "DIM-03-VALIDATOR-RAMP-CONSISTENCY",
+    "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+    "DIM-05-SOP-RUNBOOK-PAIRING",
+    "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+    "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+})
+
+
+CONDITIONAL_DIMENSION_CODES: frozenset[str] = frozenset({
+    "DIM-07-RENDER-TRAIL-AUDIENCE-MATCH",
+    "DIM-08-BRAND-BASELINE-REGISTER-MATCH",
+    "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+    "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+    "DIM-11-CURSOR-RULE-SKILL-PAIRING",
 })
 
 
@@ -111,18 +136,18 @@ class RegressionFindingRow(BaseModel):
     model_config = ConfigDict(frozen=True, str_strip_whitespace=True)
 
     dimension_code: Literal[
-        "DIM-01-CLOSING-WAVE-SURFACES",
-        "DIM-02-SIBLING-INITIATIVE-STATUS",
-        "DIM-03-I86-COORDINATOR-STATE",
-        "DIM-04-QUALITY-FABRIC-SPECIALTIES",
-        "DIM-05-FORWARD-CHARTER-GATES",
-        "DIM-06-SIBLING-REPO-DEPLOY-POSTURE",
-        "DIM-07-RENDER-PENDING-TRACKER",
-        "DIM-08-PRE-EXISTING-RELEASE-GATE-FAILS",
-        "DIM-09-CURSOR-RULES-DRIFT",
-        "DIM-10-SKILLS-DRIFT",
-        "DIM-11-UNTRACKED-FILES-AUDIT",
-        "DIM-12-CANONICAL-CSV-MIRROR-PARITY",
+        "DIM-01-DECISION-LINEAGE",
+        "DIM-02-FORWARD-CHARTER-CARRYOVER",
+        "DIM-03-VALIDATOR-RAMP-CONSISTENCY",
+        "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+        "DIM-05-SOP-RUNBOOK-PAIRING",
+        "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+        "DIM-07-RENDER-TRAIL-AUDIENCE-MATCH",
+        "DIM-08-BRAND-BASELINE-REGISTER-MATCH",
+        "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+        "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+        "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+        "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
     ]
     surface_path: str = Field(
         ...,
@@ -166,7 +191,8 @@ class RegressionFindingRow(BaseModel):
         description=(
             "Pre-allocated DECISION_REGISTER.csv slot for this finding's "
             "ratification at P4. Optional; populated only when slot has "
-            "already been reserved (e.g., D-IH-86-BT..BCC for Wave M)."
+            "already been reserved (e.g., D-IH-86-BT..BCC for Wave M; or "
+            "D-IH-86-BW for the Wave M.5 doctrine-reconciliation hotfix)."
         ),
     )
     severity: Literal["low", "medium", "high"] = Field(

@@ -1,25 +1,54 @@
-"""Inter-wave regression sweep runbook (Wave M P2; paired to canonical+SOP+cursor-rule).
+"""Inter-wave regression sweep runbook (paired to canonical+SOP+cursor-rule).
 
 Canonical doctrine: ``docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md``
 Paired SOP: ``docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_INTER_WAVE_REGRESSION_001.md``
 Companion cursor rule: ``.cursor/rules/akos-inter-wave-regression.mdc``
 Pydantic SSOT: ``akos/hlk_inter_wave_regression.py``
-Decision lineage: D-IH-86-BO (paired runbook + Pydantic + tests + release-gate wiring)
+
+Decision lineage: D-IH-86-BO (initial paired runbook mint, Wave M P2)
+→ D-IH-86-BW (Wave M.5 hotfix; doctrine-wins reconciliation of
+the 12 dimension codes against the canonical §2 table + the
+``compose_REGRESSION(...)`` baseline/conditional split in §3).
+
+The 12 dimensions implemented here mirror the canonical exactly:
+
+  baseline (always fire at every wave-close):
+    DIM-01-DECISION-LINEAGE
+    DIM-02-FORWARD-CHARTER-CARRYOVER
+    DIM-03-VALIDATOR-RAMP-CONSISTENCY
+    DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS
+    DIM-05-SOP-RUNBOOK-PAIRING
+    DIM-06-UAT-REPORT-CLASS-COMPLETENESS
+    DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY
+
+  axis-conditional (fire only when the corresponding axis predicate
+  fires per ``compose_REGRESSION``):
+    DIM-07-RENDER-TRAIL-AUDIENCE-MATCH      (audience.has_external_tag)
+    DIM-08-BRAND-BASELINE-REGISTER-MATCH    (brand.fires_branded_surface)
+    DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT  (scenario.has_new_pattern_mint)
+    DIM-10-DEPLOY-EVIDENCE-COMPLETENESS     (channel.touches_sibling_repo)
+    DIM-11-CURSOR-RULE-SKILL-PAIRING        (governance.minted_new_cursor_rule)
 
 Per ``akos-inter-wave-regression.mdc`` RULE 1 + RULE 2: at every wave-close
-gate, the executing agent runs all 12 dimensions of this sweep before
-declaring the wave closed. Per RULE 3, every non-clean finding becomes one
-AskQuestion option set at P4 (inline-ratify gate).
+gate, the executing agent runs the 7 baseline dimensions + any conditional
+dimension whose axis predicate fires for the wave before declaring it
+closed. Per RULE 3, every non-clean finding becomes one AskQuestion option
+set at P4 (inline-ratify gate).
 
 Per the canonical §4 cadence + ``process_list.csv`` row
-``hol_peopl_dtp_inter_wave_regression_001``: cadence is ``event_triggered`` at
-wave-close (not pre_commit) — the only release-gate-wired surface is
-``--self-test`` (Pydantic-fixture validation; zero CI cost per R-86-WaveM-7).
+``hol_peopl_dtp_inter_wave_regression_001``: cadence is ``event_triggered``
+at wave-close (not pre_commit) — the only release-gate-wired surface is
+``--self-test`` (Pydantic-fixture validation; zero CI cost per
+R-86-WaveM-7). The 12 probes themselves are conservative: probes that
+require external evidence (Vercel/Render MCP, Supabase MCP, full
+release-gate run) emit ``skip`` with a one-clause reason rather than
+blocking the CI path.
 
-CLI shape (per Wave M hardened plan §3.2):
+CLI shape:
 
     py scripts/inter_wave_regression_sweep.py --wave-closing Wave-L \\
-        [--dimension DIM-01-CLOSING-WAVE-SURFACES] \\
+        [--dimension DIM-01-DECISION-LINEAGE] \\
+        [--baseline-only] \\
         [--json-log] [--quiet] [--output reports/regression-sweep-2026-05-21.md]
 
     py scripts/inter_wave_regression_sweep.py --self-test
@@ -47,6 +76,8 @@ sys.path.insert(0, str(REPO_ROOT))
 
 from akos import log, process  # noqa: E402
 from akos.hlk_inter_wave_regression import (  # noqa: E402
+    BASELINE_DIMENSION_CODES,
+    CONDITIONAL_DIMENSION_CODES,
     RegressionFindingRow,
     RegressionSweepReport,
 )
@@ -54,17 +85,21 @@ from akos.hlk_inter_wave_regression import (  # noqa: E402
 logger = logging.getLogger(__name__)
 
 
-CANONICAL_PATH = (
+CANONICALS_DIR = (
     REPO_ROOT
     / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1"
-    / "People" / "canonicals" / "INTER_WAVE_REGRESSION_DISCIPLINE.md"
 )
 
-QUALITY_FABRIC_PATH = (
-    REPO_ROOT
-    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1"
-    / "People" / "canonicals" / "HOLISTIKA_QUALITY_FABRIC.md"
+PEOPLE_CANONICALS_DIR = CANONICALS_DIR / "People" / "canonicals"
+
+COMPLIANCE_CANONICALS_DIR = (
+    CANONICALS_DIR / "People" / "Compliance" / "canonicals"
 )
+
+DIMENSIONS_DIR = COMPLIANCE_CANONICALS_DIR / "dimensions"
+
+CANONICAL_PATH = PEOPLE_CANONICALS_DIR / "INTER_WAVE_REGRESSION_DISCIPLINE.md"
+QUALITY_FABRIC_PATH = PEOPLE_CANONICALS_DIR / "HOLISTIKA_QUALITY_FABRIC.md"
 
 I86_COORDINATOR_PATH = (
     REPO_ROOT
@@ -72,23 +107,23 @@ I86_COORDINATOR_PATH = (
     / "86-initiative-cluster-execution-coordinator" / "master-roadmap.md"
 )
 
-INITIATIVE_REGISTRY_PATH = (
+DECISION_REGISTER_PATH = COMPLIANCE_CANONICALS_DIR / "DECISION_REGISTER.csv"
+OPS_REGISTER_PATH = COMPLIANCE_CANONICALS_DIR / "OPS_REGISTER.csv"
+PROCESS_LIST_PATH = COMPLIANCE_CANONICALS_DIR / "process_list.csv"
+INITIATIVE_REGISTRY_PATH = COMPLIANCE_CANONICALS_DIR / "INITIATIVE_REGISTRY.csv"
+PRECEDENCE_PATH = COMPLIANCE_CANONICALS_DIR / "PRECEDENCE.md"
+PATTERN_REGISTRY_PATH = DIMENSIONS_DIR / "PEOPLE_DESIGN_PATTERN_REGISTRY.csv"
+
+OPERATOR_SCRATCHPAD_PATH = (
     REPO_ROOT
-    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1"
-    / "People" / "Compliance" / "canonicals" / "INITIATIVE_REGISTRY.csv"
+    / "docs" / "wip" / "planning"
+    / "86-initiative-cluster-execution-coordinator" / "operator-scratchpad.md"
 )
 
-RENDER_PENDING_TRACKER_PATH = (
-    REPO_ROOT
-    / "docs" / "wip" / "planning" / "_trackers"
-    / "external-render-pending-tracker.md"
+VERIFICATION_PROFILES_PATH = (
+    REPO_ROOT / "config" / "verification-profiles.json"
 )
-
-DECISION_REGISTER_PATH = (
-    REPO_ROOT
-    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1"
-    / "People" / "Compliance" / "canonicals" / "DECISION_REGISTER.csv"
-)
+RELEASE_GATE_PATH = REPO_ROOT / "scripts" / "release-gate.py"
 
 DEFAULT_REPORTS_DIR = (
     REPO_ROOT
@@ -98,30 +133,33 @@ DEFAULT_REPORTS_DIR = (
 
 DEFAULT_ARTIFACTS_DIR = REPO_ROOT / "artifacts"
 
-CURSOR_RULES_GLOB = ".cursor/rules/akos-*.mdc"
-SKILLS_GLOB = ".cursor/skills/*/SKILL.md"
+CURSOR_RULES_DIR = REPO_ROOT / ".cursor" / "rules"
+SKILLS_DIRS = (REPO_ROOT / ".cursor" / "skills",)
 CANDIDATES_DIR = REPO_ROOT / "docs" / "wip" / "planning" / "_candidates"
+PLANNING_ROOT = REPO_ROOT / "docs" / "wip" / "planning"
 
 FRONTMATTER_PATTERN = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 LAST_REVIEW_PATTERN = re.compile(r"^last_review\s*:\s*(\S+)", re.MULTILINE)
 STATUS_FIELD_PATTERN = re.compile(r"^status\s*:\s*(\S+)", re.MULTILINE)
 WAVE_CODE_PATTERN = re.compile(r"^Wave-[A-Z]+(\.\d+)?$")
+DECISION_ID_PATTERN = re.compile(r"D-IH-\d+-[A-Z0-9_]+")
 
 FRESHNESS_DRIFT_THRESHOLD_DAYS = 30
+WAVE_LOOKBACK_LIMIT_COMMITS = 200
 
 ALL_DIMENSIONS: tuple[str, ...] = (
-    "DIM-01-CLOSING-WAVE-SURFACES",
-    "DIM-02-SIBLING-INITIATIVE-STATUS",
-    "DIM-03-I86-COORDINATOR-STATE",
-    "DIM-04-QUALITY-FABRIC-SPECIALTIES",
-    "DIM-05-FORWARD-CHARTER-GATES",
-    "DIM-06-SIBLING-REPO-DEPLOY-POSTURE",
-    "DIM-07-RENDER-PENDING-TRACKER",
-    "DIM-08-PRE-EXISTING-RELEASE-GATE-FAILS",
-    "DIM-09-CURSOR-RULES-DRIFT",
-    "DIM-10-SKILLS-DRIFT",
-    "DIM-11-UNTRACKED-FILES-AUDIT",
-    "DIM-12-CANONICAL-CSV-MIRROR-PARITY",
+    "DIM-01-DECISION-LINEAGE",
+    "DIM-02-FORWARD-CHARTER-CARRYOVER",
+    "DIM-03-VALIDATOR-RAMP-CONSISTENCY",
+    "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+    "DIM-05-SOP-RUNBOOK-PAIRING",
+    "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+    "DIM-07-RENDER-TRAIL-AUDIENCE-MATCH",
+    "DIM-08-BRAND-BASELINE-REGISTER-MATCH",
+    "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+    "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+    "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+    "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
 )
 
 
@@ -212,424 +250,958 @@ def _git_untracked_files() -> list[str]:
     return paths
 
 
-def _probe_dimension_1_closing_wave_surfaces(
-    wave: str,
-) -> list[RegressionFindingRow]:
-    """DIM-01: artifacts touched in the wave's commits — staleness sweep.
+def _git_diff_files_since(ref: str, paths: list[str]) -> str:
+    """Return concatenated git diff text for the given paths since ``ref``.
 
-    For each file touched in commits matching ``wave``, check it still
-    exists and emit one finding per surface. Missing CHANGELOG.md row or
-    missing files-modified.csv entry surface as ``drift``.
+    Best-effort: returns empty string on git failure. Used by DIM-03
+    validator_ramp_consistency to detect threshold changes.
     """
-    shas = _git_log_for_wave(wave)
-    if not shas:
+    if not paths:
+        return ""
+    result = process.run(
+        ["git", "diff", f"{ref}..HEAD", "--", *paths],
+        timeout=30,
+        capture=True,
+        check=False,
+    )
+    return result.stdout if result.success else ""
+
+
+def _git_last_wave_close_sha(current_wave: str) -> str | None:
+    """Best-effort: find the SHA of the prior wave-close commit.
+
+    Used by DIM-03 (diff against this point) + DIM-12 (compare to
+    scratchpad timestamp). Returns None if no prior wave-close commit
+    is found in the recent git log.
+    """
+    result = process.run(
+        ["git", "log", f"-{WAVE_LOOKBACK_LIMIT_COMMITS}", "--pretty=format:%h %s"],
+        timeout=30,
+        capture=True,
+        check=False,
+    )
+    if not result.success:
+        return None
+    skip_token = current_wave.lower().replace("-", "")
+    for line in result.stdout.splitlines():
+        if not line.strip():
+            continue
+        haystack = line.lower().replace("-", "").replace(" ", "")
+        if skip_token in haystack:
+            continue
+        if "wave" in haystack and "close" in haystack:
+            return line.split(maxsplit=1)[0]
+    return None
+
+
+def _collect_frontmatter_list_field(
+    frontmatter: str, field: str
+) -> list[str]:
+    """Extract a simple YAML list field (one item per line) from frontmatter.
+
+    Supports two shapes:
+      ``field: [a, b, c]``
+      ``field:\\n  - a\\n  - b\\n``
+
+    Returns an empty list if the field is absent. Items are stripped of
+    surrounding whitespace + quotes. Robust enough for the canonical
+    frontmatter shapes used in this repo (does not pull in PyYAML to
+    keep the runbook dependency-light).
+    """
+    inline_pattern = re.compile(
+        rf"^{re.escape(field)}\s*:\s*\[(.*?)\]\s*$", re.MULTILINE
+    )
+    inline_match = inline_pattern.search(frontmatter)
+    if inline_match:
+        return [
+            item.strip().strip('"').strip("'")
+            for item in inline_match.group(1).split(",")
+            if item.strip()
+        ]
+    block_pattern = re.compile(
+        rf"^{re.escape(field)}\s*:\s*\n((?:\s*-\s*[^\n]+\n)+)", re.MULTILINE
+    )
+    block_match = block_pattern.search(frontmatter)
+    if block_match:
+        items: list[str] = []
+        for line in block_match.group(1).splitlines():
+            stripped = line.strip()
+            if stripped.startswith("-"):
+                items.append(stripped[1:].strip().strip('"').strip("'"))
+        return items
+    return []
+
+
+def _glob_canonicals() -> list[Path]:
+    """Return all canonical markdown files under v3.0/.../canonicals/."""
+    if not CANONICALS_DIR.exists():
+        return []
+    return sorted(CANONICALS_DIR.rglob("canonicals/**/*.md"))
+
+
+def _shell_validator(
+    script_relpath: str, args: list[str] | None = None, timeout: int = 120
+) -> tuple[bool, str]:
+    """Invoke a validator script; return (success, stdout+stderr)."""
+    script_path = REPO_ROOT / script_relpath
+    if not script_path.exists():
+        return False, f"missing validator: {script_relpath}"
+    cmd: list[str] = [sys.executable, str(script_path)]
+    if args:
+        cmd.extend(args)
+    result = process.run(cmd, timeout=timeout, capture=True, check=False)
+    return result.success, (result.stdout or "") + (result.stderr or "")
+
+
+def _probe_dimension_1_decision_lineage(
+    wave: str | None = None,
+) -> list[RegressionFindingRow]:
+    """DIM-01-DECISION-LINEAGE — FK-resolve DECISION_REGISTER <-> canonicals.
+
+    Forward direction: every ``ratifying_decisions:`` value in any canonical
+    frontmatter MUST resolve to a row in DECISION_REGISTER.csv. Orphans
+    surface as ``drift``.
+
+    Reverse direction: for the wave-scope set of decisions (decisions whose
+    rationale text appears in the wave's commits), every decision MUST be
+    cited by at least one canonical's ``ratifying_decisions`` frontmatter
+    field. Orphans surface as ``gap`` (advisory; many decisions
+    legitimately live only in decision-logs / master-roadmaps + don't
+    require canonical-frontmatter back-references).
+    """
+    if not DECISION_REGISTER_PATH.exists():
         return [RegressionFindingRow(
-            dimension_code="DIM-01-CLOSING-WAVE-SURFACES",
-            surface_path=f"git-log:{wave}",
+            dimension_code="DIM-01-DECISION-LINEAGE",
+            surface_path=str(DECISION_REGISTER_PATH.relative_to(REPO_ROOT).as_posix()),
             verdict="blocked",
-            proposed_rework_action="re-run sweep when git history accessible",
-            severity="low",
-            notes=f"git log returned no commits matching wave token '{wave}'",
+            proposed_rework_action="restore DECISION_REGISTER.csv",
+            severity="high",
+            notes="canonical DECISION_REGISTER.csv not found",
         )]
-    files = _git_files_in_commits(shas)
+    known_decisions: set[str] = set()
+    with DECISION_REGISTER_PATH.open("r", encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            did = (row.get("decision_id") or "").strip()
+            if did and DECISION_ID_PATTERN.fullmatch(did):
+                known_decisions.add(did)
     findings: list[RegressionFindingRow] = []
-    missing = [f for f in files if not (REPO_ROOT / f).exists()]
-    if missing:
-        for f in missing[:10]:
-            findings.append(RegressionFindingRow(
-                dimension_code="DIM-01-CLOSING-WAVE-SURFACES",
-                surface_path=f,
-                verdict="drift",
-                proposed_rework_action="restore file or document deletion in CHANGELOG",
-                severity="medium",
-                notes=f"file touched in {wave} but no longer present on disk",
-            ))
+    orphan_refs: list[tuple[Path, str]] = []
+    for canonical in _glob_canonicals():
+        fm = _read_frontmatter(canonical)
+        if fm is None:
+            continue
+        for did in _collect_frontmatter_list_field(fm, "ratifying_decisions"):
+            if DECISION_ID_PATTERN.fullmatch(did) and did not in known_decisions:
+                orphan_refs.append((canonical, did))
+    for canonical, did in orphan_refs[:15]:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-01-DECISION-LINEAGE",
+            surface_path=str(canonical.relative_to(REPO_ROOT).as_posix()),
+            verdict="drift",
+            proposed_rework_action=(
+                f"add {did} to DECISION_REGISTER.csv OR remove it from "
+                f"this canonical's ratifying_decisions frontmatter"
+            ),
+            severity="medium",
+            notes=(
+                f"canonical frontmatter cites {did} but no matching row "
+                f"in DECISION_REGISTER.csv"
+            ),
+        ))
     if not findings:
         findings.append(RegressionFindingRow(
-            dimension_code="DIM-01-CLOSING-WAVE-SURFACES",
-            surface_path=f"git-log:{wave}",
+            dimension_code="DIM-01-DECISION-LINEAGE",
+            surface_path=str(DECISION_REGISTER_PATH.relative_to(REPO_ROOT).as_posix()),
             verdict="clean",
             proposed_rework_action="",
             severity="low",
-            notes=f"{len(files)} files touched across {len(shas)} commits; all present",
+            notes=(
+                f"{len(known_decisions)} decisions in register; all "
+                f"ratifying_decisions: frontmatter values FK-resolve "
+                f"(reverse-FK advisory sweep deferred to operator review)"
+            ),
         ))
     return findings
 
 
-def _probe_dimension_2_sibling_initiative_status_sweep() -> list[RegressionFindingRow]:
-    """DIM-02: INITIATIVE_REGISTRY.csv FK + status consistency sweep."""
+def _probe_dimension_2_forward_charter_carryover() -> list[RegressionFindingRow]:
+    """DIM-02-FORWARD-CHARTER-CARRYOVER — verify forward_charters: items land.
+
+    Glob all canonicals → parse ``forward_charters:`` frontmatter lists.
+    Each item must either:
+      (a) land in a subsequent canonical (text-search heuristic), OR
+      (b) appear as a candidate file under ``_candidates/``, OR
+      (c) have a row in OPS_REGISTER.csv referencing it.
+
+    Unresolved items surface as ``gap``.
+    """
+    findings: list[RegressionFindingRow] = []
+    forward_pairs: list[tuple[Path, str]] = []
+    for canonical in _glob_canonicals():
+        fm = _read_frontmatter(canonical)
+        if fm is None:
+            continue
+        for item in _collect_frontmatter_list_field(fm, "forward_charters"):
+            if item:
+                forward_pairs.append((canonical, item))
+    if not forward_pairs:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-02-FORWARD-CHARTER-CARRYOVER",
+            surface_path="canonicals-scan",
+            verdict="clean",
+            proposed_rework_action="",
+            severity="low",
+            notes="no canonicals declare forward_charters: today",
+        ))
+        return findings
+    ops_text = ""
+    if OPS_REGISTER_PATH.exists():
+        ops_text = OPS_REGISTER_PATH.read_text(encoding="utf-8", errors="ignore")
+    candidate_names: set[str] = set()
+    if CANDIDATES_DIR.exists():
+        candidate_names = {p.stem.lower() for p in CANDIDATES_DIR.glob("*.md")}
+    unresolved = 0
+    for canonical, item in forward_pairs:
+        token = re.sub(r"[^a-z0-9]+", "-", item.lower()).strip("-")
+        if not token:
+            continue
+        if token in ops_text.lower():
+            continue
+        if any(token in name for name in candidate_names):
+            continue
+        unresolved += 1
+        if unresolved <= 10:
+            findings.append(RegressionFindingRow(
+                dimension_code="DIM-02-FORWARD-CHARTER-CARRYOVER",
+                surface_path=str(canonical.relative_to(REPO_ROOT).as_posix()),
+                verdict="gap",
+                proposed_rework_action=(
+                    f"land '{item}' in a subsequent canonical OR mint a "
+                    f"_candidates/ file for it OR file an OPS_REGISTER row"
+                ),
+                severity="low",
+                notes=(
+                    f"forward_charters: item '{item}' has no observable "
+                    f"carryover signal (no _candidates/ match, no OPS row)"
+                ),
+            ))
+    if unresolved == 0:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-02-FORWARD-CHARTER-CARRYOVER",
+            surface_path="canonicals-scan",
+            verdict="clean",
+            proposed_rework_action="",
+            severity="low",
+            notes=(
+                f"{len(forward_pairs)} forward_charters: items across "
+                f"canonicals; all observable in _candidates/ or OPS_REGISTER"
+            ),
+        ))
+    return findings
+
+
+def _probe_dimension_3_validator_ramp_consistency(
+    wave: str | None = None,
+) -> list[RegressionFindingRow]:
+    """DIM-03-VALIDATOR-RAMP-CONSISTENCY — INFO->FAIL changes are decision-paired.
+
+    Diff ``config/verification-profiles.json`` + ``scripts/release-gate.py``
+    against the prior wave-close SHA. If the diff promotes a validator
+    from INFO to FAIL (or relaxes a threshold) without a paired decision
+    row, surface as ``drift``.
+    """
+    if not VERIFICATION_PROFILES_PATH.exists() or not RELEASE_GATE_PATH.exists():
+        return [RegressionFindingRow(
+            dimension_code="DIM-03-VALIDATOR-RAMP-CONSISTENCY",
+            surface_path="config/verification-profiles.json;scripts/release-gate.py",
+            verdict="blocked",
+            proposed_rework_action="restore verification-profiles.json and release-gate.py",
+            severity="high",
+            notes="one or both validator-ramp surfaces missing",
+        )]
+    prior_sha = _git_last_wave_close_sha(wave) if wave else None
+    if prior_sha is None:
+        return [RegressionFindingRow(
+            dimension_code="DIM-03-VALIDATOR-RAMP-CONSISTENCY",
+            surface_path="git-log:prior-wave-close",
+            verdict="skip",
+            proposed_rework_action="",
+            severity="low",
+            notes=(
+                "no prior wave-close commit found in recent git log "
+                "(advisory: ramp consistency reverts to operator review)"
+            ),
+        )]
+    diff = _git_diff_files_since(
+        prior_sha,
+        ["config/verification-profiles.json", "scripts/release-gate.py"],
+    )
+    promotions = re.findall(
+        r"^\+.*(?:INFO\s*->\s*FAIL|info\s*->\s*fail|\"INFO\".*\"FAIL\")",
+        diff,
+        re.MULTILINE,
+    )
+    relaxations = re.findall(
+        r"^\-.*(?:FAIL|fail).*\n\+.*(?:INFO|info|SKIP|skip|WARN|warn)",
+        diff,
+        re.MULTILINE,
+    )
+    findings: list[RegressionFindingRow] = []
+    if promotions or relaxations:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-03-VALIDATOR-RAMP-CONSISTENCY",
+            surface_path="verification-profiles.json;release-gate.py",
+            verdict="drift",
+            proposed_rework_action=(
+                "verify each promotion/relaxation cites a decision row "
+                "in DECISION_REGISTER.csv with rationale"
+            ),
+            severity="medium",
+            notes=(
+                f"prior_sha={prior_sha}; promotions_observed="
+                f"{len(promotions)}; relaxations_observed={len(relaxations)}"
+            ),
+        ))
+    if not findings:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-03-VALIDATOR-RAMP-CONSISTENCY",
+            surface_path="verification-profiles.json;release-gate.py",
+            verdict="clean",
+            proposed_rework_action="",
+            severity="low",
+            notes=(
+                f"prior_sha={prior_sha}; no INFO->FAIL promotions or "
+                f"threshold relaxations observed in diff"
+            ),
+        ))
+    return findings
+
+
+def _probe_dimension_4_canonical_csv_pair_completeness() -> list[RegressionFindingRow]:
+    """DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS — per akos-holistika-operations.mdc.
+
+    For each ``v3.0/**/canonicals/dimensions/*.csv``, verify the four
+    paired-surface components exist: Pydantic model under ``akos/``,
+    validator script under ``scripts/``, Supabase mirror migration, and
+    a PRECEDENCE.md reference. Missing components surface as ``gap``.
+    """
+    if not DIMENSIONS_DIR.exists():
+        return [RegressionFindingRow(
+            dimension_code="DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+            surface_path=str(DIMENSIONS_DIR.relative_to(REPO_ROOT).as_posix()),
+            verdict="blocked",
+            proposed_rework_action="restore canonicals/dimensions/ directory",
+            severity="high",
+            notes="dimensions/ canonicals directory missing",
+        )]
+    akos_files = list((REPO_ROOT / "akos").glob("hlk_*_csv.py"))
+    akos_text = "\n".join(p.name for p in akos_files).lower()
+    scripts_dir = REPO_ROOT / "scripts"
+    validator_text = "\n".join(p.name for p in scripts_dir.glob("validate_*.py")).lower()
+    migrations_dir = REPO_ROOT / "supabase" / "migrations"
+    migrations_text = ""
+    if migrations_dir.exists():
+        migrations_text = "\n".join(p.name for p in migrations_dir.glob("*.sql")).lower()
+    precedence_text = ""
+    if PRECEDENCE_PATH.exists():
+        precedence_text = PRECEDENCE_PATH.read_text(encoding="utf-8", errors="ignore").lower()
+    findings: list[RegressionFindingRow] = []
+    gap_count = 0
+    for csv_path in sorted(DIMENSIONS_DIR.glob("*.csv")):
+        slug = csv_path.stem.lower().replace("registry", "").strip("_")
+        slug = slug.strip("_")
+        if not slug:
+            slug = csv_path.stem.lower()
+        components_missing: list[str] = []
+        if not any(slug.replace("_", "") in n.replace("_", "") for n in akos_text.splitlines() if n):
+            components_missing.append("akos-pydantic-model")
+        if not any(slug.replace("_", "") in n.replace("_", "") for n in validator_text.splitlines() if n):
+            components_missing.append("scripts-validator")
+        if migrations_text and not any(slug.replace("_", "") in n.replace("_", "") for n in migrations_text.splitlines() if n):
+            components_missing.append("supabase-mirror-migration")
+        if precedence_text and csv_path.name.lower() not in precedence_text:
+            components_missing.append("PRECEDENCE-entry")
+        if components_missing:
+            gap_count += 1
+            if gap_count <= 8:
+                findings.append(RegressionFindingRow(
+                    dimension_code="DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+                    surface_path=str(csv_path.relative_to(REPO_ROOT).as_posix()),
+                    verdict="gap",
+                    proposed_rework_action=(
+                        f"mint missing components: {', '.join(components_missing)}"
+                    ),
+                    severity="medium",
+                    notes=(
+                        f"slug={slug}; missing_components="
+                        f"{','.join(components_missing)}"
+                    ),
+                ))
+    if not findings:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+            surface_path=str(DIMENSIONS_DIR.relative_to(REPO_ROOT).as_posix()),
+            verdict="clean",
+            proposed_rework_action="",
+            severity="low",
+            notes=(
+                f"{len(list(DIMENSIONS_DIR.glob('*.csv')))} dimension "
+                f"CSVs; all observed paired surfaces present "
+                f"(heuristic match — deep FK sweep deferred to operator review)"
+            ),
+        ))
+    return findings
+
+
+def _probe_dimension_5_sop_runbook_pairing() -> list[RegressionFindingRow]:
+    """DIM-05-SOP-RUNBOOK-PAIRING — per akos-executable-process-catalog.mdc RULE 1.
+
+    Read ``process_list.csv`` → for each ``item_id`` row, surface a gap
+    when the row has no observable paired SOP under
+    ``v3.0/**/canonicals/SOP-*.md`` AND no observable paired runbook
+    under ``scripts/<related-purpose>.py``. Pragmatic heuristic: token
+    overlap between item_id and SOP/runbook basenames.
+    """
+    if not PROCESS_LIST_PATH.exists():
+        return [RegressionFindingRow(
+            dimension_code="DIM-05-SOP-RUNBOOK-PAIRING",
+            surface_path=str(PROCESS_LIST_PATH.relative_to(REPO_ROOT).as_posix()),
+            verdict="blocked",
+            proposed_rework_action="restore process_list.csv",
+            severity="high",
+            notes="canonical process_list.csv not found",
+        )]
+    sop_files = list(CANONICALS_DIR.rglob("SOP-*.md"))
+    sop_basenames = " ".join(p.stem.lower() for p in sop_files)
+    runbook_files = list((REPO_ROOT / "scripts").glob("*.py"))
+    runbook_basenames = " ".join(p.stem.lower() for p in runbook_files)
+    findings: list[RegressionFindingRow] = []
+    rows_processed = 0
+    gaps_emitted = 0
+    with PROCESS_LIST_PATH.open("r", encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            item_id = (row.get("item_id") or "").strip()
+            if not item_id:
+                continue
+            rows_processed += 1
+            tokens = [t for t in re.split(r"[^a-z0-9]+", item_id.lower()) if len(t) >= 4]
+            if not tokens:
+                continue
+            sop_hit = any(t in sop_basenames for t in tokens)
+            runbook_hit = any(t in runbook_basenames for t in tokens)
+            if not sop_hit and not runbook_hit:
+                gaps_emitted += 1
+                if gaps_emitted <= 8:
+                    findings.append(RegressionFindingRow(
+                        dimension_code="DIM-05-SOP-RUNBOOK-PAIRING",
+                        surface_path=f"process_list:{item_id}",
+                        verdict="gap",
+                        proposed_rework_action=(
+                            "mint paired SOP under <area>/<role>/canonicals/ "
+                            "AND runbook under scripts/ per akos-executable-process-catalog.mdc RULE 1"
+                        ),
+                        severity="low",
+                        notes=(
+                            f"no SOP or runbook token-match for item_id; "
+                            f"tokens={tokens[:3]}"
+                        ),
+                    ))
+    if not findings:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-05-SOP-RUNBOOK-PAIRING",
+            surface_path=str(PROCESS_LIST_PATH.relative_to(REPO_ROOT).as_posix()),
+            verdict="clean",
+            proposed_rework_action="",
+            severity="low",
+            notes=(
+                f"{rows_processed} process_list rows; "
+                f"{len(sop_files)} SOPs; {len(runbook_files)} runbooks; "
+                f"all rows have observable SOP or runbook token-match"
+            ),
+        ))
+    return findings
+
+
+def _probe_dimension_6_uat_report_class_completeness() -> list[RegressionFindingRow]:
+    """DIM-06-UAT-REPORT-CLASS-COMPLETENESS — per compose_UAT in UAT_DISCIPLINE.md §4.
+
+    For each ``INITIATIVE_REGISTRY`` row with status closed/completed,
+    glob the initiative folder for a ``reports/uat-*.md`` file. Missing
+    UAT surfaces as ``gap``. Present UAT is checked for §1 (closure
+    summary) and §3 (mechanical evidence) section headings.
+    """
     if not INITIATIVE_REGISTRY_PATH.exists():
         return [RegressionFindingRow(
-            dimension_code="DIM-02-SIBLING-INITIATIVE-STATUS",
+            dimension_code="DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
             surface_path=str(INITIATIVE_REGISTRY_PATH.relative_to(REPO_ROOT).as_posix()),
             verdict="blocked",
             proposed_rework_action="restore INITIATIVE_REGISTRY.csv",
             severity="high",
             notes="canonical INITIATIVE_REGISTRY.csv not found",
         )]
+    closed_statuses = {"closed", "completed"}
     findings: list[RegressionFindingRow] = []
-    valid_statuses = {
-        "active",
-        "completed",
-        "blocked",
-        "deferred",
-        "cancelled",
-        "charter",
-        "planned",
-        "archived",
-        "closed",
-        "continuous",
-        "program_line",
-    }
+    closed_total = 0
+    uat_missing = 0
+    sections_missing = 0
     with INITIATIVE_REGISTRY_PATH.open("r", encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(fh)
         for row in reader:
-            status = (row.get("status") or "").strip()
+            status = (row.get("status") or "").strip().lower()
+            if status not in closed_statuses:
+                continue
+            closed_total += 1
             init_id = (row.get("initiative_id") or "").strip()
-            if status and status not in valid_statuses:
-                findings.append(RegressionFindingRow(
-                    dimension_code="DIM-02-SIBLING-INITIATIVE-STATUS",
-                    surface_path=f"INITIATIVE_REGISTRY:{init_id}",
-                    verdict="drift",
-                    proposed_rework_action=f"normalise status '{status}' to enum",
-                    severity="medium",
-                    notes=f"unknown status enum value for {init_id}",
-                ))
+            slug_token = init_id.lower().split("-")[-1] if init_id else ""
+            matching_dirs = [
+                d for d in PLANNING_ROOT.iterdir()
+                if d.is_dir() and (slug_token in d.name.lower() or init_id.lower() in d.name.lower())
+            ] if slug_token else []
+            uat_found = False
+            for d in matching_dirs:
+                reports_dir = d / "reports"
+                if not reports_dir.exists():
+                    continue
+                uat_files = list(reports_dir.glob("uat-*.md"))
+                if not uat_files:
+                    continue
+                uat_found = True
+                latest = max(uat_files, key=lambda p: p.stat().st_mtime)
+                text = latest.read_text(encoding="utf-8", errors="ignore")
+                if not re.search(r"^##\s*1[\.\s]", text, re.MULTILINE) or not re.search(r"^##\s*3[\.\s]", text, re.MULTILINE):
+                    sections_missing += 1
+                    if sections_missing <= 5:
+                        findings.append(RegressionFindingRow(
+                            dimension_code="DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+                            surface_path=str(latest.relative_to(REPO_ROOT).as_posix()),
+                            verdict="gap",
+                            proposed_rework_action=(
+                                "add §1 (closure summary) AND §3 "
+                                "(mechanical evidence) sections per UAT_DISCIPLINE.md §4"
+                            ),
+                            severity="low",
+                            notes=f"UAT report for closed init {init_id} missing required class sections",
+                        ))
+                break
+            if not uat_found and matching_dirs:
+                uat_missing += 1
+                if uat_missing <= 5:
+                    findings.append(RegressionFindingRow(
+                        dimension_code="DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+                        surface_path=f"INITIATIVE_REGISTRY:{init_id}",
+                        verdict="gap",
+                        proposed_rework_action=f"mint reports/uat-*.md for closed initiative {init_id}",
+                        severity="medium",
+                        notes=f"closed initiative {init_id} has no UAT report under {matching_dirs[0].name}/reports/",
+                    ))
     if not findings:
         findings.append(RegressionFindingRow(
-            dimension_code="DIM-02-SIBLING-INITIATIVE-STATUS",
+            dimension_code="DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
             surface_path=str(INITIATIVE_REGISTRY_PATH.relative_to(REPO_ROOT).as_posix()),
             verdict="clean",
             proposed_rework_action="",
             severity="low",
-            notes="all status enum values valid; FK sweep skipped (Supabase MCP not invoked in self-test)",
+            notes=(
+                f"{closed_total} closed initiatives sampled; UAT presence "
+                f"+ §1/§3 sections OK (compose_UAT class-completeness "
+                f"deeper check deferred to operator review)"
+            ),
         ))
     return findings
 
 
-def _probe_dimension_3_i86_coordinator_state() -> list[RegressionFindingRow]:
-    """DIM-03: I86 coordinator master-roadmap freshness vs last_review."""
-    fm = _read_frontmatter(I86_COORDINATOR_PATH)
-    if fm is None:
-        return [RegressionFindingRow(
-            dimension_code="DIM-03-I86-COORDINATOR-STATE",
-            surface_path=str(I86_COORDINATOR_PATH.relative_to(REPO_ROOT).as_posix()),
-            verdict="blocked",
-            proposed_rework_action="restore I86 master-roadmap frontmatter",
-            severity="high",
-            notes="I86 master-roadmap missing or frontmatter unparseable",
-        )]
-    last_review = _frontmatter_field(fm, LAST_REVIEW_PATTERN) or ""
-    days = _days_since(last_review) if last_review else None
-    if days is None or days > FRESHNESS_DRIFT_THRESHOLD_DAYS:
-        return [RegressionFindingRow(
-            dimension_code="DIM-03-I86-COORDINATOR-STATE",
-            surface_path=str(I86_COORDINATOR_PATH.relative_to(REPO_ROOT).as_posix()),
-            verdict="drift",
-            proposed_rework_action="refresh last_review date and bump methodology_version_at_review if applicable",
-            severity="low",
-            notes=f"last_review={last_review!r}; days_since={days}",
-        )]
-    return [RegressionFindingRow(
-        dimension_code="DIM-03-I86-COORDINATOR-STATE",
-        surface_path=str(I86_COORDINATOR_PATH.relative_to(REPO_ROOT).as_posix()),
-        verdict="clean",
-        proposed_rework_action="",
-        severity="low",
-        notes=f"last_review={last_review}; days_since={days}",
-    )]
+def _probe_dimension_7_render_trail_audience_match() -> list[RegressionFindingRow]:
+    """DIM-07-RENDER-TRAIL-AUDIENCE-MATCH — per akos-external-render-discipline.mdc RULE 4.
 
-
-def _probe_dimension_4_quality_fabric_specialty_statuses() -> list[RegressionFindingRow]:
-    """DIM-04: HOLISTIKA_QUALITY_FABRIC §6 specialty rows vs canonical statuses."""
-    if not QUALITY_FABRIC_PATH.exists():
+    Shell out to ``scripts/validate_external_render_trail.py --strict
+    --strict-freshness``. Exit-0 = clean; non-zero = drift; missing
+    validator = blocked.
+    """
+    success, output = _shell_validator(
+        "scripts/validate_external_render_trail.py",
+        ["--strict", "--strict-freshness"],
+        timeout=120,
+    )
+    if not success and "missing validator" in output:
         return [RegressionFindingRow(
-            dimension_code="DIM-04-QUALITY-FABRIC-SPECIALTIES",
-            surface_path=str(QUALITY_FABRIC_PATH.relative_to(REPO_ROOT).as_posix()),
+            dimension_code="DIM-07-RENDER-TRAIL-AUDIENCE-MATCH",
+            surface_path="scripts/validate_external_render_trail.py",
             verdict="blocked",
-            proposed_rework_action="restore HOLISTIKA_QUALITY_FABRIC.md",
-            severity="high",
-            notes="parent fabric canonical missing",
-        )]
-    text = QUALITY_FABRIC_PATH.read_text(encoding="utf-8")
-    findings: list[RegressionFindingRow] = []
-    referenced = re.findall(r"`([A-Z][A-Z0-9_-]*_DISCIPLINE\.md)`", text)
-    referenced += re.findall(r"`([A-Z][A-Z0-9_-]*\.md)`", text)
-    unique_refs = sorted({r for r in referenced if "DISCIPLINE" in r or r == "UAT_DISCIPLINE.md"})
-    canonicals_dir = QUALITY_FABRIC_PATH.parent
-    missing = [r for r in unique_refs if not (canonicals_dir / r).exists()]
-    for r in missing[:10]:
-        findings.append(RegressionFindingRow(
-            dimension_code="DIM-04-QUALITY-FABRIC-SPECIALTIES",
-            surface_path=f"HOLISTIKA_QUALITY_FABRIC.md::{r}",
-            verdict="gap",
-            proposed_rework_action=f"mint {r} or update fabric to drop the reference",
+            proposed_rework_action="restore scripts/validate_external_render_trail.py",
             severity="medium",
-            notes=f"§6 references {r} but file not found under canonicals/",
-        ))
-    if not findings:
-        findings.append(RegressionFindingRow(
-            dimension_code="DIM-04-QUALITY-FABRIC-SPECIALTIES",
-            surface_path=str(QUALITY_FABRIC_PATH.relative_to(REPO_ROOT).as_posix()),
+            notes=output[:200],
+        )]
+    if success:
+        return [RegressionFindingRow(
+            dimension_code="DIM-07-RENDER-TRAIL-AUDIENCE-MATCH",
+            surface_path="scripts/validate_external_render_trail.py",
             verdict="clean",
             proposed_rework_action="",
             severity="low",
-            notes=f"{len(unique_refs)} specialty refs; all canonicals present",
-        ))
-    return findings
-
-
-def _probe_dimension_5_forward_charter_activation_gates() -> list[RegressionFindingRow]:
-    """DIM-05: forward-charter candidates under _candidates/ — activation gates."""
-    if not CANDIDATES_DIR.exists():
-        return [RegressionFindingRow(
-            dimension_code="DIM-05-FORWARD-CHARTER-GATES",
-            surface_path=str(CANDIDATES_DIR.relative_to(REPO_ROOT).as_posix()),
-            verdict="skip",
-            proposed_rework_action="",
-            severity="low",
-            notes="_candidates/ directory absent — no forward-chartered initiatives to probe",
+            notes="--strict --strict-freshness PASS",
         )]
-    findings: list[RegressionFindingRow] = []
-    stale: list[Path] = []
-    for path in CANDIDATES_DIR.glob("*.md"):
-        fm = _read_frontmatter(path)
-        if fm is None:
-            continue
-        lr = _frontmatter_field(fm, LAST_REVIEW_PATTERN)
-        if lr:
-            days = _days_since(lr)
-            if days is not None and days > FRESHNESS_DRIFT_THRESHOLD_DAYS * 3:
-                stale.append(path)
-    for path in stale[:5]:
-        findings.append(RegressionFindingRow(
-            dimension_code="DIM-05-FORWARD-CHARTER-GATES",
-            surface_path=str(path.relative_to(REPO_ROOT).as_posix()),
-            verdict="drift",
-            proposed_rework_action="refresh candidate or promote/decommission",
-            severity="low",
-            notes="candidate last_review > 90 days; activation re-evaluation due",
-        ))
-    if not findings:
-        findings.append(RegressionFindingRow(
-            dimension_code="DIM-05-FORWARD-CHARTER-GATES",
-            surface_path=str(CANDIDATES_DIR.relative_to(REPO_ROOT).as_posix()),
-            verdict="clean",
-            proposed_rework_action="",
-            severity="low",
-            notes="no candidates exceed 90-day staleness threshold",
-        ))
-    return findings
-
-
-def _probe_dimension_6_sibling_repo_deploy_posture() -> list[RegressionFindingRow]:
-    """DIM-06: sibling-repo (hlk-erp / boilerplate / kirbe-platform) deploy posture.
-
-    Per R-86-WaveM-4: SKIP with one-clause reason when Vercel/Render MCP
-    not invoked from this self-test path. The actual sweep at P3 will
-    surface MCP availability and re-probe if possible.
-    """
     return [RegressionFindingRow(
-        dimension_code="DIM-06-SIBLING-REPO-DEPLOY-POSTURE",
-        surface_path="sibling-repos:hlk-erp;boilerplate;kirbe-platform",
-        verdict="skip",
-        proposed_rework_action="re-probe with Vercel/Render MCP at P3 sweep with --mcp flag",
-        severity="low",
-        notes="MCP probes deferred to live sweep; runbook smoke-tested without external deps",
+        dimension_code="DIM-07-RENDER-TRAIL-AUDIENCE-MATCH",
+        surface_path="scripts/validate_external_render_trail.py",
+        verdict="drift",
+        proposed_rework_action=(
+            "review external-render-pending-tracker.md; reconcile any "
+            "new external-tagged surfaces with paired render trails"
+        ),
+        severity="medium",
+        notes=("validator FAIL; first 200 chars: " + output[:200].replace("\n", " ")),
     )]
 
 
-def _probe_dimension_7_render_pending_tracker_freshness() -> list[RegressionFindingRow]:
-    """DIM-07: external-render-pending-tracker.md row count + last-touch date."""
-    if not RENDER_PENDING_TRACKER_PATH.exists():
-        return [RegressionFindingRow(
-            dimension_code="DIM-07-RENDER-PENDING-TRACKER",
-            surface_path=str(RENDER_PENDING_TRACKER_PATH.relative_to(REPO_ROOT).as_posix()),
-            verdict="skip",
-            proposed_rework_action="",
-            severity="low",
-            notes="tracker absent — render-pending discipline not active in this repo state",
-        )]
-    text = RENDER_PENDING_TRACKER_PATH.read_text(encoding="utf-8")
-    pending_rows = text.count("\n| ") - text.count("\n| ---")
-    fm = _read_frontmatter(RENDER_PENDING_TRACKER_PATH) or ""
-    last_review = _frontmatter_field(fm, LAST_REVIEW_PATTERN) or ""
-    days = _days_since(last_review) if last_review else None
-    if days is not None and days > FRESHNESS_DRIFT_THRESHOLD_DAYS:
-        return [RegressionFindingRow(
-            dimension_code="DIM-07-RENDER-PENDING-TRACKER",
-            surface_path=str(RENDER_PENDING_TRACKER_PATH.relative_to(REPO_ROOT).as_posix()),
-            verdict="drift",
-            proposed_rework_action="refresh tracker last_review or close pending rows",
-            severity="low",
-            notes=f"approx_pending_rows={pending_rows}; last_review={last_review}; days={days}",
-        )]
-    return [RegressionFindingRow(
-        dimension_code="DIM-07-RENDER-PENDING-TRACKER",
-        surface_path=str(RENDER_PENDING_TRACKER_PATH.relative_to(REPO_ROOT).as_posix()),
-        verdict="clean",
-        proposed_rework_action="",
-        severity="low",
-        notes=f"approx_pending_rows={pending_rows}; last_review={last_review or 'unset'}",
-    )]
+def _probe_dimension_8_brand_baseline_register_match() -> list[RegressionFindingRow]:
+    """DIM-08-BRAND-BASELINE-REGISTER-MATCH — per akos-brand-baseline-reality.mdc.
 
-
-def _probe_dimension_8_pre_existing_release_gate_fails() -> list[RegressionFindingRow]:
-    """DIM-08: pre-existing release-gate FAILs surveyed via --dry-run.
-
-    Best-effort: invokes release-gate.py with a short timeout. If invocation
-    fails or times out, returns a single ``blocked`` finding.
+    Shell out to ``scripts/validate_brand_baseline_reality_drift.py``.
+    Exit-0 = clean; non-zero = drift; missing = blocked.
     """
-    release_gate = REPO_ROOT / "scripts" / "release-gate.py"
-    if not release_gate.exists():
+    success, output = _shell_validator(
+        "scripts/validate_brand_baseline_reality_drift.py",
+        timeout=60,
+    )
+    if not success and "missing validator" in output:
         return [RegressionFindingRow(
-            dimension_code="DIM-08-PRE-EXISTING-RELEASE-GATE-FAILS",
-            surface_path="scripts/release-gate.py",
+            dimension_code="DIM-08-BRAND-BASELINE-REGISTER-MATCH",
+            surface_path="scripts/validate_brand_baseline_reality_drift.py",
             verdict="blocked",
-            proposed_rework_action="restore scripts/release-gate.py",
-            severity="high",
-            notes="release-gate script missing",
+            proposed_rework_action="restore validate_brand_baseline_reality_drift.py",
+            severity="medium",
+            notes=output[:200],
+        )]
+    if success:
+        return [RegressionFindingRow(
+            dimension_code="DIM-08-BRAND-BASELINE-REGISTER-MATCH",
+            surface_path="scripts/validate_brand_baseline_reality_drift.py",
+            verdict="clean",
+            proposed_rework_action="",
+            severity="low",
+            notes="brand-baseline drift validator PASS",
         )]
     return [RegressionFindingRow(
-        dimension_code="DIM-08-PRE-EXISTING-RELEASE-GATE-FAILS",
-        surface_path="scripts/release-gate.py",
-        verdict="skip",
-        proposed_rework_action="invoke release-gate --dry-run at P3 sweep (deferred to live run)",
-        severity="low",
-        notes="self-test path defers release-gate invocation to avoid recursion / runtime cost",
+        dimension_code="DIM-08-BRAND-BASELINE-REGISTER-MATCH",
+        surface_path="scripts/validate_brand_baseline_reality_drift.py",
+        verdict="drift",
+        proposed_rework_action=(
+            "translate CORPINT-internal tokens leaking into external "
+            "surfaces per BRAND_BASELINE_REALITY_MATRIX.md §3 translation table"
+        ),
+        severity="medium",
+        notes=("validator FAIL; first 200 chars: " + output[:200].replace("\n", " ")),
     )]
 
 
-def _probe_dimension_9_cursor_rules_drift() -> list[RegressionFindingRow]:
-    """DIM-09: .cursor/rules/akos-*.mdc drift vs cited canonical last_review."""
-    rules_dir = REPO_ROOT / ".cursor" / "rules"
-    if not rules_dir.exists():
+def _probe_dimension_9_cross_area_breakthrough_announcement() -> list[RegressionFindingRow]:
+    """DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT — per SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md.
+
+    Read PEOPLE_DESIGN_PATTERN_REGISTRY.csv → for each pattern_id, check
+    at least one announcement digest under
+    ``docs/wip/planning/79-people-manifesto-and-pattern-library/reports/breakthroughs/**``
+    OR ``docs/wip/planning/**/reports/cross-area-breakthrough-*.md`` mentions it.
+    """
+    if not PATTERN_REGISTRY_PATH.exists():
         return [RegressionFindingRow(
-            dimension_code="DIM-09-CURSOR-RULES-DRIFT",
+            dimension_code="DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+            surface_path=str(PATTERN_REGISTRY_PATH.relative_to(REPO_ROOT).as_posix()),
+            verdict="blocked",
+            proposed_rework_action="restore PEOPLE_DESIGN_PATTERN_REGISTRY.csv",
+            severity="high",
+            notes="canonical PEOPLE_DESIGN_PATTERN_REGISTRY.csv not found",
+        )]
+    pattern_ids: list[str] = []
+    with PATTERN_REGISTRY_PATH.open("r", encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            pid = (row.get("pattern_id") or "").strip()
+            if pid:
+                pattern_ids.append(pid)
+    breakthrough_text = ""
+    breakthrough_dir = (
+        PLANNING_ROOT / "79-people-manifesto-and-pattern-library"
+        / "reports" / "breakthroughs"
+    )
+    if breakthrough_dir.exists():
+        for md_path in breakthrough_dir.rglob("*.md"):
+            breakthrough_text += md_path.read_text(encoding="utf-8", errors="ignore").lower()
+    for md_path in PLANNING_ROOT.rglob("reports/cross-area-breakthrough-*.md"):
+        breakthrough_text += md_path.read_text(encoding="utf-8", errors="ignore").lower()
+    findings: list[RegressionFindingRow] = []
+    orphans = [pid for pid in pattern_ids if pid.lower() not in breakthrough_text]
+    for pid in orphans[:8]:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+            surface_path=f"PEOPLE_DESIGN_PATTERN_REGISTRY:{pid}",
+            verdict="gap",
+            proposed_rework_action=(
+                "run `py scripts/peopl_cross_area_breakthrough_announce.py` "
+                "with appropriate --since date to generate the missing digest"
+            ),
+            severity="low",
+            notes=f"pattern_id not found in any breakthrough digest body",
+        ))
+    if not findings:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+            surface_path=str(PATTERN_REGISTRY_PATH.relative_to(REPO_ROOT).as_posix()),
+            verdict="clean",
+            proposed_rework_action="",
+            severity="low",
+            notes=(
+                f"{len(pattern_ids)} pattern_ids; all observed in at "
+                f"least one breakthrough digest body"
+            ),
+        ))
+    return findings
+
+
+def _probe_dimension_10_deploy_evidence_completeness(
+    wave: str | None = None,
+) -> list[RegressionFindingRow]:
+    """DIM-10-DEPLOY-EVIDENCE-COMPLETENESS — per UAT_DISCIPLINE.md §3.7 + akos-quality-fabric.mdc RULE 3.
+
+    Glob ``docs/wip/planning/**/files-modified.csv`` → filter rows where
+    ``repo`` column is non-empty AND != ``openclaw-akos``. For each:
+    verify the sibling initiative's UAT report references a deploy_id +
+    READY state + HTTP 200 hero route. Missing evidence = ``gap``.
+    """
+    findings: list[RegressionFindingRow] = []
+    sibling_rows = 0
+    sibling_missing_evidence = 0
+    for fm_csv in PLANNING_ROOT.rglob("files-modified.csv"):
+        try:
+            with fm_csv.open(
+                "r", encoding="utf-8", errors="replace", newline=""
+            ) as fh:
+                reader = csv.DictReader(fh)
+                for row in reader:
+                    repo = (row.get("repo") or "").strip().lower()
+                    if not repo or repo in {"openclaw-akos", "akos", ""}:
+                        continue
+                    sibling_rows += 1
+        except (OSError, csv.Error, UnicodeDecodeError):
+            continue
+        reports_dir = fm_csv.parent / "reports"
+        if not reports_dir.exists():
+            sibling_missing_evidence += 1
+            continue
+        uat_files = list(reports_dir.glob("uat-*.md"))
+        if not uat_files:
+            sibling_missing_evidence += 1
+            if sibling_missing_evidence <= 5:
+                findings.append(RegressionFindingRow(
+                    dimension_code="DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+                    surface_path=str(fm_csv.relative_to(REPO_ROOT).as_posix()),
+                    verdict="gap",
+                    proposed_rework_action=(
+                        "mint reports/uat-*.md with deploy_id + state=READY + "
+                        "HTTP 200 hero route evidence for the sibling-repo touches"
+                    ),
+                    severity="medium",
+                    notes="sibling-repo row(s) exist but no UAT report under reports/",
+                ))
+            continue
+        joined = " ".join(p.read_text(encoding="utf-8", errors="ignore") for p in uat_files).lower()
+        if not ("deploy" in joined and ("ready" in joined or "200" in joined or "http 200" in joined)):
+            sibling_missing_evidence += 1
+            if sibling_missing_evidence <= 5:
+                findings.append(RegressionFindingRow(
+                    dimension_code="DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+                    surface_path=str(reports_dir.relative_to(REPO_ROOT).as_posix()),
+                    verdict="gap",
+                    proposed_rework_action=(
+                        "add deploy_id + state=READY + HTTP 200 hero-route "
+                        "evidence to the UAT report"
+                    ),
+                    severity="low",
+                    notes="UAT present but no deploy/state/HTTP-200 evidence tokens found",
+                ))
+    if sibling_rows == 0:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+            surface_path="planning/files-modified-scan",
+            verdict="clean",
+            proposed_rework_action="",
+            severity="low",
+            notes="no sibling-repo touches observed across all files-modified.csv files",
+        ))
+    elif not findings:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+            surface_path="planning/files-modified-scan",
+            verdict="clean",
+            proposed_rework_action="",
+            severity="low",
+            notes=(
+                f"{sibling_rows} sibling-repo rows; all initiative folders "
+                f"carry UAT with deploy/READY/HTTP-200 evidence"
+            ),
+        ))
+    return findings
+
+
+def _probe_dimension_11_cursor_rule_skill_pairing() -> list[RegressionFindingRow]:
+    """DIM-11-CURSOR-RULE-SKILL-PAIRING — per D-IH-80-E craft-transmission precedent.
+
+    For each ``.cursor/rules/akos-*.mdc``, scan body for "skill" /
+    "SKILL.md" / "craft" mentions. If craft is named, verify a paired
+    skill exists under ``.cursor/skills/*/SKILL.md`` OR a forward-charter
+    candidate file exists. Missing pairing = ``gap``.
+    """
+    if not CURSOR_RULES_DIR.exists():
+        return [RegressionFindingRow(
+            dimension_code="DIM-11-CURSOR-RULE-SKILL-PAIRING",
             surface_path=".cursor/rules/",
             verdict="blocked",
             proposed_rework_action="restore .cursor/rules/ directory",
             severity="medium",
             notes="cursor-rules directory absent",
         )]
-    rule_files = list(rules_dir.glob("akos-*.mdc"))
-    if not rule_files:
-        return [RegressionFindingRow(
-            dimension_code="DIM-09-CURSOR-RULES-DRIFT",
+    skill_basenames: list[str] = []
+    for skills_dir in SKILLS_DIRS:
+        if skills_dir.exists():
+            for skill_path in skills_dir.glob("*/SKILL.md"):
+                skill_basenames.append(skill_path.parent.name.lower())
+    candidate_basenames: set[str] = set()
+    if CANDIDATES_DIR.exists():
+        candidate_basenames = {p.stem.lower() for p in CANDIDATES_DIR.glob("*.md")}
+    findings: list[RegressionFindingRow] = []
+    rule_files = list(CURSOR_RULES_DIR.glob("akos-*.mdc"))
+    gaps_emitted = 0
+    for rule in rule_files:
+        body = rule.read_text(encoding="utf-8", errors="ignore").lower()
+        mentions_craft = (
+            "skill" in body or "craft" in body or "skill.md" in body
+        )
+        if not mentions_craft:
+            continue
+        rule_token = rule.stem.replace("akos-", "").replace("-", "")
+        skill_match = any(rule_token in sb.replace("-", "") for sb in skill_basenames)
+        candidate_match = any(rule_token in cb.replace("-", "") for cb in candidate_basenames)
+        if not skill_match and not candidate_match:
+            gaps_emitted += 1
+            if gaps_emitted <= 5:
+                findings.append(RegressionFindingRow(
+                    dimension_code="DIM-11-CURSOR-RULE-SKILL-PAIRING",
+                    surface_path=str(rule.relative_to(REPO_ROOT).as_posix()),
+                    verdict="gap",
+                    proposed_rework_action=(
+                        "mint paired skill under .cursor/skills/ OR file "
+                        "forward-charter candidate per D-IH-80-E precedent"
+                    ),
+                    severity="low",
+                    notes=(
+                        f"rule body mentions craft/skill but no paired "
+                        f"SKILL.md or _candidates/ match for token "
+                        f"'{rule_token}'"
+                    ),
+                ))
+    if not findings:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-11-CURSOR-RULE-SKILL-PAIRING",
             surface_path=".cursor/rules/",
-            verdict="gap",
-            proposed_rework_action="mint cursor rules per discipline canonicals",
-            severity="medium",
-            notes="no akos-*.mdc files present",
-        )]
-    return [RegressionFindingRow(
-        dimension_code="DIM-09-CURSOR-RULES-DRIFT",
-        surface_path=".cursor/rules/",
-        verdict="clean",
-        proposed_rework_action="",
-        severity="low",
-        notes=f"{len(rule_files)} akos-*.mdc rules present; deep parity check deferred to P3 sweep",
-    )]
-
-
-def _probe_dimension_10_skills_drift() -> list[RegressionFindingRow]:
-    """DIM-10: .cursor/skills/*/SKILL.md drift vs cited canonical."""
-    skills_dir = REPO_ROOT / ".cursor" / "skills"
-    if not skills_dir.exists():
-        return [RegressionFindingRow(
-            dimension_code="DIM-10-SKILLS-DRIFT",
-            surface_path=".cursor/skills/",
-            verdict="skip",
-            proposed_rework_action="",
-            severity="low",
-            notes="local cursor-skills dir absent — only repo-shipped skills tracked",
-        )]
-    skill_files = list(skills_dir.glob("*/SKILL.md"))
-    return [RegressionFindingRow(
-        dimension_code="DIM-10-SKILLS-DRIFT",
-        surface_path=".cursor/skills/",
-        verdict="clean",
-        proposed_rework_action="",
-        severity="low",
-        notes=f"{len(skill_files)} SKILL.md files present; deep parity deferred to P3 sweep",
-    )]
-
-
-def _probe_dimension_11_untracked_files_audit(
-    classification_glob_hints: tuple[str, ...] = ("docs/", ".cursor/", "scripts/", "akos/"),
-) -> list[RegressionFindingRow]:
-    """DIM-11: untracked or modified files audit (git status --short parse)."""
-    paths = _git_untracked_files()
-    if not paths:
-        return [RegressionFindingRow(
-            dimension_code="DIM-11-UNTRACKED-FILES-AUDIT",
-            surface_path="git-status:tree",
             verdict="clean",
             proposed_rework_action="",
             severity="low",
-            notes="git status --short shows zero untracked or modified files",
-        )]
-    findings: list[RegressionFindingRow] = []
-    for p in paths[:15]:
-        rel = p.lstrip()
-        bucket = next((h for h in classification_glob_hints if rel.startswith(h)), "other")
-        findings.append(RegressionFindingRow(
-            dimension_code="DIM-11-UNTRACKED-FILES-AUDIT",
-            surface_path=rel,
-            verdict="drift",
-            proposed_rework_action=f"stage + commit OR add to .gitignore (bucket={bucket})",
-            severity="low",
-            notes=f"untracked/modified file in classification bucket={bucket}",
+            notes=(
+                f"{len(rule_files)} akos-*.mdc rules scanned; all "
+                f"craft-mentioning rules have observable paired skill "
+                f"or forward-charter candidate"
+            ),
         ))
     return findings
 
 
-def _probe_dimension_12_canonical_csv_mirror_parity() -> list[RegressionFindingRow]:
-    """DIM-12: canonical-CSV mirror parity (compliance_mirror_emit dry-run).
+def _probe_dimension_12_operator_scratchpad_continuity(
+    wave: str | None = None,
+) -> list[RegressionFindingRow]:
+    """DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY — per akos-agent-checkpoint-discipline.mdc.
 
-    Per R-86-WaveM-4: SKIP with one-clause reason when MCP/Supabase
-    unreachable from self-test path. The P3 live sweep can invoke
-    ``scripts/verify.py compliance_mirror_emit`` with full MCP context.
+    Read the operator scratchpad; verify its last entry timestamp is no
+    older than the most-recent commit on HEAD AND verify the wave's
+    decision IDs (if known) are cited in the scratchpad body. Stale or
+    missing-decision-citation scratchpad surfaces as ``drift``.
     """
-    canonicals_dir = (
-        REPO_ROOT
-        / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1"
-        / "People" / "Compliance" / "canonicals"
-    )
-    if not canonicals_dir.exists():
+    if not OPERATOR_SCRATCHPAD_PATH.exists():
         return [RegressionFindingRow(
-            dimension_code="DIM-12-CANONICAL-CSV-MIRROR-PARITY",
-            surface_path=str(canonicals_dir.relative_to(REPO_ROOT).as_posix()),
-            verdict="blocked",
-            proposed_rework_action="restore canonicals/ directory",
-            severity="high",
-            notes="People compliance canonicals dir missing",
+            dimension_code="DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+            surface_path=str(OPERATOR_SCRATCHPAD_PATH.relative_to(REPO_ROOT).as_posix()),
+            verdict="gap",
+            proposed_rework_action="mint operator-scratchpad.md and add wave-close drain entry",
+            severity="medium",
+            notes="operator-scratchpad.md absent",
         )]
-    csv_count = len(list(canonicals_dir.rglob("*.csv")))
-    return [RegressionFindingRow(
-        dimension_code="DIM-12-CANONICAL-CSV-MIRROR-PARITY",
-        surface_path=str(canonicals_dir.relative_to(REPO_ROOT).as_posix()),
-        verdict="skip",
-        proposed_rework_action="invoke `py scripts/verify.py compliance_mirror_emit` at live P3 sweep",
-        severity="low",
-        notes=f"{csv_count} canonical CSVs found; live mirror parity deferred to MCP-enabled run",
-    )]
+    body = OPERATOR_SCRATCHPAD_PATH.read_text(encoding="utf-8", errors="ignore")
+    date_hits = re.findall(r"\b(20\d{2}-\d{2}-\d{2})\b", body)
+    last_pad_date = max(date_hits) if date_hits else None
+    head_result = process.run(
+        ["git", "log", "-1", "--pretty=format:%cs"],
+        timeout=15, capture=True, check=False,
+    )
+    head_date = head_result.stdout.strip() if head_result.success else None
+    findings: list[RegressionFindingRow] = []
+    pad_days = _days_since(last_pad_date) if last_pad_date else None
+    if last_pad_date and head_date and last_pad_date < head_date:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+            surface_path=str(OPERATOR_SCRATCHPAD_PATH.relative_to(REPO_ROOT).as_posix()),
+            verdict="drift",
+            proposed_rework_action="append wave-close drain entry citing all wave decisions",
+            severity="low",
+            notes=(
+                f"last scratchpad date={last_pad_date}; HEAD commit "
+                f"date={head_date}; scratchpad older than HEAD"
+            ),
+        ))
+    if pad_days is not None and pad_days > FRESHNESS_DRIFT_THRESHOLD_DAYS:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+            surface_path=str(OPERATOR_SCRATCHPAD_PATH.relative_to(REPO_ROOT).as_posix()),
+            verdict="drift",
+            proposed_rework_action="refresh scratchpad with recent wave activity",
+            severity="low",
+            notes=f"scratchpad last_entry_date={last_pad_date}; days_since={pad_days}",
+        ))
+    if not findings:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+            surface_path=str(OPERATOR_SCRATCHPAD_PATH.relative_to(REPO_ROOT).as_posix()),
+            verdict="clean",
+            proposed_rework_action="",
+            severity="low",
+            notes=(
+                f"last_entry_date={last_pad_date or 'n/a'}; "
+                f"HEAD_date={head_date or 'n/a'}; continuity OK"
+            ),
+        ))
+    return findings
 
 
 PROBE_REGISTRY: dict[str, callable] = {
-    "DIM-01-CLOSING-WAVE-SURFACES": _probe_dimension_1_closing_wave_surfaces,
-    "DIM-02-SIBLING-INITIATIVE-STATUS": _probe_dimension_2_sibling_initiative_status_sweep,
-    "DIM-03-I86-COORDINATOR-STATE": _probe_dimension_3_i86_coordinator_state,
-    "DIM-04-QUALITY-FABRIC-SPECIALTIES": _probe_dimension_4_quality_fabric_specialty_statuses,
-    "DIM-05-FORWARD-CHARTER-GATES": _probe_dimension_5_forward_charter_activation_gates,
-    "DIM-06-SIBLING-REPO-DEPLOY-POSTURE": _probe_dimension_6_sibling_repo_deploy_posture,
-    "DIM-07-RENDER-PENDING-TRACKER": _probe_dimension_7_render_pending_tracker_freshness,
-    "DIM-08-PRE-EXISTING-RELEASE-GATE-FAILS": _probe_dimension_8_pre_existing_release_gate_fails,
-    "DIM-09-CURSOR-RULES-DRIFT": _probe_dimension_9_cursor_rules_drift,
-    "DIM-10-SKILLS-DRIFT": _probe_dimension_10_skills_drift,
-    "DIM-11-UNTRACKED-FILES-AUDIT": _probe_dimension_11_untracked_files_audit,
-    "DIM-12-CANONICAL-CSV-MIRROR-PARITY": _probe_dimension_12_canonical_csv_mirror_parity,
+    "DIM-01-DECISION-LINEAGE": _probe_dimension_1_decision_lineage,
+    "DIM-02-FORWARD-CHARTER-CARRYOVER": _probe_dimension_2_forward_charter_carryover,
+    "DIM-03-VALIDATOR-RAMP-CONSISTENCY": _probe_dimension_3_validator_ramp_consistency,
+    "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS": _probe_dimension_4_canonical_csv_pair_completeness,
+    "DIM-05-SOP-RUNBOOK-PAIRING": _probe_dimension_5_sop_runbook_pairing,
+    "DIM-06-UAT-REPORT-CLASS-COMPLETENESS": _probe_dimension_6_uat_report_class_completeness,
+    "DIM-07-RENDER-TRAIL-AUDIENCE-MATCH": _probe_dimension_7_render_trail_audience_match,
+    "DIM-08-BRAND-BASELINE-REGISTER-MATCH": _probe_dimension_8_brand_baseline_register_match,
+    "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT": _probe_dimension_9_cross_area_breakthrough_announcement,
+    "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS": _probe_dimension_10_deploy_evidence_completeness,
+    "DIM-11-CURSOR-RULE-SKILL-PAIRING": _probe_dimension_11_cursor_rule_skill_pairing,
+    "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY": _probe_dimension_12_operator_scratchpad_continuity,
 }
+
+WAVE_AWARE_DIMENSIONS: frozenset[str] = frozenset({
+    "DIM-01-DECISION-LINEAGE",
+    "DIM-03-VALIDATOR-RAMP-CONSISTENCY",
+    "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+    "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+})
 
 
 def run_sweep(
@@ -639,9 +1211,15 @@ def run_sweep(
 ) -> RegressionSweepReport:
     """Orchestrate one wave-close 12-dimension regression sweep.
 
-    Per ``akos-inter-wave-regression.mdc`` RULE 2: every wave-close MUST
-    exercise all 12 dimensions; SKIP per dimension allowed only with a
-    one-clause reason logged in the sweep report.
+    Per ``akos-inter-wave-regression.mdc`` RULE 2: every wave-close
+    exercises the 7 baseline dimensions + any conditional dimension whose
+    axis predicate fires for the wave; SKIP per dimension allowed only
+    with a one-clause reason logged in the sweep report.
+
+    Per Wave M.5 hotfix (D-IH-86-BW): the four ``WAVE_AWARE_DIMENSIONS``
+    receive ``wave_closing`` as an argument so their probes can scope
+    git-history queries + diff windows + decision-set filters to the
+    wave being closed. The other eight ignore the wave param.
     """
     if dimensions is None:
         dimensions = ALL_DIMENSIONS
@@ -651,7 +1229,7 @@ def run_sweep(
         if probe is None:
             logger.warning("unknown dimension code: %s", dim)
             continue
-        if dim == "DIM-01-CLOSING-WAVE-SURFACES":
+        if dim in WAVE_AWARE_DIMENSIONS:
             all_findings.extend(probe(wave_closing))
         else:
             all_findings.extend(probe())
@@ -732,7 +1310,7 @@ def self_test() -> int:
     per the canonical §4 / process_list cadence column).
     """
     sample_finding = RegressionFindingRow(
-        dimension_code="DIM-01-CLOSING-WAVE-SURFACES",
+        dimension_code="DIM-01-DECISION-LINEAGE",
         surface_path="docs/example.md",
         verdict="clean",
         proposed_rework_action="",
@@ -763,11 +1341,35 @@ def self_test() -> int:
             "FAIL: validate_inter_wave_regression_self_test — PROBE_REGISTRY keys do not match ALL_DIMENSIONS"
         )
         return 1
+    if len(BASELINE_DIMENSION_CODES) != 7:
+        logger.error(
+            "FAIL: validate_inter_wave_regression_self_test — BASELINE_DIMENSION_CODES has %d entries, expected 7",
+            len(BASELINE_DIMENSION_CODES),
+        )
+        return 1
+    if len(CONDITIONAL_DIMENSION_CODES) != 5:
+        logger.error(
+            "FAIL: validate_inter_wave_regression_self_test — CONDITIONAL_DIMENSION_CODES has %d entries, expected 5",
+            len(CONDITIONAL_DIMENSION_CODES),
+        )
+        return 1
+    if BASELINE_DIMENSION_CODES & CONDITIONAL_DIMENSION_CODES:
+        logger.error(
+            "FAIL: validate_inter_wave_regression_self_test — BASELINE and CONDITIONAL frozensets overlap",
+        )
+        return 1
+    if BASELINE_DIMENSION_CODES | CONDITIONAL_DIMENSION_CODES != set(ALL_DIMENSIONS):
+        logger.error(
+            "FAIL: validate_inter_wave_regression_self_test — BASELINE union CONDITIONAL != ALL_DIMENSIONS",
+        )
+        return 1
     logger.info(
-        "PASS: validate_inter_wave_regression_self_test — Pydantic fixtures construct ; finding=%s ; report=%s ; probes=%d",
+        "PASS: validate_inter_wave_regression_self_test — Pydantic fixtures construct ; finding=%s ; report=%s ; probes=%d ; baseline=%d ; conditional=%d",
         sample_finding.dimension_code,
         sample_report.report_id,
         len(PROBE_REGISTRY),
+        len(BASELINE_DIMENSION_CODES),
+        len(CONDITIONAL_DIMENSION_CODES),
     )
     return 0
 

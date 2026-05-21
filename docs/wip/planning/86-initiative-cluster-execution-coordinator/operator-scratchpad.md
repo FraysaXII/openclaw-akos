@@ -382,4 +382,44 @@ This **subsumes** the previously-named I-NN-MESSAGE-COMPONENT-LIBRARY (D-IH-86-A
 4. **Self-referential drift classes** are structural properties of wave-self-introspection cadence, not probe bugs — clears automatically on atomic commit; forward-cadence shifts to post-commit-of-evaluated-wave.
 5. **`quality_fabric_specialty_canonical`** as the 14th `pattern_class` enum value is the umbrella categorisation for sister specialty canonicals minted as a cohort under engrave-properly OVERRIDE — preserves cluster-decision lineage in `PEOPLE_DESIGN_PATTERN_REGISTRY.csv` row shape.
 
+---
+
+## 2026-05-21 — Wave M.5 hotfix drain (D-IH-86-BW)
+
+**Trigger.** Operator self-review post-Wave-M-commit (`07c5a10`) surfaced an SSOT collision: the Pydantic `VALID_DIMENSION_CODES` enum (`DIM-01-CLOSING-WAVE-SURFACES` … `DIM-12-CANONICAL-CSV-MIRROR-PARITY`) described entirely different probes than the canonical `INTER_WAVE_REGRESSION_DISCIPLINE.md` §2 table + the always-applied `akos-inter-wave-regression.mdc` §RULE 1 table (`DIM-01-DECISION-LINEAGE` … `DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY`). Cursor sessions read the rule first → misled about what the sweep verifies.
+
+**Operator ratification.** Option B doctrine-wins-engrave-properly + Wave-M.5-hotfix-rework-now classification (atomic on top of `e82a0ae` + `07c5a10`; not a new initiative). Same precedent applied at I72 Cluster B (engrave-properly OVERRIDE → mint full canonicals not stubs): when code and doctrine collide, **doctrine wins** because the canonical is the authoritative read-path for any future agent.
+
+**Execution.**
+
+- **P1** — Rewrote [`akos/hlk_inter_wave_regression.py`](../../../../akos/hlk_inter_wave_regression.py): `VALID_DIMENSION_CODES` + new `BASELINE_DIMENSION_CODES` (7) + new `CONDITIONAL_DIMENSION_CODES` (5) frozensets + `dimension_code` Literal type all aligned to canonical §2 names + §3 `compose_REGRESSION` baseline/conditional split.
+- **P2** — Rewrote 12 probe functions in [`scripts/inter_wave_regression_sweep.py`](../../../../scripts/inter_wave_regression_sweep.py) implementing doctrine heuristics literally; `PROBE_REGISTRY` mapping replaced; `WAVE_AWARE_DIMENSIONS` dispatch contract added; CLI help + module docstring updated.
+- **P3** — Rewrote [`tests/test_inter_wave_regression.py`](../../../../tests/test_inter_wave_regression.py) (49 cases): doctrine-aligned dimension names + baseline-vs-conditional split invariants + probe-registry SSOT-equality + per-dimension smoke + emit smoke + CLI smoke.
+- **P4** — Verified clean: `validate_design_pattern_registry.py` PASS, `validate_hlk.py` PASS, `pytest tests/test_inter_wave_regression.py -v` **49/49 PASS**, `inter_wave_regression_sweep.py --self-test` PASS, sweep regenerated against Wave-L close (63 findings: 3 clean / 7 drift / 53 gap / 0 blocked / 0 skip — real signal from doctrine-aligned probes).
+- **P5** — Decision-register append (D-IH-86-BW); UAT report amended with frontmatter `verdict_history` v2 + new §12 narrative section; this scratchpad drain entry; `files-modified.csv` Wave-M.5 rows appended.
+- **P6** — Atomic Wave M.5 commit on top of `e82a0ae` + `07c5a10`; push to origin/main; backfill `commit_sha` in `files-modified.csv`.
+
+**Sweep verdict breakdown (Wave-L close, post-hotfix).**
+
+| Dim | Verdict | Count | Real signal |
+|:---|:---:|:---:|:---|
+| 01 decision_lineage | drift | 6 | FK gaps frontmatter ↔ DECISION_REGISTER |
+| 02 forward_charter_carryover | gap | 10 | unresolved forward_charter rows |
+| 03 validator_ramp_consistency | drift | 1 | INFO→FAIL ramp without paired decision |
+| 04 canonical_csv_pair_completeness | gap | 8 | CSVs missing Pydantic/validator/mirror/PRECEDENCE quartet |
+| 05 sop_runbook_pairing | gap | 8 | process_list rows without paired SOP+runbook |
+| 06 uat_report_class_completeness | gap | 10 | closed initiatives missing UAT-class rows |
+| 07 render_trail_audience_match | **clean** | 1 | `validate_external_render_trail.py --strict --strict-freshness` PASS |
+| 08 brand_baseline_register_match | **clean** | 1 | `validate_brand_baseline_reality_drift.py` PASS |
+| 09 cross_area_breakthrough_announcement | gap | 8 | new pattern_id rows without paired announcement |
+| 10 deploy_evidence_completeness | gap | 4 | sibling-repo touches without deploy_id+READY+200 in UAT |
+| 11 cursor_rule_skill_pairing | gap | 5 | new cursor rules naming craft without paired skill |
+| 12 operator_scratchpad_continuity | **clean** | 1 | scratchpad last-entry ≥ last wave-close commit |
+
+**Forward-charters preserved.** The 60 non-clean findings (7 drift + 53 gap) are inputs for a future regression-burndown wave (Wave N candidate), **not Wave M.5 closure scope**. The hotfix is about correctness of the regression-sweep instrument itself — not about dispositioning the backlog it surfaces. A successor wave can cluster-collapse these via Principle 5 (likely 4-6 substantive cluster decisions: decision-lineage backfill / paired-runbook minting / UAT-class coverage / cross-area announcement backfill / cursor-rule-skill pairing).
+
+**Self-discipline lesson crystallised (Wave M.5).**
+
+> When an always-applied cursor rule + canonical table + code Literal enum collide on the same governed enum, **always pick doctrine + rewrite the code**. Misleading the agent at the cursor-rule reading surface costs orders of magnitude more in downstream confusion than rewriting an enum + 12 probe functions + 49 tests. This lesson lands in I80 Round 2 codify-via-existing-rules-vs-new-rule-mint queue rather than minting a new rule — the precedent is already encoded across [`akos-governance-remediation.mdc`](../../../../.cursor/rules/akos-governance-remediation.mdc) §"HLK compliance governance" (canonical-wins-on-drift) + [`akos-inline-ratification.mdc`](../../../../.cursor/rules/akos-inline-ratification.mdc) Principle 6 (novel framings) + [`akos-planning-traceability.mdc`](../../../../.cursor/rules/akos-planning-traceability.mdc) §"UAT quality bar" (verdict_history amendment shape).
+
 <!-- end of entries -->
