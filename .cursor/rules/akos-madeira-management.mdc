@@ -23,7 +23,7 @@ globs:
   - akos/dossier/run.py
   - akos/dossier/sections.py
   - akos/dossier/sources.py
-alwaysApply: false
+alwaysApply: true
 ---
 
 # AKOS — MADEIRA management verdict rollup (Initiative 49)

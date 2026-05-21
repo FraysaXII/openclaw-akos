@@ -1,25 +1,29 @@
-# Regression sweep — Wave-N close — 2026-05-21
+# Regression sweep — Wave-M.5 close — 2026-05-21
 
 **Report ID:** `regression-sweep-2026-05-21`  
 **Swept by:** agent:inter_wave_regression_sweep  
-**Wave closing:** Wave-N  
+**Wave closing:** Wave-M.5  
 
 ## Counts
 
 | Verdict | Count |
 | --- | --- |
-| clean | 4 |
-| drift | 1 |
+| clean | 3 |
+| drift | 6 |
 | gap | 53 |
 | blocked | 0 |
 | skip | 0 |
-| **TOTAL** | **58** |
+| **TOTAL** | **62** |
 
 ## Findings
 
 | Dimension | Surface | Verdict | Severity | Proposed action | Notes |
 | --- | --- | --- | --- | --- | --- |
-| DIM-01-DECISION-LINEAGE | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv` | clean | low |  | 360 decisions in register; all ratifying_decisions: frontmatter values FK-resolve (reverse-FK advisory sweep deferred to operator review) |
+| DIM-01-DECISION-LINEAGE | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md` | drift | medium | add D-IH-86-BX to DECISION_REGISTER.csv OR remove it from this canonical's ratifying_decisions frontmatter | canonical frontmatter cites D-IH-86-BX but no matching row in DECISION_REGISTER.csv |
+| DIM-01-DECISION-LINEAGE | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UX_DISCIPLINE.md` | drift | medium | add D-IH-86-BY to DECISION_REGISTER.csv OR remove it from this canonical's ratifying_decisions frontmatter | canonical frontmatter cites D-IH-86-BY but no matching row in DECISION_REGISTER.csv |
+| DIM-01-DECISION-LINEAGE | `docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md` | drift | medium | add D-IH-84-G to DECISION_REGISTER.csv OR remove it from this canonical's ratifying_decisions frontmatter | canonical frontmatter cites D-IH-84-G but no matching row in DECISION_REGISTER.csv |
+| DIM-01-DECISION-LINEAGE | `docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md` | drift | medium | add D-IH-84-H to DECISION_REGISTER.csv OR remove it from this canonical's ratifying_decisions frontmatter | canonical frontmatter cites D-IH-84-H but no matching row in DECISION_REGISTER.csv |
+| DIM-01-DECISION-LINEAGE | `docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SUBSTRATE_LANDSCAPE_DOCTRINE.md` | drift | medium | add D-IH-84-G to DECISION_REGISTER.csv OR remove it from this canonical's ratifying_decisions frontmatter | canonical frontmatter cites D-IH-84-G but no matching row in DECISION_REGISTER.csv |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md` | gap | low | land 'SOP-TECH_DATAOPS_QUALITY_001.md (paired SOP; activation gate when canonical promotes to active)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'SOP-TECH_DATAOPS_QUALITY_001.md (paired SOP; activation gate when canonical promotes to active)' has no observable carryover signal (no _candidates/ match, no OPS row) |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md` | gap | low | land 'I-NN-CHANNEL-DOCTRINES (per-channel goods/bads research; activation gates HOLISTIKA_QUALITY_FABRIC P1 + 1 channel research pass)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'I-NN-CHANNEL-DOCTRINES (per-channel goods/bads research; activation gates HOLISTIKA_QUALITY_FABRIC P1 + 1 channel research pass)' has no observable carryover signal (no _candidates/ match, no OPS row) |
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md` | gap | low | land 'process_list.csv row hol_peopl_dtp_index_integrity_001' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'process_list.csv row hol_peopl_dtp_index_integrity_001' has no observable carryover signal (no _candidates/ match, no OPS row) |
@@ -32,10 +36,10 @@
 | DIM-02-FORWARD-CHARTER-CARRYOVER | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md` | gap | low | land 'paired runbook scripts/inter_wave_regression_sweep.py (P2)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row | forward_charters: item 'paired runbook scripts/inter_wave_regression_sweep.py (P2)' has no observable carryover signal (no _candidates/ match, no OPS row) |
 | DIM-03-VALIDATOR-RAMP-CONSISTENCY | `verification-profiles.json;release-gate.py` | drift | medium | verify each promotion/relaxation cites a decision row in DECISION_REGISTER.csv with rationale | prior_sha=68dcc3f; promotions_observed=2; relaxations_observed=0 |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ARTIFACT_CLASS_REGISTRY.csv` | gap | medium | mint missing components: scripts-validator, supabase-mirror-migration | slug=artifact_class; missing_components=scripts-validator,supabase-mirror-migration |
-| DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration | slug=audience; missing_components=supabase-mirror-migration |
-| DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration | slug=channel_touchpoint; missing_components=supabase-mirror-migration |
+| DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration, PRECEDENCE-entry | slug=audience; missing_components=supabase-mirror-migration,PRECEDENCE-entry |
+| DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration, PRECEDENCE-entry | slug=channel_touchpoint; missing_components=supabase-mirror-migration,PRECEDENCE-entry |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COMPONENT_PRIMITIVE_REGISTRY.csv` | gap | medium | mint missing components: scripts-validator, supabase-mirror-migration | slug=component_primitive; missing_components=scripts-validator,supabase-mirror-migration |
-| DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COUNTRY_WORK_CALENDAR.csv` | gap | medium | mint missing components: akos-pydantic-model, scripts-validator, supabase-mirror-migration | slug=country_work_calendar; missing_components=akos-pydantic-model,scripts-validator,supabase-mirror-migration |
+| DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COUNTRY_WORK_CALENDAR.csv` | gap | medium | mint missing components: akos-pydantic-model, scripts-validator, supabase-mirror-migration, PRECEDENCE-entry | slug=country_work_calendar; missing_components=akos-pydantic-model,scripts-validator,supabase-mirror-migration,PRECEDENCE-entry |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv` | gap | medium | mint missing components: akos-pydantic-model | slug=goi_poi_register; missing_components=akos-pydantic-model |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/KNOWLEDGE_PAIRING_REGISTRY.csv` | gap | medium | mint missing components: supabase-mirror-migration | slug=knowledge_pairing; missing_components=supabase-mirror-migration |
 | DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/OUTPUT_TYPE_REGISTRY.csv` | gap | medium | mint missing components: scripts-validator, supabase-mirror-migration | slug=output_type; missing_components=scripts-validator,supabase-mirror-migration |

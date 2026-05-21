@@ -66,6 +66,7 @@ VALID_PATTERN_CLASSES: frozenset[str] = frozenset({
     "documentation_layering",
     "output_architecture_hierarchy",
     "inter_wave_regression_cadence",
+    "index_integrity_cadence",
     "quality_fabric_specialty_canonical",
 })
 
@@ -133,6 +134,7 @@ class DesignPatternRow(BaseModel):
         "documentation_layering",
         "output_architecture_hierarchy",
         "inter_wave_regression_cadence",
+        "index_integrity_cadence",
         "quality_fabric_specialty_canonical",
     ]
     discipline_origin: Literal[

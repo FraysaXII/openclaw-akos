@@ -3,10 +3,12 @@ intellectual_kind: operator_scratchpad
 parent_initiative: INIT-OPENCLAW_AKOS-86
 sharing_label: internal_only
 authored: 2026-05-19
-last_review: 2026-05-19
+last_review: 2026-05-21
 linked_decisions:
   - D-IH-86-O  # Option 5 default posture
   - D-IH-86-T  # cluster burndown plan
+  - D-IH-86-BW  # Wave M.5 SSOT doctrine-wins reconciliation
+  # D-IH-86-CH (or later) — AIC capability-implementation matrix mint via I82 P6 extension (ratified in-chat 2026-05-21 21:23; pending DECISION_REGISTER append at Wave N closure or Wave O entry)
 purpose: friction-free operator thought capture; drained by coordinator at wave boundaries
 language: en
 status: active
@@ -421,5 +423,56 @@ This **subsumes** the previously-named I-NN-MESSAGE-COMPONENT-LIBRARY (D-IH-86-A
 **Self-discipline lesson crystallised (Wave M.5).**
 
 > When an always-applied cursor rule + canonical table + code Literal enum collide on the same governed enum, **always pick doctrine + rewrite the code**. Misleading the agent at the cursor-rule reading surface costs orders of magnitude more in downstream confusion than rewriting an enum + 12 probe functions + 49 tests. This lesson lands in I80 Round 2 codify-via-existing-rules-vs-new-rule-mint queue rather than minting a new rule — the precedent is already encoded across [`akos-governance-remediation.mdc`](../../../../.cursor/rules/akos-governance-remediation.mdc) §"HLK compliance governance" (canonical-wins-on-drift) + [`akos-inline-ratification.mdc`](../../../../.cursor/rules/akos-inline-ratification.mdc) Principle 6 (novel framings) + [`akos-planning-traceability.mdc`](../../../../.cursor/rules/akos-planning-traceability.mdc) §"UAT quality bar" (verdict_history amendment shape).
+
+### 2026-05-21 21:23 — AIC capability-implementation matrix scoping (in-chat synthesis, Wave N entry-gate)
+
+**Trigger.** Operator question mid-Wave-N execution: *"what's the difference between MCP and skill, do we need MCPs, where do they go in AIC capability scaling?"* Reframe from MCP-vs-skill (substrate-implementation surfaces) to the broader axis — **how AIC capabilities scale across every substrate Holistika deploys agents on** (Cursor / OpenClaw / LlamaIndex / KiRBe / Cursor SDK forward / future). Founder framing: *"as a founder I sleep better now thanks to overall integrity; want AICs to scale on the same integrity"* — i.e., capability scaling discipline as the load-bearing condition for confident AIC delegation.
+
+**Regression sweep result (substrate-agnostic capability layer is ~70% built).** The matrix this question pointed at depends on artifacts that already exist or are in flight:
+
+- [`HOLISTIKA_AGENTIC_DOCTRINE.md`](../../references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_AGENTIC_DOCTRINE.md) (I79 P3, shipped) — substrate-agnostic AIC collaboration doctrine.
+- [`AGENTIC_FRAMEWORK_LANDSCAPE.md`](../../references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/canonicals/AGENTIC_FRAMEWORK_LANDSCAPE.md) (I79, shipped) — Tech Lab how-side companion.
+- [`SUBSTRATE_REGISTRY.csv`](../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SUBSTRATE_REGISTRY.csv) (I84, shipped, 18 cols, 17 rows) — including `SUBS-RUN-LLAMA-LLAMAINDEX` (KiRBe-today), `SUBS-HOLISTIKA-OPENCLAW` (AKOS/MADEIRA-today), `SUBS-ANYSPHERE-CURSOR-SDK` (forecasted programmatic AIC surface per `D-IH-84-B` B3 anchor).
+- [`SUBSTRATE_LANDSCAPE_DOCTRINE.md`](../../references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SUBSTRATE_LANDSCAPE_DOCTRINE.md) (I84 P3, shipped) — Research methodology side.
+- [`HOLISTIKA_CAPABILITY_DOCTRINE.md`](../../references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_CAPABILITY_DOCTRINE.md) (I82 P0, in-progress; CAPABILITY_REGISTRY + USE_CASE_ARCHIVE land at Wave Q per current plan) — *what* AICs can do, substrate-agnostic.
+- [`I76 MADEIRA elevation`](../../wip/planning/76-madeira-elevation/master-roadmap.md) P2 (active, Wave P scheduled) — MADEIRA-on-Cursor rules+hooks+skills+MCPs+tool-catalog harmonisation.
+- `SKILL_REGISTRY.csv` (Initiative 32, shipped) — portable skill bearers.
+
+**Gap (the matrix that bridges them).** No canonical artifact today encodes the join of:
+
+1. **`AIC_REGISTRY.csv`** — the named-AIC-with-Holistika-authority instances. Seed rows expected at v1: `AIC-MADEIRA-ON-CURSOR` (current), `AIC-MADEIRA-ON-OPENCLAW` (forecasted productization), `AIC-KIRBE-ON-LLAMAINDEX` (in-production product), `AIC-CURSOR-BORROWED` (when Cursor agent acts under Holistika authority), `AIC-CURSOR-SDK-PROGRAMMATIC` (forecasted per `SUBS-ANYSPHERE-CURSOR-SDK`).
+2. **`AIC_CAPABILITY_IMPLEMENTATION_MATRIX.csv`** — for each `(AIC, capability_id, substrate_id)` triple, which implementation artifact carries the capability, with row-level status + audit fields.
+
+**Operator ratify outcomes (in-chat AskQuestion, 2026-05-21 ~21:20):**
+
+- **Q1 mint shape** → **Option A: extend I82 P6** ("Mirrors + ERP forward-spec alignment" expands to mint AIC_REGISTRY + AIC_CAPABILITY_IMPLEMENTATION_MATRIX alongside the existing P6 deliverables). Lands in **Wave R** of the cluster burndown plan, coincident with I82 closure. Doctrinal coherence: I82 P2 mints CAPABILITY_REGISTRY; the matrix FKs into it; same initiative owns both substrate-agnostic + operational layers.
+- **Q2 implementation_type enum** → **Full enum at v1** (operator-named "9-value enum" but ratified the listed values — actual count is **11** per regression honest correction below).
+- **Q3 scratchpad drain** → **Append now, enhanced by intel** (this entry).
+
+**Regression-enhanced beyond original directive (8 substantive adds my research surfaced).** Captured here so future agents minting at Wave R inherit the full bar — not just what was named in chat.
+
+1. **Enum count honest correction.** The full enum at v1 contains **11 values**, not 9: `cursor-skill`, `cursor-rule`, `mcp-server-stdio`, `mcp-server-http`, `mcp-server-authored-by-holistika`, `system-prompt`, `prompt-overlay`, `library-tool`, `workflow`, `rpa-macro`, `tool-protocol-native`. The "9-value enum" label was wrong; the listed values were the operator's actual ratify input.
+
+2. **3-way FK posture.** The matrix is a join table joining 3 governed entities — `aic_id` (FK → AIC_REGISTRY), `capability_id` (FK → CAPABILITY_REGISTRY per I82 P2), `substrate_id` (FK → SUBSTRATE_REGISTRY per I84). The validator (forthcoming Wave R) FK-resolves all 3 at load time. SSOT discipline: matrix cannot mint a row whose triple is unresolved.
+
+3. **AIC_REGISTRY shape proposal.** 8 columns at v1: `aic_id` / `aic_name` / `substrate_id` (FK) / `runtime_instance` / `role_owner_class` / `parent_doctrine_canonical` / `status` (active/pilot/forecasted/retired) / `notes`. Status enum mirrors [`akos-executable-process-catalog.mdc`](../../../../.cursor/rules/akos-executable-process-catalog.mdc) §RULE 2. Owner mapping per [`akos-people-discipline-of-disciplines.mdc`](../../../../.cursor/rules/akos-people-discipline-of-disciplines.mdc) RULE 1: People owns doctrine; Tech Lab owns substrate; consuming-area owns the AIC-role.
+
+4. **Audience axis intersects implementation_type.** Per [`akos-quality-fabric.mdc`](../../../../.cursor/rules/akos-quality-fabric.mdc) 5-axis composition — MCP implementations exposing **write-access to external systems** (Stripe writes, GitHub PR-create, Supabase `apply_migration`) carry trust-boundary implications that `cursor-skill` and `cursor-rule` implementations do not. The matrix MUST carry a `trust_boundary_class` column at v1: `read-only` / `read-and-write` / `sensitive-data-access` / `financial-write` / `infrastructure-mutation`. Governance audit demands it; the Vercel `dpl_6uNfwjKVUNwqqd2MZ65vySkvd834` regression precedent (Wave J, D-IH-86-AT, 14h prod-broken) demonstrates trust-boundary blindness has real cost.
+
+5. **Per-row status enum + last-audit-date.** Per [`akos-executable-process-catalog.mdc`](../../../../.cursor/rules/akos-executable-process-catalog.mdc) RULE 2. Each row carries `status` ∈ {active, inactive, planned, deprecated, experimental} + `last_audit_date` + `audit_source_url`. The ~25 MCPs in `config/mcporter.json.example` get retroactively row-classified at Wave R mint (backfill OPS row in same wave).
+
+6. **Wave Q ↔ Wave R coordination risk.** Wave Q already mints `MADEIRA_AIC_PER_TASK_REGISTRY.csv` per [`I76`](../../wip/planning/76-madeira-elevation/master-roadmap.md) P4. `MADEIRA_AIC_PER_TASK_REGISTRY` and `AIC_REGISTRY` (Wave R) overlap — MADEIRA's per-task instances are arguably a sub-population of the broader AIC_REGISTRY. **Decision needed at Wave Q entry-gate**: either (a) MADEIRA_AIC_PER_TASK is the MADEIRA-scoped child of AIC_REGISTRY (FK), OR (b) AIC_REGISTRY is the parent and MADEIRA_AIC_PER_TASK doesn't mint as a separate CSV at Wave Q. Surface as inline-ratify at Wave Q entry.
+
+7. **Wave R budget expansion warning.** Current Wave R is 7-12d for I76 closure + I82 closure + I81 P2 layout migration. Adding AIC_REGISTRY + AIC_CAPABILITY_IMPLEMENTATION_MATRIX mint (Pydantic + validator + tests + Supabase mirror + PRECEDENCE rows + initial seed rows) extends Wave R to **10-15d** or forces a **Wave R.5 split** per the M.5 precedent. Reserved `OPS-86-R.X-CREEP` row absorbs the spillover. If it overruns, the matrix mint can slip to Wave R.5 without blocking I76/I82/I81 closure.
+
+8. **Cursor rule + skill pairing.** Per [`akos-planning-traceability.mdc`](../../../../.cursor/rules/akos-planning-traceability.mdc) UAT quality bar Dim 11 (cursor_rule_skill_pairing). The matrix mint should ship either (a) an extension of [`akos-people-discipline-of-disciplines.mdc`](../../../../.cursor/rules/akos-people-discipline-of-disciplines.mdc) RULE 3 (*"agentic is a discipline of disciplines, recursive"*) naming the matrix as the operational expression of that doctrine, OR (b) a new dedicated cursor rule `akos-aic-capability-implementation.mdc` with paired skill `.cursor/skills/aic-capability-implementation-craft/SKILL.md`. Recommendation: (a) extension — avoids 16th always-applied rule paying token cost. Cite at Wave R: 2 sentences added to RULE 3 referencing the new matrix.
+
+**Forward-anchor.** Decision ID for the ratify gate above will be **D-IH-86-CH or later** (depending on Wave N closure decision-ID exhaustion at CA-CG). Operator-approved at this scratchpad-entry moment. Forward to Wave R entry: a 5-line "you ratified this at 2026-05-21 21:23; here's the schema we promised; let's mint" snippet for the Wave R entry-gate self-checkpoint.
+
+**Where MCPs land in this framing (the original question, answered).** MCPs are **3 row-classes** in `AIC_CAPABILITY_IMPLEMENTATION_MATRIX.implementation_type`: `mcp-server-stdio` (Cursor-managed local), `mcp-server-http` (vendor-hosted remote OAuth — forecasted, none in workspace today), `mcp-server-authored-by-holistika` (our own: `scripts/hlk_mcp_server.py`, `scripts/finance_mcp_server.py`, `scripts/hlk_graph_mcp_server.py`, `scripts/mcp_akos_server.py`, future). The ~25 MCPs we already use get audited + status-classified at Wave R backfill. **No separate MCP_ADAPTER_REGISTRY mints**; the matrix subsumes it.
+
+**Reproducibility.** This synthesis grounded in: SUBSTRATE_REGISTRY.csv L1-L19, I82 master-roadmap §3 phase table, AGENTIC_FRAMEWORK_LANDSCAPE.md row inventory, HOLISTIKA_AGENTIC_DOCTRINE.md substrate-agnostic claim, config/mcporter.json.example MCP inventory, and the Wave M.5 inter-wave regression sweep findings (Dim 04 canonical_csv_pair_completeness gap row = 8 — this matrix mint reduces that gap when it lands).
+
+**External research grounding** (per [`akos-applied-research-discipline.mdc`](../../../../.cursor/rules/akos-applied-research-discipline.mdc) RULE 2): the matrix concept is a **refinement** of DAMA-DMBOK 2.0 Data Integration & Interoperability §"Normalized Adapter Pattern" + Truto/Unified.to/Apideck 2026 industry consensus (already cited in [`akos-executable-process-catalog.mdc`](../../../../.cursor/rules/akos-executable-process-catalog.mdc) RULE 2). **Not novel framing** — external citation optional.
 
 <!-- end of entries -->

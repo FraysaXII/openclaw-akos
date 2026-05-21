@@ -1,0 +1,24 @@
+{
+  "report_id": "index-sweep-2026-05-21",
+  "sweep_trigger": "wave_close",
+  "swept_at": "2026-05-21",
+  "swept_by": "pytest",
+  "findings": [
+    {
+      "dimension_code": "IDX-01-PLANNING-README-INITIATIVE-COUNT",
+      "index_path": "docs/wip/planning/README.md",
+      "verdict": "fresh",
+      "drift_summary": "",
+      "proposed_fix_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "fixture"
+    }
+  ],
+  "fresh_count": 1,
+  "drift_count": 0,
+  "gap_count": 0,
+  "blocked_count": 0,
+  "skip_count": 0,
+  "total_findings": 1
+}

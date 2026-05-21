@@ -553,6 +553,36 @@ def run_output_architecture_registries_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_index_freshness_self_test() -> tuple[bool, int]:
+    """Run baseline-index freshness self-test (I86 Wave N / D-IH-86-CD).
+
+    Self-test mode of ``scripts/validate_index_freshness.py`` (which wraps
+    ``scripts/baseline_index_sweep.py``) — validates the paired Pydantic
+    SSOT (``akos/hlk_index_integrity.py`` IndexFreshnessRow +
+    IndexFreshnessReport frozen models) + the runbook's PROBE_REGISTRY
+    shape (8 probes; one per dimension code IDX-01..IDX-08; 6 baseline +
+    2 conditional). Does NOT run the actual 8-dimension sweep — that's
+    event_triggered cadence per the INDEX_INTEGRITY_DISCIPLINE.md
+    canonical §4 + process_list.csv hol_peopl_dtp_index_integrity_001
+    cadence column (fires at wave-close + canonical-CSV mint).
+
+    INFO ramp until Wave N N.4 backfill closes drift; promoted to FAIL
+    via operator-explicit decision row (D-IH-86-CD rationale or
+    successor). Self-test mode stays at ~2s runtime — same shape as
+    INTER_WAVE_REGRESSION self-test per Wave M precedent.
+
+    Returns ``(ok, exit_code)``. Exit code 0 PASS, 1 FAIL.
+    """
+    logger.info("Running INDEX-INTEGRITY self-test (I86 Wave N / D-IH-86-CD; --self-test) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_index_freshness.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_inter_wave_regression_self_test() -> tuple[bool, int]:
     """Run inter-wave regression self-test (I86 Wave M / D-IH-86-BO).
 
@@ -1171,6 +1201,12 @@ def main() -> None:
     results.append((
         "PASS" if inter_wave_ok else "FAIL",
         f"Inter-wave regression self-test (scripts/inter_wave_regression_sweep.py --self-test - Pydantic SSOT + 12-probe registry shape validation; on_demand 12-dimension sweep deferred to wave-close gate per R-86-WaveM-7 CI-cost mitigation; paired runbook for INTER_WAVE_REGRESSION_DISCIPLINE.md canonical; I86 Wave M / D-IH-86-BO; ok={'yes' if inter_wave_ok else 'no'}; exit={inter_wave_rc})",
+    ))
+
+    idx_freshness_ok, idx_freshness_rc = run_index_freshness_self_test()
+    results.append((
+        "INFO" if idx_freshness_ok else "FAIL",
+        f"Index integrity self-test (scripts/validate_index_freshness.py --self-test - Pydantic SSOT + 8-probe registry shape validation; event_triggered 8-dimension sweep fires at wave-close + canonical-CSV mint per INDEX_INTEGRITY_DISCIPLINE.md canonical §4; 6 baseline (IDX-01/02/03/04/07/08) + 2 conditional (IDX-05/06) probes; paired runbook scripts/baseline_index_sweep.py; INFO ramp until Wave N N.4 backfill per D-IH-86-CD; 11th Quality Fabric specialty; I86 Wave N / D-IH-86-CD; ok={'yes' if idx_freshness_ok else 'no'}; exit={idx_freshness_rc})",
     ))
 
     judge_ok, judge_rc = run_brand_voice_judge_self_test()

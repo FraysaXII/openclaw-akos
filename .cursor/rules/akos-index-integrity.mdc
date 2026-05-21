@@ -1,0 +1,192 @@
+---
+description: >-
+  Index Integrity Discipline (11th Quality Fabric specialty; Wave N P3 mint).
+  Mechanical companion to INDEX_INTEGRITY_DISCIPLINE.md. Fires at every
+  wave-close + every canonical-CSV mint to verify baseline index documents
+  (planning README, PRECEDENCE, CHANGELOG, INITIATIVE_DEPENDENCIES,
+  USER_GUIDE, ARCHITECTURE, dashboards, Quality Fabric specialty list) stay
+  in sync with their source-of-truth. Eight probes; deterministic-fix where
+  unambiguous; inline-ratify findings where judgement-call.
+globs:
+  - "docs/wip/planning/README.md"
+  - "docs/wip/planning/NN-*/master-roadmap.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/*.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/*.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/*_DISCIPLINE.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md"
+  - "CHANGELOG.md"
+  - "docs/USER_GUIDE.md"
+  - "docs/ARCHITECTURE.md"
+alwaysApply: true
+---
+
+# AKOS Index Integrity
+
+Use this rule whenever closing a wave inside a multi-wave initiative OR
+whenever minting a new canonical CSV under
+`docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` or its
+`dimensions/` subdir. Codifies operator decision **D-IH-86-CD** (operator-
+ratified the layered index-integrity discipline as the 11th Quality Fabric
+specialty, 2026-05-21). Mechanical companion to
+[`INDEX_INTEGRITY_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md).
+
+This rule does **not** define the doctrine — that lives in the canonical.
+This rule names the mechanical bar that future agents and operators
+inherit by default when touching any baseline-index document or canonical
+CSV.
+
+## When this rule applies
+
+A sweep is in scope for this rule when **any** of:
+
+- A wave inside a cluster-coordinator initiative closes (I86 precedent;
+  future analogous coordinators).
+- A new row lands in any canonical CSV under
+  `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` or
+  `dimensions/`.
+- A new `docs/wip/planning/NN-<slug>/` folder is created.
+- A new `*_DISCIPLINE.md` specialty canonical is minted under
+  `People/canonicals/`.
+- The operator explicitly requests a sweep (on_demand cadence).
+
+Waves and commits NOT in scope: chore-only single-commit waves
+(typo fixes; link-rot fixes; formatting normalisations) per the
+canonical's §4 Exception 1.
+
+## RULE 1 — Run the 8-dimension sweep at every in-scope trigger (binding)
+
+Every in-scope trigger MUST execute the 8-dimension index-freshness sweep
+before the wave's UAT verdict line is filled in / before the canonical-CSV
+mint commit lands. The sweep output (`reports/index-sweep-<date>.md`
+under the parent initiative folder) is a §3 mechanical-evidence row in
+the wave's UAT report.
+
+The 8 dimensions are defined in [`INDEX_INTEGRITY_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md) §2. Summary:
+
+| # | Dimension code | Index document | Probe heuristic |
+|:--|:---|:---|:---|
+| 1 | IDX-01-PLANNING-README-INITIATIVE-COUNT | `docs/wip/planning/README.md` | filesystem NN- folder count ↔ INITIATIVE_REGISTRY.csv row count |
+| 2 | IDX-02-PRECEDENCE-CSV-COVERAGE | `PRECEDENCE.md` | every CSV under `compliance/canonicals/` + `dimensions/` mentioned |
+| 3 | IDX-03-CHANGELOG-WAVE-COVERAGE | `CHANGELOG.md` | last commit's Wave-X marker mentioned in `[Unreleased]` |
+| 4 | IDX-04-INITIATIVE-DEPENDENCIES-FRESHNESS | `INITIATIVE_DEPENDENCIES.md` | last-edit within 7d of last registry change |
+| 5 | IDX-05-USER-GUIDE-ROLE-PROCESS-COUNTS | `docs/USER_GUIDE.md` HLK Operator Model | role/process counts ↔ canonical CSV counts (~1% wobble) |
+| 6 | IDX-06-ARCHITECTURE-HLK-REGISTRY-COVERAGE | `docs/ARCHITECTURE.md` HLK Registry | every dimension CSV mentioned |
+| 7 | IDX-07-PLANNING-FOLDER-FILESYSTEM-PARITY | `docs/wip/planning/README.md` initiative table | bidirectional FK: folders ↔ README rows |
+| 8 | IDX-08-QUALITY-FABRIC-SPECIALTY-COUNT | `HOLISTIKA_QUALITY_FABRIC.md` §6 | every `*_DISCIPLINE.md` referenced |
+
+6 dimensions (1-4, 7-8) are **baseline + always fire**. 2 dimensions (5-6)
+are **conditional** — they fire only when the relevant source-of-truth has
+changed.
+
+## RULE 2 — Findings disposition via inline-ratify 5-option enum (binding)
+
+Every drift/gap/blocked finding from the sweep MUST be dispositioned via
+an inline `AskQuestion` gate per [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc)
++ the paired [`inline-ratify-craft`](../skills/inline-ratify-craft/SKILL.md) skill,
+using the 5-option enum codified in `INDEX_INTEGRITY_DISCIPLINE.md` §6:
+
+1. **deterministic-fix-now** (default for drift findings on IDX-01, IDX-02,
+   IDX-07, IDX-08).
+2. **manual-fix-now** (default for drift findings on IDX-03, IDX-04, IDX-05,
+   IDX-06 which require prose judgement).
+3. **defer-OPS** (default for low-severity gaps + skip findings).
+4. **accept-as-canon** (operator ratifies the drift was deliberate;
+   appends contra-precedent + decision row).
+5. **escalate-to-blocker-tracker** (cannot be dispositioned in-chat;
+   mints `_blockers/<slug>-tracker.md` per [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc)).
+
+When findings exceed 10, the agent splits the gates into 2 `AskQuestion`
+batches (per inline-ratify-craft Principle 5 batching guidance). Time-box
+recovery applies only to reversible dispositions per
+`akos-inline-ratification.mdc` §"Time-box recovery".
+
+## RULE 3 — Sweep cadence per canonical §4 (binding)
+
+Default cadence: **every wave-close** + **every canonical-CSV mint**.
+Exceptions:
+
+- **Chore-only single-commit waves**: exempt entirely.
+- **Multi-commit waves**: sweep at wave-close only, not per-commit.
+- **Canonical-CSV mints adding < 3 rows to existing CSV**: MAY skip the
+  sweep IF the affected dimensions are conditional only (IDX-05, IDX-06)
+  AND the operator records the skip in `operator-scratchpad.md`.
+- **Pre-commit self-test**: always-on, zero-cost Pydantic fixture
+  validation only (`--self-test` mode of the runbook + validator).
+
+No other exemptions. "We're in a hurry" / "we'll do it next wave" are
+NOT exemptions per the operator's 2026-05-21 framing.
+
+## RULE 4 — Self-test step wired into pre_commit (binding from D-IH-86-CD)
+
+The runbook `scripts/baseline_index_sweep.py --self-test` AND the
+validator `scripts/validate_index_freshness.py --self-test` verify the 8
+probe functions exist + return well-formed `IndexFreshnessRow` Pydantic
+models. The self-test runs at every `py scripts/verify.py pre_commit`
+invocation via [`config/verification-profiles.json`](../../config/verification-profiles.json)
+`validate_index_freshness_self_test` step + [`scripts/release-gate.py`](../../scripts/release-gate.py)
+`run_index_freshness_self_test`.
+
+The full sweep (without `--self-test`) runs at wave-close + canonical-CSV
+mint only — NOT at every pre_commit (which would scan too many files).
+The self-test is the always-on circuit-breaker; the full sweep is the
+event-triggered gate.
+
+Per D-IH-86-CD INFO → FAIL ramp:
+
+- Wave N (mint): self-test PASS at pre_commit; full sweep runs at Wave N
+  close. Validator default mode emits findings at INFO; only `--strict`
+  exits non-zero.
+- Wave N close: backfill commit closes all baseline-index drift. One
+  full sweep emits `drift_count == 0 AND gap_count == 0`.
+- Wave O+: validator promoted to FAIL via operator-explicit decision
+  (D-IH-86-CD rationale or successor row); `--strict` becomes the default
+  mode in pre_commit.
+
+## RULE 5 — Specialty mint contract (binding)
+
+When this rule itself was minted (Wave N P3), it followed the Wave M
+INTER_WAVE_REGRESSION precedent — every new Quality Fabric specialty
+mint must ship the **same quartet**:
+
+1. Canonical doctrine: `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/<SPECIALTY>_DISCIPLINE.md`.
+2. Pydantic chassis: `akos/hlk_<specialty>.py` (frozen models per `CONTRIBUTING.md`).
+3. Validator: `scripts/validate_<specialty>.py` (release-gate-wired self-test).
+4. Runbook: `scripts/<specialty>_sweep.py` OR equivalent paired runbook
+   per `akos-executable-process-catalog.mdc` Rule 1.
+5. Cursor rule: `.cursor/rules/akos-<specialty>.mdc` (this rule's shape).
+6. Skill: `.cursor/skills/<specialty>-craft/SKILL.md` (the *how* layer).
+7. SOP+runbook pair: `SOP-<AREA>_<SPECIALTY>_001.md` with AC-HUMAN +
+   AC-AUTOMATION acceptance.
+8. PEOPLE_DESIGN_PATTERN_REGISTRY.csv row.
+9. PRECEDENCE.md canonical + mirror rows.
+10. HOLISTIKA_QUALITY_FABRIC.md §6 row + linked_canonicals frontmatter +
+    forward_charters when applicable.
+11. CHANGELOG.md entry.
+12. `process_list.csv` row when applicable.
+13. `validate_hlk.py` umbrella registration when umbrella-scoped.
+14. `config/verification-profiles.json` `pre_commit` step (INFO ramp).
+15. `scripts/release-gate.py` advisory wiring.
+
+All 15 surfaces land in the same commit (or the next material commit) so
+the specialty is operationally complete before being advertised. This
+rule's own mint commit is the worked example.
+
+## Cross-references
+
+- [`INDEX_INTEGRITY_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md) — the doctrine.
+- [`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) — parent fabric (§6 row added at this mint).
+- [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md) — sister discipline.
+- [`akos-quality-fabric.mdc`](akos-quality-fabric.mdc) — parent fabric rule.
+- [`akos-inter-wave-regression.mdc`](akos-inter-wave-regression.mdc) — sister discipline rule.
+- [`akos-docs-config-sync.mdc`](akos-docs-config-sync.mdc) — sync-contract rule; this rule mechanically enforces a subset of those contracts.
+- [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) — findings disposition.
+- [`.cursor/skills/index-integrity-craft/SKILL.md`](../skills/index-integrity-craft/SKILL.md) — paired skill (the *how* layer).
+- [`scripts/baseline_index_sweep.py`](../../scripts/baseline_index_sweep.py) — the runbook.
+- [`scripts/validate_index_freshness.py`](../../scripts/validate_index_freshness.py) — the validator wrapper.
+- D-IH-86-CD (canonical mint + INFO ramp), D-IH-86-CE (8-dimension probe set), D-IH-86-CF (paired SOP+runbook gate).
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md

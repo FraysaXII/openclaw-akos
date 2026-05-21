@@ -496,6 +496,50 @@ I86 cluster orchestrator (INIT-OPENCLAW_AKOS-86) flips from `status: active` →
 
 **Resolution of inventory Q3 (I86 self-closure vs cluster closure framing)** — RESOLVED. [`D-IH-86-N`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) rationale field reads (verbatim): *"this closes the program-anchor sub-thread only; the I86 continuous-cluster-burndown workstream remains open until OPS-86-1 closes (`D-IH-86-CLOSURE` would be the future whole-initiative closure decision)."* Combined with the I86 [master-roadmap §7](master-roadmap.md) closure criterion ("ten siblings closed + OPS-86-1 closed + closure cross-check"), the framing is **unambiguous**: `D-IH-86-N` closed only the **program-anchor sub-thread (P0-P3 scoped exception)** that was opened by `D-IH-86-I`. The **cluster-orchestration workstream** (continuous; OPS-86-1) stays open until `D-IH-86-CLOSURE` mints at Wave L per this plan. The INITIATIVE_REGISTRY row stays `status: active` for the duration. This plan's closure criterion (§10 items 1-7 above) is the operationalised version of the I86 §7 criterion; both must PASS together.
 
+## §10b Wave N-T extension (added 2026-05-21 per D-IH-86-CD)
+
+The original plan §3-§9 sequenced Waves H-L. The cluster's actual execution
+proceeded through Waves H through M (M.5 hotfix included) with Bundle D /
+Wave E / F / G ratifies landing earlier than originally sequenced. As of
+2026-05-21, the cluster is mid-execution and requires Wave N-T to close.
+This sub-section sketches the per-wave shape; per-wave detail is
+authored in [`reports/cluster-burndown-plan-wave-n-t-2026-05-21.md`](reports/cluster-burndown-plan-wave-n-t-2026-05-21.md)
+when each wave enters.
+
+### Wave-by-wave forward sketch
+
+```mermaid
+flowchart LR
+  M5[Wave M.5 hotfix CLOSED]
+  N[Wave N housekeeping + INDEX_INTEGRITY mint]
+  O[Wave O I74+I75+I83 active promotion]
+  P[Wave P I76 P1-P3 + I81 P1 + I82 P1 + I83 Strand B]
+  Q[Wave Q 4 canonical-CSV mints]
+  R[Wave R I76+I82 closure + AIC registries]
+  S[Wave S I81 P3-P9 + I89 P0-P3]
+  T[Wave T I89 closure + I86 row flips]
+
+  M5 --> N --> O --> P --> Q --> R --> S --> T
+```
+
+| Wave | Scope | Operator presence | Mandatory gates | Notes |
+|:---|:---|:---|:---|:---|
+| N | INDEX_INTEGRITY discipline mint + Wave M/M.5 backfill (PRECEDENCE + CHANGELOG + README + INITIATIVE_DEPENDENCIES + dashboards + USER_GUIDE/ARCHITECTURE sync) + 62-finding cluster-collapse triage + Wave M UAT backfill | partial (batched gates per inline-ratify-craft Principle 5) | none mandatory (housekeeping wave) | D-IH-86-CD + CE + CF + CG-UMBRELLA |
+| O | I74 + I75 + I83 active promotion per D-IH-86-CC OVERRIDE (pre-ratified at N.3) | full (3 inception gates D-IH-74-A + D-IH-75-A + D-IH-83-A) | inception-ratify per candidate | halt at first canonical-CSV gate per pace=as-far-as-possible-with-defaults |
+| P | I76 P1-P3 + I81 P1 + I82 P1 + I83 Strand B | full | I82 P1 Talent activation canonical-CSV gate | per akos-governance-remediation.mdc canonical-CSV gate discipline |
+| Q | 4 MANDATORY canonical-CSV mints (CAPABILITY_REGISTRY / USE_CASE_ARCHIVE / MADEIRA_AIC_PER_TASK_REGISTRY split into per-mint tranches) | full | each mint gated per akos-governance-remediation.mdc | per akos-holistika-operations.mdc §"New git-canonical compliance registers" |
+| R | I76 + I82 closure + I81 P2 + AIC_REGISTRY + AIC_CAPABILITY_IMPLEMENTATION_MATRIX (per scratchpad 2026-05-21 21:23 D-IH-86-CH ratification) | full | 2 closure ratifies + N tranche gates | I76 + I82 closure UATs per akos-planning-traceability.mdc UAT quality bar |
+| S | I81 P3-P9 closure + I89 P0-P3 + 1 MANDATORY public-prose Adviser-external | full (densest wave) | 12+ inline-ratify gates expected | per akos-external-render-discipline.mdc + akos-brand-baseline-reality.mdc |
+| T | I89 P4-P5 closure + closure mega-ratifies + I86 row flips active→closed | full | D-IH-86-CLOSURE | final closure UAT for cluster coordinator |
+
+### Cross-cutting disciplines (per wave from N onward)
+
+- **OPS-86-N.X-CREEP rows** filed for any sub-wave-creep (per [OPS_REGISTER.csv](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv) convention).
+- **Inter-wave regression sweep** at every wave-close per [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../../references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md) (Wave M precedent: ran [`scripts/inter_wave_regression_sweep.py`](../../../../scripts/inter_wave_regression_sweep.py)).
+- **Baseline index sweep** at every wave-close UAT mechanical evidence per [`INDEX_INTEGRITY_DISCIPLINE.md`](../../../references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md) (Wave N precedent: ran [`scripts/baseline_index_sweep.py`](../../../../scripts/baseline_index_sweep.py)).
+- **INDEX_INTEGRITY validator INFO→FAIL promotion** via D-IH-86-CD after Wave N close clean sweep + 2 consecutive subsequent wave-close clean sweeps (target: Wave Q).
+- **~62-81 inline-ratify gates total** across N-T; estimate per inline-ratify-craft skill Principle 5 batching.
+
 ## §11 Cross-references
 
 **Parent + sibling planning artefacts**:

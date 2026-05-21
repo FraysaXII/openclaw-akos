@@ -1,62 +1,17 @@
 {
   "report_id": "regression-sweep-2026-05-21",
-  "wave_closing": "Wave-L",
+  "wave_closing": "Wave-N",
   "swept_at": "2026-05-21",
   "swept_by": "agent:inter_wave_regression_sweep",
   "findings": [
     {
       "dimension_code": "DIM-01-DECISION-LINEAGE",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md",
-      "verdict": "drift",
-      "proposed_rework_action": "add D-IH-86-BW to DECISION_REGISTER.csv OR remove it from this canonical's ratifying_decisions frontmatter",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv",
+      "verdict": "clean",
+      "proposed_rework_action": "",
       "candidate_decision_id": null,
-      "severity": "medium",
-      "notes": "canonical frontmatter cites D-IH-86-BW but no matching row in DECISION_REGISTER.csv"
-    },
-    {
-      "dimension_code": "DIM-01-DECISION-LINEAGE",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md",
-      "verdict": "drift",
-      "proposed_rework_action": "add D-IH-86-BX to DECISION_REGISTER.csv OR remove it from this canonical's ratifying_decisions frontmatter",
-      "candidate_decision_id": null,
-      "severity": "medium",
-      "notes": "canonical frontmatter cites D-IH-86-BX but no matching row in DECISION_REGISTER.csv"
-    },
-    {
-      "dimension_code": "DIM-01-DECISION-LINEAGE",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UX_DISCIPLINE.md",
-      "verdict": "drift",
-      "proposed_rework_action": "add D-IH-86-BY to DECISION_REGISTER.csv OR remove it from this canonical's ratifying_decisions frontmatter",
-      "candidate_decision_id": null,
-      "severity": "medium",
-      "notes": "canonical frontmatter cites D-IH-86-BY but no matching row in DECISION_REGISTER.csv"
-    },
-    {
-      "dimension_code": "DIM-01-DECISION-LINEAGE",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md",
-      "verdict": "drift",
-      "proposed_rework_action": "add D-IH-84-G to DECISION_REGISTER.csv OR remove it from this canonical's ratifying_decisions frontmatter",
-      "candidate_decision_id": null,
-      "severity": "medium",
-      "notes": "canonical frontmatter cites D-IH-84-G but no matching row in DECISION_REGISTER.csv"
-    },
-    {
-      "dimension_code": "DIM-01-DECISION-LINEAGE",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md",
-      "verdict": "drift",
-      "proposed_rework_action": "add D-IH-84-H to DECISION_REGISTER.csv OR remove it from this canonical's ratifying_decisions frontmatter",
-      "candidate_decision_id": null,
-      "severity": "medium",
-      "notes": "canonical frontmatter cites D-IH-84-H but no matching row in DECISION_REGISTER.csv"
-    },
-    {
-      "dimension_code": "DIM-01-DECISION-LINEAGE",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SUBSTRATE_LANDSCAPE_DOCTRINE.md",
-      "verdict": "drift",
-      "proposed_rework_action": "add D-IH-84-G to DECISION_REGISTER.csv OR remove it from this canonical's ratifying_decisions frontmatter",
-      "candidate_decision_id": null,
-      "severity": "medium",
-      "notes": "canonical frontmatter cites D-IH-84-G but no matching row in DECISION_REGISTER.csv"
+      "severity": "low",
+      "notes": "360 decisions in register; all ratifying_decisions: frontmatter values FK-resolve (reverse-FK advisory sweep deferred to operator review)"
     },
     {
       "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
@@ -75,6 +30,51 @@
       "candidate_decision_id": null,
       "severity": "low",
       "notes": "forward_charters: item 'I-NN-CHANNEL-DOCTRINES (per-channel goods/bads research; activation gates HOLISTIKA_QUALITY_FABRIC P1 + 1 channel research pass)' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'process_list.csv row hol_peopl_dtp_index_integrity_001' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'process_list.csv row hol_peopl_dtp_index_integrity_001' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_index_integrity_discipline' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_index_integrity_discipline' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'paired runbook scripts/baseline_index_sweep.py (Wave N P3)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'paired runbook scripts/baseline_index_sweep.py (Wave N P3)' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'paired validator scripts/validate_index_freshness.py (Wave N P3)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'paired validator scripts/validate_index_freshness.py (Wave N P3)' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land '.cursor/rules/akos-index-integrity.mdc (mechanical drift gate companion)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item '.cursor/rules/akos-index-integrity.mdc (mechanical drift gate companion)' has no observable carryover signal (no _candidates/ match, no OPS row)"
     },
     {
       "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
@@ -104,51 +104,6 @@
       "notes": "forward_charters: item 'paired runbook scripts/inter_wave_regression_sweep.py (P2)' has no observable carryover signal (no _candidates/ match, no OPS row)"
     },
     {
-      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md",
-      "verdict": "gap",
-      "proposed_rework_action": "land 'SOP-MKT_CAMPAIGN_LIFECYCLE_001.md (paired SOP; activation when discipline promotes to active)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
-      "candidate_decision_id": null,
-      "severity": "low",
-      "notes": "forward_charters: item 'SOP-MKT_CAMPAIGN_LIFECYCLE_001.md (paired SOP; activation when discipline promotes to active)' has no observable carryover signal (no _candidates/ match, no OPS row)"
-    },
-    {
-      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md",
-      "verdict": "gap",
-      "proposed_rework_action": "land 'scripts/mktops_campaign_quality_check.py (paired runbook; same gate)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
-      "candidate_decision_id": null,
-      "severity": "low",
-      "notes": "forward_charters: item 'scripts/mktops_campaign_quality_check.py (paired runbook; same gate)' has no observable carryover signal (no _candidates/ match, no OPS row)"
-    },
-    {
-      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md",
-      "verdict": "gap",
-      "proposed_rework_action": "land 'SOP-TECH_SYSTEM_RELIABILITY_001.md (paired SOP; activation gate when canonical promotes to active)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
-      "candidate_decision_id": null,
-      "severity": "low",
-      "notes": "forward_charters: item 'SOP-TECH_SYSTEM_RELIABILITY_001.md (paired SOP; activation gate when canonical promotes to active)' has no observable carryover signal (no _candidates/ match, no OPS row)"
-    },
-    {
-      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md",
-      "verdict": "gap",
-      "proposed_rework_action": "land 'SOP-PEOPLE_UAT_GOVERNANCE_001.md (paired SOP + addendum + runbook validate_uat_report.py)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
-      "candidate_decision_id": null,
-      "severity": "low",
-      "notes": "forward_charters: item 'SOP-PEOPLE_UAT_GOVERNANCE_001.md (paired SOP + addendum + runbook validate_uat_report.py)' has no observable carryover signal (no _candidates/ match, no OPS row)"
-    },
-    {
-      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
-      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md",
-      "verdict": "gap",
-      "proposed_rework_action": "land 'process_list.csv row hol_peopl_dtp_uat_governance_001' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
-      "candidate_decision_id": null,
-      "severity": "low",
-      "notes": "forward_charters: item 'process_list.csv row hol_peopl_dtp_uat_governance_001' has no observable carryover signal (no _candidates/ match, no OPS row)"
-    },
-    {
       "dimension_code": "DIM-03-VALIDATOR-RAMP-CONSISTENCY",
       "surface_path": "verification-profiles.json;release-gate.py",
       "verdict": "drift",
@@ -170,19 +125,19 @@
       "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
       "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv",
       "verdict": "gap",
-      "proposed_rework_action": "mint missing components: supabase-mirror-migration, PRECEDENCE-entry",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
       "candidate_decision_id": null,
       "severity": "medium",
-      "notes": "slug=audience; missing_components=supabase-mirror-migration,PRECEDENCE-entry"
+      "notes": "slug=audience; missing_components=supabase-mirror-migration"
     },
     {
       "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
       "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv",
       "verdict": "gap",
-      "proposed_rework_action": "mint missing components: supabase-mirror-migration, PRECEDENCE-entry",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
       "candidate_decision_id": null,
       "severity": "medium",
-      "notes": "slug=channel_touchpoint; missing_components=supabase-mirror-migration,PRECEDENCE-entry"
+      "notes": "slug=channel_touchpoint; missing_components=supabase-mirror-migration"
     },
     {
       "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
@@ -197,10 +152,10 @@
       "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
       "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COUNTRY_WORK_CALENDAR.csv",
       "verdict": "gap",
-      "proposed_rework_action": "mint missing components: akos-pydantic-model, scripts-validator, supabase-mirror-migration, PRECEDENCE-entry",
+      "proposed_rework_action": "mint missing components: akos-pydantic-model, scripts-validator, supabase-mirror-migration",
       "candidate_decision_id": null,
       "severity": "medium",
-      "notes": "slug=country_work_calendar; missing_components=akos-pydantic-model,scripts-validator,supabase-mirror-migration,PRECEDENCE-entry"
+      "notes": "slug=country_work_calendar; missing_components=akos-pydantic-model,scripts-validator,supabase-mirror-migration"
     },
     {
       "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
@@ -555,12 +510,12 @@
     },
     {
       "dimension_code": "DIM-11-CURSOR-RULE-SKILL-PAIRING",
-      "surface_path": ".cursor/rules/akos-external-render-discipline.mdc",
+      "surface_path": ".cursor/rules/akos-docs-config-sync.mdc",
       "verdict": "gap",
       "proposed_rework_action": "mint paired skill under .cursor/skills/ OR file forward-charter candidate per D-IH-80-E precedent",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "rule body mentions craft/skill but no paired SKILL.md or _candidates/ match for token 'externalrenderdiscipline'"
+      "notes": "rule body mentions craft/skill but no paired SKILL.md or _candidates/ match for token 'docsconfigsync'"
     },
     {
       "dimension_code": "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
@@ -572,10 +527,10 @@
       "notes": "last_entry_date=2026-05-21; HEAD_date=2026-05-21; continuity OK"
     }
   ],
-  "clean_count": 3,
-  "drift_count": 7,
+  "clean_count": 4,
+  "drift_count": 1,
   "gap_count": 53,
   "blocked_count": 0,
   "skip_count": 0,
-  "total_findings": 63
+  "total_findings": 58
 }

@@ -89,6 +89,11 @@
           "argv": ["scripts/inter_wave_regression_sweep.py", "--self-test"]
         },
         {
+          "id": "validate_index_freshness_self_test",
+          "description": "Initiative 86 Wave N (D-IH-86-CD, 2026-05-21): baseline index integrity discipline self-test. Validates akos/hlk_index_integrity.py Pydantic SSOT (IndexFreshnessRow + IndexFreshnessReport frozen models) + scripts/baseline_index_sweep.py PROBE_REGISTRY shape (8 probes; one per dimension code IDX-01..IDX-08; 6 baseline + 2 conditional). Does NOT run the actual 8-dimension sweep (that's event_triggered cadence per the INDEX_INTEGRITY_DISCIPLINE.md canonical §4 + process_list.csv hol_peopl_dtp_index_integrity_001 cadence column: fires at wave-close + canonical-CSV mint). Self-test mode keeps CI cost at ~2s. INFO ramp until Wave N N.4 backfill closes drift; promoted to FAIL via operator-explicit decision row (D-IH-86-CD rationale or successor). Paired runbook + canonical + SOP + cursor rule + skill + Pydantic chassis shipped Wave N P3.",
+          "argv": ["scripts/validate_index_freshness.py", "--self-test"]
+        },
+        {
           "id": "validate_output_architecture_registries",
           "description": "Initiative 86 Wave L (D-IH-86-BG, 2026-05-21): composite validator over the 3 registries that compose the 4-layer output architecture beneath the 5-axis Quality Fabric (D-IH-86-BB Wave K mint). Layer 1 OUTPUT_TYPE_REGISTRY (medium / shape) + Layer 2 ARTIFACT_CLASS_REGISTRY (named purpose) + Layer 3 COMPONENT_PRIMITIVE_REGISTRY (Shadcn-shape granular primitives). Header drift gates + Pydantic per-row validation + cross-FK resolution: ARTIFACT_CLASS.output_type_codes -> OUTPUT_TYPE_REGISTRY ; ARTIFACT_CLASS.typical_audience_codes -> AUDIENCE_REGISTRY ; COMPONENT_PRIMITIVE.parent_artifact_class_codes -> ARTIFACT_CLASS_REGISTRY ; *.last_review_decision_id -> DECISION_REGISTER ; render_targets tokens -> VALID_RENDER_TARGETS ; kind tokens -> VALID_KINDS. Strict from day one (the registries minted at Wave K already pass).",
           "argv": ["scripts/validate_output_architecture_registries.py"]

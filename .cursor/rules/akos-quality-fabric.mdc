@@ -1,3 +1,24 @@
+---
+description: >-
+  AKOS Quality Fabric — mechanical bar for any quality-bound artifact. 5-axis
+  composition (audience × channel × scenario × brand × governance) with
+  multiplicative-AND semantics per D-IH-86-AU. Always-applied because the
+  fabric parametrises every other quality discipline in this workspace.
+globs:
+  - "docs/**"
+  - "akos/**"
+  - "scripts/render_*.py"
+  - "scripts/export_*.py"
+  - "scripts/validate_*.py"
+  - "scripts/*_sweep.py"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/*_DISCIPLINE.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/*.csv"
+  - "docs/wip/planning/**/uat-*.md"
+  - "docs/wip/planning/**/master-roadmap.md"
+  - "CHANGELOG.md"
+alwaysApply: true
+---
 # AKOS Quality Fabric
 
 Use this rule whenever authoring, reviewing, or shipping a **quality-bound artifact** in this workspace. Codifies operator decision **D-IH-86-AU** (operator-ratified the 5-axis composition architecture, 2026-05-20). Mechanical companion to the meta-canonical [`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md).

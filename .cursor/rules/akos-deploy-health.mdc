@@ -6,7 +6,7 @@ globs:
   - "../root_cd/**/app/**/*.tsx"
   - "../root_cd/**/i18n/messages/*.json"
   - "docs/wip/planning/**/master-roadmap.md"
-alwaysApply: false
+alwaysApply: true
 ---
 
 # AKOS Deploy Health — recurrent CICD smoke discipline

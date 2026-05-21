@@ -28,6 +28,7 @@ linked_canonicals:
   - HOLISTIKA_STAKEHOLDER_LENSES.md
   - UAT_DISCIPLINE.md
   - INTER_WAVE_REGRESSION_DISCIPLINE.md
+  - INDEX_INTEGRITY_DISCIPLINE.md
   - DATAOPS_DISCIPLINE.md
   - MKTOPS_DISCIPLINE.md
   - TECHOPS_DISCIPLINE.md
@@ -342,13 +343,16 @@ for the specialty's domain.
 | **DATAOPS (data quality / pipeline integrity / mirror sync)** | `DATAOPS_DISCIPLINE.md` (Wave M P5 mint at status: charter per `D-IH-86-BV`; fulfils forward-charter `D-IH-86-AZ`; owned by Tech/Data + System Owner) | charter | `compose_DATAOPS(audience, channel, scenario, brand, governance) → data quality bar + pipeline freshness + mirror parity + FDW posture` |
 | **Output-architecture (4-layer hierarchy)** | `OUTPUT_TYPE_LIBRARY.md` + `ARTIFACT_CLASS_LIBRARY.md` + `COMPONENT_PRIMITIVE_LIBRARY.md` (Wave K skeleton mint per `D-IH-86-BB`; full doctrine matures at I-NN-OUTPUT-ARCHITECTURE P1-P3) | charter | `compose_layer(audience, channel, scenario, brand, governance, layer: output-type|artifact-class|component-primitive) → per-layer bar (medium-specific authoring rule / artifact-class purpose+composition / Shadcn-shape primitive doctrine)` |
 | **Inter-wave regression (multi-wave initiative integrity)** | `INTER_WAVE_REGRESSION_DISCIPLINE.md` (Wave M P1 mint at status: charter per `D-IH-86-BK`; 12-dimension sweep + 5-option inline-ratify enum + INFO→FAIL ramp per `D-IH-86-BN`) | charter | `compose_REGRESSION(audience, channel, scenario, brand, governance, wave_closing) → 12-dimension regression sweep (7 baseline + 5 conditional) + per-finding inline-ratify gate` |
+| **Index integrity (baseline index documents)** | `INDEX_INTEGRITY_DISCIPLINE.md` (Wave N P3 mint at status: charter per `D-IH-86-CD`; 8-dimension sweep + 5-option inline-ratify enum + INFO→FAIL ramp per `D-IH-86-CD` + paired SOP+runbook per `D-IH-86-CF`) | charter | `compose_INDEX(governance) → 8-dimension index-freshness sweep (6 baseline IDX-01/02/03/04/07/08 + 2 conditional IDX-05/06) + per-finding inline-ratify gate + deterministic-fix paths for IDX-01/02/07/08` |
 
 Future specialty materialisations inherit the same compose() pattern —
 each is a new row in this table without changing the fabric itself. This
 is the scalability claim. Wave K demonstrated the claim by extending
 from 5 → 9 materialisations (MKTOPS / TECHOPS / DATAOPS / output-architecture
-added) without touching the 5-axis composition rule itself; Wave M extends
-to 10 (inter-wave regression added) under the same scalability claim.
+added) without touching the 5-axis composition rule itself; Wave M extended
+to 10 (inter-wave regression added); Wave N extends to 11 (index integrity
+added) under the same scalability claim — all without touching the 5-axis
+composition rule.
 
 ## 7. Forward-charter inventory
 

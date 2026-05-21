@@ -16,7 +16,7 @@ continuous_rationale: Auto-rendered Operator Action Inbox (I59 P4) — re-render
 
 <!-- BEGIN AUTO -->
 
-_Rows: 33 (open · operator/mixed · ranked by RICE desc)._
+_Rows: 35 (open · operator/mixed · ranked by RICE desc)._
 
 | OPS ID | Initiative | Owner | RICE | What | Notes |
 | --- | --- | --- | --- | --- | --- |
@@ -52,6 +52,8 @@ _Rows: 33 (open · operator/mixed · ranked by RICE desc)._
 | `OPS-76-4` | INIT-OPENCLAW_AKOS-86 — I86 - Initiative Cluster Execution Coordinator (Waves 1-5 burndown) | operator (PMO) | — | Blocker-tracker review cadence - I83 candidate (I82 P4 USE_CASE_ARCHIVE not minted) | Two-stage unblock: I82 P4 first then I76 P3. Status flips from blocked-on-I82-P4 to blocked-on-I76-P3 at first stage. Will be relinked to forwarded_to_initiative_id at promotion time. |
 | `OPS-86-1` | INIT-OPENCLAW_AKOS-86 — I86 - Initiative Cluster Execution Coordinator (Waves 1-5 burndown) | mixed (PMO) | — | I86 cluster coordination - Waves 1-5 nine-sibling burndown | Cadence event-driven per D-IH-86-B; spotlight facilitation per D-IH-86-A; sibling charters remain authoritative for scope. |
 | `OPS-86-3` | INIT-OPENCLAW_AKOS-86 — I86 - Initiative Cluster Execution Coordinator (Waves 1-5 burndown) | operator (PMO) | — | I86 P2 — promote program_anchors to first-class column (Supabase DDL + Pydantic fieldnames + validator FK block) | Pause-record reports/p2-pause-record-<date>.md required before merge. |
+| `OPS-86-8` | INIT-OPENCLAW_AKOS-86 — I86 - Initiative Cluster Execution Coordinator (Waves 1-5 burndown) | operator (PMO) | — | Wave N: refine inter_wave_regression_sweep probes (DIM-02 valid_statuses sync from canonical INITIATIVE_REGISTRY at load + DIM-04 forward-charter slot verification) | Wave M deferral per Cluster A sub-decision D-IH-86-BT. Forward-cadence: probe-refactor lands inside Wave N as P0 cleanup. |
+| `OPS-86-9` | INIT-OPENCLAW_AKOS-86 — I86 - Initiative Cluster Execution Coordinator (Waves 1-5 burndown) | operator (PMO) | — | Wave N+: mint paired runbooks for the 4 Quality Fabric specialty canonicals (dataops + mktops + techops paired runbooks; UX SOP) | Wave M Cluster B engrave-properly deferral per D-IH-86-BU. Scope estimate: 3 person-weeks total across the 4 runbooks (Q3 2026 forward-charter). |
 | `OPS-89-1` | INIT-OPENCLAW_AKOS-89 — I89 - HLK-ERP persona-rollup panel implementation (six routes incl Adviser-external REDACTED) | mixed (PMO) | — | I89 P0 charter coordination - tri-co-owned cross-cutting six-phase rollout | Cluster-coordination cost low (no sibling-coordination across the I86 ten-sibling list); higher operator-cycle cost on Adviser-external pause-point at P3. Closes when D-IH-89-CLOSURE mints. |
 
 <!-- END AUTO -->
