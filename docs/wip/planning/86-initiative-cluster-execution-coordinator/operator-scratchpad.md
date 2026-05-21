@@ -475,4 +475,28 @@ This **subsumes** the previously-named I-NN-MESSAGE-COMPONENT-LIBRARY (D-IH-86-A
 
 **External research grounding** (per [`akos-applied-research-discipline.mdc`](../../../../.cursor/rules/akos-applied-research-discipline.mdc) RULE 2): the matrix concept is a **refinement** of DAMA-DMBOK 2.0 Data Integration & Interoperability §"Normalized Adapter Pattern" + Truto/Unified.to/Apideck 2026 industry consensus (already cited in [`akos-executable-process-catalog.mdc`](../../../../.cursor/rules/akos-executable-process-catalog.mdc) RULE 2). **Not novel framing** — external citation optional.
 
+### 2026-05-22 01:15 — Wave-P close drain + Wave-Q kickoff
+
+**Wave-P closed atomically** (commits `97bca59` + `30ae0c9` per one-CSV-per-push policy per operator AskQuestion 2026-05-22).
+
+- **D-IH-86-CM** — Wave P closure decision (governance fixes + INDEX promote + I82 P1 sign-off + I13 default).
+- **D-IH-86-CL** — DIM-13 paired-mint completeness ratification (4 orphan `process_list` rows → PMO; 22 ghost roles batched to `planned`).
+- **D-IH-86-CN** — INDEX_INTEGRITY INFO→FAIL promotion (`validate_index_freshness.py --strict` wired into `pre_commit` + `release-gate.py`).
+- **D-IH-86-CO** — I13 consolidation default remain-parallel at I76 P4 (ambiguous; operator deferred substantive disposition).
+- **D-IH-82-PREREQ** — I82 P2 prerequisite waiver (I81 P1 evidence accepted; CAPABILITY_REGISTRY may mint without further gate).
+- **D-IH-82-N** — I82 P1 HALT pause record operator sign-off.
+- **D-IH-82-P** — CAPABILITY_REGISTRY full-coverage seed posture (1092 rows from I81 matrix; not just matched-SOP rows).
+
+**Wave-Q CSV 1/4 minted**: `CAPABILITY_REGISTRY.csv` (1092 rows; Pydantic chassis + validator + seed runbook + tests + PRECEDENCE + ARCHITECTURE HLK Registry row + `validate_hlk.py` wiring).
+
+**Post-close regression sweep** (Wave-P, `regression-sweep-2026-05-22.md`): **4 clean / 2 drift / 53 gap / 0 blocked**.
+- **DIM-13 CLEAN** ✓ — orphan_processes=0, ghost_roles=0 (Wave P fixes worked).
+- **DIM-03 drift** (benign) — INDEX promotion observed; D-IH-86-CN already ratifies.
+- **DIM-12 drift** — this entry resolves (scratchpad now ahead of HEAD).
+- **53 gap findings** — pre-existing long-tail (DIM-02 forward-charter carryover ×10, DIM-04 canonical-CSV pair-completeness ×8, DIM-05 SOP+runbook pairing ×8 `thi_data_*`, DIM-06 closed-initiative UAT class ×10, DIM-09 cross-area breakthrough digest ×8, DIM-10 deploy-evidence ×4, DIM-11 cursor-rule skill pairing ×5). Per Wave M cluster-A/B precedent + operator's "heavy-always cluster" posture: dispositioned **defer-OPS** via **D-IH-86-CP** → reserved `OPS-86-WAVE-R-LONGTAIL-CLEANUP` for Wave R aggregate disposition.
+
+**Forward to Wave Q CSV 2/4** (`CAPABILITY_CONFIDENCE_REGISTRY.csv`): I82 conundrum **C-82-2** (confidence naming: SCP-cameo vs numbers vs plain) not in any prior ratified batch. Default to **numeric 1-5 per HOLISTIKA_CAPABILITY_DOCTRINE.md §6** (5-dimension axis) at v1; SCP-cameo + plain-register addendum stubs forward-chartered to I82 P3 Marketing/Brand co-sign. Auto-default justified because (a) numeric scale is doctrine-anchored, (b) addendum stubs preserve operator option to ratify naming later without re-mint, (c) reversible — additive only. Per inline-ratify-craft Time-box recovery: reversible disposition + clean validators + no pending operator silence-threshold conflict.
+
+[processed 2026-05-22 wave-P-close]
+
 <!-- end of entries -->
