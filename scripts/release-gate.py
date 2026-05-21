@@ -583,6 +583,18 @@ def run_index_freshness_self_test() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_index_freshness_strict() -> tuple[bool, int]:
+    """Run full baseline-index sweep in strict mode (D-IH-86-CN FAIL ramp)."""
+    logger.info("Running INDEX-INTEGRITY strict sweep (D-IH-86-CN; --strict) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_index_freshness.py"), "--strict"],
+        timeout=120,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_inter_wave_regression_self_test() -> tuple[bool, int]:
     """Run inter-wave regression self-test (I86 Wave M / D-IH-86-BO).
 
@@ -1205,8 +1217,14 @@ def main() -> None:
 
     idx_freshness_ok, idx_freshness_rc = run_index_freshness_self_test()
     results.append((
-        "INFO" if idx_freshness_ok else "FAIL",
-        f"Index integrity self-test (scripts/validate_index_freshness.py --self-test - Pydantic SSOT + 8-probe registry shape validation; event_triggered 8-dimension sweep fires at wave-close + canonical-CSV mint per INDEX_INTEGRITY_DISCIPLINE.md canonical §4; 6 baseline (IDX-01/02/03/04/07/08) + 2 conditional (IDX-05/06) probes; paired runbook scripts/baseline_index_sweep.py; INFO ramp until Wave N N.4 backfill per D-IH-86-CD; 11th Quality Fabric specialty; I86 Wave N / D-IH-86-CD; ok={'yes' if idx_freshness_ok else 'no'}; exit={idx_freshness_rc})",
+        "PASS" if idx_freshness_ok else "FAIL",
+        f"Index integrity self-test (scripts/validate_index_freshness.py --self-test - Pydantic SSOT + 8-probe registry shape validation; event_triggered 8-dimension sweep fires at wave-close + canonical-CSV mint per INDEX_INTEGRITY_DISCIPLINE.md canonical §4; 6 baseline (IDX-01/02/03/04/07/08) + 2 conditional (IDX-05/06) probes; paired runbook scripts/baseline_index_sweep.py; I86 Wave N / D-IH-86-CD; ok={'yes' if idx_freshness_ok else 'no'}; exit={idx_freshness_rc})",
+    ))
+
+    idx_strict_ok, idx_strict_rc = run_index_freshness_strict()
+    results.append((
+        "PASS" if idx_strict_ok else "FAIL",
+        f"Index integrity strict sweep (scripts/validate_index_freshness.py --strict - D-IH-86-CN immediate FAIL ramp; full 8-dimension baseline-index sweep; ok={'yes' if idx_strict_ok else 'no'}; exit={idx_strict_rc})",
     ))
 
     judge_ok, judge_rc = run_brand_voice_judge_self_test()

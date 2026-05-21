@@ -1,6 +1,6 @@
 {
   "report_id": "index-sweep-2026-05-22",
-  "sweep_trigger": "canonical_csv_mint",
+  "sweep_trigger": "on_demand",
   "swept_at": "2026-05-22",
   "swept_by": "agent:cli",
   "findings": [
@@ -22,7 +22,7 @@
       "proposed_fix_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "all 34 CSVs mentioned in PRECEDENCE.md"
+      "notes": "all 35 CSVs mentioned in PRECEDENCE.md"
     },
     {
       "dimension_code": "IDX-03-CHANGELOG-WAVE-COVERAGE",
@@ -57,12 +57,12 @@
     {
       "dimension_code": "IDX-06-ARCHITECTURE-HLK-REGISTRY-COVERAGE",
       "index_path": "docs/ARCHITECTURE.md",
-      "verdict": "fresh",
-      "drift_summary": "",
-      "proposed_fix_action": "",
+      "verdict": "gap",
+      "drift_summary": "1/21 dimension CSVs missing from ARCHITECTURE HLK Registry: CAPABILITY_REGISTRY.csv",
+      "proposed_fix_action": "append rows to ARCHITECTURE.md HLK Registry table for each missing dimension CSV",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "all 20 dimension CSVs mentioned in ARCHITECTURE.md"
+      "notes": "manual prose write"
     },
     {
       "dimension_code": "IDX-07-PLANNING-FOLDER-FILESYSTEM-PARITY",
@@ -85,9 +85,9 @@
       "notes": "all 8 *_DISCIPLINE.md files referenced in HOLISTIKA_QUALITY_FABRIC.md"
     }
   ],
-  "fresh_count": 8,
+  "fresh_count": 7,
   "drift_count": 0,
-  "gap_count": 0,
+  "gap_count": 1,
   "blocked_count": 0,
   "skip_count": 0,
   "total_findings": 8

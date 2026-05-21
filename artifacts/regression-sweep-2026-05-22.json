@@ -1,0 +1,734 @@
+{
+  "report_id": "regression-sweep-2026-05-22",
+  "wave_closing": "Wave-P",
+  "swept_at": "2026-05-22",
+  "swept_by": "agent:inter_wave_regression_sweep",
+  "findings": [
+    {
+      "dimension_code": "DIM-01-DECISION-LINEAGE",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md",
+      "verdict": "drift",
+      "proposed_rework_action": "add D-IH-86-CL to DECISION_REGISTER.csv OR remove it from this canonical's ratifying_decisions frontmatter",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "canonical frontmatter cites D-IH-86-CL but no matching row in DECISION_REGISTER.csv"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'SOP-TECH_DATAOPS_QUALITY_001.md (paired SOP; activation gate when canonical promotes to active)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'SOP-TECH_DATAOPS_QUALITY_001.md (paired SOP; activation gate when canonical promotes to active)' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'I-NN-CHANNEL-DOCTRINES (per-channel goods/bads research; activation gates HOLISTIKA_QUALITY_FABRIC P1 + 1 channel research pass)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'I-NN-CHANNEL-DOCTRINES (per-channel goods/bads research; activation gates HOLISTIKA_QUALITY_FABRIC P1 + 1 channel research pass)' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'process_list.csv row hol_peopl_dtp_index_integrity_001' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'process_list.csv row hol_peopl_dtp_index_integrity_001' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_index_integrity_discipline' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_index_integrity_discipline' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'paired runbook scripts/baseline_index_sweep.py (Wave N P3)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'paired runbook scripts/baseline_index_sweep.py (Wave N P3)' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'paired validator scripts/validate_index_freshness.py (Wave N P3)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'paired validator scripts/validate_index_freshness.py (Wave N P3)' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land '.cursor/rules/akos-index-integrity.mdc (mechanical drift gate companion)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item '.cursor/rules/akos-index-integrity.mdc (mechanical drift gate companion)' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'process_list.csv row hol_peopl_dtp_inter_wave_regression_001' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'process_list.csv row hol_peopl_dtp_inter_wave_regression_001' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_inter_wave_regression_discipline' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_inter_wave_regression_discipline' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-02-FORWARD-CHARTER-CARRYOVER",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md",
+      "verdict": "gap",
+      "proposed_rework_action": "land 'paired runbook scripts/inter_wave_regression_sweep.py (P2)' in a subsequent canonical OR mint a _candidates/ file for it OR file an OPS_REGISTER row",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "forward_charters: item 'paired runbook scripts/inter_wave_regression_sweep.py (P2)' has no observable carryover signal (no _candidates/ match, no OPS row)"
+    },
+    {
+      "dimension_code": "DIM-03-VALIDATOR-RAMP-CONSISTENCY",
+      "surface_path": "verification-profiles.json;release-gate.py",
+      "verdict": "clean",
+      "proposed_rework_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "prior_sha=99e7636; no INFO->FAIL promotions or threshold relaxations observed in diff"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ARTIFACT_CLASS_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: scripts-validator, supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=artifact_class; missing_components=scripts-validator,supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=audience; missing_components=supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=channel_touchpoint; missing_components=supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COMPONENT_PRIMITIVE_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: scripts-validator, supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=component_primitive; missing_components=scripts-validator,supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COUNTRY_WORK_CALENDAR.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: akos-pydantic-model, scripts-validator, supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=country_work_calendar; missing_components=akos-pydantic-model,scripts-validator,supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: akos-pydantic-model",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=goi_poi_register; missing_components=akos-pydantic-model"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/KNOWLEDGE_PAIRING_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=knowledge_pairing; missing_components=supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/OUTPUT_TYPE_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: scripts-validator, supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=output_type; missing_components=scripts-validator,supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-05-SOP-RUNBOOK-PAIRING",
+      "surface_path": "process_list:thi_data_prj_1",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired SOP under <area>/<role>/canonicals/ AND runbook under scripts/ per akos-executable-process-catalog.mdc RULE 1",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "no SOP or runbook token-match for item_id; tokens=['data']"
+    },
+    {
+      "dimension_code": "DIM-05-SOP-RUNBOOK-PAIRING",
+      "surface_path": "process_list:thi_data_ws_1",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired SOP under <area>/<role>/canonicals/ AND runbook under scripts/ per akos-executable-process-catalog.mdc RULE 1",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "no SOP or runbook token-match for item_id; tokens=['data']"
+    },
+    {
+      "dimension_code": "DIM-05-SOP-RUNBOOK-PAIRING",
+      "surface_path": "process_list:thi_data_ws_2",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired SOP under <area>/<role>/canonicals/ AND runbook under scripts/ per akos-executable-process-catalog.mdc RULE 1",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "no SOP or runbook token-match for item_id; tokens=['data']"
+    },
+    {
+      "dimension_code": "DIM-05-SOP-RUNBOOK-PAIRING",
+      "surface_path": "process_list:thi_data_dtp_31",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired SOP under <area>/<role>/canonicals/ AND runbook under scripts/ per akos-executable-process-catalog.mdc RULE 1",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "no SOP or runbook token-match for item_id; tokens=['data']"
+    },
+    {
+      "dimension_code": "DIM-05-SOP-RUNBOOK-PAIRING",
+      "surface_path": "process_list:thi_data_dtp_32",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired SOP under <area>/<role>/canonicals/ AND runbook under scripts/ per akos-executable-process-catalog.mdc RULE 1",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "no SOP or runbook token-match for item_id; tokens=['data']"
+    },
+    {
+      "dimension_code": "DIM-05-SOP-RUNBOOK-PAIRING",
+      "surface_path": "process_list:thi_data_dtp_33",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired SOP under <area>/<role>/canonicals/ AND runbook under scripts/ per akos-executable-process-catalog.mdc RULE 1",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "no SOP or runbook token-match for item_id; tokens=['data']"
+    },
+    {
+      "dimension_code": "DIM-05-SOP-RUNBOOK-PAIRING",
+      "surface_path": "process_list:thi_data_dtp_34",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired SOP under <area>/<role>/canonicals/ AND runbook under scripts/ per akos-executable-process-catalog.mdc RULE 1",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "no SOP or runbook token-match for item_id; tokens=['data']"
+    },
+    {
+      "dimension_code": "DIM-05-SOP-RUNBOOK-PAIRING",
+      "surface_path": "process_list:thi_data_dtp_72",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired SOP under <area>/<role>/canonicals/ AND runbook under scripts/ per akos-executable-process-catalog.mdc RULE 1",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "no SOP or runbook token-match for item_id; tokens=['data']"
+    },
+    {
+      "dimension_code": "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+      "surface_path": "INITIATIVE_REGISTRY:INIT-OPENCLAW_AKOS-02",
+      "verdict": "gap",
+      "proposed_rework_action": "mint reports/uat-*.md for closed initiative INIT-OPENCLAW_AKOS-02",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "closed initiative INIT-OPENCLAW_AKOS-02 has no UAT report under 02-hlk-on-akos-madeira/reports/"
+    },
+    {
+      "dimension_code": "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+      "surface_path": "docs/wip/planning/07-hlk-neo4j-graph-projection/reports/uat-graph-explorer-browser-20260415.md",
+      "verdict": "gap",
+      "proposed_rework_action": "add §1 (closure summary) AND §3 (mechanical evidence) sections per UAT_DISCIPLINE.md §4",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "UAT report for closed init INIT-OPENCLAW_AKOS-07 missing required class sections"
+    },
+    {
+      "dimension_code": "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+      "surface_path": "docs/wip/planning/10-madeira-eval-hardening/reports/uat-madeira-path-bc-browser-20260416.md",
+      "verdict": "gap",
+      "proposed_rework_action": "add §1 (closure summary) AND §3 (mechanical evidence) sections per UAT_DISCIPLINE.md §4",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "UAT report for closed init INIT-OPENCLAW_AKOS-10 missing required class sections"
+    },
+    {
+      "dimension_code": "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+      "surface_path": "INITIATIVE_REGISTRY:INIT-OPENCLAW_AKOS-15",
+      "verdict": "gap",
+      "proposed_rework_action": "mint reports/uat-*.md for closed initiative INIT-OPENCLAW_AKOS-15",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "closed initiative INIT-OPENCLAW_AKOS-15 has no UAT report under 15-hlk-api-lifecycle-governance/reports/"
+    },
+    {
+      "dimension_code": "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+      "surface_path": "docs/wip/planning/17-madeira-cursor-mode-parity/reports/uat-madeira-uc-20260425.md",
+      "verdict": "gap",
+      "proposed_rework_action": "add §1 (closure summary) AND §3 (mechanical evidence) sections per UAT_DISCIPLINE.md §4",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "UAT report for closed init INIT-OPENCLAW_AKOS-17 missing required class sections"
+    },
+    {
+      "dimension_code": "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+      "surface_path": "docs/wip/planning/18-hlk-finops-counterparty-stripe/reports/uat-stripe-finops-reconcile-20260423.md",
+      "verdict": "gap",
+      "proposed_rework_action": "add §1 (closure summary) AND §3 (mechanical evidence) sections per UAT_DISCIPLINE.md §4",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "UAT report for closed init INIT-OPENCLAW_AKOS-18 missing required class sections"
+    },
+    {
+      "dimension_code": "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+      "surface_path": "docs/wip/planning/22a-i22-post-closure-followups/reports/uat-i24-supabase-apply-20260504.md",
+      "verdict": "gap",
+      "proposed_rework_action": "add §1 (closure summary) AND §3 (mechanical evidence) sections per UAT_DISCIPLINE.md §4",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "UAT report for closed init INIT-OPENCLAW_AKOS-22A missing required class sections"
+    },
+    {
+      "dimension_code": "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+      "surface_path": "INITIATIVE_REGISTRY:INIT-OPENCLAW_AKOS-58",
+      "verdict": "gap",
+      "proposed_rework_action": "mint reports/uat-*.md for closed initiative INIT-OPENCLAW_AKOS-58",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "closed initiative INIT-OPENCLAW_AKOS-58 has no UAT report under 58-cycle-2-multi-track-forward/reports/"
+    },
+    {
+      "dimension_code": "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+      "surface_path": "INITIATIVE_REGISTRY:INIT-OPENCLAW_AKOS-70",
+      "verdict": "gap",
+      "proposed_rework_action": "mint reports/uat-*.md for closed initiative INIT-OPENCLAW_AKOS-70",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "closed initiative INIT-OPENCLAW_AKOS-70 has no UAT report under 70-holistika-os-self-governance/reports/"
+    },
+    {
+      "dimension_code": "DIM-06-UAT-REPORT-CLASS-COMPLETENESS",
+      "surface_path": "INITIATIVE_REGISTRY:INIT-OPENCLAW_AKOS-71",
+      "verdict": "gap",
+      "proposed_rework_action": "mint reports/uat-*.md for closed initiative INIT-OPENCLAW_AKOS-71",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "closed initiative INIT-OPENCLAW_AKOS-71 has no UAT report under 71-cicd-discipline-and-aiops-baseline-maturity/reports/"
+    },
+    {
+      "dimension_code": "DIM-07-RENDER-TRAIL-AUDIENCE-MATCH",
+      "surface_path": "scripts/validate_external_render_trail.py",
+      "verdict": "clean",
+      "proposed_rework_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "--strict --strict-freshness PASS"
+    },
+    {
+      "dimension_code": "DIM-08-BRAND-BASELINE-REGISTER-MATCH",
+      "surface_path": "scripts/validate_brand_baseline_reality_drift.py",
+      "verdict": "clean",
+      "proposed_rework_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "brand-baseline drift validator PASS"
+    },
+    {
+      "dimension_code": "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+      "surface_path": "PEOPLE_DESIGN_PATTERN_REGISTRY:pattern_paired_sop_runbook",
+      "verdict": "gap",
+      "proposed_rework_action": "run `py scripts/peopl_cross_area_breakthrough_announce.py` with appropriate --since date to generate the missing digest",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "pattern_id not found in any breakthrough digest body"
+    },
+    {
+      "dimension_code": "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+      "surface_path": "PEOPLE_DESIGN_PATTERN_REGISTRY:pattern_engagement_model_taxonomy",
+      "verdict": "gap",
+      "proposed_rework_action": "run `py scripts/peopl_cross_area_breakthrough_announce.py` with appropriate --since date to generate the missing digest",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "pattern_id not found in any breakthrough digest body"
+    },
+    {
+      "dimension_code": "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+      "surface_path": "PEOPLE_DESIGN_PATTERN_REGISTRY:pattern_persona_registry",
+      "verdict": "gap",
+      "proposed_rework_action": "run `py scripts/peopl_cross_area_breakthrough_announce.py` with appropriate --since date to generate the missing digest",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "pattern_id not found in any breakthrough digest body"
+    },
+    {
+      "dimension_code": "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+      "surface_path": "PEOPLE_DESIGN_PATTERN_REGISTRY:pattern_intelligenceops_register",
+      "verdict": "gap",
+      "proposed_rework_action": "run `py scripts/peopl_cross_area_breakthrough_announce.py` with appropriate --since date to generate the missing digest",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "pattern_id not found in any breakthrough digest body"
+    },
+    {
+      "dimension_code": "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+      "surface_path": "PEOPLE_DESIGN_PATTERN_REGISTRY:pattern_normalized_adapter",
+      "verdict": "gap",
+      "proposed_rework_action": "run `py scripts/peopl_cross_area_breakthrough_announce.py` with appropriate --since date to generate the missing digest",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "pattern_id not found in any breakthrough digest body"
+    },
+    {
+      "dimension_code": "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+      "surface_path": "PEOPLE_DESIGN_PATTERN_REGISTRY:pattern_dual_register_internal_external",
+      "verdict": "gap",
+      "proposed_rework_action": "run `py scripts/peopl_cross_area_breakthrough_announce.py` with appropriate --since date to generate the missing digest",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "pattern_id not found in any breakthrough digest body"
+    },
+    {
+      "dimension_code": "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+      "surface_path": "PEOPLE_DESIGN_PATTERN_REGISTRY:pattern_inline_ratify_via_askquestion",
+      "verdict": "gap",
+      "proposed_rework_action": "run `py scripts/peopl_cross_area_breakthrough_announce.py` with appropriate --since date to generate the missing digest",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "pattern_id not found in any breakthrough digest body"
+    },
+    {
+      "dimension_code": "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
+      "surface_path": "PEOPLE_DESIGN_PATTERN_REGISTRY:pattern_cross_area_breakthrough_propagation",
+      "verdict": "gap",
+      "proposed_rework_action": "run `py scripts/peopl_cross_area_breakthrough_announce.py` with appropriate --since date to generate the missing digest",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "pattern_id not found in any breakthrough digest body"
+    },
+    {
+      "dimension_code": "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+      "surface_path": "docs/wip/planning/66-brand-vision-ops-sweep/reports",
+      "verdict": "gap",
+      "proposed_rework_action": "add deploy_id + state=READY + HTTP 200 hero-route evidence to the UAT report",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "UAT present but no deploy/state/HTTP-200 evidence tokens found"
+    },
+    {
+      "dimension_code": "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+      "surface_path": "docs/wip/planning/68-cicd-discipline-and-observability-maturity/files-modified.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint reports/uat-*.md with deploy_id + state=READY + HTTP 200 hero route evidence for the sibling-repo touches",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "sibling-repo row(s) exist but no UAT report under reports/"
+    },
+    {
+      "dimension_code": "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+      "surface_path": "docs/wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/files-modified.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint reports/uat-*.md with deploy_id + state=READY + HTTP 200 hero route evidence for the sibling-repo touches",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "sibling-repo row(s) exist but no UAT report under reports/"
+    },
+    {
+      "dimension_code": "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+      "surface_path": "docs/wip/planning/72-marketing-area-governance-and-persona-registry-expansion/files-modified.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint reports/uat-*.md with deploy_id + state=READY + HTTP 200 hero route evidence for the sibling-repo touches",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "sibling-repo row(s) exist but no UAT report under reports/"
+    },
+    {
+      "dimension_code": "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+      "surface_path": ".cursor/rules/akos-applied-research-discipline.mdc",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired skill under .cursor/skills/ OR file forward-charter candidate per D-IH-80-E precedent",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "rule body mentions craft/skill but no paired SKILL.md or _candidates/ match for token 'appliedresearchdiscipline'"
+    },
+    {
+      "dimension_code": "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+      "surface_path": ".cursor/rules/akos-brand-baseline-reality.mdc",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired skill under .cursor/skills/ OR file forward-charter candidate per D-IH-80-E precedent",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "rule body mentions craft/skill but no paired SKILL.md or _candidates/ match for token 'brandbaselinereality'"
+    },
+    {
+      "dimension_code": "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+      "surface_path": ".cursor/rules/akos-conflict-surfacing-and-blocker-trackers.mdc",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired skill under .cursor/skills/ OR file forward-charter candidate per D-IH-80-E precedent",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "rule body mentions craft/skill but no paired SKILL.md or _candidates/ match for token 'conflictsurfacingandblockertrackers'"
+    },
+    {
+      "dimension_code": "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+      "surface_path": ".cursor/rules/akos-deploy-health.mdc",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired skill under .cursor/skills/ OR file forward-charter candidate per D-IH-80-E precedent",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "rule body mentions craft/skill but no paired SKILL.md or _candidates/ match for token 'deployhealth'"
+    },
+    {
+      "dimension_code": "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+      "surface_path": ".cursor/rules/akos-docs-config-sync.mdc",
+      "verdict": "gap",
+      "proposed_rework_action": "mint paired skill under .cursor/skills/ OR file forward-charter candidate per D-IH-80-E precedent",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "rule body mentions craft/skill but no paired SKILL.md or _candidates/ match for token 'docsconfigsync'"
+    },
+    {
+      "dimension_code": "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+      "surface_path": "docs/wip/planning/86-initiative-cluster-execution-coordinator/operator-scratchpad.md",
+      "verdict": "drift",
+      "proposed_rework_action": "append wave-close drain entry citing all wave decisions",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "last scratchpad date=2026-05-21; HEAD commit date=2026-05-22; scratchpad older than HEAD"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "process_list.csv:role_owner=Process Owner",
+      "verdict": "drift",
+      "proposed_rework_action": "either add baseline_organisation.csv row for 'Process Owner' OR rewrite 2 process row(s) to reference resolvable role_name",
+      "candidate_decision_id": null,
+      "severity": "high",
+      "notes": "orphan-process: role_owner 'Process Owner' has 2 process row(s) but no baseline_organisation.csv match; sample items: ['tbd_tbd_dtp_73', 'tbd_tbd_dtp_74']"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "process_list.csv:role_owner=TBD",
+      "verdict": "drift",
+      "proposed_rework_action": "either add baseline_organisation.csv row for 'TBD' OR rewrite 2 process row(s) to reference resolvable role_name",
+      "candidate_decision_id": null,
+      "severity": "high",
+      "notes": "orphan-process: role_owner 'TBD' has 2 process row(s) but no baseline_organisation.csv match; sample items: ['tbd_tbd_dtp_130', 'tbd_tbd_dtp_138']"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Taxes",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Taxes' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Taxes' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=O2C",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='O2C' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'O2C' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Susana Madeira",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Susana Madeira' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Susana Madeira' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Lead Data Scientist",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Lead Data Scientist' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Lead Data Scientist' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Private Researcher",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Private Researcher' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Private Researcher' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Financial Controller",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Financial Controller' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Financial Controller' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=AIC",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='AIC' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'AIC' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=O5",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='O5' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'O5' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=O5-1",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='O5-1' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'O5-1' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Organisation",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Organisation' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Organisation' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=PTP",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='PTP' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'PTP' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Holistik Researcher Trainee",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Holistik Researcher Trainee' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Holistik Researcher Trainee' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Public",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Public' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Public' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Front Office",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Front Office' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Front Office' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=D-Class",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='D-Class' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'D-Class' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Business Analyst",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Business Analyst' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Business Analyst' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Service Delivery Manager",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Service Delivery Manager' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Service Delivery Manager' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Asset Manager",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Asset Manager' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Asset Manager' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=Senior Researcher",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='Senior Researcher' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'Senior Researcher' has status=active active but no paired process_list.csv row"
+    },
+    {
+      "dimension_code": "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+      "surface_path": "baseline_organisation.csv:role_name=SMO",
+      "verdict": "gap",
+      "proposed_rework_action": "mint at least 1 process_list.csv row with role_owner='SMO' OR change role status to planned/gated",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "ghost-role: 'SMO' has status=active active but no paired process_list.csv row"
+    }
+  ],
+  "clean_count": 3,
+  "drift_count": 4,
+  "gap_count": 73,
+  "blocked_count": 0,
+  "skip_count": 0,
+  "total_findings": 80
+}

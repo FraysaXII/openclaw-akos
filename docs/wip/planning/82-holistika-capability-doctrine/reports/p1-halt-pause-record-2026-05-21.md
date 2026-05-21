@@ -5,7 +5,7 @@ report_id: p1-halt-pause-record-2026-05-21
 authored: 2026-05-21
 role_owner: Founder
 co_owner_role: System Owner
-status: pending_operator_signoff
+status: operator_signed_off
 parent_initiative: INIT-OPENCLAW_AKOS-82
 parent_wave: Wave-P
 language: en

@@ -90,8 +90,13 @@
         },
         {
           "id": "validate_index_freshness_self_test",
-          "description": "Initiative 86 Wave N (D-IH-86-CD, 2026-05-21): baseline index integrity discipline self-test. Validates akos/hlk_index_integrity.py Pydantic SSOT (IndexFreshnessRow + IndexFreshnessReport frozen models) + scripts/baseline_index_sweep.py PROBE_REGISTRY shape (8 probes; one per dimension code IDX-01..IDX-08; 6 baseline + 2 conditional). Does NOT run the actual 8-dimension sweep (that's event_triggered cadence per the INDEX_INTEGRITY_DISCIPLINE.md canonical §4 + process_list.csv hol_peopl_dtp_index_integrity_001 cadence column: fires at wave-close + canonical-CSV mint). Self-test mode keeps CI cost at ~2s. INFO ramp until Wave N N.4 backfill closes drift; promoted to FAIL via operator-explicit decision row (D-IH-86-CD rationale or successor). Paired runbook + canonical + SOP + cursor rule + skill + Pydantic chassis shipped Wave N P3.",
+          "description": "Initiative 86 Wave N (D-IH-86-CD, 2026-05-21): baseline index integrity discipline self-test. Validates akos/hlk_index_integrity.py Pydantic SSOT (IndexFreshnessRow + IndexFreshnessReport frozen models) + scripts/baseline_index_sweep.py PROBE_REGISTRY shape (8 probes; one per dimension code IDX-01..IDX-08; 6 baseline + 2 conditional). Does NOT run the actual 8-dimension sweep (that's event_triggered cadence per the INDEX_INTEGRITY_DISCIPLINE.md canonical §4 + process_list.csv hol_peopl_dtp_index_integrity_001 cadence column: fires at wave-close + canonical-CSV mint). Self-test mode keeps CI cost at ~2s. Paired runbook + canonical + SOP + cursor rule + skill + Pydantic chassis shipped Wave N P3.",
           "argv": ["scripts/validate_index_freshness.py", "--self-test"]
+        },
+        {
+          "id": "validate_index_freshness",
+          "description": "Initiative 86 Wave P (D-IH-86-CN, 2026-05-22): full baseline-index integrity sweep in strict mode. Promoted INFO->FAIL immediately per operator ratification. Exits non-zero on drift/gap/blocked findings.",
+          "argv": ["scripts/validate_index_freshness.py", "--strict"]
         },
         {
           "id": "validate_output_architecture_registries",
