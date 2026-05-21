@@ -82,11 +82,14 @@ def test_csv_header_matches_chassis():
 
 
 @pytest.mark.brand
-def test_csv_has_eight_seed_rows():
-    """I85 P0 charter specifies 8 J-* audience codes."""
+def test_csv_has_nine_seed_rows():
+    """I85 P0 charter specifies 8 J-* audience codes; I86 Wave J extended to
+    9 by adding J-AIC (AICs as internal-and-external receivers per the agentic
+    DoD posture; named alongside J-OP internal-operator class).
+    """
     with REGISTRY_PATH.open(encoding="utf-8", newline="") as fh:
         rows = list(csv.DictReader(fh))
-    assert len(rows) == 8, f"expected 8 seed rows, got {len(rows)}"
+    assert len(rows) == 9, f"expected 9 seed rows, got {len(rows)}"
 
 
 @pytest.mark.brand
@@ -104,10 +107,11 @@ def test_csv_audience_codes_are_unique_and_valid():
 
 @pytest.mark.brand
 def test_csv_required_codes_present():
-    """The 8 charter-named codes (J-IN, J-CU, J-PT, J-ENISA, J-AD, J-RC, J-CO, J-OP) all present."""
+    """The 8 charter-named codes (J-IN, J-CU, J-PT, J-ENISA, J-AD, J-RC, J-CO, J-OP)
+    plus the I86 Wave J extension J-AIC are all present."""
     with REGISTRY_PATH.open(encoding="utf-8", newline="") as fh:
         codes = {r["audience_code"] for r in csv.DictReader(fh)}
-    expected = {"J-IN", "J-CU", "J-PT", "J-ENISA", "J-AD", "J-RC", "J-CO", "J-OP"}
+    expected = {"J-IN", "J-CU", "J-PT", "J-ENISA", "J-AD", "J-RC", "J-CO", "J-OP", "J-AIC"}
     assert codes == expected, f"missing or extra codes: missing={expected - codes}, extra={codes - expected}"
 
 

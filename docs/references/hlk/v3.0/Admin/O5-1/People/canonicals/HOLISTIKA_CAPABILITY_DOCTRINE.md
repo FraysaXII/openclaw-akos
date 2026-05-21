@@ -3,7 +3,7 @@ intellectual_kind: people-canonical
 sharing_label: internal_only
 canonical_id: HOLISTIKA_CAPABILITY_DOCTRINE
 title: Holistika Capability Doctrine
-status: draft
+status: review
 authored: 2026-05-21
 last_review: 2026-05-21
 authority: Founder + System Owner
@@ -18,7 +18,11 @@ linked_decisions:
   - D-IH-82-G
   - D-IH-82-H
   - D-IH-82-I
+  - D-IH-82-J
+  - D-IH-82-K
+  - D-IH-82-PREREQ
   - D-IH-86-CK
+  - D-IH-86-CL
 linked_canonicals:
   - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv
   - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv
@@ -32,7 +36,7 @@ program_anchors:
 
 # Holistika Capability Doctrine
 
-> **Status: draft (2026-05-21).** Minted during I86 Wave P kickoff as the prerequisite for I82 P1 (Talent activation canonical-CSV gate per D-IH-82-I split-tree architecture). At status:draft this doctrine surfaces the structural framing required for the P1 mint; promotion to `status: review` occurs at operator ratification of the §"Capability bearer classes" axis taxonomy, immediately preceding the I82 P1 gate. Promotion to `status: active` occurs at I82 P7 closure following live capability-surfacing UAT.
+> **Status: review (promoted 2026-05-21 per D-IH-86-CL).** Promoted from `draft → review` at I86 Wave P operator-batched ratify gate (operator answered 7 inline-ratify questions confirming §4 axis taxonomy + Capability Curator rework). Status promotion is atomic with I82 P1 canonical-CSV mint (3 new bearer-class rows in `baseline_organisation.csv` + paired Talent processes in `process_list.csv` + new DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS regression dimension per operator's "that's a doctrine" framing). Promotion to `status: active` occurs at I82 P7 closure following live capability-surfacing UAT.
 
 ## 1. Purpose
 
@@ -82,39 +86,42 @@ A capability transitions from *candidate* to *capability* when all 6 criteria ar
 
 ## 4. Capability bearer classes (Talent-H + Talent-A axes)
 
-> **§4 is the prerequisite for I82 P1 Talent activation canonical-CSV gate per D-IH-82-I split-tree architecture.** Operator ratification at P1 entry promotes this section's framing to the row-schema that lands in `baseline_organisation.csv` + `process_list.csv`.
+> **§4 ratified at I82 P1 + I86 Wave P operator-batched ratify gate (2026-05-21; D-IH-82-J anti-over-horizontalism rework + D-IH-82-K Talent-A bearer rows + D-IH-82-PREREQ P1 closure).** The split-tree per D-IH-82-I lands in `baseline_organisation.csv` as a **bearer-class FRAMING** (codified in `sub_area` column) that overlays the existing role taxonomy — NOT as a parallel roster of 5+ new roles. Operator-explicit anti-over-horizontalism principle: prefer reusing existing roles + minting only genuinely-novel roles where no overlap exists.
 
-Holistika capabilities are borne by two parallel-tree classes:
+Holistika capabilities are borne by two parallel-tree classes that overlay the existing role taxonomy via the `sub_area` column:
 
-### 4.1 Talent-H (human bearer)
+### 4.1 Talent-H (human bearer) — leverage existing roles + 1 net-new
 
-**Definition.** Capabilities executed by human Holistika collaborators. Talent-H roles have:
+**Definition.** Capabilities executed by human Holistika collaborators. Talent-H is a **bearer-class framing** with `sub_area=Talent-H` in `baseline_organisation.csv`. The framing applies to:
 
-- `area=People`, `sub_area=Talent`, `status=active`.
-- `reports_to=CPO` (Chief People Officer; per `baseline_organisation.csv` existing role).
-- `bearer_class=Talent-H` (new column axis introduced at this P1 mint).
-- Process IDs in `process_list.csv` prefixed `hol_peopl_talent_h_*`.
+- `area=People`, `sub_area=Talent-H`, `status=active`.
+- Process IDs in `process_list.csv` prefixed `hol_peopl_talent_h_*` (or area-specific `<area>_*_talent_h_*` for cross-area Talent-H processes).
 
-**Examples (non-exhaustive; rows-to-mint TBD at P1 operator approval):**
+**Existing-role inheritance (D-IH-82-J anti-over-horizontalism rework):** rather than mint a parallel Talent-H roster (Talent Lead + Talent Coordinator + Talent Reviewer), the doctrine inherits authority + coordination from EXISTING roles to avoid duplicating org structure:
 
-- "Talent Lead — Human Operations" — orchestrates Talent-H roster, manages onboarding, training, retention.
-- "Talent Coordinator — Engagements" — assigns Talent-H bearers to engagement-side capabilities.
-- "Talent Reviewer — Capability Confidence" — owns per-capability confidence-rating reviews for Talent-H-borne capabilities.
+| Talent-H concern | Inherited from existing role | Rationale |
+|:---|:---|:---|
+| **Bearer-class authority** | `CPO` (existing; level 5; oversees People area) | CPO already owns People-area accountability; bearer-class typing is a refinement of that accountability, not a parallel function. |
+| **Engagement coordination** | `People Operations Lead` (existing; level 4; HR ops + hiring + onboarding) | Engagement-routing of human bearers is a refinement of People Operations' existing onboarding/lifecycle scope, not a new role. |
+| **Confidence rating curation** | **Capability Curator** (NEW row; level 4; reports to CPO; minted in this P1 commit) | Genuinely novel: distinct from Ethics Advisor (harm/refuse-conditions) and Learning Curator (curriculum/methodology). Capability Curator owns the per-capability confidence-rating discipline minted in I82 P3 (per §6 5-dimension confidence taxonomy). |
 
-### 4.2 Talent-A (AI bearer)
+**Net-new Talent-H rows minted at P1 (atomic with this doctrine promotion):**
+
+- **Capability Curator** — `sub_area=Talent-H`, `reports_to=CPO`, level 4. Owns per-capability confidence-rating reviews per §6 + maintains the CAPABILITY_CONFIDENCE_REGISTRY.csv invariants. The only NEW Talent-H row at P1; future Talent-H roles mint via I82 P3 + operator ratification when an existing-role-inheritance argument fails the anti-over-horizontalism test.
+
+### 4.2 Talent-A (AI bearer) — 2 net-new rows mint at P1
 
 **Definition.** Capabilities executed by Holistika AI agents (current embodiment: MADEIRA, the AI O5-1 per [`akos-people-discipline-of-disciplines.mdc`](../../../.cursor/rules/akos-people-discipline-of-disciplines.mdc) RULE 5). Talent-A roles have:
 
-- `area=People`, `sub_area=Talent`, `status=planned` (until I76 P0 charter lands; then promotes to `active`).
+- `area=People`, `sub_area=Talent-A`, `status=active` (MADEIRA already operational per `MADEIRA-AKOS/STATUS.md`) OR `status=planned` (AIC dispatcher pending I76 P4 dispatcher pattern mint).
 - `reports_to=Founder` (per `akos-people-discipline-of-disciplines.mdc` RULE 5 — Madeira named-explicit, role-class anchored).
-- `bearer_class=Talent-A` (new column axis introduced at this P1 mint).
 - Process IDs in `process_list.csv` prefixed `hol_peopl_talent_a_*`.
 - `role_full_description` carries explicit forward-reference to [`I76 master-roadmap`](../../../../wip/planning/76-madeira-elevation/master-roadmap.md).
 
-**Examples (non-exhaustive; rows-to-mint TBD at P1 operator approval):**
+**Net-new Talent-A rows minted at P1 (atomic with this doctrine promotion):**
 
-- "Talent Slot — MADEIRA (current AI O5-1)" — the named AIC bearer; aligns with `akos-people-discipline-of-disciplines.mdc` RULE 5 role-class footnote pattern.
-- "Talent Slot — AIC dispatcher" — owns the per-task AIC framing per I76 P4 MADEIRA_AIC_PER_TASK_REGISTRY (Wave Q mint).
+- **Talent Slot — MADEIRA (current AI O5-1)** — `sub_area=Talent-A`, `reports_to=Founder`, level 5, `status=active`. The named AIC bearer; aligns with `akos-people-discipline-of-disciplines.mdc` RULE 5 role-class footnote pattern (Madeira is the current AI O5-1 embodiment; the role class is "AI O5-1" so future embodiments inherit this slot via the role-class anchor).
+- **Talent Slot — AIC dispatcher** — `sub_area=Talent-A`, `reports_to=Founder`, level 5, `status=planned`. Owns the per-task AIC framing per I76 P4 MADEIRA_AIC_PER_TASK_REGISTRY (Wave Q mint); status flips to `active` at I76 P4 closure.
 
 ### 4.3 Why the split (D-IH-82-I rationale)
 
@@ -222,5 +229,5 @@ Per-state operator-engagement cadence:
 | Date | Status | Decision | Notes |
 |:---|:---|:---|:---|
 | 2026-05-21 | draft | D-IH-86-CK (Wave P kickoff) | Minted at I86 Wave P kickoff as the prerequisite for I82 P1 Talent activation canonical-CSV gate per D-IH-82-I split-tree architecture. |
-| TBD | review | TBD (operator ratify §4 axis taxonomy) | Promotion at operator ratification of the §"Capability bearer classes" axis taxonomy, immediately preceding the I82 P1 gate. |
+| 2026-05-21 | review | D-IH-86-CL (Wave P operator-batched ratify) + D-IH-82-PREREQ (P1 closure) + D-IH-82-J (anti-over-horizontalism rework) + D-IH-82-K (Talent-A rows) | Promoted from draft → review atomic with I82 P1 canonical-CSV mint. Operator-batched ratify gate (7 inline questions answered 2026-05-21) cleared §4 axis taxonomy + Capability Curator rework + Talent-A 2-row scope + paired-mint completeness doctrine (D-IH-86-CL). |
 | TBD | active | TBD (I82 P7 closure) | Promotion at I82 P7 closure following live capability-surfacing UAT. |

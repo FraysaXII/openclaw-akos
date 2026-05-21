@@ -11,6 +11,13 @@ codes here now mirror the canonical INTER_WAVE_REGRESSION_DISCIPLINE.md
 section 2 table exactly, and the ``BASELINE_DIMENSION_CODES`` /
 ``CONDITIONAL_DIMENSION_CODES`` frozensets reflect the canonical section 3
 ``compose_REGRESSION`` baseline / conditional split).
+D-IH-86-CL (Wave P P1 atomic; codifies the paired-mint completeness doctrine
+per operator Q4 "that's a doctrine" framing 2026-05-21. Adds 13th conditional
+dimension DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS that fires when scenario
+has new baseline_organisation.csv role mints OR new process_list.csv process
+mints in the closing wave's deliverables; probes bidirectional FK between
+role rows and process_list role_owner cells to prevent ghost-role + orphan-
+process drift at canonical-CSV mint commits).
 
 Two frozen models:
 
@@ -77,6 +84,7 @@ VALID_DIMENSION_CODES: frozenset[str] = frozenset({
     "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
     "DIM-11-CURSOR-RULE-SKILL-PAIRING",
     "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+    "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
 })
 
 
@@ -97,6 +105,7 @@ CONDITIONAL_DIMENSION_CODES: frozenset[str] = frozenset({
     "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
     "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
     "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+    "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
 })
 
 
@@ -148,6 +157,7 @@ class RegressionFindingRow(BaseModel):
         "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
         "DIM-11-CURSOR-RULE-SKILL-PAIRING",
         "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+        "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
     ]
     surface_path: str = Field(
         ...,

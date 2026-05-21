@@ -101,18 +101,29 @@ def test_documentation_layering_class_in_enum() -> None:
     )
 
 
-def test_pattern_class_enum_size_is_14() -> None:
-    """I86 Wave M P5 D-IH-86-BU: the pattern_class enum has exactly 14 members
+def test_pattern_class_enum_size_is_15() -> None:
+    """I86 Wave N P3 D-IH-86-CD: the pattern_class enum has exactly 15 members
     (10 original from I79 P2 + ``documentation_layering`` from I80 P1 +
     ``output_architecture_hierarchy`` from I86 Wave L +
     ``inter_wave_regression_cadence`` from I86 Wave M P1 +
-    ``quality_fabric_specialty_canonical`` from I86 Wave M P5
-    Cluster B umbrella for the 4 fresh specialty mints
-    DATAOPS/MKTOPS/TECHOPS/UX_DISCIPLINE.md).
+    ``quality_fabric_specialty_canonical`` from I86 Wave M P5 Cluster B umbrella +
+    ``index_integrity_cadence`` from I86 Wave N P3 INDEX_INTEGRITY mint).
     """
-    assert len(VALID_PATTERN_CLASSES) == 14, (
-        f"expected 14-class pattern_class taxonomy; got {len(VALID_PATTERN_CLASSES)}: "
+    assert len(VALID_PATTERN_CLASSES) == 15, (
+        f"expected 15-class pattern_class taxonomy; got {len(VALID_PATTERN_CLASSES)}: "
         f"{sorted(VALID_PATTERN_CLASSES)}"
+    )
+
+
+def test_index_integrity_cadence_class_in_enum() -> None:
+    """I86 Wave N P3 D-IH-86-CD: ``index_integrity_cadence`` must be in the
+    pattern_class enum as the 15th class anchoring the INDEX_INTEGRITY 11th
+    Quality Fabric specialty mint (sister to ``inter_wave_regression_cadence``
+    at Wave M P1).
+    """
+    assert "index_integrity_cadence" in VALID_PATTERN_CLASSES, (
+        "index_integrity_cadence missing from VALID_PATTERN_CLASSES; "
+        "I86 Wave N P3 D-IH-86-CD enum extension not applied"
     )
 
 

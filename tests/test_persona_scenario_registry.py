@@ -419,7 +419,8 @@ def test_full_validate_hlk_passes() -> None:
         capture_output=True,
         text=True,
         encoding="utf-8",
+        errors="replace",
     )
-    assert proc.returncode == 0, proc.stdout + proc.stderr
-    assert "PERSONA_SCENARIO_REGISTRY: PASS" in proc.stdout
-    assert "OVERALL: PASS" in proc.stdout
+    assert proc.returncode == 0, (proc.stdout or "") + (proc.stderr or "")
+    assert "PERSONA_SCENARIO_REGISTRY: PASS" in (proc.stdout or "")
+    assert "OVERALL: PASS" in (proc.stdout or "")

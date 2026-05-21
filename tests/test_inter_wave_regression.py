@@ -6,12 +6,15 @@ Covers:
 - Slug regex on report_id; ISO date on swept_at; wave code pattern
   (Wave-X or Wave-X.Y).
 - Optional candidate_decision_id pattern (D-IH-NN-X).
-- Runbook PROBE_REGISTRY contains exactly 12 entries matching
-  ALL_DIMENSIONS (doctrine-aligned dimension names).
-- BASELINE_DIMENSION_CODES (7) and CONDITIONAL_DIMENSION_CODES (5) are
+- Runbook PROBE_REGISTRY contains exactly 13 entries matching
+  ALL_DIMENSIONS (doctrine-aligned dimension names; 12 base + DIM-13 per
+  D-IH-86-CL Wave P paired-mint completeness doctrine).
+- BASELINE_DIMENSION_CODES (7) and CONDITIONAL_DIMENSION_CODES (6) are
   disjoint and their union equals VALID_DIMENSION_CODES per the
-  canonical §3 compose_REGRESSION baseline / conditional split.
-- Each of the 12 _probe_dimension_N smoke-functions returns a list
+  canonical §3 compose_REGRESSION baseline / conditional split (DIM-13
+  is conditional: fires only when scenario has new role_mint OR new
+  process_mint per D-IH-86-CL).
+- Each of the 13 _probe_dimension_N smoke-functions returns a list
   (possibly empty) of valid RegressionFindingRow instances.
 - self_test() exits 0; main() exits 1 on missing --wave-closing.
 - Markdown + JSON emit functions write parseable output.
@@ -67,6 +70,7 @@ ALL_DOCTRINE_DIMENSIONS: tuple[str, ...] = (
     "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
     "DIM-11-CURSOR-RULE-SKILL-PAIRING",
     "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+    "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
 )
 
 
@@ -87,6 +91,7 @@ EXPECTED_CONDITIONAL: frozenset[str] = frozenset({
     "DIM-09-CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT",
     "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
     "DIM-11-CURSOR-RULE-SKILL-PAIRING",
+    "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
 })
 
 
@@ -201,27 +206,30 @@ class TestRegressionSweepReport:
 @pytest.mark.hlk
 class TestEnumExports:
     def test_dimension_codes_count(self):
-        assert len(VALID_DIMENSION_CODES) == 12
+        assert len(VALID_DIMENSION_CODES) == 13
 
     def test_dimension_codes_match_doctrine(self):
-        """Wave M.5 hotfix invariant: the 12 codes mirror the canonical
-        INTER_WAVE_REGRESSION_DISCIPLINE.md §2 table exactly."""
+        """Wave M.5 hotfix invariant extended at Wave P (D-IH-86-CL): the 13
+        codes mirror the canonical INTER_WAVE_REGRESSION_DISCIPLINE.md §2 table
+        exactly (12 base + DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS)."""
         assert VALID_DIMENSION_CODES == set(ALL_DOCTRINE_DIMENSIONS)
 
     def test_dimension_codes_naming(self):
         for code in VALID_DIMENSION_CODES:
             assert code.startswith("DIM-")
             parts = code.split("-")
-            assert parts[1].isdigit() and 1 <= int(parts[1]) <= 12
+            assert parts[1].isdigit() and 1 <= int(parts[1]) <= 13
 
     def test_baseline_count_is_seven(self):
         """Per canonical §3 compose_REGRESSION: 7 baseline dimensions fire every wave-close."""
         assert len(BASELINE_DIMENSION_CODES) == 7
         assert BASELINE_DIMENSION_CODES == EXPECTED_BASELINE
 
-    def test_conditional_count_is_five(self):
-        """Per canonical §3 compose_REGRESSION: 5 conditional dimensions fire only when axis predicate fires."""
-        assert len(CONDITIONAL_DIMENSION_CODES) == 5
+    def test_conditional_count_is_six(self):
+        """Per canonical §3 compose_REGRESSION extended at Wave P (D-IH-86-CL):
+        6 conditional dimensions fire only when axis predicate fires (5 base +
+        DIM-13 which fires on scenario.has_new_role_mint OR scenario.has_new_process_mint)."""
+        assert len(CONDITIONAL_DIMENSION_CODES) == 6
         assert CONDITIONAL_DIMENSION_CODES == EXPECTED_CONDITIONAL
 
     def test_baseline_and_conditional_are_disjoint(self):
@@ -254,8 +262,9 @@ class TestRunbookProbes:
         from scripts import inter_wave_regression_sweep as iwrs
         cls.iwrs = iwrs
 
-    def test_probe_registry_has_12_entries(self):
-        assert len(self.iwrs.PROBE_REGISTRY) == 12
+    def test_probe_registry_has_13_entries(self):
+        """Wave P extension (D-IH-86-CL): 12 base + DIM-13 paired-mint completeness."""
+        assert len(self.iwrs.PROBE_REGISTRY) == 13
 
     def test_probe_registry_matches_all_dimensions(self):
         assert set(self.iwrs.PROBE_REGISTRY.keys()) == set(self.iwrs.ALL_DIMENSIONS)
@@ -298,7 +307,8 @@ class TestRunbookProbes:
             + report.blocked_count + report.skip_count == report.total_findings
         )
 
-    def test_run_sweep_full_12_dimensions(self):
+    def test_run_sweep_full_13_dimensions(self):
+        """Wave P extension (D-IH-86-CL): run_sweep with default dimensions exercises all 13."""
         report = self.iwrs.run_sweep("Wave-L")
         assert (
             report.clean_count + report.drift_count + report.gap_count
@@ -306,7 +316,7 @@ class TestRunbookProbes:
         )
 
     def test_wave_aware_dimensions_subset_of_all(self):
-        """WAVE_AWARE_DIMENSIONS exists and is a subset of the 12 dimensions."""
+        """WAVE_AWARE_DIMENSIONS exists and is a subset of the 13 dimensions."""
         assert hasattr(self.iwrs, "WAVE_AWARE_DIMENSIONS")
         assert set(self.iwrs.WAVE_AWARE_DIMENSIONS).issubset(set(self.iwrs.ALL_DIMENSIONS))
 

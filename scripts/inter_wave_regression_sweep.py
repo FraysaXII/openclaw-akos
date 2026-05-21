@@ -160,6 +160,7 @@ ALL_DIMENSIONS: tuple[str, ...] = (
     "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
     "DIM-11-CURSOR-RULE-SKILL-PAIRING",
     "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY",
+    "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
 )
 
 
@@ -1181,6 +1182,106 @@ def _probe_dimension_12_operator_scratchpad_continuity(
     return findings
 
 
+def _probe_dimension_13_role_process_pairing_completeness(
+    wave: str | None = None,
+) -> list[RegressionFindingRow]:
+    """DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS — per D-IH-86-CL Wave P codification.
+
+    Conditional dimension: fires when scenario has new ``baseline_organisation.csv``
+    role mints OR new ``process_list.csv`` process mints in the closing wave's
+    deliverables. Probes bidirectional FK between role rows + process_list role_owner
+    cells to prevent ghost-role (role without paired process) + orphan-process
+    (process whose role_owner does not resolve) drift at canonical-CSV mint commits.
+
+    Distinct from DIM-04 (per-CSV pair completeness: Pydantic + validator + mirror +
+    PRECEDENCE rows for new CSV registers) and DIM-05 (per-process SOP+runbook
+    pairing per akos-executable-process-catalog.mdc Rule 1). DIM-13 is cross-CSV
+    role↔process pairing — distinct from both because a process can be paired with
+    SOP+runbook (DIM-05 clean) but still reference a non-existent role_owner.
+
+    Probe heuristic: load both CSVs; for every distinct role_name in
+    baseline_organisation.csv, check process_list.csv has ≥1 row with that role
+    in the role_owner column (ghost-role check, severity=low because some roles
+    legitimately have no process today, e.g., gated/planned role rows). For every
+    distinct role_owner in process_list.csv, check baseline_organisation.csv has
+    a matching role_name (orphan-process check, severity=high because process
+    without resolvable owner breaks accountability chain).
+
+    Operator-explicit codification 2026-05-21 Wave P Q4: "option B with a
+    regression for later to avoid missing things or not wiring them up properly.
+    that's a doctrine."
+    """
+    findings: list[RegressionFindingRow] = []
+    baseline_csv = REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv"
+    process_csv = REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv"
+    if not baseline_csv.exists() or not process_csv.exists():
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+            surface_path="docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/",
+            verdict="blocked",
+            proposed_rework_action="ensure baseline_organisation.csv + process_list.csv both present before probe",
+            severity="high",
+            notes=f"baseline={baseline_csv.exists()}; process={process_csv.exists()}",
+        ))
+        return findings
+    import csv
+    role_names: set[str] = set()
+    role_status: dict[str, str] = {}
+    with baseline_csv.open(encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            name = (row.get("role_name") or "").strip()
+            if name:
+                role_names.add(name)
+                role_status[name] = (row.get("status") or "").strip()
+    process_role_owners: dict[str, list[str]] = {}
+    with process_csv.open(encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            owner = (row.get("role_owner") or "").strip()
+            item_id = (row.get("item_id") or "").strip()
+            if owner and item_id:
+                process_role_owners.setdefault(owner, []).append(item_id)
+    orphan_processes: dict[str, list[str]] = {}
+    for owner, items in process_role_owners.items():
+        if owner and owner not in role_names:
+            orphan_processes[owner] = items
+    ghost_roles: list[str] = []
+    for name in role_names:
+        if name not in process_role_owners:
+            status = role_status.get(name, "")
+            if status not in {"planned", "gated_operator", "gated_ahead_of_executive_activation"}:
+                ghost_roles.append(name)
+    for owner, items in orphan_processes.items():
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+            surface_path=f"process_list.csv:role_owner={owner}",
+            verdict="drift",
+            proposed_rework_action=f"either add baseline_organisation.csv row for '{owner}' OR rewrite {len(items)} process row(s) to reference resolvable role_name",
+            severity="high",
+            notes=f"orphan-process: role_owner '{owner}' has {len(items)} process row(s) but no baseline_organisation.csv match; sample items: {items[:3]}",
+        ))
+    for name in ghost_roles[:20]:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+            surface_path=f"baseline_organisation.csv:role_name={name}",
+            verdict="gap",
+            proposed_rework_action=f"mint at least 1 process_list.csv row with role_owner='{name}' OR change role status to planned/gated",
+            severity="low",
+            notes=f"ghost-role: '{name}' has status={role_status.get(name, 'unknown')} active but no paired process_list.csv row",
+        ))
+    if not findings:
+        findings.append(RegressionFindingRow(
+            dimension_code="DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS",
+            surface_path="docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/",
+            verdict="clean",
+            proposed_rework_action="",
+            severity="low",
+            notes=f"roles={len(role_names)}; process_owners={len(process_role_owners)}; orphan_processes=0; ghost_roles=0",
+        ))
+    return findings
+
+
 PROBE_REGISTRY: dict[str, callable] = {
     "DIM-01-DECISION-LINEAGE": _probe_dimension_1_decision_lineage,
     "DIM-02-FORWARD-CHARTER-CARRYOVER": _probe_dimension_2_forward_charter_carryover,
@@ -1194,6 +1295,7 @@ PROBE_REGISTRY: dict[str, callable] = {
     "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS": _probe_dimension_10_deploy_evidence_completeness,
     "DIM-11-CURSOR-RULE-SKILL-PAIRING": _probe_dimension_11_cursor_rule_skill_pairing,
     "DIM-12-OPERATOR-SCRATCHPAD-CONTINUITY": _probe_dimension_12_operator_scratchpad_continuity,
+    "DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS": _probe_dimension_13_role_process_pairing_completeness,
 }
 
 WAVE_AWARE_DIMENSIONS: frozenset[str] = frozenset({
@@ -1330,9 +1432,9 @@ def self_test() -> int:
         skip_count=0,
         total_findings=1,
     )
-    if len(PROBE_REGISTRY) != 12:
+    if len(PROBE_REGISTRY) != 13:
         logger.error(
-            "FAIL: validate_inter_wave_regression_self_test — PROBE_REGISTRY has %d entries, expected 12",
+            "FAIL: validate_inter_wave_regression_self_test — PROBE_REGISTRY has %d entries, expected 13 (12 base + DIM-13 per D-IH-86-CL)",
             len(PROBE_REGISTRY),
         )
         return 1
@@ -1347,9 +1449,9 @@ def self_test() -> int:
             len(BASELINE_DIMENSION_CODES),
         )
         return 1
-    if len(CONDITIONAL_DIMENSION_CODES) != 5:
+    if len(CONDITIONAL_DIMENSION_CODES) != 6:
         logger.error(
-            "FAIL: validate_inter_wave_regression_self_test — CONDITIONAL_DIMENSION_CODES has %d entries, expected 5",
+            "FAIL: validate_inter_wave_regression_self_test — CONDITIONAL_DIMENSION_CODES has %d entries, expected 6 (5 base + DIM-13 per D-IH-86-CL)",
             len(CONDITIONAL_DIMENSION_CODES),
         )
         return 1

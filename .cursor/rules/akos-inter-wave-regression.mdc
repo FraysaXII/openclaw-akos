@@ -25,11 +25,11 @@ A wave-close is in scope for this rule when **any** of:
 
 Waves NOT in scope: trivial single-commit chore waves (typo fixes; link-rot fixes; formatting normalisations) per the canonical's §4 Exception 3.
 
-## RULE 1 — Run the 12-dimension sweep before the wave's UAT verdict (binding)
+## RULE 1 — Run the 13-dimension sweep before the wave's UAT verdict (binding)
 
-Every in-scope wave-close MUST execute the 12-dimension regression sweep before the wave's UAT report verdict line is filled in. The sweep output (`reports/regression-sweep-<date>.md` under the wave's parent initiative folder) is a §3.3 row in the wave's UAT report under the regression class.
+Every in-scope wave-close MUST execute the 13-dimension regression sweep before the wave's UAT report verdict line is filled in. The sweep output (`reports/regression-sweep-<date>.md` under the wave's parent initiative folder) is a §3.3 row in the wave's UAT report under the regression class.
 
-The 12 dimensions are defined in [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md) §2. Summary:
+The 13 dimensions are defined in [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md) §2. Summary:
 
 | # | Dimension | Probe heuristic |
 |:--|:---|:---|
@@ -45,8 +45,9 @@ The 12 dimensions are defined in [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../d
 | 10 | deploy_evidence_completeness | For each Wave-N-P* file-row with repo != openclaw-akos, verify deploy_id + state=READY + HTTP 200 hero route |
 | 11 | cursor_rule_skill_pairing | For each new akos-*.mdc, verify paired skill exists OR forward-charter row exists |
 | 12 | operator_scratchpad_continuity | Verify last operator-scratchpad entry timestamp ≥ last wave-close commit timestamp; decisions cited |
+| 13 | role_process_pairing_completeness | When scenario has new role_mint OR new process_mint in the closing wave: bidirectional FK check between baseline_organisation.csv role rows and process_list.csv role_owner cells — every new role has ≥1 paired process_list row (ghost-role check; severity low for non-planned/non-gated roles); every new process has its role_owner FK resolvable (orphan-process check; severity high). Codified at Wave P per D-IH-86-CL: operator's "that's a doctrine" framing on paired-mint completeness. INFO at mint; FAIL flip at Wave R close per D-IH-86-CR. |
 
-7 dimensions (1-6, 12) are baseline + always fire. 5 dimensions (7-11) are conditional per the `compose_REGRESSION` rule in `INTER_WAVE_REGRESSION_DISCIPLINE.md` §3.
+7 dimensions (1-6, 12) are baseline + always fire. 6 dimensions (7-11, 13) are conditional per the `compose_REGRESSION` rule in `INTER_WAVE_REGRESSION_DISCIPLINE.md` §3.
 
 ## RULE 2 — Findings disposition via inline-ratify 5-option enum (binding)
 
@@ -72,7 +73,7 @@ No other exemptions. "We're in a hurry" / "we'll do it next wave" / "operator wa
 
 ## RULE 4 — Self-test step wired into pre_commit (binding from D-IH-86-BO ratification)
 
-The runbook `scripts/inter_wave_regression_sweep.py --self-test` mode verifies the 12 probe functions exist + return well-formed `RegressionFindingRow` Pydantic models. The self-test runs at every `py scripts/verify.py pre_commit` invocation via [`config/verification-profiles.json`](../../config/verification-profiles.json) `validate_inter_wave_regression_self_test` step + [`scripts/release-gate.py`](../../scripts/release-gate.py) `run_inter_wave_regression_self_test`.
+The runbook `scripts/inter_wave_regression_sweep.py --self-test` mode verifies the 13 probe functions exist + return well-formed `RegressionFindingRow` Pydantic models. The self-test runs at every `py scripts/verify.py pre_commit` invocation via [`config/verification-profiles.json`](../../config/verification-profiles.json) `validate_inter_wave_regression_self_test` step + [`scripts/release-gate.py`](../../scripts/release-gate.py) `run_inter_wave_regression_self_test`.
 
 The full sweep (--wave-closing `<wave-letter>`) runs at wave-close only — NOT at every pre_commit (which would be too expensive). The self-test is the always-on circuit-breaker; the full sweep is the wave-close gate.
 

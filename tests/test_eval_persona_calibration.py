@@ -301,7 +301,8 @@ def test_existing_validate_hlk_still_passes() -> None:
     """P10 wiring must not break existing validators."""
     proc = subprocess.run(
         [sys.executable, str(REPO_ROOT / "scripts" / "validate_hlk.py")],
-        cwd=REPO_ROOT, capture_output=True, text=True, encoding="utf-8", timeout=120,
+        cwd=REPO_ROOT, capture_output=True, text=True, encoding="utf-8",
+        errors="replace", timeout=120,
     )
-    assert proc.returncode == 0, proc.stdout + proc.stderr
-    assert "OVERALL: PASS" in proc.stdout
+    assert proc.returncode == 0, (proc.stdout or "") + (proc.stderr or "")
+    assert "OVERALL: PASS" in (proc.stdout or "")

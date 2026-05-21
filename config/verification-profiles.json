@@ -85,7 +85,7 @@
         },
         {
           "id": "validate_inter_wave_regression_self_test",
-          "description": "Initiative 86 Wave M (D-IH-86-BO, 2026-05-21): inter-wave regression discipline self-test. Validates akos/hlk_inter_wave_regression.py Pydantic SSOT (RegressionFindingRow + RegressionSweepReport frozen models) + scripts/inter_wave_regression_sweep.py PROBE_REGISTRY shape (12 probes; one per dimension code DIM-01..DIM-12). Does NOT run the actual 12-dimension sweep (that's on_demand cadence per the INTER_WAVE_REGRESSION_DISCIPLINE.md canonical §4 + process_list.csv hol_peopl_dtp_inter_wave_regression_001 cadence column). Self-test mode keeps CI cost at ~2s per R-86-WaveM-7 mitigation. Paired runbook + canonical + SOP + cursor rule shipped Wave M P1-P2.",
+          "description": "Initiative 86 Wave M (D-IH-86-BO, 2026-05-21) extended at Wave P (D-IH-86-CL): inter-wave regression discipline self-test. Validates akos/hlk_inter_wave_regression.py Pydantic SSOT (RegressionFindingRow + RegressionSweepReport frozen models) + scripts/inter_wave_regression_sweep.py PROBE_REGISTRY shape (13 probes: 12 base DIM-01..DIM-12 + DIM-13-ROLE-PROCESS-PAIRING-COMPLETENESS from Wave P paired-mint completeness doctrine per D-IH-86-CL). Does NOT run the actual 13-dimension sweep (that's on_demand cadence per the INTER_WAVE_REGRESSION_DISCIPLINE.md canonical §4 + process_list.csv hol_peopl_dtp_inter_wave_regression_001 cadence column). Self-test mode keeps CI cost at ~2s per R-86-WaveM-7 mitigation. Paired runbook + canonical + SOP + cursor rule shipped Wave M P1-P2; DIM-13 added Wave P P1.",
           "argv": ["scripts/inter_wave_regression_sweep.py", "--self-test"]
         },
         {

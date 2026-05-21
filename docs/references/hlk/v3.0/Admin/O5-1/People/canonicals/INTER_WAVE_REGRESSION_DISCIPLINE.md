@@ -23,6 +23,7 @@ ratifying_decisions:
   - D-IH-86-BN
   - D-IH-86-BP
   - D-IH-86-BQ
+  - D-IH-86-CL
 status: charter
 register: internal
 linked_canonicals:
@@ -129,6 +130,7 @@ or unaddressed promise.
 | 10 | **deploy_evidence_completeness** | Every sibling-repo touch carries deploy-verification evidence per `UAT_DISCIPLINE.md` §3.7 + `akos-quality-fabric.mdc` RULE 3. | For each Wave-N-P* row in files-modified.csv where repo != openclaw-akos, verify deploy_id + state=READY + HTTP 200 hero route in UAT report. |
 | 11 | **cursor_rule_skill_pairing** | Every new cursor rule under `.cursor/rules/akos-*.mdc` is paired with a skill under `.cursor/skills/*/SKILL.md` when craft transmission is needed (per D-IH-80-E precedent). | For each new akos-*.mdc, inspect for craft-mention; if craft is named, verify paired skill exists OR forward-charter row exists. |
 | 12 | **operator_scratchpad_continuity** | Every wave-close updates `docs/wip/intelligence/operator-scratchpad.md` with the wave's summary, gaps, and forward-pointers per `akos-agent-checkpoint-discipline.mdc` self-checkpoint cadence. | Read operator-scratchpad.md; verify last entry timestamp >= last wave-close commit timestamp; verify wave's decision IDs cited. |
+| 13 | **role_process_pairing_completeness** | Every new role row in `baseline_organisation.csv` has at least one paired `process_list.csv` row naming it as `role_owner`; every new process row's `role_owner` resolves against a `baseline_organisation.csv` role_name (bidirectional FK; ghost-role + orphan-process detection). Per D-IH-86-CL operator "that's a doctrine" codification at Wave P 2026-05-21. | Diff `baseline_organisation.csv` + `process_list.csv` across the closing wave; for each net-new role row, verify at least one process row references it as `role_owner`; for each net-new process row, verify its `role_owner` FK resolves. Distinct from DIM-04 (per-CSV pair completeness: Pydantic + validator + mirror + PRECEDENCE) and DIM-05 (per-process SOP+runbook pairing). DIM-13 is cross-CSV role↔process pairing. |
 
 Per-dimension findings table from a sweep run carries: `dimension_id`,
 `finding_severity` (INFO / WARN / FAIL), `affected_artifacts` (list of
@@ -157,14 +159,17 @@ def compose_REGRESSION(audience, channel, scenario, brand, governance, wave_clos
     if scenario.has_new_pattern_mint(): dimensions += [cross_area_breakthrough_announcement]
     if channel.touches_sibling_repo(): dimensions += [deploy_evidence_completeness]
     if governance.minted_new_cursor_rule(): dimensions += [cursor_rule_skill_pairing]
-    return dimensions  # 7 baseline + up to 5 conditional = 12 total
+    # DIM-13 added at Wave P per D-IH-86-CL "that's a doctrine" codification:
+    if scenario.has_new_role_mint() or scenario.has_new_process_mint():
+        dimensions += [role_process_pairing_completeness]
+    return dimensions  # 7 baseline + up to 6 conditional = 13 total
 ```
 
 The 7 baseline dimensions fire every wave-close regardless of axis state -
-they are the structural integrity checks any wave can drift on. The 5
+they are the structural integrity checks any wave can drift on. The 6
 conditional dimensions fire only when the corresponding axis is active in
 the closing wave's deliverables. In practice, every multi-deliverable wave
-fires 9-12 dimensions; only narrowly-scoped chore waves fire fewer.
+fires 9-13 dimensions; only narrowly-scoped chore waves fire fewer.
 
 Multiplicative-AND verdict rule from the parent fabric applies: the wave
 cannot close with a clean regression verdict unless **every** fired

@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (13)
+### Active (in execution) (16)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -27,9 +27,12 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **64** | [`64-governance-mission-control/`](64-governance-mission-control/) | active | 2026-05-07 | Initiative 64 — Governance Mission Control (in hlk-erp) |
 | **67** | [`67-revops-discovery/`](67-revops-discovery/) | active | 2026-05-17 | Initiative 67 — RevOps Discovery |
 | **68** | [`68-cicd-discipline-and-observability-maturity/`](68-cicd-discipline-and-observability-maturity/) | active | 2026-05-10 | I68 â€” CICD Discipline + Observability Maturity |
+| **74** | [`74-brand-tooling-productization/`](74-brand-tooling-productization/) | active | 2026-05-21 | I74 — Brand-tooling productization (TRIGGER-2 OS-library fork preparation) |
+| **75** | [`75-research-area-governance/`](75-research-area-governance/) | active | 2026-05-21 | I75 — Research area governance (full operationalization beyond P4.7 charter) |
 | **76** | [`76-madeira-elevation/`](76-madeira-elevation/) | active | 2026-05-18 | I76 — MADEIRA elevation (operator-interaction quality at Cursor-grade) |
 | **81** | [`81-vault-integrity-layout-milestones-retrofit/`](81-vault-integrity-layout-milestones-retrofit/) | active | 2026-05-16 | I81 — Vault integrity sweep + layout migration + named-milestone schema + SOP body/adde... |
 | **82** | [`82-holistika-capability-doctrine/`](82-holistika-capability-doctrine/) | active | 2026-05-16 | I82 — Holistika Capability Doctrine and Commercial Readiness |
+| **83** | [`83-ai-archivist-and-kirbe-ingestor/`](83-ai-archivist-and-kirbe-ingestor/) | active | 2026-05-21 | I83 — AI Archivist and KiRBe ingestor (knowledge-base surfacing system) |
 | **86** | [`86-initiative-cluster-execution-coordinator/`](86-initiative-cluster-execution-coordinator/) | active | 2026-05-17 | I86 — Initiative Cluster Execution Coordinator |
 | **89** | [`89-hlk-erp-program-rollup-implementation/`](89-hlk-erp-program-rollup-implementation/) | active | 2026-05-17 | I89 — HLK-ERP persona-rollup panel implementation |
 

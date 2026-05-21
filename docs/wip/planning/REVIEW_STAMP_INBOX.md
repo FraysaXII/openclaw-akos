@@ -20,7 +20,7 @@ continuous_rationale: Auto-rendered review-stamp inbox (I71 P4) — re-renders f
 
 <!-- BEGIN REVIEW-STAMP-AUTO -->
 
-_Last rendered: 2026-05-14 UTC (validate_review_stamps.py)._ 
+_Last rendered: 2026-05-22 UTC (validate_review_stamps.py)._ 
 
 ## Invalid decision references (error)
 
