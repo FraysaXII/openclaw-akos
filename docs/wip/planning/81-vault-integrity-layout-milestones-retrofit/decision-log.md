@@ -151,9 +151,32 @@ The subagent stream cannot post `AskQuestion` to inline-ratify; instead each arc
 
 **Forward tranches (still gated by D-IH-81-G):**
 
-- T1: `FINOPS_COUNTERPARTY_REGISTER.csv` -> `finops/` plane (operator discretion).
+- T1: `FINOPS_COUNTERPARTY_REGISTER.csv` -> `finops/` plane (operator discretion). **Blocked on FINOPS end-to-end synthesis pass** per Wave R lane batch operator framing 2026-05-22.
 - T2: `ADVISER_ENGAGEMENT_DISCIPLINES.csv` + `ADVISER_OPEN_QUESTIONS.csv` -> `advops/` plane.
 - T3: `FOUNDER_FILED_INSTRUMENTS.csv` -> `advops/FILED_INSTRUMENTS.csv` (rename + move; higher blast radius).
-- T4: `CHANNEL_TOUCHPOINT_REGISTRY.csv` -> `dimensions/` confirm (already correctly placed; verification-only tranche).
+- ~~T4: `CHANNEL_TOUCHPOINT_REGISTRY.csv` -> `dimensions/` confirm (already correctly placed; verification-only tranche).~~ **Closed 2026-05-22 per D-IH-81-M (see below).**
 
 Each remaining tranche requires its own inline-ratify gate at next push window.
+
+### D-IH-81-M — P2 Tranche T4: CHANNEL_TOUCHPOINT_REGISTRY verification-only closure (2026-05-22)
+
+**Tranche umbrella:** D-IH-81-G.
+
+**Operator ratification:** Inline `AskQuestion` at Wave R lane batch (2026-05-22) paired with T5 selection. Operator picked option A (T4 + T1 in same push window) with the caveat that T1 must be preceded by a FINOPS end-to-end synthesis pass.
+
+**Outcome:** Verification-only — no `git mv` was needed.
+
+- `CHANNEL_TOUCHPOINT_REGISTRY.csv` was minted-in-place at `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/` from inception (Initiative 86 Wave F P3 2026-05-19; per `D-IH-86-Q` external-render strict-promotion + sibling 5-axis channel mint per `akos-external-render-discipline.mdc` RULE 7).
+- All consumers point at the correct `dimensions/` path: validator (`scripts/validate_channel_touchpoint_registry.py` L34), [`PRECEDENCE.md`](../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md) L86, [`CANONICAL_REGISTRY.csv`](../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CANONICAL_REGISTRY.csv) L53, `scripts/validate_external_render_trail.py` (resolves via Pydantic chassis import).
+- No legacy root-level copy exists; no deprecation alias needed.
+
+**Mechanical evidence:**
+
+- `py scripts/validate_channel_touchpoint_registry.py`: PASS (10 rows).
+- `py scripts/validate_external_render_trail.py --strict`: PASS (76 surfaces scanned; 6 channel-tagged; 0 unknown codes).
+- `py scripts/validate_decision_register.py`: PASS (399 active + 2 superseded after this row appends).
+- Full verification report: [`reports/i81/p2-tranche-t4-verification-2026-05-22.md`](reports/i81/p2-tranche-t4-verification-2026-05-22.md).
+
+**Why this tranche was inventoried even though no migration was needed:** The I81 P2 enumeration walks every legacy Compliance canonical to confirm it either conforms to the I22 forward layout or schedules a `git mv` tranche. T4 closes the conform-by-construction case so future readers do not assume the work was skipped.
+
+**Forward tranches still gated by D-IH-81-G:** T1 (FINOPS_COUNTERPARTY — blocked on operator engagement with FINOPS synthesis pass per Wave R framing), T2 (paired adviser-engagement CSVs), T3 (FOUNDER_FILED_INSTRUMENTS rename+move).

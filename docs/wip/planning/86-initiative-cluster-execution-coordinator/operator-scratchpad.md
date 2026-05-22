@@ -598,4 +598,42 @@ T5 picked first to validate the migration pattern + alias-fallback contract at m
 
 [processed 2026-05-22 wave-R-lane-D-T5]
 
+### 2026-05-22 02:50 — Wave R Lane D Tranche T4: CHANNEL_TOUCHPOINT verification-only closure (D-IH-81-M) + FINOPS synthesis gate scheduled (D-IH-81-G T1 blocked)
+
+**Trigger**: Operator inline-ratified Option A (T4 + T1 paired in the same push window) at the post-T5 ratification gate (2026-05-22 0235 UTC+2). Operator added a substantive caveat for T1: **before** T1 executes, agent owes a deep end-to-end FINOPS synthesis pass — plain-language but fully governed, with ideal-state-vs-current-state gap, multi-perspective challenge, and internal + external research sweep — so the operator can validate methodology and amend gaps. Operator framing verbatim: *"i really need yo to explain the end to end in plain terms but complete governed and true so i can know how far we are from our ideal finops scenario. Help me by challenging every aspect ... from as many points of view as you can. ... research inwards and outwards to help me as my assistant and delegated expert"*.
+
+**T4 outcome — verification-only paperwork**:
+
+- `CHANNEL_TOUCHPOINT_REGISTRY.csv` was minted-in-place at `dimensions/` from inception (Initiative 86 Wave F P3 2026-05-19). No `git mv`, no consumer updates, no deprecation alias required.
+- All 4 sampled consumer surfaces (validator, PRECEDENCE.md, CANONICAL_REGISTRY.csv, validate_external_render_trail.py) already resolve to the correct `dimensions/` path.
+- Why this tranche was inventoried anyway: the I81 P2 enumeration walks every legacy compliance canonical to confirm it conforms-by-construction or schedules a `git mv` tranche; T4 closes the conform-by-construction case so future readers do not assume work was skipped.
+
+**Deliverables landed at this commit (D-IH-81-M)**:
+
+- Verification report at `docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/p2-tranche-t4-verification-2026-05-22.md` (5-section: summary / why / mechanical evidence / verdict / cross-refs).
+- `DECISION_REGISTER.csv`: D-IH-81-M appended (399 active + 2 superseded after this row).
+- I81 `decision-log.md`: D-IH-81-M narrative section added; tranche-status table updated (T4 marked closed; T1 marked blocked on synthesis pass).
+- `migration-manifest-2026-05-12.yml`: `i81_p2_t4` wave appended under `i81_p2_tranches:` (outcome `verification_only`; empty `moves` + `consumer_updates`).
+- I81 `files-modified.csv`: 4 P2-T4 rows appended.
+
+**Mechanical evidence**:
+
+- `validate_channel_touchpoint_registry.py`: PASS (10 rows).
+- `validate_external_render_trail.py --strict`: PASS (76 surfaces; 6 channel-tagged; 0 unknown codes).
+- `validate_decision_register.py`: PASS (399 active + 2 superseded).
+
+**FINOPS synthesis pass — what comes next (the load-bearing work this push window opens)**:
+
+- Scope (per operator framing): explain the FINOPS end-to-end in plain language but fully governed; show current state versus ideal state; multi-perspective challenge of every aspect; research inwards (this repo's FINOPS canonicals + Pydantic + mirror + Stripe FDW + holistika_ops + COMPONENT_SERVICE_MATRIX FK) and outwards (industry references for SME / start-up finance operating models, capital-stack governance, treasury, cap-table, advisor compensation, R&D credit, IRPF / IRC posture, AEAT / Hacienda Foral / Modelo 720, founder loans, banking-relationship management).
+- Deliverable shape (planned): `docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/finops-end-to-end-synthesis-2026-05-22.md` — read as J-OP audience canonical (CORPINT register OK). Sections forecast: (1) plain-terms summary of what FINOPS is and is not; (2) current-state inventory across vault + Compliance CSVs + Supabase + Stripe FDW + holistika_ops + advops + tax / legal posture; (3) ideal-state target operating model with named gaps; (4) multi-perspective challenge (treasurer / controller / auditor / advisor / lender / regulator / investor / founder / CTO / agent-of-Madeira); (5) inward + outward research grounding per `akos-applied-research-discipline.mdc` RULE 1+2; (6) recommended forward-charter actions / candidate initiatives / OPS rows.
+- Gating: T1 (`FINOPS_COUNTERPARTY_REGISTER.csv` → `finops/`) cannot land until operator has engaged the synthesis pass + ratified the T1 execution shape.
+
+**Decisions**: D-IH-81-M (T4 close).
+
+**OPS**: No new OPS row needed — D-IH-81-G remains active deferred-decision umbrella tracking remaining T1/T2/T3 at operator discretion.
+
+**Forecasted next state**: produce the FINOPS synthesis report; surface it as inline-ratify gate; operator engages with full context; T1 then either executes per ratified shape OR forks into successor candidates per the synthesis's gap analysis.
+
+[processed 2026-05-22 wave-R-lane-D-T4]
+
 <!-- end of entries -->

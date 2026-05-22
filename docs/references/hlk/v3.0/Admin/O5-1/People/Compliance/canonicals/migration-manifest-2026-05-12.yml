@@ -364,3 +364,28 @@ i81_p2_tranches:
       - "validate_finops_counterparty_register.py: PASS (2 rows; FK to component_service_matrix preserved)"
       - "validate_hlk.py: umbrella OVERALL PASS"
       - "validate_decision_register.py: PASS (400 rows; D-IH-81-L lands)"
+  - wave: i81_p2_t4
+    decision_id: D-IH-81-M
+    decided_at: 2026-05-22
+    label: "T4 CHANNEL_TOUCHPOINT_REGISTRY dimensions/ verification-only (already correctly placed)"
+    operator_ratified_via: inline AskQuestion (Wave R lane batch, 2026-05-22; paired with T5)
+    moves: []
+    outcome: verification_only
+    rationale: |
+      CHANNEL_TOUCHPOINT_REGISTRY.csv was minted-in-place at
+      docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/
+      from inception (Initiative 86 Wave F P3 2026-05-19) per the I22 forward
+      layout convention. All consumers (validator, PRECEDENCE.md, CANONICAL_REGISTRY,
+      validate_external_render_trail.py) already resolve to dimensions/. No git mv,
+      no deprecation alias, no consumer-surface updates required.
+    consumer_updates: []
+    postgres_mirror: "compliance.channel_touchpoint_registry_mirror (already wired; unaffected)"
+    verification_report: docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/p2-tranche-t4-verification-2026-05-22.md
+    mechanical_evidence:
+      - "validate_channel_touchpoint_registry.py: PASS (10 rows)"
+      - "validate_external_render_trail.py --strict: PASS (76 surfaces; 6 channel-tagged; 0 unknown codes)"
+      - "validate_decision_register.py: PASS (399 active + 2 superseded after D-IH-81-M)"
+# Forward tranches still gated by D-IH-81-G:
+#   - T1 FINOPS_COUNTERPARTY_REGISTER -> finops/ (blocked on FINOPS end-to-end synthesis pass per operator framing Wave R lane batch 2026-05-22)
+#   - T2 ADVISER_ENGAGEMENT_DISCIPLINES + ADVISER_OPEN_QUESTIONS -> advops/
+#   - T3 FOUNDER_FILED_INSTRUMENTS -> advops/FILED_INSTRUMENTS (rename + move; highest blast radius)
