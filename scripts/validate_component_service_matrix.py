@@ -17,7 +17,14 @@ from akos.hlk_component_service_csv import COMPONENT_SERVICE_FIELDNAMES
 from akos.io import REPO_ROOT
 
 HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
-MATRIX_CSV = HLK_COMPLIANCE / "COMPONENT_SERVICE_MATRIX.csv"
+# I81 P2 T5 (D-IH-81-G-T5, 2026-05-22): file relocated from canonicals root to
+# techops/ per Initiative 22 forward layout. Deprecation alias supported for
+# one initiative cycle: validator falls back to legacy path when techops/ path
+# is absent. Remove alias in the I81 P9 closure or the next I81-successor.
+MATRIX_CSV = HLK_COMPLIANCE / "techops" / "COMPONENT_SERVICE_MATRIX.csv"
+MATRIX_CSV_LEGACY = HLK_COMPLIANCE / "COMPONENT_SERVICE_MATRIX.csv"
+if not MATRIX_CSV.is_file() and MATRIX_CSV_LEGACY.is_file():
+    MATRIX_CSV = MATRIX_CSV_LEGACY
 ORG_CSV = HLK_COMPLIANCE / "baseline_organisation.csv"
 PROC_CSV = HLK_COMPLIANCE / "process_list.csv"
 REGISTRY_MD = (

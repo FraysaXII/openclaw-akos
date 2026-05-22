@@ -320,3 +320,47 @@ waves:
 #   - sop_external_repo_blessing_001: docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/External Repos/SOP-EXTERNAL_REPO_BLESSING_001.md (already at federated home)
 #   - sop_external_repo_drift_remediation_001: docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/External Repos/SOP-EXTERNAL_REPO_DRIFT_REMEDIATION_001.md (already at federated home)
 #   - sop_cross_repo_schema_propagation_001: docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/Cross Repo/SOP-CROSS_REPO_SCHEMA_PROPAGATION_001.md (already at federated home)
+
+# ---------------------------------------------------------------------------
+# I81 P2 LAYOUT MIGRATION (deferred-decision D-IH-81-G; per-tranche operator-gated)
+# Wave 1 (D-IH-81-L; 2026-05-22): T5 COMPONENT_SERVICE_MATRIX -> techops/
+# ---------------------------------------------------------------------------
+# This append-only section appears under the original I70 P4.5 manifest because
+# the file is the canonical migration ledger for compliance-canonical relocations.
+# Subsequent tranches (T1 FINOPS, T2 ADVISER, T3 FOUNDER_FILED rename, T4
+# CHANNEL_TOUCHPOINT) append additional waves below this one as operator ratifies
+# each. The decoupling enforces per-tranche operator gating per D-IH-81-G.
+i81_p2_tranches:
+  - wave: i81_p2_t5
+    decision_id: D-IH-81-L
+    decided_at: 2026-05-22
+    label: "T5 COMPONENT_SERVICE_MATRIX -> techops/ (per Initiative 22 forward layout)"
+    operator_ratified_via: inline AskQuestion (Wave R lane batch, 2026-05-22)
+    moves:
+      - canonical_id: component_service_matrix
+        source: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/COMPONENT_SERVICE_MATRIX.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/techops/COMPONENT_SERVICE_MATRIX.csv"
+        validator: validate_component_service_matrix.py
+    deprecation_alias:
+      supported_in:
+        - scripts/validate_component_service_matrix.py
+        - scripts/validate_finops_counterparty_register.py
+      removal_milestone: I81 P9 closure
+    consumer_updates:
+      - scripts/validate_component_service_matrix.py
+      - scripts/validate_finops_counterparty_register.py
+      - scripts/validate_hlk.py
+      - scripts/ingest_matriz_componentes_to_matrix.py
+      - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md
+      - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CANONICAL_REGISTRY.csv
+      - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/README.md
+      - docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-HLK_COMPONENT_SERVICE_MATRIX_MAINTENANCE_001.md
+      - docs/USER_GUIDE.md
+      - docs/ARCHITECTURE.md
+      - docs/references/hlk/v3.0/index.md
+    postgres_mirror: none (validated via grep of sync_compliance_mirrors_from_csv.py + validate_compliance_schema_drift.py)
+    mechanical_evidence:
+      - "validate_component_service_matrix.py: PASS (97 components)"
+      - "validate_finops_counterparty_register.py: PASS (2 rows; FK to component_service_matrix preserved)"
+      - "validate_hlk.py: umbrella OVERALL PASS"
+      - "validate_decision_register.py: PASS (400 rows; D-IH-81-L lands)"

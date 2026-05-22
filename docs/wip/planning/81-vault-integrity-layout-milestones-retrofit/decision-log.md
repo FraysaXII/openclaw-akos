@@ -105,3 +105,55 @@ The subagent stream cannot post `AskQuestion` to inline-ratify; instead each arc
 1. **5-signal methodology + 95% threshold (closes D-IH-81-F).** Operator override via heuristic change request or threshold tune. Full trace at [`reports/2026-05-19-p1-closure.md`](reports/2026-05-19-p1-closure.md) §2.1.
 2. **Matrix as report-class, not canonical SSOT.** Operator override via PRECEDENCE row + Supabase mirror request. Full trace §2.2.
 3. **Audience-tags wire forward-chartered to follow-up commit.** Operator override via authoring the join logic in `build_matrix_rows`. Full trace §2.3.
+
+
+## P2 — Layout migration (deferred-decision D-IH-81-G; per-tranche operator-gated)
+
+### D-IH-81-L — P2 Tranche T5: COMPONENT_SERVICE_MATRIX -> techops/ (2026-05-22)
+
+**Tranche umbrella:** D-IH-81-G (deferred at P0; per-tranche operator-gating per akos-conflict-surfacing-and-blocker-trackers.mdc Option 5).
+
+**Operator ratification:** Inline `AskQuestion` at Wave R lane batch (2026-05-22). After the agent surfaced five candidate I81 P2 tranches with risk profiles (T5 = single-file move + 4-file consumer surface = lowest-risk), the operator selected T5 first.
+
+**Move:**
+
+- Source: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/COMPONENT_SERVICE_MATRIX.csv`
+- Target: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/techops/COMPONENT_SERVICE_MATRIX.csv`
+- Rationale: Initiative 22 forward layout convention places CTO / component & service registers under `techops/`. Single file move (no rename); aligns first canonical of the forward target list.
+
+**Deprecation alias:** Supported in `scripts/validate_component_service_matrix.py` + `scripts/validate_finops_counterparty_register.py` for one initiative cycle (validator falls back to legacy path when `techops/` path is absent). Alias removal scheduled for I81 P9 closure.
+
+**Consumer surface (updated in same commit):**
+
+| Surface | Type | Update |
+|:---|:---|:---|
+| `scripts/validate_component_service_matrix.py` | code | `MATRIX_CSV` path + alias fallback |
+| `scripts/validate_finops_counterparty_register.py` | code | FK lookup path + alias fallback |
+| `scripts/validate_hlk.py` | code | dispatcher entry path |
+| `scripts/ingest_matriz_componentes_to_matrix.py` | code | `OUT` path |
+| `.../canonicals/PRECEDENCE.md` | canonical | path + relocation note |
+| `.../canonicals/CANONICAL_REGISTRY.csv` | canonical | `location` + `inception_at` + `notes` |
+| `.../canonicals/README.md` | canonical | forward-target row + transition table |
+| `.../Tech/System Owner/canonicals/SOP-HLK_COMPONENT_SERVICE_MATRIX_MAINTENANCE_001.md` | SOP | §1 + §3 path references |
+| `docs/USER_GUIDE.md` | docs | HLK Operator Model rows |
+| `docs/ARCHITECTURE.md` | docs | Component-and-service-matrix section |
+| `docs/references/hlk/v3.0/index.md` | docs | HLK Registry table |
+| `.../canonicals/migration-manifest-2026-05-12.yml` | canonical | append-only I81 P2 tranches section |
+
+**Postgres mirror:** None for this CSV (validated via `rg COMPONENT_SERVICE_MATRIX` of `sync_compliance_mirrors_from_csv.py` + `validate_compliance_schema_drift.py`). No DDL migration required.
+
+**Mechanical evidence:**
+
+- `py scripts/validate_component_service_matrix.py`: PASS (97 components).
+- `py scripts/validate_finops_counterparty_register.py`: PASS (2 rows; FK to `component_id` preserved).
+- `py scripts/validate_hlk.py`: umbrella OVERALL PASS.
+- `py scripts/validate_decision_register.py`: PASS (400 rows).
+
+**Forward tranches (still gated by D-IH-81-G):**
+
+- T1: `FINOPS_COUNTERPARTY_REGISTER.csv` -> `finops/` plane (operator discretion).
+- T2: `ADVISER_ENGAGEMENT_DISCIPLINES.csv` + `ADVISER_OPEN_QUESTIONS.csv` -> `advops/` plane.
+- T3: `FOUNDER_FILED_INSTRUMENTS.csv` -> `advops/FILED_INSTRUMENTS.csv` (rename + move; higher blast radius).
+- T4: `CHANNEL_TOUCHPOINT_REGISTRY.csv` -> `dimensions/` confirm (already correctly placed; verification-only tranche).
+
+Each remaining tranche requires its own inline-ratify gate at next push window.

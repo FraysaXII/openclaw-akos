@@ -560,4 +560,42 @@ Operator inline-ratify gate 2026-05-22 (post-Wave-Q-close acknowledgement: *"tha
 
 [processed 2026-05-22 wave-R-lane-A]
 
+### 2026-05-22 02:30 — Wave R Lane D Tranche T5: COMPONENT_SERVICE_MATRIX → techops/ (D-IH-81-L; first I81 P2 tranche)
+
+**Trigger**: Operator selected Wave R Lane D (I81 P2 vault-integrity + layout migration) after Lane A close. Operator further specified: T5 first (lowest-risk tranche), per-tranche operator-gating per D-IH-81-G umbrella + akos-conflict-surfacing-and-blocker-trackers.mdc Option 5.
+
+**Five-tranche surfacing & T5 selection rationale**:
+- T1: FINOPS → finops/ (medium risk; cross-FK to COMPONENT_SERVICE_MATRIX)
+- T2: ADVISER pair → advops/ (medium risk; 2 files)
+- T3: FOUNDER_FILED rename → advops/FILED_INSTRUMENTS.csv (highest risk; rename + move + token-grep churn)
+- T4: CHANNEL_TOUCHPOINT → dimensions/ (verification-only; already correctly placed)
+- **T5: COMPONENT_SERVICE_MATRIX → techops/** (lowest risk; single file, no rename; 4-file consumer surface)
+
+T5 picked first to validate the migration pattern + alias-fallback contract at minimum blast radius.
+
+**Deliverables landed at this commit** (D-IH-81-L):
+- `git mv canonicals/COMPONENT_SERVICE_MATRIX.csv canonicals/techops/COMPONENT_SERVICE_MATRIX.csv` (history preserved).
+- Path + deprecation-alias updates in 4 scripts (`validate_component_service_matrix.py`, `validate_finops_counterparty_register.py`, `validate_hlk.py`, `ingest_matriz_componentes_to_matrix.py`).
+- Path updates in 7 docs (PRECEDENCE.md, CANONICAL_REGISTRY.csv, canonicals/README.md, SOP-HLK_COMPONENT_SERVICE_MATRIX_MAINTENANCE_001.md, USER_GUIDE.md, ARCHITECTURE.md, hlk/v3.0/index.md).
+- migration-manifest-2026-05-12.yml: append-only `i81_p2_tranches` section with T5 wave row.
+- DECISION_REGISTER.csv: D-IH-81-L appended.
+- I81 decision-log.md: D-IH-81-L narrative under new P2 section.
+- I81 files-modified.csv: 15 P2-T5 rows.
+
+**Deprecation alias**: Supported in `validate_component_service_matrix.py` + `validate_finops_counterparty_register.py` for one initiative cycle; removal at I81 P9 closure.
+
+**Mechanical evidence**:
+- `validate_component_service_matrix.py`: PASS (97 components).
+- `validate_finops_counterparty_register.py`: PASS (2 rows; FK preserved).
+- `validate_hlk.py`: umbrella OVERALL PASS.
+- `validate_decision_register.py`: PASS (400 rows).
+
+**Decision**: D-IH-81-L.
+
+**OPS**: No OPS row needed — D-IH-81-G remains active deferred-decision umbrella in I81/decision-log.md, tracking remaining T1/T2/T3/T4 at operator discretion.
+
+**Forecasted next operator ratification**: pick next I81 P2 tranche (T1 / T2 / T3 / T4) OR pivot to Wave R Lane B (OPS-86-14 long-tail) OR redirect.
+
+[processed 2026-05-22 wave-R-lane-D-T5]
+
 <!-- end of entries -->

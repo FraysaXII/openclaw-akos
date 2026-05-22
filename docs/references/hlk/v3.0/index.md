@@ -399,7 +399,7 @@ _assets/
 |----------|----------|
 | Organisation roles | [baseline_organisation.csv](Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv) (65+ roles, 10 areas) |
 | Process inventory | [process_list.csv](Admin/O5-1/People/Compliance/canonicals/process_list.csv) (paired SOP+runbook contract per `akos-executable-process-catalog.mdc`; `inherited_pattern_id` FK column post-I79 P6) |
-| Component / service inventory (CTO SSOT) | [COMPONENT_SERVICE_MATRIX.csv](Admin/O5-1/People/Compliance/canonicals/COMPONENT_SERVICE_MATRIX.csv) |
+| Component / service inventory (CTO SSOT) | [COMPONENT_SERVICE_MATRIX.csv](Admin/O5-1/People/Compliance/canonicals/techops/COMPONENT_SERVICE_MATRIX.csv) (relocated 2026-05-22 per **D-IH-81-G-T5**) |
 | Access levels | [access_levels.md](Admin/O5-1/People/Compliance/canonicals/access_levels.md) (0-6) |
 | Confidence levels | [confidence_levels.md](Admin/O5-1/People/Compliance/canonicals/confidence_levels.md) (Safe, Euclid, Keter) |
 | Source taxonomy | [source_taxonomy.md](Admin/O5-1/People/Compliance/canonicals/source_taxonomy.md) (6 categories, 19 levels) |

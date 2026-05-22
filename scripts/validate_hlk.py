@@ -423,7 +423,7 @@ def main() -> int:
     # When CSV check is None, the validator always runs (e.g., language frontmatter).
     dispatch: list[tuple[str, str, str, Path | None]] = [
         ("COMPONENT_SERVICE_MATRIX", "validate_component_service_matrix.py",
-         "validate_component_service_matrix", HLK_DIR / "COMPONENT_SERVICE_MATRIX.csv"),
+         "validate_component_service_matrix", HLK_DIR / "techops" / "COMPONENT_SERVICE_MATRIX.csv"),
         ("FINOPS_COUNTERPARTY_REGISTER", "validate_finops_counterparty_register.py",
          "validate_finops_counterparty_register", HLK_DIR / "FINOPS_COUNTERPARTY_REGISTER.csv"),
         # I32 P7 (D-IH-32-D): GOI/POI relocated from compliance/ to compliance/dimensions/.

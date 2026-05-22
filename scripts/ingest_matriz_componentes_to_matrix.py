@@ -20,7 +20,7 @@ from akos.hlk_component_service_csv import COMPONENT_SERVICE_FIELDNAMES
 from akos.io import REPO_ROOT
 
 XLSX = REPO_ROOT / "Matriz componentes.xlsx"
-OUT = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "COMPONENT_SERVICE_MATRIX.csv"
+OUT = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "techops" / "COMPONENT_SERVICE_MATRIX.csv"
 
 VALID_ROLES = {
     "System Owner",

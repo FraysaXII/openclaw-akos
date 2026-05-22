@@ -47,7 +47,7 @@ docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/
 │   └── FINOPS_COUNTERPARTY_REGISTER.csv          (forward target — currently at root)
 │
 ├── techops/                                      (CTO / component & service plane)
-│   └── COMPONENT_SERVICE_MATRIX.csv              (forward target — currently at root)
+│   └── COMPONENT_SERVICE_MATRIX.csv              (relocated 2026-05-22 per D-IH-81-G-T5)
 │
 └── dimensions/                                   (cross-plane knowledge dimensions)
     ├── GOI_POI_REGISTER.csv                      (RELOCATED Initiative 32 P7, D-IH-32-D)
@@ -75,7 +75,7 @@ docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/
 | `compliance/ADVISER_OPEN_QUESTIONS.csv` | `compliance/advops/ADVISER_OPEN_QUESTIONS.csv` | Same as above |
 | `compliance/FOUNDER_FILED_INSTRUMENTS.csv` | `compliance/advops/FILED_INSTRUMENTS.csv` | Rename + move; file name still encodes "founder" — should be program-keyed via `program_id` column instead |
 | `compliance/FINOPS_COUNTERPARTY_REGISTER.csv` | `compliance/finops/FINOPS_COUNTERPARTY_REGISTER.csv` | Stable; move only when FINOPS adds a second register |
-| `compliance/COMPONENT_SERVICE_MATRIX.csv` | `compliance/techops/COMPONENT_SERVICE_MATRIX.csv` | Stable; move only when TECHOPS adds a second register |
+| `compliance/COMPONENT_SERVICE_MATRIX.csv` | `compliance/techops/COMPONENT_SERVICE_MATRIX.csv` | **Migrated 2026-05-22 (D-IH-81-G-T5 / I81 P2 Tranche T5)**; deprecation alias supported in validators for one initiative cycle (to be removed at I81 P9 closure) |
 
 **Aliasing during migration.** When a register is physically moved, the moving initiative must:
 

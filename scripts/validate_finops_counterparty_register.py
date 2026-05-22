@@ -20,7 +20,12 @@ HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / 
 FINOPS_CSV = HLK_COMPLIANCE / "FINOPS_COUNTERPARTY_REGISTER.csv"
 ORG_CSV = HLK_COMPLIANCE / "baseline_organisation.csv"
 PROC_CSV = HLK_COMPLIANCE / "process_list.csv"
-MATRIX_CSV = HLK_COMPLIANCE / "COMPONENT_SERVICE_MATRIX.csv"
+# I81 P2 T5 (D-IH-81-G-T5, 2026-05-22): COMPONENT_SERVICE_MATRIX moved to
+# techops/; deprecation alias supported for one initiative cycle.
+MATRIX_CSV = HLK_COMPLIANCE / "techops" / "COMPONENT_SERVICE_MATRIX.csv"
+_MATRIX_CSV_LEGACY = HLK_COMPLIANCE / "COMPONENT_SERVICE_MATRIX.csv"
+if not MATRIX_CSV.is_file() and _MATRIX_CSV_LEGACY.is_file():
+    MATRIX_CSV = _MATRIX_CSV_LEGACY
 REGISTRY_MD = (
     REPO_ROOT
     / "docs"
