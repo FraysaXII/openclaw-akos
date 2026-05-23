@@ -923,6 +923,40 @@ T5 picked first to validate the migration pattern + alias-fallback contract at m
 
 [processed 2026-05-23 wave-R-lane-D-T3-execution | D-IH-81-S closure-class minted under D-IH-81-G umbrella; CSV move-plus-rename + Pydantic + validator + Supabase mirror full cascade rename; deprecation shims for one initiative cycle; stable downstream label preservation; 5 scripts + 3 tests + 18 governance/body docs + 1 process_list row updated; all validators PASS; pytest 81/81 PASS on focused suite; I81 P2 5-of-5 COMPLETE; Bundle D CLOSED]
 
+### 2026-05-23 — Wave R Bundle C EXECUTION (cross-area Ops-wiring candidate amendment; D-IH-81-T; PRIORITY-4 per s5-c)
+
+**Trigger**: operator inline-ratify `next1-a` 2026-05-23 (post-Bundle-D-close ratify gate, re-ordered s5-c PRIORITY-4 ahead of PRIORITY-3 per challenge framing — Bundle C is smallest unit + has no operator ratification cascade; Bundle B's Madeira sweep is multi-step + multi-batch better with a clean preceding slate). Bundle C is the candidate-amendment-only variant per q3-b (no promotion to full initiative; activation criteria amended via D-IH-81-T to require TWO areas exercised; Quality Fabric 12th specialty mint deferred until A2 floor cleared).
+
+**Scope (Bundle C atomic commit)**:
+
+- **Candidate file body amendment** at `docs/wip/planning/_candidates/i-nn-cross-area-ops-wiring-review.md`: §1 doctrine sentence reframed with every-area framing; §2 A2 gate amended from "at least one backbone area" to "TWO areas exercised end-to-end"; §3.1 backbone-only table replaced with 3-tier review-density table (Tier 1 = Dense wiring spines weekly-monthly; Tier 2 = Active but quieter quarterly; Tier 3 = Reference-frame semi-annual or on-trigger); §3.2 cross-area wiring checks extended with Tier 2 + Tier 3 illustrative examples; §5 anti-pattern "Forcing all areas into the discipline" REPLACED with "Treating non-Tier-1 areas as out-of-scope" + NEW anti-patterns "Single-area generalisation" + "Tier-as-hierarchy"; NEW §6 External research grounding section with Team Topologies + DDD Context Mapping citations (4 URLs); §7 Cross-references updated.
+- **Frontmatter amendment**: `last_review: 2026-05-23`; `charter_decisions` += `D-IH-81-T`; `forward_charter_authority` extended with verbatim s4 operator framing; `linked_canonicals` += `baseline_organisation.csv` + `akos-applied-research-discipline.mdc`; NEW `external_research_sources` field with 4 URLs (Team Topologies official + 2025 update + Codelit DDD synthesis + Martin Fowler bliki).
+- **DECISION_REGISTER.csv**: D-IH-81-T appended (architecture-class; reversibility low; active).
+- **I81 decision-log.md**: D-IH-81-T section appended after D-IH-81-S (full rationale + 7-point body summary + reversibility + forward state + akos-applied-research-discipline RULE 1/2/3 compliance evidence).
+- **I81 files-modified.csv**: P2-T-bundleC rows appended for candidate file + DECISION_REGISTER + decision-log + (this) operator-scratchpad.
+
+**Verbatim operator framing (s4 2026-05-22 batch)**:
+
+> *"This comes from every area each must get better at finding those bridges with each area. in that regard there is no such thing as a small area or not. each small or big is just s backfiling data. All area deserve cross with their hierarchy and each thing has their owner. We need to improve integrity and ensure it where it counts."*
+
+**External research grounding** (per `akos-applied-research-discipline.mdc` RULE 2 mandatory for novel framings):
+
+1. **Team Topologies (Skelton & Pais; 2019; 2024-2026 refinements)** — three team interaction modes (Collaboration / X-as-a-Service / Facilitating) applied per team pair; explicitly dynamic mode evolution; per-pair contract explicit. URL: <https://teamtopologies.com/key-concepts> + <https://teamtopologies.com/key-concepts-content/team-interaction-modeling-with-team-topologies> + <https://teamtopologies.com/news-blogs-newsletters/2025/2/21/team-topologies-interaction-modes-breaking-through-common-misconceptions> + <https://martinfowler.com/bliki/TeamTopologies.html>.
+2. **DDD Context Mapping (Evans 2003; Vernon refinement; 2024-2026 industry consensus)** — every bounded context's integration with every other gets one of the named patterns (Shared Kernel / Customer-Supplier / Conformist / Partnership / Separate Ways / ACL / OHS / Published Language). "Separate Ways" is an explicit no-integration declaration — there is no "this context is too small to be in the map". URL: <https://codelit.io/blog/bounded-context-mapping> + <https://software-architecture-guild.com/guide/architecture/domains/integration-of-bounded-contexts/> + <https://www.arhohuttunen.com/domain-driven-design-integrating-bounded-contexts/>.
+
+Both grounding pillars converge on the same load-bearing claim: every X-pair gets an explicit relationship contract; contract type varies with density + maturity; no X is too small to be in the map. The operator's s4 framing names the same principle at the Holistika area-Ops level.
+
+**Forward state**:
+
+- Bundle C CLOSED at this commit.
+- Wave R remaining: Bundle B (PRIORITY-3; Madeira-assisted counterparty inventory) + Quality Fabric 12th specialty mint (PRIORITY-5; A2 two-area floor blocks promotion until exercised on at least two areas — Bundle B exercising FINOPS counts as one of the two).
+- I81 P3 entry still unblocked (was unblocked by Bundle D; Bundle C does not re-block).
+- drain7 cursor-rule-skill-pairing subagent proposal — still pending; report not yet landed at `docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/drain7-cursor-rule-skill-pairing-proposal-2026-05-23.md`. Will revisit at next gate.
+
+**Why letter T for the decision label**: T5 = D-IH-81-L, T4 = D-IH-81-M, T1 = D-IH-81-Q, T2 = D-IH-81-R, T3 = D-IH-81-S, Bundle C amendment = D-IH-81-T. S→T contiguous (no gap); Bundle C amendment lands directly after Bundle D close so contiguity is the right audit signal.
+
+[processed 2026-05-23 wave-R-bundle-C-execution | D-IH-81-T architecture-class minted; I-NN-CROSS-AREA-OPS-WIRING-REVIEW candidate amended end-to-end with operator s4 every-area-with-tiers framing + 4 external research source URLs; candidate stays at status: candidate per q3-b (not promoted to initiative); A2 gate now requires TWO areas exercised; akos-applied-research-discipline.mdc RULE 2 satisfied for novel framing; no canonical files touched; all validators PASS]
+
 [unprocessed — for next coordinator drain]
 
 <!-- end of entries -->

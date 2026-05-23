@@ -399,3 +399,56 @@ Tranche-status table updated: T2 flipped `pending → closed`. T5 + T4 + T1 + T2
 **Forward tranches remaining under D-IH-81-G**: NONE. T5 + T4 + T1 + T2 + T3 = **5 of 5** tranches closed. **I81 P2 layout migration is complete.**
 
 **External research grounding** (per `akos-applied-research-discipline.mdc`): RULE 1 satisfied by T5 + T4 + T1 + T2 precedent (this is the fifth and final I81 P2 tranche execution; deprecation-alias pattern proven across four prior tranches; Supabase ALTER TABLE pattern + RLS+index recreation is standard PostgreSQL discipline documented inline in the migration file). RULE 2 not applicable (no novel framing introduced by this closure).
+
+---
+
+## D-IH-81-T — I-NN-CROSS-AREA-OPS-WIRING-REVIEW candidate amendment: every-area scope with review-density tiers (Bundle C amendment; supersedes original backbone-only scope)
+
+**Decided**: 2026-05-23. **Owner**: PMO. **Status**: active. **Class**: architecture (candidate amendment; no canonical file mutations). **Reversibility**: low (candidate-only; tier table can be re-narrowed via successor decision if discipline later proves over-scoped at promotion).
+
+**Parent**: `D-IH-81-O` (original FINOPS-as-backbone candidate mint, 2026-05-22). **Sister**: `D-IH-81-P` (Layer-A/B/C ownership posture amendment, 2026-05-23).
+
+**Question** (Wave R Bundle C amendment gate, 2026-05-23): the original I-NN-CROSS-AREA-OPS-WIRING-REVIEW candidate scoped the discipline to four backbone areas (FINOPS / PeopleOps / RevOps / LegalOps), with §5 explicitly listing "Forcing all areas into the discipline" as an anti-pattern. Per operator s4 framing 2026-05-22 — *"This comes from every area each must get better at finding those bridges with each area. in that regard there is no such thing as a small area or not. each small or big is just s backfiling data. All area deserve cross with their hierarchy and each thing has their owner. We need to improve integrity and ensure it where it counts"* — the backbone-vs-non-backbone hierarchy is rejected as implicit small-vs-big prioritization. How should the candidate be amended?
+
+**Decision** (operator ratification s4 + r3-b + r4-c 2026-05-23): amend candidate body + frontmatter to encode the every-area framing with review-density tiers. Specifically:
+
+1. **§1 Doctrine** rewritten as: *"Every area's Ops surface deserves explicit cross-area wiring review at its own hierarchy + ownership level — no small-vs-big prioritization, because small or big is just backfilling data."*
+2. **§2 A2 gate** amended from "at least one backbone area" to "at least TWO areas exercised end-to-end (FINOPS recommended but not mandated)" — protects against single-area generalisation failure mode.
+3. **§3.1 Scope table** replaced backbone-only list with **3-tier review-density table** (Tier 1 = Dense wiring spines weekly-monthly; Tier 2 = Active but quieter quarterly; Tier 3 = Reference-frame semi-annual or on-trigger). Tier assignment is descriptive of current wiring density, not prescriptive of area importance.
+4. **§3.2 Cross-area wiring checks** extended with illustrative Tier 2 (Marketing/Reach ↔ RevOps; PMO ↔ every area; Research/Methodology ↔ Marketing) + Tier 3 (Brand ↔ Marketing/Reach; Ethics ↔ every area; Compliance ↔ canonical-CSV surfaces) examples.
+5. **§5 Anti-patterns** REMOVED "Forcing all areas into the discipline" and REPLACED with "Treating non-Tier-1 areas as out-of-scope" — the right protection against governance theatre on quiet areas is tier-assignment + cadence-floor, not exclusion. ADDED new anti-patterns: "Single-area generalisation" + "Tier-as-hierarchy".
+6. **§6 NEW External research grounding section** added per `akos-applied-research-discipline.mdc` RULE 2 (novel framing requires citation). Two anchor sources cited inline:
+   - **Team Topologies (Skelton & Pais)** — three interaction modes (Collaboration / X-as-a-Service / Facilitating) framework applied per team pair; dynamic mode evolution. URL: [teamtopologies.com/key-concepts](https://teamtopologies.com/key-concepts) + [2025 update](https://teamtopologies.com/news-blogs-newsletters/2025/2/21/team-topologies-interaction-modes-breaking-through-common-misconceptions) + [Martin Fowler bliki](https://martinfowler.com/bliki/TeamTopologies.html).
+   - **DDD Context Mapping (Evans 2003; Vernon refinement)** — every bounded context's integration with every other gets an explicit named pattern (Shared Kernel / Customer-Supplier / Conformist / Partnership / Separate Ways / ACL / OHS / Published Language). URL: [codelit.io/blog/bounded-context-mapping](https://codelit.io/blog/bounded-context-mapping) + [Software Architecture Guild synthesis](https://software-architecture-guild.com/guide/architecture/domains/integration-of-bounded-contexts/) + [Huttunen 2025 deep-dive](https://www.arhohuttunen.com/domain-driven-design-integrating-bounded-contexts/).
+   - **Synthesis sub-section** explicates how both grounding sources converge on the same load-bearing principle the operator articulated: every X-pair gets an explicit relationship contract; the contract type varies with density + maturity; no X is too small to be in the map.
+7. **§7 Cross-references** updated with the new D-IH-81-T parent decision + the akos-applied-research-discipline.mdc parent rule link.
+8. **Frontmatter** updated: `last_review: 2026-05-23`; `charter_decisions` += `D-IH-81-T`; `forward_charter_authority` extended with verbatim s4 operator framing; `linked_canonicals` += `baseline_organisation.csv` + `akos-applied-research-discipline.mdc`; NEW `external_research_sources` field with the 4 URLs above.
+
+**Status preservation per q3-b**: candidate stays at `status: candidate` (NOT promoted to full initiative). Per q3-b ratification, the candidate-amendment-only approach avoids charter-then-defer anti-pattern. Discipline promotes to numbered initiative folder when A2 two-area floor clears.
+
+**Mechanical evidence:**
+
+- `py scripts/validate_decision_register.py`: PASS (409 active + 2 superseded after D-IH-81-T lands).
+- `py scripts/validate_hlk.py`: umbrella OVERALL PASS.
+- No canonical CSVs touched (candidate-amendment scope).
+- No validator changes; no Pydantic chassis changes; no Supabase mirror changes.
+
+**Why this amendment matters:**
+
+1. **Operator-novel framings compound**: the s4 framing was given as a side-note during the Wave R Lane B drain ratify batch but contained the load-bearing claim ("no such thing as small or big"). Encoding it as D-IH-81-T preserves the audit trail + makes the framing reusable at successor candidates that might otherwise replicate the small-vs-big hierarchy.
+2. **Research grounding is real discipline**, not box-ticking: Team Topologies + DDD context mapping are both 20+ year-mature industry disciplines that converged on exactly the operator's framing. Citing them strengthens the framing (it's not just operator preference; it's industry consensus translated to the org-Ops layer).
+3. **Tier 2 + Tier 3 examples make the framing usable**: without illustrative Marketing/Reach ↔ RevOps + Brand ↔ Marketing/Reach + Ethics ↔ every-area wiring checks, the "every area" claim risks being vague aspiration. The illustrative checks give downstream readers concrete patterns to apply.
+
+**Reversibility**: low. The amendment lives entirely in the candidate file + DECISION_REGISTER + this decision-log entry + I81 files-modified row. If at promotion the every-area scope proves too broad, the §3.1 tier table can be narrowed via a successor decision; tier-3 areas can be dropped from scope; the original D-IH-81-O backbone-only framing remains in the file history as fallback.
+
+**Forward state:**
+
+- Bundle C CLOSED at this commit.
+- Bundle B (Madeira-assisted counterparty inventory; PRIORITY-3 per s5-c) — still pending; unblocked by Bundle C close.
+- Quality Fabric 12th specialty mint (SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE; PRIORITY-5 per s5-c) — still pending; unblocked by Bundle C close.
+- drain7 cursor-rule-skill-pairing subagent proposal — still pending; report not yet landed.
+
+**External research grounding** (per `akos-applied-research-discipline.mdc`):
+- **RULE 1 (internal-research pass)**: candidate already cited Holistika internal precedents — `INTER_WAVE_REGRESSION_DISCIPLINE.md` + `INDEX_INTEGRITY_DISCIPLINE.md` + `akos-people-discipline-of-disciplines.mdc` + `akos-quality-fabric.mdc`. Amendment extends with `baseline_organisation.csv` cross-link (Tier-assignment is grounded in the canonical area registry).
+- **RULE 2 (external-research pass for novel framing)**: SATISFIED by §6.1 + §6.2 + §6.3 of the amended candidate body, with 4 authoritative source URLs cited inline (Team Topologies official + Codelit DDD synthesis + Martin Fowler bliki + Software Architecture Guild). The operator s4 framing is novel-to-this-repo but well-established industry-wide; citation strengthens rather than dilutes the framing.
+- **RULE 3 (wave-closure research enrichment)**: this commit is a Wave R Bundle C close; the research enrichment subsection of the Wave R closure UAT (when it lands) will cite this D-IH-81-T as an example of operator-novel framing grounded with external research.
