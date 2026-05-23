@@ -163,6 +163,18 @@ Novel-framing options should be marked clearly:
 
 Novel framings are not contrarian for the sake of contrarian. They emerge when the agent has done the evidence sweep thoroughly and notices a structural option the operator's framing did not anticipate. If you are tempted to add a novel-framing option but cannot cite the structural insight that motivated it, the option is probably half-baked; either think it through more or do not surface it.
 
+### Principle 7 — Surface internal-first as a first-class option, not just outsource-path (placeholder; full mint per OPS-81-21)
+
+> **Placeholder per D-IH-81-P amendment 2026-05-23 (P1-c extended scope item 8).** Full Principle authoring is forward-chartered as **OPS-81-21** (forwarded to I80; pairs with D-IH-80-E skill-craft promotion). When the OPS row executes, this section expands with the full anti-pattern dissection + worked-example + counter-discipline.
+
+**The failure mode this Principle closes:** when authoring an inline-ratify option set for a backbone-Ops-area judgment-layer question (FINOPS revenue recognition / LegalOps adviser routing / PeopleOps role activation / RevOps engagement orchestration), the agent reflexively defaults to *industry-standard outsource-path framing* (CFOaaS / external counsel / external HR firm / external SDR firm) and presents internal-first ownership only as a secondary or implicit option. This is a class of failure-mode — not a single bug. The worked example: the FINOPS end-to-end synthesis (`docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/p2-tranche-t1-finops-synthesis-2026-05-22.md` §6 original framing pre-amendment) framed CFOaaS-at-incorporation as the conservative default; the operator's project thesis is internal-first-with-research-grounded-confidence-rising; the agent had to be corrected post-ratification via a doctrine amendment (D-IH-81-P).
+
+**Counter-discipline:** when authoring an option set for any Ops-area judgment-layer question, the agent surfaces internal-first ownership as a first-class option alongside any outsource-path option, with rationale rooted in the operator's project thesis (per Principle 1 evidence sweep — read the operator's prior framings + scratchpad entries + active doctrine + research-grounding posture per `akos-applied-research-discipline.mdc` RULE 1) before defaulting to industry-standard outsource framing. If the operator's stated thesis is internal-first, that should be the recommended default, with outsource-path as the reserved option triggered by discrete signals — not the inverse.
+
+**Sanity-check before posting:** "Have I read the operator's project thesis on this area? Have I surfaced internal-first as a first-class labelled option (not just a footnote / not just embedded inside Option B / not just implicit)? Have I named the activation triggers for the outsource-path option (so it's a *reserved option*, not the default)?"
+
+**Cross-area Ops-wiring discipline implication (per D-IH-81-O):** when the cross-area Ops-wiring review discipline activates (per `_candidates/i-nn-cross-area-ops-wiring-review.md`), this failure-mode sanity-check becomes part of every backbone-Ops-area sweep — the discipline inherits the failure-mode guard automatically.
+
 ## Anatomy of a great inline question
 
 A complete inline-ratify call has this shape:
@@ -363,6 +375,8 @@ Auto-default is a safety valve, not a default mode of operation. Operator silenc
 - **Ignoring operator's free-text alongside structured replies.** Operators sometimes reply with `Selected option(s) X: option B` followed by free-text that pivots to option D or asks for a hybrid. The free-text is the more important signal; never ignore it. The structured selection is the agent-friendly form; the free-text is the operator's actual reasoning.
 
 - **Surfacing technical jargon in option labels.** The agent is the technical layer; the operator reads the option labels in the operator-facing register. Internal-jargon tokens (validator names, schema field names, FK column names) are fine when they refer to concrete repo artifacts; gratuitous technical jargon (shorthand, internal codenames, methodology shorthand) is noise.
+
+- **Industry-default outsource-path reflex.** When the inline-ratify gate is about Ops-area judgment-layer ownership (FINOPS revenue-rec / LegalOps adviser routing / PeopleOps role activation / RevOps engagement orchestration / similar), reflexively defaulting to industry-standard outsource-path (CFOaaS / external counsel / external HR firm / external SDR firm) as the recommended option without first checking the operator's project thesis is a class of failure-mode. See Principle 7 above + OPS-81-21 for the full mint + worked example (FINOPS synthesis §6 original framing pre-D-IH-81-P amendment).
 
 ## Common pitfalls and recoveries
 

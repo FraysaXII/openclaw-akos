@@ -13,7 +13,8 @@ access_level: 5
 parent_lane: I81 Wave R lane D T1-gate (FINOPS synthesis ratification)
 charter_decisions:
   - D-IH-81-O
-forward_charter_authority: D-IH-81-O (operator novel framing at FINOPS synthesis Decision C gate 2026-05-22)
+  - D-IH-81-P
+forward_charter_authority: D-IH-81-O (operator novel framing at FINOPS synthesis Decision C gate 2026-05-22); D-IH-81-P (internal-first FINOPS posture amendment 2026-05-23 — A3 gate reframed to remove CFOaaS-default; cross-area sweep inherits agent-recommends-outsource-path failure-mode sanity-check per OPS-81-21)
 linked_canonicals:
   - docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/p2-tranche-t1-finops-synthesis-2026-05-22.md
   - docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_ORGANISING_DOCTRINE.md
@@ -29,6 +30,9 @@ linked_ops_action_ids:
   - OPS-81-5
   - OPS-81-6
   - OPS-81-17
+  - OPS-81-18
+  - OPS-81-20
+  - OPS-81-21
 ---
 
 # I-NN-CROSS-AREA-OPS-WIRING-REVIEW — backbone Ops wiring review discipline
@@ -43,9 +47,11 @@ Backbone-class Ops areas (FINOPS / PeopleOps / RevOps / LegalOps) are not just p
 
 - **A1.** Operator sets activation criteria explicitly (this candidate names *that* the discipline should exist; *when* it activates is operator-discretion at next ratify cycle).
 - **A2.** At least one backbone area (FINOPS most likely first per OPS-81-2 + OPS-81-3 sequencing) has reached "wired-enough to be reviewable" maturity — i.e., counterparty register populated + at least one paired SOP+runbook exercised end-to-end + at least one cross-area event-trigger fired (e.g., engagement signed → counterparty registered → Stripe customer linked per SOP-FINOPS_BRIDGE_001).
-- **A3.** Either CFOaaS firm contracted (per OPS-81-17 + D-IH-81-N D1) OR operator declares interim ownership explicit, so the cross-area review has a *role* to invoke.
+- **A3.** Backbone-area ownership is explicit per the three-layer FINOPS posture model (per D-IH-81-P; supersedes the original A3 framing of "CFOaaS firm contracted OR operator declares interim ownership"). Concretely: (a) Layer A compliance bookkeeping is named (AT-Pymes gestoria for FINOPS per D-IH-89-L; analogous per-area gestoría-equivalent for PeopleOps / LegalOps when those areas mature); (b) Layer B judgment + reporting + policy is named (operator + Madeira internal-first per `akos-applied-research-discipline.mdc` for FINOPS; analogous internal-first owner per area); (c) Layer C external recruitment activation triggers are documented (for FINOPS: INVESTMENT MILESTONE / PROJECT COMPLEXITY / OPERATOR-JUDGMENT per D-IH-81-P; analogous per area). External recruitment is **not required** for A3 — internal-first ownership with documented activation triggers satisfies the gate.
 
 When all three gates clear, this candidate promotes to a numbered initiative folder under `docs/wip/planning/<NN>-cross-area-ops-wiring-review/`.
+
+**Amendment 2026-05-23 per D-IH-81-P:** the original A3 framing carried the agent's CFOaaS-at-incorporation-default reflex (industry-default outsource-path framing). This was inconsistent with the operator's internal-first project thesis. The amended A3 above encodes the three-layer model + activation-trigger framing; cross-area sweeps inherit the agent-recommends-outsource-path failure-mode sanity-check per **OPS-81-21** (forwarded to I80 for skill-craft execution).
 
 ## 3. Scope sketch (subject to operator refinement at promotion)
 

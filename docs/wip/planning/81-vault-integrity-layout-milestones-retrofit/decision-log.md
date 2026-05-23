@@ -191,7 +191,7 @@ Each remaining tranche requires its own inline-ratify gate at next push window.
 
 1. **Synthesis becomes citable SSOT.** Future agents + future CFOaaS firm reads the synthesis at `reports/i81/p2-tranche-t1-finops-synthesis-2026-05-22.md` to onboard the FINOPS doctrine layer (5-plane inventory + ideal-vs-current gap + multi-perspective challenge + ideal-state architecture sketch + external grounding). Status flipped `review → active`; verdict flipped `PENDING-OPERATOR-WALK → PASS`.
 2. **18 forward-charter OPS rows minted** as OPS-81-2 through OPS-81-19 (renumbered from the synthesis's narrative `OPS-81-FINOPS-1..18` labels to match the `validate_ops_register.py` `OPS-NN-N` regex). Severity breakdown: 5 CRITICAL (counterparty backfill / revenue recognition policy / founder ledger first-pass / capital instruments register / tax compliance calendar) + 9 HIGH + 4 MEDIUM/LOW. All rows `status:open` + `linked_decision_ids: D-IH-81-N`.
-3. **CFOaaS activation policy** committed: engage at incorporation (not at first revenue, not at first capital, not at first board) — the conservative posture per `FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04` philosophy of *prevention over remediation*. Selection rubric: Spain-fluent + SaaS-fluent + ENISA-fluent + bilingual EN+ES. Pricing target: EUR 2-3.5K/month Essentials tier per industry consensus (Fractional CFO School 2026 + Level CFO 2026 + SaaS Fractional CFO UK 2026). Onboarding pack: this synthesis + `SOP-FOUNDER_COMPANY_FUNDING_001` + `FOUNDER_CAPITALIZATION_DECISION_NOTE` + 5 CRITICAL OPS rows + counterparty register backfill (OPS-81-2). Tracked as **OPS-81-17** (status:open until firm contracted + first monthly close runs).
+3. **CFOaaS activation policy** committed: engage at incorporation (not at first revenue, not at first capital, not at first board) — the conservative posture per `FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04` philosophy of *prevention over remediation*. Selection rubric: Spain-fluent + SaaS-fluent + ENISA-fluent + bilingual EN+ES. Pricing target: EUR 2-3.5K/month Essentials tier per industry consensus (Fractional CFO School 2026 + Level CFO 2026 + SaaS Fractional CFO UK 2026). Onboarding pack: this synthesis + `SOP-FOUNDER_COMPANY_FUNDING_001` + `FOUNDER_CAPITALIZATION_DECISION_NOTE` + 5 CRITICAL OPS rows + counterparty register backfill (OPS-81-2). Tracked as **OPS-81-17** (status:open until firm contracted + first monthly close runs). **SUPERSEDED-IN-NARRATIVE 2026-05-23 by D-IH-81-P** (see next row) — the CFOaaS-at-incorporation-default framing was an agent failure-mode (industry-default outsource-path reflex) inconsistent with the operator's internal-first project thesis; replaced by three-layer FINOPS ownership model (AT-Pymes gestoria for compliance bookkeeping per D-IH-89-L + operator+Madeira for judgment/reporting/policy/advisory internal-first + external recruitment as operator-reserved option activated by discrete triggers). The rest of D-IH-81-N (synthesis ratification + 18 OPS rows minted) stays active.
 4. **T1 (FINOPS_COUNTERPARTY_REGISTER → finops/) unblocked** for execution in same push window per Decision C c1 default (cheap layout migration first; substantive backfill follows per OPS-81-2 sequencing).
 
 **Reversibility:** Reversible at the OPS-row level — each forward-charter row can be closed individually if operator judges it no longer needed. Synthesis itself is `active` doctrine but may be amended in §10.1 Operator amendments log (which already carries this row's narrative + a forward-pointer to the next inline-ratify batch).
@@ -216,3 +216,44 @@ Each remaining tranche requires its own inline-ratify gate at next push window.
 **Audit-trail entry:** `docs/wip/planning/86-initiative-cluster-execution-coordinator/operator-scratchpad.md` 2026-05-22 wave-R-lane-D-T1-gate (per operator request *"Mint this in the operator scratchbook too to ensure audit trail"*).
 
 **Forward tranches now in-flight under D-IH-81-G:** T1 (FINOPS_COUNTERPARTY — **unblocked** per D-IH-81-N, executes in same push window per c1 default), T2 (paired adviser-engagement CSVs — operator discretion), T3 (FOUNDER_FILED_INSTRUMENTS rename+move — operator discretion). The synthesis's 18 OPS rows now drive the FINOPS-substantive work surface independently of the layout-tranche surface.
+
+### D-IH-81-P — Internal-first FINOPS posture amendment (2026-05-23; supersedes D-IH-81-N D-portion)
+
+**Tranche umbrella:** spawned at FINOPS synthesis Decision H gate; companion + corrective overlay to D-IH-81-N.
+
+**Operator framing (verbatim, from scratchpad 2026-05-23 16:58):**
+
+> *"doctrine correction: internal-first FINOPS posture; AT-Pymes already covers the gestoría floor; CFOaaS is a reserved option, not the default."*
+
+The operator surfaced the doctrine correction via scratchpad entry rather than a direct AskQuestion reply to Decision H, and named the three-layer FINOPS ownership model explicitly:
+
+- **Layer A — compliance bookkeeping**: AT-Pymes gestoría contracted EUR 250 pre-paid bundle (months 0-12; renew or replace at month 12) per [D-IH-89-L](../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) incorporation route. Monthly tax filings + autónomo societario quota management + basic accounting hygiene.
+- **Layer B — judgment + reporting + policy authoring + advisory**: internal-first by operator + Madeira (AI O5-1) with external research grounding per [`akos-applied-research-discipline.mdc`](../../../.cursor/rules/akos-applied-research-discipline.mdc) RULE 1 + 2. Covers revenue recognition policy + capital structure + tax strategy + vendor concentration + board reporting.
+- **Layer C — external recruitment** (CFOaaS / fractional CFO / hire): OPERATOR-RESERVED OPTION, NEVER default-at-incorporation. Activated when ANY of the discrete signals listed below fires.
+
+**Ratification (inline-ratify P1-c + P2-b + P3-b + P4-a batch 2026-05-23 17:00 UTC+2):**
+
+- **P1-c** — EXTENDED 8-item amendment scope (see synthesis §10.1 amendment entry for the full list).
+- **P2-b** — 8 OPS rows amended (`OPS-81-3`, `OPS-81-6`, `OPS-81-7`, `OPS-81-8`, `OPS-81-9`, `OPS-81-10`, `OPS-81-17`, `OPS-81-18`) — each stripped of CFOaaS-default framing + encoded AT-Pymes-floor + internal-first-judgment + activation-trigger-gated recruitment.
+- **P3-b** — concrete external-recruitment activation triggers committed (ANY of):
+  - **INVESTMENT MILESTONE**: ENISA loan disbursed OR first investor SAFE/equity closed OR EUR 50K+ external capital received in 90d window.
+  - **PROJECT COMPLEXITY**: Modelo 720 fires OR Hacienda Foral cross-territory split OR M&A discussion entered OR multi-CFO-grade engagement (Series A prep / audit / fundraise diligence).
+  - **OPERATOR-JUDGMENT**: always-available override.
+- **P4-a** — decision ID `D-IH-81-P` (sequential letter after D-IH-81-O).
+
+**What the amendment commits Holistika to:**
+
+1. **Three-layer FINOPS ownership model becomes canonical doctrine** — to be encoded as `FINOPS_INTERNAL_FIRST_POSTURE.md` canonical authored per OPS-81-18 (HIGH; bumped from MEDIUM per amendment).
+2. **8 OPS rows reframed** — owner_class / owner_role / summary / notes columns rewritten to encode the three-layer model. OPS-81-17 downgraded from HIGH to MEDIUM (external recruitment is no longer the headline action). OPS-81-18 bumped from MEDIUM to HIGH (the internal-first posture canonical is the new headline action).
+3. **OPS-81-20 minted** — forward-charters the internal-judgment-layer SOP+runbook quintet (revenue-rec policy + capital-structure posture + tax-strategy + vendor-concentration analysis + board-reporting cadence). HIGH; staggered execution one SOP+runbook pair per push window over 2-3 push windows.
+4. **OPS-81-21 minted** — forward-charters the agent-recommends-outsource-path failure-mode guard: skill-craft principle addition to [`.cursor/skills/inline-ratify-craft/SKILL.md`](../../../.cursor/skills/inline-ratify-craft/SKILL.md) + cross-references in [`.cursor/rules/akos-inline-ratification.mdc`](../../../.cursor/rules/akos-inline-ratification.mdc) + [`.cursor/rules/akos-applied-research-discipline.mdc`](../../../.cursor/rules/akos-applied-research-discipline.mdc). Forwarded to I80 for execution; pairs with D-IH-80-E (skill-craft promotion). Cross-area Ops-wiring discipline implication: failure-mode sanity-check becomes part of every backbone-Ops-area sweep (per D-IH-81-O cross-area discipline emergence).
+5. **D-IH-81-N D-portion superseded-in-narrative** — the CFOaaS-at-incorporation-default framing is replaced. D-IH-81-N row stays active because Decisions A (synthesis truth) + B (mint all 18 OPS rows) + C (cross-area Ops-wiring novel framing → D-IH-81-O) remain ratified.
+6. **I-NN-CROSS-AREA-OPS-WIRING-REVIEW candidate §2 A3 gate amended** — the activation criterion "either CFOaaS firm contracted OR operator declares interim ownership explicit" is rewritten to remove the CFOaaS-default framing, replacing it with the three-layer model + activation-trigger framing per this decision.
+
+**Why this matters beyond FINOPS:** the agent's reflexive industry-default outsource-path framing (CFOaaS for FINOPS) is a class of failure-mode likely to recur in future synthesis work for LegalOps / PeopleOps / RevOps / MarOps. The cluster coordinator + inline-ratify-craft skill must include the sanity-check (codified at OPS-81-21) at next People-area sweep. The cross-area Ops-wiring discipline (per D-IH-81-O) inherits the same sanity-check at promotion.
+
+**Reversibility:** Medium. All underlying synthesis content stays; only ownership columns + activation timing re-frame. D-IH-81-N row remains active for A/B/C portions. If operator chooses to flip back to CFOaaS-at-incorporation at any future ratify cycle (e.g. an activation trigger fires + onboarding logistics dictate earlier engagement), the amendment can be reversed at the OPS-row level + synthesis §10.1 logged-in-place. No mechanical lock-in.
+
+**External research grounding** (per `akos-applied-research-discipline.mdc` RULE 1): D-IH-89-L (AT-Pymes route confirmation 2026-05-18) provides the contracted-bookkeeping-floor evidence. RULE 2: internal-first thesis is the operator's own framing, not a novel industry framing — RULE 2 external citation requirement is satisfied by the prior synthesis's external-references list (Stripe 2026 + HighRock 2026 + Fractional CFO School 2026 etc.); no additional external citation required for the amendment itself.
+
+**Audit-trail entry:** `docs/wip/planning/86-initiative-cluster-execution-coordinator/operator-scratchpad.md` 2026-05-23 16:58 marked [processed 2026-05-23] when this commit lands.

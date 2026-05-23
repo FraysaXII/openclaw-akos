@@ -11,6 +11,7 @@ closure_decision_source: operator_explicit
 ratifying_decisions:
   - D-IH-81-N
   - D-IH-81-O
+  - D-IH-81-P  # 2026-05-23 amendment: internal-first FINOPS posture supersedes D-IH-81-N D-portion
 linked_runbooks:
   - scripts/validate_finops_counterparty_register.py
   - scripts/sync_compliance_mirrors_from_csv.py
@@ -268,8 +269,16 @@ Capital lives at the notary registry (escritura de constitución, capital contri
 
 ## 6. The CFO question — who runs FINOPS at Holistika?
 
+> **Amended 2026-05-23 per D-IH-81-P** — the operator surfaced a doctrine correction: this section's original framing (CFOaaS-default at incorporation) was an *agent-recommends-outsource-path* failure mode. The corrected three-layer model below supersedes the original §6 framing; the Decision-D portion of D-IH-81-N is superseded-in-narrative by D-IH-81-P. Decisions A/B/C of D-IH-81-N remain active. See §10.1 for amendment lineage.
+
 ### 6.1 Plain
-FINOPS doctrine is *operator-readable + agent-executable* today because the operator + Madeira are doing the work. That works for the metadata layer (counterparty register, schema, SOPs). It does not work for the **judgment layer** (revenue recognition policy, capital structure, tax strategy, vendor concentration analysis, board reporting). Industry consensus (Fractional CFO School 2026, Level CFO 2026, SaaS Fractional CFO UK 2026) is that pre-seed/seed-stage SaaS companies activate **fractional CFO / CFOaaS** at the moment two of the following are true: (a) first customer revenue starts flowing, (b) first external capital comes in, (c) tax filings become non-trivial, (d) board / investor reporting cadence kicks in.
+FINOPS at Holistika today is **internal-first** by deliberate operator design — a three-layer model:
+
+- **Layer (a) Compliance bookkeeping** (monthly tax filings + autonomo societario quota management + basic accounting hygiene) = **AT-Pymes gestoria** contracted at EUR 250 pre-paid bundle (months 0-12 per D-IH-89-L incorporation route; renew or replace at month 12). This is the contracted floor — AT-Pymes does NOT make policy or judgment; it executes recurring compliance work the operator delegates.
+- **Layer (b) Judgment + reporting + policy authoring + advisory** (revenue recognition policy + capital structure + tax strategy + vendor concentration + board reporting) = **operator + Madeira (current AI O5-1) internal-first**, with external research grounding per [`akos-applied-research-discipline.mdc`](../../../../../.cursor/rules/akos-applied-research-discipline.mdc) RULE 1+2 (internal evidence sweep + external industry sources cited inline). This is the AKOS thesis enacted on the FINOPS substrate: doctrine authored internally, research-grounded, validator-enforced, paired-SOP+runbook-shipped — not outsourced because outsourcing is "what one does" at this stage.
+- **Layer (c) External recruitment** (CFOaaS / fractional CFO / hire) = **operator-reserved option**, NEVER default-at-incorporation. Activation triggers (per OPS-81-17 + D-IH-81-P): ANY of (a) INVESTMENT MILESTONE (ENISA loan disbursed OR first investor SAFE/equity closed OR EUR 50K+ external capital in 90d), (b) PROJECT COMPLEXITY (Modelo 720 fires OR Hacienda Foral cross-territory split OR M&A discussion entered OR multi-CFO-grade engagement: Series A prep / audit / fundraise diligence), (c) OPERATOR-JUDGMENT (always-available override).
+
+Industry CFOaaS-at-incorporation consensus (Fractional CFO School 2026 + Level CFO 2026 + SaaS Fractional CFO UK 2026) IS the dominant framing in pre-seed/seed SaaS; this synthesis deliberately departs from it because Holistika's project thesis is internal-first-with-research-grounded-confidence-rising, AT-Pymes already covers the compliance floor, and Madeira can carry the judgment layer with operator ratification. The cost arithmetic supports this: AT-Pymes EUR 250 bundle vs CFOaaS EUR 2-3.5K/month Essentials tier means the internal-first posture saves EUR 24-42K/year that goes into runway extension + capability deepening instead.
 
 ### 6.2 Industry CFOaaS model (external grounding)
 
@@ -283,22 +292,28 @@ Per Fractional CFO School (2026), CFOaaS pricing is tiered:
 
 Compared to a full-time CFO at $200K-$400K+/year. SaaS-specific CFOaaS providers focus on: MRR/ARR waterfall, NRR/GRR, CAC/LTV/payback, Rule of 40 / Magic Number / burn multiple, ASC 606 rev-rec, fundraising modeling, board reporting (per Level CFO + SaaS Fractional CFO UK, 2026).
 
-### 6.3 Ideal vs current
+### 6.3 Ideal vs current (amended 2026-05-23 per D-IH-81-P)
 
 | Concern | Ideal | Current | Gap class |
 |:---|:---|:---|:---|
-| CFO function presence | CFOaaS Essentials tier activated at incorporation, scales to Growth at first revenue | Business Controller role unactivated; operator+Madeira covering | **Architectural gap** — activation pending |
-| Pre-CFO posture documentation | Canonical doctrine names operator+Madeira as interim FINOPS owners with explicit handoff conditions to CFOaaS | Implicit in `baseline_organisation.csv` (Business Controller role exists, unfilled); no canonical position | **Author-now-needed** |
-| CFOaaS selection criteria | Documented evaluation rubric: Spain-fluent, SaaS-fluent, ENISA-fluent, bilingual EN+ES | Not authored | Author-when-ready |
-| Bridge handoff plan | When CFOaaS activates, this synthesis + `SOP-FOUNDER_COMPANY_FUNDING_001` + `FOUNDER_CAPITALIZATION_DECISION_NOTE` form the onboarding pack | Pack assembled by happy accident (these are the right artifacts); never assembled deliberately | Trivial-to-close |
+| Compliance-bookkeeping floor (Layer a) | AT-Pymes gestoria contracted EUR 250 bundle months 0-12; renew or replace at month 12 | Per D-IH-89-L incorporation route: AT-Pymes contracted | **OK** — floor in place |
+| Judgment-layer ownership (Layer b) | Operator + Madeira author + ratify all policy / reporting / advisory artifacts internal-first, with research grounding per `akos-applied-research-discipline.mdc` RULE 1+2 | Operator + Madeira covering; canonical Internal-First-posture doctrine not yet authored | **HIGH** — OPS-81-18 authors the canonical |
+| Judgment-layer executable layer | Five paired SOP+runbook artifacts shipped (revenue-rec policy + capital-structure posture + tax-strategy + vendor-concentration analysis + board-reporting cadence) per `akos-executable-process-catalog.mdc` Rule 1 | None shipped | **HIGH** — OPS-81-20 forward-charters the mint |
+| External recruitment trigger discipline (Layer c) | OPS-81-17 carries discrete activation signals (investment milestone OR project complexity OR operator-judgment); operator monitors + activates when fires | Triggers encoded per D-IH-81-P; monitoring is operator-attention-only | **OK** — discipline in place; auto-alerting forward-chartered |
+| Internal-first posture canonical | `FINOPS_INTERNAL_FIRST_POSTURE.md` at `Finance/Business Controller/canonicals/` declares three-layer model + activation triggers + handoff pack at external-recruitment activation | Not authored | **HIGH** — OPS-81-18 mints |
+| Anti-pattern guard (failure mode) | Cursor rule / skill carries explicit guard against agent-recommends-outsource when operator project thesis is internal-first | Not encoded; this synthesis's original §6 was the failure mode itself | **HIGH** — OPS-81-21 forward-charters (new row authored under P1-c extended scope item 8) |
 
-### 6.4 Multi-perspective challenge
+> **Note on superseded framing.** The original §6.3 table named CFOaaS-at-incorporation as the "Ideal state" + Business-Controller-role-unactivated as the "Current state". That framing was wrong by operator design — the project thesis is internal-first by deliberate choice (AT-Pymes covers compliance floor; Madeira covers judgment with research grounding). The amended table above describes the correct ideal state.
 
-- **Founder perspective**: "I don't want to hire a full-time CFO at this stage." → Aligned with industry consensus + this synthesis.
-- **CFOaaS firm perspective (hypothetical)**: "Your books are basically empty. Where do I start?" → Right starting point: counterparty register backfill (§2.5) + revenue recognition policy authoring (§3.5) + first close (when first revenue arrives) + tax compliance calendar (§5.3).
-- **AIC perspective**: "If I delegate FINOPS tasks to an external CFOaaS, what do they see?" → They see the AKOS repo (read-only or via export); they get the SOP package; they get the operator-scratchpad drain; they get the GOI/POI ref_id for themselves and start in the ADVOPS plane.
-- **Investor perspective**: "Why isn't there a CFO?" → Stage-appropriate; CFOaaS is the answer. Document the answer.
-- **Auditor perspective**: "Who signs off on the books?" → Today: operator. Post-CFOaaS: CFOaaS firm + operator.
+### 6.4 Multi-perspective challenge (amended 2026-05-23 per D-IH-81-P)
+
+- **Founder perspective**: "I don't want to hire a full-time CFO at this stage AND I don't want to default to CFOaaS at incorporation either. AT-Pymes covers the compliance floor; Madeira + I cover judgment with research grounding; external recruitment is a reserved option for when discrete signals fire." → That's the doctrine D-IH-81-P encodes.
+- **AT-Pymes gestor perspective**: "I do the bookkeeping; I file the taxes; I do not author policy. If something complex comes up, I flag it." → Correct; Layer (a) scope; complexity flag is one of the activation triggers per OPS-81-17.
+- **External CFOaaS perspective (hypothetical, when activation fires)**: "Your books are basically empty + your synthesis + your three-layer doctrine + your AT-Pymes bundle + your activation-trigger that brought me in. Where do I start?" → Right starting point: read the FINOPS_INTERNAL_FIRST_POSTURE.md canonical first (OPS-81-18); inherit the judgment-layer SOPs (OPS-81-20) as authored doctrine; coordinate with AT-Pymes on monthly-close cadence; first deliverable depends on which trigger fired (e.g. investment milestone → fundraise prep; complexity → board reporting).
+- **AIC perspective**: "If the operator chooses internal-first, my role on the judgment layer becomes load-bearing. What's the discipline?" → Author with research grounding per `akos-applied-research-discipline.mdc` RULE 1+2; surface every judgment-layer decision via inline-ratify per `akos-inline-ratification.mdc`; never default to outsource-path framing. The skill-craft principle for this is forward-chartered (OPS-81-21).
+- **Investor perspective**: "Why isn't there a CFO?" → Stage-appropriate; three-layer model (AT-Pymes + operator+Madeira + reserved-option CFOaaS) documented in canonical doctrine; we activate external on discrete triggers per D-IH-81-P, not on industry-default-at-incorporation framing.
+- **Auditor perspective**: "Who signs off on the books?" → AT-Pymes for compliance bookkeeping (Layer a); operator + Madeira for judgment + reporting (Layer b); when CFOaaS activates per Layer c triggers, CFOaaS co-signs judgment-layer policy.
+- **Agent-failure-mode perspective (NEW — added 2026-05-23)**: "Did the agent recommend outsource-path framing reflexively because that's the industry default?" → Yes, in the original §6 of this synthesis. That's the failure mode D-IH-81-P amendment closes. The cursor-rule / skill-craft principle that codifies this is forward-chartered (OPS-81-21): when operator project thesis is internal-first-with-research-grounded-confidence-rising, the agent surfaces the internal-first option AS A FIRST-CLASS OPTION in the inline-ratify gate — never assumes the industry-default outsource-path is the right framing.
 
 ---
 
@@ -386,28 +401,34 @@ schema stripe_gtm (FDW):
 ## 8. Gap call — where Holistika is today vs ideal (per §7)
 
 > Severity scale: **CRITICAL** (immediate operator concern) / **HIGH** (next-quarter target) / **MEDIUM** (next-year target) / **LOW** (post-Series A target).
+>
+> **Amended 2026-05-23 per D-IH-81-P**: 8 OPS rows (OPS-81-3 + 6 + 7 + 8 + 9 + 10 + 17 + 18) had their owner column rewritten from CFOaaS-default to internal-first three-layer model. OPS-81-17 was downgraded from HIGH→MEDIUM + reframed as operator-reserved-option-with-discrete-triggers. OPS-81-18 was bumped from MEDIUM→HIGH + renamed Pre-CFOaaS posture → Internal-First posture (three-layer model). OPS-81-20 (internal-judgment-layer SOP+runbook mint) was forward-chartered. The post-amendment table:
 
-| Plane | Concern | Severity | Owner | Forward-charter |
+| Plane | Concern | Severity | Owner (per D-IH-81-P three-layer model) | OPS row |
 |:---|:---|:---|:---|:---|
-| 1 (Counterparty) | Register population (vendor inventory pass) | **CRITICAL** | Operator + Madeira | OPS-81-FINOPS-1 |
-| 1 (Counterparty) | Customer rows (when first customer signs) | HIGH | Business Controller (CFOaaS when active) | OPS-81-FINOPS-2 |
-| 1 (Counterparty) | Renewal review cadence first-run | MEDIUM | Business Controller | OPS-81-FINOPS-3 |
-| 2 (Revenue) | Revenue recognition policy authoring | **CRITICAL** (before first sale) | Business Controller + accountant | OPS-81-FINOPS-4 |
-| 2 (Revenue) | Pricing tier performance-obligation mapping | HIGH | Business Controller + Product | OPS-81-FINOPS-5 |
-| 2 (Revenue) | Stripe Revenue Recognition product activation | MEDIUM (post-first-customer) | CFOaaS | OPS-81-FINOPS-6 |
-| 3 (Expense) | Vendor spend ledger writers (`finops.registered_fact`) | HIGH (post-incorporation) | CFOaaS | OPS-81-FINOPS-7 |
-| 3 (Expense) | Founder reimbursement workflow first-run | HIGH | CFOaaS + operator | OPS-81-FINOPS-8 |
-| 3 (Expense) | Founder out-of-pocket categorization (capital/loan/reimbursement) | **CRITICAL** | Fiscal counsel (`Q-FIS-002`) | OPS-81-FINOPS-9 |
-| 4 (Capital) | Capital instruments register (cap-table) authoring | HIGH (post-incorporation) | Legal Counsel + CFOaaS | OPS-81-FINOPS-10 |
-| 4 (Capital) | Founder capital contribution amount + IRPF deduction strategy | HIGH | Legal Counsel + fiscal counsel | OPS-81-FINOPS-11 |
-| 5 (Tax) | Tax filing calendar authoring | **CRITICAL** | Fiscal counsel | OPS-81-FINOPS-12 |
-| 5 (Tax) | Hacienda Foral vs AEAT territoriality documentation | HIGH | Operator (head knowledge) → canonical | OPS-81-FINOPS-13 |
-| 5 (Tax) | R&D credit eligibility assessment | MEDIUM | Fiscal counsel + accountant | OPS-81-FINOPS-14 |
-| 5 (Tax) | ENISA activity reporting cadence | HIGH | Compliance (`Q-CRT-001`) | OPS-81-FINOPS-15 |
-| 6 (CFO) | CFOaaS engagement activation | HIGH (when 2 of 4 triggers fire — see §6.1) | Operator | OPS-81-FINOPS-16 |
-| 6 (CFO) | Pre-CFO posture canonical | MEDIUM | Madeira author + operator ratify | OPS-81-FINOPS-17 |
-| Cross | Adviser answer encoding pattern (the `Q-XXX` → canonical artifact slot) | **CRITICAL** | Madeira author + operator ratify | OPS-81-FINOPS-18 |
+| 1 (Counterparty) | Register population (vendor inventory pass) | **CRITICAL** | Operator + Madeira (Layer b) | OPS-81-2 |
+| 1 (Counterparty) | Customer rows (when first customer signs) | HIGH | Operator + Madeira (Layer b); AT-Pymes reads output (Layer a) | OPS-81-3 ★amended |
+| 1 (Counterparty) | Renewal review cadence first-run | MEDIUM | Operator + Madeira (Layer b) | OPS-81-4 |
+| 2 (Revenue) | Revenue recognition policy authoring | **CRITICAL** (before first sale) | Operator + Madeira (Layer b) with external research grounding | OPS-81-5 |
+| 2 (Revenue) | Pricing tier performance-obligation mapping | HIGH | Operator + Madeira (Layer b) + Product | OPS-81-6 ★amended |
+| 2 (Revenue) | Stripe Revenue Recognition product activation | MEDIUM (post-first-customer) | Operator + Madeira (Layer b) evaluate | OPS-81-7 ★amended |
+| 3 (Expense) | Vendor spend ledger writers (`finops.registered_fact`) | HIGH (post-incorporation) | System Owner + Madeira (Layer b implement); AT-Pymes reads (Layer a) | OPS-81-8 ★amended |
+| 3 (Expense) | Founder reimbursement workflow first-run | HIGH | Operator + Madeira (Layer b classify); AT-Pymes reads (Layer a) | OPS-81-9 ★amended |
+| 3 (Expense) | Founder out-of-pocket categorization (capital/loan/reimbursement) | **CRITICAL** | Operator + Madeira (Layer b draft); fiscal counsel answers Q-FIS-002; AT-Pymes verifies + applies monthly (Layer a) | OPS-81-10 ★amended |
+| 4 (Capital) | Capital instruments register (cap-table) authoring | HIGH (post-incorporation) | Legal Counsel + Operator + Madeira (Layer b) | OPS-81-11 |
+| 4 (Capital) | Founder capital contribution amount + IRPF deduction strategy | HIGH | Legal Counsel + fiscal counsel + Operator (Layer b ratify) | OPS-81-12 |
+| 5 (Tax) | Tax filing calendar authoring | **CRITICAL** | Fiscal counsel ratifies; Operator + Madeira encode canonical (Layer b); AT-Pymes executes monthly (Layer a) | OPS-81-13 |
+| 5 (Tax) | Hacienda Foral vs AEAT territoriality documentation | HIGH | Operator (head knowledge) → canonical via Layer b | OPS-81-14 |
+| 5 (Tax) | R&D credit eligibility assessment | MEDIUM | Fiscal counsel + AT-Pymes + Operator (Layer b ratify) | OPS-81-15 |
+| 5 (Tax) | ENISA activity reporting cadence | HIGH | Operator + Madeira (Layer b); fiscal counsel ratifies | OPS-81-16 |
+| 6 (CFO) | **External recruitment** (operator-reserved option per D-IH-81-P; activation triggers per OPS-81-17 summary) | MEDIUM (downgraded from HIGH) | Operator (Layer c — reserved-option discipline) | OPS-81-17 ★amended |
+| 6 (CFO) | **Internal-First posture canonical** (three-layer model doctrine) | HIGH (bumped from MEDIUM) | Madeira author + Operator ratify (Layer b) | OPS-81-18 ★amended |
+| 6 (CFO) | Internal-judgment-layer SOP+runbook mint (5 paired artifacts) | HIGH (NEW per D-IH-81-P item 7) | System Owner + Operator + Madeira (Layer b) | OPS-81-20 ★NEW |
+| Cross | Adviser answer encoding pattern (the `Q-XXX` → canonical artifact slot) | **CRITICAL** | Madeira author + operator ratify | OPS-81-19 |
+| Cross | Agent-recommends-outsource-path failure-mode guard | HIGH (NEW per D-IH-81-P item 8) | Madeira drafts skill-craft principle + cursor-rule note + operator ratifies | OPS-81-21 ★NEW (forward-chartered; see §10.1) |
 | Cross | Brand register on FINOPS prose | LOW | Anti-jargon discipline already applies | n/a |
+
+> Rows marked ★amended reflect D-IH-81-P 2026-05-23 amendments. Rows marked ★NEW were forward-chartered by D-IH-81-P (items 7 + 8 of the P1-c extended scope). The OPS rows are the durable governance shape; this table is the synthesis-side index.
 
 ---
 
@@ -513,13 +534,39 @@ Per the synthesis authoring contract: amendments append here so the document sta
 - **D-IH-81-N** (governance, active): operator ratified the synthesis as authored (Decision A → option a1) + accepted all 18 forward-charter OPS rows (Decision B → option b1; minted as OPS-81-2 through OPS-81-19; renumbered from the synthesis's narrative OPS-81-FINOPS-N labels to satisfy `validate_ops_register.py` `OPS-NN-N` regex) + ratified CFOaaS activation policy NOW + engage CFOaaS firm AT INCORPORATION (Decision D → option d1). Synthesis verdict flipped `PENDING-OPERATOR-WALK → PASS`. Synthesis status flipped `review → active`.
 - **D-IH-81-O** (architecture, active): operator declined the c1/c2/c3/c4 options on Decision C and proposed a **novel framing** that significantly expands the synthesis's structural implication: *"add regressions or continuous revisions or enhancements or backfill for all of this. Because FINOPS is a backbone, main representative of finance + legal + PeopleOps + other area's Ops, needs to be wired properly and cleverly to ensure we can grow our all ops as we go. Think you could review each area's OPS to ensure proper wiring maintenance etc."* This ratifies an emergent **cross-area Ops-wiring review** discipline: backbone-class Ops areas (FINOPS / PeopleOps / RevOps / LegalOps) require explicit cross-area wiring review beyond per-area discipline. T1 execution proceeds per the default-c1 path (cheap layout migration first; substantive backfill follows). Cross-area Ops-wiring review forward-chartered as candidate file `docs/wip/planning/_candidates/i-nn-cross-area-ops-wiring-review.md` for promotion when operator sets activation criteria at next ratify cycle. Audit-trail entry in operator-scratchpad 2026-05-22 wave-R-lane-D-T1-gate.
 
+### 2026-05-23 — doctrine correction (D-IH-81-P; supersedes D-IH-81-N D-portion)
+
+- **D-IH-81-P** (governance, active; supersedes-in-narrative the Decision-D portion of D-IH-81-N): operator surfaced a doctrine correction via scratchpad entry 2026-05-23 16:58 titled *"doctrine correction: internal-first FINOPS posture; AT-Pymes already covers the gestoría floor; CFOaaS is a reserved option, not the default"*. The agent originally framed §6 as CFOaaS-default-at-incorporation (industry-default outsource-path); the operator's project thesis is **internal-first-with-research-grounded-confidence-rising**, AT-Pymes gestoria covers compliance bookkeeping per D-IH-89-L incorporation route, judgment + reporting + policy + advisory is internal (operator + Madeira) with external research grounding per `akos-applied-research-discipline.mdc` RULE 1+2, and external recruitment (CFOaaS / fractional CFO / hire) is an operator-reserved option activated by discrete signals (NEVER default-at-incorporation).
+
+  **Amendment scope (P1-c EXTENDED 8-item ratification batch 2026-05-23 17:00 UTC+2)**:
+
+  1. Mint D-IH-81-P (DONE — appended to DECISION_REGISTER.csv).
+  2. Amend FINOPS synthesis §6.1 + §6.3 + §6.4 + §8 + §10.1 to encode three-layer model + concrete activation signals (DONE — this commit).
+  3. Amend OPS_REGISTER.csv 8 rows (OPS-81-3 + OPS-81-6 + OPS-81-7 + OPS-81-8 + OPS-81-9 + OPS-81-10 + OPS-81-17 + OPS-81-18) stripping CFOaaS-default + encoding AT-Pymes-floor + internal-first judgment + activation-trigger-gated recruitment (DONE).
+  4. Amend I81 decision-log D-IH-81-N narrative item 3 + append D-IH-81-P narrative + mark D-IH-81-N D-portion superseded-in-narrative (D-IH-81-N row stays active because Decisions A/B/C still hold) — DONE this commit.
+  5. Amend I-NN-CROSS-AREA-OPS-WIRING-REVIEW candidate §2 A3 gate removing CFOaaS-default framing — DONE this commit.
+  6. Append D-IH-81-P to DECISION_REGISTER.csv (DONE).
+  7. Forward-charter internal-judgment-layer SOP+runbook mint as successor wave OPS row OPS-81-20 — DONE (OPS-81-20 minted; covers 5 paired SOP+runbook artifacts: revenue-rec policy + capital-structure posture + tax-strategy + vendor-concentration analysis + board-reporting cadence).
+  8. Mint skill-craft principle for the failure-mode this amendment closes: agent-recommends-outsource-path when operator project thesis is internal-first-with-research-grounded-confidence-rising — forward-chartered as OPS-81-21 (this row authored under P1-c extended scope item 8; covers `.cursor/skills/inline-ratify-craft/SKILL.md` principle addition + `.cursor/rules/akos-inline-ratification.mdc` cross-reference + sister-rule cross-area-OPS-wiring note).
+
+  **Concrete external-recruitment activation triggers (per P3-b)** — ANY of:
+  - **INVESTMENT MILESTONE**: ENISA loan disbursed OR first investor SAFE/equity closed OR EUR 50K+ external capital received in 90d window.
+  - **PROJECT COMPLEXITY**: Modelo 720 fires (foreign-asset declaration trigger) OR Hacienda Foral cross-territory split OR M&A discussion entered OR multi-CFO-grade engagement (Series A prep / audit / fundraise diligence).
+  - **OPERATOR-JUDGMENT**: always-available override.
+
+  **D-IH-81-N status**: stays active. Decisions A (synthesis truth) + B (mint all 18 OPS rows) + C (cross-area Ops-wiring novel framing → D-IH-81-O) remain ratified. Only Decision D (CFOaaS-at-incorporation default) is superseded-in-narrative by D-IH-81-P.
+
+  **Why this matters more broadly**: surfaces a class of failure-mode for future synthesis work in LegalOps / PeopleOps / RevOps / MarOps — agents reflexively default to industry-standard outsource paths when operator project thesis is internal-first. The cluster coordinator + inline-ratify-craft skill must include the sanity-check (codified at OPS-81-21) at next People-area sweep.
+
+  **Reversibility**: medium (all underlying synthesis content stays; only ownership columns + activation timing re-frame; D-IH-81-N row remains active for A/B/C portions).
+
 ### Forward-pointer: what the next operator engagement decides
 
-The next batch of inline-ratify questions (surfaced post-T1 commit by the agent) is expected to address:
+The next batch of inline-ratify questions is expected to address:
 
-1. **Cross-area Ops-wiring review activation criteria** (per D-IH-81-O) — when does the candidate promote to active initiative? Trigger options: at first I72 P9 RevOps adapter mint / at CFOaaS contract signing / at first Holistika invoice issued / at incorporation closing.
-2. **OPS-81-2 (vendor inventory backfill) sequencing** — which next push window? Same-as-T1 / next-tranche / post-CFOaaS-contract.
-3. **OPS-81-3 (revenue recognition policy author) gating** — author now (CFOaaS-aware draft) vs hold for CFOaaS firm to lead.
-4. **Cross-area review scope** — does the discipline cover only the four named backbone areas (FINOPS / PeopleOps / RevOps / LegalOps) or does it generalise to all areas with `Ops` suffix?
+1. **Cross-area Ops-wiring review activation criteria** (per D-IH-81-O / Decision E ratified e2 → promote to 12th Quality Fabric specialty doctrine immediately) — when does the candidate promote? Decision E was ratified; OPS-81-21 carries the Quality Fabric specialty mint as part of the failure-mode-guard scope.
+2. **OPS-81-tax-calendar (OPS-81-13) scaffolding** (per Decision F ratified f3 → FIRST in execution order) — which next push window scaffolds the tax-filing calendar canonical?
+3. **OPS-81-20 (5 paired SOP+runbook artifacts) sequencing** — which next push window mints? Default: stagger one SOP+runbook pair per push window over 2-3 push windows.
+4. **Future doctrine-correction sanity-checks** — are there other areas where the agent has reflexively defaulted to outsource-path framing (LegalOps via external counsel? PeopleOps via external HR? RevOps via external SDR firm?). Surface at next People-area sweep.
 
 Amendments to this synthesis from those answers append here with their own decision IDs.
