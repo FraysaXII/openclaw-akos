@@ -636,4 +636,46 @@ T5 picked first to validate the migration pattern + alias-fallback contract at m
 
 [processed 2026-05-22 wave-R-lane-D-T4]
 
+---
+
+## 2026-05-22 — wave-R-lane-D-T1-gate — FINOPS synthesis ratified + cross-area Ops-wiring novel framing captured
+
+**Author**: Madeira (current AI O5-1) at operator request 2026-05-22.
+
+**Type**: synthesis-ratification + novel-framing capture.
+
+**TL;DR**: The 502-line FINOPS end-to-end synthesis at [`p2-tranche-t1-finops-synthesis-2026-05-22.md`](../../wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/p2-tranche-t1-finops-synthesis-2026-05-22.md) was ratified inline (A1 + B1 + D1) with one novel framing on Decision C that ratifies a new emergent discipline: backbone Ops areas (FINOPS / PeopleOps / RevOps / LegalOps) require explicit cross-area wiring review. Two decisions minted: D-IH-81-N (synthesis ratification + 18 OPS forward-charters + CFOaaS activation policy + engagement at incorporation) and D-IH-81-O (cross-area Ops-wiring review novel framing). T1 (`FINOPS_COUNTERPARTY_REGISTER.csv → finops/`) unblocked for execution in same push window per c1 default.
+
+**What the operator decided in batch (2026-05-22)**:
+
+- **Decision A — synthesis truth (a1)**: ratify as authored. All 8 TL;DR claims, the 5-plane gap call (§1-§5), the CFO-question framing (§6), the ideal-state architecture sketch (§7), the 16-row forward-charter table (§8), and the 18 OPS row instantiations (§9) stand without amendment. The synthesis becomes the citable SSOT future agents + future CFOaaS firm reads to onboard FINOPS at Holistika.
+- **Decision B — OPS rows (b1)**: mint all 18 forward-charters NOW as OPS rows under D-IH-81-N. Renumbered from synthesis's narrative `OPS-81-FINOPS-1..18` labels to `OPS-81-2..OPS-81-19` to match `validate_ops_register.py` `OPS-NN-N` regex. 5 CRITICAL severity rows (counterparty backfill, revenue recognition policy, founder ledger first-pass, capital instruments register, tax compliance calendar) gate at the highest priority.
+- **Decision C — T1 timing (novel framing, captured as D-IH-81-O)**: operator declined the c1/c2/c3/c4 options and proposed a more consequential framing — *"add regressions or continuous revisions or enhancements or backfill for all of this. Because FINOPS is a backbone, main representative of finance + legal + PeopleOps + other area's Ops, needs to be wired properly and cleverly to ensure we can grow our all ops as we go. Think you could review each area's OPS to ensure proper wiring maintenance etc. Mint this in the operator scratchbook too to ensure audit trail."* This ratifies emergent **cross-area Ops-wiring review** discipline: backbone-class Ops areas require explicit cross-area wiring review beyond per-area discipline. T1 execution proceeds per c1 default (cheap layout migration first; substantive backfill follows under OPS-81-2 sequencing). Discipline shape forward-chartered as `_candidates/i-nn-cross-area-ops-wiring-review.md` for promotion when operator sets activation criteria at next ratify cycle.
+- **Decision D — CFOaaS timing (d1)**: author CFOaaS activation policy NOW + engage CFOaaS firm AT INCORPORATION. Selection rubric: Spain-fluent + SaaS-fluent + ENISA-fluent + bilingual EN+ES. Pricing target: EUR 2-3.5K/month Essentials tier per Fractional CFO School 2026 + Level CFO 2026 + SaaS Fractional CFO UK 2026 industry consensus. Onboarding pack = this synthesis + `SOP-FOUNDER_COMPANY_FUNDING_001` + `FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04` + 5 CRITICAL OPS rows + counterparty register backfill. Tracked as OPS-81-17.
+
+**Files modified (governance bundle)**:
+
+- `DECISION_REGISTER.csv`: appended D-IH-81-N (governance, active, low reversibility) + D-IH-81-O (architecture, active, medium reversibility).
+- `OPS_REGISTER.csv`: appended 18 rows OPS-81-2 through OPS-81-19 (5 CRITICAL + 9 HIGH + 4 MEDIUM/LOW; all `status:open`; all linked to D-IH-81-N). One-shot append via temporary scaffold script (deleted post-execution). Two HIGH rows (OPS-81-14 Hacienda territoriality + OPS-81-17 CFOaaS) initially failed validator due to `owner_role:Founder` not in `baseline_organisation.csv`; corrected to `PMO` per operator-interim-ownership pattern; revisited at CFOaaS contracting.
+- `_candidates/i-nn-cross-area-ops-wiring-review.md`: new candidate file per D-IH-81-O novel framing. 5-section shape (doctrine / activation gates / scope sketch with 4-row backbone area table + 4-row cross-area wiring check examples / 15-item quartet expectations / 4-item anti-patterns).
+- Synthesis frontmatter: `status:review → status:active`, `verdict:PENDING-OPERATOR-WALK → PASS`, `closure_decision_source:agent_inline_default → operator_explicit`, `ratifying_decisions:[D-IH-81-N] → [D-IH-81-N, D-IH-81-O]`.
+- Synthesis body: appended §10.1 Operator amendments log capturing both ratifications + a forward-pointer to the next batch of inline-ratify questions (cross-area Ops-wiring activation criteria + OPS-81-2 sequencing + OPS-81-3 author-now-vs-CFOaaS-led + scope generalisation).
+- I81 `decision-log.md`: D-IH-81-N + D-IH-81-O narratives appended; T1 tranche-status flipped `gated → unblocked`.
+- I81 `files-modified.csv`: governance bundle rows appended.
+- `CHANGELOG.md`: governance bundle entry.
+
+**Mechanical evidence**:
+
+- `validate_decision_register.py`: PASS (403 active + 2 superseded).
+- `validate_ops_register.py`: PASS (116 rows; 64 open + 52 closed; 0 errors).
+- Synthesis frontmatter validates as `audience:J-OP` (no render trail required per `akos-external-render-discipline.mdc` exemption).
+
+**Decisions**: D-IH-81-N (governance) + D-IH-81-O (architecture).
+
+**OPS**: OPS-81-2 through OPS-81-19 minted; all `status:open`; tracked across operator + future CFOaaS engagement.
+
+**Forecasted next state**: T1 execution (FINOPS_COUNTERPARTY_REGISTER → finops/) lands in the same push window per c1 default. Cross-area Ops-wiring review candidate awaits operator-set activation criteria. Next inline-ratify batch surfaces post-T1 with the four forward-pointer questions in synthesis §10.1.
+
+[processed 2026-05-22 wave-R-lane-D-T1-gate]
+
 <!-- end of entries -->

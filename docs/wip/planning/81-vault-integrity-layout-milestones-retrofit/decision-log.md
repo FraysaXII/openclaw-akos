@@ -180,3 +180,39 @@ Each remaining tranche requires its own inline-ratify gate at next push window.
 **Why this tranche was inventoried even though no migration was needed:** The I81 P2 enumeration walks every legacy Compliance canonical to confirm it either conforms to the I22 forward layout or schedules a `git mv` tranche. T4 closes the conform-by-construction case so future readers do not assume the work was skipped.
 
 **Forward tranches still gated by D-IH-81-G:** T1 (FINOPS_COUNTERPARTY — blocked on operator engagement with FINOPS synthesis pass per Wave R framing), T2 (paired adviser-engagement CSVs), T3 (FOUNDER_FILED_INSTRUMENTS rename+move).
+
+### D-IH-81-N — FINOPS end-to-end synthesis ratification (2026-05-22)
+
+**Tranche umbrella:** D-IH-81-G (T1 gating decision now unblocked).
+
+**Operator ratification:** Inline `AskQuestion` four-question batch 2026-05-22 against the [502-line FINOPS end-to-end synthesis](reports/i81/p2-tranche-t1-finops-synthesis-2026-05-22.md). Operator picked: A1 (ratify synthesis as authored) + B1 (mint all 18 forward-charters as OPS rows now) + D1 (author CFOaaS activation policy now + engage CFOaaS firm at incorporation). Decision C resolved via novel-framing path captured in **D-IH-81-O** below.
+
+**What the ratification commits Holistika to:**
+
+1. **Synthesis becomes citable SSOT.** Future agents + future CFOaaS firm reads the synthesis at `reports/i81/p2-tranche-t1-finops-synthesis-2026-05-22.md` to onboard the FINOPS doctrine layer (5-plane inventory + ideal-vs-current gap + multi-perspective challenge + ideal-state architecture sketch + external grounding). Status flipped `review → active`; verdict flipped `PENDING-OPERATOR-WALK → PASS`.
+2. **18 forward-charter OPS rows minted** as OPS-81-2 through OPS-81-19 (renumbered from the synthesis's narrative `OPS-81-FINOPS-1..18` labels to match the `validate_ops_register.py` `OPS-NN-N` regex). Severity breakdown: 5 CRITICAL (counterparty backfill / revenue recognition policy / founder ledger first-pass / capital instruments register / tax compliance calendar) + 9 HIGH + 4 MEDIUM/LOW. All rows `status:open` + `linked_decision_ids: D-IH-81-N`.
+3. **CFOaaS activation policy** committed: engage at incorporation (not at first revenue, not at first capital, not at first board) — the conservative posture per `FOUNDER_CAPITALIZATION_DECISION_NOTE_2026-04` philosophy of *prevention over remediation*. Selection rubric: Spain-fluent + SaaS-fluent + ENISA-fluent + bilingual EN+ES. Pricing target: EUR 2-3.5K/month Essentials tier per industry consensus (Fractional CFO School 2026 + Level CFO 2026 + SaaS Fractional CFO UK 2026). Onboarding pack: this synthesis + `SOP-FOUNDER_COMPANY_FUNDING_001` + `FOUNDER_CAPITALIZATION_DECISION_NOTE` + 5 CRITICAL OPS rows + counterparty register backfill (OPS-81-2). Tracked as **OPS-81-17** (status:open until firm contracted + first monthly close runs).
+4. **T1 (FINOPS_COUNTERPARTY_REGISTER → finops/) unblocked** for execution in same push window per Decision C c1 default (cheap layout migration first; substantive backfill follows per OPS-81-2 sequencing).
+
+**Reversibility:** Reversible at the OPS-row level — each forward-charter row can be closed individually if operator judges it no longer needed. Synthesis itself is `active` doctrine but may be amended in §10.1 Operator amendments log (which already carries this row's narrative + a forward-pointer to the next inline-ratify batch).
+
+**External research grounding (per `akos-applied-research-discipline.mdc` RULE 2):** cited inline in synthesis frontmatter `external_references:` — Stripe 2026 rev-rec (primary + best-practices) + HighRock CPA 2026 + NetSuite 2026 + Fractional CFO School 2026 + Level CFO 2026 + SaaS Fractional CFO UK 2026 + Sincro 2026 + Vademecum Legal 2026 + AEAT 2026 + Supplier.io/TealBook/Semarchy 2026.
+
+### D-IH-81-O — Cross-area Ops-wiring review novel framing (2026-05-22)
+
+**Tranche umbrella:** spawned at FINOPS synthesis Decision C gate; companion to D-IH-81-N.
+
+**Operator ratification:** At Decision C (T1 timing relative to substantive backfill) the operator declined the c1/c2/c3/c4 options and proposed a more consequential framing — verbatim: *"add regressions or continuous revisions or enhancements or backfill for all of this. Because FINOPS is a backbone, main representative of finance + legal + PeopleOps + other area's Ops, needs to be wired properly and cleverly to ensure we can grow our all ops as we go. Think you could review each area's OPS to ensure proper wiring maintenance etc. Mint this in the operator scratchbook too to ensure audit trail."*
+
+**What this novel framing commits Holistika to:**
+
+1. **A new emergent discipline named explicitly:** backbone-class Ops areas (FINOPS / PeopleOps / RevOps / LegalOps) are not just per-area operational disciplines — they are *wiring spines* that compose how every other area touches money / talent / customers / contracts. They require explicit cross-area wiring review beyond per-area maintenance.
+2. **The candidate file [`_candidates/i-nn-cross-area-ops-wiring-review.md`](../_candidates/i-nn-cross-area-ops-wiring-review.md)** is minted now. It carries: 4-area backbone inventory (FINOPS / PeopleOps / RevOps / LegalOps); 4 illustrative cross-area wiring checks (FINOPS↔RevOps engagement-event pairing; FINOPS↔LegalOps money-amount back-references; PeopleOps↔FINOPS role-activation employment counterparty; RevOps↔LegalOps engagement-contract pairing); 15-item quartet expectations at promotion (per `akos-quality-fabric.mdc` RULE 7); 4-item anti-patterns. Activation gates: A1 operator sets criteria; A2 at least one backbone area reaches "wired-enough to be reviewable" maturity; A3 either CFOaaS firm contracted OR operator declares interim ownership explicit.
+3. **Structural analogy:** the discipline is shaped like `INTER_WAVE_REGRESSION_DISCIPLINE.md` and `INDEX_INTEGRITY_DISCIPLINE.md` — instead of dimensions over a cluster wave or baseline indexes, dimensions over a backbone wiring surface. When promoted, ships the full Wave M/N specialty quartet (doctrine + Pydantic + validator + runbook + cursor rule + skill + SOP+runbook pair + pattern-registry row + Quality Fabric §6 row).
+4. **T1 execution unblocked per default-c1 path:** layout migration first; substantive backfill (OPS-81-2 sweep) follows. The novel framing did NOT delay T1; it expanded the *what-comes-after-T1* picture.
+
+**Reversibility:** Architectural framing not yet a mechanical discipline; promotion path: candidate → active initiative when activation criteria meet (similar shape to I79 People-as-DoD emergence from operator framing). Pairs structurally with `akos-people-discipline-of-disciplines.mdc` RULE 1 but generalises further: backbone-class areas require explicit cross-area wiring review beyond per-area discipline. Reversible: discipline can be folded into existing PMO + People area ownership if cross-area-review proves redundant at activation review.
+
+**Audit-trail entry:** `docs/wip/planning/86-initiative-cluster-execution-coordinator/operator-scratchpad.md` 2026-05-22 wave-R-lane-D-T1-gate (per operator request *"Mint this in the operator scratchbook too to ensure audit trail"*).
+
+**Forward tranches now in-flight under D-IH-81-G:** T1 (FINOPS_COUNTERPARTY — **unblocked** per D-IH-81-N, executes in same push window per c1 default), T2 (paired adviser-engagement CSVs — operator discretion), T3 (FOUNDER_FILED_INSTRUMENTS rename+move — operator discretion). The synthesis's 18 OPS rows now drive the FINOPS-substantive work surface independently of the layout-tranche surface.

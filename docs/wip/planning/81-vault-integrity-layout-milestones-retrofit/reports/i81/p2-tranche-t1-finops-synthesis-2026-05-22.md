@@ -5,11 +5,12 @@ sharing_label: internal_only
 audience: J-OP
 authored: 2026-05-22
 last_review: 2026-05-22
-status: review
-verdict: PENDING-OPERATOR-WALK
-closure_decision_source: agent_inline_default
+status: active
+verdict: PASS
+closure_decision_source: operator_explicit
 ratifying_decisions:
   - D-IH-81-N
+  - D-IH-81-O
 linked_runbooks:
   - scripts/validate_finops_counterparty_register.py
   - scripts/sync_compliance_mirrors_from_csv.py
@@ -500,3 +501,25 @@ Operator picks per-row from §9. Default if silent ≥ 24h: mint the 5 CRITICAL 
 - [`akos-inline-ratification.mdc`](../../../../../.cursor/rules/akos-inline-ratification.mdc) — §10 surfaces as the inline-ratify gate.
 - [`akos-quality-fabric.mdc`](../../../../../.cursor/rules/akos-quality-fabric.mdc) — synthesis audience axis = J-OP; brand register = internal CORPINT OK; channel axis = J-OP-internal (no render trail required).
 - [`akos-planning-traceability.mdc`](../../../../../.cursor/rules/akos-planning-traceability.mdc) — synthesis is not a closure UAT; quality bar applies on its terms (research grounding + multi-perspective challenge + ideal-vs-current gap).
+
+---
+
+## §10.1 Operator amendments log
+
+Per the synthesis authoring contract: amendments append here so the document stays auditable across iterations. Each entry: date + decision-id + delta + new state.
+
+### 2026-05-22 — initial ratification
+
+- **D-IH-81-N** (governance, active): operator ratified the synthesis as authored (Decision A → option a1) + accepted all 18 forward-charter OPS rows (Decision B → option b1; minted as OPS-81-2 through OPS-81-19; renumbered from the synthesis's narrative OPS-81-FINOPS-N labels to satisfy `validate_ops_register.py` `OPS-NN-N` regex) + ratified CFOaaS activation policy NOW + engage CFOaaS firm AT INCORPORATION (Decision D → option d1). Synthesis verdict flipped `PENDING-OPERATOR-WALK → PASS`. Synthesis status flipped `review → active`.
+- **D-IH-81-O** (architecture, active): operator declined the c1/c2/c3/c4 options on Decision C and proposed a **novel framing** that significantly expands the synthesis's structural implication: *"add regressions or continuous revisions or enhancements or backfill for all of this. Because FINOPS is a backbone, main representative of finance + legal + PeopleOps + other area's Ops, needs to be wired properly and cleverly to ensure we can grow our all ops as we go. Think you could review each area's OPS to ensure proper wiring maintenance etc."* This ratifies an emergent **cross-area Ops-wiring review** discipline: backbone-class Ops areas (FINOPS / PeopleOps / RevOps / LegalOps) require explicit cross-area wiring review beyond per-area discipline. T1 execution proceeds per the default-c1 path (cheap layout migration first; substantive backfill follows). Cross-area Ops-wiring review forward-chartered as candidate file `docs/wip/planning/_candidates/i-nn-cross-area-ops-wiring-review.md` for promotion when operator sets activation criteria at next ratify cycle. Audit-trail entry in operator-scratchpad 2026-05-22 wave-R-lane-D-T1-gate.
+
+### Forward-pointer: what the next operator engagement decides
+
+The next batch of inline-ratify questions (surfaced post-T1 commit by the agent) is expected to address:
+
+1. **Cross-area Ops-wiring review activation criteria** (per D-IH-81-O) — when does the candidate promote to active initiative? Trigger options: at first I72 P9 RevOps adapter mint / at CFOaaS contract signing / at first Holistika invoice issued / at incorporation closing.
+2. **OPS-81-2 (vendor inventory backfill) sequencing** — which next push window? Same-as-T1 / next-tranche / post-CFOaaS-contract.
+3. **OPS-81-3 (revenue recognition policy author) gating** — author now (CFOaaS-aware draft) vs hold for CFOaaS firm to lead.
+4. **Cross-area review scope** — does the discipline cover only the four named backbone areas (FINOPS / PeopleOps / RevOps / LegalOps) or does it generalise to all areas with `Ops` suffix?
+
+Amendments to this synthesis from those answers append here with their own decision IDs.
