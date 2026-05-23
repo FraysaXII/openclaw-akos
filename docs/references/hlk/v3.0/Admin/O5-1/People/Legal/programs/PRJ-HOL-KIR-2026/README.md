@@ -14,7 +14,7 @@ This folder is the **program-scoped landing point** for Legal casework on KiRBe.
 
 ## Casework scope (incoming)
 
-- **KiRBe Subscription Agreement** — master terms + per-customer side letters, tracked as filed instruments under `discipline_id=legal` in `FOUNDER_FILED_INSTRUMENTS.csv` (or a new program-scoped instruments register if volume warrants — cf. Initiative 27 reserved slot).
+- **KiRBe Subscription Agreement** — master terms + per-customer side letters, tracked as filed instruments under `discipline_id=legal` in `advops/FILED_INSTRUMENTS.csv` (relocated + renamed at I81 P2 T3 from `FOUNDER_FILED_INSTRUMENTS.csv`; or a new program-scoped instruments register if volume warrants — cf. Initiative 27 reserved slot).
 - **IP assignment + licensing** for KiRBe-derived models, embeddings, prompt templates.
 - **Customer Letter of Authorisation (LOA)** flow for client engagements that grant KiRBe ingestion access to off-Holistika sources.
 - **Regulator licensing** by jurisdiction when KiRBe enters a regulated market (e.g. financial AI advisory in jurisdictions where that is a licensed activity).
@@ -28,6 +28,6 @@ This folder is the **program-scoped landing point** for Legal casework on KiRBe.
 - PMO KiRBe folder: [`Admin/O5-1/Operations/PMO/programs/PRJ-HOL-KIR-2026/`](../../../../Operations/PMO/programs/PRJ-HOL-KIR-2026/README.md)
 - ADVOPS plane router: [`EXTERNAL_ADVISER_ROUTER.md`](../../../../Operations/PMO/EXTERNAL_ADVISER_ROUTER.md)
 - Adviser engagement SOP: [`SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md`](../../../../Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md)
-- Founder filed instruments register: [`FOUNDER_FILED_INSTRUMENTS.csv`](../../../../../../../compliance/FOUNDER_FILED_INSTRUMENTS.csv)
+- ADVOPS filed instruments register: [`advops/FILED_INSTRUMENTS.csv`](../../../../../../../compliance/advops/FILED_INSTRUMENTS.csv) (relocated + renamed I81 P2 T3)
 - Initiative 23 master roadmap: [`docs/wip/planning/23-hlk-program-registry-and-program-2/master-roadmap.md`](../../../../../../../../wip/planning/23-hlk-program-registry-and-program-2/master-roadmap.md)
 - D-IH-16 (KiRBe duality + on-demand → required cascade): see Initiative 23 [`decision-log.md`](../../../../../../../../wip/planning/23-hlk-program-registry-and-program-2/decision-log.md).

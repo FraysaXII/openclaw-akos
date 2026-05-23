@@ -885,6 +885,44 @@ T5 picked first to validate the migration pattern + alias-fallback contract at m
 
 [processed 2026-05-23 wave-R-lane-D-T2-execution | D-IH-81-R closure-class minted under D-IH-81-G umbrella; `git mv ADVISER_*.csv → advops/` lands; 27 consumer surfaces + 32 files-modified rows in lock-step; deprecation alias supported for one initiative cycle; all validators PASS; pytest 3059/3059 PASS]
 
+### 2026-05-23 — Wave R Lane D Tranche T3 EXECUTION (Bundle D second + final atomic commit; D-IH-81-S; closes I81 P2 to 5-of-5)
+
+**Trigger**: operator inline-ratify ratification `t3-a` + `sup-a` 2026-05-23 (Bundle D continuation post-T2 commit `07ebb38`). T3 = highest-blast-radius tranche (FOUNDER_FILED_INSTRUMENTS.csv move-plus-rename) per D-IH-81-R closure note; surfaced as its own inline-ratify gate before execution. Operator chose **full cascade rename + atomic Supabase ALTER TABLE in same commit** — the maximum-cleanliness option (vs. move-only-keep-name alias-debt anti-pattern or partial-rename half-measure).
+
+**What landed**:
+
+- **CSV**: `git mv docs/.../canonicals/FOUNDER_FILED_INSTRUMENTS.csv → .../canonicals/advops/FILED_INSTRUMENTS.csv` (history preserved; `FOUNDER_` prefix dropped because register scope outgrew founder-incorporation — covers KiRBe SPV instruments + banking + IP + future entity-class instruments).
+- **Pydantic SSOT**: `akos/hlk_founder_filed_instruments_csv.py` → `akos/hlk_filed_instruments_csv.py` + deprecation shim retained at old name re-exporting all public symbols for one initiative cycle (removal at I81 P9 closure).
+- **Validator**: `scripts/validate_founder_filed_instruments.py` → `scripts/validate_filed_instruments.py` + thin delegating shim retained at old name.
+- **Supabase mirror**: `compliance.founder_filed_instruments_mirror` → `compliance.filed_instruments_mirror` via ALTER TABLE migration `supabase/migrations/20260523000000_i81_p2_t3_alter_filed_instruments_mirror.sql`. Migration handles full PostgreSQL cascade: table rename + 4 explicit index renames (PK + 3 secondary; `ALTER TABLE RENAME` does NOT auto-rename indexes) + RLS policy drop+recreate with aligned identifiers. DBA tranche — apply via `npx supabase db push` after merge.
+- **Stable downstream label preservation**: `"founder_filed_instruments"` string in `scripts/validate_review_stamps.py` `CanonicalSpec.label` retained unchanged (downstream identifier for `REVIEW_STAMP_INBOX.md` + historical UAT reports). Same for `--founder-filed-instruments-only` CLI flag on `sync_compliance_mirrors_from_csv.py` (flag now emits to renamed mirror; flag rename scheduled at I81 P9 closure).
+- **5 script updates** with deprecation-alias pattern: `sync_compliance_mirrors_from_csv.py` + `probe_compliance_mirror_drift.py` + `validate_compliance_schema_drift.py` + `validate_review_stamps.py` + `validate_hlk.py` dispatcher.
+- **3 test updates**: `tests/test_sync_compliance_mirrors_from_csv.py` + `tests/test_probe_compliance_mirror_drift.py` + `tests/test_validate_review_stamps.py` (all 81/81 PASS).
+- **18 governance + body-doc cross-reference updates**: PRECEDENCE + CANONICAL_REGISTRY + migration-manifest + canonicals/README + ARCHITECTURE + 3 cursor rules + 12 active body docs + process_list.csv `thi_legal_dtp_304` row.
+- **DECISION_REGISTER** +1 row (`D-IH-81-S` closure-class; 408 active + 2 superseded).
+- **CHANGELOG.md** +1 entry under `[Unreleased]`.
+- **I81 decision-log.md** +1 §D-IH-81-S narrative with full mechanical evidence.
+- **I81 files-modified.csv**: 32 T2 rows backfilled to commit_sha `07ebb38` + 44 new T3 rows appended as `akos-pending`.
+
+**Why full cascade was the right call**:
+
+1. **Forward semantic clarity** — `FOUNDER_` prefix outgrown by register's broader scope.
+2. **One-time blast radius vs. forever alias debt** — single commit with full cascade cheaper than carrying rename queue across successor initiatives. Shim cost bounded (one cycle).
+3. **Atomic Supabase migration alignment** — mirror name + canonical name in lockstep means operators reading either surface see the same identifier.
+4. **Stable downstream label preservation** — review-stamp continuity preserved for `REVIEW_STAMP_INBOX.md` + historical UAT reports + CLI flag name. Healthy seam between technical-rename and operator-identifier-stability.
+
+**Forward state**:
+
+- I81 P2 tranche-status table reads **5-of-5 CLOSED** (T5 + T4 + T1 + T2 + T3 ✅). I81 P2 layout migration **COMPLETE**.
+- **Bundle D CLOSED** (both atomic commits landed).
+- Wave R Lane D layout-migration substrand **COMPLETE**.
+- Remaining Wave R lanes per s5-c PRIORITY ordering: Bundle B counterparty inventory (PRIORITY-3); Bundle C cross-area Ops-wiring amendment (PRIORITY-4); Quality Fabric 12th specialty mint (PRIORITY-5).
+- I81 P3 entry now unblocked (was gated by I81 P2 closure).
+
+**Why letter S for the decision label**: T5 = D-IH-81-L, T4 = D-IH-81-M, T1 = D-IH-81-Q (with gap N/O/P as audit signal for synthesis interlude per q5-a), T2 = D-IH-81-R, T3 = D-IH-81-S. R→S contiguous (no gap); T3 is paired-with-T2-as-Bundle-D so contiguity holds for the operator-pen view.
+
+[processed 2026-05-23 wave-R-lane-D-T3-execution | D-IH-81-S closure-class minted under D-IH-81-G umbrella; CSV move-plus-rename + Pydantic + validator + Supabase mirror full cascade rename; deprecation shims for one initiative cycle; stable downstream label preservation; 5 scripts + 3 tests + 18 governance/body docs + 1 process_list row updated; all validators PASS; pytest 81/81 PASS on focused suite; I81 P2 5-of-5 COMPLETE; Bundle D CLOSED]
+
 [unprocessed — for next coordinator drain]
 
 <!-- end of entries -->

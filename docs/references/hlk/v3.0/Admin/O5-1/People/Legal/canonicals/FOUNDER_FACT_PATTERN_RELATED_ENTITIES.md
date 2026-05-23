@@ -15,7 +15,7 @@ language: en
 
 ## Purpose
 
-**Short scaffold** of the commercial and entity fact pattern for external advisers across all disciplines (Legal / Fiscal / IP / Banking / Certification / Notary). Detailed positions live in linked case memos; update this page when those memos change or when **filed** facts change (see [FOUNDER_FILED_INSTRUMENT_REGISTER.md](FOUNDER_FILED_INSTRUMENT_REGISTER.md), derived from `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv`).
+**Short scaffold** of the commercial and entity fact pattern for external advisers across all disciplines (Legal / Fiscal / IP / Banking / Certification / Notary). Detailed positions live in linked case memos; update this page when those memos change or when **filed** facts change (see [FOUNDER_FILED_INSTRUMENT_REGISTER.md](FOUNDER_FILED_INSTRUMENT_REGISTER.md), derived from `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/FILED_INSTRUMENTS.csv`; relocated + renamed I81 P2 T3, 2026-05-23).
 
 > **Naming posture (Initiative 21 / D-CH-2)** — Canonical text in this document references **only** GOI/POI ref_ids from `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/GOI_POI_REGISTER.csv`. Real names of private entities and individuals are kept off-repo per [SOP-HLK_TRANSCRIPT_REDACTION_001.md](../Compliance/SOP-HLK_TRANSCRIPT_REDACTION_001.md) and [SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md](../Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md). Public authorities (e.g. ENISA, AEAT, OEPM, mercantile registries) may be named directly because they are public entities.
 
@@ -67,7 +67,7 @@ Program workstreams for `PRJ-HOL-FOUNDING-2026` are defined in [TOPIC_PMO_CLIENT
 
 - [FOUNDER_INCORPORATION_KNOWLEDGE_INDEX.md](FOUNDER_INCORPORATION_KNOWLEDGE_INDEX.md)
 - [FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md](FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md) (derived per-discipline view; SSOT: `ADVISER_OPEN_QUESTIONS.csv`)
-- [FOUNDER_FILED_INSTRUMENT_REGISTER.md](FOUNDER_FILED_INSTRUMENT_REGISTER.md) (derived per-discipline view; SSOT: `FOUNDER_FILED_INSTRUMENTS.csv`)
+- [FOUNDER_FILED_INSTRUMENT_REGISTER.md](FOUNDER_FILED_INSTRUMENT_REGISTER.md) (derived per-discipline view; SSOT: `advops/FILED_INSTRUMENTS.csv`, relocated + renamed I81 P2 T3)
 - [EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md](EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md)
 - [EXTERNAL_ADVISER_ROUTER.md](../../Operations/PMO/EXTERNAL_ADVISER_ROUTER.md)
 - [SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md](../../Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md)

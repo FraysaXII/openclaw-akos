@@ -58,7 +58,12 @@ MIRROR_CONTRACT: list[tuple[str, Path, str]] = [
      if (HLK_COMPLIANCE / "advops" / "ADVISER_OPEN_QUESTIONS.csv").is_file()
      else HLK_COMPLIANCE / "ADVISER_OPEN_QUESTIONS.csv",
      "adviser_open_questions_rows"),
-    ("compliance.founder_filed_instruments_mirror", HLK_COMPLIANCE / "FOUNDER_FILED_INSTRUMENTS.csv", "founder_filed_instruments_rows"),
+    # I81 P2 T3 (D-IH-81-S under D-IH-81-G umbrella, 2026-05-23): mirror renamed to compliance.filed_instruments_mirror + CSV moved + renamed to advops/FILED_INSTRUMENTS.csv.
+    ("compliance.filed_instruments_mirror",
+     HLK_COMPLIANCE / "advops" / "FILED_INSTRUMENTS.csv"
+     if (HLK_COMPLIANCE / "advops" / "FILED_INSTRUMENTS.csv").is_file()
+     else HLK_COMPLIANCE / "FOUNDER_FILED_INSTRUMENTS.csv",
+     "filed_instruments_rows"),
     ("compliance.program_registry_mirror", HLK_COMPLIANCE / "dimensions" / "PROGRAM_REGISTRY.csv", "program_registry_rows"),
     ("compliance.topic_registry_mirror", HLK_COMPLIANCE / "dimensions" / "TOPIC_REGISTRY.csv", "topic_registry_rows"),
     # Initiative 31 P2.1 / P3 / P5.2 — three new dimension registers added to the operating-interface layer.

@@ -76,9 +76,10 @@ _REGISTRY: tuple[tuple[str, str, str], ...] = (
         "ADVISER_OPEN_QUESTIONS_FIELDNAMES",
     ),
     (
-        "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv",
-        "akos.hlk_founder_filed_instruments_csv",
-        "FOUNDER_FILED_INSTRUMENTS_FIELDNAMES",
+        # I81 P2 T3 (D-IH-81-S under D-IH-81-G umbrella, 2026-05-23): moved + renamed to advops/FILED_INSTRUMENTS.csv.
+        "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/FILED_INSTRUMENTS.csv",
+        "akos.hlk_filed_instruments_csv",
+        "FILED_INSTRUMENTS_FIELDNAMES",
     ),
     (
         "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PROGRAM_REGISTRY.csv",

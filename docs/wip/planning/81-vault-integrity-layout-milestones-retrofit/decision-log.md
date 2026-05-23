@@ -345,3 +345,57 @@ Tranche-status table updated: T1 flipped `unblocked → closed`. T5 + T4 + T1 = 
 Tranche-status table updated: T2 flipped `pending → closed`. T5 + T4 + T1 + T2 = **4 of 5** tranches closed. T3 = last remaining tranche.
 
 **External research grounding** (per `akos-applied-research-discipline.mdc`): RULE 1 satisfied by T5 + T4 + T1 precedent (this is the fourth I81 P2 tranche execution; deprecation-alias pattern proven across three prior tranches). RULE 2 not applicable (no novel framing introduced by this closure — D-IH-81-G/Q already carried the doctrine).
+
+---
+
+## D-IH-81-S — I81 P2 T3 FOUNDER_FILED_INSTRUMENTS rename+move layout migration close (Bundle D completion; I81 P2 5-of-5)
+
+**Decided**: 2026-05-23. **Owner**: PMO. **Status**: active. **Class**: closure (per CSV) / execution (per markdown convention). **Reversibility**: medium (git-revertable; deprecation shims preserve old module + script names for one cycle; Supabase ALTER TABLE rollback via inverse migration).
+
+**Parent umbrella**: `D-IH-81-G` (I81 P2 forward layout convention enforcement). Following the sequential precedent T5 = `D-IH-81-L`, T4 = `D-IH-81-M`, T1 = `D-IH-81-Q`, T2 = `D-IH-81-R`. T3 = the highest-blast-radius tranche; deferred to its own atomic commit with its own inline-ratify gate per D-IH-81-R closure note.
+
+**Question** (inline `AskQuestion` 2026-05-23 PM UTC+2, post-T2 + post-Wave R Lane B drain): execute T3 (`FOUNDER_FILED_INSTRUMENTS.csv` → `advops/FILED_INSTRUMENTS.csv`) with what scope — move-only keep-name (least cleanup, max alias debt), move + rename CSV file only (medium), or full cascade rename CSV + Pydantic module + validator script + Supabase mirror table (max cleanliness, max blast radius)? And for the Supabase mirror, which strategy — keep current table name forever (alias-debt anti-pattern), rename via ALTER TABLE in same commit (atomic, requires aligned index + RLS handling), or defer to a successor initiative?
+
+**Decision** (operator ratification `t3-a` + `sup-a` 2026-05-23): execute the **full cascade rename** with the **Supabase ALTER TABLE migration in same commit**. Scope:
+
+- CSV: `git mv FOUNDER_FILED_INSTRUMENTS.csv → advops/FILED_INSTRUMENTS.csv` (history preserved).
+- Pydantic SSOT: `akos/hlk_founder_filed_instruments_csv.py` → `akos/hlk_filed_instruments_csv.py`. Old module becomes a deprecation shim re-exporting the new tuple + model + valid sets for one initiative cycle (removal scheduled at I81 P9 closure).
+- Validator: `scripts/validate_founder_filed_instruments.py` → `scripts/validate_filed_instruments.py`. Old script becomes a thin shim delegating to the new one for one initiative cycle.
+- Supabase mirror: `compliance.founder_filed_instruments_mirror` → `compliance.filed_instruments_mirror` via ALTER TABLE migration `supabase/migrations/20260523000000_i81_p2_t3_alter_filed_instruments_mirror.sql`. Includes 4 index renames (PK + 3 secondary) + RLS policy drop+recreate with aligned identifiers (`ALTER TABLE RENAME` does NOT cascade to indexes or RLS policies in PostgreSQL; explicit handling required).
+
+**Operator-discretion exemption** (stable downstream label): the `"founder_filed_instruments"` string in `scripts/validate_review_stamps.py` `CanonicalSpec.label` is **retained unchanged** as a stable identifier. Rationale: this label appears in `REVIEW_STAMP_INBOX.md`, historical UAT reports, and downstream tooling. Renaming the label would break review-stamp continuity with no operational benefit (the technical surface — file path + Pydantic module + validator script + mirror table — is fully renamed; the label is purely a stable string key). CLI flag `--founder-filed-instruments-only` on `sync_compliance_mirrors_from_csv.py` similarly retained for one cycle (now emits to renamed `compliance.filed_instruments_mirror` mirror table; flag rename scheduled at I81 P9 closure).
+
+**Mechanical scope** (atomic commit):
+
+- **1 CSV move-plus-rename**: `git mv` from canonicals/ root to canonicals/advops/ with renamed stem; history preserved.
+- **2 Python module renames + 2 deprecation shims**: Pydantic SSOT + validator script; old names retained as shims for one cycle.
+- **1 Supabase ALTER TABLE migration**: table rename + 4 index renames + RLS policy recreation with aligned identifiers (atomic in single migration file).
+- **5 script path-constant updates with deprecation-alias pattern**: `sync_compliance_mirrors_from_csv.py` (path + mirror name + CLI flag name retained), `probe_compliance_mirror_drift.py` (path + mirror name in row-count SQL), `validate_compliance_schema_drift.py` (registry entry path), `validate_review_stamps.py` (CanonicalSpec path; label string kept stable), `validate_hlk.py` (dispatcher path + validator entrypoint).
+- **18 governance + body-doc cross-reference updates**: `PRECEDENCE.md` (Layer 2 cite + mirror lineage row); `CANONICAL_REGISTRY.csv` (filed_instruments row path + notes); `migration-manifest-2026-05-12.yml` (T3 wave entry); `canonicals/README.md` (forward-layout tree + transition table); `ARCHITECTURE.md` (HLK Registry section); 3 cursor rules (`akos-adviser-engagement.mdc` globs + body refs; `akos-docs-config-sync.mdc` Code/Script changes table; `akos-holistika-operations.mdc` ADVOPS plane); 12 active body docs (`USER_GUIDE.md`, `DEVELOPER_CHECKLIST.md`, `EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md`, `SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md`, `SOP-HLK_COMMUNICATION_METHODOLOGY_001.md`, `SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md`, `EXTERNAL_ADVISER_ROUTER.md`, `programs/PRJ-HOL-FOUNDING-2026/README.md`, `programs/PRJ-HOL-KIR-2026/README.md`, `Advisers/README.md`, `Advisers/_engagement-template/00-internal/README.md`, `Advisers/_engagement-template/02-adviser-pack/README.md`, `2026-holistika-incorporation/README.md` x2, `FOUNDER_FILED_INSTRUMENT_REGISTER.md` derived view, `FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md`).
+- **1 process_list.csv row update**: `thi_legal_dtp_304` (`Filed instruments register maintenance`) — canonical CSV path + validator script reference + last_review_at date updated to reflect T3 relocation/renaming. Column integrity verified post-edit (35 columns intact).
+
+**Mechanical evidence:**
+
+- `py scripts/validate_filed_instruments.py`: PASS (1 row at new `advops/FILED_INSTRUMENTS.csv` path).
+- `py scripts/validate_founder_filed_instruments.py` (shim): PASS (delegates to renamed validator; legacy name still resolves for one cycle).
+- `py scripts/validate_review_stamps.py`: PASS (filed_instruments 1/1 stamped under stable label).
+- `py scripts/validate_program_id_consistency.py`: PASS (FK from filed_instruments to PROGRAM_REGISTRY resolves at new path).
+- `py scripts/validate_hlk.py`: umbrella OVERALL PASS (all 24 canonical CSVs aligned with their SSOT tuples).
+- `py scripts/validate_compliance_schema_drift.py`: PASS — 24/24 canonical CSVs aligned, including `advops/FILED_INSTRUMENTS.csv` → `akos.hlk_filed_instruments_csv.FILED_INSTRUMENTS_FIELDNAMES` (17 columns).
+- `py scripts/sync_compliance_mirrors_from_csv.py --founder-filed-instruments-only`: emits INSERT/ON CONFLICT/UPDATE statements targeting `compliance.filed_instruments_mirror` correctly (verified via emitted SQL inspection — 3 mirror references, no residual `founder_filed_instruments_mirror` strings).
+- `py scripts/probe_compliance_mirror_drift.py --emit-sql`: row-count SELECT now references `compliance.filed_instruments_mirror`; no residual references to old mirror name.
+- `py scripts/validate_decision_register.py`: PASS (408 active + 2 superseded after D-IH-81-S lands).
+- `py -m pytest tests/test_sync_compliance_mirrors_from_csv.py tests/test_probe_compliance_mirror_drift.py tests/test_validate_review_stamps.py -q`: 81/81 PASS.
+
+**Why full cascade was the right call** (per operator `t3-a` ratification):
+
+1. **Forward semantic clarity**: dropping the `FOUNDER_` prefix matches the broader-than-founder scope of the register (covers KiRBe SPV instruments, future entity-class instruments, banking arrangements, IP filings) — the canonical was named after founder-incorporation scope and outgrew it.
+2. **One-time blast radius** vs. **forever alias debt**: a single commit with full cascade is cheaper than carrying the rename queue across multiple successor initiatives. The deprecation shim cost is bounded (one initiative cycle); the never-renamed alternative would have been unbounded.
+3. **Atomic Supabase migration alignment**: doing the table rename in the same commit as the CSV rename keeps mirror name + canonical name in lockstep — operators reading either surface see the same identifier.
+4. **Stable downstream label preservation**: the `founder_filed_instruments` label in `validate_review_stamps.py` is the only string that remained unchanged, by deliberate choice — review-stamp continuity for historical UAT reports and `REVIEW_STAMP_INBOX.md` matters more than label-name consistency. This is a healthy seam: the technical surface is cleanly renamed; the operator-facing identifier is stable.
+
+**Reversibility:** Medium. Rollback path: `git revert` the atomic commit → file moves back, modules unrenamed, validators re-aliased; then run inverse Supabase migration (rename table back; recreate old indexes; recreate old RLS policies). Rollback complexity higher than T2 due to Supabase mirror table involvement, but bounded — the migration file documents the exact inverse operations needed.
+
+**Forward tranches remaining under D-IH-81-G**: NONE. T5 + T4 + T1 + T2 + T3 = **5 of 5** tranches closed. **I81 P2 layout migration is complete.**
+
+**External research grounding** (per `akos-applied-research-discipline.mdc`): RULE 1 satisfied by T5 + T4 + T1 + T2 precedent (this is the fifth and final I81 P2 tranche execution; deprecation-alias pattern proven across four prior tranches; Supabase ALTER TABLE pattern + RLS+index recreation is standard PostgreSQL discipline documented inline in the migration file). RULE 2 not applicable (no novel framing introduced by this closure).

@@ -19,7 +19,7 @@ This folder is the **program-scoped landing point** for Legal casework on Holist
 - [`FOUNDER_ENTITY_FORMATION_DECISION_MEMO_2026-04.md`](../../FOUNDER_ENTITY_FORMATION_DECISION_MEMO_2026-04.md) — entity-formation decision memo.
 - [`FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md`](../../FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md) — fact pattern using GOI/POI ref_ids.
 - [`FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md`](../../FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md) — derived per-discipline view (SSOT: `ADVISER_OPEN_QUESTIONS.csv`).
-- [`FOUNDER_FILED_INSTRUMENT_REGISTER.md`](../../FOUNDER_FILED_INSTRUMENT_REGISTER.md) — derived per-discipline view (SSOT: `FOUNDER_FILED_INSTRUMENTS.csv`).
+- [`FOUNDER_FILED_INSTRUMENT_REGISTER.md`](../../FOUNDER_FILED_INSTRUMENT_REGISTER.md) — derived per-discipline view (SSOT: `advops/FILED_INSTRUMENTS.csv`, relocated + renamed I81 P2 T3).
 - [`EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md`](../../EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md) — external counsel handoff package (per-discipline sections, ADVOPS plane).
 
 ## Cross-references

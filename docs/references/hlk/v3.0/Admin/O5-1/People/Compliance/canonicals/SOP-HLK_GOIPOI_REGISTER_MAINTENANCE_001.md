@@ -108,8 +108,8 @@ The register is **engagement-keyed** (D-CH-8, Initiative 21): a single dimension
 
 | `class` | When to use | Typical sensitivity | FK / cross-reference |
 |:--------|:-----------|:--------------------|:---------------------|
-| `external_adviser` | Engaged adviser firm or named adviser (Legal, Fiscal, IP, Banking, Certification, Notary) | `internal` | `ADVISER_ENGAGEMENT_DISCIPLINES.csv`, `ADVISER_OPEN_QUESTIONS.csv`, `FOUNDER_FILED_INSTRUMENTS.csv` |
-| `banking_channel` | Constitution-desk bank, IBAN-providing institution, banking desk lead | `confidential` | `FOUNDER_FILED_INSTRUMENTS.csv` (via `counterparty_goi_ref_id`) |
+| `external_adviser` | Engaged adviser firm or named adviser (Legal, Fiscal, IP, Banking, Certification, Notary) | `internal` | `advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv`, `advops/ADVISER_OPEN_QUESTIONS.csv`, `advops/FILED_INSTRUMENTS.csv` |
+| `banking_channel` | Constitution-desk bank, IBAN-providing institution, banking desk lead | `confidential` | `advops/FILED_INSTRUMENTS.csv` (via `counterparty_goi_ref_id`) |
 | `client` | Active or contracted **client** of Holistika under a delivery program | program-keyed via `program_id` | future MKTOPS / delivery registers |
 | `partner` | Strategic partner, channel partner, system-integrator partner | `internal` | future partnership registers |
 | `investor` | Angel, VC, fund, public-funding agency operating in **investor capacity** (private flow) | `confidential` | future fundraising registers |

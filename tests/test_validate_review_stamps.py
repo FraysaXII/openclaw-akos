@@ -725,8 +725,12 @@ class TestColumnExtensionMigrationExpanded:
         self._assert_tuple_carries_stamps(ADVISER_OPEN_QUESTIONS_FIELDNAMES, "ADVISER_OPEN_QUESTIONS_FIELDNAMES")
 
     def test_founder_filed_instruments(self):
+        # I81 P2 T3 (D-IH-81-S, 2026-05-23): module renamed; legacy import shim still resolves for one initiative cycle.
+        from akos.hlk_filed_instruments_csv import FILED_INSTRUMENTS_FIELDNAMES
+        self._assert_tuple_carries_stamps(FILED_INSTRUMENTS_FIELDNAMES, "FILED_INSTRUMENTS_FIELDNAMES")
+        # Verify deprecation shim still re-exports the legacy alias.
         from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIELDNAMES
-        self._assert_tuple_carries_stamps(FOUNDER_FILED_INSTRUMENTS_FIELDNAMES, "FOUNDER_FILED_INSTRUMENTS_FIELDNAMES")
+        assert FOUNDER_FILED_INSTRUMENTS_FIELDNAMES == FILED_INSTRUMENTS_FIELDNAMES
 
     def test_program_registry(self):
         from akos.hlk_program_registry_csv import PROGRAM_REGISTRY_FIELDNAMES

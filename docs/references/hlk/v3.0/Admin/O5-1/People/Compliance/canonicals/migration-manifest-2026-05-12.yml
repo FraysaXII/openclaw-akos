@@ -152,8 +152,9 @@ waves:
         # Note: subsequently relocated to advops/ via i81_p2_t2 tranche (D-IH-81-R under D-IH-81-G umbrella, 2026-05-23).
       - canonical_id: founder_filed_instruments
         source: "docs/references/hlk/compliance/FOUNDER_FILED_INSTRUMENTS.csv"
-        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv"
-        validator: validate_founder_filed_instruments.py
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/FILED_INSTRUMENTS.csv"
+        validator: validate_filed_instruments.py
+        # Note: subsequently relocated + renamed to advops/FILED_INSTRUMENTS.csv via i81_p2_t3 tranche (D-IH-81-S under D-IH-81-G umbrella, 2026-05-23); mirror table renamed compliance.founder_filed_instruments_mirror -> compliance.filed_instruments_mirror.
       - canonical_id: component_service_matrix
         source: "docs/references/hlk/compliance/COMPONENT_SERVICE_MATRIX.csv"
         target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/COMPONENT_SERVICE_MATRIX.csv"
@@ -427,5 +428,6 @@ i81_p2_tranches:
       - "Bundle B (q4-d novel framing): Madeira counterparty inventory sweep + operator inline-ratify per row; becomes OPS-81-20 internal-judgment-layer rehearsal evidence"
       - "Bundle C (q3-b): cross-area Ops-wiring discipline charter mint (i-nn-cross-area-ops-wiring-review candidate -> initiative folder); agent drafts P0 stub + operator inline-ratifies P0/P1/P2 phase entries"
 # Forward tranches still gated by D-IH-81-G:
-#   - T2 ADVISER_ENGAGEMENT_DISCIPLINES + ADVISER_OPEN_QUESTIONS -> advops/
-#   - T3 FOUNDER_FILED_INSTRUMENTS -> advops/FILED_INSTRUMENTS (rename + move; highest blast radius)
+#   (none remaining — T5 + T4 + T1 + T2 + T3 all closed; I81 P2 5-of-5 COMPLETE on 2026-05-23)
+# T2 ADVISER_ENGAGEMENT_DISCIPLINES + ADVISER_OPEN_QUESTIONS -> advops/ — CLOSED per D-IH-81-R (Bundle D first commit)
+# T3 FOUNDER_FILED_INSTRUMENTS -> advops/FILED_INSTRUMENTS (rename + move; highest blast radius) — CLOSED per D-IH-81-S (Bundle D second commit; full rename cascade: CSV + Pydantic + validator + Supabase mirror table)

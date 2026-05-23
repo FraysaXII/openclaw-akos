@@ -67,7 +67,7 @@ Out of scope:
 - Recipient and topic facts come from canonical CSVs only:
   - [`GOI_POI_REGISTER.csv`](../../../../../compliance/GOI_POI_REGISTER.csv) — recipient identity (ref_id, sensitivity, voice profile).
   - [`ADVISER_ENGAGEMENT_DISCIPLINES.csv`](../../../../../compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv) — discipline default register and reading speed.
-  - [`ADVISER_OPEN_QUESTIONS.csv`](../../../../../compliance/ADVISER_OPEN_QUESTIONS.csv) and [`FOUNDER_FILED_INSTRUMENTS.csv`](../../../../../compliance/FOUNDER_FILED_INSTRUMENTS.csv) — what we know and what we're filing.
+  - [`advops/ADVISER_OPEN_QUESTIONS.csv`](../../../../../compliance/advops/ADVISER_OPEN_QUESTIONS.csv) and [`advops/FILED_INSTRUMENTS.csv`](../../../../../compliance/advops/FILED_INSTRUMENTS.csv) — what we know and what we're filing (relocated + renamed at I81 P2 T2/T3, 2026-05-23).
   - [`PROGRAM_REGISTRY.csv`](../../../../../compliance/dimensions/PROGRAM_REGISTRY.csv) — which program the message scopes to.
   - KM topic manifests under [`_assets/<plane>/<program_id>/<topic_id>/`](../../../../../v3.0/_assets/) — per-topic projections.
 - **No facts may appear in the message that are not citable to one of the above.**

@@ -13,6 +13,7 @@ globs:
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv"
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/FILED_INSTRUMENTS.csv"
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_GOIPOI_*"
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_*"
   - "docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/SOP-EXTERNAL_ADVISER_*"
@@ -26,10 +27,12 @@ globs:
   - "akos/hlk_adviser_disciplines_csv.py"
   - "akos/hlk_adviser_questions_csv.py"
   - "akos/hlk_founder_filed_instruments_csv.py"
+  - "akos/hlk_filed_instruments_csv.py"
   - "scripts/validate_goipoi_register.py"
   - "scripts/validate_adviser_disciplines.py"
   - "scripts/validate_adviser_questions.py"
   - "scripts/validate_founder_filed_instruments.py"
+  - "scripts/validate_filed_instruments.py"
   - "scripts/redact_transcripts_p2.py"
   - "scripts/export_adviser_handoff.py"
   - "scripts/sql/i21_phase1_staging/**"
@@ -74,15 +77,15 @@ Adding a discipline (e.g. accounting, employment, regulatory affairs) is a **row
 
 ## When to use this rule
 
-- Any new or updated row in `GOI_POI_REGISTER.csv`, `ADVISER_ENGAGEMENT_DISCIPLINES.csv`, `ADVISER_OPEN_QUESTIONS.csv`, `FOUNDER_FILED_INSTRUMENTS.csv`.
+- Any new or updated row in `GOI_POI_REGISTER.csv`, `advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv`, `advops/ADVISER_OPEN_QUESTIONS.csv`, `advops/FILED_INSTRUMENTS.csv` (relocated + renamed from `FOUNDER_FILED_INSTRUMENTS.csv` at I81 P2 T3, 2026-05-23 per D-IH-81-S; legacy path supported via deprecation alias for one cycle).
 - Any change to the counsel handoff package or its per-discipline sections.
 - Any new transcript or redaction action under `delete-legal-transcripts/`.
 - New ADVOPS-related processes or workstreams in `process_list.csv` (`hol_opera_ws_5`, `hol_opera_dtp_31x`).
-- Mirror DDL or sync changes for `compliance.goipoi_register_mirror`, `compliance.adviser_engagement_disciplines_mirror`, `compliance.adviser_open_questions_mirror`, `compliance.founder_filed_instruments_mirror`.
+- Mirror DDL or sync changes for `compliance.goipoi_register_mirror`, `compliance.adviser_engagement_disciplines_mirror`, `compliance.adviser_open_questions_mirror`, `compliance.filed_instruments_mirror` (renamed from `compliance.founder_filed_instruments_mirror` at I81 P2 T3, 2026-05-23 per D-IH-81-S via `supabase/migrations/20260523000000_i81_p2_t3_alter_filed_instruments_mirror.sql`).
 
 ## Required runbook
 
-1. **Update CSVs first** (`GOI_POI_REGISTER`, `ADVISER_ENGAGEMENT_DISCIPLINES`, `ADVISER_OPEN_QUESTIONS`, `FOUNDER_FILED_INSTRUMENTS`).
+1. **Update CSVs first** (`GOI_POI_REGISTER`, `advops/ADVISER_ENGAGEMENT_DISCIPLINES`, `advops/ADVISER_OPEN_QUESTIONS`, `advops/FILED_INSTRUMENTS`).
 2. **Validate**: `py scripts/validate_hlk.py` (PASS gate); `py scripts/validate_hlk_vault_links.py`.
 3. **Update vault MD** (handoff package, per-discipline sections, fact pattern, open-questions human view, filed-instruments human view) — these are derived views.
 4. **Sync mirrors** (operator gate): `py scripts/sync_compliance_mirrors_from_csv.py --goipoi-register-only` etc., review output, apply via Supabase MCP `service_role`.

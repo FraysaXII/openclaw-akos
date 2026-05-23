@@ -35,7 +35,7 @@ from akos.hlk_adviser_disciplines_csv import ADVISER_ENGAGEMENT_DISCIPLINES_FIEL
 from akos.hlk_adviser_questions_csv import ADVISER_OPEN_QUESTIONS_FIELDNAMES  # noqa: E402
 from akos.hlk_baseline_org_csv import BASELINE_ORGANISATION_FIELDNAMES  # noqa: E402  # release-gate hygiene 2026-05-11
 from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES  # noqa: E402
-from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIELDNAMES  # noqa: E402
+from akos.hlk_filed_instruments_csv import FILED_INSTRUMENTS_FIELDNAMES  # noqa: E402  # I81 P2 T3 (D-IH-81-S, 2026-05-23) renamed from hlk_founder_filed_instruments_csv
 from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_cycle_register_csv import CYCLE_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.4
 from akos.hlk_decision_register_csv import DECISION_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.5
@@ -85,7 +85,10 @@ ADVISER_DISCIPLINES_CSV = _ADVISER_DISCIPLINES_NEW if _ADVISER_DISCIPLINES_NEW.i
 _ADVISER_QUESTIONS_NEW = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "advops" / "ADVISER_OPEN_QUESTIONS.csv"
 _ADVISER_QUESTIONS_LEGACY = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "ADVISER_OPEN_QUESTIONS.csv"
 ADVISER_QUESTIONS_CSV = _ADVISER_QUESTIONS_NEW if _ADVISER_QUESTIONS_NEW.is_file() else _ADVISER_QUESTIONS_LEGACY
-FILED_INSTRUMENTS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "FOUNDER_FILED_INSTRUMENTS.csv"
+# I81 P2 T3 (D-IH-81-S under D-IH-81-G umbrella, 2026-05-23): moved + renamed to advops/FILED_INSTRUMENTS.csv.
+_FILED_INSTRUMENTS_NEW = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "advops" / "FILED_INSTRUMENTS.csv"
+_FILED_INSTRUMENTS_LEGACY = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "FOUNDER_FILED_INSTRUMENTS.csv"
+FILED_INSTRUMENTS_CSV = _FILED_INSTRUMENTS_NEW if _FILED_INSTRUMENTS_NEW.is_file() else _FILED_INSTRUMENTS_LEGACY
 PROGRAM_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PROGRAM_REGISTRY.csv"
 TOPIC_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"
 PERSONA_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PERSONA_REGISTRY.csv"
@@ -279,22 +282,24 @@ def _emit_adviser_questions_upserts(rows: list[dict[str, str]], source_git_sha: 
 
 
 def _emit_founder_filed_instruments_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
-    cols_csv = ", ".join(FOUNDER_FILED_INSTRUMENTS_FIELDNAMES)
+    # I81 P2 T3 (D-IH-81-S, 2026-05-23): table renamed to compliance.filed_instruments_mirror.
+    # Function name retained for one initiative cycle (call-site stability); removal at I81 P9 closure.
+    cols_csv = ", ".join(FILED_INSTRUMENTS_FIELDNAMES)
     cols_full = cols_csv + ", source_git_sha, synced_at"
     update_sets = ", ".join(
-        [f"{c} = EXCLUDED.{c}" for c in FOUNDER_FILED_INSTRUMENTS_FIELDNAMES]
+        [f"{c} = EXCLUDED.{c}" for c in FILED_INSTRUMENTS_FIELDNAMES]
         + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
     )
     out: list[str] = []
-    out.append("-- compliance.founder_filed_instruments_mirror upserts")
+    out.append("-- compliance.filed_instruments_mirror upserts")
     for r in rows:
-        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in FOUNDER_FILED_INSTRUMENTS_FIELDNAMES)
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in FILED_INSTRUMENTS_FIELDNAMES)
         vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
         iid = (r.get("instrument_id") or "").strip()
         if not iid:
             continue
         out.append(
-            f"INSERT INTO compliance.founder_filed_instruments_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"INSERT INTO compliance.filed_instruments_mirror ({cols_full}) VALUES ({vals_full}) "
             f"ON CONFLICT (instrument_id) DO UPDATE SET {update_sets};"
         )
     return out
@@ -1019,7 +1024,8 @@ def main() -> int:
     parser.add_argument(
         "--founder-filed-instruments-only",
         action="store_true",
-        help="Only emit founder_filed_instruments_mirror statements (requires FOUNDER_FILED_INSTRUMENTS.csv)",
+        # I81 P2 T3 (D-IH-81-S, 2026-05-23): table renamed to compliance.filed_instruments_mirror; flag name retained for one initiative cycle.
+        help="Only emit filed_instruments_mirror statements (requires advops/FILED_INSTRUMENTS.csv or legacy FOUNDER_FILED_INSTRUMENTS.csv)",
     )
     parser.add_argument(
         "--program-registry-only",
@@ -1349,12 +1355,12 @@ def main() -> int:
         with FILED_INSTRUMENTS_CSV.open(encoding="utf-8", newline="") as f:
             reader = csv.DictReader(f)
             fn = list(reader.fieldnames or [])
-            if fn != list(FOUNDER_FILED_INSTRUMENTS_FIELDNAMES):
+            if fn != list(FILED_INSTRUMENTS_FIELDNAMES):
                 print(
-                    "error: FOUNDER_FILED_INSTRUMENTS.csv header drift vs FOUNDER_FILED_INSTRUMENTS_FIELDNAMES",
+                    "error: FILED_INSTRUMENTS.csv header drift vs FILED_INSTRUMENTS_FIELDNAMES",
                     file=sys.stderr,
                 )
-                print("  expected:", list(FOUNDER_FILED_INSTRUMENTS_FIELDNAMES), file=sys.stderr)
+                print("  expected:", list(FILED_INSTRUMENTS_FIELDNAMES), file=sys.stderr)
                 print("  got:     ", fn, file=sys.stderr)
                 return 1
             fi_rows = [dict(r) for r in reader]
@@ -1366,7 +1372,7 @@ def main() -> int:
         preamble = [
             "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
             f"-- source_git_sha: {sha}",
-            "-- Apply only after compliance.founder_filed_instruments_mirror exists (Initiative 21 DDL).",
+            "-- Apply only after compliance.filed_instruments_mirror exists (I21 DDL + I81 P2 T3 rename migration).",
             "",
         ]
         if not args.no_begin_commit:
@@ -1863,7 +1869,7 @@ def main() -> int:
     if FILED_INSTRUMENTS_CSV.is_file():
         with FILED_INSTRUMENTS_CSV.open(encoding="utf-8", newline="") as f:
             ir = csv.DictReader(f)
-            if list(ir.fieldnames or []) == list(FOUNDER_FILED_INSTRUMENTS_FIELDNAMES):
+            if list(ir.fieldnames or []) == list(FILED_INSTRUMENTS_FIELDNAMES):
                 fi_rows = [dict(r) for r in ir]
                 fi_n = len(fi_rows)
 

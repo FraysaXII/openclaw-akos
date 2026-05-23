@@ -17,10 +17,10 @@ Operator + agent (internal review). Cross-link to role-owner canonicals (Legal C
 
 ## Typical contents
 
-- `legal-opinion-<topic>.<lang>.<YYYY-MM-DD>.md` — written legal opinion received from counsel; cross-link to `FOUNDER_FILED_INSTRUMENTS.csv` for filing references
+- `legal-opinion-<topic>.<lang>.<YYYY-MM-DD>.md` — written legal opinion received from counsel; cross-link to `advops/FILED_INSTRUMENTS.csv` for filing references
 - `enisa-evidence-statement.<lang>.<YYYY-MM-DD>.md` — adviser-issued ENISA-track evidence statements; cross-link to [`ENISA_EVIDENCE_PACK_HOLISTIKA_RESEARCH_2026-04.md`](../../../Admin/O5-1/People/Compliance/ENISA_EVIDENCE_PACK_HOLISTIKA_RESEARCH_2026-04.md)
 - `banking-confirmation-<topic>.<lang>.<YYYY-MM-DD>.md` — desk-side confirmations, IBAN issuance, KYC clearance
-- `fiscal-readiness-statement.<lang>.<YYYY-MM-DD>.md` — fiscal-track adviser statements; cross-link to `FOUNDER_FILED_INSTRUMENTS.csv` and the relevant `thi_finan_dtp_*` process rows
+- `fiscal-readiness-statement.<lang>.<YYYY-MM-DD>.md` — fiscal-track adviser statements; cross-link to `advops/FILED_INSTRUMENTS.csv` and the relevant `thi_finan_dtp_*` process rows
 - `meeting-summary-<YYYY-MM-DD>-<topic>.md` — adviser-side meeting summary or call notes (with redaction per `SOP-HLK_TRANSCRIPT_REDACTION_001.md` if recordings exist)
 
 ## Conventions

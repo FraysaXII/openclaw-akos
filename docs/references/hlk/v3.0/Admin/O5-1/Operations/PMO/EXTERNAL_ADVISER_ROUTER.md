@@ -40,7 +40,7 @@ The lookup is **CSV-canonical**: [`ADVISER_ENGAGEMENT_DISCIPLINES.csv`](../../..
 External advisers read [`EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md`](../../People/Legal/EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md) first. From P4 onwards it carries one section per discipline (`Legal & Corporate`, `Fiscal & Tax`, `IP & Trademark`, `Banking`, `Startup Certification`, `Notary`), each linking to the discipline-filtered slice of:
 
 - The **open questions register** ([CSV `ADVISER_OPEN_QUESTIONS.csv`](../../../../compliance/) — graduates in P4 — and human view [`FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md`](../../People/Legal/FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md)).
-- The **filed instruments register** ([CSV `FOUNDER_FILED_INSTRUMENTS.csv`](../../../../compliance/) — graduates in P5 — and human view [`FOUNDER_FILED_INSTRUMENT_REGISTER.md`](../../People/Legal/FOUNDER_FILED_INSTRUMENT_REGISTER.md)).
+- The **filed instruments register** ([CSV `advops/FILED_INSTRUMENTS.csv`](../../../../compliance/advops/) — graduates in P5; relocated + renamed at I81 P2 T3 from `FOUNDER_FILED_INSTRUMENTS.csv` — and human view [`FOUNDER_FILED_INSTRUMENT_REGISTER.md`](../../People/Legal/FOUNDER_FILED_INSTRUMENT_REGISTER.md)).
 - The **fact pattern** ([`FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md`](../../People/Legal/FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md)) with all real names substituted by `POI-*`/`GOI-*` `ref_id`.
 
 ## Stakeholder reference

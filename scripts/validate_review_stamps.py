@@ -83,7 +83,7 @@ from akos.hlk_baseline_org_csv import BASELINE_ORGANISATION_FIELDNAMES  # noqa: 
 from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_decision_register_csv import DECISION_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES  # noqa: E402
-from akos.hlk_founder_filed_instruments_csv import FOUNDER_FILED_INSTRUMENTS_FIELDNAMES  # noqa: E402
+from akos.hlk_filed_instruments_csv import FILED_INSTRUMENTS_FIELDNAMES  # noqa: E402  # I81 P2 T3 (D-IH-81-S, 2026-05-23) renamed from hlk_founder_filed_instruments_csv
 from akos.hlk_goipoi_csv import GOIPOI_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_initiative_registry_csv import INITIATIVE_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_ops_register_csv import OPS_REGISTER_FIELDNAMES  # noqa: E402
@@ -133,7 +133,10 @@ ADVISER_ENGAGEMENT_DISCIPLINES_CSV = _ADVISER_DISCIPLINES_NEW if _ADVISER_DISCIP
 _ADVISER_QUESTIONS_NEW = CANONICALS_DIR / "advops" / "ADVISER_OPEN_QUESTIONS.csv"
 _ADVISER_QUESTIONS_LEGACY = CANONICALS_DIR / "ADVISER_OPEN_QUESTIONS.csv"
 ADVISER_OPEN_QUESTIONS_CSV = _ADVISER_QUESTIONS_NEW if _ADVISER_QUESTIONS_NEW.is_file() else _ADVISER_QUESTIONS_LEGACY
-FOUNDER_FILED_INSTRUMENTS_CSV = CANONICALS_DIR / "FOUNDER_FILED_INSTRUMENTS.csv"
+# I81 P2 T3 (D-IH-81-S under D-IH-81-G umbrella, 2026-05-23): moved + renamed to advops/FILED_INSTRUMENTS.csv.
+_FILED_INSTRUMENTS_NEW = CANONICALS_DIR / "advops" / "FILED_INSTRUMENTS.csv"
+_FILED_INSTRUMENTS_LEGACY = CANONICALS_DIR / "FOUNDER_FILED_INSTRUMENTS.csv"
+FILED_INSTRUMENTS_CSV = _FILED_INSTRUMENTS_NEW if _FILED_INSTRUMENTS_NEW.is_file() else _FILED_INSTRUMENTS_LEGACY
 PROGRAM_REGISTRY_CSV = DIMENSIONS_DIR / "PROGRAM_REGISTRY.csv"
 TOPIC_REGISTRY_CSV = DIMENSIONS_DIR / "TOPIC_REGISTRY.csv"
 PERSONA_REGISTRY_CSV = DIMENSIONS_DIR / "PERSONA_REGISTRY.csv"
@@ -240,10 +243,13 @@ _REGISTRY: tuple[CanonicalSpec, ...] = (
         label="adviser_open_questions",
     ),
     CanonicalSpec(
-        csv_path=FOUNDER_FILED_INSTRUMENTS_CSV,
-        fieldnames=tuple(FOUNDER_FILED_INSTRUMENTS_FIELDNAMES),
+        csv_path=FILED_INSTRUMENTS_CSV,
+        fieldnames=tuple(FILED_INSTRUMENTS_FIELDNAMES),
         pk_column="instrument_id",
         authored_date_column="effective_or_filing_date",
+        # I81 P2 T3 note: label retained as 'founder_filed_instruments' for review-stamp registry stability;
+        # the CSV / Pydantic module / validator script / Supabase mirror table all renamed at T3,
+        # but the public registry label is a downstream stable identifier (UAT reports + REVIEW_STAMP_INBOX rely on it).
         label="founder_filed_instruments",
     ),
     CanonicalSpec(

@@ -11,7 +11,7 @@ Deterministic checks against baseline_organisation.csv and process_list.csv:
 - All projects have at least one child
 
 Plus a per-CSV dispatcher graph that delegates to specialised validators
-(component_service_matrix, finops, goipoi, adviser, founder_filed_instruments,
+(component_service_matrix, finops, goipoi, adviser, filed_instruments,
 program_registry, topic_registry, persona_registry, channel_touchpoint,
 sourcing_register, language_frontmatter).
 
@@ -443,8 +443,12 @@ def main() -> int:
          (HLK_DIR / "advops" / "ADVISER_OPEN_QUESTIONS.csv")
          if (HLK_DIR / "advops" / "ADVISER_OPEN_QUESTIONS.csv").is_file()
          else HLK_DIR / "ADVISER_OPEN_QUESTIONS.csv"),
-        ("FOUNDER_FILED_INSTRUMENTS", "validate_founder_filed_instruments.py",
-         "validate_founder_filed_instruments", HLK_DIR / "FOUNDER_FILED_INSTRUMENTS.csv"),
+        # I81 P2 T3 (D-IH-81-S, 2026-05-23): CSV + script + Pydantic + mirror table renamed; dispatcher entry uses new validator path with deprecation-alias resolution for CSV path.
+        ("FILED_INSTRUMENTS", "validate_filed_instruments.py",
+         "validate_filed_instruments",
+         (HLK_DIR / "advops" / "FILED_INSTRUMENTS.csv")
+         if (HLK_DIR / "advops" / "FILED_INSTRUMENTS.csv").is_file()
+         else HLK_DIR / "FOUNDER_FILED_INSTRUMENTS.csv"),
         ("PROGRAM_REGISTRY", "validate_program_registry.py",
          "validate_program_registry", HLK_DIR / "dimensions" / "PROGRAM_REGISTRY.csv"),
         # PROGRAM_ID_CONSISTENCY runs after PROGRAM_REGISTRY (Initiative 23 P3 rule).

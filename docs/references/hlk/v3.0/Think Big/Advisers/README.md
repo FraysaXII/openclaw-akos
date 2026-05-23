@@ -55,7 +55,7 @@ Each engagement folder follows the inbound template under [`_engagement-template
 - [`../../Admin/O5-1/People/Legal/EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md`](../../Admin/O5-1/People/Legal/EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md) — handoff doc for external counsel
 - [`../../Admin/O5-1/People/Legal/FOUNDER_INCORPORATION_KNOWLEDGE_INDEX.md`](../../Admin/O5-1/People/Legal/FOUNDER_INCORPORATION_KNOWLEDGE_INDEX.md) — incorporation-program knowledge index
 - [`_engagement-template/`](_engagement-template/) — literal copy-target for new inbound engagements (created in P13.3)
-- ADVISER CSVs: [`ADVISER_ENGAGEMENT_DISCIPLINES.csv`](../../../compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv), [`ADVISER_OPEN_QUESTIONS.csv`](../../../compliance/ADVISER_OPEN_QUESTIONS.csv), [`FOUNDER_FILED_INSTRUMENTS.csv`](../../../compliance/FOUNDER_FILED_INSTRUMENTS.csv), [`GOI_POI_REGISTER.csv`](../../../compliance/dimensions/GOI_POI_REGISTER.csv) (filter `class IN (external_adviser, banking_channel, public_authority)`)
+- ADVISER CSVs (all under `compliance/advops/` after I81 P2 T2/T3, 2026-05-23): [`advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv`](../../../compliance/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv), [`advops/ADVISER_OPEN_QUESTIONS.csv`](../../../compliance/advops/ADVISER_OPEN_QUESTIONS.csv), [`advops/FILED_INSTRUMENTS.csv`](../../../compliance/advops/FILED_INSTRUMENTS.csv) (renamed from `FOUNDER_FILED_INSTRUMENTS.csv`), [`GOI_POI_REGISTER.csv`](../../../compliance/dimensions/GOI_POI_REGISTER.csv) (filter `class IN (external_adviser, banking_channel, public_authority)`)
 
 ## Active inbound engagements
 

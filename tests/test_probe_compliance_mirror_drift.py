@@ -49,7 +49,8 @@ def test_mirror_contract_covers_expected_tables(probe_module):
         "compliance.goipoi_register_mirror",
         "compliance.adviser_engagement_disciplines_mirror",
         "compliance.adviser_open_questions_mirror",
-        "compliance.founder_filed_instruments_mirror",
+        # I81 P2 T3 (D-IH-81-S, 2026-05-23): renamed from founder_filed_instruments_mirror.
+        "compliance.filed_instruments_mirror",
         "compliance.program_registry_mirror",
         "compliance.topic_registry_mirror",
         # Initiative 31 additions

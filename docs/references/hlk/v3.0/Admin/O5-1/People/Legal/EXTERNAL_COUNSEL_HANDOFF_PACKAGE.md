@@ -91,7 +91,7 @@ Add rows only for **vault-resident** pointers; cap tables, signed PDFs, and deal
 
 ## Per-discipline sections
 
-Each section is a **derived view** filtered from canonical CSVs. Source of truth lives in [`ADVISER_OPEN_QUESTIONS.csv`](../../../../../compliance/ADVISER_OPEN_QUESTIONS.csv) and [`FOUNDER_FILED_INSTRUMENTS.csv`](../../../../../compliance/FOUNDER_FILED_INSTRUMENTS.csv) (Initiative 21 / P4 / P5).
+Each section is a **derived view** filtered from canonical CSVs. Source of truth lives in [`advops/ADVISER_OPEN_QUESTIONS.csv`](../../../../../compliance/advops/ADVISER_OPEN_QUESTIONS.csv) and [`advops/FILED_INSTRUMENTS.csv`](../../../../../compliance/advops/FILED_INSTRUMENTS.csv) (Initiative 21 / P4 / P5; relocated + renamed at I81 P2 T2/T3, 2026-05-23).
 
 ### Legal & Corporate (`legal`)
 

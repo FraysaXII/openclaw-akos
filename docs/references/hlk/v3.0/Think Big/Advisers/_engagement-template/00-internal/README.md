@@ -26,7 +26,7 @@ Operator + agents reading prose. Never the adviser firm. Never an external reade
 
 - Cross-link to GOI/POI rows via `ref_id`, never real names.
 - Cross-link to canonical Admin SOPs under `Admin/O5-1/People/Legal/`, `Admin/O5-1/People/Compliance/`, `Admin/O5-1/Operations/PMO/` — do NOT duplicate content.
-- Cross-link to the relevant `ADVISER_*` CSVs (`ADVISER_OPEN_QUESTIONS.csv`, `ADVISER_ENGAGEMENT_DISCIPLINES.csv`, `FOUNDER_FILED_INSTRUMENTS.csv`).
+- Cross-link to the relevant `advops/` CSVs (`advops/ADVISER_OPEN_QUESTIONS.csv`, `advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv`, `advops/FILED_INSTRUMENTS.csv` — all relocated I81 P2 T2/T3).
 
 ## Cross-references
 

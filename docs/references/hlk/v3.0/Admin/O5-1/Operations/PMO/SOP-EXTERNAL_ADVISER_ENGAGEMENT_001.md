@@ -70,7 +70,7 @@ This SOP defines the **External Adviser Engagement plane** (ADVOPS) — a cross-
 
 ### 4.3 Filed instruments register (Initiative 21 / P5)
 
-* **SSOT file:** `FOUNDER_FILED_INSTRUMENTS.csv` (graduates from [`FOUNDER_FILED_INSTRUMENT_REGISTER.md`](../../People/Legal/FOUNDER_FILED_INSTRUMENT_REGISTER.md)).
+* **SSOT file:** `advops/FILED_INSTRUMENTS.csv` (graduates from [`FOUNDER_FILED_INSTRUMENT_REGISTER.md`](../../People/Legal/FOUNDER_FILED_INSTRUMENT_REGISTER.md); relocated + renamed at I81 P2 T3 per D-IH-81-S, 2026-05-23, from `canonicals/FOUNDER_FILED_INSTRUMENTS.csv` — legacy path supported via deprecation alias for one cycle).
 * **`instrument_id` scheme:** `INST-<DISC3>-<SLUG>-<YYYY>`.
 
 ### 4.4 Counsel handoff package
@@ -107,7 +107,7 @@ Initial seed (see CSV for the source of truth):
 
 ## 7.0 Mirror and access control
 
-* **Tables:** `compliance.adviser_engagement_disciplines_mirror` (P3), and (P4–P5) `compliance.adviser_open_questions_mirror`, `compliance.founder_filed_instruments_mirror`.
+* **Tables:** `compliance.adviser_engagement_disciplines_mirror` (P3), and (P4–P5) `compliance.adviser_open_questions_mirror`, `compliance.filed_instruments_mirror` (renamed at I81 P2 T3 from `compliance.founder_filed_instruments_mirror`).
 * **RLS:** Same posture as other compliance mirrors — deny `anon` and `authenticated`; `service_role` only.
 * **Sync:** `py scripts/sync_compliance_mirrors_from_csv.py --adviser-disciplines-only` (and the per-CSV flags introduced in P4 / P5).
 

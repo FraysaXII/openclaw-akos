@@ -44,7 +44,8 @@ _COUNTED_CSVS: dict[str, str] = {
     "goipoi_register_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv",
     "adviser_engagement_disciplines_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv",
     "adviser_open_questions_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_OPEN_QUESTIONS.csv",
-    "founder_filed_instruments_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv",
+    # I81 P2 T3 (D-IH-81-S, 2026-05-23): CSV moved + renamed to advops/FILED_INSTRUMENTS.csv; stdout key retained for backward-compat across historical UAT reports.
+    "founder_filed_instruments_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/FILED_INSTRUMENTS.csv",
     "program_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PROGRAM_REGISTRY.csv",
     "topic_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOPIC_REGISTRY.csv",
     "persona_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_REGISTRY.csv",

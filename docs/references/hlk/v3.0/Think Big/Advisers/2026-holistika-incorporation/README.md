@@ -39,7 +39,7 @@ Inbound engagement covering the founder-incorporation program: four adviser disc
 
 - [`ADVISER_ENGAGEMENT_DISCIPLINES.csv`](../../../../compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv) — disciplines registry (FK for opinions, open questions, filed instruments)
 - [`ADVISER_OPEN_QUESTIONS.csv`](../../../../compliance/ADVISER_OPEN_QUESTIONS.csv) — adviser-facing open questions
-- [`FOUNDER_FILED_INSTRUMENTS.csv`](../../../../compliance/FOUNDER_FILED_INSTRUMENTS.csv) — legal / fiscal / IP / banking / certification / notary instruments
+- [`advops/FILED_INSTRUMENTS.csv`](../../../../compliance/advops/FILED_INSTRUMENTS.csv) — legal / fiscal / IP / banking / certification / notary instruments (relocated + renamed I81 P2 T3)
 - [`GOI_POI_REGISTER.csv`](../../../../compliance/dimensions/GOI_POI_REGISTER.csv) — counterparty rows for this engagement (filter `program_id = PRJ-HOL-FOUNDING-2026`)
 
 ### Counterparty rows for this engagement
