@@ -1007,6 +1007,38 @@ Both grounding pillars converge on the same load-bearing claim: every X-pair get
 
 [processed 2026-05-23 wave-R-bundle-B-1-execution | D-IH-81-U governance-class minted; 11 new vendor counterparties appended to FINOPS_COUNTERPARTY_REGISTER (Supabase+Vercel+Render+GitHub+Sentry+Cursor+Anthropic+OpenAI+RunPod+AT-Pymes+Stripe); operator b1-b adds Stripe with test/dev AT environment notes; operator b1-m-go-all-out expands Bundle B scope to multi-strand (B-1 + B-1ext recon + B-2 substrate); FINOPS now A2 1-of-2 areas exercised for I-NN-CROSS-AREA-OPS-WIRING promotion; all validators PASS]
 
+### 2026-05-23 — Wave R Bundle B-1ext EXECUTION (Stripe AT recon report landed; D-IH-81-V; read-only synthesis-before-tranche; informs Bundle B-2 architecture)
+
+**Trigger**: operator `b1-b` ratification at Bundle B-1 ratify gate explicitly named *"i'd like yoo to fulllly do a reconnaissance of my environment"* for the Stripe AT test/dev environment. Bundle B-1ext is the read-only inventory-before-greenfield substrate per `akos-holistika-operations.mdc` §"Inventory-before-greenfield" applied at substrate-architecture scale (not just FDW-server scale). Synthesis-before-tranche craft per the pending Quality Fabric 12th specialty (PRIORITY-5; this report becomes a worked precedent when SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE mints).
+
+**Scope (Bundle B-1ext atomic commit; read-only)**:
+
+- **Recon report minted**: `docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/p2-stripe-recon-2026-05-23.md` (~370 lines). Frontmatter `audience: J-OP`, `linked_decisions: [D-IH-81-U, D-IH-18-CLOSURE, D-IH-86-CR]`, `parent_wave: I86-Wave-R-Bundle-B-1ext`.
+- **§1 TL;DR table** rates 7 substrate layers across "current state / prod-ready? / gap-to-prod / Bundle B-2 scope?". Headline: **Holistika at ~60% monetary-substrate prod-readiness**. DDL bones complete (I14 + I18 + I19 + I71 + I72 migrations applied); webhook handler exists but `finops_counterparty_id` population never wired; `finops.registered_fact` empty (I19 P2 was forward-charter).
+- **§2 Repo inventory** sweeps 4 Stripe-related migrations (`20260503190000_i14_phase3` + `20260423014144_i18_finops_counterparty_mirror_cutover` + `20260423014326_i19_finops_ledger_phase1` + `20260514250000_i72_revops_spine_finops_fk_columns`), webhook handler (270-line `index.ts` + 155-line `README.md` with full 13-event-type breakdown), helper script (`scripts/stripe_set_billing_plane.py`), and 3 sibling initiatives (I14 + I18 + I19). Documents the **missing migration gap** (FDW server provisioned via Dashboard, not in git ledger) with recommended Step 0 fix (no-op documentation migration).
+- **§3 Architecture diagrams** (2 mermaid flowcharts) showing current data flow (4 gaps numbered) + prod-ready target with the Bundle B-2 6-step writer path. Numbered gaps: (a) Webhook never populates `finops_counterparty_id`; (b) Mirror not synced with B-1 rows; (c) No `registered_fact` writer; (d) FDW MCP HV000 from I18 UAT (low priority).
+- **§4 7-decision architecture ratify batch** for Bundle B-2: (A) write granularity = filtered-events vs raw-dump vs invoice-only; (B) counterparty_id resolution when new = NULL+warn vs reject+500 vs auto-mint-CSV; (C) currency strategy = preserve-source vs convert-to-EUR; (D) fact_type vocabulary location = Pydantic frozenset vs new canonical CSV; (E) retry posture = 500-Stripe-retry vs 200-swallow vs dead-letter; (F) test vs live signing secret strategy = single-env-var-switch vs dual-env-vars; (G) operator-inbox observability = mint-now vs defer-to-Wave-S vs Supabase-only. Each carries recommended default + rationale.
+- **§5 Cursor-rule sanity check** confirms no conflicts with `akos-holistika-operations.mdc` (two-plane + inventory-before-greenfield + operator-SQL-gate), `akos-executable-process-catalog.mdc`, `akos-quality-fabric.mdc`, `akos-applied-research-discipline.mdc`, `akos-deploy-health.mdc`, `akos-inline-ratification.mdc`.
+- **§6 Risk register** with 7 risks (R-B2-1 through R-B2-7) covering RLS misconfiguration + wrong-slug ledger corruption + AT-vs-live shape drift + wrappers-version drift + secret-mismatch + Pydantic-rejection + mirror-sync-regression. Mitigations cross-reference back to §4 decision options.
+- **§7 6-item live-MCP follow-up list** (L-1 through L-6) for next operator turn covering `user-stripe` smoke + Supabase `list_tables`/`list_migrations`/`get_advisors` + Stripe AT webhook test event + Vault SPI HV000 status check + migration ledger drift check. Marks the §1 PARTIAL items that **require live verification to flip to YES or FAIL**.
+- **§8 Closure-decision label proposal**: Bundle B-1ext = D-IH-81-V (read-only; recon report); Bundle B-2 = D-IH-81-W (or W1/W2/W3 if multi-commit). U→V→W contiguous (no gap).
+- **No mechanical changes elsewhere**: this commit is the recon report + governance cascade (this scratchpad + files-modified + CHANGELOG). No CSV edits; no Pydantic; no validator; no migration; no webhook handler change. All those are Bundle B-2 scope pending §4 operator ratification.
+
+**MCP access deferred posture**: Operator skipped `user-stripe` MCP authentication at the recon ratify moment. Live-state verification items moved to §7 of the report; recon proceeded with full repo-side inventory. This honors the operator's skipped-auth signal at session scope. `plugin-supabase-supabase` MCP not invoked either (sibling-server posture; both pop browser auth flows). Operator drives §7 items next session.
+
+**Forward state**:
+
+- Bundle B-1ext CLOSED at this commit (recon report landed; synthesis substrate complete).
+- Bundle B-2 (monetary-substrate stand-up; D-IH-81-W) = **PENDING operator ratification of §4 architecture batch**. After ratify lands, Step 0 (FDW inventory documentation migration) + Steps 1-3 (mirror sync + Pydantic + validator) likely fit in 1 commit; Step 4 (webhook v2) + Step 5 (AT UAT) land as second commit; Step 6 (governance close) lands as third commit.
+- Bundle B Strand 2 (ambiguous-per-row inline-ratify; 3-4 batches of ~6 rows per b1-s2-a) = still pending; cadenced across next 2-3 sessions.
+- Quality Fabric 12th specialty mint (SYNTHESIS_BEFORE_TRANCHE; PRIORITY-5) = still pending; this recon report becomes the worked precedent when the specialty mints.
+- drain7 cursor-rule-skill-pairing subagent proposal = still pending.
+- A2 cross-area Ops-wiring gate: still 1-of-2 (FINOPS area at full operational coverage post-B-2 closure; second area still to-be-chosen).
+
+**Why letter V for the decision label**: T5=L, T4=M, T1=Q, T2=R, T3=S, Bundle-C=T, Bundle-B-1=U, Bundle-B-1ext=V. U→V contiguous (no gap). Bundle B-1ext lands directly after Bundle B-1 close so contiguity is the right audit signal. D-IH-81-V row in DECISION_REGISTER will be appended at Bundle B-2 closure (this recon is read-only; the decision label tracks the architectural ratify gate that B-2 closes, not the recon report itself).
+
+[processed 2026-05-23 wave-R-bundle-B-1ext-execution | recon report landed at p2-stripe-recon-2026-05-23.md surfacing 7 substrate layers + 4 numbered current-state gaps + 6-step B-2 prod-ready path + 7-decision architecture ratify batch + 7 risks + 6 live-MCP follow-ups; D-IH-81-V row deferred to B-2 closure; no canonical files mutated; MCP auth deferred per operator session-scope signal]
+
 [unprocessed — for next coordinator drain]
 
 <!-- end of entries -->
