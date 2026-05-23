@@ -3,15 +3,16 @@ initiative_id: I81
 title: Vault integrity sweep + Compliance layout reorganisation + named-milestone schema + full-vault SOP body/addendum retrofit
 status: active
 authored: 2026-05-16
-last_review: 2026-05-16
+last_review: 2026-05-23
 owner_role: PMO
 co_owner_role: System Owner
 parent_initiatives: [80]
 related_initiatives: [22, 66, 71, 79, 82, 83, 85, 86]
 priority: 4
 language: en
-charter_decisions: [D-IH-81-A, D-IH-81-B, D-IH-81-C, D-IH-81-E, D-IH-81-H]
-deferred_decisions: [D-IH-81-D, D-IH-81-F, D-IH-81-G, D-IH-81-I, D-IH-81-J]
+charter_decisions: [D-IH-81-A, D-IH-81-B, D-IH-81-C, D-IH-81-E, D-IH-81-H, D-IH-81-G]
+deferred_decisions: [D-IH-81-D, D-IH-81-I, D-IH-81-J]
+closure_decisions: [D-IH-81-K, D-IH-81-L, D-IH-81-M, D-IH-81-Q, D-IH-81-R, D-IH-81-S]
 ops_records: [OPS-81-1]
 risk_register: [R-IH-81-1, R-IH-81-2, R-IH-81-3, R-IH-81-4, R-IH-81-5, R-IH-81-6, R-IH-81-7, R-IH-81-8, R-IH-81-9, R-IH-81-10]
 milestones:
@@ -28,7 +29,9 @@ milestones:
   - id: I81-LAYOUT-MIGRATION
     phase: P2
     purpose: Initiative 22 forward-layout moves in operator-approved tranches
-    status: planned
+    status: closed
+    closure_decision_id: D-IH-81-S
+    closure_date: 2026-05-23
   - id: I81-NAMED-MILESTONE-SCHEMA
     phase: P3
     purpose: Mint hlk_planning_milestone Pydantic + validate_planning_cross_refs.py + class-B regression sweep
@@ -81,7 +84,7 @@ The vault has substrate (SOPs + addenda + canonicals + pairing registry + valida
 
 - **D-IH-81-D** — Forward-extension to non-SOP canonicals → P9 closure stub.
 - ~~**D-IH-81-F** — Integrity matrix methodology + PASS threshold → P1 close.~~ **Ratified at P1 close (2026-05-19; Wave H lane-2)** — 5-signal model + 95% threshold per [`reports/2026-05-19-p1-closure.md`](reports/2026-05-19-p1-closure.md) §2.1; threshold NOT enforced at P1 baseline (CI INFO advisory), strict promotion gated at P9 closure UAT.
-- **D-IH-81-G** — Layout migration wave plan + deprecation-alias policy → P2 close (operator gates per tranche).
+- ~~**D-IH-81-G** — Layout migration wave plan + deprecation-alias policy → P2 close.~~ **Closed at P2 (2026-05-23; Wave R Lane D Bundle D)** — five tranches executed T5→T4→T1→T2→T3 under umbrella D-IH-81-G; per-tranche closure decisions D-IH-81-L/M/Q/R/S; deprecation-alias one-cycle policy exercised; I81 P2 **5-of-5 COMPLETE**. See [`decision-log.md`](decision-log.md) §D-IH-81-S + [`files-modified.csv`](files-modified.csv) P2-T* rows.
 - **D-IH-81-I** — Validator wiring scope + strictness → P3 close.
 - **D-IH-81-J** — Closed-initiative frozen-reference policy → P3 close.
 - **D-IH-81-K (NEW)** — I81 P1 phase ratification (Wave H lane-2 closure; execution class) → ratified at this commit per [`reports/2026-05-19-p1-closure.md`](reports/2026-05-19-p1-closure.md) §1.
@@ -92,7 +95,7 @@ The vault has substrate (SOPs + addenda + canonicals + pairing registry + valida
 |:---|:---|:---|:---|:---|
 | **P0 — Charter** (this commit) | I81-CHARTER | 0.5d | Folder + 6 planning files + INIT/DEC/OPS rows + INITIATIVE_DEPENDENCIES + planning README update | inline-ratify |
 | **P1 — Vault integrity baseline** | I81-VAULT-INTEGRITY-BASELINE | 1-3d | `reports/i81/kb-integrity-audit-<date>.md` + `reports/i81/kb-integrity-matrix-<date>.csv` (one row per `process_list.csv` executable row; columns include `audience_tags_coverage` consuming I85 P1 output) + KNOWLEDGE_PAIRING gap register + mirror-emit coverage checklist | inline-ratify (D-IH-81-F close) |
-| **P2 — Compliance layout migration** | I81-LAYOUT-MIGRATION | 3-10d (N tranches) | Wave-by-plane `git mv` tranches; each tranche updates PRECEDENCE + validators (`scripts/validate_*.py` Path constants) + `sync_compliance_mirrors_from_csv.py` mappings + `hlk-erp` consumer paths in lockstep; re-run `validate_hlk.py` GREEN | **operator approval per tranche** (canonical-CSV gate; D-IH-81-G per-tranche) |
+| **P2 — Compliance layout migration** ✅ | I81-LAYOUT-MIGRATION | 3-10d (5 tranches) | T5 techops/COMPONENT_SERVICE_MATRIX + T4 dimensions/GOI_POI + T1 finops/COUNTERPARTY + T2 advops/ADVISER_* paired + T3 advops/FILED_INSTRUMENTS full cascade rename; Bundle D atomic commits `07ebb38`+`d4521ab`; `validate_hlk.py` GREEN | **CLOSED 2026-05-23** (D-IH-81-S; operator gates per tranche satisfied) |
 | **P3 — Named-milestone schema + class-B validator** | I81-NAMED-MILESTONE-SCHEMA | 0.5-1d | `akos/hlk_planning_milestone.py` Pydantic SSOT + `scripts/validate_planning_cross_refs.py` + `tests/test_planning_cross_refs.py` + class-B regression sweep report; migrate active candidates + dep map + active master-roadmaps to named milestones (Wave 1 + 2 + 3); wire validator into `validate_hlk.py` + `release-gate.py` + `pre_commit` profile; extend `.cursor/rules/akos-planning-traceability.mdc` §"Plan-quality bar" with named-milestone convention | inline-ratify (D-IH-81-I + D-IH-81-J close) |
 | **P4 — RevOps retrofit** | I81-REVOPS-RETROFIT | 2-3d | 9 RevOps SOPs body/addendum retrofit per `pattern_sop_addendum_split` | per-pair author |
 | **P5 — Marketing retrofit** | I81-MARKETING-RETROFIT | 1-2d | ~6 Marketing SOPs retrofit (Reach + Brand + Storytelling) | per-pair author |
