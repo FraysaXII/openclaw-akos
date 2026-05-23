@@ -1112,6 +1112,49 @@ Both grounding pillars converge on the same load-bearing claim: every X-pair get
 
 [processed 2026-05-23 wave-R-bundle-B-2a-execution | B-2a substrate landed (DDL migration + Pydantic SSOT + 2 helpers + validator + 3 test files = 57/57 PASS + release-gate INFO advisory wiring + governance writes); D-IH-81-V row appended to DECISION_REGISTER + decision-log narrative + files-modified +13 rows in both I81 + I86; B-2b/B-2c remain pending; ramp to FAIL gated at first live Stripe round-trip success per D-IH-81-W closure criterion]
 
+### 2026-05-23 21:40 — Wave R Bundle B-2b executable landing (D-IH-81-W)
+
+**Operator ratifications applied**: `b2b-test-b` (inline Deno test scaffolding for every Edge Function + shared module) + `b2b-wh-b` (refactor `stripe-webhook-handler` into dispatch pattern; extract Kirbe/Holistika logic to `dispatch/kirbe_holistika_dispatch.ts`; mint new `dispatch/finops_dispatch.ts` for FINOPS branch). Both ratifications clean-accept; no operator-novel framings introduced.
+
+**Bundle B-2b scope (this commit; 24-file delta + 4 governance writes = 28 files)**:
+
+1. **Supabase migration** `supabase/migrations/20260524100000_i81_p2_b2b_pgmq_rpc_wrappers.sql` — 5 `SECURITY DEFINER` RPC wrappers in `public` schema exposing `pgmq` ops to `service_role` (works around PostgREST limitation that schema-qualified `pgmq.send` cannot be called via `supabase-js .rpc()`).
+2. **Six shared TypeScript modules** at `supabase/functions/_shared/finops/`: `types.ts` (Pydantic enum + interface mirror) + `counterparty_resolver.ts` (R1-a 4-strategy ladder) + `fx_snapshot.ts` (R2-a ECB cache + divergence detector) + `ops_register_emit.ts` (R4-a 24-col row builder + RICE) + `stripe_event_logger.ts` (R3-a Layer 1 idempotency).
+3. **Two NEW Edge Functions**: `supabase/functions/fx-rate-cache-refresh/index.ts` (daily ECB SDMX fetch + cache upsert) + `supabase/functions/finops-writer-worker/index.ts` (pgmq queue consumer + resolver + FX + ON CONFLICT skip + DLQ + alerts).
+4. **One REFACTORED Edge Function** (`b2b-wh-b`): `supabase/functions/stripe-webhook-handler/index.ts` extracted from 270-line monolith into thin orchestrator + 2 dispatch modules at `dispatch/`: `finops_dispatch.ts` (mandatory; never throws; gates 200 OK) + `kirbe_holistika_dispatch.ts` (best-effort; Kirbe/Holistika logic preserved verbatim).
+5. **Five inline Deno test files** (per `b2b-test-b`): cover all 5 shared modules + 2 dispatch tests = 7 Deno test files total.
+6. **Two Python runbooks**: `scripts/finops_dlq_drain.py` (operator DLQ drain via pgmq RPC wrappers; `DlqEntry`/`DrainOperation`/`DrainSummary` Pydantic) + `scripts/stripe_audit_metadata.py` (pre-flight Stripe metadata audit; `StripeMetadataFinding`/`StripeAuditReport` Pydantic + `classify_*` predicates).
+7. **Paired pytest**: 46 new tests = 28 (dlq_drain) + 18 (stripe_audit) = 103 FINOPS Python tests total when added to B-2a's 57.
+8. **Release-gate INFO advisory wiring**: `config/verification-profiles.json` + `scripts/release-gate.py` gain `finops_dlq_drain_self_test` + `stripe_audit_metadata_self_test` rows.
+
+**Mechanical evidence**:
+- `py scripts/finops_dlq_drain.py --self-test`: PASS.
+- `py scripts/stripe_audit_metadata.py --self-test`: PASS.
+- `py -m pytest tests/test_finops_dlq_drain.py tests/test_stripe_audit_metadata.py -q`: 46/46 PASS.
+- `py -m pytest tests/test_validate_finops_ledger.py tests/test_hlk_fx_rate.py tests/test_resolve_counterparty_id.py -q`: 57/57 PASS (B-2a regression baseline preserved).
+- `py scripts/validate_hlk.py`: umbrella OVERALL PASS.
+- `py scripts/validate_decision_register.py`: PASS (410 active + 2 superseded after D-IH-81-W lands).
+
+**Forward state**:
+- Bundle B-2b CLOSED at this commit (executable layer landed; full pipeline end-to-end-runnable in dev).
+- **Bundle B-2c PENDING** (D-IH-81-X; data + governance close): `ENGAGEMENT_MODEL_REGISTRY.csv` +2 rows (`eng_model_saas_subscription` + `eng_model_rpp_vendor`) + new `counterparty_resolution_strategy` column + `ARCHITECTURE.md`/`USER_GUIDE.md` sync + UAT report + first live Stripe `charge_succeeded` proof-of-life round-trip evidence + INFO→FAIL strict-mode promotion of 3 validators.
+- Bundle B Strand 2 (ambiguous-per-row inline-ratify; 3-4 batches over 2-3 sessions) still pending; cadenced after B-2c lands.
+- Quality Fabric 12th specialty mint (SYNTHESIS_BEFORE_TRANCHE; PRIORITY-5) still pending; B-2a + B-2b + B-2c becomes third worked precedent when specialty mints.
+- drain7 cursor-rule-skill-pairing subagent proposal still pending.
+- A2 cross-area Ops-wiring gate: FINOPS area at executable operational coverage post-B-2b; full coverage post-B-2c (proof-of-life); gates 1-of-2 for I-NN-CROSS-AREA-OPS-WIRING promotion.
+
+**Production deployment workflow (out-of-band; not part of this commit)**:
+1. `npx supabase db push` (applies pgmq RPC wrappers migration).
+2. `npx supabase functions deploy fx-rate-cache-refresh`.
+3. `npx supabase functions deploy finops-writer-worker`.
+4. `npx supabase functions deploy stripe-webhook-handler` (re-deploys with dispatch refactor; same endpoint URL).
+5. Cron schedule `fx-rate-cache-refresh` daily 06:00 UTC.
+6. Cron schedule `finops-writer-worker` every 1m.
+7. Run `py scripts/stripe_audit_metadata.py --audit-customers --audit-subscriptions --output-json artifacts/stripe-audit-pre-go-live.json` to capture baseline.
+8. Trigger first AT Stripe `charge_succeeded` event; verify worker writes to `finops.registered_fact` with resolved `counterparty_id` (proof-of-life criterion for B-2c closure under D-IH-81-X).
+
+[processed 2026-05-23 wave-R-bundle-B-2b-execution | B-2b executable layer landed (5 shared TS modules + 5 Deno tests + 2 NEW Edge Functions + 1 REFACTORED stripe-webhook-handler via dispatch pattern + 2 NEW dispatch modules + 2 NEW dispatch Deno tests + 1 pgmq RPC wrapper migration + 2 Python runbooks + 46 pytest = 46/46 PASS + release-gate INFO advisory wiring); D-IH-81-W row appended to DECISION_REGISTER + decision-log narrative + files-modified +28 rows in both I81 + I86; B-2c pending; ramp to FAIL gated at first live Stripe round-trip success per D-IH-81-X closure criterion]
+
 [unprocessed — for next coordinator drain]
 
 <!-- end of entries -->

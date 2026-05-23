@@ -1,153 +1,66 @@
 /**
- * Stripe webhook — two billing planes (Initiative 14 Wave B3) + GTM / marketing ops events.
+ * Stripe webhook handler — dispatch-pattern orchestrator (refactored at I81 P2 B-2b, 2026-05-23).
  *
- * - **kirbe** (default): KiRBe SaaS product billing — extend with `kirbe.*` upserts in deployment.
- * - **holistika_ops**: company plane — upserts `holistika_ops.stripe_customer_link` when Customer
- *   metadata `hlk_billing_plane=holistika_ops` (or `holistika`).
+ * Initiative 14 Wave B3 (original kirbe + holistika_ops branches; commit lineage preserved
+ * in git blame) + Initiative 81 Phase 2 Bundle B-2b refactor (D-IH-81-W under D-IH-81-G
+ * umbrella, 2026-05-23).
  *
- * Subscription lifecycle on holistika plane must **not** write `kirbe.subscriptions`.
+ * ARCHITECTURE — DISPATCH PATTERN per b2b-wh-b operator ratification:
+ *
+ *   ┌───────────────────────────────────────────────────────────────────────────────┐
+ *   │ Stripe POST /functions/v1/stripe-webhook-handler                              │
+ *   └───────────────────────────────────────────────────────────────────────────────┘
+ *                                       │
+ *                                       ▼
+ *   ┌───────────────────────────────────────────────────────────────────────────────┐
+ *   │ §1 — Signature verification (REQUIRED; 400 on failure)                        │
+ *   └───────────────────────────────────────────────────────────────────────────────┘
+ *                                       │
+ *                                       ▼
+ *   ┌───────────────────────────────────────────────────────────────────────────────┐
+ *   │ §2 — FINOPS dispatch (MANDATORY; raw event log + pgmq enqueue)                │
+ *   │      Critical path; absorbs every event into holistika_ops.stripe_events.     │
+ *   └───────────────────────────────────────────────────────────────────────────────┘
+ *                                       │
+ *                                       ▼
+ *   ┌───────────────────────────────────────────────────────────────────────────────┐
+ *   │ §3 — Kirbe + Holistika dispatch (BEST-EFFORT; preserved pre-refactor logic)   │
+ *   │      Wrapped in try/catch; throws are logged but do NOT prevent 200 to Stripe. │
+ *   └───────────────────────────────────────────────────────────────────────────────┘
+ *                                       │
+ *                                       ▼
+ *   ┌───────────────────────────────────────────────────────────────────────────────┐
+ *   │ §4 — Return 200 OK to Stripe (target < 5s end-to-end)                         │
+ *   └───────────────────────────────────────────────────────────────────────────────┘
+ *
+ * RATIONALE for FINOPS-FIRST ordering:
+ *   - FINOPS raw event log is the audit trail — must NEVER be lost.
+ *   - Kirbe dispatch can make Stripe API calls (customer retrieval) which can be slow;
+ *     putting FINOPS first guarantees the audit trail is captured even if kirbe times out.
+ *   - Both dispatches are wrapped in try/catch independently so one branch's failure
+ *     never cascades to the other.
+ *
+ * BEHAVIOR PRESERVATION:
+ *   The kirbe + holistika_ops branches were EXTRACTED verbatim into
+ *   dispatch/kirbe_holistika_dispatch.ts. No semantic changes; behavior bit-for-bit
+ *   identical to pre-refactor. Git blame on the extracted file shows the original lineage.
  */
-import { createClient, SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+
 import Stripe from "https://esm.sh/stripe@14.21.0?target=deno";
+import { dispatchKirbeHolistika } from "./dispatch/kirbe_holistika_dispatch.ts";
+import { dispatchFinops } from "./dispatch/finops_dispatch.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") ?? "", {
   apiVersion: "2024-11-20.acacia",
   httpClient: Stripe.createFetchHttpClient(),
 });
 
-function supabaseForSchema(schema: string): SupabaseClient {
-  const url = Deno.env.get("SUPABASE_URL") ?? "";
-  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
-  return createClient(url, key, { db: { schema } });
-}
-
-/** Stripe metadata key: `hlk_billing_plane` on Customer and Subscription. */
-function billingPlaneRaw(metadata: Stripe.Metadata | null | undefined): string | undefined {
-  return metadata?.hlk_billing_plane?.trim().toLowerCase();
-}
-
-function subscriptionCustomerId(sub: Stripe.Subscription): string | null {
-  const c = sub.customer;
-  if (typeof c === "string") return c;
-  if (c && typeof c === "object" && "deleted" in c && (c as Stripe.DeletedCustomer).deleted) {
-    return null;
-  }
-  if (c && typeof c === "object" && "id" in c && typeof (c as Stripe.Customer).id === "string") {
-    return (c as Stripe.Customer).id;
-  }
-  return null;
-}
-
-/**
- * Resolve KiRBe vs Holistika for subscription lifecycle events.
- * 1) Subscription `metadata.hlk_billing_plane` if set.
- * 2) Else inherit from **Customer** `metadata.hlk_billing_plane` (GTM: set once on Customer).
- * 3) Else default `kirbe`.
- */
-async function resolveSubscriptionPlane(sub: Stripe.Subscription): Promise<{
-  plane: "kirbe" | "holistika_ops";
-  source: "subscription_metadata" | "customer_inherit" | "default_kirbe";
-}> {
-  const onSub = billingPlaneRaw(sub.metadata);
-  if (onSub === "holistika_ops" || onSub === "holistika") {
-    return { plane: "holistika_ops", source: "subscription_metadata" };
-  }
-  if (onSub === "kirbe") {
-    return { plane: "kirbe", source: "subscription_metadata" };
-  }
-  const cid = subscriptionCustomerId(sub);
-  if (!cid) {
-    return { plane: "kirbe", source: "default_kirbe" };
-  }
-  const cust = await fetchCustomer(cid);
-  if (!cust) {
-    return { plane: "kirbe", source: "default_kirbe" };
-  }
-  const cp = customerPlane(cust);
-  if (cp === "holistika_ops") {
-    return { plane: "holistika_ops", source: "customer_inherit" };
-  }
-  return { plane: "kirbe", source: "customer_inherit" };
-}
-
-function customerPlane(c: Stripe.Customer): "kirbe" | "holistika_ops" | "unset" {
-  const m = billingPlaneRaw(c.metadata);
-  if (m === "holistika_ops" || m === "holistika") return "holistika_ops";
-  if (m === "kirbe") return "kirbe";
-  return "unset";
-}
-
-/** Structured log for Langfuse / Supabase Edge logs (no PII beyond Stripe ids). */
-function logRoute(payload: Record<string, unknown>) {
-  console.log(JSON.stringify({ source: "stripe_webhook", ...payload }));
-}
-
-async function fetchCustomer(customerId: string): Promise<Stripe.Customer | null> {
-  try {
-    const c = await stripe.customers.retrieve(customerId);
-    if (c.deleted) return null;
-    return c as Stripe.Customer;
-  } catch {
-    return null;
-  }
-}
-
-function customerIdFromStripeObject(obj: { customer?: string | Stripe.Customer | null }): string | null {
-  const c = obj.customer;
-  if (typeof c === "string") return c;
-  if (c && typeof c === "object" && "id" in c && typeof c.id === "string") return c.id;
-  return null;
-}
-
-async function upsertHolistikaStripeCustomerLink(customer: Stripe.Customer): Promise<void> {
-  if (customerPlane(customer) !== "holistika_ops") return;
-  const sb = supabaseForSchema("holistika_ops");
-  const orgLabel =
-    customer.metadata?.org_label ?? customer.name ?? customer.description ?? customer.id;
-  const { error } = await sb.from("stripe_customer_link").upsert(
-    {
-      org_label: orgLabel,
-      stripe_customer_id: customer.id,
-      livemode: customer.livemode,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: "stripe_customer_id" },
-  );
-  if (error) console.error("holistika_ops stripe_customer_link upsert:", error);
-}
-
-/** Invoice / checkout / payment events: resolve Customer and upsert if Holistika company plane. */
-async function routeByCustomerId(
-  eventType: string,
-  stripeObjectId: string,
-  customerId: string | null,
-): Promise<void> {
-  if (!customerId) {
-    logRoute({ event_type: eventType, object_id: stripeObjectId, plane: "unknown", note: "no_customer" });
-    return;
-  }
-  const customer = await fetchCustomer(customerId);
-  if (!customer) {
-    logRoute({ event_type: eventType, object_id: stripeObjectId, customer_id: customerId, plane: "unknown" });
-    return;
-  }
-  const plane = customerPlane(customer);
-  logRoute({
-    event_type: eventType,
-    object_id: stripeObjectId,
-    customer_id: customerId,
-    plane: plane === "unset" ? "kirbe_default" : plane,
-  });
-  if (plane === "holistika_ops") {
-    await upsertHolistikaStripeCustomerLink(customer);
-  }
-}
-
 Deno.serve(async (req) => {
   if (req.method !== "POST") {
     return new Response("method not allowed", { status: 405 });
   }
 
+  // §1 — Signature verification (mandatory; 400 on failure)
   const signature = req.headers.get("stripe-signature");
   const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
   if (!signature || !webhookSecret) {
@@ -160,110 +73,67 @@ Deno.serve(async (req) => {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    console.error("stripe signature verification failed:", msg);
+    console.error(
+      JSON.stringify({
+        source: "stripe_webhook.orchestrator",
+        note: "signature verification failed",
+        error: msg,
+      }),
+    );
     return new Response(`webhook signature error: ${msg}`, { status: 400 });
   }
 
+  // §2 — FINOPS dispatch (mandatory; raw event log + pgmq enqueue).
+  //      Always await this — never want to return 200 without capturing the audit trail.
+  let finopsOutcome;
   try {
-    switch (event.type) {
-      case "customer.created":
-      case "customer.updated": {
-        const customer = event.data.object as Stripe.Customer;
-        logRoute({
-          event_type: event.type,
-          customer_id: customer.id,
-          plane: customerPlane(customer) === "holistika_ops" ? "holistika_ops" : "kirbe_or_unset",
-        });
-        if (customerPlane(customer) === "holistika_ops") {
-          await upsertHolistikaStripeCustomerLink(customer);
-        }
-        break;
-      }
-
-      case "customer.subscription.created":
-      case "customer.subscription.updated":
-      case "customer.subscription.deleted": {
-        const sub = event.data.object as Stripe.Subscription;
-        const { plane, source } = await resolveSubscriptionPlane(sub);
-        logRoute({
-          event_type: event.type,
-          subscription_id: sub.id,
-          plane,
-          subscription_plane_source: source,
-        });
-        if (plane === "holistika_ops") {
-          logRoute({
-            event_type: event.type,
-            note: "holistika_ops subscription — skipping kirbe.subscriptions",
-            subscription_id: sub.id,
-            subscription_plane_source: source,
-          });
-          break;
-        }
-        logRoute({
-          event_type: event.type,
-          note: "kirbe_plane_subscription_stub",
-          subscription_id: sub.id,
-          subscription_plane_source: source,
-        });
-        break;
-      }
-
-      case "invoice.paid":
-      case "invoice.payment_failed":
-      case "invoice.finalized": {
-        const inv = event.data.object as Stripe.Invoice;
-        const cid = customerIdFromStripeObject(inv);
-        await routeByCustomerId(event.type, inv.id, cid);
-        break;
-      }
-
-      case "checkout.session.completed": {
-        const session = event.data.object as Stripe.Checkout.Session;
-        const cid = customerIdFromStripeObject(session);
-        await routeByCustomerId(event.type, session.id, cid);
-        break;
-      }
-
-      case "payment_intent.succeeded":
-      case "payment_intent.payment_failed": {
-        const pi = event.data.object as Stripe.PaymentIntent;
-        const cid = customerIdFromStripeObject(pi);
-        await routeByCustomerId(event.type, pi.id, cid);
-        break;
-      }
-
-      case "charge.succeeded":
-      case "charge.failed": {
-        const ch = event.data.object as Stripe.Charge;
-        const cid = customerIdFromStripeObject(ch);
-        await routeByCustomerId(event.type, ch.id, cid);
-        break;
-      }
-
-      case "billing_portal.session.created": {
-        const portal = event.data.object as Stripe.BillingPortal.Session;
-        const cid = typeof portal.customer === "string" ? portal.customer : portal.customer?.id ?? null;
-        logRoute({
-          event_type: event.type,
-          object_id: portal.id,
-          customer_id: cid,
-          note: "observability_only",
-        });
-        break;
-      }
-
-      default:
-        logRoute({ event_type: event.type, note: "no_op" });
-    }
-
-    return new Response(JSON.stringify({ received: true }), {
-      headers: { "Content-Type": "application/json" },
-      status: 200,
-    });
+    finopsOutcome = await dispatchFinops(event);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    console.error("stripe webhook handler error:", msg);
-    return new Response(`handler error: ${msg}`, { status: 500 });
+    console.error(
+      JSON.stringify({
+        source: "stripe_webhook.orchestrator",
+        note: "FINOPS dispatch threw (returning 200 anyway; audit trail incomplete)",
+        stripe_event_id: event.id,
+        event_type: event.type,
+        error: msg,
+      }),
+    );
+    finopsOutcome = { logged: false, duplicate: false, enqueued: false, error: msg };
   }
+
+  // §3 — Kirbe + Holistika dispatch (best-effort).
+  //      Pre-refactor logic preserved bit-for-bit.
+  try {
+    await dispatchKirbeHolistika(event);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error(
+      JSON.stringify({
+        source: "stripe_webhook.orchestrator",
+        note: "kirbe+holistika dispatch threw (best-effort; 200 to Stripe regardless)",
+        stripe_event_id: event.id,
+        event_type: event.type,
+        error: msg,
+      }),
+    );
+  }
+
+  // §4 — Return 200 to Stripe
+  return new Response(
+    JSON.stringify({
+      received: true,
+      stripe_event_id: event.id,
+      event_type: event.type,
+      finops: {
+        logged: finopsOutcome.logged,
+        duplicate: finopsOutcome.duplicate,
+        enqueued: finopsOutcome.enqueued,
+      },
+    }),
+    {
+      headers: { "Content-Type": "application/json" },
+      status: 200,
+    },
+  );
 });

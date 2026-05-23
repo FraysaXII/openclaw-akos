@@ -654,6 +654,69 @@ def run_finops_ledger_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_finops_dlq_drain_self_test() -> tuple[bool, int]:
+    """Run FINOPS DLQ drain runbook Pydantic chassis self-test (I81 P2 Bundle B-2b / D-IH-81-W).
+
+    Exercises ``scripts/finops_dlq_drain.py --self-test`` which validates the
+    PGMQ_RPC_NAMES wiring (5 RPCs exposed via
+    ``supabase/migrations/20260524100000_i81_p2_b2b_pgmq_rpc_wrappers.sql``
+    SECURITY DEFINER wrappers: send_queue / read_queue / delete_queue /
+    archive_queue / read_dlq) + DlqEntry / DrainOperation / DrainSummary frozen
+    Pydantic models + CLI surface shape (``--self-test`` / ``--inspect`` /
+    ``--requeue`` / ``--acknowledge --reason``).
+
+    Per R3-a 3-layer retry architecture + R4-a HLK-ERP convergence — operator
+    invokes runbook on demand when finops-writer-worker DLQ depth alerts
+    surface in OPERATOR_INBOX.md. Self-test mode keeps CI cost at ~1s.
+    Wired at **INFO advisory** (never blocks the release gate) per
+    ``akos-executable-process-catalog.mdc`` Rule 1 AC-AUTOMATION discipline.
+
+    Returns ``(ok, exit_code)``. Self-test always returns success when the
+    runbook's Pydantic chassis + RPC name registry + CLI surface remain
+    well-formed.
+    """
+    logger.info("Running FINOPS DLQ drain runbook self-test (I81 P2 Bundle B-2b INFO advisory; D-IH-81-W) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "finops_dlq_drain.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
+def run_stripe_audit_metadata_self_test() -> tuple[bool, int]:
+    """Run Stripe metadata audit runbook Pydantic chassis self-test (I81 P2 Bundle B-2b / D-IH-81-W).
+
+    Exercises ``scripts/stripe_audit_metadata.py --self-test`` which validates
+    StripeMetadataFinding / StripeAuditReport frozen Pydantic models +
+    classify_customer / classify_subscription predicate functions
+    (orphan-customer / orphan-subscription / hlk_billing_plane-missing /
+    kirbe-vs-holistika_ops disambiguation) + CLI surface shape (``--self-test``
+    / ``--audit-customers`` / ``--audit-subscriptions`` / ``--output-json`` /
+    ``--output-csv``).
+
+    Per R1-a engagement-model-aware router design — operator invokes runbook
+    on demand before B-2c go-live OR when finops-writer-worker surfaces
+    counterparty_resolution=manual_review OPS rows in OPERATOR_INBOX.md.
+    Self-test mode keeps CI cost at ~1s. Wired at **INFO advisory** (never
+    blocks the release gate) per ``akos-executable-process-catalog.mdc``
+    Rule 1 AC-AUTOMATION discipline.
+
+    Returns ``(ok, exit_code)``. Self-test always returns success when the
+    runbook's Pydantic chassis + classification predicates + CLI surface
+    remain well-formed.
+    """
+    logger.info("Running Stripe metadata audit runbook self-test (I81 P2 Bundle B-2b INFO advisory; D-IH-81-W) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "stripe_audit_metadata.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_initiative_program_anchors_validation() -> tuple[bool, int]:
     """Run INITIATIVE_REGISTRY -> PROGRAM_REGISTRY anchor validation (I86 P1 / D-IH-86-H).
 
@@ -1249,6 +1312,18 @@ def main() -> None:
     results.append((
         "INFO",
         f"FINOPS ledger validation (scripts/validate_finops_ledger.py - I81 P2 Bundle B-2a INFO advisory; exercises akos.hlk_finops_ledger Pydantic RegisteredFactRow + 4-strategy counterparty resolution ladder + ECB 4-tier FX fallback + 0.5% Stripe-vs-ECB divergence detector + akos.hlk_ops_register_emit RICE-scored row emit against synthetic Stripe-event fact stream that FK-resolves to FINOPS_COUNTERPARTY_REGISTER finops_* slugs; promotes to FAIL when finops-writer-worker Edge Function lands in production AND first live Stripe charge_succeeded round-trip succeeds per D-IH-81-W closure; D-IH-81-V; ok={'yes' if finops_ledger_ok else 'no'}; exit={finops_ledger_rc})",
+    ))
+
+    finops_dlq_ok, finops_dlq_rc = run_finops_dlq_drain_self_test()
+    results.append((
+        "INFO",
+        f"FINOPS DLQ drain runbook self-test (scripts/finops_dlq_drain.py --self-test - I81 P2 Bundle B-2b INFO advisory; validates PGMQ_RPC_NAMES wiring + DlqEntry/DrainOperation/DrainSummary Pydantic models + CLI surface for the R3-a 3-layer retry pattern operator drain tool; paired with supabase/migrations/20260524100000_i81_p2_b2b_pgmq_rpc_wrappers.sql SECURITY DEFINER wrappers; akos-executable-process-catalog.mdc Rule 1 AC-AUTOMATION; D-IH-81-W; ok={'yes' if finops_dlq_ok else 'no'}; exit={finops_dlq_rc})",
+    ))
+
+    stripe_audit_ok, stripe_audit_rc = run_stripe_audit_metadata_self_test()
+    results.append((
+        "INFO",
+        f"Stripe metadata audit runbook self-test (scripts/stripe_audit_metadata.py --self-test - I81 P2 Bundle B-2b INFO advisory; validates StripeMetadataFinding/StripeAuditReport Pydantic models + classify_customer/classify_subscription predicate functions + CLI surface for the R1-a engagement-model-aware router pre-flight audit tool; surfaces orphan customers + hlk_billing_plane-missing subscriptions + holistika_ops-without-link rows before B-2c go-live; akos-executable-process-catalog.mdc Rule 1 AC-AUTOMATION; D-IH-81-W; ok={'yes' if stripe_audit_ok else 'no'}; exit={stripe_audit_rc})",
     ))
 
     idx_freshness_ok, idx_freshness_rc = run_index_freshness_self_test()
