@@ -452,3 +452,76 @@ Tranche-status table updated: T2 flipped `pending → closed`. T5 + T4 + T1 + T2
 - **RULE 1 (internal-research pass)**: candidate already cited Holistika internal precedents — `INTER_WAVE_REGRESSION_DISCIPLINE.md` + `INDEX_INTEGRITY_DISCIPLINE.md` + `akos-people-discipline-of-disciplines.mdc` + `akos-quality-fabric.mdc`. Amendment extends with `baseline_organisation.csv` cross-link (Tier-assignment is grounded in the canonical area registry).
 - **RULE 2 (external-research pass for novel framing)**: SATISFIED by §6.1 + §6.2 + §6.3 of the amended candidate body, with 4 authoritative source URLs cited inline (Team Topologies official + Codelit DDD synthesis + Martin Fowler bliki + Software Architecture Guild). The operator s4 framing is novel-to-this-repo but well-established industry-wide; citation strengthens rather than dilutes the framing.
 - **RULE 3 (wave-closure research enrichment)**: this commit is a Wave R Bundle C close; the research enrichment subsection of the Wave R closure UAT (when it lands) will cite this D-IH-81-T as an example of operator-novel framing grounded with external research.
+
+---
+## D-IH-81-U — FINOPS_COUNTERPARTY_REGISTER Bundle B-1 obvious-batch population (11 new vendor rows; flips register from seed-pattern to operational state; Strand 1 of Bundle B closure)
+
+**Decided**: 2026-05-23. **Owner**: Business Controller. **Status**: active. **Class**: governance (data population; no schema change; no validator change). **Reversibility**: medium (rows can be soft-deleted via `status` flip to `sunset` per `akos-holistika-operations.mdc`; counterparty_ids preserved for audit-trail + FK history).
+
+**Parent**: `D-IH-81-G` (I81 P2 umbrella). **Sibling**: `D-IH-81-Q` (T1 FINOPS_COUNTERPARTY layout migration, 2026-05-23 — this row was previously at flat-canonicals path). **Operator-content parent**: `D-IH-81-P` (internal-first FINOPS posture; three-layer model — Layer A AT-Pymes / Layer B internal judgment / Layer C reserved CFOaaS).
+
+**Question** (Wave R Bundle B-1 closure 2026-05-23): the FINOPS_COUNTERPARTY_REGISTER has carried 2 seed-pattern rows since I71 closure (2026-05-14) with status:active but `notes` explicitly labeling them "seed pattern only: replace with real counterparties after operator review." OPS-81-2 (FINOPS counterparty inventory) + OPS-81-3 (full vendor sweep) have been open since the I81 P0 candidate authoring. Per operator b1-b + b1-s2-a + b1-m-go-all-out ratification at the post-Bundle-C inline-ratify gate, what's the Strand 1 obvious-batch shape and closure decision label?
+
+**Decision (per operator b1-b + b1-s2-a + b1-m-go-all-out)**: append 11 new vendor rows to the canonical register at `compliance/canonicals/finops/FINOPS_COUNTERPARTY_REGISTER.csv` (post-T1 layout); preserve 2 seed pattern rows in place for FK-history continuity; flip register state from seed to operational; closure decision label = `D-IH-81-U` (letter U contiguous from D-IH-81-T per sequential precedent).
+
+**The 11 new rows**:
+
+| # | counterparty_id | display_name | service_category | billing_model | confidence | notes-source-evidence |
+|---|---|---|---|---|---|---|
+| 1 | `finops_supabase` | Supabase Inc. | saas | subscription | 3 | supabase/migrations + functions + sync_compliance_mirrors_from_csv + plugin-supabase MCP |
+| 2 | `finops_vercel` | Vercel Inc. | saas | subscription | 3 | user-vercel + plugin-vercel MCPs + akos-deploy-health + D-IH-86-AT |
+| 3 | `finops_render` | Render Services Inc. | saas | subscription | 3 | Render MCP + plugin-render + _templates/render canonical |
+| 4 | `finops_github` | GitHub Inc. | saas | subscription | 3 | user-github MCP + REPOSITORY_REGISTRY FraysaXII org rows |
+| 5 | `finops_sentry` | Functional Software / Sentry | observability | subscription | 3 | SENTRY_DASHBOARD_HOLISTIKA.md + user-sentry + plugin-sentry MCPs + SOP-CICD_BASELINE_001 |
+| 6 | `finops_cursor` | Anysphere Inc. (Cursor) | productivity | subscription | 3 | .cursor/ directory + all akos-*.mdc rules + skills + plugins |
+| 7 | `finops_anthropic` | Anthropic PBC | saas | usage | 3 | HOLISTIKA_AGENTIC_DOCTRINE + AGENTIC_FRAMEWORK_LANDSCAPE Madeira as Claude-family |
+| 8 | `finops_openai` | OpenAI Inc. | saas | usage | 3 | model-catalog provider + AI Gateway + Vercel AI SDK boilerplate integration |
+| 9 | `finops_runpod` | RunPod Inc. | cloud_compute | usage | 3 | scripts/gpu.py + akos/runpod_provider.py + user-runpod MCP + RUNPOD_API_KEY |
+| 10 | `finops_at_pymes` | AT-Pymes (Gestoria) | legal | subscription | 3 | D-IH-89-L EUR 250 bundle months 0-12 + D-IH-81-P Layer A bookkeeping floor |
+| 11 | `finops_stripe` | Stripe Inc. | payments | usage | 3 | Supabase Stripe FDW (stripe_gtm_server) + supabase/functions/stripe-webhook-handler + holistika_ops.stripe_customer_link + Initiative 19 finops.registered_fact charter + user-stripe MCP |
+
+All 11 rows: `counterparty_type=vendor`, `commercial_segment=na`, `revenue_model=na`, `role_owner=Business Controller`, `process_item_id=thi_finan_dtp_303`, `last_review_at=2026-05-23`, `last_review_by=Business Controller`, `last_review_decision_id=D-IH-81-U`, `methodology_version_at_review=v3.1`. `renewal_review_due` set for AT-Pymes (2026-12-31) only — other 10 deferred until first invoice cycle establishes baseline. `pci_phi_pii_scope`: `pii` for hosting + observability (8 rows) + `none` for Cursor + RunPod (2 rows; no operator/customer PII flowing through) + `pci` for Stripe (1 row; cardholder data even in test mode).
+
+**Stripe row is special**: per operator b1-b explicit amendment to the original b1-a batch, Stripe is added with `notes` carrying operator goal verbatim — "test/dev Account-Test environment per operator ratification 2026-05-23; production prep in flight." The row is the anchor for Bundle B-1ext (Stripe AT environment reconnaissance via user-stripe MCP + Supabase FDW inspection) + Bundle B-2 (monetary-substrate stand-up per Initiative 19 finops.registered_fact charter; goal = prod-ready posture per operator b1-m-go-all-out framing).
+
+**Rationale (why the b1-b + b1-s2-a + b1-m-go-all-out path over b1-a / b1-c / b1-d / b1-e / b1-f alternatives)**:
+
+1. **b1-b over b1-a (vanilla 10-row batch)**: Operator added Stripe to the obvious batch because the Stripe FDW is already configured in Supabase (`stripe_gtm_server` per `akos-holistika-operations.mdc` Inventory-before-greenfield discipline) + webhook handler exists at `supabase/functions/stripe-webhook-handler/`. Code evidence is strong enough to warrant confidence_level=3. Adding Stripe to Strand 1 surfaces it for Bundle B-1ext reconnaissance immediately rather than deferring to Strand 2 ambiguous-per-row.
+
+2. **b1-s2-a over b1-s2-b (mega-batch) / b1-s2-c (defer Strand 2) / b1-s2-d (subagent enrichment)**: Operator chose 6-row batched inline-ratify across 3-4 sessions for the ambiguous list (Cloudflare/Resend/Twilio/Cal.com/Figma/Slack/Langfuse/Postman/Miro/Composio/Neo4j/Google Workspace/domain registrar/BBVA/ISP). Honors `inline-ratify-craft` Principle 5 batching guidance (cap at ~6 questions per AskQuestion call) + avoids mega-batch operator fatigue + avoids defer-trap.
+
+3. **b1-m-go-all-out over b1-m-a (defer monetary tracking) / b1-m-c (separate canonical) / b1-m-d (skip)**: Operator explicitly framed "I need the entire structure up and running so I don't waste time later when I need it." This is the load-bearing decision shaping Bundles B-1ext + B-2. Per `akos-holistika-operations.mdc` two-plane model: (a) `finops.registered_fact` operational facts schema (Initiative 19 charter; not yet activated) is the canonical monetary surface; (b) FINOPS_COUNTERPARTY_REGISTER is the metadata surface (correctly bans `amount` / `price_*` / `_usd` / `_eur` / `invoice_*` / `cost_total` / `monthly_spend` field names per `BANNED_HEADER_FRAGMENTS`); (c) `holistika_ops.stripe_customer_link.finops_counterparty_id` bridges the two. Bundle B-2 will activate Initiative 19 charter + stand up the Stripe webhook → registered_fact pipeline + wire FK relationships.
+
+**Confidence-level posture (challenge-2 from the inline-ratify gate)**: I floated the option to downgrade 9 of 10 rows to confidence_level=2 (more honest about per-vendor contract verification gap). Operator implicitly rejected by ratifying b1-b without amendment to confidence levels. Rationale preserved in row notes: confidence dimension is about the *register's claim about the counterparty relationship existence*, not about my certainty of contract-tier details. Code/MCP evidence is strong for relationship existence; tier/spend details are deferred to first-invoice-cycle.
+
+**Cross-area Ops-wiring discipline impact**: This commit counts as **A2 1-of-2 areas exercised** for the I-NN-CROSS-AREA-OPS-WIRING-REVIEW candidate (per amended D-IH-81-T A2 gate: TWO areas exercised end-to-end). FINOPS now operational; one more area's Ops surface needs end-to-end exercise (PeopleOps recommended; could also be RevOps or LegalOps) before the candidate promotes to a numbered initiative + the Quality Fabric 12th specialty (SYNTHESIS_BEFORE_TRANCHE) becomes mint-ready.
+
+**Mechanical evidence:**
+
+- `py scripts/validate_finops_counterparty_register.py`: PASS (13 rows; was 2 pre-commit).
+- `py scripts/validate_hlk.py`: umbrella OVERALL PASS.
+- `py scripts/validate_decision_register.py`: PASS (408 active + 2 superseded after D-IH-81-U lands).
+- All 11 new rows FK-resolve: `role_owner=Business Controller` exists in `baseline_organisation.csv` (Group-1 role); `process_item_id=thi_finan_dtp_303` exists in `process_list.csv` (Finance area, Business Controller-owned).
+- Dry-run validated against scratch CSV before canonical write (deleted post-validation).
+
+**Why this minting matters:**
+
+1. **Internal-first FINOPS posture becomes operational** per D-IH-81-P. The register was the placeholder; Bundle B-1 is the activation. Operator can now query the canonical register and get the real vendor surface, not pattern stubs.
+2. **Stripe added as obvious-tier vendor** per operator b1-b. This pre-positions Bundle B-1ext (Stripe AT reconnaissance) + Bundle B-2 (monetary substrate) as the next-priority strand. Operator's "I need the entire structure up and running" framing means Bundle B becomes multi-strand — not just data population.
+3. **Cross-area Ops-wiring A2 gate progresses 0/2 → 1/2**. The I-NN-CROSS-AREA-OPS-WIRING-REVIEW candidate's promotion criterion (per amended D-IH-81-T) is unblocked by this commit. The next area exercise will trigger the promotion-or-defer decision.
+4. **Closes OPS-81-2 (FINOPS counterparty inventory obvious tier)** in OPS_REGISTER; OPS-81-3 stays open for Strand 2 ambiguous-per-row sessions.
+
+**Forward state:**
+
+- Bundle B-1 CLOSED at this commit (Strand 1 obvious batch shipped).
+- Bundle B-1ext (Stripe AT reconnaissance) — next immediate priority; runs read-only MCP + Supabase FDW inspection; lands report at `reports/p2-stripe-recon-2026-05-23.md`; surfaces architectural options for Bundle B-2.
+- Bundle B-2 (monetary-substrate stand-up per Initiative 19 charter) — inline-ratified post-recon; may span multiple sessions if scope exceeds single push window.
+- Bundle B Strand 2 (ambiguous-per-row inline-ratify; 3-4 batches of ~6 rows per b1-s2-a) — pending; cadenced across next 2-3 sessions.
+- Quality Fabric 12th specialty mint (SYNTHESIS_BEFORE_TRANCHE; PRIORITY-5 per s5-c) — still pending; unblocked by Bundle B-1 close.
+- drain7 cursor-rule-skill-pairing subagent proposal — still pending; landing report awaited.
+
+**External research grounding** (per `akos-applied-research-discipline.mdc`):
+
+- **RULE 1 (internal-research pass)**: SATISFIED. Sweep covered Pydantic SSOT + validator + FK source registers + 12 MCP server configs + 2 model-catalog/openclaw configs + REPOSITORY_REGISTRY hosting_platform column + akos-deploy-health.mdc + D-IH-89-L (AT-Pymes EUR 250 bundle) + D-IH-81-P (three-layer model) + Supabase Stripe FDW evidence + supabase/functions/stripe-webhook-handler/.
+- **RULE 2 (external-research pass for novel framing)**: N/A. Counterparty register population is data-only governance; no novel framing introduced. The schema design (21 cols + 8 enum frozensets + banned-amount-fragments rule) was pre-ratified at I71 P4 (D-IH-71-R review-stamp design) + further grounded at D-IH-81-P (three-layer model citing fractional-CFO industry benchmarks). No new external citations required for population work.
+- **RULE 3 (wave-closure research enrichment)**: this commit is a Wave R Bundle B-1 close; the Wave R closure UAT (when it lands) will cite this D-IH-81-U as the "internal-first FINOPS becomes operational" milestone evidence.
