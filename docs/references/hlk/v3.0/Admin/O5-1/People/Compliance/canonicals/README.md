@@ -39,8 +39,8 @@ docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/
 ├── process_list.csv                              (cross-plane SSOT — stays at root)
 │
 ├── advops/                                       (External Adviser Engagement plane)
-│   ├── ADVISER_ENGAGEMENT_DISCIPLINES.csv        (forward target — currently at root)
-│   ├── ADVISER_OPEN_QUESTIONS.csv                (forward target — currently at root)
+│   ├── ADVISER_ENGAGEMENT_DISCIPLINES.csv        (relocated I81 P2 T2; deprecation alias supported for one cycle)
+│   ├── ADVISER_OPEN_QUESTIONS.csv                (relocated I81 P2 T2; deprecation alias supported for one cycle)
 │   └── FILED_INSTRUMENTS.csv                     (forward rename target — currently FOUNDER_FILED_INSTRUMENTS.csv at root)
 │
 ├── finops/                                       (Finance / counterparty plane)
@@ -71,8 +71,8 @@ docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/
 | Current path (do not move yet) | Forward path | Deferral rationale |
 |:-------------------------------|:-------------|:-------------------|
 | ~~`compliance/GOI_POI_REGISTER.csv`~~ **MOVED I32 P7** | `compliance/dimensions/GOI_POI_REGISTER.csv` | **Relocated 2026-04-30 per D-IH-32-D**. Legacy path supported via deprecation alias in `validate_goipoi_register.py` and `sync_compliance_mirrors_from_csv.py` for **one initiative cycle**; alias to be removed in I33. |
-| `compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv` | `compliance/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv` | Single-plane register; physical move deferred to FINOPS / ADVOPS expansion initiative |
-| `compliance/ADVISER_OPEN_QUESTIONS.csv` | `compliance/advops/ADVISER_OPEN_QUESTIONS.csv` | Same as above |
+| ~~`compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv`~~ **MIGRATED I81 P2 T2** | `compliance/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv` | **Relocated 2026-05-23 per D-IH-81-R under D-IH-81-G umbrella** (T2 atomic-commit; move-only, no rename). Legacy path supported via deprecation alias in `validate_adviser_disciplines.py`, `validate_hlk.py`, `validate_review_stamps.py`, `validate_compliance_schema_drift.py`, `validate_program_id_consistency.py`, `validate_founder_filed_instruments.py`, `sync_compliance_mirrors_from_csv.py`, `probe_compliance_mirror_drift.py`, `export_adviser_handoff.py`, `render_pmo_hub.py`, `compose_adviser_message.py`, `tests/test_render_dossier.py` for **one initiative cycle**; alias to be removed at I81 P9 closure. |
+| ~~`compliance/ADVISER_OPEN_QUESTIONS.csv`~~ **MIGRATED I81 P2 T2** | `compliance/advops/ADVISER_OPEN_QUESTIONS.csv` | **Relocated 2026-05-23 per D-IH-81-R under D-IH-81-G umbrella** (T2 atomic-commit; move-only, no rename). Same alias coverage as above. |
 | `compliance/FOUNDER_FILED_INSTRUMENTS.csv` | `compliance/advops/FILED_INSTRUMENTS.csv` | Rename + move; file name still encodes "founder" — should be program-keyed via `program_id` column instead |
 | ~~`compliance/FINOPS_COUNTERPARTY_REGISTER.csv`~~ **MIGRATED I81 P2 T1** | `compliance/finops/FINOPS_COUNTERPARTY_REGISTER.csv` | **Relocated 2026-05-23 per D-IH-81-Q under D-IH-81-G umbrella** (FINOPS synthesis gated the move; T1 advance ratified after operator inline-ratify of q1-a + q2-a + q5-a). Legacy path supported via deprecation alias in `validate_finops_counterparty_register.py`, `sync_compliance_mirrors_from_csv.py`, `validate_review_stamps.py` for **one initiative cycle**; alias to be removed at I81 P9 closure. |
 | `compliance/COMPONENT_SERVICE_MATRIX.csv` | `compliance/techops/COMPONENT_SERVICE_MATRIX.csv` | **Migrated 2026-05-22 (D-IH-81-G-T5 / I81 P2 Tranche T5)**; deprecation alias supported in validators for one initiative cycle (to be removed at I81 P9 closure) |

@@ -66,12 +66,12 @@ _REGISTRY: tuple[tuple[str, str, str], ...] = (
         "GOIPOI_REGISTER_FIELDNAMES",
     ),
     (
-        "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv",
+        "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv",
         "akos.hlk_adviser_disciplines_csv",
         "ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES",
     ),
     (
-        "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv",
+        "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_OPEN_QUESTIONS.csv",
         "akos.hlk_adviser_questions_csv",
         "ADVISER_OPEN_QUESTIONS_FIELDNAMES",
     ),

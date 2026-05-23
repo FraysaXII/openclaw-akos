@@ -12,7 +12,8 @@ reference rows here by ``discipline_id`` to drive per-discipline routing in
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv header row.
+# (Moved to advops/ at I81 P2 T2 — D-IH-81-R under D-IH-81-G umbrella, 2026-05-23.)
 ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES: tuple[str, ...] = (
     "discipline_id",
     "discipline_code",

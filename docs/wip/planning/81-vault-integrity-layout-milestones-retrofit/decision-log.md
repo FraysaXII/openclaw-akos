@@ -152,7 +152,7 @@ The subagent stream cannot post `AskQuestion` to inline-ratify; instead each arc
 **Forward tranches (still gated by D-IH-81-G):**
 
 - ~~T1: `FINOPS_COUNTERPARTY_REGISTER.csv` -> `finops/` plane (operator discretion). **Blocked on FINOPS end-to-end synthesis pass** per Wave R lane batch operator framing 2026-05-22.~~ **Unblocked 2026-05-22 per D-IH-81-N (synthesis ratification). Closed 2026-05-23 per D-IH-81-Q (see below) — Bundle A of three-bundle commit strategy; q1-a synthesis §6.2 amendment + q2-a atomic-commit + q5-a closure-class label all executed.**
-- T2: `ADVISER_ENGAGEMENT_DISCIPLINES.csv` + `ADVISER_OPEN_QUESTIONS.csv` -> `advops/` plane.
+- ~~T2: `ADVISER_ENGAGEMENT_DISCIPLINES.csv` + `ADVISER_OPEN_QUESTIONS.csv` -> `advops/` plane.~~ **Closed 2026-05-23 per D-IH-81-R under D-IH-81-G umbrella — Bundle D of three-bundle commit strategy; s2-a atomic-commit shape; move-only, no rename. Deprecation aliases preserved for one initiative cycle.**
 - T3: `FOUNDER_FILED_INSTRUMENTS.csv` -> `advops/FILED_INSTRUMENTS.csv` (rename + move; higher blast radius).
 - ~~T4: `CHANNEL_TOUCHPOINT_REGISTRY.csv` -> `dimensions/` confirm (already correctly placed; verification-only tranche).~~ **Closed 2026-05-22 per D-IH-81-M (see below).**
 
@@ -304,3 +304,44 @@ The operator surfaced the doctrine correction via scratchpad entry rather than a
 - **T3** (`FOUNDER_FILED_INSTRUMENTS.csv` → `advops/FILED_INSTRUMENTS.csv`; rename + move; highest blast radius) — operator discretion at per-tranche inline-ratify gate.
 
 Tranche-status table updated: T1 flipped `unblocked → closed`. T5 + T4 + T1 = 3 of 5 tranches closed.
+
+---
+
+## D-IH-81-R — I81 P2 T2 ADVISER_* layout migration close
+
+**Decided**: 2026-05-23. **Owner**: PMO. **Status**: active. **Class**: execution. **Reversibility**: medium (git-revertable, deprecation alias preserves legacy paths for one cycle).
+
+**Parent umbrella**: `D-IH-81-G` (I81 P2 forward layout convention enforcement). Following the sequential precedent T5 = `D-IH-81-L`, T4 = `D-IH-81-M`, T1 = `D-IH-81-Q`.
+
+**Question**: Execute T2 (`ADVISER_ENGAGEMENT_DISCIPLINES.csv` + `ADVISER_OPEN_QUESTIONS.csv` → `advops/`) as an atomic move-only commit per Bundle D of the Wave R lane-batch operator framing (per s2-a ratification 2026-05-22 + post-Wave-R-Lane-B-drain priority queue 2026-05-23).
+
+**Decision**: Move both CSVs to `compliance/canonicals/advops/` as a single atomic commit. Move-only — no rename, no schema change. Deprecation aliases for one initiative cycle (removal scheduled at I81 P9 closure). T3 (rename + move FOUNDER_FILED_INSTRUMENTS → advops/FILED_INSTRUMENTS) deferred to a separate atomic commit with its own inline-ratify gate, given the higher blast radius (Pydantic module name, validator name, mirror table DDL all potentially affected by the rename).
+
+**Mechanical scope** (atomic commit):
+
+- 2 file renames (history preserved via `git mv`).
+- 13 script path-constant updates with deprecation-alias pattern: `validate_adviser_disciplines.py`, `validate_adviser_questions.py`, `validate_review_stamps.py`, `validate_compliance_schema_drift.py`, `validate_program_id_consistency.py`, `validate_founder_filed_instruments.py` (FK reader), `validate_hlk.py` (dispatcher), `sync_compliance_mirrors_from_csv.py`, `probe_compliance_mirror_drift.py`, `export_adviser_handoff.py`, `render_pmo_hub.py`, `compose_adviser_message.py`, `tests/test_render_dossier.py`.
+- 1 test-data-path update: `tests/test_sync_compliance_mirrors_from_csv.py` (`EXPECTED_PATHS` dict).
+- 2 Pydantic SSOT docstring updates: `akos/hlk_adviser_disciplines_csv.py`, `akos/hlk_adviser_questions_csv.py`.
+- 6 governance doc updates: `CANONICAL_REGISTRY.csv` (2 path cells), `PRECEDENCE.md` (4 path refs), `migration-manifest-2026-05-12.yml` (2 target paths), `compliance/canonicals/README.md` (tree comment + deferred-moves table), `docs/ARCHITECTURE.md` (HLK Registry CSV listing).
+- 1 cursor rule update: `.cursor/rules/akos-adviser-engagement.mdc` frontmatter `globs:` (added new advops/ paths; kept legacy paths active for one initiative cycle so rule still activates on legacy-referenced docs).
+- 3 active body-doc cross-reference updates: `_assets/advops/2026-holistika-incorporation/README.md`, `People/Legal/FOUNDER_FILED_INSTRUMENT_REGISTER.md`, `People/Legal/canonicals/FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md`.
+
+**Mechanical evidence:**
+
+- `py scripts/validate_adviser_disciplines.py`: PASS (6 rows at new `advops/` path).
+- `py scripts/validate_adviser_questions.py`: PASS (12 rows at new `advops/` path).
+- `py scripts/validate_compliance_schema_drift.py`: PASS (24 canonical CSVs aligned; both advops/* paths align to their SSOT tuples).
+- `py scripts/validate_review_stamps.py`: PASS (adviser_engagement_disciplines 6/6 stamped; adviser_open_questions 12/12 stamped).
+- `py scripts/validate_founder_filed_instruments.py`: PASS (FK reader on advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv resolves correctly).
+- `py scripts/validate_hlk.py`: umbrella OVERALL PASS.
+- `py scripts/validate_hlk_vault_links.py`: PASS (no broken internal .md links after body-doc edits).
+- `py -m pytest tests/ -x -q`: **3059 passed, 17 skipped, 17 warnings** (5m11s; full suite, no failures).
+
+**Forward tranche still gated by D-IH-81-G:**
+
+- **T3** (`FOUNDER_FILED_INSTRUMENTS.csv` → `advops/FILED_INSTRUMENTS.csv`; rename + move; highest blast radius — affects Pydantic module name `hlk_founder_filed_instruments_csv.py`, validator `validate_founder_filed_instruments.py`, mirror table `compliance.founder_filed_instruments_mirror`) — operator discretion at per-tranche inline-ratify gate. Recommended shape: surface explicit AskQuestion before execution with options for (a) move-only keep-name, (b) move + rename now, (c) defer to a successor initiative.
+
+Tranche-status table updated: T2 flipped `pending → closed`. T5 + T4 + T1 + T2 = **4 of 5** tranches closed. T3 = last remaining tranche.
+
+**External research grounding** (per `akos-applied-research-discipline.mdc`): RULE 1 satisfied by T5 + T4 + T1 precedent (this is the fourth I81 P2 tranche execution; deprecation-alias pattern proven across three prior tranches). RULE 2 not applicable (no novel framing introduced by this closure — D-IH-81-G/Q already carried the doctrine).

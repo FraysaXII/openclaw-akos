@@ -59,9 +59,14 @@ BRAND_VISUAL_PATTERNS_MD = (
     / "canonicals"
     / "BRAND_VISUAL_PATTERNS.md"
 )
-ADVISER_QUESTIONS_CSV = (
+# I81 P2 T2 (D-IH-81-R under D-IH-81-G umbrella, 2026-05-23): moved to advops/.
+_ADVISER_QUESTIONS_NEW = (
+    REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "advops" / "ADVISER_OPEN_QUESTIONS.csv"
+)
+_ADVISER_QUESTIONS_LEGACY = (
     REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "ADVISER_OPEN_QUESTIONS.csv"
 )
+ADVISER_QUESTIONS_CSV = _ADVISER_QUESTIONS_NEW if _ADVISER_QUESTIONS_NEW.is_file() else _ADVISER_QUESTIONS_LEGACY
 TOPIC_REGISTRY_CSV = (
     REPO_ROOT
     / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"

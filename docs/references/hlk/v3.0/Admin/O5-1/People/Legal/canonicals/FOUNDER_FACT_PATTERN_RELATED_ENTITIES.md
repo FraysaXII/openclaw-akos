@@ -33,7 +33,7 @@ language: en
   - **Legal / ENISA-track**: `POI-LEG-ENISA-LEAD-2026` (lens: `entity_readiness`).
   - **Fiscal**: `POI-LEG-FISCAL-LEAD-2026` (lens: `fiscal_readiness`).
   - **Initial intake**: `POI-ADV-INTAKE-LEAD-2026` (lens: `entity_readiness`).
-- **Banking / KYC narrative**: Bank channel anchored on `GOI-BNK-INC-2026` (constitution-desk bank), with `POI-BNK-DESK-LEAD-2026` as the named desk lead. Narrative *TBD in consultation with Legal and the banking channel* — must stay consistent with mercantil registry and CNAE / IAE posture (PMO WS-B). See `Q-BNK-001` in `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv`.
+- **Banking / KYC narrative**: Bank channel anchored on `GOI-BNK-INC-2026` (constitution-desk bank), with `POI-BNK-DESK-LEAD-2026` as the named desk lead. Narrative *TBD in consultation with Legal and the banking channel* — must stay consistent with mercantil registry and CNAE / IAE posture (PMO WS-B). See `Q-BNK-001` in `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_OPEN_QUESTIONS.csv`.
 
 ---
 

@@ -142,12 +142,14 @@ waves:
         # Note: subsequently relocated to finops/ via i81_p2_t1 tranche (D-IH-81-Q under D-IH-81-G umbrella, 2026-05-23). See tranche entry below.
       - canonical_id: adviser_engagement_disciplines
         source: "docs/references/hlk/compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
-        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
         validator: validate_adviser_disciplines.py
+        # Note: subsequently relocated to advops/ via i81_p2_t2 tranche (D-IH-81-R under D-IH-81-G umbrella, 2026-05-23).
       - canonical_id: adviser_open_questions
         source: "docs/references/hlk/compliance/ADVISER_OPEN_QUESTIONS.csv"
-        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_OPEN_QUESTIONS.csv"
         validator: validate_adviser_questions.py
+        # Note: subsequently relocated to advops/ via i81_p2_t2 tranche (D-IH-81-R under D-IH-81-G umbrella, 2026-05-23).
       - canonical_id: founder_filed_instruments
         source: "docs/references/hlk/compliance/FOUNDER_FILED_INSTRUMENTS.csv"
         target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv"

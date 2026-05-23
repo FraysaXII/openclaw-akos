@@ -10,7 +10,8 @@ programs. The vault markdown becomes a derived human view per discipline.
 
 from __future__ import annotations
 
-# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv header row.
+# Keep in sync with docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_OPEN_QUESTIONS.csv header row.
+# (Moved to advops/ at I81 P2 T2 — D-IH-81-R under D-IH-81-G umbrella, 2026-05-23.)
 ADVISER_OPEN_QUESTIONS_FIELDNAMES: tuple[str, ...] = (
     "question_id",
     "discipline_id",

@@ -433,9 +433,16 @@ def main() -> int:
         ("GOI_POI_REGISTER", "validate_goipoi_register.py",
          "validate_goipoi_register", HLK_DIR / "dimensions" / "GOI_POI_REGISTER.csv"),
         ("ADVISER_ENGAGEMENT_DISCIPLINES", "validate_adviser_disciplines.py",
-         "validate_adviser_disciplines", HLK_DIR / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"),
+         "validate_adviser_disciplines",
+         # I81 P2 T2 (D-IH-81-R under D-IH-81-G umbrella, 2026-05-23): moved to advops/.
+         (HLK_DIR / "advops" / "ADVISER_ENGAGEMENT_DISCIPLINES.csv")
+         if (HLK_DIR / "advops" / "ADVISER_ENGAGEMENT_DISCIPLINES.csv").is_file()
+         else HLK_DIR / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"),
         ("ADVISER_OPEN_QUESTIONS", "validate_adviser_questions.py",
-         "validate_adviser_questions", HLK_DIR / "ADVISER_OPEN_QUESTIONS.csv"),
+         "validate_adviser_questions",
+         (HLK_DIR / "advops" / "ADVISER_OPEN_QUESTIONS.csv")
+         if (HLK_DIR / "advops" / "ADVISER_OPEN_QUESTIONS.csv").is_file()
+         else HLK_DIR / "ADVISER_OPEN_QUESTIONS.csv"),
         ("FOUNDER_FILED_INSTRUMENTS", "validate_founder_filed_instruments.py",
          "validate_founder_filed_instruments", HLK_DIR / "FOUNDER_FILED_INSTRUMENTS.csv"),
         ("PROGRAM_REGISTRY", "validate_program_registry.py",

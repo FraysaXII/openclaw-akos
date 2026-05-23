@@ -76,8 +76,15 @@ _GOIPOI_CSV_NEW = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" /
 _GOIPOI_CSV_LEGACY = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "GOI_POI_REGISTER.csv"
 # I32 P7 (D-IH-32-D): GOI/POI relocated to dimensions/. Deprecation alias for one cycle.
 GOIPOI_CSV = _GOIPOI_CSV_NEW if _GOIPOI_CSV_NEW.is_file() else _GOIPOI_CSV_LEGACY
-ADVISER_DISCIPLINES_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
-ADVISER_QUESTIONS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "ADVISER_OPEN_QUESTIONS.csv"
+# I81 P2 T2 (D-IH-81-R under D-IH-81-G umbrella, 2026-05-23): ADVISER_ENGAGEMENT_DISCIPLINES
+# and ADVISER_OPEN_QUESTIONS moved to advops/ per Initiative 22 forward layout. Deprecation
+# aliases for one initiative cycle (removal scheduled at I81 P9 closure).
+_ADVISER_DISCIPLINES_NEW = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "advops" / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+_ADVISER_DISCIPLINES_LEGACY = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+ADVISER_DISCIPLINES_CSV = _ADVISER_DISCIPLINES_NEW if _ADVISER_DISCIPLINES_NEW.is_file() else _ADVISER_DISCIPLINES_LEGACY
+_ADVISER_QUESTIONS_NEW = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "advops" / "ADVISER_OPEN_QUESTIONS.csv"
+_ADVISER_QUESTIONS_LEGACY = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "ADVISER_OPEN_QUESTIONS.csv"
+ADVISER_QUESTIONS_CSV = _ADVISER_QUESTIONS_NEW if _ADVISER_QUESTIONS_NEW.is_file() else _ADVISER_QUESTIONS_LEGACY
 FILED_INSTRUMENTS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "FOUNDER_FILED_INSTRUMENTS.csv"
 PROGRAM_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PROGRAM_REGISTRY.csv"
 TOPIC_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "TOPIC_REGISTRY.csv"

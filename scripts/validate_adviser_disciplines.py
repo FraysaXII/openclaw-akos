@@ -17,7 +17,10 @@ from akos.hlk_adviser_disciplines_csv import ADVISER_ENGAGEMENT_DISCIPLINES_FIEL
 from akos.io import REPO_ROOT
 
 HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
-DISCIPLINES_CSV = HLK_COMPLIANCE / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+# I81 P2 T2 (D-IH-81-R under D-IH-81-G umbrella, 2026-05-23): moved to advops/.
+_DISCIPLINES_NEW = HLK_COMPLIANCE / "advops" / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+_DISCIPLINES_LEGACY = HLK_COMPLIANCE / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+DISCIPLINES_CSV = _DISCIPLINES_NEW if _DISCIPLINES_NEW.is_file() else _DISCIPLINES_LEGACY
 ORG_CSV = HLK_COMPLIANCE / "baseline_organisation.csv"
 PROC_CSV = HLK_COMPLIANCE / "process_list.csv"
 

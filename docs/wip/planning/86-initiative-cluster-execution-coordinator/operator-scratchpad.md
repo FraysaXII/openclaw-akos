@@ -834,6 +834,57 @@ T5 picked first to validate the migration pattern + alias-fallback contract at m
 
 **Continuation per todo backlog**: Bundle D (T2 + T3 + DQ-fix; PRIORITY 2) → Bundle B (counterparty backfill; PRIORITY 3) → Bundle C amendment (cross-area Ops-wiring novel-framing; PRIORITY 4) → Quality Fabric 12th specialty mint (SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE; PRIORITY 5).
 
+[processed 2026-05-23 wave-R-lane-B-drain | D-IH-86-CR closure-class minted; OPS-86-14 closed; OPS-86-15..20 forward-chartered; 53-of-53 findings dispositioned across DIM-02/04/05/06/09/10/11; drain7 subagent dispatched separately; all validators PASS]
+
+### 2026-05-23 — Wave R Lane D Tranche T2 EXECUTION (Bundle D first atomic commit; D-IH-81-R)
+
+**Operator framing (s2-a verbatim, 2026-05-22)**: *"Selected option(s) s2-a"* — Bundle D = T2 + T3 sequenced atomic commits. T2 (this commit) ships the move-only paired ADVISER tranche; T3 (next atomic commit) handles the higher-blast-radius FOUNDER_FILED rename. Wave R Lane B drain finished first (s5-c PRIORITY-1); Bundle D is PRIORITY-2.
+
+**Why split T2 and T3 (not one atomic commit)**: T2 is move-only (file rename in git terms; same column count + same headers + same FK shape; only on-disk location changes). T3 is move-PLUS-rename — `FOUNDER_FILED_INSTRUMENTS.csv` becomes `advops/FOUNDER_FILED_REGISTER.csv` per I81 P0 candidate scope (the canonical name moves toward the "register" pattern shared with sibling ADVOPS canonicals). Move-plus-rename ripples into Pydantic chassis docstrings + `_REGISTRY` registry tuples + Supabase mirror DDL (table-name change OR alias view) + validator path constants. Splitting into two commits keeps each atomic, each separately revertable, and preserves T2's diff as a clean blueprint for future move-only tranches (vs T3 as the blueprint for move-plus-rename).
+
+**T2 scope (this commit; 32 surface updates in lock-step)**:
+
+| Surface class | Count | Specifics |
+|:---|:---|:---|
+| `git mv` paired files | 2 | `ADVISER_ENGAGEMENT_DISCIPLINES.csv` + `ADVISER_OPEN_QUESTIONS.csv` from `canonicals/` to `canonicals/advops/` |
+| Validator scripts updated (deprecation alias) | 5 | `validate_adviser_disciplines.py`, `validate_adviser_questions.py`, `validate_review_stamps.py`, `validate_compliance_schema_drift.py`, `validate_program_id_consistency.py` |
+| Validator scripts updated (FK reader) | 1 | `validate_founder_filed_instruments.py` (DISCIPLINES_CSV alias — fixes T2-induced FK failure surfaced by umbrella validator first pass) |
+| Validator umbrella updated | 1 | `validate_hlk.py` (dispatcher entries for both ADVISER_* with conditional advops/ paths) |
+| Sync + mirror scripts updated | 2 | `sync_compliance_mirrors_from_csv.py`, `probe_compliance_mirror_drift.py` |
+| Consumer scripts updated | 3 | `export_adviser_handoff.py` (alias + docstring), `render_pmo_hub.py` (alias), `compose_adviser_message.py` (alias) |
+| Test files updated | 2 | `tests/test_sync_compliance_mirrors_from_csv.py`, `tests/test_render_dossier.py` |
+| Pydantic SSOT docstrings | 2 | `akos/hlk_adviser_disciplines_csv.py`, `akos/hlk_adviser_questions_csv.py` |
+| Canonical doctrine files | 4 | `PRECEDENCE.md`, `CANONICAL_REGISTRY.csv`, `canonicals/README.md`, `migration-manifest-2026-05-12.yml` |
+| Cross-cutting reference docs | 1 | `docs/ARCHITECTURE.md` |
+| Active body-doc cross-references | 3 | `_assets/advops/2026-holistika-incorporation/README.md`, `Legal/FOUNDER_FILED_INSTRUMENT_REGISTER.md`, `Legal/canonicals/FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md` |
+| Cursor rule globs | 1 | `.cursor/rules/akos-adviser-engagement.mdc` (add advops/ paths; keep legacy for deprecation parity) |
+| Decision-register row | 1 | `D-IH-81-R` closure-class minted in `DECISION_REGISTER.csv` |
+| Decision-log entry | 1 | I81 decision-log narrative + tranche-status flip T2 pending→closed |
+| Governance docs | 3 | CHANGELOG entry + this scratchpad entry + I81 files-modified.csv +32 rows |
+
+**Mechanical evidence (T2)**:
+
+- `validate_adviser_disciplines.py`: PASS (19 rows; advops/ path resolved via deprecation alias)
+- `validate_adviser_questions.py`: PASS (9 rows + FK to disciplines PASS via alias)
+- `validate_founder_filed_instruments.py`: PASS (FK to advops/ ADVISER_ENGAGEMENT_DISCIPLINES PASS post-fix)
+- `validate_compliance_schema_drift.py`: PASS (both ADVISER_* registers schema-aligned)
+- `validate_hlk.py`: OVERALL PASS (umbrella)
+- `validate_hlk_vault_links.py`: PASS (no broken links from the move)
+- `validate_decision_register.py`: PASS (405 active + 2 superseded after D-IH-81-R lands)
+- `pytest tests/test_sync_compliance_mirrors_from_csv.py tests/test_render_dossier.py tests/test_validate_review_stamps.py tests/test_validate_hlk_dispatcher.py tests/test_validate_adviser_disciplines.py tests/test_validate_adviser_questions.py`: ALL PASS
+- Full `pytest`: 3059 PASS + 17 skipped + 17 warnings (same baseline as pre-T2)
+- Pre-existing `browser_smoke` profile ERR_CONNECTION_REFUSED is unrelated environmental noise (FastAPI dashboard + Docker not running); acceptable for governance/data-only commit per `akos-planning-traceability.mdc`
+
+**Forward state**:
+
+- I81 P2 tranche-status table reads 4-of-5 closed (T5 + T4 + T1 + T2 ✅). Only T3 remains.
+- T3 (FOUNDER_FILED move-plus-rename) is the next atomic commit — separate inline-ratify gate posed before T3 execution because of the higher blast radius (Pydantic chassis rename + Supabase mirror table rename consideration + ~25 consumer surfaces including SOPs + `validate_founder_filed_instruments.py` + `FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md` + `FOUNDER_FILED_INSTRUMENT_REGISTER.md`).
+- T3 completion closes I81 P2 to 5-of-5 + clears the path for I81 P3 entry.
+
+**Why letter R for the decision label**: T5 = D-IH-81-L, T4 = D-IH-81-M, T1 = D-IH-81-Q (with gap N/O/P as audit signal for the synthesis interlude per q5-a), T2 = D-IH-81-R. Q→R is contiguous; no further gap needed since T2 is mechanical-only with no doctrine-amendment payload.
+
+[processed 2026-05-23 wave-R-lane-D-T2-execution | D-IH-81-R closure-class minted under D-IH-81-G umbrella; `git mv ADVISER_*.csv → advops/` lands; 27 consumer surfaces + 32 files-modified rows in lock-step; deprecation alias supported for one initiative cycle; all validators PASS; pytest 3059/3059 PASS]
+
 [unprocessed — for next coordinator drain]
 
 <!-- end of entries -->

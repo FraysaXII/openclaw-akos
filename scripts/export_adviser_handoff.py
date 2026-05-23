@@ -3,9 +3,9 @@
 
 Initiative 21 / P7 deliverable. Reads the canonical compliance CSVs (SSOTs):
 
-- docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv
+- docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv
 - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/GOI_POI_REGISTER.csv
-- docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv
+- docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_OPEN_QUESTIONS.csv
 - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv
 
 …and writes a stable-ordered Markdown handoff (Cover -> Sharing legend -> Fact
@@ -44,12 +44,17 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
-DISCIPLINES_CSV = HLK_COMPLIANCE / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+# I81 P2 T2 (D-IH-81-R under D-IH-81-G umbrella, 2026-05-23): moved to advops/.
+_DISCIPLINES_NEW = HLK_COMPLIANCE / "advops" / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+_DISCIPLINES_LEGACY = HLK_COMPLIANCE / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+DISCIPLINES_CSV = _DISCIPLINES_NEW if _DISCIPLINES_NEW.is_file() else _DISCIPLINES_LEGACY
 _GOIPOI_NEW = HLK_COMPLIANCE / "dimensions" / "GOI_POI_REGISTER.csv"
 _GOIPOI_LEGACY = HLK_COMPLIANCE / "GOI_POI_REGISTER.csv"
 # I32 P7 (D-IH-32-D): GOI/POI relocated to dimensions/. Deprecation alias for one cycle.
 GOIPOI_CSV = _GOIPOI_NEW if _GOIPOI_NEW.is_file() else _GOIPOI_LEGACY
-QUESTIONS_CSV = HLK_COMPLIANCE / "ADVISER_OPEN_QUESTIONS.csv"
+_QUESTIONS_NEW = HLK_COMPLIANCE / "advops" / "ADVISER_OPEN_QUESTIONS.csv"
+_QUESTIONS_LEGACY = HLK_COMPLIANCE / "ADVISER_OPEN_QUESTIONS.csv"
+QUESTIONS_CSV = _QUESTIONS_NEW if _QUESTIONS_NEW.is_file() else _QUESTIONS_LEGACY
 INSTRUMENTS_CSV = HLK_COMPLIANCE / "FOUNDER_FILED_INSTRUMENTS.csv"
 
 
@@ -180,7 +185,7 @@ def _section_open_questions(
 ) -> str:
     out = ["## Open questions and actions\n"]
     out.append(
-        "Grouped by discipline. SSOT: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv` "
+        "Grouped by discipline. SSOT: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_OPEN_QUESTIONS.csv` "
         "(see also derived view `FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md`).\n\n"
     )
     for d in disciplines:

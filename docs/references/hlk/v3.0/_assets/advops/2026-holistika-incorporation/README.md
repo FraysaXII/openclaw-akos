@@ -85,8 +85,8 @@ This folder is **cross-wired** with the following neighbours so that operators +
 
 ### Machine-readable canonical registers (CSV)
 
-- [`ADVISER_ENGAGEMENT_DISCIPLINES.csv`](../../../Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv) — adviser disciplines registry.
-- [`ADVISER_OPEN_QUESTIONS.csv`](../../../Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv) — adviser-facing open questions (`Q-LEG-NNN`, `Q-FIS-NNN`, etc.).
+- [`ADVISER_ENGAGEMENT_DISCIPLINES.csv`](../../../Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv) — adviser disciplines registry.
+- [`ADVISER_OPEN_QUESTIONS.csv`](../../../Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_OPEN_QUESTIONS.csv) — adviser-facing open questions (`Q-LEG-NNN`, `Q-FIS-NNN`, etc.).
 - [`FOUNDER_FILED_INSTRUMENTS.csv`](../../../Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv) — legal / fiscal / IP / banking / certification / notary instruments register.
 - [`GOI_POI_REGISTER.csv`](../../../Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv) — counterparty rows; filter `program_id = PRJ-HOL-FOUNDING-2026`.
 - [`PROGRAM_REGISTRY.csv`](../../../Admin/O5-1/People/Compliance/canonicals/dimensions/PROGRAM_REGISTRY.csv) — programs registry (the `PRJ-HOL-FOUNDING-2026` row).

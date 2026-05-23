@@ -7,6 +7,9 @@ description: >-
   handoff package, or transcripts under delete-legal-transcripts/.
 globs:
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/GOI_POI_REGISTER.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_OPEN_QUESTIONS.csv"
+  # Legacy paths kept active for one initiative cycle per D-IH-81-R deprecation alias policy (removal at I81 P9 closure):
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv"
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv"

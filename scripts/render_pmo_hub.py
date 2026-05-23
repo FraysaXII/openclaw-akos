@@ -53,8 +53,14 @@ _GOIPOI_NEW = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5
 _GOIPOI_LEGACY = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "GOI_POI_REGISTER.csv"
 # I32 P7 (D-IH-32-D): relocated to dimensions/; deprecation alias for one cycle.
 GOIPOI_CSV = _GOIPOI_NEW if _GOIPOI_NEW.is_file() else _GOIPOI_LEGACY
-DISCIPLINES_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
-QUESTIONS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "ADVISER_OPEN_QUESTIONS.csv"
+# I81 P2 T2 (D-IH-81-R under D-IH-81-G umbrella, 2026-05-23): moved to advops/.
+_HLK = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
+_DISCIPLINES_NEW = _HLK / "advops" / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+_DISCIPLINES_LEGACY = _HLK / "ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+DISCIPLINES_CSV = _DISCIPLINES_NEW if _DISCIPLINES_NEW.is_file() else _DISCIPLINES_LEGACY
+_QUESTIONS_NEW = _HLK / "advops" / "ADVISER_OPEN_QUESTIONS.csv"
+_QUESTIONS_LEGACY = _HLK / "ADVISER_OPEN_QUESTIONS.csv"
+QUESTIONS_CSV = _QUESTIONS_NEW if _QUESTIONS_NEW.is_file() else _QUESTIONS_LEGACY
 PROGRAM_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PROGRAM_REGISTRY.csv"
 
 SECTION_ID = "pmo_stakeholder_index_v1"

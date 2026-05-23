@@ -20,7 +20,7 @@ language: en
 
 > **SSOT note** — This document is a **derived view**. The single source of truth for filed instruments is the canonical CSV `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FOUNDER_FILED_INSTRUMENTS.csv`, validated by `py scripts/validate_founder_filed_instruments.py` (also via `validate_hlk.py`). Operators **edit the CSV first**, then update this view (or regenerate it via `scripts/export_adviser_handoff.py` once available). Do **not** treat this MD as authoritative.
 
-**Handoff entrypoint**: [EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md](EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md). Plane SOP: [SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md](../../Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md). Discipline lookup: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv`. GOI/POI references: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/GOI_POI_REGISTER.csv`.
+**Handoff entrypoint**: [EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md](EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md). Plane SOP: [SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md](../../Operations/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md). Discipline lookup: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv`. GOI/POI references: `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/GOI_POI_REGISTER.csv`.
 
 ---
 
