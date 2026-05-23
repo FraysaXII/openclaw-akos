@@ -11,6 +11,9 @@ closure_decision_source: operator_explicit
 ratifying_decisions:
   - D-IH-81-N
   - D-IH-81-O
+  - D-IH-81-P
+  - D-IH-81-Q
+  - D-IH-81-O
   - D-IH-81-P  # 2026-05-23 amendment: internal-first FINOPS posture supersedes D-IH-81-N D-portion
 linked_runbooks:
   - scripts/validate_finops_counterparty_register.py
@@ -280,17 +283,25 @@ FINOPS at Holistika today is **internal-first** by deliberate operator design �
 
 Industry CFOaaS-at-incorporation consensus (Fractional CFO School 2026 + Level CFO 2026 + SaaS Fractional CFO UK 2026) IS the dominant framing in pre-seed/seed SaaS; this synthesis deliberately departs from it because Holistika's project thesis is internal-first-with-research-grounded-confidence-rising, AT-Pymes already covers the compliance floor, and Madeira can carry the judgment layer with operator ratification. The cost arithmetic supports this: AT-Pymes EUR 250 bundle vs CFOaaS EUR 2-3.5K/month Essentials tier means the internal-first posture saves EUR 24-42K/year that goes into runway extension + capability deepening instead.
 
-### 6.2 Industry CFOaaS model (external grounding)
+### 6.2 Industry CFOaaS model (reserved-option reference — amended 2026-05-23 per D-IH-81-P)
 
-Per Fractional CFO School (2026), CFOaaS pricing is tiered:
+> **Reading this section in context.** The original §6.2 presented the CFOaaS tier table below as default architecture at incorporation. That framing was the agent-recommends-outsource-path failure mode this synthesis's D-IH-81-P amendment corrects. The table is kept here as **reference-only material for when the Layer (c) external-recruitment activation triggers fire** (see §6.1 + §6.4 + OPS-81-17). It does NOT describe Holistika's default architecture at incorporation — that is the **internal-first three-layer model in §6.1** (AT-Pymes gestoría for compliance bookkeeping + operator+Madeira for judgment/policy/reporting + reserved CFOaaS option). Read §6.1 first; this section second.
 
-| Tier | Monthly cost | Scope |
-|:---|:---|:---|
-| Essentials | $2,000-$3,500 | Bookkeeping oversight + monthly close + basic reporting |
-| Growth | $3,500-$6,000 | + financial modeling + fundraising prep + board reporting |
-| Strategic | $6,000-$10,000 | + investor relations + M&A prep + complex tax structuring |
+**The actually-active gestoría engagement (Layer a).** AT-Pymes (`https://atpymes.es`) is contracted on the EUR 250 pre-paid bundle covering months 0–12 per incorporation route decision D-IH-89-L. Scope: monthly tax filings + autonomo societario quota management + basic accounting hygiene + Modelo 036/037 + IRPF + IVA submissions. AT-Pymes does NOT author policy, build models, or substitute for the judgment layer; it executes the recurring compliance floor the operator delegates. Renewal-or-replacement decision lands at month 12 per the AT-Pymes contract terms.
 
-Compared to a full-time CFO at $200K-$400K+/year. SaaS-specific CFOaaS providers focus on: MRR/ARR waterfall, NRR/GRR, CAC/LTV/payback, Rule of 40 / Magic Number / burn multiple, ASC 606 rev-rec, fundraising modeling, board reporting (per Level CFO + SaaS Fractional CFO UK, 2026).
+**When the reference table below becomes operationally relevant (Layer c).** Per OPS-81-17 + D-IH-81-P activation triggers, external CFOaaS engagement activates ONLY when ANY of: (a) **investment milestone** — ENISA loan disbursed OR first investor SAFE/equity closed OR EUR 50K+ external capital in 90 days; (b) **project complexity** — Modelo 720 fires OR Hacienda Foral cross-territory split OR M&A discussion entered OR multi-CFO-grade engagement (Series A prep / audit / fundraise diligence); (c) **operator-judgment override** (always available). When none of these fire, the reference table is dormant; Madeira + operator carry the judgment layer with research-grounded inline-ratify discipline.
+
+**The reference table (industry-pattern only; not Holistika's default architecture).** Per Fractional CFO School (2026), CFOaaS pricing is tiered:
+
+| Tier | Monthly cost | Scope | Holistika activation trigger |
+|:---|:---|:---|:---|
+| Essentials | $2,000–$3,500 | Bookkeeping oversight + monthly close + basic reporting | NOT activated at incorporation (AT-Pymes covers); activates if AT-Pymes scope insufficient + complexity signal fires |
+| Growth | $3,500–$6,000 | + financial modeling + fundraising prep + board reporting | Activates if investment-milestone trigger fires (ENISA disbursement OR first investor close OR EUR 50K+ external capital) |
+| Strategic | $6,000–$10,000 | + investor relations + M&A prep + complex tax structuring | Activates if multi-CFO-grade engagement trigger fires (Series A prep / audit / M&A discussion entered) |
+
+Compared to a full-time CFO at $200K–$400K+/year. SaaS-specific CFOaaS providers focus on: MRR/ARR waterfall, NRR/GRR, CAC/LTV/payback, Rule of 40 / Magic Number / burn multiple, ASC 606 rev-rec, fundraising modeling, board reporting (per Level CFO + SaaS Fractional CFO UK, 2026). At Layer (c) activation, the CFOaaS onboarding pack assembles automatically from canonical doctrine: the FINOPS_INTERNAL_FIRST_POSTURE.md (OPS-81-18) + the five judgment-layer SOP+runbook pairs (OPS-81-20) + the AT-Pymes monthly-close cadence + the current synthesis. The handoff is operator-mediated; CFOaaS inherits the doctrine surface, not the reverse.
+
+**Cost arithmetic that backs the internal-first choice.** AT-Pymes EUR 250 bundle for 12 months vs CFOaaS Essentials EUR 2,000–3,500/month means the internal-first posture saves EUR 24,000–42,000/year that goes into runway extension + capability deepening. The choice is doctrine-driven, not cost-driven — but the cost arithmetic confirms the doctrine is also fiscally sound at this stage.
 
 ### 6.3 Ideal vs current (amended 2026-05-23 per D-IH-81-P)
 
@@ -559,6 +570,15 @@ Per the synthesis authoring contract: amendments append here so the document sta
   **Why this matters more broadly**: surfaces a class of failure-mode for future synthesis work in LegalOps / PeopleOps / RevOps / MarOps — agents reflexively default to industry-standard outsource paths when operator project thesis is internal-first. The cluster coordinator + inline-ratify-craft skill must include the sanity-check (codified at OPS-81-21) at next People-area sweep.
 
   **Reversibility**: medium (all underlying synthesis content stays; only ownership columns + activation timing re-frame; D-IH-81-N row remains active for A/B/C portions).
+
+### 2026-05-23 — §6.2 re-frame (D-IH-81-P scope completion via q1-a) + T1 execution closure (D-IH-81-Q)
+
+- **§6.2 amendment (q1-a; D-IH-81-P scope completion)**: operator surfaced via inline-ratify batch q1 (2026-05-23 PM UTC+2) that the §6.2 CFOaaS tier table was un-amended in the D-IH-81-P bundle — a future reader of §6.2 would see CFOaaS tiers presented as default architecture without §6.1 internal-first framing context. Amendment scope: re-framed §6.2 header as "reserved-option reference (amended 2026-05-23 per D-IH-81-P)"; added explicit reading-in-context preamble; added AT-Pymes Layer (a) engagement description with €250 bundle terms; added when-the-reference-table-becomes-operationally-relevant prose tied to OPS-81-17 activation triggers; added "Holistika activation trigger" column to the tier table mapping each tier to its specific firing condition; added CFOaaS-onboarding-pack-assembly note (the canonical doctrine surface CFOaaS inherits at Layer c activation); added cost-arithmetic confirmation (€24-42K/year saved that goes to runway extension). Net effect: §6.2 now reads consistently with §6.1 + §6.4 internal-first framing; no future reader can mistake the tier table for default architecture. Reversibility: low (re-frame is doctrine-load-bearing; reverts would re-introduce the failure mode D-IH-81-P closes).
+- **D-IH-81-Q (closure-class under D-IH-81-G umbrella)**: T1 layout migration executed per q2-a single-atomic-commit shape. `FINOPS_COUNTERPARTY_REGISTER.csv` moved from `compliance/canonicals/` → `compliance/canonicals/finops/` per I22 forward layout convention. 30+ consumer surfaces updated in lock-step: 5 validators + Pydantic SSOT + 2 sync/probe scripts + 3 test files + 4 canonical doctrine files (PRECEDENCE + CANONICAL_REGISTRY + README alias table + migration-manifest) + 4 cross-cutting docs (USER_GUIDE + ARCHITECTURE + vault index + DEVELOPER_CHECKLIST/GLOSSARY where applicable) + SOP cross-refs + cursor-rule references. Deprecation alias supported in validators for one initiative cycle (to be removed at I81 P9 closure). All validators PASS at commit time. Closure under T5/T4/Q precedent letter convention; gap (N/O/P used for synthesis-related decisions between T5 and T1 closure) is the intentional audit signal that synthesis interlude happened between tranches.
+
+  **Bundle B forward-pointer (q4-d novel framing)**: counterparty register inventory pass authorized as Madeira AI-assisted internal-judgment-layer rehearsal that closes OPS-81-2/3 from worked example AND becomes the rehearsal evidence for OPS-81-20 (internal-judgment-layer SOP+runbook mint). Bundle B executes in next push window with operator inline-ratify per classification.
+
+  **Bundle C forward-pointer (q3-b)**: cross-area Ops-wiring discipline (D-IH-81-O candidate) promoted to charter NOW with operator-engaged P0 inline-ratify gates. Charter folder mint executes in third push window per akos-planning-traceability.mdc §"Plan-quality bar" + akos-inline-ratification.mdc inline-ratify discipline.
 
 ### Forward-pointer: what the next operator engagement decides
 

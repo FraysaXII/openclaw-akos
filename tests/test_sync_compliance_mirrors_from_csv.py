@@ -40,7 +40,7 @@ def _csv_row_count(rel_path: str) -> int:
 _COUNTED_CSVS: dict[str, str] = {
     "process_list_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv",
     "baseline_organisation_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv",
-    "finops_counterparty_register_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FINOPS_COUNTERPARTY_REGISTER.csv",
+    "finops_counterparty_register_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/finops/FINOPS_COUNTERPARTY_REGISTER.csv",
     "goipoi_register_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv",
     "adviser_engagement_disciplines_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv",
     "adviser_open_questions_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_OPEN_QUESTIONS.csv",

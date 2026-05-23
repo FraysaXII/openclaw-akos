@@ -44,7 +44,7 @@ docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/
 │   └── FILED_INSTRUMENTS.csv                     (forward rename target — currently FOUNDER_FILED_INSTRUMENTS.csv at root)
 │
 ├── finops/                                       (Finance / counterparty plane)
-│   └── FINOPS_COUNTERPARTY_REGISTER.csv          (forward target — currently at root)
+│   └── FINOPS_COUNTERPARTY_REGISTER.csv          (MIGRATED 2026-05-23 per I81 P2 T1 / D-IH-81-Q under D-IH-81-G umbrella)
 │
 ├── techops/                                      (CTO / component & service plane)
 │   └── COMPONENT_SERVICE_MATRIX.csv              (relocated 2026-05-22 per D-IH-81-G-T5)
@@ -74,7 +74,7 @@ docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/
 | `compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv` | `compliance/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv` | Single-plane register; physical move deferred to FINOPS / ADVOPS expansion initiative |
 | `compliance/ADVISER_OPEN_QUESTIONS.csv` | `compliance/advops/ADVISER_OPEN_QUESTIONS.csv` | Same as above |
 | `compliance/FOUNDER_FILED_INSTRUMENTS.csv` | `compliance/advops/FILED_INSTRUMENTS.csv` | Rename + move; file name still encodes "founder" — should be program-keyed via `program_id` column instead |
-| `compliance/FINOPS_COUNTERPARTY_REGISTER.csv` | `compliance/finops/FINOPS_COUNTERPARTY_REGISTER.csv` | Stable; move only when FINOPS adds a second register |
+| ~~`compliance/FINOPS_COUNTERPARTY_REGISTER.csv`~~ **MIGRATED I81 P2 T1** | `compliance/finops/FINOPS_COUNTERPARTY_REGISTER.csv` | **Relocated 2026-05-23 per D-IH-81-Q under D-IH-81-G umbrella** (FINOPS synthesis gated the move; T1 advance ratified after operator inline-ratify of q1-a + q2-a + q5-a). Legacy path supported via deprecation alias in `validate_finops_counterparty_register.py`, `sync_compliance_mirrors_from_csv.py`, `validate_review_stamps.py` for **one initiative cycle**; alias to be removed at I81 P9 closure. |
 | `compliance/COMPONENT_SERVICE_MATRIX.csv` | `compliance/techops/COMPONENT_SERVICE_MATRIX.csv` | **Migrated 2026-05-22 (D-IH-81-G-T5 / I81 P2 Tranche T5)**; deprecation alias supported in validators for one initiative cycle (to be removed at I81 P9 closure) |
 
 **Aliasing during migration.** When a register is physically moved, the moving initiative must:

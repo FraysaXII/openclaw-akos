@@ -424,8 +424,9 @@ def main() -> int:
     dispatch: list[tuple[str, str, str, Path | None]] = [
         ("COMPONENT_SERVICE_MATRIX", "validate_component_service_matrix.py",
          "validate_component_service_matrix", HLK_DIR / "techops" / "COMPONENT_SERVICE_MATRIX.csv"),
+        # I81 P2 T1 (D-IH-81-Q under D-IH-81-G umbrella, 2026-05-23): moved to finops/.
         ("FINOPS_COUNTERPARTY_REGISTER", "validate_finops_counterparty_register.py",
-         "validate_finops_counterparty_register", HLK_DIR / "FINOPS_COUNTERPARTY_REGISTER.csv"),
+         "validate_finops_counterparty_register", HLK_DIR / "finops" / "FINOPS_COUNTERPARTY_REGISTER.csv"),
         # I32 P7 (D-IH-32-D): GOI/POI relocated from compliance/ to compliance/dimensions/.
         # The csv_gate honours the new canonical path. The validator script itself
         # keeps a deprecation-alias fallback (one cycle) for the legacy path.

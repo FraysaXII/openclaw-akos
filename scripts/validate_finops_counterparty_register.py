@@ -17,11 +17,18 @@ from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDN
 from akos.io import REPO_ROOT
 
 HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
-FINOPS_CSV = HLK_COMPLIANCE / "FINOPS_COUNTERPARTY_REGISTER.csv"
+# I81 P2 T1 (D-IH-81-Q closure-class under D-IH-81-G umbrella, 2026-05-23):
+# FINOPS_COUNTERPARTY_REGISTER.csv moved from compliance/canonicals/ to
+# compliance/canonicals/finops/ per Initiative 22 forward layout convention.
+# Deprecation alias supported for one initiative cycle (removal at I81 P9 closure).
+FINOPS_CSV = HLK_COMPLIANCE / "finops" / "FINOPS_COUNTERPARTY_REGISTER.csv"
+_FINOPS_CSV_LEGACY = HLK_COMPLIANCE / "FINOPS_COUNTERPARTY_REGISTER.csv"
+if not FINOPS_CSV.is_file() and _FINOPS_CSV_LEGACY.is_file():
+    FINOPS_CSV = _FINOPS_CSV_LEGACY
 ORG_CSV = HLK_COMPLIANCE / "baseline_organisation.csv"
 PROC_CSV = HLK_COMPLIANCE / "process_list.csv"
-# I81 P2 T5 (D-IH-81-G-T5, 2026-05-22): COMPONENT_SERVICE_MATRIX moved to
-# techops/; deprecation alias supported for one initiative cycle.
+# I81 P2 T5 (D-IH-81-L under D-IH-81-G umbrella, 2026-05-22): COMPONENT_SERVICE_MATRIX
+# moved to techops/; deprecation alias supported for one initiative cycle.
 MATRIX_CSV = HLK_COMPLIANCE / "techops" / "COMPONENT_SERVICE_MATRIX.csv"
 _MATRIX_CSV_LEGACY = HLK_COMPLIANCE / "COMPONENT_SERVICE_MATRIX.csv"
 if not MATRIX_CSV.is_file() and _MATRIX_CSV_LEGACY.is_file():

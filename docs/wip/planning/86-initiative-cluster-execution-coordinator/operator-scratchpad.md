@@ -719,4 +719,64 @@ T5 picked first to validate the migration pattern + alias-fallback contract at m
 
 **[unprocessed — for next coordinator drain]**
 
+### 2026-05-23 18:30 — Wave R Lane D Tranche T1 EXECUTION + synthesis §6.2 amendment closure (Bundle A of three-bundle commit strategy)
+
+[processed 2026-05-23 wave-R-lane-D-T1-execution | D-IH-81-Q minted closure-class under D-IH-81-G umbrella; `git mv FINOPS_COUNTERPARTY_REGISTER.csv → finops/` lands; 5 validators + Pydantic SSOT + 3 test files + 4 canonical doctrine files + 4 cross-cutting docs + SOP body all updated in lock-step; deprecation alias supported for one initiative cycle in 3 validators; synthesis §6.2 re-frame per q1-a logged in §10.1; all validators PASS; pytest 25/25 PASS]
+
+**Type**: tranche-execution + synthesis-amendment closure + forward-charter for Bundle B/C.
+
+**Operator ratification batch (q1..q5, 2026-05-23 ~17:30 UTC+2)** + **fallback batch (r1..r5, 2026-05-23 ~18:15 UTC+2 — operator skipped; agent_inline_default per akos-inline-ratification.mdc Time-box recovery on reversible scope-shaping decisions)**:
+
+| Q | Ratification | Effect |
+|:--|:--|:--|
+| q1-a (operator-explicit) | Amend synthesis §6.2 NOW in same Bundle A for internal-first consistency | §6.2 re-frame (CFOaaS tier table as reserved-option reference + AT-Pymes Layer (a) + preamble + activation triggers + cost-arithmetic confirmation EUR 24-42K/year saved); §10.1 amendment log entry |
+| q2-a (operator-explicit) | Single atomic commit for T1, mirror T5 precedent | All Bundle A surfaces in one commit |
+| q3-b (operator-explicit) | Promote cross-area Ops-wiring discipline to charter NOW (agent drafts P0 stub; operator inline-ratifies P0/P1/P2 entries) | Bundle C scope (forward-chartered) |
+| q4-d (operator-explicit, novel framing) | Counterparty backfill as Madeira-AI-assisted internal-judgment-layer rehearsal; becomes OPS-81-20 evidence | Bundle B scope (forward-chartered) |
+| q5-a (operator-explicit) | D-IH-81-Q closure-class under D-IH-81-G umbrella; preserves letter gap N/O/P as audit signal | Closure decision label |
+| r1-a (agent_inline_default) | Ship Bundle A NOW after governance wrap | Executed in this commit |
+| r2-c (agent_inline_default) | Bundle B = hybrid inventory (obvious-batch + ambiguous-per-row); rehearsal evidence captured from ambiguous rows only | Bundle B shape locked-in pending operator over-ride |
+| r3-b (agent_inline_default) | Bundle C = mint as candidate (keep existing `i-nn-cross-area-ops-wiring-review.md`); defer initiative-folder promotion until methodology exercised on second area | Avoids charter-then-defer anti-pattern; pending operator over-ride |
+| r4-c (agent_inline_default) | Bundle C grounding = 30-min research-sweep added to candidate body + external_references frontmatter (RULE 2 minimal compliance) | Pending operator over-ride |
+| r5-d (agent_inline_default) | T2/T3 + Lane B remain deferred; visibility flagged in this scratchpad entry; revisit at next planning gate | Maintains focus on Bundles A/B/C |
+
+**Files modified (Bundle A; 22 rows in I81 files-modified.csv)**:
+
+1. `FINOPS_COUNTERPARTY_REGISTER.csv`: `git mv` from `compliance/canonicals/` to `compliance/canonicals/finops/` (history preserved).
+2. **Validators + sync scripts updated path + deprecation alias** (5 files): `scripts/validate_finops_counterparty_register.py`, `scripts/sync_compliance_mirrors_from_csv.py`, `scripts/validate_compliance_schema_drift.py`, `scripts/validate_review_stamps.py`, `scripts/probe_compliance_mirror_drift.py`. Alias supports legacy path for one initiative cycle; removal at I81 P9 closure.
+3. **Dispatcher** (1 file): `scripts/validate_hlk.py` dispatch entry for `FINOPS_COUNTERPARTY_REGISTER` re-pointed to `finops/`.
+4. **Pydantic SSOT** (1 file): `akos/hlk_finops_counterparty_csv.py` docstring + comments updated; tuple SSOT unchanged.
+5. **Test** (1 file): `tests/test_sync_compliance_mirrors_from_csv.py` `_COUNTED_CSVS` path updated.
+6. **Canonical doctrine** (4 files): `PRECEDENCE.md` row 31 + mirror lineage note 127; `CANONICAL_REGISTRY.csv` row finops_counterparty_register location + inception_at + notes; `canonicals/README.md` forward-layout tree + transition table row; `migration-manifest-2026-05-12.yml` appended `i81_p2_t1` wave entry + cross-reference note on wave-1 entry.
+7. **Cross-cutting docs** (4 files): `docs/ARCHITECTURE.md` HLK Registry section + relocation note; `docs/USER_GUIDE.md` HLK Operator Model registry row; `docs/references/hlk/v3.0/index.md` registry table link; `SOP-HLK_FINOPS_COUNTERPARTY_REGISTER_MAINTENANCE_001.md` two body references + transition note. `DEVELOPER_CHECKLIST.md` / `GLOSSARY.md` / `SOP-FINOPS_BRIDGE_001.md` / `.cursor/rules/akos-adviser-engagement.mdc` / `.cursor/rules/akos-holistika-operations.mdc` reviewed but unchanged (bare-filename references).
+8. **Synthesis §6.2 amendment** (1 file; per q1-a): re-frame CFOaaS tier table as reserved-option reference + AT-Pymes Layer (a) engagement description + activation triggers + reading-in-context preamble + cost-arithmetic confirmation; §10.1 amendment log entry + ratifying_decisions frontmatter appends D-IH-81-Q.
+9. **Decision register** (1 row): `D-IH-81-Q` minted in `DECISION_REGISTER.csv` (closure-class under D-IH-81-G umbrella).
+10. **Decision log narrative** (1 file): I81 decision-log gets D-IH-81-Q narrative + T1 tranche-status table flipped to closed.
+11. **Scratchpad drain** (this entry).
+12. **CHANGELOG** entry for Bundle A.
+13. **`files-modified.csv`** + 22 P2-T1 rows.
+
+**Mechanical evidence**:
+
+- `validate_finops_counterparty_register.py`: PASS (1 row at new `finops/` path; deprecation alias inactive because new path resolves).
+- `validate_hlk.py` umbrella: OVERALL PASS (all sub-validators including `validate_finops_counterparty_register`, `validate_decision_register`, `validate_ops_register`, `validate_compliance_schema_drift`).
+- `validate_decision_register.py`: PASS (405 active + 2 superseded; +1 from D-IH-81-P snapshot of 404).
+- `validate_ops_register.py`: PASS (118 rows; 66 open + 52 closed; no row delta from Bundle A scope).
+- `pytest tests/test_sync_compliance_mirrors_from_csv.py tests/test_validate_review_stamps.py tests/test_validate_hlk_dispatcher.py`: 25/25 PASS.
+- Pre-existing `validate_review_stamps.py` data-quality findings (invalid `last_review_decision_id` for D-IH-82-S and OPS-86-14) are unrelated to T1 scope; filed for separate cleanup.
+
+**Decisions**: D-IH-81-Q (closure-class; reversibility=low).
+
+**OPS**: no row delta. OPS-81-2 (counterparty backfill) progresses in Bundle B (next push window per r2-c default).
+
+**Bundle B forward-pointer (per q4-d novel framing + r2-c hybrid default)**: Madeira drafts proposed counterparty rows for the OBVIOUS SaaS subscriptions (OpenAI, Anthropic, Stripe, Cloudflare, Vercel, Render, Supabase, GitHub, Cal.com, Resend, Sentry, Langfuse, etc.) in one batch + flags AMBIGUOUS counterparties (PCI scope questions, partner-vs-vendor ambiguity, multi-role) for per-row inline-ratify. Operator approves obvious batch in single AskQuestion; ambiguous rows ratified one at a time. Retrospective in OPS-81-20 close-out captures lessons from ambiguous rows only — those are where the judgment-layer actually fires. Closes OPS-81-2 + OPS-81-3 + becomes OPS-81-20 internal-judgment-layer rehearsal evidence.
+
+**Bundle C forward-pointer (per q3-b + r3-b + r4-c agent_inline_default)**: Cross-area Ops-wiring discipline stays at CANDIDATE status (existing `_candidates/i-nn-cross-area-ops-wiring-review.md`); activation criteria amended to "exercised on FINOPS (this synthesis = exercise #1) AND on ONE additional area's Ops surface (PeopleOps OR RevOps OR TechOps)"; promotion to full initiative + charter on second exercise. Avoids charter-then-defer anti-pattern. Quick 30-min research-sweep (per r4-c) adds external grounding to candidate body + external_references frontmatter (operational maturity models like CMMI; cross-functional KPI alignment; consulting-firm practice management; OKR-cascade methodologies). RULE 2 compliance minimal-but-real.
+
+**Deferred-work visibility (per r5-d)**: T2 (ADVISER_ENGAGEMENT_DISCIPLINES + ADVISER_OPEN_QUESTIONS → advops/) + T3 (FOUNDER_FILED_INSTRUMENTS → advops/FILED_INSTRUMENTS, highest blast radius) + Wave R Lane B (OPS-86-14 long-tail 53-finding consolidation, OPERATOR-blocking) ALL remain pending. Revisit at next planning gate after Bundles A/B/C close.
+
+**Why the letter gap N/O/P → Q preserved (per q5-a)**: The intentional sequence N (synthesis ratification) / O (cross-area Ops-wiring novel framing) / P (internal-first FINOPS amendment) followed by Q (T1 execution closure) tells future readers the story of the synthesis interlude — three doctrine decisions before the mechanical migration finally landed. Auditor-readable without footnotes.
+
+[unprocessed — for next coordinator drain]
+
 <!-- end of entries -->

@@ -139,6 +139,7 @@ waves:
         source: "docs/references/hlk/compliance/FINOPS_COUNTERPARTY_REGISTER.csv"
         target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FINOPS_COUNTERPARTY_REGISTER.csv"
         validator: validate_hlk.py
+        # Note: subsequently relocated to finops/ via i81_p2_t1 tranche (D-IH-81-Q under D-IH-81-G umbrella, 2026-05-23). See tranche entry below.
       - canonical_id: adviser_engagement_disciplines
         source: "docs/references/hlk/compliance/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
         target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
@@ -385,7 +386,44 @@ i81_p2_tranches:
       - "validate_channel_touchpoint_registry.py: PASS (10 rows)"
       - "validate_external_render_trail.py --strict: PASS (76 surfaces; 6 channel-tagged; 0 unknown codes)"
       - "validate_decision_register.py: PASS (399 active + 2 superseded after D-IH-81-M)"
+  - wave: i81_p2_t1
+    decision_id: D-IH-81-Q
+    decided_at: 2026-05-23
+    label: "T1 FINOPS_COUNTERPARTY_REGISTER -> finops/ (per Initiative 22 forward layout; unblocked by FINOPS end-to-end synthesis D-IH-81-N + amended posture D-IH-81-P)"
+    operator_ratified_via: inline AskQuestion (q1-a + q2-a + q5-a batch, 2026-05-23 PM UTC+2)
+    moves:
+      - canonical_id: finops_counterparty_register
+        source: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FINOPS_COUNTERPARTY_REGISTER.csv"
+        target: "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/finops/FINOPS_COUNTERPARTY_REGISTER.csv"
+        validator: validate_finops_counterparty_register.py
+    deprecation_alias:
+      supported_in:
+        - scripts/validate_finops_counterparty_register.py
+        - scripts/sync_compliance_mirrors_from_csv.py
+        - scripts/validate_review_stamps.py
+      removal_milestone: I81 P9 closure
+    consumer_updates:
+      - scripts/validate_finops_counterparty_register.py
+      - scripts/sync_compliance_mirrors_from_csv.py
+      - scripts/validate_compliance_schema_drift.py
+      - scripts/validate_review_stamps.py
+      - scripts/probe_compliance_mirror_drift.py
+      - scripts/validate_hlk.py
+      - akos/hlk_finops_counterparty_csv.py
+      - tests/test_sync_compliance_mirrors_from_csv.py
+      - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md
+      - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CANONICAL_REGISTRY.csv
+      - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/README.md
+      - docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/p2-tranche-t1-finops-synthesis-2026-05-22.md (§6.2 re-frame + §10.1 amendment log; per q1-a)
+    postgres_mirror: "compliance.finops_counterparty_register_mirror (mirror table name unchanged; sync runbook updated to new CSV path with deprecation alias)"
+    mechanical_evidence:
+      - "validate_finops_counterparty_register.py: PASS (1 row at new finops/ path)"
+      - "validate_compliance_schema_drift.py: PASS"
+      - "validate_hlk.py: umbrella OVERALL PASS"
+      - "validate_decision_register.py: PASS (D-IH-81-Q lands; closure-class under D-IH-81-G umbrella)"
+    bundles_forward_chartered:
+      - "Bundle B (q4-d novel framing): Madeira counterparty inventory sweep + operator inline-ratify per row; becomes OPS-81-20 internal-judgment-layer rehearsal evidence"
+      - "Bundle C (q3-b): cross-area Ops-wiring discipline charter mint (i-nn-cross-area-ops-wiring-review candidate -> initiative folder); agent drafts P0 stub + operator inline-ratifies P0/P1/P2 phase entries"
 # Forward tranches still gated by D-IH-81-G:
-#   - T1 FINOPS_COUNTERPARTY_REGISTER -> finops/ (blocked on FINOPS end-to-end synthesis pass per operator framing Wave R lane batch 2026-05-22)
 #   - T2 ADVISER_ENGAGEMENT_DISCIPLINES + ADVISER_OPEN_QUESTIONS -> advops/
 #   - T3 FOUNDER_FILED_INSTRUMENTS -> advops/FILED_INSTRUMENTS (rename + move; highest blast radius)

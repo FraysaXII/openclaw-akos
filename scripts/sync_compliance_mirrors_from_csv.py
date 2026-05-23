@@ -67,7 +67,11 @@ from akos.hlk_process_csv import (  # noqa: E402
 
 PROC_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "process_list.csv"
 ORG_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "baseline_organisation.csv"
-FINOPS_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "FINOPS_COUNTERPARTY_REGISTER.csv"
+# I81 P2 T1 (D-IH-81-Q under D-IH-81-G umbrella, 2026-05-23): FINOPS_COUNTERPARTY_REGISTER
+# moved to finops/ per Initiative 22 forward layout. Deprecation alias for one cycle.
+_FINOPS_CSV_NEW = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "finops" / "FINOPS_COUNTERPARTY_REGISTER.csv"
+_FINOPS_CSV_LEGACY = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "FINOPS_COUNTERPARTY_REGISTER.csv"
+FINOPS_CSV = _FINOPS_CSV_NEW if _FINOPS_CSV_NEW.is_file() else _FINOPS_CSV_LEGACY
 _GOIPOI_CSV_NEW = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "GOI_POI_REGISTER.csv"
 _GOIPOI_CSV_LEGACY = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "GOI_POI_REGISTER.csv"
 # I32 P7 (D-IH-32-D): GOI/POI relocated to dimensions/. Deprecation alias for one cycle.

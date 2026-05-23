@@ -20,11 +20,14 @@ continuous_rationale: Auto-rendered review-stamp inbox (I71 P4) — re-renders f
 
 <!-- BEGIN REVIEW-STAMP-AUTO -->
 
-_Last rendered: 2026-05-22 UTC (validate_review_stamps.py)._ 
+_Last rendered: 2026-05-23 UTC (validate_review_stamps.py)._ 
 
 ## Invalid decision references (error)
 
-_No advisories at this severity._
+| Canonical | Row PK | Detail |
+|:---|:---|:---|
+| `decision_register` | `D-IH-82-S` | last_review_decision_id='AIC-CURSOR-SDK-PROGRAMMATIC (forecasted; SUBS-ANYSPHERE-CURSOR-SDK). Seed MADEIRA_AIC_PER_TASK with 3 demonstrator rows for AIC-MADEIRA-ON-CURSOR (code-authoring + doctrine-curation + uat-verification; all operator-inline dispatcher + read-and-write RBAC). Resolves Wave-Q-vs-Wave-R coordination risk from operator-scratchpad point 6. Amends OPS-86-11 scope (Wave R no longer mints AIC_REGISTRY but still mints AGENTIC_TOOLING_OBSERVATIONS + AIC_INTERACTION_PATTERNS_REGISTRY).' not present in DECISION_REGISTER.csv decision_id column |
+| `ops_register` | `OPS-86-14` | last_review_decision_id='System Owner' not present in DECISION_REGISTER.csv decision_id column |
 
 ## Stale rows (warning; review window exceeded)
 
@@ -32,7 +35,9 @@ _No advisories at this severity._
 
 ## Missing review stamps (info; backfill recommended)
 
-_No advisories at this severity._
+| Canonical | Row PK | Detail |
+|:---|:---|:---|
+| `ops_register` | `OPS-86-14` | last_review_at empty; operator backfill recommended |
 
 <!-- END REVIEW-STAMP-AUTO -->
 

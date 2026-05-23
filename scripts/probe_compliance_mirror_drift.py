@@ -44,7 +44,8 @@ ARTIFACTS_DIR = REPO_ROOT / "artifacts" / "probes"
 MIRROR_CONTRACT: list[tuple[str, Path, str]] = [
     ("compliance.process_list_mirror", HLK_COMPLIANCE / "process_list.csv", "process_list_rows"),
     ("compliance.baseline_organisation_mirror", HLK_COMPLIANCE / "baseline_organisation.csv", "baseline_organisation_rows"),
-    ("compliance.finops_counterparty_register_mirror", HLK_COMPLIANCE / "FINOPS_COUNTERPARTY_REGISTER.csv", "finops_counterparty_register_rows"),
+    # I81 P2 T1 (D-IH-81-Q under D-IH-81-G umbrella, 2026-05-23): moved to finops/.
+    ("compliance.finops_counterparty_register_mirror", HLK_COMPLIANCE / "finops" / "FINOPS_COUNTERPARTY_REGISTER.csv", "finops_counterparty_register_rows"),
     ("compliance.goipoi_register_mirror", HLK_COMPLIANCE / "GOI_POI_REGISTER.csv", "goipoi_register_rows"),
     ("compliance.adviser_engagement_disciplines_mirror", HLK_COMPLIANCE / "ADVISER_ENGAGEMENT_DISCIPLINES.csv", "adviser_engagement_disciplines_rows"),
     ("compliance.adviser_open_questions_mirror", HLK_COMPLIANCE / "ADVISER_OPEN_QUESTIONS.csv", "adviser_open_questions_rows"),

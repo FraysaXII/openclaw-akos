@@ -34,7 +34,7 @@ Table of Contents
 
 ## 1.0 Description
 
-This SOP governs the **canonical FINOPS counterparty register**: [`FINOPS_COUNTERPARTY_REGISTER.csv`](../../../../../compliance/FINOPS_COUNTERPARTY_REGISTER.csv). The register holds **commercial counterparty metadata** for **vendors, customers, and partners** (classification, ownership, process linkage, document pointers)—**not** monetary amounts, invoices, or ledger lines. It joins to [`process_list.csv`](../../../../../compliance/process_list.csv) (`thi_finan_*` processes), [`baseline_organisation.csv`](../../../../../compliance/baseline_organisation.csv) (`role_name`), optionally [`COMPONENT_SERVICE_MATRIX.csv`](../../../../../compliance/COMPONENT_SERVICE_MATRIX.csv) (`component_id`), and [`REPOSITORIES_REGISTRY.md`](../../../Envoy%20Tech%20Lab/Repositories/REPOSITORIES_REGISTRY.md) (`repo_slug`).
+This SOP governs the **canonical FINOPS counterparty register**: [`finops/FINOPS_COUNTERPARTY_REGISTER.csv`](../../../../../compliance/finops/FINOPS_COUNTERPARTY_REGISTER.csv) (moved from `compliance/` to `compliance/finops/` 2026-05-23 per I81 P2 T1 / D-IH-81-Q under D-IH-81-G umbrella, per Initiative 22 forward layout convention; deprecation alias supported in `validate_finops_counterparty_register.py` for one initiative cycle until I81 P9 closure). The register holds **commercial counterparty metadata** for **vendors, customers, and partners** (classification, ownership, process linkage, document pointers)—**not** monetary amounts, invoices, or ledger lines. It joins to [`process_list.csv`](../../../../../compliance/process_list.csv) (`thi_finan_*` processes), [`baseline_organisation.csv`](../../../../../compliance/baseline_organisation.csv) (`role_name`), optionally [`COMPONENT_SERVICE_MATRIX.csv`](../../../../../compliance/COMPONENT_SERVICE_MATRIX.csv) (`component_id`), and [`REPOSITORIES_REGISTRY.md`](../../../Envoy%20Tech%20Lab/Repositories/REPOSITORIES_REGISTRY.md) (`repo_slug`).
 
 ## 2.0 Purpose
 
@@ -52,7 +52,7 @@ This SOP governs the **canonical FINOPS counterparty register**: [`FINOPS_COUNTE
 
 ### 4.1 Column contract and schema authority
 
-* **SSOT file:** `FINOPS_COUNTERPARTY_REGISTER.csv` per [PRECEDENCE.md](../../../../../compliance/PRECEDENCE.md).  
+* **SSOT file:** `finops/FINOPS_COUNTERPARTY_REGISTER.csv` per [PRECEDENCE.md](../../../../../compliance/PRECEDENCE.md) (relocated 2026-05-23 per I81 P2 T1 / D-IH-81-Q).  
 * **Schema authority:** `FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES` in `akos/hlk_finops_counterparty_csv.py`. Do not add or reorder columns without updating that module, the validator, mirror DDL, and this SOP.  
 * **Encoding:** UTF-8; Unix line endings preferred in git.
 

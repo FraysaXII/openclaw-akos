@@ -151,7 +151,7 @@ The subagent stream cannot post `AskQuestion` to inline-ratify; instead each arc
 
 **Forward tranches (still gated by D-IH-81-G):**
 
-- T1: `FINOPS_COUNTERPARTY_REGISTER.csv` -> `finops/` plane (operator discretion). **Blocked on FINOPS end-to-end synthesis pass** per Wave R lane batch operator framing 2026-05-22.
+- ~~T1: `FINOPS_COUNTERPARTY_REGISTER.csv` -> `finops/` plane (operator discretion). **Blocked on FINOPS end-to-end synthesis pass** per Wave R lane batch operator framing 2026-05-22.~~ **Unblocked 2026-05-22 per D-IH-81-N (synthesis ratification). Closed 2026-05-23 per D-IH-81-Q (see below) — Bundle A of three-bundle commit strategy; q1-a synthesis §6.2 amendment + q2-a atomic-commit + q5-a closure-class label all executed.**
 - T2: `ADVISER_ENGAGEMENT_DISCIPLINES.csv` + `ADVISER_OPEN_QUESTIONS.csv` -> `advops/` plane.
 - T3: `FOUNDER_FILED_INSTRUMENTS.csv` -> `advops/FILED_INSTRUMENTS.csv` (rename + move; higher blast radius).
 - ~~T4: `CHANNEL_TOUCHPOINT_REGISTRY.csv` -> `dimensions/` confirm (already correctly placed; verification-only tranche).~~ **Closed 2026-05-22 per D-IH-81-M (see below).**
@@ -257,3 +257,50 @@ The operator surfaced the doctrine correction via scratchpad entry rather than a
 **External research grounding** (per `akos-applied-research-discipline.mdc` RULE 1): D-IH-89-L (AT-Pymes route confirmation 2026-05-18) provides the contracted-bookkeeping-floor evidence. RULE 2: internal-first thesis is the operator's own framing, not a novel industry framing — RULE 2 external citation requirement is satisfied by the prior synthesis's external-references list (Stripe 2026 + HighRock 2026 + Fractional CFO School 2026 etc.); no additional external citation required for the amendment itself.
 
 **Audit-trail entry:** `docs/wip/planning/86-initiative-cluster-execution-coordinator/operator-scratchpad.md` 2026-05-23 16:58 marked [processed 2026-05-23] when this commit lands.
+
+### D-IH-81-Q — P2 Tranche T1 closure: FINOPS_COUNTERPARTY_REGISTER → finops/ + synthesis §6.2 re-frame (2026-05-23)
+
+**Tranche umbrella:** D-IH-81-G (closure-class child; sibling of D-IH-81-L for T5 + D-IH-81-M for T4).
+
+**Operator ratification:** Inline `AskQuestion` five-question batch 2026-05-23 PM UTC+2 — `q1-a` (amend synthesis §6.2 NOW in same Bundle A for internal-first consistency) + `q2-a` (single atomic commit for T1 mirroring T5 precedent) + `q3-b` (cross-area Ops-wiring discipline → Bundle C forward-charter; promote candidate to charter — later refined to keep-as-candidate via r3-b agent_inline_default) + `q4-d` (counterparty backfill as Madeira-AI-assisted internal-judgment rehearsal → Bundle B forward-charter) + `q5-a` (closure-class decision label `D-IH-81-Q` under `D-IH-81-G` umbrella; preserve N/O/P letter gap as audit signal).
+
+**Bundle A scope (this decision's actual surface)**:
+
+1. **Synthesis §6.2 re-frame** (per q1-a): CFOaaS tier table re-headed as `"reserved-option reference (amended 2026-05-23 per D-IH-81-P)"` + reading-in-context preamble + AT-Pymes Layer (a) engagement description (EUR 250 bundle months 0-12 per D-IH-89-L) + when-the-reference-table-becomes-operationally-relevant prose tied to OPS-81-17 activation triggers + Holistika activation trigger column on the tier table + CFOaaS-onboarding-pack-assembly note + cost-arithmetic confirmation (EUR 24-42K/year saved by internal-first posture). Net effect: §6.2 now reads consistently with §6.1 + §6.4 internal-first framing; future readers cannot mistake the tier table for default architecture. Synthesis §10.1 "Operator amendments" log entry appended documenting the re-frame + T1 execution + Bundle B/C forward-pointers. Frontmatter `ratifying_decisions` appends `D-IH-81-Q`.
+
+2. **T1 layout migration** (per q2-a): `git mv docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FINOPS_COUNTERPARTY_REGISTER.csv → .../canonicals/finops/FINOPS_COUNTERPARTY_REGISTER.csv` (history preserved; aligns FINOPS canonicals under the I22 forward-layout `finops/` plane sibling to `techops/` minted at T5). 30+ consumer surfaces updated in lock-step in the same commit:
+   - **5 validators** updated path + deprecation alias: `validate_finops_counterparty_register.py`, `sync_compliance_mirrors_from_csv.py`, `validate_compliance_schema_drift.py`, `validate_review_stamps.py`, `probe_compliance_mirror_drift.py`. Deprecation alias allows legacy path to resolve for one initiative cycle; removal scheduled for I81 P9 closure.
+   - **1 dispatcher**: `validate_hlk.py` entry for `FINOPS_COUNTERPARTY_REGISTER` re-pointed to `finops/`.
+   - **1 Pydantic SSOT**: `akos/hlk_finops_counterparty_csv.py` docstring + comments updated; tuple SSOT unchanged.
+   - **1 test file**: `tests/test_sync_compliance_mirrors_from_csv.py` `_COUNTED_CSVS` path updated.
+   - **4 canonical doctrine files**: `PRECEDENCE.md` (canonical row 31 + mirror lineage 127); `CANONICAL_REGISTRY.csv` (finops_counterparty_register location + inception_at + notes); `canonicals/README.md` (forward-layout tree + transition alias table); `migration-manifest-2026-05-12.yml` (`i81_p2_t1` wave entry appended + cross-reference note on wave-1 entry).
+   - **4 cross-cutting docs**: `ARCHITECTURE.md` (HLK Registry section); `USER_GUIDE.md` (HLK Operator Model registry row); `index.md` (registry table link); `SOP-HLK_FINOPS_COUNTERPARTY_REGISTER_MAINTENANCE_001.md` (two body references + transition note).
+   - **Reviewed-no-change** (bare filename references): `DEVELOPER_CHECKLIST.md`, `GLOSSARY.md`, `SOP-FINOPS_BRIDGE_001.md`, `.cursor/rules/akos-adviser-engagement.mdc`, `.cursor/rules/akos-holistika-operations.mdc`.
+
+3. **Closure-class decision label** (per q5-a): `D-IH-81-Q` under `D-IH-81-G` umbrella following sequential precedent (T5 = D-IH-81-L, T4 = D-IH-81-M, T1 = D-IH-81-Q). Letter gap N/O/P preserved as intentional audit signal for the synthesis interlude (N = synthesis ratification 2026-05-22, O = cross-area Ops-wiring novel framing 2026-05-22, P = internal-first FINOPS posture amendment 2026-05-23) that happened between T4 closure and T1 execution.
+
+**Bundle B + Bundle C** (forward-chartered; execute in subsequent push windows with their own closure decision rows):
+
+- **Bundle B** (per q4-d novel framing + r2-c hybrid default): Madeira-AI-assisted counterparty inventory pass. Obvious recurring SaaS subscriptions inventoried in one batch (operator approves with single AskQuestion); ambiguous counterparties (PCI scope questions, partner-vs-vendor ambiguity, multi-role) inline-ratified per row. Retrospective in OPS-81-20 close-out documents lessons from ambiguous rows only — that's where the judgment-layer actually fires. Closes OPS-81-2 + OPS-81-3 + provides OPS-81-20 internal-judgment-layer rehearsal evidence.
+
+- **Bundle C** (per q3-b + r3-b + r4-c agent_inline_default): Cross-area Ops-wiring discipline stays at CANDIDATE status (existing `_candidates/i-nn-cross-area-ops-wiring-review.md`); activation criteria amended to "exercised on FINOPS (this synthesis = exercise #1) AND on ONE additional area's Ops surface (PeopleOps OR RevOps OR TechOps)"; promotion to full initiative + Quality Fabric 12th specialty charter on second exercise. This avoids the charter-then-defer anti-pattern that produced I86 cluster bloat. Quick 30-min research-sweep (per r4-c) adds external grounding to candidate body + external_references frontmatter (operational maturity models like CMMI; cross-functional KPI alignment frameworks; consulting-firm practice management; OKR-cascade methodologies) for `akos-applied-research-discipline.mdc` RULE 2 minimal compliance.
+
+**Reversibility:** Low. T1 layout migration is a git operation captured atomically; rollback is `git revert` + validator re-run. Synthesis §6.2 amendment preserves all underlying content; only the framing-text changes. Decision row stays active; can be amended if Bundle B execution surfaces gaps in the framing.
+
+**External research grounding** (per `akos-applied-research-discipline.mdc`): RULE 1 satisfied by T5 + T4 precedent (this is the third I81 P2 tranche execution; methodology proven). RULE 2 not applicable (no novel framing introduced by this closure — D-IH-81-N/O/P carried the novel framings; D-IH-81-Q is a mechanical execution + amendment closure).
+
+**Mechanical evidence:**
+
+- `py scripts/validate_finops_counterparty_register.py`: PASS (1 row at new `finops/` path).
+- `py scripts/validate_hlk.py`: umbrella OVERALL PASS.
+- `py scripts/validate_decision_register.py`: PASS (405 active + 2 superseded after D-IH-81-Q lands).
+- `py scripts/validate_ops_register.py`: PASS (118 rows; 66 open + 52 closed; no row delta from Bundle A scope).
+- `py -m pytest tests/test_sync_compliance_mirrors_from_csv.py tests/test_validate_review_stamps.py tests/test_validate_hlk_dispatcher.py`: 25/25 PASS.
+- Pre-existing data-quality findings in `validate_review_stamps.py` (invalid `last_review_decision_id` for D-IH-82-S and OPS-86-14) are unrelated to T1 scope.
+
+**Forward tranches still gated by D-IH-81-G:**
+
+- **T2** (`ADVISER_ENGAGEMENT_DISCIPLINES.csv` + `ADVISER_OPEN_QUESTIONS.csv` → `advops/`) — operator discretion at per-tranche inline-ratify gate.
+- **T3** (`FOUNDER_FILED_INSTRUMENTS.csv` → `advops/FILED_INSTRUMENTS.csv`; rename + move; highest blast radius) — operator discretion at per-tranche inline-ratify gate.
+
+Tranche-status table updated: T1 flipped `unblocked → closed`. T5 + T4 + T1 = 3 of 5 tranches closed.

@@ -54,8 +54,9 @@ _REGISTRY: tuple[tuple[str, str, str], ...] = (
         "akos.hlk_baseline_org_csv",
         "BASELINE_ORGANISATION_FIELDNAMES",
     ),
+    # I81 P2 T1 (D-IH-81-Q under D-IH-81-G umbrella, 2026-05-23): moved to finops/ per I22 forward layout.
     (
-        "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/FINOPS_COUNTERPARTY_REGISTER.csv",
+        "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/finops/FINOPS_COUNTERPARTY_REGISTER.csv",
         "akos.hlk_finops_counterparty_csv",
         "FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES",
     ),
