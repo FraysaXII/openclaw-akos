@@ -1,0 +1,50 @@
+{
+  "report_id": "regression-sweep-2026-05-23",
+  "wave_closing": "Wave-R",
+  "swept_at": "2026-05-23",
+  "swept_by": "agent:inter_wave_regression_sweep",
+  "findings": [
+    {
+      "dimension_code": "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+      "surface_path": "docs/wip/planning/66-brand-vision-ops-sweep/reports",
+      "verdict": "gap",
+      "proposed_rework_action": "add deploy_id + state=READY + HTTP 200 hero-route evidence to the UAT report",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "UAT present but no deploy/state/HTTP-200 evidence tokens found"
+    },
+    {
+      "dimension_code": "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+      "surface_path": "docs/wip/planning/68-cicd-discipline-and-observability-maturity/files-modified.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint reports/uat-*.md with deploy_id + state=READY + HTTP 200 hero route evidence for the sibling-repo touches",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "sibling-repo row(s) exist but no UAT report under reports/"
+    },
+    {
+      "dimension_code": "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+      "surface_path": "docs/wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/files-modified.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint reports/uat-*.md with deploy_id + state=READY + HTTP 200 hero route evidence for the sibling-repo touches",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "sibling-repo row(s) exist but no UAT report under reports/"
+    },
+    {
+      "dimension_code": "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+      "surface_path": "docs/wip/planning/72-marketing-area-governance-and-persona-registry-expansion/files-modified.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint reports/uat-*.md with deploy_id + state=READY + HTTP 200 hero route evidence for the sibling-repo touches",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "sibling-repo row(s) exist but no UAT report under reports/"
+    }
+  ],
+  "clean_count": 0,
+  "drift_count": 0,
+  "gap_count": 4,
+  "blocked_count": 0,
+  "skip_count": 0,
+  "total_findings": 4
+}

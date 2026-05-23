@@ -3,7 +3,7 @@ intellectual_kind: operator_scratchpad
 parent_initiative: INIT-OPENCLAW_AKOS-86
 sharing_label: internal_only
 authored: 2026-05-19
-last_review: 2026-05-21
+last_review: 2026-05-23
 linked_decisions:
   - D-IH-86-O  # Option 5 default posture
   - D-IH-86-T  # cluster burndown plan
@@ -776,6 +776,63 @@ T5 picked first to validate the migration pattern + alias-fallback contract at m
 **Deferred-work visibility (per r5-d)**: T2 (ADVISER_ENGAGEMENT_DISCIPLINES + ADVISER_OPEN_QUESTIONS → advops/) + T3 (FOUNDER_FILED_INSTRUMENTS → advops/FILED_INSTRUMENTS, highest blast radius) + Wave R Lane B (OPS-86-14 long-tail 53-finding consolidation, OPERATOR-blocking) ALL remain pending. Revisit at next planning gate after Bundles A/B/C close.
 
 **Why the letter gap N/O/P → Q preserved (per q5-a)**: The intentional sequence N (synthesis ratification) / O (cross-area Ops-wiring novel framing) / P (internal-first FINOPS amendment) followed by Q (T1 execution closure) tells future readers the story of the synthesis interlude — three doctrine decisions before the mechanical migration finally landed. Auditor-readable without footnotes.
+
+### 2026-05-23 — Wave R Lane B drain closure (s5-c PRIORITY-1; D-IH-86-CR) [processed]
+
+**Operator framing (s5-c verbatim, 2026-05-22)**: *"Selected option(s) s5-c"* — Wave R Lane B (OPS-86-14 53-finding consolidation) promoted to current sprint NOW (before Bundle D). Honoured the operator-explicit ordering: drain runs before T2/T3 migrations + before counterparty backfill + before cross-area Ops-wiring charter amendment + before Quality Fabric 12th specialty mint.
+
+**Drain shape (drain1..drain7 inline-ratify batch)**: 53 findings from `reports/regression-sweep-2026-05-22.md` dispositioned via the 5-option enum from `akos-inter-wave-regression.mdc` RULE 2. Per-dim breakdown + dispositions:
+
+| Dim | Count | Disposition (drainN-X) | Outcome |
+|:---|:---|:---|:---|
+| DIM-02 FORWARD-CHARTER-CARRYOVER | 10 | drain1-a | 8 accept-as-canon (validator string-match false positives for INDEX_INTEGRITY × 5 + INTER_WAVE_REGRESSION × 3); 1 accept-as-canon DATAOPS (covered by drain3-aplus tracker); 1 forward-charter-next-wave HOLISTIKA_QUALITY_FABRIC → minted `_candidates/i-nn-channel-doctrines.md` |
+| DIM-04 CANONICAL-CSV-PAIR-COMPLETENESS | 9 | drain2-a | OPS-86-15 covers 6-CSV mirror sprint; OPS-86-16/17/18 cover per-CSV full-stack quartet mints (ARTIFACT_CLASS + COMPONENT_PRIMITIVE + COUNTRY_WORK_CALENDAR) |
+| DIM-05 SOP-RUNBOOK-PAIRING | 8 | drain3-aplus | All 8 accept-as-canon (DataOps placeholders under doctrine status:charter); minted `_trackers/dataops-activation-tracker.md` as durable governance shape; OPS-86-19 closes when DataOps doctrine activates |
+| DIM-06 UAT-REPORT-CLASS-COMPLETENESS | 10 | drain4-a | OPS-86-20 covers 5 missing-entirely UATs (INIT-02 + INIT-15 + INIT-58 + INIT-70 + INIT-71); 5 missing-sections UATs accept-as-canon under pre-2026-05-19 UAT-bar exemption (INIT-07 + INIT-10 + INIT-17 + INIT-18 + INIT-22A) |
+| DIM-09 CROSS-AREA-BREAKTHROUGH-ANNOUNCEMENT | 8 | drain5-a | Deterministic-fix-now: re-emitted 9 area digests via `peopl_cross_area_breakthrough_announce.py --since 2026-04-01`; 8 missing patterns now propagated (paired-SOP-runbook + engagement-model-taxonomy + persona-registry + intelligenceops-register + normalized-adapter + dual-register + inline-ratify-AskQuestion + cross-area-breakthrough-propagation) |
+| DIM-10 DEPLOY-EVIDENCE-COMPLETENESS | 4 | drain6-c | I66 UAT amended with Vercel deploy_id + state=READY + HTTP 200 hero-route evidence for boilerplate (`prj_mHWUh68LVOmRE32OTJBwQveGIf1l`) + hlk-erp (`prj_ieZqgduSs2u2BZTJVqxCsZxtbQwd`); I68/I71/I72 accept-as-canon (DIM-10 heuristic false positives — bug in `inter_wave_regression_sweep.py _probe_dimension_10` lines 974-1008 scopes reports/ check per-CSV instead of per-CSV-with-sibling-rows; fix scoped into OPS-86-15) |
+| DIM-11 CURSOR-RULE-SKILL-PAIRING | 5 | drain7-dispatch-a | NOT closed in this commit; explore subagent dispatched to author `reports/drain7-cursor-rule-skill-pairing-proposal-2026-05-23.md` with internal sweep + external research + per-rule classification + v3.1 adaptation notes + per-skill outline; operator ratifies subagent proposal in successor commit BEFORE any skill mint; OPS-86-21 placeholder will be appended at subagent-proposal landing commit |
+
+**Closure shape (D-IH-86-CR)**: Single ratifying decision row closes OPS-86-14 (status open→closed; +linked_decision_ids D-IH-86-CR) + appends 6 forward-charter OPS rows (OPS-86-15..20) + 1 placeholder for OPS-86-21 (drain7 successor). 53-of-53 findings dispositioned across 8 non-clean dimensions; drain7's 5 findings remain "in-flight via subagent" not "unhandled" per akos-conflict-surfacing-and-blocker-trackers.mdc Option 5 default posture (the subagent is the durable governance shape until proposal lands + operator ratifies).
+
+**Files modified (Wave R Lane B drain; 17 rows in I86 files-modified.csv)**:
+
+1. **DECISION_REGISTER.csv** — append D-IH-86-CR row.
+2. **OPS_REGISTER.csv** — close OPS-86-14 + append OPS-86-15..20 (6 new rows).
+3. **uat-i66-brand-vision-ops-sweep-2026-05-09.md** — amend with deploy-evidence backfill section.
+4. **9 breakthrough digests** under `79-people-manifesto-and-pattern-library/reports/breakthroughs/2026-05/` — regenerated to include 8 missing patterns.
+5. **i-nn-channel-doctrines.md** — minted at `_candidates/`.
+6. **dataops-activation-tracker.md** — minted at `_trackers/` with 5 activation criteria.
+7. **artifacts/regression-sweep-2026-05-23.json** — re-run sidecar JSON for DIM-10 verification.
+8. **CHANGELOG.md** — Wave R Lane B drain closure narrative entry.
+9. **files-modified.csv** (this CSV; self-reference) — appended 17 Wave-R-LaneB-drain rows.
+
+**Mechanical evidence**:
+
+- `validate_decision_register.py`: PASS (406 active + 2 superseded; +1 from D-IH-86-CR).
+- `validate_ops_register.py`: PASS (124 rows; 71 open + 53 closed; +6 new rows + 1 status flip).
+- `validate_review_stamps.py`: PASS (pre-existing D-IH-82-S + OPS-86-14 cell-shape findings unchanged; Bundle D fixes those).
+- `peopl_cross_area_breakthrough_announce.py --since 2026-04-01`: 9 area digests regenerated cleanly; 21 patterns now visible across the May 2026 digest set.
+- `inter_wave_regression_sweep.py --wave-closing Wave-R --dimension DIM-10-DEPLOY-EVIDENCE-COMPLETENESS`: re-confirmed I68/I71/I72 false-positive pattern (heuristic does not scope per-CSV sibling-row count); confirms I66 as the only legitimate DIM-10 gap (now closed via amendment).
+- Vercel MCP `list_deployments`: queried both project IDs; READY-state deploys + commit hashes captured in I66 UAT amendment.
+
+**Decisions**: D-IH-86-CR (closure-class; reversibility=medium; ratifying_decisions = D-IH-86-CP umbrella + D-IH-86-AS UAT-bar migration posture + D-IH-86-AY 4-layer output architecture + D-IH-86-BU DataOps engrave-properly OVERRIDE).
+
+**OPS**: +6 rows (OPS-86-15..20); 1 status flip (OPS-86-14 open→closed). Net OPS-86 cluster active count moves by +5.
+
+**drain7 in-flight contract**: explore subagent task is to author the proposal file at `docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/drain7-cursor-rule-skill-pairing-proposal-2026-05-23.md` covering internal planning-folder sweep + external research (per `akos-applied-research-discipline.mdc` RULE 2) + per-rule classification (craft vs discipline lens) + 5-skill outline + v3.1 adaptation notes + operator amendment opportunity. Operator ratifies the proposal BEFORE any skill mint commit lands. OPS-86-21 will be minted at proposal-landing commit to track the 5-skill mint sprint.
+
+**Forward-pointers from Wave R Lane B drain**:
+
+- **OPS-86-15** (mixed; System Owner) — Supabase mirror migration sprint for 6 dimension CSVs + DIM-10 heuristic bug fix.
+- **OPS-86-16** (mixed; System Owner) — ARTIFACT_CLASS_REGISTRY validator + mirror quartet.
+- **OPS-86-17** (mixed; System Owner) — COMPONENT_PRIMITIVE_REGISTRY validator + mirror quartet.
+- **OPS-86-18** (mixed; PMO) — COUNTRY_WORK_CALENDAR full Pydantic+validator+mirror quartet.
+- **OPS-86-19** (operator; System Owner) — DataOps doctrine activation rollup (closes dataops-activation-tracker.md).
+- **OPS-86-20** (operator; PMO) — UAT backfill for 5 missing-entirely closed initiatives.
+- **OPS-86-21** (placeholder; minted at drain7 successor commit) — 5-skill mint sprint (applied-research + brand-baseline-reality + conflict-surfacing + deploy-health + docs-config-sync).
+
+**Continuation per todo backlog**: Bundle D (T2 + T3 + DQ-fix; PRIORITY 2) → Bundle B (counterparty backfill; PRIORITY 3) → Bundle C amendment (cross-area Ops-wiring novel-framing; PRIORITY 4) → Quality Fabric 12th specialty mint (SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE; PRIORITY 5).
 
 [unprocessed — for next coordinator drain]
 
