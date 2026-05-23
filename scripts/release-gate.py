@@ -624,6 +624,36 @@ def run_inter_wave_regression_self_test() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_finops_ledger_validation() -> tuple[bool, int]:
+    """Run FINOPS ledger Pydantic chassis + resolution + FX ladder + OPS-emit round-trip (I81 P2 Bundle B-2a / D-IH-81-V).
+
+    Exercises ``akos.hlk_finops_ledger`` (RegisteredFactRow Pydantic model + 14-col tuple
+    + 4 enum frozensets + resolve_counterparty_id 4-strategy ladder + compute_fx_snapshot)
+    + ``akos.hlk_fx_rate`` (ECB XML parser + EUR-base inversion + 4-tier fallback ladder
+    + 0.5% divergence detector) + ``akos.hlk_ops_register_emit`` (OPS_REGISTER row emission
+    with 24-col contract + RICE auto-score) against a synthetic Stripe-event fact stream
+    that FK-resolves to FINOPS_COUNTERPARTY_REGISTER.csv slugs.
+
+    Per R5 (release-gate INFO ramp) — runs at **INFO advisory** here (default mode never
+    blocks the gate) until Bundle B-2c lands + live Stripe AT round-trip succeeds per
+    D-IH-81-W closure. Promotion to **FAIL** scheduled when finops-writer-worker Edge
+    Function lands in production AND first live Stripe charge_succeeded event writes
+    successfully to finops.registered_fact with a resolved counterparty_id + computed
+    amount_minor_eur via ECB cache hit (the production proof-of-life criterion).
+
+    Returns ``(ok, exit_code)``. Default mode always returns success (INFO advisory);
+    --strict mode (not invoked here) returns failure on synthetic-fact errors.
+    """
+    logger.info("Running FINOPS ledger validation (I81 P2 Bundle B-2a INFO advisory; D-IH-81-V) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_finops_ledger.py")],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_initiative_program_anchors_validation() -> tuple[bool, int]:
     """Run INITIATIVE_REGISTRY -> PROGRAM_REGISTRY anchor validation (I86 P1 / D-IH-86-H).
 
@@ -1213,6 +1243,12 @@ def main() -> None:
     results.append((
         "PASS" if inter_wave_ok else "FAIL",
         f"Inter-wave regression self-test (scripts/inter_wave_regression_sweep.py --self-test - Pydantic SSOT + 12-probe registry shape validation; on_demand 12-dimension sweep deferred to wave-close gate per R-86-WaveM-7 CI-cost mitigation; paired runbook for INTER_WAVE_REGRESSION_DISCIPLINE.md canonical; I86 Wave M / D-IH-86-BO; ok={'yes' if inter_wave_ok else 'no'}; exit={inter_wave_rc})",
+    ))
+
+    finops_ledger_ok, finops_ledger_rc = run_finops_ledger_validation()
+    results.append((
+        "INFO",
+        f"FINOPS ledger validation (scripts/validate_finops_ledger.py - I81 P2 Bundle B-2a INFO advisory; exercises akos.hlk_finops_ledger Pydantic RegisteredFactRow + 4-strategy counterparty resolution ladder + ECB 4-tier FX fallback + 0.5% Stripe-vs-ECB divergence detector + akos.hlk_ops_register_emit RICE-scored row emit against synthetic Stripe-event fact stream that FK-resolves to FINOPS_COUNTERPARTY_REGISTER finops_* slugs; promotes to FAIL when finops-writer-worker Edge Function lands in production AND first live Stripe charge_succeeded round-trip succeeds per D-IH-81-W closure; D-IH-81-V; ok={'yes' if finops_ledger_ok else 'no'}; exit={finops_ledger_rc})",
     ))
 
     idx_freshness_ok, idx_freshness_rc = run_index_freshness_self_test()

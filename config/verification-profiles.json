@@ -89,6 +89,11 @@
           "argv": ["scripts/inter_wave_regression_sweep.py", "--self-test"]
         },
         {
+          "id": "validate_finops_ledger_self_test",
+          "description": "Initiative 81 P2 Bundle B-2a (D-IH-81-V, 2026-05-23): FINOPS ledger Pydantic chassis + 4-strategy counterparty resolution ladder + ECB 4-tier FX fallback + 0.5% Stripe-vs-ECB divergence detector + OPS_REGISTER auto-emit round-trip against synthetic Stripe-event fact stream. Exercises akos.hlk_finops_ledger (RegisteredFactRow Pydantic + 14-col tuple + 4 enum frozensets + resolve_counterparty_id + compute_fx_snapshot) + akos.hlk_fx_rate (ECB XML parser + EUR-base inversion + fallback ladder + divergence detector) + akos.hlk_ops_register_emit (24-col contract + RICE auto-score). FK-resolves synthetic counterparty_ids to FINOPS_COUNTERPARTY_REGISTER finops_* slugs. Default mode runs at INFO advisory (never blocks gate); --strict mode (not invoked in pre_commit) FAILS on synthetic errors. Promotes INFO->FAIL when Bundle B-2c lands + first live Stripe charge_succeeded round-trip succeeds in production per D-IH-81-W closure (proof-of-life criterion: resolved counterparty_id + computed amount_minor_eur via ECB cache hit). Substrate-only mint here; executable Edge Functions + worker land in Bundle B-2b; canonical CSV writes + governance close in Bundle B-2c.",
+          "argv": ["scripts/validate_finops_ledger.py"]
+        },
+        {
           "id": "validate_index_freshness_self_test",
           "description": "Initiative 86 Wave N (D-IH-86-CD, 2026-05-21): baseline index integrity discipline self-test. Validates akos/hlk_index_integrity.py Pydantic SSOT (IndexFreshnessRow + IndexFreshnessReport frozen models) + scripts/baseline_index_sweep.py PROBE_REGISTRY shape (8 probes; one per dimension code IDX-01..IDX-08; 6 baseline + 2 conditional). Does NOT run the actual 8-dimension sweep (that's event_triggered cadence per the INDEX_INTEGRITY_DISCIPLINE.md canonical §4 + process_list.csv hol_peopl_dtp_index_integrity_001 cadence column: fires at wave-close + canonical-CSV mint). Self-test mode keeps CI cost at ~2s. Paired runbook + canonical + SOP + cursor rule + skill + Pydantic chassis shipped Wave N P3.",
           "argv": ["scripts/validate_index_freshness.py", "--self-test"]

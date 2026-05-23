@@ -1076,6 +1076,42 @@ Both grounding pillars converge on the same load-bearing claim: every X-pair get
 
 [processed 2026-05-23 wave-R-bundle-B-2-arch-execution | architecture synthesis report landed at p2-bundle-b2-architecture-2026-05-23.md correcting recon §3 Charge.exchange_rate error + 4 research-grounded craft recommendations (engagement-model router + ECB FX cache + pgmq DLQ + HLK-ERP convergence) + 30-file Bundle B-2 inventory + R1..R5 ratify batch surfaced; D-IH-81-V row deferred to B-2 execution closure; no canonical files mutated]
 
+### 2026-05-23 — Wave R Bundle B-2a EXECUTION (FINOPS writer substrate; D-IH-81-V; first of R5-triple commits)
+
+**Trigger**: operator clean-ratified R1..R5 batch on 2026-05-23 (`r1-a` engagement-model router + `r2-a` ECB FX cache + `r3-a` pgmq DLQ + `r4-a` HLK-ERP OPS-row convergence + `r5-triple` three-commit split). R5-triple split is canonical: B-2a (substrate-only) + B-2b (executable Edge Functions + worker) + B-2c (canonical CSV writes + governance close + UAT). This commit lands the FIRST of the three triple-split commits: **B-2a substrate-only**.
+
+**Mechanical evidence (B-2a deliverables landed)**:
+
+- **Supabase migration** `supabase/migrations/20260524000000_i81_p2_b2_finops_writer_substrate.sql` (~91 lines): pgmq enable + 2 queues + `holistika_ops.stripe_events` + `holistika_ops.fx_rate_cache` + `finops.registered_fact` FX column extension (`amount_minor_eur` + `fx_rate_ecb` + `fx_rate_stripe` + `fx_source`) + `service_role` grants on `compliance.ops_register_mirror`. **Apply via `npx supabase db push` after merge** — DBA tranche; DDL only; rollback via `npx supabase migration repair` if B-2b/B-2c surfaces architectural regressions.
+- **Pydantic SSOT** `akos/hlk_finops_ledger.py` (~318 lines): `RegisteredFactRow` + 14-col tuple + 4 enum frozensets (`VALID_FACT_TYPES` + `VALID_FX_SOURCES` + `VALID_RESOLUTION_STRATEGIES` + `VALID_CONFIDENCE_LEVELS`) + `resolve_counterparty_id()` 4-strategy ladder + `compute_fx_snapshot()` ECB 4-tier fallback + 0.5% Stripe-vs-ECB divergence flag.
+- **Helper modules** `akos/hlk_fx_rate.py` (~165 lines) ECB XML parser + EUR-base inversion + Holistika-pair conversion + fallback ladder + divergence detector AND `akos/hlk_ops_register_emit.py` (~115 lines) 24-col OPS_REGISTER row contract + RICE auto-score for HLK-ERP convergence per R4-a.
+- **Validator** `scripts/validate_finops_ledger.py` (~139 lines) exercises 4 synthetic Stripe-event facts FK-resolving to `FINOPS_COUNTERPARTY_REGISTER.csv` `finops_*` slugs through full Pydantic + resolution + FX + OPS-emit round-trip. Default INFO + `--strict` FAIL modes.
+- **Test bundle 57/57 PASS**: `tests/test_validate_finops_ledger.py` 28 + `tests/test_hlk_fx_rate.py` 17 + `tests/test_resolve_counterparty_id.py` 12.
+- **Release-gate INFO wiring**: `config/verification-profiles.json` `validate_finops_ledger_self_test` step in `pre_commit` profile + `scripts/release-gate.py` `run_finops_ledger_validation()` advisory function. INFO ramps to FAIL at D-IH-81-W (B-2c closure + first live Stripe `charge_succeeded` round-trip success).
+- **Governance writes (this commit)**: `DECISION_REGISTER.csv` +`D-IH-81-V` row (architecture-class active medium reversibility; 410 active + 2 superseded post-append per `validate_decision_register.py` PASS); I81 `decision-log.md` +full narrative section; I81 + I86 `files-modified.csv` +13 rows each; this scratchpad entry; CHANGELOG entry; `supabase/migrations/README.md` parity table entry.
+
+**Why B-2a substrate-only is safe to land independently of B-2b/B-2c**:
+
+- No canonical CSV mutations (no `ENGAGEMENT_MODEL_REGISTRY.csv` +2 rows yet; no new `counterparty_resolution_strategy` column yet — both are B-2c scope per phased schema introduction discipline).
+- Pydantic `engagement_model_router` strategy lookup logic exists but defers actual FK lookup to B-2c canonical-CSV mint with runtime fallback (the strategy is recognized + valid; the lookup gracefully degrades when the column is absent).
+- No Edge Function code (no FX cache refresh; no FINOPS writer worker; no webhook handler FINOPS-branch extension) — B-2b scope.
+- DDL migrations are forward-only with explicit rollback paths via `npx supabase migration repair`; tests + INFO advisory wiring never block CI.
+- Per `akos-governance-remediation.mdc` one-commit-per-phase rule: B-2a is a self-contained substrate phase; B-2b adds executable code as second commit; B-2c closes data + governance as third commit.
+
+**Forward state**:
+
+- Bundle B-2a CLOSED at this commit.
+- **Bundle B-2b PENDING** (D-IH-81-W; executable: 2 NEW Edge Functions `fx-rate-cache-refresh` + `finops-writer-worker` + 1 MODIFIED `stripe-webhook-handler` FINOPS branch extension + 2 runbooks `finops_dlq_drain.py` + `stripe_audit_metadata.py`).
+- **Bundle B-2c PENDING** (final closure under D-IH-81-W; `ENGAGEMENT_MODEL_REGISTRY.csv` +2 rows + `counterparty_resolution_strategy` column + DECISION_REGISTER closure rows + `ARCHITECTURE.md`/`USER_GUIDE.md` sync + UAT report + I81 decision-log entries).
+- Bundle B Strand 2 (ambiguous-per-row inline-ratify; 3-4 batches over 2-3 sessions) still pending; cadenced after B-2c lands.
+- Quality Fabric 12th specialty mint (SYNTHESIS_BEFORE_TRANCHE; PRIORITY-5) still pending; B-2a + B-2b + B-2c become third worked precedent when specialty mints.
+- drain7 cursor-rule-skill-pairing subagent proposal still pending.
+- A2 cross-area Ops-wiring gate: FINOPS area at substrate operational coverage post-B-2a; full coverage post-B-2c; gates 1-of-2 for I-NN-CROSS-AREA-OPS-WIRING promotion.
+
+**Why letter V (not W) for B-2a**: V was already promised at the B-2-architecture commit (operator scratchpad above; CHANGELOG entry) AND deferred to "B-2 closure" per the synthesis-before-tranche pattern. B-2 closure under R5-triple is now 3 commits (B-2a + B-2b + B-2c), so V appropriately tracks the entire R1..R5 ratify gate that B-2a opens. W will be the B-2b/B-2c closure decision (the proof-of-life moment when live Stripe `charge_succeeded` round-trips through the worker into `finops.registered_fact` with `amount_minor_eur` populated via ECB cache hit).
+
+[processed 2026-05-23 wave-R-bundle-B-2a-execution | B-2a substrate landed (DDL migration + Pydantic SSOT + 2 helpers + validator + 3 test files = 57/57 PASS + release-gate INFO advisory wiring + governance writes); D-IH-81-V row appended to DECISION_REGISTER + decision-log narrative + files-modified +13 rows in both I81 + I86; B-2b/B-2c remain pending; ramp to FAIL gated at first live Stripe round-trip success per D-IH-81-W closure criterion]
+
 [unprocessed — for next coordinator drain]
 
 <!-- end of entries -->
