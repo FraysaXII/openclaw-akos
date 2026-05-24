@@ -31,10 +31,7 @@ ALTER TABLE compliance.process_list_mirror
   ADD COLUMN IF NOT EXISTS inherited_pattern_id TEXT;
 
 COMMENT ON COLUMN compliance.process_list_mirror.inherited_pattern_id IS
-  'I79 P6 D-IH-79-E: nullable FK to compliance.people_design_pattern_registry_mirror.pattern_id; ' ||
-  'when populated, declares which People design pattern parents this process. ' ||
-  'Application-level FK resolution via scripts/validate_hlk.py check_inherited_pattern_id_fk(). ' ||
-  'Sparse population intent.';
+  'I79 P6 D-IH-79-E: nullable FK to compliance.people_design_pattern_registry_mirror.pattern_id; when populated, declares which People design pattern parents this process. Application-level FK resolution via scripts/validate_hlk.py check_inherited_pattern_id_fk(). Sparse population intent.';
 
 -- Index for adoption-surface counting (the central use case: "how many processes inherit pattern X?").
 CREATE INDEX IF NOT EXISTS process_list_mirror_inherited_pattern_id_idx

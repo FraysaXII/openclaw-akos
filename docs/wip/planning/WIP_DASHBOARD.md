@@ -30,7 +30,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **74** | [`74-brand-tooling-productization/`](74-brand-tooling-productization/) | active | 2026-05-21 | I74 — Brand-tooling productization (TRIGGER-2 OS-library fork preparation) |
 | **75** | [`75-research-area-governance/`](75-research-area-governance/) | active | 2026-05-21 | I75 — Research area governance (full operationalization beyond P4.7 charter) |
 | **76** | [`76-madeira-elevation/`](76-madeira-elevation/) | active | 2026-05-18 | I76 — MADEIRA elevation (operator-interaction quality at Cursor-grade) |
-| **81** | [`81-vault-integrity-layout-milestones-retrofit/`](81-vault-integrity-layout-milestones-retrofit/) | active | 2026-05-16 | I81 — Vault integrity sweep + layout migration + named-milestone schema + SOP body/adde... |
+| **81** | [`81-vault-integrity-layout-milestones-retrofit/`](81-vault-integrity-layout-milestones-retrofit/) | active | 2026-05-23 | I81 — Vault integrity sweep + layout migration + named-milestone schema + SOP body/adde... |
 | **82** | [`82-holistika-capability-doctrine/`](82-holistika-capability-doctrine/) | active | 2026-05-16 | I82 — Holistika Capability Doctrine and Commercial Readiness |
 | **83** | [`83-ai-archivist-and-kirbe-ingestor/`](83-ai-archivist-and-kirbe-ingestor/) | active | 2026-05-21 | I83 — AI Archivist and KiRBe ingestor (knowledge-base surfacing system) |
 | **86** | [`86-initiative-cluster-execution-coordinator/`](86-initiative-cluster-execution-coordinator/) | active | 2026-05-17 | I86 — Initiative Cluster Execution Coordinator |

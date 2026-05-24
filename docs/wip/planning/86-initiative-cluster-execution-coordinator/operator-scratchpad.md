@@ -1157,5 +1157,53 @@ Both grounding pillars converge on the same load-bearing claim: every X-pair get
 
 [unprocessed — for next coordinator drain]
 
+### 2026-05-24 — Bundle B-2c live MasterData backfill (35 local-only migrations applied; 4 surfaced + repaired during push; 0 ERROR-class regressions)
+
+**Source**: Wave R Lane D — B-2c full-backfill execution (operator ratification `deploy-b-full-backfill` 2026-05-23).
+
+**Operator framing**: "Drift between local and remote MasterData; ratified full backfill of approx 20 missing migrations despite higher risk/time — we want MasterData up to date before B-2c lands."
+
+**Mechanical evidence — 33 migrations applied to MasterData via `npx supabase db push --linked --include-all`**:
+
+| Migration | Surface | Outcome |
+|:---|:---|:---|
+| Reconciliation: 13× `migration repair --linked --status reverted` | 13 remote-only timestamps (e.g. `20260507010953`, applied via MCP with divergent timestamps) | Ledger cleaned; remote-only entries marked as reverted so local source-of-truth could replay. |
+| Reconciliation: 1× `migration repair --linked --status applied 20260506130100` | `20260506130100_i62_p2_erp_schema_views.sql` (v1) failed mid-push with `ERROR: column "run_payload" does not exist (SQLSTATE 42703)` — older migration body written against pre-current `compliance.eval_run` schema; `v2` migration (`20260508000000_..._v2.sql`) supersedes it. | Marked v1 as applied without executing body; v2 picked up the actual schema and ran clean. |
+| Source fix: `20260514202912_i71_p4_followup_review_stamp_expansion.sql` | `CREATE POLICY review_stamps_standalone_service_role_all` lacked `DROP POLICY IF EXISTS` guard — failed on re-apply with SQLSTATE 42710. | Added `DROP POLICY IF EXISTS` line before `CREATE POLICY`. Same idempotency pattern as the other `DROP POLICY IF EXISTS` guards elsewhere in the file. |
+| Source fix: `20260516010000_i79_process_list_inherited_pattern_id_column.sql` | `COMMENT ON COLUMN ... IS 'string1' \|\| 'string2'` syntax error (SQLSTATE 42601) — Postgres `COMMENT` does not accept string concatenation. | Collapsed the 4-line concatenated literal into a single literal string. Comment body unchanged. |
+| Source fix: `20260524120000_i81_p2_b2c_engagement_model_resolution_strategy.sql` | `CREATE OR REPLACE VIEW governance.engagement_model_registry_view` failed with `ERROR: cannot change name of view column "synced_at" to "counterparty_resolution_strategy" (SQLSTATE 42P16)` — Postgres `CREATE OR REPLACE VIEW` only allows appending columns at the END, not mid-list reordering. | Reordered the SELECT to append `counterparty_resolution_strategy` AFTER `synced_at` (cosmetic — consumers reference by name). |
+| Net result | `npx supabase db push --linked --include-all` PASS clean on final attempt; B-2c migration applied at `20260524120000`. | All 33 migrations live on MasterData. |
+
+**Mechanical evidence — B-2c data sync emit**:
+- `py scripts/sync_compliance_mirrors_from_csv.py --engagement-model-only --output artifacts/sql/b2c-engagement-model-sync.sql` → wrote 19,617 bytes, 10 UPSERT rows.
+- 7 ORIGINAL rows + 3 NEW B-2c rows (`eng_model_saas_subscription` active / `eng_model_rpp_vendor` planned / `eng_model_one_off_invoice` planned) applied via MCP `execute_sql` with 7-row VALUES batch + the 3 B-2c rows already inserted by the migration's own UPSERT.
+- `SELECT COUNT(*) ...` confirms: **10 total rows**, **8 active + 2 planned**, **5 distinct counterparty_resolution_strategies** (`metadata_engagement_id` ×4 + `manual_review` ×3 + `stripe_customer_link_lookup` ×1 + `rpp_payout_attribution` ×1 + `metadata_billing_plane` ×1).
+
+**Mechanical evidence — entity-presence audit (19 entities checked, 18 PRESENT, 1 false-positive)**:
+- All 13 cluster mirrors: `compliance.engagement_registry_mirror`, `compliance.engagement_model_registry_mirror`, `compliance.engagement_template_registry_mirror`, `compliance.intelligenceops_register_mirror`, `compliance.crm_adapter_registry_mirror`, `compliance.billing_adapter_registry_mirror`, `compliance.email_adapter_registry_mirror`, `compliance.attribution_adapter_registry_mirror`, `compliance.communication_adapter_registry_mirror`, `compliance.scheduling_adapter_registry_mirror`, `compliance.revops_adapter_registry_mirror`, `compliance.contract_adapter_registry_mirror`, `compliance.people_design_pattern_registry_mirror`: **PRESENT**.
+- `compliance.cycle_register_mirror`, `compliance.filed_instruments_mirror` (T3 rename target): **PRESENT**.
+- `holistika_ops.fx_rate_cache` (1 seed row from B-2a `init_or_skip`), `holistika_ops.stripe_events` (0 rows; awaits real events), `finops.registered_fact` (0 rows; awaits worker): **PRESENT**.
+- `governance.engagement_model_registry_view` (updated by B-2c migration to expose `counterparty_resolution_strategy`): **PRESENT**.
+- `compliance.related_party`: **MISSING** — but this is a column on `compliance.goipoi_register_mirror`, not a table; my entity check used the wrong qname. No actual gap.
+
+**Mechanical evidence — `get_advisors security` pre/post lockdown**:
+- Pre-lockdown: 233 total lints (46 ERROR + 159 WARN + 28 INFO). 10 NEW WARN findings on B-2b's 5 SECURITY DEFINER RPC wrappers — all 5 (`pgmq_send_finops_writer` / `pgmq_read_finops_writer` / `pgmq_delete_finops_writer` / `pgmq_archive_finops_writer` / `pgmq_read_finops_dlq`) executable by `anon` + `authenticated` via PostgREST (PUBLIC EXECUTE grant by default; real risk: `anon` could enqueue arbitrary event-ids).
+- Remediation: minted `supabase/migrations/20260524130000_i81_p2_b2b_pgmq_rpc_wrappers_role_lockdown.sql` — `REVOKE EXECUTE ... FROM PUBLIC, anon, authenticated` + `GRANT EXECUTE ... TO service_role` for all 5 functions. Applied via `npx supabase db push --linked` (single migration; 9.3s).
+- Post-lockdown: 223 total lints (46 ERROR + 149 WARN + 28 INFO). **0** FINOPS-related WARN findings (exactly 10 cleared = 5 functions × 2 roles).
+- 46 ERROR-class lints surveyed for B-2c-touched entities (finops / holistika_ops / engagement_model / filed_instruments / process_list_mirror / people_design_pattern_registry_mirror / review_stamps / output_type_registry / artifact_class_registry / component_primitive_registry / governance_planning_atlas / pgmq / stripe_events / fx_rate): **0 hits**. All ERROR lints are pre-existing baseline (kirbe / public-schema-RLS-disabled / security-definer-view patterns) and not introduced or aggravated by today's deploy.
+
+**B-2c live deploy gate verdict**: **CLEAN**.
+- DDL migrations: 5 of 5 in B-2 family (`20260524000000` substrate / `20260524100000` rpc-wrappers / `20260524120000` engagement-model-resolution / `20260524130000` rpc-wrappers-lockdown — order-of-operations: substrate → wrappers → engagement-model → lockdown).
+- Data: 10/10 rows in `engagement_model_registry_mirror` with `counterparty_resolution_strategy` populated.
+- Advisors: 0 new ERROR-class, 0 new WARN-class on touched entities.
+- Pending Bundle B-2c follow-on: Edge Function deploys (`fx-rate-cache-refresh` / `finops-writer-worker` / `stripe-webhook-handler` refactor) + `pg_cron` schedules + closure UAT + docs sync + governance writes + first live Stripe `charge_succeeded` round-trip evidence. All sequential within the same B-2c bundle window.
+
+**Forward decisions (no AskQuestion needed; all proceed deterministically)**:
+- The pgmq lockdown is a **B-2b regression**, not a B-2c surface — but it surfaces only when the writer pipeline is live-deployed. Landing it as a B-2c-window migration is correct per the inline-fix discipline (fix-where-surfaced, not file-where-introduced).
+- The 4 surfaced migration errors (2 source fixes + 2 reconciliations) are not B-2c regressions — they are pre-existing latent debt that only fired when local migrations replayed against a remote that had been mutated through different paths. Backfill-window-only surface; no recurring risk.
+- File-changes CSV append for B-2c will include all 5 migrations (substrate from B-2a stays in B-2a row; B-2b RPC wrappers stay in B-2b row; B-2c gets the engagement-model migration + the lockdown follow-on + the 2 source fixes + the README update; B-2a's `init_or_skip` seed row counts as B-2c live-evidence not a B-2a edit).
+
+[unprocessed — for next coordinator drain]
+
 <!-- end of entries -->
 

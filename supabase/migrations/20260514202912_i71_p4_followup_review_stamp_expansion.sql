@@ -198,6 +198,9 @@ COMMENT ON TABLE compliance.review_stamps_standalone IS
 -- RLS: service_role-only (deny anon + authenticated) per akos-holistika-operations.mdc §"Schema responsibilities"
 ALTER TABLE compliance.review_stamps_standalone ENABLE ROW LEVEL SECURITY;
 
+-- Idempotency guard: DROP IF EXISTS before CREATE so re-application (e.g. via supabase db push --include-all
+-- during a backfill window) doesn't trip SQLSTATE 42710 — matches the pattern used elsewhere in this file.
+DROP POLICY IF EXISTS review_stamps_standalone_service_role_all ON compliance.review_stamps_standalone;
 CREATE POLICY review_stamps_standalone_service_role_all
   ON compliance.review_stamps_standalone
   FOR ALL
