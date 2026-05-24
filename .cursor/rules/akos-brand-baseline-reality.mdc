@@ -88,6 +88,7 @@ The validator is wired into `release-gate.py` as **INFO** (informational) until 
 
 ## Cross-references
 
+- Paired skill (the *how* layer): [`.cursor/skills/brand-baseline-reality-craft/SKILL.md`](../skills/brand-baseline-reality-craft/SKILL.md) — minted at drain7 (Wave R close) per D-IH-86-CT.
 - [`BRAND_BASELINE_REALITY_MATRIX.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md) — the canonical matrix (this rule's SSOT).
 - [`BRAND_JARGON_AUDIT.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_JARGON_AUDIT.md) §4.1 — broader external-jargon list (this rule's superset).
 - [`BRAND_DO_DONT.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_DO_DONT.md) — voice traits.

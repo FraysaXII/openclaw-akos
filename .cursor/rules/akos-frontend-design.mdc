@@ -1,0 +1,65 @@
+---
+description: Frontend / UI design craft for AKOS-touching frontend surfaces (boilerplate/, hlk-erp/app/, kirbe-platform/, static/, any *.tsx + *.jsx + page-shaped *.html + component-shaped CSS). Codifies WHEN the impeccable design skill applies — design or redesign, page authoring, component composition, visual hierarchy, accessibility, responsive behaviour, animations, micro-interactions, design-system extension, UX copy, theming, brand-aligned UI. Operationalises the impeccable skill's craft as repo discipline.
+globs: "boilerplate/**/*.{tsx,jsx,html,css}", "hlk-erp/app/**/*.{tsx,jsx}", "kirbe-platform/**/*.{tsx,jsx}", "static/**/*.{html,css,tsx,jsx}", "**/*.canvas.tsx"
+alwaysApply: false
+---
+
+# AKOS Frontend Design
+
+Use this rule whenever **designing, redesigning, shaping, critiquing, auditing, polishing, clarifying, distilling, hardening, optimising, adapting, animating, colorising, extracting, or otherwise improving** any frontend interface inside the AKOS workspace or any tracked consumer repo (`boilerplate`, `hlk-erp`, `kirbe-platform`).
+
+This rule names the **WHEN**. The paired skill [`.cursor/skills/impeccable/SKILL.md`](../skills/impeccable/SKILL.md) carries the **HOW** (UX review craft, visual hierarchy heuristics, information architecture, cognitive load, accessibility, performance, responsive behaviour, theming, anti-patterns, typography, fonts, spacing, layout, alignment, color, motion, micro-interactions, UX copy, error states, edge cases, i18n, reusable design systems / tokens).
+
+Codifies operator decision **D-IH-86-CT** (drain7 batch 3-c: operator-ratified mint of this rule + retain `impeccable` as its paired skill, 2026-05-24). Replaces the prior implicit-only pairing where the `impeccable` skill existed without a binding cursor rule.
+
+## When this rule applies
+
+Fires whenever the agent is working under any of the file globs above OR when the operator's request maps to any of the design verbs in the description (design, redesign, shape, critique, audit, polish, clarify, distill, harden, optimise, adapt, animate, colorise, extract, or improve).
+
+Specifically:
+
+- **Boilerplate** (`boilerplate/**/*.{tsx,jsx,html,css}`) — Holistika public web frontend (umbrella + sub-mark routes).
+- **HLK-ERP** (`hlk-erp/app/**/*.{tsx,jsx}`) — internal operator dashboard, panel routes, dossier viewer.
+- **Kirbe Platform** (`kirbe-platform/**/*.{tsx,jsx}`) — KiRBe SaaS product frontend.
+- **AKOS static** (`static/**/*.{html,css,tsx,jsx}`) — AKOS dashboard chrome (e.g., `static/hlk_graph_explorer.html`).
+- **Canvas surfaces** (`**/*.canvas.tsx`) — Cursor Canvas instances (per the `canvas` Cursor skill).
+
+## What this rule does NOT cover
+
+This rule is **design-time craft**. It does NOT cover:
+
+- **Runtime deploy verification** — that's [`akos-deploy-health.mdc`](akos-deploy-health.mdc) + [`deploy-health-craft`](../skills/deploy-health-craft/SKILL.md).
+- **Brand vocabulary register** — that's [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc) + [`brand-baseline-reality-craft`](../skills/brand-baseline-reality-craft/SKILL.md). (Both rules apply when external-facing surfaces use brand-touching prose — the design rule governs visual shape, the BBR rule governs vocabulary.)
+- **External render trail** — that's [`akos-external-render-discipline.mdc`](akos-external-render-discipline.mdc) + [`external-render-craft`](../skills/external-render-craft/SKILL.md).
+- **Pre-merge automated regression** — Playwright / Jest / Vitest / Lighthouse suites (per `akos-deploy-health.mdc` table).
+- **Backend-only code** — API routes without rendered UI are out of scope.
+
+## RULE 1 — Read the impeccable skill before any design work (binding)
+
+When this rule's globs match OR a design-verb request fires, the agent **must** read [`.cursor/skills/impeccable/SKILL.md`](../skills/impeccable/SKILL.md) as the first substantive action — before drafting components, before proposing styles, before authoring page composition. The skill carries the craft principles that produce design quality the operator considers shippable.
+
+The skill is the long-form contract. This rule is the trigger.
+
+## RULE 2 — Brand surfaces compose dual-axis with brand-baseline-reality (binding)
+
+When the frontend surface is **brand-touching** (any public-facing route inside `boilerplate/`, any deck-style HTML rendered from `_assets/advops/`, any external-audience-tagged surface), BOTH this rule's design craft (visual / interaction / accessibility) AND [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc) (vocabulary register) apply.
+
+The two axes compose multiplicatively per the 5-axis Quality Fabric pattern in [`akos-quality-fabric.mdc`](akos-quality-fabric.mdc) RULE 2. Design and vocabulary BOTH satisfy their constraints; conflicts surface as inline-ratify gates per [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc).
+
+## RULE 3 — Frontend surfaces touching deploy-tracked repos must pass post-deploy smoke (advisory)
+
+After authoring frontend changes to any consumer repo tracked in [`REPOSITORY_REGISTRY.csv`](../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/REPOSITORY_REGISTRY.csv), the agent should run (or recommend running) the 4-step CICD smoke checklist per [`akos-deploy-health.mdc`](akos-deploy-health.mdc) — deploy status check → build log inspection on failure → multi-viewport visual smoke → build-time profile. The design craft and the runtime verification together close the loop.
+
+## Cross-references
+
+- Paired skill: [`.cursor/skills/impeccable/SKILL.md`](../skills/impeccable/SKILL.md) — the HOW layer.
+- Sister rules:
+  - [`akos-deploy-health.mdc`](akos-deploy-health.mdc) — runtime deploy verification.
+  - [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc) — vocabulary register (dual axis).
+  - [`akos-external-render-discipline.mdc`](akos-external-render-discipline.mdc) — render-surface delivery.
+  - [`akos-quality-fabric.mdc`](akos-quality-fabric.mdc) — 5-axis composition (this rule materialises a slice).
+  - [`akos-ux-discipline.mdc`](akos-ux-discipline.mdc) — UX research / persona scenario / Madeira surface UX (research dimension; this rule is the design dimension).
+- Worked examples: I64 P5 boilerplate redesign; I76 P1 Madeira surface UX (when shipped); I64 v2 page-spec gate pattern.
+- Ratifying decision: D-IH-86-CT (drain7 batch 3-c).
+
+@.cursor/skills/impeccable/SKILL.md

@@ -113,6 +113,7 @@ The **Data Owner** for each process catalog (per DAMA-DMBOK Data Owner = "busine
 
 ## Cross-references
 
+- Paired skill (the *how* layer): [`.cursor/skills/executable-process-catalog-craft/SKILL.md`](../skills/executable-process-catalog-craft/SKILL.md) — minted at drain7 (Wave R close) per D-IH-86-CT.
 - [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) §"HLK compliance governance" — canonical-CSV gate discipline (process_list.csv tranche approvals).
 - [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc) §"New git-canonical compliance registers (pattern)" — canonical CSV + Pydantic SSOT + validator + Supabase mirror pattern (applies to every adapter registry).
 - [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) §"Plan-quality bar" — per-phase deep section template (Scope / Files / Verification / Pause-point classification / Self-checkpoint count / Cursor-rules adherence). Process catalog phases inherit this bar.

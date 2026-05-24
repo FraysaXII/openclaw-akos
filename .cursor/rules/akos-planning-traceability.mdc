@@ -346,3 +346,7 @@ Highlights of that rule, summarized here so this rule remains self-sufficient fo
 - **Pause-fatigue avoidance**: front-load substantive review at P0 and P1; make pause records skimmable; allow batched approvals when phases are tightly coupled; soft-pauses may auto-clear after 24h of operator silence + clean validators.
 
 For shorter initiatives (≤ 3 days, ≤ 3 phases), a single closure pause record at the end is sufficient; a self-checkpoint per phase is optional.
+
+## Paired skill (the *how* layer)
+
+The plan-quality bar + UAT quality bar in this rule are mechanically operationalised by the paired skill [`.cursor/skills/planning-traceability-craft/SKILL.md`](../skills/planning-traceability-craft/SKILL.md), minted at drain7 (Wave R close) per **D-IH-86-CT**. Read the skill before authoring any qualifying initiative roadmap or closure UAT.

@@ -140,6 +140,7 @@ When generating prose under the rule's globs:
 
 ## Cross-references
 
+- Paired skill (the *how* layer): [`.cursor/skills/applied-research-craft/SKILL.md`](../skills/applied-research-craft/SKILL.md) — minted at drain7 (Wave R close) per D-IH-86-CT.
 - [`RESEARCH_HEAD_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/RESEARCH_HEAD_DISCIPLINE.md)
   — the canonical this rule operationalises.
 - [`akos-people-discipline-of-disciplines.mdc`](akos-people-discipline-of-disciplines.mdc)

@@ -315,3 +315,56 @@ Wave R was the **fifth-largest wave to date** in the I86 cluster (after Waves J,
 
 **Next Wave (Wave S) opens** with drain7 cursor-rule-skill-pairing proposal authoring per waver4-order-abc step 1. Wave S scope TBD; expected to include Bundle B Strand 2 ambiguous-vendor close-out + Quality Fabric 12th specialty SYNTHESIS_BEFORE_TRANCHE mint per s6-d ratification (largest pending task).
 
+## Round 6 — drain7 cursor-rule × skill pairing audit + 10-deliverable mint (D-IH-86-CT)
+
+**Date:** 2026-05-24 (same chat session; Wave R close-out continuation post-`855fbbf` hygiene commit).
+
+### D-IH-86-CT — drain7 atomic-commit ratification
+
+**Context.** Per `waver4-order-abc` ratification at Wave R close, drain7 was the first post-closure attack item — cursor-rule × skill pairing audit + mint deliverable per the Quality Fabric specialty quartet pattern (canonical doctrine + Pydantic SSOT + validator + runbook + cursor rule + skill + SOP+runbook + pattern-registry row + PRECEDENCE + QF §6 + ramp). The drain7 inventory revealed 23 `akos-*.mdc` rules × 4 paired skills (`inline-ratify-craft` + `index-integrity-craft` + `external-render-craft` + `impeccable`) → 3 paired + 20 gap + 1 orphan (`impeccable` lacks a parent rule) + 4 frontmatter-missing rules.
+
+The proposal report at [`reports/drain7-cursor-rule-skill-pairing-proposal-2026-05-24.md`](reports/drain7-cursor-rule-skill-pairing-proposal-2026-05-24.md) was authored in-chat per `wrd2-a` (superseding the `drain7-dispatch-a` subagent dispatch from Wave Q close that surfaced reliability concerns). Proposal grounded in 5 external research citations (Anderson ACT-R declarative-vs-procedural; Alexander Pattern Language; Google SRE Runbook model; Nonaka-Takeuchi SECI tacit-vs-explicit; Anthropic Skill documentation for LLM agents) per [`akos-applied-research-discipline.mdc`](../../../.cursor/rules/akos-applied-research-discipline.mdc) RULE 2 novel-framing test.
+
+**Decision.** Operator-ratified 3 sub-batch gates + 1 batch3-disposition override at 2026-05-24:
+
+- **drain7-scope-all** — full pairing inventory (23 rules × 4 skills matrix).
+- **drain7-deliverable-report-plus-mint** — proposal report + in-chat mint of top-priority skills in the same commit.
+- **drain7-research-medium** — 3-5 external citations including industry-standard pattern documentation.
+- **drain7-pacing-batches-of-3** — audit in 3 sub-batches, ratify each as it completes.
+- **batch1-b mint-all-5** — meta-discipline batch: mint 5 new craft skills (inter-wave-regression-craft + conflict-surfacing-craft + applied-research-craft + quality-fabric-craft + planning-traceability-craft).
+- **batch2-b mint-all-4-mirror-batch1** — execution-craft batch: mint 4 new craft skills (agent-checkpoint-craft + deploy-health-craft + brand-baseline-reality-craft + executable-process-catalog-craft).
+- **batch3-c-instead** (override) — domain-area batch: decline 6 domain rules + backfill 4 frontmatters (akos-dataops/mktops/techops/ux-discipline.mdc) + **mint new rule `akos-frontend-design.mdc`** pairing globs against the existing `impeccable` skill. Operator declined the assistant's recommended option (f) "defer-impeccable-disposition" and the assistant's risk assessment ("scope mismatch between impeccable and akos-ux-discipline.mdc; minting a tightly-coupled new rule introduces low rework risk").
+
+**Atomic-commit deliverable inventory**:
+
+- 9 new craft skills (~2200 total lines across 9 SKILL.md files; 5 batch-1 + 4 batch-2).
+- 1 new rule (`akos-frontend-design.mdc`) — globs frontend file extensions across boilerplate / hlk-erp / kirbe-platform / static; cross-references impeccable as paired-skill.
+- 4 frontmatter backfills on prior ops-discipline rules (dataops + mktops + techops + ux).
+- 9 cross-ref backfills on parent rules naming their newly-minted paired skills (inter-wave-regression + conflict-surfacing + applied-research + quality-fabric + planning-traceability + agent-checkpoint + deploy-health + brand-baseline-reality + executable-process-catalog).
+- Proposal report at `reports/drain7-cursor-rule-skill-pairing-proposal-2026-05-24.md` (authored in same atomic commit per `drain7-deliverable-report-plus-mint` + `wrd2-a`).
+- OPS-86-21 closed (status flipped to closed in same commit; linked_decision_ids includes D-IH-86-CT).
+- D-IH-86-CT appended to DECISION_REGISTER (415 active + 2 superseded after this row).
+- CHANGELOG entry + I86 files-modified +N rows + operator-scratchpad drain.
+
+**Mechanical evidence**:
+- `validate_ops_register.py` PASS (128 rows; OPS-86-21 closed cleanly).
+- `validate_decision_register.py` PASS (415 active + 2 superseded).
+- `validate_hlk.py` umbrella OVERALL PASS (post-commit).
+- D-IH-86-D 4-signal cross-check: ✓✓✓✓ (release-gate INFO + validate_hlk PASS + paired-rule×skill cross-refs honored + proposal report present).
+
+**Doctrine consequences**:
+- Pairing inventory becomes baseline for future drift detection: future rule mints automatically inherit "paired skill expected unless declared free-standing." 4 rules explicitly declined paired skills (dataops + mktops + techops + ux — mechanical layers governed by their parent canonical SOP+runbook pair; no craft-layer surfaces meeting the codification-warrant test).
+- `impeccable` orphan-skill resolved via `akos-frontend-design.mdc` mint (Option c override): paired-rule trigger surfaces now for any frontend authoring task; operator can extend later.
+- Future Quality Fabric specialty mints follow the same quartet pattern + paired skill at `.cursor/skills/<rule-slug>-craft/SKILL.md` (when how-layer craft warrants codification).
+- Pre-commit `validate_index_freshness.py` IDX-08 dimension (`HOLISTIKA_QUALITY_FABRIC.md §6 specialty list`) does NOT need updating (no new specialty minted; only paired-skill quartets for existing specialties + 1 new rule that is NOT a Quality Fabric specialty).
+
+**Closes OPS-86-21**.
+
+Canonical row: [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) **D-IH-86-CT**.
+
+### Cross-cluster note (Round 6)
+
+Round 6 represents the first **post-Wave-R compounding work** — the drain7 deliverable feeds back into every future agent's authoring discipline by establishing the paired rule × skill pattern as default. Per `akos-applied-research-discipline.mdc` Wave-Closure Research Enrichment subsection requirement, the proposal report's §"External research grounding" subsection captures the 5 cited sources + identifies 0 deferred enrichment items for future waves.
+
+**Next attack**: Bundle B Strand 2 ambiguous-vendor batches (~24 counterparty decisions via 4 batched inline-ratify; closes OPS-81-3) per `waver4-order-abc` step 2.
+

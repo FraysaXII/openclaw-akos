@@ -114,6 +114,7 @@ When closing an in-scope wave:
   [`akos-external-render-discipline.mdc`](akos-external-render-discipline.mdc) (render trail; dimension 7),
   [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc) (brand register; dimension 8),
   [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc) (escalate option; RULE 2 option 5).
+- Paired skill (the *how* layer): [`.cursor/skills/inter-wave-regression-craft/SKILL.md`](../skills/inter-wave-regression-craft/SKILL.md) — minted at drain7 (Wave R close) per D-IH-86-CT alongside this rule.
 - Paired SOP at charter status: [`SOP-PEOPLE_INTER_WAVE_REGRESSION_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_INTER_WAVE_REGRESSION_001.md).
 - Paired runbook: [`scripts/inter_wave_regression_sweep.py`](../../scripts/inter_wave_regression_sweep.py).
 - Pydantic models: [`akos/hlk_inter_wave_regression.py`](../../akos/hlk_inter_wave_regression.py).

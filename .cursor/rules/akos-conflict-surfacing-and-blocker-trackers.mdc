@@ -160,6 +160,7 @@ All four shapes were minted in the same commit (Wave A: `534ce3f`). Operator vis
 
 ## Cross-references
 
+- Paired skill (the *how* layer): [`.cursor/skills/conflict-surfacing-craft/SKILL.md`](../skills/conflict-surfacing-craft/SKILL.md) — minted at drain7 (Wave R close) per D-IH-86-CT.
 - [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) — sister rule (the *when* + *how* of ratification; this rule is the *what to do when ratification surfaces structural conflict*).
 - [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) §"Plan-quality bar" — the doctrine the full-charter shape inherits from.
 - [`akos-agent-checkpoint-discipline.mdc`](akos-agent-checkpoint-discipline.mdc) — pause-point + self-checkpoint discipline applies independently of which shape was chosen.

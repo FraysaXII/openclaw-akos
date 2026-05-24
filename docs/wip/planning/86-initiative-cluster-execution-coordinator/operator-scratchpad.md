@@ -1207,6 +1207,50 @@ Both grounding pillars converge on the same load-bearing claim: every X-pair get
 
 [processed 2026-05-24 wave-R-close | **Wave R CLOSED** via `D-IH-86-CS` (governance class; operator-explicit via `waver1-a` PASS-WITH-FOLLOWUP + `waver2-a` governance + `waver3-b` next-wave triggers + `waver4-order-abc` post-closure sequence). 25-commit wave spanning 2026-05-22..05-24 covering: (a) I81 P2 layout migration 5-of-5 close (Bundles A + D T2 + T3 = D-IH-81-N..S); (b) FINOPS counterparty inventory close-out (Bundle B-1 + B-1ext recon = D-IH-81-U + V Stripe special); (c) FINOPS monetary-substrate stand-up via R5-triple commit shape (B-2a substrate + B-2b executable + B-2c data/governance = D-IH-81-V/W/X); (d) Bundle C cross-area ops wiring discipline candidate amendment (D-IH-81-T architecture); (e) Lane B drain closure (D-IH-86-CR; 53 findings dispositioned via drain1..drain7). Two regression-sweep + index-integrity sweep reports filed (regression: 46 findings → 6 clean + 1 accept-as-canon citing D-IH-86-Q + 39 gap forward-chartered via OPS-86-22 + OPS-86-23; index: 8/8 dimensions FRESH 0 drift 0 gap). UAT verdict PASS-WITH-FOLLOWUP per uat-closure-template.md v1.0 at `reports/uat-wave-r-closure-2026-05-24.md` (11/11 closure criteria PASS + 0 SKIP + 0 FAIL + D-IH-86-D 4-signal cross-check ✓✓✓✓). Mechanical evidence: validate_decision_register.py PASS 411→412 active + 2 superseded after D-IH-86-CS append; validate_ops_register.py PASS; validate_hlk.py umbrella OVERALL PASS; validate_inter_wave_regression.py --self-test PASS + 50/50 pytest; validate_index_freshness.py --self-test PASS. Methodological side-benefit: `_probe_dimension_2_forward_charter_carryover` heuristic patched mid-wave (reduced false positives 10→4 via expanded evidence sources + alphanumeric normalization + stop-prefix filtering); self-improvement applies to all future waves. Next wave (Wave S) opens with drain7 cursor-rule-skill-pairing proposal (closes OPS-86-21), then Bundle B Strand 2 ambiguous-vendor batches (closes OPS-81-3), then Quality Fabric 12th specialty SYNTHESIS_BEFORE_TRANCHE mint per s6-d (multi-session estimated). Wave R achieves the FINOPS prod-ready substrate milestone in MasterData: 3 Edge Functions deployed + 2 pg_cron schedules + PostgREST exposed schemas confirmed + 4 idempotency invariants enforced + 1 security hardening (pgmq RPC role lockdown).]
 
+### 2026-05-24 — Wave R Round 6: drain7 cursor-rule × skill pairing audit + 10-deliverable mint (D-IH-86-CT; closes OPS-86-21)
+
+**Source**: `waver4-order-abc` step 1 ratification (post-Wave-R-closure ordered attack). Original `drain7-dispatch-a` subagent dispatch from Wave Q close was superseded by in-chat authoring (`wrd2-a`) — agent ran the full audit, drafted the proposal report, then ratified deliverables across 3 sub-batch gates + 1 operator override.
+
+**Operator ratifications applied (4 gates)**:
+- `drain7-scope-all` + `drain7-deliverable-report-plus-mint` + `drain7-research-medium` + `drain7-pacing-batches-of-3` (Round 6 framing).
+- `batch1-b-mint-all-5` (meta-discipline rules — mint all 5 paired skills aggressively).
+- `batch2-b-mint-all-4-mirror-batch1` (execution-craft rules — mint all 4 paired skills mirroring batch 1).
+- `batch3-c-instead` operator OVERRIDE — declined assistant's recommended (f) "defer-impeccable-disposition" + chose instead: decline 6 domain rules + backfill 4 frontmatters + mint 1 NEW rule (`akos-frontend-design.mdc`) pairing `impeccable` skill. Operator's framing: accepted assistant's risk warning about scope mismatch + tightly-coupled rule introducing low rework risk, ratified the more aggressive path anyway.
+
+**Round 6 deliverable inventory (10 net additions + 13 backfills)**:
+1. **Proposal report** at `docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/drain7-cursor-rule-skill-pairing-proposal-2026-05-24.md` — full 23-rule × 4-skill pairing inventory + per-rule classification (craft-warranted vs declined) + external research grounding (5 citations: Anderson ACT-R + Alexander Pattern Language + Google SRE Runbook + Nonaka-Takeuchi SECI + Anthropic Skill docs) + per-sub-batch ratify gate framing.
+2. **9 new craft skills minted** under `.cursor/skills/` (~2200 total lines):
+   - `inter-wave-regression-craft/SKILL.md` (paired with `akos-inter-wave-regression.mdc`)
+   - `conflict-surfacing-craft/SKILL.md` (paired with `akos-conflict-surfacing-and-blocker-trackers.mdc`)
+   - `applied-research-craft/SKILL.md` (paired with `akos-applied-research-discipline.mdc`)
+   - `quality-fabric-craft/SKILL.md` (paired with `akos-quality-fabric.mdc`)
+   - `planning-traceability-craft/SKILL.md` (paired with `akos-planning-traceability.mdc`)
+   - `agent-checkpoint-craft/SKILL.md` (paired with `akos-agent-checkpoint-discipline.mdc`)
+   - `deploy-health-craft/SKILL.md` (paired with `akos-deploy-health.mdc`)
+   - `brand-baseline-reality-craft/SKILL.md` (paired with `akos-brand-baseline-reality.mdc`)
+   - `executable-process-catalog-craft/SKILL.md` (paired with `akos-executable-process-catalog.mdc`)
+3. **1 new rule minted** `.cursor/rules/akos-frontend-design.mdc` — pairs `impeccable` skill (orphan-resolved); globs frontend file extensions across boilerplate / hlk-erp / kirbe-platform / static; composes dual-axis with `akos-brand-baseline-reality.mdc` for brand-touching surfaces.
+4. **4 frontmatter backfills** on prior ops-discipline rules lacking YAML frontmatter: `akos-dataops-discipline.mdc` + `akos-mktops-discipline.mdc` + `akos-techops-discipline.mdc` + `akos-ux-discipline.mdc`.
+5. **9 cross-ref backfills** on parent rules → new paired skills (each parent rule's `Cross-references` section prepends "Paired skill (the *how* layer)" line citing skill path + D-IH-86-CT).
+
+**Mechanical evidence**:
+- `py scripts/validate_ops_register.py`: PASS (128 rows; OPS-86-21 closed cleanly).
+- `py scripts/validate_decision_register.py`: PASS (415 active + 2 superseded after D-IH-86-CT append).
+- `py scripts/validate_hlk.py`: umbrella OVERALL PASS.
+- D-IH-86-D 4-signal cross-check: ✓✓✓✓ (release-gate INFO advisory green + validate_hlk PASS + paired-rule × skill cross-refs honored + proposal report present).
+
+**Doctrine consequences**:
+- Pairing inventory becomes baseline for future drift detection — future rule mints inherit "paired skill expected unless declared free-standing" posture.
+- 4 rules explicitly declined paired skills (dataops + mktops + techops + ux) — mechanical layers governed by parent canonical SOP+runbook pair; no craft-layer surfaces meeting codification-warrant test.
+- `impeccable` orphan-skill resolved via `akos-frontend-design.mdc` mint — paired-rule trigger now surfaces for any frontend authoring task.
+- Future Quality Fabric specialty mints follow same quartet pattern + paired skill at `.cursor/skills/<rule-slug>-craft/SKILL.md` when how-layer craft warrants codification.
+
+**Reversibility**: low (governance-class discipline-codification decision). Reversal would require deleting 9 new skill files + deleting akos-frontend-design.mdc + restoring 4 frontmatters + reverting 9 cross-ref backfills; mechanically possible but costly + would erase the pairing inventory baseline.
+
+**Forward state**: drain7 CLOSED at this commit. Next attack per `waver4-order-abc` step 2 = Bundle B Strand 2 ambiguous-vendor batches (~24 counterparty decisions via 4 batched inline-ratify; closes OPS-81-3). Quality Fabric 12th specialty SYNTHESIS_BEFORE_TRANCHE mint stays PRIORITY-5 multi-session (estimated next-wave or Wave S+1). No new specialty minted in this commit (paired-skill quartets for existing specialties + 1 new rule that is NOT a Quality Fabric specialty); IDX-08 dimension not updated.
+
+[processed 2026-05-24 wave-R-round-6-drain7 | Round 6 drain7 CLOSED via `D-IH-86-CT` (governance class; operator-explicit via 3 sub-batch ratify gates + 1 batch3-disposition override declining defer in favor of mint-new-rule). 10 net additions: 9 paired craft skills + 1 new rule. 4 frontmatter backfills + 9 cross-ref backfills + 1 proposal report. OPS-86-21 closed. Pairing inventory becomes baseline for future drift detection. Forward state: Bundle B Strand 2 next per `waver4-order-abc` step 2.]
+
 [unprocessed — for next coordinator drain]
 
 <!-- end of entries -->

@@ -1,3 +1,9 @@
+---
+description: MKTOps discipline — mechanical layer governing campaign briefs, creative assets, landing pages, CRM/EMAIL/COMMUNICATION/SCHEDULING/ATTRIBUTION adapter registries, funnel-stage measurement plans, and persona-targeting metadata. Pairs with MKTOPS_DISCIPLINE.md canonical (Wave M P5 mint per D-IH-86-BW).
+globs: "docs/references/hlk/v3.0/Admin/O5-1/Marketing/**/*.{md,csv,yaml}", "boilerplate/**/landing*/**/*.{tsx,jsx}", "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/CRM_ADAPTER_REGISTRY.csv", "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/EMAIL_ADAPTER_REGISTRY.csv", "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/COMMUNICATION_ADAPTER_REGISTRY.csv", "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/SCHEDULING_ADAPTER_REGISTRY.csv", "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Experimentation/canonicals/dimensions/ATTRIBUTION_ADAPTER_REGISTRY.csv"
+alwaysApply: false
+---
+
 # AKOS MKTOps Discipline
 
 Use this rule whenever authoring or reviewing **campaign briefs**,

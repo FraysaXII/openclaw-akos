@@ -1,3 +1,9 @@
+---
+description: TechOps discipline — mechanical layer governing Vercel/Render/Supabase deploys, observability configuration (Sentry/Vercel Analytics/Render service status/external uptime monitors), security posture (RLS/secret rotation/dependency audit), incident-response runbooks, and Core Web Vitals measurement. Pairs with TECHOPS_DISCIPLINE.md canonical (Wave M P5 mint per D-IH-86-BX).
+globs: "supabase/migrations/*.sql", "supabase/functions/**/*.ts", "supabase/config.toml", ".github/workflows/*.yml", "scripts/release-gate.py", "scripts/doctor.py", "scripts/check-drift.py", "sentry.*.config.ts", "next.config.{mjs,js,ts}", "render.yaml", "scripts/bless_external_repo.py", "scripts/check_external_repo_ci_posture.py"
+alwaysApply: false
+---
+
 # AKOS TechOps Discipline
 
 Use this rule whenever authoring or reviewing artefacts that touch

@@ -1,3 +1,9 @@
+---
+description: DataOps discipline — mechanical layer governing canonical CSV mints, Supabase mirrors, FDW projections, holistika_ops operational tables, Pydantic SSOT modules under akos/, mirror sync scripts, and observability evidence trails for data quality. Pairs with DATAOPS_DISCIPLINE.md canonical (Wave M P5 mint per D-IH-86-BV).
+globs: "akos/hlk_*_csv.py", "scripts/sync_compliance_mirrors_from_csv.py", "scripts/validate_compliance_schema_drift.py", "scripts/probe_compliance_mirror_drift.py", "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/**/*.csv", "supabase/migrations/*_mirror*.sql", "supabase/migrations/*_holistika_ops*.sql"
+alwaysApply: false
+---
+
 # AKOS DataOps Discipline
 
 Use this rule whenever authoring or reviewing artefacts that touch

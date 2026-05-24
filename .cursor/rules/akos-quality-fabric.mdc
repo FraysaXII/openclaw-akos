@@ -120,6 +120,7 @@ When generating prose under this rule's globs:
 
 ## Cross-references
 
+- Paired skill (the *how* layer): [`.cursor/skills/quality-fabric-craft/SKILL.md`](../skills/quality-fabric-craft/SKILL.md) — minted at drain7 (Wave R close) per D-IH-86-CT.
 - Meta-canonical: [`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) (the doctrine this rule mechanically binds).
 - First specialty instantiation: [`UAT_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md) (compose_UAT + 7-class taxonomy + deploy-class).
 - Sister cursor rules:

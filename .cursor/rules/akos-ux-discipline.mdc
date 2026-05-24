@@ -1,3 +1,9 @@
+---
+description: UX discipline — mechanical layer governing component primitives, artifact-class compositions (page/modal/dialog/drawer/panel), route-level information architecture, interactive states, locale-aware surfaces, and accessibility audits. Pairs with UX_DISCIPLINE.md canonical (Wave M P5 mint per D-IH-86-BY; fulfils forward-charter D-IH-86-AX).
+globs: "boilerplate/components/**/*.{tsx,jsx}", "hlk-erp/components/**/*.{tsx,jsx}", "kirbe-platform/components/**/*.{tsx,jsx}", "boilerplate/app/**/page.{tsx,jsx}", "hlk-erp/app/**/page.{tsx,jsx}", "boilerplate/messages/*.json", "hlk-erp/messages/*.json"
+alwaysApply: false
+---
+
 # AKOS UX Discipline
 
 Use this rule whenever authoring or reviewing **component primitives**,
