@@ -333,7 +333,7 @@ for the specialty's domain.
 
 | Specialty | Materialisation canonical | Status | Compose function |
 |:---|:---|:---|:---|
-| **UAT (verification)** | `UAT_DISCIPLINE.md` (Wave J P1 mint at status: charter; 11-class promotion gated on `D-IH-86-AY`) | charter→active when 11-class lands | `compose_UAT(audience, channel, scenario, brand, governance) → UAT shape (closure / brand / send / render / regression / persona / deploy class — extending to 11-class on activation: + localisation + accessibility + performance + privacy)` |
+| **UAT (verification)** | `UAT_DISCIPLINE.md` (Wave J P1 mint at status: charter; 11-class promotion gated on `D-IH-86-AY` — promoted Wave R+1 P1 per `D-IH-86-CW` with paired SOP+addendum+runbook `validate_uat_report.py` + cursor rule `akos-uat-discipline.mdc` + paired skill `uat-discipline-craft` + `process_list.csv hol_peopl_dtp_uat_governance_001` + `PEOPLE_DESIGN_PATTERN_REGISTRY pattern_uat_class_taxonomy` + machine-readable `field_test_window:` frontmatter per Q3-b/Q4-b; 3-wave field-test window across Waves S/T/U closes per META4-b) | **active** (provisional, 3-wave field-test window open) | `compose_UAT(audience, channel, scenario, brand, governance) → UAT 11-class taxonomy (closure / brand / send / render / regression / persona / deploy / localisation / accessibility / performance / privacy) + 11-section structural bar enforced by validate_uat_report.py forward-only-by-date (2026-05-19 watershed) + 5-option disposition enum + INFO→FAIL ramp at Wave R+4 post-window` |
 | **UX (research + design + accessibility)** | `UX_DISCIPLINE.md` (Wave M P5 mint at status: charter per `D-IH-86-BY`; fulfils forward-charter `D-IH-86-AX`; owned by Brand & Narrative Manager + Front-End Developer co-owner) | charter | `compose_UX(audience, channel, scenario, brand, governance) → UX research methods + design constraints + a11y bar + i18n strategy` |
 | **Brand render** | `akos-external-render-discipline.mdc` RULE 2 (audience × format matrix) | active | `compose_render(audience, channel, brand, governance) → 6-surface format choice + manifest contract` |
 | **Send evidence** | (sub-section of UAT_DISCIPLINE.md and external-render-discipline) | partial | `compose_send(audience, channel, governance) → send-evidence trail (sha256 + SMTP + manifest)` |
@@ -350,9 +350,12 @@ each is a new row in this table without changing the fabric itself. This
 is the scalability claim. Wave K demonstrated the claim by extending
 from 5 → 9 materialisations (MKTOPS / TECHOPS / DATAOPS / output-architecture
 added) without touching the 5-axis composition rule itself; Wave M extended
-to 10 (inter-wave regression added); Wave N extends to 11 (index integrity
-added) under the same scalability claim — all without touching the 5-axis
-composition rule.
+to 10 (inter-wave regression added); Wave N extended to 11 (index integrity
+added); Wave R+1 extends to **12** (UAT_DISCIPLINE promoted `charter` →
+`active` per `D-IH-86-CW` — the **first** specialty materialisation
+flips status: charter → active, validating the maturation path that
+every other specialty in this table will eventually follow). All without
+touching the 5-axis composition rule.
 
 ## 7. Forward-charter inventory
 

@@ -624,6 +624,40 @@ def run_inter_wave_regression_self_test() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_uat_report_validation() -> tuple[bool, int]:
+    """Run UAT report validator self-test (I86 Wave R+1 / D-IH-86-CW).
+
+    Self-test mode of ``scripts/validate_uat_report.py`` — validates the
+    paired Pydantic SSOT (``akos/hlk_uat_report.py`` UATReport +
+    CanonicalFieldTestWindow + sub-models frozen) + fixture round-trips for
+    the 11-section taxonomy + frontmatter schema + 5-option disposition
+    enum + new CanonicalFieldTestWindow lifecycle (open / closing / closed
+    / revoked) + dual FTW-promotion / FTW-RT-revocation code-regex shape.
+
+    Does NOT run the actual ``--report <path>`` validation across all UAT
+    files (that's per-UAT-mint cadence per
+    ``UAT_DISCIPLINE.md`` §8.5 + ``process_list.csv``
+    ``hol_peopl_dtp_uat_governance_001`` ``cadence_type=event_triggered``).
+    Self-test mode stays at ~2s runtime — same shape as the INTER_WAVE_
+    REGRESSION + INDEX_INTEGRITY sibling self-tests per Wave M + Wave N
+    precedents.
+
+    INFO ramp until Wave R+4 post-window per
+    ``akos-uat-discipline.mdc`` RULE 4 INFO->FAIL ramp aligned with the
+    3-wave (S/T/U) field-test window observation lifecycle.
+
+    Returns ``(ok, exit_code)``. Exit code 0 PASS, 1 FAIL.
+    """
+    logger.info("Running UAT-REPORT self-test (I86 Wave R+1 / D-IH-86-CW; --self-test) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_uat_report.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_finops_ledger_validation() -> tuple[bool, int]:
     """Run FINOPS ledger Pydantic chassis + resolution + FX ladder + OPS-emit round-trip (I81 P2 Bundle B-2a / D-IH-81-V).
 
@@ -1336,6 +1370,12 @@ def main() -> None:
     results.append((
         "PASS" if idx_strict_ok else "FAIL",
         f"Index integrity strict sweep (scripts/validate_index_freshness.py --strict - D-IH-86-CN immediate FAIL ramp; full 8-dimension baseline-index sweep; ok={'yes' if idx_strict_ok else 'no'}; exit={idx_strict_rc})",
+    ))
+
+    uat_report_ok, uat_report_rc = run_uat_report_validation()
+    results.append((
+        "INFO" if uat_report_ok else "FAIL",
+        f"UAT report validator self-test (scripts/validate_uat_report.py --self-test - I86 Wave R+1 P1 INFO advisory; Pydantic SSOT (UATReport + CanonicalFieldTestWindow frozen) + 11-section + frontmatter schema + 5-option disposition enum + field_test_window lifecycle (open/closing/closed/revoked) + dual FTW/FTW-RT code-regex fixture round-trips; event_triggered per-UAT-mint --report sweep deferred to UAT_DISCIPLINE.md §8.5 + process_list.csv hol_peopl_dtp_uat_governance_001 cadence_type; 12th Quality Fabric specialty per D-IH-86-CW + META4-b machine-readable field_test_window frontmatter; INFO->FAIL ramp at Wave R+4 post-window per akos-uat-discipline.mdc RULE 4; ok={'yes' if uat_report_ok else 'no'}; exit={uat_report_rc})",
     ))
 
     judge_ok, judge_rc = run_brand_voice_judge_self_test()

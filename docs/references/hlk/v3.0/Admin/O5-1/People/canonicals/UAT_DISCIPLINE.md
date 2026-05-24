@@ -12,43 +12,80 @@ authors:
 co_authors:
   - PMO
   - People Operations Lead
-last_review: 2026-05-20
-last_review_by: Founder/CEO
-last_review_at: 2026-05-20
-last_review_decision_id: D-IH-86-AV
+last_review: 2026-05-24
+last_review_by: PMO
+last_review_at: 2026-05-24
+last_review_decision_id: D-IH-86-CW
 methodology_version_at_review: v3.1
 ratifying_decisions:
   - D-IH-86-AV
-status: charter
+  - D-IH-86-AS
+  - D-IH-86-CW
+status: active
 register: internal
 linked_canonicals:
   - HOLISTIKA_QUALITY_FABRIC.md
   - HOLISTIKA_ORGANISING_DOCTRINE.md
   - RESEARCH_HEAD_DISCIPLINE.md
   - HOLISTIKA_AGENTIC_DOCTRINE.md
+  - SOP-PEOPLE_UAT_GOVERNANCE_001.md
+  - SOP-PEOPLE_UAT_GOVERNANCE_001.addendum.md
   - ../Compliance/canonicals/PRECEDENCE.md
   - ../Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv
   - ../Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv
+  - ../Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv
   - ../../Marketing/Brand/canonicals/BRAND_BASELINE_REALITY_MATRIX.md
   - ../../Marketing/Brand/canonicals/dimensions/FIGMA_FILES_REGISTRY.csv
+linked_runbooks:
+  - scripts/validate_uat_report.py
 linked_cursor_rules:
+  - .cursor/rules/akos-uat-discipline.mdc
   - .cursor/rules/akos-planning-traceability.mdc
+  - .cursor/rules/akos-quality-fabric.mdc
   - .cursor/rules/akos-external-render-discipline.mdc
   - .cursor/rules/akos-brand-baseline-reality.mdc
   - .cursor/rules/akos-applied-research-discipline.mdc
   - .cursor/rules/akos-people-discipline-of-disciplines.mdc
 linked_skills:
+  - .cursor/skills/uat-discipline-craft/SKILL.md
   - .cursor/skills/inline-ratify-craft/SKILL.md
   - .cursor/skills/external-render-craft/SKILL.md
   - .cursor/skills/impeccable/SKILL.md
 companion_to:
   - HOLISTIKA_QUALITY_FABRIC.md
   - RESEARCH_HEAD_DISCIPLINE.md
+  - SOP-PEOPLE_UAT_GOVERNANCE_001.md
 forward_charters:
-  - SOP-PEOPLE_UAT_GOVERNANCE_001.md (paired SOP + addendum + runbook validate_uat_report.py)
-  - process_list.csv row hol_peopl_dtp_uat_governance_001
-  - PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_uat_class_taxonomy
-  - .cursor/rules/akos-uat-discipline.mdc (mechanical drift gate companion to akos-quality-fabric.mdc)
+  - 3-wave field-test window monitoring obligation (Wave S + Wave T + Wave U closes); see field_test_window block below; revocation path in SOP-PEOPLE_UAT_GOVERNANCE_001.addendum.md §Field-test window revocation procedure
+field_test_window:
+  open_date: 2026-05-24
+  open_decision_id: D-IH-86-CW
+  open_wave: R+1
+  close_target_wave: U
+  close_target_date_estimate: 2026-06-14
+  revocation_decision_id_template: D-IH-86-CW-revoke
+  monitoring_obligation_owner: PMO
+  monitoring_obligation_co_owner: AIC role_owner
+  promotion_criteria:
+    - code: FTW-UAT-01-THREE-CLOSURE-UATS
+      statement: ">= 3 closure-UAT reports authored under the new bar across Waves S, T, U with verdict in PASS / PASS-WITH-FOLLOWUP and all 11 sections + mandatory frontmatter fields present."
+    - code: FTW-UAT-02-FAIL-CEILING
+      statement: "<= 2 cumulative validator FAIL findings across the 3 reports (after disposition + amendment commits land)."
+    - code: FTW-UAT-03-NO-VALIDATOR-MISFIRES
+      statement: "0 false-positive findings requiring accept-as-canon disposition for structural validator regex misfire (RULE 5 option 4 used exclusively for genuine validator/canonical schema drift, never to paper over a draft that forgot a section)."
+    - code: FTW-UAT-04-PWF-RATIONALE-COMPLIANCE
+      statement: "0 RULE-3 PWF-without-rationale findings on Waves S/T/U reports (the bar self-proves via the Wave R UAT amendment landing first, in the same commit-window as this promotion, as the canonical worked-example for the 12th/13th specialty enforcement)."
+  revocation_triggers:
+    - code: FTW-UAT-RT-01-VALIDATOR-MISFIRE
+      statement: ">= 1 validator false-positive requiring structural regex amendment in < 3 waves (signal that the regex set is too strict / brittle; specialty needs re-grounding against more real-report variance)."
+    - code: FTW-UAT-RT-02-PWF-DISCIPLINE-NOT-SINKING
+      statement: ">= 2 RULE-3 PWF-without-rationale findings on Waves S/T/U reports (signal that PWF discipline is not sinking in across agent + operator authoring practice; 12th specialty needs revision or the 13th sibling specialty D-IH-86-CX needs sharpening)."
+    - code: FTW-UAT-RT-03-OPERATOR-EXPLICIT
+      statement: "Operator-explicit revocation (any wave, any reason; honored verbatim per operator-explicit override per akos-inline-ratification.mdc §Time-box recovery escape)."
+  status: open
+  last_observation_wave: null
+  last_observation_date: null
+  last_observation_summary: null
 ---
 
 # UAT Discipline
@@ -511,8 +548,119 @@ against it.
   quality-bar canonization in `akos-planning-traceability.mdc`),
   D-IH-86-AT (Vercel deploy regression hotfix — the deploy-UAT class
   worked example), D-IH-86-AU (parent Quality Fabric architecture
-  mint).
+  mint), **D-IH-86-CW** (this canonical's promotion charter→active +
+  field-test window opening per META4-b operator ratification 2026-05-24).
+
+## 10. Promotion log + field-test window observations
+
+> Living governance log for this canonical's status transitions. The
+> **machine-readable record** of the open field-test window — open date,
+> close target, promotion criteria (4 conjunctive PASS clauses), revocation
+> triggers (3 disjunctive demotion conditions), monitoring owner + co-owner,
+> lifecycle status — lives in the frontmatter `field_test_window:` block
+> at the top of this file (canonical schema: `akos.hlk_uat_report.
+> CanonicalFieldTestWindow` Pydantic model). This §10 prose is the
+> human-readable narrative complement; agents authoring observation
+> entries (§10.1 / §10.2 / §10.3) MUST also bump
+> `field_test_window.last_observation_*` fields in the same commit so
+> the frontmatter stays the source of truth for tooling.
+
+§10.1 — Wave S close observation (reserved; first FTW observation wave).
+
+§10.2 — Wave T close observation (reserved; second FTW observation wave).
+
+§10.3 — Wave U close + final field-test verdict (reserved; third + close-
+target wave; `field_test_window.status` transitions `open` → `closing`
+at Wave U entry, and `closing` → `closed` (or `revoked`) at the operator
+sign-off gate per the per-status semantics in the
+`CanonicalFieldTestWindow` Pydantic model).
+
+### 10.4 Promotion to `status: active` (2026-05-24) — D-IH-86-CW
+
+**Trigger.** I86 cluster Wave R+1 P1; operator ratification of the
+META1..META6 batch (META4-b explicitly: clean PASS now + explicit
+3-wave field-test window monitoring obligation, not a PWF deferral).
+
+**Realized at this commit.** All four `forward_charters` rows from the
+charter-status frontmatter have landed in the same commit-window as the
+promotion:
+
+1. [`SOP-PEOPLE_UAT_GOVERNANCE_001.md`](SOP-PEOPLE_UAT_GOVERNANCE_001.md)
+   (paired SOP) + its [addendum](SOP-PEOPLE_UAT_GOVERNANCE_001.addendum.md)
+   (auditor + System Owner depth + field-test window revocation procedure).
+2. [`scripts/validate_uat_report.py`](../../../../../../scripts/validate_uat_report.py)
+   (paired runbook; --self-test + --report + --all modes).
+3. [`process_list.csv`](../../Compliance/canonicals/process_list.csv)
+   row `hol_peopl_dtp_uat_governance_001`
+   (35-column canonical-CSV gate; cadence_type=event_triggered;
+   inherited_pattern_id=pattern_uat_class_taxonomy).
+4. [`PEOPLE_DESIGN_PATTERN_REGISTRY.csv`](../../Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv)
+   row `pattern_uat_class_taxonomy` (15-column row;
+   class=quality_fabric_specialty_canonical; 12th specialty).
+5. [`.cursor/rules/akos-uat-discipline.mdc`](../../../../../../.cursor/rules/akos-uat-discipline.mdc)
+   (cursor rule governing the *when*; 8 binding rules + 1 advisory
+   rule for the specialty mint contract).
+6. [`.cursor/skills/uat-discipline-craft/SKILL.md`](../../../../../../.cursor/skills/uat-discipline-craft/SKILL.md)
+   (paired skill governing the *how*; 7 principles + worked-example
+   templates + 4 anti-patterns + recovery patterns).
+
+**Field-test window opened, not closed.** The promotion is **provisional
+for 3 observation waves** (S + T + U closes; `close_target_date_estimate`
+2026-06-14). The window is fully described in the
+`field_test_window:` frontmatter block above as a structured object —
+NOT in prose here, by deliberate design per operator's META4-b feedback
+(*"i was really worried that the UAT would get shallow or not governed
+or not properly followed"*). Machine-readable frontmatter lets the
+`validate_uat_report.py` runbook + future tooling FK-resolve the
+window's status + emit dashboard entries + auto-prompt observation
+authors when each wave's close report lands.
+
+**Revocation path.** Documented operationally in
+[`SOP-PEOPLE_UAT_GOVERNANCE_001.addendum.md`](SOP-PEOPLE_UAT_GOVERNANCE_001.addendum.md)
+§"Field-test window revocation procedure". Tooling-side, the revocation
+decision ID template is `D-IH-86-CW-revoke` (mint the suffixed decision
+when revoking; flip `field_test_window.status` to `revoked` + flip
+`status:` back to `charter` + cite the revoke decision in
+`last_review_decision_id`).
+
+**Field-test signal at promotion-time (worked example).** Within the
+SAME session as this promotion, `scripts/validate_uat_report.py
+--report reports/uat-wave-r-closure-2026-05-24.md` caught **1 real
+FAIL** against the Wave R closure UAT that this very promotion's author
+had authored just hours earlier:
+**UAT-FM-11-PWF-WITHOUT-RATIONALE** — verdict was `PASS-WITH-FOLLOWUP`
+but `verdict_followup_rationale:` frontmatter was missing.
+
+Per
+[`akos-uat-discipline.mdc`](../../../../../../.cursor/rules/akos-uat-discipline.mdc)
+RULE 5 5-option disposition enum, the natural disposition is
+`amend-followup-rationale`. The Wave R UAT amendment is being authored
+in the *same* commit-window as this promotion (D-IH-86-CW Commit 3),
+with `verdict_history:` v1→v2 + populated
+`verdict_followup_rationale:` citing this validator finding as the
+field-test signal that triggered the amendment.
+
+**Closing loop.** The new validator caught a real gap on its first run
+AND the gap is being closed in the same session that mints the
+validator. The Wave R amendment is the **canonical worked-example
+birth artifact** that future PWF-rationale audits will reference. It
+also pre-validates **promotion criterion FTW-UAT-01-THREE-CLOSURE-UATS**
+in advance (Wave R counts as a retroactive 4th data point alongside
+S/T/U) and pre-validates **FTW-UAT-04-PWF-RATIONALE-COMPLIANCE** by
+proving the discipline lands cleanly when the validator surfaces the
+gap.
+
+The closing-loop pattern (mint validator → catch real gap on first run →
+amend offending artifact in same commit-window → cite finding as field-
+test signal) is itself a transferable craft pattern that future specialty
+mints should consider replicating; reserve the pattern name
+`pattern_validator_field_test_closing_loop` for a future mint if the
+Wave M (INTER_WAVE_REGRESSION) + Wave N (INDEX_INTEGRITY) + this
+Wave R+1 (UAT_DISCIPLINE) third instantiation confirms it as canonical.
 
 @docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_UAT_GOVERNANCE_001.md
 @docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/dimensions/FIGMA_FILES_REGISTRY.csv
+@.cursor/rules/akos-uat-discipline.mdc
 @.cursor/rules/akos-planning-traceability.mdc
+@.cursor/skills/uat-discipline-craft/SKILL.md

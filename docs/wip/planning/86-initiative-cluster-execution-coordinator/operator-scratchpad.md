@@ -1283,6 +1283,40 @@ Both grounding pillars converge on the same load-bearing claim: every X-pair get
 
 [processed 2026-05-24 wave-R-round-7-bundle-b-strand-2 | Round 7 Bundle B Strand 2 CLOSED via `D-IH-81-Z` (closure-class; medium-low reversibility; operator-explicit via 8-question ratify gate). 15 net-new FINOPS rows + 1 amended row + 1 schema extension (banking enum) + 1 forward-charter candidate (Spain-strategy research-area-improvement). OPS-81-2 closed (28 rows within 25-40 expected range; validator PASS; operator confirms inventory complete). Bundle B paired-closure with D-IH-81-U complete. Forward state: I81 P3 entry unblocked; Quality Fabric 12th specialty mint remains PRIORITY-5 next attack per `waver4-order-abc` step 3.]
 
+### 2026-05-24 Wave R+1 P1 Commit 1 — UAT_DISCIPLINE charter→active promotion + 12th QF specialty mint (DRAINED 2026-05-24)
+
+**Trigger**: operator-ratified META4-b (clean PASS with explicit 3-wave field-test window monitoring obligation) + META6-b (3 atomic commits posture) at OPS-86-22 + OPS-86-23 ATTACK gate 2026-05-24. Commit 1 of 3 (atomic shape: Commit 1 = UAT promotion artifacts; Commit 2 = Bundle C activation + Research OPS substrate; Commit 3 = governance writes + PWF specialty + Wave R UAT amendment).
+
+**Operator-novel framings surfaced**:
+1. **META4-b "abused too much of PASS-WITH-FOLLOWUP"** — operator verbatim: *"we abused too much of pass with follow up and the follow up became false scope creep too. these follow up need to be governed and addressed and raised to me when things are not clear"*. Result: provisional `active` promotion with EXPLICIT 3-wave monitoring obligation, not a vague PWF deferral. Triggered the 13th specialty mint scope (PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE in Commit 3).
+2. **Q3-b + Q4-b "machine-readable not buried in prose"** — operator verbatim: *"i was really worried that the UAT would get shallow or not governed or not properly followed or managed and of course that will improve the visibility i get of our ATs across the dimensions"*. Result: invented `CanonicalFieldTestWindow` Pydantic model + machine-readable `field_test_window:` frontmatter block on the canonical itself (NOT buried in §10.4 prose). Reusable governance-metadata schema for any future provisional canonical mint.
+3. **First QF specialty charter→active flip** — UAT_DISCIPLINE is the *first* of 11 charter-status QF specialties to flip to `active`. Validates the maturation path. Future specialty promotions (UX/MKTOPS/TECHOPS/DATAOPS + INTER_WAVE_REGRESSION + INDEX_INTEGRITY) inherit this pattern: provisional-active with machine-readable field-test window.
+
+**Decision lineage**: `D-IH-86-CW` (promotion-class; medium reversibility built-in via field_test_window revocation procedure; operator-explicit via META1..META6 batch ratify gate; minted early in Commit 1 to satisfy `PEOPLE_DESIGN_PATTERN_REGISTRY` FK validation, rather than deferring to Commit 3 governance quartet, to preserve the "no intermediate failures" principle for atomic commits). Remaining quartet `D-IH-86-CU/CV/CX` to land in Commit 3.
+
+**Mechanical evidence**:
+- `py scripts/validate_uat_report.py --self-test`: PASS (CanonicalFieldTestWindow fixture round-trip clean across all 4 lifecycle statuses + regex validation per criterion + type-check assertion).
+- `py scripts/validate_hlk.py`: OVERALL PASS (1180 process_list rows + 22 pattern_registry rows; 0 errors).
+- `py scripts/validate_decision_register.py`: PASS (415 active + 2 superseded).
+- `py scripts/validate_ops_register.py`: PASS (128 rows).
+- `py scripts/validate_design_pattern_registry.py`: PASS (22 rows + 15 pattern classes including new `quality_fabric_specialty_canonical` 12th instance + 3 discipline origins).
+- `py -m pytest tests/test_company_deck.py::test_slide_11_pillar_1_quotes_governance_metrics`: PASS (after deck_slides.yaml updated `1.179 → 1.180 procesos` per D-IH-30-D hand-synced parity).
+- **Field-test signal worked example**: `py scripts/validate_uat_report.py --report docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/uat-wave-r-closure-2026-05-24.md` caught **1 real FAIL** `UAT-FM-11-PWF-WITHOUT-RATIONALE` on first run — to be amended in Commit 3 as closing-loop pattern (canonical worked-example birth artifact).
+
+**Doctrine consequences**:
+- UAT_DISCIPLINE.md is the FIRST QF specialty to flip `charter → active` — validates the maturation path for sibling specialties (Wave M INTER_WAVE_REGRESSION + Wave N INDEX_INTEGRITY + Wave M P5 UX/MKTOPS/TECHOPS/DATAOPS will inherit this provisional-promotion-with-field-test-window pattern when promoted).
+- `CanonicalFieldTestWindow` Pydantic model becomes reusable governance-metadata schema for any provisional canonical mint going forward.
+- `field_test_window:` frontmatter block establishes machine-readable monitoring-obligation pattern as the canonical alternative to prose-buried follow-up tracking.
+- 12th specialty mint cements the Quality Fabric scalability claim (8 → 12 materialisations across Waves J/K/M/N/R+1 without touching the 5-axis composition rule).
+- SOP+addendum pattern reaches 3rd instantiation (AGENTIC_OPERATIONS + CROSS_AREA_BREAKTHROUGH + UAT_GOVERNANCE) = canonical-shape candidate for promotion to design-pattern row in next cycle.
+- The closing-loop pattern (mint validator → catch real gap on first run → amend offending artifact in same commit-window → cite finding as field-test signal) reserves transferable pattern name `pattern_validator_field_test_closing_loop` for future mint after third confirmed instantiation.
+
+**Reversibility**: medium (promotion-class with reversibility window built-in). Per `field_test_window` revocation procedure documented in SOP addendum, status can flip `active → charter` via successor decision `D-IH-86-CW-revoke` at any wave during/after the 3-wave window upon any of 3 disjunctive revocation triggers OR operator-explicit override; mechanical reversal requires single-file frontmatter edit + decision_register append. The 11-section validator + paired artifacts persist regardless of canonical status flip.
+
+**Forward state**: Commit 1 LANDED. Commit 2 PENDING (Bundle C I88 activation + Research OPS substrate per 10-pillar Holistika ReOps frame meta1-a + all-7-areas per meta2-b + 2 deep worked examples Research OPS + FINOPS). Commit 3 PENDING (DECISION_REGISTER quartet completion D-IH-86-CU/CV/CX + OPS-86-22 closed + OPS-86-23 partial-close DIM-10 + Wave R UAT amendment + 13th specialty PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE per meta5-c + PWF tracker mint). Wave S close (next) opens first FTW observation window for UAT_DISCIPLINE field-test; `last_observation_*` frontmatter fields stay `null` until first observation lands.
+
+[processed 2026-05-24 wave-R+1-p1-commit-1-uat-promotion | Commit 1 of 3 LANDED via `D-IH-86-CW` (promotion-class; medium reversibility built-in via field_test_window revocation; operator-explicit via META1..META6 batch). 12th QF specialty mint via UAT_DISCIPLINE charter→active flip with first machine-readable `field_test_window:` frontmatter block (Q3-b/Q4-b). 6 net-new files (Pydantic chassis + runbook + SOP + addendum + cursor rule + paired skill) + 3 canonical-CSV row appends (process_list + pattern_registry + DECISION_REGISTER) + 3 canonical doc updates (UAT_DISCIPLINE + HOLISTIKA_QUALITY_FABRIC §6 + PRECEDENCE) + 2 CI wirings + 1 deck-yaml parity sync + 17 I86 files-modified rows. Forward state: Commit 2 (Bundle C I88 activation + Research OPS substrate) PENDING; Commit 3 (governance writes + 13th PWF specialty + Wave R UAT amend) PENDING.]
+
 [unprocessed — for next coordinator drain]
 
 <!-- end of entries -->

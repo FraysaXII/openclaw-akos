@@ -1,0 +1,335 @@
+---
+alwaysApply: true
+---
+# AKOS UAT Discipline
+
+Use this rule whenever authoring, reviewing, or amending a **closure UAT
+report** for any initiative or wave-close in this workspace. Codifies
+operator decision **D-IH-86-CW** (operator-ratified the
+[`UAT_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md)
+charter → active promotion at I86 Wave R+1, 2026-05-24). Mechanical
+companion to that canonical + to the paired SOP
+[`SOP-PEOPLE_UAT_GOVERNANCE_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_UAT_GOVERNANCE_001.md)
++ paired runbook
+[`scripts/validate_uat_report.py`](../../scripts/validate_uat_report.py).
+
+This rule does **not** define the doctrine — that lives in the canonical.
+This rule names the mechanical bar that future agents and operators
+inherit by default when minting any closure-UAT artefact.
+
+## When this rule applies
+
+A closure-UAT report is in scope for this rule when **any** of:
+
+- The report is named `uat-*.md` and lives under
+  `docs/wip/planning/**/reports/`.
+- The report's `verdict:` frontmatter field is set (any of
+  `PASS` / `PASS-WITH-FOLLOWUP` / `FAIL` / `PENDING-OPERATOR-WALK`).
+- The report is the closure-evidence row for a wave inside a
+  cluster-coordinator master-roadmap (I86 precedent; future analogous
+  coordinators).
+- The report is the closure-evidence row for an INITIATIVE_REGISTRY
+  status flip from `active` → `complete` / `superseded`.
+- The parent initiative's master-roadmap §"Closure criteria" cites the
+  report path as the gating artefact.
+
+Reports NOT in scope (rule no-ops):
+
+- Pre-2026-05-19 UAT reports (per [`UAT_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md)
+  §"Migration posture for pre-2026-05-19 initiatives" — forward-only bar;
+  historical reports stay exempt unless amended).
+- One-off `reports/checkpoints/sc-*.md` agent self-checkpoints (per
+  [`akos-agent-checkpoint-discipline.mdc`](akos-agent-checkpoint-discipline.mdc)
+  §"Agent self-checkpoint contract") — not closure UAT.
+- Operator-internal scratchpads + planning notes.
+
+## RULE 1 — 11-section structure is mandatory (binding for forward-only reports)
+
+Every in-scope closure-UAT report MUST contain the 11 sections in the
+canonical's §8.5 order, even when a section collapses to a one-line N/A
+statement. The 11 sections are:
+
+1. Closure summary (TL;DR; J-OP-optimised; <30s read).
+2. Closure-criteria verification (per `master-roadmap.md` §"Closure
+   criteria"; reproducible commands per row).
+3. Mechanical evidence (validator outputs + pytest counts + tsc/lint
+   counts + browser-evidence pattern when in scope).
+4. Per-dimension findings (multi-column when initiative has multiple
+   acceptance dimensions).
+5. D-IH-86-D mechanical cross-check (mandatory for I86 cluster siblings;
+   N/A for standalone initiatives).
+6. SOP + runbook pair (mandatory when initiative shipped a process_list
+   row; AC-HUMAN + AC-AUTOMATION acceptance criteria per
+   `akos-executable-process-catalog.mdc` Rule 1 §5).
+7. Risk-register closure (per `R-IH-NN-N` row status).
+8. Decision close-outs (per `D-IH-NN-X` row activation + reversibility).
+9. Closure registry edits (mechanical; INITIATIVE_REGISTRY +
+   DECISION_REGISTER + OPS_REGISTER after-states).
+10. Verdict + 7-item operator sign-off checklist (per
+    `akos-agent-checkpoint-discipline.mdc` §"Operator pause point
+    contract").
+11. Cross-references (parent master-roadmap + decision-log +
+    risk-register + files-modified + governing rules).
+
+Section headers accept BOTH compact form (`## 1 — Closure summary`) and
+verbose form (`## Section 1 — Closure summary`) per the I86 Wave R
+precedent. Dashes accepted: em-dash (—), en-dash (–), hyphen (-), colon
+(:), or omitted. The validator's regex enforces both forms.
+
+## RULE 2 — Frontmatter schema is mandatory (binding for forward-only reports)
+
+Every in-scope closure-UAT report MUST carry the following frontmatter
+fields per UAT_DISCIPLINE.md §8.5 §"Mandatory frontmatter fields":
+
+- **`verdict:`** one of `PASS` / `PASS-WITH-FOLLOWUP` / `FAIL` /
+  `PENDING-OPERATOR-WALK`. Closures cannot be ambiguous about whether the
+  gate cleared.
+- **`closure_decision_source:`** `agent_inline_default` (per Time-box
+  recovery per [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc)
+  §"Time-box recovery") / `operator_explicit` / `n/a`.
+- **`ratifying_decisions:`** YAML list of every `D-IH-<NN>-<X>` row this
+  UAT evidences (including the closure decision when applicable).
+- **`linked_runbooks:`** YAML list of every `scripts/<name>.py` runbook
+  the parent initiative shipped (per
+  [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc)
+  Rule 1 SOP+runbook pairing).
+- **`verdict_history:`** YAML list — mandatory when the report is an
+  amendment of a prior version (per I77 P3-P4 amendment precedent +
+  D-IH-86-BW Wave M.5 amendment precedent); optional otherwise.
+- **`last_review:`** ISO date `YYYY-MM-DD`; gates the forward-only
+  enforcement watershed (2026-05-19).
+
+**Quality Fabric specialty canonicals** that promote `charter → active`
+via a field-test window MUST also carry the machine-readable
+[`field_test_window:`](../../akos/hlk_uat_report.py) frontmatter block
+(SSOT shape: `akos.hlk_uat_report.CanonicalFieldTestWindow` Pydantic
+model). This is binding for any specialty canonical whose promotion
+ratifying decision opts for META4-b shape (clean-PASS-with-explicit-
+field-test-window per D-IH-86-CW). UAT_DISCIPLINE.md is the first
+instantiation; future specialty promotions (INTER_WAVE_REGRESSION
+status promotion + INDEX_INTEGRITY status promotion + PWF_GOVERNANCE
+status promotion + others) inherit the schema. Required sub-fields per
+the Pydantic model: `open_date` + `open_decision_id` + `open_wave` +
+`close_target_wave` + `close_target_date_estimate` +
+`revocation_decision_id_template` + `monitoring_obligation_owner` +
+`monitoring_obligation_co_owner` + `promotion_criteria` (≥1
+conjunctive PASS clause; codes match `FTW-<DISC>-NN-<SLUG>`) +
+`revocation_triggers` (≥1 disjunctive demotion trigger; codes match
+`FTW-<DISC>-RT-NN-<SLUG>`) + `status` (one of `open` / `closing` /
+`closed` / `revoked`) + optional `last_observation_*` triple (bumped
+at each FTW observation wave-close).
+
+The `field_test_window:` block makes the monitoring obligation
+**discoverable + queryable** by tooling — agents authoring observation
+entries (e.g. §10.1 / §10.2 / §10.3 of the specialty canonical) MUST
+bump the `last_observation_*` triple in the same commit so the
+frontmatter stays the source of truth. Burying field-test metadata in
+prose only is a recurring anti-pattern (operator's META4-b feedback
+2026-05-24 verbatim: *"i was really worried that the UAT would get
+shallow or not governed or not properly followed"*); the frontmatter
+block exists specifically to prevent it.
+
+## RULE 3 — PASS-WITH-FOLLOWUP requires `verdict_followup_rationale` (binding from D-IH-86-CX promotion)
+
+Per the 12th Quality Fabric specialty mint (D-IH-86-CX —
+`PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md`; operator-ratified at
+meta5-c full-specialty-mint), any UAT report carrying
+`verdict: PASS-WITH-FOLLOWUP` MUST also carry a
+`verdict_followup_rationale:` frontmatter field naming the followup-class
+(per the canonical's §3 enum: `monitoring-obligation` /
+`deferred-work-with-tracker` / `convention-class-followup` / `mechanical-
+recovery-with-eta` / `escalation-to-blocker-tracker`) + the follow-up
+artifact path (tracker / OPS row / blocker tracker) + the closure-target
+ETA when applicable.
+
+This rule operationalises the operator's META4-b ratification: PASS-WITH-
+FOLLOWUP is permitted but must NEVER hide deferred-work-as-false-PASS.
+Validator finding code `UAT-FM-11-PWF-WITHOUT-RATIONALE` enforces this
+at FAIL severity for forward-only reports.
+
+## RULE 4 — Validator self-test wired into pre_commit (binding from D-IH-86-CW promotion)
+
+The runbook `scripts/validate_uat_report.py --self-test` mode verifies
+the Pydantic SSOT models + section regex set load + the 5 fixture
+constructors return well-formed models. The self-test runs at every
+`py scripts/verify.py pre_commit` invocation via
+[`config/verification-profiles.json`](../../config/verification-profiles.json)
+`validate_uat_report_self_test` step +
+[`scripts/release-gate.py`](../../scripts/release-gate.py)
+`run_uat_report_validation`.
+
+The full sweep (`--all` or `--report <path>`) runs at **closure-UAT
+mint time** + at **3-wave field-test window monitoring** (per the
+operator's META4-b ratification) — NOT at every pre_commit (which would
+re-scan dozens of historical reports every commit). The self-test is
+the always-on circuit-breaker; the full sweep is the event-triggered
+gate.
+
+Per D-IH-86-CW INFO → FAIL ramp (aligned with the
+`field_test_window:` lifecycle on the canonical):
+
+- **Wave R+1 (this mint; `field_test_window.status: open`):** self-test
+  PASS at pre_commit; full sweep runs at the closure-UAT mint commit.
+  Validator default mode emits findings at FAIL severity (strict v1
+  forward-only-by-date), but the wave-close governance honours the
+  field-test window: PWF dispositions of validator findings count as
+  field-test signal, not blocker. Promotion criteria
+  FTW-UAT-01..FTW-UAT-04 are the conjunctive PASS clauses being tested.
+- **Wave S close (`status: open`; `last_observation_wave: S`):** mint a
+  closure UAT against this bar. Author bumps
+  `field_test_window.last_observation_*` triple in the same commit;
+  records whether any of FTW-UAT-RT-01..FTW-UAT-RT-03 triggers fired.
+- **Wave T close (`status: open`; `last_observation_wave: T`):** same
+  observation cadence. Trend across S → T informs the window's verdict.
+- **Wave U close (`status: open` → `closing`):** entry to the final
+  observation wave flips `status: closing`. Operator sign-off at the
+  Wave U closure UAT then flips to `closed` (durable promotion) OR
+  `revoked` (forced demotion via D-IH-86-CW-revoke decision per the
+  template; specialty falls back to `status: charter`).
+- **Wave U+1 or later (`status: closed`):** bar promotes to release-gate
+  INFO advisory at every pre_commit (not just mint commit); validator
+  findings ≤ 2 across 3+ consecutive waves = trigger for full FAIL
+  promotion at release-gate.
+
+## RULE 5 — Findings disposition via inline-ratify 5-option enum (binding)
+
+Every WARN or FAIL finding from the validator MUST be dispositioned via
+an inline `AskQuestion` gate per
+[`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) +
+[`inline-ratify-craft`](../skills/inline-ratify-craft/SKILL.md), using
+the 5-option enum codified in UAT_DISCIPLINE.md §6 + this rule's RULE 5:
+
+1. **rework-now** (default for FAIL on RULE 1 / RULE 2 frontmatter
+   gaps).
+2. **amend-followup-rationale** (default when FAIL is
+   `UAT-FM-11-PWF-WITHOUT-RATIONALE`; surfaces the missing rationale
+   as an inline-ratify on which PWF class applies; rationale written
+   inline; verdict stays PWF).
+3. **defer-OPS** (default for WARN on conditional sections;
+   followup-class encoded as `deferred-work-with-tracker` per the
+   12th specialty).
+4. **accept-as-canon** (operator ratifies the validator misfire was
+   structural; appends contra-precedent + decision row + amends the
+   validator regex in a future mint).
+5. **escalate-to-blocker-tracker** (cannot be dispositioned in-chat;
+   mints `_blockers/<slug>-tracker.md` per
+   [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc)).
+
+When findings exceed 10, the agent splits the gates into 2
+`AskQuestion` batches (per inline-ratify-craft Principle 5 batching
+guidance). Time-box recovery applies only to reversible dispositions per
+`akos-inline-ratification.mdc` §"Time-box recovery"; irreversible
+dispositions NEVER auto-default.
+
+## RULE 6 — Browser-evidence audit-trail bar (when browser UAT is in scope)
+
+When a closure UAT includes browser UAT (per
+[`akos-planning-traceability.mdc`](akos-planning-traceability.mdc)
+§"UAT evidence contract"), §3.4 of the report MUST include the
+Playwright-MCP + audit-trail pattern: screenshot + accessibility-snapshot
++ sha256 + timestamp at each decision point, saved under
+`artifacts/uat-screenshots/<initiative-slug>-<YYYY-MM-DD>/` with a
+sha256 manifest sidecar. Code-evidence fallback (cite file + line range)
+is acceptable when operator credentials are unavailable mid-session;
+verdict in that row marks `CODE-EVIDENCE` (not `PASS`) to preserve the
+live-walk distinction.
+
+API logs / pytest output alone do not satisfy the browser-evidence bar
+per the 2026 Playwright-MCP audit pattern grounding.
+
+## RULE 7 — Sibling-repo deploy verification (when applicable)
+
+When a closure UAT's parent initiative shipped work to a sibling
+repository (per [`REPOSITORY_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPOSITORY_REGISTRY.csv))
+that triggered a deploy, §3 mechanical evidence MUST include the
+deploy-class verification: deploy ID + source sha + state (READY /
+ERROR / BUILDING) verified via vendor MCP (per
+[`akos-quality-fabric.mdc`](akos-quality-fabric.mdc) RULE 3 +
+[`UAT_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md)
+§3.7).
+
+The Vercel `dpl_6uNfwjKVUNwqqd2MZ65vySkvd834` regression on 2026-05-20
+(server-only-import poisoning client bundle; production-broken for ~14
+hours) is the worked example proving local `tsc` PASS does not imply
+vendor-side build PASS.
+
+## RULE 8 — Specialty mint contract honored (binding)
+
+This rule, the paired SOP, the paired runbook, the canonical doctrine
+promotion, the cursor skill, and the process_list.csv row +
+pattern_uat_class_taxonomy registry row land in the **same commit** (or
+the next material commit) so the 12-specialty contract per
+`akos-index-integrity.mdc` RULE 5 is honored. The mint quartet matches
+the Wave M INTER_WAVE_REGRESSION precedent + the Wave N
+INDEX_INTEGRITY precedent.
+
+## When this rule does NOT apply
+
+- One-off `reports/checkpoints/sc-*.md` agent self-checkpoints.
+- Pre-2026-05-19 historical UAT reports (per canonical migration posture;
+  forward-only bar).
+- Operator-internal scratchpads + planning notes (not closure UAT).
+- 1-3 phase quick-fix initiatives that close without a UAT report (the
+  inline summary in the parent commit message suffices when the
+  initiative is below the [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc)
+  §"UAT quality bar" applicability threshold).
+
+## Self-discipline rules for agents
+
+When closing an in-scope wave or initiative:
+
+1. **Run the validator self-test before drafting the closure commit
+   message.** `py scripts/validate_uat_report.py --self-test` must PASS.
+2. **Run the full report validation before drafting the verdict line.**
+   `py scripts/validate_uat_report.py --report <path>` emits the findings
+   table.
+3. **Compute findings count before posting the disposition AskQuestion
+   batch.** ≤ 10 fits one batch; 11-20 splits into 2 batches; > 20
+   triggers structural rework (the report itself is mis-shapen).
+4. **For PASS-WITH-FOLLOWUP verdicts, fill `verdict_followup_rationale`
+   inline before commit.** The rationale names the PWF class + tracker
+   path + closure-target ETA. Empty rationale is the false-PASS
+   anti-pattern the 12th specialty (D-IH-86-CX) exists to prevent.
+5. **For amendments, populate `verdict_history`.** Cite prior verdict +
+   prior date + reason for amendment. Cite the amending decision ID.
+6. **For RULE 6 browser-evidence rows, capture artifacts + sha256
+   manifest in the same commit as the UAT report.** Don't promise
+   evidence in a follow-up; the audit trail decays the moment the
+   render-state is lost.
+7. **For RULE 7 deploy verification, run the vendor-MCP call AT
+   closure time.** A pre-mint deploy state can have regressed by the
+   time the operator reviews; the closure UAT must reflect the actual
+   current vendor state.
+
+## Cross-references
+
+- Parent canonical: [`UAT_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md) — the doctrine.
+- Parent meta-doctrine: [`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) — the 5-axis composition.
+- Paired SOP: [`SOP-PEOPLE_UAT_GOVERNANCE_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_UAT_GOVERNANCE_001.md) — AC-HUMAN execution contract.
+- Paired runbook: [`scripts/validate_uat_report.py`](../../scripts/validate_uat_report.py) — AC-AUTOMATION enforcement.
+- Pydantic SSOT: [`akos/hlk_uat_report.py`](../../akos/hlk_uat_report.py) — frozen frontmatter + findings + validation models.
+- Paired skill: [`.cursor/skills/uat-discipline-craft/SKILL.md`](../skills/uat-discipline-craft/SKILL.md) — the *how* layer.
+- Sister cursor rules:
+  [`akos-quality-fabric.mdc`](akos-quality-fabric.mdc) (parent fabric; multiplicative-AND verdict),
+  [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) §"UAT quality bar" (the bar this rule mechanically enforces),
+  [`akos-inter-wave-regression.mdc`](akos-inter-wave-regression.mdc) (sister 10th specialty; wave-close cadence),
+  [`akos-index-integrity.mdc`](akos-index-integrity.mdc) (sister 11th specialty; baseline-index drift),
+  [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) (findings disposition; RULE 5),
+  [`akos-agent-checkpoint-discipline.mdc`](akos-agent-checkpoint-discipline.mdc) (operator pause-point §10 of the report shape),
+  [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc) (SOP+runbook pairing; §6 of the report shape),
+  [`akos-external-render-discipline.mdc`](akos-external-render-discipline.mdc) (when external-audience artifacts are shipped — §3 of the report shape),
+  [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc) (escalate option; RULE 5 option 5).
+- Process catalog row: `hol_peopl_dtp_uat_governance_001` in [`process_list.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv).
+- Pattern registry row: `pattern_uat_class_taxonomy` (class `uat_class_compose_taxonomy`) in [`PEOPLE_DESIGN_PATTERN_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv).
+- Decision lineage:
+  - **D-IH-86-AV** — UAT_DISCIPLINE.md canonical mint (status: charter at I86 Wave J).
+  - **D-IH-86-AS** — UAT quality bar canonization (the bar this rule enforces).
+  - **D-IH-86-CW** — UAT_DISCIPLINE charter → active promotion at I86 Wave R+1 (this rule's mint; operator-ratified at meta4-b PASS + 3-wave field-test window).
+  - **D-IH-86-CX** — 12th QF specialty `PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md` mint (RULE 3 dependency).
+- Field-test window monitoring obligation: 3 waves from Wave R+1 (Wave S close + Wave T close + Wave U close); revocation path documented in
+  [`SOP-PEOPLE_UAT_GOVERNANCE_001.addendum.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_UAT_GOVERNANCE_001.addendum.md)
+  §"Field-test window revocation procedure".
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_UAT_GOVERNANCE_001.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md
