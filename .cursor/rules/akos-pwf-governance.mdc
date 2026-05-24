@@ -1,0 +1,204 @@
+---
+description: >-
+  PASS-WITH-FOLLOWUP Governance Discipline (12th Quality Fabric specialty;
+  Wave R+1 Commit 3-a mint). Mechanical companion to
+  PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md. Fires at every UAT report
+  authored with verdict=PASS-WITH-FOLLOWUP + at every wave-close gate. The
+  classification axis (which UAT class applies) is governed by
+  UAT_DISCIPLINE.md; this rule governs the content axis (what the followup
+  rationale must structurally say). The two compose multiplicatively.
+globs:
+  - "docs/wip/planning/**/reports/uat-*.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_PWF_GOVERNANCE_001.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md"
+  - "akos/hlk_pwf_governance.py"
+  - "scripts/validate_pwf_governance.py"
+  - "tests/test_validate_pwf_governance.py"
+alwaysApply: true
+---
+
+# AKOS PASS-WITH-FOLLOWUP Governance
+
+Use this rule whenever authoring or amending a closure UAT report whose
+`verdict:` is `PASS-WITH-FOLLOWUP`. Codifies operator decision
+**D-IH-86-CX** (Wave R+1 Commit 3-a mint, 2026-05-25). Mechanical
+companion to [`PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md).
+
+This rule does **not** define the doctrine — that lives in the canonical.
+This rule names the mechanical bar that future agents and operators
+inherit by default when authoring any PWF verdict.
+
+## When this rule applies
+
+A UAT report is in scope for this rule when **all** of:
+
+- The report's path matches `docs/wip/planning/**/reports/uat-*.md`.
+- The report's `verdict:` frontmatter is `PASS-WITH-FOLLOWUP`.
+- The report's `last_review:` is ≥ 2026-05-19 (forward-only watershed
+  per [`UAT_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md) §"Migration posture").
+
+Reports NOT in scope: PASS / FAIL / PENDING-OPERATOR-WALK /
+FORWARD-CHARTERED verdicts (the validator no-ops). Pre-watershed
+reports get INFO-only findings per the canonical's §"Migration posture".
+
+## RULE 1 — Author the 5-class rationale block (binding)
+
+Every in-scope UAT report MUST include the structured
+`verdict_followup_rationale` block in its frontmatter:
+
+```yaml
+verdict: PASS-WITH-FOLLOWUP
+verdict_followup_rationale:
+  followup_class: <one of the 5 enum values from canonical §3>
+  closure_target: <Wave-X close | YYYY-MM-DD | OPS-NN-N closed | D-IH-NN-X | FTW-CODE closes>
+  owner: <role name from baseline_organisation.csv OR AIC:<role>>
+  tracker_path: <docs/wip/planning/_trackers/<slug>.md OR _blockers/<slug>-tracker.md>  # if required by class
+  closure_decision_id_target: <D-IH-NN-X if known>  # optional
+  notes: <free-text context>
+```
+
+The 5 followup classes (canonical §3 enum):
+
+1. **`monitoring-obligation`** — verdict is PASS in substance; followup
+   is observation cadence.
+2. **`deferred-work-with-tracker`** — concrete work scoped-out;
+   tracker file under `_trackers/` required.
+3. **`convention-class-followup`** — doctrinal refinement; not blocking.
+4. **`mechanical-recovery-with-eta`** — known fix with ETA.
+5. **`escalation-to-blocker-tracker`** — closure blocked on operator
+   judgement / external dependency; tracker file under `_blockers/` required.
+
+Worked examples for each class live in [`.cursor/skills/pwf-governance-craft/SKILL.md`](../skills/pwf-governance-craft/SKILL.md).
+
+## RULE 2 — Use the validator at authoring time (binding)
+
+Before committing any PWF report, run:
+
+```powershell
+py scripts/validate_pwf_governance.py --report <path> --strict
+```
+
+The validator MUST exit 0. The validator catches six failure modes via
+the codes `PWF-FM-01-CLASS-MISSING` / `PWF-FM-02-CLASS-UNKNOWN` /
+`PWF-FM-03-CLOSURE-TARGET-MISSING` / `PWF-FM-04-TRACKER-PATH-MISSING` /
+`PWF-FM-04-TRACKER-PATH-INVALID` (all FAIL on forward-only reports) +
+`PWF-FM-05-OWNER-MISSING` (WARN always).
+
+## RULE 3 — Findings disposition via inline-ratify 5-option enum (binding)
+
+When the validator emits a WARN or FAIL finding that the agent cannot
+deterministically fix in the same authoring session, surface as an
+inline `AskQuestion` gate per [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc)
+using the 5-option enum codified in
+[`PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md) §6:
+
+1. **deterministic-fix-now** (default for missing rationale fields).
+2. **manual-fix-now** (default for malformed tracker_path).
+3. **defer-OPS** (only acceptable for pre-watershed reports).
+4. **accept-as-canon** (rare; operator ratifies non-standard shape +
+   appends contra-precedent decision row).
+5. **escalate-to-blocker-tracker** (rationale gap blocked on operator
+   judgement; mints `_blockers/pwf-rationale-<slug>-tracker.md` per
+   [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc)).
+
+Time-box recovery applies per `akos-inline-ratification.mdc`: 24h+
+operator silence + clean validators + reversible dispositions
+auto-default to the recommended option; irreversible dispositions
+NEVER auto-default.
+
+## RULE 4 — INFO→FAIL ramp posture (binding from D-IH-86-CX ratification)
+
+Per D-IH-86-CX §4.1: the FAIL ramp activates on the **2026-05-19
+watershed** (same date as UAT_DISCIPLINE per D-IH-86-AS). Reports with
+`last_review` before that date get INFO findings only — migration-grace
+window.
+
+The validator stays at INFO ramp (release-gate advisory) until **Wave T
+close** at the earliest, and only promotes to FAIL when all three
+conditions hold:
+
+1. The Wave R UAT amendment closes (Commit 3-c per parent workspace
+   plan), supplying the structural rationale the validator currently
+   catches.
+2. Three consecutive wave-close sweeps emit zero forward-only FAIL
+   findings.
+3. Operator-explicit decision row (D-IH-86-CX-V2 or successor) records
+   the promotion.
+
+## RULE 5 — Specialty mint contract (binding)
+
+When this rule itself was minted (Wave R+1 Commit 3-a), it followed
+the same 15-surface contract that the Wave M INTER_WAVE_REGRESSION +
+Wave N INDEX_INTEGRITY precedent established:
+
+1. Canonical doctrine: `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md`.
+2. Pydantic chassis: `akos/hlk_pwf_governance.py`.
+3. Validator: `scripts/validate_pwf_governance.py`.
+4. Runbook: same script (validator IS runbook — check-class only).
+5. Cursor rule: `.cursor/rules/akos-pwf-governance.mdc` (this file).
+6. Skill: `.cursor/skills/pwf-governance-craft/SKILL.md`.
+7. Paired SOP: `SOP-PEOPLE_PWF_GOVERNANCE_001.md`.
+8. PEOPLE_DESIGN_PATTERN_REGISTRY row: `pattern_pwf_governance_discipline`.
+9. PRECEDENCE.md canonical + mirror rows.
+10. HOLISTIKA_QUALITY_FABRIC.md §6 specialty list row.
+11. CHANGELOG.md entry citing D-IH-86-CX.
+12. `process_list.csv` row: `hol_peopl_dtp_pwf_governance_001`.
+13. `validate_hlk.py` umbrella dispatcher row.
+14. `config/verification-profiles.json` `pre_commit` step: `validate_pwf_governance_self_test`.
+15. `scripts/release-gate.py` advisory wiring: `run_pwf_governance_validation`.
+
+All 15 surfaces land in the same atomic commit so the specialty is
+operationally complete before being advertised. The Wave R+1 Commit
+3-a is the worked example.
+
+## RULE 6 — Compose multiplicatively with UAT_DISCIPLINE (binding)
+
+PWF governance is the **content axis** of closure UAT discipline; the
+**classification axis** lives in [`UAT_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md).
+A UAT report passes governance only when **BOTH** validators pass:
+
+```text
+validate_uat_report.py  → catches UAT-FM-11 (PWF verdict + empty rationale)
+                       + classification-axis findings (UAT-FM-01..10)
+
+validate_pwf_governance.py → catches structural rationale gaps (PWF-FM-01..05)
+                          when rationale is non-empty but malformed
+```
+
+The two validators compose multiplicatively per
+[`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) §3 (the
+load-bearing multiplicative-AND rule). Neither validator's PASS
+substitutes for the other.
+
+## When this rule does NOT apply
+
+- **PASS / FAIL / PENDING / FORWARD-CHARTERED verdicts** — the
+  validator no-ops; this rule does not fire.
+- **Pre-watershed reports** (`last_review` < 2026-05-19) — INFO-only;
+  closure never blocked.
+- **Non-UAT artifacts** — phase reports, ratification artifacts,
+  pre-pause records do not (yet) carry PWF-shaped verdicts; forward-
+  charter pointer in the canonical's §2 scope.
+- **Chore-only single-commit waves** — exempt entirely (no closure
+  UAT required).
+
+## Cross-references
+
+- Parent canonical: [`PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md).
+- Parent meta-doctrine: [`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md).
+- Content-axis sibling rule: [`akos-uat-discipline.mdc`](akos-uat-discipline.mdc) — classification axis.
+- Cadence-axis sibling rule: [`akos-inter-wave-regression.mdc`](akos-inter-wave-regression.mdc) — DIM-06 covers class completeness; this rule extends with content completeness.
+- Index-axis sibling rule: [`akos-index-integrity.mdc`](akos-index-integrity.mdc).
+- Quality Fabric parent rule: [`akos-quality-fabric.mdc`](akos-quality-fabric.mdc).
+- Findings disposition: [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc).
+- Escalation rule: [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc).
+- Paired SOP: [`SOP-PEOPLE_PWF_GOVERNANCE_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_PWF_GOVERNANCE_001.md).
+- Paired skill: [`.cursor/skills/pwf-governance-craft/SKILL.md`](../skills/pwf-governance-craft/SKILL.md) (the *how* layer).
+- Pydantic SSOT: [`akos/hlk_pwf_governance.py`](../../akos/hlk_pwf_governance.py).
+- Validator: [`scripts/validate_pwf_governance.py`](../../scripts/validate_pwf_governance.py).
+- Decision lineage: D-IH-86-CW (Wave R+1 Commit 1), D-IH-86-CX (this mint).
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md

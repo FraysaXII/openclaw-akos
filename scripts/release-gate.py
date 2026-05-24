@@ -658,6 +658,42 @@ def run_uat_report_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_pwf_governance_validation() -> tuple[bool, int]:
+    """Run PWF governance validator self-test (I86 Wave R+1 Commit 3-a / D-IH-86-CX).
+
+    Self-test mode of ``scripts/validate_pwf_governance.py`` — validates the
+    paired Pydantic SSOT (``akos/hlk_pwf_governance.py`` PWFFollowupRationale
+    + PWFGovernanceFinding + PWFGovernanceReport frozen models + 5-class
+    followup taxonomy frozenset + 5-finding-code PWF-FM-01..05 frozenset) +
+    fixture constructors + parse_followup_rationale 4-shape input coverage.
+
+    Does NOT run the actual ``--all`` sweep across all in-scope UAT reports
+    (that's per-uat-mint cadence per
+    ``PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md`` §4 +
+    ``process_list.csv`` ``hol_peopl_dtp_pwf_governance_001``
+    ``cadence_type=event_triggered``). Self-test mode stays at ~2s
+    runtime — same shape as the UAT_DISCIPLINE + INTER_WAVE_REGRESSION +
+    INDEX_INTEGRITY sibling self-tests per Waves M / N / R+1 P1
+    precedents.
+
+    INFO ramp at mint per ``akos-pwf-governance.mdc`` RULE 4. Promotes to
+    FAIL when (1) Wave R UAT amendment closes (Commit 3-c per parent
+    workspace plan), (2) three consecutive wave-close sweeps emit zero
+    forward-only FAIL findings, and (3) operator-explicit decision row
+    (D-IH-86-CX-V2 or successor) records the promotion.
+
+    Returns ``(ok, exit_code)``. Exit code 0 PASS, 1 FAIL.
+    """
+    logger.info("Running PWF-GOVERNANCE self-test (I86 Wave R+1 Commit 3-a / D-IH-86-CX; --self-test) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_pwf_governance.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_finops_ledger_validation() -> tuple[bool, int]:
     """Run FINOPS ledger Pydantic chassis + resolution + FX ladder + OPS-emit round-trip (I81 P2 Bundle B-2a / D-IH-81-V).
 
@@ -1376,6 +1412,12 @@ def main() -> None:
     results.append((
         "INFO" if uat_report_ok else "FAIL",
         f"UAT report validator self-test (scripts/validate_uat_report.py --self-test - I86 Wave R+1 P1 INFO advisory; Pydantic SSOT (UATReport + CanonicalFieldTestWindow frozen) + 11-section + frontmatter schema + 5-option disposition enum + field_test_window lifecycle (open/closing/closed/revoked) + dual FTW/FTW-RT code-regex fixture round-trips; event_triggered per-UAT-mint --report sweep deferred to UAT_DISCIPLINE.md §8.5 + process_list.csv hol_peopl_dtp_uat_governance_001 cadence_type; 12th Quality Fabric specialty per D-IH-86-CW + META4-b machine-readable field_test_window frontmatter; INFO->FAIL ramp at Wave R+4 post-window per akos-uat-discipline.mdc RULE 4; ok={'yes' if uat_report_ok else 'no'}; exit={uat_report_rc})",
+    ))
+
+    pwf_governance_ok, pwf_governance_rc = run_pwf_governance_validation()
+    results.append((
+        "INFO" if pwf_governance_ok else "FAIL",
+        f"PWF governance validator self-test (scripts/validate_pwf_governance.py --self-test - I86 Wave R+1 Commit 3-a INFO advisory; Pydantic SSOT (PWFFollowupRationale + PWFGovernanceFinding + PWFGovernanceReport frozen) + 5-class followup taxonomy frozenset + 5-finding-code PWF-FM-01..05 frozenset + parse_followup_rationale 4-shape input coverage; event_triggered per-uat-mint --all sweep deferred to PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md §4 + process_list.csv hol_peopl_dtp_pwf_governance_001 cadence_type; 12th-row Quality Fabric specialty per D-IH-86-CX (content axis paired with UAT_DISCIPLINE classification axis; composes multiplicatively per HOLISTIKA_QUALITY_FABRIC.md §3); INFO->FAIL ramp gated on Wave T at earliest + 3 consecutive clean wave-close sweeps + operator-explicit decision row per akos-pwf-governance.mdc RULE 4; ok={'yes' if pwf_governance_ok else 'no'}; exit={pwf_governance_rc})",
     ))
 
     judge_ok, judge_rc = run_brand_voice_judge_self_test()

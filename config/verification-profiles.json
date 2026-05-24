@@ -188,6 +188,14 @@
           ]
         },
         {
+          "id": "validate_pwf_governance_self_test",
+          "description": "Initiative 86 Wave R+1 Commit 3-a (D-IH-86-CX, 2026-05-25): PASS-WITH-FOLLOWUP governance 12th-row Quality Fabric specialty self-test (content axis paired with UAT_DISCIPLINE classification axis; composes multiplicatively per HOLISTIKA_QUALITY_FABRIC.md Section 3). Validates akos/hlk_pwf_governance.py Pydantic SSOT (PWFFollowupRationale + PWFGovernanceFinding + PWFGovernanceReport frozen models + 5-class followup taxonomy frozenset + 5-finding-code PWF-FM-01..05 frozenset) + scripts/validate_pwf_governance.py fixture constructors + parse_followup_rationale 4-shape input coverage. Does NOT run the actual --all sweep across all in-scope UAT reports (that's per-uat-mint cadence per PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md Section 4 + process_list.csv hol_peopl_dtp_pwf_governance_001 cadence_type=event_triggered). Self-test mode keeps CI cost at ~2s. Paired SOP + canonical doctrine + cursor rule + skill + process_list row + pattern-registry row + PRECEDENCE entries all ship at Commit 3-a; INFO->FAIL ramp per akos-pwf-governance.mdc RULE 4 gated on Wave T at earliest + 3 consecutive clean wave-close sweeps + operator-explicit decision row.",
+          "argv": [
+            "scripts/validate_pwf_governance.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "validate_output_architecture_registries",
           "description": "Initiative 86 Wave L (D-IH-86-BG, 2026-05-21): composite validator over the 3 registries that compose the 4-layer output architecture beneath the 5-axis Quality Fabric (D-IH-86-BB Wave K mint). Layer 1 OUTPUT_TYPE_REGISTRY (medium / shape) + Layer 2 ARTIFACT_CLASS_REGISTRY (named purpose) + Layer 3 COMPONENT_PRIMITIVE_REGISTRY (Shadcn-shape granular primitives). Header drift gates + Pydantic per-row validation + cross-FK resolution: ARTIFACT_CLASS.output_type_codes -> OUTPUT_TYPE_REGISTRY ; ARTIFACT_CLASS.typical_audience_codes -> AUDIENCE_REGISTRY ; COMPONENT_PRIMITIVE.parent_artifact_class_codes -> ARTIFACT_CLASS_REGISTRY ; *.last_review_decision_id -> DECISION_REGISTER ; render_targets tokens -> VALID_RENDER_TARGETS ; kind tokens -> VALID_KINDS. Strict from day one (the registries minted at Wave K already pass).",
           "argv": [
