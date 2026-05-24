@@ -4,8 +4,11 @@ title: Cross-area Ops-wiring review discipline — every area's Ops surface gets
 status: candidate
 authored: 2026-05-22
 last_review: 2026-05-23
-parent_initiatives: [81]
-related_initiatives: [21, 72, 79, 86]
+parent_initiatives: [81, 86]
+related_initiatives: [21, 72, 79, 86, 88]
+sibling_candidates:
+  - i-nn-research-ops-substrate.md  # Research-area-side mint (10-pillar Holistika ReOps frame); first of 2 deep worked examples for this candidate's I88 activation
+  - i-nn-research-area-cross-area-topic-intent-improvement.md  # Spain-strategy worked-example child of the Research OPS substrate sibling
 priority: 4
 language: en
 audience: J-OP;J-AIC

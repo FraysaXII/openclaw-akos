@@ -4,8 +4,9 @@ title: Research area improvement — cross-area topic + intent intelligence shap
 status: candidate
 authored: 2026-05-24
 last_review: 2026-05-24
-parent_initiatives: [81]
-related_initiatives: [21, 72, 75, 86]
+parent_initiatives: [81, 86]
+related_initiatives: [21, 72, 75, 88]
+parent_candidate: i-nn-research-ops-substrate.md
 priority: 3
 language: en
 audience: J-OP;J-AIC
@@ -13,7 +14,15 @@ access_level: 5
 parent_lane: I81 Bundle B Strand-2 (ambiguous-tier counterparty closure) — operator surfaced Spain-strategy intelligence request mid-batch; deferred via forward-charter to this candidate per operator framing "this is a research request and current architecture could not secure it"
 charter_decisions:
   - D-IH-81-Z
-forward_charter_authority: D-IH-81-Z (operator novel framing at Bundle B Strand-2 ratify gate 2026-05-24 — verbatim "this is a research request and our current architecture could not secure it i think. That's why i ask this challenge and i expect you to link it to a research area improvement (with the cross area topics and intents in it)")
+  - D-IH-86-CW
+forward_charter_authority: |
+  D-IH-81-Z (operator novel framing at Bundle B Strand-2 ratify gate 2026-05-24 — verbatim "this is a research request
+  and our current architecture could not secure it i think. That's why i ask this challenge and i expect you to link
+  it to a research area improvement (with the cross area topics and intents in it)").
+  D-IH-86-CW (subsequent META1-a ratification at I86 Wave R+1 Commit 2-a 2026-05-24 — this candidate re-parented to
+  i-nn-research-ops-substrate.md as the Spain-strategy worked-example child instance of the broader 10-pillar Holistika
+  Research Operations frame; topic+intent matrix shape lands as pillar 4 (KM) + pillar 8 (Asks & Logistics) inside the
+  parent candidate at activation).
 linked_canonicals:
   - docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/RESEARCH_HEAD_DISCIPLINE.md
   - docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv
