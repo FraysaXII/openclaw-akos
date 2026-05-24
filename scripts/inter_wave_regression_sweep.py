@@ -462,14 +462,111 @@ def _probe_dimension_2_forward_charter_carryover() -> list[RegressionFindingRow]
     candidate_names: set[str] = set()
     if CANDIDATES_DIR.exists():
         candidate_names = {p.stem.lower() for p in CANDIDATES_DIR.glob("*.md")}
+    # Extended evidence haystack (D-IH-86-CS Wave R close-out): also accept
+    # carryover signal from filesystem existence + canonical CSV content +
+    # cursor-rules + skills + akos modules + cross-canonical landing.
+    # Rationale: forward_charters often reference paths like
+    # ``scripts/<name>.py`` or ``.cursor/rules/<name>.mdc`` or
+    # ``process_list.csv row <id>`` or ``PEOPLE_DESIGN_PATTERN_REGISTRY row
+    # <id>``; those artifacts exist on filesystem but the original heuristic
+    # only checked ``_candidates/`` + ``OPS_REGISTER`` which produced
+    # systematic false positives.
+    evidence_chunks: list[str] = [ops_text]
+    for canonical_path in [PRECEDENCE_PATH]:
+        if canonical_path.exists():
+            evidence_chunks.append(canonical_path.read_text(encoding="utf-8", errors="ignore"))
+    # filesystem evidence: scripts/*.py + .cursor/rules/*.mdc + .cursor/skills/*/SKILL.md + akos/*.py
+    fs_anchors: set[str] = set()
+    for fs_glob in [
+        (REPO_ROOT / "scripts").glob("*.py"),
+        (REPO_ROOT / ".cursor" / "rules").glob("*.mdc"),
+        (REPO_ROOT / ".cursor" / "skills").glob("*/SKILL.md"),
+        (REPO_ROOT / "akos").glob("*.py"),
+    ]:
+        for fs_path in fs_glob:
+            rel = fs_path.relative_to(REPO_ROOT).as_posix().lower()
+            stem = fs_path.stem.lower()
+            fs_anchors.add(rel)
+            fs_anchors.add(stem)
+            fs_anchors.add(re.sub(r"[^a-z0-9]+", "-", rel).strip("-"))
+            fs_anchors.add(re.sub(r"[^a-z0-9]+", "-", stem).strip("-"))
+            # skill folder name (e.g. .cursor/skills/<name>/SKILL.md -> <name>)
+            if fs_path.name == "SKILL.md":
+                folder = fs_path.parent.name.lower()
+                fs_anchors.add(folder)
+                fs_anchors.add(re.sub(r"[^a-z0-9]+", "-", folder).strip("-"))
+    # canonical CSV evidence: process_list + baseline_organisation + every
+    # dimensions/*.csv row ID body (lowercased).
+    csv_evidence: list[str] = []
+    for csv_path in [
+        PROCESS_LIST_PATH,
+        COMPLIANCE_CANONICALS_DIR / "baseline_organisation.csv",
+    ]:
+        if csv_path.exists():
+            csv_evidence.append(csv_path.read_text(encoding="utf-8", errors="ignore").lower())
+    if DIMENSIONS_DIR.exists():
+        for csv_path in DIMENSIONS_DIR.glob("*.csv"):
+            csv_evidence.append(csv_path.read_text(encoding="utf-8", errors="ignore").lower())
+    # cross-canonical landing evidence: every other canonical's content (excluding
+    # the source canonical for each pair to avoid trivial self-match).
+    canonical_bodies: dict[str, str] = {}
+    for canonical in _glob_canonicals():
+        try:
+            canonical_bodies[str(canonical)] = canonical.read_text(encoding="utf-8", errors="ignore").lower()
+        except Exception:
+            pass
+    base_evidence = ("\n".join(evidence_chunks) + "\n" + "\n".join(csv_evidence)).lower()
+    # alnum-only normalization so the heuristic matches across kebab/underscore/path-separator
+    # variants without false negatives (e.g. token "pattern-index-integrity-discipline"
+    # must match CSV row id "pattern_index_integrity_discipline").
+    def _alnum(s: str) -> str:
+        return re.sub(r"[^a-z0-9]+", "", s.lower())
+
+    base_evidence_alnum = _alnum(base_evidence)
+    candidate_alnum = {_alnum(n) for n in candidate_names}
+    fs_anchors_alnum = {_alnum(a) for a in fs_anchors}
+    canonical_bodies_alnum = {k: _alnum(v) for k, v in canonical_bodies.items()}
+    # Stop-word tokens that carry no evidence on their own (kebabed words like
+    # "row", "paired", "runbook", "sop") get filtered so the alnum-prefix
+    # match isn't dominated by header noise.
+    STOP_PREFIXES = {
+        "peopledesignpatternregistryrow",
+        "processlistcsvrow",
+        "processlistrow",
+        "pairedrunbook",
+        "pairedsop",
+        "pairedvalidator",
+        "pairedskill",
+        "scripts",
+        "sop",
+        "cursorrulesakos",
+    }
+
+    def _strip_stop_prefix(t: str) -> str:
+        for prefix in STOP_PREFIXES:
+            if t.startswith(prefix):
+                return t[len(prefix):]
+        return t
+
     unresolved = 0
     for canonical, item in forward_pairs:
-        token = re.sub(r"[^a-z0-9]+", "-", item.lower()).strip("-")
-        if not token:
+        token_kebab = re.sub(r"[^a-z0-9]+", "-", item.lower()).strip("-")
+        token_alnum = _alnum(item)
+        # for evidence sweeps, the substantive part of the token is everything
+        # AFTER stop-prefixes like "PEOPLE_DESIGN_PATTERN_REGISTRY row " or
+        # "process_list.csv row " or "paired runbook " etc.
+        token_core = _strip_stop_prefix(token_alnum)
+        if not token_alnum or not token_core:
             continue
-        if token in ops_text.lower():
+        if token_core in base_evidence_alnum:
             continue
-        if any(token in name for name in candidate_names):
+        if any(token_core in name or token_core in _alnum(name) for name in candidate_names):
+            continue
+        if any(token_core in anchor or anchor in token_core for anchor in fs_anchors_alnum):
+            continue
+        # cross-canonical landing: any OTHER canonical mentions the token core
+        source_key = str(canonical)
+        if any(token_core in body for path_key, body in canonical_bodies_alnum.items() if path_key != source_key):
             continue
         unresolved += 1
         if unresolved <= 10:

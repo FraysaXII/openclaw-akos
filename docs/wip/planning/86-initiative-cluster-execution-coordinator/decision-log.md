@@ -256,3 +256,62 @@ Operator answer `i89-q5-flip-now`. [`scripts/validate_brand_baseline_reality_dri
 
 I89 is **NOT** one of the ten coordinated siblings tracked by I86's `continuous-cluster-burndown` todo (I81 / I82 / I83 / I74 / I75 / I76 / I77 / I78 / I85 / I87 per [master-roadmap.md](master-roadmap.md) §1.1 wave diagram). I89 is a **downstream forward-charter** from I86 P3, not a parallel sibling. I89's closure is independent of I86's future `D-IH-86-CLOSURE`; the cluster-burndown todo continues unchanged.
 
+---
+
+## Round 5 — Wave R closure audit trail (2026-05-24)
+
+> Round 5 captures the **25-commit Wave R** wave-close audit trail. Wave R was the **FINOPS substrate stand-up wave** — I81 P2 layout migration 5-of-5 close (Bundles A + D T2 + T3) + FINOPS counterparty inventory close-out (Bundle B-1 + B-1ext recon) + monetary-substrate stand-up (Bundle B-2 R5-triple: substrate B-2a + executable B-2b + data/governance B-2c) + Bundle C cross-area ops wiring discipline candidate amendment + Lane B drain (53 findings dispositioned). Decisions ratified across Wave R: 11 sibling-level (`D-IH-81-N`..`D-IH-81-X`) + 2 cluster-level (`D-IH-86-CR` Lane B drain closure + `D-IH-86-CS` Wave R closure). The 11 sibling decisions live in [`I81 decision-log`](../81-vault-integrity-layout-milestones-retrofit/decision-log.md); the 2 cluster decisions are documented below.
+
+### D-IH-86-CR — Wave R Lane B drain closure (53 findings dispositioned)
+
+**Context.** Inter-wave regression sweep at Wave Q close surfaced 53 findings (drift + gap) that fell outside Wave Q's bundle scope. Per [`akos-inter-wave-regression.mdc`](../../../.cursor/rules/akos-inter-wave-regression.mdc) RULE 2 5-option enum, each finding needed an explicit disposition. Per `akos-conflict-surfacing-and-blocker-trackers.mdc`, drain of accumulated cross-wave findings is a legitimate lane within the next wave-close.
+
+**Decision.** Operator-ratified 7 inline-ratify gates (drain1..drain7) at 2026-05-23. Per-finding dispositions: deterministic-fix-now for trivial CSV refreshes; manual-fix-now for prose judgement calls; defer-OPS for chartered backlog (OPS-86-15..OPS-86-20 minted as forward-charter rows); accept-as-canon for ratified pre-existing drift (CHANGELOG conditional dimension); escalate-to-blocker-tracker for none. Closure commit `ce589f4`. Cross-reference: [`OPS_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv) rows `OPS-86-15` through `OPS-86-20`.
+
+**Special case: drain7 cursor-rule-skill-pairing**. Operator ratified `drain7-dispatch-a` (subagent dispatch for the proposal authoring). Subagent dispatch surfaced reliability concerns; superseded by `wrd2-a` in-chat authoring 2026-05-24 (Wave R close session). Proposal authors at `reports/drain7-cursor-rule-skill-pairing-proposal-2026-05-24.md` in successor commit. Forward-charter: `OPS-86-21` placeholder until proposal lands.
+
+Canonical row: [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) **D-IH-86-CR**.
+
+### D-IH-86-CS — Wave R closure ratification (this wave-close commit)
+
+**Context.** Wave R accumulated 25 commits + 11 sibling decisions + 2 lane-level decisions across 3 calendar days (2026-05-22 through 2026-05-24). Per [`akos-inter-wave-regression.mdc`](../../../.cursor/rules/akos-inter-wave-regression.mdc) RULE 1 + [`akos-index-integrity.mdc`](../../../.cursor/rules/akos-index-integrity.mdc) RULE 1, wave-close mandates inter-wave regression sweep + index-integrity sweep before the UAT verdict line is filled in. Per [`akos-planning-traceability.mdc`](../../../.cursor/rules/akos-planning-traceability.mdc) §"UAT quality bar" post-2026-05-19 binding template, the Wave R closure UAT must follow [`uat-closure-template.md`](../_templates/uat-closure-template.md) v1.0 with verdict + 11-section structure + D-IH-86-D 4-signal cross-check.
+
+**Decision.** Operator-ratified 4 inline-ratify gates (waver1..waver4) at 2026-05-24:
+
+- **waver1-a** — PASS-WITH-FOLLOWUP verdict ratified. 11/11 closure criteria PASS; 0 SKIP; 0 FAIL. "WITH-FOLLOWUP" qualifier captures 3 named open OPS rows (OPS-81-22 Stripe live audit + OPS-86-22 DIM-02 4 true gaps + OPS-86-23 30-finding pre-existing backlog).
+- **waver2-a** — Class: governance. Same shape as D-IH-86-CR + D-IH-86-CD + D-IH-86-AS.
+- **waver3-b** — BOTH new OPS rows (OPS-86-22 + OPS-86-23) trigger at **Wave R+1 close** — deterministic next-wave re-fire rather than chained-to-initiative-promotion. Operator priority on visibility every wave; accepts disposition-fatigue trade-off explicitly.
+- **waver4-order-abc** — Post-closure attack sequence: (1) drain7 cursor-rule-skill-pairing proposal (in-chat author per wrd2-a; closes OPS-86-21); (2) Bundle B Strand 2 ambiguous-vendor batches (~24 decisions via 4 batched inline-ratify; closes OPS-81-3); (3) Quality Fabric 12th specialty SYNTHESIS_BEFORE_TRANCHE mint (multi-session per s6-d).
+
+**Wave-R close-out artifacts (atomic-commit binding)**:
+- [`reports/regression-sweep-2026-05-24-wave-r-close.md`](reports/regression-sweep-2026-05-24-wave-r-close.md) + sidecar JSON — 46 findings dispositioned (6 clean + 1 drift accept-as-canon + 39 gap forward-chartered).
+- [`reports/index-sweep-2026-05-24-wave-r-close.md`](reports/index-sweep-2026-05-24-wave-r-close.md) + sidecar JSON — 8/8 dimensions FRESH; 0 drift; 0 gap.
+- [`reports/uat-wave-r-closure-2026-05-24.md`](reports/uat-wave-r-closure-2026-05-24.md) — closure UAT verdict PASS-WITH-FOLLOWUP.
+- OPS-86-22 + OPS-86-23 mints in [`OPS_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv).
+- D-IH-86-CS appended to [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) (412 active + 2 superseded post-append).
+
+**Mechanical evidence (Wave R)**:
+- `validate_decision_register.py` PASS — 411 active + 2 superseded (412 after this row).
+- `validate_ops_register.py` PASS.
+- `validate_hlk.py` umbrella OVERALL PASS.
+- `validate_inter_wave_regression.py --self-test` PASS + 50/50 pytest.
+- `validate_index_freshness.py --self-test` PASS.
+- D-IH-86-D 4-signal cross-check: ✓✓✓✓ (release-gate INFO advisory + validate_hlk OVERALL PASS + paired-runbook contract honored + UAT report present).
+
+**Methodological enhancement landed during Wave R (post-sweep heuristic patch)**. The `_probe_dimension_2_forward_charter_carryover` probe in [`scripts/inter_wave_regression_sweep.py`](../../../../scripts/inter_wave_regression_sweep.py) was tightened during Wave R close to reduce false positives (from 10 → 4 true-gap findings). Heuristic improvements: (a) expanded evidence sweep beyond `_candidates/` + `OPS_REGISTER` to filesystem (scripts/ + akos/ + .cursor/rules/ + .cursor/skills/) + canonical CSV bodies (PRECEDENCE + process_list + baseline_organisation + dimensions/); (b) alphanumeric normalization (`_alnum` helper) for token matching across kebab-case + snake_case + path-separator variants; (c) stop-prefix filtering to strip boilerplate ("PEOPLE_DESIGN_PATTERN_REGISTRY row " etc.) from token cores. 50/50 unit tests PASS after refactor. This patch raises the regression sweep's signal-to-noise across all future waves; the methodology is now self-improving per `akos-quality-fabric.mdc` continuous-improvement framing.
+
+**Wave R doctrine consequences**:
+- I81 P2 layout migration 5-of-5 **COMPLETE** (Tranches T1..T5 all closed; P2 flipped closed at commit `1437a54`).
+- FINOPS pipeline **prod-ready substrate live in MasterData**: 3 Edge Functions deployed + 2 pg_cron schedules registered + PostgREST exposed schemas operator-confirmed + 4 idempotency invariants enforced end-to-end + 1 security hardening migration (pgmq RPC wrapper role lockdown).
+- FINOPS_COUNTERPARTY_REGISTER **A2 1/2 areas** (11 obvious-batch vendor rows + Stripe special row landed); ambiguous batch (~24 vendors) deferred to Bundle B Strand 2 (OPS-81-3).
+- I-NN-CROSS-AREA-OPS-WIRING-REVIEW candidate **amended to every-area scope** (D-IH-81-T architecture-class; supersedes original backbone-only scope per operator novel framing); stays at `status: candidate` per operator q3-b until A2 ≥ 2/2 area coverage reached.
+- Inter-wave regression sweep heuristic **self-improvement** (10 → 4 DIM-02 false positives; future waves inherit cleaner signal).
+
+Canonical row: [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) **D-IH-86-CS**.
+
+### Cross-cluster note (Wave R)
+
+Wave R was the **fifth-largest wave to date** in the I86 cluster (after Waves J, M, N, P). It consolidated **3 simultaneously-running lanes** (Lane A = FINOPS substrate / Lane B = drain / Lane D = layout migration) under a single wave-close ratification. Per `akos-conflict-surfacing-and-blocker-trackers.mdc` Option-5 default posture, the 3-lane consolidation surfaced 4 inline-ratify gates at close (waver1..waver4) — operator handled all 4 without fatigue per explicit "go all out; fully rested" framing 2026-05-24.
+
+**Next Wave (Wave S) opens** with drain7 cursor-rule-skill-pairing proposal authoring per waver4-order-abc step 1. Wave S scope TBD; expected to include Bundle B Strand 2 ambiguous-vendor close-out + Quality Fabric 12th specialty SYNTHESIS_BEFORE_TRANCHE mint per s6-d ratification (largest pending task).
+
