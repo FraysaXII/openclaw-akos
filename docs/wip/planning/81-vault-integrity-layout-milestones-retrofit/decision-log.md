@@ -754,3 +754,83 @@ The full R1-a + R2-a + R3-a + R4-a pipeline becomes end-to-end-runnable at this 
 - **RULE 1 (internal-research pass)**: SATISFIED. B-2c data + governance writes derive from internal sweep of B-2a Pydantic SSOT + B-2b TS resolver + ENGAGEMENT_MODEL_REGISTRY.csv 7-class baseline + I81 P2 closure-criteria table + 35-migration backlog inventory + `get_advisors` security findings.
 - **RULE 2 (external-research pass)**: NOT REQUIRED. B-2c is a data + governance close of B-2a/B-2b architecture; no novel framings introduced. Architectural research grounding lives in the Bundle B-2 architecture report (`79078b7`) which already cited external sources (Stripe retry guidance + GitHub Webhooks DLQ + ECB daily rates + pgmq Postgres-native queue + Supabase exposed-schemas docs).
 - **RULE 3 (wave-closure research enrichment)**: this commit is Wave R Bundle B-2 close; the Wave R closure UAT (and the closure UAT at `reports/i81/p2-bundle-b2-closure-uat-2026-05-24.md`) cite this D-IH-81-X as the "FINOPS substrate end-to-end operational in live MasterData" milestone evidence + reference the 35-migration backfill discipline as a lesson learned.
+
+---
+
+## D-IH-81-Z — Bundle B Strand-2 closure (ambiguous-tier counterparty disambiguation + banking enum extension + Spain-strategy research-area-improvement forward-charter)
+
+**Date:** 2026-05-24
+**Decision class:** closure
+**Inputs:** operator 8-question Strand-2 ratify gate (b-s2-scope=option-D-with-additions, b-s2-pacing=pace-d, b-s2-batch1=b1-a, b-s2-confidence=conf-c, b-s2-disambig=operator-direct-answers, bs2-decoded=decoded-b, bs2-spain-intel=research-area-improvement-with-cross-area-topics-and-intents, bs2-decision-id=did-b)
+**Sibling decisions:** D-IH-81-U (Strand-1 obvious-tier closure 2026-05-23; this row + D-IH-81-U bracket Bundle B as paired closure-class)
+**Closes:** OPS-81-2 (FINOPS Plane 1 — Counterparty register vendor inventory pass)
+**Forward-charters:** I-NN-RESEARCH-AREA-CROSS-AREA-TOPIC-INTENT-IMPROVEMENT (candidate file at `docs/wip/planning/_candidates/i-nn-research-area-cross-area-topic-intent-improvement.md`)
+
+### What landed
+
+**15 net-new FINOPS counterparty rows** (taking register from 13 → 28 rows; within OPS-81-2 expected 25-40 range):
+
+| # | counterparty_id | service_category | billing_model | MCP/skill evidence |
+|---|---|---|---|---|
+| 1 | finops_cloudflare | saas | mixed | plugin-cloudflare-{docs,observability,builds,bindings} + 7 cursor skills (operator-clarified as ISP/registrar/DNS/CDN/Workers/R2/observability multi-surface) |
+| 2 | finops_resend | saas | mixed | plugin-resend-resend MCP + 5 skills |
+| 3 | finops_twilio | saas | usage | plugin-twilio-developer-kit + 75+ skills |
+| 4 | finops_cal_com | saas | subscription | CHAN-CAL-SCHEDULE registry + SCHEDULING_ADAPTER_REGISTRY + akos-external-render-discipline.mdc §RULE 7 citation |
+| 5 | finops_figma | saas | subscription | plugin-figma-figma + 8 skills + FIGMA_FILES_REGISTRY.md (Initiative 29) |
+| 6 | finops_slack | saas | subscription | plugin-slack-slack + COMMUNICATION_ADAPTER_REGISTRY |
+| 7 | finops_langfuse | observability | mixed | user-langfuse + user-langfuse-docs MCPs |
+| 8 | finops_postman | productivity | subscription | user-postman_mcp_server MCP |
+| 9 | finops_miro | saas | subscription | plugin-miro-miro + miro-mcp skill |
+| 10 | finops_composio | saas | mixed | user-composio MCP |
+| 11 | finops_neo4j | data_platform | mixed | user-neo4j-cypher + user-neo4j-memory MCPs + scripts/hlk_graph_* (I07) |
+| 12 | finops_google_workspace | productivity | subscription | operator domain anchor (holistikaresearch.com) + HLK Drive mirror governance |
+| 13 | finops_excalidraw | saas | mixed | operator-named addition this batch |
+| 14 | finops_shopify | saas | subscription | user-shopify-dev-mcp + user-shopify-storefront-mcp + plugin-shopify-plugin (75+ skills) (operator-named addition) |
+| 15 | finops_bbva | **banking** | mixed | operator clarified BBVA is AT-Pymes' banking partner — gives operator preferential terms via AT-Pymes partnership |
+
+**1 amended row**: `finops_at_pymes` notes folded in PAE (Punto de Atención al Emprendedor) framing per `https://paeelectronico.es` network reference + explicit BBVA-partnership context + cross-ref to new `finops_bbva` row.
+
+**1 schema extension**: `banking` added to `SERVICE_CATEGORIES` enum in `scripts/validate_finops_counterparty_register.py` (supports BBVA + future bank counterparty rows). Pydantic chassis (`akos/hlk_finops_counterparty_csv.py`) carries only FIELDNAMES tuple; enum logic lives entirely in the validator so single-file change covers the schema extension.
+
+**1 forward-charter candidate**: `i-nn-research-area-cross-area-topic-intent-improvement.md` minted at `docs/wip/planning/_candidates/`. Spawned by operator framing mid-batch: *"this is a research request and our current architecture could not secure it I think. That's why I ask this challenge and I expect you to link it to a research area improvement (with the cross area topics and intents in it)."* Names the gap (current Research area canonicals don't carry "sustained cross-area research on a topic + intent matrix that informs how every area engages that topic"); uses Spain-strategy as the worked-example activator; cites RESEARCH_HEAD_DISCIPLINE.md + INTELLIGENCEOPS_REGISTER.csv + SUBSTRATE_LANDSCAPE_DOCTRINE.md as the parent canonicals the improvement would augment.
+
+### Operator's 8-question ratify gate (decoded)
+
+1. **b-s2-scope=option-D-with-additions**: extended scope beyond MCP-evidence baseline. Operator added Excalidraw + Shopify; clarified Cloudflare as multi-surface (ISP/registrar/DNS/CDN/all of them); clarified BBVA is AT-Pymes partner not separate vendor (folded into AT-Pymes row + minted finops_bbva row).
+2. **b-s2-pacing=pace-d** (most aggressive): all ambiguous vendors this session blurring Strand-1/Strand-2 boundary at confidence_level=3.
+3. **b-s2-batch1=b1-a**: high-MCP-evidence priority for the single-batch processing.
+4. **b-s2-confidence=conf-c**: confidence_level=3 across the board with caveat notes flagging tier-confirmation deferred to live billing.
+5. **b-s2-disambig=operator-direct-answers**: operator pushed back on options a/b/c/d preferring direct answers; clarified Cloudflare disambiguation + AT-Pymes/BBVA relationship + PAE network framing explicitly.
+6. **bs2-decoded=decoded-b**: add `banking` enum value to `SERVICE_CATEGORIES` (tightly coupled change; same commit; ~10 min + 1 test update). Normalises BBVA classification properly + opens future bank rows.
+7. **bs2-spain-intel=research-area-improvement-with-cross-area-topics-and-intents**: operator-novel framing rejecting the IntelligenceOps-row-only options. Reframed as Research area improvement candidate with cross-area topic + intent shape; not just an IntelligenceOps row. Forward-chartered as standalone candidate file.
+8. **bs2-decision-id=did-b**: D-IH-81-Z (skipping D-IH-81-Y which is pre-allocated to OPS-81-22 closure promotion per Bundle B-2c rationale) + cross-reference D-IH-81-U so future readers see Strand-1 + Strand-2 as paired closure-class decisions completing Bundle B.
+
+### Mechanical evidence
+
+- `py scripts/validate_finops_counterparty_register.py`: **PASS** (28 rows: 13 prior + 15 new).
+- `py scripts/validate_hlk.py`: **OVERALL PASS** (445 files scanned; 432 with frontmatter; 0 errors).
+- `py scripts/validate_decision_register.py`: **PASS** (414 active + 2 superseded after D-IH-81-Z lands).
+
+### Why this matters
+
+1. **Bundle B closed as paired-closure-class** (D-IH-81-U + D-IH-81-Z): future readers see Strand-1 + Strand-2 as a single deliverable arc rather than two disconnected rows; pattern that other multi-strand bundles should inherit.
+2. **FINOPS counterparty register is now production-ready inventory** (28 rows; within OPS-81-2's expected 25-40 range; validator PASS; operator-confirmed). Downstream FINOPS planes (revenue recognition policy + pricing tier registry + customer-row protocol + ledger close cadence) now join to a meaningful counterparty population.
+3. **Banking enum addition opens the bank-counterparty class as governable infrastructure**, not a special-case workaround. Future Spanish + EU + Madeira-specific banking partners (Caixa Geral, BPI, Bankinter, etc.) inherit the same row shape.
+4. **PAE-network framing folded into AT-Pymes row** captures institutional-standing context the operator volunteered (Spanish CIRCE/PAE network + AT-Pymes' positioning explaining their bundle pricing). The framing is durable + improves future operator-Madeira disambiguation in this corner.
+5. **Spain-strategy research-area-improvement candidate** is the load-bearing forward-charter: the operator's framing exposed a structural gap (current architecture handles per-target intelligence + per-engagement HUMINT + substrate-inventory; doesn't handle sustained cross-area topic + intent intelligence as a Research-area discipline). The candidate names that gap explicitly and forward-charters the architecture-improvement work to a successor initiative (likely under I75 Research area governance when it activates).
+
+### Forward state
+
+- Bundle B (Strand-1 obvious-tier + Strand-2 ambiguous-tier) **FULLY CLOSED** as paired-closure decisions D-IH-81-U + D-IH-81-Z.
+- Bundle B-2 (FINOPS monetary substrate stand-up) already closed via R5-triple D-IH-81-V/W/X.
+- I81 P2 layout migration 5-of-5 already closed via D-IH-81-S.
+- I81 P3 entry now fully unblocked (Bundle B inventory complete + Bundle B-2 substrate operational + Bundle D layout migration complete).
+- Quality Fabric 12th specialty mint (SYNTHESIS_BEFORE_TRANCHE) — still pending; PRIORITY-5; multi-session if needed.
+- Spain-strategy research-area-improvement candidate at status=candidate awaits operator ratification at next cycle (likely under I75 Research area governance umbrella when that activates).
+- Future MCP-side billing reconciliation tier-confirmation deferred to next operator cycle when live billing dashboards accessible (per-vendor tier confirmation: free vs paid, plan name, monthly spend) — not blocking closure.
+
+### External research grounding (per `akos-applied-research-discipline.mdc`)
+
+- **RULE 1 (internal-research pass)**: SATISFIED. Strand-2 row authoring derived from internal sweep of `.cursor/mcp.json`-equivalent MCP inventory + cursor skill catalog + existing FINOPS register row patterns + Initiative 21/29/68/79 cross-references for adapter registries + CHANNEL_TOUCHPOINT_REGISTRY + COMMUNICATION/EMAIL/SCHEDULING_ADAPTER_REGISTRY.
+- **RULE 2 (external-research pass)**: PARTIAL. Web search performed mid-batch to ground AT-Pymes/PAE network framing (`https://paeelectronico.es` cited) + Excalidraw OSS + Excalidraw+ tier framing + Cloudflare service-surface breadth + BBVA business-banking partnership-tier framing. Citations folded into row notes inline where load-bearing.
+- **RULE 3 (wave-closure research enrichment)**: Wave R already closed via D-IH-86-CS; this Strand-2 row lands in a follow-on commit. Next wave-close UAT (Wave S) should record Bundle B paired-closure as the inventory-complete milestone + Spain-strategy candidate as the surfaced gap.

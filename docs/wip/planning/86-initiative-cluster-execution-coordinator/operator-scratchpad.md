@@ -1251,6 +1251,38 @@ Both grounding pillars converge on the same load-bearing claim: every X-pair get
 
 [processed 2026-05-24 wave-R-round-6-drain7 | Round 6 drain7 CLOSED via `D-IH-86-CT` (governance class; operator-explicit via 3 sub-batch ratify gates + 1 batch3-disposition override declining defer in favor of mint-new-rule). 10 net additions: 9 paired craft skills + 1 new rule. 4 frontmatter backfills + 9 cross-ref backfills + 1 proposal report. OPS-86-21 closed. Pairing inventory becomes baseline for future drift detection. Forward state: Bundle B Strand 2 next per `waver4-order-abc` step 2.]
 
+### 2026-05-24 Round 7 — Bundle B Strand 2 drain (DRAINED 2026-05-24)
+
+**Trigger**: per `waver4-order-abc` step 2 (drain7 closed → Bundle B Strand 2 next). Operator's `pace-d` framing 2026-05-24: aggressive — all ambiguous vendors this session in a single batch blurring Strand-1/Strand-2 boundary; intentional confidence-3 default per MCP-evidence + caveat notes.
+
+**Operator-novel framings surfaced mid-batch**:
+1. **Cloudflare multi-surface clarification** — Cloudflare is operator's ISP + domain registrar + DNS + CDN + Workers + R2 + observability (not just CDN). Folded into single `finops_cloudflare` row with per-surface tier breakdown in notes; caveat that per-surface billing reconciliation deferred to live dashboard.
+2. **BBVA-as-AT-Pymes-partner clarification** — BBVA is AT-Pymes' banking partner (not separate direct vendor). Partnership gives operator preferential terms; "much value for low price" per operator verbatim. Folded into `finops_at_pymes` notes amendment + minted standalone `finops_bbva` row for banking-side counterparty.
+3. **PAE (Punto de Atención al Emprendedor) institutional standing** — AT-Pymes also operates as a PAE in the official Spanish CIRCE/PAE network (`https://paeelectronico.es`). That institutional standing partly explains bundle pricing. Folded into AT-Pymes notes amendment.
+4. **Excalidraw + Shopify additions** — operator-named additions beyond MCP-evidence baseline. Excalidraw (OSS diagramming) + Shopify (e-commerce, given user-shopify-dev-mcp + user-shopify-storefront-mcp + 75+ cursor skills evidence).
+5. **`banking` enum addition** — operator decoded as `decoded-b`: add `banking` as new value to `SERVICE_CATEGORIES` in `scripts/validate_finops_counterparty_register.py`. Normalises BBVA classification + opens future bank rows. Pydantic chassis (`akos/hlk_finops_counterparty_csv.py`) carries only FIELDNAMES tuple; enum logic is single-file in the validator.
+6. **Spain-strategy as Research-area-improvement** — operator's novel framing: "this is a research request and our current architecture could not secure it I think. That's why I ask this challenge and I expect you to link it to a research area improvement (with the cross area topics and intents in it)." Reframed away from IntelligenceOps-row-only options. Forward-chartered as candidate file `i-nn-research-area-cross-area-topic-intent-improvement.md` naming the gap (current Research canonicals don't carry sustained cross-area topic+intent matrix shape) + using Spain-strategy as worked-example activator.
+
+**Decision lineage**: `D-IH-81-Z` (Strand-2 closure; closure-class; medium-low reversibility) — cross-references `D-IH-81-U` (Strand-1 obvious-tier closure 2026-05-23) so future readers see Strand-1 + Strand-2 as paired closure-class decisions bracketing Bundle B. Skipped `D-IH-81-Y` which is pre-allocated to OPS-81-22 closure promotion per Bundle B-2c rationale.
+
+**Mechanical evidence**:
+- `py scripts/validate_finops_counterparty_register.py`: PASS (28 rows: 13 prior + 15 new).
+- `py scripts/validate_hlk.py`: OVERALL PASS (445 files scanned).
+- `py scripts/validate_decision_register.py`: PASS (414 active + 2 superseded after D-IH-81-Z append).
+
+**Doctrine consequences**:
+- Bundle B (Strand-1 + Strand-2) closes as paired-closure decision class — pattern for future multi-strand bundle closures.
+- FINOPS counterparty register at 28 rows is production-ready inventory; downstream FINOPS planes can now join to meaningful population.
+- Banking enum opens bank-counterparty class as governable infrastructure; future Spanish + EU + Madeira-specific banking partners inherit row shape.
+- PAE-network framing captured in AT-Pymes notes — durable institutional-standing context.
+- Spain-strategy research-area-improvement candidate forward-charters cross-area topic+intent intelligence as a sustained Research-area discipline shape; structural gap surfaced.
+
+**Reversibility**: medium-low. 15 row appends are git-revertible; banking enum extension is single-file-revertible (BBVA row gets reverted in same commit so no orphan rows); AT-Pymes notes amendment content-only-revertible; research-area-improvement candidate fully reversible (delete file).
+
+**Forward state**: Bundle B FULLY CLOSED as paired D-IH-81-U + D-IH-81-Z. Bundle B-2 already closed via R5-triple. I81 P2 layout migration 5-of-5 already closed via D-IH-81-S. I81 P3 entry now fully unblocked (Bundle B inventory complete + Bundle B-2 substrate operational + Bundle D layout migration complete). Quality Fabric 12th specialty mint (SYNTHESIS_BEFORE_TRANCHE; PRIORITY-5; multi-session) — still pending. Spain-strategy candidate at status=candidate awaits operator ratification at next cycle (likely under I75 Research area governance when activated). Future MCP-side billing reconciliation tier-confirmation deferred to next operator cycle when live billing dashboards accessible.
+
+[processed 2026-05-24 wave-R-round-7-bundle-b-strand-2 | Round 7 Bundle B Strand 2 CLOSED via `D-IH-81-Z` (closure-class; medium-low reversibility; operator-explicit via 8-question ratify gate). 15 net-new FINOPS rows + 1 amended row + 1 schema extension (banking enum) + 1 forward-charter candidate (Spain-strategy research-area-improvement). OPS-81-2 closed (28 rows within 25-40 expected range; validator PASS; operator confirms inventory complete). Bundle B paired-closure with D-IH-81-U complete. Forward state: I81 P3 entry unblocked; Quality Fabric 12th specialty mint remains PRIORITY-5 next attack per `waver4-order-abc` step 3.]
+
 [unprocessed — for next coordinator drain]
 
 <!-- end of entries -->

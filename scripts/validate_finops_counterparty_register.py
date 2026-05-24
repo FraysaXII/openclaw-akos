@@ -54,6 +54,7 @@ SERVICE_CATEGORIES = {
     "payments",
     "productivity",
     "observability",
+    "banking",  # I81 Strand-2 (D-IH-81-Z, 2026-05-24): added for BBVA + future bank counterparty rows
     "other",
     "na",
 }
