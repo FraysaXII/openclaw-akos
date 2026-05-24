@@ -162,6 +162,7 @@ export async function computeFxSnapshotFromDb(
   }
 
   const { data, error } = await supabase
+    .schema("holistika_ops")
     .from("fx_rate_cache")
     .select("currency_pair, effective_date, rate")
     .eq("currency_pair", pair)

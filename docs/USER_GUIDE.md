@@ -2252,6 +2252,42 @@ py scripts/export_adviser_handoff.py --discipline legal --format md --out artifa
 
 **Privacy posture (D-CH-2)**: Canonical text uses GOI/POI ref_ids only; raw names of private parties live off-repo. Public authorities (AEAT, ENISA, OEPM, mercantile registries) may be named directly. See `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_TRANSCRIPT_REDACTION_001.md` and `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/SOP-HLK_GOIPOI_REGISTER_MAINTENANCE_001.md`.
 
+### 24.7.1 FINOPS writer substrate (I81 P2 Bundle B-2; 2026-05-24)
+
+Bundle B-2 stands up Holistika's first prod-ready FINOPS event pipeline. From Stripe webhook → counterparty resolution → FX snapshot → `finops.registered_fact` write, with full DLQ + observability. Architecture R1..R5 ratified 2026-05-23; D-IH-81-V / W / X closed end-to-end 2026-05-24.
+
+**What it does (plain language).** Every Stripe payment event (charge succeeded, subscription created/updated/cancelled, etc.) arrives at the webhook handler. The handler returns 200 to Stripe in < 5 seconds (so Stripe never retries), then enqueues the event on a Postgres-native queue (`pgmq.finops_writer_queue`). A cron-triggered worker drains the queue every minute, resolves the counterparty per the engagement model's strategy, snapshots the ECB FX rate, and writes a governed fact row. Failures route to a DLQ; depth > 10 emits a `dlq_threshold_exceeded` OPS row that surfaces in HLK-ERP.
+
+**5-component stack:**
+
+| Component | Surface | Role |
+|:---|:---|:---|
+| Stripe webhook handler v6 | [`supabase/functions/stripe-webhook-handler/index.ts`](../supabase/functions/stripe-webhook-handler/index.ts) | Dispatch-pattern entry; signature-verifies + dispatches to `finops_dispatch.ts` (new) or `kirbe_holistika_dispatch.ts` (pre-B-2b verbatim) |
+| FINOPS dispatch | [`supabase/functions/stripe-webhook-handler/dispatch/finops_dispatch.ts`](../supabase/functions/stripe-webhook-handler/dispatch/finops_dispatch.ts) | Logs raw event to `holistika_ops.stripe_events` + enqueues to `pgmq.finops_writer_queue` |
+| FX cache | Edge Function [`fx-rate-cache-refresh`](../supabase/functions/fx-rate-cache-refresh/index.ts) + cron `30 15 * * *` | Daily ECB rate refresh (USD/EUR + GBP/EUR + CHF/EUR + EUR/EUR identity); persists to `holistika_ops.fx_rate_cache` |
+| Writer worker | Edge Function [`finops-writer-worker`](../supabase/functions/finops-writer-worker/index.ts) + cron `* * * * *` | Drains `pgmq.finops_writer_queue` (MAX_BATCH=25; VISIBILITY_TIMEOUT=90s); resolves counterparty + FX snapshot + writes `finops.registered_fact`; failures → DLQ after MAX_RETRIES=5 |
+| DLQ drain runbook | [`scripts/finops_dlq_drain.py`](../scripts/finops_dlq_drain.py) | Operator drain tool when `dlq_threshold_exceeded` OPS row fires; `--self-test` validates Pydantic + RPC wiring |
+
+**Engagement-model router (R1-a).** The 17-column `compliance.engagement_model_registry_mirror` carries `counterparty_resolution_strategy` (`NOT NULL` + `CHECK` enum) with 5 strategies: `stripe_customer_link_lookup` (default; consultancy customers + SaaS subscribers) / `metadata_engagement_id` (4 ad-hoc engagement classes) / `metadata_billing_plane` / `rpp_payout_attribution` / `manual_review` (3 unknown classes). Pydantic SSOT in [`akos/hlk_engagement_model_csv.py`](../akos/hlk_engagement_model_csv.py); TS resolver in [`supabase/functions/_shared/finops/counterparty_resolver.ts`](../supabase/functions/_shared/finops/counterparty_resolver.ts).
+
+**Day-to-day operator commands:**
+
+```pwsh
+py scripts/validate_finops_ledger.py
+py scripts/validate_finops_counterparty_register.py
+py scripts/finops_dlq_drain.py --self-test
+py scripts/stripe_audit_metadata.py --self-test
+py -m pytest tests/test_validate_engagement_model_registry.py tests/test_validate_finops_ledger.py tests/test_hlk_fx_rate.py tests/test_finops_dlq_drain.py tests/test_resolve_counterparty_id.py
+```
+
+**Production deployment knobs:**
+
+- **Exposed schemas (Supabase Dashboard → Project Settings → API → Exposed schemas):** `public, storage, graphql_public, realtime, supabase_functions, vault, kirbe, gemini_fastapi, compliance, ai_use_cases, stripe_gtm, stripe_public, compliance_001, holistika_ops, finops`. PostgREST gates Edge Function `.schema()` access; `holistika_ops` + `finops` must remain in this list or writer worker + FX refresh will 404 with a schema error.
+- **Cron jobs (verify via `SELECT * FROM cron.job`):** `fx_rate_cache_refresh_daily` (`30 15 * * *`) + `finops_writer_worker_every_minute` (`* * * * *`) + `kirbe_monitoring_logs_retention` (`0 3 * * *`).
+- **pgmq RPC wrappers (5 `SECURITY DEFINER` functions):** `pgmq_send_finops_writer` / `pgmq_read_finops_writer` / `pgmq_delete_finops_writer` / `pgmq_archive_finops_writer` / `pgmq_metrics_finops_writer` — anon + PUBLIC EXECUTE revoked; `service_role` only. See [`supabase/migrations/20260524130000_i81_p2_b2b_pgmq_rpc_wrappers_role_lockdown.sql`](../supabase/migrations/20260524130000_i81_p2_b2b_pgmq_rpc_wrappers_role_lockdown.sql).
+
+**What's deferred (OPS rows):** Stripe live AT MCP audit (OPS-81-X; requires `mcp_auth user-stripe` reconnaissance against the live Stripe AT environment after operator authentication). Closure UAT at [`docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/p2-bundle-b2-closure-uat-2026-05-24.md`](wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/p2-bundle-b2-closure-uat-2026-05-24.md) verdict: PASS-WITH-FOLLOWUP.
+
 ### 24.8 Initiative status taxonomy
 
 Every initiative under `docs/wip/planning/` carries a `status:` field in its `master-roadmap.md` frontmatter. The status uses a **seven-value taxonomy** defined in [`akos/planning/status_taxonomy.py`](../akos/planning/status_taxonomy.py) (the `InitiativeStatus` enum). Each value maps to a distinct operator expectation and determines which companion frontmatter fields are required:

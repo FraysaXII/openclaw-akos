@@ -87,6 +87,7 @@ export async function resolveCounterpartyId(
   if (stripeCustomerId && stripeCustomerId.startsWith("cus_") && supabase) {
     try {
       const { data, error } = await supabase
+        .schema("holistika_ops")
         .from("stripe_customer_link")
         .select("finops_counterparty_id, org_label")
         .eq("stripe_customer_id", stripeCustomerId)
