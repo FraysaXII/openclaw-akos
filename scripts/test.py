@@ -94,12 +94,13 @@ GROUPS: dict[str, dict] = {
         "files": ["test_router.py"],
     },
     "hlk": {
-        "description": "HLK domain models, registry service, API endpoints, and process CSV SSOT helpers (includes Quality Fabric specialty chassis: INTER_WAVE_REGRESSION Wave M, INDEX_INTEGRITY Wave N)",
+        "description": "HLK domain models, registry service, API endpoints, and process CSV SSOT helpers (includes Quality Fabric specialty chassis: INTER_WAVE_REGRESSION Wave M, INDEX_INTEGRITY Wave N, COLLABORATOR_SHARE Wave R+1 Commit 2a)",
         "files": [
             "test_hlk.py",
             "test_hlk_process_csv.py",
             "test_inter_wave_regression.py",
             "test_index_integrity.py",
+            "test_hlk_collaborator_share.py",
         ],
     },
     "graph": {
