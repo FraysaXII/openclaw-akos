@@ -185,6 +185,21 @@ SURFACES: dict[str, dict[str, str]] = {
         "eyebrow": "Holistika Research · Présentation",
         "profile": "slides",
     },
+    # Wave R+1 Commit 4 (D-IH-86-EH): architecture addendum FR — 2-page
+    # customer-pack addendum complementing proposal.customer.fr.md with the
+    # three-phase Microsoft Power Platform architecture (Power Query / Power
+    # Apps + SharePoint + Power Automate / Power BI feasibility) + Aïsha-led
+    # continuity narrative + SUEZ CTO office replicability narrative + the
+    # 3-surface ERP-engagement-governance UX shape from D-IH-82-V.
+    "architecture_addendum": {
+        "audience": "customer",
+        "source": "architecture-addendum.fr.md",
+        "out": "architecture-addendum.fr.pdf",
+        "title": "Addenda architecturale en trois temps",
+        "subtitle": "Power Query · Power Platform · faisabilité ERP + continuité opératrice partenaire",
+        "discipline": "Annexe à la Proposition d'engagement",
+        "eyebrow": "Holistika Research · Addenda architecturale",
+    },
 }
 
 
