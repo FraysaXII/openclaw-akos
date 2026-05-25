@@ -1,0 +1,331 @@
+---
+description: >-
+  Synthesis Before Tranche Discipline (14th Quality Fabric specialty;
+  Wave R+1 P3 Commit 2c-a mint). Mechanical companion to
+  SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md. Fires before any meaningful
+  tranche commits — engagement / specialty_mint / internal_governance
+  (non-J-OP) / canonical_csv_mint / brand_surface / external_deliverable.
+  10 dimensions; 5-option findings disposition per
+  D-IH-86-EC; broad-fire INFO ramp at mint per D-IH-86-ED with FAIL
+  promotion after 3 worked-example applications including this canonical's
+  own mint (specialty_mint class) + SUEZ POC FULL KIT (engagement class)
+  + I82 P1 capability registry (canonical_csv_mint class).
+globs:
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_SYNTHESIS_BEFORE_TRANCHE_001.md"
+  - "docs/wip/planning/**/master-roadmap.md"
+  - "docs/wip/planning/**/reports/synthesis-*.md"
+  - "docs/wip/planning/**/*.tranche-charter.md"
+  - "docs/wip/planning/_candidates/**/*.md"
+  - "scripts/synthesis_before_tranche_check.py"
+  - "scripts/validate_synthesis_before_tranche.py"
+  - "akos/hlk_synthesis_before_tranche.py"
+alwaysApply: true
+---
+
+# AKOS Synthesis Before Tranche
+
+Use this rule whenever **a tranche of work approaches commit-time** —
+a wave that closes; a kit that ships; an engagement phase that commits;
+a canonical CSV that mints; a brand surface that deploys; an external
+deliverable that ships. Codifies operator decisions **D-IH-86-EA**
+(doctrine mint + INFO ramp), **D-IH-86-EB** (10-dimension probe set
+ratification), **D-IH-86-EC** (5-option disposition enum + per-tranche-
+class dimension firing rules), **D-IH-86-ED** (INFO→FAIL ramp posture
++ broad-fire cadence), and **D-IH-86-EE** (paired SOP+runbook gate per
+`akos-executable-process-catalog.mdc` Rule 1; ratified at this rule's
+mint commit). Mechanical companion to
+[`SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md).
+
+This rule does **not** define the doctrine — that lives in the canonical.
+This rule names the mechanical bar future agents and operators inherit
+by default when authoring any tranche-class artifact.
+
+## When this rule applies
+
+A tranche workflow is in scope for this rule when **any** of:
+
+- The tranche is one of the 6 tranche classes: **engagement**,
+  **specialty_mint**, **internal_governance** (with non-J-OP audience
+  OR ≥ 3 files), **canonical_csv_mint**, **brand_surface**,
+  **external_deliverable**.
+- The tranche ships ≥ 5 files in one commit OR touches a canonical
+  CSV.
+- The tranche carries a `tranche_class:` frontmatter tag in a
+  master-roadmap, candidate, or `.tranche-charter.md` file.
+- A wave-charter or wave-close commit introduces a new tranche-class.
+- An engagement charters or commits a phase.
+- A specialty canonical mints (every specialty mint is a
+  specialty_mint-class tranche; this rule's own mint is the recursive
+  worked example).
+- A brand surface deploys (web page, deck slide, dossier render).
+- An external deliverable ships (investor dossier, ENISA evidence,
+  advisor handoff pack).
+- The operator explicitly requests a synthesis pass (on_demand
+  cadence).
+
+Out of scope (per `SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md` §9):
+
+- Chore-only commits (typo fixes, link-rot fixes, formatting,
+  CHANGELOG-only edits).
+- Per-engagement WIP synthesis under `docs/wip/intelligence/`
+  (governed by brand-baseline-reality + per-engagement counterparty
+  brief disciplines, not this one).
+- Internal helper modules with no audience/channel/scenario impact.
+- Pre-2026-05-25 tranches that have already shipped (the discipline
+  is forward-only from this mint commit, not retroactive).
+
+## RULE 1 — Run the synthesis sweep BEFORE the tranche commits (binding)
+
+Every in-scope tranche MUST execute the 10-dimension synthesis sweep
+BEFORE the tranche's atomic commit lands. The sweep output
+(`docs/wip/planning/<parent-initiative>/reports/synthesis-<tranche-id>-<YYYY-MM-DD>.md`)
+is a `§3 mechanical-evidence` row in the tranche's UAT report OR an
+`§N synthesis` section in the tranche's master-roadmap when no UAT
+report applies.
+
+Pre-tranche temporal posture is the load-bearing claim: this rule's
+sister disciplines INDEX_INTEGRITY + INTER_WAVE_REGRESSION both run
+AFTER commit (wave-close cadence); SYNTHESIS_BEFORE_TRANCHE runs
+BEFORE commit (tranche-charter cadence). Composing the three covers
+the full work-lifecycle cadence — design-layer review (this rule),
+execution-layer regression (INTER_WAVE_REGRESSION), and index-layer
+freshness (INDEX_INTEGRITY).
+
+The 10 dimensions are defined in
+[`SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md)
+§2. Summary:
+
+| # | Dimension | Probe question | Severity |
+|:--|:---|:---|:---|
+| 1 | SYN-01-AUDIENCE-COMPLETENESS | Has every audience class touched by the tranche been named? | judgement (WARN ramp; FAIL when empty for non-internal_governance) |
+| 2 | SYN-02-CHANNEL-COVERAGE | Has every channel through which the output reaches each audience been named? | judgement (WARN ramp) |
+| 3 | SYN-03-SCENARIO-INVENTORY | Have all scenarios the audience-channel pairs will be in when consuming the output been named? | judgement (WARN ramp) |
+| 4 | SYN-04-BRAND-REGISTER-CITATION | Has the tranche cited which brand register applies per audience? (internal CORPINT vs translated-external) | **mandatory-citation** (FAIL ramp) |
+| 5 | SYN-05-GOVERNANCE-RATIFICATION-LINEAGE | Has the tranche cited which D-IH-NN-X decisions ratify the design intent? | **mandatory-citation** (FAIL ramp) |
+| 6 | SYN-06-ERP-SURFACE-CITATION | For engagement-class tranches: has the tranche named which of the 3 ERP-engagement-governance surfaces it lives in? (operator dashboard / customer dashboard / ERP workflow join) | judgement (WARN ramp; conditional on engagement class per §11) |
+| 7 | SYN-07-TRANCHE-ATOMICITY | Is the tranche scoped as ONE atomic commit (or one operator-readable artifact)? | **atomicity binary** (FAIL ramp) |
+| 8 | SYN-08-REVERSIBILITY-DECLARATION | Has the tranche declared its reversibility class (low / medium / high) with rationale? | **mandatory-citation** (FAIL ramp) |
+| 9 | SYN-09-CLOSING-LOOP-TEST | Has the tranche named the self-test / field-test / observability signal that confirms the tranche works as designed post-ship? | judgement (WARN ramp) |
+| 10 | SYN-10-RECIPIENT-FALLBACK-CHANNEL | Has the tranche named the traditional-means fallback for recipients who don't access the primary surface? *"even if they don't log so much or see it that much"* | judgement (WARN ramp) |
+
+Per-tranche-class fire-set rules are encoded in `DIMENSION_FIRE_RULES`
+in [`akos/hlk_synthesis_before_tranche.py`](../../akos/hlk_synthesis_before_tranche.py)
+and locked under `resolve_fire_set(tranche_class, conditional_triggers)`
+helper:
+
+| Tranche class | Always-fire | Conditional |
+|:---|:---|:---|
+| **engagement** | all 10 | none |
+| **specialty_mint** | 7 (SYN-01/02/04/05/07/08/09) | SYN-03 (when end-user scenarios) |
+| **internal_governance** | 3 (SYN-05/07/08) | SYN-01/02/04/09 (when non-J-OP audience) |
+| **canonical_csv_mint** | 6 (SYN-01/04/05/07/08/09) | SYN-02/03/10 (when CSV surfaces in dashboards) |
+| **brand_surface** | 9 (all except SYN-06) | SYN-06 (when engagement-scoped) |
+| **external_deliverable** | all 10 | none |
+
+## RULE 2 — Findings disposition via inline-ratify 5-option enum (binding)
+
+Every WARN or FAIL finding from the sweep MUST be dispositioned via
+an inline `AskQuestion` gate per
+[`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) + the
+paired [`inline-ratify-craft`](../skills/inline-ratify-craft/SKILL.md)
+skill, using the 5-option enum codified in
+[`SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md)
+§6 + ratified at `D-IH-86-EC`:
+
+1. **scope-complete** (default for WARN findings on always-fire dims
+   when the operator's prior framing makes the missing scope load-
+   bearing) — extend the tranche scope to include the missing
+   dimension; re-run the sweep; commit when clean.
+2. **scope-extend** (default for WARN findings on conditional dims
+   when adding to this tranche would over-burden it) — file an
+   OPS_REGISTER row or a forward-charter pointer; commit THIS tranche
+   as-is with the scope-extension explicitly named in the synthesis
+   report.
+3. **scope-narrow** (default for FAIL findings on SYN-07 atomicity
+   when the tranche is non-atomic) — narrow the tranche's scope to
+   the synthesis-validated minimum; defer removed scope to a follow-
+   up tranche.
+4. **defer-OPS** (default for INFO findings) — low-priority gap that
+   defers indefinitely with a tracker row.
+5. **escalate-to-blocker-tracker** (when operator-time exceeds the
+   inline-ratify window) — mint
+   `docs/wip/planning/_blockers/<slug>-tracker.md` per
+   [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc).
+
+When findings exceed 10, split the gates into 2 `AskQuestion` batches
+(per inline-ratify-craft Principle 5 batching guidance). When findings
+exceed 20, halt and propose splitting the tranche into Tranche-N +
+Tranche-N.5 (the bandwidth recovery pattern proven at INTER_WAVE_REGRESSION
+Wave M.5 precedent).
+
+Time-box recovery: 24h+ operator silence + clean validators + reversible
+dispositions auto-default to the recommended option per
+`akos-inline-ratification.mdc` Time-box section. Irreversible
+dispositions (`scope-narrow` on a tranche that already shipped a partial;
+commercial-share decisions; brand-canon edits with sibling-repo carry-
+overs) NEVER auto-default — halt and escalate per
+[`akos-governance-remediation.mdc`](akos-governance-remediation.mdc).
+
+## RULE 3 — Run the runbook self-test at every pre_commit (binding)
+
+The runbook
+[`scripts/synthesis_before_tranche_check.py --self-test`](../../scripts/synthesis_before_tranche_check.py)
++ the validator
+[`scripts/validate_synthesis_before_tranche.py --self-test`](../../scripts/validate_synthesis_before_tranche.py)
+verify the chassis (10-probe dispatch coverage + Pydantic fixtures +
+fire-rule invariants + enum cardinality) at every
+`py scripts/verify.py pre_commit` invocation via:
+
+- [`config/verification-profiles.json`](../../config/verification-profiles.json)
+  `pre_commit.steps`:
+  `validate_synthesis_before_tranche_self_test` +
+  `synthesis_before_tranche_check_self_test`.
+- [`scripts/release-gate.py`](../../scripts/release-gate.py):
+  `run_synthesis_before_tranche_self_test` +
+  `run_synthesis_before_tranche_check_self_test`.
+
+The self-test cost is ~3s combined (Pydantic instantiation + helper
+spot-checks; no real tranche-scope drift evaluation). The full per-
+tranche sweep (the runbook without `--self-test`) runs at
+tranche-charter cadence only — NOT at every pre_commit (which would
+be too expensive AND would conflate with sister disciplines'
+post-commit sweeps).
+
+Per `D-IH-86-ED` INFO → FAIL ramp:
+
+- Wave R+1 P3 Commit 2b (mint): self-test PASS at pre_commit; full
+  sweep runs once for the first worked example (this canonical's own
+  mint).
+- Wave R+1 P3 + Wave S: full sweep runs at each in-scope tranche;
+  self-test stays PASS.
+- Promotion to FAIL: per RULE 5 below + `SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md`
+  §5 Stage 2 gate.
+
+## RULE 4 — Paired SOP+runbook contract honored (binding per D-IH-86-EE)
+
+Every executable invocation of this discipline must respect the AC-
+HUMAN + AC-AUTOMATION pairing per
+[`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc)
+Rule 1:
+
+- **AC-HUMAN** — a human OR an AIC role_owner (PMO interim; COO when
+  activated per I76) can run the synthesis sweep + dispose findings
+  following
+  [`SOP-PEOPLE_SYNTHESIS_BEFORE_TRANCHE_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_SYNTHESIS_BEFORE_TRANCHE_001.md)
+  without invoking the runbook (the SOP walks the 10 questions one
+  by one with worked examples).
+- **AC-AUTOMATION** — the runbook
+  [`scripts/synthesis_before_tranche_check.py`](../../scripts/synthesis_before_tranche_check.py)
+  fires unattended at:
+  (a) `--self-test` mode in pre_commit + release-gate (always);
+  (b) `--check-charter <path>` mode when a tranche-charter file
+  exists and the operator (or AIC) invokes the runbook explicitly;
+  (c) `--tranche-id <slug> --tranche-class <class> [--audiences ...]
+  [--ratifying-decisions ...] [--reversibility ...] [--closing-loop-
+  test ...]` inline-CLI mode for ad-hoc sweeps without a charter file.
+
+Both surfaces are SSOT for the same process; neither supersedes the
+other. The `process_list.csv` row
+`hol_peopl_dtp_synthesis_before_tranche_001` (lands at Commit 2c-b)
+formally binds the pairing per `akos-executable-process-catalog.mdc`
+Rule 1.
+
+## RULE 5 — INFO → FAIL ramp gated on 3-worked-example threshold (binding)
+
+The validator + runbook self-test launch at INFO at this rule's mint
+commit. Promotion to FAIL requires (Stage 2 gate per
+[`SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md)
+§5):
+
+1. ≥ 3 worked examples applied the discipline cleanly:
+   (i) **this canonical's own mint** (specialty_mint class; recursive
+   self-application — the credibility floor);
+   (ii) **SUEZ POC FULL KIT** (engagement class; Commit 4 target);
+   (iii) **I82 P1 capability registry mint** (canonical_csv_mint class;
+   Commit 3 target).
+2. Two consecutive subsequent tranches (next 2 commits in scope) emit
+   `synthesis_complete == true` with zero FAIL-severity findings.
+3. Validator FAIL promotion ratified by operator-explicit decision
+   (`D-IH-86-EA` successor row, e.g., `D-IH-86-EF`-shape).
+4. SYN-04 / SYN-05 / SYN-08 remain at FAIL ramp permanently (mandatory-
+   citation dimensions; missing citation always fails).
+5. SYN-01 / SYN-02 / SYN-03 / SYN-06 / SYN-09 / SYN-10 remain at WARN
+   forever (judgement-class completeness dimensions).
+6. SYN-07 (atomicity) remains at FAIL ramp permanently (atomicity is
+   binary; non-atomic tranches are not meaningful tranches under the
+   doctrine).
+
+The recursive self-application requirement is the credibility floor:
+if the discipline can't be applied to its own mint, it can't be
+applied to engagement work either.
+
+## Self-discipline rules for agents
+
+When closing an in-scope tranche:
+
+1. **Classify the tranche-class BEFORE drafting any tranche-charter
+   frontmatter.** Resolve via inline-ratify if ambiguous (e.g., is the
+   I82 P1 capability registry a `canonical_csv_mint` only, or also a
+   `specialty_mint` for the 12th specialty maturation? Answer at I82
+   P1: `canonical_csv_mint`; the 12th specialty maturation is a
+   separate forward-charter tranche).
+2. **Run `scripts/synthesis_before_tranche_check.py --check-charter
+   <path>` BEFORE drafting the tranche's UAT verdict line OR the
+   master-roadmap §"Closure criteria" table.** The synthesis sweep is
+   the design-layer pre-flight; UAT verdict + closure criteria are
+   the post-commit signals. Doing them in the wrong order means
+   discovering missing scope after committing.
+3. **Compute findings count before posting the `AskQuestion` batch.**
+   ≤ 10 fits one batch; 11-20 splits into 2 batches; > 20 triggers
+   the tranche-split bandwidth-recovery pattern.
+4. **For every `scope-extend` disposition, file a forward-pointer.**
+   Either an OPS_REGISTER row with a named owner + ETA, OR a candidate-
+   shaped tracker file under `docs/wip/planning/_trackers/`, OR an
+   `_candidates/` file when the extension is initiative-sized.
+5. **For every `scope-narrow` disposition, name what was removed.**
+   The synthesis report's SYN-07 finding row records the narrowing
+   explicitly so the next coordinator can find the deferred scope.
+6. **For every `escalate-to-blocker-tracker` disposition, mint the
+   tracker file.** Follow the shape in
+   `akos-conflict-surfacing-and-blocker-trackers.mdc` §"Blocker-
+   tracker file shape".
+7. **Update operator-scratchpad before the tranche's commit.** The
+   tranche's summary, decision IDs, synthesis findings disposition,
+   and forward-pointers MUST land in
+   `docs/wip/intelligence/operator-scratchpad.md` OR the
+   initiative-coordinator scratchpad before the tranche's atomic
+   commit lands.
+
+## Cross-references
+
+- Parent canonical: [`SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md) — the doctrine.
+- Parent meta-doctrine: [`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) — the 5-axis composition.
+- Sister cursor rules:
+  [`akos-quality-fabric.mdc`](akos-quality-fabric.mdc) (parent fabric rule),
+  [`akos-index-integrity.mdc`](akos-index-integrity.mdc) (sister discipline — post-commit baseline-index freshness),
+  [`akos-inter-wave-regression.mdc`](akos-inter-wave-regression.mdc) (sister discipline — post-commit inter-wave regression),
+  [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) (per-initiative file-changes CSV pattern; SYN-07 atomicity inherits),
+  [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) (findings disposition; RULE 2),
+  [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc) (paired SOP+runbook pairing; RULE 4),
+  [`akos-collaborator-share.mdc`](akos-collaborator-share.mdc) (sister specialty — engagement-economic axis; 13th specialty),
+  [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc) (escalate option in RULE 2),
+  [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc) (SYN-04 brand-register-citation FK source),
+  [`akos-external-render-discipline.mdc`](akos-external-render-discipline.mdc) (SYN-10 recipient-fallback for external_deliverable + brand_surface tranches),
+  [`akos-applied-research-discipline.mdc`](akos-applied-research-discipline.mdc) (external research grounding for novel framings).
+- Paired SOP at charter status: [`SOP-PEOPLE_SYNTHESIS_BEFORE_TRANCHE_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_SYNTHESIS_BEFORE_TRANCHE_001.md) (lands at this Commit 2c-a).
+- Paired runbook: [`scripts/synthesis_before_tranche_check.py`](../../scripts/synthesis_before_tranche_check.py).
+- Paired validator: [`scripts/validate_synthesis_before_tranche.py`](../../scripts/validate_synthesis_before_tranche.py).
+- Paired skill: [`.cursor/skills/synthesis-before-tranche-craft/SKILL.md`](../skills/synthesis-before-tranche-craft/SKILL.md) — the *how* layer.
+- Pydantic chassis: [`akos/hlk_synthesis_before_tranche.py`](../../akos/hlk_synthesis_before_tranche.py).
+- Process catalog row (forward-charter; Commit 2c-b):
+  `hol_peopl_dtp_synthesis_before_tranche_001` in
+  [`process_list.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv).
+- Pattern registry row (forward-charter; Commit 2c-b):
+  `pattern_synthesis_before_tranche_discipline` in
+  [`PEOPLE_DESIGN_PATTERN_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv).
+- Decision lineage: D-IH-86-EA (doctrine mint + INFO ramp), D-IH-86-EB (10-dimension probe set), D-IH-86-EC (5-option disposition enum + per-tranche-class firing rules), D-IH-86-ED (INFO→FAIL ramp + broad-fire cadence), D-IH-86-EE (paired SOP+runbook gate; ratified at this rule's mint commit).
+
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_SYNTHESIS_BEFORE_TRANCHE_001.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md
