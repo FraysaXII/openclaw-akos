@@ -20,6 +20,7 @@ methodology_version_at_review: v3.1
 ratifying_decisions:
   - D-IH-86-AU
   - D-IH-86-DA
+  - D-IH-86-EA
 status: charter
 register: internal
 linked_canonicals:
@@ -32,6 +33,7 @@ linked_canonicals:
   - INDEX_INTEGRITY_DISCIPLINE.md
   - PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md
   - COLLABORATOR_SHARE_DOCTRINE.md
+  - SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md
   - DATAOPS_DISCIPLINE.md
   - MKTOPS_DISCIPLINE.md
   - TECHOPS_DISCIPLINE.md
@@ -49,6 +51,7 @@ linked_cursor_rules:
   - .cursor/rules/akos-applied-research-discipline.mdc
   - .cursor/rules/akos-planning-traceability.mdc
   - .cursor/rules/akos-collaborator-share.mdc
+  - .cursor/rules/akos-synthesis-before-tranche.mdc
 companion_to:
   - HOLISTIKA_ORGANISING_DOCTRINE.md
   - RESEARCH_HEAD_DISCIPLINE.md
@@ -350,6 +353,7 @@ for the specialty's domain.
 | **Index integrity (baseline index documents)** | `INDEX_INTEGRITY_DISCIPLINE.md` (Wave N P3 mint at status: charter per `D-IH-86-CD`; 8-dimension sweep + 5-option inline-ratify enum + INFO→FAIL ramp per `D-IH-86-CD` + paired SOP+runbook per `D-IH-86-CF`) | charter | `compose_INDEX(governance) → 8-dimension index-freshness sweep (6 baseline IDX-01/02/03/04/07/08 + 2 conditional IDX-05/06) + per-finding inline-ratify gate + deterministic-fix paths for IDX-01/02/07/08` |
 | **PASS-WITH-FOLLOWUP governance (closure-UAT content axis)** | `PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md` (Wave R+1 Commit 3-a mint at status: charter per `D-IH-86-CX`; 5-class followup taxonomy + structured `verdict_followup_rationale` block + 5-finding-code validator (PWF-FM-01..05) + INFO→FAIL ramp gated on Wave T at earliest per §4.1 + paired SOP `SOP-PEOPLE_PWF_GOVERNANCE_001.md` + paired cursor rule `akos-pwf-governance.mdc` + paired skill `pwf-governance-craft`) | charter | `compose_PWF(governance) → 5-class followup taxonomy (monitoring-obligation / deferred-work-with-tracker / convention-class-followup / mechanical-recovery-with-eta / escalation-to-blocker-tracker) + structured rationale block (followup_class + closure_target + owner + tracker_path + closure_decision_id_target + notes) + per-finding inline-ratify gate; composes multiplicatively with UAT_DISCIPLINE's classification axis` |
 | **Collaborator share economics (engagement-economic axis)** | `COLLABORATOR_SHARE_DOCTRINE.md` (Wave R+1 P3 Commit 2 mint at status: charter per `D-IH-86-DA`; 3-shape `share_pattern` enum (deep_partner_65_35 / orchestration_broker_thin_margin / custom) per `D-IH-86-DE`; 5-CSV chassis (`COLLABORATOR_SHARE_REGISTRY` + `HOLISTIKA_VENDOR_SERVICES_BILLED` + `PARTNER_OVERLAP_EXCLUSION_CLAUSES` + `COLLABORATOR_MARKET_RATE_REFERENCE` + `COLLABORATOR_RATE_OVERRIDES`); 8-check validator (CS-01..CS-08; CS-03/CS-04 per-pattern branching; CS-08 enum-validity); paired SOP `SOP-PEOPLE_COLLABORATOR_SHARE_001.md` + paired runbook `scripts/collaborator_share_calculate.py` + paired cursor rule `akos-collaborator-share.mdc` + paired skill `collaborator-share-craft` + Supabase mirror DDL with CHECK constraints; INFO→FAIL ramp gated on Stage 1 (Aïsha-on-SUEZ Commit 3 worked example + `D-IH-86-DF` active-promotion decision) → Stage 2 (3+ engagements with ≥2 `share_pattern` values exercised + 0 CS-01/02/03/08 findings + quarterly cross-engagement audit pass)) | charter | `compose_SHARE(governance, share_pattern, engagement_id) → 5-CSV row kit (atomic) + per-pattern math (deep_partner: TRUE-MARGIN BENEFITS × 65/35 + billed-time additive; orchestration_broker: across-row sum-to-100 thin-margin slice; custom: operator-defined narrative cited from DECISION_REGISTER FK) + 8-check validator gate + inline-ratify gates for share_pattern selection + commercial deviation` |
+| **Synthesis before tranche (ERP-engagement-governance UX design substrate axis)** | `SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md` (Wave R+1 P3 Commit 2c-b mint at status: charter per `D-IH-86-EA`; 10-dimension probe set per `D-IH-86-EB` (SYN-01 audience-completeness + SYN-02 channel-coverage + SYN-03 scenario-inventory + SYN-04 brand-register-citation + SYN-05 governance-ratification-lineage + SYN-06 ERP-surface-citation + SYN-07 tranche-atomicity + SYN-08 reversibility-declaration + SYN-09 closing-loop-test + SYN-10 recipient-fallback-channel); 6 tranche classes (engagement / specialty_mint / internal_governance / canonical_csv_mint / brand_surface / external_deliverable) with per-class `DIMENSION_FIRE_RULES` fire-set; 5-option disposition enum per `D-IH-86-EC` (scope-complete / scope-extend / scope-narrow / defer-OPS / escalate-to-blocker-tracker); broad-fire INFO ramp per `D-IH-86-ED`; paired SOP `SOP-PEOPLE_SYNTHESIS_BEFORE_TRANCHE_001.md` + paired runbook `scripts/synthesis_before_tranche_check.py` + paired validator `scripts/validate_synthesis_before_tranche.py` + paired cursor rule `akos-synthesis-before-tranche.mdc` + paired skill `synthesis-before-tranche-craft` + paired SOP+runbook gate per `D-IH-86-EE`; INFO→FAIL ramp gated on Stage 1 (this canonical's own mint as specialty_mint worked example + Commit 3 I82 P1 capability registry as canonical_csv_mint worked example + Commit 4 SUEZ POC FULL KIT as engagement worked example) → Stage 2 (5+ tranches across ≥ 3 classes + quarterly cross-tranche audit + operator-ratified successor decision row)) | charter | `compose_SYNTHESIS(audience, channel, scenario, brand, governance, tranche_class) → 10-dimension probe set (multiplicative-AND verdict) + per-class fire-set + 5-option disposition enum + Markdown-shaped synthesis report at reports/synthesis-<tranche_id>-<date>.md + ERP-engagement-governance UX design substrate citation (3 surfaces — operator dashboard + customer dashboard with recipient-fallback per SYN-10 + ERP workflow join — explicitly walked when SYN-06 fires for engagement-class tranches per operator Q-A 2026-05-25 framing)` |
 
 Future specialty materialisations inherit the same compose() pattern —
 each is a new row in this table without changing the fabric itself. This
@@ -369,6 +373,22 @@ governance-of-money. The discipline's three `share_pattern` shapes
 `D-IH-86-DE` demonstrate the composition rule at fine grain: per-pattern
 CS-03/CS-04 branching is the multiplicative-AND of (governance axis ×
 engagement-pattern dimension) without changing the 5-axis fabric itself.
+Wave R+1 P3 Commit 2c-b extends to **14** with SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE
+landing at status `charter` per `D-IH-86-EA` as the first **ERP-engagement-
+governance UX design substrate axis** specialty — materialising the operator's
+2026-05-25 Q-A verbatim framing *"the main goal is to properly govern our
+engagements via cleverly crafting erp workflow and UX just like i want my
+dashboard they would also like to have it"* as a discipline that fires before
+any meaningful tranche commits. The 10-dimension probe set per `D-IH-86-EB`
+(SYN-01..SYN-10) + 6 tranche classes per `D-IH-86-EC` + per-class
+`DIMENSION_FIRE_RULES` demonstrate the composition rule at the highest grain
+yet: SYN-06 ERP-surface-citation forces engagement-class tranches to walk the
+3 ERP-engagement-governance surfaces (operator dashboard + customer dashboard
+with recipient-fallback per SYN-10 + ERP workflow join) so the design
+substrate inherits from doctrine, not from intuition. Recursive self-
+application is built into the structure: this very mint is itself a
+specialty_mint tranche; fires 7 baseline dimensions; all 7 satisfied at
+commit by design (locked at unit-test time via `TestRecursiveSelfApplication`).
 All without touching the 5-axis composition rule.
 
 ## 7. Forward-charter inventory
