@@ -365,6 +365,242 @@ class TestRunbookCLI:
 
 
 @pytest.mark.hlk
+class TestDimension10PerCsvScoping:
+    """Wave R+1 Commit 3-b (D-IH-86-CY): DIM-10 probe-correctness fix.
+
+    Before the fix, the probe accumulated ``sibling_rows`` globally and
+    then checked every files-modified.csv's reports/ directory regardless
+    of whether THAT CSV had its own sibling-repo rows. This produced 4
+    false-positive findings at Wave R close (I68 / I71 / I72 / I73) — none
+    of those 4 initiatives have sibling-repo rows, so DIM-10 should not
+    have flagged them.
+
+    The fix moves the sibling-row count to a per-CSV
+    ``this_csv_sibling_rows`` counter and short-circuits the reports-dir
+    check when it is zero. The global ``total_sibling_rows`` is retained
+    for the trailing ``clean`` summary row only.
+
+    These tests are the regression suite for the fix — they synthesize a
+    minimal 3-initiative planning layout under tmp_path and monkey-patch
+    the runbook's ``PLANNING_ROOT`` constant to point at it, so the probe
+    is exercised in isolation from the real workspace state.
+    """
+
+    @staticmethod
+    def _build_planning_fixture(
+        tmp_path: Path,
+        *,
+        init_sibling_with_uat: bool = True,
+        init_sibling_with_uat_no_evidence: bool = False,
+        init_sibling_without_uat: bool = False,
+        init_no_sibling_with_uat: bool = False,
+        init_no_sibling_without_uat: bool = False,
+    ) -> Path:
+        """Construct a synthetic planning/ layout under tmp_path.
+
+        Each named-flag toggles one initiative folder shape:
+        - ``init_sibling_with_uat``: ``00-sibling-with-uat/`` with a hlk-erp
+          row + a uat report containing the deploy/READY/HTTP-200 tokens.
+        - ``init_sibling_with_uat_no_evidence``: ``01-sibling-no-evidence/``
+          with a hlk-erp row + a uat report MISSING the evidence tokens.
+        - ``init_sibling_without_uat``: ``02-sibling-no-uat/`` with a
+          hlk-erp row + reports/ directory but NO uat-*.md.
+        - ``init_no_sibling_with_uat``: ``03-no-sibling-with-uat/`` with
+          only openclaw-akos rows + a uat report (should NOT be flagged
+          by the fixed probe — this is the per-CSV scoping invariant).
+        - ``init_no_sibling_without_uat``: ``04-no-sibling-no-uat/`` with
+          only openclaw-akos rows + no uat report (should NOT be flagged
+          either — same invariant; this is the exact shape that caused the
+          4 Wave R false positives for I68/I71/I72/I73).
+        """
+        planning_root = tmp_path / "planning"
+        planning_root.mkdir()
+        header = (
+            "phase,commit_sha,commit_date,change_kind,lines_delta,repo,"
+            "file_path,file_kind,role_owner,area,entity,decision_ids,"
+            "process_ids,linked_canonicals,validators_run,"
+            "requires_operator_gate,change_summary,notes\n"
+        )
+        if init_sibling_with_uat:
+            d = planning_root / "00-sibling-with-uat"
+            (d / "reports").mkdir(parents=True)
+            (d / "files-modified.csv").write_text(
+                header + (
+                    "P1,abc1234,2026-05-25,created,+10/-0,hlk-erp,"
+                    "app/sample.tsx,reference,SO,Tech,Holistika,D-IH-86-X,"
+                    "proc_001,SAMPLE.md,n/a,no,sibling deploy row,\n"
+                ),
+                encoding="utf-8",
+            )
+            (d / "reports" / "uat-sample-2026-05-25.md").write_text(
+                "deploy_id=dpl_abc state=READY HTTP 200 hero route /sample",
+                encoding="utf-8",
+            )
+        if init_sibling_with_uat_no_evidence:
+            d = planning_root / "01-sibling-no-evidence"
+            (d / "reports").mkdir(parents=True)
+            (d / "files-modified.csv").write_text(
+                header + (
+                    "P1,abc1234,2026-05-25,created,+10/-0,hlk-erp,"
+                    "app/sample.tsx,reference,SO,Tech,Holistika,D-IH-86-X,"
+                    "proc_001,SAMPLE.md,n/a,no,sibling deploy row,\n"
+                ),
+                encoding="utf-8",
+            )
+            (d / "reports" / "uat-sample-2026-05-25.md").write_text(
+                "validators PASS; release-gate clean.",
+                encoding="utf-8",
+            )
+        if init_sibling_without_uat:
+            d = planning_root / "02-sibling-no-uat"
+            (d / "reports").mkdir(parents=True)
+            (d / "files-modified.csv").write_text(
+                header + (
+                    "P1,abc1234,2026-05-25,created,+10/-0,hlk-erp,"
+                    "app/sample.tsx,reference,SO,Tech,Holistika,D-IH-86-X,"
+                    "proc_001,SAMPLE.md,n/a,no,sibling deploy row,\n"
+                ),
+                encoding="utf-8",
+            )
+            (d / "reports" / "p1-closing.md").write_text(
+                "internal closure summary; no uat-prefixed file.",
+                encoding="utf-8",
+            )
+        if init_no_sibling_with_uat:
+            d = planning_root / "03-no-sibling-with-uat"
+            (d / "reports").mkdir(parents=True)
+            (d / "files-modified.csv").write_text(
+                header + (
+                    "P1,abc1234,2026-05-25,created,+5/-0,openclaw-akos,"
+                    "akos/sample.py,script,SO,Tech,Holistika,D-IH-86-X,"
+                    "proc_001,SAMPLE.md,n/a,no,internal-only row,\n"
+                ),
+                encoding="utf-8",
+            )
+            (d / "reports" / "uat-sample-2026-05-25.md").write_text(
+                "validators PASS; release-gate clean.",
+                encoding="utf-8",
+            )
+        if init_no_sibling_without_uat:
+            d = planning_root / "04-no-sibling-no-uat"
+            (d / "reports").mkdir(parents=True)
+            (d / "files-modified.csv").write_text(
+                header + (
+                    "P1,abc1234,2026-05-25,created,+5/-0,openclaw-akos,"
+                    "akos/sample.py,script,SO,Tech,Holistika,D-IH-86-X,"
+                    "proc_001,SAMPLE.md,n/a,no,internal-only row,\n"
+                ),
+                encoding="utf-8",
+            )
+            (d / "reports" / "p1-pause-record-2026-05-25.md").write_text(
+                "pause record body; no uat-prefixed file.",
+                encoding="utf-8",
+            )
+        return planning_root
+
+    def test_zero_sibling_zero_findings(self, monkeypatch, tmp_path: Path):
+        """Invariant: an initiative with NO sibling-repo rows + NO uat-*.md
+        must NOT trigger a DIM-10 finding. This is the per-CSV scoping
+        regression test that locks in the Wave R+1 Commit 3-b fix.
+        """
+        from scripts import inter_wave_regression_sweep as iwrs
+        planning_root = self._build_planning_fixture(
+            tmp_path,
+            init_sibling_with_uat=False,
+            init_no_sibling_with_uat=True,
+            init_no_sibling_without_uat=True,
+        )
+        monkeypatch.setattr(iwrs, "PLANNING_ROOT", planning_root)
+        findings = iwrs._probe_dimension_10_deploy_evidence_completeness()
+        gap_findings = [f for f in findings if f.verdict == "gap"]
+        assert gap_findings == [], (
+            f"per-CSV scoping invariant broken: {len(gap_findings)} "
+            f"false-positive(s) on sibling-less initiative(s). "
+            f"Findings: {[(f.surface_path, f.notes) for f in gap_findings]}"
+        )
+
+    def test_sibling_with_complete_evidence_zero_findings(self, monkeypatch, tmp_path: Path):
+        """Sanity: a sibling-bearing initiative with a complete UAT (deploy
+        + READY + 200 tokens) must NOT trigger a gap finding."""
+        from scripts import inter_wave_regression_sweep as iwrs
+        planning_root = self._build_planning_fixture(
+            tmp_path,
+            init_sibling_with_uat=True,
+            init_no_sibling_with_uat=False,
+            init_no_sibling_without_uat=False,
+        )
+        monkeypatch.setattr(iwrs, "PLANNING_ROOT", planning_root)
+        findings = iwrs._probe_dimension_10_deploy_evidence_completeness()
+        gap_findings = [f for f in findings if f.verdict == "gap"]
+        assert gap_findings == [], (
+            f"complete-evidence sibling initiative wrongly flagged: "
+            f"{[(f.surface_path, f.notes) for f in gap_findings]}"
+        )
+
+    def test_sibling_without_uat_does_flag(self, monkeypatch, tmp_path: Path):
+        """True positive: a sibling-bearing initiative with no uat-*.md
+        SHOULD trigger a DIM-10 gap finding. This is the legitimate use of
+        the probe — the fix must not over-correct."""
+        from scripts import inter_wave_regression_sweep as iwrs
+        planning_root = self._build_planning_fixture(
+            tmp_path,
+            init_sibling_with_uat=False,
+            init_sibling_without_uat=True,
+            init_no_sibling_with_uat=True,
+        )
+        monkeypatch.setattr(iwrs, "PLANNING_ROOT", planning_root)
+        findings = iwrs._probe_dimension_10_deploy_evidence_completeness()
+        gap_findings = [f for f in findings if f.verdict == "gap"]
+        assert len(gap_findings) == 1, (
+            f"expected exactly 1 gap finding for sibling-bearing no-uat "
+            f"initiative; got {len(gap_findings)}: "
+            f"{[(f.surface_path, f.notes) for f in gap_findings]}"
+        )
+        f = gap_findings[0]
+        assert "02-sibling-no-uat" in f.surface_path
+        assert "this-csv sibling-repo rows=1" in (f.notes or "")
+
+    def test_sibling_with_uat_missing_evidence_does_flag(self, monkeypatch, tmp_path: Path):
+        """True positive: a sibling-bearing initiative whose uat-*.md lacks
+        the deploy/READY/200 tokens SHOULD trigger a DIM-10 gap finding.
+        """
+        from scripts import inter_wave_regression_sweep as iwrs
+        planning_root = self._build_planning_fixture(
+            tmp_path,
+            init_sibling_with_uat=False,
+            init_sibling_with_uat_no_evidence=True,
+            init_no_sibling_with_uat=True,
+        )
+        monkeypatch.setattr(iwrs, "PLANNING_ROOT", planning_root)
+        findings = iwrs._probe_dimension_10_deploy_evidence_completeness()
+        gap_findings = [f for f in findings if f.verdict == "gap"]
+        assert len(gap_findings) == 1, (
+            f"expected exactly 1 gap finding for sibling-bearing "
+            f"missing-evidence initiative; got {len(gap_findings)}: "
+            f"{[(f.surface_path, f.notes) for f in gap_findings]}"
+        )
+        assert "01-sibling-no-evidence" in gap_findings[0].surface_path
+
+    def test_total_sibling_rows_counted_globally(self, monkeypatch, tmp_path: Path):
+        """The global ``total_sibling_rows`` count drives the trailing
+        'clean' summary row when no findings emerge. When at least one
+        sibling-bearing initiative exists AND all are clean, the summary
+        row must reference the global count."""
+        from scripts import inter_wave_regression_sweep as iwrs
+        planning_root = self._build_planning_fixture(
+            tmp_path,
+            init_sibling_with_uat=True,
+            init_no_sibling_with_uat=True,
+            init_no_sibling_without_uat=True,
+        )
+        monkeypatch.setattr(iwrs, "PLANNING_ROOT", planning_root)
+        findings = iwrs._probe_dimension_10_deploy_evidence_completeness()
+        clean_findings = [f for f in findings if f.verdict == "clean"]
+        assert len(clean_findings) == 1
+        assert "1 sibling-repo rows across all CSVs" in (clean_findings[0].notes or "")
+
+
+@pytest.mark.hlk
 class TestEmitFunctions:
     def test_emit_markdown_writes_table(self, tmp_path: Path):
         from scripts import inter_wave_regression_sweep as iwrs

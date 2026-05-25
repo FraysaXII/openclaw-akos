@@ -1,0 +1,23 @@
+{
+  "report_id": "regression-sweep-2026-05-25",
+  "wave_closing": "Wave-R",
+  "swept_at": "2026-05-25",
+  "swept_by": "agent:inter_wave_regression_sweep",
+  "findings": [
+    {
+      "dimension_code": "DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+      "surface_path": "planning/files-modified-scan",
+      "verdict": "clean",
+      "proposed_rework_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "45 sibling-repo rows across all CSVs; every initiative folder whose own files-modified.csv carried sibling-repo rows has UAT with deploy/READY/HTTP-200 evidence"
+    }
+  ],
+  "clean_count": 1,
+  "drift_count": 0,
+  "gap_count": 0,
+  "blocked_count": 0,
+  "skip_count": 0,
+  "total_findings": 1
+}

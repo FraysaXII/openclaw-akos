@@ -1063,14 +1063,29 @@ def _probe_dimension_10_deploy_evidence_completeness(
     """DIM-10-DEPLOY-EVIDENCE-COMPLETENESS — per UAT_DISCIPLINE.md §3.7 + akos-quality-fabric.mdc RULE 3.
 
     Glob ``docs/wip/planning/**/files-modified.csv`` → filter rows where
-    ``repo`` column is non-empty AND != ``openclaw-akos``. For each:
-    verify the sibling initiative's UAT report references a deploy_id +
-    READY state + HTTP 200 hero route. Missing evidence = ``gap``.
+    ``repo`` column is non-empty AND != ``openclaw-akos``. For each
+    initiative whose CSV has at least one sibling-repo row, verify the
+    initiative's ``reports/uat-*.md`` carries a deploy_id + READY state
+    + HTTP 200 hero route. Missing evidence = ``gap``.
+
+    Per Wave R+1 Commit 3-b (D-IH-86-CY): the probe is **scoped per-csv**
+    — only initiatives whose OWN files-modified.csv has sibling-repo rows
+    trigger the reports-dir validation. Prior implementation used a
+    global ``sibling_rows`` accumulator and then checked every CSV's
+    ``reports/`` directory regardless of whether that CSV had its own
+    sibling rows — that produced 4 false-positive findings at Wave R
+    close (I68 / I71 / I72 / I73; none of those 4 initiatives have
+    sibling-repo rows in their files-modified.csv, so DIM-10 should not
+    have flagged them). The fix moves the sibling-row count to a
+    per-CSV ``this_csv_sibling_rows`` counter and short-circuits the
+    reports-dir check when it is zero. The global ``total_sibling_rows``
+    is retained for the trailing ``clean`` summary row only.
     """
     findings: list[RegressionFindingRow] = []
-    sibling_rows = 0
+    total_sibling_rows = 0
     sibling_missing_evidence = 0
     for fm_csv in PLANNING_ROOT.rglob("files-modified.csv"):
+        this_csv_sibling_rows = 0
         try:
             with fm_csv.open(
                 "r", encoding="utf-8", errors="replace", newline=""
@@ -1080,12 +1095,36 @@ def _probe_dimension_10_deploy_evidence_completeness(
                     repo = (row.get("repo") or "").strip().lower()
                     if not repo or repo in {"openclaw-akos", "akos", ""}:
                         continue
-                    sibling_rows += 1
+                    this_csv_sibling_rows += 1
+                    total_sibling_rows += 1
         except (OSError, csv.Error, UnicodeDecodeError):
             continue
+        if this_csv_sibling_rows == 0:
+            continue
         reports_dir = fm_csv.parent / "reports"
+        def _safe_relpath(p: Path) -> str:
+            try:
+                return str(p.relative_to(REPO_ROOT).as_posix())
+            except ValueError:
+                return str(p.as_posix())
         if not reports_dir.exists():
             sibling_missing_evidence += 1
+            if sibling_missing_evidence <= 5:
+                findings.append(RegressionFindingRow(
+                    dimension_code="DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
+                    surface_path=_safe_relpath(fm_csv),
+                    verdict="gap",
+                    proposed_rework_action=(
+                        "mint reports/ directory + reports/uat-*.md with "
+                        "deploy_id + state=READY + HTTP 200 hero route "
+                        "evidence for the sibling-repo touches"
+                    ),
+                    severity="medium",
+                    notes=(
+                        f"this-csv sibling-repo rows={this_csv_sibling_rows}; "
+                        "reports/ directory missing"
+                    ),
+                ))
             continue
         uat_files = list(reports_dir.glob("uat-*.md"))
         if not uat_files:
@@ -1093,14 +1132,17 @@ def _probe_dimension_10_deploy_evidence_completeness(
             if sibling_missing_evidence <= 5:
                 findings.append(RegressionFindingRow(
                     dimension_code="DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
-                    surface_path=str(fm_csv.relative_to(REPO_ROOT).as_posix()),
+                    surface_path=_safe_relpath(fm_csv),
                     verdict="gap",
                     proposed_rework_action=(
                         "mint reports/uat-*.md with deploy_id + state=READY + "
                         "HTTP 200 hero route evidence for the sibling-repo touches"
                     ),
                     severity="medium",
-                    notes="sibling-repo row(s) exist but no UAT report under reports/",
+                    notes=(
+                        f"this-csv sibling-repo rows={this_csv_sibling_rows}; "
+                        "reports/ exists but no UAT report under it"
+                    ),
                 ))
             continue
         joined = " ".join(p.read_text(encoding="utf-8", errors="ignore") for p in uat_files).lower()
@@ -1109,16 +1151,19 @@ def _probe_dimension_10_deploy_evidence_completeness(
             if sibling_missing_evidence <= 5:
                 findings.append(RegressionFindingRow(
                     dimension_code="DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
-                    surface_path=str(reports_dir.relative_to(REPO_ROOT).as_posix()),
+                    surface_path=_safe_relpath(reports_dir),
                     verdict="gap",
                     proposed_rework_action=(
                         "add deploy_id + state=READY + HTTP 200 hero-route "
                         "evidence to the UAT report"
                     ),
                     severity="low",
-                    notes="UAT present but no deploy/state/HTTP-200 evidence tokens found",
+                    notes=(
+                        f"this-csv sibling-repo rows={this_csv_sibling_rows}; "
+                        "UAT present but no deploy/state/HTTP-200 evidence tokens found"
+                    ),
                 ))
-    if sibling_rows == 0:
+    if total_sibling_rows == 0:
         findings.append(RegressionFindingRow(
             dimension_code="DIM-10-DEPLOY-EVIDENCE-COMPLETENESS",
             surface_path="planning/files-modified-scan",
@@ -1135,8 +1180,9 @@ def _probe_dimension_10_deploy_evidence_completeness(
             proposed_rework_action="",
             severity="low",
             notes=(
-                f"{sibling_rows} sibling-repo rows; all initiative folders "
-                f"carry UAT with deploy/READY/HTTP-200 evidence"
+                f"{total_sibling_rows} sibling-repo rows across all CSVs; every "
+                "initiative folder whose own files-modified.csv carried "
+                "sibling-repo rows has UAT with deploy/READY/HTTP-200 evidence"
             ),
         ))
     return findings
