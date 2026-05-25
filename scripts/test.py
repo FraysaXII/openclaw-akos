@@ -94,7 +94,7 @@ GROUPS: dict[str, dict] = {
         "files": ["test_router.py"],
     },
     "hlk": {
-        "description": "HLK domain models, registry service, API endpoints, and process CSV SSOT helpers (includes Quality Fabric specialty chassis: INTER_WAVE_REGRESSION Wave M, INDEX_INTEGRITY Wave N, COLLABORATOR_SHARE Wave R+1 Commit 2a chassis + Commit 2b validator integration + Commit 2b-ext share_pattern enum branching with 8 checks)",
+        "description": "HLK domain models, registry service, API endpoints, and process CSV SSOT helpers (includes Quality Fabric specialty chassis: INTER_WAVE_REGRESSION Wave M, INDEX_INTEGRITY Wave N, COLLABORATOR_SHARE Wave R+1 Commit 2a chassis + Commit 2b validator integration + Commit 2b-ext share_pattern enum branching with 8 checks, SYNTHESIS_BEFORE_TRANCHE Wave R+1 14th specialty Commit 2a chassis + 10-dimension model + per-tranche-class fire rules + 5-option disposition enum)",
         "files": [
             "test_hlk.py",
             "test_hlk_process_csv.py",
@@ -102,6 +102,7 @@ GROUPS: dict[str, dict] = {
             "test_index_integrity.py",
             "test_hlk_collaborator_share.py",
             "test_validate_collaborator_share.py",
+            "test_hlk_synthesis_before_tranche.py",
         ],
     },
     "graph": {
