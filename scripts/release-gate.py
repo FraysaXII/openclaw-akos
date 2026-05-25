@@ -601,6 +601,73 @@ def run_collaborator_share_calculator_self_test() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_synthesis_before_tranche_self_test() -> tuple[bool, int]:
+    """Run SYNTHESIS_BEFORE_TRANCHE self-test (14th Quality Fabric specialty).
+
+    I86 Wave R+1 P3 Commit 2b per D-IH-86-EA quartet (EA doctrine mint +
+    EB 10-dimension probe set + EC 5-option disposition enum + ED INFO
+    ramp with broad-fire posture). Self-test mode of
+    ``scripts/validate_synthesis_before_tranche.py`` validates the paired
+    Pydantic SSOT (``akos/hlk_synthesis_before_tranche.py``
+    SynthesisFindingRow + SynthesisTrancheCharter + SynthesisReportSummary
+    frozen models) + the 5 enum frozensets (VALID_DIMENSION_CODES x 10,
+    VALID_TRANCHE_CLASSES x 6, VALID_DISPOSITIONS x 5,
+    VALID_FINDING_STATUSES x 5, VALID_REVERSIBILITY_CLASSES x 3,
+    VALID_SWEEP_TRIGGERS x 4) + DIMENSION_FIRE_RULES per-class invariants
+    (always + conditional disjoint; subset of VALID_DIMENSION_CODES) +
+    resolve_fire_set helper round-trip. Does NOT run an actual per-tranche
+    sweep — that fires per the SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md
+    canonical cadence (tranche_charter + tranche_pre_commit triggers).
+    Self-test mode keeps CI cost at ~3s. Paired runbook
+    ``scripts/synthesis_before_tranche_check.py`` carries its own
+    self-test for the 10-dimension probe dispatch table coverage.
+
+    INFO ramp at mint per D-IH-86-ED (broad-fire + judgement-class WARN
+    tolerance); FAIL ramp gates per akos-synthesis-before-tranche.mdc
+    RULE 5 once 3+ tranches across 2+ tranche classes apply cleanly +
+    operator ratifies promotion decision.
+
+    Returns ``(ok, exit_code)``. Exit code 0 PASS, non-zero FAIL.
+    """
+    logger.info(
+        "Running SYNTHESIS_BEFORE_TRANCHE self-test "
+        "(I86 Wave R+1 P3 / D-IH-86-EA quartet; --self-test) ..."
+    )
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_synthesis_before_tranche.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
+def run_synthesis_before_tranche_check_self_test() -> tuple[bool, int]:
+    """Run the SYNTHESIS_BEFORE_TRANCHE runbook self-test (paired runbook).
+
+    Verifies that the runbook's 10-dimension probe dispatch table covers
+    VALID_DIMENSION_CODES exactly (no missing probes; no orphan probes for
+    unknown dimensions) + runs ``sweep_tranche()`` on a runbook-self-test
+    fixture (a specialty_mint tranche charter representing Commit 2b
+    itself) + asserts zero FAIL findings on the fixture. Pure in-memory
+    probe check; CI cost at ~2s. AC-AUTOMATION half of the SOP+runbook
+    pair per akos-executable-process-catalog.mdc Rule 1.
+
+    Returns ``(ok, exit_code)``. Exit code 0 PASS, non-zero FAIL.
+    """
+    logger.info(
+        "Running SYNTHESIS_BEFORE_TRANCHE runbook self-test "
+        "(I86 Wave R+1 P3 / D-IH-86-EA quartet; --self-test) ..."
+    )
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "synthesis_before_tranche_check.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_index_freshness_self_test() -> tuple[bool, int]:
     """Run baseline-index freshness self-test (I86 Wave N / D-IH-86-CD).
 
@@ -1466,6 +1533,18 @@ def main() -> None:
     results.append((
         "INFO" if cs_calc_ok else "FAIL",
         f"Collaborator share calculator self-test (scripts/collaborator_share_calculate.py --self-test - paired runbook for the SOP+runbook pair per akos-executable-process-catalog.mdc Rule 1 AC-AUTOMATION; computes engagement settlements branching on share_pattern per D-IH-86-DE Commit 2b-ext: deep_partner_65_35 (TRUE-MARGIN benefits formula: revenue - transparent project costs = benefits -> 65/35 default split) | orchestration_broker_thin_margin (per-row revenue slice; no cost subtraction; advisory Holistika-total ~6% margin) | custom (manual placeholder + operator notes); worked-example fixtures cover all 3 patterns plus the original 100k EUR revenue - 20k EUR costs = 80k EUR benefits -> 52k EUR Holistika + 28k EUR Collaborator deep_partner case; pure arithmetic check (no CSV reads); D-IH-86-DE Wave R+1 Commit 2b-ext; ok={'yes' if cs_calc_ok else 'no'}; exit={cs_calc_rc})",
+    ))
+
+    synth_self_ok, synth_self_rc = run_synthesis_before_tranche_self_test()
+    results.append((
+        "INFO" if synth_self_ok else "FAIL",
+        f"Synthesis-before-tranche self-test (scripts/validate_synthesis_before_tranche.py --self-test - 14th Quality Fabric specialty per D-IH-86-EA quartet Wave R+1 P3 Commit 2b; Pydantic SSOT (SynthesisFindingRow + SynthesisTrancheCharter + SynthesisReportSummary frozen) + 5 enum frozensets (10 dimensions x 6 tranche classes x 5 dispositions x 5 finding statuses x 3 reversibility classes x 4 sweep triggers) + DIMENSION_FIRE_RULES per-class invariants (always + conditional disjoint; subset of VALID_DIMENSION_CODES) + resolve_fire_set helper round-trip; INFO ramp at mint per akos-synthesis-before-tranche.mdc RULE 5 (broad-fire + judgement-class WARN tolerance; promotes to FAIL once 3+ tranches across 2+ tranche classes apply cleanly + operator ratifies); does NOT run an actual per-tranche sweep (that fires per SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md cadence tranche_charter + tranche_pre_commit triggers); paired runbook scripts/synthesis_before_tranche_check.py carries its own self-test for 10-dimension probe dispatch coverage; ok={'yes' if synth_self_ok else 'no'}; exit={synth_self_rc})",
+    ))
+
+    synth_runbook_ok, synth_runbook_rc = run_synthesis_before_tranche_check_self_test()
+    results.append((
+        "INFO" if synth_runbook_ok else "FAIL",
+        f"Synthesis-before-tranche runbook self-test (scripts/synthesis_before_tranche_check.py --self-test - paired runbook for the SOP+runbook pair per akos-executable-process-catalog.mdc Rule 1 AC-AUTOMATION; verifies 10-dimension probe dispatch table covers VALID_DIMENSION_CODES exactly + runs sweep_tranche() on a runbook-self-test fixture asserting zero FAIL findings; specialty_mint fire-set yields 7 baseline + 1 conditional = 8 dimensions; J-OP-only audience + 4 ratifying decisions + atomic commit + medium reversibility + closing-loop test named = 6 PASS + 2 INFO (channels/scenarios acceptably empty for J-OP-only specialty mint); pure in-memory probe check; D-IH-86-EA quartet Wave R+1 P3 Commit 2b; ok={'yes' if synth_runbook_ok else 'no'}; exit={synth_runbook_rc})",
     ))
 
     uat_report_ok, uat_report_rc = run_uat_report_validation()

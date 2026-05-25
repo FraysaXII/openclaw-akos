@@ -188,6 +188,22 @@
           ]
         },
         {
+          "id": "validate_synthesis_before_tranche_self_test",
+          "description": "Initiative 86 Wave R+1 P3 Commit 2b (D-IH-86-EA + D-IH-86-EB + D-IH-86-EC + D-IH-86-ED, 2026-05-25): synthesis-before-tranche discipline self-test (14th Quality Fabric specialty). Validates akos/hlk_synthesis_before_tranche.py Pydantic SSOT (SynthesisFindingRow + SynthesisTrancheCharter + SynthesisReportSummary frozen models) + 5 enum frozensets (VALID_DIMENSION_CODES x 10 + VALID_TRANCHE_CLASSES x 6 + VALID_DISPOSITIONS x 5 + VALID_FINDING_STATUSES x 5 + VALID_REVERSIBILITY_CLASSES x 3 + VALID_SWEEP_TRIGGERS x 4) + DIMENSION_FIRE_RULES per-class invariants (always + conditional disjoint; subset of VALID_DIMENSION_CODES) + resolve_fire_set helper round-trip. Does NOT run an actual per-tranche sweep (that's tranche_charter cadence per the SYNTHESIS_BEFORE_TRANCHE_DISCIPLINE.md canonical + process_list cadence column: fires at tranche charter + tranche pre-commit). Self-test mode keeps CI cost at ~3s. Paired runbook scripts/synthesis_before_tranche_check.py emits per-tranche reports under docs/wip/planning/86-.../reports/. INFO ramp at mint per D-IH-86-ED (broad-fire + judgement-class WARN tolerance); FAIL ramp gates per akos-synthesis-before-tranche.mdc RULE 5 once 3+ tranches across 2+ tranche classes apply the discipline cleanly + operator ratifies promotion decision.",
+          "argv": [
+            "scripts/validate_synthesis_before_tranche.py",
+            "--self-test"
+          ]
+        },
+        {
+          "id": "synthesis_before_tranche_check_self_test",
+          "description": "Initiative 86 Wave R+1 P3 Commit 2b (D-IH-86-EA + D-IH-86-ED, 2026-05-25): synthesis-before-tranche runbook self-test (paired runbook of the SOP+runbook pair per akos-executable-process-catalog.mdc Rule 1 AC-AUTOMATION). Verifies the 10-dimension probe dispatch table covers VALID_DIMENSION_CODES exactly (no missing probes; no orphan probes for unknown dimensions) + runs sweep_tranche() on a runbook-self-test fixture (a specialty_mint tranche charter representing Commit 2b itself) + asserts zero FAIL findings on the fixture. The specialty_mint fire-set yields 7 baseline + 1 conditional (SYN-03 fires when scenarios_named present) = 8 dimensions; runbook-self-test fixture has J-OP-only (audiences) + 4 ratifying decisions (D-IH-86-EA..ED) + atomic commit + medium reversibility + closing-loop test named = 6 PASS + 2 INFO (channels/scenarios acceptably empty for J-OP-only specialty mint). Pure in-memory probe check; CI cost at ~2s.",
+          "argv": [
+            "scripts/synthesis_before_tranche_check.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "collaborator_share_calculator_self_test",
           "description": "Initiative 86 Wave R+1 Commit 2b + Commit 2b-ext (D-IH-86-DD + D-IH-86-DE, 2026-05-25): collaborator-share calculator self-test (paired runbook of the SOP+runbook pair per akos-executable-process-catalog.mdc Rule 1 AC-AUTOMATION). Computes engagement settlements branching on share_pattern: deep_partner_65_35 (TRUE-MARGIN: revenue - transparent project costs = benefits -> 65/35 default split or per-row deviation), orchestration_broker_thin_margin (per-row revenue slice; no cost subtraction; advisory Holistika-total ~6% margin), custom (manual placeholder + operator narrative). Worked-example fixtures cover all 3 patterns plus the original deep_partner deep_partner_65_35 fixture: 100k EUR revenue - 20k EUR costs = 80k EUR benefits -> 52k EUR Holistika + 28k EUR Collaborator. Pure in-memory arithmetic check (no CSV reads); CI cost at ~2s. Operationalises COLLABORATOR_SHARE_DOCTRINE.md §2 settlement formula + COLLABORATOR_SHARE_REGISTRY share_pattern enum branching.",
           "argv": [
