@@ -42,6 +42,18 @@ from akos.hlk_decision_register_csv import DECISION_REGISTER_FIELDNAMES  # noqa:
 from akos.hlk_engagement_model_csv import ENGAGEMENT_MODEL_FIELDNAMES  # noqa: E402  # I73 P1 (D-IH-73-C sibling-dimension; D-IH-73-D 7-class taxonomy)
 from akos.hlk_design_pattern_csv import DESIGN_PATTERN_FIELDNAMES  # noqa: E402  # I79 P2 (D-IH-79-C/D People design pattern library)
 from akos.hlk_substrate_registry_csv import SUBSTRATE_REGISTRY_FIELDNAMES  # noqa: E402  # I84 P3 (D-IH-84-F substrate doctrine registry)
+from akos.hlk_collaborator_share import (  # noqa: E402  # I86 Wave R+1 P2c-a (D-IH-86-CY-A/B/C/D/EXT collaborator share doctrine)
+    COLLABORATOR_SHARE_REGISTRY_FIELDNAMES,
+    HOLISTIKA_VENDOR_SERVICES_BILLED_FIELDNAMES,
+    PARTNER_OVERLAP_EXCLUSION_CLAUSES_FIELDNAMES,
+    COLLABORATOR_MARKET_RATE_REFERENCE_FIELDNAMES,
+    COLLABORATOR_RATE_OVERRIDES_FIELDNAMES,
+    CSV_PATH_RELATIVE_SHARE_REGISTRY,
+    CSV_PATH_RELATIVE_VENDOR_BILLED,
+    CSV_PATH_RELATIVE_OVERLAP_CLAUSES,
+    CSV_PATH_RELATIVE_MARKET_RATE,
+    CSV_PATH_RELATIVE_RATE_OVERRIDES,
+)
 from akos.hlk_output_type_registry_csv import OUTPUT_TYPE_REGISTRY_FIELDNAMES  # noqa: E402  # I86 Wave L (D-IH-86-BG output architecture Layer 1)
 from akos.hlk_artifact_class_registry_csv import ARTIFACT_CLASS_REGISTRY_FIELDNAMES  # noqa: E402  # I86 Wave L (D-IH-86-BG output architecture Layer 2)
 from akos.hlk_component_primitive_registry_csv import COMPONENT_PRIMITIVE_REGISTRY_FIELDNAMES  # noqa: E402  # I86 Wave L (D-IH-86-BG output architecture Layer 3)
@@ -116,6 +128,13 @@ SUBSTRATE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "A
 OUTPUT_TYPE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "OUTPUT_TYPE_REGISTRY.csv"
 ARTIFACT_CLASS_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "ARTIFACT_CLASS_REGISTRY.csv"
 COMPONENT_PRIMITIVE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "COMPONENT_PRIMITIVE_REGISTRY.csv"
+# I86 Wave R+1 P2c-a — 5 Collaborator Share CSVs (D-IH-86-CY-A/B/C/D/EXT). Paths are
+# canonical SSOT in akos/hlk_collaborator_share.py; we just resolve them under REPO_ROOT.
+COLLABORATOR_SHARE_REGISTRY_CSV = REPO_ROOT / CSV_PATH_RELATIVE_SHARE_REGISTRY
+HOLISTIKA_VENDOR_SERVICES_BILLED_CSV = REPO_ROOT / CSV_PATH_RELATIVE_VENDOR_BILLED
+PARTNER_OVERLAP_EXCLUSION_CLAUSES_CSV = REPO_ROOT / CSV_PATH_RELATIVE_OVERLAP_CLAUSES
+COLLABORATOR_MARKET_RATE_REFERENCE_CSV = REPO_ROOT / CSV_PATH_RELATIVE_MARKET_RATE
+COLLABORATOR_RATE_OVERRIDES_CSV = REPO_ROOT / CSV_PATH_RELATIVE_RATE_OVERRIDES
 
 # SSOT for the baseline_organisation column contract is akos.hlk_baseline_org_csv.
 # This local alias preserves the existing in-module name without re-declaring the
@@ -940,6 +959,81 @@ def _emit_component_primitive_registry_upserts(rows: list[dict[str, str]], sourc
     return out
 
 
+def _emit_generic_pk_upserts(
+    *,
+    rows: list[dict[str, str]],
+    fieldnames: tuple[str, ...],
+    mirror_table: str,
+    pk_column: str,
+    source_git_sha: str,
+    initiative_label: str,
+) -> list[str]:
+    """Generic single-PK UPSERT emitter used by I86 Wave R+1 collaborator-share mirrors.
+
+    Mirrors the shape of the I59 + I86 Wave L per-mirror emit functions but factored
+    so the 5 collaborator-share mirrors (sharing the same single-PK pattern) reuse
+    one body. Skips rows where the PK column is empty.
+    """
+    cols_csv = ", ".join(fieldnames)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in fieldnames if c != pk_column]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = [f"-- {mirror_table} upserts ({initiative_label})"]
+    for r in rows:
+        pk = (r.get(pk_column) or "").strip()
+        if not pk:
+            continue
+        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in fieldnames)
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO {mirror_table} ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT ({pk_column}) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+# I86 Wave R+1 P2c-a — 5 Collaborator Share mirrors. Dispatched together via a
+# single --collaborator-share-only flag because the doctrine treats them as ONE
+# atomic kit (per akos-collaborator-share.mdc RULE 2 + the COLLABORATOR_SHARE
+# doctrine §2). Order matters: reference rows (clauses + market rates) emit
+# before engagement-scoped rows (share_registry + rate_overrides + vendor_billed)
+# so any FK references resolve cleanly when applied in sequence.
+COLLABORATOR_SHARE_MIRROR_SPECS: tuple[tuple[str, Path, tuple[str, ...], str], ...] = (
+    (
+        "compliance.partner_overlap_exclusion_clauses_mirror",
+        PARTNER_OVERLAP_EXCLUSION_CLAUSES_CSV,
+        PARTNER_OVERLAP_EXCLUSION_CLAUSES_FIELDNAMES,
+        "clause_id",
+    ),
+    (
+        "compliance.collaborator_market_rate_reference_mirror",
+        COLLABORATOR_MARKET_RATE_REFERENCE_CSV,
+        COLLABORATOR_MARKET_RATE_REFERENCE_FIELDNAMES,
+        "rate_id",
+    ),
+    (
+        "compliance.collaborator_share_registry_mirror",
+        COLLABORATOR_SHARE_REGISTRY_CSV,
+        COLLABORATOR_SHARE_REGISTRY_FIELDNAMES,
+        "share_id",
+    ),
+    (
+        "compliance.collaborator_rate_overrides_mirror",
+        COLLABORATOR_RATE_OVERRIDES_CSV,
+        COLLABORATOR_RATE_OVERRIDES_FIELDNAMES,
+        "override_id",
+    ),
+    (
+        "compliance.holistika_vendor_services_billed_mirror",
+        HOLISTIKA_VENDOR_SERVICES_BILLED_CSV,
+        HOLISTIKA_VENDOR_SERVICES_BILLED_FIELDNAMES,
+        "vendor_billing_id",
+    ),
+)
+
+
 def _emit_decision_register_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
     """I59 P1.5 — compliance.decision_register_mirror upserts.
 
@@ -1120,6 +1214,16 @@ def main() -> int:
         help="Only emit substrate_registry_mirror statements (requires SUBSTRATE_REGISTRY.csv) [Initiative 84 P3]",
     )
     parser.add_argument(
+        "--collaborator-share-only",
+        action="store_true",
+        help=(
+            "Only emit the 5 Collaborator Share mirrors as ONE atomic kit "
+            "(clauses + market_rate + share_registry + rate_overrides + vendor_billed). "
+            "Requires the 5 sibling CSVs under People Operations/canonicals/dimensions/. "
+            "[I86 Wave R+1 P2c-a; D-IH-86-CY-A/B/C/D/EXT]"
+        ),
+    )
+    parser.add_argument(
         "--output-type-registry-only",
         action="store_true",
         help="Only emit output_type_registry_mirror statements (requires OUTPUT_TYPE_REGISTRY.csv) [I86 Wave L D-IH-86-BG]",
@@ -1168,6 +1272,7 @@ def main() -> int:
             args.engagement_model_only,
             args.design_pattern_registry_only,
             args.substrate_registry_only,
+            args.collaborator_share_only,
             args.output_type_registry_only,
             args.artifact_class_registry_only,
             args.component_primitive_registry_only,
@@ -1185,7 +1290,7 @@ def main() -> int:
             "--channel-touchpoint-registry-only, "
             "--repository-registry-only, --initiative-registry-only, "
             "--ops-register-only, --cycle-register-only, "
-            "--decision-register-only",
+            "--decision-register-only, --collaborator-share-only",
             file=sys.stderr,
         )
         return 1
@@ -1677,6 +1782,67 @@ def main() -> int:
             "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
             f"-- source_git_sha: {sha}",
             f"-- Apply only after {mirror_table} exists ({initiative} DDL).",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
+    # I86 Wave R+1 P2c-a — Collaborator Share 5-mirror kit. Dispatched together
+    # because the doctrine treats them as ONE atomic set (per
+    # .cursor/rules/akos-collaborator-share.mdc RULE 2). One flag → one combined
+    # SQL output covering all 5 mirrors in FK-safe dependency order.
+    if args.collaborator_share_only:
+        # Per-mirror header drift check + row load.
+        cs_loaded: list[tuple[str, tuple[str, ...], str, list[dict[str, str]]]] = []
+        for mirror_table, csv_path, fieldnames, pk_column in COLLABORATOR_SHARE_MIRROR_SPECS:
+            if not csv_path.is_file():
+                print("error: missing", csv_path, file=sys.stderr)
+                return 1
+            with csv_path.open(encoding="utf-8", newline="") as f:
+                reader = csv.DictReader(f)
+                fn = list(reader.fieldnames or [])
+                if fn != list(fieldnames):
+                    print(f"error: {csv_path.name} header drift vs contract", file=sys.stderr)
+                    print("  expected:", list(fieldnames), file=sys.stderr)
+                    print("  got:     ", fn, file=sys.stderr)
+                    return 1
+                cs_loaded.append((mirror_table, fieldnames, pk_column, [dict(r) for r in reader]))
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            for mirror_table, _fn, _pk, rows in cs_loaded:
+                # Slug ends with `_mirror`; the count key drops it for symmetry
+                # with the `_i59_count_keys` style (e.g. `collaborator_share_registry_rows`).
+                key = mirror_table.split(".", 1)[1].removesuffix("_mirror") + "_rows"
+                print(f"{key}={len(rows)}")
+            return 0
+        blocks: list[str] = []
+        for mirror_table, fieldnames, pk_column, rows in cs_loaded:
+            blocks.extend(
+                _emit_generic_pk_upserts(
+                    rows=rows,
+                    fieldnames=fieldnames,
+                    mirror_table=mirror_table,
+                    pk_column=pk_column,
+                    source_git_sha=sha,
+                    initiative_label="I86 Wave R+1 P2c-a",
+                )
+            )
+            blocks.append("")  # blank line between per-mirror blocks for readability
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            "-- Collaborator Share kit (I86 Wave R+1 P2c-a; D-IH-86-CY-A/B/C/D/EXT).",
+            "-- Apply only after the 5 mirror tables exist (see Supabase migration",
+            "-- supabase/migrations/20260524000000_i86_wr1_collaborator_share_mirrors.sql).",
             "",
         ]
         if not args.no_begin_commit:
