@@ -553,6 +553,54 @@ def run_output_architecture_registries_validation() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_collaborator_share_self_test() -> tuple[bool, int]:
+    """Run COLLABORATOR_SHARE self-test (I86 Wave R+1 / D-IH-86-CY).
+
+    Self-test mode of ``scripts/validate_collaborator_share.py`` — validates
+    the paired Pydantic SSOT (``akos/hlk_collaborator_share.py``
+    CollaboratorShareRow + HolistikaVendorBilledRow + PartnerOverlapClauseRow
+    + CollaboratorMarketRateRow + CollaboratorRateOverrideRow +
+    CollaboratorShareAuditRow + CollaboratorShareAuditReport frozen models)
+    + the validator's CHECK_REGISTRY shape (7 checks; CS-01..CS-07).
+    Does NOT run the actual 7-check audit — that fires at engagement-mint /
+    quarterly review per COLLABORATOR_SHARE_DOCTRINE.md canonical §3 cadence
+    + process_list.csv hol_peopl_dtp_collaborator_share_001 cadence_type.
+    Self-test mode keeps CI cost at ~2s. Paired runbook
+    scripts/collaborator_share_calculate.py also carries a --self-test that
+    validates the 65/35 + benefits arithmetic against a worked-example
+    fixture. Both run in pre_commit per the verification-profiles wiring.
+
+    Returns ``(ok, exit_code)``. Exit code 0 PASS, 1 FAIL.
+    """
+    logger.info("Running COLLABORATOR_SHARE self-test (I86 Wave R+1 / D-IH-86-CY; --self-test) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_collaborator_share.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
+def run_collaborator_share_calculator_self_test() -> tuple[bool, int]:
+    """Run the paired runbook's --self-test (arithmetic worked-example check).
+
+    Verifies that ``collaborator_share_calculate.py`` correctly computes
+    benefits = revenue - costs + applies the 65/35 default split. Pure
+    in-memory arithmetic check (no CSV reads); keeps CI cost at ~2s.
+
+    Returns ``(ok, exit_code)``. Exit code 0 PASS, non-zero FAIL.
+    """
+    logger.info("Running COLLABORATOR_SHARE calculator self-test (I86 Wave R+1 / D-IH-86-CY; --self-test) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "collaborator_share_calculate.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_index_freshness_self_test() -> tuple[bool, int]:
     """Run baseline-index freshness self-test (I86 Wave N / D-IH-86-CD).
 
@@ -1406,6 +1454,18 @@ def main() -> None:
     results.append((
         "PASS" if idx_strict_ok else "FAIL",
         f"Index integrity strict sweep (scripts/validate_index_freshness.py --strict - D-IH-86-CN immediate FAIL ramp; full 8-dimension baseline-index sweep; ok={'yes' if idx_strict_ok else 'no'}; exit={idx_strict_rc})",
+    ))
+
+    cs_self_ok, cs_self_rc = run_collaborator_share_self_test()
+    results.append((
+        "INFO" if cs_self_ok else "FAIL",
+        f"Collaborator share self-test (scripts/validate_collaborator_share.py --self-test - 13th Quality Fabric specialty per D-IH-86-CY Wave R+1 Commit 2b; Pydantic SSOT (CollaboratorShareRow + HolistikaVendorBilledRow + PartnerOverlapClauseRow + CollaboratorMarketRateRow + CollaboratorRateOverrideRow + CollaboratorShareAuditRow + CollaboratorShareAuditReport frozen models) + 8-check CHECK_REGISTRY shape (CS-01..CS-08) validation including CS-08 share_pattern enum validity per D-IH-86-CY-EXT Commit 2b-ext; INFO ramp at mint per akos-collaborator-share.mdc RULE 5 (promotes to FAIL at Wave R+3 once first non-trivial engagement settles + operator ratifies); 5 canonical CSVs covered (COLLABORATOR_SHARE_REGISTRY with share_pattern column + HOLISTIKA_VENDOR_SERVICES_BILLED + PARTNER_OVERLAP_EXCLUSION_CLAUSES + COLLABORATOR_MARKET_RATE_REFERENCE + COLLABORATOR_RATE_OVERRIDES); share_pattern enum {deep_partner_65_35, orchestration_broker_thin_margin, custom} branches CS-03 (per-row vs across-rows vs skipped) + CS-04 (65/35 audit vs 6% Holistika-total audit vs mandatory override) + CS-08 (enum membership); does NOT run the 8-check audit (that fires at engagement-mint + quarterly review per COLLABORATOR_SHARE_DOCTRINE.md §3 + process_list.csv hol_peopl_dtp_collaborator_share_001 cadence_type); ok={'yes' if cs_self_ok else 'no'}; exit={cs_self_rc})",
+    ))
+
+    cs_calc_ok, cs_calc_rc = run_collaborator_share_calculator_self_test()
+    results.append((
+        "INFO" if cs_calc_ok else "FAIL",
+        f"Collaborator share calculator self-test (scripts/collaborator_share_calculate.py --self-test - paired runbook for the SOP+runbook pair per akos-executable-process-catalog.mdc Rule 1 AC-AUTOMATION; computes engagement settlements branching on share_pattern per D-IH-86-CY-EXT Commit 2b-ext: deep_partner_65_35 (TRUE-MARGIN benefits formula: revenue - transparent project costs = benefits -> 65/35 default split) | orchestration_broker_thin_margin (per-row revenue slice; no cost subtraction; advisory Holistika-total ~6% margin) | custom (manual placeholder + operator notes); worked-example fixtures cover all 3 patterns plus the original 100k EUR revenue - 20k EUR costs = 80k EUR benefits -> 52k EUR Holistika + 28k EUR Collaborator deep_partner case; pure arithmetic check (no CSV reads); D-IH-86-CY-EXT Wave R+1 Commit 2b-ext; ok={'yes' if cs_calc_ok else 'no'}; exit={cs_calc_rc})",
     ))
 
     uat_report_ok, uat_report_rc = run_uat_report_validation()

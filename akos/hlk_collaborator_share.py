@@ -32,6 +32,7 @@ COLLABORATOR_SHARE_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "engagement_id",
     "collaborator_id",
     "engagement_model_id",
+    "share_pattern",
     "holistika_share_pct",
     "collaborator_share_pct",
     "collaborator_billed_rate",
@@ -55,8 +56,59 @@ VALID_SHARE_REGISTRY_STATUSES: frozenset[str] = frozenset({
     "archived",
 })
 
+# D-IH-86-CY-EXT (Wave R+1 Commit 2b-ext, operator ratification Q1-b 2026-05-25):
+# `share_pattern` is the top-level economic-model classifier per
+# COLLABORATOR_SHARE_DOCTRINE.md §2.1. Three patterns cover the operationally
+# observed shapes; CS-03 sum-to-100 logic + CS-04 default audit + the
+# `collaborator_share_calculate.py` runbook all branch on this field.
+#
+#   - deep_partner_65_35:
+#       One row per (engagement, collaborator) pair. holistika_share_pct +
+#       collaborator_share_pct == 100 on the row. Default 65/35 deviation
+#       requires `share_override_decision_id` FK (CS-04 audit). Used for the
+#       Aïsha-on-SUEZ-operator-role shape (deep partner doing the ongoing
+#       operator work, sharing benefits with Holistika after transparent
+#       project costs are netted).
+#
+#   - orchestration_broker_thin_margin:
+#       Multiple rows per engagement (one per hired collaborator). The row's
+#       `collaborator_share_pct` is THIS collaborator's slice of engagement
+#       gross revenue (e.g., 47% each for 2 collaborators); the row's
+#       `holistika_share_pct` is Holistika's per-collaborator margin
+#       allocation (typically thin, e.g., 6% on this collaborator's slice).
+#       Across all rows of the same engagement_id, the SUM of
+#       collaborator_share_pct + the SUM of holistika_share_pct must equal
+#       100. Holistika's total margin is the SUM of holistika_share_pct
+#       across rows (e.g., 6% if 2 collaborators each carry 3% Holistika
+#       allocation; or one of the rows carries the full 6%).
+#       Used for the SUEZ-engagement-overall shape (Holistika orchestrates
+#       + hires partner + researcher + executor with thin Holistika cut).
+#
+#   - custom:
+#       Per-row explicit split. NO automatic sum-to-100 check (operator
+#       takes responsibility for the cross-row math). REQUIRES
+#       `share_override_decision_id` FK on every row (CS-03 audit). Used for
+#       deals that don't fit either of the canonical patterns.
+
+VALID_SHARE_PATTERNS: frozenset[str] = frozenset({
+    "deep_partner_65_35",
+    "orchestration_broker_thin_margin",
+    "custom",
+})
+
+DEFAULT_SHARE_PATTERN: str = "deep_partner_65_35"
+
 DEFAULT_HOLISTIKA_SHARE_PCT: int = 65
 DEFAULT_COLLABORATOR_SHARE_PCT: int = 35
+
+# Typical orchestration_broker_thin_margin Holistika cut per the SUEZ-shape
+# operator framing 2026-05-25 verbatim: "Holistika has 6%". This is the
+# DEFAULT expected total Holistika margin across all rows of the same
+# engagement_id when share_pattern == orchestration_broker_thin_margin.
+# CS-04 audit fires INFO advisory when an orchestration_broker engagement's
+# total Holistika margin deviates from this value without an
+# `share_override_decision_id` row.
+ORCHESTRATION_BROKER_DEFAULT_HOLISTIKA_TOTAL_PCT: int = 6
 
 CSV_PATH_RELATIVE_SHARE_REGISTRY: str = (
     "docs/references/hlk/v3.0/Admin/O5-1/People/People Operations/canonicals/"
@@ -71,6 +123,11 @@ class CollaboratorShareRegistryRow(BaseModel):
     engagement_id: str = Field(min_length=1, max_length=120)
     collaborator_id: str = Field(min_length=1, max_length=64)
     engagement_model_id: str = Field(min_length=1, max_length=64)
+    share_pattern: Literal[
+        "deep_partner_65_35",
+        "orchestration_broker_thin_margin",
+        "custom",
+    ]
     holistika_share_pct: int = Field(ge=0, le=100)
     collaborator_share_pct: int = Field(ge=0, le=100)
     collaborator_billed_rate: float = Field(ge=0)
@@ -347,8 +404,11 @@ class CollaboratorRateOverrideRow(BaseModel):
 
 def default_split_holds(holistika_pct: int, collaborator_pct: int) -> bool:
     """Return True iff (holistika_pct, collaborator_pct) matches the doctrine
-    default 65/35 split. Per CS-03 audit: non-default split requires an
-    OVERRIDE row + DECISION_REGISTER FK.
+    default 65/35 split for the deep_partner_65_35 share pattern. Per CS-04
+    audit: non-default split on a deep_partner_65_35 row requires an
+    OVERRIDE row + DECISION_REGISTER FK. CS-04 does NOT fire for
+    orchestration_broker_thin_margin or custom patterns (each has its own
+    default-audit semantics).
     """
     return (
         holistika_pct == DEFAULT_HOLISTIKA_SHARE_PCT
@@ -357,8 +417,72 @@ def default_split_holds(holistika_pct: int, collaborator_pct: int) -> bool:
 
 
 def split_sums_to_100(holistika_pct: int, collaborator_pct: int) -> bool:
-    """Return True iff the share splits sum to exactly 100. Per CS-03 audit."""
+    """Return True iff the per-row share splits sum to exactly 100. Per CS-03
+    audit, applies row-locally for share_pattern == 'deep_partner_65_35'. For
+    'orchestration_broker_thin_margin', the sum-to-100 invariant applies
+    ACROSS-ROWS for the same engagement_id (see
+    ``orchestration_broker_sum_holds``). For 'custom', no automatic check
+    applies (operator carries the math invariant on themselves).
+    """
     return holistika_pct + collaborator_pct == 100
+
+
+def orchestration_broker_sum_holds(
+    rows_for_engagement: list[tuple[int, int]],
+) -> bool:
+    """Return True iff the across-rows sum-to-100 invariant holds for an
+    orchestration_broker_thin_margin engagement.
+
+    Args:
+        rows_for_engagement: List of (holistika_share_pct, collaborator_share_pct)
+            tuples, one per registry row sharing the same engagement_id and
+            carrying share_pattern == 'orchestration_broker_thin_margin'.
+
+    Returns:
+        True iff (sum(holistika_pcts) + sum(collaborator_pcts)) == 100.
+
+    The Holistika total margin is sum(holistika_pcts); the collaborator-side
+    total is sum(collaborator_pcts). Per CS-03 across-rows variant: this sum
+    must equal exactly 100 for any orchestration_broker engagement.
+    """
+    if not rows_for_engagement:
+        return False
+    total_holistika = sum(row[0] for row in rows_for_engagement)
+    total_collaborator = sum(row[1] for row in rows_for_engagement)
+    return (total_holistika + total_collaborator) == 100
+
+
+def orchestration_broker_default_margin_holds(
+    rows_for_engagement: list[tuple[int, int]],
+    expected_pct: int = ORCHESTRATION_BROKER_DEFAULT_HOLISTIKA_TOTAL_PCT,
+) -> bool:
+    """Return True iff the total Holistika margin across all rows of an
+    orchestration_broker_thin_margin engagement matches the doctrine default
+    (6% per operator framing 2026-05-25). Per CS-04 across-rows variant:
+    deviation requires `share_override_decision_id` on AT LEAST ONE row of
+    the engagement.
+
+    Args:
+        rows_for_engagement: List of (holistika_share_pct, collaborator_share_pct)
+            tuples, one per registry row sharing the same engagement_id and
+            carrying share_pattern == 'orchestration_broker_thin_margin'.
+        expected_pct: Expected total Holistika margin. Defaults to the
+            doctrine-canonical 6% per ORCHESTRATION_BROKER_DEFAULT_HOLISTIKA_TOTAL_PCT.
+
+    Returns:
+        True iff sum(holistika_pcts) == expected_pct.
+    """
+    if not rows_for_engagement:
+        return False
+    total_holistika = sum(row[0] for row in rows_for_engagement)
+    return total_holistika == expected_pct
+
+
+def share_pattern_is_valid(share_pattern: str) -> bool:
+    """Return True iff share_pattern is a recognised enum value per
+    VALID_SHARE_PATTERNS. Per CS-08 audit: unknown values fail immediately.
+    """
+    return share_pattern in VALID_SHARE_PATTERNS
 
 
 def bill_mode_matches_default(service_class: str, bill_mode: str) -> bool:
@@ -390,3 +514,153 @@ def variance_pct_signed(actual_value: float, reference_value: float) -> float:
     if reference_value == 0:
         return 0.0
     return ((actual_value - reference_value) / reference_value) * 100.0
+
+
+# =============================================================================
+# Audit-report Pydantic models (consumed by validate_collaborator_share.py)
+# =============================================================================
+# Mirrors the IndexFreshnessRow / IndexFreshnessReport shape from
+# akos/hlk_index_integrity.py so the validator + release-gate report surfaces
+# stay structurally consistent across Quality Fabric specialties.
+
+VALID_COLLABORATOR_SHARE_CHECK_CODES: frozenset[str] = frozenset({
+    "CS-01-STRUCTURAL-VALIDATION",
+    "CS-02-CROSS-CSV-FK-RESOLUTION",
+    "CS-03-SPLIT-SUMS-TO-100",
+    "CS-04-DEFAULT-65-35-AUDIT",
+    "CS-05-BILL-MODE-DEFAULT-CONSISTENCY",
+    "CS-06-RATE-WITHIN-MARKET-BAND",
+    "CS-07-OVERRIDE-EXPIRY-AUDIT",
+    # Added at Commit 2b-ext (D-IH-86-CY-EXT) — validates share_pattern enum
+    # membership + applies pattern-conditional logic to CS-03 + CS-04.
+    "CS-08-SHARE-PATTERN-ENUM-VALIDITY",
+})
+
+
+VALID_AUDIT_VERDICTS: frozenset[str] = frozenset({
+    "pass",
+    "warn",
+    "fail",
+    "skip",
+})
+
+
+VALID_AUDIT_SEVERITIES: frozenset[str] = frozenset({
+    "low",
+    "medium",
+    "high",
+})
+
+
+VALID_AUDIT_TRIGGERS: frozenset[str] = frozenset({
+    "pre_commit_self_test",
+    "csv_mint",
+    "wave_close",
+    "on_demand",
+})
+
+
+COLLABORATOR_SHARE_AUDIT_ROW_FIELDNAMES: tuple[str, ...] = (
+    "check_code",
+    "subject_path",
+    "subject_row_id",
+    "verdict",
+    "drift_summary",
+    "proposed_fix_action",
+    "severity",
+    "candidate_decision_id",
+    "notes",
+)
+
+
+COLLABORATOR_SHARE_AUDIT_REPORT_FIELDNAMES: tuple[str, ...] = (
+    "report_id",
+    "audit_trigger",
+    "audited_at",
+    "audited_by",
+    "findings",
+    "pass_count",
+    "warn_count",
+    "fail_count",
+    "skip_count",
+    "total_findings",
+)
+
+
+class CollaboratorShareAuditRow(BaseModel):
+    """One audit finding from a single CS-* check.
+
+    A clean audit emits one ``verdict='pass'`` row per check. A non-clean
+    audit emits one row per surfaced issue; each non-clean row becomes one
+    triage gate option per the doctrine §5 ramp posture
+    (deterministic-fix-now vs ratify-as-canon vs forward-charter).
+    """
+
+    model_config = ConfigDict(frozen=True, str_strip_whitespace=True)
+
+    check_code: Literal[
+        "CS-01-STRUCTURAL-VALIDATION",
+        "CS-02-CROSS-CSV-FK-RESOLUTION",
+        "CS-03-SPLIT-SUMS-TO-100",
+        "CS-04-DEFAULT-65-35-AUDIT",
+        "CS-05-BILL-MODE-DEFAULT-CONSISTENCY",
+        "CS-06-RATE-WITHIN-MARKET-BAND",
+        "CS-07-OVERRIDE-EXPIRY-AUDIT",
+        "CS-08-SHARE-PATTERN-ENUM-VALIDITY",
+    ]
+    subject_path: str = Field(
+        ...,
+        min_length=1,
+        max_length=512,
+        description=(
+            "Repo-root-relative POSIX path of the CSV this finding concerns "
+            "(or a synthetic identifier for cross-CSV findings)."
+        ),
+    )
+    subject_row_id: str = Field(
+        default="",
+        max_length=128,
+        description=(
+            "ID of the offending row when applicable (share_id / "
+            "vendor_billing_id / clause_id / rate_id / override_id). "
+            "Empty for structural / CSV-level findings."
+        ),
+    )
+    verdict: Literal["pass", "warn", "fail", "skip"]
+    drift_summary: str = Field(default="", max_length=1024)
+    proposed_fix_action: str = Field(default="", max_length=1024)
+    severity: Literal["low", "medium", "high"]
+    candidate_decision_id: str | None = Field(
+        default=None,
+        pattern=r"^D-IH-\d+-[A-Z0-9_]+$",
+        min_length=8,
+        max_length=64,
+    )
+    notes: str = Field(default="", max_length=2048)
+
+
+class CollaboratorShareAuditReport(BaseModel):
+    """Aggregate report for one 7-check collaborator-share audit run."""
+
+    model_config = ConfigDict(frozen=True, str_strip_whitespace=True)
+
+    report_id: str = Field(
+        ...,
+        pattern=r"^collaborator-share-audit-\d{4}-\d{2}-\d{2}(-[a-z0-9]+)?$",
+        min_length=29,
+        max_length=80,
+    )
+    audit_trigger: Literal[
+        "pre_commit_self_test",
+        "csv_mint",
+        "wave_close",
+        "on_demand",
+    ]
+    audited_at: str = Field(..., pattern=r"^\d{4}-\d{2}-\d{2}$")
+    audited_by: str = Field(..., min_length=1, max_length=128)
+    findings: list[CollaboratorShareAuditRow]
+    pass_count: int = Field(..., ge=0)
+    warn_count: int = Field(..., ge=0)
+    fail_count: int = Field(..., ge=0)
+    skip_count: int = Field(..., ge=0)
+    total_findings: int = Field(..., ge=0)

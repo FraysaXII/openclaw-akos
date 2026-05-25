@@ -180,6 +180,22 @@
           ]
         },
         {
+          "id": "validate_collaborator_share_self_test",
+          "description": "Initiative 86 Wave R+1 Commit 2b + Commit 2b-ext (D-IH-86-CY + D-IH-86-CY-EXT, 2026-05-25): collaborator-share discipline self-test (13th Quality Fabric specialty). Validates akos/hlk_collaborator_share.py Pydantic SSOT (CollaboratorShareRow with share_pattern enum column + HolistikaVendorBilledRow + PartnerOverlapClauseRow + CollaboratorMarketRateRow + CollaboratorRateOverrideRow + CollaboratorShareAuditRow + CollaboratorShareAuditReport frozen models) + scripts/validate_collaborator_share.py CHECK_REGISTRY shape (8 checks; CS-01..CS-08: structural validation + cross-CSV FK resolution + per-pattern split-sums-to-100 + per-pattern default-split audit + bill-mode-default consistency + rate-within-market-band + override-expiry audit + share_pattern enum membership). share_pattern enum {deep_partner_65_35, orchestration_broker_thin_margin, custom} branches CS-03 (per-row vs across-rows vs skipped) + CS-04 (65/35 audit vs 6%-Holistika-total audit vs mandatory override). Does NOT run the actual 8-check audit (that's event_triggered cadence per the COLLABORATOR_SHARE_DOCTRINE.md canonical §3 + process_list.csv hol_peopl_dtp_collaborator_share_001 cadence_type: fires at engagement-mint + quarterly review). Self-test mode keeps CI cost at ~2s. INFO ramp at mint per akos-collaborator-share.mdc RULE 5; promotes to FAIL at Wave R+3 once first non-trivial engagement settles + operator ratifies. Operator-ratified economic models: deep_partner_65_35 = 65% Holistika / 35% collaborator out of BENEFITS (formula-c-hybrid TRUE-MARGIN); orchestration_broker_thin_margin = Holistika ~6% per row out of REVENUE (across-row aggregate = 100%); custom = operator-defined per row with mandatory ratifying decision FK. Paired runbook scripts/collaborator_share_calculate.py also runs self-test in pre_commit. Paired SOP scripts/SOP-PEOPLE_COLLABORATOR_SHARE_001.md + cursor rule akos-collaborator-share.mdc + skill .cursor/skills/collaborator-share-craft/SKILL.md land in Commit 2c.",
+          "argv": [
+            "scripts/validate_collaborator_share.py",
+            "--self-test"
+          ]
+        },
+        {
+          "id": "collaborator_share_calculator_self_test",
+          "description": "Initiative 86 Wave R+1 Commit 2b + Commit 2b-ext (D-IH-86-CY + D-IH-86-CY-EXT, 2026-05-25): collaborator-share calculator self-test (paired runbook of the SOP+runbook pair per akos-executable-process-catalog.mdc Rule 1 AC-AUTOMATION). Computes engagement settlements branching on share_pattern: deep_partner_65_35 (TRUE-MARGIN: revenue - transparent project costs = benefits -> 65/35 default split or per-row deviation), orchestration_broker_thin_margin (per-row revenue slice; no cost subtraction; advisory Holistika-total ~6% margin), custom (manual placeholder + operator narrative). Worked-example fixtures cover all 3 patterns plus the original deep_partner deep_partner_65_35 fixture: 100k EUR revenue - 20k EUR costs = 80k EUR benefits -> 52k EUR Holistika + 28k EUR Collaborator. Pure in-memory arithmetic check (no CSV reads); CI cost at ~2s. Operationalises COLLABORATOR_SHARE_DOCTRINE.md §2 settlement formula + COLLABORATOR_SHARE_REGISTRY share_pattern enum branching.",
+          "argv": [
+            "scripts/collaborator_share_calculate.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "validate_uat_report_self_test",
           "description": "Initiative 86 Wave R+1 P1 (D-IH-86-CW, 2026-05-24): UAT discipline 12th Quality Fabric specialty self-test. Validates akos/hlk_uat_report.py Pydantic SSOT (UATReport + CanonicalFieldTestWindow + sub-models frozen) + scripts/validate_uat_report.py fixture round-trips. Does NOT run the actual --report sweep across all UAT files (that's per-UAT-mint cadence per UAT_DISCIPLINE.md §8.5 + process_list.csv hol_peopl_dtp_uat_governance_001 cadence_type=event_triggered). Self-test mode keeps CI cost at ~2s. Paired SOP + addendum + runbook + cursor rule + skill + process_list row + pattern-registry row + field_test_window: frontmatter block all ship at Commit 1; INFO->FAIL ramp per akos-uat-discipline.mdc RULE 4 aligned with the 3-wave (S/T/U) field-test window observation lifecycle.",
           "argv": [

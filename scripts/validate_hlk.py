@@ -508,6 +508,21 @@ def main() -> int:
         ("ENGAGEMENT_MODEL_REGISTRY", "validate_engagement_model_registry.py",
          "validate_engagement_model_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "People Operations" / "canonicals" / "dimensions" / "ENGAGEMENT_MODEL_REGISTRY.csv"),
+        # Initiative 86 Wave R+1 Commit 2b + Commit 2b-ext - COLLABORATOR_SHARE umbrella validator
+        # (13th Quality Fabric specialty per D-IH-86-CY + D-IH-86-CY-EXT). Single dispatch over 5
+        # sibling CSVs (COLLABORATOR_SHARE_REGISTRY with share_pattern enum column +
+        # HOLISTIKA_VENDOR_SERVICES_BILLED + PARTNER_OVERLAP_EXCLUSION_CLAUSES +
+        # COLLABORATOR_MARKET_RATE_REFERENCE + COLLABORATOR_RATE_OVERRIDES) executing the 8 CS-*
+        # checks (CS-01..CS-08; CS-03 + CS-04 branch per share_pattern; CS-08 audits enum
+        # membership). Gate keyed off the primary COLLABORATOR_SHARE_REGISTRY.csv presence;
+        # missing primary CSV => umbrella SKIPs. INFO ramp at mint per akos-collaborator-share.mdc
+        # RULE 5 — promotes to FAIL at Wave R+3 once first non-trivial engagement settles + operator
+        # ratifies. Runs without --strict here (so the umbrella stays INFO advisory inside
+        # validate_hlk); release-gate.py + pre_commit invoke the self-test mode independently for
+        # the always-on zero-cost circuit-breaker.
+        ("COLLABORATOR_SHARE", "validate_collaborator_share.py",
+         "validate_collaborator_share",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "People Operations" / "canonicals" / "dimensions" / "COLLABORATOR_SHARE_REGISTRY.csv"),
         # Initiative 79 P2 - People Design Pattern Registry (CSV registry mode; jargon-scan mode invoked separately
         # via verification-profiles.json profile design_pattern_registry_jargon_scan + pre_commit composition).
         # Codifies People-as-discipline-of-disciplines per D-IH-79-A/C/D + anti-jargon drift gate per D-IH-79-N.
