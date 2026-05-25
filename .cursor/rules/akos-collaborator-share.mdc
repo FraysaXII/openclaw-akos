@@ -5,7 +5,7 @@ description: >-
   Fires whenever a SHARE_REGISTRY row is authored, an engagement
   charters/closes a milestone/closes final, OR a commercial deviation
   is ratified. Three share_pattern shapes (deep_partner_65_35 /
-  orchestration_broker_thin_margin / custom) per D-IH-86-CY-EXT; CS-03
+  orchestration_broker_thin_margin / custom) per D-IH-86-DE; CS-03
   + CS-04 branch per pattern; CS-08 enforces enum membership.
 globs:
   - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md"
@@ -28,9 +28,9 @@ alwaysApply: true
 Use this rule whenever authoring a `COLLABORATOR_SHARE_REGISTRY` row,
 running an engagement settlement, OR ratifying a commercial deviation
 (rate excursion / share-split deviation / bill_mode deviation / custom
-pattern). Codifies operator decisions **D-IH-86-CY-A** (doctrine mint),
-**D-IH-86-CY-B** (TRUE-MARGIN formula), **D-IH-86-CY-C** (clause table),
-and **D-IH-86-CY-EXT** (`share_pattern` enum with three shapes +
+pattern). Codifies operator decisions **D-IH-86-DA** (doctrine mint),
+**D-IH-86-DB** (TRUE-MARGIN formula), **D-IH-86-DC** (clause table),
+and **D-IH-86-DE** (`share_pattern` enum with three shapes +
 per-pattern CS-03/CS-04 branching + CS-08 enum-validity check; ratified
 mid-architecture-session 2026-05-25). Mechanical companion to
 [`COLLABORATOR_SHARE_DOCTRINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md).
@@ -60,7 +60,7 @@ compensation (covered by payroll, not this discipline).
 
 ## RULE 1 — Resolve `share_pattern` BEFORE drafting any SHARE_REGISTRY row (binding)
 
-Per D-IH-86-CY-EXT, every SHARE_REGISTRY row carries a `share_pattern`
+Per D-IH-86-DE, every SHARE_REGISTRY row carries a `share_pattern`
 value that determines CS-03 + CS-04 validator behaviour. The three
 shapes are NOT interchangeable; using the wrong one produces silent
 math errors. Resolve via inline-ratify `AskQuestion` gate per
@@ -114,7 +114,7 @@ The 8 checks are defined in
 | 5 | CS-05 — bill_mode default audit | WARN | No (pattern-agnostic VENDOR_SERVICES_BILLED discipline) |
 | 6 | CS-06 — Partner-overlap clause linkage | WARN | No |
 | 7 | CS-07 — Rate override expiry hygiene | INFO | No |
-| 8 | CS-08 — share_pattern enum validity *(NEW per D-IH-86-CY-EXT)* | FAIL | N/A (this check enforces the enum) |
+| 8 | CS-08 — share_pattern enum validity *(NEW per D-IH-86-DE)* | FAIL | N/A (this check enforces the enum) |
 
 CS-03 + CS-04 branching is critical: a row authored under the wrong
 `share_pattern` will pass the wrong invariant audit and silently
@@ -158,7 +158,7 @@ wired up properly with the rest"* framing:
 - 1 real engagement (Aïsha-on-SUEZ; Commit 3) applies the doctrine
   end-to-end with all 5 CSVs populated correctly.
 - Validator CS-01..CS-08 PASS on the populated rows.
-- Operator-ratified active-promotion decision row (D-IH-86-CY-E or
+- Operator-ratified active-promotion decision row (D-IH-86-DF or
   successor).
 
 **Stage 2 — active → promoted-FAIL ramp** (gates):
@@ -208,7 +208,7 @@ wired up properly with the rest"* framing:
   [`process_list.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv) (Commit 2c-b).
 - Pattern registry row: `pattern_collaborator_share_doctrine` in
   [`PEOPLE_DESIGN_PATTERN_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv) (Commit 2c-b).
-- Decision lineage: D-IH-86-CY-A (doctrine mint + SOP gate), D-IH-86-CY-B (TRUE-MARGIN formula), D-IH-86-CY-C (clause table schema), D-IH-86-CY-D (Tier 1 WIP hygiene), D-IH-86-CY-EXT (share_pattern enum + CS-08 + CS-03/CS-04 per-pattern branching).
+- Decision lineage: D-IH-86-DA (doctrine mint + SOP gate), D-IH-86-DB (TRUE-MARGIN formula), D-IH-86-DC (clause table schema), D-IH-86-DD (Tier 1 WIP hygiene), D-IH-86-DE (share_pattern enum + CS-08 + CS-03/CS-04 per-pattern branching).
 
 @docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md
 @docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_COLLABORATOR_SHARE_001.md

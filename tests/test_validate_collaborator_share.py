@@ -1,7 +1,7 @@
 """Integration tests for scripts/validate_collaborator_share.py.
 
-The 13th Quality Fabric specialty per D-IH-86-CY (Wave R+1 Commit 2b) +
-D-IH-86-CY-EXT share_pattern schema extension (Wave R+1 Commit 2b-ext).
+The 13th Quality Fabric specialty per D-IH-86-DA quintet (Wave R+1 Commits 2a/2b/2b-ext/2c-a/2c-b) +
+D-IH-86-DE share_pattern schema extension (Wave R+1 Commit 2b-ext).
 
 This file covers the *validator CLI behaviour* (subprocess + on-disk fixtures).
 Pure Pydantic model + helper coverage lives in
@@ -377,7 +377,7 @@ def test_cs03_across_rows_orchestration_broker_passes_on_closure(
             share_pattern="orchestration_broker_thin_margin",
             holistika_pct=3,
             collaborator_pct=47,
-            override_id="D-IH-86-CY-EXT",  # silences CS-04 default-margin warn
+            override_id="D-IH-86-DE",  # silences CS-04 default-margin warn
             collaborator_id="POI-PRT-A",
         ),
         _build_share_registry_row(
@@ -386,7 +386,7 @@ def test_cs03_across_rows_orchestration_broker_passes_on_closure(
             share_pattern="orchestration_broker_thin_margin",
             holistika_pct=3,
             collaborator_pct=47,
-            override_id="D-IH-86-CY-EXT",
+            override_id="D-IH-86-DE",
             collaborator_id="POI-PRT-B",
         ),
     ]

@@ -15,14 +15,14 @@ co_authors:
   - Legal Counsel
 last_review: 2026-05-25
 last_review_by: Founder/CEO
-last_review_decision_id: D-IH-86-CY-A
+last_review_decision_id: D-IH-86-DA
 methodology_version_at_review: v3.1
 ratifying_decisions:
-  - D-IH-86-CY-A
-  - D-IH-86-CY-B
-  - D-IH-86-CY-C
-  - D-IH-86-CY-D
-  - D-IH-86-CY-EXT
+  - D-IH-86-DA
+  - D-IH-86-DB
+  - D-IH-86-DC
+  - D-IH-86-DD
+  - D-IH-86-DE
 status: charter
 register: internal
 linked_canonicals:
@@ -109,7 +109,7 @@ For **every** trigger:
   (typically `eng_model_percentage_collaborator` for `deep_partner_65_35`
   shape; `eng_model_orchestration_broker` for `orchestration_broker_thin_margin`
   shape — forward-charter per D-IH-73-J extension at Commit 3).
-- **`share_pattern`** — the routing input per D-IH-86-CY-EXT:
+- **`share_pattern`** — the routing input per D-IH-86-DE:
   - `deep_partner_65_35` *(default for backward-compatibility)* — pick when
     Holistika contributes a full methodology + machinery + execution stack
     as the value of its 65% share; collaborator brings the deal +
@@ -359,10 +359,10 @@ runs on demand when the operator commits new rows to any of the 5 CSVs.
 - Process catalog: `hol_peopl_dtp_collaborator_share_001` in
   [`process_list.csv`](../Compliance/canonicals/process_list.csv) (lands
   in Commit 2c-b).
-- Decision lineage: D-IH-86-CY-A (doctrine mint + paired SOP gate),
-  D-IH-86-CY-B (TRUE-MARGIN benefits formula), D-IH-86-CY-C (clause
-  table schema), D-IH-86-CY-D (Tier 1 WIP hygiene pre-requisite),
-  D-IH-86-CY-EXT (`share_pattern` enum + CS-08 + CS-03/CS-04 per-pattern
+- Decision lineage: D-IH-86-DA (doctrine mint + paired SOP gate),
+  D-IH-86-DB (TRUE-MARGIN benefits formula), D-IH-86-DC (clause
+  table schema), D-IH-86-DD (Tier 1 WIP hygiene pre-requisite),
+  D-IH-86-DE (`share_pattern` enum + CS-08 + CS-03/CS-04 per-pattern
   branching).
 
 @docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md

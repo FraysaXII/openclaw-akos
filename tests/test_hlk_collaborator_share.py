@@ -1,4 +1,4 @@
-"""Unit tests for the 5 Collaborator-Share Pydantic models (D-IH-86-CY-A)."""
+"""Unit tests for the 5 Collaborator-Share Pydantic models (D-IH-86-DA)."""
 
 from __future__ import annotations
 
@@ -38,11 +38,15 @@ pytestmark = pytest.mark.unit
 
 class TestFieldnameTuples:
     def test_share_registry_fieldnames_locked(self) -> None:
+        # 17-tuple per Commit 2b-ext (D-IH-86-DE): share_pattern enum added at idx 4
+        # (deep_partner_65_35 / orchestration_broker_thin_margin / custom) so per-pattern
+        # branching in CS-03 / CS-04 / CS-08 can resolve which floor/clamp applies.
         assert COLLABORATOR_SHARE_REGISTRY_FIELDNAMES == (
             "share_id",
             "engagement_id",
             "collaborator_id",
             "engagement_model_id",
+            "share_pattern",
             "holistika_share_pct",
             "collaborator_share_pct",
             "collaborator_billed_rate",
@@ -167,6 +171,7 @@ class TestShareRegistryRow:
             "engagement_id": "2026-suez-webuy-aisha",
             "collaborator_id": "POI-PRT-EFA-LEAD-2026",
             "engagement_model_id": "eng_model_percentage_collaborator",
+            "share_pattern": "deep_partner_65_35",
             "holistika_share_pct": 65,
             "collaborator_share_pct": 35,
             "collaborator_billed_rate": 100.0,
@@ -268,7 +273,7 @@ class TestOverlapClauseRow:
             "overlap_pattern_description": "When partner is a marketing agency.",
             "internal_precedent": "2026 Websitz / Rushly engagement",
             "industry_precedent_citation": "OECD TPG 2022 chapter VI",
-            "ratifying_decision_id": "D-IH-86-CY-C",
+            "ratifying_decision_id": "D-IH-86-DC",
             "last_review_at": "2026-05-25",
             "status": "active",
             "notes": "Seed clause.",
@@ -341,7 +346,7 @@ class TestRateOverrideRow:
             "actual_value": 130.0,
             "variance_pct": 30.0,
             "justification_narrative": "Strategic POC engagement.",
-            "ratifying_decision_id": "D-IH-86-CY-F",
+            "ratifying_decision_id": "D-IH-86-DG",
             "commercial_strategy_rationale": "Aisha brings flagship SUEZ deal.",
             "expires_at": "2027-05-25",
             "last_review_at": "2026-05-25",

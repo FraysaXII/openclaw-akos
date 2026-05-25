@@ -236,7 +236,7 @@ attach:
 1. The Markdown settlement file (or the PDF if rendering applies per
    `akos-external-render-discipline.mdc`).
 2. The doctrine version reference (e.g., *"computed per
-   COLLABORATOR_SHARE_DOCTRINE.md at version v3.1 + D-IH-86-CY-EXT
+   COLLABORATOR_SHARE_DOCTRINE.md at version v3.1 + D-IH-86-DE
    `share_pattern` extension"*).
 3. A 2-3 sentence summary of the math (revenue, costs subtracted or
    not per pattern, per-row split).

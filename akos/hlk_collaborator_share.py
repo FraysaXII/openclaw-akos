@@ -1,8 +1,8 @@
-"""Field contracts for the 5 Collaborator-Share canonical CSVs (D-IH-86-CY-A).
+"""Field contracts for the 5 Collaborator-Share canonical CSVs (D-IH-86-DA).
 
 Canonical CSVs live under
 ``docs/references/hlk/v3.0/Admin/O5-1/People/People Operations/canonicals/dimensions/``
-per COLLABORATOR_SHARE_DOCTRINE.md §2 + D-IH-86-CY-A..D ratification.
+per COLLABORATOR_SHARE_DOCTRINE.md §2 + D-IH-86-DA..D ratification.
 
 The 5 registers are:
   1. COLLABORATOR_SHARE_REGISTRY     - per-(engagement, collaborator) share row
@@ -56,7 +56,7 @@ VALID_SHARE_REGISTRY_STATUSES: frozenset[str] = frozenset({
     "archived",
 })
 
-# D-IH-86-CY-EXT (Wave R+1 Commit 2b-ext, operator ratification Q1-b 2026-05-25):
+# D-IH-86-DE (Wave R+1 Commit 2b-ext, operator ratification Q1-b 2026-05-25):
 # `share_pattern` is the top-level economic-model classifier per
 # COLLABORATOR_SHARE_DOCTRINE.md §2.1. Three patterns cover the operationally
 # observed shapes; CS-03 sum-to-100 logic + CS-04 default audit + the
@@ -531,7 +531,7 @@ VALID_COLLABORATOR_SHARE_CHECK_CODES: frozenset[str] = frozenset({
     "CS-05-BILL-MODE-DEFAULT-CONSISTENCY",
     "CS-06-RATE-WITHIN-MARKET-BAND",
     "CS-07-OVERRIDE-EXPIRY-AUDIT",
-    # Added at Commit 2b-ext (D-IH-86-CY-EXT) — validates share_pattern enum
+    # Added at Commit 2b-ext (D-IH-86-DE) — validates share_pattern enum
     # membership + applies pattern-conditional logic to CS-03 + CS-04.
     "CS-08-SHARE-PATTERN-ENUM-VALIDITY",
 })

@@ -15,14 +15,14 @@ co_authors:
 last_review: 2026-05-25
 last_review_by: Founder/CEO
 last_review_at: 2026-05-25
-last_review_decision_id: D-IH-86-CY-A
+last_review_decision_id: D-IH-86-DA
 methodology_version_at_review: v3.1
 ratifying_decisions:
-  - D-IH-86-CY-A
-  - D-IH-86-CY-B
-  - D-IH-86-CY-C
-  - D-IH-86-CY-D
-  - D-IH-86-CY-EXT
+  - D-IH-86-DA
+  - D-IH-86-DB
+  - D-IH-86-DC
+  - D-IH-86-DD
+  - D-IH-86-DE
   - D-IH-73-J
 status: charter
 register: internal
@@ -72,7 +72,7 @@ forward_charters:
 >
 > *"65% for us, 35% for Aïsha out of the margin and that means we need to act as consultants and partners but we at holistika we treat our partners as B2B, hence we propose a plethora of services we take for granted we'll do and delegate whatever process we may have agreed with the partner to them, in this case, we'll do most of the work, but it's justified because of bringing us such strategic customer for us. websitz per example was asked to support no mktops as they were a mkt agency themselves on top of bringing us customers to the table."*
 >
-> Thirteenth specialty instantiation of [`HOLISTIKA_QUALITY_FABRIC.md`](HOLISTIKA_QUALITY_FABRIC.md) (per **D-IH-86-CY-A**) and sister to [`ARTIFACT_CLASS_LIBRARY.md`](ARTIFACT_CLASS_LIBRARY.md). Codifies `compose_COLLABORATOR_SHARE(engagement, collaborator, services_billed, overlap_clauses, market_rate_ref) → 65/35 benefits split + transparent project-cost roster + partner-overlap-exclusion clause table + market-rate benchmark with governed override`.
+> Thirteenth specialty instantiation of [`HOLISTIKA_QUALITY_FABRIC.md`](HOLISTIKA_QUALITY_FABRIC.md) (per **D-IH-86-DA**) and sister to [`ARTIFACT_CLASS_LIBRARY.md`](ARTIFACT_CLASS_LIBRARY.md). Codifies `compose_COLLABORATOR_SHARE(engagement, collaborator, services_billed, overlap_clauses, market_rate_ref) → 65/35 benefits split + transparent project-cost roster + partner-overlap-exclusion clause table + market-rate benchmark with governed override`.
 
 ## 1. Purpose
 
@@ -88,7 +88,7 @@ This canonical names the **economic-relationship discipline** — not a one-off 
 
 ## 2. The economic architecture — TRUE-MARGIN + 5-register chassis
 
-Per **D-IH-86-CY-B** (operator-ratified at the 2026-05-25 session), the canonical benefits formula is **TRUE-MARGIN with an explicit billed-services log**:
+Per **D-IH-86-DB** (operator-ratified at the 2026-05-25 session), the canonical benefits formula is **TRUE-MARGIN with an explicit billed-services log**:
 
 ```
 BENEFITS = REVENUE - (
@@ -151,7 +151,7 @@ For HOLISTIKA_VENDOR_SERVICES_BILLED, the doctrine specifies the canonical defau
 
 The default table is itself codifiable as a CSV (`HOLISTIKA_VENDOR_SERVICE_DEFAULT_BILL_MODE.csv` — forward-charter; not minted in this commit because the 10 rows above are stable and changing them requires doctrine amendment). The defaults can be amended via the doctrine versioning process (operator-ratified amendment + cross-canonical updates).
 
-### 2.3. Three economic shapes — the `share_pattern` enum (D-IH-86-CY-EXT)
+### 2.3. Three economic shapes — the `share_pattern` enum (D-IH-86-DE)
 
 The §2 economic architecture above describes the **deep_partner_65_35** shape — the lived Websitz precedent the operator codified verbatim at the 2026-05-25 architecture session. But mid-session the operator surfaced a **second shape** that the pre-extension doctrine could not represent without retro-fitting:
 
@@ -161,7 +161,7 @@ The SUEZ near-future projection is **structurally different** from the Websitz d
 
 A third shape exists for **ad-hoc commercials** — engagements where neither the deep-partner nor the orchestration-broker pattern applies and the operator wants to define the commercial narrative explicitly via a ratifying decision (e.g., a flagship customer deal where Holistika contributes a heavily discounted package; a non-cash-revenue partnership; a milestone-shaped retribution per the Bâtard 2020 precedent).
 
-Per **D-IH-86-CY-EXT** (operator-ratified mid-architecture-session 2026-05-25), the schema codifies these three shapes as the `share_pattern` enum on `COLLABORATOR_SHARE_REGISTRY.csv` (column inserted between `engagement_model_id` and `holistika_share_pct`):
+Per **D-IH-86-DE** (operator-ratified mid-architecture-session 2026-05-25), the schema codifies these three shapes as the `share_pattern` enum on `COLLABORATOR_SHARE_REGISTRY.csv` (column inserted between `engagement_model_id` and `holistika_share_pct`):
 
 | `share_pattern` value | Sum-to-100 invariant | Default split or anchor | Cost-roster semantics | Override required when | Use when |
 |:---|:---|:---|:---|:---|:---|
@@ -297,12 +297,12 @@ This doctrine is consistent with prior Holistika ratifications:
 |:---|:---|:---|
 | **CS-01: CSV header sha** | FAIL | Each of the 5 CSVs' headers must match its Pydantic `*_FIELDNAMES` tuple in `akos/hlk_collaborator_share.py`. |
 | **CS-02: Cross-CSV FK integrity** | FAIL | Every `collaborator_id` in SHARE_REGISTRY resolves into `GOI_POI_REGISTER`; every `engagement_model_id` resolves into `ENGAGEMENT_MODEL_REGISTRY`; every `clause_id` referenced from VENDOR_SERVICES_BILLED resolves into PARTNER_OVERLAP_EXCLUSION_CLAUSES; every `reference_rate_id` referenced from RATE_OVERRIDES resolves into MARKET_RATE_REFERENCE; every `*_decision_id` resolves into DECISION_REGISTER. |
-| **CS-03: split-sum invariant audit** *(branches on `share_pattern` per D-IH-86-CY-EXT)* | FAIL | For `share_pattern = deep_partner_65_35`: every SHARE_REGISTRY row's `holistika_share_pct + collaborator_share_pct = 100`; default is 65/35 unless `share_override_decision_id` is non-empty AND resolves into DECISION_REGISTER AND a matching `COLLABORATOR_RATE_OVERRIDES` row exists with `override_kind=share_split_deviation`. For `share_pattern = orchestration_broker_thin_margin`: per-row sum-to-100 does NOT apply; instead, sum-across-rows-per-engagement equals 100 (the across-rows invariant); per-row deviations from per-row 100 are EXPECTED for this pattern. For `share_pattern = custom`: skipped entirely (every `custom` row's split is operator-defined via the mandatory override FK). |
-| **CS-04: default-split + market-rate audit** *(branches on `share_pattern` per D-IH-86-CY-EXT)* | WARN | For `share_pattern = deep_partner_65_35`: 65/35 default audit + market-rate excursion audit (every SHARE_REGISTRY row's `collaborator_billed_rate` must fall within ±25% of the matching MARKET_RATE_REFERENCE row's `rate_typical_per_hour`; outside-band rates require a matching `COLLABORATOR_RATE_OVERRIDES` row with `override_kind=market_rate_excursion`). For `share_pattern = orchestration_broker_thin_margin`: Holistika-total-per-engagement margin advisory (sum of `holistika_share_pct` for all rows under one `engagement_id` should sit within a band of ~6% per the operator's verbatim anchor; outside the band raises ADVISORY for operator review). For `share_pattern = custom`: skipped (every `custom` row's commercial shape is named in its override decision row narrative). |
+| **CS-03: split-sum invariant audit** *(branches on `share_pattern` per D-IH-86-DE)* | FAIL | For `share_pattern = deep_partner_65_35`: every SHARE_REGISTRY row's `holistika_share_pct + collaborator_share_pct = 100`; default is 65/35 unless `share_override_decision_id` is non-empty AND resolves into DECISION_REGISTER AND a matching `COLLABORATOR_RATE_OVERRIDES` row exists with `override_kind=share_split_deviation`. For `share_pattern = orchestration_broker_thin_margin`: per-row sum-to-100 does NOT apply; instead, sum-across-rows-per-engagement equals 100 (the across-rows invariant); per-row deviations from per-row 100 are EXPECTED for this pattern. For `share_pattern = custom`: skipped entirely (every `custom` row's split is operator-defined via the mandatory override FK). |
+| **CS-04: default-split + market-rate audit** *(branches on `share_pattern` per D-IH-86-DE)* | WARN | For `share_pattern = deep_partner_65_35`: 65/35 default audit + market-rate excursion audit (every SHARE_REGISTRY row's `collaborator_billed_rate` must fall within ±25% of the matching MARKET_RATE_REFERENCE row's `rate_typical_per_hour`; outside-band rates require a matching `COLLABORATOR_RATE_OVERRIDES` row with `override_kind=market_rate_excursion`). For `share_pattern = orchestration_broker_thin_margin`: Holistika-total-per-engagement margin advisory (sum of `holistika_share_pct` for all rows under one `engagement_id` should sit within a band of ~6% per the operator's verbatim anchor; outside the band raises ADVISORY for operator review). For `share_pattern = custom`: skipped (every `custom` row's commercial shape is named in its override decision row narrative). |
 | **CS-05: bill_mode default audit** | WARN | Every VENDOR_SERVICES_BILLED row's `bill_mode` must match the doctrine §2.2 default for that `holistika_service_class` OR have a non-empty `bill_mode_decision_id`. Mis-billing without ratification surfaces here. Applies to all `share_pattern` values (the VENDOR_SERVICES_BILLED roster discipline is pattern-agnostic). |
 | **CS-06: Partner-overlap clause linkage** | WARN | Every VENDOR_SERVICES_BILLED row with `bill_mode=in_kind` AND a default of `billed` for that service class must carry a non-empty `justification_clause_id` resolving into PARTNER_OVERLAP_EXCLUSION_CLAUSES. Applies to all `share_pattern` values. |
 | **CS-07: Rate override expiry hygiene** | INFO | Any `COLLABORATOR_RATE_OVERRIDES` row whose `expires_at` is in the past must have `status=archived`. Stale active rows surface as INFO. Applies to all `share_pattern` values. |
-| **CS-08: share_pattern enum validity** *(NEW per D-IH-86-CY-EXT)* | FAIL | Every SHARE_REGISTRY row's `share_pattern` value must be one of `deep_partner_65_35` / `orchestration_broker_thin_margin` / `custom`. Empty values default to `deep_partner_65_35` per the Pydantic model + Supabase mirror CHECK constraint. Any other value (typo, deprecated value from a future enum extension prior to ratification) FAILs immediately because downstream CS-03 + CS-04 cannot branch correctly on an unknown pattern. |
+| **CS-08: share_pattern enum validity** *(NEW per D-IH-86-DE)* | FAIL | Every SHARE_REGISTRY row's `share_pattern` value must be one of `deep_partner_65_35` / `orchestration_broker_thin_margin` / `custom`. Empty values default to `deep_partner_65_35` per the Pydantic model + Supabase mirror CHECK constraint. Any other value (typo, deprecated value from a future enum extension prior to ratification) FAILs immediately because downstream CS-03 + CS-04 cannot branch correctly on an unknown pattern. |
 
 **INFO → FAIL ramp.** Per the operator's *"craft what you can and please ensure this is all wired up properly with the rest"* framing + the Quality Fabric §10 promotion criteria, the validator launches at INFO advisory for all 8 checks; CS-01 / CS-02 / CS-03 / CS-08 promote to FAIL at the **Wave T or later** boundary gated on (a) 3+ real engagements applying the doctrine cleanly with zero CS-01..03 / CS-08 findings AND covering ≥ 2 of the 3 `share_pattern` values (so the per-pattern branching has been exercised in lived practice, not just self-tests), AND (b) operator-explicit promotion decision row. CS-04 / CS-05 / CS-06 remain at WARN forever (they encode judgment-class drift that operator review handles; FAIL would be over-mechanical). CS-07 remains at INFO (cleanup hygiene, not blocker).
 
@@ -324,13 +324,13 @@ The discipline fires at the following recurring moments:
 
 This doctrine explicitly forbids the following alternatives that the 2026-05-25 architecture session considered and rejected:
 
-- **Anti-pattern A: STRICT-MARGIN (Holistika bills in-house services against project at market rate).** Rejected per `D-IH-86-CY-B`. Failure mode: collaborator narrative breaks ("you're already billing us for everything; why do you also get 65%?"); double-dip perception; smaller benefits pool to split paradoxically reduces collaborator's apparent gain even though their absolute earnings may rise. The TRUE-MARGIN posture is cleaner narratively + structurally aligned with the operator's verbatim *"we propose a plethora of services we take for granted we'll do."*
+- **Anti-pattern A: STRICT-MARGIN (Holistika bills in-house services against project at market rate).** Rejected per `D-IH-86-DB`. Failure mode: collaborator narrative breaks ("you're already billing us for everything; why do you also get 65%?"); double-dip perception; smaller benefits pool to split paradoxically reduces collaborator's apparent gain even though their absolute earnings may rise. The TRUE-MARGIN posture is cleaner narratively + structurally aligned with the operator's verbatim *"we propose a plethora of services we take for granted we'll do."*
 
 - **Anti-pattern B: Hidden collaborator-billed-time (collaborator hours absorbed into benefits pool).** Rejected per operator's framing *"aïsha is a person whose costs will be put against the project to make her work transparent, so she may gain more money than we expect."* Failure mode: collaborator does not see her operational hours as a transparent line item; benefits pool appears inflated; when she compares against the doctrine, the math does not reconcile; trust erodes.
 
-- **Anti-pattern C: Per-deal renegotiation of partner-overlap exclusion (no clause registry).** Rejected per `D-IH-86-CY-C` (operator chose the clause-table-with-schema-field option). Failure mode: every engagement renegotiates from scratch; patterns are not learned across engagements; future Holistika collaborators do not inherit the institutional memory; same arguments resurface; operator effort wasted.
+- **Anti-pattern C: Per-deal renegotiation of partner-overlap exclusion (no clause registry).** Rejected per `D-IH-86-DC` (operator chose the clause-table-with-schema-field option). Failure mode: every engagement renegotiates from scratch; patterns are not learned across engagements; future Holistika collaborators do not inherit the institutional memory; same arguments resurface; operator effort wasted.
 
-- **Anti-pattern D: Operator-self-set collaborator billed rates with no market-rate reference.** Rejected per `D-IH-86-CY-A` (option B+governed-override chosen). Failure mode: rates drift arbitrarily; cross-engagement equity erodes (Aïsha at €100/hr while another collaborator with equivalent role-class gets €150/hr because she negotiated harder); collaborator narrative becomes "Holistika doesn't have a principled rate framework."
+- **Anti-pattern D: Operator-self-set collaborator billed rates with no market-rate reference.** Rejected per `D-IH-86-DA` (option B+governed-override chosen). Failure mode: rates drift arbitrarily; cross-engagement equity erodes (Aïsha at €100/hr while another collaborator with equivalent role-class gets €150/hr because she negotiated harder); collaborator narrative becomes "Holistika doesn't have a principled rate framework."
 
 - **Anti-pattern E: Forbid commercial overrides (rigid 65/35 enforcement).** Rejected per operator's *"with the possibility to adjust commercially this in a governed manner"* framing. Failure mode: strategic deals (e.g., a deal where Holistika wants to share more aggressively to win a flagship customer) cannot be priced; operator forced into either a violation OR a perverse incentive (e.g., book partial benefits off-engagement to circumvent the rigid split). The governed-override mechanism preserves flexibility + the audit trail.
 
@@ -338,12 +338,12 @@ This doctrine explicitly forbids the following alternatives that the 2026-05-25 
 
 ## 9. Promotion criteria (charter → active → promoted-FAIL)
 
-This doctrine lands at `status: charter` per `D-IH-86-CY-A`. Promotion criteria:
+This doctrine lands at `status: charter` per `D-IH-86-DA`. Promotion criteria:
 
 **charter → active** (gates):
 - 1 real engagement (Aïsha-on-SUEZ; Commit 3) applies the doctrine end-to-end with all 5 CSVs populated correctly.
 - Validator CS-01..07 PASS on the populated rows.
-- Operator-ratified active-promotion decision row (D-IH-86-CY-E or successor).
+- Operator-ratified active-promotion decision row (D-IH-86-DF or successor).
 
 **active → promoted-FAIL ramp** (gates per §6):
 - 3+ real engagements applying the doctrine cleanly with zero CS-01..03 FAIL findings.
@@ -381,12 +381,12 @@ When authoring or applying this discipline:
   - [`../People Operations/canonicals/dimensions/COLLABORATOR_MARKET_RATE_REFERENCE.csv`](../People%20Operations/canonicals/dimensions/COLLABORATOR_MARKET_RATE_REFERENCE.csv)
   - [`../People Operations/canonicals/dimensions/COLLABORATOR_RATE_OVERRIDES.csv`](../People%20Operations/canonicals/dimensions/COLLABORATOR_RATE_OVERRIDES.csv)
 - Decisions:
-  - **D-IH-86-CY-A** — Doctrine mint (this canonical at status: charter).
-  - **D-IH-86-CY-B** — 65/35 TRUE-MARGIN benefits formula ratified.
-  - **D-IH-86-CY-C** — Named clause table + EngagementCostRow schema field for partner-overlap exclusion (option C of the 2026-05-25 architecture inline-ratify gate).
-  - **D-IH-86-CY-D** — Tier 1 WIP hygiene (`docs/wip/hlk-km/` deprecation; pre-requisite housekeeping; Commit 1).
-  - **D-IH-86-CY-EXT** — `share_pattern` enum (3 shapes: `deep_partner_65_35` / `orchestration_broker_thin_margin` / `custom`); CS-08 added; CS-03 + CS-04 branch per pattern; backward-compatible (default `deep_partner_65_35`). Mid-architecture-session ratify 2026-05-25 motivated by the SUEZ orchestration-broker projection surfacing structural difference from the Websitz deep-partner precedent.
-  - **D-IH-86-CY-E** — Reserved for active-promotion gate per §9.
+  - **D-IH-86-DA** — Doctrine mint (this canonical at status: charter).
+  - **D-IH-86-DB** — 65/35 TRUE-MARGIN benefits formula ratified.
+  - **D-IH-86-DC** — Named clause table + EngagementCostRow schema field for partner-overlap exclusion (option C of the 2026-05-25 architecture inline-ratify gate).
+  - **D-IH-86-DD** — Tier 1 WIP hygiene (`docs/wip/hlk-km/` deprecation; pre-requisite housekeeping; Commit 1).
+  - **D-IH-86-DE** — `share_pattern` enum (3 shapes: `deep_partner_65_35` / `orchestration_broker_thin_margin` / `custom`); CS-08 added; CS-03 + CS-04 branch per pattern; backward-compatible (default `deep_partner_65_35`). Mid-architecture-session ratify 2026-05-25 motivated by the SUEZ orchestration-broker projection surfacing structural difference from the Websitz deep-partner precedent.
+  - **D-IH-86-DF** — Reserved for active-promotion gate per §9.
   - **D-IH-73-J** — `eng_model_percentage_collaborator` engagement model (parent precedent).
 - External research grounding: OECD Transfer Pricing Guidelines 2022 (DEMPE framework) — https://www.oecd.org/tax/transfer-pricing/; Goldscheider et al. "The Classical 25% Rule" (les Nouvelles, 2002); Hennart "A Transaction Costs Theory of Equity Joint Ventures" (Strategic Management Journal, 1988); Yan & Gray "Bargaining Power, Management Control, and Performance in United States-China Joint Ventures" (Academy of Management Journal, 1994).
 

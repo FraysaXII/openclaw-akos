@@ -19,6 +19,7 @@ last_review_decision_id: D-IH-86-AU
 methodology_version_at_review: v3.1
 ratifying_decisions:
   - D-IH-86-AU
+  - D-IH-86-DA
 status: charter
 register: internal
 linked_canonicals:
@@ -30,6 +31,7 @@ linked_canonicals:
   - INTER_WAVE_REGRESSION_DISCIPLINE.md
   - INDEX_INTEGRITY_DISCIPLINE.md
   - PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md
+  - COLLABORATOR_SHARE_DOCTRINE.md
   - DATAOPS_DISCIPLINE.md
   - MKTOPS_DISCIPLINE.md
   - TECHOPS_DISCIPLINE.md
@@ -46,6 +48,7 @@ linked_cursor_rules:
   - .cursor/rules/akos-people-discipline-of-disciplines.mdc
   - .cursor/rules/akos-applied-research-discipline.mdc
   - .cursor/rules/akos-planning-traceability.mdc
+  - .cursor/rules/akos-collaborator-share.mdc
 companion_to:
   - HOLISTIKA_ORGANISING_DOCTRINE.md
   - RESEARCH_HEAD_DISCIPLINE.md
@@ -346,6 +349,7 @@ for the specialty's domain.
 | **Inter-wave regression (multi-wave initiative integrity)** | `INTER_WAVE_REGRESSION_DISCIPLINE.md` (Wave M P1 mint at status: charter per `D-IH-86-BK`; 12-dimension sweep + 5-option inline-ratify enum + INFO→FAIL ramp per `D-IH-86-BN`) | charter | `compose_REGRESSION(audience, channel, scenario, brand, governance, wave_closing) → 12-dimension regression sweep (7 baseline + 5 conditional) + per-finding inline-ratify gate` |
 | **Index integrity (baseline index documents)** | `INDEX_INTEGRITY_DISCIPLINE.md` (Wave N P3 mint at status: charter per `D-IH-86-CD`; 8-dimension sweep + 5-option inline-ratify enum + INFO→FAIL ramp per `D-IH-86-CD` + paired SOP+runbook per `D-IH-86-CF`) | charter | `compose_INDEX(governance) → 8-dimension index-freshness sweep (6 baseline IDX-01/02/03/04/07/08 + 2 conditional IDX-05/06) + per-finding inline-ratify gate + deterministic-fix paths for IDX-01/02/07/08` |
 | **PASS-WITH-FOLLOWUP governance (closure-UAT content axis)** | `PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md` (Wave R+1 Commit 3-a mint at status: charter per `D-IH-86-CX`; 5-class followup taxonomy + structured `verdict_followup_rationale` block + 5-finding-code validator (PWF-FM-01..05) + INFO→FAIL ramp gated on Wave T at earliest per §4.1 + paired SOP `SOP-PEOPLE_PWF_GOVERNANCE_001.md` + paired cursor rule `akos-pwf-governance.mdc` + paired skill `pwf-governance-craft`) | charter | `compose_PWF(governance) → 5-class followup taxonomy (monitoring-obligation / deferred-work-with-tracker / convention-class-followup / mechanical-recovery-with-eta / escalation-to-blocker-tracker) + structured rationale block (followup_class + closure_target + owner + tracker_path + closure_decision_id_target + notes) + per-finding inline-ratify gate; composes multiplicatively with UAT_DISCIPLINE's classification axis` |
+| **Collaborator share economics (engagement-economic axis)** | `COLLABORATOR_SHARE_DOCTRINE.md` (Wave R+1 P3 Commit 2 mint at status: charter per `D-IH-86-DA`; 3-shape `share_pattern` enum (deep_partner_65_35 / orchestration_broker_thin_margin / custom) per `D-IH-86-DE`; 5-CSV chassis (`COLLABORATOR_SHARE_REGISTRY` + `HOLISTIKA_VENDOR_SERVICES_BILLED` + `PARTNER_OVERLAP_EXCLUSION_CLAUSES` + `COLLABORATOR_MARKET_RATE_REFERENCE` + `COLLABORATOR_RATE_OVERRIDES`); 8-check validator (CS-01..CS-08; CS-03/CS-04 per-pattern branching; CS-08 enum-validity); paired SOP `SOP-PEOPLE_COLLABORATOR_SHARE_001.md` + paired runbook `scripts/collaborator_share_calculate.py` + paired cursor rule `akos-collaborator-share.mdc` + paired skill `collaborator-share-craft` + Supabase mirror DDL with CHECK constraints; INFO→FAIL ramp gated on Stage 1 (Aïsha-on-SUEZ Commit 3 worked example + `D-IH-86-DF` active-promotion decision) → Stage 2 (3+ engagements with ≥2 `share_pattern` values exercised + 0 CS-01/02/03/08 findings + quarterly cross-engagement audit pass)) | charter | `compose_SHARE(governance, share_pattern, engagement_id) → 5-CSV row kit (atomic) + per-pattern math (deep_partner: TRUE-MARGIN BENEFITS × 65/35 + billed-time additive; orchestration_broker: across-row sum-to-100 thin-margin slice; custom: operator-defined narrative cited from DECISION_REGISTER FK) + 8-check validator gate + inline-ratify gates for share_pattern selection + commercial deviation` |
 
 Future specialty materialisations inherit the same compose() pattern —
 each is a new row in this table without changing the fabric itself. This
@@ -353,16 +357,19 @@ is the scalability claim. Wave K demonstrated the claim by extending
 from 5 → 9 materialisations (MKTOPS / TECHOPS / DATAOPS / output-architecture
 added) without touching the 5-axis composition rule itself; Wave M extended
 to 10 (inter-wave regression added); Wave N extended to 11 (index integrity
-added); Wave R+1 extends to **12** along two complementary axes — UAT_DISCIPLINE
-promoted `charter` → `active` per `D-IH-86-CW` (the **first** specialty
-materialisation flips status: charter → active, validating the maturation
-path that every other specialty in this table will eventually follow) AND
-the **12th specialty row** (PASS-WITH-FOLLOWUP governance) lands at status
-`charter` per `D-IH-86-CX` as the **content axis** that pairs with
-UAT_DISCIPLINE's **classification axis**; the two axes compose
-multiplicatively per §3, and a closure UAT report clears governance only
-when BOTH validators (`validate_uat_report.py` + `validate_pwf_governance.py`)
-PASS. All without touching the 5-axis composition rule.
+added); Wave R+1 extended to 12 along two complementary axes — UAT_DISCIPLINE
+promoted `charter` → `active` per `D-IH-86-CW` AND PASS-WITH-FOLLOWUP
+governance landed at `charter` per `D-IH-86-CX` as the **content axis**
+pairing with UAT_DISCIPLINE's **classification axis**. Wave R+1 P3
+extends to **13** with COLLABORATOR_SHARE_DOCTRINE landing at status
+`charter` per `D-IH-86-DA` as the first **engagement-economic axis**
+specialty — moving the fabric out of pure governance-of-process and into
+governance-of-money. The discipline's three `share_pattern` shapes
+(deep_partner_65_35 / orchestration_broker_thin_margin / custom) per
+`D-IH-86-DE` demonstrate the composition rule at fine grain: per-pattern
+CS-03/CS-04 branching is the multiplicative-AND of (governance axis ×
+engagement-pattern dimension) without changing the 5-axis fabric itself.
+All without touching the 5-axis composition rule.
 
 ## 7. Forward-charter inventory
 

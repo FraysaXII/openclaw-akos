@@ -12,10 +12,10 @@ Companion cursor rule (Commit 2c):
 Companion skill (Commit 2c):
   ``.cursor/skills/collaborator-share-craft/SKILL.md``
 Decision lineage:
-  D-IH-86-CY-A (formula-c-hybrid TRUE-MARGIN), D-IH-86-CY-B
+  D-IH-86-DA (formula-c-hybrid TRUE-MARGIN), D-IH-86-DB
   (clause-c-recommended-table partner-overlap clause register),
-  D-IH-86-CY-C (rate-b-governed-override market-rate + override registers),
-  D-IH-86-CY-EXT (Wave R+1 Commit 2b-ext: share_pattern enum extension to
+  D-IH-86-DC (rate-b-governed-override market-rate + override registers),
+  D-IH-86-DE (Wave R+1 Commit 2b-ext: share_pattern enum extension to
   cover deep_partner_65_35 + orchestration_broker_thin_margin + custom).
 
 Checks (8 CS-* probes; mirrors doctrine §5):
@@ -85,10 +85,10 @@ Checks (8 CS-* probes; mirrors doctrine §5):
     Every SHARE_REGISTRY row's ``share_pattern`` value must be a member of
     VALID_SHARE_PATTERNS ({deep_partner_65_35,
     orchestration_broker_thin_margin, custom}). FAIL on unknown value.
-    Added at Wave R+1 Commit 2b-ext per D-IH-86-CY-EXT (operator
+    Added at Wave R+1 Commit 2b-ext per D-IH-86-DE (operator
     ratification Q1-b 2026-05-25).
 
-Posture per D-IH-86-CY (Wave R+1 P3 mint INFO ramp):
+Posture per D-IH-86-DA quintet (Wave R+1 P3 mint INFO ramp):
 
   --self-test  : Pydantic-fixture validation; zero CI cost; always exits 0
                  on PASS. Wired into release-gate.py + pre_commit profile.
@@ -855,7 +855,7 @@ def _check_cs08_share_pattern_enum() -> list[CollaboratorShareAuditRow]:
     """CS-08: every SHARE_REGISTRY row's share_pattern must be a recognised
     VALID_SHARE_PATTERNS enum value. FAIL on unknown value.
 
-    Added at Wave R+1 Commit 2b-ext per D-IH-86-CY-EXT.
+    Added at Wave R+1 Commit 2b-ext per D-IH-86-DE.
     """
     findings: list[CollaboratorShareAuditRow] = []
     rows = _read_csv_rows(SHARE_REGISTRY_CSV)

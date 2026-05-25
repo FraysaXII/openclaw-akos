@@ -1,10 +1,10 @@
 -- Initiative 86 Wave R+1 Commit 2b — compliance.collaborator_share_*_mirror (13th Quality Fabric specialty).
 --
--- Per D-IH-86-CY-A (COLLABORATOR_SHARE_DOCTRINE mint + Combo C+D hybrid posture)
---   + D-IH-86-CY-B (formula-c-hybrid TRUE-MARGIN benefits formula)
---   + D-IH-86-CY-C (clause-c-recommended-table partner overlap exclusion pattern)
---   + D-IH-86-CY-D (market-rate-reference + governed overrides + Aisha-rate routing)
---   + D-IH-86-CY-EXT (Wave R+1 Commit 2b-ext: share_pattern enum extending the
+-- Per D-IH-86-DA (COLLABORATOR_SHARE_DOCTRINE mint + Combo C+D hybrid posture)
+--   + D-IH-86-DB (formula-c-hybrid TRUE-MARGIN benefits formula)
+--   + D-IH-86-DC (clause-c-recommended-table partner overlap exclusion pattern)
+--   + D-IH-86-DD (market-rate-reference + governed overrides + Aisha-rate routing)
+--   + D-IH-86-DE (Wave R+1 Commit 2b-ext: share_pattern enum extending the
 --     schema to model three operationally observed economic shapes —
 --     deep_partner_65_35 / orchestration_broker_thin_margin / custom).
 --
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS compliance.collaborator_share_registry_mirror (
     synced_at                             timestamptz DEFAULT now(),
     CONSTRAINT share_registry_share_id_format_chk
         CHECK (share_id ~ '^SHARE-[A-Z0-9-]+$'),
-    -- D-IH-86-CY-EXT: enum membership mirrors VALID_SHARE_PATTERNS.
+    -- D-IH-86-DE: enum membership mirrors VALID_SHARE_PATTERNS.
     CONSTRAINT share_registry_share_pattern_chk
         CHECK (share_pattern IN (
             'deep_partner_65_35',
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS compliance.collaborator_share_registry_mirror (
         CHECK (holistika_share_pct BETWEEN 0 AND 100),
     CONSTRAINT share_registry_collaborator_pct_chk
         CHECK (collaborator_share_pct BETWEEN 0 AND 100),
-    -- D-IH-86-CY-EXT: per-row sum-to-100 invariant applies ONLY to
+    -- D-IH-86-DE: per-row sum-to-100 invariant applies ONLY to
     -- deep_partner_65_35 rows. orchestration_broker_thin_margin spreads
     -- the 100% across multiple rows (across-rows invariant lives in CS-03);
     -- custom rows skip the automatic check (operator carries the math).
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS compliance.collaborator_share_registry_mirror (
         CHECK (status IN (
             'draft', 'proposed', 'signed', 'active', 'settled', 'archived'
         )),
-    -- D-IH-86-CY-EXT: per-pattern default-split + override audit (mirrors
+    -- D-IH-86-DE: per-pattern default-split + override audit (mirrors
     -- validator CS-04 branching).
     --
     -- deep_partner_65_35: default 65/35; any deviation MUST carry a
@@ -118,7 +118,7 @@ CREATE INDEX IF NOT EXISTS share_registry_status_idx
     ON compliance.collaborator_share_registry_mirror (status);
 CREATE INDEX IF NOT EXISTS share_registry_last_review_idx
     ON compliance.collaborator_share_registry_mirror (last_review_at DESC);
--- D-IH-86-CY-EXT: per-pattern slicing (orchestration_broker analytics, etc.).
+-- D-IH-86-DE: per-pattern slicing (orchestration_broker analytics, etc.).
 CREATE INDEX IF NOT EXISTS share_registry_share_pattern_idx
     ON compliance.collaborator_share_registry_mirror (share_pattern);
 
@@ -127,9 +127,9 @@ GRANT SELECT, INSERT, UPDATE ON compliance.collaborator_share_registry_mirror TO
 REVOKE ALL ON compliance.collaborator_share_registry_mirror FROM anon, authenticated;
 
 COMMENT ON TABLE compliance.collaborator_share_registry_mirror IS
-    'I86 Wave R+1 Commit 2b: per-(engagement, collaborator) revenue-share row; mirrors COLLABORATOR_SHARE_REGISTRY.csv canonical per COLLABORATOR_SHARE_DOCTRINE.md §2.1 (D-IH-86-CY-A). D-IH-86-CY-EXT (Commit 2b-ext) adds share_pattern enum: deep_partner_65_35 (default; benefits formula; 65/35 row-local split) | orchestration_broker_thin_margin (Holistika ~6% per row; across-row aggregate = 100% revenue split; CS-03 across-rows audit) | custom (operator carries math; CS-03 skipped; CS-04 mandates override FK).';
+    'I86 Wave R+1 Commit 2b: per-(engagement, collaborator) revenue-share row; mirrors COLLABORATOR_SHARE_REGISTRY.csv canonical per COLLABORATOR_SHARE_DOCTRINE.md §2.1 (D-IH-86-DA). D-IH-86-DE (Commit 2b-ext) adds share_pattern enum: deep_partner_65_35 (default; benefits formula; 65/35 row-local split) | orchestration_broker_thin_margin (Holistika ~6% per row; across-row aggregate = 100% revenue split; CS-03 across-rows audit) | custom (operator carries math; CS-03 skipped; CS-04 mandates override FK).';
 COMMENT ON COLUMN compliance.collaborator_share_registry_mirror.share_pattern IS
-    'D-IH-86-CY-EXT: which collaborator-share economic shape this row encodes. Enum values mirror VALID_SHARE_PATTERNS in akos/hlk_collaborator_share.py. Default deep_partner_65_35 preserves backward compatibility with all pre-ext rows.';
+    'D-IH-86-DE: which collaborator-share economic shape this row encodes. Enum values mirror VALID_SHARE_PATTERNS in akos/hlk_collaborator_share.py. Default deep_partner_65_35 preserves backward compatibility with all pre-ext rows.';
 
 
 -- ============================================================================
@@ -193,7 +193,7 @@ GRANT SELECT, INSERT, UPDATE ON compliance.holistika_vendor_services_billed_mirr
 REVOKE ALL ON compliance.holistika_vendor_services_billed_mirror FROM anon, authenticated;
 
 COMMENT ON TABLE compliance.holistika_vendor_services_billed_mirror IS
-    'I86 Wave R+1 Commit 2b: per-engagement billed-vs-in-kind log for Holistika vendor services; mirrors HOLISTIKA_VENDOR_SERVICES_BILLED.csv canonical per COLLABORATOR_SHARE_DOCTRINE.md §2.2 (D-IH-86-CY-B formula-c-hybrid TRUE-MARGIN benefits formula). billed rows contribute to project_costs in benefits calculation; in_kind rows contribute 0 (Holistika absorbs).';
+    'I86 Wave R+1 Commit 2b: per-engagement billed-vs-in-kind log for Holistika vendor services; mirrors HOLISTIKA_VENDOR_SERVICES_BILLED.csv canonical per COLLABORATOR_SHARE_DOCTRINE.md §2.2 (D-IH-86-DB formula-c-hybrid TRUE-MARGIN benefits formula). billed rows contribute to project_costs in benefits calculation; in_kind rows contribute 0 (Holistika absorbs).';
 
 
 -- ============================================================================
@@ -229,7 +229,7 @@ GRANT SELECT, INSERT, UPDATE ON compliance.partner_overlap_exclusion_clauses_mir
 REVOKE ALL ON compliance.partner_overlap_exclusion_clauses_mirror FROM anon, authenticated;
 
 COMMENT ON TABLE compliance.partner_overlap_exclusion_clauses_mirror IS
-    'I86 Wave R+1 Commit 2b: named overlap-clause pattern table for partner overlap exclusion; mirrors PARTNER_OVERLAP_EXCLUSION_CLAUSES.csv canonical per COLLABORATOR_SHARE_DOCTRINE.md §2.3 (D-IH-86-CY-C clause-c-recommended-table). When Holistika service class overlaps with partner capability (e.g., Websitz precedent: agency partner overlapping with MKTOPS), the named clause documents the in-kind contribution + exclusion rationale.';
+    'I86 Wave R+1 Commit 2b: named overlap-clause pattern table for partner overlap exclusion; mirrors PARTNER_OVERLAP_EXCLUSION_CLAUSES.csv canonical per COLLABORATOR_SHARE_DOCTRINE.md §2.3 (D-IH-86-DC clause-c-recommended-table). When Holistika service class overlaps with partner capability (e.g., Websitz precedent: agency partner overlapping with MKTOPS), the named clause documents the in-kind contribution + exclusion rationale.';
 
 
 -- ============================================================================
@@ -280,7 +280,7 @@ GRANT SELECT, INSERT, UPDATE ON compliance.collaborator_market_rate_reference_mi
 REVOKE ALL ON compliance.collaborator_market_rate_reference_mirror FROM anon, authenticated;
 
 COMMENT ON TABLE compliance.collaborator_market_rate_reference_mirror IS
-    'I86 Wave R+1 Commit 2b: role × region × experience-band market rate reference; mirrors COLLABORATOR_MARKET_RATE_REFERENCE.csv canonical per COLLABORATOR_SHARE_DOCTRINE.md §2.4 (D-IH-86-CY-D market-rate-reference-table-plus-governed-overrides). Aisha-rate-policy precedent; CS-04 audit (validate_collaborator_share.py) flags collaborator_billed_rate outside ±25% of rate_typical_per_hour.';
+    'I86 Wave R+1 Commit 2b: role × region × experience-band market rate reference; mirrors COLLABORATOR_MARKET_RATE_REFERENCE.csv canonical per COLLABORATOR_SHARE_DOCTRINE.md §2.4 (D-IH-86-DD market-rate-reference-table-plus-governed-overrides). Aisha-rate-policy precedent; CS-04 audit (validate_collaborator_share.py) flags collaborator_billed_rate outside ±25% of rate_typical_per_hour.';
 
 
 -- ============================================================================
@@ -337,7 +337,7 @@ GRANT SELECT, INSERT, UPDATE ON compliance.collaborator_rate_overrides_mirror TO
 REVOKE ALL ON compliance.collaborator_rate_overrides_mirror FROM anon, authenticated;
 
 COMMENT ON TABLE compliance.collaborator_rate_overrides_mirror IS
-    'I86 Wave R+1 Commit 2b: governed commercial deviations from market-rate-reference or default-split; mirrors COLLABORATOR_RATE_OVERRIDES.csv canonical per COLLABORATOR_SHARE_DOCTRINE.md §2.4 (D-IH-86-CY-D). Two override_kinds: market_rate_excursion (rate outside ±25% band; covers CS-04) + share_split_deviation (non-65/35 split; covers CS-03). Both require ratifying_decision_id FK to DECISION_REGISTER + commercial_strategy_rationale narrative + optional expires_at for time-boxed deviations.';
+    'I86 Wave R+1 Commit 2b: governed commercial deviations from market-rate-reference or default-split; mirrors COLLABORATOR_RATE_OVERRIDES.csv canonical per COLLABORATOR_SHARE_DOCTRINE.md §2.4 (D-IH-86-DD). Two override_kinds: market_rate_excursion (rate outside ±25% band; covers CS-04) + share_split_deviation (non-65/35 split; covers CS-03). Both require ratifying_decision_id FK to DECISION_REGISTER + commercial_strategy_rationale narrative + optional expires_at for time-boxed deviations.';
 
 
 COMMIT;

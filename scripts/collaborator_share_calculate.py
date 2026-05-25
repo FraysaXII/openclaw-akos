@@ -14,8 +14,8 @@ Skill (Commit 2c):
 SOP (Commit 2c):
   ``docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_COLLABORATOR_SHARE_001.md``
 Decision lineage:
-  D-IH-86-CY-A (formula-c-hybrid TRUE-MARGIN benefits formula),
-  D-IH-86-CY-EXT (Wave R+1 Commit 2b-ext: per-pattern branching for
+  D-IH-86-DA (formula-c-hybrid TRUE-MARGIN benefits formula),
+  D-IH-86-DE (Wave R+1 Commit 2b-ext: per-pattern branching for
   deep_partner_65_35 + orchestration_broker_thin_margin + custom).
 
 The runbook computes — for one engagement_id — the doctrine §2.1 formula
@@ -251,7 +251,7 @@ def calculate_settlement(
     Pure function — no I/O beyond reading the canonical CSVs through
     ``_read_share_row`` / ``_read_rows``. Suitable for unit tests.
 
-    Branches on ``share_pattern`` per doctrine §2.1 + D-IH-86-CY-EXT:
+    Branches on ``share_pattern`` per doctrine §2.1 + D-IH-86-DE:
       - deep_partner_65_35 (default): benefits formula (revenue - costs
         split per H/C %).
       - orchestration_broker_thin_margin: per-row revenue slice (no costs
@@ -611,6 +611,12 @@ def self_test() -> int:
 
 
 def main() -> int:
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+        except (OSError, ValueError):
+            pass
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--engagement-id", default=None)
     parser.add_argument("--revenue", type=float, default=None)

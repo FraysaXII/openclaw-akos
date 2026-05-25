@@ -509,7 +509,7 @@ def main() -> int:
          "validate_engagement_model_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "People Operations" / "canonicals" / "dimensions" / "ENGAGEMENT_MODEL_REGISTRY.csv"),
         # Initiative 86 Wave R+1 Commit 2b + Commit 2b-ext - COLLABORATOR_SHARE umbrella validator
-        # (13th Quality Fabric specialty per D-IH-86-CY + D-IH-86-CY-EXT). Single dispatch over 5
+        # (13th Quality Fabric specialty per D-IH-86-DA + D-IH-86-DE). Single dispatch over 5
         # sibling CSVs (COLLABORATOR_SHARE_REGISTRY with share_pattern enum column +
         # HOLISTIKA_VENDOR_SERVICES_BILLED + PARTNER_OVERLAP_EXCLUSION_CLAUSES +
         # COLLABORATOR_MARKET_RATE_REFERENCE + COLLABORATOR_RATE_OVERRIDES) executing the 8 CS-*
