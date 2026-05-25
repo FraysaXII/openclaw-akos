@@ -98,10 +98,19 @@ def _now_iso_utc() -> str:
 def _parse_frontmatter(content: str) -> dict[str, Any] | None:
     """Parse YAML frontmatter from a markdown file.
 
+    Prefers PyYAML when available (nested-dict capable; aligns parse-result
+    with the sister validator ``validate_pwf_governance.py`` which uses PyYAML
+    for the ``verdict_followup_rationale:`` structured block per D-IH-86-CX).
+    Falls back to a hand-rolled flat-only parser when PyYAML is unavailable
+    so the validator stays import-light for pre_commit.
+
     Returns the parsed dict on success, None when no frontmatter block present.
-    Uses a deliberately-minimal hand-rolled YAML parser to avoid the PyYAML
-    dependency for the validator (the broader repo has PyYAML, but the validator
-    is wired into pre_commit and should be import-light).
+
+    Bug-fix lineage: D-IH-86-CZ (Wave R UAT amendment v2; closing-loop pattern)
+    — the v1 hand-rolled-only parser couldn't read the structured PWF block,
+    causing UAT-FM-11-PWF-WITHOUT-RATIONALE false-positive on Wave R v2.
+    Operator HYBRID directive (dim10-disposition ratification, *"we must fix
+    any bugs — CICD directive, no bug tolerance"*) applies: parsers must agree.
     """
     if not content.startswith("---"):
         return None
@@ -109,6 +118,14 @@ def _parse_frontmatter(content: str) -> dict[str, Any] | None:
     if end_match is None:
         return None
     fm_body = content[3 : 3 + end_match.start()].strip()
+    try:
+        import yaml
+
+        parsed = yaml.safe_load(fm_body)
+        if isinstance(parsed, dict):
+            return parsed
+    except Exception:
+        pass
     result: dict[str, Any] = {}
     current_key: str | None = None
     current_list: list[str] | None = None

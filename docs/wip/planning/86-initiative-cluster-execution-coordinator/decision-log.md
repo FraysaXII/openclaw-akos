@@ -368,3 +368,197 @@ Round 6 represents the first **post-Wave-R compounding work** — the drain7 del
 
 **Next attack**: Bundle B Strand 2 ambiguous-vendor batches (~24 counterparty decisions via 4 batched inline-ratify; closes OPS-81-3) per `waver4-order-abc` step 2.
 
+---
+
+## Round 7 — Bundle B Strand 2 closure + Wave R+1 P1 UAT_DISCIPLINE promotion (2026-05-24)
+
+**Date:** 2026-05-24 (Wave R+1 entry; Bundle B Strand 2 closure landed in `c9e462b` + hygiene `15d8471`; Wave R+1 P1 UAT_DISCIPLINE promotion landed in `d0880c6` + hygiene `1898e8b`).
+
+### D-IH-86-CW — UAT_DISCIPLINE.md promotion from charter to active (12th Quality Fabric specialty classification axis)
+
+**Context.** UAT_DISCIPLINE.md was minted at Wave H (2026-05-19) via D-IH-86-V at `status: charter` per the convention that specialty canonicals land at charter until first exercised by a real worked example. The intervening waves H→R accumulated 4+ closure UATs authored under the new 7-class taxonomy (compose_UAT(audience, channel, scenario, brand, governance) → 7-class UAT shape), demonstrating the schema operates correctly across diverse closure contexts (single-area + multi-area + mixed-area + cluster-coordinator). The 4-class threshold from UAT_DISCIPLINE.md §10 promotion criteria was met by Wave R close.
+
+The promotion bundle ships the full 17-surface specialty quartet contract:
+
+- **Canonical doctrine** — UAT_DISCIPLINE.md frontmatter flipped `status: charter` → `status: active`; appended §10 promotion log + §10.4 active-status promotion narrative; appended machine-readable `field_test_window:` frontmatter block (Wave U close target; 3-wave observation window from Wave R+1 P1).
+- **Paired Pydantic chassis** — `akos/hlk_uat_report.py` extended with `CanonicalFieldTestWindow` Pydantic model + frontmatter parsing + dual FTW/FTW-RT regex for field-test-code matching.
+- **Paired validator** — `scripts/validate_uat_report.py` minted with strict-mode finding codes including UAT-FM-11-PWF-WITHOUT-RATIONALE which catches every PASS-WITH-FOLLOWUP UAT lacking a structural `verdict_followup_rationale:` block. The validator caught Wave R's v1 on first run as the literal field-test signal (see D-IH-86-CZ Round 8 below).
+- **Paired SOP** — SOP-PEOPLE_UAT_GOVERNANCE_001.md minted as the operator-facing companion (closes OPS-86-22 sub-finding #1).
+- **process_list.csv row** — `hol_peopl_dtp_uat_governance_001` appended (1179→1180; closes OPS-86-22 sub-finding #2).
+- **PEOPLE_DESIGN_PATTERN_REGISTRY row** — `pattern_uat_class_taxonomy` appended (21→22; closes OPS-86-22 sub-finding #3).
+- **Cursor rule update** — akos-uat-discipline.mdc RULE 2 binding the machine-readable `field_test_window:` mandate + RULE 4 INFO→FAIL ramp aligned with field-test-window lifecycle.
+
+**Decision.** Operator-ratified the promotion at the canonical-CSV gate (Q1-a + Q2-a explicit row-content ratify per `akos-governance-remediation.mdc` § "HLK compliance governance" canonical-CSV gate discipline).
+
+**Mechanical evidence**:
+- `validate_uat_report.py --self-test` PASS (full Pydantic round-trip).
+- `validate_uat_report.py --all` PASS on existing UAT reports (Wave R v1 caught as UAT-FM-11; surfaced as Commit 3 amend trigger).
+- `validate_decision_register.py` PASS (418 active + 2 superseded after D-IH-86-CW append).
+- `validate_ops_register.py` PASS (128 rows).
+- `validate_hlk.py` umbrella OVERALL PASS.
+- D-IH-86-D 4-signal cross-check: ✓✓✓✓.
+
+**Atomic commits**: `d0880c6` (P1 Commit 1 — 17-surface mint) + `1898e8b` (hygiene SHA backfill).
+
+**Closes OPS-86-22 sub-findings #1+#2+#3 partially** (3-of-4 UAT-side artifacts; the 4th MKTOPS-side artifact carves to OPS-86-25 per D-IH-86-CZ Round 8).
+
+Canonical row: [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) **D-IH-86-CW**.
+
+### Bundle B Strand 2 closure note
+
+In parallel with Wave R+1 P1, Bundle B Strand 2 closed at `c9e462b` (D-IH-81-Z) + `15d8471` (hygiene SHA backfill 20 rows). 15 net-new FINOPS counterparty rows + `finops_at_pymes` engagement-model amendment + banking enum extension + Spain-strategy research-area-improvement candidate + OPS-81-2 closed + D-IH-81-Z paired-closure with D-IH-81-U. Bundle B FULLY CLOSED. Not reported in detail here (lives in I81 decision-log).
+
+---
+
+## Round 8 — Wave R+1 P2 governance trio + Wave R UAT amendment v2 (2026-05-25)
+
+**Date:** 2026-05-25 (Wave R+1 P2 entry; 3-commit cycle 3-a + 3-b + 3-c).
+
+Round 8 carries the **second** Quality Fabric specialty mint of the Wave R+1 cycle + the DIM-10 probe-correctness fix + the Wave R closure UAT v2 amendment as the worked-example birth artifact for the newly-minted PWF specialty. The 4 decisions (D-IH-86-CW from Round 7 already cited + CX + CY + CZ in this Round) form a **structural trio + amendment** that together transform the UAT pipeline from prose-rationale-tolerant to machine-readable-rationale-enforcing:
+
+- **D-IH-86-CW (Round 7)** — UAT_DISCIPLINE classification axis (the *what* of UAT class taxonomy).
+- **D-IH-86-CX (this Round)** — PWF_GOVERNANCE content axis (the *what shape* of follow-up rationale).
+- **D-IH-86-CY (this Round)** — DIM-10 probe-correctness fix (the *what evidence* underpins regression sweep).
+- **D-IH-86-CZ (this Round)** — Wave R UAT v2 amendment (the *worked example* showing all 3 above operate end-to-end).
+
+### Why no D-IH-86-CU / D-IH-86-CV slot mints
+
+A pre-commit-3-c plan considered minting D-IH-86-CU (regression-sweep ratification) + D-IH-86-CV (index-sweep ratification) as a parallel "sweep-ratification quartet" alongside the structural mints. Rejected because:
+
+1. **No new sweep-discipline ratification needed**. Wave R+1 did not change the regression-sweep or index-sweep doctrine — both were minted at Wave M (INTER_WAVE_REGRESSION_DISCIPLINE per D-IH-86-AU/BN) and Wave N (INDEX_INTEGRITY_DISCIPLINE per D-IH-86-CD/CE) respectively. The Wave R+1 sweeps were *instances* of those disciplines operating correctly, not *amendments* of them.
+2. **D-IH-86-CY already covers the only sweep change**. The DIM-10 probe-correctness fix is the only sweep-side change in Wave R+1; ratifying it as CY suffices. Adding CU+CV would create empty governance shells with no semantic content.
+3. **Wave R+1 has not closed yet**. Wave-close ratification (per akos-inter-wave-regression.mdc + akos-index-integrity.mdc) fires at *wave-close*, not mid-wave. Wave R+1 closes when P3 lands; the wave-close sweeps will run then and may or may not need a closure decision row depending on findings.
+
+The trio + amendment thus carries all required governance load without inflating the decision register with structural placeholder rows.
+
+### D-IH-86-CX — PASS-WITH-FOLLOWUP Governance Discipline mint (12th Quality Fabric specialty content axis)
+
+**Context.** UAT_DISCIPLINE's PASS-WITH-FOLLOWUP verdict was correctly named at Wave H (2026-05-19) but the *shape* of the follow-up rationale was left under-specified. Existing PASS-WITH-FOLLOWUP UATs (including Wave R v1) carried prose-only rationale buried in §10 Verdict + Reason — readable but not machine-parseable + not classified against a taxonomy. The pre-commit-3-a inline-ratify gate surfaced 5 candidate followup classes (monitoring-obligation + deferred-work-with-tracker + convention-class-followup + mechanical-recovery-with-eta + escalation-to-blocker-tracker); operator ratified the full 5-class enum as the canonical taxonomy.
+
+**Decision.** Operator-ratified the PWF_GOVERNANCE_DISCIPLINE mint at `status: charter` as the 12th Quality Fabric specialty. The discipline pairs with UAT_DISCIPLINE (classification axis) and composes multiplicatively per HOLISTIKA_QUALITY_FABRIC.md §3 — every PASS-WITH-FOLLOWUP UAT must satisfy BOTH the UAT_DISCIPLINE class taxonomy AND the PWF_GOVERNANCE rationale shape.
+
+**17-surface quartet contract delivered in same commit** (per the Wave M+N specialty-mint contract pattern):
+
+1. Canonical doctrine: `PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md`.
+2. Pydantic chassis: `akos/hlk_pwf_governance.py` (`PWFFollowupRationale` + `PWFGovernanceFinding` + `PWFGovernanceReport` frozen models + 5-class enum + helper frozensets `REQUIRED_CLOSURE_TARGET_CLASSES` + `REQUIRED_TRACKER_PATH_CLASSES`).
+3. Validator: `scripts/validate_pwf_governance.py` (5 finding codes PWF-FM-01..05; `--self-test` + `--report` + `--all` modes).
+4. Tests: 35/35 PASS in `tests/test_validate_pwf_governance.py` + `tests/test_hlk_pwf_governance.py`.
+5. SOP: `SOP-PEOPLE_PWF_GOVERNANCE_001.md` (paired operator-facing companion).
+6. Cursor rule: `.cursor/rules/akos-pwf-governance.mdc` (RULE 1 + RULE 2 binding).
+7. Skill: `.cursor/skills/pwf-governance-craft/SKILL.md` (paired how-layer craft).
+8. PRECEDENCE.md canonical + mirror rows.
+9. QUALITY_FABRIC §6 specialty list row.
+10. PEOPLE_DESIGN_PATTERN_REGISTRY row.
+11. process_list.csv row `hol_peopl_dtp_pwf_governance_001`.
+12. verification-profiles.json `validate_pwf_governance_self_test` step.
+13. release-gate.py `run_pwf_governance_validation` INFO advisory.
+14. CHANGELOG entry.
+15. files-modified.csv +N rows.
+16. operator-scratchpad drain.
+17. DECISION_REGISTER D-IH-86-CX append.
+
+**INFO→FAIL ramp** (per D-IH-86-CX rationale): gated on Wave T close at earliest + 3 consecutive clean wave-close sweeps + operator-explicit successor decision row.
+
+**Atomic commits**: `e054208` (Commit 3-a — 17-surface mint) + `d3b1c25` (hygiene SHA backfill).
+
+**Mechanical evidence**:
+- `validate_pwf_governance.py --self-test` PASS.
+- `validate_pwf_governance.py --all` PASS (no existing PASS-WITH-FOLLOWUP UAT has structural rationale yet — pre-ramp baseline).
+- `validate_hlk.py` umbrella OVERALL PASS.
+- 35/35 pytest PASS.
+- D-IH-86-D 4-signal cross-check: ✓✓✓✓.
+
+Canonical row: [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) **D-IH-86-CX**.
+
+### D-IH-86-CY — DIM-10 probe-correctness fix + reality-reflecting backfill (CICD directive: no bug tolerance)
+
+**Context.** The Wave R close regression sweep emitted 4 DIM-10-DEPLOY-EVIDENCE-COMPLETENESS findings against I68/I71/I72/I73 — each citing "sibling-repo references without deploy state tokens". On Commit 3-b entry, mechanical investigation of each cited initiative's `files-modified.csv` revealed **zero sibling-repo rows in any of the 4 initiatives' own CSVs**. The probe was checking `reports/uat-*.md` files **globally** against the cluster coordinator's `files-modified.csv` rather than **per-CSV** against each initiative's own `files-modified.csv`. The 4 findings were structural false positives induced by the probe scoping bug, not real evidence gaps.
+
+The pre-commit-3-b inline-ratify gate surfaced 3 dispositions: (a) fix-bug-now; (b) backfill-supplement-only; (c) HYBRID combining both. Operator framed the choice as: *"option A because we must fix any bugs (make this a CICD directive no bug tolerance). but we must backfill to reflect reality as we go because we'll have better processes and metadata (also CICD for data integrity)."* This is the **HYBRID** path — both fix-the-bug AND author-the-supplement.
+
+**Decision.** Operator-ratified the HYBRID disposition at Commit 3-b entry.
+
+**Mechanical deliverables**:
+
+- **Probe-correctness fix** in `scripts/inter_wave_regression_sweep.py`: `_probe_dimension_10_deploy_evidence_completeness` now uses per-CSV `this_csv_sibling_rows` counter that short-circuits the reports-dir check when the current CSV has zero sibling-repo rows; the `total_sibling_rows` global is retained only for the trailing clean-summary row.
+- **Bonus fix**: `_safe_relpath` helper wraps 3 `path.relative_to(REPO_ROOT)` calls with `try/except ValueError` so the probe survives monkey-patched `PLANNING_ROOT` (tests pass on `tmp_path` layouts).
+- **5 new regression tests** in `TestDimension10PerCsvScoping` class lock in the invariant on a synthetic 3-initiative fixture (zero_sibling_zero_findings + sibling_with_complete_evidence_zero_findings + sibling_without_uat_does_flag + sibling_with_uat_missing_evidence_does_flag + total_sibling_rows_counted_globally).
+- **Backfill supplement** at `reports/uat-dim10-backfill-supplement-2026-05-25.md` documents per-initiative reality (each of I68/I71/I72/I73 confirmed 0 sibling-repo rows in own files-modified.csv; closure reports under non-uat-* naming patterns like `p71-closing.md` or `p7-page-spec-impeccable-*.md`).
+- **Post-fix sweep** at `reports/regression-sweep-2026-05-25-commit-3-b-dim10.md` emits clean: 1 / gap: 0 with 45 sibling-repo rows across all CSVs.
+
+**Atomic commits**: `391dd14` (Commit 3-b — probe fix + 5 tests + supplement + governance writes) + `3a0d3ea` (hygiene SHA backfill 9 rows).
+
+**Mechanical evidence**:
+- All 55 tests in `test_inter_wave_regression.py` PASS post-fix (50 prior + 5 new).
+- DIM-10 sweep post-fix emits clean: 1 / gap: 0.
+- `validate_hlk.py` umbrella OVERALL PASS.
+
+**Closes OPS-86-23 DIM-10 sub-finding** (4 sibling-repo references); main OPS-86-23 row remains open for DIM-04 + DIM-05 + (carved-to-OPS-86-24) DIM-06 sub-findings.
+
+**Doctrine consequence — CICD bug-tolerance posture**: operator's framing established CICD discipline as **zero-tolerance for probe bugs** — when a probe emits structural false positives, the probe gets fixed in the same commit window that backfills the truth-record; never one without the other. This pairs with the **HYBRID disposition** as the new default when probe-correctness fixes surface alongside reality-reflecting backfills. The pattern is reserved for transferable mint as `pattern_probe_correctness_hybrid_disposition` after third confirmed instantiation per akos-people-discipline-of-disciplines.mdc RULE 1.
+
+Canonical row: [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) **D-IH-86-CY**.
+
+### D-IH-86-CZ — Wave R closure UAT v2 amendment (machine-readable verdict_followup_rationale per PWF specialty schema)
+
+**Context.** Wave R closed 2026-05-24 with `uat-wave-r-closure-2026-05-24.md` carrying `verdict: PASS-WITH-FOLLOWUP` + prose-only rationale buried in §10. Under the pre-2026-05-19 UAT template, that shape was compliant — it correctly conveyed the wave's PASS-with-named-followups state. Two structural mints in Wave R+1 P1+P2 changed the bar:
+
+1. **D-IH-86-CW** (Round 7) — promoted UAT_DISCIPLINE.md to `status: active`; landed paired validator `scripts/validate_uat_report.py` with finding code UAT-FM-11-PWF-WITHOUT-RATIONALE.
+2. **D-IH-86-CX** (this Round) — minted PWF_GOVERNANCE_DISCIPLINE with `PWFFollowupRationale` Pydantic schema + 5-class enum.
+
+The validator caught Wave R's v1 on first run as the literal field-test signal — this is the **closing-loop pattern** named in UAT_DISCIPLINE.md §10.4: *"mint validator → catch real gap on first run → amend offending artifact in same commit-window → cite finding as field-test signal"*. The amendment serves as the worked-example birth artifact for the 12th Quality Fabric specialty.
+
+**Decision.** Operator-ratified the Wave R v2 amendment at Wave R+1 P2 Commit 3-c. Verdict stays PASS-WITH-FOLLOWUP — the amendment normalises the *shape* of the follow-up record, not the *substance* of the verdict.
+
+**Mechanical delta (v1 → v2)**:
+
+- `last_review:` 2026-05-24 → 2026-05-25.
+- `verdict_history:` block added with v1 entry (legacy-string rationale) + v2 entry (monitoring-obligation rationale).
+- `verdict_followup_rationale:` block added with `followup_class: monitoring-obligation` + `closure_target: Wave R+2 close` + `owner: System Owner` + `closure_decision_id_target: D-IH-86-CZ` + multi-line notes covering all 3 open OPS rows (OPS-81-22 + OPS-86-22 partial-close + OPS-86-23 backlog carve).
+- `ratifying_decisions:` extended +4 (CW + CX + CY + CZ).
+- `linked_canonicals:` extended +2 (UAT_DISCIPLINE.md + PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md).
+- `linked_runbooks:` extended +2 (validate_uat_report.py + validate_pwf_governance.py).
+- §12 Amendment log subsection added — documents v1 → v2 mechanical delta + why-no-verdict-flip + field-test-signal-closure-loop + forward-charters-surfaced.
+
+**No body content change in §1–§11.** The 11 closure criteria + mechanical evidence + per-dimension findings + D-IH-86-D 4-signal cross-check + SOP+runbook pair + risk closures + decision close-outs + registry edits + verdict checklist all remain as authored at Wave R close.
+
+**Why `monitoring-obligation` class (not `deferred-work-with-tracker`)**: PWF taxonomy distinguishes work that has a dedicated `_trackers/` file (deferred-work) from ongoing monitoring obligations where OPS_REGISTER rows themselves serve as the tracker. Wave R's 3 open OPS rows (OPS-81-22 Stripe MCP audit + OPS-86-22 partial-close + OPS-86-23 backlog) are wave-cadence-observable governance items — they fit `monitoring-obligation` naturally and do NOT require `tracker_path`. The decision avoids creating empty `_trackers/` files just to satisfy a stricter taxonomy class.
+
+**OPS_REGISTER changes in same commit** (per CZ scope):
+
+- **OPS-86-22 closed** (status: open → closed; closed_at: 2026-05-25) — 3-of-4 UAT-side artifacts closed via D-IH-86-CW; 1-of-4 MKTOPS-side carved to OPS-86-25.
+- **OPS-86-23 amended** — DIM-06 10 findings carved out to OPS-86-24; DIM-10 sub-finding noted as closed via D-IH-86-CY; remaining 16 findings (DIM-04 8 + DIM-05 8).
+- **OPS-86-24 minted** — DIM-06 closed-initiative UAT class completeness backfill (10 pre-2026-05-19 INIT-* rows; forward-only per migration posture; quarterly review cadence).
+- **OPS-86-25 minted** — MKTOPS_DISCIPLINE forward-charter (paired runbook needs parent canonical first; closes when I-NN-MKTOPS-OPERATIONALISATION activates).
+
+**Atomic commits**: this commit (Commit 3-c — Wave R UAT amend + 4 OPS-row deltas + D-IH-86-CZ + governance writes) + hygiene SHA backfill (to land next).
+
+**Mechanical evidence** (pre-commit):
+- `validate_uat_report.py --report uat-wave-r-closure-2026-05-24.md` expected to flip from FAIL UAT-FM-11 (v1) → PASS (v2 with structural rationale).
+- `validate_pwf_governance.py --report uat-wave-r-closure-2026-05-24.md` expected PASS (PWF-FM-01..05 clean).
+- `validate_ops_register.py` PASS (130 rows; OPS-86-22 closed + 23 amended + 24+25 minted).
+- `validate_decision_register.py` PASS (420 active + 2 superseded after D-IH-86-CZ append; FK to OPS-86-22/23/24/25 resolvable).
+- `validate_hlk.py` umbrella OVERALL PASS.
+- D-IH-86-D 4-signal cross-check: ✓✓✓✓ (release-gate INFO + validate_hlk PASS + UAT-FM-11 closing-loop honored + amended UAT report present).
+
+**Closes the closing-loop pattern**: validator → caught Wave R v1 gap on first run → amended in same wave-close window → cited finding as field-test signal. The pattern is reserved for transferable mint as `pattern_validator_field_test_closing_loop` after third confirmed instantiation per akos-people-discipline-of-disciplines.mdc RULE 1 (People owns the consulting design patterns).
+
+Canonical row: [`DECISION_REGISTER.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) **D-IH-86-CZ**.
+
+### Cross-cluster note (Round 8)
+
+Round 8 represents the **second compounding cycle** post-Wave-R. Where Round 6 (drain7) established the paired rule × skill pattern, Round 8 establishes the **paired UAT × PWF pattern** + the **closing-loop pattern** (validator catches gap on first run + amend offending artifact in same window). Both patterns are People-owned consulting design patterns reserved for transferable-mint after third confirmed instantiation.
+
+The 4 decisions (D-IH-86-CW Round 7 + CX/CY/CZ Round 8) form a complete trio + amendment that operationalises:
+
+- *What* a UAT class is (UAT_DISCIPLINE D-IH-86-CW).
+- *What shape* its follow-up rationale takes (PWF_GOVERNANCE D-IH-86-CX).
+- *What evidence* underpins regression sweeps (DIM-10 probe correctness D-IH-86-CY).
+- *Worked example* showing all 3 operate end-to-end (Wave R UAT v2 D-IH-86-CZ).
+
+The trio's INFO→FAIL ramps are coupled: PWF_GOVERNANCE ramp gated on Wave T close + 3 clean sweeps; UAT_DISCIPLINE field_test_window observation gated on Wave U close. The Wave R v2 amendment is the literal first instantiation that both ramps will observe in their windows.
+
+Per `akos-applied-research-discipline.mdc` Wave-Closure Research Enrichment subsection requirement, Round 8 introduces no new external research grounding (the underlying PWF taxonomy was research-grounded at Wave R+1 P2 Commit 3-a per D-IH-86-CX rationale; the amendment is execution of that doctrine, not novel framing).
+
+**Next attack** (post-Commit 3-c push): operator-scratchpad continuity per akos-inter-wave-regression.mdc DIM-12; CHANGELOG prepend; release-gate.py full run; atomic commit + hygiene SHA backfill + push to origin/main; Wave R+1 P3 entry decision (continue closing pre-existing backlog vs activate new initiative vs Wave R+1 close).
+

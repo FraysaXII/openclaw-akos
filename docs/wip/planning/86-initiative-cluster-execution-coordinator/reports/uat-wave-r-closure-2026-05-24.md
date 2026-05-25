@@ -6,12 +6,79 @@ phase: Wave-R-closure
 sharing_label: internal_only
 authored: 2026-05-24
 authored_by: System Owner
-last_review: 2026-05-24
+last_review: 2026-05-25
 audience: J-OP
 language: en
 status: review
 verdict: PASS-WITH-FOLLOWUP
 closure_decision_source: operator_explicit
+verdict_history:
+  - version: v1
+    verdict: PASS-WITH-FOLLOWUP
+    dated: 2026-05-24
+    rationale_class: legacy-string
+    notes: >-
+      v1 authored 2026-05-24 at Wave R close under the original closure-UAT
+      template — verdict_followup_rationale: was implicit (prose-only in
+      §10 Verdict + Reason). The rationale was correctly conveyed in prose
+      but not in a machine-readable shape; the new validator
+      validate_uat_report.py landed at d0880c6 (Wave R+1 P1 Commit 1)
+      caught the missing structural block on first run as UAT-FM-11-PWF-
+      WITHOUT-RATIONALE FAIL — the field-test signal that triggered this
+      amendment as the worked-example birth artifact for the 12th Quality
+      Fabric specialty PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE
+      (D-IH-86-CX). v1 stays as record-of-history; verdict unchanged.
+  - version: v2
+    verdict: PASS-WITH-FOLLOWUP
+    dated: 2026-05-25
+    rationale_class: monitoring-obligation
+    notes: >-
+      v2 lands at Wave R+1 P2 Commit 3-c per D-IH-86-CZ (Wave R UAT
+      amendment ratification). No verdict flip — the PWF qualifier was
+      always correct; v2 simply makes the followup classification
+      machine-readable per the new PWF schema (D-IH-86-CX). Per
+      UAT_DISCIPLINE.md §10.4 promotion log + akos-pwf-governance.mdc
+      RULE 1, every PASS-WITH-FOLLOWUP UAT going forward MUST carry a
+      structural verdict_followup_rationale: block using the 5-class
+      enum. Wave R is the first worked example because (a) it was the
+      closest historical PWF report to the PWF specialty mint, and (b)
+      v1's prose rationale maps cleanly onto monitoring-obligation
+      class — minimal interpretation needed.
+verdict_followup_rationale:
+  followup_class: monitoring-obligation
+  closure_target: Wave R+2 close
+  owner: System Owner
+  closure_decision_id_target: D-IH-86-CZ
+  notes: >-
+    Wave R closes with 3 named open OPS rows — none block the wave;
+    all carry named triggers + owners + paths-to-close, so the
+    monitoring-obligation class fits per PWF taxonomy. Per-OPS
+    monitoring obligations: (1) OPS-81-22 Stripe live AT MCP audit
+    — triggers when operator authenticates user-stripe MCP; promotes
+    validate_finops_ledger.py + finops_dlq_drain.py --self-test +
+    stripe_audit_metadata.py --self-test from release-gate INFO to
+    PASS gate via successor D-IH-81-Y on first live charge_succeeded
+    round-trip success. (2) OPS-86-22 Wave R DIM-02 true gaps —
+    PARTIAL CLOSURE: 3 of 4 UAT-side artifacts closed at d0880c6
+    via D-IH-86-CW (SOP-PEOPLE_UAT_GOVERNANCE_001.md +
+    process_list.csv row hol_peopl_dtp_uat_governance_001 +
+    PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_uat_class_taxonomy);
+    1 of 4 MKTOPS-side artifact (scripts/mktops_campaign_quality_check.py)
+    forwarded to new OPS-86-25 owned by Marketing area when
+    I-NN-MKTOPS-OPERATIONALISATION activates. OPS-86-22 itself
+    flipped to status=closed at this amendment. (3) OPS-86-23 Wave R
+    pre-existing backlog — REMAINING 16 findings (DIM-04 8 mirror-
+    migration backfills + DIM-05 8 legacy process_list pairings)
+    after DIM-10 sub-finding closed at Commit 3-b via D-IH-86-CY
+    (probe-correctness fix) + DIM-06 10 closed-init UAT class-
+    completeness gaps carved out to new OPS-86-24 (forward-only per
+    migration posture in akos-planning-traceability.mdc §"UAT
+    quality bar" §"Migration posture for pre-2026-05-19
+    initiatives"). 3-wave field-test window observation cadence
+    inherits from UAT_DISCIPLINE field_test_window block: Wave S
+    close + Wave T close + Wave U close all generate FTW observation
+    entries; per akos-uat-discipline.mdc RULE 4 + UAT_DISCIPLINE
+    §10 the discipline stays provisional-active during the window.
 ratifying_decisions:
   - D-IH-81-N
   - D-IH-81-O
@@ -26,12 +93,18 @@ ratifying_decisions:
   - D-IH-81-X
   - D-IH-86-CR
   - D-IH-86-CS
+  - D-IH-86-CW  # v2 amendment — UAT_DISCIPLINE charter→active (12th QF specialty Commit 1)
+  - D-IH-86-CX  # v2 amendment — 13th QF specialty PWF_GOVERNANCE_DISCIPLINE mint
+  - D-IH-86-CY  # v2 amendment — DIM-10 probe-correctness fix + reality-reflecting backfill
+  - D-IH-86-CZ  # v2 amendment — this amendment's binding decision
 linked_canonicals:
   - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ENGAGEMENT_MODEL_REGISTRY.csv
   - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/finops/FINOPS_COUNTERPARTY_REGISTER.csv
   - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/FILED_INSTRUMENTS.csv
   - docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md
   - docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INDEX_INTEGRITY_DISCIPLINE.md
+  - docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UAT_DISCIPLINE.md  # v2 amendment
+  - docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md  # v2 amendment
 linked_runbooks:
   - scripts/inter_wave_regression_sweep.py
   - scripts/baseline_index_sweep.py
@@ -39,6 +112,8 @@ linked_runbooks:
   - scripts/stripe_audit_metadata.py
   - scripts/validate_finops_ledger.py
   - scripts/validate_engagement_model_registry.py
+  - scripts/validate_uat_report.py  # v2 amendment — caught UAT-FM-11 on v1 / amendment ratified by clean PASS on v2
+  - scripts/validate_pwf_governance.py  # v2 amendment — PWF rationale schema validator
 ---
 
 # UAT — I86 Wave R closure (2026-05-24)
@@ -303,6 +378,71 @@ Wave R closure flips state in canonical CSVs. Named exactly:
 ### Research enrichment (per akos-applied-research-discipline.mdc RULE 3)
 Wave R was execution + governance (FINOPS pipeline stand-up + I81 P2 layout migration closure + Bundle C candidate amendment). No new doctrine canonicals minted; therefore no new research grounding required. Internal research was the substantive work: ECB FX cache architecture (R2-a) + pgmq DLQ pattern (R3-a) + engagement-model router (R1-a) + HLK-ERP convergence (R4-a) all grounded in 2026 industry patterns cited in Bundle B-2 architecture synthesis report. External sources cited: ECB API docs + Supabase pgmq docs + Stripe FX Quotes API + Truto/Unified.to/Apideck Normalized Adapter Pattern.
 
+## Section 12 — Amendment log v2 (2026-05-25; PWF worked-example birth artifact)
+
+> Added at Wave R+1 P2 Commit 3-c per **D-IH-86-CZ** (Wave R UAT amendment ratification). This section is the birth artifact for the 12th Quality Fabric specialty PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE (D-IH-86-CX minted at Wave R+1 P2 Commit 3-a). The amendment changes verdict-shape only — verdict itself stays PASS-WITH-FOLLOWUP — and demonstrates the new machine-readable `verdict_followup_rationale:` block in operational use.
+
+### §12.1 Why v2 exists
+
+Wave R closed 2026-05-24 with v1 carrying a verdict of PASS-WITH-FOLLOWUP + prose-only rationale buried in §10. That shape was correct under the pre-2026-05-19 UAT template — it complied with the bar that existed at the time. Two structural mints in Wave R+1 P1+P2 changed the bar:
+
+1. **D-IH-86-CW** (Wave R+1 P1 Commit 1, 2026-05-24) — promoted UAT_DISCIPLINE.md from `status: charter` to `status: active` with machine-readable `field_test_window:` frontmatter block. Side effect: the paired validator `scripts/validate_uat_report.py` landed at the same commit, with strict-mode finding code `UAT-FM-11-PWF-WITHOUT-RATIONALE` that fires on every PASS-WITH-FOLLOWUP UAT lacking a structural `verdict_followup_rationale:` block. The validator caught Wave R's v1 on first run as the literal field-test signal — this is the "validator → catches real gap on first run → amend offending artifact" closing-loop pattern named in UAT_DISCIPLINE.md §10.4.
+2. **D-IH-86-CX** (Wave R+1 P2 Commit 3-a, 2026-05-25) — minted the 12th Quality Fabric specialty PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE with 5-class followup taxonomy (monitoring-obligation + deferred-work-with-tracker + convention-class-followup + mechanical-recovery-with-eta + escalation-to-blocker-tracker). Paired validator `scripts/validate_pwf_governance.py` enforces the structural shape per `akos/hlk_pwf_governance.PWFFollowupRationale` Pydantic model.
+
+The bar going forward (per akos-uat-discipline.mdc RULE 4 + akos-pwf-governance.mdc RULE 1, both binding): every PASS-WITH-FOLLOWUP UAT report MUST carry `verdict_followup_rationale:` as a structural YAML dict with the 5-class enum. v2 brings Wave R into compliance and serves as the worked example future agents read by default.
+
+### §12.2 What changed v1 → v2 (mechanical delta)
+
+| Field | v1 (2026-05-24) | v2 (2026-05-25) |
+|:---|:---|:---|
+| `last_review:` | `2026-05-24` | `2026-05-25` |
+| `verdict:` | `PASS-WITH-FOLLOWUP` | `PASS-WITH-FOLLOWUP` *(unchanged)* |
+| `verdict_history:` | *(absent)* | added — v1 + v2 entries documenting both shapes |
+| `verdict_followup_rationale:` | *(absent — buried as prose in §10 Verdict + Reason)* | added — structural dict per `PWFFollowupRationale` model: `followup_class: monitoring-obligation` + `closure_target: Wave R+2 close` + `owner: System Owner` + `closure_decision_id_target: D-IH-86-CZ` + multi-line notes covering all 3 open OPS rows |
+| `ratifying_decisions:` | 13 rows (D-IH-81-N..X + D-IH-86-CR..CS) | 17 rows — added D-IH-86-CW, CX, CY, CZ (this amendment's chain of authority) |
+| `linked_canonicals:` | 5 entries | 7 entries — added UAT_DISCIPLINE.md + PASS_WITH_FOLLOWUP_GOVERNANCE_DISCIPLINE.md |
+| `linked_runbooks:` | 6 entries | 8 entries — added validate_uat_report.py + validate_pwf_governance.py |
+| §12 Amendment log | *(absent)* | added — this section |
+
+**No body content change in §1–§11.** The 11 closure criteria results, mechanical evidence, per-dimension findings, D-IH-86-D 4-signal cross-check, SOP+runbook pair status, risk closures, decision close-outs, registry edits, and verdict checklist all remain as authored at Wave R close. The amendment is purely shape-conformance + machine-readability uplift.
+
+### §12.3 Why no verdict flip
+
+A v1 → v2 verdict flip would have been justified if any of:
+- A new closure criterion failed under post-amendment scrutiny (none did — all 11 remain PASS).
+- A previously-PASS dimension regressed under re-validation (none did — all sweep + index dimensions hold).
+- An open OPS row activated its closure trigger between v1 and v2 (none did — OPS-81-22 still awaits Stripe MCP auth; OPS-86-22 partial-closed but partial-closure of an OPS row is not the same as wave-verdict change).
+
+Per UAT_DISCIPLINE.md §3.1 closure-class verdict semantics: PASS-WITH-FOLLOWUP means "wave-closing criteria all PASS; named follow-up obligations carry forward". Both v1 and v2 satisfy that condition. The amendment normalises the *shape* of the follow-up record, not the *substance* of the verdict.
+
+### §12.4 Field-test signal closure-loop
+
+Per UAT_DISCIPLINE.md §10.4 ("active-status promotion narrative") + akos-uat-discipline.mdc RULE 4 ramp:
+
+| Phase | Date | Mechanical evidence | Conclusion |
+|:---|:---|:---|:---|
+| Validator landed | 2026-05-24 Commit 1 (d0880c6) | `py scripts/validate_uat_report.py --report uat-wave-r-closure-2026-05-24.md` → **1 FAIL UAT-FM-11-PWF-WITHOUT-RATIONALE** | Real gap caught on first invocation; not a synthetic test. |
+| PWF specialty minted | 2026-05-25 Commit 3-a (e054208) | 17-surface mint including `PWFFollowupRationale` Pydantic model + 5-class enum + paired validator | Schema for the missing-shape now exists. |
+| Amendment authored | 2026-05-25 Commit 3-c (this commit) | v2 frontmatter populated per `PWFFollowupRationale` shape; §12 amendment log | Closes the field-test signal loop. |
+| Re-validation expected | This commit | `py scripts/validate_uat_report.py --report uat-wave-r-closure-2026-05-24.md` → **PASS** (UAT-FM-11 cleared) + `py scripts/validate_pwf_governance.py --report uat-wave-r-closure-2026-05-24.md` → **PASS** (PWF-FM-01..05 clean) | Worked example demonstrates the discipline operating end-to-end. |
+
+This closes the **closing-loop pattern** named in UAT_DISCIPLINE.md §10.4 ("mint validator → catch real gap on first run → amend offending artifact in same commit-window → cite finding as field-test signal"). The pattern reserves transferable name `pattern_validator_field_test_closing_loop` for future mint after third confirmed instantiation per akos-people-discipline-of-disciplines.mdc RULE 1 (People owns the consulting design patterns).
+
+**Second-order closing-loop nested inside this one.** During the re-validation step of this amendment, the validator surfaced a second real gap — a *parser* bug, not a frontmatter gap: `scripts/validate_uat_report.py:_parse_frontmatter` used a hand-rolled flat-only YAML parser that could not read the structured `verdict_followup_rationale:` PWF block (it stored the key as an empty list when the value was a nested dict, causing `not rationale` to evaluate True and UAT-FM-11 to false-positive). The sister validator `scripts/validate_pwf_governance.py:_parse_frontmatter_yaml` had no such limitation because it uses PyYAML. Per the operator HYBRID directive (*"we must fix any bugs — CICD directive, no bug tolerance"* from dim10-disposition ratification, 2026-05-24), the parser was upgraded in this same commit to try PyYAML first + fall back to the hand-rolled parser when PyYAML unavailable — aligning both validators' parse-result for nested-dict fields. The fix unblocks this amendment AND prevents the same false-positive from firing on every future PWF UAT. This is the closing-loop pattern operating *recursively* — the validator caught a frontmatter gap, the gap-fix exposed a parser gap, the parser-fix lands in the same commit-window. Future agents inherit both layers as worked example.
+
+### §12.5 Forward-charters surfaced at amendment
+
+| Forward-pointer | Closure target | Owner |
+|:---|:---|:---|
+| OPS-81-22 Stripe live AT MCP audit | Trigger when operator runs `mcp_auth user-stripe` + first live `charge_succeeded` round-trip | System Owner |
+| OPS-86-22 MKTOPS-side `mktops_campaign_quality_check.py` | Forwarded to new OPS-86-25 — closes when I-NN-MKTOPS-OPERATIONALISATION activates | PMO interim (forwarded to Brand Manager when MKTOPS-area activates) |
+| OPS-86-23 DIM-04 + DIM-05 backlog (16 findings remaining) | Wave R+2 close re-evaluation; deterministic next-wave re-fire | PMO interim |
+| OPS-86-24 DIM-06 forward-only backlog (10 closed-init UAT class gaps) | Forward-only per migration posture; no closure target — review only on each wave-close sweep | PMO interim |
+| UAT_DISCIPLINE field_test_window | Wave U close (3-wave window from Wave R+1 P1 mint) | System Owner |
+| PWF_GOVERNANCE_DISCIPLINE INFO→FAIL ramp | Wave T close at earliest (3 consecutive clean PWF sweeps required) | System Owner |
+
+All 6 forward-pointers carry named owners + triggers + paths-to-close. None block Wave R itself. The PWF taxonomy classifies the dominant followup-class as **monitoring-obligation** (not deferred-work-with-tracker, because no `_trackers/` file is required — OPS_REGISTER rows ARE the tracker for these governance-class followups; not escalation-to-blocker-tracker, because no `_blockers/` mint required — none of the follow-ups are stop-and-clarify class). The monitoring-obligation classification fits the wave-cadence observation pattern naturally.
+
 ---
 
-**End of Wave R closure UAT.**
+**End of Wave R closure UAT (v2 amendment).**
