@@ -1,12 +1,18 @@
 ---
 description: >-
   Collaborator Share Discipline (13th Quality Fabric specialty; Wave R+1
-  P2c-a mint). Mechanical companion to COLLABORATOR_SHARE_DOCTRINE.md.
-  Fires whenever a SHARE_REGISTRY row is authored, an engagement
-  charters/closes a milestone/closes final, OR a commercial deviation
-  is ratified. Three share_pattern shapes (deep_partner_65_35 /
-  orchestration_broker_thin_margin / custom) per D-IH-86-DE; CS-03
-  + CS-04 branch per pattern; CS-08 enforces enum membership.
+  P2c-a mint; rewritten Wave R+2 per D-IH-86-EJ to 4-base + 1-overlay
+  shape after 13/05 SUEZ transcript surfaced the operator's actual
+  commercial philosophy). Mechanical companion to
+  COLLABORATOR_SHARE_DOCTRINE.md. Fires whenever a SHARE_REGISTRY row
+  is authored, an engagement charters/closes a milestone/closes final,
+  OR a commercial deviation is ratified. Four base share_pattern
+  values (deep_partner_65_35 / bd_intro_only / joint_venture_aventure
+  / consulting_direct) + one stackable share_overlay enum
+  (bd_commission_overlay) per D-IH-86-EJ; CS-03 + CS-04 branch per
+  base pattern; CS-08 enforces base-enum membership; CS-09 (NEW per
+  D-IH-86-EK) enforces overlay-base coherence + methodology-pattern
+  coherence per D-IH-86-EN.
 globs:
   - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md"
   - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_COLLABORATOR_SHARE_001.md"
@@ -27,12 +33,20 @@ alwaysApply: true
 
 Use this rule whenever authoring a `COLLABORATOR_SHARE_REGISTRY` row,
 running an engagement settlement, OR ratifying a commercial deviation
-(rate excursion / share-split deviation / bill_mode deviation / custom
-pattern). Codifies operator decisions **D-IH-86-DA** (doctrine mint),
-**D-IH-86-DB** (TRUE-MARGIN formula), **D-IH-86-DC** (clause table),
-and **D-IH-86-DE** (`share_pattern` enum with three shapes +
-per-pattern CS-03/CS-04 branching + CS-08 enum-validity check; ratified
-mid-architecture-session 2026-05-25). Mechanical companion to
+(rate excursion / share-split deviation / bill_mode deviation /
+overlay-pct deviation). Codifies operator decisions **D-IH-86-DA**
+(doctrine mint), **D-IH-86-DB** (TRUE-MARGIN formula), **D-IH-86-DC**
+(clause table schema), **D-IH-86-DE** *(superseded)* (pre-rewrite
+3-shape `share_pattern` enum + CS-08; superseded by D-IH-86-EJ at
+Wave R+2), **D-IH-86-EJ** (4-base + 1-overlay rewrite ratified
+2026-05-26 post-13/05-transcript substrate audit), **D-IH-86-EK**
+(methodology-readiness axis + `parallel_invoice_stream_indicator`
+boolean + CS-09 NEW), **D-IH-86-EL** (SUEZ recommercialization
+to `consulting_direct + bd_commission_overlay`; supersedes D-IH-86-EG),
+**D-IH-86-EM** (Stage-1 reset to charter; supersedes D-IH-86-DF
+active-promotion), and **D-IH-86-EN** (methodology-readiness ×
+share_pattern coherence gating; ratified at this Commit 4 governance
+authoring layer). Mechanical companion to
 [`COLLABORATOR_SHARE_DOCTRINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md).
 
 This rule does **not** define the doctrine — that lives in the canonical.
@@ -58,20 +72,59 @@ milestone-class consulting with no collaborator (use
 `eng_model_milestone_consultant`); internal Holistika employment
 compensation (covered by payroll, not this discipline).
 
-## RULE 1 — Resolve `share_pattern` BEFORE drafting any SHARE_REGISTRY row (binding)
+## RULE 1 — Resolve `share_pattern` + `share_overlay` + `methodology_readiness` BEFORE drafting any SHARE_REGISTRY row (binding)
 
-Per D-IH-86-DE, every SHARE_REGISTRY row carries a `share_pattern`
-value that determines CS-03 + CS-04 validator behaviour. The three
-shapes are NOT interchangeable; using the wrong one produces silent
-math errors. Resolve via inline-ratify `AskQuestion` gate per
+Per D-IH-86-EJ + D-IH-86-EK + D-IH-86-EN, every SHARE_REGISTRY row
+carries THREE load-bearing routing values that together determine the
+validator's per-row math + audit branching:
+
+- **`share_pattern`** (4-value enum) — the commercial shape of the engagement.
+- **`share_overlay`** (1-value enum + NULL) — the optional stackable BD-commission slice.
+- **`methodology_readiness`** (4-value enum) — the collaborator-capability shape that gates which patterns are appropriate (per §2.4 of the doctrine).
+
+These are NOT interchangeable; the wrong triple produces silent math
+errors at settlement OR a methodology-incoherent assignment that
+collapses into the "35% compromise" failure mode the operator named
+verbatim at the 2026-05-22 framing (*"i don't lie ... we lose value if
+we don't have things ready because in reality A was correct"*). Resolve
+via inline-ratify `AskQuestion` gate per
 [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) BEFORE
 authoring any SHARE_REGISTRY row.
 
+### The 4 base `share_pattern` values (mutually exclusive per row)
+
 | `share_pattern` | When to pick | Worked precedent |
 |:---|:---|:---|
-| `deep_partner_65_35` *(default)* | Holistika contributes full methodology + machinery + execution stack as the value of its 65% share; collaborator brings the deal + operates the process; B2B partner narrative applies. | Websitz / Rushly engagement (live 2026). |
-| `orchestration_broker_thin_margin` | Holistika orchestrates a deal as a thin-margin broker (~6%); multiple billed collaborators (founder + ≥ 1 partner-class) share the bulk of revenue. | SUEZ POC (Commit 3 instantiation). |
-| `custom` | Neither pattern fits; requires mandatory `share_override_decision_id` FK to a DECISION_REGISTER row naming the commercial shape narratively. | Flagship investor-customer discount deal; non-cash partnership; milestone-shaped retribution. |
+| `deep_partner_65_35` | Holistika contributes the full methodology + machinery + execution stack as the value of its 65% share; collaborator brings the deal + operates the process inside the methodology; B2B partner narrative. Requires `methodology_trained` OR `methodology_in_progress` (with mentoring clause). | Websitz / Rushly engagement (live 2026). |
+| `bd_intro_only` | Collaborator brings a project but does NOT work on it operationally; collaborator is `methodology_naive` or `methodology_not_applicable`. Default 85/15 per-row (Holistika 85 + collaborator 15 BD-commission). | Pure-intro engagements; industry-association reference passes. |
+| `joint_venture_aventure` | Peer-equivalent JV where both parties contribute substantial methodology stacks; both `methodology_trained` OR cross-recognize each other's stacks; shared upside AND shared downside. Default 50/50 per-row. | Future sister-consultancy or aligned-tooling-vendor co-deliveries; no current lived instantiation. |
+| `consulting_direct` *(default 100/0)* | Holistika delivers an engagement as a direct consultancy (founder + execution team bill transparently); no operational collaborator party OR collaborator is BD-overlay-only (see RULE 6). | SUEZ POC corrected at Commit 5 — `consulting_direct + bd_commission_overlay` per D-IH-86-EL. |
+
+### The 1 `share_overlay` value (stackable on `consulting_direct` or `deep_partner_65_35`)
+
+| `share_overlay` | Pairs with | When to pick |
+|:---|:---|:---|
+| `bd_commission_overlay` *(default 15%)* | `consulting_direct` ✓ (primary use case); `deep_partner_65_35` ✓ (rare; external BD party intros a deal Holistika + a separate deep partner delivers); **NEVER** with `bd_intro_only` (circular — base IS the BD shape) or `joint_venture_aventure` (conflates symmetry with intro asymmetry — file as separate engagement OR reclassify base). | An intro/BD-only party brought a deal Holistika delivers; the operational delivery party (per base pattern) is unaffected — overlay party receives `bd_commission_pct` of the BENEFITS pool. Default 15%; deviation requires `COLLABORATOR_RATE_OVERRIDES` row with `override_kind=overlay_pct_deviation`. |
+
+### The methodology-readiness × share_pattern coherence gate (NEW per D-IH-86-EN)
+
+Every SHARE_REGISTRY row carries one `methodology_readiness` value of
+4 (per doctrine §2.4). The coherence table names which patterns each
+readiness value can take; mis-pairings produce a CS-09 FAIL finding:
+
+| `methodology_readiness` | Eligible `share_pattern` | Hard-disqualified |
+|:---|:---|:---|
+| `methodology_trained` | all 4 | — |
+| `methodology_in_progress` | `deep_partner_65_35` (with mentoring clause); `consulting_direct + bd_commission_overlay`; `bd_intro_only` | `joint_venture_aventure` (JV requires peer-equivalence) |
+| `methodology_naive` | `bd_intro_only`; `consulting_direct + bd_commission_overlay` | `deep_partner_65_35` (forces the "35% compromise" failure mode); `joint_venture_aventure` |
+| `methodology_not_applicable` | `bd_intro_only` | `deep_partner_65_35`; `joint_venture_aventure`; `consulting_direct` w/o overlay |
+
+This is the structural prevention of the operator's verbatim 2026-05-22
+framing: a `methodology_naive` collaborator placed on
+`deep_partner_65_35` produces the "35% compromise" — Holistika carries
+all the methodology burden but the partner's share has already been
+fixed at 35% as if they brought commensurate value. CS-09 makes that
+mis-pairing impossible to commit silently.
 
 ## RULE 2 — Co-mint the 5 CSV rows in the same commit (binding)
 
@@ -82,17 +135,32 @@ doctrine touches up to 5 CSVs:
 1. `COLLABORATOR_MARKET_RATE_REFERENCE.csv` — seed row if missing.
 2. `PARTNER_OVERLAP_EXCLUSION_CLAUSES.csv` — append new clauses if any.
 3. `HOLISTIKA_VENDOR_SERVICES_BILLED.csv` — 10 rows (one per service class).
-4. `COLLABORATOR_SHARE_REGISTRY.csv` — 1 row for `deep_partner_65_35` /
-   `custom`; ≥ 2 rows for `orchestration_broker_thin_margin`.
+4. `COLLABORATOR_SHARE_REGISTRY.csv` — base + overlay row count depends on
+   the engagement's `(share_pattern, share_overlay)` triple:
+   - `deep_partner_65_35` alone: 1 base row + (1 overlay row IF a separate
+     BD-only party intros the deal).
+   - `bd_intro_only` alone: 1 base row (no overlay allowed; base IS the BD shape).
+   - `joint_venture_aventure` alone: 2+ base rows (one per JV peer);
+     no overlay allowed.
+   - `consulting_direct` alone: 1 base row (Holistika 100%; no operational
+     collaborator).
+   - `consulting_direct + bd_commission_overlay` (the SUEZ shape): 1 base
+     row (Holistika 100% before overlay) + 1 overlay row per BD-overlay party.
 5. `COLLABORATOR_RATE_OVERRIDES.csv` — append override rows for any
-   ratified deviation OR mandatory `custom`-pattern lineage.
+   ratified deviation (`market_rate_excursion` /
+   `share_split_deviation` / `bill_mode_deviation` /
+   `overlay_pct_deviation` NEW per D-IH-86-EJ).
 
-Plus a DECISION_REGISTER row per ratified deviation OR per `custom`
-pattern row. All rows land in the SAME commit; never commit a
+Plus a DECISION_REGISTER row per ratified deviation OR per
+methodology-readiness coherence override (when an operator explicitly
+ratifies an in-progress `methodology_in_progress` on `deep_partner_65_35`
+with a mentoring clause, that ratification needs a decision row even
+though CS-09 passes). All rows land in the SAME commit; never commit a
 SHARE_REGISTRY row standalone without its supporting VENDOR_SERVICES_BILLED
-roster + DECISION_REGISTER rows (CS-02 / CS-03 / CS-04 FAIL otherwise).
+roster + overlay rows + DECISION_REGISTER rows (CS-02 / CS-03 / CS-04 /
+CS-09 FAIL otherwise).
 
-## RULE 3 — Run CS-01..CS-08 validator before commit (binding)
+## RULE 3 — Run CS-01..CS-09 validator before commit (binding)
 
 `py scripts/validate_collaborator_share.py` runs at every
 `py scripts/verify.py pre_commit` invocation via
@@ -102,23 +170,25 @@ The full sweep (`py scripts/validate_collaborator_share.py` without
 `--self-test`) runs before any commit touching the 5 CSVs OR the
 doctrine OR the SOP.
 
-The 8 checks are defined in
+The 9 checks are defined in
 [`COLLABORATOR_SHARE_DOCTRINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md) §6:
 
-| # | Check | Severity | Branches on `share_pattern`? |
+| # | Check | Severity | Branches on `share_pattern` / `share_overlay`? |
 |:--|:---|:---|:---|
 | 1 | CS-01 — CSV header sha | FAIL | No |
 | 2 | CS-02 — Cross-CSV FK integrity | FAIL | No |
-| 3 | CS-03 — split-sum invariant audit | FAIL | **YES** (per-row sum-to-100 for deep_partner; across-rows sum-to-100 for orchestration_broker; skipped for custom) |
-| 4 | CS-04 — default-split + market-rate audit | WARN | **YES** (65/35 default + ±25% market-rate band for deep_partner; ~6% Holistika-total band advisory for orchestration_broker; skipped for custom) |
-| 5 | CS-05 — bill_mode default audit | WARN | No (pattern-agnostic VENDOR_SERVICES_BILLED discipline) |
-| 6 | CS-06 — Partner-overlap clause linkage | WARN | No |
-| 7 | CS-07 — Rate override expiry hygiene | INFO | No |
-| 8 | CS-08 — share_pattern enum validity *(NEW per D-IH-86-DE)* | FAIL | N/A (this check enforces the enum) |
+| 3 | CS-03 — split-sum invariant audit (unified across-rows per engagement) | FAIL | **YES** (unified across-rows sum-to-100 per engagement_id; overlay rows count toward the engagement total — overlay slice deducted from base party's share so the engagement still sums to 100 per D-IH-86-EJ §6.3). |
+| 4 | CS-04 — default-split + market-rate audit (composition-based) | WARN | **YES** (per-base anchor: 65/35 for `deep_partner_65_35`; 85/15 for `bd_intro_only`; 50/50 for `joint_venture_aventure`; 100/0 for `consulting_direct`; ±25% market-rate band; overlay-anchor 15% on top per D-IH-86-EJ §6.4). |
+| 5 | CS-05 — bill_mode default audit | WARN | No (pattern-agnostic VENDOR_SERVICES_BILLED discipline). |
+| 6 | CS-06 — Partner-overlap clause linkage | WARN | No. |
+| 7 | CS-07 — Rate override expiry hygiene | INFO | No. |
+| 8 | CS-08 — share_pattern + share_overlay enum validity *(supersedes D-IH-86-DE 3-value CS-08 per D-IH-86-EJ)* | FAIL | N/A (this check enforces both enums — base 4-value + overlay 1-value + NULL). |
+| 9 | CS-09 — overlay-base pairing + methodology-pattern coherence *(NEW per D-IH-86-EK + D-IH-86-EN)* | FAIL | **YES** (overlay-base pairing per VALID_OVERLAY_BASE_PAIRINGS lookup + methodology_readiness × share_pattern coherence per RULE 1 coherence table). |
 
-CS-03 + CS-04 branching is critical: a row authored under the wrong
-`share_pattern` will pass the wrong invariant audit and silently
-produce incorrect settlement math.
+CS-03 + CS-04 + CS-09 branching is critical: a row authored under the
+wrong `(share_pattern, share_overlay, methodology_readiness)` triple
+will pass the wrong invariant audit and silently produce incorrect
+settlement math AND/OR force the "35% compromise" failure mode.
 
 ## RULE 4 — Inline-ratify every commercial deviation (binding)
 
@@ -148,30 +218,113 @@ disposition auto-defaults) applies only to reversible deviations
 `custom`-pattern commercial narrative committed to engagement folder)
 NEVER auto-default — halt and escalate.
 
-## RULE 5 — INFO → FAIL ramp gates on per-pattern coverage (binding)
+## RULE 5 — INFO → FAIL ramp gates on per-base + overlay coverage (binding)
 
-The validator launches at INFO advisory for all 8 checks. Promotion
-to FAIL happens in two stages per the operator's *"ensure this is all
-wired up properly with the rest"* framing:
+The validator launches at INFO advisory for all 9 checks. The Wave R+2
+doctrine rewrite (D-IH-86-EJ / EK / EL / EM) RESET Stage 1 from `active`
+back to `charter` per D-IH-86-EM, because the prior Stage-1 promotion
+(D-IH-86-DF) had been ratified on a worked example (SUEZ POC) whose
+commercial classification was wrong (`orchestration_broker_thin_margin`
+instead of `consulting_direct + bd_commission_overlay`). Promotion now
+happens in two restarted stages per the operator's 2026-05-26 *"build
+this properly with the rewrite first, then promote on real evidence"*
+framing:
 
-**Stage 1 — charter → active** (per doctrine §9):
-- 1 real engagement (Aïsha-on-SUEZ; Commit 3) applies the doctrine
-  end-to-end with all 5 CSVs populated correctly.
-- Validator CS-01..CS-08 PASS on the populated rows.
-- Operator-ratified active-promotion decision row (D-IH-86-DF or
-  successor).
+**Stage 1 — charter → active** (per doctrine §9; reset 2026-05-26):
+- 1 corrected SUEZ POC settlement (Commit 5 of Wave R+2 doctrine rewrite)
+  applies the doctrine end-to-end as `consulting_direct +
+  bd_commission_overlay` with all 5 CSVs populated correctly.
+- Validator CS-01..CS-09 PASS on the populated rows (including CS-09
+  overlay-base pairing + methodology-readiness coherence).
+- Operator-ratified re-active-promotion decision row (D-IH-86-EO or
+  successor; reserved at Wave R+2 commit 1).
 
 **Stage 2 — active → promoted-FAIL ramp** (gates):
 - 3+ real engagements applying the doctrine cleanly with zero
-  CS-01..03 / CS-08 findings.
-- **Coverage requirement: ≥ 2 of the 3 `share_pattern` values exercised
-  in lived practice** (so the per-pattern branching has been tested
-  beyond self-tests).
+  CS-01..CS-03 / CS-08 / CS-09 findings.
+- **Per-base coverage requirement: ≥ 2 of the 4 base `share_pattern`
+  values exercised in lived practice** (so the per-base branching has
+  been tested beyond self-tests).
+- **Overlay coverage requirement: ≥ 1 engagement exercising
+  `bd_commission_overlay` cleanly** (so the overlay-stacking math has
+  been validated against real bills).
+- **Methodology-readiness coverage requirement: ≥ 2 of the 4
+  `methodology_readiness` values exercised in lived practice** (so the
+  CS-09 coherence gate has been tested across the spectrum, not only on
+  one readiness shape).
 - ≥ 1 cross-engagement audit pass at quarterly cadence with operator
   sign-off.
 - Operator-ratified ramp-promotion decision row.
 - CS-04 / CS-05 / CS-06 remain at WARN forever (judgment-class drift).
 - CS-07 remains at INFO forever (cleanup hygiene).
+- CS-01 / CS-02 / CS-03 / CS-08 / CS-09 promote to FAIL at every commit
+  touching the 5 CSVs.
+
+## RULE 6 — Overlay stacking discipline (NEW per D-IH-86-EJ §6.5)
+
+The `bd_commission_overlay` is the ONLY overlay value in the current
+enum. Future overlays (e.g., a hypothetical `affiliate_referral_overlay`
+or `methodology_licensing_overlay`) must amend this doctrine + add a
+new VALID_OVERLAY_BASE_PAIRINGS row + extend CS-09 before being
+authored — silent additions are forbidden.
+
+### Stacking rules (binding)
+
+1. **At most ONE overlay row per base row.** A single engagement_id may
+   carry multiple BD-overlay parties only if each parties their own
+   `bd_commission_overlay` row pointing at the same base row; the
+   aggregate overlay slice cannot exceed `bd_commission_pct_cap = 25`
+   (per doctrine §2.3 cap to prevent benefits-pool drift). CS-03
+   enforces the engagement-total-sum-to-100 invariant regardless of
+   overlay count, so adding overlay parties mechanically deducts from
+   the base party's slice (NOT from the customer-billed total).
+2. **Overlay base pairing.** Per VALID_OVERLAY_BASE_PAIRINGS:
+   `bd_commission_overlay` ONLY pairs with `consulting_direct` (primary
+   use case) or `deep_partner_65_35` (rare; external BD party intros a
+   deal Holistika + a separate deep partner deliver). NEVER pairs with
+   `bd_intro_only` (the base IS the BD shape — overlay on top would be
+   circular) or `joint_venture_aventure` (the JV is peer-symmetric;
+   adding an asymmetric BD overlay collapses the symmetry — file as a
+   separate engagement OR reclassify base).
+3. **Overlay party identity ≠ base party identity.** An overlay row's
+   `collaborator_id` must differ from the same engagement's base
+   row(s)' `collaborator_id`. A collaborator cannot earn both a base
+   share AND an overlay slice on the same engagement (the operator's
+   *"don't double-bill the same party against itself"* framing from
+   2026-05-26); when this is operationally what's intended, the
+   collaborator's compensation belongs in the base row at a higher
+   share_pct, not split across base + overlay.
+4. **Overlay default 15% / deviation requires `overlay_pct_deviation`
+   override row** in COLLABORATOR_RATE_OVERRIDES. The deviation must
+   be ratified by an inline-AskQuestion gate per RULE 4 disposition
+   enum — no silent overlay-pct authoring.
+5. **Overlay `methodology_readiness` is locked to `methodology_naive`
+   or `methodology_not_applicable`.** A BD-overlay party that is also
+   `methodology_trained` or `methodology_in_progress` is structurally
+   incoherent (they would qualify for `deep_partner_65_35` directly;
+   shoehorning them into a BD-overlay slice underpays their
+   contribution). CS-09 surfaces this as FAIL.
+
+### Worked overlay example (SUEZ POC corrected commercial shape)
+
+The SUEZ POC engagement at Commit 4 of Wave R+1 P3 was originally
+authored as `orchestration_broker_thin_margin` (3 rows: Holistika 6 +
+founder partner 50 + Aïsha 44). This shape was wrong per the 2026-05-26
+transcript re-read: Aïsha is BD-overlay-only (intro party not
+operating on the engagement); SUEZ's commercial relationship is direct
+Holistika-consulting + Aïsha-BD-commission. The corrected shape per
+D-IH-86-EL ships at Commit 5:
+
+- 1 base row: `consulting_direct`, Holistika 85%, `methodology_trained`.
+- 1 overlay row: `bd_commission_overlay`, Aïsha-Holistika-link 15%,
+  `methodology_not_applicable`, `share_overlay=bd_commission_overlay`,
+  `overlay_pct_deviation=NULL` (default 15%).
+- Engagement total: 100% (CS-03 PASS).
+- Methodology coherence: PASS (CS-09 PASS).
+
+This worked example is the unblocker for Stage-1 re-active-promotion
+per RULE 5 — without a clean SUEZ recommercialisation, the doctrine
+stays at `charter` indefinitely.
 
 ## When this rule does NOT apply
 
@@ -182,7 +335,9 @@ wired up properly with the rest"* framing:
 - Internal Holistika team compensation — covered by employment
   contracts + payroll, not this discipline.
 - Engagement folders where the operator explicitly does NOT involve a
-  strategic collaborator (single-vendor delivery).
+  strategic collaborator AND no BD-overlay party intros the deal
+  (single-vendor delivery — author as `consulting_direct` base row
+  with no overlay).
 
 ## Cross-references
 
@@ -208,7 +363,19 @@ wired up properly with the rest"* framing:
   [`process_list.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv) (Commit 2c-b).
 - Pattern registry row: `pattern_collaborator_share_doctrine` in
   [`PEOPLE_DESIGN_PATTERN_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv) (Commit 2c-b).
-- Decision lineage: D-IH-86-DA (doctrine mint + SOP gate), D-IH-86-DB (TRUE-MARGIN formula), D-IH-86-DC (clause table schema), D-IH-86-DD (Tier 1 WIP hygiene), D-IH-86-DE (share_pattern enum + CS-08 + CS-03/CS-04 per-pattern branching).
+- Decision lineage:
+  - D-IH-86-DA (doctrine mint + SOP gate).
+  - D-IH-86-DB (TRUE-MARGIN formula).
+  - D-IH-86-DC (clause table schema).
+  - D-IH-86-DD (Tier 1 WIP hygiene).
+  - D-IH-86-DE *(superseded by D-IH-86-EJ)* (pre-rewrite 3-shape `share_pattern` enum + CS-08 + CS-03/CS-04 per-pattern branching).
+  - D-IH-86-DF *(superseded by D-IH-86-EM)* (pre-rewrite Stage-1 active promotion on wrong SUEZ classification).
+  - D-IH-86-EJ (Wave R+2 doctrine FULL REWRITE to 4-base + 1-overlay; ratified 2026-05-26 post-13/05-transcript substrate audit).
+  - D-IH-86-EK (methodology-readiness 4-value axis + `parallel_invoice_stream_indicator` boolean + CS-09 NEW).
+  - D-IH-86-EL (SUEZ POC recommercialisation from `orchestration_broker_thin_margin` to `consulting_direct + bd_commission_overlay`; supersedes D-IH-86-EG).
+  - D-IH-86-EM (Stage-1 reset from `active` back to `charter`; supersedes D-IH-86-DF active-promotion).
+  - D-IH-86-EN (methodology-readiness × `share_pattern` coherence gating; ratified at THIS Commit 4 governance authoring layer).
+  - D-IH-86-EO *(reserved)* (Stage-1 re-active-promotion gate; ratifies at Commit 5 SUEZ recommercialisation closing-loop).
 
 @docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md
 @docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_COLLABORATOR_SHARE_001.md
