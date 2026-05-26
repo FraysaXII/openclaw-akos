@@ -35,31 +35,55 @@ Checks (8 CS-* probes; mirrors doctrine §5):
     Empty CSVs (header-only) trivially pass.
 
   CS-03 SPLIT SUMS TO 100
-    Behaviour branches on ``share_pattern``:
-      - deep_partner_65_35: per-row holistika_share_pct +
-        collaborator_share_pct must equal 100. FAIL on deviation.
-      - orchestration_broker_thin_margin: ACROSS-ROWS sum-to-100 invariant
-        per engagement_id. The sum of (holistika_share_pct + collaborator_share_pct)
-        over all rows sharing the engagement_id must equal exactly 100.
-        FAIL on deviation. Catches the "Holistika orchestrates a deal with
-        multiple hired collaborators each carrying a slice" shape.
-      - custom: per-row check skipped (operator carries the math
-        invariant); however every custom row must carry a non-empty
-        ``share_override_decision_id`` (also enforced by CS-04).
+    Unified across-rows sum-to-100 invariant per engagement_id (covers
+    all 4 base patterns + 1 overlay per the rewritten doctrine §6).
+    For every engagement_id, the sum of (holistika_share_pct +
+    collaborator_share_pct) across all SHARE_REGISTRY rows (base + any
+    overlay sibling) must equal exactly 100. FAIL on deviation.
+
+    Pattern composition examples:
+      - deep_partner_65_35 (solo): 1 row, 65/35 -> sum 100.
+      - bd_intro_only: 2 rows, (85/0) holistika-corp + (0/15) BD partner
+        -> across-rows sum 100.
+      - joint_venture_aventure: 2 rows, (50/0) + (0/50) -> sum 100.
+      - consulting_direct (solo): 1 row, 100/0 -> sum 100.
+      - consulting_direct + bd_commission_overlay: 2 rows, (85/0) base
+        + (0/15) overlay -> sum 100.
+      - deep_partner_65_35 + bd_commission_overlay: NOT a clean default
+        (base 65/35 + overlay 0/15 = 115); requires an OVERRIDE row
+        adjusting one of the slices to land on 100.
 
   CS-04 DEFAULT-SPLIT AUDIT
-    Behaviour branches on ``share_pattern``:
-      - deep_partner_65_35: every row whose split deviates from the doctrine
-        default (DEFAULT_HOLISTIKA_SHARE_PCT,
-        DEFAULT_COLLABORATOR_SHARE_PCT) must carry a non-empty
-        ``share_override_decision_id`` FK.
-      - orchestration_broker_thin_margin: every engagement_id whose total
-        Holistika margin deviates from
-        ORCHESTRATION_BROKER_DEFAULT_HOLISTIKA_TOTAL_PCT (6%) must carry
-        ``share_override_decision_id`` on AT LEAST ONE row of the
-        engagement.
-      - custom: every row must carry ``share_override_decision_id``
-        (custom split is by definition non-default and ratify-required).
+    Per-engagement composition-based audit. Each engagement is
+    classified by (a) number of rows + (b) presence of overlay; the
+    appropriate per-pattern default-anchor helper(s) are applied to
+    each row. Any deviation requires a non-empty
+    ``share_override_decision_id`` on the deviating row.
+
+    Solo engagement (1 row, no overlay):
+      - deep_partner_65_35: anchor (65/35) per ``default_split_holds``.
+      - bd_intro_only: anchor (85/15) per ``bd_intro_default_split_holds``.
+      - joint_venture_aventure: anchor (50/50) per
+        ``joint_venture_default_split_holds``.
+      - consulting_direct: anchor (100/0) per
+        ``consulting_direct_solo_default_holds``.
+
+    Multi-row engagement, no overlay (bd_intro_only OR
+    joint_venture_aventure shape): each row must match ONE of the
+    two distributed-default anchors for the pattern, e.g. (85/0) OR
+    (0/15) for bd_intro_only; (50/0) OR (0/50) for joint_venture.
+
+    Multi-row engagement with overlay (overlay row carries
+    ``share_overlay`` non-empty):
+      - base row anchor depends on base pattern:
+        * consulting_direct base: (85/0) per
+          ``consulting_direct_with_overlay_default_holds``.
+        * deep_partner_65_35 base: NO default anchor (combining 65/35
+          base with 0/15 overlay = 115; the base row MUST carry an
+          override).
+      - overlay row anchor: (0/15) per
+        ``bd_commission_overlay_default_holds``.
+
     WARN at INFO ramp; FAIL on --strict.
 
   CS-05 BILL_MODE DEFAULT CONSISTENCY
@@ -81,12 +105,34 @@ Checks (8 CS-* probes; mirrors doctrine §5):
     must carry status=expired (not status=active). WARN advisory only;
     auto-remediation candidate.
 
-  CS-08 SHARE PATTERN ENUM VALIDITY
-    Every SHARE_REGISTRY row's ``share_pattern`` value must be a member of
-    VALID_SHARE_PATTERNS ({deep_partner_65_35,
-    orchestration_broker_thin_margin, custom}). FAIL on unknown value.
-    Added at Wave R+1 Commit 2b-ext per D-IH-86-DE (operator
-    ratification Q1-b 2026-05-25).
+  CS-08 SHARE PATTERN + OVERLAY + METHODOLOGY ENUM VALIDITY
+    Every SHARE_REGISTRY row's ``share_pattern`` value must be a member
+    of VALID_SHARE_PATTERNS ({deep_partner_65_35, bd_intro_only,
+    joint_venture_aventure, consulting_direct}). When non-empty, the
+    ``share_overlay`` value must be a member of VALID_SHARE_OVERLAYS
+    ({bd_commission_overlay}). The ``methodology_readiness`` value
+    must be a member of VALID_METHODOLOGY_READINESS
+    ({methodology_trained, methodology_in_progress, methodology_naive,
+    methodology_not_applicable}). FAIL on any unknown value.
+
+    Extended at Wave R+2 Commit 3 per D-IH-86-EJ/EM/EN (operator
+    ratification 2026-05-25/26) to cover the 3 enum surfaces
+    introduced by the 4-base + 1-overlay rewrite.
+
+  CS-09 OVERLAY-BASE PAIRING + METHODOLOGY-PATTERN COHERENCE
+    Two layered checks introduced at Wave R+2 Commit 3 per
+    D-IH-86-EJ + D-IH-86-EN:
+      (a) overlay-base pairing: any row with non-empty
+          ``share_overlay`` must have at least one sibling base row
+          at the same engagement_id whose ``share_pattern`` is in
+          VALID_OVERLAY_BASE_PAIRINGS[share_overlay]. Forbidden
+          pairings (e.g., bd_commission_overlay paired with
+          bd_intro_only OR joint_venture_aventure) FAIL.
+      (b) methodology-pattern coherence: any row whose
+          ``share_pattern`` is NOT in
+          METHODOLOGY_READINESS_PERMISSIBLE_PATTERNS[methodology_readiness]
+          FAILs. Catches the "35% compromise to bridge a methodology
+          gap" failure mode operator named verbatim 2026-05-26.
 
 Posture per D-IH-86-DA quintet (Wave R+1 P3 mint INFO ramp):
 
@@ -125,15 +171,25 @@ from akos.hlk_collaborator_share import (  # noqa: E402
     CSV_PATH_RELATIVE_RATE_OVERRIDES,
     CSV_PATH_RELATIVE_SHARE_REGISTRY,
     CSV_PATH_RELATIVE_VENDOR_BILLED,
+    DEFAULT_BD_COMMISSION_OVERLAY_PCT,
+    DEFAULT_BD_INTRO_COLLABORATOR_PCT,
+    DEFAULT_BD_INTRO_HOLISTIKA_PCT,
     DEFAULT_BILL_MODE_PER_SERVICE_CLASS,
     DEFAULT_COLLABORATOR_SHARE_PCT,
+    DEFAULT_CONSULTING_DIRECT_COLLABORATOR_PCT_SOLO,
+    DEFAULT_CONSULTING_DIRECT_HOLISTIKA_PCT_SOLO,
+    DEFAULT_CONSULTING_DIRECT_HOLISTIKA_PCT_WITH_OVERLAY,
     DEFAULT_HOLISTIKA_SHARE_PCT,
+    DEFAULT_JOINT_VENTURE_COLLABORATOR_PCT,
+    DEFAULT_JOINT_VENTURE_HOLISTIKA_PCT,
     DEFAULT_SHARE_PATTERN,
     HOLISTIKA_VENDOR_SERVICES_BILLED_FIELDNAMES,
     MARKET_RATE_VARIANCE_TOLERANCE_PCT,
-    ORCHESTRATION_BROKER_DEFAULT_HOLISTIKA_TOTAL_PCT,
     PARTNER_OVERLAP_EXCLUSION_CLAUSES_FIELDNAMES,
     VALID_COLLABORATOR_SHARE_CHECK_CODES,
+    VALID_METHODOLOGY_READINESS,
+    VALID_OVERLAY_BASE_PAIRINGS,
+    VALID_SHARE_OVERLAYS,
     VALID_SHARE_PATTERNS,
     CollaboratorMarketRateReferenceRow,
     CollaboratorRateOverrideRow,
@@ -142,13 +198,20 @@ from akos.hlk_collaborator_share import (  # noqa: E402
     CollaboratorShareRegistryRow,
     HolistikaVendorServicesBilledRow,
     PartnerOverlapExclusionClauseRow,
+    across_rows_sum_to_100,
+    bd_commission_overlay_default_holds,
+    bd_intro_default_split_holds,
     bill_mode_matches_default,
+    consulting_direct_solo_default_holds,
+    consulting_direct_with_overlay_default_holds,
     default_split_holds,
-    orchestration_broker_default_margin_holds,
-    orchestration_broker_sum_holds,
+    joint_venture_default_split_holds,
+    methodology_permits_share_pattern,
+    methodology_readiness_is_valid,
+    overlay_base_pairing_is_valid,
     rate_within_market_band,
+    share_overlay_is_valid,
     share_pattern_is_valid,
-    split_sums_to_100,
 )
 
 logger = logging.getLogger(__name__)
@@ -465,59 +528,53 @@ def _safe_share_pcts(row: dict[str, str]) -> tuple[int, int] | None:
     return (h, c)
 
 
-def _check_cs03_split_sums_to_100() -> list[CollaboratorShareAuditRow]:
-    """CS-03: per-pattern sum-to-100 invariant.
+def _split_eng_rows_by_overlay(
+    eng_rows: list[tuple[int, dict[str, str]]],
+) -> tuple[list[tuple[int, dict[str, str]]], list[tuple[int, dict[str, str], str]]]:
+    """Partition engagement rows into (base_rows, overlay_rows).
 
-    deep_partner_65_35: per-row sum-to-100.
-    orchestration_broker_thin_margin: across-rows sum-to-100 per engagement_id.
-    custom: skipped (CS-04 takes responsibility via mandatory override FK).
+    Base rows have empty ``share_overlay``; overlay rows have non-empty
+    ``share_overlay`` and carry the overlay code as the 3rd tuple element
+    for downstream pairing checks.
+    """
+    base_rows: list[tuple[int, dict[str, str]]] = []
+    overlay_rows: list[tuple[int, dict[str, str], str]] = []
+    for i, r in eng_rows:
+        overlay = (r.get("share_overlay") or "").strip()
+        if overlay:
+            overlay_rows.append((i, r, overlay))
+        else:
+            base_rows.append((i, r))
+    return base_rows, overlay_rows
+
+
+def _check_cs03_split_sums_to_100() -> list[CollaboratorShareAuditRow]:
+    """CS-03: unified across-rows sum-to-100 invariant per engagement_id.
+
+    Per Wave R+2 rewrite (D-IH-86-EJ/EK), CS-03 collapses the prior
+    per-pattern split (deep_partner per-row vs orchestration_broker
+    across-rows vs custom skip) into a single invariant: for every
+    engagement_id, the sum of (holistika_share_pct +
+    collaborator_share_pct) across ALL SHARE_REGISTRY rows (base + any
+    overlay sibling) must equal exactly 100.
+
+    The unified invariant covers all 4 base patterns + 1 overlay:
+
+      - deep_partner_65_35 (solo)        : 1 row  -> 65 + 35 = 100
+      - bd_intro_only (2-row split)      : (85/0) + (0/15) = 100
+      - joint_venture_aventure (2-row)   : (50/0) + (0/50) = 100
+      - consulting_direct (solo)         : 1 row  -> 100 + 0 = 100
+      - consulting_direct + overlay      : (85/0) + (0/15) = 100
+      - deep_partner_65_35 + overlay     : (65/35) + (0/15) = 115 FAIL
+        (no clean composition; requires override row reshaping to 100)
     """
     findings: list[CollaboratorShareAuditRow] = []
     rows = _read_csv_rows(SHARE_REGISTRY_CSV)
     rel_path = str(SHARE_REGISTRY_CSV.relative_to(REPO_ROOT)).replace("\\", "/")
-    issues = 0
     grouped = _group_share_rows_by_engagement(rows)
-    handled_engagement_ids: set[str] = set()
+    issues = 0
 
-    # Per-row check for deep_partner_65_35 rows -------------------------
-    for i, raw in enumerate(rows, start=2):
-        row = _normalise_row(raw)
-        pattern = (row.get("share_pattern") or DEFAULT_SHARE_PATTERN).strip()
-        rid = (row.get("share_id") or f"row_{i}").strip()
-        if pattern != "deep_partner_65_35":
-            continue
-        pcts = _safe_share_pcts(row)
-        if pcts is None:
-            continue
-        h, c = pcts
-        if not split_sums_to_100(h, c):
-            findings.append(CollaboratorShareAuditRow(
-                check_code="CS-03-SPLIT-SUMS-TO-100",
-                subject_path=rel_path,
-                subject_row_id=rid,
-                verdict="fail",
-                drift_summary=(
-                    f"deep_partner row {i} ({rid}): {h}% + {c}% = {h + c}% "
-                    "(must be 100)"
-                ),
-                proposed_fix_action="adjust the two share_pct values to sum to 100",
-                severity="high",
-                notes=(
-                    "invariant: deep_partner_65_35 closes margin on the row; "
-                    "for orchestration shapes use share_pattern="
-                    "orchestration_broker_thin_margin"
-                ),
-            ))
-            issues += 1
-
-    # Across-rows check for orchestration_broker_thin_margin engagements --
     for eid, eng_rows in grouped.items():
-        patterns = {
-            (r.get("share_pattern") or DEFAULT_SHARE_PATTERN).strip()
-            for _i, r in eng_rows
-        }
-        if patterns != {"orchestration_broker_thin_margin"}:
-            continue
         pct_pairs: list[tuple[int, int]] = []
         any_invalid = False
         for _i, r in eng_rows:
@@ -527,36 +584,41 @@ def _check_cs03_split_sums_to_100() -> list[CollaboratorShareAuditRow]:
                 break
             pct_pairs.append(pcts)
         if any_invalid or not pct_pairs:
+            # CS-01 surfaces the structural defect; CS-03 skips silently.
             continue
-        handled_engagement_ids.add(eid)
-        if not orchestration_broker_sum_holds(pct_pairs):
-            total_h = sum(p[0] for p in pct_pairs)
-            total_c = sum(p[1] for p in pct_pairs)
-            row_ids = ", ".join(
-                (r.get("share_id") or f"row_{i}").strip()
-                for i, r in eng_rows
-            )
-            findings.append(CollaboratorShareAuditRow(
-                check_code="CS-03-SPLIT-SUMS-TO-100",
-                subject_path=rel_path,
-                subject_row_id=eid,
-                verdict="fail",
-                drift_summary=(
-                    f"orchestration engagement {eid!r}: across-rows total "
-                    f"{total_h}% Holistika + {total_c}% collaborator = "
-                    f"{total_h + total_c}% (must be 100); rows {row_ids}"
-                ),
-                proposed_fix_action=(
-                    "adjust the per-row share_pct values so cross-row sum "
-                    "equals 100; doctrine §2.1 orchestration variant"
-                ),
-                severity="high",
-                notes=(
-                    "across-rows invariant: orchestration_broker_thin_margin "
-                    "spreads the 100% across multiple collaborators"
-                ),
-            ))
-            issues += 1
+        if across_rows_sum_to_100(pct_pairs):
+            continue
+        total_h = sum(p[0] for p in pct_pairs)
+        total_c = sum(p[1] for p in pct_pairs)
+        row_ids = ", ".join(
+            (r.get("share_id") or f"row_{i}").strip()
+            for i, r in eng_rows
+        )
+        findings.append(CollaboratorShareAuditRow(
+            check_code="CS-03-SPLIT-SUMS-TO-100",
+            subject_path=rel_path,
+            subject_row_id=eid,
+            verdict="fail",
+            drift_summary=(
+                f"engagement {eid!r}: across-rows total {total_h}% "
+                f"Holistika + {total_c}% collaborator = {total_h + total_c}% "
+                f"(must be 100); rows {row_ids}"
+            ),
+            proposed_fix_action=(
+                "adjust per-row share_pct values so cross-row sum equals "
+                "100; covers all 4 base patterns + 1 overlay per "
+                "doctrine §6 (deep_partner+overlay needs an override row "
+                "reshaping the composition)"
+            ),
+            severity="high",
+            notes=(
+                "unified across-rows invariant per Wave R+2 rewrite "
+                "(D-IH-86-EJ/EK); supersedes the prior per-pattern "
+                "branched logic (deep_partner per-row + orchestration "
+                "across-rows + custom skip)"
+            ),
+        ))
+        issues += 1
 
     if issues == 0:
         findings.append(CollaboratorShareAuditRow(
@@ -565,143 +627,345 @@ def _check_cs03_split_sums_to_100() -> list[CollaboratorShareAuditRow]:
             verdict="pass",
             severity="low",
             notes=(
-                f"all SHARE_REGISTRY rows respect per-pattern sum-to-100 "
-                f"invariant (deep_partner per-row + "
-                f"{len(handled_engagement_ids)} orchestration engagements "
-                f"across-rows; custom-pattern rows skipped per doctrine §2.1)"
+                f"all {len(grouped)} engagement(s) respect the unified "
+                "across-rows sum-to-100 invariant (4 base patterns + "
+                "1 overlay; per doctrine §6 Wave R+2 rewrite)"
             ),
         ))
     return findings
 
 
 def _check_cs04_default_split_audit() -> list[CollaboratorShareAuditRow]:
-    """CS-04: per-pattern default-split audit.
+    """CS-04: composition-based default-split audit per base pattern + overlay.
 
-    deep_partner_65_35: non-default 65/35 row requires share_override_decision_id.
-    orchestration_broker_thin_margin: per-engagement Holistika-total deviation
-        from 6% requires share_override_decision_id on ≥1 row.
-    custom: every row requires share_override_decision_id.
+    Per Wave R+2 rewrite (D-IH-86-EJ/EL), CS-04 branches on (a) the
+    base ``share_pattern`` resolved at engagement scope and (b) the
+    presence/absence of a ``share_overlay`` sibling row. For each
+    engagement, the appropriate per-pattern + per-composition default-
+    anchor helper(s) are applied. Any deviation requires a non-empty
+    ``share_override_decision_id`` on the deviating row(s).
+
+    Composition table (per doctrine §6 Wave R+2):
+
+      bd_intro_only (multi-row): aggregate must hold (85/15);
+        helper = ``bd_intro_default_split_holds``.
+      joint_venture_aventure (multi-row): aggregate must hold (50/50);
+        helper = ``joint_venture_default_split_holds``.
+      consulting_direct (solo, no overlay): row must hold (100/0);
+        helper = ``consulting_direct_solo_default_holds``.
+      consulting_direct + bd_commission_overlay: base row must hold
+        (85/0) per ``consulting_direct_with_overlay_default_holds``;
+        overlay row must hold (0/15) per
+        ``bd_commission_overlay_default_holds``.
+      deep_partner_65_35 (solo, no overlay): row must hold (65/35);
+        helper = ``default_split_holds``.
+      deep_partner_65_35 + bd_commission_overlay: NO clean default
+        (composition sum = 115); base row MUST carry an override
+        decision regardless of value.
+
+    Verdict: WARN at INFO ramp; FAIL on --strict.
     """
     findings: list[CollaboratorShareAuditRow] = []
     rows = _read_csv_rows(SHARE_REGISTRY_CSV)
     rel_path = str(SHARE_REGISTRY_CSV.relative_to(REPO_ROOT)).replace("\\", "/")
-    issues = 0
     grouped = _group_share_rows_by_engagement(rows)
+    issues = 0
 
-    # deep_partner_65_35 per-row + custom per-row checks -----------------
-    for i, raw in enumerate(rows, start=2):
-        row = _normalise_row(raw)
-        pattern = (row.get("share_pattern") or DEFAULT_SHARE_PATTERN).strip()
-        rid = (row.get("share_id") or f"row_{i}").strip()
-        decision_id = (row.get("share_override_decision_id") or "").strip()
+    for eid, eng_rows in grouped.items():
+        base_rows, overlay_rows = _split_eng_rows_by_overlay(eng_rows)
+        if not base_rows:
+            # Pure-overlay engagement is structurally invalid; CS-09
+            # surfaces it (overlay-base pairing). Skip CS-04 silently.
+            continue
 
-        if pattern == "deep_partner_65_35":
-            pcts = _safe_share_pcts(row)
-            if pcts is None:
-                continue
-            h, c = pcts
-            if default_split_holds(h, c):
-                continue
-            if not decision_id:
+        # Resolve the base pattern at engagement scope. Mixed patterns
+        # within a single engagement are out-of-scope for CS-04 (CS-03 /
+        # CS-09 surface the structural defect); skip silently.
+        base_patterns = {
+            (r.get("share_pattern") or DEFAULT_SHARE_PATTERN).strip()
+            for _i, r in base_rows
+        }
+        if len(base_patterns) != 1:
+            continue
+        base_pattern = next(iter(base_patterns))
+        if not share_pattern_is_valid(base_pattern):
+            # CS-08 catches the enum drift; CS-04 cannot branch safely.
+            continue
+        has_overlay = bool(overlay_rows)
+
+        # Aggregate the base-row percentages (used for multi-row anchors
+        # like bd_intro_only + joint_venture_aventure where each row
+        # represents one party's slice).
+        h_total = sum(int(r.get("holistika_share_pct") or "0") for _i, r in base_rows)
+        c_total = sum(int(r.get("collaborator_share_pct") or "0") for _i, r in base_rows)
+
+        # Helper: every base row carries an override -> deviation is
+        # operator-ratified; CS-04 passes the engagement.
+        base_decision_ids = [
+            (r.get("share_override_decision_id") or "").strip()
+            for _i, r in base_rows
+        ]
+        engagement_has_base_override = any(base_decision_ids)
+
+        # Branch per base pattern -----------------------------------------
+        if base_pattern == "bd_intro_only":
+            if bd_intro_default_split_holds(h_total, c_total):
+                pass  # default-clean
+            elif engagement_has_base_override:
+                pass  # operator-ratified deviation
+            else:
+                row_ids = ", ".join(
+                    (r.get("share_id") or f"row_{i}").strip()
+                    for i, r in base_rows
+                )
                 findings.append(CollaboratorShareAuditRow(
                     check_code="CS-04-DEFAULT-65-35-AUDIT",
                     subject_path=rel_path,
-                    subject_row_id=rid,
+                    subject_row_id=eid,
                     verdict="warn",
                     drift_summary=(
-                        f"deep_partner row {i} ({rid}): split ({h}/{c}) "
-                        f"deviates from default ({DEFAULT_HOLISTIKA_SHARE_PCT}/"
-                        f"{DEFAULT_COLLABORATOR_SHARE_PCT}) without "
-                        "share_override_decision_id"
+                        f"bd_intro_only engagement {eid!r}: aggregate "
+                        f"({h_total}/{c_total}) deviates from default "
+                        f"({DEFAULT_BD_INTRO_HOLISTIKA_PCT}/"
+                        f"{DEFAULT_BD_INTRO_COLLABORATOR_PCT}) without "
+                        f"share_override_decision_id on any row "
+                        f"({row_ids})"
                     ),
                     proposed_fix_action=(
                         "mint a DECISION_REGISTER row ratifying the "
-                        "deviation, then populate share_override_decision_id"
+                        "deviation, then populate "
+                        "share_override_decision_id on ≥ 1 base row"
                     ),
                     severity="medium",
                     notes=(
-                        "doctrine §2.1 deep_partner deviation gate; "
-                        "INFO at Wave R+1; promotes to FAIL on --strict"
-                    ),
-                ))
-                issues += 1
-        elif pattern == "custom":
-            if not decision_id:
-                findings.append(CollaboratorShareAuditRow(
-                    check_code="CS-04-DEFAULT-65-35-AUDIT",
-                    subject_path=rel_path,
-                    subject_row_id=rid,
-                    verdict="warn",
-                    drift_summary=(
-                        f"custom-pattern row {i} ({rid}): custom rows require "
-                        "share_override_decision_id on every row"
-                    ),
-                    proposed_fix_action=(
-                        "mint a DECISION_REGISTER row ratifying the custom "
-                        "split, then populate share_override_decision_id"
-                    ),
-                    severity="medium",
-                    notes=(
-                        "doctrine §2.1 custom variant: no automatic math "
-                        "invariant, so each row must be operator-ratified"
+                        "doctrine §6 bd_intro_only aggregate default "
+                        "(85/15); INFO at Wave R+2 ramp"
                     ),
                 ))
                 issues += 1
 
-    # orchestration_broker_thin_margin per-engagement check --------------
-    for eid, eng_rows in grouped.items():
-        patterns = {
-            (r.get("share_pattern") or DEFAULT_SHARE_PATTERN).strip()
-            for _i, r in eng_rows
-        }
-        if patterns != {"orchestration_broker_thin_margin"}:
-            continue
-        pct_pairs: list[tuple[int, int]] = []
-        any_invalid = False
-        for _i, r in eng_rows:
+        elif base_pattern == "joint_venture_aventure":
+            if joint_venture_default_split_holds(h_total, c_total):
+                pass
+            elif engagement_has_base_override:
+                pass
+            else:
+                row_ids = ", ".join(
+                    (r.get("share_id") or f"row_{i}").strip()
+                    for i, r in base_rows
+                )
+                findings.append(CollaboratorShareAuditRow(
+                    check_code="CS-04-DEFAULT-65-35-AUDIT",
+                    subject_path=rel_path,
+                    subject_row_id=eid,
+                    verdict="warn",
+                    drift_summary=(
+                        f"joint_venture_aventure engagement {eid!r}: "
+                        f"aggregate ({h_total}/{c_total}) deviates from "
+                        f"default ({DEFAULT_JOINT_VENTURE_HOLISTIKA_PCT}/"
+                        f"{DEFAULT_JOINT_VENTURE_COLLABORATOR_PCT}) "
+                        f"without share_override_decision_id ({row_ids})"
+                    ),
+                    proposed_fix_action=(
+                        "mint a DECISION_REGISTER row ratifying the "
+                        "deviation, then populate "
+                        "share_override_decision_id on ≥ 1 base row"
+                    ),
+                    severity="medium",
+                    notes=(
+                        "doctrine §6 joint_venture_aventure aggregate "
+                        "default (50/50); INFO at Wave R+2 ramp"
+                    ),
+                ))
+                issues += 1
+
+        elif base_pattern == "consulting_direct":
+            # Solo (no overlay) vs with-overlay -- different anchors.
+            if len(base_rows) != 1:
+                # Multi-row consulting_direct is structurally unusual;
+                # CS-03 surfaces sum issues. Skip per-row anchor here.
+                continue
+            i, r = base_rows[0]
             pcts = _safe_share_pcts(r)
             if pcts is None:
-                any_invalid = True
-                break
-            pct_pairs.append(pcts)
-        if any_invalid or not pct_pairs:
-            continue
-        if orchestration_broker_default_margin_holds(pct_pairs):
-            continue
-        decision_ids = [
-            (r.get("share_override_decision_id") or "").strip()
-            for _i, r in eng_rows
-        ]
-        if any(decision_ids):
-            continue
-        total_h = sum(p[0] for p in pct_pairs)
-        row_ids = ", ".join(
-            (r.get("share_id") or f"row_{i}").strip()
-            for i, r in eng_rows
-        )
-        findings.append(CollaboratorShareAuditRow(
-            check_code="CS-04-DEFAULT-65-35-AUDIT",
-            subject_path=rel_path,
-            subject_row_id=eid,
-            verdict="warn",
-            drift_summary=(
-                f"orchestration engagement {eid!r}: total Holistika margin "
-                f"{total_h}% deviates from default "
-                f"{ORCHESTRATION_BROKER_DEFAULT_HOLISTIKA_TOTAL_PCT}%; no "
-                f"share_override_decision_id on any row ({row_ids})"
-            ),
-            proposed_fix_action=(
-                "mint a DECISION_REGISTER row ratifying the margin "
-                "deviation, then populate share_override_decision_id on at "
-                "least one engagement row"
-            ),
-            severity="medium",
-            notes=(
-                "doctrine §2.1 orchestration default-margin gate; "
-                "INFO at Wave R+1; promotes to FAIL on --strict"
-            ),
-        ))
-        issues += 1
+                continue
+            h, c = pcts
+            rid = (r.get("share_id") or f"row_{i}").strip()
+            decision_id = (r.get("share_override_decision_id") or "").strip()
+            if not has_overlay:
+                # Solo consulting_direct anchor: (100/0).
+                if consulting_direct_solo_default_holds(h, c):
+                    pass
+                elif decision_id:
+                    pass
+                else:
+                    findings.append(CollaboratorShareAuditRow(
+                        check_code="CS-04-DEFAULT-65-35-AUDIT",
+                        subject_path=rel_path,
+                        subject_row_id=rid,
+                        verdict="warn",
+                        drift_summary=(
+                            f"consulting_direct solo row {i} ({rid}): "
+                            f"({h}/{c}) deviates from default "
+                            f"({DEFAULT_CONSULTING_DIRECT_HOLISTIKA_PCT_SOLO}/"
+                            f"{DEFAULT_CONSULTING_DIRECT_COLLABORATOR_PCT_SOLO}) "
+                            "without share_override_decision_id"
+                        ),
+                        proposed_fix_action=(
+                            "mint a DECISION_REGISTER row ratifying the "
+                            "deviation, then populate "
+                            "share_override_decision_id"
+                        ),
+                        severity="medium",
+                        notes=(
+                            "doctrine §6 consulting_direct solo "
+                            "default (100/0); INFO at Wave R+2 ramp"
+                        ),
+                    ))
+                    issues += 1
+            else:
+                # consulting_direct + overlay -> base anchor (85/0).
+                if consulting_direct_with_overlay_default_holds(h, c):
+                    pass
+                elif decision_id:
+                    pass
+                else:
+                    findings.append(CollaboratorShareAuditRow(
+                        check_code="CS-04-DEFAULT-65-35-AUDIT",
+                        subject_path=rel_path,
+                        subject_row_id=rid,
+                        verdict="warn",
+                        drift_summary=(
+                            f"consulting_direct + overlay base row {i} "
+                            f"({rid}): ({h}/{c}) deviates from default "
+                            f"({DEFAULT_CONSULTING_DIRECT_HOLISTIKA_PCT_WITH_OVERLAY}"
+                            "/0) without share_override_decision_id"
+                        ),
+                        proposed_fix_action=(
+                            "mint a DECISION_REGISTER row ratifying the "
+                            "deviation, then populate "
+                            "share_override_decision_id"
+                        ),
+                        severity="medium",
+                        notes=(
+                            "doctrine §6 consulting_direct+overlay base "
+                            "anchor (85/0); INFO at Wave R+2 ramp"
+                        ),
+                    ))
+                    issues += 1
+
+        elif base_pattern == "deep_partner_65_35":
+            if len(base_rows) != 1:
+                continue
+            i, r = base_rows[0]
+            pcts = _safe_share_pcts(r)
+            if pcts is None:
+                continue
+            h, c = pcts
+            rid = (r.get("share_id") or f"row_{i}").strip()
+            decision_id = (r.get("share_override_decision_id") or "").strip()
+            if has_overlay:
+                # deep_partner + overlay = 115 sum; no clean default.
+                # Base row MUST carry an override regardless of value.
+                if decision_id:
+                    pass
+                else:
+                    findings.append(CollaboratorShareAuditRow(
+                        check_code="CS-04-DEFAULT-65-35-AUDIT",
+                        subject_path=rel_path,
+                        subject_row_id=rid,
+                        verdict="warn",
+                        drift_summary=(
+                            f"deep_partner_65_35 base row {i} ({rid}) "
+                            "paired with bd_commission_overlay: this "
+                            "composition has NO clean default "
+                            "(65/35 + 0/15 = 115); base row MUST "
+                            "carry share_override_decision_id "
+                            f"(current: {h}/{c})"
+                        ),
+                        proposed_fix_action=(
+                            "mint a DECISION_REGISTER row ratifying the "
+                            "adjusted composition, then populate "
+                            "share_override_decision_id on the base row"
+                        ),
+                        severity="medium",
+                        notes=(
+                            "doctrine §6 deep_partner+overlay has no "
+                            "clean default per pattern composition table"
+                        ),
+                    ))
+                    issues += 1
+            else:
+                # Solo deep_partner anchor: (65/35).
+                if default_split_holds(h, c):
+                    pass
+                elif decision_id:
+                    pass
+                else:
+                    findings.append(CollaboratorShareAuditRow(
+                        check_code="CS-04-DEFAULT-65-35-AUDIT",
+                        subject_path=rel_path,
+                        subject_row_id=rid,
+                        verdict="warn",
+                        drift_summary=(
+                            f"deep_partner_65_35 solo row {i} ({rid}): "
+                            f"({h}/{c}) deviates from default "
+                            f"({DEFAULT_HOLISTIKA_SHARE_PCT}/"
+                            f"{DEFAULT_COLLABORATOR_SHARE_PCT}) without "
+                            "share_override_decision_id"
+                        ),
+                        proposed_fix_action=(
+                            "mint a DECISION_REGISTER row ratifying the "
+                            "deviation, then populate "
+                            "share_override_decision_id"
+                        ),
+                        severity="medium",
+                        notes=(
+                            "doctrine §6 deep_partner_65_35 solo "
+                            "default (65/35); INFO at Wave R+2 ramp"
+                        ),
+                    ))
+                    issues += 1
+
+        # Overlay-row default audit ---------------------------------------
+        # Independent of base pattern: every bd_commission_overlay row
+        # should hold (0/15) unless an override is present.
+        for i, r, overlay_kind in overlay_rows:
+            if overlay_kind != "bd_commission_overlay":
+                # CS-08 catches unknown overlay enum values; skip here.
+                continue
+            pcts = _safe_share_pcts(r)
+            if pcts is None:
+                continue
+            h, c = pcts
+            rid = (r.get("share_id") or f"row_{i}").strip()
+            decision_id = (r.get("share_override_decision_id") or "").strip()
+            if bd_commission_overlay_default_holds(h, c):
+                continue
+            if decision_id:
+                continue
+            findings.append(CollaboratorShareAuditRow(
+                check_code="CS-04-DEFAULT-65-35-AUDIT",
+                subject_path=rel_path,
+                subject_row_id=rid,
+                verdict="warn",
+                drift_summary=(
+                    f"bd_commission_overlay row {i} ({rid}): ({h}/{c}) "
+                    f"deviates from default (0/"
+                    f"{DEFAULT_BD_COMMISSION_OVERLAY_PCT}) without "
+                    "share_override_decision_id"
+                ),
+                proposed_fix_action=(
+                    "mint a DECISION_REGISTER row ratifying the overlay "
+                    "deviation, then populate share_override_decision_id"
+                ),
+                severity="medium",
+                notes=(
+                    "doctrine §6 bd_commission_overlay anchor (0/15); "
+                    "INFO at Wave R+2 ramp"
+                ),
+            ))
+            issues += 1
 
     if issues == 0:
         findings.append(CollaboratorShareAuditRow(
@@ -710,9 +974,10 @@ def _check_cs04_default_split_audit() -> list[CollaboratorShareAuditRow]:
             verdict="pass",
             severity="low",
             notes=(
-                f"all {len(rows)} SHARE_REGISTRY rows respect per-pattern "
-                "default-split audit (deep_partner row-local; orchestration "
-                "engagement-aggregate; custom requires override on every row)"
+                f"all {len(rows)} SHARE_REGISTRY rows across "
+                f"{len(grouped)} engagement(s) respect composition-based "
+                "default-split audit (4 base patterns + 1 overlay per "
+                "doctrine §6 Wave R+2 rewrite)"
             ),
         ))
     return findings
@@ -852,19 +1117,41 @@ def _check_cs06_rate_within_market_band() -> list[CollaboratorShareAuditRow]:
 
 
 def _check_cs08_share_pattern_enum() -> list[CollaboratorShareAuditRow]:
-    """CS-08: every SHARE_REGISTRY row's share_pattern must be a recognised
-    VALID_SHARE_PATTERNS enum value. FAIL on unknown value.
+    """CS-08: every SHARE_REGISTRY row's share_pattern + share_overlay +
+    methodology_readiness must each be a recognised enum value.
 
-    Added at Wave R+1 Commit 2b-ext per D-IH-86-DE.
+    Per-enum semantics:
+      * ``share_pattern``: empty OR not in VALID_SHARE_PATTERNS → FAIL
+        (this is the per-row commercial-shape declaration; missing it
+        means CS-03 + CS-04 cannot branch correctly).
+      * ``share_overlay``: empty is valid (no overlay declared);
+        non-empty value not in VALID_SHARE_OVERLAYS → FAIL.
+      * ``methodology_readiness``: empty OR not in
+        VALID_METHODOLOGY_READINESS → FAIL (CS-09 coherence check
+        depends on this enum being well-formed).
+
+    Multiple offending enums on a single row each produce their own
+    finding so the operator sees the full disposition surface in one
+    pass (rather than fixing one and re-running to discover the next).
+
+    Originally introduced at Wave R+1 Commit 2b-ext per D-IH-86-DE
+    (share_pattern only). Extended at Wave R+2 Commit 3.3 per
+    D-IH-86-EL (3-enum coverage; share_overlay + methodology_readiness
+    added alongside the 4-base + 1-overlay model rewrite).
     """
     findings: list[CollaboratorShareAuditRow] = []
     rows = _read_csv_rows(SHARE_REGISTRY_CSV)
     rel_path = str(SHARE_REGISTRY_CSV.relative_to(REPO_ROOT)).replace("\\", "/")
     issues = 0
+
     for i, raw in enumerate(rows, start=2):
         row = _normalise_row(raw)
-        pattern = (row.get("share_pattern") or "").strip()
         rid = (row.get("share_id") or f"row_{i}").strip()
+        pattern = (row.get("share_pattern") or "").strip()
+        overlay = (row.get("share_overlay") or "").strip()
+        readiness = (row.get("methodology_readiness") or "").strip()
+
+        # --- share_pattern enum (required; FAIL on empty or unknown) ---
         if not pattern:
             findings.append(CollaboratorShareAuditRow(
                 check_code="CS-08-SHARE-PATTERN-ENUM-VALIDITY",
@@ -883,8 +1170,7 @@ def _check_cs08_share_pattern_enum() -> list[CollaboratorShareAuditRow]:
                 notes="enum membership prerequisite for CS-03 + CS-04 branching",
             ))
             issues += 1
-            continue
-        if not share_pattern_is_valid(pattern):
+        elif not share_pattern_is_valid(pattern):
             findings.append(CollaboratorShareAuditRow(
                 check_code="CS-08-SHARE-PATTERN-ENUM-VALIDITY",
                 subject_path=rel_path,
@@ -896,7 +1182,7 @@ def _check_cs08_share_pattern_enum() -> list[CollaboratorShareAuditRow]:
                 ),
                 proposed_fix_action=(
                     "either correct the typo OR extend VALID_SHARE_PATTERNS "
-                    "+ doctrine §2.1 with a new pattern (operator-gated)"
+                    "+ doctrine §2.3 with a new pattern (operator-gated)"
                 ),
                 severity="high",
                 notes=(
@@ -905,6 +1191,77 @@ def _check_cs08_share_pattern_enum() -> list[CollaboratorShareAuditRow]:
                 ),
             ))
             issues += 1
+
+        # --- share_overlay enum (optional; FAIL only on unknown non-empty) ---
+        if overlay and not share_overlay_is_valid(overlay):
+            findings.append(CollaboratorShareAuditRow(
+                check_code="CS-08-SHARE-PATTERN-ENUM-VALIDITY",
+                subject_path=rel_path,
+                subject_row_id=rid,
+                verdict="fail",
+                drift_summary=(
+                    f"share row {i} ({rid}): share_overlay={overlay!r} not in "
+                    f"{sorted(VALID_SHARE_OVERLAYS)} (empty is valid)"
+                ),
+                proposed_fix_action=(
+                    "either clear share_overlay (no overlay declared) OR "
+                    "extend VALID_SHARE_OVERLAYS + doctrine §2.3 with a new "
+                    "overlay code (operator-gated)"
+                ),
+                severity="high",
+                notes=(
+                    "unknown share_overlay values break CS-09 overlay-base "
+                    "pairing validity check"
+                ),
+            ))
+            issues += 1
+
+        # --- methodology_readiness enum (required; FAIL on empty or unknown) ---
+        if not readiness:
+            findings.append(CollaboratorShareAuditRow(
+                check_code="CS-08-SHARE-PATTERN-ENUM-VALIDITY",
+                subject_path=rel_path,
+                subject_row_id=rid,
+                verdict="fail",
+                drift_summary=(
+                    f"share row {i} ({rid}): methodology_readiness is empty; "
+                    f"must be one of {sorted(VALID_METHODOLOGY_READINESS)}"
+                ),
+                proposed_fix_action=(
+                    "populate methodology_readiness with the operator-ratified "
+                    "value (default for new collaborators: methodology_naive)"
+                ),
+                severity="high",
+                notes=(
+                    "enum membership prerequisite for CS-09 methodology-pattern "
+                    "coherence check"
+                ),
+            ))
+            issues += 1
+        elif not methodology_readiness_is_valid(readiness):
+            findings.append(CollaboratorShareAuditRow(
+                check_code="CS-08-SHARE-PATTERN-ENUM-VALIDITY",
+                subject_path=rel_path,
+                subject_row_id=rid,
+                verdict="fail",
+                drift_summary=(
+                    f"share row {i} ({rid}): methodology_readiness="
+                    f"{readiness!r} not in "
+                    f"{sorted(VALID_METHODOLOGY_READINESS)}"
+                ),
+                proposed_fix_action=(
+                    "either correct the typo OR extend "
+                    "VALID_METHODOLOGY_READINESS + doctrine §2.4 with a new "
+                    "readiness value (operator-gated)"
+                ),
+                severity="high",
+                notes=(
+                    "unknown methodology_readiness values break CS-09 "
+                    "coherence check"
+                ),
+            ))
+            issues += 1
+
     if issues == 0:
         findings.append(CollaboratorShareAuditRow(
             check_code="CS-08-SHARE-PATTERN-ENUM-VALIDITY",
@@ -913,7 +1270,186 @@ def _check_cs08_share_pattern_enum() -> list[CollaboratorShareAuditRow]:
             severity="low",
             notes=(
                 f"all {len(rows)} SHARE_REGISTRY rows carry valid "
-                f"share_pattern values from {sorted(VALID_SHARE_PATTERNS)}"
+                f"share_pattern + share_overlay + methodology_readiness "
+                f"enum values"
+            ),
+        ))
+    return findings
+
+
+def _check_cs09_overlay_base_pairing_validity() -> list[CollaboratorShareAuditRow]:
+    """CS-09: overlay rows must pair with a permissible base share_pattern
+    (per VALID_OVERLAY_BASE_PAIRINGS) AND every row's
+    methodology_readiness must permit its share_pattern (per
+    METHODOLOGY_READINESS_PERMISSIBLE_PATTERNS).
+
+    Two layered audit lanes:
+
+      (a) **Overlay-base pairing.** For each overlay row in an
+          engagement, verify that AT LEAST ONE sibling base row at the
+          same engagement_id carries a share_pattern permitted by
+          VALID_OVERLAY_BASE_PAIRINGS[overlay_code]. Missing or
+          mis-paired base anchors produce a FAIL: an overlay without a
+          permissible base is structurally meaningless (overlays add
+          economic mass on top of a base; they cannot exist alone).
+
+      (b) **Methodology-pattern coherence.** For each row, verify the
+          collaborator's declared methodology_readiness state permits
+          the row's share_pattern via methodology_permits_share_pattern.
+          A methodology_naive collaborator anchoring at
+          deep_partner_65_35 is the canonical violation (the 35%
+          collaborator share presumes methodology contribution; a naive
+          collaborator cannot fulfil the doctrinal premise).
+
+    Rows where CS-08 already flagged the share_pattern /
+    share_overlay / methodology_readiness enum as invalid are skipped
+    by this check — CS-08 catches enum membership; CS-09 catches
+    semantic coherence between well-formed enums.
+
+    Added at Wave R+2 Commit 3.3 per D-IH-86-EL alongside the 4-base
+    + 1-overlay model rewrite. Per RULE 5 INFO-ramp posture: launches
+    at FAIL severity for FAIL findings (the structural-incoherence
+    findings are not tolerable) but the validator overall stays at
+    INFO ramp until Stage 2 promotion criteria met.
+    """
+    findings: list[CollaboratorShareAuditRow] = []
+    rows = _read_csv_rows(SHARE_REGISTRY_CSV)
+    rel_path = str(SHARE_REGISTRY_CSV.relative_to(REPO_ROOT)).replace("\\", "/")
+    issues = 0
+
+    # Group by engagement for the overlay-base pairing pass.
+    grouped = _group_share_rows_by_engagement([_normalise_row(r) for r in rows])
+
+    # --- Lane A: overlay-base pairing per engagement ---
+    for engagement_id, eng_rows in sorted(grouped.items()):
+        base_rows, overlay_rows = _split_eng_rows_by_overlay(eng_rows)
+
+        # Collect valid base share_patterns for this engagement (skip
+        # rows with invalid share_pattern enum; CS-08 already flagged them).
+        base_patterns: list[str] = []
+        for _i, base_row in base_rows:
+            pat = (base_row.get("share_pattern") or "").strip()
+            if pat and share_pattern_is_valid(pat):
+                base_patterns.append(pat)
+
+        for line_no, overlay_row, overlay_code in overlay_rows:
+            rid = (overlay_row.get("share_id") or f"row_{line_no}").strip()
+
+            # CS-08 will have flagged unknown overlay codes; skip here.
+            if not share_overlay_is_valid(overlay_code):
+                continue
+
+            # No base rows for this engagement → overlay floats alone.
+            if not base_patterns:
+                findings.append(CollaboratorShareAuditRow(
+                    check_code="CS-09-OVERLAY-BASE-PAIRING-VALIDITY",
+                    subject_path=rel_path,
+                    subject_row_id=rid,
+                    verdict="fail",
+                    drift_summary=(
+                        f"share row {line_no} ({rid}): share_overlay="
+                        f"{overlay_code!r} declared but engagement "
+                        f"{engagement_id!r} has zero base rows; overlay "
+                        f"cannot exist without a permissible base anchor"
+                    ),
+                    proposed_fix_action=(
+                        "either author the missing base row (one of "
+                        f"{sorted(VALID_OVERLAY_BASE_PAIRINGS.get(overlay_code, frozenset()))}) "
+                        "OR remove the overlay row if no base applies"
+                    ),
+                    severity="high",
+                    notes=(
+                        "overlay rows add economic mass on top of a base; "
+                        "they are structurally meaningless without one"
+                    ),
+                ))
+                issues += 1
+                continue
+
+            # Validate pairing: at least one base must be in the
+            # permitted set for this overlay code.
+            if not overlay_base_pairing_is_valid(overlay_code, base_patterns):
+                permitted = sorted(
+                    VALID_OVERLAY_BASE_PAIRINGS.get(overlay_code, frozenset())
+                )
+                findings.append(CollaboratorShareAuditRow(
+                    check_code="CS-09-OVERLAY-BASE-PAIRING-VALIDITY",
+                    subject_path=rel_path,
+                    subject_row_id=rid,
+                    verdict="fail",
+                    drift_summary=(
+                        f"share row {line_no} ({rid}): share_overlay="
+                        f"{overlay_code!r} pairs with engagement "
+                        f"{engagement_id!r} base patterns={base_patterns} "
+                        f"but only {permitted} are permitted"
+                    ),
+                    proposed_fix_action=(
+                        f"either change the base share_pattern to one of "
+                        f"{permitted} OR remove the overlay row OR amend "
+                        "VALID_OVERLAY_BASE_PAIRINGS in akos/hlk_collaborator_share.py "
+                        "+ doctrine §2.3 (operator-gated)"
+                    ),
+                    severity="high",
+                    notes=(
+                        "incompatible overlay-base pairing breaks the "
+                        "doctrinal overlay-stacking model"
+                    ),
+                ))
+                issues += 1
+
+    # --- Lane B: methodology-pattern coherence per row ---
+    for i, raw in enumerate(rows, start=2):
+        row = _normalise_row(raw)
+        rid = (row.get("share_id") or f"row_{i}").strip()
+        pattern = (row.get("share_pattern") or "").strip()
+        readiness = (row.get("methodology_readiness") or "").strip()
+
+        # CS-08 already flags missing/unknown enums; skip incoherent rows
+        # here so we don't double-report the same defect.
+        if not pattern or not share_pattern_is_valid(pattern):
+            continue
+        if not readiness or not methodology_readiness_is_valid(readiness):
+            continue
+
+        if not methodology_permits_share_pattern(readiness, pattern):
+            findings.append(CollaboratorShareAuditRow(
+                check_code="CS-09-OVERLAY-BASE-PAIRING-VALIDITY",
+                subject_path=rel_path,
+                subject_row_id=rid,
+                verdict="fail",
+                drift_summary=(
+                    f"share row {i} ({rid}): methodology_readiness="
+                    f"{readiness!r} does not permit share_pattern="
+                    f"{pattern!r} per "
+                    "METHODOLOGY_READINESS_PERMISSIBLE_PATTERNS"
+                ),
+                proposed_fix_action=(
+                    "either (a) revise share_pattern to one permitted by the "
+                    "collaborator's current readiness, OR (b) advance the "
+                    "collaborator's methodology_readiness (e.g., to "
+                    "methodology_in_progress or methodology_trained) via a "
+                    "ratified onboarding milestone, OR (c) author a "
+                    "share_override_decision_id in COLLABORATOR_RATE_OVERRIDES "
+                    "with operator narrative justifying the deviation"
+                ),
+                severity="high",
+                notes=(
+                    "methodology-pattern coherence is the structural "
+                    "premise of the share-split commercial logic"
+                ),
+            ))
+            issues += 1
+
+    if issues == 0:
+        findings.append(CollaboratorShareAuditRow(
+            check_code="CS-09-OVERLAY-BASE-PAIRING-VALIDITY",
+            subject_path=rel_path,
+            verdict="pass",
+            severity="low",
+            notes=(
+                f"all {len(rows)} SHARE_REGISTRY rows: overlay rows pair "
+                f"with permissible bases AND every row's "
+                f"methodology_readiness permits its share_pattern"
             ),
         ))
     return findings
@@ -969,6 +1505,7 @@ CHECK_REGISTRY: dict[str, Callable[[], list[CollaboratorShareAuditRow]]] = {
     "CS-06-RATE-WITHIN-MARKET-BAND": _check_cs06_rate_within_market_band,
     "CS-07-OVERRIDE-EXPIRY-AUDIT": _check_cs07_override_expiry,
     "CS-08-SHARE-PATTERN-ENUM-VALIDITY": _check_cs08_share_pattern_enum,
+    "CS-09-OVERLAY-BASE-PAIRING-VALIDITY": _check_cs09_overlay_base_pairing_validity,
 }
 
 
@@ -979,7 +1516,7 @@ def run_audit(
     audit_trigger: str = "on_demand",
     audited_by: str = "agent:cli",
 ) -> CollaboratorShareAuditReport:
-    """Run all 7 checks and return the aggregate report."""
+    """Run all 9 checks (CS-01..CS-09) and return the aggregate report."""
     all_findings: list[CollaboratorShareAuditRow] = []
     for code in sorted(CHECK_REGISTRY):
         probe = CHECK_REGISTRY[code]
@@ -1083,7 +1620,7 @@ def self_test() -> int:
     )
     if rep.total_findings != 1 or rep.pass_count != 1:
         return 1
-    if len(CHECK_REGISTRY) != 8:
+    if len(CHECK_REGISTRY) != 9:
         return 2
     if set(CHECK_REGISTRY.keys()) != VALID_COLLABORATOR_SHARE_CHECK_CODES:
         return 3
