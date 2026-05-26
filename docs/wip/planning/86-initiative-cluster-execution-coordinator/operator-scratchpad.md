@@ -1859,5 +1859,50 @@ The `orchestration_broker_thin_margin` pattern in the doctrine **does not exist 
 
 **Cross-references**: grounding note + gate spec linked above; transcript at canonical path; prior Wave-R+2-Commit-1 drain L1759+; doctrine + DECISION_REGISTER unchanged in this drain.
 
+---
+
+## Wave-R+2 Commit 5 — Registries + supersede decisions + SUEZ recommercialisation migration (2026-05-26)
+
+**Trigger**: Commit 5 of the Wave R+2 doctrine-rewrite 7-commit tranche per `docs/wip/planning/86-initiative-cluster-execution-coordinator/tranches/wave-r-plus-2-doctrine-rewrite-collaborator-share-4-base-1-overlay.md`. Closes the registry-loop after the doctrine (Commit 1) → chassis (Commit 2) → validator+runbook+tests (Commit 3) → governance (Commit 4) sequence; restores SUEZ commercial-model coherence under the 4-base + 1-overlay enum; lifts the 14 pre-existing dispatcher failures that tracked SUEZ pre-rewrite drift since Commit 3 b058e91.
+
+**Tranche class**: `internal_governance` (J-OP audience) layered with `canonical_csv_mint` (5 CSV mutations: DECISION_REGISTER append+supersede + COLLABORATOR_SHARE_REGISTRY migrate; sister specialty PRECEDENCE + HOLISTIKA_QUALITY_FABRIC governance-index propagation).
+
+**What this commit absorbed** (8 file scope contract):
+
+1. **DECISION_REGISTER.csv** — +5 active rows minted: **D-IH-86-EJ** (4-base + 1-overlay model superseding 3-shape enum) + **D-IH-86-EK** (parallel_invoice_stream_indicator field) + **D-IH-86-EL** (methodology_readiness 4-value axis superseding methodology-naive policy embedded in pre-rewrite D-IH-86-EG) + **D-IH-86-EM** (CS-09 overlay-base coherence + methodology-pattern coherence check) + **D-IH-86-EN** (test-suite refactor + xfailed-strict gate pattern). Plus 2 active→superseded flips: D-IH-86-DE (superseded by EJ; 3-pattern enum retired) + D-IH-86-EG (superseded by EL; pre-rewrite methodology-naive policy retired). Total rows 438→443; status mix 439 active / 4 superseded (was 2). Validator PASS.
+2. **COLLABORATOR_SHARE_REGISTRY.csv** — SUEZ recommercialisation migration: 3 SUEZ `orchestration_broker_thin_margin` rows deleted; 2 new rows authored (consulting_direct BASE 85/0 reflecting Holistika NET-AFTER-OVERLAY + bd_commission_overlay 0/15 carrying ONLY EFA's carved 15% commission so the cross-row sum=100 per CS-03 unified across-rows invariant); AISHA-CONTINUITY upgraded 17→20 cols with the 4 new columns populated. CS-01..CS-09 full sweep: 9/9 PASS. The 17-col xfailed-strict on-disk header parity test now XPASSes — decorator removed (Principle 5 verification gate executed correctly).
+3. **HOLISTIKA_QUALITY_FABRIC.md** — §6 13th-specialty row rewritten: 3-shape → 4-base + 1-overlay = 5-value enum; CS-01..CS-08 → CS-01..CS-09 validator; SHARE_REGISTRY 17→20 cols; override_kind 2→3 values. Frontmatter `ratifying_decisions` extended +5 rows EJ/EK/EL/EM/EN.
+4. **PRECEDENCE.md** — 5 rows updated: COLLABORATOR_SHARE_DOCTRINE (4-base + 1-overlay + 9-check + EJ/EK/EL/EM/EN lineage), COLLABORATOR_SHARE_REGISTRY (20-col + 5-value share_pattern + new columns + unified across-rows CS-03), COLLABORATOR_RATE_OVERRIDES (3-value override_kind), collaborator_share_registry_mirror (Commit 6 forward-migration ALTER TABLE breadcrumb), collaborator_rate_overrides_mirror (Commit 6 forward-migration ALTER TABLE breadcrumb).
+5. **CHANGELOG.md** — Commit 5 entry appended under `[Unreleased]`: registries + supersede decisions + SUEZ recommercialisation migration + governance-index propagation; 6 in-scope files with scope contract + forward-pointer to Commit 6 Supabase mirror DDL + Commit 7 closing-loop verification.
+6. **tests/test_validate_collaborator_share.py** — xfail-strict decorator removed from `test_share_registry_on_disk_header_matches_pydantic_ssot` (now plain PASS); the gate served its purpose by preventing Commit 5 from silently landing without SSOT/disk parity restored; docstring updated to record the gate-fulfilment lineage.
+7. **files-modified.csv** — +8 rows appended (1 self-row + 7 surface rows including the unanticipated test-decorator-flip row).
+8. **operator-scratchpad.md** — this drain entry.
+
+**Mechanical evidence** (all validators run pre-commit):
+
+- `validate_decision_register.py` → 443 rows / 439 active / 4 superseded → PASS exit 0
+- `validate_collaborator_share.py` (full sweep, not `--self-test`) → 9 findings (pass=9, warn=0, fail=0, skip=0) → PASS exit 0
+- `validate_hlk.py` → OVERALL PASS (14 previously-FAILing dispatcher tests now PASS — confirms Commit 5 lifted the SUEZ pre-rewrite drift baseline)
+- `pytest tests/test_validate_collaborator_share.py tests/test_collaborator_share_calculate.py tests/test_hlk_collaborator_share.py` → 167/167 PASS in 6.84s (was 166 PASS + 1 xfailed at end of Commit 3; xfailed → PASS at end of Commit 5)
+- `ReadLints` on test file → 0 errors
+
+**Findings disposition** (synthesis-sweep-equivalent — none surfaced new at this commit; the Commit 1 tranche-charter synthesis sweep covered the 7-commit lineage):
+
+- SYN-07 scope-extend disposition (multi-commit lineage) re-honoured by Commit 5 sticking to the in-scope 8-file shape; no scope creep.
+- No new commercial deviations; SUEZ recommercialisation is the planned target of this commit.
+- No new operator inline-ratify gates needed; all 5 decision rows are direct codifications of operator-ratified mid-architecture-session ratification from earlier in the Wave R+2 cycle.
+
+**Forward state (Commit 6 + Commit 7)**:
+
+- **Commit 6 (~20min; Supabase mirror DDL forward migration)** — file `supabase/migrations/<timestamp>_i86_waveRplus2_collaborator_share_enum_amend.sql`. Contents: (a) `ALTER TABLE compliance.collaborator_share_registry_mirror DROP CONSTRAINT IF EXISTS chk_share_pattern;` + new CHECK with 5-value enum (`consulting_direct`/`bd_intro_only`/`deep_partner_65_35`/`joint_venture_aventure`/`custom`); (b) `ADD COLUMN share_overlay TEXT NULL` with CHECK `(share_overlay IS NULL OR share_overlay IN ('bd_commission_overlay'))`; (c) `ADD COLUMN methodology_readiness TEXT NULL` with CHECK matching 4-value enum; (d) `ADD COLUMN parallel_invoice_stream_indicator BOOLEAN DEFAULT FALSE`; (e) on `collaborator_rate_overrides_mirror`: `ALTER TABLE ... DROP CONSTRAINT IF EXISTS chk_override_kind;` + new CHECK with 3-value enum (`market_rate_excursion`/`share_split_deviation`/`overlay_pct_deviation`); (f) rollback section reversing all ALTERs in reverse order. PRECEDENCE.md mirror rows already carry the Commit 6 forward-migration breadcrumb.
+- **Commit 7 (~20min; closing-loop verification)** — full pytest cross-suite + ReadLints + `validate_hlk` OVERALL + `validate_collaborator_share` full-sweep + `synthesis_before_tranche_check --check-charter` PASS confirmation against this tranche's charter (re-run shows all 5 in-scope dimensions PASS + SYN-07 still WARN-extend with `scope-extend` disposition honoured) + `sync_compliance_mirrors_from_csv.py --collaborator-share-only --count-only` PASS confirming mirror DDL accepts the migrated rows + files-modified.csv +N final rows + scratchpad drain entry closing the doctrine-rewrite tranche.
+
+**Operator-decision queue** (none open at this commit; everything in-scope is operator-ratified earlier in the cycle):
+
+- ⏭ No new questions for operator at Commit 5; all 5 decision IDs codify prior ratification.
+- ⏭ Commit 6 + Commit 7 expected to proceed without inline-ratify gates (mechanical migration + verification).
+
+**Cross-references**: CHANGELOG entry under `[Unreleased]`; tranche charter at `docs/wip/planning/86-initiative-cluster-execution-coordinator/tranches/wave-r-plus-2-doctrine-rewrite-collaborator-share-4-base-1-overlay.md`; doctrine at `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md` (Commit 1 rewrite sha 5cd9793); chassis at `akos/hlk_collaborator_share.py` (Commit 2 sha 57b9d24); validator + runbook + tests at sha b058e91 (Commit 3); governance authoring at sha 0d8168a (Commit 4); prior Commit 1.5 INTERSTITIAL drain L1805+; Wave-R+2-Commit-1 drain L1759+.
+
 <!-- end of entries -->
 

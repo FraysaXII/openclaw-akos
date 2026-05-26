@@ -263,23 +263,17 @@ def test_share_registry_pydantic_ssot_has_twenty_columns():
     )
 
 
-@pytest.mark.xfail(
-    reason=(
-        "on-disk SHARE_REGISTRY header carries legacy 17-col shape per "
-        "pre-Wave-R+2 SUEZ authoring; migration SQL "
-        "D-IH-86-EJ-EXT lands at Commit 5 of the Wave R+2 doctrine "
-        "rewrite tranche. Test flips to PASS once Commit 5 lands."
-    ),
-    strict=True,
-)
 def test_share_registry_on_disk_header_matches_pydantic_ssot():
     """The canonical CSV header on disk equals the Pydantic SSOT tuple.
 
-    Currently xfail-strict — flips to PASS at Commit 5 of the Wave R+2
-    doctrine rewrite tranche when the migration SQL + recommercialised
-    SUEZ rows land together. xfail-strict ensures Commit 5 cannot
-    silently land without the SSOT/disk parity restored (test will
-    XPASS and the suite turns red).
+    Was xfail-strict from Commit 3 (b058e91) → Commit 5 of the Wave R+2
+    doctrine rewrite tranche; flipped to plain PASS at Commit 5 when the
+    SUEZ recommercialisation migration restored SSOT/disk parity (3
+    `orchestration_broker_thin_margin` rows deleted; 2 new rows in the
+    20-col format authored — `consulting_direct` base + `bd_commission_overlay`
+    — and the AISHA-CONTINUITY row upgraded from 17→20 cols). Decorator
+    removal is the Commit 5 closing-loop signal that the SSOT/disk parity
+    bar is durably restored.
     """
     from akos.hlk_collaborator_share import (
         COLLABORATOR_SHARE_REGISTRY_FIELDNAMES,
