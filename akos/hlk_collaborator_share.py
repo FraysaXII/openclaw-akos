@@ -33,11 +33,13 @@ COLLABORATOR_SHARE_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "collaborator_id",
     "engagement_model_id",
     "share_pattern",
+    "share_overlay",
     "holistika_share_pct",
     "collaborator_share_pct",
     "collaborator_billed_rate",
     "collaborator_billed_rate_currency",
     "collaborator_role_class",
+    "methodology_readiness",
     "share_override_decision_id",
     "status",
     "signed_at",
@@ -45,6 +47,7 @@ COLLABORATOR_SHARE_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "signed_by_holistika",
     "last_review_at",
     "notes",
+    "parallel_invoice_stream_indicator",
 )
 
 VALID_SHARE_REGISTRY_STATUSES: frozenset[str] = frozenset({
@@ -56,59 +59,162 @@ VALID_SHARE_REGISTRY_STATUSES: frozenset[str] = frozenset({
     "archived",
 })
 
-# D-IH-86-DE (Wave R+1 Commit 2b-ext, operator ratification Q1-b 2026-05-25):
-# `share_pattern` is the top-level economic-model classifier per
-# COLLABORATOR_SHARE_DOCTRINE.md §2.1. Three patterns cover the operationally
-# observed shapes; CS-03 sum-to-100 logic + CS-04 default audit + the
-# `collaborator_share_calculate.py` runbook all branch on this field.
+# D-IH-86-EJ (Wave R+2 Commit 2 chassis update; full rewrite supersedes
+# D-IH-86-DE per operator ratification Q1=a_full_rewrite_now 2026-05-26):
+# `share_pattern` is the top-level economic-model classifier per the
+# rewritten COLLABORATOR_SHARE_DOCTRINE.md §2.3. The pre-rewrite 3-shape
+# enum (deep_partner_65_35 / orchestration_broker_thin_margin / custom) is
+# REPLACED with a 4-base + 1-stackable-overlay model. The pre-rewrite
+# values `orchestration_broker_thin_margin` AND `custom` are no longer
+# valid; pre-rewrite rows authored under either value MUST be migrated via
+# the Commit-5 supersede SQL.
 #
-#   - deep_partner_65_35:
+# Four base patterns + one stackable overlay:
+#
+#   - deep_partner_65_35 (PRESERVED from pre-rewrite):
 #       One row per (engagement, collaborator) pair. holistika_share_pct +
 #       collaborator_share_pct == 100 on the row. Default 65/35 deviation
-#       requires `share_override_decision_id` FK (CS-04 audit). Used for the
-#       Aïsha-on-SUEZ-operator-role shape (deep partner doing the ongoing
-#       operator work, sharing benefits with Holistika after transparent
-#       project costs are netted).
+#       requires `share_override_decision_id` FK (CS-04 audit). Used when
+#       Holistika contributes the full methodology + machinery + execution
+#       stack as the value of its 65% share, with the collaborator bringing
+#       the deal + operating the process under a B2B partner narrative.
+#       Worked precedent: Websitz / Rushly engagement.
 #
-#   - orchestration_broker_thin_margin:
-#       Multiple rows per engagement (one per hired collaborator). The row's
-#       `collaborator_share_pct` is THIS collaborator's slice of engagement
-#       gross revenue (e.g., 47% each for 2 collaborators); the row's
-#       `holistika_share_pct` is Holistika's per-collaborator margin
-#       allocation (typically thin, e.g., 6% on this collaborator's slice).
-#       Across all rows of the same engagement_id, the SUM of
-#       collaborator_share_pct + the SUM of holistika_share_pct must equal
-#       100. Holistika's total margin is the SUM of holistika_share_pct
-#       across rows (e.g., 6% if 2 collaborators each carry 3% Holistika
-#       allocation; or one of the rows carries the full 6%).
-#       Used for the SUEZ-engagement-overall shape (Holistika orchestrates
-#       + hires partner + researcher + executor with thin Holistika cut).
+#   - bd_intro_only (NEW per D-IH-86-EJ):
+#       Two-row engagement: BD-introducer row (15% BD commission +
+#       Holistika-corporate row (85% of revenue). Across-rows sum-to-100.
+#       Used when a collaborator introduces a deal but operates as a BD /
+#       account-manager only (no ongoing methodology consumption); the BD
+#       partner gets 15% as long as they nurture the account, Holistika
+#       delivers the full project with own resources or contracted help.
+#       Worked precedent: forward-charter (no live instances yet).
 #
-#   - custom:
-#       Per-row explicit split. NO automatic sum-to-100 check (operator
-#       takes responsibility for the cross-row math). REQUIRES
-#       `share_override_decision_id` FK on every row (CS-03 audit). Used for
-#       deals that don't fit either of the canonical patterns.
+#   - joint_venture_aventure (NEW per D-IH-86-EJ):
+#       Two-row engagement: 50/50 symmetric split. Default 50/50; deviations
+#       require `share_override_decision_id` FK + matching OVERRIDE row.
+#       Used when Holistika + collaborator pool methodology bench
+#       symmetrically into a co-created venture and revenue is split
+#       proportional to ownership (not labor); methodology-readiness must
+#       be `methodology_trained` (the symmetric framing assumes equal
+#       methodology bench, otherwise the discipline becomes asymmetric).
+#       Worked precedent: forward-charter (no live instances yet).
+#
+#   - consulting_direct (NEW per D-IH-86-EJ; DEFAULT when no collaborator):
+#       Default Holistika own-billing pattern. Single row (when no overlay
+#       present): holistika_share_pct = 100, collaborator_share_pct = 0;
+#       Holistika consults the customer directly and bills 100% of the
+#       project value. With `bd_commission_overlay` sibling row present:
+#       base row anchors at 85/0 + overlay row at 0/15 across-rows = 100.
+#       Used when Holistika delivers a consulting engagement own-account
+#       and the deal source (BD-introducer) is structurally separate from
+#       project delivery (commercially compensated via the overlay).
+#       Worked precedent: SUEZ POC (post-recommercialisation per
+#       D-IH-86-EL; Aïsha gets 15% BD commission overlay).
+#
+#   - bd_commission_overlay (NEW stackable overlay per D-IH-86-EJ):
+#       NOT a standalone share_pattern; declared via the `share_overlay`
+#       column (separate from share_pattern). Overlay row is paired with
+#       a sibling base row at the same engagement_id. Overlay row's
+#       collaborator_share_pct = the overlay percentage (e.g., 15);
+#       holistika_share_pct = 0. CS-09 audit enforces valid base pairings:
+#       overlay pairs with `consulting_direct` OR `deep_partner_65_35`;
+#       FORBIDDEN pairings with `bd_intro_only` (circular — overlay would
+#       restate the BD pattern) AND `joint_venture_aventure` (conflates
+#       symmetry with intro asymmetry). Worked precedent: SUEZ POC
+#       (Aïsha-as-BD per D-IH-86-EL).
 
 VALID_SHARE_PATTERNS: frozenset[str] = frozenset({
     "deep_partner_65_35",
-    "orchestration_broker_thin_margin",
-    "custom",
+    "bd_intro_only",
+    "joint_venture_aventure",
+    "consulting_direct",
 })
+
+VALID_SHARE_OVERLAYS: frozenset[str] = frozenset({
+    "bd_commission_overlay",
+})
+
+# Per CS-09 audit (D-IH-86-EJ): valid overlay-base pairings table. When a
+# row carries a non-empty `share_overlay`, its sibling base row(s) at the
+# same engagement_id must have a `share_pattern` in this overlay's set.
+# Forbidden pairings produce a FAIL finding.
+VALID_OVERLAY_BASE_PAIRINGS: dict[str, frozenset[str]] = {
+    "bd_commission_overlay": frozenset({
+        "consulting_direct",
+        "deep_partner_65_35",
+    }),
+}
+
+# Per D-IH-86-EN (methodology-readiness axis added at Wave R+2 Commit 1):
+# share_pattern eligibility is mandatorily gated by the collaborator's
+# methodology-readiness state. Prevents the "35% compromise to bridge a
+# methodology gap" failure mode operator named explicitly 2026-05-26.
+VALID_METHODOLOGY_READINESS: frozenset[str] = frozenset({
+    "methodology_trained",
+    "methodology_in_progress",
+    "methodology_naive",
+    "methodology_not_applicable",
+})
+
+# Per the rewritten doctrine §2.4: methodology-readiness gates which
+# share_pattern values are eligible. `methodology_trained` collaborators
+# unlock all 4 base patterns; `methodology_in_progress` collaborators
+# exclude joint_venture_aventure (symmetric framing requires equal bench);
+# `methodology_naive` collaborators exclude both deep_partner_65_35 (35%
+# share requires methodology contribution) AND joint_venture_aventure;
+# `methodology_not_applicable` collaborators (one-time BD-only
+# introducers; not expected to learn methodology) get the same restriction
+# as naive. The matrix prevents committing to share patterns the
+# collaborator structurally cannot fulfil.
+METHODOLOGY_READINESS_PERMISSIBLE_PATTERNS: dict[str, frozenset[str]] = {
+    "methodology_trained": frozenset({
+        "deep_partner_65_35",
+        "bd_intro_only",
+        "joint_venture_aventure",
+        "consulting_direct",
+    }),
+    "methodology_in_progress": frozenset({
+        "deep_partner_65_35",
+        "bd_intro_only",
+        "consulting_direct",
+    }),
+    "methodology_naive": frozenset({
+        "bd_intro_only",
+        "consulting_direct",
+    }),
+    "methodology_not_applicable": frozenset({
+        "bd_intro_only",
+        "consulting_direct",
+    }),
+}
 
 DEFAULT_SHARE_PATTERN: str = "deep_partner_65_35"
 
+# Per-pattern default anchors (per the rewritten doctrine §3 worked
+# examples). CS-04 audit fires WARN when an authored row deviates from
+# the pattern's default anchor without a matching OVERRIDE row.
+
+# deep_partner_65_35 anchor (preserved)
 DEFAULT_HOLISTIKA_SHARE_PCT: int = 65
 DEFAULT_COLLABORATOR_SHARE_PCT: int = 35
 
-# Typical orchestration_broker_thin_margin Holistika cut per the SUEZ-shape
-# operator framing 2026-05-25 verbatim: "Holistika has 6%". This is the
-# DEFAULT expected total Holistika margin across all rows of the same
-# engagement_id when share_pattern == orchestration_broker_thin_margin.
-# CS-04 audit fires INFO advisory when an orchestration_broker engagement's
-# total Holistika margin deviates from this value without an
-# `share_override_decision_id` row.
-ORCHESTRATION_BROKER_DEFAULT_HOLISTIKA_TOTAL_PCT: int = 6
+# bd_intro_only anchor (NEW; per doctrine §3.3)
+DEFAULT_BD_INTRO_HOLISTIKA_PCT: int = 85
+DEFAULT_BD_INTRO_COLLABORATOR_PCT: int = 15
+
+# joint_venture_aventure anchor (NEW; per doctrine §3.4 — symmetric 50/50)
+DEFAULT_JOINT_VENTURE_HOLISTIKA_PCT: int = 50
+DEFAULT_JOINT_VENTURE_COLLABORATOR_PCT: int = 50
+
+# consulting_direct solo anchor (no overlay sibling; per doctrine §3.2)
+DEFAULT_CONSULTING_DIRECT_HOLISTIKA_PCT_SOLO: int = 100
+DEFAULT_CONSULTING_DIRECT_COLLABORATOR_PCT_SOLO: int = 0
+
+# consulting_direct WITH bd_commission_overlay sibling anchor (per
+# doctrine §3.2 SUEZ corrected example): base row's holistika_share_pct
+# drops from 100 to 85; the overlay row covers the residual 15%.
+DEFAULT_CONSULTING_DIRECT_HOLISTIKA_PCT_WITH_OVERLAY: int = 85
+DEFAULT_BD_COMMISSION_OVERLAY_PCT: int = 15
 
 CSV_PATH_RELATIVE_SHARE_REGISTRY: str = (
     "docs/references/hlk/v3.0/Admin/O5-1/People/People Operations/canonicals/"
@@ -125,9 +231,11 @@ class CollaboratorShareRegistryRow(BaseModel):
     engagement_model_id: str = Field(min_length=1, max_length=64)
     share_pattern: Literal[
         "deep_partner_65_35",
-        "orchestration_broker_thin_margin",
-        "custom",
+        "bd_intro_only",
+        "joint_venture_aventure",
+        "consulting_direct",
     ]
+    share_overlay: Literal["bd_commission_overlay", ""] = ""
     holistika_share_pct: int = Field(ge=0, le=100)
     collaborator_share_pct: int = Field(ge=0, le=100)
     collaborator_billed_rate: float = Field(ge=0)
@@ -135,6 +243,12 @@ class CollaboratorShareRegistryRow(BaseModel):
         pattern=r"^[A-Z]{3}$", min_length=3, max_length=3
     )
     collaborator_role_class: str = Field(min_length=1, max_length=120)
+    methodology_readiness: Literal[
+        "methodology_trained",
+        "methodology_in_progress",
+        "methodology_naive",
+        "methodology_not_applicable",
+    ]
     share_override_decision_id: str = ""
     status: Literal[
         "draft", "proposed", "signed", "active", "settled", "archived"
@@ -144,6 +258,20 @@ class CollaboratorShareRegistryRow(BaseModel):
     signed_by_holistika: str = ""
     last_review_at: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
     notes: str = ""
+    # D-IH-86-EK (Wave R+2 Commit 2; post-handshake debrief 2026-05-13 grounding
+    # per source-grounding-post-handshake-2026-05-26.md §3 finding F-PI-01):
+    # explicit parallel-invoice-stream indicator. When True, the engagement
+    # bills the customer via TWO PARALLEL invoice streams (Holistika +
+    # collaborator each invoice the end customer directly for their share),
+    # rather than the default single-billing-entity pattern (Holistika invoices
+    # the customer for 100% and pays the collaborator). Parallel streams
+    # materially change the contract shape, VAT treatment, and dispute-
+    # resolution surface; the indicator MUST be explicit (never inferred) so
+    # downstream settlement + invoicing tooling can branch correctly.
+    # Default False = single-billing-entity (the historical default). Optional
+    # because pre-rewrite rows do not carry the column; the validator's
+    # CSV-header sha check (CS-01) catches the schema drift at Commit 5.
+    parallel_invoice_stream_indicator: bool = False
 
 
 # =============================================================================
@@ -360,6 +488,12 @@ COLLABORATOR_RATE_OVERRIDES_FIELDNAMES: tuple[str, ...] = (
 VALID_OVERRIDE_KINDS: frozenset[str] = frozenset({
     "market_rate_excursion",
     "share_split_deviation",
+    # Added at Wave R+2 Commit 2 per D-IH-86-EJ: when a
+    # bd_commission_overlay row deviates from its
+    # DEFAULT_BD_COMMISSION_OVERLAY_PCT (15) anchor, the override row
+    # carries this kind to make the deviation auditable separately
+    # from the base row's share_split_deviation.
+    "overlay_pct_deviation",
 })
 
 VALID_OVERRIDE_STATUSES: frozenset[str] = frozenset({
@@ -381,7 +515,11 @@ class CollaboratorRateOverrideRow(BaseModel):
     override_id: str = Field(
         pattern=r"^OVERRIDE-[A-Z0-9-]+$", min_length=10, max_length=64
     )
-    override_kind: Literal["market_rate_excursion", "share_split_deviation"]
+    override_kind: Literal[
+        "market_rate_excursion",
+        "share_split_deviation",
+        "overlay_pct_deviation",
+    ]
     engagement_id: str = Field(min_length=1, max_length=120)
     collaborator_id: str = Field(min_length=1, max_length=64)
     reference_rate_id: str = ""
@@ -407,8 +545,8 @@ def default_split_holds(holistika_pct: int, collaborator_pct: int) -> bool:
     default 65/35 split for the deep_partner_65_35 share pattern. Per CS-04
     audit: non-default split on a deep_partner_65_35 row requires an
     OVERRIDE row + DECISION_REGISTER FK. CS-04 does NOT fire for
-    orchestration_broker_thin_margin or custom patterns (each has its own
-    default-audit semantics).
+    bd_intro_only / joint_venture_aventure / consulting_direct rows
+    (each has its own per-pattern default helper below).
     """
     return (
         holistika_pct == DEFAULT_HOLISTIKA_SHARE_PCT
@@ -418,32 +556,32 @@ def default_split_holds(holistika_pct: int, collaborator_pct: int) -> bool:
 
 def split_sums_to_100(holistika_pct: int, collaborator_pct: int) -> bool:
     """Return True iff the per-row share splits sum to exactly 100. Per CS-03
-    audit, applies row-locally for share_pattern == 'deep_partner_65_35'. For
-    'orchestration_broker_thin_margin', the sum-to-100 invariant applies
-    ACROSS-ROWS for the same engagement_id (see
-    ``orchestration_broker_sum_holds``). For 'custom', no automatic check
-    applies (operator carries the math invariant on themselves).
+    audit: applies row-locally for share_pattern == 'deep_partner_65_35'.
+    For 'consulting_direct' WITHOUT overlay, also applies row-locally
+    (100/0). For 'bd_intro_only' and 'joint_venture_aventure', the invariant
+    applies ACROSS-ROWS for the same engagement_id (see
+    ``across_rows_sum_to_100``). For 'consulting_direct' WITH a
+    bd_commission_overlay sibling row, the invariant also applies
+    across-rows (85+0 + 0+15 == 100).
     """
     return holistika_pct + collaborator_pct == 100
 
 
-def orchestration_broker_sum_holds(
+def across_rows_sum_to_100(
     rows_for_engagement: list[tuple[int, int]],
 ) -> bool:
-    """Return True iff the across-rows sum-to-100 invariant holds for an
-    orchestration_broker_thin_margin engagement.
+    """Return True iff the across-rows sum-to-100 invariant holds for a
+    multi-row engagement. Per CS-03 across-rows variant: this sum must equal
+    exactly 100 for any engagement composed of multiple SHARE_REGISTRY rows
+    (bd_intro_only / joint_venture_aventure / consulting_direct+overlay).
 
     Args:
         rows_for_engagement: List of (holistika_share_pct, collaborator_share_pct)
-            tuples, one per registry row sharing the same engagement_id and
-            carrying share_pattern == 'orchestration_broker_thin_margin'.
+            tuples, one per registry row + overlay-row sharing the same
+            engagement_id.
 
     Returns:
         True iff (sum(holistika_pcts) + sum(collaborator_pcts)) == 100.
-
-    The Holistika total margin is sum(holistika_pcts); the collaborator-side
-    total is sum(collaborator_pcts). Per CS-03 across-rows variant: this sum
-    must equal exactly 100 for any orchestration_broker engagement.
     """
     if not rows_for_engagement:
         return False
@@ -452,30 +590,63 @@ def orchestration_broker_sum_holds(
     return (total_holistika + total_collaborator) == 100
 
 
-def orchestration_broker_default_margin_holds(
-    rows_for_engagement: list[tuple[int, int]],
-    expected_pct: int = ORCHESTRATION_BROKER_DEFAULT_HOLISTIKA_TOTAL_PCT,
-) -> bool:
-    """Return True iff the total Holistika margin across all rows of an
-    orchestration_broker_thin_margin engagement matches the doctrine default
-    (6% per operator framing 2026-05-25). Per CS-04 across-rows variant:
-    deviation requires `share_override_decision_id` on AT LEAST ONE row of
-    the engagement.
-
-    Args:
-        rows_for_engagement: List of (holistika_share_pct, collaborator_share_pct)
-            tuples, one per registry row sharing the same engagement_id and
-            carrying share_pattern == 'orchestration_broker_thin_margin'.
-        expected_pct: Expected total Holistika margin. Defaults to the
-            doctrine-canonical 6% per ORCHESTRATION_BROKER_DEFAULT_HOLISTIKA_TOTAL_PCT.
-
-    Returns:
-        True iff sum(holistika_pcts) == expected_pct.
+def bd_intro_default_split_holds(holistika_pct: int, collaborator_pct: int) -> bool:
+    """Return True iff a bd_intro_only row matches the 85/15 default anchor.
+    Per CS-04 audit for bd_intro_only: deviation requires an OVERRIDE row.
     """
-    if not rows_for_engagement:
-        return False
-    total_holistika = sum(row[0] for row in rows_for_engagement)
-    return total_holistika == expected_pct
+    return (
+        holistika_pct == DEFAULT_BD_INTRO_HOLISTIKA_PCT
+        and collaborator_pct == DEFAULT_BD_INTRO_COLLABORATOR_PCT
+    )
+
+
+def joint_venture_default_split_holds(holistika_pct: int, collaborator_pct: int) -> bool:
+    """Return True iff a joint_venture_aventure row matches the 50/50 default
+    anchor. Per CS-04 audit for joint_venture_aventure: deviation requires
+    an OVERRIDE row.
+    """
+    return (
+        holistika_pct == DEFAULT_JOINT_VENTURE_HOLISTIKA_PCT
+        and collaborator_pct == DEFAULT_JOINT_VENTURE_COLLABORATOR_PCT
+    )
+
+
+def consulting_direct_solo_default_holds(holistika_pct: int, collaborator_pct: int) -> bool:
+    """Return True iff a consulting_direct row WITHOUT an overlay sibling
+    matches the 100/0 solo default anchor. Per CS-04 audit for
+    consulting_direct (solo): deviation requires an OVERRIDE row.
+    """
+    return (
+        holistika_pct == DEFAULT_CONSULTING_DIRECT_HOLISTIKA_PCT_SOLO
+        and collaborator_pct == DEFAULT_CONSULTING_DIRECT_COLLABORATOR_PCT_SOLO
+    )
+
+
+def consulting_direct_with_overlay_default_holds(
+    holistika_pct: int, collaborator_pct: int
+) -> bool:
+    """Return True iff a consulting_direct base row WITH a sibling
+    bd_commission_overlay matches the 85/0 anchor. The overlay row carries
+    the residual 0/15. Per CS-04 audit for consulting_direct+overlay:
+    deviation requires an OVERRIDE row.
+    """
+    return (
+        holistika_pct == DEFAULT_CONSULTING_DIRECT_HOLISTIKA_PCT_WITH_OVERLAY
+        and collaborator_pct == 0
+    )
+
+
+def bd_commission_overlay_default_holds(
+    holistika_pct: int, collaborator_pct: int
+) -> bool:
+    """Return True iff a bd_commission_overlay row matches the 0/15 anchor.
+    Per CS-04 audit for overlay rows: deviation requires an OVERRIDE row
+    with override_kind == 'overlay_pct_deviation'.
+    """
+    return (
+        holistika_pct == 0
+        and collaborator_pct == DEFAULT_BD_COMMISSION_OVERLAY_PCT
+    )
 
 
 def share_pattern_is_valid(share_pattern: str) -> bool:
@@ -483,6 +654,58 @@ def share_pattern_is_valid(share_pattern: str) -> bool:
     VALID_SHARE_PATTERNS. Per CS-08 audit: unknown values fail immediately.
     """
     return share_pattern in VALID_SHARE_PATTERNS
+
+
+def share_overlay_is_valid(share_overlay: str) -> bool:
+    """Return True iff share_overlay is a recognised enum value per
+    VALID_SHARE_OVERLAYS, OR the empty string (no overlay declared). Per
+    CS-08 audit extension: unknown non-empty values fail immediately.
+    """
+    return share_overlay == "" or share_overlay in VALID_SHARE_OVERLAYS
+
+
+def overlay_base_pairing_is_valid(
+    share_overlay: str, base_share_patterns: list[str]
+) -> bool:
+    """Return True iff every base share_pattern in ``base_share_patterns`` is
+    a permissible pairing for the declared ``share_overlay``. Used by CS-09
+    audit to validate that overlay rows only pair with allowed base
+    patterns. Empty overlay or empty base list returns True (no overlay
+    means no pairing constraint applies).
+    """
+    if share_overlay == "":
+        return True
+    if share_overlay not in VALID_OVERLAY_BASE_PAIRINGS:
+        return False
+    if not base_share_patterns:
+        return False
+    permitted = VALID_OVERLAY_BASE_PAIRINGS[share_overlay]
+    return all(base in permitted for base in base_share_patterns)
+
+
+def methodology_readiness_is_valid(methodology_readiness: str) -> bool:
+    """Return True iff methodology_readiness is a recognised enum value per
+    VALID_METHODOLOGY_READINESS. Used by CS-08 audit extension.
+    """
+    return methodology_readiness in VALID_METHODOLOGY_READINESS
+
+
+def methodology_permits_share_pattern(
+    methodology_readiness: str, share_pattern: str
+) -> bool:
+    """Return True iff the collaborator's methodology_readiness state
+    structurally permits the engagement's share_pattern per the doctrine
+    §2.4 permissibility matrix. The matrix prevents committing to share
+    patterns the collaborator cannot fulfil (e.g., a methodology_naive
+    collaborator cannot anchor at deep_partner_65_35 because the 35% share
+    presumes methodology contribution).
+    """
+    if methodology_readiness not in METHODOLOGY_READINESS_PERMISSIBLE_PATTERNS:
+        return False
+    if share_pattern not in VALID_SHARE_PATTERNS:
+        return False
+    permitted = METHODOLOGY_READINESS_PERMISSIBLE_PATTERNS[methodology_readiness]
+    return share_pattern in permitted
 
 
 def bill_mode_matches_default(service_class: str, bill_mode: str) -> bool:
@@ -531,9 +754,17 @@ VALID_COLLABORATOR_SHARE_CHECK_CODES: frozenset[str] = frozenset({
     "CS-05-BILL-MODE-DEFAULT-CONSISTENCY",
     "CS-06-RATE-WITHIN-MARKET-BAND",
     "CS-07-OVERRIDE-EXPIRY-AUDIT",
-    # Added at Commit 2b-ext (D-IH-86-DE) — validates share_pattern enum
-    # membership + applies pattern-conditional logic to CS-03 + CS-04.
+    # Added at Commit 2b-ext (D-IH-86-DE; extended at Wave R+2 Commit 2
+    # per D-IH-86-EJ): validates share_pattern + share_overlay +
+    # methodology_readiness enum memberships + applies pattern-conditional
+    # logic to CS-03 + CS-04.
     "CS-08-SHARE-PATTERN-ENUM-VALIDITY",
+    # Added at Wave R+2 Commit 2 per D-IH-86-EJ: validates overlay-base
+    # pairing matrix. Overlay rows must pair with a permitted base
+    # share_pattern at the same engagement_id; forbidden pairings
+    # (bd_intro_only + bd_commission_overlay; joint_venture_aventure +
+    # bd_commission_overlay) produce FAIL findings.
+    "CS-09-OVERLAY-BASE-PAIRING-VALIDITY",
 })
 
 
@@ -607,6 +838,7 @@ class CollaboratorShareAuditRow(BaseModel):
         "CS-06-RATE-WITHIN-MARKET-BAND",
         "CS-07-OVERRIDE-EXPIRY-AUDIT",
         "CS-08-SHARE-PATTERN-ENUM-VALIDITY",
+        "CS-09-OVERLAY-BASE-PAIRING-VALIDITY",
     ]
     subject_path: str = Field(
         ...,
