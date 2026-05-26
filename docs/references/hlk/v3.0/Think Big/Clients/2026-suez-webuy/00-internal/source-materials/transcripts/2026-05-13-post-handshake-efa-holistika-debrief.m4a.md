@@ -1,0 +1,1766 @@
+# Transcript — Post-handshake EFA x Holistika debrief (2026-05-13)
+
+Source: `2026-05-13 - GDF SUEZ - EFA x Holistika meeting after customer handshake.m4a`  
+Model: openai-whisper small (CPU)  
+Language: French (forced)  
+Transcription elapsed: 1281.7s  
+Generated: 2026-05-26 04:36:26  
+
+## Full transcript
+
+La lumière ? La maison, du bâtiment. Et... Oui, tout le monde. Pendant un bon temps. Et moi j'étais... Mais en train de monter, descendre, en train d'appeler la... La proprio... Je ne pensais pas appeler, parce que j'étais en téléphone. En train de... En train de barder, honnêtement. Parce que tu m'as vu avec un sourire, à la réunion. Mais cinq minutes avant... Ah là là. Je n'ai pas crié, mais presque. Ah oui, désolé vraiment. Ah là là, j'étais stressé. Je disais, c'est pas possible. Avec tout ce qu'on a travaillé pour ça. Cette signe. C'est pour ça que je ne peux pas vous dire non, 100% aux gens que vous êtes d'énergie. Je laisse toujours, je dis, j'ai ma façon, mais je respecte non. Il y a des choses comme ça, qui arrivent. Oui. Et comment ça a été, d'un côté ça a été, j'ai pensé à toi tout le temps. Oui, oui, j'ai présenté un peu pourquoi... Pourquoi on est là. Je pensais que c'était une bonne solution pour eux, parce qu'une entreprise qui ne l'alise pas, c'est une entreprise qui évoque disparaître comme Coudac. Il faut y aller, et que nous on est encore dans des moyens un peu heurcaillés, ils sont un peu fermés, mais peut-être que la DSI, c'est pas dans le projet, ils ne connaissent pas tout ça. Je ne suis même pas sûr qu'ils connaissent tout ça, donc ça peut les aider, ouvrir d'autres perspectives, et voir ce qui est possible de faire. Notamment, je pense que si on rajoute la partie, la partie, tu sais, avec les... avec le travail du bout de la chaîne, du bouton du point, je pense que ça peut être très intéressant de se forcer à travailler cette partie-là pour pouvoir présenter toute la chaîne, et vraiment aider les gestionnaires dans ton fonction, qui sont carrément... Ils suffoquent, ils ont peu fût, tu vois, parce qu'ils ont tout cet administratif, donc il faudrait que je trouve ce côté-là, et qu'on travaille aussi avec Ryan, pour... OK, responsables performances, qui a la visu du service, et qui pourraient bien t'expliquer, et qui pourraient aussi te dire comment on pourrait travailler les choses automatisées. On peut travailler avec lui. C'est parfait. Et proposer cette partie-là, et c'est vrai que le bras droit de la directrice, c'est Monsieur Régal, c'est le prochain état, tu sais, avec l'entreprise, il faut parfois pouvoir toucher la personne qui décisionnait. Bien sûr, et aux personnes à côté de... Voilà, c'est ça. Donc lui, c'est la première étape, c'était vrai, c'était une technique, mais peut-être pas décisionnaire, tu vois. Non, non, non, non, non, non. Normal, donc... Oui, pas si, pardon. Pardon. Donc là, je discutais avec lui, il me disait, oui, mais OK, il y a cette partie-là, il va me mettre en place, donc là, j'en veux dire, c'est le cas avant de travailler la partie commerciale, en tout cas, le classical, et il me dit, voilà, où tu pourras arriver à faire septembre, comment on fait, parce que là, juin, juillet, ça va être les vacances, tout le monde s'en va, septembre, ça va être fini, peut-être une proposition. Tu vois, c'est cette partie-là, il me dit, voilà, faites-nous quelque chose de concret, d'ici une semaine, pour pour cette partie maintenance, vous me disiez. Donc il faut que j'assure cette partie maintenance que nous, on assure cette partie automatisation, et qu'on fasse que c'est deux choses différentes, en fait. Oui, oui, oui. Oui, je pense, pareil. Oui, c'est ça, c'est ça. C'est ce que je... Je ne sais pas quand. Voilà, parce qu'en fait, eux ils disent, voilà, mais du coup, comment ça se passe après, pour vous, votre contrat, le suivi, que je m'inquiète, tout. Donc, comment ils me disent, faites-nous une proposition écrite et concrète, donc je ne sais même pas comment faire ça. Oui. Pour dire, en fait, je vais continuer les saisies, indépendamment de l'automatisation, tu vois, et après, du coup, ça viendra comme une suite, en fait. Voilà, exactement. Parce que je pense que ça peut les intéresser dans beaucoup de choses, parce qu'il a pris beaucoup, beaucoup d'honneur, il y a plein de trucs que... Je pense qu'il... Pour des projets suètes, parce que celui, pour moi, voir, lui, si tu arrives à le combattre, je t'assure que tu as tout gagné. Parce qu'il y a deux projets, oui, il est célèbre, le bras, le bras, le bras, le déleter, après, c'est ça. Oui, c'est vrai. Donc, du coup, tu... dedans, quoi. Oui. Donc voilà, moi, j'aimerais bien, ça serait vraiment bien, parce que ça nous apprend à faire la vente, ça nous apprend à parler, et ça nous fait de l'entraînement, quoi, tu vois, parce que pour pouvoir toucher des personnes comme ça, tu les sais jamais, quoi, tu vois. C'est ça. Donc, on se prépare. Moi, en éman, c'est les... c'est les pas, hein. C'est d'ailleurs, ce que tu as dit, c'est ce que je te dis le dimanche. Quand tu le disais de mettre là maintenant, maintenant. Tu le rappelles? Oui. Et je disais que non, parce que c'est deux choses. Et lui, tu as dit ces deux choses. Quand le client te dit la même chose que ce que ton partenaire, c'est là où on pense à la stratégie du partenaire. Ça, c'est le truc que j'ai avec mes partenaires. Pareil que toi. Quand tu dis la même chose que moi, j'écoutais de lui, comme aujourd'hui, mais pareil. Alors, opérationnellement, je suis... Donc, je sais de te dire, alors, par ça, que ce n'est pas de problème. Si quelqu'un a ta maison, parle comme ton client, ça veut dire que tu es bien. C'est pour ça que moi, je te rends tranquille, moi, je suis tranquille, parce que je sais que toi, tu dis, de ce que moi, je ne sais pas, tu parles, par exemple. Tout ce que tu m'as dit maintenant, c'est l'or pour moi. C'est justement ce qui me donnait la crainte. Tu as vu, c'est ça la force. Donc, on est forts. Parce que tu as les contacts, tu as les personnes, tu as les qui et qui, pourquoi importants qui, où on doit parler. Excellent. Moi, j'ai tous les réunions que tu as besoin. Donc, ne t'inquiètes pas, pose-les. Seulement avec un peu de avance, parce que je dois... J'en fais avec le travail, mais on peut toujours... J'ai des horaires libres tous les jours, et on peut cadrer. Il n'y a pas de problème. Et donc, on les voit, un par un. Et on va remplir le même... Te rappelles qu'il y a les esports qui sont pour le client, moi pour toi et moi et le client, mais j'ai le mot d'opératoire. Juste, tu sors des esports, et tout ça, qui sont des... des archives que tu peux ouvrir en DOCS. Ça s'appelle Magdan, parce que c'est très facile à automatiser la mise en place et au régissement de... de cette info. Bien, ça c'est le mot d'opératoire. Et plus on sait, plus il grossit. D'un côté. Par exemple, déjà avec ça, je vais mettre à jour. C'est la réunion qu'on a eue, et l'info que tu me donnes maintenant. Et donc... Après, pour qu'on leur donne... Voilà. Pour qu'on donne un compte rendu d'après les deux, j'envoie quelque chose. Exactement. Ce que je lui ai dit à la réunion, c'est que je voudrais vous envoyer la semaine prochaine les documentations. Donc ça, c'est là où il y a le step. C'est-à-dire, il faut qu'on fasse, alors, toi et moi, la même chose qu'on a fait dimanche, et on grossit notre info. Par contre, j'ai grossi le faux aussi, après le dimanche. Et comme ça, on se suit le temps. Et donc, en plus, toi, tu sais, lui, c'est pas mais toi, c'est... que c'est vraiment automatisé, en plus. Semi-automatisé, je veux dire. Je travaille beaucoup, mais... Et lui, pour lui, moi, j'ai dit qu'il y a plusieurs. Parce que pour lui, pour justifier ça, il faut toujours dire qu'on est à plusieurs. Sinon, c'est pas croyable. Oui. Et en plus, c'est vrai, ça fonctionne, mais seulement qu'on est dans des moments dans lesquels les gens dépréjugés à des choses. Et il faut qu'on capitalise, parce que c'est comme ça qu'on travaille comme une grosse boîte au moyen, au moins. Et il ne savent pas. Donc, nous, on a des ingénieurs qui vont sortir la solution, bien sûr. Auton mail, c'est pas un problème. On va sortir les choses qu'il a dit. Donc, moi, ce que je te propose, c'est... j'ai deux options. Quand on rend du e-mail, ou directement mail, moi, j'ai dit, on va vous envoyer mail la semaine prochaine. Mais on fait qu'on rend du e-mail. Moi, j'envoie ça après. Comme ça, il peut transférer au numéro celui qui se ressemble. Il sera déjà depuis qu'on a parlé. Oui, mais le truc, c'est ça. C'est que quand il transfère, je voudrais bien qu'il ait de la bonne info. C'est ça le truc. Donc, moi, je propose plutôt de faire une autre chose. Parce que, tu vois, si la présentation, par exemple, oui, on peut l'envoyer tel quel. Ça, il n'y a pas de problème. Il fallait qu'on conduit comme ça. Il y a des charges aussi ou pas ? Non, exactement. Je crois pas. Parce que, comment tu penses ? Non, non, non. Non, on ne voit pas. Il a vu, il s'existe, il n'en voit pas. Exact. Magnifique. Parce que, comme ça, on fait la présentation, il envoie qui il veut. Comme tu as dit, on sait que ça parle de ça. Et toi et moi, on travaille sur le cahier de charge. On peut parler d'endre. Et aussi, les choses plus techniques de rajouter. Parce que, maintenant qu'on a loqué de parler techniques, on va dédier le module pour parler de ça. Et ça, on peut envoyer. C'est mon prochain. Et donc, du coup, si on ajoute en plus le fait de j'ai des comptes Microsoft. Je ne voulais pas... Oui, j'ai dit. J'ai dit aussi dans la réunion que j'ai mes propres des comptes. On a tout activé. Les composants qu'on a vus ensemble en France, qui étaient plusieurs, parce qu'on ne sait pas jamais d'où ils peuvent venir. Et donc, on va les activer. Je vais les utiliser. C'est tous les cas d'usage. Parce que c'est super important. Mais le... C'est-à-dire? Il y a ou ce qu'est... Les usages au case. Ou... Non, je le dis quand on va faire la présentation de pourblier les usages au case. Oui, oui, oui. Mais, je les convaincre sur Microsoft, tu veux dire. Non, la présentation qu'on va faire avec le directeur de pourblier les cas pratiques, parce que les gens, ils aiment bien les cas pratiques. Les usages au case que tu as déjà eu, que tu as déjà mis en place. Parce que tout à l'heure, tu as dit, on a déjà mis chez IBM, le système courant, tu dis que c'est IBM, mais tu pourras que tu mettes ce que tu as mis en place. Mais je peux pas montrer lui, c'est-à-dire que je lui dis à lui aussi, et lui il était d'accord. Non, en fait, toi tu enlèves le nom de IBM et tu montres un use-case, sans que l'on te prie. Mais attends, c'est ce que j'ai dit à lui et il lui l'est à comprendre. C'est surtout parce que lui et moi, on est d'accord sur ce que je vais te dire. Parce que lui il a dit, je peux pas montrer ça. C'est... Comme tu montes un cas pratique, il a fait une présentation... Non, non, mais en plus, c'est vraiment catégorique sur ça que moi, je pourrais jamais faire une photo à un cas usage d'IBM. Et spécialement d'IBM. Peut-être si tu me dis d'une entreprise petite, je te le... Ok. C'est pour ça que je fais des entrepies petites, parce que je vais du cas usage, justement. On est dans la création des cas usage plutôt. D'ailleurs, je t'ai appelé à faire partenarci avec moi, parce que je voulais que tu me donnes des cas usage. C'est pour ça que j'ai besoin que tu sois avec moi. Ok? Je peux pas montrer des cas usage. C'est pour ça que je... Sinon, je t'accélérerai beaucoup plus. En plus. C'est... Toi, c'est... Ma boîte, elle est dans cet état, en fait. Et donc, comme c'est... Mais comment tu vais pour montrer une solution que tu as mis en place en expliquant... un contrat quand même de 6 chiffres en 2024, dans lequel on était à plusieurs, sans montrer. Et lui, il a compris. En plus, il était d'accord. Parce que, en plus, c'est... J'explique bien, je lui ai dit je peux pas porter des images de mes clients. Et c'est vrai, je peux pas faire un screenshot. Je peux pas faire un screenshot. Et même pas, comme tu disais, pour lever la marque. Non, non, je peux pas faire un screenshot. Tu vois, ça saute. Sur toi, il va même. Et donc, il lui a compris. Il m'a dit, ok, il n'y a pas besoin de montrer alors. Tu vois, ce que tu as fait avant. Et j'ai dit, ce que je peux faire, c'est aller à Microsoft, ce que je disais avant, d'entrer ici, que j'ai des comptes Microsoft. J'ai des comptes Google. J'ai des comptes dans tous les composants pour littéralement créer les cas usage que je parle chez moi. Et il va le montrer. Et il a dit, ah, mais ça c'est excellent, c'est parfait, parce que comme ça, on peut voir. Ça veut dire que tu montres un cas usage avec ton compte Microsoft. Exact, exact. Oui, c'est ça que je disais. Non, non, tu disais d'un autre client. Et pour ça, je disais que, parce que un autre client, c'est important. Parce que les gens, ils te demandent. Lui-même, il a demandé. Un autre client aussi. C'est pour ça que je voulais qu'on soit ensemble. Non, c'est à dire, regarde. Tu montres un cas usage. C'est pas le screenshot d'une entrepêue bien entendu. C'est très défendant. C'est comme si tu vas aller montrer, lui-bas, quelqu'un d'autre. Non, non, mais ça se fait. C'est pas normal. Non, non, oui, oui, ça se fait. Oui, oui, ça se fait. Moi, j'ai travaillé aussi dans des boîtes grandes qui peuvent se permettre. Si tu te demandes de la confidentialité, bah tu dois aussi pouvoir ne pas montrer leur or. Non, non, c'est pas ça. C'est pas ça. C'est que tu as demandé. Ça existe. Et c'est que lui a demandé. Ça se fait. OK, ça se fait. Mais c'est moi qui n'aime pas. Je lui ai dit, OK, il aime, non. Mais ça se fait. Par exemple, moi, je vois, il y a des consultants de Play Waterhouse Shoppers qui sont venus à L'Oréal. Ils ont fait un screenshot. Ils ont le fait comme tu as dit. OK. Mais ce sont des Press Waterhouse Shoppers. Parce que, mon lit, il a fait ici, hein. Il a fait un travail ici. Il a montré, mais il a même dit que c'était à Combes. Et si il a dit que c'est la bonne chose, c'est à Combes. Bon, je dis bien. Mais il faut rembrentre, non, c'est pas. Mais, mais, mais bon, après, mais après, chacun, chacun fait ce qu'il veut. Mais moi, ce que je veux dire, c'est que j'aime prendre. Et moi, mon grand, il me dit que ce que je vais faire, c'est que je vais te le créer. Pourquoi? Mais je vais vous aller dire que il faut qu'on soit ensemble, parce que ça se fait. Mais moi, je n'ai pas les cas d'usage. C'est pour ça que je ne suis pas en train de, de, c'est même les chiffres sont différentes. Et, étonnement, on va gagner. On aura des cas d'usage. On va taxer plus, littéralement. Et, et donc, après, bon, on est dans cet état. Mais c'est pas un problème. Parce que j'ai fait, alors, les procès que tu connais, tu te rappelles qu'il y a 1066. C'est pour ça. Il y a 1066, je me le dis, 1066 procès. Il y a 1066. Voilà. Le excel que tu avais vu avec moi en France, que c'est, c'est, c'est ça, quand même, en opératoire. Et, et donc, ça me permet alors de dire pas de problème à beaucoup de choses. Pas à tout, mais au moins, si ça entre automatisé par automais, c'est dedans. Et, et voilà. Donc, on montre le notre, c'est notre stratégie, je vais dire. C'est bien. C'est le nouveau. C'est un cas pratique, c'est parfait. Voilà, c'est le moins un cas pratique. En plus, on peut changer. Si il disait, non, non, mais ça aussi, tu peux le faire, parce que c'est pas pris sur toi. Ben oui. Après le cas pratique, tu peux monter ce que tu veux. Moi, je donne des exemples de cas pratique. C'est Lila qui me l'a donné, mais voilà. Je compte dans l'été, je mets ça et puis voilà quoi. Ouais. Ok, ça marche. Oui, on peut faire d'autres. Ah, bien tiens, on peut faire un message qui combine les deux choses qu'on a fait. On a dit très moins que c'est créé le cas pratique de, ici, la première chose. Mais si on peut, peut-être on peut même créer d'autres, nous inventer littéralement d'autres. Oui, c'est ça. Exactement. Mais je le vendrais pas comme si c'était d'autres personnes, d'autres, d'autres. Je le vend comme, un peu comme je te disais avant que... Un cas du zâche. Oui, oui, bien sûr. Mais surtout, je veux que tu vends de la capacité de l'hôlistical de les faire. Il faut que tu vends de le faire. Si tu veux que l'on d'un ici, il faut vendre notre savoir-faire. C'est... Ouais, je pense que c'était bien parce que au début, il y a juste une chose, il y a deux choses. Bien sûr, bien sûr. Moi, je pense que c'est bien que tu dises que tu as ta boîte, tu dis pas que je suis en train de créer, tu as ta boîte, tu passes avec tes boîtes, tes entreprises, et bah ça. Tu dis pas, je suis en train de payer, tu mâches ça, tu as ta boîte, et puis voilà, c'est tout, point bas. Et la deuxième chose, c'est que tu présentes bien l'hôlistical, c'est vrai que tu l'as fait à la fin et que moi je l'avais fait quand tu n'étais pas arrivé, mais c'est bien de présenter les six facteurs pour que les entreprises voient bien qu'on n'est pas en train de révoler. Parce que ça, ça m'a transformé de savoir que voilà, t'es dans l'opérationnel et t'as oublié de regarder les finances, t'as oublié de regarder ça, t'as oublié de regarder ça. Et ça, c'est bien que tu nous positionnes au début comme un diagramme ou quelque chose comme ça. Et là, c'est parfait. Wow, très bon conseil, merci beaucoup. Et la prochaine fois, on va prier tous les dieux parce que moi hier soir, j'ai médité, j'étais intentionnelle, j'ai fait plein de trucs. Donc tu vas prier tous les dieux pour qu'on te coupe pas la lumière, je suis pas intentionnelle. Ah, c'est bon. Oui, non, ça jette. Mais ça fait partie du jeu ça, on t'en fait partie. Mais ça veut dire c'est très bon, c'est... Ça alors, je crois que c'est pourquoi si tu vas au côté spirituel, je peux te dire exactement ce qu'il s'est passé. Jettez, je vais prendre trois heures du matin, en train de changer les choses. Ah oui, j'ai su que tu avais tout à l'heure. J'ai su que tu avais tout à l'heure. Mais parce que les temps, c'est vraiment magique. Vendredi, on parle de hockey, gros live. Dimanche, on fait la stratégie. Et tous les documents qu'on a présentés aujourd'hui, c'était pour lundi, déjà. Et mercredi, on a raffiné les choses en plus. Ah oui, tu te l'aimes. Oui, je crois que là, on a les temps maintenant sous contrôle. Tu as vu, maintenant, on a on a dit une semaine et après il y a deux. Et après on verra, non? Et après, tout ce que tu vas placer, si tu places à la semaine, ou même au roulier, à la semaine ou trois jours, les pédales réunions extra qui peuvent sortir, que tu m'as dit que de la procédure. On va toujours avoir un contrôle sur le temps. Et je te dis qu'on va voir les choses. Moi, non, maintenant, j'ai les choses cinq jours avant, ou trois jours avant. On peut dire. Et on les parle et tout. Je crois qu'on est bien. Je crois qu'on a bien fait la affaire, honnêtement. Il y a partie de travailler avec les systèmes d'intervention, si on rajoute ça, ça va même intéresser le chef de service qui est en vacances. Parce que vraiment, ils sont sous l'eau. Et en fait, des commandes, ils sont sous l'eau parce que des fois, ils ne vont pas traiter. Et puis un jour, ils vont se réveiller, ils vont sortir cinq ans de l'un coup, parce qu'ils sont sous l'eau. À partir de l'administratif, il faut automatiser ça. Ça, c'est clair. Et donc, il faudrait qu'on ait une session de travail avec eux, pour que tu comprennes un peu comment ça fonctionne, parce que ça, par contre, je ne pourrai pas t'aider. C'est magnifique. Moi, ce que j'en peux faire, c'est, on peut aller là-bas. Je vais noter ce qu'ils vont dire. Et donc, je vais enrichir notre mode opératoire, notre rallye de chat. Exactement. C'est pareil. C'est ça. Automatiser pour qu'ils viennent juste pour valider, qui n'est pas tout l'administratif, parce qu'ils envoient un mail, après, le mail repart à eux, après, il faut qu'ils valident et puis machin. Ils négocient les deux vies, enfin, c'est... Voilà. Mais moi, la semaine prochaine, il m'a dit qu'il y a une proposition, je ne sais pas du tout comment faire. Ah oui, la proposition. Avant ça, est-ce que tu pourrais m'expliquer le jour à jour de la personne que tu m'as dit, maintenant qui est très intéressant, juste que je lui m'as dit juste avant, juste avant, le jour à jour. Oui, parce que tu m'as dit qu'après, il y a des deux vies et tout, qu'est-ce qu'ils font ces personnes-là? Ah, il y a... Brian, je vais te mettre en contact avec lui, on pourra faire un échange en vision. Je vais programmer un team avec lui la semaine prochaine, parce que là, il y a le pont ici, on finit aujourd'hui, on reprend que l'indie. Ah oui, c'est vrai. Donc, du coup, j'essaie de programmer un team avec lui l'indiumardi, une heure, tu me dis, et lui, il sera ouvert, il va nous cadrer, et en fait, un team avec lui, il est arrivé il y a six mois, il est responsable de performance. Et du coup, il est seragé de travail, donc il a bien compris comment ça fonctionne. Et donc, l'idée, c'est quoi c'est que les gestionnaires d'intervention ils ont la frappe, ils sont trois, il y a des gestionnaires d'intervention qui sont trois, et il y a les techniciens d'intervention dans toute la France, ils sont deux à parcourir toute la France. D'accord? Et c'est pas assez. Pour ça, il disait, il faut faire un troisième, déjà. Il faut parcourir toute la France, aller voir les sites, les marchands, est-ce que c'est le pièce, est-ce qu'ils font bien l'entretien des machines, est-ce que tu vois? Et maintenant, des responsables d'intervention qui sont ici avec moi qui me donnent les commandes, c'est eux qui vont négocier les pièces, les prix, les maintenance, et puis il y a une personne qui se plus aussi de tout ce qui est entretien, tu sais, comme ta voiture, tu as besoin de faire un contrôle technique, mais les machines aussi, il faut faire des contrôles techniques, parce que c'est obligatoire par l'État, tu vois? Donc il y a une qui se plus que des contrôles techniques, parce que tu vois, pour plus de 700 machines, il faut suivre tout ce qui est réglementaire. C'est le réglementaire. Et quand il y a ces contrôles techniques, c'est un coup, donc il y a un envoy des commandes qui ont dit, il y a eu un contrôles technique pour cette machine, 150 euros, il y a eu des frais d'entretien pour cette machine, 1200 euros, tu vois? Donc il y a une qui se plus que 200. Et trois autres qui ont la France divisée en trois, d'accord? Pour ça que trois, ils sont débordés, et là avec les machines, ils ont demandé déjà un quatrième, et avec le nombre de machines qui vont monter, on va faire un cinquième, mais ils n'en ont jamais un cinquième, ils ne vont pas mettre deux, tu vois? C'est impossible. Au niveau coup, c'est impossible. Donc à un moment donné, ils ont mis, ils en ont les attend, et ils sont prêts à craquer au mois de juillet, si on n'en rajoute qu'un seul, parce qu'ils ont déjà, ils nous ont parlé un, là, c'est normal d'en demander un, d'avoir rajouté des machines, vous n'allez pas les laisser comme ça, vous vous en rajoutez un, mais il en faudrait d'eux. C'est pour ça que l'automatisation, c'est qu'elle arrive, elle arrive bien. Et donc les bées, c'est que eux, ils sont en contact avec les sites, donc parfois ils vont vite faire sur un site parce qu'ils n'ont pas de temps, parce qu'il y a un site qui a eu une panne sur la machine, donc il faut la maintenir, il y a le site, il y a eu ceci, parce que les sites travaillent parfois toute la nuit, ils font des tri, et puis il y a des pannes, il faut commander des pièces, il faut commander de l'huile, parfois il faut commander des yatsous, quoi, les causes des litiges, yatsous, et tu vois, les factures qu'on envoie, c'est parce qu'il y a de la maintenance, il y a de la location aussi, il y a des entreprises avec qui on bosse, parce qu'on bosse beaucoup, beaucoup d'entreprises, et donc c'est ces commandes de ces entreprises-là que je fais. Location de sites, fourniture d'huile, remplacement d'une pince, remplacement d'un verrin, il y a des trucs, il y a tout. Donc déjà, ils doivent déjà voir que les fournisseurs ils respectent le contrat, parce qu'il y a quelqu'un, ces charlottes, elles sont publiées des achats, il y a quelqu'un qui rassure sur l'abacha, elle va négocier les prix, elle va négocier les contrats, donc eux, ils doivent s'assurer que si on commande une roue, qui coûte 12 000 euros, une roue, parce qu'il y a eu un problème, parce que il s'était percé, ils doivent s'assurer que les fournisseurs respectent les tu vois, ils respectent le contrat, ils respectent le cahier des charges. Donc parfois, ils disent, voilà, il y a une facture, ils disent, on peut passer là, parce qu'on est pas d'accord avec la facturation, on est pas d'accord avec nos deux vies, on est pas d'accord avec ça. Donc il y a des allers autour qui se font entre eux et les fournisseurs, et quand maintenant c'est validé, ils me disent, voilà, tu peux faire une bonne commande, c'est validé. Ils mettent la personne en copie, et moi je fais ça, on parle à la personne, tu vois. Il y a toutes ces négocessions-là qui se fait, et toutes ces tapraces, voilà. Et pour plus, il faut avoir avec Brian. D'accord, c'est très clair. Je vois. C'est très intéressant, je crois qu'on est assez prêt, parce que si on fait ça... Comme ils sont trois pour toute la France, c'est pas assez. C'est pas assez. Oui, comme tu dis, c'est bon mot en plus. Ok, parfait. On peut... Oui, en plus ça va aider au cadrage, parce que si on invente des cadrages, on peut faire des cadres qui sont similaires, à ce qu'ils font, et aussi intéresser d'autres personnes aussi. En tout cas, le cadre de charge, il va être ajouté avec ce module. Ok. Ok. Et donc ils auront... Quand on peut envoyer ça, ça sera un bon cadre de charge, quand même. Et donc, ça va être demandé aussi ça, parce que la variante A, c'est le cadrage. Et le cadrage, c'est... C'est-à-dire le document financier, il y a le cadre de charge au final. Et il y a des soucis là. C'est simple, parce que je voulais aussi voir les tas. C'est pour ça qu'on va pas lui envoyer, on va devoir décider. Non, non. Parce que ça peut se modifier, parce que ça va bouger. Oui, et surtout parce que ça peut être le document final, ou un des documents finales, on peut dire, du projet. Exactement. Oui, exactement. Ok. Donc... Non, non, on en voit pas. Et finalement, on a le document final. Parce qu'on parlait d'immenses, que le fait c'est de faire... Moi, je suis tranquille quand je fais presque la finalité du projet. Et comme ça, c'est plutôt remplir. On peut dire. Ok. Et voir avec Brian, ou autre personne que tu penses, ça va remplir. Et ça donne seulement la sécurité que tu sais que ton cadre de charge il va faire au moins 100 pages. Bien 100 pages. Oui, parce qu'on a déjà... Bon, je sais pas, mais on a quand même quelques-uns. Non, non. C'est 20 ans plus tard. 20 ans, je crois. Oui, à peu près. Et on a nécessairement nos idées, en plus. Donc, tu rajoutes la partie de technologie, qui est un module aussi. Et ensuite, en conversation avec la DSI, on saura alors le monde opératoire technique. Le même que j'ai à la maison, mais fait pour eux ici. D'accord. Et ça fera aussi, moi j'imagine, 20 pages à 30. Et après, si il y a un cas d'usage d'autres personnes, ça remplit, ça remplit. Chaque personne peut faire... Je crois que je te trouve justement, M. Riban qu'on va rencontrer. Il avait fait... Il avait passé une semaine ici pour voir un peu comment on peut améliorer le tout le monde, surtout. Et au final, il avait dit, toi, tu ne sauras rien. Toi, tu... Ah bon? Toi, tu devrais travailler comme ça, toi, tu devrais travailler comme ça. Vous n'avez pas besoin de quelqu'un en plus. Ah bon? Et il y a un cours de rendu, et je te donne un petit peu de temps à rester comment on te dit. Ok. Magnifique pour la politique, c'est parfait. Merci. Je trouve ça de fréran. De où il est sorti? Je travaille, je viens de commande de jeux. Manger par jaune, je me dis, wow. Ils avaient toujours eu des personnes qui ne tappaient pas autant. Je rentre dedans, je les fonce tout, mais à un moment donné, je ne peux plus le faire. Oui. Et les jeunes qui étaient là, ils faisaient pas tout ça, quoi. Et à un terme, c'est impossible. Oui, absolument. Non, et c'est intéressant. Est-ce que tu penses que je peux, comme je suis là, avoir un modèles de présentation de partenariés en freelance pour faire ça? Oui, voilà. Oui, voilà. C'est vrai. On passait à là maintenant, c'est le reste. En fait, moi, je crois que je suis d'accord avec ce qu'ils pensent aussi. Et c'est bien, c'est d'ailleurs que, monsieur Hubert, c'est que, en fait, maintenant, imagine-toi quand on a le contrat. Et imagine-toi que la variante, c'est C. Je parle de là, OK? Si c'est A, rien ne change. Ce serait au futur, ceci. Et si c'est C, c'est maintenant. Et donc, au final, toi, tu as déjà fait le travail stratégiquement, même lui, à la fin, il a fait un résumé du co-branque qu'on parlait hier. La même chose. Moi, je suis tranquille avec le brand Conan. Il a compris que c'est un co-branque que tu avais la contrainte de passer en partenariat après, que tu as décidé, aller voir un externe. Il a dit comme ça, un partenaire externe. Et de ramener ici. Il a tout compris. Donc, c'est vraiment bien, je crois. Avec cette union, je crois qu'il a tout compris ce que tu es en train de faire. En plus, c'est vrai. Et donc, moi, ce que je te propose, c'est faire le co-branque. C'est-à-dire, continuer en plus de pas y est de charge. Et comme ça, tu as le reste. Tu as le circulier compris que tu as porté ici. Tu as tout ce que tu veux, de technologie, derrière. Et donc, tu peux faire des choses, ou bien tu fais le co-branque. Et tu dis, oui, je vais continuer à saisir. Ou bien, tu fais le co-branque. Et tu sais que, ici, on touche opérationnel. Et ça, c'est un service. Et c'est maintenu par EFA, tout simplement. Et tu saisis, comme tu fais toujours, rien ne change pour eux. Et tu cadres la cifre que tu penses. Et tu veux mon avis, on peut toujours en discuter. Mais voilà. Oui, moi, je me suis déjà pensée, je me suis dit voilà, je fais ça et je prends un e-pay avec des charges parce que c'est avec les charges en train de l'impôt. C'est parce que c'est simile de charges avec les charges. Je me dis, je prends un freelance, je continue la cédie, c'est un mille et ça me permet de sous-traiter. C'est ça que je veux d'en faire comme proposition. Il faut que je le passe, il m'a dit de préparer pour la semaine prochaine une offre. Il en faut pas, ça, tu m'as dit. 5 000 en... par mois ? Ouais. Ok. Si c'est 5 000 par mois, moi je crois. Oui, je le propose. Ok. Et tu voulais se t'analyser. Et donc, lui l'a compris et moi aussi, j'ai compris de lui qu'il a dit la même chose que toi maintenant. Et donc, du coup, je crois que t'as bien fait l'affaire de son point de vue, avec cette réunion. Pas du bien, mais de lui, il a compris que tu viens de l'exécuter ce que t'as dit, mais que t'as mis le pas d'avant, simplement. T'as mis le pas d'automatisé. Mais donc moi, si c'était toi, je ne séparais pas. T'es en train de chercher un cobron dehors, de son point de vue. Et t'as trouvé et ça fait comme ça. Donc, c'est vrai qu'au final, moi, je peux peut-être élargérer les opérations de ça. C'est-à-dire faire la même chose qu'on fait maintenant et donc ça prend quand bien. Donc, tu gères la relation avec le client, tu gères tout ce que tu fais aujourd'hui. Tu expliques les mots d'opératoires qu'il y a, comme tu expliquais que tu parles en tech, tu as tout expliqué. Tu continues à faire ça. Et après moi, il faudrait que je casse le service de gestion, de grade, tu vois, et en précisement, le suivi, de ce qu'on fait. C'est maintenant ça, c'est ça? Mais c'est de maintenant. C'est de maintenant? Oui, c'est de maintenant. Et là, maintenant, on va faire comme proposition. Ça, tu as dit que ça venait après, c'est ça? Bon, non, ça vient maintenant si on est tactiques. Et t'as demandé de faire une proposition. Oui, il me dit, nous, on voudrait votre entreprise et ses créations et joie, voilà, nous, ce qui est urgent parce que votre contrat arrive bientôt, je fais une proposition à l'Aéras et tout, il me demande qu'est-ce qu'on crée derrière. On voudrait pas se séparer de vous, est-ce que vous pouvez nous faire de l'oeuf? Voilà. Pour continuer les saisies. Donc, du coup, c'est ça que je voulais lui proposer. Je lui ai dit que je vais en venir ça la semaine prochaine. Mais c'est pas différent ce que j'ai dit, non? Oui. C'est littéralement la même chose. C'est pour ça que je... Il faut qu'on soit aussi à côté de ce que lui il pense, parce que lui, il a compris la même chose. Il a dit, ben, de la recherche c'est un partenariat. Donc, c'est pour ça que je crois que c'est important de continuer la conversation qu'on a avec lui. C'est à dire, à moi aussi, il m'a demandé la maintenance. Il m'a dit, et vous n'avez pas préparé la maintenance de ça, comment c'est? Et moi, j'ai dit, quand même, je fais quoi? C'est après, c'est ça? Non, j'ai dit que je savais pas si même ça, c'était logique ou vous. Si vous étiez d'accord. Et quel système vous avez aussi? Donc, et après, nous avons accès, de la variante, les variantes A, B, C. Et donc, c'est là où on crée la maintenance. Moi, si c'était toi, je porterai un message un peu similaire. Parce que, là, si c'est d'un côté, tu l'as même tarifié. Donc, j'ai une proposition seulement avec de couleur. Je peux me faire de couleur, de couleur noire et tout. C'est vraiment... Moi, je ferai pas beaucoup plus. Une proposition vraiment très simple, de 5 pages. Et que tu connaisses déjà en plus. Et ça, tu tarifas 5 000. Et tu assaisis et tout. Si toi, tu me l'envoies, moi, j'intègre ça dans ce qu'on fait. Et moi, si c'était toi, je parlerai de ce qu'on fait. Parce que, je dirais, tu vois, tu peux me faire un produit unique, tu vois. Et je le dirais. C'est pour ça que le début, il faut qu'on soit un peu tactique. Parce que le plus intéressant, c'est plutôt d'injecter ça, avec ta maintenance, grossir la chiffre d'affaires. Et on parler de la répartition. On parlera. Il y a un maintenance que je dois faire quand même humaine. Je ne peux pas être la personne à faire bourge, tout le temps. Et tout ça, donc du coup, il faut qu'on parle du service. Et j'ai ça aussi, à la maison. J'ai des documentations pour faire la même chose que je fais avec les bales de charge. Et donc avec ça, moi, on est tranquilles. On a le document de ce qu'on va faire comme maintenance. Interne et externe. Avec la même chose que la composition. La même qu'aujourd'hui. C'est... C'est tout le monde. C'est juste la difficulté pour l'instant, comme on apprend qu'on revendu la première partie. Lui, il veut... la condensation qu'on a eue après. Il se dit, oui, c'est vrai que c'est un très bon projet. Il me dit, c'est super. Est-ce qu'il peut faire ça ? Je lui dis, oui. Il fait vraiment beaucoup de choses. Et justement, les cas d'usage vont répondre aux questions. Il me dit, moi, ce qui m'inquiète, c'est que je voudrais vraiment vous aider à sécuriser cette partie-là. Et je me dis, si j'arrive à sécuriser cette partie-là, à peine que la songeois, on est déjà là. Et derrière, derrière, je peux me comprendre. Et après, on peut voir comment on fait la deuxième partie maintenant de l'autocou. Tu vois, en fait, c'est ça son inquiétude. Oui. Je sais pas comment on peut faire ça. Mais c'est de lignes seulement. C'est-à-dire, si la position qu'on a fait, c'est de lignes d'un de vie. C'est la maintenant technique, on peut dire, ou... Oui, technique opérationnelle. Oui. C'est vrai que le technique aussi sont des opérations. En final, c'est le jour-à-jour des accidents, des choses qu'il faut changer. Non, du coup, on verra le nom, mais c'est de lignes, en final. Et tu m'as dit que c'était 5 nids, très bon, très belle chiffre, honnêtement, c'est bien. Oui, moi, je prends 5 nids, parce que c'est vraiment beaucoup de taffes. Exactement. Et tu sais que c'est juste, et comme ça, même si c'est beaucoup de taffes, voilà, c'est bien, bon. Et... Et derrière, surtout, tu vois, ça, le truc. Exactement. Et moi, je dois faire pareil. Je rajoute tout ça, c'est-à-dire que moi, je pense comme toi, moi, j'opère comme toi. Le chiffre que je domme, c'est pour soutraiter. Voilà, la partie des techniques aussi, pareil. Il faudra que... Moi, je sais comment soutraiter ça aussi. Et de façon pas... pas chère, tu vois, et de qualité et tout. Mais mes systèmes, même ma dégâtaie créée pour aider ces personnes-là, donc du coup, il n'y a pas de problème à ce sujet. Et j'en ai quand même des gens formés aussi pour m'aider à faire comme moi avec eux aussi. Donc voilà. Je... je... je penserai le défi. Euh... C'est vrai que pour la semaine prochaine, c'est un peu juste de penser le défi de cette partie-là. Mais... Ouais, mais je suis obligé, je vais être obligé de... de faire, je sais pas comment je vais le faire. OK. Je suis obligé de faire. OK. Pour que... pour faire rentrer, en fait, création du joueur, donc c'est vraiment important que je rentre. Non, non, bien sûr. Parce que du coup, si je rentre, je pourrai rentrer derrière, tu vois. Non, non, mais attends, il y a un truc. Il y a deux options. Oui. Il y a A, ton truc. Il y a B, le autre truc. Mais c'est seulement que toi et moi, il faut qu'on pense les deux. C'est-à-dire qu'on va pas... c'est pas qu'on va pas faire les deux. Mais je dis qu'il faut être les deux. Si je parle dans tes mots, on peut dire. OK. C'est-à-dire, quand tu parles de faire... de faire A, qui est faire le... ton dossier. Moi, je dis que oui, bien sûr. Mais on devrait faire les deux choses. Ton dossier et le courant dossier. Une est une ligne de 5 000, qui est un dossier de 5 pages, qui a un brun de EFA. Où tu peux le faire blanc ou noir. Toi, blanc cassé. Comme tu as fait avec une des couleurs de tesquettes jeunatres. De bas-grands. Et... les lettres noires et fines. Toi, je viens prendre comme ça, c'est tout. Et des petits axes en verre. Et... ça, c'est A5 pages. Toi, la première et la cinquième, ce serait même des... comme moi, le couvert et l'autre. En verre. Ça en verre et en blanc. Par exemple, elle reste en verre. Et tu fais seulement un, c'est la même chose que tu m'envoyais. C'est qui? Deux, c'est alors directement la proposition service. Je ferai à gauche expliquer la contrainte. Et à droite expliquer tes opérations. Je fais six, je fais ça, je fais ça autant de chiffres. Parce que c'est vraiment plus pour toi parler. Pour parler plutôt. Et c'est le cadre de chiffres. D'accord. Oui, c'est vrai que je n'ai pas trop compris, mais vas-y, elle est aussi seule. Non, mais le cadre de chiffres... C'est-à-dire qu'après, on rajoutera la ligne dans le truc, c'est ça, dans la proposition après qu'on va faire avec le... Oui, voilà, c'est certain. C'est certain de dire pour tant d'enquiments. Si tu n'as pas compris, dis-moi. Je te le dis encore, parce que... Je n'ai pas compris. On va mettre la proposition dans la grosse proposition après. Après, mais si tu m'as... Et on rajoutera du coup la partie maintenant, ce qui demandait tout à l'heure. Voilà, voilà, exactement. C'est le B, l'action B. Et l'action A, l'action A, c'est ça que tu m'as dit, même si la B existe, que tu as besoin. C'est pour ça que je t'ai expliqué tout ça. Pour que tu saches ce que tu dois faire. Toi, dans ce que tu m'as dit, que tu ne savais pas faire la proposition que tu as envoyé. Oui, après, je vais me sortir un truc. Mais donc, si il faut rester dans la cohérence, je te conseille seulement... Oui, voilà, après, si tu as un paria, je te conseille d'être en train de donner slide par slide, ce que tu devrais mettre. D'accord. 5 slides. 1 et 5 sont les couverts. Pas de problème. C'est le bronze. Le vert. Vers la obscure que tu as. Et le balcon. Et le blanc, les lettres. Et il y a ce type de problème, là, mais il y a un peu. Le 2. Il ne faut pas faire un contrat, un truc comme ça. Un contrat de partenariat, un truc comme ça. C'est plus sale, t'as raison. Mais d'abord là... Plus sale de propositions, plus les deux. Les deux documents. Moi, j'ai aussi ça pour nous. Tu peux t'inspirer, si tu veux. C'est dans l'export. Et c'est... Je crois que c'est... C'est deck, je crois. C'est bon. ... ... ... ... ... Oui. Ah oui, excusez-moi. Ça s'est coupé. Quoi? Vous avez le recoussité, ça y est, c'est en vous? Oui, non, c'est revenu. C'est pas la ligne qui est coupée. Mais oui, voilà. On était sur le slide. Donc le 2e. Moi, je faisais le 2e qui soit... Le 2e claim qui soit celui qui représente ton world. Qui tu es. Et là, oui, tu peux mettre la photo par exemple. ... Pourquoi pas? Ça que tu mets des fois. Avec le dossier. Là où? Le jocade. De typique que tu mets quand tu dis je suis à Ychakamin. Et qu'est-ce que c'est? Ah oui, oui d'accord. Le 2e slide, c'est ça. Ma photo en moi? Oui, là oui. Parce que... Et pas par exemple, ce qui vient de des fâts. Ah ouais, tu sais que j'aime pas ça. Bon, non, non. Oui, ok, si tu préfères pas, c'est mieux. Mais comme des fois tu veux parler de toi, et des fois je vois que tu mets la photo, mais si tu préfères pas, mais si tu es comme moi, parfait. Laisse comme ça. Et parle comme dans ton world, et parfait. Ça c'est le 2e slide. Et après le 3e. Moi je mettrai à gauche, tu vois, dans deux colonnes. La celle de gauche peut être un peu plus petite. Je mettrai là-bas le pourquoi. Qu'est-ce qui se passe? D'accord. Et là tu mets un peu, en bas du tout, tu peux mettre en horizontal. En bas du tout, des chiffres. Comme un cercle de gémite. Et les commandes et tout ça. Et en plus tu as les mêmes messages de toute façon. Parce que c'est les mêmes messages automatisés que de faire. Oui, c'est le même. Et voilà après, à droite, de la colonne de droite, qui est un peu plus grande. Là-bas je mettrai, tu vois, tout ce qui est un procès. Tu peux même faire des cadres. 5 cadres expliqué. Je fais 6, ça, ça, ça. Et ça explique tout. Parce que normalement, c'est censé être toi en train de parler normalement. J'imagine. Et le troisième, c'est là-bas tu mets les chiffres. Un cadre similaire à celui que j'ai. D'accord. Ok. 5 cadres, tu as 10, 60? Oui. Après c'est le contreporté. Bon. C'est couvert et l'autre, je repartis. Le premier, le cinquième, c'est en vert. Et le reste, tu peux le faire en blanc cassé. Tu as blanc cassé avec les lettres noires et verres oscures comme tu l'as. Avec les lettres blanches. D'accord. Ok. Un truc comme ça, j'imagine, si tu dis ça, par exemple, tu fais ou tu as une idée, tu le fais, il va pouvoir faire. Après, si tu veux faire d'autres slides, c'est plutôt complémentaire. Mais avec ça, je crois que tu as déjà le tout pour en parler. Ok. Je vais essayer de voir. J'aurais dû noter ce que tu as dit. Je vais faire les 5 slides. Mais du coup, ton poursure, il a dit il y a toutes les infos en fait. Parce que c'est pas mieux si tu commandes lui demande de faire ça, comme il a des infos, est-ce qu'il peut le faire? Le problème, c'est que c'est le brand que j'ai donné. Il lit les couleurs jusqu'au code de couleur. Et tout. Et le message, par exemple, il a les choses comme ne parle pas technique, les choses comme ça, que je m'en sais, qui sont mes défauts. Ce qu'il faut faire, ce qu'il faut faire. Et donc c'est pour ça que j'ai du mal à changer à notre brand. C'est ce que je veux faire en fait. Ce n'est pas que je ne veux pas faire, mais je suis en train de l'améliorer pour pouvoir faire. Donc c'est seulement parce que c'est très tôt. Mais si c'était pour juin, à partir de juin, comptes avec ça. D'ailleurs, c'est un truc que je vais vendre. Parce que si je réussis à faire ça, je voudrais savoir, tu vois, ton avis. Parce que c'est un autre service de brand. Et en vend sur marketing, je t'ai dit que je passe par une agence, mais je ne veux pas passer par une agence, en fait. Je voulais l'agence à la maison. D'accord. Mais juin, c'est bientôt, de toute façon. Oui, en plus c'est bientôt. Mais juin, mais je voudrais qu'il me sorte aussi une convention de partenariat en fait. C'est ça que je voudrais. Là, au-dessus de la des slides, tu vois, je voudrais une convention. Parce que c'est ce qu'il veut en plus. Non, mais sur export, je crois que tu as un exemple que tu peux utiliser pour t'inspirer. C'est... Attends, je vais te dire lequel. Il y a un que j'ai fait comme ça. Dans nos documents un peu... Tu vois, ne pas envoyer. Ils sont bien cadrés, mais qu'ils sont plus intents. On peut dire. Il y a la proposer le customer, je crois que c'était... C'est ça proposer le customer, c'est ça qui... Donc fais le slide de avant, si tu veux. Et après, tu passes littéralement ça et c'est plus pour un, c'est tout. Et même le casier de change, c'est de façon le casier de change, c'est ce que tu fais. Et tu lui dis de faire une proposition comme ça. Hum hum. Donc en 1, tu m'as dit... Attends, je vais re-noter en... Tu m'as dit 5 slides, hein. 5 slides. Oui. Alors le 1, c'est... Ben, je le notais. Je lui l'ai envoyé ça à Jiminy. Oui. En 1, tu me l'as dit en 1, tu mets... Tu mets la... Tu mets la couverture. La proposition. La couverture? Oui. Comme moi là-bas. La proposition... La proposition de soi. 2, tu m'as dit... Le 2? Le 2, le photo et... Oui, ou sans photo, hein. Sans photo, il n'y a pas trop d'air. Mais en tout cas, ça représente le world que tu vas envoyer. Tu représentes le world que je vais envoyer? Oui. Et tu lui dis comme ça? Ah lui, si tu fais pareil, tu lui dis le 2ème slide, je veux que ça représente le world, si. Celui-ci. Celui-là, celui de Wassa. Le world de... Le world de la convention, c'est ça? De ta boîte. Non, ok, oui. Ok, ça va. Oui, oui. Le document world. Le document world. Ok. Et ça, tu... Voilà, ça c'est le 2ème. Et le 3ème, c'est... Là, il faut que tu essaies de faire un peu de design. Je propose à la colonne de gauche, un peu plus petite que la colonne de droite. Que seulement tirer vertical. Et à gauche, tu mets les choses qui sont importantes pour... Pourquoi... Qu'est-ce que tu... Pourquoi tu es là? C'est-à-dire, qu'est-ce qui se passe? Et donc tu dis... Tout ce que tu m'expliques. Bon, pas tout, mais un peu comme moi. Il y a un peu les choses les plus critiques qui soient... Chaudes, on peut dire. Tu mets comme ça 3. Et tu expliques. Et 3 choses se expliquent. C'est-à-dire les tiges, c'est pas... 3 choses. Et en bas, en bas du tout, en horizontal, je mettrai des chiffres. 3 chiffres. Les premiers commandes, pour centaines de litres, je sais pas. Et dans la colonne de droite, là-bas, je mettrai alors des cadres qui représentent ton procès. Le procès, c'est à dire? Le procès en détail, du tout. Tu peux faire un cadre avec un titre, un sous-titre si tu veux dire plus. Ou tu peux faire seulement le nom de tes procès. Tu sais quand tu prends le carré de charge et tu prends les titres. D'accord, ok. Et voilà. Avec ça... C'est l'objectif de faire ça, de mettre le procès, parce que ça, en quoi ça va aller, c'est pertinent de mettre le procès. Il faut qu'il sache ce que tu fais. Qu'est-ce qu'ils sont en train de payer? Il n'y a pas quelqu'un qui gère beaucoup de commandes, c'est le volume. Le chiffre, ça va plus parler. Et ça, on va. On va. Mais il faut qu'il sache ce que tu fais. Parce qu'ils vont avoir un problème et ils vont dire que la solution à toi, c'est quoi? Tu vas reprendre l'argent seulement parce qu'on a un problème. Ils vont te dire non. Tu es en train de faire ça pour gérer ton problème. Et donc ça, c'est des cinq choses que tu as. Trois ou... Visuellement, tu vois, tu peux choisir trois choses qui sont une solution. Tu peux pas avoir deux problèmes. C'est-à-dire, tu as attiré l'attention avec tes problèmes, oui. Mais c'est pour ça que tu es en barre en horizontal. Parce que l'important, c'est plutôt qu'est-ce qu'il se passe, qu'est-ce que tu veux faire. Donc là-bas, moi je propose que tu sois chargé parce que j'imaginais que peut-être c'est ce qu'il parle, mais prends le mot qui comprenne pour savoir que c'est sous contrôle. Et après, le troisième, c'est la proposition économique. La solution? Et la proposition économique. Tu peux le faire. Ah, ok. La quatrième, ça, tu veux dire? Excuse-moi, je couvre. Oui, la quatrième, ça. Merci. Et la cinquième, c'est pareil, que la première. Ok, d'accord. Tu vois, tu peux rajouter la rouverture, voilà. Tu peux rajouter, mais tu as pas beaucoup de temps et en plus tu te connaisses et tout. Il fait, il fait ça. Alors, voilà. Et derrière, après, je génère ce que tu as dit, le document, ça. Et après celui-ci, l'autre, le comprendre. Ça peut te dire? Oui, je génère. Le contrat de partenariat de la précaution. Oui, c'est vrai. Après, il y a la propose à l'en soi. C'est vrai? Merci. Et voilà. Ici, tu as un exemple. Je crois que tu peux... Ne le compier pas, parce que c'est vrai que il y a quand même le... C'est le savoir-faire aussi de vouloir, mais c'est ça. Et bien, celui-ci de proposer à l'FR, c'est assigné. D'accord. Ok. Une fois que j'ai fait mes slides, je demande de me générer la propose à l'FESAN. Oui. Ok. Totalement. Et avec ça, t'es tranquille. Je crois que c'est bien. Dans le futur, en fait, Madera, c'est ça, Madera, c'est... Donc, on est proches. Oui. Ok. Maintenant, je suis avec Claude. Je vais voir ce que Claude dit. Oui, pour l'instant, c'est ça. Mais c'est Madera avec Claude, en plus. C'est Madera avec Opusker 47. Ah, tu verras, tu verras. Bon, c'est bien. Mais ça marche, non? C'est bon? Je te tiens au courant pour mes... Ok. On se dit en courant. Au début de semaine, on va faire un rendez-vous étalien pour pouvoir impléter le dossier. Ok. Et un truc avant de... Parce que pour... pour pouvoir calculer les tarifaires, je devrais voir avec toi les chiffres qu'on a aujourd'hui. Donc, pour voir si... si ça tient, si... si c'est bas, si c'est haut. Euh... Tu as accès au tarifaire. Qui est dans les sports. Tarifaire son costumeur. Euh... C'est dans le DREF que tu as mis ça, non? Oui, dans le même... Oui, j'ai vu dans le dossier. Tu as eu un état 38 000. Tu avais fait plusieurs cas, des 3K et tout, là. Voilà. C'est un peu ça, tu vois. Et en fait, pour moi, tu le vois et... ça du change pour toi. Tu as eu ton pens, les chiffres. En fait, moi, j'ai aucune idée de ce genre de chiffres, mais je sais qu'ils sont toujours très hauts. Mais je trouvais ça haut, mais si on rajoute la partie où... ils ont pas besoin de prendre une autre personne et que ça soulage de l'autre côté et que tu compares avec le prix que beaucoup t'es une personne sur l'année et j'ai pas peut-être 50 cas d'un salte-tient, mais je crois que c'est le meilleur. D'accord, d'accord. Donc c'est... tu ferais une réduction de 20 % sur les chiffres qu'il y a. Non, je fais pas une réduction, mais je rajoute de la valeur. De la valeur, magnifique. Moi, je suis avec toi. Je crois que c'est le meilleur. Je suis en jeu de la valeur. Pour ça, on a toute la chaîne de A à Z. Mais on garde le même... Le truc, c'est ça. Oui, pardon. Non, vas-y, vas-y. C'était cool. Non, c'est la industrialisation. C'est le problème que je vois pour... C'est-à-dire que c'est le unique voie pour que ce qu'on parle arrive. C'est-à-dire... Je vois pas... Je sais pas si... Peut-être c'est faire des prototypes pour tout le monde. Peut-être. Mais faire du cadrage pour tout le monde. C'est pour tout le monde. Ça peut déjà, comme tu dis, bien arriver à 38 000. Parce que quand même c'est une équipe que tu viens d'entière et tout ça. Oui, c'est ça. Et prototype aussi. Maintenant, je vois ce que tu dis. Je suis d'accord. Oui. Oui, je pense que c'est... Et en plus, il m'a demandé pour bosser avec les PME. Je dis oui, oui, parce que c'est beaucoup les PME qui ont des difficultés d'automatisation beaucoup de voilà. C'est pré-gasse et les prix des PME ça tu peux le dire. On leur fait le prix du PME littéralement. Oui, ça c'est vrai. Ça c'est totalement... Et tu trouves que ça reste tout compétitif parce que s'ils vont chercher des prix ils vont se rendre en 1 000 et 1 000. Oui. D'ailleurs je pourrais te partager le calcul. Je l'ai parlé maintenant mais j'ai fait un calcul de le prix moyen de consultant en Espagne, en France et après une empoire pour Madrid et Paris. J'ai fait la moitié. J'ai enlevé un 25%. Et après, pour PME, pour clients, pour Soez, j'ai un multiplicateur en fait. Et il multiplie... Pour Soez, après la fin, il y a un 25%. C'est-à-dire, si je vois Rosely, la mienne de Madrid, il verrait la même chose que ici, avec un 25% moi. D'accord. C'est un calcul comme celui que tu as dit, qui est mis en place. Automatisé aussi, avec le table. Oui. Ok. Magnifique. Oui, mais je suis content. Oui, c'est correct. En rajoutant de la valeur, je pense que ça passe. Oui. Ok. Parfait. Mais alors, on a le tout. Oui. Ok, bon, c'est cool. On reste en contact, on se tient au courant et puis on avance. On fait un pas, il faut faire le deuxième. Merci beaucoup. Absolument. Attends, un plaisir. On avance, c'est que le début. Merci. Merci.
+
+## Time-stamped segments
+
+- [00:00 → 00:02] La lumière ?
+- [00:02 → 00:04] La maison, du bâtiment.
+- [00:04 → 00:05] Et...
+- [00:05 → 00:06] Oui, tout le monde.
+- [00:06 → 00:08] Pendant un bon temps.
+- [00:08 → 00:09] Et moi j'étais...
+- [00:09 → 00:12] Mais en train de monter, descendre, en train d'appeler la...
+- [00:12 → 00:14] La proprio...
+- [00:15 → 00:19] Je ne pensais pas appeler, parce que j'étais en téléphone.
+- [00:19 → 00:21] En train de...
+- [00:21 → 00:23] En train de barder, honnêtement.
+- [00:23 → 00:25] Parce que tu m'as vu avec un sourire,
+- [00:25 → 00:26] à la réunion.
+- [00:26 → 00:28] Mais cinq minutes avant...
+- [00:28 → 00:30] Ah là là.
+- [00:30 → 00:32] Je n'ai pas crié, mais presque.
+- [00:32 → 00:35] Ah oui, désolé vraiment.
+- [00:35 → 00:37] Ah là là, j'étais stressé.
+- [00:37 → 00:39] Je disais, c'est pas possible.
+- [00:39 → 00:41] Avec tout ce qu'on a travaillé pour ça.
+- [00:41 → 00:43] Cette signe.
+- [00:43 → 00:46] C'est pour ça que je ne peux pas vous dire non,
+- [00:46 → 00:49] 100% aux gens que vous êtes d'énergie.
+- [00:49 → 00:51] Je laisse toujours, je dis,
+- [00:51 → 00:54] j'ai ma façon, mais je respecte non.
+- [00:54 → 00:56] Il y a des choses comme ça,
+- [00:56 → 00:58] qui arrivent.
+- [00:58 → 00:59] Oui.
+- [00:59 → 01:02] Et comment ça a été, d'un côté ça a été,
+- [01:02 → 01:04] j'ai pensé à toi tout le temps.
+- [01:05 → 01:09] Oui, oui, j'ai présenté un peu pourquoi...
+- [01:09 → 01:11] Pourquoi on est là.
+- [01:11 → 01:13] Je pensais que c'était une bonne solution pour eux,
+- [01:13 → 01:16] parce qu'une entreprise qui ne l'alise pas,
+- [01:16 → 01:19] c'est une entreprise qui évoque disparaître comme Coudac.
+- [01:19 → 01:23] Il faut y aller, et que nous on est encore dans des moyens un peu heurcaillés,
+- [01:23 → 01:26] ils sont un peu fermés, mais peut-être que la DSI,
+- [01:26 → 01:29] c'est pas dans le projet, ils ne connaissent pas tout ça.
+- [01:29 → 01:31] Je ne suis même pas sûr qu'ils connaissent tout ça,
+- [01:31 → 01:34] donc ça peut les aider, ouvrir d'autres perspectives,
+- [01:34 → 01:36] et voir ce qui est possible de faire.
+- [01:36 → 01:39] Notamment, je pense que si on rajoute la partie,
+- [01:39 → 01:43] la partie, tu sais, avec les...
+- [01:43 → 01:47] avec le travail du bout de la chaîne,
+- [01:47 → 01:50] du bouton du point, je pense que ça peut être très intéressant
+- [01:50 → 01:53] de se forcer à travailler cette partie-là
+- [01:53 → 01:56] pour pouvoir présenter toute la chaîne,
+- [01:56 → 01:58] et vraiment aider les gestionnaires dans ton fonction,
+- [01:58 → 02:01] qui sont carrément...
+- [02:01 → 02:03] Ils suffoquent, ils ont peu fût, tu vois,
+- [02:03 → 02:05] parce qu'ils ont tout cet administratif,
+- [02:05 → 02:07] donc il faudrait que je trouve ce côté-là,
+- [02:07 → 02:10] et qu'on travaille aussi avec Ryan,
+- [02:10 → 02:12] pour... OK, responsables performances,
+- [02:12 → 02:14] qui a la visu du service,
+- [02:14 → 02:16] et qui pourraient bien t'expliquer,
+- [02:16 → 02:19] et qui pourraient aussi te dire comment on pourrait
+- [02:19 → 02:22] travailler les choses automatisées.
+- [02:22 → 02:24] On peut travailler avec lui.
+- [02:24 → 02:25] C'est parfait.
+- [02:25 → 02:27] Et proposer cette partie-là,
+- [02:27 → 02:31] et c'est vrai que le bras droit de la directrice,
+- [02:31 → 02:34] c'est Monsieur Régal, c'est le prochain état, tu sais,
+- [02:34 → 02:37] avec l'entreprise, il faut parfois
+- [02:37 → 02:42] pouvoir toucher la personne qui décisionnait.
+- [02:42 → 02:47] Bien sûr, et aux personnes à côté de...
+- [02:47 → 02:48] Voilà, c'est ça.
+- [02:48 → 02:50] Donc lui, c'est la première étape, c'était vrai,
+- [02:50 → 02:51] c'était une technique,
+- [02:51 → 02:53] mais peut-être pas décisionnaire, tu vois.
+- [02:53 → 02:55] Non, non, non, non, non, non.
+- [02:55 → 02:57] Normal, donc...
+- [02:57 → 02:59] Oui, pas si, pardon.
+- [02:59 → 03:00] Pardon.
+- [03:00 → 03:02] Donc là, je discutais avec lui, il me disait,
+- [03:02 → 03:04] oui, mais OK, il y a cette partie-là,
+- [03:04 → 03:06] il va me mettre en place, donc là,
+- [03:06 → 03:09] j'en veux dire, c'est le cas avant de travailler
+- [03:09 → 03:11] la partie commerciale,
+- [03:11 → 03:12] en tout cas, le classical,
+- [03:12 → 03:15] et il me dit, voilà, où tu pourras arriver
+- [03:15 → 03:17] à faire septembre, comment on fait,
+- [03:17 → 03:19] parce que là, juin, juillet, ça va être
+- [03:19 → 03:21] les vacances, tout le monde s'en va, septembre,
+- [03:21 → 03:24] ça va être fini, peut-être une proposition.
+- [03:24 → 03:25] Tu vois, c'est cette partie-là,
+- [03:25 → 03:26] il me dit, voilà,
+- [03:26 → 03:28] faites-nous quelque chose de concret,
+- [03:28 → 03:30] d'ici une semaine, pour pour cette partie
+- [03:30 → 03:32] maintenance, vous me disiez.
+- [03:32 → 03:34] Donc il faut que j'assure cette partie maintenance
+- [03:34 → 03:37] que nous, on assure cette partie automatisation,
+- [03:37 → 03:39] et qu'on fasse que c'est deux choses différentes, en fait.
+- [03:39 → 03:41] Oui, oui, oui.
+- [03:41 → 03:43] Oui, je pense, pareil.
+- [03:43 → 03:45] Oui, c'est ça, c'est ça.
+- [03:45 → 03:46] C'est ce que je...
+- [03:46 → 03:48] Je ne sais pas quand.
+- [03:48 → 03:50] Voilà, parce qu'en fait, eux ils disent, voilà,
+- [03:50 → 03:52] mais du coup, comment ça se passe après,
+- [03:52 → 03:54] pour vous, votre contrat, le suivi,
+- [03:54 → 03:56] que je m'inquiète, tout.
+- [03:56 → 03:57] Donc, comment ils me disent, faites-nous
+- [03:57 → 03:59] une proposition écrite et concrète,
+- [03:59 → 04:01] donc je ne sais même pas comment faire ça.
+- [04:01 → 04:02] Oui.
+- [04:02 → 04:04] Pour dire, en fait, je vais continuer
+- [04:04 → 04:06] les saisies, indépendamment de l'automatisation,
+- [04:06 → 04:08] tu vois, et après, du coup, ça viendra
+- [04:08 → 04:09] comme une suite, en fait.
+- [04:09 → 04:10] Voilà, exactement.
+- [04:10 → 04:12] Parce que je pense que ça peut les intéresser
+- [04:12 → 04:14] dans beaucoup de choses, parce qu'il a pris
+- [04:14 → 04:15] beaucoup, beaucoup d'honneur,
+- [04:15 → 04:17] il y a plein de trucs que...
+- [04:17 → 04:18] Je pense qu'il...
+- [04:18 → 04:20] Pour des projets suètes, parce que celui,
+- [04:20 → 04:22] pour moi, voir, lui,
+- [04:22 → 04:24] si tu arrives à le combattre,
+- [04:24 → 04:26] je t'assure que tu as tout gagné.
+- [04:26 → 04:27] Parce qu'il y a deux projets,
+- [04:27 → 04:29] oui, il est célèbre, le bras, le bras,
+- [04:29 → 04:31] le bras, le déleter, après, c'est ça.
+- [04:31 → 04:32] Oui, c'est vrai.
+- [04:32 → 04:33] Donc, du coup, tu...
+- [04:33 → 04:34] dedans, quoi.
+- [04:34 → 04:35] Oui.
+- [04:35 → 04:37] Donc voilà, moi, j'aimerais bien,
+- [04:37 → 04:39] ça serait vraiment bien, parce que ça nous apprend
+- [04:39 → 04:41] à faire la vente, ça nous apprend à parler,
+- [04:41 → 04:43] et ça nous fait de l'entraînement,
+- [04:43 → 04:45] quoi, tu vois, parce que pour pouvoir toucher
+- [04:45 → 04:47] des personnes comme ça, tu les sais jamais,
+- [04:47 → 04:48] quoi, tu vois.
+- [04:48 → 04:49] C'est ça.
+- [04:49 → 04:50] Donc, on se prépare.
+- [04:50 → 04:52] Moi, en éman, c'est les...
+- [04:52 → 04:53] c'est les pas, hein.
+- [04:53 → 04:55] C'est d'ailleurs, ce que tu as dit,
+- [04:55 → 04:57] c'est ce que je te dis le dimanche.
+- [04:57 → 04:59] Quand tu le disais de mettre là maintenant,
+- [04:59 → 05:00] maintenant.
+- [05:00 → 05:01] Tu le rappelles?
+- [05:01 → 05:02] Oui.
+- [05:02 → 05:04] Et je disais que non, parce que c'est
+- [05:04 → 05:05] deux choses.
+- [05:05 → 05:07] Et lui, tu as dit ces deux choses.
+- [05:07 → 05:09] Quand le client te dit la même chose
+- [05:09 → 05:11] que ce que ton partenaire, c'est là
+- [05:11 → 05:13] où on pense à la stratégie du partenaire.
+- [05:13 → 05:15] Ça, c'est le truc que j'ai avec
+- [05:15 → 05:16] mes partenaires.
+- [05:16 → 05:17] Pareil que toi.
+- [05:17 → 05:19] Quand tu dis la même chose que moi,
+- [05:19 → 05:21] j'écoutais de lui, comme aujourd'hui,
+- [05:21 → 05:22] mais pareil.
+- [05:22 → 05:24] Alors, opérationnellement, je suis...
+- [05:24 → 05:26] Donc, je sais de te dire, alors,
+- [05:26 → 05:28] par ça, que ce n'est pas de problème.
+- [05:28 → 05:30] Si quelqu'un a ta maison,
+- [05:30 → 05:32] parle comme ton client,
+- [05:32 → 05:34] ça veut dire que tu es bien.
+- [05:34 → 05:35] C'est pour ça que moi, je te rends
+- [05:35 → 05:36] tranquille, moi, je suis tranquille,
+- [05:36 → 05:37] parce que je sais que toi, tu dis,
+- [05:37 → 05:39] de ce que moi, je ne sais pas,
+- [05:39 → 05:40] tu parles, par exemple.
+- [05:40 → 05:41] Tout ce que tu m'as dit maintenant,
+- [05:41 → 05:42] c'est l'or pour moi.
+- [05:42 → 05:43] C'est justement ce qui me donnait
+- [05:43 → 05:44] la crainte.
+- [05:44 → 05:46] Tu as vu, c'est ça la force.
+- [05:46 → 05:48] Donc, on est forts.
+- [05:48 → 05:50] Parce que tu as les contacts,
+- [05:50 → 05:51] tu as les personnes,
+- [05:51 → 05:53] tu as les qui et qui,
+- [05:53 → 05:55] pourquoi importants qui,
+- [05:55 → 05:56] où on doit parler.
+- [05:56 → 05:57] Excellent.
+- [05:57 → 05:59] Moi, j'ai tous les réunions que tu as besoin.
+- [05:59 → 06:01] Donc, ne t'inquiètes pas, pose-les.
+- [06:01 → 06:04] Seulement avec un peu de avance,
+- [06:04 → 06:05] parce que je dois...
+- [06:05 → 06:07] J'en fais avec le travail,
+- [06:07 → 06:09] mais on peut toujours...
+- [06:09 → 06:11] J'ai des horaires libres
+- [06:11 → 06:13] tous les jours,
+- [06:13 → 06:14] et on peut cadrer.
+- [06:14 → 06:15] Il n'y a pas de problème.
+- [06:15 → 06:17] Et donc, on les voit,
+- [06:17 → 06:19] un par un.
+- [06:19 → 06:22] Et on va remplir le même...
+- [06:22 → 06:24] Te rappelles qu'il y a
+- [06:24 → 06:26] les esports qui sont pour le client,
+- [06:26 → 06:28] moi pour toi et moi et le client,
+- [06:28 → 06:30] mais j'ai le mot d'opératoire.
+- [06:30 → 06:32] Juste, tu sors des esports,
+- [06:32 → 06:33] et tout ça,
+- [06:33 → 06:35] qui sont des...
+- [06:35 → 06:37] des archives que tu peux ouvrir en DOCS.
+- [06:37 → 06:39] Ça s'appelle Magdan,
+- [06:39 → 06:41] parce que c'est très facile
+- [06:41 → 06:44] à automatiser la mise en place
+- [06:44 → 06:46] et au régissement de...
+- [06:46 → 06:47] de cette info.
+- [06:47 → 06:49] Bien, ça c'est le mot d'opératoire.
+- [06:49 → 06:52] Et plus on sait, plus il grossit.
+- [06:52 → 06:53] D'un côté.
+- [06:53 → 06:54] Par exemple, déjà avec ça,
+- [06:54 → 06:55] je vais mettre à jour.
+- [06:55 → 06:57] C'est la réunion qu'on a eue,
+- [06:57 → 06:58] et l'info que tu me donnes maintenant.
+- [06:58 → 06:59] Et donc...
+- [06:59 → 07:01] Après, pour qu'on leur donne...
+- [07:01 → 07:02] Voilà.
+- [07:02 → 07:04] Pour qu'on donne un compte rendu d'après les deux,
+- [07:04 → 07:05] j'envoie quelque chose.
+- [07:05 → 07:06] Exactement.
+- [07:06 → 07:08] Ce que je lui ai dit à la réunion,
+- [07:08 → 07:10] c'est que je voudrais vous envoyer la semaine prochaine
+- [07:10 → 07:12] les documentations.
+- [07:12 → 07:15] Donc ça, c'est là où il y a le step.
+- [07:15 → 07:18] C'est-à-dire, il faut qu'on fasse, alors,
+- [07:18 → 07:21] toi et moi, la même chose qu'on a fait dimanche,
+- [07:21 → 07:24] et on grossit notre info.
+- [07:24 → 07:27] Par contre, j'ai grossi le faux aussi, après le dimanche.
+- [07:27 → 07:30] Et comme ça, on se suit le temps.
+- [07:30 → 07:32] Et donc, en plus, toi, tu sais,
+- [07:32 → 07:34] lui, c'est pas mais toi, c'est...
+- [07:34 → 07:36] que c'est vraiment automatisé, en plus.
+- [07:36 → 07:37] Semi-automatisé, je veux dire.
+- [07:37 → 07:40] Je travaille beaucoup, mais...
+- [07:40 → 07:43] Et lui, pour lui, moi, j'ai dit qu'il y a plusieurs.
+- [07:43 → 07:45] Parce que pour lui, pour justifier ça,
+- [07:45 → 07:48] il faut toujours dire qu'on est à plusieurs.
+- [07:48 → 07:50] Sinon, c'est pas croyable.
+- [07:50 → 07:51] Oui.
+- [07:51 → 07:53] Et en plus, c'est vrai, ça fonctionne,
+- [07:53 → 07:55] mais seulement qu'on est dans des moments
+- [07:55 → 07:57] dans lesquels les gens dépréjugés
+- [07:57 → 07:59] à des choses.
+- [07:59 → 08:01] Et il faut qu'on capitalise,
+- [08:01 → 08:03] parce que c'est comme ça qu'on travaille comme une grosse boîte
+- [08:03 → 08:05] au moyen, au moins.
+- [08:05 → 08:07] Et il ne savent pas.
+- [08:07 → 08:09] Donc, nous, on a des ingénieurs qui vont sortir
+- [08:09 → 08:11] la solution, bien sûr.
+- [08:11 → 08:13] Auton mail, c'est pas un problème.
+- [08:13 → 08:15] On va sortir les choses qu'il a dit.
+- [08:15 → 08:17] Donc, moi, ce que je te propose, c'est...
+- [08:17 → 08:18] j'ai deux options.
+- [08:18 → 08:21] Quand on rend du e-mail,
+- [08:21 → 08:23] ou directement mail,
+- [08:23 → 08:26] moi, j'ai dit, on va vous envoyer mail la semaine prochaine.
+- [08:26 → 08:28] Mais on fait qu'on rend du e-mail.
+- [08:28 → 08:30] Moi, j'envoie ça après.
+- [08:30 → 08:32] Comme ça, il peut transférer
+- [08:32 → 08:34] au numéro celui qui se ressemble.
+- [08:34 → 08:36] Il sera déjà depuis qu'on a parlé.
+- [08:36 → 08:38] Oui, mais le truc, c'est ça.
+- [08:38 → 08:40] C'est que quand il transfère,
+- [08:40 → 08:42] je voudrais bien qu'il ait de la bonne info.
+- [08:42 → 08:44] C'est ça le truc.
+- [08:44 → 08:46] Donc, moi, je propose plutôt de faire
+- [08:46 → 08:48] une autre chose.
+- [08:48 → 08:50] Parce que, tu vois,
+- [08:50 → 08:52] si la présentation, par exemple,
+- [08:52 → 08:54] oui, on peut l'envoyer tel quel.
+- [08:54 → 08:56] Ça, il n'y a pas de problème.
+- [08:56 → 08:58] Il fallait qu'on conduit comme ça.
+- [08:58 → 09:00] Il y a des charges aussi ou pas ?
+- [09:00 → 09:02] Non, exactement.
+- [09:02 → 09:04] Je crois pas.
+- [09:04 → 09:06] Parce que, comment tu penses ?
+- [09:06 → 09:08] Non, non, non.
+- [09:08 → 09:10] Non, on ne voit pas.
+- [09:10 → 09:12] Il a vu, il s'existe, il n'en voit pas.
+- [09:12 → 09:14] Exact. Magnifique. Parce que, comme ça,
+- [09:14 → 09:16] on fait la présentation, il envoie qui il veut.
+- [09:16 → 09:18] Comme tu as dit, on sait que ça parle de ça.
+- [09:18 → 09:20] Et toi et moi, on travaille
+- [09:20 → 09:22] sur le cahier de charge.
+- [09:22 → 09:24] On peut parler d'endre.
+- [09:24 → 09:26] Et aussi, les choses plus techniques
+- [09:26 → 09:28] de rajouter.
+- [09:28 → 09:30] Parce que, maintenant qu'on a loqué
+- [09:30 → 09:32] de parler techniques,
+- [09:32 → 09:34] on va dédier le module
+- [09:34 → 09:36] pour parler de ça.
+- [09:36 → 09:38] Et ça, on peut envoyer.
+- [09:38 → 09:40] C'est mon prochain.
+- [09:40 → 09:42] Et donc, du coup, si on ajoute
+- [09:42 → 09:44] en plus le fait de j'ai des comptes Microsoft.
+- [09:44 → 09:46] Je ne voulais pas...
+- [09:46 → 09:48] Oui, j'ai dit. J'ai dit aussi
+- [09:48 → 09:50] dans la réunion que j'ai mes propres
+- [09:50 → 09:52] des comptes.
+- [09:52 → 09:54] On a tout activé.
+- [09:54 → 09:56] Les composants qu'on a vus ensemble
+- [09:56 → 09:58] en France, qui étaient plusieurs,
+- [09:58 → 10:00] parce qu'on ne sait pas jamais
+- [10:00 → 10:02] d'où ils peuvent venir.
+- [10:02 → 10:04] Et donc, on va les activer.
+- [10:04 → 10:06] Je vais les utiliser.
+- [10:06 → 10:08] C'est tous les cas d'usage.
+- [10:08 → 10:10] Parce que c'est super important.
+- [10:10 → 10:12] Mais le...
+- [10:12 → 10:14] C'est-à-dire?
+- [10:14 → 10:16] Il y a ou ce qu'est...
+- [10:16 → 10:18] Les usages au case.
+- [10:18 → 10:20] Ou...
+- [10:20 → 10:22] Non, je le dis quand on va faire la présentation
+- [10:22 → 10:24] de pourblier les usages au case.
+- [10:24 → 10:26] Oui, oui, oui.
+- [10:26 → 10:28] Mais, je les convaincre sur Microsoft, tu veux dire.
+- [10:30 → 10:32] Non, la présentation qu'on va faire
+- [10:32 → 10:34] avec le directeur de pourblier les cas pratiques,
+- [10:34 → 10:36] parce que les gens, ils aiment bien les cas pratiques.
+- [10:36 → 10:38] Les usages au case que tu as déjà eu,
+- [10:38 → 10:40] que tu as déjà mis en place.
+- [10:40 → 10:42] Parce que tout à l'heure, tu as dit, on a déjà mis
+- [10:42 → 10:44] chez IBM, le système courant,
+- [10:44 → 10:46] tu dis que c'est IBM, mais tu pourras que tu mettes
+- [10:46 → 10:48] ce que tu as mis en place.
+- [10:48 → 10:50] Mais je peux pas montrer lui, c'est-à-dire que je lui dis
+- [10:50 → 10:52] à lui aussi, et lui il était d'accord.
+- [10:52 → 10:54] Non, en fait, toi tu enlèves le nom de IBM
+- [10:54 → 10:56] et tu montres un use-case, sans que l'on te prie.
+- [10:56 → 10:58] Mais attends, c'est ce que j'ai dit à lui
+- [10:58 → 11:00] et il lui l'est à comprendre.
+- [11:00 → 11:02] C'est surtout parce que lui et moi, on est d'accord
+- [11:02 → 11:04] sur ce que je vais te dire.
+- [11:04 → 11:06] Parce que lui il a dit,
+- [11:06 → 11:08] je peux pas montrer ça.
+- [11:08 → 11:10] C'est...
+- [11:10 → 11:12] Comme tu montes un cas pratique,
+- [11:12 → 11:14] il a fait une présentation...
+- [11:14 → 11:16] Non, non, mais en plus,
+- [11:16 → 11:18] c'est vraiment catégorique sur ça
+- [11:18 → 11:20] que moi, je pourrais
+- [11:20 → 11:22] jamais faire une photo
+- [11:22 → 11:24] à un cas usage d'IBM.
+- [11:24 → 11:26] Et spécialement d'IBM.
+- [11:26 → 11:28] Peut-être si tu me dis d'une entreprise petite,
+- [11:28 → 11:30] je te le... Ok.
+- [11:30 → 11:32] C'est pour ça que je fais des entrepies petites,
+- [11:32 → 11:34] parce que je vais du cas usage, justement.
+- [11:34 → 11:36] On est dans la création
+- [11:36 → 11:38] des cas usage plutôt.
+- [11:38 → 11:40] D'ailleurs, je t'ai appelé à faire partenarci avec moi,
+- [11:40 → 11:42] parce que je voulais que tu me donnes
+- [11:42 → 11:44] des cas usage.
+- [11:44 → 11:46] C'est pour ça que j'ai besoin que tu sois
+- [11:46 → 11:48] avec moi.
+- [11:48 → 11:50] Ok? Je peux pas montrer
+- [11:50 → 11:52] des cas usage.
+- [11:52 → 11:54] C'est pour ça que je...
+- [11:54 → 11:56] Sinon, je t'accélérerai beaucoup plus.
+- [11:56 → 11:58] En plus.
+- [11:58 → 12:00] C'est... Toi, c'est...
+- [12:00 → 12:02] Ma boîte, elle est dans cet état,
+- [12:02 → 12:04] en fait. Et donc, comme c'est...
+- [12:04 → 12:06] Mais comment tu vais pour montrer
+- [12:06 → 12:08] une solution que tu as mis en place
+- [12:08 → 12:10] en expliquant...
+- [12:10 → 12:12] un contrat quand même de 6 chiffres
+- [12:12 → 12:14] en 2024,
+- [12:14 → 12:16] dans lequel on était à plusieurs,
+- [12:16 → 12:18] sans montrer.
+- [12:18 → 12:20] Et lui, il a compris. En plus, il était d'accord.
+- [12:20 → 12:22] Parce que, en plus,
+- [12:22 → 12:24] c'est...
+- [12:24 → 12:26] J'explique bien, je lui ai dit
+- [12:26 → 12:28] je peux pas porter des images
+- [12:28 → 12:30] de mes clients.
+- [12:30 → 12:32] Et c'est vrai,
+- [12:32 → 12:34] je peux pas faire un screenshot.
+- [12:34 → 12:36] Je peux pas faire un screenshot.
+- [12:36 → 12:38] Et même pas, comme tu disais,
+- [12:38 → 12:40] pour lever la marque. Non, non, je peux pas faire un screenshot.
+- [12:40 → 12:42] Tu vois, ça saute.
+- [12:42 → 12:44] Sur toi, il va même.
+- [12:44 → 12:46] Et donc, il lui a compris.
+- [12:46 → 12:48] Il m'a dit, ok, il n'y a pas besoin de montrer alors.
+- [12:48 → 12:50] Tu vois, ce que tu as fait avant.
+- [12:50 → 12:52] Et j'ai dit, ce que je peux faire,
+- [12:52 → 12:54] c'est aller à Microsoft, ce que je disais avant,
+- [12:54 → 12:56] d'entrer ici,
+- [12:56 → 12:58] que j'ai des comptes Microsoft.
+- [12:58 → 13:00] J'ai des comptes Google.
+- [13:00 → 13:02] J'ai des comptes dans tous les composants
+- [13:02 → 13:04] pour littéralement créer les cas usage
+- [13:04 → 13:06] que je parle chez moi.
+- [13:06 → 13:08] Et il va le montrer.
+- [13:08 → 13:10] Et il a dit, ah, mais ça c'est excellent,
+- [13:10 → 13:12] c'est parfait, parce que comme ça, on peut voir.
+- [13:12 → 13:14] Ça veut dire que tu montres un cas usage
+- [13:14 → 13:16] avec ton compte Microsoft.
+- [13:16 → 13:18] Exact, exact.
+- [13:18 → 13:20] Oui, c'est ça que je disais.
+- [13:20 → 13:22] Non, non, tu disais d'un autre client.
+- [13:22 → 13:24] Et pour ça, je disais que, parce que un autre client,
+- [13:24 → 13:26] c'est important. Parce que les gens,
+- [13:26 → 13:28] ils te demandent.
+- [13:28 → 13:30] Lui-même, il a demandé. Un autre client aussi.
+- [13:30 → 13:32] C'est pour ça que je voulais qu'on soit ensemble.
+- [13:32 → 13:34] Non, c'est à dire, regarde.
+- [13:34 → 13:36] Tu montres un cas usage.
+- [13:36 → 13:38] C'est pas le screenshot
+- [13:38 → 13:40] d'une entrepêue bien entendu.
+- [13:40 → 13:42] C'est très défendant. C'est comme si tu vas
+- [13:42 → 13:44] aller montrer, lui-bas,
+- [13:44 → 13:46] quelqu'un d'autre. Non, non, mais ça se fait.
+- [13:46 → 13:48] C'est pas normal. Non, non, oui, oui, ça se fait.
+- [13:48 → 13:50] Oui, oui, ça se fait. Moi, j'ai travaillé
+- [13:50 → 13:52] aussi dans des boîtes grandes
+- [13:52 → 13:54] qui peuvent se permettre. Si tu te demandes
+- [13:54 → 13:56] de la confidentialité, bah tu dois aussi
+- [13:56 → 13:58] pouvoir ne pas montrer leur
+- [13:58 → 14:00] or. Non, non, c'est pas ça.
+- [14:00 → 14:02] C'est pas ça. C'est que tu as demandé.
+- [14:02 → 14:04] Ça existe. Et c'est que lui a demandé.
+- [14:04 → 14:06] Ça se fait.
+- [14:06 → 14:08] OK, ça se fait. Mais c'est
+- [14:08 → 14:10] moi qui n'aime pas. Je lui ai dit, OK,
+- [14:10 → 14:12] il aime, non. Mais ça se fait.
+- [14:12 → 14:14] Par exemple, moi, je vois,
+- [14:14 → 14:16] il y a des consultants de Play Waterhouse
+- [14:16 → 14:18] Shoppers qui sont venus à
+- [14:18 → 14:20] L'Oréal. Ils ont fait un screenshot.
+- [14:20 → 14:22] Ils ont le fait comme tu as dit. OK.
+- [14:22 → 14:24] Mais ce sont des Press Waterhouse
+- [14:24 → 14:26] Shoppers. Parce que, mon lit,
+- [14:26 → 14:28] il a fait ici, hein. Il a fait un travail ici.
+- [14:28 → 14:30] Il a montré, mais il a
+- [14:30 → 14:32] même dit que c'était à Combes. Et si il a dit
+- [14:32 → 14:34] que c'est la bonne chose, c'est à Combes.
+- [14:34 → 14:36] Bon, je dis bien.
+- [14:36 → 14:38] Mais il faut rembrentre, non, c'est pas.
+- [14:38 → 14:40] Mais, mais, mais bon,
+- [14:40 → 14:42] après,
+- [14:42 → 14:44] mais après,
+- [14:44 → 14:46] chacun, chacun fait ce qu'il veut.
+- [14:46 → 14:48] Mais moi, ce que je veux dire, c'est que
+- [14:48 → 14:50] j'aime prendre. Et moi, mon grand, il me dit
+- [14:50 → 14:52] que ce que je vais faire, c'est
+- [14:52 → 14:54] que je vais te le créer. Pourquoi?
+- [14:54 → 14:56] Mais je vais vous aller dire que il faut qu'on soit ensemble, parce que
+- [14:56 → 14:58] ça se fait. Mais moi, je n'ai pas les cas
+- [14:58 → 15:00] d'usage. C'est pour ça que je ne suis pas
+- [15:00 → 15:02] en train de, de, c'est même les chiffres sont
+- [15:02 → 15:04] différentes. Et,
+- [15:04 → 15:06] étonnement, on va gagner. On
+- [15:06 → 15:08] aura des cas d'usage. On va
+- [15:08 → 15:10] taxer plus, littéralement.
+- [15:10 → 15:12] Et, et donc, après,
+- [15:12 → 15:14] bon, on est dans cet état. Mais
+- [15:14 → 15:16] c'est pas un problème. Parce que j'ai fait, alors,
+- [15:16 → 15:18] les procès que tu connais,
+- [15:18 → 15:20] tu te rappelles qu'il y a 1066.
+- [15:20 → 15:22] C'est pour ça. Il y a 1066,
+- [15:22 → 15:24] je me le dis, 1066 procès.
+- [15:24 → 15:26] Il y a 1066.
+- [15:26 → 15:28] Voilà. Le excel que tu avais
+- [15:28 → 15:30] vu avec moi en France, que
+- [15:30 → 15:32] c'est, c'est, c'est ça, quand même,
+- [15:32 → 15:34] en opératoire. Et, et donc,
+- [15:34 → 15:36] ça me permet alors de dire pas de
+- [15:36 → 15:38] problème à beaucoup de choses. Pas à tout, mais
+- [15:38 → 15:40] au moins, si ça entre automatisé par
+- [15:40 → 15:42] automais, c'est dedans. Et,
+- [15:42 → 15:44] et voilà. Donc, on montre le
+- [15:44 → 15:46] notre, c'est notre stratégie, je vais
+- [15:46 → 15:48] dire. C'est bien. C'est le nouveau.
+- [15:48 → 15:50] C'est un cas pratique, c'est parfait. Voilà,
+- [15:50 → 15:52] c'est le moins un cas pratique. En plus, on peut
+- [15:52 → 15:54] changer. Si il disait, non, non, mais
+- [15:54 → 15:56] ça aussi, tu peux le faire,
+- [15:56 → 15:58] parce que c'est pas pris sur toi.
+- [15:58 → 16:00] Ben oui. Après le cas pratique, tu peux
+- [16:00 → 16:02] monter ce que tu veux.
+- [16:02 → 16:04] Moi, je donne des exemples de cas pratique.
+- [16:04 → 16:06] C'est Lila qui me l'a donné, mais
+- [16:06 → 16:08] voilà. Je compte
+- [16:08 → 16:10] dans l'été, je mets ça et puis voilà
+- [16:10 → 16:12] quoi. Ouais. Ok, ça marche.
+- [16:12 → 16:14] Oui, on peut faire d'autres. Ah,
+- [16:14 → 16:16] bien tiens, on peut faire un message
+- [16:16 → 16:18] qui combine les deux choses qu'on a fait. On a
+- [16:18 → 16:20] dit très moins que c'est créé
+- [16:20 → 16:22] le cas pratique de,
+- [16:22 → 16:24] ici, la première chose.
+- [16:24 → 16:26] Mais si on peut, peut-être
+- [16:26 → 16:28] on peut même créer
+- [16:28 → 16:30] d'autres, nous inventer
+- [16:30 → 16:32] littéralement d'autres. Oui, c'est ça.
+- [16:32 → 16:34] Exactement. Mais je le vendrais pas
+- [16:34 → 16:36] comme si c'était d'autres personnes,
+- [16:36 → 16:38] d'autres, d'autres. Je le
+- [16:38 → 16:40] vend comme, un peu comme je te disais
+- [16:40 → 16:42] avant que... Un cas du zâche.
+- [16:42 → 16:44] Oui, oui, bien sûr. Mais surtout, je veux
+- [16:44 → 16:46] que tu vends de la capacité
+- [16:46 → 16:48] de l'hôlistical de les faire.
+- [16:48 → 16:50] Il faut que tu vends de le faire.
+- [16:50 → 16:52] Si tu veux que l'on d'un ici,
+- [16:52 → 16:54] il faut vendre notre savoir-faire.
+- [16:54 → 16:56] C'est...
+- [16:56 → 16:58] Ouais, je pense que c'était bien
+- [16:58 → 17:00] parce que au début, il y a
+- [17:00 → 17:02] juste une chose, il y a deux choses.
+- [17:02 → 17:04] Bien sûr, bien sûr.
+- [17:04 → 17:06] Moi, je pense que c'est bien
+- [17:06 → 17:08] que tu dises que tu as ta boîte, tu dis pas
+- [17:08 → 17:10] que je suis en train de créer, tu as ta boîte,
+- [17:10 → 17:12] tu passes avec tes boîtes, tes entreprises, et bah ça.
+- [17:12 → 17:14] Tu dis pas, je suis en train de payer, tu mâches ça,
+- [17:14 → 17:16] tu as ta boîte, et puis voilà, c'est tout, point bas.
+- [17:16 → 17:18] Et la deuxième chose, c'est que
+- [17:18 → 17:20] tu présentes bien l'hôlistical, c'est vrai que tu l'as fait
+- [17:20 → 17:22] à la fin et que moi je l'avais fait quand
+- [17:22 → 17:24] tu n'étais pas arrivé, mais c'est bien
+- [17:24 → 17:26] de présenter les six facteurs pour que les entreprises
+- [17:26 → 17:28] voient bien qu'on n'est pas en train de révoler.
+- [17:28 → 17:30] Parce que ça, ça m'a transformé
+- [17:30 → 17:32] de savoir que voilà, t'es dans l'opérationnel
+- [17:32 → 17:34] et t'as oublié de regarder les finances,
+- [17:34 → 17:36] t'as oublié de regarder ça, t'as oublié de regarder ça.
+- [17:36 → 17:38] Et ça, c'est bien que tu nous positionnes au début
+- [17:38 → 17:40] comme un diagramme ou quelque chose comme ça.
+- [17:40 → 17:42] Et là, c'est parfait.
+- [17:42 → 17:44] Wow, très bon conseil, merci beaucoup.
+- [17:44 → 17:46] Et la prochaine fois, on va prier
+- [17:46 → 17:48] tous les dieux parce que moi hier soir,
+- [17:48 → 17:50] j'ai médité,
+- [17:50 → 17:52] j'étais intentionnelle,
+- [17:52 → 17:54] j'ai fait plein de trucs.
+- [17:54 → 17:56] Donc tu vas prier tous les dieux pour qu'on te coupe
+- [17:56 → 17:58] pas la lumière, je suis pas intentionnelle.
+- [17:58 → 18:00] Ah, c'est bon.
+- [18:00 → 18:02] Oui, non, ça jette.
+- [18:02 → 18:04] Mais ça fait partie du jeu ça, on t'en fait partie.
+- [18:04 → 18:06] Mais ça veut dire c'est très bon, c'est...
+- [18:06 → 18:08] Ça alors, je crois que c'est pourquoi
+- [18:08 → 18:10] si tu vas au côté spirituel, je peux te dire
+- [18:10 → 18:12] exactement ce qu'il s'est passé. Jettez,
+- [18:12 → 18:14] je vais prendre trois heures du matin, en train de changer les choses.
+- [18:16 → 18:18] Ah oui, j'ai su que tu avais tout à l'heure.
+- [18:18 → 18:20] J'ai su que tu avais tout à l'heure.
+- [18:20 → 18:22] Mais parce que les temps,
+- [18:22 → 18:24] c'est vraiment magique.
+- [18:24 → 18:26] Vendredi, on parle
+- [18:26 → 18:28] de hockey, gros live.
+- [18:28 → 18:30] Dimanche, on fait la stratégie.
+- [18:30 → 18:32] Et tous les documents qu'on a présentés
+- [18:32 → 18:34] aujourd'hui, c'était pour lundi,
+- [18:34 → 18:36] déjà. Et mercredi,
+- [18:36 → 18:38] on a raffiné les choses en plus.
+- [18:38 → 18:40] Ah oui, tu te l'aimes.
+- [18:40 → 18:42] Oui, je crois que là,
+- [18:42 → 18:44] on a les temps maintenant sous contrôle.
+- [18:44 → 18:46] Tu as vu, maintenant, on a
+- [18:46 → 18:48] on a dit une semaine
+- [18:48 → 18:50] et après il y a deux.
+- [18:50 → 18:52] Et après on verra, non?
+- [18:52 → 18:54] Et après, tout ce que tu vas placer,
+- [18:54 → 18:56] si tu places
+- [18:56 → 18:58] à la semaine, ou même
+- [18:58 → 19:00] au roulier,
+- [19:00 → 19:02] à la semaine ou trois jours,
+- [19:02 → 19:04] les pédales réunions
+- [19:04 → 19:06] extra qui peuvent sortir, que tu m'as dit
+- [19:06 → 19:08] que de la procédure.
+- [19:08 → 19:10] On va toujours avoir un contrôle
+- [19:10 → 19:12] sur le temps. Et je te dis
+- [19:12 → 19:14] qu'on va voir les choses.
+- [19:14 → 19:16] Moi, non, maintenant, j'ai les choses
+- [19:16 → 19:18] cinq jours avant, ou trois jours avant.
+- [19:18 → 19:20] On peut dire.
+- [19:20 → 19:22] Et on les parle et tout.
+- [19:22 → 19:24] Je crois qu'on est bien. Je crois qu'on a bien fait la
+- [19:24 → 19:26] affaire, honnêtement.
+- [19:26 → 19:28] Il y a partie
+- [19:28 → 19:30] de travailler avec les systèmes d'intervention,
+- [19:30 → 19:32] si on rajoute ça, ça va même
+- [19:32 → 19:34] intéresser le chef de service qui est en vacances.
+- [19:34 → 19:36] Parce que vraiment,
+- [19:36 → 19:38] ils sont sous l'eau.
+- [19:38 → 19:40] Et en fait, des commandes,
+- [19:40 → 19:42] ils sont sous l'eau parce que
+- [19:42 → 19:44] des fois, ils ne vont pas traiter.
+- [19:44 → 19:46] Et puis un jour, ils vont se réveiller,
+- [19:46 → 19:48] ils vont sortir cinq ans de l'un coup, parce qu'ils sont sous l'eau.
+- [19:48 → 19:50] À partir de l'administratif,
+- [19:50 → 19:52] il faut automatiser ça.
+- [19:52 → 19:54] Ça, c'est clair. Et donc, il faudrait qu'on ait
+- [19:54 → 19:56] une session de travail avec eux,
+- [19:56 → 19:58] pour que tu comprennes un peu
+- [19:58 → 20:00] comment ça fonctionne, parce que ça, par contre,
+- [20:00 → 20:02] je ne pourrai pas t'aider.
+- [20:02 → 20:04] C'est magnifique. Moi, ce que j'en peux faire,
+- [20:04 → 20:06] c'est, on peut aller là-bas.
+- [20:06 → 20:08] Je vais noter
+- [20:08 → 20:10] ce qu'ils vont dire.
+- [20:10 → 20:12] Et donc, je vais enrichir
+- [20:12 → 20:14] notre mode opératoire, notre rallye de chat.
+- [20:14 → 20:16] Exactement.
+- [20:16 → 20:18] C'est pareil.
+- [20:18 → 20:20] C'est ça.
+- [20:20 → 20:22] Automatiser pour qu'ils viennent juste
+- [20:22 → 20:24] pour valider, qui n'est pas tout l'administratif,
+- [20:24 → 20:26] parce qu'ils envoient un mail,
+- [20:26 → 20:28] après, le mail repart à eux, après, il faut qu'ils valident
+- [20:28 → 20:30] et puis machin. Ils négocient
+- [20:30 → 20:32] les deux vies, enfin, c'est...
+- [20:32 → 20:34] Voilà.
+- [20:34 → 20:36] Mais moi, la semaine prochaine, il m'a dit
+- [20:36 → 20:38] qu'il y a une proposition, je ne sais pas du tout
+- [20:38 → 20:40] comment faire.
+- [20:40 → 20:42] Ah oui, la proposition.
+- [20:42 → 20:44] Avant ça, est-ce que
+- [20:44 → 20:46] tu pourrais m'expliquer le jour à jour
+- [20:46 → 20:48] de la personne que tu m'as dit,
+- [20:48 → 20:50] maintenant qui est très intéressant,
+- [20:50 → 20:52] juste que je lui m'as dit juste avant,
+- [20:52 → 20:54] juste avant, le jour à jour.
+- [20:54 → 20:56] Oui, parce que tu m'as dit qu'après,
+- [20:56 → 20:58] il y a des deux vies et tout, qu'est-ce qu'ils font
+- [20:58 → 21:00] ces personnes-là?
+- [21:00 → 21:02] Ah, il y a...
+- [21:02 → 21:04] Brian, je vais te mettre en contact avec lui,
+- [21:04 → 21:06] on pourra faire un échange
+- [21:06 → 21:08] en vision. Je vais programmer
+- [21:08 → 21:10] un team avec lui la semaine prochaine,
+- [21:10 → 21:12] parce que là, il y a le pont ici, on finit aujourd'hui,
+- [21:12 → 21:14] on reprend que l'indie.
+- [21:14 → 21:16] Ah oui, c'est vrai.
+- [21:16 → 21:18] Donc, du coup, j'essaie de programmer un team
+- [21:18 → 21:20] avec lui l'indiumardi,
+- [21:20 → 21:22] une heure, tu me dis,
+- [21:22 → 21:24] et lui, il sera ouvert, il va nous cadrer,
+- [21:24 → 21:26] et en fait, un team avec lui, il est arrivé
+- [21:26 → 21:28] il y a six mois, il est responsable
+- [21:28 → 21:30] de performance.
+- [21:30 → 21:32] Et du coup, il est seragé
+- [21:32 → 21:34] de travail, donc
+- [21:34 → 21:36] il a bien compris comment ça fonctionne.
+- [21:36 → 21:38] Et donc, l'idée, c'est
+- [21:38 → 21:40] quoi c'est que les gestionnaires d'intervention
+- [21:40 → 21:42] ils ont la frappe, ils sont
+- [21:42 → 21:44] trois,
+- [21:44 → 21:46] il y a des gestionnaires d'intervention
+- [21:46 → 21:48] qui sont trois, et il y a les techniciens
+- [21:48 → 21:50] d'intervention dans toute la France,
+- [21:50 → 21:52] ils sont deux à parcourir toute la France.
+- [21:52 → 21:54] D'accord?
+- [21:54 → 21:56] Et c'est pas assez.
+- [21:56 → 21:58] Pour ça, il disait, il faut faire un troisième, déjà.
+- [21:58 → 22:00] Il faut parcourir toute la France, aller voir les sites,
+- [22:00 → 22:02] les marchands, est-ce que c'est le pièce,
+- [22:02 → 22:04] est-ce qu'ils font bien l'entretien des machines, est-ce que tu vois?
+- [22:04 → 22:06] Et maintenant,
+- [22:06 → 22:08] des responsables d'intervention qui sont ici avec moi
+- [22:08 → 22:10] qui me donnent les commandes,
+- [22:10 → 22:12] c'est eux qui vont négocier les pièces,
+- [22:12 → 22:14] les prix, les maintenance,
+- [22:14 → 22:16] et puis il y a une personne qui se plus aussi
+- [22:16 → 22:18] de tout ce qui est entretien,
+- [22:18 → 22:20] tu sais, comme ta voiture, tu as besoin
+- [22:20 → 22:22] de faire un contrôle technique, mais les machines
+- [22:22 → 22:24] aussi, il faut faire des contrôles techniques, parce que c'est obligatoire
+- [22:24 → 22:26] par l'État, tu vois?
+- [22:26 → 22:28] Donc il y a une qui se plus que des contrôles techniques,
+- [22:28 → 22:30] parce que tu vois, pour plus de 700 machines,
+- [22:30 → 22:32] il faut suivre
+- [22:32 → 22:34] tout ce qui est réglementaire.
+- [22:34 → 22:36] C'est le réglementaire.
+- [22:36 → 22:38] Et quand il y a
+- [22:38 → 22:40] ces contrôles techniques,
+- [22:40 → 22:42] c'est un coup, donc il y a un envoy
+- [22:42 → 22:44] des commandes qui ont dit,
+- [22:44 → 22:46] il y a eu un contrôles technique pour cette machine,
+- [22:46 → 22:48] 150 euros, il y a eu des frais d'entretien pour cette machine,
+- [22:48 → 22:50] 1200 euros, tu vois?
+- [22:50 → 22:52] Donc il y a une qui se plus que 200.
+- [22:52 → 22:54] Et trois autres
+- [22:54 → 22:56] qui ont la France divisée en trois,
+- [22:56 → 22:58] d'accord?
+- [22:58 → 23:00] Pour ça que trois, ils sont
+- [23:00 → 23:02] débordés, et là avec les machines,
+- [23:02 → 23:04] ils ont demandé déjà un quatrième, et avec le
+- [23:04 → 23:06] nombre de machines qui vont monter, on va
+- [23:06 → 23:08] faire un cinquième, mais ils n'en ont jamais un cinquième,
+- [23:08 → 23:10] ils ne vont pas mettre deux, tu vois?
+- [23:10 → 23:12] C'est impossible. Au niveau
+- [23:12 → 23:14] coup, c'est impossible. Donc à un moment donné, ils ont
+- [23:14 → 23:16] mis, ils en ont les attend, et ils sont prêts
+- [23:16 → 23:18] à craquer au mois de juillet, si on n'en rajoute
+- [23:18 → 23:20] qu'un seul, parce qu'ils ont déjà, ils nous ont
+- [23:20 → 23:22] parlé un, là, c'est normal
+- [23:22 → 23:24] d'en demander un, d'avoir rajouté
+- [23:24 → 23:26] des machines, vous n'allez pas les laisser comme ça,
+- [23:26 → 23:28] vous vous en rajoutez un, mais il en faudrait
+- [23:28 → 23:30] d'eux. C'est pour ça que l'automatisation,
+- [23:30 → 23:32] c'est qu'elle arrive, elle arrive bien.
+- [23:32 → 23:34] Et donc les bées, c'est que eux, ils sont
+- [23:34 → 23:36] en contact avec les sites,
+- [23:36 → 23:38] donc parfois ils vont vite faire sur un site
+- [23:38 → 23:40] parce qu'ils n'ont pas de temps, parce qu'il y a
+- [23:40 → 23:42] un site qui a eu une panne sur la machine,
+- [23:42 → 23:44] donc il faut la maintenir, il y a le site,
+- [23:44 → 23:46] il y a eu ceci, parce que
+- [23:46 → 23:48] les sites travaillent parfois toute la nuit,
+- [23:48 → 23:50] ils font des tri, et puis il y a des
+- [23:50 → 23:52] pannes, il faut commander des pièces,
+- [23:52 → 23:54] il faut commander de l'huile, parfois
+- [23:54 → 23:56] il faut commander des
+- [23:56 → 23:58] yatsous, quoi, les causes
+- [23:58 → 24:00] des litiges, yatsous, et
+- [24:00 → 24:02] tu vois, les factures qu'on envoie, c'est parce
+- [24:02 → 24:04] qu'il y a de la maintenance,
+- [24:04 → 24:06] il y a de la location aussi, il y a
+- [24:06 → 24:08] des entreprises avec qui on bosse, parce
+- [24:08 → 24:10] qu'on bosse beaucoup, beaucoup d'entreprises,
+- [24:10 → 24:12] et donc c'est ces commandes
+- [24:12 → 24:14] de ces entreprises-là que je fais.
+- [24:14 → 24:16] Location de sites, fourniture d'huile,
+- [24:16 → 24:18] remplacement d'une pince,
+- [24:18 → 24:20] remplacement d'un verrin,
+- [24:20 → 24:22] il y a des trucs, il y a tout.
+- [24:22 → 24:24] Donc déjà, ils doivent déjà
+- [24:24 → 24:26] voir que les
+- [24:26 → 24:28] fournisseurs
+- [24:28 → 24:30] ils respectent le contrat, parce qu'il y a
+- [24:30 → 24:32] quelqu'un, ces charlottes, elles sont
+- [24:32 → 24:34] publiées des achats, il y a quelqu'un
+- [24:34 → 24:36] qui rassure sur l'abacha, elle va négocier
+- [24:36 → 24:38] les prix, elle va négocier les contrats,
+- [24:38 → 24:40] donc eux, ils doivent s'assurer que
+- [24:40 → 24:42] si on commande une roue, qui coûte
+- [24:42 → 24:44] 12 000 euros, une roue,
+- [24:44 → 24:46] parce qu'il y a eu un problème, parce que
+- [24:46 → 24:48] il s'était percé, ils doivent s'assurer
+- [24:48 → 24:50] que les fournisseurs respectent les
+- [24:50 → 24:52] tu vois, ils respectent le contrat,
+- [24:52 → 24:54] ils respectent le cahier des charges.
+- [24:54 → 24:56] Donc parfois, ils disent, voilà,
+- [24:56 → 24:58] il y a une facture, ils disent,
+- [24:58 → 25:00] on peut passer là, parce qu'on est pas
+- [25:00 → 25:02] d'accord avec la facturation, on est pas
+- [25:02 → 25:04] d'accord avec nos deux vies, on est pas
+- [25:04 → 25:06] d'accord avec ça. Donc il y a des allers
+- [25:06 → 25:08] autour qui se font entre eux et
+- [25:08 → 25:10] les fournisseurs, et quand maintenant
+- [25:10 → 25:12] c'est validé, ils me disent, voilà, tu peux
+- [25:12 → 25:14] faire une bonne commande, c'est validé.
+- [25:14 → 25:16] Ils mettent la personne en copie, et moi je fais
+- [25:16 → 25:18] ça, on parle à la personne, tu vois.
+- [25:18 → 25:20] Il y a toutes ces négocessions-là
+- [25:20 → 25:22] qui se fait, et toutes ces tapraces, voilà.
+- [25:22 → 25:24] Et pour plus, il faut avoir
+- [25:24 → 25:26] avec Brian.
+- [25:26 → 25:28] D'accord, c'est très clair.
+- [25:28 → 25:30] Je vois.
+- [25:30 → 25:32] C'est très intéressant, je crois qu'on est assez
+- [25:32 → 25:34] prêt, parce que si on fait ça...
+- [25:34 → 25:36] Comme ils sont trois pour toute la France,
+- [25:36 → 25:38] c'est pas assez.
+- [25:38 → 25:40] C'est pas assez. Oui, comme tu dis, c'est
+- [25:40 → 25:42] bon mot en plus.
+- [25:42 → 25:44] Ok, parfait.
+- [25:44 → 25:46] On peut... Oui, en plus ça va aider au
+- [25:46 → 25:48] cadrage, parce que
+- [25:48 → 25:50] si on invente des cadrages, on peut faire
+- [25:50 → 25:52] des cadres qui sont similaires,
+- [25:52 → 25:54] à ce qu'ils font, et aussi
+- [25:54 → 25:56] intéresser d'autres personnes aussi.
+- [25:56 → 25:58] En tout cas, le
+- [25:58 → 26:00] cadre de charge, il va être
+- [26:00 → 26:02] ajouté avec ce module.
+- [26:02 → 26:04] Ok.
+- [26:04 → 26:06] Ok. Et donc ils auront...
+- [26:06 → 26:08] Quand on peut envoyer ça, ça sera un bon
+- [26:08 → 26:10] cadre de charge, quand même.
+- [26:10 → 26:12] Et donc, ça va être demandé aussi ça,
+- [26:12 → 26:14] parce que la variante A, c'est le cadrage.
+- [26:14 → 26:16] Et le cadrage, c'est...
+- [26:16 → 26:18] C'est-à-dire le document financier, il y a le
+- [26:18 → 26:20] cadre de charge au final.
+- [26:20 → 26:22] Et il y a des soucis là.
+- [26:22 → 26:24] C'est simple, parce que je voulais aussi
+- [26:24 → 26:26] voir les tas. C'est pour ça qu'on va pas lui envoyer,
+- [26:26 → 26:28] on va devoir décider. Non, non.
+- [26:28 → 26:30] Parce que ça peut se modifier, parce que ça va
+- [26:30 → 26:32] bouger. Oui, et surtout parce que ça peut
+- [26:32 → 26:34] être le document final, ou un des documents
+- [26:34 → 26:36] finales, on peut dire, du projet.
+- [26:36 → 26:38] Exactement. Oui, exactement.
+- [26:38 → 26:40] Ok. Donc... Non, non, on en voit pas.
+- [26:40 → 26:42] Et finalement, on a le document final. Parce qu'on parlait
+- [26:42 → 26:44] d'immenses, que le fait c'est de faire...
+- [26:44 → 26:46] Moi, je suis tranquille quand je fais presque la
+- [26:46 → 26:48] finalité du projet. Et comme ça, c'est plutôt
+- [26:48 → 26:50] remplir. On peut dire. Ok.
+- [26:50 → 26:52] Et voir avec Brian, ou autre personne que tu
+- [26:52 → 26:54] penses, ça va remplir.
+- [26:54 → 26:56] Et ça donne seulement la sécurité que
+- [26:56 → 26:58] tu sais que ton cadre de charge
+- [26:58 → 27:00] il va faire au moins 100 pages.
+- [27:00 → 27:02] Bien 100 pages.
+- [27:02 → 27:04] Oui, parce qu'on a déjà...
+- [27:04 → 27:06] Bon, je sais pas, mais on a quand même
+- [27:06 → 27:08] quelques-uns. Non, non.
+- [27:08 → 27:10] C'est 20 ans plus tard. 20 ans, je crois. Oui,
+- [27:10 → 27:12] à peu près. Et on a
+- [27:12 → 27:14] nécessairement nos idées, en plus.
+- [27:14 → 27:16] Donc, tu rajoutes
+- [27:16 → 27:18] la partie de technologie, qui est un module
+- [27:18 → 27:20] aussi. Et
+- [27:20 → 27:22] ensuite, en conversation avec la DSI,
+- [27:22 → 27:24] on saura alors
+- [27:24 → 27:26] le monde opératoire technique. Le même que
+- [27:26 → 27:28] j'ai à la maison, mais fait pour eux ici.
+- [27:28 → 27:30] D'accord. Et ça fera aussi,
+- [27:30 → 27:32] moi j'imagine, 20 pages
+- [27:32 → 27:34] à 30. Et après,
+- [27:34 → 27:36] si il y a un cas d'usage d'autres personnes,
+- [27:36 → 27:38] ça remplit, ça remplit.
+- [27:38 → 27:40] Chaque personne peut faire...
+- [27:40 → 27:42] Je crois que je te trouve
+- [27:42 → 27:44] justement, M. Riban qu'on va rencontrer.
+- [27:44 → 27:46] Il avait fait...
+- [27:46 → 27:48] Il avait passé une semaine ici pour voir
+- [27:48 → 27:50] un peu comment on peut améliorer le
+- [27:50 → 27:52] tout le monde, surtout. Et au final,
+- [27:52 → 27:54] il avait dit, toi, tu ne sauras rien.
+- [27:54 → 27:56] Toi, tu... Ah bon?
+- [27:56 → 27:58] Toi, tu devrais travailler comme ça,
+- [27:58 → 28:00] toi, tu devrais travailler comme ça. Vous n'avez pas besoin
+- [28:00 → 28:02] de quelqu'un en plus. Ah bon?
+- [28:02 → 28:04] Et il y a un cours de rendu, et je te donne
+- [28:04 → 28:06] un petit peu de temps à rester comment on te dit.
+- [28:06 → 28:08] Ok. Magnifique pour la politique, c'est parfait.
+- [28:08 → 28:10] Merci.
+- [28:10 → 28:12] Je trouve ça de fréran.
+- [28:12 → 28:14] De où il est sorti?
+- [28:14 → 28:16] Je travaille, je viens de commande
+- [28:16 → 28:18] de jeux. Manger par jaune,
+- [28:18 → 28:20] je me dis, wow. Ils avaient toujours eu
+- [28:20 → 28:22] des personnes qui ne tappaient pas autant.
+- [28:22 → 28:24] Je rentre dedans, je les fonce tout,
+- [28:24 → 28:26] mais à un moment donné, je ne peux plus le faire.
+- [28:26 → 28:28] Oui.
+- [28:28 → 28:30] Et les jeunes qui étaient là, ils faisaient pas
+- [28:30 → 28:32] tout ça, quoi.
+- [28:32 → 28:34] Et à un terme, c'est impossible.
+- [28:34 → 28:36] Oui, absolument.
+- [28:36 → 28:38] Non, et c'est intéressant.
+- [28:38 → 28:40] Est-ce que tu penses que je peux,
+- [28:40 → 28:42] comme je suis là, avoir un modèles
+- [28:42 → 28:44] de présentation
+- [28:44 → 28:46] de partenariés en freelance
+- [28:46 → 28:48] pour faire ça?
+- [28:48 → 28:50] Oui, voilà.
+- [28:50 → 28:52] Oui, voilà. C'est vrai. On passait
+- [28:52 → 28:54] à là maintenant, c'est le reste.
+- [28:54 → 28:56] En fait,
+- [28:56 → 28:58] moi, je crois que je suis d'accord avec
+- [28:58 → 29:00] ce qu'ils pensent aussi.
+- [29:00 → 29:02] Et c'est bien, c'est d'ailleurs
+- [29:02 → 29:04] que, monsieur Hubert,
+- [29:04 → 29:06] c'est que,
+- [29:06 → 29:08] en fait,
+- [29:08 → 29:10] maintenant, imagine-toi
+- [29:10 → 29:12] quand on a le contrat.
+- [29:12 → 29:14] Et imagine-toi que la variante,
+- [29:14 → 29:16] c'est C.
+- [29:16 → 29:18] Je parle de là, OK? Si c'est A,
+- [29:18 → 29:20] rien ne change.
+- [29:20 → 29:22] Ce serait au futur, ceci.
+- [29:22 → 29:24] Et si c'est C, c'est maintenant.
+- [29:24 → 29:26] Et donc, au final,
+- [29:26 → 29:28] toi, tu as déjà fait le travail
+- [29:28 → 29:30] stratégiquement, même lui, à la fin,
+- [29:30 → 29:32] il a fait un résumé
+- [29:32 → 29:34] du co-branque qu'on parlait hier.
+- [29:34 → 29:36] La même chose.
+- [29:36 → 29:38] Moi, je suis tranquille avec le
+- [29:38 → 29:40] brand Conan.
+- [29:40 → 29:42] Il a compris que c'est un co-branque
+- [29:42 → 29:44] que tu avais la contrainte
+- [29:44 → 29:46] de passer en partenariat après,
+- [29:46 → 29:48] que tu as décidé, aller voir
+- [29:48 → 29:50] un externe. Il a dit comme ça,
+- [29:50 → 29:52] un partenaire externe. Et de ramener
+- [29:52 → 29:54] ici. Il a tout compris.
+- [29:54 → 29:56] Donc, c'est vraiment bien,
+- [29:56 → 29:58] je crois. Avec cette union,
+- [29:58 → 30:00] je crois qu'il a tout compris ce que tu es
+- [30:00 → 30:02] en train de faire. En plus, c'est vrai.
+- [30:02 → 30:04] Et donc, moi, ce que je te propose,
+- [30:04 → 30:06] c'est faire le co-branque.
+- [30:06 → 30:08] C'est-à-dire,
+- [30:08 → 30:10] continuer en plus de pas y est
+- [30:10 → 30:12] de charge.
+- [30:12 → 30:14] Et comme ça, tu as le reste.
+- [30:14 → 30:16] Tu as le circulier compris que tu as
+- [30:16 → 30:18] porté ici.
+- [30:18 → 30:20] Tu as tout ce que tu veux, de technologie,
+- [30:20 → 30:22] derrière. Et donc,
+- [30:22 → 30:24] tu peux faire des choses, ou bien tu fais
+- [30:24 → 30:26] le co-branque. Et tu dis,
+- [30:26 → 30:28] oui, je vais continuer à saisir.
+- [30:28 → 30:30] Ou bien, tu fais le co-branque.
+- [30:30 → 30:32] Et tu sais que, ici, on touche
+- [30:32 → 30:34] opérationnel. Et ça, c'est un service.
+- [30:34 → 30:36] Et c'est maintenu par EFA, tout simplement.
+- [30:36 → 30:38] Et tu saisis, comme tu fais
+- [30:38 → 30:40] toujours, rien ne change
+- [30:40 → 30:42] pour eux. Et tu
+- [30:42 → 30:44] cadres la cifre que tu
+- [30:44 → 30:46] penses. Et tu veux
+- [30:46 → 30:48] mon avis, on peut toujours en discuter.
+- [30:48 → 30:50] Mais voilà.
+- [30:50 → 30:52] Oui, moi, je me suis déjà pensée, je me suis dit
+- [30:52 → 30:54] voilà, je fais ça et je
+- [30:54 → 30:56] prends un e-pay
+- [30:56 → 30:58] avec des charges
+- [30:58 → 31:00] parce que c'est avec les charges
+- [31:00 → 31:02] en train de l'impôt.
+- [31:02 → 31:04] C'est parce que c'est simile
+- [31:04 → 31:06] de charges
+- [31:06 → 31:08] avec les charges. Je me dis,
+- [31:08 → 31:10] je prends un freelance,
+- [31:10 → 31:12] je continue la cédie, c'est un mille et ça me permet
+- [31:12 → 31:14] de sous-traiter. C'est ça que je veux
+- [31:14 → 31:16] d'en faire comme proposition.
+- [31:16 → 31:18] Il faut que je le passe, il m'a dit de préparer pour la semaine prochaine
+- [31:18 → 31:20] une offre.
+- [31:20 → 31:22] Il en faut pas, ça, tu m'as dit.
+- [31:22 → 31:24] 5 000 en...
+- [31:24 → 31:26] par mois ?
+- [31:26 → 31:28] Ouais. Ok.
+- [31:28 → 31:30] Si c'est 5 000 par mois,
+- [31:30 → 31:32] moi je crois. Oui, je le propose.
+- [31:32 → 31:34] Ok. Et tu voulais se t'analyser.
+- [31:34 → 31:36] Et donc, lui l'a compris
+- [31:36 → 31:38] et moi aussi, j'ai compris de lui
+- [31:38 → 31:40] qu'il a dit la même chose que toi maintenant.
+- [31:40 → 31:42] Et donc, du coup, je crois que
+- [31:42 → 31:44] t'as bien fait l'affaire
+- [31:44 → 31:46] de son point de vue, avec cette réunion.
+- [31:46 → 31:48] Pas du bien, mais de lui,
+- [31:48 → 31:50] il a compris que tu viens de l'exécuter
+- [31:50 → 31:52] ce que t'as dit, mais que
+- [31:52 → 31:54] t'as mis le pas d'avant, simplement.
+- [31:54 → 31:56] T'as mis le pas d'automatisé.
+- [31:56 → 31:58] Mais donc moi, si c'était toi, je ne séparais pas.
+- [31:58 → 32:00] T'es en train de chercher
+- [32:00 → 32:02] un cobron dehors, de son point de vue.
+- [32:02 → 32:04] Et t'as trouvé et ça
+- [32:04 → 32:06] fait comme ça.
+- [32:06 → 32:08] Donc, c'est vrai
+- [32:08 → 32:10] qu'au final, moi, je peux
+- [32:10 → 32:12] peut-être élargérer les opérations
+- [32:12 → 32:14] de ça. C'est-à-dire
+- [32:14 → 32:16] faire la même chose qu'on fait maintenant
+- [32:16 → 32:18] et donc
+- [32:18 → 32:20] ça prend quand bien.
+- [32:20 → 32:22] Donc, tu gères la relation
+- [32:22 → 32:24] avec le client, tu gères
+- [32:24 → 32:26] tout ce que tu fais aujourd'hui.
+- [32:26 → 32:28] Tu expliques
+- [32:28 → 32:30] les mots d'opératoires
+- [32:30 → 32:32] qu'il y a, comme tu expliquais
+- [32:32 → 32:34] que tu parles en tech, tu as tout expliqué.
+- [32:34 → 32:36] Tu continues à faire ça.
+- [32:36 → 32:38] Et après moi,
+- [32:38 → 32:40] il faudrait que je casse
+- [32:40 → 32:42] le service
+- [32:42 → 32:44] de gestion,
+- [32:44 → 32:46] de grade, tu vois, et
+- [32:46 → 32:48] en précisement,
+- [32:48 → 32:50] le suivi,
+- [32:50 → 32:52] de ce qu'on fait.
+- [32:52 → 32:54] C'est maintenant ça, c'est ça?
+- [32:54 → 32:56] Mais c'est de maintenant.
+- [32:56 → 32:58] C'est de maintenant?
+- [32:58 → 33:00] Oui, c'est de maintenant.
+- [33:00 → 33:02] Et là, maintenant, on va faire
+- [33:02 → 33:04] comme proposition. Ça, tu as dit que ça venait après,
+- [33:04 → 33:06] c'est ça? Bon, non, ça vient maintenant
+- [33:06 → 33:08] si on est
+- [33:08 → 33:10] tactiques.
+- [33:10 → 33:12] Et t'as demandé de faire une proposition.
+- [33:12 → 33:14] Oui, il me dit, nous, on voudrait
+- [33:14 → 33:16] votre entreprise et ses créations
+- [33:16 → 33:18] et joie, voilà, nous,
+- [33:18 → 33:20] ce qui est urgent parce que votre contrat arrive bientôt,
+- [33:20 → 33:22] je fais une proposition
+- [33:22 → 33:24] à l'Aéras et tout, il me demande
+- [33:24 → 33:26] qu'est-ce qu'on crée derrière.
+- [33:26 → 33:28] On voudrait pas se séparer de vous, est-ce que vous pouvez
+- [33:28 → 33:30] nous faire de l'oeuf? Voilà.
+- [33:30 → 33:32] Pour continuer les saisies. Donc, du coup,
+- [33:32 → 33:34] c'est ça que je voulais lui proposer.
+- [33:34 → 33:36] Je lui ai dit que je vais en venir ça la semaine prochaine.
+- [33:36 → 33:38] Mais c'est pas différent ce que j'ai dit, non?
+- [33:38 → 33:40] Oui.
+- [33:40 → 33:42] C'est littéralement la même chose.
+- [33:42 → 33:44] C'est pour ça que je...
+- [33:44 → 33:46] Il faut qu'on soit aussi à côté
+- [33:46 → 33:48] de ce que lui il pense, parce que lui, il a compris la même
+- [33:48 → 33:50] chose. Il a dit, ben, de la recherche
+- [33:50 → 33:52] c'est un partenariat.
+- [33:52 → 33:54] Donc, c'est pour ça que je crois que c'est important
+- [33:54 → 33:56] de continuer la conversation qu'on a avec lui.
+- [33:56 → 33:58] C'est à dire, à moi aussi, il m'a demandé
+- [33:58 → 34:00] la maintenance. Il m'a dit, et vous n'avez pas
+- [34:00 → 34:02] préparé la maintenance de ça,
+- [34:02 → 34:04] comment c'est? Et moi, j'ai dit,
+- [34:04 → 34:06] quand même, je fais quoi? C'est après, c'est ça?
+- [34:06 → 34:08] Non, j'ai dit que je savais pas si
+- [34:08 → 34:10] même ça, c'était logique ou vous.
+- [34:10 → 34:12] Si vous étiez d'accord.
+- [34:12 → 34:14] Et quel système vous avez aussi?
+- [34:14 → 34:16] Donc,
+- [34:16 → 34:18] et après, nous avons accès,
+- [34:18 → 34:20] de la variante, les variantes A, B, C.
+- [34:20 → 34:22] Et donc, c'est là
+- [34:22 → 34:24] où on crée la maintenance.
+- [34:24 → 34:26] Moi, si c'était toi,
+- [34:26 → 34:28] je porterai un message un peu similaire.
+- [34:28 → 34:30] Parce que, là, si c'est d'un côté,
+- [34:30 → 34:32] tu l'as même tarifié.
+- [34:32 → 34:34] Donc, j'ai une proposition seulement avec
+- [34:34 → 34:36] de couleur.
+- [34:36 → 34:38] Je peux me faire de couleur, de couleur noire
+- [34:38 → 34:40] et tout. C'est vraiment...
+- [34:40 → 34:42] Moi, je ferai pas beaucoup plus.
+- [34:42 → 34:44] Une proposition vraiment très simple,
+- [34:44 → 34:46] de 5 pages.
+- [34:46 → 34:48] Et que tu connaisses déjà en plus.
+- [34:48 → 34:50] Et ça, tu tarifas 5 000.
+- [34:50 → 34:52] Et tu assaisis et tout.
+- [34:52 → 34:54] Si toi, tu me l'envoies,
+- [34:54 → 34:56] moi, j'intègre ça
+- [34:56 → 34:58] dans ce qu'on fait.
+- [34:58 → 35:00] Et moi, si c'était toi,
+- [35:00 → 35:02] je parlerai de ce qu'on fait. Parce que, je dirais,
+- [35:02 → 35:04] tu vois,
+- [35:04 → 35:06] tu peux me faire un produit
+- [35:06 → 35:08] unique, tu vois.
+- [35:08 → 35:10] Et je le dirais.
+- [35:10 → 35:12] C'est pour ça que le début, il faut qu'on soit un peu tactique.
+- [35:12 → 35:14] Parce que le plus intéressant, c'est plutôt
+- [35:14 → 35:16] d'injecter ça,
+- [35:16 → 35:18] avec ta maintenance, grossir la chiffre
+- [35:18 → 35:20] d'affaires.
+- [35:20 → 35:22] Et on parler de la répartition.
+- [35:22 → 35:24] On parlera.
+- [35:24 → 35:26] Il y a un maintenance que je dois faire
+- [35:26 → 35:28] quand même humaine.
+- [35:28 → 35:30] Je ne peux pas être la personne à faire bourge,
+- [35:30 → 35:32] tout le temps.
+- [35:32 → 35:34] Et tout ça, donc du coup, il faut qu'on parle du service.
+- [35:34 → 35:36] Et j'ai ça aussi, à la maison.
+- [35:36 → 35:38] J'ai des documentations
+- [35:38 → 35:40] pour faire la même chose que je fais
+- [35:40 → 35:42] avec les bales de charge.
+- [35:42 → 35:44] Et donc avec ça,
+- [35:44 → 35:46] moi, on est tranquilles. On a le document de ce qu'on va
+- [35:46 → 35:48] faire comme maintenance.
+- [35:48 → 35:50] Interne et externe.
+- [35:50 → 35:52] Avec la même chose que la composition.
+- [35:52 → 35:54] La même qu'aujourd'hui.
+- [35:54 → 35:56] C'est...
+- [35:56 → 35:58] C'est tout le monde.
+- [35:58 → 36:00] C'est juste la difficulté
+- [36:00 → 36:02] pour l'instant, comme on apprend
+- [36:02 → 36:04] qu'on revendu la première partie.
+- [36:04 → 36:06] Lui, il veut...
+- [36:06 → 36:08] la condensation qu'on a eue après.
+- [36:08 → 36:10] Il se dit, oui, c'est vrai que c'est
+- [36:10 → 36:12] un très bon projet. Il me dit, c'est super.
+- [36:12 → 36:14] Est-ce qu'il peut faire ça ? Je lui dis, oui.
+- [36:14 → 36:16] Il fait vraiment beaucoup de choses.
+- [36:16 → 36:18] Et justement, les cas d'usage vont répondre
+- [36:18 → 36:20] aux questions. Il me dit, moi, ce qui m'inquiète,
+- [36:20 → 36:22] c'est que je voudrais vraiment
+- [36:22 → 36:24] vous aider à sécuriser cette partie-là.
+- [36:24 → 36:26] Et je me dis, si j'arrive à
+- [36:26 → 36:28] sécuriser cette partie-là, à peine
+- [36:28 → 36:30] que la songeois, on est déjà là.
+- [36:30 → 36:32] Et derrière, derrière, je peux
+- [36:32 → 36:34] me comprendre. Et après, on peut
+- [36:34 → 36:36] voir comment on fait la deuxième partie
+- [36:36 → 36:38] maintenant de l'autocou.
+- [36:38 → 36:40] Tu vois, en fait, c'est ça son inquiétude.
+- [36:40 → 36:42] Oui. Je sais pas comment on peut faire ça.
+- [36:42 → 36:44] Mais c'est de lignes seulement.
+- [36:44 → 36:46] C'est-à-dire, si la position
+- [36:46 → 36:48] qu'on a fait, c'est de lignes d'un de
+- [36:48 → 36:50] vie. C'est la maintenant
+- [36:50 → 36:52] technique, on peut dire,
+- [36:52 → 36:54] ou...
+- [36:54 → 36:56] Oui, technique opérationnelle.
+- [36:56 → 36:58] Oui.
+- [36:58 → 37:00] C'est vrai que le technique aussi sont des
+- [37:00 → 37:02] opérations. En final, c'est le jour-à-jour
+- [37:02 → 37:04] des accidents, des choses qu'il faut changer.
+- [37:04 → 37:06] Non, du coup, on verra le nom,
+- [37:06 → 37:08] mais c'est de lignes, en final. Et tu m'as dit
+- [37:08 → 37:10] que c'était 5 nids, très bon, très
+- [37:10 → 37:12] belle chiffre, honnêtement, c'est bien.
+- [37:12 → 37:14] Oui, moi, je prends 5 nids, parce que
+- [37:14 → 37:16] c'est vraiment beaucoup de taffes.
+- [37:16 → 37:18] Exactement. Et tu sais que c'est juste,
+- [37:18 → 37:20] et comme ça, même si c'est beaucoup de taffes,
+- [37:20 → 37:22] voilà, c'est bien,
+- [37:22 → 37:24] bon. Et...
+- [37:24 → 37:26] Et derrière, surtout, tu vois, ça, le truc.
+- [37:26 → 37:28] Exactement. Et moi, je dois faire pareil.
+- [37:28 → 37:30] Je rajoute tout ça,
+- [37:30 → 37:32] c'est-à-dire que moi, je pense comme toi,
+- [37:32 → 37:34] moi, j'opère comme toi. Le chiffre que je domme,
+- [37:34 → 37:36] c'est pour soutraiter.
+- [37:36 → 37:38] Voilà, la partie des techniques
+- [37:38 → 37:40] aussi, pareil. Il faudra que...
+- [37:40 → 37:42] Moi, je sais comment soutraiter ça aussi.
+- [37:42 → 37:44] Et de façon pas... pas chère,
+- [37:44 → 37:46] tu vois, et de qualité et tout.
+- [37:46 → 37:48] Mais mes systèmes,
+- [37:48 → 37:50] même ma dégâtaie créée pour aider ces personnes-là,
+- [37:50 → 37:52] donc du coup, il n'y a pas de problème
+- [37:52 → 37:54] à ce sujet. Et j'en ai quand même
+- [37:54 → 37:56] des gens formés aussi pour m'aider
+- [37:56 → 37:58] à faire comme moi avec eux aussi.
+- [37:58 → 38:00] Donc voilà.
+- [38:00 → 38:02] Je... je... je penserai le défi.
+- [38:02 → 38:03] Euh...
+- [38:03 → 38:05] C'est vrai que pour la semaine prochaine,
+- [38:05 → 38:07] c'est un peu juste de penser le défi de cette partie-là.
+- [38:07 → 38:09] Mais...
+- [38:09 → 38:11] Ouais, mais je suis obligé, je vais être obligé de...
+- [38:11 → 38:13] de faire, je sais pas comment je vais le faire.
+- [38:13 → 38:14] OK.
+- [38:14 → 38:16] Je suis obligé de faire. OK.
+- [38:16 → 38:18] Pour que... pour faire rentrer, en fait,
+- [38:18 → 38:20] création du joueur, donc c'est vraiment important
+- [38:20 → 38:22] que je rentre. Non, non, bien sûr.
+- [38:22 → 38:24] Parce que du coup, si je rentre, je pourrai rentrer derrière,
+- [38:24 → 38:26] tu vois. Non, non, mais attends,
+- [38:26 → 38:28] il y a un truc.
+- [38:28 → 38:30] Il y a deux options. Oui. Il y a A,
+- [38:30 → 38:32] ton truc. Il y a B, le autre truc.
+- [38:32 → 38:34] Mais c'est seulement que toi et moi, il faut qu'on pense les deux.
+- [38:34 → 38:36] C'est-à-dire qu'on va pas...
+- [38:36 → 38:38] c'est pas qu'on va pas faire les deux.
+- [38:38 → 38:40] Mais je dis qu'il faut être les deux.
+- [38:40 → 38:42] Si je parle dans tes mots, on peut dire.
+- [38:42 → 38:44] OK.
+- [38:44 → 38:46] C'est-à-dire, quand tu parles de faire...
+- [38:46 → 38:48] de faire A, qui est faire le...
+- [38:48 → 38:50] ton dossier.
+- [38:50 → 38:52] Moi, je dis que oui, bien sûr.
+- [38:52 → 38:54] Mais on devrait faire les deux choses.
+- [38:54 → 38:56] Ton dossier et le courant
+- [38:56 → 38:58] dossier.
+- [38:58 → 39:00] Une est une ligne de 5 000,
+- [39:00 → 39:02] qui est un dossier de 5 pages,
+- [39:02 → 39:04] qui a un brun de EFA.
+- [39:04 → 39:06] Où tu peux le faire blanc ou noir.
+- [39:06 → 39:08] Toi, blanc
+- [39:08 → 39:10] cassé.
+- [39:10 → 39:12] Comme tu as fait avec
+- [39:12 → 39:14] une des couleurs de tesquettes
+- [39:14 → 39:16] jeunatres.
+- [39:16 → 39:18] De bas-grands.
+- [39:18 → 39:20] Et...
+- [39:20 → 39:22] les lettres noires et fines.
+- [39:24 → 39:26] Toi, je viens prendre comme ça, c'est tout.
+- [39:26 → 39:28] Et des petits axes en verre.
+- [39:28 → 39:30] Et...
+- [39:30 → 39:32] ça, c'est A5 pages.
+- [39:32 → 39:34] Toi, la première et la cinquième,
+- [39:34 → 39:36] ce serait même des...
+- [39:36 → 39:38] comme moi, le couvert et l'autre.
+- [39:38 → 39:40] En verre.
+- [39:40 → 39:42] Ça en verre et en blanc.
+- [39:42 → 39:44] Par exemple, elle reste en verre.
+- [39:44 → 39:46] Et tu fais seulement
+- [39:46 → 39:48] un, c'est la même chose que
+- [39:48 → 39:50] tu m'envoyais.
+- [39:50 → 39:52] C'est qui?
+- [39:52 → 39:54] Deux, c'est alors directement la proposition
+- [39:54 → 39:56] service.
+- [39:56 → 39:58] Je ferai à gauche
+- [39:58 → 40:00] expliquer la contrainte.
+- [40:00 → 40:02] Et à droite
+- [40:02 → 40:04] expliquer tes opérations.
+- [40:04 → 40:06] Je fais six, je fais ça, je fais ça
+- [40:06 → 40:08] autant de chiffres.
+- [40:08 → 40:10] Parce que c'est vraiment plus pour toi parler.
+- [40:10 → 40:12] Pour parler plutôt.
+- [40:12 → 40:14] Et c'est le cadre de chiffres.
+- [40:16 → 40:18] D'accord.
+- [40:20 → 40:22] Oui, c'est vrai que je n'ai pas trop compris,
+- [40:22 → 40:24] mais vas-y, elle est aussi seule.
+- [40:24 → 40:26] Non, mais le cadre de chiffres...
+- [40:26 → 40:28] C'est-à-dire qu'après, on rajoutera la ligne
+- [40:28 → 40:30] dans le truc, c'est ça, dans la proposition
+- [40:30 → 40:32] après qu'on va faire avec le...
+- [40:32 → 40:34] Oui, voilà, c'est certain.
+- [40:34 → 40:36] C'est certain de dire pour tant d'enquiments.
+- [40:36 → 40:38] Si tu n'as pas compris, dis-moi.
+- [40:38 → 40:40] Je te le dis encore, parce que...
+- [40:40 → 40:42] Je n'ai pas compris.
+- [40:42 → 40:44] On va mettre la proposition
+- [40:44 → 40:46] dans la grosse proposition après.
+- [40:46 → 40:48] Après, mais si tu m'as...
+- [40:48 → 40:50] Et on rajoutera du coup la partie
+- [40:50 → 40:52] maintenant, ce qui demandait tout à l'heure.
+- [40:52 → 40:54] Voilà, voilà, exactement.
+- [40:54 → 40:56] C'est le B, l'action B.
+- [40:56 → 40:58] Et l'action A, l'action A,
+- [40:58 → 41:00] c'est ça que tu m'as dit,
+- [41:00 → 41:02] même si la B existe, que tu as besoin.
+- [41:02 → 41:04] C'est pour ça que je t'ai expliqué tout ça.
+- [41:04 → 41:06] Pour que tu saches ce que tu dois faire.
+- [41:06 → 41:08] Toi, dans ce que tu m'as dit, que tu ne savais pas faire
+- [41:08 → 41:10] la proposition que tu as envoyé.
+- [41:10 → 41:14] Oui, après, je vais me sortir un truc.
+- [41:14 → 41:18] Mais donc, si il faut rester dans la cohérence,
+- [41:18 → 41:20] je te conseille seulement...
+- [41:20 → 41:22] Oui, voilà, après, si tu as un paria,
+- [41:22 → 41:24] je te conseille d'être en train de donner
+- [41:24 → 41:26] slide par slide, ce que tu devrais mettre.
+- [41:26 → 41:28] D'accord.
+- [41:28 → 41:32] 5 slides. 1 et 5 sont les couverts.
+- [41:32 → 41:34] Pas de problème. C'est le bronze.
+- [41:34 → 41:36] Le vert. Vers la obscure que tu as.
+- [41:36 → 41:40] Et le balcon. Et le blanc, les lettres.
+- [41:40 → 41:42] Et il y a ce type de problème, là, mais il y a un peu.
+- [41:42 → 41:44] Le 2.
+- [41:44 → 41:46] Il ne faut pas faire un contrat, un truc comme ça.
+- [41:46 → 41:48] Un contrat de partenariat, un truc comme ça.
+- [41:48 → 41:50] C'est plus sale, t'as raison.
+- [41:50 → 41:52] Mais d'abord là...
+- [41:52 → 41:54] Plus sale de propositions, plus les deux.
+- [41:54 → 41:56] Les deux documents.
+- [41:56 → 41:58] Moi, j'ai aussi ça pour nous.
+- [41:58 → 42:00] Tu peux t'inspirer, si tu veux.
+- [42:00 → 42:02] C'est dans l'export.
+- [42:02 → 42:04] Et c'est...
+- [42:04 → 42:06] Je crois que c'est...
+- [42:06 → 42:08] C'est deck, je crois.
+- [42:08 → 42:10] C'est bon.
+- [42:34 → 42:44] ...
+- [42:44 → 42:54] ...
+- [42:54 → 43:02] ...
+- [43:02 → 43:08] ...
+- [43:08 → 43:18] ...
+- [43:18 → 43:20] Oui.
+- [43:20 → 43:22] Ah oui, excusez-moi.
+- [43:22 → 43:24] Ça s'est coupé.
+- [43:24 → 43:26] Quoi?
+- [43:26 → 43:28] Vous avez le recoussité, ça y est, c'est en vous?
+- [43:28 → 43:30] Oui, non, c'est revenu.
+- [43:30 → 43:32] C'est pas la ligne qui est coupée.
+- [43:32 → 43:34] Mais oui, voilà.
+- [43:34 → 43:36] On était sur le slide.
+- [43:36 → 43:38] Donc le 2e.
+- [43:38 → 43:40] Moi, je faisais le 2e qui soit...
+- [43:40 → 43:42] Le 2e claim qui soit celui qui représente
+- [43:42 → 43:44] ton world.
+- [43:44 → 43:46] Qui tu es.
+- [43:46 → 43:48] Et là, oui, tu peux mettre la photo par exemple.
+- [43:48 → 43:50] ...
+- [43:50 → 43:52] Pourquoi pas?
+- [43:52 → 43:54] Ça que tu mets des fois.
+- [43:54 → 43:56] Avec le dossier.
+- [43:56 → 43:58] Là où?
+- [43:58 → 44:00] Le jocade.
+- [44:00 → 44:02] De typique que tu mets quand tu dis
+- [44:02 → 44:04] je suis à Ychakamin.
+- [44:04 → 44:06] Et qu'est-ce que c'est?
+- [44:06 → 44:08] Ah oui, oui d'accord.
+- [44:08 → 44:10] Le 2e slide, c'est ça.
+- [44:10 → 44:12] Ma photo en moi?
+- [44:12 → 44:14] Oui, là oui. Parce que...
+- [44:14 → 44:16] Et pas par exemple, ce qui vient de des fâts.
+- [44:16 → 44:18] Ah ouais, tu sais que j'aime pas ça.
+- [44:18 → 44:20] Bon, non, non.
+- [44:20 → 44:22] Oui, ok, si tu préfères pas, c'est mieux.
+- [44:22 → 44:24] Mais comme des fois tu veux parler de toi,
+- [44:24 → 44:26] et des fois je vois que tu mets la photo,
+- [44:26 → 44:28] mais si tu préfères pas,
+- [44:28 → 44:30] mais si tu es comme moi, parfait.
+- [44:30 → 44:32] Laisse comme ça.
+- [44:32 → 44:34] Et parle comme dans ton world, et parfait.
+- [44:34 → 44:36] Ça c'est le 2e slide.
+- [44:36 → 44:38] Et après le 3e.
+- [44:38 → 44:40] Moi je mettrai à gauche,
+- [44:40 → 44:42] tu vois, dans deux colonnes.
+- [44:42 → 44:44] La celle de gauche peut être un peu plus petite.
+- [44:44 → 44:46] Je mettrai là-bas le pourquoi.
+- [44:46 → 44:48] Qu'est-ce qui se passe?
+- [44:48 → 44:50] D'accord.
+- [44:50 → 44:52] Et là tu mets un peu,
+- [44:52 → 44:54] en bas du tout, tu peux mettre en horizontal.
+- [44:54 → 44:56] En bas du tout, des chiffres.
+- [44:56 → 44:58] Comme un cercle de gémite.
+- [44:58 → 45:00] Et les commandes et tout ça.
+- [45:00 → 45:02] Et en plus tu as les mêmes messages de toute façon.
+- [45:02 → 45:04] Parce que c'est les mêmes messages automatisés que de faire.
+- [45:04 → 45:06] Oui, c'est le même.
+- [45:06 → 45:08] Et voilà après,
+- [45:08 → 45:10] à droite,
+- [45:10 → 45:12] de la colonne de droite,
+- [45:12 → 45:14] qui est un peu plus grande.
+- [45:14 → 45:16] Là-bas je mettrai,
+- [45:16 → 45:18] tu vois, tout ce qui est un procès.
+- [45:18 → 45:20] Tu peux même faire des cadres.
+- [45:20 → 45:22] 5 cadres expliqué.
+- [45:22 → 45:24] Je fais 6, ça, ça, ça.
+- [45:24 → 45:26] Et ça explique tout.
+- [45:26 → 45:28] Parce que normalement, c'est censé être toi en train de parler normalement.
+- [45:28 → 45:30] J'imagine.
+- [45:30 → 45:32] Et le troisième, c'est là-bas
+- [45:32 → 45:34] tu mets les chiffres.
+- [45:34 → 45:36] Un cadre similaire à celui que j'ai.
+- [45:36 → 45:38] D'accord.
+- [45:38 → 45:40] Ok.
+- [45:40 → 45:42] 5 cadres, tu as 10, 60?
+- [45:42 → 45:44] Oui. Après c'est le
+- [45:44 → 45:46] contreporté.
+- [45:46 → 45:48] Bon.
+- [45:48 → 45:50] C'est couvert et l'autre, je repartis.
+- [45:50 → 45:52] Le premier, le cinquième, c'est en vert.
+- [45:52 → 45:54] Et le reste, tu peux le faire
+- [45:54 → 45:56] en blanc cassé.
+- [45:56 → 45:58] Tu as blanc cassé avec
+- [45:58 → 46:00] les lettres noires et verres
+- [46:00 → 46:02] oscures comme tu l'as.
+- [46:02 → 46:04] Avec les lettres blanches.
+- [46:04 → 46:06] D'accord.
+- [46:06 → 46:08] Ok.
+- [46:08 → 46:10] Un truc comme ça, j'imagine, si tu dis ça,
+- [46:10 → 46:12] par exemple, tu fais ou tu as une idée,
+- [46:12 → 46:14] tu le fais, il va pouvoir faire.
+- [46:14 → 46:16] Après, si tu veux faire d'autres slides,
+- [46:16 → 46:18] c'est plutôt complémentaire.
+- [46:18 → 46:20] Mais avec ça, je crois que
+- [46:20 → 46:22] tu as déjà le tout pour
+- [46:22 → 46:24] en parler.
+- [46:24 → 46:26] Ok.
+- [46:26 → 46:28] Je vais essayer de voir.
+- [46:28 → 46:30] J'aurais dû noter ce que tu as dit.
+- [46:30 → 46:32] Je vais faire les 5 slides.
+- [46:32 → 46:34] Mais du coup, ton
+- [46:34 → 46:36] poursure, il a dit
+- [46:36 → 46:38] il y a toutes les infos en fait.
+- [46:38 → 46:40] Parce que c'est pas mieux si tu commandes
+- [46:40 → 46:42] lui demande de faire ça, comme il a des infos,
+- [46:42 → 46:44] est-ce qu'il peut le faire?
+- [46:44 → 46:46] Le problème, c'est que
+- [46:46 → 46:48] c'est le brand
+- [46:48 → 46:50] que j'ai donné.
+- [46:50 → 46:52] Il
+- [46:52 → 46:54] lit les couleurs
+- [46:54 → 46:56] jusqu'au
+- [46:56 → 46:58] code de couleur.
+- [46:58 → 47:00] Et tout. Et le message,
+- [47:00 → 47:02] par exemple, il a les choses comme
+- [47:02 → 47:04] ne parle pas technique,
+- [47:04 → 47:06] les choses comme ça, que je m'en sais,
+- [47:06 → 47:08] qui sont mes défauts.
+- [47:08 → 47:10] Ce qu'il faut faire, ce qu'il faut faire.
+- [47:10 → 47:12] Et donc c'est pour ça que j'ai du mal
+- [47:12 → 47:14] à changer à notre brand.
+- [47:14 → 47:16] C'est ce que je veux faire en fait.
+- [47:16 → 47:18] Ce n'est pas que
+- [47:18 → 47:20] je ne veux pas faire, mais
+- [47:20 → 47:22] je suis en train de l'améliorer pour pouvoir
+- [47:22 → 47:24] faire. Donc c'est
+- [47:24 → 47:26] seulement parce que c'est très tôt.
+- [47:26 → 47:28] Mais si c'était pour juin,
+- [47:28 → 47:30] à partir de juin, comptes avec ça.
+- [47:30 → 47:32] D'ailleurs, c'est un truc que je vais
+- [47:32 → 47:34] vendre. Parce que si
+- [47:34 → 47:36] je réussis à faire ça,
+- [47:36 → 47:38] je voudrais savoir, tu vois,
+- [47:38 → 47:40] ton avis. Parce que c'est un autre service
+- [47:40 → 47:42] de brand.
+- [47:42 → 47:44] Et en vend sur marketing, je t'ai dit que
+- [47:44 → 47:46] je passe par une agence, mais je ne veux
+- [47:46 → 47:48] pas passer par une agence, en fait.
+- [47:48 → 47:50] Je voulais l'agence
+- [47:50 → 47:52] à la maison.
+- [47:52 → 47:53] D'accord.
+- [47:53 → 47:55] Mais juin, c'est bientôt, de toute façon.
+- [47:55 → 47:57] Oui, en plus c'est bientôt.
+- [47:57 → 47:59] Mais juin, mais je voudrais qu'il me sorte
+- [47:59 → 48:01] aussi une convention de partenariat
+- [48:01 → 48:03] en fait. C'est ça que je voudrais.
+- [48:03 → 48:05] Là, au-dessus de la
+- [48:05 → 48:07] des slides, tu vois, je voudrais une convention.
+- [48:07 → 48:09] Parce que c'est ce qu'il veut en plus.
+- [48:09 → 48:11] Non, mais sur export,
+- [48:11 → 48:13] je crois que tu as un exemple que tu peux
+- [48:13 → 48:15] utiliser pour t'inspirer.
+- [48:15 → 48:17] C'est... Attends, je vais te dire
+- [48:17 → 48:19] lequel. Il y a un que j'ai fait
+- [48:19 → 48:21] comme ça. Dans nos documents
+- [48:21 → 48:23] un peu... Tu vois, ne pas envoyer.
+- [48:23 → 48:25] Ils sont bien cadrés, mais
+- [48:25 → 48:27] qu'ils sont plus intents. On peut dire.
+- [48:27 → 48:29] Il y a la proposer
+- [48:29 → 48:31] le customer, je crois que c'était...
+- [48:31 → 48:33] C'est ça proposer le customer, c'est ça qui...
+- [48:33 → 48:35] Donc fais le slide
+- [48:35 → 48:37] de avant, si tu veux.
+- [48:37 → 48:39] Et après, tu passes
+- [48:39 → 48:41] littéralement ça et
+- [48:41 → 48:43] c'est plus pour un, c'est tout.
+- [48:43 → 48:45] Et même le casier de change, c'est de façon
+- [48:45 → 48:47] le casier de change, c'est ce que tu fais.
+- [48:47 → 48:49] Et tu lui dis de
+- [48:49 → 48:51] faire une proposition comme ça.
+- [48:51 → 48:53] Hum hum.
+- [48:53 → 48:55] Donc en 1, tu m'as dit... Attends, je
+- [48:55 → 48:57] vais re-noter en... Tu m'as dit 5 slides,
+- [48:57 → 48:59] hein. 5 slides. Oui.
+- [48:59 → 49:01] Alors le 1,
+- [49:01 → 49:03] c'est... Ben, je le notais.
+- [49:03 → 49:05] Je lui l'ai envoyé ça à Jiminy.
+- [49:05 → 49:07] Oui. En 1, tu me l'as dit en 1,
+- [49:07 → 49:09] tu mets...
+- [49:09 → 49:11] Tu mets la... Tu mets
+- [49:11 → 49:13] la couverture.
+- [49:13 → 49:15] La proposition. La couverture? Oui.
+- [49:15 → 49:17] Comme moi
+- [49:17 → 49:19] là-bas. La proposition...
+- [49:19 → 49:21] La proposition de soi.
+- [49:21 → 49:23] 2, tu m'as dit... Le 2?
+- [49:23 → 49:25] Le 2, le photo et... Oui, ou
+- [49:25 → 49:27] sans photo, hein. Sans photo, il n'y a pas trop d'air.
+- [49:27 → 49:29] Mais en tout cas, ça représente le world
+- [49:29 → 49:31] que tu vas envoyer.
+- [49:33 → 49:35] Tu représentes le world que je vais envoyer? Oui.
+- [49:35 → 49:37] Et tu lui dis comme ça?
+- [49:37 → 49:39] Ah lui, si tu fais pareil, tu lui dis
+- [49:39 → 49:41] le 2ème slide, je veux que ça représente
+- [49:41 → 49:43] le world, si. Celui-ci.
+- [49:45 → 49:47] Celui-là, celui de Wassa. Le world
+- [49:47 → 49:49] de... Le world
+- [49:49 → 49:51] de la convention,
+- [49:51 → 49:53] c'est ça? De ta boîte.
+- [49:55 → 49:57] Non, ok, oui. Ok, ça va. Oui, oui.
+- [49:57 → 49:59] Le document world. Le document world.
+- [49:59 → 50:01] Ok. Et ça,
+- [50:01 → 50:03] tu... Voilà, ça c'est le 2ème.
+- [50:03 → 50:05] Et le 3ème,
+- [50:05 → 50:07] c'est...
+- [50:07 → 50:09] Là, il faut que tu essaies de faire un peu de design.
+- [50:09 → 50:11] Je propose
+- [50:11 → 50:13] à la colonne de gauche, un peu plus petite
+- [50:13 → 50:15] que la colonne de droite.
+- [50:15 → 50:17] Que seulement tirer vertical.
+- [50:17 → 50:19] Et à gauche,
+- [50:19 → 50:21] tu mets les choses qui sont importantes pour...
+- [50:21 → 50:23] Pourquoi... Qu'est-ce que tu...
+- [50:23 → 50:25] Pourquoi tu es là? C'est-à-dire, qu'est-ce qui se passe?
+- [50:25 → 50:27] Et donc tu dis...
+- [50:27 → 50:29] Tout ce que tu m'expliques.
+- [50:29 → 50:31] Bon, pas tout, mais un peu comme moi.
+- [50:31 → 50:33] Il y a un peu les choses les plus critiques
+- [50:33 → 50:35] qui soient...
+- [50:35 → 50:37] Chaudes, on peut dire.
+- [50:37 → 50:39] Tu mets comme ça 3.
+- [50:39 → 50:41] Et tu expliques.
+- [50:41 → 50:43] Et 3 choses se expliquent.
+- [50:43 → 50:45] C'est-à-dire les tiges,
+- [50:45 → 50:47] c'est pas...
+- [50:47 → 50:49] 3 choses.
+- [50:49 → 50:51] Et en bas,
+- [50:51 → 50:53] en bas du tout,
+- [50:53 → 50:55] en horizontal,
+- [50:55 → 50:57] je mettrai des chiffres.
+- [50:57 → 50:59] 3 chiffres.
+- [50:59 → 51:01] Les premiers commandes,
+- [51:01 → 51:03] pour centaines de litres, je sais pas.
+- [51:03 → 51:05] Et dans la colonne de droite,
+- [51:05 → 51:07] là-bas,
+- [51:07 → 51:09] je mettrai alors des cadres
+- [51:09 → 51:11] qui représentent ton procès.
+- [51:11 → 51:13] Le procès, c'est à dire?
+- [51:13 → 51:15] Le procès en détail,
+- [51:15 → 51:17] du tout.
+- [51:17 → 51:19] Tu peux faire un cadre
+- [51:19 → 51:21] avec un titre,
+- [51:21 → 51:23] un sous-titre si tu veux dire plus.
+- [51:23 → 51:25] Ou tu peux faire
+- [51:25 → 51:27] seulement
+- [51:27 → 51:29] le nom de tes procès.
+- [51:29 → 51:31] Tu sais quand tu prends le carré de charge
+- [51:31 → 51:33] et tu prends les titres.
+- [51:33 → 51:35] D'accord, ok.
+- [51:35 → 51:37] Et voilà.
+- [51:37 → 51:39] Avec ça...
+- [51:39 → 51:41] C'est l'objectif de faire ça, de mettre le procès,
+- [51:41 → 51:43] parce que ça,
+- [51:43 → 51:45] en quoi ça va aller, c'est pertinent de mettre le procès.
+- [51:45 → 51:47] Il faut qu'il sache ce que tu fais.
+- [51:47 → 51:49] Qu'est-ce qu'ils sont en train de payer?
+- [51:49 → 51:51] Il n'y a pas quelqu'un qui gère
+- [51:51 → 51:53] beaucoup de commandes, c'est le volume.
+- [51:53 → 51:55] Le chiffre, ça va plus parler.
+- [51:55 → 51:57] Et ça, on va.
+- [51:57 → 51:59] On va.
+- [51:59 → 52:01] Mais il faut qu'il sache ce que tu fais.
+- [52:01 → 52:03] Parce qu'ils vont avoir un problème
+- [52:03 → 52:05] et ils vont dire que la solution
+- [52:05 → 52:07] à toi, c'est quoi? Tu vas reprendre
+- [52:07 → 52:09] l'argent seulement parce qu'on a un problème.
+- [52:09 → 52:11] Ils vont te dire non.
+- [52:11 → 52:13] Tu es en train de faire ça pour gérer ton problème.
+- [52:13 → 52:15] Et donc ça,
+- [52:15 → 52:17] c'est des cinq choses que tu as.
+- [52:17 → 52:19] Trois ou...
+- [52:19 → 52:21] Visuellement, tu vois, tu peux choisir
+- [52:21 → 52:23] trois choses qui sont une solution.
+- [52:23 → 52:25] Tu peux pas avoir deux problèmes.
+- [52:25 → 52:27] C'est-à-dire, tu as attiré l'attention
+- [52:27 → 52:29] avec tes problèmes, oui.
+- [52:29 → 52:31] Mais c'est pour ça que tu es en barre en horizontal.
+- [52:31 → 52:33] Parce que l'important, c'est plutôt
+- [52:33 → 52:35] qu'est-ce qu'il se passe, qu'est-ce que tu veux faire.
+- [52:35 → 52:37] Donc là-bas,
+- [52:37 → 52:39] moi je propose que tu sois chargé
+- [52:39 → 52:41] parce que j'imaginais que peut-être
+- [52:41 → 52:43] c'est ce qu'il parle, mais prends le mot
+- [52:43 → 52:45] qui comprenne pour savoir que c'est
+- [52:45 → 52:47] sous contrôle.
+- [52:47 → 52:49] Et après, le troisième,
+- [52:49 → 52:51] c'est la proposition économique.
+- [52:51 → 52:53] La solution?
+- [52:53 → 52:55] Et la proposition économique.
+- [52:55 → 52:57] Tu peux le faire.
+- [52:57 → 52:59] Ah, ok.
+- [52:59 → 53:01] La quatrième, ça, tu veux dire?
+- [53:01 → 53:03] Excuse-moi, je couvre. Oui, la quatrième, ça.
+- [53:03 → 53:05] Merci.
+- [53:05 → 53:07] Et la cinquième, c'est
+- [53:07 → 53:09] pareil, que la première.
+- [53:11 → 53:13] Ok, d'accord.
+- [53:13 → 53:15] Tu vois, tu peux rajouter
+- [53:15 → 53:17] la rouverture, voilà.
+- [53:17 → 53:19] Tu peux rajouter, mais
+- [53:19 → 53:21] tu as pas beaucoup de temps
+- [53:21 → 53:23] et en plus
+- [53:23 → 53:25] tu te connaisses et tout.
+- [53:27 → 53:29] Il fait, il fait ça.
+- [53:29 → 53:31] Alors, voilà.
+- [53:31 → 53:33] Et derrière, après, je génère
+- [53:33 → 53:35] ce que tu as dit,
+- [53:35 → 53:37] le document, ça.
+- [53:37 → 53:39] Et après celui-ci,
+- [53:39 → 53:41] l'autre,
+- [53:41 → 53:43] le comprendre.
+- [53:45 → 53:47] Ça peut te dire?
+- [53:47 → 53:49] Oui, je génère.
+- [53:49 → 53:51] Le contrat de partenariat
+- [53:51 → 53:53] de la précaution.
+- [53:53 → 53:55] Oui, c'est vrai.
+- [53:55 → 53:57] Après, il y a la propose à l'en soi.
+- [53:57 → 53:59] C'est vrai? Merci.
+- [53:59 → 54:01] Et voilà.
+- [54:01 → 54:03] Ici, tu as un exemple.
+- [54:03 → 54:05] Je crois que
+- [54:05 → 54:07] tu peux...
+- [54:07 → 54:09] Ne le compier pas, parce que c'est vrai que
+- [54:09 → 54:11] il y a quand même le...
+- [54:11 → 54:13] C'est le savoir-faire aussi de vouloir,
+- [54:13 → 54:15] mais c'est ça.
+- [54:15 → 54:17] Et bien, celui-ci de proposer à l'FR,
+- [54:17 → 54:19] c'est assigné.
+- [54:21 → 54:23] D'accord. Ok.
+- [54:23 → 54:25] Une fois que j'ai fait mes slides,
+- [54:25 → 54:27] je demande de me générer la propose
+- [54:27 → 54:29] à l'FESAN.
+- [54:29 → 54:31] Oui.
+- [54:31 → 54:33] Ok. Totalement.
+- [54:33 → 54:35] Et avec ça, t'es tranquille.
+- [54:35 → 54:37] Je crois que c'est bien.
+- [54:37 → 54:39] Dans le futur,
+- [54:39 → 54:41] en fait, Madera, c'est ça,
+- [54:41 → 54:43] Madera, c'est...
+- [54:43 → 54:45] Donc, on est proches.
+- [54:47 → 54:49] Oui. Ok.
+- [54:49 → 54:51] Maintenant, je suis avec Claude.
+- [54:51 → 54:53] Je vais voir ce que Claude dit.
+- [54:53 → 54:55] Oui, pour l'instant, c'est ça.
+- [54:55 → 54:57] Mais c'est Madera avec Claude, en plus.
+- [54:57 → 54:59] C'est Madera avec Opusker 47.
+- [54:59 → 55:01] Ah, tu verras, tu verras.
+- [55:01 → 55:03] Bon, c'est bien.
+- [55:03 → 55:05] Mais ça marche, non?
+- [55:05 → 55:07] C'est bon?
+- [55:07 → 55:09] Je te tiens au courant pour mes...
+- [55:09 → 55:11] Ok. On se dit en courant.
+- [55:11 → 55:13] Au début de semaine,
+- [55:13 → 55:15] on va faire un rendez-vous étalien
+- [55:15 → 55:17] pour pouvoir impléter le dossier.
+- [55:17 → 55:19] Ok.
+- [55:19 → 55:21] Et un truc avant de...
+- [55:21 → 55:23] Parce que pour...
+- [55:23 → 55:25] pour pouvoir calculer les tarifaires,
+- [55:25 → 55:27] je devrais voir avec toi
+- [55:27 → 55:29] les chiffres qu'on a aujourd'hui.
+- [55:29 → 55:31] Donc, pour voir si...
+- [55:31 → 55:33] si ça tient,
+- [55:33 → 55:35] si...
+- [55:35 → 55:37] si c'est bas, si c'est haut.
+- [55:37 → 55:39] Euh...
+- [55:39 → 55:41] Tu as accès au tarifaire.
+- [55:41 → 55:43] Qui est dans les sports.
+- [55:43 → 55:45] Tarifaire son costumeur.
+- [55:45 → 55:47] Euh... C'est dans le DREF
+- [55:47 → 55:49] que tu as mis ça, non?
+- [55:49 → 55:51] Oui, dans le même...
+- [55:51 → 55:53] Oui, j'ai vu dans le dossier.
+- [55:53 → 55:55] Tu as eu un état 38 000.
+- [55:55 → 55:57] Tu avais fait plusieurs cas, des 3K et tout, là.
+- [55:57 → 55:59] Voilà.
+- [55:59 → 56:01] C'est un peu ça, tu vois.
+- [56:01 → 56:03] Et en fait,
+- [56:03 → 56:05] pour moi, tu le vois et...
+- [56:05 → 56:07] ça du change pour toi.
+- [56:07 → 56:09] Tu as eu ton pens,
+- [56:09 → 56:11] les chiffres.
+- [56:11 → 56:13] En fait, moi,
+- [56:13 → 56:15] j'ai aucune idée de ce genre de chiffres,
+- [56:15 → 56:17] mais je sais qu'ils sont toujours très hauts.
+- [56:17 → 56:19] Mais je trouvais ça haut,
+- [56:19 → 56:21] mais si on rajoute la partie
+- [56:21 → 56:23] où...
+- [56:23 → 56:25] ils ont pas besoin de prendre une autre personne
+- [56:25 → 56:27] et que ça soulage de l'autre côté
+- [56:27 → 56:29] et que tu compares avec
+- [56:29 → 56:31] le prix que beaucoup t'es une personne sur l'année
+- [56:31 → 56:33] et j'ai pas peut-être 50 cas
+- [56:33 → 56:35] d'un salte-tient,
+- [56:35 → 56:37] mais je crois que c'est le meilleur.
+- [56:37 → 56:39] D'accord, d'accord.
+- [56:39 → 56:41] Donc c'est...
+- [56:41 → 56:43] tu ferais une réduction
+- [56:43 → 56:45] de 20 %
+- [56:45 → 56:47] sur les chiffres qu'il y a.
+- [56:47 → 56:49] Non, je fais pas une réduction,
+- [56:49 → 56:51] mais je rajoute
+- [56:51 → 56:53] de la valeur.
+- [56:53 → 56:55] De la valeur, magnifique.
+- [56:55 → 56:57] Moi, je suis avec toi.
+- [56:57 → 56:59] Je crois que c'est le meilleur.
+- [56:59 → 57:01] Je suis en jeu de la valeur.
+- [57:01 → 57:03] Pour ça, on a toute la chaîne de A à Z.
+- [57:03 → 57:05] Mais on garde le même...
+- [57:05 → 57:07] Le truc, c'est ça.
+- [57:07 → 57:09] Oui, pardon.
+- [57:09 → 57:11] Non, vas-y, vas-y. C'était cool.
+- [57:11 → 57:13] Non, c'est la industrialisation.
+- [57:13 → 57:15] C'est le problème que je vois pour...
+- [57:15 → 57:17] C'est-à-dire que c'est le unique voie
+- [57:17 → 57:19] pour que ce qu'on parle arrive.
+- [57:19 → 57:21] C'est-à-dire...
+- [57:21 → 57:23] Je vois pas...
+- [57:23 → 57:25] Je sais pas si...
+- [57:25 → 57:27] Peut-être c'est faire des prototypes pour tout le monde.
+- [57:27 → 57:29] Peut-être.
+- [57:29 → 57:31] Mais faire du cadrage pour tout le monde.
+- [57:31 → 57:33] C'est pour tout le monde.
+- [57:33 → 57:35] Ça peut déjà, comme tu dis, bien arriver
+- [57:35 → 57:37] à 38 000.
+- [57:37 → 57:39] Parce que quand même c'est une équipe que tu viens d'entière
+- [57:39 → 57:41] et tout ça.
+- [57:41 → 57:43] Oui, c'est ça.
+- [57:43 → 57:45] Et prototype aussi. Maintenant, je vois
+- [57:45 → 57:47] ce que tu dis. Je suis d'accord.
+- [57:47 → 57:49] Oui.
+- [57:49 → 57:51] Oui, je pense que c'est...
+- [57:51 → 57:53] Et en plus, il m'a demandé
+- [57:53 → 57:55] pour bosser avec les PME.
+- [57:55 → 57:57] Je dis oui, oui, parce que c'est beaucoup
+- [57:57 → 57:59] les PME qui ont des difficultés
+- [57:59 → 58:01] d'automatisation
+- [58:01 → 58:03] beaucoup de voilà.
+- [58:03 → 58:05] C'est pré-gasse et les prix des PME
+- [58:05 → 58:07] ça tu peux le dire.
+- [58:07 → 58:09] On leur fait le prix du PME
+- [58:09 → 58:11] littéralement.
+- [58:11 → 58:13] Oui, ça c'est vrai.
+- [58:13 → 58:15] Ça c'est totalement...
+- [58:15 → 58:17] Et tu trouves que ça reste tout compétitif parce que s'ils vont chercher des prix
+- [58:17 → 58:19] ils vont se rendre en 1 000 et 1 000.
+- [58:19 → 58:21] Oui.
+- [58:21 → 58:23] D'ailleurs je pourrais te partager
+- [58:23 → 58:25] le calcul.
+- [58:25 → 58:27] Je l'ai parlé maintenant
+- [58:27 → 58:29] mais j'ai fait un calcul
+- [58:29 → 58:31] de le prix
+- [58:31 → 58:33] moyen de consultant
+- [58:33 → 58:35] en Espagne, en France
+- [58:35 → 58:37] et après
+- [58:37 → 58:39] une empoire
+- [58:39 → 58:41] pour Madrid et Paris.
+- [58:41 → 58:43] J'ai fait la moitié.
+- [58:43 → 58:45] J'ai enlevé un 25%.
+- [58:45 → 58:47] Et après, pour
+- [58:47 → 58:49] PME, pour clients, pour Soez,
+- [58:49 → 58:51] j'ai un multiplicateur en fait.
+- [58:51 → 58:53] Et il multiplie...
+- [58:53 → 58:55] Pour Soez, après la fin,
+- [58:55 → 58:57] il y a un 25%.
+- [58:57 → 58:59] C'est-à-dire, si je vois
+- [58:59 → 59:01] Rosely, la mienne de
+- [59:01 → 59:03] Madrid, il verrait la même chose que
+- [59:03 → 59:05] ici, avec un 25%
+- [59:05 → 59:07] moi.
+- [59:07 → 59:09] D'accord.
+- [59:09 → 59:11] C'est un calcul comme celui que tu as dit,
+- [59:11 → 59:13] qui est mis en place.
+- [59:13 → 59:15] Automatisé aussi,
+- [59:15 → 59:17] avec le table.
+- [59:17 → 59:19] Oui.
+- [59:19 → 59:21] Ok.
+- [59:21 → 59:23] Magnifique.
+- [59:23 → 59:25] Oui, mais je suis content.
+- [59:25 → 59:27] Oui, c'est correct.
+- [59:27 → 59:29] En rajoutant de la valeur, je pense que ça passe.
+- [59:29 → 59:31] Oui. Ok.
+- [59:31 → 59:33] Parfait. Mais alors, on a le tout.
+- [59:33 → 59:35] Oui.
+- [59:37 → 59:39] Ok, bon, c'est cool.
+- [59:39 → 59:41] On reste en contact, on se tient au courant et puis
+- [59:41 → 59:43] on avance.
+- [59:43 → 59:45] On fait un pas, il faut faire le deuxième. Merci beaucoup.
+- [59:45 → 59:47] Absolument.
+- [59:47 → 59:49] Attends, un plaisir.
+- [59:49 → 59:51] On avance, c'est que le début. Merci.
+- [59:51 → 59:53] Merci.

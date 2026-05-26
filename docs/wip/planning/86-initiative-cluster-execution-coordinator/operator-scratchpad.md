@@ -1800,5 +1800,64 @@ The `orchestration_broker_thin_margin` pattern in the doctrine **does not exist 
 
 **Cross-references**: tranche charter at `docs/wip/planning/86-initiative-cluster-execution-coordinator/tranches/wave-r-plus-2-doctrine-rewrite-collaborator-share-4-base-1-overlay.md`; CHANGELOG Commit 1 entry under `[Unreleased]`; doctrine at `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md`; prior commercial-model-discovery drain L1577-1661.
 
+---
+
+## Wave-R+2 INTERSTITIAL — post-handshake debrief substrate landed + pre-send regression gate spec'd (2026-05-26)
+
+**Trigger**: operator pause-and-prioritise at session open — pause the doctrine-rewrite Commit 2 in flight; transcribe the 13-05 post-handshake EFA-Holistika debrief audio (was still at repo root awaiting); ingest substrate; spec a pre-send regression gate as a NEW discipline class. Verbatim: *"bear in mind I agree with you and we need a regression everytime (now that we still haven't sent anything)."*
+
+**Tranche class**: `internal_governance` (J-OP-only audience; 3 files created: transcript + grounding note + gate spec; substrate-ingestion + governance-spec hybrid; not a commit-class tranche on its own — feeds Commits 2-7 with NEW gates).
+
+**What this drain absorbed**:
+
+1. **Audio transcription** — `2026-05-13 - GDF SUEZ - EFA x Holistika meeting after customer handshake.m4a` (21 min audio) → `2026-05-13-post-handshake-efa-holistika-debrief.m4a.md` (1752 segments / 52,704 chars). Whisper-small CPU pass; FP32 fallback; 1281.7s elapsed wall time. Helper script `scripts/_transcribe_post_handshake_m4a.py` consumed + deleted (one-shot pattern). Audio binary migrated from repo root to canonical transcripts folder via `Move-Item`; gitignored per `.gitignore:167:*.m4a` (the .md transcript is the SSOT).
+2. **Source-grounding note minted** — `docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/00-internal/source-grounding-post-handshake-2026-05-26.md` (~440 lines / 8 sections + frontmatter). Sibling to `source-grounding-2026-05-22.md` (which stays at its 344-line scope; the post-handshake substrate is its OWN drain). 8 sections cover: (1) 2 distinct commercial streams (Stream A Holistika automation 94% / Stream B EFA standalone 5k€/mo continuity 0% Holistika); (2) decisionmaker chain + SUEZ DSI gap + Brian responsable performance forward-call; (3) brand + cobranding architecture (5-slide EFA proposal verbatim coaching + "no client screenshot" IP principle + June 2026 EFA brand evolution window + 6-domain diagram empirical validation); (4) operator's sales discipline (4 named patterns: "on est à plusieurs" + "client says same as partner" + "vends ta capacité" + "ne parle pas technique"); (5) SUEZ use-case demo strategy (libellé + dispute-register); (6) pre-send regression gate verbatim operator mandate; (7) Commits 2-7 NEW gates per substrate; (8) cross-refs.
+3. **Pre-send regression gate spec'd** — `docs/wip/planning/86-initiative-cluster-execution-coordinator/pre-send-regression-gate-spec-2026-05-26.md` (~210 lines). Spec'd at charter status (NOT yet promoted to doctrine; INFO ramp only). 6-layer composite sweep: L1 brand-register + L2 render-trail-freshness + L3 collaborator-share-CS-01..08 + L4 synthesis-before-tranche + L5 grounding-vs-latest-transcripts (NEW probe — manual until 2nd-instantiation runbook) + L6 send-rights-audience-coherence. Candidate 15th Quality Fabric specialty in the making; promotion path defined in RULE 6 of the spec (≥3 worked examples + runbook + quartet + operator-ratify decision). SUEZ POC is worked example #1.
+
+**Load-bearing findings shifting Commits 2-7**:
+
+1. **NEW `parallel_invoice_stream_indicator` field on SHARE_REGISTRY** (Commit 2 chassis + Commit 6 mirror DDL) — flags engagements where a collaborator has an INDEPENDENT B2B invoice stream with the same customer that Holistika is not party to. SUEZ Stream B is the first instantiation. Distinct from `bd_commission_overlay` (commission ON Holistika revenue) — this is REVENUE EXCLUSIVELY OUTSIDE Holistika.
+2. **NEW RULE 7 — parallel invoice streams** for `.cursor/rules/akos-collaborator-share.mdc` (Commit 4) — names that a collaborator's independent B2B contract with the same customer is OUT OF SCOPE for SHARE_REGISTRY computation and is documented in the engagement folder's `00-internal/source-grounding-*.md` instead.
+3. **CS-03 scope clarification** (Commit 3 validator + Commit 4 doctrine note) — split-sum invariant audit only applies to Holistika-invoiced revenue + commission overlays; parallel streams are excluded from the sum-to-100 check.
+4. **Commit 7 closing-loop verification extension** — now also includes a worked-example run of the pre-send regression gate against the SUEZ customer pack as the gate's first-instantiation evidence. If the gate BLOCKs (e.g., L5 catches that SHARE_REGISTRY SUEZ rows are still pre-rewrite), the slip is mechanical not gut-feel.
+
+**Brand + cobranding insights (operator's explicit ask: extract, synthesise, apply with brand doctrine + best practices)** — synthesised at §3-§4 of the grounding note. Key carry-overs:
+
+- **Cobranding is acknowledged + understood by SUEZ** — interlocutor already gets the Holistika ↔ EFA partnership shape; no convincing needed; just formalise via partnership convention (forward-charter to template mint).
+- **EFA brand is on the dark-green + cream-white axis** — distinct from Holistika brand palette per `BRAND_ARCHITECTURE.md`. The 5-slide EFA proposal honours EFA's own register; Holistika does NOT impose its brand on EFA's standalone artifact. This is a CORRECT cobranding pattern (each brand stands alone; partnership convention is the join layer).
+- **The "no client screenshot" IP-principle is binding** — promote to Legal canonical at next maintenance window (forward-charter at `SOP-NO_CLIENT_ARTIFACT_EXTRACTION_001.md`). Operator's tenant + create-from-scratch is the right counter-strategy.
+- **6-domain Branded House frame is empirically validated** (Aïsha's verbatim feedback at the SUEZ meeting + her own admission it changed how she sees businesses). Cite as worked example next time `BRAND_ARCHITECTURE.md` amendment opens.
+- **Operator's "ne parle pas technique" self-correction** confirms `akos-brand-baseline-reality.mdc` dual-register rule is correctly load-bearing — extend `validate_brand_baseline_reality_drift.py` to scan SUEZ + EFA-cobranded artifacts at pre-send time (= L1 of the new gate spec'd today).
+
+**Forward state for the doctrine-rewrite tranche resumption**:
+
+- Commit 2 NOW carries an additional spec item: add `parallel_invoice_stream_indicator: Optional[bool]` to `CollaboratorShareRegistryRow` Pydantic model. Estimated test count delta updates from ~+20 to ~+25.
+- Commit 4 NOW carries an additional spec item: add RULE 7 to the cursor rule (~25 lines + cross-ref to source-grounding-post-handshake doc).
+- Commit 5 NOW carries an additional spec item: SHARE_REGISTRY SUEZ rows carry `parallel_invoice_stream_indicator=true` + free-text note pointing at Stream B EFA contract.
+- Commit 6 NOW carries an additional spec item: ADD COLUMN `parallel_invoice_stream_indicator BOOLEAN DEFAULT FALSE` to `collaborator_share_registry_mirror`.
+- Commit 7 closing-loop extended per RULE 6 above.
+
+**Files created/modified in THIS drain (no atomic commit yet — staged for next tranche commit)**:
+
+- NEW: `docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/00-internal/source-grounding-post-handshake-2026-05-26.md`
+- NEW: `docs/wip/planning/86-initiative-cluster-execution-coordinator/pre-send-regression-gate-spec-2026-05-26.md`
+- MOVED: `2026-05-13 - GDF SUEZ - EFA x Holistika meeting after customer handshake.m4a` (root) → `docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/00-internal/source-materials/transcripts/2026-05-13-post-handshake-efa-holistika-debrief.m4a` (gitignored binary; not tracked)
+- NEW (gitignored): the transcript `.md` IS tracked: `docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/00-internal/source-materials/transcripts/2026-05-13-post-handshake-efa-holistika-debrief.m4a.md`
+- DELETED: `scripts/_transcribe_post_handshake_m4a.py` (one-shot consumed)
+- MODIFIED: this scratchpad (drain entry append)
+
+**Mechanical evidence**:
+- Whisper transcription: PASS (1752 segments / 52,704 chars / 1281.7s wall time)
+- `Move-Item` migration: PASS (file at canonical path; `Test-Path` → True)
+- `git check-ignore`: confirmed `*.m4a` gitignored per `.gitignore:167`
+- `git status --short`: shows only the .md transcript + .md grounding note + .md gate spec as new untracked (per expectation)
+
+**Operator-decision queue (surfaced AFTER this drain lands; before Commit 2 chassis resumes)**:
+- Q1: Does the `parallel_invoice_stream_indicator` field shape feel right vs an alternative (e.g., a separate `parallel_invoice_streams: List[ParallelInvoiceStream]` nested object)?
+- Q2: Is the pre-send regression gate spec scope right at 6 layers, or should L5 grounding-freshness be split into two (L5a sha256-of-substrate-at-artifact-authoring vs L5b post-authoring-grounding-note-diff)?
+- Q3: Operator confirmation that SUEZ Stream A (Holistika consulting) + Stream B (EFA continuity 5k€/mo) is the correct read of the transcript, vs. an alternative interpretation where Stream B should also flow some Holistika-side commission for the methodology grounding?
+
+**Cross-references**: grounding note + gate spec linked above; transcript at canonical path; prior Wave-R+2-Commit-1 drain L1759+; doctrine + DECISION_REGISTER unchanged in this drain.
+
 <!-- end of entries -->
 

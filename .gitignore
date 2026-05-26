@@ -165,6 +165,8 @@ temp-delete-or-move/
 temp-move-or-delete/
 *.opus
 *.m4a
+*.mp3
+*.wav
 docs/wip/intelligence/**/*.docx
 docs/wip/intelligence/**/*.pdf
 docs/wip/intelligence/**/*.xlsx

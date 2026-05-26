@@ -1,0 +1,807 @@
+# Transcript — EFA/13-05-2026 10.24.mp3
+
+Source: `EFA\13-05-2026 10.24.mp3`  
+Model: `openai-whisper small` (CPU)  
+Language: French (forced)  
+Transcription elapsed: 694.6s  
+Generated: 2026-05-26 02:50:03  
+
+## Full transcript
+
+Et voilà, et savoir si il y a la réglage de l'atténuation en compte ou pas. Et après, bon, le site... bon, après il y a le racisme entre nous, bien sûr, qui vous fait croire, c'est-à-dire nous, ce qu'on veut, c'est que si vous êtes très clair, qu'est-ce qu'on va faire? Et une fois que le projet est fini, qui va faire croire aussi? A partir de là, il y aura un mot d'appératoire, et tout. Oui. Donc, il est sûr qu'on va sortir avec un mot d'appératoire et on va faire tout ce qu'il faut pour que ce soit, on peut dire, bon, utile pour vous et bien sûr, à changer, jusqu'à que ce soit, ok? Après, l'orchestration, c'est le système qu'on devrait mettre en place pour que l'automatisation tienne la route. Sur ce sujet, je voulais aussi vous demander quel système vous utilisez, ou quel système on a accès, on peut dire, pour placer la solution. Et comme ça, on peut parler vraiment directement sur votre réalité, on peut dire. Pour l'instant, on sait le mot d'opératoire, mais il y a des petits détails sur la documentation du documentaire que je ne peux pas encore ouvrir. Pareil que sur l'orchestration. Mais voilà, seulement c'est 3.6 pour expliquer que c'est les trois choses sur lesquelles on fait vraiment attention. Une documentation mise à jour, une orchestration adaptée au système que vous utilisez, et la patiente est totale. C'est-à-dire, il y aura une réformation, tout ce qu'il faut. Il s'est plus facile parce que c'est Aisha qui fait ça, mais on voulait le dire au cas où il y a d'autres personnes. Et voilà, ça descend les chiffres qui nous ont un peu attiré l'attention pour venir ici. On croit que la raison pour laquelle on automatise ça peut être intéressant, on le sait parce que le volume est assez haut. Et aussi le risque d'avoir une commande, voilà, de compléter différemment et haut aussi. Et pas seulement le problème de compléter bien ou mal la commande, sinon le fait que le final, c'est quand même beaucoup. Il y a beaucoup de situations dans chacune et une commande peut durer beaucoup plus de temps qu'une autre. Donc au final, notre but c'est automatiser pour surtout éliminer les problèmes que les maladies peuvent donner, et bien sûr, les risques humaines et tout ce qui est le temps au final. Donc voilà, au sujet, ça c'est pour surtout qu'on va vous envoyer cette présentation pour après, pour que vous puissiez voir avec plus de calme, notre des signaux qu'on a eu qui sont les mêmes, c'est-à-dire, on finança le volume d'un côté. Et d'un côté c'est aussi l'évolution de la logique qui est là toujours, on peut dire, la stabilité de la règle. C'est-à-dire qu'à part de ce qu'on a parlé avant, il faut aussi tenir en compte qu'il se peut qu'au futur voulait changer l'automatisation. Donc seulement vous dire que ce plan, il tient à ça aussi en compte, à partir à travers du même lance et autre pas seulement opérationnel, mais aussi technologique on peut dire. Et d'un côté, tenir en compte le portail que vous utilisez, bien sûr. Et bon, surtout expliquer que le litige au final, c'est quand même un coup caché. Allez, ça prend du temps, allez. Oui, voilà. Ok. Et ça c'est le procès qu'on veut utiliser pour attaquer le projet. C'est-à-dire, c'est par rapport à que va faire l'outil. C'est pour ça que même si on ne dit pas exactement qu'un système a créé l'outil, si c'est par le thomé ou tout le monde, pour que l'autre système, on peut quand même dire ce qu'il va faire. Donc du coup, ce qu'on veut, c'est un système qui lise, l'information qu'on a dit avant, qui compose, qui laisse à un opérateur revoir. Ça c'est quelque chose à choisir. Vous pouvez nous dire que oui ou non. Mais on croit que c'est bien quand même de laisser à un opérateur revoir. Ce qu'il y a est tout simplement à secter la soumission. Ça peut se faire dans un courrier qu'un opérateur reçoit, dans un inbox, je veux dire, qu'un opérateur reçoit tous les commandes qui sont déjà en mode composition, seulement pour que vous les approuvez par exemple. Ok. Oui. C'est vrai que pendant que tu parlais de ça, je pensais, parce qu'on a trois gestionnaires d'intervention, et en fait ils ont une grande charge administrative. C'est vrai qu'on n'a pas étudié ce côté-là, et c'est vrai qu'ils demandent une quatrième personne depuis que je suis là. Et là avec le parc qui remonte, ça ferait presque une autre personne, parce que là ils ne tiendront pas, et ils savent que forcément la personne qui demande, il en faut dans la d'eux de plus non. L'idée, c'est pas que je ne vais pas parler de ça avec Faisal, mais comment voir aussi pour leur alléger l'administratif, parce qu'en fait ils passent énormément de temps dans l'administratif, et en automatisant de ce côté-là, on pourrait voir comment on pourrait aussi responsabiliser les fournisseurs et créer un système, et ça je sais que c'est possible, pour faire en sorte que cette administrative-là, qui passe beaucoup de temps à faire, il viendrait juste pour pouvoir valider, parce qu'il faut quand même leur OK avant que moi je puisse faire avec comment, et on pourrait essayer de travailler avec Ryan et toute l'équipe voir comment pour automatiser, pour que la chaîne puisse continuer jusqu'à leur niveau, pour qu'il vienne juste pour dire OK, je bloque, OK, ça c'est en pensant à ça que je voyais, ce côté-là, si ça peut les soulager et soulager l'administratif. C'était un petit aparté, je te laisse continuer. Non, c'est très intéressant, c'est vraiment intéressant et je suis totalement d'accord, parce qu'une fois que le conseil va être le même, on peut dire, c'est-à-dire au final, comme tu as bien dit, on doit savoir ce qu'il doit lire, et à partir de là, on crée une composition automatisée, et bien sûr, il y aura une boîte dans laquelle, comme tu avais dit, il dirait OK ou pas. Donc, suffisamment de se soir avec eux et comprendre leur end-to-end, le magnisme, exactement. Parfait. Et par rapport aux fonctionnalités, excusez-moi pour cette slide, je m'a carré la partie des droites. Je suis plus fort, je crois au max. Voilà, si tu veux parler un peu plus fort, tu peux parler. Bien sûr. OK, donc par rapport aux fonctionnalités, c'est très similaire à ce qu'on parlait avant, et si c'est surtout valider avec vous que les fonctionnalités, quand on croit qu'ils sont importants pour vous, sont bien ici. Et bien sûr, on peut en ajouter, mais c'est surtout pour être bon dès le début. D'un côté, ce serait un référentiel, un mappage, ce qu'on a parlé avant. C'est-à-dire, d'abord, on connaît ce que veut la personne, et internement, on fait un système qui map alors ce qu'il existe avec ce qu'on nous a dit qui est important. On peut dire. De là, en général, alors, les différents niveaux, on soit. L'engin, le titre d'intervention, le fournisseur, la référence, tout ce qui soit relevant. On remplit par catégorie, ce qui permet alors remplir à sa fois un tableau de bord. C'est-à-dire, nous, on peut savoir exactement ce qu'on a fait. Et les points de trois et le quatre sont très importants, surtout pour tout ce qui est la visibilité des personnes. Ce n'est pas seulement une boîte, mais sinon qu'on devrait avoir un tableau de bord, surtout pour vous, pour toute l'équipe, pour savoir exactement quelle est l'activité qui a eu lieu, on peut dire, deux ans. Et après, on voudrait parler avec vous d'un module de prévention des gestions de litige, dans le cas où ce ne soit pas mis en place. C'est juste à côté du hors-périmètre, mais on croit que c'est justement l'évolution de ce projet. Mais bon, on avait pensé ça comme évolution, mais ce que vous dites ici, c'est bien ce qui est ré au point cinq et à droite. Voilà. Donc pour nous, il faudrait voir exactement les temps, selon ce qu'on parle entre nous, mais en tout cas, il y aura un projet, c'est découvert d'abord, après un cadre dans lequel on valide avec vous tout ce qu'on a compris. Et si c'est OK, on passe directement à faire le prototype, pour que vous pouvez le voir et voir si ça marche, tester. Voilà. Et après, on mesure tous les tests, si c'est OK, si on n'a pas ce qu'on veut. Et finalement, on transfère l'activité. On met en place l'outil. Ici, peut-être, on transfère le transfert opérationnel. C'est vrai que c'est plus simple, au fait que justement, c'est à chaque qui est ici, à faire l'opérationnel aussi. Mais par rapport au transfert technologique, il faudra qu'on connaisse quelles sont les contraintes qu'on a de la part de la compagnie. C'est-à-dire, il y aura peut-être des règles qu'il faut qu'on t'en compte. Et donc, si ça ne nous était pas à nous dire quelles sont les contraintes que vous avez, on s'adapte à votre réalité. Après, par rapport jusqu'à où on va, on a pensé trois scénarios. Le premier, tout ce que l'on a parlé dans cette réunion, c'est celui du milieu. Excusez-moi, tout ce qu'on a parlé ici, excusez-moi, c'est celui du milieu. Et notre organisation, c'est la partie de mettre en place le logiciel avec les contraintes technologiques que vous avez dans la compagnie. C'est-à-dire les accès surtout au logiciel qui peut-être ne nous permettent pas d'aller jusqu'au bout. Mais si on ne peut pas aller jusqu'au bout, c'est quand même un prototype qu'on peut faire pour que vous pouvez valider au moins que ça marche, etc. Si on peut aller jusqu'au bout, on peut aller jusqu'à la fin avec les accès nécessaires et faire nous-mêmes la partie finale, alors ce serait la variante C, une variante des années industrialisées prêtes pour la production et pour le jour à jour avec le meilleur scénario, on peut dire, et celui du milieu, celui le plus balancé. Le scénario A, c'est plutôt le cadrage en soi. Ça resterait en documentation seulement et il n'y aurait pas un logiciel derrière. On a laissé les 3 options parce qu'on ne savait pas quelle qualité vous allez avoir et pour votre validation. Ok, les variantes, ça dit-il, ou c'est les trois en place ou quoi ? C'est une ou l'autre. C'est l'exclamation, ça comprend les trois, c'est ça ? Voilà, voilà. Vous avez 14 semaines. Exactement, c'est ça. Dans votre cas, on voulait réfléchir peut-être, mais on parle après, mais voilà, c'est surtout une chose qu'on voulait voir avec vous parce qu'on ne sait pas quelle est la réalité dans laquelle vous vous trouvez surtout au niveau de gestion de ce genre de projet. Donc on peut le voir ensemble, qui est le mieux pour vous. Après, voilà. Ici, c'est surtout un slide plus pour vous après et la bonification avec le restant de votre équipe sur un résumé un peu de douce qui est en haut, surtout. Ça parle des litiges, ça parle aussi des résolutions, la couverture des gestes. Je donne à 15 jours, on est à 15 jours pour les commandes, même s'ils ne sont pas très patients, le repos au bout de 7 jours est relance, mais là avec l'automatisation, ça serait très rapide. Parce qu'on est à 15 jours aujourd'hui. Exactement. La couverture qui serait 100%, surtout si on passe au plan de développement dans lequel ce serait pas un prototype, sinon ce serait une application qui s'active à la réception du cas du dage. Et donc ça rend aussi 100% de couverture. Et finalement la continuité opérationnelle. C'est la fin de la mission, au final, c'est très facile d'avoir la documentation à côté et avec Aichan, on sait que surtout, il y a un plan de maintenance, que vous avez déjà parlé probablement, qui cadre très bien avec tout ce projet-ci en soi. Parce qu'on pourrait assurer une couverture à partir de là au futur aussi. Voilà. Donc voilà, je pense qu'on arrive à la fin. Après la partie de l'inquente, c'est la partie où c'est moi l'opérationnelle en tant que des lances. Ça c'est une autre partie encore. Après. OK. Donc on arrive aux questions, c'est ça ? Et là, oui. Là, je peux dire que merci, surtout. Et merci beaucoup, surtout, parce que j'ai eu la contrainte avant, et vous êtes quelqu'un très occupé. Donc je vous remercie, et je te remercie. Le dernier slide, c'est que merci, mais là je le dis encore. Alors est-ce que vous avez des questions ? Donc, merci, oui, c'est intéressant. On a des marches de toute façon et pertinentes. Après, je pense qu'il faut en parler, en interne avec en effet, peut-être David Rival, qui s'occupe de tout ce qui est, sur automatisation, automatisation. Et donc avec la DSI aussi derrière, ce que rien ne peut se faire sans la maîtrise de leur part. Après, de ce que je comprends, vous voulez vous positionner en amont, finalement, de tout le traitement actuel réalisé pour pouvoir automatiser. Oui. Automatiser et après, il y a la partie suivie maintenant, ça c'est une autre partie après. Exactement. La maintenance, elle est très pertinente, parce que nous, c'est-à-dire, comme vous avez bien dit, la DSI, c'est normalement le point dans lequel on sait si on peut aller ou pas. C'est-à-dire, ils vont nous donner les règles, ils vont dire exactement ce qu'on peut faire, qu'on peut pas faire. Et plus. Et donc c'est pour ça qu'on n'a pas fini le plan de maintenance. Après. Mais si tu peux aller, sortir les trois modes, des pleinements, je crois que c'est les slide 10. Ou le 11. Le 11 alors. Oui. Ok. Donc la DSI, c'est la différence entre industrialiser et protéger. C'est la différence entre industrialiser et protéger, pour cadrage surtout. Vu que ça dépendra de ce qu'on nous laisse faire, en pédie, directement. Et dans ces conversations, on va nous diriger vers où on peut aller. Mais en tout cas, si c'est sur cadrage, alors la maintenance insère un peu similaire au mode de travail que vous avez aujourd'hui. Donc il n'y aurait pas une automatisation en mise en place. Et à partir du prototype, c'est très similaire, mais on vous laisse un peu dire à moitié du chemin. On aurait fait au moins un prototype pour qu'on puisse montrer. Parce que des fois à la DSI, ils vont nous demander quand même d'apporter quelque chose. Et le prototype, c'est dans ce cas-là. Et industrialiser, c'est dans le cas où on peut parler avec eux et avoir déjà accès à pouvoir mettre en place la solution. Ceux-ci sont fermés assez. Oui, en général, nous, on met trois. Parce qu'il y a toujours un blocage interne quelque part. Le jour à jour et après année, les entreprises créent leur propre savoir-faire. Et après, il y a des mécanismes pour le défendre. On peut dire. Et c'est pour ça. C'est pour ça que l'on laisse l'industrialisation au cas où on peut. On peut alors se rester. Parce que, alors, ça reste dans l'opérationnel aussi. On peut enborder, bien sûr, comme vous avez bien dit, d'autres personnes ou d'autres cas d'usage. Ce n'est pas un outil qui continue à évoluer au final. Ça, c'est seulement la maintenance. Mais après, on peut ajouter d'autres cas d'usage et évoluer le produit. Au final, on ne peut pas savoir combien de temps on peut gagner. Comme ça, de qualité. Et puis, on a dit, on a dit, oui, il faut revoir avec les équipes de DSI. De toute façon, c'est avec eux. On peut être David, alors. David, sans doute, dans un premier temps, oui. Pour... Voilà, expliquer t'es tête plus directement. Après, comment vous voyez ça, vous, dans un premier temps, vous avez des questions qui vous ont réagi pour l'exercice, comment vous organisez ça pour la suite, avec le remontation de... Ça reste pertinent, de toute façon, d'automatiser pour gagner du temps. Dans l'arrêtement. Après, comment on met ça en œuvre. On peut passer avec une prestation externe. Ou en interne, je sais pas, donc ça, c'est aussi côté David à regarder ce qui peut être pertinent. En tout cas, voilà, ça va dans le sens de l'histoire, ça, clairement. Oui, c'était la vision de Marie-Laurent sans début d'année, de digitalisation, c'était une mode ordre. Bien sûr, c'est bien sûr. Donc, il faut qu'on aille de cette direction-là. Alors après, si le fait d'avoir un prestataire extérieur, comme fait sale, permet peut-être de dynamiser le sujet, pourquoi pas, ça peut être intéressant. Donc ça, il faut qu'on puisse voir ça avec David, je pense. David, oui. David, des pieds après, certainement la DSC. C'est-à-dire qu'on ne voit rien faire sans que eux soient courants, qu'on prenne ce qu'on veut faire. Dis que eux ne puissent pas le faire eux-mêmes, voilà, et que ça apporte un complément pertinent. Oui. D'accord. Parfait. Donc, l'étape suivante, c'est David, d'avoir avec David. Donc, moi, je peux monter une réunion, éventuellement avec David. Oui, on peut faire la présentation et peut-être voir aussi comment, parce que je sais que David, il avait fait une étude en bas pour voir comment organiser aussi les gestionnels interventions. Je pense que si à cette partie-là aussi, peut-être que ça peut ça peut permettre de les soulager aussi, de voir comment on peut, oui. Voilà, on a beaucoup de détails. Oui, il y a des simples. Oui, il y a beaucoup de détails, c'est-à-dire on va avec eux, et on a une réunion avec eux, on sait ce qu'ils veulent qu'on on est, on peut dire. On peut venir derrière avec les détails nécessaires, pour le plan plus détaillé ou plus technique, peut-être, ils peuvent nous demander. Il n'y a pas de problème par rapport à ça. Ok, bon, enfin voilà, bon, il y a certaines choses qui sont encore un peu nébuleuses pour moi, mais peut-être quand il fait avec un échange avec David et puis et puis voilà, on va essayer de normaliser des choses comme ça. Si je peux me permettre des scénarios que je crois que ils peuvent leur peut-être, bon, faire des questions, on peut dire, surtout, je crois que c'est par rapport au système que vous utilisez, vu qu'il y aura forcément des travaux qui sont encore été faits dans l'entreprise autour de l'OTAN. Donc si par exemple, je parle d'automatiser avec Power Automate qui est la solution la plus probable, il se peut qu'ils aient déjà beaucoup de travail faits dedans qui fait que c'est pas brancher et faire Power Automate. Tandis qu'ils vont vouloir que on passe par un modus operandi par des harcets faits par eux et donc je crois que pour eux, c'est très important qu'ils sachent qu'on est prêt pour ça ou pour n'importe quelle autre chose qu'il est en règle. C'est-à-dire donc vous avez un outil, c'est ça qui... Voilà, on a tous les... Oui, c'est-à-dire tous les outils qu'on a sont compatibles à la plupart des logiciels qu'on utilise. Donc si vous avez utilisé Microsoft aussi, tous les modules on les recherche et après la recherche, on fait des modus operataires pour nous ce qu'on appelle des procès standard. C'est-à-dire, on croit que les gens utilisent. Donc remplir des formuleurs, par exemple, c'est un d'entre eux. C'est pour ça que ce cas qu'on avait parlé avec Aïssa, c'était pour une autre chose, elle avait entendue ça. Et alors c'est pour ça qu'elle avait relié à ce cas qu'elle avait. Et d'autres, si vous dites que c'est pareil, pareil. Si par exemple, eux, ils ont un système de login, par exemple spécial qu'il faut compter en compte parce que quand on automatise il faut bien qu'il y ait, comment dire, que le logiciel soit identifié aussi. Sinon, les systèmes de sécurité de l'entreprise ne pourraient pas savoir de l'assistance de ça. Et ça c'est quelque chose que on a l'intention. Donc du coup, ce processus d'arrêt aussi existe dans notre entreprise. Et comme ça, jusqu'à la fin de votre projet. Quand Aïssa est venue, on a décidé de faire alors un mot d'opératoire interne. Si tu peux présenter le cahier de charge provisoire qu'on a de le même dossier de drive, dans l'esport, l'onglet de droite. Il se voit que je n'avais pas cru de l'envers. C'est juste de l'esport. Le troisième anglais. C'est ouvert déjà? Oui, le troisième anglais. Celui de l'anglais. Ah oui, il est là. Et c'est décès. Ça c'est un document que c'est seulement... On l'a fait entre nous seulement pour pouvoir voir la viabilité de tout ce qui est le procès entier. Donc si on parle avec la DSI, on va ajouter ceci dedans. Et on va vous envoyer. Ça c'est le work-around général du fonctionnement qu'on croit qu'il y a. Donc bien sûr, on peut vous le envoyer parce qu'on ne voulait pas surcharger de beaucoup de documentations. Mais ça c'est une documentation interne qu'on a fait pour se renseigner du processus endouane. On a pu faire au moins le cadrage de la logique du procès on peut dire. Et à partir de là ce qui est intéressant c'est que la DSI nous dira comment on devrait faire les choses si on les fait. On le mettra ici. Et comme ça, vous pouvez avoir l'assurance qu'on a déjà au moins un monde opératoire pour pouvoir s'approcher à vous et au cas du âge. Et quoi ? On laissera la version totale. Mais on laissera la fin du projet. Donc là c'est le cas des charges et après vous, vous êtes capable à partir d'un outil microsoft finalement de rendre les choses automatisables. Exactement. Exactement. Ce qu'on croit c'est Power Automate qui est l'outil que microsoft laisse pour automatiser. Il a accès à tous les modules microsoft que la DSI active et donc normalement mail, normalement SharePoint ou Teams pour donner des alertes quand il y a quelque chose qui arrive. Aujourd'hui on peut créer des modules en Teams, des applications en soi et ces applications peuvent supporter la logique alors de ce monde opératoire. Et donc c'est déclenché avec Automate. Automate on peut le comprendre comme un bouton au final. Un bouton qui est là pour lire, pour être attentif pour nous. Et ce bouton peut se déclencher avec des choses comme recevoir un mail comme XR par exemple, ou ça peut être ou on importe quelque chose que l'on voit. Ou ça peut être j'ai cliqué sur approuver ou je cliquais sur dire non. Donc le final c'est une logique cette logique là on la laisse sur Power Automate. Et après pour le visuel on peut faire des choses, on peut faire des applications sur Teams qui peuvent déjà être très familières. Ou on peut faire Power Apps aussi. Power Apps c'est une application qui est en dit Teams parce que Power Apps a besoin de licences supplémentaires pour faire des applications reliées à d'autres choses. Mais ça permet de faire littéralement une page web interne sur votre propre environnement Microsoft. Donc du coup ça serait important et c'est l'industrialisation pour nous. C'est l'évolution de ce logiciel. Et est-ce qu'éventuellement vous auriez un exemple sur quelque chose qui aurait déjà été réalisé un peu similaire pour nous faire une démonstration ? Oui c'est vrai que nous comme on travaille par exemple avec vous on ne fera pas de ces idées crans ou des projets qu'on a avant. Malheureusement c'est mauvais pour nous à côté de marketing mais c'est parce qu'on ne peut pas porter cette info dehors. Par exemple on aura le mode opératoire et c'est ça ce qu'on peut partager. Mais pas notre mode opératoire je veux dire, c'est-à-dire on fait toujours un mode pour nous mais pas Est-ce que c'est possible quand même on pourrait préparer un cas d'usage pratique de société, sans citer c'est ça plus ça qu'on demande. Oui anonymiser montrer comment on est arrivé à un résultat sur les 3 entreprises avec lesquelles vous travaillez ça oui Oui c'est pour ça qu'on a le mode opératoire chez nous voilà c'est ça je voulais dire que je ne peux pas montrer un projet en soi mais nous on a le mode opératoire de tout ce qu'on a fait et donc refaire c'est vraiment pas un problème pour nous Oui ça on pourra préparer ça ça serait pas mal non ? Oui ça on va faire un deux cas d'usage voilà comme j'avais dit ça c'est que il fallait que je comprenne si ça avait du sens pour vous parce que mon power to may c'est une solution que on avait pensé sans discuter vraiment avec quelqu'un avec la vision de la DSi surtout et c'est seulement ça une fois que c'est confirmé comme maintenant vous pouvez compter avec ça pour le cas d'usage on peut vous montrer même les visuels quelque chose visuel pas seulement la partie automate et voilà pour nous préparer ça après ça vous permet aussi de voir plus large comment vous pouvez organiser le service automatiser si t'es plus par rapport à ça vous pouvez plus se reposer plus voir ce qui est possible aujourd'hui et donc ça on peut le prévoir dans combien de temps on fera le réunion avec Dalis c'est pour la vision quand vous voulez quand vous voulez oui le passage on se peut vendre les liens au mois de juin le temps que tout le monde revient ça peut être joyeux ah la réunion avec tout le monde dans 15 jours on peut préparer ça oui dans 15 jours c'est parfait oui et puis comme ça ça nous laisse le tour aussi de voir avec les équipes en bas de voir comment on peut automatiser leur processus pour en fait avoir toute la chaîne parce que c'est vrai les commandes c'est une chaîne mais si on peut avoir tout le processus et automatiser et les soulager franchement je pense que ce serait une bonne chose il rajouter deux cages d'usage magnifique du coup on travaillerait avec on a un responsable performance en bas qui m'a aussi aidé donc on pourrait échanger aussi avec les équipes et dans 15 jours je pense qu'on pourrait présenter quelque chose oui absolument je suis d'accord de notre côté on a tous les environnements on a micro-sofit tout donc on va travailler ensemble on a on a été rapporté la solution que vous avez dit pour montrer et peut-être on vous envoie même avant le mail au moins pour que vous ayez la documentation si on a parlé ici et tout et peut-être on on met déjà aussi le visuel ok vous imaginez tout ça ok ok très bien et si donc vous fais ça vous êtes quoi vous êtes indépendant vous êtes oui je suis un peu un peu mixant en 2020 j'avais commencé à créer ma propre compagnie et à partir de là je travaille maintenant à plein temps à l'Oréal mais et donc je travaille à IBM aussi à Volvo mais j'ai ma compagnie à côté donc je suis bien entouré j'ai des personnes qui recherchent des personnes qui font aussi surtout la partie tech aussi et moi ce que je fais c'est travailler dans plusieurs domaines finance, opération, technologie pendant plusieurs années en tant que consultant, mis dans une entreprise pour pouvoir comprendre le beau à beau de projets en général moi j'ai toujours fait la partie opérationnelle de ce cas d'usage c'est comme ça que j'ai commencé et peut-être un peu automatisé à IBM j'ai pu travailler avec la directeur d'opération d'IBM René Oure pendant trois ans elle m'a formé justement automatisé pas moi sinon moi j'ai pas vu beaucoup à l'heure projet manager plutôt et elle aussi un peu mais surtout d'une directrice donc j'ai pas eu beaucoup de raciais mais on a pu automatiser tout ça dans plusieurs façons et IBM fait la même chose qu'on veut faire ici mais avec ces systèmes à eux fait de zéro on peut dire donc ça c'est intéressant parce que ça permet d'avoir ce qu'on appelle aujourd'hui la gouvernance de données que c'est le domaine dans la hausse de travail le plus de voir ce qu'il y a c'est sur la partie d'après voir ce qu'il y a dans le cadre de bord grâce aux données que tous les formuleurs donnent et savoir ce qu'on fait avec du bout à bout et automatiser ce qu'on peut ça c'est un peu la mission que j'ai dans ma carrière en général en comprenant bien sûr le business c'est pour ça que je voulais aussi créer ma propre compagnie parce qu'il manque qu'il faut comprendre le jour à jour de la gestion de la compagnie de la reçoit et les réveillés financiers les ressources humaines et marketing et le reste de domaine que je voyais pas dans mon jour à jour et si domaine et si domaine on va faire vous de travailler les six domaines parce que parfois on oublie beaucoup dans l'opérationnelle la technologie on oublie la partie humaine et puis il y a la partie finance et du coup moi j'aime bien au listique un pour ce qui est au listique parce que pour moi se focaliser sur un seul domaine et surtout du coup moi je suis dans la partie humaine oui, oui avant de créer au listique en ce moment depuis je le disais à ce jour je crée au listique et je pense à toi pour people parce que c'est vraiment les messages que j'écoutais toujours de sa part oui oui parce que derrière c'est humain d'ailleurs je veux voir ce cas tout sérieux ça c'est un peu total ok votre lien merci pour tout ça merci à vous ça t'aimais plaisir je donnerais ton mail comme ça si il y a une invitation dans 15 jours comme ça on se prépare pour faire la présentation avec David et Vivalde et qu'on a un date magnifique, excellent ça marche ok, merci bonjour au revoir à bientôt
+
+## Time-stamped segments
+
+- [00:00 → 00:04] Et voilà, et savoir si il y a la réglage de l'atténuation en compte ou pas.
+- [00:06 → 00:17] Et après, bon, le site... bon, après il y a le racisme entre nous, bien sûr, qui vous fait croire, c'est-à-dire nous, ce qu'on veut, c'est que si vous êtes très clair, qu'est-ce qu'on va faire?
+- [00:17 → 00:21] Et une fois que le projet est fini, qui va faire croire aussi?
+- [00:21 → 00:24] A partir de là, il y aura un mot d'appératoire, et tout.
+- [00:24 → 00:26] Oui.
+- [00:55 → 01:10] Donc, il est sûr qu'on va sortir avec un mot d'appératoire et on va faire tout ce qu'il faut pour que ce soit, on peut dire, bon, utile pour vous et bien sûr, à changer, jusqu'à que ce soit, ok?
+- [01:10 → 01:20] Après, l'orchestration, c'est le système qu'on devrait mettre en place pour que l'automatisation tienne la route.
+- [01:20 → 01:31] Sur ce sujet, je voulais aussi vous demander quel système vous utilisez, ou quel système on a accès, on peut dire, pour placer la solution.
+- [01:31 → 01:38] Et comme ça, on peut parler vraiment directement sur votre réalité, on peut dire.
+- [01:39 → 01:52] Pour l'instant, on sait le mot d'opératoire, mais il y a des petits détails sur la documentation du documentaire que je ne peux pas encore ouvrir.
+- [01:52 → 01:54] Pareil que sur l'orchestration.
+- [01:55 → 02:03] Mais voilà, seulement c'est 3.6 pour expliquer que c'est les trois choses sur lesquelles on fait vraiment attention.
+- [02:03 → 02:10] Une documentation mise à jour, une orchestration adaptée au système que vous utilisez, et la patiente est totale.
+- [02:10 → 02:14] C'est-à-dire, il y aura une réformation, tout ce qu'il faut.
+- [02:14 → 02:23] Il s'est plus facile parce que c'est Aisha qui fait ça, mais on voulait le dire au cas où il y a d'autres personnes.
+- [02:27 → 02:33] Et voilà, ça descend les chiffres qui nous ont un peu attiré l'attention pour venir ici.
+- [02:34 → 02:44] On croit que la raison pour laquelle on automatise ça peut être intéressant, on le sait parce que le volume est assez haut.
+- [02:44 → 02:55] Et aussi le risque d'avoir une commande, voilà, de compléter différemment et haut aussi.
+- [02:55 → 03:02] Et pas seulement le problème de compléter bien ou mal la commande, sinon le fait que le final, c'est quand même beaucoup.
+- [03:02 → 03:09] Il y a beaucoup de situations dans chacune et une commande peut durer beaucoup plus de temps qu'une autre.
+- [03:09 → 03:20] Donc au final, notre but c'est automatiser pour surtout éliminer les problèmes que les maladies peuvent donner, et bien sûr, les risques humaines et tout ce qui est le temps au final.
+- [03:21 → 03:31] Donc voilà, au sujet, ça c'est pour surtout qu'on va vous envoyer cette présentation pour après,
+- [03:31 → 03:42] pour que vous puissiez voir avec plus de calme, notre des signaux qu'on a eu qui sont les mêmes, c'est-à-dire, on finança le volume d'un côté.
+- [03:42 → 03:52] Et d'un côté c'est aussi l'évolution de la logique qui est là toujours, on peut dire, la stabilité de la règle.
+- [03:52 → 04:01] C'est-à-dire qu'à part de ce qu'on a parlé avant, il faut aussi tenir en compte qu'il se peut qu'au futur voulait changer l'automatisation.
+- [04:02 → 04:14] Donc seulement vous dire que ce plan, il tient à ça aussi en compte, à partir à travers du même lance et autre pas seulement opérationnel, mais aussi technologique on peut dire.
+- [04:14 → 04:20] Et d'un côté, tenir en compte le portail que vous utilisez, bien sûr.
+- [04:20 → 04:28] Et bon, surtout expliquer que le litige au final, c'est quand même un coup caché.
+- [04:29 → 04:32] Allez, ça prend du temps, allez.
+- [04:32 → 04:34] Oui, voilà.
+- [04:34 → 04:36] Ok.
+- [04:36 → 04:44] Et ça c'est le procès qu'on veut utiliser pour attaquer le projet.
+- [04:44 → 04:49] C'est-à-dire, c'est par rapport à que va faire l'outil.
+- [04:49 → 04:54] C'est pour ça que même si on ne dit pas exactement qu'un système a créé l'outil,
+- [04:54 → 04:59] si c'est par le thomé ou tout le monde, pour que l'autre système, on peut quand même dire ce qu'il va faire.
+- [04:59 → 05:11] Donc du coup, ce qu'on veut, c'est un système qui lise, l'information qu'on a dit avant, qui compose, qui laisse à un opérateur revoir.
+- [05:11 → 05:13] Ça c'est quelque chose à choisir.
+- [05:13 → 05:15] Vous pouvez nous dire que oui ou non.
+- [05:15 → 05:19] Mais on croit que c'est bien quand même de laisser à un opérateur revoir.
+- [05:19 → 05:23] Ce qu'il y a est tout simplement à secter la soumission.
+- [05:23 → 05:29] Ça peut se faire dans un courrier qu'un opérateur reçoit, dans un inbox, je veux dire,
+- [05:29 → 05:34] qu'un opérateur reçoit tous les commandes qui sont déjà en mode composition,
+- [05:34 → 05:37] seulement pour que vous les approuvez par exemple.
+- [05:41 → 05:43] Ok.
+- [05:44 → 05:45] Oui.
+- [05:45 → 05:52] C'est vrai que pendant que tu parlais de ça, je pensais, parce qu'on a trois gestionnaires d'intervention,
+- [05:52 → 05:55] et en fait ils ont une grande charge administrative.
+- [05:55 → 06:07] C'est vrai qu'on n'a pas étudié ce côté-là, et c'est vrai qu'ils demandent une quatrième personne depuis que je suis là.
+- [06:07 → 06:13] Et là avec le parc qui remonte, ça ferait presque une autre personne,
+- [06:13 → 06:17] parce que là ils ne tiendront pas, et ils savent que forcément la personne qui demande,
+- [06:17 → 06:19] il en faut dans la d'eux de plus non.
+- [06:19 → 06:22] L'idée, c'est pas que je ne vais pas parler de ça avec Faisal,
+- [06:22 → 06:26] mais comment voir aussi pour leur alléger l'administratif,
+- [06:26 → 06:30] parce qu'en fait ils passent énormément de temps dans l'administratif,
+- [06:30 → 06:35] et en automatisant de ce côté-là, on pourrait voir comment on pourrait aussi
+- [06:35 → 06:41] responsabiliser les fournisseurs et créer un système, et ça je sais que c'est possible,
+- [06:41 → 06:46] pour faire en sorte que cette administrative-là, qui passe beaucoup de temps à faire,
+- [06:46 → 06:53] il viendrait juste pour pouvoir valider, parce qu'il faut quand même leur OK avant que moi je puisse faire avec comment,
+- [06:53 → 06:57] et on pourrait essayer de travailler avec Ryan et toute l'équipe voir comment pour automatiser,
+- [06:57 → 07:04] pour que la chaîne puisse continuer jusqu'à leur niveau, pour qu'il vienne juste pour dire OK,
+- [07:04 → 07:09] je bloque, OK, ça c'est en pensant à ça que je voyais,
+- [07:09 → 07:15] ce côté-là, si ça peut les soulager et soulager l'administratif.
+- [07:15 → 07:17] C'était un petit aparté, je te laisse continuer.
+- [07:17 → 07:21] Non, c'est très intéressant, c'est vraiment intéressant et je suis totalement d'accord,
+- [07:21 → 07:25] parce qu'une fois que le conseil va être le même, on peut dire,
+- [07:25 → 07:31] c'est-à-dire au final, comme tu as bien dit, on doit savoir ce qu'il doit lire,
+- [07:32 → 07:40] et à partir de là, on crée une composition automatisée, et bien sûr, il y aura une boîte
+- [07:40 → 07:43] dans laquelle, comme tu avais dit, il dirait OK ou pas.
+- [07:43 → 07:50] Donc, suffisamment de se soir avec eux et comprendre leur end-to-end,
+- [07:50 → 07:52] le magnisme, exactement.
+- [07:52 → 07:54] Parfait.
+- [07:54 → 07:59] Et par rapport aux fonctionnalités, excusez-moi pour cette slide,
+- [07:59 → 08:05] je m'a carré la partie des droites.
+- [08:05 → 08:09] Je suis plus fort, je crois au max.
+- [08:09 → 08:12] Voilà, si tu veux parler un peu plus fort, tu peux parler.
+- [08:12 → 08:14] Bien sûr.
+- [08:14 → 08:23] OK, donc par rapport aux fonctionnalités, c'est très similaire à ce qu'on parlait avant,
+- [08:23 → 08:27] et si c'est surtout valider avec vous que les fonctionnalités,
+- [08:27 → 08:32] quand on croit qu'ils sont importants pour vous, sont bien ici.
+- [08:32 → 08:39] Et bien sûr, on peut en ajouter, mais c'est surtout pour être bon dès le début.
+- [08:39 → 08:45] D'un côté, ce serait un référentiel, un mappage, ce qu'on a parlé avant.
+- [08:45 → 08:49] C'est-à-dire, d'abord, on connaît ce que veut la personne,
+- [08:49 → 08:53] et internement, on fait un système qui map alors ce qu'il existe
+- [08:53 → 08:56] avec ce qu'on nous a dit qui est important.
+- [08:56 → 08:57] On peut dire.
+- [08:57 → 09:01] De là, en général, alors, les différents niveaux, on soit.
+- [09:01 → 09:05] L'engin, le titre d'intervention, le fournisseur, la référence,
+- [09:05 → 09:08] tout ce qui soit relevant.
+- [09:08 → 09:15] On remplit par catégorie, ce qui permet alors remplir à sa fois un tableau de bord.
+- [09:16 → 09:19] C'est-à-dire, nous, on peut savoir exactement ce qu'on a fait.
+- [09:19 → 09:23] Et les points de trois et le quatre sont très importants,
+- [09:23 → 09:26] surtout pour tout ce qui est la visibilité des personnes.
+- [09:26 → 09:31] Ce n'est pas seulement une boîte, mais sinon qu'on devrait avoir un tableau de bord,
+- [09:31 → 09:35] surtout pour vous, pour toute l'équipe, pour savoir exactement
+- [09:35 → 09:39] quelle est l'activité qui a eu lieu, on peut dire, deux ans.
+- [09:40 → 09:44] Et après, on voudrait parler avec vous d'un module de prévention
+- [09:44 → 09:49] des gestions de litige, dans le cas où ce ne soit pas mis en place.
+- [09:49 → 09:54] C'est juste à côté du hors-périmètre, mais on croit que c'est justement
+- [09:54 → 09:57] l'évolution de ce projet.
+- [09:57 → 10:03] Mais bon, on avait pensé ça comme évolution, mais ce que vous dites ici,
+- [10:03 → 10:08] c'est bien ce qui est ré au point cinq et à droite.
+- [10:10 → 10:13] Voilà.
+- [10:13 → 10:20] Donc pour nous, il faudrait voir exactement les temps, selon ce qu'on parle
+- [10:20 → 10:25] entre nous, mais en tout cas, il y aura un projet, c'est découvert d'abord,
+- [10:25 → 10:30] après un cadre dans lequel on valide avec vous tout ce qu'on a compris.
+- [10:30 → 10:33] Et si c'est OK, on passe directement à faire le prototype,
+- [10:33 → 10:38] pour que vous pouvez le voir et voir si ça marche, tester.
+- [10:38 → 10:39] Voilà.
+- [10:39 → 10:45] Et après, on mesure tous les tests, si c'est OK, si on n'a pas ce qu'on veut.
+- [10:45 → 10:48] Et finalement, on transfère l'activité.
+- [10:48 → 10:50] On met en place l'outil.
+- [10:50 → 10:54] Ici, peut-être, on transfère le transfert opérationnel.
+- [10:54 → 10:57] C'est vrai que c'est plus simple,
+- [10:58 → 11:01] au fait que justement, c'est à chaque qui est ici,
+- [11:01 → 11:03] à faire l'opérationnel aussi.
+- [11:03 → 11:07] Mais par rapport au transfert technologique, il faudra qu'on connaisse
+- [11:07 → 11:10] quelles sont les contraintes qu'on a de la part de la compagnie.
+- [11:10 → 11:14] C'est-à-dire, il y aura peut-être des règles qu'il faut qu'on t'en compte.
+- [11:14 → 11:18] Et donc, si ça ne nous était pas à nous dire quelles sont les contraintes
+- [11:18 → 11:22] que vous avez, on s'adapte à votre réalité.
+- [11:23 → 11:30] Après, par rapport jusqu'à où on va, on a pensé trois scénarios.
+- [11:30 → 11:36] Le premier, tout ce que l'on a parlé dans cette réunion, c'est celui du milieu.
+- [11:36 → 11:42] Excusez-moi, tout ce qu'on a parlé ici, excusez-moi, c'est celui du milieu.
+- [11:42 → 11:46] Et notre organisation, c'est la partie de mettre en place le logiciel
+- [11:46 → 11:50] avec les contraintes technologiques que vous avez dans la compagnie.
+- [11:50 → 11:56] C'est-à-dire les accès surtout au logiciel
+- [11:56 → 12:00] qui peut-être ne nous permettent pas d'aller jusqu'au bout.
+- [12:00 → 12:05] Mais si on ne peut pas aller jusqu'au bout, c'est quand même un prototype qu'on peut faire
+- [12:05 → 12:10] pour que vous pouvez valider au moins que ça marche, etc.
+- [12:10 → 12:15] Si on peut aller jusqu'au bout, on peut aller jusqu'à la fin
+- [12:15 → 12:20] avec les accès nécessaires et faire nous-mêmes la partie finale,
+- [12:20 → 12:24] alors ce serait la variante C, une variante des années industrialisées
+- [12:24 → 12:29] prêtes pour la production et pour le jour à jour
+- [12:29 → 12:36] avec le meilleur scénario, on peut dire, et celui du milieu, celui le plus balancé.
+- [12:36 → 12:40] Le scénario A, c'est plutôt le cadrage en soi.
+- [12:40 → 12:46] Ça resterait en documentation seulement et il n'y aurait pas un logiciel derrière.
+- [12:46 → 12:52] On a laissé les 3 options parce qu'on ne savait pas quelle qualité vous allez avoir
+- [12:52 → 12:56] et pour votre validation.
+- [12:56 → 13:02] Ok, les variantes, ça dit-il, ou c'est les trois en place ou quoi ?
+- [13:02 → 13:04] C'est une ou l'autre.
+- [13:05 → 13:09] C'est l'exclamation, ça comprend les trois, c'est ça ?
+- [13:09 → 13:10] Voilà, voilà.
+- [13:10 → 13:11] Vous avez 14 semaines.
+- [13:11 → 13:13] Exactement, c'est ça.
+- [13:14 → 13:20] Dans votre cas, on voulait réfléchir peut-être, mais on parle après,
+- [13:20 → 13:25] mais voilà, c'est surtout une chose qu'on voulait voir avec vous
+- [13:25 → 13:30] parce qu'on ne sait pas quelle est la réalité dans laquelle vous vous trouvez
+- [13:30 → 13:35] surtout au niveau de gestion de ce genre de projet.
+- [13:35 → 13:40] Donc on peut le voir ensemble, qui est le mieux pour vous.
+- [13:41 → 13:43] Après, voilà.
+- [13:43 → 13:48] Ici, c'est surtout un slide plus pour vous après
+- [13:48 → 13:53] et la bonification avec le restant de votre équipe
+- [13:53 → 13:59] sur un résumé un peu de douce qui est en haut, surtout.
+- [13:59 → 14:04] Ça parle des litiges, ça parle aussi des résolutions,
+- [14:04 → 14:05] la couverture des gestes.
+- [14:05 → 14:09] Je donne à 15 jours, on est à 15 jours pour les commandes,
+- [14:09 → 14:11] même s'ils ne sont pas très patients,
+- [14:11 → 14:13] le repos au bout de 7 jours est relance,
+- [14:13 → 14:16] mais là avec l'automatisation, ça serait très rapide.
+- [14:16 → 14:19] Parce qu'on est à 15 jours aujourd'hui.
+- [14:19 → 14:20] Exactement.
+- [14:20 → 14:23] La couverture qui serait 100%,
+- [14:23 → 14:25] surtout si on passe au plan de développement
+- [14:25 → 14:28] dans lequel ce serait pas un prototype,
+- [14:28 → 14:31] sinon ce serait une application qui s'active
+- [14:31 → 14:35] à la réception du cas du dage.
+- [14:35 → 14:39] Et donc ça rend aussi 100% de couverture.
+- [14:39 → 14:42] Et finalement la continuité opérationnelle.
+- [14:42 → 14:46] C'est la fin de la mission,
+- [14:46 → 14:50] au final, c'est très facile d'avoir la documentation à côté
+- [14:50 → 14:53] et avec Aichan, on sait que surtout,
+- [14:53 → 14:55] il y a un plan de maintenance,
+- [14:55 → 14:58] que vous avez déjà parlé probablement,
+- [14:58 → 15:01] qui cadre très bien avec tout ce projet-ci en soi.
+- [15:01 → 15:04] Parce qu'on pourrait assurer une couverture
+- [15:04 → 15:09] à partir de là au futur aussi.
+- [15:09 → 15:10] Voilà.
+- [15:10 → 15:12] Donc voilà, je pense qu'on arrive à la fin.
+- [15:12 → 15:14] Après la partie de l'inquente,
+- [15:14 → 15:16] c'est la partie où c'est moi l'opérationnelle
+- [15:16 → 15:18] en tant que des lances.
+- [15:18 → 15:20] Ça c'est une autre partie encore.
+- [15:20 → 15:22] Après.
+- [15:22 → 15:24] OK.
+- [15:26 → 15:29] Donc on arrive aux questions, c'est ça ?
+- [15:29 → 15:30] Et là, oui.
+- [15:30 → 15:32] Là, je peux dire que merci, surtout.
+- [15:32 → 15:34] Et merci beaucoup, surtout,
+- [15:34 → 15:37] parce que j'ai eu la contrainte avant,
+- [15:37 → 15:41] et vous êtes quelqu'un très occupé.
+- [15:41 → 15:43] Donc je vous remercie, et je te remercie.
+- [15:43 → 15:45] Le dernier slide, c'est que merci,
+- [15:45 → 15:48] mais là je le dis encore.
+- [15:51 → 15:54] Alors est-ce que vous avez des questions ?
+- [15:54 → 15:58] Donc, merci, oui, c'est intéressant.
+- [15:58 → 16:01] On a des marches de toute façon et pertinentes.
+- [16:01 → 16:09] Après, je pense qu'il faut en parler,
+- [16:09 → 16:15] en interne avec en effet, peut-être David Rival,
+- [16:15 → 16:18] qui s'occupe de tout ce qui est,
+- [16:18 → 16:21] sur automatisation, automatisation.
+- [16:21 → 16:24] Et donc avec la DSI aussi derrière,
+- [16:24 → 16:30] ce que rien ne peut se faire sans la maîtrise de leur part.
+- [16:30 → 16:32] Après, de ce que je comprends,
+- [16:32 → 16:35] vous voulez vous positionner en amont,
+- [16:35 → 16:38] finalement, de tout le traitement actuel
+- [16:38 → 16:42] réalisé pour pouvoir automatiser.
+- [16:42 → 16:43] Oui.
+- [16:44 → 16:46] Automatiser et après,
+- [16:46 → 16:48] il y a la partie suivie maintenant,
+- [16:48 → 16:50] ça c'est une autre partie après.
+- [16:50 → 16:51] Exactement.
+- [16:51 → 16:54] La maintenance, elle est très pertinente,
+- [16:54 → 16:57] parce que nous, c'est-à-dire,
+- [16:57 → 16:59] comme vous avez bien dit,
+- [16:59 → 17:02] la DSI, c'est normalement le point
+- [17:02 → 17:05] dans lequel on sait si on peut aller ou pas.
+- [17:05 → 17:07] C'est-à-dire, ils vont nous donner les règles,
+- [17:07 → 17:09] ils vont dire exactement ce qu'on peut faire,
+- [17:09 → 17:10] qu'on peut pas faire.
+- [17:10 → 17:11] Et plus.
+- [17:11 → 17:16] Et donc c'est pour ça qu'on n'a pas fini le plan de maintenance.
+- [17:16 → 17:17] Après.
+- [17:17 → 17:20] Mais si tu peux aller,
+- [17:20 → 17:22] sortir les trois modes,
+- [17:22 → 17:25] des pleinements,
+- [17:25 → 17:27] je crois que c'est les slide 10.
+- [17:27 → 17:29] Ou le 11.
+- [17:29 → 17:30] Le 11 alors.
+- [17:30 → 17:31] Oui.
+- [17:31 → 17:32] Ok.
+- [17:32 → 17:35] Donc la DSI, c'est la différence
+- [17:35 → 17:37] entre industrialiser et protéger.
+- [17:37 → 17:40] C'est la différence entre industrialiser et protéger,
+- [17:40 → 17:42] pour cadrage surtout.
+- [17:42 → 17:46] Vu que ça dépendra de ce qu'on nous laisse faire,
+- [17:46 → 17:48] en pédie, directement.
+- [17:48 → 17:50] Et dans ces conversations,
+- [17:50 → 17:53] on va nous diriger vers où on peut aller.
+- [17:53 → 17:55] Mais en tout cas,
+- [17:55 → 17:58] si c'est sur cadrage,
+- [17:58 → 18:01] alors la maintenance
+- [18:01 → 18:03] insère un peu similaire au mode de travail
+- [18:03 → 18:05] que vous avez aujourd'hui.
+- [18:05 → 18:08] Donc il n'y aurait pas une automatisation en mise en place.
+- [18:08 → 18:10] Et à partir du prototype,
+- [18:10 → 18:11] c'est très similaire,
+- [18:11 → 18:13] mais on vous laisse un peu dire
+- [18:13 → 18:15] à moitié du chemin.
+- [18:15 → 18:16] On aurait fait au moins un prototype
+- [18:16 → 18:18] pour qu'on puisse montrer.
+- [18:18 → 18:20] Parce que des fois à la DSI,
+- [18:20 → 18:22] ils vont nous demander
+- [18:22 → 18:24] quand même d'apporter quelque chose.
+- [18:24 → 18:27] Et le prototype, c'est dans ce cas-là.
+- [18:27 → 18:29] Et industrialiser, c'est dans le cas
+- [18:29 → 18:31] où on peut parler avec eux et avoir déjà
+- [18:31 → 18:34] accès à pouvoir mettre en place la solution.
+- [18:34 → 18:36] Ceux-ci sont fermés assez.
+- [18:36 → 18:39] Oui, en général,
+- [18:39 → 18:41] nous, on met trois.
+- [18:41 → 18:44] Parce qu'il y a toujours un blocage
+- [18:44 → 18:46] interne quelque part.
+- [18:46 → 18:48] Le jour à jour et après année,
+- [18:48 → 18:51] les entreprises créent leur propre
+- [18:51 → 18:53] savoir-faire.
+- [18:53 → 18:55] Et après, il y a des mécanismes pour le défendre.
+- [18:55 → 18:57] On peut dire.
+- [18:57 → 18:58] Et c'est pour ça.
+- [18:58 → 19:00] C'est pour ça que l'on laisse
+- [19:00 → 19:02] l'industrialisation au cas où on peut.
+- [19:02 → 19:04] On peut alors se rester.
+- [19:04 → 19:06] Parce que, alors,
+- [19:06 → 19:08] ça reste dans l'opérationnel aussi.
+- [19:08 → 19:10] On peut enborder, bien sûr,
+- [19:10 → 19:12] comme vous avez bien dit, d'autres personnes
+- [19:12 → 19:14] ou d'autres cas d'usage.
+- [19:14 → 19:16] Ce n'est pas un outil
+- [19:16 → 19:18] qui continue à évoluer au final.
+- [19:18 → 19:20] Ça, c'est seulement la maintenance.
+- [19:20 → 19:22] Mais après, on peut ajouter
+- [19:22 → 19:24] d'autres cas d'usage et évoluer le produit.
+- [19:24 → 19:26] Au final, on ne peut pas savoir
+- [19:26 → 19:28] combien de temps on peut gagner.
+- [19:28 → 19:30] Comme ça, de qualité.
+- [19:30 → 19:32] Et puis, on a dit,
+- [19:32 → 19:34] on a dit, oui, il faut revoir
+- [19:34 → 19:36] avec les équipes de DSI.
+- [19:36 → 19:38] De toute façon, c'est avec eux.
+- [19:38 → 19:40] On peut être David,
+- [19:40 → 19:42] alors.
+- [19:42 → 19:44] David, sans doute, dans un premier temps,
+- [19:44 → 19:46] oui.
+- [19:46 → 19:48] Pour...
+- [19:48 → 19:50] Voilà, expliquer t'es tête
+- [19:50 → 19:52] plus directement.
+- [19:52 → 19:54] Après,
+- [19:54 → 19:56] comment vous voyez ça, vous,
+- [19:56 → 19:58] dans un premier temps,
+- [19:58 → 20:00] vous avez des questions
+- [20:00 → 20:02] qui vous ont réagi
+- [20:02 → 20:04] pour l'exercice,
+- [20:04 → 20:06] comment vous organisez ça
+- [20:06 → 20:08] pour la suite, avec le remontation de...
+- [20:08 → 20:10] Ça reste
+- [20:10 → 20:12] pertinent, de toute façon,
+- [20:12 → 20:14] d'automatiser pour gagner du temps.
+- [20:14 → 20:16] Dans l'arrêtement.
+- [20:16 → 20:18] Après,
+- [20:18 → 20:20] comment on met ça en œuvre.
+- [20:20 → 20:22] On peut passer
+- [20:22 → 20:24] avec une prestation externe.
+- [20:24 → 20:26] Ou en interne,
+- [20:26 → 20:28] je sais pas,
+- [20:28 → 20:30] donc ça, c'est aussi côté David
+- [20:30 → 20:32] à regarder
+- [20:32 → 20:34] ce qui peut être pertinent.
+- [20:34 → 20:36] En tout cas,
+- [20:36 → 20:38] voilà,
+- [20:38 → 20:40] ça va dans le sens de l'histoire,
+- [20:40 → 20:42] ça, clairement.
+- [20:42 → 20:44] Oui, c'était la vision de Marie-Laurent
+- [20:44 → 20:46] sans début d'année,
+- [20:46 → 20:48] de digitalisation, c'était une mode ordre.
+- [20:48 → 20:50] Bien sûr, c'est bien sûr.
+- [20:50 → 20:52] Donc, il faut qu'on aille
+- [20:52 → 20:54] de cette direction-là.
+- [20:54 → 20:56] Alors après,
+- [20:56 → 20:58] si le fait d'avoir
+- [20:58 → 21:00] un prestataire extérieur,
+- [21:00 → 21:02] comme fait sale,
+- [21:02 → 21:04] permet peut-être de dynamiser le sujet,
+- [21:04 → 21:06] pourquoi pas, ça peut être intéressant.
+- [21:06 → 21:08] Donc ça, il faut qu'on puisse
+- [21:08 → 21:10] voir ça avec David,
+- [21:10 → 21:12] je pense.
+- [21:12 → 21:14] David, oui.
+- [21:14 → 21:16] David, des pieds après, certainement la DSC.
+- [21:16 → 21:18] C'est-à-dire qu'on ne voit rien faire
+- [21:18 → 21:20] sans que eux soient
+- [21:20 → 21:22] courants, qu'on prenne
+- [21:22 → 21:24] ce qu'on veut faire.
+- [21:24 → 21:26] Dis que eux ne puissent pas le faire
+- [21:26 → 21:28] eux-mêmes,
+- [21:28 → 21:30] voilà, et que ça apporte un complément
+- [21:30 → 21:32] pertinent.
+- [21:32 → 21:34] Oui.
+- [21:36 → 21:38] D'accord.
+- [21:38 → 21:40] Parfait.
+- [21:40 → 21:42] Donc, l'étape suivante, c'est David,
+- [21:42 → 21:44] d'avoir avec David.
+- [21:44 → 21:46] Donc, moi, je peux monter une réunion,
+- [21:46 → 21:48] éventuellement avec David.
+- [21:48 → 21:50] Oui, on peut faire la présentation
+- [21:50 → 21:52] et peut-être voir aussi comment,
+- [21:52 → 21:54] parce que je sais que David, il avait fait
+- [21:54 → 21:56] une étude en bas pour voir comment
+- [21:56 → 21:58] organiser aussi les gestionnels
+- [21:58 → 22:00] interventions. Je pense que si
+- [22:00 → 22:02] à cette partie-là aussi, peut-être que ça peut
+- [22:02 → 22:04] ça peut permettre
+- [22:04 → 22:06] de les soulager aussi,
+- [22:06 → 22:08] de voir comment on peut,
+- [22:08 → 22:10] oui.
+- [22:10 → 22:12] Voilà, on a beaucoup de détails.
+- [22:12 → 22:14] Oui, il y a des simples.
+- [22:14 → 22:16] Oui, il y a beaucoup de détails, c'est-à-dire
+- [22:16 → 22:18] on va avec eux, et on a une réunion avec eux,
+- [22:18 → 22:20] on sait ce qu'ils veulent qu'on
+- [22:20 → 22:22] on est, on peut dire.
+- [22:22 → 22:24] On peut venir derrière
+- [22:24 → 22:26] avec les détails
+- [22:26 → 22:28] nécessaires, pour
+- [22:28 → 22:30] le plan plus détaillé
+- [22:30 → 22:32] ou plus technique, peut-être, ils peuvent nous demander.
+- [22:32 → 22:34] Il n'y a pas de problème
+- [22:34 → 22:36] par rapport à ça.
+- [22:38 → 22:40] Ok, bon, enfin voilà,
+- [22:40 → 22:42] bon, il y a certaines choses
+- [22:42 → 22:44] qui sont encore un peu nébuleuses pour moi,
+- [22:44 → 22:46] mais peut-être quand il fait avec un échange
+- [22:46 → 22:48] avec David et puis
+- [22:48 → 22:50] et puis voilà, on va essayer
+- [22:50 → 22:52] de
+- [22:52 → 22:54] normaliser
+- [22:54 → 22:56] des choses comme ça.
+- [22:56 → 22:58] Si je peux me permettre
+- [22:58 → 23:00] des scénarios que je crois que
+- [23:00 → 23:02] ils peuvent leur
+- [23:02 → 23:04] peut-être, bon, faire des
+- [23:04 → 23:06] questions, on peut dire, surtout,
+- [23:06 → 23:08] je crois que c'est par rapport
+- [23:08 → 23:10] au système que vous utilisez,
+- [23:10 → 23:12] vu qu'il y aura
+- [23:12 → 23:14] forcément des travaux
+- [23:14 → 23:16] qui sont encore été faits
+- [23:16 → 23:18] dans l'entreprise
+- [23:18 → 23:20] autour de l'OTAN. Donc si par exemple, je parle
+- [23:20 → 23:22] d'automatiser avec Power Automate
+- [23:22 → 23:24] qui est la solution la plus probable,
+- [23:24 → 23:26] il se peut qu'ils aient déjà
+- [23:26 → 23:28] beaucoup de travail faits dedans
+- [23:28 → 23:30] qui fait que c'est pas brancher
+- [23:30 → 23:32] et faire Power Automate.
+- [23:32 → 23:34] Tandis qu'ils vont vouloir que
+- [23:34 → 23:36] on passe par un modus operandi
+- [23:36 → 23:38] par des harcets
+- [23:38 → 23:40] faits par eux
+- [23:40 → 23:42] et donc je crois que pour eux, c'est
+- [23:42 → 23:44] très important qu'ils sachent qu'on est
+- [23:44 → 23:46] prêt pour ça
+- [23:46 → 23:48] ou pour n'importe quelle autre chose
+- [23:48 → 23:50] qu'il est en règle.
+- [23:52 → 23:54] C'est-à-dire donc vous avez
+- [23:54 → 23:56] un outil, c'est ça qui...
+- [23:56 → 23:58] Voilà, on a tous les...
+- [23:58 → 24:00] Oui, c'est-à-dire tous les outils
+- [24:00 → 24:02] qu'on a sont compatibles
+- [24:02 → 24:04] à la plupart des logiciels qu'on utilise.
+- [24:04 → 24:06] Donc si vous avez utilisé Microsoft
+- [24:06 → 24:08] aussi, tous les modules
+- [24:08 → 24:10] on les recherche
+- [24:10 → 24:12] et après la recherche, on fait
+- [24:12 → 24:14] des modus operataires pour nous
+- [24:14 → 24:16] ce qu'on appelle des procès standard.
+- [24:16 → 24:18] C'est-à-dire, on croit que les gens
+- [24:18 → 24:20] utilisent.
+- [24:20 → 24:22] Donc remplir des formuleurs, par exemple,
+- [24:22 → 24:24] c'est un d'entre eux.
+- [24:24 → 24:26] C'est pour ça que ce cas qu'on avait
+- [24:26 → 24:28] parlé avec Aïssa, c'était pour
+- [24:28 → 24:30] une autre chose, elle avait entendue ça.
+- [24:30 → 24:32] Et alors c'est pour ça qu'elle avait
+- [24:32 → 24:34] relié à ce cas qu'elle avait.
+- [24:34 → 24:36] Et d'autres, si vous dites
+- [24:36 → 24:38] que c'est pareil, pareil.
+- [24:38 → 24:40] Si par exemple, eux, ils ont un système
+- [24:40 → 24:42] de login, par exemple spécial
+- [24:42 → 24:44] qu'il faut compter en compte
+- [24:44 → 24:46] parce que quand
+- [24:46 → 24:48] on automatise
+- [24:48 → 24:50] il faut bien
+- [24:50 → 24:52] qu'il y ait, comment dire,
+- [24:52 → 24:54] que le logiciel soit identifié
+- [24:54 → 24:56] aussi.
+- [24:56 → 24:58] Sinon, les systèmes de sécurité
+- [24:58 → 25:00] de l'entreprise ne pourraient pas
+- [25:00 → 25:02] savoir de l'assistance de ça.
+- [25:02 → 25:04] Et ça c'est quelque chose que
+- [25:04 → 25:06] on a l'intention. Donc du coup,
+- [25:06 → 25:08] ce processus d'arrêt aussi
+- [25:08 → 25:10] existe dans notre entreprise.
+- [25:10 → 25:12] Et comme ça, jusqu'à la fin
+- [25:12 → 25:14] de votre projet.
+- [25:14 → 25:16] Quand Aïssa est venue,
+- [25:16 → 25:18] on a décidé de faire alors
+- [25:18 → 25:20] un mot d'opératoire interne.
+- [25:20 → 25:22] Si tu peux présenter le cahier de charge
+- [25:22 → 25:24] provisoire qu'on a de le même dossier
+- [25:24 → 25:26] de drive,
+- [25:26 → 25:28] dans l'esport,
+- [25:28 → 25:30] l'onglet de droite.
+- [25:30 → 25:32] Il se voit que je n'avais pas cru
+- [25:32 → 25:34] de l'envers.
+- [25:34 → 25:36] C'est juste de l'esport.
+- [25:36 → 25:38] Le troisième anglais.
+- [25:38 → 25:40] C'est ouvert déjà?
+- [25:40 → 25:42] Oui, le troisième anglais.
+- [25:42 → 25:44] Celui de l'anglais.
+- [25:44 → 25:46] Ah oui, il est là.
+- [25:46 → 25:48] Et c'est décès.
+- [25:48 → 25:50] Ça c'est un document
+- [25:50 → 25:52] que c'est seulement...
+- [25:52 → 25:54] On l'a fait entre nous
+- [25:54 → 25:56] seulement pour pouvoir
+- [25:56 → 25:58] voir la viabilité
+- [25:58 → 26:00] de tout ce qui est
+- [26:00 → 26:02] le procès entier.
+- [26:02 → 26:04] Donc si on parle avec la DSI,
+- [26:04 → 26:06] on va ajouter ceci
+- [26:06 → 26:08] dedans.
+- [26:08 → 26:10] Et on va vous envoyer.
+- [26:10 → 26:12] Ça c'est le work-around général
+- [26:12 → 26:14] du fonctionnement qu'on croit qu'il y a.
+- [26:14 → 26:16] Donc
+- [26:16 → 26:18] bien sûr, on peut vous le envoyer
+- [26:18 → 26:20] parce qu'on ne voulait pas
+- [26:20 → 26:22] surcharger de beaucoup de documentations.
+- [26:22 → 26:24] Mais ça c'est une documentation interne
+- [26:24 → 26:26] qu'on a fait pour se renseigner
+- [26:26 → 26:28] du processus endouane.
+- [26:28 → 26:30] On a pu
+- [26:30 → 26:32] faire au moins le cadrage
+- [26:32 → 26:34] de la logique du procès
+- [26:34 → 26:36] on peut dire. Et à partir de là
+- [26:36 → 26:38] ce qui est intéressant
+- [26:38 → 26:40] c'est que la DSI nous dira
+- [26:40 → 26:42] comment on devrait faire les choses
+- [26:42 → 26:44] si on les fait.
+- [26:44 → 26:46] On le mettra ici.
+- [26:46 → 26:48] Et comme ça, vous pouvez avoir
+- [26:48 → 26:50] l'assurance
+- [26:50 → 26:52] qu'on a déjà au moins
+- [26:52 → 26:54] un monde opératoire pour pouvoir s'approcher
+- [26:54 → 26:56] à vous et au cas du âge.
+- [26:56 → 26:58] Et quoi ?
+- [26:58 → 27:00] On laissera la version totale.
+- [27:00 → 27:02] Mais on laissera la fin du projet.
+- [27:10 → 27:12] Donc là c'est le cas des charges
+- [27:12 → 27:14] et après vous, vous êtes capable
+- [27:14 → 27:16] à partir d'un outil microsoft
+- [27:16 → 27:18] finalement
+- [27:18 → 27:20] de rendre les choses automatisables.
+- [27:20 → 27:22] Exactement.
+- [27:22 → 27:24] Exactement.
+- [27:24 → 27:26] Ce qu'on croit c'est Power Automate
+- [27:26 → 27:28] qui est
+- [27:28 → 27:30] l'outil que microsoft
+- [27:30 → 27:32] laisse pour automatiser.
+- [27:32 → 27:34] Il a accès à tous les modules microsoft
+- [27:34 → 27:36] que la DSI active
+- [27:36 → 27:38] et donc normalement
+- [27:38 → 27:40] mail,
+- [27:40 → 27:42] normalement SharePoint
+- [27:42 → 27:44] ou Teams
+- [27:44 → 27:46] pour donner des alertes
+- [27:46 → 27:48] quand il y a quelque chose qui arrive.
+- [27:48 → 27:50] Aujourd'hui on peut créer
+- [27:50 → 27:52] des modules en Teams, des applications
+- [27:52 → 27:54] en soi
+- [27:54 → 27:56] et ces applications peuvent supporter la logique
+- [27:56 → 27:58] alors de ce monde opératoire.
+- [28:00 → 28:02] Et donc c'est déclenché avec Automate.
+- [28:02 → 28:04] Automate on peut le comprendre comme un bouton
+- [28:04 → 28:06] au final. Un bouton qui est là
+- [28:06 → 28:08] pour lire, pour être
+- [28:08 → 28:10] attentif pour nous.
+- [28:10 → 28:12] Et ce bouton peut se déclencher
+- [28:12 → 28:14] avec des choses comme recevoir un mail
+- [28:14 → 28:16] comme
+- [28:16 → 28:18] XR par exemple,
+- [28:18 → 28:20] ou ça peut être
+- [28:20 → 28:22] ou on importe quelque chose
+- [28:22 → 28:24] que l'on voit.
+- [28:24 → 28:26] Ou ça peut être
+- [28:26 → 28:28] j'ai cliqué sur approuver
+- [28:28 → 28:30] ou je cliquais sur dire non.
+- [28:30 → 28:32] Donc le final c'est une logique
+- [28:32 → 28:34] cette logique là on la laisse
+- [28:34 → 28:36] sur Power Automate.
+- [28:36 → 28:38] Et après pour le visuel on peut faire
+- [28:38 → 28:40] des choses, on peut faire des applications
+- [28:40 → 28:42] sur Teams qui peuvent déjà être très familières.
+- [28:42 → 28:44] Ou on peut faire Power Apps
+- [28:44 → 28:46] aussi.
+- [28:46 → 28:48] Power Apps c'est une application
+- [28:48 → 28:50] qui est en dit Teams parce que Power Apps
+- [28:50 → 28:52] a besoin de licences
+- [28:52 → 28:54] supplémentaires pour faire des applications
+- [28:54 → 28:56] reliées à d'autres choses.
+- [28:56 → 28:58] Mais ça permet de faire
+- [28:58 → 29:00] littéralement une page web interne
+- [29:00 → 29:02] sur votre propre environnement
+- [29:02 → 29:04] Microsoft.
+- [29:04 → 29:06] Donc du coup ça serait important
+- [29:06 → 29:08] et c'est l'industrialisation pour nous.
+- [29:08 → 29:10] C'est l'évolution
+- [29:10 → 29:12] de ce logiciel.
+- [29:14 → 29:16] Et est-ce qu'éventuellement vous auriez un exemple
+- [29:16 → 29:18] sur quelque chose qui aurait déjà été réalisé
+- [29:18 → 29:20] un peu similaire
+- [29:20 → 29:22] pour nous faire
+- [29:22 → 29:24] une démonstration ?
+- [29:24 → 29:26] Oui c'est vrai que nous
+- [29:26 → 29:28] comme on travaille par exemple avec vous
+- [29:28 → 29:30] on ne fera pas de ces idées crans
+- [29:30 → 29:32] ou
+- [29:32 → 29:34] des projets qu'on a avant.
+- [29:34 → 29:36] Malheureusement c'est mauvais pour nous
+- [29:36 → 29:38] à côté de marketing
+- [29:38 → 29:40] mais c'est parce qu'on ne peut pas
+- [29:40 → 29:42] porter cette info dehors.
+- [29:42 → 29:44] Par exemple on aura
+- [29:44 → 29:46] le mode opératoire
+- [29:46 → 29:48] et c'est ça ce qu'on peut partager.
+- [29:48 → 29:50] Mais pas
+- [29:50 → 29:52] notre mode opératoire
+- [29:52 → 29:54] je veux dire, c'est-à-dire on fait toujours
+- [29:54 → 29:56] un mode pour nous
+- [29:56 → 29:58] mais pas
+- [29:58 → 30:00] Est-ce que c'est possible
+- [30:00 → 30:02] quand même on pourrait préparer
+- [30:02 → 30:04] un cas d'usage pratique
+- [30:04 → 30:06] de société, sans citer
+- [30:06 → 30:08] c'est ça plus ça qu'on demande.
+- [30:08 → 30:10] Oui anonymiser
+- [30:10 → 30:12] montrer comment on est arrivé à un résultat
+- [30:12 → 30:14] sur les 3 entreprises
+- [30:14 → 30:16] avec lesquelles vous travaillez
+- [30:16 → 30:18] ça oui
+- [30:18 → 30:20] Oui c'est pour ça qu'on a
+- [30:20 → 30:22] le mode opératoire chez nous
+- [30:22 → 30:24] voilà c'est ça
+- [30:24 → 30:26] je voulais dire que je ne peux pas
+- [30:26 → 30:28] montrer un projet en soi
+- [30:28 → 30:30] mais nous on a le mode opératoire de tout ce qu'on a fait
+- [30:30 → 30:32] et donc refaire
+- [30:32 → 30:34] c'est vraiment pas un problème pour nous
+- [30:34 → 30:36] Oui ça on pourra préparer ça
+- [30:36 → 30:38] ça serait pas mal non ?
+- [30:38 → 30:40] Oui ça on va faire un deux cas d'usage
+- [30:40 → 30:42] voilà comme j'avais dit
+- [30:42 → 30:44] ça c'est que
+- [30:44 → 30:46] il fallait que je comprenne
+- [30:46 → 30:48] si ça avait du sens
+- [30:48 → 30:50] pour vous
+- [30:50 → 30:52] parce que mon power to may
+- [30:52 → 30:54] c'est une solution que
+- [30:54 → 30:56] on avait pensé sans discuter
+- [30:56 → 30:58] vraiment avec quelqu'un
+- [30:58 → 31:00] avec la vision de la DSi
+- [31:00 → 31:02] surtout
+- [31:02 → 31:04] et c'est seulement ça
+- [31:04 → 31:06] une fois que c'est confirmé comme maintenant
+- [31:06 → 31:08] vous pouvez compter avec ça
+- [31:08 → 31:10] pour le cas d'usage
+- [31:10 → 31:12] on peut vous montrer même les visuels
+- [31:12 → 31:14] quelque chose visuel pas seulement
+- [31:14 → 31:16] la partie automate
+- [31:16 → 31:18] et voilà
+- [31:18 → 31:20] pour nous préparer ça
+- [31:20 → 31:22] après ça vous permet aussi de voir plus large
+- [31:22 → 31:24] comment vous pouvez organiser le service
+- [31:24 → 31:26] automatiser si t'es plus par rapport à ça
+- [31:26 → 31:28] vous pouvez plus se reposer
+- [31:28 → 31:30] plus voir
+- [31:30 → 31:32] ce qui est possible aujourd'hui
+- [31:32 → 31:34] et donc ça on peut le prévoir
+- [31:34 → 31:36] dans combien de temps
+- [31:36 → 31:38] on fera le réunion avec Dalis
+- [31:38 → 31:40] c'est pour la vision
+- [31:40 → 31:42] quand vous voulez
+- [31:42 → 31:44] quand vous voulez
+- [31:44 → 31:46] oui
+- [31:46 → 31:48] le passage on se peut
+- [31:48 → 31:50] vendre les liens
+- [31:50 → 31:52] au mois de juin le temps que tout le monde revient
+- [31:52 → 31:54] ça peut être joyeux
+- [31:54 → 31:56] ah la réunion avec tout le monde
+- [31:56 → 31:58] dans 15 jours on peut préparer ça
+- [31:58 → 32:00] oui dans 15 jours c'est parfait
+- [32:00 → 32:02] oui et puis comme ça ça nous laisse le tour
+- [32:02 → 32:04] aussi de voir avec les équipes en bas
+- [32:04 → 32:06] de voir comment on peut automatiser leur processus
+- [32:06 → 32:08] pour en fait avoir
+- [32:08 → 32:10] toute la chaîne
+- [32:10 → 32:12] parce que c'est vrai les commandes c'est une chaîne
+- [32:12 → 32:14] mais si on peut avoir tout le processus
+- [32:14 → 32:16] et automatiser et les soulager
+- [32:16 → 32:18] franchement je pense que ce serait une bonne chose
+- [32:18 → 32:20] il rajouter deux cages d'usage
+- [32:20 → 32:22] magnifique
+- [32:22 → 32:24] du coup on travaillerait avec on a
+- [32:24 → 32:26] un responsable performance en bas
+- [32:26 → 32:28] qui m'a aussi aidé
+- [32:28 → 32:30] donc on pourrait échanger aussi avec les équipes
+- [32:30 → 32:32] et dans 15 jours je pense qu'on pourrait
+- [32:32 → 32:34] présenter quelque chose
+- [32:34 → 32:36] oui absolument
+- [32:36 → 32:38] je suis d'accord de notre côté on a
+- [32:38 → 32:40] tous les environnements on a micro-sofit tout donc
+- [32:40 → 32:42] on va travailler
+- [32:42 → 32:44] ensemble on a
+- [32:44 → 32:46] on a été rapporté la solution que vous avez
+- [32:46 → 32:48] dit pour montrer et
+- [32:48 → 32:50] peut-être on vous envoie même avant le mail
+- [32:50 → 32:52] au moins pour que vous ayez la documentation
+- [32:52 → 32:54] si on a parlé ici et tout
+- [32:54 → 32:56] et peut-être on
+- [32:56 → 32:58] on met déjà aussi
+- [32:58 → 33:00] le visuel
+- [33:00 → 33:02] ok
+- [33:02 → 33:04] vous imaginez tout ça
+- [33:04 → 33:06] ok
+- [33:06 → 33:08] ok très bien
+- [33:08 → 33:10] et si donc vous
+- [33:10 → 33:12] fais ça vous êtes quoi vous êtes
+- [33:12 → 33:14] indépendant vous êtes
+- [33:14 → 33:16] oui
+- [33:16 → 33:18] je suis un peu un peu mixant
+- [33:18 → 33:20] en 2020 j'avais commencé
+- [33:20 → 33:22] à créer ma propre compagnie
+- [33:22 → 33:24] et
+- [33:24 → 33:26] à partir de là
+- [33:26 → 33:28] je travaille
+- [33:28 → 33:30] maintenant à plein temps
+- [33:30 → 33:32] à l'Oréal
+- [33:32 → 33:34] mais
+- [33:34 → 33:36] et donc je travaille à IBM aussi
+- [33:36 → 33:38] à Volvo mais j'ai
+- [33:38 → 33:40] ma compagnie à côté donc
+- [33:40 → 33:42] je suis bien entouré j'ai des personnes
+- [33:42 → 33:44] qui recherchent
+- [33:44 → 33:46] des personnes qui font aussi
+- [33:46 → 33:48] surtout la partie tech aussi
+- [33:48 → 33:50] et moi ce que je fais c'est
+- [33:50 → 33:52] travailler dans plusieurs domaines
+- [33:52 → 33:54] finance, opération, technologie
+- [33:54 → 33:56] pendant plusieurs années en tant que
+- [33:56 → 33:58] consultant, mis
+- [33:58 → 34:00] dans une entreprise
+- [34:00 → 34:02] pour pouvoir
+- [34:02 → 34:04] comprendre le beau à beau
+- [34:04 → 34:06] de projets
+- [34:06 → 34:08] en général moi j'ai toujours fait
+- [34:08 → 34:10] la partie opérationnelle de ce cas
+- [34:10 → 34:12] d'usage c'est comme ça que j'ai commencé
+- [34:12 → 34:14] et peut-être un peu automatisé à IBM
+- [34:14 → 34:16] j'ai pu travailler avec la directeur d'opération
+- [34:16 → 34:18] d'IBM René Oure
+- [34:18 → 34:20] pendant trois ans
+- [34:20 → 34:22] elle m'a formé justement
+- [34:22 → 34:24] automatisé pas moi sinon
+- [34:24 → 34:26] moi j'ai pas vu beaucoup
+- [34:26 → 34:28] à l'heure projet manager plutôt
+- [34:28 → 34:30] et elle aussi un peu
+- [34:30 → 34:32] mais surtout d'une directrice donc j'ai pas eu beaucoup de raciais
+- [34:32 → 34:34] mais on a pu automatiser tout ça
+- [34:34 → 34:36] dans plusieurs façons
+- [34:36 → 34:38] et IBM fait la même chose qu'on veut faire ici
+- [34:38 → 34:40] mais avec ces systèmes à eux
+- [34:40 → 34:42] fait de zéro on peut dire
+- [34:42 → 34:44] donc ça c'est intéressant
+- [34:44 → 34:46] parce que ça permet d'avoir
+- [34:46 → 34:48] ce qu'on appelle aujourd'hui la gouvernance de données
+- [34:48 → 34:50] que c'est le domaine dans la hausse de travail le plus
+- [34:50 → 34:52] de voir ce qu'il y a
+- [34:52 → 34:54] c'est sur la partie d'après
+- [34:54 → 34:56] voir ce qu'il y a dans le cadre
+- [34:56 → 34:58] de bord grâce aux données
+- [34:58 → 35:00] que tous les formuleurs donnent
+- [35:00 → 35:02] et savoir ce qu'on fait avec
+- [35:02 → 35:04] du bout à bout et automatiser
+- [35:04 → 35:06] ce qu'on peut
+- [35:06 → 35:08] ça c'est un peu la mission
+- [35:08 → 35:10] que j'ai dans ma carrière
+- [35:10 → 35:12] en général en comprenant bien sûr le business
+- [35:12 → 35:14] c'est pour ça que je voulais aussi créer
+- [35:14 → 35:16] ma propre compagnie parce qu'il manque
+- [35:16 → 35:18] qu'il faut comprendre le jour à jour
+- [35:18 → 35:20] de la gestion de la compagnie
+- [35:20 → 35:22] de la reçoit et les réveillés financiers
+- [35:22 → 35:24] les ressources humaines
+- [35:24 → 35:26] et marketing
+- [35:26 → 35:28] et le reste de domaine que je voyais pas
+- [35:28 → 35:30] dans mon jour à jour
+- [35:30 → 35:32] et si domaine
+- [35:32 → 35:34] et si domaine
+- [35:34 → 35:36] on va faire vous de travailler les six domaines
+- [35:36 → 35:38] parce que parfois on oublie
+- [35:38 → 35:40] beaucoup dans l'opérationnelle la technologie
+- [35:40 → 35:42] on oublie la partie humaine
+- [35:42 → 35:44] et puis il y a la partie finance
+- [35:44 → 35:46] et du coup moi j'aime bien
+- [35:46 → 35:48] au listique un pour ce qui est au listique
+- [35:48 → 35:50] parce que pour moi se focaliser
+- [35:50 → 35:52] sur un seul domaine et surtout
+- [35:52 → 35:54] du coup moi je suis dans la partie humaine
+- [35:54 → 35:56] oui, oui
+- [35:56 → 35:58] avant de créer au listique
+- [35:58 → 36:00] en ce moment depuis
+- [36:00 → 36:02] je le disais à ce jour je crée au listique
+- [36:02 → 36:04] et je pense à toi pour people
+- [36:04 → 36:06] parce que c'est vraiment les messages
+- [36:06 → 36:08] que j'écoutais toujours de sa part
+- [36:08 → 36:10] oui
+- [36:10 → 36:12] oui parce que derrière c'est humain
+- [36:12 → 36:14] d'ailleurs je veux voir ce cas tout sérieux
+- [36:14 → 36:16] ça c'est un peu
+- [36:16 → 36:18] total
+- [36:18 → 36:20] ok votre lien
+- [36:20 → 36:22] merci pour tout ça
+- [36:22 → 36:24] merci à vous
+- [36:24 → 36:26] ça t'aimais plaisir
+- [36:26 → 36:28] je donnerais ton mail comme ça
+- [36:28 → 36:30] si il y a une invitation dans 15 jours
+- [36:30 → 36:32] comme ça on se prépare pour faire la présentation
+- [36:32 → 36:34] avec David et Vivalde et qu'on a un date
+- [36:34 → 36:36] magnifique, excellent
+- [36:38 → 36:40] ça marche
+- [36:40 → 36:42] ok, merci
+- [36:42 → 36:44] bonjour
+- [36:44 → 36:46] au revoir
+- [36:46 → 36:48] à bientôt
