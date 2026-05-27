@@ -11,20 +11,22 @@ authors:
 co_authors:
   - PMO
   - System Owner
-last_review: 2026-05-21
+last_review: 2026-05-27
 last_review_by: Founder/CEO
-last_review_at: 2026-05-21
-last_review_decision_id: D-IH-86-BW
-methodology_version_at_review: v3.1
+last_review_at: 2026-05-27
+last_review_decision_id: D-IH-86-EY
+methodology_version_at_review: v3.2
 ratifying_decisions:
   - D-IH-86-BW
-status: charter
+  - D-IH-86-EY
+status: active
 register: internal
 linked_canonicals:
   - HOLISTIKA_QUALITY_FABRIC.md
   - UAT_DISCIPLINE.md
   - DATAOPS_DISCIPLINE.md
   - HOLISTIKA_ORGANISING_DOCTRINE.md
+  - MARKETING_LIFECYCLE_TAXONOMY.md
   - ../Compliance/canonicals/PRECEDENCE.md
   - ../Compliance/canonicals/dimensions/PERSONA_REGISTRY.csv
   - ../Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv
@@ -33,11 +35,12 @@ linked_cursor_rules:
   - .cursor/rules/akos-executable-process-catalog.mdc
   - .cursor/rules/akos-brand-baseline-reality.mdc
   - .cursor/rules/akos-quality-fabric.mdc
+linked_runbooks:
+  - scripts/validate_mktops_campaign.py
 companion_to:
   - HOLISTIKA_QUALITY_FABRIC.md
 forward_charters:
-  - SOP-MKT_CAMPAIGN_LIFECYCLE_001.md (paired SOP; activation when discipline promotes to active)
-  - scripts/mktops_campaign_quality_check.py (paired runbook; same gate)
+  - SOP-MKT_CAMPAIGN_LIFECYCLE_001.md (paired SOP; lands at C3a follow-up)
   - CRO + COO executive activation per D-IH-72-AD (Data Owner shifts when ratified)
 ---
 
@@ -117,6 +120,17 @@ discipline dimensions + the funnel-stage modifier:
 The bar tightens at promotion (`charter → active`) when CRO + COO
 executive layer activates (per `D-IH-72-AD`); pre-promotion, the bar
 is operator-discipline-enforced.
+
+**Wave R+4 C3a status flip (2026-05-27 per `D-IH-86-EY`)**: the
+discipline moved from `charter` to `active`. The promotion landed with
+the paired runbook `scripts/validate_mktops_campaign.py` and Pydantic
+SSOT `akos/hlk_mktops.py`, which give every campaign manifest a
+structural quality bar against the 7 dimensions. The runbook fires at
+pre_commit (`--self-test`) and at campaign-authoring time
+(`--check-campaign <manifest.yaml>`). The CRO + COO executive activation
+per `D-IH-72-AD` remains forward-chartered; until it lands, the bar
+is operator-discipline-enforced through this runbook + the paired
+cursor rule.
 
 ## 4. Cadence
 

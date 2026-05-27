@@ -212,6 +212,14 @@
           ]
         },
         {
+          "id": "validate_mktops_campaign_self_test",
+          "description": "I86 Wave R+4 C3a: MKTOps 7-dimension campaign quality bar self-test. Validates akos/hlk_mktops.py Pydantic SSOT (MKTOpsCampaignManifest + MKTOpsFindingRow + MKTOpsCampaignReport) plus the 7 dimension codes plus funnel-stage and lifecycle-state enums. Activated when MKTOPS_DISCIPLINE.md flipped charter -> active per D-IH-86-EY.",
+          "argv": [
+            "scripts/validate_mktops_campaign.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "collaborator_share_calculator_self_test",
           "description": "Initiative 86 Wave R+1 Commit 2b + Commit 2b-ext (D-IH-86-DD + D-IH-86-DE, 2026-05-25): collaborator-share calculator self-test (paired runbook of the SOP+runbook pair per akos-executable-process-catalog.mdc Rule 1 AC-AUTOMATION). Computes engagement settlements branching on share_pattern: deep_partner_65_35 (TRUE-MARGIN: revenue - transparent project costs = benefits -> 65/35 default split or per-row deviation), orchestration_broker_thin_margin (per-row revenue slice; no cost subtraction; advisory Holistika-total ~6% margin), custom (manual placeholder + operator narrative). Worked-example fixtures cover all 3 patterns plus the original deep_partner deep_partner_65_35 fixture: 100k EUR revenue - 20k EUR costs = 80k EUR benefits -> 52k EUR Holistika + 28k EUR Collaborator. Pure in-memory arithmetic check (no CSV reads); CI cost at ~2s. Operationalises COLLABORATOR_SHARE_DOCTRINE.md §2 settlement formula + COLLABORATOR_SHARE_REGISTRY share_pattern enum branching.",
           "argv": [

@@ -2347,5 +2347,41 @@ All three exhibit the same shape: a canonical-authoritative source-of-truth muta
 
 **Out-of-scope preserved.** `scripts/validate_hlk.py` LF/CRLF noise + 4 I81 KB-integrity reports remain untouched.
 
+---
+
+### Wave R+4 Commit 3a (MKTOps activation) drain — 2026-05-27 22:55
+
+**Trigger.** With C1.6 Research Action gating already executable and C2 governance surfaces landed, the next consume-the-gate step is C3a: turn the MKTOps discipline from `charter` into `active` with a real paired runbook. Operator's no-backlog directive is honoured: this commit ships the Pydantic SSOT, validator, tests, wiring, status flip, and decision row in one atomic move.
+
+**Artifacts changed.**
+
+1. `akos/hlk_mktops.py` NEW — Pydantic SSOT for `MKTOpsCampaignManifest`, `MKTOpsFindingRow`, `MKTOpsCampaignReport`; 7 dimension codes; 5 funnel stages; 6 lifecycle gates; 5 adapter statuses.
+2. `scripts/validate_mktops_campaign.py` NEW — `--self-test` chassis check + `--check-campaign <manifest>` 7-dimension sweep that FK-resolves persona and channel IDs against canonical registries.
+3. `tests/test_hlk_mktops.py` NEW — 11 chassis tests.
+4. `tests/test_validate_mktops_campaign.py` NEW — 5 validator tests including a JSON manifest end-to-end run.
+5. `scripts/test.py` — hlk group includes the new test files.
+6. `config/verification-profiles.json` — `validate_mktops_campaign_self_test` step added to `pre_commit`.
+7. `MKTOPS_DISCIPLINE.md` — `status: charter` -> `status: active`; `linked_runbooks` set; `linked_canonicals` adds `MARKETING_LIFECYCLE_TAXONOMY.md`; new paragraph documents the C3a flip.
+8. `HOLISTIKA_QUALITY_FABRIC.md` §6 MKTOPS row flipped to `active` with paired runbook reference.
+9. `DECISION_REGISTER.csv` +1 active row D-IH-86-EY.
+
+**Key design choices.**
+
+- **Runbook does NOT introduce a new canonical CSV.** Campaign manifests live next to campaign artifacts; the validator reads them on demand. This avoids a fresh CSV-mirror cascade in the same wave.
+- **Runbook FK-resolves against existing PERSONA_REGISTRY and CHANNEL_TOUCHPOINT_REGISTRY.** That makes C2's investor persona rows immediately consumable from MKTOps checks.
+- **CRO + COO activation per D-IH-72-AD stays forward-chartered.** The status flip is operator-discipline-enforced through the runbook + paired cursor rule until the executive layer activates.
+
+**Mechanical evidence.**
+
+- `py scripts/validate_mktops_campaign.py --self-test` -> PASS.
+- `py -m pytest tests/test_hlk_mktops.py tests/test_validate_mktops_campaign.py -q` -> 16/16 PASS.
+- `py scripts/validate_decision_register.py` -> PASS (454 rows; 449 active; 5 superseded).
+- `py scripts/validate_hlk.py` -> OVERALL PASS.
+- `ReadLints` -> 0 errors.
+
+**C3b next.** Mint the 4 per-channel doctrines (Email-outbound, LinkedIn-DM, Web-form, Cal-schedule) under `Marketing/Reach/canonicals/` consuming the source ledger and the propagation matrix, with D-IH-86-EZ.
+
+**Out-of-scope preserved.** `scripts/validate_hlk.py` LF/CRLF noise + 4 I81 KB-integrity reports remain untouched.
+
 <!-- end of entries -->
 
