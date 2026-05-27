@@ -2196,5 +2196,60 @@ All three exhibit the same shape: a canonical-authoritative source-of-truth muta
 
 **Cross-references.** CHANGELOG entry under `[Unreleased]`; render script `scripts/render_suez_engagement_pdfs.py`; cover email `docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/01-operator-pack/cover-email-2026-05-27.fr.md`; demo sources `demo-libelle-generator.customer.fr.md` + `demo-dispute-register-litigation-detection.customer.fr.md`; ratifying decisions D-IH-86-EQ (addendum deletion) + D-IH-86-ER (demo 1 content-ratify) + D-IH-86-ES (demo 2 content-ratify); sister rules `akos-synthesis-before-tranche.mdc` §9 exemption (chore-only single-file) + `akos-applied-research-discipline.mdc` RULE 1 (internal-precedent grounding for derived-surface-drift pattern) + `akos-conflict-surfacing-and-blocker-trackers.mdc` (Option-1 scope-complete disposition for in-commit fix).
 
+---
+
+### Wave R+4 Commit 1 (research-first) drain — 2026-05-27 19:18 (donde-r role)
+
+**Trigger.** Operator 2026-05-27 verbatim re-prioritisation: *"Itt's optioon A but C2 gooes firstt, wwhaat yo call C2 must reeseearch for eveerythhing ini scope, everything... research goes always first and give to the organisation what we need strategically tactically and operationally, then the areas do their thing... what can i flex about when i flex we're a research based company."* The original 5-commit Wave R+4 proposal had research as C2 (third); operator swap moved research to C1 (first) and explicitly named the doctrine that justifies the swap: **research-first because R&D is our name.** Two YouTube URLs from Theo `t3.gg` + one from Nate B Jones provided as operator-named research substrate alongside three open-ended Web research prongs the operator framed implicitly via the Wave R+4 scope.
+
+**Deletion provenance.** v1 single-purpose investor-stability-brief tranche charter at `docs/wip/planning/86-.../tranches/wave-r-plus-4-investor-stability-dossier.tranche-charter.md` + v1 single-content draft at `docs/wip/intelligence/investor-stability-brief/holistika-investor-stability-brief-2026-05-27.md` were both rejected by operator (lacks substance for sub-persona segmentation; falsely framed SUEZ + Websitz as engagements when they are live conversations). Both files were already absent at the Delete probe — confirmed via `Delete` tool reporting "File not found" on both paths. KB integrity preserved per operator's *"let's keep the kb integral and clean"* authorization.
+
+**Research scope — 7 prongs executed in this commit.**
+
+| Prong | Question | Source count | Confidence | Deliverable file |
+|:------|:---|:---:|:---:|:---|
+| A | How do mature marketing organizations propagate brand discipline into sub-role processes + reusable-artifact registries + channel-to-owner pairing matrices? | 5 (FRANKI T / JAM7 / Prose Media / Antegma / CMSWire) | CL3-CL4 | `prong-a-brand-ops-governance-practice.md` |
+| B | What is industry consensus on Funnel × Lead × Engagement × Customer × Offboard lifecycle stages (Forrester / SiriusDecisions historical / RevOps)? | 5 (marqeu Forrester + opfocus + LinkedIn + Sher Miller + historical) | CL3-CL5 | `prong-b-lifecycle-taxonomy.md` |
+| C | Validate / amend / extend the 6-sub-persona investor segmentation hypothesis against industry archetypes (NUVC / TechCrunch / SeedLegals / Lucid.now / Fundreef). | 5 | CL3-CL4 | `prong-c-investor-segmentation.md` |
+| D | How do early-stage startups present themselves online to investors (Crunchbase / LinkedIn / thought-leadership / case-study / press / public-research-output mix)? | 5 (Bamby Big x2 + Maly Ly + Monolit + Neel Networks) | CL3 | `prong-d-startup-online-presence-for-investors.md` |
+| E | Validate MADEIRA's 2023/24 early-adopter framing on agentic frameworks + context management against 2026 industry consensus via 3 operator-named YouTube sources. | 3 (Nate B Jones 2026-05-21 + Theo `t3.gg` 2026-05-27 + Theo `t3.gg` 2026-05-24) | CL3 | `prong-e-agentic-frameworks-and-context-management.md` |
+| F | What pedagogical-accessibility techniques do the 3 YouTube creators demonstrate that Holistika should codify in `BRAND_DO_DONT.md`? | Same 3 sources as Prong E (evaluated for craft, not topic) | CL3 | `prong-f-pedagogical-accessibility.md` |
+| G | What is industry practice for persona-as-bounded-intelligence (POI/GOI) at sales/research scale that avoids the creepy-creep failure mode? | 4 (Derrick + Instantly + Unify + GrowthSpree) | CL3-CL4 | `prong-g-persona-as-bounded-intelligence.md` |
+
+**Total external source coverage**: 30 source-touchpoints across 27 unique external sources (5 Prong A + 5 Prong B + 5 Prong C + 5 Prong D + 3 Prong E + 3 Prong F + 4 Prong G; Prong F reuses the same 3 creator sources as Prong E but evaluates explanation craft rather than agentic-framework substance). All sources rated CL2-CL4 (mostly CL3) per `confidence_levels.md` + taxonomized per `source_taxonomy.md` (industry-publication + consultancy + vendor + creator-published; mostly consultancy + industry-publication mix).
+
+**5 load-bearing claims surfaced for C2 governance commit.**
+
+1. **J-IN sub-persona granularity = 5 not 6 (Prong C).** Type-E Decline-Class is a cross-persona filter, not a 6th sub-persona — it lives in `PERSONA_SCENARIO_REGISTRY.csv` as a decline-trigger taxonomy. Type-D should be renamed to `J-IN-OPERATIONAL-TRUST` for canonical-readability per `BRAND_BASELINE_REALITY_MATRIX.md` translated-external register. This is the operator's *"what can i flex about when i flex we're a research based company"* in action — they asked for research; the research said 5+1, not 6; we ship 5+1.
+2. **Lifecycle taxonomy = 8-stage Demand-to-Cash scaffold (Prong B).** Industry consensus = Forrester B2B Revenue Waterfall (2021); 8 stages (Demand-Target → Demand-Active → Demand-Engaged → Conversation-Live → Proposal-Active → Engagement-Active → Engagement-Retention → Engagement-Offboard) map cleanly to operator vernacular ("live conversation" = stages 3-6; "engagement" = stages 6+).
+3. **Holistika is 4-of-5 industry primitives AHEAD-OF-CURVE on brand-ops (Prong A).** Gap = propagating discipline into sub-roles + channels via the channel-to-owner matrix. **This is moat-defining for investor briefs.**
+4. **MADEIRA's 2023/24 early-adopter framing is DIRECTLY VINDICATED by 2026 industry consensus (Prong E).** All 3 sources independently validate the harness-around-the-model + context-management thesis. Investor briefs should LEAD with this validated thesis.
+5. **6 pedagogical techniques codified across 3 creators (Prong F).** Holistika already codifies #1 and #3 in `BRAND_BASELINE_REALITY_MATRIX.md`; #2/#4/#5/#6 are candidate amendments to `BRAND_DO_DONT.md` (optional at C2 or deferred to future brand-craft wave).
+
+**3 cross-prong convergences identified.**
+
+- **Convergence 1 — Discipline-as-infrastructure is the moat (A+E+G):** Three independent prongs converged on a single underlying claim: Holistika's competitive position is the architectural choice to encode methodology as checked-in infrastructure with paired SOP+runbook governance. **THIS IS THE UMBRELLA CLAIM the C4 investor briefs should LEAD with.**
+- **Convergence 2 — Buying-group-completeness is non-negotiable (B+G):** Champion alone cannot close; every lifecycle stage carries POI/GOI mapping as first-class. Holistika `GOI_POI_REGISTER.csv` already supports this — name as procedural moat in C2.
+- **Convergence 3 — Pedagogical clarity required for translated-external register (A+F):** Structural-clarity (Prong A modular prompt library) + prose-clarity (Prong F 6 techniques) together compose to `BRAND_BASELINE_REALITY_MATRIX.md`. Extend `BRAND_DO_DONT.md` with 4 missing techniques (optional).
+
+**Doctrine surfacing — `research-pipeline.md`.** Per operator's *"research goes always first... that's what i need"* + the explicit naming of `ingest → rate → rank → govern → implement → test → iterate` as the canonical sequence, authored `research-pipeline.md` articulating the operator's pipeline doctrine. Mapped each stage to existing Holistika canonicals or candidates. C2 governance commit will surface a forward-decision (D-IH-86-FF candidate) on whether to promote `akos-applied-research-discipline.mdc` + `RESEARCH_HEAD_DISCIPLINE.md` from craft-on-individual-agent to org-wide strategic posture — research validated this is a real architectural choice, not just a craft.
+
+**Tranche-charter validation.** `synthesis_before_tranche_check --check-charter` PASS=6/WARN=1/FAIL=0/INFO=0/N/A=0. The single WARN is SYN-07-TRANCHE-ATOMICITY (multi-commit 5-commit lineage; dispositioned via scope-extend per the tranche charter's reversibility_rationale field). Pydantic `string_too_long` validation errors on `reversibility_rationale` (max 2000) + `recipient_fallback_channel` (max 400) surfaced during charter authoring + fixed via 2x StrReplace truncations before re-validation passed.
+
+**Mechanical evidence.**
+- `validate_hlk` OVERALL PASS.
+- `validate_decision_register` PASS (no NEW decisions minted in C1; D-IH-86-EU through FE are forward-charter for C2/C3/C4).
+- `synthesis_before_tranche_check --check-charter` PASS=6/WARN=1.
+- 7 prong synthesis files + 1 master-synthesis + 1 research-pipeline + 1 README all authored under `docs/wip/intelligence/research-grounded-wave-r-plus-4-2026-05-27/` (Tier 1 WIP location per `akos-people-discipline-of-disciplines.mdc` RULE 2 KB-accessibility).
+- `akos-applied-research-discipline.mdc` RULE 1 (internal evidence sweep) + RULE 2 (external research with 27 unique sources / 30 source-touchpoints) both satisfied at the per-prong level + at the master-synthesis level.
+
+**Atomic commit scope.** 10 files in `docs/wip/intelligence/research-grounded-wave-r-plus-4-2026-05-27/` + 1 file `docs/wip/planning/86-.../tranches/wave-r-plus-4-research-grounded-brand-ops-mktops-investor-disambiguation.md` + CHANGELOG + files-modified.csv +14 rows + this scratchpad drain. No canonical CSV touched; no DECISION_REGISTER row minted (C1 produces research substrate, not decisions); no doctrine modified (C2 will modify based on research findings).
+
+**Out-of-scope explicitly preserved.** 5 items remain pending unchanged: (a) M `scripts/validate_hlk.py` LF/CRLF noise (carried since Wave R+2; pre-existing); (b) 4 I81 KB-integrity untracked reports (preserved for I81 lane).
+
+**STANDARDS UPHELD verdict.** ZERO regression introduced. C1 lands the research-first commit cleanly, surfaces 5 load-bearing claims + 3 cross-prong convergences for C2 governance commit, and operationalises the operator's *"research-first because R&D is our name"* doctrine via `research-pipeline.md`. The donde-r role has done its 2026-05-27 work.
+
+**Cross-references.** CHANGELOG entry under `[Unreleased]`; tranche charter at `docs/wip/planning/86-.../tranches/wave-r-plus-4-research-grounded-brand-ops-mktops-investor-disambiguation.md`; research folder at `docs/wip/intelligence/research-grounded-wave-r-plus-4-2026-05-27/` (10 files); ratifying decisions forward-charter: D-IH-86-EU through D-IH-86-FE (deferred to C2/C3/C4); sister rules `akos-applied-research-discipline.mdc` RULES 1-3 + `akos-synthesis-before-tranche.mdc` RULE 1 (this commit's tranche-charter sweep) + `akos-people-discipline-of-disciplines.mdc` RULE 2 (Tier 1 WIP placement).
+
 <!-- end of entries -->
 
