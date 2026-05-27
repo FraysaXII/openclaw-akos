@@ -668,6 +668,41 @@ def run_synthesis_before_tranche_check_self_test() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_research_action_self_test() -> tuple[bool, int]:
+    """Run RESEARCH_ACTION self-test (15th Quality Fabric specialty).
+
+    I86 Wave R+4 C1.6 + Wave R+4 hygiene closeout per D-IH-86-FF (active
+    mint; 15-surface specialty contract closed). Self-test mode of
+    ``scripts/validate_research_action.py`` validates the paired Pydantic
+    SSOT (``akos/hlk_research_action.py`` ResearchSourceRow +
+    ResearchSourceLedgerSummary frozen models with extra=forbid) + the
+    5 enum frozensets (VALID_FORMAT_VALUES + VALID_SOURCE_CATEGORY_VALUES
+    + VALID_SOURCE_LEVEL_VALUES + VALID_CONTROL_CONFIDENCE_LEVELS +
+    SOURCE_LEDGER_FIELDNAMES tuple shape). Does NOT validate any actual
+    per-ledger CSV — that fires via ``--source-ledger <path>`` at
+    research-action authoring cadence per RESEARCH_ACTION_DISCIPLINE.md
+    operating loop stage 7 (test). Self-test mode keeps CI cost sub-1s.
+
+    INFO ramp at mint per D-IH-86-FF (self-test stays at FAIL ramp
+    permanently as the always-on chassis circuit-breaker; per-ledger
+    schema findings start INFO + ramp per akos-research-action.mdc
+    RULE 5 once 3+ research actions across 2+ areas apply cleanly).
+
+    Returns ``(ok, exit_code)``. Exit code 0 PASS, non-zero FAIL.
+    """
+    logger.info(
+        "Running RESEARCH_ACTION self-test "
+        "(I86 Wave R+4 C1.6 / D-IH-86-FF; --self-test) ..."
+    )
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_research_action.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_index_freshness_self_test() -> tuple[bool, int]:
     """Run baseline-index freshness self-test (I86 Wave N / D-IH-86-CD).
 
@@ -1545,6 +1580,12 @@ def main() -> None:
     results.append((
         "INFO" if synth_runbook_ok else "FAIL",
         f"Synthesis-before-tranche runbook self-test (scripts/synthesis_before_tranche_check.py --self-test - paired runbook for the SOP+runbook pair per akos-executable-process-catalog.mdc Rule 1 AC-AUTOMATION; verifies 10-dimension probe dispatch table covers VALID_DIMENSION_CODES exactly + runs sweep_tranche() on a runbook-self-test fixture asserting zero FAIL findings; specialty_mint fire-set yields 7 baseline + 1 conditional = 8 dimensions; J-OP-only audience + 4 ratifying decisions + atomic commit + medium reversibility + closing-loop test named = 6 PASS + 2 INFO (channels/scenarios acceptably empty for J-OP-only specialty mint); pure in-memory probe check; D-IH-86-EA quartet Wave R+1 P3 Commit 2b; ok={'yes' if synth_runbook_ok else 'no'}; exit={synth_runbook_rc})",
+    ))
+
+    research_action_ok, research_action_rc = run_research_action_self_test()
+    results.append((
+        "INFO" if research_action_ok else "FAIL",
+        f"Research-action self-test (scripts/validate_research_action.py --self-test - 15th Quality Fabric specialty per D-IH-86-FF active mint Wave R+4 C1.6 plus 15-surface closeout; Pydantic SSOT ResearchSourceRow + ResearchSourceLedgerSummary frozen with extra=forbid + 5 enum frozensets (VALID_FORMAT_VALUES + VALID_SOURCE_CATEGORY_VALUES + VALID_SOURCE_LEVEL_VALUES + VALID_CONTROL_CONFIDENCE_LEVELS + SOURCE_LEDGER_FIELDNAMES tuple shape) + numeric score bounds 1-5 + source_id SRC- prefix + url shape validation; INFO ramp self-test as always-on chassis circuit-breaker per akos-research-action.mdc RULE 3 + RULE 5 (per-ledger schema findings start INFO and ramp per RULE 5 once 3+ research actions across 2+ areas apply cleanly + quarterly cross-area audit + operator-ratified successor decision); does NOT validate any actual per-ledger CSV (that fires via --source-ledger <path> at research-action authoring cadence per RESEARCH_ACTION_DISCIPLINE.md operating loop stage 7); ok={'yes' if research_action_ok else 'no'}; exit={research_action_rc})",
     ))
 
     uat_report_ok, uat_report_rc = run_uat_report_validation()

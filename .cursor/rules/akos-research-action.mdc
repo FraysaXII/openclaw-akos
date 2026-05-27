@@ -1,0 +1,189 @@
+---
+description: >-
+  Research Action Discipline (15th Quality Fabric specialty; Wave R+4
+  C1.6 mint per D-IH-86-FF). Mechanical companion to
+  RESEARCH_ACTION_DISCIPLINE.md. Fires whenever a research action
+  authors or extends a source ledger that will drive strategic /
+  tactical / operational canonical edits. Source ledger contract per
+  akos/hlk_research_action.py (15-field schema) plus 8-stage operating
+  loop (ingest -> rate -> rank -> synthesize -> govern -> implement
+  -> test -> iterate). Research owns the discipline; Marketing /
+  People / Operations / Tech / Legal / Ethics consume the processed
+  findings.
+globs:
+  - "docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md"
+  - "docs/wip/intelligence/**/source-ledger.csv"
+  - "docs/wip/intelligence/**/research-action-pack.md"
+  - "scripts/validate_research_action.py"
+  - "akos/hlk_research_action.py"
+alwaysApply: true
+---
+
+# AKOS Research Action
+
+Use this rule whenever authoring a `source-ledger.csv`, an external
+research synthesis under `docs/wip/intelligence/`, or any research
+action that will feed downstream canonical edits or operator
+decisions. Codifies operator decision **D-IH-86-FF** (research action
+discipline active mint, Wave R+4 C1.6, 2026-05-27). Mechanical
+companion to [`RESEARCH_ACTION_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md).
+
+This rule does **not** define the doctrine — that lives in the
+canonical. This rule names the mechanical bar future agents and
+operators inherit by default when a research action drives
+governance.
+
+## When this rule applies
+
+A research action is in scope for this rule when **any** of:
+
+- A new folder under `docs/wip/intelligence/` is created to host
+  prong-shaped or topic-shaped external research that will feed a
+  governance commit.
+- A `source-ledger.csv` is created or extended in the AKOS workspace.
+- A research synthesis (`master-synthesis.md`, `prong-*.md`,
+  `research-action-pack.md`, equivalent) is authored to support a
+  named downstream decision.
+- An external source is added to a tracked research action and that
+  source is intended to drive a canonical edit, runbook activation,
+  brief authoring, or any other strategic / tactical / operational
+  output.
+
+Out of scope:
+
+- One-off operator notes or scratchwork that does not drive a
+  governance edit.
+- Pre-action substrate audits captured for purely diagnostic reasons.
+- Internal-CORPINT research that lives entirely inside
+  `docs/wip/intelligence/` and never feeds an external surface or a
+  canonical change.
+
+## RULE 1 — Source ledger is mandatory for governance-feeding research (binding)
+
+Every research action that will drive a canonical edit, a runbook
+activation, an investor brief, an external deliverable, or any
+operator decision MUST carry a `source-ledger.csv` shaped per
+[`akos/hlk_research_action.py`](../../akos/hlk_research_action.py)
+`COLLABORATOR_SHARE_REGISTRY`-style 15-field schema:
+
+`source_id` (`SRC-` prefix), `prong`, `topic_cluster`,
+`source_title_or_owner`, `url` (http(s) or repo-relative `docs/` path),
+`format` (one of 9 enum values), `source_category` (OSINT / HUMINT /
+SIGINT / CORPINT / MOTINT / TBD per `source_taxonomy.md`),
+`source_level` (numeric per `source_taxonomy.md`),
+`holistika_reliability_score` (1-5), `external_perceived_credibility_score`
+(1-5), `control_confidence_level` (Safe / Euclid / Keter per
+`confidence_levels.md`), `decision_use`, `notes`.
+
+The source ledger is the discoverable, queryable, audit-trail-bearing
+artifact that the governance commit cites in its
+`linked_research_sources` frontmatter. Bare prose synthesis without a
+source ledger fails this rule.
+
+## RULE 2 — Operating loop is binding for governance-feeding research
+
+The 8-stage operating loop per
+[`RESEARCH_ACTION_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md)
+§3 must be walked in order: **ingest** -> **rate** -> **rank** ->
+**synthesize** -> **govern** -> **implement** -> **test** ->
+**iterate**. Each stage produces a durable artifact (ingested
+sources / ledger row / ranked priority / synthesis prong / inline
+ratify gate / canonical edit / validator run / next-cycle entry).
+Skipping a stage produces one of the anti-patterns named in
+[`RESEARCH_ACTION_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md)
+§5 (research-as-ornament, confidence drift, premature governance,
+folder ambiguity, ERP/KB invisibility).
+
+## RULE 3 — Run the validator self-test at every pre_commit (binding)
+
+[`scripts/validate_research_action.py --self-test`](../../scripts/validate_research_action.py)
+verifies the Pydantic SSOT chassis (`ResearchSourceRow` +
+`ResearchSourceLedgerSummary` + 5 enum frozensets) at every
+`py scripts/verify.py pre_commit` invocation via:
+
+- [`config/verification-profiles.json`](../../config/verification-profiles.json)
+  `pre_commit.steps`: `validate_research_action_self_test` (wired
+  at C1.6).
+- [`scripts/release-gate.py`](../../scripts/release-gate.py):
+  `run_research_action_self_test()` advisory wiring.
+
+The self-test cost is sub-1s. Per-ledger validation runs at
+research-action authoring cadence: `py scripts/validate_research_action.py
+--source-ledger <path>` fires when a ledger lands or extends.
+
+## RULE 4 — Paired SOP+runbook contract honored
+
+Per [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc)
+Rule 1:
+
+- **AC-HUMAN** — a human OR an AIC role_owner (Research Director + KM
+  Officer; PMO interim absorption when those roles are unstaffed) can
+  walk the 8-stage operating loop following
+  [`SOP-RESEARCH_ACTION_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md)
+  without invoking the runbook.
+- **AC-AUTOMATION** — the runbook validates ledger schema
+  mechanically: `--self-test` mode in pre_commit, `--source-ledger
+  <path>` mode at authoring time.
+
+Both surfaces are SSOT for the same discipline; neither supersedes
+the other.
+
+## RULE 5 — INFO ramp posture (binding from D-IH-86-FF)
+
+The validator launches at INFO advisory for the per-ledger sweep at
+Wave R+4 C1.6. Promotion to FAIL gates on:
+
+1. 3+ research actions across 2+ Holistika areas apply the discipline
+   cleanly with no schema findings.
+2. Cross-area audit pass at quarterly cadence with operator sign-off.
+3. Operator-explicit ramp-promotion decision row (D-IH-86-FF
+   successor, e.g., `D-IH-86-FF-V2`).
+
+The self-test stays at FAIL ramp permanently (any chassis regression
+breaks pre_commit). Per-ledger schema findings start INFO and ramp
+per the gates above.
+
+## When this rule does NOT apply
+
+- Operator scratchwork or in-session notes without downstream
+  governance intent.
+- Pre-Wave-R+4 research material that pre-dates the discipline mint;
+  the bar is forward-only from D-IH-86-FF (2026-05-27).
+- Intelligence material that lives entirely under
+  `docs/wip/intelligence/` and never feeds a canonical edit (governed
+  by INTELLIGENCE_DISCIPLINE_CHARTER instead).
+
+## Cross-references
+
+- Parent canonical: [`RESEARCH_ACTION_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md) — the doctrine.
+- Parent meta-doctrine: [`HOLISTIKA_QUALITY_FABRIC.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) §6 (15th specialty row).
+- Sister cursor rules:
+  [`akos-applied-research-discipline.mdc`](akos-applied-research-discipline.mdc)
+  (parent discipline that this rule materialises as an executable
+  contract; RULES 1-3 on internal + external research grounding),
+  [`akos-quality-fabric.mdc`](akos-quality-fabric.mdc) (parent fabric;
+  multiplicative-AND composition),
+  [`akos-people-discipline-of-disciplines.mdc`](akos-people-discipline-of-disciplines.mdc)
+  (KB-stewardship rule; research feeds the KB),
+  [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc)
+  (paired SOP+runbook gate; RULE 4),
+  [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc)
+  (research synthesis surfaces decisions via inline-ratify gates;
+  RULE 2 operating-loop stage 5).
+- Paired SOP: [`SOP-RESEARCH_ACTION_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md).
+- Paired runbook + validator: [`scripts/validate_research_action.py`](../../scripts/validate_research_action.py).
+- Paired skill: [`.cursor/skills/research-action-craft/SKILL.md`](../skills/research-action-craft/SKILL.md) — the *how* layer.
+- Pydantic chassis: [`akos/hlk_research_action.py`](../../akos/hlk_research_action.py).
+- Tests: [`tests/test_hlk_research_action.py`](../../tests/test_hlk_research_action.py), [`tests/test_validate_research_action.py`](../../tests/test_validate_research_action.py).
+- Process catalog row: `hol_peopl_dtp_research_action_001` in
+  [`process_list.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv).
+- Pattern registry row: `pattern_research_action_discipline` in
+  [`PEOPLE_DESIGN_PATTERN_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv).
+- Worked example: Wave R+4 C1 + C1.5 + C1.6 research-grounded
+  substrate at [`docs/wip/intelligence/research-grounded-wave-r-plus-4-2026-05-27/`](../../docs/wip/intelligence/research-grounded-wave-r-plus-4-2026-05-27/).
+- Decision lineage: D-IH-86-FF (active mint Wave R+4 C1.6).
+
+@docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md

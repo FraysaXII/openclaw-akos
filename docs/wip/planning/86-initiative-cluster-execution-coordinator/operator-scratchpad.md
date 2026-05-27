@@ -2497,5 +2497,40 @@ The templates do NOT presume any specific investor is in pipeline today. They ar
 - Future channel doctrines (event meeting, LinkedIn post response, direct DM, search organic, partner referral, ad campaign) await operational signal volume per C3b §"Future channels deferred".
 - CRO + COO executive activation per D-IH-72-AD remains forward-chartered.
 
+---
+
+### Wave R+4 hygiene closeout — 15th specialty 15-surface contract close — 2026-05-28 00:30
+
+**Trigger.** Post-Wave-R+4-close audit of the 15-surface specialty mint contract for RESEARCH_ACTION_DISCIPLINE (D-IH-86-FF). At C1.6 we minted the doctrine + Pydantic + validator + SOP + tests + pre_commit step + CHANGELOG entry + decision row (8 surfaces). The contract per `akos-index-integrity.mdc` RULE 5 + the 13th/14th specialty precedent requires 15. Standards-we-uphold-every-time directive applies — closing the gap before continuing.
+
+**Surfaces added.**
+
+1. `.cursor/rules/akos-research-action.mdc` — 5 binding RULES + alwaysApply true.
+2. `.cursor/skills/research-action-craft/SKILL.md` — 6 principles + 10-item pre-flight + 5 anti-patterns + recovery patterns + worked-example folder shape.
+3. `PEOPLE_DESIGN_PATTERN_REGISTRY.csv` +1 row `pattern_research_action_discipline` at `cross_people` discipline origin.
+4. `process_list.csv` +1 row `hol_resea_dtp_research_action_001` (Research area; parented under hol_resea_prj_1 Holistika Research and Methodology / hol_resea_ws_4 Deep Research).
+5. `HOLISTIKA_QUALITY_FABRIC.md` §6 specialty list +1 row + frontmatter `ratifying_decisions` + `D-IH-86-FF` + frontmatter `linked_canonicals` + RESEARCH_ACTION_DISCIPLINE.md + closing narrative count bump 13→15.
+6. `PRECEDENCE.md` +2 rows (doctrine + SOP) with paired-surface enumeration.
+7. `scripts/release-gate.py` adds `run_research_action_self_test()` advisory function + invocation in main() (INFO ramp).
+
+Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + validator/runbook + tests + paired SOP + CHANGELOG + pre_commit verification-profiles step + D-IH-86-FF active decision row. Total: 15 surfaces / 15-surface contract closed.
+
+**Key design choices.**
+
+- **`discipline_origin = cross_people`.** The PEOPLE_DESIGN_PATTERN_REGISTRY enum does not include `research`. Closest fit is `cross_people` since the discipline is Research-area-owned but cross-area-consumed (Marketing / People / Operations / Tech / Legal / Ethics). Captures the doctrine's role_owner = Research Director + KM Officer + cross-area consumer semantics.
+- **`item_id = hol_resea_dtp_research_action_001`.** Research-area prefix (not `hol_peopl_`). The doctrine lives at `docs/references/hlk/v3.0/Research/Methodology/canonicals/` and role_owner is Research Director, so the process_list item belongs in Research namespace. Matches the existing Research-area item prefix convention.
+- **Parent ws = `hol_resea_ws_4` Deep Research.** Closest semantic fit among 5 Research workstreams (HUMINT / Intelligence Matrix / Methodology Pillars / Deep Research / Research Techniques). Deep Research is the workstream that turns research into governed conclusions, which matches the doctrine's purpose.
+- **csv-module rewrite for pattern registry.** Initial StrReplace landed corrupted because the existing synthesis row spans 2 physical lines via an embedded newline in a quoted cell. Rewrote the entire CSV from HEAD content + new row via csv.writer for guaranteed safe quoting. Lesson named for posterity: never StrReplace mid-row for CSVs with multi-line quoted cells; always use csv.writer for append.
+- **release-gate.py advisory only.** The self-test already fires at pre_commit via verification-profiles. Wiring at release-gate gives a second always-on check during pre-release sweeps without adding a per-ledger sweep at every commit.
+
+**Mechanical evidence.**
+
+- `py scripts/validate_design_pattern_registry.py` -> PASS (26 rows; was 25 + 1 new).
+- `py scripts/validate_research_action.py --self-test` -> PASS.
+- `py scripts/validate_hlk.py` -> OVERALL PASS.
+- `ReadLints` -> 0 errors.
+
+**Wave R+4 final status.** 9 atomic commits (8 wave + 1 hygiene closeout). All 15-surface specialty contracts now closed for the 15th specialty. Standards upheld end-to-end.
+
 <!-- end of entries -->
 
