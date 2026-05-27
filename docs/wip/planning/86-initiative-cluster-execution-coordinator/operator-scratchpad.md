@@ -2383,5 +2383,38 @@ All three exhibit the same shape: a canonical-authoritative source-of-truth muta
 
 **Out-of-scope preserved.** `scripts/validate_hlk.py` LF/CRLF noise + 4 I81 KB-integrity reports remain untouched.
 
+---
+
+### Wave R+4 Commit 3b (4 per-channel doctrines + CHAN-EMAIL-OUTBOUND row) drain — 2026-05-27 23:12
+
+**Trigger.** C3a flipped MKTOPS_DISCIPLINE to `active` with the paired runbook; C3b now mints the 4 per-channel doctrines that the runbook and the M3 propagation matrix already reference. The dormant candidate `_candidates/i-nn-channel-doctrines.md` is unblocked.
+
+**Artifacts changed.**
+
+1-4. NEW per-channel doctrines under `Marketing/Reach/canonicals/`: `EMAIL_OUTBOUND_DOCTRINE.md` + `LINKEDIN_DM_DOCTRINE.md` + `WEB_FORM_DOCTRINE.md` + `CAL_SCHEDULE_DOCTRINE.md`. Each carries purpose / audience / format / goods / bads / cadence / brand translations / measurement primitives / cross-references.
+5. `CHANNEL_TOUCHPOINT_REGISTRY.csv` +1 row `CHAN-EMAIL-OUTBOUND` (was referenced by the C2 M3 propagation matrix but had no canonical row — latent FK gap that surfaced during doctrine authoring; closed in this same wave so the operator never sees a dangling reference).
+6. `DECISION_REGISTER.csv` +1 active row D-IH-86-EZ.
+
+**Key design choices.**
+
+- **Reach Manager owns 3 of 4 channels; Resonance Manager owns LinkedIn DM.** This follows the M3 1:1-deepening rule from `MARKETING_AREA_M3_REDESIGN.md` §3.1 (LinkedIn DM is 1:1 deepening, not 1:N reach).
+- **Each doctrine cites the C1 source ledger** via `linked_research_sources`. New claims surfaced in a channel doctrine must trace back to the ledger; this preserves the research-action gate.
+- **Latent FK gap closed in same wave.** `CHAN-EMAIL-OUTBOUND` was missing from the channel registry because the C2 propagation matrix anticipated it but the registry had not been touched. The C3b commit closes the gap so the doctrine's `channel_id` frontmatter FK-resolves and so future MKTOps campaigns naming this channel pass `validate_mktops_campaign.py --check-campaign`.
+- **CSV quoting fix on minted decision row.** Initial draft of D-IH-86-EZ had commas in the title field; CSV parser broke. Rewrote with semicolons in the visible enumerations and proper double-quote wrapping. Pattern reminder: any DECISION_REGISTER title with a comma needs explicit quoting.
+
+**Mechanical evidence.**
+
+- `py scripts/validate_channel_touchpoint_registry.py` -> PASS (11 channels; up from 10 with new outbound row).
+- `py scripts/validate_decision_register.py` -> PASS (455 rows; 450 active; 5 superseded).
+- `py scripts/validate_brand_baseline_reality_drift.py` -> PASS (8 internal tokens checked).
+- `py scripts/validate_hlk.py` -> OVERALL PASS.
+- `ReadLints` -> 0 errors.
+
+**Future channels deferred to OPS / candidate.** Event meeting, LinkedIn post response, direct DM, search organic, partner referral, ad campaign — these extend the pattern but await operational signal volume to ground their doctrines. Not blocked; they remain in `CHANNEL_TOUCHPOINT_REGISTRY.csv` and the cursor rule + doctrine template will apply when minted.
+
+**Wave R+4 status.** C1 + C1.5 + C1.6 + C2 + C3a + C3b complete. Remaining: C4 (sub-persona-targeted investor briefs + program-scoping doc) + C5 (KB integrity drain).
+
+**Out-of-scope preserved.** `scripts/validate_hlk.py` LF/CRLF noise + 4 I81 KB-integrity reports remain untouched.
+
 <!-- end of entries -->
 
