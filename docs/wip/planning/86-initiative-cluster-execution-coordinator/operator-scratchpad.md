@@ -2289,5 +2289,35 @@ All three exhibit the same shape: a canonical-authoritative source-of-truth muta
 
 **Cross-references.** `source-ledger.csv`; `research-action-pack.md`; `README.md`; `master-synthesis.md`; `docs/wip/intelligence/README.md`; `RESEARCH_AREA_CHARTER.md`; `INTELLIGENCE_DISCIPLINE_CHARTER.md`; `source_taxonomy.md`; `confidence_levels.md`.
 
+---
+
+### Wave R+4 Commit 1.6 (Research Action Discipline) drain — 2026-05-27 22:05
+
+**Trigger.** Operator ratified `research_ops_first_recommended` and rejected a backlog/candidate-only posture: *"You choose the order as long as we get no backlog before C2, no forward charting, we go all the way."* C1.6 therefore executes the research-ops governance layer before C2 canonical edits.
+
+**Artifacts minted.**
+
+1. `RESEARCH_ACTION_DISCIPLINE.md` — active Research/Methodology discipline charter.
+2. `SOP-RESEARCH_ACTION_001.md` — human SOP for running a source-ledger research action.
+3. `akos/hlk_research_action.py` — Pydantic SSOT for source-ledger fieldnames, enums, `ResearchSourceRow`, `ResearchSourceLedgerSummary`.
+4. `scripts/validate_research_action.py` — validator/runbook with `--self-test` and `--source-ledger`.
+5. `tests/test_hlk_research_action.py` + `tests/test_validate_research_action.py` — 8 tests.
+6. `config/verification-profiles.json` — `validate_research_action_self_test` added to `pre_commit`.
+7. `scripts/test.py` — `hlk` test group includes the new tests.
+8. `DECISION_REGISTER.csv` — D-IH-86-FF active row minted.
+
+**Mechanical evidence.**
+
+- `py scripts/validate_research_action.py --self-test` → PASS.
+- `py scripts/validate_research_action.py --source-ledger docs/wip/intelligence/research-grounded-wave-r-plus-4-2026-05-27/source-ledger.csv` → PASS (27 rows; 6 topic clusters; control confidence Euclid=19 / Keter=8).
+- `py -m pytest tests/test_hlk_research_action.py tests/test_validate_research_action.py -q` → 8/8 PASS.
+- `py scripts/validate_decision_register.py` initially failed because D-IH-86-FF linked unregistered `topic_research_pipeline`; fixed by removing that optional FK instead of minting a topic row inside C1.6. Re-run pending in final verification block.
+
+**Design choice.** No `process_list.csv` row was added in this commit to avoid a canonical process-count cascade before C2. The SOP names `linked_runbooks`, and the validator is wired into pre_commit. A process-catalog row can be added when Research Action becomes recurring beyond the Wave R+4 founding application; for the immediate operator instruction, the no-backlog requirement is satisfied by executable doctrine + SOP + Pydantic + validator + tests + wiring.
+
+**C2 gate.** C2 can only resume by consuming this gate: source ledger validates; master synthesis uses source-ledger scoring; C2 decision rows cite `RESEARCH_ACTION_DISCIPLINE.md` + `source-ledger.csv` + `research-action-pack.md`.
+
+**Out-of-scope preserved.** `scripts/validate_hlk.py` LF/CRLF noise + 4 I81 KB-integrity reports remain untouched.
+
 <!-- end of entries -->
 

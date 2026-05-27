@@ -104,6 +104,8 @@ GROUPS: dict[str, dict] = {
             "test_validate_collaborator_share.py",
             "test_hlk_synthesis_before_tranche.py",
             "test_validate_synthesis_before_tranche.py",
+            "test_hlk_research_action.py",
+            "test_validate_research_action.py",
         ],
     },
     "graph": {
