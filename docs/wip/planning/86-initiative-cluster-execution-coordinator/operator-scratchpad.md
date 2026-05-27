@@ -2416,5 +2416,47 @@ All three exhibit the same shape: a canonical-authoritative source-of-truth muta
 
 **Out-of-scope preserved.** `scripts/validate_hlk.py` LF/CRLF noise + 4 I81 KB-integrity reports remain untouched.
 
+---
+
+### Wave R+4 Commit 4 (5 sub-persona investor briefs + 1 program-scope companion) drain — 2026-05-27 23:35
+
+**Trigger.** Both research-action gates closed (C1.5, C1.6), governance surfaces in (C2), MKTOps and channel doctrines active (C3a, C3b). C4 is the deliverable the operator's original frame asked for — concrete materials the operator can actually use to "say things properly" to investors, grounded in the 5 sub-personas the research ratified and the honest substance the operator named.
+
+**Artifacts changed.**
+
+1. `docs/wip/intelligence/investor-briefs-2026-05-27/README.md` NEW — index, honest-substance contract (5 anti-fabrication rails), operator-path procedure.
+2-6. 5 NEW sub-persona brief templates: `brief-01-high-craft.md`, `brief-02-showcase.md`, `brief-03-program-radar.md`, `brief-04-operational-trust.md`, `brief-05-online-presence.md`.
+7. NEW `program-scope-online-presence-buildout.md` 2026 Q3-Q4 build-plan companion to brief-05.
+8. `DECISION_REGISTER.csv` +5 active rows D-IH-86-FA/FB/FC/FD/FE.
+
+**Key design choices.**
+
+- **Honest substance contract is the load-bearing claim.** Every brief opens by stating Holistika's current state (methodology stack as fact; KiRBe + MADEIRA in active development; SUEZ + Websitz as live commercial conversations only; team-of-one with MADEIRA AIC; no fabricated team rows). The 5 anti-fabrication rails are in the README so any future revision keeps them.
+- **Per-sub-persona wedge.** Each brief picks the wedge that matches the sub-persona (depth-of-craft for High-Craft; one concrete deliverable for Showcase; program-position for Program-Radar; operational predictability for Operational-Trust; transparent online-presence plan for Online-Presence). No brief tries to be all five.
+- **Tier-1 WIP placement, not engagement-folder placement.** Briefs sit under `docs/wip/intelligence/` as templates. Per-investor sends copy the matching template into the named engagement folder before tailoring, then render to PDF. This avoids prematurely fabricating an engagement-folder that does not yet have a real counterparty named.
+- **Render-trail forward-pointer, not in-line render.** Each brief frontmatter declares `intended_render_surfaces` with `artifacts/exports/<filename>-<YYYY-MM-DD>.pdf` so the operator can render with `scripts/render_dossier.py` or equivalent at send-time. Actual PDF render is deferred to the operator-led send step per the existing external-render-discipline pattern.
+- **Online-Presence sub-persona gets a companion program-scoping doc.** This was the operator's explicit ask — Type-F online-presence seekers want to see a defined program, not just claims. The companion is a 2-page scope with in/out-of-scope, owners (per M3 propagation matrix), risks, and a 90-day check-in commitment.
+
+**Mechanical evidence.**
+
+- `py scripts/validate_decision_register.py` -> PASS (460 rows; 455 active; 5 superseded).
+- `py scripts/validate_brand_baseline_reality_drift.py` -> PASS (8 internal tokens checked).
+- `py scripts/validate_hlk.py` -> OVERALL PASS.
+- `ReadLints` -> 0 errors.
+
+**Operator follow-up for actual sends.** When the operator (or AIC) decides to engage a specific investor:
+
+1. Resolve the investor's sub-persona class against the 5 `PERSONA-INVESTOR-*` rows.
+2. Copy the matching brief into the named engagement folder.
+3. Tailor opener + asks using GOI/POI intelligence already captured.
+4. Render to PDF via existing render trail; capture sha256 manifest.
+5. Log send via `OPERATOR_INBOX` and update GOI/POI register.
+
+The templates do NOT presume any specific investor is in pipeline today. They are the durable artifact the operator can pull from when the moment arrives.
+
+**Wave R+4 status post-C4.** C1 + C1.5 + C1.6 + C2 + C3a + C3b + C4 complete. Remaining: C5 (KB integrity drain).
+
+**Out-of-scope preserved.** `scripts/validate_hlk.py` LF/CRLF noise + 4 I81 KB-integrity reports remain untouched (the I81 reports get processed in C5 per the C5 task scope).
+
 <!-- end of entries -->
 
