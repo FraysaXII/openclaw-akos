@@ -2251,5 +2251,43 @@ All three exhibit the same shape: a canonical-authoritative source-of-truth muta
 
 **Cross-references.** CHANGELOG entry under `[Unreleased]`; tranche charter at `docs/wip/planning/86-.../tranches/wave-r-plus-4-research-grounded-brand-ops-mktops-investor-disambiguation.md`; research folder at `docs/wip/intelligence/research-grounded-wave-r-plus-4-2026-05-27/` (10 files); ratifying decisions forward-charter: D-IH-86-EU through D-IH-86-FE (deferred to C2/C3/C4); sister rules `akos-applied-research-discipline.mdc` RULES 1-3 + `akos-synthesis-before-tranche.mdc` RULE 1 (this commit's tranche-charter sweep) + `akos-people-discipline-of-disciplines.mdc` RULE 2 (Tier 1 WIP placement).
 
+---
+
+### Wave R+4 Commit 1.5 (research-action control layer) drain — 2026-05-27 21:25
+
+**Trigger.** Operator rejected immediate C2 canonical-gate ratification after C1, clarifying that the first research substrate was not enough to make decisions: research needs topic categorization, source category, information format, Holistika reliability score, external perceived credibility score, metadata, workflows, ERP/KB fit, and then better questions after findings have been properly gathered and processed. Operator also challenged the folder placement logic: `docs/wip/intelligence/` can feel disharmonious if "intelligence" is not visibly under Research.
+
+**Disposition.** C2 is blocked. C1 stays open through C1.5. Commit `f0928dd` is treated as substrate capture, not C1 closure. No canonical CSV, doctrine, or decision-register edits proceed until this research-action layer is processed.
+
+**Repo-state evidence gathered.**
+
+- `docs/wip/intelligence/README.md` states this folder is Research-owned Tier 1 WIP for cross-area research staging.
+- `RESEARCH_AREA_CHARTER.md` §5 states Research owns `docs/wip/intelligence/`; §6 says Research authors investigative artifacts and other areas consume them.
+- `INTELLIGENCE_DISCIPLINE_CHARTER.md` says Intelligence owns "what we collect"; Validation owns truth gates.
+- `source_taxonomy.md` already defines `source_category`, `source_level`, `intel_source_public_credibility`, and `intel_source_holistika_credibility`.
+- `confidence_levels.md` is not a CL1-CL5 truth-confidence ladder; it is a Safe / Euclid / Keter control-intensity taxonomy. The first C1 master-synthesis used CL-style shorthand too loosely; C1.5 corrects that.
+
+**Files authored/updated.**
+
+1. NEW `source-ledger.csv` — 27 unique external sources / 30 source-touchpoints converted into rows with `source_id`, prong, topic cluster, source title/owner, URL, format, source_category, source_level, Holistika reliability score, external perceived credibility score, control confidence level, downstream decision use, and notes.
+2. NEW `research-action-pack.md` — names the operator correction, placement decision, metadata schema, operating workflow, research radar object model, C1 gap corrections, and C2/C3/C4 questions not yet ready.
+3. UPDATED `README.md` — file index now includes `source-ledger.csv` + `research-action-pack.md`; consumption order changed so research-action comes before master-synthesis.
+4. UPDATED `master-synthesis.md` — corrected source count + replaced CL shorthand with source-ledger/control-confidence language.
+
+**Key design decisions (not canonical yet).**
+
+- **Folder placement**: keep C1/C1.5 in `docs/wip/intelligence/` for now because current canon says that is Research-owned Tier 1 WIP. Do NOT move mid-wave. Surface future harmonization question for C5 or successor Research topology tranche: whether `docs/wip/intelligence/` should be renamed or aliased to `docs/wip/research/`.
+- **Scoring model**: split four concepts that C1 had blended: source category/level (`source_taxonomy.md`), Holistika internal reliability score (1-5), external perceived credibility score (1-5), and Safe/Euclid/Keter control confidence (`confidence_levels.md`).
+- **Research radar**: prototype object model now includes Topic, Source, Finding, Recommendation, and Implementation link. This maps naturally to future KiRBe/ERP surfaces but is NOT yet promoted.
+- **C2 gate posture**: do not ask for audience/lifecycle/brand canonical edits again until the source ledger and action pack have been used to form better option sets.
+
+**Mechanical evidence planned.** CSV shape check on `source-ledger.csv`; ReadLints on research folder; `validate_hlk.py` OVERALL; staged whitespace check before commit.
+
+**Out-of-scope explicitly preserved.** `scripts/validate_hlk.py` line-ending noise + 4 I81 KB-integrity reports remain untouched.
+
+**STANDARDS-UPHELD adjustment.** The error was not that C1 researched nothing; the error was that it attempted to close into decisions too early. C1.5 fixes the operational layer so the next operator question is decision-quality rather than implementation-shaped.
+
+**Cross-references.** `source-ledger.csv`; `research-action-pack.md`; `README.md`; `master-synthesis.md`; `docs/wip/intelligence/README.md`; `RESEARCH_AREA_CHARTER.md`; `INTELLIGENCE_DISCIPLINE_CHARTER.md`; `source_taxonomy.md`; `confidence_levels.md`.
+
 <!-- end of entries -->
 

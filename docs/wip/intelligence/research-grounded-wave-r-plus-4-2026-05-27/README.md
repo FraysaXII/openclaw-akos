@@ -34,20 +34,24 @@ The operator's framing names a doctrine the workspace already carries at canonic
 |:---|:---|:---|
 | `README.md` | This index | minted 2026-05-27 |
 | `research-pipeline.md` | The operator-named pipeline doctrine: ingest → rate → rank → govern → implement → test → iterate | minted 2026-05-27 |
-| `master-synthesis.md` | Operator-facing 1-pager rollup of 7 prong findings + recommendations for C2 | drafting |
-| `prong-a-brand-ops-governance.md` | How mature marketing orgs propagate brand discipline | pending C1 sweep |
-| `prong-b-funnel-lifecycle-disambiguation.md` | Funnel × Lead × Engagement × Customer × Offboard industry consensus | pending C1 sweep |
-| `prong-c-investor-persona-segmentation.md` | Validate / amend / extend the 6-sub-persona hypothesis | pending C1 sweep |
-| `prong-d-startup-online-presence.md` | Type-F online-presence-seeker substrate | pending C1 sweep |
-| `prong-e-agentic-frameworks-yt-sources.md` | 3 operator-named YouTube sources extracted insights | drafting (sources fetched) |
-| `prong-f-pedagogical-accessibility.md` | Brand-voice translation substrate | drafting (sources fetched) |
-| `prong-g-bounded-persona-intelligence.md` | POI/GOI non-creepy industry practice | pending C1 sweep |
+| `source-ledger.csv` | C1.5 metadata ledger: source category, source level, format, Holistika reliability score, external-perceived credibility score, and control confidence | minted 2026-05-27 |
+| `research-action-pack.md` | C1.5 operating layer that blocks C2 until source metadata + workflow + ERP/KB implications are processed | minted 2026-05-27 |
+| `master-synthesis.md` | Operator-facing rollup of 7 prong findings + recommendations for C2/C3/C4 | updated C1.5 |
+| `prong-a-brand-ops-governance-practice.md` | How mature marketing orgs propagate brand discipline | authored |
+| `prong-b-lifecycle-taxonomy.md` | Funnel × Lead × Engagement × Customer × Offboard industry consensus | authored |
+| `prong-c-investor-segmentation.md` | Validate / amend / extend the 6-sub-persona hypothesis | authored |
+| `prong-d-startup-online-presence-for-investors.md` | Type-F online-presence-seeker substrate | authored |
+| `prong-e-agentic-frameworks-and-context-management.md` | 3 operator-named YouTube sources extracted insights | authored |
+| `prong-f-pedagogical-accessibility.md` | Brand-voice translation substrate | authored |
+| `prong-g-persona-as-bounded-intelligence.md` | POI/GOI non-creepy industry practice | authored |
 
 ## How to consume
 
-1. **Read `master-synthesis.md` first** — operator-facing 1-pager rollup with recommendations for C2 governance commits.
-2. **Read `research-pipeline.md` second** — names the doctrine the operator articulated 2026-05-27; this is the foundational claim Wave R+4 operates under.
-3. **Read per-prong files third** — only the prongs relevant to your area's downstream work (PMO reads all; Marketing area reads prongs A + B + F; People area reads prongs C + G; System Owner reads prong E).
+1. **Read `research-action-pack.md` first** — it names the workflow and metadata bar C2 must satisfy before any canonical edits.
+2. **Read `source-ledger.csv` second** — it is the source metadata control surface for the research action.
+3. **Read `master-synthesis.md` third** — operator-facing rollup with recommendations for C2/C3/C4.
+4. **Read `research-pipeline.md` fourth** — names the doctrine the operator articulated 2026-05-27; this is the foundational claim Wave R+4 operates under.
+5. **Read per-prong files last** — only the prongs relevant to your area's downstream work (PMO reads all; Marketing area reads prongs A + B + F; People area reads prongs C + G; System Owner reads prong E).
 
 ## Citations contract (per `akos-applied-research-discipline.mdc` RULE 2)
 
@@ -65,4 +69,4 @@ This entire folder is **internal-corpint** register per `BRAND_BASELINE_REALITY_
 
 ## Sync-contract
 
-When C1 sweep completes, this folder's `master-synthesis.md` becomes the canonical reference for C2 governance commits. Decision rows D-IH-86-EV / EW / EX / EY / EZ / FA..FD MUST cite the `master-synthesis.md` path in their `rationale` cell as the research-grounded ratification source.
+When C1/C1.5 sweep completes, this folder's `research-action-pack.md` + `source-ledger.csv` + `master-synthesis.md` become the reference bundle for C2 governance commits. Decision rows D-IH-86-EV / EW / EX / EY / EZ / FA..FD MUST cite the bundle paths in their `rationale` cells as the research-grounded ratification source.

@@ -161,7 +161,7 @@ Two prongs converged: Prong A names "modular prompt library composes Audience + 
 Per `akos-applied-research-discipline.mdc`:
 
 - ✅ **RULE 1 — Internal research pass**: completed per evidence sweep documented at todo `investor-dossier-evidence-sweep` (COMPLETED). All 7 prongs reference existing Holistika canonicals + cite gaps.
-- ✅ **RULE 2 — External research pass**: 28 unique external sources cited across 7 prongs (5 Prong A + 5 Prong B + 5 Prong C + 5 Prong D + 3 Prong E + 3 Prong F + 4 Prong G; some overlap). All sources rated per `confidence_levels.md` (CL2-CL4 range; mostly CL3) + taxonomized per `source_taxonomy.md` (industry-publication + consultancy + vendor + creator-published; mostly consultancy + industry-publication).
+- ✅ **RULE 2 — External research pass**: 30 source-touchpoints across 27 unique external sources cited across 7 prongs (5 Prong A + 5 Prong B + 5 Prong C + 5 Prong D + 3 Prong E + 3 Prong F + 4 Prong G; Prong F reuses the same 3 creator sources as Prong E for pedagogical-craft evaluation). C1.5 adds `source-ledger.csv` to separate source taxonomy level, Holistika reliability score, external-perceived credibility score, and Safe/Euclid/Keter control confidence per the actual `confidence_levels.md` canon.
 - ✅ **RULE 3 — Wave-closure "Research enrichment" subsection**: will be authored at C5 closing-loop report drawing from this master synthesis.
 
 ## Cross-references
@@ -169,8 +169,9 @@ Per `akos-applied-research-discipline.mdc`:
 - [`README.md`](README.md) — folder-level overview + citation contract.
 - [`research-pipeline.md`](research-pipeline.md) — operator's "research-first because R&D is our name" doctrine articulation.
 - 7 prong files (above) — full evidence per prong.
-- `confidence_levels.md` — CL1-CL5 enum used for source rating.
-- `source_taxonomy.md` — source-class taxonomy used for source classification.
+- `confidence_levels.md` — Safe / Euclid / Keter control-intensity taxonomy; not a truth-confidence ladder.
+- `source_taxonomy.md` — source-category + source-level taxonomy used for source classification plus public-vs-Holistika credibility scoring.
+- `source-ledger.csv` — C1.5 source metadata ledger; supersedes the first-pass shorthand confidence language above with explicit source-level + reliability + external-credibility scoring.
 - `akos-applied-research-discipline.mdc` — governing rule that this synthesis operationalizes.
 - `RESEARCH_HEAD_DISCIPLINE.md` — parent canonical doctrine.
 - `BRAND_BASELINE_REALITY_MATRIX.md` — dual-register vocabulary for translating to external register at C4 brief-authoring time.
