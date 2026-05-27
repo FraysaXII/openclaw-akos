@@ -2319,5 +2319,33 @@ All three exhibit the same shape: a canonical-authoritative source-of-truth muta
 
 **Out-of-scope preserved.** `scripts/validate_hlk.py` LF/CRLF noise + 4 I81 KB-integrity reports remain untouched.
 
+---
+
+### Wave R+4 Commit 2 (C2 governance surfaces) drain — 2026-05-27 22:35
+
+**Trigger.** After C1.6 landed Research Action as an executable discipline, operator ratified C2 restart: (a) `PERSONA_REGISTRY` first for investor segmentation, no `AUDIENCE_REGISTRY` subcodes; (b) Decline-Class remains operator-owned qualification/process metadata; (c) `MARKETING_LIFECYCLE_TAXONOMY.md` lands active; (d) `MARKETING_AREA_M3_REDESIGN.md` receives a matrix-only propagation amendment plus relevant propagation details.
+
+**Artifacts changed.**
+
+1. `PERSONA_REGISTRY.csv` +5 active investor persona rows: High-Craft, Showcase, Program-Radar, Operational-Trust, Online-Presence.
+2. `MARKETING_LIFECYCLE_TAXONOMY.md` NEW active canonical: 8-stage Demand-to-Cash scaffold + vocabulary boundaries + current pipeline honesty rule.
+3. `MARKETING_AREA_M3_REDESIGN.md` updated with `## 3.1 Channel-to-owner propagation matrix` naming owners for email outbound, LinkedIn DM, web form, Cal schedule, event meeting, investor one-pager, and program-scoping docs.
+4. `DECISION_REGISTER.csv` +3 active rows: D-IH-86-EU (investor segmentation layer), D-IH-86-EV (lifecycle taxonomy), D-IH-86-EW (brand propagation matrix).
+
+**Key design choices.**
+
+- **AUDIENCE_REGISTRY unchanged.** Investor types are persona variants under parent `J-IN`; this avoids audience-code regex widening and downstream render-trail/audience-tag blast radius.
+- **Decline-Class is not a persona.** It is a qualification/process filter applied across the five investor persona rows.
+- **Lifecycle honesty rule is explicit.** SUEZ and Websitz remain live commercial conversations until PO, contract, invoice, or written authorization exists.
+- **Brand propagation remains matrix-only.** C3 owns per-channel doctrine bodies; C2 sets the owner/artifact/governance matrix.
+
+**Mechanical evidence.**
+
+- `py scripts/validate_decision_register.py` → PASS (453 rows; active 448; superseded 5).
+- `py scripts/validate_hlk.py` → OVERALL PASS.
+- `ReadLints` on C2 files → 0 errors.
+
+**Out-of-scope preserved.** `scripts/validate_hlk.py` LF/CRLF noise + 4 I81 KB-integrity reports remain untouched.
+
 <!-- end of entries -->
 

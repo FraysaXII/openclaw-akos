@@ -71,6 +71,28 @@ flowchart LR
 - **Reach AMPLIFIES narrative artifacts** via channels (paid media, content distribution, partner amplification). Never authors register; never authors narrative.
 - **Experimentation MEASURES variant performance** of Brand register choices + narrative artifact variants. Never authors register; never authors narrative.
 
+## 3.1 Channel-to-owner propagation matrix (Wave R+4 C2; D-IH-86-EW)
+
+Per Wave R+4 Research Action (`RESEARCH_ACTION_DISCIPLINE.md` + source-ledger prong A), brand governance scales only when the channel, message, reusable artifact, and owner are explicit. The matrix below propagates the Brand register into sub-area execution without collapsing ownership:
+
+| Channel / surface | Primary owner | Consumes from | Governs | Reusable artifact carrier |
+|:---|:---|:---|:---|:---|
+| Email outbound | Reach Manager | Brand & Narrative register + Research Action findings | subject line family, body structure, CTA, follow-up cadence, unsubscribe/legal footer | `BRAND_TEMPLATE_REGISTRY.md` email template row |
+| LinkedIn DM | Resonance Manager | Brand & Narrative register + persona metadata | first-touch tone, proof depth, qualifying question, no-creepy POI/GOI boundary | touchpoint-kit cell + persona row |
+| Web form | Reach Manager + Experimentation Manager | Brand & Narrative register + lifecycle taxonomy | form fields, consent text, routing tags, attribution parameters | web-form template + analytics event |
+| Cal schedule | Resonance Manager | Lifecycle taxonomy + persona metadata | meeting purpose, pre-call questions, attendee routing, fallback channel | scheduling template + CRM note |
+| Event meeting | Resonance Manager + PMO | Research Action packet + engagement context | agenda, evidence packet, post-meeting summary, next-step owner | meeting brief + follow-up email |
+| Investor one-pager / PDF | Brand & Narrative Manager | Research Action source ledger + investor persona row | claim hierarchy, proof type, current-state honesty, render trail | PDF source markdown + manifest |
+| Program-scoping doc | PMO + Brand & Narrative Manager | Research Action source ledger + lifecycle taxonomy | scope boundary, stage naming, decision path, fallback channel | program brief template |
+
+Propagation rules:
+
+1. **Brand & Narrative authors the register and artifact families.** It does not operate every channel.
+2. **Channel owners deploy and measure.** They must not rewrite the register silently; deviations go back to Brand & Narrative or Research Action if the evidence changes.
+3. **Research Action feeds claims.** A source-ledger-backed finding can change the claim; a channel preference alone cannot.
+4. **Lifecycle stage controls wording.** `MARKETING_LIFECYCLE_TAXONOMY.md` decides whether the surface says lead, live conversation, proposal, engagement, customer, or offboard.
+5. **Every reusable artifact gets lineage.** The artifact points to the source ledger, persona row, lifecycle stage, and governing decision where applicable.
+
 ## 4. Per-sub-area charter forward-links
 
 Each sub-area gets a charter at its `canonicals/` folder (forward-link; per-sub-area charter authoring lands as P8 sub-tasks or in I72 - Marketing Area Governance):
