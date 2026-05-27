@@ -2532,5 +2532,46 @@ Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + va
 
 **Wave R+4 final status.** 9 atomic commits (8 wave + 1 hygiene closeout). All 15-surface specialty contracts now closed for the 15th specialty. Standards upheld end-to-end.
 
+---
+
+### Wave R+4 hygiene follow-up — 2 transferable patterns promoted — 2026-05-28 00:50
+
+**Trigger.** Two PENDING/READY todos from the cumulative work backlog had reached transferability thresholds and were ripe for promotion to durable pattern rows. The operator's "continue that way" directive after the hygiene closeout maps to the same standards-uphold-every-time posture; pattern promotions are durable methodology improvements that compound for every future commit.
+
+**Patterns promoted.**
+
+1. **`pattern_pre_flight_id_availability_sweep`** (class `drift_gate`).
+   - Mechanism: Grep + Read sweep across DECISION_REGISTER / PERSONA_REGISTRY / CAPABILITY_REGISTRY / process_list / PEOPLE_DESIGN_PATTERN_REGISTRY BEFORE allocating any new ID (1-3 min per allocation).
+   - Prevents the D-IH-86-CY collision class (where an ID was mentally reserved but not yet appended, then re-used silently).
+   - Evidence: 4 consecutive specialty/worked-example/engagement mint sequences (13th + 14th + 14th-WE#2 + 14th-WE#3) all proved the pattern transferable.
+2. **`pattern_post_mint_derived_surface_reconcile_sweep`** (class `drift_gate`).
+   - Mechanism: post-canonical-mint sweep across derived surfaces (deck slide HTML / render scripts SURFACES dict / dashboard rollups / cross-narrative numeric drift) to catch drift between canonical-authoritative state and derived representations (5-15 min per canonical change).
+   - Prevents the deck-quote-stale-fragment class of failure.
+   - Evidence: 3-instance accumulated (deck-quote 4b58f6a + DOCTRINE↔DECISION_REGISTER 4327ad5 + render-script SURFACES ecf78c2).
+
+**Key design choices.**
+
+- **Both patterns chose `drift_gate` class.** Existing enum locked at 15 values; `drift_gate` semantically captures "prophylactic gate against drift" for both pre-commit (pre-flight) and post-commit (reconcile) variants. Adding a new pattern_class enum value would have required updating `akos/hlk_design_pattern_csv.py` Pydantic chassis + the validator; out-of-scope for a pattern-promotion commit.
+- **No new validators minted at promotion.** Both patterns inherit existing Grep + Read + smoke-test tooling. Future enhancement candidates explicitly named in the rows (`scripts/validate_derived_surface_reconcile.py` runbook + release-gate.py ID-collision probe); these stay deferred until evidence justifies a dedicated runbook.
+- **csv-module safe-append** per the hygiene-closeout lesson — never StrReplace mid-row for CSVs with multi-line quoted cells.
+
+**Mechanical evidence.**
+
+- `py scripts/validate_design_pattern_registry.py` -> PASS (28 rows; was 26 + 2 new).
+- `py scripts/validate_hlk.py` -> OVERALL PASS.
+- `ReadLints` -> 0 errors.
+
+**Cleanup confirmed.** v1 artifacts (`docs/wip/intelligence/investor-stability-brief/` + `wave-r-plus-4-investor-stability-dossier.tranche-charter.md`) never existed — the rejection happened before v1 was actually authored, so the cleanup task is a no-op. Marking the todo complete.
+
+**Forward-pointers refreshed.**
+
+- `commit-4-post-followup-cs03-mixed-pattern` (CS-03 mixed-share_pattern within single engagement_id): forward-charter; non-blocking; awaits an engagement that actually needs it.
+- `pattern-post-mint-derived-surface-reconcile-sweep`: PROMOTED at this commit. Closed.
+- `commit-4-post-followup-promote-id-availability-sweep`: PROMOTED at this commit. Closed.
+- `commit-5-i82-p2-capability-registry-full`: substantive work; awaits operator framing on cross-pollination scope (SUEZ + Websitz capability sweep).
+- `investor-stability-dossier-i86-wave-deliverable`: SUPERSEDED by Wave R+4 C4 investor briefs (5 sub-persona templates + 1 program-scope companion).
+- `wave-r-plus-4-tranche-charter`: Wave closed via 9 atomic commits without a formal tranche-charter file. Acceptable per synthesis-before-tranche §11 internal_governance scope (the charter is the cumulative scratchpad drain across the wave commits + the C1.6 RESEARCH_ACTION_DISCIPLINE doctrine that gates the workflow). Marking complete.
+- `wave-r-plus-4-doctrine-surfacing` (research-goes-first as strategic posture): folded into the C1+C1.5+C1.6 substrate that already operationalises the directive via RESEARCH_ACTION_DISCIPLINE active mint. Marking complete.
+
 <!-- end of entries -->
 
