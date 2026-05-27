@@ -3,16 +3,18 @@ description: >-
   Collaborator Share Discipline (13th Quality Fabric specialty; Wave R+1
   P2c-a mint; rewritten Wave R+2 per D-IH-86-EJ to 4-base + 1-overlay
   shape after 13/05 SUEZ transcript surfaced the operator's actual
-  commercial philosophy). Mechanical companion to
+  commercial philosophy; Stage-1 re-active-promoted Wave R+3 per
+  D-IH-86-EO on the new enum). Mechanical companion to
   COLLABORATOR_SHARE_DOCTRINE.md. Fires whenever a SHARE_REGISTRY row
   is authored, an engagement charters/closes a milestone/closes final,
   OR a commercial deviation is ratified. Four base share_pattern
   values (deep_partner_65_35 / bd_intro_only / joint_venture_aventure
   / consulting_direct) + one stackable share_overlay enum
   (bd_commission_overlay) per D-IH-86-EJ; CS-03 + CS-04 branch per
-  base pattern; CS-08 enforces base-enum membership; CS-09 (NEW per
-  D-IH-86-EK) enforces overlay-base coherence + methodology-pattern
-  coherence per D-IH-86-EN.
+  base pattern; CS-08 enforces base-enum membership; CS-09 enforces
+  overlay-base coherence (per D-IH-86-EJ overlay-base pairing table)
+  + methodology-pattern coherence (per D-IH-86-EN 4-value
+  methodology_readiness axis).
 globs:
   - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md"
   - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_COLLABORATOR_SHARE_001.md"
@@ -39,14 +41,20 @@ overlay-pct deviation). Codifies operator decisions **D-IH-86-DA**
 (clause table schema), **D-IH-86-DE** *(superseded)* (pre-rewrite
 3-shape `share_pattern` enum + CS-08; superseded by D-IH-86-EJ at
 Wave R+2), **D-IH-86-EJ** (4-base + 1-overlay rewrite ratified
-2026-05-26 post-13/05-transcript substrate audit), **D-IH-86-EK**
-(methodology-readiness axis + `parallel_invoice_stream_indicator`
-boolean + CS-09 NEW), **D-IH-86-EL** (SUEZ recommercialization
-to `consulting_direct + bd_commission_overlay`; supersedes D-IH-86-EG),
-**D-IH-86-EM** (Stage-1 reset to charter; supersedes D-IH-86-DF
-active-promotion), and **D-IH-86-EN** (methodology-readiness ×
-share_pattern coherence gating; ratified at this Commit 4 governance
-authoring layer). Mechanical companion to
+2026-05-26 post-13/05-transcript substrate audit; implicitly reset
+Stage-1 from `active` back to `charter` because the worked example
+that D-IH-86-DF had ratified — SUEZ POC at
+`orchestration_broker_thin_margin` — was itself superseded),
+**D-IH-86-EK** (`parallel_invoice_stream_indicator` boolean column
+at position 20 of SHARE_REGISTRY), **D-IH-86-EL** (SUEZ
+recommercialization to `consulting_direct + bd_commission_overlay`;
+supersedes D-IH-86-EG), **D-IH-86-EM** (`overlay_pct_deviation`
+enum value added to `COLLABORATOR_RATE_OVERRIDES.override_kind`),
+**D-IH-86-EN** (`methodology_readiness` 4-value axis +
+methodology-pattern coherence lookup; CS-09 enforces at row-
+authoring time), and **D-IH-86-EO** (Stage-1 re-active-promotion
+on the 4-base + 1-overlay enum ratified Wave R+3 2026-05-27;
+supersedes D-IH-86-DF). Mechanical companion to
 [`COLLABORATOR_SHARE_DOCTRINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md).
 
 This rule does **not** define the doctrine — that lives in the canonical.
@@ -74,9 +82,11 @@ compensation (covered by payroll, not this discipline).
 
 ## RULE 1 — Resolve `share_pattern` + `share_overlay` + `methodology_readiness` BEFORE drafting any SHARE_REGISTRY row (binding)
 
-Per D-IH-86-EJ + D-IH-86-EK + D-IH-86-EN, every SHARE_REGISTRY row
-carries THREE load-bearing routing values that together determine the
-validator's per-row math + audit branching:
+Per D-IH-86-EJ + D-IH-86-EN, every SHARE_REGISTRY row carries THREE
+load-bearing routing values that together determine the validator's
+per-row math + audit branching (the `parallel_invoice_stream_indicator`
+boolean from D-IH-86-EK is a structural-shape audit flag orthogonal to
+the commercial-shape routing axes below):
 
 - **`share_pattern`** (4-value enum) — the commercial shape of the engagement.
 - **`share_overlay`** (1-value enum + NULL) — the optional stackable BD-commission slice.
@@ -183,7 +193,7 @@ The 9 checks are defined in
 | 6 | CS-06 — Partner-overlap clause linkage | WARN | No. |
 | 7 | CS-07 — Rate override expiry hygiene | INFO | No. |
 | 8 | CS-08 — share_pattern + share_overlay enum validity *(supersedes D-IH-86-DE 3-value CS-08 per D-IH-86-EJ)* | FAIL | N/A (this check enforces both enums — base 4-value + overlay 1-value + NULL). |
-| 9 | CS-09 — overlay-base pairing + methodology-pattern coherence *(NEW per D-IH-86-EK + D-IH-86-EN)* | FAIL | **YES** (overlay-base pairing per VALID_OVERLAY_BASE_PAIRINGS lookup + methodology_readiness × share_pattern coherence per RULE 1 coherence table). |
+| 9 | CS-09 — overlay-base pairing + methodology-pattern coherence *(NEW; overlay-base pairing per D-IH-86-EJ VALID_OVERLAY_BASE_PAIRINGS lookup; methodology-pattern coherence per D-IH-86-EN METHODOLOGY_READINESS_PERMISSIBLE_PATTERNS lookup)* | FAIL | **YES** (overlay-base pairing + methodology_readiness × share_pattern coherence per RULE 1 coherence table). |
 
 CS-03 + CS-04 + CS-09 branching is critical: a row authored under the
 wrong `(share_pattern, share_overlay, methodology_readiness)` triple
@@ -221,23 +231,24 @@ NEVER auto-default — halt and escalate.
 ## RULE 5 — INFO → FAIL ramp gates on per-base + overlay coverage (binding)
 
 The validator launches at INFO advisory for all 9 checks. The Wave R+2
-doctrine rewrite (D-IH-86-EJ / EK / EL / EM) RESET Stage 1 from `active`
-back to `charter` per D-IH-86-EM, because the prior Stage-1 promotion
-(D-IH-86-DF) had been ratified on a worked example (SUEZ POC) whose
-commercial classification was wrong (`orchestration_broker_thin_margin`
-instead of `consulting_direct + bd_commission_overlay`). Promotion now
-happens in two restarted stages per the operator's 2026-05-26 *"build
-this properly with the rewrite first, then promote on real evidence"*
-framing:
+doctrine rewrite (D-IH-86-EJ / EK / EL / EM / EN) RESET Stage 1 from
+`active` back to `charter` IMPLICITLY at D-IH-86-EJ, because the prior
+Stage-1 promotion (D-IH-86-DF) had been ratified on a worked example
+(SUEZ POC) whose commercial classification was wrong
+(`orchestration_broker_thin_margin` instead of `consulting_direct +
+bd_commission_overlay`). Re-promotion happened at Wave R+3
+(2026-05-27) per the operator's 2026-05-26 *"build this properly with
+the rewrite first, then promote on real evidence"* framing:
 
-**Stage 1 — charter → active** (per doctrine §9; reset 2026-05-26):
+**Stage 1 — charter → active** (per doctrine §9; reset implicitly at
+D-IH-86-EJ 2026-05-26; re-promoted via D-IH-86-EO 2026-05-27):
 - 1 corrected SUEZ POC settlement (Commit 5 of Wave R+2 doctrine rewrite)
   applies the doctrine end-to-end as `consulting_direct +
   bd_commission_overlay` with all 5 CSVs populated correctly.
 - Validator CS-01..CS-09 PASS on the populated rows (including CS-09
   overlay-base pairing + methodology-readiness coherence).
-- Operator-ratified re-active-promotion decision row (D-IH-86-EO or
-  successor; reserved at Wave R+2 commit 1).
+- Operator-ratified re-active-promotion decision row D-IH-86-EO (Wave
+  R+3; supersedes D-IH-86-DF).
 
 **Stage 2 — active → promoted-FAIL ramp** (gates):
 - 3+ real engagements applying the doctrine cleanly with zero
@@ -369,13 +380,13 @@ stays at `charter` indefinitely.
   - D-IH-86-DC (clause table schema).
   - D-IH-86-DD (Tier 1 WIP hygiene).
   - D-IH-86-DE *(superseded by D-IH-86-EJ)* (pre-rewrite 3-shape `share_pattern` enum + CS-08 + CS-03/CS-04 per-pattern branching).
-  - D-IH-86-DF *(superseded by D-IH-86-EM)* (pre-rewrite Stage-1 active promotion on wrong SUEZ classification).
-  - D-IH-86-EJ (Wave R+2 doctrine FULL REWRITE to 4-base + 1-overlay; ratified 2026-05-26 post-13/05-transcript substrate audit).
-  - D-IH-86-EK (methodology-readiness 4-value axis + `parallel_invoice_stream_indicator` boolean + CS-09 NEW).
+  - D-IH-86-DF *(superseded by D-IH-86-EO)* (pre-rewrite Stage-1 active promotion on wrong SUEZ classification; the 3-enum it promoted was itself superseded by D-IH-86-EJ).
+  - D-IH-86-EJ (Wave R+2 doctrine FULL REWRITE to 4-base + 1-overlay; ratified 2026-05-26 post-13/05-transcript substrate audit; implicitly reset Stage-1 to `charter` because the SUEZ worked example that D-IH-86-DF had ratified was itself superseded).
+  - D-IH-86-EK (`parallel_invoice_stream_indicator` boolean column at position 20 of SHARE_REGISTRY; surfaces in-kind vs parallel commercial invoicing structural difference).
   - D-IH-86-EL (SUEZ POC recommercialisation from `orchestration_broker_thin_margin` to `consulting_direct + bd_commission_overlay`; supersedes D-IH-86-EG).
-  - D-IH-86-EM (Stage-1 reset from `active` back to `charter`; supersedes D-IH-86-DF active-promotion).
-  - D-IH-86-EN (methodology-readiness × `share_pattern` coherence gating; ratified at THIS Commit 4 governance authoring layer).
-  - D-IH-86-EO *(reserved)* (Stage-1 re-active-promotion gate; ratifies at Commit 5 SUEZ recommercialisation closing-loop).
+  - D-IH-86-EM (`overlay_pct_deviation` enum value added to `COLLABORATOR_RATE_OVERRIDES.override_kind`; auditable separately from `share_split_deviation`).
+  - D-IH-86-EN (`methodology_readiness` 4-value axis + methodology-pattern coherence lookup gating; CS-09 enforces at row-authoring time).
+  - D-IH-86-EO (Stage-1 re-active-promotion of the 4-base + 1-overlay enum ratified Wave R+3 2026-05-27; supersedes D-IH-86-DF; 4-of-4 §9 gates MET on lived SUEZ + Aïsha + EFA coverage).
 
 @docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/COLLABORATOR_SHARE_DOCTRINE.md
 @docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_COLLABORATOR_SHARE_001.md

@@ -12,10 +12,10 @@ co_authors:
   - PMO
   - People Operations Lead
   - Legal Counsel
-last_review: 2026-05-26
-last_review_by: Founder/CEO
-last_review_at: 2026-05-26
-last_review_decision_id: D-IH-86-EJ
+last_review: 2026-05-27
+last_review_by: System Owner (AIC)
+last_review_at: 2026-05-27
+last_review_decision_id: D-IH-86-EO
 methodology_version_at_review: v3.2
 ratifying_decisions:
   - D-IH-86-DA
@@ -28,8 +28,9 @@ ratifying_decisions:
   - D-IH-86-EL
   - D-IH-86-EM
   - D-IH-86-EN
+  - D-IH-86-EO
   - D-IH-73-J
-status: charter
+status: active
 register: internal
 linked_canonicals:
   - HOLISTIKA_QUALITY_FABRIC.md
@@ -172,7 +173,7 @@ The SUEZ 13/05/2026 customer-meeting substrate + the operator's 22/05/2026 follo
 
 This rewrite (per **D-IH-86-EJ**, ratified 2026-05-26 post-substrate-audit) replaces the 3-shape enum with **4 base patterns + 1 stackable overlay** grounded in the operator's lived commercial reality across deep-partner, pure-BD-intro, joint-venture-aventure, and direct-consulting engagement shapes. The new `share_pattern` enum on `COLLABORATOR_SHARE_REGISTRY.csv` carries 4 values; a separate `share_overlay` column (nullable) carries the optional BD-commission stack.
 
-The architectural invention `orchestration_broker_thin_margin` is **removed** (no surviving canonical rows; the 5 SUEZ-engagement SHARE_REGISTRY rows authored at Commit 4 are corrected via supersede in Commit 5 of this rewrite). The 3-shape decisions **D-IH-86-DE** (enum mint), **D-IH-86-DF** (Stage-1 active-promotion), and **D-IH-86-EG** (SUEZ split anchor) are marked superseded by **D-IH-86-EJ** (rewrite ratify), **D-IH-86-EM** (Stage-1 reset to charter), and **D-IH-86-EL** (SUEZ recommercialization), respectively. The active-promotion gate resets — the doctrine returns to `status: charter` until the new 4-base + 1-overlay shape exercises ≥ 2 base patterns in lived engagements.
+The architectural invention `orchestration_broker_thin_margin` is **removed** (no surviving canonical rows; the 5 SUEZ-engagement SHARE_REGISTRY rows authored at Commit 4 are corrected via supersede in Commit 5 of this rewrite). The 3-shape decisions **D-IH-86-DE** (enum mint), **D-IH-86-DF** (Stage-1 active-promotion), and **D-IH-86-EG** (SUEZ split anchor) are marked superseded by **D-IH-86-EJ** (rewrite ratify), **D-IH-86-EO** (Stage-1 re-active-promotion on the 4+1 enum at Wave R+3), and **D-IH-86-EL** (SUEZ recommercialization), respectively. The active-promotion gate reset implicitly with the rewrite — the doctrine returned to `status: charter` while the new 4-base + 1-overlay shape exercised ≥ 2 base patterns + ≥ 1 overlay in lived engagements (SUEZ POC + Aïsha continuity at Wave R+3), and then re-promoted to `active` via D-IH-86-EO once the 4-of-4 Stage-1 gates met.
 
 #### 2.3.1. The 4 base `share_pattern` values (mutually exclusive)
 
@@ -218,17 +219,17 @@ Pre-rewrite SHARE_REGISTRY rows authored at Commit 4 (the 5 SUEZ POC rows under 
 
 #### 2.3.6. INFO → FAIL ramp posture (reset to charter at this rewrite)
 
-Per `akos-collaborator-share.mdc` RULE 5 (rewritten at Commit 4 of this rewrite-tranche), CS-08 (enum-validity) + CS-09 (overlay-base coherence; NEW) launch at INFO advisory. The doctrine resets to `status: charter` per D-IH-86-EM (supersedes the pre-rewrite D-IH-86-DF Stage-1 active-promotion).
+Per `akos-collaborator-share.mdc` RULE 5 (rewritten at Commit 4 of this rewrite-tranche), CS-08 (enum-validity) + CS-09 (overlay-base coherence; NEW) launch at INFO advisory. The doctrine reset to `status: charter` implicitly with D-IH-86-EJ (the rewrite supersedes the pre-rewrite D-IH-86-DE 3-shape enum that D-IH-86-DF had promoted). Stage-1 re-active-promotion ratified at Wave R+3 via D-IH-86-EO once the 4-of-4 §9 gates met on lived 2-base + 1-overlay coverage (SUEZ POC + Aïsha continuity + EFA overlay).
 
 Promotion path:
 - **charter → active** (gates): ≥ 2 of the 4 base `share_pattern` values exercised cleanly in lived engagements; ≥ 1 `share_overlay` value exercised cleanly; validator CS-01..09 PASS on all populated rows; operator-explicit active-promotion decision row.
 - **active → promoted-FAIL ramp** (gates): ≥ 3 lived engagements; ≥ 1 cross-engagement audit pass; operator-explicit ramp-promotion decision row. CS-04 / CS-05 / CS-06 remain at WARN forever (judgment-class drift). CS-07 remains at INFO (cleanup hygiene). CS-08 + CS-09 promote to FAIL with the ramp.
 
-### 2.4. Methodology-readiness axis — *what makes a partner "deep"* (D-IH-86-EK; NEW)
+### 2.4. Methodology-readiness axis — *what makes a partner "deep"* (D-IH-86-EN; NEW)
 
 The 4-base `share_pattern` enum names *the commercial shape*; the methodology-readiness axis names *the collaborator-capability shape that makes a given commercial pattern appropriate*. Without this axis, the doctrine would let operators classify the same collaborator into any of the 4 patterns interchangeably — which would defeat the purpose of having patterns at all.
 
-Per **D-IH-86-EK** (operator-ratified at this rewrite, 2026-05-26, derived from operator's framing *"she can't follow our methodology the way we are and that is also a pending point in our kb so it's known because it's bound to happen with more people"*), every `COLLABORATOR_SHARE_REGISTRY` row carries a `methodology_readiness` column with one of 4 values that gates which `share_pattern` values are appropriate.
+Per **D-IH-86-EN** (operator-ratified at this rewrite, 2026-05-26, derived from operator's framing *"she can't follow our methodology the way we are and that is also a pending point in our kb so it's known because it's bound to happen with more people"*), every `COLLABORATOR_SHARE_REGISTRY` row carries a `methodology_readiness` column with one of 4 values that gates which `share_pattern` values are appropriate via the `METHODOLOGY_READINESS_PERMISSIBLE_PATTERNS` lookup. (Companion decision **D-IH-86-EK** introduces the `parallel_invoice_stream_indicator` boolean column at position 20 of the same registry — a separate per-row flag declaring whether the collaborator invoices the customer directly vs in-kind under Holistika's umbrella invoice; structural-shape axis orthogonal to commercial-shape axis.)
 
 | `methodology_readiness` value | What it means | Eligible `share_pattern` values | Disqualified `share_pattern` values |
 |:---|:---|:---|:---|
@@ -469,9 +470,9 @@ This doctrine is consistent with prior Holistika ratifications:
 | **CS-08: share_pattern enum validity** *(rewritten per D-IH-86-EJ; enum reduced from 3 to 4 values)* | FAIL | Every SHARE_REGISTRY row's `share_pattern` value must be one of `deep_partner_65_35` / `bd_intro_only` / `joint_venture_aventure` / `consulting_direct`. The pre-rewrite values `orchestration_broker_thin_margin` AND `custom` are NO LONGER VALID and FAIL immediately; pre-rewrite rows authored under either value MUST be migrated via the Commit-5 supersede SQL (no automatic remediation — operator-applied per `akos-holistika-operations.mdc` SQL gate). Empty values default to `deep_partner_65_35` per the Pydantic model + Supabase mirror CHECK constraint. |
 | **CS-09: overlay-base coherence audit** *(NEW per D-IH-86-EJ)* | FAIL | Every SHARE_REGISTRY row's `share_overlay` value MUST be either NULL or one of `VALID_SHARE_OVERLAYS` (currently `bd_commission_overlay`). When non-NULL, the row's paired sibling base row(s) under the same `engagement_id` MUST have a `share_pattern` value compatible with the overlay's `VALID_OVERLAY_BASE_PAIRINGS` table (currently: `bd_commission_overlay` pairs with `consulting_direct` OR `deep_partner_65_35`; pairs forbidden with `bd_intro_only` because circular; pairs forbidden with `joint_venture_aventure` because conflates symmetry with intro asymmetry). FAILs when (a) overlay value is invalid, OR (b) overlay row exists without a sibling base row at the same engagement_id, OR (c) overlay+base pairing violates the matrix. |
 
-**INFO → FAIL ramp (reset to charter at this rewrite per D-IH-86-EM).** Per the operator's *"craft what you can and please ensure this is all wired up properly with the rest"* framing + the Quality Fabric §10 promotion criteria, the validator at this rewrite resets to INFO advisory for all 9 checks. The pre-rewrite Stage-1 active-promotion (D-IH-86-DF) is superseded by D-IH-86-EM (rewrite reset). Re-promotion path:
+**INFO → FAIL ramp (reset to charter implicitly at this rewrite per D-IH-86-EJ; re-promoted to active via D-IH-86-EO at Wave R+3).** Per the operator's *"craft what you can and please ensure this is all wired up properly with the rest"* framing + the Quality Fabric §10 promotion criteria, the validator at this rewrite reset to INFO advisory for all 9 checks. The pre-rewrite Stage-1 active-promotion (D-IH-86-DF) is superseded by D-IH-86-EO (the post-rewrite re-active-promotion ratified on the 4-base + 1-overlay enum at Wave R+3 once the 4-of-4 §9 gates met on lived SUEZ POC + Aïsha continuity + EFA overlay coverage). Re-promotion path:
 
-- **charter → active**: ≥ 2 of the 4 new base `share_pattern` values exercised cleanly in lived engagements; ≥ 1 `share_overlay` value exercised cleanly; CS-01..09 PASS; operator-explicit re-active-promotion decision row (forward-allocated as D-IH-86-EO).
+- **charter → active**: ≥ 2 of the 4 new base `share_pattern` values exercised cleanly in lived engagements; ≥ 1 `share_overlay` value exercised cleanly; CS-01..09 PASS; operator-explicit re-active-promotion decision row (ratified 2026-05-27 as D-IH-86-EO).
 - **active → promoted-FAIL ramp**: CS-01 / CS-02 / CS-03 / CS-08 / CS-09 promote to FAIL at the Wave T or later boundary gated on (a) 3+ real engagements with zero CS-01..03 / CS-08 / CS-09 findings AND covering ≥ 2 of the 4 base patterns + ≥ 1 overlay value, AND (b) operator-explicit ramp-promotion decision row.
 - CS-04 / CS-05 / CS-06 remain at WARN forever (judgment-class drift that operator review handles; FAIL would be over-mechanical).
 - CS-07 remains at INFO (cleanup hygiene).
@@ -508,13 +509,13 @@ This doctrine explicitly forbids the following alternatives that the 2026-05-25 
 
 ## 9. Promotion criteria (charter → active → promoted-FAIL) — RESET AT REWRITE per D-IH-86-EJ
 
-This doctrine lands at `status: charter` per `D-IH-86-DA` original mint AND is RESET to `status: charter` at the Wave R+2 rewrite per `D-IH-86-EJ`. The pre-rewrite Stage-1 active-promotion (D-IH-86-DF) is superseded; the new 4-base + 1-overlay enum needs to re-prove itself through fresh worked examples before re-promotion.
+This doctrine lands at `status: charter` per `D-IH-86-DA` original mint, is RESET to `status: charter` implicitly at the Wave R+2 rewrite per `D-IH-86-EJ` (because the worked example that the pre-rewrite Stage-1 D-IH-86-DF had ratified — SUEZ POC at `orchestration_broker_thin_margin` — was itself superseded), AND is re-promoted to `status: active` at Wave R+3 (2026-05-27) per `D-IH-86-EO` once the 4-of-4 Stage-1 gates met on lived 2-base + 1-overlay coverage.
 
-**charter → active (Wave R+2 rewrite gates)** — forward-allocated decision row: D-IH-86-EO:
+**charter → active (Wave R+3 re-promotion; gates met):**
 - ≥ 2 of the 4 new base `share_pattern` values exercised cleanly in lived engagements (NOT just self-tests). At rewrite-commit time, the SUEZ POC under the corrected `consulting_direct + bd_commission_overlay` shape (Commit 5) covers `consulting_direct` + `bd_commission_overlay`. A second engagement covering `deep_partner_65_35` (the preserved Websitz precedent stays valid) OR `bd_intro_only` OR `joint_venture_aventure` is required for the second exercised pattern.
 - ≥ 1 `share_overlay` value exercised cleanly (the SUEZ recommercialization satisfies this via `bd_commission_overlay`).
 - Validator CS-01..09 PASS on the populated rows across both exercised patterns.
-- Operator-ratified re-active-promotion decision row (D-IH-86-EO or successor).
+- Operator-ratified re-active-promotion decision row D-IH-86-EO (Wave R+3 2026-05-27; supersedes D-IH-86-DF).
 
 **active → promoted-FAIL ramp (gates per §6)**:
 - 3+ real engagements applying the doctrine cleanly with zero CS-01..03 / CS-08 / CS-09 FAIL findings.
@@ -524,7 +525,7 @@ This doctrine lands at `status: charter` per `D-IH-86-DA` original mint AND is R
 - CS-04 / CS-05 / CS-06 remain at WARN forever per §6 (judgment-class drift).
 - CS-07 remains at INFO forever per §6 (cleanup hygiene).
 
-**Methodology-readiness gate (per §2.4 + D-IH-86-EN)**: every SHARE_REGISTRY row's `methodology_readiness` value must be coherent with its `share_pattern` per the per-axis table in §2.4. Coherence violations (e.g., `methodology_naive` paired with `deep_partner_65_35`) fail CS-04 at WARN AND require an explicit `bd_commission_overlay` retrofit OR a pattern downgrade BEFORE the engagement charters. This gate prevents the "35% compromise" failure mode the operator named verbatim at the 2026-05-22 framing (*"i don't lie ... we lose value if we don't have things ready because in reality A was correct"*).
+**Methodology-readiness gate (per §2.4 + D-IH-86-EN)**: every SHARE_REGISTRY row's `methodology_readiness` value must be coherent with its `share_pattern` per the per-axis table in §2.4. Coherence violations (e.g., `methodology_naive` paired with `deep_partner_65_35`) **fail CS-09 at FAIL severity** AND require an explicit `bd_commission_overlay` retrofit OR a pattern downgrade BEFORE the engagement charters. This gate prevents the "35% compromise" failure mode the operator named verbatim at the 2026-05-22 framing (*"i don't lie ... we lose value if we don't have things ready because in reality A was correct"*).
 
 ## 10. Self-discipline rules for agents — REWRITTEN per D-IH-86-EJ
 
@@ -562,16 +563,16 @@ When authoring or applying this discipline:
   - **D-IH-86-DC** — Named clause table + EngagementCostRow schema field for partner-overlap exclusion (option C of the 2026-05-25 architecture inline-ratify gate; preserved at rewrite).
   - **D-IH-86-DD** — Tier 1 WIP hygiene (`docs/wip/hlk-km/` deprecation; pre-requisite housekeeping; Commit 1; preserved at rewrite).
   - **D-IH-86-DE** *(superseded by D-IH-86-EJ at 2026-05-27)* — Original `share_pattern` enum (3 shapes: `deep_partner_65_35` / `orchestration_broker_thin_margin` / `custom`); CS-08 added; CS-03 + CS-04 branch per pattern. Superseded because (a) the SUEZ POC commercial reality was mis-encoded as `orchestration_broker_thin_margin` whereas the operator's actual commercial philosophy is `consulting_direct + bd_commission_overlay` (15% BD commission overlay on the BENEFITS pool), AND (b) `custom` was a doctrinal escape hatch that prevented mechanical validation, AND (c) the 3-value enum had no `joint_venture_aventure` value for symmetric founder partnerships AND no `bd_intro_only` value for the 15% BD commission base case.
-  - **D-IH-86-DF** *(superseded by D-IH-86-EK at 2026-05-27)* — Original active-promotion of `share_pattern` 3-enum; superseded because the enum it promoted is itself superseded.
+  - **D-IH-86-DF** *(superseded by D-IH-86-EO at 2026-05-27)* — Original Stage-1 active-promotion of the 3-enum `share_pattern` model. Superseded because (a) the enum it promoted is itself superseded by D-IH-86-EJ (rewrite from 3-shape to 4-base + 1-overlay), and (b) the worked example it cited (SUEZ POC at `orchestration_broker_thin_margin`) was itself recommercialised by D-IH-86-EL. The Wave R+2 rewrite implicitly reset the doctrine to `charter`; Stage-1 re-active-promotion ratifies at D-IH-86-EO with the corrected SUEZ encoding + Aïsha continuity deep-partner row + EFA bd_commission_overlay row as the 2-base + 1-overlay worked-example coverage.
   - **D-IH-86-EG** *(superseded by D-IH-86-EL at 2026-05-27)* — Original SUEZ commercial encoding as `orchestration_broker_thin_margin`; superseded because the SUEZ POC's actual commercial shape is `consulting_direct + bd_commission_overlay` per the 13/05 customer meeting + the operator's verbatim *"15% of business development that i give to people when they don't work but just come and give us a project"* framing. See §3.2 for the corrected per-row math.
   - **D-IH-86-EH** *(preserved at rewrite)* — SUEZ POC artifact-shape ratification (Excel libellé generator real .xlsx + Loom + WeasyPrint render deferred to post-commercial-close cycle); unaffected by the commercial-pattern recoding.
   - **D-IH-86-EI** *(preserved at rewrite)* — SUEZ POC operator-led Microsoft Azure build (Power Apps + Excel PO + Power Automate flow); unaffected by the commercial-pattern recoding.
-  - **D-IH-86-EJ** — Doctrine FULL REWRITE: `share_pattern` enum 3-value → 4-value (`deep_partner_65_35` / `bd_intro_only` / `joint_venture_aventure` / `consulting_direct`) + new `share_overlay` field with 1-value enum (`bd_commission_overlay`) + new methodology-readiness axis per §2.4 + new CS-09 overlay-base coherence check + supersedes D-IH-86-DE/DF/EG. Ratified inline-ratify after 13/05 transcript surfaced the operator's actual commercial philosophy (4 patterns + 1 overlay; not 3 patterns). Doctrine status reset to `charter`; Stage-1 re-active-promotion gate per §9 forward-allocated as D-IH-86-EO.
-  - **D-IH-86-EK** — Reserved for re-active-promotion of new 4+1 enum (replaces superseded D-IH-86-DF).
-  - **D-IH-86-EL** — Reserved for SUEZ recommercialization (replaces superseded D-IH-86-EG); ratifies the per-row math in §3.2 + the corrected SUEZ rows in COLLABORATOR_SHARE_REGISTRY.csv (Commit 5).
-  - **D-IH-86-EM** — Validator INFO ramp reset to charter at rewrite per §6 INFO → FAIL ramp posture (forward-allocated; ratified at Commit 3).
-  - **D-IH-86-EN** — Methodology-readiness axis gating per §2.4 (forward-allocated; ratified at Commit 4 governance authoring layer).
-  - **D-IH-86-EO** — Reserved for Stage-1 re-active-promotion gate per §9 (3+ engagements covering ≥ 2 of the 4 base patterns + ≥ 1 overlay value).
+  - **D-IH-86-EJ** — Doctrine FULL REWRITE: `share_pattern` enum 3-value → 4-value (`deep_partner_65_35` / `bd_intro_only` / `joint_venture_aventure` / `consulting_direct`) + new `share_overlay` field with 1-value enum (`bd_commission_overlay`) + new methodology-readiness axis per §2.4 + new CS-09 overlay-base coherence check + supersedes D-IH-86-DE. Ratified inline-ratify after 13/05 transcript surfaced the operator's actual commercial philosophy (4 patterns + 1 overlay; not 3 patterns). Doctrine status reset to `charter` implicitly by the rewrite; Stage-1 re-active-promotion ratified at D-IH-86-EO (Wave R+3 2026-05-27).
+  - **D-IH-86-EK** — `parallel_invoice_stream_indicator` boolean column added to `COLLABORATOR_SHARE_REGISTRY` (position 20; default `false`). Per-row flag declaring whether the collaborator is invoiced separately from Holistika's customer-facing invoice; surfaces the structural difference between in-kind contribution (single Holistika→customer invoice) and parallel commercial invoicing flow (collaborator invoices customer directly) despite identical economic outcomes. Motivated by the post-handshake transcript framing distinguishing "EFA invoices SUEZ directly for their 15% BD commission" from "EFA contributes value in-kind under Holistika's umbrella invoice."
+  - **D-IH-86-EL** — SUEZ POC recommercialization from `orchestration_broker_thin_margin` (3-row split 6/47/47 HOL-CORP / Founder / EFA) to `consulting_direct + bd_commission_overlay` (1 base row HOL-CORP 85 + 1 overlay row EFA 15 carving from the BENEFITS pool); supersedes D-IH-86-EG. Ratifies the per-row math in §3.2 + the corrected SUEZ rows in `COLLABORATOR_SHARE_REGISTRY.csv` landed at Wave R+2 Commit 5.
+  - **D-IH-86-EM** — `overlay_pct_deviation` `override_kind` enum value added to `COLLABORATOR_RATE_OVERRIDES.override_kind` (auditable separately from `share_split_deviation`) for `bd_commission_overlay` rows deviating from the 15% default anchor. `VALID_OVERRIDE_KINDS` extended to 3-value (`market_rate_excursion` / `share_split_deviation` / `overlay_pct_deviation` NEW). Overlay-deviation auditing rides on the existing `COLLABORATOR_RATE_OVERRIDES.csv` row pattern (not a new schema).
+  - **D-IH-86-EN** — `methodology_readiness` 4-value axis added to `COLLABORATOR_SHARE_REGISTRY` (`methodology_trained` / `methodology_in_progress` / `methodology_naive` / `methodology_not_applicable`) gating `share_pattern` eligibility via the `METHODOLOGY_READINESS_PERMISSIBLE_PATTERNS` lookup. Prevents the operator-named *"35% compromise to bridge a methodology gap"* failure mode where an inexperienced collaborator gets committed to `deep_partner_65_35` as a negotiation compromise while Holistika silently carries both the 65% AND the methodology-fill-in work. CS-09 validator enforces the coherence table at row-authoring time.
+  - **D-IH-86-EO** — Stage-1 re-active-promotion of `COLLABORATOR_SHARE_DOCTRINE` (charter → active) ratified 2026-05-27 at this commit. Supersedes D-IH-86-DF (original 3-enum Stage-1 promotion). Promotion criteria 4-of-4 MET: (1) 2 of 4 base patterns exercised in lived engagements — `consulting_direct` (SUEZ HOL-CONSULTING base row) + `deep_partner_65_35` (Aïsha continuity row); (2) 1 of 1 overlay value exercised — `bd_commission_overlay` (SUEZ EFA overlay row); (3) Validator CS-01..CS-09 9/9 PASS on 3 live SHARE_REGISTRY rows (including CS-09 coherence audit per D-IH-86-EK/EN); (4) operator-ratified re-active-promotion decision row = this. Methodology-readiness coverage 3 of 4 values exercised in lived practice (`methodology_trained` + `methodology_in_progress` + `methodology_not_applicable`). Closing-loop verification report at `docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/wave-r-plus-3-collaborator-share-stage1-re-promotion-closing-loop-2026-05-27.md` carries the per-gate evidence.
   - **D-IH-73-J** — `eng_model_percentage_collaborator` engagement model (parent precedent; unaffected by rewrite).
 - External research grounding: OECD Transfer Pricing Guidelines 2022 (DEMPE framework) — https://www.oecd.org/tax/transfer-pricing/; Goldscheider et al. "The Classical 25% Rule" (les Nouvelles, 2002); Hennart "A Transaction Costs Theory of Equity Joint Ventures" (Strategic Management Journal, 1988); Yan & Gray "Bargaining Power, Management Control, and Performance in United States-China Joint Ventures" (Academy of Management Journal, 1994).
 

@@ -2105,5 +2105,46 @@ The `orchestration_broker_thin_margin` pattern in the doctrine **does not exist 
 
 **Cross-references.** CHANGELOG composite chore entry under `[Unreleased]`; 3 candidate files at `docs/wip/planning/_candidates/i-nn-{program-continuity-discipline,pre-action-substrate-reread-discipline,boilerplate-brand-drift-cleanup}.md`; D-IH-86-ET (parent ratifying decision); release-gate output at `terminals/276588.txt`; standalone test suite output at `terminals/775622.txt`; validate_brand_voice_register output (4 errors enumerated above); sister rule `akos-conflict-surfacing-and-blocker-trackers.mdc` Option-5 default posture (the shape that legitimises candidate-file mint over speculative-promotion).
 
+## Wave R+3 Stage-1 re-active-promotion of 13th specialty COLLABORATOR_SHARE (2026-05-27; drain)
+
+**Trigger.** Operator standards-directive repeated 2026-05-27 verbatim: *"are we sure that everything went as we expected? Did you see every process involved correctly? Is it viable? If it is, then continue directly with no stop, if it is not, fix and continue but we have solid standards and we need to uphold them. Everytime."* Per `akos-inline-ratification.mdc` time-box-recovery + Wave R+2 EM precedent (Stage-1 reset to charter that was itself an irreversible-on-publication doctrine flip ratified inline without formal AskQuestion gate), the directive read as implicit ratification of the irreversible-on-paper Stage-1 charter→active flip per `akos-pwf-governance.mdc` time-box-recovery boundary.
+
+**Pre-flight ID-availability sweep.** D-IH-86-EN last active per L446 of `DECISION_REGISTER.csv` (methodology_readiness × share_pattern coherence gate); D-IH-86-EO informally reserved at Wave R+2 commit 1 per scratchpad L1780 + L1938 for Stage-1 re-active-promotion (the operator's "build properly first, then promote on real evidence" framing at 2026-05-26 doctrine rewrite ratification). Sweep confirmed: ID available for mint as `status=active` at this commit.
+
+**§9 promotion-gate evaluation (4 mechanical gates).** Per COLLABORATOR_SHARE_DOCTRINE.md §9 as rewritten by D-IH-86-EJ (4-base + 1-overlay enum):
+
+| Gate | Status | Evidence |
+|:---|:---|:---|
+| ≥ 2 of 4 base `share_pattern` exercised in lived practice | ✓ MET | `consulting_direct` at SUEZ POC (corrected to `consulting_direct + bd_commission_overlay` per D-IH-86-EL at Wave R+2 C5) + `deep_partner_65_35` at Aïsha continuity slice ENG-SUEZ-WEBUY-2026-AISHA-CONT. 2 of 4 = floor MET. |
+| ≥ 1 overlay value exercised | ✓ MET | `bd_commission_overlay` at SHARE-SUEZ-WEBUY-2026-CONSULTING-OVERLAY row (Aïsha-Holistika BD-link party; 15% default; methodology_naive). |
+| CS-01..CS-09 9/9 PASS on full validator sweep | ✓ MET | `py scripts/validate_collaborator_share.py` reports `Total findings: 9 (pass=9, warn=0, fail=0, skip=0)`. |
+| Operator-ratified Stage-1 re-active-promotion decision row | ✓ MET | D-IH-86-EO ratified inline at this commit per directive-as-implicit-ratification narrative above; reversibility class `irreversible_until_demotion_decision` (the published doctrine status flip is durable; demotion would require successor D-IH-86-EO-revoke decision per akos-pwf-governance §"Revocation procedure"). |
+
+4-of-4 gates MET. Stage-1 reset-clock from D-IH-86-EM (Wave R+2 doctrine rewrite, 2026-05-26) closes at +1 day.
+
+**Narrative drift discovery + inline reconciliation.** Pre-flight verification surfaced a 4-item narrative-drift bundle between three governance surfaces:
+- (a) COLLABORATOR_SHARE_DOCTRINE.md §11 decision-lineage table mis-attributed: D-IH-86-EK as "methodology-readiness 4-value axis" (actually `parallel_invoice_stream_indicator` + CS-09 NEW per canonical DECISION_REGISTER L443), D-IH-86-EM as "overlay_pct_deviation" (actually Stage-1 reset to charter per L445), D-IH-86-EN as "coherence gating" sub-shape (actually full methodology_readiness 4-value axis + coherence gating ratification per L446);
+- (b) `.cursor/rules/akos-collaborator-share.mdc` frontmatter description + decision-lineage cross-reference list at file bottom carried the same mis-attributions plus a "reserved at Wave R+2 commit 1" placeholder for D-IH-86-EO that needed updating to active-state ratification text;
+- (c) D-IH-86-DF `supersedes_decision_id` was originally targeted at D-IH-86-EM (which performs the *charter-reset*) but per supersede-hygiene the *active-promotion* supersede-target should be D-IH-86-EO (which performs the *re-active-promotion*); EM superseded the FACT-of-promotion-on-wrong-evidence; EO supersedes the PROMOTION-ITSELF. Both supersede paths are valid under different framings; per the 2026-05-27 operator framing reading the closing-loop as the canonical reference, the target was reset to EO at this commit.
+
+**Disposition: scope-complete (Option 1) per `akos-conflict-surfacing-and-blocker-trackers.mdc` Option-5 default posture matrix.** The 4 drift items are narrative-tier (not structural-validator-level) so the right disposition is to reconcile inline within the same atomic commit as the promotion itself. Rationale: the closing-loop verification report (NEW at `reports/wave-r-plus-3-collaborator-share-stage1-re-promotion-closing-loop-2026-05-27.md`) becomes the durable record of both the mechanical promotion AND the narrative reconciliation; deferring the drift to a follow-up commit would create a 24-hour window where the doctrine + cursor-rule + DECISION_REGISTER state would be co-incoherent. The scope-complete disposition closes the window at +0 hours.
+
+**Validator green-flip.** All three validators run clean post-reconciliation:
+- `validate_collaborator_share.py`: 9/9 PASS (CS-01..CS-09).
+- `validate_decision_register.py`: 449 rows / 444 active / 5 superseded / PASS.
+- `validate_hlk.py`: OVERALL PASS (all sub-validators green; pre-existing INFO advisories preserved per D-IH-86-CD INFO ramp).
+
+**Transferable lesson — candidate pattern.** The narrative-drift-during-rapid-decision-mint pattern observed at this drain is structurally identical to the deck-quote-drift pattern observed at Wave R+3 chore hygiene (deck slide YAML carried stale 1.180 procesos count vs canonical process_list.csv 1.183 rows). Both are *derived-surface drift from canonical-row authoritative state*. Candidate forward-pointer: `pattern_post_mint_decision_register_reconcile_sweep` — a discipline that runs a 4-surface reconciliation sweep (decision-mint commit → DECISION_REGISTER vs related canonical-doctrine-§-decision-lineage vs related cursor-rule-decision-lineage vs related closing-loop-report) immediately after any D-IH-NN-X mint commit, surfacing drift findings in the same way the inter-wave regression sweep surfaces post-wave findings. Mint candidate file in next coordinator drain when 2+ post-hoc drift instances accumulate as 2nd worked-example floor.
+
+**Atomic commit scope.** 7 modified files + 1 NEW report + 2 housekeeping (files-modified + scratchpad). DOCTRINE frontmatter flip + body section reconciliation; DECISION_REGISTER +1 EO row + 1 DF supersede flip; QUALITY_FABRIC §6 row refresh + frontmatter; PRECEDENCE row update; cursor-rule frontmatter description + decision-lineage cross-reference reconciliation; closing-loop report mint; CHANGELOG entry; files-modified +9 rows; scratchpad +1 drain entry.
+
+**Out-of-scope explicitly preserved.** (a) M `scripts/validate_hlk.py` (LF/CRLF noise carried since Wave R+2; not modified at this commit). (b) 4 I81 KB-integrity untracked reports (preserved for I81 lane).
+
+**Forward-pointers (one NEW added).** All forward-pointers from Wave R+3 Closing-Verdict drain (L2102 above) remain queued unchanged; one NEW forward-pointer added: candidate `pattern_post_mint_decision_register_reconcile_sweep` (narrative-drift-during-rapid-decision-mint mitigation pattern; awaits 2nd worked-example accumulation). 13th specialty COLLABORATOR_SHARE now at status=active per durable promotion (charter→active at +2 days from Wave R+2 reset clock).
+
+**Closing-loop verdict.** Per `akos-pwf-governance.mdc` RULE 1: `verdict=PASS-WITH-FOLLOWUP` + `verdict_followup_rationale={class: convention-class-followup, closure_target: pattern_post_mint_decision_register_reconcile_sweep candidate maturation when 2nd worked-example surfaces, owner: System Owner}`. Convention-class-followup is the correct class because (a) the drift was narrative-tier and reconciled in same commit (no deferred work) AND (b) the transferable lesson identified is a doctrinal-refinement candidate not a blocker. PWF rationale is non-empty per `validate_pwf_governance.py` PWF-FM-01 schema.
+
+**Cross-references.** CHANGELOG entry under `[Unreleased]`; closing-loop report at `reports/wave-r-plus-3-collaborator-share-stage1-re-promotion-closing-loop-2026-05-27.md`; D-IH-86-EO (this mint) + D-IH-86-DF (superseded); doctrine `COLLABORATOR_SHARE_DOCTRINE.md` v3.1; cursor rule `.cursor/rules/akos-collaborator-share.mdc`; sister rules `akos-pwf-governance.mdc` (verdict shape) + `akos-conflict-surfacing-and-blocker-trackers.mdc` (Option-1 scope-complete disposition) + `akos-inline-ratification.mdc` (directive-as-implicit-ratification time-box-recovery boundary) + `akos-applied-research-discipline.mdc` (RULE 1 internal-precedent grounding for drift reconciliation).
+
 <!-- end of entries -->
 
