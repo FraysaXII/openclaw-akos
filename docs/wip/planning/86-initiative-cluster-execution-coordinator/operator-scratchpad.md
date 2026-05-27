@@ -2458,5 +2458,44 @@ The templates do NOT presume any specific investor is in pipeline today. They ar
 
 **Out-of-scope preserved.** `scripts/validate_hlk.py` LF/CRLF noise + 4 I81 KB-integrity reports remain untouched (the I81 reports get processed in C5 per the C5 task scope).
 
+---
+
+### Wave R+4 Commit 5 (KB integrity drain) — Wave R+4 close — 2026-05-27 23:55
+
+**Trigger.** Wave R+4 final commit per the C1+C2+C3+C4 sequence. Runs the baseline-index sweep (C5 was the original close-out task) and lands the 4 preserved I81 KB-integrity audit artifacts that had accumulated across recent sessions.
+
+**Artifacts changed.**
+
+1. NEW `docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/index-sweep-2026-05-27.md` — sweep report (8 fresh / 0 drift / 0 gap; clean across all 8 IDX dimensions).
+2. NEW `artifacts/index-sweep-2026-05-27.json` — machine-readable sidecar of the same sweep.
+3-6. NEW preserved I81 KB-integrity audit reports authored in the I81 subagent stream:
+   - `kb-integrity-audit-2026-05-25.md` + `kb-integrity-matrix-2026-05-25.csv` (1095 executable rows scanned).
+   - `kb-integrity-audit-2026-05-27.md` + `kb-integrity-matrix-2026-05-27.csv` (1096 executable rows scanned).
+   These complete the existing daily audit cadence (`kb-integrity-audit-2026-05-{19,20,21,22,24}.md` were already committed) and follow the I81 P1 D-IH-81-F methodology.
+
+**Key design choices.**
+
+- **Sweep is clean; no drift gates fired.** Per `INDEX_INTEGRITY_DISCIPLINE.md` §4 cadence, the wave-close sweep would normally surface drift findings and dispose them via the 5-option enum. None fired. This is a strong signal that the baseline-index discipline + the C2/C3a/C3b/C4 commits all kept their downstream indexes (`README.md`, `PRECEDENCE.md`, `CHANGELOG.md`, `INITIATIVE_DEPENDENCIES.md`, `USER_GUIDE.md`, `ARCHITECTURE.md`, planning README, `HOLISTIKA_QUALITY_FABRIC.md`) in lockstep as they landed.
+- **I81 audit reports landed AS-IS without amendment.** These are I81 subagent work products, not Wave R+4 outputs. Landing them here is hygiene; reviewing or amending their substance is I81 scope, not C5.
+- **IDX-08 detects 10 `*_DISCIPLINE.md` files; the broader 14-specialty narrative includes COLLABORATOR_SHARE_DOCTRINE.md** (named with `_DOCTRINE.md` suffix). This naming heterogeneity is consistent with the canonical's own framing and is not a finding to fix at C5.
+
+**Mechanical evidence.**
+
+- `py scripts/baseline_index_sweep.py` -> total=8 / fresh=8 / drift=0 / gap=0 / blocked=0 / skip=0.
+- `py scripts/validate_index_freshness.py --strict` -> PASS.
+- `py scripts/validate_index_freshness.py --self-test` + `py scripts/baseline_index_sweep.py --self-test` -> PASS (pre_commit-fired).
+- `py scripts/validate_hlk.py` -> OVERALL PASS.
+- ReadLints -> 0 errors.
+
+**Wave R+4 closed.** All 8 atomic commits landed (C1 / C1.5 / C1.6 / C2 / C3a / C3b / C4 / C5). Honest substance contract upheld end-to-end: no fabricated content, no premature SUEZ/Websitz claims, no team inflation, no methodology over-statement. Research gate consumed downstream by governance, activation, and deliverables. Inline-ratify cadence honored at every transition that warranted operator decision (C1 -> C1.5 / C1.5 -> C1.6 / C1.6 -> C2 / C2 sub-options / C3 split / C4 honest-substance contract).
+
+**Forward-pointers (still PENDING after Wave R+4 close).**
+
+- C5 (KB drain) does NOT address the I81 KB-integrity audit *substance* (0% pass rate against the 95% threshold per D-IH-81-F); that is I81 P2+ scope.
+- `scripts/validate_hlk.py` LF/CRLF noise remains untouched (out-of-scope chore).
+- Per-investor brief tailoring + actual sends remain operator-led (per C4 README operator-path procedure).
+- Future channel doctrines (event meeting, LinkedIn post response, direct DM, search organic, partner referral, ad campaign) await operational signal volume per C3b §"Future channels deferred".
+- CRO + COO executive activation per D-IH-72-AD remains forward-chartered.
+
 <!-- end of entries -->
 
