@@ -2,7 +2,7 @@
 """Render SUEZ-WeBuy engagement FR deliverables to brand-aligned PDF.
 
 Thin wrapper around ``akos.hlk_pdf_render.render_pdf_branded`` covering the
-seven surfaces of the SUEZ-WeBuy procure-to-pay engagement, in two audience
+nine surfaces of the SUEZ-WeBuy procure-to-pay engagement, in two audience
 packs (operator-and-collaborator + customer-facing):
 
 Operator pack (4):
@@ -12,11 +12,21 @@ Operator pack (4):
 3. ``proposal.fr.md`` — full proposal with internal tarification annex.
 4. ``deck-suez-webuy.fr.md`` — operator-and-collaborator presentation deck.
 
-Customer pack (3):
+Customer pack (5):
 
 5. ``proposal.customer.fr.md`` — pricing-free customer-facing proposal.
 6. ``tarification.customer.fr.md`` — separate tarification annex.
 7. ``deck.customer.fr.md`` — customer-facing slide deck (slides profile).
+8. ``demo-libelle-generator.customer.fr.md`` — Wave R+3 deep demo #1 (F-05
+   libellé generator; ratified D-IH-86-ER).
+9. ``demo-dispute-register-litigation-detection.customer.fr.md`` — Wave R+3
+   deep demo #2 (F-25 to F-29 dispute-register + litigation detection;
+   ratified D-IH-86-ES).
+
+Note: the ``architecture-addendum.fr.md`` surface (originally Wave R+1
+Commit 4 per D-IH-86-EH) was deleted at Wave R+3 Commit 1 per D-IH-86-EQ
+because its content overlap with the deck + proposal + the 2 deep demos
+made it redundant in the SUEZ POC FULL KIT send pack.
 
 Source markdowns live under the canonical client-engagement home:
 ``docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/`` with audience
@@ -191,14 +201,23 @@ SURFACES: dict[str, dict[str, str]] = {
     # Apps + SharePoint + Power Automate / Power BI feasibility) + Aïsha-led
     # continuity narrative + SUEZ CTO office replicability narrative + the
     # 3-surface ERP-engagement-governance UX shape from D-IH-82-V.
-    "architecture_addendum": {
+    "demo_libelle_customer": {
         "audience": "customer",
-        "source": "architecture-addendum.fr.md",
-        "out": "architecture-addendum.fr.pdf",
-        "title": "Addenda architecturale en trois temps",
-        "subtitle": "Power Query · Power Platform · faisabilité ERP + continuité opératrice partenaire",
-        "discipline": "Annexe à la Proposition d'engagement",
-        "eyebrow": "Holistika Research · Addenda architecturale",
+        "source": "demo-libelle-generator.customer.fr.md",
+        "out": "demo-libelle-generator.customer.fr.pdf",
+        "title": "Démo #1 — Générateur de libellé",
+        "subtitle": "F-05 — formulaire structuré · concaténation déterministe · prévention de la dérive libellé",
+        "discipline": "Démonstration approfondie · Microsoft Power Platform",
+        "eyebrow": "Holistika Research · Démo profondeur #1",
+    },
+    "demo_dispute_customer": {
+        "audience": "customer",
+        "source": "demo-dispute-register-litigation-detection.customer.fr.md",
+        "out": "demo-dispute-register-litigation-detection.customer.fr.pdf",
+        "title": "Démo #2 — Registre litiges + détection contentieux",
+        "subtitle": "F-25 à F-29 — saisie litiges · classification 3×4 · détection contentieux 4 composantes",
+        "discipline": "Démonstration approfondie · Microsoft Power Platform",
+        "eyebrow": "Holistika Research · Démo profondeur #2",
     },
 }
 
@@ -252,7 +271,7 @@ def main(argv: list[str] | None = None) -> int:
         "--only",
         choices=list(SURFACES.keys()),
         default=None,
-        help="Render only one surface (default: all six).",
+        help="Render only one surface (default: all nine).",
     )
     parser.add_argument(
         "--issue-date",

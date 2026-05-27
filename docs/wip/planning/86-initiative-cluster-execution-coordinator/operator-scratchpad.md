@@ -2146,5 +2146,55 @@ The `orchestration_broker_thin_margin` pattern in the doctrine **does not exist 
 
 **Cross-references.** CHANGELOG entry under `[Unreleased]`; closing-loop report at `reports/wave-r-plus-3-collaborator-share-stage1-re-promotion-closing-loop-2026-05-27.md`; D-IH-86-EO (this mint) + D-IH-86-DF (superseded); doctrine `COLLABORATOR_SHARE_DOCTRINE.md` v3.1; cursor rule `.cursor/rules/akos-collaborator-share.mdc`; sister rules `akos-pwf-governance.mdc` (verdict shape) + `akos-conflict-surfacing-and-blocker-trackers.mdc` (Option-1 scope-complete disposition) + `akos-inline-ratification.mdc` (directive-as-implicit-ratification time-box-recovery boundary) + `akos-applied-research-discipline.mdc` (RULE 1 internal-precedent grounding for drift reconciliation).
 
+---
+
+### Drain 2026-05-27 (post-Stage-1) — Wave R+3 chore hygiene: render-script SURFACES dict surface-coverage closure (3rd worked-example of derived-surface drift from canonical state)
+
+**Trigger.** Continuation of the operator's standards directive 2026-05-27 (twice repeated verbatim, then "i see thank yo, please contine"). After landing the Stage-1 re-promotion atomic commit `4327ad5`, the next critical-path item was `suez-cover-email-rewrite`. Reading the actual cover email at `docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/01-operator-pack/cover-email-2026-05-27.fr.md` revealed the *content* was already complete (landed at Wave R+3 Commit 4 `803a5be`), but a self-audit of the render path surfaced a latent gap.
+
+**Self-audit findings.**
+
+| Probe | Verdict | Detail |
+|:-----|:----|:----|
+| Cover email frontmatter `attachments:` list | 4 PDFs promised | `deck.customer.fr.pdf` + `proposal.customer.fr.pdf` + `demo-libelle-generator.customer.fr.pdf` + `demo-dispute-register-litigation-detection.customer.fr.pdf` |
+| Glob `02-customer-pack/*.pdf` | 0 files found | Render not yet executed |
+| Glob `02-customer-pack/*.md` | 6 files found | All markdown sources present incl. both deep demos |
+| Cover email `render_pipeline_note` | "PDFs render at SMTP-send time" | Render is execution-time, not pre-staged |
+| `validate_external_render_trail.py --report-path cover-email.fr.md` | PASS | 6 external-tagged surfaces, 6 with trail, 0 missing |
+| Read `scripts/render_suez_engagement_pdfs.py` SURFACES dict | **GAP DISCOVERED** | Only 2 of 4 customer-pack PDFs supported (proposal + deck); demos absent; stale `architecture_addendum` entry persisted despite source `.md` deleted at Wave R+3 C1 per D-IH-86-EQ |
+
+**Gap characterisation.** The render-script SURFACES dict was structurally drift from two canonical-authoritative states simultaneously:
+
+1. **Forward drift**: 2 new deep demo `.md` sources had landed at Wave R+3 C2+C3 (per D-IH-86-ER + D-IH-86-ES content-ratifies) but no corresponding SURFACES entries were added.
+2. **Backward drift**: 1 deleted `.md` source (architecture-addendum, deleted at Wave R+3 C1 per D-IH-86-EQ) still had a corresponding SURFACES entry that would have produced a `REFUSED — missing source(s)` error on any `--only architecture_addendum` invocation OR a partial-fail on a full sweep.
+
+The latent operator failure mode would have triggered at SMTP-send time: operator runs `py scripts/render_suez_engagement_pdfs.py` (no `--only` filter) to render all customer-pack PDFs ahead of SMTP attachment-stage, the script enumerates 8 surfaces (incorrect inventory), misses the 2 deep demos entirely + fails on architecture_addendum, operator has to (a) discover the gap, (b) fix the SURFACES dict by hand, (c) re-run — at which point the cover email goes out 30-60 minutes late OR (worst case) goes out with 2 of 4 attachments missing.
+
+**Fix executed (3-edit single-script tranche).**
+
+1. Removed stale `architecture_addendum` SURFACES entry (source `.md` deleted at C1; latent `--only` failure path).
+2. Added `demo_libelle_customer` SURFACES entry (per D-IH-86-ER): source `demo-libelle-generator.customer.fr.md`, out `demo-libelle-generator.customer.fr.pdf`, title "Démo #1 — Générateur de libellé", subtitle "F-05 — formulaire structuré · concaténation déterministe · prévention de la dérive libellé", discipline "Démonstration approfondie · Microsoft Power Platform".
+3. Added `demo_dispute_customer` SURFACES entry (per D-IH-86-ES): source `demo-dispute-register-litigation-detection.customer.fr.md`, out `demo-dispute-register-litigation-detection.customer.fr.pdf`, title "Démo #2 — Registre litiges + détection contentieux", subtitle "F-25 à F-29 — saisie litiges · classification 3×4 · détection contentieux 4 composantes", discipline "Démonstration approfondie · Microsoft Power Platform".
+4. Refreshed module docstring header from "seven surfaces / Customer pack (3)" to "nine surfaces / Customer pack (5)" with explicit per-surface enumeration + addendum-deletion provenance note citing D-IH-86-EH (origin) + D-IH-86-EQ (deletion).
+5. Refreshed `--only` argparse help text from stale "all six" to "all nine".
+
+**Smoke evidence.** `py scripts/render_suez_engagement_pdfs.py --smoke` → exit 0; all 9 surfaces resolve cleanly with body_chars + title + discipline + monogram-path metadata. Per-surface body_chars: cdc 23954 / questionnaire 6852 / proposal 11665 / deck 5440 / proposal_customer 11615 / tarification_customer 2821 / deck_customer 20633 / demo_libelle 16327 / demo_dispute 24944. `ReadLints` clean.
+
+**Transferable lesson (3rd worked example).** This drift is the third worked example in 48 hours of *derived-surface drift from canonical-authoritative state*:
+
+1. **Deck-quote drift (Wave R+3 chore hygiene `4b58f6a` 2026-05-27)**: deck_slides.yaml carried stale `1.180 procesos` count vs canonical `process_list.csv` 1183 rows (canonical = CSV row count; derived = YAML quote).
+2. **Doctrine ↔ DECISION_REGISTER narrative drift (Stage-1 re-promotion `4327ad5` 2026-05-27)**: DOCTRINE §11 + cursor rule lineage carried EK/EM/EN misattributions vs canonical DECISION_REGISTER rationale text (canonical = DECISION_REGISTER row content; derived = doctrine/rule cross-references).
+3. **Render-script SURFACES drift (this commit)**: render_suez_engagement_pdfs.py SURFACES dict carried stale `architecture_addendum` + missing 2 demos vs canonical filesystem state of `02-customer-pack/*.md` (canonical = filesystem `.md` sources; derived = script SURFACES dict).
+
+All three exhibit the same shape: a canonical-authoritative source-of-truth mutates (CSV row added; decision row minted; .md file deleted/added) AND a derived surface that quotes/references/inventories the canonical state goes stale because no automated drift gate cross-checks the two. All three were caught by post-hoc self-audit AND fixed atomically — but the candidate forward-pointer `pattern_post_mint_decision_register_reconcile_sweep` (originally framed at the Stage-1 drain L2137) generalises beyond the DECISION_REGISTER axis to a broader `pattern_post_mint_derived_surface_reconcile_sweep` discipline. The 2nd-worked-example floor (named at L2137 as 2-instance threshold for candidate maturation) is now 3-instance EXCEEDED; promotion to PEOPLE_DESIGN_PATTERN_REGISTRY at next maintenance window is justified.
+
+**Atomic commit scope.** 4 files: render script + CHANGELOG + scratchpad + files-modified.csv +4 rows. No canonical CSV touched; no DECISION_REGISTER row minted; no doctrine modified.
+
+**Out-of-scope explicitly preserved.** 5 items remain pending unchanged: (a) M `scripts/validate_hlk.py` LF/CRLF noise (carried since Wave R+2; pre-existing); (b) 4 I81 KB-integrity untracked reports (preserved for I81 lane).
+
+**STANDARDS UPHELD verdict.** ZERO regression introduced; ONE latent SMTP-send-time failure mode closed proactively; THIRD worked example of derived-surface drift accumulated as evidence for the candidate `pattern_post_mint_derived_surface_reconcile_sweep` promotion. The operator's standards directive ("Everytime") continues to hold across the full Wave R+3 trajectory + chore hygiene composite + Stage-1 re-promotion + this render-script chore.
+
+**Cross-references.** CHANGELOG entry under `[Unreleased]`; render script `scripts/render_suez_engagement_pdfs.py`; cover email `docs/references/hlk/v3.0/Think Big/Clients/2026-suez-webuy/01-operator-pack/cover-email-2026-05-27.fr.md`; demo sources `demo-libelle-generator.customer.fr.md` + `demo-dispute-register-litigation-detection.customer.fr.md`; ratifying decisions D-IH-86-EQ (addendum deletion) + D-IH-86-ER (demo 1 content-ratify) + D-IH-86-ES (demo 2 content-ratify); sister rules `akos-synthesis-before-tranche.mdc` §9 exemption (chore-only single-file) + `akos-applied-research-discipline.mdc` RULE 1 (internal-precedent grounding for derived-surface-drift pattern) + `akos-conflict-surfacing-and-blocker-trackers.mdc` (Option-1 scope-complete disposition for in-commit fix).
+
 <!-- end of entries -->
 
