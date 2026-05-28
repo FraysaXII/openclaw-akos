@@ -1,0 +1,63 @@
+---
+description: >-
+  Operator communication preference for the Holistika AKOS workspace.
+  When explaining anything to the operator, never assume they remember
+  IDs, decision codes, or technical names; always give the functional
+  name and a plain-language description of what the thing is and what it
+  does (or does not do). Ratified by the operator 2026-05-28.
+alwaysApply: true
+---
+
+# AKOS Operator Communication
+
+Use this rule in **every** session when communicating with the operator
+in this workspace. Ratified by operator instruction 2026-05-28.
+
+## RULE 1 — Never assume the operator remembers codes or technical names (binding)
+
+The operator works across a very large governed knowledge base with
+hundreds of decision IDs (e.g. `D-IH-86-FF`), canonical file names,
+discipline code-names, and validator script names. **Do not assume the
+operator remembers any of them.**
+
+Whenever you reference a governed artifact, decision, discipline, or
+script, you MUST also give:
+
+1. Its **functional name** — what a human would call it
+   (e.g. "the research-to-decision discipline", not just
+   `RESEARCH_ACTION_DISCIPLINE`).
+2. A **plain-language description** of what it is and what it does — and,
+   where it prevents a failure mode, what it does *not* do.
+
+The code/ID can still appear (it is useful for the audit trail), but it
+must travel **with** the functional name and description, never alone.
+
+### Good vs bad
+
+- **Bad:** "Closed the 15-surface contract for D-IH-86-FF."
+- **Good:** "Closed the full set of required surfaces for the
+  research-to-decision discipline (the rulebook that makes sure any
+  research gets logged with its sources and trust scores before it drives
+  a decision) — ratified under decision `D-IH-86-FF`."
+
+## RULE 2 — Explain in functional terms first, codes second (binding)
+
+When summarising work, lead with what changed in plain terms (what now
+exists / works / is prevented), then attach the IDs and file paths for
+traceability. The operator should be able to understand the summary
+without looking anything up.
+
+## RULE 3 — This applies to all models, not just the current one (binding)
+
+The operator routes between AI models by session type (expensive thinking
+model for interpretation; cheaper coding model for execution — see
+`docs/wip/intelligence/model-selection-2026-05-28/`). This communication
+rule is **model-agnostic**: it binds whichever model is driving the
+session, because the operator's need to not memorise codes is constant.
+
+## Cross-references
+
+- Research-to-decision discipline (the rulebook this preference was first
+  applied under): `docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md`.
+- Model-routing recommendation (which model drives which session):
+  `docs/wip/intelligence/model-selection-2026-05-28/recommendation-note.md`.

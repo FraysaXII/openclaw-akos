@@ -2573,5 +2573,37 @@ Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + va
 - `wave-r-plus-4-tranche-charter`: Wave closed via 9 atomic commits without a formal tranche-charter file. Acceptable per synthesis-before-tranche §11 internal_governance scope (the charter is the cumulative scratchpad drain across the wave commits + the C1.6 RESEARCH_ACTION_DISCIPLINE doctrine that gates the workflow). Marking complete.
 - `wave-r-plus-4-doctrine-surfacing` (research-goes-first as strategic posture): folded into the C1+C1.5+C1.6 substrate that already operationalises the directive via RESEARCH_ACTION_DISCIPLINE active mint. Marking complete.
 
+---
+
+### Model-selection research action + communication standing rule — 2026-05-28 21:30
+
+**Trigger.** Operator is budget-constrained and must switch off the expensive thinking model (Opus 4.8 Max) to a cheaper driver ASAP — but with confidence. Asked for real research on the model landscape (Cursor's Composer 2.5 vs Opus vs OpenAI Codex), flagged a recurring dislike of GPT/Codex output as "artificial", and named a strategic need for Holistika to know which model fits which use-case across coding / interpretation / video / image / 3D / open-source. Also made an explicit communication request: never assume they remember IDs or technical names.
+
+**This is the first real cross-area use of the research-to-decision discipline** (RESEARCH_ACTION_DISCIPLINE, D-IH-86-FF) — the discipline minted at Wave R+4 C1.6. Walked the operating loop: ingest (web research) → rate + rank (source ledger with trust scores) → synthesize (recommendation note) → govern (inline AskQuestion ratify) → implement (this commit) → test (the field-test note tees up the expansion as the test) → iterate (operator reports back next session).
+
+**Artifacts changed.**
+
+1-4. NEW `docs/wip/intelligence/model-selection-2026-05-28/`: README + source-ledger.csv (10 OSINT sources, all Safe-tier) + recommendation-note.md + field-test-note.md.
+5. NEW `.cursor/rules/akos-operator-communication.mdc` — always-applied standing rule: functional name + plain-language description, never bare codes; model-agnostic.
+6. CHANGELOG + this scratchpad + files-modified.
+
+**Operator decisions (inline-ratified this session).**
+
+- Research scope: **minimal now** (Option A) — Cursor models only. Full map (open-source + video/image/3D) deferred AND deliberately repurposed as the field test of whether the cheap model can do interpretive research work. Operator's exact framing: use this use-case to see if the bigger version would be viable under Composer 2.5.
+- Communication rule: **yes, make it standing.**
+- Field-test note: **yes.**
+
+**The recommendation (plain terms).**
+
+- Route by session, don't pick one model. Default to the cheap Cursor coding model (Composer 2.5 Fast) for execution-heavy work; switch up to the expensive thinking model (Opus) for interpretation-heavy sessions (complex new directions, dense multi-threaded briefs, scope/judgment calls).
+- Keep the OpenAI model (Codex/GPT-5.5) off the interpretation lane — its "artificial" feel is traceable to its design (terminal-automation + token-efficiency optimised, not nuance interpretation). Possible future use for pure terminal/CI automation only.
+- Confidence: medium-high that the cheap model handles execution; low-to-medium + untested on interpretation (no benchmark measures it). Field test converts that to earned confidence.
+
+**Why this matters beyond today.** The model-routing question recurs for every format Holistika will touch (video, image, 3D, open-source). This folder is the seed of a durable model-selection knowledge base; the deferred expansion is both the next research increment AND the cheap-model capability test.
+
+**Mechanical evidence.** validate_research_action.py --source-ledger PASS (10 rows / 3 topics / all Safe); validate_hlk.py OVERALL PASS; ReadLints 0.
+
+**Out-of-scope preserved.** No other working-tree changes; tree clean post-commit.
+
 <!-- end of entries -->
 
