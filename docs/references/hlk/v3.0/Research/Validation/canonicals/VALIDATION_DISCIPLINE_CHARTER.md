@@ -7,16 +7,21 @@ classification: way_of_working
 intellectual_kind: discipline_charter
 ssot: true
 authored: 2026-05-12
-last_review: 2026-05-12
+last_review: 2026-05-29
+last_review_decision_id: D-IH-75-G
 ---
 
 # VALIDATION_DISCIPLINE_CHARTER — Research/Validation
 
-> Authored I70 P4.7 per `RESEARCH_AREA_CHARTER.md` §2 + D-IH-70-S. **NEW formalization** (cross-links existing `confidence_levels.md` + `source_taxonomy.md` from compliance/). Validation is the truth-gate that runs AFTER Intelligence collection + Diagnosis verdicts.
+> Authored I70 P4.7 per `RESEARCH_AREA_CHARTER.md` §2 + D-IH-70-S. **NEW formalization** (cross-links existing `confidence_levels.md` + `source_taxonomy.md` from compliance/). Validation is the truth-gate that runs AFTER Intelligence collection + Diagnosis verdicts. Lifecycle role positioned at I75 / I86 Wave R+5 per `D-IH-75-G`; index [`../README.md`](../README.md); spine [`../../canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md`](../../canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md) §3–§4.
 
 ## 1. Mission
 
 The discipline of *what's true*. Defines source-reliability grading (HUMINT-derived A-F scale + OSINT confidence levels), cross-source corroboration practices, evidence-confidence scoring on diagnostic verdicts, and the validation-gate decisions that license downstream canonical promotion.
+
+**Lifecycle ownership** (per the area spine): Validation is a **primary owner of PROCESS** (the
+truth-gate) + the **feedback** loop, and stamps confidence at **STORE**, gates claims at **SHARE**,
+and holds the reliability discipline at **PROTECT**.
 
 ## 2. Three validation moves
 

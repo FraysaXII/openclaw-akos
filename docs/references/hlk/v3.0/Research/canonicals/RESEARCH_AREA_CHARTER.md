@@ -7,13 +7,15 @@ classification: way_of_working
 intellectual_kind: area_charter
 ssot: true
 authored: 2026-05-12
-last_review: 2026-05-12
+last_review: 2026-05-29
+last_review_decision_id: D-IH-75-G
 companion_to:
   - ../../Admin/O5-1/Operations/PMO/WORKSPACE_BLUEPRINT_HOLISTIKA.md
-  - ./Methodology/canonicals/METHODOLOGY_DISCIPLINE_CHARTER.md
-  - ./Intelligence/canonicals/INTELLIGENCE_DISCIPLINE_CHARTER.md
-  - ./Diagnosis/canonicals/DIAGNOSIS_DISCIPLINE_CHARTER.md
-  - ./Validation/canonicals/VALIDATION_DISCIPLINE_CHARTER.md
+  - ./RESEARCH_LIFECYCLE_DOCTRINE.md
+  - ../Methodology/canonicals/METHODOLOGY_DISCIPLINE_CHARTER.md
+  - ../Intelligence/canonicals/INTELLIGENCE_DISCIPLINE_CHARTER.md
+  - ../Diagnosis/canonicals/DIAGNOSIS_DISCIPLINE_CHARTER.md
+  - ../Validation/canonicals/VALIDATION_DISCIPLINE_CHARTER.md
 ---
 
 # RESEARCH_AREA_CHARTER — Research as new top-level area (R2 design)
@@ -48,22 +50,35 @@ These four disciplines mirror the Brand sub-discipline ontology (Brand: AV / Cop
 | **KM Officer** | Methodology + Validation (primary); curation across all 4 | Research Director | Owns Tier 1 WIP curation per blueprint §17 |
 | **Holistik Researcher** | Discipline-specific per cohort (Trainee level access; expand on graduation) | Research Director / mentor | Per D-IH-70-M: role row + cohort tag; curriculum deferred to I73 |
 
-## 4. Existing technique folders mapping (pre-migration view)
+## 4. Technique folders — RESOLVED (superseded by D-IH-75-G, 2026-05-29)
 
-The existing `Admin/O5-1/Research/` sub-folders map to disciplines as follows. **Migration of these folders to `v3.0/Research/<discipline>/` is part of P4.5 Wave 3** (deferred to operator-driven migration session per session checkpoint). This charter authors at the new top-level NOW; folder migration follows.
+> **The original P4.5-wave-3 plan to *migrate* the `Admin/O5-1/Research/` technique folders into
+> the new tree is superseded.** Those six folders were **empty husks** (a single `.gitkeep` each;
+> created in the 2026-04-01 v3.0 scaffold; never populated). Migrating empty folders achieves
+> nothing and would re-import the very "tools-shed" taxonomy §1 rejected. Per the founder-ratified
+> logic change `D-IH-75-G`, the husks were **deleted** and the discipline sub-areas were **built
+> new directly under the disciplines**, each as a real index seeded from the capability registry
+> rows (the technique *knowledge* was always in the registry, not the folders).
 
-| Existing folder | Target discipline | Target path |
+| Original folder (deleted husk) | Realized as | Seeded from |
 |:---|:---|:---|
-| `Admin/O5-1/Research/Methodology Pillars/` | Methodology | `v3.0/Research/Methodology/Pillars/` |
-| `Admin/O5-1/Research/Research Techniques/` | Methodology | `v3.0/Research/Methodology/Techniques/` |
-| `Admin/O5-1/Research/Deep Research/` | Methodology + Validation (split on technique vs assessment) | `v3.0/Research/Methodology/Deep-Research/` (technique side) + cross-link from `Validation/` |
-| `Admin/O5-1/Research/HUMINT Techniques/` | Intelligence | `v3.0/Research/Intelligence/HUMINT/` |
-| `Admin/O5-1/Research/OSINT Operations/` | Intelligence | `v3.0/Research/Intelligence/OSINT/` |
-| `Admin/O5-1/Research/Intelligence Matrix/` | Intelligence | `v3.0/Research/Intelligence/Matrix/` |
-| `Admin/O5-1/Research/RESEARCH_VS_TECH_LAB_ENTITY_RATIONALE_2026-04.md` | Methodology (architectural rationale) | `v3.0/Research/canonicals/RESEARCH_VS_TECH_LAB_ENTITY_RATIONALE_2026-04.md` |
-| `Admin/O5-1/Operations/IntelligenceOps/SOP-IO_*` (4 SOPs) | Intelligence | `v3.0/Research/Intelligence/canonicals/SOP-IO_*` (per D-IH-70-W ratification) |
+| `Methodology Pillars/` | [`../Methodology/Pillars/README.md`](../Methodology/Pillars/README.md) | CAP rows: HxPESTAL, PESTEL, Process/Business Engineering, Foresight |
+| `Research Techniques/` | [`../Methodology/Techniques/README.md`](../Methodology/Techniques/README.md) | CAP rows: Create Analogy, 6 Ws, Literature Review, Benchmarking, Research Brief … |
+| `Deep Research/` | [`../Methodology/Deep-Research/README.md`](../Methodology/Deep-Research/README.md) | CAP rows: Deep Research Methodology, FlowMaker + research-material pipeline |
+| `HUMINT Techniques/` | [`../Intelligence/HUMINT/README.md`](../Intelligence/HUMINT/README.md) | CAP rows (HUMINT Specialist): Enriched Interview, Focus group, Field Observation … |
+| `OSINT Operations/` | [`../Intelligence/OSINT/README.md`](../Intelligence/OSINT/README.md) | CAP rows (OSINT Analyst): Web Intel, Social Media Intel, Publication Monitoring |
+| `Intelligence Matrix/` | [`../Intelligence/Matrix/README.md`](../Intelligence/Matrix/README.md) | CAP rows (Intelligence Analyst) + the live IntelligenceOps register |
 
-**Diagnosis** has no pre-existing folder content; it's a new discipline created by P4.7 (formalizing the engagement-as-org-diagnostic pattern that has been implicit in P13's I12 SUEZ engagement work).
+**Still pending migration (separate gated follow-up, NOT husks):** the Methodology + Intelligence
+**SOPs**, the **`SUBSTRATE_LANDSCAPE_DOCTRINE.md`**, the entity rationale, and the **IntelligenceOps
+register CSV** remain under `Admin/O5-1/Research/`. Their physical move is gated because the
+register is an SSOT-CSV (its path change ripples into PRECEDENCE + validators + Pydantic FIELDNAMES
++ mirror emit) and the SOP move ripples into cursor-rule globs. See the
+[migration proposal](../../../../wip/intelligence/legacy-research-admin-migration-proposal-2026-05-29.md).
+
+**Diagnosis** + **Validation** have no technique sub-folders (no legacy folder; their structure is
+the diagnostic surfaces / validation moves documented in their charters + indexes). The full
+discipline × lifecycle map lives in [`RESEARCH_LIFECYCLE_DOCTRINE.md`](RESEARCH_LIFECYCLE_DOCTRINE.md) §4.
 
 ## 5. Tier 1 WIP ownership (per blueprint §17)
 

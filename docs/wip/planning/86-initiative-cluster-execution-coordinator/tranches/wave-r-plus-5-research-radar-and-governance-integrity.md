@@ -28,6 +28,8 @@ ratifying_decisions:
   - D-IH-86-FG
   - D-IH-86-FH
   - D-IH-86-FI
+  - D-IH-75-G
+  - D-IH-75-H
 is_atomic_commit: false
 closing_loop_test: py scripts/validate_research_radar.py --self-test PASS + py scripts/validate_compliance_schema_drift.py PASS + py scripts/validate_hlk.py OVERALL PASS + synthesis_before_tranche_check --check-charter PASS at C1; C4 adds I86 sibling-table drift fix + hlk-km archive + legacy Research mapping proposal (no git mv until operator confirms)
 recipient_fallback_channel: n/a
@@ -105,6 +107,7 @@ radar rides on.
 | **R+5-C3** | **I75 + I83 governance-kit backfill** (decision-log, risk-register, files-modified) + I75 blocker-tracker close (stale conditions cleared) + **Trello-topic promotion** (candidate `topic_*` → `TOPIC_REGISTRY.csv`, closing the variety/registry drift) | **canonical-CSV gate** (TOPIC_REGISTRY) |
 | **R+5-C4** | **Area harmonization-in-place** (anchor **delivered**; legacy `Admin/O5-1/Research/`→top-level migration; phantom-path fix) + **`hlk-km` archive** + **I86 §1.3 / INIT-notes drift fix** (see §5–§6) | **standard** (link-check; no blueprint amendment — folder stays) |
 | **R+5-C5** *(optional)* | Program-continuity + pre-action-substrate-reread specialty pair (17th/18th) | separate ratify |
+| **R+5-C6** | **Research area LOGIC CHANGE + production-grade area build** (founder-ratified `D-IH-75-G`, 2026-05-29): mint [`RESEARCH_LIFECYCLE_DOCTRINE.md`](../../../../references/hlk/v3.0/Research/canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md) (CORPINT lifecycle elevated to area spine; 4 disciplines reframed as crafts; cross-area joins first-class); build 4 discipline-root README indexes + 6 capability-seeded technique sub-area indexes; **delete the 6 empty `Admin/` technique husks** + rebuild under the disciplines; upgrade area README + charter + 4 discipline charters; PRECEDENCE row; source ledger; PROTECT first-class stage + counter-intelligence triad forward-charter (`D-IH-75-H`). Supersedes the "migrate husks" plan in §5 move 2 + closes §5.5 thin stages with named owners. | **founder-ratified** (this build); link-check + validate_hlk + research-action ledger PASS; SSOT-CSV/SOP physical migration remains the separate gated follow-up |
 | **R+5-close** | Inter-wave regression (13-dim) + index-integrity (8-dim) + closure UAT (11-section) | wave-close bundle |
 
 ## 4. Dependency + architecture diagrams
@@ -180,9 +183,9 @@ mint three specialties in one wave.
 | **ACQUIRE** | strong (Research Action, IntelligenceOps, source ledgers, substrate audit, Trello backlog) | radar adds the **time axis** (C1) |
 | **PROCESS** | moderate (Research Action govern; Validation; Diagnosis) | I75 lifts the 4 discipline charters from stubs (C3) |
 | **STORE** | moderate (KM Topic–Fact–Source + TOPIC_REGISTRY; KiRBe I83; Neo4j) | Trello-topic promotion closes registry drift (C3); KiRBe stays I83-gated |
-| **SHARE / OUTAKE** | **thin** — delegated to render/brand; no Research-owned dissemination doctrine | **charter** `RESEARCH_OUTAKE` work-stream under I75 (C2); mint phased |
-| **RECALL** | **thin** — indexes exist; no governed retrieval discipline; no `as_of`/freshness in recall | **charter** recall-discipline work-stream under I75 (C2); radar supplies the freshness primitive |
-| **PROTECT** | **thin** — access levels + GOI/POI stance + redaction; no counter-intelligence doctrine | **charter** counter-intelligence work-stream under I75 (C2); mint phased |
+| **SHARE / OUTAKE** | was thin — now a **named cross-area join** (C6) | lifecycle doctrine §5/§6.1: Research authors internal-register product → Marketing/Brand (dual-register) + External-Render deliver; thin `SOP-RESEARCH_OUTAKE_HANDOFF_001` forward-chartered I75 P5 |
+| **RECALL** | was thin — now a **named cross-area join** (C6) | lifecycle doctrine §5/§6.2: Methodology owns the recall *discipline* + Tech owns the retrieval *infra*; radar supplies the freshness primitive |
+| **PROTECT** | was thin — now a **first-class stage** (C6; `D-IH-75-H`) | lifecycle doctrine §6.3: cross-area ownership triad (Research/Intelligence + People/Ethics + People/Compliance); full Counter-Intelligence discipline mint forward-chartered, co-ratified by the People co-owners |
 
 **Variety (don't dump research linearly).** The backlog spans ≥14 subject playlists (AI,
 legal, macro/investment, security/intelligence, people, design, politics, social, UX/CRM,

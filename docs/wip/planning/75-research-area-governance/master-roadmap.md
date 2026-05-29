@@ -58,6 +58,14 @@ I75 fills in the disciplines:
 
 The cohering principle: **Research = the discipline of building knowledge that earns the right to be canonical**.
 
+> **Architecture update — I86 Wave R+5 C6 (founder-ratified `D-IH-75-G`, 2026-05-29).** Before the
+> per-discipline SOP buildout (P1–P4) proceeds, the area received a **logic change**: the **CORPINT
+> information lifecycle** (acquire → process → store ⇄ recall → share, guarded by protect) is now the
+> area's **organizing spine**, and the four disciplines are the **crafts** that move information
+> through it. This reframes (does not discard) the P1–P4 work — each discipline's SOPs now hang off
+> named lifecycle stages, and three previously-homeless stages (share, recall, protect) get named
+> cross-area owners. See [`RESEARCH_LIFECYCLE_DOCTRINE.md`](../../../references/hlk/v3.0/Research/canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md).
+
 ## Phase shape (proposed; ratified at P0)
 
 | Phase | Purpose | Deliverable | Effort | Pause-point |
@@ -82,6 +90,8 @@ Total estimated effort: **18-26 days** for full operationalization across the 4 
 | **D-IH-75-D** | Intelligence source-type SOP set (HUMINT depth; OSINT scope; reserved sigint/masint posture) | Research Lead | Proposed | P2 |
 | **D-IH-75-E** | Diagnosis template depth (3 templates sufficient or expand) | Research Lead + Engagement Lead | Proposed | P3 |
 | **D-IH-75-F** | SOURCE_RELIABILITY_REGISTRY.csv schema + governance | Research Lead + System Owner | Proposed | P4 |
+| **D-IH-75-G** | Research area **logic change** — CORPINT lifecycle elevated to the organizing spine; 4 disciplines reframed as crafts; cross-area joins first-class; technique husks deleted + sub-areas rebuilt as capability-seeded indexes; `RESEARCH_LIFECYCLE_DOCTRINE.md` minted | Founder | **RATIFIED** (founder, 2026-05-29) | I86 Wave R+5 C6 |
+| **D-IH-75-H** | **PROTECT** established as a first-class lifecycle stage + counter-intelligence cross-area ownership triad (Research/Intelligence + People/Ethics + People/Compliance); forward-charters the Counter-Intelligence discipline mint | Founder + People co-owners | **RATIFIED** (forward-charter) | I86 Wave R+5 C6 |
 
 ## Risks (top 5)
 

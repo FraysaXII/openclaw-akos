@@ -7,23 +7,28 @@ classification: way_of_working
 intellectual_kind: discipline_charter
 ssot: true
 authored: 2026-05-12
-last_review: 2026-05-12
+last_review: 2026-05-29
+last_review_decision_id: D-IH-75-G
 ---
 
 # INTELLIGENCE_DISCIPLINE_CHARTER — Research/Intelligence
 
-> Authored I70 P4.7 per `RESEARCH_AREA_CHARTER.md` §2 + D-IH-70-S + D-IH-70-W (IntelligenceOps placement). **Stub charter** — full SOPs migrate from `Admin/O5-1/Research/HUMINT Techniques/` + `OSINT Operations/` + `Intelligence Matrix/` + `Admin/O5-1/Operations/IntelligenceOps/SOP-IO_*` (4 SOPs) at P4.5 wave 3.
+> Authored I70 P4.7 per `RESEARCH_AREA_CHARTER.md` §2 + D-IH-70-S + D-IH-70-W (IntelligenceOps placement). Sub-areas **realized** at I75 / I86 Wave R+5 per `D-IH-75-G` (the empty technique husks deleted; sub-areas rebuilt as capability-seeded indexes). IntelligenceOps SOPs + register still physically under the legacy `Admin/` path pending the gated migration. Lifecycle role: see [`../../canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md`](../../canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md) §3–§4.
 
 ## 1. Mission
 
 The discipline of *what we collect*. Defines the source-types-and-techniques for intelligence collection (HUMINT — human-source elicitation; OSINT — open-source investigation; SIGINT/MASINT/etc. reserved for future), the per-engagement intelligence cadence, and the cross-source corroboration practices that feed Validation.
 
-## 2. Sub-folders
+**Lifecycle ownership** (per the area spine): Intelligence is the **primary owner of ACQUIRE**
+(HUMINT + OSINT), begins **PROCESS** (classification into the Matrix), and holds the Research side
+of **PROTECT** (source protection + GOI/POI stance). Index: [`../README.md`](../README.md).
 
-- `HUMINT/` — human-source elicitation techniques (migration target from `Admin/O5-1/Research/HUMINT Techniques/`).
-- `OSINT/` — open-source investigation operations (migration target from `Admin/O5-1/Research/OSINT Operations/`).
-- `Matrix/` — Intelligence Matrix scaffold (migration target from `Admin/O5-1/Research/Intelligence Matrix/`).
-- `canonicals/` — IntelligenceOps SOPs (4 SOPs migrate from `Admin/O5-1/Operations/IntelligenceOps/` per D-IH-70-W).
+## 2. Sub-areas (realized; index READMEs seeded from the capability registry)
+
+- [`HUMINT/`](../HUMINT/README.md) — human-source elicitation (Enriched Interview, Focus group, Stakeholder Interview Protocol, Field Observation).
+- [`OSINT/`](../OSINT/README.md) — open-source investigation (Web Intelligence Gathering, Social Media Intelligence, Publication Monitoring).
+- [`Matrix/`](../Matrix/README.md) — classify / score / place collected intel; the live matrix is the IntelligenceOps register.
+- `canonicals/` — Intelligence doctrines + IntelligenceOps SOPs (register + 4 SOPs migrate from the legacy `Admin/` path per D-IH-70-W; gated follow-up).
 
 ## 3. Roles
 

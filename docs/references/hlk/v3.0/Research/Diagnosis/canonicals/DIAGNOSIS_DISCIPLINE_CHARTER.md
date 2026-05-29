@@ -7,16 +7,21 @@ classification: way_of_working
 intellectual_kind: discipline_charter
 ssot: true
 authored: 2026-05-12
-last_review: 2026-05-12
+last_review: 2026-05-29
+last_review_decision_id: D-IH-75-G
 ---
 
 # DIAGNOSIS_DISCIPLINE_CHARTER — Research/Diagnosis
 
-> Authored I70 P4.7 per `RESEARCH_AREA_CHARTER.md` §2 + D-IH-70-S + Conundrum 11. **NEW discipline** (no pre-existing folder migration). Formalizes the engagement-as-org-diagnostic pattern (F-51) that has been implicit in P13's I12 SUEZ engagement work.
+> Authored I70 P4.7 per `RESEARCH_AREA_CHARTER.md` §2 + D-IH-70-S + Conundrum 11. **NEW discipline** (no pre-existing folder migration). Formalizes the engagement-as-org-diagnostic pattern (F-51) that has been implicit in P13's I12 SUEZ engagement work. Lifecycle role positioned at I75 / I86 Wave R+5 per `D-IH-75-G`; index [`../README.md`](../README.md); spine [`../../canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md`](../../canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md) §3–§4.
 
 ## 1. Mission
 
 The discipline of *what's wrong* — at the counterparty (engagement) level, the system level, or the methodology level. Diagnosis runs ON intelligence (collected by Research/Intelligence), produces verdict + recommendation outputs, and feeds Validation gates.
+
+**Lifecycle ownership** (per the area spine): Diagnosis is the **primary owner of the PROCESS
+verdict layer** (analysis/production) and feeds **SHARE** (the diagnostic report is a delivered
+product).
 
 ## 2. Three diagnosis surfaces
 
