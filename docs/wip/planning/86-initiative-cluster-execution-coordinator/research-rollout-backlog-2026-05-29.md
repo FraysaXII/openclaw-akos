@@ -101,7 +101,7 @@ Per the [Wave R+5 plan](tranches/wave-r-plus-5-research-radar-and-governance-int
 | Ref | Chunk | Status |
 |:---|:---|:---|
 | D1 | C2 — promote research-ops-substrate + topic+intent candidates; lifecycle-stage charters | open |
-| D2 | C3 — I75 + I83 governance-kit backfill; Trello-topic → TOPIC_REGISTRY promotion | **I75 + I83 kits DONE** (decision-log + risk-register + files-modified each, 2026-05-29); TOPIC promotion pending |
+| D2 | C3 — I75 + I83 governance-kit backfill; Trello-topic → TOPIC_REGISTRY promotion | **DONE** — 11 rows promoted 2026-05-29 (`lifecycle_status=proposed`; manifest forward-charter) |
 | D3 | C5 — program-continuity + pre-action-reread specialty pair (optional) | open |
 | D4 | R+5-close — inter-wave regression (13-dim) + index-integrity (8-dim) + closure UAT (11-section) | open |
 
@@ -118,13 +118,13 @@ Per the [Wave R+5 plan](tranches/wave-r-plus-5-research-radar-and-governance-int
 
 | ID | Item | Theme | Owner | Priority | Status | Depends on | Formal home |
 |:---|:---|:---|:---|:---:|:---|:---|:---|
-| A1 | Counter-Intelligence discipline mint | area-build | Lead Researcher + People co-owners | P2 | open | People co-ratify | `OPS-86-27` |
+| A1 | Counter-Intelligence discipline mint | area-build | Lead Researcher + People co-owners | P2 | **discipline active** | SOP+runbook forward-charter | `D-IH-75-I` · `OPS-86-27` closed |
 | A2 | Legacy SSOT migration | area-build | System Owner + PMO | P1 | open | operator approve mapping | `OPS-86-26` |
-| A3 | OUTAKE hand-off SOP | area-build | Lead Researcher | P3 | open | — | I75 P5 |
-| A4 | Derived-recall canonical | area-build | KM Officer | P3 | open | — | I75 |
+| A3 | OUTAKE hand-off SOP | area-build | Lead Researcher | P3 | **done** | — | `SOP-RESEARCH_OUTAKE_HANDOFF_001.md` |
+| A4 | Derived-recall canonical | area-build | KM Officer | P3 | **charter** | — | `DERIVED_RECALL_DISCIPLINE.md` |
 | A5 | Per-discipline SOP buildout | area-build | Lead Researcher | P1 | open | — | I75 P1–P4 |
 | A6 | files-modified backfill (C6) | area-build | PMO | P2 | **I75-side DONE** (2026-05-29; `files-modified.csv` seeded) | — | `OPS-86-31` |
-| B1–B3 | Cross-area reciprocal pointers | cross-area | PMO + sister areas | P2 | open | sister-area ratify | `OPS-86-28` |
+| B1–B3 | Cross-area reciprocal pointers | cross-area | PMO + sister areas | P2 | **done** | — | `OPS-86-28` closed |
 | C1 | Data-consumer / ETL inventory | DAMA | System Owner + Lead Researcher | P1 | open | — | `OPS-86-29` |
 | C2 | Multi-channel research-feed delivery | DAMA | System Owner + Lead Researcher | P1 | open | C1 + C3 | `OPS-86-30` |
 | C3 | Data-ops readiness assessment | DAMA | System Owner | P1 | open | — | new candidate |
@@ -192,10 +192,11 @@ forward (when its trigger fires).
    *validators* = `validate_hlk` + `validate_compliance_schema_drift` + `validate_hlk_vault_links` +
    `research_radar_sweep`; *acceptance* = all PASS + zero broken links + the two cursor-rule globs
    updated.
-3. **C1 — data-consumer/ETL inventory** (Opus specs schema; Composer crawls): *schema* = `consumer |
-   role_in_flow | data_shape | freshness | access | dama_area`; *sources to crawl* = KiRBe repo +
-   sources, hlk-erp, KB (Obsidian/KM), Supabase migrations, orchestration configs, RPA configs;
-   *acceptance* = every consumer named in §3.2 has a row + a DAMA-area tag.
+### 7.4 Composer packets (ready 2026-05-29)
+
+Bounded execution packets for the background seat live under
+[`composer-packets/`](composer-packets/): C1 (data-consumer inventory), C2 (feed delivery), C5
+(KiRBe ingestor), E2 (ERP lifecycle panel).
 
 ## 8. Owning-initiative attribution (KPIs land on the initiative, not on I86)
 

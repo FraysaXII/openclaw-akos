@@ -153,8 +153,9 @@ charter §6.
   register; Marketing/Brand translates and External-Render delivers. The capability already exists
   (Research Brief, Research Output Packaging, Output 1/2/3 — see §7). What was missing was the
   *naming* of the seam, now done in §5.
-- **Forward work:** a thin `SOP-RESEARCH_OUTAKE_HANDOFF_001` (Research->Marketing handoff checklist)
-  is the only net-new artefact; forward-chartered to I75 P5 (the per-engagement cadence phase).
+- **Forward work:** `SOP-RESEARCH_OUTAKE_HANDOFF_001` minted 2026-05-29 at
+  [`Research/Methodology/canonicals/SOP-RESEARCH_OUTAKE_HANDOFF_001.md`](../Methodology/canonicals/SOP-RESEARCH_OUTAKE_HANDOFF_001.md)
+  (Research->Marketing handoff checklist; status `active`).
 
 ### 6.2 RECALL — from gap to named join
 
@@ -163,9 +164,8 @@ charter §6.
   principle: you retrieve by deriving the question, not by remembering the file) and Tech (the
   *infrastructure* — Neo4j, MCP, search). The IntelligenceOps register is the queryable index that
   makes recall mechanical.
-- **Forward work:** the derived-recall principle is currently a one-line idea; promoting it to a
-  short Methodology canonical is forward-chartered (low priority; the infra is the load-bearing part
-  and Tech owns it).
+- **Forward work:** [`DERIVED_RECALL_DISCIPLINE.md`](../Methodology/canonicals/DERIVED_RECALL_DISCIPLINE.md)
+  minted at `charter` status 2026-05-29; Tech still owns retrieval infrastructure.
 
 ### 6.3 PROTECT — from gap to first-class stage (the genuinely new claim)
 
@@ -178,11 +178,10 @@ charter §6.
     no misrepresentation, the red-face test) — already partly carried by `ETHICAL_AGENTIC_BOUNDARIES.md`.
   - **People/Compliance** owns *access + confidence + redaction* (`access_levels.md`,
     `confidence_levels.md`, source taxonomy).
-- **Forward work (governed follow-up, KB-integrity I81).** A full **Counter-Intelligence discipline**
-  (a fifth Research craft, or a cross-cutting concern documented under Intelligence) is **forward-
-  chartered**, not minted here — minting it would require ratification from People/Ethics +
-  People/Compliance (the co-owners), which is exactly the reciprocal cross-area gate single-ownership
-  requires. `D-IH-75-H` records the stage + triad; the discipline mint is a named successor.
+- **Forward work (governed follow-up, KB-integrity I81).** [`COUNTER_INTELLIGENCE_DISCIPLINE.md`](../Intelligence/canonicals/COUNTER_INTELLIGENCE_DISCIPLINE.md)
+  promoted to **`active`** 2026-05-29 per operator co-ratification (`D-IH-75-I`; Ethics + Compliance
+  co-sign gate from `D-IH-75-H`). `OPS-86-27` closed. Paired SOP + runbook + `process_list` row
+  remain forward-charter.
 
 ## 7. Capability map — the techniques, by stage
 
