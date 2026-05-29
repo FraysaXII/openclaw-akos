@@ -115,6 +115,7 @@ Total estimated effort: **18-26 days** for full operationalization across the 4 
 ## Cross-references
 
 - Candidate: [`i75-research-area-governance.md`](../_candidates/i75-research-area-governance.md).
+- Governance kit (landed I86 Wave R+5 close, 2026-05-29 — closes the "thinly governed" gap): [`decision-log.md`](decision-log.md) (D-IH-75-A..H) · [`risk-register.md`](risk-register.md) (R-IH-75-1..7) · [`files-modified.csv`](files-modified.csv).
 - Promotion override: `D-IH-86-CC` (Wave O OVERRIDE).
 - Research substrate audit cadence: `D-IH-84-G` + `D-IH-84-H` (I84 P3 ratifications; backfilled at I86 Wave N N.5).
 - Research Area Charter: [`RESEARCH_AREA_CHARTER.md`](../../../references/hlk/v3.0/Admin/O5-1/Research/RESEARCH_AREA_CHARTER.md).
