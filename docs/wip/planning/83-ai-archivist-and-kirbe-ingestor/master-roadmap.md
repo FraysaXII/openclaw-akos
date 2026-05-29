@@ -139,6 +139,7 @@ Cross-references:
 ## Cross-references
 
 - Candidate: [`i83-ai-archivist-and-kirbe-ingestor.md`](../_candidates/i83-ai-archivist-and-kirbe-ingestor.md) (full architectural sketch + conundrum index).
+- Governance kit (landed I86 Wave R+5 close, 2026-05-29 — closes the "thinly governed" gap): [`decision-log.md`](decision-log.md) (D-IH-83-A..L) · [`risk-register.md`](risk-register.md) (R-IH-83-1..6) · [`files-modified.csv`](files-modified.csv).
 - Promotion override: `D-IH-86-CC` (Wave O OVERRIDE).
 - Framework narrowing: `D-IH-84-E` (E1 LlamaIndex-continue + LangGraph-workflow).
 - Sibling: [I82 Capability Doctrine](../_candidates/i82-holistika-capability-doctrine-and-commercial-readiness.md) (hard prerequisite at P4).

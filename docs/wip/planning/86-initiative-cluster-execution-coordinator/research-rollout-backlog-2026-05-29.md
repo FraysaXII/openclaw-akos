@@ -101,7 +101,7 @@ Per the [Wave R+5 plan](tranches/wave-r-plus-5-research-radar-and-governance-int
 | Ref | Chunk | Status |
 |:---|:---|:---|
 | D1 | C2 — promote research-ops-substrate + topic+intent candidates; lifecycle-stage charters | open |
-| D2 | C3 — I75 + I83 governance-kit backfill; Trello-topic → TOPIC_REGISTRY promotion | **I75 kit DONE** (decision-log + risk-register + files-modified, 2026-05-29); I83 kit + TOPIC promotion pending |
+| D2 | C3 — I75 + I83 governance-kit backfill; Trello-topic → TOPIC_REGISTRY promotion | **I75 + I83 kits DONE** (decision-log + risk-register + files-modified each, 2026-05-29); TOPIC promotion pending |
 | D3 | C5 — program-continuity + pre-action-reread specialty pair (optional) | open |
 | D4 | R+5-close — inter-wave regression (13-dim) + index-integrity (8-dim) + closure UAT (11-section) | open |
 
