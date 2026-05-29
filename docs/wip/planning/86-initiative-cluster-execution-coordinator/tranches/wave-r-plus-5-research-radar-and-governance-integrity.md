@@ -1,12 +1,12 @@
 ---
-title: I86 Wave R+5 — Research Radar spine + governance-integrity sweep (plan, pending operator ratification)
+title: I86 Wave R+5 — Research Radar spine + governance-integrity sweep
 language: en
 intellectual_kind: wip_planning_tranche
 sharing_label: internal_only
 audience: J-OP
 authored: 2026-05-29
 last_review: 2026-05-29
-status: plan-pending-operator-ratification
+status: plan-ratified-in-execution
 parent_initiative: INIT-OPENCLAW_AKOS-86
 mint_home_initiative: INIT-OPENCLAW_AKOS-75
 linked_research_sources:
