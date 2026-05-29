@@ -2,8 +2,8 @@
 language: en
 sharing_label: internal_only
 intellectual_kind: initiative_dependency_matrix
-last_generated: 2026-05-21
-generated_by: Wave-O sub-lane (I86 cluster execution coordinator; updated for I74 + I75 + I83 active-promotion)
+last_generated: 2026-05-29
+generated_by: Wave-R+5 close (I86 cluster execution coordinator; IDX-04 freshness refresh — registry deltas reviewed, no dependency edges shifted by the Research-area logic change)
 ratifying_decisions:
   - D-IH-86-CD
   - D-IH-86-CG
@@ -11,6 +11,8 @@ ratifying_decisions:
   - D-IH-83-A
   - D-IH-74-A
   - D-IH-75-A
+  - D-IH-75-G
+  - D-IH-86-FG
 ---
 
 # INITIATIVE_DEPENDENCIES.md — cross-initiative dependency narrative
@@ -25,6 +27,13 @@ Per `INDEX_INTEGRITY_DISCIPLINE.md` IDX-04, this file is one of the 8
 baseline indices monitored by [`scripts/baseline_index_sweep.py`](../../../../../../../../scripts/baseline_index_sweep.py).
 When INITIATIVE_REGISTRY rows materially change (new initiative promoted +
 dependency edges shift + closure flips), update the relevant sub-section.
+
+> **Wave R+5 freshness review (2026-05-29, IDX-04 clear).** Registry deltas since the
+> Wave-O regeneration were reviewed at wave-close: the Research-area logic change
+> (`D-IH-75-G`) + Research Radar mint (`D-IH-86-FG`) are intra-Research and add no new
+> cross-initiative dependency edges; I75 / I83 / I88 remain active with unchanged
+> parent/sibling edges. No sub-section rewrite required; timestamp bumped to clear the
+> 7-day freshness threshold.
 
 ## I86 cluster coordinator (active)
 

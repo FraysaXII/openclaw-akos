@@ -6,7 +6,7 @@ sharing_label: internal_only
 audience: J-OP
 authored: 2026-05-29
 last_review: 2026-05-29
-status: plan-ratified-in-execution
+status: closed-with-followup
 parent_initiative: INIT-OPENCLAW_AKOS-86
 mint_home_initiative: INIT-OPENCLAW_AKOS-75
 linked_research_sources:
@@ -47,6 +47,13 @@ reversibility_rationale: C1 specialty mint compounds via 15-surface contract + m
 > every canonical-CSV / blueprint / link-migration step carries its own gate. Tags:
 > **[ratified]** (operator 2026-05-29), **[crafted]** (my proposal, adjustable),
 > **[verified]** (checked this session).
+>
+> **WAVE CLOSED 2026-05-29 — PASS-WITH-FOLLOWUP.** Core shipped (C0 guardrail + C1 radar + C4
+> governance-integrity + C6/C6b/C6c Research area logic change + managed backlog). Planned C2/C3/C5
+> carried to the [rollout backlog](../research-rollout-backlog-2026-05-29.md). Close evidence:
+> [`uat-wave-r-plus-5-close-2026-05-29.md`](../reports/uat-wave-r-plus-5-close-2026-05-29.md)
+> (regression 6-clean/1-drift/47-gap all pre-existing-baseline; index 7-fresh + IDX-04 cleared this
+> commit; UAT validator PASS; PWF governance CLEAN).
 
 ## 0. Ratified shape [ratified]
 

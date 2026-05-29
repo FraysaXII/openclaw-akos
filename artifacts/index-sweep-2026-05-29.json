@@ -1,0 +1,94 @@
+{
+  "report_id": "index-sweep-2026-05-29",
+  "sweep_trigger": "wave_close",
+  "swept_at": "2026-05-29",
+  "swept_by": "Founder",
+  "findings": [
+    {
+      "dimension_code": "IDX-01-PLANNING-README-INITIATIVE-COUNT",
+      "index_path": "docs/wip/planning/README.md",
+      "verdict": "fresh",
+      "drift_summary": "",
+      "proposed_fix_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "folder_count=74 == registry_count=74"
+    },
+    {
+      "dimension_code": "IDX-02-PRECEDENCE-CSV-COVERAGE",
+      "index_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md",
+      "verdict": "fresh",
+      "drift_summary": "",
+      "proposed_fix_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "all 35 CSVs mentioned in PRECEDENCE.md"
+    },
+    {
+      "dimension_code": "IDX-03-CHANGELOG-WAVE-COVERAGE",
+      "index_path": "CHANGELOG.md",
+      "verdict": "fresh",
+      "drift_summary": "",
+      "proposed_fix_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "CHANGELOG.md mentions Wave-R"
+    },
+    {
+      "dimension_code": "IDX-04-INITIATIVE-DEPENDENCIES-FRESHNESS",
+      "index_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md",
+      "verdict": "drift",
+      "drift_summary": "INITIATIVE_REGISTRY.csv changed 8d after INITIATIVE_DEPENDENCIES.md last edit (threshold=7d)",
+      "proposed_fix_action": "review registry diffs since deps last-edit + update dependency narrative + bump deps last-edit timestamp",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "manual prose write — runbook does not auto-edit narrative"
+    },
+    {
+      "dimension_code": "IDX-05-USER-GUIDE-ROLE-PROCESS-COUNTS",
+      "index_path": "docs/USER_GUIDE.md",
+      "verdict": "fresh",
+      "drift_summary": "",
+      "proposed_fix_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "baseline=70roles / process_list=1186; no contradicting counts found in USER_GUIDE"
+    },
+    {
+      "dimension_code": "IDX-06-ARCHITECTURE-HLK-REGISTRY-COVERAGE",
+      "index_path": "docs/ARCHITECTURE.md",
+      "verdict": "fresh",
+      "drift_summary": "",
+      "proposed_fix_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "all 26 dimension CSVs mentioned in ARCHITECTURE.md"
+    },
+    {
+      "dimension_code": "IDX-07-PLANNING-FOLDER-FILESYSTEM-PARITY",
+      "index_path": "docs/wip/planning/README.md",
+      "verdict": "fresh",
+      "drift_summary": "",
+      "proposed_fix_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "all 74 folders FK-resolved in README; all 74 README links FK-resolved on filesystem"
+    },
+    {
+      "dimension_code": "IDX-08-QUALITY-FABRIC-SPECIALTY-COUNT",
+      "index_path": "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md",
+      "verdict": "fresh",
+      "drift_summary": "",
+      "proposed_fix_action": "",
+      "candidate_decision_id": null,
+      "severity": "low",
+      "notes": "all 10 *_DISCIPLINE.md files referenced in HOLISTIKA_QUALITY_FABRIC.md"
+    }
+  ],
+  "fresh_count": 7,
+  "drift_count": 1,
+  "gap_count": 0,
+  "blocked_count": 0,
+  "skip_count": 0,
+  "total_findings": 8
+}
