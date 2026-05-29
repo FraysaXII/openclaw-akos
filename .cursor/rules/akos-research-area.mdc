@@ -1,0 +1,56 @@
+---
+alwaysApply: true
+---
+# AKOS Research Area Identity
+
+Use this rule whenever touching any Research surface (canonical disciplines, the
+Tier-1 WIP at `docs/wip/intelligence/`, the operational/legacy `Admin/O5-1/Research/`
+tree, or the I75 research-area-governance initiative). It exists because agents
+**repeatedly forgot what Research is** and where its pieces live — drifting into rogue
+folders and burning excessive recovery cost. **Read the anchor first:**
+[`docs/references/hlk/v3.0/Research/README.md`](../../docs/references/hlk/v3.0/Research/README.md).
+
+## RULE 1 — Research is the CORPINT lifecycle, not a research-action queue (binding)
+
+Research is Holistika's corporate-intelligence operating system across the full
+information lifecycle: **acquire → share → process → store → recall → protect**, over a
+variety of subjects (each with owners + topics + data models + surfaces/channels/
+audiences + use-cases/projects/programs). Do **not** collapse Research to "run a
+research-action and move on." Research Action
+([`RESEARCH_ACTION_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md))
+is the ACQUIRE/PROCESS slice — one discipline, not the area. The thin stages today are
+**SHARE/OUTAKE, RECALL, PROTECT** (counter-intelligence).
+
+## RULE 2 — The homes (do not re-derive; do not drift) (binding)
+
+- **Canonical SSOT:** `docs/references/hlk/v3.0/Research/<discipline>/canonicals/` (Methodology / Intelligence / Diagnosis / Validation). New research disciplines land here as Methodology siblings.
+- **Tier-1 WIP (Research-owned, cross-area):** `docs/wip/intelligence/` — correct **by design** (`D-IH-70-O` + blueprint §17). **Never** move/rename it without a topology decision superseding `D-IH-70-O`, and **never** invent a new generic `docs/wip/<name>/` for research WIP.
+- **Operational / legacy (mid-migration):** `docs/references/hlk/v3.0/Admin/O5-1/Research/`.
+- **Topic SSOT:** `TOPIC_REGISTRY.csv`; Trello backlog index is evidence, not SSOT.
+
+## RULE 3 — Ownership (binding)
+
+Research Director (KM Officer steward; PMO/Founder interim until the role activates).
+Holistik Researcher / Lead Researcher / Intelligence Analyst execute. The
+research-area governance buildout is **I75**.
+
+## When this rule does NOT apply
+
+- Non-Research areas (each gets its own area-identity anchor over time).
+- People-owned cross-area research *methodology* (that is [`akos-applied-research-discipline.mdc`](akos-applied-research-discipline.mdc) + `RESEARCH_HEAD_DISCIPLINE.md`); this rule is the Research **area** map.
+
+## Anti-patterns (the amnesia failure mode this rule prevents)
+
+- Treating Research as a flat research-action queue (it is the CORPINT lifecycle).
+- Inventing a new `docs/wip/<name>/` home (e.g. `research-ops/`) instead of `docs/wip/intelligence/`.
+- Proposing to physically move `docs/wip/intelligence/` (contradicts the ratified topology).
+- Mistaking Research Action (intake) for the whole area.
+- Re-deriving the area structure from scratch instead of reading the anchor README first.
+
+## Cross-references
+
+- Area-identity anchor (read first): [`Research/README.md`](../../docs/references/hlk/v3.0/Research/README.md).
+- Area charter: [`RESEARCH_AREA_CHARTER.md`](../../docs/references/hlk/v3.0/Research/canonicals/RESEARCH_AREA_CHARTER.md).
+- Harmonization plan: [`Wave R+5`](../../docs/wip/planning/86-initiative-cluster-execution-coordinator/tranches/wave-r-plus-5-research-radar-and-governance-integrity.md).
+- Research Radar: [`charter`](../../docs/wip/intelligence/research-radar-2026-05-29/charter-2026-05-29.md).
+- Sister rules: [`akos-research-action.mdc`](akos-research-action.mdc), [`akos-applied-research-discipline.mdc`](akos-applied-research-discipline.mdc), [`akos-people-discipline-of-disciplines.mdc`](akos-people-discipline-of-disciplines.mdc).
