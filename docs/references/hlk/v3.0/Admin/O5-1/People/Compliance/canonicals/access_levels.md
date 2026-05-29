@@ -20,6 +20,8 @@ language: en
 
 This document freezes the canonical access level taxonomy used across all HLK systems, baselines, and compliance surfaces. Access levels govern the security clearance required to interact with data, processes, and organisational assets.
 
+> **Cross-area reciprocal pointer (Research PROTECT join, `D-IH-75-H`).** This lattice is the **People/Compliance side** of the Research area's PROTECT lifecycle stage — the protection triad in which Research/Intelligence owns source protection, People/Ethics owns the red lines, and **People/Compliance owns access + confidence + redaction** (this taxonomy + [`confidence_levels.md`](confidence_levels.md) + [`source_taxonomy.md`](source_taxonomy.md)). Research authors investigative artefacts under a stated access level; this taxonomy governs who may recall, surface, or redact them. See [`RESEARCH_LIFECYCLE_DOCTRINE.md`](../../../../../Research/canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md) §5 + §6.3. Reciprocal pointer authored under founder-RACI delegation (Research = Responsible; Compliance = Consulted; operator = Accountable).
+
 ## Access Level Definitions
 
 | Level | Name | Description | Typical roles |

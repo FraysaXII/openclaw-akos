@@ -196,3 +196,4 @@ Machine indexes (SQLite FTS, embeddings, graph projections) are **derived** and 
 - [confidence_levels.md](confidence_levels.md)
 - [source_taxonomy.md](source_taxonomy.md)
 - [SOP-META_PROCESS_MGMT_001.md](SOP-META_PROCESS_MGMT_001.md)
+- [RESEARCH_LIFECYCLE_DOCTRINE.md](../../../../../Research/canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md) — **reciprocal pointer (STORE + RECALL join).** Research's CORPINT information lifecycle authors *what is worth storing* (the Topic-Fact-Source shape + reliability stamp); this KM contract + its derived indexes (Neo4j projection, KiRBe ingestion, MCP surfaces) are the **Tech / KB side** of the STORE + RECALL joins (`D-IH-75-G` §5). Research = Responsible for the fact shape; Tech = owner of the store + retrieval infra; operator = Accountable. Authored under founder-RACI delegation per the KB-integrity I81 reciprocal-pointer follow-up.

@@ -125,11 +125,23 @@ into). The four joins below are the seams where the CORPINT lifecycle crosses in
 | **PROTECT -> People/Ethics + People/Compliance** | Source protection; GOI/POI stance; legal+ethical collection floor. | The ethical red lines; access levels; confidence taxonomy; redaction. | `ETHICAL_AGENTIC_BOUNDARIES.md`; `access_levels.md`; `confidence_levels.md`. |
 
 **Single-ownership safeguard (per founder ratification + KB-integrity I81).** This doctrine
-documents **Research's side** of each join. It does **not** unilaterally edit the sister areas'
-canonicals. The reciprocal pointers (Marketing's render-side note, Tech's KB-side note,
-People/Ethics' counter-intelligence-boundary note) are **governed follow-ups** that the owning area
-ratifies — tracked so the work *helps* those areas rather than imposing on them. See §6.3 forward
-work + the area charter §6.
+documents **Research's side** of each join. The **reciprocal pointers** in the sister-area
+canonicals were authored 2026-05-29 under **founder-RACI delegation** (Research = Responsible for
+the join doctrine; the sister area = Consulted; operator = Accountable) — each is a short
+cross-reference back to this §5, not a rewrite of the sister canonical, honouring single-ownership:
+
+| Join | Sister canonical that now carries the reciprocal pointer | Where |
+|:---|:---|:---|
+| STORE + RECALL -> Tech/KB | [`HLK_KM_TOPIC_FACT_SOURCE.md`](../../Admin/O5-1/People/Compliance/canonicals/HLK_KM_TOPIC_FACT_SOURCE.md) | References |
+| SHARE -> Marketing/Brand | [`BRAND_BASELINE_REALITY_MATRIX.md`](../../Admin/O5-1/Marketing/Brand/canonicals/BRAND_BASELINE_REALITY_MATRIX.md) | §6 Related canonicals |
+| PROTECT (red lines) -> People/Ethics | [`ETHICAL_AGENTIC_BOUNDARIES.md`](../../Admin/O5-1/People/Ethics/canonicals/ETHICAL_AGENTIC_BOUNDARIES.md) | §5 Cross-references |
+| PROTECT (access/confidence) -> People/Compliance | [`access_levels.md`](../../Admin/O5-1/People/Compliance/canonicals/access_levels.md) | Description |
+
+The **deeper** cross-area ratification — minting the full Counter-Intelligence discipline, which
+the PROTECT triad co-owners (People/Ethics + People/Compliance) must sign off — remains the forward
+gate recorded at `D-IH-75-H` (§6.3). The pointers inform + consult; the mint is the ratify. Tracked
+at `OPS-86-28` (pointers, closed 2026-05-29) + the counter-intelligence successor. See the area
+charter §6.
 
 ## 6. Closing the three thin stages
 
