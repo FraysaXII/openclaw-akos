@@ -139,7 +139,93 @@ Per the [Wave R+5 plan](tranches/wave-r-plus-5-research-radar-and-governance-int
 Priority key: **P1** = this rollout / next wave; **P2** = near-term (Wave S–T band); **P3** =
 forward (when its trigger fires).
 
-## 7. Maintenance contract (how the path stays alive)
+## 7. Two-seat execution routing (Opus-seat first → Composer long-run)
+
+> *"Organize it so Opus work goes first, then Cursor can long-run."* This is the
+> [model-routing map](../../intelligence/model-selection-2026-05-28/model-routing-map.md) Layer 0 +
+> [`akos-aic-delegation.mdc`](../../../../.cursor/rules/akos-aic-delegation.mdc) RULE 2 applied to the
+> backlog. The **thinking seat (Opus)** turns each item into a **bounded packet** (files to touch,
+> validators to run, decisions to cite, acceptance check) *before* any heavy execution; the
+> **execution seat (Composer / subagents)** then **long-runs** the mechanical, well-specified work in
+> the background. Judgment stays foreground; mechanical work goes background.
+
+### 7.1 Per-item seat routing
+
+| Item | Seat | What the Opus seat produces (the packet) | What the Composer seat long-runs |
+|:---|:---|:---|:---|
+| A1 Counter-Intel discipline | **Opus** | doctrine skeleton + co-ratification gate framing | (later) validator + CSV surfaces |
+| A2 Legacy SSOT migration | **Hybrid** | the exact ripple spec (already in the migration proposal) + go/no-go gate | the `git mv` + PRECEDENCE/validator/glob/mirror ripple |
+| A3 OUTAKE SOP | **Opus** | SOP prose (judgment) | — |
+| A4 Derived-recall canonical | **Opus** | canonical prose | — |
+| A5 Per-discipline SOP buildout | **Hybrid** | each SOP's shape + decisions | repetitive SOP scaffolding + process_list rows |
+| A6 files-modified backfill | **Composer** | (none — fully specified below) | author the CSV rows against the 18-col schema |
+| B1–B3 Cross-area pointers | **Opus** (+ sister-area ratify) | the proposed pointer prose per area | — |
+| C1 Data-consumer/ETL inventory | **Hybrid** | the inventory schema (columns below) | crawl + author each consumer row (long-run) |
+| C2 Multi-channel feed delivery | **Hybrid** | feed-product shape + channel mapping | code the channel adapters (long-run engineering) |
+| C3 Data-ops readiness | **Opus** | the readiness assessment | — |
+| C4 Data-quality + metadata bar | **Opus** (+ Composer validator) | the bar doctrine | the validator |
+| C5 KiRBe ingestor wiring | **Composer** | ingest spec | the ingestor code (under I83) |
+| D1 promote candidates + charters | **Opus** | promotion decisions + canonical-CSV gate | — |
+| D2 I75/I83 kit backfill + TOPIC | **Hybrid** | kit shape | decision-log/risk/files-modified + TOPIC rows |
+| D4 R+5-close | **Hybrid** | verdict + finding disposition | run the sweeps + scaffold the UAT report |
+| E2 lifecycle → ERP panel | **Composer** | panel spec | the TSX (under I89) |
+
+### 7.2 Recommended run order
+
+- **Phase 1 — Opus seat (foreground, now):** make the doctrine/decision/gate calls (A1, A3, A4, C3,
+  C4, D1, D3) **and** write the bounded packets for the front-of-queue Composer items (A2, A6, C1,
+  D2). Opus output = the specs that unblock the background fleet.
+- **Phase 2 — Composer seat (background, long-run):** execute the packets in parallel subagents —
+  the migration ripple (A2), the inventory crawl (C1), the files-modified authoring (A6), the kit +
+  TOPIC CSVs (D2), the sweep + UAT scaffold (D4), the feed adapters (C2) + ERP panel (E2). Escalate
+  back to Opus on 2 misreads or any validator FAIL (the latter is a blocker, not a delegation).
+
+### 7.3 Three worked bounded-packets (Composer can pick these up as-is)
+
+1. **A6 — files-modified backfill** (ready now; no Opus dependency): *files* = the I86
+   `files-modified.csv`; *rows* = one per file in commits `2839f22` + `60eae28` (enumerated in the
+   CHANGELOG entries); *schema* = the 18-column per-initiative file-changes schema per
+   `akos-planning-traceability.mdc`; *validators* = none (backfill-allowed); *acceptance* = row count
+   matches `git show --stat` for both commits.
+2. **A2 — legacy SSOT migration** (Opus/operator gate first): *files + ripple* = exactly the table in
+   the [migration proposal](../../intelligence/legacy-research-admin-migration-proposal-2026-05-29.md);
+   *validators* = `validate_hlk` + `validate_compliance_schema_drift` + `validate_hlk_vault_links` +
+   `research_radar_sweep`; *acceptance* = all PASS + zero broken links + the two cursor-rule globs
+   updated.
+3. **C1 — data-consumer/ETL inventory** (Opus specs schema; Composer crawls): *schema* = `consumer |
+   role_in_flow | data_shape | freshness | access | dama_area`; *sources to crawl* = KiRBe repo +
+   sources, hlk-erp, KB (Obsidian/KM), Supabase migrations, orchestration configs, RPA configs;
+   *acceptance* = every consumer named in §3.2 has a row + a DAMA-area tag.
+
+## 8. Owning-initiative attribution (KPIs land on the initiative, not on I86)
+
+> Operator correction (2026-05-29): *"I86 is coordinating, but we actually work the initiatives as we
+> roll out I86 — otherwise our KPIs would be broken."* So every item's **KPI credit lands on its
+> owning initiative**; I86 only coordinates the wave. The OPS rows encode this as
+> `originating_initiative_id = I86` (where minted) + `forwarded_to_initiative_id = <owning initiative>`
+> (where the work + KPI land).
+
+| Theme / item | Owning initiative (KPI) | OPS forwarding | Wires with |
+|:---|:---|:---|:---|
+| A1 / A3 / A4 / A5 (area-build) | **I75** (Research area governance) | `OPS-86-26/27` → I75 | People/Ethics + Compliance (A1) |
+| A2 (legacy migration) | **I75** | `OPS-86-26` → I75 | — |
+| A6 (files-modified) | **I86** (coordination meta) | `OPS-86-31` (I86-internal) | — |
+| B1–B3 (cross-area pointers) | **I88** (cross-area Ops wiring) | `OPS-86-28` → I88 | Marketing(I72-closed) / Tech / People |
+| C1 (data-consumer inventory) | **I88** (cross-area wiring artifact) | `OPS-86-29` → I88 | I83 + DAMA candidate |
+| C2 (feed delivery) | **I83** (KiRBe serves the feed) | `OPS-86-30` → I83 | DAMA candidate + I89 |
+| C3 / C4 (data-ops + quality) | DAMA candidate → promote | (candidate) | I75 + I88 |
+| C5 (KiRBe ingestor) | **I83** | (I83 phase) | DAMA candidate |
+| D1–D4 (Wave R+5 chunks) | **I75** + **I83** (worked); I86 coordinates | (per chunk) | — |
+| E2 (ERP panel) | **I89** | (I89 phase) | I83 |
+| E3 (ReOps substrate) / E4 (cross-area wiring) | **I88** | `OPS-86-22/23` | I75 + FINOPS |
+
+**Backfill + wiring discipline (the PM flex):** when a Composer batch executes an item, it (a) lands
+the work in the **owning initiative's** folder (its `files-modified.csv` + decision-log), (b) closes
+the `OPS-86-*` row with the commit sha, and (c) flips the status here. The DAMA candidate promotes to
+a real INITIATIVE_REGISTRY row before its C-rows draw KPI credit (today they forward to I88/I83 as
+the active interim homes).
+
+## 9. Maintenance contract (how the path stays alive)
 
 This is the *"as PMs do — create the path and maintain it"* half. The backlog is maintained, not
 abandoned:
@@ -157,8 +243,9 @@ abandoned:
    are the canonical machine-readable backlog; this file is the human-readable themed view. When they
    disagree, the CSV wins.
 
-## 8. Cross-references
+## 10. Cross-references
 
+- Model-routing map (the two-seat workflow this backlog is routed by): [`model-routing-map.md`](../../intelligence/model-selection-2026-05-28/model-routing-map.md) + [`akos-aic-delegation.mdc`](../../../../.cursor/rules/akos-aic-delegation.mdc).
 - The move that spawned this backlog: [`RESEARCH_LIFECYCLE_DOCTRINE.md`](../../../references/hlk/v3.0/Research/canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md) (`D-IH-75-G`).
 - Coordinating wave: [Wave R+5 plan](tranches/wave-r-plus-5-research-radar-and-governance-integrity.md) · cluster coordinator [I86 master-roadmap](master-roadmap.md).
 - Substantive home: [I75 Research area governance](../75-research-area-governance/master-roadmap.md).
