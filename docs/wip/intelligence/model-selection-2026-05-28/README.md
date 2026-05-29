@@ -11,33 +11,59 @@ linked_canonicals:
   - docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md
 ---
 
-# Model selection — research action folder
+# Model selection — research action folder (Option B)
 
-> A governed research action answering: which AI model should drive
-> Holistika's Cursor work, and how do we switch to a cheaper one with
-> confidence? Built with the research-to-decision discipline (the rulebook
-> that makes sure research gets logged with sources + trust scores before
-> it drives a decision).
+> Governed research action: **which models** should drive Holistika work
+> across Cursor IDE, open-source/self-hosted LLMs, and image/video/3D —
+> built with the **research-to-decision discipline** (source ledger with
+> trust scores → prong syntheses → master rollup → routing map).
 
 ## What's here
 
 | File | What it is |
 |:---|:---|
-| `source-ledger.csv` | The log of every source used, with where it came from + how much we trust it + how credible others would find it. 10 public-web sources, all routine/low-risk. |
-| `recommendation-note.md` | The one-page answer: route by session — cheap model (Composer 2.5) for execution, expensive model (Opus) for interpretation; keep the OpenAI model (Codex) off the interpretation lane. |
-| `field-test-note.md` | The practical switch-with-a-safety-net guide, including the deliberate test: have the cheap model try to expand this note into the full open-source + video/image/3D map, then judge it on three checks. |
+| `source-ledger.csv` | **25** scored sources (MS + MS-OSS + MS-MM prongs) |
+| `recommendation-note.md` | Executive summary — start here |
+| `model-routing-map.md` | Task → model class lookup table |
+| `prong-ms-open-source-llms-and-local-routing.md` | OSS / RunPod / Ollama prong |
+| `prong-ms-multimodal-image-video-3d.md` | Image / video / 3D prong |
+| `master-synthesis.md` | Cross-prong rollup + decision questions |
+| `research-action-pack.md` | Pack contract + operating-loop status |
+| `operator-ratification-2026-05-28.md` | DQ-MS-01..06 operator verdicts |
+| `field-test-note.md` | Composer 2.5 safety net + iteration log |
 
-## Why this is minimal on purpose
+## Scope
 
-Scope was set to "Cursor models only, now" for budget reasons. The full
-map (open-source models + multi-format: video / image / 3D) is deferred
-and **doubles as the field test** of whether the cheap model can do
-Holistika's interpretive research work. Expanding this folder is the test
-task, not separate busywork.
+- **In scope:** routing recommendations, WIP syntheses, internal CORPINT
+  cross-refs (`model-catalog.json`, substrate audit).
+- **Out of scope (forward-charter):** `MEDIA_GENERATION_REGISTRY.csv`, Supabase
+  mirrors — require canonical CSV gate.
+- **In scope (ratified 2026-05-28):** `SUBSTRATE_REGISTRY.csv` **candidate**
+  rows for DeepSeek V4 + Kimi K2.6 (DQ-MS-03).
+
+## Field test (Composer 2.5)
+
+Option B expansion **is** the interpretive field test. See
+`field-test-note.md` §"Iteration 1" for agent self-assessment; operator
+fills §"Your verdict".
+
+## Validator
+
+```powershell
+py scripts/validate_research_action.py --source-ledger docs/wip/intelligence/model-selection-2026-05-28/source-ledger.csv
+```
 
 ## Status
 
-This is Tier-1 working intelligence (a draft research output), not a
-frozen canonical. When the field test reports back, the result gets
-recorded in the source log's iteration stage so the model-selection
-decision becomes durable instead of living in one chat.
+Tier-1 WIP intelligence (`draft`). Governance decisions DQ-MS-01..06
+**ratified** 2026-05-28 — see `operator-ratification-2026-05-28.md`. Composer
+field-test operator verdict still optional in `field-test-note.md`.
+
+## Sibling research action
+
+The model-routing directive (which model-seat drives which session) is an
+instantiation of a broader agentic-entity taxonomy. That taxonomy + the
+"is AKOS an agentic operating system?" question is researched separately at
+[`../agentic-os-and-aic-taxonomy-2026-05-29/`](../agentic-os-and-aic-taxonomy-2026-05-29/)
+(spawned 2026-05-29 from this folder's routing conversation). Read its
+`master-synthesis.md` before homing or minting any model-routing rule.

@@ -13,69 +13,136 @@ linked_research_sources:
 
 # Switching to the cheap model with a safety net
 
-> A short, practical note so you can switch to the cheap Cursor model
-> (Composer 2.5) today and judge it yourself, without flying blind.
+> Practical note so you can use **Composer 2.5** for build work and judge
+> whether it also handles interpretive research — without flying blind.
 
 ## Switch now, like this
 
-- Set your Cursor model to **Composer 2.5 — Fast variant** for everyday
-  build sessions.
-- Keep the **expensive thinking model (Opus)** one click away for the
-  sessions flagged below.
+- Set Cursor to **Composer 2.5 — Fast** for everyday build sessions.
+- Keep **Opus** one click away for thinking sessions (see below).
 
-## The test we are running (this is your "Option B" check)
+## The test we ran (Option B)
 
-You asked: would the *bigger* model-selection map (open-source models +
-video/image/3D) be do-able under the cheap model? Rather than guess, the
-**expansion of the model-selection note into that full map is the test
-task.** Next time you are on the cheap model, ask it to extend the
-recommendation note to cover open-source and multi-format models, using
-the same research-to-decision discipline (log every source, score its
-trust, then synthesise).
+You asked whether the **full model-selection knowledge base** (open-source
++ video/image/3D, not just Cursor trio) could be built on Composer instead
+of Opus. **That expansion is Iteration 1 of this field test.**
 
-Then judge the output against the three checks below. That single task
-tells you whether the cheap model can do Holistika's interpretive
-research work — which is the real thing you need to know.
+Deliverables produced on Composer 2.5:
 
-## What to watch for (the three judging checks)
+- 25-row `source-ledger.csv` (was 10)
+- 2 prong syntheses (OSS + multimodal)
+- `master-synthesis.md`, `research-action-pack.md`, `model-routing-map.md`
+- Updated `recommendation-note.md` + this README
 
-1. **Did it interpret correctly?** Did it understand what you actually
-   asked, or did it answer a narrower/more literal version? Mis-reading
-   intent is the #1 risk with a coding-tuned model.
-2. **Did it log its sources honestly?** A real research action produces a
-   source log with trust scores — including at least one skeptical
-   source — not just confident prose. If the prose is confident but the
-   source log is thin or one-sided, that is the "research-as-decoration"
-   failure.
-3. **Did it surface choices, or just declare a conclusion?** Good
-   interpretive work gives you ranked options with reasons and lets you
-   pick. A flat single answer presented as settled is a warning sign.
+## Three judging checks (for you)
 
-## When to switch back up to the expensive model (Opus)
+1. **Did it interpret correctly?** Did Option B mean *full KB wired to
+   standards*, not another minimal stub?
+2. **Did it log sources honestly?** 25 ledger rows incl. skeptic sources
+   (SRC-MS-16/17/25); CORPINT rows for substrate audit + model-catalog.
+3. **Did it surface choices?** Ranked options A–D in OSS prong; lanes +
+   deferrals in multimodal prong — not flat hype.
 
-Switch back up the moment any of these is true:
+## Agent self-assessment — Iteration 1 (2026-05-28)
 
-- You are handing over a **complex new direction** or a dense,
-  multi-threaded message (like the one that triggered this note).
-- The output **misreads your intent** twice in a row.
-- The task is **mostly judgment** (deciding scope, resolving a
-  contradiction, drafting doctrine prose) rather than mechanical edits.
-- Something is **irreversible or high-stakes** (commercial terms, a
-  customer-facing send, a brand decision).
+| Check | Self-score | Notes |
+|:---|:---|:---|
+| Intent preserved | **Pass (agent view)** | Full Option B artifact set; Wave R+4 shape mirrored |
+| Source log quality | **Pass (agent view)** | 25 rows; ≥3 skeptic/Euclid counter-sources |
+| Ranked options | **Pass (agent view)** | Options + DQ-MS-01..06; operator ratified govern stage 2026-05-28 |
+
+**Operator verdict (Composer field test):** **It held** — rendered by Opus 4.8
+Max on the operator's explicit delegation 2026-05-28 ("evaluate Composer in my
+stead"). Assessment: Composer passed the hard part — the DQ-MS-02 interpretive
+pass (emotionally-loaded, politically-sensitive, typo-heavy input on neutrality
++ model origin) was distilled into "law-bound neutrality" WITHOUT flattening to
+corporate hedging, injecting a political stance, or losing the silent-internal-
+preference vs public-neutrality distinction. DQ-MS-01 resolved as a genuine
+both-and (flexibility + best practice → engagement-scoped hybrid), not a binary
+punt. Mechanical work (5-doc propagation, 2 substrate rows, validators PASS)
+clean. One coherence slip caught + fixed by Opus: Kimi row cited the .cn audit
+domain on a residency-sensitive vendor (corrected to moonshot.ai). Weakest
+evidence in the pack was the agent's own self-grading (3× "Pass (agent view)") —
+this operator-delegated Opus pass is what closes that loop. **Routing
+implication:** earned cheap-default for interpretive+execution work at this
+complexity tier; reserve Opus for genuinely contested judgment calls.
+
+**Operator verdict (governance DQ-MS-01..06):** **Ratified** — see
+[`operator-ratification-2026-05-28.md`](operator-ratification-2026-05-28.md).
+
+## Iteration 2 — Composer plan, Opus regression (2026-05-29)
+
+Second data point on the same routing thesis. Composer 2.5 authored the AIC
+delegation rollout plan; Opus 4.8 ran a benchmark regression over it.
+
+| Check | Result | Notes |
+|:---|:---|:---|
+| Structure / citations from given context | **Pass** | Phased, gated, mermaid; correct on F5, registry counts, jargon-gate ownership |
+| Independent verification of ground truth | **Miss** | Proposed to "mint" a per-task registry + model + validator that already existed — trusted a stale roadmap; never checked repo state |
+
+**Routing implication (reinforces Iteration 1):** the execution model is strong
+for structured authoring **when handed accurate context**, but should not own the
+context-verification step on canonical-CSV work — keep that on the thinking seat.
+Now codified in [`akos-aic-delegation.mdc`](../../../../.cursor/rules/akos-aic-delegation.mdc)
+RULE 2 + [`aic-delegation-craft`](../../../../.cursor/skills/aic-delegation-craft/SKILL.md).
+
+## Iteration 3 — trust calibration + the meaning of regression (2026-05-29)
+
+Third data point — and the first where the regression graded the **whole
+human–AI system**, not just the model. Triggered by a late-night session where
+the operator was (rightly) impressed by Composer's reasoning and asked two
+things: raise the trust dial without overselling, and explain why a "finished"
+plan still wanted an approval before build.
+
+| Finding | About | Verdict |
+|:---|:---|:---|
+| Reasoning over given context is strong (Fast-vs-Standard explainer; Opus-vs-Composer structuring) | the model | **Raise the dial** — trust Composer for synthesis, explanation, bounded reasoning, execution |
+| Independent ground-truth verification ("does this file already exist?") | the model | **Hold the guardrail** — instruct "verify first / stop on collision" or keep on the thinking seat for canonical work |
+| An approval gate was not visible at build time → felt like a surprise | the **workflow** | **Fix the discipline, not the model** — gates legible at build time (now in the craft skill, Pattern 6) |
+
+**The meaning of regression (operator framing):** regression is not "grade the
+AI"; it is examining the *whole loop* with no tunnel vision to deepen
+understanding and improve the system — the way the operator runs it with human
+teams. Two of the three findings above were about *us* (trust calibration +
+workflow legibility), not the model. The model became a mirror for the operating
+discipline.
+
+**Calibrated routing (supersedes the Iteration 1/2 dial):** Composer earns a
+higher default for reasoning + synthesis + execution. The *only* standing
+guardrail is independent verification of ground truth on canonical / irreversible
+work — and that guardrail is a one-line instruction ("verify it doesn't already
+exist; stop and report on collision"), not a reason to withhold the work.
+
+**Addendum — the operator regressed the doctrine itself (2026-05-29):** later the
+same day the operator caught a *stale fact in our own delegation rule* — it said
+Cursor "can't switch models / subagents are the only lever," but the operator
+could see Plan-mode + `/multitask` model assignment in the UI. Verified against
+Cursor docs + the 3.2 changelog: the operator was right. The agent can't switch
+its *own* foreground model, but the operator has native per-workflow levers
+(Plan-mode planning-model selector; Build-in-parallel; `.cursor/agents/*.md`
+`model:` field). Corrected across the rule, the skill, and the routing map. This
+is the discipline working in *both* directions — the AI caught the operator's
+stale roadmap (Iteration 2); the operator caught the AI's stale doctrine (here).
+Neither is the authority; the loop is.
+
+## When to switch back to Opus
+
+- Complex new direction or dense multi-threaded message
+- Misread intent **twice in a row**
+- Mostly judgment (scope, doctrine, contradictions)
+- Irreversible / high-stakes (commercial, customer send, brand)
 
 ## What "good enough" looks like
 
-If, after the expansion task, the cheap model passed all three judging
-checks and you did not feel the urge to switch back up — you have earned
-your cheap default with evidence, and we record it as a confirmed
-finding. If it slipped on interpretation, you have found the exact
-boundary, which is just as valuable: cheap model for execution, expensive
-model for thinking. Either outcome is a win because you will *know*
-instead of guess.
+If you pass all three checks on this KB and don't feel the urge to re-run
+on Opus → **earned cheap default for interpretive research at this
+complexity tier.**
+
+If interpretation slipped → **cheap for execution, Opus for thinking**
+— still a win because the boundary is known.
 
 ## Reporting back
 
-Whatever you observe, tell me in one line next session ("it held" / "it
-misread X" / "source log was thin"). I will record it as the test result
-in the source log's iteration stage, so the decision is durable and not
-trapped in one chat.
+One line next session updates this note + source-ledger `notes` column
+on SRC-MS-10 (iteration anchor). Makes the decision durable, not
+chat-trapped.

@@ -1,0 +1,127 @@
+---
+description: >-
+  Operator-tooling rule for AIC delegation — how the operator routes work
+  between a foreground "thinking seat" (Opus / thinking models, for judgment,
+  scope, doctrine, messy multi-part input) and background "execution seats"
+  (Composer-pinned subagents, for multi-file edits, validators, git, CSV work).
+  Advisory only: Cursor cannot auto-switch the foreground model, so this rule
+  recommends switches + subagent dispatch; the operator chooses. Names models
+  freely (cursor rules are operator-tooling, exempt from the People-canonical
+  jargon gate). Ratified 2026-05-29 (DQ-TAX-04 advisory-only; F5 per D-IH-84-C).
+globs:
+  - "docs/wip/intelligence/model-selection-2026-05-28/model-routing-map.md"
+  - ".cursor/skills/aic-delegation-craft/SKILL.md"
+alwaysApply: false
+---
+
+# AKOS AIC Delegation
+
+Use this rule when deciding **which model-seat drives a piece of work** in
+Cursor, or when an active model should recommend a seat switch or a subagent
+dispatch. It is the *cross-AIC* model-routing policy (consumed by any AIC,
+not owned by MADEIRA). Ratified 2026-05-29: model-seat routing is **advisory**
+(DQ-TAX-04) and inherits the operator-picks-per-task framing (F5 per
+`D-IH-84-C`).
+
+This is **operator-tooling**, not a People canonical — so it may name Opus,
+Composer, Codex, subagents, etc. The People-canonical jargon gate
+([`akos-people-discipline-of-disciplines.mdc`](akos-people-discipline-of-disciplines.mdc)
+RULE 4) does **not** apply here. Doctrine canonicals still get a jargon-free
+forward pointer, never model names.
+
+## RULE 1 — Two seats (binding mental model)
+
+- **Foreground thinking seat** (Opus / thinking models): judgment, scope calls,
+  doctrine + canonical synthesis, messy multi-part operator input, anything
+  irreversible or contested. The operator talks to this seat first.
+- **Background execution seats** (Composer-pinned subagents via the Task tool /
+  background agents): bounded, well-specified mechanical work — multi-file
+  edits, validators, git hygiene, CSV row authoring against a fixed schema.
+
+The plain lookup is the routing-map Layer 0:
+[`model-routing-map.md`](../../docs/wip/intelligence/model-selection-2026-05-28/model-routing-map.md).
+
+## RULE 2 — Decompose before delegating (binding)
+
+The thinking seat turns messy operator input into **bounded packets** (files to
+touch, validators to run, decision IDs to cite, acceptance check) BEFORE any
+heavy execution is dispatched to an execution seat. Dispatching un-decomposed
+intent to an execution seat is the most common failure mode — the execution
+model pattern-matches instead of verifying. (Worked example: the 2026-05-29
+regression where a Composer-authored plan proposed to "mint" a registry that
+already existed; the thinking seat caught it. See the paired skill.)
+
+## RULE 3 — Self-detection triggers (advisory)
+
+When an active model detects it is in the wrong seat for the work, it should
+**recommend** a switch or a subagent dispatch (it cannot switch the foreground
+model itself — see RULE 5):
+
+- **Recommend the thinking seat** when the task involves: doctrine / canonical
+  edits, irreversible or commercial decisions, a canonical-CSV gate, a ≥5-file
+  refactor whose shape is unclear, or contradictory / multi-threaded input.
+- **Recommend dispatching to execution subagents** when the task is: a routine
+  CSV transform, a validator run, git hygiene, or a mechanical multi-file edit
+  against a settled plan.
+- **Stop, do not delegate** when a validator fails, a build breaks, or a
+  security / secret concern surfaces — that is a blocker per
+  [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc), not a
+  delegation decision.
+
+## RULE 4 — Switch back after two misreads (binding)
+
+If an execution seat misreads operator intent **twice in a row**, escalate the
+session back to the thinking seat. This is not a new ritual — it reuses the
+**knowledge-test cadence** already in the People agentic doctrine
+([`HOLISTIKA_AGENTIC_DOCTRINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_AGENTIC_DOCTRINE.md)):
+repeated misreads are the signal that doctrine absorption has degraded for this
+task class, and the thinking seat re-establishes it.
+
+## RULE 5 — The agent can't self-switch; the operator has native per-workflow levers (binding)
+
+Two distinct claims — keep them separate (an earlier draft conflated them):
+
+- **What the agent cannot do (true):** an active model cannot reprogram the
+  operator's *foreground* chat model mid-session. This rule stays **advisory** —
+  it *recommends* a seat; it does not switch one. Never claim or imply the agent
+  auto-switches the foreground model.
+- **What the operator CAN do natively (verified 2026-05-29; do not under-state
+  this):** Cursor exposes model assignment across exactly the workflows that
+  matter — **Agent mode** (model picker + Custom Modes), **Plan mode** (the
+  planning-model selector in the input, then *Build Locally* vs *Build in
+  parallel*, plus the explore-subagent model in Settings → Subagents), and
+  **`/multitask`** (per-subagent `model:` frontmatter in
+  `.cursor/agents/<name>.md`; verify it took — early versions fell back to
+  inherit). The two-seat split is therefore **operator-configurable**, not merely
+  advisory vibes; subagents are one lever, not the only one. Full how-to: the
+  paired skill Pattern 3.
+
+## Composition
+
+- Composes with [`akos-operator-communication.mdc`](akos-operator-communication.mdc):
+  recommendations use plain functional names first, model codes second.
+- The identity context (why a KB-first OS treats the KB as the end and agents as
+  its servants) lives in the taxonomy synthesis:
+  [`agentic-os-and-aic-taxonomy-2026-05-29/master-synthesis.md`](../../docs/wip/intelligence/agentic-os-and-aic-taxonomy-2026-05-29/master-synthesis.md).
+- The existing per-task registry
+  ([`MADEIRA_AIC_PER_TASK_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/MADEIRA_AIC_PER_TASK_REGISTRY.csv))
+  governs a *different* axis (which AIC, what tools, what permission per task);
+  per DQ-TAX-04 it is **not** changed by this advisory rule.
+
+## When this rule does NOT apply
+
+- Inside a People canonical (use a jargon-free pointer instead; never name models).
+- For blockers (validator failure, broken build, security) — those follow the
+  governance-remediation stop-and-report posture, not delegation.
+- For the machine-queryable model-seat-per-task question — that is deferred
+  (advisory-only today per DQ-TAX-04; revisit only if a tool needs to FK-resolve
+  a model seat).
+
+## Cross-references
+
+- Paired skill (the *how* layer): [`.cursor/skills/aic-delegation-craft/SKILL.md`](../skills/aic-delegation-craft/SKILL.md).
+- Routing lookup: [`model-routing-map.md`](../../docs/wip/intelligence/model-selection-2026-05-28/model-routing-map.md) Layer 0.
+- Taxonomy + identity: [`master-synthesis.md`](../../docs/wip/intelligence/agentic-os-and-aic-taxonomy-2026-05-29/master-synthesis.md) + [`operator-ratification-2026-05-29.md`](../../docs/wip/intelligence/agentic-os-and-aic-taxonomy-2026-05-29/operator-ratification-2026-05-29.md).
+- Model selection: [`recommendation-note.md`](../../docs/wip/intelligence/model-selection-2026-05-28/recommendation-note.md) + [`field-test-note.md`](../../docs/wip/intelligence/model-selection-2026-05-28/field-test-note.md).
+- Sister rules: [`akos-operator-communication.mdc`](akos-operator-communication.mdc), [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc), [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc).
+- Ratifying decisions: `D-IH-84-C` (F5 operator-picks-per-task); DQ-TAX-04 (advisory-only model-seat routing, 2026-05-29).
