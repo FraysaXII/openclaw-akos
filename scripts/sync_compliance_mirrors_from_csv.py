@@ -167,6 +167,85 @@ def _sql_text_literal(value: str) -> str:
     return "'" + value.replace("'", "''") + "'"
 
 
+def _sql_column_value(
+    column: str,
+    raw: str,
+    *,
+    date_columns: frozenset[str] = frozenset(),
+    numeric_columns: frozenset[str] = frozenset(),
+) -> str:
+    """Emit SQL for a mirror column; empty DATE/NUMERIC fields become NULL (I57 P1 pattern)."""
+    if column in date_columns and not raw:
+        return "NULL"
+    if column in date_columns:
+        return f"DATE {_sql_text_literal(raw)}"
+    if column in numeric_columns and not raw:
+        return "NULL"
+    if column in numeric_columns:
+        return raw
+    return _sql_text_literal(raw)
+
+
+def _sql_bool_or_null(raw: str) -> str:
+    """Emit TRUE/FALSE for non-empty bool strings; NULL when CSV cell is empty."""
+    if not raw:
+        return "NULL"
+    return "TRUE" if raw.lower() == "true" else "FALSE"
+
+
+_DECISION_REGISTER_DATE_COLUMNS = frozenset({"decided_at", "last_review_at"})
+_PROCESS_LIST_DATE_COLUMNS = frozenset({"last_review_at"})
+_PROCESS_LIST_NUMERIC_COLUMNS = frozenset(
+    {"min_rev_value_eur", "par_rev_value_eur", "max_rev_value_eur"}
+)
+_INITIATIVE_REGISTRY_DATE_COLUMNS = frozenset(
+    {"inception_date", "last_review", "closed_at", "archived_at", "last_review_at"}
+)
+_OPS_REGISTER_DATE_COLUMNS = frozenset({"opened_at", "closed_at", "last_review_at"})
+_OPS_REGISTER_NUMERIC_COLUMNS = frozenset(
+    {
+        "rice_reach",
+        "rice_impact",
+        "rice_confidence_pct",
+        "rice_effort_person_weeks",
+        "rice_score",
+    }
+)
+_CYCLE_REGISTER_DATE_COLUMNS = frozenset({"started_at", "closed_at"})
+_BASELINE_ORG_DATE_COLUMNS = frozenset({"last_review_at"})
+_REPO_HEALTH_DATE_COLUMNS = frozenset({"snapshot_date", "last_review_at"})
+_REPO_HEALTH_BOOL_COLUMNS = frozenset({
+    "has_external_repo_contract",
+    "has_akos_mirror_rule",
+    "embedded_obsidian_snapshot_present",
+    "ci_workflow_present",
+    "dependabot_present",
+    "codeowners_present",
+    "license_present",
+    "akos_mirror_sha256_match",
+})
+_REPO_HEALTH_INT_COLUMNS = frozenset({
+    "cursor_rule_count",
+    "brand_jargon_violations",
+    "secret_rotation_oldest_age_days",
+})
+_REPOSITORY_REGISTRY_DATE_COLUMNS = frozenset({
+    "last_review_at",
+    "created_at",
+    "pushed_at",
+    "last_inventory_at",
+})
+_REPOSITORY_REGISTRY_BOOL_COLUMNS = frozenset({
+    "codeowners_present",
+    "branch_protection_enabled",
+})
+_REPOSITORY_REGISTRY_NULLABLE_ENUM_COLUMNS = frozenset({
+    "app_class",
+    "github_visibility",
+    "governance_status",
+})
+
+
 def _emit_process_list_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
     cols_csv = ", ".join(PROCESS_LIST_FIELDNAMES)
     cols_full = cols_csv + ", source_git_sha, synced_at"
@@ -178,7 +257,15 @@ def _emit_process_list_upserts(rows: list[dict[str, str]], source_git_sha: str) 
     out.append("-- compliance.process_list_mirror upserts (one row per statement)")
     for r in rows:
         nr = normalize_process_row(r)
-        vals = ", ".join(_sql_text_literal(nr[k]) for k in PROCESS_LIST_FIELDNAMES)
+        vals = ", ".join(
+            _sql_column_value(
+                k,
+                (nr.get(k) or "").strip(),
+                date_columns=_PROCESS_LIST_DATE_COLUMNS,
+                numeric_columns=_PROCESS_LIST_NUMERIC_COLUMNS,
+            )
+            for k in PROCESS_LIST_FIELDNAMES
+        )
         vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
         iid = nr["item_id"].strip()
         if not iid:
@@ -200,7 +287,14 @@ def _emit_baseline_upserts(rows: list[dict[str, str]], source_git_sha: str) -> l
     out: list[str] = []
     out.append("-- compliance.baseline_organisation_mirror upserts")
     for r in rows:
-        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in BASELINE_FIELDNAMES)
+        vals = ", ".join(
+            _sql_column_value(
+                c,
+                (r.get(c) or "").strip(),
+                date_columns=_BASELINE_ORG_DATE_COLUMNS,
+            )
+            for c in BASELINE_FIELDNAMES
+        )
         vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
         oid = (r.get("org_uuid") or "").strip()
         if not oid:
@@ -645,12 +739,6 @@ def _emit_repo_health_snapshot_upserts(rows: list[dict[str, str]], source_git_sh
         + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
     )
     out: list[str] = ["-- compliance.repo_health_snapshot_mirror upserts (Initiative 32 P7)"]
-    int_columns = {"cursor_rule_count", "brand_jargon_violations"}
-    bool_columns = {
-        "has_external_repo_contract",
-        "has_akos_mirror_rule",
-        "embedded_obsidian_snapshot_present",
-    }
     for r in rows:
         slug = (r.get("repo_slug") or "").strip()
         sd = (r.get("snapshot_date") or "").strip()
@@ -659,17 +747,21 @@ def _emit_repo_health_snapshot_upserts(rows: list[dict[str, str]], source_git_sh
         row_vals: list[str] = []
         for c in REPO_HEALTH_SNAPSHOT_FIELDNAMES:
             raw = (r.get(c) or "").strip()
-            if c == "snapshot_date":
-                row_vals.append(f"DATE {_sql_text_literal(raw)}")
-            elif c == "cursor_rule_count" or c == "brand_jargon_violations":
-                row_vals.append(raw if raw else "0")
+            if c in _REPO_HEALTH_DATE_COLUMNS:
+                row_vals.append(
+                    _sql_column_value(c, raw, date_columns=_REPO_HEALTH_DATE_COLUMNS)
+                )
+            elif c in _REPO_HEALTH_BOOL_COLUMNS:
+                row_vals.append(_sql_bool_or_null(raw))
             elif c == "language_frontmatter_compliance_pct":
                 row_vals.append(raw if raw else "0.0")
-            elif c in bool_columns:
-                row_vals.append("TRUE" if raw.lower() == "true" else "FALSE")
+            elif c in _REPO_HEALTH_INT_COLUMNS:
+                if c == "secret_rotation_oldest_age_days":
+                    row_vals.append(raw if raw else "NULL")
+                else:
+                    row_vals.append(raw if raw else "0")
             else:
                 row_vals.append(_sql_text_literal(raw))
-        _ = int_columns  # silence unused (reserved for future strict casting)
         vals_full = ", ".join(row_vals) + f", {_sql_text_literal(source_git_sha)}, now()"
         out.append(
             f"INSERT INTO compliance.repo_health_snapshot_mirror ({cols_full}) VALUES ({vals_full}) "
@@ -698,7 +790,20 @@ def _emit_repository_registry_upserts(rows: list[dict[str, str]], source_git_sha
         slug = (r.get("repo_slug") or "").strip()
         if not slug:
             continue
-        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in REPOSITORY_REGISTRY_FIELDNAMES)
+        row_vals: list[str] = []
+        for c in REPOSITORY_REGISTRY_FIELDNAMES:
+            raw = (r.get(c) or "").strip()
+            if c in _REPOSITORY_REGISTRY_DATE_COLUMNS:
+                row_vals.append(
+                    _sql_column_value(c, raw, date_columns=_REPOSITORY_REGISTRY_DATE_COLUMNS)
+                )
+            elif c in _REPOSITORY_REGISTRY_BOOL_COLUMNS:
+                row_vals.append(_sql_bool_or_null(raw))
+            elif c in _REPOSITORY_REGISTRY_NULLABLE_ENUM_COLUMNS and not raw:
+                row_vals.append("NULL")
+            else:
+                row_vals.append(_sql_text_literal(raw))
+        vals = ", ".join(row_vals)
         vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
         out.append(
             f"INSERT INTO compliance.repository_registry_mirror ({cols_full}) VALUES ({vals_full}) "
@@ -725,7 +830,12 @@ def _emit_initiative_registry_upserts(rows: list[dict[str, str]], source_git_sha
         iid = (r.get("initiative_id") or "").strip()
         if not iid:
             continue
-        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in INITIATIVE_REGISTRY_FIELDNAMES)
+        vals = ", ".join(
+            _sql_column_value(
+                c, (r.get(c) or "").strip(), date_columns=_INITIATIVE_REGISTRY_DATE_COLUMNS
+            )
+            for c in INITIATIVE_REGISTRY_FIELDNAMES
+        )
         vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
         out.append(
             f"INSERT INTO compliance.initiative_registry_mirror ({cols_full}) VALUES ({vals_full}) "
@@ -751,7 +861,15 @@ def _emit_ops_register_upserts(rows: list[dict[str, str]], source_git_sha: str) 
         oid = (r.get("ops_action_id") or "").strip()
         if not oid:
             continue
-        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in OPS_REGISTER_FIELDNAMES)
+        vals = ", ".join(
+            _sql_column_value(
+                c,
+                (r.get(c) or "").strip(),
+                date_columns=_OPS_REGISTER_DATE_COLUMNS,
+                numeric_columns=_OPS_REGISTER_NUMERIC_COLUMNS,
+            )
+            for c in OPS_REGISTER_FIELDNAMES
+        )
         vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
         out.append(
             f"INSERT INTO compliance.ops_register_mirror ({cols_full}) VALUES ({vals_full}) "
@@ -777,7 +895,10 @@ def _emit_cycle_register_upserts(rows: list[dict[str, str]], source_git_sha: str
         cid = (r.get("cycle_id") or "").strip()
         if not cid:
             continue
-        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in CYCLE_REGISTER_FIELDNAMES)
+        vals = ", ".join(
+            _sql_column_value(c, (r.get(c) or "").strip(), date_columns=_CYCLE_REGISTER_DATE_COLUMNS)
+            for c in CYCLE_REGISTER_FIELDNAMES
+        )
         vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
         out.append(
             f"INSERT INTO compliance.cycle_register_mirror ({cols_full}) VALUES ({vals_full}) "
@@ -1051,7 +1172,10 @@ def _emit_decision_register_upserts(rows: list[dict[str, str]], source_git_sha: 
         did = (r.get("decision_id") or "").strip()
         if not did:
             continue
-        vals = ", ".join(_sql_text_literal((r.get(c) or "").strip()) for c in DECISION_REGISTER_FIELDNAMES)
+        vals = ", ".join(
+            _sql_column_value(c, (r.get(c) or "").strip(), date_columns=_DECISION_REGISTER_DATE_COLUMNS)
+            for c in DECISION_REGISTER_FIELDNAMES
+        )
         vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
         out.append(
             f"INSERT INTO compliance.decision_register_mirror ({cols_full}) VALUES ({vals_full}) "
