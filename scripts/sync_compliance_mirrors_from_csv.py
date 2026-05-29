@@ -42,6 +42,7 @@ from akos.hlk_decision_register_csv import DECISION_REGISTER_FIELDNAMES  # noqa:
 from akos.hlk_engagement_model_csv import ENGAGEMENT_MODEL_FIELDNAMES  # noqa: E402  # I73 P1 (D-IH-73-C sibling-dimension; D-IH-73-D 7-class taxonomy)
 from akos.hlk_design_pattern_csv import DESIGN_PATTERN_FIELDNAMES  # noqa: E402  # I79 P2 (D-IH-79-C/D People design pattern library)
 from akos.hlk_substrate_registry_csv import SUBSTRATE_REGISTRY_FIELDNAMES  # noqa: E402  # I84 P3 (D-IH-84-F substrate doctrine registry)
+from akos.hlk_intelligenceops_register_csv import INTELLIGENCEOPS_REGISTER_FIELDNAMES  # noqa: E402  # I72 P6 + I75 (D-IH-72-H sibling canonical; D-IH-86-FH radar freshness cols)
 from akos.hlk_collaborator_share import (  # noqa: E402  # I86 Wave R+1 P2c-a (D-IH-86-DA/DB/DC/DD/DE collaborator share doctrine)
     COLLABORATOR_SHARE_REGISTRY_FIELDNAMES,
     HOLISTIKA_VENDOR_SERVICES_BILLED_FIELDNAMES,
@@ -124,6 +125,7 @@ ENGAGEMENT_MODEL_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.
 DESIGN_PATTERN_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PEOPLE_DESIGN_PATTERN_REGISTRY.csv"
 # I84 P3 — Substrate Registry (substrate doctrine SSOT per D-IH-84-A/F/G).
 SUBSTRATE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "SUBSTRATE_REGISTRY.csv"
+INTELLIGENCEOPS_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Research" / "Intelligence" / "canonicals" / "dimensions" / "INTELLIGENCEOPS_REGISTER.csv"
 # I86 Wave L — 4-layer output architecture (Layer 1/2/3) per D-IH-86-BG.
 OUTPUT_TYPE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "OUTPUT_TYPE_REGISTRY.csv"
 ARTIFACT_CLASS_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "ARTIFACT_CLASS_REGISTRY.csv"
@@ -211,6 +213,8 @@ _OPS_REGISTER_NUMERIC_COLUMNS = frozenset(
         "rice_score",
     }
 )
+_INTELLIGENCEOPS_REGISTER_DATE_COLUMNS = frozenset({"last_review_at", "next_verify_by"})
+_INTELLIGENCEOPS_REGISTER_NUMERIC_COLUMNS = frozenset({"staleness_days"})
 _CYCLE_REGISTER_DATE_COLUMNS = frozenset({"started_at", "closed_at"})
 _BASELINE_ORG_DATE_COLUMNS = frozenset({"last_review_at"})
 _REPO_HEALTH_DATE_COLUMNS = frozenset({"snapshot_date", "last_review_at"})
@@ -1003,6 +1007,47 @@ def _emit_substrate_registry_upserts(rows: list[dict[str, str]], source_git_sha:
     return out
 
 
+def _emit_intelligenceops_register_upserts(rows: list[dict[str, str]], _source_git_sha: str) -> list[str]:
+    """I72 P6 + I75 (D-IH-86-FH) - compliance.intelligenceops_register_mirror upserts.
+
+    PK = ``register_id``. DATE columns (``last_review_at``, ``next_verify_by``) +
+    INTEGER column (``staleness_days``) emit as NULL when the CSV cell is empty
+    (per the I57 P1 ``_sql_column_value`` pattern); non-empty DATE cells emit as
+    ``DATE 'YYYY-MM-DD'`` literals so PostgreSQL never coerces an empty string.
+
+    Unlike the I59 + I86-Wave-L mirror fleet, this mirror table carries NO
+    ``source_git_sha`` / ``synced_at`` audit columns (see the I72 P6 DDL at
+    ``supabase/migrations/20260514240000_i72_intelligenceops_register_mirror.sql``),
+    so they are NOT appended. The ``_source_git_sha`` arg is accepted only for
+    dispatch-signature parity with the other emitters and is intentionally unused.
+    """
+    cols_full = ", ".join(INTELLIGENCEOPS_REGISTER_FIELDNAMES)
+    update_sets = ", ".join(
+        f"{c} = EXCLUDED.{c}"
+        for c in INTELLIGENCEOPS_REGISTER_FIELDNAMES
+        if c != "register_id"
+    )
+    out: list[str] = ["-- compliance.intelligenceops_register_mirror upserts (I72 P6 + I75 D-IH-86-FH)"]
+    for r in rows:
+        rid = (r.get("register_id") or "").strip()
+        if not rid:
+            continue
+        vals = ", ".join(
+            _sql_column_value(
+                c,
+                (r.get(c) or "").strip(),
+                date_columns=_INTELLIGENCEOPS_REGISTER_DATE_COLUMNS,
+                numeric_columns=_INTELLIGENCEOPS_REGISTER_NUMERIC_COLUMNS,
+            )
+            for c in INTELLIGENCEOPS_REGISTER_FIELDNAMES
+        )
+        out.append(
+            f"INSERT INTO compliance.intelligenceops_register_mirror ({cols_full}) VALUES ({vals}) "
+            f"ON CONFLICT (register_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
 def _emit_output_type_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
     """I86 Wave L (D-IH-86-BG) - compliance.output_type_registry_mirror upserts.
 
@@ -1338,6 +1383,11 @@ def main() -> int:
         help="Only emit substrate_registry_mirror statements (requires SUBSTRATE_REGISTRY.csv) [Initiative 84 P3]",
     )
     parser.add_argument(
+        "--intelligenceops-only",
+        action="store_true",
+        help="Only emit intelligenceops_register_mirror statements (requires INTELLIGENCEOPS_REGISTER.csv) [I72 P6 + I75 D-IH-86-FH]",
+    )
+    parser.add_argument(
         "--collaborator-share-only",
         action="store_true",
         help=(
@@ -1396,6 +1446,7 @@ def main() -> int:
             args.engagement_model_only,
             args.design_pattern_registry_only,
             args.substrate_registry_only,
+            args.intelligenceops_only,
             args.collaborator_share_only,
             args.output_type_registry_only,
             args.artifact_class_registry_only,
@@ -2018,6 +2069,11 @@ def main() -> int:
             args.substrate_registry_only, SUBSTRATE_REGISTRY_CSV, SUBSTRATE_REGISTRY_FIELDNAMES,
             "compliance.substrate_registry_mirror", "Initiative 84 P3",
         ),
+        # I72 P6 + I75 — IntelligenceOps register (radar freshness cols; D-IH-86-FH).
+        (
+            args.intelligenceops_only, INTELLIGENCEOPS_REGISTER_CSV, INTELLIGENCEOPS_REGISTER_FIELDNAMES,
+            "compliance.intelligenceops_register_mirror", "Initiative 72 P6 + I75",
+        ),
         # I86 Wave L — Output architecture mirrors (D-IH-86-BG; 4-layer architecture
         # beneath the 5-axis Quality Fabric). Layer 1 + Layer 2 + Layer 3 in dispatch order
         # so cross-FKs resolve cleanly when emitted in sequence.
@@ -2046,6 +2102,7 @@ def main() -> int:
         "compliance.engagement_model_registry_mirror": _emit_engagement_model_upserts,
         "compliance.people_design_pattern_registry_mirror": _emit_design_pattern_upserts,
         "compliance.substrate_registry_mirror": _emit_substrate_registry_upserts,
+        "compliance.intelligenceops_register_mirror": _emit_intelligenceops_register_upserts,
     }
     _i59_count_keys = {
         "compliance.repository_registry_mirror": "repository_registry_rows",
@@ -2056,6 +2113,7 @@ def main() -> int:
         "compliance.engagement_model_registry_mirror": "engagement_model_registry_rows",
         "compliance.people_design_pattern_registry_mirror": "people_design_pattern_registry_rows",
         "compliance.substrate_registry_mirror": "substrate_registry_rows",
+        "compliance.intelligenceops_register_mirror": "intelligenceops_register_rows",
     }
     for flag, csv_path, fieldnames, mirror_table, initiative in _i59_mirror_specs:
         if not flag:
@@ -2330,6 +2388,16 @@ def main() -> int:
                 substrate_reg_rows = [dict(r) for r in srr]
                 substrate_reg_n = len(substrate_reg_rows)
 
+    # I72 P6 + I75 — IntelligenceOps register (radar freshness cols; D-IH-86-FH).
+    intelligenceops_n = 0
+    intelligenceops_rows: list[dict[str, str]] = []
+    if INTELLIGENCEOPS_REGISTER_CSV.is_file():
+        with INTELLIGENCEOPS_REGISTER_CSV.open(encoding="utf-8", newline="") as f:
+            ior = csv.DictReader(f)
+            if list(ior.fieldnames or []) == list(INTELLIGENCEOPS_REGISTER_FIELDNAMES):
+                intelligenceops_rows = [dict(r) for r in ior]
+                intelligenceops_n = len(intelligenceops_rows)
+
     if args.count_only:
         print(f"source_git_sha={sha}")
         print(f"process_list_rows={len(proc_rows)}")
@@ -2362,6 +2430,8 @@ def main() -> int:
         print(f"people_design_pattern_registry_rows={design_pattern_n}")
         # I84 P3 addition
         print(f"substrate_registry_rows={substrate_reg_n}")
+        # I72 P6 + I75 addition
+        print(f"intelligenceops_register_rows={intelligenceops_n}")
         return 0
 
     blocks: list[str] = []
@@ -2420,6 +2490,9 @@ def main() -> int:
     # I84 P3 — substrate registry (substrate doctrine; D-IH-84-A/F/G).
     if not args.process_list_only and not args.baseline_only and substrate_reg_rows:
         blocks.extend(_emit_substrate_registry_upserts(substrate_reg_rows, sha))
+    # I72 P6 + I75 — IntelligenceOps register (radar freshness cols; D-IH-86-FH).
+    if not args.process_list_only and not args.baseline_only and intelligenceops_rows:
+        blocks.extend(_emit_intelligenceops_register_upserts(intelligenceops_rows, sha))
 
     preamble = [
         "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
