@@ -22,9 +22,9 @@ sibling_coordinated_initiatives:
   - I84 Substrate Doctrine + Commercial Readiness (active folder; INIT row operator-pending elsewhere if absent)
   - I85 Audience-tag canonicalization (candidate)
   - I82 Holistika Capability Doctrine + Commercial Readiness (candidate)
-  - I83 AI Archivist + KiRBe Ingestor (candidate)
-  - I74 Brand-tooling productization (TRIGGER-watch)
-  - I75 Research-area governance (candidate)
+  - I83 AI Archivist + KiRBe Ingestor (active)
+  - I74 Brand-tooling productization (active)
+  - I75 Research-area governance (active)
   - I76 MADEIRA elevation (candidate)
   - I87 OpenClaw operator-runtime hardening (candidate stub this commit)
   - I78 Brand-voice LLM-as-judge advisory layer (active; P1 engineering pending)
@@ -113,9 +113,9 @@ Spotlight owners **facilitate** wave narrative and surface blockers to the PMO +
 | I84 | INIT-OPENCLAW_AKOS-84 | active | charter | 1-5 | P4 unlocks I76, I74, I83 framework narrowing; compare OpenClaw baseline after I87 when possible. |
 | I85 | INIT-OPENCLAW_AKOS-85 | **closed** (Wave C 2026-05-19 per D-IH-85-CLOSURE) | P0..P4 | 1+C (landed) | All 4 phases closed; SOP-AUDIENCE_TAG_GOVERNANCE_001 active; 11 surfaces tagged; UAT report at reports/uat-i85-closure-2026-05-19.md. 5 of 10 cluster siblings now closed. |
 | I82 | INIT-OPENCLAW_AKOS-82 | **active** (`dbdb551`) | P0 | 3-4 | P0 charter landed Wave 1; P1+ waits on I84 P4 ratifications + I81 P1 integrity for registry mint. |
-| I83 | INIT-OPENCLAW_AKOS-83 (forward) | candidate (blocker-tracker active 2026-05-18 per D-IH-86-O) | — | 5 | Blocker: I82 P4 USE_CASE_ARCHIVE + I76 P3 (AICs F5 substrate). Tracker: docs/wip/planning/_blockers/i83-promotion-blocker-tracker.md. |
-| I74 | INIT-OPENCLAW_AKOS-74 (forward) | TRIGGER-watch (blocker-tracker active 2026-05-18 per D-IH-86-O) | — | 3-4 | TRIGGER-2 reactive count 0; resolution requires ≥2 external requests + I71/I72/I73 closure + I76 P3 closure. Tracker: docs/wip/planning/_blockers/i74-promotion-blocker-tracker.md. |
-| I75 | INIT-OPENCLAW_AKOS-75 (forward) | candidate (blocker-tracker active 2026-05-18 per D-IH-86-O) | — | 2 end | Blocker: I72 P0 + I73 P0 + Research Director hire pending. Tracker: docs/wip/planning/_blockers/i75-promotion-blocker-tracker.md. |
+| I83 | INIT-OPENCLAW_AKOS-83 | **active** (Wave O 2026-05-21 per D-IH-86-CC OVERRIDE) | P0 charter | 5 | 6-phase KiRBe ingestor scaffold; blocker-tracker superseded by active promotion — residual gates in initiative master-roadmap. Tracker archived context: docs/wip/planning/_blockers/i83-promotion-blocker-tracker.md. |
+| I74 | INIT-OPENCLAW_AKOS-74 | **active** (Wave O 2026-05-21 per D-IH-86-CC OVERRIDE) | P0 charter | 3-4 | Brand-tooling productization; TRIGGER-2 override accepted at promotion. Tracker archived context: docs/wip/planning/_blockers/i74-promotion-blocker-tracker.md. |
+| I75 | INIT-OPENCLAW_AKOS-75 | **active** (Wave O 2026-05-21 per D-IH-86-CC OVERRIDE; Radar mint home Wave R+5 C1) | P0 charter | 2 end | Research-area governance + Research Radar 16th QF specialty (D-IH-86-FG). Tracker archived context: docs/wip/planning/_blockers/i75-promotion-blocker-tracker.md. |
 | I76 | INIT-OPENCLAW_AKOS-76 | **active** (Wave A 2026-05-18 under D-IH-76-A + Option 5 default posture D-IH-86-O) | P0 | 3-5 | P0 charter landed Wave A; 7-phase shape P0..P6; scope-overlap-tracker docs/wip/planning/_trackers/i11-i13-i17-scope-overlap-tracker.md governs I11/I13/I17 consolidation at P1/P3/P4 entries. AICs F5 framing inherited from D-IH-84-C. Co-owner PMO. |
 | I87 | INIT-OPENCLAW_AKOS-87 | **closed** (Wave B 2026-05-19 per D-IH-87-CLOSURE) | P0..P6 | 1+B (landed) | All 6 phases closed; SOP-OPENCLAW_RUNTIME_HEALTH_TRIAGE_001 promoted review->active; UAT report at reports/uat-i87-closure-2026-05-19.md (synthetic 3-class drill PASS). 4 of 10 cluster siblings now closed. |
 
@@ -139,7 +139,7 @@ Operator hand-back batch (folds into surface-ratify-batch-final per the I86 todo
 |:---|:---|:---|
 | Cluster siblings closed | **5 of 10** | I79 + I80 + I84 + I85 (Wave C 2026-05-19 D-IH-85-CLOSURE) + I87 (Wave B 2026-05-19 D-IH-87-CLOSURE) |
 | Cluster siblings active | **3 of 10** | I81 + I82 + I76 (Wave A 2026-05-18 promotion under Option 5 default posture) |
-| Cluster siblings on blocker-tracker | **3 of 10** | I74 + I75 + I83 — see `docs/wip/planning/_blockers/` (next-review triggers documented) |
+| Cluster siblings on blocker-tracker (historical) | **0 of 10** | I74 + I75 + I83 promoted active Wave O (D-IH-86-CC); tracker files retained for lineage only |
 | Sibling promotions this push | **1** | I76 (Wave A; clean activation of clean-activation candidate) |
 | Wave-D dossier deliverable | **1** | KILLER dossier 5-pillar rewrite per D-IH-89-O (handoff §3.4 deferred deliverable; 8/8 acceptance criteria PASS; UAT at `reports/uat-killer-dossier-2026-05-19.md`) |
 | New Cursor rules minted | **1** | `.cursor/rules/akos-conflict-surfacing-and-blocker-trackers.mdc` (codifies Option 5 default posture per D-IH-86-O; closed OPS-86-6) |

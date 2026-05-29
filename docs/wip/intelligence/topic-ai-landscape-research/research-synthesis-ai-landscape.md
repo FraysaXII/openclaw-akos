@@ -1,8 +1,8 @@
 # WIP synthesis — AI landscape (topic_ai_landscape_research)
 
 **Status:** Interpretation layer (`in_wip`).  
-**Registry:** [RESEARCH_BACKLOG_TRELLO_REGISTRY.md](../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md) — card **AI** (trello id `6769932a2e14f16f0004e6cd`).  
-**Contract:** [HLK_KM_TOPIC_FACT_SOURCE.md](../../references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md) (output types, artifact roles).
+**Registry:** [RESEARCH_BACKLOG_TRELLO_REGISTRY.md](../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md) — card **AI** (trello id `6769932a2e14f16f0004e6cd`).  
+**Contract:** [HLK_KM_TOPIC_FACT_SOURCE.md](../../../references/hlk/compliance/HLK_KM_TOPIC_FACT_SOURCE.md) (output types, artifact roles).
 
 ## Working scope
 

@@ -184,7 +184,7 @@ Use the same **Scenario 0** steps in a real browser (local Chrome/Edge, Playwrig
 | 1 | Run `py scripts/validate_hlk.py` | `OVERALL: PASS` |
 | 2 | Run `py scripts/validate_hlk_km_manifests.py` | `OVERALL: PASS` for all `docs/references/hlk/v3.0/_assets/**/*.manifest.md` |
 | 3 | Open `docs/references/hlk/v3.0/_assets/km-pilot/VISUAL_km_pilot_001.manifest.md` | Frontmatter includes `source_id`, `output_type: 1`, indented `raster:`; body links resolve to `HLK_KM_TOPIC_FACT_SOURCE.md` |
-| 4 | Open `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md` | Rows use 24-character hex `trello_card_id` values; wip synthesis links target `docs/wip/hlk-km/research-synthesis-*.md` |
+| 4 | Open `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md` | Rows use 24-character hex `trello_card_id` values; wip synthesis links target `docs/wip/intelligence/<topic_id>/research-synthesis-*.md` |
 | 5 | Open `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/imports/README.md` | Describes primary vs archive JSON slices; registry maintenance uses **primary** export |
 
 **Pass criteria**: Both validators pass; spot-checks show contract links and registry ids aligned with [imports/trello_board_67697e19_primary.json](../references/hlk/v3.0/Admin/O5-1/Operations/PMO/imports/trello_board_67697e19_primary.json).

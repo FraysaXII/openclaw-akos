@@ -1,7 +1,7 @@
 # WIP synthesis — MADEIRA research radar (topic_madeira_research_radar)
 
 **Status:** Interpretation layer (`in_wip`).  
-**Registry:** [RESEARCH_BACKLOG_TRELLO_REGISTRY.md](../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md) — card id `676992d120f3b43df103aac7` (MADEIRA Project list).
+**Registry:** [RESEARCH_BACKLOG_TRELLO_REGISTRY.md](../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md) — card id `676992d120f3b43df103aac7` (MADEIRA Project list).
 
 ## Working scope
 

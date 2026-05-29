@@ -1,7 +1,7 @@
 # WIP synthesis — Macro economists and investments (topic_macro_investment_research)
 
 **Status:** Interpretation layer (`in_wip`).  
-**Registry:** [RESEARCH_BACKLOG_TRELLO_REGISTRY.md](../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md) — card **Macro Economists & Investments** (trello id `6769932a916c78afe2611081`).  
+**Registry:** [RESEARCH_BACKLOG_TRELLO_REGISTRY.md](../../../references/hlk/v3.0/Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md) — card **Macro Economists & Investments** (trello id `6769932a916c78afe2611081`).  
 **Owner hint:** Business Controller (see registry).
 
 ## Working scope

@@ -2100,7 +2100,7 @@ For **visuals and other knowledge artifacts** that must stay traceable across Ob
 - **Output 1 (images / Excalidraw exports):** keep binaries under `docs/references/hlk/v3.0/_assets/<topic_id>/` with a `*.manifest.md` sidecar and a short companion `.md` stub for search.
 - **Tags:** use only the controlled vocabulary and prefixes defined in that contract.
 - **External backlogs (e.g. Trello):** use the PMO registry `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md` as the canonical **index**; Trello remains non-authoritative. Board exports for id reconciliation live under `docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/imports/` (see `imports/README.md`).
-- **WIP syntheses** tied to registry rows: `docs/wip/hlk-km/research-synthesis-*.md` (interpretation layer until promoted).
+- **WIP syntheses** tied to registry rows: `docs/wip/intelligence/<topic_id>/research-synthesis-*.md` (interpretation layer until promoted; legacy `hlk-km/` archived at `docs/wip/_archived/hlk-km-pre-2026-05-12/` per D-IH-86-FJ).
 - **Validation:** after editing manifests under `v3.0/_assets/`, run `py scripts/validate_hlk_km_manifests.py`.
 - **UAT:** `docs/uat/hlk_admin_smoke.md` Scenario 8 (KM manifests + registry + imports).
 
@@ -2114,7 +2114,7 @@ Use this order:
 
 | Layer | What belongs there | Where it lives |
 |:------|:-------------------|:---------------|
-| Working synthesis | Redacted interpretation, validation, source comparison | `docs/wip/` (see `docs/wip/README.md`; HLK KM stubs under `docs/wip/hlk-km/`) |
+| Working synthesis | Redacted interpretation, validation, source comparison | `docs/wip/` (see `docs/wip/README.md`; Research Tier-1 under `docs/wip/intelligence/<topic_id>/`) |
 | Case docs | Current founder/entity decisions, evidence packs, rationale notes | `docs/references/hlk/v3.0/` |
 | SOPs | Repeatable procedures with stable inputs/outputs | `docs/references/hlk/v3.0/` |
 | Registry rows | Runtime-discoverable projects, workstreams, processes, tasks | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv` |
