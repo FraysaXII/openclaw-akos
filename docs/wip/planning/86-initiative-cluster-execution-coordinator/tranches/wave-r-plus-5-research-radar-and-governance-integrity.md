@@ -110,6 +110,14 @@ radar rides on.
 | **R+5-C6** | **Research area LOGIC CHANGE + production-grade area build** (founder-ratified `D-IH-75-G`, 2026-05-29): mint [`RESEARCH_LIFECYCLE_DOCTRINE.md`](../../../../references/hlk/v3.0/Research/canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md) (CORPINT lifecycle elevated to area spine; 4 disciplines reframed as crafts; cross-area joins first-class); build 4 discipline-root README indexes + 6 capability-seeded technique sub-area indexes; **delete the 6 empty `Admin/` technique husks** + rebuild under the disciplines; upgrade area README + charter + 4 discipline charters; PRECEDENCE row; source ledger; PROTECT first-class stage + counter-intelligence triad forward-charter (`D-IH-75-H`). Supersedes the "migrate husks" plan in §5 move 2 + closes §5.5 thin stages with named owners. | **founder-ratified** (this build); link-check + validate_hlk + research-action ledger PASS; SSOT-CSV/SOP physical migration remains the separate gated follow-up |
 | **R+5-close** | Inter-wave regression (13-dim) + index-integrity (8-dim) + closure UAT (11-section) | wave-close bundle |
 
+> **Managed rollout backlog (the wake of C6).** Every follow-up the C6 logic change leaves — area-build
+> deferrals, cross-area reciprocal pointers (single-ownership), and the operator's **DAMA
+> data-management + research-feed-delivery** thrust (KiRBe / ERP / KB / Supabase / orchestration / RPAs
+> → inbox / Discord / Slack / Telegram) — is tracked in the
+> [research rollout backlog](../research-rollout-backlog-2026-05-29.md) (PM path; maintained at each
+> I86 wave-close), formalized as `OPS-86-26` … `OPS-86-31`, with the DAMA work chartered as candidate
+> [`i-nn-research-data-management-and-feed-delivery.md`](../../_candidates/i-nn-research-data-management-and-feed-delivery.md).
+
 ## 4. Dependency + architecture diagrams
 
 ```mermaid
