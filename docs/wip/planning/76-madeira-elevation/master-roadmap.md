@@ -274,11 +274,14 @@ flowchart LR
 **Scope.** F5 (Hybrid; per-task operator picks) means MADEIRA dispatches AICs from a per-task config — F1 supervised-sub-agents for some task classes; F2 peer-companions for others; F3 ad-hoc-dispatch for one-shots; F4 single-agent rich-tools as the trivial case. Implementation: a per-task registry (`MADEIRA_AIC_PER_TASK_REGISTRY.csv`) with rows (task_class, default_framing, dispatcher_pattern, escalation_path). **Scope reduction (per Wave P Push 3 D-IH-76-N + D-IH-76-O ratifications)**: I17 + I11 consolidation gates pre-ratified to MERGE at P1 + P3 respectively, closing both initiatives before P4. Only **I13 consolidation gate** remains at P4 — single inline-ratify gate per scope-overlap-tracker §3.3 (I13's AIC-management scope overlaps with I76 F5 implementation in a way that genuinely requires P4-phase evidence to disposition; cannot be pre-ratified at Wave P Push 3 like I17 + I11).
 
 **Files (canonical).**
-- New: `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/canonicals/dimensions/MADEIRA_AIC_PER_TASK_REGISTRY.csv`.
-- New: `akos/hlk_madeira_aic_csv.py` (Pydantic model).
-- New: `scripts/validate_madeira_aic_per_task.py` (validator).
-- New: `scripts/madeira_aic_dispatch.py` (paired runbook — given a task_class, returns the F-framing config).
-- New: `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/canonicals/SOP-TECH_MADEIRA_AIC_DISPATCH_001.md`.
+
+> **Drift-correction (2026-05-29, regression-amendment pass).** The registry + Pydantic model + validator below were minted EARLY under the AIC-registry work (I82 P4 / I86 Wave Q CSV 4 child, `D-IH-82-S`) at the **People/Compliance** path — see [`PRECEDENCE.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md) line 99. They are **NOT net-new at the Envoy Tech Lab path** this section originally claimed. Only the dispatch runbook + SOP remain genuinely net-new under I76 P4. (This stale list is the drift that misled a downstream planning pass; corrected here so no future agent re-mints existing canonicals.)
+
+- **EXISTS** (minted I82 P4): `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/MADEIRA_AIC_PER_TASK_REGISTRY.csv` (3 demonstrator rows; enums `task_class`(8) / `dispatcher_pattern`(6) / `rbac_class`(4); FK `aic_id` → AIC_REGISTRY).
+- **EXISTS** (minted I82 P4): `akos/hlk_madeira_aic_per_task_csv.py` (Pydantic model — note the `_per_task_csv` suffix, not `hlk_madeira_aic_csv.py`).
+- **EXISTS** (minted I82 P4): `scripts/validate_madeira_aic_per_task.py` (validator).
+- New (genuinely net-new under I76 P4): `scripts/madeira_aic_dispatch.py` (paired runbook — given a task_class, returns the F-framing config).
+- New (genuinely net-new under I76 P4): `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/canonicals/SOP-TECH_MADEIRA_AIC_DISPATCH_001.md`.
 - Modified: `docs/wip/planning/_trackers/i11-i13-i17-scope-overlap-tracker.md` §3.3 (I13 consolidation ratify gate closes; §3.1 + §3.2 already closed at P1 + P3 respectively).
 
 **Verification.** Per-task registry validator green; I13 consolidation ratify gate closes (1 entry in scope-overlap-tracker §3.3 ratified or forward-chartered); I13 INITIATIVE_REGISTRY row updated (closed if consolidated; status preserved if remain-parallel).
@@ -367,7 +370,7 @@ Inherited (pre-ratified at I84 P4):
 | MADEIRA mode SOPs (P1-P3) | canonical | Edit at `Envoy Tech Lab/canonicals/` |
 | MADEIRA paired runbooks | canonical | Edit at `scripts/madeira_*.py` |
 | MADEIRA_TOOL_RBAC.csv (P2) | canonical | Edit at `Envoy Tech Lab/canonicals/dimensions/` |
-| MADEIRA_AIC_PER_TASK_REGISTRY.csv (P4) | canonical | Edit at `Envoy Tech Lab/canonicals/dimensions/` |
+| MADEIRA_AIC_PER_TASK_REGISTRY.csv (P4) | canonical | **Exists** (minted I82 P4, `D-IH-82-S`); edit at `People/Compliance/canonicals/dimensions/` per PRECEDENCE line 99 |
 | Compliance mirror tables (Supabase) | mirrored | Auto-emit via `compliance_mirror_emit` from canonical |
 | `docs/wip/planning/76-madeira-elevation/` | planning | Mirror of authoritative plan (this folder is itself authoritative for I76 per frontmatter) |
 | `docs/wip/planning/_trackers/i11-i13-i17-scope-overlap-tracker.md` | planning (governance-shape artifact) | Edit at this file; forward-chartered ratify gates close into per-phase I76 decisions |
