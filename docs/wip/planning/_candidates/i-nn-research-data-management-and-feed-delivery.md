@@ -30,6 +30,7 @@ linked_canonicals:
 linked_ops_action_ids:
   - OPS-86-29
   - OPS-86-30
+  - OPS-86-32  # prod-mirror drift finding 2026-05-29 = the C3 readiness worked-evidence (§5.1)
 external_research_sources:
   # DAMA-DMBOK 2.0 (the 11 knowledge areas) — the doctrinal anchor for the data-management lens
   - https://www.dama.org/cpages/body-of-knowledge
@@ -104,13 +105,67 @@ where they already are.
 - **Recipient-fallback** (per external-render discipline): even if the operator doesn't watch a
   channel, the feed lands somewhere durable (inbox + a stored digest).
 
-## 5. Data-ops readiness (honest gap) — part of `OPS-86-29`
+## 5. Data-ops readiness assessment (honest gap) — `OPS-86-29` + `OPS-86-32`
 
 The operator said it plainly: *"we still don't have data ops ready."* This candidate does **not**
-pretend otherwise. Deliverable: a readiness map naming what must exist before the feed is
-trustworthy — minimum data-quality bar at STORE, metadata/findability at RECALL, access/redaction at
-PROTECT, and a single owner for the data plane. The feed ships incrementally as readiness clears, not
-all at once.
+pretend otherwise — and a **live worked example** proves the point.
+
+### 5.1 Worked evidence — the 2026-05-29 prod-mirror finding
+
+The cross-area Tech propagation sweep on 2026-05-29
+([`cross-area-tech-propagation-2026-05-29.md`](../86-initiative-cluster-execution-coordinator/reports/cross-area-tech-propagation-2026-05-29.md))
+found the **data-integration lane silently broken for ~3 weeks**: the routine that copies the
+canonical registries into the Supabase mirror tables had not run since early May (prod held 51
+decisions vs git's 466; 1100 process rows vs 1186), and three committed schema migrations never
+reached prod. Nobody noticed until a deliberate sweep ran. In DAMA terms this is a textbook
+**Data Integration + Data Operations maturity gap**: a pipeline with **no freshness monitoring and
+no named owner watching it**. It is the single strongest readiness signal we have — and exactly why
+the feed cannot ship on top of this layer until the lane is observable. Remediation is tracked at
+`OPS-86-32`.
+
+### 5.2 Readiness scorecard (the gate the feed must pass)
+
+| DAMA area | Stage | Today | Evidence | What "ready" needs |
+|:---|:---|:---|:---|:---|
+| Data Storage & Operations | STORE | Amber | Supabase mirrors + Neo4j exist, but sync ran silently stale ~3 weeks | a **scheduled, monitored** mirror+graph sync (not manual) |
+| Data Integration & Interoperability | STORE/SHARE | **Red** | the broken mirror lane (§5.1); no ETL inventory yet | the `OPS-86-29` inventory + a freshness alarm per lane |
+| Data Quality | ACQUIRE/PROCESS | Amber | source-reliability grading exists (Validation); no automated DQ check at STORE | the §5.3 DQ bar wired as a check |
+| Metadata | PROCESS/RECALL | Green | KM Topic-Fact-Source + canonical registries carry rich metadata | hold + extend findability metadata |
+| Data Security | PROTECT | Green | access levels + confidence taxonomy + Supabase RLS (service_role-only mirrors) | hold; per-channel redaction policy at SHARE |
+| Data Governance | all | Green | canonical-CSV gate + PRECEDENCE + this rollout discipline | hold |
+| Data Warehousing & BI | RECALL | Amber | Neo4j/MCP query surfaces exist; no digest layer | the feed-digest layer (§4) |
+
+**The honest read:** the *governance + metadata + security* axes are strong (Green) — Holistika's
+canonical discipline did its job. The *operations + integration* axes are weak (Amber/Red) because
+the data plane runs on **manual, unmonitored syncs**. **The feed ships incrementally as the Red/Amber
+rows clear**, STORE-monitoring first (it gates everything downstream). The cheapest highest-leverage
+first move is not the feed — it is a **scheduled mirror-sync + freshness alarm** so §5.1 can never
+recur silently.
+
+### 5.3 Data-quality + metadata bar (what a stored fact must clear before it can feed) — `OPS-86-29`
+
+Before a fact can be recalled or pushed into the feed, it must clear a minimum bar across the six
+canonical DAMA data-quality dimensions, plus carry the findability metadata RECALL needs:
+
+| DQ dimension | The bar for a research fact | Already enforced by |
+|:---|:---|:---|
+| **Completeness** | Topic–Fact–Source triple present; no orphan fact without a source | KM Topic-Fact-Source contract |
+| **Validity** | source category in the taxonomy; confidence in the lattice; access level set | `source_taxonomy.md`; `confidence_levels.md`; `access_levels.md` |
+| **Consistency** | the canonical CSV and its Supabase mirror agree (the §5.1 gap is a consistency failure) | `validate_compliance_schema_drift.py` (schema) + the mirror sync (data) |
+| **Timeliness / freshness** | `next_verify_by` not past; volatility-class cadence honoured | Research Radar (`INTELLIGENCEOPS_REGISTER` freshness columns) |
+| **Uniqueness** | one fact, one canonical ID; no duplicate rows | canonical-CSV primary keys + mirror `ON CONFLICT` upserts |
+| **Accuracy** | reliability-graded + corroborated where it drives a decision | Validation discipline (truth-gate) |
+
+**Metadata-for-findability bar (RECALL):** every stored fact carries `topic_id` + `source_id` +
+access level + confidence + `last_audit_date` + (for radar targets) `volatility_class` +
+`next_verify_by`. That is what makes recall **mechanical** (query the index) rather than **memory**
+(remember the file) — the derived-recall principle.
+
+The bar is mostly **already enforced by existing canonical discipline** — the candidate's job is to
+*wire it as an automated check at the STORE boundary* (so a fact that fails the bar never enters the
+feed), not to invent new rules. This is the DAMA-DMBOK posture from
+[`akos-holistika-operations.mdc`](../../../.cursor/rules/akos-holistika-operations.mdc) §"Schema
+responsibilities (DAMA)" applied to the research data layer.
 
 ## 6. Activation gates
 
