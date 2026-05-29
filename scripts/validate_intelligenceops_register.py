@@ -39,7 +39,9 @@ from akos.hlk_intelligenceops_register_csv import (  # noqa: E402
     VALID_LIFECYCLE_STATUSES,
     VALID_RELIABILITY_GRADES,
     VALID_SOURCE_TYPES,
+    VALID_STALENESS_POSTURES,
     VALID_TARGET_CLASSES,
+    VALID_VOLATILITY_CLASSES,
 )
 
 REGISTER_PATH = (
@@ -142,6 +144,23 @@ def main() -> int:
                 rb_p = REPO_ROOT / rp
                 if not rb_p.exists():
                     errors.append(f"L{line_no} {rid}: linked_runbook_path {rp!r} does not resolve")
+            vc = row.get("volatility_class", "")
+            if vc and vc not in VALID_VOLATILITY_CLASSES:
+                errors.append(
+                    f"L{line_no} {rid}: volatility_class {vc!r} not in {sorted(VALID_VOLATILITY_CLASSES)}"
+                )
+            sp_posture = row.get("staleness_posture", "")
+            if sp_posture and sp_posture not in VALID_STALENESS_POSTURES:
+                errors.append(
+                    f"L{line_no} {rid}: staleness_posture {sp_posture!r} not in {sorted(VALID_STALENESS_POSTURES)}"
+                )
+            sd = row.get("staleness_days", "").strip()
+            if sp_posture == "none" and sd:
+                errors.append(f"L{line_no} {rid}: staleness_posture=none requires empty staleness_days")
+            if sp_posture in {"cite_and_flag", "block_govern"} and not sd:
+                errors.append(
+                    f"L{line_no} {rid}: staleness_posture={sp_posture!r} requires staleness_days"
+                )
 
     print()
     print("  INTELLIGENCEOPS_REGISTER Validator")

@@ -212,6 +212,14 @@
           ]
         },
         {
+          "id": "validate_research_radar_self_test",
+          "description": "I75 Wave R+5 C1: Research Radar 16th QF specialty self-test. Validates akos/hlk_research_radar.py Pydantic SSOT + INTELLIGENCEOPS_REGISTER_FIELDNAMES (21 cols incl. volatility_class/staleness_days/staleness_posture/next_verify_by).",
+          "argv": [
+            "scripts/validate_research_radar.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "validate_mktops_campaign_self_test",
           "description": "I86 Wave R+4 C3a: MKTOps 7-dimension campaign quality bar self-test. Validates akos/hlk_mktops.py Pydantic SSOT (MKTOpsCampaignManifest + MKTOpsFindingRow + MKTOpsCampaignReport) plus the 7 dimension codes plus funnel-stage and lifecycle-state enums. Activated when MKTOPS_DISCIPLINE.md flipped charter -> active per D-IH-86-EY.",
           "argv": [

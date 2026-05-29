@@ -1,100 +1,122 @@
-"""Field contract for INTELLIGENCEOPS_REGISTER.csv (Initiative 72 P6).
+"""Field contract for INTELLIGENCEOPS_REGISTER.csv (I72 P1 + I75 R+5 extension).
 
-Canonical CSV lives under
-``docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/``.
+Canonical CSV:
+``docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv``
 
-Mirrored to ``compliance.intelligenceops_register_mirror`` on Supabase per the
-pattern established by Initiative 32 P2 (skill_registry_mirror) + Initiative 72
-P2 (engagement_template_registry_mirror).
+Mirrored to ``compliance.intelligenceops_register_mirror`` per
+``supabase/migrations/20260514240000_i72_intelligenceops_register_mirror.sql``
++ ``20260529120000_i75_intelligenceops_radar_freshness_columns.sql``.
 
-INTELLIGENCEOPS_REGISTER = sibling canonical to GOI_POI_REGISTER. While
-GOI_POI_REGISTER captures the IDENTITY of allies/neutrals/enemies (named
-individuals + organisations + their distance band + stance), the
-INTELLIGENCEOPS_REGISTER captures the OPERATIONAL CONTRACT for systematic
-intelligence collection against those identities — cadence + source type +
-reliability grading + responsible role + output artifact.
-
-Per `D-IH-72-H` the register is a SIBLING canonical (not a column-extension
-on GOI_POI_REGISTER) — identity capture and intelligence-collection contract
-have distinct lifecycles, distinct ownership, and distinct mirror tables.
-
-Decision lineage:
-- `D-IH-72-A` (P0 charter)
-- `D-IH-72-H` (sibling registry, not GOI_POI col-extension)
-- `D-IH-72-I` (regulator-relationship roadmap = generic SOP + ENISA worked example)
-- `D-IH-72-J` (media-counterparty-onboarding = Storytelling charter cross-link + register row)
-- `D-IH-72-K` (recruiter onboarding = register row + I73 People Operations onboarding SOP)
-- `D-IH-72-Q` (cadence taxonomy = on_demand|scheduled|event_triggered|gated_operator)
-- `D-IH-70-AC` (forward-charter from I70 P8.5 GOI/POI hunt: 4 enum classes
-  ratified including competitor_intelligence_target + recruiter — these
-  classes seed INTELLIGENCEOPS_REGISTER target_class enum)
+Radar freshness columns per D-IH-86-FH (Wave R+5 C1).
 """
 
 from __future__ import annotations
 
-# Keep in sync with the canonical CSV header row at
-# docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv
-INTELLIGENCEOPS_REGISTER_FIELDNAMES: tuple[str, ...] = (
-    "register_id",                     # ^IO-[A-Z0-9-]{4,80}$ — stable identifier
-    "target_id",                       # FK-by-convention to GOI_POI_REGISTER.csv ref_id; TODO[OPERATOR-...] markers
-                                       # allowed when GOI row not yet minted (gated by SOP authoring cycle)
-    "target_class",                    # enum competitor_intelligence_target | regulator | media | recruiter
-    "cadence",                         # enum on_demand | scheduled | event_triggered | gated_operator (per D-IH-72-Q)
-    "source_type",                     # enum HUMINT | OSINT | TECHINT | hybrid (per HUMINT FM 2-22.3 source typology)
-    "reliability",                     # enum A | B | C | D | E (HUMINT FM 2-22.3 source-reliability rating)
-    "output_artifact",                 # path or template-pattern; where the collection output lands
-    "responsible_role",                # FK to baseline_organisation.csv role_name
-    "lifecycle_status",                # enum active | scaffold | deprecated
-    "intro_decision_id",               # FK to DECISION_REGISTER.csv decision_id; chartering decision
-    "linked_sop_path",                 # path to operator-facing SOP (per akos-executable-process-catalog.mdc Rule 1)
-    "linked_runbook_path",             # path to executable runbook (per akos-executable-process-catalog.mdc Rule 1)
-    "notes",
-    "last_review_at",                  # I71 P4 follow-up (D-IH-71-R) review-stamp (DATE; ISO YYYY-MM-DD)
-    "last_review_by",                  # I71 P4 follow-up (D-IH-71-R) review-stamp (FK-by-convention to baseline_organisation.csv role_name)
-    "last_review_decision_id",         # I71 P4 follow-up (D-IH-71-R) review-stamp (FK-by-convention to DECISION_REGISTER.csv decision_id; nullable)
-    "methodology_version_at_review",   # I71 P4 follow-up (D-IH-71-R) review-stamp (LOGIC_CHANGE_LOG.md methodology version at review time; vMAJOR.MINOR per D-IH-71-D)
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+from akos.hlk_research_radar import (  # noqa: F401
+    INTELLIGENCEOPS_REGISTER_FIELDNAMES,
+    VALID_STALENESS_POSTURES,
+    VALID_VOLATILITY_CLASSES,
 )
 
+__all__ = [
+    "INTELLIGENCEOPS_REGISTER_FIELDNAMES",
+    "VALID_TARGET_CLASSES",
+    "VALID_CADENCE",
+    "VALID_SOURCE_TYPES",
+    "VALID_RELIABILITY",
+    "VALID_LIFECYCLE_STATUS",
+    "VALID_VOLATILITY_CLASSES",
+    "VALID_STALENESS_POSTURES",
+    "IntelligenceOpsRegisterRow",
+]
 
 VALID_TARGET_CLASSES: frozenset[str] = frozenset({
-    "competitor_intelligence_target",
     "regulator",
+    "competitor_intelligence_target",
     "media",
-    "recruiter",
+    "recommendation",
 })
 
-
-# Per D-IH-72-Q cadence taxonomy.
-VALID_CADENCES: frozenset[str] = frozenset({
+VALID_CADENCE: frozenset[str] = frozenset({
     "on_demand",
     "scheduled",
     "event_triggered",
     "gated_operator",
 })
 
-
-# Per HUMINT FM 2-22.3 (US Army Field Manual on Human Intelligence) source typology.
-# Distinct from the FM 2-22.3 reliability rating below.
 VALID_SOURCE_TYPES: frozenset[str] = frozenset({
-    "HUMINT",   # human intelligence (interviews, conversations, briefings)
-    "OSINT",    # open-source intelligence (public web, registries, journalism)
-    "TECHINT",  # technical intelligence (code analysis, infra signals, telemetry)
-    "hybrid",   # multi-source synthesis
+    "OSINT",
+    "HUMINT",
+    "SIGINT",
+    "CORPINT",
+    "MOTINT",
+    "TBD",
 })
 
-
-# HUMINT FM 2-22.3 §B-2 source-reliability rating scale.
-VALID_RELIABILITY_GRADES: frozenset[str] = frozenset({
-    "A",  # completely reliable
-    "B",  # usually reliable
-    "C",  # fairly reliable
-    "D",  # not usually reliable
-    "E",  # unreliable
+VALID_RELIABILITY: frozenset[str] = frozenset({
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
 })
 
-
-VALID_LIFECYCLE_STATUSES: frozenset[str] = frozenset({
-    "active",       # contract is live; collection happens per cadence
-    "scaffold",     # contract authored but collection not yet running (TODO target_id common)
-    "deprecated",   # contract retired; historical record only
+VALID_LIFECYCLE_STATUS: frozenset[str] = frozenset({
+    "active",
+    "scaffold",
+    "deprecated",
 })
+
+# Back-compat aliases for ``scripts/validate_intelligenceops_register.py``.
+VALID_CADENCES = VALID_CADENCE
+VALID_LIFECYCLE_STATUSES = VALID_LIFECYCLE_STATUS
+VALID_RELIABILITY_GRADES = VALID_RELIABILITY
+
+
+class IntelligenceOpsRegisterRow(BaseModel):
+    """One INTELLIGENCEOPS_REGISTER row including radar freshness columns."""
+
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    register_id: str = Field(min_length=1, max_length=80)
+    target_id: str = Field(min_length=1, max_length=120)
+    target_class: str
+    cadence: str
+    source_type: str
+    reliability: str
+    output_artifact: str = ""
+    responsible_role: str
+    lifecycle_status: Literal["active", "scaffold", "deprecated"]
+    intro_decision_id: str = ""
+    linked_sop_path: str = ""
+    linked_runbook_path: str = ""
+    notes: str = ""
+    last_review_at: str = ""
+    last_review_by: str = ""
+    last_review_decision_id: str = ""
+    methodology_version_at_review: str = ""
+    volatility_class: str = ""
+    staleness_days: str = ""
+    staleness_posture: str = ""
+    next_verify_by: str = ""
+
+    @model_validator(mode="after")
+    def _validate_enums(self) -> IntelligenceOpsRegisterRow:
+        if self.target_class not in VALID_TARGET_CLASSES:
+            raise ValueError(f"invalid target_class: {self.target_class}")
+        if self.cadence not in VALID_CADENCE:
+            raise ValueError(f"invalid cadence: {self.cadence}")
+        if self.source_type not in VALID_SOURCE_TYPES:
+            raise ValueError(f"invalid source_type: {self.source_type}")
+        if self.reliability not in VALID_RELIABILITY:
+            raise ValueError(f"invalid reliability: {self.reliability}")
+        if self.volatility_class and self.volatility_class not in VALID_VOLATILITY_CLASSES:
+            raise ValueError(f"invalid volatility_class: {self.volatility_class}")
+        if self.staleness_posture and self.staleness_posture not in VALID_STALENESS_POSTURES:
+            raise ValueError(f"invalid staleness_posture: {self.staleness_posture}")
+        return self

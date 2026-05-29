@@ -668,6 +668,27 @@ def run_synthesis_before_tranche_check_self_test() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_research_radar_self_test() -> tuple[bool, int]:
+    """Run Research Radar self-test (16th Quality Fabric specialty).
+
+    I75 Wave R+5 C1 per D-IH-86-FG. Self-test mode of
+    ``scripts/validate_research_radar.py`` validates Pydantic SSOT in
+    ``akos/hlk_research_radar.py``. Full register sweep fires via
+    ``scripts/research_radar_sweep.py`` at tranche cadence.
+    """
+    logger.info(
+        "Running Research Radar self-test "
+        "(I75 Wave R+5 C1 / D-IH-86-FG; --self-test) ..."
+    )
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_research_radar.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_research_action_self_test() -> tuple[bool, int]:
     """Run RESEARCH_ACTION self-test (15th Quality Fabric specialty).
 
@@ -1586,6 +1607,12 @@ def main() -> None:
     results.append((
         "INFO" if research_action_ok else "FAIL",
         f"Research-action self-test (scripts/validate_research_action.py --self-test - 15th Quality Fabric specialty per D-IH-86-FF active mint Wave R+4 C1.6 plus 15-surface closeout; Pydantic SSOT ResearchSourceRow + ResearchSourceLedgerSummary frozen with extra=forbid + 5 enum frozensets (VALID_FORMAT_VALUES + VALID_SOURCE_CATEGORY_VALUES + VALID_SOURCE_LEVEL_VALUES + VALID_CONTROL_CONFIDENCE_LEVELS + SOURCE_LEDGER_FIELDNAMES tuple shape) + numeric score bounds 1-5 + source_id SRC- prefix + url shape validation; INFO ramp self-test as always-on chassis circuit-breaker per akos-research-action.mdc RULE 3 + RULE 5 (per-ledger schema findings start INFO and ramp per RULE 5 once 3+ research actions across 2+ areas apply cleanly + quarterly cross-area audit + operator-ratified successor decision); does NOT validate any actual per-ledger CSV (that fires via --source-ledger <path> at research-action authoring cadence per RESEARCH_ACTION_DISCIPLINE.md operating loop stage 7); ok={'yes' if research_action_ok else 'no'}; exit={research_action_rc})",
+    ))
+
+    research_radar_ok, research_radar_rc = run_research_radar_self_test()
+    results.append((
+        "INFO" if research_radar_ok else "FAIL",
+        f"Research-radar self-test (scripts/validate_research_radar.py --self-test - 16th Quality Fabric specialty per D-IH-86-FG charter mint I75 Wave R+5 C1; Pydantic SSOT akos/hlk_research_radar.py (INTELLIGENCEOPS_REGISTER_FIELDNAMES 21-col + volatility/staleness enums + SUBSTRATE_VOLATILITY_PROFILES); paired runbook scripts/research_radar_sweep.py; per-target cadence never global constant; INFO ramp self-test at pre_commit per akos-research-radar.mdc RULE 3; ok={'yes' if research_radar_ok else 'no'}; exit={research_radar_rc})",
     ))
 
     uat_report_ok, uat_report_rc = run_uat_report_validation()

@@ -1,0 +1,63 @@
+---
+description: >-
+  Research Radar Discipline (16th Quality Fabric specialty; Wave R+5 C1 mint
+  per D-IH-86-FG). Mechanical companion to RESEARCH_RADAR_DISCIPLINE.md.
+  Fires when extending INTELLIGENCEOPS_REGISTER freshness columns, running
+  the radar sweep before Research Action govern stage, or minting per-target
+  staleness posture. Cadence is data-driven per target — never a global
+  constant such as a fixed quarterly sweep.
+globs:
+  - "docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_RADAR_DISCIPLINE.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_RADAR_001.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv"
+  - "scripts/research_radar_sweep.py"
+  - "scripts/validate_research_radar.py"
+  - "akos/hlk_research_radar.py"
+alwaysApply: true
+---
+
+# AKOS Research Radar
+
+Use this rule whenever maintaining IntelligenceOps register freshness,
+running a radar sweep before Research Action govern stage, or subsume
+substrate landscape maintenance as radar targets. Codifies **D-IH-86-FG**
+(Wave R+5 C1, 2026-05-29). Mechanical companion to
+[`RESEARCH_RADAR_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_RADAR_DISCIPLINE.md).
+
+## RULE 1 — Per-target cadence only (binding)
+
+Every `staleness_days` / `next_verify_by` value is authored per
+`register_id` from `volatility_class` + operator judgment. **Never**
+hardcode a global cadence label (for example a repo-wide "quarterly"
+sweep) in doctrine, SOP, runbook, or validators.
+
+## RULE 2 — Extend IntelligenceOps register in one commit (binding)
+
+Freshness columns land on
+[`INTELLIGENCEOPS_REGISTER.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv)
+with schema-drift sync per [`akos-docs-config-sync.mdc`](akos-docs-config-sync.mdc):
+`akos/hlk_intelligenceops_register_csv.py` FIELDNAMES tuple, mirror DDL,
+`validate_compliance_schema_drift.py` registry row, and
+`validate_intelligenceops_register.py` enum checks.
+
+## RULE 3 — Run self-test at pre_commit (binding)
+
+`py scripts/validate_research_radar.py --self-test` via
+[`config/verification-profiles.json`](../../config/verification-profiles.json)
++ [`scripts/release-gate.py`](../../scripts/release-gate.py).
+
+## RULE 4 — Paired SOP + runbook (binding)
+
+AC-HUMAN:
+[`SOP-RESEARCH_RADAR_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_RADAR_001.md).
+AC-AUTOMATION:
+[`scripts/research_radar_sweep.py`](../../scripts/research_radar_sweep.py).
+
+## RULE 5 — Compose with Research Action (binding)
+
+Radar output is input to Research Action govern stage; it does not
+replace the 15-field source ledger or 8-stage loop per
+[`akos-research-action.mdc`](akos-research-action.mdc).
+
+@docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_RADAR_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md

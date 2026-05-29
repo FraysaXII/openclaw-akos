@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Research Substrate Audit Cadence runbook (Initiative 84 P6).
 
+``process_list.csv`` row ``env_tech_dtp_substrate_landscape_mtnce_001`` (D-IH-86-FI).
+
 Paired runbook for ``SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md`` per
 [`akos-executable-process-catalog.mdc`](../.cursor/rules/akos-executable-process-catalog.mdc)
 Rule 1. Operationalises the quarterly Research-area substrate-audit cadence
