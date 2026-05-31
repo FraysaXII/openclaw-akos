@@ -5,7 +5,7 @@ canonical_id: HOLISTIKA_CAPABILITY_DOCTRINE
 title: Holistika Capability Doctrine
 status: review
 authored: 2026-05-21
-last_review: 2026-05-21
+last_review: 2026-05-31
 authority: Founder + System Owner
 role_owner: System Owner
 co_owner_role: PMO
@@ -23,6 +23,7 @@ linked_decisions:
   - D-IH-82-PREREQ
   - D-IH-86-CK
   - D-IH-86-CL
+  - D-IH-86-FK
 linked_canonicals:
   - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv
   - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv
@@ -201,6 +202,23 @@ Per-state operator-engagement cadence:
 - **Active/Promoted → Deprecated**: explicit deprecation decision row required; preserves audit lineage; capability stays queryable for historical lookups.
 - **Deprecated → Active (rebirth)**: rare; requires re-passing C1-C6 + explicit reactivation decision row.
 
+## 8.5 Make / buy / outsource frame (capability acquisition)
+
+> Added 2026-05-31 via the I86 brand-domain naming governance tranche (D-IH-86-FK), coordinated with I82. Mechanizes the recurring operator question: *"do we have this capability, or do we build it, buy it, or outsource it?"*
+
+When a capability is needed — a candidate per §3, or a gap surfaced by an engagement, a registry sweep, or an operator request — resolve the **acquisition path** before assuming Holistika must build it:
+
+| Path | When it is the default | Bearer / cost note |
+|:---|:---|:---|
+| **Have it** | The capability already exists (registered; C1-C6 satisfied). | Reuse the registered row; do not re-mint. Check `CAPABILITY_REGISTRY.csv` first (deduping legacy rows is part of this — e.g. D-IH-86-FK collapsed two trademark-naming rows). |
+| **Make / build** | Core or strategic capability within bearer-class reach (Talent-H or Talent-A). | Default for capabilities that ARE the methodology / IP. Build internally; register per §3. |
+| **Buy** | Commoditized asset; buying is cheaper than building; the asset is acquirable. | Get a *real* quote — do not assume "impossible" (e.g. a premium-domain broker quote). Reversibility note required. |
+| **Outsource / broker** | Non-core capability better provided by an external party (adviser, vendor, broker, collaborator). | Per `akos-inline-ratification.mdc` internal-first principle: for backbone-Ops judgment capabilities, surface **internal-first** as a first-class option — do not reflexively outsource. Economics governed by `COLLABORATOR_SHARE_DOCTRINE.md` (share) + adviser-engagement (advisers). |
+
+The acquisition decision is recorded (decision row when governance-material; capability `notes` otherwise) with a reversibility note. The choice is **not** permanent — a bought/outsourced capability can be internalized later (make), and a built one can be deprecated (§8) when superseded.
+
+**Worked example (D-IH-86-FK).** The brand-domain capability: *have it* (keep + improve the current domain now) + defer *make* (coining a new mark — Legal clearance later) + *buy/broker* only with a real quote (the exact premium `.com`). Composed via `SOP-BRAND_DOMAIN_NAMING_001` Step 4.
+
 ## 9. Anti-patterns
 
 - **Capability-as-marketing** — surfacing a capability for external audiences without a bearer-class-grounded SOP+runbook substrate. Violates C1 + C5. Counter: every external rendering must back-cite to a `process_list.csv` row.
@@ -230,4 +248,5 @@ Per-state operator-engagement cadence:
 |:---|:---|:---|:---|
 | 2026-05-21 | draft | D-IH-86-CK (Wave P kickoff) | Minted at I86 Wave P kickoff as the prerequisite for I82 P1 Talent activation canonical-CSV gate per D-IH-82-I split-tree architecture. |
 | 2026-05-21 | review | D-IH-86-CL (Wave P operator-batched ratify) + D-IH-82-PREREQ (P1 closure) + D-IH-82-J (anti-over-horizontalism rework) + D-IH-82-K (Talent-A rows) | Promoted from draft → review atomic with I82 P1 canonical-CSV mint. Operator-batched ratify gate (7 inline questions answered 2026-05-21) cleared §4 axis taxonomy + Capability Curator rework + Talent-A 2-row scope + paired-mint completeness doctrine (D-IH-86-CL). |
+| 2026-05-31 | review (amended) | D-IH-86-FK (brand-domain naming governance harmonization) | §8.5 Make / buy / outsource frame added via the I86 brand-domain naming governance tranche, coordinated with I82. No change to §3 C1-C6 or §4 bearer classes; purely additive. |
 | TBD | active | TBD (I82 P7 closure) | Promotion at I82 P7 closure following live capability-surfacing UAT. |
