@@ -1,0 +1,7 @@
+phase,commit_sha,commit_date,change_kind,lines_delta,repo,file_path,file_kind,role_owner,area,entity,decision_ids,process_ids,linked_canonicals,validators_run,requires_operator_gate,change_summary,notes
+P0,9f7bb6e,2026-06-01,modified,+24,openclaw-akos,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv,canonical,PMO,People,Holistika,D-IH-90-A;D-IH-91-A;D-IH-92-A,,DECISION_REGISTER.csv,validate_hlk.py,yes,GATE #1 append D-IH-90-A..V + I91/I92 inception rows,
+P0,9f7bb6e,2026-06-01,modified,+3,openclaw-akos,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv,canonical,PMO,People,Holistika,D-IH-90-A,,INITIATIVE_REGISTRY.csv,validate_hlk.py,yes,INIT rows for I90 I91 I92,
+P0,9f7bb6e,2026-06-01,modified,n/a,openclaw-akos,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv,canonical,PMO,People,Holistika,D-IH-90-A,,OPS_REGISTER.csv,validate_hlk.py,yes,Close OPS-86-3/16/17 with mirror-exists notes,
+P0,9f7bb6e,2026-06-01,created,+800,openclaw-akos,docs/wip/planning/90-routing-and-wiring/,planning,PMO,People,Holistika,D-IH-90-A,,,validate_hlk.py,yes,I90 charter bundle + reports,
+P1,9f7bb6e,2026-06-01,created,+3,openclaw-akos,.cursor/agents/,cursor-rule,System Owner,Tech,Holistika,D-IH-90-G;D-IH-90-V,,,n/a,no,planner executor reviewer two-seat machinery,
+P1,9f7bb6e,2026-06-01,created,+1,openclaw-akos,docs/wip/planning/90-routing-and-wiring/reports/two-seat-setup-guide-2026-05-30.md,planning,PMO,People,Holistika,D-IH-90-L,,,n/a,no,Operator two-seat setup guide,
