@@ -49,7 +49,7 @@ Ordered queue from plan §4 P3 + [`86-initiative-cluster-execution-coordinator/r
 4. Research legacy SSOT (OPS-86-26) — gated; do not start without operator.
 5. I91 P0 charter — **in progress** (master-roadmap expanded 2026-06-01); graph execution blocked on Neo4j env until operator supplies credentials.
 
-**Still blocking formal P3 sign-off:** GATE #2 operator walk on rule-tier model ([`reports/p2-gate2-rule-tier-review-2026-06-01.md`](reports/p2-gate2-rule-tier-review-2026-06-01.md)).
+**GATE #2:** **PASS** 2026-06-01 ([`reports/p2-gate2-rule-tier-review-2026-06-01.md`](reports/p2-gate2-rule-tier-review-2026-06-01.md), `D-IH-90-W`). P3 routing policy sign-off complete.
 
 ## Deferred (explicit)
 

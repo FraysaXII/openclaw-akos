@@ -42,6 +42,7 @@ Commit `8d015bf`: OPS-86-23 single `last_review_decision_id` + mirror-template t
 
 **Full-suite debt (not I90 blockers):** see [`regression-pre-continue-2026-06-01.md`](regression-pre-continue-2026-06-01.md) — deck topic-count drift + sibling `akos-mirror.mdc` sha256 (I68 bless lane).
 
-## Gates still open
+## Gates
 
-- **GATE #2** — [`p2-gate2-rule-tier-review-2026-06-01.md`](p2-gate2-rule-tier-review-2026-06-01.md) (`PENDING-OPERATOR-WALK`) before treating P3 as fully closed for routing policy sign-off.
+- **GATE #2** — **PASS** 2026-06-01 ([`p2-gate2-rule-tier-review-2026-06-01.md`](p2-gate2-rule-tier-review-2026-06-01.md), `D-IH-90-W`).
+- **Sibling mirrors** — `bless_external_repo.py` realigned `hlk-erp` + `kirbe-platform`; `check_external_repo_contract.py` OK (2026-06-01).

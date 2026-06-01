@@ -11,6 +11,7 @@ linked_decisions:
   - D-IH-90-M
   - D-IH-90-R
   - D-IH-90-V
+  - D-IH-90-W
 authority: Founder + PMO + System Owner
 language: en
 linked_initiatives:
@@ -35,7 +36,7 @@ Holistika's Cursor workspace carried **25 always-on rules** (P2 reduces to **3**
 |:---|:---|:---|
 | **P0** | Charter + 33-rule inventory + OPS reconciliation + INIT 90/91/92 mint | **GATE #1** (canonical CSV) |
 | **P1** | `.cursor/agents/` planner + executor + two-seat guide | — |
-| **P2** | Rule demotion (3 always-on + router), hooks, tier validators | **GATE #2** (pending) |
+| **P2** | Rule demotion (3 always-on + router), hooks, tier validators | **GATE #2** (**PASS** 2026-06-01, `D-IH-90-W`) |
 | **P3** | Backlog drain (OPS 16/17/3, 23 notes, handoff I91) | Per-item inline-ratify |
 
 ## 2 — Phase dependency
@@ -100,7 +101,7 @@ py scripts/validate_hlk.py
 - [`.cursor/hooks.json`](../../../.cursor/hooks.json) — canonical CSV commit gate, schema-drift reminder, secret scan, seat handoff on stop.
 - Root [`AGENTS.md`](../../../AGENTS.md) + [`docs/guides/cursor-two-seat-routing.md`](../../../docs/guides/cursor-two-seat-routing.md) — durable workspace index (initiatives via planning README).
 
-**GATE #2:** [`reports/p2-gate2-rule-tier-review-2026-06-01.md`](reports/p2-gate2-rule-tier-review-2026-06-01.md) — operator sign-off on tier model before P3 backlog drain.
+**GATE #2:** [`reports/p2-gate2-rule-tier-review-2026-06-01.md`](reports/p2-gate2-rule-tier-review-2026-06-01.md) — **PASS** (operator ratified 2026-06-01, `D-IH-90-W`).
 
 ## 6 — P3 — Backlog drain (2026-06-01)
 
@@ -112,7 +113,7 @@ See [`backlog-two-seat-routing-2026-05-30.md`](backlog-two-seat-routing-2026-05-
 
 **Regression:** `8d015bf` — I90 validators green; full-suite deck + sibling-mirror debt documented in [`reports/regression-pre-continue-2026-06-01.md`](reports/regression-pre-continue-2026-06-01.md).
 
-**Still gated:** GATE #2 operator sign-off on rule tiers; OPS-86-26 research legacy; live Neo4j sync until `NEO4J_*` configured.
+**Still gated:** OPS-86-26 research legacy; live Neo4j sync until `NEO4J_*` configured. **Post-gate:** sibling `akos-mirror.mdc` realigned in `hlk-erp` + `kirbe-platform` local clones via `bless_external_repo.py` (commit in those repos separately).
 
 ## 7 — Closure criteria (forward)
 

@@ -26,3 +26,4 @@
 | **D-IH-90-T** | Full 33-rule re-read inventory before P2 demotion? | System Owner | ratified-in-plan | P0 ops report |
 | **D-IH-90-U** | Do not re-do brand-domain (`D-IH-86-FK`)? | Founder | ratified-in-plan | permanent |
 | **D-IH-90-V** | GATE #1 before INIT/DECISION/OPS writes? | Founder | ratified-in-plan | P0 |
+| **D-IH-90-W** | GATE #2 rule tier model (3 always-on + router + hooks)? | Founder | **ratified** | P2 GATE #2 2026-06-01 |
