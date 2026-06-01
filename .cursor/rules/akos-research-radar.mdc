@@ -53,6 +53,9 @@ AC-HUMAN:
 AC-AUTOMATION:
 [`scripts/research_radar_sweep.py`](../../scripts/research_radar_sweep.py).
 
+Paired skill (the *how* layer):
+[`.cursor/skills/research-radar-craft/SKILL.md`](../skills/research-radar-craft/SKILL.md).
+
 ## RULE 5 — Compose with Research Action (binding)
 
 Radar output is input to Research Action govern stage; it does not

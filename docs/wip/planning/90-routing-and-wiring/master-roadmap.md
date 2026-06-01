@@ -102,9 +102,15 @@ py scripts/validate_hlk.py
 
 **GATE #2:** [`reports/p2-gate2-rule-tier-review-2026-06-01.md`](reports/p2-gate2-rule-tier-review-2026-06-01.md) — operator sign-off on tier model before P3 backlog drain.
 
-## 6 — P3 — Backlog drain
+## 6 — P3 — Backlog drain (2026-06-01)
 
-See [`backlog-two-seat-routing-2026-05-30.md`](backlog-two-seat-routing-2026-05-30.md). **Do not** start I91 graph execution until P2 validators PASS at INFO and operator confirms §14.7 Chat B stub if context limits hit.
+See [`backlog-two-seat-routing-2026-05-30.md`](backlog-two-seat-routing-2026-05-30.md) + [`reports/p3-ops-backlog-drain-2026-06-01.md`](reports/p3-ops-backlog-drain-2026-06-01.md).
+
+**Done:** OPS-86-3/16/17 closed at GATE #1; OPS-86-23 notes refreshed (DIM-04 8→6 CSVs; artifact/component mirrors no longer in open backlog).
+
+**In flight:** I91 P0 charter expansion ([`../91-enterprise-graph-store-coverage/master-roadmap.md`](../91-enterprise-graph-store-coverage/master-roadmap.md)).
+
+**Still gated:** GATE #2 operator sign-off on rule tiers; OPS-86-26 research legacy; live Neo4j sync until `NEO4J_*` configured.
 
 ## 7 — Closure criteria (forward)
 

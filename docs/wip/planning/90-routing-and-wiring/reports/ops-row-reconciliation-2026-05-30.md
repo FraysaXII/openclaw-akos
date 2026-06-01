@@ -16,7 +16,7 @@ linked_ops_action_ids:
 
 # OPS row reconciliation — routing cluster P0 (2026-06-01)
 
-> Evidence sweep: git CSVs + Supabase MCP `list_tables` on `compliance` (project `gynxsbvnoagvxcjsfnne`, 2026-06-01). **Proposed registry edits land at GATE #1** — not applied in this report.
+> Evidence sweep: git CSVs + Supabase MCP `list_tables` on `compliance` (project `gynxsbvnoagvxcjsfnne`, 2026-06-01). **GATE #1 applied** (`9f7bb6e`): OPS-86-3/16/17 closed. **P3 applied** (2026-06-01): OPS-86-23 notes refreshed — see [`p3-ops-backlog-drain-2026-06-01.md`](p3-ops-backlog-drain-2026-06-01.md).
 
 ## Summary table
 
@@ -25,7 +25,7 @@ linked_ops_action_ids:
 | **OPS-86-3** | `open` | Migration `20260517163635_i86_p2_program_anchors_column.sql` + view `20260517163648_i86_p3_initiative_program_rollup_view.sql`; `validate_initiative_program_anchors.py` in repo; I86 pause record cited in coordinator roadmap | **Close** — substance shipped; residual = operator `db push` + mirror reseed per OPS-86-32..34 cluster note (forward to OPS if mirror stale) |
 | **OPS-86-16** | `open` | Supabase `compliance.artifact_class_registry_mirror` **exists** (21 rows); emit in `sync_compliance_mirrors_from_csv.py`; `validate_output_architecture_registries.py` | **Close** — notes: mirror + validator present; remaining work = mirror **data** freshness (operator emit), not DDL |
 | **OPS-86-17** | `open` | Supabase `compliance.component_primitive_registry_mirror` **exists** (25 rows); same emit path | **Close** — same pattern as OPS-86-16 |
-| **OPS-86-23** | `open` | DIM-04 notes list artifact/component as missing mirrors — **stale** vs live schema | **Keep open** — refresh `notes` to drop artifact/component; re-run inter-wave DIM-04 at next wave-close |
+| **OPS-86-23** | `open` | DIM-04 backlog **6 CSVs** (artifact/component mirrors exist) | **Keep open** — notes refreshed P3 2026-06-01; re-run inter-wave DIM-04 at next wave-close |
 | **OPS-86-26** | `open` | Research legacy SSOT migration — no P0 scope change | **Keep open** — unchanged; gated per plan |
 
 ## Cursor rule inventory (33 rules — mechanical counts)

@@ -43,11 +43,13 @@ authority: Founder + PMO
 
 Ordered queue from plan §4 P3 + [`86-initiative-cluster-execution-coordinator/research-rollout-backlog-2026-05-29.md`](../86-initiative-cluster-execution-coordinator/research-rollout-backlog-2026-05-29.md):
 
-1. OPS-86-16 / OPS-86-17 reconciliation (mirrors exist — close or update notes).
-2. OPS-86-3 close (program_anchors substance shipped).
-3. OPS-86-23 notes refresh (DIM-04 stale).
+1. ~~OPS-86-16 / OPS-86-17~~ — **done** at GATE #1 (`9f7bb6e`).
+2. ~~OPS-86-3~~ — **done** at GATE #1.
+3. ~~OPS-86-23 notes refresh~~ — **done** 2026-06-01 ([`reports/p3-ops-backlog-drain-2026-06-01.md`](reports/p3-ops-backlog-drain-2026-06-01.md)).
 4. Research legacy SSOT (OPS-86-26) — gated; do not start without operator.
-5. I91 P0+ when I90 P2 complete.
+5. I91 P0 charter — **in progress** (master-roadmap expanded 2026-06-01); graph execution blocked on Neo4j env until operator supplies credentials.
+
+**Still blocking formal P3 sign-off:** GATE #2 operator walk on rule-tier model ([`reports/p2-gate2-rule-tier-review-2026-06-01.md`](reports/p2-gate2-rule-tier-review-2026-06-01.md)).
 
 ## Deferred (explicit)
 
