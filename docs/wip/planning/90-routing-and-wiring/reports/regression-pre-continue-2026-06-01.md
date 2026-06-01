@@ -37,12 +37,12 @@ Scope: validate I90 P2/P3 surfaces before GATE #2 sign-off and I91 execution.
 | `test_validate_review_stamps` (4 tests) | OPS-86-23 `last_review_decision_id` had semicolon list `D-IH-86-CZ;D-IH-90-H` | Single ID `D-IH-90-H` + `D-IH-90-H` in `linked_decision_ids` |
 | `test_repo_health_snapshot::test_akos_mirror_*` | Test expected `alwaysApply: true`; I90 P2 set template to `false` in AKOS | Test updated to match D-IH-90-R posture |
 
-### Failures **not** attributed to I90 (pre-existing / environmental)
+### Failures **not** blocking I90 (cluster / sibling-repo hygiene)
 
-| Test | Notes |
-|:---|:---|
-| `test_company_deck::test_slide_11_*` | Deck content assertion — unrelated to rule tiers |
-| `test_release_gate_external_repo_check::*` | 2 external repo contract issues (41 repos skipped) — sibling-repo drift |
+| Test | Root cause | I86 / cluster disposition |
+|:---|:---|:---|
+| `test_company_deck::test_slide_11_*` | Slide 11 quotes **28 temas**; test expects **39 temas** per live `TOPIC_REGISTRY` / `GOVERNANCE_MOAT` parity (not `process_list` count) | **Not on open OPS rows.** I86 Wave R+3 already ran the same chore class for **process** count drift. Fix = one-line `deck_slides.yaml` bump when brand_surface work next touches ENISA deck — often bundled with I77 / I66 / cluster chore, not OPS-86-23 (DIM-04/DIM-05). |
+| `test_release_gate_external_repo_check::*` | `hlk-erp` + `kirbe-platform` `.cursor/rules/akos-mirror.mdc` **sha256 drift** vs AKOS template after I90 P2 mirror-template edit | **Yes — I86 sibling-repo lane.** DIM-10 deploy/sibling references closed at D-IH-86-CY; ongoing sync is **I63 external-repo governance** + **I68 P5** bless carry-over (`bless_external_repo.py` / drift remediation SOP). Expect green after sibling PRs refresh mirror copies. |
 | `test_validate_review_stamps` expanded class | Same OPS stamp class; fixed by OPS row correction |
 
 ## Advisory (non-blocking)

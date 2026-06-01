@@ -108,7 +108,9 @@ See [`backlog-two-seat-routing-2026-05-30.md`](backlog-two-seat-routing-2026-05-
 
 **Done:** OPS-86-3/16/17 closed at GATE #1; OPS-86-23 notes refreshed (DIM-04 8→6 CSVs; artifact/component mirrors no longer in open backlog).
 
-**In flight:** I91 P0 charter expansion ([`../91-enterprise-graph-store-coverage/master-roadmap.md`](../91-enterprise-graph-store-coverage/master-roadmap.md)).
+**In flight:** I91 P0 store inventory + P1 preflight record ([`../91-enterprise-graph-store-coverage/reports/`](../91-enterprise-graph-store-coverage/reports/)).
+
+**Regression:** `8d015bf` — I90 validators green; full-suite deck + sibling-mirror debt documented in [`reports/regression-pre-continue-2026-06-01.md`](reports/regression-pre-continue-2026-06-01.md).
 
 **Still gated:** GATE #2 operator sign-off on rule tiers; OPS-86-26 research legacy; live Neo4j sync until `NEO4J_*` configured.
 

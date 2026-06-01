@@ -36,6 +36,12 @@ py scripts/validate_hlk.py
 py scripts/validate_rule_skill_pairing.py
 ```
 
+## Regression (2026-06-01)
+
+Commit `8d015bf`: OPS-86-23 single `last_review_decision_id` + mirror-template test alignment. I90 mechanical validators PASS.
+
+**Full-suite debt (not I90 blockers):** see [`regression-pre-continue-2026-06-01.md`](regression-pre-continue-2026-06-01.md) — deck topic-count drift + sibling `akos-mirror.mdc` sha256 (I68 bless lane).
+
 ## Gates still open
 
 - **GATE #2** — [`p2-gate2-rule-tier-review-2026-06-01.md`](p2-gate2-rule-tier-review-2026-06-01.md) (`PENDING-OPERATOR-WALK`) before treating P3 as fully closed for routing policy sign-off.

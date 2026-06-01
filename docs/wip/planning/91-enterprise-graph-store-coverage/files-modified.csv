@@ -1,0 +1,4 @@
+phase,commit_sha,commit_date,change_kind,lines_delta,repo,file_path,file_kind,role_owner,area,entity,decision_ids,process_ids,linked_canonicals,validators_run,requires_operator_gate,change_summary,notes
+P0,akos-pending,2026-06-01,created,+45,openclaw-akos,docs/wip/planning/91-enterprise-graph-store-coverage/reports/store-inventory-2026-06-01.md,planning,PMO,People,Holistika,D-IH-91-A,,,n/a,no,I91 P0 store inventory skeleton,
+P0,akos-pending,2026-06-01,created,+35,openclaw-akos,docs/wip/planning/91-enterprise-graph-store-coverage/reports/p1-neo4j-preflight-blocked-2026-06-01.md,planning,PMO,People,Holistika,D-IH-91-A,,,n/a,no,I91 P1 preflight BLOCKED-ENV record,
+P0,akos-pending,2026-06-01,created,+2,openclaw-akos,docs/wip/planning/91-enterprise-graph-store-coverage/files-modified.csv,planning,PMO,People,Holistika,D-IH-91-A,,,n/a,no,I91 files-modified seed,
