@@ -4,7 +4,7 @@ globs:
   - "docs/wip/**/*.md"
   - ".cursor/**/*.md"
   - "**/*.plan.md"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS Planning Traceability

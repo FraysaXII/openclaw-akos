@@ -1,4 +1,4 @@
----
+﻿---
 description: >-
   Holistika-wide operations: MKTOPS/GTM, FINOPS, MAROPS/TECHOPS stewardship, and
   any initiative that touches MasterData — Supabase two-plane (DDL vs mirror DML),
@@ -17,12 +17,12 @@ globs:
   - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/**"
   - "docs/wip/planning/**"
   - "config/verification-profiles.json"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS — Holistika operations (MasterData, compliance, Supabase)
 
-Use this rule for **any Holistika operations** work that affects **governance SSOT**, **Supabase / MasterData**, **company vs product planes**, or **HLK process and vault** alignment — not only FINOPS. It complements [akos-planning-traceability.mdc](akos-planning-traceability.mdc) (initiative traceability) and [akos-governance-remediation.mdc](akos-governance-remediation.mdc) (HLK asset class).
+Use this rule for **any Holistika operations** work that affects **governance SSOT**, **Supabase / MasterData**, **company vs product planes**, or **HLK process and vault** alignment — not only FINOPS. It complements [akos-planning-traceability.mdc](akos-planning-traceability.mdc) (initiative traceability) and [akos-baseline-governance.mdc](akos-baseline-governance.mdc) (HLK asset class).
 
 ## Holistika operations planes (mental model)
 

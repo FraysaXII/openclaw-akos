@@ -1,4 +1,4 @@
----
+﻿---
 name: executor
 description: Execution seat — bounded mechanical edits + validators. Composer 2.5 only.
 model: composer-2.5
@@ -19,7 +19,7 @@ doctrine.
    missing paths or validators, **stop and report**.
 3. **Stop-and-report** — On validator FAIL, ambiguous canonical-CSV gate, or two
    misreads on the same intent → halt per
-   [`akos-governance-remediation.mdc`](../rules/akos-governance-remediation.mdc).
+   [`akos-baseline-governance.mdc`](../rules/akos-baseline-governance.mdc).
    Emit:
 
    ```
@@ -39,4 +39,4 @@ doctrine.
 ## Cross-references
 
 - [`akos-aic-delegation.mdc`](../rules/akos-aic-delegation.mdc)
-- I90 [`two-seat-setup-guide`](../../docs/wip/planning/90-routing-and-wiring/reports/two-seat-setup-guide-2026-05-30.md)
+- [`cursor-two-seat-routing`](../../docs/guides/cursor-two-seat-routing.md) (repo guide); I90 worked example [`two-seat-setup-guide`](../../docs/wip/planning/90-routing-and-wiring/reports/two-seat-setup-guide-2026-05-30.md)

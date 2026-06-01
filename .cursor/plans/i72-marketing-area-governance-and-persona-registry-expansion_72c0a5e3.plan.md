@@ -1,4 +1,4 @@
----
+﻿---
 name: I72 — Marketing Area Governance + Persona Registry + IntelligenceOps Register Expansion
 overview: |
   Activate INIT-OPENCLAW_AKOS-72 (gated_operator → active) and execute its 4 super-strands across P0-P10
@@ -49,7 +49,7 @@ todos:
       akos-inline-ratification.mdc (15 architectural conundrums + 6 audit ratifications all ratified at
       planning time, not deferred); akos-planning-traceability.mdc (plan-quality bar — 18-col
       files-modified.csv, mermaid diagrams, per-phase deep sections, decision-log + risk-register preview);
-      akos-governance-remediation.mdc (HLK compliance governance for registry CSVs); akos-holistika-operations.mdc
+      akos-baseline-governance.mdc (HLK compliance governance for registry CSVs); akos-holistika-operations.mdc
       (canonical CSV pattern for future ENGAGEMENT_TEMPLATE_REGISTRY + INTELLIGENCEOPS_REGISTER + 8 adapter
       registries from Round 5 + Round 6); akos-docs-config-sync.mdc (Round 6 V cascade rule for ARCHITECTURE.md
       + USER_GUIDE.md per-phase sub-deliverables); akos-mirror-template.mdc (AKOS-as-SSOT for hlk-erp panel
@@ -88,7 +88,7 @@ todos:
       technical-annex). Register in CANONICAL_REGISTRY.csv with panel_slot=op_revops_engagement_templates (reserved
       at P0). Extend compliance_mirror_emit profile. Update PRECEDENCE.md with canonical + mirror classification.
       Inline-ratify gate at CSV schema column set (operator approval per canonical-CSV gate per
-      akos-governance-remediation.mdc). OPS-72-1 closure. Files: 1 new canonical + 1 SSOT module + 1 validator + 1
+      akos-baseline-governance.mdc). OPS-72-1 closure. Files: 1 new canonical + 1 SSOT module + 1 validator + 1
       Supabase migration + 6 seed rows + CANONICAL_REGISTRY.csv row + PRECEDENCE.md update + verification-profiles.json
       entry + release-gate row + tests + phase report. Verification: validate_engagement_template_registry.py PASS;
       validate_compliance_schema_drift.py PASS; validate_canonical_registry.py PASS; mirror migration applied via
@@ -141,7 +141,7 @@ todos:
       verdict: persona row + scenario row both authored). Audit any additional personas surfaced during planning
       (e.g., from I70 P2.4 previous-project annex + I12 SUEZ-WeBuy partner roster). Run validate_brand_voice_register.py
       --strict mode on all new persona prose (I71 P1 chassis live). Operator-gated canonical-CSV edits per
-      akos-governance-remediation.mdc. OPS-72-4 closure. Files: PERSONA_REGISTRY.csv row(s) + PERSONA_SCENARIO_REGISTRY.csv
+      akos-baseline-governance.mdc. OPS-72-4 closure. Files: PERSONA_REGISTRY.csv row(s) + PERSONA_SCENARIO_REGISTRY.csv
       row(s) + brand-voice register pass evidence + phase report. Verification: validate_persona_registry.py PASS;
       validate_persona_scenario_registry.py PASS; validate_brand_voice_register.py --strict PASS on persona prose;
       release-gate green. Pause-point classification: MANDATORY canonical-CSV gate (persona-row addition); scenario-row
@@ -507,7 +507,7 @@ py scripts/render_operator_inbox.py
 
 **Self-checkpoint count.** 1 (pre-P0 read sweep — confirm I70 closure + I71 P1 ship + existing INIT row state + canonical compliance CSV headers).
 
-**Cursor-rules adherence.** [`akos-inline-ratification.mdc`](../.cursor/rules/akos-inline-ratification.mdc) (all 10 architectural conundrums ratified at planning time; no execution-time architectural questions); [`akos-planning-traceability.mdc`](../.cursor/rules/akos-planning-traceability.mdc) (plan-quality bar — 18-col files-modified.csv, 3 mermaid diagrams, per-phase deep sections, inline decision-log + risk-register preview); [`akos-governance-remediation.mdc`](../.cursor/rules/akos-governance-remediation.mdc) (HLK compliance governance for the 11+6+1 registry CSV rows); [`akos-holistika-operations.mdc`](../.cursor/rules/akos-holistika-operations.mdc) (canonical CSV pattern referenced for P2/P6 forward).
+**Cursor-rules adherence.** [`akos-inline-ratification.mdc`](../.cursor/rules/akos-inline-ratification.mdc) (all 10 architectural conundrums ratified at planning time; no execution-time architectural questions); [`akos-planning-traceability.mdc`](../.cursor/rules/akos-planning-traceability.mdc) (plan-quality bar — 18-col files-modified.csv, 3 mermaid diagrams, per-phase deep sections, inline decision-log + risk-register preview); [`akos-baseline-governance.mdc`](../.cursor/rules/akos-baseline-governance.mdc) (HLK compliance governance for the 11+6+1 registry CSV rows); [`akos-holistika-operations.mdc`](../.cursor/rules/akos-holistika-operations.mdc) (canonical CSV pattern referenced for P2/P6 forward).
 
 ### P1 — Strand A.1 sub-area charter authoring (~3-5 days; per-charter inline-ratify gates)
 
@@ -542,11 +542,11 @@ py scripts/render_operator_inbox.py
 
 **Verification.** `validate_engagement_template_registry.py` PASS; `validate_compliance_schema_drift.py` PASS (header aligned with SSOT tuple); `validate_canonical_registry.py` PASS; `validate_hlk.py` PASS; mirror migration applied via `compliance_mirror_emit` profile; `release-gate.py` green; pytest `tests/test_validate_engagement_template_registry.py` PASS.
 
-**Pause-point classification.** **MANDATORY canonical-CSV gate** per [`akos-governance-remediation.mdc`](../.cursor/rules/akos-governance-remediation.mdc) (new canonical compliance CSV requires explicit operator approval before commit; cascade contract per `akos-docs-config-sync.mdc` "A new canonical compliance CSV ships → schema-drift registry + sync script + Supabase migration + PRECEDENCE.md must all update in the same commit").
+**Pause-point classification.** **MANDATORY canonical-CSV gate** per [`akos-baseline-governance.mdc`](../.cursor/rules/akos-baseline-governance.mdc) (new canonical compliance CSV requires explicit operator approval before commit; cascade contract per `akos-docs-config-sync.mdc` "A new canonical compliance CSV ships → schema-drift registry + sync script + Supabase migration + PRECEDENCE.md must all update in the same commit").
 
 **Self-checkpoint count.** 2 (pre-P2 inventory check + mid-P2 after registry CSV body + before mirror DDL).
 
-**Cursor-rules adherence.** [`akos-holistika-operations.mdc`](../.cursor/rules/akos-holistika-operations.mdc) (Two-plane model: schema DDL via migration + mirror DML via emit script; canonical-CSV + SSOT tuple lockstep contract); [`akos-docs-config-sync.mdc`](../.cursor/rules/akos-docs-config-sync.mdc) (canonical CSV header change cascade: 7 downstream surfaces update in same commit); [`akos-governance-remediation.mdc`](../.cursor/rules/akos-governance-remediation.mdc) (canonical CSV gate + reuse/extension only — extend existing emit script, don't fork); [`CONTRIBUTING.md`](../CONTRIBUTING.md) §"Python Code Standards" + "Pre-commit Checklist" for the validator.
+**Cursor-rules adherence.** [`akos-holistika-operations.mdc`](../.cursor/rules/akos-holistika-operations.mdc) (Two-plane model: schema DDL via migration + mirror DML via emit script; canonical-CSV + SSOT tuple lockstep contract); [`akos-docs-config-sync.mdc`](../.cursor/rules/akos-docs-config-sync.mdc) (canonical CSV header change cascade: 7 downstream surfaces update in same commit); [`akos-baseline-governance.mdc`](../.cursor/rules/akos-baseline-governance.mdc) (canonical CSV gate + reuse/extension only — extend existing emit script, don't fork); [`CONTRIBUTING.md`](../CONTRIBUTING.md) §"Python Code Standards" + "Pre-commit Checklist" for the validator.
 
 ### P3 — Strand A.2 SOP-ENGAGEMENT_TEMPLATE_PROMOTION_001 + promotion-rule validator (~2-3 days; MANDATORY canonical-CSV gate)
 
@@ -562,11 +562,11 @@ py scripts/render_operator_inbox.py
 
 **Verification.** Validator surfaces 0 promotion candidates today (no engagement has consumed any template 3+ times yet — by design at this stage); SOP cross-linked from `WORKSPACE_BLUEPRINT_HOLISTIKA.md` §16.3 + `ACCOUNT_MANAGEMENT_CHARTER.md` (P1 deliverable); `validate_hlk.py` PASS; `release-gate.py` green.
 
-**Pause-point classification.** **MANDATORY canonical-CSV gate** (process_list.csv row mint per `akos-governance-remediation.mdc` §"HLK compliance governance — Canonical CSV gates").
+**Pause-point classification.** **MANDATORY canonical-CSV gate** (process_list.csv row mint per `akos-baseline-governance.mdc` §"HLK compliance governance — Canonical CSV gates").
 
 **Self-checkpoint count.** 2 (pre-P3 + post-SOP/pre-validator).
 
-**Cursor-rules adherence.** [`akos-governance-remediation.mdc`](../.cursor/rules/akos-governance-remediation.mdc) (canonical CSV gate; SOP-META order — `process_list.csv` row before SOP finalized); [`CONTRIBUTING.md`](../CONTRIBUTING.md) §"Python Code Standards" for the validator.
+**Cursor-rules adherence.** [`akos-baseline-governance.mdc`](../.cursor/rules/akos-baseline-governance.mdc) (canonical CSV gate; SOP-META order — `process_list.csv` row before SOP finalized); [`CONTRIBUTING.md`](../CONTRIBUTING.md) §"Python Code Standards" for the validator.
 
 ### P4 — Strand A.3 RevOps owner activation (~2-3 days; GATED on I71 P5 ship)
 
@@ -587,7 +587,7 @@ py scripts/render_operator_inbox.py
 
 **Self-checkpoint count.** 2 (pre-P4 readiness check vs I71 P5 status + post-SOP/pre-baseline_organisation edit).
 
-**Cursor-rules adherence.** [`akos-governance-remediation.mdc`](../.cursor/rules/akos-governance-remediation.mdc) (canonical CSV gate); [`akos-agent-checkpoint-discipline.mdc`](../.cursor/rules/akos-agent-checkpoint-discipline.mdc) (external-dep pause check); brand-voice register strict mode on SOP prose per I71 P1.
+**Cursor-rules adherence.** [`akos-baseline-governance.mdc`](../.cursor/rules/akos-baseline-governance.mdc) (canonical CSV gate); [`akos-agent-checkpoint-discipline.mdc`](../.cursor/rules/akos-agent-checkpoint-discipline.mdc) (external-dep pause check); brand-voice register strict mode on SOP prose per I71 P1.
 
 ### P5 — Strand B Persona Registry expansion (~2-3 days; MANDATORY canonical-CSV gate; independent of A)
 
@@ -607,7 +607,7 @@ py scripts/render_operator_inbox.py
 
 **Self-checkpoint count.** 1 (pre-P5; small phase).
 
-**Cursor-rules adherence.** [`akos-governance-remediation.mdc`](../.cursor/rules/akos-governance-remediation.mdc) (canonical CSV gate); brand-voice register strict mode per I71 P1.
+**Cursor-rules adherence.** [`akos-baseline-governance.mdc`](../.cursor/rules/akos-baseline-governance.mdc) (canonical CSV gate); brand-voice register strict mode per I71 P1.
 
 ### P6 — Strand C IntelligenceOps Register Expansion (~4-6 days; MANDATORY canonical-CSV gate + cross-link to I75; independent of A)
 
@@ -631,7 +631,7 @@ py scripts/render_operator_inbox.py
 
 **Self-checkpoint count.** 3 (pre-P6 audit vs `Research/Intelligence/canonicals/` + mid-P6 after CSV body + post-SOP before cross-links).
 
-**Cursor-rules adherence.** [`akos-holistika-operations.mdc`](../.cursor/rules/akos-holistika-operations.mdc) (new canonical CSV pattern — same cascade contract as P2 ENGAGEMENT_TEMPLATE_REGISTRY); [`akos-docs-config-sync.mdc`](../.cursor/rules/akos-docs-config-sync.mdc) (new canonical CSV cascade); [`akos-governance-remediation.mdc`](../.cursor/rules/akos-governance-remediation.mdc) (canonical CSV gate); [`CONTRIBUTING.md`](../CONTRIBUTING.md) §"Python Code Standards" for the validator.
+**Cursor-rules adherence.** [`akos-holistika-operations.mdc`](../.cursor/rules/akos-holistika-operations.mdc) (new canonical CSV pattern — same cascade contract as P2 ENGAGEMENT_TEMPLATE_REGISTRY); [`akos-docs-config-sync.mdc`](../.cursor/rules/akos-docs-config-sync.mdc) (new canonical CSV cascade); [`akos-baseline-governance.mdc`](../.cursor/rules/akos-baseline-governance.mdc) (canonical CSV gate); [`CONTRIBUTING.md`](../CONTRIBUTING.md) §"Python Code Standards" for the validator.
 
 ### P7 — Strand D.1 RevOps Integration Spine (~3-4 days; MANDATORY canonical-CSV gate; Round 5 NEW)
 
@@ -667,7 +667,7 @@ py scripts/render_operator_inbox.py
 
 **Self-checkpoint count.** 3 (pre-P8 + mid-P8 after 4-6 catalog entries land + post-SOP-pairing audit).
 
-**Cursor-rules adherence.** [`akos-executable-process-catalog.mdc`](../.cursor/rules/akos-executable-process-catalog.mdc) — first concrete instantiation of all 4 rules (SOP+runbook pairing + adapter status metadata applied to dispatch + cadence taxonomy + DAMA-DMBOK posture); [`akos-governance-remediation.mdc`](../.cursor/rules/akos-governance-remediation.mdc) (canonical-CSV gate); [`akos-inline-ratification.mdc`](../.cursor/rules/akos-inline-ratification.mdc) (gated_operator cadence inherits inline-ratify pattern); [`CONTRIBUTING.md`](../CONTRIBUTING.md) §"Python Code Standards" for the validators.
+**Cursor-rules adherence.** [`akos-executable-process-catalog.mdc`](../.cursor/rules/akos-executable-process-catalog.mdc) — first concrete instantiation of all 4 rules (SOP+runbook pairing + adapter status metadata applied to dispatch + cadence taxonomy + DAMA-DMBOK posture); [`akos-baseline-governance.mdc`](../.cursor/rules/akos-baseline-governance.mdc) (canonical-CSV gate); [`akos-inline-ratification.mdc`](../.cursor/rules/akos-inline-ratification.mdc) (gated_operator cadence inherits inline-ratify pattern); [`CONTRIBUTING.md`](../CONTRIBUTING.md) §"Python Code Standards" for the validators.
 
 ### P9 — Strand D.3 Cross-area integration (~5-7 days; MANDATORY canonical-CSV gate; multi-area touchpoints; Round 5 NEW)
 
@@ -703,7 +703,7 @@ py scripts/render_operator_inbox.py
 
 **Self-checkpoint count.** 1 (pre-P7 readiness check — verify all P1-P6 commits on `main`).
 
-**Cursor-rules adherence.** [`akos-agent-checkpoint-discipline.mdc`](../.cursor/rules/akos-agent-checkpoint-discipline.mdc) (closure gate); [`akos-governance-remediation.mdc`](../.cursor/rules/akos-governance-remediation.mdc) (closure decision row; INIT closure status flip).
+**Cursor-rules adherence.** [`akos-agent-checkpoint-discipline.mdc`](../.cursor/rules/akos-agent-checkpoint-discipline.mdc) (closure gate); [`akos-baseline-governance.mdc`](../.cursor/rules/akos-baseline-governance.mdc) (closure decision row; INIT closure status flip).
 
 ## Decision-log preview (17 rows; all minted at P0; Round 5 added L-Q)
 
@@ -799,7 +799,7 @@ py scripts/render_operator_inbox.py
 - Kickoff template (post-`4ca352a` correction): [`docs/wip/planning/_templates/i72-kickoff-prompt.md`](../docs/wip/planning/_templates/i72-kickoff-prompt.md).
 - Generic planning prompt trio: [`docs/wip/planning/_templates/initiative-planning-prompts.md`](../docs/wip/planning/_templates/initiative-planning-prompts.md).
 - PLAN SCOPE binding guardrail: commit `a2bb018`; inline in the kickoff prompt + initiative-planning-prompts.
-- Cursor rules in scope: **(NEW Round 5)** [`akos-executable-process-catalog.mdc`](../.cursor/rules/akos-executable-process-catalog.mdc) — minted at P0; codifies SOP+executable runbook pairing + adapter status metadata + cadence taxonomy + DAMA-DMBOK 2.0 alignment for ALL future initiatives (first concrete instantiation in I72 P8 + P9). Plus existing: [`akos-inline-ratification.mdc`](../.cursor/rules/akos-inline-ratification.mdc) + [`akos-planning-traceability.mdc`](../.cursor/rules/akos-planning-traceability.mdc) (plan-quality bar) + [`akos-governance-remediation.mdc`](../.cursor/rules/akos-governance-remediation.mdc) (HLK compliance gates) + [`akos-holistika-operations.mdc`](../.cursor/rules/akos-holistika-operations.mdc) (canonical CSV pattern for P2/P6/P7/P8/P9) + [`akos-docs-config-sync.mdc`](../.cursor/rules/akos-docs-config-sync.mdc) (cascade contract) + [`akos-agent-checkpoint-discipline.mdc`](../.cursor/rules/akos-agent-checkpoint-discipline.mdc) (pause-point discipline) + [`akos-mirror-template.mdc`](../.cursor/rules/akos-mirror-template.mdc) (AKOS-as-SSOT for any sibling-repo references — applies to Strand D.1 hlk-erp panel TSX + Strand D.3 sibling-repo CRM SDK references).
+- Cursor rules in scope: **(NEW Round 5)** [`akos-executable-process-catalog.mdc`](../.cursor/rules/akos-executable-process-catalog.mdc) — minted at P0; codifies SOP+executable runbook pairing + adapter status metadata + cadence taxonomy + DAMA-DMBOK 2.0 alignment for ALL future initiatives (first concrete instantiation in I72 P8 + P9). Plus existing: [`akos-inline-ratification.mdc`](../.cursor/rules/akos-inline-ratification.mdc) + [`akos-planning-traceability.mdc`](../.cursor/rules/akos-planning-traceability.mdc) (plan-quality bar) + [`akos-baseline-governance.mdc`](../.cursor/rules/akos-baseline-governance.mdc) (HLK compliance gates) + [`akos-holistika-operations.mdc`](../.cursor/rules/akos-holistika-operations.mdc) (canonical CSV pattern for P2/P6/P7/P8/P9) + [`akos-docs-config-sync.mdc`](../.cursor/rules/akos-docs-config-sync.mdc) (cascade contract) + [`akos-agent-checkpoint-discipline.mdc`](../.cursor/rules/akos-agent-checkpoint-discipline.mdc) (pause-point discipline) + [`akos-mirror-template.mdc`](../.cursor/rules/akos-mirror-template.mdc) (AKOS-as-SSOT for any sibling-repo references — applies to Strand D.1 hlk-erp panel TSX + Strand D.3 sibling-repo CRM SDK references).
 - **Round 5 external research grounding:** Routine.co RevOps Blueprint 2026 (Strand D.1 spine: "one consistent revenue story from deal creation through recognition"; engagement → CRM → Stripe → recognition booking-billing-recognized alignment); Truto + Unified.to + Apideck Normalized Adapter Pattern 2026 (Strand D.3 multi-CRM: 47+ CRMs behind unified objects; cost of poor data quality $12.9-15M/yr + 10-30% duplication without normalization); DAMA-DMBOK 2.0 (2024 revision; Strand D entire — Reference & Master Data Management for FK design + Metadata Management for status enum + Data Integration & Interoperability for adapter pattern); Alacritous Teachable Skill Registry (Strand D.2 catalog: 1500+ Markdown playbooks pattern; on-demand activation; updated in real-time without code); StitchOps 2026 Automation Playbook (Strand D.2 + D.3: 60+ enterprise apps with step-by-step + time estimates + failure points); Pertama Partners 151 AI Workflow Guides (Strand D.2: per-industry verticals with tools/timelines/before-after/expected outcomes); The Lab Consulting Knowledge Base (Strand D.2 reference: 3000+ standardized KPIs + Power Automate/UiPath assets); Mindfields RPA Use Cases Library (Strand D.2 RPA scaffolder reference: 400+ filterable cases).
 - **Round 5 internal canonicals integrated as integration seams:** I19 finops ledger Phase 1 (`finops.registered_fact` extended at P7); I18 FINOPS counterparty + Stripe FDW; I14 holistika_ops `lead_intake` + `stripe_customer_link` + `billing_account` + RBAC + audit_log; I62 Mission Control chassis (P7 panel reuses I62 RBAC + audit pattern); I64 Governance Mission Control panel pattern; I65 AKOS Planning Workspace Panel pattern; I66 Brand legal templates (NDA/MSA/SOW; P9 SOP-LEGAL_TEMPLATE_FIRE_001 fires these); I68 CICD baseline + Sentry release format (P9 SOP-TECH_REVOPS_OBSERVABILITY_001 references); I71 Pack A1 brand-voice register chassis (applies to all P1+P5+P8 prose); I77 Impeccable bridges (Strand D process catalog SOPs follow Impeccable design discipline).
 

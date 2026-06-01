@@ -668,6 +668,26 @@ def run_synthesis_before_tranche_check_self_test() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_cursor_rule_tiers_self_test() -> tuple[bool, int]:
+    """Run cursor rule tier self-test (D-IH-90-R; config/cursor-rule-tiers.json).
+
+    Self-test mode of ``scripts/validate_cursor_rule_tiers.py`` validates
+    tier invariants without scanning the full ``.cursor/rules`` tree.
+
+    Returns ``(ok, exit_code)``.
+    """
+    logger.info(
+        "Running cursor-rule-tiers self-test (D-IH-90-R; --self-test) ..."
+    )
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_cursor_rule_tiers.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_research_radar_self_test() -> tuple[bool, int]:
     """Run Research Radar self-test (16th Quality Fabric specialty).
 
@@ -1613,6 +1633,12 @@ def main() -> None:
     results.append((
         "INFO" if research_radar_ok else "FAIL",
         f"Research-radar self-test (scripts/validate_research_radar.py --self-test - 16th Quality Fabric specialty per D-IH-86-FG charter mint I75 Wave R+5 C1; Pydantic SSOT akos/hlk_research_radar.py (INTELLIGENCEOPS_REGISTER_FIELDNAMES 21-col + volatility/staleness enums + SUBSTRATE_VOLATILITY_PROFILES); paired runbook scripts/research_radar_sweep.py; per-target cadence never global constant; INFO ramp self-test at pre_commit per akos-research-radar.mdc RULE 3; ok={'yes' if research_radar_ok else 'no'}; exit={research_radar_rc})",
+    ))
+
+    cursor_tiers_ok, cursor_tiers_rc = run_cursor_rule_tiers_self_test()
+    results.append((
+        "INFO" if cursor_tiers_ok else "FAIL",
+        f"Cursor rule tiers self-test (scripts/validate_cursor_rule_tiers.py --self-test - D-IH-90-R; policy config/cursor-rule-tiers.json; ok={'yes' if cursor_tiers_ok else 'no'}; exit={cursor_tiers_rc})",
     ))
 
     uat_report_ok, uat_report_rc = run_uat_report_validation()

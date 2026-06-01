@@ -15,7 +15,7 @@ globs:
   - "akos/hlk_pwf_governance.py"
   - "scripts/validate_pwf_governance.py"
   - "tests/test_validate_pwf_governance.py"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS PASS-WITH-FOLLOWUP Governance

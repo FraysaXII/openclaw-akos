@@ -1,4 +1,4 @@
----
+﻿---
 name: quality-fabric-craft
 description: Use when authoring or shipping any quality-bound artifact in this AKOS workspace (audience-tagged, closure UAT, sibling-repo work, brand-touching surface, Quality Fabric specialty canonical). Codifies the craft for resolving + composing the 5 axes (audience × channel × scenario × brand × governance) multiplicatively. Triggers on Quality Fabric, compose_UAT, compose_render, 5-axis composition, audience resolution, channel resolution, scenario resolution, brand register, governance binding, multiplicative-AND composition. Pairs with .cursor/rules/akos-quality-fabric.mdc (the WHEN); this skill is the HOW.
 version: 1.0.0
@@ -91,7 +91,7 @@ When authoring a new specialty canonical that materialises a compose() function 
 
 - Always non-null.
 - Determined by asset class per `PRECEDENCE.md`.
-- For canonical CSVs: canonical-CSV gate per `akos-governance-remediation.mdc`.
+- For canonical CSVs: canonical-CSV gate per `akos-baseline-governance.mdc`.
 - For deploy-triggering work: per-vendor gate per `akos-deploy-health.mdc`.
 - For external-delivery surfaces: render-trail per `akos-external-render-discipline.mdc`.
 

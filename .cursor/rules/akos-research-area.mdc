@@ -1,5 +1,9 @@
 ---
-alwaysApply: true
+description: Research area identity — CORPINT lifecycle map; read Research/README.md first
+globs:
+  - docs/references/hlk/v3.0/Research/**
+  - docs/wip/intelligence/**
+alwaysApply: false
 ---
 # AKOS Research Area Identity
 

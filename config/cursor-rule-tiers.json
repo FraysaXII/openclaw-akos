@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "ratifying_decision_id": "D-IH-90-R",
+  "max_always_on_rules": 4,
+  "rules_dir": ".cursor/rules",
+  "agents_index_path": "AGENTS.md",
+  "core_always_on_slugs": [
+    "akos-operator-communication.mdc",
+    "akos-baseline-governance.mdc",
+    "akos-rule-router.mdc"
+  ],
+  "tier_model": {
+    "always_on": "Loaded on every Cursor session in this repo (hard cap enforced by validator).",
+    "glob_scoped": "Loads when edited paths match rule globs (domain doctrine).",
+    "agent_requested": "Loads when description is set but alwaysApply is false; Cursor may pull by task relevance.",
+    "hooks": "Repo-wide Cursor hooks in .cursor/hooks.json (not initiative-specific)."
+  },
+  "active_initiatives_pointer": "docs/wip/planning/README.md"
+}

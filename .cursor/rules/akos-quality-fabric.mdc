@@ -17,7 +17,7 @@ globs:
   - "docs/wip/planning/**/uat-*.md"
   - "docs/wip/planning/**/master-roadmap.md"
   - "CHANGELOG.md"
-alwaysApply: true
+alwaysApply: false
 ---
 # AKOS Quality Fabric
 

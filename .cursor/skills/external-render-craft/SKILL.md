@@ -1,4 +1,4 @@
----
+﻿---
 description: Render external-delivery surfaces correctly (PDF / Web / ERP / Mail / Slide / Broadcast). Use when authoring or shipping any artifact destined for J-IN, J-CU, J-PT, J-AD, J-ENISA, J-RC, or J-CO recipients. Pairs with the cursor rule akos-external-render-discipline.mdc — that rule governs WHEN to render; this skill governs HOW.
 ---
 
@@ -303,7 +303,7 @@ When the surface lands in CI:
 
 ### Forward enhancement (out of Wave G scope)
 
-- **Mint `CHAN-EMAIL-OUTBOUND` + `CHAN-PDF-DOWNLOAD`** in `CHANNEL_TOUCHPOINT_REGISTRY.csv` to cover the two most common gaps surfaced during the Wave G B-G2 onboarding sweep. Requires canonical-CSV operator gate per [`akos-governance-remediation.mdc`](../../rules/akos-governance-remediation.mdc) §"HLK compliance governance". Until minted, use `CHAN-DIRECT-DM` (bidirectional founder-personal) as the closest fit for outbound dossier/cover-email surfaces.
+- **Mint `CHAN-EMAIL-OUTBOUND` + `CHAN-PDF-DOWNLOAD`** in `CHANNEL_TOUCHPOINT_REGISTRY.csv` to cover the two most common gaps surfaced during the Wave G B-G2 onboarding sweep. Requires canonical-CSV operator gate per [`akos-baseline-governance.mdc`](../../rules/akos-baseline-governance.mdc) §"HLK compliance governance". Until minted, use `CHAN-DIRECT-DM` (bidirectional founder-personal) as the closest fit for outbound dossier/cover-email surfaces.
 - **Promote `channel:` from optional to required** for in-scope external surfaces once the registry covers all common gaps. The promotion would mirror the RULE 6 INFO→FAIL ramp pattern (Wave F precedent); deferred to a successor wave.
 
 ## Pre-render checklist (10 items; walk before any render)

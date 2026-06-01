@@ -1,11 +1,11 @@
----
+﻿---
 description: Default posture for surfacing architectural conflicts via novel framing with blocker-trackers and scope-overlap-trackers (Option 5 / D-IH-86-O)
 globs:
   - "docs/wip/**/*.md"
   - "docs/wip/planning/**/*.md"
   - ".cursor/plans/**/*.plan.md"
   - "**/*.plan.md"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS Conflict-Surfacing and Blocker-Trackers (Option 5 default posture)
@@ -164,7 +164,7 @@ All four shapes were minted in the same commit (Wave A: `534ce3f`). Operator vis
 - [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) — sister rule (the *when* + *how* of ratification; this rule is the *what to do when ratification surfaces structural conflict*).
 - [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) §"Plan-quality bar" — the doctrine the full-charter shape inherits from.
 - [`akos-agent-checkpoint-discipline.mdc`](akos-agent-checkpoint-discipline.mdc) — pause-point + self-checkpoint discipline applies independently of which shape was chosen.
-- [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) §"HLK compliance governance" — canonical-CSV gate discipline applies to INITIATIVE_REGISTRY appends regardless of shape.
+- [`akos-baseline-governance.mdc`](akos-baseline-governance.mdc) §"HLK compliance governance" — canonical-CSV gate discipline applies to INITIATIVE_REGISTRY appends regardless of shape.
 - D-IH-86-O — operator-ratification of this default posture.
 - D-IH-86-F + D-IH-86-G — reverted-promotion precedent that motivated this rule.
 - I76 master-roadmap (`docs/wip/planning/76-madeira-elevation/master-roadmap.md`) — first worked-example application.

@@ -1,4 +1,4 @@
----
+﻿---
 name: inline-ratify-craft
 description: Use when authoring an inline AskQuestion ratification gate during phase execution in this AKOS workspace. Codifies the craft for transforming evidence-dependent and spot-check operator decisions into structured option sets that compound the operator's reasoning rather than extract a yes/no. Triggers on any phrase like inline-ratify, AskQuestion, ratification gate, operator decision, option set, evidence sweep + ratify, or when a phase plan contains a gate_type of inline-ratify. Pairs with .cursor/rules/akos-inline-ratification.mdc (the rule that governs when to inline-ratify); this skill governs how to do it well.
 version: 1.0.0
@@ -12,7 +12,7 @@ authored: 2026-05-16
 
 ## When to use this skill
 
-Read this skill before authoring any AskQuestion call inside a phase that hits an inline-ratify gate. Also read it before designing a phase plan that contains a gate_type of inline-ratify. Do not read it for stop-and-clarify blockers (those follow `.cursor/rules/akos-governance-remediation.mdc` — write a 5-line summary and halt; do not ask).
+Read this skill before authoring any AskQuestion call inside a phase that hits an inline-ratify gate. Also read it before designing a phase plan that contains a gate_type of inline-ratify. Do not read it for stop-and-clarify blockers (those follow `.cursor/rules/akos-baseline-governance.mdc` — write a 5-line summary and halt; do not ask).
 
 The skill assumes you have already read [`akos-inline-ratification.mdc`](../../../.cursor/rules/akos-inline-ratification.mdc), which defines what an inline-ratify gate is. This skill is the craft layer on top of that rule.
 
@@ -360,7 +360,7 @@ The inline-ratify rule allows the agent to fall back to the recommended default 
 
 - if the operator is mid-conversation and engaged elsewhere in the same session, wait for their attention to come back to this question; do not ping
 - if the operator has not responded for 24+ hours and the question has a recommended default + clean validators + the decision is reversible, the agent may continue with the recommended option AND log the auto-decision in the decision register with `decision_source: agent_inline_default`
-- if the decision is irreversible (canonical CSV mutation + trademark filing + public prose publish + production deploy), do not auto-default; halt and escalate per `akos-governance-remediation.mdc` posture
+- if the decision is irreversible (canonical CSV mutation + trademark filing + public prose publish + production deploy), do not auto-default; halt and escalate per `akos-baseline-governance.mdc` posture
 
 Auto-default is a safety valve, not a default mode of operation. Operator silence on a high-blast-radius decision is itself a signal — it usually means the decision warrants more thinking than a 24-hour window allows. Respect the signal.
 
@@ -403,7 +403,7 @@ This skill sits under `.cursor/skills/inline-ratify-craft/` and pairs with these
 - [`.cursor/rules/akos-inline-ratification.mdc`](../../../.cursor/rules/akos-inline-ratification.mdc) — defines when to inline-ratify (evidence-dependent + spot-check + architectural-during-planning); this skill defines how to do it well.
 - [`.cursor/rules/akos-planning-traceability.mdc`](../../../.cursor/rules/akos-planning-traceability.mdc) §"Plan-quality bar" — phase plans declare gate_type per phase; this skill is the executor-side complement that fires at gate moments.
 - [`.cursor/rules/akos-agent-checkpoint-discipline.mdc`](../../../.cursor/rules/akos-agent-checkpoint-discipline.mdc) — pause-record vs self-checkpoint cadence; inline-ratify supersedes pause-record for evidence-dependent gates.
-- [`.cursor/rules/akos-governance-remediation.mdc`](../../../.cursor/rules/akos-governance-remediation.mdc) — opt-stop-report for blockers (validator failures, security incidents); this skill governs only the decisions, not the blockers.
+- [`.cursor/rules/akos-baseline-governance.mdc`](../../../.cursor/rules/akos-baseline-governance.mdc) — opt-stop-report for blockers (validator failures, security incidents); this skill governs only the decisions, not the blockers.
 - The `hlk-planning-system` skill in the personal skill set — the planning-time complement; this skill is the execution-time complement.
 
 When an agent is uncertain whether to use inline-ratify or a different posture (executive call + stop-and-clarify + pause-record), this skill's "When NOT to use" section in [`.cursor/rules/akos-inline-ratification.mdc`](../../../.cursor/rules/akos-inline-ratification.mdc) is the disambiguator.

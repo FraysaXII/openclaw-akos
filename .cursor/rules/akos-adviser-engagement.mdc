@@ -1,4 +1,4 @@
----
+﻿---
 description: >-
   External Adviser Engagement (ADVOPS) plane: per-discipline routing for
   Legal, Fiscal, IP, Banking, Certification, and Notary advisers. Use whenever
@@ -43,7 +43,7 @@ alwaysApply: false
 
 # AKOS — External Adviser Engagement (ADVOPS plane)
 
-Use this rule for any change that touches the **External Adviser Engagement plane** — the cross-program scaffolding for Legal, Fiscal, IP, Banking, Certification, and Notary advisers (workstream `hol_opera_ws_5`). Complements [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc) (MasterData / Supabase) and [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) (HLK asset class), and inherits planning traceability from [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc).
+Use this rule for any change that touches the **External Adviser Engagement plane** — the cross-program scaffolding for Legal, Fiscal, IP, Banking, Certification, and Notary advisers (workstream `hol_opera_ws_5`). Complements [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc) (MasterData / Supabase) and [`akos-baseline-governance.mdc`](akos-baseline-governance.mdc) (HLK asset class), and inherits planning traceability from [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc).
 
 ## Plane summary
 
@@ -89,7 +89,7 @@ Adding a discipline (e.g. accounting, employment, regulatory affairs) is a **row
 2. **Validate**: `py scripts/validate_hlk.py` (PASS gate); `py scripts/validate_hlk_vault_links.py`.
 3. **Update vault MD** (handoff package, per-discipline sections, fact pattern, open-questions human view, filed-instruments human view) — these are derived views.
 4. **Sync mirrors** (operator gate): `py scripts/sync_compliance_mirrors_from_csv.py --goipoi-register-only` etc., review output, apply via Supabase MCP `service_role`.
-5. **Update process_list.csv** only via operator-approved tranche per [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc); never mutate without a row in the initiative `decision-log.md`.
+5. **Update process_list.csv** only via operator-approved tranche per [`akos-baseline-governance.mdc`](akos-baseline-governance.mdc); never mutate without a row in the initiative `decision-log.md`.
 
 ## Related artifacts
 

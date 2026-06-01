@@ -1,10 +1,10 @@
----
+﻿---
 description: Inline AskQuestion ratification pattern (replaces real-stop operator pauses in execution)
 globs:
   - "docs/wip/**/*.md"
   - ".cursor/plans/**/*.plan.md"
   - "**/*.plan.md"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS Inline-Ratification Pattern
@@ -80,7 +80,7 @@ Concrete bar (every inline-ratify call should satisfy these; the skill explains 
 - **Batched calls group tightly-coupled decisions only.** Independent decisions go in separate calls; coupled decisions go together so coupling becomes visible (Principle 5).
 - **Novel framings welcome when they unlock paths the operator had not considered.** Mark them `(novel framing — <structural insight>)`. Most of the "advancing three months in a single initiative" compounding the operator named at I79 closure came from third-path options the operator pivoted to (Principle 6).
 - **Internal-first surfaces as a first-class option for backbone-Ops-area judgment questions** (placeholder per D-IH-81-P 2026-05-23; full mint forward-chartered as OPS-81-21). When the gate is about Ops-area judgment-layer ownership (FINOPS revenue-rec / LegalOps adviser routing / PeopleOps role activation / RevOps engagement orchestration / similar), the agent surfaces internal-first ownership as a labelled first-class option alongside any outsource-path option, with rationale rooted in the operator's project thesis per Principle 1 evidence sweep. Reflexive industry-default outsource-path framing without first checking the operator's stated thesis is a class of failure-mode (worked example: FINOPS synthesis §6 original framing pre-D-IH-81-P amendment); the inline-ratify-craft skill carries the full Principle 7 + anti-pattern dissection when OPS-81-21 executes.
-- **Time-box recovery is a safety valve, not a default.** Auto-default applies only to reversible decisions with clean validators after a 24h+ silence window. Irreversible decisions never auto-default; halt and escalate per `akos-governance-remediation.mdc` if blocked.
+- **Time-box recovery is a safety valve, not a default.** Auto-default applies only to reversible decisions with clean validators after a 24h+ silence window. Irreversible decisions never auto-default; halt and escalate per `akos-baseline-governance.mdc` if blocked.
 - **Pre-flight checklist before posting.** The skill carries a 10-item checklist (evidence sweep + option count + rationale + recommendation + citations + batching + prompt-length + novel-framing + recommendation-rationale + option-padding). Walk it mentally before invoking `AskQuestion`.
 
 The skill is the durable transmission medium for this craft; this rule is the lightweight reminder. When in doubt about any bar item, read the skill — it has worked examples for each principle and named recovery patterns for the common pitfalls.
@@ -99,11 +99,11 @@ Total elapsed: same chat session. No pause-record file. No new-chat handoff.
 
 ## Cross-references
 
-- AKOS Governance-Hardened Remediation Guardrails (`.cursor/rules/akos-governance-remediation.mdc`) — `opt-stop-report` posture for blockers.
+- AKOS Governance-Hardened Remediation Guardrails (`.cursor/rules/akos-baseline-governance.mdc`) — `opt-stop-report` posture for blockers.
 - AKOS Planning Traceability (`.cursor/rules/akos-planning-traceability.mdc`) — phase-plan structure + UAT vs automated smoke discipline.
 - AKOS Inline-Ratify Craft (`.cursor/skills/inline-ratify-craft/SKILL.md`) — execution-time craft guide (the *how* layer) cross-referenced by this rule's quality-bar section.
 - I70 plan `holistika_os_self-governance_foundation_63841b81.plan.md` — the worked-example plan that codified this pattern (search for "H1" + "inline-ratify").
 - I80 master-roadmap `docs/wip/planning/80-i79-lessons-learned/master-roadmap.md` — the initiative that promoted this rule from craft-on-individual-agent to craft-as-skill (D-IH-80-E).
 
-@.cursor/rules/akos-governance-remediation.mdc
+@.cursor/rules/akos-baseline-governance.mdc
 @.cursor/rules/akos-planning-traceability.mdc

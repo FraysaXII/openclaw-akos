@@ -108,6 +108,7 @@ GROUPS: dict[str, dict] = {
             "test_validate_research_action.py",
             "test_hlk_research_radar.py",
             "test_validate_research_radar.py",
+            "test_validate_cursor_rule_tiers.py",
             "test_hlk_mktops.py",
             "test_validate_mktops_campaign.py",
         ],

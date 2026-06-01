@@ -1,10 +1,10 @@
----
+﻿---
 description: Discipline for long-running multi-phase initiatives — operator pause points + agent self-checkpoints
 globs:
   - "docs/wip/planning/**/*.md"
   - "docs/wip/planning/**/master-roadmap.md"
   - ".cursor/plans/**/*.md"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS Agent Checkpoint Discipline
@@ -107,6 +107,6 @@ A future I-NN initiative may codify the pause-record schema as a CSV and add a `
 - Paired skill (the *how* layer): [`.cursor/skills/agent-checkpoint-craft/SKILL.md`](../skills/agent-checkpoint-craft/SKILL.md) — minted at drain7 (Wave R close) per D-IH-86-CT.
 - [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) — sister rule on planning content requirements (this rule is its execution-discipline complement).
 - [`akos-planning-traceability.mdc` §"Plan-quality bar"](akos-planning-traceability.mdc) — the authoring contract that produces the per-phase pause-record-friendly deliverables this rule tracks (multi-sentence YAML todos with explicit pause-point classification + self-checkpoint counts, three mermaid diagrams including phase-dependency, inline decision-log + risk-register previews).
-- [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) — phase + commit discipline (this rule is its operator-side cadence complement).
+- [`akos-baseline-governance.mdc`](akos-baseline-governance.mdc) — phase + commit discipline (this rule is its operator-side cadence complement).
 - I66 master-roadmap §"Pause and checkpoint discipline" — the canonical worked example of this rule in practice.
 - D-IH-66-Q in `docs/wip/planning/66-brand-vision-ops-sweep/decision-log.md`.

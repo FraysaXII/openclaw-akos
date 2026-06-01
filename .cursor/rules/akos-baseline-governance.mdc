@@ -1,9 +1,11 @@
----
-description: AKOS governance-hardened runtime & full-inventory remediation guardrails
+﻿---
+description: AKOS baseline governance — runtime inventory, HLK SSOT, phase commits (renamed from governance-remediation)
 alwaysApply: true
 ---
 
-# AKOS Governance-Hardened Remediation Guardrails
+# AKOS Baseline Governance
+
+> Formerly `akos-governance-remediation.mdc` (I90 P2c rename per **D-IH-90-R**). Same doctrine; shorter slug for the always-on tier.
 
 Use these rules whenever planning or executing work in this repo (all agent modes):
 
@@ -78,6 +80,12 @@ Use these rules whenever planning or executing work in this repo (all agent mode
   - Planner agents should:
     - Reuse the phase structure and acceptance criteria from the governed runtime/inventory remediation plan.
     - Explicitly call out which existing scripts/tests/docs they will touch and how they preserve the above contracts.
-  - **UAT vs automated smoke:** Treat `py scripts/browser-smoke.py --playwright` as **automated** coverage. When a phase plan or initiative roadmap also specifies **dashboard WebChat**, **Cursor Browser MCP**, **Langfuse UI**, or similar **operator sign-off**, follow **`.cursor/rules/akos-planning-traceability.mdc`** — record dated outcomes under `docs/wip/planning/<NN-initiative-slug>/reports/` (e.g. `uat-*.md`) or explicit SKIP/N/A per row. Do not mark those phases **complete** on automated gates alone.
+  - **UAT vs automated smoke:** Treat `py scripts/browser-smoke.py --playwright` as **automated** coverage. When a phase plan or initiative roadmap also specifies **dashboard WebChat**, **Cursor Browser MCP**, **Langfuse UI**, or similar **operator sign-off**, follow **[`akos-planning-traceability.mdc`](akos-planning-traceability.mdc)** — record dated outcomes under `docs/wip/planning/<NN-initiative-slug>/reports/` (e.g. `uat-*.md`) or explicit SKIP/N/A per row. Do not mark those phases **complete** on automated gates alone.
   - **Initiative `master-roadmap.md`:** When phased execution is used, the workspace copy under `docs/wip/planning/<NN-initiative-slug>/` should stay **synchronized** with the authoritative Cursor plan when phases, dependencies, or verification gates change—git is the collaboration surface for ordering; the Cursor plan holds expanded prose.
   - **Phase structure (large initiatives):** Prefer each phase defining **scope** (what it is / is not), **prerequisites**, **deliverables**, and **verification** so acceptance criteria stay testable and docs-config sync triggers remain predictable.
+
+## Cross-references
+
+- Supersedes: `akos-governance-remediation.mdc` (deleted at I90 P2c)
+- Router: [`akos-rule-router.mdc`](akos-rule-router.mdc)
+- Planning depth: [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) (glob-scoped, not always-on)

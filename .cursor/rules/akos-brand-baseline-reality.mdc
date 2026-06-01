@@ -7,7 +7,7 @@ globs:
   - "docs/wip/intelligence/**/*.md"
   - "**/*.objections.md"
   - "**/*.counterparty-brief.md"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS Brand Baseline Reality — Dual-register contract

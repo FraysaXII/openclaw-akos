@@ -6,7 +6,7 @@ globs:
   - "docs/references/hlk/v3.0/Think Big/Advisers/**/*.md"
   - "docs/references/hlk/v3.0/_assets/touchpoint_kits/**/*.md"
   - "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/**/*.md"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS External-Render Discipline — Six-Surface Delivery Contract

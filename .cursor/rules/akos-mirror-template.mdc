@@ -4,10 +4,8 @@ description: >-
   (boilerplate, hlk-erp, kirbe, plus future client-delivery + platform).
   Imports AKOS HLK doctrine without copying it. SSOT lives in
   https://github.com/FraysaXII/openclaw-akos under docs/references/hlk/v3.0/.
-  Per D-IH-32-K (Initiative 32 P7).
-globs:
-  - "**/*"
-alwaysApply: true
+  Per D-IH-32-K (Initiative 32 P7). NOT always-on in AKOS — copy to sibling repos only.
+alwaysApply: false
 ---
 
 # AKOS HLK SSOT mirror — external repo cursor rule

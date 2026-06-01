@@ -1,4 +1,4 @@
----
+﻿---
 description: Deploy health discipline — CICD smoke testing across consumer repos with multi-device coverage
 globs:
   - "../root_cd/**/next.config.*"
@@ -6,7 +6,7 @@ globs:
   - "../root_cd/**/app/**/*.tsx"
   - "../root_cd/**/i18n/messages/*.json"
   - "docs/wip/planning/**/master-roadmap.md"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS Deploy Health — recurrent CICD smoke discipline
@@ -198,7 +198,7 @@ When you encounter a new build / deploy failure pattern:
 
 - Paired skill (the *how* layer): [`.cursor/skills/deploy-health-craft/SKILL.md`](../skills/deploy-health-craft/SKILL.md) — minted at drain7 (Wave R close) per D-IH-86-CT.
 - [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) — the per-initiative file-changes CSV (this rule is its runtime-health complement).
-- [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) — phase + commit discipline (this rule is its post-deploy verification complement).
+- [`akos-baseline-governance.mdc`](akos-baseline-governance.mdc) — phase + commit discipline (this rule is its post-deploy verification complement).
 - [`REPOSITORY_REGISTRY.csv`](../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/REPOSITORY_REGISTRY.csv) — source of truth for consumer-repo → hosting-platform mapping.
 - I68 (active 2026-05-09) — CICD discipline + observability maturity initiative ([`docs/wip/planning/68-cicd-discipline-and-observability-maturity/`](../../docs/wip/planning/68-cicd-discipline-and-observability-maturity/)) operationalises this rule's pre-merge automated and continuous-deploy lanes:
   - **P2 deliverable** — canonical multi-viewport Playwright config template at [`docs/references/hlk/v3.0/Envoy Tech Lab/Repositories/_templates/playwright.config.ts.tmpl`](../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/_templates/playwright.config.ts.tmpl) (referenced by Failure 6 fix).

@@ -27,7 +27,7 @@ program_anchors: PRJ-HOL-PGF-2026;PRJ-HOL-OPS-2026
 
 ## 0 — Why this initiative
 
-Holistika's Cursor workspace carries **25 always-on rules** (~4k+ lines) while agents also load skills, validators, and plan context — producing routing noise, duplicate doctrine, and exhausted context before execution. This initiative **rewires rule tiers**, **institutionalises two-seat routing** (thinking vs execution), **reconciles stale OPS rows**, and **sequences the cluster backlog** without re-opening completed tranches (brand-domain `D-IH-86-FK`).
+Holistika's Cursor workspace carried **25 always-on rules** (P2 reduces to **3** always-on `.mdc` + router — see §5) (~4k+ lines) while agents also load skills, validators, and plan context — producing routing noise, duplicate doctrine, and exhausted context before execution. This initiative **rewires rule tiers**, **institutionalises two-seat routing** (thinking vs execution), **reconciles stale OPS rows**, and **sequences the cluster backlog** without re-opening completed tranches (brand-domain `D-IH-86-FK`).
 
 ## 1 — Phase at a glance
 
@@ -35,7 +35,7 @@ Holistika's Cursor workspace carries **25 always-on rules** (~4k+ lines) while a
 |:---|:---|:---|
 | **P0** | Charter + 33-rule inventory + OPS reconciliation + INIT 90/91/92 mint | **GATE #1** (canonical CSV) |
 | **P1** | `.cursor/agents/` planner + executor + two-seat guide | — |
-| **P2** | Rule demotion (19→globs), 4 core always-on, tier validators | P2 pause optional |
+| **P2** | Rule demotion (3 always-on + router), hooks, tier validators | **GATE #2** (pending) |
 | **P3** | Backlog drain (OPS 16/17/3, 23 notes, handoff I91) | Per-item inline-ratify |
 
 ## 2 — Phase dependency
@@ -82,21 +82,23 @@ py scripts/validate_hlk.py
 - `.cursor/agents/executor.md` — `model: composer-2.5`, execution prompts, no architecture forks.
 - `reports/two-seat-setup-guide-2026-05-30.md` — encodes D-IH-90-E, G, I, L.
 
-## 5 — P2 — Rule tier rewire
+## 5 — P2 — Rule tier rewire (shipped 2026-06-01)
 
-**Four core always-on (target):**
+**Three always-on `.mdc` rules + `AGENTS.md` index (D-IH-90-R):**
 
-1. `akos-governance-remediation.mdc`
-2. `akos-operator-communication.mdc`
-3. `akos-inline-ratification.mdc`
-4. `akos-planning-traceability.mdc`
+1. [`akos-operator-communication.mdc`](../../../.cursor/rules/akos-operator-communication.mdc)
+2. [`akos-baseline-governance.mdc`](../../../.cursor/rules/akos-baseline-governance.mdc) — renamed from `akos-governance-remediation.mdc`
+3. [`akos-rule-router.mdc`](../../../.cursor/rules/akos-rule-router.mdc) — pointer-only task-class router
 
-**Demote to `alwaysApply: false` + scoped globs (19-rule list per plan §4 P2a):** quality-fabric, uat-discipline, synthesis-before-tranche, research-*, holistika-operations, deploy-health, index-integrity, inter-wave-regression, pwf-governance, collaborator-share, brand-baseline-reality, people-discipline-of-disciplines, executable-process-catalog, external-render, conflict-surfacing, applied-research, agent-checkpoint, docs-config-sync, madeira-management, mirror-template (remove from AKOS repo always-on).
+**Glob-scoped (not always-on):** inline-ratification, planning-traceability, uat-discipline, inter-wave-regression, research-area, and the remainder of the 33-rule inventory (see [`reports/ops-row-reconciliation-2026-05-30.md`](reports/ops-row-reconciliation-2026-05-30.md)).
 
-**Special:**
+**Mechanical:**
 
-- `akos-uat-discipline.mdc` + `akos-inter-wave-regression.mdc` — add `globs` for `docs/wip/planning/**`.
-- `scripts/validate_cursor_rule_tiers.py` + `scripts/validate_rule_skill_pairing.py` — pre_commit INFO.
+- [`scripts/validate_cursor_rule_tiers.py`](../../../scripts/validate_cursor_rule_tiers.py) — `pre_commit` self-test; full scan: `py scripts/validate_cursor_rule_tiers.py` → **3 always-on / 34 rules PASS** (2026-06-01).
+- [`.cursor/hooks.json`](../../../.cursor/hooks.json) — canonical CSV commit gate, schema-drift reminder, secret scan, seat handoff on stop.
+- Root [`AGENTS.md`](../../../AGENTS.md) — ≤100-line agent entry index.
+
+**GATE #2:** [`reports/p2-gate2-rule-tier-review-2026-06-01.md`](reports/p2-gate2-rule-tier-review-2026-06-01.md) — operator sign-off on tier model before P3 backlog drain.
 
 ## 6 — P3 — Backlog drain
 

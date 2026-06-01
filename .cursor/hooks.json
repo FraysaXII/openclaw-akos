@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": "py .cursor/hooks/canonical_csv_commit_gate.py"
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": "py .cursor/hooks/run_schema_drift_on_csv_edit.py"
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": "py .cursor/hooks/secret_scan.py"
+      }
+    ],
+    "stop": [
+      {
+        "command": "py .cursor/hooks/seat_handoff_reminder.py"
+      }
+    ]
+  }
+}

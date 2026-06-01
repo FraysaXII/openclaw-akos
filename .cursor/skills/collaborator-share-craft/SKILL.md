@@ -1,4 +1,4 @@
----
+﻿---
 name: Collaborator Share Craft
 description: >-
   Use when authoring, running, dispositioning findings from, or wiring
@@ -376,7 +376,7 @@ expired rate override) auto-default to recommended option after 24h+
 silence + clean validators. Irreversible deviations (commercial
 share-split signed by collaborator; `custom`-pattern narrative
 committed to engagement folder) NEVER auto-default — halt and escalate
-per `akos-governance-remediation.mdc`.
+per `akos-baseline-governance.mdc`.
 
 ## Principle 5 — Share settlement with collaborator + cite doctrine version
 

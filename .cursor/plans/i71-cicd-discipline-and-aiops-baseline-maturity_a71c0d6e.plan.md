@@ -1,4 +1,4 @@
----
+﻿---
 name: "I71 — CI/CD Discipline and AIOps Baseline Maturity"
 overview: Initiative-scoped strategic plan for INIT-OPENCLAW_AKOS-71. Closes I70-deferred validator rule packs (Strand A — voice register chassis at P1; Gantt confidence + multilingual locale + render ownership at P2/P5), introduces AIOps baseline routing (Strand B — Sentry + Langfuse via operator MCPs at P5), and discharges the D-IH-70-CLOSURE forward-charter on release taxonomy + review-stamp dimension (Strand C — release-taxonomy SOP at P3, review-stamp slice at P4). Seven phases (P0 SHIPPED 2026-05-13; P1 SHIPPED 2026-05-14; P2 active; P3-P6 pending) covering four Pydantic-chassis validator packs (A1-A4) plus the Tier 1 Vale deterministic-NLP sibling folded into P2 from the I71 P1 strategic review (Tier 2 LLM-as-judge advisory layer parked as I78 candidate; Tier 3 writer-facing inline UX deferred behind team-scale trigger). Mirrors `docs/wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/master-roadmap.md`; this Cursor plan is the strategic "big plan" the master-roadmap mirrors per `.cursor/rules/akos-planning-traceability.mdc`.
 todos:
@@ -228,7 +228,7 @@ Standard (P0 charter ratification; no canonical-CSV gate triggers; operator-driv
 ### Cursor-rules adherence
 
 - [`.cursor/rules/akos-planning-traceability.mdc`](../rules/akos-planning-traceability.mdc) — phase 4-section template + master-roadmap mirror contract operationalised.
-- [`.cursor/rules/akos-governance-remediation.mdc`](../rules/akos-governance-remediation.mdc) — D-IH-71-A..E gates + commit discipline (one commit per phase) respected.
+- [`.cursor/rules/akos-baseline-governance.mdc`](../rules/akos-baseline-governance.mdc) — D-IH-71-A..E gates + commit discipline (one commit per phase) respected.
 - [`.cursor/rules/akos-inline-ratification.mdc`](../rules/akos-inline-ratification.mdc) — Strand C scope expansion handled inline via operator AskQuestion, not real-stop pause record.
 
 ## §P1 — Pack A1 Brand voice register expansion — chassis edition (SHIPPED 2026-05-14)
@@ -336,7 +336,7 @@ Standard phase (no canonical CSV gate triggered; the chassis mint + canonicals +
 ### Cursor-rules adherence (P1)
 
 - [`akos-planning-traceability.mdc`](../rules/akos-planning-traceability.mdc) §"Plan-quality bar" — Pydantic models in `akos/`, type hints on every function, structured logging, tests with valid + invalid input pairs, wired into release-gate + verification profiles. All Pack A1 deliverables conform.
-- [`akos-governance-remediation.mdc`](../rules/akos-governance-remediation.mdc) — reuse/extension only (no parallel chassis); one commit per phase; tests lock new behavior; documentation sync (ARCHITECTURE.md + CHANGELOG.md + PRECEDENCE.md) in same commit.
+- [`akos-baseline-governance.mdc`](../rules/akos-baseline-governance.mdc) — reuse/extension only (no parallel chassis); one commit per phase; tests lock new behavior; documentation sync (ARCHITECTURE.md + CHANGELOG.md + PRECEDENCE.md) in same commit.
 - [`akos-inline-ratification.mdc`](../rules/akos-inline-ratification.mdc) — C-71-1 strict-day-1 + C-71-8 Layer 8 severity ratified inline at planning, no real-stop pause record needed.
 - [`akos-brand-baseline-reality.mdc`](../rules/akos-brand-baseline-reality.mdc) — dual-register contract preserved (no internal-register tokens added to external surfaces).
 - [`akos-docs-config-sync.mdc`](../rules/akos-docs-config-sync.mdc) — `akos/brand_voice_register.py` triggered `docs/ARCHITECTURE.md` Orchestration Library row addition.
@@ -546,7 +546,7 @@ Standard phase (no canonical-CSV gate triggered by Packs A2 + A3 + Addition 11 +
 ### Cursor-rules adherence (P2)
 
 - [`akos-planning-traceability.mdc`](../rules/akos-planning-traceability.mdc) §"Plan-quality bar" — Pydantic models in `akos/`, type hints, structured logging, tests with valid + invalid input pairs, wired into release-gate + verification profiles. Every new validator follows the same chassis pattern as Pack A1.
-- [`akos-governance-remediation.mdc`](../rules/akos-governance-remediation.mdc) — reuse/extension only (chassis additive; no parallel modules; no signature changes to existing models per P1's 28-case test suite contract); one combined commit per phase (or three sub-phase commits per operator commit-posture override); tests lock new behavior; docs sync (CHANGELOG.md + ARCHITECTURE.md if chassis materially grows).
+- [`akos-baseline-governance.mdc`](../rules/akos-baseline-governance.mdc) — reuse/extension only (chassis additive; no parallel modules; no signature changes to existing models per P1's 28-case test suite contract); one combined commit per phase (or three sub-phase commits per operator commit-posture override); tests lock new behavior; docs sync (CHANGELOG.md + ARCHITECTURE.md if chassis materially grows).
 - [`akos-inline-ratification.mdc`](../rules/akos-inline-ratification.mdc) — 4 inline-ratify gates per P2 §"Inline-ratify gates (P2)"; single batched `AskQuestion` after verification gates 1-9 pass.
 - [`akos-brand-baseline-reality.mdc`](../rules/akos-brand-baseline-reality.mdc) — dual-register contract preserved across all new canonicals + Vale Vocab files (no internal-register tokens leaked into external-facing surfaces; `BRAND_LOCALISED_FORMATS.md` is external register; Vale rejected-list aligns with external-register translation rules).
 - [`akos-docs-config-sync.mdc`](../rules/akos-docs-config-sync.mdc) — chassis extension may trigger `docs/ARCHITECTURE.md` Orchestration Library row update; new canonical `BRAND_LOCALISED_FORMATS.md` triggers `CANONICAL_REGISTRY.csv` + `PRECEDENCE.md` updates per the HLK compliance changes table.
@@ -596,7 +596,7 @@ Standard phase (no canonical-CSV gate; SOP author + CHANGELOG header update; rel
 ### Cursor-rules adherence (P3)
 
 - [`akos-planning-traceability.mdc`](../rules/akos-planning-traceability.mdc) — SOP follows the `SOP-CICD_BASELINE_001.md` precedent (I68 P5): frontmatter `version` + `last_review` + `role_owner`; per-section structured content; cross-references at §6.
-- [`akos-governance-remediation.mdc`](../rules/akos-governance-remediation.mdc) — D-IH-71-O minted in same commit as SOP; OPS-71-2 closure row in same commit; one commit per phase.
+- [`akos-baseline-governance.mdc`](../rules/akos-baseline-governance.mdc) — D-IH-71-O minted in same commit as SOP; OPS-71-2 closure row in same commit; one commit per phase.
 - [`akos-inline-ratification.mdc`](../rules/akos-inline-ratification.mdc) — C-71-3 tag-now-vs-hold inline-ratify gate respected.
 
 ## §P4 — Strand C2 review-stamp dimension (pending; closes OPS-71-3)
@@ -644,13 +644,13 @@ Column-extension vs separate review-stamp table. `AskQuestion` at gate; default 
 
 ### Pause-point classification (P4)
 
-**Canonical-CSV gate** (mandatory pause point per `akos-agent-checkpoint-discipline.mdc`) — `process_list.csv`, `DECISION_REGISTER.csv`, and `CANONICAL_REGISTRY.csv` all gain new columns; operator approval required before commit per `akos-governance-remediation.mdc` "Canonical CSV gates" rule.
+**Canonical-CSV gate** (mandatory pause point per `akos-agent-checkpoint-discipline.mdc`) — `process_list.csv`, `DECISION_REGISTER.csv`, and `CANONICAL_REGISTRY.csv` all gain new columns; operator approval required before commit per `akos-baseline-governance.mdc` "Canonical CSV gates" rule.
 
 ### Cursor-rules adherence (P4)
 
 - [`akos-holistika-operations.mdc`](../rules/akos-holistika-operations.mdc) §"Two-plane model" — DDL via `supabase/migrations/`; DML via `scripts/sync_compliance_mirrors_from_csv.py` (not large INSERT batches).
 - [`akos-holistika-operations.mdc`](../rules/akos-holistika-operations.mdc) §"Operator SQL gate" — discover (MCP read-only) → propose (DDL + rollback + RLS + PII notes in `reports/sql-proposal-*.md`) → execute → pre-push parity check.
-- [`akos-governance-remediation.mdc`](../rules/akos-governance-remediation.mdc) — canonical-CSV gate operator approval; validate_hlk.py + validate_compliance_schema_drift.py in verification matrix.
+- [`akos-baseline-governance.mdc`](../rules/akos-baseline-governance.mdc) — canonical-CSV gate operator approval; validate_hlk.py + validate_compliance_schema_drift.py in verification matrix.
 - [`akos-planning-traceability.mdc`](../rules/akos-planning-traceability.mdc) — `files-modified.csv` rows include `requires_operator_gate: yes` per the schema.
 
 ## §P5 — Pack A4 (render ownership) + Strand B hardening (pending; gates I72 P4)
@@ -696,7 +696,7 @@ Standard phase (no canonical-CSV gate; validator + MCP smoke + WORKSPACE §18 ro
 
 - [`akos-deploy-health.mdc`](../rules/akos-deploy-health.mdc) — Strand B MCP smoke operationalises the rule's §"Step 1 — Deploy status check (≤ 2 min)" + §"Step 2 — Build log inspection on failure" patterns for AKOS-side observability infrastructure.
 - [`akos-planning-traceability.mdc`](../rules/akos-planning-traceability.mdc) — Pack A4 follows the chassis pattern from Packs A1-A3; advisory MCP smoke is `INFO`-level per the rule's "automated verification vs UAT" guidance.
-- [`akos-governance-remediation.mdc`](../rules/akos-governance-remediation.mdc) — one commit per phase; D-IH-71-Q + D-IH-71-R minted in same commit.
+- [`akos-baseline-governance.mdc`](../rules/akos-baseline-governance.mdc) — one commit per phase; D-IH-71-Q + D-IH-71-R minted in same commit.
 
 ## §P6 — Closing UAT + INITIATIVE_REGISTRY closure (pending; closes OPS-71-1)
 
@@ -733,7 +733,7 @@ UAT phase (operator-driven; mandatory pause point at closure per `akos-agent-che
 
 - [`akos-planning-traceability.mdc`](../rules/akos-planning-traceability.mdc) §"Long-running initiatives: pause-point + self-checkpoint discipline" — closing pause record per the cadence heuristic.
 - [`akos-agent-checkpoint-discipline.mdc`](../rules/akos-agent-checkpoint-discipline.mdc) — closure pause record at `reports/p6-pause-record-<date>.md`.
-- [`akos-governance-remediation.mdc`](../rules/akos-governance-remediation.mdc) — D-IH-71-CLOSURE in same commit as INIT closure; OPS-71-1 closure in same commit.
+- [`akos-baseline-governance.mdc`](../rules/akos-baseline-governance.mdc) — D-IH-71-CLOSURE in same commit as INIT closure; OPS-71-1 closure in same commit.
 
 ## Forward-charters (parked from I71; not in I71 scope)
 
@@ -820,7 +820,7 @@ Per [`.cursor/rules/akos-inline-ratification.mdc`](../rules/akos-inline-ratifica
 - **DO NOT** create phase-scoped Cursor plan files (`i71_p2_*.plan.md`, `i71_a2_*.plan.md`, `i71_a3_*.plan.md`, `i71_vale_*.plan.md`, etc.). This file is the single initiative-scoped Cursor plan I71 owns. Phase-scoped files are forbidden per the §"Scope guardrail" above.
 - **DO NOT** re-author or move the absent historical `i71_p1_pack_a1_brand_voice_register_bcb06a90.plan.md`. The §P1 Round 1 narrative is lifted from the phase report at [`reports/p1-pack-a1-2026-05-14.md`](../../docs/wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/reports/p1-pack-a1-2026-05-14.md). The Cursor-in-memory version of the historical plan stays where it lived.
 - **DO NOT** change existing Pydantic model signatures in [`akos/brand_voice_register.py`](../../akos/brand_voice_register.py) — chassis extensions are **additive-only** (new models added; existing models untouched). Run the P1 28-case test suite pre-commit to confirm no regression.
-- **DO NOT** skip the OPT-STOP-REPORT posture. Validator failures, broken builds, missing canonical files, or security incidents → halt + write 5-line blocker report at `docs/wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/reports/p<N>-blocker-<date>.md` per [`.cursor/rules/akos-governance-remediation.mdc`](../rules/akos-governance-remediation.mdc) §"opt-stop-report posture".
+- **DO NOT** skip the OPT-STOP-REPORT posture. Validator failures, broken builds, missing canonical files, or security incidents → halt + write 5-line blocker report at `docs/wip/planning/71-cicd-discipline-and-aiops-baseline-maturity/reports/p<N>-blocker-<date>.md` per [`.cursor/rules/akos-baseline-governance.mdc`](../rules/akos-baseline-governance.mdc) §"opt-stop-report posture".
 - **DO NOT** mint new HLK IDs locally (per [`.cursor/rules/akos-mirror-template.mdc`](../rules/akos-mirror-template.mdc)). All `D-IH-71-*` rows + `OPS-71-*` rows + `INIT-OPENCLAW_AKOS-71` row + canonical entries flow through AKOS canonical CSVs; no sibling-repo shadow IDs.
 - **DO NOT** edit the master-roadmap and forget to update this plan (or vice versa). Per [`akos-planning-traceability.mdc`](../rules/akos-planning-traceability.mdc) §"`master-roadmap.md` contents", both surfaces stay synchronized when phase ordering, dependencies, or verification gates change.
 
@@ -851,7 +851,7 @@ Per [`.cursor/rules/akos-inline-ratification.mdc`](../rules/akos-inline-ratifica
 - Cursor rules consulted:
   - [`akos-inline-ratification.mdc`](../rules/akos-inline-ratification.mdc) — inline-ratify gate discipline
   - [`akos-planning-traceability.mdc`](../rules/akos-planning-traceability.mdc) — plan-quality bar + per-initiative files-modified.csv schema
-  - [`akos-governance-remediation.mdc`](../rules/akos-governance-remediation.mdc) — phase + commit discipline + opt-stop-report posture
+  - [`akos-baseline-governance.mdc`](../rules/akos-baseline-governance.mdc) — phase + commit discipline + opt-stop-report posture
   - [`akos-mirror-template.mdc`](../rules/akos-mirror-template.mdc) — AKOS-as-SSOT; no shadow ID minting
   - [`akos-holistika-operations.mdc`](../rules/akos-holistika-operations.mdc) — two-plane Supabase + operator SQL gate (P4)
   - [`akos-deploy-health.mdc`](../rules/akos-deploy-health.mdc) — recurrent CICD smoke discipline (P5 Strand B)

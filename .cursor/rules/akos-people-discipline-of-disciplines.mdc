@@ -1,6 +1,9 @@
 ---
-description: AKOS People-as-Discipline-of-Disciplines rule — codifies People stewardship of consulting design patterns, KB-accessibility responsibility, anti-jargon mandate, agentic-as-DoD-recursive framing, jargon-goes-to-Tech-Lab partition.
-alwaysApply: true
+description: Agent-requested — People as discipline-of-disciplines (patterns, KB stewardship, anti-jargon)
+globs:
+  - docs/references/hlk/v3.0/Admin/O5-1/People/**
+  - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/**
+alwaysApply: false
 ---
 
 # AKOS People as Discipline of Disciplines

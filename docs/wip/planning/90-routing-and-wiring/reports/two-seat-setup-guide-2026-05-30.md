@@ -10,11 +10,13 @@ linked_decisions:
   - D-IH-90-V
 ---
 
-# Two-seat setup guide — Cursor (2026-06-01)
+# Two-seat setup guide — I90 worked example (2026-06-01)
 
+> **Canonical repo guide:** [`docs/guides/cursor-two-seat-routing.md`](../../../../guides/cursor-two-seat-routing.md)
+> (durable; all initiatives). This file is the **I90** snapshot + cluster-specific notes.
+>
 > **Purpose:** How the operator switches between the **thinking seat** (judgment)
-> and the **execution seat** (Composer 2.5) for the routing cluster. Documentation
-> only — no machine-specific secrets in git.
+> and the **execution seat** (Composer 2.5). Documentation only — no secrets in git.
 
 ## Seats
 

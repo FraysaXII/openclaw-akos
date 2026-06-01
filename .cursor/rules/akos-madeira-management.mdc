@@ -1,4 +1,4 @@
----
+﻿---
 description: >-
   MADEIRA management verdict rollup: three-tier doctrine (vault SOP, process_list,
   repo guides); three-light GO criteria; dossier MADEIRA flavor; PERSONA_SCENARIO
@@ -23,7 +23,7 @@ globs:
   - akos/dossier/run.py
   - akos/dossier/sections.py
   - akos/dossier/sources.py
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS — MADEIRA management verdict rollup (Initiative 49)
@@ -85,7 +85,7 @@ High level aligned to Part H (pre-commit daily, targeted per-PR, weekly dossier 
 
 ## Governance
 
-CSV tranches touching `process_list` or canonical PERSONA_SCENARIO fields require explicit operator alignment per **`akos-governance-remediation.mdc`**.
+CSV tranches touching `process_list` or canonical PERSONA_SCENARIO fields require explicit operator alignment per **`akos-baseline-governance.mdc`**.
 
 UAT closure evidence: dated **`docs/wip/planning/49-madeira-management-rollup/reports/uat-i49-madeira-management-*.md`** per **`akos-planning-traceability.mdc`**.
 

@@ -1,4 +1,4 @@
----
+﻿---
 name: executable-process-catalog-craft
 description: Use when authoring a process catalog, automation playbook, adapter or integration registry, or any canonical that registers executable actions (human-run, agent-run, or hybrid) in this AKOS workspace. Codifies the craft for paired SOP+runbook pairing (RULE 1), adapter status metadata (RULE 2), cadence taxonomy (RULE 3), and DAMA-DMBOK 2.0 alignment posture (RULE 4). Triggers on process catalog, paired SOP+runbook, adapter registry, integration registry, cadence taxonomy, on_demand, scheduled, event_triggered, gated_operator, AC-HUMAN, AC-AUTOMATION, Normalized Adapter Pattern, status enum. Pairs with .cursor/rules/akos-executable-process-catalog.mdc (the WHEN); this skill is the HOW.
 version: 1.0.0
@@ -132,7 +132,7 @@ crm_adapter_hubspot,HubSpot CRM Adapter,HubSpot,Marketing/Reach,Marketing Direct
 ## Cross-references
 
 - Parent rule: [`akos-executable-process-catalog.mdc`](../../../.cursor/rules/akos-executable-process-catalog.mdc).
-- Sister rules: [`akos-holistika-operations.mdc`](../../../.cursor/rules/akos-holistika-operations.mdc) (canonical CSV mint pattern), [`akos-governance-remediation.mdc`](../../../.cursor/rules/akos-governance-remediation.mdc) (process_list.csv tranche approvals).
+- Sister rules: [`akos-holistika-operations.mdc`](../../../.cursor/rules/akos-holistika-operations.mdc) (canonical CSV mint pattern), [`akos-baseline-governance.mdc`](../../../.cursor/rules/akos-baseline-governance.mdc) (process_list.csv tranche approvals).
 - Worked examples: I72 P8 (process catalog) + I72 P9 (multi-CRM adapter pattern).
 - External research: DAMA-DMBOK 2.0 (2024 revision) + Truto/Unified.to/Apideck Normalised Adapter Pattern consensus (2026).
 - Ratifying decisions: D-IH-86-CT (this skill mint), D-IH-72-N (process catalog architecture), D-IH-72-S (binary AC axis).

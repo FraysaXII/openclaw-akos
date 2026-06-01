@@ -13,7 +13,7 @@ globs:
   - "scripts/research_radar_sweep.py"
   - "scripts/validate_research_radar.py"
   - "akos/hlk_research_radar.py"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS Research Radar

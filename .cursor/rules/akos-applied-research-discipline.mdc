@@ -6,7 +6,7 @@ globs:
   - .cursor/rules/akos-*.mdc
   - .cursor/skills/*/SKILL.md
   - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS Applied Research Discipline

@@ -1,5 +1,9 @@
 ---
-alwaysApply: true
+description: Closure UAT discipline for wave-close and initiative closure reports (post-2026-05-19 bar)
+globs:
+  - docs/wip/planning/**/reports/uat-*.md
+  - docs/wip/planning/**/master-roadmap.md
+alwaysApply: false
 ---
 # AKOS UAT Discipline
 

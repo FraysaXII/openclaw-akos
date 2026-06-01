@@ -17,7 +17,7 @@ globs:
   - "docs/wip/intelligence/**/research-action-pack.md"
   - "scripts/validate_research_action.py"
   - "akos/hlk_research_action.py"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS Research Action

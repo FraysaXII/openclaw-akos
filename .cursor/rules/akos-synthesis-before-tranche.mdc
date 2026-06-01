@@ -1,4 +1,4 @@
----
+﻿---
 description: >-
   Synthesis Before Tranche Discipline (14th Quality Fabric specialty;
   Wave R+1 P3 Commit 2c-a mint). Mechanical companion to
@@ -20,7 +20,7 @@ globs:
   - "scripts/synthesis_before_tranche_check.py"
   - "scripts/validate_synthesis_before_tranche.py"
   - "akos/hlk_synthesis_before_tranche.py"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS Synthesis Before Tranche
@@ -165,7 +165,7 @@ dispositions auto-default to the recommended option per
 dispositions (`scope-narrow` on a tranche that already shipped a partial;
 commercial-share decisions; brand-canon edits with sibling-repo carry-
 overs) NEVER auto-default — halt and escalate per
-[`akos-governance-remediation.mdc`](akos-governance-remediation.mdc).
+[`akos-baseline-governance.mdc`](akos-baseline-governance.mdc).
 
 ## RULE 3 — Run the runbook self-test at every pre_commit (binding)
 

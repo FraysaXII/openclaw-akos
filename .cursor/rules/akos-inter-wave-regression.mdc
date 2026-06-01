@@ -1,5 +1,9 @@
 ---
-alwaysApply: true
+description: Inter-wave regression sweep at multi-wave initiative wave-close
+globs:
+  - docs/wip/planning/**/reports/regression-sweep-*.md
+  - docs/wip/planning/**/master-roadmap.md
+alwaysApply: false
 ---
 # AKOS Inter-Wave Regression Discipline
 

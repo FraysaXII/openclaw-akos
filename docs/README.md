@@ -22,6 +22,7 @@
 
 1. [CONTRIBUTING.md](../CONTRIBUTING.md) — PR flow and standards.  
 2. [guides/first_time_contributor](guides/first_time_contributor.md) — one happy-path tutorial (bootstrap, dry-run, targeted tests).  
+2b. [guides/cursor-two-seat-routing](guides/cursor-two-seat-routing.md) — thinking seat vs Composer execution + handoff markers (any initiative).  
 3. [DEVELOPER_CHECKLIST](DEVELOPER_CHECKLIST.md) — what to run before commit.  
 4. [guides/understanding_verification](guides/understanding_verification.md) — why `verify` / `release-gate` / `run-evals` exist and how they connect.  
 5. [ARCHITECTURE](ARCHITECTURE.md) — components, APIs, and operator scripts when you touch runtime.

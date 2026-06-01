@@ -1,0 +1,55 @@
+---
+description: Pointer-only router — maps task class to domain cursor rules (read paired skill for depth)
+alwaysApply: true
+---
+
+# AKOS Rule Router (pointer-only)
+
+Always-on **index** only. Domain doctrine lives in scoped rules + paired skills under `.cursor/skills/`.
+
+## Core always-on (do not duplicate here)
+
+| Rule | When |
+|:---|:---|
+| [`akos-operator-communication.mdc`](akos-operator-communication.mdc) | Every operator turn — plain language + functional names |
+| [`akos-baseline-governance.mdc`](akos-baseline-governance.mdc) | Runtime inventory, HLK SSOT, phase commits, verification matrix |
+| This file | Pick the right domain rule for the task |
+
+## Task class → domain rule
+
+| Task class | Primary rule | Paired skill |
+|:---|:---|:---|
+| Closure UAT / `uat-*.md` | [`akos-uat-discipline.mdc`](akos-uat-discipline.mdc) | `uat-discipline-craft` |
+| PASS-WITH-FOLLOWUP verdict | [`akos-pwf-governance.mdc`](akos-pwf-governance.mdc) | `pwf-governance-craft` |
+| Pre-tranche / synthesis sweep | [`akos-synthesis-before-tranche.mdc`](akos-synthesis-before-tranche.mdc) | `synthesis-before-tranche-craft` |
+| Wave-close regression | [`akos-inter-wave-regression.mdc`](akos-inter-wave-regression.mdc) | `inter-wave-regression-craft` |
+| Index / README / PRECEDENCE drift | [`akos-index-integrity.mdc`](akos-index-integrity.mdc) | `index-integrity-craft` |
+| Initiative roadmap / `files-modified.csv` | [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) | `planning-traceability-craft` |
+| Inline operator decision | [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) | `inline-ratify-craft` |
+| External PDF/web/mail delivery | [`akos-external-render-discipline.mdc`](akos-external-render-discipline.mdc) | `external-render-craft` |
+| Brand / dual-register prose | [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc) | `brand-baseline-reality-craft` |
+| Quality-bound artifact (5 axes) | [`akos-quality-fabric.mdc`](akos-quality-fabric.mdc) | `quality-fabric-craft` |
+| Holistika ops / Supabase / mirrors | [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc) | — |
+| Research area / `docs/wip/intelligence/` | [`akos-research-area.mdc`](akos-research-area.mdc) | — |
+| Research action / source ledger | [`akos-research-action.mdc`](akos-research-action.mdc) | `research-action-craft` |
+| Research radar / INTELLIGENCEOPS | [`akos-research-radar.mdc`](akos-research-radar.mdc) | `research-radar-craft` |
+| Collaborator share / settlement | [`akos-collaborator-share.mdc`](akos-collaborator-share.mdc) | `collaborator-share-craft` |
+| Consumer-repo deploy smoke | [`akos-deploy-health.mdc`](akos-deploy-health.mdc) | `deploy-health-craft` |
+| Multi-task conflict / blocker | [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc) | `conflict-surfacing-craft` |
+| Long initiative pause / checkpoint | [`akos-agent-checkpoint-discipline.mdc`](akos-agent-checkpoint-discipline.mdc) | `agent-checkpoint-craft` |
+| Docs/config sync after CSV mint | [`akos-docs-config-sync.mdc`](akos-docs-config-sync.mdc) | — |
+| Process catalog / adapter registry | [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc) | `executable-process-catalog-craft` |
+| People cross-area patterns | [`akos-people-discipline-of-disciplines.mdc`](akos-people-discipline-of-disciplines.mdc) | — |
+| Two-seat Opus → Composer | [`akos-aic-delegation.mdc`](akos-aic-delegation.mdc) | `aic-delegation-craft` |
+
+## Agent-requested (no glob — load when task matches description)
+
+- [`akos-applied-research-discipline.mdc`](akos-applied-research-discipline.mdc) — novel doctrine / canonical mint research grounding
+- [`akos-madeira-management.mdc`](akos-madeira-management.mdc) — MADEIRA verdict rollup / scenario registry
+- [`akos-mirror-template.mdc`](akos-mirror-template.mdc) — **template only** for sibling repos (not AKOS runtime)
+
+## Policy + ratification
+
+- **SSOT:** [`config/cursor-rule-tiers.json`](../../config/cursor-rule-tiers.json) — `max_always_on_rules`, `core_always_on_slugs`
+- **D-IH-90-R** — tier model (repo-wide; not initiative-scoped)
+- **D-IH-90-A** — first worked example: routing & wiring ordnance charter

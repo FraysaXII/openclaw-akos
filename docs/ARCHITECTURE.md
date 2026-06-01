@@ -756,10 +756,24 @@ Five governance dimensions form a **foreign-key web** across the planning worksp
 
 Each CSV follows the existing HLK compliance pattern: a Pydantic schema defines the row shape, a dedicated validator script enforces schema + FK + enum constraints, and [`scripts/sync_compliance_mirrors_from_csv.py`](../scripts/sync_compliance_mirrors_from_csv.py) emits `INSERT … ON CONFLICT` SQL to refresh the corresponding `compliance.*_mirror` table in Supabase. The mirror-emit step is operator-gated — it runs only after approved DDL has been applied to the target database. Sync validators (`validate_initiative_registry.py`, `validate_decision_register.py`, and the dimension checks inside `validate_hlk.py`) enforce cross-CSV FK agreement so the two layers cannot silently diverge.
 
+### Cursor workspace rule tiers (D-IH-90-R)
+
+Holistika Cursor sessions load doctrine through a **tiered** `.cursor/rules/` model. Policy SSOT: [`config/cursor-rule-tiers.json`](../config/cursor-rule-tiers.json) (core always-on slugs + cap; first landed in initiative [`docs/wip/planning/90-routing-and-wiring/`](wip/planning/90-routing-and-wiring/)).
+
+| Tier | Artifacts | Role |
+|:-----|:----------|:-----|
+| Always-on (≤4 `.mdc`) | Listed in `config/cursor-rule-tiers.json` → `core_always_on_slugs` | Operator comms, runtime/HLK SSOT, task-class pointer table |
+| Entry index | [`AGENTS.md`](../AGENTS.md) | Workspace map: tiers, verification, two-seat pattern; initiatives via [`docs/wip/planning/README.md`](wip/planning/README.md) |
+| Glob-scoped | Remaining `akos-*.mdc` rules | Load when matching paths (e.g. `uat-*.md`, `docs/wip/planning/**`) |
+| Hooks | [`.cursor/hooks.json`](../.cursor/hooks.json) | Canonical CSV commit gate, schema-drift reminder, secret scan, seat handoff |
+
+Mechanical check: `py scripts/validate_cursor_rule_tiers.py` (full scan) and `--self-test` at `pre_commit`.
+
 ### Operator Scripts (v0.4.0)
 
 | Script | Purpose |
 |:-------|:--------|
+| `scripts/validate_cursor_rule_tiers.py` | Enforce tier policy from `config/cursor-rule-tiers.json`; `--self-test` at pre_commit |
 | `scripts/legacy/verify_openclaw_inventory.py` | Strict full-inventory verifier with per-item PASS/FAIL output (providers/models/agents/A2A allowlist) |
 | `scripts/check-drift.py` | Detect repo-to-runtime mismatches |
 | `scripts/doctor.py` | One-command system health check; normalizes `Runtime: unknown` to `healthy` when probe/listener evidence is healthy, and checks determinism |

@@ -1,6 +1,10 @@
----
-description: AKOS executable process catalog rule — SOP + executable runbook pairing, adapter/integration registry status enum, cadence taxonomy, DAMA-DMBOK alignment, AC-binary axis. Cross-cutting governance for every process catalog and adapter registry.
-alwaysApply: true
+﻿---
+description: Agent-requested — executable process catalog (paired SOP + runbook, adapter status, cadence)
+globs:
+  - docs/references/hlk/v3.0/**/canonicals/process_list.csv
+  - docs/references/hlk/v3.0/**/canonicals/*ADAPTER*.csv
+  - docs/references/hlk/v3.0/**/canonicals/*PROCESS*.yaml
+alwaysApply: false
 ---
 
 # AKOS Executable Process Catalog
@@ -114,7 +118,7 @@ The **Data Owner** for each process catalog (per DAMA-DMBOK Data Owner = "busine
 ## Cross-references
 
 - Paired skill (the *how* layer): [`.cursor/skills/executable-process-catalog-craft/SKILL.md`](../skills/executable-process-catalog-craft/SKILL.md) — minted at drain7 (Wave R close) per D-IH-86-CT.
-- [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc) §"HLK compliance governance" — canonical-CSV gate discipline (process_list.csv tranche approvals).
+- [`akos-baseline-governance.mdc`](akos-baseline-governance.mdc) §"HLK compliance governance" — canonical-CSV gate discipline (process_list.csv tranche approvals).
 - [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc) §"New git-canonical compliance registers (pattern)" — canonical CSV + Pydantic SSOT + validator + Supabase mirror pattern (applies to every adapter registry).
 - [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) §"Plan-quality bar" — per-phase deep section template (Scope / Files / Verification / Pause-point classification / Self-checkpoint count / Cursor-rules adherence). Process catalog phases inherit this bar.
 - [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) — `gated_operator` cadence inherits the inline-ratify pattern (every gated invocation surfaces an AskQuestion before execution).

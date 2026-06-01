@@ -28,7 +28,7 @@ globs:
   - "scripts/collaborator_share_calculate.py"
   - "scripts/validate_collaborator_share.py"
   - "akos/hlk_collaborator_share.py"
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AKOS Collaborator Share

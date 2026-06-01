@@ -1,4 +1,4 @@
----
+﻿---
 description: >-
   Operator-tooling rule for AIC delegation — how the operator routes work
   between a foreground "thinking seat" (Opus / thinking models, for judgment,
@@ -65,7 +65,7 @@ model itself — see RULE 5):
   against a settled plan.
 - **Stop, do not delegate** when a validator fails, a build breaks, or a
   security / secret concern surfaces — that is a blocker per
-  [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc), not a
+  [`akos-baseline-governance.mdc`](akos-baseline-governance.mdc), not a
   delegation decision.
 
 ## RULE 4 — Switch back after two misreads (binding)
@@ -123,5 +123,5 @@ Two distinct claims — keep them separate (an earlier draft conflated them):
 - Routing lookup: [`model-routing-map.md`](../../docs/wip/intelligence/model-selection-2026-05-28/model-routing-map.md) Layer 0.
 - Taxonomy + identity: [`master-synthesis.md`](../../docs/wip/intelligence/agentic-os-and-aic-taxonomy-2026-05-29/master-synthesis.md) + [`operator-ratification-2026-05-29.md`](../../docs/wip/intelligence/agentic-os-and-aic-taxonomy-2026-05-29/operator-ratification-2026-05-29.md).
 - Model selection: [`recommendation-note.md`](../../docs/wip/intelligence/model-selection-2026-05-28/recommendation-note.md) + [`field-test-note.md`](../../docs/wip/intelligence/model-selection-2026-05-28/field-test-note.md).
-- Sister rules: [`akos-operator-communication.mdc`](akos-operator-communication.mdc), [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc), [`akos-governance-remediation.mdc`](akos-governance-remediation.mdc).
+- Sister rules: [`akos-operator-communication.mdc`](akos-operator-communication.mdc), [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc), [`akos-baseline-governance.mdc`](akos-baseline-governance.mdc).
 - Ratifying decisions: `D-IH-84-C` (F5 operator-picks-per-task); DQ-TAX-04 (advisory-only model-seat routing, 2026-05-29).
