@@ -94,9 +94,11 @@ py scripts/validate_hlk.py
 
 **Mechanical:**
 
+- [`config/cursor-rule-tiers.json`](../../../config/cursor-rule-tiers.json) — repo-wide tier policy SSOT (not initiative-scoped).
 - [`scripts/validate_cursor_rule_tiers.py`](../../../scripts/validate_cursor_rule_tiers.py) — `pre_commit` self-test; full scan: `py scripts/validate_cursor_rule_tiers.py` → **3 always-on / 34 rules PASS** (2026-06-01).
+- [`scripts/validate_rule_skill_pairing.py`](../../../scripts/validate_rule_skill_pairing.py) — P2f self-test in `pre_commit`; full scan: **21/21 craft pairing** (INFO ramp).
 - [`.cursor/hooks.json`](../../../.cursor/hooks.json) — canonical CSV commit gate, schema-drift reminder, secret scan, seat handoff on stop.
-- Root [`AGENTS.md`](../../../AGENTS.md) — ≤100-line agent entry index.
+- Root [`AGENTS.md`](../../../AGENTS.md) + [`docs/guides/cursor-two-seat-routing.md`](../../../docs/guides/cursor-two-seat-routing.md) — durable workspace index (initiatives via planning README).
 
 **GATE #2:** [`reports/p2-gate2-rule-tier-review-2026-06-01.md`](reports/p2-gate2-rule-tier-review-2026-06-01.md) — operator sign-off on tier model before P3 backlog drain.
 

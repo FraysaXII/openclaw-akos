@@ -688,6 +688,18 @@ def run_cursor_rule_tiers_self_test() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_rule_skill_pairing_self_test() -> tuple[bool, int]:
+    """Run rule × skill pairing self-test (D-IH-86-CT / I90 P2f)."""
+    logger.info("Running rule-skill-pairing self-test (D-IH-86-CT; --self-test) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "validate_rule_skill_pairing.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_research_radar_self_test() -> tuple[bool, int]:
     """Run Research Radar self-test (16th Quality Fabric specialty).
 
@@ -1639,6 +1651,12 @@ def main() -> None:
     results.append((
         "INFO" if cursor_tiers_ok else "FAIL",
         f"Cursor rule tiers self-test (scripts/validate_cursor_rule_tiers.py --self-test - D-IH-90-R; policy config/cursor-rule-tiers.json; ok={'yes' if cursor_tiers_ok else 'no'}; exit={cursor_tiers_rc})",
+    ))
+
+    rule_skill_ok, rule_skill_rc = run_rule_skill_pairing_self_test()
+    results.append((
+        "INFO" if rule_skill_ok else "FAIL",
+        f"Rule-skill pairing self-test (scripts/validate_rule_skill_pairing.py --self-test - D-IH-86-CT; ok={'yes' if rule_skill_ok else 'no'}; exit={rule_skill_rc})",
     ))
 
     uat_report_ok, uat_report_rc = run_uat_report_validation()

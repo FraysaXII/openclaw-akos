@@ -228,6 +228,14 @@
           ]
         },
         {
+          "id": "validate_rule_skill_pairing_self_test",
+          "description": "D-IH-86-CT / I90 P2f: rule x skill pairing self-test. WARN ramp for missing *-craft skills on governance rules; exempt list in akos/hlk_rule_skill_pairing.py.",
+          "argv": [
+            "scripts/validate_rule_skill_pairing.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "validate_mktops_campaign_self_test",
           "description": "I86 Wave R+4 C3a: MKTOps 7-dimension campaign quality bar self-test. Validates akos/hlk_mktops.py Pydantic SSOT (MKTOpsCampaignManifest + MKTOpsFindingRow + MKTOpsCampaignReport) plus the 7 dimension codes plus funnel-stage and lifecycle-state enums. Activated when MKTOPS_DISCIPLINE.md flipped charter -> active per D-IH-86-EY.",
           "argv": [
