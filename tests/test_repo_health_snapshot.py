@@ -42,7 +42,9 @@ def test_external_repo_contract_template_exists_and_lints_clean() -> None:
 def test_akos_mirror_cursor_rule_template_exists_and_loads_always() -> None:
     assert MIRROR_RULE_TEMPLATE.is_file()
     text = MIRROR_RULE_TEMPLATE.read_text(encoding="utf-8")
-    assert "alwaysApply: true" in text
+    # I90 P2: template is NOT always-on in AKOS; sibling copies use alwaysApply: true.
+    assert "alwaysApply: false" in text
+    assert "NOT always-on in AKOS" in text
     # It must reference AKOS via stable GitHub URL, not local path.
     assert "github.com/FraysaXII/openclaw-akos" in text
 

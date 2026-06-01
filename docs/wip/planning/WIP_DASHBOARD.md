@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (17)
+### Active (in execution) (20)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -36,6 +36,9 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **86** | [`86-initiative-cluster-execution-coordinator/`](86-initiative-cluster-execution-coordinator/) | active | 2026-05-17 | I86 — Initiative Cluster Execution Coordinator |
 | **88** | [`88-cross-area-ops-wiring-review-discipline/`](88-cross-area-ops-wiring-review-discipline/) | active | 2026-05-24 | I88 — Cross-area Ops wiring review discipline (every-area + 3-tier) × 10-pillar Holisti... |
 | **89** | [`89-hlk-erp-program-rollup-implementation/`](89-hlk-erp-program-rollup-implementation/) | active | 2026-05-17 | I89 — HLK-ERP persona-rollup panel implementation |
+| **90** | [`90-routing-and-wiring/`](90-routing-and-wiring/) | active | 2026-06-01 | I90 — Routing & Wiring (Ordnance) |
+| **91** | [`91-enterprise-graph-store-coverage/`](91-enterprise-graph-store-coverage/) | active | 2026-06-01 | I91 — Enterprise Graph & Store-Coverage |
+| **92** | [`92-hlk-erp-reassess-dashboard/`](92-hlk-erp-reassess-dashboard/) | active | 2026-06-01 | I92 — HLK-ERP Reassess & Dashboard (stub) |
 
 ### Gated on external event (0)
 
