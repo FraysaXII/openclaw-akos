@@ -27,6 +27,27 @@ Three (now four) different concerns, three different tools:
 
 Impeccable answers "is this page designed well?" — NOT "did the deploy succeed?" or "does it work on mobile?". Use the right tool for the right question.
 
+## Step 0 — Fleet hygiene sweep (≤ 2 min; before any consumer-repo turn)
+
+Run at the **start of every session** that may touch AKOS or a sibling repo (operator alone posture; no reminder needed):
+
+```powershell
+py scripts/workspace_fleet_hygiene_sweep.py --sweep
+```
+
+This is a **content** gate, not a drift hash gate. It reports:
+
+| Signal | What it catches |
+|:---|:---|
+| **FLEET-01 worktree** | Uncommitted / untracked files in `openclaw-akos`, `hlk-erp`, `kirbe-platform`, `boilerplate` |
+| **FLEET-02 publish drift** | Commits ahead of `origin` (forgotten push) |
+| **FLEET-03 CI content** | Missing `ci.yml` jobs, dependabot, CODEOWNERS (per `SOP-CICD_BASELINE_001`) |
+| **FLEET-04 standing OPS** | Stale recheck on **OPS-81-1** (I81 observation), **OPS-86-1** (cluster), **OPS-86-9** (TechOps threads), **OPS-90-6** (KiRBe GDrive pairing) |
+
+Output lands under `artifacts/fleet-hygiene/fleet-hygiene-<date>.md`. **AKOS dirty = FAIL**; sibling dirty = **WARN** (WIP allowed) unless `--strict`.
+
+Standing obligations also live in canonicals: `OPS_REGISTER.csv`, I81 master-roadmap §6, Quality Fabric field-test windows, `CAPABILITY_REGISTRY.csv` (CI/CD capabilities at `partial` until paired SOP+runbook complete).
+
 ## Standard CICD smoke checklist (run at start of every consumer-repo turn)
 
 ### Step 1 — Deploy status check (≤ 2 min)

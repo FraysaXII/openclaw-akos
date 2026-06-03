@@ -228,6 +228,14 @@
           ]
         },
         {
+          "id": "workspace_fleet_hygiene_self_test",
+          "description": "Fleet hygiene self-test: akos/hlk_fleet_hygiene.py (FLEET-01 worktree, FLEET-02 publish drift, FLEET-03 CI content, FLEET-04 standing OPS). Full --sweep at session/release-gate INFO; watches OPS-81-1/86-1/86-9/90-6 without operator reminder.",
+          "argv": [
+            "scripts/workspace_fleet_hygiene_sweep.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "validate_cursor_rule_tiers_self_test",
           "description": "D-IH-90-R: Cursor rule tier self-test (policy config/cursor-rule-tiers.json). Validates <=max always-on rules match core_always_on_slugs; no always-on+globs. Full .cursor/rules scan on demand or at tier-policy change review.",
           "argv": [

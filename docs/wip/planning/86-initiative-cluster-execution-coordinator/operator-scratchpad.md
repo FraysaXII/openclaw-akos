@@ -2617,5 +2617,16 @@ Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + va
 
 **Standing obligation:** I81 stays **active** like Quality Fabric — **OPS-81-1** is the register anchor; each wave-close (min quarterly) lands paired `kb-integrity-audit/matrix-<date>` under `reports/i81/`. **2026-06-01 observation:** 1100 executable rows; 0% pass **expected** at P1 baseline (audience_tags deferred to I85 + P4–P8 retrofits). Master-roadmap §6 codifies cadence. **AKOS:** hygiene commit + push with P3b `ef852ca`. Agent default: bump OPS-81-1 evidence on every material wave; do not leave I81 artefacts untracked.
 
+### 2026-06-04 — Fleet hygiene sweep mint + sibling WIP inventory [processed]
+
+**New gate:** `workspace_fleet_hygiene_sweep.py` (FLEET-01..04) — content checks beyond drift: uncommitted worktrees, unpushed commits, CI workflow content, standing OPS staleness. Wired to `pre_commit` self-test + release-gate INFO sweep; **akos-deploy-health.mdc Step 0** — agent runs at session start without operator reminder.
+
+**Sibling repos still dirty (operator WIP — not AKOS):**
+- **hlk-erp** `main`: 19 files — CI bless bundle + brand-ops governance pages + supabase-migration-lint workflow (uncommitted).
+- **boilerplate** `i32-akos-mirror-seed`: 12 files — marketing/contact/how-we-work (uncommitted).
+- **kirbe-platform** `i90-p35-kirbe-runbooks`: 3 files — CONTRIBUTING/LICENSE/bless sha256 (uncommitted).
+
+**Next agent default:** run `py scripts/workspace_fleet_hygiene_sweep.py --sweep` at session start; surface sibling WIP before claiming "clean".
+
 <!-- end of entries -->
 

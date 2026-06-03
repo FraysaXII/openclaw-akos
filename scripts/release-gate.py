@@ -717,6 +717,34 @@ def run_techops_reliability_self_test() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_fleet_hygiene_self_test() -> tuple[bool, int]:
+    """Run fleet hygiene self-test (multi-repo worktree + standing OPS watch list).
+
+    Self-test validates ``akos/hlk_fleet_hygiene.py`` + registry paths. Full sweep
+    (``--sweep``) runs at operator-session start or release-gate INFO advisory.
+    """
+    logger.info("Running fleet hygiene self-test (workspace_fleet_hygiene_sweep.py --self-test) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "workspace_fleet_hygiene_sweep.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
+def run_fleet_hygiene_sweep() -> tuple[bool, int]:
+    """Run fleet hygiene full sweep (INFO advisory at release-gate)."""
+    logger.info("Running fleet hygiene sweep (workspace_fleet_hygiene_sweep.py --sweep) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "workspace_fleet_hygiene_sweep.py"), "--sweep"],
+        timeout=120,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_research_radar_self_test() -> tuple[bool, int]:
     """Run Research Radar self-test (16th Quality Fabric specialty).
 
@@ -1668,6 +1696,18 @@ def main() -> None:
     results.append((
         "INFO" if techops_ok else "FAIL",
         f"TechOps reliability self-test (scripts/techops_reliability_check.py --self-test - I90 P3b OPS-86-9 TechOps thread; Pydantic SSOT akos/hlk_techops_reliability.py TECH-01..TECH-07; stub probes skip until Vercel/Render/Supabase/Sentry MCP at deploy cadence; TECHOPS_DISCIPLINE.md remains status:charter; ok={'yes' if techops_ok else 'no'}; exit={techops_rc})",
+    ))
+
+    fleet_self_ok, fleet_self_rc = run_fleet_hygiene_self_test()
+    results.append((
+        "PASS" if fleet_self_ok else "FAIL",
+        f"Fleet hygiene self-test (scripts/workspace_fleet_hygiene_sweep.py --self-test; akos/hlk_fleet_hygiene.py FLEET-01..04; standing OPS watch OPS-81-1/86-1/86-9/90-6; ok={'yes' if fleet_self_ok else 'no'}; exit={fleet_self_rc})",
+    ))
+
+    fleet_sweep_ok, fleet_sweep_rc = run_fleet_hygiene_sweep()
+    results.append((
+        "INFO",
+        f"Fleet hygiene sweep (scripts/workspace_fleet_hygiene_sweep.py --sweep; multi-repo worktree + CI content + standing OPS; sibling dirty=WARN AKOS dirty=FAIL; artifacts/fleet-hygiene/; ok={'yes' if fleet_sweep_ok else 'no'}; exit={fleet_sweep_rc})",
     ))
 
     cursor_tiers_ok, cursor_tiers_rc = run_cursor_rule_tiers_self_test()
