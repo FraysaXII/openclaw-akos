@@ -2609,5 +2609,9 @@ Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + va
 
 **D-IH-90-X** ratified: full KiRBe API at `https://kirbe.holistikaresearch.com` (Render); hlk-erp `KIRBE_API_URL` + BFF `/api/kirbe/*`; Vercel `kirbe` project health-only after `b5958c2`. **OPS-90-1..5 closed**; **OPS-90-6 open** → I81 P6 KNOWLEDGE_PAIRING for `env_tech_dtp_255` / `256`. **Merged:** kirbe PR26 `03c152d`; hlk-erp PR25 `c45e06e`. AKOS GATE #3b pushed `origin/main`. Report: `docs/wip/planning/90-routing-and-wiring/reports/kirbe-production-routing-ops-2026-06-01.md` verdict PASS. **Next:** I90 P3a/P3b backlog per mega plan.
 
+### 2026-06-01 — I90 P3b OPS-90-8 + UAT stubs + TechOps chassis [processed wave-I90-P3b]
+
+**Sibling:** hlk-erp PR27 merged `5db0385`; killed stuck `pnpm install` prompt (use `$env:CI='true'`); post-merge `typecheck` + `test:ci` PASS on `main`. **OPS-90-8 closed**; **OPS-86-20 closed** (5 historical UAT stubs); **OPS-86-9 partial** (TechOps runbook only — DataOps/MKTOPS/UX parked). Report: `docs/wip/planning/90-routing-and-wiring/reports/p3b-completion-2026-06-01.md`. **Next:** I90 P3c (OPS-86-13/19 gated) or P3d (OPS-86-1 cluster closure).
+
 <!-- end of entries -->
 

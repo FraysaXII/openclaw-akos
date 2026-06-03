@@ -220,6 +220,14 @@
           ]
         },
         {
+          "id": "techops_reliability_check_self_test",
+          "description": "I90 P3b OPS-86-9: TechOps reliability check self-test. Validates akos/hlk_techops_reliability.py Pydantic SSOT (TECH-01..TECH-07) + scripts/techops_reliability_check.py PROBE_REGISTRY; stub sweep emits skip until MCP live probes at deploy cadence. INFO ramp per TECHOPS_DISCIPLINE.md charter status.",
+          "argv": [
+            "scripts/techops_reliability_check.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "validate_cursor_rule_tiers_self_test",
           "description": "D-IH-90-R: Cursor rule tier self-test (policy config/cursor-rule-tiers.json). Validates <=max always-on rules match core_always_on_slugs; no always-on+globs. Full .cursor/rules scan on demand or at tier-policy change review.",
           "argv": [

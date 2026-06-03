@@ -114,9 +114,15 @@ See [`backlog-two-seat-routing-2026-05-30.md`](backlog-two-seat-routing-2026-05-
 
 **Done:** OPS-86-3/16/17 closed at GATE #1; OPS-86-23 notes refreshed (DIM-04 8→6 CSVs; artifact/component mirrors no longer in open backlog).
 
+**P3a (2026-06-01):** Decision briefs + Composer packets for OPS-86-1/9/13/19/20; park 24/25. Gate: [`reports/p3a-gate-clearance-2026-06-01.md`](reports/p3a-gate-clearance-2026-06-01.md) — **PASS** (operator ratified P3b scope).
+
+**P3b (2026-06-01):** [`reports/p3b-completion-2026-06-01.md`](reports/p3b-completion-2026-06-01.md) — OPS-90-8 closed (hlk-erp PR #27 @ `5db0385`); TechOps runbook chassis (`scripts/techops_reliability_check.py`); OPS-86-20 closed (5 UAT historical stubs). OPS-86-9 remains **open** for DataOps/MKTOPS/UX threads.
+
 **In flight:** I91 P0 store inventory + P1 preflight record ([`../91-enterprise-graph-store-coverage/reports/`](../91-enterprise-graph-store-coverage/reports/)).
 
 **Regression:** `8d015bf` — I90 validators green; full-suite deck + sibling-mirror debt documented in [`reports/regression-pre-continue-2026-06-01.md`](reports/regression-pre-continue-2026-06-01.md).
+
+**hlk-erp CI:** Branch `fix/typecheck-pre-push-green` (`8f96595`) — `pnpm typecheck` + `pnpm test:ci` + pre-push hook PASS; merge PR to close **OPS-90-8**.
 
 **Still gated:** OPS-86-26 research legacy; live Neo4j sync until `NEO4J_*` configured. **Post-gate:** sibling `akos-mirror.mdc` realigned in `hlk-erp` + `kirbe-platform` local clones via `bless_external_repo.py` (commit in those repos separately).
 

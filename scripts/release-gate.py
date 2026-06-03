@@ -700,6 +700,23 @@ def run_rule_skill_pairing_self_test() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_techops_reliability_self_test() -> tuple[bool, int]:
+    """Run TechOps reliability check self-test (I90 P3b / OPS-86-9).
+
+    Self-test mode of ``scripts/techops_reliability_check.py`` — validates
+    the paired Pydantic SSOT (``akos/hlk_techops_reliability.py``) +
+    7-probe PROBE_REGISTRY. Does NOT run MCP live checks.
+    """
+    logger.info("Running TECHOPS-RELIABILITY self-test (I90 P3b / OPS-86-9; --self-test) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "techops_reliability_check.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_research_radar_self_test() -> tuple[bool, int]:
     """Run Research Radar self-test (16th Quality Fabric specialty).
 
@@ -1645,6 +1662,12 @@ def main() -> None:
     results.append((
         "INFO" if research_radar_ok else "FAIL",
         f"Research-radar self-test (scripts/validate_research_radar.py --self-test - 16th Quality Fabric specialty per D-IH-86-FG charter mint I75 Wave R+5 C1; Pydantic SSOT akos/hlk_research_radar.py (INTELLIGENCEOPS_REGISTER_FIELDNAMES 21-col + volatility/staleness enums + SUBSTRATE_VOLATILITY_PROFILES); paired runbook scripts/research_radar_sweep.py; per-target cadence never global constant; INFO ramp self-test at pre_commit per akos-research-radar.mdc RULE 3; ok={'yes' if research_radar_ok else 'no'}; exit={research_radar_rc})",
+    ))
+
+    techops_ok, techops_rc = run_techops_reliability_self_test()
+    results.append((
+        "INFO" if techops_ok else "FAIL",
+        f"TechOps reliability self-test (scripts/techops_reliability_check.py --self-test - I90 P3b OPS-86-9 TechOps thread; Pydantic SSOT akos/hlk_techops_reliability.py TECH-01..TECH-07; stub probes skip until Vercel/Render/Supabase/Sentry MCP at deploy cadence; TECHOPS_DISCIPLINE.md remains status:charter; ok={'yes' if techops_ok else 'no'}; exit={techops_rc})",
     ))
 
     cursor_tiers_ok, cursor_tiers_rc = run_cursor_rule_tiers_self_test()
