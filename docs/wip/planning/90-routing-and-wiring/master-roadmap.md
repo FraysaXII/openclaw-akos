@@ -40,7 +40,7 @@ Holistika's Cursor workspace carried **25 always-on rules** (P2 reduces to **3**
 | **P1** | `.cursor/agents/` planner + executor + two-seat guide | — |
 | **P2** | Rule demotion (3 always-on + router), hooks, tier validators | **GATE #2** (**PASS** 2026-06-01, `D-IH-90-W`) |
 | **P3** | Backlog drain (OPS 16/17/3, 23 notes, handoff I91) | Per-item inline-ratify |
-| **P3.5** | KiRBe production routing (D-IH-90-X + OPS-90-1..6; sibling doc PRs) | **GATE #3b** (canonical CSV) |
+| **P3.5** | KiRBe production routing (D-IH-90-X + OPS-90-1..6; sibling doc PRs) | **GATE #3b** (**closed** 2026-06-01) |
 
 ## 2 — Phase dependency
 
@@ -120,23 +120,24 @@ See [`backlog-two-seat-routing-2026-05-30.md`](backlog-two-seat-routing-2026-05-
 
 **Still gated:** OPS-86-26 research legacy; live Neo4j sync until `NEO4J_*` configured. **Post-gate:** sibling `akos-mirror.mdc` realigned in `hlk-erp` + `kirbe-platform` local clones via `bless_external_repo.py` (commit in those repos separately).
 
-## 6.1 — P3.5 — KiRBe production routing (operator-ratified 2026-06-01)
+## 6.1 — P3.5 — KiRBe production routing (**GATE #3b closed** 2026-06-01)
 
-> **Plan SSOT:** mega plan Round 9 + §4 P3.5. **Routing canonical:** [`KIRBE_ROUTING_AND_HOSTING.md`](../../../references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/Repositories/KIRBE_ROUTING_AND_HOSTING.md).
+> **Plan SSOT:** mega plan Round 9 + Round 10. **Routing canonical:** [`KIRBE_ROUTING_AND_HOSTING.md`](../../../references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/Repositories/KIRBE_ROUTING_AND_HOSTING.md).
 
 | Item | Value |
 |:---|:---|
 | **Production API** | `https://kirbe.holistikaresearch.com` (Render; `/health` → 200) |
 | **hlk-erp** | `KIRBE_API_URL` server env → BFF `/api/kirbe/*` (prod set since Oct 2025) |
 | **Vercel kirbe** | Health-only — **not** for GDrive or full API clients |
-| **Decision** | **D-IH-90-X** (mint at GATE #3b) |
-| **OPS rows** | **OPS-90-1..6** — see [`reports/kirbe-production-routing-ops-2026-06-01.md`](reports/kirbe-production-routing-ops-2026-06-01.md) |
-| **Deferred** | Vault SOP pairing → **I81 P6** (`OPS-90-6`; `env_tech_dtp_255` / `env_tech_dtp_256`) |
+| **Decision** | **D-IH-90-X** in `DECISION_REGISTER.csv` |
+| **OPS rows** | **OPS-90-1..5 closed**; **OPS-90-6 open** → I81 P6 — [`kirbe-production-routing-ops-2026-06-01.md`](reports/kirbe-production-routing-ops-2026-06-01.md) |
+| **AKOS commits** | `3dfa16e` + `4d2a938` (+ closure follow-up) pushed to `origin/main` |
+| **Sibling merges** | [kirbe #26](https://github.com/FraysaXII/kirbe/pull/26), [hlk-erp #25](https://github.com/FraysaXII/hlk-erp/pull/25) merged to `main` |
 
 **Verification:**
 
 ```powershell
-curl -sS -o NUL -w "%{http_code}" https://kirbe.holistikaresearch.com/health
+curl.exe -sS -w "\nHTTP:%{http_code}\n" https://kirbe.holistikaresearch.com/health
 py scripts/validate_ops_register.py
 py scripts/validate_hlk.py
 ```

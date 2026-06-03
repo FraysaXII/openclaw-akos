@@ -29,5 +29,6 @@ P3.5,3dfa16e,2026-06-01,modified,+10,openclaw-akos,docs/wip/planning/90-routing-
 P3.5,3dfa16e,2026-06-01,modified,+3,openclaw-akos,docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/master-roadmap.md,planning,System Owner,Tech,Holistika,D-IH-90-X;D-IH-81-A,,,n/a,no,OPS-90-6 I81 P6 forward,
 P3.5,3dfa16e,2026-06-01,modified,+1,openclaw-akos,docs/wip/planning/90-routing-and-wiring/risk-register.md,planning,PMO,People,Holistika,D-IH-90-X,,,n/a,no,R-IH-90-18 stale hostname,
 P3.5,3dfa16e,2026-06-01,modified,+8,openclaw-akos,CHANGELOG.md,changelog,PMO,People,Holistika,D-IH-90-X,,,n/a,no,Unreleased I90 P3.5 entry,
-P3.5,kirbe-pending,2026-06-01,modified,+40,kirbe,docs/kirbe_sops/*.md,reference,System Owner,Tech,Holistika,D-IH-90-X,,KIRBE_ROUTING_AND_HOSTING.md,n/a,no,OPS-90-2 hostname cleanup,
-P3.5,hlk-erp-pending,2026-06-01,modified,+25,hlk-erp,.env.example + other_documentation/kirbe/,reference,System Owner,Tech,Holistika,D-IH-90-X,,KIRBE_ROUTING_AND_HOSTING.md,n/a,no,OPS-90-3 KIRBE_API_URL BFF docs,
+P3.5,03c152d,2026-06-01,modified,+40,kirbe,docs/kirbe_sops/*.md,reference,System Owner,Tech,Holistika,D-IH-90-X,,KIRBE_ROUTING_AND_HOSTING.md,n/a,no,OPS-90-2 merged PR26,
+P3.5,c45e06e,2026-06-01,modified,+25,hlk-erp,documentation/KIRBE_API_ENV.md + other_documentation/kirbe/,reference,System Owner,Tech,Holistika,D-IH-90-X,,KIRBE_ROUTING_AND_HOSTING.md,n/a,no,OPS-90-3 squash PR25,
+P3.5-closure,c70a817,2026-06-01,modified,+74,openclaw-akos,docs/wip/planning/90-routing-and-wiring/* + OPS_REGISTER + scratchpad + CHANGELOG,planning,PMO,People,Holistika,D-IH-90-X,,,validate_hlk.py;validate_ops_register.py,no,P3.5 merged PR26/25 + pushed main,
