@@ -2613,5 +2613,9 @@ Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + va
 
 **Sibling:** hlk-erp PR27 merged `5db0385`; killed stuck `pnpm install` prompt (use `$env:CI='true'`); post-merge `typecheck` + `test:ci` PASS on `main`. **OPS-90-8 closed**; **OPS-86-20 closed** (5 historical UAT stubs); **OPS-86-9 partial** (TechOps runbook only — DataOps/MKTOPS/UX parked). Report: `docs/wip/planning/90-routing-and-wiring/reports/p3b-completion-2026-06-01.md`. **Next:** I90 P3c (OPS-86-13/19 gated) or P3d (OPS-86-1 cluster closure).
 
+### 2026-06-01 — I81 P1 observation cadence (standing) + hygiene [processed]
+
+**Standing obligation:** I81 stays **active** like Quality Fabric — **OPS-81-1** is the register anchor; each wave-close (min quarterly) lands paired `kb-integrity-audit/matrix-<date>` under `reports/i81/`. **2026-06-01 observation:** 1100 executable rows; 0% pass **expected** at P1 baseline (audience_tags deferred to I85 + P4–P8 retrofits). Master-roadmap §6 codifies cadence. **AKOS:** hygiene commit + push with P3b `ef852ca`. Agent default: bump OPS-81-1 evidence on every material wave; do not leave I81 artefacts untracked.
+
 <!-- end of entries -->
 

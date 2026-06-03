@@ -137,6 +137,23 @@ flowchart LR
 | **I81 P1 → I82 P2** | Integrity-matrix evidence feeds CAPABILITY_REGISTRY mint anchors | Per I82 candidate §3 dependency (D-IH-82-PREREQ closes at I82 P2 entrance) |
 | **I81 P3 → all future plans** | Named-milestone schema becomes inherited default | `.cursor/rules/akos-planning-traceability.mdc` extension at P3 close |
 | **I81 P2 → hlk-erp** | Layout migration touches consumer paths | Cross-repo schema propagation SOP per tranche; hard `R-IH-81-7` mitigation |
+
+## 6. Standing obligation — P1 observation cadence (continuous)
+
+I81 stays **`active`** with P1 vault-integrity re-observation on the same rhythm as Quality Fabric field-test windows: **each I86 cluster wave-close** (minimum **quarterly** while initiative is open). Each observation ships paired artefacts under `reports/i81/`:
+
+- `kb-integrity-audit-<YYYY-MM-DD>.md` — summary + gap signals
+- `kb-integrity-matrix-<YYYY-MM-DD>.csv` — one row per executable `process_list` row
+
+**OPS-81-1** remains the register anchor; `evidence_path` + `notes` carry the latest observation pointer. Pass-rate near zero is **expected** until audience-tag wire (I85) + P4–P8 SOP retrofits lift pairing coverage; trend matters more than absolute PASS at this stage.
+
+| Observation date | Audit | Matrix | Pass rate | Notes |
+|:---|:---|:---|---:|:---|
+| 2026-05-19 | [`kb-integrity-audit-2026-05-19.md`](reports/i81/kb-integrity-audit-2026-05-19.md) | [`kb-integrity-matrix-2026-05-19.csv`](reports/i81/kb-integrity-matrix-2026-05-19.csv) | P1 baseline | D-IH-81-K close |
+| 2026-05-27 | [`kb-integrity-audit-2026-05-27.md`](reports/i81/kb-integrity-audit-2026-05-27.md) | [`kb-integrity-matrix-2026-05-27.csv`](reports/i81/kb-integrity-matrix-2026-05-27.csv) | ~0% | Wave R+4 index drain |
+| 2026-06-01 | [`kb-integrity-audit-2026-06-01.md`](reports/i81/kb-integrity-audit-2026-06-01.md) | [`kb-integrity-matrix-2026-06-01.csv`](reports/i81/kb-integrity-matrix-2026-06-01.csv) | 0.00% | Post–I90 P3b hygiene; 1100 executable rows |
+
+Reproduce: `py scripts/audit_kb_integrity.py --emit-audit docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/kb-integrity-audit-<date>.md`
 | **I81 P9 → I86 D-IH-86-D** | Mechanical cluster cross-check on closure | Per I86 charter contract |
 
 ## 6. Asset classification (per [`PRECEDENCE.md`](../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md))
