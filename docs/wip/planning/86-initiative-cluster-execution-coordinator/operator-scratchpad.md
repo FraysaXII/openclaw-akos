@@ -2626,7 +2626,7 @@ Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + va
 | hlk-erp WIP | Single PR (CI bless + migration-lint + brand-ops) | **PR #28** opened `i90-hlk-ci-bless-brand-ops` → `main`; typecheck + test:ci PASS pre-push |
 | kirbe WIP | Push + PR | **PR #27** opened (bless sha256 refresh; follows merged #26) |
 | boilerplate WIP | Commit + push feature branch | **PR #50** opened `i32-akos-mirror-seed` → `main` |
-| pre_commit | Run full now | **3515 tests PASS**; browser_smoke **16 FAIL** (serve-api down). **Ratified 2026-06-04 batch-2:** `rework-now` — start serve-api + re-run. |
+| browser_smoke (re-run) | **17/17 PASS** | serve-api on :8420; Playwright worker green 2026-06-04 |
 | P3c scope | Both tranches one commit | **Ratified:** I82 P1 Talent/process_list + DataOps charter→active + hol_dataops_* rows + SOP/runbook surfaces |
 | P3d OPS-86-1 | After P3c + sibling merges | **Ratified** |
 | hlk-erp PR #28 CI | Fix pnpm on branch | **Ratified** — patch ci.yml; no merge until GitHub CI green |
