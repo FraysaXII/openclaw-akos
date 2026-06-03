@@ -130,7 +130,8 @@ See [`backlog-two-seat-routing-2026-05-30.md`](backlog-two-seat-routing-2026-05-
 | **hlk-erp** | `KIRBE_API_URL` server env → BFF `/api/kirbe/*` (prod set since Oct 2025) |
 | **Vercel kirbe** | Health-only — **not** for GDrive or full API clients |
 | **Decision** | **D-IH-90-X** in `DECISION_REGISTER.csv` |
-| **OPS rows** | **OPS-90-1..5 closed**; **OPS-90-6 open** → I81 P6 — [`kirbe-production-routing-ops-2026-06-01.md`](reports/kirbe-production-routing-ops-2026-06-01.md) |
+| **OPS rows** | **OPS-90-1..5 closed**; **OPS-90-6 open** (forward done) → I81 P6 SOP retrofit — [`kirbe-production-routing-ops-2026-06-01.md`](reports/kirbe-production-routing-ops-2026-06-01.md) |
+| **P3.5 status** | **CLOSED** 2026-06-01 (routing ordnance; OPS-90-6 → I81 P6; OPS-90-7 closed hlk-erp PR26) |
 | **AKOS commits** | `3dfa16e` + `4d2a938` (+ closure follow-up) pushed to `origin/main` |
 | **Sibling merges** | [kirbe #26](https://github.com/FraysaXII/kirbe/pull/26), [hlk-erp #25](https://github.com/FraysaXII/hlk-erp/pull/25) merged to `main` |
 

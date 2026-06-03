@@ -47,6 +47,7 @@ milestones:
   - id: I81-TECH-RETROFIT
     phase: P6
     purpose: ~8 Tech Lab + System Owner SOPs retrofit (includes OPS-90-6 KNOWLEDGE_PAIRING for env_tech_dtp_255 / env_tech_dtp_256 KiRBe GDrive — forwarded from I90 P3.5 D-IH-90-X)
+    forward_charter: reports/ops-90-6-kirbe-gdrive-pairing-forward-2026-06-01.md
     status: planned
   - id: I81-RESEARCH-COMPLIANCE-RETROFIT
     phase: P7

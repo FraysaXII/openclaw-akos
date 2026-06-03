@@ -6,8 +6,10 @@ linked_initiative: docs/wip/planning/90-routing-and-wiring/
 ratifying_decisions:
   - D-IH-90-W
   - D-IH-90-X
+  - D-IH-90-Y
 linked_decisions:
   - D-IH-90-X
+  - D-IH-90-Y
 ---
 
 # KiRBe routing and hosting (canonical)
@@ -65,6 +67,25 @@ Browsers **must not** call the Kirbe API directly with secrets. hlk-erp implemen
 
 **Health path:** BFF uses `/health` on the upstream (not `/api/v1/health` — upstream returns 404 there).
 
+### BFF health verification (OPS-90-7 / D-IH-90-Y)
+
+| Probe | URL | Expected when healthy |
+|-------|-----|------------------------|
+| **Upstream (Render)** | `GET https://kirbe.holistikaresearch.com/health` | **200** JSON `status: ok` |
+| **BFF (hlk-erp)** | `GET https://erp.holistika.com/api/kirbe/health` | **200** JSON includes upstream echo + `bff: ok` |
+| **Tech Lab UI** | Mission Control → Tech Lab → KiRBe status card | Calls same-origin `/api/kirbe/health` while session active |
+
+**Governance:** **OPS-90-7** closed 2026-06-01 ([hlk-erp PR #26](https://github.com/FraysaXII/hlk-erp/pull/26) → `f96001b`: public `/api/kirbe/health` + structured 503/502). Re-spot-check after each erp production deploy.
+
+**Known failure modes (2026-06-01 audit)**
+
+| Symptom | Likely cause | Remediation owner |
+|---------|--------------|-------------------|
+| `ERR_SSL_PROTOCOL_ERROR` on `erp.holistika.com` | Vercel/custom-domain TLS or DNS misconfig | System Owner — Vercel project `erp` / domain dashboard |
+| **302** → `/sign-in` on `/api/kirbe/health` | Route not in `PUBLIC_PREFIXES` (fixed in hlk-erp PR after `i90-p35-erp-kirbe-bff-health`) | Engineering — merge BFF health PR |
+| **503** `KIRBE_API_URL is not configured` | Missing server env on Vercel preview/prod | System Owner — set `KIRBE_API_URL` per env contract above |
+| **502** `upstream_unreachable` | Render down, wrong URL, or network block from Vercel region | Engineering + System Owner |
+
 **SOP drift:** `hlk-erp/other_documentation/kirbe/kirbe_sops/sop-hlk-erp-kirbe.md` still documents `NEXT_PUBLIC_API_BASE_URL` + direct browser calls — **superseded by BFF + `KIRBE_API_URL`** for Mission Control. Update that SOP in-repo when next touching hlk-erp kirbe docs (pointer-only here to avoid duplicating steps).
 
 ---
@@ -112,6 +133,17 @@ This canonical only records: **custom domain `kirbe.holistikaresearch.com` → R
 | `kirbe` @ `holistikaresearch.com` | **active** — API host (this document) |
 | `kirbe` @ `holistika.com` | **reserved** — future operator-facing Kirbe UI on corporate apex if needed ([`SUBDOMAINS_REGISTRY.md`](SUBDOMAINS_REGISTRY.md)) |
 | `erp` @ `holistika.com` | **active** — hlk-erp Mission Control |
+
+---
+
+## Vault pairing (OPS-90-6 → I81 P6)
+
+| `process_list` row | Pairing registry | Full SOP retrofit |
+|--------------------|------------------|-------------------|
+| `env_tech_dtp_255` (KiRBe Multi-Source Connector Setup workstream) | [`pair_env_tech_dtp_255_kirbe_connector_001`](../../People/Compliance/canonicals/dimensions/KNOWLEDGE_PAIRING_REGISTRY.csv) | I81 P6 — v3.0 connector / GDrive SOP |
+| `env_tech_dtp_256` (KiRBe Canonical Ingestion Envelope) | [`pair_env_tech_dtp_256_kirbe_ingestion_001`](../../People/Compliance/canonicals/dimensions/KNOWLEDGE_PAIRING_REGISTRY.csv) | I81 P6 — body + addendum per `pattern_sop_addendum_split` |
+
+Forward charter: [`docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/ops-90-6-kirbe-gdrive-pairing-forward-2026-06-01.md`](../../../../../../../wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/ops-90-6-kirbe-gdrive-pairing-forward-2026-06-01.md).
 
 ---
 

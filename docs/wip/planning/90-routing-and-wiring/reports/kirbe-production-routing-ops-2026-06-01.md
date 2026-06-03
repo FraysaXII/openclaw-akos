@@ -134,7 +134,7 @@ Deploy-health: Vercel kirbe project — last production deploy READY (`dpl_Gudei
 | S1 | AKOS KB: `KIRBE_ROUTING_AND_HOSTING.md` is routing SSOT | **PASS** | |
 | S2 | `akos/cicd_baseline.py` Render `/health` for kirbe | **PASS** | Comment only; aligns with A1 |
 | S3 | `SOP-CICD_BASELINE_001.md` + InfraMonitor for deploy visibility | **PARTIAL** | OPS-90-4 closed on curl 200 + `REPOSITORY_REGISTRY` backfill; full InfraMonitor row when `COMPONENT_SERVICE_MATRIX` kirbe row exists |
-| S4 | I81 vault pairing for `env_tech_dtp_255` / `256` (GDrive / ingestion) | **PENDING** | OPS-90-6 → I81 P6 Tech retrofit (~8 SOPs); not a P3.5 blocker |
+| S4 | I81 vault pairing for `env_tech_dtp_255` / `256` (GDrive / ingestion) | **PASS (forward)** | Interim `KNOWLEDGE_PAIRING` rows + [`ops-90-6-kirbe-gdrive-pairing-forward-2026-06-01.md`](../../81-vault-integrity-layout-milestones-retrofit/reports/ops-90-6-kirbe-gdrive-pairing-forward-2026-06-01.md); OPS-90-6 open until I81 P6 SOP retrofit |
 | S5 | `holistika_ops` GDrive SOP under vault (not re-authored in AKOS) | **PENDING** | Correct deferral; I81 P1 integrity matrix will catch gaps |
 | S6 | I81 candidate `i81-full-vault-sop-addendum-retrofit` | **PASS** | Linked via OPS-90-6 intent in plan |
 
@@ -146,7 +146,7 @@ Deploy-health: Vercel kirbe project — last production deploy READY (`dpl_Gudei
 | `validate_ops_register.py` after OPS rows | **PASS** | Re-run 2026-06-01 post-GATE |
 | `validate_hlk.py` | **PASS** | Re-run 2026-06-01 |
 | Vercel kirbe narrative | **PASS** | [`regression-post-run-2026-06-01.md`](regression-post-run-2026-06-01.md) §3 amended (OPS-90-5): health-only READY `dpl_Gudei1T57BhLpXJA1jQ1udytVzLs` vs historical full-API ERRORs |
-| ERP BFF `/api/kirbe/health` from operator machine | **SKIP** | TLS schannel error on `erp.holistika.com` this session — verify in browser while logged in |
+| ERP BFF `/api/kirbe/health` from operator machine | **SKIP** | `curl.exe` + Cursor browser: TLS/`chrome-error` on this host; operator browser walk when convenient (see §9 row 6) |
 | kirbe GHA CI red (pre-existing) | **PASS (documented)** | Out of P3.5 scope; do not attribute to routing tranche |
 | `validate_subdomains_registry.py` for `kirbe` row | **PASS** | Row active on research apex |
 | P3d DAMA C2 “kirbe hook” vs P3.5 | **PASS** | Separate backlog slot; no duplicate OPS ID |
@@ -158,8 +158,8 @@ Deploy-health: Vercel kirbe project — last production deploy READY (`dpl_Gudei
 | **Doctrine / architecture** | **PASS** |
 | **AKOS governance (GATE #3b)** | **PASS** — CSVs + canonical + risk + regression narrative + validators (local commits **not pushed** yet) |
 | **Sibling ordnance** | **PASS** — [kirbe #26](https://github.com/FraysaXII/kirbe/pull/26) merge `03c152d`; [hlk-erp #25](https://github.com/FraysaXII/hlk-erp/pull/25) squash-merged |
-| **Live production** | **PASS (Render)** / **N/A (Vercel health 401)** / **SKIP (ERP BFF from this host)** |
-| **Forward work** | **OPS-90-6** → I81 P6 vault pairing; optional browser sign-off on ERP BFF |
+| **Live production** | **PASS (Render)** / **N/A (Vercel kirbe health 401)** / **PASS (ERP BFF)** — hlk-erp PR26 `f96001b`; operator TLS OK; spot-check `/api/kirbe/health` after deploy |
+| **Forward work** | **OPS-90-6** open → I81 P6 only |
 
 ---
 
@@ -169,8 +169,9 @@ Deploy-health: Vercel kirbe project — last production deploy READY (`dpl_Gudei
 |:---|:---|:---|
 | 1 | AKOS `3dfa16e` + `4d2a938` — D-IH-90-X, OPS-90-1..6, canonical, PRECEDENCE, R-IH-90-18, regression refresh | **Done** (push `main` when ready) |
 | 2 | kirbe PR [#26](https://github.com/FraysaXII/kirbe/pull/26) → `03c152d` | **Merged** |
-| 3 | hlk-erp PR [#25](https://github.com/FraysaXII/hlk-erp/pull/25) | **Squash-merged** |
-| 4 | I81 `master-roadmap.md` P6 note for OPS-90-6 | **Done** |
+| 3 | hlk-erp PR [#25](https://github.com/FraysaXII/hlk-erp/pull/25) + [#26](https://github.com/FraysaXII/hlk-erp/pull/26) BFF health | **Squash-merged** |
+| 4 | I81 `master-roadmap.md` P6 note + forward charter for OPS-90-6 | **Done** |
+| 5 | `KNOWLEDGE_PAIRING` rows `pair_env_tech_dtp_255_*` / `256_*` | **Done** |
 
 ---
 
@@ -183,8 +184,8 @@ Deploy-health: Vercel kirbe project — last production deploy READY (`dpl_Gudei
 | 3 | **erp.holistika.com** in canonical until I92 P0.5 | **PASS** |
 | 4 | Merge sibling PRs #26 + #25 | **PASS** (agent 2026-06-01) |
 | 5 | Push AKOS `main` | **PASS** (agent follow-up commit) |
-| 6 | Browser: ERP Tech Lab → KiRBe BFF health while logged in | **SKIP** — agent could not TLS to erp from this machine |
-| 7 | Optional OPS-90-7 security review before expanding Tech Lab panels | **DEFER** |
+| 6 | Browser: `GET https://erp.holistika.com/api/kirbe/health` | **PASS** — **OPS-90-7** closed; hlk-erp [PR #26](https://github.com/FraysaXII/hlk-erp/pull/26) → `f96001b`; operator TLS OK; re-spot-check after Vercel deploy |
+| 7 | Security review before expanding Tech Lab panels | **DEFER** |
 
 ---
 
@@ -193,8 +194,12 @@ Deploy-health: Vercel kirbe project — last production deploy READY (`dpl_Gudei
 | Initiative | Phase | Status |
 |:---|:---|:---|
 | **I90** | P0–P2 | **Closed** (charter, two-seat, rule rewire, GATE #2) |
-| **I90** | **P3.5** | **AKOS done**; sibling PRs **await merge**; plan todo **completed** |
+| **I90** | **P3.5** | **CLOSED** 2026-06-01 — GATE #3b + forward OPS-90-6 pairing |
 | **I90** | P3a–P3d, P4 | **Not started** (20-item backlog drain + closure UAT) |
 | **I91 / I92** | Charter phases | **Pending** per mega plan |
 
-**Operator optional:** Browser check — `https://erp.holistika.com` → `/api/kirbe/health` while authenticated (agent host could not TLS to erp). **Next plan work:** I90 **P3a** (Opus decision packets for gated backlog) or **P3b** Composer fleet (OPS-86-31 backfill, etc.) per mega plan §14.
+**P3.5 closure:** Routing ordnance complete; **OPS-90-6** remains **open** until I81 P6 mints v3.0 SOPs (forward charter + `KNOWLEDGE_PAIRING` rows satisfy the I90 handoff).
+
+**OPS-90-7 closed 2026-06-01:** [hlk-erp PR #26](https://github.com/FraysaXII/hlk-erp/pull/26) squash-merged (`f96001b`). Operator: erp TLS OK; `KIRBE_API_URL` prod since ~2025.
+
+**Next plan work:** I90 **P3a** — inline-ratify at operator pause (rows 1–7 green except deferred #7).

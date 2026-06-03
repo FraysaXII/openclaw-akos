@@ -20,3 +20,4 @@
 | **R-IH-90-16** | Inter-wave/UAT rules fire on every file | M | L | P2c globs on uat + inter-wave | open |
 | **R-IH-90-17** | Cluster coordinator not updated | L | M | I86 notes field bump at P0 commit | open |
 | **R-IH-90-18** | Stale KiRBe hostname in runbooks / scripts points GDrive or ERP at wrong host | M | H | D-IH-90-X + KIRBE_ROUTING_AND_HOSTING.md SSOT; OPS-90-2/3 sibling PRs; validate via grep on kirbe/docs + hlk-erp | mitigated-at-P3.5 |
+| **R-IH-90-19** | ERP BFF KiRBe health fails (TLS / auth gate / missing KIRBE_API_URL) while Render upstream is healthy | H | M | D-IH-90-Y; OPS-90-7 closed; hlk-erp PR26 f96001b; operator TLS OK 2026-06-01 | mitigated-at-OPS-90-7 |
