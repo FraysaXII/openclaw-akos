@@ -56,7 +56,8 @@ Scope: validate I90 P2/P3 surfaces before GATE #2 sign-off and I91 execution.
 | Lane | Status |
 |:---|:---|
 | **I90 mechanical bar** | **PASS** — safe to continue I91 charter / GATE #2 review |
-| **Full repo pre_commit** | **FAIL** until OPS stamp fix + test fix committed; 2 unrelated test failures remain |
+| **I90 P3.5** | **CLOSED** — GATE #3b on `origin/main`; kirbe PR26 `03c152d`; hlk-erp PR25 `c45e06e` |
+| **Full repo pre_commit** | **PARTIAL** — I90 stamp + mirror-template tests **PASS** (`005b72e`); deck + sibling mirror drift tests remain cluster hygiene |
 
 ## Re-verify after fix commit
 

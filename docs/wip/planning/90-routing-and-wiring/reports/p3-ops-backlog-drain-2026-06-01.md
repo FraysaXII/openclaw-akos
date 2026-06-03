@@ -42,7 +42,14 @@ Commit `8d015bf`: OPS-86-23 single `last_review_decision_id` + mirror-template t
 
 **Full-suite debt (not I90 blockers):** see [`regression-pre-continue-2026-06-01.md`](regression-pre-continue-2026-06-01.md) — deck topic-count drift + sibling `akos-mirror.mdc` sha256 (I68 bless lane).
 
+## P3.5 KiRBe routing (closed 2026-06-01)
+
+- **GATE #3b** landed on `origin/main` (`3dfa16e`/`4d2a938`/`005b72e`).
+- Sibling merges: [kirbe #26](https://github.com/FraysaXII/kirbe/pull/26) `03c152d`, [hlk-erp #25](https://github.com/FraysaXII/hlk-erp/pull/25) `c45e06e`.
+- Report: [`kirbe-production-routing-ops-2026-06-01.md`](kirbe-production-routing-ops-2026-06-01.md).
+
 ## Gates
 
 - **GATE #2** — **PASS** 2026-06-01 ([`p2-gate2-rule-tier-review-2026-06-01.md`](p2-gate2-rule-tier-review-2026-06-01.md), `D-IH-90-W`).
-- **Sibling mirrors** — `bless_external_repo.py` realigned `hlk-erp` + `kirbe-platform`; `check_external_repo_contract.py` OK (2026-06-01).
+- **GATE #3b** — **PASS** 2026-06-01 (P3.5 KiRBe routing).
+- **Sibling mirrors** — `bless_external_repo.py` realigned `hlk-erp` + `kirbe-platform`; post-P3.5 merges refresh runbook hosts on `main`.
