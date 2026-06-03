@@ -1,31 +1,31 @@
 {
   "report_id": "fleet-hygiene-2026-06-04",
-  "swept_at": "2026-06-03T22:33:23+00:00",
+  "swept_at": "2026-06-03T22:59:49+00:00",
   "swept_by": "workspace_fleet_hygiene_sweep.py",
   "findings": [
     {
       "dimension_code": "FLEET-01-WORKTREE",
       "surface_path": "boilerplate",
-      "verdict": "drift",
-      "severity": "medium",
-      "notes": "## i32-akos-mirror-seed | dirty=12 (M=8 staged=0 ??=4) |  M app/services/page.tsx;  M components/home/cta-section.tsx;  M components/home/hero-section.tsx;  M components/layout/site-footer.tsx;  M components/ui/FloatingNavbar.tsx;  M i18n/messages/en.json;  M i18n/messages/es.json;  M i18n/messages/fr.json; … +4 more",
-      "proposed_rework_action": "Commit or stash WIP; push when ready; update sibling PR if governed"
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "## i32-akos-mirror-seed...origin/i32-akos-mirror-seed",
+      "proposed_rework_action": ""
     },
     {
       "dimension_code": "FLEET-02-PUBLISH-DRIFT",
       "surface_path": "boilerplate",
-      "verdict": "skip",
+      "verdict": "clean",
       "severity": "low",
-      "notes": "no upstream tracking branch",
+      "notes": "in sync with upstream or no upstream",
       "proposed_rework_action": ""
     },
     {
       "dimension_code": "FLEET-01-WORKTREE",
       "surface_path": "hlk-erp",
-      "verdict": "drift",
-      "severity": "medium",
-      "notes": "## main...origin/main | dirty=19 (M=8 staged=0 ??=11) |  M .gitattributes;  M .github/.akos-bless/contributing.sha256;  M .github/CODEOWNERS;  M .github/dependabot.yml;  M .github/workflows/ci.yml;  M .husky/pre-commit;  M CONTRIBUTING.md;  M LICENSE; … +11 more",
-      "proposed_rework_action": "Commit or stash WIP; push when ready; update sibling PR if governed"
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "## i90-hlk-ci-bless-brand-ops...origin/i90-hlk-ci-bless-brand-ops",
+      "proposed_rework_action": ""
     },
     {
       "dimension_code": "FLEET-02-PUBLISH-DRIFT",
@@ -46,10 +46,10 @@
     {
       "dimension_code": "FLEET-01-WORKTREE",
       "surface_path": "kirbe-platform",
-      "verdict": "drift",
-      "severity": "medium",
-      "notes": "## i90-p35-kirbe-runbooks...origin/i90-p35-kirbe-runbooks | dirty=3 (M=3 staged=0 ??=0) |  M .github/.akos-bless/contributing.sha256;  M CONTRIBUTING.md;  M LICENSE",
-      "proposed_rework_action": "Commit or stash WIP; push when ready; update sibling PR if governed"
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "## i90-p35-kirbe-runbooks...origin/i90-p35-kirbe-runbooks",
+      "proposed_rework_action": ""
     },
     {
       "dimension_code": "FLEET-02-PUBLISH-DRIFT",
@@ -70,10 +70,10 @@
     {
       "dimension_code": "FLEET-01-WORKTREE",
       "surface_path": "openclaw-akos",
-      "verdict": "clean",
-      "severity": "low",
-      "notes": "## main...origin/main",
-      "proposed_rework_action": ""
+      "verdict": "drift",
+      "severity": "high",
+      "notes": "## main...origin/main | dirty=3 (M=3 staged=0 ??=0) |  M artifacts/fleet-hygiene/fleet-hygiene-2026-06-04.json;  M artifacts/fleet-hygiene/fleet-hygiene-2026-06-04.md;  M docs/wip/planning/86-initiative-cluster-execution-coordinator/operator-scratchpad.md",
+      "proposed_rework_action": "Commit or stash WIP; push when ready; update sibling PR if governed"
     },
     {
       "dimension_code": "FLEET-02-PUBLISH-DRIFT",
@@ -116,10 +116,10 @@
       "proposed_rework_action": ""
     }
   ],
-  "clean_count": 10,
-  "drift_count": 3,
+  "clean_count": 13,
+  "drift_count": 1,
   "gap_count": 0,
   "blocked_count": 0,
-  "skip_count": 1,
+  "skip_count": 0,
   "total_findings": 14
 }

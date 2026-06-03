@@ -1,19 +1,19 @@
 # Fleet hygiene sweep — fleet-hygiene-2026-06-04
 
-- **Swept at:** 2026-06-03T22:33:23+00:00
-- **Totals:** clean=10 drift=3 gap=0 blocked=0 skip=1
+- **Swept at:** 2026-06-03T22:59:49+00:00
+- **Totals:** clean=13 drift=1 gap=0 blocked=0 skip=0
 
 | Dimension | Surface | Verdict | Severity | Notes |
 |:---|:---|:---|:---|:---|
-| FLEET-01-WORKTREE | `boilerplate` | drift | medium | ## i32-akos-mirror-seed \| dirty=12 (M=8 staged=0 ??=4) \|  M app/services/page.tsx;  M components/home/cta-section.tsx; |
-| FLEET-02-PUBLISH-DRIFT | `boilerplate` | skip | low | no upstream tracking branch |
-| FLEET-01-WORKTREE | `hlk-erp` | drift | medium | ## main...origin/main \| dirty=19 (M=8 staged=0 ??=11) \|  M .gitattributes;  M .github/.akos-bless/contributing.sha256; |
+| FLEET-01-WORKTREE | `boilerplate` | clean | low | ## i32-akos-mirror-seed...origin/i32-akos-mirror-seed |
+| FLEET-02-PUBLISH-DRIFT | `boilerplate` | clean | low | in sync with upstream or no upstream |
+| FLEET-01-WORKTREE | `hlk-erp` | clean | low | ## i90-hlk-ci-bless-brand-ops...origin/i90-hlk-ci-bless-brand-ops |
 | FLEET-02-PUBLISH-DRIFT | `hlk-erp` | clean | low | in sync with upstream or no upstream |
 | FLEET-03-CI-CONTENT | `hlk-erp` | clean | low | ci.yml jobs OK (['lint', 'typecheck', 'audit', 'unit', 'build']) |
-| FLEET-01-WORKTREE | `kirbe-platform` | drift | medium | ## i90-p35-kirbe-runbooks...origin/i90-p35-kirbe-runbooks \| dirty=3 (M=3 staged=0 ??=0) \|  M .github/.akos-bless/contr |
+| FLEET-01-WORKTREE | `kirbe-platform` | clean | low | ## i90-p35-kirbe-runbooks...origin/i90-p35-kirbe-runbooks |
 | FLEET-02-PUBLISH-DRIFT | `kirbe-platform` | clean | low | in sync with upstream or no upstream |
 | FLEET-03-CI-CONTENT | `kirbe-platform` | clean | low | ci.yml jobs OK (['lint', 'typecheck', 'audit', 'unit', 'build']) |
-| FLEET-01-WORKTREE | `openclaw-akos` | clean | low | ## main...origin/main |
+| FLEET-01-WORKTREE | `openclaw-akos` | drift | high | ## main...origin/main \| dirty=3 (M=3 staged=0 ??=0) \|  M artifacts/fleet-hygiene/fleet-hygiene-2026-06-04.json;  M art |
 | FLEET-02-PUBLISH-DRIFT | `openclaw-akos` | clean | low | in sync with upstream or no upstream |
 | FLEET-04-STANDING-OPS | `OPS-86-1` | clean | low | I86 cluster coordination - Waves 1-5 nine-sibling burndown \| last_review=2026-05-16 (19d) \| runbook=n/a \| evidence=mi |
 | FLEET-04-STANDING-OPS | `OPS-81-1` | clean | low | I81 P1 vault integrity + DQ sprint + P2 layout-migration tranches coordination \| last_review=2026-06-01 (3d) \| runbook |

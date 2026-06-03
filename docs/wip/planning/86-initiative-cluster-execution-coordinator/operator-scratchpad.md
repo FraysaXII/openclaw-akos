@@ -2617,6 +2617,25 @@ Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + va
 
 **Standing obligation:** I81 stays **active** like Quality Fabric — **OPS-81-1** is the register anchor; each wave-close (min quarterly) lands paired `kb-integrity-audit/matrix-<date>` under `reports/i81/`. **2026-06-01 observation:** 1100 executable rows; 0% pass **expected** at P1 baseline (audience_tags deferred to I85 + P4–P8 retrofits). Master-roadmap §6 codifies cadence. **AKOS:** hygiene commit + push with P3b `ef852ca`. Agent default: bump OPS-81-1 evidence on every material wave; do not leave I81 artefacts untracked.
 
+### 2026-06-04 — Inline-ratify batch (I90 + standing cadence) [processed]
+
+**Session protocol:** **full-protocol** ratified — fleet sweep → sibling WIP surface → scratchpad drain → execute unblocked work every material session.
+
+| Gate | Ratification | Next action |
+|:---|:---|:---|
+| hlk-erp WIP | Single PR (CI bless + migration-lint + brand-ops) | **PR #28** opened `i90-hlk-ci-bless-brand-ops` → `main`; typecheck + test:ci PASS pre-push |
+| kirbe WIP | Push + PR | **PR #27** opened (bless sha256 refresh; follows merged #26) |
+| boilerplate WIP | Commit + push feature branch | **PR #50** opened `i32-akos-mirror-seed` → `main` |
+| pre_commit | Run full now | **3515 tests PASS**; browser_smoke **16 FAIL** (serve-api down). **Ratified 2026-06-04 batch-2:** `rework-now` — start serve-api + re-run. |
+| P3c scope | Both tranches one commit | **Ratified:** I82 P1 Talent/process_list + DataOps charter→active + hol_dataops_* rows + SOP/runbook surfaces |
+| P3d OPS-86-1 | After P3c + sibling merges | **Ratified** |
+| hlk-erp PR #28 CI | Fix pnpm on branch | **Ratified** — patch ci.yml; no merge until GitHub CI green |
+| kirbe PR #27 | Merge on main CI bar | **Ratified** — legacy pipeline forward-chartered |
+| boilerplate PR #50 | Wait primary Vercel READY | **Ratified** |
+| OPS-81-1 I81 | Hold until wave-close / canonical mint | No re-audit this cycle |
+
+**Sibling repos:** all worktrees **clean** post-commit (2026-06-04).
+
 ### 2026-06-04 — ENISA deck quote sync (pre_commit unblock) [processed]
 
 **Fix:** `deck_slides.yaml` slide 11 pillar 1 → **39 temas / 1.187 procesos / 70 roles** (TOPIC_REGISTRY + process_list + baseline_organisation parity). HTML regen via `build_company_deck.py`. Clears dragged `test_slide_11_pillar_1_quotes_governance_metrics` FAIL from I90 regression reports.
