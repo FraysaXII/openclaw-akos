@@ -1,7 +1,7 @@
 # Fleet hygiene sweep — fleet-hygiene-2026-06-04
 
-- **Swept at:** 2026-06-03T22:27:18+00:00
-- **Totals:** clean=9 drift=4 gap=0 blocked=0 skip=1
+- **Swept at:** 2026-06-03T22:33:23+00:00
+- **Totals:** clean=10 drift=3 gap=0 blocked=0 skip=1
 
 | Dimension | Surface | Verdict | Severity | Notes |
 |:---|:---|:---|:---|:---|
@@ -13,7 +13,7 @@
 | FLEET-01-WORKTREE | `kirbe-platform` | drift | medium | ## i90-p35-kirbe-runbooks...origin/i90-p35-kirbe-runbooks \| dirty=3 (M=3 staged=0 ??=0) \|  M .github/.akos-bless/contr |
 | FLEET-02-PUBLISH-DRIFT | `kirbe-platform` | clean | low | in sync with upstream or no upstream |
 | FLEET-03-CI-CONTENT | `kirbe-platform` | clean | low | ci.yml jobs OK (['lint', 'typecheck', 'audit', 'unit', 'build']) |
-| FLEET-01-WORKTREE | `openclaw-akos` | drift | high | ## main...origin/main \| dirty=10 (M=6 staged=0 ??=4) \|  M .cursor/rules/akos-deploy-health.mdc;  M CHANGELOG.md;  M co |
+| FLEET-01-WORKTREE | `openclaw-akos` | clean | low | ## main...origin/main |
 | FLEET-02-PUBLISH-DRIFT | `openclaw-akos` | clean | low | in sync with upstream or no upstream |
 | FLEET-04-STANDING-OPS | `OPS-86-1` | clean | low | I86 cluster coordination - Waves 1-5 nine-sibling burndown \| last_review=2026-05-16 (19d) \| runbook=n/a \| evidence=mi |
 | FLEET-04-STANDING-OPS | `OPS-81-1` | clean | low | I81 P1 vault integrity + DQ sprint + P2 layout-migration tranches coordination \| last_review=2026-06-01 (3d) \| runbook |

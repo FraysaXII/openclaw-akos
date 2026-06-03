@@ -1,6 +1,6 @@
 {
   "report_id": "fleet-hygiene-2026-06-04",
-  "swept_at": "2026-06-03T22:27:18+00:00",
+  "swept_at": "2026-06-03T22:33:23+00:00",
   "swept_by": "workspace_fleet_hygiene_sweep.py",
   "findings": [
     {
@@ -70,10 +70,10 @@
     {
       "dimension_code": "FLEET-01-WORKTREE",
       "surface_path": "openclaw-akos",
-      "verdict": "drift",
-      "severity": "high",
-      "notes": "## main...origin/main | dirty=10 (M=6 staged=0 ??=4) |  M .cursor/rules/akos-deploy-health.mdc;  M CHANGELOG.md;  M config/verification-profiles.json;  M docs/wip/planning/86-initiative-cluster-execution-coordinator/operator-scratchpad.md;  M scripts/release-gate.py;  M scripts/test.py; ?? akos/hlk_fleet_hygiene.py; ?? artifacts/fleet-hygiene/; … +2 more",
-      "proposed_rework_action": "Commit or stash WIP; push when ready; update sibling PR if governed"
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "## main...origin/main",
+      "proposed_rework_action": ""
     },
     {
       "dimension_code": "FLEET-02-PUBLISH-DRIFT",
@@ -116,8 +116,8 @@
       "proposed_rework_action": ""
     }
   ],
-  "clean_count": 9,
-  "drift_count": 4,
+  "clean_count": 10,
+  "drift_count": 3,
   "gap_count": 0,
   "blocked_count": 0,
   "skip_count": 1,
