@@ -2617,6 +2617,10 @@ Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + va
 
 **Standing obligation:** I81 stays **active** like Quality Fabric — **OPS-81-1** is the register anchor; each wave-close (min quarterly) lands paired `kb-integrity-audit/matrix-<date>` under `reports/i81/`. **2026-06-01 observation:** 1100 executable rows; 0% pass **expected** at P1 baseline (audience_tags deferred to I85 + P4–P8 retrofits). Master-roadmap §6 codifies cadence. **AKOS:** hygiene commit + push with P3b `ef852ca`. Agent default: bump OPS-81-1 evidence on every material wave; do not leave I81 artefacts untracked.
 
+### 2026-06-04 — ENISA deck quote sync (pre_commit unblock) [processed]
+
+**Fix:** `deck_slides.yaml` slide 11 pillar 1 → **39 temas / 1.187 procesos / 70 roles** (TOPIC_REGISTRY + process_list + baseline_organisation parity). HTML regen via `build_company_deck.py`. Clears dragged `test_slide_11_pillar_1_quotes_governance_metrics` FAIL from I90 regression reports.
+
 ### 2026-06-04 — Fleet hygiene sweep mint + sibling WIP inventory [processed]
 
 **New gate:** `workspace_fleet_hygiene_sweep.py` (FLEET-01..04) — content checks beyond drift: uncommitted worktrees, unpushed commits, CI workflow content, standing OPS staleness. Wired to `pre_commit` self-test + release-gate INFO sweep; **akos-deploy-health.mdc Step 0** — agent runs at session start without operator reminder.
