@@ -39,7 +39,8 @@ language: en
 | `holistika.com` | `holistika.com` | reserved | none | none | external | _(none yet)_ | _(future)_ | _(future marketing site)_ | Apex domain. Reserved for the marketing site. Until a marketing site exists, redirects 301 to `madeira.holistika.com`. |
 | `api` | `holistika.com` | reserved | live | required | internal | _(none yet)_ | _(future `hlk-api`)_ | _(future)_ | Reserved for a future stable API surface (currently the FastAPI control plane lives behind individual `127.0.0.1:8000` operator deploys). When promoted, `data_mode=live`, `auth=required` (API keys via Supabase). |
 | `docs` | `holistika.com` | reserved | none | none | external | _(none yet)_ | _(future)_ | _(future)_ | Reserved for a static docs deploy (Mintlify or similar) generated from `docs/USER_GUIDE.md` + `docs/SOP.md` + `docs/ARCHITECTURE.md`. Brand-jargon CI gate will apply. |
-| `kirbe` | `holistika.com` | reserved | live | required | internal | _(none yet)_ | _(future `kirbe`)_ | _(future)_ | Reserved for KirBe document workflow surface. Data plane separate from `erp.holistika.com`. Brand-jargon-gated as `internal` because kirbe surfaces are operator-only. |
+| `kirbe` | `holistikaresearch.com` | active | live | required | internal | `kirbe` | `kirbe-platform` | [I90](../../../../wip/planning/90-routing-and-wiring/) | **Canonical KiRBe API** on Render (`https://kirbe.holistikaresearch.com`). Cloudflare-proxied. Vercel project is **health-only** (not full API). SSOT: [`KIRBE_ROUTING_AND_HOSTING.md`](KIRBE_ROUTING_AND_HOSTING.md). |
+| `kirbe` | `holistika.com` | reserved | none | required | internal | _(none yet)_ | `kirbe-platform` | [I90](../../../../wip/planning/90-routing-and-wiring/) | Reserved for a future KirBe **operator UI** on the `holistika.com` apex if split from API host. API today lives on `kirbe.holistikaresearch.com` per routing SSOT. |
 
 ### Cross-links
 
@@ -59,7 +60,8 @@ language: en
 
 ## Cross-references
 
-- [`REPOSITORIES_REGISTRY.md`](REPOSITORIES_REGISTRY.md) — sister registry for GitHub repositories. Subdomain↔repo mapping is loose: `hlk-erp` powers two subdomains (`erp` + `madeira` + `status` rewrite); KirBe is reserved for `kirbe`.
+- [`REPOSITORIES_REGISTRY.md`](REPOSITORIES_REGISTRY.md) — sister registry for GitHub repositories. Subdomain↔repo mapping is loose: `hlk-erp` powers two subdomains (`erp` + `madeira` + `status` rewrite); KiRBe API is `kirbe.holistikaresearch.com` → `kirbe-platform`.
+- [`KIRBE_ROUTING_AND_HOSTING.md`](KIRBE_ROUTING_AND_HOSTING.md) — KiRBe three-surface map (Render API vs hlk-erp BFF vs kirbe-frontend POC); canonical API hostname.
 - [`FIGMA_FILES_REGISTRY.md`](FIGMA_FILES_REGISTRY.md) — sister registry for Figma files (same governance shape).
 - [`BRAND_JARGON_AUDIT.md`](../../Admin/O5-1/Marketing/Brand/BRAND_JARGON_AUDIT.md) §3 — brand register definitions referenced by the `brand_register` column.
 - [`PRECEDENCE.md`](../../../compliance/PRECEDENCE.md) — overall compliance ranking; this file is canonical.

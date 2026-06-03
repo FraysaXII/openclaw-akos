@@ -19,3 +19,4 @@
 | **R-IH-90-15** | Vercel/deploy checks skipped in Composer session | M | M | `akos-deploy-health` stays glob-scoped to consumer repos | open |
 | **R-IH-90-16** | Inter-wave/UAT rules fire on every file | M | L | P2c globs on uat + inter-wave | open |
 | **R-IH-90-17** | Cluster coordinator not updated | L | M | I86 notes field bump at P0 commit | open |
+| **R-IH-90-18** | Stale KiRBe hostname in runbooks / scripts points GDrive or ERP at wrong host | M | H | D-IH-90-X + KIRBE_ROUTING_AND_HOSTING.md SSOT; OPS-90-2/3 sibling PRs; validate via grep on kirbe/docs + hlk-erp | mitigated-at-P3.5 |

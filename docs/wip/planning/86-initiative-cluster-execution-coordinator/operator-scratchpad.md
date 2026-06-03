@@ -2605,5 +2605,9 @@ Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + va
 
 **Out-of-scope preserved.** No other working-tree changes; tree clean post-commit.
 
+### 2026-06-01 — I90 P3.5 GATE #3b KiRBe routing ordnance [processed wave-I90-P3.5]
+
+**D-IH-90-X** ratified: full KiRBe API at `https://kirbe.holistikaresearch.com` (Render); hlk-erp `KIRBE_API_URL` + BFF `/api/kirbe/*`; Vercel `kirbe` project health-only after `b5958c2`. **OPS-90-1..5 closed**; **OPS-90-6 open** → I81 P6 KNOWLEDGE_PAIRING for `env_tech_dtp_255` / `256`. Sibling PRs: kirbe runbooks + hlk-erp `.env.example`. Report: `docs/wip/planning/90-routing-and-wiring/reports/kirbe-production-routing-ops-2026-06-01.md` verdict PASS.
+
 <!-- end of entries -->
 

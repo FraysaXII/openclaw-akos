@@ -51,6 +51,19 @@ Ordered queue from plan §4 P3 + [`86-initiative-cluster-execution-coordinator/r
 
 **GATE #2:** **PASS** 2026-06-01 ([`reports/p2-gate2-rule-tier-review-2026-06-01.md`](reports/p2-gate2-rule-tier-review-2026-06-01.md), `D-IH-90-W`). P3 routing policy sign-off complete.
 
+## P3.5 — KiRBe production routing (2026-06-01)
+
+| Step | OPS / decision | Status |
+|:---|:---|:---|
+| Ratify routing SSOT + subdomain + decision | OPS-90-1 + **D-IH-90-X** | pending GATE #3b |
+| kirbe-platform runbook URL cleanup | OPS-90-2 | pending |
+| hlk-erp `.env.example` + BFF doc drift | OPS-90-3 | pending |
+| Render MCP / InfraMonitor kirbe row | OPS-90-4 | pending (operator creds) |
+| Refresh regression report (Vercel health-only) | OPS-90-5 | pending |
+| Forward vault pairing | OPS-90-6 → I81 P6 | forward |
+
+Report: [`reports/kirbe-production-routing-ops-2026-06-01.md`](reports/kirbe-production-routing-ops-2026-06-01.md). Canonical: [`KIRBE_ROUTING_AND_HOSTING.md`](../../../references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/Repositories/KIRBE_ROUTING_AND_HOSTING.md).
+
 ## Deferred (explicit)
 
 - **D13 OpenClaw** — forward-charter (`D-IH-90-Q`).

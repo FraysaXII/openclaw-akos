@@ -27,3 +27,4 @@
 | **D-IH-90-U** | Do not re-do brand-domain (`D-IH-86-FK`)? | Founder | ratified-in-plan | permanent |
 | **D-IH-90-V** | GATE #1 before INIT/DECISION/OPS writes? | Founder | ratified-in-plan | P0 |
 | **D-IH-90-W** | GATE #2 rule tier model (3 always-on + router + hooks)? | Founder | **ratified** | P2 GATE #2 2026-06-01 |
+| **D-IH-90-X** | Canonical KiRBe API host + hlk-erp BFF-only + no full API on Vercel kirbe? | Founder | **ratified** (operator agreement 2026-06-01) | P3.5 GATE #3b — append `DECISION_REGISTER.csv` + OPS-90-* |

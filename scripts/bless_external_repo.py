@@ -423,7 +423,9 @@ def bless_repo(
     )
 
     ci_artifacts: list[tuple[str, Path, Path]] = []  # (label, template_path, dest_path)
-    if (CI_TEMPLATES_DIR / "ci.yml.template").is_file():
+    # Node baseline CI applies only when the consumer has package.json (I90 kirbe lesson:
+    # Python FastAPI repos must keep Kirbe Test Pipeline / a Python ci.yml, not npm ci).
+    if stack["is_node"] and (CI_TEMPLATES_DIR / "ci.yml.template").is_file():
         ci_artifacts.append(("ci.yml", CI_TEMPLATES_DIR / "ci.yml.template", repo_path / ".github" / "workflows" / "ci.yml"))
     if (CI_TEMPLATES_DIR / "dependabot.yml.template").is_file():
         ci_artifacts.append(("dependabot.yml", CI_TEMPLATES_DIR / "dependabot.yml.template", repo_path / ".github" / "dependabot.yml"))
