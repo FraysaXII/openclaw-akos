@@ -2665,7 +2665,9 @@ Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + va
 
 **P3d (D-IH-90-AB):** Option B — closed **OPS-86-1**, **OPS-86-9**, **OPS-86-25**. UX tail forward-chartered at `_trackers/ux-research-sop-forward-charter.md`. Report: `90-routing-and-wiring/reports/p3d-ops-cluster-closure-2026-06-04.md`. **I86 INIT stays active** until cluster UAT.
 
-**Sibling merges:** [kirbe #27](https://github.com/FraysaXII/kirbe/pull/27) + [hlk-erp #28](https://github.com/FraysaXII/hlk-erp/pull/28) **merged** (squash). **boilerplate #50** still open — Sentry skip-on-preview fix pushed (`20d3d53f`); awaiting primary Vercel READY.
+**Sibling merges:** [kirbe #27](https://github.com/FraysaXII/kirbe/pull/27) + [hlk-erp #28](https://github.com/FraysaXII/hlk-erp/pull/28) + [boilerplate #50](https://github.com/FraysaXII/boilerplate/pull/50) **merged** (squash). Vercel fix: hoist `isProductionDeploy` before `nextConfig` (`9d92420f`).
+
+**AKOS commits:** `1db84af` (P3c+P3d bundle) + `e196e6e` (files-modified sha backfill). Bless sync: kirbe-platform + hlk-erp OK.
 
 **Deck parity (pre_commit):** slide 11 → **1.188 procesos** after `env_tech_dtp_dataops_quality_001` process row (was 1.187).
 
