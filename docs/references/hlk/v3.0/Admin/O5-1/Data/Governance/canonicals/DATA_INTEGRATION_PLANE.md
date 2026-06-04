@@ -107,7 +107,7 @@ When client Power Automate is blocked, Holistika delivers Stream B:
 | Power Apps validation form | HLK-ERP customer panel |
 | Power BI report | ERP Recharts + optional `erp.vw_*` export |
 
-Full procedure: `SOP-DATA_SUEZ_STREAM_B_LIBELLE_001.md`.
+Full procedure: `SOP-DATA_SUEZ_LIBELLE_001.md`.
 
 ## 8. Cross-references
 

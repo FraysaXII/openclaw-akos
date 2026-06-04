@@ -553,6 +553,10 @@ def main() -> int:
          "validate_bi_consumer_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
          / "Governance" / "canonicals" / "dimensions" / "BI_CONSUMER_REGISTRY.csv"),
+        ("AREA_BI_PROFILE", "validate_area_bi_profile.py",
+         "validate_area_bi_profile",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
+         / "Governance" / "canonicals" / "dimensions" / "AREA_BI_PROFILE.csv"),
         ("CAPABILITY_REGISTRY", "validate_capability_registry.py",
          "validate_capability_registry", HLK_DIR / "dimensions" / "CAPABILITY_REGISTRY.csv"),
         ("CAPABILITY_CONFIDENCE_REGISTRY", "validate_capability_confidence_registry.py",

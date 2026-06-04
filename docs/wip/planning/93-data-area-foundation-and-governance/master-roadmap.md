@@ -367,6 +367,18 @@ seat runs the regression + human-readability pass before commit.
 - **Gate:** ✅ synthesis PASS; `validate_hlk.py` PASS; mdm runbook self-test PASS.
 - **Commit:** `feat(i93-p5): MDM golden-record SOP + privacy/retention policy + BI governance decision`.
 
+### P5c — Multi-area BI + RevOps A4 + SOP method library + MS demo factory ✅ (2026-06-04)
+
+- **Research packet:** [`reports/research-revops-mktops-sop-methods-2026-06-04/`](reports/research-revops-mktops-sop-methods-2026-06-04/) — ratified **`D-IH-93-J`**
+- **Mint:** `AREA_BI_PROFILE.csv`, `SOP-DATA_PRODUCTION_READINESS_001.md`, `SOP-DATA_MS_DEMO_FACTORY_001.md` (+ addendum + runbooks),
+  `SOP-DATA_SUEZ_LIBELLE_001.md` (renamed from Stream B filename), `SOP-META_PROCESS_MGMT_001.md` §4.7,
+  `pattern_sop_method_library`, `REVOPS_AREA_CHARTER.md` §3a, `DATA_BI_GOVERNANCE.md` §3a,
+  matrix + BI consumer extensions, `akos/hlk_ms_demo_methods.py`, `akos/hlk_production_readiness_methods.py`.
+- **Content regression:** [`reports/sop-content-regression-p5c-2026-06-04.md`](reports/sop-content-regression-p5c-2026-06-04.md),
+  [`reports/sop-e2e-chain-regression-p5c-2026-06-04.md`](reports/sop-e2e-chain-regression-p5c-2026-06-04.md).
+- **Gate:** ✅ `validate_hlk.py` PASS; pytest ms-demo + production-readiness PASS.
+- **Commit:** `feat(i93-p5c): multi-area BI, RevOps A4, SOP method library, MS demo factory`.
+
 ### P6 — DATA-FAM families + cross-area engineering + probe wiring
 
 - **Gate (todo #1):** ⛔ OPERATOR — canonical-CSV (process_list + CAPABILITY + CONFIDENCE tranche).

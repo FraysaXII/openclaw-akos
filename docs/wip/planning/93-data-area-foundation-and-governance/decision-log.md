@@ -72,6 +72,19 @@ Minted: `DATA_BI_GOVERNANCE.md`, `DATA_INTEGRATION_PLANE.md`, `BI_CONSUMER_REGIS
 
 Supersedes P5 not-now row in §P5 BI gate below for doctrine scope only; P5 MDM/privacy mint unchanged.
 
+## P5c RevOps / MKTOPS / SOP methods + multi-area BI (2026-06-04)
+
+| Gate | Decision |
+|:---|:---|
+| RevOps posture | **A4** — unified RevOps umbrella; MKTOPS = quality bar; MOps embedded |
+| Multi-area BI | **B1** — `AREA_BI_PROFILE.csv`; every area declares consumption |
+| Production gate | **Production SOP** — engagement revenue promotes surfaces; vendor alpha not a blocker |
+| SOP methods | **C-full** — SOP-META §4.7 method library; MS demo factory Methods A+B; SUEZ = scenario routing |
+| SUEZ filename | `SOP-DATA_SUEZ_LIBELLE_001` (legacy `STREAM_B` removed from canonical name) |
+
+Decision register: **`D-IH-93-J`**. Research: [`reports/research-revops-mktops-sop-methods-2026-06-04/`](reports/research-revops-mktops-sop-methods-2026-06-04/).
+E2E regression: [`reports/sop-e2e-chain-regression-p5c-2026-06-04.md`](reports/sop-e2e-chain-regression-p5c-2026-06-04.md).
+
 ## P5 BI gate + MDM/privacy mint (2026-06-04)
 
 | Gate | Decision |

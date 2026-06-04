@@ -62,6 +62,20 @@ Per the M3 single-ownership pattern extended to Operations:
 
 RevOps's success metric is **revenue-attribution coverage (% of revenue traceable to engagement_id + template_id) + adapter health (% green per quarter) + cross-function decision-cycle reduction**, never raw revenue volume (that belongs to CRO).
 
+## 3a. Unified RevOps umbrella + MKTOPS quality bar (D-IH-93-J; 2026-06-04)
+
+Per operator ratification (industry Model 2 — embedded MOps inside unified RevOps):
+
+| Construct | Role under A4 |
+|:---|:---|
+| **RevOps area** | Revenue integration spine **and** Marketing Ops **execution** (campaign tooling, martech adapters, demo factory coordination) |
+| **MKTOPS discipline** | Quality Fabric **quality bar** (MKT-01..07) — RevOps enforces on Marketing output; not a duplicate area |
+| **Marketing Analytics Manager** | Cross-sub-area measurement substrate; BI consumer steward per `AREA_BI_PROFILE.csv` |
+| **DATA area** | Owns BI **plane** (warehouse, tiers, contracts); all areas consume via profile rows |
+
+RevOps **does not** relocate under Marketing/CMO — charter stays Operations/COO until CRO activates.
+Nomenclature: external "MOps" ≈ Holistika RevOps execution layer; "MKTOPS" = campaign quality discipline name in vault.
+
 ## 4. Cross-area integrations (DAMA-DMBOK posture, primary author)
 
 RevOps is the **primary author** of the DAMA-DMBOK 2.0 alignment posture for the Holistika operating system. Per [`akos-executable-process-catalog.mdc`](../../../../../../../../.cursor/rules/akos-executable-process-catalog.mdc) Rule 4:

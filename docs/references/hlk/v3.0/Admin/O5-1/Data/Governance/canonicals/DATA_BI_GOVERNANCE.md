@@ -26,6 +26,7 @@ linked_canonicals:
   - DATA_ARCHITECTURE.md
   - ../Architecture/canonicals/SEMANTIC_LAYER.md
   - dimensions/BI_CONSUMER_REGISTRY.csv
+  - dimensions/AREA_BI_PROFILE.csv
   - dimensions/RPA_ADAPTER_REGISTRY.csv
   - dimensions/DATA_CONTRACT_REGISTRY.csv
   - DATA_PRIVACY_RETENTION_POLICY.md
@@ -68,9 +69,23 @@ Prevent three failure modes:
 | Async bus | `pgmq` queues | Stripe → finops worker (I81) |
 | Finance read plane | `stripe_gtm` FDW + `finops.*` | GTM/CRM analytics |
 | Graph index | Neo4j (T3) | Relationship BI (rebuildable) |
-| Forward OLAP | Analytics Buckets (Iceberg) | **Non-goal until GA** |
+| Forward OLAP | Analytics Buckets (Iceberg) | **Operator production** on Holistika Supabase (Marketing primary); vendor Public Alpha label is not a Holistika blocker when engagement revenue funds hardening per `SOP-DATA_PRODUCTION_READINESS_001.md` |
 
 See `DATA_ARCHITECTURE.md` §2 and §9 (Supabase capability module table).
+
+## 3a. Multi-area BI consumption (DAMA)
+
+Every O5-1 area **consumes** BI appropriate to its role — DATA owns the **plane**; areas
+declare consumption in `AREA_BI_PROFILE.csv` (one row per area) linked to
+`BI_CONSUMER_REGISTRY.csv` tool instances.
+
+| Role | Responsibility |
+|:---|:---|
+| Data Governance Lead | Maintains AREA_BI_PROFILE + BI_CONSUMER registries |
+| Area steward (`steward_role` column) | Ensures area charter appendix matches profile row |
+| RevOps Lead | Unified RevOps umbrella — embeds Marketing Ops **execution**; MKTOPS discipline remains **quality bar** (D-IH-93-J) |
+
+Run: `py scripts/validate_area_bi_profile.py`
 
 ## 3. BI consumer tiers (T1–T10)
 
@@ -144,7 +159,7 @@ Run: `py scripts/bi_integration_readiness_check.py --self-test`
 ## 9. Cross-references
 
 - Integration plane: `DATA_INTEGRATION_PLANE.md`
-- SUEZ Stream B example: `SOP-DATA_SUEZ_STREAM_B_LIBELLE_001.md`
+- SUEZ Stream B example: `SOP-DATA_SUEZ_LIBELLE_001.md`
 - Research evidence: `docs/wip/planning/93-data-area-foundation-and-governance/reports/research-bi-warehouse-posture-2026-06-04.md`
 
 ## Evidence base

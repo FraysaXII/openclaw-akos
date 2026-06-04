@@ -84,3 +84,26 @@ P5b,docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/DATA_ARCHIT
 P5b,docs/wip/planning/93-data-area-foundation-and-governance/reports/p5b-or-bi.tranche-charter.md,add,i93-p5b,Tranche charter
 P5b,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,edit,i93-p5b,P5b amendment section
 P5b,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p5b,P5b complete status
+P5c-research,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-revops-mktops-sop-methods-2026-06-04/,add,i93-p5c,RevOps MKTOPS SOP methods research pack
+P5c,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/AREA_BI_PROFILE.csv,add,i93-p5c,9-area BI consumption profile
+P5c,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SOP-DATA_PRODUCTION_READINESS_001.md,add,i93-p5c,Revenue-gated production readiness
+P5c,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SOP-DATA_MS_DEMO_FACTORY_001.md,add,i93-p5c,MS demo factory Methods A+B
+P5c,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SOP-DATA_MS_DEMO_FACTORY_001.addendum.md,add,i93-p5c,Stream naming + audit depth
+P5c,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/runbooks/,add,i93-p5c,MS demo + production runbooks
+P5c,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SOP-DATA_SUEZ_LIBELLE_001.md,add,i93-p5c,SUEZ F-05 scenario (renamed)
+P5c,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SOP-DATA_SUEZ_STREAM_B_LIBELLE_001.md,delete,i93-p5c,Superseded by SOP-DATA_SUEZ_LIBELLE_001
+P5c,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/SOP-META_PROCESS_MGMT_001.md,edit,i93-p5c,Section 4.7 method library pattern
+P5c,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PEOPLE_DESIGN_PATTERN_REGISTRY.csv,edit,i93-p5c,pattern_sop_method_library row
+P5c,docs/references/hlk/v3.0/Admin/O5-1/Operations/RevOps/canonicals/REVOPS_AREA_CHARTER.md,edit,i93-p5c,Section 3a unified umbrella A4
+P5c,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,edit,i93-p5c,Section 3a multi-area BI
+P5c,akos/hlk_area_bi_profile_csv.py,add,i93-p5c,AREA_BI_PROFILE Pydantic SSOT
+P5c,scripts/validate_area_bi_profile.py,add,i93-p5c,Area BI profile validator
+P5c,akos/hlk_ms_demo_methods.py,add,i93-p5c,MS demo method library SSOT
+P5c,akos/hlk_production_readiness_methods.py,add,i93-p5c,Production readiness method SSOT
+P5c,tests/test_ms_demo_methods.py,add,i93-p5c,MS demo tests
+P5c,tests/test_production_readiness_methods.py,add,i93-p5c,Production readiness tests
+P5c,docs/wip/planning/93-data-area-foundation-and-governance/reports/sop-content-regression-p5c-2026-06-04.md,add,i93-p5c,Content quality regression
+P5c,docs/wip/planning/93-data-area-foundation-and-governance/reports/sop-e2e-chain-regression-p5c-2026-06-04.md,add,i93-p5c,E2E process chain regression
+P5c-research,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-p6-data-fam-2026-06-04/,add,i93-p6,P6 DATA-FAM research pack (pre-execution)
+P5c,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p5c,P5c complete + P6 research pointer
+P5c,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,edit,i93-p5c,P5c D-IH-93-J section

@@ -110,6 +110,22 @@ The lifecycle of a process follows these key stages:
 * **Registry-side governance (I80 P6.5; D-IH-80-H).** Every paired-file pair authored under §4.6 — and every other documentation-relationship in the AKOS canonical vault (index→entries, doctrine→companion, charter→phases, registry→narrative) — is registered in [`KNOWLEDGE_PAIRING_REGISTRY.csv`](dimensions/KNOWLEDGE_PAIRING_REGISTRY.csv) at `Admin/O5-1/People/Compliance/canonicals/dimensions/`. The registry is the SSOT for documentation-relationships; PRECEDENCE.md remains the human-readable companion. Pydantic SSOT at [`akos/hlk_knowledge_pairing_csv.py`](../../../../../../akos/hlk_knowledge_pairing_csv.py); validator at [`scripts/validate_knowledge_pairing_registry.py`](../../../../../../scripts/validate_knowledge_pairing_registry.py) (wired into `validate_hlk.py` umbrella). When authoring a new paired-file pair, append a `pair_<purpose>_<NNN>` row alongside the file mints; validator runs in pre-commit.
 * **Output:** A paired SOP body and addendum (or a single-file SOP body when the degenerate case applies), both registered in §7 of this document, in `process_list.csv` if the SOP operationalises a `process_list` row, AND in `KNOWLEDGE_PAIRING_REGISTRY.csv` if the SOP is paired (per §4.6 Registry-side governance).
 
+4.7. Method library within SOP families (I93 P5c; D-IH-93-J)
+
+* **Trigger:** A process has **multiple execution paths** to the same outcome (human vs AIC vs CLI vs Browser vs client tenant vs Holistika tenant) but **one** `process_list` row and **one** accountable owner.
+* **Action:** Author **one SOP family file** (`SOP-<DOMAIN>_<PURPOSE>_001.md`) containing:
+  1. **§Method selection** — decision tree ("when Method A vs B").
+  2. **§Method library table** — rows with `method_id`, label, `executor_class` (`human` / `aic` / `hybrid`), paired runbook path, and "when" column.
+  3. **Pydantic registry** — `akos/hlk_<family>_methods.py` mirroring the table (worked example: `akos/hlk_ms_demo_methods.py` + `SOP-DATA_MS_DEMO_FACTORY_001.md`; estimation: `akos/engagement_estimation.py` + `SOP-ENG_ESTIMATION_DISCIPLINE_001.md` §3).
+* **When to use `_002`, `_003` (numbered siblings).** Only when:
+  1. **Generational replacement** — v2 replaces v1 (e.g. `SOP-KIRBE_GRAPHDB_NEO4J_002` extends `_001`).
+  2. **Regulatory or audience fork** — different process, owner, or cadence — not merely a tooling variant.
+  3. **Separate `process_list` row** required by SOP-META §4.2–4.3.
+* **Do NOT** mint `_002` for CLI-vs-Browser or Phase-1-vs-Phase-2 variants — those are **method rows** inside `_001`.
+* **Addendum (§4.6) vs method (§4.7).** Addendum = cross-area jargon, validator names, audit rubrics. Method = executor path the operator or AIC actually runs.
+* **Routing between SOP families.** When outcomes chain (scaffold → demo factory → production readiness), body §Cross-references links downstream SOPs; register pairs in `KNOWLEDGE_PAIRING_REGISTRY.csv` (`pairing_class=doctrine_companion` or `sop_runbook`).
+* **Output:** One `_001` family SOP with method table + optional addendum; runbook per method; registry module; drift test or `--self-test` where feasible.
+
 5.0 Roles and Responsibilities
 
 * **Process Owner / Area Owner:** Responsible for identifying the need for a process, defining its scope, and ensuring its accuracy over time.  
