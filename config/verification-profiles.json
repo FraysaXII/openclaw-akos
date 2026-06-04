@@ -347,6 +347,29 @@
         }
       ]
     },
+    "ops8615_mirror_emit": {
+      "description": "I93 P6 OPS-86-15 gap mirrors: row-count preflight then emit five batched upsert SQL files under docs/wip/planning/93-.../artifacts/ops8615-batches/ (operator applies via psql per Holistika two-plane DML gate).",
+      "steps": [
+        {
+          "id": "ops8615_count_only",
+          "description": "Row counts for AIC AUDIENCE CAPABILITY CAPABILITY_CONFIDENCE COUNTRY_WORK_CALENDAR mirrors",
+          "argv": [
+            "scripts/sync_compliance_mirrors_from_csv.py",
+            "--ops8615-gap-mirrors-only",
+            "--count-only"
+          ]
+        },
+        {
+          "id": "ops8615_split_sql",
+          "description": "Write five per-table upsert SQL batches + MANIFEST.md (SQL Editor-safe splits; psql for large tables)",
+          "argv": [
+            "scripts/sync_compliance_mirrors_from_csv.py",
+            "--ops8615-gap-mirrors-only",
+            "--ops8615-split"
+          ]
+        }
+      ]
+    },
     "compliance_mirror_emit": {
       "description": "Initiative 14/18/21: preflight CSV row counts then emit compliance mirror upsert SQL to artifacts/sql/compliance_mirror_upsert.sql (operator reviews before DB apply). Now also covers GOI/POI, adviser disciplines, adviser open questions, and founder filed instruments.",
       "steps": [

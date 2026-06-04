@@ -33,8 +33,10 @@ supabase_project: MasterData (swrmqpelgoblaquequzb)
 
 ## Operator next step (one-time)
 
-1. Regenerate if needed: `py scripts/sync_compliance_mirrors_from_csv.py --ops8615-gap-mirrors-only`
-2. Supabase Dashboard → SQL Editor → paste/run `docs/wip/planning/93-data-area-foundation-and-governance/artifacts/ops8615-mirror-upsert.sql` (split into batches if the editor times out).
+**Do not paste the 3.5 MB monolith into the SQL Editor** — Dashboard limit. Use Holistika DML gate:
+
+1. `py scripts/verify.py ops8615_mirror_emit` — or `py scripts/sync_compliance_mirrors_from_csv.py --ops8615-gap-mirrors-only --ops8615-split`
+2. Apply `artifacts/ops8615-batches/*.sql` via **psql** (see [`artifacts/README.md`](../artifacts/README.md)); Editor OK for 01/02/05 only.
 3. Re-check counts:
 
 ```sql
