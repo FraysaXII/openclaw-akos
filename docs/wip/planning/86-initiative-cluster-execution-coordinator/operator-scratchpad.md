@@ -2673,5 +2673,19 @@ Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + va
 
 **Still parked:** OPS-86-24 (forward-only UAT baseline); OPS-81-1 (hold until wave-close).
 
+### 2026-06-04 — I90 P3e DATA clean-slate regression close [processed]
+
+**Operator ratify (AskQuestion):** mint P1 CAP now; stay v3.1; full canonical DATA audit; eval harness defer.
+
+**P1 backfill (D-IH-90-AE):** +9 CAP rows +19 CONF rows → **100% cadence-process CAP** + **100% CAP↔CONF** (1112/1112). `validate_capability_registry.py` + `validate_hlk.py` **PASS**.
+
+**Promotions:** TECHOPS active (`D-IH-90-AC`); UX active (`D-IH-90-AD`).
+
+**Reports:** `data-canonical-audit-2026-06-04.md`; amended `regression-sweep-i90-p3c-p3d-2026-06-04.md`; I90 master-roadmap §6.2 DATA phases.
+
+**Sweeps:** index 7/8 fresh; inter-wave Wave-R 52 findings (forward inventory).
+
+**Deferred (tracked):** **OPS-90-9** eval cassette replay ETA 2026-06-11; I86 cluster UAT; I91 DATA-FAM P1.
+
 <!-- end of entries -->
 

@@ -11,14 +11,15 @@ authors:
 co_authors:
   - PMO
   - System Owner
-last_review: 2026-05-21
-last_review_by: Founder/CEO
-last_review_at: 2026-05-21
-last_review_decision_id: D-IH-86-BY
+last_review: 2026-06-04
+last_review_by: Brand & Narrative Manager
+last_review_at: 2026-06-04
+last_review_decision_id: D-IH-90-AD
 methodology_version_at_review: v3.1
 ratifying_decisions:
   - D-IH-86-BY
-status: charter
+  - D-IH-90-AD
+status: active
 register: internal
 linked_canonicals:
   - HOLISTIKA_QUALITY_FABRIC.md
@@ -28,6 +29,12 @@ linked_canonicals:
   - ../Compliance/canonicals/PRECEDENCE.md
   - ../Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv
   - ../Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv
+linked_runbooks:
+  - scripts/validate_locale_orthography.py
+  - scripts/lint_brand_voice_offline.py
+  - scripts/browser-smoke.py
+linked_sops:
+  - docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_UX_RESEARCH_001.md
 linked_cursor_rules:
   - .cursor/rules/akos-ux-discipline.mdc
   - .cursor/rules/akos-brand-baseline-reality.mdc

@@ -4,7 +4,19 @@ closure_decision_source: agent_inline_default
 ratifying_decisions:
   - D-IH-90-AA
   - D-IH-90-AB
+  - D-IH-90-AC
+  - D-IH-90-AD
+  - D-IH-90-AE
   - D-IH-86-BV
+  - D-IH-86-BX
+  - D-IH-86-BY
+verdict_history:
+  - verdict: PASS-WITH-FOLLOWUP
+    date: 2026-06-04
+    reason: Initial P3c/P3d sweep
+  - verdict: PASS-WITH-FOLLOWUP
+    date: 2026-06-04
+    reason: Amendment — P1 CAP+CONF 100% closure; D-IH-90-AE; DATA canonical audit; index+inter-wave sweeps
 linked_runbooks:
   - scripts/dataops_quality_check.py
   - scripts/inter_wave_regression_sweep.py
@@ -34,6 +46,16 @@ verdict_followup_rationale:
 | CAPABILITY_REGISTRY backfill | CAP-HOL-DATAOPS-QUALITY-CHECK-001 | PASS |
 | Canonical regression (HLK gate) | `validate_hlk.py` — see §3 | PASS |
 | Brand voice (boilerplate) | en.json LLM-tell fixes — sibling follow-up commit | PASS-WITH-FOLLOWUP |
+| TECHOPS + UX promotion | charter→active + process_list + SOPs (D-IH-90-AC/AD) | PASS |
+| CONF seed DataOps CAP | CONF-CAP-HOL-DATAOPS-QUALITY-CHECK-001-20260604 | PASS |
+| I91 DATA coverage charter | `_candidates/i91-data-area-capability-coverage.md` | PASS |
+| OPS open-row triage | `_trackers/ops-register-open-triage-2026-06-04.md` (70 open) | PASS-WITH-FOLLOWUP |
+| Eval harness (MADEIRA) | 11 FAIL in `test_all` eval suite (3510 pass); 4 cassette `route_mismatch` root causes | DEFERRED — OPS-90-9 ETA 2026-06-11 |
+| P1 CAP+CONF backfill | 9 CAP + 19 CONF rows; D-IH-90-AE | PASS |
+| 100% CAP↔CONF pairing | 1112/1112 | PASS |
+| DATA canonical audit | `data-canonical-audit-2026-06-04.md` | PASS |
+| Index sweep | 7/8 fresh (IDX) | PASS |
+| Inter-wave sweep Wave-R | 52 findings (forward inventory) | PASS-WITH-FOLLOWUP |
 
 ## 2 — Closure-criteria verification
 

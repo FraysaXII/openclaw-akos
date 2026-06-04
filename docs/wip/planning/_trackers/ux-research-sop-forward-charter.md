@@ -10,14 +10,20 @@ linked_decisions:
   - D-IH-86-BU
   - D-IH-86-AX
   - D-IH-90-AB
-status: active
+status: superseded
 role_owner: Brand Manager
 language: en
+superseded_by: D-IH-90-AD
+superseded_date: 2026-06-04
 ---
 
-# UX research SOP forward-charter (OPS-86-9 tail)
+# UX research SOP forward-charter (OPS-86-9 tail) — SUPERSEDED
 
-## Why this tracker exists
+> **Superseded 2026-06-04** by `D-IH-90-AD`: `UX_DISCIPLINE.md` promoted to
+> `status: active` with `SOP-PEOPLE_UX_RESEARCH_001.md` + composite runbooks.
+> Dedicated `ux_quality_check.py` remains forward-chartered at I91 P2.
+
+## Why this tracker existed (historical)
 
 `UX_DISCIPLINE.md` remains `status: charter`. The paired human SOP
 `SOP-PEOPLE_UX_RESEARCH_001.md` and any executable runbook are deferred

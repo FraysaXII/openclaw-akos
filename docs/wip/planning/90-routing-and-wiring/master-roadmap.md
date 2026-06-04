@@ -4,7 +4,7 @@ title: "I90 — Routing & Wiring (Ordnance): two-seat Cursor + rule tier rewire 
 status: active
 owner_role: PMO
 inception: 2026-06-01
-last_review: 2026-06-01
+last_review: 2026-06-04
 linked_decisions:
   - D-IH-90-A
   - D-IH-90-G
@@ -13,6 +13,11 @@ linked_decisions:
   - D-IH-90-V
   - D-IH-90-W
   - D-IH-90-X
+  - D-IH-90-AA
+  - D-IH-90-AB
+  - D-IH-90-AC
+  - D-IH-90-AD
+  - D-IH-90-AE
 authority: Founder + PMO + System Owner
 language: en
 linked_initiatives:
@@ -117,6 +122,21 @@ See [`backlog-two-seat-routing-2026-05-30.md`](backlog-two-seat-routing-2026-05-
 **P3a (2026-06-01):** Decision briefs + Composer packets for OPS-86-1/9/13/19/20; park 24/25. Gate: [`reports/p3a-gate-clearance-2026-06-01.md`](reports/p3a-gate-clearance-2026-06-01.md) — **PASS** (operator ratified P3b scope).
 
 **P3b (2026-06-01):** [`reports/p3b-completion-2026-06-01.md`](reports/p3b-completion-2026-06-01.md) — OPS-90-8 closed (hlk-erp PR #27 @ `5db0385`); TechOps runbook chassis (`scripts/techops_reliability_check.py`); OPS-86-20 closed (5 UAT historical stubs). OPS-86-9 remains **open** for DataOps/MKTOPS/UX threads.
+
+**P3c (2026-06-04):** DataOps QF specialty → **active** (`D-IH-90-AA`). Report: [`reports/p3c-dataops-activation-2026-06-04.md`](reports/p3c-dataops-activation-2026-06-04.md).
+
+**P3d (2026-06-04):** OPS cluster Option B — OPS-86-1/9/19/25 closed; I86 stays `active` until cluster UAT. Report: [`reports/p3d-ops-cluster-closure-2026-06-04.md`](reports/p3d-ops-cluster-closure-2026-06-04.md).
+
+**P3e (2026-06-04):** DATA clean-slate regression close — TECHOPS+UX promoted (`D-IH-90-AC/AD`); P1 CAP+CONF backfill (`D-IH-90-AE`); 100% cadence-process CAP coverage + 100% CAP↔CONF pairing; full canonical audit: [`reports/data-canonical-audit-2026-06-04.md`](reports/data-canonical-audit-2026-06-04.md). Regression UAT: [`reports/regression-sweep-i90-p3c-p3d-2026-06-04.md`](reports/regression-sweep-i90-p3c-p3d-2026-06-04.md). Eval harness deferred → **OPS-90-9** (ETA 2026-06-11). **Plan SSOT:** Round 11–12 in [`routing_and_wiring_788b66e3.plan.md`](file:///c:/Users/Shadow/.cursor/plans/routing_and_wiring_788b66e3.plan.md).
+
+**DATA wiring phases (plan SSOT amendment Round 11):**
+
+| Phase | Scope | Gate |
+|:---|:---|:---|
+| **P1** | Cadence-process CAP+CONF backfill (9+10 CONF rows) | `D-IH-90-AE` — **closed** |
+| **P2** | I91 DATA-FAM registry + remaining process→CAP coverage | I91 GATE #1 |
+| **P3** | Dedicated `ux_quality_check.py` + quarterly CONF rating cadence | I91 P2 / I82 P3 |
+| **P4** | Vault v3.2 DATA-area folder bump (when I91 P1 lands) | Operator CSV gate |
 
 **In flight:** I91 P0 store inventory + P1 preflight record ([`../91-enterprise-graph-store-coverage/reports/`](../91-enterprise-graph-store-coverage/reports/)).
 
