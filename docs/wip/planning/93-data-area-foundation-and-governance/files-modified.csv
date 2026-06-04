@@ -1,0 +1,6 @@
+phase,file_path,change_type,commit_target,notes
+P0-design,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,add,i93-charter,Thinking-seat heavy-lift roadmap
+P0-design,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,add,i93-charter,D-IH-93-A..H pending ratification
+P0-design,docs/wip/planning/93-data-area-foundation-and-governance/README.md,add,i93-charter,Initiative index
+P0-design,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-synthesis-2026-06-04.md,add,i93-charter,7 internal + 3 external sweeps evidence base
+P0-design,docs/wip/planning/93-data-area-foundation-and-governance/files-modified.csv,add,i93-charter,This ledger
