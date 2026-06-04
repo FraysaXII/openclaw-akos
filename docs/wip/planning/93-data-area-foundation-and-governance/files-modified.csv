@@ -121,3 +121,14 @@ P6,docs/wip/planning/93-data-area-foundation-and-governance/reports/i91-i93-cros
 P6,docs/wip/planning/93-data-area-foundation-and-governance/reports/p6-data-fam.tranche-charter.md,add,i93-p6,P6 tranche charter
 P6,docs/wip/planning/93-data-area-foundation-and-governance/reports/cross-area-data-map-2026-06-04.md,edit,i93-p6,OPS-86-15 closed in repo
 P6,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p6,P6 complete status
+P6-verify,docs/wip/planning/93-data-area-foundation-and-governance/reports/p6-supabase-verification-2026-06-04.md,add,i93-p6,Supabase DDL verification report
+P7-research,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-p7-hygiene-2026-06-04/,add,i93-p7,P7 hygiene research pack
+P7,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/techops/COMPONENT_SERVICE_MATRIX.csv,edit,i93-p7,Privacy classification + retention refs
+P7,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv,edit,i93-p7,canonical_engagement_code + websitz shopify row
+P7,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv,edit,i93-p7,Websitz + Rushly partner GOI rows
+P7,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/POC_TO_COMMERCIAL_MAP.csv,edit,i93-p7,GOI ref_id alignment
+P7,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/USE_CASE_ARCHIVE.csv,edit,i93-p7,5 POC use-case rows
+P7,scripts/i93_p7_hygiene_apply.py,add,i93-p7,Matrix privacy rule engine
+P7,docs/wip/planning/93-data-area-foundation-and-governance/reports/transcript-backfill-tracker-2026-06-04.csv,add,i93-p7,27-row transcript tracker
+P7,docs/wip/planning/93-data-area-foundation-and-governance/reports/p7-hygiene.tranche-charter.md,add,i93-p7,Tranche charter
+P7,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p7,P7 complete status

@@ -95,6 +95,19 @@ E2E regression: [`reports/sop-e2e-chain-regression-p5c-2026-06-04.md`](reports/s
 
 Research: [`reports/research-p6-data-fam-2026-06-04/`](reports/research-p6-data-fam-2026-06-04/).
 
+## P7 execution (2026-06-04 — operationalises D-IH-93-E)
+
+| Deliverable | Outcome |
+|:---|:---|
+| Component matrix privacy | 110 rows populated via `scripts/i93_p7_hygiene_apply.py` (101 `internal`, 9 `confidential`; retention refs per `DATA_PRIVACY_RETENTION_POLICY.md`) |
+| Engagement reconciliation | Column `canonical_engagement_code`; `eng_2026_suez_webuy` → `ENG-SUEZ-WEBUY-2026`; new `eng_2026_websitz_shopify` → `ENG-WEBSITZ-SHOPIFY-2026` |
+| GOI partner rows | `GOI-PRT-WEBSITZ-2026`, `GOI-PRT-RUSHLY-2026` (ref_id pattern aligned with `GOI-PRT-EFA-2026`) |
+| USE_CASE_ARCHIVE | +5 rows `USE-000002`..`USE-000006` (POC map backfill) |
+| Transcript tracker | `reports/transcript-backfill-tracker-2026-06-04.csv` (27 engagements) |
+
+Research: [`reports/research-p7-hygiene-2026-06-04/`](reports/research-p7-hygiene-2026-06-04/).
+Verification: `validate_hlk.py` PASS; `validate_component_service_matrix.py` PASS; `validate_use_case_archive.py` PASS.
+
 ## P5 BI gate + MDM/privacy mint (2026-06-04)
 
 | Gate | Decision |

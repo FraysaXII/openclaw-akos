@@ -1,0 +1,32 @@
+transcript_id,engagement_id,source_path_guess,backfill_status,topic_fact_source_status,promotion_priority,notes
+TX-ASESORIA-001,eng_2026_asesoria_hosteleria,Think Big/Clients/2026-asesoria-hosteleria/00-internal/source-materials/,PARTIAL,no,high,Hostelería GTM set; promote to KM after operator review
+TX-ASESORIA-002,eng_2026_asesoria_hosteleria,Think Big/Clients/2026-asesoria-hosteleria/00-internal/source-materials/audio/,NO,no,medium,Audio transcripts not yet in Topic-Fact-Source
+TX-EFA-001,eng_2026_efa_collab,Think Big/Clients/2026-efa-collab/00-internal/,PARTIAL,no,high,EFA cobranding corpus; cross-link SUEZ CDC
+TX-EFA-002,eng_2026_suez_webuy,Think Big/Clients/2026-suez-webuy/00-internal/source-materials/efa/,YES,yes,critical,SUEZ×EFA bridge material backfilled
+TX-SUEZ-001,eng_2026_suez_webuy,docs/wip/intelligence/2026-05-10-suez-webuy-procure-to-pay/,YES,yes,critical,Primary intelligence pack
+TX-SUEZ-002,eng_2026_suez_webuy,Think Big/Clients/2026-suez-webuy/02-customer-pack/,PARTIAL,no,high,Customer pack prose; partial KM linkage
+TX-SHADOWGPU-001,eng_2026_shadowgpu_inbound,Think Big/Clients/2026-shadowgpu-inbound/00-internal/source-materials/transcripts/,PARTIAL,no,low,Supplier-evaluation posture; 2 files per I70 matrix
+TX-SMO-001,eng_2026_internal_service_management_ssot,Think Big/Clients/2026-internal-service-management-ssot/,NO,no,low,GTM template prototype; not customer transcripts
+TX-WEBSITZ-001,eng_2026_websitz_shopify,Think Big/Clients/2026-websitz-rushly/use-case-1-shopify/,YES,yes,high,Shopify cart-bundle delivery transcripts
+TX-WEBSITZ-002,eng_2026_websitz_use_case_2_rushly,Think Big/Clients/2026-websitz-rushly/,PARTIAL,no,medium,Archived Rushly pilot; 23 files per I70 matrix
+TX-RUSHLY-001,eng_2026_websitz_use_case_2_rushly,Think Big/Clients/2026-websitz-rushly/,NO,no,medium,Rushly scaffold; design-phase transcripts pending
+TX-INTERNAL-001,eng_2026_internal_service_management_ssot,v3.0/Admin/O5-1/Operations/SMO/canonicals/,YES,yes,low,Internal SMO canonicals not transcripts
+TX-OPERATOR-001,,temp-move-or-delete-hlk-business-context/,PARTIAL,no,low,Legacy temp bucket — I70 P9.7 migration complete
+TX-OPERATOR-002,,people-files/operator/,YES,no,low,CV corpus — not transcripts
+TX-CROSS-001,eng_2026_suez_webuy,Meet recordings / operator notes 2026-05,YES,yes,high,Meeting 13 May follow-up posture
+TX-CROSS-002,eng_2026_efa_collab,WhatsApp / async partner threads,NO,no,medium,Partner async — promotion deferred P8
+TX-CROSS-003,eng_2026_asesoria_hosteleria,WhatsApp hostelería set,NO,no,high,Operator-flagged Rushly/WhatsApps promotion target
+TX-CROSS-004,eng_2026_websitz_shopify,Holistika x Websitz x EFA 2026-03-16,YES,yes,high,Three-party Shopify meeting
+TX-CROSS-005,eng_2026_suez_webuy,CDC / feasibility shape docs,YES,yes,critical,Structured CDC not raw audio
+TX-CROSS-006,eng_2026_shadowgpu_inbound,2026-02-27 meeting transcript,PARTIAL,no,low,RunPod preferred per I70 deferral notes
+TX-CROSS-007,eng_2026_suez_webuy,Dispute module demo scripts,YES,yes,high,F-05 Stream B collateral
+TX-CROSS-008,eng_2026_suez_webuy,Libellé generator specs,YES,yes,high,Phase 1 Excel/Power Query path
+TX-CROSS-009,eng_2026_websitz_shopify,Shopify app repo CI logs,NO,no,medium,Operational logs not KM topics
+TX-CROSS-010,eng_2026_asesoria_hosteleria,Regional Cameroon stakeholder notes,NO,no,medium,I70 Q4 region dimension deferred
+TX-CROSS-011,eng_2026_efa_collab,Partner maintenance threads,PARTIAL,no,medium,Cobrand maintenance overlap
+TX-CROSS-012,eng_2026_suez_webuy,Tarification / commercial schedule,YES,yes,high,Commercial spine artefacts
+TX-CROSS-013,eng_2026_websitz_use_case_2_rushly,Kick-off triage 2026-04,PARTIAL,no,low,Archived engagement preserved
+TX-CROSS-014,eng_2026_suez_webuy,Render manifest / PDF exports,YES,yes,medium,External render discipline evidence
+TX-CROSS-015,eng_2026_internal_service_management_ssot,Project baseline GTM slides,NO,no,low,Productization candidate I74
+TX-CROSS-016,eng_2026_suez_webuy,Collaborator share settlement drafts,YES,yes,high,ENG-SUEZ-WEBUY-2026 share kit
+TX-CROSS-017,eng_2026_websitz_shopify,Polaris admin extension walkthrough,PARTIAL,no,medium,Demo recording candidate

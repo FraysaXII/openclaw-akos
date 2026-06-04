@@ -402,9 +402,10 @@ seat runs the regression + human-readability pass before commit.
 - **Commit:** `feat(i93-p6): 7 DATA-FAM capability families + cross-area map + DataOps probe profiles`.
 - **Operator follow-up:** apply Supabase migration + run `--ops8615-gap-mirrors-only` SQL in Holistika project.
 
-### P7 — Component + engagement + transcript hygiene
+### P7 — Component + engagement + transcript hygiene ✅ (2026-06-04)
 
-- **Gate (todo #1):** ⛔ OPERATOR — canonical-CSV (COMPONENT_SERVICE_MATRIX + GOI + USE_CASE).
+- **Research packet:** [`reports/research-p7-hygiene-2026-06-04/`](reports/research-p7-hygiene-2026-06-04/)
+- **P6 Supabase follow-up:** [`reports/p6-supabase-verification-2026-06-04.md`](reports/p6-supabase-verification-2026-06-04.md) — DDL applied; DML pending SQL editor run.
 - **Files:** `COMPONENT_SERVICE_MATRIX.csv` (populate `data_classification` per real sensitivity +
   `retention_policy_ref` from P5 policy + `legal_hold` where regulated + link `primary_process_item_id` /
   `topic_ids` where known), `GOI_POI_REGISTER.csv` (+`GOI-PARTNER-WEBSITZ-2026`, `GOI-PARTNER-RUSHLY-2026`),
@@ -413,6 +414,7 @@ seat runs the regression + human-readability pass before commit.
   `docs/wip/planning/_trackers/transcript-backfill-tracker-2026-06-XX.md` (~27 rows; status YES/PARTIAL/NO;
   promote hostelería set + Rushly WhatsApps into Topic-Fact-Source).
 - **Validators:** `validate_component_service_matrix.py`, `validate_use_case_archive.py`, `validate_hlk.py`.
+- **Gate:** ✅ matrix + use-case validators PASS; `validate_hlk.py` PASS.
 - **Acceptance:** §9.0 bar cleared; matrix contracts populated; ID schism resolved; use-case archive reflects real POCs; tracker minted.
 - **Commit:** `feat(i93-p7): component data contracts + engagement reconciliation + use-case + transcript tracker`.
 
