@@ -23,6 +23,8 @@ status: active
 register: internal
 linked_canonicals:
   - DATA_CONTRACT_STANDARD.md
+  - DATA_CATALOG_INTEGRATION_POSTURE.md
+  - SOP-DATA_CONTRACT_REGISTRY_MAINTENANCE_001.md
   - DATAOPS_DISCIPLINE.md
   - ../../canonicals/DATA_AREA_CHARTER.md
   - ../../../People/Compliance/canonicals/PRECEDENCE.md

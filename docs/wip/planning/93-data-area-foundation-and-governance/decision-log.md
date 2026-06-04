@@ -49,6 +49,17 @@ This is **not a new minted decision** — it operationalises three already-ratif
 No `DECISION_REGISTER.csv` row is minted for the bar itself; it lives in the plan SSOT
 (`master-roadmap.md` §9.0) per `akos-planning-traceability.mdc`.
 
+## P2b inline-ratify (2026-06-04 — operationalises D-IH-93-D catalog posture)
+
+| Gate | Decision |
+|:---|:---|
+| Catalog SSOT | **Option A** — repo-native; git CSV authoritative |
+| DAMA-tool interop | **A++** — three-layer stack (§7); **accelerate L3 ODCS export to P3** (not P8) |
+| Governed-claim bar | **Strict + forward-declared** (§9) — no gap-theatre on "governed" language |
+| P2b commit | Full pack including posture §7–§9 |
+
+Recorded in initiative decision log only (no new `D-IH-93-*` ID — extends existing eight-DAMA charter `D-IH-93-D`).
+
 ## Ratification gate
 
 GATE #1 (operator): approve D-IH-93-A..H (+ BI decision deferred to P5) and authorize:

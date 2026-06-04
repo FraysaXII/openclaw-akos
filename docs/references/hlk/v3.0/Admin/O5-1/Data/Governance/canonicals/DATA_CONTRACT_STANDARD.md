@@ -90,7 +90,26 @@ quality taxonomy:
 
 List one or more codes in `quality_rules`, semicolon-separated.
 
-### 2.2 SLA drivers (informative)
+### 2.3 Three-register model (not duplication)
+
+Holistika uses **three linked registers** on different axes. Do not merge them.
+
+| Register | Question it answers | Relation to contracts |
+|:---|:---|:---|
+| `process_list.csv` | What work exists? Who owns the process? | `producer_process_id` **FK** |
+| `CAPABILITY_REGISTRY.csv` | What executable capability does work surface? | P6 DATA-FAM umbrellas group capabilities; contracts declare **data surfaces** |
+| `DATA_CONTRACT_REGISTRY.csv` | What data obligation exists on which surface (quality, SLA, consumers)? | **This registry** |
+
+Operating model (intent, growth path, area-score map):
+`docs/wip/planning/93-data-area-foundation-and-governance/reports/data-contract-registry-operating-model-2026-06-04.md`.
+
+Maintenance: `SOP-DATA_CONTRACT_REGISTRY_MAINTENANCE_001.md` +
+`scripts/data_contract_registry_check.py --coverage-report`.
+
+Catalog tools (OpenMetadata / Purview): `DATA_CATALOG_INTEGRATION_POSTURE.md` —
+repo SSOT default; ODCS export forward-charter.
+
+### 2.4 SLA drivers (informative)
 
 When documenting SLA intent, classify the driver per ODCS:
 

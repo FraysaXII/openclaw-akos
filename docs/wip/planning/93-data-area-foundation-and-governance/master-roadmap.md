@@ -325,6 +325,18 @@ seat runs the regression + human-readability pass before commit.
 - **Acceptance:** §9.0 bar cleared; standard doc + registry + validator green; 4 seed rows across 3 DATA-FAM families (compliance-mirror csv+forward mirror, SUEZ engagement-fact, GTM-CRM); Data area matrix 81% (no regression).
 - **Commit:** `feat(i93-p2): data-governance policy + ODCS data-contract standard + registry`.
 
+### P2b — Registry operating model + maintenance + catalog posture ✅ (2026-06-04)
+
+- **Research packet:** [`reports/research-p2b-registry-operating-model-2026-06-04.md`](reports/research-p2b-registry-operating-model-2026-06-04.md)
+- **Operating model (operator FAQ):** [`reports/data-contract-registry-operating-model-2026-06-04.md`](reports/data-contract-registry-operating-model-2026-06-04.md)
+- **Mint:** `SOP-DATA_CONTRACT_REGISTRY_MAINTENANCE_001.md`, `DATA_CATALOG_INTEGRATION_POSTURE.md` (§7–§9 DAMA three-layer + governed-claim bar),
+  `scripts/data_contract_registry_check.py`, `process_list` `hol_data_dtp_contract_registry_mtnce_001`,
+  `DATA_CONTRACT_STANDARD.md` §2.3 three-register model.
+- **Operator ratification (2026-06-04):** Option A repo-native SSOT; **A++ accelerate L3** (ODCS export at P3, not P8);
+  **strict + forward-declared** governed-claim bar (posture §9).
+- **Gate:** ✅ `validate_hlk.py` PASS; `pytest tests/test_data_contract_registry_check.py` PASS.
+- **Commit:** `feat(i93-p2b): contract registry operating model + DAMA-tool-friendly posture`.
+
 ### P3 — Data-architecture three-tier canonical (consumes I91)
 
 - **Gate (todo #1):** ⛔ OPERATOR — canonical mint.
@@ -332,6 +344,9 @@ seat runs the regression + human-readability pass before commit.
   store-coverage declaration rule; references I91 store-coverage matrix + `akos/hlk_graph_model.py`),
   `CANONICAL_REGISTRY.csv` schema extension spec (neo4j_node_label + pydantic_ssot_module + intended_coverage)
   — coordinate with I91 Phase E (do not double-mint; I93 consumes).
+- **P3 add-on (P2b ratification — A++):** `scripts/export_data_contract_odcs.py` (or equivalent) — ODCS 3.1 YAML export
+  from `DATA_CONTRACT_REGISTRY.csv`; CI import/validate against OpenMetadata ODCS validate API (read-oriented replica;
+  git remains SSOT). Delivers DAMA L3 tool projection before P6 bulk contract tranches.
 - **Spec:** name the three tiers, the per-canonical coverage declaration, the graph-health metric set (reuse I91).
 - **Validators:** `validate_hlk.py`; cross-check against I91 store-coverage report.
 - **Acceptance:** §9.0 bar cleared; architecture canonical resolves; coverage declaration rule cross-referenced from DATA_GOVERNANCE_POLICY.
