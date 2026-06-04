@@ -19,6 +19,9 @@ ratifying_decisions:
   - D-IH-93-H
 linked_canonicals:
   - ../Governance/canonicals/DATAOPS_DISCIPLINE.md
+  - ../Governance/canonicals/DATA_GOVERNANCE_POLICY.md
+  - ../Governance/canonicals/DATA_CONTRACT_STANDARD.md
+  - ../Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv
   - ../../../People/canonicals/AREA_GOVERNANCE_DISCIPLINE.md
   - ../../../People/Compliance/canonicals/PRECEDENCE.md
 companion_to:
@@ -132,7 +135,10 @@ Full `thi_data_*` pairing review is **I93 P4** / OPS hygiene — not P1 scope.
 
 - **P1 (this charter):** area tree + Governance canonical home + DataOps
   re-home + area README; `validate_area_completeness.py --matrix` baseline.
-- **P2–P5:** DAMA doctrine + contract registry per roadmap; operator gates on
+- **P2 (complete 2026-06-04):** data-governance policy + ODCS data-contract
+  standard + `DATA_CONTRACT_REGISTRY.csv` (4 seed rows across 3 DATA-FAM
+  families); tranche charter + §9.0 research bar cleared.
+- **P3–P5:** remaining DAMA doctrines per roadmap; operator gates on
   canonical CSV mints.
 - **P8:** harmonize all seven areas to `pattern_area_buildout` completeness bar.
 - **Area completeness:** run `py scripts/validate_area_completeness.py --matrix`
@@ -142,6 +148,8 @@ Full `thi_data_*` pairing review is **I93 P4** / OPS hygiene — not P1 scope.
 ## 7. Cross-references
 
 - Area-governance meta-process: [`AREA_GOVERNANCE_DISCIPLINE.md`](../../../People/canonicals/AREA_GOVERNANCE_DISCIPLINE.md) (`compose_AREA`, 14 components).
+- Data governance policy (I93 P2): [`DATA_GOVERNANCE_POLICY.md`](../Governance/canonicals/DATA_GOVERNANCE_POLICY.md).
+- Data contract standard + registry (I93 P2): [`DATA_CONTRACT_STANDARD.md`](../Governance/canonicals/DATA_CONTRACT_STANDARD.md) · [`DATA_CONTRACT_REGISTRY.csv`](../Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv).
 - DataOps discipline (Governance): [`DATAOPS_DISCIPLINE.md`](../Governance/canonicals/DATAOPS_DISCIPLINE.md).
 - Quality Fabric §6 row: [`HOLISTIKA_QUALITY_FABRIC.md`](../../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md).
 - I93 roadmap: [`docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md`](../../../../../../wip/planning/93-data-area-foundation-and-governance/master-roadmap.md).

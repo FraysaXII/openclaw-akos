@@ -539,6 +539,12 @@ def main() -> int:
         # with SUBSTRATE_LANDSCAPE_DOCTRINE.md at Research/Methodology/canonicals/.
         ("SUBSTRATE_REGISTRY", "validate_substrate_registry.py",
          "validate_substrate_registry", HLK_DIR / "dimensions" / "SUBSTRATE_REGISTRY.csv"),
+        # Initiative 93 P2 - Data Contract Registry (ODCS-aligned producer-consumer SSOT).
+        # Per D-IH-93-D: federated governance + contract standard; quality_rules reference DATA-01..07.
+        ("DATA_CONTRACT_REGISTRY", "validate_data_contract_registry.py",
+         "validate_data_contract_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
+         / "Governance" / "canonicals" / "dimensions" / "DATA_CONTRACT_REGISTRY.csv"),
         ("CAPABILITY_REGISTRY", "validate_capability_registry.py",
          "validate_capability_registry", HLK_DIR / "dimensions" / "CAPABILITY_REGISTRY.csv"),
         ("CAPABILITY_CONFIDENCE_REGISTRY", "validate_capability_confidence_registry.py",

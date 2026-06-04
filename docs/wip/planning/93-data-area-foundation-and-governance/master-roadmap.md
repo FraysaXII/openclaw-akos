@@ -299,12 +299,17 @@ seat runs the regression + human-readability pass before commit.
 - **Rollback:** `git revert`; `git mv` back; restore §6 path.
 - **Commit:** `feat(i93-p1): DATA area charter + canonical home + DataOps re-home (D-IH-93-C/H)`.
 
-### P2 — Data-governance policy + data-contract standard
+### P2 — Data-governance policy + data-contract standard ✅ (2026-06-04)
 
+- **Status:** complete — operator-approved canonical-CSV tranche; craft regression
+  remediated (split csv/mirror seeds, producer attribution, DATA-07 label, validator
+  quality_rules gate, KNOWLEDGE_PAIRING + charter cross-refs).
 - **Research packet (§9.0 criterion 1 — DONE):** [`reports/research-p2-2026-06-04.md`](reports/research-p2-2026-06-04.md)
   — internal sweep (two-plane + DataOps + register pattern) + external grounding (ODCS v3.1, DAMA Ch.3,
   data-mesh federated governance); carries the column→ODCS map + 3 seed contracts + paste-ready evidence base.
-- **Gate (todo #1):** ⛔ OPERATOR — canonical-CSV (`DATA_CONTRACT_REGISTRY.csv` mint).
+- **Tranche charter (§9.0 criterion 3 — DONE):** [`reports/p2.tranche-charter.md`](reports/p2.tranche-charter.md)
+  — synthesis PASS 9/9 dimensions.
+- **Gate (todo #1):** ✅ OPERATOR — canonical-CSV (`DATA_CONTRACT_REGISTRY.csv` mint).
 - **Files:** `Data/Governance/canonicals/DATA_GOVERNANCE_POLICY.md` (DAMA "data governance function";
   roles, decision rights, federated operating model, Data Owner = business-accountable),
   `Data/Governance/canonicals/DATA_CONTRACT_STANDARD.md` (ODCS-v3.1-aligned: schema + semantics + SLAs +
@@ -317,7 +322,7 @@ seat runs the regression + human-readability pass before commit.
   sla_freshness, sla_availability, quality_rules, classification, retention_policy_ref, version, status, owner_role,
   last_review_*`. Start lean: critical fields + freshness + ownership.
 - **Validators:** `validate_data_contract_registry.py --self-test`, `validate_hlk.py`.
-- **Acceptance:** §9.0 bar cleared (research packet + evidence base + tranche-charter synthesis PASS); standard doc + registry + validator green; ≥3 seed contracts (SUEZ engagement-fact, compliance-mirror, GTM-CRM).
+- **Acceptance:** §9.0 bar cleared; standard doc + registry + validator green; 4 seed rows across 3 DATA-FAM families (compliance-mirror csv+forward mirror, SUEZ engagement-fact, GTM-CRM); Data area matrix 81% (no regression).
 - **Commit:** `feat(i93-p2): data-governance policy + ODCS data-contract standard + registry`.
 
 ### P3 — Data-architecture three-tier canonical (consumes I91)
