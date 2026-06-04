@@ -200,6 +200,66 @@ flowchart TD
 > Each packet: **files**, **precise spec**, **validators**, **acceptance**, **rollback**,
 > **commit**. Composer runs one packet at a time; stops on FAIL/ambiguity.
 
+### 9.0 — Per-phase research & quality bar (invariant for P2–P8)
+
+> **Why this exists.** The charter-level research synthesis (`reports/research-synthesis-2026-06-04.md`)
+> grounded the *initiative*. It does **not** ground each *phase*. Operator instruction
+> 2026-06-04: *"how do we ensure these have such quality-bar (research for each)."* This
+> section makes per-phase research a **gate**, not a nicety — Composer never authors a
+> canonical cold. It operationalises three already-ratified disciplines (no new always-on
+> rule, no new minted decision ID):
+>
+> - **Applied-research discipline** (the rulebook that says any new canonical/rule/skill
+>   must carry internal precedent + external grounding — `akos-applied-research-discipline.mdc`
+>   RULE 1–2; canonical `RESEARCH_HEAD_DISCIPLINE.md`).
+> - **Synthesis-before-tranche** (the pre-commit review that checks a tranche's scope,
+>   atomicity, and reversibility before it lands — `akos-synthesis-before-tranche.mdc`).
+> - **Design-first sequencing** (`D-IH-93-G` — do the thinking-seat heavy lift before
+>   Composer executes).
+
+**The invariant bar — every phase P2–P8 clears all five before its commit:**
+
+1. **Research packet exists.** A dated thinking-seat report at
+   `reports/research-p<N>-<YYYY-MM-DD>.md` carrying **both** sweeps per the applied-research
+   discipline: an **internal evidence sweep** (Grep/Read over vault + canonical CSVs + prior
+   I90/I91 reports + engagements) **and** an **external research sweep** (WebSearch with named
+   citations — mandatory where the phase introduces a novel framing, optional + flagged
+   "refinement-only" where it clones an existing pattern).
+2. **Evidence base in the canonical(s).** Each minted canonical carries a
+   `## Evidence base` section with **≥3 internal precedent paths + ≥2 external citations**
+   (or an explicit refinement-only rationale). Citations live **in the canonical body**, not
+   a separate dossier (citation-to-claim adjacency).
+3. **Tranche charter + synthesis check.** A one-page `reports/p<N>.tranche-charter.md`
+   (`tranche_class: canonical_csv_mint` or `internal_governance`) passes
+   `py scripts/synthesis_before_tranche_check.py --check-charter <path>` **before** Composer
+   dispatch.
+4. **Human-readable prose.** No bare decision IDs in human-facing body text — every `D-IH-*`
+   travels with its functional name (per `akos-operator-communication.mdc` RULE 1). IDs may
+   sit alone only in frontmatter / registry cells.
+5. **Area matrix attached.** `py scripts/validate_area_completeness.py --matrix` re-run after
+   the phase; the Data-area row is recorded in the phase commit/report and must not regress.
+
+**Per-phase research focus (what each packet's sweeps must cover):**
+
+| Phase | Internal sweep anchors | External grounding (novel → cite) |
+|:---|:---|:---|
+| **P2** governance policy + data contracts | `baseline_organisation` decision-rights; existing mirror/CSV pairs; contract seeds from `reports/cross-area-data-map-2026-06-04.md` (SUEZ, compliance-mirror, GTM-CRM); two-plane model in `akos-holistika-operations.mdc` | DAMA-DMBOK data-governance function; **ODCS v3.1** (Bitol/Linux Foundation); federated / data-mesh domain ownership |
+| **P3** three-tier architecture | I91 store-coverage matrix + `akos/hlk_graph_model.py`; Supabase migrations; PRECEDENCE mirror posture; consume-not-double-mint with I91 | DAMA Data Architecture; relational+graph federation; medallion/lakehouse layering (only if we adopt the language) |
+| **P4** semantic/metrics layer + lineage | `thi_data_dtp_31` (KPI/reporting) + `thi_data_dtp_275` (lineage) rows; KiRBe manifests; MADEIRA/MCP consumption paths | semantic-layer "define-once" governance (dbt/AtScale-class); OpenLineage/W3C PROV posture; AI-ready metric catalogs |
+| **P5** MDM + privacy/retention + BI | `thi_data_dtp_32` (MasterData); Legal retention posture; empty component-sensitivity columns; GDPR/ENISA refs already in vault | DAMA Reference&MDM + Data Security; golden-record match/merge; retention + legal-hold schedules |
+| **P6** DATA-FAM families | `reports/cross-area-data-map-2026-06-04.md` (115 mapped / 35 unmapped); I91 candidate charter; CAP/CONF schemas; OPS-86-15 mirror gap | DAMA integration↔quality linkage; capability-maturity precedent (I82 confidence registry) |
+| **P7** component/engagement/transcript hygiene | real engagements (Websitz / Rushly / hostelería); transcript backlog; `eng_2026_*` ↔ `ENG-*` schism; `USE_CASE_ARCHIVE` gaps | mostly **internal forensics**; cite the P5 privacy policy for classification enums |
+| **P8** harmonization + closure | all-area matrix; `pattern_area_buildout` adoption; gap trackers | refinement-only (closure UAT discipline already governs) |
+
+P2–P4 carry novel DAMA/ODCS framing → external citation mandatory. P7 is mostly internal
+forensics; P8 is refinement-only. Heavy external sweeps (P2 ODCS, P4 semantic layer) should
+run as a **research action** (the 8-stage ingest→rate→rank→govern loop with a source ledger)
+per `akos-research-action.mdc`.
+
+**Seat routing per phase:** thinking-seat authors the research packet + tranche charter →
+Composer executes the scoped mint reading the packet as its only spec input → thinking/review
+seat runs the regression + human-readability pass before commit.
+
 ### P0 — People area-governance meta-process
 
 - **Gate (todo #1):** ⛔ OPERATOR — canonical-CSV gate (PEOPLE_DESIGN_PATTERN_REGISTRY) + canonical mint.
@@ -254,7 +314,7 @@ flowchart TD
   sla_freshness, sla_availability, quality_rules, classification, retention_policy_ref, version, status, owner_role,
   last_review_*`. Start lean: critical fields + freshness + ownership.
 - **Validators:** `validate_data_contract_registry.py --self-test`, `validate_hlk.py`.
-- **Acceptance:** standard doc + registry + validator green; ≥3 seed contracts (SUEZ engagement-fact, compliance-mirror, GTM-CRM).
+- **Acceptance:** §9.0 bar cleared (research packet + evidence base + tranche-charter synthesis PASS); standard doc + registry + validator green; ≥3 seed contracts (SUEZ engagement-fact, compliance-mirror, GTM-CRM).
 - **Commit:** `feat(i93-p2): data-governance policy + ODCS data-contract standard + registry`.
 
 ### P3 — Data-architecture three-tier canonical (consumes I91)
@@ -266,7 +326,7 @@ flowchart TD
   — coordinate with I91 Phase E (do not double-mint; I93 consumes).
 - **Spec:** name the three tiers, the per-canonical coverage declaration, the graph-health metric set (reuse I91).
 - **Validators:** `validate_hlk.py`; cross-check against I91 store-coverage report.
-- **Acceptance:** architecture canonical resolves; coverage declaration rule cross-referenced from DATA_GOVERNANCE_POLICY.
+- **Acceptance:** §9.0 bar cleared; architecture canonical resolves; coverage declaration rule cross-referenced from DATA_GOVERNANCE_POLICY.
 - **Commit:** `feat(i93-p3): data-architecture three-tier canonical (consumes I91 store-coverage)`.
 
 ### P4 — Semantic/metrics layer + formal lineage
@@ -280,7 +340,7 @@ flowchart TD
 - **Spec:** `METRICS_REGISTRY` columns: `metric_id, metric_name, definition_sql_ref, grain, dimensions,
   owner_business_role, owner_technical_role, source_contract_id, access_level, status, last_review_*`.
 - **Validators:** `validate_metrics_registry.py --self-test`, `validate_hlk.py`, `validate_hlk_km_manifests.py`.
-- **Acceptance:** metrics registry + semantic-layer doc + lineage SOP green; `thi_data_dtp_31`/`_275` paired.
+- **Acceptance:** §9.0 bar cleared; metrics registry + semantic-layer doc + lineage SOP green; `thi_data_dtp_31`/`_275` paired.
 - **Commit:** `feat(i93-p4): semantic/metrics layer + formal data-lineage SOP`.
 
 ### P5 — MDM + privacy/retention + BI decision
@@ -289,9 +349,9 @@ flowchart TD
 - **Files:** `Data/Governance/canonicals/SOP-DATA_MASTERDATA_GOLDEN_RECORD_001.md` (pairs `thi_data_dtp_32`;
   match/merge/golden-record), `Data/Governance/canonicals/DATA_PRIVACY_RETENTION_POLICY.md` (classification
   enum, retention schedules, legal-hold triggers, GDPR/ENISA posture; feeds component-matrix population in P7),
-  `DECISION_REGISTER.csv` (+ D-IH-93-BI: charter BI/warehouse governance lightly OR record "not now").
+  `DECISION_REGISTER.csv` (+ a P5 BI/warehouse-governance decision — charter BI lightly OR record "not now"; ID allocated at ratification, not pre-minted).
 - **Validators:** `validate_hlk.py`.
-- **Acceptance:** MDM SOP + privacy/retention policy resolve; BI decision recorded.
+- **Acceptance:** §9.0 bar cleared; MDM SOP + privacy/retention policy resolve; BI decision recorded.
 - **Commit:** `feat(i93-p5): MDM golden-record SOP + privacy/retention policy + BI governance decision`.
 
 ### P6 — DATA-FAM families + cross-area engineering + probe wiring
@@ -308,7 +368,7 @@ flowchart TD
   capability-coverage scope with I91 (`_candidates/i91-data-area-capability-coverage.md`) to avoid double-mint.
 - **Validators:** `validate_capability_registry.py`, `validate_capability_confidence_registry.py`,
   `dataops_quality_check.py --self-test`, `validate_hlk.py`.
-- **Acceptance:** 7 families minted + paired; CAP↔CONF pairing holds; ≥1 live probe (mirror parity).
+- **Acceptance:** §9.0 bar cleared; 7 families minted + paired; CAP↔CONF pairing holds; ≥1 live probe (mirror parity).
 - **Commit:** `feat(i93-p6): 7 DATA-FAM capability families + cross-area map + DataOps probe profiles`.
 
 ### P7 — Component + engagement + transcript hygiene
@@ -322,7 +382,7 @@ flowchart TD
   `docs/wip/planning/_trackers/transcript-backfill-tracker-2026-06-XX.md` (~27 rows; status YES/PARTIAL/NO;
   promote hostelería set + Rushly WhatsApps into Topic-Fact-Source).
 - **Validators:** `validate_component_service_matrix.py`, `validate_use_case_archive.py`, `validate_hlk.py`.
-- **Acceptance:** matrix contracts populated; ID schism resolved; use-case archive reflects real POCs; tracker minted.
+- **Acceptance:** §9.0 bar cleared; matrix contracts populated; ID schism resolved; use-case archive reflects real POCs; tracker minted.
 - **Commit:** `feat(i93-p7): component data contracts + engagement reconciliation + use-case + transcript tracker`.
 
 ### P8 — Harmonize all areas + closure UAT
@@ -332,7 +392,7 @@ flowchart TD
   fire `SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001` for `pattern_area_buildout` adoption; per-area gap trackers under
   `_trackers/`; 11-section closure UAT `reports/uat-i93-closure-<date>.md`; flip `INITIATIVE_REGISTRY.csv` I93 status.
 - **Validators:** full matrix (`validate_hlk.py`, `release-gate.py`, `validate_area_completeness.py`, `validate_uat_report.py`).
-- **Acceptance:** every area scored; DATA at/above bar; closure UAT PASS (or PASS-WITH-FOLLOWUP per PWF discipline).
+- **Acceptance:** §9.0 bar cleared (refinement-only research enrichment acceptable at P8); every area scored; DATA at/above bar; closure UAT PASS (or PASS-WITH-FOLLOWUP per PWF discipline).
 - **Commit:** `feat(i93-p8): area-completeness harmonization sweep + I93 closure UAT`.
 
 ## 10. The 8 DAMA canonical specs (D-IH-93-D)
@@ -364,6 +424,8 @@ tranche (serialize canonical-CSV writes).
 ## 12. Verification matrix
 
 ```
+py scripts/synthesis_before_tranche_check.py --check-charter reports/p<N>.tranche-charter.md  # §9.0 per-phase gate (P2-P8)
+py scripts/validate_area_completeness.py --matrix          # §9.0 per-phase: Data row must not regress
 py scripts/validate_hlk.py
 py scripts/validate_design_pattern_registry.py
 py scripts/validate_area_completeness.py --self-test      # new P0
