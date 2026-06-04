@@ -29,6 +29,7 @@ Desktop.ini
 
 # Generated build artifacts (one-shot upsert SQL files, transient JSON, etc.)
 build/
+docs/wip/planning/93-data-area-foundation-and-governance/artifacts/*.sql
 
 # Logs
 logs/

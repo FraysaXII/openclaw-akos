@@ -12,6 +12,8 @@ Usage (repo root):
 
     py scripts/sync_compliance_mirrors_from_csv.py --count-only
     py scripts/sync_compliance_mirrors_from_csv.py --finops-counterparty-register-only --output /tmp/finops-upsert.sql
+    py scripts/sync_compliance_mirrors_from_csv.py --ops8615-gap-mirrors-only
+        # default: docs/wip/planning/93-.../artifacts/ops8615-mirror-upsert.sql (repo-local)
     py scripts/sync_compliance_mirrors_from_csv.py --output /tmp/mirror-upsert.sql
     py scripts/sync_compliance_mirrors_from_csv.py --git-sha abc123def
 
@@ -36,6 +38,7 @@ from akos.hlk_adviser_questions_csv import ADVISER_OPEN_QUESTIONS_FIELDNAMES  # 
 from akos.hlk_baseline_org_csv import BASELINE_ORGANISATION_FIELDNAMES  # noqa: E402  # release-gate hygiene 2026-05-11
 from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_filed_instruments_csv import FILED_INSTRUMENTS_FIELDNAMES  # noqa: E402  # I81 P2 T3 (D-IH-81-S, 2026-05-23) renamed from hlk_founder_filed_instruments_csv
+from akos.hlk_dataops_quality import I93_P6_OPS8615_UPSERT_ARTIFACT  # noqa: E402  # I93 P6 default emit path
 from akos.hlk_aic_registry_csv import AIC_REGISTRY_FIELDNAMES  # noqa: E402  # I93 P6 OPS-86-15
 from akos.hlk_audience_csv import AUDIENCE_REGISTRY_FIELDNAMES  # noqa: E402  # I93 P6 OPS-86-15
 from akos.hlk_capability_confidence_csv import CAPABILITY_CONFIDENCE_FIELDNAMES  # noqa: E402  # I93 P6
@@ -1323,7 +1326,10 @@ def main() -> int:
         "--output",
         type=Path,
         default=None,
-        help="Write SQL to this file (default: stdout)",
+        help=(
+            "Write SQL to this file (default: stdout; with --ops8615-gap-mirrors-only "
+            f"defaults to {I93_P6_OPS8615_UPSERT_ARTIFACT})"
+        ),
     )
     parser.add_argument(
         "--count-only",
@@ -1499,6 +1505,9 @@ def main() -> int:
         help="Omit BEGIN/COMMIT wrapper",
     )
     args = parser.parse_args()
+    if args.ops8615_gap_mirrors_only and args.output is None:
+        args.output = REPO_ROOT / I93_P6_OPS8615_UPSERT_ARTIFACT
+        args.output.parent.mkdir(parents=True, exist_ok=True)
     mode_flags = sum(
         1
         for x in (

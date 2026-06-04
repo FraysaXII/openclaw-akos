@@ -42,7 +42,7 @@ verdict_followup_rationale:
     All I93 phase mechanical deliverables (P0-P7) are committed; P8 harmonization sweep
     scored seven areas; DATA 88% with zero gap components. INIT row remains active pending
     operator registry gate. OPS-86-15 mirror tables have DDL but zero rows until
-    C:\tmp\ops8615-upsert.sql is executed in Supabase SQL Editor.
+    docs/wip/planning/93-data-area-foundation-and-governance/artifacts/ops8615-mirror-upsert.sql is executed in Supabase SQL Editor.
 ---
 
 # UAT — I93 DATA area foundation closure (2026-06-05)

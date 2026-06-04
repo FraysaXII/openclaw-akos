@@ -130,6 +130,12 @@ OPS_86_15_MIRROR_TARGETS: tuple[tuple[str, str, str], ...] = (
 
 I93_P6_MIRROR_MIGRATION_BASENAME = "20260604120000_i93_p6_ops8615_mirror_gap_closure.sql"
 
+# Repo-local operator artifact (Windows /tmp is not discoverable — I93 P6 follow-up 2026-06-05)
+I93_P6_OPS8615_UPSERT_ARTIFACT = (
+    "docs/wip/planning/93-data-area-foundation-and-governance/"
+    "artifacts/ops8615-mirror-upsert.sql"
+)
+
 
 class DataOpsFindingRow(BaseModel):
     """One probe finding from a single DataOps dimension sweep."""

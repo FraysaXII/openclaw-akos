@@ -1,0 +1,6 @@
+source_id,title,url,source_type,reliability_score,control_confidence_level,prong,used_for
+INT-01,cross-area-data-map-2026-06-04.md,docs/wip/planning/93-data-area-foundation-and-governance/reports/cross-area-data-map-2026-06-04.md,internal_plan,95,Safe,internal,OPS-86-15 table accuracy
+INT-02,DATA_FAM_PROBE_PROFILES,akos/hlk_dataops_quality.py,internal_code,95,Safe,internal,probe alignment per family
+INT-03,P7 ENGAGEMENT_REGISTRY,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv,internal_canonical,95,Safe,internal,ENGAGEMENT-FACT semantics
+EXT-01,Data mesh federated governance,https://martinfowler.com/articles/data-mesh-principles.html,external_reference,80,Safe,external,product-per-family posture
+EXT-02,DAMA maturity + contracts,https://atlan.com/dama-dmbok-framework/,external_reference,75,Safe,external,L2 contract rows before L3 catalog

@@ -142,3 +142,15 @@ P8,docs/wip/planning/79-people-manifesto-and-pattern-library/reports/breakthroug
 P8,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p8,P8 mechanical complete operator gate noted
 P8,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,edit,i93-p8,P8 execution section
 P8,docs/wip/planning/93-data-area-foundation-and-governance/reports/p6-supabase-verification-2026-06-04.md,edit,i93-p8,Emit re-run note
+P6-regress,scripts/sync_compliance_mirrors_from_csv.py,edit,i93-p6,Default ops8615 upsert path under repo artifacts/
+P6-regress,akos/hlk_dataops_quality.py,edit,i93-p6,I93_P6_OPS8615_UPSERT_ARTIFACT constant
+P6-regress,docs/wip/planning/93-data-area-foundation-and-governance/artifacts/README.md,add,i93-p6,Operator mirror SQL rediscovery
+P6-regress,.gitignore,edit,i93-p6,Ignore generated artifacts/*.sql
+P6-regress,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv,edit,i93-p6,+4 DATA-FAM contract rows + mirror row refresh
+P6-regress,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv,edit,i93-p6,ENGAGEMENT-FACT runbook fix
+P6-regress,docs/wip/planning/93-data-area-foundation-and-governance/reports/cross-area-data-map-2026-06-04.md,edit,i93-p6,OPS-86-15 table refresh
+P6-regress,docs/wip/planning/93-data-area-foundation-and-governance/reports/data-fam-content-regression-2026-06-05.md,add,i93-p6,Seven-family content regression
+P6-regress,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-data-fam-content-regression-2026-06-05/,add,i93-p6,Regression research ledger
+P6-regress,tests/test_ops8615_mirror_emit.py,edit,i93-p6,Default artifact path test
+P6-regress,docs/wip/planning/93-data-area-foundation-and-governance/reports/uat-i93-closure-2026-06-05.md,edit,i93-p6,Repo-local upsert path
+P6-regress,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p6,Operator path fix

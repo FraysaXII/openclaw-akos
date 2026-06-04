@@ -6,7 +6,11 @@ from pathlib import Path
 
 import pytest
 
-from akos.hlk_dataops_quality import I93_P6_MIRROR_MIGRATION_BASENAME, OPS_86_15_MIRROR_TARGETS
+from akos.hlk_dataops_quality import (
+    I93_P6_MIRROR_MIGRATION_BASENAME,
+    I93_P6_OPS8615_UPSERT_ARTIFACT,
+    OPS_86_15_MIRROR_TARGETS,
+)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -26,3 +30,11 @@ def test_sync_script_declares_emitters() -> None:
     for _csv, _table, sym in OPS_86_15_MIRROR_TARGETS:
         assert sym in sync
     assert "--ops8615-gap-mirrors-only" in sync
+    assert "I93_P6_OPS8615_UPSERT_ARTIFACT" in sync
+
+
+@pytest.mark.hlk
+def test_ops8615_default_artifact_path_under_repo() -> None:
+    path = REPO_ROOT / I93_P6_OPS8615_UPSERT_ARTIFACT
+    assert path.parent.name == "artifacts"
+    assert path.name == "ops8615-mirror-upsert.sql"

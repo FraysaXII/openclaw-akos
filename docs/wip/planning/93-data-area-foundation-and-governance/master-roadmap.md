@@ -426,7 +426,7 @@ seat runs the regression + human-readability pass before commit.
 - **Breakthrough propagation:** [`reports/p8-cross-area-breakthrough-propagation-2026-06-05.md`](reports/p8-cross-area-breakthrough-propagation-2026-06-05.md) + I79 `breakthroughs/2026-06/*.md`
 - **Closure UAT:** [`reports/uat-i93-closure-2026-06-05.md`](reports/uat-i93-closure-2026-06-05.md) — **PASS-WITH-FOLLOWUP**
 - **Validators:** `validate_area_completeness.py --matrix` PASS; `validate_hlk.py` PASS; `validate_uat_report.py` (run at commit)
-- **Gate (todo #1):** ⛔ **OPERATOR** — §10 sign-off + execute `C:\tmp\ops8615-upsert.sql` + mint `D-IH-93-CLOSURE` + flip `INITIATIVE_REGISTRY` I93 `active → closed`
+- **Gate (todo #1):** ⛔ **OPERATOR** — §10 sign-off + execute `artifacts/ops8615-mirror-upsert.sql` (regenerate: `py scripts/sync_compliance_mirrors_from_csv.py --ops8615-gap-mirrors-only`) + mint `D-IH-93-CLOSURE` + flip INIT
 - **Acceptance:** §9.0 bar cleared; every area scored; DATA at/above bar; closure UAT PWF (INIT flip deferred)
 - **Commit:** `feat(i93-p8): area-completeness harmonization sweep + I93 closure UAT`
 

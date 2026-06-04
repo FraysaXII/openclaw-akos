@@ -15,7 +15,7 @@ supabase_project: MasterData (swrmqpelgoblaquequzb)
 | `npm run supabase db push` | ✅ Applied `20260604120000_i93_p6_ops8615_mirror_gap_closure.sql` |
 | Policy NOTICE lines | ✅ Expected on first CREATE (`DROP POLICY IF EXISTS` pattern) |
 | `sync_compliance_mirrors_from_csv.py --ops8615-gap-mirrors-only` | ✅ Wrote `/tmp/ops8615-upsert.sql` (~3.5 MB) |
-| Re-run emit (2026-06-05, terminal 11) | ✅ Idempotent regenerate (~3 482 296 bytes) — **does not load rows**; still requires SQL Editor execution |
+| Re-run emit (2026-06-05) | ✅ Idempotent regenerate — writes **repo-local** `artifacts/ops8615-mirror-upsert.sql` (not `/tmp`); **does not load rows** until SQL Editor run |
 
 ## Live database check (2026-06-04)
 
@@ -33,8 +33,9 @@ supabase_project: MasterData (swrmqpelgoblaquequzb)
 
 ## Operator next step (one-time)
 
-1. Supabase Dashboard → SQL Editor → paste/run `C:\tmp\ops8615-upsert.sql` (or split into batches if editor times out).
-2. Re-check counts:
+1. Regenerate if needed: `py scripts/sync_compliance_mirrors_from_csv.py --ops8615-gap-mirrors-only`
+2. Supabase Dashboard → SQL Editor → paste/run `docs/wip/planning/93-data-area-foundation-and-governance/artifacts/ops8615-mirror-upsert.sql` (split into batches if the editor times out).
+3. Re-check counts:
 
 ```sql
 SELECT 'aic_registry_mirror' AS t, count(*) FROM compliance.aic_registry_mirror

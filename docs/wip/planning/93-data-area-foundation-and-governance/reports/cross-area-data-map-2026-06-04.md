@@ -57,16 +57,18 @@ from ~442 executable `process_list` rows; **35** remain unmapped for area-batch 
 
 | CSV | Mirror DDL in repo? | Emit in sync script? | Pydantic SSOT |
 |:---|:---:|:---:|:---:|
-| `AIC_REGISTRY.csv` | No | No | Yes |
-| `AUDIENCE_REGISTRY.csv` | No (doc ahead of code) | No | Yes |
-| `CAPABILITY_REGISTRY.csv` | No | No | Yes |
-| `CAPABILITY_CONFIDENCE_REGISTRY.csv` | No | No | Yes |
+| `AIC_REGISTRY.csv` | **Yes** (I93 P6) | **Yes** | Yes |
+| `AUDIENCE_REGISTRY.csv` | **Yes** (I93 P6) | **Yes** | Yes |
+| `CAPABILITY_REGISTRY.csv` | **Yes** (I93 P6) | **Yes** | Yes |
+| `CAPABILITY_CONFIDENCE_REGISTRY.csv` | **Yes** (I93 P6) | **Yes** | Yes |
 | `COUNTRY_WORK_CALENDAR.csv` | **Yes** (I93 P6) | **Yes** | No (OPS-86-18; CSV-only emit) |
-| `CHANNEL_TOUCHPOINT_REGISTRY.csv` | **Yes** | **Yes** | Yes |
+| `CHANNEL_TOUCHPOINT_REGISTRY.csv` | **Yes** (prior) | **Yes** | Yes |
 
-**Status (2026-06-04 P6):** OPS-86-15 five-CSV gap **closed in repo** via migration
-`20260604120000_i93_p6_ops8615_mirror_gap_closure.sql` + `sync_compliance_mirrors_from_csv.py
---ops8615-gap-mirrors-only`. Operator still applies DDL to Supabase + runs emit SQL.
+**Status (2026-06-05):** OPS-86-15 five-CSV gap **closed in repo** via migration
+`20260604120000_i93_p6_ops8615_mirror_gap_closure.sql` + emit flag
+`--ops8615-gap-mirrors-only` (default SQL path:
+`docs/wip/planning/93-data-area-foundation-and-governance/artifacts/ops8615-mirror-upsert.sql`).
+Operator applies DDL to Supabase (done) + runs emit SQL in SQL Editor (DML pending until applied).
 
 ## DATA-FAM → DataOps probe profiles (P6 extension)
 
