@@ -15,6 +15,7 @@ supabase_project: MasterData (swrmqpelgoblaquequzb)
 | `npm run supabase db push` | ✅ Applied `20260604120000_i93_p6_ops8615_mirror_gap_closure.sql` |
 | Policy NOTICE lines | ✅ Expected on first CREATE (`DROP POLICY IF EXISTS` pattern) |
 | `sync_compliance_mirrors_from_csv.py --ops8615-gap-mirrors-only` | ✅ Wrote `/tmp/ops8615-upsert.sql` (~3.5 MB) |
+| Re-run emit (2026-06-05, terminal 11) | ✅ Idempotent regenerate (~3 482 296 bytes) — **does not load rows**; still requires SQL Editor execution |
 
 ## Live database check (2026-06-04)
 

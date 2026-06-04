@@ -108,6 +108,18 @@ Research: [`reports/research-p6-data-fam-2026-06-04/`](reports/research-p6-data-
 Research: [`reports/research-p7-hygiene-2026-06-04/`](reports/research-p7-hygiene-2026-06-04/).
 Verification: `validate_hlk.py` PASS; `validate_component_service_matrix.py` PASS; `validate_use_case_archive.py` PASS.
 
+## P8 execution (2026-06-05 — harmonization + closure UAT)
+
+| Deliverable | Outcome |
+|:---|:---|
+| Area matrix | Seven areas scored; DATA 88% / 0 gap — [`area-completeness-matrix-2026-06-05.md`](reports/area-completeness-matrix-2026-06-05.md) |
+| Gap tracker | 17 deferred rows — [`_trackers/area-governance-gap-tracker-2026-06-05.csv`](_trackers/area-governance-gap-tracker-2026-06-05.csv) |
+| Breakthrough propagation | `peopl_cross_area_breakthrough_announce.py --since 2026-06-04` → 9 area digests |
+| Closure UAT | **PASS-WITH-FOLLOWUP** — [`uat-i93-closure-2026-06-05.md`](reports/uat-i93-closure-2026-06-05.md) |
+| INIT flip | **Deferred** — operator gate (§10 checklist + `D-IH-93-CLOSURE`) |
+
+Research: [`reports/research-p8-harmonization-2026-06-05/`](reports/research-p8-harmonization-2026-06-05/).
+
 ## P5 BI gate + MDM/privacy mint (2026-06-04)
 
 | Gate | Decision |

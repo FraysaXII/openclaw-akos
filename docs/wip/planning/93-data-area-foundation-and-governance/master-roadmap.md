@@ -2,7 +2,7 @@
 initiative_id: INIT-OPENCLAW_AKOS-93
 title: "I93 — DATA Area Foundation & Cross-Area Data Governance"
 status: active
-phase_status: P5b-complete
+phase_status: P8-complete-pending-operator-closure
 owner_role: CDO + CPO + PMO
 inception: 2026-06-04
 last_review: 2026-06-04
@@ -418,15 +418,17 @@ seat runs the regression + human-readability pass before commit.
 - **Acceptance:** §9.0 bar cleared; matrix contracts populated; ID schism resolved; use-case archive reflects real POCs; tracker minted.
 - **Commit:** `feat(i93-p7): component data contracts + engagement reconciliation + use-case + transcript tracker`.
 
-### P8 — Harmonize all areas + closure UAT
+### P8 — Harmonize all areas + closure UAT ✅ mechanical (2026-06-05) — ⛔ operator registry gate
 
-- **Gate (todo #1):** ⛔ OPERATOR — closure sign-off + INITIATIVE_REGISTRY flip.
-- **Files:** run `validate_area_completeness.py` across all areas → `reports/area-completeness-matrix-2026-06-XX.md`;
-  fire `SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001` for `pattern_area_buildout` adoption; per-area gap trackers under
-  `_trackers/`; 11-section closure UAT `reports/uat-i93-closure-<date>.md`; flip `INITIATIVE_REGISTRY.csv` I93 status.
-- **Validators:** full matrix (`validate_hlk.py`, `release-gate.py`, `validate_area_completeness.py`, `validate_uat_report.py`).
-- **Acceptance:** §9.0 bar cleared (refinement-only research enrichment acceptable at P8); every area scored; DATA at/above bar; closure UAT PASS (or PASS-WITH-FOLLOWUP per PWF discipline).
-- **Commit:** `feat(i93-p8): area-completeness harmonization sweep + I93 closure UAT`.
+- **Research packet:** [`reports/research-p8-harmonization-2026-06-05/`](reports/research-p8-harmonization-2026-06-05/)
+- **Matrix:** [`reports/area-completeness-matrix-2026-06-05.md`](reports/area-completeness-matrix-2026-06-05.md) — DATA **88%**, **0 gap**
+- **Gap tracker:** [`_trackers/area-governance-gap-tracker-2026-06-05.csv`](_trackers/area-governance-gap-tracker-2026-06-05.csv)
+- **Breakthrough propagation:** [`reports/p8-cross-area-breakthrough-propagation-2026-06-05.md`](reports/p8-cross-area-breakthrough-propagation-2026-06-05.md) + I79 `breakthroughs/2026-06/*.md`
+- **Closure UAT:** [`reports/uat-i93-closure-2026-06-05.md`](reports/uat-i93-closure-2026-06-05.md) — **PASS-WITH-FOLLOWUP**
+- **Validators:** `validate_area_completeness.py --matrix` PASS; `validate_hlk.py` PASS; `validate_uat_report.py` (run at commit)
+- **Gate (todo #1):** ⛔ **OPERATOR** — §10 sign-off + execute `C:\tmp\ops8615-upsert.sql` + mint `D-IH-93-CLOSURE` + flip `INITIATIVE_REGISTRY` I93 `active → closed`
+- **Acceptance:** §9.0 bar cleared; every area scored; DATA at/above bar; closure UAT PWF (INIT flip deferred)
+- **Commit:** `feat(i93-p8): area-completeness harmonization sweep + I93 closure UAT`
 
 ## 10. The 8 DAMA canonical specs (D-IH-93-D)
 

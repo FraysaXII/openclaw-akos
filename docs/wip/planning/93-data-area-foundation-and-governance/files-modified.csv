@@ -132,3 +132,13 @@ P7,scripts/i93_p7_hygiene_apply.py,add,i93-p7,Matrix privacy rule engine
 P7,docs/wip/planning/93-data-area-foundation-and-governance/reports/transcript-backfill-tracker-2026-06-04.csv,add,i93-p7,27-row transcript tracker
 P7,docs/wip/planning/93-data-area-foundation-and-governance/reports/p7-hygiene.tranche-charter.md,add,i93-p7,Tranche charter
 P7,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p7,P7 complete status
+P8-research,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-p8-harmonization-2026-06-05/,add,i93-p8,P8 harmonization research pack
+P8,docs/wip/planning/93-data-area-foundation-and-governance/reports/area-completeness-matrix-2026-06-05.md,add,i93-p8,Seven-area matrix sweep
+P8,docs/wip/planning/93-data-area-foundation-and-governance/_trackers/area-governance-gap-tracker-2026-06-05.csv,add,i93-p8,Forward-charter gap tracker
+P8,docs/wip/planning/93-data-area-foundation-and-governance/reports/p8-cross-area-breakthrough-propagation-2026-06-05.md,add,i93-p8,Breakthrough propagation record
+P8,docs/wip/planning/93-data-area-foundation-and-governance/reports/uat-i93-closure-2026-06-05.md,add,i93-p8,Closure UAT PASS-WITH-FOLLOWUP
+P8,docs/wip/planning/93-data-area-foundation-and-governance/reports/p8-harmonization.tranche-charter.md,add,i93-p8,Tranche charter
+P8,docs/wip/planning/79-people-manifesto-and-pattern-library/reports/breakthroughs/2026-06/,add,i93-p8,Cross-area breakthrough digests (announce runbook)
+P8,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p8,P8 mechanical complete operator gate noted
+P8,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,edit,i93-p8,P8 execution section
+P8,docs/wip/planning/93-data-area-foundation-and-governance/reports/p6-supabase-verification-2026-06-04.md,edit,i93-p8,Emit re-run note

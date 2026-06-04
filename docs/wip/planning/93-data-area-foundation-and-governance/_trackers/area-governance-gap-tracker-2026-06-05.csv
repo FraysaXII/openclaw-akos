@@ -1,0 +1,23 @@
+area,component_code,status,severity,disposition,owner_role,target_initiative,notes
+Finance,AREA-02-AREA-CHARTER,gap,high,forward-charter,CFO,forward,No FINANCE_AREA_CHARTER.md; adopt pattern_area_buildout when Finance area programme starts
+Finance,AREA-03-DISCIPLINE-CHARTERS,gap,medium,forward-charter,CFO,forward,No governance canonical folder detected
+Finance,AREA-08-DIMENSION-REGISTRIES,gap,medium,defer-OPS,CDO,forward,Area-local dimension CSVs not present
+Finance,AREA-11-CURSOR-RULE-SKILL,gap,low,defer-OPS,CPO,forward,No area-scoped rule+skill pair
+Finance,AREA-13-AREA-README,gap,medium,forward-charter,CFO,forward,Missing area README.md index
+People,AREA-02-AREA-CHARTER,gap,high,accept-as-canon,CPO,I93-complete,People manifesto + AREA_GOVERNANCE_DISCIPLINE serve meta-charter; formal PEOPLE_AREA_CHARTER deferred
+People,AREA-13-AREA-README,gap,medium,forward-charter,CPO,forward,Add People/README.md index in People area programme
+Marketing,AREA-11-CURSOR-RULE-SKILL,gap,low,defer-OPS,CPO,forward,Adopt after breakthrough digest decision
+Marketing,AREA-13-AREA-README,gap,medium,forward-charter,CMO,forward,Missing Marketing/README.md
+Operations,AREA-03-DISCIPLINE-CHARTERS,gap,medium,forward-charter,COO,forward,No governance canonicals detected
+Operations,AREA-11-CURSOR-RULE-SKILL,gap,low,defer-OPS,CPO,forward,Adopt pattern_area_buildout per breakthrough digest
+Operations,AREA-13-AREA-README,gap,medium,forward-charter,COO,forward,Missing Operations/README.md
+Research,AREA-02-AREA-CHARTER,gap,high,forward-charter,Research Lead,forward,Charter mint when Research area buildout chartered
+Research,AREA-03-DISCIPLINE-CHARTERS,gap,medium,forward-charter,Research Lead,forward,
+Research,AREA-13-AREA-README,gap,medium,forward-charter,Research Lead,forward,
+Tech,AREA-02-AREA-CHARTER,gap,high,forward-charter,CTO,forward,Envoy Tech Lab tree exists; formal TECH_AREA_CHARTER deferred
+Tech,AREA-03-DISCIPLINE-CHARTERS,gap,medium,forward-charter,CTO,forward,
+Tech,AREA-13-AREA-README,gap,medium,forward-charter,CTO,forward,
+Data,AREA-06-CAPABILITY-CONFIDENCE,partial,medium,defer-OPS,CDO,I91-coord,CONF pairing for 17 DATA-FAM CAP rows — coordinate with I91 not duplicate
+Data,AREA-09-PAIRED-SOP-RUNBOOK,partial,medium,defer-OPS,CDO,forward,Populate runbook column on DATA processes incrementally
+Data,AREA-10-SUPABASE-MIRROR,skip,low,accept-as-canon,CDO,I93-followup,Conservative skip until ops8615 upsert executed in Supabase SQL editor
+Data,AREA-11-CURSOR-RULE-SKILL,partial,low,fix-now,CPO,I93-followup,Rule exists; document skill pairing in area README when AREA-13 lands

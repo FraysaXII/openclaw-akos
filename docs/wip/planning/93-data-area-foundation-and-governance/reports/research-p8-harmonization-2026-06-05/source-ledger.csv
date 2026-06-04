@@ -1,0 +1,9 @@
+source_id,title,url,source_type,volatility_class,reliability_score,control_confidence_level,prong,used_for
+INT-01,AREA_GOVERNANCE_DISCIPLINE.md (14-component bar),docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/AREA_GOVERNANCE_DISCIPLINE.md,internal_canonical,low,95,Safe,internal,P8 matrix interpretation + DATA worked example
+INT-02,DATA_AREA_CHARTER.md (pattern_area_buildout),docs/references/hlk/v3.0/Admin/O5-1/Data/canonicals/DATA_AREA_CHARTER.md,internal_canonical,low,95,Safe,internal,DATA 88% score evidence
+INT-03,I93 master-roadmap §15 exit criteria,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,internal_plan,low,95,Safe,internal,closure criteria cross-check
+INT-04,SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001,docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md,internal_sop,low,90,Safe,internal,breakthrough propagation firing
+INT-05,uat-i86-cluster-closure PWF precedent,docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/uat-i86-cluster-closure-2026-06-04.md,internal_uat,low,90,Safe,internal,INIT flip deferred + PWF shape
+EXT-01,DAMA-DMBOK maturity lens (governance-centred wheel),https://atlan.com/dama-dmbok-framework/,external_reference,medium,75,Safe,external,refinement: score areas against knowledge areas not build all in I93
+EXT-02,Data mesh federated governance,https://martinfowler.com/articles/data-mesh-principles.html,external_reference,medium,80,Safe,external,refinement: DATA sets global standards areas own products (I93 charter)
+EXT-03,Irish public-sector DAMA maturity advice note,https://prod-g2g-assets.s3.amazonaws.com/documents/Data_Management_Maturity_Assessment_Advice_Note.pdf,external_reference,low,70,Euclid,external,refinement: gap trackers = maturity roadmap not one-shot CSV fix
