@@ -379,12 +379,13 @@ seat runs the regression + human-readability pass before commit.
 - **Gate:** ✅ `validate_hlk.py` PASS; pytest ms-demo + production-readiness PASS.
 - **Commit:** `feat(i93-p5c): multi-area BI, RevOps A4, SOP method library, MS demo factory`.
 
-### P6 — DATA-FAM families + cross-area engineering + probe wiring
+### P6 — DATA-FAM families + cross-area engineering + probe wiring ✅ (2026-06-04)
 
 - **Research packet:** [`reports/research-p6-data-fam-2026-06-04/`](reports/research-p6-data-fam-2026-06-04/)
 - **Operator ratification (2026-06-04):** **P6-A** full bundle; **MIRROR-2** (DDL+emit for five gap CSVs);
   **I91 cross-initiative regression** before mint (umbrella cluster under I90 — lessons learned write-back, not passive scope split).
-- **Gate (todo #1):** ⛔ OPERATOR — canonical-CSV (process_list + CAPABILITY + CONFIDENCE tranche) after I91↔I93 regression packet.
+- **Regression:** [`reports/i91-i93-cross-initiative-regression-2026-06-04.md`](reports/i91-i93-cross-initiative-regression-2026-06-04.md)
+- **Tranche charter:** [`reports/p6-data-fam.tranche-charter.md`](reports/p6-data-fam.tranche-charter.md)
 - **Files:** `CAPABILITY_REGISTRY.csv` (+7 `CAP-HOL-DATA-FAM-*-001` umbrella rows), `CAPABILITY_CONFIDENCE_REGISTRY.csv`
   (+7 `CONF-...` seeds), `process_list.csv` (+7 `hol_data_dtp_datafam_*` umbrella rows under `thi_data_prj_1`,
   `inherited_pattern_id=pattern_dataops_discipline`), `akos/hlk_dataops_quality.py` + `scripts/dataops_quality_check.py`
@@ -396,8 +397,10 @@ seat runs the regression + human-readability pass before commit.
   capability-coverage scope with I91 (`_candidates/i91-data-area-capability-coverage.md`) to avoid double-mint.
 - **Validators:** `validate_capability_registry.py`, `validate_capability_confidence_registry.py`,
   `dataops_quality_check.py --self-test`, `validate_hlk.py`.
-- **Acceptance:** §9.0 bar cleared; 7 families minted + paired; CAP↔CONF pairing holds; ≥1 live probe (mirror parity).
+- **Gate:** ✅ `validate_hlk.py` PASS; `dataops_quality_check.py --data-fam COMPLIANCE-MIRROR` PASS; pytest PASS.
+- **Acceptance:** §9.0 bar cleared; 7 families minted + paired; CAP↔CONF pairing holds; live repo probe (mirror parity).
 - **Commit:** `feat(i93-p6): 7 DATA-FAM capability families + cross-area map + DataOps probe profiles`.
+- **Operator follow-up:** apply Supabase migration + run `--ops8615-gap-mirrors-only` SQL in Holistika project.
 
 ### P7 — Component + engagement + transcript hygiene
 

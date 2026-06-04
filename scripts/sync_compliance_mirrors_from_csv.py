@@ -36,6 +36,10 @@ from akos.hlk_adviser_questions_csv import ADVISER_OPEN_QUESTIONS_FIELDNAMES  # 
 from akos.hlk_baseline_org_csv import BASELINE_ORGANISATION_FIELDNAMES  # noqa: E402  # release-gate hygiene 2026-05-11
 from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_filed_instruments_csv import FILED_INSTRUMENTS_FIELDNAMES  # noqa: E402  # I81 P2 T3 (D-IH-81-S, 2026-05-23) renamed from hlk_founder_filed_instruments_csv
+from akos.hlk_aic_registry_csv import AIC_REGISTRY_FIELDNAMES  # noqa: E402  # I93 P6 OPS-86-15
+from akos.hlk_audience_csv import AUDIENCE_REGISTRY_FIELDNAMES  # noqa: E402  # I93 P6 OPS-86-15
+from akos.hlk_capability_confidence_csv import CAPABILITY_CONFIDENCE_FIELDNAMES  # noqa: E402  # I93 P6
+from akos.hlk_capability_registry_csv import CAPABILITY_REGISTRY_FIELDNAMES  # noqa: E402  # I93 P6
 from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_cycle_register_csv import CYCLE_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.4
 from akos.hlk_decision_register_csv import DECISION_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.5
@@ -137,6 +141,21 @@ HOLISTIKA_VENDOR_SERVICES_BILLED_CSV = REPO_ROOT / CSV_PATH_RELATIVE_VENDOR_BILL
 PARTNER_OVERLAP_EXCLUSION_CLAUSES_CSV = REPO_ROOT / CSV_PATH_RELATIVE_OVERLAP_CLAUSES
 COLLABORATOR_MARKET_RATE_REFERENCE_CSV = REPO_ROOT / CSV_PATH_RELATIVE_MARKET_RATE
 COLLABORATOR_RATE_OVERRIDES_CSV = REPO_ROOT / CSV_PATH_RELATIVE_RATE_OVERRIDES
+# I93 P6 — OPS-86-15 mirror gap (MIRROR-2)
+_I93_DIM = REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions"
+AIC_REGISTRY_CSV = _I93_DIM / "AIC_REGISTRY.csv"
+AUDIENCE_REGISTRY_CSV = _I93_DIM / "AUDIENCE_REGISTRY.csv"
+CAPABILITY_REGISTRY_CSV = _I93_DIM / "CAPABILITY_REGISTRY.csv"
+CAPABILITY_CONFIDENCE_REGISTRY_CSV = _I93_DIM / "CAPABILITY_CONFIDENCE_REGISTRY.csv"
+COUNTRY_WORK_CALENDAR_CSV = _I93_DIM / "COUNTRY_WORK_CALENDAR.csv"
+COUNTRY_WORK_CALENDAR_FIELDNAMES: tuple[str, ...] = (
+    "country_code",
+    "country_name",
+    "legal_hours_per_day",
+    "public_holidays_per_year_avg",
+    "locale_uplift_pct",
+    "notes",
+)
 
 # SSOT for the baseline_organisation column contract is akos.hlk_baseline_org_csv.
 # This local alias preserves the existing in-module name without re-declaring the
@@ -1160,6 +1179,63 @@ def _emit_generic_pk_upserts(
     return out
 
 
+def _emit_aic_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    return _emit_generic_pk_upserts(
+        rows=rows,
+        fieldnames=AIC_REGISTRY_FIELDNAMES,
+        mirror_table="compliance.aic_registry_mirror",
+        pk_column="aic_id",
+        source_git_sha=source_git_sha,
+        initiative_label="I93 P6 OPS-86-15",
+    )
+
+
+def _emit_audience_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    return _emit_generic_pk_upserts(
+        rows=rows,
+        fieldnames=AUDIENCE_REGISTRY_FIELDNAMES,
+        mirror_table="compliance.audience_registry_mirror",
+        pk_column="audience_code",
+        source_git_sha=source_git_sha,
+        initiative_label="I93 P6 OPS-86-15",
+    )
+
+
+def _emit_capability_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    return _emit_generic_pk_upserts(
+        rows=rows,
+        fieldnames=CAPABILITY_REGISTRY_FIELDNAMES,
+        mirror_table="compliance.capability_registry_mirror",
+        pk_column="capability_id",
+        source_git_sha=source_git_sha,
+        initiative_label="I93 P6 OPS-86-15",
+    )
+
+
+def _emit_capability_confidence_registry_upserts(
+    rows: list[dict[str, str]], source_git_sha: str
+) -> list[str]:
+    return _emit_generic_pk_upserts(
+        rows=rows,
+        fieldnames=CAPABILITY_CONFIDENCE_FIELDNAMES,
+        mirror_table="compliance.capability_confidence_registry_mirror",
+        pk_column="confidence_id",
+        source_git_sha=source_git_sha,
+        initiative_label="I93 P6 OPS-86-15",
+    )
+
+
+def _emit_country_work_calendar_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    return _emit_generic_pk_upserts(
+        rows=rows,
+        fieldnames=COUNTRY_WORK_CALENDAR_FIELDNAMES,
+        mirror_table="compliance.country_work_calendar_mirror",
+        pk_column="country_code",
+        source_git_sha=source_git_sha,
+        initiative_label="I93 P6 OPS-86-15",
+    )
+
+
 # I86 Wave R+1 P2c-a — 5 Collaborator Share mirrors. Dispatched together via a
 # single --collaborator-share-only flag because the doctrine treats them as ONE
 # atomic kit (per akos-collaborator-share.mdc RULE 2 + the COLLABORATOR_SHARE
@@ -1309,6 +1385,11 @@ def main() -> int:
         "--persona-scenario-registry-only",
         action="store_true",
         help="Only emit persona_scenario_registry_mirror statements (requires dimensions/PERSONA_SCENARIO_REGISTRY.csv) [Initiative 47 P1 + I49; closes OPS-47-9 in I51 P1]",
+    )
+    parser.add_argument(
+        "--ops8615-gap-mirrors-only",
+        action="store_true",
+        help="Emit all five OPS-86-15 gap mirrors (AIC AUDIENCE CAPABILITY CAPABILITY_CONFIDENCE COUNTRY_WORK_CALENDAR) [I93 P6]",
     )
     parser.add_argument(
         "--channel-touchpoint-registry-only",
@@ -1854,6 +1935,65 @@ def main() -> int:
         if not args.no_begin_commit:
             preamble.extend(["BEGIN;", ""])
         body = "\n".join(blocks) + "\n"
+        ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
+        text = "\n".join(preamble) + body + "\n".join(ending)
+        if args.output:
+            args.output.write_text(text, encoding="utf-8")
+            print("Wrote", args.output, "bytes=", len(text.encode("utf-8")))
+        else:
+            sys.stdout.write(text)
+        return 0
+
+    _i93_ops8615_specs: list[tuple[Path, tuple[str, ...], str, str, callable]] = [
+        (AIC_REGISTRY_CSV, AIC_REGISTRY_FIELDNAMES, "compliance.aic_registry_mirror", "aic_registry_rows", _emit_aic_registry_upserts),
+        (AUDIENCE_REGISTRY_CSV, AUDIENCE_REGISTRY_FIELDNAMES, "compliance.audience_registry_mirror", "audience_registry_rows", _emit_audience_registry_upserts),
+        (CAPABILITY_REGISTRY_CSV, CAPABILITY_REGISTRY_FIELDNAMES, "compliance.capability_registry_mirror", "capability_registry_rows", _emit_capability_registry_upserts),
+        (
+            CAPABILITY_CONFIDENCE_REGISTRY_CSV,
+            CAPABILITY_CONFIDENCE_FIELDNAMES,
+            "compliance.capability_confidence_registry_mirror",
+            "capability_confidence_registry_rows",
+            _emit_capability_confidence_registry_upserts,
+        ),
+        (
+            COUNTRY_WORK_CALENDAR_CSV,
+            COUNTRY_WORK_CALENDAR_FIELDNAMES,
+            "compliance.country_work_calendar_mirror",
+            "country_work_calendar_rows",
+            _emit_country_work_calendar_upserts,
+        ),
+    ]
+    if args.ops8615_gap_mirrors_only:
+        loaded: list[tuple[str, list[dict[str, str]], callable]] = []
+        for csv_path, fieldnames, _mirror_table, count_key, emit_fn in _i93_ops8615_specs:
+            if not csv_path.is_file():
+                print("error: missing", csv_path, file=sys.stderr)
+                return 1
+            with csv_path.open(encoding="utf-8", newline="") as f:
+                reader = csv.DictReader(f)
+                fn = list(reader.fieldnames or [])
+                if fn != list(fieldnames):
+                    print(f"error: {csv_path.name} header drift", file=sys.stderr)
+                    return 1
+                rows = [dict(r) for r in reader]
+            loaded.append((count_key, rows, emit_fn))
+        if args.count_only:
+            print(f"source_git_sha={sha}")
+            for count_key, rows, _emit_fn in loaded:
+                print(f"{count_key}={len(rows)}")
+            return 0
+        all_blocks: list[str] = []
+        for _count_key, rows, emit_fn in loaded:
+            all_blocks.extend(emit_fn(rows, sha))
+        preamble = [
+            "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",
+            f"-- source_git_sha: {sha}",
+            "-- Apply after supabase/migrations/20260604120000_i93_p6_ops8615_mirror_gap_closure.sql",
+            "",
+        ]
+        if not args.no_begin_commit:
+            preamble.extend(["BEGIN;", ""])
+        body = "\n".join(all_blocks) + "\n"
         ending = ["", "COMMIT;", ""] if not args.no_begin_commit else []
         text = "\n".join(preamble) + body + "\n".join(ending)
         if args.output:

@@ -4,7 +4,7 @@ title: "I91 — Enterprise Graph & Store-Coverage Mapping"
 status: active
 owner_role: PMO
 inception: 2026-06-01
-last_review: 2026-06-01
+last_review: 2026-06-04
 linked_decisions:
   - D-IH-91-A
 language: en
@@ -84,7 +84,15 @@ py scripts/sync_hlk_neo4j.py --dry-run
 - Neo4j sync smoke PASS with operator credentials (or documented SKIP with reason).
 - I92 master-roadmap cites coverage matrix rows for ERP panel data sources.
 
-## 6 — Cross-references
+## 6 — I93 P6 coordination (2026-06-04)
+
+I93 P6 mints the **seven DATA-FAM umbrella** capability rows + OPS-86-15 mirror DDL/emit.
+I91 **does not** re-mint those CAP IDs. I91 P2 store-coverage matrix should cite:
+
+- [`docs/wip/planning/93-data-area-foundation-and-governance/reports/cross-area-data-map-2026-06-04.md`](../93-data-area-foundation-and-governance/reports/cross-area-data-map-2026-06-04.md)
+- [`docs/wip/planning/93-data-area-foundation-and-governance/reports/i91-i93-cross-initiative-regression-2026-06-04.md`](../93-data-area-foundation-and-governance/reports/i91-i93-cross-initiative-regression-2026-06-04.md)
+
+## 7 — Cross-references
 
 - [`docs/ARCHITECTURE.md`](../../../docs/ARCHITECTURE.md) — HLK graph + compliance mirror sections.
 - [`akos-research-area.mdc`](../../../.cursor/rules/akos-research-area.mdc) — Research area map when coverage touches Intelligence surfaces.

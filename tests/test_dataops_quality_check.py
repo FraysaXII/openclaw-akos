@@ -43,11 +43,19 @@ def test_probe_registry_covers_all_dimensions() -> None:
 
 
 @pytest.mark.hlk
-def test_stub_sweep_all_skip() -> None:
+def test_stub_sweep_mirror_parity_clean() -> None:
     report = run_sweep("mirror_table")
     assert report.total_findings == 7
-    assert report.skip_count == 7
+    assert report.skip_count == 6
+    assert report.clean_count == 1
     assert report.data_surface == "mirror_table"
+
+
+@pytest.mark.hlk
+def test_compliance_mirror_fam_sweep() -> None:
+    report = run_sweep("mirror_table", data_fam="COMPLIANCE-MIRROR")
+    assert report.total_findings == 3
+    assert report.gap_count == 0
 
 
 @pytest.mark.hlk

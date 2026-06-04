@@ -72,6 +72,64 @@ VALID_DATA_SURFACES: frozenset[str] = frozenset({
     "observability_evidence",
 })
 
+VALID_DATA_FAM_CODES: frozenset[str] = frozenset({
+    "COMPLIANCE-MIRROR",
+    "CANONICAL-CSV",
+    "ENGAGEMENT-FACT",
+    "TELEMETRY-OBS",
+    "GTM-CRM",
+    "KM-TOPIC",
+    "AIC-RUNTIME",
+})
+
+# I93 P6 — family-scoped probe subsets (cross-area-data-map-2026-06-04.md)
+DATA_FAM_PROBE_PROFILES: dict[str, tuple[str, ...]] = {
+    "COMPLIANCE-MIRROR": (
+        "DATA-01-FK-INTEGRITY",
+        "DATA-02-MIRROR-PARITY",
+        "DATA-03-FDW-HEALTH",
+    ),
+    "CANONICAL-CSV": (
+        "DATA-01-FK-INTEGRITY",
+        "DATA-05-SCHEMA-DRIFT",
+        "DATA-07-QUALITY-METRICS",
+    ),
+    "ENGAGEMENT-FACT": (
+        "DATA-01-FK-INTEGRITY",
+        "DATA-07-QUALITY-METRICS",
+    ),
+    "TELEMETRY-OBS": (
+        "DATA-04-PIPELINE-FRESHNESS",
+        "DATA-07-QUALITY-METRICS",
+    ),
+    "GTM-CRM": (
+        "DATA-03-FDW-HEALTH",
+        "DATA-04-PIPELINE-FRESHNESS",
+    ),
+    "KM-TOPIC": (
+        "DATA-06-LINEAGE",
+    ),
+    "AIC-RUNTIME": (
+        "DATA-06-LINEAGE",
+        "DATA-07-QUALITY-METRICS",
+    ),
+}
+
+# OPS-86-15 gap closure (I93 P6 MIRROR-2): csv basename, mirror table, sync emitter symbol
+OPS_86_15_MIRROR_TARGETS: tuple[tuple[str, str, str], ...] = (
+    ("AIC_REGISTRY.csv", "aic_registry_mirror", "_emit_aic_registry_upserts"),
+    ("AUDIENCE_REGISTRY.csv", "audience_registry_mirror", "_emit_audience_registry_upserts"),
+    ("CAPABILITY_REGISTRY.csv", "capability_registry_mirror", "_emit_capability_registry_upserts"),
+    (
+        "CAPABILITY_CONFIDENCE_REGISTRY.csv",
+        "capability_confidence_registry_mirror",
+        "_emit_capability_confidence_registry_upserts",
+    ),
+    ("COUNTRY_WORK_CALENDAR.csv", "country_work_calendar_mirror", "_emit_country_work_calendar_upserts"),
+)
+
+I93_P6_MIRROR_MIGRATION_BASENAME = "20260604120000_i93_p6_ops8615_mirror_gap_closure.sql"
+
 
 class DataOpsFindingRow(BaseModel):
     """One probe finding from a single DataOps dimension sweep."""

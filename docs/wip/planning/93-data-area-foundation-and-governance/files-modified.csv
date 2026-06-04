@@ -107,3 +107,17 @@ P5c,docs/wip/planning/93-data-area-foundation-and-governance/reports/sop-e2e-cha
 P5c-research,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-p6-data-fam-2026-06-04/,add,i93-p6,P6 DATA-FAM research pack (pre-execution)
 P5c,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p5c,P5c complete + P6 research pointer
 P5c,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,edit,i93-p5c,P5c D-IH-93-J section
+P6,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CAPABILITY_REGISTRY.csv,edit,i93-p6,7 DATA-FAM umbrella CAP rows
+P6,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CAPABILITY_CONFIDENCE_REGISTRY.csv,edit,i93-p6,7 CONF seeds paired to DATA-FAM CAPs
+P6,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv,edit,i93-p6,7 hol_data_dtp_datafam_* umbrella processes
+P6,akos/hlk_dataops_quality.py,edit,i93-p6,DATA_FAM_PROBE_PROFILES + OPS_86_15_MIRROR_TARGETS
+P6,scripts/dataops_quality_check.py,edit,i93-p6,--data-fam + live mirror parity probe
+P6,scripts/sync_compliance_mirrors_from_csv.py,edit,i93-p6,OPS-86-15 five mirror emitters
+P6,supabase/migrations/20260604120000_i93_p6_ops8615_mirror_gap_closure.sql,add,i93-p6,Five compliance mirror DDL tables
+P6,tests/test_dataops_quality_check.py,edit,i93-p6,DATA-FAM sweep tests
+P6,tests/test_ops8615_mirror_emit.py,add,i93-p6,OPS-86-15 migration+emit tests
+P6,docs/wip/planning/91-enterprise-graph-store-coverage/master-roadmap.md,edit,i93-p6,I93 P6 coordination write-back
+P6,docs/wip/planning/93-data-area-foundation-and-governance/reports/i91-i93-cross-initiative-regression-2026-06-04.md,add,i93-p6,Cross-initiative regression packet
+P6,docs/wip/planning/93-data-area-foundation-and-governance/reports/p6-data-fam.tranche-charter.md,add,i93-p6,P6 tranche charter
+P6,docs/wip/planning/93-data-area-foundation-and-governance/reports/cross-area-data-map-2026-06-04.md,edit,i93-p6,OPS-86-15 closed in repo
+P6,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p6,P6 complete status

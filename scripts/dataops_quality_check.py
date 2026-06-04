@@ -7,10 +7,14 @@ Companion cursor rule: ``.cursor/rules/akos-dataops-discipline.mdc``
 I90 P3c (OPS-86-19): ships ``--self-test`` chassis + stub full-sweep probes that emit
 ``skip`` until mirror emit / FDW / Supabase advisor live checks land at event cadence.
 
+I93 P6: ``--data-fam <FAMILY>`` runs family-scoped probe subsets; COMPLIANCE-MIRROR runs
+repo-native OPS-86-15 parity (DDL migration + sync emit symbols).
+
 CLI::
 
     py scripts/dataops_quality_check.py --self-test
     py scripts/dataops_quality_check.py --sweep [--data-surface canonical_csv]
+    py scripts/dataops_quality_check.py --data-fam COMPLIANCE-MIRROR
 """
 from __future__ import annotations
 
@@ -25,8 +29,12 @@ sys.path.insert(0, str(REPO_ROOT))
 
 from akos import log  # noqa: E402
 from akos.hlk_dataops_quality import (  # noqa: E402
+    DATA_FAM_PROBE_PROFILES,
     DATAOPS_FINDING_FIELDNAMES,
     DATAOPS_SWEEP_FIELDNAMES,
+    I93_P6_MIRROR_MIGRATION_BASENAME,
+    OPS_86_15_MIRROR_TARGETS,
+    VALID_DATA_FAM_CODES,
     VALID_DATAOPS_DIMENSION_CODES,
     DataOpsFindingRow,
     DataOpsSweepReport,
@@ -40,6 +48,8 @@ CANONICAL_PATH = (
     REPO_ROOT
     / "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md"
 )
+MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
+SYNC_SCRIPT = REPO_ROOT / "scripts" / "sync_compliance_mirrors_from_csv.py"
 
 _MCP_DEFER_REASON = (
     "Live probe deferred; fires at canonical-CSV mint / mirror-sync / FDW-addition "
@@ -47,20 +57,53 @@ _MCP_DEFER_REASON = (
 )
 
 
-def _probe_stub(dimension_code: str) -> DataOpsFindingRow:
+def _probe_stub(dimension_code: str, notes: str | None = None) -> DataOpsFindingRow:
     return DataOpsFindingRow(
         dimension_code=dimension_code,  # type: ignore[arg-type]
         surface_path=str(CANONICAL_PATH.relative_to(REPO_ROOT)),
         verdict="skip",
         proposed_rework_action="",
         severity="low",
-        notes=_MCP_DEFER_REASON,
+        notes=notes or _MCP_DEFER_REASON,
+    )
+
+
+def _probe_ops8615_mirror_parity() -> DataOpsFindingRow:
+    """Repo-native OPS-86-15 closure check (I93 P6 MIRROR-2)."""
+    migration_path = MIGRATIONS_DIR / I93_P6_MIRROR_MIGRATION_BASENAME
+    sync_text = SYNC_SCRIPT.read_text(encoding="utf-8") if SYNC_SCRIPT.is_file() else ""
+    gaps: list[str] = []
+    if not migration_path.is_file():
+        gaps.append(f"missing migration {I93_P6_MIRROR_MIGRATION_BASENAME}")
+    else:
+        mig = migration_path.read_text(encoding="utf-8")
+        for _csv, table, emit_sym in OPS_86_15_MIRROR_TARGETS:
+            if table not in mig:
+                gaps.append(f"DDL missing compliance.{table}")
+            if emit_sym not in sync_text:
+                gaps.append(f"sync missing {emit_sym}")
+    if gaps:
+        return DataOpsFindingRow(
+            dimension_code="DATA-02-MIRROR-PARITY",
+            surface_path=str(migration_path.relative_to(REPO_ROOT)) if migration_path.is_file() else "supabase/migrations/",
+            verdict="gap",
+            proposed_rework_action="Apply I93 P6 migration + sync emit pack",
+            severity="high",
+            notes="; ".join(gaps),
+        )
+    return DataOpsFindingRow(
+        dimension_code="DATA-02-MIRROR-PARITY",
+        surface_path=str(migration_path.relative_to(REPO_ROOT)),
+        verdict="clean",
+        proposed_rework_action="",
+        severity="low",
+        notes=f"OPS-86-15: {len(OPS_86_15_MIRROR_TARGETS)} mirror targets have DDL + emit symbols",
     )
 
 
 PROBE_REGISTRY: dict[str, callable] = {
     "DATA-01-FK-INTEGRITY": lambda: _probe_stub("DATA-01-FK-INTEGRITY"),
-    "DATA-02-MIRROR-PARITY": lambda: _probe_stub("DATA-02-MIRROR-PARITY"),
+    "DATA-02-MIRROR-PARITY": _probe_ops8615_mirror_parity,
     "DATA-03-FDW-HEALTH": lambda: _probe_stub("DATA-03-FDW-HEALTH"),
     "DATA-04-PIPELINE-FRESHNESS": lambda: _probe_stub("DATA-04-PIPELINE-FRESHNESS"),
     "DATA-05-SCHEMA-DRIFT": lambda: _probe_stub("DATA-05-SCHEMA-DRIFT"),
@@ -69,15 +112,33 @@ PROBE_REGISTRY: dict[str, callable] = {
 }
 
 
-def run_sweep(data_surface: str = "canonical_csv") -> DataOpsSweepReport:
+def run_sweep(
+    data_surface: str = "canonical_csv",
+    *,
+    data_fam: str | None = None,
+) -> DataOpsSweepReport:
+    if data_fam:
+        codes = DATA_FAM_PROBE_PROFILES.get(data_fam)
+        if not codes:
+            raise ValueError(f"unknown data-fam: {data_fam}")
+        dimension_codes = list(codes)
+    else:
+        dimension_codes = sorted(PROBE_REGISTRY.keys())
+
     findings: list[DataOpsFindingRow] = []
-    for code in sorted(PROBE_REGISTRY.keys()):
-        findings.append(PROBE_REGISTRY[code]())
+    for code in dimension_codes:
+        probe_fn = PROBE_REGISTRY.get(code)
+        if probe_fn is None:
+            findings.append(_probe_stub(code, notes=f"no probe registered for {code}"))
+        else:
+            findings.append(probe_fn())
+
     counts = {v: 0 for v in ("clean", "drift", "gap", "blocked", "skip")}
     for row in findings:
         counts[row.verdict] += 1
+    fam_suffix = f"-{data_fam.lower()}" if data_fam else ""
     return DataOpsSweepReport(
-        report_id=f"dataops-quality-{_dt.date.today().isoformat()}",
+        report_id=f"dataops-quality{fam_suffix}-{_dt.date.today().isoformat()}",
         data_surface=data_surface,  # type: ignore[arg-type]
         swept_at=_dt.date.today().isoformat(),
         swept_by="dataops_quality_check.py",
@@ -107,24 +168,40 @@ def self_test() -> int:
     if set(PROBE_REGISTRY.keys()) != set(VALID_DATAOPS_DIMENSION_CODES):
         logger.error("FAIL: PROBE_REGISTRY keys != VALID_DATAOPS_DIMENSION_CODES")
         return 1
+    if len(DATA_FAM_PROBE_PROFILES) != 7:
+        logger.error("FAIL: DATA_FAM_PROBE_PROFILES has %d families, expected 7", len(DATA_FAM_PROBE_PROFILES))
+        return 1
+    if set(DATA_FAM_PROBE_PROFILES.keys()) != set(VALID_DATA_FAM_CODES):
+        logger.error("FAIL: DATA_FAM_PROBE_PROFILES keys != VALID_DATA_FAM_CODES")
+        return 1
     if not CANONICAL_PATH.is_file():
         logger.error("FAIL: canonical missing at %s", CANONICAL_PATH)
         return 1
 
     sweep = run_sweep()
-    if sweep.total_findings != 7 or sweep.skip_count != 7:
+    if sweep.total_findings != 7 or sweep.skip_count != 6:
         logger.error(
-            "FAIL: stub sweep expected 7 skip findings, got total=%d skip=%d",
+            "FAIL: default sweep expected 7 findings (6 skip + 1 clean mirror), got total=%d skip=%d clean=%d",
             sweep.total_findings,
             sweep.skip_count,
+            sweep.clean_count,
         )
         return 1
 
+    fam_sweep = run_sweep("mirror_table", data_fam="COMPLIANCE-MIRROR")
+    if fam_sweep.total_findings != 3:
+        logger.error("FAIL: COMPLIANCE-MIRROR sweep expected 3 findings, got %d", fam_sweep.total_findings)
+        return 1
+    if fam_sweep.gap_count > 0:
+        logger.error("FAIL: COMPLIANCE-MIRROR mirror parity probe reported gap")
+        return 1
+
     logger.info(
-        "PASS: dataops_quality_check self-test — finding=%s report=%s probes=%d",
+        "PASS: dataops_quality_check self-test — finding=%s report=%s probes=%d families=%d",
         sample_finding.dimension_code,
         sample_report.report_id,
         len(PROBE_REGISTRY),
+        len(DATA_FAM_PROBE_PROFILES),
     )
     return 0
 
@@ -136,7 +213,12 @@ def main() -> int:
     parser.add_argument(
         "--sweep",
         action="store_true",
-        help="Run stub 7-dimension sweep (all probes skip until live wiring)",
+        help="Run dimension sweep (all dimensions or --data-fam subset)",
+    )
+    parser.add_argument(
+        "--data-fam",
+        choices=sorted(VALID_DATA_FAM_CODES),
+        help="Run DATA-FAM-scoped probe profile (I93 P6)",
     )
     parser.add_argument(
         "--data-surface",
@@ -157,17 +239,17 @@ def main() -> int:
     if args.self_test or args.check:
         return self_test()
 
-    if args.sweep:
-        report = run_sweep(args.data_surface)
+    if args.sweep or args.data_fam:
+        report = run_sweep(args.data_surface, data_fam=args.data_fam)
         for row in report.findings:
             print(f"{row.dimension_code}\t{row.verdict}\t{row.notes}")
         print(
-            f"TOTAL findings={report.total_findings} skip={report.skip_count} "
-            f"surface={report.data_surface}"
+            f"TOTAL findings={report.total_findings} clean={report.clean_count} "
+            f"gap={report.gap_count} skip={report.skip_count} surface={report.data_surface}"
         )
-        return 0
+        return 1 if report.gap_count > 0 or report.drift_count > 0 or report.blocked_count > 0 else 0
 
-    logger.info("INFO: no operation; use --self-test or --sweep")
+    logger.info("INFO: no operation; use --self-test or --sweep or --data-fam")
     return 0
 
 

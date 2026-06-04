@@ -61,11 +61,12 @@ from ~442 executable `process_list` rows; **35** remain unmapped for area-batch 
 | `AUDIENCE_REGISTRY.csv` | No (doc ahead of code) | No | Yes |
 | `CAPABILITY_REGISTRY.csv` | No | No | Yes |
 | `CAPABILITY_CONFIDENCE_REGISTRY.csv` | No | No | Yes |
-| `COUNTRY_WORK_CALENDAR.csv` | No | No | No (OPS-86-18) |
+| `COUNTRY_WORK_CALENDAR.csv` | **Yes** (I93 P6) | **Yes** | No (OPS-86-18; CSV-only emit) |
 | `CHANNEL_TOUCHPOINT_REGISTRY.csv` | **Yes** | **Yes** | Yes |
 
-**Live gap:** five CSVs without mirror DDL/emit. CHANNEL is already mirrored — OPS-86-15
-text is partially stale for that row.
+**Status (2026-06-04 P6):** OPS-86-15 five-CSV gap **closed in repo** via migration
+`20260604120000_i93_p6_ops8615_mirror_gap_closure.sql` + `sync_compliance_mirrors_from_csv.py
+--ops8615-gap-mirrors-only`. Operator still applies DDL to Supabase + runs emit SQL.
 
 ## DATA-FAM → DataOps probe profiles (P6 extension)
 
