@@ -125,7 +125,7 @@ program). New area-governance processes should declare
 |:---|:---|:---|:---|
 | DataOps quality check (7-dimension bar) | `env_tech_dtp_dataops_quality_001` | event_triggered | `SOP-TECH_DATAOPS_QUALITY_001.md` + `scripts/dataops_quality_check.py` |
 | Enterprise MasterData | `thi_data_dtp_32` | (legacy) | forward-charter |
-| Formal Data Lineage | `thi_data_dtp_275` | (legacy) | forward-charter |
+| Formal Data Lineage | `thi_data_dtp_275` | `SOP-DATA_LINEAGE_001.md` | active (I93 P4) |
 | KiRBe Ingestion DQ | `thi_data_dtp_274` | (legacy) | forward-charter |
 | Data Modeling | `thi_data_dtp_77` | (legacy) | forward-charter |
 | RPA (data plane) | `thi_data_dtp_34` | (legacy) | forward-charter |

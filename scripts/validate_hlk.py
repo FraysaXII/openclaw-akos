@@ -545,6 +545,10 @@ def main() -> int:
          "validate_data_contract_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
          / "Governance" / "canonicals" / "dimensions" / "DATA_CONTRACT_REGISTRY.csv"),
+        ("METRICS_REGISTRY", "validate_metrics_registry.py",
+         "validate_metrics_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
+         / "Architecture" / "canonicals" / "dimensions" / "METRICS_REGISTRY.csv"),
         ("CAPABILITY_REGISTRY", "validate_capability_registry.py",
          "validate_capability_registry", HLK_DIR / "dimensions" / "CAPABILITY_REGISTRY.csv"),
         ("CAPABILITY_CONFIDENCE_REGISTRY", "validate_capability_confidence_registry.py",

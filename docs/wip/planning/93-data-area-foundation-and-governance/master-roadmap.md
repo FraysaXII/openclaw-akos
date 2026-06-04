@@ -346,18 +346,13 @@ seat runs the regression + human-readability pass before commit.
 - **Gate:** ✅ `validate_hlk.py` PASS; `export_data_contract_odcs.py --self-test` PASS; pytest PASS.
 - **Commit:** `feat(i93-p3): data-architecture three-tier canonical + ODCS export`.
 
-### P4 — Semantic/metrics layer + formal lineage
+### P4 — Semantic/metrics layer + formal lineage ✅ (2026-06-04)
 
-- **Gate (todo #1):** ⛔ OPERATOR — canonical-CSV (`METRICS_REGISTRY.csv`).
-- **Files:** `Data/Architecture/canonicals/SEMANTIC_LAYER.md` (define-once-use-everywhere; business vs technical
-  ownership; access control on metric defs; MCP/AI-readiness), `Data/.../dimensions/METRICS_REGISTRY.csv` +
-  Pydantic + validator + tests (pairs `thi_data_dtp_31` Query/KPI/Reporting Catalog → executable), 
-  `Data/Governance/canonicals/SOP-DATA_LINEAGE_001.md` (+`.addendum.md`; vault→Supabase→graph; pairs
-  `thi_data_dtp_275`) + paired runbook (extend `sync_hlk_neo4j.py` lineage capture).
-- **Spec:** `METRICS_REGISTRY` columns: `metric_id, metric_name, definition_sql_ref, grain, dimensions,
-  owner_business_role, owner_technical_role, source_contract_id, access_level, status, last_review_*`.
-- **Validators:** `validate_metrics_registry.py --self-test`, `validate_hlk.py`, `validate_hlk_km_manifests.py`.
-- **Acceptance:** §9.0 bar cleared; metrics registry + semantic-layer doc + lineage SOP green; `thi_data_dtp_31`/`_275` paired.
+- **Research packet:** [`reports/research-p4-2026-06-04.md`](reports/research-p4-2026-06-04.md)
+- **Mint:** `SEMANTIC_LAYER.md`, `METRICS_REGISTRY.csv` (5 seeds), `SOP-DATA_LINEAGE_001.md`,
+  `scripts/data_lineage_check.py`, `scripts/validate_metrics_registry.py`.
+- **Pairing:** `thi_data_dtp_31` (metrics catalog) + `thi_data_dtp_275` (lineage) updated in process_list.
+- **Gate:** ✅ synthesis PASS; validators + pytest PASS.
 - **Commit:** `feat(i93-p4): semantic/metrics layer + formal data-lineage SOP`.
 
 ### P5 — MDM + privacy/retention + BI decision

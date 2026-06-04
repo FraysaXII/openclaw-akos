@@ -159,6 +159,10 @@ py scripts/export_data_contract_odcs.py --self-test
 py scripts/export_data_contract_odcs.py --output-dir build/odcs-contracts
 ```
 
+Lineage stewardship (P4): `SOP-DATA_LINEAGE_001.md` + `scripts/data_lineage_check.py --report`.
+
+Semantic metrics (P4): `SEMANTIC_LAYER.md` + `METRICS_REGISTRY.csv`.
+
 - Maps registry columns per `DATA_CONTRACT_STANDARD.md` §2.
 - Output is **read-oriented** for OpenMetadata `POST /v1/dataContracts/odcs/yaml`.
 - **Anti-pattern:** editing contracts only in OpenMetadata without git PR.

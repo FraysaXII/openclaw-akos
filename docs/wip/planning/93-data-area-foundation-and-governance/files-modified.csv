@@ -37,3 +37,14 @@ P3,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_GOVERNANC
 P3,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_CONTRACT_STANDARD.md,edit,i93-p3,Export runbook link
 P3,docs/wip/planning/93-data-area-foundation-and-governance/reports/p3.tranche-charter.md,add,i93-p3,Tranche charter
 P3,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p3,P3 complete section
+P4-research,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-p4-2026-06-04.md,add,i93-p4,P4 semantic layer + lineage research
+P4,docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/SEMANTIC_LAYER.md,add,i93-p4,Define-once metric doctrine
+P4,docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/dimensions/METRICS_REGISTRY.csv,add,i93-p4,5 seed metrics
+P4,akos/hlk_metrics_registry_csv.py,add,i93-p4,Pydantic field contract
+P4,scripts/validate_metrics_registry.py,add,i93-p4,Metrics registry validator
+P4,scripts/data_lineage_check.py,add,i93-p4,Lineage report runbook
+P4,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SOP-DATA_LINEAGE_001.md,add,i93-p4,Formal lineage SOP
+P4,tests/test_metrics_registry_and_lineage.py,add,i93-p4,P4 tests
+P4,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv,edit,i93-p4,Pair thi_data_dtp_31 and thi_data_dtp_275
+P4,docs/wip/planning/93-data-area-foundation-and-governance/reports/p4.tranche-charter.md,add,i93-p4,Tranche charter
+P4,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p4,P4 complete section
