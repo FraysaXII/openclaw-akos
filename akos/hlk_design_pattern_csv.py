@@ -136,6 +136,7 @@ class DesignPatternRow(BaseModel):
         "inter_wave_regression_cadence",
         "index_integrity_cadence",
         "quality_fabric_specialty_canonical",
+        "area_governance",
     ]
     discipline_origin: Literal[
         "compliance",

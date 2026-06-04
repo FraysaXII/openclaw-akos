@@ -231,6 +231,33 @@ A pattern row in the CSV that has no narrative section here is a drift signal. T
 
 ---
 
+## Pattern: Area buildout meta-process {#pattern-area-buildout}
+
+**What it is.** The People-minted meta-process for creating or maturing any
+O5-1 area at comparable depth: a **14-component completeness bar**
+(charter, processes, roles, capability rows, canonical coverage, paired
+SOP+runbook, cursor rule+skill, Quality Fabric row, and
+`inherited_pattern_id` on processes) scored by
+`scripts/validate_area_completeness.py --matrix` across Data, Tech,
+Finance, Marketing, Operations, People, and Research.
+
+**When to use it.** Before an area CSV tranche, area charter mint, or I93
+P8 harmonization sweep. People owns the pattern (`pattern_area_buildout`);
+each area owns its charter and local canonicals.
+
+**How to instantiate it.** Read
+[`AREA_GOVERNANCE_DISCIPLINE.md`](AREA_GOVERNANCE_DISCIPLINE.md) §2,
+walk the components manually (30–45 min), then run
+`py scripts/validate_area_completeness.py --matrix` and disposition
+`gap`/`partial` findings via inline-ratify before commit. Register the
+area process with `inherited_pattern_id=pattern_area_buildout`.
+
+**What it does not do.** It does not author the Data area charter (I93 P1).
+It does not prove Supabase mirror parity at P0 (AREA-10 stays `skip` until
+live mirror evidence is in scope).
+
+---
+
 ## Maintenance
 
 This library and the paired CSV are reviewed at least annually by Compliance Officer plus People Operations Lead. The `last_review` and `last_review_by` columns on the CSV reflect the latest review per pattern. When a pattern is added or revised, the cross-area breakthrough propagation pattern fires and the consuming areas receive notification.

@@ -1,0 +1,74 @@
+---
+description: >-
+  Area Governance Discipline (17th Quality Fabric specialty; I93 P0 mint).
+  Mechanical companion to AREA_GOVERNANCE_DISCIPLINE.md. Fires at area
+  charter mint, area CSV tranche, or harmonization review to score
+  O5-1 areas against the 14-component completeness bar.
+globs:
+  - "docs/references/hlk/v3.0/Admin/O5-1/**"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/AREA_GOVERNANCE_DISCIPLINE.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_AREA_GOVERNANCE_001.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CANONICAL_REGISTRY.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md"
+  - "scripts/validate_area_completeness.py"
+  - "akos/hlk_area_completeness.py"
+alwaysApply: false
+---
+
+# AKOS Area Governance
+
+Use this rule when chartering or maturing an O5-1 area under
+`docs/references/hlk/v3.0/Admin/O5-1/`, or when running an I93
+harmonization sweep. Codifies operator decision **D-IH-93-B** (area-
+governance meta-process as the 17th Quality Fabric specialty, 2026-06-04).
+Mechanical companion to
+[`AREA_GOVERNANCE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/AREA_GOVERNANCE_DISCIPLINE.md).
+
+This rule does **not** replace the doctrine — that lives in the canonical.
+This rule names the mechanical bar agents inherit when touching area
+folders, area processes, or area charter markdown.
+
+## When this rule applies
+
+A sweep is in scope when **any** of:
+
+- A new O5-1 area folder or area charter is minted (DATA at I93 P1 is the
+  first worked example — do not author Data charter in P0-only work).
+- A tranche adds `process_list.csv` / `baseline_organisation.csv` rows for
+  an area.
+- The operator requests `--matrix` before a harmonization commit (P8).
+
+Out of scope: chore-only link fixes with no area-structure change.
+
+## RULE 1 — Run the 14-component matrix before area CSV commits (binding)
+
+Before landing an area CSV tranche or charter commit, run:
+
+```powershell
+py scripts/validate_area_completeness.py --matrix
+```
+
+Disposition every `gap` or `blocked` finding via inline-ratify per the
+canonical §4. Do not treat a green People row as proof all areas are ready.
+
+## RULE 2 — Conservative evidence posture (binding)
+
+- **AREA-10** (Supabase mirrors): emit `skip` at P0 unless mirror evidence
+  is explicitly in scope — do not invent PASS from repo-only scans.
+- **Marketing**: `process_list.csv` uses area code `MKT`, not `Marketing`.
+
+## RULE 3 — Pattern inheritance on new area processes (binding)
+
+New area-governance processes MUST set
+`inherited_pattern_id=pattern_area_buildout` on the `process_list.csv` row
+unless a narrower pattern is operator-ratified in `DECISION_REGISTER.csv`.
+
+## Cross-references
+
+- Doctrine: [`AREA_GOVERNANCE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/AREA_GOVERNANCE_DISCIPLINE.md)
+- SOP: [`SOP-PEOPLE_AREA_GOVERNANCE_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/SOP-PEOPLE_AREA_GOVERNANCE_001.md)
+- Runbook: [`scripts/validate_area_completeness.py`](../../scripts/validate_area_completeness.py)
+- Skill: [`.cursor/skills/area-governance-craft/SKILL.md`](../skills/area-governance-craft/SKILL.md)
+- Pattern: `pattern_area_buildout` in `PEOPLE_DESIGN_PATTERN_REGISTRY.csv`
