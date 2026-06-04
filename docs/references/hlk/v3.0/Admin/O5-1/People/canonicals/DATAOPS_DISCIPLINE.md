@@ -11,14 +11,15 @@ authors:
 co_authors:
   - System Owner
   - PMO
-last_review: 2026-05-21
-last_review_by: Founder/CEO
-last_review_at: 2026-05-21
-last_review_decision_id: D-IH-86-BV
+last_review: 2026-06-04
+last_review_by: System Owner
+last_review_at: 2026-06-04
+last_review_decision_id: D-IH-90-AA
 methodology_version_at_review: v3.1
 ratifying_decisions:
   - D-IH-86-BV
-status: charter
+  - D-IH-90-AA
+status: active
 register: internal
 linked_canonicals:
   - HOLISTIKA_QUALITY_FABRIC.md
@@ -34,9 +35,10 @@ linked_cursor_rules:
 companion_to:
   - HOLISTIKA_QUALITY_FABRIC.md
   - INTER_WAVE_REGRESSION_DISCIPLINE.md
-forward_charters:
-  - SOP-TECH_DATAOPS_QUALITY_001.md (paired SOP; activation gate when canonical promotes to active)
-  - scripts/dataops_quality_check.py (paired runbook; activation same gate)
+linked_runbooks:
+  - scripts/dataops_quality_check.py
+linked_sops:
+  - docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-TECH_DATAOPS_QUALITY_001.md
 ---
 
 # DataOps Discipline

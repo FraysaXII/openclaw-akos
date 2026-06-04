@@ -1,6 +1,6 @@
 {
   "report_id": "fleet-hygiene-2026-06-04",
-  "swept_at": "2026-06-03T22:59:49+00:00",
+  "swept_at": "2026-06-04T00:12:12+00:00",
   "swept_by": "workspace_fleet_hygiene_sweep.py",
   "findings": [
     {
@@ -72,7 +72,7 @@
       "surface_path": "openclaw-akos",
       "verdict": "drift",
       "severity": "high",
-      "notes": "## main...origin/main | dirty=3 (M=3 staged=0 ??=0) |  M artifacts/fleet-hygiene/fleet-hygiene-2026-06-04.json;  M artifacts/fleet-hygiene/fleet-hygiene-2026-06-04.md;  M docs/wip/planning/86-initiative-cluster-execution-coordinator/operator-scratchpad.md",
+      "notes": "## main...origin/main | dirty=27 (M=17 staged=0 ??=10) |  M CHANGELOG.md;  M artifacts/fleet-hygiene/fleet-hygiene-2026-06-04.json;  M artifacts/fleet-hygiene/fleet-hygiene-2026-06-04.md;  M config/verification-profiles.json;  M docs/presentations/holistika-company-dossier/index.html;  M docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv;  M docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv;  M docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md; … +19 more",
       "proposed_rework_action": "Commit or stash WIP; push when ready; update sibling PR if governed"
     },
     {
@@ -85,26 +85,10 @@
     },
     {
       "dimension_code": "FLEET-04-STANDING-OPS",
-      "surface_path": "OPS-86-1",
-      "verdict": "clean",
-      "severity": "low",
-      "notes": "I86 cluster coordination - Waves 1-5 nine-sibling burndown | last_review=2026-05-16 (19d) | runbook=n/a | evidence=missing",
-      "proposed_rework_action": ""
-    },
-    {
-      "dimension_code": "FLEET-04-STANDING-OPS",
       "surface_path": "OPS-81-1",
       "verdict": "clean",
       "severity": "low",
       "notes": "I81 P1 vault integrity + DQ sprint + P2 layout-migration tranches coordination | last_review=2026-06-01 (3d) | runbook=scripts/audit_kb_integrity.py | evidence=ok",
-      "proposed_rework_action": ""
-    },
-    {
-      "dimension_code": "FLEET-04-STANDING-OPS",
-      "surface_path": "OPS-86-9",
-      "verdict": "clean",
-      "severity": "low",
-      "notes": "Wave N+: mint paired runbooks for the 4 Quality Fabric specialty canonicals (dat | last_review=2026-06-01 (3d) | runbook=n/a | evidence=missing",
       "proposed_rework_action": ""
     },
     {
@@ -116,10 +100,10 @@
       "proposed_rework_action": ""
     }
   ],
-  "clean_count": 13,
+  "clean_count": 11,
   "drift_count": 1,
   "gap_count": 0,
   "blocked_count": 0,
   "skip_count": 0,
-  "total_findings": 14
+  "total_findings": 12
 }

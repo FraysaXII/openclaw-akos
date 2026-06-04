@@ -228,6 +228,14 @@
           ]
         },
         {
+          "id": "dataops_quality_check_self_test",
+          "description": "I90 P3c OPS-86-19: DataOps quality check self-test. Validates akos/hlk_dataops_quality.py Pydantic SSOT (DATA-01..DATA-07) + scripts/dataops_quality_check.py PROBE_REGISTRY; stub sweep emits skip until mirror/FDW live probes at canonical-CSV mint cadence. INFO ramp per DATAOPS_DISCIPLINE.md active status (D-IH-90-AA).",
+          "argv": [
+            "scripts/dataops_quality_check.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "workspace_fleet_hygiene_self_test",
           "description": "Fleet hygiene self-test: akos/hlk_fleet_hygiene.py (FLEET-01 worktree, FLEET-02 publish drift, FLEET-03 CI content, FLEET-04 standing OPS). Full --sweep at session/release-gate INFO; watches OPS-81-1/86-1/86-9/90-6 without operator reminder.",
           "argv": [

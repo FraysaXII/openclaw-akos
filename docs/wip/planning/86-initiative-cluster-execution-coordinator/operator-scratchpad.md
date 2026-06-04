@@ -2651,5 +2651,25 @@ Already-present surfaces (from C1.6): canonical doctrine + Pydantic chassis + va
 
 **Next agent default:** run `py scripts/workspace_fleet_hygiene_sweep.py --sweep` at session start; surface sibling WIP before claiming "clean".
 
+### 2026-06-04 — I90 P3c DataOps activation + OPS-86-13/19 closure [processed]
+
+**DataOps bundle (D-IH-90-AA):** `DATAOPS_DISCIPLINE.md` **charter → active**; minted `SOP-TECH_DATAOPS_QUALITY_001.md` + `scripts/dataops_quality_check.py` + `akos/hlk_dataops_quality.py` + `env_tech_dtp_dataops_quality_001` process row; pre_commit self-test wired. Closed **OPS-86-19** + **dataops-activation-tracker.md**.
+
+**OPS-86-13:** Evidence sweep confirmed I82 P1 Talent tranche **already landed at Wave P** (D-IH-86-CM) — no duplicate CSV mint; row **closed**.
+
+**Sibling PRs (unchanged posture):** hlk-erp **#28** (Vercel deploy blocked; local build green); kirbe **#27** (merge when ready); boilerplate **#50** (retry primary Vercel after fonts.gstatic.com transient).
+
+**Next:** merge sibling PRs when green → bless sync → **P3d OPS-86-1 cluster closure** (explicitly deferred until P3c + merges).
+
+### 2026-06-04 — I90 P3d OPS cluster closure + sibling merges [processed]
+
+**P3d (D-IH-90-AB):** Option B — closed **OPS-86-1**, **OPS-86-9**, **OPS-86-25**. UX tail forward-chartered at `_trackers/ux-research-sop-forward-charter.md`. Report: `90-routing-and-wiring/reports/p3d-ops-cluster-closure-2026-06-04.md`. **I86 INIT stays active** until cluster UAT.
+
+**Sibling merges:** [kirbe #27](https://github.com/FraysaXII/kirbe/pull/27) + [hlk-erp #28](https://github.com/FraysaXII/hlk-erp/pull/28) **merged** (squash). **boilerplate #50** still open — Sentry skip-on-preview fix pushed (`20d3d53f`); awaiting primary Vercel READY.
+
+**Deck parity (pre_commit):** slide 11 → **1.188 procesos** after `env_tech_dtp_dataops_quality_001` process row (was 1.187).
+
+**Still parked:** OPS-86-24 (forward-only UAT baseline); OPS-81-1 (hold until wave-close).
+
 <!-- end of entries -->
 

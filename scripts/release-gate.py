@@ -717,6 +717,23 @@ def run_techops_reliability_self_test() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_dataops_quality_self_test() -> tuple[bool, int]:
+    """Run DataOps quality check self-test (I90 P3c / OPS-86-19).
+
+    Self-test mode of ``scripts/dataops_quality_check.py`` — validates
+    the paired Pydantic SSOT (``akos/hlk_dataops_quality.py``) +
+    7-probe PROBE_REGISTRY. Does NOT run mirror/FDW live checks.
+    """
+    logger.info("Running DATAOPS-QUALITY self-test (I90 P3c / OPS-86-19; --self-test) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "dataops_quality_check.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_fleet_hygiene_self_test() -> tuple[bool, int]:
     """Run fleet hygiene self-test (multi-repo worktree + standing OPS watch list).
 
@@ -1696,6 +1713,12 @@ def main() -> None:
     results.append((
         "INFO" if techops_ok else "FAIL",
         f"TechOps reliability self-test (scripts/techops_reliability_check.py --self-test - I90 P3b OPS-86-9 TechOps thread; Pydantic SSOT akos/hlk_techops_reliability.py TECH-01..TECH-07; stub probes skip until Vercel/Render/Supabase/Sentry MCP at deploy cadence; TECHOPS_DISCIPLINE.md remains status:charter; ok={'yes' if techops_ok else 'no'}; exit={techops_rc})",
+    ))
+
+    dataops_ok, dataops_rc = run_dataops_quality_self_test()
+    results.append((
+        "INFO" if dataops_ok else "FAIL",
+        f"DataOps quality self-test (scripts/dataops_quality_check.py --self-test - I90 P3c OPS-86-19; Pydantic SSOT akos/hlk_dataops_quality.py DATA-01..DATA-07; stub probes skip until mirror/FDW live checks at mint cadence; DATAOPS_DISCIPLINE.md status:active per D-IH-90-AA; ok={'yes' if dataops_ok else 'no'}; exit={dataops_rc})",
     ))
 
     fleet_self_ok, fleet_self_rc = run_fleet_hygiene_self_test()

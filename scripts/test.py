@@ -113,6 +113,7 @@ GROUPS: dict[str, dict] = {
             "test_hlk_mktops.py",
             "test_validate_mktops_campaign.py",
             "test_techops_reliability_check.py",
+            "test_dataops_quality_check.py",
             "test_workspace_fleet_hygiene_sweep.py",
         ],
     },

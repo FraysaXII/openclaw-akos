@@ -1,26 +1,41 @@
 ---
-status: active
+status: closed
 classification: governance-shape
 intellectual_kind: dataops-activation-tracker
 authority: System Owner (Tech) + PMO (joint)
 artifact_role: durable
-ratifying_decisions: [D-IH-86-CR, D-IH-86-BU]
+ratifying_decisions: [D-IH-86-CR, D-IH-86-BU, D-IH-90-AA]
 parent_canonical: docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md
 parent_rules:
   - .cursor/rules/akos-executable-process-catalog.mdc
   - .cursor/rules/akos-quality-fabric.mdc
-paired_runbook_forward_charter: scripts/dataops_quality_check.py
-paired_sop_forward_charter: docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-TECH_DATAOPS_QUALITY_001.md
+paired_runbook: scripts/dataops_quality_check.py
+paired_sop: docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-TECH_DATAOPS_QUALITY_001.md
 linked_ops: [OPS-86-9, OPS-86-19]
+closure_decision: D-IH-90-AA
+closure_date: 2026-06-04
 language: en
 audience: J-OP
-last_review: 2026-05-23
+last_review: 2026-06-04
 authored: 2026-05-23
 ---
 
 # DataOps activation tracker
 
-> **PURPOSE.** Durable governance shape that ratifies, as canon, the
+> **CLOSED 2026-06-04** per D-IH-90-AA (I90 P3c). All five activation criteria met.
+> Evidence: [`p3c-dataops-activation-2026-06-04.md`](../90-routing-and-wiring/reports/p3c-dataops-activation-2026-06-04.md).
+
+## Closure record
+
+1. `DATAOPS_DISCIPLINE.md` → `status:active` ✓
+2. `SOP-TECH_DATAOPS_QUALITY_001.md` minted ✓
+3. `scripts/dataops_quality_check.py` minted ✓
+4. `thi_data_*` placeholders accept-as-canon; umbrella `env_tech_dtp_dataops_quality_001` ✓
+5. OPS-86-19 closed ✓
+
+---
+
+## Historical context (pre-closure)
 > currently-placeholder state of the 8 `process_list.csv` rows under the
 > `thi_data_*` DataOps prefix. These rows surface as DIM-05
 > SOP-RUNBOOK-PAIRING gap findings in the wave-close regression sweep
