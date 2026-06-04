@@ -74,7 +74,7 @@ See **§7–§9** for the three-layer model, DAMA coverage matrix, and governed-
 When operator need for **non-git discovery** or **external DAMA-tool validation** exceeds cost
 (or per **A++ charter**: immediately after P3 architecture canonical):
 
-1. Export registry rows to **ODCS 3.1 YAML** via P3 deliverable `scripts/export_data_contract_odcs.py`.
+1. Export registry rows to **ODCS 3.1 YAML** via `scripts/export_data_contract_odcs.py` (I93 P3 ✅).
 2. Import into [OpenMetadata ODCS endpoints](https://docs.open-metadata.org/v1.11.x/api-reference/data-contracts/odcs)
    as **read-oriented replica** — git remains SSOT; catalog is projection.
 3. Re-export on each contract tranche commit (CI step); optional `POST .../odcs/validate/yaml` in CI.

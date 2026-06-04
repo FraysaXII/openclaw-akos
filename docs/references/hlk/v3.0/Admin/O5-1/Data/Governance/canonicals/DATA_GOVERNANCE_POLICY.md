@@ -140,6 +140,7 @@ INFO→WARN→FAIL cadence for probes.
 ## 7. Cross-references
 
 - Area charter: `Data/canonicals/DATA_AREA_CHARTER.md`
+- **Three-tier architecture:** `Data/Architecture/canonicals/DATA_ARCHITECTURE.md`
 - Contract vocabulary: `DATA_CONTRACT_STANDARD.md`
 - Registry SSOT: `dimensions/DATA_CONTRACT_REGISTRY.csv`
 - Quality bar: `DATAOPS_DISCIPLINE.md`

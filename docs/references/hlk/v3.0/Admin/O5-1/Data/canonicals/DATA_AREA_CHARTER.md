@@ -22,6 +22,7 @@ linked_canonicals:
   - ../Governance/canonicals/DATA_GOVERNANCE_POLICY.md
   - ../Governance/canonicals/DATA_CONTRACT_STANDARD.md
   - ../Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv
+  - ../Architecture/canonicals/DATA_ARCHITECTURE.md
   - ../../../People/canonicals/AREA_GOVERNANCE_DISCIPLINE.md
   - ../../../People/Compliance/canonicals/PRECEDENCE.md
 companion_to:

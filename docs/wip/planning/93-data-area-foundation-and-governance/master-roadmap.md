@@ -337,20 +337,14 @@ seat runs the regression + human-readability pass before commit.
 - **Gate:** ✅ `validate_hlk.py` PASS; `pytest tests/test_data_contract_registry_check.py` PASS.
 - **Commit:** `feat(i93-p2b): contract registry operating model + DAMA-tool-friendly posture`.
 
-### P3 — Data-architecture three-tier canonical (consumes I91)
+### P3 — Data-architecture three-tier canonical (consumes I91) ✅ (2026-06-04)
 
-- **Gate (todo #1):** ⛔ OPERATOR — canonical mint.
-- **Files:** `Data/Architecture/canonicals/DATA_ARCHITECTURE.md` (CSV SSOT ↔ Supabase relational ↔ Neo4j graph;
-  store-coverage declaration rule; references I91 store-coverage matrix + `akos/hlk_graph_model.py`),
-  `CANONICAL_REGISTRY.csv` schema extension spec (neo4j_node_label + pydantic_ssot_module + intended_coverage)
-  — coordinate with I91 Phase E (do not double-mint; I93 consumes).
-- **P3 add-on (P2b ratification — A++):** `scripts/export_data_contract_odcs.py` (or equivalent) — ODCS 3.1 YAML export
-  from `DATA_CONTRACT_REGISTRY.csv`; CI import/validate against OpenMetadata ODCS validate API (read-oriented replica;
-  git remains SSOT). Delivers DAMA L3 tool projection before P6 bulk contract tranches.
-- **Spec:** name the three tiers, the per-canonical coverage declaration, the graph-health metric set (reuse I91).
-- **Validators:** `validate_hlk.py`; cross-check against I91 store-coverage report.
-- **Acceptance:** §9.0 bar cleared; architecture canonical resolves; coverage declaration rule cross-referenced from DATA_GOVERNANCE_POLICY.
-- **Commit:** `feat(i93-p3): data-architecture three-tier canonical (consumes I91 store-coverage)`.
+- **Research packet:** [`reports/research-p3-2026-06-04.md`](reports/research-p3-2026-06-04.md)
+- **Mint:** `Data/Architecture/canonicals/DATA_ARCHITECTURE.md` (T1 git ↔ T2 Supabase ↔ T3 Neo4j;
+  store-coverage declaration rule; I91 inventory consumed; CANONICAL_REGISTRY extension spec documented).
+- **A++ add-on:** `akos/hlk_data_contract_odcs.py` + `scripts/export_data_contract_odcs.py` + tests.
+- **Gate:** ✅ `validate_hlk.py` PASS; `export_data_contract_odcs.py --self-test` PASS; pytest PASS.
+- **Commit:** `feat(i93-p3): data-architecture three-tier canonical + ODCS export`.
 
 ### P4 — Semantic/metrics layer + formal lineage
 

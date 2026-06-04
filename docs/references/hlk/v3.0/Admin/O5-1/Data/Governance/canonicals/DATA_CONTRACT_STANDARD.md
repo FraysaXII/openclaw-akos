@@ -25,6 +25,7 @@ linked_canonicals:
   - DATA_GOVERNANCE_POLICY.md
   - DATAOPS_DISCIPLINE.md
   - dimensions/DATA_CONTRACT_REGISTRY.csv
+  - ../../Architecture/canonicals/DATA_ARCHITECTURE.md
   - ../../../People/Compliance/canonicals/PRECEDENCE.md
 companion_to:
   - DATA_GOVERNANCE_POLICY.md
@@ -107,7 +108,9 @@ Maintenance: `SOP-DATA_CONTRACT_REGISTRY_MAINTENANCE_001.md` +
 `scripts/data_contract_registry_check.py --coverage-report`.
 
 Catalog tools (OpenMetadata / Purview): `DATA_CATALOG_INTEGRATION_POSTURE.md` —
-repo SSOT default; ODCS export forward-charter.
+repo SSOT default; ODCS export: `scripts/export_data_contract_odcs.py` (P3).
+
+Physical tier binding: `Data/Architecture/canonicals/DATA_ARCHITECTURE.md`.
 
 ### 2.4 SLA drivers (informative)
 

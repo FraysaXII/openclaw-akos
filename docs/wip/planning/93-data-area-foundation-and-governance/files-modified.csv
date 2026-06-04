@@ -26,3 +26,14 @@ P2b,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-p2
 P2b,docs/wip/planning/93-data-area-foundation-and-governance/reports/data-contract-registry-operating-model-2026-06-04.md,add,i93-p2b,Operator FAQ operating model
 P2b,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p2b,P2b complete + P3 ODCS export add-on
 P2b,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,edit,i93-p2b,P2b inline-ratify table
+P3-research,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-p3-2026-06-04.md,add,i93-p3,P3 research packet DAMA Ch.2 + I91 consumption + ODCS export
+P3,docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/DATA_ARCHITECTURE.md,add,i93-p3,Three-tier architecture canonical
+P3,akos/hlk_data_contract_odcs.py,add,i93-p3,Registry row to ODCS v3.1 mapping
+P3,scripts/export_data_contract_odcs.py,add,i93-p3,ODCS YAML export runbook (A++ L3)
+P3,tests/test_export_data_contract_odcs.py,add,i93-p3,Export tests
+P3,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CANONICAL_REGISTRY.csv,edit,i93-p3,data_architecture row
+P3,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md,edit,i93-p3,DATA_ARCHITECTURE entry
+P3,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_GOVERNANCE_POLICY.md,edit,i93-p3,Architecture cross-ref
+P3,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_CONTRACT_STANDARD.md,edit,i93-p3,Export runbook link
+P3,docs/wip/planning/93-data-area-foundation-and-governance/reports/p3.tranche-charter.md,add,i93-p3,Tranche charter
+P3,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p3,P3 complete section
