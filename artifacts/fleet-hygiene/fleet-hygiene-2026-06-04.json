@@ -1,15 +1,15 @@
 {
   "report_id": "fleet-hygiene-2026-06-04",
-  "swept_at": "2026-06-04T00:12:12+00:00",
+  "swept_at": "2026-06-04T00:41:15+00:00",
   "swept_by": "workspace_fleet_hygiene_sweep.py",
   "findings": [
     {
       "dimension_code": "FLEET-01-WORKTREE",
       "surface_path": "boilerplate",
-      "verdict": "clean",
-      "severity": "low",
-      "notes": "## i32-akos-mirror-seed...origin/i32-akos-mirror-seed",
-      "proposed_rework_action": ""
+      "verdict": "drift",
+      "severity": "medium",
+      "notes": "## i32-akos-mirror-seed...origin/i32-akos-mirror-seed | dirty=1 (M=1 staged=0 ??=0) |  M i18n/messages/en.json",
+      "proposed_rework_action": "Commit or stash WIP; push when ready; update sibling PR if governed"
     },
     {
       "dimension_code": "FLEET-02-PUBLISH-DRIFT",
@@ -22,10 +22,10 @@
     {
       "dimension_code": "FLEET-01-WORKTREE",
       "surface_path": "hlk-erp",
-      "verdict": "clean",
-      "severity": "low",
-      "notes": "## i90-hlk-ci-bless-brand-ops...origin/i90-hlk-ci-bless-brand-ops",
-      "proposed_rework_action": ""
+      "verdict": "drift",
+      "severity": "medium",
+      "notes": "## i90-hlk-ci-bless-brand-ops...origin/i90-hlk-ci-bless-brand-ops | dirty=1 (M=1 staged=0 ??=0) |  M documentation/KIRBE_API_ENV.md",
+      "proposed_rework_action": "Commit or stash WIP; push when ready; update sibling PR if governed"
     },
     {
       "dimension_code": "FLEET-02-PUBLISH-DRIFT",
@@ -72,7 +72,7 @@
       "surface_path": "openclaw-akos",
       "verdict": "drift",
       "severity": "high",
-      "notes": "## main...origin/main | dirty=27 (M=17 staged=0 ??=10) |  M CHANGELOG.md;  M artifacts/fleet-hygiene/fleet-hygiene-2026-06-04.json;  M artifacts/fleet-hygiene/fleet-hygiene-2026-06-04.md;  M config/verification-profiles.json;  M docs/presentations/holistika-company-dossier/index.html;  M docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv;  M docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv;  M docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md; … +19 more",
+      "notes": "## main...origin/main | dirty=5 (M=4 staged=0 ??=1) |  M artifacts/fleet-hygiene/fleet-hygiene-2026-06-04.json;  M artifacts/fleet-hygiene/fleet-hygiene-2026-06-04.md;  M docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CAPABILITY_REGISTRY.csv;  M docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/LOGIC_CHANGE_LOG.md; ?? docs/wip/planning/90-routing-and-wiring/reports/regression-sweep-i90-p3c-p3d-2026-06-04.md",
       "proposed_rework_action": "Commit or stash WIP; push when ready; update sibling PR if governed"
     },
     {
@@ -100,8 +100,8 @@
       "proposed_rework_action": ""
     }
   ],
-  "clean_count": 11,
-  "drift_count": 1,
+  "clean_count": 9,
+  "drift_count": 3,
   "gap_count": 0,
   "blocked_count": 0,
   "skip_count": 0,
