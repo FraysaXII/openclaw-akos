@@ -1,4 +1,4 @@
-{"event": "header", "golden_assertion": {"route": "hlk_lookup"}, "last_recorded": "2026-05-01T03:08:28Z", "model_id": "deterministic:akos.intent.classify_request", "model_tier": "deterministic", "probe_id": "detect_french", "probe_kind": "classify_request", "recorded_at": "2026-05-01T03:08:28Z", "recorded_by": "i45-p2-bootstrap", "schema_version": "1.0", "skill_id": "SKILL-SHARED-LOCALE-DETECT-V1"}
+{"event": "header", "golden_assertion": {"route": "general"}, "last_recorded": "2026-06-04T16:45:00Z", "model_id": "deterministic:akos.intent.classify_request", "model_tier": "deterministic", "probe_id": "detect_french", "probe_kind": "classify_request", "recorded_at": "2026-05-01T03:08:28Z", "recorded_by": "i45-p2-bootstrap", "schema_version": "1.0", "skill_id": "SKILL-SHARED-LOCALE-DETECT-V1"}
 {"event": "prompt", "text": "Bonjour, comment vas-tu aujourd hui?"}
-{"confidence": 0.5744, "event": "final", "method": "embedding", "must_escalate": false, "reason": "HLK lookup intent detected.", "route": "hlk_lookup"}
+{"confidence": 0.5023, "event": "final", "method": "embedding", "must_escalate": false, "reason": "No specific flagship route matched.", "route": "general"}
 {"event": "summary", "latency_ms": 439, "status": "PASS", "tokens_in": 0, "tokens_out": 0}
