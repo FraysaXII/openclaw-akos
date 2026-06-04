@@ -50,7 +50,9 @@ When adding `hol_peopl_dtp_area_governance_001` or an area-local derivative:
 
 - Committing area CSV rows without reading `--matrix` output.
 - Using `Marketing` in `process_list` instead of `MKT`.
-- Minting `D-IH-93-BI` or other decision IDs not in the ratified packet.
+- Inventing governance decision IDs: only reference decisions already
+  ratified in `DECISION_REGISTER.csv`; never mint a new `D-IH-*` row to
+  satisfy a phase note.
 
 ## Cross-references
 

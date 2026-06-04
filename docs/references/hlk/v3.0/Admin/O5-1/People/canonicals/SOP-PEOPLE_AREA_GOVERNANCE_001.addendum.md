@@ -34,7 +34,7 @@ ssot: true
 
 - **AREA-10** defaults to `skip` — mirror parity needs Supabase MCP/SQL
   evidence, not repo-only scans.
-- **AREA-11** uses filename heuristics for cursor rules/skills; a area
+- **AREA-11** uses filename heuristics for cursor rules/skills; an area
   can pass with partial coverage while doctrine is still charter-only.
 - **Marketing** maps to `MKT` in `process_list.csv` — auditors should
   verify the column mapping when interpreting AREA-04/14 rows.

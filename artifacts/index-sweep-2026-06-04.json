@@ -1,6 +1,6 @@
 {
   "report_id": "index-sweep-2026-06-04",
-  "sweep_trigger": "on_demand",
+  "sweep_trigger": "canonical_csv_mint",
   "swept_at": "2026-06-04",
   "swept_by": "agent:cli",
   "findings": [
@@ -12,7 +12,7 @@
       "proposed_fix_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "folder_count=77 == registry_count=77"
+      "notes": "folder_count=78 == registry_count=78"
     },
     {
       "dimension_code": "IDX-02-PRECEDENCE-CSV-COVERAGE",
@@ -42,7 +42,7 @@
       "proposed_fix_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "deps last-edited 2026-05-29, registry last-edited 2026-06-01 (delta=3d, threshold=7d)"
+      "notes": "deps last-edited 2026-05-29, registry last-edited 2026-06-04 (delta=6d, threshold=7d)"
     },
     {
       "dimension_code": "IDX-05-USER-GUIDE-ROLE-PROCESS-COUNTS",
@@ -52,7 +52,7 @@
       "proposed_fix_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "baseline=70roles / process_list=1190; no contradicting counts found in USER_GUIDE"
+      "notes": "baseline=70roles / process_list=1191; no contradicting counts found in USER_GUIDE"
     },
     {
       "dimension_code": "IDX-06-ARCHITECTURE-HLK-REGISTRY-COVERAGE",
@@ -72,7 +72,7 @@
       "proposed_fix_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "all 77 folders FK-resolved in README; all 77 README links FK-resolved on filesystem"
+      "notes": "all 78 folders FK-resolved in README; all 78 README links FK-resolved on filesystem"
     },
     {
       "dimension_code": "IDX-08-QUALITY-FABRIC-SPECIALTY-COUNT",
@@ -82,7 +82,7 @@
       "proposed_fix_action": "",
       "candidate_decision_id": null,
       "severity": "low",
-      "notes": "all 10 *_DISCIPLINE.md files referenced in HOLISTIKA_QUALITY_FABRIC.md"
+      "notes": "all 11 *_DISCIPLINE.md files referenced in HOLISTIKA_QUALITY_FABRIC.md"
     }
   ],
   "fresh_count": 7,

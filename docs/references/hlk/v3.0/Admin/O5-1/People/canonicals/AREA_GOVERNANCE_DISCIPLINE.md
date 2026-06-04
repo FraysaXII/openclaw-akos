@@ -46,8 +46,10 @@ forward_charters:
 > Seventeenth Quality Fabric specialty (I93 P0). People mints the
 > **area-completeness shape** any O5-1 area inherits when created or
 > matured. Codifies `compose_AREA(governance) → 14-component bar +
-> conservative heuristic sweep + area score matrix`. Ratified under
-> **D-IH-93-B**.
+> conservative heuristic sweep + area score matrix`. Ratified under the
+> area-governance meta-process decision (`D-IH-93-B` — the operator's
+> instruction to make "create an area" a People-governed, countable
+> process, 2026-06-04).
 
 ## 1. Purpose
 

@@ -52,11 +52,14 @@ In scope:
   registries) that belong to the area buildout.
 - Baseline matrix before P8 harmonization close.
 
-Out of scope at P0:
+Out of scope:
 
-- DATA area charter relocation (I93 P1).
-- Minting `D-IH-93-BI` or other initiative decision rows beyond
-  `D-IH-93-B`.
+- Authoring another area's domain canonicals — each area authors its own
+  charter, processes, and registries; People owns only the meta-process
+  (the discipline-of-disciplines rule, `akos-people-discipline-of-disciplines.mdc`
+  RULE 1).
+- Minting new governance decision rows — this SOP only references
+  decisions already ratified in `DECISION_REGISTER.csv`.
 
 ## Steps (AC-HUMAN)
 

@@ -28,8 +28,9 @@ companion_to:
 # DATA_AREA_CHARTER — Data area (I93 P1)
 
 > First worked example of the People area-governance meta-process
-> (`pattern_area_buildout` / `compose_AREA`). Ratified **D-IH-93-C** /
-> **D-IH-93-H**. DATA sets **global data standards**; each O5-1 area owns
+> (`pattern_area_buildout` / `compose_AREA`). Ratified under the DATA
+> canonical-home decision (`D-IH-93-C`) and the DataOps relocation-ripple
+> contract (`D-IH-93-H`). DATA sets **global data standards**; each O5-1 area owns
 > its **domain data products** under a federated / data-mesh posture.
 
 ## 1. Mission
@@ -71,7 +72,8 @@ Sub-domains map to folder roots under `Data/`:
 | **Data Engineer** | Lead Data Scientist | Think Big | Pipelines, mirrors, KiRBe ingest DQ |
 | **Database Owner** | Data Governance Lead | HLK Tech Lab | area=Tech; dotted-line execution in Tech |
 
-**DataOps discipline ownership (D-IH-93-C):** doctrine + paired SOP live under
+**DataOps discipline ownership (DATA canonical-home decision `D-IH-93-C`):**
+doctrine + paired SOP live under
 `Data/Governance/canonicals/`. **System Owner** and **DevOPS** remain
 **co-owners** for execution (validators, Supabase DDL, mirror emit) — Tech
 implements; Data governs the bar.
@@ -93,8 +95,8 @@ with Data Steward review.
 
 ## 4. DAMA cross-area integration table
 
-Primary DAMA-DMBOK 2.0 knowledge areas DATA authors or coordinates (I93
-full mint per **D-IH-93-D**):
+Primary DAMA-DMBOK 2.0 knowledge areas DATA authors or coordinates (the
+eight-DAMA-doctrine mint, `D-IH-93-D`):
 
 | DAMA area | DATA role | Owning / co-owning area | I93 phase |
 |:---|:---|:---|:---|
