@@ -69,8 +69,8 @@ registry here is the Holistika on-ramp).
 | `quality_rules` | `quality` | Semicolon-list; **must use DATA-01..07 codes** |
 | `sla_freshness` | `slaProperties` (`latency` / `frequency`) | e.g. `24h`, `1h` |
 | `sla_availability` | `slaProperties` (`availability`) | e.g. `99.5%` |
-| `classification` | schema element classification | P5 privacy policy extends enum |
-| `retention_policy_ref` | `slaProperties` (`retention`) | Forward to P5 policy |
+| `classification` | schema element classification | `public` \| `community` \| `internal` \| `confidential` \| `restricted` per `DATA_PRIVACY_RETENTION_POLICY.md` §2 |
+| `retention_policy_ref` | `slaProperties` (`retention`) | Schedule ID from `DATA_PRIVACY_RETENTION_POLICY.md` §3 (e.g. `POL-DATA-GIT-CSV-DEFAULT`) |
 | `version` / `status` | `version` / `status` | Semver + `active` \| `draft` \| `deprecated` |
 | `owner_role` | `team` role | Business-accountable Data Owner (DAMA) |
 

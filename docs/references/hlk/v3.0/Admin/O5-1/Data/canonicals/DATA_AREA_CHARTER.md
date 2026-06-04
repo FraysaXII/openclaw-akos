@@ -109,11 +109,11 @@ eight-DAMA-doctrine mint, `D-IH-93-D`):
 | **Data Modeling & Design** | Standards + review | Data + Tech | P3 / ongoing |
 | **Data Storage & Operations** | Mirror/FDW posture | Tech (DevOPS) executes | P0–P1 DataOps |
 | **Data Integration** | Contracts + adapters | Data + RevOps | P2 registry |
-| **Reference & MDM** | Golden-record SOP | Data + Finance/Ops consumers | P4 MDM SOP |
+| **Reference & MDM** | Golden-record SOP | Data + Finance/Ops consumers | P5 MDM SOP |
 | **Metadata & Lineage** | Lineage SOP | Data + Compliance | P4 lineage |
 | **Data Quality** | `DATAOPS_DISCIPLINE` (active) | Data / Governance | P1 re-home |
-| **Data Security / Privacy** | Retention policy | Data + Legal | P5 |
-| **Warehousing / BI** | BI governance charter | Data / Governance | P5 decision gate |
+| **Data Security / Privacy** | Retention policy | Data + Legal | P5 privacy policy |
+| **Warehousing / BI** | BI governance charter | Data / Governance | P5 decision gate (D-IH-93-I not-now) |
 
 ## 5. Process catalog (initial)
 
@@ -124,7 +124,7 @@ program). New area-governance processes should declare
 | Process | `item_id` | Cadence | SOP / runbook |
 |:---|:---|:---|:---|
 | DataOps quality check (7-dimension bar) | `env_tech_dtp_dataops_quality_001` | event_triggered | `SOP-TECH_DATAOPS_QUALITY_001.md` + `scripts/dataops_quality_check.py` |
-| Enterprise MasterData | `thi_data_dtp_32` | (legacy) | forward-charter |
+| Enterprise MasterData | `thi_data_dtp_32` | quarterly | `SOP-DATA_MASTERDATA_GOLDEN_RECORD_001.md` (active I93 P5) |
 | Formal Data Lineage | `thi_data_dtp_275` | `SOP-DATA_LINEAGE_001.md` | active (I93 P4) |
 | KiRBe Ingestion DQ | `thi_data_dtp_274` | (legacy) | forward-charter |
 | Data Modeling | `thi_data_dtp_77` | (legacy) | forward-charter |
@@ -139,8 +139,10 @@ Full `thi_data_*` pairing review is **I93 P4** / OPS hygiene — not P1 scope.
 - **P2 (complete 2026-06-04):** data-governance policy + ODCS data-contract
   standard + `DATA_CONTRACT_REGISTRY.csv` (4 seed rows across 3 DATA-FAM
   families); tranche charter + §9.0 research bar cleared.
-- **P3–P5:** remaining DAMA doctrines per roadmap; operator gates on
-  canonical CSV mints.
+- **P3 (complete 2026-06-04):** three-tier data architecture + ODCS export.
+- **P4 (complete 2026-06-04):** semantic/metrics layer + formal lineage SOP.
+- **P5 (complete 2026-06-04):** MDM golden-record SOP + privacy/retention policy; BI explicit not-now (`D-IH-93-I`).
+- **P6–P7:** DATA-FAM families + hygiene tranches; operator gates on canonical CSV mints.
 - **P8:** harmonize all seven areas to `pattern_area_buildout` completeness bar.
 - **Area completeness:** run `py scripts/validate_area_completeness.py --matrix`
   before each DATA tranche commit; disposition gaps via inline-ratify per

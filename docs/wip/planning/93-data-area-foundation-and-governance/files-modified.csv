@@ -48,3 +48,19 @@ P4,tests/test_metrics_registry_and_lineage.py,add,i93-p4,P4 tests
 P4,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv,edit,i93-p4,Pair thi_data_dtp_31 and thi_data_dtp_275
 P4,docs/wip/planning/93-data-area-foundation-and-governance/reports/p4.tranche-charter.md,add,i93-p4,Tranche charter
 P4,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p4,P4 complete section
+P5-research,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-p5-2026-06-04.md,add,i93-p5,P5 MDM + privacy + BI gate research
+P5,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SOP-DATA_MASTERDATA_GOLDEN_RECORD_001.md,add,i93-p5,MDM golden-record SOP pairs thi_data_dtp_32
+P5,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_PRIVACY_RETENTION_POLICY.md,add,i93-p5,Classification enum + retention schedules
+P5,scripts/mdm_golden_record_check.py,add,i93-p5,GOI/POI golden-record runbook
+P5,tests/test_mdm_golden_record_check.py,add,i93-p5,P5 runbook tests
+P5,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv,edit,i93-p5,Pair thi_data_dtp_32
+P5,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv,edit,i93-p5,D-IH-93-I BI not-now
+P5,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CANONICAL_REGISTRY.csv,edit,i93-p5,MDM SOP + privacy policy rows
+P5,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md,edit,i93-p5,P5 entries
+P5,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/KNOWLEDGE_PAIRING_REGISTRY.csv,edit,i93-p5,pair_data_mdm_golden_record_001
+P5,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_CONTRACT_STANDARD.md,edit,i93-p5,Classification enum from privacy policy
+P5,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_GOVERNANCE_POLICY.md,edit,i93-p5,Link privacy + MDM companions
+P5,docs/references/hlk/v3.0/Admin/O5-1/Data/canonicals/DATA_AREA_CHARTER.md,edit,i93-p5,P5 complete + MDM pairing
+P5,docs/wip/planning/93-data-area-foundation-and-governance/reports/p5.tranche-charter.md,add,i93-p5,Tranche charter
+P5,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,edit,i93-p5,P5 BI gate + D-IH-93-I
+P5,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p5,P5 complete section
