@@ -301,6 +301,9 @@ seat runs the regression + human-readability pass before commit.
 
 ### P2 — Data-governance policy + data-contract standard
 
+- **Research packet (§9.0 criterion 1 — DONE):** [`reports/research-p2-2026-06-04.md`](reports/research-p2-2026-06-04.md)
+  — internal sweep (two-plane + DataOps + register pattern) + external grounding (ODCS v3.1, DAMA Ch.3,
+  data-mesh federated governance); carries the column→ODCS map + 3 seed contracts + paste-ready evidence base.
 - **Gate (todo #1):** ⛔ OPERATOR — canonical-CSV (`DATA_CONTRACT_REGISTRY.csv` mint).
 - **Files:** `Data/Governance/canonicals/DATA_GOVERNANCE_POLICY.md` (DAMA "data governance function";
   roles, decision rights, federated operating model, Data Owner = business-accountable),

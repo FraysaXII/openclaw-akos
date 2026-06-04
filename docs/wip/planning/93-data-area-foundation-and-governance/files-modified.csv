@@ -9,3 +9,6 @@ P0-design,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECIS
 P6-design,docs/wip/planning/93-data-area-foundation-and-governance/reports/cross-area-data-map-2026-06-04.md,add,i93-p6-input,115 classified + OPS-86-15 gap + probe profiles
 P6-design,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p6-input,P6 cross-area map path dated
 P4,docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/uat-i86-cluster-closure-2026-06-04.md,add,i90-p4-i86-uat,PASS-WITH-FOLLOWUP cluster closure UAT
+P0-design,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-quality-bar,Per-phase research bar §9.0 + P2-P8 acceptance + verification matrix
+P0-design,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,edit,i93-quality-bar,Bar operationalizes existing decisions; de-pre-allocated BI decision ID
+P2-research,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-p2-2026-06-04.md,add,i93-p2-research,P2 research packet: ODCS v3.1 + DAMA + data-mesh grounding; column map + 3 seed contracts
