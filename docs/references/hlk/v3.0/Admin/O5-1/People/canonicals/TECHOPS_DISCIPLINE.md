@@ -24,7 +24,7 @@ register: internal
 linked_canonicals:
   - HOLISTIKA_QUALITY_FABRIC.md
   - UAT_DISCIPLINE.md
-  - DATAOPS_DISCIPLINE.md
+  - ../../../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md
   - INTER_WAVE_REGRESSION_DISCIPLINE.md
   - HOLISTIKA_ORGANISING_DOCTRINE.md
   - ../Compliance/canonicals/PRECEDENCE.md
@@ -35,7 +35,7 @@ linked_cursor_rules:
   - .cursor/rules/akos-quality-fabric.mdc
 companion_to:
   - HOLISTIKA_QUALITY_FABRIC.md
-  - DATAOPS_DISCIPLINE.md
+  - ../../../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md
 linked_runbooks:
   - scripts/techops_reliability_check.py
 linked_sops:
@@ -167,7 +167,7 @@ This discipline fires:
   §6 row (this canonical materialises `compose_TECHOPS`).
 - Sister specialty canonicals: [`UAT_DISCIPLINE.md`](UAT_DISCIPLINE.md),
   [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](INTER_WAVE_REGRESSION_DISCIPLINE.md),
-  [`DATAOPS_DISCIPLINE.md`](DATAOPS_DISCIPLINE.md),
+  [`DATAOPS_DISCIPLINE.md`](../../../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md),
   [`MKTOPS_DISCIPLINE.md`](MKTOPS_DISCIPLINE.md),
   [`UX_DISCIPLINE.md`](UX_DISCIPLINE.md).
 - Paired cursor rule: [`.cursor/rules/akos-techops-discipline.mdc`](../../../../../../.cursor/rules/akos-techops-discipline.mdc).

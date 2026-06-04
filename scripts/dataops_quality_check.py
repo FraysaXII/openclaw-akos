@@ -1,6 +1,6 @@
 """DataOps quality check runbook (paired to DATAOPS_DISCIPLINE.md).
 
-Canonical doctrine: ``docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md``
+Canonical doctrine: ``docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md``
 Pydantic SSOT: ``akos/hlk_dataops_quality.py``
 Companion cursor rule: ``.cursor/rules/akos-dataops-discipline.mdc``
 
@@ -38,7 +38,7 @@ logger = logging.getLogger(__name__)
 
 CANONICAL_PATH = (
     REPO_ROOT
-    / "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md"
+    / "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md"
 )
 
 _MCP_DEFER_REASON = (

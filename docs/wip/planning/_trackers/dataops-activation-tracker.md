@@ -5,12 +5,12 @@ intellectual_kind: dataops-activation-tracker
 authority: System Owner (Tech) + PMO (joint)
 artifact_role: durable
 ratifying_decisions: [D-IH-86-CR, D-IH-86-BU, D-IH-90-AA]
-parent_canonical: docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md
+parent_canonical: docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md
 parent_rules:
   - .cursor/rules/akos-executable-process-catalog.mdc
   - .cursor/rules/akos-quality-fabric.mdc
 paired_runbook: scripts/dataops_quality_check.py
-paired_sop: docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/SOP-TECH_DATAOPS_QUALITY_001.md
+paired_sop: docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SOP-TECH_DATAOPS_QUALITY_001.md
 linked_ops: [OPS-86-9, OPS-86-19]
 closure_decision: D-IH-90-AA
 closure_date: 2026-06-04
@@ -44,7 +44,7 @@ authored: 2026-05-23
 > [`akos-executable-process-catalog.mdc`](../../../.cursor/rules/akos-executable-process-catalog.mdc)
 > Rule 1, those pairings are required for every executable process row
 > — BUT the DataOps doctrine itself currently sits at
-> [`status: charter`](../../../references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md)
+> [`status: active`](../../../references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md)
 > per the Wave M D-IH-86-BU engrave-properly OVERRIDE mint. While the
 > doctrine remains at charter, the rows under `thi_data_*` are
 > doctrine-aware placeholders, not active processes; the pairing rule
@@ -147,7 +147,7 @@ for the Wave R Lane B drain; forward-charter via `OPS-86-19` notes.
 
 ## Cross-references
 
-- [`DATAOPS_DISCIPLINE.md`](../../../references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md) — parent canonical at status:charter.
+- [`DATAOPS_DISCIPLINE.md`](../../../references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md) — parent canonical (Data/Governance; re-homed I93 P1).
 - [`akos-executable-process-catalog.mdc`](../../../.cursor/rules/akos-executable-process-catalog.mdc) Rule 1 — the pairing rule this tracker contra-precedents against.
 - [`akos-quality-fabric.mdc`](../../../.cursor/rules/akos-quality-fabric.mdc) — parent fabric (DataOps is one of the 4 charter specialties from Wave M).
 - [`akos-inter-wave-regression.mdc`](../../../.cursor/rules/akos-inter-wave-regression.mdc) RULE 2 — 5-option disposition enum (this tracker = option 4 accept-as-canon at scale).

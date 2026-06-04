@@ -1,6 +1,6 @@
 ---
 description: DataOps discipline — mechanical layer governing canonical CSV mints, Supabase mirrors, FDW projections, holistika_ops operational tables, Pydantic SSOT modules under akos/, mirror sync scripts, and observability evidence trails for data quality. Pairs with DATAOPS_DISCIPLINE.md canonical (Wave M P5 mint per D-IH-86-BV).
-globs: "akos/hlk_*_csv.py", "scripts/sync_compliance_mirrors_from_csv.py", "scripts/validate_compliance_schema_drift.py", "scripts/probe_compliance_mirror_drift.py", "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/**/*.csv", "supabase/migrations/*_mirror*.sql", "supabase/migrations/*_holistika_ops*.sql"
+globs: "akos/hlk_*_csv.py", "scripts/sync_compliance_mirrors_from_csv.py", "scripts/validate_compliance_schema_drift.py", "scripts/probe_compliance_mirror_drift.py", "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/**/*.csv", "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/**", "docs/references/hlk/v3.0/Admin/O5-1/Data/canonicals/**", "supabase/migrations/*_mirror*.sql", "supabase/migrations/*_holistika_ops*.sql"
 alwaysApply: false
 ---
 
@@ -11,7 +11,7 @@ Use this rule whenever authoring or reviewing artefacts that touch
 **`holistika_ops` operational tables**, **Pydantic SSOT modules under
 `akos/`**, **mirror sync scripts**, or **observability evidence trails**
 covering data quality. Codifies the mechanical layer of
-[`DATAOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md)
+[`DATAOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md)
 (Wave M P5 mint per D-IH-86-BV).
 
 ## When this rule applies
@@ -28,7 +28,7 @@ covering data quality. Codifies the mechanical layer of
 
 Every canonical-CSV mint or schema change must pass the 7 DataOps
 dimensions defined in
-[`DATAOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md)
+[`DATAOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md)
 §2 before commit:
 
 - **DATA-01** FK integrity → `validate_hlk.py` PASS
@@ -69,7 +69,7 @@ mirror parity becomes a release-gate FAIL — any divergence between
 canonical CSV row count and Supabase mirror row count blocks the gate.
 
 The forward promotion gate is defined in
-[`DATAOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md)
+[`DATAOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md)
 §4 (cadence) + tracked via the paired runbook
 `scripts/dataops_quality_check.py` (forward-chartered).
 
@@ -82,7 +82,7 @@ The forward promotion gate is defined in
 
 ## Cross-references
 
-- [`DATAOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md)
+- [`DATAOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md)
   — the canonical this rule operationalises.
 - [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc)
   §"Two-plane model" — sister rule for Supabase DDL vs mirror DML
@@ -94,4 +94,5 @@ The forward promotion gate is defined in
 - D-IH-86-BV — Wave M P5 Cluster B sub-decision (operator-ratified
   rework-now mint).
 
-@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/Data/canonicals/DATA_AREA_CHARTER.md

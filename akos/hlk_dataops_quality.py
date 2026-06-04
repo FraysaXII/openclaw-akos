@@ -1,6 +1,6 @@
 """Pydantic SSOT models for DataOps quality sweeps (I90 P3c / OPS-86-19).
 
-Canonical doctrine: ``docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/DATAOPS_DISCIPLINE.md``
+Canonical doctrine: ``docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md``
 Paired runbook: ``scripts/dataops_quality_check.py``
 Companion cursor rule: ``.cursor/rules/akos-dataops-discipline.mdc``
 Decision lineage: D-IH-86-BV (canonical mint), D-IH-90-AA (charter -> active promotion).

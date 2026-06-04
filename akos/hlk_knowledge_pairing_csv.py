@@ -69,6 +69,7 @@ VALID_PAIRING_CLASSES: frozenset[str] = frozenset({
 
 VALID_AREAS: frozenset[str] = frozenset({
     "Admin",
+    "Data",
     "Tech",
     "People",
     "Marketing",
@@ -126,6 +127,7 @@ class KnowledgePairingRow(BaseModel):
     companion_doc_paths: str = Field(..., min_length=1)
     area: Literal[
         "Admin",
+        "Data",
         "Tech",
         "People",
         "Marketing",
