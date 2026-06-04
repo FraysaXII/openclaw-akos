@@ -85,6 +85,16 @@ Supersedes P5 not-now row in §P5 BI gate below for doctrine scope only; P5 MDM/
 Decision register: **`D-IH-93-J`**. Research: [`reports/research-revops-mktops-sop-methods-2026-06-04/`](reports/research-revops-mktops-sop-methods-2026-06-04/).
 E2E regression: [`reports/sop-e2e-chain-regression-p5c-2026-06-04.md`](reports/sop-e2e-chain-regression-p5c-2026-06-04.md).
 
+## P6 inline-ratify (2026-06-04 — pre-execution)
+
+| Gate | Decision |
+|:---|:---|
+| P6 bundle | **P6-A** — full umbrella + `DATA_FAM_PROBE_PROFILES` + first live COMPLIANCE-MIRROR probe in one CSV tranche |
+| I91 coordination | **Cross-initiative regression** (operator refinement of COORD-2 intent): before P6 commit, run an **I91↔I93 regression packet** under the I90 umbrella cluster — read I91 charter/roadmap, sweep for reusable store-coverage + graph lessons, and **write back** gaps to I91 (or shared OPS register) so P6 does not duplicate or drift; I93 still **owns** family CAP rows; I91 **owns** Neo4j projection |
+| Mirror DDL | **MIRROR-2** — P6 includes DDL + emit for all five OPS-86-15 gap CSVs (not check-only) |
+
+Research: [`reports/research-p6-data-fam-2026-06-04/`](reports/research-p6-data-fam-2026-06-04/).
+
 ## P5 BI gate + MDM/privacy mint (2026-06-04)
 
 | Gate | Decision |

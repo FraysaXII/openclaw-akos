@@ -381,7 +381,10 @@ seat runs the regression + human-readability pass before commit.
 
 ### P6 — DATA-FAM families + cross-area engineering + probe wiring
 
-- **Gate (todo #1):** ⛔ OPERATOR — canonical-CSV (process_list + CAPABILITY + CONFIDENCE tranche).
+- **Research packet:** [`reports/research-p6-data-fam-2026-06-04/`](reports/research-p6-data-fam-2026-06-04/)
+- **Operator ratification (2026-06-04):** **P6-A** full bundle; **MIRROR-2** (DDL+emit for five gap CSVs);
+  **I91 cross-initiative regression** before mint (umbrella cluster under I90 — lessons learned write-back, not passive scope split).
+- **Gate (todo #1):** ⛔ OPERATOR — canonical-CSV (process_list + CAPABILITY + CONFIDENCE tranche) after I91↔I93 regression packet.
 - **Files:** `CAPABILITY_REGISTRY.csv` (+7 `CAP-HOL-DATA-FAM-*-001` umbrella rows), `CAPABILITY_CONFIDENCE_REGISTRY.csv`
   (+7 `CONF-...` seeds), `process_list.csv` (+7 `hol_data_dtp_datafam_*` umbrella rows under `thi_data_prj_1`,
   `inherited_pattern_id=pattern_dataops_discipline`), `akos/hlk_dataops_quality.py` + `scripts/dataops_quality_check.py`
