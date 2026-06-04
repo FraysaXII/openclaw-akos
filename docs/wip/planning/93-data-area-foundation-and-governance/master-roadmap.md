@@ -301,7 +301,7 @@ flowchart TD
   (+7 `CONF-...` seeds), `process_list.csv` (+7 `hol_data_dtp_datafam_*` umbrella rows under `thi_data_prj_1`,
   `inherited_pattern_id=pattern_dataops_discipline`), `akos/hlk_dataops_quality.py` + `scripts/dataops_quality_check.py`
   (add `DATA_FAM_PROBE_PROFILES` + `--data-fam` flag + first live probe = mirror parity), cross-area map appendix
-  in this initiative's `reports/cross-area-data-map-2026-06-XX.md`.
+  in this initiative's `reports/cross-area-data-map-2026-06-04.md`.
 - **Spec:** 7 families (COMPLIANCE-MIRROR, CANONICAL-CSV, ENGAGEMENT-FACT, TELEMETRY-OBS, GTM-CRM, KM-TOPIC,
   AIC-RUNTIME) each → 1 CAP + 1 CONF seed + 1 process row + probe profile. Map the 115 classified processes;
   35 unmapped go to area batches (P6 sub-tranches Tech→Ops→Research→People→MKT→Finance→Legal). Coordinate the

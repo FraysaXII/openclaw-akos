@@ -4,3 +4,8 @@ P0-design,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.
 P0-design,docs/wip/planning/93-data-area-foundation-and-governance/README.md,add,i93-charter,Initiative index
 P0-design,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-synthesis-2026-06-04.md,add,i93-charter,7 internal + 3 external sweeps evidence base
 P0-design,docs/wip/planning/93-data-area-foundation-and-governance/files-modified.csv,add,i93-charter,This ledger
+P0-design,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv,edit,i93-gate1,INIT-OPENCLAW_AKOS-93 row
+P0-design,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv,edit,i93-gate1,D-IH-93-A..H rows
+P6-design,docs/wip/planning/93-data-area-foundation-and-governance/reports/cross-area-data-map-2026-06-04.md,add,i93-p6-input,115 classified + OPS-86-15 gap + probe profiles
+P6-design,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p6-input,P6 cross-area map path dated
+P4,docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/uat-i86-cluster-closure-2026-06-04.md,add,i90-p4-i86-uat,PASS-WITH-FOLLOWUP cluster closure UAT
