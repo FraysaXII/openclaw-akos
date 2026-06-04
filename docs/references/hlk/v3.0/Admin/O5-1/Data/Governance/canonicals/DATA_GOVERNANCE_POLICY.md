@@ -27,6 +27,10 @@ linked_canonicals:
   - SOP-DATA_CONTRACT_REGISTRY_MAINTENANCE_001.md
   - DATA_PRIVACY_RETENTION_POLICY.md
   - SOP-DATA_MASTERDATA_GOLDEN_RECORD_001.md
+  - DATA_BI_GOVERNANCE.md
+  - DATA_INTEGRATION_PLANE.md
+  - dimensions/BI_CONSUMER_REGISTRY.csv
+  - dimensions/RPA_ADAPTER_REGISTRY.csv
   - DATAOPS_DISCIPLINE.md
   - ../../canonicals/DATA_AREA_CHARTER.md
   - ../../../People/Compliance/canonicals/PRECEDENCE.md

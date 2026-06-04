@@ -1,4 +1,4 @@
-"""Validator for the 8 adapter registries (Initiative 72 P9).
+"""Validator for the 9 adapter registries (Initiative 72 P9 + I93 P5b RPA).
 
 Per `D-IH-72-O` (Normalized Adapter Pattern + status metadata) +
 `D-IH-72-T` (MarTech adapter breadth) + `D-IH-72-W` (feature-flag pattern

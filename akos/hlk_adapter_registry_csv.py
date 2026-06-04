@@ -1,4 +1,4 @@
-"""Shared SSOT for the 8 adapter registries (Initiative 72 P9).
+"""Shared SSOT for the 9 adapter registries (Initiative 72 P9 + I93 P5b RPA).
 
 Per `D-IH-72-O` (Normalized Adapter Pattern: AKOS-internal SSOT + per-vendor
 adapter shim with active/inactive/planned/experimental/deprecated metadata
@@ -20,6 +20,7 @@ canonical path appropriate to its area:
 | COMMUNICATION_ADAPTER_REGISTRY.csv      | Marketing/Reach/canonicals/dimensions/                                              |
 | SCHEDULING_ADAPTER_REGISTRY.csv         | Marketing/Reach/canonicals/dimensions/                                              |
 | CONTRACT_ADAPTER_REGISTRY.csv           | Operations/SMO/canonicals/dimensions/                                               |
+| RPA_ADAPTER_REGISTRY.csv                | Data/Governance/canonicals/dimensions/ (I93 P5b)                                    |
 
 Decision lineage:
 - `D-IH-72-A` (P0 charter)
@@ -27,6 +28,7 @@ Decision lineage:
 - `D-IH-72-T` (MarTech adapter breadth — 6 sibling registries on top of CRM+REVOPS)
 - `D-IH-72-U` (validate_process_list_pairing.py owned by I72 P9)
 - `D-IH-72-W` (Feature-flag pattern with TODO markers for forward-references)
+- `D-IH-93-I` (RPA adapter registry — Power Platform / Make / n8n / Edge / pg_net)
 """
 from __future__ import annotations
 
@@ -59,6 +61,7 @@ REGISTRY_CLASSES: frozenset[str] = frozenset({
     "COMMUNICATION",
     "SCHEDULING",
     "CONTRACT",
+    "RPA",
 })
 
 
@@ -96,4 +99,5 @@ REGISTRY_PATHS: dict[str, str] = {
     "COMMUNICATION": "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/COMMUNICATION_ADAPTER_REGISTRY.csv",
     "SCHEDULING": "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/SCHEDULING_ADAPTER_REGISTRY.csv",
     "CONTRACT": "docs/references/hlk/v3.0/Admin/O5-1/Operations/SMO/canonicals/dimensions/CONTRACT_ADAPTER_REGISTRY.csv",
+    "RPA": "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/RPA_ADAPTER_REGISTRY.csv",
 }

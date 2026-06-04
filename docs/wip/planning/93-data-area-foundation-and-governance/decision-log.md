@@ -27,7 +27,7 @@ ratified_by: Operator (GATE #1 — ratify-dispatch)
 | **D-IH-93-F** | DATA-FAM + cross-area engineering | row-by-row vs family-level | **7 DATA-FAM umbrella families** (CAP+CONF+process) + cross-area map (115 classified, 35 unmapped → area batches); coordinate with I91 | Family-level avoids 400+ one-off CAP mints; matches `data-area-capability-coverage-2026-06-04.md`. Federated/data-mesh model: DATA sets standards, areas own products. |
 | **D-IH-93-G** | Order vs the 4 P4 items | P4-first / commit-then-design / design-first | **Design-first**; Tier-0 P3e commit + OPS-90-9 + I86 UAT run as Composer packets in parallel; I91 P1 DATA-FAM folds into I93 P6 | Operator: "go for option C… do more research still… heavy lifting now so Composer executes it all." |
 | **D-IH-93-H** | DataOps-move ripple contract | in-place vs aliased move | **`git mv` with one-cycle deprecation aliases + full ripple checklist** (Quality-Fabric §6 path, all linked refs, cursor-rule globs, CANONICAL_REGISTRY/PRECEDENCE/KNOWLEDGE_PAIRING rows) | Same shape as OPS-86-26 legacy-SSOT migration; prevents broken links while the move lands. |
-| **BI/warehouse governance** *(ratified P5 as `D-IH-93-I`)* | BI/warehouse governance now? | charter lightly vs not-now | **Explicit not-now at P5** — see `D-IH-93-I` | Scope control per non-goal; semantic layer covers current needs. |
+| **BI/warehouse governance** *(ratified P5 as `D-IH-93-I`; **amended P5b**)* | BI/warehouse governance now? | not-now → full pack | **Full Postgres-native doctrine** — see amended `D-IH-93-I` | Research proved warehouse = Supabase T2; SUEZ pain = missing adapters/contracts. |
 
 ## Per-phase research & quality bar (operationalises existing decisions — no new ID)
 
@@ -60,11 +60,23 @@ No `DECISION_REGISTER.csv` row is minted for the bar itself; it lives in the pla
 
 Recorded in initiative decision log only (no new `D-IH-93-*` ID — extends existing eight-DAMA charter `D-IH-93-D`).
 
+## P5b BI/integration full pack (2026-06-04)
+
+| Gate | Decision |
+|:---|:---|
+| Doctrine scope | **Full pack (Option A)** — amend `D-IH-93-I`; mint governance + registries + matrix tranche |
+| SUEZ unblock | **Stream B alternative** — Supabase Edge + ERP panel when client PA blocked |
+| Warehouse posture | **Supabase Postgres T2** — no Snowflake primary build |
+
+Minted: `DATA_BI_GOVERNANCE.md`, `DATA_INTEGRATION_PLANE.md`, `BI_CONSUMER_REGISTRY.csv`, `RPA_ADAPTER_REGISTRY.csv`, engagement scaffold + SUEZ Stream B SOPs, `bi_integration_readiness_check.py`, COMPONENT_SERVICE_MATRIX tranche (~10 adds + Power Platform dedupe tags).
+
+Supersedes P5 not-now row in §P5 BI gate below for doctrine scope only; P5 MDM/privacy mint unchanged.
+
 ## P5 BI gate + MDM/privacy mint (2026-06-04)
 
 | Gate | Decision |
 |:---|:---|
-| BI / warehouse governance | **Explicit not-now** — `D-IH-93-I` in `DECISION_REGISTER.csv`; no `DATA_BI_GOVERNANCE.md` mint |
+| BI / warehouse governance | **Amended at P5b** — was explicit not-now; now full pack under amended `D-IH-93-I` |
 | MDM golden record | `SOP-DATA_MASTERDATA_GOLDEN_RECORD_001.md` pairs `thi_data_dtp_32` + `mdm_golden_record_check.py` |
 | Privacy / retention | `DATA_PRIVACY_RETENTION_POLICY.md` — five-tier classification + retention schedule IDs for P7 matrix |
 

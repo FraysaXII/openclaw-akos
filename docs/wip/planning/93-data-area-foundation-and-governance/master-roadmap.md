@@ -2,7 +2,7 @@
 initiative_id: INIT-OPENCLAW_AKOS-93
 title: "I93 — DATA Area Foundation & Cross-Area Data Governance"
 status: active
-phase_status: P5-complete
+phase_status: P5b-complete
 owner_role: CDO + CPO + PMO
 inception: 2026-06-04
 last_review: 2026-06-04
@@ -362,7 +362,8 @@ seat runs the regression + human-readability pass before commit.
 - **Mint:** `SOP-DATA_MASTERDATA_GOLDEN_RECORD_001.md`, `DATA_PRIVACY_RETENTION_POLICY.md`,
   `scripts/mdm_golden_record_check.py`.
 - **Pairing:** `thi_data_dtp_32` (Enterprise MasterData) updated in process_list.
-- **BI decision:** **Explicit not-now** — `D-IH-93-I` in `DECISION_REGISTER.csv` (no `DATA_BI_GOVERNANCE.md`).
+- **BI decision (P5):** explicit not-now at MDM/privacy tranche.
+- **P5b (2026-06-04):** **Full BI/integration pack** — amended `D-IH-93-I`; minted `DATA_BI_GOVERNANCE.md`, `DATA_INTEGRATION_PLANE.md`, registries, matrix tranche, SUEZ Stream B SOP.
 - **Gate:** ✅ synthesis PASS; `validate_hlk.py` PASS; mdm runbook self-test PASS.
 - **Commit:** `feat(i93-p5): MDM golden-record SOP + privacy/retention policy + BI governance decision`.
 
@@ -418,7 +419,7 @@ seat runs the regression + human-readability pass before commit.
 | 5 | `SOP-DATA_LINEAGE_001.md` | Data/Governance | 10 Metadata/lineage | pairs `thi_data_dtp_275`; `sync_hlk_neo4j` |
 | 6 | `SOP-DATA_MASTERDATA_GOLDEN_RECORD_001.md` | Data/Governance | 8 Reference/Master | pairs `thi_data_dtp_32` |
 | 7 | `DATA_PRIVACY_RETENTION_POLICY.md` | Data/Governance | 5 Security | feeds component-matrix population |
-| 8 | BI/warehouse: explicit **not-now** (`D-IH-93-I`) | — | 9 Warehouse/BI | scope-controlled; revisit when warehouse warranted |
+| 8 | BI/warehouse: **Postgres-native + tiered consumers** (`D-IH-93-I` amended P5b) | `DATA_BI_GOVERNANCE.md` | 9 Warehouse/BI | Supabase T2 warehouse; no Snowflake primary |
 
 All 8 inherit the classification lattice + `inherited_pattern_id`, register in
 `CANONICAL_REGISTRY` + `PRECEDENCE`, and (where they carry cross-area jargon) use the

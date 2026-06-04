@@ -175,9 +175,26 @@ validate API when OpenMetadata endpoint is configured.
 - Governance policy: `../Governance/canonicals/DATA_GOVERNANCE_POLICY.md`
 - Contract standard + registry: `DATA_CONTRACT_STANDARD.md`, `dimensions/DATA_CONTRACT_REGISTRY.csv`
 - Catalog tool posture: `DATA_CATALOG_INTEGRATION_POSTURE.md`
+- BI governance + integration plane: `../Governance/canonicals/DATA_BI_GOVERNANCE.md`, `../Governance/canonicals/DATA_INTEGRATION_PLANE.md`
 - Two-plane ops: `.cursor/rules/akos-holistika-operations.mdc`
 - Graph model: `akos/hlk_graph_model.py`
 - I91 inventory: `docs/wip/planning/91-enterprise-graph-store-coverage/reports/store-inventory-2026-06-01.md`
+
+## 9. Supabase capability module table (T2 integration)
+
+| Module | Primary use | Integration pattern | BI / ops consumer |
+|:---|:---|:---|:---|
+| Postgres core | Mirrors, `erp.*`, `holistika_ops` | `stream` / SQL | HLK-ERP T1, Metabase T4 |
+| Edge Functions | Webhook ingress, workers | `edge_webhook` | `holistika_edge` RPA adapter |
+| pgmq | Async job bus (finops writer) | `pgmq_worker` | DATA-FAM probes |
+| pg_net / DB Webhooks | Triggered HTTP from DDL/DML | `edge_webhook` | Stream B automations |
+| pg_cron | Scheduled refresh / exports | `batch` | Contract SLA enforcement |
+| Realtime | Push notifications to ERP | `stream` | Mirror freshness tiles |
+| Wrappers FDW | Stripe GTM read plane | `fdw_read` | Power BI T7 export optional |
+| Vault | Secret storage | `n_a` | SOC invariant |
+| Auth / Storage | Platform services | `n_a` | Not BI SSOT |
+
+Forward: Analytics Buckets (Iceberg) — **non-goal until GA** per `D-IH-93-I`.
 
 ## Evidence base
 

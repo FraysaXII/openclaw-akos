@@ -64,3 +64,23 @@ P5,docs/references/hlk/v3.0/Admin/O5-1/Data/canonicals/DATA_AREA_CHARTER.md,edit
 P5,docs/wip/planning/93-data-area-foundation-and-governance/reports/p5.tranche-charter.md,add,i93-p5,Tranche charter
 P5,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,edit,i93-p5,P5 BI gate + D-IH-93-I
 P5,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p5,P5 complete section
+P5b-research,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-bi-warehouse-posture-2026-06-04.md,add,i93-p5b,BI warehouse deep regression v2
+P5b-research,docs/wip/planning/93-data-area-foundation-and-governance/reports/research-platform-component-landscape-2026-06-04.md,add,i93-p5b,Platform component landscape v3 + full pack spec
+P5b,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,add,i93-p5b,Postgres-native warehouse + T1-T10 BI tiers
+P5b,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_INTEGRATION_PLANE.md,add,i93-p5b,Edge/pgmq/RPA integration plane
+P5b,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/BI_CONSUMER_REGISTRY.csv,add,i93-p5b,13 BI consumer seed rows
+P5b,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/RPA_ADAPTER_REGISTRY.csv,add,i93-p5b,9th adapter registry class RPA
+P5b,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SOP-DATA_ENGAGEMENT_INTEGRATION_SCAFFOLD_001.md,add,i93-p5b,Engagement demo to adapter checklist
+P5b,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SOP-DATA_SUEZ_STREAM_B_LIBELLE_001.md,add,i93-p5b,SUEZ F-05 Stream B worked example
+P5b,scripts/bi_integration_readiness_check.py,add,i93-p5b,Matrix + erp view + registry FK probes
+P5b,scripts/validate_bi_consumer_registry.py,add,i93-p5b,BI consumer registry validator
+P5b,akos/hlk_bi_consumer_csv.py,add,i93-p5b,Pydantic SSOT for BI_CONSUMER_REGISTRY
+P5b,tests/test_bi_integration_readiness_check.py,add,i93-p5b,P5b runbook tests
+P5b,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/techops/COMPONENT_SERVICE_MATRIX.csv,edit,i93-p5b,10 adds + Power Platform dedupe + integration patterns
+P5b,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv,edit,i93-p5b,Amend D-IH-93-I full pack
+P5b,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv,edit,i93-p5b,Engagement scaffold + readiness processes
+P5b,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv,edit,i93-p5b,DC-HOL-SUEZ-LIBELLE-STAGING-001
+P5b,docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/DATA_ARCHITECTURE.md,edit,i93-p5b,Section 9 Supabase module table
+P5b,docs/wip/planning/93-data-area-foundation-and-governance/reports/p5b-or-bi.tranche-charter.md,add,i93-p5b,Tranche charter
+P5b,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,edit,i93-p5b,P5b amendment section
+P5b,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p5b,P5b complete status

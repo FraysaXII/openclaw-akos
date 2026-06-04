@@ -63,7 +63,7 @@ STEWARD = {
     "other",
 }
 API_EXPOSURE = {"none", "internal", "partner", "public"}
-INTEGRATION = {"push", "pull", "batch", "stream", "event", "manual", "n_a"}
+INTEGRATION = {"push", "pull", "batch", "stream", "event", "manual", "n_a", "edge_webhook", "pgmq_worker", "fdw_read", "low_code_rpa", "embedded_chart"}
 DATA_CLASS = {"public", "internal", "confidential", "restricted", ""}
 ENV_SCOPE = {"dev", "staging", "prod", "multi", "local_only"}
 SLO_TIER = {"best_effort", "standard", "critical"}

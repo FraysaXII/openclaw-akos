@@ -113,7 +113,7 @@ eight-DAMA-doctrine mint, `D-IH-93-D`):
 | **Metadata & Lineage** | Lineage SOP | Data + Compliance | P4 lineage |
 | **Data Quality** | `DATAOPS_DISCIPLINE` (active) | Data / Governance | P1 re-home |
 | **Data Security / Privacy** | Retention policy | Data + Legal | P5 privacy policy |
-| **Warehousing / BI** | BI governance charter | Data / Governance | P5 decision gate (D-IH-93-I not-now) |
+| **Warehousing / BI** | BI governance + integration plane | Data / Governance | P5b complete (`D-IH-93-I` amended) |
 
 ## 5. Process catalog (initial)
 
@@ -141,7 +141,8 @@ Full `thi_data_*` pairing review is **I93 P4** / OPS hygiene — not P1 scope.
   families); tranche charter + §9.0 research bar cleared.
 - **P3 (complete 2026-06-04):** three-tier data architecture + ODCS export.
 - **P4 (complete 2026-06-04):** semantic/metrics layer + formal lineage SOP.
-- **P5 (complete 2026-06-04):** MDM golden-record SOP + privacy/retention policy; BI explicit not-now (`D-IH-93-I`).
+- **P5 (complete 2026-06-04):** MDM golden-record SOP + privacy/retention policy; BI gate deferred at P5.
+- **P5b (complete 2026-06-04):** Full BI/integration pack — amended `D-IH-93-I`; Postgres-native warehouse doctrine.
 - **P6–P7:** DATA-FAM families + hygiene tranches; operator gates on canonical CSV mints.
 - **P8:** harmonize all seven areas to `pattern_area_buildout` completeness bar.
 - **Area completeness:** run `py scripts/validate_area_completeness.py --matrix`

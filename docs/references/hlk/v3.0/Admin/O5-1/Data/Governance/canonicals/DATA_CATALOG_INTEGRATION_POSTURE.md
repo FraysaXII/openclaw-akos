@@ -135,7 +135,7 @@ Source: `reports/research-synthesis-2026-06-04.md` §5 + P2b research sweep.
 | 6 | Integration & Interop | **DATA_CONTRACT_REGISTRY** | contract + registry validators | ODCS export | P2 ✅ / export P8 |
 | 7 | Document & Content | KM Topic-Fact-Source | manifest validators | — | exists / P7 |
 | 8 | Reference & Master Data | MDM SOP (P5) | golden-record checks | Purview glossary (optional) | P5 |
-| 9 | Warehousing & BI | explicit defer or policy (P5) | — | Power BI + Purview (if adopted) | P5 decision |
+| 9 | Warehousing & BI | **DATA_BI_GOVERNANCE.md** + BI_CONSUMER_REGISTRY (P5b) | `bi_integration_readiness_check.py` | Power BI / Metabase / Langfuse as L3 projection consumers | P5b ✅ |
 | 10 | Metadata | CANONICAL_REGISTRY + PRECEDENCE | index integrity sweep | OpenMetadata / Purview catalog | P4 / P8 |
 | 11 | Data Quality | DATA-01..07 + DataOps | probes + contract `quality_rules` | OpenMetadata contract DQ tests; Purview quality rules | P6 |
 
