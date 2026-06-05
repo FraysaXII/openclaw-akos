@@ -17,14 +17,26 @@ globs:
 alwaysApply: false
 ---
 
-# AKOS Area Governance
+# AKOS Area Governance (v2)
 
 Use this rule when chartering or maturing an O5-1 area under
-`docs/references/hlk/v3.0/Admin/O5-1/`, or when running an I93
-harmonization sweep. Codifies operator decision **D-IH-93-B** (area-
-governance meta-process as the 17th Quality Fabric specialty, 2026-06-04).
-Mechanical companion to
-[`AREA_GOVERNANCE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/AREA_GOVERNANCE_DISCIPLINE.md).
+`docs/references/hlk/v3.0/Admin/O5-1/`, or when running an area / harmonization
+/ wave-close sweep. Codifies **D-IH-93-B** (area-governance meta-process; 17th
+Quality Fabric specialty) **+ D-IH-94-A** (v2 — 2-D maturity model). Mechanical
+companion to
+[`AREA_GOVERNANCE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/AREA_GOVERNANCE_DISCIPLINE.md) v2.
+
+## v2 model in one screen
+
+- **16 components × L0–L5 maturity** over **8 areas** (Data, Tech, Finance, Marketing,
+  Operations, People, Research, **Legal**).
+- **Critical** components must reach **L3** (Defined) for an area to be **COMPLETE for tier**;
+  enhancing components are weighted, never gating. AREA-09 (paired SOP+runbook) is **enhancing**
+  (pairing-cliff forward debt; calibration finding I94 P1).
+- Each area declares a **kind** (stream_aligned / platform / capability_meta / delivery_capacity)
+  + **entity** (Holistika / Think Big / HLK Tech Lab) per `AREA_KIND_ENTITY`.
+- New components: **AREA-14 KIND+ENTITY**, **AREA-15 PLACEMENT-INTEGRITY** (no drift + ships a
+  contract), **AREA-16 FILE-PLAN** (sub-folder = role/sub_area).
 
 This rule does **not** replace the doctrine — that lives in the canonical.
 This rule names the mechanical bar agents inherit when touching area
@@ -42,28 +54,35 @@ A sweep is in scope when **any** of:
 
 Out of scope: chore-only link fixes with no area-structure change.
 
-## RULE 1 — Run the 14-component matrix before area CSV commits (binding)
+## RULE 1 — Run the maturity grid + worklist before area CSV commits (binding)
 
 Before landing an area CSV tranche or charter commit, run:
 
 ```powershell
-py scripts/validate_area_completeness.py --matrix
+py scripts/validate_area_completeness.py --matrix          # 8-area x 16-component grid + crit@L3 tier
+py scripts/validate_area_completeness.py --area <Area> --next   # ranked next-action worklist
 ```
 
-Disposition every `gap` or `blocked` finding via inline-ratify per the
-canonical §4. Do not treat a green People row as proof all areas are ready.
+Work the `--next` worklist top-down (critical-first). Disposition residual `gap`/`partial`
+findings via inline-ratify per the canonical §5–§6. **Closure gate = `crit@L3` tier COMPLETE**,
+not the % score. Do not treat a green People row as proof all areas are ready.
 
 ## RULE 2 — Conservative evidence posture (binding)
 
-- **AREA-10** (Supabase mirrors): emit `skip` at P0 unless mirror evidence
-  is explicitly in scope — do not invent PASS from repo-only scans.
+- **AREA-10** (Supabase mirrors): emit `skip`/L0 unless mirror evidence is explicitly in
+  scope — do not invent PASS from repo-only scans.
 - **Marketing**: `process_list.csv` uses area code `MKT`, not `Marketing`.
+- Emit `L0` (not a higher level) when live evidence is unavailable (deterministic posture).
 
-## RULE 3 — Pattern inheritance on new area processes (binding)
+## RULE 3 — Kind/entity + pattern + file-plan on area work (binding)
 
-New area-governance processes MUST set
-`inherited_pattern_id=pattern_area_buildout` on the `process_list.csv` row
-unless a narrower pattern is operator-ratified in `DECISION_REGISTER.csv`.
+- New area-governance processes MUST set `inherited_pattern_id=pattern_area_buildout` on the
+  `process_list.csv` row unless a narrower pattern is operator-ratified in `DECISION_REGISTER.csv`.
+- Every area MUST declare its **kind + entity** in `AREA_KIND_ENTITY` (AREA-14).
+- Area **sub-folder names MUST FK** to a `baseline_organisation` role/`sub_area` (AREA-16);
+  structural folders (`canonicals`, `dimensions`, `programs`, `_templates`, `_assets`) are exempt.
+- An area's canonicals MUST belong to it (AREA-15) — area-operational disciplines live in their
+  consuming area, not parked in People (the methodology-vs-operations boundary).
 
 ## Cross-references
 
