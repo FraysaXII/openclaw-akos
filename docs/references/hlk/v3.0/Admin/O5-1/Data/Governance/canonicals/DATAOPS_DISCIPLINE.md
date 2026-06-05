@@ -46,6 +46,7 @@ linked_runbooks:
   - docs/guides/holistika-mirror-dml-apply.md
 linked_sops:
   - SOP-TECH_DATAOPS_QUALITY_001.md
+  - ../../../Tech/System Owner/canonicals/SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001.md
 ---
 
 # DataOps Discipline

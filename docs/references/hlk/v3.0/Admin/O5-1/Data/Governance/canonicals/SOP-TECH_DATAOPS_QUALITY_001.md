@@ -35,6 +35,7 @@ linked_runbooks:
   - docs/guides/holistika-mirror-dml-apply.md
 linked_processes:
   - env_tech_dtp_dataops_quality_001
+  - env_tech_dtp_compliance_mirror_dml_001
 cadence: event_triggered
 cadence_trigger: canonical-CSV mint OR mirror upsert OR wave-close touching compliance CSVs
 ---

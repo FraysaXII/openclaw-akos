@@ -90,5 +90,7 @@ A 4-consecutive-week regression on any external repo triggers Initiative 42 (cro
 - [`BRAND_JARGON_AUDIT.md`](../../Admin/O5-1/Marketing/Brand/BRAND_JARGON_AUDIT.md) — forbidden tokens
 - [`REPOSITORIES_REGISTRY.md`](REPOSITORIES_REGISTRY.md) — Holistika-tracked repository index
 - [`operator-sql-gate.md`](../../../../wip/planning/14-holistika-internal-gtm-mops/reports/operator-sql-gate.md) — DDL approval workflow
+- [`SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001.md`](../../Admin/O5-1/Tech/System%20Owner/canonicals/SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001.md) — mirror DML apply (AKOS operator only; **D-GTM-DB-6**)
+- [`holistika-mirror-dml-apply.md`](../../../../../../docs/guides/holistika-mirror-dml-apply.md) — step-by-step runbook
 - Initiative 32 master roadmap: [`32-holistik-ops-maturation/master-roadmap.md`](../../../../wip/planning/32-holistik-ops-maturation/master-roadmap.md)
 - D-IH-32-K (cross-repo contract), D-IH-32-L (pull-based extraction), D-IH-32-N (boilerplate reference-only)

@@ -54,6 +54,17 @@ Do not add submodules bulk-style without CTO / Tech Lead approval.
 
 Registry rows may include **`api_spec_pointer`** and **`api_topic_id`** (see [REPOSITORIES_REGISTRY.md](REPOSITORIES_REGISTRY.md)). **Per-component** API fields (exposure, dependencies, runbooks) live in **[COMPONENT_SERVICE_MATRIX.csv](../../../compliance/COMPONENT_SERVICE_MATRIX.csv)** joined on **`repo_slug`**. API lifecycle procedures: [SOP-HLK_API_LIFECYCLE_MANAGEMENT_001.md](../../Admin/O5-1/Tech/System%20Owner/SOP-HLK_API_LIFECYCLE_MANAGEMENT_001.md).
 
+## Holistika mirror discipline (consumer repos)
+
+Sibling repos **read** `compliance.*_mirror` projections; they do **not** author HLK CSVs or run mirror emit/apply.
+
+| Need | Go to (AKOS SSOT) |
+|:---|:---|
+| Mirror DML apply (operator) | [`SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001.md`](../../Admin/O5-1/Tech/System%20Owner/canonicals/SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001.md) |
+| Step-by-step runbook | [`holistika-mirror-dml-apply.md`](../../../../../guides/holistika-mirror-dml-apply.md) |
+| Data vs Ops governance | [`holistika-ops-governance-lattice.md`](../../../../../guides/holistika-ops-governance-lattice.md) |
+| Consumer contract | [`EXTERNAL_REPO_CONTRACT_TEMPLATE.md`](EXTERNAL_REPO_CONTRACT_TEMPLATE.md) |
+
 ## Related
 
 - **Think Big** — commercial / engagement artifacts that are *not* repository roots: [../../Think Big/README.md](../../Think%20Big/README.md)

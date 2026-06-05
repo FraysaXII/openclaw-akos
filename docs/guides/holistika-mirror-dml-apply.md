@@ -5,6 +5,8 @@
 
 **SSOT for two-plane doctrine:** [`operator-sql-gate.md`](../wip/planning/14-holistika-internal-gtm-mops/reports/operator-sql-gate.md) · [`.cursor/rules/akos-holistika-operations.mdc`](../../.cursor/rules/akos-holistika-operations.mdc)
 
+**Vault SOP (executable process):** [`SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001.md`](../references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/canonicals/SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001.md) · `process_list` **`env_tech_dtp_compliance_mirror_dml_001`** · Data vs Ops lattice: [`holistika-ops-governance-lattice.md`](holistika-ops-governance-lattice.md)
+
 Git CSVs are authoritative. Mirror tables are **projections**. Never author business data in the Dashboard; never put bulk `INSERT` batches in `supabase/migrations/`.
 
 ---

@@ -143,6 +143,17 @@ Supersedes decision-log row 30 placeholder (BI ID now allocated as `D-IH-93-I` a
 
 No new `D-IH-93-*` ID — operationalises existing two-plane constraint (D-IH-93-C / Holistika ops).
 
+## Post-closure — Holistika mirror DML executable process (2026-06-05)
+
+| Item | Outcome |
+|:---|:---|
+| Gap | Repo guide + D-GTM-DB-6 existed; **no** paired SOP + `process_list` row (executable-process-catalog Rule 1) |
+| Mint | `SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001.md` + `env_tech_dtp_compliance_mirror_dml_001` + `CANONICAL_REGISTRY` + `KNOWLEDGE_PAIRING` `pair_holistika_mirror_dml_001` |
+| Lattice doc | [`docs/guides/holistika-ops-governance-lattice.md`](../../../../guides/holistika-ops-governance-lattice.md) — Data vs Ops vs Envoy |
+| Envoy | `Repositories/README.md` + `EXTERNAL_REPO_CONTRACT_TEMPLATE.md` cite AKOS apply SOP |
+
+Ops governance **breadth** (I88 cross-area wiring) remains a separate active initiative.
+
 ## Ratification gate
 
 GATE #1 (operator): approve D-IH-93-A..H (+ BI decision deferred to P5) and authorize:

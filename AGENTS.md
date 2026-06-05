@@ -68,6 +68,6 @@ Each initiative carries its own `master-roadmap.md`, decision log, and closure U
 | Need | Go to |
 |:---|:---|
 | Planning + UAT shape | [`akos-planning-traceability.mdc`](.cursor/rules/akos-planning-traceability.mdc) + [`docs/wip/planning/_templates/uat-closure-template.md`](docs/wip/planning/_templates/uat-closure-template.md) |
-| Holistika ops / Supabase | [`akos-holistika-operations.mdc`](.cursor/rules/akos-holistika-operations.mdc) · mirror DML apply [`docs/guides/holistika-mirror-dml-apply.md`](docs/guides/holistika-mirror-dml-apply.md) |
+| Holistika ops / Supabase | [`akos-holistika-operations.mdc`](.cursor/rules/akos-holistika-operations.mdc) · mirror DML [`holistika-mirror-dml-apply.md`](docs/guides/holistika-mirror-dml-apply.md) · Data/Ops lattice [`holistika-ops-governance-lattice.md`](docs/guides/holistika-ops-governance-lattice.md) · vault SOP `SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001` |
 | Quality-bound artifacts | [`akos-quality-fabric.mdc`](.cursor/rules/akos-quality-fabric.mdc) |
 | Initiative registry | `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv` |

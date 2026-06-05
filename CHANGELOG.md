@@ -13,6 +13,8 @@ Release lane definitions, SemVer judgment, `[Unreleased]` working-line disciplin
 
 ## [Unreleased]
 
+- **Holistika mirror DML executable process (2026-06-05)** — `SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001` + `process_list` `env_tech_dtp_compliance_mirror_dml_001` + KNOWLEDGE_PAIRING + [`holistika-ops-governance-lattice.md`](docs/guides/holistika-ops-governance-lattice.md); Envoy Tech Lab README/contract cross-refs. Closes repo-only guidance gap (D-GTM-DB-6 now has vault process row).
+
 - **I93 closure (2026-06-05; D-IH-93-CLOSURE)** — `INIT-OPENCLAW_AKOS-93` closed after P0–P8 mechanical deliverables; closure UAT PASS-WITH-FOLLOWUP; `D-IH-93-CLOSURE` in `DECISION_REGISTER.csv`. Forward work: non-Data area charters in [`area-governance-gap-tracker-2026-06-05.csv`](docs/wip/planning/93-data-area-foundation-and-governance/_trackers/area-governance-gap-tracker-2026-06-05.csv).
 
 - **Holistika mirror DML apply standard (2026-06-05; D-GTM-DB-6)**: NEW [`docs/guides/holistika-mirror-dml-apply.md`](docs/guides/holistika-mirror-dml-apply.md) — preferred operator path `pwsh -File scripts/apply_mirror_batches.ps1` → `npm run supabase db query --linked -f` per batch (`-Preset ops8615` for I93 OPS-86-15); **psql** remains valid. Vault-wired in `DATAOPS_DISCIPLINE.md`, `SOP-TECH_DATAOPS_QUALITY_001.md`, `DATA_ARCHITECTURE.md`, `DATA_CONTRACT_REGISTRY`, `SOP-HLK_TOOLING_STANDARDS_001.md`. I93 closure UAT + P6 verification updated (mirror DML PASS); closure-gate research [`research-i93-closure-gate-2026-06-05/`](docs/wip/planning/93-data-area-foundation-and-governance/reports/research-i93-closure-gate-2026-06-05/).
