@@ -1,0 +1,34 @@
+entity_type,entity_label,ssot_path,archimate_aspect,zachman_cell,neo4j_label,owning_area,status,notes
+role,Role,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv,active_structure,who,Role,People,active,Performer; reports_to/area/sub_area/responsible_processes/components_used FKs
+aic,AIC,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AIC_REGISTRY.csv,active_structure,who,,Tech,active,AI collaborator; performs processes like a role
+persona,Persona,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_REGISTRY.csv,active_structure,who,Persona,Marketing,active,Actor archetype
+entity,Entity,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv,active_structure,who,,People,active,Holistika/Think Big/HLK Tech Lab org units
+channel,Channel,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv,active_structure,where,Channel,Marketing,active,Interaction interface
+sourcing,Sourcing,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SOURCING_REGISTER.csv,active_structure,where,Sourcing,Reach,active,Sourcing channel
+process,Process,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv,behavior,how,Process,per-area,active,item_granularity project/process/activity/task = intra-type layers
+pattern,Pattern,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv,behavior,how,,People,active,Reusable design pattern; realized-as process
+engagement,Engagement,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv,behavior,how,,Finance,active,Client engagement / service offering
+capability,Capability,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CAPABILITY_REGISTRY.csv,strategy,how,,per-area,active,Business capability; capability-map anchor
+skill,Skill,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SKILL_REGISTRY.csv,behavior,how,Skill,People,active,Competence assigned to roles
+use_case,Use-case,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/USE_CASE_ARCHIVE.csv,behavior,how,,Marketing,active,Scenario realizing a capability
+persona_scenario,Persona-scenario,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv,behavior,how,,Marketing,active,Specialization of persona
+topic,Topic,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOPIC_REGISTRY.csv,passive_structure,what,Topic,Research,active,Knowledge topic; parent/child tree
+component,Component,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COMPONENT_PRIMITIVE_REGISTRY.csv,passive_structure,what,,Tech,active,Reusable component primitive
+canonical,Canonical,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CANONICAL_REGISTRY.csv,passive_structure,what,,per-area,active,Governed artifact registered in the vault
+metric,Metric,docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/dimensions/METRICS_REGISTRY.csv,passive_structure,what,,Data,active,Semantic-layer metric (define-once)
+artifact_class,Artifact-class,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ARTIFACT_CLASS_REGISTRY.csv,passive_structure,what,,People,active,Artifact classification meta-type
+output_type,Output-type,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/OUTPUT_TYPE_REGISTRY.csv,passive_structure,what,,People,active,Output taxonomy meta-type
+substrate,Substrate,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SUBSTRATE_REGISTRY.csv,technology,what,,Tech,active,Technology substrate/object
+source_fact,Source/Fact,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/source_taxonomy.md,passive_structure,what,,Research,active,Evidence source / fact in the intelligence matrix
+touchpoint_kit_cell,Touchpoint-kit-cell,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOUCHPOINT_KIT_CELL_REGISTRY.csv,passive_structure,where,TouchpointKitCell,Marketing,active,Touchpoint kit cell
+brand,Brand,docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/canonicals/BRAND_ARCHITECTURE.md,passive_structure,what,,Marketing,active,Brand / sub-mark; sub-marks specialize the brand (operator add 2026-06-05)
+decision,Decision,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv,motivation,why,,People,active,Governed decision; influences elements
+policy,Policy,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/POLICY_REGISTER.csv,motivation,why,Policy,per-area,active,Policy; influences behavior
+goal_poi,Goal/POI,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv,motivation,why,,per-area,active,Goal / point of interest
+audience,Audience,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv,motivation,who,,Marketing,active,Stakeholder audience
+initiative,Initiative,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv,implementation,when,,per-area,active,Initiative; roadmap unit
+program,Program,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PROGRAM_REGISTRY.csv,implementation,when,Program,per-area,active,Program; aggregates initiatives
+workstream,Workstream,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv,implementation,when,,per-area,planned,Workstream between program and process (operator add 2026-06-05); SSOT TBD at build
+ops_action,OPS action,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv,implementation,when,,People,active,Operational action; influences initiatives
+calendar_cadence,Calendar/Cadence,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COUNTRY_WORK_CALENDAR.csv,time,when,,Operations,active,Calendar + process cadence_type
+area,Area,docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/AREA_GOVERNANCE_DISCIPLINE.md,strategy,where,,People,active,Bounded context; composes sub-areas + roles

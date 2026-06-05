@@ -51,9 +51,19 @@ step recoverable.
 
 ---
 
+## D-IH-95-B — HCAM catalog + verbs + triples (RATIFIED 2026-06-05, architecture, low reversibility)
+
+Operator signed off (catalog_signoff_first) then build executed. **ENTITY_CATALOG.csv** = 33 types
+(31 + operator-added **Workstream** + **Brand**), each → ArchiMate aspect + Zachman cell + SSOT +
+Neo4j label + owning area. **CANONICAL_RELATIONSHIP_REGISTRY.csv** = 38 triples on the closed 10+1
+ArchiMate verb set, incl operator-added **Skill→Role** (TRP-028), **Use-case→Capability** (TRP-029),
+**AIC→Process** (TRP-030) + Workstream/Brand links. Pydantic `akos/hlk_canonical_articulation.py` +
+`scripts/validate_canonical_articulation.py` wired into `validate_hlk.py` (PASS; 6 tests; self-test).
+`neo4j_edge_type` pre-wires the I91 unify (C) — forked `*_PARENT_OF` → `COMPOSED_OF`. Published as
+Data-Architecture canonical `CANONICAL_ARTICULATION_MODEL.md` (sibling to `SEMANTIC_LAYER.md`).
+Coupled with **I91**. Zachman coverage 6/6.
+
 ### Pending sub-decisions (to ratify at each gate)
-- **D-IH-95-B** — `CANONICAL_RELATIONSHIP_REGISTRY.csv` schema + the closed verb set + initial
-  valid-triple matrix (entity catalog freeze).
 - **D-IH-95-C** — Neo4j edge-rename map + derivation/competency-question queries.
 - **D-IH-95-E** — HCAM ownership + doctrine home. **Corrected recommendation (2026-06-05, Prong E,
   53 sources):** home HCAM in **Data** as the entity/relationship tier of `SEMANTIC_LAYER.md`,

@@ -559,6 +559,14 @@ def main() -> int:
          "validate_metrics_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
          / "Architecture" / "canonicals" / "dimensions" / "METRICS_REGISTRY.csv"),
+        # I95 P1 (D-IH-95-B) - HCAM: entity catalog + canonical relationship registry
+        # (the enterprise-ontology / entity+relationship tier of the Semantic Layer).
+        # Validator checks both CSVs (schema + catalog<->triple referential integrity +
+        # verb<->Neo4j-edge consistency); runs standalone (ignores the path arg below).
+        ("CANONICAL_ARTICULATION", "validate_canonical_articulation.py",
+         "validate_canonical_articulation",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
+         / "Architecture" / "canonicals" / "dimensions" / "ENTITY_CATALOG.csv"),
         ("BI_CONSUMER_REGISTRY", "validate_bi_consumer_registry.py",
          "validate_bi_consumer_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
