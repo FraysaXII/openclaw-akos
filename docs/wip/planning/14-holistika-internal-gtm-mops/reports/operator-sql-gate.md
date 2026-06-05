@@ -10,6 +10,13 @@
 
 **Break-glass:** Dashboard SQL Editor or MCP `apply_migration` only in emergencies. **Afterward:** run **`supabase db pull`** or **`supabase migration repair`** so [`supabase/migrations/`](../../../../supabase/migrations/) and remote `schema_migrations` match—see [`supabase/migrations/README.md`](../../../../supabase/migrations/README.md).
 
-**Compliance mirror DML (data plane):** Not migrations. Run **`py scripts/verify.py compliance_mirror_emit`**, review `artifacts/sql/compliance_mirror_upsert.sql`, apply in batches (`psql` / SQL Editor). Prerequisites: `validate_hlk.py` / release gate when CSVs changed.
+**Compliance mirror DML (data plane):** Not migrations. Canonical operator guide: [`docs/guides/holistika-mirror-dml-apply.md`](../../../../docs/guides/holistika-mirror-dml-apply.md).
+
+1. **Emit** — `py scripts/verify.py compliance_mirror_emit` (full bundle) or `py scripts/verify.py ops8615_mirror_emit` / `--ops8615-split` (five OPS-86-15 tables).
+2. **Apply (preferred)** — `pwsh -File scripts/apply_mirror_batches.ps1 -Preset ops8615` or `-BatchDir <chunk-folder>` → uses **`npm run supabase db query --linked -f`** on each `.sql` (linked Holistika project; same auth as `db push`).
+3. **Apply (alternative)** — `psql -f` per batch when CLI link is unavailable.
+4. **Avoid** — pasting multi-megabyte SQL into the Dashboard SQL Editor (size limit); tiny smoke files only.
+
+Prerequisites: `validate_hlk.py` when CSVs changed; `npx supabase link` on MasterData before Method A.
 
 **Forbidden until approval:** mutating `execute_sql`, `apply_migration`.

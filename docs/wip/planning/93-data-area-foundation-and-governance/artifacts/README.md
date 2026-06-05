@@ -26,32 +26,36 @@ That writes `artifacts/sql/compliance_mirror_upsert.sql` (all mirrors). OPS-86-1
 
 ---
 
-## Recommended: generate batches, apply with psql
+## Recommended: generate batches, apply with linked Supabase CLI
 
-### 1. Generate five batch files (SQL Editor–friendly splits)
+Repo-wide standard: [`docs/guides/holistika-mirror-dml-apply.md`](../../../../guides/holistika-mirror-dml-apply.md).
+
+### 1. Generate five batch files
 
 ```powershell
-py scripts/sync_compliance_mirrors_from_csv.py --ops8615-gap-mirrors-only --ops8615-split
+py scripts/verify.py ops8615_mirror_emit
 ```
+
+Same as `py scripts/sync_compliance_mirrors_from_csv.py --ops8615-gap-mirrors-only --ops8615-split`.
 
 Writes `artifacts/ops8615-batches/01-aic_registry.sql` … `05-country_work_calendar.sql` plus
 `MANIFEST.md` with row counts.
 
-### 2. Apply via psql (Supabase-recommended for large queries)
+### 2. Apply via linked CLI (preferred in this repo)
 
-From Dashboard → **Connect** → copy the **Session pooler** URI (port **5432**), then:
+Requires `npx supabase link` on MasterData (same session as `db push`):
 
 ```powershell
-cd docs/wip/planning/93-data-area-foundation-and-governance/artifacts/ops8615-batches
-$env:PGPASSWORD = "<your-db-password>"
-psql "<connection-string-from-dashboard>" -c "set statement_timeout = '30min';"
-foreach ($f in Get-ChildItem -Filter "*.sql" | Sort-Object Name) {
-  Write-Host "Applying $f ..."
-  psql "<connection-string>" -f $f.Name
-}
+cd c:\Users\Shadow\cd_shadow\openclaw-akos
+pwsh -File scripts/apply_mirror_batches.ps1 -Preset ops8615
 ```
 
-See [Supabase: avoiding timeouts on long queries](https://supabase.com/docs/guides/troubleshooting/avoiding-timeouts-in-long-running-queries-6nmbdN).
+Runs `npm run supabase db query --linked -f` on each batch in order; log under `artifacts/sql/`.
+
+### 2b. Apply via psql (alternative)
+
+From Dashboard → **Connect** → copy the **Session pooler** URI (port **5432**), then apply each
+`ops8615-batches/*.sql` with `psql -f`. See the holistika-mirror-dml-apply guide Method B.
 
 ### 3. Verify counts
 

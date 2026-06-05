@@ -2246,6 +2246,8 @@ The **External Adviser Engagement** plane (ADVOPS) sits parallel to MKTOPS / FIN
 ```pwsh
 py scripts/validate_hlk.py
 py scripts/verify.py compliance_mirror_emit
+# After review: apply mirror DML to linked Supabase (see docs/guides/holistika-mirror-dml-apply.md)
+# pwsh -File scripts/apply_mirror_batches.ps1 -BatchDir artifacts/sql/mirror-batches/<date>
 py scripts/verify.py export_adviser_handoff_smoke
 py scripts/export_adviser_handoff.py --discipline legal --format md --out artifacts/exports/legal-handoff-2026-04.md
 ```

@@ -1,13 +1,33 @@
 # Apply compliance mirror DML chunks via supabase db query --linked --file.
-# OPS-55-1 / Phase H6 driver. Idempotent (every chunk is INSERT ... ON CONFLICT DO UPDATE).
-# Skips files passed via -SkipFile (e.g. chunk01 already applied during contract test).
+# Canonical operator path: docs/guides/holistika-mirror-dml-apply.md (Method A).
+# Idempotent (every chunk is INSERT ... ON CONFLICT DO UPDATE).
+# Skips files passed via -SkipFile (e.g. chunk already applied during contract test).
 
 [CmdletBinding()]
 param(
-    [string]$BatchDir = "artifacts/sql/mirror-batches/20260504",
-    [string]$LogPath = "artifacts/sql/mirror-batches-apply-20260504.log",
-    [string[]]$SkipFile = @("10-persona_scenario_registry_mirror-chunk01.sql")
+    [ValidateSet("custom", "ops8615")]
+    [string]$Preset = "custom",
+    [string]$BatchDir = "",
+    [string]$LogPath = "",
+    [string[]]$SkipFile = @()
 )
+
+$RepoRoot = Split-Path -Parent $PSScriptRoot
+if ($Preset -eq "ops8615") {
+    $BatchDir = Join-Path $RepoRoot "docs/wip/planning/93-data-area-foundation-and-governance/artifacts/ops8615-batches"
+}
+if (-not $BatchDir) {
+    $BatchDir = Join-Path $RepoRoot "artifacts/sql/mirror-batches/20260504"
+}
+if (-not $LogPath) {
+    $leaf = Split-Path -Leaf ($BatchDir.TrimEnd("\"))
+    $LogPath = Join-Path $RepoRoot "artifacts/sql/mirror-batches-apply-$leaf.log"
+}
+if (-not (Test-Path -LiteralPath $BatchDir)) {
+    Write-Error "BatchDir not found: $BatchDir (run emit / --ops8615-split first)"
+    exit 1
+}
+$BatchDir = (Resolve-Path -LiteralPath $BatchDir).Path
 
 # Deliberately NOT setting ErrorActionPreference = Stop:
 # npx supabase prints benign info ("Initialising login role...") to stderr,

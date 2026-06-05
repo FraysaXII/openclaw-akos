@@ -106,7 +106,7 @@ One logical data product may require **multiple contract rows** (CSV + mirror + 
 
 | Path | Mechanism | Gate |
 |:---|:---|:---|
-| T1 → T2 mirror | `supabase/migrations/` DDL + `compliance_mirror_emit` / sync scripts | DATA-01..02 probes |
+| T1 → T2 mirror | DDL: `supabase/migrations/`; DML emit: `compliance_mirror_emit`; DML apply: [`holistika-mirror-dml-apply.md`](../../../../../../../docs/guides/holistika-mirror-dml-apply.md) (**D-GTM-DB-6**) | DATA-01..02 probes |
 | T1 → T3 graph | `akos/hlk_graph_model.py` → `scripts/sync_hlk_neo4j.py` | `assert_graph_registry_parity()` |
 | T2 → consumers | ERP routes, FDW foreign tables, ops dashboards | Contract `quality_rules` + DataOps |
 | T1 → tool catalog | `scripts/export_data_contract_odcs.py` (ODCS v3.1 YAML) | OpenMetadata import (L3 projection) |

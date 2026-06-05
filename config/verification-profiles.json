@@ -348,7 +348,7 @@
       ]
     },
     "ops8615_mirror_emit": {
-      "description": "I93 P6 OPS-86-15 gap mirrors: row-count preflight then emit five batched upsert SQL files under docs/wip/planning/93-.../artifacts/ops8615-batches/ (operator applies via psql per Holistika two-plane DML gate).",
+      "description": "I93 P6 OPS-86-15 gap mirrors: row-count preflight then emit five batched upsert SQL files under docs/wip/planning/93-.../artifacts/ops8615-batches/. Operator apply: pwsh -File scripts/apply_mirror_batches.ps1 -Preset ops8615 (linked supabase db query --linked -f); psql alternative per docs/guides/holistika-mirror-dml-apply.md.",
       "steps": [
         {
           "id": "ops8615_count_only",
@@ -371,7 +371,7 @@
       ]
     },
     "compliance_mirror_emit": {
-      "description": "Initiative 14/18/21: preflight CSV row counts then emit compliance mirror upsert SQL to artifacts/sql/compliance_mirror_upsert.sql (operator reviews before DB apply). Now also covers GOI/POI, adviser disciplines, adviser open questions, and founder filed instruments.",
+      "description": "Initiative 14/18/21: preflight CSV row counts then emit compliance mirror upsert SQL to artifacts/sql/compliance_mirror_upsert.sql (operator reviews before DB apply). Apply via docs/guides/holistika-mirror-dml-apply.md (apply_mirror_batches.ps1 + supabase db query --linked -f, or psql). Covers GOI/POI, adviser disciplines/questions, filed instruments.",
       "steps": [
         {
           "id": "compliance_mirror_count_only",

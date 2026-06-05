@@ -31,6 +31,8 @@ linked_runbooks:
   - scripts/dataops_quality_check.py
   - scripts/validate_hlk.py
   - scripts/sync_compliance_mirrors_from_csv.py
+  - scripts/apply_mirror_batches.ps1
+  - docs/guides/holistika-mirror-dml-apply.md
 linked_processes:
   - env_tech_dtp_dataops_quality_001
 cadence: event_triggered
@@ -65,6 +67,20 @@ UAT verdict is filled in.
    for schema drift and FK gaps).
 4. **Record evidence** in the wave UAT mechanical section or the tranche
    synthesis report when the change is tranche-class.
+
+### Mirror DML apply (when emit produces SQL batches)
+
+After emit, operator applies reviewed SQL to the linked Holistika project per
+[`docs/guides/holistika-mirror-dml-apply.md`](../../../../../../../docs/guides/holistika-mirror-dml-apply.md)
+(**D-GTM-DB-6**):
+
+```powershell
+pwsh -File scripts/apply_mirror_batches.ps1 -Preset ops8615
+# or: -BatchDir artifacts/sql/mirror-batches/<date>
+```
+
+Verify DATA-02 row counts (`npm run supabase -- db query --linked` or
+`py scripts/probe_compliance_mirror_drift.py --verify`).
 
 ## Steps (AC-AUTOMATION)
 

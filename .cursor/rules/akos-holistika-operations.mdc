@@ -50,7 +50,7 @@ Use this rule for **any Holistika operations** work that affects **governance SS
 | Plane | Content | Mechanism | SSOT |
 |-------|---------|-----------|------|
 | **Schema (DDL)** | `CREATE TABLE`, RLS, extensions, FDW servers | [`supabase/migrations/*.sql`](../../supabase/migrations/) via Supabase CLI — [`supabase/README.md`](../../supabase/README.md), [`supabase/migrations/README.md`](../../supabase/migrations/README.md) | Git migration files + remote `schema_migrations` ledger parity |
-| **Mirror data (DML)** | Rows for `compliance.*_mirror` from CSVs | `py scripts/verify.py compliance_mirror_emit` → review [`artifacts/sql/README.md`](../../artifacts/sql/README.md) output → apply in batches | Git CSVs under `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` |
+| **Mirror data (DML)** | Rows for `compliance.*_mirror` from CSVs | Emit: `py scripts/verify.py compliance_mirror_emit` (or scoped profiles e.g. `ops8615_mirror_emit`). Apply: **`pwsh -File scripts/apply_mirror_batches.ps1`** → `npm run supabase db query --linked -f` per batch ([`docs/guides/holistika-mirror-dml-apply.md`](../../docs/guides/holistika-mirror-dml-apply.md); **psql** remains valid alternative) | Git CSVs under `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/` |
 
 **Never** commit large `INSERT` mirror batches as migration files. **Never** treat the database as the authoring surface for canonical HLK CSVs.
 

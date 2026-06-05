@@ -138,6 +138,7 @@ CSVs are SSOT; Neo4j is rebuildable read index. Allowlisted Cypher only in `akos
 |:--------|:--------|
 | `pre_commit` | Strict inventory + drift + tests + smoke + release-gate |
 | `compliance_mirror_emit` | Generate compliance mirror upsert SQL bundle |
+| `apply_mirror_batches.ps1` | Apply mirror DML chunk folder via linked `supabase db query --linked -f` (see `docs/guides/holistika-mirror-dml-apply.md`) |
 | `compliance_mirror_drift_probe` | Verify CSV-vs-mirror parity (operator-pasted JSON; SKIPs gracefully) |
 | `export_adviser_handoff_smoke` | Render ADVOPS handoff (Markdown) |
 | `export_adviser_handoff_pdf_smoke` | Render ADVOPS handoff (PDF; SKIPs when no renderer) |

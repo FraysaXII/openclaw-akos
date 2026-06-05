@@ -1,0 +1,8 @@
+source_id,title,url,source_type,volatility_class,holistika_reliability,control_confidence_level,ingested_at,notes
+INT-01,I93 master-roadmap §15 exit criteria + P8 gate,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,internal_canonical,low,A1,Safe,2026-06-05,Closure scope = registry flip not new doctrine
+INT-02,Closure UAT PASS-WITH-FOLLOWUP,docs/wip/planning/93-data-area-foundation-and-governance/reports/uat-i93-closure-2026-06-05.md,internal_evidence,low,A1,Safe,2026-06-05,Mirror DML applied 2026-06-05
+INT-03,Holistika mirror DML apply guide (D-GTM-DB-6),docs/guides/holistika-mirror-dml-apply.md,internal_runbook,low,A1,Safe,2026-06-05,Emit+apply two-step standard
+INT-04,P6 Supabase verification,docs/wip/planning/93-data-area-foundation-and-governance/reports/p6-supabase-verification-2026-06-04.md,internal_evidence,low,A1,Safe,2026-06-05,DDL+DML evidence
+INT-05,Area governance gap tracker,docs/wip/planning/93-data-area-foundation-and-governance/_trackers/area-governance-gap-tracker-2026-06-05.csv,internal_tracker,low,A1,Safe,2026-06-05,17 forward rows; not closure blockers
+INT-06,I86 cluster closure UAT precedent,docs/wip/planning/86-initiative-cluster-execution-coordinator/reports/uat-i86-cluster-closure-2026-06-04.md,internal_precedent,low,A1,Safe,2026-06-05,INIT flip + D-IH-CLOSURE pattern
+INT-07,DATAOPS discipline + SOP mirror apply wiring,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATAOPS_DISCIPLINE.md,internal_canonical,low,A1,Safe,2026-06-05,Vault governance for apply path

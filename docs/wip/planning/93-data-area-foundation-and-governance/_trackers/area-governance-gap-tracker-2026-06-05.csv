@@ -19,5 +19,5 @@ Tech,AREA-03-DISCIPLINE-CHARTERS,gap,medium,forward-charter,CTO,forward,
 Tech,AREA-13-AREA-README,gap,medium,forward-charter,CTO,forward,
 Data,AREA-06-CAPABILITY-CONFIDENCE,partial,medium,defer-OPS,CDO,I91-coord,CONF pairing for 17 DATA-FAM CAP rows — coordinate with I91 not duplicate
 Data,AREA-09-PAIRED-SOP-RUNBOOK,partial,medium,defer-OPS,CDO,forward,Populate runbook column on DATA processes incrementally
-Data,AREA-10-SUPABASE-MIRROR,skip,low,accept-as-canon,CDO,I93-followup,Conservative skip until ops8615 upsert executed in Supabase SQL editor
+Data,AREA-10-SUPABASE-MIRROR,partial,low,defer-OPS,CDO,I93-closure,OPS-86-15 DML applied 2026-06-05; full mirror parity sweep deferred to closure gate MCP probe
 Data,AREA-11-CURSOR-RULE-SKILL,partial,low,fix-now,CPO,I93-followup,Rule exists; document skill pairing in area README when AREA-13 lands

@@ -41,6 +41,9 @@ companion_to:
   - ../../canonicals/DATA_AREA_CHARTER.md
 linked_runbooks:
   - scripts/dataops_quality_check.py
+  - scripts/sync_compliance_mirrors_from_csv.py
+  - scripts/apply_mirror_batches.ps1
+  - docs/guides/holistika-mirror-dml-apply.md
 linked_sops:
   - SOP-TECH_DATAOPS_QUALITY_001.md
 ---
@@ -136,9 +139,12 @@ This discipline fires:
    `akos-holistika-operations.mdc` §"New git-canonical compliance
    registers") — DATA-01 (FK), DATA-05 (schema drift), DATA-07 (DAMA
    quality metrics) are exercised pre-commit via `validate_hlk.py`.
-2. **At every mirror upsert** (`scripts/sync_compliance_mirrors_from_csv.py`
-   or `compliance_mirror_emit`) — DATA-02 (parity) + DATA-04 (freshness)
-   are exercised.
+2. **At every mirror upsert** — **emit** via `scripts/sync_compliance_mirrors_from_csv.py`
+   or `py scripts/verify.py compliance_mirror_emit`; **apply** via
+   [`docs/guides/holistika-mirror-dml-apply.md`](../../../../../../../docs/guides/holistika-mirror-dml-apply.md)
+   (preferred: `scripts/apply_mirror_batches.ps1` → linked `supabase db query --linked -f`;
+   **psql** valid alternative; **D-GTM-DB-6**). DATA-02 (parity) + DATA-04 (freshness)
+   are exercised after apply.
 3. **At every FDW server addition or external-API change** — DATA-03
    (health) is exercised; operator gates per `akos-holistika-operations.mdc`
    §"Operator SQL gate".

@@ -68,7 +68,7 @@ from ~442 executable `process_list` rows; **35** remain unmapped for area-batch 
 `20260604120000_i93_p6_ops8615_mirror_gap_closure.sql` + emit flag
 `--ops8615-gap-mirrors-only` (default SQL path:
 `docs/wip/planning/93-data-area-foundation-and-governance/artifacts/ops8615-mirror-upsert.sql`).
-Operator applies DDL to Supabase (done) + runs emit SQL in SQL Editor (DML pending until applied).
+Operator applies DDL to Supabase (done) + mirror DML via linked CLI batches (`apply_mirror_batches.ps1 -Preset ops8615`; DML applied 2026-06-05).
 
 ## DATA-FAM → DataOps probe profiles (P6 extension)
 

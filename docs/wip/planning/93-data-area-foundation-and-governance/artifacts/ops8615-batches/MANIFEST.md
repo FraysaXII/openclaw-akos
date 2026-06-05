@@ -1,8 +1,8 @@
 # OPS-86-15 mirror batches (auto-generated manifest)
 
-source_git_sha: 7a529e6a3442f4f57332d3410122b593fb951b38
+source_git_sha: 989d32884dd76319879d729f2d2dc486293828b1
 
-Apply in numeric order. Prefer **psql** for all files; SQL Editor is OK for 01–02 and 05 only.
+Apply in numeric order. **Preferred:** `pwsh -File scripts/apply_mirror_batches.ps1 -Preset ops8615` (linked `supabase db query --linked -f`). **Alternative:** psql per file. SQL Editor OK for 01–02 and 05 only.
 
 | order | file | mirror | expected rows |
 | --- | --- | --- | ---: |

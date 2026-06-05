@@ -34,15 +34,15 @@ linked_runbooks:
   - scripts/peopl_cross_area_breakthrough_announce.py
 verdict_followup_rationale:
   followup_class: deferred-work-with-tracker
-  closure_target: Operator mints D-IH-93-CLOSURE and flips INIT-OPENCLAW_AKOS-93 active to closed after mirror DML + sign-off checklist
+  closure_target: Operator mints D-IH-93-CLOSURE and flips INIT-OPENCLAW_AKOS-93 active to closed after §10 sign-off checklist (OPS-86-15 mirror DML applied 2026-06-05 via linked CLI batches)
   owner: CDO + PMO
   tracker_path: docs/wip/planning/93-data-area-foundation-and-governance/_trackers/area-governance-gap-tracker-2026-06-05.csv
   closure_decision_id_target: D-IH-93-CLOSURE
   notes: >-
     All I93 phase mechanical deliverables (P0-P7) are committed; P8 harmonization sweep
     scored seven areas; DATA 88% with zero gap components. INIT row remains active pending
-    operator registry gate. OPS-86-15 mirror tables have DDL but zero rows until
-    docs/wip/planning/93-data-area-foundation-and-governance/artifacts/ops8615-mirror-upsert.sql is executed in Supabase SQL Editor.
+    operator registry gate.     OPS-86-15 mirror DML loaded 2026-06-05 (apply_mirror_batches.ps1 -Preset ops8615;
+    counts 5/9/1119/1119/2). INIT flip + D-IH-93-CLOSURE mint remain operator-gated.
 ---
 
 # UAT — I93 DATA area foundation closure (2026-06-05)
@@ -52,8 +52,8 @@ verdict_followup_rationale:
 > I93 delivered the DATA area as a DAMA-aligned federated governed area: eight doctrine
 > canonicals, People meta-process (`pattern_area_buildout`), seven DATA-FAM families, P7
 > hygiene, and a seven-area completeness sweep. **Mechanical gates PASS.** **Verdict:
-> PASS-WITH-FOLLOWUP** — operator must run mirror upsert SQL, sign §10 checklist, and
-> authorize `D-IH-93-CLOSURE` + INIT registry flip.
+> PASS-WITH-FOLLOWUP** — OPS-86-15 mirror rows loaded (linked CLI apply, 2026-06-05).
+> Operator must sign §10 checklist and authorize `D-IH-93-CLOSURE` + INIT registry flip.
 
 | Dimension | Target | Actual | Status |
 |:---|:---|:---|:---:|
@@ -63,7 +63,7 @@ verdict_followup_rationale:
 | **Browser UAT evidence** | n/a | n/a (canonical/CSV initiative) | N/A |
 | **DATA area bar** | at/above 14-component | 88%; 0 gap | ✓ |
 | **Operator sign-off** | required | pending §10 | ⏳ |
-| **Outstanding items** | 0 critical on doctrine | mirror DML + INIT flip + area charters forward | ⏳ |
+| **Outstanding items** | 0 critical on doctrine | INIT flip + area charters forward | ⏳ |
 
 **Closure decision (pending):** `D-IH-93-CLOSURE` — not minted in this pass. Reversibility: **medium**.
 
@@ -74,7 +74,7 @@ verdict_followup_rationale:
 | 1 | DATA area at/above 14-component bar | `py scripts/validate_area_completeness.py --matrix` | Data: 0 gap | 10 pass / 3 partial / 0 gap / 1 skip; **88%** | **PASS** |
 | 2 | All 8 DAMA canonicals live + registered | `validate_hlk.py` + CANONICAL_REGISTRY | registered | P2–P5b minted; OVERALL PASS | **PASS** |
 | 3 | DataOps re-homed; component contracts populated | P3 move + P7 matrix | populated | D-IH-93-H ripple complete; 110 matrix rows classified | **PASS** |
-| 4 | 7 DATA-FAM families + live probe | `dataops_quality_check.py --data-fam COMPLIANCE-MIRROR` | probe PASS | DATA-02-MIRROR-PARITY clean (DDL+emit); live rows 0 pending DML | **PARTIAL** |
+| 4 | 7 DATA-FAM families + live probe | `dataops_quality_check.py --data-fam COMPLIANCE-MIRROR` | probe PASS | DATA-02-MIRROR-PARITY clean; OPS-86-15 live rows 5/9/1119/1119/2 (2026-06-05) | **PASS** |
 | 5 | People meta-process + all areas scored + UAT + INIT flip | matrix + this file + INITIATIVE_REGISTRY | closed | matrix + gap tracker + UAT filed; **INIT still active** | **PARTIAL** |
 
 ## Section 3 — Mechanical evidence
@@ -122,7 +122,7 @@ N/A — I93 is vault canonical + compliance CSV + Supabase DDL; no operator brow
 | 1 | DATA doctrine (8 DAMA) | all minted | 8 live under Data/Governance + Architecture | aligned | n/a |
 | 2 | Area governance meta-process | pattern + SOP + validator | P0 complete | aligned | n/a |
 | 3 | Cross-area harmonization | scored + trackers | matrix + 17 tracker rows | aligned | n/a |
-| 4 | Supabase OPS-86-15 mirrors | row parity | DDL applied; **0 rows** (DML pending) | drift | med |
+| 4 | Supabase OPS-86-15 mirrors | row parity | DDL + DML applied; counts 5/9/1119/1119/2 | aligned | n/a |
 | 5 | Non-Data area charters | forward work | gaps on AREA-02/13 across 6 areas | neutral | low |
 
 ## Section 5 — D-IH-86-D mechanical cross-check (cluster sibling)
@@ -158,7 +158,7 @@ N/A — I93 is vault canonical + compliance CSV + Supabase DDL; no operator brow
 ## Section 8 — Decision close-outs
 
 - **D-IH-93-A..J** — Activated through P7 commits; evidence in phase reports + decision-log.
-- **D-IH-93-CLOSURE** — **Pending** operator gate (INIT flip + mirror DML). Reversibility: **medium**.
+- **D-IH-93-CLOSURE** — **Pending** operator gate (INIT flip + §10 sign-off). Mirror DML closed 2026-06-05. Reversibility: **medium**.
 
 ## Section 9 — Closure registry edits (mechanical — pending operator)
 
@@ -173,11 +173,11 @@ N/A — I93 is vault canonical + compliance CSV + Supabase DDL; no operator brow
 **Verdict:** **PASS-WITH-FOLLOWUP**
 
 I93 mechanical scope (P0–P7 + P8 sweep) is complete and validators are green. Honest closure
-requires live mirror row load, operator checklist below, and registry flip. Non-Data area
+requires operator checklist below and registry flip. Non-Data area
 `gap` rows are tracked in the gap tracker — federated governance (DATA sets standards;
 areas own charters).
 
-1. ⏳ **Closure-criteria all PASS** — §2 shows 4/5 PASS, 1 PARTIAL (INIT flip). **Status: PWF**.
+1. ⏳ **Closure-criteria all PASS** — §2 shows 4/5 PASS, 1 PARTIAL (INIT flip only). **Status: PWF**.
 2. ⏳ **Mechanical evidence reproducible** — §3 commands re-run yield same outputs. **Status: yes**.
 3. ⏳ **Browser UAT evidence** — n/a (canonical initiative). **Status: n/a**.
 4. ⏳ **D-IH-86-D four-signal** — §5: validate_hlk PASS; paired runbooks honored. **Status: yes**.

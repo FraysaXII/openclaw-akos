@@ -60,10 +60,10 @@ A single SOP reference replaces ad-hoc text across every README/CONTRIBUTING/che
 
 **Two-plane reminder.** This SOP only standardises the **CLI invocation form**. The two-plane convention from [`supabase/migrations/README.md`](../../../../../../../supabase/migrations/README.md) — schema DDL goes through `supabase/migrations/`, large compliance-mirror DML stays out — is unchanged. For mirror data (e.g. `compliance.topic_registry_mirror` upserts) the canonical path is:
 
-1. Generate via `py scripts/sync_compliance_mirrors_from_csv.py --<register>-only --out artifacts/sql/<file>.sql`.
-2. Operator review: open `artifacts/sql/<file>.sql`, confirm the upserts match `dimensions/<REGISTRY>.csv`.
-3. Apply via Supabase Studio SQL editor (paste + run) **or** via `psql` against the project connection string (retrieved from the Dashboard project page, never committed). The `user-supabase` MCP `execute_sql` tool is an authenticated alternative when available.
-4. Verify with `py scripts/probe_compliance_mirror_drift.py --verify` (or the verify profile `compliance_mirror_drift_probe`) so canonical CSV row counts and live mirror row counts agree.
+1. Generate via `py scripts/sync_compliance_mirrors_from_csv.py --<register>-only --out artifacts/sql/<file>.sql` or `py scripts/verify.py compliance_mirror_emit`.
+2. Operator review: open emitted SQL, confirm upserts match git CSV SSOT.
+3. **Apply (preferred, linked repo):** [`docs/guides/holistika-mirror-dml-apply.md`](../../../../../../../docs/guides/holistika-mirror-dml-apply.md) — `pwsh -File scripts/apply_mirror_batches.ps1 -BatchDir <chunk-folder>` (**D-GTM-DB-6**). **Alternative:** `psql -f` per batch. SQL Editor only for tiny smoke files.
+4. Verify with `py scripts/probe_compliance_mirror_drift.py --verify` (or verify profile `compliance_mirror_drift_probe`).
 
 ### 3.2 External GitHub repos — canonical reference format
 

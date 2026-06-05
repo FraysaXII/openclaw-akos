@@ -2,7 +2,7 @@
 initiative_id: INIT-OPENCLAW_AKOS-93
 title: "I93 — DATA Area Foundation & Cross-Area Data Governance"
 status: active
-phase_status: P8-complete-pending-operator-closure
+phase_status: closure-gate-researched-pending-operator-ratify
 owner_role: CDO + CPO + PMO
 inception: 2026-06-04
 last_review: 2026-06-04
@@ -400,12 +400,12 @@ seat runs the regression + human-readability pass before commit.
 - **Gate:** ✅ `validate_hlk.py` PASS; `dataops_quality_check.py --data-fam COMPLIANCE-MIRROR` PASS; pytest PASS.
 - **Acceptance:** §9.0 bar cleared; 7 families minted + paired; CAP↔CONF pairing holds; live repo probe (mirror parity).
 - **Commit:** `feat(i93-p6): 7 DATA-FAM capability families + cross-area map + DataOps probe profiles`.
-- **Operator follow-up:** apply Supabase migration + run `--ops8615-gap-mirrors-only` SQL in Holistika project.
+- **Operator follow-up:** ✅ migration + mirror DML applied 2026-06-05 (`ops8615_mirror_emit` + `apply_mirror_batches.ps1 -Preset ops8615`).
 
 ### P7 — Component + engagement + transcript hygiene ✅ (2026-06-04)
 
 - **Research packet:** [`reports/research-p7-hygiene-2026-06-04/`](reports/research-p7-hygiene-2026-06-04/)
-- **P6 Supabase follow-up:** [`reports/p6-supabase-verification-2026-06-04.md`](reports/p6-supabase-verification-2026-06-04.md) — DDL applied; DML pending SQL editor run.
+- **P6 Supabase follow-up:** [`reports/p6-supabase-verification-2026-06-04.md`](reports/p6-supabase-verification-2026-06-04.md) — DDL + DML applied (linked CLI batches, 2026-06-05).
 - **Files:** `COMPONENT_SERVICE_MATRIX.csv` (populate `data_classification` per real sensitivity +
   `retention_policy_ref` from P5 policy + `legal_hold` where regulated + link `primary_process_item_id` /
   `topic_ids` where known), `GOI_POI_REGISTER.csv` (+`GOI-PARTNER-WEBSITZ-2026`, `GOI-PARTNER-RUSHLY-2026`),
@@ -426,7 +426,7 @@ seat runs the regression + human-readability pass before commit.
 - **Breakthrough propagation:** [`reports/p8-cross-area-breakthrough-propagation-2026-06-05.md`](reports/p8-cross-area-breakthrough-propagation-2026-06-05.md) + I79 `breakthroughs/2026-06/*.md`
 - **Closure UAT:** [`reports/uat-i93-closure-2026-06-05.md`](reports/uat-i93-closure-2026-06-05.md) — **PASS-WITH-FOLLOWUP**
 - **Validators:** `validate_area_completeness.py --matrix` PASS; `validate_hlk.py` PASS; `validate_uat_report.py` (run at commit)
-- **Gate (todo #1):** ⛔ **OPERATOR** — §10 sign-off + execute `artifacts/ops8615-mirror-upsert.sql` (regenerate: `py scripts/sync_compliance_mirrors_from_csv.py --ops8615-gap-mirrors-only`) + mint `D-IH-93-CLOSURE` + flip INIT
+- **Gate (todo #1):** ⛔ **OPERATOR** — §10 sign-off + mint `D-IH-93-CLOSURE` + flip INIT (`OPS-86-15` mirror DML ✅ 2026-06-05 via `apply_mirror_batches.ps1 -Preset ops8615`; governed by **D-GTM-DB-6** + [`docs/guides/holistika-mirror-dml-apply.md`](../../../../guides/holistika-mirror-dml-apply.md))
 - **Acceptance:** §9.0 bar cleared; every area scored; DATA at/above bar; closure UAT PWF (INIT flip deferred)
 - **Commit:** `feat(i93-p8): area-completeness harmonization sweep + I93 closure UAT`
 
@@ -510,14 +510,21 @@ done here; Composer executes them after GATE #1.
 - People area-governance meta-process live (pattern + SOP + compose_AREA + validator).
 - All other areas scored; gap trackers filed; closure UAT PASS/PWF; I93 INIT flipped.
 
-## 16. Deferred follow-ups
+## 16. Closure gate (post-P8 — not a doctrine phase)
+
+- **Research packet:** [`reports/research-i93-closure-gate-2026-06-05/`](reports/research-i93-closure-gate-2026-06-05/)
+- **Scope:** Operator ratify → mint `D-IH-93-CLOSURE` → flip `INIT-OPENCLAW_AKOS-93` → close UAT.
+- **Prerequisites:** ✅ OPS-86-15 mirror DML (2026-06-05); mirror apply governed by **D-GTM-DB-6** + [`docs/guides/holistika-mirror-dml-apply.md`](../../../../guides/holistika-mirror-dml-apply.md).
+- **Non-goals:** Six area charters; full `compliance_mirror_emit` re-sync; P6 sub-tranches.
+
+## 17. Deferred follow-ups
 
 - Full warehouse/BI build (if P5 records "not now").
 - 35 unmapped cross-area processes → I93 P6 area sub-tranches (quarterly).
 - v2.7 `Research & Logic/` on-disk materialization (separate sparse-mirror/Drive action).
 - Enterprise conceptual/logical data model (DAMA area 3 depth) — forward.
 
-## 17. Cross-references
+## 18. Cross-references
 
 - Evidence: [`reports/research-synthesis-2026-06-04.md`](reports/research-synthesis-2026-06-04.md).
 - Decisions: [`decision-log.md`](decision-log.md).

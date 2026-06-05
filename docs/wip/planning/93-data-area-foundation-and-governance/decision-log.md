@@ -132,6 +132,17 @@ Rationale for not-now: roadmap non-goal (no warehouse build in I93); semantic la
 
 Supersedes decision-log row 30 placeholder (BI ID now allocated as `D-IH-93-I` at P5 ratification).
 
+## Mirror DML apply standard (2026-06-05 — cross-initiative adoption)
+
+| Item | Decision |
+|:---|:---|
+| Apply driver | Adopt **D-GTM-DB-6** (Initiative 14): linked `supabase db query --linked -f` via `scripts/apply_mirror_batches.ps1`; **psql** remains valid |
+| Vault wiring | `DATAOPS_DISCIPLINE.md`, `SOP-TECH_DATAOPS_QUALITY_001.md`, `DATA_ARCHITECTURE.md`, `DATA_CONTRACT_REGISTRY` DC-HOL-COMPLIANCE-MIRROR-001, `SOP-HLK_TOOLING_STANDARDS_001.md` §3.1 |
+| Repo SSOT | [`docs/guides/holistika-mirror-dml-apply.md`](../../../../guides/holistika-mirror-dml-apply.md) |
+| I93 evidence | OPS-86-15 batches applied 2026-06-05; P6 verification + closure UAT updated |
+
+No new `D-IH-93-*` ID — operationalises existing two-plane constraint (D-IH-93-C / Holistika ops).
+
 ## Ratification gate
 
 GATE #1 (operator): approve D-IH-93-A..H (+ BI decision deferred to P5) and authorize:
