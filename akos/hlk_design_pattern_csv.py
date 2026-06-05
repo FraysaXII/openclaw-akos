@@ -68,6 +68,10 @@ VALID_PATTERN_CLASSES: frozenset[str] = frozenset({
     "inter_wave_regression_cadence",
     "index_integrity_cadence",
     "quality_fabric_specialty_canonical",
+    # I93 P0/P1 (D-IH-93-B): area-governance meta-process (pattern_area_buildout).
+    # CSV + validate_design_pattern_registry.py already accept this class; the enum
+    # + size test lagged (surfaced by the I88 intent-ranked regression 2026-06-05).
+    "area_governance",
 })
 
 

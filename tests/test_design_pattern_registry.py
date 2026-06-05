@@ -101,17 +101,31 @@ def test_documentation_layering_class_in_enum() -> None:
     )
 
 
-def test_pattern_class_enum_size_is_15() -> None:
-    """I86 Wave N P3 D-IH-86-CD: the pattern_class enum has exactly 15 members
+def test_pattern_class_enum_size_is_16() -> None:
+    """Pattern_class enum has exactly 16 members
     (10 original from I79 P2 + ``documentation_layering`` from I80 P1 +
     ``output_architecture_hierarchy`` from I86 Wave L +
     ``inter_wave_regression_cadence`` from I86 Wave M P1 +
     ``quality_fabric_specialty_canonical`` from I86 Wave M P5 Cluster B umbrella +
-    ``index_integrity_cadence`` from I86 Wave N P3 INDEX_INTEGRITY mint).
+    ``index_integrity_cadence`` from I86 Wave N P3 INDEX_INTEGRITY mint +
+    ``area_governance`` from I93 P0/P1 D-IH-93-B — enum-lag drift repaired by the
+    I88 intent-ranked regression 2026-06-05).
     """
-    assert len(VALID_PATTERN_CLASSES) == 15, (
-        f"expected 15-class pattern_class taxonomy; got {len(VALID_PATTERN_CLASSES)}: "
+    assert len(VALID_PATTERN_CLASSES) == 16, (
+        f"expected 16-class pattern_class taxonomy; got {len(VALID_PATTERN_CLASSES)}: "
         f"{sorted(VALID_PATTERN_CLASSES)}"
+    )
+
+
+def test_area_governance_class_in_enum() -> None:
+    """I93 P0/P1 D-IH-93-B: ``area_governance`` must be in the pattern_class enum
+    as the 16th class anchoring ``pattern_area_buildout`` (the area-governance
+    meta-process). The CSV + wired validator already accepted it; the enum lagged
+    until the I88 intent-ranked regression surfaced the dual-SSOT drift 2026-06-05.
+    """
+    assert "area_governance" in VALID_PATTERN_CLASSES, (
+        "area_governance missing from VALID_PATTERN_CLASSES; "
+        "I93 P0/P1 D-IH-93-B enum extension not applied"
     )
 
 
