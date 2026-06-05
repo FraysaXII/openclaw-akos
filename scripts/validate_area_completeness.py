@@ -504,6 +504,8 @@ FILE_PLAN_STRUCTURAL_DIRS: frozenset[str] = frozenset({
     "canonicals", "dimensions", "programs", "_templates", "_assets", "_validators",
     "imports", "sourcing-briefs", "business-strategy", "people-files", "MADEIRA-AKOS",
     "External Repos", "historical-AIC", "wip",
+    # Area-specific structural folders (governance canonicals home; not a role sub-area)
+    "Governance",
 })
 DATA_CONTRACT_PATH = O5_ROOT / "Data/Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv"
 
@@ -597,18 +599,34 @@ def _probe_area_15(area: str) -> AreaCompletenessFindingRow:
 
 
 def _probe_area_16(area: str) -> AreaCompletenessFindingRow:
-    """AREA-16 (v2 NEW): file-plan — area sub-folders FK to baseline_organisation role/sub_area."""
+    """AREA-16 (v2 NEW): file-plan — area sub-folders FK to baseline_organisation role/sub_area.
+
+    Resolution order: sub_area column (exact) > role_name (exact) > role_name keyword
+    (strips common prefixes/suffixes: Lead/Data/Senior/Manager/Specialist/Analyst to get
+    the functional form). This handles the 'Data Governance Lead' -> folder 'Governance'
+    case without requiring a roster rename (forward-charter: deprecate 'Lead' naming).
+    """
     proc_area = str(AREA_CONFIG[area]["process_area"])
     match_areas = {proc_area, area}
     if proc_area == "MKT":
         match_areas.add("Marketing")
+    # Build the set of valid folder names from roster: sub_area values + role_name + keywords
     names: set[str] = set()
+    STRIP_TOKENS = {"lead", "senior", "data", "manager", "specialist", "analyst", "holistik"}
     for r in _read_csv(BASELINE_ORG_PATH):
         if (r.get("area") or "").strip() in match_areas:
-            for key in ("role_name", "sub_area"):
-                v = (r.get(key) or "").strip().lower()
-                if v:
-                    names.add(v)
+            # sub_area (primary FK source)
+            sub = (r.get("sub_area") or "").strip().lower()
+            if sub:
+                names.add(sub)
+            # role_name (exact)
+            role = (r.get("role_name") or "").strip().lower()
+            if role:
+                names.add(role)
+            # role_name keyword extraction (functional form)
+            tokens = [t for t in role.split() if t not in STRIP_TOKENS and t != area.lower()]
+            if tokens:
+                names.add(" ".join(tokens))
     subdirs: list[str] = []
     for root in _area_roots(area):
         if root.exists():
