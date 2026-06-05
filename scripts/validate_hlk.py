@@ -432,6 +432,11 @@ def main() -> int:
          "validate_pricing_tier_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Finance"
          / "Governance" / "canonicals" / "dimensions" / "PRICING_TIER_REGISTRY.csv"),
+        # FINANCE-AREA-FULL F2b — Spain tax filing calendar (OPS-81-13; D-IH-88-E).
+        ("FINOPS_TAX_CALENDAR", "validate_finops_tax_calendar.py",
+         "validate_finops_tax_calendar",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Finance"
+         / "Governance" / "canonicals" / "dimensions" / "FINOPS_TAX_CALENDAR.csv"),
         # I32 P7 (D-IH-32-D): GOI/POI relocated from compliance/ to compliance/dimensions/.
         # The csv_gate honours the new canonical path. The validator script itself
         # keeps a deprecation-alias fallback (one cycle) for the legacy path.

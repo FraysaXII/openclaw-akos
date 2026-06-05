@@ -75,14 +75,18 @@ flowchart LR
 
 **Verification:** synthesis 9/9; `validate_pricing_tier_registry.py`; `validate_hlk.py`; Finance matrix **88%**.
 
-## F2b — Tax calendar (Composer; counsel gate)
+## F2b — Tax calendar (Composer) ✅ 2026-06-05
+
+**Execution SSOT:** [`finance-area-executor-packet-f2b-2026-06-05.md`](finance-area-executor-packet-f2b-2026-06-05.md) · evidence: [`finance-f2b-execution-evidence-2026-06-05.md`](finance-f2b-execution-evidence-2026-06-05.md)
 
 | Deliverable | Closes / elevates |
 |:---|:---|
-| `FINOPS_TAX_CALENDAR.csv` | Plane 3; OPS-81-13 |
-| `METRICS_REGISTRY.csv` finance metrics (≥8) | Semantic layer M4 (optional F2b/F4) |
+| `FINOPS_TAX_CALENDAR.csv` (8 obligations) | Plane 3; OPS-81-13 scaffold |
+| `validate_finops_tax_calendar.py` + Pydantic | FIN-03 automated check |
 
-**Verification:** AskQuestion before CSV commit; `validate_hlk.py`.
+**Verification:** synthesis 9/9; tax validator PASS; Finance matrix **88%** (held).
+
+**Follow-up:** entity-specific `next_due_at` backfill at incorporation; OPS-81-14 foral doctrine; OPS-81-16 ENISA row after Q-CRT-001.
 
 ## F3 — Tech plane (Composer + operator SQL gate)
 
