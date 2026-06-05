@@ -1,6 +1,6 @@
 """Pydantic SSOT models for TechOps reliability sweeps (I90 P3b / OPS-86-9).
 
-Canonical doctrine: ``docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md``
+Canonical doctrine: ``docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/TECHOPS_DISCIPLINE.md``
 Paired runbook: ``scripts/techops_reliability_check.py``
 Companion cursor rule: ``.cursor/rules/akos-techops-discipline.mdc``
 Decision lineage: D-IH-86-BX (canonical mint), D-IH-90-Z (P3b TechOps runbook chassis).

@@ -20,7 +20,7 @@ linked_canonicals:
   - SOP-GTM_QUALIFICATION_001.md
   - ../../canonicals/MARKETING_AREA_M3_REDESIGN.md
   - ../../canonicals/MARKETING_LIFECYCLE_TAXONOMY.md
-  - ../../../People/canonicals/MKTOPS_DISCIPLINE.md
+  - ../../canonicals/MKTOPS_DISCIPLINE.md
   - ../../../People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv
   - ../../../People/Compliance/canonicals/dimensions/PERSONA_REGISTRY.csv
 linked_runbooks:

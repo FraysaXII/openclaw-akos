@@ -12,7 +12,7 @@ Use this rule whenever authoring or reviewing artefacts that touch
 monitors), **security posture** (RLS / secret rotation / dependency
 audit), **incident-response runbooks**, or **Core Web Vitals
 measurement**. Codifies the mechanical layer of
-[`TECHOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md)
+[`TECHOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/TECHOPS_DISCIPLINE.md)
 (Wave M P5 mint per D-IH-86-BX).
 
 ## When this rule applies
@@ -31,7 +31,7 @@ measurement**. Codifies the mechanical layer of
 
 Every production deploy (Vercel / Render / Supabase) must pass the
 7 TechOps dimensions defined in
-[`TECHOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md)
+[`TECHOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/TECHOPS_DISCIPLINE.md)
 §2 either pre-deploy or as part of the post-deploy verification:
 
 - **TECH-01** Uptime SLO → external monitor reports last-30d ≥ 99.9%
@@ -86,7 +86,7 @@ them legible so operator can disposition.
 
 ## Cross-references
 
-- [`TECHOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md)
+- [`TECHOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/TECHOPS_DISCIPLINE.md)
   — the canonical this rule operationalises.
 - [`akos-deploy-health.mdc`](akos-deploy-health.mdc) — sister rule;
   hotfix-validate-deploy workflow.
@@ -104,4 +104,4 @@ them legible so operator can disposition.
 - D-IH-86-AT — Vercel hotfix precedent that motivated deploy-class
   UAT axis (which this canonical underpins).
 
-@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/TECHOPS_DISCIPLINE.md

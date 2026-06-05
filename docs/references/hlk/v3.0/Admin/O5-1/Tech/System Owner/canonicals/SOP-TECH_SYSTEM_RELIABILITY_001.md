@@ -38,7 +38,7 @@ cadence_trigger: deploy OR observability-config change OR monthly security cycle
 ## Purpose
 
 Operationalise the seven TechOps dimensions in
-[`TECHOPS_DISCIPLINE.md`](../../../../People/canonicals/TECHOPS_DISCIPLINE.md).
+[`TECHOPS_DISCIPLINE.md`](TECHOPS_DISCIPLINE.md).
 Every production deploy, observability configuration change, or monthly
 security cycle runs the TechOps reliability bar before the deploy is
 declared READY or the wave UAT verdict is filled in.

@@ -11,7 +11,7 @@ Use this rule whenever authoring or reviewing **campaign briefs**,
 EMAIL / COMMUNICATION / SCHEDULING / ATTRIBUTION), **funnel-stage
 measurement plans**, or **persona-targeting metadata**. Codifies the
 mechanical layer of
-[`MKTOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md)
+[`MKTOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/canonicals/MKTOPS_DISCIPLINE.md)
 (Wave M P5 mint per D-IH-86-BW).
 
 ## When this rule applies
@@ -30,7 +30,7 @@ mechanical layer of
 
 Every campaign artefact (brief / creative / landing page / sequence)
 must pass the 7 MKTOps dimensions defined in
-[`MKTOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md)
+[`MKTOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/canonicals/MKTOPS_DISCIPLINE.md)
 §2 before launch:
 
 - **MKT-01** Campaign lifecycle quality → all 5 lifecycle gates
@@ -87,7 +87,7 @@ the multi-dimensional bar.
 
 ## Cross-references
 
-- [`MKTOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md)
+- [`MKTOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/canonicals/MKTOPS_DISCIPLINE.md)
   — the canonical this rule operationalises.
 - [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc)
   Rule 2 — adapter status metadata enum.
@@ -102,4 +102,4 @@ the multi-dimensional bar.
 - D-IH-72-AD — CRO + COO executive activation forward-charter (Data
   Owner shifts when activated).
 
-@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/Marketing/canonicals/MKTOPS_DISCIPLINE.md

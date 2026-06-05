@@ -1,7 +1,9 @@
 ---
 title: TechOps Discipline
 language: en
-intellectual_kind: people-canonical
+intellectual_kind: tech-canonical
+relocated_from: docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md
+relocated_decision_id: D-IH-94-F
 access_level: 4
 audience: J-OP;J-AIC
 confidence_level: A1
@@ -11,31 +13,32 @@ authors:
 co_authors:
   - System Owner
   - PMO
-last_review: 2026-06-04
+last_review: 2026-06-05
 last_review_by: System Owner
-last_review_at: 2026-06-04
-last_review_decision_id: D-IH-90-AC
+last_review_at: 2026-06-05
+last_review_decision_id: D-IH-94-F
 methodology_version_at_review: v3.1
 ratifying_decisions:
   - D-IH-86-BX
   - D-IH-90-AC
+  - D-IH-94-F
 status: active
 register: internal
 linked_canonicals:
-  - HOLISTIKA_QUALITY_FABRIC.md
-  - UAT_DISCIPLINE.md
-  - ../../../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md
-  - INTER_WAVE_REGRESSION_DISCIPLINE.md
-  - HOLISTIKA_ORGANISING_DOCTRINE.md
-  - ../Compliance/canonicals/PRECEDENCE.md
+  - ../../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md
+  - ../../../People/canonicals/UAT_DISCIPLINE.md
+  - ../../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md
+  - ../../../People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md
+  - ../../../People/canonicals/HOLISTIKA_ORGANISING_DOCTRINE.md
+  - ../../../People/Compliance/canonicals/PRECEDENCE.md
 linked_cursor_rules:
   - .cursor/rules/akos-techops-discipline.mdc
   - .cursor/rules/akos-deploy-health.mdc
   - .cursor/rules/akos-mirror-template.mdc
   - .cursor/rules/akos-quality-fabric.mdc
 companion_to:
-  - HOLISTIKA_QUALITY_FABRIC.md
-  - ../../../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md
+  - ../../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md
+  - ../../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md
 linked_runbooks:
   - scripts/techops_reliability_check.py
 linked_sops:
@@ -51,7 +54,7 @@ forward_charters: []
 > Minted at Wave M P5 per operator ratification 2026-05-21 (Cluster B
 > rework-now, full canonical not stub). This canonical is the 9th
 > specialty materialisation of
-> [`HOLISTIKA_QUALITY_FABRIC.md`](HOLISTIKA_QUALITY_FABRIC.md).
+> [`HOLISTIKA_QUALITY_FABRIC.md`](../../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md).
 
 ## 1. Purpose
 
@@ -163,13 +166,13 @@ This discipline fires:
 
 ## 6. Cross-references
 
-- Quality Fabric parent: [`HOLISTIKA_QUALITY_FABRIC.md`](HOLISTIKA_QUALITY_FABRIC.md)
+- Quality Fabric parent: [`HOLISTIKA_QUALITY_FABRIC.md`](../../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md)
   §6 row (this canonical materialises `compose_TECHOPS`).
-- Sister specialty canonicals: [`UAT_DISCIPLINE.md`](UAT_DISCIPLINE.md),
-  [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](INTER_WAVE_REGRESSION_DISCIPLINE.md),
-  [`DATAOPS_DISCIPLINE.md`](../../../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md),
-  [`MKTOPS_DISCIPLINE.md`](MKTOPS_DISCIPLINE.md),
-  [`UX_DISCIPLINE.md`](UX_DISCIPLINE.md).
+- Sister specialty canonicals: [`UAT_DISCIPLINE.md`](../../../People/canonicals/UAT_DISCIPLINE.md),
+  [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../../People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md),
+  [`DATAOPS_DISCIPLINE.md`](../../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md),
+  [`MKTOPS_DISCIPLINE.md`](../../../Marketing/canonicals/MKTOPS_DISCIPLINE.md),
+  [`UX_DISCIPLINE.md`](../../../Marketing/Brand/UX%20Designer/canonicals/UX_DISCIPLINE.md).
 - Paired cursor rule: [`.cursor/rules/akos-techops-discipline.mdc`](../../../../../../.cursor/rules/akos-techops-discipline.mdc).
 - Deploy governance: [`.cursor/rules/akos-deploy-health.mdc`](../../../../../../.cursor/rules/akos-deploy-health.mdc),
   [`.cursor/rules/akos-mirror-template.mdc`](../../../../../../.cursor/rules/akos-mirror-template.mdc)

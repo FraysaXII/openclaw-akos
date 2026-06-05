@@ -10,7 +10,7 @@ Use this rule whenever authoring or reviewing **component primitives**,
 **artifact-class compositions**, **route-level information
 architecture**, **interactive states**, **locale-aware surfaces**, or
 **accessibility audits**. Codifies the mechanical layer of
-[`UX_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UX_DISCIPLINE.md)
+[`UX_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/UX Designer/canonicals/UX_DISCIPLINE.md)
 (Wave M P5 mint per D-IH-86-BY; fulfils forward-charter D-IH-86-AX).
 
 ## When this rule applies
@@ -31,7 +31,7 @@ architecture**, **interactive states**, **locale-aware surfaces**, or
 
 Every user-facing artefact (component primitive, artifact-class, route)
 must pass the 7 UX dimensions defined in
-[`UX_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UX_DISCIPLINE.md)
+[`UX_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/UX Designer/canonicals/UX_DISCIPLINE.md)
 §2 before deploy:
 
 - **UX-01** Research methods grounded in real personas → design-doc
@@ -87,7 +87,7 @@ promotion, it surfaces as INFO advisory in component review.
 
 ## Cross-references
 
-- [`UX_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UX_DISCIPLINE.md)
+- [`UX_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/UX Designer/canonicals/UX_DISCIPLINE.md)
   — the canonical this rule operationalises.
 - [`.cursor/skills/impeccable/SKILL.md`](../skills/impeccable/SKILL.md)
   — paired skill; visual craft + UX redesign methodology backbone
@@ -103,4 +103,4 @@ promotion, it surfaces as INFO advisory in component review.
   rework-now mint).
 - D-IH-86-AX — forward-charter precedent that this canonical fulfils.
 
-@docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UX_DISCIPLINE.md
+@docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/UX Designer/canonicals/UX_DISCIPLINE.md

@@ -170,7 +170,7 @@ the integration contract names what each owns:
   fire per surface.
 - **[`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../../People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md)** —
   DIM-12 mirror parity probe; DataOps defines the check.
-- **[`TECHOPS_DISCIPLINE.md`](../../../People/canonicals/TECHOPS_DISCIPLINE.md)** —
+- **[`TECHOPS_DISCIPLINE.md`](../../../Tech/System%20Owner/canonicals/TECHOPS_DISCIPLINE.md)** —
   observability infrastructure; DataOps interprets data-quality signal.
 - **`akos-holistika-operations.mdc`** — Supabase two-plane governance.
 

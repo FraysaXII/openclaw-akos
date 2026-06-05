@@ -1,6 +1,6 @@
 """TechOps reliability check runbook (paired to TECHOPS_DISCIPLINE.md).
 
-Canonical doctrine: ``docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md``
+Canonical doctrine: ``docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/TECHOPS_DISCIPLINE.md``
 Pydantic SSOT: ``akos/hlk_techops_reliability.py``
 Companion cursor rule: ``.cursor/rules/akos-techops-discipline.mdc``
 
@@ -38,7 +38,7 @@ logger = logging.getLogger(__name__)
 
 CANONICAL_PATH = (
     REPO_ROOT
-    / "docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/TECHOPS_DISCIPLINE.md"
+    / "docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/TECHOPS_DISCIPLINE.md"
 )
 
 _MCP_DEFER_REASON = (

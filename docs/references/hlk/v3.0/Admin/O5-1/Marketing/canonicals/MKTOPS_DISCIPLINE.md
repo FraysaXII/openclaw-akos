@@ -1,7 +1,9 @@
 ---
 title: MKTOps Discipline
 language: en
-intellectual_kind: people-canonical
+intellectual_kind: marketing-canonical
+relocated_from: docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md
+relocated_decision_id: D-IH-94-F
 access_level: 4
 audience: J-OP;J-AIC
 confidence_level: A1
@@ -11,25 +13,26 @@ authors:
 co_authors:
   - PMO
   - System Owner
-last_review: 2026-05-27
-last_review_by: Founder/CEO
-last_review_at: 2026-05-27
-last_review_decision_id: D-IH-86-EY
+last_review: 2026-06-05
+last_review_by: CMO
+last_review_at: 2026-06-05
+last_review_decision_id: D-IH-94-F
 methodology_version_at_review: v3.2
 ratifying_decisions:
   - D-IH-86-BW
   - D-IH-86-EY
+  - D-IH-94-F
 status: active
 register: internal
 linked_canonicals:
-  - HOLISTIKA_QUALITY_FABRIC.md
-  - UAT_DISCIPLINE.md
-  - DATAOPS_DISCIPLINE.md
-  - HOLISTIKA_ORGANISING_DOCTRINE.md
+  - ../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md
+  - ../../People/canonicals/UAT_DISCIPLINE.md
+  - ../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md
+  - ../../People/canonicals/HOLISTIKA_ORGANISING_DOCTRINE.md
   - MARKETING_LIFECYCLE_TAXONOMY.md
-  - ../Compliance/canonicals/PRECEDENCE.md
-  - ../Compliance/canonicals/dimensions/PERSONA_REGISTRY.csv
-  - ../Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv
+  - ../../People/Compliance/canonicals/PRECEDENCE.md
+  - ../../People/Compliance/canonicals/dimensions/PERSONA_REGISTRY.csv
+  - ../../People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv
 linked_cursor_rules:
   - .cursor/rules/akos-mktops-discipline.mdc
   - .cursor/rules/akos-executable-process-catalog.mdc
@@ -38,7 +41,7 @@ linked_cursor_rules:
 linked_runbooks:
   - scripts/validate_mktops_campaign.py
 companion_to:
-  - HOLISTIKA_QUALITY_FABRIC.md
+  - ../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md
 forward_charters:
   - SOP-MKT_CAMPAIGN_LIFECYCLE_001.md (paired SOP; lands at C3a follow-up)
   - CRO + COO executive activation per D-IH-72-AD (Data Owner shifts when ratified)
@@ -52,7 +55,7 @@ forward_charters:
 > adapters. Minted at Wave M P5 per operator ratification 2026-05-21
 > (Cluster B rework-now, full canonical not stub). This canonical is
 > the 7th specialty materialisation of
-> [`HOLISTIKA_QUALITY_FABRIC.md`](HOLISTIKA_QUALITY_FABRIC.md).
+> [`HOLISTIKA_QUALITY_FABRIC.md`](../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md).
 
 ## 1. Purpose
 
@@ -174,23 +177,23 @@ This discipline fires:
 
 ## 6. Cross-references
 
-- Quality Fabric parent: [`HOLISTIKA_QUALITY_FABRIC.md`](HOLISTIKA_QUALITY_FABRIC.md)
+- Quality Fabric parent: [`HOLISTIKA_QUALITY_FABRIC.md`](../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md)
   §6 row (this canonical materialises `compose_MKTOPS`).
-- Sister specialty canonicals: [`UAT_DISCIPLINE.md`](UAT_DISCIPLINE.md),
-  [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](INTER_WAVE_REGRESSION_DISCIPLINE.md),
-  [`DATAOPS_DISCIPLINE.md`](DATAOPS_DISCIPLINE.md),
-  [`TECHOPS_DISCIPLINE.md`](TECHOPS_DISCIPLINE.md),
-  [`UX_DISCIPLINE.md`](UX_DISCIPLINE.md).
-- Paired cursor rule: [`.cursor/rules/akos-mktops-discipline.mdc`](../../../../../../.cursor/rules/akos-mktops-discipline.mdc).
+- Sister specialty canonicals: [`UAT_DISCIPLINE.md`](../../People/canonicals/UAT_DISCIPLINE.md),
+  [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md),
+  [`DATAOPS_DISCIPLINE.md`](../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md),
+  [`TECHOPS_DISCIPLINE.md`](../../Tech/System%20Owner/canonicals/TECHOPS_DISCIPLINE.md),
+  [`UX_DISCIPLINE.md`](../Brand/UX%20Designer/canonicals/UX_DISCIPLINE.md).
+- Paired cursor rule: [`.cursor/rules/akos-mktops-discipline.mdc`](../../../../../../../.cursor/rules/akos-mktops-discipline.mdc).
 - Adapter registries (per
   `akos-executable-process-catalog.mdc` Rule 2):
-  [`CRM_ADAPTER_REGISTRY.csv`](../../Marketing/Reach/canonicals/dimensions/CRM_ADAPTER_REGISTRY.csv),
-  [`EMAIL_ADAPTER_REGISTRY.csv`](../../Marketing/Reach/canonicals/dimensions/EMAIL_ADAPTER_REGISTRY.csv),
-  [`COMMUNICATION_ADAPTER_REGISTRY.csv`](../../Marketing/Reach/canonicals/dimensions/COMMUNICATION_ADAPTER_REGISTRY.csv),
-  [`SCHEDULING_ADAPTER_REGISTRY.csv`](../../Marketing/Reach/canonicals/dimensions/SCHEDULING_ADAPTER_REGISTRY.csv),
-  [`ATTRIBUTION_ADAPTER_REGISTRY.csv`](../../Marketing/Experimentation/canonicals/dimensions/ATTRIBUTION_ADAPTER_REGISTRY.csv).
-- Brand canonicals: [`BRAND_BASELINE_REALITY_MATRIX.md`](../../Marketing/Brand/canonicals/BRAND_BASELINE_REALITY_MATRIX.md),
-  [`BRAND_DO_DONT.md`](../../Marketing/Brand/canonicals/BRAND_DO_DONT.md).
+  [`CRM_ADAPTER_REGISTRY.csv`](../Reach/canonicals/dimensions/CRM_ADAPTER_REGISTRY.csv),
+  [`EMAIL_ADAPTER_REGISTRY.csv`](../Reach/canonicals/dimensions/EMAIL_ADAPTER_REGISTRY.csv),
+  [`COMMUNICATION_ADAPTER_REGISTRY.csv`](../Reach/canonicals/dimensions/COMMUNICATION_ADAPTER_REGISTRY.csv),
+  [`SCHEDULING_ADAPTER_REGISTRY.csv`](../Reach/canonicals/dimensions/SCHEDULING_ADAPTER_REGISTRY.csv),
+  [`ATTRIBUTION_ADAPTER_REGISTRY.csv`](../Experimentation/canonicals/dimensions/ATTRIBUTION_ADAPTER_REGISTRY.csv).
+- Brand canonicals: [`BRAND_BASELINE_REALITY_MATRIX.md`](../Brand/canonicals/BRAND_BASELINE_REALITY_MATRIX.md),
+  [`BRAND_DO_DONT.md`](../Brand/canonicals/BRAND_DO_DONT.md).
 - External research grounding per
   `akos-applied-research-discipline.mdc` RULE 2: Forrester Wave
   B2B Marketing Operations 2024 (campaign-lifecycle discipline

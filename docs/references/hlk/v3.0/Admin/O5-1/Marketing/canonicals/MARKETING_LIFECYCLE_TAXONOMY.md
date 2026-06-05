@@ -15,7 +15,7 @@ methodology_version_at_review: v3.2
 ratifying_decisions:
   - D-IH-86-EV
 linked_canonicals:
-  - docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/MKTOPS_DISCIPLINE.md
+  - docs/references/hlk/v3.0/Admin/O5-1/Marketing/canonicals/MKTOPS_DISCIPLINE.md
   - docs/references/hlk/v3.0/Admin/O5-1/Marketing/canonicals/MARKETING_AREA_M3_REDESIGN.md
   - docs/wip/intelligence/research-grounded-wave-r-plus-4-2026-05-27/source-ledger.csv
 ---

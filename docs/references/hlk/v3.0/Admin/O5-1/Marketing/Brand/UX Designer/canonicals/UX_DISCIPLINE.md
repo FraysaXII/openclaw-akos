@@ -1,7 +1,9 @@
 ---
 title: UX Discipline
 language: en
-intellectual_kind: people-canonical
+intellectual_kind: marketing-canonical
+relocated_from: docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/UX_DISCIPLINE.md
+relocated_decision_id: D-IH-94-F
 access_level: 4
 audience: J-OP;J-AIC
 confidence_level: A1
@@ -11,24 +13,25 @@ authors:
 co_authors:
   - PMO
   - System Owner
-last_review: 2026-06-04
+last_review: 2026-06-05
 last_review_by: Brand & Narrative Manager
-last_review_at: 2026-06-04
-last_review_decision_id: D-IH-90-AD
+last_review_at: 2026-06-05
+last_review_decision_id: D-IH-94-F
 methodology_version_at_review: v3.1
 ratifying_decisions:
   - D-IH-86-BY
   - D-IH-90-AD
+  - D-IH-94-F
 status: active
 register: internal
 linked_canonicals:
-  - HOLISTIKA_QUALITY_FABRIC.md
-  - UAT_DISCIPLINE.md
-  - MKTOPS_DISCIPLINE.md
-  - HOLISTIKA_ORGANISING_DOCTRINE.md
-  - ../Compliance/canonicals/PRECEDENCE.md
-  - ../Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv
-  - ../Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv
+  - ../../../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md
+  - ../../../../People/canonicals/UAT_DISCIPLINE.md
+  - ../../../canonicals/MKTOPS_DISCIPLINE.md
+  - ../../../../People/canonicals/HOLISTIKA_ORGANISING_DOCTRINE.md
+  - ../../../../People/Compliance/canonicals/PRECEDENCE.md
+  - ../../../../People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv
+  - ../../../../People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv
 linked_runbooks:
   - scripts/validate_locale_orthography.py
   - scripts/lint_brand_voice_offline.py
@@ -43,8 +46,8 @@ linked_cursor_rules:
 linked_skills:
   - .cursor/skills/impeccable/SKILL.md
 companion_to:
-  - HOLISTIKA_QUALITY_FABRIC.md
-  - MKTOPS_DISCIPLINE.md
+  - ../../../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md
+  - ../../../canonicals/MKTOPS_DISCIPLINE.md
 forward_charters:
   - SOP-PEOPLE_UX_RESEARCH_001.md (paired SOP; activation gate when channel doctrines mature)
   - I-NN-CHANNEL-DOCTRINES (per-channel UX bar derivation per HOLISTIKA_QUALITY_FABRIC §7)
@@ -59,7 +62,7 @@ forward_charters:
 > Wave M P5 per operator ratification 2026-05-21 (Cluster B rework-now,
 > full canonical not stub). This canonical is the 10th specialty
 > materialisation of
-> [`HOLISTIKA_QUALITY_FABRIC.md`](HOLISTIKA_QUALITY_FABRIC.md) and was
+> [`HOLISTIKA_QUALITY_FABRIC.md`](../../../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) and was
 > originally forward-chartered per `D-IH-86-AX`.
 
 ## 1. Purpose
@@ -112,7 +115,7 @@ compose_UX(audience, channel, scenario, brand, governance, *, surface_layer)
 
 Where `surface_layer` is one of: `component_primitive` / `artifact_class`
 / `output_type` / `route_composition` (per the 4-layer output architecture
-in [`HOLISTIKA_QUALITY_FABRIC.md`](HOLISTIKA_QUALITY_FABRIC.md) §3.1).
+in [`HOLISTIKA_QUALITY_FABRIC.md`](../../../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) §3.1).
 
 The bar derives multiplicatively from the 5 fabric axes + the 7
 discipline dimensions + the layer modifier:
@@ -179,23 +182,23 @@ This discipline fires:
 
 ## 6. Cross-references
 
-- Quality Fabric parent: [`HOLISTIKA_QUALITY_FABRIC.md`](HOLISTIKA_QUALITY_FABRIC.md)
+- Quality Fabric parent: [`HOLISTIKA_QUALITY_FABRIC.md`](../../../../People/canonicals/HOLISTIKA_QUALITY_FABRIC.md)
   §6 row (this canonical materialises `compose_UX`) + §7
   forward-charter inventory (this canonical was item 2;
   Wave M P5 fulfils the charter).
-- Sister specialty canonicals: [`UAT_DISCIPLINE.md`](UAT_DISCIPLINE.md),
-  [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](INTER_WAVE_REGRESSION_DISCIPLINE.md),
-  [`MKTOPS_DISCIPLINE.md`](MKTOPS_DISCIPLINE.md),
-  [`TECHOPS_DISCIPLINE.md`](TECHOPS_DISCIPLINE.md),
-  [`DATAOPS_DISCIPLINE.md`](DATAOPS_DISCIPLINE.md).
-- Paired cursor rule: [`.cursor/rules/akos-ux-discipline.mdc`](../../../../../../.cursor/rules/akos-ux-discipline.mdc).
-- Paired skill: [`.cursor/skills/impeccable/SKILL.md`](../../../../../../.cursor/skills/impeccable/SKILL.md)
+- Sister specialty canonicals: [`UAT_DISCIPLINE.md`](../../../../People/canonicals/UAT_DISCIPLINE.md),
+  [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../../../People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md),
+  [`MKTOPS_DISCIPLINE.md`](../../../canonicals/MKTOPS_DISCIPLINE.md),
+  [`TECHOPS_DISCIPLINE.md`](../../../../Tech/System%20Owner/canonicals/TECHOPS_DISCIPLINE.md),
+  [`DATAOPS_DISCIPLINE.md`](../../../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md).
+- Paired cursor rule: [`.cursor/rules/akos-ux-discipline.mdc`](../../../../../../../../.cursor/rules/akos-ux-discipline.mdc).
+- Paired skill: [`.cursor/skills/impeccable/SKILL.md`](../../../../../../../../.cursor/skills/impeccable/SKILL.md)
   — visual craft + UX redesign methodology (UX-06 + UX-07 backbone).
 - Audience + persona registries:
-  [`AUDIENCE_REGISTRY.csv`](../Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv),
-  [`PERSONA_SCENARIO_REGISTRY.csv`](../../Marketing/Resonance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv).
+  [`AUDIENCE_REGISTRY.csv`](../../../../People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv),
+  [`PERSONA_SCENARIO_REGISTRY.csv`](../../../Resonance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv).
 - Channel taxonomy:
-  [`CHANNEL_TOUCHPOINT_REGISTRY.csv`](../Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv).
+  [`CHANNEL_TOUCHPOINT_REGISTRY.csv`](../../../../People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv).
 - External research grounding per
   `akos-applied-research-discipline.mdc` RULE 2: Nielsen Norman Group
   Heuristic Evaluation 2024 (UX-01 + UX-05 method backbone); WCAG 2.1

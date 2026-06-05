@@ -550,6 +550,11 @@ def _probe_area_15(area: str) -> AreaCompletenessFindingRow:
         prefix = path.name.replace("_DISCIPLINE.md", "").upper()
         mapped = DRIFT_PREFIX_TO_AREA.get(prefix)
         if mapped and mapped != area:
+            # Skip deprecation-alias stubs (migration scaffolding per the D-IH-93-C
+            # one-cycle relocation pattern) — they are not live drift.
+            head = path.read_text(encoding="utf-8", errors="replace")[:400].lower()
+            if "status: deprecated" in head or "deprecation_alias" in head:
+                continue
             drift.append(f"{path.name}->{mapped}")
     # Area-name aliases so the contract detector recognises domain-coded contracts
     # (e.g. Finance ships DC-HOL-FINOPS-* rows; Data ships DC-HOL-* producer rows).
