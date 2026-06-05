@@ -152,6 +152,7 @@ I81 stays **`active`** with P1 vault-integrity re-observation on the same rhythm
 | 2026-05-19 | [`kb-integrity-audit-2026-05-19.md`](reports/i81/kb-integrity-audit-2026-05-19.md) | [`kb-integrity-matrix-2026-05-19.csv`](reports/i81/kb-integrity-matrix-2026-05-19.csv) | P1 baseline | D-IH-81-K close |
 | 2026-05-27 | [`kb-integrity-audit-2026-05-27.md`](reports/i81/kb-integrity-audit-2026-05-27.md) | [`kb-integrity-matrix-2026-05-27.csv`](reports/i81/kb-integrity-matrix-2026-05-27.csv) | ~0% | Wave R+4 index drain |
 | 2026-06-01 | [`kb-integrity-audit-2026-06-01.md`](reports/i81/kb-integrity-audit-2026-06-01.md) | [`kb-integrity-matrix-2026-06-01.csv`](reports/i81/kb-integrity-matrix-2026-06-01.csv) | 0.00% | Post–I90 P3b hygiene; 1100 executable rows |
+| 2026-06-05 | [`kb-integrity-audit-2026-06-05.md`](reports/i81/kb-integrity-audit-2026-06-05.md) | [`kb-integrity-matrix-2026-06-05.csv`](reports/i81/kb-integrity-matrix-2026-06-05.csv) | 0.00% | Post I88 Finance F3 + intent-ranked regression; 1118 executable rows |
 
 Reproduce: `py scripts/audit_kb_integrity.py --emit-audit docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/kb-integrity-audit-<date>.md`
 | **I81 P9 → I86 D-IH-86-D** | Mechanical cluster cross-check on closure | Per I86 charter contract |

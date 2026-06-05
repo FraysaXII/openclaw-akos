@@ -1,0 +1,109 @@
+{
+  "report_id": "fleet-hygiene-2026-06-05",
+  "swept_at": "2026-06-05T14:42:28+00:00",
+  "swept_by": "workspace_fleet_hygiene_sweep.py",
+  "findings": [
+    {
+      "dimension_code": "FLEET-01-WORKTREE",
+      "surface_path": "boilerplate",
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "## i32-akos-mirror-seed...origin/i32-akos-mirror-seed",
+      "proposed_rework_action": ""
+    },
+    {
+      "dimension_code": "FLEET-02-PUBLISH-DRIFT",
+      "surface_path": "boilerplate",
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "in sync with upstream or no upstream",
+      "proposed_rework_action": ""
+    },
+    {
+      "dimension_code": "FLEET-01-WORKTREE",
+      "surface_path": "hlk-erp",
+      "verdict": "drift",
+      "severity": "medium",
+      "notes": "## i90-hlk-ci-bless-brand-ops...origin/i90-hlk-ci-bless-brand-ops | dirty=1 (M=1 staged=0 ??=0) |  M documentation/KIRBE_API_ENV.md",
+      "proposed_rework_action": "Commit or stash WIP; push when ready; update sibling PR if governed"
+    },
+    {
+      "dimension_code": "FLEET-02-PUBLISH-DRIFT",
+      "surface_path": "hlk-erp",
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "in sync with upstream or no upstream",
+      "proposed_rework_action": ""
+    },
+    {
+      "dimension_code": "FLEET-03-CI-CONTENT",
+      "surface_path": "hlk-erp",
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "ci.yml jobs OK (['lint', 'typecheck', 'audit', 'unit', 'build'])",
+      "proposed_rework_action": ""
+    },
+    {
+      "dimension_code": "FLEET-01-WORKTREE",
+      "surface_path": "kirbe-platform",
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "## i90-p35-kirbe-runbooks...origin/i90-p35-kirbe-runbooks",
+      "proposed_rework_action": ""
+    },
+    {
+      "dimension_code": "FLEET-02-PUBLISH-DRIFT",
+      "surface_path": "kirbe-platform",
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "in sync with upstream or no upstream",
+      "proposed_rework_action": ""
+    },
+    {
+      "dimension_code": "FLEET-03-CI-CONTENT",
+      "surface_path": "kirbe-platform",
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "ci.yml jobs OK (['lint', 'typecheck', 'audit', 'unit', 'build'])",
+      "proposed_rework_action": ""
+    },
+    {
+      "dimension_code": "FLEET-01-WORKTREE",
+      "surface_path": "openclaw-akos",
+      "verdict": "drift",
+      "severity": "high",
+      "notes": "## main...origin/main | dirty=2 (M=0 staged=0 ??=2) | ?? artifacts/fleet-hygiene/fleet-hygiene-2026-06-05.json; ?? artifacts/fleet-hygiene/fleet-hygiene-2026-06-05.md",
+      "proposed_rework_action": "Commit or stash WIP; push when ready; update sibling PR if governed"
+    },
+    {
+      "dimension_code": "FLEET-02-PUBLISH-DRIFT",
+      "surface_path": "openclaw-akos",
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "in sync with upstream or no upstream",
+      "proposed_rework_action": ""
+    },
+    {
+      "dimension_code": "FLEET-04-STANDING-OPS",
+      "surface_path": "OPS-81-1",
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "I81 P1 vault integrity + DQ sprint + P2 layout-migration tranches coordination | last_review=2026-06-01 (4d) | runbook=scripts/audit_kb_integrity.py | evidence=ok",
+      "proposed_rework_action": ""
+    },
+    {
+      "dimension_code": "FLEET-04-STANDING-OPS",
+      "surface_path": "OPS-90-6",
+      "verdict": "clean",
+      "severity": "low",
+      "notes": "Forward KNOWLEDGE_PAIRING vault pointers to I81 P6 (env_tech_dtp_255/256) | last_review=2026-06-01 (4d) | runbook=n/a | evidence=ok",
+      "proposed_rework_action": ""
+    }
+  ],
+  "clean_count": 10,
+  "drift_count": 2,
+  "gap_count": 0,
+  "blocked_count": 0,
+  "skip_count": 0,
+  "total_findings": 12
+}

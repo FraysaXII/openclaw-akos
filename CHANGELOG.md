@@ -13,6 +13,8 @@ Release lane definitions, SemVer judgment, `[Unreleased]` working-line disciplin
 
 ## [Unreleased]
 
+- **I81 P1 observation cadence — 2026-06-05 (standing obligation)**: Lands paired [`kb-integrity-audit-2026-06-05.md`](docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/kb-integrity-audit-2026-06-05.md) + matrix CSV (1118 executable rows; 0% pass expected at P1 baseline). **OPS-81-1** evidence_path + last_observation refreshed. Fleet hygiene sweep artifact [`fleet-hygiene-2026-06-05`](artifacts/fleet-hygiene/fleet-hygiene-2026-06-05.md) from intent-ranked regression run.
+
 - **Holistika mirror DML executable process (2026-06-05)** — `SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001` + `process_list` `env_tech_dtp_compliance_mirror_dml_001` + KNOWLEDGE_PAIRING + [`holistika-ops-governance-lattice.md`](docs/guides/holistika-ops-governance-lattice.md); Envoy Tech Lab README/contract cross-refs. Closes repo-only guidance gap (D-GTM-DB-6 now has vault process row).
 
 - **I93 closure (2026-06-05; D-IH-93-CLOSURE)** — `INIT-OPENCLAW_AKOS-93` closed after P0–P8 mechanical deliverables; closure UAT PASS-WITH-FOLLOWUP; `D-IH-93-CLOSURE` in `DECISION_REGISTER.csv`. Forward work: non-Data area charters in [`area-governance-gap-tracker-2026-06-05.csv`](docs/wip/planning/93-data-area-foundation-and-governance/_trackers/area-governance-gap-tracker-2026-06-05.csv).
