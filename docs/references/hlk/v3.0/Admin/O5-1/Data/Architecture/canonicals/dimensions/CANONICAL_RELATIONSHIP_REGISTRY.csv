@@ -4,13 +4,13 @@ HCAM-TRP-002,role,composition,role,1:N,baseline_organisation.reports_to,COMPOSED
 HCAM-TRP-003,area,composition,area,1:N,area_model.sub_area,COMPOSED_OF,,active,area composed of sub-areas
 HCAM-TRP-004,area,aggregation,role,1:N,baseline_organisation.area,AGGREGATES,,active,area aggregates its roles
 HCAM-TRP-005,process,composition,process,N:1,process_list.item_parent_1_id;item_parent_2_id,COMPOSED_OF,PARENT_OF,active,process layers project>process>activity>task (APQC)
-HCAM-TRP-006,process,realization,capability,N:N,new,REALIZES,,planned,process realizes a business capability
+HCAM-TRP-006,process,realization,capability,N:N,CAPABILITY_REGISTRY.originating_process_ids,REALIZES,,active,process realizes a business capability
 HCAM-TRP-007,process,realization,pattern,N:N,process_list.inherited_pattern_id,REALIZES,,active,process realizes/inherits a design pattern
 HCAM-TRP-008,process,serving,engagement,N:N,process_list.engagement_template_id,SERVES,PRODUCES_FOR,active,process serves an engagement
 HCAM-TRP-009,process,serving,persona,N:N,process_list.persona_id,SERVES,,active,process serves a persona
 HCAM-TRP-010,process,access,metric,N:N,semantic_layer.definition_sql_ref,ACCESSES,,planned,process reads/writes a governed metric
 HCAM-TRP-011,process,triggering,process,N:N,new,TRIGGERS,,planned,process-to-process handoff (lifecycle)
-HCAM-TRP-012,engagement,flow,entity,N:N,finops.counterparty,FLOWS_TO,,planned,engagement value flow to counterparty entity
+HCAM-TRP-012,engagement,flow,entity,N:N,ENGAGEMENT_REGISTRY.counterparty_org_id,FLOWS_TO,,active,engagement value flow to counterparty entity
 HCAM-TRP-013,engagement,serving,audience,N:N,engagement_model,SERVES,,planned,engagement serves an audience
 HCAM-TRP-014,capability,composition,capability,N:1,capability_map,COMPOSED_OF,,planned,capability-map decomposition levels
 HCAM-TRP-015,program,aggregation,initiative,1:N,initiative_registry.program_anchors,AGGREGATES,PROGRAM_SUBSUMES,active,program aggregates initiatives
@@ -26,8 +26,8 @@ HCAM-TRP-024,canonical,realization,pattern,N:N,frontmatter.inherited_pattern_id,
 HCAM-TRP-025,persona_scenario,specialization,persona,N:1,persona_scenario_registry.persona_id,SPECIALIZES,,active,scenario specializes a persona
 HCAM-TRP-026,metric,access,source_fact,N:N,metrics_registry.source_contract_id,ACCESSES,,active,metric reads a contracted source
 HCAM-TRP-027,component,serving,role,N:N,baseline_organisation.components_used,SERVES,,active,component serves the roles that use it
-HCAM-TRP-028,skill,assignment,role,N:N,new,ASSIGNED_TO,,planned,skill assigned to role (operator add 2026-06-05)
-HCAM-TRP-029,use_case,realization,capability,N:N,new,REALIZES,,planned,use-case realizes a capability (operator add 2026-06-05)
+HCAM-TRP-028,skill,assignment,role,N:N,SKILL_REGISTRY.owner_role,ASSIGNED_TO,,active,skill owned/performed by role (operator add 2026-06-05)
+HCAM-TRP-029,use_case,realization,capability,N:N,USE_CASE_ARCHIVE.capability_id,REALIZES,,active,use-case realizes a capability (operator add 2026-06-05)
 HCAM-TRP-030,aic,assignment,process,N:N,new,ASSIGNED_TO,,planned,AIC performs a process (operator add 2026-06-05)
 HCAM-TRP-031,program,composition,workstream,1:N,new,COMPOSED_OF,,planned,program composed of workstreams (operator add 2026-06-05)
 HCAM-TRP-032,workstream,composition,process,1:N,new,COMPOSED_OF,,planned,workstream composed of processes (operator add 2026-06-05)
@@ -37,3 +37,9 @@ HCAM-TRP-035,area,serving,area,N:N,new,SERVES,,planned,platform area serves stre
 HCAM-TRP-036,initiative,composition,workstream,1:N,new,COMPOSED_OF,,planned,initiative composed of workstreams
 HCAM-TRP-037,role,assignment,skill,N:N,new,ASSIGNED_TO,,planned,role holds/is-assigned a skill (inverse of TRP-028 view)
 HCAM-TRP-038,aic,realization,capability,N:N,aic_capability_implementation_matrix,REALIZES,,active,AIC realizes a capability
+HCAM-TRP-039,capability,assignment,role,N:1,CAPABILITY_REGISTRY.role_owner,ASSIGNED_TO,,active,capability owned by a role
+HCAM-TRP-040,capability,aggregation,skill,N:N,CAPABILITY_REGISTRY.skill_ids,AGGREGATES,,active,capability aggregates the skills it needs
+HCAM-TRP-041,substrate,serving,capability,N:N,CAPABILITY_REGISTRY.substrate_id,SERVES,,active,technology substrate serves a capability
+HCAM-TRP-042,use_case,serving,engagement,N:N,USE_CASE_ARCHIVE.engagement_id,SERVES,,active,use-case realised within an engagement
+HCAM-TRP-043,goal_poi,influence,process,N:N,GOI_POI_REGISTER.process_item_id,INFLUENCES,,active,goal/POI influences a process
+HCAM-TRP-044,goal_poi,influence,program,N:N,GOI_POI_REGISTER.program_id,INFLUENCES,,active,goal/POI influences a program
