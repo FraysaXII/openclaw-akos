@@ -46,8 +46,9 @@ inherited_pattern_id: pattern_register_csv_pydantic_validator_mirror
 
 ## 1. Purpose
 
-Holistika has ~33 canonical artifact types, each with internal layers, that must link to
-each other. Without a model, links accrete ad hoc (one FK column per CSV; one Neo4j edge
+Holistika has 42 canonical artifact types, each with internal layers, that must link to
+each other (including the Data area's own world — data contracts, products, stores, models,
+BI/analytics consumers, integration adapters, catalog, glossary, applications/ERP). Without a model, links accrete ad hoc (one FK column per CSV; one Neo4j edge
 per initiative — the same whole-part relationship forked into `PARENT_OF` /
 `PROGRAM_PARENT_OF` / `TOPIC_PARENT_OF`). HCAM sets the **bar**: one entity catalog, one
 closed verb set, one governed valid-triple registry. CSVs stay SSOT (T1); Neo4j is the
@@ -57,7 +58,7 @@ projection (T3); HCAM is the metamodel above both.
 
 | Registry | Role | Validator |
 |:---|:---|:---|
-| `dimensions/ENTITY_CATALOG.csv` | 33 canonical types → ArchiMate aspect + Zachman cell + SSOT + Neo4j label + owning area | `scripts/validate_canonical_articulation.py` |
+| `dimensions/ENTITY_CATALOG.csv` | 42 canonical types → ArchiMate aspect + Zachman cell + SSOT + Neo4j label + owning area (incl. the Data-area sweep: data_contract/product/store/model, bi_consumer, adapter, data_catalog, glossary_term, application) | `scripts/validate_canonical_articulation.py` |
 | `dimensions/CANONICAL_RELATIONSHIP_REGISTRY.csv` | valid `(source_type, verb, target_type)` triples = an ISO/IEC 39075:2024 GQL *graph type* | (same; wired into `validate_hlk.py`) |
 
 Pydantic SSOT: `akos/hlk_canonical_articulation.py`.

@@ -29,7 +29,9 @@ from akos.io import REPO_ROOT
 
 # --- closed sets -------------------------------------------------------------
 
-# The 33 canonical artifact types (31 ratified + Workstream + Brand per operator 2026-06-05).
+# The 42 canonical artifact types: 31 ratified + Workstream + Brand (operator 2026-06-05) +
+# 9 Data-area types (I95 data-area sweep 2026-06-05: the db/model/ERP/UI/analytics/KPI/
+# glossary/catalogue gap the operator flagged).
 VALID_ENTITY_TYPES: frozenset[str] = frozenset({
     # Who — active structure
     "role", "aic", "persona", "entity", "channel", "sourcing",
@@ -45,6 +47,10 @@ VALID_ENTITY_TYPES: frozenset[str] = frozenset({
     "initiative", "program", "workstream", "ops_action", "calendar_cadence",
     # Where — bounded context
     "area",
+    # Data area (I95 data-area sweep): data products + contracts + stores + models +
+    # BI/analytics consumers + integration adapters + catalog + glossary + applications/ERP.
+    "data_contract", "data_product", "data_store", "data_model", "bi_consumer",
+    "adapter", "data_catalog", "glossary_term", "application",
 })
 
 # The closed ArchiMate relationship verb set (10) + association (last-resort catch-all).

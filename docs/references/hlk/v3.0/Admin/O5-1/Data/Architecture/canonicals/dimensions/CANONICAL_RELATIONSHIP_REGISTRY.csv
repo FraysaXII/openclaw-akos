@@ -24,7 +24,7 @@ HCAM-TRP-022,topic,aggregation,source_fact,1:N,intelligence_matrix,AGGREGATES,TO
 HCAM-TRP-023,channel,serving,audience,N:N,channel_touchpoint_registry,SERVES,,active,channel serves an audience
 HCAM-TRP-024,canonical,realization,pattern,N:N,frontmatter.inherited_pattern_id,REALIZES,,active,canonical realizes a design pattern
 HCAM-TRP-025,persona_scenario,specialization,persona,N:1,persona_scenario_registry.persona_id,SPECIALIZES,,active,scenario specializes a persona
-HCAM-TRP-026,metric,access,source_fact,N:N,metrics_registry.source_contract_id,ACCESSES,,active,metric reads a contracted source
+HCAM-TRP-026,metric,access,data_contract,N:N,METRICS_REGISTRY.source_contract_id,ACCESSES,,active,metric reads a contracted data surface
 HCAM-TRP-027,component,serving,role,N:N,baseline_organisation.components_used,SERVES,,active,component serves the roles that use it
 HCAM-TRP-028,skill,assignment,role,N:N,SKILL_REGISTRY.owner_role,ASSIGNED_TO,,active,skill owned/performed by role (operator add 2026-06-05)
 HCAM-TRP-029,use_case,realization,capability,N:N,USE_CASE_ARCHIVE.capability_id,REALIZES,,active,use-case realizes a capability (operator add 2026-06-05)
@@ -43,3 +43,19 @@ HCAM-TRP-041,substrate,serving,capability,N:N,CAPABILITY_REGISTRY.substrate_id,S
 HCAM-TRP-042,use_case,serving,engagement,N:N,USE_CASE_ARCHIVE.engagement_id,SERVES,,active,use-case realised within an engagement
 HCAM-TRP-043,goal_poi,influence,process,N:N,GOI_POI_REGISTER.process_item_id,INFLUENCES,,active,goal/POI influences a process
 HCAM-TRP-044,goal_poi,influence,program,N:N,GOI_POI_REGISTER.program_id,INFLUENCES,,active,goal/POI influences a program
+HCAM-TRP-045,process,realization,data_contract,N:N,DATA_CONTRACT_REGISTRY.producer_process_id,REALIZES,,active,producer process realizes a data-contract interface
+HCAM-TRP-046,data_contract,serving,area,N:N,DATA_CONTRACT_REGISTRY.consumer_area_ids,SERVES,,active,data contract serves its consumer areas
+HCAM-TRP-047,data_contract,access,data_store,N:1,DATA_CONTRACT_REGISTRY.data_surface,ACCESSES,,active,contract governs one data surface (canonical_csv/mirror_table/fdw_projection/graph)
+HCAM-TRP-048,component,realization,bi_consumer,N:1,BI_CONSUMER_REGISTRY.component_id,REALIZES,,active,a component realizes a BI/analytics consumer surface
+HCAM-TRP-049,bi_consumer,access,data_store,N:N,BI_CONSUMER_REGISTRY.data_surfaces,ACCESSES,,active,BI consumer reads warehouse/store surfaces
+HCAM-TRP-050,area,aggregation,bi_consumer,N:N,AREA_BI_PROFILE.primary_consumer_ids,AGGREGATES,,active,area declares its BI consumers (AREA_BI_PROFILE)
+HCAM-TRP-051,bi_consumer,access,metric,N:N,semantic_layer_binding,ACCESSES,,planned,BI consumer binds to define-once metrics (no parallel defs)
+HCAM-TRP-052,data_product,composition,data_contract,1:N,data_fam_umbrella,COMPOSED_OF,,planned,data product composed of per-surface data contracts
+HCAM-TRP-053,data_product,specialization,capability,N:1,CAPABILITY_REGISTRY.data_fam,SPECIALIZES,,planned,data product is a DATA-FAM capability umbrella
+HCAM-TRP-054,data_model,realization,data_store,N:N,dama_conceptual_logical_physical,REALIZES,,planned,logical data model realized in a physical store (DAMA)
+HCAM-TRP-055,adapter,serving,data_store,N:N,RPA_ADAPTER_REGISTRY,SERVES,,planned,integration adapter reads/writes store surfaces
+HCAM-TRP-056,adapter,access,data_contract,N:N,integration_plane_rule,ACCESSES,,planned,every external ingress declares a data contract
+HCAM-TRP-057,data_catalog,aggregation,data_contract,1:N,openmetadata_projection,AGGREGATES,,planned,catalog indexes contracts as L3 read projection
+HCAM-TRP-058,data_catalog,aggregation,glossary_term,1:N,openmetadata_glossary,AGGREGATES,,planned,catalog holds the business glossary
+HCAM-TRP-059,application,composition,component,1:N,COMPONENT_SERVICE_MATRIX,COMPOSED_OF,,planned,application (HLK-ERP/control plane) composed of components
+HCAM-TRP-060,application,access,data_store,N:N,erp_reads_warehouse,ACCESSES,,planned,application reads the T2 warehouse / stores

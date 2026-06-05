@@ -35,7 +35,12 @@ def test_catalog_all_rows_valid_and_known_types():
         types.add(row.entity_type)
     # operator-added types must be present
     assert {"workstream", "brand"}.issubset(types)
-    assert len(types) == 33
+    # Data-area sweep types (I95 2026-06-05): db/model/ERP/UI/analytics/catalogue/glossary gap
+    assert {
+        "data_contract", "data_product", "data_store", "data_model", "bi_consumer",
+        "adapter", "data_catalog", "glossary_term", "application",
+    }.issubset(types)
+    assert len(types) == 42
 
 
 def test_registry_rows_valid_and_referentially_integral():
