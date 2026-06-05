@@ -1,4 +1,5 @@
 ---
+language: en
 template_kind: executor_packet
 version: 1.0
 authored: 2026-06-05

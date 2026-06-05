@@ -40,9 +40,9 @@ flowchart LR
 
 **Verification:** synthesis-before-tranche (internal_governance class); no CSV commit.
 
-## F1 — Area shell (Composer)
+## F1 — Area shell (Composer) ✅ 2026-06-05
 
-**Execution SSOT (ready):**
+**Execution SSOT (complete):**
 
 - Executor packet: [`finance-area-executor-packet-f1-2026-06-05.md`](finance-area-executor-packet-f1-2026-06-05.md)
 - Tranche charter: [`finance-area-f1-tranche-charter.md`](finance-area-f1-tranche-charter.md)
