@@ -222,7 +222,11 @@ def _probe_area_05(area: str) -> AreaCompletenessFindingRow:
 def _probe_area_06(area: str) -> AreaCompletenessFindingRow:
     proc_area = str(AREA_CONFIG[area]["process_area"])
     cap_rows = [r for r in _read_csv(CAPABILITY_PATH) if (r.get("area") or "").strip() == proc_area]
-    conf_rows = [r for r in _read_csv(CONFIDENCE_PATH) if (r.get("area") or "").strip() == proc_area]
+    cap_ids = {(r.get("capability_id") or "").strip() for r in cap_rows}
+    conf_rows = [
+        r for r in _read_csv(CONFIDENCE_PATH)
+        if (r.get("capability_id") or "").strip() in cap_ids
+    ]
     if cap_rows and conf_rows:
         return _row(
             "AREA-06-CAPABILITY-CONFIDENCE", area, "pass",

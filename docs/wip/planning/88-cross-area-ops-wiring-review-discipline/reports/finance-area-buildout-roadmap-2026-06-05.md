@@ -61,17 +61,28 @@ flowchart LR
 
 **Composer bootstrap:** paste packet §10 into Holistika — Execute mode (composer-2.5).
 
-## F2 — Registries + cross-area contracts (Composer)
+## F2a — Rev-rec + pricing + DC seeds (Composer) ✅ 2026-06-05
+
+**Execution SSOT:** [`finance-area-executor-packet-f2a-2026-06-05.md`](finance-area-executor-packet-f2a-2026-06-05.md) · evidence: [`finance-f2a-execution-evidence-2026-06-05.md`](finance-f2a-execution-evidence-2026-06-05.md)
 
 | Deliverable | Closes / elevates |
 |:---|:---|
-| `CAPABILITY_CONFIDENCE_REGISTRY` — 16 Finance CONF seeds | AREA-06 |
-| `runbook_path` on `thi_finan_dtp_303–309` | AREA-09 |
-| `DATA_CONTRACT_REGISTRY`: DC-FINOPS-REGISTERED-FACT-001, DC-LEGAL-FINOPS-INSTRUMENT-001, DC-PEOPLE-FINOPS-PAYOUT-001, DC-MKT-FINOPS-CAPEX-001, DC-REVOPS-FINOPS-ENGAGEMENT-001 | AREA-08 partial |
-| `METRICS_REGISTRY.csv` finance metrics (≥8) | Semantic layer M4 |
-| `FINOPS_REVENUE_RECOGNITION_POLICY.md` | Plane 2 doctrine |
+| `FINOPS_REVENUE_RECOGNITION_POLICY.md` (active) | Plane 2 doctrine; OPS-81-5 |
+| `PRICING_TIER_REGISTRY.csv` + obligation registry + validator | AREA-08 **pass**; OPS-81-6 |
+| 5 `DC-HOL-FINOPS-*` data-contract rows | FIN-05 |
+| AREA-06 probe join fix (CONF via `capability_id`) | AREA-06 **pass** |
+| `thi_finan_dtp_303` runbook pairing note | AREA-09 pilot |
 
-**Verification:** `validate_data_contract_registry.py`, `validate_capability_confidence_registry.py`; matrix ≥77%.
+**Verification:** synthesis 9/9; `validate_pricing_tier_registry.py`; `validate_hlk.py`; Finance matrix **88%**.
+
+## F2b — Tax calendar (Composer; counsel gate)
+
+| Deliverable | Closes / elevates |
+|:---|:---|
+| `FINOPS_TAX_CALENDAR.csv` | Plane 3; OPS-81-13 |
+| `METRICS_REGISTRY.csv` finance metrics (≥8) | Semantic layer M4 (optional F2b/F4) |
+
+**Verification:** AskQuestion before CSV commit; `validate_hlk.py`.
 
 ## F3 — Tech plane (Composer + operator SQL gate)
 

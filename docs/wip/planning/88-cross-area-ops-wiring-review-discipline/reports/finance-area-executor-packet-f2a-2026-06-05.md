@@ -12,7 +12,7 @@ prerequisites:
   - feat(i88-finance-f1) committed
   - reports/research-f2a-revrec-pricing-2026-06-05.md
   - reports/finance-area-f2a-tranche-charter.md
-status: ready_for_composer
+status: executed_2026-06-05
 ---
 
 # F2a executor packet — rev-rec + pricing + contracts + CONF

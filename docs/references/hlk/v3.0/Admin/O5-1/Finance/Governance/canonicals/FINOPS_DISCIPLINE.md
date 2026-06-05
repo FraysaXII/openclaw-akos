@@ -82,7 +82,7 @@ FIN-02 maps to **DATA-02** in [`DATAOPS_DISCIPLINE.md`](../../../Data/Governance
 | Plane | Steward | SSOT (current) | Automated check |
 |:---|:---|:---|:---|
 | 1 Counterparty MDM | Business Controller | `FINOPS_COUNTERPARTY_REGISTER.csv` | `validate_finops_ledger.py` |
-| 2 Rev-rec + pricing | Business Controller + PMO | F2 policy + `PRICING_TIER_REGISTRY` | F2 validators |
+| 2 Rev-rec + pricing | Business Controller + PMO | [`FINOPS_REVENUE_RECOGNITION_POLICY.md`](../../Business%20Controller/canonicals/FINOPS_REVENUE_RECOGNITION_POLICY.md) + [`PRICING_TIER_REGISTRY.csv`](dimensions/PRICING_TIER_REGISTRY.csv) | `validate_pricing_tier_registry.py` |
 | 3 Tax calendar | Business Controller + counsel | `FINOPS_TAX_CALENDAR` (F2) | F2 validators |
 | 4 O2C / AR | Business Controller | process_list O2C rows | F4 probes |
 | 5 PTP / capex | Business Controller + Marketing | capex DC + MKT spend joins | F4 probes |
