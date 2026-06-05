@@ -49,6 +49,16 @@ A **stop** hook in [`.cursor/hooks.json`](../../.cursor/hooks.json) prints a rem
 
 In the executor chat, ask which model is active. If not Composer 2.5, fix the mode picker before CSV edits or validator runs.
 
+## Worked examples (copy the rhythm)
+
+| Programme | Workflow doc | First executor packet |
+|:---|:---|:---|
+| I90 routing (first example) | [`two-seat-setup-guide-2026-05-30.md`](../wip/planning/90-routing-and-wiring/reports/two-seat-setup-guide-2026-05-30.md) | (initiative-specific) |
+| I93 DATA area | [`93-data-area-foundation-and-governance/master-roadmap.md`](../wip/planning/93-data-area-foundation-and-governance/master-roadmap.md) §9 packets | P0–P8 inline packets |
+| **Finance full area (I88)** | [`finance-area-two-seat-workflow-2026-06-05.md`](../wip/planning/88-cross-area-ops-wiring-review-discipline/reports/finance-area-two-seat-workflow-2026-06-05.md) | [`finance-area-executor-packet-f1-2026-06-05.md`](../wip/planning/88-cross-area-ops-wiring-review-discipline/reports/finance-area-executor-packet-f1-2026-06-05.md) |
+
+**Packet template (any initiative):** [`docs/wip/planning/_templates/executor-packet-template.md`](../wip/planning/_templates/executor-packet-template.md).
+
 ## Initiative context
 
 Charters, decision logs, and gate reports live under `docs/wip/planning/<NN>-<slug>/` — see [`docs/wip/planning/README.md`](../wip/planning/README.md). This guide does not duplicate per-initiative tables.

@@ -1,0 +1,43 @@
+source_id,title,url,source_type,volatility_class,holistika_reliability,control_confidence_level,ingested_at,notes
+INT-01,AREA_GOVERNANCE_DISCIPLINE 14-component bar,docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/AREA_GOVERNANCE_DISCIPLINE.md,internal_canonical,low,A1,Safe,2026-06-05,Scalability via pattern_area_buildout
+INT-02,I93 area completeness closure matrix,docs/wip/planning/93-data-area-foundation-and-governance/reports/area-completeness-matrix-2026-06-05.md,internal_evidence,low,A1,Safe,2026-06-05,88% reference bar
+INT-03,Finance area matrix 2026-06-05,scripts/validate_area_completeness.py --matrix,internal_runbook,low,A1,Safe,2026-06-05,Finance 50% five gaps
+INT-04,I81 FINOPS end-to-end synthesis,docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/p2-tranche-t1-finops-synthesis-2026-05-22.md,internal_canonical,low,A1,Safe,2026-06-05,Five planes pricing tax OPS backlog
+INT-05,I88 P1 FINOPS pillar sweep,docs/wip/planning/88-cross-area-ops-wiring-review-discipline/reports/p1-finops-pillar-sweep-2026-06-05.md,internal_evidence,medium,B1,Safe,2026-06-05,Spine evidence superseded for area bar
+INT-06,FINOPS counterparty register SSOT,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/finops/FINOPS_COUNTERPARTY_REGISTER.csv,internal_canonical,medium,A1,Safe,2026-06-05,28 active rows
+INT-07,DATA_BI_GOVERNANCE,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,internal_canonical,low,A1,Safe,2026-06-05,Finance as dimension hub
+INT-08,Holistika ops/data lattice,docs/guides/holistika-ops-governance-lattice.md,internal_runbook,low,A1,Safe,2026-06-05,Data good Ops entrypoints
+INT-09,CAPABILITY_REGISTRY Finance rows,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CAPABILITY_REGISTRY.csv,internal_canonical,medium,A1,Safe,2026-06-05,16 CAP all partial
+INT-10,baseline_organisation Finance roles,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv,internal_canonical,low,A1,Safe,2026-06-05,Pricing Taxes O2C PTP planned
+INT-11,OPS_REGISTER OPS-81-5 rev-rec,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv,internal_tracker,low,A1,Safe,2026-06-05,CRITICAL open
+INT-12,OPS_REGISTER OPS-81-6 pricing tiers,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv,internal_tracker,low,A1,Safe,2026-06-05,HIGH open pairs OPS-81-5
+INT-13,OPS_REGISTER OPS-81-13 tax calendar,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv,internal_tracker,low,A1,Safe,2026-06-05,CRITICAL Spain filings
+INT-14,PMO PRICING_MODEL commercial,docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/business-strategy/PRICING_MODEL.md,internal_canonical,medium,A1,Safe,2026-06-05,Join to PRICING_TIER_REGISTRY at F2
+INT-15,process_list thi_finan_dtp_126 203,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv,internal_canonical,low,A1,Safe,2026-06-05,Pricing processes partial
+INT-16,Traceability inventory 2026-06-05,docs/wip/planning/88-cross-area-ops-wiring-review-discipline/reports/finance-governance-traceability-inventory-2026-06-05.md,internal_evidence,low,A1,Safe,2026-06-05,Mint vs deferred matrix
+EXT-01,DAMA-DMBOK reference and master data,https://www.damadmbok.org/copy-of-about-dama-dmbok,external_reference,low,B2,Safe,2026-06-05,MDM SSOT
+EXT-02,EY record-to-report maturity,https://www.ey.com/content/dam/ey-unified-site/ey-com/en-ca/alliances/documents/choose_your_journey_to-record-to-report_processx-ecellence.pdf,external_reference,medium,B2,Safe,2026-06-05,R2R ladder
+EXT-03,Finance semantic layer FP&A hub,https://www.business-software.com/blog/building-a-finance-data-hub-why-fpa-needs-a-semantic-layer-not-just-more-spreadsheets-2/,external_reference,medium,B2,Safe,2026-06-05,Metric catalog
+EXT-04,KPMG ASC 606 handbook 2025,https://kpmg.com/us/en/frv/reference-library/2025/handbook-revenue-recognition.html,external_reference,medium,B2,Safe,2026-06-05,Rev-rec doctrine
+EXT-05,Finantrix counterparty golden record,https://www.finantrix.com/articles/how-to-implement-golden-record-mdm-for-counterparty-data,external_reference,medium,B2,Safe,2026-06-05,Volvo-grade MDM
+EXT-06,BCBS 239 principles,https://www.bis.org/publ/bcbs239.htm,external_reference,low,B2,Safe,2026-06-05,Lineage accuracy bar
+EXT-07,Pedowitz CFO-CMO budget OS,https://www.pedowitzgroup.com/how-do-cfos-and-cmos-align-on-budget-planning,external_reference,medium,B2,Safe,2026-06-05,MKT spend governance
+EXT-08,Uptempo marketing budget governance,https://www.uptempo.io/ebook/the-fpa-leaders-guide-to-marketing-budget-governance/,external_reference,medium,B2,Safe,2026-06-05,Dual hierarchy
+EXT-09,Fullcast RevOps-Finance alignment,https://www.fullcast.com/content/revops-and-finance-alignment/,external_reference,medium,B2,Safe,2026-06-05,Pipeline to revenue
+EXT-10,Rally ReOps maturity matrix 2024,https://www.rallyuxr.com/post/introducing-the-first-ever-research-ops-maturity-matrix,external_reference,medium,B2,Safe,2026-06-05,Incremental maturity
+EXT-11,Team Topologies interaction modes,https://teamtopologies.com/key-concepts-content/team-interaction-modeling-with-team-topologies,external_reference,low,B2,Safe,2026-06-05,Cross-area modes
+EXT-12,ResearchOps eight pillars,https://researchops.community/about/,external_reference,low,B2,Safe,2026-06-05,I88 lens
+EXT-13,AWS financial data mesh lens,https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/financial-data-mesh.html,external_reference,medium,B2,Safe,2026-06-05,Finance data products
+EXT-14,Numeric ASC 606 SaaS close,https://www.numeric.io/blog/revenue-recognition-saas,external_reference,medium,B2,Safe,2026-06-05,Deferred revenue recon OPS-81-5
+EXT-15,Stripe SaaS revenue recognition,https://stripe.com/resources/more/a-guide-to-revenue-recognition-for-saas-businesses,external_reference,medium,B2,Safe,2026-06-05,Five-step model
+EXT-16,DualEntry SaaS rev rec guide,https://www.dualentry.com/blog/saas-revenue-recognition,external_reference,medium,B2,Safe,2026-06-05,Tier changes waterfall
+EXT-17,HubiFi ASC 606 variable pricing,https://www.hubifi.com/blog/saas-asc-606-guide,external_reference,medium,B2,Safe,2026-06-05,Tiered usage disclosure
+EXT-18,Certinia ASC 606 IFRS 15 steps,https://www.certinia.com/resources/industry-101/complying-with-asc-606-and-ifrs-15/,external_reference,medium,B2,Safe,2026-06-05,Perf obligation control transfer
+EXT-19,Semarchy vendor MDM,https://semarchy.com/domain/vendor-data/,external_reference,medium,B2,Safe,2026-06-05,PTP vendor master
+EXT-20,NetSuite revenue recognition guide,https://www.netsuite.com/portal/resource/articles/accounting/revenue-recognition.shtml,external_reference,medium,B2,Safe,2026-06-05,I81 cited precedent
+EXT-21,HighRock SaaS rev rec audit guide,https://www.highrock.com/insights/saas-revenue-recognition-asc-606-founders-audit-guide,external_reference,medium,B2,Safe,2026-06-05,I81 misrecognition stat
+EXT-22,AEAT Haciendas Forales info,https://sede.agenciatributaria.gob.es/,external_reference,medium,B2,Euclid,2026-06-05,OPS-81-14 territoriality
+EXT-23,FP&A Trends data products,https://fpa-trends.com/article/ai-powered-data-platforms-fpna,external_reference,medium,B2,Safe,2026-06-05,P&L as data product
+EXT-24,Gartner finance D&A governance,https://www.gartner.com/en/documents/5581627,external_reference,medium,B2,Safe,2026-06-05,Governance investment theme
+EXT-25,Holistika D-IH-81-P internal-first,docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/decision-log.md,internal_canonical,low,A1,Safe,2026-06-05,Philosophy layer
+EXT-26,Holistika D-IH-93-B area governance,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,internal_canonical,low,A1,Safe,2026-06-05,Meta-process ratification

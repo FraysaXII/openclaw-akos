@@ -2,7 +2,7 @@
 initiative_id: 88
 title: I88 decision log — Cross-area Ops wiring review discipline (every-area + 3-tier) × 10-pillar Holistika ReOps lens
 authored: 2026-05-24
-last_review: 2026-05-24
+last_review: 2026-06-05
 audience: J-OP;J-AIC
 access_level: 5
 language: en
@@ -45,17 +45,50 @@ language: en
 
 **Forward charter.** P1 (FINOPS pillar sweep) + P2 (Research OPS pillar sweep) + P3 (discipline canonical mint per quartet specialty contract). 4 new decision IDs reserved (D-IH-88-A through D-IH-88-D per master-roadmap §3 preview).
 
-### D-IH-88-A (reserved; P1 entry)
+### D-IH-88-A — tier assignment at P1 entry
+
+**2026-06-05** (I88 P1 FINOPS pillar sweep; operator ratification **Option C** at P1 entry gate — sequential OPS-86-15 close then P1 sweep).
 
 **Question.** Tier assignment for each of the 7 areas at P1 entry. (Tier 1 dense weekly-to-monthly / Tier 2 quarterly / Tier 3 semi-annual-or-on-trigger.)
 
-**Status.** Open. Ratifies at P1 entry. Default per charter §1.4 paragraph framings: FINOPS Tier 1; Research OPS Tier 1; Marketing Reach Tier 1 ↔ Brand Tier 3; Tech Lab Tier 1-to-2; Legal Tier 1 (LegalOps↔FINOPS) ↔ Tier 2 (LegalOps↔RevOps); Operations Tier 1 (PMO↔every-area); People Tier 1 (People↔every-area pairing).
+**Decision.** Ratify charter §1.4 defaults without amendment:
 
-### D-IH-88-B (reserved; P1 entry)
+| Area | Tier |
+|:---|:---|
+| FINOPS | Tier 1 |
+| Research OPS | Tier 1 |
+| Marketing | Tier 1 (Reach) / Tier 3 (Brand sub-area) |
+| Tech Lab | Tier 1–2 |
+| Legal | Tier 1 (LegalOps↔FINOPS) / Tier 2 (LegalOps↔RevOps) |
+| Operations | Tier 1 |
+| People | Tier 1–2 |
+
+**Owner.** Founder/CEO + System Owner.
+
+**Rationale.** Defaults match wiring density observed in internal evidence sweep (FINOPS + Operations spines highest traffic; Brand sub-area correctly Tier 3 until Account Management RevOps tie-in matures per charter). Team Topologies interaction-modeling posture ([EXT-06] in P1 entry research) supports explicit boundary review at these cadences without collapsing areas.
+
+**Evidence.** [`reports/p1-finops-pillar-sweep-2026-06-05.md`](reports/p1-finops-pillar-sweep-2026-06-05.md) §Tier assignment.
+
+**Reversibility.** Partial — tier promotion/demotion via successor decision per area without re-minting I88 charter.
+
+### D-IH-88-B — FINOPS pillar 9 + 10 closure bar at P1 sweep
+
+**2026-06-05** (I88 P1 FINOPS pillar sweep; same ratification batch as D-IH-88-A).
 
 **Question.** FINOPS pillar 9 (Brand-axis on FINOPS-outbound surfaces) + pillar 10 (UX of HLK-ERP FINOPS dashboard) closure criteria — what counts as PASS for each pillar at the P1 sweep?
 
-**Status.** Open. Ratifies at P1 entry. Depends on the forward-charter `UX_DISCIPLINE.md` (D-IH-86-AX) status (still at charter status; if still charter at P1 entry, the pillar 10 closure criteria may be CHARTER-class PASS rather than FULL PASS).
+**Decision.**
+
+- **Pillar 9 (Brand):** **PASS** requires dual-register citation + render-trail on each outbound FINOPS artifact class. **PASS-WITH-FOLLOWUP** accepted at P1 close (doctrine binding live; FINOPS-specific outbound audit deferred to OPS-81-20 mint).
+- **Pillar 10 (UX):** **CHARTER-class PASS** accepted at P1 close because `UX_DISCIPLINE.md` (D-IH-86-AX forward-charter) remains charter-only. **FULL PASS** deferred until UX discipline promotes to active + HLK-ERP FINOPS panel meets Quality Fabric scenario bar.
+
+**Owner.** Founder/CEO + System Owner + Brand Manager (pillar 9) + UX owner at UX promotion time (pillar 10).
+
+**Rationale.** Avoids FAIL-ramp on pillars blocked by sibling initiatives (UX charter; OPS-81-20 judgment layer) while keeping falsifiable closure targets. P1 sweep records **8 PASS + 2 PASS-WITH-FOLLOWUP** on pillars — overall P1 **PASS-WITH-FOLLOWUP**, sufficient to enter P2 without P3 canonical mint.
+
+**Evidence.** [`reports/p1-finops-pillar-sweep-2026-06-05.md`](reports/p1-finops-pillar-sweep-2026-06-05.md) §D-IH-88-B closure criteria + per-pillar table.
+
+**Reversibility.** Partial — CHARTER-class bar lifts automatically when UX_DISCIPLINE promotes; pillar 9 bar tightens when OPS-81-20 ships.
 
 ### D-IH-88-C (reserved; P2 entry)
 

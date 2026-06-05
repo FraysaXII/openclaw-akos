@@ -1,0 +1,24 @@
+source_id,title,url,source_type,volatility_class,holistika_reliability,control_confidence_level,ingested_at,notes
+INT-01,AREA_GOVERNANCE_DISCIPLINE 14-component bar,docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/AREA_GOVERNANCE_DISCIPLINE.md,internal_canonical,low,A1,Safe,2026-06-05,DATA first worked example; Finance target 88% zero-gap
+INT-02,I93 area completeness closure matrix,docs/wip/planning/93-data-area-foundation-and-governance/reports/area-completeness-matrix-2026-06-05.md,internal_evidence,low,A1,Safe,2026-06-05,Data 88% reference bar
+INT-03,Finance area matrix 2026-06-05,scripts/validate_area_completeness.py --matrix,internal_runbook,low,A1,Safe,2026-06-05,Finance 50% five gaps
+INT-04,I81 FINOPS end-to-end synthesis,docs/wip/planning/81-vault-integrity-layout-milestones-retrofit/reports/i81/p2-tranche-t1-finops-synthesis-2026-05-22.md,internal_canonical,low,A1,Safe,2026-06-05,Five planes; plane-1 only populated
+INT-05,I88 P1 FINOPS pillar sweep (desk audit),docs/wip/planning/88-cross-area-ops-wiring-review-discipline/reports/p1-finops-pillar-sweep-2026-06-05.md,internal_evidence,medium,B1,Safe,2026-06-05,Superseded for area bar by this pack; retains spine evidence
+INT-06,FINOPS counterparty register SSOT,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/finops/FINOPS_COUNTERPARTY_REGISTER.csv,internal_canonical,medium,A1,Safe,2026-06-05,28 active rows post-I81 vendor sweep
+INT-07,DATA_BI_GOVERNANCE + DATA_CONTRACT_REGISTRY,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,internal_canonical,low,A1,Safe,2026-06-05,Finance as dimension hub via contracts
+INT-08,Holistika ops/data lattice,docs/guides/holistika-ops-governance-lattice.md,internal_runbook,low,A1,Safe,2026-06-05,Data defines good; Ops defines entrypoints
+INT-09,CAPABILITY_REGISTRY Finance rows,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CAPABILITY_REGISTRY.csv,internal_canonical,medium,A1,Safe,2026-06-05,16 CAP 7 active 9 planned all partial
+INT-10,baseline_organisation Finance roles,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv,internal_canonical,low,A1,Safe,2026-06-05,CFO+BC active; O2C/PTP planned
+EXT-01,DAMA-DMBOK reference and master data,https://www.damadmbok.org/copy-of-about-dama-dmbok,external_reference,low,B2,Safe,2026-06-05,Counterparty as MDM not ledger
+EXT-02,EY record-to-report maturity journey,https://www.ey.com/content/dam/ey-unified-site/ey-com/en-ca/alliances/documents/choose_your_journey_to_record-to-report_processx-ecellence.pdf,external_reference,medium,B2,Safe,2026-06-05,R2R automation ladder
+EXT-03,Finance semantic layer (FP&A hub),https://www.business-software.com/blog/building-a-finance-data-hub-why-fpa-needs-a-semantic-layer-not-just-more-spreadsheets-2/,external_reference,medium,B2,Safe,2026-06-05,Metric catalog + grain
+EXT-04,KPMG ASC 606 handbook 2025,https://kpmg.com/us/en/frv/reference-library/2025/handbook-revenue-recognition.html,external_reference,medium,B2,Safe,2026-06-05,Rev-rec before first customer
+EXT-05,Finantrix counterparty golden record MDM,https://www.finantrix.com/articles/how-to-implement-golden-record-mdm-for-counterparty-data,external_reference,medium,B2,Safe,2026-06-05,Volvo-grade MDM pattern
+EXT-06,BCBS 239 risk data aggregation principles,https://www.bis.org/publ/bcbs239.htm,external_reference,low,B2,Safe,2026-06-05,Rigor bar for lineage/accuracy
+EXT-07,Pedowitz CFO-CMO budget operating system,https://www.pedowitzgroup.com/how-do-cfos-and-cmos-align-on-budget-planning,external_reference,medium,B2,Safe,2026-06-05,MKT spend dual hierarchy
+EXT-08,Uptempo marketing budget governance,https://www.uptempo.io/ebook/the-fpa-leaders-guide-to-marketing-budget-governance/,external_reference,medium,B2,Safe,2026-06-05,Campaign to cost center mapping
+EXT-09,Fullcast RevOps-Finance alignment,https://www.fullcast.com/content/revops-and-finance-alignment/,external_reference,medium,B2,Safe,2026-06-05,Pipeline to recognized revenue
+EXT-10,Rally ReOps maturity matrix 2024,https://www.rallyuxr.com/post/introducing-the-first-ever-research-ops-maturity-matrix,external_reference,medium,B2,Safe,2026-06-05,Incremental per-area maturity not blanket PASS
+EXT-11,Team Topologies interaction modes,https://teamtopologies.com/key-concepts-content/team-interaction-modeling-with-team-topologies,external_reference,low,B2,Safe,2026-06-05,Collaboration vs X-as-a-Service per boundary
+EXT-12,ResearchOps eight pillars (Boulton/Towsey),https://researchops.community/about/,external_reference,low,B2,Safe,2026-06-05,I88 10-pillar lens external anchor
+EXT-13,AWS financial services data mesh lens,https://docs.aws.amazon.com/wellarchitected/latest/financial-services-industry-lens/financial-data-mesh.html,external_reference,medium,B2,Safe,2026-06-05,Finance as data product owner

@@ -1,0 +1,8 @@
+source_id,title,url,source_type,volatility_class,holistika_reliability,control_confidence_level,ingested_at,notes
+INT-01,I88 master-roadmap P0-P3 sequence,docs/wip/planning/88-cross-area-ops-wiring-review-discipline/master-roadmap.md,internal_canonical,low,A1,Safe,2026-06-05,P3 canonical mint requires P1+P2 sweeps first
+INT-02,I88 decision-log D-IH-88-A..D reserved,docs/wip/planning/88-cross-area-ops-wiring-review-discipline/decision-log.md,internal_canonical,low,A1,Safe,2026-06-05,Tier assignment at P1 entry
+INT-03,I93 closure + mirror DML governance,docs/guides/holistika-ops-governance-lattice.md,internal_runbook,low,A1,Safe,2026-06-05,Data vs Ops split; mirror apply now vault-governed
+INT-04,OPS-86-15 register row + cross-area map,docs/wip/planning/93-data-area-foundation-and-governance/reports/cross-area-data-map-2026-06-04.md,internal_evidence,low,A1,Safe,2026-06-05,Five I93 tables DML done; CHANNEL DDL pre-I31
+INT-05,OPS-86-23 regression backlog,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv,internal_tracker,low,A1,Safe,2026-06-05,DIM-04 mirror backfill partially open
+INT-06,Team Topologies interaction modeling,https://teamtopologies.com/key-concepts-content/team-interaction-modeling-with-team-topologies,external_reference,medium,B2,Safe,2026-06-05,I88 external grounding for cross-area wiring
+INT-07,ResearchOps Community handbook posture,https://www.researchopsbook.com/,external_reference,low,B2,Safe,2026-06-05,10-pillar ReOps lens precedent

@@ -4,7 +4,7 @@ initiative_slug: 88-cross-area-ops-wiring-review-discipline
 title: "I88 — Cross-area Ops wiring review discipline (every-area + 3-tier review-density frame) + 10-pillar Holistika ReOps lens (Boulton 8 + Brand + UX)"
 status: active
 authored: 2026-05-24
-last_review: 2026-05-24
+last_review: 2026-06-05
 inception_decision_id: D-IH-86-CW
 parent_initiatives: [81, 86]
 related_initiatives: [21, 72, 75, 79, 85, 86, 89]
@@ -115,7 +115,7 @@ When all 4 conditions clear, INITIATIVE_REGISTRY.csv I88 row flips `status: clos
 ### 2.1 Phase dependency narrative
 
 - **P0 — Initiative charter + every-area paragraph framings + 2 deep worked examples + decision-log + risk-register + files-modified scaffold + planning README row.** (This commit.)
-- **P1 — Exercise the discipline on FINOPS** (the first deep worked example). FINOPS already has 9 of 10 pillars exercised end-to-end post-Bundle B-2c (operational substrate; engagement-event wiring; counterparty + filed-instruments register; bridge SOP + paired runbook; pgmq DLQ + ECB FX cache; HLK-ERP convergence). Pillar 9 (Brand-axis on FINOPS-outbound surfaces) + pillar 10 (UX of HLK-ERP FINOPS dashboard) are partial. P1 produces a dated sweep report at `reports/p1-finops-pillar-sweep-<date>.md` with per-pillar PASS / PASS-WITH-FOLLOWUP / FAIL verdicts.
+- **P1 — Exercise the discipline on FINOPS** (the first deep worked example). **Complete 2026-06-05** — sweep report [`reports/p1-finops-pillar-sweep-2026-06-05.md`](reports/p1-finops-pillar-sweep-2026-06-05.md): **8 PASS + 2 PASS-WITH-FOLLOWUP** (pillars 9 Brand + 10 UX); overall **PASS-WITH-FOLLOWUP**. **D-IH-88-A** (tier assignment) + **D-IH-88-B** (pillar 9/10 bar) ratified. Pre-step: OPS-86-15 mechanical close ([`ops8615-mirror-closure-2026-06-05.md`](../86-initiative-cluster-execution-coordinator/reports/ops8615-mirror-closure-2026-06-05.md)).
 - **P2 — Exercise the discipline on Research OPS** (the second deep worked example). Research OPS pillar 1 (Strategy) + pillar 5 (Governance) + pillar 6 (Skills/Methods) are partial-to-active; pillars 2/4/7/8 are partial; pillars 3/9/10 are not-yet. P2 produces a dated sweep report at `reports/p2-research-ops-pillar-sweep-<date>.md` with per-pillar verdicts + a forward-charter for the gaps. P2 also exercises the topic+intent matrix shape via the Spain-strategy worked example (per `_candidates/i-nn-research-area-cross-area-topic-intent-improvement.md`).
 - **P3 — Discipline canonical mint** (`CROSS_AREA_OPS_WIRING_REVIEW_DISCIPLINE.md` + quartet). After P1 + P2 have produced 2 sweep reports, the canonical doctrine lands grounded in real exercise patterns. Quality Fabric specialty inclusion ratified at P3 entry (likely 14th specialty after Wave R+1's 12th UAT + planned 13th PWF_GOVERNANCE).
 
@@ -168,8 +168,8 @@ flowchart LR
 | **D-IH-86-CW** | Promote UAT_DISCIPLINE charter→active + open 3-wave field-test window + activate Bundle C as I88 + spawn Research OPS substrate candidate + extend Boulton 8-pillar ReOps frame to 10 pillars (Brand + UX) | Founder/CEO + PMO | ratified 2026-05-24 (I86 Wave R+1 META4-b + META1-a + META2-b) | P0 (this commit) |
 | **D-IH-81-O** | Cross-area Ops wiring review discipline mint (original backbone-areas framing) | Founder/CEO + PMO | ratified 2026-05-22 (I81 Bundle B-2 synthesis Decision C) | candidate origin |
 | **D-IH-81-T** | Every-area + 3-tier review-density amendment to D-IH-81-O (operator s4 framing) | Founder/CEO + PMO | ratified 2026-05-23 (I81 Wave R Bundle C amendment) | candidate amendment |
-| **D-IH-88-A (NEW; reserved)** | Tier assignment for each of the 7 areas at P1 entry | Founder/CEO + System Owner | open | P1 |
-| **D-IH-88-B (NEW; reserved)** | FINOPS pillar 9 (Brand-axis) + pillar 10 (UX) closure criteria | Founder/CEO + System Owner + Brand Manager | open | P1 |
+| **D-IH-88-A (NEW; reserved)** | Tier assignment for each of the 7 areas at P1 entry | Founder/CEO + System Owner | ratified 2026-06-05 (P1 FINOPS sweep) | P1 |
+| **D-IH-88-B (NEW; reserved)** | FINOPS pillar 9 (Brand-axis) + pillar 10 (UX) closure criteria | Founder/CEO + System Owner + Brand Manager | ratified 2026-06-05 (P1 FINOPS sweep) | P1 |
 | **D-IH-88-C (NEW; reserved)** | Research OPS pillar 3 (Tools/Infrastructure) + pillar 9 (Brand) + pillar 10 (UX) closure criteria | Founder/CEO + System Owner + Holistik Researcher | open | P2 |
 | **D-IH-88-D (NEW; reserved)** | Quality Fabric specialty inclusion ratification (13th or 14th specialty depending on PWF_GOVERNANCE mint timing) | Founder/CEO + System Owner | open | P3 |
 

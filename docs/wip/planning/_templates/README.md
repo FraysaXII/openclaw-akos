@@ -20,6 +20,16 @@ The three files in this folder are the SSOT for how Holistika initiatives are di
 
 Read end-to-end at the start of any planning session.
 
+## Executor packet (Composer seat)
+
+> [`executor-packet-template.md`](executor-packet-template.md) — bounded execution brief for
+> thinking-seat → Composer handoffs. **Worked example:** Finance F1 at
+> `docs/wip/planning/88-cross-area-ops-wiring-review-discipline/reports/finance-area-executor-packet-f1-2026-06-05.md`
+> + paired workflow `finance-area-two-seat-workflow-2026-06-05.md`.
+
+Pair every packet with a one-page tranche charter and run
+`py scripts/synthesis_before_tranche_check.py --check-charter <path>` before dispatch.
+
 ## Kickstart paste-snippet
 
 > [`UNIVERSAL_KICKSTART.md`](UNIVERSAL_KICKSTART.md) — the paste-snippet.
