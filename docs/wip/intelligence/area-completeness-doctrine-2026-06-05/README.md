@@ -26,14 +26,16 @@ language: en
 | [`prong-c-domain-boundaries.md`](prong-c-domain-boundaries.md) | 4 synthesize | What an area *is* (DDD/Team Topologies/Data Mesh/Wardley/Golden Paths) |
 | [`prong-d-completeness-value.md`](prong-d-completeness-value.md) | 4 synthesize | What "complete"/"value-ranked" means (DQ dims/DoD-AC/WSJF/GQM/OKR) |
 | [`master-synthesis.md`](master-synthesis.md) | 4–5 synthesize/govern | **Definitional regression + ranked option set for D-AREA-DEF** |
+| [`area-architecture-redesign-2026-06-05.md`](area-architecture-redesign-2026-06-05.md) | 4–5 (extended) | **Semantic review + drift inventory + APQC mapping + 2-D maturity model + learning loop** (operator-expanded scope) |
 
 ## Source ledger at a glance
 
-- **117 sources**; 8 topic clusters; `control_confidence` = {Safe: 61, Euclid: 56}.
+- **125 sources**; 9 topic clusters; `control_confidence` = {Safe: 64, Euclid: 61}.
 - **55 internal** (`SRC-AREA-INT-*`, CORPINT) — every canonical/validator/decision bearing on area + completeness.
-- **62 external** (`SRC-AREA-EXT-*`, OSINT) — DAMA-DMBOK, DCAM, CMMI, COBIT, ISO/IEC 38500,
+- **70 external** (`SRC-AREA-EXT-*`, OSINT) — DAMA-DMBOK, DCAM, CMMI, COBIT, ISO/IEC 38500,
   DDD bounded contexts, Team Topologies, Data Mesh, Wardley, Golden Paths, DoD/DoR/AC, WSJF,
-  GQM, OKR, maturity-model design theory (Becker/Pöppelbuß/Mettler).
+  GQM, OKR, maturity-model design theory (Becker/Pöppelbuß/Mettler), **APQC PCF + BizOps/RevOps
+  functional-taxonomy** (round 2).
 - Validate: `py scripts/validate_research_action.py --source-ledger docs/wip/intelligence/area-completeness-doctrine-2026-06-05/source-ledger.csv`
 
 ## Headline result (full detail in master-synthesis §1–3)
