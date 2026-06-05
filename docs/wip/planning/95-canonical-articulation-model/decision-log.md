@@ -63,8 +63,18 @@ ArchiMate verb set, incl operator-added **Skill→Role** (TRP-028), **Use-case�
 Data-Architecture canonical `CANONICAL_ARTICULATION_MODEL.md` (sibling to `SEMANTIC_LAYER.md`).
 Coupled with **I91**. Zachman coverage 6/6.
 
+## D-IH-95-C — Neo4j edge unify map + competency queries (RATIFIED 2026-06-05, architecture, low reversibility)
+
+`akos/hlk_graph_articulation.py` maps all **13 legacy edges → 6 unified verb-edges** (the three
+forked `*_PARENT_OF` + `REPORTS_TO` + `UNDER_PROGRAM` → `COMPOSED_OF`; subsumes + `UNDER_TOPIC` →
+`AGGREGATES`; `OWNED_BY` → `ASSIGNED_TO`; `CONSUMES`/`PRODUCES_FOR` → `FLOWS_TO`; `DEPENDS_ON` →
+`SERVES`; `RELATED_TO` → `ASSOCIATED_WITH`). Adds the **5 competency-question** Cypher sketches +
+`assert_edge_coverage()` parity (13→6). **Additive / non-destructive** — the live projection +
+parity + sync are untouched (Neo4j preflight-blocked per I91). The edge rename is a **gated
+cutover** (Semantic Council + I91 unblock; dual-emit one cycle). 9 tests PASS. Report:
+`reports/p2-neo4j-edge-unify-2026-06-05.md`.
+
 ### Pending sub-decisions (to ratify at each gate)
-- **D-IH-95-C** — Neo4j edge-rename map + derivation/competency-question queries.
 - **D-IH-95-E** — HCAM ownership + doctrine home. **Corrected recommendation (2026-06-05, Prong E,
   53 sources):** home HCAM in **Data** as the entity/relationship tier of `SEMANTIC_LAYER.md`,
   governed **federated** (Data Architect authors; Data Governance Lead owns the relationship

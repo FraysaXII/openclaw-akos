@@ -77,3 +77,28 @@ def test_forked_parent_edges_collapse_to_composition():
             assert row.verb == "composition"
             assert row.neo4j_edge_type == "COMPOSED_OF"
     assert {"PARENT_OF", "TOPIC_PARENT_OF", "OWNED_BY"}.issubset(replaced)
+
+
+# --- P2/C graph articulation (legacy edge -> unified verb-edge) ---------------
+
+def test_every_legacy_edge_maps_to_a_verb():
+    from akos.hlk_graph_articulation import assert_edge_coverage
+    summary = assert_edge_coverage()
+    assert summary["legacy_edge_count"] == 13
+    # 13 forked legacy edges collapse to 6 unified verb-edges
+    assert summary["unified_edge_count"] == 6
+
+
+def test_parent_of_forks_unify_to_composed_of():
+    from akos.hlk_graph_articulation import LEGACY_EDGE_TO_UNIFIED
+    for forked in ("PARENT_OF", "PROGRAM_PARENT_OF", "TOPIC_PARENT_OF"):
+        assert LEGACY_EDGE_TO_UNIFIED[forked] == "COMPOSED_OF"
+    assert LEGACY_EDGE_TO_UNIFIED["OWNED_BY"] == "ASSIGNED_TO"
+
+
+def test_five_competency_questions_defined():
+    from akos.hlk_graph_articulation import COMPETENCY_QUESTIONS
+    ids = {cq["id"] for cq in COMPETENCY_QUESTIONS}
+    assert ids == {"CQ1", "CQ2", "CQ3", "CQ4", "CQ5"}
+    for cq in COMPETENCY_QUESTIONS:
+        assert cq["cypher"] and cq["question"] and cq["derivation"]
