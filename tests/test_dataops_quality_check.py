@@ -59,5 +59,12 @@ def test_compliance_mirror_fam_sweep() -> None:
 
 
 @pytest.mark.hlk
+def test_finops_spine_fam_sweep() -> None:
+    report = run_sweep("mirror_table", data_fam="FINOPS-SPINE")
+    assert report.total_findings == 3
+    assert report.gap_count == 0
+
+
+@pytest.mark.hlk
 def test_self_test_passes() -> None:
     assert self_test() == 0

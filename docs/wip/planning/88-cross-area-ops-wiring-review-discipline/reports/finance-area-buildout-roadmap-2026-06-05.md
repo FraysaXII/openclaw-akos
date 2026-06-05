@@ -88,17 +88,21 @@ flowchart LR
 
 **Follow-up:** entity-specific `next_due_at` backfill at incorporation; OPS-81-14 foral doctrine; OPS-81-16 ENISA row after Q-CRT-001.
 
-## F3 — Tech plane (Composer + operator SQL gate)
+## F3 — Tech plane (Composer) ✅ 2026-06-05
+
+**Execution SSOT:** [`finance-area-executor-packet-f3-2026-06-05.md`](finance-area-executor-packet-f3-2026-06-05.md) · evidence: [`finance-f3-execution-evidence-2026-06-05.md`](finance-f3-execution-evidence-2026-06-05.md)
 
 | Deliverable | Closes |
 |:---|:---|
-| Mirror apply FINOPS mirrors (SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001) | AREA-10 evidence |
-| `dataops_quality_check.py` FINOPS/DATA-FAM spine probes | DATA-02 |
-| First `registered_fact` OR documented entity-gate SKIP | M3 partial |
-| `akos-finance-ops.mdc` + `finance-ops-craft` skill | AREA-11 |
-| Monthly recon report template + first run | M3 |
+| `akos-finance-ops.mdc` + `finance-ops-craft` skill | AREA-11 **pass** |
+| `dataops_quality_check.py --data-fam FINOPS-SPINE` | FIN-02 repo-native |
+| Finance AREA-10 partial (DDL+emit+F3 evidence) | AREA-10 elevated |
+| `finops_monthly_recon.py` + `finops-recon-2026-06.md` | M3 partial (SKIP) |
+| M2 floor N=25 in charter | M2 documented |
 
-**Verification:** `validate_finops_ledger.py`, `dataops_quality_check.py --self-test`, linked Supabase counts.
+**Follow-up:** operator SQL mirror apply; first live `registered_fact` at entity gate close.
+
+**Verification:** FINOPS-SPINE sweep clean; matrix **93%**; `validate_hlk.py` PASS.
 
 ## F4 — Closure (People + CFO)
 

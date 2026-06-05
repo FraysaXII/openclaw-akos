@@ -32,6 +32,8 @@ from akos.hlk_dataops_quality import (  # noqa: E402
     DATA_FAM_PROBE_PROFILES,
     DATAOPS_FINDING_FIELDNAMES,
     DATAOPS_SWEEP_FIELDNAMES,
+    FINOPS_MIRROR_TARGETS,
+    I18_FINOPS_MIRROR_MIGRATION_BASENAME,
     I93_P6_MIRROR_MIGRATION_BASENAME,
     OPS_86_15_MIRROR_TARGETS,
     VALID_DATA_FAM_CODES,
@@ -101,6 +103,105 @@ def _probe_ops8615_mirror_parity() -> DataOpsFindingRow:
     )
 
 
+def _probe_finops_mirror_parity() -> DataOpsFindingRow:
+    """Repo-native FINOPS counterparty mirror parity (I88 F3 / FIN-02)."""
+    migration_path = MIGRATIONS_DIR / I18_FINOPS_MIRROR_MIGRATION_BASENAME
+    sync_text = SYNC_SCRIPT.read_text(encoding="utf-8") if SYNC_SCRIPT.is_file() else ""
+    gaps: list[str] = []
+    if not migration_path.is_file():
+        gaps.append(f"missing migration {I18_FINOPS_MIRROR_MIGRATION_BASENAME}")
+    else:
+        mig = migration_path.read_text(encoding="utf-8")
+        for _csv, table, emit_sym in FINOPS_MIRROR_TARGETS:
+            if table not in mig:
+                gaps.append(f"DDL missing compliance.{table}")
+            if emit_sym not in sync_text:
+                gaps.append(f"sync missing {emit_sym}")
+    if gaps:
+        return DataOpsFindingRow(
+            dimension_code="DATA-02-MIRROR-PARITY",
+            surface_path=str(migration_path.relative_to(REPO_ROOT)) if migration_path.is_file() else "supabase/migrations/",
+            verdict="gap",
+            proposed_rework_action="Verify I18 finops mirror migration + sync emit",
+            severity="high",
+            notes="; ".join(gaps),
+        )
+    return DataOpsFindingRow(
+        dimension_code="DATA-02-MIRROR-PARITY",
+        surface_path=str(migration_path.relative_to(REPO_ROOT)),
+        verdict="clean",
+        proposed_rework_action="",
+        severity="low",
+        notes=f"FINOPS-SPINE: {len(FINOPS_MIRROR_TARGETS)} mirror target has DDL + emit symbol",
+    )
+
+
+def _probe_finops_fk_integrity() -> DataOpsFindingRow:
+    ledger = REPO_ROOT / "scripts/validate_finops_ledger.py"
+    register = (
+        REPO_ROOT
+        / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/finops"
+        / "FINOPS_COUNTERPARTY_REGISTER.csv"
+    )
+    gaps: list[str] = []
+    if not ledger.is_file():
+        gaps.append("missing scripts/validate_finops_ledger.py")
+    if not register.is_file():
+        gaps.append("missing FINOPS_COUNTERPARTY_REGISTER.csv")
+    if gaps:
+        return DataOpsFindingRow(
+            dimension_code="DATA-01-FK-INTEGRITY",
+            surface_path=str(register.relative_to(REPO_ROOT)) if register.is_file() else "finops/",
+            verdict="gap",
+            proposed_rework_action="Restore FINOPS register + ledger validator",
+            severity="high",
+            notes="; ".join(gaps),
+        )
+    return DataOpsFindingRow(
+        dimension_code="DATA-01-FK-INTEGRITY",
+        surface_path=str(register.relative_to(REPO_ROOT)),
+        verdict="clean",
+        proposed_rework_action="",
+        severity="low",
+        notes="FINOPS-SPINE: counterparty register SSOT + validate_finops_ledger.py present",
+    )
+
+
+def _probe_finops_quality_metrics() -> DataOpsFindingRow:
+    validators = (
+        "scripts/validate_finops_ledger.py",
+        "scripts/validate_pricing_tier_registry.py",
+        "scripts/validate_finops_tax_calendar.py",
+    )
+    missing = [v for v in validators if not (REPO_ROOT / v).is_file()]
+    if missing:
+        return DataOpsFindingRow(
+            dimension_code="DATA-07-QUALITY-METRICS",
+            surface_path="scripts/",
+            verdict="gap",
+            proposed_rework_action="Wire missing FINOPS validators",
+            severity="medium",
+            notes="; ".join(missing),
+        )
+    return DataOpsFindingRow(
+        dimension_code="DATA-07-QUALITY-METRICS",
+        surface_path="scripts/validate_finops_ledger.py",
+        verdict="clean",
+        proposed_rework_action="",
+        severity="low",
+        notes=f"FINOPS-SPINE: {len(validators)} plane validators present",
+    )
+
+
+FAMILY_PROBE_OVERRIDES: dict[str, dict[str, callable]] = {
+    "FINOPS-SPINE": {
+        "DATA-01-FK-INTEGRITY": _probe_finops_fk_integrity,
+        "DATA-02-MIRROR-PARITY": _probe_finops_mirror_parity,
+        "DATA-07-QUALITY-METRICS": _probe_finops_quality_metrics,
+    },
+}
+
+
 PROBE_REGISTRY: dict[str, callable] = {
     "DATA-01-FK-INTEGRITY": lambda: _probe_stub("DATA-01-FK-INTEGRITY"),
     "DATA-02-MIRROR-PARITY": _probe_ops8615_mirror_parity,
@@ -125,9 +226,10 @@ def run_sweep(
     else:
         dimension_codes = sorted(PROBE_REGISTRY.keys())
 
+    overrides = FAMILY_PROBE_OVERRIDES.get(data_fam or "", {})
     findings: list[DataOpsFindingRow] = []
     for code in dimension_codes:
-        probe_fn = PROBE_REGISTRY.get(code)
+        probe_fn = overrides.get(code) or PROBE_REGISTRY.get(code)
         if probe_fn is None:
             findings.append(_probe_stub(code, notes=f"no probe registered for {code}"))
         else:
@@ -168,8 +270,8 @@ def self_test() -> int:
     if set(PROBE_REGISTRY.keys()) != set(VALID_DATAOPS_DIMENSION_CODES):
         logger.error("FAIL: PROBE_REGISTRY keys != VALID_DATAOPS_DIMENSION_CODES")
         return 1
-    if len(DATA_FAM_PROBE_PROFILES) != 7:
-        logger.error("FAIL: DATA_FAM_PROBE_PROFILES has %d families, expected 7", len(DATA_FAM_PROBE_PROFILES))
+    if len(DATA_FAM_PROBE_PROFILES) != 8:
+        logger.error("FAIL: DATA_FAM_PROBE_PROFILES has %d families, expected 8", len(DATA_FAM_PROBE_PROFILES))
         return 1
     if set(DATA_FAM_PROBE_PROFILES.keys()) != set(VALID_DATA_FAM_CODES):
         logger.error("FAIL: DATA_FAM_PROBE_PROFILES keys != VALID_DATA_FAM_CODES")
@@ -194,6 +296,14 @@ def self_test() -> int:
         return 1
     if fam_sweep.gap_count > 0:
         logger.error("FAIL: COMPLIANCE-MIRROR mirror parity probe reported gap")
+        return 1
+
+    finops_sweep = run_sweep("mirror_table", data_fam="FINOPS-SPINE")
+    if finops_sweep.total_findings != 3:
+        logger.error("FAIL: FINOPS-SPINE sweep expected 3 findings, got %d", finops_sweep.total_findings)
+        return 1
+    if finops_sweep.gap_count > 0:
+        logger.error("FAIL: FINOPS-SPINE probe reported gap")
         return 1
 
     logger.info(

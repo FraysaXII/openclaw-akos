@@ -334,7 +334,50 @@ def _probe_area_09(area: str) -> AreaCompletenessFindingRow:
     )
 
 
+def _finops_mirror_repo_gaps() -> list[str]:
+    from akos.hlk_dataops_quality import FINOPS_MIRROR_TARGETS, I18_FINOPS_MIRROR_MIGRATION_BASENAME
+
+    migration = REPO_ROOT / "supabase/migrations" / I18_FINOPS_MIRROR_MIGRATION_BASENAME
+    sync_script = REPO_ROOT / "scripts/sync_compliance_mirrors_from_csv.py"
+    sync_text = sync_script.read_text(encoding="utf-8") if sync_script.is_file() else ""
+    gaps: list[str] = []
+    if not migration.is_file():
+        gaps.append(f"missing {I18_FINOPS_MIRROR_MIGRATION_BASENAME}")
+    else:
+        mig = migration.read_text(encoding="utf-8")
+        for _csv, table, emit_sym in FINOPS_MIRROR_TARGETS:
+            if table not in mig:
+                gaps.append(f"DDL missing compliance.{table}")
+            if emit_sym not in sync_text:
+                gaps.append(f"sync missing {emit_sym}")
+    return gaps
+
+
 def _probe_area_10(area: str) -> AreaCompletenessFindingRow:
+    if area == "Finance":
+        from akos.hlk_dataops_quality import FINOPS_F3_MIRROR_EVIDENCE_REL
+
+        gaps = _finops_mirror_repo_gaps()
+        evidence = REPO_ROOT / FINOPS_F3_MIRROR_EVIDENCE_REL
+        if gaps:
+            return _row(
+                "AREA-10-SUPABASE-MIRRORS", area, "gap",
+                f"FINOPS mirror spine gaps={len(gaps)}",
+                action="Restore I18 migration + finops sync emit",
+                severity="medium",
+                notes="; ".join(gaps[:3]),
+            )
+        if evidence.is_file():
+            return _row(
+                "AREA-10-SUPABASE-MIRRORS", area, "partial",
+                "repo-native FINOPS mirror DDL+emit; F3 evidence on disk",
+                notes="live row-count parity requires operator SQL apply per holistika-ops",
+            )
+        return _row(
+            "AREA-10-SUPABASE-MIRRORS", area, "partial",
+            "repo-native FINOPS mirror DDL+emit verified",
+            notes="file F3 execution evidence after tranche close",
+        )
     return _row(
         "AREA-10-SUPABASE-MIRRORS", area, "skip",
         "mirror parity requires live Supabase MCP/SQL evidence",

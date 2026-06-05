@@ -31,6 +31,8 @@ linked_canonicals:
 linked_runbooks:
   - scripts/validate_finops_ledger.py
   - scripts/sync_compliance_mirrors_from_csv.py
+  - scripts/dataops_quality_check.py
+  - scripts/finops_monthly_recon.py
 linked_sops:
   - ../../../Business Controller/SOP-HLK_FINOPS_COUNTERPARTY_REGISTER_MAINTENANCE_001.md
 companion_to:

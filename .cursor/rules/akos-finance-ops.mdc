@@ -1,0 +1,69 @@
+---
+description: Finance / FINOPS discipline — mechanical layer governing counterparty registers, rev-rec policy, pricing/tax registries, FINOPS mirror spine, registered_fact entity gate, and monthly recon. Pairs with FINOPS_DISCIPLINE.md (FINANCE-AREA-FULL F1–F4 per D-IH-88-E).
+globs:
+  - "docs/references/hlk/v3.0/Admin/O5-1/Finance/**"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/finops/**"
+  - "akos/hlk_finops*.py"
+  - "akos/hlk_pricing_tier_registry_csv.py"
+  - "akos/hlk_finops_tax_calendar_csv.py"
+  - "scripts/validate_finops*.py"
+  - "scripts/validate_pricing_tier_registry.py"
+  - "scripts/finops_monthly_recon.py"
+alwaysApply: false
+---
+
+# AKOS Finance Ops (FINOPS)
+
+Use this rule whenever authoring or reviewing artefacts that touch
+**FINOPS canonical CSVs** (Compliance `finops/`), **Finance-area doctrine**
+(rev-rec, pricing, tax calendars), **counterparty MDM**, **`finops.registered_fact`**
+entity gate, or **FINOPS mirror / recon** evidence. Codifies the mechanical
+layer of
+[`FINOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/FINOPS_DISCIPLINE.md)
+(FINANCE-AREA-FULL per **D-IH-88-E**).
+
+## When this rule applies
+
+- Mint or modify Finance plane-2/3 registries under `Finance/Governance/canonicals/dimensions/`.
+- Mint or modify `FINOPS_COUNTERPARTY_REGISTER.csv` or sibling finops CSVs.
+- Touch `DATA_CONTRACT_REGISTRY` DC-HOL-FINOPS-* rows.
+- Run monthly recon or interpret `finops.registered_fact` writer paths.
+- Wire FINOPS validators into `validate_hlk.py` or `dataops_quality_check.py --data-fam FINOPS-SPINE`.
+
+## RULE 1 — Five FINOPS dimensions before commit (binding)
+
+Every FINOPS tranche must satisfy FIN-01..05 from
+[`FINOPS_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/FINOPS_DISCIPLINE.md)
+§2:
+
+- **FIN-01** Register integrity → `validate_finops_ledger.py` + `validate_hlk.py`
+- **FIN-02** Mirror parity → `dataops_quality_check.py --data-fam FINOPS-SPINE`
+- **FIN-03** Join spine → Stripe link coverage (live SQL at incorporation)
+- **FIN-04** Entity gate → no production monetary amounts in git until `thi_finan_dtp_306`
+- **FIN-05** Cross-area contract → DC-HOL-FINOPS-* rows for bridges
+
+## RULE 2 — Entity gate blocks production facts in git (binding)
+
+Do not commit production invoice amounts, live Stripe charge totals, or
+operator payroll figures into canonical CSVs. `finops.registered_fact` rows
+live in Supabase; git holds **policy, registers, and validators** only.
+
+## RULE 3 — Counsel-encoded tax obligations (binding)
+
+Tax calendar rows (`FINOPS_TAX_CALENDAR.csv`) carry **cadence rules** and AEAT
+references — not invented deadlines. Entity-specific `next_due_at` values are
+counsel / AT-Pymes confirmed per **D-IH-81-P**.
+
+## RULE 4 — Monthly recon cadence (binding post-F3)
+
+Run `scripts/finops_monthly_recon.py --report` at month close; file evidence
+under `docs/wip/planning/88-cross-area-ops-wiring-review-discipline/reports/finops-recon-YYYY-MM.md`.
+
+## Cross-references
+
+- Charter: [`FINANCE_AREA_CHARTER.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Finance/canonicals/FINANCE_AREA_CHARTER.md)
+- Data contracts: [`DATA_CONTRACT_STANDARD.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_CONTRACT_STANDARD.md)
+- Holistika ops: [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc)
+- Skill: [`.cursor/skills/finance-ops-craft/SKILL.md`](../skills/finance-ops-craft/SKILL.md)
+
+@docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/FINOPS_DISCIPLINE.md

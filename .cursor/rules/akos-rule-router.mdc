@@ -30,6 +30,7 @@ Always-on **index** only. Domain doctrine lives in scoped rules + paired skills 
 | Brand / dual-register prose | [`akos-brand-baseline-reality.mdc`](akos-brand-baseline-reality.mdc) | `brand-baseline-reality-craft` |
 | Quality-bound artifact (5 axes) | [`akos-quality-fabric.mdc`](akos-quality-fabric.mdc) | `quality-fabric-craft` |
 | Holistika ops / Supabase / mirrors | [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc) | — |
+| Finance / FINOPS registers + recon | [`akos-finance-ops.mdc`](akos-finance-ops.mdc) | `finance-ops-craft` |
 | Research area / `docs/wip/intelligence/` | [`akos-research-area.mdc`](akos-research-area.mdc) | — |
 | Research action / source ledger | [`akos-research-action.mdc`](akos-research-action.mdc) | `research-action-craft` |
 | Research radar / INTELLIGENCEOPS | [`akos-research-radar.mdc`](akos-research-radar.mdc) | `research-radar-craft` |

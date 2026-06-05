@@ -116,12 +116,12 @@ Full `thi_finan_dtp_*` runbook pairing is **F2** hygiene — not F1 scope.
 | ID | Gate | Falsifiable test |
 |:---|:---|:---|
 | **M1** | All 5 I81 planes have SSOT + owner + automated check | Per-plane validator matrix |
-| **M2** | Counterparty operational: Stripe customers linked; register ≥ operator-N | SQL + finops validators |
+| **M2** | Counterparty operational: Stripe customers linked; register ≥ **25** rows (`FINOPS_M2_COUNTERPARTY_ROW_FLOOR`) | `finops_monthly_recon.py` + SQL at incorporation |
 | **M3** | ≥1 `registered_fact` + monthly recon &lt;0.1% variance | `reports/finops-recon-YYYY-MM.md` |
 | **M4** | ≥8 finance metrics in `METRICS_REGISTRY` | `validate_metrics_registry.py` |
 | **M5** | Area matrix ≥88% / 0 gaps + I88 Tier-1 spines PASS | `validate_area_completeness.py` + P1b sweep |
 
-**M2 threshold N** — documented at F3; no production monetary amounts in git at F1.
+**M2 threshold N = 25** — documented at F3 (`akos/hlk_dataops_quality.py` `FINOPS_M2_COUNTERPARTY_ROW_FLOOR`); Stripe `finops_counterparty_id` link coverage verified at first live recon post-incorporation. No production monetary amounts in git at F1.
 
 ## 7. Cross-references
 

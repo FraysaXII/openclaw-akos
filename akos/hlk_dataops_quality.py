@@ -80,6 +80,7 @@ VALID_DATA_FAM_CODES: frozenset[str] = frozenset({
     "GTM-CRM",
     "KM-TOPIC",
     "AIC-RUNTIME",
+    "FINOPS-SPINE",
 })
 
 # I93 P6 — family-scoped probe subsets (cross-area-data-map-2026-06-04.md)
@@ -113,6 +114,11 @@ DATA_FAM_PROBE_PROFILES: dict[str, tuple[str, ...]] = {
         "DATA-06-LINEAGE",
         "DATA-07-QUALITY-METRICS",
     ),
+    "FINOPS-SPINE": (
+        "DATA-01-FK-INTEGRITY",
+        "DATA-02-MIRROR-PARITY",
+        "DATA-07-QUALITY-METRICS",
+    ),
 }
 
 # OPS-86-15 gap closure (I93 P6 MIRROR-2): csv basename, mirror table, sync emitter symbol
@@ -134,6 +140,23 @@ I93_P6_MIRROR_MIGRATION_BASENAME = "20260604120000_i93_p6_ops8615_mirror_gap_clo
 I93_P6_OPS8615_UPSERT_ARTIFACT = (
     "docs/wip/planning/93-data-area-foundation-and-governance/"
     "artifacts/ops8615-mirror-upsert.sql"
+)
+
+# FINANCE-AREA-FULL F3 — FINOPS counterparty mirror spine (I18 DDL + sync emit)
+FINOPS_MIRROR_TARGETS: tuple[tuple[str, str, str], ...] = (
+    (
+        "FINOPS_COUNTERPARTY_REGISTER.csv",
+        "finops_counterparty_register_mirror",
+        "_emit_finops_counterparty_upserts",
+    ),
+)
+I18_FINOPS_MIRROR_MIGRATION_BASENAME = (
+    "20260423014144_i18_finops_counterparty_mirror_cutover.sql"
+)
+FINOPS_M2_COUNTERPARTY_ROW_FLOOR = 25
+FINOPS_F3_MIRROR_EVIDENCE_REL = (
+    "docs/wip/planning/88-cross-area-ops-wiring-review-discipline/reports/"
+    "finance-f3-execution-evidence-2026-06-05.md"
 )
 
 
