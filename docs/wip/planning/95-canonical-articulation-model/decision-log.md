@@ -55,5 +55,13 @@ step recoverable.
 - **D-IH-95-B** — `CANONICAL_RELATIONSHIP_REGISTRY.csv` schema + the closed verb set + initial
   valid-triple matrix (entity catalog freeze).
 - **D-IH-95-C** — Neo4j edge-rename map + derivation/competency-question queries.
-- **D-IH-95-E** — Knowledge Manager role definition + area-completeness v3 doctrine (+ the Q2 Lead
-  simplification + Q3 ghost-folder merges fold in here as HCAM placement work).
+- **D-IH-95-E** — HCAM ownership + doctrine home. **Corrected recommendation (2026-06-05, Prong E,
+  53 sources):** home HCAM in **Data** as the entity/relationship tier of `SEMANTIC_LAYER.md`,
+  governed **federated** (Data Architect authors; Data Governance Lead owns the relationship
+  registry — their charter says "masterdata relationship management"; Data Steward operates; AI
+  Engineer/System Owner run the graph platform; CDO chairs a **Semantic Council** with one rep per
+  area; **People/Compliance keeps the area-governance *methodology***). **Not** Learning Curator→KM
+  (wrong skillset); Research = contributor, not owner. Couple with **I91** graph rework as one
+  workstream. The Q2 Lead simplification + Q3 ghost-folder merges fold in here as HCAM placement
+  work. *Pending operator ratification of the ownership model.* See
+  [`../../intelligence/canonical-articulation-model-2026-06-05/data-governance-ownership-findings.md`](../../intelligence/canonical-articulation-model-2026-06-05/data-governance-ownership-findings.md).

@@ -133,20 +133,34 @@ Neo4j rework gives HCAM its execution surface.** They are one workstream now.
 
 ---
 
-## 4. Knowledge Manager — the doctrine's true home (your E correction)
+## 4. Who owns HCAM — Data, federated (CORRECTED via the Data-Governance research)
 
-You were right that area-governance doctrine does **not** belong to a generic "People" bucket. The
-data confirms the gap: **there is no `Knowledge Manager` role in `baseline_organisation.csv`.**
-Knowledge management is currently **diffused** across three seats — CPO (holds "knowledge
-management" as one of many duties), Learning Curator (owns "knowledge-transfer discipline"), and AI
-Engineer (owns "the Neo4j knowledge graph"). No one owns the *articulation* of knowledge itself.
+> **Update (2026-06-05):** an earlier draft of this section proposed a People-based "Knowledge
+> Manager" owner. The operator flagged that **Data Governance was being left out**, and a dedicated
+> 53-source sweep (Prong E) confirmed they were right. Full reasoning:
+> [`data-governance-ownership-findings.md`](./data-governance-ownership-findings.md). Corrected
+> recommendation below.
 
-**Proposal:** mint/rework a **Knowledge Manager (KM)** role under People that owns HCAM, the
-entity catalog, the relationship registry, the topic/source taxonomy, and the Neo4j schema — the
-human counterpart to the DTO. This is well-grounded: **APQC — whose 5-level process framework we
-already mirror — is first and foremost a *Knowledge Management* authority.** The org that defines
-how processes decompose is a KM org. So HCAM living under KM is the SOTA placement, not People-at-
-large. (Gated `baseline_organisation` change — operator approval.)
+**HCAM belongs in Data, as the entity-and-relationship tier of the Semantic Layer Data already
+owns — governed federated.** Decisive facts:
+
+- Data **already owns** `SEMANTIC_LAYER.md` + `DATA_ARCHITECTURE.md` (the three-tier T1/T2/**T3
+  Neo4j** model), authored by the **Data Architect**, ratified `D-IH-93-D`. HCAM is the missing
+  semantic tier of an architecture Data already runs — not a new home.
+- The roster already has the seats: **Data Architect** (HCAM metamodel author), **Data Governance
+  Lead** + **Data Steward** (whose charters literally say *"masterdata relationship management"* =
+  HCAM triples), **AI Engineer / System Owner** (the Neo4j graph platform), **CDO** (accountable,
+  chairs a **Semantic Council**). No new role required.
+- External consensus is unanimous: the enterprise ontology/semantic layer is a **Data-led,
+  federated** discipline (DAMA "coordinating KA"; data-mesh federated computational governance;
+  tripartite ontology-governance = domain stewards + Semantic Council + platform). Real-world roles
+  ("Knowledge Graph & Semantic Governance Manager", "Ontology Expert") **sit in the Data Office.**
+
+**Honest rejection of the alternatives:** *Learning Curator → KM* = wrong skillset (pedagogy ≠
+ontology engineering). *Research* = a **contributor** (authors new concepts / its own area's
+definitions) but **not** the metamodel owner. **People/Compliance keeps the area-governance
+*methodology*** (chartering areas) — distinct from HCAM. The graph rework is **I91**; I95 + I91 are
+one workstream.
 
 ---
 
