@@ -11,20 +11,25 @@ authors:
 co_authors:
   - CPO
   - PMO
-last_review: 2026-06-04
+  - System Owner
+last_review: 2026-06-05
 last_review_by: Founder/CEO
-last_review_at: 2026-06-04
-last_review_decision_id: D-IH-93-B
+last_review_at: 2026-06-05
+last_review_decision_id: D-IH-94-A
 methodology_version_at_review: v3.1
 ratifying_decisions:
   - D-IH-93-B
+  - D-IH-94-A
 status: charter
 register: internal
+doctrine_version: v2
 linked_canonicals:
   - HOLISTIKA_QUALITY_FABRIC.md
   - HOLISTIKA_ORGANISING_DOCTRINE.md
   - PEOPLE_DESIGN_PATTERN_LIBRARY.md
+  - LOGIC_CHANGE_LOG.md
   - ../Compliance/canonicals/PRECEDENCE.md
+  - ../Compliance/canonicals/baseline_organisation.csv
 linked_cursor_rules:
   - .cursor/rules/akos-area-governance.mdc
   - .cursor/rules/akos-people-discipline-of-disciplines.mdc
@@ -33,102 +38,151 @@ linked_skills:
   - .cursor/skills/area-governance-craft/SKILL.md
 companion_to:
   - HOLISTIKA_QUALITY_FABRIC.md
+research_grounding: docs/wip/intelligence/area-completeness-doctrine-2026-06-05/
 forward_charters:
-  - process_list.csv row hol_peopl_dtp_area_governance_001
-  - PEOPLE_DESIGN_PATTERN_REGISTRY row pattern_area_buildout
-  - paired runbook scripts/validate_area_completeness.py
-  - .cursor/rules/akos-area-governance.mdc
-  - .cursor/skills/area-governance-craft/SKILL.md
+  - akos/hlk_area_completeness.py v2 (2-D maturity grid + kind + entity + AREA-15/16)
+  - scripts/validate_area_completeness.py v2 (maturity + placement + file-plan probes)
+  - I94 P2-P9 (plan-improvement, Operations reframe, People-Compliance, entity/Envoy, Legal, subfolder=role, DATA regression, closure)
 ---
 
-# Area Governance Discipline
+# Area Governance Discipline (v2)
 
-> Seventeenth Quality Fabric specialty (I93 P0). People mints the
-> **area-completeness shape** any O5-1 area inherits when created or
-> matured. Codifies `compose_AREA(governance) → 14-component bar +
-> conservative heuristic sweep + area score matrix`. Ratified under the
-> area-governance meta-process decision (`D-IH-93-B` — the operator's
-> instruction to make "create an area" a People-governed, countable
-> process, 2026-06-04).
+> Seventeenth Quality Fabric specialty. People mints the **area-completeness shape** any O5-1
+> area inherits when created or matured. **v1** (`D-IH-93-B`, I93 P0) defined a flat
+> 14-component checklist. **v2** (`D-IH-94-A`, I94) evolves it — grounded in a 131-source
+> research action ([`area-completeness-doctrine-2026-06-05/`](../../../../../wip/intelligence/area-completeness-doctrine-2026-06-05/))
+> spanning DAMA-DMBOK, DCAM, CMMI, COBIT, ISO/IEC 38500, DDD bounded contexts, Team Topologies,
+> Data Mesh, APQC PCF, PMBOK 7/8 and ITIL 4 — into a **2-D capability-maturity model** with
+> area **kinds**, an **entity axis**, **placement integrity**, a **file-plan**, and **per-tier
+> thresholds**, while **keeping the deterministic heuristic** (the rare strength v1 already had).
 
-## 1. Purpose
+## 1. Purpose + what changed v1 → v2
 
-Holistika areas (Data, Tech, Finance, Marketing, Operations, People,
-Research) must be **governable at comparable depth** — not ad-hoc folder
-trees with uneven process coverage. People is the discipline of
-disciplines: People mints the **pattern** (`pattern_area_buildout`);
-each area authors its own charter, roles, processes, and canonicals
-inheriting the shape.
+Holistika areas must be **governable at comparable depth** — not ad-hoc folder trees. v1 made
+that countable with a flat 14-component checklist. v2 fixes five things the research showed the
+flat checklist collapsed (master-synthesis §1-3 + area-architecture-redesign + round3-assessment):
 
-Without a countable bar, "harmonize area quality" stays prose. This
-discipline makes it measurable: `py scripts/validate_area_completeness.py
---matrix` emits pass/partial/gap/skip/blocked per component per area.
+| Axis | v1 | v2 |
+|:---|:---|:---|
+| Scoring | flat pass/partial/gap count | **2-D grid**: each component scored on a **maturity level L0–L5** |
+| Criticality | all components equal weight | **critical** components must reach **L3**; **enhancing** weighted, non-gating |
+| Boundary | "a folder exists" | **bounded-context definition** + a declared area **kind** |
+| Threshold | one global 88% | **per-area tier** + critical-must-pass overrides the % |
+| Outcome / placement | artifact-presence only | **AREA-15 placement-integrity** (what-belongs-where + a shipped contract) |
+| Structure | unmodeled | **AREA-16 file-plan** (sub-folder = role/sub-area) + **entity axis** |
 
-DATA is the **first worked example** at I93 P1; P0 ships only the
-meta-process (this canonical + SOP + validator).
+v2 **does not invalidate** the Data (92%) or Finance (93%) closures: both already meet
+critical-at-L3; they gain a maturity badge + the AREA-15/16 checks.
 
-## 2. The 14 components
+## 2. What an area IS (the v2 definition)
 
-| # | Component code | What it checks |
-|:--|:---|:---|
-| 1 | **AREA-01-PARENT-REDESIGN** | O5-1 area folder tree exists with role/sub-area structure |
-| 2 | **AREA-02-AREA-CHARTER** | Area charter markdown (`*AREA*CHARTER*` or equivalent) |
-| 3 | **AREA-03-DISCIPLINE-CHARTERS** | Discipline / governance canonicals under the area |
-| 4 | **AREA-04-PROCESS-LIST** | `process_list.csv` rows for the area |
-| 5 | **AREA-05-BASELINE-ROLES** | `baseline_organisation.csv` roles for the area |
-| 6 | **AREA-06-CAPABILITY-CONFIDENCE** | `CAPABILITY_REGISTRY` + `CAPABILITY_CONFIDENCE_REGISTRY` rows |
-| 7 | **AREA-07-CANONICAL-PRECEDENCE** | `CANONICAL_REGISTRY` + `PRECEDENCE.md` coverage |
-| 8 | **AREA-08-DIMENSION-REGISTRIES** | Area-local dimension / adapter CSV registries |
-| 9 | **AREA-09-PAIRED-SOP-RUNBOOK** | SOP + runbook pairing on area processes |
-| 10 | **AREA-10-SUPABASE-MIRRORS** | Mirror parity (live evidence; conservative **skip** at P0) |
-| 11 | **AREA-11-CURSOR-RULE-SKILL** | Area-scoped cursor rule + craft skill where applicable |
-| 12 | **AREA-12-QUALITY-FABRIC** | Area disciplines cited in Quality Fabric §6 |
-| 13 | **AREA-13-AREA-README** | Area root `README.md` index |
-| 14 | **AREA-14-INHERITED-PATTERN** | `process_list.inherited_pattern_id` adoption |
+> An **area** is a **bounded capability domain** — a slice of Holistika's operating model with an
+> internally consistent model + language (DDD bounded context), **aligned to an APQC-mappable
+> function**, **owned end-to-end by a role-owner whose cognitive load it fits** (Team Topologies),
+> **exposing a governed contract** to consuming areas (Data Mesh), and **of a declared *kind***
+> that sets its expected governance density.
 
-Default scored areas: **Data, Tech, Finance, Marketing, Operations,
-People, Research** (seven rows in the matrix).
+### 2.1 Area kinds (sets the tier)
 
-## 3. The compose_AREA rule
+| Kind | Definition | Areas | Expected density |
+|:---|:---|:---|:---|
+| **stream_aligned** | owns a value stream end-to-end | Finance, Marketing, Research, Legal | full bar |
+| **platform** | self-serve substrate for all areas | Tech, Data | full bar + SLO |
+| **capability_meta** | mints patterns every area inherits (APQC 13.0) | People (methodology half) | full bar + pattern-adoption metric |
+| **delivery_capacity** | the cross-cutting execution layer ("projects end, operations continue") scored on PMBOK 7 performance domains | Operations | PMBOK-domain bar |
+
+### 2.2 The entity axis (new)
+
+Every area declares its **entity** — the legal/brand vehicle that executes it, per
+`baseline_organisation.entity`: **Holistika** (parent/governance), **Think Big** (business
+operations), **HLK Tech Lab** (engineering entity; the `Envoy Tech Lab/` tree is its home, under
+Tech-area governance). The entity is a governed tag, not a second scored unit.
+
+### 2.3 The eight scored areas (v2)
+
+**Data, Tech, Finance, Marketing, Operations, People, Research, Legal** — v2 adds **Legal**
+(a first-class `area` in `baseline_organisation.csv` that v1 omitted; BUG-1 fix).
+
+## 3. The 16 components (v2), by dimension + criticality
+
+| Dim | Component | Critical? |
+|:---|:---|:---:|
+| Identity & boundary | AREA-01 parent tree · AREA-02 area charter · **AREA-14 KIND+ENTITY+APQC mapping** | critical |
+| Doctrine | AREA-03 discipline charters · AREA-07 canonical/precedence | critical |
+| Execution | AREA-04 process-list · AREA-05 baseline roles · AREA-09 paired SOP+runbook | critical |
+| Data & contract | AREA-06 capability/confidence · AREA-08 dimension registries · cross-area contract | critical |
+| Surfacing | AREA-11 cursor rule+skill · AREA-13 README | enhancing |
+| Mirror | AREA-10 Supabase mirrors | enhancing (skip-allowed) |
+| **AREA-15 PLACEMENT-INTEGRITY** | every canonical belongs to the area (no drift in/out) **and** the area ships ≥1 consumed contract/SLO | **critical** |
+| **AREA-16 FILE-PLAN** | area sub-folder names FK to `baseline_organisation` role/`sub_area` (RACI doctrine) | enhancing |
+
+## 4. The maturity ladder (CMMI-grounded)
+
+| Level | Name | Meaning for a component |
+|:---:|:---|:---|
+| L0 | Absent | not present (= v1 `gap`) |
+| L1 | Initial | present but ad-hoc (= weak `partial`) |
+| L2 | Managed | exists + owned + maintained |
+| L3 | **Defined** | governed: validator/SOP/registry-backed (= v1 `pass`; **critical-pass bar**) |
+| L4 | Measured | quantitatively tracked (metric/SLO) |
+| L5 | Optimizing | self-improving via the learning loop (§6) |
+
+## 5. The compose_AREA v2 rule
 
 ```
-compose_AREA(governance) -> 14-component sweep per area
+compose_AREA(governance) -> 16-component x 6-level grid per area
   where:
-    scored_areas = {Data, Tech, Finance, Marketing, Operations, People, Research}
-    verdicts = {pass, partial, gap, blocked, skip}
-    conservative_posture = emit skip when live evidence unavailable
-    runbook = scripts/validate_area_completeness.py
-    matrix_mode = --matrix  # operator-facing area score table
+    scored_areas = {Data, Tech, Finance, Marketing, Operations, People, Research, Legal}
+    kinds        = {stream_aligned, platform, capability_meta, delivery_capacity}
+    entities     = {Holistika, Think Big, HLK Tech Lab}
+    levels       = {L0, L1, L2, L3, L4, L5}
+    criticality  = {critical, enhancing}
+    complete_for_tier(area) :=
+        ALL critical components >= L3
+        AND per-area acceptance criteria pass
+        AND >= 1 component at L4 (a measured outcome)
+    enhancing components -> weighted badge, never gating
+    conservative_posture = emit skip/L0 when live evidence unavailable
+    deterministic = same inputs -> same grid (intersubjective verifiability; keep from v1)
+    runbook = scripts/validate_area_completeness.py ; matrix_mode = --matrix
 ```
 
-AREA governance depends **primarily on the governance axis** (charters,
-CSV SSOT, process catalog, PRECEDENCE class). Audience is J-OP / J-AIC
-(internal harmonization), not external delivery.
+Operations is scored on the **PMBOK 7 performance domains** (Governance, Scope, Schedule,
+Finance, Stakeholders, Resources, Risk) mapped onto the 16 components; project-vs-service is a
+**tag, not a split**.
 
-## 4. Cadence
+## 6. The continuous learning loop (D-IH-94-A — "ever-value-growing governed know-how")
 
-- **on_demand** — operator or agent requests a baseline matrix.
-- **area_buildout** — before closing an area charter / CSV tranche /
-  cross-area breakthrough tranche (pairs with
-  `SOP-PEOPLE_AREA_GOVERNANCE_001`).
-- **pre_commit_self_test** — Pydantic + probe registry only (~2s).
+Area governance is a **standing discipline that matures every wave**, not a one-time edit:
 
-Full heuristic sweep is **not** wired to every pre_commit (98 probes =
-7 areas × 14 components). Self-test is the always-on circuit-breaker.
+1. **Sweep** at wave-close: maturity grid + placement-integrity + file-plan (`--matrix`).
+2. **Disposition** findings via the inter-wave 5-option enum (rework-now / forward-charter /
+   defer-OPS / accept-as-canon / escalate-to-blocker).
+3. **Fold learnings back**: recurring drift becomes a new component, weight, or kind — so the
+   definition of "complete" itself reaches L5 (Optimizing).
 
-## 5. INFO → FAIL ramp (forward-charter)
+Cadence governed by research-radar; value order by intent-ranked ICS; mechanical safety-net by
+inter-wave regression. Accumulated placement decisions become the reusable
+"a good Holistika person knows what goes where" know-how (the AREA-15 history).
 
-P0 lands at **charter** with INFO posture (validator exits 0 unless
-`--strict`). Promotion to FAIL requires:
+## 7. Cadence + INFO → FAIL ramp
 
-1. DATA area scores at/above the bar on a full sweep (I93 P1+).
-2. P8 harmonization sweep across all areas with operator sign-off.
-3. Operator-explicit decision row ratifying FAIL promotion.
+- **on_demand** — operator/agent requests a baseline grid.
+- **area_buildout** — before closing an area charter / CSV tranche.
+- **wave_close** — the learning-loop sweep (§6).
+- **pre_commit_self_test** — Pydantic + probe-registry chassis only (~2s; always-on circuit-breaker).
 
-## 6. Cross-references
+v2 lands at **charter** with INFO posture. Promotion to FAIL requires: (1) Data + Finance score
+at/above tier on the v2 grid (I94 P8); (2) a full 8-area sweep with operator sign-off; (3) an
+operator-explicit FAIL-promotion decision (`D-IH-94-A` successor).
 
+## 8. Cross-references
+
+- Research grounding: [`area-completeness-doctrine-2026-06-05/`](../../../../../wip/intelligence/area-completeness-doctrine-2026-06-05/) (131 sources)
+- Initiative: [`docs/wip/planning/94-area-architecture-and-completeness-v2/`](../../../../../wip/planning/94-area-architecture-and-completeness-v2/master-roadmap.md)
+- Pydantic SSOT: [`akos/hlk_area_completeness.py`](../../../../../../akos/hlk_area_completeness.py) (v2 forward-charter)
+- Runbook: [`scripts/validate_area_completeness.py`](../../../../../../scripts/validate_area_completeness.py) (v2 forward-charter)
 - Pattern: `pattern_area_buildout` in `PEOPLE_DESIGN_PATTERN_REGISTRY.csv`
 - SOP: [`SOP-PEOPLE_AREA_GOVERNANCE_001.md`](SOP-PEOPLE_AREA_GOVERNANCE_001.md)
-- Runbook: [`scripts/validate_area_completeness.py`](../../../../../../scripts/validate_area_completeness.py)
-- Pydantic: [`akos/hlk_area_completeness.py`](../../../../../../akos/hlk_area_completeness.py)
-- Initiative: [`docs/wip/planning/93-data-area-foundation-and-governance/`](../../../../../../wip/planning/93-data-area-foundation-and-governance/)
+- Methodology version: [`LOGIC_CHANGE_LOG.md`](LOGIC_CHANGE_LOG.md) BT-07 (v2 mint)
+- v1 lineage: `D-IH-93-B` (I93 P0); v2: `D-IH-94-A` (I94)
