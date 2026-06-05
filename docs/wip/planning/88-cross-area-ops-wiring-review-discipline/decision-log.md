@@ -122,6 +122,18 @@ language: en
 
 **Status.** Open. Ratifies at P3 entry. Depends on whether the discipline operationalises any of the 5 axes (audience / channel / scenario / brand / governance) at composition time. If yes, joins QF. If no (e.g., the discipline is broader than pure quality-bar enforcement and is more usefully framed as a non-Fabric People discipline that the Fabric consumes), stays out of QF §6 and lands at `People/canonicals/` as a non-Fabric discipline.
 
+### D-IH-88-F — Intent-Ranked Regression discipline mint (active 2026-06-05)
+
+**Decision.** Register the **Intent-Ranked Regression** as a governed People discipline — the **value layer** above the mechanical inter-wave regression (`pattern_inter_wave_regression_discipline`). Where the inter-wave sweep asks *is everything wired?* across 13 ~equal-weight structural dimensions, this discipline asks *is what the operator cares about most still served?* and orders the sweep by an **Intent Criticality Score** (ICS = `3·intent_value + 2·time_criticality + 2·risk_reduction + 1·detection_gap`, severity-first surfaces leading). Grounded in FMEA Risk Priority Number, WSJF cost-of-delay, and Test Impact Analysis (cited in the canonical §2).
+
+**Origin.** Operator framing 2026-06-05: *"not mechanical — take all my intents, use cases, logic, scenarios, interactions, rank them, research inside and outside, review, then regress; and if you achieved a lot, mint the workflow improvements so we can do regressions like these better and more often, no matter the seat."* Operator full-registration approval same day.
+
+**Surfaces minted.** Discipline canonical [`INTENT_RANKED_REGRESSION_DISCIPLINE.md`](../../../references/hlk/v3.0/Admin/O5-1/People/canonicals/INTENT_RANKED_REGRESSION_DISCIPLINE.md) + `SOP-PEOPLE_INTENT_RANKED_REGRESSION_001.md` + pattern row `pattern_intent_ranked_regression` (`intent_ranked_regression_cadence`, 17th pattern class) + process row `hol_peopl_dtp_intent_ranked_regression_001` + Pydantic SSOT `akos/hlk_intent_ranked_regression.py` + runbook `scripts/intent_ranked_regression.py` (`--rank` / `--self-test`) + craft skill + active cursor rule + three `CANONICAL_REGISTRY` rows + `pre_commit` self-test (verification-profiles + release-gate). Either-seat: execution seat runs `--rank`/`--self-test`; thinking seat runs the corpus-distillation + attribution + disposition judgment.
+
+**Worked example.** [`reports/intent-ranked-regression-2026-06-05.md`](reports/intent-ranked-regression-2026-06-05.md) — 3552 pass / 9 fail attributed to **0 new regressions**; high-intent pre-existing `area_governance` enum drift fixed-now; `OPS-88-1` opened for the deck-count de-brittle (finding F-3); eval failures cited to `OPS-90-10`.
+
+**Reversibility.** Medium — discipline + rows revert via git; the inter-wave safety net is unaffected (this layer sits on top, never replaces it).
+
 ## Decisions deferred (not in this initiative's scope)
 
 - **Per-area deep worked example beyond FINOPS + Research OPS** — deferred to future cycle initiatives (e.g., a future I-NN-CROSS-AREA-WIRING-MARKETING-DEEP that exercises the discipline on Marketing's Ops surface end-to-end). Charter §1.3 + R-IH-88-1 explicitly note that paragraph-framing → deep-worked-example promotion path is future-cycle work, protecting against premature canonicalisation.

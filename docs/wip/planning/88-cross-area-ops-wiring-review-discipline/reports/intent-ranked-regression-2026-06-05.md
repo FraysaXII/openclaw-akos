@@ -102,9 +102,9 @@ From `py scripts/intent_ranked_regression.py --rank`:
 
 | ID | Finding | Intent | Attribution | Disposition |
 |:---|:---|:---:|:---|:---|
-| **F-1** | 7 eval failures (adversarial ×3 + promotion ×4) — MADEIRA cassettes route `gtm_project` vs expected | IT-6 | **known-deferred** — `OPS-90-9` cassette replay, ETA 2026-06-11 | defer-OPS (cite existing row) |
+| **F-1** | 7 eval failures (adversarial ×3 + promotion ×4) — MADEIRA cassettes route `gtm_project` vs expected | IT-6 | **known-deferred** — `OPS-90-10` (open; embedding-drift-robust eval rework, forwarded to I76) | defer-OPS (cite existing row) |
 | **F-2** | `area_governance` pattern-class absent from `VALID_PATTERN_CLASSES` enum (test pinned at 15) while CSV + wired validator already accept it | **IT-3** | **pre-existing** — I93 `D-IH-93-B` mint; dual-SSOT lag | **rework-now** (fixed this session) |
-| **F-3** | Company-deck slide 11 quotes `1.188` vs live `1205` processes | IT-5 | **pre-existing** — accumulated process-count drift (recurring; you hand-fix it) | defer-OPS + recommend de-brittle (auto-sync the quote) |
+| **F-3** | Company-deck slide 11 quotes `1.188` vs live `1205` processes | IT-5 | **pre-existing** — accumulated process-count drift (recurring; you hand-fix it) | defer-OPS → `OPS-88-1` (auto-derive count at render) |
 | **F-4** | Fleet hygiene WARN: `hlk-erp` sibling worktree dirty (`KIRBE_API_ENV.md`) | IT-7 | **pre-existing** — operator WIP, not AKOS | accept (operator-owned) |
 
 ### F-2 fixed-now rationale (why this one, not the others)
@@ -115,7 +115,7 @@ Repair: added `area_governance` to `akos/hlk_design_pattern_csv.py` `VALID_PATTE
 
 ## 7. Dispositions (5-option enum)
 
-- **F-1 → defer-OPS:** `OPS-90-9` already owns it (ETA 2026-06-11). No new row.
+- **F-1 → defer-OPS:** `OPS-90-10` already owns it (open; embedding-drift-robust eval rework, forwarded to I76). No new row. (`OPS-90-9` was the closed re-goldening stopgap on a different test file; the recurrence is the OPS-90-10 class.)
 - **F-2 → rework-now:** done this session.
 - **F-3 → defer-OPS + improvement note:** the deck quote should auto-derive the process count (de-brittle) rather than hardcode; recurring manual fix is the smell. Recommend folding into the brand/deck owner's next pass.
 - **F-4 → accept:** sibling-repo operator WIP; surfaced by fleet hygiene, not an AKOS regression.
@@ -134,9 +134,15 @@ Yes — enough to harden the method so either seat can repeat it cheaply:
 
 "No matter the seat": the execution seat runs `--rank` for the ordered checklist and `--self-test` as a pre_commit circuit-breaker; the thinking seat reads the skill for corpus distillation + attribution + disposition.
 
-## 9. Gated next step (operator)
+## 9. Canonical registration (operator-approved 2026-06-05 → done)
 
-Canonical registration of this as a governed discipline (a `pattern_intent_ranked_regression` row, a `process_list` row, a `CANONICAL_REGISTRY` row, and ratifying decision `D-IH-88-F`) touches canonical CSVs and therefore needs your approval per baseline governance. Surfaced via AskQuestion at session end. Until then the rule stays **candidate** and the runbook/skill operate unregistered.
+Operator approved full registration. Minted as a governed People discipline under
+**D-IH-88-F**: discipline canonical `INTENT_RANKED_REGRESSION_DISCIPLINE.md` + SOP
+`SOP-PEOPLE_INTENT_RANKED_REGRESSION_001.md` + pattern row
+`pattern_intent_ranked_regression` (`intent_ranked_regression_cadence`, 17th class) +
+process row `hol_peopl_dtp_intent_ranked_regression_001` + three `CANONICAL_REGISTRY`
+rows + `pre_commit` self-test wiring. The cursor rule flips **candidate → active**.
+Finding **F-3** gets a tracked owner: **OPS-88-1** (de-brittle the deck count).
 
 ## 10. Verification
 

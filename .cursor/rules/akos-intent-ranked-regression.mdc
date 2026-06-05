@@ -5,12 +5,11 @@ description: >-
   value-weighted / risk-based regression, or a portfolio-wide health check where
   attention is scarce. Ranks regression surfaces by Intent Criticality Score (ICS,
   a WSJF/FMEA fusion) so the highest-stakes surfaces are checked first; pairs with
-  the intent-ranked-regression-craft skill. Candidate discipline (D-IH-88-F);
-  canonical registration gated on operator approval.
+  the intent-ranked-regression-craft skill. Governed discipline ratified D-IH-88-F (2026-06-05).
 alwaysApply: false
 ---
 
-# AKOS Intent-Ranked Regression (candidate discipline)
+# AKOS Intent-Ranked Regression
 
 Use this rule when a regression should be ordered by **operator-intent value**, not
 by mechanical dimension number — the operator's 2026-06-05 framing: *"not mechanical
@@ -19,10 +18,11 @@ regress."* It is the **value layer** on top of
 [`akos-inter-wave-regression.mdc`](akos-inter-wave-regression.mdc) (the structural
 safety net), not a replacement for it.
 
-Status: **candidate** (`D-IH-88-F` reserved; canonical CSV registration — pattern
-row + process row + CANONICAL_REGISTRY row — is gated on operator approval per
-`akos-baseline-governance.mdc`). The skill + runbook + Pydantic SSOT ship now; the
-governed-discipline rows land after the gate.
+Status: **active** — ratified **D-IH-88-F** (operator full-registration approval
+2026-06-05). Governed as a People discipline: canonical
+[`INTENT_RANKED_REGRESSION_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/INTENT_RANKED_REGRESSION_DISCIPLINE.md)
++ SOP-PEOPLE_INTENT_RANKED_REGRESSION_001 + pattern `pattern_intent_ranked_regression`
++ process `hol_peopl_dtp_intent_ranked_regression_001` + `pre_commit` self-test.
 
 ## When this rule applies
 

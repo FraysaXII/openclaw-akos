@@ -141,6 +141,14 @@
           ]
         },
         {
+          "id": "validate_intent_ranked_regression_self_test",
+          "description": "I88 (D-IH-88-F, 2026-06-05): intent-ranked regression discipline self-test. Validates akos/hlk_intent_ranked_regression.py Pydantic SSOT (IntentTier + RegressionSurface frozen models; 7 intent tiers + 12 regression surfaces) + scripts/intent_ranked_regression.py ranking (ICS = 3*intent + 2*time + 2*risk + 1*detection_gap; severity-first surfaces lead; deterministic re-rank). Does NOT run the actual probes (those are on_demand per the INTENT_RANKED_REGRESSION_DISCIPLINE.md canonical S6 cadence + process_list.csv hol_peopl_dtp_intent_ranked_regression_001 cadence column). Self-test mode keeps CI cost at ~1s. Value layer above the inter-wave regression self-test; paired runbook + canonical + SOP + cursor rule + skill + Pydantic shipped at I88 mint.",
+          "argv": [
+            "scripts/intent_ranked_regression.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "validate_finops_ledger_self_test",
           "description": "Initiative 81 P2 Bundle B-2a (D-IH-81-V, 2026-05-23): FINOPS ledger Pydantic chassis + 4-strategy counterparty resolution ladder + ECB 4-tier FX fallback + 0.5% Stripe-vs-ECB divergence detector + OPS_REGISTER auto-emit round-trip against synthetic Stripe-event fact stream. Exercises akos.hlk_finops_ledger (RegisteredFactRow Pydantic + 14-col tuple + 4 enum frozensets + resolve_counterparty_id + compute_fx_snapshot) + akos.hlk_fx_rate (ECB XML parser + EUR-base inversion + fallback ladder + divergence detector) + akos.hlk_ops_register_emit (24-col contract + RICE auto-score). FK-resolves synthetic counterparty_ids to FINOPS_COUNTERPARTY_REGISTER finops_* slugs. Default mode runs at INFO advisory (never blocks gate); --strict mode (not invoked in pre_commit) FAILS on synthetic errors. Promotes INFO->FAIL when Bundle B-2c lands + first live Stripe charge_succeeded round-trip succeeds in production per D-IH-81-W closure (proof-of-life criterion: resolved counterparty_id + computed amount_minor_eur via ECB cache hit). Substrate-only mint here; executable Edge Functions + worker land in Bundle B-2b; canonical CSV writes + governance close in Bundle B-2c.",
           "argv": [

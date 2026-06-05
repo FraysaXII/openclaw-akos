@@ -72,6 +72,9 @@ VALID_PATTERN_CLASSES: frozenset[str] = frozenset({
     # CSV + validate_design_pattern_registry.py already accept this class; the enum
     # + size test lagged (surfaced by the I88 intent-ranked regression 2026-06-05).
     "area_governance",
+    # I88 (D-IH-88-F): intent-ranked regression discipline (value layer above the
+    # inter-wave regression cadence; pattern_intent_ranked_regression).
+    "intent_ranked_regression_cadence",
 })
 
 
@@ -141,6 +144,7 @@ class DesignPatternRow(BaseModel):
         "index_integrity_cadence",
         "quality_fabric_specialty_canonical",
         "area_governance",
+        "intent_ranked_regression_cadence",
     ]
     discipline_origin: Literal[
         "compliance",

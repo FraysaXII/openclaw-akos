@@ -889,6 +889,28 @@ def run_inter_wave_regression_self_test() -> tuple[bool, int]:
     return (result.success, rc)
 
 
+def run_intent_ranked_regression_self_test() -> tuple[bool, int]:
+    """Run intent-ranked regression self-test (I88 / D-IH-88-F).
+
+    Self-test mode of ``scripts/intent_ranked_regression.py`` — validates the
+    paired Pydantic SSOT (``akos/hlk_intent_ranked_regression.py`` IntentTier +
+    RegressionSurface frozen models; 7 tiers + 12 surfaces) + the ICS ranking
+    (severity-first surfaces lead; deterministic re-rank). Does NOT run the
+    probes — those are on_demand per the INTENT_RANKED_REGRESSION_DISCIPLINE.md
+    canonical §6 cadence. Value layer above the inter-wave regression self-test.
+
+    Returns ``(ok, exit_code)``. Exit code 0 PASS, 1 FAIL.
+    """
+    logger.info("Running INTENT-RANKED-REGRESSION self-test (I88 / D-IH-88-F; --self-test) ...")
+    result = proc.run(
+        [sys.executable, str(SCRIPTS_DIR / "intent_ranked_regression.py"), "--self-test"],
+        timeout=30,
+        capture=False,
+    )
+    rc = result.returncode if hasattr(result, "returncode") else (0 if result.success else 1)
+    return (result.success, rc)
+
+
 def run_uat_report_validation() -> tuple[bool, int]:
     """Run UAT report validator self-test (I86 Wave R+1 / D-IH-86-CW).
 
@@ -1641,6 +1663,12 @@ def main() -> None:
     results.append((
         "PASS" if inter_wave_ok else "FAIL",
         f"Inter-wave regression self-test (scripts/inter_wave_regression_sweep.py --self-test - Pydantic SSOT + 12-probe registry shape validation; on_demand 12-dimension sweep deferred to wave-close gate per R-86-WaveM-7 CI-cost mitigation; paired runbook for INTER_WAVE_REGRESSION_DISCIPLINE.md canonical; I86 Wave M / D-IH-86-BO; ok={'yes' if inter_wave_ok else 'no'}; exit={inter_wave_rc})",
+    ))
+
+    intent_ranked_ok, intent_ranked_rc = run_intent_ranked_regression_self_test()
+    results.append((
+        "PASS" if intent_ranked_ok else "FAIL",
+        f"Intent-ranked regression self-test (scripts/intent_ranked_regression.py --self-test - Pydantic SSOT + ICS ranking shape; severity-first leads + deterministic re-rank; on_demand probes deferred per INTENT_RANKED_REGRESSION_DISCIPLINE.md canonical; value layer above inter-wave; I88 / D-IH-88-F; ok={'yes' if intent_ranked_ok else 'no'}; exit={intent_ranked_rc})",
     ))
 
     finops_ledger_ok, finops_ledger_rc = run_finops_ledger_validation()

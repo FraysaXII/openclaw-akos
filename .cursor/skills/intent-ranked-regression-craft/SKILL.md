@@ -12,7 +12,7 @@ description: >-
   .cursor/rules/akos-intent-ranked-regression.mdc (the WHEN); runnable by either
   seat via scripts/intent_ranked_regression.py.
 version: 1.0.0
-ratifying_decisions: D-IH-88-F (candidate — gate pending)
+ratifying_decisions: D-IH-88-F
 authored: 2026-06-05
 ---
 

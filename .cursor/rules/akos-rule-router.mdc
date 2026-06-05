@@ -23,6 +23,7 @@ Always-on **index** only. Domain doctrine lives in scoped rules + paired skills 
 | PASS-WITH-FOLLOWUP verdict | [`akos-pwf-governance.mdc`](akos-pwf-governance.mdc) | `pwf-governance-craft` |
 | Pre-tranche / synthesis sweep | [`akos-synthesis-before-tranche.mdc`](akos-synthesis-before-tranche.mdc) | `synthesis-before-tranche-craft` |
 | Wave-close regression | [`akos-inter-wave-regression.mdc`](akos-inter-wave-regression.mdc) | `inter-wave-regression-craft` |
+| Intent / value-ranked regression | [`akos-intent-ranked-regression.mdc`](akos-intent-ranked-regression.mdc) | `intent-ranked-regression-craft` |
 | Index / README / PRECEDENCE drift | [`akos-index-integrity.mdc`](akos-index-integrity.mdc) | `index-integrity-craft` |
 | Initiative roadmap / `files-modified.csv` | [`akos-planning-traceability.mdc`](akos-planning-traceability.mdc) | `planning-traceability-craft` |
 | Inline operator decision | [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc) | `inline-ratify-craft` |
