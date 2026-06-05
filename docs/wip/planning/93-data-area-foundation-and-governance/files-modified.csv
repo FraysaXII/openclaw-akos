@@ -154,3 +154,9 @@ P6-regress,docs/wip/planning/93-data-area-foundation-and-governance/reports/rese
 P6-regress,tests/test_ops8615_mirror_emit.py,edit,i93-p6,Default artifact path test
 P6-regress,docs/wip/planning/93-data-area-foundation-and-governance/reports/uat-i93-closure-2026-06-05.md,edit,i93-p6,Repo-local upsert path
 P6-regress,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-p6,Operator path fix
+closure,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv,edit,i93-closure,D-IH-93-CLOSURE row
+closure,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv,edit,i93-closure,INIT-OPENCLAW_AKOS-93 closed
+closure,docs/wip/planning/README.md,edit,i93-closure,I93 row closed
+closure,docs/wip/planning/93-data-area-foundation-and-governance/reports/uat-i93-closure-2026-06-05.md,edit,i93-closure,Registry applied + UAT closed
+closure,docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md,edit,i93-closure,status closed
+closure,docs/wip/planning/93-data-area-foundation-and-governance/decision-log.md,edit,i93-closure,INIT flip recorded

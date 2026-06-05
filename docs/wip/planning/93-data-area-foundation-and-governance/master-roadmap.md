@@ -1,8 +1,8 @@
 ---
 initiative_id: INIT-OPENCLAW_AKOS-93
 title: "I93 — DATA Area Foundation & Cross-Area Data Governance"
-status: active
-phase_status: closure-gate-researched-pending-operator-ratify
+status: closed
+phase_status: closed-2026-06-05
 owner_role: CDO + CPO + PMO
 inception: 2026-06-04
 last_review: 2026-06-04
@@ -31,7 +31,7 @@ program_anchors: PRJ-HOL-DAT-2026;PRJ-HOL-PGF-2026
 **Document owner**: CDO (area) + CPO (People meta-process) + PMO (orchestration)
 **Version**: 0.1 (charter — heavy-lifting design for Composer execution)
 **Date**: 2026-06-04
-**Status**: Charter — awaiting GATE #1 (operator ratification of D-IH-93-A..H + INITIATIVE_REGISTRY mint)
+**Status**: **Closed** (2026-06-05; `D-IH-93-CLOSURE`; mechanical P0–P8 complete)
 **Program mapping**: Cluster sibling of I90 (routing) / I91 (graph+store-coverage) / I92 (ERP dashboard)
 **Canonical plan**: this file is the I93 SSOT
 **Evidence base**: [`reports/research-synthesis-2026-06-04.md`](reports/research-synthesis-2026-06-04.md)
@@ -426,7 +426,7 @@ seat runs the regression + human-readability pass before commit.
 - **Breakthrough propagation:** [`reports/p8-cross-area-breakthrough-propagation-2026-06-05.md`](reports/p8-cross-area-breakthrough-propagation-2026-06-05.md) + I79 `breakthroughs/2026-06/*.md`
 - **Closure UAT:** [`reports/uat-i93-closure-2026-06-05.md`](reports/uat-i93-closure-2026-06-05.md) — **PASS-WITH-FOLLOWUP**
 - **Validators:** `validate_area_completeness.py --matrix` PASS; `validate_hlk.py` PASS; `validate_uat_report.py` (run at commit)
-- **Gate (todo #1):** ⛔ **OPERATOR** — §10 sign-off + mint `D-IH-93-CLOSURE` + flip INIT (`OPS-86-15` mirror DML ✅ 2026-06-05 via `apply_mirror_batches.ps1 -Preset ops8615`; governed by **D-GTM-DB-6** + [`docs/guides/holistika-mirror-dml-apply.md`](../../../../guides/holistika-mirror-dml-apply.md))
+- **Gate (todo #1):** ✅ **CLOSED 2026-06-05** — `D-IH-93-CLOSURE` minted; `INIT-OPENCLAW_AKOS-93` → `closed`; mirror DML via **D-GTM-DB-6**
 - **Acceptance:** §9.0 bar cleared; every area scored; DATA at/above bar; closure UAT PWF (INIT flip deferred)
 - **Commit:** `feat(i93-p8): area-completeness harmonization sweep + I93 closure UAT`
 

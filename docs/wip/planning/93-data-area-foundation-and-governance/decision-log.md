@@ -116,7 +116,7 @@ Verification: `validate_hlk.py` PASS; `validate_component_service_matrix.py` PAS
 | Gap tracker | 17 deferred rows — [`_trackers/area-governance-gap-tracker-2026-06-05.csv`](_trackers/area-governance-gap-tracker-2026-06-05.csv) |
 | Breakthrough propagation | `peopl_cross_area_breakthrough_announce.py --since 2026-06-04` → 9 area digests |
 | Closure UAT | **PASS-WITH-FOLLOWUP** — [`uat-i93-closure-2026-06-05.md`](reports/uat-i93-closure-2026-06-05.md) |
-| INIT flip | **Deferred** — operator gate (§10 checklist + `D-IH-93-CLOSURE`) |
+| INIT flip | ✅ **Closed 2026-06-05** — `D-IH-93-CLOSURE` + `INIT-OPENCLAW_AKOS-93` → `closed` |
 
 Research: [`reports/research-p8-harmonization-2026-06-05/`](reports/research-p8-harmonization-2026-06-05/).
 

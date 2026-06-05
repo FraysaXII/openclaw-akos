@@ -16,8 +16,8 @@ mint — it is the **operator closure gate**: mint `D-IH-93-CLOSURE`, flip
 `INIT-OPENCLAW_AKOS-93` to `closed`, and sign UAT §10. **OPS-86-15 mirror DML is no
 longer a blocker** (applied 2026-06-05 via linked Supabase CLI batches per **D-GTM-DB-6**).
 
-Before Composer executes closure CSV edits, the operator should ratify this packet and
-the §10 checklist in [`uat-i93-closure-2026-06-05.md`](../uat-i93-closure-2026-06-05.md).
+**Executed 2026-06-05** — operator proceed; `D-IH-93-CLOSURE` minted; `INIT-OPENCLAW_AKOS-93`
+closed; UAT `status: closed`.
 
 ## What "closure gate" includes (in scope)
 

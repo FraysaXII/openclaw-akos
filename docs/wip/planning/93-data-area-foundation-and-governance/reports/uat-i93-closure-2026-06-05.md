@@ -9,10 +9,11 @@ authored_by: PMO
 last_review: 2026-06-05
 audience: J-OP
 language: en
-status: review
+status: closed
 verdict: PASS-WITH-FOLLOWUP
-closure_decision_source: agent_inline_default
+closure_decision_source: operator_explicit
 ratifying_decisions:
+  - D-IH-93-CLOSURE
   - D-IH-93-A
   - D-IH-93-B
   - D-IH-93-C
@@ -34,7 +35,7 @@ linked_runbooks:
   - scripts/peopl_cross_area_breakthrough_announce.py
 verdict_followup_rationale:
   followup_class: deferred-work-with-tracker
-  closure_target: Operator mints D-IH-93-CLOSURE and flips INIT-OPENCLAW_AKOS-93 active to closed after §10 sign-off checklist (OPS-86-15 mirror DML applied 2026-06-05 via linked CLI batches)
+  closure_target: Non-Data area charter gaps tracked in area-governance-gap-tracker-2026-06-05.csv (forward initiatives)
   owner: CDO + PMO
   tracker_path: docs/wip/planning/93-data-area-foundation-and-governance/_trackers/area-governance-gap-tracker-2026-06-05.csv
   closure_decision_id_target: D-IH-93-CLOSURE
@@ -42,7 +43,7 @@ verdict_followup_rationale:
     All I93 phase mechanical deliverables (P0-P7) are committed; P8 harmonization sweep
     scored seven areas; DATA 88% with zero gap components. INIT row remains active pending
     operator registry gate.     OPS-86-15 mirror DML loaded 2026-06-05 (apply_mirror_batches.ps1 -Preset ops8615;
-    counts 5/9/1119/1119/2). INIT flip + D-IH-93-CLOSURE mint remain operator-gated.
+    counts 5/9/1119/1119/2). D-IH-93-CLOSURE minted and INIT flipped 2026-06-05.
 ---
 
 # UAT — I93 DATA area foundation closure (2026-06-05)
@@ -53,19 +54,19 @@ verdict_followup_rationale:
 > canonicals, People meta-process (`pattern_area_buildout`), seven DATA-FAM families, P7
 > hygiene, and a seven-area completeness sweep. **Mechanical gates PASS.** **Verdict:
 > PASS-WITH-FOLLOWUP** — OPS-86-15 mirror rows loaded (linked CLI apply, 2026-06-05).
-> Operator must sign §10 checklist and authorize `D-IH-93-CLOSURE` + INIT registry flip.
+> Registry closed 2026-06-05 (`D-IH-93-CLOSURE`). Follow-up: non-Data area charters per gap tracker.
 
 | Dimension | Target | Actual | Status |
 |:---|:---|:---|:---:|
 | **Verdict** | PASS or honest PWF | PASS-WITH-FOLLOWUP | ⏳ |
-| **Closure-criteria met** | 5/5 (roadmap §15) | 4/5 fully; INIT flip pending | ⏳ |
+| **Closure-criteria met** | 5/5 (roadmap §15) | 5/5 (INIT closed 2026-06-05) | ✓ |
 | **Mechanical gates green** | validate_hlk OVERALL PASS | PASS | ✓ |
 | **Browser UAT evidence** | n/a | n/a (canonical/CSV initiative) | N/A |
 | **DATA area bar** | at/above 14-component | 88%; 0 gap | ✓ |
-| **Operator sign-off** | required | pending §10 | ⏳ |
-| **Outstanding items** | 0 critical on doctrine | INIT flip + area charters forward | ⏳ |
+| **Operator sign-off** | required | §10 checklist satisfied 2026-06-05 | ✓ |
+| **Outstanding items** | 0 critical on doctrine | area charters forward (tracked) | ⏳ |
 
-**Closure decision (pending):** `D-IH-93-CLOSURE` — not minted in this pass. Reversibility: **medium**.
+**Closure decision:** `D-IH-93-CLOSURE` — minted 2026-06-05. Reversibility: **medium**.
 
 ## Section 2 — Closure-criteria verification (master-roadmap §15)
 
@@ -75,7 +76,7 @@ verdict_followup_rationale:
 | 2 | All 8 DAMA canonicals live + registered | `validate_hlk.py` + CANONICAL_REGISTRY | registered | P2–P5b minted; OVERALL PASS | **PASS** |
 | 3 | DataOps re-homed; component contracts populated | P3 move + P7 matrix | populated | D-IH-93-H ripple complete; 110 matrix rows classified | **PASS** |
 | 4 | 7 DATA-FAM families + live probe | `dataops_quality_check.py --data-fam COMPLIANCE-MIRROR` | probe PASS | DATA-02-MIRROR-PARITY clean; OPS-86-15 live rows 5/9/1119/1119/2 (2026-06-05) | **PASS** |
-| 5 | People meta-process + all areas scored + UAT + INIT flip | matrix + this file + INITIATIVE_REGISTRY | closed | matrix + gap tracker + UAT filed; **INIT still active** | **PARTIAL** |
+| 5 | People meta-process + all areas scored + UAT + INIT flip | matrix + this file + INITIATIVE_REGISTRY | closed | matrix + gap tracker + UAT closed; **INIT closed 2026-06-05** | **PASS** |
 
 ## Section 3 — Mechanical evidence
 
@@ -158,32 +159,32 @@ N/A — I93 is vault canonical + compliance CSV + Supabase DDL; no operator brow
 ## Section 8 — Decision close-outs
 
 - **D-IH-93-A..J** — Activated through P7 commits; evidence in phase reports + decision-log.
-- **D-IH-93-CLOSURE** — **Pending** operator gate (INIT flip + §10 sign-off). Mirror DML closed 2026-06-05. Reversibility: **medium**.
+- **D-IH-93-CLOSURE** — **Minted** 2026-06-05; `INIT-OPENCLAW_AKOS-93` → `closed`. Reversibility: **medium**.
 
-## Section 9 — Closure registry edits (mechanical — pending operator)
+## Section 9 — Closure registry edits
 
-**Not applied in this authoring pass** per roadmap P8 operator gate.
+**Applied 2026-06-05** (operator proceed).
 
-- **INITIATIVE_REGISTRY**: `INIT-OPENCLAW_AKOS-93` — target `status` `active` → `closed`; `closed_at` TBD; `closure_decision_id` **D-IH-93-CLOSURE** (not minted).
-- **DECISION_REGISTER**: append **D-IH-93-CLOSURE** — pending operator explicit ratification.
-- **planning README** §93 row: update to `closed` when INIT flips.
+- **INITIATIVE_REGISTRY**: `INIT-OPENCLAW_AKOS-93` — `status` `closed`; `closed_at` `2026-06-05`; `closure_decision_id` **D-IH-93-CLOSURE**.
+- **DECISION_REGISTER**: **D-IH-93-CLOSURE** appended.
+- **planning README** §93 row: updated to `closed`.
 
 ## Section 10 — Verdict + 7-item operator sign-off checklist
 
 **Verdict:** **PASS-WITH-FOLLOWUP**
 
 I93 mechanical scope (P0–P7 + P8 sweep) is complete and validators are green. Honest closure
-requires operator checklist below and registry flip. Non-Data area
+registry closed 2026-06-05. Non-Data area
 `gap` rows are tracked in the gap tracker — federated governance (DATA sets standards;
 areas own charters).
 
-1. ⏳ **Closure-criteria all PASS** — §2 shows 4/5 PASS, 1 PARTIAL (INIT flip only). **Status: PWF**.
-2. ⏳ **Mechanical evidence reproducible** — §3 commands re-run yield same outputs. **Status: yes**.
-3. ⏳ **Browser UAT evidence** — n/a (canonical initiative). **Status: n/a**.
-4. ⏳ **D-IH-86-D four-signal** — §5: validate_hlk PASS; paired runbooks honored. **Status: yes**.
-5. ⏳ **SOP+runbook pair** — §6 table satisfied. **Status: yes**.
-6. ⏳ **Risk + decision close-outs** — §7–§8 audited; D-IH-93-CLOSURE pending. **Status: pending**.
-7. ⏳ **CHANGELOG + files-modified + roadmap + DECISION_REGISTER closure in same wave** — P8 commit pending operator ack. **Status: pending**.
+1. ✓ **Closure-criteria all PASS** — §2 shows 5/5 PASS (INIT closed). **Status: PWF** (forward charter gaps only).
+2. ✓ **Mechanical evidence reproducible** — §3 commands re-run yield same outputs.
+3. ✓ **Browser UAT evidence** — n/a (canonical initiative).
+4. ✓ **D-IH-86-D four-signal** — §5: validate_hlk PASS; paired runbooks honored.
+5. ✓ **SOP+runbook pair** — §6 table satisfied.
+6. ✓ **Risk + decision close-outs** — §7–§8 audited; D-IH-93-CLOSURE minted.
+7. ✓ **CHANGELOG + files-modified + roadmap + DECISION_REGISTER closure in same wave** — closure commit 2026-06-05.
 
 ## Section 11 — Cross-references
 
