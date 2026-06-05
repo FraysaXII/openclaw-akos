@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (21)
+### Active (in execution) (20)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -34,12 +34,11 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **82** | [`82-holistika-capability-doctrine/`](82-holistika-capability-doctrine/) | active | 2026-05-16 | I82 — Holistika Capability Doctrine and Commercial Readiness |
 | **83** | [`83-ai-archivist-and-kirbe-ingestor/`](83-ai-archivist-and-kirbe-ingestor/) | active | 2026-05-21 | I83 — AI Archivist and KiRBe ingestor (knowledge-base surfacing system) |
 | **86** | [`86-initiative-cluster-execution-coordinator/`](86-initiative-cluster-execution-coordinator/) | active | 2026-05-17 | I86 — Initiative Cluster Execution Coordinator |
-| **88** | [`88-cross-area-ops-wiring-review-discipline/`](88-cross-area-ops-wiring-review-discipline/) | active | 2026-05-24 | I88 — Cross-area Ops wiring review discipline (every-area + 3-tier) × 10-pillar Holisti... |
+| **88** | [`88-cross-area-ops-wiring-review-discipline/`](88-cross-area-ops-wiring-review-discipline/) | active | 2026-06-05 | I88 — Cross-area Ops wiring review discipline (every-area + 3-tier) × 10-pillar Holisti... |
 | **89** | [`89-hlk-erp-program-rollup-implementation/`](89-hlk-erp-program-rollup-implementation/) | active | 2026-05-17 | I89 — HLK-ERP persona-rollup panel implementation |
 | **90** | [`90-routing-and-wiring/`](90-routing-and-wiring/) | active | 2026-06-04 | I90 — Routing & Wiring (Ordnance) |
-| **91** | [`91-enterprise-graph-store-coverage/`](91-enterprise-graph-store-coverage/) | active | 2026-06-01 | I91 — Enterprise Graph & Store-Coverage |
+| **91** | [`91-enterprise-graph-store-coverage/`](91-enterprise-graph-store-coverage/) | active | 2026-06-04 | I91 — Enterprise Graph & Store-Coverage |
 | **92** | [`92-hlk-erp-reassess-dashboard/`](92-hlk-erp-reassess-dashboard/) | active | 2026-06-01 | I92 — HLK-ERP Reassess & Dashboard (stub) |
-| **93** | [`93-data-area-foundation-and-governance/`](93-data-area-foundation-and-governance/) | active | 2026-06-04 | I93 — DATA Area Foundation & Cross-Area Data Governance |
 
 ### Gated on external event (0)
 
@@ -66,7 +65,7 @@ _(none)_
 | **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | program_line | 2026-04-18 | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
 | **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | program_line | 2026-04-23 | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
 
-### Closed (44)
+### Closed (45)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -114,6 +113,7 @@ _(none)_
 | **84** | [`84-substrate-doctrine-and-commercial-readiness/`](84-substrate-doctrine-and-commercial-readiness/) | closed | 2026-05-17 | I84 — Substrate Doctrine and Commercial Readiness |
 | **85** | [`85-audience-tag-canonicalization/`](85-audience-tag-canonicalization/) | closed | 2026-05-19 | I85 — Audience-tag canonicalization |
 | **87** | [`87-openclaw-operator-runtime-hardening/`](87-openclaw-operator-runtime-hardening/) | closed | 2026-05-19 | I87 — OpenClaw operator-runtime hardening |
+| **93** | [`93-data-area-foundation-and-governance/`](93-data-area-foundation-and-governance/) | closed | 2026-06-04 | I93 — DATA Area Foundation & Cross-Area Data Governance |
 
 ### Archived (superseded) (6)
 
