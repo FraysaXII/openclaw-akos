@@ -90,6 +90,26 @@ language: en
 
 **Reversibility.** Partial — CHARTER-class bar lifts automatically when UX_DISCIPLINE promotes; pillar 9 bar tightens when OPS-81-20 ships.
 
+### D-IH-88-E — FINANCE-AREA-FULL programme inception (F0 gate)
+
+**2026-06-05** (operator ratification: finance full-area programme + separate F0 decision row before F1 vault mint).
+
+**Question.** Should Finance become the **second full governed O5-1 area** after Data (I93), via programme **FINANCE-AREA-FULL** (F0–F4), absorbing I88 P1 as spine evidence only?
+
+**Decision.** **Yes** — launch FINANCE-AREA-FULL as the **primary** track. Closure bar: area matrix **≥88% / 0 gaps** + falsifiable gates **M1–M5** (see research master synthesis). I88 P2 Research OPS runs parallel after F1; I88 P3 canonical mint remains **after** F4 + P2.
+
+**Locked homes (F1 packet §0):**
+
+- FINOPS **CSV SSOT** — `People/Compliance/canonicals/finops/` (unchanged).
+- FINOPS **doctrine** — `Finance/Governance/canonicals/FINOPS_DISCIPLINE.md`.
+- Area **charter** — `Finance/canonicals/FINANCE_AREA_CHARTER.md`.
+
+**Owner.** CFO + Business Controller (area); CPO (`pattern_area_buildout`); CDO (DC-* producer review at F2).
+
+**Evidence.** [`reports/research-finance-full-governed-area-2026-06-05/master-synthesis.md`](reports/research-finance-full-governed-area-2026-06-05/master-synthesis.md); [`reports/intent-regression-finance-bar-2026-06-05.md`](reports/intent-regression-finance-bar-2026-06-05.md); DECISION_REGISTER row `D-IH-88-E`.
+
+**Reversibility.** Medium — vault shell + programme can revert via git; live Stripe/finops substrate unaffected.
+
 ### D-IH-88-C (reserved; P2 entry)
 
 **Question.** Research OPS pillar 3 (Tools/Infrastructure) + pillar 9 (Brand) + pillar 10 (UX) closure criteria — what counts as PASS for each pillar at the P2 sweep?
