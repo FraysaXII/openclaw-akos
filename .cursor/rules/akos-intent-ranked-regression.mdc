@@ -1,0 +1,79 @@
+---
+description: >-
+  Intent-Ranked Regression — the value layer above the mechanical inter-wave
+  regression. Use when an operator asks for a regression "by what matters", a
+  value-weighted / risk-based regression, or a portfolio-wide health check where
+  attention is scarce. Ranks regression surfaces by Intent Criticality Score (ICS,
+  a WSJF/FMEA fusion) so the highest-stakes surfaces are checked first; pairs with
+  the intent-ranked-regression-craft skill. Candidate discipline (D-IH-88-F);
+  canonical registration gated on operator approval.
+alwaysApply: false
+---
+
+# AKOS Intent-Ranked Regression (candidate discipline)
+
+Use this rule when a regression should be ordered by **operator-intent value**, not
+by mechanical dimension number — the operator's 2026-06-05 framing: *"not mechanical
+— take all my intents, use cases, logic, scenarios, interactions, rank them, then
+regress."* It is the **value layer** on top of
+[`akos-inter-wave-regression.mdc`](akos-inter-wave-regression.mdc) (the structural
+safety net), not a replacement for it.
+
+Status: **candidate** (`D-IH-88-F` reserved; canonical CSV registration — pattern
+row + process row + CANONICAL_REGISTRY row — is gated on operator approval per
+`akos-baseline-governance.mdc`). The skill + runbook + Pydantic SSOT ship now; the
+governed-discipline rows land after the gate.
+
+## When this rule applies
+
+- The operator asks for a regression "by what matters / by intent / by value".
+- A portfolio-wide health check where operator/agent attention is the scarce
+  resource and a flat full-sweep would bury the signal.
+- After a multi-phase area buildout (e.g. the Finance F1-F3 cycle) when you want to
+  confirm *the goals are still served*, not just *the wiring is intact*.
+
+Out of scope: a single-file change (use the mechanical self-test); a true wave-close
+(run the inter-wave 13-dimension sweep — this rule sits above it, not instead).
+
+## RULE 1 — Rank before you run (binding)
+
+Run `py scripts/intent_ranked_regression.py --rank` and sweep surfaces top-down by
+Intent Criticality Score. Severity-first surfaces (legal/fiscal + governance
+integrity with a known live gap) lead regardless of composite ICS (FMEA
+Action-Priority). The full mechanical sweep / `release-gate.py` remains the periodic
+safety net (TIA fallback) — never deleted.
+
+## RULE 2 — Attribute every finding (binding)
+
+No finding is reported without an attribution class: **new** (this session's diff),
+**pre-existing** (drift predating the session), or **known-deferred** (has an OPS row
++ ETA). "9 failed" is not a result; the ranked + attributed 9 is. Fix-now only when a
+pre-existing finding is high-ICS + low-effort + reversible (severity-first); else
+defer-OPS with a named owner.
+
+## RULE 3 — Disposition via the 5-option enum (binding)
+
+Reuse the inter-wave enum (rework-now / forward-charter-next / defer-OPS /
+accept-as-canon / escalate-to-blocker) per
+[`akos-inline-ratification.mdc`](akos-inline-ratification.mdc). No ad-hoc "fix later".
+
+## RULE 4 — Evidence-only intent weights (binding)
+
+Intent-tier values in `akos/hlk_intent_ranked_regression.py` cite scratchpad / inbox
+/ OPS / registry evidence. No evidence, no weight change. Re-derive when the
+portfolio shifts materially.
+
+## Either-seat contract
+
+- **Execution seat** (Composer): `--rank` (ordered checklist) + `--self-test`
+  (pre_commit circuit-breaker). Mechanical, cheap, repeatable.
+- **Thinking seat** (Opus-class): the corpus distillation + attribution + disposition
+  judgment per [`intent-ranked-regression-craft`](../skills/intent-ranked-regression-craft/SKILL.md).
+
+## Cross-references
+
+- Skill (the HOW): [`.cursor/skills/intent-ranked-regression-craft/SKILL.md`](../skills/intent-ranked-regression-craft/SKILL.md)
+- SSOT model: [`akos/hlk_intent_ranked_regression.py`](../../akos/hlk_intent_ranked_regression.py)
+- Runbook: [`scripts/intent_ranked_regression.py`](../../scripts/intent_ranked_regression.py)
+- Safety net: [`akos-inter-wave-regression.mdc`](akos-inter-wave-regression.mdc)
+- Worked example: `docs/wip/planning/88-cross-area-ops-wiring-review-discipline/reports/intent-ranked-regression-2026-06-05.md`
