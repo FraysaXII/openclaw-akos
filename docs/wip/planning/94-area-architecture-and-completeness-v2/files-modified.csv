@@ -1,0 +1,9 @@
+phase,file_path,change_type,asset_class,decision_id,notes
+P0,docs/wip/planning/94-area-architecture-and-completeness-v2/master-roadmap.md,create,reference,D-IH-94-A,Initiative charter + 10-phase plan
+P0,docs/wip/planning/94-area-architecture-and-completeness-v2/decision-log.md,create,reference,D-IH-94-A,Decision log
+P0,docs/wip/planning/94-area-architecture-and-completeness-v2/risk-register.md,create,reference,D-IH-94-A,Risk register
+P0,docs/wip/planning/94-area-architecture-and-completeness-v2/evidence-matrix.md,create,reference,D-IH-94-A,Evidence matrix
+P0,docs/wip/planning/94-area-architecture-and-completeness-v2/asset-classification.md,create,reference,D-IH-94-A,Asset classification
+P0,docs/wip/planning/94-area-architecture-and-completeness-v2/files-modified.csv,create,reference,D-IH-94-A,This file
+P0,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv,modify,canonical,D-IH-94-A,I94 row appended
+P0,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv,modify,canonical,D-IH-94-A,D-IH-94-A row appended
