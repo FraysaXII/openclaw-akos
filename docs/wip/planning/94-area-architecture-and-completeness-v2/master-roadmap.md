@@ -15,14 +15,14 @@ methodology_version_at_review: v3.1
 ratifying_decisions: D-IH-94-A
 todos:
   - id: p0-charter
-    content: "P0 (this commit) — Charter + consolidate the 131-source research action (research-action-pack + baseline + 4 prongs + master-synthesis + area-architecture-redesign + round3-assessment) as the evidence base. Mint INITIATIVE_REGISTRY + DECISION_REGISTER (D-IH-94-A) + planning README row + supporting artifacts (decision-log/risk-register/evidence-matrix/asset-classification/files-modified)."
-    status: in_progress
+    content: "P0 DONE — Charter + 131-source research action consolidated; INITIATIVE_REGISTRY + DECISION_REGISTER (D-IH-94-A) + supporting artifacts minted; validate_hlk OVERALL PASS."
+    status: completed
   - id: p1-model-ssot
-    content: "P1 — Mint the v2 model SSOT: AREA_GOVERNANCE_DISCIPLINE v2 (refined area definition + kinds + entity axis + 2-D maturity grid L0-L5 + criticality + AREA-14 KIND + AREA-15 PLACEMENT-INTEGRITY + AREA-16 FILE-PLAN/subfolder=role) + akos/hlk_area_completeness.py v2 (component x level; criticality flags; kind+entity enums; placement + file-plan probes; per-tier thresholds) keeping the deterministic heuristic + scripts/validate_area_completeness.py v2 + LOGIC_CHANGE_LOG entry (methodology version bump). Operator-gated doctrine review."
-    status: pending
+    content: "P1 DONE — AREA_GOVERNANCE_DISCIPLINE v2 + LOGIC_CHANGE_LOG BT-07 + akos/hlk_area_completeness.py v2 (2-D grid + kind/entity + AREA-14/15/16 + Legal) + scripts/validate_area_completeness.py v2 (action --next worklist) + 15 tests + activation kit (SOP v2 + skill v2 + rule v2 + 2 templates). Proven on Finance/Data (COMPLETE for tier; closures preserved); calibration findings CAL-1/2 + wrap regression W-1..5 recorded. Forward: AREA-16 matcher tolerance (W-4) at P7."
+    status: completed
   - id: p2-improve-plans
-    content: "P2 — Heavy-lifting-now: improve ALL affected plans so the v2 model is not lost + any seat can execute. Update I93 gap tracker + the 5-area forward-sweep plans (People/Marketing/Operations/Research/Tech) + Finance F4 + add Legal. Each gets v2 acceptance criteria (kind, entity, critical-components-at-L3, placement, subfolder=role, outcome). Per operator: do before the other initiatives run."
-    status: pending
+    content: "P2 DONE — v2 area-buildout forward map (reports/p2-area-buildout-v2-forward-map-2026-06-05.md): per-area kind/entity/owner/crit@L3/tier/gaps/phase for all 8 areas + sweep order + the any-seat loop + v2 acceptance criteria each future area initiative inherits. Live SSOT = the scorer (--matrix / --area X --next)."
+    status: completed
   - id: p3-operations
     content: "P3 — Operations reframe: 'Operations = delivery/execution-capacity area scored on PMBOK 7 performance domains (Governance/Scope/Schedule/Finance/Stakeholders/Resources/Risk); project-vs-service is a tag not a split'. Evict IntelligenceOps (research-application, not delivery) to its correct home. Map PMO/SMO/RevOps/Engagement sub-areas to delivery modes."
     status: pending
