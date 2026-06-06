@@ -12,17 +12,18 @@ co_authors:
   - CPO
   - PMO
   - System Owner
-last_review: 2026-06-05
+last_review: 2026-06-06
 last_review_by: Founder/CEO
-last_review_at: 2026-06-05
-last_review_decision_id: D-IH-94-A
+last_review_at: 2026-06-06
+last_review_decision_id: D-IH-95-D
 methodology_version_at_review: v3.1
 ratifying_decisions:
   - D-IH-93-B
   - D-IH-94-A
+  - D-IH-95-D
 status: charter
 register: internal
-doctrine_version: v2
+doctrine_version: v3
 linked_canonicals:
   - HOLISTIKA_QUALITY_FABRIC.md
   - HOLISTIKA_ORGANISING_DOCTRINE.md
@@ -30,6 +31,7 @@ linked_canonicals:
   - LOGIC_CHANGE_LOG.md
   - ../Compliance/canonicals/PRECEDENCE.md
   - ../Compliance/canonicals/baseline_organisation.csv
+  - ../../Data/Architecture/canonicals/CANONICAL_ARTICULATION_MODEL.md
 linked_cursor_rules:
   - .cursor/rules/akos-area-governance.mdc
   - .cursor/rules/akos-people-discipline-of-disciplines.mdc
@@ -45,11 +47,13 @@ forward_charters:
   - I94 P2-P9 (plan-improvement, Operations reframe, People-Compliance, entity/Envoy, Legal, subfolder=role, DATA regression, closure)
 ---
 
-# Area Governance Discipline (v2)
+# Area Governance Discipline (v3)
 
 > Seventeenth Quality Fabric specialty. People mints the **area-completeness shape** any O5-1
-> area inherits when created or matured. **v1** (`D-IH-93-B`, I93 P0) defined a flat
-> 14-component checklist. **v2** (`D-IH-94-A`, I94) evolves it — grounded in a 131-source
+> area inherits when created or matured. **v3** (`D-IH-95-D`, I95) adds the **articulation
+> tier** (§7.5): completeness = *present* (the v2 grid) **and** *wired* (every owned canonical
+> participates in an active HCAM triple) — paired Data-federated. **v1** (`D-IH-93-B`, I93 P0)
+> defined a flat 14-component checklist. **v2** (`D-IH-94-A`, I94) evolves it — grounded in a 131-source
 > research action ([`area-completeness-doctrine-2026-06-05/`](../../../../../wip/intelligence/area-completeness-doctrine-2026-06-05/))
 > spanning DAMA-DMBOK, DCAM, CMMI, COBIT, ISO/IEC 38500, DDD bounded contexts, Team Topologies,
 > Data Mesh, APQC PCF, PMBOK 7/8 and ITIL 4 — into a **2-D capability-maturity model** with
@@ -176,8 +180,34 @@ v2 lands at **charter** with INFO posture. Promotion to FAIL requires: (1) Data 
 at/above tier on the v2 grid (I94 P8); (2) a full 8-area sweep with operator sign-off; (3) an
 operator-explicit FAIL-promotion decision (`D-IH-94-A` successor).
 
+## 7.5 Articulation completeness (v3 — D-IH-95-D)
+
+**v3 adds a second lens to "complete": not just *present* (the 16-component grid) but *wired*.**
+Grounded in the 168-source HCAM research action and the Canonical Articulation Model
+([`CANONICAL_ARTICULATION_MODEL.md`](../../Data/Architecture/canonicals/CANONICAL_ARTICULATION_MODEL.md)),
+articulation completeness asks the operator's real question: *is every canonical this area owns
+actually linked into the enterprise model, or is it an orphan?*
+
+> An area is **articulation-complete** when every entity type it owns (per `ENTITY_CATALOG.csv`)
+> participates in **≥1 active HCAM triple** (`CANONICAL_RELATIONSHIP_REGISTRY.csv`) — i.e. its
+> roles are *assigned* to processes, its processes *realize* capabilities, it *serves* a contract.
+> Orphans (present but no active triple) are surfaced for the Semantic Council to disposition.
+
+- This **subsumes, not replaces** v2: AREA-15 placement-integrity already answers *belongs-here*
+  (the right canonicals are in the area); articulation completeness adds *linked-here* (those
+  canonicals are wired to the rest of the model). The 16-component × L0–L5 grid is unchanged.
+- **Runnable (CQ5):** `py scripts/validate_canonical_articulation.py --articulation <Area>` —
+  reports `wired/owned` + the orphan list. **Advisory** (the Semantic Council dispositions
+  orphans via `SOP-DATA_SEMANTIC_COUNCIL_001.md`); it does **not** gate the v2 completion bar, so
+  Data/Finance/People closures are preserved.
+- **Ownership:** the articulation tier is **Data-federated** (HCAM is a Data-Architecture canonical,
+  `D-IH-95-A`); People keeps the area-governance *methodology* (this discipline). The two are paired,
+  not merged.
+
 ## 8. Cross-references
 
+- HCAM articulation model (v3 tier): [`CANONICAL_ARTICULATION_MODEL.md`](../../Data/Architecture/canonicals/CANONICAL_ARTICULATION_MODEL.md) · Council SOP: [`SOP-DATA_SEMANTIC_COUNCIL_001.md`](../../Data/Governance/canonicals/SOP-DATA_SEMANTIC_COUNCIL_001.md)
+- Articulation research (168 sources): [`canonical-articulation-model-2026-06-05/`](../../../../../wip/intelligence/canonical-articulation-model-2026-06-05/)
 - Research grounding: [`area-completeness-doctrine-2026-06-05/`](../../../../../wip/intelligence/area-completeness-doctrine-2026-06-05/) (131 sources)
 - Initiative: [`docs/wip/planning/94-area-architecture-and-completeness-v2/`](../../../../../wip/planning/94-area-architecture-and-completeness-v2/master-roadmap.md)
 - Pydantic SSOT: [`akos/hlk_area_completeness.py`](../../../../../../akos/hlk_area_completeness.py) (v2 forward-charter)

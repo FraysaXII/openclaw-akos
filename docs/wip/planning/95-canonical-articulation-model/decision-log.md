@@ -74,7 +74,29 @@ parity + sync are untouched (Neo4j preflight-blocked per I91). The edge rename i
 cutover** (Semantic Council + I91 unblock; dual-emit one cycle). 9 tests PASS. Report:
 `reports/p2-neo4j-edge-unify-2026-06-05.md`.
 
+## D-IH-95-D — area-completeness v3 (articulation tier) + Semantic Council SOP (RATIFIED 2026-06-06, architecture, low reversibility)
+
+Extends area-governance **v2** (`D-IH-94-A`) with a **v3 articulation tier**: completeness =
+*present* (the v2 16-component L0–L5 grid, **unchanged**) **and** *wired* (every entity type an
+area owns participates in ≥1 active HCAM triple). Runnable as **CQ5**:
+`scripts/validate_canonical_articulation.py --articulation <Area>` (advisory; surfaces orphans for
+the Semantic Council; **does not gate** the v2 bar → Data/Finance/People closures preserved).
+Authored **`SOP-DATA_SEMANTIC_COUNCIL_001.md`** (CDO chair + Data core + 8 area reps; federated
+authorship; `DECISION_REGISTER` ratification; reuses the existing governance fabric).
+`AREA_GOVERNANCE_DISCIPLINE.md` → doctrine **v3** (§7.5). `LOGIC_CHANGE_LOG` **BT-08**.
+First articulation run: Data 3/8, Marketing 5/7, Tech 4/5, People 7/9, Finance 1/1 wired
+(orphans = the `planned` types — correct signal). Council `process_list` row is a **gated** mint
+(Q2/Storytelling baseline tranche). `validate_hlk` OVERALL PASS.
+
+### Resolved
+- **D-IH-95-E (ownership)** — RATIFIED **Data-federated** + **full council** (operator 2026-06-05).
+  The council is now codified in `SOP-DATA_SEMANTIC_COUNCIL_001.md`. Remaining gated piece: the
+  council's `process_list` row + member instantiation land with the Q2 baseline tranche.
+
 ### Pending sub-decisions (to ratify at each gate)
+- **GATED (next):** Q2 Lead-simplification baseline tranche (keep Data Governance Lead) +
+  Storytelling→Brand merge (`D-IH-72-AO`) + council `process_list` row — one operator-approved
+  `baseline_organisation`/`process_list` session.
 - **D-IH-95-E** — HCAM ownership + doctrine home. **Corrected recommendation (2026-06-05, Prong E,
   53 sources):** home HCAM in **Data** as the entity/relationship tier of `SEMANTIC_LAYER.md`,
   governed **federated** (Data Architect authors; Data Governance Lead owns the relationship

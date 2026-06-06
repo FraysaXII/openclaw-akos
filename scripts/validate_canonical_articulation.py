@@ -104,6 +104,45 @@ def validate(entity_path: Path, registry_path: Path) -> tuple[bool, list[str]]:
     return ok, errors
 
 
+def articulation_report(area: str, entity_path: Path, registry_path: Path) -> tuple[bool, dict[str, object]]:
+    """Area-completeness v3 (D-IH-95-D) — CQ5: is every canonical in area A *wired*?
+
+    Advisory. An area's owned entity types are 'wired' when they appear as source or target
+    in >=1 *active* triple; otherwise they are orphans (present but not articulated). Returns
+    (no_orphans, report). Always non-failing on its own (the council dispositions orphans).
+    """
+    area_l = area.strip().lower()
+    owned: list[str] = []
+    for r in _read_csv(entity_path):
+        if (r.get("owning_area") or "").strip().lower() == area_l:
+            owned.append((r.get("entity_type") or "").strip())
+
+    active_endpoints: set[str] = set()
+    for r in _read_csv(registry_path):
+        if (r.get("status") or "").strip() == "active":
+            active_endpoints.add((r.get("source_type") or "").strip())
+            active_endpoints.add((r.get("target_type") or "").strip())
+
+    wired = [t for t in owned if t in active_endpoints]
+    orphans = [t for t in owned if t not in active_endpoints]
+    report = {
+        "area": area,
+        "owned_types": len(owned),
+        "wired": len(wired),
+        "orphans": orphans,
+    }
+    if not owned:
+        print(f"INFO: area {area!r} owns no entity types in ENTITY_CATALOG (per-area types are shared)")
+    elif orphans:
+        print(
+            f"ADVISORY: area {area!r} articulation {len(wired)}/{len(owned)} wired; "
+            f"orphans (present but no active triple): {orphans}"
+        )
+    else:
+        print(f"PASS: area {area!r} fully articulated ({len(wired)}/{len(owned)} owned types wired)")
+    return (not orphans), report
+
+
 def self_test() -> bool:
     """Validate fixtures + the round-trip of the unified edge map."""
     try:
@@ -121,12 +160,19 @@ def self_test() -> bool:
 def main() -> int:
     ap = argparse.ArgumentParser(description="Validate HCAM entity catalog + relationship registry")
     ap.add_argument("--self-test", action="store_true", help="run fixture self-test only")
+    ap.add_argument("--articulation", metavar="AREA", default=None,
+                    help="area-completeness v3 (CQ5): report wired vs orphan canonicals for AREA (advisory)")
     ap.add_argument("--entity-catalog", default=str(ENTITY_CATALOG_PATH))
     ap.add_argument("--relationship-registry", default=str(RELATIONSHIP_REGISTRY_PATH))
     args = ap.parse_args()
 
     if args.self_test:
         return 0 if self_test() else 1
+
+    if args.articulation:
+        # Advisory: always exit 0 (the Semantic Council dispositions orphans, not the gate).
+        articulation_report(args.articulation, Path(args.entity_catalog), Path(args.relationship_registry))
+        return 0
 
     ok, _ = validate(Path(args.entity_catalog), Path(args.relationship_registry))
     return 0 if ok else 1

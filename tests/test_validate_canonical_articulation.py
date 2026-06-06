@@ -102,3 +102,22 @@ def test_five_competency_questions_defined():
     assert ids == {"CQ1", "CQ2", "CQ3", "CQ4", "CQ5"}
     for cq in COMPETENCY_QUESTIONS:
         assert cq["cypher"] and cq["question"] and cq["derivation"]
+
+
+# --- area-completeness v3 articulation mode (D-IH-95-D) -----------------------
+
+def test_articulation_report_finance_fully_wired():
+    from scripts.validate_canonical_articulation import articulation_report
+    ok, report = articulation_report("Finance", ENTITY_CATALOG_PATH, RELATIONSHIP_REGISTRY_PATH)
+    assert report["area"] == "Finance"
+    assert report["owned_types"] >= 1
+    assert not report["orphans"]
+    assert ok
+
+
+def test_articulation_report_data_flags_planned_orphans():
+    from scripts.validate_canonical_articulation import articulation_report
+    ok, report = articulation_report("Data", ENTITY_CATALOG_PATH, RELATIONSHIP_REGISTRY_PATH)
+    # the planned, not-yet-active Data types should surface as orphans (advisory signal)
+    assert "data_product" in report["orphans"]
+    assert not ok  # has orphans
