@@ -32,7 +32,7 @@ linked_runbooks:
   - scripts/validate_canonical_articulation.py
   - scripts/validate_area_completeness.py
 linked_processes:
-  - hol_data_dtp_semantic_council_001
+  - thi_data_dtp_semantic_council_001
 cadence: scheduled
 cadence_trigger: quarterly review (aligned with area-completeness sweep) OR new entity type / verb / cross-area triple OR forked-edge cutover (I91) OR competency-question regression
 ---
@@ -124,5 +124,5 @@ enterprise-level or contested cross-area changes, per `DATA_GOVERNANCE_POLICY.md
 - Registries: `ENTITY_CATALOG.csv`, `CANONICAL_RELATIONSHIP_REGISTRY.csv`
 - Edge unify map (I95 P2/C): `akos/hlk_graph_articulation.py` + `reports/p2-neo4j-edge-unify-2026-06-05.md`
 - Decisions: `D-IH-95-A` (model + Data-federated ownership), `D-IH-95-B` (catalog), `D-IH-95-C` (edge unify)
-- Note: `linked_processes` row `hol_data_dtp_semantic_council_001` is a **gated** `process_list` mint
-  (canonical-CSV operator approval) — to land with the Q2/Storytelling baseline tranche.
+- `linked_processes` row `thi_data_dtp_semantic_council_001` minted in `process_list.csv` (I95 Q2
+  batch 3, `D-IH-95-D`): area=Data, owner=Data Governance Office, paired to this SOP.
