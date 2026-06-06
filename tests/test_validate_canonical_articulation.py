@@ -121,3 +121,15 @@ def test_articulation_report_data_flags_planned_orphans():
     # the planned, not-yet-active Data types should surface as orphans (advisory signal)
     assert "data_product" in report["orphans"]
     assert not ok  # has orphans
+
+
+def test_articulation_gold_layer_matrix():
+    """The gold-layer scorecard returns consistent enterprise rollup metrics (D-IH-95-E)."""
+    from scripts.validate_canonical_articulation import articulation_matrix
+    m = articulation_matrix(ENTITY_CATALOG_PATH, RELATIONSHIP_REGISTRY_PATH)
+    assert m["entity_types"] == 42
+    assert m["zachman_covered"] == 6
+    assert 0 <= m["entity_coverage_pct"] <= 100
+    assert m["active_triples"] <= m["total_triples"]
+    assert m["dq_badge"] in {"GREEN", "AMBER", "RED"}
+    assert m["per_area"], "per-area rows present"

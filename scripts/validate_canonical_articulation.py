@@ -143,6 +143,71 @@ def articulation_report(area: str, entity_path: Path, registry_path: Path) -> tu
     return (not orphans), report
 
 
+def articulation_matrix(entity_path: Path, registry_path: Path) -> dict[str, object]:
+    """Area-completeness v3 GOLD LAYER (D-IH-95-E) — the consistent articulation scorecard.
+
+    Single-pane, deterministic metrics across ALL areas (vs the per-area --articulation text):
+    per-area wiring %, orphan count, + an enterprise rollup (entity coverage, triple
+    activation, Zachman coverage) + a DQ certification badge. This is the gold-layer surface a
+    DGO/operator consumes without a UI; the same numbers are registered in METRICS_REGISTRY so
+    the ERP/BI consumers read them too (define-once semantic layer).
+    """
+    cat = _read_csv(entity_path)
+    reg = _read_csv(registry_path)
+
+    active_endpoints: set[str] = set()
+    for r in reg:
+        if (r.get("status") or "").strip() == "active":
+            active_endpoints.add((r.get("source_type") or "").strip())
+            active_endpoints.add((r.get("target_type") or "").strip())
+
+    # Per-area rows (sorted; "per-area" shared types reported separately).
+    areas = sorted({(r.get("owning_area") or "").strip() for r in cat})
+    per_area: list[dict[str, object]] = []
+    for area in areas:
+        owned = [(r.get("entity_type") or "").strip() for r in cat
+                 if (r.get("owning_area") or "").strip() == area]
+        wired = [t for t in owned if t in active_endpoints]
+        pct = round(100 * len(wired) / len(owned)) if owned else 0
+        per_area.append({
+            "area": area, "owned": len(owned), "wired": len(wired),
+            "orphans": len(owned) - len(wired), "wiring_pct": pct,
+        })
+
+    # Enterprise rollup.
+    all_types = {(r.get("entity_type") or "").strip() for r in cat}
+    types_wired = {t for t in all_types if t in active_endpoints}
+    active_triples = sum(1 for r in reg if (r.get("status") or "").strip() == "active")
+    total_triples = len(reg)
+    zachman = {(r.get("zachman_cell") or "").strip() for r in cat if (r.get("zachman_cell") or "").strip()}
+    entity_coverage_pct = round(100 * len(types_wired) / len(all_types)) if all_types else 0
+    triple_activation_pct = round(100 * active_triples / total_triples) if total_triples else 0
+    # DQ certification badge (governance-scorecard pattern): GREEN >=80 / AMBER >=60 / RED <60
+    badge = "GREEN" if entity_coverage_pct >= 80 else ("AMBER" if entity_coverage_pct >= 60 else "RED")
+
+    print("HCAM Articulation Scorecard (gold layer) — area-completeness v3")
+    print(f"{'Area':<14} {'owned':>6} {'wired':>6} {'orphan':>7} {'wiring%':>8}")
+    print("-" * 45)
+    for r in per_area:
+        print(f"{r['area']:<14} {r['owned']:>6} {r['wired']:>6} {r['orphans']:>7} {r['wiring_pct']:>7}%")
+    print("-" * 45)
+    print(
+        f"ENTERPRISE: entity_types={len(all_types)} wired={len(types_wired)} "
+        f"({entity_coverage_pct}%) | triples active={active_triples}/{total_triples} "
+        f"({triple_activation_pct}%) | Zachman={len(zachman)}/6 | DQ-badge={badge}"
+    )
+    return {
+        "per_area": per_area,
+        "entity_types": len(all_types),
+        "entity_coverage_pct": entity_coverage_pct,
+        "active_triples": active_triples,
+        "total_triples": total_triples,
+        "triple_activation_pct": triple_activation_pct,
+        "zachman_covered": len(zachman),
+        "dq_badge": badge,
+    }
+
+
 def self_test() -> bool:
     """Validate fixtures + the round-trip of the unified edge map."""
     try:
@@ -162,12 +227,19 @@ def main() -> int:
     ap.add_argument("--self-test", action="store_true", help="run fixture self-test only")
     ap.add_argument("--articulation", metavar="AREA", default=None,
                     help="area-completeness v3 (CQ5): report wired vs orphan canonicals for AREA (advisory)")
+    ap.add_argument("--matrix", action="store_true",
+                    help="gold-layer scorecard: consistent articulation metrics across all areas + enterprise rollup")
     ap.add_argument("--entity-catalog", default=str(ENTITY_CATALOG_PATH))
     ap.add_argument("--relationship-registry", default=str(RELATIONSHIP_REGISTRY_PATH))
     args = ap.parse_args()
 
     if args.self_test:
         return 0 if self_test() else 1
+
+    if args.matrix:
+        # Gold-layer scorecard: advisory, always exit 0 (consumption surface, not a gate).
+        articulation_matrix(Path(args.entity_catalog), Path(args.relationship_registry))
+        return 0
 
     if args.articulation:
         # Advisory: always exit 0 (the Semantic Council dispositions orphans, not the gate).

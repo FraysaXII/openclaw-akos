@@ -88,22 +88,27 @@ First articulation run: Data 3/8, Marketing 5/7, Tech 4/5, People 7/9, Finance 1
 (orphans = the `planned` types — correct signal). Council `process_list` row is a **gated** mint
 (Q2/Storytelling baseline tranche). `validate_hlk` OVERALL PASS.
 
+## D-IH-95-E — articulation GOLD LAYER (visibility metrics) + S-13 regression surface + operating model (RATIFIED 2026-06-06, architecture, low reversibility)
+
+Closes the operator's **visibility gap** (*"I don't know where/how/what it gives… no useful metrics
+/ no gold layer / no UI for a DGO user"*). Adds the area-completeness **v3 gold layer**:
+`validate_canonical_articulation.py --matrix` = a consistent single-pane scorecard (per-area
+wiring% + orphans + enterprise rollup: entity coverage, triple activation, Zachman 6/6, DQ-badge
+GREEN/AMBER/RED). Registers 3 **define-once** metrics in `METRICS_REGISTRY`
+(`MET-HOL-ARTICULATION-WIRING-SCORE` / `-TRIPLE-ACTIVATION` / `ENTITY-CATALOG-COVERAGE`) so the
+ERP/BI consume them (semantic layer, not bespoke). Adds **S-13** (articulation+visibility) to the
+intent-ranked regression (ICS 32; IT-3 governance + IT-4 visibility) so the blind spot can't recur.
+Grounded in research: 12-KPI balanced governance scorecard + medallion gold layer (DQ-cert badges
+that let automated pipelines self-gate). **Baseline: 69% entity coverage, 63% triple activation,
+AMBER.** Operating model: `reports/articulation-operating-model-2026-06-06.md`. Regression:
+`reports/intent-ranked-regression-2026-06-06.md`. Also: `OPS-95-1` (Supabase mirror re-sync, tracked).
+
 ### Resolved
-- **D-IH-95-E (ownership)** — RATIFIED **Data-federated** + **full council** (operator 2026-06-05).
-  The council is now codified in `SOP-DATA_SEMANTIC_COUNCIL_001.md`. Remaining gated piece: the
-  council's `process_list` row + member instantiation land with the Q2 baseline tranche.
+- **Ownership** — RATIFIED **Data-federated** + **full council** (operator 2026-06-05, under
+  `D-IH-95-A`/`D-IH-95-D`; the AskQuestion ratifications, not a separate decision ID). Codified in
+  `SOP-DATA_SEMANTIC_COUNCIL_001.md` + the `thi_data_dtp_semantic_council_001` process row.
+- **Q2/Q3/Storytelling/council-row** — DONE (the 3-commit gated batch, `D-IH-95-D`).
 
 ### Pending sub-decisions (to ratify at each gate)
-- **GATED (next):** Q2 Lead-simplification baseline tranche (keep Data Governance Office) +
-  Storytelling→Brand merge (`D-IH-72-AO`) + council `process_list` row — one operator-approved
-  `baseline_organisation`/`process_list` session.
-- **D-IH-95-E** — HCAM ownership + doctrine home. **Corrected recommendation (2026-06-05, Prong E,
-  53 sources):** home HCAM in **Data** as the entity/relationship tier of `SEMANTIC_LAYER.md`,
-  governed **federated** (Data Architect authors; Data Governance Office owns the relationship
-  registry — their charter says "masterdata relationship management"; Data Steward operates; AI
-  Engineer/System Owner run the graph platform; CDO chairs a **Semantic Council** with one rep per
-  area; **People/Compliance keeps the area-governance *methodology***). **Not** Learning Curator→KM
-  (wrong skillset); Research = contributor, not owner. Couple with **I91** graph rework as one
-  workstream. The Q2 Lead simplification + Q3 ghost-folder merges fold in here as HCAM placement
-  work. *Pending operator ratification of the ownership model.* See
-  [`../../intelligence/canonical-articulation-model-2026-06-05/data-governance-ownership-findings.md`](../../intelligence/canonical-articulation-model-2026-06-05/data-governance-ownership-findings.md).
+- **D-IH-95-F (future):** I91 graph-edge cutover (dual-emit → retire legacy) when Neo4j unblocks.
+- 8-area articulation sweep: burn down the orphan worklist (`--matrix`) via the Semantic Council.

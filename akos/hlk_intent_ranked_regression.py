@@ -112,8 +112,8 @@ INTENT_TIERS: tuple[IntentTier, ...] = (
         evidence="validate_hlk; area-completeness matrix; inter-wave regression; D-IH-88-E; drift gates — the product IS a governed knowledge base.",
     ),
     IntentTier(
-        tier_id="IT-4", name="Operator leverage & interaction quality", value=4, horizon="all",
-        evidence="I76 MADEIRA elevation; I62/64/65 operator surfaces; scratchpad 'full-protocol' sessions; two-seat AIC delegation.",
+        tier_id="IT-4", name="Operator leverage, interaction quality & VISIBILITY", value=4, horizon="all",
+        evidence="I76 MADEIRA; I62/64/65 operator surfaces; scratchpad L68 'getting lost on visibility - I don't know where/how/what it gives'; L1376 'ERP must not be forgotten... my dashboard'; two-seat AIC.",
     ),
     IntentTier(
         tier_id="IT-5", name="Brand & external credibility", value=4, horizon="present",
@@ -201,6 +201,12 @@ REGRESSION_SURFACES: tuple[RegressionSurface, ...] = (
         served_tiers=("IT-3",), time_criticality=3, risk_reduction=4, detection_gap=3,
         probe_cmd="py scripts/check-drift.py + per-registry pytest enum-completeness",
         notes="The pattern_class enum-lag (I93 area_governance) lived here — weak detection until pytest.",
+    ),
+    RegressionSurface(
+        surface_id="S-13", name="HCAM articulation + visibility gold layer (entity wiring, triple activation, DGO scorecard)",
+        served_tiers=("IT-3", "IT-4"), time_criticality=3, risk_reduction=4, detection_gap=3,
+        probe_cmd="py scripts/validate_canonical_articulation.py --matrix",
+        notes="Area-completeness v3 gold layer (D-IH-95-E). Pre-I95-E this surface had NO metric/gate (the operator's 'no useful metrics / no gold layer / no UI for DGO' gap — detection_gap was 5); now --matrix scorecard + METRICS_REGISTRY MET-HOL-ARTICULATION-* give define-once metrics the ERP/BI consume.",
     ),
 )
 
