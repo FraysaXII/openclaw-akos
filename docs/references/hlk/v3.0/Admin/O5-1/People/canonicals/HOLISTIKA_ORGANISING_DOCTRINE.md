@@ -2,7 +2,7 @@
 language: en
 status: active
 canonical: true
-role_owner: People Operations Lead + Founder + CPO
+role_owner: People Operations Manager + Founder + CPO
 classification: doctrine
 intellectual_kind: organising_manifesto
 ssot: true
@@ -10,7 +10,7 @@ access_level: 5
 register: internal
 authored: 2026-05-15
 last_review: 2026-05-15
-authority: Founder + People Operations Lead + Compliance Officer + Ethics Advisor + Learning Curator
+authority: Founder + People Operations Manager + Compliance Officer + Ethics Advisor + Learning Curator
 companion_to:
   - PEOPLE_AREA_RESTRUCTURE.md
   - HOLISTIKA_AGENTIC_DOCTRINE.md
@@ -198,7 +198,7 @@ A short list, because doctrine that does not name its non-goals tends to expand 
 
 Maintenance cadence and accountability, codified per [`.cursor/rules/akos-executable-process-catalog.mdc`](../../../../../../.cursor/rules/akos-executable-process-catalog.mdc) Rule 1:
 
-- **Owner**: People Operations Lead (primary) + Founder (co-sign for material revisions).
+- **Owner**: People Operations Manager (primary) + Founder (co-sign for material revisions).
 - **Cadence**: quarterly review by default; out-of-cycle review when a downstream canonical or pattern row contradicts §1–§8 of this manifesto.
 - **Revision rule**: substantive revisions require a new `D-IH-NN-X` decision row in [`DECISION_REGISTER.csv`](../Compliance/canonicals/DECISION_REGISTER.csv) and a new `last_review` date here. Minor wording revisions update `last_review` only.
 - **Drift gate**: the anti-jargon scanner ([`scripts/validate_design_pattern_registry.py --jargon-scan`](../../../../../../scripts/validate_design_pattern_registry.py)) covers this file. Forbidden-token introductions fail CI.

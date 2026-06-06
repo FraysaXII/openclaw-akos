@@ -2,7 +2,7 @@
 language: en
 status: active
 canonical: true
-role_owner: People Operations Lead
+role_owner: People Operations Manager
 area: People
 entity: Holistika
 intellectual_kind: sop
@@ -20,7 +20,7 @@ companion_to:
 
 ## 1. Purpose
 
-Keep [`ENGAGEMENT_MODEL_REGISTRY.csv`](../dimensions/ENGAGEMENT_MODEL_REGISTRY.csv) aligned with the ratified 7-class taxonomy (`D-IH-73-D`) and with sibling [`ENGAGEMENT_REGISTRY.csv`](../../Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv) via `engagement_model_id` FK posture (`D-IH-73-N`). **People Operations Lead** is Data Owner; PMO retains Operations/PMO ownership of engagement instances.
+Keep [`ENGAGEMENT_MODEL_REGISTRY.csv`](../dimensions/ENGAGEMENT_MODEL_REGISTRY.csv) aligned with the ratified 7-class taxonomy (`D-IH-73-D`) and with sibling [`ENGAGEMENT_REGISTRY.csv`](../../Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv) via `engagement_model_id` FK posture (`D-IH-73-N`). **People Operations Manager** is Data Owner; PMO retains Operations/PMO ownership of engagement instances.
 
 ## 2. Scope
 

@@ -131,7 +131,7 @@ Finance must **improve** sibling disciplines via **data contracts**, not more br
 | **CFO / Founder** | Charter, canonical CSV tranches, M2 threshold N, plane-2 rev-rec policy |
 | **Business Controller** | Counterparty semantics, contracts, recon sign-off |
 | **CPO** | `pattern_area_buildout`, area-completeness dispositions |
-| **CDO / Data Governance Lead** | `DATA_CONTRACT_REGISTRY` rows where Finance is producer |
+| **CDO / Data Governance Office** | `DATA_CONTRACT_REGISTRY` rows where Finance is producer |
 | **PMO + System Owner** | F3 mirror apply + DDL gates |
 
 ## Top mint list (priority order)

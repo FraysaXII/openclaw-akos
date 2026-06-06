@@ -9,7 +9,7 @@ source_taxonomy: holistika-internal-doctrine
 authors:
   - Data Architect
 co_authors:
-  - Data Governance Lead
+  - Data Governance Office
   - Data Steward
   - CDO
   - AI Engineer
@@ -88,7 +88,7 @@ triples. Stable IDs survive renames (APQC element-ID pattern).
 |:---|:---|
 | **CDO** | Accountable; chairs the **Semantic Council** |
 | **Data Architect** | Authors HCAM (entity catalog + verb taxonomy) |
-| **Data Governance Lead** | Owns `CANONICAL_RELATIONSHIP_REGISTRY` (masterdata relationship management) |
+| **Data Governance Office** | Owns `CANONICAL_RELATIONSHIP_REGISTRY` (masterdata relationship management) |
 | **Data Steward** | Operational triple stewardship |
 | **AI Engineer / System Owner** | Neo4j graph platform (T3) |
 | **8 area reps** | Federate their area's concept definitions |

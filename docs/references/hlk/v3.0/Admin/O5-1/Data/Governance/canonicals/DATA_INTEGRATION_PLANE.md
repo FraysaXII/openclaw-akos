@@ -10,7 +10,7 @@ authors:
   - Data Architect
 co_authors:
   - System Owner
-  - Data Governance Lead
+  - Data Governance Office
 last_review: 2026-06-04
 last_review_by: Data Architect
 last_review_decision_id: D-IH-93-I

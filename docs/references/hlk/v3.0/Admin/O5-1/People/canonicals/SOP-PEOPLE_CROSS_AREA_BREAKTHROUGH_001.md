@@ -7,9 +7,9 @@ access_level: 4
 confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
-  - People Operations Lead
+  - People Operations Manager
 last_review: 2026-05-16
-last_review_by: People Operations Lead
+last_review_by: People Operations Manager
 last_review_decision_id: D-IH-80-D
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -42,7 +42,7 @@ cadence_secondary_schedule: quarterly
 
 Operationalise the cross-area mechanism that the People manifesto names. People is the discipline of disciplines: when People mints a new design pattern (or substantively revises an existing one), other areas — Marketing, Tech Lab, Research, Operations — should learn about it, decide whether to adopt it, and adopt it on their own terms. This SOP defines how that propagation happens: who announces, who decides, who supports.
 
-Paired with the runbook [`scripts/peopl_cross_area_breakthrough_announce.py`](../../../../../../scripts/peopl_cross_area_breakthrough_announce.py) per [`akos-executable-process-catalog.mdc`](../../../../../../.cursor/rules/akos-executable-process-catalog.mdc) Rule 1. Either People Operations Lead can run it via the SOP, or the runbook fires off-cadence after a registry edit. Both surfaces are SSOT for the same process.
+Paired with the runbook [`scripts/peopl_cross_area_breakthrough_announce.py`](../../../../../../scripts/peopl_cross_area_breakthrough_announce.py) per [`akos-executable-process-catalog.mdc`](../../../../../../.cursor/rules/akos-executable-process-catalog.mdc) Rule 1. Either People Operations Manager can run it via the SOP, or the runbook fires off-cadence after a registry edit. Both surfaces are SSOT for the same process.
 
 ## Scope
 
@@ -71,12 +71,12 @@ Out of scope:
 
 Two trigger paths:
 
-- **Event-triggered (primary)**: a registry edit lands. The author of the edit (typically People Operations Lead or Compliance Officer) flags whether the edit is substantive. New rows are always substantive; row revisions are substantive when they change `acceptance_criteria_*`, `consumer_areas`, `status`, or when the pattern's discipline-origin shifts.
+- **Event-triggered (primary)**: a registry edit lands. The author of the edit (typically People Operations Manager or Compliance Officer) flags whether the edit is substantive. New rows are always substantive; row revisions are substantive when they change `acceptance_criteria_*`, `consumer_areas`, `status`, or when the pattern's discipline-origin shifts.
 - **Scheduled (secondary)**: quarterly catch-up. If the event-triggered path missed any edits over the quarter (e.g. the operator forgot to flag an edit as substantive), the quarterly run reconciles by reading every row revised since the last announcement.
 
 ### 2. Run the announcement digest
 
-People Operations Lead runs the runbook:
+People Operations Manager runs the runbook:
 
 ```sh
 py scripts/peopl_cross_area_breakthrough_announce.py --since <YYYY-MM-DD>
@@ -88,7 +88,7 @@ The runbook reads the registry CSV, filters rows last-revised after `--since`, g
 - The acceptance criteria for both human and automation paths.
 - A link to the `#pattern-<slug>` anchor in [`PEOPLE_DESIGN_PATTERN_LIBRARY.md`](PEOPLE_DESIGN_PATTERN_LIBRARY.md).
 - A link to the registry row's `canonical_artifact_path` (the upstream artefact that anchors the pattern).
-- A short "what this means for your area" rendering authored by People Operations Lead at announcement time.
+- A short "what this means for your area" rendering authored by People Operations Manager at announcement time.
 
 ### 3. Per-area review and decision
 
@@ -119,7 +119,7 @@ After a consuming area decides **adopt now**, People supports the adoption:
 
 ### 6. Quarterly reconciliation
 
-Once per quarter, People Operations Lead runs the runbook in `--reconcile` mode:
+Once per quarter, People Operations Manager runs the runbook in `--reconcile` mode:
 
 ```sh
 py scripts/peopl_cross_area_breakthrough_announce.py --reconcile --quarter <YYYY-Q>
@@ -142,7 +142,7 @@ This emits a quarterly summary digest under `reports/breakthroughs/<YYYY-Q>/quar
 ## Failure modes
 
 - **Substantive edit not flagged.** Mitigation: quarterly reconciliation catches missed events; pattern row's `last_review` ISO date is the canonical evidence of revision.
-- **Consuming area never responds to a digest.** Mitigation: quarterly reconciliation surfaces patterns with no decision recorded; People Operations Lead pings the role-owner directly.
+- **Consuming area never responds to a digest.** Mitigation: quarterly reconciliation surfaces patterns with no decision recorded; People Operations Manager pings the role-owner directly.
 - **Pattern adopted differently across two areas.** Mitigation: People runs an alignment session before either area commits; pattern row may be split into sibling rows if the divergence is structural.
 - **Tech Lab pingback skipped after agentic doctrine revision.** Mitigation: the runbook special-cases doctrine-revision triggers; the audit step in [`SOP-TECH_AGENTIC_INFRA_001.md`](../../Envoy%20Tech%20Lab/canonicals/SOP-TECH_AGENTIC_INFRA_001.md) §1 confirms the ping landed.
 

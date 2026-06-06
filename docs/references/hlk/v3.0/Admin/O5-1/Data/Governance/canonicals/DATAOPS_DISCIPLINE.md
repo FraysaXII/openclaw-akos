@@ -9,11 +9,11 @@ source_taxonomy: holistika-internal-doctrine
 authors:
   - Founder/CEO
 co_authors:
-  - Data Governance Lead
+  - Data Governance Office
   - System Owner
   - PMO
 last_review: 2026-06-04
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_at: 2026-06-04
 last_review_decision_id: D-IH-93-C
 methodology_version_at_review: v3.1
@@ -78,7 +78,7 @@ instantiates it for verification and
 [`INTER_WAVE_REGRESSION_DISCIPLINE.md`](../../../People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md)
 for multi-wave integrity.
 
-The discipline is owned by **Data Governance Lead** (primary) with
+The discipline is owned by **Data Governance Office** (primary) with
 **System Owner** and **DevOPS** as co-owners — **execution stays in Tech**
 (validators, migrations, mirror jobs). It applies to every canonical CSV
 mint, every mirror upsert, every FDW server addition, every Pydantic SSOT

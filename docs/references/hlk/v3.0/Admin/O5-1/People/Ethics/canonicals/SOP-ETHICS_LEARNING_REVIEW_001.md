@@ -40,7 +40,7 @@ Keep [`ETHICAL_AUTOMATION_POSTURE.md`](ETHICAL_AUTOMATION_POSTURE.md) §5 (*Ethi
 |:-----|:---------------|
 | **Ethics Advisor** (A/R) | Schedules the session, owns minutes, drives escalation to founder if §5 triggers fire. |
 | **Learning Curator** (R) | Brings curriculum backlog + methodology-version evidence; confirms cohort coverage. |
-| **People Operations Lead** (C) | Optional attendee when apprentice engagements surfaced curriculum defects. |
+| **People Operations Manager** (C) | Optional attendee when apprentice engagements surfaced curriculum defects. |
 
 **C-73-3 ratification:** Ethics-led facilitation with mandatory Learning co-review (inline-ratify default).
 

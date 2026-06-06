@@ -92,7 +92,7 @@ Author audit report at `docs/wip/planning/<active-initiative>/reports/persona-au
 ## 4. Failure modes
 
 - `validate_persona_registry.py` fails → fix CSV integrity errors first; re-run audit after.
-- `baseline_organisation.csv` role lookup fails → escalate to People Operations Lead (or PMO interim if People Ops Lead row is gated).
+- `baseline_organisation.csv` role lookup fails → escalate to People Operations Manager (or PMO interim if People Ops Lead row is gated).
 - Operator-gate timeout on new-persona-row proposal → defer to next audit cycle; note in OPS_REGISTER if the gap blocks downstream work.
 
 ## 5. Acceptance criteria

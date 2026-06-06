@@ -29,7 +29,7 @@ internal_evidence_sweeps: 7
 
 **DATA is the only top-level area in `Admin/O5-1/` with no `canonicals/` folder.**
 The Chief Data Officer chain exists and is mostly active in `baseline_organisation.csv`
-(CDO → Data Architect / Lead Data Scientist / Data Governance Lead → Data Steward /
+(CDO → Data Architect / Data Scientist / Data Governance Office → Data Steward /
 Data Engineer / Database Owner), but it owns **zero** canonical doctrine. The data
 quality rulebook (`DATAOPS_DISCIPLINE.md`) lives under **People**; its checklist
 (`SOP-TECH_DATAOPS_QUALITY_001.md`) under **Tech**; and the Data area is **invisible
@@ -64,15 +64,15 @@ that makes "create + harmonize an area" a repeatable, countable discipline.
 |:---|:---|:---|:---|
 | CDO (Chief Data Officer) | O5-1 | Think Big | active |
 | Data Architect | CDO | Think Big | active |
-| Lead Data Scientist | CDO | Think Big | planned |
-| Business Analyst (front-end of Data Gov) | Lead Data Scientist | Think Big | planned |
-| Data Engineer (back-end of Data Gov) | Lead Data Scientist | Think Big | active |
-| Data Governance Lead | CDO | HLK Tech Lab | active |
-| Data Steward | Data Governance Lead | HLK Tech Lab | active |
-| Database Owner (area=Tech; dotted line) | Data Governance Lead | HLK Tech Lab | active |
+| Data Scientist | CDO | Think Big | planned |
+| Business Analyst (front-end of Data Gov) | Data Scientist | Think Big | planned |
+| Data Engineer (back-end of Data Gov) | Data Scientist | Think Big | active |
+| Data Governance Office | CDO | HLK Tech Lab | active |
+| Data Steward | Data Governance Office | HLK Tech Lab | active |
+| Database Owner (area=Tech; dotted line) | Data Governance Office | HLK Tech Lab | active |
 
 Gaps: split entity (CDO=Think Big vs Data Gov Lead=HLK Tech Lab); Database Owner sits
-in Tech; Lead Data Scientist + Business Analyst planned with no process rows.
+in Tech; Data Scientist + Business Analyst planned with no process rows.
 
 ## 3. DATA process plane (area=Data, 14 rows; 6 executable)
 

@@ -2,14 +2,14 @@
 language: en
 status: active
 canonical: true
-role_owner: People Operations Lead
+role_owner: People Operations Manager
 co_owner_role: Business Controller
 area: People
 entity: Holistika
 intellectual_kind: sop-addendum
 authored: 2026-05-16
 last_review: 2026-05-16
-last_review_by: People Operations Lead
+last_review_by: People Operations Manager
 last_review_decision_id: D-IH-80-D
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -57,7 +57,7 @@ The body §4.3 references "€400/mo cap compliance where applicable." The audit
 The cap exists to enforce two structural constraints:
 
 1. **Methodology exposure boundary.** An outsourced helper engaged at >€400/mo of total exposure either has substantial methodology access (which violates `D-IH-73-E` work-product-only doctrine) OR has been mis-classified (should be `hourly_consultant` or `milestone_consultant`). The cap is a forcing function for re-classification at the threshold.
-2. **Quarterly review tractability.** SOC review per `D-IH-73-M` happens quarterly across all outsourced helpers; capping monthly exposure caps quarterly exposure (~€1,200/quarter); People Operations Lead can review 10 helpers in a sitting (~€12K/quarter total exposure across the class). Higher caps would compress the review cadence beyond practical bandwidth.
+2. **Quarterly review tractability.** SOC review per `D-IH-73-M` happens quarterly across all outsourced helpers; capping monthly exposure caps quarterly exposure (~€1,200/quarter); People Operations Manager can review 10 helpers in a sitting (~€12K/quarter total exposure across the class). Higher caps would compress the review cadence beyond practical bandwidth.
 
 When an engagement legitimately requires >€400/mo of outsourced-helper-class work, the operator-approved exception process is:
 1. Re-classify to `hourly_consultant` or `milestone_consultant` (different SOC posture; cap does not apply).

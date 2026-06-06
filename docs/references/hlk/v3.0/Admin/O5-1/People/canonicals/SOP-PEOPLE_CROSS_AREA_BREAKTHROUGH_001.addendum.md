@@ -8,9 +8,9 @@ confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
   - System Owner
-  - People Operations Lead
+  - People Operations Manager
 last_review: 2026-05-16
-last_review_by: People Operations Lead
+last_review_by: People Operations Manager
 last_review_decision_id: D-IH-80-D
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -29,7 +29,7 @@ ssot: true
 
 # SOP — People Cross-Area Breakthrough Propagation — Addendum
 
-> Access level 5. This addendum carries the Tech Lab integration-posture detail, KB-infrastructure dimensions, audit trail mechanics, and operator-side framing decisions that the executor (People Operations Lead running the announcement digest) does not need to read but auditors / System Owner / Tech Lab Lead reference when the SOP fires.
+> Access level 5. This addendum carries the Tech Lab integration-posture detail, KB-infrastructure dimensions, audit trail mechanics, and operator-side framing decisions that the executor (People Operations Manager running the announcement digest) does not need to read but auditors / System Owner / Tech Lab Lead reference when the SOP fires.
 >
 > Authored at I80 P4 (D-IH-80-D Option B retrofit pilot) as the third instantiation of `pattern_sop_addendum_split` after the stakeholder lenses pair (P2) and the agentic-operations addendum (this phase).
 

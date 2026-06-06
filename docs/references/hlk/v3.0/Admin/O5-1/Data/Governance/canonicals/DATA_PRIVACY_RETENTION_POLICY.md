@@ -7,13 +7,13 @@ audience: J-OP;J-AIC;J-ENISA
 confidence_level: A1
 source_taxonomy: holistika-internal-doctrine
 authors:
-  - Data Governance Lead
+  - Data Governance Office
 co_authors:
   - Legal Counsel
   - Compliance
   - CDO
 last_review: 2026-06-04
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_at: 2026-06-04
 last_review_decision_id: D-IH-93-D
 methodology_version_at_review: v3.1

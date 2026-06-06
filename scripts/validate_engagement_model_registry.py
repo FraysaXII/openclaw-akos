@@ -2,7 +2,7 @@
 """Validate ENGAGEMENT_MODEL_REGISTRY.csv (Initiative 73 P1).
 
 Header drift gate + per-row Pydantic instantiation + enum checks + FK validation
-to baseline_organisation.csv (Data Owner = People Operations Lead per D-IH-73-C).
+to baseline_organisation.csv (Data Owner = People Operations Manager per D-IH-73-C).
 
 Usage::
 
@@ -45,7 +45,7 @@ ORG_CSV = (
     / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance"
     / "canonicals" / "baseline_organisation.csv"
 )
-DATA_OWNER_ROLE = "People Operations Lead"  # per D-IH-73-C; verified at validator runtime
+DATA_OWNER_ROLE = "People Operations Manager"  # per D-IH-73-C; verified at validator runtime
 
 
 def _load_org_roles() -> set[str]:
@@ -67,7 +67,7 @@ def main() -> int:
 
     org_roles = _load_org_roles()
     # Confirm the Data Owner role row exists in baseline_organisation.csv.
-    # Per D-IH-73-C the Data Owner is People Operations Lead; if absent that's
+    # Per D-IH-73-C the Data Owner is People Operations Manager; if absent that's
     # a FAIL (process_list tranche orphaned without owner row per
     # akos-governance-remediation.mdc baseline-tranche rule).
     if org_roles and DATA_OWNER_ROLE not in org_roles:

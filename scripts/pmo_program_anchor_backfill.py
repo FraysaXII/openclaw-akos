@@ -215,7 +215,7 @@ def _coverage_report(
         "System Owner": [],
         "DevOPS": [],
         "Holistik Researcher": [],
-        "People Operations Lead": [],
+        "People Operations Manager": [],
     }
     unmapped: list[tuple[str, str, bool, str]] = []
     for row in rows:

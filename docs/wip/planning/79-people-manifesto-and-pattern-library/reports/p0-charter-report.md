@@ -3,7 +3,7 @@ initiative_id: INIT-OPENCLAW_AKOS-79
 phase: P0
 authored: 2026-05-15
 last_review: 2026-05-15
-owner_role: People Operations Lead
+owner_role: People Operations Manager
 status: shipped
 ---
 

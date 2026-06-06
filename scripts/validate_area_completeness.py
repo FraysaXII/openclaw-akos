@@ -603,7 +603,7 @@ def _probe_area_16(area: str) -> AreaCompletenessFindingRow:
 
     Resolution order: sub_area column (exact) > role_name (exact) > role_name keyword
     (strips common prefixes/suffixes: Lead/Data/Senior/Manager/Specialist/Analyst to get
-    the functional form). This handles the 'Data Governance Lead' -> folder 'Governance'
+    the functional form). This handles the 'Data Governance Office' -> folder 'Governance'
     case without requiring a roster rename (forward-charter: deprecate 'Lead' naming).
     """
     proc_area = str(AREA_CONFIG[area]["process_area"])

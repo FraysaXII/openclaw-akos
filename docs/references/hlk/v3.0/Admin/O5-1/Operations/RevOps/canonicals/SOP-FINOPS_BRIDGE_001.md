@@ -2,7 +2,7 @@
 language: en
 status: review
 canonical: true
-role_owner: RevOps Lead
+role_owner: RevOps Manager
 classification: way_of_working
 intellectual_kind: SOP
 ssot: true
@@ -44,7 +44,7 @@ Trigger: `ENGAGEMENT_REGISTRY.csv` row insert OR `status` cell flip to `active`.
 
 ### 3.2 Counterparty validation
 
-Verify FINOPS_COUNTERPARTY_REGISTER.csv row exists for engagement's counterparty_org_id. If missing, RevOps Lead authors the row + commits per CSV-as-SSOT pattern.
+Verify FINOPS_COUNTERPARTY_REGISTER.csv row exists for engagement's counterparty_org_id. If missing, RevOps Manager authors the row + commits per CSV-as-SSOT pattern.
 
 ### 3.3 Stripe customer link (when applicable)
 
@@ -58,7 +58,7 @@ Future revenue facts for this engagement populate engagement_id cell per I72 P7 
 
 Per [`akos-executable-process-catalog.mdc`](../../../../../../.cursor/rules/akos-executable-process-catalog.mdc) Rule 5:
 
-- **AC-HUMAN**: RevOps Lead executes §3 steps manually using only this SOP body.
+- **AC-HUMAN**: RevOps Manager executes §3 steps manually using only this SOP body.
 - **AC-AUTOMATION**: `validate_adapter_registries.py` PASS on REVOPS_ADAPTER_REGISTRY.csv finops_bridge row + `validate_revops_spine.py` PASS.
 
 ## 5. Cross-references

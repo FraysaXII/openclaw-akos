@@ -2,7 +2,7 @@
 language: en
 status: active
 canonical: true
-role_owner: People Operations Lead
+role_owner: People Operations Manager
 area: People
 entity: Holistika
 intellectual_kind: sop
@@ -23,4 +23,4 @@ paired_runbook: scripts/peopl_engagement_apprentice_curriculum_assign.py
 - Cohort CSV SSOT: [`dimensions/LEARNING_OPS_BACKLOG.csv`](dimensions/LEARNING_OPS_BACKLOG.csv).
 - Executable checklist: [`scripts/peopl_engagement_apprentice_curriculum_assign.py`](../../../../../../../../scripts/peopl_engagement_apprentice_curriculum_assign.py).
 
-**People Operations Lead** remains accountable for apprentice curriculum assignment when `engagement_model_id=eng_model_apprentice_learner`.
+**People Operations Manager** remains accountable for apprentice curriculum assignment when `engagement_model_id=eng_model_apprentice_learner`.

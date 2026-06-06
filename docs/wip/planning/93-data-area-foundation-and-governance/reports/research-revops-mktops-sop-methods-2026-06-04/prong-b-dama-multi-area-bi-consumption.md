@@ -25,8 +25,8 @@ Extend DATA plane with **three linked artefacts** (no parallel SSOT):
 
 | Artefact | Purpose | Owner |
 |:---|:---|:---|
-| **`AREA_BI_PROFILE.csv`** (new dimension) | One row per O5-1 area: default BI tiers, steward role, primary tools, engagement_stream default | Data Governance Lead |
-| **`BI_CONSUMER_REGISTRY.csv`** (existing) | One row per **tool instance** (Langfuse, Meta BM, Power BI…) FK → `component_id` | Data Governance Lead |
+| **`AREA_BI_PROFILE.csv`** (new dimension) | One row per O5-1 area: default BI tiers, steward role, primary tools, engagement_stream default | Data Governance Office |
+| **`BI_CONSUMER_REGISTRY.csv`** (existing) | One row per **tool instance** (Langfuse, Meta BM, Power BI…) FK → `component_id` | Data Governance Office |
 | **Area charter appendix** | Plain-language "how this area consumes data/BI" — links to profile row | Area head |
 
 ### `AREA_BI_PROFILE.csv` seed shape (proposed 15 cols)
@@ -40,7 +40,7 @@ area_id,steward_role,primary_bi_tiers,default_engagement_stream,analytics_bucket
 | area_id | steward_role | primary_bi_tiers | notes |
 |:---|:---|:---|:---|
 | Marketing | Marketing Analytics Manager | T4,T8 + Meta/Google | Campaign + ads; Analytics Buckets OLAP |
-| Operations | RevOps Lead | T2,T7,T8 | Attribution spine; Power BI client exports |
+| Operations | RevOps Manager | T2,T7,T8 | Attribution spine; Power BI client exports |
 | Data | Data Steward | T2,T4,T5 | Metabase; semantic layer; lineage |
 | Tech | System Owner | T1,T3,T9 | ERP; Langfuse; control plane |
 | Finance | Business Controller | T2,T7 | FDW finops; Stripe |

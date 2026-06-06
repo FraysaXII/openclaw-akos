@@ -2,7 +2,7 @@
 language: en
 status: active
 canonical: true
-role_owner: People Operations Lead
+role_owner: People Operations Manager
 area: People
 entity: Holistika
 intellectual_kind: sop
@@ -20,7 +20,7 @@ companion_to:
 
 ## 1. Purpose
 
-When a new engagement instance is minted in [`ENGAGEMENT_REGISTRY.csv`](../../Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv), assign exactly one `engagement_model_id` slug from [`ENGAGEMENT_MODEL_REGISTRY.csv`](../dimensions/ENGAGEMENT_MODEL_REGISTRY.csv). **People Operations Lead** executes with Legal/Finance handoffs as needed.
+When a new engagement instance is minted in [`ENGAGEMENT_REGISTRY.csv`](../../Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv), assign exactly one `engagement_model_id` slug from [`ENGAGEMENT_MODEL_REGISTRY.csv`](../dimensions/ENGAGEMENT_MODEL_REGISTRY.csv). **People Operations Manager** executes with Legal/Finance handoffs as needed.
 
 ## 2. Scope
 

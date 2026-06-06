@@ -6,11 +6,11 @@ access_level: 5
 confidence_level: A1
 source_taxonomy: holistika-internal-doctrine
 authors:
-  - People Operations Lead
+  - People Operations Manager
   - Ethics Advisor
   - System Owner
 last_review: 2026-05-15
-last_review_by: People Operations Lead
+last_review_by: People Operations Manager
 ratifying_decisions:
   - D-IH-79-A
   - D-IH-79-F
@@ -122,7 +122,7 @@ When a question arrives about an agent at Holistika, the routing is:
 
 ## §8 Maintenance
 
-This canonical is owned by People Operations Lead with co-stewardship from Ethics Advisor (Ethics anchor cross-link) and System Owner (Tech Lab landscape cross-link). Annual review minimum; any substantive revision requires a new `D-IH-79-*` decision row.
+This canonical is owned by People Operations Manager with co-stewardship from Ethics Advisor (Ethics anchor cross-link) and System Owner (Tech Lab landscape cross-link). Annual review minimum; any substantive revision requires a new `D-IH-79-*` decision row.
 
 When the doctrine changes, the cross-area breakthrough propagation pattern fires per [`SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md`](SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md) (P4 deliverable). Tech Lab is pinged when the agentic doctrine row changes so the framework landscape stays in sync.
 

@@ -3,7 +3,7 @@ initiative_id: INIT-OPENCLAW_AKOS-79
 status: active
 authored: 2026-05-15
 last_review: 2026-05-15
-owner_role: People Operations Lead
+owner_role: People Operations Manager
 ---
 
 # I79 Decision Log
@@ -275,7 +275,7 @@ Each conundrum is recorded here with operator's answer + decision_source after t
 
 **Question.** Recurring cadence for the orphan-folder audit pattern surfaced at P5: gated_operator / scheduled_quarterly / scheduled_yearly / skip?
 
-**Decision.** **`gated_operator`**. The audit is judgement-heavy (case-per-case verdicts, operator authority over deletes per D-IH-79-J). Calendar-driven cadence would surface false-positive noise (most "orphan-looking" folders are legitimate baseline scaffolding); operator-triggered cadence preserves signal-to-noise. SOP mint deferred to **P7** to avoid scope creep in P5; SOP path will be `docs/references/hlk/v3.0/Admin/O5-1/People/People Operations/canonicals/SOP-PEOPLE_ORPHAN_FOLDER_AUDIT_001.md` (owner: People Operations Lead per the People = discipline-of-disciplines posture from the manifesto).
+**Decision.** **`gated_operator`**. The audit is judgement-heavy (case-per-case verdicts, operator authority over deletes per D-IH-79-J). Calendar-driven cadence would surface false-positive noise (most "orphan-looking" folders are legitimate baseline scaffolding); operator-triggered cadence preserves signal-to-noise. SOP mint deferred to **P7** to avoid scope creep in P5; SOP path will be `docs/references/hlk/v3.0/Admin/O5-1/People/People Operations/canonicals/SOP-PEOPLE_ORPHAN_FOLDER_AUDIT_001.md` (owner: People Operations Manager per the People = discipline-of-disciplines posture from the manifesto).
 
 **Rationale.** Operator pick (round 5 — `p5-orphan-cadence` → `gated-operator`). Aligns with the `D-IH-72-W` gated_operator pattern for ethics-class operator-authority work. The audit pattern itself is now codified in the orphan-inventory report; P7 mint formalises the SOP scaffolding.
 
@@ -337,7 +337,7 @@ Total: **24 / 1165 rows** seeded (2.06% adoption surface). Seven of the 12 patte
 
 ### Note on no-new-baseline-role
 
-Per `D-IH-79-K` (Round 1) and the cluster D ratification (`D-IH-79-Q`, Round 5), no new `baseline_organisation` role row was minted in I79. P6 reached the only point where the decision could be revisited — operator confirmed `no-new-role-confirm` via AskQuestion `p6-baseline-tranche` (Round 6). The KB-stewardship-as-People-area-wide responsibility framing absorbed into the manifesto §3 (`HOLISTIKA_PEOPLE_MANIFESTO.md`) stands; the orphan-folder housekeeping cadence (D-IH-79-Q) stays under People Operations Lead remit; no Knowledge Base Steward role mint.
+Per `D-IH-79-K` (Round 1) and the cluster D ratification (`D-IH-79-Q`, Round 5), no new `baseline_organisation` role row was minted in I79. P6 reached the only point where the decision could be revisited — operator confirmed `no-new-role-confirm` via AskQuestion `p6-baseline-tranche` (Round 6). The KB-stewardship-as-People-area-wide responsibility framing absorbed into the manifesto §3 (`HOLISTIKA_PEOPLE_MANIFESTO.md`) stands; the orphan-folder housekeeping cadence (D-IH-79-Q) stays under People Operations Manager remit; no Knowledge Base Steward role mint.
 
 ---
 

@@ -9,10 +9,10 @@ source_taxonomy: holistika-internal-sop
 authors:
   - System Owner
 co_authors:
-  - Data Governance Lead
+  - Data Governance Office
   - PMO
 last_review: 2026-06-04
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_decision_id: D-IH-93-C
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -99,7 +99,7 @@ py scripts/validate_hlk.py
 
 | Surface | Human | Automation |
 |:---|:---|:---|
-| AC-HUMAN | Data Governance Lead or System Owner walks DATA-01..07 for the touched surface | N/A |
+| AC-HUMAN | Data Governance Office or System Owner walks DATA-01..07 for the touched surface | N/A |
 | AC-AUTOMATION | N/A | `--self-test` PASS at pre_commit; `--sweep` + `validate_hlk.py` PASS at mint time |
 
 ## Cross-references

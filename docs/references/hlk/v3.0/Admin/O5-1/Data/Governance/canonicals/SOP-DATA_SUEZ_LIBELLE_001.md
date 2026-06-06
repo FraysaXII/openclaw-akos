@@ -7,13 +7,13 @@ access_level: 4
 confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
-  - Data Governance Lead
+  - Data Governance Office
 co_authors:
   - System Owner
   - Data Architect
-  - RevOps Lead
+  - RevOps Manager
 last_review: 2026-06-04
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_decision_id: D-IH-93-J
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -70,7 +70,7 @@ Anonymisation: generic supplier/parc names (e.g. Fournisseur-Alpha-001) — neve
 
 | Path | Owner | When |
 |:---|:---|:---|
-| **Phase 1 — Holistika Microsoft** | RevOps Lead + System Owner | **Default primary** — invoke `SOP-DATA_MS_DEMO_FACTORY_001.md` |
+| **Phase 1 — Holistika Microsoft** | RevOps Manager + System Owner | **Default primary** — invoke `SOP-DATA_MS_DEMO_FACTORY_001.md` |
 | **Phase 2 — Client tenant** | SUEZ DSI | After Phase 1 evidence + DSI unblocks client environment |
 | **Parallel proof — Edge + ERP** | System Owner | When client PA blocked **temporarily** — internal logic validation only |
 
@@ -81,14 +81,14 @@ Anonymisation: generic supplier/parc names (e.g. Fournisseur-Alpha-001) — neve
 | Stage | Process / artefact | Owner | Gate |
 |:---|:---|:---|:---|
 | **Upstream — commercial** | `SOP-ENG_ESTIMATION_DISCIPLINE_001` + engagement `scope.yaml` | Project Manager | Proposal rates before build budget |
-| **Upstream — share frame** | `COLLABORATOR_SHARE_DOCTRINE` + SUEZ grounding §1 (Holistika Stream A vs EFA Stream B) | RevOps Lead / CPO | Commercial streams documented before registry |
+| **Upstream — share frame** | `COLLABORATOR_SHARE_DOCTRINE` + SUEZ grounding §1 (Holistika Stream A vs EFA Stream B) | RevOps Manager / CPO | Commercial streams documented before registry |
 | **Upstream — research** | `SOP-RESEARCH_ACTION_001` when demo strategy changes | Research Director | Source ledger before doctrine edits |
-| **Entry** | `hol_data_dtp_engagement_integration_scaffold_001` → scaffold SOP | Data Governance Lead | Registry rows before build |
-| **Primary build** | `hol_data_dtp_ms_demo_factory_001` → MS demo factory SOP | RevOps Lead | Phase 1 Holistika tenant |
+| **Entry** | `hol_data_dtp_engagement_integration_scaffold_001` → scaffold SOP | Data Governance Office | Registry rows before build |
+| **Primary build** | `hol_data_dtp_ms_demo_factory_001` → MS demo factory SOP | RevOps Manager | Phase 1 Holistika tenant |
 | **Parallel** | Edge + ERP per integration plane | System Owner | Optional; not substitute for MS when funded |
 | **Registry** | `hol_data_dtp_contract_registry_mtnce_001` | Data Steward | Contracts active |
 | **Readiness** | `hol_data_dtp_bi_integration_readiness_001` | Data Steward | Automated probes PASS |
-| **Production** | `hol_data_dtp_production_readiness_001` | CDO / Data Governance Lead | On revenue booking |
+| **Production** | `hol_data_dtp_production_readiness_001` | CDO / Data Governance Office | On revenue booking |
 | **Pre-send gate** | Pre-send regression spec (6 layers) | Operator | Before any customer-pack PDF/mail send |
 | **External delivery** | External render discipline + brand baseline reality | Brand / Reach | Translated register; render trail fresh |
 | **Quality tranche** | `SOP-PEOPLE_SYNTHESIS_BEFORE_TRANCHE_001` class `canonical_csv_mint` | PMO | SYN sweep before commit |

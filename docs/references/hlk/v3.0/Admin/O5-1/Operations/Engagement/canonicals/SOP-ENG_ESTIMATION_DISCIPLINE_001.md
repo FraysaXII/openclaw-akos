@@ -71,7 +71,7 @@ Hourly rates (€/h) are anchored on the Madrid SME consulting market. Daily rat
 |:---|:---|---:|---:|---:|
 | Founder / Admin | Admin, O5-1 | 100 | 130 | 165 |
 | Strategic-C | CPO, COO, CFO, CMO, CDO, CTO | 80 | 110 | 145 |
-| Senior Operational | Holistik Researcher, Lead Researcher, Compliance, Organisation, PMO, SMO, Business Controller, Financial Controller, Brand Manager, Social Media Manager, Growth Manager, Data Architect, Lead Data Scientist, Data Governance Lead, Legal Counsel | 60 | 80 | 100 |
+| Senior Operational | Holistik Researcher, Lead Researcher, Compliance, Organisation, PMO, SMO, Business Controller, Financial Controller, Brand Manager, Social Media Manager, Growth Manager, Data Architect, Data Scientist, Data Governance Office, Legal Counsel | 60 | 80 | 100 |
 | Tech Lab Engineering | Tech Lead, AI Engineer, DevOPS, System Owner | 70 | 90 | 115 |
 | Operations / PM | Project Manager, Product Owner, Service Delivery Manager, Account Manager, Asset Manager, Pricing, Taxes, Front Office, O2C, PTP, Senior Researcher, Intelligence Analyst, OSINT Analyst, HUMINT Specialist, Ethics & Learning, Corporate Marketing, Talent, AV, Copywriter, Design, UX Designer, Community Manager, Paid Media Manager, Business Analyst, Data Engineer, Front-End Developer, Back-End Developer, Domain Specialist, Data Steward, Database Owner, Legal Consumer Specialist, Legal Collaborator Specialist | 45 | 60 | 75 |
 | Junior / Support | Private Researcher, Public, D-Class | 30 | 40 | 55 |

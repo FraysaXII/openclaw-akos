@@ -11,7 +11,7 @@ authors:
   - Founder/CEO
 co_authors:
   - PMO
-  - People Operations Lead
+  - People Operations Manager
 last_review: 2026-05-25
 last_review_by: Founder/CEO
 last_review_decision_id: D-IH-86-EA
@@ -103,7 +103,7 @@ Out of scope (per
 |:---|:---|
 | **Founder/CEO** (interim primary actor; current operator) | Author tranche-charter; classify tranche-class via inline-ratify when unclear; ratify finding dispositions; co-sign the synthesis report. |
 | **PMO** (current standing role) | Co-sign cluster-coordinator tranches (e.g., I86 wave-close charters); maintain the synthesis report index under `docs/wip/planning/<initiative>/reports/`. |
-| **People Operations Lead** (current standing role) | Maintain the cursor rule + skill + this SOP + doctrine in sync as the discipline matures from charter → active → promoted; review per-tranche-class fire rules quarterly. |
+| **People Operations Manager** (current standing role) | Maintain the cursor rule + skill + this SOP + doctrine in sync as the discipline matures from charter → active → promoted; review per-tranche-class fire rules quarterly. |
 | **AIC role_owner** (per `akos-people-discipline-of-disciplines.mdc` Rule 1) | An AIC operating in PMO or People Operations role may execute this SOP exactly like a human (AC-HUMAN side); MUST honor the 5-option disposition enum + cannot auto-default irreversible findings. |
 
 ## Inputs

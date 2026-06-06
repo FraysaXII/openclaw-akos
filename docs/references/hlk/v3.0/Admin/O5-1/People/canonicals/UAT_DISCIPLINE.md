@@ -11,7 +11,7 @@ authors:
   - System Owner
 co_authors:
   - PMO
-  - People Operations Lead
+  - People Operations Manager
 last_review: 2026-05-24
 last_review_by: PMO
 last_review_at: 2026-05-24

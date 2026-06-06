@@ -111,7 +111,7 @@ def run_self_test() -> int:
         "linked_decision_id": "D-IH-93-I",
         "notes": "fixture",
         "last_review_at": "2026-06-04",
-        "last_review_by": "Data Governance Lead",
+        "last_review_by": "Data Governance Office",
         "last_review_decision_id": "D-IH-93-I",
         "methodology_version_at_review": "v3.1",
     }

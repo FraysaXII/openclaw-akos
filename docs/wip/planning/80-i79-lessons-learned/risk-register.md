@@ -45,7 +45,7 @@ Single agent lands all P4+P5 retrofits in one session to maintain rubric consist
 
 **Likelihood.** Medium. **Impact.** Medium (stale lenses create onboarding friction; investor briefings reference outdated material).
 
-**Mitigation.** Annual scheduled review cadence + event_triggered review at major company state changes (Series A close; first regulated client; CEO/CRO role activation; ENISA submission). Process_list row at P2 binds the cadence: `tbi_peopl_dtp_stakeholder_lenses_review_001` (People Operations Lead; cadence_type scheduled annual + event_triggered).
+**Mitigation.** Annual scheduled review cadence + event_triggered review at major company state changes (Series A close; first regulated client; CEO/CRO role activation; ENISA submission). Process_list row at P2 binds the cadence: `tbi_peopl_dtp_stakeholder_lenses_review_001` (People Operations Manager; cadence_type scheduled annual + event_triggered).
 
 **Status.** Active. Forward-charter to first review at 2027-05-16.
 

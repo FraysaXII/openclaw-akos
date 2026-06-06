@@ -16,7 +16,7 @@ Tranche class: **specialty_mint** (Quality Fabric specialty promotion charter â†
 
 | Dimension | Finding | Disposition |
 |:---|:---|:---|
-| SYN-01 Audience | J-OP; System Owner; Data Governance Lead | scope-complete |
+| SYN-01 Audience | J-OP; System Owner; Data Governance Office | scope-complete |
 | SYN-02 Channel | internal vault + pre_commit automation | scope-complete |
 | SYN-04 Brand register | CORPINT-internal doctrine; no external surface | scope-complete |
 | SYN-05 Governance lineage | D-IH-86-BV + D-IH-90-AA cited | scope-complete |

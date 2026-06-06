@@ -6,11 +6,11 @@ closed_at: 2026-05-15
 closure_decision_id: D-IH-79-CLOSURE
 authored: 2026-05-15
 last_review: 2026-05-15
-owner_role: People Operations Lead
+owner_role: People Operations Manager
 co_owner_role: PMO
 tech_lab_co_owner_role: System Owner
 inception: 2026-05-15
-authority: Founder + PMO + People Operations Lead
+authority: Founder + PMO + People Operations Manager
 language: en
 linked_decisions:
   - D-IH-79-A (mega-charter — 10 phases incl. P3a/P3b split; 5 PAUSE; charter-satisfies-gate active immediately)

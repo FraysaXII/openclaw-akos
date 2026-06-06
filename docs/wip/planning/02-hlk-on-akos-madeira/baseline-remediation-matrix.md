@@ -102,7 +102,7 @@ docs/references/hlk/
                 Paid Media Manager/
             CDO/                       # Area: Data
               Data Architect/
-              Lead Data Scientist/
+              Data Scientist/
                 Business Analyst/
                 Data Engineer/
             CTO/                       # Area: Tech
@@ -207,9 +207,9 @@ Depends on: completion of `P1.DEP.1` (precedence), `P1.DEP.2` (taxonomy freeze),
 |------|--------|------|------------|----------------|----------------------|--------------------|----------------|
 | CDO | Think Big | Data | O5-1 | 0 | Review: likely 5 | Shallow | `role_full_description`, `responsible_processes` |
 | Data Architect | Think Big | Data | CDO | 0 | Review: likely 4 | Has description | `role_full_description` |
-| Lead Data Scientist | Think Big | Data | CDO | 4 | Confirm | Shallow | `role_full_description` |
-| Business Analyst | Think Big | Data | Lead Data Scientist | 3 | Confirm | Shallow | `role_full_description` |
-| Data Engineer | Think Big | Data | Lead Data Scientist | 3 | Confirm | Shallow | `role_full_description` |
+| Data Scientist | Think Big | Data | CDO | 4 | Confirm | Shallow | `role_full_description` |
+| Business Analyst | Think Big | Data | Data Scientist | 3 | Confirm | Shallow | `role_full_description` |
+| Data Engineer | Think Big | Data | Data Scientist | 3 | Confirm | Shallow | `role_full_description` |
 
 ### Think Big -- Tech (CTO chain)
 

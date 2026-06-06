@@ -9,7 +9,7 @@ source_taxonomy: holistika-internal-sop
 authors:
   - Data Steward
 co_authors:
-  - Data Governance Lead
+  - Data Governance Office
   - CDO
 last_review: 2026-06-04
 last_review_by: Data Steward
@@ -57,7 +57,7 @@ The authoritative golden record for **organisations and persons of interest** is
 | Role | Responsibility |
 |:---|:---|
 | **Data Steward** | Runs golden-record review; proposes merges |
-| **Data Governance Lead** | Ratifies merge decisions; updates decision log on conflicts |
+| **Data Governance Office** | Ratifies merge decisions; updates decision log on conflicts |
 | **Account Manager / PMO** | Business authority for partner/client GOI rows |
 
 ## Match / merge rules
@@ -74,7 +74,7 @@ The authoritative golden record for **organisations and persons of interest** is
 
 1. Run `py scripts/mdm_golden_record_check.py --report` (or `--json` for ERP panel).
 2. Review FAIL/WARN rows: duplicate keys, orphan `bridge_via`, invalid sensitivity.
-3. For proposed merges: document in initiative decision log; obtain Data Governance Lead ratification.
+3. For proposed merges: document in initiative decision log; obtain Data Governance Office ratification.
 4. Apply CSV edits in single atomic commit with `validate_hlk.py` PASS.
 5. Record quarterly review date on affected rows (`last_review_at`).
 

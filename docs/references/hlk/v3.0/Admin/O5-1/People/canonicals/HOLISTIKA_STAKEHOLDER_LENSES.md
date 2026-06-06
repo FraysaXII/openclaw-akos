@@ -7,10 +7,10 @@ confidence_level: A1
 source_taxonomy: holistika-internal-doctrine
 register: internal
 authors:
-  - People Operations Lead
+  - People Operations Manager
   - Founder
 last_review: 2026-05-16
-last_review_by: People Operations Lead
+last_review_by: People Operations Manager
 last_review_decision_id: D-IH-80-C
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -86,7 +86,7 @@ The first test is the canonical surface. Initiative register, decision register,
 
 The second test is the closure record. Every closed initiative carries a pause record — mechanical evidence (files created, validators that ran, tests added), documentary evidence (decisions encoded, cross-canonical link integrity, changelog entries), an operator approval checklist. The closure trail is a substitute for war-room interviews — the Investor reads what closed, when, with what trade-offs, with what carry-overs.
 
-The third test is the people doctrine itself. Holistika operates as a people-company-using-tech rather than a tech-company-using-people. The doctrine names this explicitly. People Operations Lead, Compliance Officer, Brand Manager, Holistik Researcher — each role is encoded in the organisational baseline with a clear purpose and clear acceptance criteria. The roles do not depend on specific individuals; the discipline does.
+The third test is the people doctrine itself. Holistika operates as a people-company-using-tech rather than a tech-company-using-people. The doctrine names this explicitly. People Operations Manager, Compliance Officer, Brand Manager, Holistik Researcher — each role is encoded in the organisational baseline with a clear purpose and clear acceptance criteria. The roles do not depend on specific individuals; the discipline does.
 
 The fourth test is defensibility against intellectual property leak. The methodology is encoded in canonicals, but it is also bounded by access levels. Collaborators see what their level reveals; the methodology's most sensitive parts stay at level 5 or higher. A talent-poaching event — the recurring fear in research-intensive companies — does not exfiltrate the methodology because the methodology is structural, not procedural.
 
@@ -152,7 +152,7 @@ The horizon does not change the lenses above. The Chief People Officer still min
 
 ## Maintenance
 
-This document is reviewed annually by the People Operations Lead with the Founder. Event-triggered review fires when major company state changes — funding round close, first regulated client engagement, executive role activation, regulatory submission, a substantive Agent-in-Charge promotion. Revisions are recorded in the decision register; the addendum companion is reviewed independently per its own cadence.
+This document is reviewed annually by the People Operations Manager with the Founder. Event-triggered review fires when major company state changes — funding round close, first regulated client engagement, executive role activation, regulatory submission, a substantive Agent-in-Charge promotion. Revisions are recorded in the decision register; the addendum companion is reviewed independently per its own cadence.
 
 When stakeholder definitions change (a new stakeholder class becomes load-bearing; an existing class deprecates), the change is encoded as a new lens section or a rewritten one with a new ratifying decision row.
 

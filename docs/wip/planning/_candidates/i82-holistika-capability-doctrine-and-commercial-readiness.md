@@ -111,11 +111,11 @@ Continuous execution estimate **≈ 7–10 engineer‑days excluding operator pa
 
 | ID | Question | Owner | Window |
 |:---|:---|:---|:---|
-| **C-82-1** | Doctrine final name (HOLISTIKA_CAPABILITY_DOCTRINE.md vs HOLISTIKA_ELOQUENCE_DOCTRINE.md vs other) | Founder + People Operations Lead | P0 inline-ratify |
+| **C-82-1** | Doctrine final name (HOLISTIKA_CAPABILITY_DOCTRINE.md vs HOLISTIKA_ELOQUENCE_DOCTRINE.md vs other) | Founder + People Operations Manager | P0 inline-ratify |
 | **C-82-2** | Confidence rating naming policy — SCP-cameo vs numbers vs plain language as PRIMARY vs cameo | Founder + Brand Manager | **P3** inline-ratify |
-| **C-82-3** | AI Archivist / KiRBe ingestor home — I82 internal vs **I83** forward‑charter (recommended: **I83**) | System Owner + People Operations Lead | P0 charter acknowledgement |
-| **C-82-4** | **Talent CSV tranche timing** vs **Capability registry** vs **integrity baseline sequencing** (`baseline` gate may land before OR after doctrine—default: **Doctrine P0 ratified → Talent CSV P1 queued → Capability registry awaits I81 integrity OR waiver**) | Founder + People Operations Lead | **P0** inline‑ratify |
-| **C-82-5** | Confidence rating cadence — ownership + conflict routing to `PRECEDENCE.md` | People Operations Lead + Operations/SMO | **P3** inline-ratify |
+| **C-82-3** | AI Archivist / KiRBe ingestor home — I82 internal vs **I83** forward‑charter (recommended: **I83**) | System Owner + People Operations Manager | P0 charter acknowledgement |
+| **C-82-4** | **Talent CSV tranche timing** vs **Capability registry** vs **integrity baseline sequencing** (`baseline` gate may land before OR after doctrine—default: **Doctrine P0 ratified → Talent CSV P1 queued → Capability registry awaits I81 integrity OR waiver**) | Founder + People Operations Manager | **P0** inline‑ratify |
+| **C-82-5** | Confidence rating cadence — ownership + conflict routing to `PRECEDENCE.md` | People Operations Manager + Operations/SMO | **P3** inline-ratify |
 | **C-82-6** | **Skip / waive** I81 integrity prerequisite for Capability registry acceptable when? (Only after explicit reversible decision with logged risk acceptance) | Founder + PMO | P0 charter |
 
 ## 5. Decision preview
@@ -123,9 +123,9 @@ Continuous execution estimate **≈ 7–10 engineer‑days excluding operator pa
 | ID | Question | Owner | Status entering | Close-out |
 |:---|:---|:---|:---|:---|
 | **D-IH-82-A** | Mega-charter scope — 4-facet doctrine | Founder | Proposed | P0 |
-| **D-IH-82-B** | Doctrine canonical home — `People/canonicals/` (matching existing 2 doctrines) | People Operations Lead | Recommended | P0 |
+| **D-IH-82-B** | Doctrine canonical home — `People/canonicals/` (matching existing 2 doctrines) | People Operations Manager | Recommended | P0 |
 | **D-IH-82-C** | Confidence rating naming — SCP-cameo + numbers + plain (multi-register posture) | Founder + Brand Manager | Proposed | **P3** |
-| **D-IH-82-D** | Capability inventory PK + FK posture (`SKILL_REGISTRY` linkage + `process_list` anchoring policy) | People Operations Lead | Proposed | **P2** |
+| **D-IH-82-D** | Capability inventory PK + FK posture (`SKILL_REGISTRY` linkage + `process_list` anchoring policy) | People Operations Manager | Proposed | **P2** |
 | **D-IH-82-PREREQ** | **Prerequisite waiver / acceptance** bridging I81 integrity deliverables ↔ I82 Capability registry readiness | Founder + PMO | Optional | **P2** entrance |
 | **D-IH-82-E** | Use case archive redaction policy — paraphrase default; case-by-case anonymise | Compliance Officer | Proposed | **P4** |
 

@@ -64,11 +64,11 @@ Append a short weekly note at `docs/wip/planning/72-marketing-area-governance-an
 
 ### 3.4 PMO interim handoff
 
-Until the RevOps Lead row flips from `gated_operator` to `active`, the weekly note copies PMO for visibility. Post-flip, RevOps Lead handles the operator-action follow-ups directly.
+Until the RevOps Manager row flips from `gated_operator` to `active`, the weekly note copies PMO for visibility. Post-flip, RevOps Manager handles the operator-action follow-ups directly.
 
 ## 4. Failure modes
 
-- `governance.engagement_revenue_view` query times out → escalate to RevOps Lead (Data-Engineer discipline per D-IH-72-AM); PMO interim until RevOps Lead activates per D-IH-72-AC.
+- `governance.engagement_revenue_view` query times out → escalate to RevOps Manager (Data-Engineer discipline per D-IH-72-AM); PMO interim until RevOps Manager activates per D-IH-72-AC.
 - `ENGAGEMENT_REGISTRY.csv` forecast cell empty → flag the row in the operator inbox; do not compute variance for that engagement.
 - Multiple weeks missed → next run authors a backfill note covering the gap window.
 

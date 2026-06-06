@@ -56,12 +56,12 @@ graph rework (I91) are **one workstream** — exactly the bidirectional coupling
 |:---|:---|:---|
 | **CDO** | oversees Data Architecture/Science/Engineering/Governance | **Accountable**; chairs the Semantic Council |
 | **Data Architect** | "structure of available data… current and future architecture"; authors SEMANTIC_LAYER + DATA_ARCHITECTURE | **HCAM metamodel author** (entity catalog + verb taxonomy) |
-| **Data Governance Lead** | "enterprise masterdata, **masterdata relationship management**, data quality standards" | **Relationship-registry owner** (valid-triple standards) |
+| **Data Governance Office** | "enterprise masterdata, **masterdata relationship management**, data quality standards" | **Relationship-registry owner** (valid-triple standards) |
 | **Data Steward** | "day-to-day… **masterdata relationship management**" | **Operational triple stewardship** |
 | **AI Engineer** (Tech) | "owns the **Neo4j knowledge graph**… GraphRAG… intersection of Data Architecture and Tech" | **Graph platform / engineering** |
 | **System Owner** (Tech) | "infrastructure and data governance" | **Platform custodian** for the store |
 
-The phrase **"masterdata relationship management"** is literally in the Data Governance Lead's and
+The phrase **"masterdata relationship management"** is literally in the Data Governance Office's and
 Data Steward's charters. HCAM's triples *are* masterdata relationship management. The fit is exact.
 
 ## 4. The external consensus: federated, Data-led
@@ -92,7 +92,7 @@ Data Steward's charters. HCAM's triples *are* masterdata relationship management
 - **Research: NO as owner, YES as contributor.** Research authors new canonical *concepts* and
   methodology — it **feeds** the entity catalog (a domain steward of the "Research" area). But it
   does not govern the operational metamodel or the graph. Owner ≠ contributor.
-- **Data (federated): YES — recommended.** Data Architect authors HCAM; Data Governance Lead owns
+- **Data (federated): YES — recommended.** Data Architect authors HCAM; Data Governance Office owns
   the relationship registry/standards; Data Steward maintains triples; AI Engineer/System Owner run
   the graph platform; CDO chairs a **Semantic Council** with one stakeholder per area (each area
   federates its own concepts); **People/Compliance keeps the area-governance *methodology*** (the
@@ -111,7 +111,7 @@ different homes.
   canonical** (sibling to SEMANTIC_LAYER.md) + stand up the Semantic Council + federated area-rep
   model." Lower roster churn, higher fidelity.
 - **Couple with I91** (graph rework) as one workstream.
-- **Keep the Data Governance Lead full name** (your Q2) — doubly justified now: they own the
+- **Keep the Data Governance Office full name** (your Q2) — doubly justified now: they own the
   relationship registry.
 
 ## 7. Cross-references

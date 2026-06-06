@@ -2,7 +2,7 @@
 language: en
 status: review
 canonical: true
-role_owner: PMO + RevOps Lead (forward; activates at P4 per D-IH-72-AC)
+role_owner: PMO + RevOps Manager (forward; activates at P4 per D-IH-72-AC)
 classification: way_of_working
 intellectual_kind: SOP
 ssot: true
@@ -67,7 +67,7 @@ The role_owner (PMO interim until P4 activation; RevOps Analyst post-activation)
 
 ### 4.2 QBR session (T-0; ~2-4 hours)
 
-Attendees: PMO + RevOps Lead (post-activation) + RevOps Analyst (post-activation) + CMO + COO (when activated). Agenda:
+Attendees: PMO + RevOps Manager (post-activation) + RevOps Analyst (post-activation) + CMO + COO (when activated). Agenda:
 
 1. **Reconciliation review** (~30 min): per-engagement revenue vs forecast; variance triage.
 2. **Template-portfolio review** (~30 min): per-template performance + promotion-candidate decisions.
@@ -103,13 +103,13 @@ All MUST be `PASS / OVERALL: PASS` before commit closes the QBR cycle.
 
 Per [`akos-executable-process-catalog.mdc`](../../../../../../../.cursor/rules/akos-executable-process-catalog.mdc) Rule 5:
 
-- **`acceptance_criteria_human`**: a human or AIC role_owner (PMO interim, RevOps Lead post-activation) can run the full §4 cycle manually using only the SOP body. Validator gates surface drift; humans/AICs make the decisions.
+- **`acceptance_criteria_human`**: a human or AIC role_owner (PMO interim, RevOps Manager post-activation) can run the full §4 cycle manually using only the SOP body. Validator gates surface drift; humans/AICs make the decisions.
 - **`acceptance_criteria_automation`**: the paired runbook validators fire unattended in CI; release-gate flips to FAIL on any promotion-gate violation surfaced by the QBR cycle's CSV updates.
 
 ## 7. Failure modes
 
 - **No engagement-revenue spine yet (pre-P7)**: manual per-engagement reconciliation against `FINOPS_COUNTERPARTY_REGISTER.csv`; QBR proceeds with manual data; report flags pre-spine reconciliation.
-- **RevOps Lead + RevOps Analyst not yet activated (pre-P4 activation post-I71 P5)**: PMO interim runs the QBR with reduced rigor; activation triggers re-baseline.
+- **RevOps Manager + RevOps Analyst not yet activated (pre-P4 activation post-I71 P5)**: PMO interim runs the QBR with reduced rigor; activation triggers re-baseline.
 - **Template-portfolio table reveals collision** (e.g., 2 templates serving same engagement_class with conflicting billing_cadence): block promotion candidates; surface at next QBR with merged-template proposal.
 - **Operator unavailable for QBR**: cycle-skipped report drafted; risks flagged for asynchronous review; next QBR catches up backlog.
 

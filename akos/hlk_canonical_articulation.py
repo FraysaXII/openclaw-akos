@@ -15,7 +15,7 @@ Two registries (both Data-Architecture canonicals, sibling to ``METRICS_REGISTRY
   *graph type*). The ``neo4j_edge_type`` column pre-wires the I91 graph unify (C): forked
   edges (PARENT_OF / PROGRAM_PARENT_OF / TOPIC_PARENT_OF) collapse to one COMPOSITION edge.
 
-Ownership: Data-federated (D-IH-95-A/B). Data Architect authors; Data Governance Lead owns
+Ownership: Data-federated (D-IH-95-A/B). Data Architect authors; Data Governance Office owns
 the relationship registry; Data Steward operates; CDO chairs the Semantic Council.
 """
 from __future__ import annotations

@@ -312,7 +312,7 @@ kirbe_duality:
   primary_owner_role: CTO
     # plan default per D-IH-16; override only if KiRBe is reassigned.
 
-  data_governance_lead_role: Data Governance Lead
+  data_governance_lead_role: Data Governance Office
     # confirmed: owns thi_data_dtp_274 (KiRBe Ingestion DQ Monitoring) day-to-day.
 
   business_controller_role: Business Controller

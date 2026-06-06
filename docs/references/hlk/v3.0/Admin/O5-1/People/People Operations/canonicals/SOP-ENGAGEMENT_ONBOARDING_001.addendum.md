@@ -2,14 +2,14 @@
 language: en
 status: active
 canonical: true
-role_owner: People Operations Lead
+role_owner: People Operations Manager
 co_owner_role: PMO
 area: People
 entity: Holistika
 intellectual_kind: sop-addendum
 authored: 2026-05-16
 last_review: 2026-05-16
-last_review_by: People Operations Lead
+last_review_by: People Operations Manager
 last_review_decision_id: D-IH-80-D
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -59,7 +59,7 @@ Supabase is read-mostly for People (SQL gates per `akos-holistika-operations.mdc
 
 HLK-ERP at `127.0.0.1:18789` is the role-owner-facing surface for engagement operations: list view of active engagements, drill-down to engagement panel (per-engagement page with current status + recent commits + recent FINOPS events), and routing to upstream systems.
 
-People Operations Lead uses HLK-ERP for daily operations; the four-channel persistence ensures the data shown in HLK-ERP is consistent with git canonical + drive operational + SQL projection at any moment. Drift between channels is an audit finding.
+People Operations Manager uses HLK-ERP for daily operations; the four-channel persistence ensures the data shown in HLK-ERP is consistent with git canonical + drive operational + SQL projection at any moment. Drift between channels is an audit finding.
 
 ## B. Apprentice curriculum integration (D-IH-73-K)
 
@@ -75,7 +75,7 @@ The runbook binds the apprentice to:
 - A `methodology_version_at_onboarding:` field (the methodology version current at start; preserved through the apprenticeship for audit-trail of what the apprentice was taught).
 - A `curriculum_path` (which 12-module sequence; default is the Holistik Researcher onboarding sequence).
 
-After binding, the apprentice's onboarding folder in `Think Big/Apprentices/<name>/` carries a `curriculum/` sub-folder mirroring the chosen sequence + a per-module progress file. The Learning Lead (or equivalent role-owner per baseline_organisation) takes over from People Operations Lead for the duration of the apprenticeship; offboarding (graduation or withdrawal) routes back to People Operations Lead per `SOP-ENGAGEMENT_OFFBOARDING_001.md`.
+After binding, the apprentice's onboarding folder in `Think Big/Apprentices/<name>/` carries a `curriculum/` sub-folder mirroring the chosen sequence + a per-module progress file. The Learning Lead (or equivalent role-owner per baseline_organisation) takes over from People Operations Manager for the duration of the apprenticeship; offboarding (graduation or withdrawal) routes back to People Operations Manager per `SOP-ENGAGEMENT_OFFBOARDING_001.md`.
 
 ## C. Access-level routing matrix
 
@@ -100,7 +100,7 @@ Body §2 notes "Out of scope: RevOps revenue recognition; FINOPS fact inserts." 
 - **RevOps boundary**: Revenue recognition for `percentage_collaborator` engagements happens at RevOps spine (`Operations/RevOps/canonicals/REVOPS_PROCESS_CATALOG.yaml` per I72 P8). When People Ops onboards a percentage-collaborator engagement, the RevOps spine is notified via the `compliance.engagement_registry_mirror` projection; RevOps reads new rows on its own cadence and configures revenue-share tracking in their pipeline.
 - **FINOPS boundary**: Monetary fact inserts (`finops.registered_fact`) happen on revenue-event detection (Stripe webhook → `holistika_ops.lead_intake` → FINOPS). People Ops onboarding sets up the `finops_counterparty_id:` on the engagement instance; FINOPS reads the FK on its own cadence and processes monetary events.
 
-People Operations Lead does NOT author RevOps or FINOPS rows directly; the cross-area integration is FK-projected.
+People Operations Manager does NOT author RevOps or FINOPS rows directly; the cross-area integration is FK-projected.
 
 ## E. Operator framing decisions encoded
 

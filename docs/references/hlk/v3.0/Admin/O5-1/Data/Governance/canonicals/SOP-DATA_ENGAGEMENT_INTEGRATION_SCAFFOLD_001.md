@@ -7,13 +7,13 @@ access_level: 4
 confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
-  - Data Governance Lead
+  - Data Governance Office
 co_authors:
   - Data Architect
   - System Owner
-  - RevOps Lead
+  - RevOps Manager
 last_review: 2026-06-04
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_decision_id: D-IH-93-J
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -68,12 +68,12 @@ batch** (e.g. F-05 libellé, F-05 dispute register).
 
 | Stage | Process / artefact | Owner | Gate |
 |:---|:---|:---|:---|
-| **Upstream — charter** | Engagement folder + `ENG-*` registry row when exists | RevOps Lead | Engagement id known |
+| **Upstream — charter** | Engagement folder + `ENG-*` registry row when exists | RevOps Manager | Engagement id known |
 | **Upstream — commercial** | `SOP-ENG_ESTIMATION_DISCIPLINE_001` + `scripts/estimate_engagement.py` | Project Manager | Integration effort in scope |
 | **Upstream — research** | `SOP-RESEARCH_ACTION_001` when stack posture novel | Research Director | Source ledger before new doctrine |
-| **This SOP** | `hol_data_dtp_engagement_integration_scaffold_001` | Data Governance Lead | Registry tranche before build |
-| **Downstream — MS** | `hol_data_dtp_ms_demo_factory_001` | RevOps Lead | Microsoft stack declared |
-| **Downstream — scenario** | e.g. `SOP-DATA_SUEZ_LIBELLE_001.md` | Data Governance Lead | Engagement-specific |
+| **This SOP** | `hol_data_dtp_engagement_integration_scaffold_001` | Data Governance Office | Registry tranche before build |
+| **Downstream — MS** | `hol_data_dtp_ms_demo_factory_001` | RevOps Manager | Microsoft stack declared |
+| **Downstream — scenario** | e.g. `SOP-DATA_SUEZ_LIBELLE_001.md` | Data Governance Office | Engagement-specific |
 | **Downstream — readiness** | `hol_data_dtp_bi_integration_readiness_001` | Data Steward | Automated PASS |
 | **Downstream — production** | `hol_data_dtp_production_readiness_001` | CDO | Revenue booked |
 | **Parallel — contracts** | `hol_data_dtp_contract_registry_mtnce_001` | Data Steward | Same tranche or prior |
@@ -95,7 +95,7 @@ batch** (e.g. F-05 libellé, F-05 dispute register).
 6. **Mint or update BI consumer** — tier + `component_id` FK in `BI_CONSUMER_REGISTRY.csv`.
 7. **Matrix tranche** — row exists in `COMPONENT_SERVICE_MATRIX`; `integration_pattern` set.
 8. **Route downstream SOP** — Microsoft → `SOP-DATA_MS_DEMO_FACTORY_001.md`; engagement scenario → e.g. `SOP-DATA_SUEZ_LIBELLE_001.md`.
-9. **Sign checklist** — Data Governance Lead records stream + Phase 1 location in engagement folder.
+9. **Sign checklist** — Data Governance Office records stream + Phase 1 location in engagement folder.
 
 ## Dual-path reference (MS primary vs Edge parallel)
 

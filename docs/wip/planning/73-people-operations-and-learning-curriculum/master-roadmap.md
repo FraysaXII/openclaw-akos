@@ -3,11 +3,11 @@ initiative_id: INIT-OPENCLAW_AKOS-73
 title: People Operations + Engagement Models + Methodology IP (mega-initiative)
 status: closed
 closed_at: 2026-05-15
-owner_role: People Operations Lead
+owner_role: People Operations Manager
 co_owner_role: PMO
 inception: 2026-05-15
 last_review: 2026-05-15
-authority: Founder + PMO + People Operations Lead
+authority: Founder + PMO + People Operations Manager
 language: en
 linked_decisions:
   - D-IH-73-A (mega-i73 scope ratification — 8 strands; 11 phases)

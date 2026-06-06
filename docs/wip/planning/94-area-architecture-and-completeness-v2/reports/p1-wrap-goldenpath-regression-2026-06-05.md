@@ -56,7 +56,7 @@ emits the worklist (incl. the literal `git mv` for drift). AC-HUMAN + AC-AUTOMAT
 | W-1 | `--next` worklist emits owner + exact next action | **worked** — this is the activation lever; converges Finance/Data to 1 item | keep |
 | W-2 | critical-vs-enhancing split keeps closures (Data/Finance COMPLETE) | **worked** | keep |
 | W-3 | AREA-15 names the drifted files + the `git mv` (People) | **worked** — the placement check earns its keep | keep |
-| W-4 | **AREA-16 over-flags `Governance`/`Architecture`/`Science`** as orphans | **did NOT work as intended** — these are legitimate *functional sub-areas* (Data Architect, Data Governance Lead are the roles; folders use the short functional form), and Data/Finance roles carry **empty `sub_area`** so there is nothing to match | **defer-OPS / forward-charter** — AREA-16 matcher needs keyword/substring tolerance OR a functional-sub-area allowlist; it is **enhancing** so it does not block closure (no harm, only noise) |
+| W-4 | **AREA-16 over-flags `Governance`/`Architecture`/`Science`** as orphans | **did NOT work as intended** — these are legitimate *functional sub-areas* (Data Architect, Data Governance Office are the roles; folders use the short functional form), and Data/Finance roles carry **empty `sub_area`** so there is nothing to match | **defer-OPS / forward-charter** — AREA-16 matcher needs keyword/substring tolerance OR a functional-sub-area allowlist; it is **enhancing** so it does not block closure (no harm, only noise) |
 | W-5 | Templates resolve from the SOP `linked_canonicals` | **worked** | keep |
 
 **Key revisit (W-4):** the "sub-folder = role" doctrine is right for **role-organized** areas

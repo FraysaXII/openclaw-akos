@@ -10,7 +10,7 @@ authors:
   - Founder/CEO
 co_authors:
   - PMO
-  - People Operations Lead
+  - People Operations Manager
   - Legal Counsel
 last_review: 2026-05-27
 last_review_by: System Owner (AIC)

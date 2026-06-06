@@ -4,7 +4,7 @@ last_review: 2026-05-15
 authoring_initiative: I73 P1
 canonical_id: engagement_model_registry
 owning_area: People
-owning_role: People Operations Lead
+owning_role: People Operations Manager
 artifact_type: dimension_schema_spec
 language: en
 ---
@@ -67,7 +67,7 @@ The registry promotes the **retribution × SOC × IP × knowledge-access** axes 
 - Parent decision: [`decision-log.md`](../../../../../../../wip/planning/73-people-operations-and-learning-curriculum/decision-log.md) — D-IH-73-C sibling-dimension placement + D-IH-73-D 7-class taxonomy + D-IH-73-E outsourced SOC posture + D-IH-73-H..M per-class enum ratifications.
 - Sibling dimension: [`ENGAGEMENT_REGISTRY.csv`](../../../Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv) — engagement *instances*; carries `engagement_model_id` FK column added at I73 P1.
 - [`access_levels.md`](../../../Compliance/canonicals/access_levels.md) — `access_level_default` integer 0-6.
-- [`baseline_organisation.csv`](../../../Compliance/canonicals/baseline_organisation.csv) — Data Owner = `People Operations Lead` (org_uuid `d4e5f6a7-7070-4bbb-d002-000000000003`; sub_area=People Operations).
+- [`baseline_organisation.csv`](../../../Compliance/canonicals/baseline_organisation.csv) — Data Owner = `People Operations Manager` (org_uuid `d4e5f6a7-7070-4bbb-d002-000000000003`; sub_area=People Operations).
 - [`FOUNDER_TRAJECTORY_INTERNAL.md`](../../../canonicals/FOUNDER_TRAJECTORY_INTERNAL.md) §2 — case-law evidence (Bâtard / Mark-II / Alias V / RCD Legal / L'Oréal arrangement); `access_level=5 register=internal`.
 - [`PRECEDENCE.md`](../../../Compliance/canonicals/PRECEDENCE.md) — canonical + mirror class declaration.
 - [`HLK_KM_TOPIC_FACT_SOURCE.md`](../../../Compliance/canonicals/HLK_KM_TOPIC_FACT_SOURCE.md) — KM Topic-Fact-Source contract; engagement-models are facts about engagement-class governance.
@@ -90,7 +90,7 @@ The companion DDL [`supabase/migrations/20260515180001_i73_engagement_registry_a
 
 ## 7. Related SOPs and process_list rows
 
-- `tbi_peopl_dtp_engagement_model_registry_mtnce_001` — Engagement Model Registry maintenance (P1 mint; Data Owner: People Operations Lead).
+- `tbi_peopl_dtp_engagement_model_registry_mtnce_001` — Engagement Model Registry maintenance (P1 mint; Data Owner: People Operations Manager).
 - `tbi_peopl_dtp_engagement_model_classification_001` — Per-engagement classification at intake (P1 mint; called from P3 SOP-ENGAGEMENT_HIRING_LIFECYCLE_001).
 - `tbi_peopl_dtp_engagement_lifecycle_routing_001` — Routing engagement to correct lifecycle SOP at intake (P1 mint).
 - `tbi_peopl_dtp_outsourced_helper_soc_review_001` — SOC posture review for outsourced helpers (P1 mint per D-IH-73-E).

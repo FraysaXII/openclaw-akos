@@ -59,7 +59,7 @@ Cross-reference: [I81 master-roadmap §2](master-roadmap.md#2-charter-decisions-
 
 | ID | Question | Owner | Close-out phase | Status |
 |:---|:---|:---|:---|:---|
-| D-IH-81-D | Forward-extension to non-SOP canonicals (registries + doctrines) | People Operations Lead | P9 | open |
+| D-IH-81-D | Forward-extension to non-SOP canonicals (registries + doctrines) | People Operations Manager | P9 | open |
 | D-IH-81-F | Integrity matrix methodology + PASS threshold — what constitutes CLOSED-P1? | PMO + System Owner | P1 | **ratified 2026-05-19 at P1 close (Wave H lane-2)** |
 | D-IH-81-G | Layout migration wave plan — which root files move in which tranche; deprecation-alias policy | Data Architect + Compliance Officer | P2 (per-tranche) | open |
 | D-IH-81-I | Validator wiring scope + strictness — `validate_hlk.py` umbrella + `release-gate.py` + `pre_commit` profile + transition-window allowlist | System Owner | P3 | open |

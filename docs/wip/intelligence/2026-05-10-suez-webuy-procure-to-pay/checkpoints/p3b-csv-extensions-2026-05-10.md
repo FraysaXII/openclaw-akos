@@ -28,7 +28,7 @@ Per SOP-ENG_ESTIMATION_DISCIPLINE_001 §4 and operator instruction "Update the r
 |:---|:---|:---|
 | T1 Founder Time | 100 / 130 / 165 | Admin, O5, O5-1 |
 | T2 Strategic-C | 80 / 110 / 145 | CTO, CFO, CMO, COO, CPO, CDO |
-| T3 Senior Operational | 60 / 80 / 100 | Holistik Researcher, Lead Researcher, Brand Manager, Compliance, Organisation, Talent, PMO, SMO, Business Controller, Financial Controller, Social Media Manager, Growth Manager, Data Architect, Lead Data Scientist, Data Governance Lead, Legal Counsel |
+| T3 Senior Operational | 60 / 80 / 100 | Holistik Researcher, Lead Researcher, Brand Manager, Compliance, Organisation, Talent, PMO, SMO, Business Controller, Financial Controller, Social Media Manager, Growth Manager, Data Architect, Data Scientist, Data Governance Office, Legal Counsel |
 | T4 Tech Lab Engineering | 70 / 90 / 115 | Tech Lead, AI Engineer, DevOPS, System Owner |
 | T5 Operations / PM | 45 / 60 / 75 | Project Manager, Product Owner, Service Delivery Manager, Account Manager, Asset Manager, Pricing, Taxes, Front Office, O2C, PTP, Senior Researcher, Intelligence Analyst, OSINT Analyst, HUMINT Specialist, Ethics & Learning, Corporate Marketing, AV, Copywriter, Design, UX Designer, Community Manager, Paid Media Manager, Business Analyst, Data Engineer, Front-End Developer, Back-End Developer, Domain Specialist, Data Steward, Database Owner, Legal Consumer Specialist, Legal Collaborator Specialist |
 | T6 Junior / Support | 30 / 40 / 55 | Private Researcher, Public, D-Class |

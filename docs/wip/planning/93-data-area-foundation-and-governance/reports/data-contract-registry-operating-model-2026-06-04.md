@@ -4,7 +4,7 @@ parent_initiative: INIT-OPENCLAW_AKOS-93
 feeds_phase: P2b
 status: active
 audience: J-OP
-role_owner: Data Governance Lead
+role_owner: Data Governance Office
 language: en
 authored: 2026-06-04
 last_review: 2026-06-04

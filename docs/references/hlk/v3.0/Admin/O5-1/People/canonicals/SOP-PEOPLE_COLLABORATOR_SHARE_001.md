@@ -11,7 +11,7 @@ authors:
   - Founder/CEO
 co_authors:
   - PMO
-  - People Operations Lead
+  - People Operations Manager
   - Legal Counsel
 last_review: 2026-05-26
 last_review_by: Founder/CEO
@@ -70,7 +70,7 @@ Paired with runbook
 + sync emit
 [`scripts/sync_compliance_mirrors_from_csv.py --collaborator-share-only`](../../../../../../scripts/sync_compliance_mirrors_from_csv.py)
 per [`akos-executable-process-catalog.mdc`](../../../../../../.cursor/rules/akos-executable-process-catalog.mdc)
-RULE 1. Either the Founder/CEO + People Operations Lead — or an AIC
+RULE 1. Either the Founder/CEO + People Operations Manager — or an AIC
 role_owner per [`akos-people-discipline-of-disciplines.mdc`](../../../../../../.cursor/rules/akos-people-discipline-of-disciplines.mdc)
 forward — executes via this SOP, OR the runbook fires on demand at the
 trigger moment. Both surfaces are SSOT for the same process.

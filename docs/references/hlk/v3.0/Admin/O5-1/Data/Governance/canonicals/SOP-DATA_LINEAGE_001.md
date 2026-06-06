@@ -10,7 +10,7 @@ authors:
   - Data Architect
 co_authors:
   - Data Engineer
-  - Data Governance Lead
+  - Data Governance Office
 last_review: 2026-06-04
 last_review_by: Data Architect
 last_review_decision_id: D-IH-93-D
@@ -82,7 +82,7 @@ no orphan `data_surface=graph` contracts without sync path documented.
 ## Escalation
 
 Graph parity FAIL → Data Engineer → Database Owner → System Owner.
-Contract missing for live mirror → Data Steward → Data Governance Lead.
+Contract missing for live mirror → Data Steward → Data Governance Office.
 
 ## Cross-references
 

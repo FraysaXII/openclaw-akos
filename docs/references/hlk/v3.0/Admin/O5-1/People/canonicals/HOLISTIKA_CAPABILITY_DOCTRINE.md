@@ -103,7 +103,7 @@ Holistika capabilities are borne by two parallel-tree classes that overlay the e
 | Talent-H concern | Inherited from existing role | Rationale |
 |:---|:---|:---|
 | **Bearer-class authority** | `CPO` (existing; level 5; oversees People area) | CPO already owns People-area accountability; bearer-class typing is a refinement of that accountability, not a parallel function. |
-| **Engagement coordination** | `People Operations Lead` (existing; level 4; HR ops + hiring + onboarding) | Engagement-routing of human bearers is a refinement of People Operations' existing onboarding/lifecycle scope, not a new role. |
+| **Engagement coordination** | `People Operations Manager` (existing; level 4; HR ops + hiring + onboarding) | Engagement-routing of human bearers is a refinement of People Operations' existing onboarding/lifecycle scope, not a new role. |
 | **Confidence rating curation** | **Capability Curator** (NEW row; level 4; reports to CPO; minted in this P1 commit) | Genuinely novel: distinct from Ethics Advisor (harm/refuse-conditions) and Learning Curator (curriculum/methodology). Capability Curator owns the per-capability confidence-rating discipline minted in I82 P3 (per §6 5-dimension confidence taxonomy). |
 
 **Net-new Talent-H rows minted at P1 (atomic with this doctrine promotion):**

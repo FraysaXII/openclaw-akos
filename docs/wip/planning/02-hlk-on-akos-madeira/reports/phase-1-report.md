@@ -130,9 +130,9 @@ Closed the cohesion gap between `process_list.csv` and `baseline_organisation.cs
 | Front-End Developer | org_043 | DevOPS | Tech | HLK Tech Lab | 3 |
 | Back-End Developer | org_044 | DevOPS | Tech | HLK Tech Lab | 3 |
 | Domain Specialist | org_045 | System Owner | Tech | HLK Tech Lab | 3 |
-| Data Governance Lead | org_046 | CDO | Data | HLK Tech Lab | 4 |
-| Data Steward | org_047 | Data Governance Lead | Data | HLK Tech Lab | 3 |
-| Database Owner | org_048 | Data Governance Lead | Tech | HLK Tech Lab | 3 |
+| Data Governance Office | org_046 | CDO | Data | HLK Tech Lab | 4 |
+| Data Steward | org_047 | Data Governance Office | Data | HLK Tech Lab | 3 |
+| Database Owner | org_048 | Data Governance Office | Tech | HLK Tech Lab | 3 |
 | UX Designer | org_049 | Brand Manager | Marketing | Think Big | 3 |
 | Growth Manager | org_050 | CMO | Marketing | Think Big | 4 |
 | Legal Counsel | org_051 | CPO | Legal | Think Big | 4 |

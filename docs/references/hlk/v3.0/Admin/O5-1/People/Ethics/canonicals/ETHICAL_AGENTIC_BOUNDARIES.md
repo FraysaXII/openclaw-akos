@@ -79,7 +79,7 @@ If an agent's work product (or proposed action) crosses a red line above:
 
 1. The work product is suspended.
 2. Ethics Advisor is notified immediately. The notification carries the agent's named role, the artifact, the red line crossed, and the SOP step in which the crossing occurred.
-3. People Operations Lead is notified concurrently per [`SOP-PEOPLE_AGENTIC_OPERATIONS_001.md`](../../canonicals/SOP-PEOPLE_AGENTIC_OPERATIONS_001.md) §6 (escalation routing) so the agent can be suspended from the relevant role scope until Ethics signs off.
+3. People Operations Manager is notified concurrently per [`SOP-PEOPLE_AGENTIC_OPERATIONS_001.md`](../../canonicals/SOP-PEOPLE_AGENTIC_OPERATIONS_001.md) §6 (escalation routing) so the agent can be suspended from the relevant role scope until Ethics signs off.
 4. The crossing is logged in the agent's monthly knowledge-test result file with a pointer to the Ethics record.
 5. After review, Ethics Advisor records one of three outcomes:
    - **Doctrine reaffirmed** — the red line was genuinely crossed; agent's role is reduced or its named scope is revised.
@@ -97,7 +97,7 @@ Owned by Ethics Advisor. Hybrid review cadence (ratified at I79 P3a inline-ratif
 
 The hybrid covers the operator's intent: stability when the company is in a steady state, responsiveness when escalations or doctrine revisions reveal that a red line needs to move.
 
-When a red line is added, removed, or revised, a `D-IH-79-*` (or successor-initiative) decision row is minted; the cross-area breakthrough propagation pattern fires per [`SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md`](../../canonicals/SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md) (P4 deliverable). Tech Lab is pinged so the framework landscape stays in sync; People Operations Lead updates the knowledge-test bank to cover the new line.
+When a red line is added, removed, or revised, a `D-IH-79-*` (or successor-initiative) decision row is minted; the cross-area breakthrough propagation pattern fires per [`SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md`](../../canonicals/SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001.md) (P4 deliverable). Tech Lab is pinged so the framework landscape stays in sync; People Operations Manager updates the knowledge-test bank to cover the new line.
 
 The anti-jargon drift gate ([`scripts/validate_design_pattern_registry.py --jargon-scan`](../../../../../../../scripts/validate_design_pattern_registry.py)) covers this canonical because it lives in a People-area subtree (Ethics is a People sub-role per `D-IH-70-Q`). Red lines must read in plain language so the audience can act on them.
 

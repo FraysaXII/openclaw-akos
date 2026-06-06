@@ -94,12 +94,12 @@ First articulation run: Data 3/8, Marketing 5/7, Tech 4/5, People 7/9, Finance 1
   council's `process_list` row + member instantiation land with the Q2 baseline tranche.
 
 ### Pending sub-decisions (to ratify at each gate)
-- **GATED (next):** Q2 Lead-simplification baseline tranche (keep Data Governance Lead) +
+- **GATED (next):** Q2 Lead-simplification baseline tranche (keep Data Governance Office) +
   Storytelling→Brand merge (`D-IH-72-AO`) + council `process_list` row — one operator-approved
   `baseline_organisation`/`process_list` session.
 - **D-IH-95-E** — HCAM ownership + doctrine home. **Corrected recommendation (2026-06-05, Prong E,
   53 sources):** home HCAM in **Data** as the entity/relationship tier of `SEMANTIC_LAYER.md`,
-  governed **federated** (Data Architect authors; Data Governance Lead owns the relationship
+  governed **federated** (Data Architect authors; Data Governance Office owns the relationship
   registry — their charter says "masterdata relationship management"; Data Steward operates; AI
   Engineer/System Owner run the graph platform; CDO chairs a **Semantic Council** with one rep per
   area; **People/Compliance keeps the area-governance *methodology***). **Not** Learning Curator→KM

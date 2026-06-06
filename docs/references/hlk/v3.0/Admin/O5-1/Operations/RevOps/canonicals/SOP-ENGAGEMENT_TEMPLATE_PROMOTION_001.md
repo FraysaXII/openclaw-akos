@@ -2,7 +2,7 @@
 language: en
 status: review
 canonical: true
-role_owner: PMO + RevOps Lead (forward; activates at P4 per D-IH-72-AC)
+role_owner: PMO + RevOps Manager (forward; activates at P4 per D-IH-72-AC)
 classification: way_of_working
 intellectual_kind: SOP
 ssot: true
@@ -34,7 +34,7 @@ In scope:
 - Process row: `tbi_mkt_dtp_revops_template_promotion_001` in `process_list.csv` (operator-gated cadence per `D-IH-72-Q`).
 
 Out of scope:
-- Authoring net-new templates (separate SOP at P8 process catalog mint; until then, operator + RevOps Lead author directly into the registry CSV with `lifecycle_status=scaffold`).
+- Authoring net-new templates (separate SOP at P8 process catalog mint; until then, operator + RevOps Manager author directly into the registry CSV with `lifecycle_status=scaffold`).
 - Per-engagement instance lifecycle (governed by `ENGAGEMENT_REGISTRY.csv` + future `SOP-ENGAGEMENT_INSTANCE_LIFECYCLE_001.md` at P10 closing UAT).
 
 ## 3. Inputs
@@ -47,7 +47,7 @@ Out of scope:
 
 ### 4.1 Pre-promotion evidence pack
 
-The role_owner (PMO interim until P4; RevOps Lead post-P4) assembles:
+The role_owner (PMO interim until P4; RevOps Manager post-P4) assembles:
 
 1. **Reference engagement instance(s)**: cite at least one `engagement_id` in `ENGAGEMENT_REGISTRY.csv` whose actual shape (engagement_class + value_band + duration + discipline_mix) matched the template's contract.
 2. **Variance report**: any deviation between the template's prescribed shape and the reference instance's actual shape; rationale per deviation.

@@ -91,7 +91,7 @@ py scripts/validate_hlk_vault_links.py           # PASS (TODO markers per D-IH-7
 
 ## Forward-charters
 
-- **TODO[I73-OPS-LEAD]** markers in adapter rows that reference People Operations Lead (will activate when I73 ships).
+- **TODO[I73-OPS-LEAD]** markers in adapter rows that reference People Operations Manager (will activate when I73 ships).
 - **TODO[I72-FOLLOWUP-MADEIRA-RUNBOOK]** in `SOP-MADEIRA_REVOPS_HANDOFF_001.md` §3.2 — actual MADEIRA invocation surface specification.
 - 2 SOPs deferred (Tech/Data observability + Data/Gov bridges) — will land in a Tech/Data successor initiative when prioritized.
 

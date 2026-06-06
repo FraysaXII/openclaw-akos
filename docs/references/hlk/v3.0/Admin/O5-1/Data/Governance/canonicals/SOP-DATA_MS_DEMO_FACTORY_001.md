@@ -7,12 +7,12 @@ access_level: 4
 confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
-  - Data Governance Lead
+  - Data Governance Office
 co_authors:
-  - RevOps Lead
+  - RevOps Manager
   - System Owner
 last_review: 2026-06-04
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_decision_id: D-IH-93-J
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -72,8 +72,8 @@ prior client work (`source-grounding-post-handshake-2026-05-26.md` §3.2, §5).
 
 | Role | Responsibility in this SOP |
 |:---|:---|
-| **RevOps Lead** | Owns demo-factory execution coordination; adapter lifecycle |
-| **Data Governance Lead** | Signs registry tranche + stream declaration |
+| **RevOps Manager** | Owns demo-factory execution coordination; adapter lifecycle |
+| **Data Governance Office** | Signs registry tranche + stream declaration |
 | **System Owner** | Tenant auth gate; Edge parallel proof when PA blocked |
 | **AIC (hybrid methods)** | Runs deterministic CLI or Browser steps under operator watch |
 
@@ -99,11 +99,11 @@ Registry SSOT: `akos/hlk_ms_demo_methods.py` (must match this table; drift test 
 
 | Stage | Process / artefact | Owner | Gate |
 |:---|:---|:---|:---|
-| **Upstream** | `hol_data_dtp_engagement_integration_scaffold_001` | Data Governance Lead | Scaffold signed first |
+| **Upstream** | `hol_data_dtp_engagement_integration_scaffold_001` | Data Governance Office | Scaffold signed first |
 | **Upstream** | `hol_data_dtp_contract_registry_mtnce_001` | Data Steward | Contract rows per surface |
 | **Upstream** | `SOP-ENG_ESTIMATION_DISCIPLINE_001` (build methods in scope.yaml) | Project Manager | Effort for `build_prototype_excel` / `build_webapp` |
-| **This SOP** | `hol_data_dtp_ms_demo_factory_001` | RevOps Lead | Phase 1 demo complete |
-| **Scenario** | `SOP-DATA_SUEZ_LIBELLE_001.md` (when ENG-SUEZ-WEBUY-2026) | Data Governance Lead | F-05-specific routing |
+| **This SOP** | `hol_data_dtp_ms_demo_factory_001` | RevOps Manager | Phase 1 demo complete |
+| **Scenario** | `SOP-DATA_SUEZ_LIBELLE_001.md` (when ENG-SUEZ-WEBUY-2026) | Data Governance Office | F-05-specific routing |
 | **Downstream** | `hol_data_dtp_bi_integration_readiness_001` | Data Steward | Probes before commit |
 | **Downstream** | `hol_data_dtp_production_readiness_001` | CDO | On revenue |
 | **Pre-send** | Pre-send regression spec (L1–L6) | Operator | Before customer PDF |
@@ -120,7 +120,7 @@ Registry SSOT: `akos/hlk_ms_demo_methods.py` (must match this table; drift test 
 5. **Wire reporting** — Power BI or ERP export view row if demo spec includes dashboard tile.
 6. **Capture evidence** — screenshots + short operator validation note; **no** prior-client imagery.
 7. **Registry tranche** — activate `power_platform` adapter + `BI-HOL-POWER-PLATFORM` consumer; matrix FK resolves.
-8. **Sign-off** — RevOps Lead + Data Governance Lead confirm demo matches spec **intent** (wording in customer-pack may stay counterparty-facing).
+8. **Sign-off** — RevOps Manager + Data Governance Office confirm demo matches spec **intent** (wording in customer-pack may stay counterparty-facing).
 9. **Production promotion** — when engagement revenue lands, invoke `SOP-DATA_PRODUCTION_READINESS_001.md` (do not defer because vendor labels a feature "alpha").
 
 ## Steps (AC-AUTOMATION)

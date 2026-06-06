@@ -2,7 +2,7 @@
 language: en
 status: active
 canonical: true
-role_owner: CDO + Data Governance Lead
+role_owner: CDO + Data Governance Office
 classification: way_of_working
 intellectual_kind: charter
 ssot: true
@@ -62,19 +62,19 @@ Sub-domains map to folder roots under `Data/`:
 
 | Sub-domain | Folder | Role anchor (`baseline_organisation.csv`) | Status |
 |:---|:---|:---|:---|
-| **Governance** | `Data/Governance/` | CDO → Data Governance Lead → Data Steward | active (CDO Think Big; Gov Lead HLK Tech Lab) |
+| **Governance** | `Data/Governance/` | CDO → Data Governance Office → Data Steward | active (CDO Think Big; Gov Lead HLK Tech Lab) |
 | **Architecture** | `Data/Architecture/` | CDO → Data Architect | active |
-| **Science** | `Data/Science/` | CDO → Lead Data Scientist → Data Engineer | Lead DS planned; DE active |
+| **Science** | `Data/Science/` | CDO → Data Scientist → Data Engineer | Lead DS planned; DE active |
 
 | Role | Reports to | Entity | Notes |
 |:---|:---|:---|:---|
 | **CDO** (Chief Data Officer) | O5-1 | Think Big | Area head; accountable for DAMA posture |
 | **Data Architect** | CDO | Think Big | Physical/logical architecture standards |
-| **Lead Data Scientist** | CDO | Think Big | planned — analytics / science charter at P3 |
-| **Data Governance Lead** | CDO | HLK Tech Lab | Policy, contracts, stewardship cadence |
-| **Data Steward** | Data Governance Lead | HLK Tech Lab | Canonical CSV + registry hygiene |
-| **Data Engineer** | Lead Data Scientist | Think Big | Pipelines, mirrors, KiRBe ingest DQ |
-| **Database Owner** | Data Governance Lead | HLK Tech Lab | area=Tech; dotted-line execution in Tech |
+| **Data Scientist** | CDO | Think Big | planned — analytics / science charter at P3 |
+| **Data Governance Office** | CDO | HLK Tech Lab | Policy, contracts, stewardship cadence |
+| **Data Steward** | Data Governance Office | HLK Tech Lab | Canonical CSV + registry hygiene |
+| **Data Engineer** | Data Scientist | Think Big | Pipelines, mirrors, KiRBe ingest DQ |
+| **Database Owner** | Data Governance Office | HLK Tech Lab | area=Tech; dotted-line execution in Tech |
 
 **DataOps discipline ownership (DATA canonical-home decision `D-IH-93-C`):**
 doctrine + paired SOP live under

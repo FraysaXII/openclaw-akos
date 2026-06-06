@@ -2,7 +2,7 @@
 language: en
 status: active
 canonical: true
-role_owner: People Operations Lead
+role_owner: People Operations Manager
 area: People
 entity: Holistika
 intellectual_kind: sop
@@ -20,7 +20,7 @@ companion_to:
 
 ## 1. Purpose
 
-Given `engagement_model_id`, execute onboarding steps (access, workspace shape, cadence hooks) and route lifecycle subprocesses (hiring intake already classified → onboarding execution here). **People Operations Lead** accountable.
+Given `engagement_model_id`, execute onboarding steps (access, workspace shape, cadence hooks) and route lifecycle subprocesses (hiring intake already classified → onboarding execution here). **People Operations Manager** accountable.
 
 ## 2. Scope
 

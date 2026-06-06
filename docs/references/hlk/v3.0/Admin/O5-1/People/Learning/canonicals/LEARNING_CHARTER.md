@@ -37,7 +37,7 @@ companion_to:
 |:---|:---|
 | **Learning Curator** | Authors curriculum revisions; coaches pillar application; maintains `LEARNING_OPS_BACKLOG.csv` integrity with People Operations at apprentice intake. |
 | **Ethics Advisor** | Owns ethical posture canonical; co-reviews quarterly per [`ETHICAL_AUTOMATION_POSTURE.md`](../Ethics/canonicals/ETHICAL_AUTOMATION_POSTURE.md) §5 (paired `SOP-ETHICS_LEARNING_REVIEW_001.md` ships at I73 P5). |
-| **People Operations Lead** | Executes apprentice curriculum assignment process [`tbi_peopl_dtp_apprentice_curriculum_assignment_001`](../../Compliance/canonicals/process_list.csv) at intake; parameterized engagements per engagement model registry. |
+| **People Operations Manager** | Executes apprentice curriculum assignment process [`tbi_peopl_dtp_apprentice_curriculum_assignment_001`](../../Compliance/canonicals/process_list.csv) at intake; parameterized engagements per engagement model registry. |
 
 ## 4. Curriculum versioning anchor (C-73-2)
 

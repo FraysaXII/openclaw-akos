@@ -253,7 +253,7 @@ For the agent: when promoting any candidate to active, confirm these gates via t
 - [x] I71 P0 charter — MET (I71 fully closed 2026-05-14).
 - [x] I72 P0 charter — MET (I72 fully closed 2026-05-14).
 - [x] First Holistik Researcher hired (or hiring window committed) — **MET via charter-satisfies-gate reframe** per **D-IH-73-B** (bootstrapping reality: operator + Madeira AI O5-1 + ad-hoc collaborators; founder's own paid employment per [`FOUNDER_TRAJECTORY_INTERNAL.md`](../../../references/hlk/v3.0/Admin/O5-1/People/canonicals/FOUNDER_TRAJECTORY_INTERNAL.md) §2 funds Holistika bootstrap; designing the 7-class engagement-model taxonomy IS the unblock, not a traditional hire).
-- [x] Founder approval to formally onboard People Operations Lead — **MET via charter-satisfies-gate reframe** per **D-IH-73-B** (same rationale; People Operations Lead role minted in [`baseline_organisation.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv) at I70 P8.3 per `PEOPLE_AREA_RESTRUCTURE.md`; engagement-model-registry execution drives the role even before traditional hire).
+- [x] Founder approval to formally onboard People Operations Manager — **MET via charter-satisfies-gate reframe** per **D-IH-73-B** (same rationale; People Operations Manager role minted in [`baseline_organisation.csv`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv) at I70 P8.3 per `PEOPLE_AREA_RESTRUCTURE.md`; engagement-model-registry execution drives the role even before traditional hire).
 
 ### I75 promotion gates
 

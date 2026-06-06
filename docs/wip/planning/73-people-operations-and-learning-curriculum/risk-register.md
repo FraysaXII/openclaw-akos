@@ -33,7 +33,7 @@ language: en
   - D-IH-73-D ratified at P0 with operator brief 2026-05-15 as primary evidence (case codenames Bâtard / Mark-II / Alias V / RCD Legal / L'Oréal arrangement explicitly mapped to the 7 classes).
   - Pre-P1 self-checkpoint (`sc-pre-p1-<date>.md`) reviews the canonical CSV schema + sample rows + Pydantic SSOT BEFORE the canonical-CSV gate AskQuestion. Operator reads schema + rows + Pydantic field list in a single skimmable artefact.
   - If operator surfaces late-arriving objections, **STOP-AND-CLARIFY posture** per `akos-inline-ratification.mdc` §6.2: write a clarification report, do NOT commit canonical CSV with unratified rows.
-- **Owner.** People Operations Lead (data owner) + PMO.
+- **Owner.** People Operations Manager (data owner) + PMO.
 - **Close-out.** P1 commit + operator approval in writing in `decision-log.md` D-IH-73-H..N.
 
 ## R-IH-73-3 — Methodology IP minting collides with BRAND_HIERARCHY_AND_TRADEMARK_SCOPE trademark posture
@@ -70,7 +70,7 @@ language: en
   - Anonymize counterparty names unless operator confirms explicit consent at C-73-8 inline-ratify gate. Preserve case codenames (Bâtard 2020 / Mark-II / Alias V / RCD Legal / L'Oréal arrangement) for cross-canon link only.
   - `validate_brand_baseline_reality_drift.py` PASS gate at P4 commit: no employer names leaked to external-register surfaces.
   - `akos-brand-baseline-reality.mdc` §"Forbidden contexts" explicitly forbids external decks / dossiers / public prose from quoting employer names; per-engagement counterparty briefs and operator-private SOPs are allowed.
-- **Owner.** People Operations Lead (Strand F author) + Brand & Narrative Manager (drift-gate review).
+- **Owner.** People Operations Manager (Strand F author) + Brand & Narrative Manager (drift-gate review).
 - **Close-out.** P4 commit + validator PASS.
 
 ## R-IH-73-6 — Outsourced helper class SOC failure (low-trust collaborator gets cleared-collaborator KB access by mistake)
@@ -83,7 +83,7 @@ language: en
   - P7 KB-view low-trust route enforces SOC posture at the route level: `WHERE access_level <= helper.access_level AND engagement_model_id = 'outsourced_helper'`. Both predicates required.
   - Integration test at P10 simulates an outsourced_helper session and asserts the KB view returns only `access_level <= 2` rows.
   - SOC review at P7 inline-ratify gate explicitly checks the route SQL/TypeScript.
-- **Owner.** System Owner (sibling-repo hlk-erp route author) + People Operations Lead (engagement-class SOC owner).
+- **Owner.** System Owner (sibling-repo hlk-erp route author) + People Operations Manager (engagement-class SOC owner).
 - **Close-out.** P10 integration verification + P11 closure UAT.
 
 ## R-IH-73-7 — Engagement-lifecycle SOPs duplicate FINOPS counterparty register
@@ -95,7 +95,7 @@ language: en
   - P3 payroll SOP cross-links `FINOPS_COUNTERPARTY_REGISTER` per [`akos-holistika-operations.mdc`](../../../../.cursor/rules/akos-holistika-operations.mdc) §"Schema responsibilities" no-duplication rule.
   - Per-engagement counterparty rows live in `FINOPS_COUNTERPARTY_REGISTER`; `ENGAGEMENT_REGISTRY.csv` carries `counterparty_org_id` cross-link (no FK).
   - Pre-P3 self-checkpoint reviews SOP outline against FINOPS register schema.
-- **Owner.** People Operations Lead (P3 author) + Business Controller (FINOPS owner).
+- **Owner.** People Operations Manager (P3 author) + Business Controller (FINOPS owner).
 - **Close-out.** P3 commit + validator PASS.
 
 ## R-IH-73-8 — Per-pillar Learning curriculum stalls awaiting I75 (Research area governance) pillar definitions
@@ -131,7 +131,7 @@ language: en
   - P9 explicitly operator-driven; agent does not block on it.
   - Option (a) operator-self ratification is lowest-friction path: operator runs `SOP-ENGAGEMENT_ONBOARDING_001` against own engagement-folder shape with `engagement_model_id = operator_self`. No external counterparty needed.
   - Option (b) first apprentice cohort onboarding is higher-friction but available; operator picks at P9 inline-ratify gate.
-- **Owner.** Founder + People Operations Lead.
+- **Owner.** Founder + People Operations Manager.
 - **Close-out.** P9 UAT row PASS (either option).
 
 ## Cross-references

@@ -44,7 +44,7 @@ status: shipped
 - **6 sub-area charters** (5 Marketing + 1 Operations/RevOps) under the Round 7 5-sub-area redesign.
 - **2 new canonical sibling CSVs** (ENGAGEMENT_TEMPLATE_REGISTRY + INTELLIGENCEOPS_REGISTER) plus **8 adapter registries** (CRM + REVOPS + EMAIL + ATTRIBUTION + BILLING + COMMUNICATION + SCHEDULING + CONTRACT) — 10 net-new canonical CSVs total.
 - **process_list.csv 7-column schema migration** (4 axis FKs + 3 revenue value cells per `D-IH-72-AF`) operationalising the multi-axis Marketing dimension ontology + value-mapping core function.
-- **7 new baseline_organisation roles**: 2 active (RevOps Lead + RevOps Analyst) + 4 gated_ahead_of_growth_stage + 1 gated_ahead_of_executive_activation (CRO; COO already existed).
+- **7 new baseline_organisation roles**: 2 active (RevOps Manager + RevOps Analyst) + 4 gated_ahead_of_growth_stage + 1 gated_ahead_of_executive_activation (CRO; COO already existed).
 - **2 new personas + 4 UAT scenarios** in PERSONA_REGISTRY + PERSONA_SCENARIO_REGISTRY.
 - **REVOPS_PROCESS_CATALOG.yaml** (8 seed processes) + **revops_dispatch.py** dispatcher + **scaffold_engagement.py** RPA scaffolder per `D-IH-72-N` + `D-IH-72-P`.
 - **RevOps Integration Spine**: `engagement_id` + `template_id` FK columns on `finops.registered_fact` + `governance.engagement_revenue_view` joining mirrors per `D-IH-72-M`.
@@ -63,7 +63,7 @@ status: shipped
 
 ## Forward-charters retained
 
-- **I73** People Operations Lead activation + recruiter onboarding SOP (per `D-IH-72-K` + `D-IH-72-W`).
+- **I73** People Operations Manager activation + recruiter onboarding SOP (per `D-IH-72-K` + `D-IH-72-W`).
 - **I75** Research/Intelligence cross-coordination follow-on (per `D-IH-72-W`).
 - **I76** AIC (Agent in Charge) `role_owner` activation (per `D-IH-72-S`).
 - **Tech/Data successor initiative**: SOP-TECH_REVOPS_OBSERVABILITY_001 + SOP-DATA_REVOPS_GOVERNANCE_001 + dedicated tech adapter registry expansion.
@@ -133,12 +133,12 @@ Decision: `D-IH-72-AM` (RevOps role consolidation).
   + RevOps Data Engineer). These were the operator's primary horizontal-bloat
   example: 4 forward-chartered specialist roles for what should be 4 disciplines
   inside one role's headcount expansion pattern.
-- `RevOps Lead` role description now explicitly absorbs all 4 disciplines
+- `RevOps Manager` role description now explicitly absorbs all 4 disciplines
   (systems, process, enablement, data engineering) as growth-stage scaling vectors
   rather than separate role lines.
 - `REVOPS_AREA_CHARTER.md` §2 table updated to reflect the slim 2-role active
-  structure (RevOps Lead + RevOps Analyst); `SOP-REVENUE_ROLLUP_001.md` §4
-  failure-mode escalation rerouted from the deleted Data Engineer to RevOps Lead.
+  structure (RevOps Manager + RevOps Analyst); `SOP-REVENUE_ROLLUP_001.md` §4
+  failure-mode escalation rerouted from the deleted Data Engineer to RevOps Manager.
 
 ### R-D — Marketing sub-role selective collapse (commit `ccbf87d`, 11 files +52/-57; baseline 78→72)
 

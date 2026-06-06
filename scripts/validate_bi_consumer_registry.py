@@ -109,11 +109,11 @@ def run_self_test() -> int:
         "status": "planned",
         "paired_sop_path": "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SOP-DATA_ENGAGEMENT_INTEGRATION_SCAFFOLD_001.md",
         "engagement_stream": "internal",
-        "owner_role": "Data Governance Lead",
+        "owner_role": "Data Governance Office",
         "linked_decision_id": "D-IH-93-I",
         "notes": "fixture",
         "last_review_at": "2026-06-04",
-        "last_review_by": "Data Governance Lead",
+        "last_review_by": "Data Governance Office",
         "last_review_decision_id": "D-IH-93-I",
         "methodology_version_at_review": "v3.1",
     }

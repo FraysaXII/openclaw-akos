@@ -9,10 +9,10 @@ source_taxonomy: holistika-internal-doctrine
 authors:
   - CDO
 co_authors:
-  - Data Governance Lead
+  - Data Governance Office
   - Data Steward
 last_review: 2026-06-04
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_at: 2026-06-04
 last_review_decision_id: D-IH-93-D
 methodology_version_at_review: v3.1
@@ -85,13 +85,13 @@ Accountable roles resolve from `baseline_organisation.csv` (CDO chain).
 
 | Decision class | Accountable role | Consulted | Informed |
 |:---|:---|:---|:---|
-| New / amended data contract | Data Governance Lead | Data Steward, producer area owner | CDO, PMO |
-| Canonical CSV schema change (governed register) | Data Steward | Data Governance Lead, System Owner | Affected area heads |
-| Data classification / retention (P5 policy) | Data Governance Lead | Legal, CDO | Area stewards |
+| New / amended data contract | Data Governance Office | Data Steward, producer area owner | CDO, PMO |
+| Canonical CSV schema change (governed register) | Data Steward | Data Governance Office, System Owner | Affected area heads |
+| Data classification / retention (P5 policy) | Data Governance Office | Legal, CDO | Area stewards |
 | Mirror DDL / FDW server add | Database Owner | System Owner, DevOPS | Data Steward |
-| Contract breach / quality FAIL | Data Steward | Data Governance Lead | Producer process owner |
+| Contract breach / quality FAIL | Data Steward | Data Governance Office | Producer process owner |
 
-Escalation path: Data Steward → Data Governance Lead → CDO → O5-1.
+Escalation path: Data Steward → Data Governance Office → CDO → O5-1.
 
 ## 4. Federated operating model
 
@@ -115,7 +115,7 @@ No central team becomes a bottleneck for every schema tweak — changes are
 | Role | Governance responsibility |
 |:---|:---|
 | **CDO** | Area head; accountable for DAMA posture and cross-area integration |
-| **Data Governance Lead** | Policy owner, contract standard, registry cadence |
+| **Data Governance Office** | Policy owner, contract standard, registry cadence |
 | **Data Steward** | Day-to-day canonical + registry hygiene; contract row quality |
 | **Data Owner (business-accountable)** | Named per contract `owner_role`; accountable for semantics and SLA intent on the producer side |
 | **Database Owner** | Schema operations on Supabase; dotted-line to Tech |
@@ -157,7 +157,7 @@ INFO→WARN→FAIL cadence for probes.
 **Internal precedent**
 
 - CDO chain and decision-rights anchors in `baseline_organisation.csv`
-  (Data Governance Lead → Data Steward → Capability Curator).
+  (Data Governance Office → Data Steward → Capability Curator).
 - DataOps governance-vs-execution split after P1 re-home:
   `Data/Governance/canonicals/DATAOPS_DISCIPLINE.md` (`D-IH-93-C`).
 - Area charter federated/mesh boundary:

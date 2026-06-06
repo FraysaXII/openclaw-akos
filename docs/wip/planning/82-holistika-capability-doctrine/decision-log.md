@@ -99,5 +99,5 @@ This keeps I82 People-area-led (doctrine + governance + Talent activation) and I
 |:---|:---|:---|:---|
 | **D-IH-82-PREREQ** | Prerequisite waiver bridging I81 integrity ↔ I82 Capability registry — when is it acceptable to mint CAPABILITY_REGISTRY without I81 P1 evidence? | Founder + PMO | **P2** entrance (per-mint OR explicit waiver narrative) |
 | **D-IH-82-C** | Confidence rating naming policy — SCP-cameo (Keter/Euclid/Safe) vs numbers (0.3/0.7/0.95) vs plain-language as PRIMARY | Founder + Brand Manager | **P3** |
-| **D-IH-82-D** | Capability inventory PK + FK posture — `SKILL_REGISTRY` linkage cardinality + `process_list` anchoring policy | People Operations Lead | **P2** |
+| **D-IH-82-D** | Capability inventory PK + FK posture — `SKILL_REGISTRY` linkage cardinality + `process_list` anchoring policy | People Operations Manager | **P2** |
 | **D-IH-82-E** | Use case archive redaction policy — paraphrase default; case-by-case anonymise; explicit `redaction_class` enum | Compliance Officer | **P4** |

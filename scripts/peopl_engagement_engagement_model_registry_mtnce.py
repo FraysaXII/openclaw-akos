@@ -25,7 +25,7 @@ SOP_PATH = (
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="ENGAGEMENT_MODEL_REGISTRY quarterly checklist")
-    parser.add_argument("--operator", default="People Operations Lead", help="accountable role label")
+    parser.add_argument("--operator", default="People Operations Manager", help="accountable role label")
     args = parser.parse_args()
 
     setup_logging(json_output=False)

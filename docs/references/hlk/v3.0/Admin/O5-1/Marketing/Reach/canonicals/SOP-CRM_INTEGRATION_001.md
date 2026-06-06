@@ -2,7 +2,7 @@
 language: en
 status: review
 canonical: true
-role_owner: RevOps Lead
+role_owner: RevOps Manager
 classification: way_of_working
 intellectual_kind: SOP
 ssot: true
@@ -56,13 +56,13 @@ Reverse: status=`active` → `inactive` (operator-flipped) OR `deprecated` (irre
 
 ### 3.4 Cross-area handoff
 
-When a CRM adapter is active, Marketing/Reach (PERSONA-* qualified leads) + RevOps (engagement-template promotion) consume from the adapter; RevOps Lead reviews adapter health quarterly per `SOP-REVOPS_QBR_001.md`.
+When a CRM adapter is active, Marketing/Reach (PERSONA-* qualified leads) + RevOps (engagement-template promotion) consume from the adapter; RevOps Manager reviews adapter health quarterly per `SOP-REVOPS_QBR_001.md`.
 
 ## 4. Acceptance criteria
 
 Per [`akos-executable-process-catalog.mdc`](../../../../../../.cursor/rules/akos-executable-process-catalog.mdc) Rule 5:
 
-- **AC-HUMAN**: RevOps Lead executes activation/deactivation flow manually using only this SOP body; CSV-as-SSOT discipline preserved.
+- **AC-HUMAN**: RevOps Manager executes activation/deactivation flow manually using only this SOP body; CSV-as-SSOT discipline preserved.
 - **AC-AUTOMATION**: `validate_adapter_registries.py` PASS on CRM_ADAPTER_REGISTRY.csv with all 11 vendor rows.
 
 ## 5. Failure modes

@@ -19,7 +19,7 @@ linked_decisions:
 linked_runbooks: []
 status: draft
 role_owner: Founder (Research Head) + System Owner
-co_owner_role: People Operations Lead
+co_owner_role: People Operations Manager
 language: en
 purpose: |
   Single deliverable for Lane D of Wave H: a read-only sweep of the Research
@@ -309,7 +309,7 @@ authors:
   - Founder (acting as Holistik Researcher / Research Area Head)
   - System Owner
 co_authors:
-  - People Operations Lead
+  - People Operations Manager
   - KM Officer
 last_review: 2026-05-19
 last_review_by: Founder
@@ -995,7 +995,7 @@ Cross-references for this principle:
 | **C-NN-A** | Research Area v3.1 baseline manifesto (does Research need its own area canonical like People's HOLISTIKA_ORGANISING_DOCTRINE.md?) | Operator-ratified intent to mint a Research-area-specific manifesto; OR D-IH-86-RH-A ratifies People-canonical home (which arguably removes the need) | Founder + KM Officer | RESEARCH_AREA_CHARTER.md already plays partial manifesto role. The candidate would author a higher-altitude Research Area Manifesto that names the area's CORE values, lived practice, and inheritance posture — analog to HOLISTIKA_ORGANISING_DOCTRINE. **Recommend defer** unless operator surfaces it as a felt gap; current 4-discipline-charter structure may suffice. |
 | **C-NN-B** | process_list.csv tranche for Research-area meta-processes (research_canonical_authoring, applied_research_audit, wave_research_enrichment, canonical_evidence_base_backfill) | Operator-ratified intent to formalise the discipline as governed processes; SOP-META order requires CSV rows before SOPs | Founder + Compliance | 4 candidate process rows. Each pairs with a future SOP. Tranche size ~4-6 rows; operator-gated per canonical-CSV discipline. |
 | **C-NN-C** | ResearchOps tooling decision (Dovetail / Maze / Notion-as-research-repo / homegrown md+CSV+Supabase?) | Operator surfaces need for tooling beyond current md+Trello; or substrate audit identifies it; or future hire (Research Director / KM Officer) needs better collab surface | Tech Lead + KM Officer + Founder | Current stack (md + Trello + Tier 1 WIP) is operator-fit but does not scale to 2+ researchers. Dovetail is industry standard but bypasses Holistika's git-canonical posture. **Recommend defer** until a second researcher joins. |
-| **C-NN-D** | PEOPLE_DESIGN_PATTERN_REGISTRY.csv row `research_first_canonical_authoring` | Operator-ratified intent to register the discipline as a People design pattern (i.e., a pattern other areas inherit and `process_list.csv` rows can FK against) | People Operations Lead + Founder | After RESEARCH_HEAD_DISCIPLINE.md lands, the pattern row is a natural sibling. Pattern-class enum may need an extension. **Recommend ride next People design pattern tranche**. |
+| **C-NN-D** | PEOPLE_DESIGN_PATTERN_REGISTRY.csv row `research_first_canonical_authoring` | Operator-ratified intent to register the discipline as a People design pattern (i.e., a pattern other areas inherit and `process_list.csv` rows can FK against) | People Operations Manager + Founder | After RESEARCH_HEAD_DISCIPLINE.md lands, the pattern row is a natural sibling. Pattern-class enum may need an extension. **Recommend ride next People design pattern tranche**. |
 | **C-NN-E** | `validate_research_backing.py` validator | Operator-ratified intent + a stable enough schema for canonical `evidence_base` frontmatter to scan | System Owner + KM Officer | Would scan canonicals' frontmatter for the `evidence_base` slot; FK against `source_taxonomy.md` + `confidence_levels.md`. INFO-only at v1; FAIL-tier after backfill stabilises (mirrors the BBR drift gate INFO→FAIL ramp). **Recommend defer** until 5+ canonicals have evidence_base sections to validate. |
 | **C-NN-F** | Cross-area canonical Evidence-base backfill wave (per §4 gap analysis priority order: KB readability → agentic framework landscape → BBR → agentic doctrine → PRECEDENCE) | Operator-ratified intent + bandwidth for cross-area sweep | Founder + each area lead | A 5-7 canonical backfill wave; surface as Wave I or later candidate. |
 

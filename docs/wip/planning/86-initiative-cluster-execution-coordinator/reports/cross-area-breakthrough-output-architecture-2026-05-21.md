@@ -128,7 +128,7 @@ For each consuming area to count as "having ratified the pattern locally":
 | Follow-up | Owner | Target wave / initiative | Notes |
 |:---|:---|:---|:---|
 | Mint `process_list.csv` schema column `inherited_pattern_id` (FK to PEOPLE_DESIGN_PATTERN_REGISTRY.pattern_id) | PMO + Compliance Officer | I71 successor or I80 P3 | Per `akos-people-discipline-of-disciplines.mdc` RULE 1 process-singularity-lever wiring |
-| Run [`scripts/peopl_cross_area_breakthrough_announce.py`](../../../../scripts/peopl_cross_area_breakthrough_announce.py) | People Operations Lead | Next operator session | Per SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001 — automated propagation runbook fires when this announcement file lands |
+| Run [`scripts/peopl_cross_area_breakthrough_announce.py`](../../../../scripts/peopl_cross_area_breakthrough_announce.py) | People Operations Manager | Next operator session | Per SOP-PEOPLE_CROSS_AREA_BREAKTHROUGH_001 — automated propagation runbook fires when this announcement file lands |
 | Charter promotion `_candidates/i-nn-output-architecture.md` → active master-roadmap | PMO + Brand & Narrative Manager | Future wave when activation gates A1+A2+A3 cleared | Promotion is correctly gated; do not force |
 | Per-row doctrine pages for ~52 codes at Shadcn-shape | Brand & Narrative Manager primary + Front-End Developer co-owner | I-NN-OUTPUT-ARCHITECTURE P1+P2+P3 (multi-wave) | ~25-35 days total per candidate file §3.1 |
 | Backfill existing artifacts with 4-layer frontmatter | PMO + Brand & Narrative Manager | I-NN-OUTPUT-ARCHITECTURE P4 | 15 touchpoint-kit files retro-tagged at Wave K; remaining ~30 advops engagement files at I-NN P4 |

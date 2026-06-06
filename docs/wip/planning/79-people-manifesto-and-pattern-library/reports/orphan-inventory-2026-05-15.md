@@ -178,7 +178,7 @@ The two pure-additive bookmarks (`_candidates/i60` superseded note + `index.md` 
 The audit pattern surfaced here would benefit from a recurring cadence. Proposed:
 
 - **Cadence:** `gated_operator` (operator-judgement; not unattended) **or** `scheduled` quarterly (low-noise) — this is itself an inline-ratify question.
-- **Owner:** People Operations Lead (per the People = discipline-of-disciplines posture from the manifesto).
+- **Owner:** People Operations Manager (per the People = discipline-of-disciplines posture from the manifesto).
 - **SOP path (if minted):** `docs/references/hlk/v3.0/Admin/O5-1/People/People Operations/canonicals/SOP-PEOPLE_ORPHAN_FOLDER_AUDIT_001.md`.
 - **Runbook (optional):** none initially — the audit is exploratory + judgement-heavy. A future runbook could surface the heuristics ("empty + no baseline row + no git history = candidate-delete") but the core decision must remain operator.
 - **Cadence ratify question:** `p5-orphan-cadence` (inline below).

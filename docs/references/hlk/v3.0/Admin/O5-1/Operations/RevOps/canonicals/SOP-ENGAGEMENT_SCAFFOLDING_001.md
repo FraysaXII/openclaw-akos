@@ -97,7 +97,7 @@ Once the PR merges:
 ## 4. Failure modes
 
 - Template lookup fails (`template_id` not in registry) → exit code 2; operator manually appends template row + re-runs.
-- Template `lifecycle_status: scaffold` → exit code 3; operator either promotes template via `SOP-ENGAGEMENT_TEMPLATE_PROMOTION_001.md` first, or overrides with `--allow-scaffold-template` flag (RevOps Lead-only).
+- Template `lifecycle_status: scaffold` → exit code 3; operator either promotes template via `SOP-ENGAGEMENT_TEMPLATE_PROMOTION_001.md` first, or overrides with `--allow-scaffold-template` flag (RevOps Manager-only).
 - Folder collision (`Think Big/Clients/<engagement-slug>/` already exists) → exit code 4; operator picks a unique slug.
 - `gh pr create` fails (no GH CLI / not authenticated) → exit code 0 with operator-action message; commit + push happen separately.
 

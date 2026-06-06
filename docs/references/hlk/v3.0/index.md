@@ -2,7 +2,7 @@
 language: en
 status: active
 canonical: true
-role_owner: People Operations Lead (vault wayfinding) + Chief People Officer (interim — operator)
+role_owner: People Operations Manager (vault wayfinding) + Chief People Officer (interim — operator)
 classification: way_of_working
 intellectual_kind: vault_index
 ssot: true

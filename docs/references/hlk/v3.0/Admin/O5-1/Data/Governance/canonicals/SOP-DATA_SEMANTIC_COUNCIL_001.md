@@ -7,13 +7,13 @@ access_level: 4
 confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
-  - Data Governance Lead
+  - Data Governance Office
 co_authors:
   - CDO
   - Data Architect
   - Data Steward
 last_review: 2026-06-06
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_decision_id: D-IH-95-C
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -58,7 +58,7 @@ federates its own concept definitions**; cross-area changes ratify through the e
 |:---|:---|:---|
 | **Chair** | CDO | Accountable; convenes; final sign-off on enterprise-level changes (escalates to O5) |
 | **Author** | Data Architect | Owns the entity catalog + verb taxonomy |
-| **Registry owner** | Data Governance Lead | Owns `CANONICAL_RELATIONSHIP_REGISTRY` + valid-triple standards |
+| **Registry owner** | Data Governance Office | Owns `CANONICAL_RELATIONSHIP_REGISTRY` + valid-triple standards |
 | **Operations** | Data Steward | Day-to-day triple stewardship (masterdata relationship management) |
 | **Platform** | AI Engineer + System Owner | Neo4j graph (T3) projection + parity |
 | **Area reps (8)** | one owner per scored area — Data, Tech, Finance, Marketing, Operations, People, Research, Legal | Federate their area's concept/triple definitions |
@@ -115,7 +115,7 @@ py scripts/validate_hlk.py                                    # golden path (CAN
 
 ## Escalation
 
-Area rep → Data Governance Lead → CDO (chair) → O5 Executive Governance Board for
+Area rep → Data Governance Office → CDO (chair) → O5 Executive Governance Board for
 enterprise-level or contested cross-area changes, per `DATA_GOVERNANCE_POLICY.md` §3.
 
 ## Cross-references

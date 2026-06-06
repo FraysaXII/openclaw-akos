@@ -10,7 +10,7 @@ authors:
   - Data Architect
 co_authors:
   - CDO
-  - Data Governance Lead
+  - Data Governance Office
   - System Owner
 last_review: 2026-06-04
 last_review_by: Data Architect

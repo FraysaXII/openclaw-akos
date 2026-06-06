@@ -284,7 +284,7 @@ seat runs the regression + human-readability pass before commit.
 
 - **Gate (todo #1):** ⛔ OPERATOR — canonical relocation (DataOps move ripple, D-IH-93-H).
 - **Files (new folders):** `Data/Governance/canonicals/`, `Data/Architecture/canonicals/`, `Data/Science/canonicals/`,
-  `Data/canonicals/DATA_AREA_CHARTER.md` (7-section template; role_owner CDO + Data Governance Lead),
+  `Data/canonicals/DATA_AREA_CHARTER.md` (7-section template; role_owner CDO + Data Governance Office),
   `Data/README.md`; **move** `DATAOPS_DISCIPLINE.md` → `Data/Governance/canonicals/` and
   `SOP-TECH_DATAOPS_QUALITY_001.md` → `Data/Governance/canonicals/` (`git mv`; deprecation-alias stubs at old paths for one cycle).
 - **Ripple (D-IH-93-H):** update `HOLISTIKA_QUALITY_FABRIC.md` §6 DATAOPS path; every `linked_canonicals`/`linked_sops`

@@ -2,7 +2,7 @@
 language: en
 status: review
 canonical: true
-role_owner: RevOps Lead
+role_owner: RevOps Manager
 classification: way_of_working
 intellectual_kind: SOP
 ssot: true
@@ -19,7 +19,7 @@ companion_to:
 
 # SOP-PEOPLE_ENGAGEMENT_HANDOFF_001 — Engagement signed → People Operations onboarding handoff
 
-> Authored I72 P9 per `D-IH-72-T` (MarTech adapter breadth) + `D-IH-72-O` (Normalized Adapter Pattern). Codifies how the **people_engagement_handoff** adapter routes engagement-signed events to People Operations onboarding flows. Cross-link to I73 People Operations Lead activation (forward-charter).
+> Authored I72 P9 per `D-IH-72-T` (MarTech adapter breadth) + `D-IH-72-O` (Normalized Adapter Pattern). Codifies how the **people_engagement_handoff** adapter routes engagement-signed events to People Operations onboarding flows. Cross-link to I73 People Operations Manager activation (forward-charter).
 
 ## 1. Purpose
 
@@ -41,15 +41,15 @@ Identify roles required from BASELINE_ORGANISATION.csv to deliver the engagement
 
 ### 3.3 Onboarding handoff
 
-When the engagement requires gated/inactive roles or external collaborators, hand off to People Operations Lead (target I73 for full SOP); log handoff in PMO_HUB_LOG.
+When the engagement requires gated/inactive roles or external collaborators, hand off to People Operations Manager (target I73 for full SOP); log handoff in PMO_HUB_LOG.
 
 ## 4. Acceptance criteria
 
-- **AC-HUMAN**: RevOps Lead identifies required roles + hands off via PMO_HUB_LOG entry.
+- **AC-HUMAN**: RevOps Manager identifies required roles + hands off via PMO_HUB_LOG entry.
 - **AC-AUTOMATION**: `validate_adapter_registries.py` PASS on people_engagement_handoff row.
 
 ## 5. Cross-references
 
 - Adapter row: REVOPS_ADAPTER_REGISTRY.csv (people_engagement_handoff).
-- Forward-link: I73 People Operations Lead activation.
+- Forward-link: I73 People Operations Manager activation.
 - Decisions: D-IH-72-T, D-IH-72-O, D-IH-72-K.

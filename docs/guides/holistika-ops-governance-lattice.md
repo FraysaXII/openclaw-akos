@@ -70,7 +70,7 @@ flowchart LR
 | Edit CSV | Area steward / Compliance chain | `validate_hlk.py` + tranche gates |
 | Emit SQL | DataOps / automation | `compliance_mirror_emit`, `sync_compliance_mirrors_from_csv.py` |
 | **Apply SQL** | **System Owner + PMO** | **`SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001`** + [`holistika-mirror-dml-apply.md`](holistika-mirror-dml-apply.md) |
-| Verify parity | Data Governance Lead | `dataops_quality_check.py`, DATA-02 |
+| Verify parity | Data Governance Office | `dataops_quality_check.py`, DATA-02 |
 
 **Process register:** `env_tech_dtp_compliance_mirror_dml_001` (`process_list.csv`)  
 **Decision:** **D-GTM-DB-6** (linked CLI preferred; psql valid)

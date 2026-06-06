@@ -2,7 +2,7 @@
 language: en
 status: active
 canonical: true
-role_owner: People Operations Lead
+role_owner: People Operations Manager
 area: People
 entity: Holistika
 intellectual_kind: sop
@@ -16,7 +16,7 @@ paired_runbook: scripts/peopl_recruiter_onboarding_checklist_stub.py
 
 ## 1. Purpose
 
-When a **hiring window** opens and Holistika engages an external **recruiter** counterparty (cold inbound or shortlisted firm), People Operations Lead runs a **minimal onboarding brief** so sourcing scope, channels, engagement-model presets, and SOC posture are explicit **before** interviews or candidate submission loops begin. Aligns [`INTELLIGENCEOPS_REGISTER.csv`](../../../Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv) row `IO-REC-PLACEHOLDER-001` (`target_class=recruiter`) with executable People Ops doctrine per **`D-IH-72-K`**.
+When a **hiring window** opens and Holistika engages an external **recruiter** counterparty (cold inbound or shortlisted firm), People Operations Manager runs a **minimal onboarding brief** so sourcing scope, channels, engagement-model presets, and SOC posture are explicit **before** interviews or candidate submission loops begin. Aligns [`INTELLIGENCEOPS_REGISTER.csv`](../../../Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv) row `IO-REC-PLACEHOLDER-001` (`target_class=recruiter`) with executable People Ops doctrine per **`D-IH-72-K`**.
 
 ## 2. Scope
 
@@ -26,7 +26,7 @@ Bootstrap SOP for **event-triggered** recruiter engagement (`process_list.csv` *
 
 | Role | Responsibility |
 |:-----|:---------------|
-| **R — People Operations Lead** | Runs brief; records outputs in wip recruiter engagement record path cited on IntelligenceOps row; selects `engagement_model_id` presets. |
+| **R — People Operations Manager** | Runs brief; records outputs in wip recruiter engagement record path cited on IntelligenceOps row; selects `engagement_model_id` presets. |
 | **A — CPO** | Approves role slate urgency + recruiter mandate when People Ops escalates (policy-heavy searches). |
 | **C — Legal Counsel** | Reviews engagement letter / fee schedule when non-standard IP or exclusivity appears. |
 | **I — Founder** | Optional calibration on exec-search mandates; sole-investor context stays private-register unless recruiter contract requires disclosure. |

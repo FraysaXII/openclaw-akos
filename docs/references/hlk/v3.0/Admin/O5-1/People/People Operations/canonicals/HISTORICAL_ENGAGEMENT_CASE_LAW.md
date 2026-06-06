@@ -5,7 +5,7 @@ classification: internal_wayfinding
 access_level: 5
 language: en
 register: internal
-role_owner: People Operations Lead
+role_owner: People Operations Manager
 area: People
 entity: Holistika
 intellectual_kind: internal_case_patterns

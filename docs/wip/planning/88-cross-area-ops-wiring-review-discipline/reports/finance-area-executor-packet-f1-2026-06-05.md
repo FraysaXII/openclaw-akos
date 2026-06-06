@@ -164,7 +164,7 @@ FINOPS planes; it does not own every area's campaign copy or legal instruments.
 | **CFO** | Think Big | Area head; entity gate partner (`thi_finan_dtp_306`) |
 | **Business Controller** | Think Big | Register stewardship, data-contract co-owner |
 | **PMO** | Holistika | Process-cost mapping (`thi_finan_dtp_273`) |
-| **RevOps Lead** | HLK Tech Lab | Engagement revenue chain consumer |
+| **RevOps Manager** | HLK Tech Lab | Engagement revenue chain consumer |
 
 Sub-domains: **Governance** (`Finance/Governance/`), **Business Controller** (existing role tree).
 

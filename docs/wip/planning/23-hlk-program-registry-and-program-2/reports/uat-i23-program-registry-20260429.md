@@ -5,7 +5,7 @@
 
 - **G-23-1** — Postgres mirror DDL apply via MCP `apply_migration` + DML seed via `service_role` `execute_sql`: **APPLIED** (this run; 12 program rows seeded, RETURNING all program_ids).
 - **G-23-2** — `process_list.csv` named tranche for KiRBe onboarding: **N/A this PR** — `env_tech_prj_2 KiRBe Platform` already exists in `process_list.csv` (project granularity); no new tranche required for I23-P6.
-- **G-23-3** — `baseline_organisation.csv` change for new role: **NOT TRIGGERED** — KiRBe onboarding role roots reuse existing roles (System Owner, Data Governance Lead, Data Architect, Business Controller, PMO).
+- **G-23-3** — `baseline_organisation.csv` change for new role: **NOT TRIGGERED** — KiRBe onboarding role roots reuse existing roles (System Owner, Data Governance Office, Data Architect, Business Controller, PMO).
 - **G-23-4** — Neo4j projection extension applied: **DRY-RUN PARITY ASSERT PASS** (12 programs + 14 program-side edges; live Bolt apply on next operator-driven sync; SKIPs gracefully when Neo4j unconfigured).
 
 ## Verification matrix

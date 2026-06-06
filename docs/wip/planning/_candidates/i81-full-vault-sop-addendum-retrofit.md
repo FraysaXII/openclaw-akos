@@ -243,10 +243,10 @@ The smaller remainder spans PMO + Engagement + SMO + People-Ops-recruiter + Fina
 
 | ID | Question | Owner | Status entering plan | Close-out phase |
 |:---|:---|:---|:---:|:---:|
-| D-IH-81-A | Retrofit mode (continuous vs absorbed) | People Operations Lead | open | P0 |
-| D-IH-81-B | No-addendum-needed threshold | People Operations Lead | open | P0 |
-| D-IH-81-C | Author posture (role_owner vs single-agent batch) | People Operations Lead | open | P0 |
-| D-IH-81-D | Forward-extension to non-SOP canonicals | People Operations Lead | open | P9 |
+| D-IH-81-A | Retrofit mode (continuous vs absorbed) | People Operations Manager | open | P0 |
+| D-IH-81-B | No-addendum-needed threshold | People Operations Manager | open | P0 |
+| D-IH-81-C | Author posture (role_owner vs single-agent batch) | People Operations Manager | open | P0 |
+| D-IH-81-D | Forward-extension to non-SOP canonicals | People Operations Manager | open | P9 |
 | D-IH-81-E | Per-area register-specific jargon-scan extension | System Owner | open | P0 |
 | **D-IH-81-F** | **Integrity matrix methodology + PASS threshold** — what constitutes "CLOSED-P1"? | PMO + System Owner | open | **P1** |
 | **D-IH-81-G** | **Layout migration wave plan** — which root files move in which PR; deprecation-alias policy | Data Architect + Compliance Officer | open | **P2** |

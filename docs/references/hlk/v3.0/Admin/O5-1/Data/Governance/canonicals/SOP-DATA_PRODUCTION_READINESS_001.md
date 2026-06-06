@@ -7,12 +7,12 @@ access_level: 4
 confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
-  - Data Governance Lead
+  - Data Governance Office
 co_authors:
   - CDO
-  - RevOps Lead
+  - RevOps Manager
 last_review: 2026-06-04
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_decision_id: D-IH-93-J
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -83,10 +83,10 @@ Registry SSOT: `akos/hlk_production_readiness_methods.py` (drift test in `tests/
 
 | Stage | Process / artefact | Owner | Gate |
 |:---|:---|:---|:---|
-| **Upstream — demo** | `hol_data_dtp_ms_demo_factory_001` + Phase 1 evidence | RevOps Lead | Required for PROD-METHOD-CLIENT-MS |
-| **Upstream — scaffold** | `hol_data_dtp_engagement_integration_scaffold_001` | Data Governance Lead | Streams + contracts declared |
+| **Upstream — demo** | `hol_data_dtp_ms_demo_factory_001` + Phase 1 evidence | RevOps Manager | Required for PROD-METHOD-CLIENT-MS |
+| **Upstream — scaffold** | `hol_data_dtp_engagement_integration_scaffold_001` | Data Governance Office | Streams + contracts declared |
 | **Upstream — finops** | Engagement revenue spine / `finops.registered_fact` (RevOps P7 forward) | Business Controller | Revenue trace |
-| **This SOP** | `hol_data_dtp_production_readiness_001` | CDO / Data Governance Lead | Signed promotion record |
+| **This SOP** | `hol_data_dtp_production_readiness_001` | CDO / Data Governance Office | Signed promotion record |
 | **Parallel — area BI** | `AREA_BI_PROFILE.csv` steward alignment | Area heads | Per-area consumption |
 | **Parallel — privacy** | `DATA_PRIVACY_RETENTION_POLICY.md` | Legal Counsel | Classification set |
 | **Downstream — DataOps** | `env_tech_dtp_dataops_quality_001` `--data-fam` (P6) | System Owner | Live probes post-promotion |
@@ -100,7 +100,7 @@ Registry SSOT: `akos/hlk_production_readiness_methods.py` (drift test in `tests/
 4. **Mint or activate contracts** — one row per producer × `data_surface`; no dashboard-only shortcuts.
 5. **Set privacy class** — per surface; escalate Legal Counsel if counterparty PII crosses tenant boundary.
 6. **Run hardening checklist** — backups, RLS review, idempotency (Edge), licensing seats documented off-repo.
-7. **Operator sign-off** — CDO or Data Governance Lead signs promotion record in engagement folder.
+7. **Operator sign-off** — CDO or Data Governance Office signs promotion record in engagement folder.
 8. **Billback note** — Finance/Business Controller tags infra cost to engagement where applicable.
 
 ## Steps (AC-AUTOMATION)

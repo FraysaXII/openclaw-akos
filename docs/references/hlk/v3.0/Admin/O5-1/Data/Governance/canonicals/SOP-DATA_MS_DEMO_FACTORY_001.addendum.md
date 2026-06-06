@@ -6,9 +6,9 @@ parent_sop: SOP-DATA_MS_DEMO_FACTORY_001.md
 access_level: 4
 confidence_level: A1
 source_taxonomy: holistika-internal-sop
-role_owner: Data Governance Lead
+role_owner: Data Governance Office
 last_review: 2026-06-04
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_decision_id: D-IH-93-J
 methodology_version_at_review: v3.1
 status: active
@@ -21,7 +21,7 @@ register: internal
 
 | Phase | Tenant | Evidence | Owner |
 |:---|:---|:---|:---|
-| **1** | Holistika Microsoft | Screenshots + internal validation + build log | RevOps Lead + System Owner |
+| **1** | Holistika Microsoft | Screenshots + internal validation + build log | RevOps Manager + System Owner |
 | **2** | Client Azure (optional) | DSI sign-off; `pac solution export/import` | Client DSI + Holistika delivery |
 
 Internal SSOT for build location: `Think Big/Clients/2026-suez-webuy/00-internal/source-grounding-post-handshake-2026-05-26.md` §5 (operator tenant + anonymised data).

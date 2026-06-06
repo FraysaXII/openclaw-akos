@@ -2,14 +2,14 @@
 language: en
 status: active
 canonical: true
-role_owner: People Operations Lead
+role_owner: People Operations Manager
 co_owner_role: Compliance Officer
 area: People
 entity: Holistika
 intellectual_kind: sop-addendum
 authored: 2026-05-16
 last_review: 2026-05-16
-last_review_by: People Operations Lead
+last_review_by: People Operations Manager
 last_review_decision_id: D-IH-80-D
 methodology_version_at_review: v3.1
 ratifying_decisions:

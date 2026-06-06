@@ -62,7 +62,7 @@ it owns the **bar**, the **IDs**, and the **evidence** that monetary facts meet 
 | **CFO** | Think Big | Area head; entity gate partner (`thi_finan_dtp_306`) |
 | **Business Controller** | Think Big | Register stewardship; data-contract co-owner |
 | **PMO** | Holistika | Process-cost mapping (`thi_finan_dtp_273`) |
-| **RevOps Lead** | HLK Tech Lab | Engagement revenue chain consumer |
+| **RevOps Manager** | HLK Tech Lab | Engagement revenue chain consumer |
 
 **Internal-first (`D-IH-81-P`):** roles may be AIC-absorbed until humans are hired;
 gates remain in SOPs and validators.

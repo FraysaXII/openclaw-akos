@@ -100,7 +100,7 @@ flowchart TB
 | 1 | weeks 1-2 | **System Owner** | Parallel desk-research tracks (I81 P0+P1, I84 P1); mechanical wiring and audit dossier threads land naturally under System Owner coordination with PMO. |
 | 2 | weeks 2-4 | **System Owner** | Compliance layout tranches + substrate registry mint + schema validators — highest coupling to tooling and CSV gates. |
 | 3 | weeks 4-5 | **Research Lead** (interim KM Officer until hire) | I84 P4 batched ratifications + I82 doctrine charter — substrate and capability framing decisions. |
-| 4 | weeks 5-7 | **People Operations Lead** | I82 capability registry chain + confidence registry — People-pattern and Talent-adjacent gates. |
+| 4 | weeks 5-7 | **People Operations Manager** | I82 capability registry chain + confidence registry — People-pattern and Talent-adjacent gates. |
 | 5 | weeks 7-9 | **Tech Lead** | I83 charter + I84 P5-P8 closure parallel — product-shaped ingestor plus cross-area cascade execution. |
 
 Spotlight owners **facilitate** wave narrative and surface blockers to the PMO + System Owner pair; they **do not** replace sibling `role_owner` authority on each initiative's charter.

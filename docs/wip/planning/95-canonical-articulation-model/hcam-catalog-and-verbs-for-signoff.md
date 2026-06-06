@@ -115,7 +115,7 @@ key link (e.g. Skill→Role, Use-case→Capability, AIC→Process)?*
 
 **Membership (full from day one):**
 - **Chair:** CDO (accountable).
-- **Data core:** Data Architect (HCAM metamodel author) · Data Governance Lead (relationship-
+- **Data core:** Data Architect (HCAM metamodel author) · Data Governance Office (relationship-
   registry owner) · Data Steward (operational triples) · AI Engineer + System Owner (graph platform).
 - **8 area reps:** one per scored area — Data, Finance, Marketing, Tech, People, Research,
   Operations, Legal — each = that area's owner from the **area-governance model** (federated authorship).
@@ -126,7 +126,7 @@ key link (e.g. Skill→Role, Use-case→Capability, AIC→Process)?*
 |:---|:---|
 | **O5 Executive Governance Board** | Council reports into O5; O5 holds final authority on enterprise-level changes |
 | **DECISION_REGISTER** (`D-IH-*`) | Cross-area verb/triple/catalog changes ratified as decisions — same register, same cadence |
-| **process_list + SOP-META** | The council's operation = a **governed process** with a SOP + runbook (owned by Data Governance Lead), like `SOP-DATA_CONTRACT_REGISTRY_MAINTENANCE_001` — so the **process-governance work is reused, not lost** |
+| **process_list + SOP-META** | The council's operation = a **governed process** with a SOP + runbook (owned by Data Governance Office), like `SOP-DATA_CONTRACT_REGISTRY_MAINTENANCE_001` — so the **process-governance work is reused, not lost** |
 | **Area-governance methodology** (People/Compliance) | Each area rep federates their area's concepts through the existing area-governance cadence; area-completeness **v3** (articulation completeness) is the acceptance check |
 | **OPS_REGISTER** | Council actions tracked as OPS rows |
 | **CANONICAL_REGISTRY** | HCAM + the relationship registry registered as governed canonicals (T1/T2/T3 declaration) |

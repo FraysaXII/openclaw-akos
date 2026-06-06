@@ -7,9 +7,9 @@ access_level: 4
 confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
-  - People Operations Lead
+  - People Operations Manager
 last_review: 2026-05-16
-last_review_by: People Operations Lead
+last_review_by: People Operations Manager
 last_review_decision_id: D-IH-80-D
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -70,9 +70,9 @@ Out of scope:
 
 ### 1. Schedule the cadence (hybrid: monthly baseline + event-triggered)
 
-People Operations Lead schedules the monthly knowledge-test baseline in advance. The session is a fixed slot — same day-of-month, same window. Predictability matters: the agents are not surprised, and the operator can set aside the time.
+People Operations Manager schedules the monthly knowledge-test baseline in advance. The session is a fixed slot — same day-of-month, same window. Predictability matters: the agents are not surprised, and the operator can set aside the time.
 
-A second trigger fires off-cadence: whenever a canonical in an agent's scope is revised substantively (the canonical owner flags the edit as substantive, not a typo or formatting fix), People Operations Lead schedules an event-triggered knowledge-test for that agent against the revised canonical. The event-triggered run replaces the next monthly run for that agent if it falls within the same fortnight; otherwise both run. The two triggers cover the operator's framing — the monthly baseline keeps idle agents tested, the event trigger keeps high-work agents tested at the moment doctrine changes underneath them.
+A second trigger fires off-cadence: whenever a canonical in an agent's scope is revised substantively (the canonical owner flags the edit as substantive, not a typo or formatting fix), People Operations Manager schedules an event-triggered knowledge-test for that agent against the revised canonical. The event-triggered run replaces the next monthly run for that agent if it falls within the same fortnight; otherwise both run. The two triggers cover the operator's framing — the monthly baseline keeps idle agents tested, the event trigger keeps high-work agents tested at the moment doctrine changes underneath them.
 
 ### 2. Identify the test scope per agent
 
@@ -100,15 +100,15 @@ A passing session is one where every question is marked Pass or Drift, with no F
 
 If the session passes, the agent continues to hold its named role. The result file is committed and serves as the audit record for the month.
 
-If the session fails (any Fail mark), the agent is suspended from the failing question's covered scope. People Operations Lead opens an escalation per the next step. The operator may decide to keep the agent active for unrelated steps; that decision is recorded in the result file.
+If the session fails (any Fail mark), the agent is suspended from the failing question's covered scope. People Operations Manager opens an escalation per the next step. The operator may decide to keep the agent active for unrelated steps; that decision is recorded in the result file.
 
-If the session shows Drift, People Operations Lead opens a canonical-revision ticket. The drift is a signal that the doctrine has aged or was unclear; the cadence will not improve until the canonical is revised. The revision follows the standard People canonical-edit process and the cross-area breakthrough propagation pattern when the change is substantive.
+If the session shows Drift, People Operations Manager opens a canonical-revision ticket. The drift is a signal that the doctrine has aged or was unclear; the cadence will not improve until the canonical is revised. The revision follows the standard People canonical-edit process and the cross-area breakthrough propagation pattern when the change is substantive.
 
 ### 6. Escalation
 
 When an agent fails a knowledge-test, when its self-reported confidence drops below the documented threshold for a step in any of its named SOPs, or when its work product is flagged by an audit channel:
 
-- People Operations Lead is the first responder. They review the failing artifact, classify the failure (knowledge gap / canonical drift / red-line violation / out-of-scope action), and route accordingly.
+- People Operations Manager is the first responder. They review the failing artifact, classify the failure (knowledge gap / canonical drift / red-line violation / out-of-scope action), and route accordingly.
 - Knowledge gaps route back to the knowledge-test cadence and to canonical revision when needed.
 - Canonical drift routes to the canonical owner for revision.
 - Red-line violations route immediately to Ethics Advisor per [`ETHICAL_AGENTIC_BOUNDARIES.md`](../Ethics/canonicals/ETHICAL_AGENTIC_BOUNDARIES.md). The agent is suspended from the relevant scope until Ethics signs off.
@@ -118,7 +118,7 @@ Escalation outcomes are recorded in the agent's result file for the month. Patte
 
 ### 7. Onboarding cadence
 
-When a new collaborator (human or agent) joins a process where an agent shares the role, People Operations Lead runs a short onboarding session with the joining party plus the existing role holders (human and agent). The session covers:
+When a new collaborator (human or agent) joins a process where an agent shares the role, People Operations Manager runs a short onboarding session with the joining party plus the existing role holders (human and agent). The session covers:
 
 - The agent's named role and the canonicals it honours.
 - The escalation routing for failures.
@@ -137,8 +137,8 @@ The onboarding session does not have its own paired runbook; it is People-facili
 ## Failure modes
 
 - **Cadence skipped.** Mitigation: the cadence is a `scheduled` row in `process_list.csv`; when the date passes without execution, the process_list row's last-run column flags it as overdue. The event-triggered secondary cadence does not have a date stamp; the canonical-revision commit log doubles as its audit trail (every substantive revision should have a knowledge-test result file inside the same fortnight).
-- **Test bank stale.** Mitigation: at every canonical edit that touches an agent's scope, People Operations Lead reviews the test bank and revises affected questions.
-- **Drift accumulating.** Mitigation: more than one Drift in a single session is a signal that the canonical is significantly aged; People Operations Lead schedules a focused revision sprint.
+- **Test bank stale.** Mitigation: at every canonical edit that touches an agent's scope, People Operations Manager reviews the test bank and revises affected questions.
+- **Drift accumulating.** Mitigation: more than one Drift in a single session is a signal that the canonical is significantly aged; People Operations Manager schedules a focused revision sprint.
 - **Agent and role drift apart.** Mitigation: when the agent's underlying infrastructure changes (Tech Lab upgrade), People runs an off-cycle knowledge-test before the next scheduled session to confirm the upgrade has not changed the agent's behaviour against the doctrine.
 
 ## Cross-references

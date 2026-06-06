@@ -8,9 +8,9 @@ confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
   - System Owner
-  - People Operations Lead
+  - People Operations Manager
 last_review: 2026-05-16
-last_review_by: People Operations Lead
+last_review_by: People Operations Manager
 last_review_decision_id: D-IH-80-D
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -33,7 +33,7 @@ ssot: true
 
 > Access level 5. This addendum carries the System-Owner-facing and auditor-facing depth that does not belong in the executor's reading path of [`SOP-PEOPLE_AGENTIC_OPERATIONS_001.md`](SOP-PEOPLE_AGENTIC_OPERATIONS_001.md). Authored at I80 P4 (D-IH-80-D Option B retrofit pilot) as the second instantiation of `pattern_sop_addendum_split` after the stakeholder lenses pair at I80 P2.
 >
-> The body's role: enable People Operations Lead (or any AIC role-owner) to run the knowledge-test cadence end-to-end. The addendum's role: explain the cross-area architecture the cadence sits inside, the operator-side framing decisions that shaped it, and the audit-trail dimensions that auditors / System Owner / Ethics Advisor need but the executor does not.
+> The body's role: enable People Operations Manager (or any AIC role-owner) to run the knowledge-test cadence end-to-end. The addendum's role: explain the cross-area architecture the cadence sits inside, the operator-side framing decisions that shaped it, and the audit-trail dimensions that auditors / System Owner / Ethics Advisor need but the executor does not.
 
 ---
 
@@ -65,7 +65,7 @@ The body's §2 names "five to ten question-answer pairs" without specifying cons
 
 The mix is what surfaces drift: definitional drift (canonical wording shifted), procedural drift (the executable steps no longer match the canonical), boundary drift (scope creep — the canonical has expanded without People's manifesto noticing).
 
-**Drift-vs-Fail discrimination.** The body's §4 names Drift as "the agent's answer is plausible but the canonical itself is ambiguous on the point." The deeper auditor-facing nuance: a single Drift mark per session is normal evolution (the canonical is being lived against and the lived reality reveals an edge case the canonical did not anticipate). Two or more Drift marks per session is a structural signal: either the canonical is significantly stale, or the test bank is over-targeting an ambiguous corner. People Operations Lead's `--reconcile` quarterly run (per body §6) catches the second pattern and triggers a test-bank rev rather than a canonical rev.
+**Drift-vs-Fail discrimination.** The body's §4 names Drift as "the agent's answer is plausible but the canonical itself is ambiguous on the point." The deeper auditor-facing nuance: a single Drift mark per session is normal evolution (the canonical is being lived against and the lived reality reveals an edge case the canonical did not anticipate). Two or more Drift marks per session is a structural signal: either the canonical is significantly stale, or the test bank is over-targeting an ambiguous corner. People Operations Manager's `--reconcile` quarterly run (per body §6) catches the second pattern and triggers a test-bank rev rather than a canonical rev.
 
 **Methodology version stamp.** Each test bank file carries a `methodology_version_at_authoring:` frontmatter field. When the test bank is run against an agent and the canonical's `methodology_version_at_review:` differs from the test bank's authoring version, the harness flags this in the result file. Auditors use this to discriminate between "canonical changed; test bank updated; re-run gives a clean Pass" (healthy) and "canonical changed; test bank not updated; re-run gives stale Fails" (process failure on the People side, not the agent).
 

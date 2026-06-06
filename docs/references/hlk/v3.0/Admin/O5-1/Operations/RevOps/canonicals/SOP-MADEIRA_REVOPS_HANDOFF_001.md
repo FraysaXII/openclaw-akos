@@ -2,7 +2,7 @@
 language: en
 status: review
 canonical: true
-role_owner: RevOps Lead
+role_owner: RevOps Manager
 classification: way_of_working
 intellectual_kind: SOP
 ssot: true
@@ -46,7 +46,7 @@ Capture MADEIRA workflow output + log to PMO_HUB_LOG with catalog entry id + inv
 
 ## 4. Acceptance criteria
 
-- **AC-HUMAN**: RevOps Lead invokes via `py scripts/revops_dispatch.py --process <id>` for relevant catalog entries.
+- **AC-HUMAN**: RevOps Manager invokes via `py scripts/revops_dispatch.py --process <id>` for relevant catalog entries.
 - **AC-AUTOMATION**: `validate_adapter_registries.py` PASS on madeira_revops_handoff row + revops_dispatch.py exits 0.
 
 ## 5. Cross-references

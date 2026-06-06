@@ -24,7 +24,7 @@ companion_to:
 ## What shipped at P0
 
 1. **Workspace mirror folder skeleton** at `docs/wip/planning/80-i79-lessons-learned/` (master-roadmap + decision-log + risk-register + files-modified.csv + this report).
-2. **INITIATIVE_REGISTRY.csv** — append INIT-OPENCLAW_AKOS-80 row (status=active; charter_decision_id=D-IH-80-A; owner_role=People Operations Lead; co_owner_role=PMO).
+2. **INITIATIVE_REGISTRY.csv** — append INIT-OPENCLAW_AKOS-80 row (status=active; charter_decision_id=D-IH-80-A; owner_role=People Operations Manager; co_owner_role=PMO).
 3. **DECISION_REGISTER.csv** — append 7 charter decisions D-IH-80-A..G per `decision-log.md`.
 4. **OPS_REGISTER.csv** — append 7 ops rows OPS-80-1..7 (one per execution phase P1..P7; status=open).
 5. **`docs/wip/planning/_templates/INITIATIVE_DEPENDENCIES.md`** — sync: mermaid (add i80 node + edges; i79 → i80 charter; i80 → i81 candidate forward-charter); blocker table (add I80 row OPEN); §5 history (extend with i79 closure → i80 charter transition).

@@ -2,14 +2,14 @@
 language: en
 status: active
 canonical: true
-role_owner: People Operations Lead
+role_owner: People Operations Manager
 co_owner_role: Legal Counsel
 area: People
 entity: Holistika
 intellectual_kind: sop-addendum
 authored: 2026-05-16
 last_review: 2026-05-16
-last_review_by: People Operations Lead
+last_review_by: People Operations Manager
 last_review_decision_id: D-IH-80-D
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -74,9 +74,9 @@ The brand-vs-name decision asks: when filing a trademark or registering a method
 
 The body §2 notes "Does NOT provide legal advice — Legal Counsel remains authoritative for instruments." The boundary detail:
 
-- People Operations Lead executes the offboarding mechanics (revoke access, archive folders, run round review checklist).
+- People Operations Manager executes the offboarding mechanics (revoke access, archive folders, run round review checklist).
 - Legal Counsel executes anything that touches a legal instrument (cap-table changes, SAFE conversion paperwork, advisor grant cancellation, methodology IP filing, dispute resolution).
-- The handoff is via a per-engagement Legal Counsel checklist row in the engagement README's frontmatter; People Operations Lead populates the row at offboarding start; Legal Counsel signs off when their checks are complete.
+- The handoff is via a per-engagement Legal Counsel checklist row in the engagement README's frontmatter; People Operations Manager populates the row at offboarding start; Legal Counsel signs off when their checks are complete.
 
 When Legal Counsel is unavailable (small-engagement offboardings; founder-attorney-of-record cases), the body §6 failure-mode of "Missing Legal sign-off on instrument changes" applies; archive promotion is blocked until sign-off.
 

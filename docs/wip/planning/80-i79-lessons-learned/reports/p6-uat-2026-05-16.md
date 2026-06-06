@@ -8,7 +8,7 @@ phase: P6
 initiative: INIT-OPENCLAW_AKOS-80
 authored: 2026-05-16
 last_review: 2026-05-16
-role_owner: People Operations Lead
+role_owner: People Operations Manager
 ssot: false
 companion_to:
   - ../master-roadmap.md

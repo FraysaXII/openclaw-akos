@@ -38,7 +38,7 @@ processes:
       Quarterly Business Review reconciling per-engagement revenue + surfacing engagement-template promotion candidates +
       calibrating forward-pipeline confidence + identifying cross-area portfolio risks.
     acceptance_criteria_human: |
-      PMO interim (or RevOps Lead/Analyst post-activation) runs SOP §4 cycle manually.
+      PMO interim (or RevOps Manager/Analyst post-activation) runs SOP §4 cycle manually.
       QBR report authored at docs/wip/planning/72-marketing-area-governance-and-persona-registry-expansion/reports/qbr-YYYY-Qn.md.
     acceptance_criteria_automation: |
       validate_engagement_template_registry.py PASS + validate_engagement_template_promotion.py PASS + validate_hlk.py PASS.
@@ -121,13 +121,13 @@ processes:
     sop_path: ../../../Marketing/Reach/canonicals/SOP-CRM_INTEGRATION_001.md
     runbook_pointer: scripts/revops_dispatch.py  # CRM_ADAPTER_REGISTRY.csv driven dispatch (shipped at I72 P8 per D-IH-72-P)
     process_list_id: tbi_ops_dtp_revops_crm_sync_001
-    role_owner_human: RevOps Lead
+    role_owner_human: RevOps Manager
     role_owner_aic: revops-systems-specialist-aic
     description: >
       Daily sync per active CRM adapter row in CRM_ADAPTER_REGISTRY.csv (P9 deliverable per D-IH-72-O Normalized Adapter Pattern).
       Holistika-internal AKOS holistika_ops adapter (status active) seeds the registry until external CRM adapters activate.
     acceptance_criteria_human: |
-      RevOps Lead reviews sync report; reconciles drift; flags blocked adapters.
+      RevOps Manager reviews sync report; reconciles drift; flags blocked adapters.
     acceptance_criteria_automation: |
       CRM_ADAPTER_REGISTRY.csv validator PASS (P9 deliverable); per-adapter sync exit code 0.
     lifecycle_status: scaffold

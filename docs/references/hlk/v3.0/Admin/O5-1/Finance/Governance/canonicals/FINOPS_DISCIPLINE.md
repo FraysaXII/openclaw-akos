@@ -10,7 +10,7 @@ authors:
   - CFO
 co_authors:
   - Business Controller
-  - RevOps Lead
+  - RevOps Manager
 last_review: 2026-06-05
 last_review_by: Business Controller
 last_review_at: 2026-06-05
@@ -62,7 +62,7 @@ It instantiates the Quality Fabric's `compose()` rule for the **finance axis**, 
 the same way [`DATAOPS_DISCIPLINE.md`](../../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md)
 instantiates it for the data axis.
 
-**Ownership:** Business Controller (primary) with CFO (entity gate) and RevOps Lead
+**Ownership:** Business Controller (primary) with CFO (entity gate) and RevOps Manager
 (engagement revenue chain consumer). **Execution** of mirrors and Edge workers stays
 in Tech (System Owner) per DataOps / mirror DML SOPs.
 

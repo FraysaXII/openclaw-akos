@@ -7,12 +7,12 @@ audience: J-OP;J-AIC
 confidence_level: A1
 source_taxonomy: holistika-internal-doctrine
 authors:
-  - Data Governance Lead
+  - Data Governance Office
 co_authors:
   - Data Steward
   - CDO
 last_review: 2026-06-04
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_at: 2026-06-04
 last_review_decision_id: D-IH-93-D
 methodology_version_at_review: v3.1
@@ -143,7 +143,7 @@ FK gates: `producer_process_id` → `process_list.csv`; `owner_role` →
 ## 4. Change management
 
 1. **Draft** — new row with `status=draft`; validator PASS required.
-2. **Active** — Data Governance Lead approval; `status=active`; semver bump
+2. **Active** — Data Governance Office approval; `status=active`; semver bump
    on material schema/SLA change.
 3. **Deprecated** — successor contract row must exist; old row `status=deprecated`.
 

@@ -7,12 +7,12 @@ access_level: 4
 confidence_level: A1
 source_taxonomy: holistika-internal-sop
 authors:
-  - Data Governance Lead
+  - Data Governance Office
 co_authors:
   - Data Steward
   - CDO
 last_review: 2026-06-04
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_decision_id: D-IH-93-D
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -41,7 +41,7 @@ cadence_trigger: new data surface mint OR DATA-FAM tranche OR contract breach OR
 
 ## Purpose
 
-Operationalise **when and how** Data Steward + Data Governance Lead add,
+Operationalise **when and how** Data Steward + Data Governance Office add,
 amend, or deprecate rows in `DATA_CONTRACT_REGISTRY.csv` without duplicating
 `process_list` or `CAPABILITY_REGISTRY`. Paired to the operating-model report
 `docs/wip/planning/93-data-area-foundation-and-governance/reports/data-contract-registry-operating-model-2026-06-04.md`.
@@ -72,7 +72,7 @@ amend, or deprecate rows in `DATA_CONTRACT_REGISTRY.csv` without duplicating
    (mark forward declarations explicitly).
 4. **Run validators** — see AC-AUTOMATION; fix FAIL before operator gate.
 5. **Operator gate** — canonical-CSV tranche approval for net-new rows (baseline
-   governance); Data Governance Lead promotes `draft` → `active`.
+   governance); Data Governance Office promotes `draft` → `active`.
 6. **Deprecate** — set `status=deprecated`; successor row must exist; semver bump
    on material changes to active rows.
 7. **Record evidence** — tranche charter or wave UAT cites contract IDs touched.
@@ -99,7 +99,7 @@ probe profiles land.
 
 ## Escalation
 
-Data Steward → Data Governance Lead → CDO per `DATA_GOVERNANCE_POLICY.md` §3.
+Data Steward → Data Governance Office → CDO per `DATA_GOVERNANCE_POLICY.md` §3.
 
 ## Cross-references
 

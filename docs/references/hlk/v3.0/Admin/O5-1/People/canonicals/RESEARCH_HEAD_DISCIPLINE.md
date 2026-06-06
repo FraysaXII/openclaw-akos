@@ -10,7 +10,7 @@ authors:
   - Founder (acting as Holistik Researcher / Research Area Head)
   - System Owner
 co_authors:
-  - People Operations Lead
+  - People Operations Manager
   - KM Officer
 last_review: 2026-05-19
 last_review_by: Founder/CEO

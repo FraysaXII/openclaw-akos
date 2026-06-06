@@ -6,10 +6,10 @@ authored: 2026-05-16
 closed_at: 2026-05-16
 closure_decision_id: D-IH-80-CLOSURE
 last_review: 2026-05-16
-owner_role: People Operations Lead
+owner_role: People Operations Manager
 co_owner_role: PMO
 inception: 2026-05-16
-authority: Founder + PMO + People Operations Lead
+authority: Founder + PMO + People Operations Manager
 language: en
 linked_decisions:
   - D-IH-80-A (mega-charter — 8 phases incl. P0 charter; 1 PAUSE at closure; charter-satisfies-gate active immediately per inheritance from D-IH-79-A)
@@ -109,13 +109,13 @@ Inline-ratify gates may fire during P5 (which 5 of the I73 lifecycle SOPs have a
 | ID | Question | Owner | Status | Close-out phase |
 |:---|:---|:---|:---|:---|
 | **D-IH-80-A** | Mega-charter scope — 3-track lessons-learned absorption (SOP body/addendum + stakeholder lenses + inline-ratify craft) | Founder | Active | P0 (this commit) |
-| **D-IH-80-B** | SOP body/addendum naming — paired-file default for DAMA-readiness | People Operations Lead | Active | P0 (this commit); operationalised P1 |
-| **D-IH-80-C** | Stakeholder lenses shape — paired-files (body level 4 + addendum level 5) | People Operations Lead | Active | P0 (this commit); operationalised P2 |
+| **D-IH-80-B** | SOP body/addendum naming — paired-file default for DAMA-readiness | People Operations Manager | Active | P0 (this commit); operationalised P1 |
+| **D-IH-80-C** | Stakeholder lenses shape — paired-files (body level 4 + addendum level 5) | People Operations Manager | Active | P0 (this commit); operationalised P2 |
 | **D-IH-80-D** | Retrofit scope — I80 pilots Option B (8 SOPs); Option C forward-chartered to I81 | PMO | Active | P0 (this commit); pilots P4+P5; forward-charter P6 |
 | **D-IH-80-E** | Inline-ratify craft skill home — .cursor/skills/inline-ratify-craft/ + rule extension | System Owner | Active | P0 (this commit); operationalised P3 |
 | **D-IH-80-F** | Jargon-gate refinement — `*.addendum.md` glob exclusion (DAMA Data Integration alignment) | System Owner | Active | P0 (this commit); operationalised P1 |
-| **D-IH-80-G** | Pattern_class taxonomy extension — `documentation_layering` as 11th class | People Operations Lead | Active | P0 (this commit); operationalised P1 |
-| **D-IH-80-H** | KNOWLEDGE_PAIRING_REGISTRY.csv mint — documentation-relationship registry (paired-file / index / doctrine-companion governance for DAMA + SSOT + mirror + hlk-erp + AI Archivist scope) | People Operations Lead | Active | P6.5 (operator inline-ratify Round 9; 2026-05-16) |
+| **D-IH-80-G** | Pattern_class taxonomy extension — `documentation_layering` as 11th class | People Operations Manager | Active | P0 (this commit); operationalised P1 |
+| **D-IH-80-H** | KNOWLEDGE_PAIRING_REGISTRY.csv mint — documentation-relationship registry (paired-file / index / doctrine-companion governance for DAMA + SSOT + mirror + hlk-erp + AI Archivist scope) | People Operations Manager | Active | P6.5 (operator inline-ratify Round 9; 2026-05-16) |
 | **D-IH-80-CLOSURE** | Initiative closure | PMO | (pending) | P7 |
 
 ## Risks (preview)

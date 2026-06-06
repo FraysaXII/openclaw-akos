@@ -97,8 +97,8 @@ Please confirm before P3b/P4:
 3. **Hybrid cadence design is correct** — knowledge-test = monthly baseline + event_triggered; ethics-review = annual baseline + event_triggered. Confirm both hybrids match the operator's idle/high-work coverage intent.
 4. **Madeira role-class footnote is preserved verbatim** — `HOLISTIKA_AGENTIC_DOCTRINE.md` §4 names Madeira as a named role-class internal to People (not a product, not jargon). Confirm the framing is correct.
 5. **Jargon-scan still clean** — five People-area canonicals now in scope (manifesto + pattern library + agentic doctrine + agentic-ops SOP + ethics anchor); zero forbidden tokens. Confirm the discipline holds.
-6. **Process_list rows are correctly classified** — `tbi_peopl_dtp_agentic_ops_mtnce_001` is a People Operations Lead row at `hol_peopl_ws_2`; `tbi_peopl_dtp_agentic_ethics_boundaries_001` is an Ethics Advisor row at `hol_peopl_ws_6`. Confirm the routing.
-7. **No new `baseline_organisation` row required** — agentic governance lands within existing People role responsibilities (People Operations Lead + Ethics Advisor + System Owner co-author the doctrine; no new role needed). Confirms `D-IH-79-K` (KB-stewardship absorbed into manifest, no new role).
+6. **Process_list rows are correctly classified** — `tbi_peopl_dtp_agentic_ops_mtnce_001` is a People Operations Manager row at `hol_peopl_ws_2`; `tbi_peopl_dtp_agentic_ethics_boundaries_001` is an Ethics Advisor row at `hol_peopl_ws_6`. Confirm the routing.
+7. **No new `baseline_organisation` row required** — agentic governance lands within existing People role responsibilities (People Operations Manager + Ethics Advisor + System Owner co-author the doctrine; no new role needed). Confirms `D-IH-79-K` (KB-stewardship absorbed into manifest, no new role).
 
 ## First-three-actions for P3b (next phase)
 

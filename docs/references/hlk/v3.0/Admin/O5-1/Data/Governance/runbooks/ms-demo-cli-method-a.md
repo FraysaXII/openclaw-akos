@@ -76,5 +76,5 @@ AIC may run steps 2–5 after operator completes step 1. Operator must approve c
 | Blocker | Escalate to |
 |:---|:---|
 | pac auth / licensing | System Owner |
-| Registry FK failure | Data Governance Lead |
-| Demo logic mismatch vs spec | RevOps Lead + engagement owner |
+| Registry FK failure | Data Governance Office |
+| Demo logic mismatch vs spec | RevOps Manager + engagement owner |

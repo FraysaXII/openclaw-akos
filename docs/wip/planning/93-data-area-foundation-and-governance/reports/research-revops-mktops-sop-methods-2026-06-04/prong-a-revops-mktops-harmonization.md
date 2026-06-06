@@ -70,7 +70,7 @@ Per SRC-I93-RSM-004..005:
 | **RevOps area** | Revenue integration spine | RevOps |
 | **MarTech** | Adapter registries (CRM, email, attribution…) | Tooling — not a job title |
 
-**Interim BI stewardship (until A4 ratified):** Marketing Analytics Manager + CMO chain = primary campaign/ads analytics consumer; RevOps Lead = attribution + revenue rollup consumer (Operations adapters).
+**Interim BI stewardship (until A4 ratified):** Marketing Analytics Manager + CMO chain = primary campaign/ads analytics consumer; RevOps Manager = attribution + revenue rollup consumer (Operations adapters).
 
 ## Open ratification
 

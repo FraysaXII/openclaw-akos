@@ -7,13 +7,13 @@ audience: J-OP;J-AIC
 confidence_level: A1
 source_taxonomy: holistika-internal-doctrine
 authors:
-  - Data Governance Lead
+  - Data Governance Office
 co_authors:
   - CDO
   - Data Architect
   - System Owner
 last_review: 2026-06-04
-last_review_by: Data Governance Lead
+last_review_by: Data Governance Office
 last_review_decision_id: D-IH-93-I
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -81,9 +81,9 @@ declare consumption in `AREA_BI_PROFILE.csv` (one row per area) linked to
 
 | Role | Responsibility |
 |:---|:---|
-| Data Governance Lead | Maintains AREA_BI_PROFILE + BI_CONSUMER registries |
+| Data Governance Office | Maintains AREA_BI_PROFILE + BI_CONSUMER registries |
 | Area steward (`steward_role` column) | Ensures area charter appendix matches profile row |
-| RevOps Lead | Unified RevOps umbrella — embeds Marketing Ops **execution**; MKTOPS discipline remains **quality bar** (D-IH-93-J) |
+| RevOps Manager | Unified RevOps umbrella — embeds Marketing Ops **execution**; MKTOPS discipline remains **quality bar** (D-IH-93-J) |
 
 Run: `py scripts/validate_area_bi_profile.py`
 
@@ -151,7 +151,7 @@ Run: `py scripts/bi_integration_readiness_check.py --self-test`
 
 | Role | Responsibility |
 |:---|:---|
-| Data Governance Lead | BI tier assignment, Stream A/B/C declaration on engagements |
+| Data Governance Office | BI tier assignment, Stream A/B/C declaration on engagements |
 | Data Architect | Semantic binding, export view design |
 | Data Steward | Metabase (T4) when activated; mirror parity |
 | System Owner | Edge/ERP wiring, matrix rows for runtime components |

@@ -6,10 +6,10 @@ access_level: 4
 confidence_level: A1
 source_taxonomy: holistika-internal-doctrine
 authors:
-  - People Operations Lead
+  - People Operations Manager
   - Compliance Officer
 last_review: 2026-05-16
-last_review_by: People Operations Lead
+last_review_by: People Operations Manager
 ratifying_decisions:
   - D-IH-79-A
   - D-IH-79-C
@@ -260,7 +260,7 @@ live mirror evidence is in scope).
 
 ## Maintenance
 
-This library and the paired CSV are reviewed at least annually by Compliance Officer plus People Operations Lead. The `last_review` and `last_review_by` columns on the CSV reflect the latest review per pattern. When a pattern is added or revised, the cross-area breakthrough propagation pattern fires and the consuming areas receive notification.
+This library and the paired CSV are reviewed at least annually by Compliance Officer plus People Operations Manager. The `last_review` and `last_review_by` columns on the CSV reflect the latest review per pattern. When a pattern is added or revised, the cross-area breakthrough propagation pattern fires and the consuming areas receive notification.
 
 When a pattern is deprecated, the row's `status` flips to `deprecated`; consuming-area instances are migrated to the successor pattern; the row stays in the registry as historical context.
 

@@ -35,7 +35,7 @@ language: en
 12. [`ENGAGEMENT_REGISTRY.md`](../../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.md) — §2 schema spec updated to 17 cols.
 
 ### E. process_list tranche (1 file; 7 rows)
-13. [`process_list.csv`](../../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv) — 7 new `tbi_peopl_dtp_engagement_*` rows under `hol_peopl_ws_2` (People Operations workstream); Data Owner = `People Operations Lead`. All carry `TODO[I73-P2-SOP-PATH]` or `TODO[I73-P3-SOP-PATH]` forward-charter markers per D-IH-72-W feature-flag pattern. Cadence: 3× scheduled (quarterly), 4× event_triggered.
+13. [`process_list.csv`](../../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv) — 7 new `tbi_peopl_dtp_engagement_*` rows under `hol_peopl_ws_2` (People Operations workstream); Data Owner = `People Operations Manager`. All carry `TODO[I73-P2-SOP-PATH]` or `TODO[I73-P3-SOP-PATH]` forward-charter markers per D-IH-72-W feature-flag pattern. Cadence: 3× scheduled (quarterly), 4× event_triggered.
 
 ### F. Decision register mints (2 files)
 14. [`DECISION_REGISTER.csv`](../../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv) — append D-IH-73-H..N (7 rows).
@@ -53,7 +53,7 @@ language: en
 
 ## Mid-phase decisions (no operator surface; defaults followed)
 
-- **Gate A pre-check** (process_list tranche): RESOLVED BY INSPECTION at SC-1 (baseline_organisation rows EXIST for People Operations Lead / Learning Curator / Ethics Advisor). No AskQuestion surfaced per `akos-inline-ratification.mdc` "When NOT to use" (no decision required when evidence is unambiguous).
+- **Gate A pre-check** (process_list tranche): RESOLVED BY INSPECTION at SC-1 (baseline_organisation rows EXIST for People Operations Manager / Learning Curator / Ethics Advisor). No AskQuestion surfaced per `akos-inline-ratification.mdc` "When NOT to use" (no decision required when evidence is unambiguous).
 - **Gate B preview** (row contents + column schema preview): treating as "skipped to recommended-default-accepted" per operator's task-spec rule ("If operator skips any gate: treat as recommended-default-accepted"). Row contents authored 1:1 to the operator-provided row-content-draft in the task spec; column schema matches the operator-provided 16-col schema verbatim; enum values match the operator-provided enum lists verbatim. No deviation from operator spec except for `knowledge_access_level` enum: operator spec listed `full` but row drafts used `full_by_engagement` for rows 1/3/5 — harmonized to `full_by_engagement` (the data-instance value wins over the enum-list mismatch; this preserves operator intent for cleared-collaborator full access).
 - **`tbi_*` vs `thi_*` prefix in process_list rows**: operator spec named `tbi_peopl_dtp_engagement_*`. Both prefixes exist in canonical CSV today (`thi_peopl_dtp_*` is older People Operations workstream pattern; `tbi_mkt_prj_*` is newer post-I72 Think Big sub-mark pattern). Following operator spec verbatim with `tbi_` prefix. Entity column = `Holistika` (matches post-I72 convention for tbi_ rows; sibling rows `tbi_mkt_prj_brand_governance_001` etc. use entity=Holistika even though prefix is tbi_).
 - **Forward-charter SOP paths**: paired SOPs land at P3 (engagement-lifecycle SOPs); used `TODO[I73-P3-SOP-PATH]` and `TODO[I73-P2-SOP-PATH]` markers in `instructions` column per D-IH-72-W feature-flag pattern. `validate_process_list_pairing.py` accepts these markers gracefully (PASS).

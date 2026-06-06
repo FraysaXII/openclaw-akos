@@ -664,7 +664,7 @@
       ]
     },
     "engagement_model_registry_smoke": {
-      "description": "Initiative 73 P1: standalone ENGAGEMENT_MODEL_REGISTRY validator smoke (D-IH-73-C sibling-dimension; D-IH-73-D 7-class taxonomy). Runs scripts/validate_engagement_model_registry.py against the canonical CSV at docs/references/hlk/v3.0/Admin/O5-1/People/People Operations/canonicals/dimensions/ENGAGEMENT_MODEL_REGISTRY.csv. Per-row Pydantic instantiation (Literal enums + slug regex + access_level int 0-6) + 7-class taxonomy completeness check + FK to baseline_organisation.csv (People Operations Lead = Data Owner per D-IH-73-C).",
+      "description": "Initiative 73 P1: standalone ENGAGEMENT_MODEL_REGISTRY validator smoke (D-IH-73-C sibling-dimension; D-IH-73-D 7-class taxonomy). Runs scripts/validate_engagement_model_registry.py against the canonical CSV at docs/references/hlk/v3.0/Admin/O5-1/People/People Operations/canonicals/dimensions/ENGAGEMENT_MODEL_REGISTRY.csv. Per-row Pydantic instantiation (Literal enums + slug regex + access_level int 0-6) + 7-class taxonomy completeness check + FK to baseline_organisation.csv (People Operations Manager = Data Owner per D-IH-73-C).",
       "steps": [
         {
           "id": "validate_engagement_model_registry",

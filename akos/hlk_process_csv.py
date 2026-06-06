@@ -44,7 +44,7 @@ PROCESS_LIST_FIELDNAMES: list[str] = [
     "methodology_version_at_review",
     # I72 P4 value-mapping function schema extension (D-IH-72-AF + D-IH-72-AG).
     # 4 axis FKs + 3 revenue value cells. Sparse population — most existing rows
-    # carry NULL (empty) for all 7 cells; rows authored by RevOps Lead/Analyst
+    # carry NULL (empty) for all 7 cells; rows authored by RevOps Manager/Analyst
     # (post-P4 activation) populate the relevant axis cells. Per D-IH-72-V cascade:
     # this schema change cascades to akos SSOT module (this file) + Pydantic model
     # (extra=allow on ProcessItem) + Supabase mirror DDL + release-gate.

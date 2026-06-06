@@ -2,14 +2,14 @@
 language: en
 status: active
 canonical: true
-role_owner: People Operations Lead
+role_owner: People Operations Manager
 co_owner_role: Legal Counsel
 area: People
 entity: Holistika
 intellectual_kind: sop-addendum
 authored: 2026-05-16
 last_review: 2026-05-16
-last_review_by: People Operations Lead
+last_review_by: People Operations Manager
 last_review_decision_id: D-IH-80-D
 methodology_version_at_review: v3.1
 ratifying_decisions:
@@ -24,7 +24,7 @@ ssot: true
 
 # SOP-ENGAGEMENT_HIRING_LIFECYCLE_001 — Addendum (Legal templates + IP clause matrix + workspace blueprint depth)
 
-> Access level 5. Authored at I80 P5 (D-IH-80-D Option B retrofit pilot, 2026-05-16) as a paired-file companion. The body executor needs to know *how* to classify a new engagement and route legal templates; this addendum carries the decision-tree depth — IP clause class semantics, retribution-pattern enum interpretation, multi-class ambiguity adjudication, workspace-folder shape rationale — that Legal Counsel / People Operations Lead reference when classification is genuinely ambiguous.
+> Access level 5. Authored at I80 P5 (D-IH-80-D Option B retrofit pilot, 2026-05-16) as a paired-file companion. The body executor needs to know *how* to classify a new engagement and route legal templates; this addendum carries the decision-tree depth — IP clause class semantics, retribution-pattern enum interpretation, multi-class ambiguity adjudication, workspace-folder shape rationale — that Legal Counsel / People Operations Manager reference when classification is genuinely ambiguous.
 
 ## A. ENGAGEMENT_MODEL_REGISTRY columns the classifier reads
 

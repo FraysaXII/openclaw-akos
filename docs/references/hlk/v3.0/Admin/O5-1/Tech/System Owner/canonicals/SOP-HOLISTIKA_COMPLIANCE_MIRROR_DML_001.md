@@ -10,7 +10,7 @@ authors:
   - System Owner
 co_authors:
   - PMO
-  - Data Governance Lead
+  - Data Governance Office
 last_review: 2026-06-05
 last_review_by: System Owner
 last_review_decision_id: D-IH-93-CLOSURE
