@@ -85,7 +85,7 @@ Future processes added at I72 P8 (Strand D.2 Process Catalog) will populate `REV
 ## 7. Cross-references
 
 - Parent: [`MARKETING_AREA_M3_REDESIGN.md`](../../canonicals/MARKETING_AREA_M3_REDESIGN.md) §2 (Reach sub-area) + §3 (single-ownership).
-- Sister sub-areas: Brand (`../../Brand/canonicals/`), Resonance (`../../Resonance/canonicals/`), Storytelling (`../../Storytelling/canonicals/`), Experimentation (`../../Experimentation/canonicals/`).
+- Sister sub-areas: Brand (`../../Brand/canonicals/`), Resonance (`../../Resonance/canonicals/`), Storytelling (`../../Brand/canonicals/`), Experimentation (`../../Experimentation/canonicals/`).
 - Migrated SOPs: `SOP-GTM_QUALIFICATION_001.md`, `SOP-GTM_BD_HANDOFF_001.md`, `SOP-GTM_INBOUND_SLA_001.md` (all at `Reach/canonicals/` post-P1).
 - Forward-link: `SOP-ENGAGEMENT_TEMPLATE_PROMOTION_001.md` (P3 at `Operations/RevOps/canonicals/`) — receives qualified leads from Reach.
 - Cursor rule: [`akos-executable-process-catalog.mdc`](../../../../../../../../../.cursor/rules/akos-executable-process-catalog.mdc) Rules 3 + 4.

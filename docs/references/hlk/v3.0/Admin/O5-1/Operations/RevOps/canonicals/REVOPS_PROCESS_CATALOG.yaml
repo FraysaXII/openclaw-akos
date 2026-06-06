@@ -154,7 +154,7 @@ processes:
     name: Media counterparty review
     cadence: event_triggered
     trigger: new_pr_engagement
-    sop_path: ../../../Marketing/Storytelling/canonicals/SOP-MEDIA_ONBOARDING_001.md
+    sop_path: ../../../Marketing/Brand/canonicals/SOP-MEDIA_ONBOARDING_001.md
     runbook_pointer: scripts/validate_intelligenceops_register.py
     process_list_id: tbi_ops_dtp_revops_media_review_001
     role_owner_human: Brand Manager

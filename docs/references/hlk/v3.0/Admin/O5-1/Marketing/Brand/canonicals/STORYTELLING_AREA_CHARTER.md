@@ -17,8 +17,14 @@ companion_to:
   - ../../Brand/canonicals/BRAND_DISCIPLINE_ONTOLOGY.md
 ---
 
-# STORYTELLING_AREA_CHARTER — Marketing/Storytelling sub-area
+# STORYTELLING_AREA_CHARTER — narrative-authoring discipline (within Brand & Narrative)
 
+> **Relocated 2026-06-06 (I95 Q2 batch):** the standalone `Marketing/Storytelling/` sub-area folder
+> is dissolved; per **`D-IH-72-AO`** Storytelling merged with Brand into the **Brand & Narrative**
+> sub-area. This charter now lives under `Marketing/Brand/canonicals/` and documents the
+> **narrative-authoring (conveying) discipline** within Brand & Narrative — owned by the Brand &
+> Narrative Manager (+ PR Manager). The roles already merged; this completes the folder move.
+>
 > Authored I72 P1 per `D-IH-72-A` (P0 charter ratification) + `D-IH-70-X` (Corporate Marketing migration to Storytelling). Storytelling owns the **conveying** verb in the Marketing M3 ontology: integrating Brand register + Research outputs into narrative artefacts (case studies, press posts, thought-leadership, employer-brand collateral) deployable by Reach + Resonance. Absorbs Corporate Marketing from legacy People/Talent path.
 
 ## 1. Mission
