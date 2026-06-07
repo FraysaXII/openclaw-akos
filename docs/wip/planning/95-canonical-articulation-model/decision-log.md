@@ -166,6 +166,37 @@ supabase"). Done via Supabase MCP on project MasterData (`swrmqpelgoblaquequzb`)
 - Capability collapse (canonical CSV) · KM Officer seat activation (`baseline_organisation`) ·
   legacy `public.*`/`kirbe.*` DDL drop + RLS-on-survivors (data-loss + SOC).
 
+## D-IH-95-H — L2 + L5 execution ratification (RATIFIED 2026-06-07, architecture, mixed reversibility)
+
+Operator ratified the 8 parameter decisions from the two research-backed findings docs
+([L2 capability](../../intelligence/canonical-articulation-model-2026-06-05/l2-capability-densify-findings-2026-06-07.md),
+[L5 topic](../../intelligence/canonical-articulation-model-2026-06-05/l5-topic-structure-findings-2026-06-07.md)).
+
+**L2 — capability de-densify** (keep-separate upheld; collapse 1,119 → stable map):
+| # | Decision | Verdict |
+|:--|:--|:--|
+| Band | target count | **area-by-area, count falls out organically** (operator override of the ~60–110 band) |
+| Shape | 4 refinements | **accept all** — evict ~27 code-symbols → component registry; merge cross-entity dups → one bearer-agnostic capability; `bearer_class` → realization edge (TRP-006/038); add `capability_tier` |
+| Rating | cadence | **hybrid** rolling ~8/wk + event-triggered + value-tier (weekly cron) |
+| Tranche | execution | **per-domain slices** (gated canonical-CSV) |
+
+**L5 — topic structure** (chassis ~80% exists; govern + bind + curate, not build):
+| # | Decision | Verdict |
+|:--|:--|:--|
+| Physical | move vs key-in-place | **PHYSICAL MOVE authorized** into a topic-keyed tree + **`akos-research-area.mdc` amended** (governed moves allowed; unilateral untraced drift still forbidden) |
+| Schema | facets + ownership | **accept all 3** — orthogonal `subject_kind` facets + binding columns; registry populates the HCAM `topic` dimension; activate dormant **KM Officer** steward (no new role) |
+| Data | cleanup | **accept + EXPANDED** — lifecycle-gate triage of 11 stranded rows + mint 5 missing rows + **repo-wide sweep of ALL scattered topics** into `TOPIC_REGISTRY` |
+| Tranche | execution | **two tranches** (schema → data), each `validate_hlk`-gated |
+
+### Executed at ratification (this commit)
+- `akos-research-area.mdc` RULE 2 + anti-patterns **amended** (governed-move authorization).
+- `D-IH-95-H` recorded; both findings docs marked ratified; L2+L5 sequenced as phases (roadmap).
+- **Dispatched:** background subagent for the **repo-wide scattered-topic inventory** (feeds L5 data tranche).
+
+### Gated / sequenced (operator-approval per tranche)
+- L2 capability collapse (area-by-area slices, canonical-CSV) · L5 schema tranche then data tranche
+  (canonical-CSV) · the physical `wip/intelligence` move · KM Officer seat activation (`baseline_organisation`).
+
 ### Pending sub-decisions (to ratify at each gate)
 - **D-IH-95-F (future):** I91 graph-edge cutover (dual-emit → retire legacy) when Neo4j unblocks.
 - 8-area articulation sweep: burn down the orphan worklist (`--matrix`) via the Semantic Council.

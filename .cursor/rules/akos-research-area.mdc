@@ -28,7 +28,7 @@ is the ACQUIRE/PROCESS slice — one discipline, not the area. The thin stages t
 ## RULE 2 — The homes (do not re-derive; do not drift) (binding)
 
 - **Canonical SSOT:** `docs/references/hlk/v3.0/Research/<discipline>/canonicals/` (Methodology / Intelligence / Diagnosis / Validation). New research disciplines land here as Methodology siblings.
-- **Tier-1 WIP (Research-owned, cross-area):** `docs/wip/intelligence/` — correct **by design** (`D-IH-70-O` + blueprint §17). **Never** move/rename it without a topology decision superseding `D-IH-70-O`, and **never** invent a new generic `docs/wip/<name>/` for research WIP.
+- **Tier-1 WIP (Research-owned, cross-area):** `docs/wip/intelligence/` — the cross-area research working home (`D-IH-70-O` + blueprint §17). **Governed restructuring is now permitted** (`D-IH-95-H`, superseding the blanket `D-IH-70-O` no-move): a move/rename/topic-keying is allowed **(a)** when the **operator requests it**, or **(b)** when an agent detects a **KB-integrity** problem and **proposes** the move for ratification (KB integrity is the operator's stated first priority). What stays forbidden is the *original* failure mode — **unilateral, untraced folder creation/relocation that drifts from the ratified architecture**. Before any move: trace the current topology (this rule + the anchor README + `TOPIC_REGISTRY`), state target + rationale, and get operator ratification (or cite the operator request). Still **never** invent a new generic `docs/wip/<name>/` for research WIP without that trace-then-ratify.
 - **Operational / legacy (mid-migration):** `docs/references/hlk/v3.0/Admin/O5-1/Research/`.
 - **Topic SSOT:** `TOPIC_REGISTRY.csv`; Trello backlog index is evidence, not SSOT.
 
@@ -47,7 +47,7 @@ research-area governance buildout is **I75**.
 
 - Treating Research as a flat research-action queue (it is the CORPINT lifecycle).
 - Inventing a new `docs/wip/<name>/` home (e.g. `research-ops/`) instead of `docs/wip/intelligence/`.
-- Proposing to physically move `docs/wip/intelligence/` (contradicts the ratified topology).
+- **Unilaterally** moving/creating folders **without tracing the architecture first + operator ratification** (the original drift failure: rogue folders from untraced intent). NOTE per `D-IH-95-H`: governed moves — operator-requested, or KB-integrity-driven-and-ratified — are *encouraged*; the failure is the *untraced/unilateral* part, **not movement itself**.
 - Mistaking Research Action (intake) for the whole area.
 - Re-deriving the area structure from scratch instead of reading the anchor README first.
 
