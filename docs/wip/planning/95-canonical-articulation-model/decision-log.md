@@ -128,13 +128,34 @@ operator's "+12 ratified" bar (**23 total**).
 | R2-08 | DRIFT-8 biz-strategy artifacts | re-home → **Finance** (pricing/unit-econ) + **Marketing/Strategy** (theses) |
 | R2-09 | Neo4j online-every-time | **free write keep-alive ping now** + budget ~$65/mo Professional |
 
-### Executed at ratification (this commit)
+### Executed at ratification (commit 1 — governance scaffold)
 - **R2-03 EG-1:** `SUPABASE_MODULE_REGISTRY.csv` (27 modules: 9 governed / 7 partial / 11 ungoverned)
   + `SUPABASE_ECOSYSTEM_GOVERNANCE.md` canonical + `validate_supabase_module_registry.py` (wired into
   `validate_hlk`, PASS; critical-ungoverned flagged: public-legacy / Auth / API-exposure).
 - **R2-04:** index drift fixed (research README KM-stale → Data-federated; roadmap B/C/E
   pending→ratified; hcam sign-off frontmatter → `signed_off`).
 - **R2-09:** `.github/workflows/neo4j-aura-keepalive.yml` (daily write ping; secrets-gated).
+
+### Executed LIVE on Supabase (commit 2 — operator execution grant 2026-06-07)
+Operator granted direct execution ("I approve you doing it… when a canonical changes we sync
+supabase"). Done via Supabase MCP on project MasterData (`swrmqpelgoblaquequzb`), verified, repo-synced:
+- **DB-02 (drop dead):** dropped 10 verified-dead KiRBe-era test/dupe `public.*` tables
+  (`test_aapl` 1258 rows, `test_clients/contract/process/product`, `example_csv`, `document_vectors`
+  dupe, `users2` dupe, `"Test access"`, `"Process list"`) — pre-checked: no FK, no view deps.
+  Public tables 34 → 24.
+- **DB-03 (RLS):** RLS **deny-by-default** on the 13 surviving RLS-disabled `public.*` tables +
+  enabled RLS on `kirbe.kirbe_organizations` (had inert policies). **Critical `rls_disabled`
+  advisory 16 → 0; 0 security ERRORs** (verified via catalog query, not just cached advisor).
+  `service_role` (AKOS backend) bypasses RLS, so nothing breaks.
+- **Repo sync:** 3 migration files written matching remote versions
+  (`20260607191541/191554/191652`) — two-plane DDL ledger stays in sync.
+- **DB-01 (mirror re-sync):** drift-prevention **automated** — `supabase-mirror-sync.yml` emits the
+  mirror DML on every canonical-CSV push to main + gated apply via the `SUPABASE_DB_URL` secret. The
+  one-time re-sync DML is 6.9 MB / 2727 statements (too large to hand-apply via MCP — CI `psql` is the
+  right mechanism). `SUPA-MOD-09` ungoverned→**governed**; `OPS-95-1` updated. Evidence:
+  [`reports/supabase-eg2-execution-2026-06-07.md`](reports/supabase-eg2-execution-2026-06-07.md).
+- **Operator action remaining:** set repo secrets `SUPABASE_DB_URL` (mirror auto-apply) +
+  `NEO4J_URI/USERNAME/PASSWORD` (keep-alive).
 
 ### Sequenced (next phases — see master-roadmap)
 - **R2-01** capability de-densify · **R2-05** FK→verb tranches · **R2-06** orphan by-area ·
