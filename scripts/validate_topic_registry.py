@@ -37,16 +37,6 @@ TOPIC_REGISTRY_CSV = HLK_COMPLIANCE / "dimensions" / "TOPIC_REGISTRY.csv"
 PROGRAM_REGISTRY_CSV = HLK_COMPLIANCE / "dimensions" / "PROGRAM_REGISTRY.csv"
 ORG_CSV = HLK_COMPLIANCE / "baseline_organisation.csv"
 
-TOPIC_CLASSES = {
-    "process_map",
-    "architecture",
-    "wireframe",
-    "methodology_map",
-    "manifesto",
-    "evidence_pack",
-    "brand_asset",
-    "other",
-}
 LIFECYCLE_STATUS = {"proposed", "active", "paused", "closed", "superseded"}
 PLANES = {"advops", "finops", "mktops", "techops", "marops", "devops", "ops", "shared"}
 
@@ -162,10 +152,6 @@ def main() -> int:
         title = (row.get("title") or "").strip()
         if not title:
             errors.append(f"row {i}: empty title")
-
-        klass = (row.get("topic_class") or "").strip()
-        if klass not in TOPIC_CLASSES:
-            errors.append(f"row {i}: invalid topic_class {klass!r}; expected one of {sorted(TOPIC_CLASSES)}")
 
         lifecycle = (row.get("lifecycle_status") or "").strip()
         if lifecycle not in LIFECYCLE_STATUS:

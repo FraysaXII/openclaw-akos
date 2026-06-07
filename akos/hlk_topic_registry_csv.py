@@ -9,9 +9,8 @@ Schema:
 
 - `topic_id` — unique identifier (snake_case prefix `topic_`).
 - `title` — human-readable.
-- `topic_class` — `process_map | architecture | wireframe | methodology_map |
-  manifesto | evidence_pack | brand_asset | other`.
 - `lifecycle_status` — `proposed | active | paused | closed | superseded`.
+  (legacy `topic_class` retired at D-IH-95-H — superseded by the `subject_kind` facet below.)
 - `primary_owner_role` — FK to `baseline_organisation.csv` `role_name`.
 - `program_id` — FK to `PROGRAM_REGISTRY.csv` `program_id` OR `shared` for
   cross-program topics.
@@ -31,7 +30,6 @@ from __future__ import annotations
 TOPIC_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "topic_id",
     "title",
-    "topic_class",
     "lifecycle_status",
     "primary_owner_role",
     "program_id",

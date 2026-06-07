@@ -232,10 +232,20 @@ Operator ratified the 8 parameter decisions from the two research-backed finding
 - **Local litter (harmless):** ~17 stray *empty* `topic_*` dirs from the blocked attempts remain
   untracked + git-ignored (won't commit; clear on editor restart / manual delete).
 
+### KM Officer + L5 data step 3 EXECUTED (2026-06-08)
+- **KM Officer seat ACTIVATED** in `baseline_organisation` (Research steward, reports to Holistik
+  Researcher; access 3; the dormant round-2 §2 seat — no new role beyond this). 71 roles.
+- **`steward_role=KM Officer` backfilled** across all 58 topics (vocabulary steward; distinct from
+  per-topic `primary_owner_role`).
+- **11 stranded `proposed` rows triaged** → `subject_kind=research_playlist`, kept as governed
+  backlog (no corpus yet; lifecycle-gate-correct at `proposed`; steward can seed/fold/close later).
+- **Legacy `topic_class` RETIRED** (column removed; `subject_kind` facet supersedes it) — FIELDNAMES
+  + validator + mirror DDL (`20260607232015`, applied via MCP) all in sync. `validate_hlk` PASS.
+
 ### Gated / sequenced (still ahead)
-- L2 capability collapse (area-by-area slices, canonical-CSV) · L5 data **step 3** (triage the
-  11 stranded `proposed` rows; retire `topic_class`) · KM Officer seat activation (`baseline_organisation`)
-  → then backfill `steward_role` · **physical move** (optional; revisit only if needed + lock released).
+- **L2 capability collapse** (area-by-area; 6 area-clustering agents proposing maps → AskQuestion
+  ratify → gated canonical-CSV rewrite) · **physical move** (optional; revisit only if needed + the
+  Windows file-lock released).
 
 ### Pending sub-decisions (to ratify at each gate)
 - **D-IH-95-F (future):** I91 graph-edge cutover (dual-emit → retire legacy) when Neo4j unblocks.
