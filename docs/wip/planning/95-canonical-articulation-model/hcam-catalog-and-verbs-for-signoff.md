@@ -3,7 +3,8 @@ intellectual_kind: design_signoff
 initiative: INIT-OPENCLAW_AKOS-95
 phase: P1 pre-build (catalog sign-off gate)
 authored: 2026-06-05
-status: awaiting_operator_signoff
+status: signed_off
+signed_off_decision: D-IH-95-B (operator catalog sign-off 2026-06-05; built + ratified)
 language: en
 named_decision: D-IH-95-B (entity catalog + verb set + valid-triple matrix)
 gate: catalog_signoff_first (operator 2026-06-05)

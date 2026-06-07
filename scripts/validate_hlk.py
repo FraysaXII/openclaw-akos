@@ -567,6 +567,13 @@ def main() -> int:
          "validate_canonical_articulation",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
          / "Architecture" / "canonicals" / "dimensions" / "ENTITY_CATALOG.csv"),
+        # R2-03 (D-IH-95-G) - Supabase ecosystem governance SSOT: every Supabase-governable
+        # surface with governed/partial/ungoverned status + owner. Closes the "govern the whole
+        # ecosystem not just tables" mandate; surfaces critical-ungoverned gaps as advisory.
+        ("SUPABASE_MODULE_REGISTRY", "validate_supabase_module_registry.py",
+         "validate_supabase_module_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
+         / "Architecture" / "canonicals" / "dimensions" / "SUPABASE_MODULE_REGISTRY.csv"),
         ("BI_CONSUMER_REGISTRY", "validate_bi_consumer_registry.py",
          "validate_bi_consumer_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"

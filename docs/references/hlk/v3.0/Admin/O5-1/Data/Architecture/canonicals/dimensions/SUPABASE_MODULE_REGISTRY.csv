@@ -1,0 +1,28 @@
+module_id,module_name,supabase_surface,repo_artifact,governed_status,owner_role,priority,gap,notes
+SUPA-MOD-01,SQL migrations (DDL ledger),migrations,supabase/migrations/*.sql + README,governed,Data Architect,high,prod can lag git,82 migrations; two-plane DDL ledger; schema_migrations parity
+SUPA-MOD-02,compliance schema (mirrors),schema:compliance,supabase/migrations + sync_compliance_mirrors_from_csv.py,governed,Data Steward,high,adapter+collaborator mirrors RLS-on-no-policy,50+ *_mirror tables; CSV SSOT
+SUPA-MOD-03,holistika_ops schema,schema:holistika_ops,I14/I62/I81 migrations,governed,System Owner,medium,PostgREST exposure is live Dashboard setting,lead_intake/stripe/RBAC/fx_rate_cache
+SUPA-MOD-04,finops schema,schema:finops,I19+I81 migrations + DATA_CONTRACT_REGISTRY,governed,Data Governance Office,high,writer is Edge+cron not migration,registered_fact + FX
+SUPA-MOD-05,erp + governance views,schema:erp;schema:governance,I62/I64/I65/I66/I70+ migrations,governed,Data Architect,medium,view inventory not in one CSV,erp.vw_* (6) + governance.* (~15 views)
+SUPA-MOD-06,demo schema,schema:demo,20260506130200_i62_p3_demo_schema.sql,governed,System Owner,low,not in DATA_CONTRACT_REGISTRY,ERP demo mode only
+SUPA-MOD-07,kirbe schema,schema:kirbe,kirbe.cleanup_monitoring_logs only,ungoverned,System Owner,medium,32 platform tables app-owned; AKOS only retention helper,KiRBe app-managed; document as reference-only legacy
+SUPA-MOD-08,stripe_gtm FDW,fdw:stripe_gtm,I18 privilege hardening + DC-HOL-GTM-CRM-001,partial,Data Architect,high,FDW server + foreign tables DDL live-only,inventory-before-greenfield; periodic MCP reconcile
+SUPA-MOD-09,public legacy schema,schema:public,not in AKOS migrations,ungoverned,System Owner,critical,~30 legacy tables (test_aapl/rag_2/old baseline) + 16 RLS-disabled,DB-02/DB-03: drop dead + RLS survivors (operator-gated)
+SUPA-MOD-10,mirror DML (CSV->rows),mirror_dml,sync_compliance_mirrors_from_csv.py + holistika-mirror-dml-apply.md,governed,Data Steward,high,stale if apply skipped (OPS-95-1 re-sync pending),deterministic emit from CSV SSOT
+SUPA-MOD-11,Edge Functions,edge_functions,supabase/functions/**,partial,AI Engineer,high,no complete edge-function registry; 2 of 3 absent from RPA_ADAPTER,stripe-webhook / finops-writer-worker / fx-rate-cache-refresh
+SUPA-MOD-12,Edge secrets/env,edge_secrets,not in git (correct),ungoverned,System Owner,medium,no governed secrets manifest (paths only),SOC: never log secret values
+SUPA-MOD-13,pgmq extension + queues,ext:pgmq,I81 migrations + finops_dlq_drain.py,governed,System Owner,medium,queue names not in a CSV,finops_writer_queue + DLQ + 5 RPC wrappers
+SUPA-MOD-14,pg_cron extension + jobs,ext:pg_cron,cron migrations,partial,System Owner,high,CREATE EXTENSION absent; jobs embed URL/anon key,2 jobs (finops worker + fx refresh)
+SUPA-MOD-15,pg_net extension,ext:pg_net,used in cron migrations only,ungoverned,System Owner,medium,no extension declaration; no DB Webhook defs,pg_net_webhook adapter is doctrine-only
+SUPA-MOD-16,Wrappers FDW extension,ext:wrappers,I18 migration (privileges),partial,Data Architect,high,FDW DDL live-only,see SUPA-MOD-08
+SUPA-MOD-17,pg_vector extension,ext:vector,column comment only,ungoverned,AI Engineer,medium,no vector extension migration; no embedding tables in AKOS,I46 forward; KiRBe vectors live
+SUPA-MOD-18,RLS policies (system),rls,inside each migration,partial,Data Governance Office,critical,100+ policies scattered; no policy registry; adapter+collab gaps,mint SUPABASE_RLS_POSTURE + validator (fail RLS-on-no-policy)
+SUPA-MOD-19,cron job registry,cron_jobs,cron migrations,partial,System Owner,high,no cron registry; keys embedded in SQL,mint SUPABASE_CRON_REGISTRY (job/schedule/target/owner/rotation)
+SUPA-MOD-20,Database Webhooks,db_webhooks,none in repo,ungoverned,System Owner,medium,pg_net_webhook adapter active but zero defs in repo,
+SUPA-MOD-21,Realtime,realtime,config.toml + table comment,ungoverned,System Owner,medium,no publication/channel DDL; no Realtime contract,holistika_ops.notifications drawer
+SUPA-MOD-22,Auth,auth,config.toml defaults + RBAC FKs,ungoverned,System Owner,critical,no auth hook/provider registry; auth.users FK only,23 managed auth.* tables
+SUPA-MOD-23,Storage,storage,config.toml enabled; no buckets,ungoverned,System Owner,high,no bucket RLS/path registry; no storage.objects policy,8 managed storage.* tables
+SUPA-MOD-24,PostgREST API exposure,api_exposure,config.toml [api].schemas,ungoverned,Data Architect,critical,config drift: hosted exposes holistika_ops+finops; config lists public only,mint SUPABASE_API_EXPOSURE SSOT
+SUPA-MOD-25,DB functions / RPCs,db_functions,named migrations,partial,System Owner,medium,no unified RPC registry,pgmq_* / current_access_level / purge_* / erp._mode
+SUPA-MOD-26,seed SQL / local parity,seed,config.toml references ./seed.sql,ungoverned,System Owner,low,seed.sql file missing from repo,undermines reproducible local stack
+SUPA-MOD-27,Supabase CLI config,cli_config,supabase/config.toml,governed,System Owner,low,hosted project settings not fully mirrored,local dev stack pinned

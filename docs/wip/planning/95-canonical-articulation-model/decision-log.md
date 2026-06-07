@@ -109,6 +109,42 @@ AMBER.** Operating model: `reports/articulation-operating-model-2026-06-06.md`. 
   `SOP-DATA_SEMANTIC_COUNCIL_001.md` + the `thi_data_dtp_semantic_council_001` process row.
 - **Q2/Q3/Storytelling/council-row** — DONE (the 3-commit gated batch, `D-IH-95-D`).
 
+## D-IH-95-G — Round-2 batch ratification: 9 ecosystem/linking decisions (RATIFIED 2026-06-07, architecture, high reversibility-mix)
+
+Operator ratified the 9-decision Round-2 batch from the 4-agent research sweep
+([`round2-research-synthesis-2026-06-06.md`](../../intelligence/canonical-articulation-model-2026-06-05/round2-research-synthesis-2026-06-06.md)).
+This is the second AskQuestion-ratified batch (Round-1 had its own); together they clear the
+operator's "+12 ratified" bar (**23 total**).
+
+| # | Decision | Verdict |
+|:--|:--|:--|
+| R2-01 | Process ↔ Capability | **KEEP SEPARATE + de-densify** (1119→~50-150; `realization` link; no fusion) |
+| R2-02 | Knowledge Management home | **3-way split**; sellable CI-quality → **Research** (KM Officer seat, no new role) |
+| R2-03 | Supabase full-ecosystem governance | **mint the ecosystem registries** (phased EG-1..5) + drift-prevention CI |
+| R2-04 | 40+ open-thread inventory + drift | **adopt as backlog SSOT** + fix index drift now |
+| R2-05 | FK→verb mapping (all-out) | **per-registry tranches**, value-organized |
+| R2-06 | Orphan burn-down order | **by area, equal slices** (operator override of value-ranked) |
+| R2-07 | IntelligenceOps eviction | → **Research** + migrate `wip/intelligence` into a **governed topic structure** |
+| R2-08 | DRIFT-8 biz-strategy artifacts | re-home → **Finance** (pricing/unit-econ) + **Marketing/Strategy** (theses) |
+| R2-09 | Neo4j online-every-time | **free write keep-alive ping now** + budget ~$65/mo Professional |
+
+### Executed at ratification (this commit)
+- **R2-03 EG-1:** `SUPABASE_MODULE_REGISTRY.csv` (27 modules: 9 governed / 7 partial / 11 ungoverned)
+  + `SUPABASE_ECOSYSTEM_GOVERNANCE.md` canonical + `validate_supabase_module_registry.py` (wired into
+  `validate_hlk`, PASS; critical-ungoverned flagged: public-legacy / Auth / API-exposure).
+- **R2-04:** index drift fixed (research README KM-stale → Data-federated; roadmap B/C/E
+  pending→ratified; hcam sign-off frontmatter → `signed_off`).
+- **R2-09:** `.github/workflows/neo4j-aura-keepalive.yml` (daily write ping; secrets-gated).
+
+### Sequenced (next phases — see master-roadmap)
+- **R2-01** capability de-densify · **R2-05** FK→verb tranches · **R2-06** orphan by-area ·
+  **R2-07** IntelligenceOps→Research + topic restructure · **R2-08** biz-strategy re-home ·
+  **EG-2..5** Supabase sub-registries (edge-fn / cron / extension / RLS-posture / API-exposure / FDW).
+
+### Gated (operator/SOC approval per step)
+- Capability collapse (canonical CSV) · KM Officer seat activation (`baseline_organisation`) ·
+  legacy `public.*`/`kirbe.*` DDL drop + RLS-on-survivors (data-loss + SOC).
+
 ### Pending sub-decisions (to ratify at each gate)
 - **D-IH-95-F (future):** I91 graph-edge cutover (dual-emit → retire legacy) when Neo4j unblocks.
 - 8-area articulation sweep: burn down the orphan worklist (`--matrix`) via the Semantic Council.

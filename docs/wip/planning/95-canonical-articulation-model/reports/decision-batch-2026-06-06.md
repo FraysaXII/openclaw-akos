@@ -1,5 +1,11 @@
 # Consolidated decision batch — 2026-06-06 (MADEIRA "cover my back" sweep)
 
+> **STATUS: RATIFIED** — Round-1 (DB/PC/HC/AC items) ratified 2026-06-06; **Round-2 (R2-01..R2-09)
+> ratified 2026-06-07 under `D-IH-95-G`.** 23 AskQuestion-ratified decisions total (past the +12
+> bar). Execution: EG-1 / R2-04 / R2-09 done at ratification; lanes L1–L6 sequenced in the
+> [master-roadmap](../master-roadmap.md) "Round-2 execution lanes". This doc is preserved as the
+> grounded proposal record.
+
 > Operator ask: *"cover my back, check other answers I gave + other brainstorms… use + expand the
 > resources in docs/wip/intelligence, gather scattered logic, decide on each via a lengthy intense
 > AskQuestion-ratified batch with you always proposing a grounded solution. ≥12 such decisions."*

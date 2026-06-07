@@ -14,7 +14,10 @@ The Singularity is the **Digital Twin of the Organization (DTO)** = an **enterpr
 (the **Holistika Canonical Articulation Model, HCAM**) over a **governed knowledge graph** (Neo4j,
 typed via an **ISO GQL graph type**) over the **CSV SSOT**. HCAM uses ArchiMate's **closed ~10
 relationship verbs** (composition / assignment / realization / serving / influence / …) so the
-graph stops forking the same relationship per type. Owned by a new **Knowledge Manager** role.
+graph stops forking the same relationship per type. Owned **Data-federated** via the Semantic
+Council (`D-IH-95-D`) — *not* a new role; the sellable corporate-intelligence quality bar is a
+**Research** workstream (`D-IH-95-G`, the KM Officer seat). [corrected 2026-06-06 — superseded the
+earlier "Knowledge Manager under People" framing per the 53-source data-governance findings.]
 
 ## Read in this order
 
