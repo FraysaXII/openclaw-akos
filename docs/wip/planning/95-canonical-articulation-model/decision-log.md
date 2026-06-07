@@ -204,9 +204,20 @@ Operator ratified the 8 parameter decisions from the two research-backed finding
 - `validate_hlk` OVERALL PASS. Data tranches (populate `subject_kind`, bind paths, mint the 19 rows,
   triage 11 stranded, the physical move, the area-by-area collapse) remain gated for next session.
 
-### Gated / sequenced (operator-approval per tranche)
-- L2 capability collapse (area-by-area slices, canonical-CSV) · L5 **data tranche** (bind/move/mint/triage,
-  canonical-CSV) · the physical `wip/intelligence` move · KM Officer seat activation (`baseline_organisation`).
+### L5 data tranche — step 1 EXECUTED (2026-06-08, mint + bind)
+- Minted the **19 governed topic rows** (17 L5 + 2 L5b orphans) → `TOPIC_REGISTRY` **39 → 58**; each
+  bound to its working corpus via `working_area_path`/`knowledge_index_path` (all paths resolve).
+  Owners mapped to real baseline roles (Research Director → Holistik Researcher; no KM Officer).
+  `steward_role` left empty (KM Officer seat activation is a gated `baseline_organisation` change);
+  `physical_model=keyed_in_place` (the move is step 2). `validate_hlk` OVERALL PASS (58 topics).
+- **Mirror:** the 19 rows reach `compliance.topic_registry_mirror` on the next `supabase-mirror-sync`
+  run (gated on the `SUPABASE_DB_URL` secret) — CSV SSOT is authoritative now.
+
+### Gated / sequenced (still ahead)
+- L2 capability collapse (area-by-area slices, canonical-CSV) · L5 data **step 2** (physical
+  `wip/intelligence` move → topic-keyed tree + flip `physical_model`) · L5 data **step 3** (triage the
+  11 stranded `proposed` rows; retire `topic_class`) · KM Officer seat activation (`baseline_organisation`)
+  → then backfill `steward_role`.
 
 ### Pending sub-decisions (to ratify at each gate)
 - **D-IH-95-F (future):** I91 graph-edge cutover (dual-emit → retire legacy) when Neo4j unblocks.
