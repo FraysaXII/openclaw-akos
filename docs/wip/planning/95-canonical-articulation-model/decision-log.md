@@ -213,11 +213,29 @@ Operator ratified the 8 parameter decisions from the two research-backed finding
 - **Mirror:** the 19 rows reach `compliance.topic_registry_mirror` on the next `supabase-mirror-sync`
   run (gated on the `SUPABASE_DB_URL` secret) — CSV SSOT is authoritative now.
 
+### L5 data tranche — step 2 (physical move) ATTEMPTED → SHELVED; registry-binding ACCEPTED (2026-06-08)
+- Operator ratified the **full physical move** (folders → `topic_<id>/`) *after* the trace surfaced a
+  ~140-file blast radius (canonical SOPs/registers, code/tests, an **immutable applied migration**,
+  and historical records incl. CHANGELOG/closed-UATs). Execution was attempted carefully (git mv +
+  byte-level reference rewrite, all-or-nothing with reset-on-failure).
+- **Blocked by the Windows environment:** a persistent file lock on `docs/wip/intelligence/`
+  (OneDrive/AV/editor file-watcher) prevented clearing the destination dirs, so `git mv` could not
+  complete cleanly; each attempt was **safely `git reset --hard`'d** — no half-moved/broken state.
+- **Operator decision (accept_binding):** accept the **registry-binding** topic-keying (already done
+  in step 1 via `working_area_path`) and **shelve the physical rename**. Navigation-by-topic works
+  through the registry today; `physical_model` stays `keyed_in_place` (accurate). This lands on the
+  L5 research's *original* recommendation (key-in-place), now reinforced by the blast-radius +
+  immutable-migration + environment-lock realities. The amended `akos-research-area.mdc` move
+  authorization **remains valid** for a future attempt once the lock is released.
+- **Fix:** `topic_investor_stability_brief` was bound to an **empty, untracked** placeholder folder
+  (latent fresh-clone/CI failure) — `working_area_path` blanked (no corpus yet).
+- **Local litter (harmless):** ~17 stray *empty* `topic_*` dirs from the blocked attempts remain
+  untracked + git-ignored (won't commit; clear on editor restart / manual delete).
+
 ### Gated / sequenced (still ahead)
-- L2 capability collapse (area-by-area slices, canonical-CSV) · L5 data **step 2** (physical
-  `wip/intelligence` move → topic-keyed tree + flip `physical_model`) · L5 data **step 3** (triage the
+- L2 capability collapse (area-by-area slices, canonical-CSV) · L5 data **step 3** (triage the
   11 stranded `proposed` rows; retire `topic_class`) · KM Officer seat activation (`baseline_organisation`)
-  → then backfill `steward_role`.
+  → then backfill `steward_role` · **physical move** (optional; revisit only if needed + lock released).
 
 ### Pending sub-decisions (to ratify at each gate)
 - **D-IH-95-F (future):** I91 graph-edge cutover (dual-emit → retire legacy) when Neo4j unblocks.
