@@ -32,9 +32,14 @@ CAPABILITY_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "last_review_decision_id",
     "methodology_version_at_review",
     "notes",
+    "capability_tier",  # D-IH-95-H — differentiating | utility (empty until the area-by-area collapse curates it); drives rating cadence + the gold-layer heat map
 )
 
 VALID_BEARER_CLASSES: frozenset[str] = frozenset({"Talent-H", "Talent-A"})
+
+# D-IH-95-H: value-tier overlay (differentiating vs utility) for the de-densified map.
+# Empty allowed pre-collapse; the area-by-area collapse + Capability Curator set it.
+VALID_CAPABILITY_TIERS: frozenset[str] = frozenset({"", "differentiating", "utility"})
 
 VALID_LIFECYCLE_STATUSES: frozenset[str] = frozenset({
     "active",
@@ -79,3 +84,4 @@ class CapabilityRegistryRow(BaseModel):
     last_review_decision_id: str = Field(min_length=1, max_length=32)
     methodology_version_at_review: str = Field(min_length=1, max_length=16)
     notes: str = ""
+    capability_tier: Literal["", "differentiating", "utility"] = ""

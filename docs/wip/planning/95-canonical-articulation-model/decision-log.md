@@ -193,9 +193,20 @@ Operator ratified the 8 parameter decisions from the two research-backed finding
 - `D-IH-95-H` recorded; both findings docs marked ratified; L2+L5 sequenced as phases (roadmap).
 - **Dispatched:** background subagent for the **repo-wide scattered-topic inventory** (feeds L5 data tranche).
 
+### Schema pre-steps EXECUTED (2026-06-07, additive/reversible — operator chose "both schema pre-steps now, stop before data tranches")
+- **L5 T1 (topic schema):** `TOPIC_REGISTRY.csv` +5 cols (`subject_kind` seeded by mechanical map
+  from `topic_class` which is kept; `steward_role`/`working_area_path`/`knowledge_index_path` empty;
+  `physical_model=keyed_in_place`) + `TOPIC_REGISTRY_FIELDNAMES` + `validate_topic_registry.py`
+  (new enums + optional checks) + mirror DDL (`20260607220031`, applied via MCP).
+- **L2 capability pre-step:** `CAPABILITY_REGISTRY.csv` +`capability_tier` (empty) + Pydantic
+  `CapabilityRegistryRow` + `VALID_CAPABILITY_TIERS` + mirror DDL (`20260607220044`, applied via MCP).
+  (`bearer_class`→edge is deferred to **collapse-time** — no edge home exists pre-de-densification.)
+- `validate_hlk` OVERALL PASS. Data tranches (populate `subject_kind`, bind paths, mint the 19 rows,
+  triage 11 stranded, the physical move, the area-by-area collapse) remain gated for next session.
+
 ### Gated / sequenced (operator-approval per tranche)
-- L2 capability collapse (area-by-area slices, canonical-CSV) · L5 schema tranche then data tranche
-  (canonical-CSV) · the physical `wip/intelligence` move · KM Officer seat activation (`baseline_organisation`).
+- L2 capability collapse (area-by-area slices, canonical-CSV) · L5 **data tranche** (bind/move/mint/triage,
+  canonical-CSV) · the physical `wip/intelligence` move · KM Officer seat activation (`baseline_organisation`).
 
 ### Pending sub-decisions (to ratify at each gate)
 - **D-IH-95-F (future):** I91 graph-edge cutover (dual-emit → retire legacy) when Neo4j unblocks.

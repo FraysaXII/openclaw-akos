@@ -50,6 +50,19 @@ TOPIC_CLASSES = {
 LIFECYCLE_STATUS = {"proposed", "active", "paused", "closed", "superseded"}
 PLANES = {"advops", "finops", "mktops", "techops", "marops", "devops", "ops", "shared"}
 
+# D-IH-95-H L5 schema tranche — orthogonal facet + governed-move enums.
+SUBJECT_KINDS = {
+    "deliverable_bundle",
+    "methodology",
+    "research_playlist",
+    "engagement",
+    "doctrine",
+    "evidence_pack",
+    "registry_anchor",
+    "other",
+}
+PHYSICAL_MODELS = {"keyed_in_place", "physically_moved"}
+
 TOPIC_ID_RE = re.compile(r"^topic_[a-z0-9_]{2,64}$")
 
 
@@ -180,6 +193,28 @@ def main() -> int:
                 errors.append(f"row {i}: manifest_path must not contain '..': {manifest!r}")
             elif not (REPO_ROOT / manifest).is_file():
                 errors.append(f"row {i}: manifest_path does not resolve to an existing file: {manifest!r}")
+
+        # D-IH-95-H L5 schema tranche — new columns (optional/empty-allowed pre data tranche).
+        subject_kind = (row.get("subject_kind") or "").strip()
+        if subject_kind and subject_kind not in SUBJECT_KINDS:
+            errors.append(f"row {i}: invalid subject_kind {subject_kind!r}; expected one of {sorted(SUBJECT_KINDS)}")
+
+        physical_model = (row.get("physical_model") or "").strip()
+        if physical_model and physical_model not in PHYSICAL_MODELS:
+            errors.append(f"row {i}: invalid physical_model {physical_model!r}; expected one of {sorted(PHYSICAL_MODELS)}")
+
+        steward = (row.get("steward_role") or "").strip()
+        if steward and steward not in org_roles:
+            # Empty allowed until the KM Officer seat activates (gated baseline_organisation change).
+            errors.append(f"row {i}: steward_role {steward!r} not in baseline_organisation.csv")
+
+        for path_field in ("working_area_path", "knowledge_index_path"):
+            pval = (row.get(path_field) or "").strip()
+            if pval:
+                if ".." in pval:
+                    errors.append(f"row {i}: {path_field} must not contain '..': {pval!r}")
+                elif not (REPO_ROOT / pval).exists():
+                    errors.append(f"row {i}: {path_field} does not resolve to an existing path: {pval!r}")
 
     # Forward references + cycles
     parent_graph: dict[str, list[str]] = {tid: [] for tid in topic_ids}
