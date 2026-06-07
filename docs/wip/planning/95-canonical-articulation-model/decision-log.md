@@ -247,6 +247,29 @@ Operator ratified the 8 parameter decisions from the two research-backed finding
   ratify → gated canonical-CSV rewrite) · **physical move** (optional; revisit only if needed + the
   Windows file-lock released).
 
+## D-IH-95-I — capability-collapse SYNTHESIS ratified + process_list radical cleanup commissioned (2026-06-08)
+
+Six area-clustering agents proposed the de-densified maps (`l2-collapse-maps/`):
+Operations 404→18 · Tech 379→27 · People 93→22 · Research 82→12 · Marketing 117→11 ·
+Data/Finance/Legal 44→11 = **~101 raw → ~80 after cross-area reconciliation** (~14:1). Synthesis:
+[`l2-collapse-maps/_SYNTHESIS-2026-06-08.md`](../../intelligence/canonical-articulation-model-2026-06-05/l2-collapse-maps/_SYNTHESIS-2026-06-08.md).
+
+**Ratified (6):** eviction SPLIT (tools→`SUBSTRATE_REGISTRY`; code-symbols→verify in
+`COMPONENT_SERVICE_MATRIX` then remove) · RECONCILE the ~33 cross-area flags → net ~80 · keep
+`area`=HLK area + ADD `l1_domain` grouping · ACCEPT contested folds · PILOT Data+Finance+Legal then
+Marketing→Research→People→Operations→Tech · `bearer_class`→edge (bearer-agnostic) + MKT normalize.
+
+**NEW scope — radical `process_list` cleanup** (operator: "be radical, strike the iron while it's
+hot"): the collapse exposed the same pollution in `process_list` (Trello task-grain, code-symbols,
+mind-map imports, bilingual dups, cross-area mis-tags). Commissioned a process-list issue-inventory
+agent + an **AskQuestion gate before any `process_list` edit** (hardest-gated canonical), coordinated
+with the collapse (shared rows).
+
+**Sequenced (gated, next):** capability schema change (add `l1_domain`, drop `bearer_class`, +mirror)
+→ pilot collapse → remaining areas → cross-area reconciliation → evictions → `process_list` cleanup
+(after its AskQuestion). Each slice = gated canonical-CSV + `validate_hlk` + rollup audit.
+
 ### Pending sub-decisions (to ratify at each gate)
+- **process_list radical cleanup scope** — AskQuestion after the issue-inventory agent reports.
 - **D-IH-95-F (future):** I91 graph-edge cutover (dual-emit → retire legacy) when Neo4j unblocks.
 - 8-area articulation sweep: burn down the orphan worklist (`--matrix`) via the Semantic Council.
