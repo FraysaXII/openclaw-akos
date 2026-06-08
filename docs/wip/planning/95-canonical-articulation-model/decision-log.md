@@ -282,9 +282,18 @@ strategic band). Confidence registry synced (93). Downstream FK breakage repaire
 deduped 5). Representative `originating_process_ids` per capability (validator needs ≥1; full rollup
 audit in `l2-collapse-maps/`). `validate_hlk` OVERALL PASS. **Capability collapse COMPLETE.**
 
-**Sequenced (gated, next):** `process_list` radical cleanup (MOVE 578 task-grain → new BUILDOUT_BACKLOG
-registry; Tier-A hygiene 34 rows; routes: code→component, tools→substrate, subject-tags→topic, re-tag,
-dedup, delete) — co-sequenced; update `validate_capability_registry` to accept process_list ∪ backlog ids.
+**EXECUTED (2026-06-08) — `process_list` radical cleanup COMPLETE:** count-gated classifier (matched the
+inventory's disposition targets) → **process_list 1,207 → 496** stable processes (incl. 28 re-tagged);
+minted **BUILDOUT_BACKLOG** registry (Pydantic + validator wired into `validate_hlk`) holding **583**
+demoted task-grain rows (FK-resolvable — `validate_capability_registry` now accepts process_list ∪
+backlog); routed out 128 (5 delete + 20 dedup + 61 code-symbol evict + 5 tools→substrate + 37
+subjects→topic). Hierarchy reconciled (promoted parent_2→parent_1 for orphaned survivors). Downstream FK
+repair: `ADVISER_ENGAGEMENT_DISCIPLINES` ref `thi_legal_dtp_303`→active trademark process; 2 capability
+realizations re-pointed off removed rows (`thi_data_dtp_34` RPA, the 3 research subject-tags).
+`validate_hlk` OVERALL PASS. **D-IH-95-I capability collapse + process_list cleanup COMPLETE.**
+
+**Mirror obligation (operator/CI):** re-emit `compliance.process_list_mirror` + stand up a
+`buildout_backlog` mirror via the `supabase-mirror-sync` workflow (needs `SUPABASE_DB_URL`).
 
 ### Pending sub-decisions (to ratify at each gate)
 - **process_list radical cleanup scope** — AskQuestion after the issue-inventory agent reports.

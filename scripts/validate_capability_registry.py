@@ -60,7 +60,14 @@ def main() -> int:
         print(f"FAIL: missing {CSV_PATH.relative_to(REPO_ROOT)}")
         return 1
     roles = _load_set(ORG_CSV, "role_name")
-    processes = _load_set(PROCESS_CSV, "item_id")
+    # D-IH-95-I — realizations may point at process_list OR the build-out backlog (demoted task-grain);
+    # the two catalogs partition the id space, so the union is the valid realization id set.
+    BACKLOG_CSV = (
+        REPO_ROOT
+        / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals"
+        / "dimensions/BUILDOUT_BACKLOG.csv"
+    )
+    processes = _load_set(PROCESS_CSV, "item_id") | _load_set(BACKLOG_CSV, "item_id")
     substrates = _load_set(SUBSTRATE_CSV, "substrate_id")
     decisions = _load_set(DECISION_CSV, "decision_id")
 

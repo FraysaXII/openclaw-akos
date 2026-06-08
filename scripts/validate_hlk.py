@@ -574,6 +574,11 @@ def main() -> int:
          "validate_supabase_module_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
          / "Architecture" / "canonicals" / "dimensions" / "SUPABASE_MODULE_REGISTRY.csv"),
+        # D-IH-95-I — build-out backlog (the demoted process_list task-grain home; SKIPs until minted).
+        ("BUILDOUT_BACKLOG", "validate_buildout_backlog_registry.py",
+         "validate_buildout_backlog_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People"
+         / "Compliance" / "canonicals" / "dimensions" / "BUILDOUT_BACKLOG.csv"),
         ("BI_CONSUMER_REGISTRY", "validate_bi_consumer_registry.py",
          "validate_bi_consumer_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
