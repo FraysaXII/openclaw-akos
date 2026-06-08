@@ -46,6 +46,24 @@ jobs:
         run: |
           SHA="$(git rev-parse --short HEAD)"
           python scripts/sync_compliance_mirrors_from_csv.py --output mirror-upsert.sql --git-sha "$SHA"
+          # The OPS-86-15 "gap mirrors" (capability / capability_confidence / aic / audience /
+          # country_work_calendar) are emitted via a separate path; splice them INTO the same
+          # transaction so the full sync covers them too — otherwise capability_registry_mirror
+          # (and friends) silently go stale vs the CSV SSOT.
+          python scripts/sync_compliance_mirrors_from_csv.py --ops8615-gap-mirrors-only --no-begin-commit --output gap.sql --git-sha "$SHA"
+          python - <<'PY'
+          from pathlib import Path
+          main = Path("mirror-upsert.sql").read_text(encoding="utf-8")
+          gap = Path("gap.sql").read_text(encoding="utf-8")
+          idx = main.rfind("COMMIT;")
+          if idx == -1:
+              Path("mirror-upsert.sql").write_text(main + "\n" + gap, encoding="utf-8")
+          else:
+              Path("mirror-upsert.sql").write_text(
+                  main[:idx] + "\n-- ===== OPS-86-15 gap mirrors (spliced into the same txn) =====\n" + gap + "\n" + main[idx:],
+                  encoding="utf-8",
+              )
+          PY
           echo "Emitted mirror-upsert.sql ($(wc -l < mirror-upsert.sql) statements, $(wc -c < mirror-upsert.sql) bytes) at $SHA"
       - name: Delete-reconcile (full-sync; opt-in, derived-T2 only)
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.reconcile }}
