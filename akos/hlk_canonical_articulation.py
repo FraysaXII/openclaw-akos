@@ -131,6 +131,23 @@ L3_TRANCHE1_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
     ("baseline_organisation", "components_used", "HCAM-TRP-027"),
 )
 
+# I95 L3 tranche-2 (R2-05 / P5b): capability + decision + ops register FK columns.
+L3_TRANCHE2_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
+    ("capability_registry", "role_owner", "HCAM-TRP-039"),
+    ("capability_registry", "skill_ids", "HCAM-TRP-040"),
+    ("capability_registry", "substrate_id", "HCAM-TRP-041"),
+    ("capability_registry", "originating_process_ids", "HCAM-TRP-006"),
+    ("decision_register", "linked", "HCAM-TRP-016"),
+    ("decision_register", "linked", "HCAM-TRP-017"),
+    ("decision_register", "linked_initiative_ids", "HCAM-TRP-018"),
+    ("ops_register", "linked", "HCAM-TRP-020"),
+)
+
+L3_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
+    *L3_TRANCHE1_FK_BINDINGS,
+    *L3_TRANCHE2_FK_BINDINGS,
+)
+
 # Non-CSV FK surfaces (markdown frontmatter, semantic layer SQL, etc.) — advisory only.
 FK_NON_CSV_REGISTRY_PREFIXES: frozenset[str] = frozenset({
     "frontmatter",

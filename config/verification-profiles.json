@@ -387,7 +387,7 @@
         },
         {
           "id": "validate_fk_verb_coverage",
-          "description": "I95 L3 tranche-1: process_list + baseline_organisation FK columns map to active HCAM triples",
+          "description": "I95 L3 FK->verb: process_list, baseline_organisation, capability/decision/ops registers map to active HCAM triples",
           "argv": [
             "scripts/validate_fk_verb_coverage.py"
           ]

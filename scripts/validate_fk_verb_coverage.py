@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """I95 L3 FK->verb coverage: canonical CSV columns must map to HCAM relationship triples.
 
-Tranche-1 scope: ``process_list`` + ``baseline_organisation`` (highest articulation value per
-I95 master-roadmap L3). Also validates every *active* triple's ``current_fk`` tokens resolve to
+Tranche-1: ``process_list`` + ``baseline_organisation``. Tranche-2: ``capability_registry``,
+``decision_register``, ``ops_register``. Also validates every *active* triple's ``current_fk``
+tokens resolve to
 known registry columns (or approved non-CSV surfaces).
 
 Usage::
@@ -25,7 +26,7 @@ if str(REPO_ROOT) not in sys.path:
 from akos.hlk_baseline_org_csv import BASELINE_ORGANISATION_FIELDNAMES  # noqa: E402
 from akos.hlk_canonical_articulation import (  # noqa: E402
     FK_NON_CSV_REGISTRY_PREFIXES,
-    L3_TRANCHE1_FK_BINDINGS,
+    L3_FK_BINDINGS,
     RELATIONSHIP_REGISTRY_FIELDNAMES,
     RELATIONSHIP_REGISTRY_PATH,
     RelationshipTripleRow,
@@ -99,8 +100,8 @@ def run_checks(registry_path: Path = RELATIONSHIP_REGISTRY_PATH) -> list[str]:
     raw_rows = _read_registry(registry_path)
     triples = _triple_by_id(raw_rows)
 
-    # L3 tranche-1: mandatory bindings
-    for reg_slug, col, triple_id in L3_TRANCHE1_FK_BINDINGS:
+    # L3 mandatory bindings (tranche-1 + tranche-2)
+    for reg_slug, col, triple_id in L3_FK_BINDINGS:
         triple = triples.get(triple_id)
         if triple is None:
             errors.append(f"L3 binding {reg_slug}.{col} -> {triple_id}: triple missing")
@@ -167,7 +168,7 @@ def self_test() -> int:
     assert _parse_fk_token("process_list.role_owner") == ("process_list", "role_owner")
     assert _parse_fk_token("new") is None
     assert "process_list" in _FK_REGISTRY_COLUMNS
-    assert len(L3_TRANCHE1_FK_BINDINGS) >= 10
+    assert len(L3_FK_BINDINGS) >= 18
     return 0
 
 
@@ -185,7 +186,7 @@ def main() -> int:
             print(f"  - {e}")
         return 1
     print(
-        f"PASS: FK->verb L3 tranche-1 - {len(L3_TRANCHE1_FK_BINDINGS)} bindings, "
+        f"PASS: FK->verb L3 - {len(L3_FK_BINDINGS)} bindings, "
         f"{len(_FK_REGISTRY_COLUMNS)} registry column maps"
     )
     return 0
