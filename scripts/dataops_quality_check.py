@@ -52,6 +52,10 @@ CANONICAL_PATH = (
 )
 MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
 SYNC_SCRIPT = REPO_ROOT / "scripts" / "sync_compliance_mirrors_from_csv.py"
+WORKFLOW_MIRROR_SYNC = REPO_ROOT / ".github/workflows/supabase-mirror-sync.yml"
+COLUMN_ALIGNMENT_SCRIPT = REPO_ROOT / "scripts/validate_csv_column_alignment.py"
+EMIT_CONTRACT_SCRIPT = REPO_ROOT / "scripts/validate_mirror_emit_contract.py"
+PYDANTIC_ENUM_SSOT_SCRIPT = REPO_ROOT / "scripts/validate_pydantic_mirror_enum_ssot.py"
 
 _MCP_DEFER_REASON = (
     "Live probe deferred; fires at canonical-CSV mint / mirror-sync / FDW-addition "
@@ -70,10 +74,19 @@ def _probe_stub(dimension_code: str, notes: str | None = None) -> DataOpsFinding
     )
 
 
+def _run_repo_script(script: Path) -> tuple[int, str]:
+    import subprocess
+
+    r = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, cwd=str(REPO_ROOT))
+    tail = (r.stdout or r.stderr or "").strip().splitlines()
+    return r.returncode, (tail[-1] if tail else "")
+
+
 def _probe_ops8615_mirror_parity() -> DataOpsFindingRow:
-    """Repo-native OPS-86-15 closure check (I93 P6 MIRROR-2)."""
+    """Repo-native OPS-86-15 + two-plane emit contract (I93 P6 + I95 DATA-08)."""
     migration_path = MIGRATIONS_DIR / I93_P6_MIRROR_MIGRATION_BASENAME
     sync_text = SYNC_SCRIPT.read_text(encoding="utf-8") if SYNC_SCRIPT.is_file() else ""
+    wf_text = WORKFLOW_MIRROR_SYNC.read_text(encoding="utf-8") if WORKFLOW_MIRROR_SYNC.is_file() else ""
     gaps: list[str] = []
     if not migration_path.is_file():
         gaps.append(f"missing migration {I93_P6_MIRROR_MIGRATION_BASENAME}")
@@ -84,12 +97,18 @@ def _probe_ops8615_mirror_parity() -> DataOpsFindingRow:
                 gaps.append(f"DDL missing compliance.{table}")
             if emit_sym not in sync_text:
                 gaps.append(f"sync missing {emit_sym}")
+    if "ops8615-gap-mirrors-only" not in wf_text:
+        gaps.append("workflow missing gap-mirror splice into main emit txn")
+    if EMIT_CONTRACT_SCRIPT.is_file():
+        code, msg = _run_repo_script(EMIT_CONTRACT_SCRIPT)
+        if code != 0:
+            gaps.append(f"emit contract: {msg[:240]}")
     if gaps:
         return DataOpsFindingRow(
             dimension_code="DATA-02-MIRROR-PARITY",
             surface_path=str(migration_path.relative_to(REPO_ROOT)) if migration_path.is_file() else "supabase/migrations/",
             verdict="gap",
-            proposed_rework_action="Apply I93 P6 migration + sync emit pack",
+            proposed_rework_action="Apply I93 P6 migration + sync emit pack + mirror emit contract",
             severity="high",
             notes="; ".join(gaps),
         )
@@ -99,7 +118,39 @@ def _probe_ops8615_mirror_parity() -> DataOpsFindingRow:
         verdict="clean",
         proposed_rework_action="",
         severity="low",
-        notes=f"OPS-86-15: {len(OPS_86_15_MIRROR_TARGETS)} mirror targets have DDL + emit symbols",
+        notes=(
+            f"OPS-86-15: {len(OPS_86_15_MIRROR_TARGETS)} mirror targets DDL+emit; "
+            "workflow gap-splice + emit-contract PASS"
+        ),
+    )
+
+
+def _probe_schema_drift_two_plane() -> DataOpsFindingRow:
+    """DATA-05: column alignment + Pydantic↔migration enum SSOT (I95 two-plane guard)."""
+    gaps: list[str] = []
+    for script in (COLUMN_ALIGNMENT_SCRIPT, PYDANTIC_ENUM_SSOT_SCRIPT):
+        if not script.is_file():
+            gaps.append(f"missing {script.name}")
+            continue
+        code, msg = _run_repo_script(script)
+        if code != 0:
+            gaps.append(f"{script.stem}: {msg[:200]}")
+    if gaps:
+        return DataOpsFindingRow(
+            dimension_code="DATA-05-SCHEMA-DRIFT",
+            surface_path="scripts/validate_csv_column_alignment.py",
+            verdict="drift",
+            proposed_rework_action="Fix column shift / extend mirror CHECK migration before apply",
+            severity="high",
+            notes="; ".join(gaps),
+        )
+    return DataOpsFindingRow(
+        dimension_code="DATA-05-SCHEMA-DRIFT",
+        surface_path="scripts/validate_csv_column_alignment.py",
+        verdict="clean",
+        proposed_rework_action="",
+        severity="low",
+        notes="Two-plane DATA-05: row-width + DATE cols + Pydantic enum ⊆ migration CHECK",
     )
 
 
@@ -207,7 +258,7 @@ PROBE_REGISTRY: dict[str, callable] = {
     "DATA-02-MIRROR-PARITY": _probe_ops8615_mirror_parity,
     "DATA-03-FDW-HEALTH": lambda: _probe_stub("DATA-03-FDW-HEALTH"),
     "DATA-04-PIPELINE-FRESHNESS": lambda: _probe_stub("DATA-04-PIPELINE-FRESHNESS"),
-    "DATA-05-SCHEMA-DRIFT": lambda: _probe_stub("DATA-05-SCHEMA-DRIFT"),
+    "DATA-05-SCHEMA-DRIFT": _probe_schema_drift_two_plane,
     "DATA-06-LINEAGE": lambda: _probe_stub("DATA-06-LINEAGE"),
     "DATA-07-QUALITY-METRICS": lambda: _probe_stub("DATA-07-QUALITY-METRICS"),
 }
@@ -281,9 +332,9 @@ def self_test() -> int:
         return 1
 
     sweep = run_sweep()
-    if sweep.total_findings != 7 or sweep.skip_count != 6:
+    if sweep.total_findings != 7 or sweep.skip_count != 5 or sweep.clean_count != 2:
         logger.error(
-            "FAIL: default sweep expected 7 findings (6 skip + 1 clean mirror), got total=%d skip=%d clean=%d",
+            "FAIL: default sweep expected 7 findings (5 skip + 2 clean), got total=%d skip=%d clean=%d",
             sweep.total_findings,
             sweep.skip_count,
             sweep.clean_count,

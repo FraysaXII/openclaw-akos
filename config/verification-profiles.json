@@ -244,6 +244,22 @@
           ]
         },
         {
+          "id": "validate_csv_column_alignment_self_test",
+          "description": "I95 DATA-05: Plane-1 column-alignment guard self-test (~0s). Full 11-CSV sweep runs in validate_hlk.py CSV_COLUMN_ALIGNMENT.",
+          "argv": [
+            "scripts/validate_csv_column_alignment.py",
+            "--self-test"
+          ]
+        },
+        {
+          "id": "validate_pydantic_mirror_enum_ssot_self_test",
+          "description": "I95 DATA-05: offline Pydantic enum subset migration CHECK parser self-test (~0s). Full binding check runs in validate_hlk.py PYDANTIC_MIRROR_ENUM_SSOT.",
+          "argv": [
+            "scripts/validate_pydantic_mirror_enum_ssot.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "workspace_fleet_hygiene_self_test",
           "description": "Fleet hygiene self-test: akos/hlk_fleet_hygiene.py (FLEET-01 worktree, FLEET-02 publish drift, FLEET-03 CI content, FLEET-04 standing OPS). Full --sweep at session/release-gate INFO; watches OPS-81-1/86-1/86-9/90-6 without operator reminder.",
           "argv": [

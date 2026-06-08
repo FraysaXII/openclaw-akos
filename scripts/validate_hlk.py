@@ -637,6 +637,13 @@ def main() -> int:
          "validate_ops_register", HLK_DIR / "OPS_REGISTER.csv"),
         ("DECISION_REGISTER_DECISION_LOG_MD_SYNC", "validate_decision_register_decision_log_md_sync.py",
          "validate_decision_register_decision_log_md_sync", HLK_DIR / "DECISION_REGISTER.csv"),
+        # I95 DATA-08 two-plane contract guards (BT-09 remediation).
+        ("CSV_COLUMN_ALIGNMENT", "validate_csv_column_alignment.py",
+         "validate_csv_column_alignment", HLK_DIR / "DECISION_REGISTER.csv"),
+        ("MIRROR_EMIT_CONTRACT", "validate_mirror_emit_contract.py",
+         "validate_mirror_emit_contract", HLK_DIR / "process_list.csv"),
+        ("PYDANTIC_MIRROR_ENUM_SSOT", "validate_pydantic_mirror_enum_ssot.py",
+         "validate_pydantic_mirror_enum_ssot", HLK_DIR / "dimensions" / "PEOPLE_DESIGN_PATTERN_REGISTRY.csv"),
         # I59 P2 — frontmatter-side enforcement. No CSV gate; scans planning workspace directly.
         # Advisory mode by default (warnings printed; not failing); becomes strict at I59 P10.
         ("MASTER_ROADMAP_FRONTMATTER", "validate_master_roadmap_frontmatter.py",

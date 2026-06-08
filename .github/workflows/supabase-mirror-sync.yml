@@ -24,9 +24,9 @@ on:
         type: boolean
         default: false
       reconcile:
-        description: "Full-sync: also DELETE mirror rows whose PK left the CSV (shrinks mirrors to match SSOT). Opt-in; destructive on derived T2 only."
+        description: "Full-sync: also DELETE mirror rows whose PK left the CSV (shrinks mirrors to match SSOT). Default ON when applying — derived T2 only."
         type: boolean
-        default: false
+        default: true
 
 concurrency:
   group: supabase-mirror-sync
@@ -40,6 +40,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version-file: ".python-version"
+          cache: pip
+          cache-dependency-path: requirements.txt
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Emit mirror DML from canonical CSVs
@@ -65,8 +67,8 @@ jobs:
               )
           PY
           echo "Emitted mirror-upsert.sql ($(wc -l < mirror-upsert.sql) statements, $(wc -c < mirror-upsert.sql) bytes) at $SHA"
-      - name: Delete-reconcile (full-sync; opt-in, derived-T2 only)
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.reconcile }}
+      - name: Delete-reconcile (full-sync; default ON for push + manual apply)
+        if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.reconcile != false) }}
         run: |
           # Appends NOT-IN DELETEs (inside the same txn) so each mirror equals its CSV exactly.
           python scripts/emit_mirror_delete_reconcile.py --sql mirror-upsert.sql
@@ -86,7 +88,15 @@ jobs:
           # Two-plane contract guard: checks every emitted enum value against the LIVE mirror
           # CHECK constraints and reports EVERY drift at once, so a CSV enum that outgrew its
           # mirror DDL fails here (with the exact fix ALTER) instead of crashing mid-apply.
-          sudo apt-get update && sudo apt-get install -y postgresql-client
+          have_url=0
+          case "$SUPABASE_DB_URL" in
+            postgres://*|postgresql://*) have_url=1 ;;
+          esac
+          if [ "$have_url" = "0" ] && [ -z "$SUPABASE_PASSWORD" ]; then
+            echo "No DB creds - skipping enum parity preflight (emit-only)."
+            exit 0
+          fi
+          sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends postgresql-client
           set +e
           python scripts/validate_mirror_enum_parity.py --emit-sql mirror-upsert.sql
           code=$?

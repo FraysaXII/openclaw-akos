@@ -89,16 +89,36 @@ extension, and every release-gate run.
 | Dim | Quality property | Measurement | Drift signal |
 |:---|:---|:---|:---|
 | **DATA-01** FK integrity | Every FK column resolves into its registry | `validate_hlk.py` FK pass count vs registered FK count | Pydantic FK-violation in validator output |
-| **DATA-02** Mirror parity | Canonical CSV row count = Supabase mirror row count | `compliance_mirror_emit --dry-run` diff with mirror SELECT count | Diff > 0 rows in either direction |
+| **DATA-02** Mirror parity | Canonical CSV row count = emitted INSERT count = Supabase mirror row count (full-sync) | `validate_mirror_emit_contract.py` (offline emit); `emit_mirror_delete_reconcile.py` (shrink orphans); live SELECT after apply | Upsert-only drift (orphan rows after de-densification); gap mirrors not spliced into main txn; diff > 0 rows |
 | **DATA-03** FDW health | External-API foreign servers (`stripe_gtm`, etc.) return live data | `SELECT count(*) FROM stripe_gtm.customers` succeeds | Connection error or empty when external account active |
 | **DATA-04** Pipeline freshness | Last sync timestamp within freshness threshold | `holistika_ops.sync_log.last_synced_at` vs `now() - threshold` | `now() - last_synced_at > 24h` for daily; analogous for other cadences |
-| **DATA-05** Schema drift | Pydantic SSOT field names = CSV header = mirror column names | Compare `akos/hlk_<X>_csv.py` `FIELDNAMES` tuple vs CSV header row vs mirror DDL | Any column rename or addition without coordinated update across 3 surfaces |
+| **DATA-05** Schema drift | Pydantic SSOT field names = CSV header = mirror column names **and** row-width/DATE integrity **and** Pydantic enum ⊆ mirror CHECK | `validate_csv_column_alignment.py` (row-width + DATE cols); `validate_pydantic_mirror_enum_ssot.py` (enum ⊆ migration CHECK); header vs `FIELDNAMES` via per-registry validators | Column shift (stray `,,`); enum in Pydantic but not in mirror DDL; header/column rename without coordinated 3-surface update |
 | **DATA-06** Lineage | Every mirror has explicit canonical SSOT FK; every derived view has explicit source FK | `PRECEDENCE.md` audit + manifest `paths.*` slot completeness | Mirror without canonical parent; derived view without source citation |
 | **DATA-07** Quality metrics | Completeness, accuracy, consistency, timeliness, uniqueness, validity per DAMA-DMBOK 2.0 | Per-dimension validator output + sample audit | Failure on any of the 6 DAMA quality dimensions on any canonical CSV |
 
 These 7 dimensions are **mandatory** at every wave-close that touches
 canonical CSVs (per `akos-inter-wave-regression.mdc` RULE 1 inheritance
 + this discipline's RULE 1).
+
+### 2.1 Two-plane contract (I95 DATA-08; BT-09 remediation)
+
+Holistika runs a **two-plane** data architecture. Plane 1 (T1) is the git CSV
+SSOT validated by Pydantic via `validate_hlk.py`. Plane 2 (T2) is the Supabase
+`compliance.*_mirror` tables whose DDL (including enum `CHECK` constraints) lives
+in `supabase/migrations/`. **Passing `validate_hlk` does not imply mirror apply
+will succeed** — the planes can drift silently until `psql` apply time.
+
+| Guard | Plane | Script | When |
+|:---|:---|:---|:---|
+| Row-width + DATE columns | T1 | `validate_csv_column_alignment.py` | Every `validate_hlk` + pre-commit |
+| Pydantic enum ⊆ migration CHECK | T1→T2 DDL | `validate_pydantic_mirror_enum_ssot.py` | Every `validate_hlk` |
+| Emit INSERT count = CSV rows | T1→T2 DML | `validate_mirror_emit_contract.py` | DataOps DATA-02 sweep |
+| Emitted enum ⊆ live CHECK | T2 apply | `validate_mirror_enum_parity.py` | Mirror-sync preflight (CI) |
+| Full-sync shrink (DELETE orphans) | T2 | `emit_mirror_delete_reconcile.py` | Mirror-sync when reconcile ON |
+
+Worked example (2026-06-08): `D-IH-95-A` column shift put decision rationale into
+`last_review_at` (DATE); `area_governance` was in Pydantic but not mirror CHECK.
+Both failed at statement ~1957 / ~2002 despite OVERALL PASS on plane 1 alone.
 
 ## 3. The compose_DATAOPS rule
 
