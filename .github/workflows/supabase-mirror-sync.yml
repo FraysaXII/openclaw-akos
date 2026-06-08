@@ -49,6 +49,27 @@ jobs:
           name: mirror-upsert-sql
           path: mirror-upsert.sql
           retention-days: 30
+      - name: Pre-flight — mirror enum parity (DATA-08; fail fast BEFORE apply)
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+          SUPABASE_PROJECT_REF: swrmqpelgoblaquequzb
+          SUPABASE_POOLER_HOST: aws-0-eu-central-1.pooler.supabase.com
+        run: |
+          # Two-plane contract guard: checks every emitted enum value against the LIVE mirror
+          # CHECK constraints and reports EVERY drift at once, so a CSV enum that outgrew its
+          # mirror DDL fails here (with the exact fix ALTER) instead of crashing mid-apply.
+          sudo apt-get update && sudo apt-get install -y postgresql-client
+          set +e
+          python scripts/validate_mirror_enum_parity.py --emit-sql mirror-upsert.sql
+          code=$?
+          set -e
+          if [ "$code" = "1" ]; then
+            echo "::error::Mirror enum-parity drift detected — add the CHECK-extension migration shown above before applying."
+            exit 1
+          fi
+          [ "$code" = "2" ] && echo "Parity check skipped (no DB creds) — emit-only run."
+          exit 0
       - name: Apply to Supabase (gated on secret)
         env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
