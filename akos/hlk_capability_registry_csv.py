@@ -17,7 +17,8 @@ from pydantic import BaseModel, ConfigDict, Field
 CAPABILITY_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "capability_id",
     "capability_name",
-    "bearer_class",
+    # bearer_class REMOVED at D-IH-95-I: de-densified capabilities are bearer-agnostic — the
+    # bearer (Talent-H human role vs Talent-A AIC) is derived from the realizing process's owner.
     "area",
     "role_owner",
     "originating_process_ids",
@@ -33,6 +34,8 @@ CAPABILITY_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "methodology_version_at_review",
     "notes",
     "capability_tier",  # D-IH-95-H — differentiating | utility (empty until the area-by-area collapse curates it); drives rating cadence + the gold-layer heat map
+    "l1_domain",        # D-IH-95-I — the ~9-domain grouping (capability area stays the HLK area; l1_domain is the cross-area capability-map grouping)
+    "definition",       # D-IH-95-I — 1-sentence stable-capability definition (the sellable "what")
 )
 
 VALID_BEARER_CLASSES: frozenset[str] = frozenset({"Talent-H", "Talent-A"})
@@ -69,14 +72,16 @@ class CapabilityRegistryRow(BaseModel):
 
     capability_id: str = Field(pattern=r"^CAP-[A-Z0-9-]+$")
     capability_name: str = Field(min_length=1, max_length=200)
-    bearer_class: Literal["Talent-H", "Talent-A"]
     area: str = Field(min_length=1, max_length=32)
     role_owner: str = Field(min_length=1, max_length=120)
-    originating_process_ids: str = Field(min_length=1, max_length=120)
+    # N:N at D-IH-95-I — a de-densified capability is realized by many processes (semicolon list).
+    originating_process_ids: str = Field(min_length=1, max_length=800)
     substrate_id: str = ""
     skill_ids: str = ""
     lifecycle_status: Literal["active", "planned", "deprecated", "scaffold"]
-    i81_verdict: Literal["pass", "partial", "fail"]
+    # "" allowed at D-IH-95-I — i81 seed-audit verdict is legacy seed metadata; de-densified
+    # capabilities are not I81-seed-derived, so they carry an empty verdict.
+    i81_verdict: Literal["", "pass", "partial", "fail"] = ""
     i81_gap_summary: str = ""
     external_register_summary: str = ""
     last_review_at: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
@@ -85,3 +90,5 @@ class CapabilityRegistryRow(BaseModel):
     methodology_version_at_review: str = Field(min_length=1, max_length=16)
     notes: str = ""
     capability_tier: Literal["", "differentiating", "utility"] = ""
+    l1_domain: str = Field(default="", max_length=80)
+    definition: str = Field(default="", max_length=400)

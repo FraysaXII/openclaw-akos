@@ -265,9 +265,18 @@ mind-map imports, bilingual dups, cross-area mis-tags). Commissioned a process-l
 agent + an **AskQuestion gate before any `process_list` edit** (hardest-gated canonical), coordinated
 with the collapse (shared rows).
 
-**Sequenced (gated, next):** capability schema change (add `l1_domain`, drop `bearer_class`, +mirror)
-→ pilot collapse → remaining areas → cross-area reconciliation → evictions → `process_list` cleanup
-(after its AskQuestion). Each slice = gated canonical-CSV + `validate_hlk` + rollup audit.
+**EXECUTED (2026-06-08):** capability **schema change** (dropped `bearer_class` → bearer-agnostic;
+added `l1_domain` + `definition`; widened `originating_process_ids` for N:N; `i81_verdict` optional;
++mirror `20260608002412`) + the **PILOT collapse Data+Finance+Legal (44→11)** — FK-verified
+(role_owner + every `originating_process_id` resolve), `CAPABILITY_CONFIDENCE_REGISTRY` synced
+(pruned 44 orphaned + 11 new unrated; 1,086 rows), `validate_hlk` OVERALL PASS. Registry **1,119 → 1,086**.
+process_list issue-inventory landed (`process-list-issue-inventory-2026-06-08.md`): 734/1,207 flagged,
+radical-MOVE ratified (operator).
+
+**Sequenced (gated, next):** Marketing (117→11) → Research (82→12) → People (93→22) → Operations
+(404→18) → Tech (379→27) → cross-area reconciliation → evictions (tools→substrate; code-symbols→
+remove) → `process_list` radical cleanup (MOVE 578 task-grain → new BUILDOUT_BACKLOG registry; Tier-A
+hygiene; routes). Each slice = gated canonical-CSV + `validate_hlk` + rollup + confidence-sync.
 
 ### Pending sub-decisions (to ratify at each gate)
 - **process_list radical cleanup scope** — AskQuestion after the issue-inventory agent reports.
