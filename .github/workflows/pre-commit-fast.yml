@@ -34,8 +34,15 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.txt
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Seed CI runtime from repo templates
+        run: python scripts/bootstrap.py --skip-ollama
 
       - name: Run pre_commit_fast profile
         run: python scripts/verify.py pre_commit_fast

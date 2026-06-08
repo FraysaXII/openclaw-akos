@@ -11,7 +11,8 @@ from typing import Any
 # --------------------------
 EXPECTED = {
     "providers": {
-        "ollama": {"model_ids": {"qwen3:8b", "llama3.1:8b", "deepseek-r1:14b", "nomic-embed-text"}},
+        # D-IH-87-C (I87 P3): qwen3:8b intentionally removed from ollama.models SSOT
+        "ollama": {"model_ids": {"llama3.1:8b", "deepseek-r1:14b", "nomic-embed-text"}},
         "ollama-gpu": {"model_ids": {"qwen3:32b"}},
         "openai": {"model_ids": set()},
         "anthropic": {"model_ids": set()},
