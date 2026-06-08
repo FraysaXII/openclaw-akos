@@ -38,10 +38,12 @@ py scripts/validate_cursor_rule_tiers.py
 ## Verification golden path
 
 ```powershell
-py scripts/validate_hlk.py
-py scripts/verify.py pre_commit
+py scripts/verify.py pre_commit_fast   # ~2-4 min — CI + everyday loop (inventory, drift, HLK, HCAM/L3)
+py scripts/verify.py pre_commit        # full bar before merge/release (pytest all, Playwright, release-gate)
 py scripts/release-gate.py
 ```
+
+GitHub Actions runs `pre-commit-fast` on PRs and on `main` pushes that touch code/canonical paths.
 
 ## Two-seat routing (optional pattern)
 

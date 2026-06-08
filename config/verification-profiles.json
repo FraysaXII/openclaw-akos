@@ -354,6 +354,80 @@
         }
       ]
     },
+    "pre_commit_fast": {
+      "description": "I95 CI fast path (~2-4 min): inventory + drift + HLK umbrella + HCAM/FK-verb L3 + API smoke + DataOps/two-plane self-tests. Skips full pytest, Playwright, release-gate, and brand/external-render sweeps (run pre_commit before merge/release).",
+      "steps": [
+        {
+          "id": "strict_inventory",
+          "description": "Strict full AKOS inventory (OVERALL: PASS)",
+          "argv": [
+            "scripts/legacy/verify_openclaw_inventory.py"
+          ]
+        },
+        {
+          "id": "drift",
+          "description": "Repo vs runtime drift (agent/A2A inventory, tools policy)",
+          "argv": [
+            "scripts/check-drift.py"
+          ]
+        },
+        {
+          "id": "validate_hlk",
+          "description": "HLK umbrella (canonical CSV validators + two-plane DATA-02/DATA-05 guards)",
+          "argv": [
+            "scripts/validate_hlk.py"
+          ]
+        },
+        {
+          "id": "validate_canonical_articulation",
+          "description": "I95 P1 HCAM: entity catalog + relationship registry integrity",
+          "argv": [
+            "scripts/validate_canonical_articulation.py"
+          ]
+        },
+        {
+          "id": "validate_fk_verb_coverage",
+          "description": "I95 L3 tranche-1: process_list + baseline_organisation FK columns map to active HCAM triples",
+          "argv": [
+            "scripts/validate_fk_verb_coverage.py"
+          ]
+        },
+        {
+          "id": "api_madeira_smoke",
+          "description": "FastAPI control plane + Madeira interaction (fast pytest subset)",
+          "argv": [
+            "__pytest__",
+            "tests/test_api.py",
+            "tests/test_madeira_interaction.py",
+            "-q"
+          ]
+        },
+        {
+          "id": "dataops_quality_check_self_test",
+          "description": "DataOps probe chassis self-test (DATA-02/DATA-05 live probes)",
+          "argv": [
+            "scripts/dataops_quality_check.py",
+            "--self-test"
+          ]
+        },
+        {
+          "id": "validate_csv_column_alignment_self_test",
+          "description": "Plane-1 column-alignment guard self-test",
+          "argv": [
+            "scripts/validate_csv_column_alignment.py",
+            "--self-test"
+          ]
+        },
+        {
+          "id": "validate_pydantic_mirror_enum_ssot_self_test",
+          "description": "Pydantic enum subset migration CHECK parser self-test",
+          "argv": [
+            "scripts/validate_pydantic_mirror_enum_ssot.py",
+            "--self-test"
+          ]
+        }
+      ]
+    },
     "dossier_smoke": {
       "description": "Initiative 48 P9: standalone dossier snapshot smoke (same argv as pre_commit dossier_smoke step)",
       "steps": [

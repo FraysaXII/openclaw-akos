@@ -1,0 +1,41 @@
+# I95 fast CI path — inventory + drift + HLK + HCAM/L3 FK coverage (~2-4 min).
+# Full bar remains: py scripts/verify.py pre_commit (local) before release/merge.
+name: pre-commit-fast
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    paths:
+      - "akos/**"
+      - "scripts/**"
+      - "tests/**"
+      - "config/**"
+      - "docs/references/**"
+      - "requirements.txt"
+      - "pyproject.toml"
+      - ".python-version"
+      - ".github/workflows/pre-commit-fast.yml"
+
+concurrency:
+  group: pre-commit-fast-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fast-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pre_commit_fast profile
+        run: python scripts/verify.py pre_commit_fast
