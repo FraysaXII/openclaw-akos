@@ -23,6 +23,10 @@ on:
         description: "Apply the emitted DML to Supabase (requires SUPABASE_DB_URL secret)"
         type: boolean
         default: false
+      reconcile:
+        description: "Full-sync: also DELETE mirror rows whose PK left the CSV (shrinks mirrors to match SSOT). Opt-in; destructive on derived T2 only."
+        type: boolean
+        default: false
 
 concurrency:
   group: supabase-mirror-sync
@@ -43,6 +47,11 @@ jobs:
           SHA="$(git rev-parse --short HEAD)"
           python scripts/sync_compliance_mirrors_from_csv.py --output mirror-upsert.sql --git-sha "$SHA"
           echo "Emitted mirror-upsert.sql ($(wc -l < mirror-upsert.sql) statements, $(wc -c < mirror-upsert.sql) bytes) at $SHA"
+      - name: Delete-reconcile (full-sync; opt-in, derived-T2 only)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.reconcile }}
+        run: |
+          # Appends NOT-IN DELETEs (inside the same txn) so each mirror equals its CSV exactly.
+          python scripts/emit_mirror_delete_reconcile.py --sql mirror-upsert.sql
       - name: Upload DML artifact (operator review)
         uses: actions/upload-artifact@v4
         with:
