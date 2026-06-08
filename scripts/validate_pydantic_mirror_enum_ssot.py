@@ -26,6 +26,7 @@ MIGRATIONS = REPO_ROOT / "supabase" / "migrations"
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from akos.hlk_baseline_org_csv import VALID_BASELINE_ORG_STATUSES  # noqa: E402
 from akos.hlk_design_pattern_csv import VALID_PATTERN_CLASSES  # noqa: E402
 
 _ANY_ARRAY_RE = re.compile(r"([a-z_][a-z0-9_]*) = ANY \(ARRAY\[(.*?)\]\)", re.DOTALL)
@@ -42,6 +43,7 @@ _TABLE_RE = re.compile(
 # Pydantic SSOT enums keyed by (mirror_table, column)
 _PYDANTIC_ENUM_SSOT: dict[tuple[str, str], frozenset[str]] = {
     ("people_design_pattern_registry_mirror", "pattern_class"): VALID_PATTERN_CLASSES,
+    ("baseline_organisation_mirror", "status"): VALID_BASELINE_ORG_STATUSES,
 }
 
 

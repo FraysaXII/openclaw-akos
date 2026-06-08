@@ -35,6 +35,8 @@ VALID_BASELINE_ORG_STATUSES: frozenset[str] = frozenset({
     "deprecated",
     "pending",
     "planned",
+    "gated_operator",  # I72 RevOps activation (D-IH-72-AC)
+    "gated_ahead_of_executive_activation",  # I72 CRO forward-charter (D-IH-72-AD)
 })
 
 BASELINE_ORGANISATION_FIELDNAMES: tuple[str, ...] = (
