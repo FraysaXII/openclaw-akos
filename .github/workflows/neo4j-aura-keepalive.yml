@@ -33,16 +33,23 @@ jobs:
         run: |
           python - <<'PY'
           import os, sys
-          uri = os.environ.get("NEO4J_URI", "").strip()
-          user = (os.environ.get("NEO4J_USERNAME", "").strip() or "neo4j")  # Aura default role
+          raw = os.environ.get("NEO4J_URI", "")
+          # Sanitize the common copy-paste mistakes: surrounding quotes, whitespace/newlines, BOM.
+          uri = raw.lstrip("\ufeff").strip().strip('"').strip("'").strip()
+          user = (os.environ.get("NEO4J_USERNAME", "").strip().strip('"').strip("'") or "neo4j")  # Aura default role
           pwd = os.environ.get("NEO4J_PASSWORD", "")
           if not (uri and pwd):
               print("NEO4J_URI / NEO4J_PASSWORD not set — skipping keep-alive (configure in repo secrets).")
               sys.exit(0)
-          # Aura is always TLS bolt+routing; tolerate a scheme-less host value (auto-heal the
-          # common "I pasted just the host" mistake) by prefixing the encrypted routing scheme.
-          if "://" not in uri:
+          # Aura is always TLS bolt+routing. Auto-heal: a bare host (no scheme) -> prefix it; a
+          # value that begins with "://" (scheme stripped) -> restore the scheme.
+          if uri.startswith("://"):
+              uri = "neo4j+s" + uri
+          elif "://" not in uri:
               uri = "neo4j+s://" + uri
+          # Leak-safe diagnostics (lengths/flags only; never the value).
+          scheme = uri.split("://", 1)[0]
+          print(f"[diag] raw_len={len(raw)} clean_len={len(uri)} scheme_len={len(scheme)} has_sep={'://' in uri}")
           from neo4j import GraphDatabase
           driver = GraphDatabase.driver(uri, auth=(user, pwd))
           with driver.session() as s:
