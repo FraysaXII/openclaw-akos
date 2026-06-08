@@ -1,9 +1,9 @@
 triple_id,source_type,verb,target_type,cardinality,current_fk,neo4j_edge_type,replaces_edge,status,notes
 HCAM-TRP-001,role,assignment,process,N:N,process_list.role_owner,ASSIGNED_TO,OWNED_BY,active,role performs/owns process
 HCAM-TRP-002,role,composition,role,1:N,baseline_organisation.reports_to,COMPOSED_OF,REPORTS_TO,active,org hierarchy (parent role composed of its reports)
-HCAM-TRP-003,area,composition,area,1:N,area_model.sub_area,COMPOSED_OF,,active,area composed of sub-areas
+HCAM-TRP-003,area,composition,area,1:N,baseline_organisation.sub_area,COMPOSED_OF,,active,area composed of sub-areas (L3: sub_area lives on baseline_organisation rows)
 HCAM-TRP-004,area,aggregation,role,1:N,baseline_organisation.area,AGGREGATES,,active,area aggregates its roles
-HCAM-TRP-005,process,composition,process,N:1,process_list.item_parent_1_id;item_parent_2_id,COMPOSED_OF,PARENT_OF,active,process layers project>process>activity>task (APQC)
+HCAM-TRP-005,process,composition,process,N:1,process_list.item_parent_1_id;process_list.item_parent_2_id,COMPOSED_OF,PARENT_OF,active,process layers project>process>activity>task (APQC)
 HCAM-TRP-006,process,realization,capability,N:N,CAPABILITY_REGISTRY.originating_process_ids,REALIZES,,active,process realizes a business capability
 HCAM-TRP-007,process,realization,pattern,N:N,process_list.inherited_pattern_id,REALIZES,,active,process realizes/inherits a design pattern
 HCAM-TRP-008,process,serving,engagement,N:N,process_list.engagement_template_id,SERVES,PRODUCES_FOR,active,process serves an engagement
@@ -29,12 +29,12 @@ HCAM-TRP-027,component,serving,role,N:N,baseline_organisation.components_used,SE
 HCAM-TRP-028,skill,assignment,role,N:N,SKILL_REGISTRY.owner_role,ASSIGNED_TO,,active,skill owned/performed by role (operator add 2026-06-05)
 HCAM-TRP-029,use_case,realization,capability,N:N,USE_CASE_ARCHIVE.capability_id,REALIZES,,active,use-case realizes a capability (operator add 2026-06-05)
 HCAM-TRP-030,aic,assignment,process,N:N,new,ASSIGNED_TO,,planned,AIC performs a process (operator add 2026-06-05)
-HCAM-TRP-031,program,composition,workstream,1:N,new,COMPOSED_OF,,planned,program composed of workstreams (operator add 2026-06-05)
-HCAM-TRP-032,workstream,composition,process,1:N,new,COMPOSED_OF,,planned,workstream composed of processes (operator add 2026-06-05)
+HCAM-TRP-031,program,composition,workstream,1:N,process_list.item_granularity;process_list.item_parent_1_id,COMPOSED_OF,,planned,program composed of workstreams via process_list layers (item_granularity=workstream)
+HCAM-TRP-032,workstream,composition,process,1:N,process_list.item_granularity;process_list.item_parent_1_id,COMPOSED_OF,,planned,workstream composed of processes (item_granularity=process under workstream parent)
 HCAM-TRP-033,brand,specialization,brand,N:1,brand_architecture,SPECIALIZES,,planned,sub-mark specializes parent brand (operator add 2026-06-05)
 HCAM-TRP-034,capability,realization,goal_poi,N:N,new,REALIZES,,planned,capability realizes a goal/outcome
 HCAM-TRP-035,area,serving,area,N:N,new,SERVES,,planned,platform area serves stream-aligned areas
-HCAM-TRP-036,initiative,composition,workstream,1:N,new,COMPOSED_OF,,planned,initiative composed of workstreams
+HCAM-TRP-036,initiative,composition,workstream,1:N,process_list.item_granularity;process_list.item_parent_1_id,COMPOSED_OF,,planned,initiative workstreams materialise as process_list workstream rows (charter FK forward-charter)
 HCAM-TRP-037,role,assignment,skill,N:N,new,ASSIGNED_TO,,planned,role holds/is-assigned a skill (inverse of TRP-028 view)
 HCAM-TRP-038,aic,realization,capability,N:N,aic_capability_implementation_matrix,REALIZES,,active,AIC realizes a capability
 HCAM-TRP-039,capability,assignment,role,N:1,CAPABILITY_REGISTRY.role_owner,ASSIGNED_TO,,active,capability owned by a role

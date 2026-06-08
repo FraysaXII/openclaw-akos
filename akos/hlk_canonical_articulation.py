@@ -116,6 +116,43 @@ RELATIONSHIP_REGISTRY_PATH = (
     / "Architecture" / "canonicals" / "dimensions" / "CANONICAL_RELATIONSHIP_REGISTRY.csv"
 )
 
+# I95 L3 tranche-1 (R2-05 / P5): high-signal CSV FK columns -> HCAM triple_id.
+# Each binding must appear in the triple's ``current_fk`` column (semicolon-separated).
+L3_TRANCHE1_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
+    ("process_list", "role_owner", "HCAM-TRP-001"),
+    ("process_list", "item_parent_1_id", "HCAM-TRP-005"),
+    ("process_list", "item_parent_2_id", "HCAM-TRP-005"),
+    ("process_list", "inherited_pattern_id", "HCAM-TRP-007"),
+    ("process_list", "engagement_template_id", "HCAM-TRP-008"),
+    ("process_list", "persona_id", "HCAM-TRP-009"),
+    ("baseline_organisation", "reports_to", "HCAM-TRP-002"),
+    ("baseline_organisation", "area", "HCAM-TRP-004"),
+    ("baseline_organisation", "sub_area", "HCAM-TRP-003"),
+    ("baseline_organisation", "components_used", "HCAM-TRP-027"),
+)
+
+# Non-CSV FK surfaces (markdown frontmatter, semantic layer SQL, etc.) — advisory only.
+FK_NON_CSV_REGISTRY_PREFIXES: frozenset[str] = frozenset({
+    "frontmatter",
+    "semantic_layer",
+    "semantic_layer_binding",
+    "engagement_model",
+    "policy_register",
+    "intelligence_matrix",
+    "openmetadata_projection",
+    "openmetadata_glossary",
+    "dama_conceptual_logical_physical",
+    "integration_plane_rule",
+    "data_fam_umbrella",
+    "erp_reads_warehouse",
+    "component_service_matrix",
+    "capability_map",
+    "area_model",
+    "brand_architecture",
+    "channel_touchpoint_registry",
+    "rpa_adapter_registry",
+})
+
 
 class EntityCatalogRow(BaseModel):
     """One canonical artifact type in the HCAM entity catalog."""
