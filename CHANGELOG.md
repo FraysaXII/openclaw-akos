@@ -13,6 +13,8 @@ Release lane definitions, SemVer judgment, `[Unreleased]` working-line disciplin
 
 ## [Unreleased]
 
+- **I95 fast CI hardening (2026-06-08)**: `pre-commit-fast` installs `requirements.txt` + `pip install -e .`; `/prompts/assemble` uses `sys.executable` instead of Windows-only `py` (fixes API smoke on Linux GHA).
+
 - **I95 L3 FK→verb tranche-2 (2026-06-08; R2-05)**: 8 bindings for `capability_registry`, `decision_register`, `ops_register`; `L3_FK_BINDINGS` now 18 total; normalize relationship registry `current_fk` slugs. Report: [`l3-fk-verb-tranche2-2026-06-08.md`](docs/wip/planning/95-canonical-articulation-model/reports/l3-fk-verb-tranche2-2026-06-08.md).
 
 - **I95 fast CI bootstrap fix (2026-06-08)**: `pre-commit-fast` workflow seeds runtime via `bootstrap.py --skip-ollama` + Node 22; align `verify_openclaw_inventory.py` Ollama model set with D-IH-87-C (3 models, no `qwen3:8b`).

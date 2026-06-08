@@ -656,7 +656,7 @@ async def get_alerts() -> dict[str, Any]:
 @app.post("/prompts/assemble", dependencies=[Depends(_check_api_key)], tags=["Prompts"])
 async def assemble_prompts(req: AssembleRequest) -> dict[str, Any]:
     import subprocess
-    cmd = ["py", str(REPO_ROOT / "scripts" / "assemble-prompts.py")]
+    cmd = [sys.executable, str(REPO_ROOT / "scripts" / "assemble-prompts.py")]
     if req.variant:
         cmd.extend(["--variant", req.variant])
     result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
