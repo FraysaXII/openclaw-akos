@@ -75,13 +75,15 @@ jobs:
             exit 0
           fi
           sudo apt-get update && sudo apt-get install -y postgresql-client
+          # --single-transaction + ON_ERROR_STOP=1 = atomic all-or-nothing: any failing
+          # statement rolls back the ENTIRE apply, so the mirror is never left half-synced.
           if [ "$have_url" = "1" ]; then
-            echo "Applying via SUPABASE_DB_URL…"
-            psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f mirror-upsert.sql
+            echo "Applying via SUPABASE_DB_URL (single transaction)…"
+            psql "$SUPABASE_DB_URL" --single-transaction -v ON_ERROR_STOP=1 -f mirror-upsert.sql
           else
             # Pooler session mode (port 5432), user postgres.<ref>; PGPASSWORD avoids URI-encoding
             # issues with special chars in the password.
-            echo "Applying via SUPABASE_PASSWORD on the pooler (session mode, IPv4-friendly)…"
-            PGPASSWORD="$SUPABASE_PASSWORD" psql -h "$SUPABASE_POOLER_HOST" -p 5432 -U "postgres.${SUPABASE_PROJECT_REF}" -d postgres -v ON_ERROR_STOP=1 -f mirror-upsert.sql
+            echo "Applying via SUPABASE_PASSWORD on the pooler (session mode, IPv4-friendly, single transaction)…"
+            PGPASSWORD="$SUPABASE_PASSWORD" psql -h "$SUPABASE_POOLER_HOST" -p 5432 -U "postgres.${SUPABASE_PROJECT_REF}" -d postgres --single-transaction -v ON_ERROR_STOP=1 -f mirror-upsert.sql
           fi
           echo "Mirror apply complete."
