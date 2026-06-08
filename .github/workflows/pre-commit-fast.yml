@@ -39,7 +39,9 @@ jobs:
           node-version: "22"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
 
       - name: Seed CI runtime from repo templates
         run: python scripts/bootstrap.py --skip-ollama
