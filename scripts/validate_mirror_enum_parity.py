@@ -57,15 +57,26 @@ SYNC_SCRIPT = REPO_ROOT / "scripts" / "sync_compliance_mirrors_from_csv.py"
 _ANY_ARRAY_RE = re.compile(r"\(([a-z_][a-z0-9_]*) = ANY \(ARRAY\[(.*?)\]\)\)", re.DOTALL)
 _ARRAY_VALUE_RE = re.compile(r"'((?:[^']|'')*)'::text")
 
+# A def is compound/relational (NOT a plain single-column enum) if it joins
+# conditions with AND, compares to another column/date, or carries more than one
+# ANY-array. Such CHECKs (e.g. goipoi bridge_required_when_not_n1, collaborator
+# overlay/methodology pairing, rate-override expiry consistency) must be SKIPPED:
+# their embedded ARRAY is a conditional BRANCH, not the column's allowed set, so
+# treating it as an enum produces false positives.
+_COMPOUND_MARKERS = (" AND ", "<>", ">=", "<=", " < ", " > ", "CURRENT_DATE")
+
 
 def parse_check_def(def_str: str) -> tuple[str, set[str]] | tuple[None, None]:
-    """Extract (column, allowed_values) from a simple-enum CHECK def.
+    """Extract (column, allowed_values) from a PURE single-column enum CHECK.
 
-    Handles ``CHECK ((col = ANY (ARRAY['a'::text, 'b'::text])))`` and the
-    nullable variant ``CHECK (((col IS NULL) OR (col = ''::text) OR (col = ANY
-    (ARRAY[...]))))``. Returns (None, None) for compound/relational CHECKs
-    (e.g. cross-column pairing rules) which are not plain enums.
+    Accepts ``CHECK ((col = ANY (ARRAY[...])))`` and the nullable variants
+    (``(col IS NULL) OR (col = ''::text) OR (col = ANY (ARRAY[...]))``). Returns
+    (None, None) for compound/relational CHECKs which are not plain enums.
     """
+    if def_str.count("= ANY (ARRAY") != 1:
+        return None, None
+    if any(mark in def_str for mark in _COMPOUND_MARKERS):
+        return None, None
     m = _ANY_ARRAY_RE.search(def_str)
     if not m:
         return None, None
@@ -75,13 +86,18 @@ def parse_check_def(def_str: str) -> tuple[str, set[str]] | tuple[None, None]:
 
 
 def load_constraints(rows: list[dict]) -> dict[str, dict[str, set[str]]]:
-    """rows: [{'tbl':..., 'conname':..., 'def':...}] -> {table: {col: allowed}}."""
+    """rows: [{'tbl':..., 'conname':..., 'def':...}] -> {table: {col: allowed}}.
+
+    If a column carries multiple PURE enum CHECKs they are AND-ed, so the
+    effective allowed set is their intersection.
+    """
     out: dict[str, dict[str, set[str]]] = {}
     for r in rows:
         col, allowed = parse_check_def(r.get("def", ""))
         if not col:
             continue
-        out.setdefault(r["tbl"], {})[col] = allowed
+        tbl = out.setdefault(r["tbl"], {})
+        tbl[col] = (tbl[col] & allowed) if col in tbl else allowed
     return out
 
 
