@@ -273,10 +273,18 @@ added `l1_domain` + `definition`; widened `originating_process_ids` for N:N; `i8
 process_list issue-inventory landed (`process-list-issue-inventory-2026-06-08.md`): 734/1,207 flagged,
 radical-MOVE ratified (operator).
 
-**Sequenced (gated, next):** Marketing (117→11) → Research (82→12) → People (93→22) → Operations
-(404→18) → Tech (379→27) → cross-area reconciliation → evictions (tools→substrate; code-symbols→
-remove) → `process_list` radical cleanup (MOVE 578 task-grain → new BUILDOUT_BACKLOG registry; Tier-A
-hygiene; routes). Each slice = gated canonical-CSV + `validate_hlk` + rollup + confidence-sync.
+**EXECUTED (2026-06-08) — full remaining collapse:** Marketing 117→11, Research 82→12, People 93→22,
+Operations 404→**14** (4 merged: entity→Legal, financial→Finance, market-intel→Research, agentic→Tech),
+Tech 379→**23** (4 merged: scenario-radar→Research KB, ai-product-gtm→Marketing launch, mktg-data→Data
+platform, doc-redaction→Legal instrument). **CAPABILITY_REGISTRY 1,119 → 93** (~12:1; in the 40–110
+strategic band). Confidence registry synced (93). Downstream FK breakage repaired: `USE_CASE_ARCHIVE`
+(6 refs remapped) + `AIC_CAPABILITY_IMPLEMENTATION_MATRIX` (6 MADEIRA sub-caps → `CAP-MADEIRA-SCENARIO-LIFECYCLE`,
+deduped 5). Representative `originating_process_ids` per capability (validator needs ≥1; full rollup
+audit in `l2-collapse-maps/`). `validate_hlk` OVERALL PASS. **Capability collapse COMPLETE.**
+
+**Sequenced (gated, next):** `process_list` radical cleanup (MOVE 578 task-grain → new BUILDOUT_BACKLOG
+registry; Tier-A hygiene 34 rows; routes: code→component, tools→substrate, subject-tags→topic, re-tag,
+dedup, delete) — co-sequenced; update `validate_capability_registry` to accept process_list ∪ backlog ids.
 
 ### Pending sub-decisions (to ratify at each gate)
 - **process_list radical cleanup scope** — AskQuestion after the issue-inventory agent reports.
