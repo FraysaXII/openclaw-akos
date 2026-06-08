@@ -53,11 +53,20 @@ jobs:
         env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
-          # Project ref for the fallback direct-connection string (MasterData).
+          # MasterData project (eu-central-1). The pooler is IPv4-reachable from GitHub
+          # Actions; the direct host db.<ref>.supabase.co is IPv6-only and will NOT connect
+          # from CI — so we build the pooler session-mode URL from SUPABASE_PASSWORD.
           SUPABASE_PROJECT_REF: swrmqpelgoblaquequzb
+          SUPABASE_POOLER_HOST: aws-0-eu-central-1.pooler.supabase.com
         run: |
-          if [ -z "$SUPABASE_DB_URL" ] && [ -z "$SUPABASE_PASSWORD" ]; then
-            echo "Neither SUPABASE_DB_URL nor SUPABASE_PASSWORD set — emit-only (apply skipped)."
+          # SUPABASE_DB_URL is only usable if it is a real postgres URI (psql otherwise
+          # treats it as a dbname and tries a local socket). Validate the scheme.
+          have_url=0
+          case "$SUPABASE_DB_URL" in
+            postgres://*|postgresql://*) have_url=1 ;;
+          esac
+          if [ "$have_url" = "0" ] && [ -z "$SUPABASE_PASSWORD" ]; then
+            echo "No usable Supabase secret. Set SUPABASE_DB_URL=postgresql://... (pooler URI) OR SUPABASE_PASSWORD. Emit-only."
             exit 0
           fi
           # On push to main: auto-apply. On manual dispatch: only when apply=true.
@@ -66,13 +75,13 @@ jobs:
             exit 0
           fi
           sudo apt-get update && sudo apt-get install -y postgresql-client
-          if [ -n "$SUPABASE_DB_URL" ]; then
-            echo "Applying via SUPABASE_DB_URL (preferred: full connection string)…"
+          if [ "$have_url" = "1" ]; then
+            echo "Applying via SUPABASE_DB_URL…"
             psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f mirror-upsert.sql
           else
-            # Fallback: construct the DIRECT connection from the DB password (note: requires the
-            # direct connection / IPv4 to be enabled; SUPABASE_DB_URL from the dashboard is more reliable).
-            echo "SUPABASE_DB_URL not set — falling back to SUPABASE_PASSWORD + direct host…"
-            PGPASSWORD="$SUPABASE_PASSWORD" psql -h "db.${SUPABASE_PROJECT_REF}.supabase.co" -p 5432 -U postgres -d postgres -v ON_ERROR_STOP=1 -f mirror-upsert.sql
+            # Pooler session mode (port 5432), user postgres.<ref>; PGPASSWORD avoids URI-encoding
+            # issues with special chars in the password.
+            echo "Applying via SUPABASE_PASSWORD on the pooler (session mode, IPv4-friendly)…"
+            PGPASSWORD="$SUPABASE_PASSWORD" psql -h "$SUPABASE_POOLER_HOST" -p 5432 -U "postgres.${SUPABASE_PROJECT_REF}" -d postgres -v ON_ERROR_STOP=1 -f mirror-upsert.sql
           fi
           echo "Mirror apply complete."
