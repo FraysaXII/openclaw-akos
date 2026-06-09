@@ -133,8 +133,21 @@ py scripts/verify.py pre_commit_fast
 
 ---
 
+## 7. Cluster dependencies
+
+**Burndown SSOT (I95 lens):** [`i95-initiative-cluster-map.md`](../i95-initiative-cluster-map.md) — I86 portfolio coordinator + I90 routing ordnance + I91 graph handoff after F6 unblocked Neo4j.
+
+**Top 3 cluster-efficiency actions** (full ranked queue in cluster map §Burndown):
+
+1. **I86 Wave N INDEX_INTEGRITY** — mint baseline-index integrity specialty; refresh [`INITIATIVE_DEPENDENCIES.md`](../../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md) + planning README (I90–I95 edges currently live only in cluster map).
+2. **I95 L3 tranche-5** — bind 10 active relationship triples still without FK bindings (full regression F-11).
+3. **I91 P1–P2** — Neo4j preflight + store-coverage matrix v1 (unblocked by I95 F6; feeds I92).
+
+**Registry gap:** `INITIATIVE_DEPENDENCIES.md` last_generated **2026-05-29** — does not yet document I90–I95 edges; cluster map is interim SSOT until Wave N refresh.
+
 ## 6. Cross-references
 
+- Cluster map: [`i95-initiative-cluster-map.md`](../i95-initiative-cluster-map.md)
 - Full regression (verdict + findings): [`i95-full-regression-2026-06-09.md`](i95-full-regression-2026-06-09.md)
 - FQ ratification: [`i95-fq2-ratification-2026-06-09.md`](i95-fq2-ratification-2026-06-09.md)
 - GOV closure UAT: [`uat-universal-canonical-governance-2026-06-09.md`](uat-universal-canonical-governance-2026-06-09.md)

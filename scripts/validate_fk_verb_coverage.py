@@ -5,6 +5,8 @@ Tranche-1: ``process_list`` + ``baseline_organisation``. Tranche-2: ``capability
 ``decision_register``, ``ops_register``. Tranche-3: ``process_list`` workstream-layer
 composition (TRP-031/032). Tranche-4A/4B: AIC matrix, data contracts, topic tree,
 engagement cluster (TRP-038/045-047/021 + TRP-012/029/042/015/043/044; TRP-008 deduped).
+Tranche-5: policy/channel/intelligence non-CSV surfaces + persona/metrics/skill/BI cluster
+(TRP-019/022/023/024/025/026/028/048/049/050; regression F-11).
 Also validates every *active* triple's ``current_fk``
 tokens resolve to
 known registry columns (or approved non-CSV surfaces).
@@ -103,22 +105,39 @@ def run_checks(registry_path: Path = RELATIONSHIP_REGISTRY_PATH) -> list[str]:
     raw_rows = _read_registry(registry_path)
     triples = _triple_by_id(raw_rows)
 
-    # L3 mandatory bindings (tranche-1 through tranche-4)
+    non_csv = {_normalize_registry_slug(x) for x in FK_NON_CSV_REGISTRY_PREFIXES}
+
+    # L3 mandatory bindings (tranche-1 through tranche-5)
     for reg_slug, col, triple_id in L3_FK_BINDINGS:
         triple = triples.get(triple_id)
+        binding_label = f"{reg_slug}.{col}" if col else reg_slug
         if triple is None:
-            errors.append(f"L3 binding {reg_slug}.{col} -> {triple_id}: triple missing")
+            errors.append(f"L3 binding {binding_label} -> {triple_id}: triple missing")
             continue
         if triple.status != "active":
-            errors.append(f"L3 binding {reg_slug}.{col} -> {triple_id}: triple not active")
+            errors.append(f"L3 binding {binding_label} -> {triple_id}: triple not active")
             continue
-        needle = f"{reg_slug}.{col}".lower()
         fk_blob = (triple.current_fk or "").lower()
-        if needle not in fk_blob:
-            errors.append(
-                f"L3 binding {reg_slug}.{col} must appear in {triple_id}.current_fk "
-                f"(got {triple.current_fk!r})"
-            )
+        if col:
+            needle = f"{reg_slug}.{col}".lower()
+            if needle not in fk_blob:
+                errors.append(
+                    f"L3 binding {binding_label} must appear in {triple_id}.current_fk "
+                    f"(got {triple.current_fk!r})"
+                )
+        else:
+            bare = _normalize_registry_slug(reg_slug)
+            if bare not in non_csv:
+                errors.append(
+                    f"L3 binding bare {reg_slug} -> {triple_id}: not in FK_NON_CSV allowlist"
+                )
+                continue
+            parts = {p.strip() for p in fk_blob.split(";")}
+            if bare not in parts and not any(p.startswith(f"{bare}.") for p in parts):
+                errors.append(
+                    f"L3 binding bare {reg_slug} must appear in {triple_id}.current_fk "
+                    f"(got {triple.current_fk!r})"
+                )
 
     # Active triples must not use placeholder FK
     for tid, triple in triples.items():
@@ -127,8 +146,6 @@ def run_checks(registry_path: Path = RELATIONSHIP_REGISTRY_PATH) -> list[str]:
         fk = (triple.current_fk or "").strip()
         if not fk or fk.lower() == "new":
             errors.append(f"{tid}: active triple has placeholder current_fk={fk!r}")
-
-    non_csv = {_normalize_registry_slug(x) for x in FK_NON_CSV_REGISTRY_PREFIXES}
 
     # Parse every *active* triple current_fk token against registry column SSOT.
     for tid, triple in triples.items():
@@ -171,7 +188,7 @@ def self_test() -> int:
     assert _parse_fk_token("process_list.role_owner") == ("process_list", "role_owner")
     assert _parse_fk_token("new") is None
     assert "process_list" in _FK_REGISTRY_COLUMNS
-    assert len(L3_FK_BINDINGS) >= 34
+    assert len(L3_FK_BINDINGS) >= 44
     return 0
 
 

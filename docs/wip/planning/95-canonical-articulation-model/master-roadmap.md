@@ -21,6 +21,25 @@ new Knowledge Manager role), and used to re-frame what "a complete area" means.
 placement-integrity work. Articulation-first because Operations/Legal/Envoy (I94 P3/P5/P6) cannot
 wire roles↔processes correctly until the verbs + valid triples exist.
 
+## Cluster context
+
+- **Cluster map (SSOT for I86–I95 edges from I95 lens):** [`i95-initiative-cluster-map.md`](i95-initiative-cluster-map.md)
+- **Portfolio coordinator:** [I86 master-roadmap](../86-initiative-cluster-execution-coordinator/master-roadmap.md)
+- **Official dependency narrative:** [`INITIATIVE_DEPENDENCIES.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md) (I90–I95 edges pending Wave N INDEX_INTEGRITY refresh)
+
+## Phase status snapshot (PMO sweep 2026-06-09)
+
+| Surface | Status |
+|:---|:---|
+| P95-GOV wave | **Closed** (PASS-WITH-FOLLOWUP) |
+| Prod mirror | **APPLIED**; row-count parity **PASS** |
+| Neo4j graph harness (P2 / F6) | **PASS** — instance `6c0d76bf`; CQ UAT PASS |
+| L3 FK→verb tranches | **Partial** — tranche-5 done (F-11); Bundle C charter-only |
+| L1 Supabase EG-2 doc | **Done**; EG-3..5 **open** |
+| I95 initiative | **Active** — HCAM / graph / articulation lanes remain |
+
+Authoritative sweep: [`reports/i95-pmo-status-sweep-2026-06-09.md`](reports/i95-pmo-status-sweep-2026-06-09.md).
+
 ## Phase map
 
 | Phase | Scope | Key deliverables | Gate |
@@ -49,7 +68,7 @@ Execution wave under I95 (charter: [`reports/universal-canonical-governance-char
 | P95-GOV-7 — Forward-charter DDL | **closed** | `14f8521` |
 | P95-GOV-8 — Closure UAT | **closed** | PASS-WITH-FOLLOWUP — [`uat-universal-canonical-governance-2026-06-09.md`](reports/uat-universal-canonical-governance-2026-06-09.md) |
 
-**Follow-up (operator gate):** prod mirror apply for GOV-5 + GOV-7 **APPLIED** 2026-06-09 — [`reports/operator-mirror-apply-execution-2026-06-09.md`](reports/operator-mirror-apply-execution-2026-06-09.md) (migration drift repair + DDL push + 171-batch DML; row-count parity **PASS** 12/12). Walkthrough: [`reports/operator-mirror-apply-walkthrough-2026-06-09.md`](reports/operator-mirror-apply-walkthrough-2026-06-09.md). Neo4j CQ1–5 **BLOCKED-AUTH** (retry 2026-06-09) — [`reports/i95-neo4j-cq-uat-2026-06-09.md`](reports/i95-neo4j-cq-uat-2026-06-09.md). L3 TRP-030/036 ratification: [`reports/l3-trp-030-036-ratification-2026-06-09.md`](reports/l3-trp-030-036-ratification-2026-06-09.md) — both stay **planned**. I95 INIT remains **active** for Round-2 lanes (L1–L6).
+**Follow-up (operator gate):** prod mirror apply for GOV-5 + GOV-7 **APPLIED** 2026-06-09 — [`reports/operator-mirror-apply-execution-2026-06-09.md`](reports/operator-mirror-apply-execution-2026-06-09.md) (migration drift repair + DDL push + 171-batch DML; row-count parity **PASS** 12/12). Walkthrough: [`reports/operator-mirror-apply-walkthrough-2026-06-09.md`](reports/operator-mirror-apply-walkthrough-2026-06-09.md). Neo4j CQ1–5 **PASS** (F6 closed 2026-06-09; instance `6c0d76bf`) — [`reports/i95-neo4j-cq-uat-2026-06-09.md`](reports/i95-neo4j-cq-uat-2026-06-09.md). L3 TRP-030/036 ratification: [`reports/l3-trp-030-036-ratification-2026-06-09.md`](reports/l3-trp-030-036-ratification-2026-06-09.md) — both stay **planned**. I95 INIT remains **active** for Round-2 lanes (L1–L6).
 
 ## Competency questions (the acceptance test — must run as one query each)
 1. Which processes is role R assigned to, and which capabilities do those realize?
@@ -80,7 +99,7 @@ sequenced lanes (each is a tranche with its own gate); run **value-first**, but 
 | Lane | Scope | First concrete step | Gate |
 |:---|:---|:---|:---|
 | **L1 — Supabase EG-2..5** (R2-03) | close the 11 ungoverned + 7 partial modules: legacy drop + RLS, then edge-fn / cron / extension / RLS-posture / API-exposure / FDW registries | EG-2 critical: `SUPABASE_API_EXPOSURE.md` (config-vs-hosted drift) + legacy-drop inventory | operator (DDL drop + RLS = data-loss/SOC) |
-| **L2 — Capability de-densify** (R2-01; params **ratified D-IH-95-H**) | collapse 1,119 **area-by-area** (count organic, not a fixed band); evict ~27 code-symbols→`COMPONENT_PRIMITIVE_REGISTRY`; merge cross-entity dups→one bearer-agnostic capability; move `bearer_class`→realization edge (TRP-006/038); add `capability_tier`; activate TRP-014; then **hybrid weekly-cron** rating (~8/wk + event + value-tier) | schema pre-step (`bearer_class`→edge + `capability_tier` col) → then **per-domain slice 1** | canonical-CSV gate per slice |
+| **L2 — Capability de-densify** (R2-01; **DONE D-IH-95-I**) | **COMPLETE** 2026-06-08: 1,119→93 capabilities + `process_list` radical cleanup; hybrid rating cron is follow-up | — | mirror re-emit PENDING-OPERATOR |
 | **L3 — FK→verb tranches** (R2-05) | "all-out of D" but per-registry tranches: map every CSV FK column → ArchiMate verb; populate triples; DTO queryable e2e | tranche order = by registry, highest-articulation-value first (process_list, baseline_org, capability, metrics, ops) | per-tranche (additive) |
 | **L4 — Orphan burn-down** (R2-06) | raise `--matrix` AMBER 69%→GREEN; **by area, equal slices** | next equal slice = activate the `planned` triples for one area per pass via the Semantic Council | Semantic Council disposition |
 | **L5 — Topics + IntelligenceOps** (R2-07; **ratified D-IH-95-H**) | chassis ~80% built → **govern+bind+curate** (not build): **T1 schema** = orthogonal `subject_kind` facets + binding cols (`working_area_path`/`knowledge_index_path`/`steward_role`/`physical_model`) + Pydantic + mirror sync; **T2 data** = bind folders + **physical move** `wip/intelligence`→topic-keyed tree (authorized) + mint 5 missing + triage 11 stranded + **repo-wide scattered-topic sweep**; activate **KM Officer** steward | scattered-topic inventory (dispatched) → **T1 schema tranche** | canonical-CSV gate per tranche |
@@ -102,7 +121,7 @@ Authoritative operator-facing sweep: [`reports/i95-pmo-status-sweep-2026-06-09.m
 | 5 | **Neo4j Startup application pack** | Eligibility + use-case A/B narrative |
 | 6 | **I95 open lanes** | L3 bundle C + tranche-5 (10 active triples still unbound — see regression F-11) · EG-3 registries · orphan `--matrix` · full `pre_commit` |
 
-**Current blockers:** Neo4j **BLOCKED-AUTH** until F6-R3..R4 complete (`wrong_password_or_user` / GHA `42NFF`). GOV wave **closed**; prod mirror **APPLIED** + parity **PASS** @ 2026-06-09.
+**Current blockers:** none on graph auth; next engineering gates = L3 tranche-5 + EG-3 (see [`i95-initiative-cluster-map.md`](i95-initiative-cluster-map.md) burndown). GOV wave **closed**; prod mirror **APPLIED** + parity **PASS** @ 2026-06-09.
 
 ## Cross-references
 - Round-2 synthesis: [`../intelligence/canonical-articulation-model-2026-06-05/round2-research-synthesis-2026-06-06.md`](../../intelligence/canonical-articulation-model-2026-06-05/round2-research-synthesis-2026-06-06.md)

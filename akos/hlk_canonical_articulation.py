@@ -171,12 +171,27 @@ L3_TRANCHE4B_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
     ("goi_poi_register", "program_id", "HCAM-TRP-044"),
 )
 
+# I95 L3 tranche-5 (R2-05 / F-11): 10 active triples without L3 bindings post tranche-4.
+L3_TRANCHE5_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
+    ("policy_register", "", "HCAM-TRP-019"),
+    ("intelligence_matrix", "", "HCAM-TRP-022"),
+    ("channel_touchpoint_registry", "", "HCAM-TRP-023"),
+    ("frontmatter", "inherited_pattern_id", "HCAM-TRP-024"),
+    ("persona_scenario_registry", "persona_id", "HCAM-TRP-025"),
+    ("metrics_registry", "source_contract_id", "HCAM-TRP-026"),
+    ("skill_registry", "owner_role", "HCAM-TRP-028"),
+    ("bi_consumer_registry", "component_id", "HCAM-TRP-048"),
+    ("bi_consumer_registry", "data_surfaces", "HCAM-TRP-049"),
+    ("area_bi_profile", "primary_consumer_ids", "HCAM-TRP-050"),
+)
+
 L3_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
     *L3_TRANCHE1_FK_BINDINGS,
     *L3_TRANCHE2_FK_BINDINGS,
     *L3_TRANCHE3_FK_BINDINGS,
     *L3_TRANCHE4A_FK_BINDINGS,
     *L3_TRANCHE4B_FK_BINDINGS,
+    *L3_TRANCHE5_FK_BINDINGS,
 )
 
 # Non-CSV FK surfaces (markdown frontmatter, semantic layer SQL, etc.) — advisory only.
