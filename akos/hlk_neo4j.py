@@ -61,16 +61,19 @@ def _aura_instance_id_from_uri(uri: str) -> str:
 
 
 def _resolve_neo4j_username(uri: str, configured: str) -> str:
-    """Resolve Bolt username; heal common Aura copy-paste (instance id as username)."""
+    """Return configured Bolt username; default ``neo4j`` when unset.
+
+    Aura console credentials sometimes list the instance id as the username
+    (especially after Free-tier backup restore). Do not rewrite instance id to
+    ``neo4j`` — operator Browser verification is authoritative.
+    """
     user = (configured or "neo4j").strip() or "neo4j"
     instance_id = _aura_instance_id_from_uri(uri)
     if instance_id and user == instance_id:
-        logger.warning(
-            "NEO4J_USERNAME=%s matches Aura instance id; using 'neo4j'. "
-            "Set NEO4J_USERNAME=neo4j in ~/.openclaw/.env.",
+        logger.info(
+            "NEO4J_USERNAME=%s matches Aura instance id; using as-is (post-restore Free tier).",
             user,
         )
-        return "neo4j"
     return user
 
 

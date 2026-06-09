@@ -184,6 +184,18 @@ If Aura ever costs more than makes sense, migrate to self-hosted Neo4j (single V
 - **`AKOS_API_KEY` SPA fallback**: when no API key is set, `/hlk/graph/*` endpoints return the OpenClaw Control SPA HTML shell instead of JSON. Don't write tests that assume `Content-Type: application/json` without setting the API key in the test env.
 - **Aura broken-chain TLS** (resolved D-IH-32-Q): some Aura-copy URI strings ship a different SSL cert chain than `neo4j+s://` expects. Use `NEO4J_TRUST=all` env or `neo4j+ssc://` URI variant. Documented in `akos/hlk_neo4j.py` `get_neo4j_driver()` docstring.
 - **Aura password truncation** (lesson from D-IH-32-Q): copy passwords from the Aura console's modal **Copy** button, not from field-select-Ctrl+C — some browsers visually truncate the field. The HTTP 401 from the Aura Query API is the definitive signal that the password mismatches.
+- **Post-restore Free-tier username** (I95 F6, 2026-06-09): after restoring from a `.backup` onto a new Aura Free instance, the console may issue credentials where **`NEO4J_USERNAME` equals the instance id** (e.g. `6c0d76bf`), not `neo4j`. AKOS preserves that username when it matches the URI host prefix (`akos/hlk_neo4j.py`). Do not force `neo4j` unless Browser login confirms it works.
+
+---
+
+## Backup exports (binary) vs doctrine (git)
+
+| Class | Where it lives | Governed by |
+|:------|:---------------|:------------|
+| **Binary `.backup` exports** | Operator vault `%USERPROFILE%\.openclaw\vault\neo4j-backups\` — never git | I95 retention process ([`i95-neo4j-backup-retention-process-2026-06-09.md`](../../../../../docs/wip/planning/95-canonical-articulation-model/reports/i95-neo4j-backup-retention-process-2026-06-09.md)); SHA256 sidecar required |
+| **Strategy / runbook prose** | This file under legacy vault path `Envoy Tech Lab/Neo4j/`; forward governance home is `Admin/O5-1/Envoy Tech Lab` per area doctrine | [`COMPONENT_SERVICE_MATRIX.csv`](../../Admin/O5-1/People/Compliance/canonicals/techops/COMPONENT_SERVICE_MATRIX.csv) row `comp_i93_neo4j`; [`DATA_GOVERNANCE_POLICY.md`](../../Admin/O5-1/Data/Governance/canonicals/DATA_GOVERNANCE_POLICY.md) (git-canonical SSOT for schema; vault binaries are out-of-band) |
+
+Graph sync (`scripts/sync_hlk_neo4j.py`) rebuilds use-case A from CSV SSOT — loss of Aura is one sync away from restoration; `.backup` files preserve live graph state beyond CSV projection when F6-style incidents require it.
 
 ---
 

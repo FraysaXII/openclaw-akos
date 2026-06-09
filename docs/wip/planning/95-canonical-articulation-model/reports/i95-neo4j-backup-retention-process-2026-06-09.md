@@ -90,7 +90,9 @@ Export **before**:
 |:---|:---|
 | F6 restore charter | [`i95-neo4j-free-backup-restore-charter-2026-06-09.md`](i95-neo4j-free-backup-restore-charter-2026-06-09.md) (F6-R0) |
 | Credential recovery F5/F6 | [`i95-neo4j-credential-recovery-2026-06-09.md`](i95-neo4j-credential-recovery-2026-06-09.md) |
-| Rebuildable projection | [`NEO4J_STRATEGY.md`](../../../../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Neo4j/NEO4J_STRATEGY.md) |
+| Rebuildable projection | [`NEO4J_STRATEGY.md`](../../../../../docs/references/hlk/v3.0/Envoy%20Tech%20Lab/Neo4j/NEO4J_STRATEGY.md) §"Backup exports" |
+| Operator vault (binaries) | `%USERPROFILE%\.openclaw\vault\neo4j-backups\` |
+| Area governance home | `docs/references/hlk/v3.0/Admin/O5-1/Envoy Tech Lab/` (doctrine); legacy `Envoy Tech Lab/Neo4j/` retained for strategy docs |
 | Console restore limit | SRC-N4J-09 (<4 GB file upload) |
 
 ---

@@ -6,8 +6,8 @@
 # docs/wip/intelligence/neo4j-funding-escalation-radar-2026-06-09.md. Primary incident path = F6 Free restore.
 #
 # Secrets required (repo Settings -> Secrets and variables -> Actions):
-#   NEO4J_URI       e.g. neo4j+s://<id>.databases.neo4j.io
-#   NEO4J_USERNAME  e.g. neo4j
+#   NEO4J_URI       e.g. neo4j+s://<instance-id>.databases.neo4j.io (must match live Aura instance)
+#   NEO4J_USERNAME  Aura credentials username (often the instance id after Free-tier F6 restore)
 #   NEO4J_PASSWORD  the Aura instance password
 name: neo4j-aura-keepalive
 
@@ -34,11 +34,13 @@ jobs:
         run: |
           python - <<'PY'
           import os, sys
+          from urllib.parse import urlparse
+
           raw = os.environ.get("NEO4J_URI", "")
           # Sanitize the common copy-paste mistakes: surrounding quotes, whitespace/newlines, BOM.
           uri = raw.lstrip("\ufeff").strip().strip('"').strip("'").strip()
-          user = (os.environ.get("NEO4J_USERNAME", "").strip().strip('"').strip("'") or "neo4j")  # Aura default role
-          pwd = os.environ.get("NEO4J_PASSWORD", "")
+          user = (os.environ.get("NEO4J_USERNAME", "").strip().strip('"').strip("'") or "neo4j")
+          pwd = os.environ.get("NEO4J_PASSWORD", "").strip().strip('"').strip("'")
           if not (uri and pwd):
               print("NEO4J_URI / NEO4J_PASSWORD not set — skipping keep-alive (configure in repo secrets).")
               sys.exit(0)
@@ -48,18 +50,63 @@ jobs:
               uri = "neo4j+s" + uri
           elif "://" not in uri:
               uri = "neo4j+s://" + uri
-          # Leak-safe diagnostics (lengths/flags only; never the value).
-          scheme = uri.split("://", 1)[0]
-          print(f"[diag] raw_len={len(raw)} clean_len={len(uri)} scheme_len={len(scheme)} has_sep={'://' in uri}")
+
+          parsed = urlparse(uri)
+          host = parsed.hostname or "(unknown)"
+          aura_id = host.split(".")[0] if ".databases.neo4j.io" in host else "(not-aura)"
+          scheme = parsed.scheme or "(no-scheme)"
+          print(
+              f"[diag] aura_instance_id={aura_id} host={host} scheme={scheme} "
+              f"username_len={len(user)} password_len={len(pwd)}"
+          )
+
           from neo4j import GraphDatabase
-          driver = GraphDatabase.driver(uri, auth=(user, pwd))
-          with driver.session() as s:
-              # MERGE+SET is a WRITE -> resets Aura's inactivity timer (reads do not).
-              rec = s.run(
-                  "MERGE (k:_KeepAlive {id:'aura-keepalive'}) "
-                  "SET k.last_ping = datetime(), k.source = 'gh-actions' "
-                  "RETURN k.last_ping AS t"
-              ).single()
-              print("keep-alive write ok; last_ping =", rec["t"])
-          driver.close()
+          from neo4j.exceptions import Neo4jError, ServiceUnavailable
+
+          CYPHER = (
+              "MERGE (k:_KeepAlive {id:'aura-keepalive'}) "
+              "SET k.last_ping = datetime(), k.source = 'gh-actions' "
+              "RETURN k.last_ping AS t"
+          )
+
+          def connect(u: str):
+              return GraphDatabase.driver(u, auth=(user, pwd))
+
+          def ping(driver):
+              with driver.session() as s:
+                  return s.run(CYPHER).single()["t"]
+
+          uris_to_try = [uri]
+          if uri.startswith("neo4j+s://"):
+              uris_to_try.append(uri.replace("neo4j+s://", "neo4j+ssc://", 1))
+
+          last_err = None
+          for attempt_uri in uris_to_try:
+              driver = None
+              try:
+                  print(f"[diag] bolt_attempt scheme={attempt_uri.split('://', 1)[0]}")
+                  driver = connect(attempt_uri)
+                  t = ping(driver)
+                  print("keep-alive write ok; last_ping =", t)
+                  sys.exit(0)
+              except ServiceUnavailable as exc:
+                  last_err = exc
+                  msg = str(exc)
+                  if "DNS resolve" in msg or "Name or service not known" in msg:
+                      print(
+                          "ERROR: Aura host does not resolve — NEO4J_URI secret likely points at a "
+                          "destroyed/old instance. Update repo secrets to the current "
+                          "neo4j+s://<instance-id>.databases.neo4j.io from Aura console."
+                      )
+                  print(f"[warn] ServiceUnavailable: {msg[:200]}")
+              except Neo4jError as exc:
+                  last_err = exc
+                  print(f"[warn] Neo4jError: {type(exc).__name__}: {str(exc)[:200]}")
+              finally:
+                  if driver is not None:
+                      driver.close()
+
+          if last_err is not None:
+              raise last_err
+          sys.exit(1)
           PY

@@ -93,9 +93,7 @@ def _env_trace() -> dict[str, object]:
         "aura_instance_id": instance_id or "(not detected)",
         "configured_username": configured_user,
         "resolved_username": resolved_user,
-        "username_misconfig_instance_id": bool(
-            instance_id and configured_user == instance_id and resolved_user == "neo4j"
-        ),
+        "username_is_aura_instance_id": bool(instance_id and configured_user == instance_id),
         "stale_process_env_overridden_keys": stale_process_would_win,
     }
 
@@ -177,7 +175,7 @@ def main() -> int:
     resolved = _resolve_neo4j_username(uri, configured)
 
     users_to_try: list[str] = []
-    for u in (resolved, configured, "neo4j"):
+    for u in (configured, resolved, "neo4j"):
         if u and u not in users_to_try:
             users_to_try.append(u)
 
@@ -191,10 +189,10 @@ def main() -> int:
         "classification": classification,
         "verdict": "PASS" if classification == "PASS" else "FAIL",
     }
-    if trace.get("username_misconfig_instance_id"):
+    if trace.get("username_is_aura_instance_id"):
         report["hint"] = (
-            "NEO4J_USERNAME matches Aura instance ID; use neo4j (or a custom DB user) "
-            "in ~/.openclaw/.env"
+            "NEO4J_USERNAME matches Aura instance ID — valid on some Free-tier restores; "
+            "keep if Browser login succeeded with that username."
         )
     if classification == "wrong_password_or_user":
         report["hint"] = (

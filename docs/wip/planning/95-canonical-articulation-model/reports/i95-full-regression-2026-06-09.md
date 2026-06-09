@@ -49,9 +49,7 @@ intent-criticality order, per the value-ranked regression discipline
 ([`akos-intent-ranked-regression.mdc`](../../../../../.cursor/rules/akos-intent-ranked-regression.mdc),
 ratified `D-IH-88-F`).
 
-**Constraint honored:** no Neo4j connections were opened (operator is concurrently executing
-the F6 restore) and the Neo4j vendor cost row (`finops_neo4j`) was not edited. Doc / validator /
-registry work only.
+**Constraint honored at original cut:** Neo4j was not probed during the first regression pass (operator was mid-F6). **F6 closure addendum (same day):** probe + dual-emit + CQ UAT PASS on instance `6c0d76bf`; `finops_neo4j` row still untouched per D-IH-95-L/M.
 
 **Verdict: PASS-WITH-FOLLOWUP** — no regression that invalidates any of today's ratified
 decisions; 10 fix-now findings repaired in this commit; 3 named deferrals with trackers.
@@ -120,8 +118,8 @@ Attribution classes: **new** (caused by today's chain) · **pre-existing** (pred
 | **F-04** | Stale draft-decision claims: funding radar + research-area synthesis still called `D-IH-95-M` "draft / pending FQ-1" after `bab57c2` ratified it (FQ-1 = D; FQ-4 sequence) | new | **fix-now** | Both docs updated — frontmatter `ratifying_decisions` += `D-IH-95-M`; FQ tables marked closed; "draft rationale" lines corrected |
 | **F-05** | Broken repo-root relative links: 16 links used 4 `../` instead of 5 (to `akos/io.py`, `akos/hlk_neo4j.py`, `scripts/sync_hlk_neo4j.py`, `supabase/migrations/*`, `CHANGELOG.md`, keepalive + graph-integration workflows) across 5 reports (free charter, professional charter, credential recovery, e2e cutover charter, L2 state audit) | new | **fix-now** | All 16 repaired; link sweep re-run clean on every touched doc. *Observation (not fixed):* ~130 broken links exist in **historical** CHANGELOG entries (pre-v3.0 path era, renamed assets, deleted rules, business-strategy targets that the L6 re-home lane will move) — historical entries are point-in-time records; retro-rewrites would falsify them. Disposition: **known-deferred / accept-as-historical-record**; L6 lane is the only live consumer |
 | **F-06** | Professional charter (deferred-funding appendix) still pointed `backup_artifact_path` + R0 at repo-root staging, contradicting the F6-R0 vault doctrine | new | **fix-now** | Frontmatter + R0 step updated to operator vault path with staging note |
-| **F-07** | GOV closure UAT is PASS-WITH-FOLLOWUP with `tracker_path` aimed at the (now resolved) mirror-apply synthesis; remaining PWF reason is the Neo4j CQ lane (N4), named in `notes` | pre-existing / intentional | **known-deferred** | No edit — §10 of the UAT explicitly reserves the PWF→PASS flip for the operator (after Neo4j N4 or explicit ratify); F6 charter is the live tracker for that lane |
-| **F-08** | Operator `.backup` export still at repo root (git-ignored; never tracked — verified `git check-ignore`) pending F6-R0 vault move | known-deferred | **known-deferred** | In progress by operator right now (PMO sweep §5.1); retention process doc governs |
+| **F-07** | GOV closure UAT was PASS-WITH-FOLLOWUP pending Neo4j N4 CQ lane | pre-existing | **fix-now** (F6 addendum) | Amended to **PASS** in [`uat-universal-canonical-governance-2026-06-09.md`](uat-universal-canonical-governance-2026-06-09.md) after CQ UAT green |
+| **F-08** | Operator `.backup` export at repo root pending F6-R0 vault move | known-deferred | **fix-now** (F6 addendum) | Moved to `%USERPROFILE%\.openclaw\vault\neo4j-backups\` + SHA256 sidecar; repo root clean |
 
 Checks that **PASSED clean** (no finding): Professional-charter supersession markers
 (frontmatter `superseded_by` + banner + funding-gate pointer all consistent with F6-primary);
@@ -162,7 +160,7 @@ the *watch-my-back* intent).
 | CHANGELOG coherent? | **YES** after F-02/F-03 — every today-commit now covered; no live contradictions |
 | New ledgers validator-checked? | **YES** — all 5 PASS the research-action schema (run evidence §6); default-gate wiring is convention-class (F-14) |
 | gitignore / backup posture? | **SAFE** — `*.backup` ignored, file untracked, vault move = operator F6-R0 in progress (F-08) |
-| GOV UAT §4.3 consistent with current Neo4j status? | **YES** — §4.3 covers mirror apply (APPLIED/parity PASS); Neo4j CQ stays BLOCKED-AUTH pending F6, exactly as the UAT's PWF notes + PMO sweep state (F-07) |
+| GOV UAT §4.3 consistent with current Neo4j status? | **YES** — §4.3 mirror APPLIED/parity PASS; Neo4j N4 **PASS** after F6 (instance `6c0d76bf`; GOV UAT amended PASS same day) |
 | Master-roadmap accuracy? | **YES** — plus queue row 6 now names L3 tranche-5 (F-11) |
 | L3 bindings vs registry claims? | **34 bindings / 40 active triples — 10 unbound** (F-11; named tranche-5) |
 | New CSVs registry-governed or correctly out-of-scope? | **Correctly out-of-scope** — `CANONICAL_GOVERNANCE_REGISTRY` is the *vault* CSV inventory (all 73 rows under `docs/references/hlk`); wip-planning/wip-intelligence ledgers are research artifacts governed by the research-action discipline instead (F-14) |
@@ -216,7 +214,8 @@ Commit-time gates (`validate_hlk.py`, `verify.py pre_commit_fast`,
 - PMO sweep (updated with this verdict): [`i95-pmo-status-sweep-2026-06-09.md`](i95-pmo-status-sweep-2026-06-09.md)
 - Funding ratification: [`i95-fq2-ratification-2026-06-09.md`](i95-fq2-ratification-2026-06-09.md) · decision log: [`decision-log.md`](../decision-log.md)
 - F6 restore charter: [`i95-neo4j-free-backup-restore-charter-2026-06-09.md`](i95-neo4j-free-backup-restore-charter-2026-06-09.md) · retention process: [`i95-neo4j-backup-retention-process-2026-06-09.md`](i95-neo4j-backup-retention-process-2026-06-09.md)
-- GOV closure UAT (PWF chain): [`uat-universal-canonical-governance-2026-06-09.md`](uat-universal-canonical-governance-2026-06-09.md)
+- GOV closure UAT: [`uat-universal-canonical-governance-2026-06-09.md`](uat-universal-canonical-governance-2026-06-09.md) — **PASS** (amended 2026-06-09 after Neo4j N4)
+- Neo4j CQ UAT: [`i95-neo4j-cq-uat-2026-06-09.md`](i95-neo4j-cq-uat-2026-06-09.md)
 - L3 bundles charter: [`i95-l3-parallel-bundles-charter-2026-06-09.md`](i95-l3-parallel-bundles-charter-2026-06-09.md) · TRP-030/036 ratify: [`l3-trp-030-036-ratification-2026-06-09.md`](l3-trp-030-036-ratification-2026-06-09.md)
 - Governing rules: [`akos-intent-ranked-regression.mdc`](../../../../../.cursor/rules/akos-intent-ranked-regression.mdc) · [`akos-inter-wave-regression.mdc`](../../../../../.cursor/rules/akos-inter-wave-regression.mdc) · [`akos-planning-traceability.mdc`](../../../../../.cursor/rules/akos-planning-traceability.mdc)
 - Prior intent-ranked run (S-13 mint): [`intent-ranked-regression-2026-06-06.md`](intent-ranked-regression-2026-06-06.md)

@@ -10,12 +10,20 @@ last_review: 2026-06-09
 audience: J-OP
 language: en
 status: closed
-verdict: PASS-WITH-FOLLOWUP
+verdict: PASS
 closure_decision_source: agent_inline_default
 ratifying_decisions:
   - D-IH-95-B
   - D-IH-95-G
   - D-IH-95-J
+  - D-IH-95-L
+verdict_history:
+  - date: 2026-06-09
+    verdict: PASS-WITH-FOLLOWUP
+    reason: Prod mirror apply + parity PASS; Neo4j N4 CQ lane still BLOCKED-AUTH
+  - date: 2026-06-09
+    verdict: PASS
+    reason: F6 restore to instance 6c0d76bf; dual-emit + CQ UAT PASS; mirror follow-up already APPLIED
 linked_canonicals:
   - docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CANONICAL_GOVERNANCE_REGISTRY.csv
   - docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/CANONICAL_ARTICULATION_MODEL.md
@@ -28,14 +36,14 @@ linked_runbooks:
   - scripts/validate_hlk.py
   - scripts/validate_canonical_articulation.py
 verdict_followup_rationale:
-  followup_class: deferred-work-with-tracker
+  followup_class: n/a
   closure_target: Wave-GOV close
   owner: System Owner
-  tracker_path: docs/wip/planning/95-canonical-articulation-model/reports/synthesis-p95-gov-5-2026-06-09.md
+  tracker_path: docs/wip/planning/95-canonical-articulation-model/reports/i95-neo4j-cq-uat-2026-06-09.md
   notes: >-
-    Prod mirror apply Phase A + Phase B APPLIED 2026-06-09 per
-    operator-mirror-apply-execution-2026-06-09.md. Row-count parity PASS 2026-06-09
-    (gov57_parity_check.sql). Verdict remains PWF pending unrelated I95 Neo4j CQ lane (N4).
+    Amended PASS 2026-06-09: mirror apply APPLIED + parity PASS; Neo4j F6 restore + dual-emit +
+    CQ UAT PASS on instance 6c0d76bf. DIM-04 defer-OPS items remain tracked in inter-wave backlog
+    (not PWF blockers for this wave).
 ---
 
 # UAT — P95 universal canonical governance wave closure (2026-06-09)
@@ -46,11 +54,11 @@ verdict_followup_rationale:
 > registry-driven CI paths, index backfill, mirror emit closure, Plane-1 hardening, and forward-charter
 > mirror DDL. **Mechanical gates PASS** on `pre_commit_fast`, `validate_hlk.py`, and area matrix
 > re-proof (Data 90% / Finance 94% / People 87%; zero new gap components on those three areas).
-> **Verdict: PASS-WITH-FOLLOWUP** — prod mirror apply **APPLIED** 2026-06-09; row-count parity **PASS** (pooler recovery retry).
+> **Verdict: PASS** — prod mirror apply **APPLIED** 2026-06-09; row-count parity **PASS**; Neo4j N4 CQ lane **PASS** after F6 restore (instance `6c0d76bf`).
 
 | Dimension | Target | Actual | Status |
 |:---|:---|:---|:---:|
-| **Verdict** | PASS or honest PWF | PASS-WITH-FOLLOWUP | PASS |
+| **Verdict** | PASS or honest PWF | PASS | PASS |
 | **GOV-1..7 commits** | all landed | `30ed6d8`..`14f8521` | PASS |
 | **Mechanical gates green** | pre_commit_fast + validate_hlk | PASS | PASS |
 | **Area matrix (Data/Finance/People)** | no regression | 90% / 94% / 87%; 0 gap each | PASS |
@@ -221,9 +229,9 @@ per D-IH-86-D.
 
 ## Section 10 — Verdict + 7-item operator sign-off checklist
 
-**Verdict:** **PASS-WITH-FOLLOWUP**
+**Verdict:** **PASS**
 
-Git-side universal canonical governance wave is complete and validators are green. Mirror row-count parity **PASS** (§4.3). Verdict stays PWF until operator closes unrelated I95 Neo4j N4 lane or ratifies plain PASS.
+Git-side universal canonical governance wave is complete and validators are green. Mirror row-count parity **PASS** (§4.3). Neo4j N4 CQ UAT **PASS** after F6 restore — evidence [`i95-neo4j-cq-uat-2026-06-09.md`](i95-neo4j-cq-uat-2026-06-09.md). DIM-04 defer-OPS surfaces (§4.1) remain in the inter-wave backlog; they were never PWF blockers for Wave-GOV closure.
 
 1. PASS **Closure-criteria all PASS or SKIP-with-reason** — §2 table; mirror apply APPLIED §4.3; parity verify **PASS**.
 2. PASS **Mechanical evidence reproducible** — §3 commands + execution report @ `35169fc` base.

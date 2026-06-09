@@ -10,8 +10,8 @@ def test_aura_instance_id_from_uri() -> None:
     assert _aura_instance_id_from_uri("bolt://127.0.0.1:7687") == ""
 
 
-def test_resolve_username_heals_instance_id_copy_paste() -> None:
+def test_resolve_username_preserves_instance_id_when_configured() -> None:
     uri = "neo4j+s://b6d76b10.databases.neo4j.io"
-    assert _resolve_neo4j_username(uri, "b6d76b10") == "neo4j"
+    assert _resolve_neo4j_username(uri, "b6d76b10") == "b6d76b10"
     assert _resolve_neo4j_username(uri, "cicd-akos") == "cicd-akos"
     assert _resolve_neo4j_username(uri, "") == "neo4j"

@@ -30,10 +30,10 @@ linked_runbooks:
 
 | Surface | Status | Plain language |
 |:---|:---|:---|
-| **P95-GOV wave** | **Closed** (PASS-WITH-FOLLOWUP) | Universal canonical governance registry + Plane-1 hardening + mirror emit contract landed across seven GOV tranches |
+| **P95-GOV wave** | **Closed** (PASS) | Universal canonical governance registry + Plane-1 hardening + mirror emit contract landed; Neo4j N4 CQ blocker cleared 2026-06-09 |
 | **Prod mirror** | **APPLIED** | Compliance mirror DML applied to MasterData; GOV-7 DDL pushed; 171 batches succeeded after FK fix |
 | **Row-count parity** | **PASS** @ 2026-06-09 | CSV emit row counts match prod mirror tables (post pooler recovery) |
-| **Neo4j graph harness** | **BLOCKED-AUTH** | Connectivity probe fails (`wrong_password_or_user`); GHA keepalive returns `42NFF` — pending **F6 restore** (F6-R0..R7) |
+| **Neo4j graph harness** | **PASS** (F6 closed) | Instance `6c0d76bf`; username `6c0d76bf`; dual-emit sync + probe + CQ UAT PASS |
 | **L3 FK→verb tranches** | **Tranche-4 done** | Bundles A+B committed (12 bindings); **Bundle C** (TRP-030/036) charter-only |
 | **L1 Supabase EG-2 doc** | **Done** | [`SUPABASE_API_EXPOSURE.md`](../../../../references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/SUPABASE_API_EXPOSURE.md) minted; EG-3..5 still open |
 | **Full back-covering regression** | **PASS-WITH-FOLLOWUP** @ `bab57c2` | [`i95-full-regression-2026-06-09.md`](i95-full-regression-2026-06-09.md) — chain audit + intent-ranked sweep; fix-now batch applied; OPS-95-2/3 + L3 tranche-5 tracked |
@@ -73,7 +73,7 @@ linked_runbooks:
 | **Mirror truth** | Operators and ERP consumers read the same rows as git CSVs | **Live** — prod apply + parity PASS |
 | **Capability collapse** | Stable WHAT (capabilities) decoupled from volatile HOW (processes) | **Done** — D-IH-95-I; rating cadence follow-up open |
 | **Share settlement** | Partner/vendor economics match live engagements under strict audit | **Done** — Hygiene C; strict gate active |
-| **Graph harness** | HCAM verb-typed edges + competency questions over Neo4j read index | **Blocked** — F6 restore first |
+| **Graph harness** | HCAM verb-typed edges + competency questions over Neo4j read index | **Live** — F6 restore + dual-emit + CQ UAT PASS on `6c0d76bf` |
 | **Funding radar** | Ranked 2026 economics (Free → credits → EU → self-host) | **Closed** — D-IH-95-M |
 
 Evidence synthesis: [`neo4j-graph-infrastructure-funding-research-area-2026-06-09.md`](../../../intelligence/neo4j-graph-infrastructure-funding-research-area-2026-06-09.md).
@@ -84,9 +84,9 @@ Evidence synthesis: [`neo4j-graph-infrastructure-funding-research-area-2026-06-0
 
 | # | Work item | Owner posture | Exit gate |
 |:---|:---|:---|:---|
-| **1** | **F6 Neo4j restore** F6-R0..R7 | Operator + execution seat | Backup in vault; Aura Free restore complete |
-| **2** | **Connectivity probe** | Operator env | `py scripts/neo4j_connectivity_probe.py` exit **0** |
-| **3** | **CQ UAT** | Execution seat | `run_cq_uat.py` PASS (competency questions live) |
+| **1** | ~~**F6 Neo4j restore** F6-R0..R7~~ | **DONE** 2026-06-09 | Instance `6c0d76bf`; backup vaulted; dual-emit + CQ PASS |
+| **2** | ~~**Connectivity probe**~~ | **DONE** | `py scripts/neo4j_connectivity_probe.py` exit **0** |
+| **3** | ~~**CQ UAT**~~ | **DONE** | [`i95-neo4j-cq-uat-2026-06-09.md`](i95-neo4j-cq-uat-2026-06-09.md) PASS |
 | **4** | **Self-hosted spike charter** | Thinking → execution | I07 `neo4j+s` contract preserved; TCO ~$30/mo documented |
 | **5** | **EIC Pre-Accelerator screen + Open LOI draft** | Operator + Research | Eligibility checked; LOI draft ready for review |
 | **6** | **Neo4j Startup application pack** | Operator + Research | Application submitted or explicitly deferred with reason |
@@ -102,41 +102,23 @@ Charter: [`i95-neo4j-free-backup-restore-charter-2026-06-09.md`](i95-neo4j-free-
 - **OPS-95-2** — link each engagement to its engagement-model class (the 7-class taxonomy that says how a collaborator is engaged: hourly, milestone, percentage…). The prod mirror apply had to blank three values that pointed at the wrong registry (template IDs); the column is now empty on all 7 engagements. One small operator-gated CSV pass fixes it.
 - **OPS-95-3** — backfill I95's per-initiative file-change ledger (`files-modified.csv`, the traceability CSV every initiative folder carries). Header + current-commit rows seeded by the regression; history backfill is mechanical.
 - **Pending operator CSV gate (unchanged from D-IH-95-M):** the funding research area proposes 1 topic row + 2 intelligence-radar rows (appendices A/B of the synthesis). They stay proposal-only until you approve the registry edits.
-- **Backup retention process** (where Neo4j exports live, how long, drill cadence) graduates to a vault SOP + process-list row **after** F6 completes and the first restore drill runs — correct order per process-governance doctrine (CSV row before SOP).
+- **Backup retention process** — F6-R0 **DONE**: repo-root export moved to `%USERPROFILE%\.openclaw\vault\neo4j-backups\` with SHA256 sidecar. Optional: consolidate older export in `Downloads\` into vault. Vault SOP + process-list row still forward-chartered post first restore drill.
 
 ---
 
 ## 5. What you do this week (operator)
 
-### 1. F6-R0 — Move backup to operator vault (≈10 min)
+### 1. ~~F6-R0 — Move backup to operator vault~~ **DONE** (execution seat 2026-06-09)
 
-Confirm the export exists (~308 KB), then vault it (never commit):
+Vault path: `%USERPROFILE%\.openclaw\vault\neo4j-backups\b6d76b10-2026-06-09T14-30-52-b6d76b10.backup` + `.sha256.json` sidecar. Repo root clean.
 
-```powershell
-$vault = "$env:USERPROFILE\.openclaw\vault\neo4j-backups"
-New-Item -ItemType Directory -Force -Path $vault | Out-Null
-Move-Item -Force "$env:USERPROFILE\cd_shadow\openclaw-akos\b6d76b10-2026-06-09T14-30-52-b6d76b10.backup" $vault\
-git -C "$env:USERPROFILE\cd_shadow\openclaw-akos" status --short
-```
+**Optional:** move `Downloads\b6d76b10-2026-05-22T13-13-10-b6d76b10.backup` into the same vault if you want both exports under retention policy.
 
-Expect: backup **absent** from repo root; `git status` clean of `.backup` files.
+### 2. ~~F6-R1..R4 — Restore + rewire + probe~~ **DONE**
 
-### 2. F6-R1..R2 — Aura Free restore (≈30–45 min)
+Live instance **`6c0d76bf`**; username **`6c0d76bf`**; dual-emit sync PASS; CQ UAT PASS.
 
-In Neo4j Aura console: ensure a **Free** instance slot → **Restore from backup file** using the vaulted `.backup` (<4 GB). Save new credentials securely.
-
-### 3. F6-R3..R4 — Rewire AKOS + probe (≈15 min)
-
-Update `~/.openclaw/.env` (`NEO4J_URI`, `NEO4J_USER`, `NEO4J_PASSWORD`) and matching GitHub Actions secrets, then:
-
-```powershell
-cd "$env:USERPROFILE\cd_shadow\openclaw-akos"
-py scripts/neo4j_connectivity_probe.py
-```
-
-Expect: exit code **0**.
-
-### 4. Parallel — EIC Pre-Accelerator eligibility screen (≈20 min)
+### 3. Parallel — EIC Pre-Accelerator eligibility screen (≈20 min)
 
 Skim EIC Pre-Accelerator 2026 criteria against Holistika TRL/legal entity posture; note blockers for LOI step (no submission required this week unless you choose to).
 
