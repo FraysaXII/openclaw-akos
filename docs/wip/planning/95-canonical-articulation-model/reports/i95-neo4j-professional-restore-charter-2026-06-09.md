@@ -10,7 +10,7 @@ aura_tier_target: professional
 operator_ratification: Option C — Paid Professional ~$65/mo (REJECTED for 2026; superseded by F6)
 superseded_by: i95-neo4j-free-backup-restore-charter-2026-06-09.md
 supersession_decision: D-IH-95-L
-backup_artifact_path: "<repo-root>/b6d76b10-2026-06-09T14-30-52-b6d76b10.backup"
+backup_artifact_path: "%USERPROFILE%/.openclaw/vault/neo4j-backups/b6d76b10-2026-06-09T14-30-52-b6d76b10.backup"
 ratifying_decisions:
   - D-IH-95-G
 linked_research_sources:
@@ -30,7 +30,7 @@ linked_research_sources:
 
 | Field | Value |
 |:---|:---|
-| Path | `b6d76b10-2026-06-09T14-30-52-b6d76b10.backup` (repo root) |
+| Path | `%USERPROFILE%\.openclaw\vault\neo4j-backups\b6d76b10-2026-06-09T14-30-52-b6d76b10.backup` (operator vault per F6-R0; was repo-root staging at authoring time) |
 | Size | ~315,550 bytes (~308 KB) |
 | Source instance id | `b6d76b10` (prior misconfigured `NEO4J_USERNAME`) |
 | Git posture | `*.backup` in `.gitignore`; file stays operator-local |
@@ -81,8 +81,8 @@ flowchart LR
 
 ## R0 — Backup verify
 
-1. Confirm `b6d76b10-2026-06-09T14-30-52-b6d76b10.backup` exists at repo root (~308 KB).
-2. Verify `git status` shows the file **untracked** (covered by `*.backup` in `.gitignore`).
+1. Confirm `b6d76b10-2026-06-09T14-30-52-b6d76b10.backup` exists in the operator vault (`%USERPROFILE%\.openclaw\vault\neo4j-backups\`; ~308 KB) — F6-R0 moves it there from repo-root staging per [`i95-neo4j-backup-retention-process-2026-06-09.md`](i95-neo4j-backup-retention-process-2026-06-09.md).
+2. Verify `git status` is clean of `.backup` files (covered by `*.backup` in `.gitignore`).
 3. **Never** `git add` the binary.
 
 Source: operator export; SRC-N4J-09 (4 GB console import limit).
@@ -122,9 +122,9 @@ After restore: test Browser login with username `neo4j` and credentials-file pas
 | Surface | Variables | Notes |
 |:---|:---|:---|
 | Local operator env | `~/.openclaw/.env` | `NEO4J_URI`, `NEO4J_USERNAME=neo4j`, `NEO4J_PASSWORD` |
-| Env loader | [`akos/io.py`](../../../../akos/io.py) | Neo4j keys in file **override** stale process env when non-empty |
-| Driver | [`akos/hlk_neo4j.py`](../../../../akos/hlk_neo4j.py) | Heals instance-id-as-username misconfiguration |
-| GitHub Actions | Secrets `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD` | [`neo4j-aura-keepalive.yml`](../../../../.github/workflows/neo4j-aura-keepalive.yml) |
+| Env loader | [`akos/io.py`](../../../../../akos/io.py) | Neo4j keys in file **override** stale process env when non-empty |
+| Driver | [`akos/hlk_neo4j.py`](../../../../../akos/hlk_neo4j.py) | Heals instance-id-as-username misconfiguration |
+| GitHub Actions | Secrets `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD` | [`neo4j-aura-keepalive.yml`](../../../../../.github/workflows/neo4j-aura-keepalive.yml) |
 | Probe gate | `py scripts/neo4j_connectivity_probe.py` | Exit **0** required before R4/R5 |
 
 **Connection rules (all Aura tiers):**
@@ -158,7 +158,7 @@ Closure evidence: [`i95-neo4j-cq-uat-2026-06-09.md`](i95-neo4j-cq-uat-2026-06-09
 ## R5 — Keepalive secrets alignment
 
 1. Update GitHub Actions secrets to match R3 (same URI/username/password).
-2. Run workflow_dispatch on [`neo4j-aura-keepalive.yml`](../../../../.github/workflows/neo4j-aura-keepalive.yml).
+2. Run workflow_dispatch on [`neo4j-aura-keepalive.yml`](../../../../../.github/workflows/neo4j-aura-keepalive.yml).
 3. Confirm log line **"keep-alive write ok"** — no `42NFF` / `Unauthorized`.
 
 Keepalive prevents Free-tier 72h pause doctrine on Professional but still validates write path + secret alignment.

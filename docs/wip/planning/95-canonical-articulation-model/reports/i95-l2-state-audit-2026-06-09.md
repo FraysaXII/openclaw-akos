@@ -35,12 +35,12 @@ evidence_commit: 2026-06-08
 
 | Work item | Planned (D-IH-95-I synthesis) | Actual state @ repo | Verdict |
 |:---|:---|:---|:---:|
-| Foundation schema: drop `bearer_class`, add `l1_domain` + `definition` + `capability_tier` | Step 1 before slices | CSV header + [`akos/hlk_capability_registry_csv.py`](../../../../akos/hlk_capability_registry_csv.py) + mirror [`20260608002412_i95_i_capability_registry_mirror_collapse_schema.sql`](../../../../supabase/migrations/20260608002412_i95_i_capability_registry_mirror_collapse_schema.sql) | **DONE** |
+| Foundation schema: drop `bearer_class`, add `l1_domain` + `definition` + `capability_tier` | Step 1 before slices | CSV header + [`akos/hlk_capability_registry_csv.py`](../../../../../akos/hlk_capability_registry_csv.py) + mirror [`20260608002412_i95_i_capability_registry_mirror_collapse_schema.sql`](../../../../../supabase/migrations/20260608002412_i95_i_capability_registry_mirror_collapse_schema.sql) | **DONE** |
 | D+F+L pilot 44→11 | Step 2 | **11** Data/Finance/Legal rows in 93-cap registry | **DONE** |
-| Remaining area slices (Mkt/Research/People/Ops/Tech) | Steps 3–4 | Full collapse in same wave: **93 caps** (~12:1 from 1,119) per [`decision-log.md`](../decision-log.md) D-IH-95-I + [`CHANGELOG.md`](../../../../CHANGELOG.md) | **DONE** |
+| Remaining area slices (Mkt/Research/People/Ops/Tech) | Steps 3–4 | Full collapse in same wave: **93 caps** (~12:1 from 1,119) per [`decision-log.md`](../decision-log.md) D-IH-95-I + [`CHANGELOG.md`](../../../../../CHANGELOG.md) | **DONE** |
 | Cross-area reconciliation (~80 target) | Step 4 | Net **93** (slightly above ~80 — acceptable per organic-count ratification) | **DONE** |
 | Evictions (tools→substrate, code-symbols→component matrix) | Step 5 | Routed in same tranche per decision log | **DONE** |
-| `process_list` radical cleanup | Step 6 (separate gate) | **496** processes + **583** rows in [`BUILDOUT_BACKLOG.csv`](../../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/BUILDOUT_BACKLOG.csv) | **DONE** |
+| `process_list` radical cleanup | Step 6 (separate gate) | **496** processes + **583** rows in [`BUILDOUT_BACKLOG.csv`](../../../../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/BUILDOUT_BACKLOG.csv) | **DONE** |
 | Hybrid weekly-cron capability rating (~8/wk) | D-IH-95-H | No evidence of activated cadence process beyond `capability_tier` column | **PENDING** |
 | TRP-014 (capability composition) promotion | L2 follow-on | Still **planned** in relationship registry | **PENDING** |
 | `bearer_class` on **realization edge** (graph, not CSV) | Collapse mechanic | CSV bearer removed; **Neo4j still legacy edges** — no realization-edge bearer migration | **PENDING** (Neo4j lane) |

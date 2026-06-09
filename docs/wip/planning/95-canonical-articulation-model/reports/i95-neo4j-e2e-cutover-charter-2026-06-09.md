@@ -24,8 +24,8 @@ blocked_on:
 
 | Artifact | Role |
 |:---|:---|
-| [`akos/hlk_graph_articulation.py`](../../../../akos/hlk_graph_articulation.py) | 13 legacy → 6 unified verb edges; `COMPETENCY_QUESTIONS` Cypher specs; `assert_edge_coverage()`. **Does not mutate live graph.** |
-| [`scripts/sync_hlk_neo4j.py`](../../../../scripts/sync_hlk_neo4j.py) | Still emits **legacy** edges via `hlk_graph_model.py` only — **no dual-emit, no unified mode flag** |
+| [`akos/hlk_graph_articulation.py`](../../../../../akos/hlk_graph_articulation.py) | 13 legacy → 6 unified verb edges; `COMPETENCY_QUESTIONS` Cypher specs; `assert_edge_coverage()`. **Does not mutate live graph.** |
+| [`scripts/sync_hlk_neo4j.py`](../../../../../scripts/sync_hlk_neo4j.py) | Still emits **legacy** edges via `hlk_graph_model.py` only — **no dual-emit, no unified mode flag** |
 | I91 preflight | [`p1-neo4j-preflight-blocked-2026-06-01.md`](../../91-enterprise-graph-store-coverage/reports/p1-neo4j-preflight-blocked-2026-06-01.md) — `BLOCKED-ENV` |
 
 ---

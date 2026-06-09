@@ -15,6 +15,7 @@ linked_research_sources:
   - docs/wip/intelligence/neo4j-graph-infrastructure-funding-source-ledger.csv
 ratifying_decisions:
   - D-IH-95-L
+  - D-IH-95-M
 volatility_class: medium
 staleness_days: 0
 staleness_posture: fresh
@@ -23,7 +24,7 @@ next_verify_by: 2026-09-09
 
 # Neo4j graph-infrastructure funding — research area master synthesis (2026-06-09)
 
-> Full research-area treatment (area-completeness precedent) for graph store **funding posture**, not a one-line “apply to Neo4j Startup.” Rolls up 52 rated sources across five prongs into a ranked option set feeding **AskQuestion #2** and proposed decision **D-IH-95-M** (not minted until operator ratifies FQ-1).
+> Full research-area treatment (area-completeness precedent) for graph store **funding posture**, not a one-line “apply to Neo4j Startup.” Rolls up 52 rated sources across five prongs into a ranked option set that fed **AskQuestion #2**; the operator closed it the same day — **D-IH-95-M ratified 2026-06-09** (FQ-1 = D; FQ-4 ordered sequence; see [`i95-fq2-ratification-2026-06-09.md`](../planning/95-canonical-articulation-model/reports/i95-fq2-ratification-2026-06-09.md)).
 
 ## 1. Executive summary
 
@@ -127,7 +128,7 @@ Graph projection is the **bounded-context harness** that keeps agent context fro
 | **FQ-3** | Post-credits default? | **A: Self-hosted VM ~$30/mo** `(ratified-at-planning)` / B: Aura Professional ~$65/mo / C: Re-apply vendor credits |
 | **FQ-4** | Next execution charter? | **A:** Self-hosted spike charter (I95 follow-on) / **B:** EIC Open LOI draft / **C:** Neo4j Startup application pack / **D:** Hold — F6 restore only |
 
-**Gate:** FQ-2 and FQ-3 are `ratified-at-planning` (operator 2026-06-09). FQ-1 remains open until AskQuestion #2.
+**Gate (closed):** FQ-2 and FQ-3 were `ratified-at-planning`; **FQ-1 closed at AskQuestion #2 with option D** (apply now + parallel EIC Pre-Accelerator screen) and FQ-4 closed with the custom ordered sequence — all under **D-IH-95-M** (2026-06-09).
 
 ---
 
@@ -185,5 +186,5 @@ Both rows would cite `SOP-RESEARCH_RADAR_001` + `scripts/research_radar_sweep.py
 - Fused radar: [`neo4j-funding-escalation-radar-2026-06-09.md`](neo4j-funding-escalation-radar-2026-06-09.md)
 - Doctrine: [`NEO4J_STRATEGY.md`](../../references/hlk/v3.0/Envoy%20Tech%20Lab/Neo4j/NEO4J_STRATEGY.md)
 - Prior thin ledger (cross-link only): [`i95-neo4j-funding-escalation-source-ledger.csv`](../planning/95-canonical-articulation-model/reports/i95-neo4j-funding-escalation-source-ledger.csv)
-- Decisions: **D-IH-95-L** (ratified); **D-IH-95-M** (draft rationale — pending AskQuestion #2)
+- Decisions: **D-IH-95-L** (ratified); **D-IH-95-M** (**ratified 2026-06-09** — [`i95-fq2-ratification-2026-06-09.md`](../planning/95-canonical-articulation-model/reports/i95-fq2-ratification-2026-06-09.md))
 - I95 decision log: [`decision-log.md`](../planning/95-canonical-articulation-model/decision-log.md)

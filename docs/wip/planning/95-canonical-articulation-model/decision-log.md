@@ -295,6 +295,31 @@ realizations re-pointed off removed rows (`thi_data_dtp_34` RPA, the 3 research 
 **Mirror obligation (operator/CI):** re-emit `compliance.process_list_mirror` + stand up a
 `buildout_backlog` mirror via the `supabase-mirror-sync` workflow (needs `SUPABASE_DB_URL`).
 
+## D-IH-95-J — P95-GOV-6 Plane-1 universal hardening + collaborator-share FAIL ramp (RATIFIED 2026-06-09, governance, low reversibility)
+
+> Compact section added 2026-06-09 (full-regression fix F-01) — the register row landed at GOV-6
+> (`8746715`) pointing here, but this narrative section was missed in that commit.
+
+Operator-mandated **universal Plane-1 hardening** (no deferral, per the universal-canonical-governance
+charter §10): all **73** `CANONICAL_GOVERNANCE_REGISTRY` rows set `plane1_in_validate_hlk=true`;
+MADEIRA mode/RBAC/persistence validators + `validate_canonical_registry.py --strict` +
+`validate_compliance_schema_drift.py` dispatched inside `validate_hlk.py`; **collaborator-share
+`--strict` FAIL ramp** activated inside the HLK umbrella; redundant standalone steps deduped from
+`release-gate.py` + `pre_commit`. Evidence: `reports/synthesis-p95-gov-6-2026-06-09.md`; register row
+`D-IH-95-J` (parent `D-IH-95-B`).
+
+## D-IH-95-K — Hygiene C collaborator-share settlement tranche (RATIFIED 2026-06-09, execution, medium reversibility)
+
+> Compact section added 2026-06-09 (full-regression fix F-01) — the register row points to the
+> settlement report as its primary log; this stub keeps the initiative decision-log sequence complete.
+
+Operator AskQuestion #2 scope **C**: refresh all 5 collaborator-share canonical CSVs to live
+engagement reality — mint `ENG-WEBSITZ-SHOPIFY-2026` `deep_partner_65_35` SHARE row + 10-row vendor
+roster; backfill `ENG-SUEZ-WEBUY-2026-AISHA-CONT` vendor roster (10 rows); link the
+`methodology_in_progress` mentoring clause; CS-01..CS-09 PASS under `--strict` (pairs with the
+D-IH-95-J FAIL ramp — no revert). Primary evidence: `reports/i95-hygiene-c-settlement-2026-06-09.md`
+(also covers Hygiene B charter count fix 74→73). Register row `D-IH-95-K` (parent `D-IH-95-J`).
+
 ## D-IH-95-L — Neo4j F6 primary + Professional deferred 2026 (RATIFIED 2026-06-09, operations, medium reversibility)
 
 **Operator correction (binding):** Rejected Option **C** — AuraDB Professional (~$65/mo) for 2026. No paid Professional this quarter/year unless funds change.

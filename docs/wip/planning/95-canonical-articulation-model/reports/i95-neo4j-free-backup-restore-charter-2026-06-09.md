@@ -108,9 +108,9 @@ Restore preserves **backup-era DB password**. If F2/F3 failed pre-restore, post-
 | Surface | Variables | Notes |
 |:---|:---|:---|
 | Local operator env | `~/.openclaw/.env` | `NEO4J_URI`, `NEO4J_USERNAME=neo4j`, `NEO4J_PASSWORD` |
-| Env loader | [`akos/io.py`](../../../../akos/io.py) | Neo4j keys in file override stale process env |
-| Driver | [`akos/hlk_neo4j.py`](../../../../akos/hlk_neo4j.py) | Heals instance-id-as-username misconfiguration |
-| GitHub Actions | Secrets `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD` | [`neo4j-aura-keepalive.yml`](../../../../.github/workflows/neo4j-aura-keepalive.yml) |
+| Env loader | [`akos/io.py`](../../../../../akos/io.py) | Neo4j keys in file override stale process env |
+| Driver | [`akos/hlk_neo4j.py`](../../../../../akos/hlk_neo4j.py) | Heals instance-id-as-username misconfiguration |
+| GitHub Actions | Secrets `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD` | [`neo4j-aura-keepalive.yml`](../../../../../.github/workflows/neo4j-aura-keepalive.yml) |
 
 | Setting | Correct value |
 |:---|:---|
@@ -147,7 +147,7 @@ Closure evidence: [`i95-neo4j-cq-uat-2026-06-09.md`](i95-neo4j-cq-uat-2026-06-09
 ## F6-R6 — Keepalive secrets alignment
 
 1. Update GitHub Actions secrets to match F6-R3.
-2. Run workflow_dispatch on [`neo4j-aura-keepalive.yml`](../../../../.github/workflows/neo4j-aura-keepalive.yml).
+2. Run workflow_dispatch on [`neo4j-aura-keepalive.yml`](../../../../../.github/workflows/neo4j-aura-keepalive.yml).
 3. Confirm **"keep-alive write ok"** — no `42NFF`.
 
 Keepalive unchanged per **D-IH-95-G R2-09**; Professional arm deferred per **D-IH-95-L**.

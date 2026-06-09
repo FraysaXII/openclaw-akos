@@ -20,8 +20,9 @@ linked_runbooks:
 # I95 PMO status sweep — 2026-06-09
 
 **Initiative:** INIT-OPENCLAW_AKOS-95 — the **Canonical Articulation Model** (HCAM + governed knowledge graph over CSV SSOT)  
-**Base commit:** `b052174`  
-**Funding closure:** **D-IH-95-M** ratified (see [`i95-fq2-ratification-2026-06-09.md`](i95-fq2-ratification-2026-06-09.md))
+**Base commit:** `bab57c2` (sweep originally cut at `b052174`; refreshed after the full regression)  
+**Funding closure:** **D-IH-95-M** ratified (see [`i95-fq2-ratification-2026-06-09.md`](i95-fq2-ratification-2026-06-09.md))  
+**Full regression (end-of-day):** **PASS-WITH-FOLLOWUP** — [`i95-full-regression-2026-06-09.md`](i95-full-regression-2026-06-09.md). Two scopes (today's 13-commit chain + initiative-wide intent-ranked sweep): **0 doctrine-level regressions**; 9 hygiene fixes applied in the regression commit (decision-log parity for `D-IH-95-J`/`D-IH-95-K`, CHANGELOG back-coverage, stale "draft" claims on `D-IH-95-M`, 12 broken links, backup-path drift); 3 tracked deferrals — **OPS-95-2** (engagement-model linkage backfill), **OPS-95-3** (I95 file-change ledger backfill), **L3 tranche-5** (10 active relationship triples still without FK bindings).
 
 ---
 
@@ -35,6 +36,7 @@ linked_runbooks:
 | **Neo4j graph harness** | **BLOCKED-AUTH** | Connectivity probe fails (`wrong_password_or_user`); GHA keepalive returns `42NFF` — pending **F6 restore** (F6-R0..R7) |
 | **L3 FK→verb tranches** | **Tranche-4 done** | Bundles A+B committed (12 bindings); **Bundle C** (TRP-030/036) charter-only |
 | **L1 Supabase EG-2 doc** | **Done** | [`SUPABASE_API_EXPOSURE.md`](../../../../references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/SUPABASE_API_EXPOSURE.md) minted; EG-3..5 still open |
+| **Full back-covering regression** | **PASS-WITH-FOLLOWUP** @ `bab57c2` | [`i95-full-regression-2026-06-09.md`](i95-full-regression-2026-06-09.md) — chain audit + intent-ranked sweep; fix-now batch applied; OPS-95-2/3 + L3 tranche-5 tracked |
 | **I95 initiative** | **Active** | GOV closed; HCAM / graph / articulation lanes remain |
 
 ---
@@ -88,12 +90,19 @@ Evidence synthesis: [`neo4j-graph-infrastructure-funding-research-area-2026-06-0
 | **4** | **Self-hosted spike charter** | Thinking → execution | I07 `neo4j+s` contract preserved; TCO ~$30/mo documented |
 | **5** | **EIC Pre-Accelerator screen + Open LOI draft** | Operator + Research | Eligibility checked; LOI draft ready for review |
 | **6** | **Neo4j Startup application pack** | Operator + Research | Application submitted or explicitly deferred with reason |
-| **7** | **L3 bundle C** (TRP-030/036) | Semantic Council + CSV gate | Charter ratified → promotion commit if FK columns exist |
+| **7** | **L3 bundle C** (TRP-030/036) **+ tranche-5** (10 unbound active triples — regression F-11: TRP-019/022/023/024/025/026/028/048/049/050) | Semantic Council + CSV gate | Bundle C: charter ratified → promotion commit if FK columns exist · Tranche-5: bindings minted per-registry pattern |
 | **8** | **EG-3** (edge-fn / cron / extension registries) | Data architecture | Three registries minted + validators |
 | **9** | **Orphan burn-down** | Semantic Council | `--matrix` wiring % rises area-by-area |
 | **10** | **Full verification bar** | CI + operator | `py scripts/verify.py pre_commit` PASS |
 
 Charter: [`i95-neo4j-free-backup-restore-charter-2026-06-09.md`](i95-neo4j-free-backup-restore-charter-2026-06-09.md).
+
+**Regression deltas (small, non-blocking — queue alongside, not ahead of, F6):**
+
+- **OPS-95-2** — link each engagement to its engagement-model class (the 7-class taxonomy that says how a collaborator is engaged: hourly, milestone, percentage…). The prod mirror apply had to blank three values that pointed at the wrong registry (template IDs); the column is now empty on all 7 engagements. One small operator-gated CSV pass fixes it.
+- **OPS-95-3** — backfill I95's per-initiative file-change ledger (`files-modified.csv`, the traceability CSV every initiative folder carries). Header + current-commit rows seeded by the regression; history backfill is mechanical.
+- **Pending operator CSV gate (unchanged from D-IH-95-M):** the funding research area proposes 1 topic row + 2 intelligence-radar rows (appendices A/B of the synthesis). They stay proposal-only until you approve the registry edits.
+- **Backup retention process** (where Neo4j exports live, how long, drill cadence) graduates to a vault SOP + process-list row **after** F6 completes and the first restore drill runs — correct order per process-governance doctrine (CSV row before SOP).
 
 ---
 
@@ -144,6 +153,7 @@ py scripts/verify.py pre_commit_fast
 
 ## 6. Cross-references
 
+- Full regression (verdict + findings): [`i95-full-regression-2026-06-09.md`](i95-full-regression-2026-06-09.md)
 - FQ ratification: [`i95-fq2-ratification-2026-06-09.md`](i95-fq2-ratification-2026-06-09.md)
 - GOV closure UAT: [`uat-universal-canonical-governance-2026-06-09.md`](uat-universal-canonical-governance-2026-06-09.md)
 - Mirror apply evidence: [`operator-mirror-apply-execution-2026-06-09.md`](operator-mirror-apply-execution-2026-06-09.md)

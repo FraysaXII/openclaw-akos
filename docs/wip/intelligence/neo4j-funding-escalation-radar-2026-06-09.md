@@ -14,6 +14,7 @@ linked_research_sources:
   - docs/wip/intelligence/neo4j-graph-infrastructure-funding-research-area-2026-06-09.md
 ratifying_decisions:
   - D-IH-95-L
+  - D-IH-95-M
 ---
 
 # Neo4j graph-infrastructure funding radar (2026-06-09)
@@ -77,20 +78,20 @@ Terms: [Neo4j Startup Program Aura terms](https://neo4j.com/legal-terms/startup-
 | Notes (excerpt) | "Likely AuraDB free tier or self-hosted at current volume" |
 | CSV edit gate | Operator approval required per baseline governance |
 
-Spend forecast lives in **this radar doc** + master synthesis (non-canonical) until funding ratified via **D-IH-95-M**.
+Spend forecast lives in **this radar doc** + master synthesis (non-canonical); funding posture ratified via **D-IH-95-M** (2026-06-09) — `finops_neo4j` CSV edit still requires its own operator gate.
 
 ---
 
-## Funding AskQuestion #2 (post-synthesis)
+## Funding AskQuestion #2 — CLOSED (D-IH-95-M, 2026-06-09)
 
-Surface after ledger validator PASS. FQ-2/FQ-3 are `ratified-at-planning`.
+All four FQs ratified by the operator; full record at [`i95-fq2-ratification-2026-06-09.md`](../planning/95-canonical-articulation-model/reports/i95-fq2-ratification-2026-06-09.md).
 
-| ID | Question | Options |
+| ID | Question | Ratified choice |
 |:---|:---|:---|
-| **FQ-1** | Apply to Neo4j Startup Program for up to $16K Professional credits? | A: Apply now / B: Defer Q3 2026 / C: Decline — Free-only 2026 / D: Apply + EIC Pre-Accelerator screen |
-| **FQ-2** | First EU public track for graph/data-platform GTM? | **A: EIC Accelerator Open** `(ratified)` / B: Transition / C: Eurostars / D: None 2026 |
-| **FQ-3** | When credits exhaust, default escalation? | **A: Self-hosted VM ~$30/mo** `(ratified)` / B: Aura Professional ~$65/mo / C: Re-apply vendor credits |
-| **FQ-4** | Next execution charter? | A: Self-hosted spike / B: EIC Open LOI / C: Startup application pack / D: Hold — F6 only |
+| **FQ-1** | Apply to Neo4j Startup Program for up to $16K Professional credits? | **D — Apply + parallel EIC Pre-Accelerator screen** `(ratified D-IH-95-M)` |
+| **FQ-2** | First EU public track for graph/data-platform GTM? | **A: EIC Accelerator Open** `(ratified)` |
+| **FQ-3** | When credits exhaust, default escalation? | **A: Self-hosted VM ~$30/mo** `(ratified)` |
+| **FQ-4** | Next execution charter? | **Custom ordered sequence** `(ratified)` — F6 restore → self-hosted spike → EIC Open LOI → Startup pack → I95 remainder |
 
 Full evidence: [`neo4j-graph-infrastructure-funding-research-area-2026-06-09.md`](neo4j-graph-infrastructure-funding-research-area-2026-06-09.md) §8.
 
@@ -103,4 +104,4 @@ Full evidence: [`neo4j-graph-infrastructure-funding-research-area-2026-06-09.md`
 - F6 restore charter: [`i95-neo4j-free-backup-restore-charter-2026-06-09.md`](../planning/95-canonical-articulation-model/reports/i95-neo4j-free-backup-restore-charter-2026-06-09.md)
 - Prior planning ledger (cross-link): [`i95-neo4j-funding-escalation-source-ledger.csv`](../planning/95-canonical-articulation-model/reports/i95-neo4j-funding-escalation-source-ledger.csv)
 - Decision: **D-IH-95-L** — R2-09 Professional arm deferred 2026; F6 primary
-- Draft decision: **D-IH-95-M** — funding posture 2026 closure (pending FQ-1)
+- Decision: **D-IH-95-M** — funding posture 2026 closure (**ratified 2026-06-09**; FQ-1=D + FQ-4 sequence) — [`i95-fq2-ratification-2026-06-09.md`](../planning/95-canonical-articulation-model/reports/i95-fq2-ratification-2026-06-09.md)

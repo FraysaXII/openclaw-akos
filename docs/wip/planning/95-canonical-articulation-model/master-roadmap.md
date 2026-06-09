@@ -100,7 +100,7 @@ Authoritative operator-facing sweep: [`reports/i95-pmo-status-sweep-2026-06-09.m
 | 3 | **Self-hosted spike charter** | I07 env contract preserved; ~$30/mo TCO note |
 | 4 | **EIC Pre-Accelerator screen + Open LOI draft** | FQ-1 D parallel track |
 | 5 | **Neo4j Startup application pack** | Eligibility + use-case A/B narrative |
-| 6 | **I95 open lanes** | L3 bundle C · EG-3 registries · orphan `--matrix` · full `pre_commit` |
+| 6 | **I95 open lanes** | L3 bundle C + tranche-5 (10 active triples still unbound — see regression F-11) · EG-3 registries · orphan `--matrix` · full `pre_commit` |
 
 **Current blockers:** Neo4j **BLOCKED-AUTH** until F6-R3..R4 complete (`wrong_password_or_user` / GHA `42NFF`). GOV wave **closed**; prod mirror **APPLIED** + parity **PASS** @ 2026-06-09.
 

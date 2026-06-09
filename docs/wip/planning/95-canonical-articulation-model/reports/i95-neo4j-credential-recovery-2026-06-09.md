@@ -211,8 +211,8 @@ N3 dual-emit success at `2802ef8` likely used a **valid password at that time**;
 
 | Workflow | Secrets / env | Code expectation | Gap |
 |:---|:---|:---|:---|
-| [`neo4j-aura-keepalive.yml`](../../../../.github/workflows/neo4j-aura-keepalive.yml) | `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD` | matches `get_neo4j_driver` | none — keepalive defaults username to `neo4j` if secret empty |
-| [`neo4j-graph-integration.yml`](../../../../.github/workflows/neo4j-graph-integration.yml) | inline `bolt://127.0.0.1:7687` + `neo4j` / `neo4jintegrationci` | local Docker only | N/A for Aura |
+| [`neo4j-aura-keepalive.yml`](../../../../../.github/workflows/neo4j-aura-keepalive.yml) | `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD` | matches `get_neo4j_driver` | none — keepalive defaults username to `neo4j` if secret empty |
+| [`neo4j-graph-integration.yml`](../../../../../.github/workflows/neo4j-graph-integration.yml) | inline `bolt://127.0.0.1:7687` + `neo4j` / `neo4jintegrationci` | local Docker only | N/A for Aura |
 | CQ UAT | no dedicated workflow | operator `~/.openclaw/.env` | by design |
 
 Keepalive is **architecturally correct** for Free pause doctrine (writes prevent 72h pause); **operational PASS unverified** in-repo — workflow skips if secrets unset. Check GitHub Actions history for `neo4j-aura-keepalive` after recovery.
