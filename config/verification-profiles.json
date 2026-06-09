@@ -429,7 +429,7 @@
         },
         {
           "id": "validate_canonical_governance_registry_self_test",
-          "description": "I95 P95-GOV-1: CANONICAL_GOVERNANCE_REGISTRY chassis self-test (74-row vault inventory contract)",
+          "description": "I95 P95-GOV-1: CANONICAL_GOVERNANCE_REGISTRY chassis self-test (73-row vault inventory contract)",
           "argv": [
             "scripts/validate_canonical_governance_registry.py",
             "--self-test"

@@ -1,6 +1,6 @@
 # P95-GOV packets 2–8 — unified execution wave (thinking seat)
 
-**Prerequisite (blocking):** `CANONICAL_GOVERNANCE_REGISTRY.csv` and its validator do **not** exist in the repo yet — only in the charter. Packet **P95-GOV-1** must land before any packet below. This plan assumes GOV-1 completes first.
+**Prerequisite (satisfied):** P95-GOV-1 landed at commit `30ed6d8` — `CANONICAL_GOVERNANCE_REGISTRY.csv` (73 vault CSV rows; charter §2.1 summary cited 74 but filesystem inventory is 73), Pydantic module, validator, HLK dispatch, and `pre_commit_fast` self-test. Packets 2–8 below may proceed.
 
 **Operator mandate applied:** no deferrals; HCAM = T1 git + Neo4j T3 only; collaborator-share validator → FAIL in GOV-6; Finance + RPA + adapters + engagement-template all in scope; CSV path moves OUT.
 
@@ -340,7 +340,7 @@ Ready:
 - Risk-ordered prod mirror-apply dependency graph
 
 Packets (run in order):
-0. P95-GOV-1 — Registry mint (BLOCKER — not in repo yet)
+0. ~~P95-GOV-1 — Registry mint~~ **DONE** (`30ed6d8`)
 1. P95-GOV-2 — HCAM quintet index backfill A
 2. P95-GOV-3 — Registry-driven workflow + emit-contract
 3. P95-GOV-4 — Index backfill B + SERVICE_CATALOG + LEARNING validators
@@ -355,7 +355,7 @@ Hard gates todo-#1:
 Stop-and-report contract:
 - Validator FAIL / ambiguity → halt; cite path + line; no silent defaults.
 
-Operator: switch to execution seat (Composer 2.5), complete P95-GOV-1 if not landed, then invoke `.cursor/agents/executor.md` with packet 2.
+Operator: switch to execution seat (Composer 2.5), then invoke `.cursor/agents/executor.md` with packet 2.
 ```
 
 ```
@@ -365,7 +365,7 @@ Ready:
 - P95-GOV 2–8 wave plan drafted with per-area evidence, seven phase commits, extended GOV-5 emit scope, and prod mirror-apply dependency ordering
 
 Packets (run in order):
-0. P95-GOV-1 — Registry mint (prerequisite; not in repo)
+0. ~~P95-GOV-1 — Registry mint~~ **DONE** (`30ed6d8`)
 1. P95-GOV-2 — HCAM quintet index backfill A
 2. P95-GOV-3 — Registry-driven workflow refactor
 3. P95-GOV-4 — Index backfill B + new validators
@@ -381,7 +381,7 @@ Stop-and-report contract:
 - Validator FAIL / ambiguity → halt; cite path + line; no silent defaults.
 
 Operator: switch to execution seat (Composer 2.5) or fresh Composer thread, then
-invoke `.cursor/agents/executor.md` with packet 1 (if needed) then packet 2.
+invoke `.cursor/agents/executor.md` with packet 2.
 ```
 
 [REDACTED]
