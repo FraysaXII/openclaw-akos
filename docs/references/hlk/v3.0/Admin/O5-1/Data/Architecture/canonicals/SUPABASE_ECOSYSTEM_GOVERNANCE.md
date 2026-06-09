@@ -25,6 +25,10 @@ linked_canonicals:
   - DATA_ARCHITECTURE.md
   - DATA_INTEGRATION_PLANE.md
   - dimensions/SUPABASE_MODULE_REGISTRY.csv
+  - dimensions/SUPABASE_EDGE_FUNCTION_REGISTRY.csv
+  - dimensions/SUPABASE_CRON_REGISTRY.csv
+  - SUPABASE_EXTENSION_MANIFEST.md
+  - SUPABASE_API_EXPOSURE.md
   - ../Governance/canonicals/DATA_GOVERNANCE_POLICY.md
   - ../Governance/canonicals/dimensions/RPA_ADAPTER_REGISTRY.csv
 companion_to:
@@ -60,9 +64,10 @@ surface, each row carrying `governed_status` (governed / partial / ungoverned / 
 `scripts/validate_supabase_module_registry.py` (wired into `validate_hlk.py`); it prints a governance
 scorecard + flags **critical-priority ungoverned** modules.
 
-**Baseline (2026-06-09): 27 modules — 10 governed · 7 partial · 10 ungoverned.** Critical-ungoverned:
+**Baseline (2026-06-10): 27 modules — 14 governed · 3 partial · 10 ungoverned.** Critical-ungoverned:
 Auth (SUPA-MOD-22) only. EG-2 closed `public` legacy (SUPA-MOD-09) and PostgREST API exposure
-(SUPA-MOD-24 → `SUPABASE_API_EXPOSURE.md`).
+(SUPA-MOD-24 → `SUPABASE_API_EXPOSURE.md`). EG-3 closed edge/cron/extension registries
+(SUPA-MOD-11/14/15/19 → dimension CSVs + `SUPABASE_EXTENSION_MANIFEST.md`).
 
 ## 3. The closure plan (phased — Data Architect owns)
 

@@ -1,0 +1,4 @@
+function_id,function_slug,repo_path,invoke_pattern,verify_jwt,owner_role,rpa_adapter_id,status,last_review_decision_id,notes
+SUPA-EF-01,stripe-webhook-handler,supabase/functions/stripe-webhook-handler/,webhook,true,AI Engineer,holistika_edge,active,D-IH-81-W,Stripe signed webhook; routes kirbe vs holistika_ops billing planes (I14/I81)
+SUPA-EF-02,finops-writer-worker,supabase/functions/finops-writer-worker/,cron,true,AI Engineer,,active,D-IH-81-W,Drains pgmq.finops_writer_queue; writes finops.registered_fact (I81 B-2b)
+SUPA-EF-03,fx-rate-cache-refresh,supabase/functions/fx-rate-cache-refresh/,cron,true,AI Engineer,,active,D-IH-81-W,ECB daily FX upsert to holistika_ops.fx_rate_cache (I81 B-2b)

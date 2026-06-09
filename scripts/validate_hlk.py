@@ -589,6 +589,21 @@ def main() -> int:
          "validate_supabase_module_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
          / "Architecture" / "canonicals" / "dimensions" / "SUPABASE_MODULE_REGISTRY.csv"),
+        # I95 L1 EG-3 (D-IH-95-G) — edge-function inventory SSOT; FK to live supabase/functions/.
+        ("SUPABASE_EDGE_FUNCTION_REGISTRY", "validate_supabase_edge_function_registry.py",
+         "validate_supabase_edge_function_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
+         / "Architecture" / "canonicals" / "dimensions" / "SUPABASE_EDGE_FUNCTION_REGISTRY.csv"),
+        # I95 L1 EG-3 — cron job inventory; cross-checks edge registry + migration files.
+        ("SUPABASE_CRON_REGISTRY", "validate_supabase_cron_registry.py",
+         "validate_supabase_cron_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
+         / "Architecture" / "canonicals" / "dimensions" / "SUPABASE_CRON_REGISTRY.csv"),
+        # I95 L1 EG-3 — extension posture manifest (markdown SSOT for pg_cron/pg_net/pgmq).
+        ("SUPABASE_EXTENSION_MANIFEST", "validate_supabase_extension_manifest.py",
+         "validate_supabase_extension_manifest",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
+         / "Architecture" / "canonicals" / "SUPABASE_EXTENSION_MANIFEST.md"),
         # D-IH-95-I — build-out backlog (the demoted process_list task-grain home; SKIPs until minted).
         ("BUILDOUT_BACKLOG", "validate_buildout_backlog_registry.py",
          "validate_buildout_backlog_registry",

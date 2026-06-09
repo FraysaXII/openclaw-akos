@@ -9,15 +9,15 @@ SUPA-MOD-07,kirbe schema,schema:kirbe,kirbe.cleanup_monitoring_logs only,ungover
 SUPA-MOD-08,stripe_gtm FDW,fdw:stripe_gtm,I18 privilege hardening + DC-HOL-GTM-CRM-001,partial,Data Architect,high,FDW server + foreign tables DDL live-only,inventory-before-greenfield; periodic MCP reconcile
 SUPA-MOD-09,public legacy schema,schema:public,supabase/migrations 20260607191541+191554 (EG-2),governed,System Owner,low,EG-2 done 2026-06-07: 10 dead test/dupe dropped (34->24 tables) + RLS deny-by-default on 13 survivors (rls_disabled 16->0),KiRBe-era survivors kept as reference-only legacy; service_role bypasses RLS
 SUPA-MOD-10,mirror DML (CSV->rows),mirror_dml,sync_compliance_mirrors_from_csv.py + holistika-mirror-dml-apply.md,governed,Data Steward,high,stale if apply skipped (OPS-95-1 re-sync pending),deterministic emit from CSV SSOT
-SUPA-MOD-11,Edge Functions,edge_functions,supabase/functions/**,partial,AI Engineer,high,no complete edge-function registry; 2 of 3 absent from RPA_ADAPTER,stripe-webhook / finops-writer-worker / fx-rate-cache-refresh
+SUPA-MOD-11,Edge Functions,edge_functions,dimensions/SUPABASE_EDGE_FUNCTION_REGISTRY.csv,governed,AI Engineer,high,2 of 3 functions absent from RPA_ADAPTER (forward),I95 EG-3: 3-function registry + repo-path validator
 SUPA-MOD-12,Edge secrets/env,edge_secrets,not in git (correct),ungoverned,System Owner,medium,no governed secrets manifest (paths only),SOC: never log secret values
 SUPA-MOD-13,pgmq extension + queues,ext:pgmq,I81 migrations + finops_dlq_drain.py,governed,System Owner,medium,queue names not in a CSV,finops_writer_queue + DLQ + 5 RPC wrappers
-SUPA-MOD-14,pg_cron extension + jobs,ext:pg_cron,cron migrations,partial,System Owner,high,CREATE EXTENSION absent; jobs embed URL/anon key,2 jobs (finops worker + fx refresh)
-SUPA-MOD-15,pg_net extension,ext:pg_net,used in cron migrations only,ungoverned,System Owner,medium,no extension declaration; no DB Webhook defs,pg_net_webhook adapter is doctrine-only
+SUPA-MOD-14,pg_cron extension + jobs,ext:pg_cron,SUPABASE_EXTENSION_MANIFEST.md + SUPABASE_CRON_REGISTRY.csv,governed,System Owner,high,CREATE EXTENSION migration still absent (forward reconcile),I95 EG-3: manifest + 2 cron jobs registered
+SUPA-MOD-15,pg_net extension,ext:pg_net,SUPABASE_EXTENSION_MANIFEST.md,governed,System Owner,medium,no standalone CREATE EXTENSION migration; no DB Webhook defs,I95 EG-3: inventory in extension manifest
 SUPA-MOD-16,Wrappers FDW extension,ext:wrappers,I18 migration (privileges),partial,Data Architect,high,FDW DDL live-only,see SUPA-MOD-08
 SUPA-MOD-17,pg_vector extension,ext:vector,column comment only,ungoverned,AI Engineer,medium,no vector extension migration; no embedding tables in AKOS,I46 forward; KiRBe vectors live
 SUPA-MOD-18,RLS policies (system),rls,inside each migration + EG-2,partial,Data Governance Office,high,EG-2 closed the public(16) + kirbe_organizations RLS holes (0 ERRORs); still no policy registry; adapter+collab mirror gaps remain,EG-4: mint SUPABASE_RLS_POSTURE + validator (fail RLS-enabled-no-policy)
-SUPA-MOD-19,cron job registry,cron_jobs,cron migrations,partial,System Owner,high,no cron registry; keys embedded in SQL,mint SUPABASE_CRON_REGISTRY (job/schedule/target/owner/rotation)
+SUPA-MOD-19,cron job registry,cron_jobs,dimensions/SUPABASE_CRON_REGISTRY.csv,governed,System Owner,high,anon JWT embedded in cron SQL — rotation forward debt,I95 EG-3: 2-job registry + edge FK
 SUPA-MOD-20,Database Webhooks,db_webhooks,none in repo,ungoverned,System Owner,medium,pg_net_webhook adapter active but zero defs in repo,
 SUPA-MOD-21,Realtime,realtime,config.toml + table comment,ungoverned,System Owner,medium,no publication/channel DDL; no Realtime contract,holistika_ops.notifications drawer
 SUPA-MOD-22,Auth,auth,config.toml defaults + RBAC FKs,ungoverned,System Owner,critical,no auth hook/provider registry; auth.users FK only,23 managed auth.* tables

@@ -1,0 +1,3 @@
+job_id,job_name,schedule_cron,target_function_slug,migration_ref,auth_pattern,owner_role,status,last_review_decision_id,gap,notes
+SUPA-CR-01,finops_writer_worker_every_minute,* * * * *,finops-writer-worker,supabase/migrations/20260524005543_i81_p2_b2c_finops_writer_worker_cron_schedule.sql,anon_jwt_embedded,System Owner,active,D-IH-81-W,anon key embedded in migration SQL — rotate via forward migration,SUPA-MOD-19; pg_net.http_post every minute
+SUPA-CR-02,fx_rate_cache_refresh_daily,30 15 * * *,fx-rate-cache-refresh,supabase/migrations/20260524005706_i81_p2_b2c_fx_rate_cache_cron_schedule.sql,anon_jwt_embedded,System Owner,active,D-IH-81-W,anon key embedded in migration SQL — rotate via forward migration,Daily ECB cache refresh after publish window
