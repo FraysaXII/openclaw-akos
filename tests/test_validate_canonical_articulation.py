@@ -104,6 +104,20 @@ def test_five_competency_questions_defined():
         assert cq["cypher"] and cq["question"] and cq["derivation"]
 
 
+def test_dual_emit_doubles_edge_rows():
+    from akos.hlk_graph_model import GraphEdge, dual_emit_edge_rows
+
+    edges = [
+        GraphEdge("REPORTS_TO", "Role", "A", "Role", "B"),
+        GraphEdge("PARENT_OF", "Process", "p1", "Process", "p2"),
+    ]
+    rows = dual_emit_edge_rows(edges)
+    assert len(rows) == 4
+    assert rows[0]["etype"] == "REPORTS_TO"
+    assert rows[2]["etype"] == "COMPOSED_OF"
+    assert rows[3]["etype"] == "COMPOSED_OF"
+
+
 # --- area-completeness v3 articulation mode (D-IH-95-D) -----------------------
 
 def test_articulation_report_finance_fully_wired():

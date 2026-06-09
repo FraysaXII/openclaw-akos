@@ -5,7 +5,7 @@ Loads ``~/.openclaw/.env`` via ``bootstrap_openclaw_process_env`` (same as
 ``scripts/serve-api.py``), then MERGEs Role/Process nodes and edges.
 
 Usage:
-    py scripts/sync_hlk_neo4j.py [--dry-run] [--with-documents]
+    py scripts/sync_hlk_neo4j.py [--dry-run] [--with-documents] [--dual-emit] [--unified]
 
 Requires: pip install neo4j
 Env: NEO4J_URI, NEO4J_USERNAME (optional), NEO4J_PASSWORD, optional NEO4J_TRUST / NEO4J_CA_BUNDLE (see ``akos.hlk_neo4j.get_neo4j_driver`` and USER_GUIDE 9.10).
@@ -80,33 +80,49 @@ def main() -> None:
         help="Also MERGE v3.0 markdown Document nodes and LINKS_TO edges",
     )
     parser.add_argument("--json-log", action="store_true")
+    emit = parser.add_mutually_exclusive_group()
+    emit.add_argument(
+        "--dual-emit",
+        action="store_true",
+        help="Write legacy edges plus unified HCAM verb edges (I95 cutover window)",
+    )
+    emit.add_argument(
+        "--unified",
+        action="store_true",
+        help="Write unified HCAM verb edges only (post-cutover; no legacy labels)",
+    )
     args = parser.parse_args()
 
     setup_logging(json_output=args.json_log)
     bootstrap_openclaw_process_env()
 
+    from akos.hlk_graph_articulation import assert_edge_coverage
     from akos.hlk_graph_model import (
         assert_graph_registry_parity,
-        build_hlk_csv_graph,
-        build_holistik_ops_axis_graph,
-        build_program_graph,
-        build_topic_graph,
+        collect_full_registry_graph,
     )
 
     reg = get_hlk_registry()
-    nodes, edges = build_hlk_csv_graph(reg)
+    nodes, edges = collect_full_registry_graph(reg)
     assert_graph_registry_parity(reg, nodes, edges)
-    # Initiative 23 P-graph (D-IH-18): project the program registry alongside
-    # the role/process tree. CSV-driven; emits 0 nodes when the file is absent.
-    prog_nodes, prog_edges = build_program_graph(reg)
-    # Initiative 25 P-graph (D-IH-12 + D-IH-25-B): project the topic registry
-    # after programs (UNDER_PROGRAM edges target :Program nodes).
-    topic_nodes, topic_edges = build_topic_graph(reg)
-    # Initiative 32 P5/P6 (D-IH-32-A + D-IH-32-M): project the 6-axis Holistik
-    # Ops graph extension — :Persona, :Channel, :Sourcing, :Skill,
-    # :TouchpointKitCell, :Policy nodes plus :UNDER_TOPIC edges. Topic axis 6
-    # promotion is realised in the graph here.
-    axis_nodes, axis_edges = build_holistik_ops_axis_graph()
+    if args.dual_emit or args.unified:
+        coverage = assert_edge_coverage()
+        logger.info(
+            "unified edge coverage: legacy=%d unified=%d collapse=%s",
+            coverage["legacy_edge_count"],
+            coverage["unified_edge_count"],
+            coverage["composition_collapse"],
+        )
+    prog_nodes = [n for n in nodes if n.label == "Program"]
+    topic_nodes = [n for n in nodes if n.label == "Topic"]
+    axis_nodes = [n for n in nodes if n.label in {
+        "Persona", "Channel", "Sourcing", "Skill", "TouchpointKitCell", "Policy",
+    }]
+    prog_edges = [e for e in edges if e.edge_type in {
+        "CONSUMES", "PRODUCES_FOR", "PROGRAM_PARENT_OF", "PROGRAM_SUBSUMES",
+    } or (e.edge_type == "OWNED_BY" and e.from_label == "Program")]
+    topic_edges = [e for e in edges if e.from_label == "Topic" or e.to_label == "Topic"]
+    axis_edges = [e for e in edges if e.edge_type == "UNDER_TOPIC"]
     axis_label_counts: dict[str, int] = {}
     for n in axis_nodes:
         axis_label_counts[n.label] = axis_label_counts.get(n.label, 0) + 1
@@ -124,14 +140,16 @@ def main() -> None:
         axis_label_counts.get("Skill", 0),
         axis_label_counts.get("TouchpointKitCell", 0),
         axis_label_counts.get("Policy", 0),
-        len(edges) + len(prog_edges) + len(topic_edges) + len(axis_edges),
+        len(edges),
         len(prog_edges),
         len(topic_edges),
         len(axis_edges),
     )
 
+    emit_mode = "unified" if args.unified else ("dual" if args.dual_emit else "legacy")
+
     if args.dry_run:
-        logger.info("dry-run: skipping Neo4j write")
+        logger.info("dry-run: emit_mode=%s; skipping Neo4j write", emit_mode)
         return
 
     driver = get_neo4j_driver()
@@ -139,7 +157,7 @@ def main() -> None:
         logger.error("Neo4j not configured (NEO4J_URI + NEO4J_PASSWORD) or driver missing")
         sys.exit(2)
     try:
-        stats = sync_csv_graph(driver, reg, wipe=True)
+        stats = sync_csv_graph(driver, reg, wipe=True, emit_mode=emit_mode)
         logger.info("neo4j csv sync: %s", stats)
         if args.with_documents:
             dstats = _ingest_vault_documents(driver)

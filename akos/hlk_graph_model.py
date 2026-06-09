@@ -775,6 +775,50 @@ def build_policy_graph(csv_path: Path = POLICY_REGISTER_CSV) -> tuple[list[Graph
     return nodes, edges
 
 
+def edge_rows_from_graph(edges: list[GraphEdge]) -> list[dict[str, str]]:
+    """Serialize graph edges to the row dicts consumed by ``sync_csv_graph``."""
+    return [
+        {
+            "etype": e.edge_type,
+            "fa": e.from_label,
+            "fid": e.from_id,
+            "ta": e.to_label,
+            "tid": e.to_id,
+        }
+        for e in edges
+    ]
+
+
+def dual_emit_edge_rows(edges: list[GraphEdge]) -> list[dict[str, str]]:
+    """Return legacy + unified edge rows for Neo4j dual-emit (I95 / D-IH-95-C).
+
+    Legacy rows are unchanged; unified rows reuse the same endpoints with
+    ``etype`` replaced per ``hlk_graph_articulation.LEGACY_EDGE_TO_UNIFIED``.
+    """
+    from akos.hlk_graph_articulation import LEGACY_EDGE_TO_UNIFIED
+
+    legacy = edge_rows_from_graph(edges)
+    unified = [
+        {**row, "etype": LEGACY_EDGE_TO_UNIFIED[row["etype"]]}
+        for row in legacy
+    ]
+    return legacy + unified
+
+
+def collect_full_registry_graph(
+    registry: HlkRegistry,
+) -> tuple[list[GraphNode], list[GraphEdge]]:
+    """Build the full HLK CSV projection (role/process + program + topic + axis-6)."""
+    nodes, edges = build_hlk_csv_graph(registry)
+    prog_nodes, prog_edges = build_program_graph(registry)
+    topic_nodes, topic_edges = build_topic_graph(registry)
+    axis_nodes, axis_edges = build_holistik_ops_axis_graph()
+    return (
+        nodes + prog_nodes + topic_nodes + axis_nodes,
+        edges + prog_edges + topic_edges + axis_edges,
+    )
+
+
 def build_holistik_ops_axis_graph() -> tuple[list[GraphNode], list[GraphEdge]]:
     """Initiative 32 P5/P6 convenience: build all 6 new node-label graphs in one call.
 

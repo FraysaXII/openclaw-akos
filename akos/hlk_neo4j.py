@@ -15,7 +15,15 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from akos.hlk import HlkRegistry
-from akos.hlk_graph_model import GraphEdge, GraphNode, assert_graph_registry_parity, build_hlk_csv_graph
+from akos.hlk_graph_articulation import LEGACY_EDGE_TO_UNIFIED
+from akos.hlk_graph_model import (
+    GraphEdge,
+    GraphNode,
+    assert_graph_registry_parity,
+    build_hlk_csv_graph,
+    collect_full_registry_graph,
+    edge_rows_from_graph,
+)
 
 if TYPE_CHECKING:
     from neo4j import Driver, Session
@@ -152,7 +160,58 @@ def _ensure_constraints(session: Session) -> None:
     )
 
 
-def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) -> dict[str, int]:
+EmitMode = str  # "legacy" | "unified" | "dual"
+
+
+_LABEL_ID_KEY: dict[str, str] = {
+    "Role": "role_name",
+    "Process": "item_id",
+    "Program": "program_id",
+    "Topic": "topic_id",
+    "Persona": "persona_id",
+    "Channel": "channel_id",
+    "Sourcing": "vendor_id",
+    "Skill": "skill_id",
+    "TouchpointKitCell": "cell_id",
+    "Policy": "policy_id",
+}
+
+
+def _write_dynamic_edges(session: Session, edge_rows: list[dict[str, str]], *, batch: int = 400) -> int:
+    """MERGE edges grouped by (from_label, to_label, etype) using dynamic Cypher."""
+    written = 0
+    groups: dict[tuple[str, str, str], list[dict[str, str]]] = {}
+    for row in edge_rows:
+        key = (row["fa"], row["ta"], row["etype"])
+        groups.setdefault(key, []).append(row)
+    for (fa, ta, etype), rows in groups.items():
+        key_a = _LABEL_ID_KEY.get(fa)
+        key_b = _LABEL_ID_KEY.get(ta)
+        if not key_a or not key_b:
+            logger.warning("skip unified edge group: unknown labels %s -> %s", fa, ta)
+            continue
+        for i in range(0, len(rows), batch):
+            chunk = rows[i : i + batch]
+            if not chunk:
+                continue
+            cypher = (
+                f"UNWIND $rows AS row "
+                f"MATCH (a:{fa} {{{key_a}: row.fid}}) "
+                f"MATCH (b:{ta} {{{key_b}: row.tid}}) "
+                f"MERGE (a)-[:{etype}]->(b)"
+            )
+            session.run(cypher, rows=chunk)
+            written += len(chunk)
+    return written
+
+
+def sync_csv_graph(
+    driver: Driver,
+    registry: HlkRegistry,
+    *,
+    wipe: bool = True,
+    emit_mode: EmitMode = "legacy",
+) -> dict[str, int]:
     """Full rebuild of Role/Process/Program nodes and edges from *registry* + CSVs.
 
     Initiative 23 P-graph (D-IH-18): the rebuild now also projects the
@@ -161,29 +220,8 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
     index. Programs join Roles via `:OWNED_BY` and other Programs via the
     typed edges defined in `akos.hlk_graph_model`.
     """
-    nodes, edges = build_hlk_csv_graph(registry)
+    nodes, edges = collect_full_registry_graph(registry)
     assert_graph_registry_parity(registry, nodes, edges)
-
-    # Initiative 23 P-graph: program-side projection (CSV-driven; no in-memory
-    # registry mirror). Append nodes/edges to the same lists so the wipe-then-
-    # rebuild transaction below sees them all.
-    from akos.hlk_graph_model import (
-        build_holistik_ops_axis_graph,
-        build_program_graph,
-        build_topic_graph,
-    )
-
-    prog_nodes, prog_edges = build_program_graph(registry)
-    # Initiative 25 P-graph: topic projection (CSV-driven). Topics depend on
-    # Program nodes for UNDER_PROGRAM edges, so we project after Programs.
-    topic_nodes, topic_edges = build_topic_graph(registry)
-    # Initiative 32 P5/P6 + I47 P13 item 1 (D-IH-47-G): project the 6 axis-6
-    # dimensions (Persona/Channel/Sourcing/Skill/TouchpointKitCell/Policy)
-    # PLUS their :UNDER_TOPIC edges. This closes the I46 drift canary catch
-    # where sync_csv_graph only wrote 4 of 10 dimensions.
-    axis_nodes, axis_edges = build_holistik_ops_axis_graph()
-    nodes = nodes + prog_nodes + topic_nodes + axis_nodes
-    edges = edges + prog_edges + topic_edges + axis_edges
 
     role_rows = [n.properties for n in nodes if n.label == "Role"]
     proc_rows = [n.properties for n in nodes if n.label == "Process"]
@@ -195,16 +233,22 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
     skill_rows = [n.properties for n in nodes if n.label == "Skill"]
     cell_rows = [n.properties for n in nodes if n.label == "TouchpointKitCell"]
     policy_rows = [n.properties for n in nodes if n.label == "Policy"]
-    edge_rows = [
-        {
-            "etype": e.edge_type,
-            "fa": e.from_label,
-            "fid": e.from_id,
-            "ta": e.to_label,
-            "tid": e.to_id,
-        }
-        for e in edges
-    ]
+    legacy_edge_rows = edge_rows_from_graph(edges)
+    if emit_mode == "unified":
+        edge_rows = [
+            {**row, "etype": LEGACY_EDGE_TO_UNIFIED[row["etype"]]}
+            for row in legacy_edge_rows
+        ]
+        write_legacy_edges = False
+    elif emit_mode == "dual":
+        edge_rows = legacy_edge_rows + [
+            {**row, "etype": LEGACY_EDGE_TO_UNIFIED[row["etype"]]}
+            for row in legacy_edge_rows
+        ]
+        write_legacy_edges = True
+    else:
+        edge_rows = legacy_edge_rows
+        write_legacy_edges = True
 
     with driver.session() as session:
         if wipe:
@@ -286,6 +330,23 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
                 """,
                 rows=chunk,
             )
+
+        if not write_legacy_edges:
+            unified_written = _write_dynamic_edges(session, edge_rows, batch=batch)
+            return {
+                "roles_written": len(role_rows),
+                "processes_written": len(proc_rows),
+                "programs_written": len(prog_rows),
+                "topics_written": len(topic_rows),
+                "personas_written": len(persona_rows),
+                "channels_written": len(channel_rows),
+                "sourcing_written": len(sourcing_rows),
+                "skills_written": len(skill_rows),
+                "cells_written": len(cell_rows),
+                "policies_written": len(policy_rows),
+                "edges_written": unified_written,
+                "emit_mode": emit_mode,
+            }
 
         rt = [r for r in edge_rows if r["etype"] == "REPORTS_TO"]
         ob_proc = [r for r in edge_rows if r["etype"] == "OWNED_BY" and r["fa"] == "Process"]
@@ -600,6 +661,13 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
                 )
                 session.run(cypher, rows=chunk)
 
+        if emit_mode == "dual":
+            unified_rows = [
+                {**row, "etype": LEGACY_EDGE_TO_UNIFIED[row["etype"]]}
+                for row in legacy_edge_rows
+            ]
+            _write_dynamic_edges(session, unified_rows, batch=batch)
+
     return {
         "roles_written": len(role_rows),
         "processes_written": len(proc_rows),
@@ -611,7 +679,9 @@ def sync_csv_graph(driver: Driver, registry: HlkRegistry, *, wipe: bool = True) 
         "skills_written": len(skill_rows),
         "cells_written": len(cell_rows),
         "policies_written": len(policy_rows),
-        "edges_written": len(edge_rows),
+        "edges_written": len(legacy_edge_rows),
+        "unified_edges_written": len(legacy_edge_rows) if emit_mode == "dual" else 0,
+        "emit_mode": emit_mode,
     }
 
 

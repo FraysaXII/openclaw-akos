@@ -27,10 +27,12 @@ sys.path.insert(0, str(REPO_ROOT))
 # ---------------------------------------------------------------------------
 
 def test_sync_csv_graph_imports_axis_builder() -> None:
-    """sync_csv_graph must import build_holistik_ops_axis_graph."""
+    """sync_csv_graph must collect the full registry graph (incl. axis-6)."""
     src = (REPO_ROOT / "akos" / "hlk_neo4j.py").read_text(encoding="utf-8")
-    assert "build_holistik_ops_axis_graph" in src
-    assert "axis_nodes" in src and "axis_edges" in src
+    assert "collect_full_registry_graph" in src
+    assert "build_holistik_ops_axis_graph" in (
+        REPO_ROOT / "akos" / "hlk_graph_model.py"
+    ).read_text(encoding="utf-8")
 
 
 def test_sync_csv_graph_writes_all_10_node_labels() -> None:
