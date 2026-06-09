@@ -10,7 +10,7 @@
 
 ## 1. Executive intent
 
-Holistika has **74 vault CSVs** spread across nine O5-1 areas, but governance today is **implicit and Compliance-centric**: Plane 1 (git CSV + the HLK validator umbrella) covers many sibling-area CSVs only because `validate_hlk.py` dispatches per-file validators — not because every canonical is indexed, classified, and wired consistently. Plane 2 (Supabase mirror sync) is **hardcoded** to the People/Compliance folder path in CI and in `validate_mirror_emit_contract.py`, even though mirrors exist (or are forward-chartered) for assets outside that folder.
+Holistika has **73 vault CSVs**[^gov1-inventory] spread across nine O5-1 areas, but governance today is **implicit and Compliance-centric**: Plane 1 (git CSV + the HLK validator umbrella) covers many sibling-area CSVs only because `validate_hlk.py` dispatches per-file validators — not because every canonical is indexed, classified, and wired consistently. Plane 2 (Supabase mirror sync) is **hardcoded** to the People/Compliance folder path in CI and in `validate_mirror_emit_contract.py`, even though mirrors exist (or are forward-chartered) for assets outside that folder.
 
 **Option B (operator-ratified)** establishes:
 
@@ -20,7 +20,9 @@ Holistika has **74 vault CSVs** spread across nine O5-1 areas, but governance to
 | **Plane 2 — Explicit** | **Only** assets with mirror DDL **and** `mirror_sync_policy=active` in the new governance registry | Registry-driven emit path + `supabase-mirror-sync.yml` path filters + enum parity + delete-reconcile |
 | **T3 — Graph projection** | HCAM articulation registries (`ENTITY_CATALOG`, `CANONICAL_RELATIONSHIP_REGISTRY`) | T1 git CSV + Neo4j projection via `sync_hlk_neo4j.py`; **not** compliance mirror unless operator ratifies later |
 
-**Big-bang end state, thinking-first execution:** All 74 CSVs land in a single governance registry with correct `asset_class`, Plane-1 validator wiring, and Plane-2 posture (active / forward-charter / git-only / graph-projection). Mechanical rollout follows registry mint → index backfill → workflow refactor → mirror-emit gap closure (DDL-gated) → regression proof.
+**Big-bang end state, thinking-first execution:** All 73 vault CSVs land in a single governance registry with correct `asset_class`, Plane-1 validator wiring, and Plane-2 posture (active / forward-charter / git-only / graph-projection). Mechanical rollout follows registry mint → index backfill → workflow refactor → mirror-emit gap closure (DDL-gated) → regression proof.
+
+[^gov1-inventory]: **GOV-1 inventory @ 2026-06-09:** Filesystem SSOT is **73** CSVs under `docs/references/hlk/v3.0/**/canonicals/**/*.csv` (see [`synthesis-p95-gov-1-2026-06-09.md`](synthesis-p95-gov-1-2026-06-09.md)). The prior **74** figure was a planning estimate (likely counted `CANONICAL_GOVERNANCE_REGISTRY.csv` as an extra vault asset; the meta-registry is governance inventory, not an additional content CSV). Hygiene B ratified 2026-06-09 per [`i95-hygiene-research-2026-06-09.md`](i95-hygiene-research-2026-06-09.md).
 
 **Non-goals (this charter):** Moving CSVs between folders (I94 placement work); minting new mirror DDL for forward-charter assets without operator SQL gate; collapsing HCAM into compliance mirrors without a separate ratification.
 
@@ -163,7 +165,7 @@ Per operator ratification, HCAM registries are **T1 + Neo4j T3**, not compliance
 
 **Location (proposed):** `docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CANONICAL_GOVERNANCE_REGISTRY.csv`
 
-**Row count estimate:** **74 rows** (1:1 with vault CSV inventory) + **1 header**; grows when new canonicals mint.
+**Row count estimate:** **73 rows** (1:1 with vault CSV inventory) + **1 header**; grows when new canonicals mint. The governance meta-registry (`CANONICAL_GOVERNANCE_REGISTRY.csv`) indexes these rows but is not itself one of the 73 vault content CSVs — see [^gov1-inventory].
 
 ### 4.1 Columns
 
@@ -293,7 +295,7 @@ Per Holistika ops two-plane doctrine — automated emit ≠ live mirror proof:
 
 | Field | Spec |
 |:---|:---|
-| **Scope** | Mint `CANONICAL_GOVERNANCE_REGISTRY.csv` + `akos/hlk_canonical_governance_registry_csv.py` + `scripts/validate_canonical_governance_registry.py`; seed all 74 rows from §2 inventory |
+| **Scope** | Mint `CANONICAL_GOVERNANCE_REGISTRY.csv` + `akos/hlk_canonical_governance_registry_csv.py` + `scripts/validate_canonical_governance_registry.py`; seed all 73 rows from §2 inventory |
 | **Prerequisites** | This charter operator-approved |
 | **Files** | Registry CSV; Pydantic module; validator; `validate_hlk.py` dispatch; `config/verification-profiles.json` self-test step |
 | **Verification** | `validate_canonical_governance_registry.py`; `validate_hlk.py`; `pre_commit_fast` |
@@ -383,7 +385,7 @@ Per Holistika ops two-plane doctrine — automated emit ≠ live mirror proof:
 
 | ID | Risk | L×I | Mitigation |
 |:---|:---|:---:|:---|
-| R95-GOV-01 | **CI breakage** when workflow paths expand to 74 CSV globs | H×H | Registry-driven path union with max-size guard; `pre_commit_fast` on every packet |
+| R95-GOV-01 | **CI breakage** when workflow paths expand to 73 CSV globs | H×H | Registry-driven path union with max-size guard; `pre_commit_fast` on every packet |
 | R95-GOV-02 | **Enum parity FAIL** when emit added for adapters/templates | H×M | Run `validate_mirror_enum_parity.py` before apply; migration-first pattern from BT-09 |
 | R95-GOV-03 | **Forward-charter mirrors** promoted without DDL | M×H | Registry `plane2_sync_policy` gate; P95-GOV-7 isolated; operator SQL gate |
 | R95-GOV-04 | **Area governance conservative skip** — registry mint treated as “complete area” | M×M | `validate_area_completeness.py --matrix` at P95-GOV-8; no mirror claim for graph_projection rows |
@@ -484,10 +486,10 @@ Packet 1 is **registry-only**. Do **not** refactor `sync_compliance_mirrors_from
 === THINKING DONE — operator review ===
 
 Ready:
-- Option B tiered two-plane charter drafted with 74-CSV inventory, governance registry schema, 8 execution packets, regression matrix, and 6 deferred ratification questions
+- Option B tiered two-plane charter drafted with 73-CSV inventory, governance registry schema, 8 execution packets, regression matrix, and 6 deferred ratification questions
 
 Packets (run in order):
-1. P95-GOV-1 — Mint CANONICAL_GOVERNANCE_REGISTRY.csv + validator (74 rows)
+1. P95-GOV-1 — Mint CANONICAL_GOVERNANCE_REGISTRY.csv + validator (73 rows)
 2. P95-GOV-2 — HCAM quintet PRECEDENCE + CANONICAL_REGISTRY backfill
 3. P95-GOV-3 — Registry-driven mirror-sync workflow + emit-contract refactor
 4. P95-GOV-4 — Index backfill tranche B (Finance/Learning/SMO/Envoy gaps)
