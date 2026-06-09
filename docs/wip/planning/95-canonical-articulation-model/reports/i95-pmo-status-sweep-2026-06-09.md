@@ -99,7 +99,7 @@ Charter: [`i95-neo4j-free-backup-restore-charter-2026-06-09.md`](i95-neo4j-free-
 
 **Regression deltas (small, non-blocking — queue alongside, not ahead of, F6):**
 
-- **OPS-95-2** — link each engagement to its engagement-model class (the 7-class taxonomy that says how a collaborator is engaged: hourly, milestone, percentage…). The prod mirror apply had to blank three values that pointed at the wrong registry (template IDs); the column is now empty on all 7 engagements. One small operator-gated CSV pass fixes it.
+- **OPS-95-2** — link each engagement to its engagement-model class (the 7-class taxonomy that says how a collaborator is engaged: hourly, milestone, percentage…). The prod mirror apply had to blank three values that pointed at the wrong registry (template IDs); the column is now empty on all 7 engagements. **Tranche 6 (2026-06-10):** P0 research + per-row proposals minted ([`i95-p0-research-ops95-2-engagement-backfill-2026-06-10.md`](i95-p0-research-ops95-2-engagement-backfill-2026-06-10.md), [`i95-ops95-2-proposals.csv`](i95-ops95-2-proposals.csv)); **CSV apply blocked** pending inline-ratify.
 - **OPS-95-3** — backfill I95's per-initiative file-change ledger (`files-modified.csv`, the traceability CSV every initiative folder carries). Header + current-commit rows seeded by the regression; history backfill is mechanical.
 - **Pending operator CSV gate (unchanged from D-IH-95-M):** the funding research area proposes 1 topic row + 2 intelligence-radar rows (appendices A/B of the synthesis). They stay proposal-only until you approve the registry edits.
 - **Backup retention process** — F6-R0 **DONE**: repo-root export moved to `%USERPROFILE%\.openclaw\vault\neo4j-backups\` with SHA256 sidecar. Optional: consolidate older export in `Downloads\` into vault. Vault SOP + process-list row still forward-chartered post first restore drill.
@@ -142,7 +142,8 @@ py scripts/verify.py pre_commit_fast
 1. ~~**I86 Wave N INDEX_INTEGRITY**~~ — **DONE** 2026-06-10 (I95 Tranche 2): planning README + INITIATIVE_DEPENDENCIES I90–I95 edges + IDX-02/06/08 gap fixes; sweep [`index-sweep-2026-06-10-tranche2-wave-n.md`](index-sweep-2026-06-10-tranche2-wave-n.md).
 2. ~~**I91 P1–P2** — Neo4j preflight + store-coverage matrix v1~~ — **DONE** 2026-06-10 (I95 Tranche 3): probe exit 0; [`store-coverage-matrix-2026-06-10.md`](../../91-enterprise-graph-store-coverage/reports/store-coverage-matrix-2026-06-10.md).
 3. ~~**I95 L3 Bundle C ratify** (TRP-030/036)~~ — **DONE** 2026-06-10 (Tranche 4): keep planned; [`i95-l3-bundle-c-disposition-2026-06-10.md`](i95-l3-bundle-c-disposition-2026-06-10.md).
-4. **I95 L1 EG-3** registries — **next** operator tranche (edge-fn / cron / extension).
+4. ~~**I95 L1 EG-3** registries~~ — **DONE** 2026-06-10 (Tranche 5).
+5. **OPS-95-2** engagement_model_id backfill — **next** (inline-ratify gate open; proposals ready).
 
 **Registry gap:** ~~`INITIATIVE_DEPENDENCIES.md` stale vs I90–I95~~ — **cleared** 2026-06-10 (`last_generated` bumped; I90–I95 section added).
 
