@@ -1,0 +1,81 @@
+---
+description: Operations delivery discipline — mechanical layer for PMO/RevOps/SMO/Engagement execution, PMBOK 7 domains, automation-first pairing, and area-completeness tier gates. Pairs with OPERATIONS_DELIVERY_DISCIPLINE.md (I94 P3 AREA-03).
+globs:
+  - "docs/references/hlk/v3.0/Admin/O5-1/Operations/**"
+  - "docs/wip/planning/94-area-architecture-and-completeness-v2/**"
+  - "scripts/render_wip_dashboard.py"
+  - "scripts/render_operator_inbox.py"
+  - "scripts/render_operational_cohesion_index.py"
+  - "scripts/revops_dispatch.py"
+  - "scripts/scaffold_engagement.py"
+alwaysApply: false
+---
+
+# AKOS Operations Delivery
+
+Use this rule whenever authoring or executing **Operations area delivery** work —
+PMO cadence, RevOps value-mapping execution, SMO service rhythm, Engagement client
+delivery, executable catalog pairing, or I94 operational sweep tranches. Mechanical
+companion to
+[`OPERATIONS_DELIVERY_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Operations/OPERATIONS_DELIVERY_DISCIPLINE.md)
+and
+[`OPERATIONS_AREA_CHARTER.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Operations/OPERATIONS_AREA_CHARTER.md).
+
+Upstream SSOT:
+[`i94-operations-operational-sweep-thinking-synthesis-2026-06-10.md`](../../docs/wip/planning/94-area-architecture-and-completeness-v2/reports/i94-operations-operational-sweep-thinking-synthesis-2026-06-10.md).
+
+## When this rule applies
+
+- Mint or revise Operations root charter / delivery doctrine / README.
+- Pair SOP+runbook for Operations `process_list.csv` rows (P2 tranche).
+- Run or wire PMO automation (`render_wip_dashboard`, `render_operator_inbox`,
+  `render_operational_cohesion_index`).
+- Plan IntelligenceOps eviction or Engagement subfolder FK (P3 — operator gate).
+- Score or improve Operations on `validate_area_completeness.py`.
+
+## RULE 1 — DO vs REGISTER (binding)
+
+Operations **executes** delivery loops; other areas **govern** domain doctrine.
+Operations must not duplicate Data governance, Finance FINOPS policy, or People
+methodology — only **trigger** handoffs (mirror emit, FINOPS bridge, compliance gates).
+
+## RULE 2 — Automation-first pairing order (binding)
+
+Per operator ratification Q2, pair runbooks in this order before broad AREA-09 cliff:
+
+1. WIP / inbox / cohesion renders
+2. Mirror emit trigger
+3. Area completeness `--area Operations`
+4. Engagement scaffold + RevOps dispatch
+5. Remaining PMO/SMO SOPs
+
+## RULE 3 — PMBOK domain map before new SOPs (binding)
+
+New Operations SOPs must declare which PMBOK 7 performance domain they serve (see
+OPERATIONS_DELIVERY_DOCTRINE §2). Project vs service is a **tag**, not a new sub-area.
+
+## RULE 4 — Placement integrity (binding)
+
+- **IntelligenceOps** is not Operations delivery — eviction to Research requires P3
+  operator gate; no silent file moves.
+- **business-strategy** under PMO is placement debt (I95 L6) — tracker only until
+  inline-ratify.
+
+## RULE 5 — Area-completeness worklist (binding)
+
+Before Operations tranche commits:
+
+```powershell
+py scripts/validate_area_completeness.py --area Operations --next
+py scripts/validate_area_completeness.py --area Operations --matrix
+```
+
+Work critical components to L3 first; closure gate = crit@L3 tier COMPLETE.
+
+## Cross-references
+
+- Paired skill: [`.cursor/skills/operations-delivery-craft/SKILL.md`](../skills/operations-delivery-craft/SKILL.md)
+- [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc) — SOP+runbook pairing
+- [`akos-holistika-operations.mdc`](akos-holistika-operations.mdc) — mirror two-plane
+- [`akos-area-governance.mdc`](akos-area-governance.mdc) — 16-component matrix
+- I94 charter: [`i94-operations-operational-sweep-charter-2026-06-10.md`](../../docs/wip/planning/94-area-architecture-and-completeness-v2/reports/i94-operations-operational-sweep-charter-2026-06-10.md)

@@ -24,8 +24,8 @@ todos:
     content: "P2 DONE — v2 area-buildout forward map (reports/p2-area-buildout-v2-forward-map-2026-06-05.md): per-area kind/entity/owner/crit@L3/tier/gaps/phase for all 8 areas + sweep order + the any-seat loop + v2 acceptance criteria each future area initiative inherits. Live SSOT = the scorer (--matrix / --area X --next)."
     status: completed
   - id: p3-operations
-    content: "P3 — Operations reframe: 'Operations = delivery/execution-capacity area scored on PMBOK 7 performance domains (Governance/Scope/Schedule/Finance/Stakeholders/Resources/Risk); project-vs-service is a tag not a split'. Evict IntelligenceOps (research-application, not delivery) to its correct home. Map PMO/SMO/RevOps/Engagement sub-areas to delivery modes."
-    status: pending
+    content: "P3 IN PROGRESS (2026-06-10) — Thinking SSOT persisted (i94-operations-operational-sweep-thinking-synthesis-2026-06-10.md, c4097ca4). P0 research (366-row ledger: 244 internal + 122 external) + P1 doctrine: OPERATIONS_AREA_CHARTER + OPERATIONS_DELIVERY_DISCIPLINE (PMBOK 7 domains) + README + akos-operations-delivery rule/skill + PRECEDENCE rows. crit@L3 target 10/10 post-P1; AREA-09 pairing (0/46) deferred P2 automation-first. IntelligenceOps eviction charter-only — no git mv. Remaining: P2 pairing, P3 placement gate, P6 closure UAT."
+    status: in_progress
   - id: p4-people-compliance
     content: "P4 — People methodology consolidation: cross-area disciplines (UAT/regressions/area-governance/Quality Fabric) home = People/Compliance (methodology-enforcement; 'the methodology is the product'); manifesto stays at People root. Migrate area-ops drift OUT: MKTOPS->Marketing, TECHOPS->Tech, DATAOPS->Data, UX->Marketing. Reconcile RESEARCH_HEAD vs RESEARCH_ACTION home. Three-verb pipeline doctrine (Research authors / People mints / Compliance enforces)."
     status: pending
