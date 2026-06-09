@@ -10,6 +10,7 @@ aura_tier: free
 incident_class: aura_free_credential_misguidance
 linked_research_sources:
   - docs/wip/planning/95-canonical-articulation-model/reports/i95-neo4j-aura-free-recovery-source-ledger.csv
+paid_recovery_charter: i95-neo4j-professional-restore-charter-2026-06-09.md
 ---
 
 # I95 Neo4j Aura Free credential recovery (2026-06-09)
@@ -54,6 +55,22 @@ The 2026-06-09 first draft of this report cited generic Aura docs (**Option 1: c
 | **Support ticket password reset** | Neo4j KB: *“Aura Support cannot recover or reset an Aura Instance password”* | No recovery path |
 
 **Mandatory disclosure before any clone/upgrade recommendation:** estimated **$65–66/mo** + new URI + explicit operator opt-in. Never label clone as “recommended” without this box.
+
+---
+
+## Paid recovery path C (operator-ratified 2026-06-09)
+
+> **Binding for this incident:** Operator ratified **Option C** — AuraDB Professional (~$65/mo) + restore from operator-exported `.backup`. Full phased process: [`i95-neo4j-professional-restore-charter-2026-06-09.md`](i95-neo4j-professional-restore-charter-2026-06-09.md).
+
+| Item | Value |
+|:---|:---|
+| Backup artifact | `b6d76b10-2026-06-09T14-30-52-b6d76b10.backup` at repo root (~308 KB) — **never commit** (`*.backup` gitignored) |
+| Research | [`i95-neo4j-professional-restore-research-2026-06-09.md`](i95-neo4j-professional-restore-research-2026-06-09.md) + ledger SRC-N4J-09..16 |
+| Finops | `finops_neo4j` counterparty row — post-R1 note Professional ~$65/mo (canonical CSV edit = separate operator gate) |
+
+**Supersession rule:** F1–F5 below remain valid **Free-tier doctrine** but are **superseded for this incident** once Professional restore phase **R3** (`neo4j_connectivity_probe.py` exit 0) passes. Until then, F2/F3 may still help confirm backup-era password before R3 rewire.
+
+**Operator next step:** Execute charter phases R0–R6; parent agent surfaces AskQuestion for instance name, billing ack, Free instance delete timing, and local backup retention.
 
 ---
 
@@ -246,7 +263,9 @@ py scripts/sync_hlk_neo4j.py --dry-run --dual-emit
 
 ## Cross-references
 
-- Research action: [`i95-neo4j-aura-free-recovery-research-2026-06-09.md`](i95-neo4j-aura-free-recovery-research-2026-06-09.md)
+- **Paid restore charter (path C):** [`i95-neo4j-professional-restore-charter-2026-06-09.md`](i95-neo4j-professional-restore-charter-2026-06-09.md)
+- Professional restore research: [`i95-neo4j-professional-restore-research-2026-06-09.md`](i95-neo4j-professional-restore-research-2026-06-09.md)
+- Research action (Free tier): [`i95-neo4j-aura-free-recovery-research-2026-06-09.md`](i95-neo4j-aura-free-recovery-research-2026-06-09.md)
 - Prior incident (paid-tier advice superseded for Free): [`neo4j-aura-auth-diagnosis-2026-05-01.md`](../../32-holistik-ops-maturation/reports/neo4j-aura-auth-diagnosis-2026-05-01.md)
 - CQ UAT (blocked on auth): [`i95-neo4j-cq-uat-2026-06-09.md`](i95-neo4j-cq-uat-2026-06-09.md)
 - E2e cutover charter: [`i95-neo4j-e2e-cutover-charter-2026-06-09.md`](i95-neo4j-e2e-cutover-charter-2026-06-09.md)

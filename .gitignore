@@ -5,6 +5,9 @@
 credentials.json
 openclaw.json
 
+# Neo4j Aura export snapshots (operator-local; never commit)
+*.backup
+
 # Environment profiles with real secrets (keep .env.example templates)
 config/environments/*.env
 !config/environments/*.env.example
