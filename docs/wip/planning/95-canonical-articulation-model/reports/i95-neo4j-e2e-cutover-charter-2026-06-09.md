@@ -50,10 +50,10 @@ blocked_on:
 | Secret | Location | Required for |
 |:---|:---|:---|
 | `NEO4J_URI` | `~/.openclaw/.env` or CI | N0–N7 — use `neo4j+s://`, not `bolt://` |
-| `NEO4J_PASSWORD` | `~/.openclaw/.env` or CI | N0–N7 — from Aura credentials file or clone (Free tier) |
+| `NEO4J_PASSWORD` | `~/.openclaw/.env` or CI | N0–N7 — from Aura credentials file (F2) or F4/F5 recovery paths |
 | `NEO4J_USERNAME` | same | Always lowercase `neo4j` on Aura Free (no `CREATE USER`) |
 
-**Credential recovery (Aura Free):** [`i95-neo4j-credential-recovery-2026-06-09.md`](i95-neo4j-credential-recovery-2026-06-09.md) — clone instance or browser password test; paid-tier `CREATE USER` is appendix-only.
+**Credential recovery (Aura Free):** [`i95-neo4j-credential-recovery-2026-06-09.md`](i95-neo4j-credential-recovery-2026-06-09.md) — **$0 paths F1–F5 only** (resume, credentials file, browser test, change-password when known, AKOS CSV rebuild). Research: [`i95-neo4j-aura-free-recovery-research-2026-06-09.md`](i95-neo4j-aura-free-recovery-research-2026-06-09.md). **Do not** clone/upgrade (~$65/mo) or `CREATE USER` on Free without operator billing opt-in.
 
 **Preflight command (after secrets set):**
 
