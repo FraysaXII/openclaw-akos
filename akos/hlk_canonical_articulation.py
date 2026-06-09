@@ -143,9 +143,18 @@ L3_TRANCHE2_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
     ("ops_register", "linked", "HCAM-TRP-020"),
 )
 
+# I95 L3 tranche-3 (R2-05 / P5c): workstream layer composition via process_list.
+L3_TRANCHE3_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
+    ("process_list", "item_granularity", "HCAM-TRP-031"),
+    ("process_list", "item_parent_1_id", "HCAM-TRP-031"),
+    ("process_list", "item_granularity", "HCAM-TRP-032"),
+    ("process_list", "item_parent_1_id", "HCAM-TRP-032"),
+)
+
 L3_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
     *L3_TRANCHE1_FK_BINDINGS,
     *L3_TRANCHE2_FK_BINDINGS,
+    *L3_TRANCHE3_FK_BINDINGS,
 )
 
 # Non-CSV FK surfaces (markdown frontmatter, semantic layer SQL, etc.) — advisory only.

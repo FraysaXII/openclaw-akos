@@ -13,6 +13,8 @@ Release lane definitions, SemVer judgment, `[Unreleased]` working-line disciplin
 
 ## [Unreleased]
 
+- **I95 L3 FK→verb tranche-3 (2026-06-08; L3-3)**: Per-TRP inline ratification — promote TRP-031 (program→workstream) + TRP-032 (workstream→process); defer TRP-030 (no AIC→process FK on matrix; TRP-038 covers AIC→capability) + TRP-036 (initiative workstream FK forward-charter). 4 new `L3_TRANCHE3_FK_BINDINGS`; `L3_FK_BINDINGS` now 22. Report: [`l3-fk-verb-tranche3-2026-06-08.md`](docs/wip/planning/95-canonical-articulation-model/reports/l3-fk-verb-tranche3-2026-06-08.md).
+
 - **I95 fast CI inventory parity (2026-06-09)**: `pre_commit_fast` inventory step uses `verify_openclaw_inventory.py --template` (validates `config/openclaw.json.example` without local env overlay); full `pre_commit` keeps live-runtime inventory against `~/.openclaw/openclaw.json`.
 
 - **I95 fast CI hardening (2026-06-08)**: `pre-commit-fast` installs `requirements.txt` + `pip install -e .`; `/prompts/assemble` uses `sys.executable` instead of Windows-only `py` (fixes API smoke on Linux GHA).

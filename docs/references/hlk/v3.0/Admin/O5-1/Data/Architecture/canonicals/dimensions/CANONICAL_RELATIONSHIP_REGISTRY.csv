@@ -29,8 +29,8 @@ HCAM-TRP-027,component,serving,role,N:N,baseline_organisation.components_used,SE
 HCAM-TRP-028,skill,assignment,role,N:N,SKILL_REGISTRY.owner_role,ASSIGNED_TO,,active,skill owned/performed by role (operator add 2026-06-05)
 HCAM-TRP-029,use_case,realization,capability,N:N,USE_CASE_ARCHIVE.capability_id,REALIZES,,active,use-case realizes a capability (operator add 2026-06-05)
 HCAM-TRP-030,aic,assignment,process,N:N,new,ASSIGNED_TO,,planned,AIC performs a process (operator add 2026-06-05)
-HCAM-TRP-031,program,composition,workstream,1:N,process_list.item_granularity;process_list.item_parent_1_id,COMPOSED_OF,,planned,program composed of workstreams via process_list layers (item_granularity=workstream)
-HCAM-TRP-032,workstream,composition,process,1:N,process_list.item_granularity;process_list.item_parent_1_id,COMPOSED_OF,,planned,workstream composed of processes (item_granularity=process under workstream parent)
+HCAM-TRP-031,program,composition,workstream,1:N,process_list.item_granularity;process_list.item_parent_1_id,COMPOSED_OF,,active,program composed of workstreams via process_list layers (item_granularity=workstream)
+HCAM-TRP-032,workstream,composition,process,1:N,process_list.item_granularity;process_list.item_parent_1_id,COMPOSED_OF,,active,workstream composed of processes (item_granularity=process under workstream parent)
 HCAM-TRP-033,brand,specialization,brand,N:1,brand_architecture,SPECIALIZES,,planned,sub-mark specializes parent brand (operator add 2026-06-05)
 HCAM-TRP-034,capability,realization,goal_poi,N:N,new,REALIZES,,planned,capability realizes a goal/outcome
 HCAM-TRP-035,area,serving,area,N:N,new,SERVES,,planned,platform area serves stream-aligned areas
