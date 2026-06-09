@@ -59,4 +59,4 @@ Then `supabase migration repair` to mark the four versions reverted if they were
 
 All six tables: `ENABLE ROW LEVEL SECURITY`; policies `{table}_deny_authenticated` + `{table}_deny_anon` (`USING (false)`); `REVOKE ALL FROM PUBLIC`; `GRANT ALL TO service_role`.
 
-**Status:** PROPOSED — mechanical validators green in git; prod apply deferred to operator gate.
+**Status:** APPLIED — prod DDL pushed 2026-06-09 (`db push --linked` after migration repair); DML via compliance mirror batch apply. Evidence: [`operator-mirror-apply-execution-2026-06-09.md`](operator-mirror-apply-execution-2026-06-09.md).

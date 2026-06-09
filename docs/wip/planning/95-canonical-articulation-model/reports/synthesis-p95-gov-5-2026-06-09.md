@@ -41,14 +41,15 @@ No new DDL (P95-GOV-7 forward-charter mirrors unchanged). RPA adapter remains `f
 | `ENGAGEMENT_REGISTRY.csv` | `main` | `active` | `engagement_registry_mirror` |
 | Output architecture ×3 | `main` | `active` | `output_type` / `artifact_class` / `component_primitive` mirrors |
 
-## Mirror apply evidence stub (mirror-before-merge gate)
+## Mirror apply evidence (prod — 2026-06-09)
 
 | Step | Status | Note |
 |:---|:---:|:---|
-| Prod DDL inventory (read-only) | **PENDING-OPERATOR** | Confirm I72 adapter + engagement-template + I70 engagement_registry + I86 output-arch DDL on prod before `apply=true` |
-| Operator walkthrough minted | **DONE** | [`operator-mirror-apply-walkthrough-2026-06-09.md`](operator-mirror-apply-walkthrough-2026-06-09.md) — copy-paste Steps 0–4; credentials absent in execution session |
-| `gh workflow run supabase-mirror-sync.yml -f apply=true` | **NOT RUN** | Blocked on operator SQL gate + missing `SUPABASE_ACCESS_TOKEN` in execution session |
-| Post-apply row-count parity | **NOT RUN** | Run after apply; compare `validate_mirror_emit_contract.py` INSERT counts vs prod `SELECT COUNT(*)` |
+| Prod DDL inventory (read-only) | **APPLIED** | I72/I70/I86 DDL confirmed on prod pre-DML |
+| Operator walkthrough | **DONE** | [`operator-mirror-apply-walkthrough-2026-06-09.md`](operator-mirror-apply-walkthrough-2026-06-09.md) |
+| DML apply (171 batches) | **APPLIED** | [`operator-mirror-apply-execution-2026-06-09.md`](operator-mirror-apply-execution-2026-06-09.md) — `apply_mirror_batches.ps1` after engagement_registry FK fix |
+| `validate_mirror_emit_contract.py` | **PASS** | 47 tables @ execution session |
+| Post-apply row-count parity | **PENDING-VERIFY** | Pooler circuit breaker after batch storm; re-run `artifacts/sql/gov57_parity_check.sql` when cleared |
 
 Operator path: [`docs/guides/holistika-mirror-dml-apply.md`](../../../../guides/holistika-mirror-dml-apply.md) · SOP `SOP-HOLISTIKA_COMPLIANCE_MIRROR_DML_001`.
 
