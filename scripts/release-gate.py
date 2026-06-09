@@ -1422,8 +1422,8 @@ def main() -> None:
 
     schema_drift_ok = run_compliance_schema_drift_check()
     results.append((
-        "PASS" if schema_drift_ok else "FAIL",
-        "Compliance schema drift (scripts/validate_compliance_schema_drift.py — 22 canonical CSVs vs akos.* SSOT tuples; release-gate hygiene 2026-05-11)",
+        "INFO",
+        f"Compliance schema drift (deduped to validate_hlk.py COMPLIANCE_SCHEMA_DRIFT dispatch — P95-GOV-6 / D-IH-95-J; advisory echo ok={'yes' if schema_drift_ok else 'no'})",
     ))
 
     vault_links_ok = run_hlk_vault_links_validation()
@@ -1797,22 +1797,9 @@ def main() -> None:
         f"KB integrity baseline (scripts/audit_kb_integrity.py - I81 P1 INFO advisory; emits matrix CSV + narrative under reports/i81/; walks process_list.csv executable rows + joins KNOWLEDGE_PAIRING + v3.0 SOP scan + cadence; ~95%% pass-rate threshold per D-IH-81-F gated at I81 P9 closure UAT not here; I86 Wave H lane-2; ok={'yes' if kb_integrity_ok else 'no'}; exit={kb_integrity_rc})",
     ))
 
-    madeira_mode_ok, madeira_mode_rc = run_madeira_mode_parity_validation()
     results.append((
-        "PASS" if madeira_mode_ok else "FAIL",
-        f"MADEIRA mode parity (scripts/validate_madeira_mode_parity.py - I76 P1 paired runbook for MADEIRA_MODE_PARITY.md 5-mode taxonomy; ok={'yes' if madeira_mode_ok else 'no'}; exit={madeira_mode_rc})",
-    ))
-
-    madeira_rbac_ok, madeira_rbac_rc = run_madeira_tool_rbac_validation()
-    results.append((
-        "PASS" if madeira_rbac_ok else "FAIL",
-        f"MADEIRA tool RBAC (scripts/validate_madeira_tool_rbac.py --strict - I76 P2 canonical-CSV gate; --strict promotes last_review_decision_id FK miss to FAIL; ok={'yes' if madeira_rbac_ok else 'no'}; exit={madeira_rbac_rc})",
-    ))
-
-    madeira_persistence_ok, madeira_persistence_rc = run_madeira_persistence_vehicle_validation()
-    results.append((
-        "PASS" if madeira_persistence_ok else "FAIL",
-        f"MADEIRA persistence vehicle (scripts/validate_madeira_persistence_vehicle.py --strict - I76 P3 canonical-CSV gate D-IH-76-F; 21-col schema with per-vehicle staleness_days + audience matrix; --strict promotes both last_review_decision_id FK + topic_ids FK miss to FAIL; ok={'yes' if madeira_persistence_ok else 'no'}; exit={madeira_persistence_rc})",
+        "INFO",
+        "MADEIRA validators (mode parity + tool RBAC + persistence vehicle) deduped to validate_hlk.py umbrella — P95-GOV-6 / D-IH-95-J",
     ))
 
     initiative_anchors_ok, initiative_anchors_rc = run_initiative_program_anchors_validation()

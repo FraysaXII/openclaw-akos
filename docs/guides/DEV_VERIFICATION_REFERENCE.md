@@ -17,6 +17,8 @@ Single source of truth for **orchestrated** pre-commit and eval policy: [config/
 
 `pre_commit` in [config/verification-profiles.json](../../config/verification-profiles.json) is equivalent to the former manual sequence: strict inventory, drift, `test.py all`, browser smoke with Playwright, API + Madeira pytest smoke, `release-gate.py`, and **`scripts/render_uat_dossier.py`** snapshot (verify step id `dossier_smoke`).
 
+**P95-GOV-6 (D-IH-95-J):** MADEIRA mode/RBAC/persistence validators and compliance schema drift now run inside `py scripts/validate_hlk.py` (not as separate `pre_commit` steps). Collaborator-share audit runs with `--strict` inside the HLK umbrella (FAIL ramp). Release-gate echoes those checks as INFO dedupe rows after `validate_hlk.py` PASS.
+
 ## Eval and release gate
 
 - **Offline rubric slice (governance list):** `py scripts/run-evals.py run --governance-rubric` — suite ids come from `eval_rubric_governance_suites` in the config file (not hardcoded in docs).

@@ -419,9 +419,10 @@ def main() -> int:
 
     scripts_dir = Path(__file__).resolve().parent
 
-    # Per-CSV dispatch table: (label_for_run, validator_filename, optional_csv_existence_check)
+    # Per-CSV dispatch table: (label, validator_filename, run_label, csv_gate, extra_argv)
     # When CSV check is None, the validator always runs (e.g., language frontmatter).
-    dispatch: list[tuple[str, str, str, Path | None]] = [
+    # extra_argv defaults to [] when the tuple has only 4 elements.
+    dispatch: list[tuple[str, str, str, Path | None] | tuple[str, str, str, Path | None, list[str]]] = [
         ("COMPONENT_SERVICE_MATRIX", "validate_component_service_matrix.py",
          "validate_component_service_matrix", HLK_DIR / "techops" / "COMPONENT_SERVICE_MATRIX.csv"),
         # I81 P2 T1 (D-IH-81-Q under D-IH-81-G umbrella, 2026-05-23): moved to finops/.
@@ -535,14 +536,13 @@ def main() -> int:
         # COLLABORATOR_MARKET_RATE_REFERENCE + COLLABORATOR_RATE_OVERRIDES) executing the 8 CS-*
         # checks (CS-01..CS-08; CS-03 + CS-04 branch per share_pattern; CS-08 audits enum
         # membership). Gate keyed off the primary COLLABORATOR_SHARE_REGISTRY.csv presence;
-        # missing primary CSV => umbrella SKIPs. INFO ramp at mint per akos-collaborator-share.mdc
-        # RULE 5 — promotes to FAIL at Wave R+3 once first non-trivial engagement settles + operator
-        # ratifies. Runs without --strict here (so the umbrella stays INFO advisory inside
-        # validate_hlk); release-gate.py + pre_commit invoke the self-test mode independently for
-        # the always-on zero-cost circuit-breaker.
+        # missing primary CSV => umbrella SKIPs. FAIL ramp per D-IH-95-J (P95-GOV-6): umbrella
+        # invokes --strict so CS-01..CS-08 audit findings fail validate_hlk; release-gate.py +
+        # pre_commit retain --self-test as the zero-cost chassis circuit-breaker.
         ("COLLABORATOR_SHARE", "validate_collaborator_share.py",
          "validate_collaborator_share",
-         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "People Operations" / "canonicals" / "dimensions" / "COLLABORATOR_SHARE_REGISTRY.csv"),
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "People Operations" / "canonicals" / "dimensions" / "COLLABORATOR_SHARE_REGISTRY.csv",
+         ["--strict"]),
         # Initiative 79 P2 - People Design Pattern Registry (CSV registry mode; jargon-scan mode invoked separately
         # via verification-profiles.json profile design_pattern_registry_jargon_scan + pre_commit composition).
         # Codifies People-as-discipline-of-disciplines per D-IH-79-A/C/D + anti-jargon drift gate per D-IH-79-N.
@@ -598,6 +598,12 @@ def main() -> int:
         ("CANONICAL_GOVERNANCE_REGISTRY", "validate_canonical_governance_registry.py",
          "validate_canonical_governance_registry",
          HLK_DIR / "dimensions" / "CANONICAL_GOVERNANCE_REGISTRY.csv"),
+        # I70 P4.5 — federated canonical inventory SSOT (P95-GOV-6 plane1 hardening).
+        ("CANONICAL_REGISTRY", "validate_canonical_registry.py",
+         "validate_canonical_registry", HLK_DIR / "CANONICAL_REGISTRY.csv"),
+        # Release-gate hygiene 2026-05-11 — header vs akos.* fieldnames tuple drift guard.
+        ("COMPLIANCE_SCHEMA_DRIFT", "validate_compliance_schema_drift.py",
+         "validate_compliance_schema_drift", HLK_DIR / "process_list.csv"),
         ("BI_CONSUMER_REGISTRY", "validate_bi_consumer_registry.py",
          "validate_bi_consumer_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
@@ -620,6 +626,22 @@ def main() -> int:
         ("MADEIRA_AIC_PER_TASK_REGISTRY", "validate_madeira_aic_per_task.py",
          "validate_madeira_aic_per_task",
          HLK_DIR / "dimensions" / "MADEIRA_AIC_PER_TASK_REGISTRY.csv"),
+        # I76 P1-P3 (D-IH-76-D/F) — MADEIRA validators wired into HLK umbrella at P95-GOV-6
+        # (D-IH-95-J); release-gate + pre_commit standalone steps deduped.
+        ("MADEIRA_MODE_PARITY", "validate_madeira_mode_parity.py",
+         "validate_madeira_mode_parity",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Envoy Tech Lab"
+         / "canonicals" / "dimensions" / "MADEIRA_TOOL_RBAC.csv"),
+        ("MADEIRA_TOOL_RBAC", "validate_madeira_tool_rbac.py",
+         "validate_madeira_tool_rbac",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Envoy Tech Lab"
+         / "canonicals" / "dimensions" / "MADEIRA_TOOL_RBAC.csv",
+         ["--strict"]),
+        ("MADEIRA_PERSISTENCE_VEHICLE", "validate_madeira_persistence_vehicle.py",
+         "validate_madeira_persistence_vehicle",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Envoy Tech Lab"
+         / "canonicals" / "dimensions" / "MADEIRA_PERSISTENCE_VEHICLE_REGISTRY.csv",
+         ["--strict"]),
         ("AIC_CAPABILITY_IMPLEMENTATION_MATRIX",
          "validate_aic_capability_implementation_matrix.py",
          "validate_aic_capability_implementation_matrix",
@@ -672,7 +694,9 @@ def main() -> int:
          "validate_hlk_language_frontmatter", None),
     ]
 
-    for label, fname, run_label, csv_gate in dispatch:
+    for item in dispatch:
+        label, fname, run_label, csv_gate = item[0], item[1], item[2], item[3]
+        extra_argv = list(item[4]) if len(item) > 4 else []
         validator_path = scripts_dir / fname
         # If the CSV gate is set and missing: SKIP (legacy behaviour).
         if csv_gate is not None and not csv_gate.is_file():
@@ -745,7 +769,11 @@ def main() -> int:
         # When --json is set, suppress per-validator stdout to keep the JSON output clean.
         started = time.time()
         started_iso = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(started))
-        r = subprocess.run([sys.executable, str(validator_path)], capture_output=True, text=True)
+        r = subprocess.run(
+            [sys.executable, str(validator_path), *extra_argv],
+            capture_output=True,
+            text=True,
+        )
         if not args.json:
             print(r.stdout, end="")
             if r.stderr:
@@ -753,6 +781,7 @@ def main() -> int:
         elif r.stderr and r.returncode != 0:
             print(r.stderr, end="", file=sys.stderr)
         duration_ms = int((time.time() - started) * 1000)
+        argv_note = f" argv={extra_argv}" if extra_argv else ""
         run_rows.append(_make_run_row(
             run_id=run_id,
             validator_name=run_label,
@@ -760,7 +789,7 @@ def main() -> int:
             duration_ms=duration_ms,
             status="pass" if r.returncode == 0 else "fail",
             exit_code=r.returncode,
-            notes="dispatched subprocess",
+            notes=f"dispatched subprocess{argv_note}",
             git_sha_value=git_sha_value,
         ))
         if r.returncode != 0:

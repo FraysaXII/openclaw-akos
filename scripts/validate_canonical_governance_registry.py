@@ -93,6 +93,10 @@ def run_checks() -> tuple[list[str], int]:
             errors.append(f"L{i}: canonical_registry_id {rid!r} not in CANONICAL_REGISTRY")
         if row["plane2_sync_policy"] == "active" and not (row.get("plane2_mirror_table") or "").strip():
             errors.append(f"L{i}: plane2_sync_policy=active requires plane2_mirror_table")
+        if row["plane1_in_validate_hlk"] != "true":
+            errors.append(
+                f"L{i}: plane1_in_validate_hlk must be true for universal plane-1 hardening ({gid})"
+            )
 
     vault = _discover_vault_csvs()
     missing = vault - seen_paths

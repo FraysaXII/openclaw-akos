@@ -328,29 +328,6 @@
           "argv": [
             "scripts/audit_kb_integrity.py"
           ]
-        },
-        {
-          "id": "validate_madeira_mode_parity",
-          "description": "I76 P1 (D-IH-76-D phase closure 2026-05-19): paired runbook for MADEIRA_MODE_PARITY.md canonical. Parses §3.1 mode-enum table + cross-checks against akos.hlk_madeira_mode CANONICAL_REGISTRY; FAILs on missing/extra/mismatched mode rows. The 5-mode taxonomy (Ask + Plan + Agent + Debug + Methodology) is the substrate for I76 P2 tool RBAC + I76 P3 persistence/personality SOPs + I76 P4 AICs F5 dispatcher.",
-          "argv": [
-            "scripts/validate_madeira_mode_parity.py"
-          ]
-        },
-        {
-          "id": "validate_madeira_tool_rbac",
-          "description": "I76 P2 (Wave H 2026-05-19): canonical-CSV validator for MADEIRA_TOOL_RBAC.csv. Enforces header parity, per-row Pydantic schema (tool_id pattern, 3-value per-mode permission enum, conditional_constraint semantics: non-empty when any cell is conditional + empty when none are), tool_id uniqueness across rows. --strict flag promotes last_review_decision_id FK-resolution to FAIL (default: advisory WARN).",
-          "argv": [
-            "scripts/validate_madeira_tool_rbac.py",
-            "--strict"
-          ]
-        },
-        {
-          "id": "validate_madeira_persistence_vehicle",
-          "description": "I76 P3 (Wave H 2026-05-19; D-IH-76-F): canonical-CSV validator for MADEIRA_PERSISTENCE_VEHICLE_REGISTRY.csv. Enforces header parity (21 cols), per-row Pydantic schema (vehicle_id pattern, 9 Literal enums for scope/audience/write_authority/cadence/posture/provenance/memory_class/status/methodology_version, target_audience semicolon-list with no duplicates, topic_ids + depends_on_vehicle_ids pattern + format, staleness_days+staleness_posture alignment via model_validator catching stale-constraint drift), registry-level uniqueness + depends_on_vehicle_ids closure across rows. --strict flag promotes both last_review_decision_id FK-resolution against DECISION_REGISTER.csv AND topic_ids FK-resolution against TOPIC_REGISTRY.csv to FAIL (default: advisory WARN). 16-row seed at I76 P3 mint (11 active + 4 planned + 1 inactive Cursor memory placeholder).",
-          "argv": [
-            "scripts/validate_madeira_persistence_vehicle.py",
-            "--strict"
-          ]
         }
       ]
     },
