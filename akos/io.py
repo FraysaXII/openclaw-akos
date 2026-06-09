@@ -118,14 +118,31 @@ def set_process_env_defaults(values: dict[str, str]) -> None:
             os.environ[key] = value
 
 
+NEO4J_ENV_KEYS: tuple[str, ...] = (
+    "NEO4J_URI",
+    "NEO4J_USERNAME",
+    "NEO4J_PASSWORD",
+    "NEO4J_TRUST",
+    "NEO4J_CA_BUNDLE",
+)
+
+
 def bootstrap_openclaw_process_env(oc_home: Path | None = None) -> None:
     """Load ``~/.openclaw/.env`` into the process environment (unset keys only).
 
     Same contract as ``scripts/serve-api.py``: Neo4j, Langfuse, and other
     operator secrets live in the OpenClaw home env file — call this once at
     CLI / MCP entrypoints before reading ``os.environ``.
+
+    Neo4j keys in the file always override stale shell/process values when
+    non-empty so operator edits to ``~/.openclaw/.env`` take effect immediately.
     """
-    set_process_env_defaults(load_runtime_env(oc_home))
+    runtime = load_runtime_env(oc_home)
+    set_process_env_defaults(runtime)
+    for key in NEO4J_ENV_KEYS:
+        value = (runtime.get(key) or "").strip()
+        if value:
+            os.environ[key] = value
 
 
 def load_akos_sidecar_config(oc_home: Path | None = None) -> dict:

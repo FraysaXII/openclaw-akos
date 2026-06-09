@@ -48,6 +48,32 @@ def neo4j_env_non_placeholder() -> bool:
     return True
 
 
+def _aura_instance_id_from_uri(uri: str) -> str:
+    """Return Aura instance id from ``*.databases.neo4j.io`` host, or empty."""
+    raw = (uri or "").strip()
+    if "://" in raw:
+        host = raw.split("://", 1)[1].split("/")[0].split("@")[-1]
+    else:
+        host = raw.split("/")[0]
+    if ".databases.neo4j.io" in host:
+        return host.split(".")[0]
+    return ""
+
+
+def _resolve_neo4j_username(uri: str, configured: str) -> str:
+    """Resolve Bolt username; heal common Aura copy-paste (instance id as username)."""
+    user = (configured or "neo4j").strip() or "neo4j"
+    instance_id = _aura_instance_id_from_uri(uri)
+    if instance_id and user == instance_id:
+        logger.warning(
+            "NEO4J_USERNAME=%s matches Aura instance id; using 'neo4j'. "
+            "Set NEO4J_USERNAME=neo4j in ~/.openclaw/.env.",
+            user,
+        )
+        return "neo4j"
+    return user
+
+
 def get_neo4j_driver() -> Driver | None:
     """Return a Neo4j driver or ``None`` when not configured."""
     if not neo4j_configured():
@@ -59,7 +85,7 @@ def get_neo4j_driver() -> Driver | None:
         return None
 
     uri = os.environ["NEO4J_URI"].strip()
-    user = (os.environ.get("NEO4J_USERNAME") or "neo4j").strip()
+    user = _resolve_neo4j_username(uri, os.environ.get("NEO4J_USERNAME") or "neo4j")
     pwd = os.environ["NEO4J_PASSWORD"].strip()
 
     driver_kwargs: dict[str, Any] = {}
