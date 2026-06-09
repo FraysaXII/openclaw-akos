@@ -4,10 +4,12 @@ parent_initiative: INIT-OPENCLAW_AKOS-95
 lane: L4-HCAM-P2-Neo4j
 authored: 2026-06-09
 authored_by: Execution seat (Composer) — RA-PRO-MINT per thinking-seat 1b47cc8b
-status: charter-only
+status: deferred-funding
 recovery_path: C
 aura_tier_target: professional
-operator_ratification: Option C — Paid Professional ~$65/mo explicit billing opt-in
+operator_ratification: Option C — Paid Professional ~$65/mo (REJECTED for 2026; superseded by F6)
+superseded_by: i95-neo4j-free-backup-restore-charter-2026-06-09.md
+supersession_decision: D-IH-95-L
 backup_artifact_path: "<repo-root>/b6d76b10-2026-06-09T14-30-52-b6d76b10.backup"
 ratifying_decisions:
   - D-IH-95-G
@@ -16,9 +18,11 @@ linked_research_sources:
   - docs/wip/planning/95-canonical-articulation-model/reports/i95-neo4j-aura-free-recovery-source-ledger.csv
 ---
 
-# I95 Neo4j Professional restore charter (2026-06-09)
+# I95 Neo4j Professional restore charter (2026-06-09) — `deferred-funding` appendix
 
-**Operator ratification:** Option **C** — create **AuraDB Professional** (~**$65/mo** USD floor, 1 GB) with explicit billing opt-in; restore operator-exported `.backup`; rewire AKOS + GitHub Actions secrets.
+> **Superseded for 2026 (binding):** Operator rejected Option **C** on 2026-06-09. **Primary incident path = F6** — [`i95-neo4j-free-backup-restore-charter-2026-06-09.md`](i95-neo4j-free-backup-restore-charter-2026-06-09.md). Execute this paid charter only after a **funding gate** fires ([`neo4j-funding-escalation-radar-2026-06-09.md`](../../../intelligence/neo4j-funding-escalation-radar-2026-06-09.md); **D-IH-95-L**).
+
+**Historical ratification (pre-correction):** Option **C** — create **AuraDB Professional** (~**$65/mo** USD floor, 1 GB) with explicit billing opt-in; restore operator-exported `.backup`; rewire AKOS + GitHub Actions secrets.
 
 **Symptom driving path C:** `py scripts/neo4j_connectivity_probe.py` fails (`wrong_password_or_user`); GitHub Actions keepalive workflow returns **`42NFF`** because secrets still hold a stale password. Free-tier paths F1–F5 documented in [`i95-neo4j-credential-recovery-2026-06-09.md`](i95-neo4j-credential-recovery-2026-06-09.md) do not meet the operator's **online-every-time** reliability goal (D-IH-95-G R2-09).
 

@@ -10,7 +10,9 @@ aura_tier: free
 incident_class: aura_free_credential_misguidance
 linked_research_sources:
   - docs/wip/planning/95-canonical-articulation-model/reports/i95-neo4j-aura-free-recovery-source-ledger.csv
+primary_recovery_charter: i95-neo4j-free-backup-restore-charter-2026-06-09.md
 paid_recovery_charter: i95-neo4j-professional-restore-charter-2026-06-09.md
+recovery_path_primary: F6
 ---
 
 # I95 Neo4j Aura Free credential recovery (2026-06-09)
@@ -58,19 +60,23 @@ The 2026-06-09 first draft of this report cited generic Aura docs (**Option 1: c
 
 ---
 
-## Paid recovery path C (operator-ratified 2026-06-09)
+## Primary recovery path F6 — Free backup restore (binding 2026-06-09)
 
-> **Binding for this incident:** Operator ratified **Option C** — AuraDB Professional (~$65/mo) + restore from operator-exported `.backup`. Full phased process: [`i95-neo4j-professional-restore-charter-2026-06-09.md`](i95-neo4j-professional-restore-charter-2026-06-09.md).
+> **Binding for this incident:** Operator **rejected Option C (Professional ~$65/mo) for 2026**. Primary path = **F6** — restore operator-exported `.backup` on **AuraDB Free ($0)**. Full phased process: [`i95-neo4j-free-backup-restore-charter-2026-06-09.md`](i95-neo4j-free-backup-restore-charter-2026-06-09.md) (F6-R0..R7).
 
 | Item | Value |
 |:---|:---|
-| Backup artifact | `b6d76b10-2026-06-09T14-30-52-b6d76b10.backup` at repo root (~308 KB) — **never commit** (`*.backup` gitignored) |
-| Research | [`i95-neo4j-professional-restore-research-2026-06-09.md`](i95-neo4j-professional-restore-research-2026-06-09.md) + ledger SRC-N4J-09..16 |
-| Finops | `finops_neo4j` counterparty row — post-R1 note Professional ~$65/mo (canonical CSV edit = separate operator gate) |
+| Backup artifact | `b6d76b10-2026-06-09T14-30-52-b6d76b10.backup` (~308 KB) — move to operator vault per [`i95-neo4j-backup-retention-process-2026-06-09.md`](i95-neo4j-backup-retention-process-2026-06-09.md); **never commit** |
+| Research | [`i95-neo4j-f6-restore-source-ledger.csv`](i95-neo4j-f6-restore-source-ledger.csv) + free-tier ledger SRC-N4J-01..08 |
+| Funding | Paid Professional deferred — [`neo4j-funding-escalation-radar-2026-06-09.md`](../../../intelligence/neo4j-funding-escalation-radar-2026-06-09.md); **D-IH-95-L** |
 
-**Supersession rule:** F1–F5 below remain valid **Free-tier doctrine** but are **superseded for this incident** once Professional restore phase **R3** (`neo4j_connectivity_probe.py` exit 0) passes. Until then, F2/F3 may still help confirm backup-era password before R3 rewire.
+**Auth nuance:** Restore preserves **backup-era DB password**. F2/F3 Browser test still applies in F6-R3 before env rewire.
 
-**Operator next step:** Execute charter phases R0–R6; parent agent surfaces AskQuestion for instance name, billing ack, Free instance delete timing, and local backup retention.
+**Operator next step:** Execute F6 charter phases F6-R0..R7. **Do not** execute paid Professional charter without funding gate.
+
+### Deferred appendix — paid path C (`deferred-funding`)
+
+[`i95-neo4j-professional-restore-charter-2026-06-09.md`](i95-neo4j-professional-restore-charter-2026-06-09.md) — historical Option C phases R0–R6; **not** the 2026 incident path.
 
 ---
 
@@ -263,7 +269,10 @@ py scripts/sync_hlk_neo4j.py --dry-run --dual-emit
 
 ## Cross-references
 
-- **Paid restore charter (path C):** [`i95-neo4j-professional-restore-charter-2026-06-09.md`](i95-neo4j-professional-restore-charter-2026-06-09.md)
+- **Primary restore charter (path F6):** [`i95-neo4j-free-backup-restore-charter-2026-06-09.md`](i95-neo4j-free-backup-restore-charter-2026-06-09.md)
+- **Backup retention:** [`i95-neo4j-backup-retention-process-2026-06-09.md`](i95-neo4j-backup-retention-process-2026-06-09.md)
+- **Funding radar:** [`neo4j-funding-escalation-radar-2026-06-09.md`](../../../intelligence/neo4j-funding-escalation-radar-2026-06-09.md)
+- **Paid restore charter (path C, deferred):** [`i95-neo4j-professional-restore-charter-2026-06-09.md`](i95-neo4j-professional-restore-charter-2026-06-09.md)
 - Professional restore research: [`i95-neo4j-professional-restore-research-2026-06-09.md`](i95-neo4j-professional-restore-research-2026-06-09.md)
 - Research action (Free tier): [`i95-neo4j-aura-free-recovery-research-2026-06-09.md`](i95-neo4j-aura-free-recovery-research-2026-06-09.md)
 - Prior incident (paid-tier advice superseded for Free): [`neo4j-aura-auth-diagnosis-2026-05-01.md`](../../32-holistik-ops-maturation/reports/neo4j-aura-auth-diagnosis-2026-05-01.md)

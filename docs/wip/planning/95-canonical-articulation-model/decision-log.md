@@ -295,7 +295,26 @@ realizations re-pointed off removed rows (`thi_data_dtp_34` RPA, the 3 research 
 **Mirror obligation (operator/CI):** re-emit `compliance.process_list_mirror` + stand up a
 `buildout_backlog` mirror via the `supabase-mirror-sync` workflow (needs `SUPABASE_DB_URL`).
 
+## D-IH-95-L — Neo4j F6 primary + Professional deferred 2026 (RATIFIED 2026-06-09, operations, medium reversibility)
+
+**Operator correction (binding):** Rejected Option **C** — AuraDB Professional (~$65/mo) for 2026. No paid Professional this quarter/year unless funds change.
+
+**What was ratified.**
+1. **F6 primary incident path** — restore operator export `b6d76b10-…backup` on **Aura Free ($0)** per [`i95-neo4j-free-backup-restore-charter-2026-06-09.md`](reports/i95-neo4j-free-backup-restore-charter-2026-06-09.md).
+2. **Backup governance** — [`i95-neo4j-backup-retention-process-2026-06-09.md`](reports/i95-neo4j-backup-retention-process-2026-06-09.md) (encrypted operator vault, retention, restore-drill cadence).
+3. **Funding radar** — [`neo4j-funding-escalation-radar-2026-06-09.md`](../../intelligence/neo4j-funding-escalation-radar-2026-06-09.md) + source ledger SRC-N4J-F01..F06.
+4. **Partial supersession of D-IH-95-G R2-09** — **keepalive unchanged**; Professional budget arm **deferred 2026** (not revoked).
+5. **Professional charter** — [`i95-neo4j-professional-restore-charter-2026-06-09.md`](reports/i95-neo4j-professional-restore-charter-2026-06-09.md) → `status: deferred-funding` appendix only.
+6. **`finops_neo4j` CSV** — no edit without separate operator gate (notes stay "Likely AuraDB free tier").
+
+**Note:** `D-IH-95-K` was already minted for Hygiene C collaborator-share settlement; this Neo4j correction uses **`D-IH-95-L`** per sequential decision-register convention.
+
+**Reversibility: medium.** F6 restore is rebuildable from CSV projection if backup fails; funding gate can re-enable Professional path.
+
+---
+
 ### Pending sub-decisions (to ratify at each gate)
 - **process_list radical cleanup scope** — AskQuestion after the issue-inventory agent reports.
 - **D-IH-95-F (future):** I91 graph-edge cutover (dual-emit → retire legacy) when Neo4j unblocks.
+- **FQ-1..FQ-3** — funding-only AskQuestion after F6 docs land (Neo4j Startup / EU track / post-credits escalation).
 - 8-area articulation sweep: burn down the orphan worklist (`--matrix`) via the Semantic Council.

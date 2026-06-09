@@ -1,8 +1,9 @@
 # Neo4j Aura keep-alive (R2-09 / D-IH-95-G).
 # Aura FREE auto-pauses after 3 days of no *write* activity (reads don't count) and is
 # permanently deleted after 30 days paused. This sends a tiny daily WRITE so the operator's
-# instance stays online without manual dashboard resumes. Forward: budget the ~$65/mo Aura
-# Professional tier (on-demand pause control + no auto-pause + backups) for production reliability.
+# instance stays online without manual dashboard resumes.
+# Professional ~$65/mo is DEFERRED for 2026 (D-IH-95-L) — funding-gated only; see
+# docs/wip/intelligence/neo4j-funding-escalation-radar-2026-06-09.md. Primary incident path = F6 Free restore.
 #
 # Secrets required (repo Settings -> Secrets and variables -> Actions):
 #   NEO4J_URI       e.g. neo4j+s://<id>.databases.neo4j.io
