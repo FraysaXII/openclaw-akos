@@ -60,8 +60,9 @@ surface, each row carrying `governed_status` (governed / partial / ungoverned / 
 `scripts/validate_supabase_module_registry.py` (wired into `validate_hlk.py`); it prints a governance
 scorecard + flags **critical-priority ungoverned** modules.
 
-**Baseline (2026-06-07): 27 modules — 9 governed · 7 partial · 11 ungoverned.** Critical-ungoverned:
-`public` legacy schema (SUPA-MOD-09), Auth (SUPA-MOD-22), PostgREST API exposure (SUPA-MOD-24).
+**Baseline (2026-06-09): 27 modules — 10 governed · 7 partial · 10 ungoverned.** Critical-ungoverned:
+Auth (SUPA-MOD-22) only. EG-2 closed `public` legacy (SUPA-MOD-09) and PostgREST API exposure
+(SUPA-MOD-24 → `SUPABASE_API_EXPOSURE.md`).
 
 ## 3. The closure plan (phased — Data Architect owns)
 

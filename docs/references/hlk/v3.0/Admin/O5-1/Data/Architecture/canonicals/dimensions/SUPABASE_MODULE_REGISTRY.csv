@@ -22,7 +22,7 @@ SUPA-MOD-20,Database Webhooks,db_webhooks,none in repo,ungoverned,System Owner,m
 SUPA-MOD-21,Realtime,realtime,config.toml + table comment,ungoverned,System Owner,medium,no publication/channel DDL; no Realtime contract,holistika_ops.notifications drawer
 SUPA-MOD-22,Auth,auth,config.toml defaults + RBAC FKs,ungoverned,System Owner,critical,no auth hook/provider registry; auth.users FK only,23 managed auth.* tables
 SUPA-MOD-23,Storage,storage,config.toml enabled; no buckets,ungoverned,System Owner,high,no bucket RLS/path registry; no storage.objects policy,8 managed storage.* tables
-SUPA-MOD-24,PostgREST API exposure,api_exposure,config.toml [api].schemas,ungoverned,Data Architect,critical,config drift: hosted exposes holistika_ops+finops; config lists public only,mint SUPABASE_API_EXPOSURE SSOT
+SUPA-MOD-24,PostgREST API exposure,api_exposure,SUPABASE_API_EXPOSURE.md + config.toml [api].schemas,governed,Data Architect,high,quarterly hosted Dashboard reconcile vs §2 matrix,I95 EG-2: config.toml reconciled 2026-06-09; SSOT doc minted
 SUPA-MOD-25,DB functions / RPCs,db_functions,named migrations,partial,System Owner,medium,no unified RPC registry,pgmq_* / current_access_level / purge_* / erp._mode
 SUPA-MOD-26,seed SQL / local parity,seed,config.toml references ./seed.sql,ungoverned,System Owner,low,seed.sql file missing from repo,undermines reproducible local stack
 SUPA-MOD-27,Supabase CLI config,cli_config,supabase/config.toml,governed,System Owner,low,hosted project settings not fully mirrored,local dev stack pinned
