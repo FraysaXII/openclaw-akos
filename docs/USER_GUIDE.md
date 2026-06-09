@@ -2180,6 +2180,8 @@ The canonical baselines live in `docs/references/hlk/v3.0/Admin/O5-1/People/Comp
 | `confidence_levels.md` | Confidence level definitions | Policy change (rare) |
 | `source_taxonomy.md` | Source categories and credibility levels | New source type (rare) |
 | `PRECEDENCE.md` | What is canonical vs mirrored | Governance change |
+| `CANONICAL_REGISTRY.csv` | Machine-readable index of vault canonicals (pairs with PRECEDENCE narrative) | New canonical mint / area backfill |
+| HCAM articulation (`ENTITY_CATALOG.csv`, `CANONICAL_RELATIONSHIP_REGISTRY.csv`, `CANONICAL_ARTICULATION_MODEL.md`) | Enterprise ontology — **T1 git + T3 Neo4j graph projection**; no Supabase compliance mirror unless separately ratified (D-IH-95-B) | Entity/triple changes; `py scripts/validate_canonical_articulation.py` |
 | `HLK_KM_TOPIC_FACT_SOURCE.md` | Topic / Fact / Source, Output 1 manifests, Obsidian tags | KM contract or manifest rules change |
 
 **After editing baselines:** Restart the AKOS API (`py scripts/serve-api.py`) to reload the HLK registry from the updated CSVs.
