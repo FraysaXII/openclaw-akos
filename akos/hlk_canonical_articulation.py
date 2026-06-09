@@ -151,10 +151,32 @@ L3_TRANCHE3_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
     ("process_list", "item_parent_1_id", "HCAM-TRP-032"),
 )
 
+# I95 L3 tranche-4A (R2-05 / P5d): data-plane — AIC matrix, data contracts, topic tree.
+L3_TRANCHE4A_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
+    ("aic_capability_implementation_matrix", "capability_id", "HCAM-TRP-038"),
+    ("aic_capability_implementation_matrix", "aic_id", "HCAM-TRP-038"),
+    ("data_contract_registry", "producer_process_id", "HCAM-TRP-045"),
+    ("data_contract_registry", "consumer_area_ids", "HCAM-TRP-046"),
+    ("data_contract_registry", "data_surface", "HCAM-TRP-047"),
+    ("topic_registry", "parent", "HCAM-TRP-021"),
+)
+
+# I95 L3 tranche-4B (R2-05 / P5d): engagement cluster — TRP-008 deduped (tranche-1).
+L3_TRANCHE4B_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
+    ("engagement_registry", "counterparty_org_id", "HCAM-TRP-012"),
+    ("use_case_archive", "capability_id", "HCAM-TRP-029"),
+    ("use_case_archive", "engagement_id", "HCAM-TRP-042"),
+    ("initiative_registry", "program_anchors", "HCAM-TRP-015"),
+    ("goi_poi_register", "process_item_id", "HCAM-TRP-043"),
+    ("goi_poi_register", "program_id", "HCAM-TRP-044"),
+)
+
 L3_FK_BINDINGS: tuple[tuple[str, str, str], ...] = (
     *L3_TRANCHE1_FK_BINDINGS,
     *L3_TRANCHE2_FK_BINDINGS,
     *L3_TRANCHE3_FK_BINDINGS,
+    *L3_TRANCHE4A_FK_BINDINGS,
+    *L3_TRANCHE4B_FK_BINDINGS,
 )
 
 # Non-CSV FK surfaces (markdown frontmatter, semantic layer SQL, etc.) — advisory only.

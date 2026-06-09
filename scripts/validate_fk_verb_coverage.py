@@ -3,7 +3,9 @@
 
 Tranche-1: ``process_list`` + ``baseline_organisation``. Tranche-2: ``capability_registry``,
 ``decision_register``, ``ops_register``. Tranche-3: ``process_list`` workstream-layer
-composition (TRP-031/032). Also validates every *active* triple's ``current_fk``
+composition (TRP-031/032). Tranche-4A/4B: AIC matrix, data contracts, topic tree,
+engagement cluster (TRP-038/045-047/021 + TRP-012/029/042/015/043/044; TRP-008 deduped).
+Also validates every *active* triple's ``current_fk``
 tokens resolve to
 known registry columns (or approved non-CSV surfaces).
 
@@ -101,7 +103,7 @@ def run_checks(registry_path: Path = RELATIONSHIP_REGISTRY_PATH) -> list[str]:
     raw_rows = _read_registry(registry_path)
     triples = _triple_by_id(raw_rows)
 
-    # L3 mandatory bindings (tranche-1 + tranche-2 + tranche-3)
+    # L3 mandatory bindings (tranche-1 through tranche-4)
     for reg_slug, col, triple_id in L3_FK_BINDINGS:
         triple = triples.get(triple_id)
         if triple is None:
@@ -169,7 +171,7 @@ def self_test() -> int:
     assert _parse_fk_token("process_list.role_owner") == ("process_list", "role_owner")
     assert _parse_fk_token("new") is None
     assert "process_list" in _FK_REGISTRY_COLUMNS
-    assert len(L3_FK_BINDINGS) >= 22
+    assert len(L3_FK_BINDINGS) >= 34
     return 0
 
 

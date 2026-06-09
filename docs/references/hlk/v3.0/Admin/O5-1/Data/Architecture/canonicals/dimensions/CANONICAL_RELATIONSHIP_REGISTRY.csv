@@ -10,7 +10,7 @@ HCAM-TRP-008,process,serving,engagement,N:N,process_list.engagement_template_id,
 HCAM-TRP-009,process,serving,persona,N:N,process_list.persona_id,SERVES,,active,process serves a persona
 HCAM-TRP-010,process,access,metric,N:N,semantic_layer.definition_sql_ref,ACCESSES,,planned,process reads/writes a governed metric
 HCAM-TRP-011,process,triggering,process,N:N,new,TRIGGERS,,planned,process-to-process handoff (lifecycle)
-HCAM-TRP-012,engagement,flow,entity,N:N,ENGAGEMENT_REGISTRY.counterparty_org_id,FLOWS_TO,,active,engagement value flow to counterparty entity
+HCAM-TRP-012,engagement,flow,entity,N:N,engagement_registry.counterparty_org_id,FLOWS_TO,,active,engagement value flow to counterparty entity
 HCAM-TRP-013,engagement,serving,audience,N:N,engagement_model,SERVES,,planned,engagement serves an audience
 HCAM-TRP-014,capability,composition,capability,N:1,capability_map,COMPOSED_OF,,planned,capability-map decomposition levels
 HCAM-TRP-015,program,aggregation,initiative,1:N,initiative_registry.program_anchors,AGGREGATES,PROGRAM_SUBSUMES,active,program aggregates initiatives
@@ -27,7 +27,7 @@ HCAM-TRP-025,persona_scenario,specialization,persona,N:1,persona_scenario_regist
 HCAM-TRP-026,metric,access,data_contract,N:N,METRICS_REGISTRY.source_contract_id,ACCESSES,,active,metric reads a contracted data surface
 HCAM-TRP-027,component,serving,role,N:N,baseline_organisation.components_used,SERVES,,active,component serves the roles that use it
 HCAM-TRP-028,skill,assignment,role,N:N,SKILL_REGISTRY.owner_role,ASSIGNED_TO,,active,skill owned/performed by role (operator add 2026-06-05)
-HCAM-TRP-029,use_case,realization,capability,N:N,USE_CASE_ARCHIVE.capability_id,REALIZES,,active,use-case realizes a capability (operator add 2026-06-05)
+HCAM-TRP-029,use_case,realization,capability,N:N,use_case_archive.capability_id,REALIZES,,active,use-case realizes a capability (operator add 2026-06-05)
 HCAM-TRP-030,aic,assignment,process,N:N,new,ASSIGNED_TO,,planned,AIC performs a process (operator add 2026-06-05)
 HCAM-TRP-031,program,composition,workstream,1:N,process_list.item_granularity;process_list.item_parent_1_id,COMPOSED_OF,,active,program composed of workstreams via process_list layers (item_granularity=workstream)
 HCAM-TRP-032,workstream,composition,process,1:N,process_list.item_granularity;process_list.item_parent_1_id,COMPOSED_OF,,active,workstream composed of processes (item_granularity=process under workstream parent)
@@ -36,16 +36,16 @@ HCAM-TRP-034,capability,realization,goal_poi,N:N,new,REALIZES,,planned,capabilit
 HCAM-TRP-035,area,serving,area,N:N,new,SERVES,,planned,platform area serves stream-aligned areas
 HCAM-TRP-036,initiative,composition,workstream,1:N,process_list.item_granularity;process_list.item_parent_1_id,COMPOSED_OF,,planned,initiative workstreams materialise as process_list workstream rows (charter FK forward-charter)
 HCAM-TRP-037,role,assignment,skill,N:N,new,ASSIGNED_TO,,planned,role holds/is-assigned a skill (inverse of TRP-028 view)
-HCAM-TRP-038,aic,realization,capability,N:N,aic_capability_implementation_matrix,REALIZES,,active,AIC realizes a capability
+HCAM-TRP-038,aic,realization,capability,N:N,aic_capability_implementation_matrix.capability_id;aic_capability_implementation_matrix.aic_id,REALIZES,,active,AIC realizes a capability
 HCAM-TRP-039,capability,assignment,role,N:1,capability_registry.role_owner,ASSIGNED_TO,,active,capability owned by a role
 HCAM-TRP-040,capability,aggregation,skill,N:N,capability_registry.skill_ids,AGGREGATES,,active,capability aggregates the skills it needs
 HCAM-TRP-041,substrate,serving,capability,N:N,capability_registry.substrate_id,SERVES,,active,technology substrate serves a capability
-HCAM-TRP-042,use_case,serving,engagement,N:N,USE_CASE_ARCHIVE.engagement_id,SERVES,,active,use-case realised within an engagement
-HCAM-TRP-043,goal_poi,influence,process,N:N,GOI_POI_REGISTER.process_item_id,INFLUENCES,,active,goal/POI influences a process
-HCAM-TRP-044,goal_poi,influence,program,N:N,GOI_POI_REGISTER.program_id,INFLUENCES,,active,goal/POI influences a program
-HCAM-TRP-045,process,realization,data_contract,N:N,DATA_CONTRACT_REGISTRY.producer_process_id,REALIZES,,active,producer process realizes a data-contract interface
-HCAM-TRP-046,data_contract,serving,area,N:N,DATA_CONTRACT_REGISTRY.consumer_area_ids,SERVES,,active,data contract serves its consumer areas
-HCAM-TRP-047,data_contract,access,data_store,N:1,DATA_CONTRACT_REGISTRY.data_surface,ACCESSES,,active,contract governs one data surface (canonical_csv/mirror_table/fdw_projection/graph)
+HCAM-TRP-042,use_case,serving,engagement,N:N,use_case_archive.engagement_id,SERVES,,active,use-case realised within an engagement
+HCAM-TRP-043,goal_poi,influence,process,N:N,goi_poi_register.process_item_id,INFLUENCES,,active,goal/POI influences a process
+HCAM-TRP-044,goal_poi,influence,program,N:N,goi_poi_register.program_id,INFLUENCES,,active,goal/POI influences a program
+HCAM-TRP-045,process,realization,data_contract,N:N,data_contract_registry.producer_process_id,REALIZES,,active,producer process realizes a data-contract interface
+HCAM-TRP-046,data_contract,serving,area,N:N,data_contract_registry.consumer_area_ids,SERVES,,active,data contract serves its consumer areas
+HCAM-TRP-047,data_contract,access,data_store,N:1,data_contract_registry.data_surface,ACCESSES,,active,contract governs one data surface (canonical_csv/mirror_table/fdw_projection/graph)
 HCAM-TRP-048,component,realization,bi_consumer,N:1,BI_CONSUMER_REGISTRY.component_id,REALIZES,,active,a component realizes a BI/analytics consumer surface
 HCAM-TRP-049,bi_consumer,access,data_store,N:N,BI_CONSUMER_REGISTRY.data_surfaces,ACCESSES,,active,BI consumer reads warehouse/store surfaces
 HCAM-TRP-050,area,aggregation,bi_consumer,N:N,AREA_BI_PROFILE.primary_consumer_ids,AGGREGATES,,active,area declares its BI consumers (AREA_BI_PROFILE)
