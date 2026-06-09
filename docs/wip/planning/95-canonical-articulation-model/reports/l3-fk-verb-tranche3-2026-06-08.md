@@ -49,14 +49,13 @@ py scripts/verify.py pre_commit_fast --dry-run
 
 ## Mirror-before-merge checklist (operator gate)
 
-Before closing L3-3 phase on a machine with Supabase credentials:
+**N/A for L3-3.**
 
-1. **Emit** — `py scripts/verify.py compliance_mirror_emit` (or scoped profile) after CSV changes land.
-2. **Apply** — `pwsh -File scripts/apply_mirror_batches.ps1` (or manual `supabase db query --linked -f` per batch).
-3. **Verify** — `compliance_mirror_drift_probe` / DATA-02 row-count parity for `canonical_relationship_registry_mirror` (if mirrored).
-4. **Record** — Note apply date + batch SHA in initiative decision log or next pause record.
+This tranche changed only the git-only HCAM articulation tier: `CANONICAL_RELATIONSHIP_REGISTRY.csv` (under `Data/Architecture/canonicals/`, not `People/Compliance/canonicals/`) plus FK bindings in `akos/hlk_canonical_articulation.py`. No T1 People/Compliance CSV row data changed.
 
-*This executor run did not apply live Supabase DML (no creds assumed). Git-canonical SSOT is authoritative; mirror is operator-verified per locked gate.*
+Neither `CANONICAL_RELATIONSHIP_REGISTRY.csv` nor `ENTITY_CATALOG.csv` is wired into the compliance mirror emit pipeline (`scripts/sync_compliance_mirrors_from_csv.py`, `scripts/validate_mirror_emit_contract.py`). There is no `compliance.*_relationship*` or entity-catalog mirror DDL in `supabase/migrations/`. CI `supabase-mirror-sync` correctly did not trigger — its path filter targets `People/Compliance/canonicals/` only.
+
+Mirror emit → apply → drift-probe **is** required when T1 compliance CSVs change (e.g. `process_list.csv`, `baseline_organisation.csv`, registers under `People/Compliance/canonicals/`). Future HCAM mirror wiring would be a separate initiative (DDL + emit function + workflow path extension); out of L3-3 scope.
 
 ## Deferred to L3-4+
 
