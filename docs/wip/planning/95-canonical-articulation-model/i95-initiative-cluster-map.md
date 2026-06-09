@@ -55,7 +55,7 @@ flowchart TB
 | **I92** | HLK-ERP reassess & dashboard | active (stub) | I91 P2 matrix, I62/I64/I65/I68 lineage | ERP dashboard integration | Stub until I92 P0 expands |
 | **I93** | DATA area foundation & cross-area data governance | **closed** | DAMA DATA area, `pattern_area_buildout` | Area-governance meta-process (parent of I94) | [`uat-i93-closure-2026-06-05.md`](../93-data-area-foundation-and-governance/reports/uat-i93-closure-2026-06-05.md) |
 | **I94** | Area architecture & completeness v2 | active (P1–P2 **done**) | Sub-folder=role, placement-integrity (I94 P7) | Area-completeness **v3** target (I95 P4) | P3–P9 open; parent of I95 |
-| **I95** | Canonical articulation model (HCAM / Singularity) | active | I94 placement model, I93 DATA canon, Neo4j projection | Relationship registry, verb triples, GOV registry, graph CQ harness | [`i95-pmo-status-sweep-2026-06-09.md`](reports/i95-pmo-status-sweep-2026-06-09.md) |
+| **I95** | Canonical articulation model (HCAM / Singularity) | active | I94 placement model, I93 DATA canon, Neo4j projection | Relationship registry, verb triples, GOV registry, graph CQ harness | [`i95-pmo-status-sweep-2026-06-10.md`](reports/i95-pmo-status-sweep-2026-06-10.md) |
 
 ## I95 internal lanes
 
@@ -88,7 +88,7 @@ flowchart TB
 | L4 orphan `--matrix` burn-down | **I95** + **I88** / **I94** | Wiring discipline + area completeness |
 | L5 Topics / IntelligenceOps | **I95** + **I75** Research | Steward + physical moves |
 | L6 biz-strategy re-home | **I95** + **I94** P7 | Placement-integrity |
-| OPS-95-2 engagement_model_id backfill | **I95** | Mirror integrity after prod apply |
+| ~~OPS-95-2 engagement_model_id backfill~~ | **I95** | **DONE** 2026-06-10 — Tranche 6; 6/7 backfilled; Rushly archived NULL intentional |
 | OPS-95-3 `files-modified.csv` history | **I95** meta | Planning traceability |
 | Self-hosted Neo4j spike / EIC / Startup pack | **I95** funding track | D-IH-95-M; not blocking engineering |
 | ~~I91 P1–P2 Neo4j smoke + coverage matrix~~ | **I91** | **DONE** 2026-06-10 — Tranche 3; matrix [`store-coverage-matrix-2026-06-10.md`](../91-enterprise-graph-store-coverage/reports/store-coverage-matrix-2026-06-10.md) |
@@ -101,7 +101,7 @@ flowchart TB
 
 ## Burndown queue
 
-Ordered for **maximum unlock across I86–I95**, not I95-only. Authoritative operator sweep: [`i95-pmo-status-sweep-2026-06-09.md`](reports/i95-pmo-status-sweep-2026-06-09.md) §4.
+Ordered for **maximum unlock across I86–I95**, not I95-only. Authoritative operator sweep: [`i95-pmo-status-sweep-2026-06-10.md`](reports/i95-pmo-status-sweep-2026-06-10.md) §4.
 
 | Rank | Action | Primary INIT | Exit gate |
 |:---:|:---|:---|:---|
@@ -109,7 +109,7 @@ Ordered for **maximum unlock across I86–I95**, not I95-only. Authoritative ope
 | **2** | ~~**I91 P1–P2** — Neo4j preflight + store-coverage matrix v1~~ | I91 | **DONE** 2026-06-10 — Tranche 3; probe exit 0; [`store-coverage-matrix-2026-06-10.md`](../91-enterprise-graph-store-coverage/reports/store-coverage-matrix-2026-06-10.md) |
 | **3** | ~~**I95 L3 Bundle C ratify** (TRP-030/036)~~ | I95 | **DONE** 2026-06-10 — Tranche 4; keep planned; [`i95-l3-bundle-c-disposition-2026-06-10.md`](reports/i95-l3-bundle-c-disposition-2026-06-10.md) |
 | **3b** | ~~**I95 L1 EG-3** registries (edge-fn / cron / extension)~~ | I95 | **DONE** 2026-06-10 — Tranche 5; edge + cron CSVs + extension manifest |
-| **4** | **OPS-95-2** engagement_model_id backfill (7 engagements) | I95 | Operator-approved CSV tranche; mirror re-emit parity |
+| **4** | ~~**OPS-95-2** engagement_model_id backfill (7 engagements)~~ | I95 | **DONE** 2026-06-10 — Tranche 6; operator ratified; mirror re-emit parity operator follow-up |
 | **5** | **I94 P3** Operations PMBOK reframe | I94 | Doctrine section + IntelligenceOps eviction plan |
 | **6** | **I95 L4** equal-slice orphan burn-down (one area) | I95 | `--matrix` wiring % up; Semantic Council disposition logged |
 | **7** | **I92 P0** full charter (ERP reassess) | I92 | Replaces stub; links I91 matrix |
@@ -119,7 +119,7 @@ Ordered for **maximum unlock across I86–I95**, not I95-only. Authoritative ope
 ## Cross-links
 
 - **I95 master roadmap:** [`master-roadmap.md`](master-roadmap.md)
-- **PMO status sweep:** [`reports/i95-pmo-status-sweep-2026-06-09.md`](reports/i95-pmo-status-sweep-2026-06-09.md)
+- **PMO status sweep:** [`reports/i95-pmo-status-sweep-2026-06-10.md`](reports/i95-pmo-status-sweep-2026-06-10.md) (latest); prior [`reports/i95-pmo-status-sweep-2026-06-09.md`](reports/i95-pmo-status-sweep-2026-06-09.md)
 - **I86 portfolio coordinator:** [`../86-initiative-cluster-execution-coordinator/master-roadmap.md`](../86-initiative-cluster-execution-coordinator/master-roadmap.md)
 - **I86 cluster burndown:** [`../86-initiative-cluster-execution-coordinator/cluster-burndown-plan.md`](../86-initiative-cluster-execution-coordinator/cluster-burndown-plan.md)
 - **Official dependency narrative:** [`INITIATIVE_DEPENDENCIES.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md) (I90–I95 edges refreshed 2026-06-10)
