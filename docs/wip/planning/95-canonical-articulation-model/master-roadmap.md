@@ -25,7 +25,7 @@ wire roles↔processes correctly until the verbs + valid triples exist.
 
 - **Cluster map (SSOT for I86–I95 edges from I95 lens):** [`i95-initiative-cluster-map.md`](i95-initiative-cluster-map.md)
 - **Portfolio coordinator:** [I86 master-roadmap](../86-initiative-cluster-execution-coordinator/master-roadmap.md)
-- **Official dependency narrative:** [`INITIATIVE_DEPENDENCIES.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md) (I90–I95 edges pending Wave N INDEX_INTEGRITY refresh)
+- **Official dependency narrative:** [`INITIATIVE_DEPENDENCIES.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md) (I90–I95 edges refreshed 2026-06-10, I95 Tranche 2)
 
 ## Phase status snapshot (PMO sweep 2026-06-09)
 

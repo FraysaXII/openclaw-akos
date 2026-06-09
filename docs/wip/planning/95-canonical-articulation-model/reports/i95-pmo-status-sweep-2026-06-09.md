@@ -135,15 +135,15 @@ py scripts/verify.py pre_commit_fast
 
 ## 7. Cluster dependencies
 
-**Burndown SSOT (I95 lens):** [`i95-initiative-cluster-map.md`](../i95-initiative-cluster-map.md) — I86 portfolio coordinator + I90 routing ordnance + I91 graph handoff after F6 unblocked Neo4j.
+**Burndown SSOT (I95 lens):** [`i95-initiative-cluster-map.md`](../i95-initiative-cluster-map.md) — I86 portfolio coordinator + I90 routing ordnance + I91 graph handoff after F6 unblocked Neo4j. Official deps: [`INITIATIVE_DEPENDENCIES.md`](../../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md) (refreshed 2026-06-10).
 
 **Top 3 cluster-efficiency actions** (full ranked queue in cluster map §Burndown):
 
-1. **I86 Wave N INDEX_INTEGRITY** — mint baseline-index integrity specialty; refresh [`INITIATIVE_DEPENDENCIES.md`](../../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md) + planning README (I90–I95 edges currently live only in cluster map).
-2. **I95 L3 tranche-5** — bind 10 active relationship triples still without FK bindings (full regression F-11).
-3. **I91 P1–P2** — Neo4j preflight + store-coverage matrix v1 (unblocked by I95 F6; feeds I92).
+1. ~~**I86 Wave N INDEX_INTEGRITY**~~ — **DONE** 2026-06-10 (I95 Tranche 2): planning README + INITIATIVE_DEPENDENCIES I90–I95 edges + IDX-02/06/08 gap fixes; sweep [`index-sweep-2026-06-10-tranche2-wave-n.md`](index-sweep-2026-06-10-tranche2-wave-n.md).
+2. **I91 P1–P2** — Neo4j preflight + store-coverage matrix v1 (unblocked by I95 F6; feeds I92).
+3. **I95 L3 Bundle C ratify** (TRP-030/036) OR **I95 L1 EG-3** registries — operator inline-ratify where applicable.
 
-**Registry gap:** `INITIATIVE_DEPENDENCIES.md` last_generated **2026-05-29** — does not yet document I90–I95 edges; cluster map is interim SSOT until Wave N refresh.
+**Registry gap:** ~~`INITIATIVE_DEPENDENCIES.md` stale vs I90–I95~~ — **cleared** 2026-06-10 (`last_generated` bumped; I90–I95 section added).
 
 ## 6. Cross-references
 

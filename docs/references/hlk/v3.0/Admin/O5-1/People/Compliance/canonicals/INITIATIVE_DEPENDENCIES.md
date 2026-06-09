@@ -2,8 +2,8 @@
 language: en
 sharing_label: internal_only
 intellectual_kind: initiative_dependency_matrix
-last_generated: 2026-05-29
-generated_by: Wave-R+5 close (I86 cluster execution coordinator; IDX-04 freshness refresh — registry deltas reviewed, no dependency edges shifted by the Research-area logic change)
+last_generated: 2026-06-10
+generated_by: I95 Tranche 2 INDEX_INTEGRITY Wave N backfill (IDX-04 refresh — I90–I95 articulation cluster edges promoted from i95-initiative-cluster-map)
 ratifying_decisions:
   - D-IH-86-CD
   - D-IH-86-CG
@@ -28,12 +28,50 @@ baseline indices monitored by [`scripts/baseline_index_sweep.py`](../../../../..
 When INITIATIVE_REGISTRY rows materially change (new initiative promoted +
 dependency edges shift + closure flips), update the relevant sub-section.
 
-> **Wave R+5 freshness review (2026-05-29, IDX-04 clear).** Registry deltas since the
-> Wave-O regeneration were reviewed at wave-close: the Research-area logic change
-> (`D-IH-75-G`) + Research Radar mint (`D-IH-86-FG`) are intra-Research and add no new
-> cross-initiative dependency edges; I75 / I83 / I88 remain active with unchanged
-> parent/sibling edges. No sub-section rewrite required; timestamp bumped to clear the
-> 7-day freshness threshold.
+> **I95 Tranche 2 freshness refresh (2026-06-10, IDX-04 clear).** Promoted I90–I95 articulation-cluster dependency edges from [`i95-initiative-cluster-map.md`](../../../../../../../wip/planning/95-canonical-articulation-model/i95-initiative-cluster-map.md) (interim SSOT since 2026-06-10). Registry truth: I78/I85/I87 closed; I93 closed; I90–I92/I94/I95 active. Planning README §70–87 aligned to registry.
+
+## I90–I95 articulation cluster (active)
+
+Two-layer cluster under I86 portfolio coordination: **routing ordnance (I90)** + **enterprise graph (I91)** + **HCAM articulation spine (I95)** with **area completeness v2 (I94)** parent. Authoritative initiative table: [`i95-initiative-cluster-map.md`](../../../../../../../wip/planning/95-canonical-articulation-model/i95-initiative-cluster-map.md).
+
+```mermaid
+flowchart TB
+  I86[I86 cluster coordinator]
+  I90[I90 Routing and Wiring]
+  I91[I91 Enterprise Graph Store]
+  I92[I92 HLK-ERP Reassess]
+  I93closed[I93 DATA Area Foundation CLOSED]
+  I94[I94 Area Completeness v2]
+  I95[I95 Canonical Articulation HCAM]
+  I88[I88 Cross-Area Ops Wiring]
+  I89[I89 HLK-ERP Persona Rollup]
+  I87closed[I87 OpenClaw Runtime CLOSED]
+
+  I86 --> I90
+  I86 --> I88
+  I86 --> I89
+  I90 --> I91
+  I90 --> I92
+  I93closed --> I94
+  I94 --> I95
+  I95 --> I91
+  I95 --> I94
+  I91 --> I92
+  I86 -.data layer.-> I89
+  I88 -.area sweep.-> I94
+  I87closed -.runtime baseline.-> I90
+```
+
+| Initiative | Status | Depends on | Notes |
+|:---|:---|:---|:---|
+| I90 Routing & Wiring | active | I86 cluster tranche A; I87 runtime baseline (closed) | Two-seat Cursor + rule tier rewire (`D-IH-90-A..V`). Hands off to I91/I92. |
+| I91 Enterprise graph & store-coverage | active | I90 P2; I95 F6 Neo4j harness (unblocked 2026-06-09) | Store-coverage matrix feeds I92. |
+| I92 HLK-ERP reassess & dashboard | active (stub) | I91 P2 matrix; I62/I64/I65/I68 lineage | Stub until P0 charter expands. |
+| I93 DATA area foundation | closed (2026-06-05) | — | Parent of I94 area-governance meta-process (`D-IH-93-CLOSURE`). |
+| I94 Area architecture & completeness v2 | active | I93 closed; placement-integrity model | P1–P2 done; parent of I95. |
+| I95 Canonical articulation model (HCAM) | active | I94 model; I93 DATA canon; Neo4j projection | Relationship registry + verb triples + graph CQ harness (F6 PASS). |
+| I88 Cross-area Ops wiring review | active | I86 Wave M promotion | FINOPS + Research deep examples; L4 orphan burn-down with I95. |
+| I89 HLK-ERP persona rollup | active | I86 P3 forward-charter; I95 GOV register semantics | Sibling `hlk-erp`; six persona routes. |
 
 ## I86 cluster coordinator (active)
 

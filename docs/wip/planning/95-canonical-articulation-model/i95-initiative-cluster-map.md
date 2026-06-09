@@ -10,7 +10,7 @@ ratifying_decisions:
 
 ## Purpose
 
-**INIT-OPENCLAW_AKOS-95** (the **Canonical Articulation Model** — HCAM enterprise ontology + governed Neo4j graph over CSV SSOT) is the **articulation spine** of a two-layer cluster: **I86** (portfolio coordinator + INDEX_INTEGRITY Wave N path) and **I90–I95** (routing, graph store, area model, HCAM). This map is the **I95-local SSOT** for cross-initiative edges until [`INITIATIVE_DEPENDENCIES.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md) is refreshed (last_generated 2026-05-29). Detail lives in linked roadmaps — not duplicated here.
+**INIT-OPENCLAW_AKOS-95** (the **Canonical Articulation Model** — HCAM enterprise ontology + governed Neo4j graph over CSV SSOT) is the **articulation spine** of a two-layer cluster: **I86** (portfolio coordinator + INDEX_INTEGRITY Wave N path) and **I90–I95** (routing, graph store, area model, HCAM). Official dependency narrative: [`INITIATIVE_DEPENDENCIES.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md) (refreshed 2026-06-10, I95 Tranche 2). Local detail: linked roadmaps below.
 
 ## Cluster diagram
 
@@ -96,8 +96,8 @@ flowchart TB
 | I89 P1–P5 TSX panels | **I89** | Sibling `hlk-erp`; uses I86 P3 view |
 | I94 P3–P9 area reframes | **I94** | Operations/People/Legal/Envoy |
 | I88 P1–P3 discipline canonical | **I88** | Cross-area wiring specialty |
-| I90 Wave N INDEX_INTEGRITY + deps refresh | **I86 / I90** | Cursor plan Wave N; benefits all initiatives |
-| Planning README I78/I85/I87 stale rows | **I86** INDEX_INTEGRITY N.4 | Known drift in I86 plan |
+| I90 Wave N INDEX_INTEGRITY + deps refresh | **I86 / I90** | **DONE** (I95 Tranche 2 2026-06-10) — deps + README backfill |
+| Planning README I78/I85/I87 stale rows | **I86** INDEX_INTEGRITY N.4 | **DONE** (I95 Tranche 2) — I78 closed; §Closing list corrected |
 
 ## Burndown queue
 
@@ -105,16 +105,15 @@ Ordered for **maximum unlock across I86–I95**, not I95-only. Authoritative ope
 
 | Rank | Action | Primary INIT | Exit gate |
 |:---:|:---|:---|:---|
-| **1** | **INDEX_INTEGRITY specialty + planning index backfill** (I86 Wave N) | I86 / I90 | `validate_index_freshness.py` sweep; `INITIATIVE_DEPENDENCIES.md` refreshed |
-| **2** | **I95 L3 tranche-5** — bind 10 active triples (F-11) | I95 | `validate_fk_verb_coverage.py` 44 bindings; F-11 closed |
-| **3** | **I91 P1–P2** — Neo4j preflight + store-coverage matrix v1 | I91 | `neo4j_connectivity_probe.py` exit 0; matrix CSV/report minted |
-| **4** | **I95 L3 Bundle C ratify** (TRP-030/036) OR **I95 L1 EG-3** registries | I95 | Operator inline-ratify + canonical-CSV gate where applicable |
-| **5** | **OPS-95-2** engagement_model_id backfill (7 engagements) | I95 | Operator-approved CSV tranche; mirror re-emit parity |
-| **6** | **I94 P3** Operations PMBOK reframe | I94 | Doctrine section + IntelligenceOps eviction plan |
-| **7** | **I95 L4** equal-slice orphan burn-down (one area) | I95 | `--matrix` wiring % up; Semantic Council disposition logged |
-| **8** | **I92 P0** full charter (ERP reassess) | I92 | Replaces stub; links I91 matrix |
-| **9** | **Self-hosted spike charter** + parallel **EIC screen** | I95 funding | Documents TCO; no engineering block |
-| **10** | **`py scripts/verify.py pre_commit`** full bar | All | Release readiness |
+| **1** | ~~**INDEX_INTEGRITY specialty + planning index backfill** (I86 Wave N)~~ | I86 / I90 | **DONE** 2026-06-10 — Tranche 2; sweep `index-sweep-2026-06-10-tranche2-wave-n.md` |
+| **2** | **I91 P1–P2** — Neo4j preflight + store-coverage matrix v1 | I91 | `neo4j_connectivity_probe.py` exit 0; matrix CSV/report minted |
+| **3** | **I95 L3 Bundle C ratify** (TRP-030/036) OR **I95 L1 EG-3** registries | I95 | Operator inline-ratify + canonical-CSV gate where applicable |
+| **4** | **OPS-95-2** engagement_model_id backfill (7 engagements) | I95 | Operator-approved CSV tranche; mirror re-emit parity |
+| **5** | **I94 P3** Operations PMBOK reframe | I94 | Doctrine section + IntelligenceOps eviction plan |
+| **6** | **I95 L4** equal-slice orphan burn-down (one area) | I95 | `--matrix` wiring % up; Semantic Council disposition logged |
+| **7** | **I92 P0** full charter (ERP reassess) | I92 | Replaces stub; links I91 matrix |
+| **8** | **Self-hosted spike charter** + parallel **EIC screen** | I95 funding | Documents TCO; no engineering block |
+| **9** | **`py scripts/verify.py pre_commit`** full bar | All | Release readiness |
 
 ## Cross-links
 
@@ -122,6 +121,6 @@ Ordered for **maximum unlock across I86–I95**, not I95-only. Authoritative ope
 - **PMO status sweep:** [`reports/i95-pmo-status-sweep-2026-06-09.md`](reports/i95-pmo-status-sweep-2026-06-09.md)
 - **I86 portfolio coordinator:** [`../86-initiative-cluster-execution-coordinator/master-roadmap.md`](../86-initiative-cluster-execution-coordinator/master-roadmap.md)
 - **I86 cluster burndown:** [`../86-initiative-cluster-execution-coordinator/cluster-burndown-plan.md`](../86-initiative-cluster-execution-coordinator/cluster-burndown-plan.md)
-- **Official dependency narrative:** [`INITIATIVE_DEPENDENCIES.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md) (I90–I95 edges pending Wave N refresh)
+- **Official dependency narrative:** [`INITIATIVE_DEPENDENCIES.md`](../../../references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md) (I90–I95 edges refreshed 2026-06-10)
 - **Planning index:** [`../README.md`](../README.md)
 - **Funding closure:** [`reports/i95-fq2-ratification-2026-06-09.md`](reports/i95-fq2-ratification-2026-06-09.md) (D-IH-95-M)
