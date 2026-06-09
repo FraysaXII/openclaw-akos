@@ -313,9 +313,46 @@ realizations re-pointed off removed rows (`thi_data_dtp_34` RPA, the 3 research 
 
 ---
 
+## D-IH-95-M — Neo4j graph-infrastructure funding posture 2026 closure (RATIFIED 2026-06-09, execution, medium reversibility)
+
+**Context:** Full research-area synthesis [`neo4j-graph-infrastructure-funding-research-area-2026-06-09.md`](../../intelligence/neo4j-graph-infrastructure-funding-research-area-2026-06-09.md) + 52-row [`neo4j-graph-infrastructure-funding-source-ledger.csv`](../../intelligence/neo4j-graph-infrastructure-funding-source-ledger.csv). Builds on **D-IH-95-L** (F6 primary; Professional deferred 2026); does **not** supersede incident path or keepalive doctrine.
+
+**Operator AskQuestion #2 closure (binding 2026-06-09):**
+
+| FQ | Question | Ratified choice |
+|:---|:---|:---|
+| **FQ-1** | Neo4j Startup Program (~$16K Aura credits)? | **D** — Apply now **+** parallel **EIC Pre-Accelerator** eligibility screen |
+| **FQ-2** | Primary EU public track? | **A — EIC Accelerator Open** *(ratified-at-planning)* |
+| **FQ-3** | Post-credits default? | **A — Self-hosted VM ~$30/mo** *(ratified-at-planning)* |
+| **FQ-4** | Next execution charter sequence? | **F6 restore → self-hosted spike → EIC LOI → Startup pack → I95 remainder** |
+
+**Binding 2026 posture table (after closure):**
+
+| Layer | Posture | Cash |
+|:---|:---|:---|
+| Incident + daily ops | Aura Free + keepalive + **F6 backup restore** (D-IH-95-L) | $0 |
+| Vendor credits | Neo4j Startup apply (FQ-1 D) | $0 if approved |
+| EU public | EIC Accelerator Open primary + Pre-Accelerator screen in parallel | Grant/equity track |
+| Post-credits ops | Self-hosted CE VM ~$30/mo default | ~$30/mo infra |
+| Aura Professional | **Deferred 2026** | ~$65/mo — funding-gated appendix only |
+
+**FQ-4 master execution sequence (binding):**
+
+1. **F6 Neo4j restore** — [`i95-neo4j-free-backup-restore-charter-2026-06-09.md`](reports/i95-neo4j-free-backup-restore-charter-2026-06-09.md) F6-R0..R7 (get lay of land; probe + CQ UAT gate).
+2. **Self-hosted spike charter** — preserve `neo4j+s` / `~/.openclaw/.env` contract (I07); validate ~$30/mo TCO.
+3. **EIC Accelerator Open LOI draft** — primary EU track narrative (AI knowledge infrastructure for regulated SME engagements).
+4. **Neo4j Startup application pack** — graph-AI + governance KG use-cases A/B framing.
+5. **I95 remainder** — L3 bundle C (TRP-030/036), EG-3 edge/cron/extension registries, orphan burn-down (`--matrix`), full `pre_commit`.
+
+**Constraints preserved:** `finops_neo4j` CSV **unchanged** (separate operator gate). TOPIC_REGISTRY + INTELLIGENCEOPS proposals in synthesis appendix remain **proposal-only** until CSV gate.
+
+**Evidence:** [`i95-fq2-ratification-2026-06-09.md`](reports/i95-fq2-ratification-2026-06-09.md); [`i95-pmo-status-sweep-2026-06-09.md`](reports/i95-pmo-status-sweep-2026-06-09.md).
+
+**Reversibility: medium.** Funding sequence reorderable if F6 blocks; vendor/EU applications are reversible until acceptance.
+
+---
+
 ### Pending sub-decisions (to ratify at each gate)
 - **process_list radical cleanup scope** — AskQuestion after the issue-inventory agent reports.
 - **D-IH-95-F (future):** I91 graph-edge cutover (dual-emit → retire legacy) when Neo4j unblocks.
-- **D-IH-95-M (draft — NOT minted):** Neo4j funding posture 2026 closure after AskQuestion #2. **Draft rationale:** Given D-IH-95-L (F6 primary, Professional deferred), operator ratified FQ-2 (**EIC Accelerator Open** primary EU track) and FQ-3 (**self-hosted VM ~$30/mo** default post-credits, not Aura Pro first). FQ-1 (Neo4j Startup ~$16K credits) remains open. On FQ-1..FQ-4 answers, mint `D-IH-95-M` in `DECISION_REGISTER.csv` — do **not** re-mint D-IH-95-L. Evidence: [`neo4j-graph-infrastructure-funding-research-area-2026-06-09.md`](../../intelligence/neo4j-graph-infrastructure-funding-research-area-2026-06-09.md) §8–9.
-- **FQ-1, FQ-4** — AskQuestion #2 after research-area synthesis (FQ-2/FQ-3 ratified-at-planning 2026-06-09).
 - 8-area articulation sweep: burn down the orphan worklist (`--matrix`) via the Semantic Council.

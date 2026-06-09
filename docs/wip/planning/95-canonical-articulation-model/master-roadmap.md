@@ -87,7 +87,22 @@ sequenced lanes (each is a tranche with its own gate); run **value-first**, but 
 | **L6 — biz-strategy re-home** (R2-08) | `PRICING_MODEL` / `UNIT_ECONOMICS` → **Finance**; GTM theses → **Marketing/Strategy**; placement-integrity fix | locate the artifacts under `Operations/PMO/business-strategy/` + map per-row target | placement-integrity (file moves + ref updates) |
 
 **Drift-prevention backbone (R2-04):** the 40+ open-thread inventory is the **backlog SSOT**; index
-drift fixed this commit. **Neo4j (R2-09):** keep-alive workflow live; budget ~$65/mo Professional.
+drift fixed this commit. **Neo4j (R2-09):** keep-alive workflow live; **2026 spend posture** per **D-IH-95-L** + **D-IH-95-M** — F6 Free restore primary; Professional deferred; Startup + EIC tracks parallel; self-hosted ~$30/mo post-credits default.
+
+## Master execution queue (PMO pointer — ratified 2026-06-09, D-IH-95-M)
+
+Authoritative operator-facing sweep: [`reports/i95-pmo-status-sweep-2026-06-09.md`](reports/i95-pmo-status-sweep-2026-06-09.md). FQ closure record: [`reports/i95-fq2-ratification-2026-06-09.md`](reports/i95-fq2-ratification-2026-06-09.md).
+
+| Step | Lane | Gate |
+|:---|:---|:---|
+| 1 | **F6 Neo4j restore** (F6-R0..R7) | Probe exit 0; vault backup; no `.backup` in git |
+| 2 | **Probe + CQ UAT** | `neo4j_connectivity_probe.py`; `run_cq_uat.py` PASS |
+| 3 | **Self-hosted spike charter** | I07 env contract preserved; ~$30/mo TCO note |
+| 4 | **EIC Pre-Accelerator screen + Open LOI draft** | FQ-1 D parallel track |
+| 5 | **Neo4j Startup application pack** | Eligibility + use-case A/B narrative |
+| 6 | **I95 open lanes** | L3 bundle C · EG-3 registries · orphan `--matrix` · full `pre_commit` |
+
+**Current blockers:** Neo4j **BLOCKED-AUTH** until F6-R3..R4 complete (`wrong_password_or_user` / GHA `42NFF`). GOV wave **closed**; prod mirror **APPLIED** + parity **PASS** @ 2026-06-09.
 
 ## Cross-references
 - Round-2 synthesis: [`../intelligence/canonical-articulation-model-2026-06-05/round2-research-synthesis-2026-06-06.md`](../../intelligence/canonical-articulation-model-2026-06-05/round2-research-synthesis-2026-06-06.md)
