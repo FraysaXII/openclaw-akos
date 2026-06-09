@@ -19,7 +19,7 @@ linked_runbooks:
 
 **Purpose:** Prod recovery after failed mirror apply + GOV-5/GOV-7 closure.  
 **Git base:** `35169fc` (Hygiene B+C collaborator-share tranche).  
-**Outcome:** Migration drift **repaired**; GOV-7 DDL **APPLIED**; compliance mirror DML **APPLIED** (171 batches); emit contract **PASS**. Prod row-count parity query **deferred** (Supabase pooler circuit breaker after batch storm).
+**Outcome:** Migration drift **repaired**; GOV-7 DDL **APPLIED**; compliance mirror DML **APPLIED** (171 batches); emit contract **PASS**. Prod row-count parity **PASS** (verified 2026-06-09 after pooler recovery).
 
 Companion walkthrough (pre-apply): [`operator-mirror-apply-walkthrough-2026-06-09.md`](operator-mirror-apply-walkthrough-2026-06-09.md).
 
@@ -97,36 +97,34 @@ py scripts/verify.py pre_commit_fast         → PASS
 
 ---
 
-## Step 3 — Prod row-count parity (deferred)
+## Step 3 — Prod row-count parity
 
 **Query file:** `artifacts/sql/gov57_parity_check.sql`
 
-**Expected counts (git SSOT @ emit):**
-
-| Mirror key | Expected |
-|:---|---:|
-| pricing_tier | 6 |
-| finops_perf_obl | 5 |
-| finops_tax | 8 |
-| data_contract | 14 |
-| rpa_adapter | 5 |
-| component_svc | 110 |
-| engagement_tpl | 6 |
-| engagement_reg | 7 |
-| output_type | 17 |
-| artifact_class | 21 |
-| component_prim | 25 |
-| crm_adapter | 11 |
-
-**Blocker:** After ~171 batch applies, Supabase pooler returned `(ECIRCUITBREAKER) too many authentication failures`. Parity query retries failed with same error.
-
-**Operator re-run (when pooler clears):**
+**Command (2026-06-09 retry after pooler recovery):**
 
 ```powershell
 npx supabase db query --linked --file artifacts/sql/gov57_parity_check.sql --output table
 ```
 
-Compare output to table above; mismatch → re-run `compliance_mirror_emit` + scoped batch apply per walkthrough §4.
+**Result:** **PASS** — all 12 mirror keys match git SSOT @ emit:
+
+| Mirror key | Expected | Actual |
+|:---|---:|---:|
+| pricing_tier | 6 | 6 |
+| finops_perf_obl | 5 | 5 |
+| finops_tax | 8 | 8 |
+| data_contract | 14 | 14 |
+| rpa_adapter | 5 | 5 |
+| component_svc | 110 | 110 |
+| engagement_tpl | 6 | 6 |
+| engagement_reg | 7 | 7 |
+| output_type | 17 | 17 |
+| artifact_class | 21 | 21 |
+| component_prim | 25 | 25 |
+| crm_adapter | 11 | 11 |
+
+**Prior blocker (cleared):** Supabase pooler `(ECIRCUITBREAKER)` after 171-batch apply storm; retry succeeded once pooler cleared.
 
 ---
 

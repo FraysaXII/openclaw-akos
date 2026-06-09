@@ -34,8 +34,8 @@ verdict_followup_rationale:
   tracker_path: docs/wip/planning/95-canonical-articulation-model/reports/synthesis-p95-gov-5-2026-06-09.md
   notes: >-
     Prod mirror apply Phase A + Phase B APPLIED 2026-06-09 per
-    operator-mirror-apply-execution-2026-06-09.md. Residual: prod row-count parity query
-    (gov57_parity_check.sql) blocked by Supabase pooler circuit breaker — re-run when cleared.
+    operator-mirror-apply-execution-2026-06-09.md. Row-count parity PASS 2026-06-09
+    (gov57_parity_check.sql). Verdict remains PWF pending unrelated I95 Neo4j CQ lane (N4).
 ---
 
 # UAT — P95 universal canonical governance wave closure (2026-06-09)
@@ -46,7 +46,7 @@ verdict_followup_rationale:
 > registry-driven CI paths, index backfill, mirror emit closure, Plane-1 hardening, and forward-charter
 > mirror DDL. **Mechanical gates PASS** on `pre_commit_fast`, `validate_hlk.py`, and area matrix
 > re-proof (Data 90% / Finance 94% / People 87%; zero new gap components on those three areas).
-> **Verdict: PASS-WITH-FOLLOWUP** — prod mirror apply **APPLIED** 2026-06-09; row-count parity verify pending pooler recovery.
+> **Verdict: PASS-WITH-FOLLOWUP** — prod mirror apply **APPLIED** 2026-06-09; row-count parity **PASS** (pooler recovery retry).
 
 | Dimension | Target | Actual | Status |
 |:---|:---|:---|:---:|
@@ -55,7 +55,7 @@ verdict_followup_rationale:
 | **Mechanical gates green** | pre_commit_fast + validate_hlk | PASS | PASS |
 | **Area matrix (Data/Finance/People)** | no regression | 90% / 94% / 87%; 0 gap each | PASS |
 | **Browser UAT evidence** | n/a | n/a (vault + compliance CSV wave) | N/A |
-| **Prod mirror apply** | operator gate | APPLIED 2026-06-09 — execution evidence; parity verify pending pooler | APPLIED |
+| **Prod mirror apply** | operator gate | APPLIED 2026-06-09 — execution evidence; parity **PASS** @ 12/12 keys | APPLIED |
 | **Operator sign-off** | §10 checklist | agent_inline_default (reversible items) | PENDING |
 
 **Wave closure:** P95-GOV-8 closes the universal canonical governance execution wave under I95;
@@ -170,9 +170,9 @@ Plane-2 mirrors.
 |:---|:---|:---:|:---|
 | **A** | GOV-5 emit (adapters, templates, engagement_registry, output-arch) | **APPLIED** | [`operator-mirror-apply-execution-2026-06-09.md`](operator-mirror-apply-execution-2026-06-09.md) — 171-batch DML apply; FK fix on `ENGAGEMENT_REGISTRY.csv` |
 | **B** | GOV-7 DDL push + six new mirrors | **APPLIED** | Migration repair + `db push --linked`; six GOV-7 tables verified |
-| **Parity verify** | Row-count vs git SSOT | **PENDING-VERIFY** | Pooler circuit breaker blocked `gov57_parity_check.sql`; `validate_mirror_emit_contract.py` PASS |
+| **Parity verify** | Row-count vs git SSOT | **PASS** | `npx supabase db query --linked --file artifacts/sql/gov57_parity_check.sql --output table` — 12/12 keys match expected; `validate_mirror_emit_contract.py` PASS |
 
-Operator path: [`docs/guides/holistika-mirror-dml-apply.md`](../../../../guides/holistika-mirror-dml-apply.md). Re-run parity query when Supabase pooler clears.
+Operator path: [`docs/guides/holistika-mirror-dml-apply.md`](../../../../guides/holistika-mirror-dml-apply.md).
 
 ## Section 5 — D-IH-86-D mechanical cross-check (cluster wave closure)
 
@@ -199,7 +199,7 @@ per D-IH-86-D.
 | R95-GOV-02 | Enum parity FAIL on emit | MITIGATED | `validate_pydantic_mirror_enum_ssot.py` PASS at GOV-7 |
 | R95-GOV-03 | Forward-charter without DDL | MITIGATED | GOV-7 migrations at `14f8521` |
 | R95-GOV-04 | Area governance conservative skip | MITIGATED | Matrix re-proof §4.2 |
-| R95-GOV-05 | Prod DDL lag blocks emit proof | **MITIGATED (parity verify pending)** | DDL + DML applied 2026-06-09; row-count query deferred on pooler circuit breaker |
+| R95-GOV-05 | Prod DDL lag blocks emit proof | **MITIGATED** | DDL + DML applied 2026-06-09; row-count parity PASS (12/12 keys) |
 | R95-GOV-06 | Envoy path split breaks CI filters | MITIGATED | Explicit `plane2_workflow_paths` per registry row |
 | R95-GOV-07 | Umbrella validators hide gaps | MITIGATED | GOV-6 universal Plane-1 + per-row registry |
 | R95-GOV-08 | Big-bang scope creep | NOT-TRIGGERED | CSV moves OUT of scope per operator mandate |
@@ -223,15 +223,14 @@ per D-IH-86-D.
 
 **Verdict:** **PASS-WITH-FOLLOWUP**
 
-Git-side universal canonical governance wave is complete and validators are green. Residual follow-up:
-prod row-count parity query after Supabase pooler circuit breaker clears (mirror DML already applied).
+Git-side universal canonical governance wave is complete and validators are green. Mirror row-count parity **PASS** (§4.3). Verdict stays PWF until operator closes unrelated I95 Neo4j N4 lane or ratifies plain PASS.
 
-1. PASS **Closure-criteria all PASS or SKIP-with-reason** — §2 table; mirror apply APPLIED §4.3; parity verify PENDING-VERIFY.
+1. PASS **Closure-criteria all PASS or SKIP-with-reason** — §2 table; mirror apply APPLIED §4.3; parity verify **PASS**.
 2. PASS **Mechanical evidence reproducible** — §3 commands + execution report @ `35169fc` base.
 3. PASS **Browser UAT evidence** — n/a (vault wave).
 4. PASS **D-IH-86-D four-signal** — n/a standalone wave (§5).
 5. PASS **SOP+runbook pair** — §6 satisfied.
-6. PASS **Risk + decision close-outs** — §7–§8; R95-GOV-05 mitigated (parity verify pending).
+6. PASS **Risk + decision close-outs** — §7–§8; R95-GOV-05 mitigated (parity PASS).
 7. PASS **CHANGELOG + wave plan + this UAT in same commit** — updated at mirror execution commit.
 
 ## Section 11 — Cross-references
