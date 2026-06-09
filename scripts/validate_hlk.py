@@ -518,6 +518,16 @@ def main() -> int:
         ("ENGAGEMENT_MODEL_REGISTRY", "validate_engagement_model_registry.py",
          "validate_engagement_model_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "People Operations" / "canonicals" / "dimensions" / "ENGAGEMENT_MODEL_REGISTRY.csv"),
+        # I95 P95-GOV-4 — Learning ops backlog (I73 P2 deferred validator; D-IH-73-K).
+        ("LEARNING_OPS_BACKLOG", "validate_learning_ops_backlog.py",
+         "validate_learning_ops_backlog",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Learning"
+         / "canonicals" / "dimensions" / "LEARNING_OPS_BACKLOG.csv"),
+        # I95 P95-GOV-4 — SMO service catalog (I70 P8; D-IH-70-AB).
+        ("SERVICE_CATALOG", "validate_service_catalog.py",
+         "validate_service_catalog",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Operations" / "SMO"
+         / "canonicals" / "SERVICE_CATALOG.csv"),
         # Initiative 86 Wave R+1 Commit 2b + Commit 2b-ext - COLLABORATOR_SHARE umbrella validator
         # (13th Quality Fabric specialty per D-IH-86-DA + D-IH-86-DE). Single dispatch over 5
         # sibling CSVs (COLLABORATOR_SHARE_REGISTRY with share_pattern enum column +
