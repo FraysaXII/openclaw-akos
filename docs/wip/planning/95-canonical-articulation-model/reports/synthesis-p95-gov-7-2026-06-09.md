@@ -43,8 +43,10 @@ verdict: PASS
 | Step | Status | Note |
 |:---|:---:|:---|
 | Prod DDL inventory (read-only) | **PENDING-OPERATOR** | Apply four `2026060912*` migrations after SQL gate approval |
+| Operator walkthrough minted | **DONE** | [`operator-mirror-apply-walkthrough-2026-06-09.md`](operator-mirror-apply-walkthrough-2026-06-09.md) Phase B DDL + DML steps |
+| `npx supabase db push --linked` (GOV-7) | **NOT RUN** | No Supabase auth in execution session; linked project-ref present locally |
 | `gh workflow run supabase-mirror-sync.yml -f apply=true` | **NOT RUN** | Blocked on operator SQL gate |
-| Post-apply row-count parity | **NOT RUN** | After apply; `validate_mirror_emit_contract.py` |
+| Post-apply row-count parity | **NOT RUN** | After apply; `validate_mirror_emit_contract.py` + §4.2 query in walkthrough |
 
 ## Verification (mechanical)
 

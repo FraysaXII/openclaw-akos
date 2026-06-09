@@ -168,10 +168,11 @@ Plane-2 mirrors.
 
 | Phase | Scope | Status | Evidence |
 |:---|:---|:---:|:---|
-| **A** | GOV-5 emit (adapters, templates, engagement_registry, output-arch) | **PENDING-OPERATOR** | [`synthesis-p95-gov-5-2026-06-09.md`](synthesis-p95-gov-5-2026-06-09.md) § Mirror apply evidence stub |
-| **B** | GOV-7 DDL push + six new mirrors | **PENDING-OPERATOR** | [`synthesis-p95-gov-7-2026-06-09.md`](synthesis-p95-gov-7-2026-06-09.md) § Mirror apply evidence stub; [`sql-proposal-p95-gov-7-2026-06-09.md`](sql-proposal-p95-gov-7-2026-06-09.md) |
+| **A** | GOV-5 emit (adapters, templates, engagement_registry, output-arch) | **PENDING-OPERATOR** | Walkthrough minted 2026-06-09; prod apply not executed — [`operator-mirror-apply-walkthrough-2026-06-09.md`](operator-mirror-apply-walkthrough-2026-06-09.md) |
+| **B** | GOV-7 DDL push + six new mirrors | **PENDING-OPERATOR** | Same walkthrough Steps 0–1 (DDL) + Steps 2–4 (DML parity); [`sql-proposal-p95-gov-7-2026-06-09.md`](sql-proposal-p95-gov-7-2026-06-09.md) |
+| **Walkthrough session** | Execution seat follow-on @ `1bc2d1d` | **WALKTHROUGH-ONLY** | `.env` absent; `SUPABASE_ACCESS_TOKEN` / `DATABASE_URL` unset; `supabase link` present |
 
-Operator path: [`docs/guides/holistika-mirror-dml-apply.md`](../../../../guides/holistika-mirror-dml-apply.md).
+Operator path: [`docs/guides/holistika-mirror-dml-apply.md`](../../../../guides/holistika-mirror-dml-apply.md). Flip Phase A/B to **APPLIED** when walkthrough evidence log shows parity PASS.
 
 ## Section 5 — D-IH-86-D mechanical cross-check (cluster wave closure)
 
