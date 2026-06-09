@@ -140,7 +140,7 @@ py scripts/verify.py pre_commit_fast
 **Top 3 cluster-efficiency actions** (full ranked queue in cluster map §Burndown):
 
 1. ~~**I86 Wave N INDEX_INTEGRITY**~~ — **DONE** 2026-06-10 (I95 Tranche 2): planning README + INITIATIVE_DEPENDENCIES I90–I95 edges + IDX-02/06/08 gap fixes; sweep [`index-sweep-2026-06-10-tranche2-wave-n.md`](index-sweep-2026-06-10-tranche2-wave-n.md).
-2. **I91 P1–P2** — Neo4j preflight + store-coverage matrix v1 (unblocked by I95 F6; feeds I92).
+2. ~~**I91 P1–P2** — Neo4j preflight + store-coverage matrix v1~~ — **DONE** 2026-06-10 (I95 Tranche 3): probe exit 0; [`store-coverage-matrix-2026-06-10.md`](../../91-enterprise-graph-store-coverage/reports/store-coverage-matrix-2026-06-10.md).
 3. **I95 L3 Bundle C ratify** (TRP-030/036) OR **I95 L1 EG-3** registries — operator inline-ratify where applicable.
 
 **Registry gap:** ~~`INITIATIVE_DEPENDENCIES.md` stale vs I90–I95~~ — **cleared** 2026-06-10 (`last_generated` bumped; I90–I95 section added).

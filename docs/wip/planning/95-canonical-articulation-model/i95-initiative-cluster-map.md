@@ -91,7 +91,7 @@ flowchart TB
 | OPS-95-2 engagement_model_id backfill | **I95** | Mirror integrity after prod apply |
 | OPS-95-3 `files-modified.csv` history | **I95** meta | Planning traceability |
 | Self-hosted Neo4j spike / EIC / Startup pack | **I95** funding track | D-IH-95-M; not blocking engineering |
-| I91 P1–P2 Neo4j smoke + coverage matrix | **I91** | Unblocked by I95 F6; feeds I92 |
+| ~~I91 P1–P2 Neo4j smoke + coverage matrix~~ | **I91** | **DONE** 2026-06-10 — Tranche 3; matrix [`store-coverage-matrix-2026-06-10.md`](../91-enterprise-graph-store-coverage/reports/store-coverage-matrix-2026-06-10.md) |
 | I92 ERP reassess P0 charter | **I92** | Stub expansion |
 | I89 P1–P5 TSX panels | **I89** | Sibling `hlk-erp`; uses I86 P3 view |
 | I94 P3–P9 area reframes | **I94** | Operations/People/Legal/Envoy |
@@ -106,7 +106,7 @@ Ordered for **maximum unlock across I86–I95**, not I95-only. Authoritative ope
 | Rank | Action | Primary INIT | Exit gate |
 |:---:|:---|:---|:---|
 | **1** | ~~**INDEX_INTEGRITY specialty + planning index backfill** (I86 Wave N)~~ | I86 / I90 | **DONE** 2026-06-10 — Tranche 2; sweep `index-sweep-2026-06-10-tranche2-wave-n.md` |
-| **2** | **I91 P1–P2** — Neo4j preflight + store-coverage matrix v1 | I91 | `neo4j_connectivity_probe.py` exit 0; matrix CSV/report minted |
+| **2** | ~~**I91 P1–P2** — Neo4j preflight + store-coverage matrix v1~~ | I91 | **DONE** 2026-06-10 — Tranche 3; probe exit 0; [`store-coverage-matrix-2026-06-10.md`](../91-enterprise-graph-store-coverage/reports/store-coverage-matrix-2026-06-10.md) |
 | **3** | **I95 L3 Bundle C ratify** (TRP-030/036) OR **I95 L1 EG-3** registries | I95 | Operator inline-ratify + canonical-CSV gate where applicable |
 | **4** | **OPS-95-2** engagement_model_id backfill (7 engagements) | I95 | Operator-approved CSV tranche; mirror re-emit parity |
 | **5** | **I94 P3** Operations PMBOK reframe | I94 | Doctrine section + IntelligenceOps eviction plan |

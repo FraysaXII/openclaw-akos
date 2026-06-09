@@ -4,7 +4,7 @@ title: "I91 — Enterprise Graph & Store-Coverage Mapping"
 status: active
 owner_role: PMO
 inception: 2026-06-01
-last_review: 2026-06-04
+last_review: 2026-06-10
 linked_decisions:
   - D-IH-91-A
 language: en
@@ -27,9 +27,9 @@ Map **which Holistika stores** (git CSVs, Supabase mirrors, Neo4j graph, vault m
 
 | Phase | Purpose | Gate |
 |:---|:---|:---|
-| **P0** | Charter + store inventory + coverage matrix skeleton | — |
-| **P1** | Neo4j connectivity preflight + `sync_hlk_neo4j.py` smoke | Operator `NEO4J_*` in `~/.openclaw/.env` |
-| **P2** | Store-coverage matrix v1 (CSV + report) | — |
+| **P0** | Charter + store inventory + coverage matrix skeleton | **DONE** |
+| **P1** | Neo4j connectivity preflight + `sync_hlk_neo4j.py` smoke | **DONE** 2026-06-10 — probe exit 0; dry-run PASS (`6c0d76bf`) |
+| **P2** | Store-coverage matrix v1 (CSV + report) | **DONE** 2026-06-10 — [`reports/store-coverage-matrix-2026-06-10.md`](reports/store-coverage-matrix-2026-06-10.md) |
 | **P3** | Graph explorer / MCP regression vs I07 baseline | Browser or API evidence optional |
 | **P4** | Handoff to I92 ERP reassess (dashboard data joins) | I90 P3 + I91 P2 |
 
@@ -59,6 +59,8 @@ flowchart LR
 - Forward: `decision-log.md`, `risk-register.md`, `files-modified.csv` on first material commit.
 
 **Pre-flight 2026-06-01:** Neo4j driver not configured in agent session; P1 blocked until operator supplies credentials or runs sync locally per I07 D1.
+
+**P1–P2 closure 2026-06-10 (I95 Tranche 3):** I95 F6 unblocked Neo4j. Evidence: [`reports/p1-neo4j-preflight-pass-2026-06-10.md`](reports/p1-neo4j-preflight-pass-2026-06-10.md) + [`reports/store-coverage-matrix-2026-06-10.md`](reports/store-coverage-matrix-2026-06-10.md).
 
 **Verification (no graph required):**
 

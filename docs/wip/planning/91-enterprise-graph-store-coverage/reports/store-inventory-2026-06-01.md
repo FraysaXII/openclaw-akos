@@ -44,5 +44,5 @@ py scripts/validate_hlk_vault_links.py
 
 ## Next
 
-- P1: [`p1-neo4j-preflight-blocked-2026-06-01.md`](p1-neo4j-preflight-blocked-2026-06-01.md)
-- P2: `store-coverage-matrix-2026-06-01.md` (fills S-* rows with PASS / partial / gap)
+- P1: **DONE** — [`p1-neo4j-preflight-pass-2026-06-10.md`](p1-neo4j-preflight-pass-2026-06-10.md) (supersedes blocked report)
+- P2: **DONE** — [`store-coverage-matrix-2026-06-10.md`](store-coverage-matrix-2026-06-10.md)
