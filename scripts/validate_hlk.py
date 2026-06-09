@@ -584,6 +584,10 @@ def main() -> int:
          "validate_buildout_backlog_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People"
          / "Compliance" / "canonicals" / "dimensions" / "BUILDOUT_BACKLOG.csv"),
+        # I95 P95-GOV-1 (D-IH-95-B): universal vault CSV governance inventory SSOT.
+        ("CANONICAL_GOVERNANCE_REGISTRY", "validate_canonical_governance_registry.py",
+         "validate_canonical_governance_registry",
+         HLK_DIR / "dimensions" / "CANONICAL_GOVERNANCE_REGISTRY.csv"),
         ("BI_CONSUMER_REGISTRY", "validate_bi_consumer_registry.py",
          "validate_bi_consumer_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
