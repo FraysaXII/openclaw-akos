@@ -33,6 +33,12 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from akos.hlk_adapter_registry_csv import (  # noqa: E402  # I72 P9 + P95-GOV-5 adapter mirror emit
+    ADAPTER_EMIT_REGISTRY_CLASSES,
+    ADAPTER_REGISTRY_CLASS_TO_MIRROR_TABLE,
+    ADAPTER_REGISTRY_FIELDNAMES,
+    REGISTRY_PATHS as ADAPTER_REGISTRY_PATHS,
+)
 from akos.hlk_adviser_disciplines_csv import ADVISER_ENGAGEMENT_DISCIPLINES_FIELDNAMES  # noqa: E402
 from akos.hlk_adviser_questions_csv import ADVISER_OPEN_QUESTIONS_FIELDNAMES  # noqa: E402
 from akos.hlk_baseline_org_csv import BASELINE_ORGANISATION_FIELDNAMES  # noqa: E402  # release-gate hygiene 2026-05-11
@@ -47,6 +53,9 @@ from akos.hlk_channel_touchpoint_registry_csv import CHANNEL_TOUCHPOINT_REGISTRY
 from akos.hlk_cycle_register_csv import CYCLE_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.4
 from akos.hlk_decision_register_csv import DECISION_REGISTER_FIELDNAMES  # noqa: E402  # I59 P1.5
 from akos.hlk_engagement_model_csv import ENGAGEMENT_MODEL_FIELDNAMES  # noqa: E402  # I73 P1 (D-IH-73-C sibling-dimension; D-IH-73-D 7-class taxonomy)
+from akos.hlk_engagement_template_registry_csv import (  # noqa: E402  # I72 P2 + P95-GOV-5
+    ENGAGEMENT_TEMPLATE_REGISTRY_FIELDNAMES,
+)
 from akos.hlk_design_pattern_csv import DESIGN_PATTERN_FIELDNAMES  # noqa: E402  # I79 P2 (D-IH-79-C/D People design pattern library)
 from akos.hlk_substrate_registry_csv import SUBSTRATE_REGISTRY_FIELDNAMES  # noqa: E402  # I84 P3 (D-IH-84-F substrate doctrine registry)
 from akos.hlk_intelligenceops_register_csv import INTELLIGENCEOPS_REGISTER_FIELDNAMES  # noqa: E402  # I72 P6 + I75 (D-IH-72-H sibling canonical; D-IH-86-FH radar freshness cols)
@@ -137,6 +146,34 @@ INTELLIGENCEOPS_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0
 OUTPUT_TYPE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "OUTPUT_TYPE_REGISTRY.csv"
 ARTIFACT_CLASS_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "ARTIFACT_CLASS_REGISTRY.csv"
 COMPONENT_PRIMITIVE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "COMPONENT_PRIMITIVE_REGISTRY.csv"
+ENGAGEMENT_REGISTRY_CSV = (
+    REPO_ROOT
+    / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv"
+)
+ENGAGEMENT_TEMPLATE_REGISTRY_CSV = (
+    REPO_ROOT
+    / "docs/references/hlk/v3.0/Admin/O5-1/Operations/RevOps/canonicals/dimensions/ENGAGEMENT_TEMPLATE_REGISTRY.csv"
+)
+# Mirror projection columns (canonical_engagement_code is git-only metadata; not in mirror DDL).
+ENGAGEMENT_REGISTRY_MIRROR_FIELDNAMES: tuple[str, ...] = (
+    "engagement_id",
+    "engagement_name",
+    "engagement_class",
+    "counterparty_org_id",
+    "owner_role",
+    "status",
+    "started_at",
+    "ended_at",
+    "language_primary",
+    "language_secondary",
+    "deliverable_path",
+    "supabase_mirror",
+    "panel_slot",
+    "related_initiatives",
+    "classification",
+    "notes",
+    "engagement_model_id",
+)
 # I86 Wave R+1 P2c-a — 5 Collaborator Share CSVs (D-IH-86-DA/DB/DC/DD/DE). Paths are
 # canonical SSOT in akos/hlk_collaborator_share.py; we just resolve them under REPO_ROOT.
 COLLABORATOR_SHARE_REGISTRY_CSV = REPO_ROOT / CSV_PATH_RELATIVE_SHARE_REGISTRY
@@ -237,6 +274,9 @@ _OPS_REGISTER_NUMERIC_COLUMNS = frozenset(
 )
 _INTELLIGENCEOPS_REGISTER_DATE_COLUMNS = frozenset({"last_review_at", "next_verify_by"})
 _INTELLIGENCEOPS_REGISTER_NUMERIC_COLUMNS = frozenset({"staleness_days"})
+_ENGAGEMENT_REGISTRY_DATE_COLUMNS = frozenset({"started_at", "ended_at"})
+_ENGAGEMENT_TEMPLATE_DATE_COLUMNS = frozenset({"last_review_at"})
+_ENGAGEMENT_TEMPLATE_NUMERIC_COLUMNS = frozenset({"duration_target_days"})
 _CYCLE_REGISTER_DATE_COLUMNS = frozenset({"started_at", "closed_at"})
 _BASELINE_ORG_DATE_COLUMNS = frozenset({"last_review_at"})
 _REPO_HEALTH_DATE_COLUMNS = frozenset({"snapshot_date", "last_review_at"})
@@ -1145,6 +1185,99 @@ def _emit_component_primitive_registry_upserts(rows: list[dict[str, str]], sourc
             f"ON CONFLICT (component_primitive_code) DO UPDATE SET {update_sets};"
         )
     return out
+
+
+def _emit_adapter_registry_upserts(
+    rows: list[dict[str, str]],
+    mirror_table: str,
+    registry_class: str,
+    source_git_sha: str,
+) -> list[str]:
+    """I72 P9 + P95-GOV-5 — generic adapter registry mirror upserts (8 DDL-backed classes).
+
+    All 8 adapter mirrors share ``ADAPTER_REGISTRY_FIELDNAMES``; PK = ``adapter_id``.
+    """
+    return _emit_generic_pk_upserts(
+        rows=rows,
+        fieldnames=ADAPTER_REGISTRY_FIELDNAMES,
+        mirror_table=mirror_table,
+        pk_column="adapter_id",
+        source_git_sha=source_git_sha,
+        initiative_label=f"I72 P9 adapter {registry_class} (P95-GOV-5)",
+    )
+
+
+def _emit_engagement_template_registry_upserts(
+    rows: list[dict[str, str]], source_git_sha: str
+) -> list[str]:
+    """I72 P2 + P95-GOV-5 — compliance.engagement_template_registry_mirror upserts."""
+    cols_csv = ", ".join(ENGAGEMENT_TEMPLATE_REGISTRY_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in ENGAGEMENT_TEMPLATE_REGISTRY_FIELDNAMES if c != "template_id"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.engagement_template_registry_mirror upserts (I72 P2 + P95-GOV-5)"]
+    for r in rows:
+        tid = (r.get("template_id") or "").strip()
+        if not tid:
+            continue
+        vals = ", ".join(
+            _sql_column_value(
+                c,
+                (r.get(c) or "").strip(),
+                date_columns=_ENGAGEMENT_TEMPLATE_DATE_COLUMNS,
+                numeric_columns=_ENGAGEMENT_TEMPLATE_NUMERIC_COLUMNS,
+            )
+            for c in ENGAGEMENT_TEMPLATE_REGISTRY_FIELDNAMES
+        )
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.engagement_template_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (template_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _emit_engagement_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    """I70 P8.1 + I73 P1 + P95-GOV-5 — compliance.engagement_registry_mirror upserts."""
+    cols_csv = ", ".join(ENGAGEMENT_REGISTRY_MIRROR_FIELDNAMES)
+    cols_full = cols_csv + ", source_git_sha, synced_at"
+    update_sets = ", ".join(
+        [f"{c} = EXCLUDED.{c}" for c in ENGAGEMENT_REGISTRY_MIRROR_FIELDNAMES if c != "engagement_id"]
+        + ["source_git_sha = EXCLUDED.source_git_sha", "synced_at = now()"]
+    )
+    out: list[str] = ["-- compliance.engagement_registry_mirror upserts (I70 P8.1 + P95-GOV-5)"]
+    for r in rows:
+        eid = (r.get("engagement_id") or "").strip()
+        if not eid:
+            continue
+        vals = ", ".join(
+            _sql_column_value(
+                c,
+                (r.get(c) or "").strip(),
+                date_columns=_ENGAGEMENT_REGISTRY_DATE_COLUMNS,
+            )
+            for c in ENGAGEMENT_REGISTRY_MIRROR_FIELDNAMES
+        )
+        vals_full = f"{vals}, {_sql_text_literal(source_git_sha)}, now()"
+        out.append(
+            f"INSERT INTO compliance.engagement_registry_mirror ({cols_full}) VALUES ({vals_full}) "
+            f"ON CONFLICT (engagement_id) DO UPDATE SET {update_sets};"
+        )
+    return out
+
+
+def _load_adapter_registry_rows(registry_class: str) -> list[dict[str, str]]:
+    """Load one adapter registry CSV when present and header-aligned."""
+    path = REPO_ROOT / ADAPTER_REGISTRY_PATHS[registry_class]
+    if not path.is_file():
+        return []
+    with path.open(encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        if list(reader.fieldnames or []) != list(ADAPTER_REGISTRY_FIELDNAMES):
+            return []
+        return [dict(r) for r in reader]
 
 
 def _emit_generic_pk_upserts(
@@ -2591,6 +2724,58 @@ def main() -> int:
                 intelligenceops_rows = [dict(r) for r in ior]
                 intelligenceops_n = len(intelligenceops_rows)
 
+    # I72 P9 + P95-GOV-5 — 8 adapter registry mirrors (DDL exists; RPA excluded until GOV-7).
+    adapter_rows_by_class: dict[str, list[dict[str, str]]] = {}
+    for cls_name in ADAPTER_EMIT_REGISTRY_CLASSES:
+        rows = _load_adapter_registry_rows(cls_name)
+        adapter_rows_by_class[cls_name] = rows
+
+    # I72 P2 + P95-GOV-5 — engagement template registry mirror.
+    engagement_template_n = 0
+    engagement_template_rows: list[dict[str, str]] = []
+    if ENGAGEMENT_TEMPLATE_REGISTRY_CSV.is_file():
+        with ENGAGEMENT_TEMPLATE_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            etr = csv.DictReader(f)
+            if list(etr.fieldnames or []) == list(ENGAGEMENT_TEMPLATE_REGISTRY_FIELDNAMES):
+                engagement_template_rows = [dict(r) for r in etr]
+                engagement_template_n = len(engagement_template_rows)
+
+    # I70 P8.1 + P95-GOV-5 — engagement registry mirror.
+    engagement_registry_n = 0
+    engagement_registry_rows: list[dict[str, str]] = []
+    if ENGAGEMENT_REGISTRY_CSV.is_file():
+        with ENGAGEMENT_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            er = csv.DictReader(f)
+            if er.fieldnames and "engagement_id" in (er.fieldnames or []):
+                engagement_registry_rows = [dict(r) for r in er]
+                engagement_registry_n = len(engagement_registry_rows)
+
+    # I86 Wave L + P95-GOV-5 — output architecture Layer 1/2/3 in main bundle.
+    output_type_n = 0
+    output_type_rows: list[dict[str, str]] = []
+    if OUTPUT_TYPE_REGISTRY_CSV.is_file():
+        with OUTPUT_TYPE_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            otr = csv.DictReader(f)
+            if list(otr.fieldnames or []) == list(OUTPUT_TYPE_REGISTRY_FIELDNAMES):
+                output_type_rows = [dict(r) for r in otr]
+                output_type_n = len(output_type_rows)
+    artifact_class_n = 0
+    artifact_class_rows: list[dict[str, str]] = []
+    if ARTIFACT_CLASS_REGISTRY_CSV.is_file():
+        with ARTIFACT_CLASS_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            acr = csv.DictReader(f)
+            if list(acr.fieldnames or []) == list(ARTIFACT_CLASS_REGISTRY_FIELDNAMES):
+                artifact_class_rows = [dict(r) for r in acr]
+                artifact_class_n = len(artifact_class_rows)
+    component_primitive_n = 0
+    component_primitive_rows: list[dict[str, str]] = []
+    if COMPONENT_PRIMITIVE_REGISTRY_CSV.is_file():
+        with COMPONENT_PRIMITIVE_REGISTRY_CSV.open(encoding="utf-8", newline="") as f:
+            cpr = csv.DictReader(f)
+            if list(cpr.fieldnames or []) == list(COMPONENT_PRIMITIVE_REGISTRY_FIELDNAMES):
+                component_primitive_rows = [dict(r) for r in cpr]
+                component_primitive_n = len(component_primitive_rows)
+
     if args.count_only:
         print(f"source_git_sha={sha}")
         print(f"process_list_rows={len(proc_rows)}")
@@ -2625,6 +2810,14 @@ def main() -> int:
         print(f"substrate_registry_rows={substrate_reg_n}")
         # I72 P6 + I75 addition
         print(f"intelligenceops_register_rows={intelligenceops_n}")
+        for cls_name in ADAPTER_EMIT_REGISTRY_CLASSES:
+            key = f"{cls_name.lower()}_adapter_registry_rows"
+            print(f"{key}={len(adapter_rows_by_class.get(cls_name, []))}")
+        print(f"engagement_template_registry_rows={engagement_template_n}")
+        print(f"engagement_registry_rows={engagement_registry_n}")
+        print(f"output_type_registry_rows={output_type_n}")
+        print(f"artifact_class_registry_rows={artifact_class_n}")
+        print(f"component_primitive_registry_rows={component_primitive_n}")
         return 0
 
     blocks: list[str] = []
@@ -2686,6 +2879,32 @@ def main() -> int:
     # I72 P6 + I75 — IntelligenceOps register (radar freshness cols; D-IH-86-FH).
     if not args.process_list_only and not args.baseline_only and intelligenceops_rows:
         blocks.extend(_emit_intelligenceops_register_upserts(intelligenceops_rows, sha))
+    # I72 P9 + P95-GOV-5 — 8 adapter registry mirrors.
+    if not args.process_list_only and not args.baseline_only:
+        for cls_name in ADAPTER_EMIT_REGISTRY_CLASSES:
+            adapter_rows = adapter_rows_by_class.get(cls_name) or []
+            if adapter_rows:
+                blocks.extend(
+                    _emit_adapter_registry_upserts(
+                        adapter_rows,
+                        ADAPTER_REGISTRY_CLASS_TO_MIRROR_TABLE[cls_name],
+                        cls_name,
+                        sha,
+                    )
+                )
+    # I72 P2 + P95-GOV-5 — engagement template registry mirror.
+    if not args.process_list_only and not args.baseline_only and engagement_template_rows:
+        blocks.extend(_emit_engagement_template_registry_upserts(engagement_template_rows, sha))
+    # I70 P8.1 + P95-GOV-5 — engagement registry mirror.
+    if not args.process_list_only and not args.baseline_only and engagement_registry_rows:
+        blocks.extend(_emit_engagement_registry_upserts(engagement_registry_rows, sha))
+    # I86 Wave L + P95-GOV-5 — output architecture mirrors (main bundle promotion).
+    if not args.process_list_only and not args.baseline_only and output_type_rows:
+        blocks.extend(_emit_output_type_registry_upserts(output_type_rows, sha))
+    if not args.process_list_only and not args.baseline_only and artifact_class_rows:
+        blocks.extend(_emit_artifact_class_registry_upserts(artifact_class_rows, sha))
+    if not args.process_list_only and not args.baseline_only and component_primitive_rows:
+        blocks.extend(_emit_component_primitive_registry_upserts(component_primitive_rows, sha))
 
     preamble = [
         "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",

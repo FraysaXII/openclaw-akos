@@ -52,6 +52,13 @@ _COUNTED_CSVS: dict[str, str] = {
     "persona_scenario_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv",
     "channel_touchpoint_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv",
     "sourcing_register_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SOURCING_REGISTER.csv",
+    # P95-GOV-5 — adapter + engagement + output-architecture mirrors in main bundle
+    "crm_adapter_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/CRM_ADAPTER_REGISTRY.csv",
+    "engagement_template_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/Operations/RevOps/canonicals/dimensions/ENGAGEMENT_TEMPLATE_REGISTRY.csv",
+    "engagement_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv",
+    "output_type_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/OUTPUT_TYPE_REGISTRY.csv",
+    "artifact_class_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ARTIFACT_CLASS_REGISTRY.csv",
+    "component_primitive_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COMPONENT_PRIMITIVE_REGISTRY.csv",
 }
 
 
@@ -157,6 +164,16 @@ def test_sync_full_emit_includes_counterparty_upserts() -> None:
     # I51 P1: full bundle MUST now include persona_scenario_registry upserts.
     assert "compliance.persona_scenario_registry_mirror" in out
     assert "ON CONFLICT (scenario_id) DO UPDATE SET" in out
+    # P95-GOV-5 — DDL-without-emit gap closure in main bundle.
+    assert "compliance.crm_adapter_registry_mirror" in out
+    assert "compliance.engagement_template_registry_mirror" in out
+    assert "compliance.engagement_registry_mirror" in out
+    assert "compliance.output_type_registry_mirror" in out
+    assert "compliance.artifact_class_registry_mirror" in out
+    assert "compliance.component_primitive_registry_mirror" in out
+    assert "ON CONFLICT (adapter_id) DO UPDATE SET" in out
+    assert "ON CONFLICT (template_id) DO UPDATE SET" in out
+    assert "ON CONFLICT (engagement_id) DO UPDATE SET" in out
 
 
 def test_sync_persona_scenario_registry_only_sql() -> None:

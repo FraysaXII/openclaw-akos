@@ -224,7 +224,7 @@ def self_test() -> int:
     )
     assert engagement in union
     contracts = _load_emit_contracts()
-    assert len(contracts) >= 10
+    assert len(contracts) >= 40
     print("PASS: validate_mirror_emit_contract self-test")
     return 0
 

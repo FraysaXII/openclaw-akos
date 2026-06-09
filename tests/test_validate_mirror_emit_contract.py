@@ -32,7 +32,7 @@ def emit_module():
 
 def test_load_emit_contracts_from_registry_not_hardcoded(emit_module):
     contracts = emit_module._load_emit_contracts()
-    assert len(contracts) >= 20
+    assert len(contracts) >= 40
     csv_paths = {c[0] for c in contracts}
     assert (
         "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv"
@@ -43,6 +43,12 @@ def test_load_emit_contracts_from_registry_not_hardcoded(emit_module):
         "CAPABILITY_REGISTRY.csv"
         in csv_paths
     )
+    assert (
+        "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/"
+        "CRM_ADAPTER_REGISTRY.csv"
+        in csv_paths
+    )
+    assert ENGAGEMENT_TEMPLATE_PATH in csv_paths
 
 
 def test_workflow_paths_cover_registry_active_union(emit_module):
