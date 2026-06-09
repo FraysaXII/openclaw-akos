@@ -72,7 +72,7 @@ flowchart TB
 | **P95-GOV** | Universal canonical governance (8 packets) | **CLOSED** | PASS-WITH-FOLLOWUP UAT |
 | **L1** | Supabase EG-2..5 registries | **PARTIAL** | EG-2 doc done; **EG-3..5 open** |
 | **L2** | Capability de-densify | **DONE** | D-IH-95-I: 1,119→93 @ 2026-06-08; audit [`i95-l2-state-audit-2026-06-09.md`](reports/i95-l2-state-audit-2026-06-09.md) |
-| **L3** | FK→verb tranches | **PARTIAL** | Bundles A+B done; **Bundle C** charter-only (TRP-030/036) |
+| **L3** | FK→verb tranches | **DONE** (bindings) | Bundles A+B+C done (C charter 2026-06-10); tranche-5 = 44 bindings; TRP-030/036 stay **planned** until FK mint |
 | **L4** | Orphan burn-down (`--matrix`) | **OPEN** | Semantic Council disposition |
 | **L5** | Topics + IntelligenceOps | **OPEN** | T1 schema tranche next |
 | **L6** | biz-strategy re-home | **OPEN** | Overlaps I94 P7 placement |
@@ -82,7 +82,7 @@ flowchart TB
 | Open item | Owner initiative | Rationale |
 |:---|:---|:---|
 | L3 tranche-5 (10 unbound active triples) | **I95** | Regression F-11; articulation SSOT |
-| L3 Bundle C (TRP-030/036) | **I95** | Semantic Council + CSV gate |
+| ~~L3 Bundle C (TRP-030/036)~~ | **I95** | **DONE** 2026-06-10 — charter disposition; FK promotion deferred |
 | L1 EG-3..5 Supabase registries | **I95** (L1) | Data Architecture canon family |
 | ~~L2 capability de-densify~~ | **I95** | **DONE** (D-IH-95-I); mirror re-emit PENDING-OPERATOR |
 | L4 orphan `--matrix` burn-down | **I95** + **I88** / **I94** | Wiring discipline + area completeness |
@@ -107,7 +107,8 @@ Ordered for **maximum unlock across I86–I95**, not I95-only. Authoritative ope
 |:---:|:---|:---|:---|
 | **1** | ~~**INDEX_INTEGRITY specialty + planning index backfill** (I86 Wave N)~~ | I86 / I90 | **DONE** 2026-06-10 — Tranche 2; sweep `index-sweep-2026-06-10-tranche2-wave-n.md` |
 | **2** | ~~**I91 P1–P2** — Neo4j preflight + store-coverage matrix v1~~ | I91 | **DONE** 2026-06-10 — Tranche 3; probe exit 0; [`store-coverage-matrix-2026-06-10.md`](../91-enterprise-graph-store-coverage/reports/store-coverage-matrix-2026-06-10.md) |
-| **3** | **I95 L3 Bundle C ratify** (TRP-030/036) OR **I95 L1 EG-3** registries | I95 | Operator inline-ratify + canonical-CSV gate where applicable |
+| **3** | ~~**I95 L3 Bundle C ratify** (TRP-030/036)~~ | I95 | **DONE** 2026-06-10 — Tranche 4; keep planned; [`i95-l3-bundle-c-disposition-2026-06-10.md`](reports/i95-l3-bundle-c-disposition-2026-06-10.md) |
+| **3b** | **I95 L1 EG-3** registries (edge-fn / cron / extension) | I95 | Data Architecture canon family — **next** operator tranche |
 | **4** | **OPS-95-2** engagement_model_id backfill (7 engagements) | I95 | Operator-approved CSV tranche; mirror re-emit parity |
 | **5** | **I94 P3** Operations PMBOK reframe | I94 | Doctrine section + IntelligenceOps eviction plan |
 | **6** | **I95 L4** equal-slice orphan burn-down (one area) | I95 | `--matrix` wiring % up; Semantic Council disposition logged |

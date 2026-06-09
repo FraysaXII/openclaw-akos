@@ -34,7 +34,7 @@ linked_runbooks:
 | **Prod mirror** | **APPLIED** | Compliance mirror DML applied to MasterData; GOV-7 DDL pushed; 171 batches succeeded after FK fix |
 | **Row-count parity** | **PASS** @ 2026-06-09 | CSV emit row counts match prod mirror tables (post pooler recovery) |
 | **Neo4j graph harness** | **PASS** (F6 closed) | Instance `6c0d76bf`; username `6c0d76bf`; dual-emit sync + probe + CQ UAT PASS |
-| **L3 FK→verb tranches** | **Tranche-4 done** | Bundles A+B committed (12 bindings); **Bundle C** (TRP-030/036) charter-only |
+| **L3 FK→verb tranches** | **Bindings complete** | Bundles A+B+C done; 44 L3 bindings; TRP-030/036 stay **planned** (charter disposition 2026-06-10) |
 | **L1 Supabase EG-2 doc** | **Done** | [`SUPABASE_API_EXPOSURE.md`](../../../../references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/SUPABASE_API_EXPOSURE.md) minted; EG-3..5 still open |
 | **Full back-covering regression** | **PASS-WITH-FOLLOWUP** @ `bab57c2` | [`i95-full-regression-2026-06-09.md`](i95-full-regression-2026-06-09.md) — chain audit + intent-ranked sweep; fix-now batch applied; OPS-95-2/3 + L3 tranche-5 tracked |
 | **I95 initiative** | **Active** | GOV closed; HCAM / graph / articulation lanes remain |
@@ -90,7 +90,7 @@ Evidence synthesis: [`neo4j-graph-infrastructure-funding-research-area-2026-06-0
 | **4** | **Self-hosted spike charter** | Thinking → execution | I07 `neo4j+s` contract preserved; TCO ~$30/mo documented |
 | **5** | **EIC Pre-Accelerator screen + Open LOI draft** | Operator + Research | Eligibility checked; LOI draft ready for review |
 | **6** | **Neo4j Startup application pack** | Operator + Research | Application submitted or explicitly deferred with reason |
-| **7** | **L3 bundle C** (TRP-030/036) **+ tranche-5** (10 unbound active triples — regression F-11: TRP-019/022/023/024/025/026/028/048/049/050) | Semantic Council + CSV gate | Bundle C: charter ratified → promotion commit if FK columns exist · Tranche-5: bindings minted per-registry pattern |
+| **7** | ~~**L3 bundle C** (TRP-030/036)~~ **+ tranche-5** | Semantic Council + CSV gate | **DONE** 2026-06-10 — Bundle C charter disposition; tranche-5 = 44 bindings |
 | **8** | **EG-3** (edge-fn / cron / extension registries) | Data architecture | Three registries minted + validators |
 | **9** | **Orphan burn-down** | Semantic Council | `--matrix` wiring % rises area-by-area |
 | **10** | **Full verification bar** | CI + operator | `py scripts/verify.py pre_commit` PASS |
@@ -141,7 +141,8 @@ py scripts/verify.py pre_commit_fast
 
 1. ~~**I86 Wave N INDEX_INTEGRITY**~~ — **DONE** 2026-06-10 (I95 Tranche 2): planning README + INITIATIVE_DEPENDENCIES I90–I95 edges + IDX-02/06/08 gap fixes; sweep [`index-sweep-2026-06-10-tranche2-wave-n.md`](index-sweep-2026-06-10-tranche2-wave-n.md).
 2. ~~**I91 P1–P2** — Neo4j preflight + store-coverage matrix v1~~ — **DONE** 2026-06-10 (I95 Tranche 3): probe exit 0; [`store-coverage-matrix-2026-06-10.md`](../../91-enterprise-graph-store-coverage/reports/store-coverage-matrix-2026-06-10.md).
-3. **I95 L3 Bundle C ratify** (TRP-030/036) OR **I95 L1 EG-3** registries — operator inline-ratify where applicable.
+3. ~~**I95 L3 Bundle C ratify** (TRP-030/036)~~ — **DONE** 2026-06-10 (Tranche 4): keep planned; [`i95-l3-bundle-c-disposition-2026-06-10.md`](i95-l3-bundle-c-disposition-2026-06-10.md).
+4. **I95 L1 EG-3** registries — **next** operator tranche (edge-fn / cron / extension).
 
 **Registry gap:** ~~`INITIATIVE_DEPENDENCIES.md` stale vs I90–I95~~ — **cleared** 2026-06-10 (`last_generated` bumped; I90–I95 section added).
 
