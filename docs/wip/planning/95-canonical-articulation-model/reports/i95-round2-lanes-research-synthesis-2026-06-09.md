@@ -149,57 +149,42 @@ py scripts/probe_compliance_mirror_drift.py --verify
 
 ## Lane 2 — L2 Capability de-densify (D-IH-95-H, D-IH-95-I)
 
-### Current state
+> **STALE SECTION CORRECTED @ 2026-06-09.** This lane **completed** 2026-06-08 (D-IH-95-I). The 1,119-row figure below was accurate at first-pass synthesis mint; current SSOT is **93 capabilities**. Full audit: [`i95-l2-state-audit-2026-06-09.md`](i95-l2-state-audit-2026-06-09.md).
 
-- **Registry:** `CAPABILITY_REGISTRY.csv` still **1,119 rows** (1:1 process-shadow from I81 seed).
-- **Ratified method:** keep-separate (capability ≠ process); area-by-area organic count; evict ~27 code-symbols; merge cross-area dups; `bearer_class`→realization edge at collapse; `capability_tier` column added (empty).
-- **Schema pre-steps DONE (2026-06-07):** `capability_tier` on CSV + mirror DDL; topic schema pre-step (L5 T1) also landed.
-- **Collapse maps:** 6 area maps + `_SYNTHESIS-2026-06-08.md` — enterprise net **~80 capabilities** after reconciliation.
-- **Execution order ratified (D-IH-95-I):** Pilot **Data+Finance+Legal (44→11)** → Marketing → Research → People → Operations → Tech.
+### Current state (post-execution @ 2026-06-08)
 
-### Per-area scope (pilot first)
+- **Registry:** `CAPABILITY_REGISTRY.csv` — **93 rows** (1,119 → 93 collapse COMPLETE).
+- **Foundation schema DONE:** `bearer_class` removed; `l1_domain` + `definition` + `capability_tier` on CSV + mirror DDL [`20260608002412_i95_i_capability_registry_mirror_collapse_schema.sql`](../../../../supabase/migrations/20260608002412_i95_i_capability_registry_mirror_collapse_schema.sql).
+- **D+F+L pilot DONE:** 11 Data/Finance/Legal capabilities (was 44 shadows).
+- **All area slices DONE:** Marketing, Research, People, Operations, Tech collapsed in same wave.
+- **`process_list` cleanup DONE:** 496 processes; `BUILDOUT_BACKLOG.csv` 583 rows.
+- **Evictions DONE:** tools→substrate, code-symbols→component matrix (per decision log).
 
-| Area | Shadow rows | Target caps | Map file |
-|:---|---:|---:|:---|
-| Data+Finance+Legal | 44 | 11 | `data-finance-legal-collapse-map.md` |
-| Marketing | 117 | 11 | `marketing-collapse-map.md` |
-| Research | 82 | 12 | `research-collapse-map.md` |
-| People | 93 | 22 | `people-collapse-map.md` |
-| Operations | 404 | 18 | `operations-collapse-map.md` |
-| Tech | 379 | 27 | `tech-collapse-map.md` |
+### Remaining follow-ups (not re-collapse)
 
-### CSV gate implications
+| Item | Status |
+|:---|:---|
+| Hybrid weekly-cron capability rating (~8/wk, D-IH-95-H) | **PENDING** |
+| TRP-014 (capability composition) promotion | **PENDING** |
+| `bearer_class` on realization edge (Neo4j, not CSV) | **PENDING** — Neo4j lane |
+| Prod mirror re-emit (`process_list` + `buildout_backlog`) | **PENDING-OPERATOR** |
+| 8-area articulation orphan burn-down (`--matrix` AMBER→GREEN) | **PENDING** |
 
-Each slice requires:
-- Operator approval before `CAPABILITY_REGISTRY.csv` rewrite (canonical CSV gate).
-- `py scripts/validate_hlk.py` + capability rollup audit between slices.
-- Mirror re-sync after row-count change (delete-reconcile pattern from BT-09).
-- **`bearer_class` removal** + **`l1_domain` add** at foundation tranche (schema change before first collapse write).
-- **`process_list` cleanup** is coordinated but separately gated (hardest gate per D-IH-95-I §5).
+### Recommended default (Round-2 post-ratification)
 
-### Options
+**Skip collapse re-execution.** L2 slot = follow-ups only: mirror apply → rating cadence charter → TRP-014 → graph bearer edge (with Neo4j).
 
-| Option | Description | Effort | Risk |
-|:---|:---|:---|:---|
-| **A (recommended)** | Foundation schema tranche (`l1_domain` add, `bearer_class` remove) then **pilot D+F+L slice only** | Medium | Low — smallest blast radius |
-| **B** | Schema + pilot + Marketing in one tranche | High | Medium — two areas = large diff |
-| **C** | Defer collapse; only run `--matrix` visibility reporting | Low | Zero progress on 1,119-row debt |
-| **D** | Fuse capability→process (rejected at D-IH-95-H) | — | Breaks HCAM TRP-006 hub |
+### Verification gates (audit — no CSV rewrite unless drift)
 
-### Recommended default
-
-**A** — foundation schema, then pilot slice; validates the collapse machinery before touching 404-row Operations.
-
-### Verification gates
-
-- `py scripts/validate_area_completeness.py --matrix` (Data/Finance/People no regression)
+- `py scripts/validate_hlk.py`
+- `py scripts/validate_area_completeness.py --matrix`
 - `py scripts/validate_canonical_articulation.py`
 - `py scripts/validate_mirror_emit_contract.py` (post mirror sync)
 
 ### Operator gates
 
-- **Mandatory canonical-CSV approval** per slice.
-- KM Officer steward activation tied to L5 (already in baseline_organisation @ D-IH-95-H).
+- **No canonical-CSV approval** needed for collapse (already executed).
+- Mirror re-emit + any new CSV edits still require operator walkthrough / gate per baseline governance.
 
 ---
 
@@ -338,23 +323,26 @@ Each slice requires:
 
 ---
 
-## Cross-lane sequencing (recommended)
+## Cross-lane sequencing (recommended — updated post L2 audit)
 
 ```mermaid
 flowchart LR
   pendingMirror[GOV5_7_mirror_apply]
+  l3t4[L3_tranche4_A_B_bindings]
   eg2doc[EG2_API_exposure_doc]
-  l3t4[L3_tranche4_FK_bindings]
-  l2pilot[L2_DFL_pilot_collapse]
-  neo4j[Neo4j_cutover_gated]
+  l2follow[L2_followups_only]
+  neo4j[Neo4j_e2e_cutover]
 
-  pendingMirror --> eg2doc
   pendingMirror --> l3t4
+  pendingMirror --> eg2doc
   l3t4 --> neo4j
-  l2pilot --> l3t4
+  l2follow --> neo4j
 ```
 
 1. **Operator:** mirror apply walkthrough Steps 0–4 (unblocks T2 parity).
-2. **Parallel:** L3 tranche-4 (git-only) + EG-2 API exposure doc.
-3. **Gated:** L2 pilot after schema foundation AskQuestion.
-4. **Last:** Neo4j dual-emit (credentials + Council).
+2. **L3 tranche-4 A+B:** parallel research → single bindings commit (~15–17 tuples); TRP-030/036 stays CSV-gate charter only.
+3. **L1 EG-2:** `SUPABASE_API_EXPOSURE.md` + `config.toml` reconcile.
+4. **L2 follow-ups only** (collapse DONE @ 2026-06-08): rating cadence, TRP-014, mirror backlog — **not** re-collapse.
+5. **Last:** Neo4j dual-emit e2e (credentials + Council + CQ1–5).
+
+Deep charters: [`i95-round2-operator-ratification-2026-06-09.md`](i95-round2-operator-ratification-2026-06-09.md), [`i95-l3-parallel-bundles-charter-2026-06-09.md`](i95-l3-parallel-bundles-charter-2026-06-09.md), [`i95-neo4j-e2e-cutover-charter-2026-06-09.md`](i95-neo4j-e2e-cutover-charter-2026-06-09.md).
