@@ -90,10 +90,26 @@ def expected_default_primary_model() -> str:
     return model if isinstance(model, str) and model else default
 
 
-def main() -> int:
+def resolve_config_path(argv: list[str]) -> tuple[Path, bool]:
+    """Return (config_path, template_mode).
+
+    ``--template`` validates ``config/openclaw.json.example`` against the repo
+    contract without reading ``~/.openclaw/.akos-state.json`` overlays. Used by
+    the ``pre_commit_fast`` profile so local env switches (e.g. gpu-shadow) do
+    not fail CI-parity checks. Full ``pre_commit`` keeps live-runtime verification.
+    """
+    template_mode = "--template" in argv
+    positional = [a for a in argv if a != "--template"]
+    if template_mode:
+        return REPO_ROOT / "config" / "openclaw.json.example", True
     config_path = Path.home() / ".openclaw" / "openclaw.json"
-    if len(sys.argv) > 1:
-        config_path = Path(sys.argv[1])
+    if positional:
+        config_path = Path(positional[0])
+    return config_path, False
+
+
+def main() -> int:
+    config_path, template_mode = resolve_config_path(sys.argv[1:])
 
     if not config_path.exists():
         print(f"[FAIL] config file missing :: {config_path}")
@@ -190,7 +206,11 @@ def main() -> int:
 
     # 5) default primary model
     ok, primary = get_in(data, ["agents", "defaults", "model", "primary"])
-    expected_primary = expected_default_primary_model()
+    expected_primary = (
+        str(EXPECTED["default_primary_model"])
+        if template_mode
+        else expected_default_primary_model()
+    )
     all_ok &= passfail(
         "agents.defaults.model.primary expected value",
         ok and primary == expected_primary,

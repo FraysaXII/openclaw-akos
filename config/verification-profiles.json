@@ -359,9 +359,10 @@
       "steps": [
         {
           "id": "strict_inventory",
-          "description": "Strict full AKOS inventory (OVERALL: PASS)",
+          "description": "Template-contract AKOS inventory (OVERALL: PASS; --template skips local env overlay)",
           "argv": [
-            "scripts/legacy/verify_openclaw_inventory.py"
+            "scripts/legacy/verify_openclaw_inventory.py",
+            "--template"
           ]
         },
         {

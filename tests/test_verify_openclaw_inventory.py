@@ -54,3 +54,21 @@ def test_expected_default_primary_model_falls_back_without_state(monkeypatch, tm
     monkeypatch.setattr(module.Path, "home", staticmethod(lambda: home))
 
     assert module.expected_default_primary_model() == module.EXPECTED["default_primary_model"]
+
+
+def test_resolve_config_path_template_mode():
+    module = _load_inventory_module()
+    path, template_mode = module.resolve_config_path(["--template"])
+    assert template_mode is True
+    assert path == REPO_ROOT / "config" / "openclaw.json.example"
+
+
+def test_resolve_config_path_live_runtime_default(monkeypatch, tmp_path):
+    module = _load_inventory_module()
+    home = tmp_path / "home"
+    home.mkdir(parents=True)
+    monkeypatch.setattr(module.Path, "home", staticmethod(lambda: home))
+
+    path, template_mode = module.resolve_config_path([])
+    assert template_mode is False
+    assert path == home / ".openclaw" / "openclaw.json"

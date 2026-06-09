@@ -13,6 +13,8 @@ Release lane definitions, SemVer judgment, `[Unreleased]` working-line disciplin
 
 ## [Unreleased]
 
+- **I95 fast CI inventory parity (2026-06-09)**: `pre_commit_fast` inventory step uses `verify_openclaw_inventory.py --template` (validates `config/openclaw.json.example` without local env overlay); full `pre_commit` keeps live-runtime inventory against `~/.openclaw/openclaw.json`.
+
 - **I95 fast CI hardening (2026-06-08)**: `pre-commit-fast` installs `requirements.txt` + `pip install -e .`; `/prompts/assemble` uses `sys.executable` instead of Windows-only `py` (fixes API smoke on Linux GHA).
 
 - **I95 L3 FK→verb tranche-2 (2026-06-08; R2-05)**: 8 bindings for `capability_registry`, `decision_register`, `ops_register`; `L3_FK_BINDINGS` now 18 total; normalize relationship registry `current_fk` slugs. Report: [`l3-fk-verb-tranche2-2026-06-08.md`](docs/wip/planning/95-canonical-articulation-model/reports/l3-fk-verb-tranche2-2026-06-08.md).
