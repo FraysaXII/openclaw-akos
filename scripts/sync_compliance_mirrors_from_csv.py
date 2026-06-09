@@ -257,8 +257,9 @@ def _sql_column_value(
     *,
     date_columns: frozenset[str] = frozenset(),
     numeric_columns: frozenset[str] = frozenset(),
+    nullable_text_columns: frozenset[str] = frozenset(),
 ) -> str:
-    """Emit SQL for a mirror column; empty DATE/NUMERIC fields become NULL (I57 P1 pattern)."""
+    """Emit SQL for a mirror column; empty DATE/NUMERIC/nullable-text fields become NULL (I57 P1 pattern)."""
     if column in date_columns and not raw:
         return "NULL"
     if column in date_columns:
@@ -267,6 +268,8 @@ def _sql_column_value(
         return "NULL"
     if column in numeric_columns:
         return raw
+    if column in nullable_text_columns and not raw:
+        return "NULL"
     return _sql_text_literal(raw)
 
 
@@ -298,6 +301,7 @@ _OPS_REGISTER_NUMERIC_COLUMNS = frozenset(
 _INTELLIGENCEOPS_REGISTER_DATE_COLUMNS = frozenset({"last_review_at", "next_verify_by"})
 _INTELLIGENCEOPS_REGISTER_NUMERIC_COLUMNS = frozenset({"staleness_days"})
 _ENGAGEMENT_REGISTRY_DATE_COLUMNS = frozenset({"started_at", "ended_at"})
+_ENGAGEMENT_REGISTRY_NULLABLE_TEXT_COLUMNS = frozenset({"engagement_model_id"})
 _ENGAGEMENT_TEMPLATE_DATE_COLUMNS = frozenset({"last_review_at"})
 _ENGAGEMENT_TEMPLATE_NUMERIC_COLUMNS = frozenset({"duration_target_days"})
 _CYCLE_REGISTER_DATE_COLUMNS = frozenset({"started_at", "closed_at"})
@@ -1280,6 +1284,7 @@ def _emit_engagement_registry_upserts(rows: list[dict[str, str]], source_git_sha
                 c,
                 (r.get(c) or "").strip(),
                 date_columns=_ENGAGEMENT_REGISTRY_DATE_COLUMNS,
+                nullable_text_columns=_ENGAGEMENT_REGISTRY_NULLABLE_TEXT_COLUMNS,
             )
             for c in ENGAGEMENT_REGISTRY_MIRROR_FIELDNAMES
         )
