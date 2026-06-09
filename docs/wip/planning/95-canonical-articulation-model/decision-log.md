@@ -302,7 +302,7 @@ realizations re-pointed off removed rows (`thi_data_dtp_34` RPA, the 3 research 
 **What was ratified.**
 1. **F6 primary incident path** — restore operator export `b6d76b10-…backup` on **Aura Free ($0)** per [`i95-neo4j-free-backup-restore-charter-2026-06-09.md`](reports/i95-neo4j-free-backup-restore-charter-2026-06-09.md).
 2. **Backup governance** — [`i95-neo4j-backup-retention-process-2026-06-09.md`](reports/i95-neo4j-backup-retention-process-2026-06-09.md) (encrypted operator vault, retention, restore-drill cadence).
-3. **Funding radar** — [`neo4j-funding-escalation-radar-2026-06-09.md`](../../intelligence/neo4j-funding-escalation-radar-2026-06-09.md) + source ledger SRC-N4J-F01..F06.
+3. **Funding radar** — [`neo4j-funding-escalation-radar-2026-06-09.md`](../../intelligence/neo4j-funding-escalation-radar-2026-06-09.md) fused with full research area [`neo4j-graph-infrastructure-funding-research-area-2026-06-09.md`](../../intelligence/neo4j-graph-infrastructure-funding-research-area-2026-06-09.md) + 52-row ledger [`neo4j-graph-infrastructure-funding-source-ledger.csv`](../../intelligence/neo4j-graph-infrastructure-funding-source-ledger.csv) (supersedes planning-side SRC-N4J-F01..F06 as SSOT).
 4. **Partial supersession of D-IH-95-G R2-09** — **keepalive unchanged**; Professional budget arm **deferred 2026** (not revoked).
 5. **Professional charter** — [`i95-neo4j-professional-restore-charter-2026-06-09.md`](reports/i95-neo4j-professional-restore-charter-2026-06-09.md) → `status: deferred-funding` appendix only.
 6. **`finops_neo4j` CSV** — no edit without separate operator gate (notes stay "Likely AuraDB free tier").
@@ -316,5 +316,6 @@ realizations re-pointed off removed rows (`thi_data_dtp_34` RPA, the 3 research 
 ### Pending sub-decisions (to ratify at each gate)
 - **process_list radical cleanup scope** — AskQuestion after the issue-inventory agent reports.
 - **D-IH-95-F (future):** I91 graph-edge cutover (dual-emit → retire legacy) when Neo4j unblocks.
-- **FQ-1..FQ-3** — funding-only AskQuestion after F6 docs land (Neo4j Startup / EU track / post-credits escalation).
+- **D-IH-95-M (draft — NOT minted):** Neo4j funding posture 2026 closure after AskQuestion #2. **Draft rationale:** Given D-IH-95-L (F6 primary, Professional deferred), operator ratified FQ-2 (**EIC Accelerator Open** primary EU track) and FQ-3 (**self-hosted VM ~$30/mo** default post-credits, not Aura Pro first). FQ-1 (Neo4j Startup ~$16K credits) remains open. On FQ-1..FQ-4 answers, mint `D-IH-95-M` in `DECISION_REGISTER.csv` — do **not** re-mint D-IH-95-L. Evidence: [`neo4j-graph-infrastructure-funding-research-area-2026-06-09.md`](../../intelligence/neo4j-graph-infrastructure-funding-research-area-2026-06-09.md) §8–9.
+- **FQ-1, FQ-4** — AskQuestion #2 after research-area synthesis (FQ-2/FQ-3 ratified-at-planning 2026-06-09).
 - 8-area articulation sweep: burn down the orphan worklist (`--matrix`) via the Semantic Council.
