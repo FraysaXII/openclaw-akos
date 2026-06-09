@@ -5,6 +5,7 @@ for every canonical CSV under ``docs/references/hlk/v3.0/**/canonicals/**/*.csv`
 """
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -66,6 +67,16 @@ CSV_PATH_RELATIVE: str = (
     "CANONICAL_GOVERNANCE_REGISTRY.csv"
 )
 
+# Charter R95-GOV-01 guard — workflow path union must stay bounded for GHA filters.
+MAX_PLANE2_WORKFLOW_PATHS: int = 80
+
+# Registry seed typo vs sync emit table name (touchpoint_kit_cell_mirror).
+MIRROR_TABLE_ALIASES: dict[str, str] = {
+    "touchpoint_kit_cell_registry_mirror": "touchpoint_kit_cell_mirror",
+}
+
+EMIT_CONTRACT_PROFILES: frozenset[str] = frozenset({"main", "gap_splice"})
+
 
 class CanonicalGovernanceRegistryRow(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
@@ -118,3 +129,70 @@ class CanonicalGovernanceRegistryRow(BaseModel):
         if v and (len(v) != 10 or v[4] != "-" or v[7] != "-"):
             raise ValueError("last_review must be YYYY-MM-DD or empty")
         return v
+
+
+def load_registry_rows(registry_path: Path) -> list[dict[str, str]]:
+    """Load governance registry CSV rows (raw dicts, header-aligned)."""
+    import csv
+
+    with registry_path.open(encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh)
+        if tuple(reader.fieldnames or ()) != CANONICAL_GOVERNANCE_REGISTRY_FIELDNAMES:
+            raise ValueError("CANONICAL_GOVERNANCE_REGISTRY header mismatch")
+        return list(reader)
+
+
+def parse_plane2_workflow_paths(cell: str) -> list[str]:
+    """Split semicolon-list ``plane2_workflow_paths`` into normalized path strings."""
+    return [p.strip() for p in (cell or "").split(";") if p.strip()]
+
+
+def plane2_workflow_path_union(
+    rows: list[dict[str, str]],
+    *,
+    sync_policy: str = "active",
+    status: str = "active",
+) -> tuple[str, ...]:
+    """Union of workflow path filters for mirror-sync CI (P95-GOV-3 §5.1)."""
+    paths: set[str] = set()
+    for row in rows:
+        if (row.get("status") or "").strip() != status:
+            continue
+        if (row.get("plane2_sync_policy") or "").strip() != sync_policy:
+            continue
+        paths.update(parse_plane2_workflow_paths(row.get("plane2_workflow_paths") or ""))
+    ordered = tuple(sorted(paths))
+    if len(ordered) > MAX_PLANE2_WORKFLOW_PATHS:
+        raise ValueError(
+            f"plane2_workflow_paths union {len(ordered)} exceeds max {MAX_PLANE2_WORKFLOW_PATHS}"
+        )
+    return ordered
+
+
+def iter_emit_contract_rows(rows: list[dict[str, str]]) -> list[dict[str, str]]:
+    """Rows in the current CI emit bundle (main + gap_splice profiles; P95-GOV-3 §5.2)."""
+    out: list[dict[str, str]] = []
+    for row in rows:
+        if (row.get("status") or "").strip() != "active":
+            continue
+        profile = (row.get("plane2_emit_profile") or "").strip()
+        if profile not in EMIT_CONTRACT_PROFILES:
+            continue
+        out.append(row)
+    return out
+
+
+def mirror_table_short_name(row: dict[str, str]) -> str:
+    """Short ``compliance.<table>`` name for INSERT counting (no schema prefix)."""
+    mt = (row.get("plane2_mirror_table") or "").strip()
+    if mt.startswith("compliance."):
+        mt = mt.split(".", 1)[1]
+    if not mt:
+        stem = Path(row["csv_path"]).stem.lower()
+        if stem.endswith("_registry"):
+            mt = stem.replace("_registry", "_registry_mirror")
+        elif stem.endswith("_register"):
+            mt = stem.replace("_register", "_register_mirror")
+        else:
+            mt = f"{stem}_mirror"
+    return MIRROR_TABLE_ALIASES.get(mt, mt)

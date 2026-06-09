@@ -16,7 +16,41 @@ on:
   push:
     branches: [main]
     paths:
-      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/**/*.csv"
+      # P95-GOV-3: union of CANONICAL_GOVERNANCE_REGISTRY plane2_workflow_paths (plane2_sync_policy=active)
+      - "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Experimentation/canonicals/dimensions/ATTRIBUTION_ADAPTER_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/COMMUNICATION_ADAPTER_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/CRM_ADAPTER_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/EMAIL_ADAPTER_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/SCHEDULING_ADAPTER_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Operations/RevOps/canonicals/dimensions/BILLING_ADAPTER_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Operations/RevOps/canonicals/dimensions/ENGAGEMENT_TEMPLATE_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Operations/RevOps/canonicals/dimensions/REVOPS_ADAPTER_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Operations/SMO/canonicals/dimensions/CONTRACT_ADAPTER_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CYCLE_REGISTER.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPOSITORY_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/REPO_HEALTH_SNAPSHOT.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_ENGAGEMENT_DISCIPLINES.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/ADVISER_OPEN_QUESTIONS.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/advops/FILED_INSTRUMENTS.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COUNTRY_WORK_CALENDAR.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/GOI_POI_REGISTER.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PERSONA_SCENARIO_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/POLICY_REGISTER.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/PROGRAM_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SKILL_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/SOURCING_REGISTER.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOPIC_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOUCHPOINT_KIT_CELL_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv"
   workflow_dispatch:
     inputs:
       apply:
@@ -44,6 +78,10 @@ jobs:
           cache-dependency-path: requirements.txt
       - name: Install dependencies
         run: pip install -r requirements.txt
+      - name: Preflight — governance registry + emit-contract path parity
+        run: |
+          python scripts/validate_canonical_governance_registry.py
+          python scripts/validate_mirror_emit_contract.py
       - name: Emit mirror DML from canonical CSVs
         run: |
           SHA="$(git rev-parse --short HEAD)"

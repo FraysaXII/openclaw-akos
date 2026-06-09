@@ -5,8 +5,11 @@ Holistic offline guard for the mirror-sync pipeline. Emits the full mirror SQL (
 gap mirrors spliced, same as the GitHub workflow), counts INSERT statements per
 ``compliance.<table>``, and compares to canonical CSV row counts.
 
+Registry-driven since P95-GOV-3: emit-contract rows and workflow path filters load from
+``CANONICAL_GOVERNANCE_REGISTRY.csv`` (not a hardcoded Compliance folder list).
+
 Also verifies workflow wiring (gap splice, enum parity preflight, single-transaction apply,
-delete-reconcile).
+delete-reconcile, registry path-filter parity).
 
 Usage::
 
@@ -25,9 +28,19 @@ import tempfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-CANONICALS = REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals"
+sys.path.insert(0, str(REPO_ROOT))
+
+from akos.hlk_canonical_governance_registry_csv import (  # noqa: E402
+    CSV_PATH_RELATIVE,
+    iter_emit_contract_rows,
+    load_registry_rows,
+    mirror_table_short_name,
+    plane2_workflow_path_union,
+)
+
 SYNC = REPO_ROOT / "scripts/sync_compliance_mirrors_from_csv.py"
 WORKFLOW = REPO_ROOT / ".github/workflows/supabase-mirror-sync.yml"
+REGISTRY = REPO_ROOT / CSV_PATH_RELATIVE
 RECONCILE = REPO_ROOT / "scripts/emit_mirror_delete_reconcile.py"
 ENUM_PARITY = REPO_ROOT / "scripts/validate_mirror_enum_parity.py"
 
@@ -36,33 +49,19 @@ _INSERT_COUNT_RE = re.compile(
     re.IGNORECASE,
 )
 
-# Milestone BT-09 counts + other high-signal mirrors (csv_rel_under_canonicals, mirror_table)
-_EMIT_CONTRACTS: tuple[tuple[str, str], ...] = (
-    ("process_list.csv", "process_list_mirror"),
-    ("dimensions/CAPABILITY_REGISTRY.csv", "capability_registry_mirror"),
-    ("dimensions/CAPABILITY_CONFIDENCE_REGISTRY.csv", "capability_confidence_registry_mirror"),
-    ("dimensions/TOPIC_REGISTRY.csv", "topic_registry_mirror"),
-    ("DECISION_REGISTER.csv", "decision_register_mirror"),
-    ("dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv", "people_design_pattern_registry_mirror"),
-    ("dimensions/AIC_REGISTRY.csv", "aic_registry_mirror"),
-    ("dimensions/AUDIENCE_REGISTRY.csv", "audience_registry_mirror"),
-    ("baseline_organisation.csv", "baseline_organisation_mirror"),
-    ("OPS_REGISTER.csv", "ops_register_mirror"),
-    ("INITIATIVE_REGISTRY.csv", "initiative_registry_mirror"),
-)
+_WORKFLOW_PATH_RE = re.compile(r'^\s+-\s+"([^"]+)"\s*$')
 
 
-def _csv_row_count(rel: str) -> int:
+def _csv_row_count(csv_path: Path) -> int:
     """Rows eligible for mirror emit (matches sync_compliance_mirrors_from_csv.py filters)."""
-    path = CANONICALS / rel
-    if not path.is_file():
+    if not csv_path.is_file():
         return -1
-    if rel == "baseline_organisation.csv":
-        with path.open(encoding="utf-8", newline="") as fh:
+    if csv_path.name == "baseline_organisation.csv":
+        with csv_path.open(encoding="utf-8", newline="") as fh:
             return sum(
                 1 for r in csv.DictReader(fh) if (r.get("org_uuid") or "").strip()
             )
-    with path.open(encoding="utf-8", newline="") as fh:
+    with csv_path.open(encoding="utf-8", newline="") as fh:
         return sum(1 for _ in csv.reader(fh)) - 1  # minus header
 
 
@@ -74,7 +73,16 @@ def _emit_full_sql(out_path: Path) -> None:
     )
     gap = out_path.with_suffix(".gap.sql")
     subprocess.run(
-        [sys.executable, str(SYNC), "--ops8615-gap-mirrors-only", "--no-begin-commit", "--output", str(gap), "--git-sha", "emit-contract"],
+        [
+            sys.executable,
+            str(SYNC),
+            "--ops8615-gap-mirrors-only",
+            "--no-begin-commit",
+            "--output",
+            str(gap),
+            "--git-sha",
+            "emit-contract",
+        ],
         check=True,
         cwd=str(REPO_ROOT),
     )
@@ -100,7 +108,26 @@ def _count_inserts(sql_path: Path) -> dict[str, int]:
     return counts
 
 
-def _check_workflow_wiring() -> list[str]:
+def _parse_workflow_push_paths() -> set[str]:
+    if not WORKFLOW.is_file():
+        return set()
+    in_paths = False
+    found: set[str] = set()
+    for line in WORKFLOW.read_text(encoding="utf-8").splitlines():
+        if re.match(r"^\s+paths:\s*$", line):
+            in_paths = True
+            continue
+        if in_paths:
+            m = _WORKFLOW_PATH_RE.match(line)
+            if m:
+                found.add(m.group(1))
+                continue
+            if line.strip() and not line.startswith(" " * 6):
+                break
+    return found
+
+
+def _check_workflow_wiring(registry_rows: list[dict[str, str]]) -> list[str]:
     errors: list[str] = []
     if not WORKFLOW.is_file():
         return ["missing supabase-mirror-sync.yml"]
@@ -110,16 +137,57 @@ def _check_workflow_wiring() -> list[str]:
         ("validate_mirror_enum_parity.py", "enum parity preflight"),
         ("--single-transaction", "atomic apply"),
         ("emit_mirror_delete_reconcile.py", "delete-reconcile step"),
+        ("validate_canonical_governance_registry.py", "governance registry preflight"),
     )
     for needle, label in required:
         if needle not in text:
             errors.append(f"workflow missing {label} ({needle})")
+
+    try:
+        expected_paths = set(plane2_workflow_path_union(registry_rows))
+    except ValueError as exc:
+        errors.append(str(exc))
+        expected_paths = set()
+
+    workflow_paths = _parse_workflow_push_paths()
+    if expected_paths and workflow_paths != expected_paths:
+        missing = sorted(expected_paths - workflow_paths)
+        extra = sorted(workflow_paths - expected_paths)
+        if missing:
+            errors.append(
+                f"workflow paths missing {len(missing)} registry path(s): {missing[:3]}"
+            )
+        if extra:
+            errors.append(
+                f"workflow paths have {len(extra)} extra path(s) vs registry: {extra[:3]}"
+            )
+
     return errors
+
+
+def _load_emit_contracts() -> list[tuple[str, str]]:
+    if not REGISTRY.is_file():
+        return []
+    rows = iter_emit_contract_rows(load_registry_rows(REGISTRY))
+    contracts: list[tuple[str, str]] = []
+    for row in rows:
+        csv_path = (row.get("csv_path") or "").strip()
+        mirror_tbl = mirror_table_short_name(row)
+        if csv_path and mirror_tbl:
+            contracts.append((csv_path, mirror_tbl))
+    return contracts
 
 
 def run_checks() -> list[str]:
     errors: list[str] = []
-    errors.extend(_check_workflow_wiring())
+    if not REGISTRY.is_file():
+        return [f"missing registry at {CSV_PATH_RELATIVE}"]
+
+    registry_rows = load_registry_rows(REGISTRY)
+    emit_contracts = _load_emit_contracts()
+    if not emit_contracts:
+        errors.append("no emit-contract rows from CANONICAL_GOVERNANCE_REGISTRY")
+    errors.extend(_check_workflow_wiring(registry_rows))
 
     for script in (SYNC, RECONCILE, ENUM_PARITY):
         if not script.is_file():
@@ -130,8 +198,8 @@ def run_checks() -> list[str]:
         _emit_full_sql(sql_path)
         insert_counts = _count_inserts(sql_path)
 
-        for csv_rel, mirror_tbl in _EMIT_CONTRACTS:
-            csv_n = _csv_row_count(csv_rel)
+        for csv_rel, mirror_tbl in emit_contracts:
+            csv_n = _csv_row_count(REPO_ROOT / csv_rel)
             emit_n = insert_counts.get(mirror_tbl, 0)
             if csv_n < 0:
                 errors.append(f"{mirror_tbl}: CSV missing {csv_rel}")
@@ -147,6 +215,17 @@ def run_checks() -> list[str]:
 
 def self_test() -> int:
     assert _INSERT_COUNT_RE.match("INSERT INTO compliance.process_list_mirror (")
+    rows = load_registry_rows(REGISTRY)
+    union = plane2_workflow_path_union(rows)
+    assert len(union) >= 10
+    engagement = (
+        "docs/references/hlk/v3.0/Admin/O5-1/Operations/RevOps/canonicals/"
+        "dimensions/ENGAGEMENT_TEMPLATE_REGISTRY.csv"
+    )
+    assert engagement in union
+    contracts = _load_emit_contracts()
+    assert len(contracts) >= 10
+    print("PASS: validate_mirror_emit_contract self-test")
     return 0
 
 
@@ -157,6 +236,7 @@ def main() -> int:
     if args.self_test:
         return self_test()
 
+    emit_contracts = _load_emit_contracts()
     errors = run_checks()
     if errors:
         print(f"FAIL: {len(errors)} mirror-emit-contract finding(s):")
@@ -164,7 +244,7 @@ def main() -> int:
             print(f"  - {e}")
         return 1
     print(
-        f"PASS: mirror emit contract — {len(_EMIT_CONTRACTS)} tables, "
+        f"PASS: mirror emit contract — {len(emit_contracts)} tables, "
         "CSV row counts match emitted INSERTs; workflow wiring OK"
     )
     return 0
