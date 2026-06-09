@@ -54,7 +54,7 @@ flowchart TB
 | **I91** | Enterprise graph & store-coverage mapping | active | **Neo4j harness** (I95 F6), HCAM verbs (I95 P2+) | Store-coverage matrix → I92 | Was blocked on `NEO4J_*`; **unblocked** 2026-06-09 |
 | **I92** | HLK-ERP reassess & dashboard | active (stub) | I91 P2 matrix, I62/I64/I65/I68 lineage | ERP dashboard integration | Stub until I92 P0 expands |
 | **I93** | DATA area foundation & cross-area data governance | **closed** | DAMA DATA area, `pattern_area_buildout` | Area-governance meta-process (parent of I94) | [`uat-i93-closure-2026-06-05.md`](../93-data-area-foundation-and-governance/reports/uat-i93-closure-2026-06-05.md) |
-| **I94** | Area architecture & completeness v2 | active (P3 **in progress** 2026-06-10) | Sub-folder=role, placement-integrity (I94 P7) | Area-completeness **v3** target (I95 P4) | P0+P1 Operations doctrine landed; P2 pairing + P4–P9 open |
+| **I94** | Area architecture & completeness v2 | active (P3 **DONE** 2026-06-10) | Sub-folder=role, placement-integrity (I94 P7) | Area-completeness **v3** target (I95 P4) | AREA-09 12/53 paired; IntelligenceOps evicted; P4 handoffs next |
 | **I95** | Canonical articulation model (HCAM / Singularity) | active | I94 placement model, I93 DATA canon, Neo4j projection | Relationship registry, verb triples, GOV registry, graph CQ harness | [`i95-pmo-status-sweep-2026-06-10.md`](reports/i95-pmo-status-sweep-2026-06-10.md) |
 
 ## I95 internal lanes

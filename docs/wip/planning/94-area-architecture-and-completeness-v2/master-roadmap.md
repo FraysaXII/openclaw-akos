@@ -27,8 +27,8 @@ todos:
     content: "P2 DONE (2026-06-10) — Automation-first T1: OPERATIONS_PROCESS_CATALOG.yaml (12 processes) + 5 new PMO SOPs + 7 existing SOP runbook cross-refs + RevOps QBR/scaffold lifecycle active + pre_commit_fast cohesion/area self-tests. Vault pairing complete; AREA-09 scorer still 0/46 until process_list sop_path/runbook_path tranche (operator gate). Evidence: i94-p2-session-doctrine-2026-06-10.md."
     status: completed
   - id: p3-operations
-    content: "P3 IN PROGRESS (2026-06-10) — P0+P1+P2 closed. Remaining: IntelligenceOps eviction (file-move + inline-ratify), Engagement subfolder FK (AREA-16), business-strategy forward tracker (I95 L6), P4–P6 cross-area handoffs + I88 slice + closure UAT."
-    status: in_progress
+    content: "P3 DONE (2026-06-10) — AREA-09 tranche (12/53 paired); IntelligenceOps eviction (2 SOPs → Research); Engagement AREA-16 FK (PMO sub_area); I95 L6 business-strategy forward tracker. Evidence: i94-p3-session-doctrine + i94-p3-area09-process-list-tranche. Next: P4 cross-area handoffs."
+    status: completed
   - id: p4-people-compliance
     content: "P4 — People methodology consolidation: cross-area disciplines (UAT/regressions/area-governance/Quality Fabric) home = People/Compliance (methodology-enforcement; 'the methodology is the product'); manifesto stays at People root. Migrate area-ops drift OUT: MKTOPS->Marketing, TECHOPS->Tech, DATAOPS->Data, UX->Marketing. Reconcile RESEARCH_HEAD vs RESEARCH_ACTION home. Three-verb pipeline doctrine (Research authors / People mints / Compliance enforces)."
     status: pending

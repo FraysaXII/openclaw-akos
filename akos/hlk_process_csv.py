@@ -65,6 +65,9 @@ PROCESS_LIST_FIELDNAMES: list[str] = [
     # ProcessItem (extra=allow tolerated) + Supabase mirror DDL (ALTER TABLE ADD COLUMN
     # inherited_pattern_id text NULL) + release-gate FK regex + jargon-scan untouched.
     "inherited_pattern_id",
+    # I94 P3 AREA-09 tranche (D-IH-94-A): paired SOP + runbook paths for validate_area_completeness.py scorer.
+    "sop_path",
+    "runbook_path",
 ]
 
 

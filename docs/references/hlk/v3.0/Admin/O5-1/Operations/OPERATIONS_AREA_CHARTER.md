@@ -64,9 +64,9 @@ them at execution time.
 | **SMO** | `Operations/SMO/` | COO → Service Manager | service |
 | **Engagement** | `Operations/Engagement/` | PMO + RevOps | project (client delivery) |
 
-**IntelligenceOps** (`Operations/IntelligenceOps/`) is **misplaced** — research-
-application work belongs under Research; eviction planned at I94 P3 placement gate
-(charter-only until operator approves file moves).
+**IntelligenceOps** SOPs were **evicted** at I94 P3 (2026-06-10) — `SOP-IO_*` now
+live under `Research/Intelligence/canonicals/`; the empty `Operations/IntelligenceOps/`
+folder may be removed at P7 sub-folder remediation.
 
 **business-strategy** under `PMO/canonicals/business-strategy/` is **placement debt**
 (I95 L6); register strategy there; execute via Marketing/Finance/RevOps elsewhere.

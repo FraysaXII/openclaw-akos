@@ -32,8 +32,8 @@ work so programs run with governed cadence and maximal automation.
 | `PMO/` | Program / portfolio management | WIP, inbox, cohesion renders |
 | `RevOps/` | Revenue operations | Adapters, engagement spine, QBR |
 | `SMO/` | Service management | SERVICE_CATALOG, SLA_MATRIX |
-| `Engagement/` | Client delivery SOPs | AREA-16 FK remediation at P3 |
-| `IntelligenceOps/` | **Misplaced** — eviction to Research planned | Do not treat as delivery |
+| `Engagement/` | Client delivery SOPs | AREA-16 FK via PMO `sub_area=Engagement` (I94 P3) |
+| *(removed)* | IntelligenceOps evicted (I94 P3) | SOP-IO_* under `Research/Intelligence/canonicals/` |
 
 ## Area-completeness
 
