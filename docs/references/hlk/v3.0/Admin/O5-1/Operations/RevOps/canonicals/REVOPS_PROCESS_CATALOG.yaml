@@ -42,7 +42,7 @@ processes:
       QBR report authored at docs/wip/planning/72-marketing-area-governance-and-persona-registry-expansion/reports/qbr-YYYY-Qn.md.
     acceptance_criteria_automation: |
       validate_engagement_template_registry.py PASS + validate_engagement_template_promotion.py PASS + validate_hlk.py PASS.
-    lifecycle_status: scaffold
+    lifecycle_status: active
 
   - id: engagement_template_promotion
     name: Engagement template promotion ratification
@@ -77,7 +77,7 @@ processes:
       PMO reviews scaffolded folder + opens PR + assigns reviewer.
     acceptance_criteria_automation: |
       scaffold_engagement.py exits 0 with new folder + frontmatter; PR auto-opens; CI green.
-    lifecycle_status: scaffold
+    lifecycle_status: active
 
   - id: revenue_rollup
     name: Per-engagement revenue rollup refresh

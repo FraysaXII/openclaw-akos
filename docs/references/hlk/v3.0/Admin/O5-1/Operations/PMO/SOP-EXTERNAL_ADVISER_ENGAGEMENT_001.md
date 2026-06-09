@@ -1,5 +1,13 @@
 ---
 language: en
+Inherited Pattern: pattern_paired_sop_runbook
+linked_runbooks:
+  - scripts/export_adviser_handoff.py
+  - scripts/validate_adviser_disciplines.py
+  - scripts/validate_adviser_questions.py
+Paired Runbook: scripts/export_adviser_handoff.py
+Acceptance Criteria Human: PMO runs §4 discipline maintenance without invoking export script.
+Acceptance Criteria Automation: export_adviser_handoff smoke + adviser CSV validators PASS.
 ---
 
 STANDARD OPERATING PROCEDURE

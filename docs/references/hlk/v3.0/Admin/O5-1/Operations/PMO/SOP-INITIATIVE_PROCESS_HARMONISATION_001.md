@@ -11,6 +11,12 @@ Associated Workstream: Think Big Operational Excellence
 Version: 0.1
 Revision Date: 2026-05-06
 status: review
+Inherited Pattern: pattern_paired_sop_runbook
+linked_runbooks:
+  - scripts/validate_initiative_registry.py
+Paired Runbook: scripts/validate_initiative_registry.py
+Acceptance Criteria Human: PMO updates manifests_processes per Case A/B without the validator.
+Acceptance Criteria Automation: validate_initiative_registry.py PASS on registry commit.
 ---
 
 ## Purpose

@@ -10,6 +10,12 @@ Area Owner: Operations
 Associated Workstream: Think Big Operational Excellence
 Version: 1.0
 Revision Date: 2026-04-14
+Inherited Pattern: pattern_paired_sop_runbook
+linked_runbooks:
+  - scripts/validate_hlk.py
+Paired Runbook: scripts/validate_hlk.py
+Acceptance Criteria Human: PMO completes promotion tranche with operator approval per §Steps without automation.
+Acceptance Criteria Automation: validate_hlk.py OVERALL PASS after CSV merge.
 ---
 ## Purpose
 

@@ -13,6 +13,12 @@ companion_to:
   - SLA_MATRIX.md
   - ../../PMO/WORKSPACE_BLUEPRINT_HOLISTIKA.md
   - ../../PMO/canonicals/HLK_ERP_ARCHITECTURE.md
+Inherited Pattern: pattern_paired_sop_runbook
+linked_runbooks:
+  - scripts/validate_hlk.py
+Paired Runbook: scripts/validate_hlk.py
+Acceptance Criteria Human: SMO maintains SERVICE_CATALOG.csv weekly per §2.1 without automation.
+Acceptance Criteria Automation: validate_hlk.py PASS includes catalog structural checks.
 ---
 
 # SOP-SERVICE_MGMT_001 — SMO active charter (ITIL-derived)

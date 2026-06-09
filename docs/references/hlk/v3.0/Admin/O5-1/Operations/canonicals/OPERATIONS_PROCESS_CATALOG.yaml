@@ -1,0 +1,240 @@
+# OPERATIONS_PROCESS_CATALOG — I94 P2 automation-first T1 (2026-06-10)
+# Per D-IH-94-A + akos-executable-process-catalog.mdc Rule 1 (paired SOP + runbook).
+# SSOT for PMO/SMO/cross-cutting Operations processes; RevOps spine remains
+# REVOPS_PROCESS_CATALOG.yaml. process_list sop_path/runbook_path column tranche
+# is forward-chartered (operator gate) — pairing metadata lives here until AREA-09
+# scorer reads those columns.
+
+version: 1
+authored: 2026-06-10
+authored_by: PMO
+authored_decision_id: D-IH-94-A
+last_review_at: 2026-06-10
+last_review_by: COO
+last_review_decision_id: D-IH-94-A
+methodology_version_at_review: v3.1
+data_owner: COO interim (PMO executes)
+
+processes:
+
+  - id: pmo_wip_dashboard_render
+    name: PMO WIP dashboard render
+    cadence: scheduled
+    schedule_cron: "0 7 * * MON"
+    cadence_secondary: event_triggered
+    sop_path: ../PMO/canonicals/SOP-PMO_WIP_DASHBOARD_RENDER_001.md
+    runbook_pointer: scripts/render_wip_dashboard.py
+    process_list_id: hol_opera_dtp_310
+    role_owner_human: PMO
+    role_owner_aic: pmo-aic
+    description: >
+      Auto-render WIP_DASHBOARD.md from initiative master-roadmap frontmatter;
+      deterministic section split per InitiativeStatus taxonomy (I59 P2).
+    acceptance_criteria_human: |
+      PMO runs SOP §4 manually when --check-only fails; reviews section placement;
+      commits refreshed WIP_DASHBOARD.md.
+    acceptance_criteria_automation: |
+      render_wip_dashboard.py --check-only PASS in wip_dashboard_render_smoke profile;
+      sha256 stable across repeated runs.
+    lifecycle_status: active
+    inherited_pattern_id: pattern_paired_sop_runbook
+
+  - id: pmo_operator_inbox_render
+    name: PMO operator inbox render
+    cadence: scheduled
+    schedule_cron: "0 7 * * *"
+    sop_path: ../PMO/canonicals/SOP-PMO_OPERATOR_INBOX_RENDER_001.md
+    runbook_pointer: scripts/render_operator_inbox.py
+    process_list_id: hol_opera_dtp_310
+    role_owner_human: PMO
+    role_owner_aic: pmo-aic
+    description: >
+      Ranked OPERATOR_INBOX.md from OPS_REGISTER.csv (open + operator/mixed owner_class);
+      RICE-descending per D-IH-59-A.
+    acceptance_criteria_human: |
+      PMO triages inbox rows after render; updates OPS_REGISTER status/owner before next cadence.
+    acceptance_criteria_automation: |
+      render_operator_inbox.py --check-only PASS; FK joins to INITIATIVE_REGISTRY resolve.
+    lifecycle_status: active
+    inherited_pattern_id: pattern_paired_sop_runbook
+
+  - id: operational_cohesion_index_render
+    name: Operational cohesion index render
+    cadence: scheduled
+    schedule_cron: "0 8 1 */3 *"
+    cadence_secondary: event_triggered
+    sop_path: ../PMO/canonicals/SOP-PMO_OPERATIONAL_COHESION_INDEX_RENDER_001.md
+    runbook_pointer: scripts/render_operational_cohesion_index.py
+    process_list_id: ops_pmo_dtp_cohesion_quarterly_001
+    role_owner_human: PMO
+    role_owner_aic: pmo-aic
+    description: >
+      Validate OPERATIONAL_COHESION_DOCTRINE self-consistency + optional index emit
+      (D-IH-86-AM + AN; I86 Wave I Lane I-B).
+    acceptance_criteria_human: |
+      PMO + System Owner walk doctrine §3–§5 quarterly; file remediation decision when validate fails.
+    acceptance_criteria_automation: |
+      render_operational_cohesion_index.py validate exits 0; linked_canonicals + audience FK checks PASS.
+    lifecycle_status: active
+    inherited_pattern_id: pattern_paired_sop_runbook
+
+  - id: initiative_program_anchors
+    name: Initiative program anchor backfill
+    cadence: event_triggered
+    trigger: initiative_registry_tranche
+    sop_path: ../PMO/canonicals/SOP-PMO_INITIATIVE_PROGRAM_ANCHORS_001.md
+    runbook_pointer: scripts/pmo_program_anchor_backfill.py
+    process_list_id: hol_ops_dtp_72
+    role_owner_human: PMO
+    role_owner_aic: pmo-aic
+    description: >
+      Maintain INITIATIVE_REGISTRY program_anchors / notes prefix (Stage A/B per D-IH-86-J).
+    acceptance_criteria_human: |
+      PMO authors proposals.csv after --list-unanchored review; operator ratifies before --apply.
+    acceptance_criteria_automation: |
+      --coverage-report writes persona table; --apply --dry-run idempotent preview PASS.
+    lifecycle_status: active
+    inherited_pattern_id: pattern_paired_sop_runbook
+
+  - id: external_adviser_router
+    name: External adviser engagement router
+    cadence: on_demand
+    sop_path: ../PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md
+    runbook_pointer: scripts/export_adviser_handoff.py
+    process_list_id: hol_opera_dtp_311
+    role_owner_human: PMO
+    role_owner_aic: pmo-aic
+    description: >
+      ADVOPS plane: disciplines lookup, open questions, filed instruments, counsel handoff export.
+    acceptance_criteria_human: |
+      PMO runs SOP §4 per discipline; validates CSV rows via paired discipline validators.
+    acceptance_criteria_automation: |
+      export_adviser_handoff.py smoke + validate_adviser_disciplines.py PASS.
+    lifecycle_status: active
+    inherited_pattern_id: pattern_paired_sop_runbook
+
+  - id: engagement_scaffold
+    name: Engagement RPA scaffolder
+    cadence: event_triggered
+    trigger: template_promoted
+    sop_path: ../RevOps/canonicals/SOP-ENGAGEMENT_SCAFFOLDING_001.md
+    runbook_pointer: scripts/scaffold_engagement.py
+    process_list_id: tbi_ops_dtp_revops_engagement_scaffold_001
+    role_owner_human: PMO
+    role_owner_aic: revops-analyst-aic
+    description: >
+      Copy Think Big/Clients/_engagement-template/ skeleton; seed frontmatter; open PR (D-IH-72-P).
+    acceptance_criteria_human: |
+      PMO reviews scaffolded folder before merge.
+    acceptance_criteria_automation: |
+      scaffold_engagement.py exits 0; folder + frontmatter present.
+    lifecycle_status: active
+    inherited_pattern_id: pattern_paired_sop_runbook
+
+  - id: compliance_mirror_emit_trigger
+    name: Compliance mirror emit trigger
+    cadence: gated_operator
+    sop_path: ../PMO/canonicals/SOP-OPS_MIRROR_EMIT_TRIGGER_001.md
+    runbook_pointer: scripts/verify.py
+    runbook_args: compliance_mirror_emit
+    process_list_id: env_tech_dtp_compliance_mirror_dml_001
+    role_owner_human: PMO
+    role_owner_aic: pmo-aic
+    description: >
+      Operations triggers git→SQL emit; Data/System Owner applies via two-plane gate (DML plane).
+    acceptance_criteria_human: |
+      PMO runs emit after canonical CSV tranche; operator applies per holistika-mirror-dml-apply.md.
+    acceptance_criteria_automation: |
+      py scripts/verify.py compliance_mirror_emit exits 0; SQL batches land under artifacts/sql/.
+    lifecycle_status: active
+    inherited_pattern_id: pattern_dataops_discipline
+
+  - id: area_completeness_sweep
+    name: Operations area completeness sweep
+    cadence: event_triggered
+    trigger: ops_tranche_or_wave_close
+    sop_path: ../PMO/canonicals/SOP-OPS_AREA_COMPLETENESS_SWEEP_001.md
+    runbook_pointer: scripts/validate_area_completeness.py
+    runbook_args: --area Operations --next
+    process_list_id: hol_peopl_dtp_area_governance_001
+    role_owner_human: COO
+    role_owner_aic: pmo-aic
+    description: >
+      16-component matrix + --next worklist for Operations tier gate (crit@L3 10/10 target).
+    acceptance_criteria_human: |
+      COO or PMO walks --next output; dispositions via inline-ratify before tranche commit.
+    acceptance_criteria_automation: |
+      validate_area_completeness.py --self-test + --area Operations --matrix PASS at pre_commit_fast.
+    lifecycle_status: active
+    inherited_pattern_id: pattern_area_buildout
+
+  - id: initiative_harmonisation
+    name: Initiative governance harmonisation
+    cadence: event_triggered
+    trigger: initiative_registry_edit
+    sop_path: ../PMO/SOP-INITIATIVE_PROCESS_HARMONISATION_001.md
+    runbook_pointer: scripts/validate_initiative_registry.py
+    process_list_id: hol_ops_dtp_72
+    role_owner_human: PMO
+    role_owner_aic: pmo-aic
+    description: >
+      manifests_processes FK between INITIATIVE_REGISTRY and process_list.csv (D-IH-59-G).
+    acceptance_criteria_human: |
+      PMO updates manifests_processes column per SOP recipe Case A/B before registry commit.
+    acceptance_criteria_automation: |
+      validate_initiative_registry.py PASS on updated rows.
+    lifecycle_status: active
+    inherited_pattern_id: pattern_paired_sop_runbook
+
+  - id: vault_promotion_gate
+    name: Vault promotion gate
+    cadence: gated_operator
+    sop_path: ../PMO/canonicals/SOP-PMO_VAULT_PROMOTION_GATE_001.md
+    runbook_pointer: scripts/validate_hlk.py
+    process_list_id: hol_opera_dtp_310
+    role_owner_human: PMO
+    role_owner_aic: pmo-aic
+    description: >
+      Promote stable WIP/Trello intent into process_list.csv with operator CSV gate.
+    acceptance_criteria_human: |
+      PMO obtains operator approval on tranche; runs validate_hlk until PASS before merge.
+    acceptance_criteria_automation: |
+      validate_hlk.py OVERALL PASS after promotion tranche lands.
+    lifecycle_status: active
+    inherited_pattern_id: pattern_paired_sop_runbook
+
+  - id: revops_qbr_cycle
+    name: RevOps QBR cadence
+    cadence: scheduled
+    schedule_cron: "0 9 1 1,4,7,10 *"
+    sop_path: ../RevOps/canonicals/SOP-REVOPS_QBR_001.md
+    runbook_pointer: scripts/validate_engagement_template_registry.py
+    process_list_id: tbi_ops_dtp_revops_qbr_001
+    role_owner_human: PMO
+    role_owner_aic: revops-analyst-aic
+    description: >
+      Quarterly portfolio review; template promotion candidates; revenue spine reconciliation.
+    acceptance_criteria_human: |
+      PMO authors qbr-YYYY-Qn.md report per SOP §4.
+    acceptance_criteria_automation: |
+      validate_engagement_template_registry.py + validate_engagement_template_promotion.py PASS.
+    lifecycle_status: active
+    inherited_pattern_id: pattern_paired_sop_runbook
+
+  - id: service_catalog_maintenance
+    name: Service catalog maintenance (SMO)
+    cadence: scheduled
+    schedule_cron: "0 6 * * MON"
+    sop_path: ../SMO/canonicals/SOP-SERVICE_MGMT_001.md
+    runbook_pointer: scripts/validate_hlk.py
+    process_list_id: gtm_ws_service_catalog
+    role_owner_human: SMO
+    role_owner_aic: pmo-aic
+    description: >
+      Weekly SERVICE_CATALOG.csv + SLA_MATRIX.md review rhythm per ITIL-derived SMO charter.
+    acceptance_criteria_human: |
+      SMO reviews catalog rows + SLA tiers; updates CSV when engagement scope changes.
+    acceptance_criteria_automation: |
+      validate_hlk.py PASS includes SERVICE_CATALOG structural checks.
+    lifecycle_status: active
+    inherited_pattern_id: pattern_paired_sop_runbook

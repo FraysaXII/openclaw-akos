@@ -411,6 +411,22 @@
             "scripts/validate_canonical_governance_registry.py",
             "--self-test"
           ]
+        },
+        {
+          "id": "validate_area_completeness_self_test",
+          "description": "I94 P2: area-completeness probe chassis self-test (Operations tier gate runbook)",
+          "argv": [
+            "scripts/validate_area_completeness.py",
+            "--self-test"
+          ]
+        },
+        {
+          "id": "operational_cohesion_validate",
+          "description": "I94 P2: OPERATIONAL_COHESION_DOCTRINE self-consistency validate subcommand",
+          "argv": [
+            "scripts/render_operational_cohesion_index.py",
+            "validate"
+          ]
         }
       ]
     },
@@ -606,6 +622,19 @@
           "description": "Verify PMO hub stakeholder index is in parity with canonical CSVs",
           "argv": [
             "scripts/render_pmo_hub.py",
+            "--check-only"
+          ]
+        }
+      ]
+    },
+    "operator_inbox_render_smoke": {
+      "description": "I94 P2: verify OPERATOR_INBOX.md is in parity with OPS_REGISTER.csv. Runs render_operator_inbox.py --check-only; FAILs on drift.",
+      "steps": [
+        {
+          "id": "render_operator_inbox_check_only",
+          "description": "Verify operator inbox render is in parity with OPS_REGISTER",
+          "argv": [
+            "scripts/render_operator_inbox.py",
             "--check-only"
           ]
         }

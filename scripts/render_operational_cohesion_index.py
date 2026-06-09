@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Operational cohesion doctrine self-consistency runbook (I86 Wave I Lane I-B; D-IH-86-AN).
 
-Paired with [`OPERATIONAL_COHESION_DOCTRINE.md`](../docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/OPERATIONAL_COHESION_DOCTRINE.md)
+Paired SOP: docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/SOP-PMO_OPERATIONAL_COHESION_INDEX_RENDER_001.md
+Paired doctrine: [`OPERATIONAL_COHESION_DOCTRINE.md`](../docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/OPERATIONAL_COHESION_DOCTRINE.md)
+Catalog: docs/references/hlk/v3.0/Admin/O5-1/Operations/canonicals/OPERATIONS_PROCESS_CATALOG.yaml (operational_cohesion_index_render)
 per [`akos-executable-process-catalog.mdc`](../.cursor/rules/akos-executable-process-catalog.mdc)
 RULE 1 (every executable process needs a paired human-readable doctrine /
 SOP + agent-facing runbook). Implements the validate-on-CI + index-emit

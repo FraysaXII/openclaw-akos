@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """WIP dashboard auto-renderer (Initiative 32 P10 + Initiative 59 P2 section split).
 
+Paired SOP: docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/SOP-PMO_WIP_DASHBOARD_RENDER_001.md
+Catalog: docs/references/hlk/v3.0/Admin/O5-1/Operations/canonicals/OPERATIONS_PROCESS_CATALOG.yaml (pmo_wip_dashboard_render)
+
 Reads each ``docs/wip/planning/<NN>-*/master-roadmap.md`` and extracts:
 - the initiative number (from folder prefix)
 - the title (first H1)

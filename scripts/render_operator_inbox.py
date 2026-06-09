@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Operator Action Inbox auto-renderer (Initiative 59 P4).
 
+Paired SOP: docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/SOP-PMO_OPERATOR_INBOX_RENDER_001.md
+Catalog: docs/references/hlk/v3.0/Admin/O5-1/Operations/canonicals/OPERATIONS_PROCESS_CATALOG.yaml (pmo_operator_inbox_render)
+
 Reads ``docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/OPS_REGISTER.csv`` and emits a single
 ranked, FK-joined operator-readable surface at
 ``docs/wip/planning/OPERATOR_INBOX.md``. The CSV is the SSOT; this surface is
