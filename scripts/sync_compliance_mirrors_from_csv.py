@@ -87,6 +87,18 @@ from akos.hlk_skill_registry_csv import SKILL_REGISTRY_FIELDNAMES  # noqa: E402 
 from akos.hlk_sourcing_register_csv import SOURCING_REGISTER_FIELDNAMES  # noqa: E402
 from akos.hlk_topic_registry_csv import TOPIC_REGISTRY_FIELDNAMES  # noqa: E402
 from akos.hlk_touchpoint_kit_cell_csv import TOUCHPOINT_KIT_CELL_FIELDNAMES  # noqa: E402  # I32 P3
+from akos.hlk_component_service_csv import COMPONENT_SERVICE_FIELDNAMES  # noqa: E402  # P95-GOV-7
+from akos.hlk_data_contract_csv import DATA_CONTRACT_REGISTRY_FIELDNAMES  # noqa: E402  # P95-GOV-7
+from akos.hlk_finops_tax_calendar_csv import (  # noqa: E402  # P95-GOV-7
+    CSV_PATH_RELATIVE as FINOPS_TAX_CALENDAR_CSV_REL,
+    FINOPS_TAX_CALENDAR_FIELDNAMES,
+)
+from akos.hlk_pricing_tier_registry_csv import (  # noqa: E402  # P95-GOV-7
+    FINOPS_PERFORMANCE_OBLIGATION_REGISTRY_FIELDNAMES,
+    PERF_OBLIGATION_CSV_PATH_RELATIVE,
+    PRICING_TIER_CSV_PATH_RELATIVE,
+    PRICING_TIER_REGISTRY_FIELDNAMES,
+)
 from akos.hlk_process_csv import (  # noqa: E402
     PROCESS_LIST_FIELDNAMES,
     normalize_process_row,
@@ -150,6 +162,17 @@ ENGAGEMENT_REGISTRY_CSV = (
     REPO_ROOT
     / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ENGAGEMENT_REGISTRY.csv"
 )
+
+# P95-GOV-7 forward-charter mirror DDL activation
+PRICING_TIER_REGISTRY_CSV = REPO_ROOT / PRICING_TIER_CSV_PATH_RELATIVE
+FINOPS_PERF_OBLIGATION_REGISTRY_CSV = REPO_ROOT / PERF_OBLIGATION_CSV_PATH_RELATIVE
+FINOPS_TAX_CALENDAR_CSV = REPO_ROOT / FINOPS_TAX_CALENDAR_CSV_REL
+DATA_CONTRACT_REGISTRY_CSV = REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv"
+COMPONENT_SERVICE_MATRIX_CSV = REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/techops/COMPONENT_SERVICE_MATRIX.csv"
+_COMPONENT_SERVICE_MATRIX_LEGACY = REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/COMPONENT_SERVICE_MATRIX.csv"
+if not COMPONENT_SERVICE_MATRIX_CSV.is_file() and _COMPONENT_SERVICE_MATRIX_LEGACY.is_file():
+    COMPONENT_SERVICE_MATRIX_CSV = _COMPONENT_SERVICE_MATRIX_LEGACY
+
 ENGAGEMENT_TEMPLATE_REGISTRY_CSV = (
     REPO_ROOT
     / "docs/references/hlk/v3.0/Admin/O5-1/Operations/RevOps/canonicals/dimensions/ENGAGEMENT_TEMPLATE_REGISTRY.csv"
@@ -1203,7 +1226,7 @@ def _emit_adapter_registry_upserts(
         mirror_table=mirror_table,
         pk_column="adapter_id",
         source_git_sha=source_git_sha,
-        initiative_label=f"I72 P9 adapter {registry_class} (P95-GOV-5)",
+        initiative_label=f"I72 P9 adapter {registry_class} (P95-GOV-5/7)",
     )
 
 
@@ -1267,6 +1290,71 @@ def _emit_engagement_registry_upserts(rows: list[dict[str, str]], source_git_sha
         )
     return out
 
+
+
+def _emit_pricing_tier_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    return _emit_generic_pk_upserts(
+        rows=rows,
+        fieldnames=PRICING_TIER_REGISTRY_FIELDNAMES,
+        mirror_table="compliance.pricing_tier_registry_mirror",
+        pk_column="pricing_tier_id",
+        source_git_sha=source_git_sha,
+        initiative_label="P95-GOV-7 pricing tier registry",
+    )
+
+
+def _emit_finops_perf_obligation_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    return _emit_generic_pk_upserts(
+        rows=rows,
+        fieldnames=FINOPS_PERFORMANCE_OBLIGATION_REGISTRY_FIELDNAMES,
+        mirror_table="compliance.finops_performance_obligation_registry_mirror",
+        pk_column="obligation_id",
+        source_git_sha=source_git_sha,
+        initiative_label="P95-GOV-7 FINOPS performance obligation registry",
+    )
+
+
+def _emit_finops_tax_calendar_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    return _emit_generic_pk_upserts(
+        rows=rows,
+        fieldnames=FINOPS_TAX_CALENDAR_FIELDNAMES,
+        mirror_table="compliance.finops_tax_calendar_mirror",
+        pk_column="obligation_id",
+        source_git_sha=source_git_sha,
+        initiative_label="P95-GOV-7 FINOPS tax calendar",
+    )
+
+
+def _emit_data_contract_registry_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    return _emit_generic_pk_upserts(
+        rows=rows,
+        fieldnames=DATA_CONTRACT_REGISTRY_FIELDNAMES,
+        mirror_table="compliance.data_contract_registry_mirror",
+        pk_column="contract_id",
+        source_git_sha=source_git_sha,
+        initiative_label="P95-GOV-7 data contract registry",
+    )
+
+
+def _emit_component_service_matrix_upserts(rows: list[dict[str, str]], source_git_sha: str) -> list[str]:
+    return _emit_generic_pk_upserts(
+        rows=rows,
+        fieldnames=tuple(COMPONENT_SERVICE_FIELDNAMES),
+        mirror_table="compliance.component_service_matrix_mirror",
+        pk_column="component_id",
+        source_git_sha=source_git_sha,
+        initiative_label="P95-GOV-7 component service matrix",
+    )
+
+
+def _load_csv_rows(csv_path: Path, fieldnames: tuple[str, ...] | list[str]) -> list[dict[str, str]]:
+    if not csv_path.is_file():
+        return []
+    with csv_path.open(encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        if list(reader.fieldnames or []) != list(fieldnames):
+            return []
+        return [dict(r) for r in reader]
 
 def _load_adapter_registry_rows(registry_class: str) -> list[dict[str, str]]:
     """Load one adapter registry CSV when present and header-aligned."""
@@ -2724,7 +2812,21 @@ def main() -> int:
                 intelligenceops_rows = [dict(r) for r in ior]
                 intelligenceops_n = len(intelligenceops_rows)
 
-    # I72 P9 + P95-GOV-5 — 8 adapter registry mirrors (DDL exists; RPA excluded until GOV-7).
+    # P95-GOV-7 -- finance + data contract + component service mirrors (forward-charter DDL).
+    pricing_tier_rows = _load_csv_rows(PRICING_TIER_REGISTRY_CSV, PRICING_TIER_REGISTRY_FIELDNAMES)
+    pricing_tier_n = len(pricing_tier_rows)
+    finops_perf_obligation_rows = _load_csv_rows(
+        FINOPS_PERF_OBLIGATION_REGISTRY_CSV, FINOPS_PERFORMANCE_OBLIGATION_REGISTRY_FIELDNAMES
+    )
+    finops_perf_obligation_n = len(finops_perf_obligation_rows)
+    finops_tax_calendar_rows = _load_csv_rows(FINOPS_TAX_CALENDAR_CSV, FINOPS_TAX_CALENDAR_FIELDNAMES)
+    finops_tax_calendar_n = len(finops_tax_calendar_rows)
+    data_contract_rows = _load_csv_rows(DATA_CONTRACT_REGISTRY_CSV, DATA_CONTRACT_REGISTRY_FIELDNAMES)
+    data_contract_n = len(data_contract_rows)
+    component_service_rows = _load_csv_rows(COMPONENT_SERVICE_MATRIX_CSV, tuple(COMPONENT_SERVICE_FIELDNAMES))
+    component_service_n = len(component_service_rows)
+
+    # I72 P9 + P95-GOV-5/7 -- adapter registry mirrors (incl. RPA).
     adapter_rows_by_class: dict[str, list[dict[str, str]]] = {}
     for cls_name in ADAPTER_EMIT_REGISTRY_CLASSES:
         rows = _load_adapter_registry_rows(cls_name)
@@ -2818,6 +2920,12 @@ def main() -> int:
         print(f"output_type_registry_rows={output_type_n}")
         print(f"artifact_class_registry_rows={artifact_class_n}")
         print(f"component_primitive_registry_rows={component_primitive_n}")
+        print(f"pricing_tier_registry_rows={pricing_tier_n}")
+        print(f"finops_performance_obligation_registry_rows={finops_perf_obligation_n}")
+        print(f"finops_tax_calendar_rows={finops_tax_calendar_n}")
+        print(f"data_contract_registry_rows={data_contract_n}")
+        print(f"component_service_matrix_rows={component_service_n}")
+
         return 0
 
     blocks: list[str] = []
@@ -2905,6 +3013,18 @@ def main() -> int:
         blocks.extend(_emit_artifact_class_registry_upserts(artifact_class_rows, sha))
     if not args.process_list_only and not args.baseline_only and component_primitive_rows:
         blocks.extend(_emit_component_primitive_registry_upserts(component_primitive_rows, sha))
+    # P95-GOV-7 -- forward-charter mirrors in main bundle.
+    if not args.process_list_only and not args.baseline_only and pricing_tier_rows:
+        blocks.extend(_emit_pricing_tier_registry_upserts(pricing_tier_rows, sha))
+    if not args.process_list_only and not args.baseline_only and finops_perf_obligation_rows:
+        blocks.extend(_emit_finops_perf_obligation_registry_upserts(finops_perf_obligation_rows, sha))
+    if not args.process_list_only and not args.baseline_only and finops_tax_calendar_rows:
+        blocks.extend(_emit_finops_tax_calendar_upserts(finops_tax_calendar_rows, sha))
+    if not args.process_list_only and not args.baseline_only and data_contract_rows:
+        blocks.extend(_emit_data_contract_registry_upserts(data_contract_rows, sha))
+    if not args.process_list_only and not args.baseline_only and component_service_rows:
+        blocks.extend(_emit_component_service_matrix_upserts(component_service_rows, sha))
+
 
     preamble = [
         "-- Generated by scripts/sync_compliance_mirrors_from_csv.py",

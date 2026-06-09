@@ -45,6 +45,15 @@ CSV_PATH_RELATIVE: str = (
 
 _DATE_PATTERN = r"^\d{4}-\d{2}-\d{2}$"
 
+VALID_TAX_CALENDAR_CADENCE_TYPES: frozenset[str] = frozenset({
+    "monthly", "quarterly", "annual", "event_triggered", "on_demand",
+})
+VALID_HACIENDA_AUTHORITIES: frozenset[str] = frozenset({"AEAT_common", "foral_deferred"})
+VALID_APPLICABILITY_GATES: frozenset[str] = frozenset({
+    "always", "at_incorporation", "if_autonomo_path", "if_foreign_assets_gt_50k_eur", "post_first_fiscal_year",
+})
+VALID_TAX_CALENDAR_STATUSES: frozenset[str] = frozenset({"active", "draft", "not_applicable_yet"})
+
 
 class FinopsTaxCalendarRow(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)

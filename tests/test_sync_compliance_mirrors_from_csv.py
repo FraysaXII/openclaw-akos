@@ -59,7 +59,15 @@ _COUNTED_CSVS: dict[str, str] = {
     "output_type_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/OUTPUT_TYPE_REGISTRY.csv",
     "artifact_class_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ARTIFACT_CLASS_REGISTRY.csv",
     "component_primitive_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/COMPONENT_PRIMITIVE_REGISTRY.csv",
+    # P95-GOV-7 forward-charter mirror DDL + main-bundle emit
+    "pricing_tier_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/dimensions/PRICING_TIER_REGISTRY.csv",
+    "finops_performance_obligation_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/dimensions/FINOPS_PERFORMANCE_OBLIGATION_REGISTRY.csv",
+    "finops_tax_calendar_rows": "docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/dimensions/FINOPS_TAX_CALENDAR.csv",
+    "data_contract_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv",
+    "rpa_adapter_registry_rows": "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/RPA_ADAPTER_REGISTRY.csv",
+    "component_service_matrix_rows": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/techops/COMPONENT_SERVICE_MATRIX.csv",
 }
+
 
 
 def test_sync_compliance_mirrors_count_only() -> None:
@@ -174,6 +182,17 @@ def test_sync_full_emit_includes_counterparty_upserts() -> None:
     assert "ON CONFLICT (adapter_id) DO UPDATE SET" in out
     assert "ON CONFLICT (template_id) DO UPDATE SET" in out
     assert "ON CONFLICT (engagement_id) DO UPDATE SET" in out
+    # P95-GOV-7 forward-charter mirrors in full bundle.
+    assert "compliance.pricing_tier_registry_mirror" in out
+    assert "compliance.finops_performance_obligation_registry_mirror" in out
+    assert "compliance.finops_tax_calendar_mirror" in out
+    assert "compliance.data_contract_registry_mirror" in out
+    assert "compliance.rpa_adapter_registry_mirror" in out
+    assert "compliance.component_service_matrix_mirror" in out
+    assert "ON CONFLICT (pricing_tier_id) DO UPDATE SET" in out
+    assert "ON CONFLICT (contract_id) DO UPDATE SET" in out
+    assert "ON CONFLICT (component_id) DO UPDATE SET" in out
+
 
 
 def test_sync_persona_scenario_registry_only_sql() -> None:

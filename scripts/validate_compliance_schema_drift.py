@@ -168,6 +168,38 @@ _REGISTRY: tuple[tuple[str, str, str], ...] = (
         "akos.hlk_substrate_registry_csv",
         "SUBSTRATE_REGISTRY_FIELDNAMES",
     ),
+
+    # P95-GOV-7 forward-charter mirror CSV SSOT tuples
+    (
+        "docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/dimensions/PRICING_TIER_REGISTRY.csv",
+        "akos.hlk_pricing_tier_registry_csv",
+        "PRICING_TIER_REGISTRY_FIELDNAMES",
+    ),
+    (
+        "docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/dimensions/FINOPS_PERFORMANCE_OBLIGATION_REGISTRY.csv",
+        "akos.hlk_pricing_tier_registry_csv",
+        "FINOPS_PERFORMANCE_OBLIGATION_REGISTRY_FIELDNAMES",
+    ),
+    (
+        "docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/dimensions/FINOPS_TAX_CALENDAR.csv",
+        "akos.hlk_finops_tax_calendar_csv",
+        "FINOPS_TAX_CALENDAR_FIELDNAMES",
+    ),
+    (
+        "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv",
+        "akos.hlk_data_contract_csv",
+        "DATA_CONTRACT_REGISTRY_FIELDNAMES",
+    ),
+    (
+        "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/RPA_ADAPTER_REGISTRY.csv",
+        "akos.hlk_adapter_registry_csv",
+        "ADAPTER_REGISTRY_FIELDNAMES",
+    ),
+    (
+        "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/techops/COMPONENT_SERVICE_MATRIX.csv",
+        "akos.hlk_component_service_csv",
+        "COMPONENT_SERVICE_FIELDNAMES",
+    ),
     # I75 Wave R+5 C1 (D-IH-86-FH): IntelligenceOps register radar freshness columns.
     (
         "docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv",

@@ -90,7 +90,7 @@ VALID_FEATURE_FLAGS: frozenset[str] = frozenset({
 
 
 # Per-registry canonical paths (relative to repo root).
-# Mirror table names for the 8 adapter classes with existing DDL (excludes RPA — P95-GOV-7).
+# Mirror table names for all 9 adapter classes (RPA DDL: P95-GOV-7 — P95-GOV-7).
 ADAPTER_REGISTRY_CLASS_TO_MIRROR_TABLE: dict[str, str] = {
     "CRM": "compliance.crm_adapter_registry_mirror",
     "REVOPS": "compliance.revops_adapter_registry_mirror",
@@ -100,6 +100,7 @@ ADAPTER_REGISTRY_CLASS_TO_MIRROR_TABLE: dict[str, str] = {
     "COMMUNICATION": "compliance.communication_adapter_registry_mirror",
     "SCHEDULING": "compliance.scheduling_adapter_registry_mirror",
     "CONTRACT": "compliance.contract_adapter_registry_mirror",
+    "RPA": "compliance.rpa_adapter_registry_mirror",
 }
 
 ADAPTER_EMIT_REGISTRY_CLASSES: tuple[str, ...] = tuple(ADAPTER_REGISTRY_CLASS_TO_MIRROR_TABLE)

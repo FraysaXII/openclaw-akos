@@ -16,7 +16,12 @@ on:
   push:
     branches: [main]
     paths:
-      # P95-GOV-3: union of CANONICAL_GOVERNANCE_REGISTRY plane2_workflow_paths (plane2_sync_policy=active)
+      # P95-GOV-3/7: union of CANONICAL_GOVERNANCE_REGISTRY plane2_workflow_paths (plane2_sync_policy=active)
+      - "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/RPA_ADAPTER_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/dimensions/FINOPS_PERFORMANCE_OBLIGATION_REGISTRY.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/dimensions/FINOPS_TAX_CALENDAR.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/dimensions/PRICING_TIER_REGISTRY.csv"
       - "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Experimentation/canonicals/dimensions/ATTRIBUTION_ADAPTER_REGISTRY.csv"
       - "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/COMMUNICATION_ADAPTER_REGISTRY.csv"
       - "docs/references/hlk/v3.0/Admin/O5-1/Marketing/Reach/canonicals/dimensions/CRM_ADAPTER_REGISTRY.csv"
@@ -53,6 +58,7 @@ on:
       - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOPIC_REGISTRY.csv"
       - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOUCHPOINT_KIT_CELL_REGISTRY.csv"
       - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv"
+      - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/techops/COMPONENT_SERVICE_MATRIX.csv"
       - "docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv"
   workflow_dispatch:
     inputs:

@@ -30,6 +30,12 @@ Migration **filename prefixes** must match the remote ledger (`schema_migrations
 | `20260529170000_repository_registry_consumer_app_governance_columns.sql` | I63 + I86 Wave H — `ADD COLUMN IF NOT EXISTS` × 15 on `repository_registry_mirror` (`consumes_*` + app-governance projection fields). **PENDING prod apply 2026-05-29** (prod-resync failed line 1816). Idempotent. |
 | `20260529180000_people_design_pattern_registry_class_extension.sql` | I80 + I86 — extend `people_design_pattern_mirror_class_chk` to match CSV/Pydantic enum (adds `documentation_layering` + later Wave M/R classes). **PENDING prod apply 2026-05-29** (prod-resync failed line 2583). Idempotent DROP+ADD CONSTRAINT. |
 
+
+| `20260609120000_p95_gov7_finance_registry_mirrors.sql` | P95-GOV-7 (D-IH-95-B) — pricing tier + performance obligation + tax calendar mirrors; idempotent CREATE + enum CHECK + server-only RLS. **PENDING prod apply** until operator SQL gate. |
+| `20260609120100_p95_gov7_data_contract_registry_mirror.sql` | P95-GOV-7 — `data_contract_registry_mirror`. |
+| `20260609120200_p95_gov7_rpa_adapter_registry_mirror.sql` | P95-GOV-7 — 9th adapter class `rpa_adapter_registry_mirror`. |
+| `20260609120300_p95_gov7_component_service_matrix_mirror.sql` | P95-GOV-7 — `component_service_matrix_mirror`. |
+
 ## Pre-`db push` checklist (mandatory)
 
 1. `npx supabase login` and `npx supabase link --project-ref <PROJECT_REF>` to the target project.
