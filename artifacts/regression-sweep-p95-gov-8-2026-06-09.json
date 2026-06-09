@@ -1,0 +1,86 @@
+{
+  "report_id": "regression-sweep-2026-06-09",
+  "wave_closing": "Wave-GOV",
+  "swept_at": "2026-06-09",
+  "swept_by": "agent:inter_wave_regression_sweep",
+  "findings": [
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AIC_CAPABILITY_IMPLEMENTATION_MATRIX.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=aic_capability_implementation_matrix; missing_components=supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AIC_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=aic; missing_components=supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/ARTIFACT_CLASS_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: scripts-validator, supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=artifact_class; missing_components=scripts-validator,supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=audience; missing_components=supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/BUILDOUT_BACKLOG.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration, PRECEDENCE-entry",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=buildout_backlog; missing_components=supabase-mirror-migration,PRECEDENCE-entry"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CANONICAL_GOVERNANCE_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration, PRECEDENCE-entry",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=canonical_governance; missing_components=supabase-mirror-migration,PRECEDENCE-entry"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CAPABILITY_CONFIDENCE_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=capability_confidence; missing_components=supabase-mirror-migration"
+    },
+    {
+      "dimension_code": "DIM-04-CANONICAL-CSV-PAIR-COMPLETENESS",
+      "surface_path": "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CHANNEL_TOUCHPOINT_REGISTRY.csv",
+      "verdict": "gap",
+      "proposed_rework_action": "mint missing components: supabase-mirror-migration",
+      "candidate_decision_id": null,
+      "severity": "medium",
+      "notes": "slug=channel_touchpoint; missing_components=supabase-mirror-migration"
+    }
+  ],
+  "clean_count": 0,
+  "drift_count": 0,
+  "gap_count": 8,
+  "blocked_count": 0,
+  "skip_count": 0,
+  "total_findings": 8
+}

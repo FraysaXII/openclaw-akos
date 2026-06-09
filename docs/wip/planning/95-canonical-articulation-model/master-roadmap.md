@@ -34,6 +34,23 @@ wire roles↔processes correctly until the verbs + valid triples exist.
 | **P6** | **Fold-in concrete items** | Q2 Lead simplification (keep Data Governance Office) + Q3 Marketing ghost-folder merge/delete-empties — both are HCAM placement work | canonical-CSV gate (Q2) |
 | **P7** | **Closure UAT** | competency questions pass; no Data/Finance/People regression; Neo4j parity; closure verdict | operator closure |
 
+## P95-GOV universal canonical governance wave (2026-06-09)
+
+Execution wave under I95 (charter: [`reports/universal-canonical-governance-charter-2026-06-09.md`](reports/universal-canonical-governance-charter-2026-06-09.md); plan: [`reports/p95-gov-wave-plan-2026-06-09.md`](reports/p95-gov-wave-plan-2026-06-09.md)).
+
+| Packet | Status | Base commit |
+|:---|:---|:---|
+| P95-GOV-1 — Registry mint | **closed** | `30ed6d8` |
+| P95-GOV-2 — HCAM quintet index A | **closed** | (GOV-2 tranche) |
+| P95-GOV-3 — Registry-driven CI | **closed** | (GOV-3 tranche) |
+| P95-GOV-4 — Index backfill B | **closed** | (GOV-4 tranche) |
+| P95-GOV-5 — Mirror emit gap | **closed** | `ba95dd1` |
+| P95-GOV-6 — Plane-1 hardening | **closed** | `8746715` |
+| P95-GOV-7 — Forward-charter DDL | **closed** | `14f8521` |
+| P95-GOV-8 — Closure UAT | **closed** | PASS-WITH-FOLLOWUP — [`uat-universal-canonical-governance-2026-06-09.md`](reports/uat-universal-canonical-governance-2026-06-09.md) |
+
+**Follow-up (operator gate):** prod mirror apply for GOV-5 + GOV-7 documented **PENDING-OPERATOR** in synthesis reports + closure UAT §4.3. I95 INIT remains **active** for Round-2 lanes (L1–L6).
+
 ## Competency questions (the acceptance test — must run as one query each)
 1. Which processes is role R assigned to, and which capabilities do those realize?
 2. What serves engagement E end-to-end, back to the roles that perform it?

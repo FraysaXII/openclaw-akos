@@ -128,7 +128,7 @@ flowchart TB
 | **C4** | P95-GOV-5 | Generic adapter emit (8 tables) + engagement_template + **engagement_registry** + output-architecture 3 into main/gap profile; registry `plane2_sync_policy=active`; tests `tests/test_sync_compliance_mirrors_from_csv.py` | Yes | **Yes** — prod DDL confirm + mirror apply |
 | **C5** | P95-GOV-6 | All 74 rows `plane1_in_validate_hlk=true`; MADEIRA validators into `validate_hlk.py`; **COLLABORATOR_SHARE `--strict` FAIL**; mint `D-IH-95-*` FAIL-ramp decision; `release-gate.py` / `verification-profiles.json` alignment | No | Inline-ratify at execution (evidence-only; operator already mandated FAIL) |
 | **C6** | P95-GOV-7 | **Four DDL families:** Finance (3 finops mirrors), `DATA_CONTRACT`, `RPA_ADAPTER`, `COMPONENT_SERVICE_MATRIX`; migrations + emit + registry columns + `validate_compliance_schema_drift.py` registry + PRECEDENCE mirror rows; operator SQL gate report | Yes | **Mandatory** DDL + CSV |
-| **C7** | P95-GOV-8 | Closure UAT `reports/uat-universal-canonical-governance-2026-06-09.md`; `validate_area_completeness.py --matrix`; inter-wave DIM-4; full `pre_commit`; Neo4j parity spot-check | No | Closure sign-off |
+| **C7** | P95-GOV-8 | Closure UAT `reports/uat-universal-canonical-governance-2026-06-09.md`; `validate_area_completeness.py --matrix`; inter-wave DIM-4; full `pre_commit`; Neo4j parity spot-check | No | Closure sign-off | **CLOSED** (`PASS-WITH-FOLLOWUP`; mirror apply PENDING-OPERATOR) |
 
 **Verification profile per commit:** every commit runs `py scripts/verify.py pre_commit_fast`; C5+C7 add full `pre_commit` + `release-gate.py` where charter specifies.
 
@@ -347,7 +347,7 @@ Packets (run in order):
 4. P95-GOV-5 — Emit closure (8 adapters + template + engagement_registry + output-arch)
 5. P95-GOV-6 — Plane-1 hardening + COLLABORATOR_SHARE FAIL
 6. P95-GOV-7 — Forward-charter DDL (Finance×3, DATA_CONTRACT, RPA, COMPONENT_SERVICE_MATRIX)
-7. P95-GOV-8 — Closure UAT + area matrix re-proof
+7. P95-GOV-8 — Closure UAT + area matrix re-proof **CLOSED** (2026-06-09; UAT PASS-WITH-FOLLOWUP)
 
 Hard gates todo-#1:
 - P95-GOV-1 + P95-GOV-2 + P95-GOV-4 + P95-GOV-7 canonical CSV / DDL operator gates
@@ -372,7 +372,7 @@ Packets (run in order):
 4. P95-GOV-5 — DDL-without-emit closure (extended)
 5. P95-GOV-6 — Plane-1 hardening + CS FAIL
 6. P95-GOV-7 — Forward-charter mirror DDL (mandatory)
-7. P95-GOV-8 — Closure UAT
+7. P95-GOV-8 — Closure UAT **CLOSED** (2026-06-09; UAT PASS-WITH-FOLLOWUP)
 
 Hard gates todo-#1:
 - P95-GOV-1 + P95-GOV-2 + P95-GOV-4 + P95-GOV-7 operator approval gates
