@@ -54,7 +54,7 @@ flowchart TB
 | **I91** | Enterprise graph & store-coverage mapping | active | **Neo4j harness** (I95 F6), HCAM verbs (I95 P2+) | Store-coverage matrix → I92 | Was blocked on `NEO4J_*`; **unblocked** 2026-06-09 |
 | **I92** | HLK-ERP reassess & dashboard | active (stub) | I91 P2 matrix, I62/I64/I65/I68 lineage | ERP dashboard integration | Stub until I92 P0 expands |
 | **I93** | DATA area foundation & cross-area data governance | **closed** | DAMA DATA area, `pattern_area_buildout` | Area-governance meta-process (parent of I94) | [`uat-i93-closure-2026-06-05.md`](../93-data-area-foundation-and-governance/reports/uat-i93-closure-2026-06-05.md) |
-| **I94** | Area architecture & completeness v2 | active (P3 **DONE** 2026-06-10) | Sub-folder=role, placement-integrity (I94 P7) | Area-completeness **v3** target (I95 P4) | AREA-09 12/53 paired; IntelligenceOps evicted; P4 handoffs next |
+| **I94** | Area architecture & completeness v2 | active (P3 **DONE** 2026-06-10) | Sub-folder=role, placement-integrity (I94 P7) | Area-completeness **v3** target (I95 P4) | P3 fallout: IO SOPs evicted to legacy Research path; P4–P6 queued **after** OPS-86-26 |
 | **I95** | Canonical articulation model (HCAM / Singularity) | active | I94 placement model, I93 DATA canon, Neo4j projection | Relationship registry, verb triples, GOV registry, graph CQ harness | [`i95-pmo-status-sweep-2026-06-10.md`](reports/i95-pmo-status-sweep-2026-06-10.md) |
 
 ## I95 internal lanes
@@ -74,7 +74,7 @@ flowchart TB
 | **L2** | Capability de-densify | **DONE** | D-IH-95-I: 1,119→93 @ 2026-06-08; audit [`i95-l2-state-audit-2026-06-09.md`](reports/i95-l2-state-audit-2026-06-09.md) |
 | **L3** | FK→verb tranches | **DONE** (bindings) | Bundles A+B+C done (C charter 2026-06-10); tranche-5 = 44 bindings; TRP-030/036 stay **planned** until FK mint |
 | **L4** | Orphan burn-down (`--matrix`) | **OPEN** | Semantic Council disposition |
-| **L5** | Topics + IntelligenceOps | **OPEN** | T1 schema tranche next |
+| **L5** | Topics + IntelligenceOps | **OPEN** | **Depends OPS-86-26** — `INTELLIGENCEOPS_REGISTER.csv` SSOT path must land at `Research/Intelligence/canonicals/dimensions/` before T1 schema tranche |
 | **L6** | biz-strategy re-home | **OPEN** | Overlaps I94 P7 placement |
 
 ## Open-item ownership

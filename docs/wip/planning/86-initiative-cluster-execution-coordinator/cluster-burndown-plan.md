@@ -540,6 +540,16 @@ flowchart LR
 - **INDEX_INTEGRITY validator INFO→FAIL promotion** via D-IH-86-CD after Wave N close clean sweep + 2 consecutive subsequent wave-close clean sweeps (target: Wave Q).
 - **~62-81 inline-ratify gates total** across N-T; estimate per inline-ratify-craft skill Principle 5 batching.
 
+## §10c Session execution queue (2026-06-10)
+
+Operator ratification (binding): Research remediation **first**; I94 P4–P6 **after** Research.
+
+| Queue rank | OPS / initiative | Action | Status | Evidence |
+|:---:|:---|:---|:---|:---|
+| 1 | **OPS-86-26** → I75 | Full legacy Admin → top-level `Research/` `git mv` bundle (12 files) + ripple (PRECEDENCE, validators, globs, `process_list` sop_path) | **in_progress** (Session 1) | [`research-area-audit-post-io-eviction-2026-06-10.md`](../75-research-area-governance/reports/research-area-audit-post-io-eviction-2026-06-10.md) |
+| 2 | I75 P1–P2 | Methodology + Intelligence SOP tranches + `process_list` CSV gate | **blocked** (canonical-CSV gate) | I75 master-roadmap §P1–P2 |
+| 3 | I94 P4 → P5 → P6 | Operations cross-area handoffs → I88 Ops slice → closure UAT | **queued** | [`i94-p0-research-p4-p6-handoffs-2026-06-10.md`](../94-area-architecture-and-completeness-v2/reports/i94-p0-research-p4-p6-handoffs-2026-06-10.md) |
+
 ## §11 Cross-references
 
 **Parent + sibling planning artefacts**:
