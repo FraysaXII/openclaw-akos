@@ -102,8 +102,8 @@ The intelligence report is internal-register; the translated version is the exte
 
 ## Cross-references
 
-- [`SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md) (P3 deliverable)
-- [`SOP-IO_ELICITATION_DISCIPLINE_001.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_ELICITATION_DISCIPLINE_001.md) (P3 deliverable)
-- [`SOP-IO_RELIABILITY_GRADING_001.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_RELIABILITY_GRADING_001.md) (P3 deliverable)
-- [`SOP-IO_INTELLIGENCE_REPORT_001.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_INTELLIGENCE_REPORT_001.md) (P3 deliverable)
+- [`SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md`](../../../references/hlk/v3.0/Research/Intelligence/canonicals/SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md) (P3 deliverable)
+- [`SOP-IO_ELICITATION_DISCIPLINE_001.md`](../../../references/hlk/v3.0/Research/Intelligence/canonicals/SOP-IO_ELICITATION_DISCIPLINE_001.md) (P3 deliverable)
+- [`SOP-IO_RELIABILITY_GRADING_001.md`](../../../references/hlk/v3.0/Research/Intelligence/canonicals/SOP-IO_RELIABILITY_GRADING_001.md) (P3 deliverable)
+- [`SOP-IO_INTELLIGENCE_REPORT_001.md`](../../../references/hlk/v3.0/Research/Intelligence/canonicals/SOP-IO_INTELLIGENCE_REPORT_001.md) (P3 deliverable)
 - [`BRAND_BASELINE_REALITY_MATRIX.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md) §investor-row + §3 translation table

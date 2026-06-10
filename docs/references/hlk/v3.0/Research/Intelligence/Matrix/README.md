@@ -38,7 +38,7 @@ last_review_decision_id: D-IH-75-G
 | `CAP-HOL-RESEA-DTP-146` | Output 3 | STORE / SHARE | planned |
 
 The **live matrix** is the IntelligenceOps register
-(`../../../Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv`) —
+([`../canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv`](../canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv)) —
 this index documents the *capabilities*; the register holds the *standing targets* with per-target
 freshness (Research Radar). Source classification follows
 [`source_taxonomy.md`](../../../Admin/O5-1/People/Compliance/canonicals/source_taxonomy.md).

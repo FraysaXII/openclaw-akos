@@ -42,19 +42,17 @@ at PROTECT. Source categories are governed by
 
 ## Active SOPs + register (the intelligence canon)
 
-| Artefact | What it governs | Path (migration pending) |
+| Artefact | What it governs | Path |
 |:---|:---|:---|
-| IntelligenceOps register | The live "Intelligence Matrix" — collection contracts vs named targets, with per-target freshness. | `../../Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv` |
-| Elicitation SOP | HUMINT elicitation discipline. | `../../Admin/O5-1/Research/Intelligence/canonicals/SOP-IO_ELICITATION_DISCIPLINE_001.md` |
-| Intelligence report SOP | Per-engagement report authoring (a SHARE product). | `../../Admin/O5-1/Research/Intelligence/canonicals/SOP-IO_INTELLIGENCE_REPORT_001.md` |
-| Regulator relationship SOP | Regulator-facing collection + relationship. | `../../Admin/O5-1/Research/Intelligence/canonicals/SOP-REGULATOR_RELATIONSHIP_001.md` |
-| Research engagement trigger SOP | When an engagement triggers a collection cycle. | `../../Admin/O5-1/Research/Intelligence/canonicals/SOP-RESEARCH_ENGAGEMENT_TRIGGER_001.md` |
+| IntelligenceOps register | The live "Intelligence Matrix" — collection contracts vs named targets, with per-target freshness. | [`canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv`](canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv) |
+| Elicitation SOP | HUMINT elicitation discipline. | [`canonicals/SOP-IO_ELICITATION_DISCIPLINE_001.md`](canonicals/SOP-IO_ELICITATION_DISCIPLINE_001.md) |
+| Intelligence report SOP | Per-engagement report authoring (a SHARE product). | [`canonicals/SOP-IO_INTELLIGENCE_REPORT_001.md`](canonicals/SOP-IO_INTELLIGENCE_REPORT_001.md) |
+| Regulator relationship SOP | Regulator-facing collection + relationship. | [`canonicals/SOP-REGULATOR_RELATIONSHIP_001.md`](canonicals/SOP-REGULATOR_RELATIONSHIP_001.md) |
+| Research engagement trigger SOP | When an engagement triggers a collection cycle. | [`canonicals/SOP-RESEARCH_ENGAGEMENT_TRIGGER_001.md`](canonicals/SOP-RESEARCH_ENGAGEMENT_TRIGGER_001.md) |
 | GOI/POI stance doctrine | Who we watch / who may watch us (PROTECT). | [`canonicals/GOI_POI_STANCE_DOCTRINE.md`](canonicals/GOI_POI_STANCE_DOCTRINE.md) |
 
-**Migration note.** The IntelligenceOps register is an **SSOT CSV**; relocating it changes a
-canonical path and must update PRECEDENCE + validators + Pydantic FIELDNAMES + the Supabase mirror
-emit in one commit. That move is a separate gated follow-up, not part of this area-logic build. See
-the [migration proposal](../../../../../wip/intelligence/legacy-research-admin-migration-proposal-2026-05-29.md).
+> **OPS-86-26 (2026-06-10).** Legacy `Admin/O5-1/Research/` SSOT migrated to this tree; PRECEDENCE,
+> validators, and mirror emit paths updated in the same commit.
 
 ## Cross-references
 

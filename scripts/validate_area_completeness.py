@@ -34,6 +34,7 @@ from akos.hlk_area_completeness import (  # noqa: E402
 )
 
 O5_ROOT = REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1"
+HLK_V3_ROOT = REPO_ROOT / "docs/references/hlk/v3.0"
 COMPLIANCE_DIR = O5_ROOT / "People/Compliance/canonicals"
 DIMENSIONS_DIR = COMPLIANCE_DIR / "dimensions"
 PEOPLE_CANONICALS = O5_ROOT / "People/canonicals"
@@ -55,7 +56,7 @@ AREA_CONFIG: dict[str, dict[str, object]] = {
     "Marketing": {"process_area": "MKT", "folders": ("Marketing",)},
     "Operations": {"process_area": "Operations", "folders": ("Operations",)},
     "People": {"process_area": "People", "folders": ("People",)},
-    "Research": {"process_area": "Research", "folders": ("Research",)},
+    "Research": {"process_area": "Research", "folders": (), "hlk_v3_folders": ("Research",)},
     "Legal": {"process_area": "Legal", "folders": ("People/Legal",)},
 }
 
@@ -74,8 +75,12 @@ def _read_csv(path: Path) -> list[dict[str, str]]:
 
 
 def _area_roots(area: str) -> list[Path]:
-    folders = AREA_CONFIG[area]["folders"]  # type: ignore[index]
-    return [O5_ROOT / str(name) for name in folders]  # type: ignore[arg-type]
+    cfg = AREA_CONFIG[area]
+    folders = cfg.get("folders", ())
+    roots = [O5_ROOT / str(name) for name in folders]  # type: ignore[union-attr]
+    for name in cfg.get("hlk_v3_folders", ()):
+        roots.append(HLK_V3_ROOT / str(name))
+    return roots
 
 
 def _walk_md(paths: list[Path]) -> list[Path]:

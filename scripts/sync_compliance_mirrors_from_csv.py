@@ -153,7 +153,7 @@ ENGAGEMENT_MODEL_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.
 DESIGN_PATTERN_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "PEOPLE_DESIGN_PATTERN_REGISTRY.csv"
 # I84 P3 — Substrate Registry (substrate doctrine SSOT per D-IH-84-A/F/G).
 SUBSTRATE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "SUBSTRATE_REGISTRY.csv"
-INTELLIGENCEOPS_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Research" / "Intelligence" / "canonicals" / "dimensions" / "INTELLIGENCEOPS_REGISTER.csv"
+INTELLIGENCEOPS_REGISTER_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Research" / "Intelligence" / "canonicals" / "dimensions" / "INTELLIGENCEOPS_REGISTER.csv"
 # I86 Wave L — 4-layer output architecture (Layer 1/2/3) per D-IH-86-BG.
 OUTPUT_TYPE_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "OUTPUT_TYPE_REGISTRY.csv"
 ARTIFACT_CLASS_REGISTRY_CSV = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals" / "dimensions" / "ARTIFACT_CLASS_REGISTRY.csv"

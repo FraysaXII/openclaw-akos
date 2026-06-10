@@ -31,8 +31,8 @@ last_review_decision_id: D-IH-75-G
 | `CAP-HOL-RESEA-DTP-310` | Stakeholder Interview Protocol | HUMINT Specialist | planned |
 | `CAP-HOL-RESEA-DTP-311` | Field Observation | HUMINT Specialist | planned |
 
-The existing elicitation SOP (`SOP-IO_ELICITATION_DISCIPLINE_001.md`, currently under the legacy
-`Admin/O5-1/Research/Intelligence/canonicals/` path) is the AC-HUMAN walkthrough for these
+The existing elicitation SOP ([`SOP-IO_ELICITATION_DISCIPLINE_001.md`](../canonicals/SOP-IO_ELICITATION_DISCIPLINE_001.md))
+is the AC-HUMAN walkthrough for these
 techniques. Per-technique SOP depth is decided at
 [I75](../../../../../../wip/planning/75-research-area-governance/master-roadmap.md) P2 (`D-IH-75-D`).
 

@@ -1,7 +1,7 @@
 """Field contract for INTELLIGENCEOPS_REGISTER.csv (I72 P1 + I75 R+5 extension).
 
 Canonical CSV:
-``docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv``
+``docs/references/hlk/v3.0/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv``
 
 Mirrored to ``compliance.intelligenceops_register_mirror`` per
 ``supabase/migrations/20260514240000_i72_intelligenceops_register_mirror.sql``

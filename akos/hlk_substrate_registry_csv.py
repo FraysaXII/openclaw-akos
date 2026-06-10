@@ -17,7 +17,7 @@ AKOS / MADEIRA / KiRBe / future-Holistika-products commit to. Each row carries
 attributes used by `D-IH-84-B` (AKOS substrate-baseline), `D-IH-84-C` (AIC pattern
 framing), `D-IH-84-D` (MADEIRA productization shape), `D-IH-84-E` (KiRBe framework
 narrowing) ratifications + supports the quarterly Research-area substrate-audit
-cadence per [`SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md`](../docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md)
+cadence per [`SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md`](../docs/references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md)
 (forthcoming at master-roadmap §3 P6).
 
 Decision lineage:

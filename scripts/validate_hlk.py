@@ -487,7 +487,7 @@ def main() -> int:
         # Initiative 72 P6 - IntelligenceOps register (sibling canonical at Research/Intelligence/canonicals/dimensions/ per D-IH-72-H; not GOI_POI col-extension).
         ("INTELLIGENCEOPS_REGISTER", "validate_intelligenceops_register.py",
          "validate_intelligenceops_register",
-         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Research" / "Intelligence" / "canonicals" / "dimensions" / "INTELLIGENCEOPS_REGISTER.csv"),
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Research" / "Intelligence" / "canonicals" / "dimensions" / "INTELLIGENCEOPS_REGISTER.csv"),
         # Initiative 72 P9 - 8 adapter registries (Normalized Adapter Pattern per D-IH-72-O + D-IH-72-T MarTech breadth + D-IH-72-W feature-flag pattern).
         ("ADAPTER_REGISTRIES", "validate_adapter_registries.py",
          "validate_adapter_registries",

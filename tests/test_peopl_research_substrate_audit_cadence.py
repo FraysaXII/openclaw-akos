@@ -4,7 +4,7 @@ Covers each CLI mode with valid + invalid input pairs per CONTRIBUTING.md
 Python Code Standards. Pair these with scripts/test.py group discovery
 (auto-discovered under tests/ root; no group registration required).
 
-Paired SOP: docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md
+Paired SOP: docs/references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md
 Paired runbook: scripts/peopl_research_substrate_audit_cadence.py
 Decision lineage: D-IH-84-A; D-IH-84-G; D-IH-84-H
 """

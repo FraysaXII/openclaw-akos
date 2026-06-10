@@ -16,7 +16,7 @@ PL = REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonica
 BL = REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/baseline_organisation.csv"
 
 OLD_PREFIX = "docs/references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/"
-NEW_PREFIX = "docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/"
+NEW_PREFIX = "docs/references/hlk/v3.0/Research/Intelligence/canonicals/"
 
 IO_SOP_PATHS = {
     "hol_res_prc_counterparty_baseline_assess_001": (

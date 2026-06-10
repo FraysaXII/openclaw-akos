@@ -44,7 +44,7 @@ LOG = logging.getLogger("research_radar_sweep")
 
 INTELLIGENCEOPS_PATH = (
     AKOS_REPO_ROOT
-    / "docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions"
+    / "docs/references/hlk/v3.0/Research/Intelligence/canonicals/dimensions"
     / "INTELLIGENCEOPS_REGISTER.csv"
 )
 

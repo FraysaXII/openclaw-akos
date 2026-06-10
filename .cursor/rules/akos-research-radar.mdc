@@ -8,8 +8,8 @@ description: >-
   constant such as a fixed quarterly sweep.
 globs:
   - "docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_RADAR_DISCIPLINE.md"
-  - "docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_RADAR_001.md"
-  - "docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv"
+  - "docs/references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_RADAR_001.md"
+  - "docs/references/hlk/v3.0/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv"
   - "scripts/research_radar_sweep.py"
   - "scripts/validate_research_radar.py"
   - "akos/hlk_research_radar.py"
@@ -34,7 +34,7 @@ sweep) in doctrine, SOP, runbook, or validators.
 ## RULE 2 — Extend IntelligenceOps register in one commit (binding)
 
 Freshness columns land on
-[`INTELLIGENCEOPS_REGISTER.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv)
+[`INTELLIGENCEOPS_REGISTER.csv`](../../docs/references/hlk/v3.0/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv)
 with schema-drift sync per [`akos-docs-config-sync.mdc`](akos-docs-config-sync.mdc):
 `akos/hlk_intelligenceops_register_csv.py` FIELDNAMES tuple, mirror DDL,
 `validate_compliance_schema_drift.py` registry row, and
@@ -49,7 +49,7 @@ with schema-drift sync per [`akos-docs-config-sync.mdc`](akos-docs-config-sync.m
 ## RULE 4 — Paired SOP + runbook (binding)
 
 AC-HUMAN:
-[`SOP-RESEARCH_RADAR_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_RADAR_001.md).
+[`SOP-RESEARCH_RADAR_001.md`](../../docs/references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_RADAR_001.md).
 AC-AUTOMATION:
 [`scripts/research_radar_sweep.py`](../../scripts/research_radar_sweep.py).
 

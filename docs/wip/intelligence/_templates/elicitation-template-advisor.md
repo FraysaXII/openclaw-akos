@@ -75,6 +75,6 @@ Produce intelligence report (per SOP-IO_INTELLIGENCE_REPORT_001) including: BLUF
 
 ## Cross-references
 
-- [`SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md)
-- [`SOP-IO_ELICITATION_DISCIPLINE_001.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_ELICITATION_DISCIPLINE_001.md)
+- [`SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md`](../../../references/hlk/v3.0/Research/Intelligence/canonicals/SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md)
+- [`SOP-IO_ELICITATION_DISCIPLINE_001.md`](../../../references/hlk/v3.0/Research/Intelligence/canonicals/SOP-IO_ELICITATION_DISCIPLINE_001.md)
 - [`BRAND_BASELINE_REALITY_MATRIX.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md) §advisor-row

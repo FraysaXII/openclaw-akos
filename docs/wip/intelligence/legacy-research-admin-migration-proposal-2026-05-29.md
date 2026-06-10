@@ -2,9 +2,9 @@
 language: en
 intellectual_kind: migration_proposal
 sharing_label: internal_only
-status: partially_resolved_remainder_pending_operator_confirmation
+status: resolved
 authored: 2026-05-29
-last_review: 2026-05-29
+last_review: 2026-06-10
 parent_wave: I86 Wave R+5
 ratifying_decisions:
   - D-IH-75-G
@@ -69,6 +69,6 @@ Area README + area charter + the new `RESEARCH_LIFECYCLE_DOCTRINE.md` + the four
 
 ## Operator decision requested (remaining moves only)
 
-- [ ] **Approve remaining moves as-is** — execute `git mv` + the ripple updates in one follow-up commit.
-- [ ] **Approve the markdown SOP moves now, defer the SSOT-CSV register move** — lower-risk split.
+- [x] **Approve remaining moves as-is** — executed 2026-06-10 (OPS-86-26 closure; operator Q1=B).
+- [ ] **Approve the markdown SOP moves now, defer the SSOT-CSV register move** — superseded by full-bundle ratification.
 - [ ] **Amend** — reply with path corrections before any mv.

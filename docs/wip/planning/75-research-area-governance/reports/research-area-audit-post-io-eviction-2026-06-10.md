@@ -51,18 +51,14 @@ py scripts/validate_area_completeness.py --area Operations --matrix
 | Metric | Value |
 |:---|:---|
 | Tier | **INCOMPLETE** |
-| Score | **67%** (8 pass / 4 partial / 3 gap / 1 skip) |
-| crit@L3 | **7/10** |
+| Score | **90%** (12 pass / 3 partial / 0 gap / 1 skip) — post OPS-86-26 |
+| crit@L3 | **9/10** |
 
 | Component | Status | Severity | Finding |
 |:---|:---|:---:|:---|
-| AREA-02-AREA-CHARTER | gap | high | Scorer: no area charter in legacy tree (charter exists at `Research/canonicals/RESEARCH_AREA_CHARTER.md` — path resolution debt) |
-| AREA-03-DISCIPLINE-CHARTERS | gap | medium | No discipline canonicals detected at legacy Admin path |
-| AREA-08-DIMENSION-REGISTRIES | partial | low | 1 dimension CSV (`INTELLIGENCEOPS_REGISTER.csv` at legacy path) |
-| AREA-09-PAIRED-SOP-RUNBOOK | partial | medium | **4/41** paired processes |
-| AREA-12-QUALITY-FABRIC | partial | low | No area discipline canonical cross-check anchor |
-| AREA-13-AREA-README | gap | medium | Missing area README at scorer-expected root (README exists at `Research/README.md`) |
-| AREA-16-FILE-PLAN | partial | medium | sub-folder=role match **1/8**; orphans: Deep Research, HUMINT Techniques, Intelligence Matrix (legacy `process_list` workstream names vs new capability indexes) |
+| AREA-08-DIMENSION-REGISTRIES | partial | low | 1 dimension CSV at top-level path |
+| AREA-09-PAIRED-SOP-RUNBOOK | partial | medium | **4/41** paired processes (I75 P1–P2 tranche) |
+| AREA-16-FILE-PLAN | partial | medium | sub-folder=role match **1/4**; orphans: Diagnosis, Methodology, Validation discipline stubs |
 
 ### Research worklist (`--next`, critical-first)
 

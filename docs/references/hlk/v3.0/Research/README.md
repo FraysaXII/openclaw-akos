@@ -87,10 +87,9 @@ People/Ethics + Compliance). Remaining forward work is tracked in the
 - **Tier-1 WIP (Research-owned, cross-area):** [`docs/wip/intelligence/`](../../../../wip/intelligence/README.md)
   — this is **correct by design** (`D-IH-70-O` + [blueprint](../Admin/O5-1/Operations/PMO/canonicals/WORKSPACE_BLUEPRINT_HOLISTIKA.md) §17).
   **Do NOT move/rename it** without a deliberate topology decision superseding `D-IH-70-O`.
-- **Operational / legacy:** `docs/references/hlk/v3.0/Admin/O5-1/Research/` still hosts the
-  Intelligence + Methodology **SOPs + the IntelligenceOps register** — **mid-migration** into the
-  top-level tree (the SSOT-CSV move is a separate gated follow-up; the new indexes link to them at
-  their current paths).
+- **Executable SSOT (post OPS-86-26, 2026-06-10):** Intelligence + Methodology **SOPs**, substrate
+  doctrine, entity rationale, and `INTELLIGENCEOPS_REGISTER.csv` live under this top-level tree.
+  Legacy `Admin/O5-1/Research/` is **empty/removed** after the migration bundle.
 - **Topic SSOT:** `…/People/Compliance/canonicals/dimensions/TOPIC_REGISTRY.csv`; Trello backlog
   index at `…/Operations/PMO/RESEARCH_BACKLOG_TRELLO_REGISTRY.md` (Trello = evidence, not SSOT).
 

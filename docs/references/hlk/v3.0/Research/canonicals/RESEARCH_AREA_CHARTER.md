@@ -69,11 +69,11 @@ These four disciplines mirror the Brand sub-discipline ontology (Brand: AV / Cop
 | `OSINT Operations/` | [`../Intelligence/OSINT/README.md`](../Intelligence/OSINT/README.md) | CAP rows (OSINT Analyst): Web Intel, Social Media Intel, Publication Monitoring |
 | `Intelligence Matrix/` | [`../Intelligence/Matrix/README.md`](../Intelligence/Matrix/README.md) | CAP rows (Intelligence Analyst) + the live IntelligenceOps register |
 
-**Still pending migration (separate gated follow-up, NOT husks):** the Methodology + Intelligence
-**SOPs**, the **`SUBSTRATE_LANDSCAPE_DOCTRINE.md`**, the entity rationale, and the **IntelligenceOps
-register CSV** remain under `Admin/O5-1/Research/`. Their physical move is gated because the
-register is an SSOT-CSV (its path change ripples into PRECEDENCE + validators + Pydantic FIELDNAMES
-+ mirror emit) and the SOP move ripples into cursor-rule globs. See the
+**OPS-86-26 complete (2026-06-10):** the Methodology + Intelligence **SOPs**,
+**`SUBSTRATE_LANDSCAPE_DOCTRINE.md`**, the entity rationale, and the **IntelligenceOps register CSV**
+now live under top-level `Research/<discipline>/canonicals/` (register at
+`Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv`). Legacy
+`Admin/O5-1/Research/` is empty/removed. See
 [migration proposal](../../../../wip/intelligence/legacy-research-admin-migration-proposal-2026-05-29.md).
 
 **Diagnosis** + **Validation** have no technique sub-folders (no legacy folder; their structure is
@@ -104,7 +104,7 @@ To prevent dilution with existing areas:
 - All 4 discipline charter stubs exist at `v3.0/Research/<discipline>/canonicals/<DISCIPLINE>_CHARTER.md`.
 - This `RESEARCH_AREA_CHARTER.md` exists at `v3.0/Research/canonicals/`.
 - `docs/wip/intelligence/` has a top-level README declaring Research ownership (forward note; ships with this commit).
-- Cross-links from `Admin/O5-1/Research/` sub-folders forward-link to the new home (P4.5 wave 3 will execute the actual move).
+- Legacy `Admin/O5-1/Research/` technique husks forward-link to discipline indexes; executable SSOT migrated per OPS-86-26 (2026-06-10).
 - `baseline_organisation.csv` Research Director role addition deferred to P8 §8.5 (People restructure tranche).
 
 ## 8. Cross-references

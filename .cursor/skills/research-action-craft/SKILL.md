@@ -209,7 +209,7 @@ do the synthesis work — that defeats the discipline.
   (governance stage 5 mechanics).
 - Pydantic SSOT: [`akos/hlk_research_action.py`](../../../akos/hlk_research_action.py).
 - Validator + runbook: [`scripts/validate_research_action.py`](../../../scripts/validate_research_action.py).
-- SOP: [`SOP-RESEARCH_ACTION_001.md`](../../../docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md).
+- SOP: [`SOP-RESEARCH_ACTION_001.md`](../../../docs/references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md).
 - Founding worked example: [`docs/wip/intelligence/research-grounded-wave-r-plus-4-2026-05-27/`](../../../docs/wip/intelligence/research-grounded-wave-r-plus-4-2026-05-27/)
   + the C1.5 `research-action-pack.md` that documents the metadata
   schema + workflow.

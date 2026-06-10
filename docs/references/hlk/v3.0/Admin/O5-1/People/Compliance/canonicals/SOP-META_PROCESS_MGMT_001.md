@@ -160,10 +160,10 @@ This section lists every SOP that has gone through the §4 process and is curren
 
 | SOP ID | File | process\_id | role\_owner | cadence |
 | :---- | :---- | :---- | :---- | :---- |
-| SOP-IO\_COUNTERPARTY\_BASELINE\_ASSESSMENT\_001 | [`v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md`](../v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md) | hol\_res\_prc\_counterparty\_baseline\_assess\_001 | Holistik Researcher | Per-engagement |
-| SOP-IO\_ELICITATION\_DISCIPLINE\_001 | [`v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_ELICITATION_DISCIPLINE_001.md`](../v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_ELICITATION_DISCIPLINE_001.md) | hol\_res\_prc\_elicitation\_discipline\_001 | Holistik Researcher | Per-engagement |
-| SOP-IO\_RELIABILITY\_GRADING\_001 | [`v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_RELIABILITY_GRADING_001.md`](../v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_RELIABILITY_GRADING_001.md) | hol\_res\_prc\_reliability\_grading\_001 | Holistik Researcher | Per-engagement |
-| SOP-IO\_INTELLIGENCE\_REPORT\_001 | [`v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_INTELLIGENCE_REPORT_001.md`](../v3.0/Admin/O5-1/Operations/IntelligenceOps/SOP-IO_INTELLIGENCE_REPORT_001.md) | hol\_res\_prc\_intelligence\_report\_001 | Holistik Researcher | Per-engagement (24h post-engagement filing) |
+| SOP-IO\_COUNTERPARTY\_BASELINE\_ASSESSMENT\_001 | [`v3.0/Research/Intelligence/canonicals/SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md`](../v3.0/Research/Intelligence/canonicals/SOP-IO_COUNTERPARTY_BASELINE_ASSESSMENT_001.md) | hol\_res\_prc\_counterparty\_baseline\_assess\_001 | Holistik Researcher | Per-engagement |
+| SOP-IO\_ELICITATION\_DISCIPLINE\_001 | [`v3.0/Research/Intelligence/canonicals/SOP-IO_ELICITATION_DISCIPLINE_001.md`](../v3.0/Research/Intelligence/canonicals/SOP-IO_ELICITATION_DISCIPLINE_001.md) | hol\_res\_prc\_elicitation\_discipline\_001 | Holistik Researcher | Per-engagement |
+| SOP-IO\_RELIABILITY\_GRADING\_001 | [`v3.0/Research/Intelligence/canonicals/SOP-IO_RELIABILITY_GRADING_001.md`](../v3.0/Research/Intelligence/canonicals/SOP-IO_RELIABILITY_GRADING_001.md) | hol\_res\_prc\_reliability\_grading\_001 | Holistik Researcher | Per-engagement |
+| SOP-IO\_INTELLIGENCE\_REPORT\_001 | [`v3.0/Research/Intelligence/canonicals/SOP-IO_INTELLIGENCE_REPORT_001.md`](../v3.0/Research/Intelligence/canonicals/SOP-IO_INTELLIGENCE_REPORT_001.md) | hol\_res\_prc\_intelligence\_report\_001 | Holistik Researcher | Per-engagement (24h post-engagement filing) |
 
 7.3 Engagement Operations (Initiative I66 P3)
 

@@ -46,7 +46,7 @@ from akos.hlk_intelligenceops_register_csv import (  # noqa: E402
 
 REGISTER_PATH = (
     REPO_ROOT
-    / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1"
+    / "docs" / "references" / "hlk" / "v3.0"
     / "Research" / "Intelligence" / "canonicals" / "dimensions"
     / "INTELLIGENCEOPS_REGISTER.csv"
 )

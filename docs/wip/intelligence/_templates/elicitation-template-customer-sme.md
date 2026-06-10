@@ -76,7 +76,7 @@ Intelligence report (per SOP-IO_INTELLIGENCE_REPORT_001): BLUF on engagement via
 
 ## Cross-references
 
-- [`SOP-IO_*.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/)
+- [`SOP-IO_*.md`](../../../references/hlk/v3.0/Research/Intelligence/canonicals/)
 - [`SERVICE_OFFERING_CATALOG.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/SERVICE_OFFERING_CATALOG.md) — engagement-cell mapping
 - [`BRAND_BASELINE_REALITY_MATRIX.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md) §customer-SME-row
 - [`BRAND_SPANISH_PATTERNS.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_SPANISH_PATTERNS.md) — voice rules if engagement is in Spanish

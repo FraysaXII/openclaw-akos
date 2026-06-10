@@ -91,4 +91,4 @@ Intelligence report (per SOP-IO_INTELLIGENCE_REPORT_001) — same structure as c
 - [`elicitation-template-customer-sme.md`](elicitation-template-customer-sme.md) — sister English-locale template
 - [`BRAND_SPANISH_PATTERNS.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_SPANISH_PATTERNS.md) §10 (LATAM register sub-table), §12 (per-audience register patterns)
 - [`BRAND_BASELINE_REALITY_MATRIX.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md) §LATAM-customer-row
-- [`SOP-IO_*.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/) — IntelligenceOps SOPs
+- [`SOP-IO_*.md`](../../../references/hlk/v3.0/Research/Intelligence/canonicals/) — IntelligenceOps SOPs

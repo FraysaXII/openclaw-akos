@@ -59,7 +59,7 @@ on:
       - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/TOUCHPOINT_KIT_CELL_REGISTRY.csv"
       - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv"
       - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/techops/COMPONENT_SERVICE_MATRIX.csv"
-      - "docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv"
+      - "docs/references/hlk/v3.0/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv"
   workflow_dispatch:
     inputs:
       apply:

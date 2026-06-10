@@ -73,6 +73,6 @@ Intelligence report focused on:
 
 ## Cross-references
 
-- [`SOP-IO_*.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/) — IntelligenceOps SOPs
+- [`SOP-IO_*.md`](../../../references/hlk/v3.0/Research/Intelligence/canonicals/) — IntelligenceOps SOPs
 - [`BRAND_BASELINE_REALITY_MATRIX.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md) §ENISA-row
 - [`BRAND_REGISTER_MATRIX.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_REGISTER_MATRIX.md) — Tier-1 academic-formal voice for ENISA submissions

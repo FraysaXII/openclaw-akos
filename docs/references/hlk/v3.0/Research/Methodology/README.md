@@ -40,20 +40,17 @@ These three sub-areas are **realized** (this build) — they index the real capa
 
 ## Active doctrines + SOPs (the method canon)
 
-| Artefact | What it governs | Path (migration pending per §below) |
+| Artefact | What it governs | Path |
 |:---|:---|:---|
 | Research Action discipline | The 8-stage ingest->govern loop (ACQUIRE->PROCESS). | [`canonicals/RESEARCH_ACTION_DISCIPLINE.md`](canonicals/RESEARCH_ACTION_DISCIPLINE.md) |
 | Research Radar discipline | The freshness/time axis before govern. | [`canonicals/RESEARCH_RADAR_DISCIPLINE.md`](canonicals/RESEARCH_RADAR_DISCIPLINE.md) |
-| Research Action SOP | AC-HUMAN walkthrough of the 8 stages. | `../../Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md` |
-| Research Radar SOP | The sweep cadence. | `../../Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_RADAR_001.md` |
-| Substrate landscape doctrine | The technical-substrate audit doctrine. | `../../Admin/O5-1/Research/Methodology/canonicals/SUBSTRATE_LANDSCAPE_DOCTRINE.md` |
-| Substrate audit cadence SOP | Per-substrate audit cadence. | `../../Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md` |
+| Research Action SOP | AC-HUMAN walkthrough of the 8 stages. | [`canonicals/SOP-RESEARCH_ACTION_001.md`](canonicals/SOP-RESEARCH_ACTION_001.md) |
+| Research Radar SOP | The sweep cadence. | [`canonicals/SOP-RESEARCH_RADAR_001.md`](canonicals/SOP-RESEARCH_RADAR_001.md) |
+| Substrate landscape doctrine | The technical-substrate audit doctrine. | [`canonicals/SUBSTRATE_LANDSCAPE_DOCTRINE.md`](canonicals/SUBSTRATE_LANDSCAPE_DOCTRINE.md) |
+| Substrate audit cadence SOP | Per-substrate audit cadence. | [`canonicals/SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md`](canonicals/SOP-RESEARCH_SUBSTRATE_AUDIT_CADENCE_001.md) |
 
-**Migration note.** The SOPs + substrate doctrine still physically live under the legacy
-`Admin/O5-1/Research/Methodology/canonicals/` path. Their move into this tree is a separate,
-gated mechanical follow-up (it ripples into cursor-rule globs + PRECEDENCE rows + validator
-references, so it is not bundled into this area-logic build). See the
-[migration proposal](../../../../../wip/intelligence/legacy-research-admin-migration-proposal-2026-05-29.md).
+> **OPS-86-26 (2026-06-10).** Methodology SOPs + substrate doctrine migrated from legacy
+> `Admin/O5-1/Research/` in the same commit as register + Intelligence SOP moves.
 
 ## Cross-references
 

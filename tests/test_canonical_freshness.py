@@ -158,7 +158,7 @@ def test_compute_days_since_raises_on_bad_string():
         ("docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/QUX.md", "Tech"),
         ("docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/SUB/AREA.md", "Operations"),
         ("docs/references/hlk/v3.0/Admin/O5-1/Finance/Business Controller/canonicals/X.md", "Finance"),
-        ("docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/Y.md", "Research"),
+        ("docs/references/hlk/v3.0/Research/Methodology/canonicals/Y.md", "Research"),
         ("docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/Z.md", "People"),
     ],
 )
@@ -282,12 +282,12 @@ def test_integration_four_tier_synthesis(tmp_path: Path):
     # one extra surface with no review date -> stale
     _write_canonical(
         tmp_path,
-        "docs/references/hlk/v3.0/Admin/O5-1/Research/canonicals/F-Research.md",
+        "docs/references/hlk/v3.0/Research/canonicals/F-Research.md",
         "status: active\n",
     )
 
     rows = [scan_canonical(p, tmp_path, today, DEFAULT_THRESHOLDS) for p in paths]
-    research_path = tmp_path / "docs/references/hlk/v3.0/Admin/O5-1/Research/canonicals/F-Research.md"
+    research_path = tmp_path / "docs/references/hlk/v3.0/Research/canonicals/F-Research.md"
     rows.append(scan_canonical(research_path, tmp_path, today, DEFAULT_THRESHOLDS))
 
     tiers_by_area = {row.area: row.tier for row in rows}

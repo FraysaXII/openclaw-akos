@@ -68,7 +68,7 @@ The translation is context-dependent (B2B SME vs investor vs ENISA pick differen
 
 - `BRAND_BASELINE_REALITY_MATRIX.md` (the canonical itself).
 - `docs/wip/intelligence/**/*.md`.
-- Operator-private SOPs under `docs/references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/`.
+- Operator-private SOPs under `docs/references/hlk/v3.0/Research/Intelligence/canonicals/`.
 - `*.counterparty-brief.md` + `*.objections.md` companions to decks.
 - Internal AKOS-vault SOPs / decision logs / risk registers.
 - Cursor rules + commit messages + PR bodies.

@@ -12,7 +12,7 @@ description: >-
   findings.
 globs:
   - "docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md"
-  - "docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md"
+  - "docs/references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md"
   - "docs/wip/intelligence/**/source-ledger.csv"
   - "docs/wip/intelligence/**/research-action-pack.md"
   - "scripts/validate_research_action.py"
@@ -120,7 +120,7 @@ Rule 1:
 - **AC-HUMAN** — a human OR an AIC role_owner (Research Director + KM
   Officer; PMO interim absorption when those roles are unstaffed) can
   walk the 8-stage operating loop following
-  [`SOP-RESEARCH_ACTION_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md)
+  [`SOP-RESEARCH_ACTION_001.md`](../../docs/references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md)
   without invoking the runbook.
 - **AC-AUTOMATION** — the runbook validates ledger schema
   mechanically: `--self-test` mode in pre_commit, `--source-ledger
@@ -171,7 +171,7 @@ per the gates above.
   [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc)
   (research synthesis surfaces decisions via inline-ratify gates;
   RULE 2 operating-loop stage 5).
-- Paired SOP: [`SOP-RESEARCH_ACTION_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md).
+- Paired SOP: [`SOP-RESEARCH_ACTION_001.md`](../../docs/references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md).
 - Paired runbook + validator: [`scripts/validate_research_action.py`](../../scripts/validate_research_action.py).
 - Paired skill: [`.cursor/skills/research-action-craft/SKILL.md`](../skills/research-action-craft/SKILL.md) — the *how* layer.
 - Pydantic chassis: [`akos/hlk_research_action.py`](../../akos/hlk_research_action.py).
@@ -185,5 +185,5 @@ per the gates above.
 - Decision lineage: D-IH-86-FF (active mint Wave R+4 C1.6).
 
 @docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md
-@docs/references/hlk/v3.0/Admin/O5-1/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md
+@docs/references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md
 @docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md

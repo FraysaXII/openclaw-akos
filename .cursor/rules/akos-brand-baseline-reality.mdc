@@ -26,7 +26,7 @@ Holistika operates a **CORPINT (corporate intelligence) research methodology** i
 |:---|:---|
 | `docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md` | YES (this is the canonical matrix; access level 5) |
 | `docs/wip/intelligence/**/*.md` (working space; access level 5) | YES |
-| Operator-private SOPs under `docs/references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/` (created I66 P3) | YES |
+| Operator-private SOPs under `docs/references/hlk/v3.0/Research/Intelligence/canonicals/` (IO discipline; evicted from Operations at I94 P3) | YES |
 | Per-engagement counterparty briefs (`*.counterparty-brief.md` companions to decks; created I66 P6) | YES |
 | Per-engagement objections briefs (`*.objections.md` companions to decks; created I66 P6) | YES |
 | Internal AKOS-vault SOPs / decision logs / risk registers (`docs/wip/planning/**`) | YES |

@@ -202,7 +202,7 @@ _REGISTRY: tuple[tuple[str, str, str], ...] = (
     ),
     # I75 Wave R+5 C1 (D-IH-86-FH): IntelligenceOps register radar freshness columns.
     (
-        "docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv",
+        "docs/references/hlk/v3.0/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv",
         "akos.hlk_intelligenceops_register_csv",
         "INTELLIGENCEOPS_REGISTER_FIELDNAMES",
     ),

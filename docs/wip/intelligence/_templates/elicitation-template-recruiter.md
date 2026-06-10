@@ -78,5 +78,5 @@ Intelligence report focused on: BLUF on role-fit viability, source-graded reliab
 
 ## Cross-references
 
-- [`SOP-IO_*.md`](../../../references/hlk/v3.0/Admin/O5-1/Operations/IntelligenceOps/)
+- [`SOP-IO_*.md`](../../../references/hlk/v3.0/Research/Intelligence/canonicals/)
 - [`BRAND_BASELINE_REALITY_MATRIX.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_BASELINE_REALITY_MATRIX.md) §recruiter-row

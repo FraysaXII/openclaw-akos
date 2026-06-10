@@ -392,7 +392,7 @@ CHARTER: dict[str, dict[str, str]] = {
         "owning_role": "Learning Lead",
         "notes": "Deferred I73; validator mint P95-GOV-4",
     },
-    "docs/references/hlk/v3.0/Admin/O5-1/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv": {
+    "docs/references/hlk/v3.0/Research/Intelligence/canonicals/dimensions/INTELLIGENCEOPS_REGISTER.csv": {
         "plane1_validator": "validate_intelligenceops_register.py",
         "plane2_emit_profile": "main",
         "owning_area": "Research_Intelligence",
