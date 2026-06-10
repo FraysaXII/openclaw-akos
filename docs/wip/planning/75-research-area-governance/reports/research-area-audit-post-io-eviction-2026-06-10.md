@@ -202,12 +202,14 @@ operator CSV gate. Rows likely needed (preview — not minted):
 
 | Command | Result (2026-06-10) |
 |:---|:---|
-| `validate_area_completeness.py --area Research --matrix` | Research 67%, crit 7/10 |
-| `validate_area_completeness.py --area Research --next` | 5 worklist items |
-| `validate_area_completeness.py --area Operations --matrix` | Operations 93%, COMPLETE |
+| `validate_hlk.py` | **PASS** (incl. mirror emit contract after path fix) |
+| `verify.py pre_commit_fast` | **PASS** |
+| `validate_area_completeness.py --area Research --matrix` | Research **90%**, crit **9/10** (post OPS-86-26) |
+| `validate_area_completeness.py --area Research --next` | 2 worklist items (AREA-08, AREA-16) |
+| `validate_area_completeness.py --area Operations --matrix` | Operations **93%**, crit **10/10 COMPLETE** |
 
-Post-R0 target: re-run Research `--matrix`; expect AREA-02/03/13 gaps to clear or narrow
-once scorer indexes top-level tree only.
+Pre-R0 baseline (audit authoring): Research 67%, crit 7/10. Post-R0: AREA-02/03/13 gaps cleared;
+remaining partials: AREA-09 (4/41 pairing — I75 P1–P2), AREA-16 (orphan discipline folder names).
 
 ## 10. Cross-references
 
