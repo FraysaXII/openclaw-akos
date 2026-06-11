@@ -2,7 +2,7 @@
 authored: 2026-06-10
 tranche: akos-automation-os-R1-script-census
 register_id: IO-CAP-AKOS-AUTOMATION-OS-2026-001
-status: pending_commit
+status: committed
 ---
 
 # AKOS Automation OS — R1 session doctrine (2026-06-10)
