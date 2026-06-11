@@ -2,7 +2,7 @@
 authored: 2026-06-10
 tranche: holistic-agentic-R3-platform-infra
 register_id: IO-CAP-HOLISTIC-AGENTIC-ORCHESTRATION-2026-001
-status: pending_commit
+status: committed
 operator_ratification:
   r3_tranche: platform_infra_performance
 ---
