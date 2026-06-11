@@ -59,3 +59,6 @@ HCAM-TRP-057,data_catalog,aggregation,data_contract,1:N,openmetadata_projection,
 HCAM-TRP-058,data_catalog,aggregation,glossary_term,1:N,openmetadata_glossary,AGGREGATES,,planned,catalog holds the business glossary
 HCAM-TRP-059,application,composition,component,1:N,COMPONENT_SERVICE_MATRIX,COMPOSED_OF,,planned,application (HLK-ERP/control plane) composed of components
 HCAM-TRP-060,application,access,data_store,N:N,erp_reads_warehouse,ACCESSES,,planned,application reads the T2 warehouse / stores
+HCAM-TRP-061,canonical,composition,canonical,N:N,frontmatter.linked_canonicals,COMPOSED_OF,,active,discipline/lattice canonical composes child pillar or SOP canonicals (D-IH-94-A methodology mint)
+HCAM-TRP-062,canonical,serving,process,N:N,process_list.sop_path,SERVES,,active,SOP or discipline canonical operationalises a process via sop_path FK (executable process catalog)
+HCAM-TRP-063,aic,realization,capability,N:N,aic_capability_implementation_matrix;HXPESTAL_INTENT_TRACKING,REALIZES,,planned,flagship AIC (e.g. MADEIRA) demonstrates research capability intent fidelity at master-synthesis (D-IH-94-A)

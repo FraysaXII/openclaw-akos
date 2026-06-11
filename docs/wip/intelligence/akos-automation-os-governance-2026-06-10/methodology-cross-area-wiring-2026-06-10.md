@@ -30,7 +30,10 @@ authored: 2026-06-10
 | **People / Compliance** | `process_list.csv` | `hol_resea_dtp_99`, `hol_resea_dtp_315` lack `sop_path` / `runbook_path` | Pair to `SOP-RESEARCH_PRONG_SYNTHESIS_001.md` + `scripts/validate_research_action.py` |
 | **People / Compliance** | `CAPABILITY_REGISTRY.csv` | PESTEL/HxPESTAL rows still `planned` in index-derived status | Promote to `active` when operator ratifies |
 | **People / Quality Fabric** | `HOLISTIKA_QUALITY_FABRIC.md` §6 | Prong lattice not yet listed as Research-action extension | Add row at next QF index sweep |
-| **Data / Architecture** | `CANONICAL_GOVERNANCE_REGISTRY.csv` | New markdown canonicals not inventory rows | I95-style index tranche (Plane-1 only) |
+| **Data / Architecture** | `CANONICAL_REGISTRY.csv` | **DONE** — 11 Research Methodology rows (6 mint + 4 sibling backfill + lifecycle) | `validate_canonical_registry.py` |
+| **Data / Architecture** | `CANONICAL_RELATIONSHIP_REGISTRY.csv` | **DONE** — TRP-061..063 (canonical composition + SOP→process + AIC intent) | `validate_canonical_articulation.py` |
+| **Data / Architecture** | `CANONICAL_ARTICULATION_MODEL.md` | **DONE** — §8 methodology prong articulation | — |
+| **Data / Architecture** | `CANONICAL_GOVERNANCE_REGISTRY.csv` | **N/A** — markdown doctrines are git-only; no CGR row required | — |
 | **Operations** | Executable process catalog | No `hol_resea_dtp_prong_synthesis_*` process row | Mint at I75 P1 or inline tranche |
 
 ## Semantic vs mechanical bar

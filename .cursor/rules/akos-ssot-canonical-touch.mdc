@@ -1,0 +1,97 @@
+---
+description: >-
+  SSOT registry audit + canonical touch discipline. Fires when minting or
+  editing vault canonicals, PRECEDENCE, CANONICAL_REGISTRY, process_list,
+  or HCAM registries. AskQuestion before vault touches unless operator
+  explicitly authorised in the same turn. Human J-OP prose; not mechanical
+  audit dumps. Ratified operator 2026-06-10.
+globs:
+  - "docs/references/hlk/v3.0/**/canonicals/**"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/CANONICAL_REGISTRY.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/CANONICAL_GOVERNANCE_REGISTRY.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/dimensions/CANONICAL_RELATIONSHIP_REGISTRY.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/dimensions/ENTITY_CATALOG.csv"
+  - "docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/CANONICAL_ARTICULATION_MODEL.md"
+alwaysApply: false
+---
+
+# AKOS SSOT Registry Audit + Canonical Touch Discipline
+
+Use when creating, editing, or wiring **vault canonicals** and their **registry
+rows**. Pairs with [`ssot-canonical-touch-craft`](../skills/ssot-canonical-touch-craft/SKILL.md)
+and [`akos-operator-communication.mdc`](akos-operator-communication.mdc) RULE 4.
+
+Vault doctrine: [`SSOT_REGISTRY_AUDIT_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SSOT_REGISTRY_AUDIT_DISCIPLINE.md).
+
+## RULE 1 — Four-registry lens on every mint (binding)
+
+When a new or updated artifact lands in `docs/references/hlk/v3.0/`, run the
+**same quality exercise** against the four SSOT maps the operator uses to see
+the whole estate:
+
+| Registry | Functional role | Typical action |
+|:---|:---|:---|
+| `PRECEDENCE.md` | Audit trail + human index | Row when doctrine is SSOT |
+| `CANONICAL_REGISTRY.csv` | Artifact inventory (T1) | Row per active canonical path |
+| `CANONICAL_RELATIONSHIP_REGISTRY.csv` | How types link (HCAM) | Triple when new composition/serving pattern |
+| `CANONICAL_GOVERNANCE_REGISTRY.csv` | CSV/mirror Plane-1/2 only | Row **only** for CSV surfaces — not markdown |
+
+`CANONICAL_ARTICULATION_MODEL.md` is the metamodel; update when the wiring
+pattern itself changes. `ENTITY_CATALOG.csv` changes only for net-new entity
+types (rare).
+
+One area mint (e.g. Research Methodology) is a **worked example**, not the
+whole job. Schedule **area-by-area** sweeps so PRECEDENCE-only rows do not
+linger without `CANONICAL_REGISTRY` inventory.
+
+## RULE 2 — Ask before vault touch; balance with encouragement (binding)
+
+The operator wants agents to **ask before touching canonicals** — and also wants
+canonical work to **keep moving**. Use this tier model:
+
+| Tier | Paths | Gate |
+|:---|:---|:---|
+| **A — Vault + canonical CSV** | `docs/references/hlk/v3.0/**/canonicals/**`, `PRECEDENCE.md`, `process_list.csv`, `baseline_organisation.csv`, `CANONICAL_REGISTRY.csv`, capability/compliance dimension CSVs | **`AskQuestion` before first write** in the session unless operator explicitly said mint/commit/go ahead **for that scope** in the same turn |
+| **B — WIP intelligence** | `docs/wip/intelligence/**` | Lighter gate: proceed when task is research ingest; AskQuestion before promoting to vault |
+| **C — Code + tests** | `akos/`, `scripts/`, `tests/` | Follow normal phase discipline; no extra canonical gate |
+
+**Balance (do not over-ask):**
+
+- Operator says "mint", "go ahead", "commit", or answers an `AskQuestion` with
+  approve → **that scope is ratified**; execute without re-asking the same gate.
+- Bundle related vault files in **one** AskQuestion (discipline + SOP + registry
+  rows), not six sequential gates.
+- **Do ask** when scope expands (e.g. extra CSV tranche, PRECEDENCE + process_list
+  + new doctrine) or when touching Tier A was not part of the operator's request.
+
+## RULE 3 — Prose register for canonicals and operator summaries (binding)
+
+Canonicals are read by **J-OP** (you) and executed by **J-AIC** (agents).
+
+When authoring or summarising:
+
+1. Lead with **what now works** in plain language (see operator-communication
+   RULE 1–2).
+2. Avoid **mechanical audit voice**: dense DONE/N/A tables, identifier chains
+   without functional names, triadic abstract-noun stacks, contrastive
+   "X, not Y" cadence.
+3. SOPs and disciplines: write steps a colleague would follow; validators and
+   IDs attach **after** the human-readable core.
+4. Apply **Impeccable copywriting** tic avoidance even for internal prose —
+   see [`BRAND_COPYWRITING_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/Copywriter/canonicals/BRAND_COPYWRITING_DISCIPLINE.md).
+5. Audience tags in frontmatter: `J-OP` for operator narrative; `J-AIC` for
+   executable instruction surfaces (paired SOPs, cursor rules, runbooks).
+
+## RULE 4 — Commit gate (binding)
+
+Tier A changes that will land in git: **`AskQuestion` before commit** unless
+operator already ratified commit in the same thread. Never commit canonical CSVs
+without explicit operator approval per baseline governance.
+
+## Cross-references
+
+- Inline ratification: [`akos-inline-ratification.mdc`](akos-inline-ratification.mdc)
+- Index integrity: [`akos-index-integrity.mdc`](akos-index-integrity.mdc)
+- HCAM: [`CANONICAL_ARTICULATION_MODEL.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/CANONICAL_ARTICULATION_MODEL.md) §8

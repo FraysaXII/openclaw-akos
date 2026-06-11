@@ -52,8 +52,29 @@ without looking anything up.
 The operator routes between AI models by session type (expensive thinking
 model for interpretation; cheaper coding model for execution — see
 `docs/wip/intelligence/model-selection-2026-05-28/`). This communication
-rule is **model-agnostic**: it binds whichever model is driving the
+rule is **model-agnostic**: it binds whichever agent is driving the
 session, because the operator's need to not memorise codes is constant.
+
+## RULE 4 — Human prose for the operator (J-OP); not mechanical audit voice (binding)
+
+The operator reads summaries and canonicals as **J-OP** (internal register).
+Agents execute them as **J-AIC**. Write for a colleague, not a compliance bot.
+
+When reporting work or authoring vault prose:
+
+1. **Open with the outcome** — what now works, what risk is removed — in
+   sentences, not status matrices.
+2. **Keep audit detail secondary** — paths and IDs follow the story; they do
+   not replace it.
+3. **Avoid AI-tone tics** on internal surfaces too: contrastive "X, not Y"
+   pairs, triadic abstract-noun stacks, epigrammatic "single discipline"
+   lines, validator dumps as the lead paragraph.
+4. **SOPs and disciplines** — steps a human would follow; mechanical
+   contracts (fields, enums, commands) come after intent.
+
+Canonical touch + registry audit: [`akos-ssot-canonical-touch.mdc`](akos-ssot-canonical-touch.mdc).
+Copywriting tic catalog: [`BRAND_COPYWRITING_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/Copywriter/canonicals/BRAND_COPYWRITING_DISCIPLINE.md).
+Audience registry: `J-OP`, `J-AIC` in [`AUDIENCE_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv).
 
 ## Cross-references
 

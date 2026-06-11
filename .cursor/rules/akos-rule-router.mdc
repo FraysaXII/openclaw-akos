@@ -40,6 +40,7 @@ Always-on **index** only. Domain doctrine lives in scoped rules + paired skills 
 | Multi-task conflict / blocker | [`akos-conflict-surfacing-and-blocker-trackers.mdc`](akos-conflict-surfacing-and-blocker-trackers.mdc) | `conflict-surfacing-craft` |
 | Long initiative pause / checkpoint | [`akos-agent-checkpoint-discipline.mdc`](akos-agent-checkpoint-discipline.mdc) | `agent-checkpoint-craft` |
 | Docs/config sync after CSV mint | [`akos-docs-config-sync.mdc`](akos-docs-config-sync.mdc) | — |
+| SSOT registry audit / vault canonical touch | [`akos-ssot-canonical-touch.mdc`](akos-ssot-canonical-touch.mdc) | `ssot-canonical-touch-craft` |
 | Process catalog / adapter registry | [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc) | `executable-process-catalog-craft` |
 | People cross-area patterns | [`akos-people-discipline-of-disciplines.mdc`](akos-people-discipline-of-disciplines.mdc) | — |
 | Two-seat Opus → Composer | [`akos-aic-delegation.mdc`](akos-aic-delegation.mdc) | `aic-delegation-craft` |

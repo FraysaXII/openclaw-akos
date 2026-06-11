@@ -13,10 +13,10 @@ co_authors:
   - Data Steward
   - CDO
   - AI Engineer
-last_review: 2026-06-05
+last_review: 2026-06-10
 last_review_by: Data Architect
-last_review_at: 2026-06-05
-last_review_decision_id: D-IH-95-B
+last_review_at: 2026-06-10
+last_review_decision_id: D-IH-94-A
 methodology_version_at_review: v3.1
 ratifying_decisions:
   - D-IH-95-A
@@ -117,7 +117,28 @@ Quarterly review aligned with the area-completeness sweep (same cadence as `SEMA
 New triples: draft `status=planned` → Semantic Council review → `active` on operator-approved
 tranche → projected to Neo4j on next sync (parity-checked).
 
-## 8. Cross-references
+## 8. Methodology prong articulation (D-IH-94-A)
+
+Research Methodology mint wires through **three registries** — not a parallel framework:
+
+| Layer | Registry | What got registered |
+|:---|:---|:---|
+| **Artifact inventory** | `CANONICAL_REGISTRY.csv` | Prong lattice, HxPESTAL intent tracker, pillars (PESTEL/Porter/HxPESTAL), synthesis SOP, plus backfill of Research Action + Radar disciplines |
+| **Precedence / audit** | `PRECEDENCE.md` | Already complete at methodology mint |
+| **Relationship verbs** | `CANONICAL_RELATIONSHIP_REGISTRY.csv` | TRP-061 canonical⊃canonical; TRP-062 canonical→serves→process; TRP-063 AIC→realizes→capability (planned) |
+
+Markdown doctrines are **git-only** (T1) — they do **not** get `CANONICAL_GOVERNANCE_REGISTRY.csv` rows
+(that registry is CSV/mirror inventory only per P95-GOV-1). `entity_type=canonical` in
+`ENTITY_CATALOG.csv` already covers them.
+
+**Remaining executable gap:** `process_list.csv` `sop_path` pairing for `hol_resea_dtp_99` and
+`hol_resea_dtp_315` → `SOP-RESEARCH_PRONG_SYNTHESIS_001.md` (operator CSV tranche ratified).
+
+**Standing discipline (all areas):** [`../Governance/canonicals/SSOT_REGISTRY_AUDIT_DISCIPLINE.md`](../Governance/canonicals/SSOT_REGISTRY_AUDIT_DISCIPLINE.md)
+— four-registry sweep on every mint; AskQuestion touch-gate balance; J-OP prose bar.
+Agent rule: `.cursor/rules/akos-ssot-canonical-touch.mdc`.
+
+## 9. Cross-references
 
 - Semantic Layer (metrics tier): `SEMANTIC_LAYER.md`
 - Data Architecture (T1/T2/T3): `DATA_ARCHITECTURE.md`
