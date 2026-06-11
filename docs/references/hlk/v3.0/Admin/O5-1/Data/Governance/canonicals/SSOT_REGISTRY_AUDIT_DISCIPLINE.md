@@ -74,6 +74,24 @@ Also run **area-by-area** reviews (Research, Data, People, Finance, Operations,
 …) so older mints that pre-date the registry backfill do not sit in precedence
 only.
 
+## Recursive backfill rhythm (binding meta-rule)
+
+Every forward tranche ends with a **look-back** before the next tranche ships.
+When work at step N reveals gaps in steps 1..N−1 or parent initiatives (I86
+cluster coordinator, I95 canonical articulation), **steer upward** — update
+wiring docs, session recap, and registry rows, not only forward motion.
+
+Minimum look-back per tranche:
+
+1. Four-registry lens on **this tranche's mints** (PRECEDENCE → CANONICAL_REGISTRY → HCAM triples → CGR if CSV).
+2. Cross-check deferred queue in the initiative wiring doc and session recap.
+3. Run validators; record PASS/FAIL in the tranche regression or session recap.
+4. If a gap blocks downstream work, close it in the same holistic bundle or
+   file an explicit deferred row with owner initiative.
+
+Worked example: methodology mint (2026-06-10) → process_list pairing → capability
+promote → QF §6 row — each tranche looked back before Automation OS R2 resumed.
+
 Verification:
 
 ```powershell

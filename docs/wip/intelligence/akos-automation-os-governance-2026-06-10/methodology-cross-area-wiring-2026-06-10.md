@@ -28,8 +28,8 @@ authored: 2026-06-10
 | Area | Surface | Gap | Proposed fix |
 |:---|:---|:---|:---|
 | **People / Compliance** | `process_list.csv` | **DONE** — `hol_resea_dtp_315`, `hol_resea_dtp_99`, `hol_resea_dtp_prong_synthesis_001` paired to `SOP-RESEARCH_PRONG_SYNTHESIS_001.md` (D-IH-94-A; 2026-06-10) | `validate_process_list_pairing.py` + `validate_hlk.py` |
-| **People / Compliance** | `CAPABILITY_REGISTRY.csv` | PESTEL/HxPESTAL rows still `planned` in index-derived status | Promote to `active` when operator ratifies |
-| **People / Quality Fabric** | `HOLISTIKA_QUALITY_FABRIC.md` §6 | Prong lattice not yet listed as Research-action extension | Add row at next QF index sweep |
+| **People / Compliance** | `CAPABILITY_REGISTRY.csv` | **DONE** — `CAP-RES-PESTEL-ANALYSIS` + `CAP-RES-HXPESTAL-ANALYSIS` promoted `active` (D-IH-94-A; 2026-06-11 holistic bundle) | `validate_capability_registry.py` |
+| **People / Quality Fabric** | `HOLISTIKA_QUALITY_FABRIC.md` §6 | **DONE** — prong lattice + SSOT registry audit rows added (2026-06-11) | Index integrity sweep at next wave-close |
 | **Data / Architecture** | `CANONICAL_REGISTRY.csv` | **DONE** — 11 Research Methodology rows (6 mint + 4 sibling backfill + lifecycle) | `validate_canonical_registry.py` |
 | **Data / Architecture** | `CANONICAL_RELATIONSHIP_REGISTRY.csv` | **DONE** — TRP-061..063 (canonical composition + SOP→process + AIC intent) | `validate_canonical_articulation.py` |
 | **Data / Architecture** | `CANONICAL_ARTICULATION_MODEL.md` | **DONE** — §8 methodology prong articulation | — |
@@ -72,10 +72,15 @@ flowchart TB
   Lattice --> CGR
 ```
 
+## Recursive backfill (2026-06-11 holistic bundle)
+
+Closed in this session: capability promote, QF §6 rows, articulation model §8 pairing note,
+SSOT discipline recursive-backfill rhythm, Automation OS R2, holistic-agentic R3 commit.
+
 ## Recommended next tranche
 
-1. **CAPABILITY_REGISTRY.csv** — promote PESTEL/HxPESTAL from `planned` → `active` (operator gate)
-2. **HOLISTIKA_QUALITY_FABRIC.md** §6 — prong-lattice extension row at next QF index sweep
-3. **Area-by-area SSOT registry sweep** — Finance, Data, People, Ops (Research Methodology = worked example)
+1. **Automation OS R3** — Vault Data + RPA / integration plane
+2. **Area-by-area SSOT registry sweep** — Finance, Data, People, Ops (Research Methodology = worked example)
+3. **Holistic-agentic R4** — blocked until Automation OS D4 ratified per charter
 
 Verification: `py scripts/validate_hlk.py` + area validators per tranche.

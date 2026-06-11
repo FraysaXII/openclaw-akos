@@ -131,8 +131,9 @@ Markdown doctrines are **git-only** (T1) — they do **not** get `CANONICAL_GOVE
 (that registry is CSV/mirror inventory only per P95-GOV-1). `entity_type=canonical` in
 `ENTITY_CATALOG.csv` already covers them.
 
-**Remaining executable gap:** `process_list.csv` `sop_path` pairing for `hol_resea_dtp_99` and
-`hol_resea_dtp_315` → `SOP-RESEARCH_PRONG_SYNTHESIS_001.md` (operator CSV tranche ratified).
+**Executable pairing (closed 2026-06-10):** `process_list.csv` rows `hol_resea_dtp_99`, `hol_resea_dtp_315`,
+and umbrella `hol_resea_dtp_prong_synthesis_001` pair to `SOP-RESEARCH_PRONG_SYNTHESIS_001.md`
+(commit `1d5c2c62`; D-IH-94-A).
 
 **Standing discipline (all areas):** [`../Governance/canonicals/SSOT_REGISTRY_AUDIT_DISCIPLINE.md`](../Governance/canonicals/SSOT_REGISTRY_AUDIT_DISCIPLINE.md)
 — four-registry sweep on every mint; AskQuestion touch-gate balance; J-OP prose bar.
