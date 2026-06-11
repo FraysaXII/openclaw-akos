@@ -93,9 +93,24 @@ in CANONICAL_REGISTRY from I93/I94; no four-registry gap closure required.
 | process_list / CAPABILITY | WIP scope; no CSV expansion | N/A |
 | CANONICAL_RELATIONSHIP_REGISTRY | No new wiring pattern | N/A |
 
+## R5 look-back (2026-06-11)
+
+WIP ledger harvest — People vault + Quality Fabric specialty lattice + regression
+disciplines (cursor rules, paired runbooks, closure template). Cross-links harvested
+runbooks to existing `hol_peopl_dtp_*` process rows from I86 wave mints.
+
+| Registry | R5 action | Result |
+|:---|:---|:---|
+| PRECEDENCE | Harvest-only; QF specialties pre-rowed | N/A |
+| CANONICAL_REGISTRY | People QF disciplines inventoried (I86) | No gap |
+| CANONICAL_RELATIONSHIP_REGISTRY | No new HCAM pattern | N/A |
+| process_list / CAPABILITY | No CSV expansion; TECH_AUTOMATION_REGISTRY not yet minted | **Deferred** — AskQuestion at D4/D5 |
+| HOLISTIKA_QUALITY_FABRIC §6 | Prong lattice + SSOT audit closed prior session | No gap |
+| baseline_organisation.csv | Not harvested (Tier-A operator gate) | **Deferred** — R7 compliance tranche |
+
 ## Recommended next tranche
 
-1. **Automation OS R5** — Vault People + Quality Fabric + regression
+1. **Automation OS R6** — Vault Research + IntelligenceOps + radar
 2. **Area-by-area SSOT registry sweep** — Finance (Ops/Data = worked examples via R3–R4 harvest)
 3. **Holistic-agentic R4** — blocked until Automation OS D4 ratified per charter
 
