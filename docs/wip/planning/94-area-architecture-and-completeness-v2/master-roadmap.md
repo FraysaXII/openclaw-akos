@@ -33,8 +33,14 @@ todos:
     content: "Operations sweep P4 DONE (2026-06-10) — cross-area handoffs canonical (OPERATIONS_CROSS_AREA_HANDOFFS.md); README/PRECEDENCE/delivery-doctrine wiring; design wave (master sweep design, cross-area map, 428-row P4 ledger, wave-2 synthesis); holistic-agentic research charter + INTELLIGENCEOPS row. Gates: operator batch2 (PWF on AREA-09) + dual-track A/A/A/A. Evidence: i94-p4-session-doctrine-2026-06-10.md. Next: Operations sweep P5 I88 wiring."
     status: completed
   - id: ops-sweep-p7-area09-t2
-    content: "Operations sweep P7 T2 DONE (2026-06-10) — 20 process_list pairings via i94_area09_process_list_tranche.py → 32/53 paired; 3 TBI RevOps SOPs minted (Option A). Operator gate: batch2 Q1-A pair-all-20. Evidence: i94-p7-t2-tranche-closure-2026-06-10.md + preview report. Next: P8 T3 (~21 rows) or P5/P6 first per master sweep design."
+    content: "Operations sweep P7 T2 DONE (2026-06-10) — 20 process_list pairings via i94_area09_process_list_tranche.py → 32/53 paired; 3 TBI RevOps SOPs minted (Option A). Operator gate: batch2 Q1-A pair-all-20. Evidence: i94-p7-t2-tranche-closure-2026-06-10.md + preview report. Next: P5/P6 then P8 T3."
     status: completed
+  - id: ops-sweep-p5-wiring
+    content: "Operations sweep P5 DONE (2026-06-10) — I88 Operations 10-pillar wiring review (7 PASS + 3 PWF; overall PWF). Evidence: i94-p5-session-doctrine + i94-operations-10-pillar-wiring-review-2026-06-10.md. Next: P6 closure UAT."
+    status: completed
+  - id: ops-sweep-p6-uat
+    content: "Operations sweep P6 — closure UAT for operational sweep P0–P5; verdict PASS-WITH-FOLLOWUP on AREA-09 32/53 (monitoring-obligation through P8 T3). Evidence: uat-i94-operations-sweep-closure-2026-06-10.md."
+    status: pending
   - id: p4-people-compliance
     content: "P4 — People methodology consolidation: cross-area disciplines (UAT/regressions/area-governance/Quality Fabric) home = People/Compliance (methodology-enforcement; 'the methodology is the product'); manifesto stays at People root. Migrate area-ops drift OUT: MKTOPS->Marketing, TECHOPS->Tech, DATAOPS->Data, UX->Marketing. Reconcile RESEARCH_HEAD vs RESEARCH_ACTION home. Three-verb pipeline doctrine (Research authors / People mints / Compliance enforces)."
     status: pending
