@@ -7,8 +7,8 @@ audience: J-OP;J-AIC
 role_owner: KM Officer + Research Analyst
 status: active
 authored: 2026-05-29
-last_review: 2026-05-29
-last_review_decision_id: D-IH-75-G
+last_review: 2026-06-10
+last_review_decision_id: D-IH-94-A
 ---
 
 # Methodology — discipline index
@@ -42,8 +42,11 @@ These three sub-areas are **realized** (this build) — they index the real capa
 
 | Artefact | What it governs | Path |
 |:---|:---|:---|
+| Prong lattice discipline | Baseline `BL-*` prongs + charter aliases + synthesis placement. | [`canonicals/RESEARCH_PRONG_LATTICE_DISCIPLINE.md`](canonicals/RESEARCH_PRONG_LATTICE_DISCIPLINE.md) |
+| HxPESTAL intent tracking | Large-ledger intent fidelity + MADEIRA proof. | [`canonicals/HXPESTAL_INTENT_TRACKING_DISCIPLINE.md`](canonicals/HXPESTAL_INTENT_TRACKING_DISCIPLINE.md) |
 | Research Action discipline | The 8-stage ingest->govern loop (ACQUIRE->PROCESS). | [`canonicals/RESEARCH_ACTION_DISCIPLINE.md`](canonicals/RESEARCH_ACTION_DISCIPLINE.md) |
 | Research Radar discipline | The freshness/time axis before govern. | [`canonicals/RESEARCH_RADAR_DISCIPLINE.md`](canonicals/RESEARCH_RADAR_DISCIPLINE.md) |
+| Prong synthesis SOP | Per-prong PESTEL/Porter + master HxPESTAL. | [`canonicals/SOP-RESEARCH_PRONG_SYNTHESIS_001.md`](canonicals/SOP-RESEARCH_PRONG_SYNTHESIS_001.md) |
 | Research Action SOP | AC-HUMAN walkthrough of the 8 stages. | [`canonicals/SOP-RESEARCH_ACTION_001.md`](canonicals/SOP-RESEARCH_ACTION_001.md) |
 | Research Radar SOP | The sweep cadence. | [`canonicals/SOP-RESEARCH_RADAR_001.md`](canonicals/SOP-RESEARCH_RADAR_001.md) |
 | Substrate landscape doctrine | The technical-substrate audit doctrine. | [`canonicals/SUBSTRATE_LANDSCAPE_DOCTRINE.md`](canonicals/SUBSTRATE_LANDSCAPE_DOCTRINE.md) |

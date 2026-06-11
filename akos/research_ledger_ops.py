@@ -14,20 +14,69 @@ PROCESS_LIST_PATH = Path(
     "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/process_list.csv"
 )
 
-# Holistika area (process_list ``area`` column) → Automation OS charter prong.
-AREA_TO_PRONG: dict[str, str] = {
-    "Tech": "P1-TECH",
-    "Data": "P2-DATA",
-    "Operations": "P3-OPS",
-    "Research": "P4-RESEARCH",
-    "People": "P5-PEOPLE",
-    "Finance": "P7-FINANCE",
-    "Legal": "P8-LEGAL",
-    "Marketing": "P9-MARKETING",
-    "MKT": "P9-MARKETING",
+# Holistika area (process_list ``area`` column) → baseline consumer prong (BL-*).
+# SSOT: docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_PRONG_LATTICE_DISCIPLINE.md
+AREA_TO_BASELINE_PRONG: dict[str, str] = {
+    "Tech": "BL-TECH",
+    "Data": "BL-DATA",
+    "Operations": "BL-OPS",
+    "Research": "BL-RESEARCH",
+    "People": "BL-PEOPLE",
+    "Finance": "BL-FIN",
+    "Legal": "BL-LEGAL",
+    "Marketing": "BL-MKT",
+    "MKT": "BL-MKT",
 }
 
-DEFAULT_UNRESOLVED_PRONG = "P1-TECH"
+# Charter alias → baseline (holistic-agentic + Automation OS packs).
+CHARTER_ALIAS_TO_BASELINE: dict[str, str] = {
+    # Holistic-agentic
+    "P1-DATA": "BL-DATA",
+    "P2-FINANCE": "BL-FIN",
+    "P3-LEGAL": "BL-LEGAL",
+    "P4-MARKETING": "BL-MKT",
+    "P5-OPS-PEOPLE": "BL-OPS",
+    "P6-TECH-SUBSTRATE": "BL-TECH",
+    "P7-RESEARCH": "BL-RESEARCH",
+    "P8-MADEIRA": "BL-ENVOY",
+    # Automation OS
+    "P1-TECH": "BL-TECH",
+    "P2-DATA": "BL-DATA",
+    "P3-OPS": "BL-OPS",
+    "P4-RESEARCH": "BL-RESEARCH",
+    "P5-PEOPLE": "BL-PEOPLE",
+    "P6-COMPLIANCE": "BL-COMPLY",
+    "P7-FINANCE": "BL-FIN",
+    "P8-LEGAL": "BL-LEGAL",
+    "P9-MARKETING": "BL-MKT",
+    "P10-INTEL-OPS": "BL-INTEL",
+    "P11-ENVOY-MADEIRA": "BL-ENVOY",
+    "P12-RPA-ADAPTERS": "BL-ADAPTER",
+}
+
+BASELINE_PRONG_IDS = frozenset(
+    {
+        "BL-DATA",
+        "BL-FIN",
+        "BL-LEGAL",
+        "BL-MKT",
+        "BL-OPS",
+        "BL-PEOPLE",
+        "BL-TECH",
+        "BL-RESEARCH",
+        "BL-COMPLY",
+        "BL-INTEL",
+        "BL-ENVOY",
+        "BL-ADAPTER",
+        "BL-UX",
+        "BL-ETHICS",
+    }
+)
+
+DEFAULT_UNRESOLVED_PRONG = "BL-TECH"
+
+# Back-compat alias for imports/tests written before BL-* mint.
+AREA_TO_PRONG = CHARTER_ALIAS_TO_BASELINE
 
 GITHUB_BLOB = "https://github.com/FraysaXII/openclaw-akos/blob/main/"
 
@@ -67,8 +116,21 @@ def write_rows(path: Path, rows: list[dict[str, str]]) -> None:
         writer.writerows(rows)
 
 
+def normalize_prong(raw: str | None) -> str:
+    """Map charter alias or legacy tag to baseline ``BL-*`` consumer prong."""
+    if not raw:
+        return DEFAULT_UNRESOLVED_PRONG
+    key = raw.strip().upper()
+    if key in BASELINE_PRONG_IDS:
+        return key
+    return CHARTER_ALIAS_TO_BASELINE.get(key, key)
+
+
 def validate_row_dict(raw: dict[str, Any]) -> ResearchSourceRow:
-    return ResearchSourceRow.model_validate(raw)
+    payload = dict(raw)
+    if "prong" in payload:
+        payload["prong"] = normalize_prong(str(payload.get("prong", "")))
+    return ResearchSourceRow.model_validate(payload)
 
 
 def load_runbook_prong_map(repo_root: Path) -> dict[str, str]:
@@ -83,7 +145,7 @@ def load_runbook_prong_map(repo_root: Path) -> dict[str, str]:
             if not runbook.startswith("scripts/"):
                 continue
             area = (row.get("area") or "").strip()
-            prong = AREA_TO_PRONG.get(area, DEFAULT_UNRESOLVED_PRONG)
+            prong = AREA_TO_BASELINE_PRONG.get(area, DEFAULT_UNRESOLVED_PRONG)
             mapping.setdefault(runbook, prong)
     return mapping
 
@@ -96,7 +158,7 @@ def resolve_prong_for_script(
 ) -> tuple[str, str]:
     """Return (prong_id, binding_note) using manifest → process_list → unresolved."""
     if manifest_prong:
-        return manifest_prong, "prong-binding:manifest"
+        return normalize_prong(manifest_prong), "prong-binding:manifest"
     normalized = script_rel.replace("\\", "/")
     if normalized in runbook_map:
         return runbook_map[normalized], "prong-binding:process_list"

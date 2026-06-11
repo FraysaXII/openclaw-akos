@@ -27,7 +27,8 @@ used_at_tranche: R11
 | **E** Environmental | Sustainability/ops footprint (if material; else N/A) | |
 | **L** Legal | Audit/durability bar for registry edits? | |
 
-Vault anchor: `process_list` row `hol_resea_dtp_315` (PESTEL Analysis).
+Vault anchor: [`PESTEL_ANALYSIS.md`](../../../references/hlk/v3.0/Research/Methodology/Pillars/PESTEL_ANALYSIS.md)
+(`hol_resea_dtp_315`). SOP: [`SOP-RESEARCH_PRONG_SYNTHESIS_001.md`](../../../references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_PRONG_SYNTHESIS_001.md).
 
 ## Porter — four forces + synthesis (competition is emergent)
 
@@ -40,8 +41,8 @@ Vault anchor: `process_list` row `hol_resea_dtp_315` (PESTEL Analysis).
 | **∴ Competition** | **Synthesis of 1–4** — competitive pressure on this prong | |
 
 > Operator discipline: **competition is not a separate input** — it is the integrated result of
-> the other four forces. Forward-charter to mint as Methodology pillar (see
-> `forward-charter-porter-pillar-2026-06-10.md`).
+> the other four forces. Vault pillar:
+> [`PORTER_COMPETITIVE_ANALYSIS.md`](../../../references/hlk/v3.0/Research/Methodology/Pillars/PORTER_COMPETITIVE_ANALYSIS.md).
 
 ## Automation OS hook
 

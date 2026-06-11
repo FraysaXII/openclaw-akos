@@ -1,28 +1,27 @@
----
-title: Forward charter — Porter competitive analysis pillar (operator discipline)
-status: forward_charter
-target_canonical: docs/references/hlk/v3.0/Research/Methodology/Pillars/
-register_row: hol_resea_dtp_315 adjacent (new Porter row TBD)
----
-
-# Forward charter — Porter pillar mint
-
-## Gap
-
-- **PESTEL** is registered (`hol_resea_dtp_315`, `CAP-HOL-RESEA-DTP-315`) but per-letter
-  viewpoint discipline is not yet an executable SOP.
-- **Porter** appears only as a MADEIRA GTM task (`gtm_madeira_dtp_39` Competitive Positioning)
-  — not as a Methodology pillar with operator discipline.
-- Operator discipline (ratified in Automation OS research): analyze **each force separately**;
-  **competition (5th) is the synthesis of the other four**, not a standalone input.
-
-## Proposed mint (post Automation OS R12)
-
-1. `Pillars/PORTER_COMPETITIVE_ANALYSIS.md` — charter with per-force viewpoint loop.
-2. `process_list.csv` row — paired with synthesis template usage in Research Action loop.
-3. Cross-link `prong-synthesis-template.md` (this pack) as worked example.
-
-## Non-goals
-
-- Full PESTEL/Porter essays per **script** in source ledger (wrong granularity).
-- Replacing HxPESTAL / Factor Combination pillars.
+---
+title: Forward charter — Porter competitive analysis pillar (operator discipline)
+status: promoted
+promoted_to: docs/references/hlk/v3.0/Research/Methodology/Pillars/PORTER_COMPETITIVE_ANALYSIS.md
+promoted_on: 2026-06-10
+last_review_decision_id: D-IH-94-A
+---
+
+# Forward charter — Porter pillar mint (CLOSED — promoted)
+
+## Resolution (2026-06-10)
+
+Promoted to vault:
+
+- [`PORTER_COMPETITIVE_ANALYSIS.md`](../../../references/hlk/v3.0/Research/Methodology/Pillars/PORTER_COMPETITIVE_ANALYSIS.md)
+- [`PESTEL_ANALYSIS.md`](../../../references/hlk/v3.0/Research/Methodology/Pillars/PESTEL_ANALYSIS.md) (per-letter craft)
+- [`RESEARCH_PRONG_LATTICE_DISCIPLINE.md`](../../../references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_PRONG_LATTICE_DISCIPLINE.md)
+- [`SOP-RESEARCH_PRONG_SYNTHESIS_001.md`](../../../references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_PRONG_SYNTHESIS_001.md)
+
+Engine: `akos/research_ledger_ops.normalize_prong()` maps charter aliases → `BL-*`.
+
+## Original gap (for audit trail)
+
+- PESTEL registered but not executable as per-letter viewpoints.
+- Porter only as MADEIRA GTM task — not Methodology pillar.
+- Operator discipline: competition = synthesis of forces 1–4.
+

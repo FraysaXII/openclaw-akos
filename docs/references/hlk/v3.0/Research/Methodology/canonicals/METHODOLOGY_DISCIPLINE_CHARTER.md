@@ -7,15 +7,16 @@ classification: way_of_working
 intellectual_kind: discipline_charter
 ssot: true
 authored: 2026-05-12
-last_review: 2026-05-29
-last_review_decision_id: D-IH-75-G
+last_review: 2026-06-10
+last_review_decision_id: D-IH-94-A
 ---
 
 # METHODOLOGY_DISCIPLINE_CHARTER — Research/Methodology
 
 > Authored I70 P4.7 per `RESEARCH_AREA_CHARTER.md` §2 + D-IH-70-S. Sub-areas **realized** at I75 /
-> I86 Wave R+5 per `D-IH-75-G` (the empty technique husks deleted; sub-areas rebuilt as
-> capability-seeded indexes). Per-pillar/per-technique SOPs still forward-chartered to I75 P1.
+> I86 Wave R+5 per `D-IH-75-G`. **Prong lattice + PESTEL/Porter pillars minted 2026-06-10** per
+> `D-IH-94-A` (Automation OS + holistic-agentic research packs). Remaining per-technique SOPs
+> forward-chartered to I75 P1 where not yet active.
 > Lifecycle role: see [`../../canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md`](../../canonicals/RESEARCH_LIFECYCLE_DOCTRINE.md) §3–§4.
 
 ## 1. Mission
@@ -28,7 +29,7 @@ derived-recall discipline). Index: [`../README.md`](../README.md).
 
 ## 2. Sub-areas (realized; index READMEs seeded from the capability registry)
 
-- [`Pillars/`](../Pillars/README.md) — methodology pillars (HxPESTAL, PESTEL, Process/Business Engineering, Factor Combination, Foresight).
+- [`Pillars/`](../Pillars/README.md) — methodology pillars (PESTEL, Porter, HxPESTAL, Process/Business Engineering, Factor Combination, Foresight).
 - [`Techniques/`](../Techniques/README.md) — per-pillar concrete techniques (Create Analogy, 6 Ws, Literature Review, Competitive Benchmarking, Research Brief, Multi-Source Synthesis, Contradiction Resolution, Research Output Packaging).
 - [`Deep-Research/`](../Deep-Research/README.md) — long-cycle investigation + research-material pipeline (Deep Research Methodology, FlowMaker pipeline; assessment side cross-links to Validation).
 
@@ -39,7 +40,9 @@ derived-recall discipline). Index: [`../README.md`](../README.md).
 
 ## 4. Outputs
 
-- Methodology pillar canonicals (1 per pillar; ~6-8 pillars expected).
+- Methodology pillar canonicals (1 per pillar; PESTEL + Porter **active** 2026-06-10).
+- [`RESEARCH_PRONG_LATTICE_DISCIPLINE.md`](RESEARCH_PRONG_LATTICE_DISCIPLINE.md) — baseline `BL-*` consumer prongs + charter alias crosswalk.
+- [`SOP-RESEARCH_PRONG_SYNTHESIS_001.md`](SOP-RESEARCH_PRONG_SYNTHESIS_001.md) — per-prong PESTEL + Porter synthesis.
 - Per-pillar SOPs (how to apply each pillar in an engagement).
 - Deep-research project templates (for multi-week investigations).
 

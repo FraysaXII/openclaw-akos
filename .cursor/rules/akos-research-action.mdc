@@ -12,11 +12,19 @@ description: >-
   findings.
 globs:
   - "docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md"
+  - "docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_PRONG_LATTICE_DISCIPLINE.md"
+  - "docs/references/hlk/v3.0/Research/Methodology/canonicals/HXPESTAL_INTENT_TRACKING_DISCIPLINE.md"
   - "docs/references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_ACTION_001.md"
+  - "docs/references/hlk/v3.0/Research/Methodology/canonicals/SOP-RESEARCH_PRONG_SYNTHESIS_001.md"
+  - "docs/references/hlk/v3.0/Research/Methodology/Pillars/*.md"
   - "docs/wip/intelligence/**/source-ledger.csv"
   - "docs/wip/intelligence/**/research-action-pack.md"
+  - "docs/wip/intelligence/**/hxpestel-intent-tracking-template.md"
+  - "docs/wip/intelligence/**/prong-synthesis-template.md"
   - "scripts/validate_research_action.py"
+  - "scripts/research_ledger.py"
   - "akos/hlk_research_action.py"
+  - "akos/research_ledger_ops.py"
 alwaysApply: false
 ---
 
@@ -67,7 +75,9 @@ operator decision MUST carry a `source-ledger.csv` shaped per
 [`akos/hlk_research_action.py`](../../akos/hlk_research_action.py)
 `COLLABORATOR_SHARE_REGISTRY`-style 15-field schema:
 
-`source_id` (`SRC-` prefix), `prong`, `topic_cluster`,
+`source_id` (`SRC-` prefix), `prong` (baseline `BL-*` per
+`RESEARCH_PRONG_LATTICE_DISCIPLINE.md`; charter aliases normalize at
+ingest), `topic_cluster`,
 `source_title_or_owner`, `url` (http(s) or repo-relative `docs/` path),
 `format` (one of 9 enum values), `source_category` (OSINT / HUMINT /
 SIGINT / CORPINT / MOTINT / TBD per `source_taxonomy.md`),
