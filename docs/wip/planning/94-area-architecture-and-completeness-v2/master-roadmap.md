@@ -39,8 +39,8 @@ todos:
     content: "Operations sweep P5 DONE (2026-06-10) — I88 Operations 10-pillar wiring review (7 PASS + 3 PWF; overall PWF). Evidence: i94-p5-session-doctrine + i94-operations-10-pillar-wiring-review-2026-06-10.md. Next: P6 closure UAT."
     status: completed
   - id: ops-sweep-p6-uat
-    content: "Operations sweep P6 — closure UAT for operational sweep P0–P5; verdict PASS-WITH-FOLLOWUP on AREA-09 32/53 (monitoring-obligation through P8 T3). Evidence: uat-i94-operations-sweep-closure-2026-06-10.md."
-    status: pending
+    content: "Operations sweep P6 DONE (2026-06-10) — closure UAT for operational sweep P0–P5; verdict PASS-WITH-FOLLOWUP on AREA-09 32/53 (monitoring-obligation through P8 T3). Evidence: uat-i94-operations-sweep-closure-2026-06-10.md + i94-p6-ops-sweep-session-doctrine-2026-06-10.md. Ops sweep P0–P6 closed; parent I94 main-roadmap P4–P9 remains open."
+    status: completed
   - id: p4-people-compliance
     content: "P4 — People methodology consolidation: cross-area disciplines (UAT/regressions/area-governance/Quality Fabric) home = People/Compliance (methodology-enforcement; 'the methodology is the product'); manifesto stays at People root. Migrate area-ops drift OUT: MKTOPS->Marketing, TECHOPS->Tech, DATAOPS->Data, UX->Marketing. Reconcile RESEARCH_HEAD vs RESEARCH_ACTION home. Three-verb pipeline doctrine (Research authors / People mints / Compliance enforces)."
     status: pending
