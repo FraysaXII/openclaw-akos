@@ -31,9 +31,23 @@ doctrine.
 
 ## Return format
 
+**Tranche / phase packets (binding):** The operator-facing surface is **not** this
+return packet. Before marking a tranche complete, mint and commit:
+
+1. **Session doctrine** — `reports/i94-p{N}-session-doctrine-*.md` (load table,
+   deliverables, gates honored, validator evidence, next tranche)
+2. **Tranche closure evidence** when CSV or canonical mint occurred
+3. **`files-modified.csv`** + **`master-roadmap.md`** todo status sync
+4. **`CHANGELOG.md`** unreleased bullet when vault or canonical paths changed
+
+The chat/subagent completion notification is coordinator telemetry only.
+
+**Minimum return packet (for coordinator):**
+
 - Files changed (paths)
 - Commands run + exit codes
 - Validator summaries (PASS/FAIL + finding codes)
+- Pointers to session doctrine / closure report paths minted
 - Open questions (if any)
 
 ## Cross-references
