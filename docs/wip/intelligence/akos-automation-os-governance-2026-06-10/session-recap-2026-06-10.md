@@ -65,13 +65,14 @@ flowchart TB
 | `1d5c2c62` | process_list pairing (umbrella + PESTEL + HxPESTAL) |
 | *(R3 run)* | Automation OS R3 Data/RPA tranche |
 | *(R4 run)* | Automation OS R4 Ops/RevOps/PMO tranche |
-| *(R5 run)* | Automation OS R5 People/QF/regression tranche — see steering queue below |
+| *(R5 run)* | Automation OS R5 People/QF/regression tranche |
+| *(R6 run)* | Automation OS R6 Research/IntelOps/radar tranche — see steering queue below |
 
 ## Three research lanes — status after this bundle
 
 | Lane | Status | Ledger / next |
 |:---|:---|:---|
-| **Automation OS** | R5 **done** (407-row cumulative ledger) | R6 Research/IntelOps harvest |
+| **Automation OS** | R6 **done** (483-row cumulative ledger) | R7 Compliance/PRECEDENCE harvest |
 | **Holistic-agentic** | R3 **committed** (305-row ledger) | R4 blocked until Automation OS D4 |
 | **Methodology + SSOT** | Vault + registries **closed** for this wave | Area-by-area SSOT sweeps rolling |
 
@@ -95,6 +96,21 @@ flowchart TB
 
 Validators: `validate_research_action.py` PASS (407 rows); `validate_hlk.py` OVERALL PASS.
 
+## R6 SSOT look-back (no new vault mint)
+
+| Registry | R6 action | Result |
+|:---|:---|:---|
+| PRECEDENCE | Harvest-only; Research/Intel surfaces pre-rowed (I86/I94) | N/A |
+| CANONICAL_REGISTRY | Methodology mint closed prior session; harvest confirms paths | No gap |
+| CANONICAL_RELATIONSHIP_REGISTRY | No new HCAM pattern | N/A |
+| INTELLIGENCEOPS_REGISTER | Appendix §A row drafted; CSV append not ratified | **Deferred** — AskQuestion gate |
+| process_list / CAPABILITY | Existing `hol_resea_*` rows cover harvested runbooks | **Deferred** — TECH_AUTOMATION_REGISTRY at D4/D5 |
+| GOI_POI_REGISTER | Harvest-only | N/A |
+
+Dedup: zero URL collisions against 407-row ledger.
+
+Validators: `validate_research_action.py` PASS (483 rows); `validate_hlk.py` OVERALL PASS; `validate_research_radar.py --self-test` PASS.
+
 ## R5 SSOT look-back (no new vault mint)
 
 | Registry | R5 action | Result |
@@ -110,7 +126,7 @@ Dedup: `principlesofchaos.org` skipped (R2 collision); Gremlin tutorial substitu
 
 | Item | Owner | Gate |
 |:---|:---|:---|
-| Automation OS R6–R12 | I86 lane | Charter tranche cadence |
+| Automation OS R7–R12 | I86 lane | Charter tranche cadence |
 | TECH_AUTOMATION_REGISTRY + process_list pairing | I86 lane | D4 implementation spec ratification (AskQuestion) |
 | Holistic-agentic R4+ | I86 lane | D4 implementation spec ratification |
 | INTELLIGENCEOPS row (Automation OS) | Research | Operator CSV gate (charter appendix §A) |
@@ -118,7 +134,7 @@ Dedup: `principlesofchaos.org` skipped (R2 collision); Gremlin tutorial substitu
 
 ## Where to steer next
 
-1. **Continue Automation OS** — R6 Research + IntelligenceOps + radar (charter §7 table)
+1. **Continue Automation OS** — R7 Compliance + PRECEDENCE + process_list (charter §7 table)
 2. **Ratify D4** when R12 nears — unblocks holistic-agentic R4–R12 + TECH_AUTOMATION_REGISTRY mint
 3. **Index integrity sweep** — optional after this bundle if wave-close UAT in scope
 

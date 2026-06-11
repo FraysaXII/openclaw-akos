@@ -108,9 +108,26 @@ runbooks to existing `hol_peopl_dtp_*` process rows from I86 wave mints.
 | HOLISTIKA_QUALITY_FABRIC §6 | Prong lattice + SSOT audit closed prior session | No gap |
 | baseline_organisation.csv | Not harvested (Tier-A operator gate) | **Deferred** — R7 compliance tranche |
 
+## R6 look-back (2026-06-11)
+
+WIP ledger harvest — Research methodology mint (prong lattice, HxPESTAL, pillars),
+IntelligenceOps canonicals (elicitation, counterparty baseline, GOI/POI), radar
+discipline + engine chassis. No four-registry gap closure required.
+
+| Registry | R6 action | Result |
+|:---|:---|:---|
+| PRECEDENCE | Harvest-only | N/A |
+| CANONICAL_REGISTRY | Methodology rows closed 2026-06-10/11 | No gap |
+| CANONICAL_RELATIONSHIP_REGISTRY | No new wiring pattern | N/A |
+| INTELLIGENCEOPS_REGISTER | Appendix §A draft only | **Deferred** — operator CSV gate |
+| process_list / CAPABILITY | No CSV expansion | **Deferred** — D4/D5 TECH_AUTOMATION_REGISTRY |
+| GOI_POI_REGISTER | Harvest-only | N/A |
+
+Ledger: 407 → **483 rows** (+32 CORPINT +44 OSINT). Validators PASS.
+
 ## Recommended next tranche
 
-1. **Automation OS R6** — Vault Research + IntelligenceOps + radar
+1. **Automation OS R7** — Vault Compliance + PRECEDENCE + process_list
 2. **Area-by-area SSOT registry sweep** — Finance (Ops/Data = worked examples via R3–R4 harvest)
 3. **Holistic-agentic R4** — blocked until Automation OS D4 ratified per charter
 
