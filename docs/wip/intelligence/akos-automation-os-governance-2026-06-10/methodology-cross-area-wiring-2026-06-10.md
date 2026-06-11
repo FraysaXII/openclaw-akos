@@ -80,10 +80,23 @@ SSOT discipline recursive-backfill rhythm, Automation OS R2+R3, holistic-agentic
 R3 look-back: WIP ledger harvest only — Data/RPA adapter registries and mirror runbooks already
 in CANONICAL_REGISTRY from I93; no four-registry gap closure required.
 
+## R4 look-back (2026-06-11)
+
+WIP ledger harvest only — Ops/RevOps/PMO vault + FINOPS crossover runbooks.
+`OPERATIONS_PROCESS_CATALOG.yaml`, `REVOPS_PROCESS_CATALOG.yaml`, and PMO render SOPs already
+in CANONICAL_REGISTRY from I93/I94; no four-registry gap closure required.
+
+| Registry | R4 action | Result |
+|:---|:---|:---|
+| PRECEDENCE | Harvest-only | N/A |
+| CANONICAL_REGISTRY | Surfaces pre-inventoried (I93 Ops) | No gap |
+| process_list / CAPABILITY | WIP scope; no CSV expansion | N/A |
+| CANONICAL_RELATIONSHIP_REGISTRY | No new wiring pattern | N/A |
+
 ## Recommended next tranche
 
-1. **Automation OS R4** — Vault Ops + RevOps + PMO cohesion
-2. **Area-by-area SSOT registry sweep** — Finance, Ops (Data = worked example via R3 harvest)
+1. **Automation OS R5** — Vault People + Quality Fabric + regression
+2. **Area-by-area SSOT registry sweep** — Finance (Ops/Data = worked examples via R3–R4 harvest)
 3. **Holistic-agentic R4** — blocked until Automation OS D4 ratified per charter
 
 Verification: `py scripts/validate_hlk.py` + area validators per tranche.
