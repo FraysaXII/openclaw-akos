@@ -75,12 +75,15 @@ flowchart TB
 ## Recursive backfill (2026-06-11 holistic bundle)
 
 Closed in this session: capability promote, QF §6 rows, articulation model §8 pairing note,
-SSOT discipline recursive-backfill rhythm, Automation OS R2, holistic-agentic R3 commit.
+SSOT discipline recursive-backfill rhythm, Automation OS R2+R3, holistic-agentic R3 commit.
+
+R3 look-back: WIP ledger harvest only — Data/RPA adapter registries and mirror runbooks already
+in CANONICAL_REGISTRY from I93; no four-registry gap closure required.
 
 ## Recommended next tranche
 
-1. **Automation OS R3** — Vault Data + RPA / integration plane
-2. **Area-by-area SSOT registry sweep** — Finance, Data, People, Ops (Research Methodology = worked example)
+1. **Automation OS R4** — Vault Ops + RevOps + PMO cohesion
+2. **Area-by-area SSOT registry sweep** — Finance, Ops (Data = worked example via R3 harvest)
 3. **Holistic-agentic R4** — blocked until Automation OS D4 ratified per charter
 
 Verification: `py scripts/validate_hlk.py` + area validators per tranche.
