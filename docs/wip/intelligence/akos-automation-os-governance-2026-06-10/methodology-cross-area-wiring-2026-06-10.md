@@ -125,10 +125,98 @@ discipline + engine chassis. No four-registry gap closure required.
 
 Ledger: 407 → **483 rows** (+32 CORPINT +44 OSINT). Validators PASS.
 
+## R7 look-back (2026-06-11)
+
+WIP ledger harvest — People/Compliance vault (PRECEDENCE, process_list, baseline_organisation,
+access/confidence levels, INITIATIVE/DECISION registers, SOP-META). No four-registry gap closure
+required; harvest confirms Tier-A gates before any CSV append.
+
+| Registry | R7 action | Result |
+|:---|:---|:---|
+| PRECEDENCE | Harvest-only | N/A |
+| process_list | Harvest-only; I86/I94 rows pre-paired | N/A |
+| baseline_organisation.csv | Harvest-only (Tier-A gate) | **Deferred** — operator gate |
+| CANONICAL_REGISTRY | Compliance surfaces pre-inventoried | No gap |
+| TECH_AUTOMATION_REGISTRY | Not minted | **Deferred** — D4/D5 |
+
+Ledger: 483 → **557 rows** (+30 CORPINT +44 OSINT). Validators PASS.
+
+## R8 look-back (2026-06-11)
+
+WIP ledger harvest — Finance FINOPS discipline + registries + Legal trademark/naming SOP +
+finance MCP pairing. No four-registry gap closure required.
+
+| Registry | R8 action | Result |
+|:---|:---|:---|
+| PRECEDENCE | Harvest-only | N/A |
+| FINOPS registers | Harvest-only; I81/I94 pre-minted | No gap |
+| process_list | FINOPS runbooks paired to `hol_fin_*` | N/A |
+| TECH_AUTOMATION_REGISTRY | Not minted | **Deferred** — D4/D5 |
+
+Ledger: 557 → **629 rows** (+28 CORPINT +44 OSINT). Validators PASS.
+
+## R9 look-back (2026-06-11)
+
+WIP ledger harvest — Marketing brand canon + CRM/RPA/RevOps adapter registries +
+validate_adapter_registries wiring. No four-registry gap closure required.
+
+| Registry | R9 action | Result |
+|:---|:---|:---|
+| PRECEDENCE | Harvest-only | N/A |
+| CRM/RPA adapter registries | Harvest-only | No gap |
+| BRAND canon | I66 surfaces confirmed | No gap |
+| TECH_AUTOMATION_REGISTRY | `linked_adapter_id` preview in D5 | **Deferred** — D4 |
+
+Ledger: 629 → **701 rows** (+28 CORPINT +44 OSINT). Validators PASS.
+
+## R10 look-back (2026-06-11)
+
+WIP ledger harvest — verify.py + verification-profiles.json + release-gate + CICD baseline SOP
++ REPOSITORY_REGISTRY ci_baseline columns. Profile step inventory feeds D8 wiring spec.
+
+| Registry | R10 action | Result |
+|:---|:---|:---|
+| PRECEDENCE | Harvest-only | N/A |
+| REPOSITORY_REGISTRY | ci_baseline columns harvested (I68) | N/A |
+| process_list | CICD rows pre-minted (I68) | **Deferred** — confirm at D4 |
+| verification-profiles.json | Harvest-only for D8 | No gap |
+
+Ledger: 701 → **772 rows** (+25 CORPINT +46 OSINT). Validators PASS.
+
+## R11 look-back (2026-06-11)
+
+WIP ledger harvest — Envoy MADEIRA tool catalog, MCP topology, bless_external_repo,
+runtime health triage. No four-registry gap closure required.
+
+| Registry | R11 action | Result |
+|:---|:---|:---|
+| PRECEDENCE | Harvest-only | N/A |
+| MADEIRA_TOOL_CATALOG | Harvest-only | No gap |
+| REPOSITORY_REGISTRY | Deploy smoke harvested | N/A |
+| TECH_AUTOMATION_REGISTRY | Adapter FK preview (D5) | **Deferred** — D4 |
+
+Ledger: 772 → **843 rows** (+25 CORPINT +46 OSINT). Validators PASS.
+
+## R12 look-back (2026-06-11)
+
+WIP ledger harvest + D4 draft — incident retrospectives, all-prong crosswalk, one-off script
+census, skeptic/academic close. Minted `master-synthesis.md` + `implementation-spec-2026-06-11.md`
+(draft — operator ratification pending). **No vault CSV gate in this tranche.**
+
+| Registry | R12 action | Result |
+|:---|:---|:---|
+| PRECEDENCE | Harvest-only | N/A |
+| TECH_AUTOMATION_REGISTRY | D5 spec in implementation spec | **Deferred** — D4 ratification |
+| process_list | Paired-SOP inventory only | **Deferred** |
+| INTELLIGENCEOPS_REGISTER | Appendix §A unchanged | **Deferred** |
+| Holistic-agentic R4–R12 | Blocked until D4 PASS | **Unblocks on ratification** |
+
+Ledger: 843 → **949 rows** (+40 CORPINT +66 OSINT). Validators PASS.
+
 ## Recommended next tranche
 
-1. **Automation OS R7** — Vault Compliance + PRECEDENCE + process_list
-2. **Area-by-area SSOT registry sweep** — Finance (Ops/Data = worked examples via R3–R4 harvest)
-3. **Holistic-agentic R4** — blocked until Automation OS D4 ratified per charter
+1. **D4 operator ratification** — `implementation-spec-2026-06-11.md` inline-ratify gate
+2. **D4-P1..P2 execution** — `research_ledger.py` + verify profile wiring
+3. **Holistic-agentic R4** — resumes only after D4 PASS
 
-Verification: `py scripts/validate_hlk.py` + area validators per tranche.
+Verification: `py scripts/validate_research_action.py --source-ledger …` + `py scripts/validate_hlk.py`.
