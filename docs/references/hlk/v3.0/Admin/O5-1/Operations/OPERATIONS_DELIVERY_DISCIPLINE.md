@@ -87,6 +87,9 @@ Priority order for executable catalog pairing (P2 tranche):
 Human-gated: canonical CSV edits, file moves (IntelligenceOps eviction), live
 Supabase mirror apply.
 
+Cross-area trigger register: [`canonicals/OPERATIONS_CROSS_AREA_HANDOFFS.md`](canonicals/OPERATIONS_CROSS_AREA_HANDOFFS.md)
+(I94 P4). Operations fires; sister areas own doctrine per handoff class table there.
+
 ## 5. Quality Fabric composition
 
 Operations delivery artefacts compose per
