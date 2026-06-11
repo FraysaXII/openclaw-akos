@@ -27,14 +27,14 @@ authored: 2026-06-10
 
 | Area | Surface | Gap | Proposed fix |
 |:---|:---|:---|:---|
-| **People / Compliance** | `process_list.csv` | `hol_resea_dtp_99`, `hol_resea_dtp_315` lack `sop_path` / `runbook_path` | Pair to `SOP-RESEARCH_PRONG_SYNTHESIS_001.md` + `scripts/validate_research_action.py` |
+| **People / Compliance** | `process_list.csv` | **DONE** — `hol_resea_dtp_315`, `hol_resea_dtp_99`, `hol_resea_dtp_prong_synthesis_001` paired to `SOP-RESEARCH_PRONG_SYNTHESIS_001.md` (D-IH-94-A; 2026-06-10) | `validate_process_list_pairing.py` + `validate_hlk.py` |
 | **People / Compliance** | `CAPABILITY_REGISTRY.csv` | PESTEL/HxPESTAL rows still `planned` in index-derived status | Promote to `active` when operator ratifies |
 | **People / Quality Fabric** | `HOLISTIKA_QUALITY_FABRIC.md` §6 | Prong lattice not yet listed as Research-action extension | Add row at next QF index sweep |
 | **Data / Architecture** | `CANONICAL_REGISTRY.csv` | **DONE** — 11 Research Methodology rows (6 mint + 4 sibling backfill + lifecycle) | `validate_canonical_registry.py` |
 | **Data / Architecture** | `CANONICAL_RELATIONSHIP_REGISTRY.csv` | **DONE** — TRP-061..063 (canonical composition + SOP→process + AIC intent) | `validate_canonical_articulation.py` |
 | **Data / Architecture** | `CANONICAL_ARTICULATION_MODEL.md` | **DONE** — §8 methodology prong articulation | — |
 | **Data / Architecture** | `CANONICAL_GOVERNANCE_REGISTRY.csv` | **N/A** — markdown doctrines are git-only; no CGR row required | — |
-| **Operations** | Executable process catalog | No `hol_resea_dtp_prong_synthesis_*` process row | Mint at I75 P1 or inline tranche |
+| **Operations** | Executable process catalog | **DONE** — `hol_resea_dtp_prong_synthesis_001` umbrella row | — |
 
 ## Semantic vs mechanical bar
 
@@ -72,12 +72,10 @@ flowchart TB
   Lattice --> CGR
 ```
 
-## Recommended next tranche (single operator gate)
+## Recommended next tranche
 
-One `process_list.csv` commit pairing three rows:
+1. **CAPABILITY_REGISTRY.csv** — promote PESTEL/HxPESTAL from `planned` → `active` (operator gate)
+2. **HOLISTIKA_QUALITY_FABRIC.md** §6 — prong-lattice extension row at next QF index sweep
+3. **Area-by-area SSOT registry sweep** — Finance, Data, People, Ops (Research Methodology = worked example)
 
-1. `hol_resea_dtp_315` → PESTEL per-prong craft
-2. `hol_resea_dtp_99` → HxPESTAL master craft
-3. New `hol_resea_dtp_prong_synthesis_001` → umbrella SOP row (optional)
-
-Verification: `py scripts/validate_process_list_pairing.py` + `py scripts/validate_hlk.py`.
+Verification: `py scripts/validate_hlk.py` + area validators per tranche.
