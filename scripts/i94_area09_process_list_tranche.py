@@ -66,6 +66,91 @@ PAIRINGS: dict[str, tuple[str, str]] = {
     ),
 }
 
+P7_T2_PAIRINGS: dict[str, tuple[str, str]] = {
+    "hol_opera_dtp_310": (
+        f"{VAULT}/PMO/canonicals/SOP-PMO_INITIATIVE_PROGRAM_ANCHORS_001.md",
+        "scripts/pmo_program_anchor_backfill.py",
+    ),
+    "thi_opera_dtp_201": (
+        f"{VAULT}/PMO/SOP-INITIATIVE_GOVERNANCE_001.md",
+        "scripts/validate_initiative_registry.py",
+    ),
+    "thi_opera_dtp_220": (
+        f"{VAULT}/PMO/SOP-INITIATIVE_GOVERNANCE_001.md",
+        "scripts/validate_initiative_registry.py",
+    ),
+    "hol_opera_dtp_300": (
+        f"{VAULT}/PMO/canonicals/SOP-PMO_OPERATIONAL_COHESION_INDEX_RENDER_001.md",
+        "scripts/render_operational_cohesion_index.py",
+    ),
+    "thi_opera_dtp_250": (
+        f"{VAULT}/PMO/canonicals/SOP-PMO_OPERATIONAL_COHESION_INDEX_RENDER_001.md",
+        "scripts/render_operational_cohesion_index.py",
+    ),
+    "hol_opera_dtp_148": (
+        f"{VAULT}/PMO/SOP-INITIATIVE_PROCESS_HARMONISATION_001.md",
+        "scripts/validate_initiative_registry.py",
+    ),
+    "hol_opera_dtp_103": (
+        f"{VAULT}/PMO/canonicals/SOP-PMO_VAULT_PROMOTION_GATE_001.md",
+        "scripts/validate_hlk.py",
+    ),
+    "tbi_ops_dtp_revops_revenue_rollup_001": (
+        f"{VAULT}/RevOps/canonicals/SOP-REVENUE_ROLLUP_001.md",
+        "scripts/validate_revops_spine.py",
+    ),
+    "tbi_ops_dtp_revops_persona_audit_001": (
+        f"{VAULT}/RevOps/canonicals/SOP-PERSONA_AUDIT_001.md",
+        "scripts/validate_persona_registry.py",
+    ),
+    "tbi_ops_dtp_revops_crm_sync_001": (
+        f"{VAULT}/RevOps/canonicals/SOP-REVOPS_CRM_SYNC_001.md",
+        "scripts/revops_dispatch.py",
+    ),
+    "tbi_ops_dtp_revops_regulator_checkpoint_001": (
+        f"{VAULT}/RevOps/canonicals/SOP-REVOPS_REGULATOR_CHECKPOINT_001.md",
+        "scripts/revops_dispatch.py",
+    ),
+    "tbi_ops_dtp_revops_media_review_001": (
+        f"{VAULT}/RevOps/canonicals/SOP-REVOPS_MEDIA_REVIEW_001.md",
+        "scripts/revops_dispatch.py",
+    ),
+    "thi_opera_dtp_288": (
+        f"{VAULT}/RevOps/canonicals/SOP-FINOPS_BRIDGE_001.md",
+        "scripts/revops_dispatch.py",
+    ),
+    "hol_ops_dtp_71": (
+        f"{VAULT}/Engagement/SOP-ENG_ENGAGEMENT_DESIGN_001.md",
+        "scripts/scaffold_engagement.py",
+    ),
+    "hol_eng_prc_estimation_001": (
+        f"{VAULT}/Engagement/canonicals/SOP-ENG_ESTIMATION_DISCIPLINE_001.md",
+        "scripts/estimate_engagement.py",
+    ),
+    "thi_opera_dtp_97": (
+        f"{VAULT}/Engagement/SOP-ENG_ENGAGEMENT_DESIGN_001.md",
+        "scripts/scaffold_engagement.py",
+    ),
+    "thi_opera_dtp_121": (
+        f"{VAULT}/Engagement/SOP-ENG_ENGAGEMENT_DESIGN_001.md",
+        "scripts/scaffold_engagement.py",
+    ),
+    "thi_opera_dtp_129": (
+        f"{VAULT}/Engagement/SOP-ENG_ENGAGEMENT_DESIGN_001.md",
+        "scripts/scaffold_engagement.py",
+    ),
+    "hol_opera_dtp_312": (
+        f"{VAULT}/PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md",
+        "scripts/validate_adviser_questions.py",
+    ),
+    "hol_ops_pis_3": (
+        f"{VAULT}/PMO/SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001.md",
+        "scripts/validate_hlk.py",
+    ),
+}
+
+ALL_PAIRINGS = {**PAIRINGS, **P7_T2_PAIRINGS}
+
 NEW_ROWS: list[dict[str, str]] = [
     {
         "type": "Internal",
@@ -239,8 +324,8 @@ def main() -> int:
 
     for row in rows:
         iid = (row.get("item_id") or "").strip()
-        if iid in PAIRINGS:
-            sop, rb = PAIRINGS[iid]
+        if iid in ALL_PAIRINGS:
+            sop, rb = ALL_PAIRINGS[iid]
             row["sop_path"] = sop
             row["runbook_path"] = rb
 
