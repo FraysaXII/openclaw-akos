@@ -8,8 +8,8 @@ language: en
 
 
 **Document owner**: Legal Counsel  
-**Version**: 2.0  
-**Date**: 2026-04-28  
+**Version**: 2.1  
+**Date**: 2026-06-10  
 **Status**: Final (derived view)
 
 ---
@@ -41,9 +41,12 @@ Constitution-level instruments: escritura de constitución, statutes/bylaws, sha
 
 | `instrument_id` | `instrument_type` | `jurisdiction` | `status` | `effective_or_filing_date` | `storage_location` | `vault_link` | `primary_owner_role` | `counterparty_goi_ref_id` |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| `INST-LEG-DENOMINACION-2026` | certificación negativa de denominación social | ES | `draft` | 2026-06-11 | Ayuda T Pymes portal + email (expediente 04799270-522c-419b-b88c-f83a15e27fb2) | [`portal-expediente-tracker-2026-06-10.md`](../../../../Think Big/Advisers/2026-holistika-incorporation/00-internal/portal-expediente-tracker-2026-06-10.md) | Legal Counsel | `GOI-LEG-CONST-2026` |
 | `INST-LEG-ESCRITURA-DRAFT-2026` | escritura de constitución | ES | `draft` | tbd | off-repo (operator Drive) | — | Legal Counsel | `GOI-ADV-ENTITY-2026` |
 
-Notes: seed row. Replace `storage_location` and `effective_or_filing_date` once the draft is exchanged with the notary; promote `status` to `signed`/`filed` after execution.
+Notes (`INST-LEG-DENOMINACION-2026`): five names submitted 2026-06-10; founder confirmed personal data + domicilio social (Müller 25) + CNAE stack to `POI-LEG-DENOM-ADV-2026` by email 2026-06-11. Awaiting Registro Mercantil certificado; promote to `signed` on receipt.
+
+Notes (`INST-LEG-ESCRITURA-DRAFT-2026`): seed row. Replace `storage_location` and `effective_or_filing_date` once the draft is exchanged with the notary; promote `status` to `signed`/`filed` after execution.
 
 ### Fiscal (`discipline_id = fiscal`)
 

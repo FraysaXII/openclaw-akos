@@ -8,8 +8,8 @@ language: en
 
 
 **Document owner**: Legal Counsel  
-**Version**: 1.2  
-**Date**: 2026-04-23  
+**Version**: 1.3  
+**Date**: 2026-06-10  
 **Status**: Final
 
 ---
@@ -24,6 +24,8 @@ This index is the canonical entrypoint for the founder-incorporation knowledge b
 
 - [EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md](EXTERNAL_COUNSEL_HANDOFF_PACKAGE.md) — read order, binding ladder, sharing legend, exhibit index
 - [FOUNDER_FILED_INSTRUMENT_REGISTER.md](FOUNDER_FILED_INSTRUMENT_REGISTER.md) — draft / signed / filed instruments and storage locations
+- [Ayuda T Pymes portal expediente tracker (2026-06-10 →)](../../../../Think Big/Advisers/2026-holistika-incorporation/00-internal/portal-expediente-tracker-2026-06-10.md) — live constitution-portal + email status (denominación filing in progress)
+- [Agnostic topic-watch design note (2026-06-11)](../../../../wip/intelligence/topic-watch-agnostic-design-2026-06-11.md) — register-driven daily watch pattern for I95/I94 AIC (not Ayuda-specific)
 - [FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md](FOUNDER_FACT_PATTERN_RELATED_ENTITIES.md) — short fact pattern and WS-A–D consistency
 - [FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md](FOUNDER_OPEN_QUESTIONS_EXTERNAL_COUNSEL.md) — living question queue for external advisers
 

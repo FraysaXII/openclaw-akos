@@ -14,7 +14,7 @@ authority: Founder + Legal Counsel
 sharing_label: counsel_ok
 language_body: en+es (bilingual; Spanish for filing-string blocks)
 authored: 2026-05-18
-last_review: 2026-05-18
+last_review: 2026-06-11
 linked_decisions:
   - D-IH-66-A (Branded House; single SL = Holistika Research SL)
   - D-IH-89-J (Six-name SL candidate list, post-ratify; Spanish-name pivot to holistik/horizontal-circular naming)
@@ -43,7 +43,9 @@ linked_open_questions:
   - Q-CRT-003
 linked_counterparty_refs:
   - GOI-ADV-ENTITY-2026
+  - GOI-LEG-CONST-2026
   - GOI-BNK-INC-2026
+  - POI-AM-AYUDATPYMES-2026
   - POI-LEG-ENISA-LEAD-2026
   - POI-LEG-FISCAL-LEAD-2026
   - POI-BNK-DESK-LEAD-2026
@@ -87,9 +89,27 @@ Order represents founder preference (primary first; backups in descending prefer
 
 **Operator action items.**
 
-- [ ] Founder confirms the **order** above is correct before constitutor runs name-availability check (`certificación negativa de denominación social` at the Registro Mercantil Central — handled telematically by Ayuda-T-Pymes / CIRCE).
+- [x] Founder confirms the **order** above is correct before constitutor runs name-availability check (`certificación negativa de denominación social` at the Registro Mercantil Central — handled telematically by Ayuda-T-Pymes / CIRCE). **Done 2026-06-10** — five names submitted via Ayuda T Pymes portal (expediente `04799270-522c-419b-b88c-f83a15e27fb2`); portal state **pendiente de resolución**. Tracker: [`00-internal/portal-expediente-tracker-2026-06-10.md`](../00-internal/portal-expediente-tracker-2026-06-10.md).
 - [ ] Founder approves any **one-name substitution** if the constitutor or the AM `POI-AM-AYUDATPYMES-2026` recommends an alternative qualifier for any of the six (e.g., "Holistika Ingeniería SL" or "Holistika Operaciones SL"). Document substitution rationale in the engagement `00-internal/` notes.
-- [ ] Constitutor returns the **certified denomination** that cleared the availability check; founder records it in [`FOUNDER_FILED_INSTRUMENT_REGISTER.md`](../../../Admin/O5-1/People/Legal/canonicals/FOUNDER_FILED_INSTRUMENT_REGISTER.md) with `instrument_id = INST-LEG-DENOMINACION-2026` and `status: signed`.
+- [ ] Constitutor returns the **certified denomination** that cleared the availability check; founder records it in [`FOUNDER_FILED_INSTRUMENT_REGISTER.md`](../../../Admin/O5-1/People/Legal/FOUNDER_FILED_INSTRUMENT_REGISTER.md) with `instrument_id = INST-LEG-DENOMINACION-2026` and promotes CSV row to `status: signed`.
+
+### 1.1 Portal + email submission status (2026-06-10 → 2026-06-11)
+
+| Field | Value |
+|:---|:---|
+| **Names submitted (portal)** | 2026-06-10 |
+| **Data + CNAE confirmed (email)** | 2026-06-11 to `POI-LEG-DENOM-ADV-2026` (Noelia Chacón) |
+| **Channel** | Ayuda T Pymes portal + email (CIRCE telematic route) |
+| **Expediente** | `04799270-522c-419b-b88c-f83a15e27fb2` |
+| **Portal estado (snapshot 2026-06-10)** | `pendiente de denominacion` → **Pendiente de resolución** |
+| **Names filed (5)** | Holistika Research SL → Studio → Works → Lab → Logos (Compass withheld as #6 backup) |
+| **Domicilio social confirmed** | Calle Müller 25, 3 Izquierda, 28039 Madrid (supersedes Orense 18 draft in adviser email) |
+| **CNAE stack confirmed (operator email 2026-06-11)** | Primary **7219**; secondary **6201** + **7022**; tertiary **8559** |
+| **Portal AM** | `POI-AM-AYUDATPYMES-2026` (Juan de Dios Linares) |
+| **Email denomination adviser** | `POI-LEG-DENOM-ADV-2026` (Noelia Chacón) |
+| **Next step** | Registro Mercantil resolution by email → then BBVA Cuenta Empresas |
+| **Instrument row** | `INST-LEG-DENOMINACION-2026` — `draft` until certificado received |
+| **Tracker** | [`00-internal/portal-expediente-tracker-2026-06-10.md`](../00-internal/portal-expediente-tracker-2026-06-10.md) |
 
 **Trademark-scope note.** Per [`BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md`](../../../Admin/O5-1/People/Legal/canonicals/BRAND_HIERARCHY_AND_TRADEMARK_SCOPE_2026-04.md) §2.1 the umbrella-brand trademark filing is **"Holistika"** as a word mark + the stylised **`HOLÍSTIKA Research`** design mark, both at EUIPO + OEPM. The legal entity name (whichever of the six above clears) is **independent of the trademark filing strings**; choosing "Holistika Studio SL" or "Holistika Logos SL" as the legal entity does not require filing "Holistika Studio" or "Holistika Logos" as a trademark — the umbrella is what carries the brand value, and the legal-entity qualifier is corporate-registry hygiene only.
 
@@ -118,6 +138,7 @@ The phrasing puts **investigación-y-desarrollo** at the head of the sentence so
 
 **Operator action items.**
 
+- [x] **Founder confirmed CNAE stack in writing** to `POI-LEG-DENOM-ADV-2026` (2026-06-11 email): primary **7219**; secondary **6201** + **7022**; tertiary **8559**; domicilio social Calle Müller 25, 3 Izquierda, 28039 Madrid. Tracker: [`00-internal/portal-expediente-tracker-2026-06-10.md`](../00-internal/portal-expediente-tracker-2026-06-10.md).
 - [ ] **Constitutor (legal-track adviser):** confirm whether 7219-as-primary is registry-acceptable for a Sociedad Limitada with this `objeto social` text. If 7219 is not registry-acceptable as primary (e.g., because the registry expects a consulting code for a single-founder professional-services SL), recommend a fallback primary and articulate the reason (so founder + ENISA-track adviser can recalibrate the Pillar II narrative accordingly).
 - [ ] **ENISA-track adviser (in copy on the founder's communication):** confirm whether 7219-as-primary materially strengthens the ENISA Pillar II evidence chain (vs. 7022-primary + 7219-secondary), and flag any narrative risk the founder should be aware of.
 - [ ] **Founder is available to discuss** the trade-off jointly with both advisers — happy to host a brief call or a shared email thread to converge on the primary CNAE before the constitutor runs the escritura draft. Closes **Q-LEG-001** (objeto social + CNAE primary confirmation).

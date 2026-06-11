@@ -47,17 +47,20 @@ Inbound engagement covering the founder-incorporation program: four adviser disc
 | ref_id | class | discipline-cluster role | Notes |
 |:---|:---|:---|:---|
 | [`GOI-ADV-ENTITY-2026`](../../../../compliance/dimensions/GOI_POI_REGISTER.csv) | `external_adviser` | adviser firm (ENISA + fiscal tracks) | `lens=entity_readiness` |
+| [`GOI-LEG-CONST-2026`](../../../../compliance/dimensions/GOI_POI_REGISTER.csv) | `legal_counsel_external` | constitution-desk legal counsel (Ayuda T Pymes / CIRCE) | `lens=incorporation` |
 | [`GOI-BNK-INC-2026`](../../../../compliance/dimensions/GOI_POI_REGISTER.csv) | `banking_channel` | constitution-desk bank | `lens=incorporation` |
 | [`POI-LEG-ENISA-LEAD-2026`](../../../../compliance/dimensions/GOI_POI_REGISTER.csv) | `external_adviser` | ENISA-track adviser lead at GOI-ADV-ENTITY-2026 | |
 | [`POI-LEG-FISCAL-LEAD-2026`](../../../../compliance/dimensions/GOI_POI_REGISTER.csv) | `external_adviser` | Fiscal-track adviser at GOI-ADV-ENTITY-2026 | |
 | [`POI-ADV-INTAKE-LEAD-2026`](../../../../compliance/dimensions/GOI_POI_REGISTER.csv) | `external_adviser` | Intake contact at GOI-ADV-ENTITY-2026 | |
+| [`POI-AM-AYUDATPYMES-2026`](../../../../compliance/dimensions/GOI_POI_REGISTER.csv) | `legal_counsel_external` | Portal AM at GOI-LEG-CONST-2026 | CIRCE portal coordination |
+| [`POI-LEG-DENOM-ADV-2026`](../../../../compliance/dimensions/GOI_POI_REGISTER.csv) | `legal_counsel_external` | Denomination email adviser at GOI-LEG-CONST-2026 | Certificación negativa data confirmation track |
 | [`POI-BNK-DESK-LEAD-2026`](../../../../compliance/dimensions/GOI_POI_REGISTER.csv) | `banking_channel` | Constitution-desk lead at GOI-BNK-INC-2026 | |
 
 ## Folder shape (skeleton)
 
 | Folder | State | Purpose |
 |:---|:---|:---|
-| `00-internal/` | placeholder | Operator notes; mandate-phase tracker; GOI/POI cross-link table (drafted in this README for now) |
+| `00-internal/` | **populated (2026-06-10)** | Operator notes; portal expediente tracker ([`portal-expediente-tracker-2026-06-10.md`](00-internal/portal-expediente-tracker-2026-06-10.md)) |
 | `01-our-pack/` | **populated (2026-05-18)** | Outbound material to advisers: scope-of-mandate, KYC pack, legal-constitutor handoff. Currently holds: [`legal-constitutor-handoff-2026-05-18.md`](01-our-pack/legal-constitutor-handoff-2026-05-18.md). |
 | `02-adviser-pack/` | placeholder | Will hold received legal opinions, ENISA evidence statements, banking confirmations, fiscal-readiness statements |
 | `_archive/` | placeholder | Dated rollback snapshots |
