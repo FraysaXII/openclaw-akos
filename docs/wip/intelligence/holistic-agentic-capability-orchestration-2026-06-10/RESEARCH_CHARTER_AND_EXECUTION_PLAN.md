@@ -207,4 +207,4 @@ py scripts/validate_hlk.py
 
 ---
 
-*R1 ledger bootstrap queued next session. Canonical CSV edits beyond INTELLIGENCEOPS row deferred to R3 govern.*
+*R1 internal ledger bootstrap complete (2026-06-10) — `source-ledger.csv` 120 CORPINT rows; `validate_research_action.py` PASS. R2 external tranche queued. Canonical CSV edits beyond INTELLIGENCEOPS row deferred to R3 govern.*
