@@ -50,7 +50,7 @@ def test_missing_required_field_fails(validator, tmp_path, monkeypatch):
 
         | subdomain | apex | state | data_mode | auth | brand_register | vercel_project | repo | linked_initiative | notes |
         |-----------|------|-------|-----------|------|----------------|----------------|------|-------------------|-------|
-        | `erp` | `holistika.com` | active |  | required | internal | `hlk-erp` | `hlk-erp` | I62 | active row missing data_mode |
+        | `erp` | `holistikaresearch.com` | active |  | required | internal | `hlk-erp` | `hlk-erp` | I62 | active row missing data_mode |
         """
     ).lstrip()
     path = _write_registry(tmp_path, body)
@@ -67,8 +67,8 @@ def test_duplicate_slug_rejected(validator, tmp_path, monkeypatch):
 
         | subdomain | apex | state | data_mode | auth | brand_register | vercel_project | repo | linked_initiative | notes |
         |-----------|------|-------|-----------|------|----------------|----------------|------|-------------------|-------|
-        | `erp` | `holistika.com` | active | live | required | internal | `hlk-erp` | `hlk-erp` | I62 | row 1 |
-        | `erp` | `holistika.com` | active | live | required | internal | `hlk-erp` | `hlk-erp` | I62 | row 2 dup |
+        | `erp` | `holistikaresearch.com` | active | live | required | internal | `hlk-erp` | `hlk-erp` | I62 | row 1 |
+        | `erp` | `holistikaresearch.com` | active | live | required | internal | `hlk-erp` | `hlk-erp` | I62 | row 2 dup |
         """
     ).lstrip()
     path = _write_registry(tmp_path, body)
@@ -85,7 +85,7 @@ def test_active_without_vercel_project_rejected(validator, tmp_path, monkeypatch
 
         | subdomain | apex | state | data_mode | auth | brand_register | vercel_project | repo | linked_initiative | notes |
         |-----------|------|-------|-----------|------|----------------|----------------|------|-------------------|-------|
-        | `madeira` | `holistika.com` | active | demo | none | external | _(none yet)_ | `hlk-erp` | I62 | should fail |
+        | `madeira` | `holistikaresearch.com` | active | demo | none | external | _(none yet)_ | `hlk-erp` | I62 | should fail |
         """
     ).lstrip()
     path = _write_registry(tmp_path, body)
@@ -102,7 +102,7 @@ def test_reserved_row_minimal_passes(validator, tmp_path, monkeypatch):
 
         | subdomain | apex | state | data_mode | auth | brand_register | vercel_project | repo | linked_initiative | notes |
         |-----------|------|-------|-----------|------|----------------|----------------|------|-------------------|-------|
-        | `api` | `holistika.com` | reserved | live | required | internal | _(none yet)_ | _(future)_ | _(future)_ | reserved |
+        | `api` | `holistikaresearch.com` | reserved | live | required | internal | _(none yet)_ | _(future)_ | _(future)_ | reserved |
         """
     ).lstrip()
     path = _write_registry(tmp_path, body)
@@ -119,7 +119,7 @@ def test_invalid_state_rejected(validator, tmp_path, monkeypatch):
 
         | subdomain | apex | state | data_mode | auth | brand_register | vercel_project | repo | linked_initiative | notes |
         |-----------|------|-------|-----------|------|----------------|----------------|------|-------------------|-------|
-        | `foo` | `holistika.com` | live | live | required | internal | `hlk-foo` | `hlk-foo` | I62 | bad state value |
+        | `foo` | `holistikaresearch.com` | live | live | required | internal | `hlk-foo` | `hlk-foo` | I62 | bad state value |
         """
     ).lstrip()
     path = _write_registry(tmp_path, body)

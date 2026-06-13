@@ -2342,7 +2342,7 @@ Actual process-list minting is **operator-approval-gated** per `.cursor/rules/ak
 
 Initiative 62 (I62) introduces **Mission Control**, the operator surface that consumes AKOS canonical data through the existing `compliance.*` Supabase mirrors. It lives in the external repo [`hlk-erp`](https://github.com/FraysaXII/hlk-erp) and is governed from this repo via:
 
-- The canonical [`SUBDOMAINS_REGISTRY.md`](references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/SUBDOMAINS_REGISTRY.md) — every Holistika subdomain (`erp.holistika.com`, `madeira.holistika.com`, `status.holistika.com`, plus reserved entries) is recorded here. Validation: `py scripts/validate_subdomains_registry.py` (also wired into `release-gate.py`).
+- The canonical [`SUBDOMAINS_REGISTRY.md`](references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/SUBDOMAINS_REGISTRY.md) — every Holistika subdomain on `holistikaresearch.com` (`erp`, `showcase`, `kirbe`, plus reserved entries) is recorded here. Validation: `py scripts/validate_subdomains_registry.py` (also wired into `release-gate.py`).
 - Three governed Supabase migrations (`supabase/migrations/20260506130*.sql`) creating the `holistika_ops` RBAC tables, the read-side `erp.*` projection views, and the `demo.*` showcase schema. Operator approval gate: [`docs/wip/planning/62-mission-control/reports/sql-proposal-mission-control-2026-05-06.md`](wip/planning/62-mission-control/reports/sql-proposal-mission-control-2026-05-06.md).
 - The I62 master roadmap, decision log, asset classification, evidence matrix and Impeccable shape reports under [`docs/wip/planning/62-mission-control/`](wip/planning/62-mission-control/).
 
@@ -2350,9 +2350,9 @@ Initiative 62 (I62) introduces **Mission Control**, the operator surface that co
 
 | Surface       | URL                          | Auth  | Data mode | Notes |
 |:--------------|:-----------------------------|:------|:----------|:------|
-| Mission Control | `erp.holistika.com`        | Required (Supabase Auth, AKOS access_level 0–6) | live | Read-side only over `compliance.*` and `erp.*` |
-| Showcase     | `madeira.holistika.com`      | Open  | demo      | Seeded fictional data, no service-role key |
-| Status       | `status.holistika.com`       | Open  | live      | Aggregate health + last-sync, no row data |
+| Mission Control | `erp.holistikaresearch.com`        | Required (Supabase Auth, AKOS access_level 0–6) | live | Read-side only over `compliance.*` and `erp.*` |
+| Showcase     | `showcase.holistikaresearch.com`      | Open  | demo      | Seeded fictional data, no service-role key |
+| Status       | `status.holistikaresearch.com`       | Open  | live      | Aggregate health + last-sync, no row data |
 
 **Day-to-day operator commands** (from the AKOS root):
 

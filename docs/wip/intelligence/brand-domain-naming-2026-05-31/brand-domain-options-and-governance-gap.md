@@ -23,6 +23,8 @@ research_status_note: >-
   governed path (below). Domain decision DEFERRED — keep holistikaresearch.com for now.
 ---
 
+> **Domain note (2026-06-13):** The string `holistika.com` is **not** Holistika's product domain (external party). §1–§3 below are naming-research availability notes only — **not** live hosts. Product SSOT: `holistikaresearch.com` per [SUBDOMAINS_REGISTRY.md](../../../references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/Repositories/SUBDOMAINS_REGISTRY.md).
+
 # Brand-domain + naming — options (WIP) + the governance gap
 
 > Operator framing 2026-05-31: the domain-name candidates did not meet the taste bar; the

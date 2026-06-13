@@ -6,6 +6,8 @@ report_kind: risk-register
 last_review: 2026-05-06
 ---
 
+> **Superseded hosts (2026-06-13):** Showcase host is **`showcase.holistikaresearch.com`**. See [I96 P-G1](../../96-research-data-plane-and-research-center/reports/subdomains-registry-reconciliation-proposal-2026-06-13.md).
+
 # I62 Risk Register
 
 | ID | Risk | Likelihood | Impact | Mitigation | Owner |
@@ -19,7 +21,7 @@ last_review: 2026-05-06
 | **R-62-7** | Vendor lock-in (Supabase) blocks future migration | Low | Low | Schemas portable to vanilla Postgres; auth could move to Auth.js; no Supabase-specific extensions on critical paths; documented in `docs/architecture.md` | System Owner |
 | **R-62-8** | RBAC drifts from AKOS access-level over time as roles change in `baseline_organisation.csv` | Medium | Medium | Daily sync job from `compliance.baseline_organisation_mirror` to `holistika_ops.user_role_mapping` reconciles; deltas surfaced in operator inbox | AI Engineer |
 | **R-62-9** | Lighthouse perf budget too tight for the seven-tile board | Medium | Low | If LCP > 2.5s after P9 polish, defer non-critical tiles to client-side hydration after FCP; document in P9.2 report | AI Engineer |
-| **R-62-10** | `madeira.holistika.com` URL becomes confusable with the AKOS Madeira agent endpoint | Low | Low | Add subtitle on showcase landing page: "Live demo of the Holistika operations console"; future `agent.madeira.holistika.com` if agent gets a public surface | Brand Manager |
+| **R-62-10** | `showcase.holistikaresearch.com` URL becomes confusable with the AKOS Madeira agent endpoint | Low | Low | Add subtitle on showcase landing page: "Live demo of the Holistika operations console"; future agent public surface TBD | Brand Manager |
 | **R-62-11** | First-time team-member onboarding fails because `holistika_ops.user_role_mapping` is empty | High | Medium | First-login flow at `/auth/role-resolve`: if no row, show "request access from <Founder name>" message; Founder grants in `/mission-control/admin/users` | Founder |
 | **R-62-12** | Cmd+K palette query latency unacceptable on 10k+ row mirrors | Medium | Low | Server-side full-text search via Supabase RPC `mission_control_search`; client-side fuzzy filter only on the top 200 results | AI Engineer |
 | **R-62-13** | Time-travel queries blow up Supabase egress (point-in-time PIT scans) | Low | Medium | Daily snapshot table `erp.daily_snapshot` populated by a small cron Edge Function; time-travel reads from snapshot, not from PIT | AI Engineer |

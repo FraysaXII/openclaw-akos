@@ -6,6 +6,8 @@ report_kind: evidence-matrix
 last_review: 2026-05-06
 ---
 
+> **Superseded hosts (2026-06-13):** Live hosts are **`holistikaresearch.com` only** — see [I96 P-G1](../../96-research-data-plane-and-research-center/reports/subdomains-registry-reconciliation-proposal-2026-06-13.md).
+
 # I62 Evidence Matrix
 
 Findings from the [I32 ERP architecture audit](../32-holistik-ops-maturation/reports/erp-architecture-audit-2026-04-30.md) and operator showcase ask, mapped to specific I62 phase work.
@@ -25,7 +27,7 @@ Findings from the [I32 ERP architecture audit](../32-holistik-ops-maturation/rep
 
 | Finding | Evidence | Resolution |
 |:---|:---|:---|
-| No auth | `components/user-nav.tsx` hard-codes `"Admin" / admin@holistika.com`; no `middleware.ts` | I62 P1.1 + P1.2 (Supabase Auth, sign-in pages, callback) |
+| No auth | `components/user-nav.tsx` hard-codes `"Admin" / admin@holistikaresearch.com`; no `middleware.ts` | I62 P1.1 + P1.2 (Supabase Auth, sign-in pages, callback) |
 | No RBAC | Sign-in flow doesn't exist; nothing gates routes | I62 P1.3 + P1.4 (`holistika_ops.user_role_mapping`, `policy.ts`, `requireLevel`) |
 | Mock data | `lib/data.ts` is 2706 lines of static processes seeded inline | I62 P2.5 (delete after P6 repointing complete) |
 | `@supabase/supabase-js` installed but unused | `package.json` line 46 | I62 P2.1 (split clients server/browser/admin) |
@@ -37,7 +39,7 @@ Findings from the [I32 ERP architecture audit](../32-holistik-ops-maturation/rep
 | No security headers | No `next.config.js` headers() | I62 P9.6 (CSP / HSTS / X-Frame / etc.) |
 | No error monitoring | No Sentry, no Datadog | I62 P8.2 (`@sentry/nextjs`) |
 | No health endpoints | No `/api/health`, no `/api/ready` | I62 P8.3 |
-| No status page | No public surface | I62 P8.4 (`/status` route + `status.holistika.com` rewrite) |
+| No status page | No public surface | I62 P8.4 (`/status` route + `status.holistikaresearch.com` rewrite) |
 
 ## Operator showcase ask 2026-05-06
 

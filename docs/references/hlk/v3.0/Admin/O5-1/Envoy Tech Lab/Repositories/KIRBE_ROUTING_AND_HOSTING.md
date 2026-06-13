@@ -27,7 +27,7 @@ linked_decisions:
 | Surface | Repo | Host | Runtime | Maturity | Who calls it |
 |---------|------|------|---------|----------|--------------|
 | **KiRBe API (full)** | [`kirbe`](https://github.com/FraysaXII/kirbe) (`kirbe-platform`) | **`https://kirbe.holistikaresearch.com`** | **Render** web service (Gunicorn/Uvicorn); DNS/edge via **Cloudflare** on `holistikaresearch.com` zone | **Production** — live ingestion, tasks, vaults, docs API | GDrive SOP scripts, automation, **hlk-erp server** (`KIRBE_API_URL`), future SaaS backend |
-| **Operator ERP + embedded KiRBe lab** | [`hlk-erp`](https://github.com/FraysaXII/hlk-erp) | **`https://erp.holistika.com`** (Vercel) | Next.js on Vercel | **Production** (Mission Control); Tech Lab Kirbe **beta / underdeveloped** | Holistika operators (browser) |
+| **Operator ERP + embedded KiRBe lab** | [`hlk-erp`](https://github.com/FraysaXII/hlk-erp) | **`https://erp.holistikaresearch.com`** (Vercel) | Next.js on Vercel | **Production** (Mission Control); Tech Lab Kirbe **beta / underdeveloped** | Holistika operators (browser) |
 | **KiRBe SaaS POC UI** | [`kirbe-frontend`](https://github.com/FraysaXII/kirbe-frontend) | _(Vercel project TBD — not in local `root_cd`)_ | Next.js 16 (experiment) | **POC / stale** (last GitHub push 2026-04-14) | External SaaS experiment only |
 
 **Not the full API:** Vercel project `kirbe` (`kirbe-holistika.vercel.app`) — **health-only gateway** after 2026-06-01; bundle limit (~245 MB) prevents hosting LlamaIndex/Neo4j/long tasks on serverless.
@@ -55,7 +55,7 @@ linked_decisions:
 
 Browsers **must not** call the Kirbe API directly with secrets. hlk-erp implements a **same-origin BFF**:
 
-1. Browser → `https://erp.holistika.com/api/kirbe/*` (Next.js route handlers).
+1. Browser → `https://erp.holistikaresearch.com/api/kirbe/*` (Next.js route handlers).
 2. Server → `fetch(`${process.env.KIRBE_API_URL}/api/v1/...`)` (server env only).
 
 | Item | Location |
@@ -72,7 +72,7 @@ Browsers **must not** call the Kirbe API directly with secrets. hlk-erp implemen
 | Probe | URL | Expected when healthy |
 |-------|-----|------------------------|
 | **Upstream (Render)** | `GET https://kirbe.holistikaresearch.com/health` | **200** JSON `status: ok` |
-| **BFF (hlk-erp)** | `GET https://erp.holistika.com/api/kirbe/health` | **200** JSON includes upstream echo + `bff: ok` |
+| **BFF (hlk-erp)** | `GET https://erp.holistikaresearch.com/api/kirbe/health` | **200** JSON includes upstream echo + `bff: ok` |
 | **Tech Lab UI** | Mission Control → Tech Lab → KiRBe status card | Calls same-origin `/api/kirbe/health` while session active |
 
 **Governance:** **OPS-90-7** closed 2026-06-01 ([hlk-erp PR #26](https://github.com/FraysaXII/hlk-erp/pull/26) → `f96001b`: public `/api/kirbe/health` + structured 503/502). Re-spot-check after each erp production deploy.
@@ -81,7 +81,7 @@ Browsers **must not** call the Kirbe API directly with secrets. hlk-erp implemen
 
 | Symptom | Likely cause | Remediation owner |
 |---------|--------------|-------------------|
-| `ERR_SSL_PROTOCOL_ERROR` on `erp.holistika.com` | Vercel/custom-domain TLS or DNS misconfig | System Owner — Vercel project `erp` / domain dashboard |
+| `ERR_SSL_PROTOCOL_ERROR` on `erp.holistikaresearch.com` | Vercel/custom-domain TLS or DNS misconfig | System Owner — Vercel project `erp` / domain dashboard |
 | **302** → `/sign-in` on `/api/kirbe/health` | Route not in `PUBLIC_PREFIXES` (fixed in hlk-erp PR after `i90-p35-erp-kirbe-bff-health`) | Engineering — merge BFF health PR |
 | **503** `KIRBE_API_URL is not configured` | Missing server env on Vercel preview/prod | System Owner — set `KIRBE_API_URL` per env contract above |
 | **502** `upstream_unreachable` | Render down, wrong URL, or network block from Vercel region | Engineering + System Owner |
@@ -95,7 +95,7 @@ Browsers **must not** call the Kirbe API directly with secrets. hlk-erp implemen
 | Concern | Posture |
 |---------|---------|
 | **Secrets in browser** | Avoid `NEXT_PUBLIC_*` pointing at Kirbe for authenticated ingestion; use BFF. |
-| **CORS** | Kirbe `ALLOWED_ORIGINS` must include `https://erp.holistika.com` if any browser ever hits Kirbe directly; BFF avoids CORS for normal ERP flows. |
+| **CORS** | Kirbe `ALLOWED_ORIGINS` must include `https://erp.holistikaresearch.com` if any browser ever hits Kirbe directly; BFF avoids CORS for normal ERP flows. |
 | **Multi-tenant** | Kirbe API exposes vaults, documents, memberships with **RLS** (see OpenAPI tag descriptions in live `/` HATEOAS payload). |
 | **Service auth** | Kirbe may expect `Authorization` for some routes — configure server-side headers on BFF routes when enabling prod Tech Lab (do not commit keys). |
 | **Vercel kirbe project** | Optional `KIRBE_RENDER_API_URL` on Vercel kirbe project surfaces Render hint in health JSON only. |
@@ -131,8 +131,8 @@ This canonical only records: **custom domain `kirbe.holistikaresearch.com` → R
 | Registry row | Intent |
 |--------------|--------|
 | `kirbe` @ `holistikaresearch.com` | **active** — API host (this document) |
-| `kirbe` @ `holistika.com` | **reserved** — future operator-facing Kirbe UI on corporate apex if needed ([`SUBDOMAINS_REGISTRY.md`](SUBDOMAINS_REGISTRY.md)) |
-| `erp` @ `holistika.com` | **active** — hlk-erp Mission Control |
+| `kirbe` @ `holistikaresearch.com` | **active** — KiRBe API on Render ([`SUBDOMAINS_REGISTRY.md`](SUBDOMAINS_REGISTRY.md)) |
+| `erp` @ `holistikaresearch.com` | **active** — hlk-erp Mission Control + Research Center |
 
 ---
 

@@ -12,6 +12,10 @@ closed_at: 2026-05-19
 closure_decision_id: D-IH-86-AK
 ---
 
+---
+
+> **Superseded hosts (2026-06-13):** Live product hosts are **`holistikaresearch.com` only** (`erp`, `showcase`, `kirbe`). Prior `holistika.com` citations in this roadmap are historical I62 intent — superseded by [I96 P-G1](../../96-research-data-plane-and-research-center/reports/subdomains-registry-reconciliation-proposal-2026-06-13.md).
+
 # Initiative 62 — Mission Control (hlk-erp magnificent ERP)
 
 **Folder:** `docs/wip/planning/62-mission-control/`
@@ -23,15 +27,15 @@ closure_decision_id: D-IH-86-AK
 
 Transform the external [`hlk-erp`](https://github.com/FraysaXII/hlk-erp) repository from a v0-scaffolded shell with mocked data into a production-grade, governance-clean, role-aware **Mission Control** for the Holistika operating system: wiring the ERP to AKOS canonical mirrors, adding authentication + RBAC + audit, a separate showcase/demo mode for safe show-offs, and a polished UX layer that respects the AKOS brand and planning-traceability rules.
 
-The ERP is the operator's **reading room** for everything HLK / MADEIRA produces. It does not author governance — that's AKOS. It does not ingest documents — that's KirBe. Its single job is to make the operating system legible. After I62, opening `erp.holistika.com` answers "is the system safe to ship today?" in one screen and lets the operator drill into every governed dimension; opening `madeira.holistika.com` shows the same surface fed by fictional-but-realistic demo data, brand-clean, no-auth, safe to share with advisors.
+The ERP is the operator's **reading room** for everything HLK / MADEIRA produces. It does not author governance — that's AKOS. It does not ingest documents — that's KirBe. Its single job is to make the operating system legible. After I62, opening `erp.holistikaresearch.com` answers "is the system safe to ship today?" in one screen and lets the operator drill into every governed dimension; opening `showcase.holistikaresearch.com` shows the same surface fed by fictional-but-realistic demo data, brand-clean, no-auth, safe to share with advisors.
 
 ## Why now
 
 - **I32 P8 already shipped a 7-file handoff bundle** to the ERP team ([`erp-handoff-bundle-2026-04-30/`](../32-holistik-ops-maturation/reports/erp-handoff-bundle-2026-04-30/)) but the ERP repository has not yet absorbed it: 16 mirrors are documented, 0 are wired into screens.
 - **I59 closed the planning workspace governance gap** with `INITIATIVE_REGISTRY.csv`, `OPS_REGISTER.csv`, `CYCLE_REGISTER.csv`, `DECISION_REGISTER.csv`, `OPERATOR_INBOX.md` — perfect substrate for an operator-facing surface that surfaces those rows live.
 - **The current ERP `tech-lab/project-madeira` page hard-codes "99.9% Uptime / 10x Faster / SOC 2 Compliant"** — marketing voice on a stub with no data. We replace fake numbers with honest live numbers from `validation_runs` + `compliance.mirror_health`.
-- **Operator showcase ask 2026-05-06:** "I want to show off my ERP but the data is fake. If we fill it with real data, we need that logic & decisions to be well designed." The `madeira.holistika.com` showcase + demo schema lets the operator share a memorable URL with advisors/investors without leaking real GOI/POI / FINOPS counterparty data.
-- **No auth exists today.** `components/user-nav.tsx` hard-codes `"Admin" / admin@holistika.com`; no `middleware.ts`; only `@supabase/supabase-js` in deps but unused. Production-readiness gates must close before the team uses the ERP day-to-day.
+- **Operator showcase ask 2026-05-06:** "I want to show off my ERP but the data is fake. If we fill it with real data, we need that logic & decisions to be well designed." The `showcase.holistikaresearch.com` showcase + demo schema lets the operator share a memorable URL with advisors/investors without leaking real GOI/POI / FINOPS counterparty data.
+- **No auth exists today.** `components/user-nav.tsx` hard-codes `"Admin" / admin@holistikaresearch.com`; no `middleware.ts`; only `@supabase/supabase-js` in deps but unused. Production-readiness gates must close before the team uses the ERP day-to-day.
 
 ## Scope decisions
 
@@ -40,7 +44,7 @@ The ERP is the operator's **reading room** for everything HLK / MADEIRA produces
 | Mission Control "Today" board (7 tiles) reading from 16 `compliance.*_mirror` tables + 5 new `erp.*` views | Authoring HLK content in the ERP (governance lives in AKOS per [EXTERNAL_REPO_CONTRACT.md](https://github.com/FraysaXII/hlk-erp/blob/main/EXTERNAL_REPO_CONTRACT.md)) |
 | Identity + RBAC backbone mapped to AKOS `baseline_organisation.access_level` (0-6) | Replacing AKOS-canonical access levels (mirror-only consumption) |
 | New `erp.*` Postgres schema for read-side projection views | Authoring the ERP schema on the AKOS side (created via SQL gate, owned by the ERP application) |
-| Demo / showcase mode (separate `demo.*` schema + `madeira.holistika.com` Vercel project) | Customer-facing SaaS productisation (KirBe scope) |
+| Demo / showcase mode (separate `demo.*` schema + `showcase.holistikaresearch.com` Vercel project) | Customer-facing SaaS productisation (KirBe scope) |
 | New canonical AKOS asset `SUBDOMAINS_REGISTRY.md` governing every Holistika subdomain | Fancy DNS automation (Vercel handles DNS via project domain attach) |
 | 18 new operator-only routes under `/mission-control` and `/operations` and `/external-engagement` | Replacing the existing `/dashboard`, `/processes`, `/components`, `/organization`, `/sales` shells (repointed, not rebuilt) |
 | Trust layer: audit log + Sentry + health endpoints + status page + freshness ribbon | A separate observability vendor (Sentry covers crashes; Langfuse covers eval traces; existing tools suffice) |
@@ -101,7 +105,7 @@ flowchart TD
 | **P0** | Spec & Shape | This roadmap + decision-log + 3 Impeccable shape docs + schema-discovery report + new `SUBDOMAINS_REGISTRY.md` canonical asset |
 | **P1** | Identity & Access | Supabase Auth + middleware + RBAC schema (`holistika_ops.user_role_mapping`/`audit_log`/`user_preferences`) + feature-gate library + founder impersonation; G-62-A operator approval on RBAC route matrix |
 | **P2** | Data Fabric | Supabase client split + TanStack Query + new `erp.*` schema + 5 derived views + freshness pattern + `lib/data.ts` deletion; G-62-B operator approval on `erp.*` SQL proposal |
-| **P3** | Demo & Showcase | `demo.*` schema + idempotent seeder + `DATA_MODE` toggle + showcase Vercel project on `madeira.holistika.com` |
+| **P3** | Demo & Showcase | `demo.*` schema + idempotent seeder + `DATA_MODE` toggle + showcase Vercel project on `showcase.holistikaresearch.com` |
 | **P4** | Mission Control "Today" | One screen, seven live tiles, brand tokens applied; first founder UAT row |
 | **P5** | Drill-downs | 7 drill-down pages with TanStack Table + Vaul drawers + saved views + CSV/print export |
 | **P6** | Repoint existing rooms | Replace `lib/data.ts` callers; add 14 new mirror-backed rooms (Personas, Channels, Programs, Topics, Skills, Policies, Disciplines, Open Questions, Filed Instruments, Counterparties, Sourcing, Dossiers, Knowledge Graph iframe, Madeira Console iframe) |
@@ -121,7 +125,7 @@ See [`decision-log.md`](decision-log.md) for the full register. 18 decisions D-I
 |:---|:---|:---|
 | **G-62-A** | P1.4 | Route × access-level matrix (who sees what) |
 | **G-62-B** | P2.3 | `CREATE SCHEMA erp` + 5 views + `holistika_ops.*` RBAC tables SQL proposal |
-| **G-62-C** | P3.4 | `madeira.holistika.com` showcase deploy (data-only-fictional gate) |
+| **G-62-C** | P3.4 | `showcase.holistikaresearch.com` showcase deploy (data-only-fictional gate) |
 | **G-62-D** | P10.1 | Three-Vercel-project topology + secrets rotation cadence |
 | **G-62-E** | P11.5 | Closure UAT (founder walks every route per role via impersonation) |
 

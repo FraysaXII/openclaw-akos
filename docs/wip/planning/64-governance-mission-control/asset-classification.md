@@ -57,8 +57,8 @@ processes does not require new process rows per the AKOS rule
 
 ## Subdomain registration
 
-If a separate URL like `governance.holistika.com` is desired, an
+If a separate URL like `governance.holistikaresearch.com` is desired, an
 entry is added to
 [`SUBDOMAINS_REGISTRY.md`](../../../references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/SUBDOMAINS_REGISTRY.md)
 in P3 / P4. Default plan is to host under
-`madeira.holistika.com/operator/governance/external-repos/`.
+`showcase.holistikaresearch.com/operator/governance/external-repos/`.

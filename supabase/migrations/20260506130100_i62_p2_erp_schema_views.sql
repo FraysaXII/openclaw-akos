@@ -4,7 +4,7 @@
 -- D-IH-62-C: demo routing via session GUC app.data_mode through erp._mode().
 --
 -- Views ship SECURITY INVOKER so underlying RLS on compliance.* propagates to the caller.
--- anon role gets SELECT on erp.vw_public_health only (no PII; for status.holistika.com).
+-- anon role gets SELECT on erp.vw_public_health only (no PII; for status.holistikaresearch.com).
 -- authenticated gets SELECT on the rest (subject to RLS on the source mirrors).
 
 CREATE SCHEMA IF NOT EXISTS erp;

@@ -169,7 +169,7 @@ def test_regen_consumer_types_skips_non_consuming(tmp_path, monkeypatch):
 def test_provision_vercel_skips_rewrite_rows(monkeypatch):
     row = {
         "subdomain": "status",
-        "apex": "holistika.com",
+        "apex": "holistikaresearch.com",
         "state": "active",
         "vercel_project": "rewrite from `hlk-erp`",
     }
@@ -180,7 +180,7 @@ def test_provision_vercel_skips_rewrite_rows(monkeypatch):
 def test_provision_vercel_dry_run_active_row():
     row = {
         "subdomain": "alpha",
-        "apex": "holistika.com",
+        "apex": "holistikaresearch.com",
         "state": "active",
         "vercel_project": "alpha-app",
     }
@@ -191,7 +191,7 @@ def test_provision_vercel_dry_run_active_row():
 def test_provision_vercel_skips_when_no_cli(monkeypatch):
     row = {
         "subdomain": "alpha",
-        "apex": "holistika.com",
+        "apex": "holistikaresearch.com",
         "state": "active",
         "vercel_project": "alpha-app",
     }

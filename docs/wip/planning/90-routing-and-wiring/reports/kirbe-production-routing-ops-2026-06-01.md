@@ -58,7 +58,7 @@ py scripts/validate_hlk.py
 py scripts/render_operator_inbox.py
 ```
 
-**Live (2026-06-01, operator-style):** Render `/health` → `{"status":"ok"}` **HTTP 200**. Vercel `kirbe-holistika.vercel.app/health` → **HTTP 401** (deployment protection / SSO wall — expected; not a production API endpoint). `erp.holistika.com/api/kirbe/health` → **SKIP** on this Windows host (`curl.exe` schannel `SEC_E_INTERNAL_ERROR`; re-check from browser or another network).
+**Live (2026-06-01, operator-style):** Render `/health` → `{"status":"ok"}` **HTTP 200**. Vercel `kirbe-holistika.vercel.app/health` → **HTTP 401** (deployment protection / SSO wall — expected; not a production API endpoint). `erp.holistikaresearch.com/api/kirbe/health` → **SKIP** on this Windows host (`curl.exe` schannel `SEC_E_INTERNAL_ERROR`; re-check from browser or another network).
 
 Deploy-health: Vercel kirbe project — last production deploy READY (`dpl_Gudei1T57BhLpXJA1jQ1udytVzLs`), health route only.
 
@@ -93,11 +93,11 @@ Deploy-health: Vercel kirbe project — last production deploy READY (`dpl_Gudei
 | A2 | **Do not** point GDrive scripts / automation at `kirbe-holistika.vercel.app` | Canonical §2; **D-IH-90-X** | **PASS** | `DECISION_REGISTER.csv` row + canonical `ratifying_decisions`; Vercel health returns 401 without SSO (not an API surface) |
 | A3 | Vercel `kirbe` project = **health-only** after `b5958c2` (bundle size / deploy fix) | Canonical §2; this report §1 | **PASS** | Production READY `dpl_Gudei1T57BhLpXJA1jQ1udytVzLs` cited in §4 |
 | A4 | hlk-erp browser → **BFF** `/api/kirbe/*`; server `KIRBE_API_URL` for upstream | Canonical §3–4 | **PASS** | BFF routes use `process.env.KIRBE_API_URL` in sibling `hlk-erp` |
-| A5 | **kirbe-frontend** = separate SaaS POC repo; not production API | Canonical §2 table | **PASS** | `kirbe.holistika.com` reserved in subdomain registry |
+| A5 | **kirbe-frontend** = separate SaaS POC repo; not production API | Canonical §2 table | **PASS** | `kirbe.holistikaresearch.com` reserved in subdomain registry |
 | A6 | Internal Tech Lab in ERP is **beta**; external SaaS UI is kirbe-frontend | Canonical §2 | **PASS** | Matches operator framing |
 | A7 | **I90 P3.5** = ordnance (URLs); **I81 P6** = vault SOP pairing — do not block URL fixes on KB PASS | Master-roadmap §6.1; OPS-90-6 | **PASS** | OPS-90-6 forward-charter only |
 | A8 | **I92 P0.5** = erp.* **host policy** (public vs auth); orthogonal to KiRBe API host | Cohesion §5; mega plan | **PASS** | Not a contradiction: KiRBe API ≠ ERP apex policy |
-| A9 | ERP browser host **`https://erp.holistika.com`** in routing canonical | `KIRBE_ROUTING_AND_HOSTING.md` + `SUBDOMAINS_REGISTRY` `erp` @ `holistika.com` | **PASS** | Registry row is SSOT today; if I92 moves ERP to `erp.holistikaresearch.com`, update canonical + CORS row in **I92**, not P3.5 alone |
+| A9 | ERP browser host **`https://erp.holistikaresearch.com`** in routing canonical | `KIRBE_ROUTING_AND_HOSTING.md` + `SUBDOMAINS_REGISTRY` `erp` @ `holistikaresearch.com` | **PASS** | Registry row is SSOT today; if I92 moves ERP to `erp.holistikaresearch.com`, update canonical + CORS row in **I92**, not P3.5 alone |
 | A10 | Deprecated hosts (`api.hlk.kirbe.*`, `NEXT_PUBLIC_*` direct browser API) | Canonical §5 | **PASS** | Sibling **runbooks still violate** — see §7.3 |
 
 ### 7.2 — Governance, OPS, and planning cohesion
@@ -181,10 +181,10 @@ Deploy-health: Vercel kirbe project — last production deploy READY (`dpl_Gudei
 |:--|:---|:---|
 | 1 | Three-surface model matches intent | **PASS** (agent default; override if not) |
 | 2 | GATE #3b landed without waiting for I81 KB PASS | **PASS** |
-| 3 | **erp.holistika.com** in canonical until I92 P0.5 | **PASS** |
+| 3 | **erp.holistikaresearch.com** in canonical until I92 P0.5 | **PASS** |
 | 4 | Merge sibling PRs #26 + #25 | **PASS** (agent 2026-06-01) |
 | 5 | Push AKOS `main` | **PASS** (agent follow-up commit) |
-| 6 | Browser: `GET https://erp.holistika.com/api/kirbe/health` | **PASS** — **OPS-90-7** closed; hlk-erp [PR #26](https://github.com/FraysaXII/hlk-erp/pull/26) → `f96001b`; operator TLS OK; re-spot-check after Vercel deploy |
+| 6 | Browser: `GET https://erp.holistikaresearch.com/api/kirbe/health` | **PASS** — **OPS-90-7** closed; hlk-erp [PR #26](https://github.com/FraysaXII/hlk-erp/pull/26) → `f96001b`; operator TLS OK; re-spot-check after Vercel deploy |
 | 7 | Security review before expanding Tech Lab panels | **DEFER** |
 
 ---

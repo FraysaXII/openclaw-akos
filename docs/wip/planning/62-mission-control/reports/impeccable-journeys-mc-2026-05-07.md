@@ -16,9 +16,9 @@ The MC Today board has three personas with three time budgets and three intents.
 
 | Persona | Path | Time | Intent | Failure looks like |
 |:---|:---|:---|:---|:---|
-| **Founder** (level 6) | `erp.holistika.com/mission-control` | <8s glance | "Anything broken?" | scrolling, opening drawers, asking team |
-| **Ops operator** (level 4) | `erp.holistika.com/mission-control` | <90s scan | "What wants me?" | clicking through 3 tiles to find their queue |
-| **Auditor** (level 1, demo) | `madeira.holistika.com/showcase` | <60s tour | "Is this thing real?" | empty tiles, contradictory numbers, jargon |
+| **Founder** (level 6) | `erp.holistikaresearch.com/mission-control` | <8s glance | "Anything broken?" | scrolling, opening drawers, asking team |
+| **Ops operator** (level 4) | `erp.holistikaresearch.com/mission-control` | <90s scan | "What wants me?" | clicking through 3 tiles to find their queue |
+| **Auditor** (level 1, demo) | `showcase.holistikaresearch.com/showcase` | <60s tour | "Is this thing real?" | empty tiles, contradictory numbers, jargon |
 
 **The board is read-first.** Drilldowns absorb writes. The hero verdict carries the load — the seven tiles are scannable supporting evidence, not the primary reading surface.
 
@@ -76,18 +76,18 @@ flowchart LR
 
 Grasp test passes only if the operator never sees a "Are you sure?" modal. The chip + 5s undo strip is the entire confirmation gesture (matching `/operator-inbox` and `/governance/external-repos`).
 
-### J-MC-5 — Auditor demo on `madeira.holistika.com/showcase` (60 seconds, mobile or desktop)
+### J-MC-5 — Auditor demo on `showcase.holistikaresearch.com/showcase` (60 seconds, mobile or desktop)
 
 ```mermaid
 flowchart LR
-  trigger["Founder shares madeira.holistika.com/showcase link"]
+  trigger["Founder shares showcase.holistikaresearch.com/showcase link"]
   glance["Showcase loads with demo banner top-right · hero says 'Demo · today's verdict: GO' · all 7 tiles populated"]
   action["Auditor scrolls · everything reads · screenshot · close tab"]
   outcome["No real names exposed · auditor sees the verdict, three lights, eval summary, cycle timeline · hero GO matches tile signals"]
   trigger --> glance --> action --> outcome
 ```
 
-Grasp test passes only if `?mode=demo` and `madeira.holistika.com/showcase` produce **identical** layouts and copy, only the data layer differs. The auditor should not encounter a parallel "lite" surface.
+Grasp test passes only if `?mode=demo` and `showcase.holistikaresearch.com/showcase` produce **identical** layouts and copy, only the data layer differs. The auditor should not encounter a parallel "lite" surface.
 
 ## 3. Per-tile grasp polish (the 7 tiles)
 
@@ -136,7 +136,7 @@ The MC v1 was already impeccable. This report locks five rejections that an over
 | MC-J-B | Hero first sentence ≤ 56 chars across all 8 verdict states (GO×4 + AMBER×3 + NO-GO×1) | Snapshot test per state |
 | MC-J-C | Tile 01-07 first sentences match the locked text in §3 | DOM snapshot per locale |
 | MC-J-D | Governance chip renders 3 numbers and routes correctly to `/operator/governance/external-repos/` | Playwright link |
-| MC-J-E | Demo mode (`?mode=demo` and `madeira.holistika.com/showcase`) produces identical DOM trees, only data differs | Playwright AST diff |
+| MC-J-E | Demo mode (`?mode=demo` and `showcase.holistikaresearch.com/showcase`) produces identical DOM trees, only data differs | Playwright AST diff |
 | MC-J-F | "Attention pull" — when verdict is AMBER/RED the relevant tile floats to position 02 | Snapshot test per simulated state |
 | MC-J-G | No modal appears in any of J-MC-2, J-MC-3, J-MC-4 confirmation flows | Playwright DOM assertion |
 | MC-J-H | `prefers-reduced-motion: reduce` strips all motion except the entry fade | a11y + manual |

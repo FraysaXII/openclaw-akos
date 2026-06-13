@@ -6,13 +6,15 @@ report_kind: decision-log
 last_review: 2026-05-06
 ---
 
+> **Superseded hosts (2026-06-13):** Live product hosts are **`holistikaresearch.com` only**. Decision rows below record I62-era choices; current SSOT is [SUBDOMAINS_REGISTRY.md](../../../references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/Repositories/SUBDOMAINS_REGISTRY.md) + [I96 P-G1](../../96-research-data-plane-and-research-center/reports/subdomains-registry-reconciliation-proposal-2026-06-13.md).
+
 # I62 Decision Log
 
 Format: ID · question · options considered · decision · rationale · date · status.
 
 ## D-IH-62-A — Auth provider
 
-- **Q.** Which auth provider for the operator-only `erp.holistika.com` surface?
+- **Q.** Which auth provider for the operator-only `erp.holistikaresearch.com` surface?
 - **Options.** (1) Supabase Auth (email + OAuth providers); (2) Auth.js (NextAuth); (3) Clerk; (4) Roll-our-own with NextAuth + Drizzle.
 - **Decision.** Supabase Auth (Google Workspace + Microsoft 365 + email magic-link).
 - **Rationale.** `@supabase/supabase-js` is already a dep; the same provider stores `holistika_ops.*` operational facts; one vendor; SSO covers the Holistika team's likely identity providers; magic-link covers emergency operator access; portable to Auth.js later if needed without a data migration.
@@ -37,8 +39,8 @@ Format: ID · question · options considered · decision · rationale · date ·
 ## D-IH-62-D — Showcase domain
 
 - **Q.** Which subdomain hosts the show-off URL?
-- **Options.** (1) `showcase.holistika.com`; (2) `demo.holistika.com`; (3) `madeira.holistika.com`; (4) sub-path on `holistika.com/showcase`.
-- **Decision.** `madeira.holistika.com` (memorable, ties to platform name, brand-clean).
+- **Options.** (1) `showcase` subdomain; (2) `demo` subdomain; (3) `madeira` subdomain; (4) sub-path on apex `/showcase`.
+- **Decision (2026-05-06; live host superseded 2026-06-13).** Chose **`madeira` showcase slug** on corporate apex (memorable, brand-clean). **Current live host:** `showcase.holistikaresearch.com` per I96 P-G1.
 - **Rationale.** Memorable for advisors/investors; ties to the platform name visible on `app/tech-lab/project-madeira/page.tsx`; verified `MADEIRA` is **not** in the [`BRAND_JARGON_AUDIT.md`](../../../references/hlk/v3.0/Admin/O5-1/Marketing/Brand/BRAND_JARGON_AUDIT.md) §4 forbidden list (`AKOS`, `holistika_ops.*`, `topic_*`, `plane`, `*OPS` are forbidden externally; `MADEIRA` is not). Hard isolation from production via separate Vercel project + no `SUPABASE_SERVICE_ROLE_KEY`.
 - **Date.** 2026-05-06 · **Status.** Active.
 
@@ -133,8 +135,8 @@ Format: ID · question · options considered · decision · rationale · date ·
 ## D-IH-62-P — Subdomain layout
 
 - **Q.** Which subdomains exist + governance for new ones.
-- **Options.** (1) Sub-paths on `holistika.com`; (2) Per-subdomain Vercel projects; (3) Mix.
-- **Decision.** Per-subdomain Vercel projects governed by new canonical AKOS asset `SUBDOMAINS_REGISTRY.md`. Active rows: `madeira.holistika.com` (showcase), `erp.holistika.com` (production), `status.holistika.com` (public health). Reserved (no DNS yet): `api.holistika.com`, `docs.holistika.com`, `kirbe.holistika.com`.
+- **Options.** (1) Sub-paths on apex; (2) Per-subdomain Vercel projects; (3) Mix.
+- **Decision.** Per-subdomain Vercel projects governed by new canonical AKOS asset `SUBDOMAINS_REGISTRY.md`. **I62-era apex superseded 2026-06-13 (I96 P-G1)** — live hosts: `erp`, `showcase`, `kirbe`, `status` (reserved) @ `holistikaresearch.com`.
 - **Rationale.** Memorable show-off URL distinct from auth-gated production; clean separation; cross-link UX (sign-in CTA on demo, demo CTA on sign-in); future subdomains follow same approval flow as Figma files via PR-to-registry.
 - **Date.** 2026-05-06 · **Status.** Active.
 

@@ -20,7 +20,7 @@ authority: Founder + System Owner
 | P1 | RBAC schema migration (`holistika_ops.user_role_mapping` + `audit_log` + `user_preferences` + `notifications` + `current_access_level()`) | DONE (SQL gate proposal landed; operator-applied via `apply_migration` per `sql-proposal-mission-control-2026-05-06.md`) |
 | P2 | TanStack Query + `useMirrorView`, `erp.*` views migration, freshness pattern (ribbon + stale banner) | DONE |
 | P3 | `demo.*` schema migration, demo seed script, `DATA_MODE` toggle, header pill | DONE |
-| P3 | Showcase project on `madeira.holistika.com` | **OPS-62-1** (Vercel project + DNS + DATA_MODE=demo + preview password) |
+| P3 | Showcase project on `showcase.holistikaresearch.com` | **OPS-62-1** (Vercel project + DNS + DATA_MODE=demo + preview password) |
 | P4 | `/mission-control` Today board: hero verdict + seven tiles (Three Lights, operator inbox preview, initiative pulse, cost & finance, compliance pulse, eval summary, cycle timeline) | DONE |
 | P5 | Drilldowns: `/operator-inbox`, `/initiatives`, `/cycle-closures`, `/eval-quality`, `/compliance-pulse`, `/decisions`, `/cost-finance`, `/mission-control/audit-log` | DONE |
 | P6 | Existing routes mirror-backed (Phase 6 carried into the same commit set; project-madeira hardcoded numbers replaced with mirror reads) | DONE |
@@ -47,13 +47,13 @@ Both PASS in the local sweep ahead of this report.
 - D-IH-62-A — Auth provider: Supabase Auth (Google Workspace + Microsoft 365 + magic link).
 - D-IH-62-B — RBAC source: `baseline_organisation.access_level` 0-6 via `current_access_level()` SECURITY DEFINER.
 - D-IH-62-C — Demo data: dedicated `demo.*` schema, no service-role key on showcase.
-- D-IH-62-D — Showcase domain: `madeira.holistika.com` (memorable; ERP stays on `erp.holistika.com`).
+- D-IH-62-D — Showcase domain: `showcase.holistikaresearch.com` (memorable; ERP stays on `erp.holistikaresearch.com`).
 - D-IH-62-P — Subdomains governed by canonical `SUBDOMAINS_REGISTRY.md` + validator + release-gate.
 - D-IH-62-Q — `erp.*` schema for read-side projections; live/demo routing via session GUC `app.data_mode`.
 
 ## Forwarded operator actions
 
-- **OPS-62-1** (operator) — Provision Vercel project `hlk-erp-showcase` on `madeira.holistika.com` with `DATA_MODE=demo`, no service-role key, optional preview password; cross-link CTAs both directions; run `npm run seed:demo` once. Owner: Ops counterpart. Target: 2026-05-09.
+- **OPS-62-1** (operator) — Provision Vercel project `hlk-erp-showcase` on `showcase.holistikaresearch.com` with `DATA_MODE=demo`, no service-role key, optional preview password; cross-link CTAs both directions; run `npm run seed:demo` once. Owner: Ops counterpart. Target: 2026-05-09.
 - **OPS-62-2** (operator) — Apply `supabase/migrations/20260506130*.sql` to production via `apply_migration`; provision staging Supabase project; enable PITR; schedule nightly `pg_dump` to S3-compatible bucket per the DR runbook. Owner: Founder. Target: 2026-05-10.
 - **OPS-62-3** (operator) — Final UAT: founder walks every route per impersonated role; advisor preview on showcase; brand-jargon scan; Lighthouse cold-cache audit; closure report; flip I62 status to closed in WIP_DASHBOARD. Owner: Founder. Target: 2026-05-13.
 

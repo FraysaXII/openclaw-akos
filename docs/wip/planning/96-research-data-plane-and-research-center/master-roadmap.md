@@ -104,7 +104,7 @@ Track D ships UI in the sibling repo **HLK-ERP**. Browser experiential sign-off 
 |:---|:---|
 | **Verdict posture** | **PASS-WITH-FOLLOWUP** — v1 experiential bar met 2026-06-12; v2 insight machine chartered (P8–P11) |
 | **Workflow order** | **Localhost first:** `http://localhost:3010/sign-in?next=%2Fresearch-center` → magic-link → panel walk → screenshots |
-| **Production SSL** | `https://erp.holistika.com/research-center` blocked in Cursor MCP browser (-107) — remediate separately; does not excuse skipping localhost |
+| **Production SSL** | `https://erp.holistikaresearch.com/research-center` blocked in Cursor MCP browser (-107) — remediate separately; does not excuse skipping localhost |
 | **Evidence manifest** | `artifacts/uat-screenshots/i96-research-center-<YYYY-MM-DD>/` + sha256 sidecar per planning traceability §browser-evidence audit-trail |
 | **Viewports** | 375 / 768 / 1280 (I68 baseline) |
 | **Accessibility** | axe on `/research-center` post-login |
@@ -131,11 +131,11 @@ v1 proved the Experience plane shell (auth + four panels + PWF UAT). v2 shifts t
 
 **P9 status (2026-06-12):** **complete** — operator re-ratify after research rework; Excalidraw scene `2yBmIbavOEj`; AIC design pipeline handoff (execution seat mints Figma; operator ratifies preview only); Tremor spike closed (shadcn Card wins).
 
-**P9b status (2026-06-12):** **revision in_progress (not complete)** — operator rejected first inline-ratify (live UI craft + missing journey components). Revision tranche: Phase A visual polish (hlk-erp) → Phase B journey components → Phase C Figma hi-fi refresh (AIC) → Phase D browser UAT. Plan: [`reports/p9b-revision-tranche-plan-2026-06-12.md`](reports/p9b-revision-tranche-plan-2026-06-12.md). **Hard deps:** prong-fixed ledger (sibling agent) + operator ratify gate. Figma file `GTCcxT0DbEWdnVHXyrde73` remains scaffold until Phase C refresh.
+**P9b status (2026-06-13):** **Phase A complete** (operator-ratified visual polish — [`p9b-phase-a-status-2026-06-13.md`](reports/p9b-phase-a-status-2026-06-13.md)). **Phase B+C in progress** — unified insight-machine tranche ([`research-center-phase-bc-tranche-plan-2026-06-12.md`](reports/research-center-phase-bc-tranche-plan-2026-06-12.md)): hlk-erp journey widgets (Operator+Director T2) + Figma matrix refresh + experiential UAT ladder L0–L3 ratify gate. **P10-T2 PAUSED** until B+C operator inline-ratify. Prong SSOT complete ([`p9b-prong-ssot-fix-2026-06-13.md`](reports/p9b-prong-ssot-fix-2026-06-13.md)).
 
 **P10 status:** **T1 complete** (remediation cards, POV switcher, drawer shell @ localhost:3010). **T2 PAUSED** until P9b **revision** closes (Figma + localhost operator ratify after Phases A–D).
 
 **Prong SSOT (2026-06-13):** **complete** — Automation OS + holistic-agentic ledgers rewritten to `BL-*`; validator enforces baseline IDs. Report: [`p9b-prong-ssot-fix-2026-06-13.md`](reports/p9b-prong-ssot-fix-2026-06-13.md). **I97** `INFONOMICS_DISCIPLINE` closed — Track D economics consumes per **D-IH-96-J**.
 
-**Next gate:** P9b **Phase A operator verify** on localhost (`root_cd/hlk-erp`) — implementation complete per [`p9b-phase-a-status-2026-06-13.md`](reports/p9b-phase-a-status-2026-06-13.md); hlk-erp commit + screenshot manifest still required → Phase B → Phase C Figma → operator ratify → P10-T2 → P11 UAT.
+**Next gate:** Phase B+C operator inline-ratify (Figma five lenses + localhost journey smoke L1–L3 per [`research-center-experiential-uat-ladder-2026-06-12.md`](reports/research-center-experiential-uat-ladder-2026-06-12.md)) → Phase D manifest → P10-T2 → P11 UAT.
 

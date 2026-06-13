@@ -1018,9 +1018,9 @@ A Next.js 14 + Supabase application that surfaces AKOS data through three Vercel
 
 | Surface          | Vercel project       | Domain                  | Data plane                                | Auth                       |
 |:-----------------|:---------------------|:------------------------|:------------------------------------------|:---------------------------|
-| Operator surface | `hlk-erp`            | `erp.holistika.com`     | `live` (compliance.* mirrors + erp.*)     | Supabase Auth, RBAC 0–6    |
-| Public showcase  | `hlk-erp-showcase`   | `madeira.holistika.com` | `demo` (demo.* schema)                    | Open (optional preview pw) |
-| Status page      | shared with `hlk-erp`| `status.holistika.com`  | `live` (vw_public_health only)            | Open                       |
+| Operator surface | `hlk-erp`            | `erp.holistikaresearch.com`     | `live` (compliance.* mirrors + erp.*)     | Supabase Auth, RBAC 0–6    |
+| Public showcase  | `hlk-erp-showcase`   | `showcase.holistikaresearch.com` | `demo` (demo.* schema)                    | Open (optional preview pw) |
+| Status page      | shared with `hlk-erp`| `status.holistikaresearch.com`  | `live` (vw_public_health only)            | Open                       |
 
 The contract is captured in [`.cursor/rules/akos-mirror-template.mdc`](../.cursor/rules/akos-mirror-template.mdc) (mirrored as `.cursor/rules/akos-mirror.mdc` in `hlk-erp`) and enforced by:
 
