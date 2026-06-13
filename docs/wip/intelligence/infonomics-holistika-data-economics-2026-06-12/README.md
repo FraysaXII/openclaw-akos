@@ -25,7 +25,8 @@ language: en
 | [`prong-bl-*.md`](prong-bl-data.md) | 4 synthesize | **14 prong files** ✅ P4 |
 | [`master-synthesis.md`](master-synthesis.md) | 4 rollup | D-INF-ECON option set |
 | [`master-synthesis-hxpestel.md`](master-synthesis-hxpestel.md) | 4 HxPESTAL | Macro lens |
-| [`hxpestal-intent-tracking-2026-06-12.md`](hxpestal-intent-tracking-2026-06-12.md) | 4 govern | `govern_ready: Y` |
+| [`hxpestal-intent-tracking-2026-06-12.md`](hxpestal-intent-tracking-2026-06-12.md) | 4 govern | `govern_ready: Y` — P5 cleared |
+| [`implementation-spec-2026-06-13.md`](implementation-spec-2026-06-13.md) | 6 implement | P6a→P6b tranche contract |
 
 ## Source ledger at a glance
 
@@ -41,7 +42,8 @@ language: en
 | P2 internal CORPINT (≥300) | ✅ 2026-06-12 |
 | P3 external OSINT (≥500) | ✅ 2026-06-12 |
 | P4 synthesize 14 prongs | ✅ 2026-06-13 |
-| P5 govern (vault scope lock) | ⏳ next |
-| P6 vault tranches | **scheduled** — not dropped |
+| P5 govern (vault scope lock) | ✅ 2026-06-13 |
+| P6a DCAM level axis | ⏳ next (scheduled) |
+| P6b vault doctrine mint | scheduled |
 
 Planning home: [`../../planning/97-infonomics-holistika-data-economics/master-roadmap.md`](../../planning/97-infonomics-holistika-data-economics/master-roadmap.md)

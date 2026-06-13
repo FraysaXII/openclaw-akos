@@ -10,6 +10,8 @@ owner_role: Operator
 linked_decisions:
   - D-IH-97-A
   - D-IH-97-B
+  - D-IH-97-C
+  - D-IH-97-D
 language: en
 authoritative_plan: docs/wip/planning/97-infonomics-holistika-data-economics/master-roadmap.md
 ---
@@ -29,8 +31,8 @@ Enterprise Infonomics research: 800-row source ledger, 14 BL prong syntheses, go
 | Pause | Phase | Gate |
 |:---|:---|:---|
 | ~~#1~~ | ~~P0~~ | ~~INITIATIVE_REGISTRY (`D-IH-97-A`)~~ — **cleared 2026-06-12** |
-| #2 | P5 | Govern ratify vault scope |
-| #3 | P6 | Canonical mint |
+| ~~#2~~ | ~~P5~~ | ~~Govern ratify vault scope~~ — **cleared 2026-06-13** |
+| #3 | P6a→P6b | DCAM level axis (P6a) then doctrine mint (P6b) |
 
 ## Phase plan
 
@@ -41,8 +43,11 @@ Enterprise Infonomics research: 800-row source ledger, 14 BL prong syntheses, go
 | **P2** | Internal ~300 CORPINT | baseline-state + ledger rows — ✅ [`baseline`](../../../intelligence/infonomics-holistika-data-economics-2026-06-12/baseline-state-2026-06-12.md) |
 | **P3** | External ~500 OSINT | 800 total ledger — ✅ [`p3 report`](reports/p3-external-osint-2026-06-12.md) |
 | **P4** | Synthesize | 14 prong files + HXPESTAL master — ✅ [`p4 report`](reports/p4-prong-syntheses-2026-06-13.md) |
-| **P5** | Govern ratify | p5-govern-ratify report — **hard stop before vault** ⏳ next |
-| **P6** | Vault tranches | INFONOMICS_DISCIPLINE — **scheduled, not dropped** |
+| **P5** | Govern ratify | p5-govern-ratify report — ✅ [`p5 report`](reports/p5-govern-ratify-2026-06-13.md) |
+| **P6a** | DCAM level axis (area completeness) | Prerequisite tranche — **scheduled** |
+| **P6b** | Vault doctrine mint | `INFONOMICS_DISCIPLINE` — **scheduled** |
+| **P6c** | Optional process_list | D-IH-97-F — optional |
+| **P6d** | I94 extension | D-IH-97-G — optional / forward |
 | **P7** | Closure UAT | 11-section uat-i97 |
 | **P8** | Index sync | README, dependencies, dashboard |
 

@@ -10,16 +10,18 @@ next_review_trigger: I97 P5 govern ratify entry
 linked_decisions:
   - D-IH-97-D
   - D-IH-86-O
-carryover_posture: overlap_pending
+carryover_posture: superseded
 ratify_phase: I97 P5
-status: active
+status: closed
+ratified: 2026-06-13
+ratified_option: B
 role_owner: Operator
 language: en
 ---
 
 # I96 ↔ I97 — Infonomics scope-overlap tracker
 
-> **Carryover posture:** `overlap_pending` — consolidation ratifies at **I97 P5**, not dropped.
+> **Carryover posture:** ~~`overlap_pending`~~ → **`superseded`** at I97 P5 (Option B ratified 2026-06-13).
 > **Index row:** CO-97-004 in [`carryover-posture-index.md`](carryover-posture-index.md)
 
 ## 1. Why this tracker exists
@@ -32,17 +34,21 @@ I97 (Infonomics / Holistika data economics) overlaps I96 (Research Data Plane + 
 |:---|:---|:---|:---|:---|
 | **I96** | System Owner | active program_line | Research Center remediation cards, three-plane economics, Track D v2 | I96 P10–P11 vs **I97 P5** |
 
-## 3. Consolidation ratify gate (I97 P5)
+## 3. Consolidation ratify gate (I97 P5) — **CLOSED 2026-06-13**
 
-**Question (D-IH-97-D).** After Infonomics synthesis, choose I96 vs I97 posture:
+**Question (D-IH-97-D).** After Infonomics synthesis, choose I96 vs I97 posture.
 
-- **A — Parallel** — both initiatives keep doctrine scope; cross-link only
-- **B — Merge Track D economics into I97 doctrine** — I96 Track D consumes I97 outputs
-- **C — Forward-charter** — mint I-NN unified research-economics initiative
+**Ratified:** Option **B** — **Merge Track D economics into I97 doctrine** — I96 Track D / Research Center **consumes I97 P6b outputs** (`INFONOMICS_DISCIPLINE.md`).
 
-**Default if not ratified before P5 entry:** Option A (parallel) with scope-overlap index updated.
+| Option | Outcome |
+|:---|:---|
+| A — Parallel | Not selected |
+| **B — Merge into I97** | **Selected** — I96 D-IH-96-J |
+| C — Forward-charter | Not selected |
 
-**Activation trigger:** I97 P4 master synthesis `govern_ready` flag set.
+**Evidence:** [`../97-infonomics-holistika-data-economics/reports/p5-govern-ratify-2026-06-13.md`](../97-infonomics-holistika-data-economics/reports/p5-govern-ratify-2026-06-13.md)
+
+## 3-archive. Original gate text (pre-ratify)
 
 ## 4. Cross-references
 

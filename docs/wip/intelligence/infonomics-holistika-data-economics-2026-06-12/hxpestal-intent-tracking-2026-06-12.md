@@ -61,7 +61,7 @@ linked_canonical: HXPESTAL_INTENT_TRACKING_DISCIPLINE.md
 | `govern_ready` | **Y** |
 |:---|:---|
 | Threshold | intent ≥ 4 AND activism_spectrum ≥ 4 — **met** |
-| Next | P5 inline-ratify D-IH-97-C / D-IH-97-D before any vault tranche |
+| Next | P5 inline-ratify D-IH-97-C / D-IH-97-D before any vault tranche | **Done 2026-06-13** — proceed **P6a** |
 
 ## MADEIRA methodology notes
 

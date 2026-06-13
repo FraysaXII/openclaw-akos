@@ -75,6 +75,8 @@ prongs_synthesized: 14
 
 Operator picks at **P5 inline-ratify**. Stage 6 (P6) implements the picked option only.
 
+**Ratified 2026-06-13 (D-IH-97-C):** **Compound A+D sequenced** — **P6a** DCAM level axis in area completeness, then **P6b** mint `INFONOMICS_DISCIPLINE` + amend registers. **D-IH-97-D:** Option B — I96 Track D consumes I97 P6b doctrine. See [`reports/p5-govern-ratify-2026-06-13.md`](../../planning/97-infonomics-holistika-data-economics/reports/p5-govern-ratify-2026-06-13.md).
+
 ## 5. I96 overlap posture (D-IH-97-D preview)
 
 Research Center UX economics (Track D) overlaps **consumer inventory and insight delivery** — not enterprise register/mirror economics. Prongs BL-UX, BL-INTEL, BL-RESEARCH carry the boundary. **Ratify at P5** via [`i96-i97-infonomics-scope-overlap-tracker.md`](../../planning/_trackers/i96-i97-infonomics-scope-overlap-tracker.md) — do not merge packs before govern.

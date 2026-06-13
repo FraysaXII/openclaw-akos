@@ -39,10 +39,10 @@ language: en
 
 | index_id | posture | item_id | target / successor | activation_trigger | next_review | owner | discoverability_path |
 |:---|:---|:---|:---|:---|:---|:---|:---|
-| CO-97-001 | scheduled | D-IH-97-E | I97 P6 vault doctrine | P5 govern ratify closes vault mint scope | I97 P5 entry OR 2026-07-01 | Operator | `docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md#D-IH-97-E` |
-| CO-97-002 | scheduled | D-IH-97-F | I97 P6b process_list | P5 ratify + optional PMO approval | I97 P5 entry OR 2026-07-01 | PMO | `docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md#D-IH-97-F` |
-| CO-97-003 | scheduled | D-IH-97-G | I97 P6c or forward-charter | P5 ratify I94 extension scope | I97 P5 entry OR 2026-07-01 | CDO | `docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md#D-IH-97-G` |
-| CO-97-004 | overlap_pending | D-IH-97-D | I96 vs I97 consolidation | I97 P5 inline-ratify via scope-overlap tracker | I97 P5 govern session | Operator | `docs/wip/planning/_trackers/i96-i97-infonomics-scope-overlap-tracker.md` |
+| CO-97-001 | scheduled | D-IH-97-E | I97 P6b vault doctrine | P6a DCAM tranche complete | I97 P6a close OR 2026-07-01 | Operator | `docs/wip/intelligence/infonomics-holistika-data-economics-2026-06-12/implementation-spec-2026-06-13.md` |
+| CO-97-002 | scheduled | D-IH-97-F | I97 P6c process_list | P6b mint + PMO approval | I97 P6b close OR 2026-07-01 | PMO | `docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md#D-IH-97-F` |
+| CO-97-003 | scheduled | D-IH-97-G | I97 P6d or forward-charter | P6b ratify I94 extension | I97 P6b close OR 2026-07-01 | CDO | `docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md#D-IH-97-G` |
+| CO-97-004 | superseded | D-IH-97-D | I96 consumes I97 P6b doctrine | Ratified Option B 2026-06-13 | Archive unless I96 dependency reopens | Operator | `docs/wip/planning/97-infonomics-holistika-data-economics/reports/p5-govern-ratify-2026-06-13.md` |
 | CO-98-001 | scheduled | D-IH-98-C | vault carryover discipline | Operator requests vault OR I97 P6 doctrine stable | 2026-07-15 OR I97 P6 close | Operator | `docs/wip/planning/98-carryover-posture-clarity/decision-log.md#D-IH-98-C` |
 | CO-96-001 | scheduled | D-IH-96-D | I96 P10 multi-channel feed | Research Center v1 PASS + Track D stable | I96 P9 close OR 2026-07-01 | PMO | `docs/wip/planning/96-research-data-plane-and-research-center/decision-log.md` |
 | CO-76-001 | overlap_pending | I11/I13/I17 | I76 P1/P3/P4 gates | Per sibling ratify (mostly closed 2026-05-21) | Archive if all siblings closed | System Owner | `docs/wip/planning/_trackers/i11-i13-i17-scope-overlap-tracker.md` |
@@ -59,5 +59,5 @@ language: en
 
 | from_initiative | to_initiative | posture | activation_trigger | owner_decision_id | index_row |
 |:---|:---|:---|:---|:---|:---|
-| INIT-OPENCLAW_AKOS-97 | INIT-OPENCLAW_AKOS-96 | overlap_pending | I97 P5 govern ratify | D-IH-97-D | CO-97-004 |
+| INIT-OPENCLAW_AKOS-97 | INIT-OPENCLAW_AKOS-96 | scheduled | I97 P6b doctrine stable; I96 Track D consumes | D-IH-97-D | CO-97-004 |
 | INIT-OPENCLAW_AKOS-98 | — | scheduled | I98 P4 govern ratify | D-IH-98-C | CO-98-001 |

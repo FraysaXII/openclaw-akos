@@ -13,7 +13,7 @@ authored: 2026-06-12
 | P1 | Research pack charter + empty ledger header | D-IH-97-B bar |
 | P2–P3 | `source-ledger.csv` row counts | 300 + 500 bar — **✅ closed 2026-06-12** |
 | P4 | 14 `prong-bl-*.md` + master syntheses | Govern-ready signal — **✅ closed 2026-06-13** |
-| P5 | `p5-govern-ratify-*.md` | Vault scope locked |
-| P6 | Vault tranche commits + validate_hlk PASS | Doctrine mint |
+| P5 | `p5-govern-ratify-*.md` | D-IH-97-C/D closed — **✅ 2026-06-13** |
+| P6a–P6b | Vault tranches + `validate_hlk.py` | Doctrine mint after DCAM axis |
 | P7 | Closure UAT 11-section | Program close |
 | P8 | Index sweep + WIP dashboard | Staleness hooks live |
