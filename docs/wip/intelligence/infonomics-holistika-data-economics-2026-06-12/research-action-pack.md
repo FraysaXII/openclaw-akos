@@ -48,7 +48,7 @@ Sub-questions map to `decision_use` tags:
 
 | Stage | Artifact in this pack | Status |
 |:---|:---|:---|
-| 1 Ingest | [`source-ledger.csv`](source-ledger.csv) | ✅ **300 CORPINT rows** (P2) → P3 OSINT |
+| 1 Ingest | [`source-ledger.csv`](source-ledger.csv) | ✅ **800 rows** (300 CORPINT + 500 OSINT) |
 | 2 Rate | per-row reliability + external credibility + Safe/Euclid/Keter | gated on ingest |
 | 3 Rank | `baseline-state-2026-06-12.md` + prong relevance | P2 |
 | 4 Synthesize | 14 × `prong-bl-*.md` + master syntheses | P4 |

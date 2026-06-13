@@ -20,12 +20,11 @@ language: en
 | [`charter.md`](charter.md) | control | Topic identity, 15 clusters, ratified 800-row bar, sibling wiring |
 | [`research-action-pack.md`](research-action-pack.md) | control | D-INF-ECON + 8-stage status table |
 | [`source-ledger-prong-ssot-2026-06-12.md`](source-ledger-prong-ssot-2026-06-12.md) | control | 14 charter aliases → `BL-*` |
-| [`source-ledger.csv`](source-ledger.csv) | 1–2 ingest/rate | **Header only at P1** → 800 rows at P2–P3 |
+| [`source-ledger.csv`](source-ledger.csv) | 1–2 ingest/rate | **800 rows** (300 CORPINT + 500 OSINT) ✅ P3 |
 
 ## Source ledger at a glance
 
-- **300 rows** at P2 close (CORPINT internal); target **800** (300 + 500 OSINT).
-- **14 baseline prongs** (`BL-*`); **11 topic clusters** at P2 (15 at charter close after P3).
+- **800 rows** at P3 close (300 CORPINT + 500 OSINT); **14 baseline prongs**; **14 topic clusters** (charter 15th `holistika-corpint` reserved for dedupe notes in synthesis).
 - Baseline: [`baseline-state-2026-06-12.md`](baseline-state-2026-06-12.md)
 - Validate: `py scripts/validate_research_action.py --source-ledger docs/wip/intelligence/infonomics-holistika-data-economics-2026-06-12/source-ledger.csv`
 
@@ -35,9 +34,8 @@ language: en
 |:---|:---|
 | P1 pack shell | ✅ 2026-06-12 |
 | P2 internal CORPINT (≥300) | ✅ 2026-06-12 |
-| P3 external OSINT (≥500) | ⏳ next |
-| P3 external OSINT (≥500) | pending |
-| P4 synthesize 14 prongs | pending |
+| P3 external OSINT (≥500) | ✅ 2026-06-12 |
+| P4 synthesize 14 prongs | ⏳ next |
 | P5 govern (vault scope lock) | pending |
 | P6 vault tranches | **scheduled** — not dropped |
 
