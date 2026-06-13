@@ -137,5 +137,5 @@ v1 proved the Experience plane shell (auth + four panels + PWF UAT). v2 shifts t
 
 **Prong SSOT (2026-06-13):** **complete** — Automation OS + holistic-agentic ledgers rewritten to `BL-*`; validator enforces baseline IDs. Report: [`p9b-prong-ssot-fix-2026-06-13.md`](reports/p9b-prong-ssot-fix-2026-06-13.md). **I97** `INFONOMICS_DISCIPLINE` closed — Track D economics consumes per **D-IH-96-J**.
 
-**Next gate:** P9b **Phase A** in `hlk-erp` (A-B1..A-B5 + IF-01..IF-10) → Phase B journey components → Phase C Figma refresh → operator ratify → P10-T2 resume → P11 dual-auth UAT (Operator + Director first).
+**Next gate:** P9b **Phase A operator verify** on localhost (`root_cd/hlk-erp`) — implementation complete per [`p9b-phase-a-status-2026-06-13.md`](reports/p9b-phase-a-status-2026-06-13.md); hlk-erp commit + screenshot manifest still required → Phase B → Phase C Figma → operator ratify → P10-T2 → P11 UAT.
 
