@@ -23,19 +23,18 @@ current_tranche: Gap-closure P-G5 — Preview UAT re-run ready
 |:---:|:---|:---|
 | 1 | [PR branch Research Center](https://hlk-erp-git-feat-i96-research-center-b15-holistika.vercel.app/research-center) | **B1.5 build** — Preview UAT ratify here until preview.erp matches |
 | 2 | [preview.erp (custom Preview domain)](https://preview.erp.holistikaresearch.com/research-center) | Only if POV strip + Preview badge — currently legacy Facts UI ⚠ |
-| 2 | [Dev sign-in → RC (preview)](https://preview.erp.holistikaresearch.com/api/dev/sign-in?next=%2Fresearch-center%3Fpov%3Doperator) | After bypass + Preview env vars |
 | 3 | [hlk-erp PR #36](https://github.com/FraysaXII/hlk-erp/pull/36) | Latest deploy · Vercel SUCCESS |
-| 4 | [Preview UAT charter](uat-i96-research-center-preview-charter-2026-06-13.md) | ≥8 shots @1280 · AIC or script re-run |
-| 5 | [Prior FAIL report](uat-i96-research-center-preview-2026-06-13.md) | SSO wall — superseded on re-run if PASS |
-| 6 | [Domain + CI/CD SSOT](research-center-domain-and-cicd-ssot-2026-06-13.md) | `preview.erp` vs `erp` hostnames |
-| 7 | [CICD baseline SOP §5 bypass](../../../../references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/canonicals/SOP-CICD_BASELINE_001.md) | `VERCEL_AUTOMATION_BYPASS_SECRET` for automation |
+| 4 | [Preview UAT charter](uat-i96-research-center-preview-charter-2026-06-13.md) | ≥8 shots @1280 · use PR branch URL |
+| 5 | [Domain + CI/CD SSOT](research-center-domain-and-cicd-ssot-2026-06-13.md) | preview.erp vs PR branch · Supabase redirects |
+| 6 | [CICD baseline SOP §5 bypass](../../../../references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/canonicals/SOP-CICD_BASELINE_001.md) | `VERCEL_AUTOMATION_BYPASS_SECRET` |
+| 7 | [Prior FAIL report](uat-i96-research-center-preview-2026-06-13.md) | SSO wall — superseded on re-run if PASS |
 
-**Re-run script** (rotated secret — do not paste in chat):
+**Re-run script** (use PR branch host until preview.erp shows B1.5):
 
 ```powershell
 cd c:\Users\Shadow\cd_shadow\openclaw-akos
 $env:VERCEL_AUTOMATION_BYPASS_SECRET = "<your-rotated-secret>"
-$env:I96_PREVIEW_BASE = "https://preview.erp.holistikaresearch.com"
+$env:I96_PREVIEW_BASE = "https://hlk-erp-git-feat-i96-research-center-b15-holistika.vercel.app"
 node scripts/_one_off/i96_preview_l3_experiential_screenshots.mjs
 ```
 
