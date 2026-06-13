@@ -21,6 +21,11 @@ language: en
 | [`research-action-pack.md`](research-action-pack.md) | control | D-INF-ECON + 8-stage status table |
 | [`source-ledger-prong-ssot-2026-06-12.md`](source-ledger-prong-ssot-2026-06-12.md) | control | 14 charter aliases → `BL-*` |
 | [`source-ledger.csv`](source-ledger.csv) | 1–2 ingest/rate | **800 rows** (300 CORPINT + 500 OSINT) ✅ P3 |
+| [`baseline-state-2026-06-12.md`](baseline-state-2026-06-12.md) | 3 rank | P2 snapshot |
+| [`prong-bl-*.md`](prong-bl-data.md) | 4 synthesize | **14 prong files** ✅ P4 |
+| [`master-synthesis.md`](master-synthesis.md) | 4 rollup | D-INF-ECON option set |
+| [`master-synthesis-hxpestel.md`](master-synthesis-hxpestel.md) | 4 HxPESTAL | Macro lens |
+| [`hxpestal-intent-tracking-2026-06-12.md`](hxpestal-intent-tracking-2026-06-12.md) | 4 govern | `govern_ready: Y` |
 
 ## Source ledger at a glance
 
@@ -35,8 +40,8 @@ language: en
 | P1 pack shell | ✅ 2026-06-12 |
 | P2 internal CORPINT (≥300) | ✅ 2026-06-12 |
 | P3 external OSINT (≥500) | ✅ 2026-06-12 |
-| P4 synthesize 14 prongs | ⏳ next |
-| P5 govern (vault scope lock) | pending |
+| P4 synthesize 14 prongs | ✅ 2026-06-13 |
+| P5 govern (vault scope lock) | ⏳ next |
 | P6 vault tranches | **scheduled** — not dropped |
 
 Planning home: [`../../planning/97-infonomics-holistika-data-economics/master-roadmap.md`](../../planning/97-infonomics-holistika-data-economics/master-roadmap.md)

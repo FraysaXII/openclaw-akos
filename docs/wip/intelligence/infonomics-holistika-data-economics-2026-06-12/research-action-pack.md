@@ -51,8 +51,8 @@ Sub-questions map to `decision_use` tags:
 | 1 Ingest | [`source-ledger.csv`](source-ledger.csv) | ✅ **800 rows** (300 CORPINT + 500 OSINT) |
 | 2 Rate | per-row reliability + external credibility + Safe/Euclid/Keter | gated on ingest |
 | 3 Rank | `baseline-state-2026-06-12.md` + prong relevance | P2 |
-| 4 Synthesize | 14 × `prong-bl-*.md` + master syntheses | P4 |
-| 5 Govern | D-IH-97-C/D inline-ratify; overlap tracker | P5 **hard stop** |
+| 4 Synthesize | 14 × `prong-bl-*.md` + master syntheses | ✅ P4 |
+| 5 Govern | D-IH-97-C/D inline-ratify; overlap tracker | P5 **hard stop** ⏳ |
 | 6 Implement | Vault tranches (`INFONOMICS_DISCIPLINE.md`, PRECEDENCE) | P6 **scheduled** |
 | 7 Test | `validate_research_action.py` + UAT + HLK if canonical | P3/P6/P7 |
 | 8 Iterate | Disposition per cluster in master synthesis | P7–P8 |
