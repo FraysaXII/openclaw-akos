@@ -22,6 +22,7 @@ from akos.hlk_research_action import (  # noqa: E402
     ResearchSourceRow,
     fixture_source_row,
 )
+from akos.research_ledger_ops import BASELINE_PRONG_IDS, normalize_prong  # noqa: E402
 
 
 def _resolve_path(path_value: str | None) -> Path:
@@ -52,6 +53,18 @@ def validate_source_ledger(path: Path) -> tuple[bool, list[str], ResearchSourceL
             except Exception as exc:
                 messages.append(f"L{line_no}: {exc}")
                 continue
+            normalized_prong = normalize_prong(row.prong)
+            if normalized_prong not in BASELINE_PRONG_IDS:
+                messages.append(
+                    f"L{line_no}: prong {row.prong!r} is not a baseline consumer ID "
+                    f"(expected BL-* per RESEARCH_PRONG_LATTICE_DISCIPLINE.md; "
+                    f"got {normalized_prong!r} after normalize)"
+                )
+            elif normalized_prong != row.prong.strip():
+                messages.append(
+                    f"L{line_no}: prong {row.prong!r} should be {normalized_prong!r} "
+                    "(charter alias or typo — use baseline BL-* in the ledger CSV)"
+                )
             if row.source_id in seen:
                 messages.append(f"L{line_no}: duplicate source_id {row.source_id}")
             seen.add(row.source_id)

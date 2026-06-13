@@ -52,6 +52,10 @@ CHARTER_ALIAS_TO_BASELINE: dict[str, str] = {
     "P10-INTEL-OPS": "BL-INTEL",
     "P11-ENVOY-MADEIRA": "BL-ENVOY",
     "P12-RPA-ADAPTERS": "BL-ADAPTER",
+    # Automation OS R1 legacy charter id (agent CLI / monorepo OSINT block)
+    "P7-AGENT-CLI": "BL-ENVOY",
+    # WIP ledger typo alias (GOJ + analytics packs, 2026-06-12)
+    "BL-FINANCE": "BL-FIN",
 }
 
 BASELINE_PRONG_IDS = frozenset(
@@ -131,6 +135,23 @@ def validate_row_dict(raw: dict[str, Any]) -> ResearchSourceRow:
     if "prong" in payload:
         payload["prong"] = normalize_prong(str(payload.get("prong", "")))
     return ResearchSourceRow.model_validate(payload)
+
+
+def normalize_ledger_prong_rows(
+    rows: list[dict[str, str]],
+) -> tuple[list[dict[str, str]], int]:
+    """Rewrite ``prong`` cells to baseline ``BL-*`` IDs; return (rows, changed_count)."""
+    out: list[dict[str, str]] = []
+    changed = 0
+    for raw in rows:
+        prior = (raw.get("prong") or "").strip()
+        normalized = normalize_prong(prior)
+        if normalized != prior:
+            changed += 1
+        row = dict(raw)
+        row["prong"] = normalized
+        out.append(row)
+    return out, changed
 
 
 def load_runbook_prong_map(repo_root: Path) -> dict[str, str]:

@@ -44,6 +44,34 @@ def test_validate_source_ledger_rejects_bad_header(tmp_path: Path) -> None:
 
 
 @pytest.mark.hlk
+def test_validate_source_ledger_rejects_invalid_prong(tmp_path: Path) -> None:
+    ledger = tmp_path / "source-ledger.csv"
+    row = fixture_source_row().model_dump()
+    row["prong"] = "B"
+    _write_rows(ledger, [row])
+
+    ok, messages, summary = validate_source_ledger(ledger)
+
+    assert ok is False
+    assert summary is None
+    assert any("not a baseline consumer ID" in message for message in messages)
+
+
+@pytest.mark.hlk
+def test_validate_source_ledger_rejects_charter_alias_prong(tmp_path: Path) -> None:
+    ledger = tmp_path / "source-ledger.csv"
+    row = fixture_source_row().model_dump()
+    row["prong"] = "P1-TECH"
+    _write_rows(ledger, [row])
+
+    ok, messages, summary = validate_source_ledger(ledger)
+
+    assert ok is False
+    assert summary is None
+    assert any("should be 'BL-TECH'" in message for message in messages)
+
+
+@pytest.mark.hlk
 def test_validate_source_ledger_rejects_duplicate_ids(tmp_path: Path) -> None:
     ledger = tmp_path / "source-ledger.csv"
     row = fixture_source_row().model_dump()

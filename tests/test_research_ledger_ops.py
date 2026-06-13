@@ -17,6 +17,7 @@ def test_normalize_prong_charter_aliases():
     assert normalize_prong("P1-DATA") == "BL-DATA"
     assert normalize_prong("P8-MADEIRA") == "BL-ENVOY"
     assert normalize_prong("P12-RPA-ADAPTERS") == "BL-ADAPTER"
+    assert normalize_prong("P7-AGENT-CLI") == "BL-ENVOY"
 
 
 def test_normalize_prong_empty_defaults():
@@ -53,6 +54,10 @@ def test_resolve_prong_manifest_normalized():
     )
     assert prong == "BL-COMPLY"
     assert note == "prong-binding:manifest"
+
+
+def test_normalize_prong_finance_typo_alias():
+    assert normalize_prong("BL-FINANCE") == "BL-FIN"
 
 
 def test_baseline_registry_count():

@@ -7,6 +7,7 @@ Paired SOP target: SOP-RESEARCH_ACTION_001 (mint at Automation OS D4).
 Usage:
     py scripts/research_ledger.py bootstrap --pack akos-automation-os-governance-2026-06-10 --tranche R1
     py scripts/research_ledger.py validate --pack akos-automation-os-governance-2026-06-10
+    py scripts/research_ledger.py normalize-prongs --pack akos-automation-os-governance-2026-06-10
     py scripts/research_ledger.py census --pack akos-automation-os-governance-2026-06-10 --dry-run
 """
 from __future__ import annotations
@@ -24,6 +25,7 @@ from akos.research_ledger_ops import (  # noqa: E402
     ledger_path,
     load_rows,
     load_runbook_prong_map,
+    normalize_ledger_prong_rows,
     pack_dir,
     rel_url,
     resolve_prong_for_script,
@@ -181,6 +183,21 @@ def cmd_validate(pack_slug: str) -> int:
     return 0 if ok else 1
 
 
+def cmd_normalize_prongs(pack_slug: str, dry_run: bool) -> int:
+    pack_root = pack_dir(REPO_ROOT, pack_slug)
+    path = ledger_path(pack_root)
+    prior = load_rows(path)
+    if not prior:
+        raise SystemExit(f"ledger empty or missing: {path}")
+    normalized, changed = normalize_ledger_prong_rows(prior)
+    if dry_run:
+        print(f"dry-run: {path} would rewrite {changed}/{len(prior)} prong cells")
+        return 0
+    write_rows(path, normalized)
+    print(f"Wrote {path} — normalized {changed}/{len(prior)} prong cells to BL-*")
+    return cmd_validate(pack_slug)
+
+
 def cmd_census(pack_slug: str, dry_run: bool) -> int:
     pack_root = pack_dir(REPO_ROOT, pack_slug)
     manifest = _load_manifest(pack_root, "R1")
@@ -206,6 +223,13 @@ def main() -> int:
     p_val = sub.add_parser("validate", help="Validate pack ledger")
     p_val.add_argument("--pack", required=True)
 
+    p_norm = sub.add_parser(
+        "normalize-prongs",
+        help="Rewrite ledger prong column to baseline BL-* consumer IDs",
+    )
+    p_norm.add_argument("--pack", required=True)
+    p_norm.add_argument("--dry-run", action="store_true")
+
     p_cen = sub.add_parser("census", help="Preview script census rows")
     p_cen.add_argument("--pack", required=True)
     p_cen.add_argument("--dry-run", action="store_true")
@@ -215,6 +239,8 @@ def main() -> int:
         return cmd_bootstrap(args.pack, args.tranche)
     if args.cmd == "validate":
         return cmd_validate(args.pack)
+    if args.cmd == "normalize-prongs":
+        return cmd_normalize_prongs(args.pack, args.dry_run)
     if args.cmd == "census":
         return cmd_census(args.pack, args.dry_run)
     return 1

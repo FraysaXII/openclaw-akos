@@ -168,7 +168,7 @@ def fixture_source_row() -> ResearchSourceRow:
 
     return ResearchSourceRow(
         source_id="SRC-WR4-EF-01",
-        prong="E;F",
+        prong="BL-ENVOY",
         topic_cluster="agentic_context_and_pedagogy",
         source_title_or_owner="Nate B Jones video on agentic/context topics",
         url="https://www.youtube.com/watch?v=ogTLWGBc3cE",
