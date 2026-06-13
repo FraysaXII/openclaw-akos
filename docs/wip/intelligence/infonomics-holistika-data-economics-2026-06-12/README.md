@@ -9,9 +9,7 @@ language: en
 
 # Research action — Infonomics / Holistika data economics (2026-06-12)
 
-> **Named decision D-INF-ECON:** before minting enterprise Infonomics doctrine (scheduled P6),
-> what economic model should Holistika adopt for information and data assets across O5-1 areas?
-> Governed by the research-to-decision discipline (`RESEARCH_ACTION_DISCIPLINE.md`, decision `D-IH-86-FF`).
+> **Named decision D-INF-ECON:** enterprise Infonomics doctrine minted P6b — vault canonical [`INFONOMICS_DISCIPLINE.md`](../../../references/hlk/v3.0/Research/Methodology/canonicals/INFONOMICS_DISCIPLINE.md) (`D-IH-97-E`).
 
 ## Folder index
 
@@ -26,7 +24,8 @@ language: en
 | [`master-synthesis.md`](master-synthesis.md) | 4 rollup | D-INF-ECON option set |
 | [`master-synthesis-hxpestel.md`](master-synthesis-hxpestel.md) | 4 HxPESTAL | Macro lens |
 | [`hxpestal-intent-tracking-2026-06-12.md`](hxpestal-intent-tracking-2026-06-12.md) | 4 govern | `govern_ready: Y` — P5 cleared |
-| [`implementation-spec-2026-06-13.md`](implementation-spec-2026-06-13.md) | 6 implement | P6a→P6b tranche contract |
+| [`implementation-spec-2026-06-13.md`](implementation-spec-2026-06-13.md) | 6 implement | P6a→P6b tranche contract ✅ |
+| [`dcam-area-completeness-crosswalk-2026-06-13.md`](dcam-area-completeness-crosswalk-2026-06-13.md) | 6 P6a | DCAM ↔ AREA crosswalk |
 
 ## Source ledger at a glance
 
@@ -43,7 +42,8 @@ language: en
 | P3 external OSINT (≥500) | ✅ 2026-06-12 |
 | P4 synthesize 14 prongs | ✅ 2026-06-13 |
 | P5 govern (vault scope lock) | ✅ 2026-06-13 |
-| P6a DCAM level axis | ⏳ next (scheduled) |
-| P6b vault doctrine mint | scheduled |
+| P6a DCAM crosswalk | ✅ 2026-06-13 |
+| P6b vault doctrine mint | ✅ 2026-06-13 |
+| P7 closure UAT | ⏳ next |
 
 Planning home: [`../../planning/97-infonomics-holistika-data-economics/master-roadmap.md`](../../planning/97-infonomics-holistika-data-economics/master-roadmap.md)

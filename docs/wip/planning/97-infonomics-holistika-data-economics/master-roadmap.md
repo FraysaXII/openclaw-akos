@@ -32,7 +32,7 @@ Enterprise Infonomics research: 800-row source ledger, 14 BL prong syntheses, go
 |:---|:---|:---|
 | ~~#1~~ | ~~P0~~ | ~~INITIATIVE_REGISTRY (`D-IH-97-A`)~~ — **cleared 2026-06-12** |
 | ~~#2~~ | ~~P5~~ | ~~Govern ratify vault scope~~ — **cleared 2026-06-13** |
-| #3 | P6a→P6b | DCAM level axis (P6a) then doctrine mint (P6b) |
+| ~~#3~~ | ~~P6a→P6b~~ | ~~DCAM crosswalk + doctrine mint~~ — **cleared 2026-06-13** |
 
 ## Phase plan
 
@@ -44,8 +44,8 @@ Enterprise Infonomics research: 800-row source ledger, 14 BL prong syntheses, go
 | **P3** | External ~500 OSINT | 800 total ledger — ✅ [`p3 report`](reports/p3-external-osint-2026-06-12.md) |
 | **P4** | Synthesize | 14 prong files + HXPESTAL master — ✅ [`p4 report`](reports/p4-prong-syntheses-2026-06-13.md) |
 | **P5** | Govern ratify | p5-govern-ratify report — ✅ [`p5 report`](reports/p5-govern-ratify-2026-06-13.md) |
-| **P6a** | DCAM level axis (area completeness) | Prerequisite tranche — **scheduled** |
-| **P6b** | Vault doctrine mint | `INFONOMICS_DISCIPLINE` — **scheduled** |
+| **P6a** | DCAM integrity crosswalk | I94 L0–L5 evidence — ✅ [`p6a report`](reports/p6a-dcam-integrity-2026-06-13.md) |
+| **P6b** | Vault doctrine mint | `INFONOMICS_DISCIPLINE` — ✅ [`p6b report`](reports/p6b-doctrine-mint-2026-06-13.md) |
 | **P6c** | Optional process_list | D-IH-97-F — optional |
 | **P6d** | I94 extension | D-IH-97-G — optional / forward |
 | **P7** | Closure UAT | 11-section uat-i97 |

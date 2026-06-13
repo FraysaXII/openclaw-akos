@@ -33,18 +33,18 @@ gate: P5 closed — vault edits authorized at P6a/P6b only
 
 Cross-ref: I96 **D-IH-96-J** in [`../../planning/96-research-data-plane-and-research-center/decision-log.md`](../../planning/96-research-data-plane-and-research-center/decision-log.md).
 
-## P6a scope sketch (DCAM integrity)
+## P6a scope sketch (DCAM integrity) — **closed 2026-06-13**
 
-1. Add **maturity level** axis to area completeness bar (2-D component × level per `SRC-INF-EXT-004`, `SRC-INF-EXT-001`).
-2. Preserve deterministic heuristic (intersubjective verifiability — area-completeness Prong B).
-3. Do **not** mint Infonomics doctrine in P6a — vocabulary only in area bar + planning notes.
+1. ~~Add **maturity level** axis~~ — **already live** via I94 `D-IH-94-A` L0–L5 grid.
+2. Crosswalk + matrix evidence: [`dcam-area-completeness-crosswalk-2026-06-13.md`](dcam-area-completeness-crosswalk-2026-06-13.md).
+3. Closure: [`../../planning/97-infonomics-holistika-data-economics/reports/p6a-dcam-integrity-2026-06-13.md`](../../planning/97-infonomics-holistika-data-economics/reports/p6a-dcam-integrity-2026-06-13.md).
 
-## P6b scope sketch (doctrine mint)
+## P6b scope sketch (doctrine mint) — **closed 2026-06-13**
 
-1. Mint `docs/references/hlk/v3.0/Research/Methodology/canonicals/INFONOMICS_DISCIPLINE.md` (or Admin/O5-1 Data per PRECEDENCE placement at govern).
-2. PRECEDENCE + CANONICAL_REGISTRY rows.
-3. Amend (not replace): `DATA_CONTRACT_REGISTRY` economic columns, FINOPS registers, RevOps value-map surfaces per prong syntheses.
-4. `implementation-spec` closes when `validate_hlk.py` + research-action ledger still PASS.
+1. Mint [`INFONOMICS_DISCIPLINE.md`](../../../references/hlk/v3.0/Research/Methodology/canonicals/INFONOMICS_DISCIPLINE.md) ✅
+2. PRECEDENCE + CANONICAL_REGISTRY rows ✅
+3. Register economic hook **schema declared** in doctrine §4; physical CSV column append operator-gated (see p6b report)
+4. Closure: [`../../planning/97-infonomics-holistika-data-economics/reports/p6b-doctrine-mint-2026-06-13.md`](../../planning/97-infonomics-holistika-data-economics/reports/p6b-doctrine-mint-2026-06-13.md)
 
 ## Verification matrix (P6)
 

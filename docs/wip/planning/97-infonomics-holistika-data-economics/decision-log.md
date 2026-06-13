@@ -90,7 +90,29 @@ discoverability_path: docs/wip/planning/97-infonomics-holistika-data-economics/r
 
 ### D-IH-97-E — Promote doctrine + PRECEDENCE row
 
-**Status:** **scheduled** **P6b** — **not dropped** (after P6a DCAM tranche).
+**Status:** **Closed** 2026-06-13 at **P6b**.
+
+**Evidence:** [`reports/p6b-doctrine-mint-2026-06-13.md`](reports/p6b-doctrine-mint-2026-06-13.md); vault canonical [`INFONOMICS_DISCIPLINE.md`](../../../references/hlk/v3.0/Research/Methodology/canonicals/INFONOMICS_DISCIPLINE.md)
+
+**Follow-up:** Register CSV economic columns declared in doctrine §4 — physical append operator-gated (see p6b report).
+
+---
+
+## Closed at P6a (2026-06-13)
+
+### P6a — DCAM / area completeness integrity
+
+**Status:** **Closed** — I94 L0–L5 grid satisfies Option D prerequisite; crosswalk minted.
+
+**Evidence:** [`reports/p6a-dcam-integrity-2026-06-13.md`](reports/p6a-dcam-integrity-2026-06-13.md)
+
+---
+
+## Previously scheduled — archive header
+
+### D-IH-97-E — Promote doctrine + PRECEDENCE row
+
+**Status:** ~~scheduled P6b~~ → see **Closed** above.
 
 ```yaml
 posture: scheduled

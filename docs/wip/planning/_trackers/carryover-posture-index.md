@@ -39,7 +39,7 @@ language: en
 
 | index_id | posture | item_id | target / successor | activation_trigger | next_review | owner | discoverability_path |
 |:---|:---|:---|:---|:---|:---|:---|:---|
-| CO-97-001 | scheduled | D-IH-97-E | I97 P6b vault doctrine | P6a DCAM tranche complete | I97 P6a close OR 2026-07-01 | Operator | `docs/wip/intelligence/infonomics-holistika-data-economics-2026-06-12/implementation-spec-2026-06-13.md` |
+| CO-97-001 | superseded | D-IH-97-E | I97 P6b vault doctrine | Closed 2026-06-13 — INFONOMICS_DISCIPLINE minted | Archive | Operator | `docs/wip/planning/97-infonomics-holistika-data-economics/reports/p6b-doctrine-mint-2026-06-13.md` |
 | CO-97-002 | scheduled | D-IH-97-F | I97 P6c process_list | P6b mint + PMO approval | I97 P6b close OR 2026-07-01 | PMO | `docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md#D-IH-97-F` |
 | CO-97-003 | scheduled | D-IH-97-G | I97 P6d or forward-charter | P6b ratify I94 extension | I97 P6b close OR 2026-07-01 | CDO | `docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md#D-IH-97-G` |
 | CO-97-004 | superseded | D-IH-97-D | I96 consumes I97 P6b doctrine | Ratified Option B 2026-06-13 | Archive unless I96 dependency reopens | Operator | `docs/wip/planning/97-infonomics-holistika-data-economics/reports/p5-govern-ratify-2026-06-13.md` |
@@ -59,5 +59,5 @@ language: en
 
 | from_initiative | to_initiative | posture | activation_trigger | owner_decision_id | index_row |
 |:---|:---|:---|:---|:---|:---|
-| INIT-OPENCLAW_AKOS-97 | INIT-OPENCLAW_AKOS-96 | scheduled | I97 P6b doctrine stable; I96 Track D consumes | D-IH-97-D | CO-97-004 |
+| INIT-OPENCLAW_AKOS-97 | INIT-OPENCLAW_AKOS-96 | scheduled | I97 P6b doctrine stable ✅; I96 Track D consumes | D-IH-97-D | CO-97-004 |
 | INIT-OPENCLAW_AKOS-98 | — | scheduled | I98 P4 govern ratify | D-IH-98-C | CO-98-001 |
