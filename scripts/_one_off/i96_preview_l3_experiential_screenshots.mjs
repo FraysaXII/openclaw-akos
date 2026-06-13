@@ -18,8 +18,7 @@ const OUT_DIR = join(
 );
 
 const PREVIEW_BASE =
-  process.env.I96_PREVIEW_BASE ??
-  "https://hlk-erp-git-feat-i96-research-center-b15-holistika.vercel.app";
+  process.env.I96_PREVIEW_BASE ?? "https://preview.erp.holistikaresearch.com";
 const BYPASS = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
 const HEAD_SHA = process.env.I96_PREVIEW_SHA ?? "e47d8b9";
 const DEPLOY_ID =

@@ -15,8 +15,9 @@ operator_note: holistika.com is NOT Holistika's domain — DELETE from KB (opera
 
 | Tier | Host | Vercel | Data | Badge |
 |:---|:---|:---|:---|:---|
-| **Production** | `https://erp.holistikaresearch.com` | Production project on **main** merge | `DATA_MODE=live` | Production |
-| **Preview** | `*.vercel.app` or PR branch URL | Non-main deploy / `vercel` without `--prod` | Usually live or preview env | Preview |
+| **Production** | `https://erp.holistikaresearch.com` | **main** branch | `DATA_MODE=live` | Production |
+| **Preview** | `https://preview.erp.holistikaresearch.com` | All non-main branches / PRs (Vercel Preview env) | Preview env vars | Preview |
+| **Preview (fallback)** | `*.vercel.app` | Auto-generated PR URL if custom domain unavailable | Preview env | Preview |
 | **Showcase (demo)** | `showcase.holistikaresearch.com` | Separate showcase project | `DATA_MODE=demo` | Preview / demo banner |
 | **Local dev** | `http://localhost:3010` | Not Vercel | Dev `.env.local` | Local dev |
 

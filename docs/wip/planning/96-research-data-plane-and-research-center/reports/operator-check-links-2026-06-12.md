@@ -2,7 +2,7 @@
 parent_initiative: INIT-OPENCLAW_AKOS-96
 purpose: operator-validation index — click these, not subagent chats
 updated: 2026-06-13
-current_tranche: Gap-closure P-G5 — Preview UAT FAIL (SSO blocker)
+current_tranche: Gap-closure P-G5 — Preview UAT re-run ready
 ---
 
 # I96 — Operator check links
@@ -11,23 +11,32 @@ current_tranche: Gap-closure P-G5 — Preview UAT FAIL (SSO blocker)
 
 ---
 
-## Check now — Preview UAT blocked (2026-06-13)
+## Check now — Preview UAT re-run (2026-06-13)
 
-**Pipeline:** Local L3 **PWF** ✓ · Preview deploy **READY** · Preview UAT walk **FAIL** (SSO wall) · Production **blocked**
+**Pipeline:** Local L3 **PWF** ✓ · Preview **READY** (env vars set) · UAT **re-run pending** · Production **blocked**
 
-**Preview URL:** https://hlk-erp-git-feat-i96-research-center-b15-holistika.vercel.app/research-center
+**Preview URL (canonical):** https://preview.erp.holistikaresearch.com/research-center
 
 | # | Open this | Why |
 |:---:|:---|:---|
-| 1 | [Preview UAT report — FAIL](uat-i96-research-center-preview-2026-06-13.md) | AIC walk blocked — Vercel SSO 401; **0/8** journey shots |
-| 2 | [SSO wall diagnostic PNG](../../../../artifacts/uat-screenshots/i96-research-center-preview-2026-06-13/00-diagnostic-vercel-sso-wall-1280.png) | Proof of blocker (not ERP UI) |
-| 3 | [hlk-erp PR #36](https://github.com/FraysaXII/hlk-erp/pull/36) | SHA `e47d8b9` · Vercel check SUCCESS · deploy `dpl_8PobeHi92NB1gARScp4SHBXKSy5P` |
-| 4 | [Preview UAT charter](uat-i96-research-center-preview-charter-2026-06-13.md) | Re-run after bypass secret or operator Vercel login |
-| 5 | [B1.5 L3 PWF (localhost)](uat-i96-research-center-b15-experiential-2026-06-13.md) | Still valid dev evidence — **not** Preview substitute |
-| 6 | [CICD baseline SOP §5 bypass](../../../../references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/canonicals/SOP-CICD_BASELINE_001.md) | `VERCEL_AUTOMATION_BYPASS_SECRET` pattern |
-| 7 | [Master tranche P-G5](research-center-gap-closure-deploy-uat-tranche-2026-06-13.md) | Merge gate waits Preview PASS |
+| 1 | [Preview Research Center](https://preview.erp.holistikaresearch.com/research-center) | Custom Preview domain — confirm **Preview** badge |
+| 2 | [Dev sign-in → RC (preview)](https://preview.erp.holistikaresearch.com/api/dev/sign-in?next=%2Fresearch-center%3Fpov%3Doperator) | After bypass + Preview env vars |
+| 3 | [hlk-erp PR #36](https://github.com/FraysaXII/hlk-erp/pull/36) | Latest deploy · Vercel SUCCESS |
+| 4 | [Preview UAT charter](uat-i96-research-center-preview-charter-2026-06-13.md) | ≥8 shots @1280 · AIC or script re-run |
+| 5 | [Prior FAIL report](uat-i96-research-center-preview-2026-06-13.md) | SSO wall — superseded on re-run if PASS |
+| 6 | [Domain + CI/CD SSOT](research-center-domain-and-cicd-ssot-2026-06-13.md) | `preview.erp` vs `erp` hostnames |
+| 7 | [CICD baseline SOP §5 bypass](../../../../references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/canonicals/SOP-CICD_BASELINE_001.md) | `VERCEL_AUTOMATION_BYPASS_SECRET` for automation |
 
-**Unblock options:** (a) export `VERCEL_AUTOMATION_BYPASS_SECRET` to AIC and re-run `node scripts/_one_off/i96_preview_l3_experiential_screenshots.mjs` · (b) operator completes Vercel SSO in browser then spot-check preview · (c) temporary preview-protection waiver for PR #36.
+**Re-run script** (rotated secret — do not paste in chat):
+
+```powershell
+cd c:\Users\Shadow\cd_shadow\openclaw-akos
+$env:VERCEL_AUTOMATION_BYPASS_SECRET = "<your-rotated-secret>"
+$env:I96_PREVIEW_BASE = "https://preview.erp.holistikaresearch.com"
+node scripts/_one_off/i96_preview_l3_experiential_screenshots.mjs
+```
+
+Or say **run browser preview UAT** to watch the walk live.
 
 **Local dev:** [dev sign-in → Research Center](http://localhost:3010/api/dev/sign-in?next=/research-center)
 
