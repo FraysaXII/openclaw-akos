@@ -2,7 +2,7 @@
 parent_initiative: INIT-OPENCLAW_AKOS-96
 purpose: operator-validation index — click these, not subagent chats
 updated: 2026-06-13
-current_tranche: Gap-closure P-G1–G6 — Local L3 PWF → Preview blocked → Production blocked
+current_tranche: Gap-closure P-G5 — Preview UAT (AIC walk)
 ---
 
 # I96 — Operator check links
@@ -11,21 +11,21 @@ current_tranche: Gap-closure P-G1–G6 — Local L3 PWF → Preview blocked → 
 
 ---
 
-## Check now — Gap-closure tranche (2026-06-13)
+## Check now — Preview UAT (2026-06-13)
 
-**Pipeline:** Local L3 **PWF** ✓ · Preview **PR open** (Vercel deploy pending) · Production **blocked**
+**Pipeline:** Local L3 **PWF** ✓ · Preview **READY** · Production **blocked**
 
-**P-G1 ✓ · P-G1b ✓ (`770e1358`)** · **hlk-erp PR #36** → AIC Preview UAT when Vercel green
+**Preview URL:** https://hlk-erp-git-feat-i96-research-center-b15-holistika.vercel.app/research-center
 
 | # | Open this | Why |
 |:---:|:---|:---|
-| 1 | [hlk-erp PR #36](https://github.com/FraysaXII/hlk-erp/pull/36) | B1.5 branch pushed — wait Vercel Preview READY → AIC charter |
-| 2 | [SUBDOMAINS registry (canonical)](../../../../references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/Repositories/SUBDOMAINS_REGISTRY.md) | holistikaresearch.com-only — committed P-G1 |
-| 3 | [B1.5 L3 PWF report](uat-i96-research-center-b15-experiential-2026-06-13.md) | Localhost done — **does not** satisfy Preview charter |
-| 4 | [Preview UAT charter (AIC)](uat-i96-research-center-preview-charter-2026-06-13.md) | Fires after hlk-erp push + Vercel Preview green |
-| 5 | [Production UAT charter](uat-i96-research-center-production-charter-2026-06-13.md) | Fires after Preview PASS + main deploy on `erp.holistikaresearch.com` |
-| 6 | [IntelligenceOps population pack](intelligenceops-register-i96-population-2026-06-13.md) | Draft CSV rows — radar DUE 2026-06-15 disposition |
-| 7 | [Localhost screenshots (B1.5)](artifacts/uat-screenshots/i96-research-center-v2-b15-2026-06-13/01-operator-discover-1280-auth-dev-password.png) | Local dev badge — dev evidence only |
+| 1 | [Preview deploy (Research Center)](https://hlk-erp-git-feat-i96-research-center-b15-holistika.vercel.app/research-center) | Vercel **Ready** — confirm **Preview** badge |
+| 2 | [hlk-erp PR #36](https://github.com/FraysaXII/hlk-erp/pull/36) | SHA `e47d8b9` · CI lint/typecheck/unit PASS |
+| 3 | [Preview UAT charter (AIC)](uat-i96-research-center-preview-charter-2026-06-13.md) | **Active** — ≥8 shots @1280, Operator+Director |
+| 4 | [B1.5 L3 PWF report](uat-i96-research-center-b15-experiential-2026-06-13.md) | Localhost only — does **not** satisfy Preview |
+| 5 | [Production UAT charter](uat-i96-research-center-production-charter-2026-06-13.md) | After Preview PASS + main merge |
+| 6 | [Master tranche P-G5](research-center-gap-closure-deploy-uat-tranche-2026-06-13.md) | Preview walk → merge gate |
+| 7 | [Domain + CI/CD SSOT](research-center-domain-and-cicd-ssot-2026-06-13.md) | Never cite removed `holistika.com` apex |
 
 **Local dev:** [dev sign-in → Research Center](http://localhost:3010/api/dev/sign-in?next=/research-center)
 
