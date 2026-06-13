@@ -20,13 +20,15 @@ authoritative_plan: docs/wip/planning/97-infonomics-holistika-data-economics/mas
 >
 > **Active spine (2026-06-12):** This program until registry pause #1. AIC executes; you decide. [`OPERATOR_STEERING_AND_CARRYOVER.md`](../OPERATOR_STEERING_AND_CARRYOVER.md).
 
-Enterprise Infonomics research: 800-row source ledger, 14 BL prong syntheses, govern-gated vault tranches. Full phase plan in Cursor plan `i97_infonomics_research_991a9503.plan.md` (git mirror pending).
+Enterprise Infonomics research: 800-row source ledger, 14 BL prong syntheses, govern-gated vault tranches. Full phase plan in Cursor plan `i97_infonomics_research_991a9503.plan.md`.
+
+**Research pack (P1 shell):** [`docs/wip/intelligence/infonomics-holistika-data-economics-2026-06-12/`](../../../intelligence/infonomics-holistika-data-economics-2026-06-12/)
 
 ## Pause points
 
 | Pause | Phase | Gate |
 |:---|:---|:---|
-| #1 | P0 | INITIATIVE_REGISTRY approval (`D-IH-97-A`) — see [`reports/p0-registry-gate-2026-06-12.md`](reports/p0-registry-gate-2026-06-12.md) |
+| ~~#1~~ | ~~P0~~ | ~~INITIATIVE_REGISTRY (`D-IH-97-A`)~~ — **cleared 2026-06-12** |
 | #2 | P5 | Govern ratify vault scope |
 | #3 | P6 | Canonical mint |
 
@@ -35,7 +37,7 @@ Enterprise Infonomics research: 800-row source ledger, 14 BL prong syntheses, go
 | Phase | Purpose | Key deliverable |
 |:---|:---|:---|
 | **P0** | Initiative scaffold | Six-artifact set + cluster map (this commit) |
-| **P1** | Research pack shell | Intelligence folder + ledger header |
+| **P1** | Research pack shell | Intelligence folder + ledger header — [`pack`](../../../intelligence/infonomics-holistika-data-economics-2026-06-12/) ✅ |
 | **P2** | Internal ~300 CORPINT | baseline-state + ledger rows |
 | **P3** | External ~500 OSINT | 800 total ledger |
 | **P4** | Synthesize | 14 prong files + HXPESTAL master |
@@ -44,10 +46,11 @@ Enterprise Infonomics research: 800-row source ledger, 14 BL prong syntheses, go
 | **P7** | Closure UAT | 11-section uat-i97 |
 | **P8** | Index sync | README, dependencies, dashboard |
 
-## Verification (P0)
+## Verification (P1)
 
 ```powershell
-py scripts/validate_index_freshness.py --self-test
+py scripts/validate_research_action.py --self-test
+py scripts/validate_research_action.py --source-ledger docs/wip/intelligence/infonomics-holistika-data-economics-2026-06-12/source-ledger.csv
 py scripts/validate_carryover_posture.py --index docs/wip/planning/_trackers/carryover-posture-index.md --strict
 ```
 

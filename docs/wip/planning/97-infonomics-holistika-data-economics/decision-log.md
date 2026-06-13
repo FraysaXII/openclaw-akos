@@ -10,7 +10,7 @@ role_owner: Operator
 
 # I97 — Decision Log
 
-## Pause #1 — open (registry gate)
+## Pause #1 — closed (registry gate)
 
 ### D-IH-97-A — Mint Initiative 97 + INITIATIVE_REGISTRY row
 
@@ -26,7 +26,9 @@ role_owner: Operator
 
 ### D-IH-97-B — Accept 300+500 ledger bar + 15 topic clusters
 
-**Status:** ratified (pre-start AskQuestion). Closes at P1 pack shell.
+**Status:** **Closed** 2026-06-12 at P1 pack shell — encoded in intelligence pack charter + research-action-pack.
+
+**Evidence:** [`../../../intelligence/infonomics-holistika-data-economics-2026-06-12/charter.md`](../../../intelligence/infonomics-holistika-data-economics-2026-06-12/charter.md); [`reports/p1-pack-shell-2026-06-12.md`](reports/p1-pack-shell-2026-06-12.md)
 
 ---
 
