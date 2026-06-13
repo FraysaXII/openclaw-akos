@@ -42,6 +42,14 @@ linked_ladder: research-center-experiential-uat-ladder-2026-06-12.md
 - [ ] L1 mechanical green on PR head SHA (`tsc`, `research-center*.spec.ts`, BFF pytest)
 - [ ] L2 contract unchanged or re-ratified (page spec v2, P9b Figma)
 - [ ] No navigate CTA or auth callback cites `holistika.com` (KB purge / holistikaresearch.com only)
+- [ ] **Vercel Deployment Protection bypass** — if project auth is enabled on Preview, set `VERCEL_AUTOMATION_BYPASS_SECRET` (see [CI/CD baseline SOP §5](../../../../references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/canonicals/SOP-CICD_BASELINE_001.md)) or operator completes Vercel SSO before AIC walk. Without bypass, preview returns HTTP 401 → `vercel.com/login` (documented FAIL: [`uat-i96-research-center-preview-2026-06-13.md`](uat-i96-research-center-preview-2026-06-13.md)).
+
+## Re-run capture (after bypass)
+
+```powershell
+$env:VERCEL_AUTOMATION_BYPASS_SECRET = "<from Vercel project Deployment Protection>"
+node scripts/_one_off/i96_preview_l3_experiential_screenshots.mjs
+```
 
 ## Thorough experiential checklist (derived from ladder + B1.5)
 

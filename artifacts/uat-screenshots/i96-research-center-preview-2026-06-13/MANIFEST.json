@@ -1,0 +1,47 @@
+{
+  "initiative": "I96-research-center-v2",
+  "session": "2026-06-13-preview-l35-experiential",
+  "verdict_scope": "preview-operator-director-l35",
+  "capture_tool": "playwright",
+  "ladder_tier": "L3.5-Preview",
+  "deploy_tier": "preview",
+  "deploy_verification": {
+    "platform": "vercel",
+    "workflow": "feature-branch-pr",
+    "pr_url": "https://github.com/FraysaXII/hlk-erp/pull/36",
+    "deploy_id": "dpl_8PobeHi92NB1gARScp4SHBXKSy5P",
+    "source_sha": "e47d8b9",
+    "hostname": "https://hlk-erp-git-feat-i96-research-center-b15-holistika.vercel.app",
+    "badge_observed": null,
+    "badge_expected": "Preview",
+    "vendor_state": "READY",
+    "protection_blocker": "vercel-deployment-protection-sso-401"
+  },
+  "auth": "auth-dev-password-attempted",
+  "captured_at": "2026-06-13T16:47:44.188Z",
+  "captures": [
+    {
+      "file": "00-diagnostic-vercel-sso-wall-1280.png",
+      "route": "/research-center (blocked at Vercel SSO)",
+      "viewport": "1280x800",
+      "pov_lens": "n/a",
+      "journey_stage": "diagnostic",
+      "auth_state": "vercel-sso-wall",
+      "screenshot_sha256": "3bf73b1d6ce71bb75592a5006ada79d3099544d6c78977aecadfecdd41d69ec8",
+      "captured_at": "2026-06-13T16:48:00.000Z",
+      "notes": "HTTP 401 → vercel.com/login; not valid L3.5 journey evidence",
+      "supersedes": null
+    }
+  ],
+  "errors": [
+    "BLOCKER: Vercel Deployment Protection — all routes return 401 without x-vercel-protection-bypass or operator Vercel session",
+    "01-operator-discover-1280-auth-dev-password.png: Timeout waiting for Research Center heading (SSO redirect)",
+    "02-operator-triage-1280-auth-dev-password.png: Timeout waiting for Research Center heading (SSO redirect)",
+    "03-operator-drawer-open-1280-auth-dev-password.png: Timeout waiting for Research Center heading (SSO redirect)",
+    "04-operator-audit-1280-auth-dev-password.png: Timeout waiting for Research Center heading (SSO redirect)",
+    "05-director-discover-1280-auth-dev-password.png: Timeout waiting for Research Center heading (SSO redirect)",
+    "06-director-triage-1280-auth-dev-password.png: Timeout waiting for Research Center heading (SSO redirect)",
+    "07-director-drawer-open-1280-auth-dev-password.png: Timeout waiting for Research Center heading (SSO redirect)",
+    "08-director-audit-1280-auth-dev-password.png: Timeout waiting for Research Center heading (SSO redirect)"
+  ]
+}
