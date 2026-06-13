@@ -47,17 +47,48 @@ function extraHeaders() {
   return BYPASS ? { "x-vercel-protection-bypass": BYPASS } : {};
 }
 
+const NAV_TIMEOUT = 60_000;
+const HEADING_TIMEOUT = 30_000;
+
+async function seedBypassCookie(page) {
+  if (!BYPASS) return;
+  const seed = `${PREVIEW_BASE}/?x-vercel-set-bypass-cookie=true&x-vercel-protection-bypass=${encodeURIComponent(BYPASS)}`;
+  await page.goto(seed, { waitUntil: "domcontentloaded", timeout: NAV_TIMEOUT });
+}
+
+async function assertResearchCenter(page) {
+  const body = await page.locator("body").innerText({ timeout: 5_000 }).catch(() => "");
+  if (body.includes("Not available in production")) {
+    throw new Error(
+      "ERP dev sign-in blocked — set ALLOW_PREVIEW_DEV_SIGNIN=1 + DEV_PREVIEW_* on Vercel Preview env and redeploy",
+    );
+  }
+  const url = page.url();
+  const title = await page.title();
+  if (url.includes("vercel.com/login") || (title.includes("Vercel") && title.includes("Login"))) {
+    throw new Error(`Vercel SSO wall at ${url} — set VERCEL_AUTOMATION_BYPASS_SECRET`);
+  }
+  await page.getByRole("heading", { name: "Research Center" }).waitFor({
+    timeout: HEADING_TIMEOUT,
+  });
+}
+
 function authUrl(pov) {
   const nextPath = `/research-center?pov=${pov}`;
   const encoded = encodeURIComponent(nextPath);
   let url = `${PREVIEW_BASE}/api/dev/sign-in?next=${encoded}`;
   if (BYPASS) {
-    url += `&x-vercel-set-bypass-cookie=true&x-vercel-protection-bypass=${BYPASS}`;
+    url += `&x-vercel-set-bypass-cookie=true&x-vercel-protection-bypass=${encodeURIComponent(BYPASS)}`;
   }
   return url;
 }
 
 async function main() {
+  if (!BYPASS) {
+    console.error("Set VERCEL_AUTOMATION_BYPASS_SECRET before running.");
+    process.exit(1);
+  }
+
   mkdirSync(OUT_DIR, { recursive: true });
   const capturedAt = new Date().toISOString();
   const manifestRows = [];
@@ -70,6 +101,8 @@ async function main() {
   });
   const page = await context.newPage();
 
+  await seedBypassCookie(page);
+
   for (const [seq, lens, stage, pov] of CAPTURES) {
     const filename = `${seq}-${lens}-${stage}-1280-auth-dev-password.png`;
     const outPath = join(OUT_DIR, filename);
@@ -77,18 +110,14 @@ async function main() {
 
     try {
       if (stage === "discover") {
-        await page.goto(authUrl(pov), { waitUntil: "networkidle", timeout: 90_000 });
-        await page.getByRole("heading", { name: "Research Center" }).waitFor({
-          timeout: 45_000,
-        });
+        await page.goto(authUrl(pov), { waitUntil: "domcontentloaded", timeout: NAV_TIMEOUT });
+        await assertResearchCenter(page);
       } else {
         await page.goto(`${PREVIEW_BASE}${route}`, {
-          waitUntil: "networkidle",
-          timeout: 90_000,
+          waitUntil: "domcontentloaded",
+          timeout: NAV_TIMEOUT,
         });
-        await page.getByRole("heading", { name: "Research Center" }).waitFor({
-          timeout: 45_000,
-        });
+        await assertResearchCenter(page);
         if (stage === "drawer-open") {
           const details = page.getByRole("button", { name: "Details" }).first();
           if (await details.count()) {
@@ -104,12 +133,6 @@ async function main() {
             await page.waitForTimeout(500);
           }
         }
-      }
-
-      const url = page.url();
-      const title = await page.title();
-      if (url.includes("vercel.com/login") || (title.includes("Vercel") && title.includes("Login"))) {
-        throw new Error(`Vercel SSO wall at ${url}`);
       }
 
       await page.screenshot({ path: outPath, fullPage: false });
