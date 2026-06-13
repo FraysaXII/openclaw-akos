@@ -38,7 +38,7 @@ Enterprise Infonomics research: 800-row source ledger, 14 BL prong syntheses, go
 |:---|:---|:---|
 | **P0** | Initiative scaffold | Six-artifact set + cluster map (this commit) |
 | **P1** | Research pack shell | Intelligence folder + ledger header — [`pack`](../../../intelligence/infonomics-holistika-data-economics-2026-06-12/) ✅ |
-| **P2** | Internal ~300 CORPINT | baseline-state + ledger rows |
+| **P2** | Internal ~300 CORPINT | baseline-state + ledger rows — ✅ [`baseline`](../../../intelligence/infonomics-holistika-data-economics-2026-06-12/baseline-state-2026-06-12.md) |
 | **P3** | External ~500 OSINT | 800 total ledger |
 | **P4** | Synthesize | 14 prong files + HXPESTAL master |
 | **P5** | Govern ratify | p5-govern-ratify report — **hard stop before vault** |

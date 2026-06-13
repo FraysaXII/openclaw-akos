@@ -24,8 +24,9 @@ language: en
 
 ## Source ledger at a glance
 
-- **0 rows** at P1 shell (header validated); target **800** (300 CORPINT + 500 OSINT).
-- **15 topic clusters**; **14 baseline prongs** (`BL-*`).
+- **300 rows** at P2 close (CORPINT internal); target **800** (300 + 500 OSINT).
+- **14 baseline prongs** (`BL-*`); **11 topic clusters** at P2 (15 at charter close after P3).
+- Baseline: [`baseline-state-2026-06-12.md`](baseline-state-2026-06-12.md)
 - Validate: `py scripts/validate_research_action.py --source-ledger docs/wip/intelligence/infonomics-holistika-data-economics-2026-06-12/source-ledger.csv`
 
 ## Status
@@ -33,7 +34,8 @@ language: en
 | Milestone | State |
 |:---|:---|
 | P1 pack shell | ✅ 2026-06-12 |
-| P2 internal CORPINT (≥300) | ⏳ next |
+| P2 internal CORPINT (≥300) | ✅ 2026-06-12 |
+| P3 external OSINT (≥500) | ⏳ next |
 | P3 external OSINT (≥500) | pending |
 | P4 synthesize 14 prongs | pending |
 | P5 govern (vault scope lock) | pending |
