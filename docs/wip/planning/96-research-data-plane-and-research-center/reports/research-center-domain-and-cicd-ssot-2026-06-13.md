@@ -17,7 +17,45 @@ operator_note: holistika.com is NOT Holistika's domain — DELETE from KB (opera
 |:---|:---|:---|:---|:---|
 | **Production** | `https://erp.holistikaresearch.com` | **main** branch | `DATA_MODE=live` | Production |
 | **Preview** | `https://preview.erp.holistikaresearch.com` | All non-main branches / PRs (Vercel Preview env) | Preview env vars | Preview |
-| **Preview (fallback)** | `*.vercel.app` | Auto-generated PR URL if custom domain unavailable | Preview env | Preview |
+| **Preview (fallback)** | `*.vercel.app` | Auto-generated PR URL (Deployment Protection on) | Preview env | Preview |
+
+**Not UAT hosts:** `hlk-erp-git-main-*.vercel.app` is Vercel’s auto-alias for **main/production** builds — ignore for Preview ratify. Use `preview.erp.holistikaresearch.com` or the PR-specific `*.vercel.app` URL.
+
+**Verify Preview ≠ Production:** response body size differs (Preview PR deploy serves B1.5 Research Center; production main may lag until merge). Compare `curl -I` `Content-Length` or deploy badge (**Preview** vs **Production**).
+
+## Vercel environment variables (per tier — do not share across tiers)
+
+| Variable | Production | Preview | Local |
+|:---|:---|:---|:---|
+| `NEXT_PUBLIC_APP_URL` | `https://erp.holistikaresearch.com` | `https://preview.erp.holistikaresearch.com` | `http://localhost:3010` |
+| `ALLOW_PREVIEW_DEV_SIGNIN` | **unset** | `1` | optional |
+| `NEXT_PUBLIC_DEV_PASSWORD_AUTH` | **unset** | `1` | `1` in `.env.local` |
+| `DEV_PREVIEW_EMAIL` / `DEV_PREVIEW_PASSWORD` | **unset** | preview user | `.env.local` |
+| `VERCEL_AUTOMATION_BYPASS_SECRET` | auto (Vercel) | auto + GitHub secret for CI | local export for scripts |
+
+`NEXT_PUBLIC_VERCEL_ENV` is injected at build via `next.config.mjs` from `VERCEL_ENV` for deploy badge accuracy.
+
+## Supabase Auth (magic link / OAuth)
+
+Add **Redirect URLs** in Supabase Dashboard → Authentication → URL Configuration:
+
+- `https://preview.erp.holistikaresearch.com/auth/callback`
+- `https://erp.holistikaresearch.com/auth/callback`
+
+If preview magic links redirect to production, the preview callback is missing from this list.
+
+## CI/CD + observability gaps (I96 P-G5, 2026-06-13)
+
+| Gap | Status | Remediation |
+|:---|:---|:---|
+| Preview Playwright in CI with bypass header | Partial — SOP §5.1 + template exist; hlk-erp PR #36 not yet wired to `preview.erp` smoke post-merge | Add `playwright/auth.setup.ts` + CI job on `deployment_status` |
+| Vercel env-specific `NEXT_PUBLIC_APP_URL` | Operator must set per environment | This SSOT table |
+| Supabase multi-host redirect allow-list | Operator action | URLs above |
+| Sentry release tag `hlk-erp@<sha>` on Preview | `.env.example` has DSN; verify Preview `tracesSampleRate: 0` per SOP §5.2 posture | Vercel Preview env |
+| Vercel Runtime / Observability logs | Available in Vercel dashboard; not yet in AKOS UAT evidence | Optional: log drain row in OPS_REGISTER |
+| `vercel curl` / CLI smoke in release checklist | Documented in Vercel docs; not in hlk-erp README | Add to Preview UAT charter prerequisites |
+
+Cross-ref: [CI/CD baseline SOP §5.1](../../../../references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/canonicals/SOP-CICD_BASELINE_001.md) (Deployment Protection bypass).
 | **Showcase (demo)** | `showcase.holistikaresearch.com` | Separate showcase project | `DATA_MODE=demo` | Preview / demo banner |
 | **Local dev** | `http://localhost:3010` | Not Vercel | Dev `.env.local` | Local dev |
 
