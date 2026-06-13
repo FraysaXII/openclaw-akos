@@ -22,6 +22,7 @@ from akos.hlk_pricing_tier_registry_csv import (  # noqa: E402
     FinopsPerformanceObligationRow,
     PricingTierRegistryRow,
 )
+from akos.hlk_infonomics_register import INFORMATION_ASSET_REF_RE  # noqa: E402
 from pydantic import ValidationError  # noqa: E402
 
 PRICING_CSV = REPO_ROOT / (
@@ -41,6 +42,10 @@ DECISION_CSV = (
     / "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals"
     / "DECISION_REGISTER.csv"
 )
+DATA_CONTRACT_CSV = REPO_ROOT / (
+    "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/"
+    "dimensions/DATA_CONTRACT_REGISTRY.csv"
+)
 
 
 def _load_set(path: Path, key: str) -> set[str]:
@@ -55,6 +60,7 @@ def _validate_obligations() -> tuple[int, set[str], list[str]]:
     if not OBLIGATION_CSV.is_file():
         return 1, set(), [f"missing {OBLIGATION_CSV.relative_to(REPO_ROOT)}"]
     decisions = _load_set(DECISION_CSV, "decision_id")
+    contract_ids = _load_set(DATA_CONTRACT_CSV, "contract_id")
     obligation_ids: set[str] = set()
     with OBLIGATION_CSV.open(encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(fh)
@@ -75,6 +81,16 @@ def _validate_obligations() -> tuple[int, set[str], list[str]]:
                 errors.append(
                     f"obligation L{line_no}: last_review_decision_id {did!r} not in DECISION_REGISTER"
                 )
+            asset_ref = (row.get("information_asset_ref") or "").strip()
+            if asset_ref:
+                if not INFORMATION_ASSET_REF_RE.match(asset_ref):
+                    errors.append(
+                        f"obligation L{line_no}: information_asset_ref {asset_ref!r} invalid format"
+                    )
+                elif asset_ref.startswith("DC-HOL-") and asset_ref not in contract_ids:
+                    errors.append(
+                        f"obligation L{line_no}: information_asset_ref {asset_ref!r} not in DATA_CONTRACT_REGISTRY"
+                    )
     return (1 if errors else 0), obligation_ids, errors
 
 

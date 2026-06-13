@@ -49,6 +49,8 @@ ADAPTER_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "last_review_by",
     "last_review_decision_id",
     "methodology_version_at_review",
+    "handoff_cost_band",
+    "value_stream_id",
 )
 
 

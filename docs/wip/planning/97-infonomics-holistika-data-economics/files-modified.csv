@@ -61,3 +61,20 @@ P6b,docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md,upd
 P6b,docs/wip/planning/97-infonomics-holistika-data-economics/master-roadmap.md,updated,P6b complete
 P6b,docs/wip/planning/_trackers/carryover-posture-index.md,updated,CO-97-001 superseded
 P6b,docs/wip/intelligence/infonomics-holistika-data-economics-2026-06-12/README.md,updated,P6b status
+P6b-CSV,akos/hlk_infonomics_register.py,created,Shared Infonomics enum SSOT
+P6b-CSV,akos/hlk_data_contract_csv.py,updated,3 economic columns
+P6b-CSV,akos/hlk_finops_counterparty_csv.py,updated,information_asset_ref column
+P6b-CSV,akos/hlk_pricing_tier_registry_csv.py,updated,perf obligation information_asset_ref
+P6b-CSV,akos/hlk_adapter_registry_csv.py,updated,handoff_cost_band + value_stream_id
+P6b-CSV,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv,updated,14 rows backfilled
+P6b-CSV,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/finops/FINOPS_COUNTERPARTY_REGISTER.csv,updated,information_asset_ref backfill
+P6b-CSV,docs/references/hlk/v3.0/Admin/O5-1/Finance/Governance/canonicals/dimensions/FINOPS_PERFORMANCE_OBLIGATION_REGISTRY.csv,updated,information_asset_ref backfill
+P6b-CSV,docs/references/hlk/v3.0/Admin/O5-1/*/canonicals/dimensions/*_ADAPTER_REGISTRY.csv,updated,9 adapter registries
+P6b-CSV,scripts/validate_data_contract_registry.py,updated,enum validation
+P6b-CSV,scripts/validate_finops_counterparty_register.py,updated,asset ref FK
+P6b-CSV,scripts/validate_pricing_tier_registry.py,updated,asset ref FK
+P6b-CSV,scripts/validate_adapter_registries.py,updated,REVOPS hook validation
+P6b-CSV,supabase/migrations/20260613120000_i97_p6b_infonomics_register_columns.sql,created,mirror column DDL
+P6b-CSV,docs/references/hlk/v3.0/Research/Methodology/canonicals/INFONOMICS_DISCIPLINE.md,updated,§4 live tranche note
+P6b-CSV,docs/wip/planning/97-infonomics-holistika-data-economics/reports/p6b-csv-register-tranche-2026-06-13.md,created,P6b-CSV closure
+P6b-CSV,docs/wip/planning/97-infonomics-holistika-data-economics/reports/_apply_i97_register_columns.py,created,backfill script

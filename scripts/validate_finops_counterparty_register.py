@@ -14,6 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.hlk_finops_counterparty_csv import FINOPS_COUNTERPARTY_REGISTER_FIELDNAMES
+from akos.hlk_infonomics_register import INFORMATION_ASSET_REF_RE
 from akos.io import REPO_ROOT
 
 HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "People" / "Compliance" / "canonicals"
@@ -22,6 +23,11 @@ HLK_COMPLIANCE = REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / 
 # compliance/canonicals/finops/ per Initiative 22 forward layout convention.
 # Deprecation alias supported for one initiative cycle (removal at I81 P9 closure).
 FINOPS_CSV = HLK_COMPLIANCE / "finops" / "FINOPS_COUNTERPARTY_REGISTER.csv"
+DATA_CONTRACT_CSV = (
+    REPO_ROOT
+    / "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions"
+    / "DATA_CONTRACT_REGISTRY.csv"
+)
 _FINOPS_CSV_LEGACY = HLK_COMPLIANCE / "FINOPS_COUNTERPARTY_REGISTER.csv"
 if not FINOPS_CSV.is_file() and _FINOPS_CSV_LEGACY.is_file():
     FINOPS_CSV = _FINOPS_CSV_LEGACY
@@ -116,6 +122,17 @@ def load_component_ids() -> set[str]:
         return {r["component_id"].strip() for r in csv.DictReader(f) if r.get("component_id")}
 
 
+def load_contract_ids() -> set[str]:
+    if not DATA_CONTRACT_CSV.is_file():
+        return set()
+    with open(DATA_CONTRACT_CSV, encoding="utf-8", newline="") as f:
+        return {
+            (r.get("contract_id") or "").strip()
+            for r in csv.DictReader(f)
+            if (r.get("contract_id") or "").strip()
+        }
+
+
 def main() -> int:
     print("\n  FINOPS_COUNTERPARTY_REGISTER Validator")
     print("  " + "=" * 40)
@@ -133,6 +150,7 @@ def main() -> int:
     proc_ids, proc_by_id = load_process_meta()
     reg_slugs = load_registry_slugs()
     comp_ids = load_component_ids()
+    contract_ids = load_contract_ids()
 
     errors: list[str] = []
     with open(FINOPS_CSV, encoding="utf-8", newline="") as f:
@@ -236,6 +254,15 @@ def main() -> int:
         notes = (r.get("notes") or "").lower()
         if re.search(r"\b\d+[.,]\d{2}\s*(usd|eur|gbp|\$)\b", notes):
             errors.append(f"row {i}: notes may not contain currency amounts")
+
+        asset_ref = (r.get("information_asset_ref") or "").strip()
+        if asset_ref:
+            if not INFORMATION_ASSET_REF_RE.match(asset_ref):
+                errors.append(f"row {i}: information_asset_ref {asset_ref!r} invalid format")
+            elif asset_ref.startswith("DC-HOL-") and asset_ref not in contract_ids:
+                errors.append(
+                    f"row {i}: information_asset_ref {asset_ref!r} not in DATA_CONTRACT_REGISTRY"
+                )
 
     if errors:
         print(f"  FAIL: {len(errors)} issue(s)")

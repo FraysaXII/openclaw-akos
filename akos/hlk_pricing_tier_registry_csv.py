@@ -44,6 +44,7 @@ FINOPS_PERFORMANCE_OBLIGATION_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "last_review_decision_id",
     "methodology_version_at_review",
     "notes",
+    "information_asset_ref",
 )
 
 VALID_PRICING_TIER_STATUSES: frozenset[str] = frozenset({
@@ -97,6 +98,7 @@ class FinopsPerformanceObligationRow(BaseModel):
     last_review_decision_id: str = Field(min_length=1, max_length=32)
     methodology_version_at_review: str = Field(min_length=1, max_length=16)
     notes: str = Field(default="", max_length=2000)
+    information_asset_ref: str = Field(default="", max_length=120)
 
 
 class PricingTierRegistryRow(BaseModel):

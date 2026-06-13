@@ -24,6 +24,10 @@ from akos.hlk_adapter_registry_csv import (  # noqa: E402
     VALID_FEATURE_FLAGS,
     VALID_STATUSES,
 )
+from akos.hlk_infonomics_register import (  # noqa: E402
+    VALID_HANDOFF_COST_BANDS,
+    VALID_REVOPS_VALUE_STREAM_IDS,
+)
 
 ADAPTER_ID_RE = re.compile(r"^[a-z0-9_]{3,80}$")
 TODO_MARKER_RE = re.compile(r"^TODO\[[A-Za-z0-9_\-:]+\]$")
@@ -72,6 +76,21 @@ def main() -> int:
                     p2 = REPO_ROOT / sp
                     if not p2.exists():
                         warnings.append(f"{cls_name} L{line_no} {aid}: linked_sop_path {sp!r} does not resolve (paired SOP authoring may be deferred per D-IH-72-W)")
+                hcb = (row.get("handoff_cost_band") or "").strip()
+                if hcb and hcb not in VALID_HANDOFF_COST_BANDS:
+                    errors.append(
+                        f"{cls_name} L{line_no} {aid}: handoff_cost_band {hcb!r} invalid"
+                    )
+                vsid = (row.get("value_stream_id") or "").strip()
+                if vsid and vsid not in VALID_REVOPS_VALUE_STREAM_IDS:
+                    errors.append(
+                        f"{cls_name} L{line_no} {aid}: value_stream_id {vsid!r} invalid"
+                    )
+                if cls_name == "REVOPS":
+                    if not hcb:
+                        errors.append(f"{cls_name} L{line_no} {aid}: handoff_cost_band required for REVOPS")
+                    if not vsid:
+                        errors.append(f"{cls_name} L{line_no} {aid}: value_stream_id required for REVOPS")
 
     print()
     print("  ADAPTER_REGISTRIES Validator")

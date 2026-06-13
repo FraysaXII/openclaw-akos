@@ -15,6 +15,12 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from akos.hlk_infonomics_register import (  # noqa: F401 — re-export for validators
+    VALID_CARRYING_COST_BANDS,
+    VALID_ECONOMIC_VALUE_CLASSES,
+    VALID_MONETIZATION_STATUSES,
+)
+
 DATA_CONTRACT_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "contract_id",
     "producer_process_id",
@@ -36,6 +42,9 @@ DATA_CONTRACT_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "last_review_decision_id",
     "methodology_version_at_review",
     "notes",
+    "economic_value_class",
+    "carrying_cost_band",
+    "monetization_status",
 )
 
 VALID_DATA_SURFACES: frozenset[str] = frozenset({
@@ -97,3 +106,17 @@ class DataContractRegistryRow(BaseModel):
     last_review_decision_id: str = Field(min_length=1, max_length=32)
     methodology_version_at_review: str = Field(min_length=1, max_length=16)
     notes: str = Field(default="", max_length=2000)
+    economic_value_class: Literal[
+        "rework_avoided",
+        "revenue_enabled",
+        "risk_reduced",
+        "opex_only",
+        "unclassified",
+    ] = "unclassified"
+    carrying_cost_band: Literal["negligible", "low", "medium", "high"] = "low"
+    monetization_status: Literal[
+        "not_applicable",
+        "indirect",
+        "direct",
+        "deferred",
+    ] = "not_applicable"

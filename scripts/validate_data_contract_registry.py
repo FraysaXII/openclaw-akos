@@ -22,6 +22,11 @@ from akos.hlk_data_contract_csv import (  # noqa: E402
     VALID_DATAOPS_QUALITY_CODES,
     DataContractRegistryRow,
 )
+from akos.hlk_infonomics_register import (  # noqa: E402
+    VALID_CARRYING_COST_BANDS,
+    VALID_ECONOMIC_VALUE_CLASSES,
+    VALID_MONETIZATION_STATUSES,
+)
 from pydantic import ValidationError  # noqa: E402
 
 CSV_PATH = REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv"
@@ -98,6 +103,21 @@ def validate_csv() -> tuple[int, int]:
                     errors.append(
                         f"L{line_no}: consumer_area_ids {area!r} not in VALID_CONSUMER_AREAS"
                     )
+            evc = (row.get("economic_value_class") or "").strip()
+            if evc not in VALID_ECONOMIC_VALUE_CLASSES:
+                errors.append(
+                    f"L{line_no}: economic_value_class {evc!r} not in VALID_ECONOMIC_VALUE_CLASSES"
+                )
+            ccb = (row.get("carrying_cost_band") or "").strip()
+            if ccb not in VALID_CARRYING_COST_BANDS:
+                errors.append(
+                    f"L{line_no}: carrying_cost_band {ccb!r} not in VALID_CARRYING_COST_BANDS"
+                )
+            ms = (row.get("monetization_status") or "").strip()
+            if ms not in VALID_MONETIZATION_STATUSES:
+                errors.append(
+                    f"L{line_no}: monetization_status {ms!r} not in VALID_MONETIZATION_STATUSES"
+                )
             schema_ref = (row.get("schema_ref") or "").strip()
             if schema_ref.startswith("docs/"):
                 ref_path = REPO_ROOT / schema_ref
@@ -139,6 +159,9 @@ def run_self_test() -> int:
         "last_review_decision_id": "D-IH-93-D",
         "methodology_version_at_review": "v3.1",
         "notes": "self-test fixture only",
+        "economic_value_class": "unclassified",
+        "carrying_cost_band": "low",
+        "monetization_status": "not_applicable",
     }
     try:
         DataContractRegistryRow.model_validate(sample)

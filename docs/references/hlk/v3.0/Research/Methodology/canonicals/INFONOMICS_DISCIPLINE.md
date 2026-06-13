@@ -62,7 +62,7 @@ A **Holistika information asset** is a governed artifact (register row, canonica
 
 ## 4. Register economic hooks (amend targets)
 
-These columns extend existing registers **without replacing** them. Physical CSV tranche follows operator canonical-CSV gate; schema is binding at doctrine ratification.
+These columns extend existing registers **without replacing** them. Physical CSV tranche landed **2026-06-13** (P6b-CSV); Pydantic SSOT in `akos/hlk_*` modules + mirror DDL `20260613120000_i97_p6b_infonomics_register_columns.sql`.
 
 ### 4.1 DATA_CONTRACT_REGISTRY (Data)
 

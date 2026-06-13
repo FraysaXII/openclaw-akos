@@ -28,7 +28,7 @@ Closes **D-IH-97-E** and **CO-97-001**. I96 Track D may proceed on stable vocabu
 
 ## Register CSV follow-up (explicit)
 
-Doctrine **§4** declares `economic_value_class`, `carrying_cost_band`, and `monetization_status` hooks. **Physical CSV column append** on `DATA_CONTRACT_REGISTRY` + FINOPS/RevOps registers requires the **canonical CSV operator gate** (Pydantic + validator header sync). Scheduled as optional **P6b-CSV** tranche — empty columns on day one are WARN per doctrine §6 anti-pattern 5.
+~~Doctrine **§4** declares … physical CSV column append operator-gated~~ — **Closed 2026-06-13** via [`p6b-csv-register-tranche-2026-06-13.md`](p6b-csv-register-tranche-2026-06-13.md).
 
 ## Verification
 
