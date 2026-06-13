@@ -13,13 +13,13 @@ current_tranche: Gap-closure P-G1–G6 — Local L3 PWF → Preview blocked → 
 
 ## Check now — Gap-closure tranche (2026-06-13)
 
-**Pipeline:** Local L3 **PWF** ✓ · Preview **blocked** (no PR yet) · Production **blocked**
+**Pipeline:** Local L3 **PWF** ✓ · Preview **PR open** (Vercel deploy pending) · Production **blocked**
 
-**P-G1 ✓ · P-G1b ✓ (AKOS KB purge committed 2026-06-13)** · Next = **hlk-erp PR** (sibling repo hostname purge + Preview deploy)
+**P-G1 ✓ · P-G1b ✓ (`770e1358`)** · **hlk-erp PR #36** → AIC Preview UAT when Vercel green
 
 | # | Open this | Why |
 |:---:|:---|:---|
-| 1 | [Master tranche charter](research-center-gap-closure-deploy-uat-tranche-2026-06-13.md) | P-G1 done · P-G1b done · **Next:** hlk-erp PR for Preview UAT |
+| 1 | [hlk-erp PR #36](https://github.com/FraysaXII/hlk-erp/pull/36) | B1.5 branch pushed — wait Vercel Preview READY → AIC charter |
 | 2 | [SUBDOMAINS registry (canonical)](../../../../references/hlk/v3.0/Admin/O5-1/Envoy%20Tech%20Lab/Repositories/SUBDOMAINS_REGISTRY.md) | holistikaresearch.com-only — committed P-G1 |
 | 3 | [B1.5 L3 PWF report](uat-i96-research-center-b15-experiential-2026-06-13.md) | Localhost done — **does not** satisfy Preview charter |
 | 4 | [Preview UAT charter (AIC)](uat-i96-research-center-preview-charter-2026-06-13.md) | Fires after hlk-erp push + Vercel Preview green |
