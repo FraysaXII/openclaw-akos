@@ -3,7 +3,7 @@ language: en
 sharing_label: internal_only
 intellectual_kind: initiative_dependency_matrix
 last_generated: 2026-06-10
-generated_by: I95 Tranche 2 INDEX_INTEGRITY Wave N backfill (IDX-04 refresh — I90–I95 articulation cluster edges promoted from i95-initiative-cluster-map)
+generated_by: I96 P0 program mint INDEX_INTEGRITY refresh (2026-06-11 — I96 node + edges; I90–I95 cluster retained)
 ratifying_decisions:
   - D-IH-86-CD
   - D-IH-86-CG
@@ -72,6 +72,49 @@ flowchart TB
 | I95 Canonical articulation model (HCAM) | active | I94 model; I93 DATA canon; Neo4j projection | Relationship registry + verb triples + graph CQ harness (F6 PASS). |
 | I88 Cross-area Ops wiring review | active | I86 Wave M promotion | FINOPS + Research deep examples; L4 orphan burn-down with I95. |
 | I89 HLK-ERP persona rollup | active | I86 P3 forward-charter; I95 GOV register semantics | Sibling `hlk-erp`; six persona routes. |
+
+## I96 research data plane + Research Center (active)
+
+Program coordinator under I86 for the three-plane research stack (Govern AKOS → Execute KiRBe → Experience HLK-ERP). Authoritative table: [`i96-initiative-cluster-map.md`](../../../../../../../wip/planning/96-research-data-plane-and-research-center/i96-initiative-cluster-map.md).
+
+```mermaid
+flowchart TB
+  I86[I86 cluster coordinator]
+  I96[I96 Research Data Plane + Research Center]
+  I75[I75 Research area governance]
+  I83[I83 AI Archivist + KiRBe ingestor]
+  I88[I88 Cross-Area Ops wiring]
+  I92[I92 HLK-ERP reassess]
+  I95[I95 HCAM articulation]
+
+  I86 --> I96
+  I75 --> I96
+  I83 --> I96
+  I88 --> I96
+  I95 --> I96
+  I96 --> I92
+  I96 -.ledger ingest.-> I83
+  I96 -.Research Center UI.-> I92
+```
+
+| Initiative | Status | Depends on | Notes |
+|:---|:---|:---|:---|
+| I96 Research data plane + Research Center | active (program_line) | I86 program_line; D-IH-75-G lifecycle; I83 KiRBe path; I92 ERP consumer | Four tracks: Automation OS ledger, data-plane specs, ingest contract, ERP `/research-center` v1. P0 mint 2026-06-11 (`D-IH-96-A`). |
+| I75 Research area governance | active | I86 Wave O | Methodology + radar SSOT; I96 Track B consumes registers. |
+| I83 AI Archivist + KiRBe ingestor | active | I82 capability doctrine | I96 Track C ledger→vault ingest handoff at P2/P3. |
+| I88 Cross-area Ops wiring review | active | I86 Wave M | Research OPS deep example; data-consumer inventory crosswalk. |
+| I92 HLK-ERP reassess & dashboard | active (stub) | I91 matrix; I96 page spec | Research Center v1 consumer (`/research-center`). |
+| I95 Canonical articulation model | active | I94 model | HCAM graph + SRC tagging; I96 field-mapping alignment. |
+
+## Carryover edges (I98 — scheduled ≠ dropped)
+
+> Indexed at [`carryover-posture-index.md`](../../../../../../../wip/planning/_trackers/carryover-posture-index.md). SSOT: `akos/planning/carryover_posture.py`.
+
+| from_initiative | to_initiative | posture | activation_trigger | owner_decision_id | index_row |
+|:---|:---|:---|:---|:---|:---|
+| INIT-OPENCLAW_AKOS-97 | INIT-OPENCLAW_AKOS-96 | overlap_pending | I97 P5 govern ratify | D-IH-97-D | CO-97-004 |
+| INIT-OPENCLAW_AKOS-96 | — | scheduled | Research Center v1 PASS → P10 feed | D-IH-96-D | CO-96-001 |
+| INIT-OPENCLAW_AKOS-98 | — | forward_charter | Operator vault SSOT request | D-IH-98-C | — |
 
 ## I86 cluster coordinator (active)
 

@@ -43,6 +43,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from akos.io import REPO_ROOT
+from akos.planning.carryover_posture import (
+    INDEX_DASHBOARD_POSTURES,
+    POSTURE_PLAIN_LABELS,
+)
 from akos.planning.status_taxonomy import (
     DASHBOARD_SECTION_ORDER,
     DASHBOARD_SECTION_TITLES,
@@ -52,6 +56,7 @@ from akos.planning.status_taxonomy import (
 
 PLANNING_DIR = REPO_ROOT / "docs" / "wip" / "planning"
 DASHBOARD_PATH = PLANNING_DIR / "WIP_DASHBOARD.md"
+CARRYOVER_INDEX_PATH = PLANNING_DIR / "_trackers" / "carryover-posture-index.md"
 INITIATIVE_DIR_RE = re.compile(r"^(\d{2}[a-z]?)-(.+)$")
 H1_RE = re.compile(r"^#\s+(.+?)$", re.MULTILINE)
 STATUS_RE = re.compile(r"\*\*?Status:?\*?\*?\s*(.+?)$", re.MULTILINE | re.IGNORECASE)
@@ -62,6 +67,12 @@ DATE_RE = re.compile(r"\*\*?Date:?\*?\*?\s*(\d{4}-\d{2}-\d{2})", re.MULTILINE | 
 
 BEGIN_MARKER = "<!-- BEGIN AUTO -->"
 END_MARKER = "<!-- END AUTO -->"
+CARRYOVER_BEGIN_MARKER = "<!-- BEGIN CARRYOVER AUTO -->"
+CARRYOVER_END_MARKER = "<!-- END CARRYOVER AUTO -->"
+
+CARRYOVER_INDEX_ROW_RE = re.compile(
+    r"^\|\s*(CO-\d+-\d+)\s*\|\s*([a-z_]+)\s*\|\s*([^|]+)\|\s*([^|]+)\|\s*([^|]+)\|\s*([^|]+)\|\s*([^|]+)\|\s*`?([^|`]+)`?\s*\|"
+)
 
 UNKNOWN_BUCKET = "unknown"
 
@@ -215,6 +226,81 @@ def _render_grouped_table(rows: list[dict[str, str]]) -> str:
     return "\n".join(out) + "\n"
 
 
+def _parse_carryover_index_rows() -> list[dict[str, str]]:
+    if not CARRYOVER_INDEX_PATH.is_file():
+        return []
+    text = CARRYOVER_INDEX_PATH.read_text(encoding="utf-8")
+    rows: list[dict[str, str]] = []
+    in_table = False
+    for line in text.splitlines():
+        if "index_id | posture | item_id" in line and "discoverability_path" in line:
+            in_table = True
+            continue
+        if in_table:
+            if not line.startswith("|"):
+                if rows:
+                    break
+                continue
+            if ":---" in line:
+                continue
+            m = CARRYOVER_INDEX_ROW_RE.match(line.strip())
+            if not m:
+                continue
+            posture = m.group(2).strip()
+            if posture not in INDEX_DASHBOARD_POSTURES:
+                continue
+            rows.append(
+                {
+                    "index_id": m.group(1).strip(),
+                    "posture": posture,
+                    "item_id": m.group(3).strip(),
+                    "target": m.group(4).strip(),
+                    "activation_trigger": m.group(5).strip(),
+                    "next_review": m.group(6).strip(),
+                    "owner": m.group(7).strip(),
+                    "discoverability_path": m.group(8).strip().strip("`"),
+                }
+            )
+    return rows
+
+
+def _render_carryover_section() -> str:
+    rows = _parse_carryover_index_rows()
+    if not rows:
+        return "_(no scheduled carryover rows in index)_\n"
+    lines = [
+        "| Index | Posture | Item | Target | Activation trigger | Next review | Owner |",
+        "|:---:|:---|:---|:---|:---|:---|:---|",
+    ]
+    for r in rows:
+        label = POSTURE_PLAIN_LABELS.get(r["posture"], r["posture"])
+        lines.append(
+            f"| **{r['index_id']}** | {label} | {r['item_id']} | {r['target']} | "
+            f"{r['activation_trigger']} | {r['next_review']} | {r['owner']} |"
+        )
+    lines.append("")
+    lines.append(
+        f"Full index: [`carryover-posture-index.md`](_trackers/carryover-posture-index.md) "
+        f"— **scheduled ≠ dropped**."
+    )
+    return "\n".join(lines) + "\n"
+
+
+def _splice_carryover_into_dashboard(carryover: str, text: str) -> str:
+    if CARRYOVER_BEGIN_MARKER in text and CARRYOVER_END_MARKER in text:
+        pre, _, rest = text.partition(CARRYOVER_BEGIN_MARKER)
+        _, _, post = rest.partition(CARRYOVER_END_MARKER)
+        return f"{pre}{CARRYOVER_BEGIN_MARKER}\n{carryover}{CARRYOVER_END_MARKER}{post}"
+    insert = (
+        f"\n\n## Scheduled carryover (cross-initiative)\n\n"
+        f"{CARRYOVER_BEGIN_MARKER}\n{carryover}{CARRYOVER_END_MARKER}\n"
+    )
+    if END_MARKER in text:
+        idx = text.index(END_MARKER) + len(END_MARKER)
+        return text[:idx] + insert + text[idx:]
+    return text + insert
+
+
 def _splice_into_dashboard(table: str) -> str:
     """Splice the rendered table between BEGIN AUTO and END AUTO markers.
 
@@ -254,7 +340,9 @@ def main() -> int:
 
     rows = _scan_initiatives()
     table = _render_grouped_table(rows)
+    carryover = _render_carryover_section()
     new_text = _splice_into_dashboard(table)
+    new_text = _splice_carryover_into_dashboard(carryover, new_text)
 
     existing = DASHBOARD_PATH.read_text(encoding="utf-8") if DASHBOARD_PATH.is_file() else ""
     new_hash = hashlib.sha256(new_text.encode("utf-8")).hexdigest()

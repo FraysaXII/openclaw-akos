@@ -1,0 +1,10 @@
+path,phase,action,commit_hint
+akos/planning/carryover_posture.py,P0,create,I98 P0
+scripts/validate_carryover_posture.py,P0,create,I98 P0
+docs/wip/planning/_trackers/carryover-posture-index.md,P0,create,I98 P0
+docs/wip/planning/_templates/carryover-posture-row.md,P0,create,I98 P0
+.cursor/rules/akos-planning-traceability.mdc,P0,extend,I98 P0
+.cursor/rules/akos-operator-communication.mdc,P0,extend,I98 P0
+.cursor/rules/akos-conflict-surfacing-and-blocker-trackers.mdc,P0,extend,I98 P0
+scripts/render_wip_dashboard.py,P0,extend,I98 P0
+docs/wip/planning/98-carryover-posture-clarity/,P0,create,I98 P0

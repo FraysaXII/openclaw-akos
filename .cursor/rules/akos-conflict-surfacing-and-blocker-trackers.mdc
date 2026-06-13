@@ -158,6 +158,22 @@ The I76 P0 charter applied this rule's four artifact shapes simultaneously:
 
 All four shapes were minted in the same commit (Wave A: `534ce3f`). Operator visibility preserved across all four candidates; speculative-promotion debt avoided; consolidation decisions deferred to the phases where they're sharpest.
 
+## Carryover posture mapping (I98 — binds Option 5 shapes to discoverability)
+
+Each governance-shape artifact MUST declare a **carryover posture** from
+[`akos/planning/carryover_posture.py`](../../akos/planning/carryover_posture.py) and register
+in [`carryover-posture-index.md`](../../docs/wip/planning/_trackers/carryover-posture-index.md):
+
+| Option 5 artifact | Carryover posture | Operator plain label |
+|:---|:---|:---|
+| Scope-overlap-tracker | `overlap_pending` | Overlap pending phase ratify — **not dropped** |
+| Blocker-tracker | `blocked` | Blocked on activation gates — **not dropped** |
+| Forward-charter / OPS forward edge | `forward_charter` | Successor owns continuation |
+| Phase-deferred deliverable (evidence first) | `scheduled` | Scheduled after evidence — **not dropped** |
+| Explicit decommission | `dropped` | Out of scope |
+
+Bare "deferred" in tracker prose must pair with one of the above postures + `discoverability_path`.
+
 ## Cross-references
 
 - Paired skill (the *how* layer): [`.cursor/skills/conflict-surfacing-craft/SKILL.md`](../skills/conflict-surfacing-craft/SKILL.md) — minted at drain7 (Wave R close) per D-IH-86-CT.

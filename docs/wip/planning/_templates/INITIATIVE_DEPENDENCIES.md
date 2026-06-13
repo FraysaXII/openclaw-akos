@@ -243,6 +243,21 @@ Decisions **D-IH-86-A..E** (2026-05-16) encode: **PMO + System Owner co-own** wi
 
 ---
 
+## 3.9 Carryover edges (scheduled ≠ dropped)
+
+> **I98 P0.** Cross-initiative work-item carryover indexed at
+> [`carryover-posture-index.md`](../_trackers/carryover-posture-index.md).
+> SSOT enum: [`akos/planning/carryover_posture.py`](../../../../akos/planning/carryover_posture.py).
+> **Scheduled ≠ dropped** — if posture is `scheduled`, the item **will** fire at the named trigger.
+
+When updating this file after initiative promotion or phase ratify, mirror active rows from the index:
+
+| from_initiative | to_initiative | posture | activation_trigger | owner_decision_id | index_row |
+|:---|:---|:---|:---|:---|:---|
+| _(example)_ INIT-OPENCLAW_AKOS-97 | INIT-OPENCLAW_AKOS-96 | overlap_pending | I97 P5 govern ratify | D-IH-97-D | CO-97-004 |
+
+---
+
 ## 4. Hold-gate quick-check at a glance
 
 For the agent: when promoting any candidate to active, confirm these gates via the per-initiative checklist below.

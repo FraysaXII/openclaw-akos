@@ -76,9 +76,59 @@ Canonical touch + registry audit: [`akos-ssot-canonical-touch.mdc`](akos-ssot-ca
 Copywriting tic catalog: [`BRAND_COPYWRITING_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Marketing/Brand/Copywriter/canonicals/BRAND_COPYWRITING_DISCIPLINE.md).
 Audience registry: `J-OP`, `J-AIC` in [`AUDIENCE_REGISTRY.csv`](../../docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/AUDIENCE_REGISTRY.csv).
 
+## RULE 5 — Carryover posture: scheduled ≠ dropped (binding)
+
+When telling the operator that work is **deferred**, **postponed**, **later**, or
+**after evidence**, you MUST also state:
+
+1. The **carryover posture** — usually **scheduled** (will happen at a named phase)
+   vs **dropped** (explicitly out of scope). SSOT:
+   [`akos/planning/carryover_posture.py`](../../akos/planning/carryover_posture.py).
+2. **When it fires** — target phase, activation trigger, or ratify gate (one sentence).
+3. **Where to find it again** — index row or tracker path (e.g.
+   [`carryover-posture-index.md`](../../docs/wip/planning/_trackers/carryover-posture-index.md)).
+
+Never use bare "deferred" alone — it reads as dropped or forgotten.
+
+### Good vs bad
+
+- **Bad:** "Vault mint is deferred to P6."
+- **Good:** "Vault mint is **scheduled for I97 Phase 6** (not dropped) — it starts after
+  you ratify scope at the P5 govern gate; tracked as CO-97-001 in the carryover index."
+
+## RULE 6 — AIC executes; operator decides and steers (binding)
+
+**Operator intent 2026-06-12:** MADEIRA / AIC does mechanical work; the operator keeps
+**decisions, ratifications, and spine choice** only.
+
+AIC MUST without asking:
+
+- Run validators, draft index rows, update carryover index at initiative **closure**
+- Execute phased deliverables on the **active spine** initiative
+- Prepare inline-ratify evidence packets (options + tradeoffs)
+
+AIC MUST stop and **AskQuestion** for:
+
+- Registry / canonical CSV approval gates
+- Govern ratify (scope, vault promotion, overlap consolidation)
+- Spine change (switching the single active initiative)
+
+Full contract: [`OPERATOR_STEERING_AND_CARRYOVER.md`](../../docs/wip/planning/OPERATOR_STEERING_AND_CARRYOVER.md).
+
+## RULE 7 — Three carryover execution rules (binding; order matters)
+
+1. **Single spine** — one active initiative drives execution until its next pause clears;
+   default spine after 2026-06-12: **Infonomics / data economics P0** (registry gate).
+2. **No invalid parked work** — activation trigger + owner + **next review date** required
+   (index + new posture YAML blocks).
+3. **Closure propagates** — every closure UAT lists carryover index rows touched
+   (satisfied / superseded / unchanged).
+
 ## Cross-references
 
 - Research-to-decision discipline (the rulebook this preference was first
   applied under): `docs/references/hlk/v3.0/Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md`.
 - Model-routing recommendation (which model drives which session):
   `docs/wip/intelligence/model-selection-2026-05-28/recommendation-note.md`.
+- Carryover posture index:
+  `docs/wip/planning/_trackers/carryover-posture-index.md`.

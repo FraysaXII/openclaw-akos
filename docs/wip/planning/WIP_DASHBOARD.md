@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (20)
+### Active (in execution) (24)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -37,8 +37,12 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **88** | [`88-cross-area-ops-wiring-review-discipline/`](88-cross-area-ops-wiring-review-discipline/) | active | 2026-06-05 | I88 — Cross-area Ops wiring review discipline (every-area + 3-tier) × 10-pillar Holisti... |
 | **89** | [`89-hlk-erp-program-rollup-implementation/`](89-hlk-erp-program-rollup-implementation/) | active | 2026-05-17 | I89 — HLK-ERP persona-rollup panel implementation |
 | **90** | [`90-routing-and-wiring/`](90-routing-and-wiring/) | active | 2026-06-04 | I90 — Routing & Wiring (Ordnance) |
-| **91** | [`91-enterprise-graph-store-coverage/`](91-enterprise-graph-store-coverage/) | active | 2026-06-04 | I91 — Enterprise Graph & Store-Coverage |
+| **91** | [`91-enterprise-graph-store-coverage/`](91-enterprise-graph-store-coverage/) | active | 2026-06-10 | I91 — Enterprise Graph & Store-Coverage |
 | **92** | [`92-hlk-erp-reassess-dashboard/`](92-hlk-erp-reassess-dashboard/) | active | 2026-06-01 | I92 — HLK-ERP Reassess & Dashboard (stub) |
+| **94** | [`94-area-architecture-and-completeness-v2/`](94-area-architecture-and-completeness-v2/) | active | 2026-06-05 | I94 — Area Architecture & Completeness v2 |
+| **95** | [`95-canonical-articulation-model/`](95-canonical-articulation-model/) | active | — | I95 — Canonical Articulation Model / the Singularity |
+| **96** | [`96-research-data-plane-and-research-center/`](96-research-data-plane-and-research-center/) | active | 2026-06-11 | I96 — Research Data Plane + Research Center Program |
+| **97** | [`97-infonomics-holistika-data-economics/`](97-infonomics-holistika-data-economics/) | active | 2026-06-12 | I97 — Infonomics / Holistika Data Economics |
 
 ### Gated on external event (0)
 
@@ -65,7 +69,7 @@ _(none)_
 | **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | program_line | 2026-04-18 | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
 | **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | program_line | 2026-04-23 | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
 
-### Closed (45)
+### Closed (46)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -114,6 +118,7 @@ _(none)_
 | **85** | [`85-audience-tag-canonicalization/`](85-audience-tag-canonicalization/) | closed | 2026-05-19 | I85 — Audience-tag canonicalization |
 | **87** | [`87-openclaw-operator-runtime-hardening/`](87-openclaw-operator-runtime-hardening/) | closed | 2026-05-19 | I87 — OpenClaw operator-runtime hardening |
 | **93** | [`93-data-area-foundation-and-governance/`](93-data-area-foundation-and-governance/) | closed | 2026-06-04 | I93 — DATA Area Foundation & Cross-Area Data Governance |
+| **98** | [`98-carryover-posture-clarity/`](98-carryover-posture-clarity/) | closed | 2026-06-12 | I98 — Carryover Posture Clarity (scheduled ≠ dropped) |
 
 ### Archived (superseded) (6)
 
@@ -131,6 +136,29 @@ _(none)_
 _(none)_
 
 <!-- END AUTO -->
+
+## Scheduled carryover (cross-initiative)
+
+<!-- BEGIN CARRYOVER AUTO -->
+| Index | Posture | Item | Target | Activation trigger | Next review | Owner |
+|:---:|:---|:---|:---|:---|:---|:---|
+| **CO-97-001** | Scheduled after evidence (not dropped) | D-IH-97-E | I97 P6 vault doctrine | P5 govern ratify closes vault mint scope | I97 P5 entry OR 2026-07-01 | Operator |
+| **CO-97-002** | Scheduled after evidence (not dropped) | D-IH-97-F | I97 P6b process_list | P5 ratify + optional PMO approval | I97 P5 entry OR 2026-07-01 | PMO |
+| **CO-97-003** | Scheduled after evidence (not dropped) | D-IH-97-G | I97 P6c or forward-charter | P5 ratify I94 extension scope | I97 P5 entry OR 2026-07-01 | CDO |
+| **CO-97-004** | Overlap pending phase ratify | D-IH-97-D | I96 vs I97 consolidation | I97 P5 inline-ratify via scope-overlap tracker | I97 P5 govern session | Operator |
+| **CO-98-001** | Scheduled after evidence (not dropped) | D-IH-98-C | vault carryover discipline | Operator requests vault OR I97 P6 doctrine stable | 2026-07-15 OR I97 P6 close | Operator |
+| **CO-96-001** | Scheduled after evidence (not dropped) | D-IH-96-D | I96 P10 multi-channel feed | Research Center v1 PASS + Track D stable | I96 P9 close OR 2026-07-01 | PMO |
+| **CO-76-001** | Overlap pending phase ratify | I11/I13/I17 | I76 P1/P3/P4 gates | Per sibling ratify (mostly closed 2026-05-21) | Archive if all siblings closed | System Owner |
+| **CO-76-002** | Blocked on activation gates | I74 promotion | TRIGGER-2 or sibling closure | OPS-76-2 quarterly review | OPS-76-2 due date | PMO |
+| **CO-76-003** | Blocked on activation gates | I75 promotion | I72/I73 P0 + Research Director | OPS-76-3 review | OPS-76-3 due date | PMO |
+| **CO-76-004** | Blocked on activation gates | I83 promotion | I82 P4 USE_CASE_ARCHIVE | OPS-76-4 review | OPS-76-4 due date | PMO |
+| **CO-88-001** | Scheduled after evidence (not dropped) | DataOps SOP pairing | doctrine activation | dataops-activation-tracker §3 green | dataops tracker next review | CDO |
+| **CO-91-001** | Forward-chartered to successor | UX research SOP | I91 P2 | ux_quality_check.py ships | I91 P2 entry OR 2026-07-01 | People Ops |
+| **CO-95-001** | Forward-chartered to successor | PMO business-strategy placement | I94 P5 ratify | I95 tracker operator ratify | I94 P5 session | PMO |
+
+Full index: [`carryover-posture-index.md`](_trackers/carryover-posture-index.md) — **scheduled ≠ dropped**.
+<!-- END CARRYOVER AUTO -->
+
 
 ## Re-render contract
 

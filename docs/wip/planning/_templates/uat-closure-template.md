@@ -222,6 +222,18 @@ Every closure flips state in canonical CSVs. Name the exact rows + the after-sta
 - **Cluster coordinator master-roadmap §<X> sibling table**: <NN> row updated to closed (when initiative is in a cluster).
 - **planning README** §"<NN-<NN>" table: <NN> row updated to closed.
 
+## Section 9.5 — Carryover index propagation (required)
+
+Per [`OPERATOR_STEERING_AND_CARRYOVER.md`](../../OPERATOR_STEERING_AND_CARRYOVER.md) rule 3: when this
+closure may satisfy parked work tracked elsewhere, list each related row in
+[`carryover-posture-index.md`](../_trackers/carryover-posture-index.md).
+
+| Index row | Disposition | Evidence / link |
+|:---|:---|:---|
+| CO-NN-NNN | satisfied-here / superseded / unchanged / new-row | path or one-line note |
+
+If none apply, state **N/A — no carryover index rows touched by this closure**.
+
 ## Section 10 — Verdict + 7-item operator sign-off checklist
 
 **Verdict**: <PASS | PASS-WITH-FOLLOWUP | FAIL>

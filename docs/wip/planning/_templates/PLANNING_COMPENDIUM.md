@@ -191,7 +191,7 @@ The agent surfaces planning-time conundrums via `AskQuestion`, batched up to 6 p
 
 If the operator answers "I don't know yet" to a conundrum, the agent decomposes the question into sub-options in a follow-up `AskQuestion` call. The agent does NOT proceed past an unresolved planning-time conundrum.
 
-Execution-time conundrums (the ones tagged "inline-ratify gate at §X.Y") are NOT asked at discovery time; they are deferred to execution. But the gate location is pre-allocated in the plan body.
+Execution-time conundrums (the ones tagged "inline-ratify gate at §X.Y") are NOT asked at discovery time; they are **scheduled** to execution (carryover posture `scheduled` — **not dropped**). The gate location is pre-allocated in the plan body. See [`carryover-posture-row.md`](carryover-posture-row.md) + [`../_trackers/carryover-posture-index.md`](../_trackers/carryover-posture-index.md).
 
 ### §3.6 Discovery report (the bridge to plan-author)
 

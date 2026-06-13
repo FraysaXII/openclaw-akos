@@ -347,6 +347,52 @@ Highlights of that rule, summarized here so this rule remains self-sufficient fo
 
 For shorter initiatives (≤ 3 days, ≤ 3 phases), a single closure pause record at the end is sufficient; a self-checkpoint per phase is optional.
 
+## Carryover posture (scheduled ≠ dropped)
+
+Work-item carryover (decisions, deliverables, OPS rows, tracker artifacts) uses a **second
+layer** beside initiative ``status:`` (**D-IH-59-D**). SSOT:
+[`akos/planning/carryover_posture.py`](../../akos/planning/carryover_posture.py) (I98 P0).
+
+**Binding vocabulary (agents + humans):**
+
+- **scheduled** = will happen; gated on evidence or phase — **not dropped**, not optional
+- Bare **"deferred"** without a posture tag is **banned** in new planning artifacts
+- Every scheduled / forward / blocked / overlap item carries a **discoverability_path**
+  (decision anchor, tracker path, or OPS row)
+
+**Required surfaces (must agree):**
+
+1. Initiative ``decision-log.md`` posture companion block (YAML per
+   [`carryover-posture-row.md`](../../docs/wip/planning/_templates/carryover-posture-row.md))
+2. Cross-initiative index:
+   [`carryover-posture-index.md`](../../docs/wip/planning/_trackers/carryover-posture-index.md)
+3. **Carryover edges** table in ``INITIATIVE_DEPENDENCIES.md`` (from initiative cluster maps)
+
+**Validator:** `py scripts/validate_carryover_posture.py --index <path>` (INFO ramp;
+``--strict`` for FAIL).
+
+When reporting carryover work to the operator, lead with posture plain label
+(e.g. "Scheduled for P6 — not dropped") before decision IDs.
+
+## Carryover execution contract (operator steering 2026-06-12)
+
+Recovers planning workflow under multithreaded work. Plain contract:
+[`OPERATOR_STEERING_AND_CARRYOVER.md`](../../docs/wip/planning/OPERATOR_STEERING_AND_CARRYOVER.md).
+
+**Binding (agents):**
+
+1. **Single spine** — do not open new cross-cutting governance initiatives while
+   Infonomics P0 (registry pause #1) is open unless operator redirects.
+2. **Parked-work contract** — every index row and new posture YAML block requires
+   ``activation_trigger``, ``owner`` / ``owner_role``, and ``next_review`` /
+   ``next_review_trigger``; bare "deferred" remains banned in new artifacts.
+3. **Closure propagation** — closure UAT §10 must include a **carryover index
+   propagation** subsection: list each related index row and disposition
+   (satisfied-here / superseded / unchanged / new-row-added).
+
+**Validator:** ``py scripts/validate_carryover_posture.py --index --strict`` before
+committing index edits.
+
 ## Paired skill (the *how* layer)
 
 The plan-quality bar + UAT quality bar in this rule are mechanically operationalised by the paired skill [`.cursor/skills/planning-traceability-craft/SKILL.md`](../skills/planning-traceability-craft/SKILL.md), minted at drain7 (Wave R close) per **D-IH-86-CT**. Read the skill before authoring any qualifying initiative roadmap or closure UAT.
