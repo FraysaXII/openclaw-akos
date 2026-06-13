@@ -19,9 +19,11 @@ operator_note: holistika.com is NOT Holistika's domain — DELETE from KB (opera
 | **Preview** | `https://preview.erp.holistikaresearch.com` | All non-main branches / PRs (Vercel Preview env) | Preview env vars | Preview |
 | **Preview (fallback)** | `*.vercel.app` | Auto-generated PR URL (Deployment Protection on) | Preview env | Preview |
 
-**Not UAT hosts:** `hlk-erp-git-main-*.vercel.app` is Vercel’s auto-alias for **main/production** builds — ignore for Preview ratify. Use `preview.erp.holistikaresearch.com` or the PR-specific `*.vercel.app` URL.
+**Not UAT hosts:** `hlk-erp-git-main-*.vercel.app` is Vercel’s auto-alias for **main/production** builds — ignore for Preview ratify.
 
-**Verify Preview ≠ Production:** response body size differs (Preview PR deploy serves B1.5 Research Center; production main may lag until merge). Compare `curl -I` `Content-Length` or deploy badge (**Preview** vs **Production**).
+**Critical — `preview.erp` vs PR branch (operator finding 2026-06-13):** Vercel assigns `preview.erp.holistikaresearch.com` to the **latest Preview deployment**, not necessarily open PR #36. Browser verification showed `preview.erp` serving the **legacy Facts table UI** (Import/Export/Add Fact), while `hlk-erp-git-feat-i96-research-center-b15-*.vercel.app` serves **B1.5** (auth-gated sign-in → Research Center v2). Until `preview.erp` shows POV strip + Preview badge + drawer UX, **ratify Preview UAT on the PR branch URL** or re-deploy PR #36 as the newest Preview build.
+
+**Verify which build a host serves:** B1.5 has POV selector, deploy badge, prong strip — not “Import / Export / Add Fact”. `curl -I` `Content-Length` alone is insufficient (legacy preview pages can be large).
 
 ## Vercel environment variables (per tier — do not share across tiers)
 

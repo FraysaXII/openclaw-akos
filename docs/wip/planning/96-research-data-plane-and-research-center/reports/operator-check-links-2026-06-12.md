@@ -15,11 +15,14 @@ current_tranche: Gap-closure P-G5 — Preview UAT re-run ready
 
 **Pipeline:** Local L3 **PWF** ✓ · Preview **READY** (env vars set) · UAT **re-run pending** · Production **blocked**
 
-**Preview URL (canonical):** https://preview.erp.holistikaresearch.com/research-center
+**Preview URL (PR #36 — B1.5 authoritative until preview.erp catches up):** https://hlk-erp-git-feat-i96-research-center-b15-holistika.vercel.app/research-center
+
+**Custom Preview domain (verify UI before ratify):** https://preview.erp.holistikaresearch.com/research-center — must show B1.5 UX, not legacy Facts table
 
 | # | Open this | Why |
 |:---:|:---|:---|
-| 1 | [Preview Research Center](https://preview.erp.holistikaresearch.com/research-center) | Custom Preview domain — confirm **Preview** badge |
+| 1 | [PR branch Research Center](https://hlk-erp-git-feat-i96-research-center-b15-holistika.vercel.app/research-center) | **B1.5 build** — Preview UAT ratify here until preview.erp matches |
+| 2 | [preview.erp (custom Preview domain)](https://preview.erp.holistikaresearch.com/research-center) | Only if POV strip + Preview badge — currently legacy Facts UI ⚠ |
 | 2 | [Dev sign-in → RC (preview)](https://preview.erp.holistikaresearch.com/api/dev/sign-in?next=%2Fresearch-center%3Fpov%3Doperator) | After bypass + Preview env vars |
 | 3 | [hlk-erp PR #36](https://github.com/FraysaXII/hlk-erp/pull/36) | Latest deploy · Vercel SUCCESS |
 | 4 | [Preview UAT charter](uat-i96-research-center-preview-charter-2026-06-13.md) | ≥8 shots @1280 · AIC or script re-run |
