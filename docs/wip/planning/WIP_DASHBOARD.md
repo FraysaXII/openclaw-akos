@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (24)
+### Active (in execution) (23)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -42,7 +42,6 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **94** | [`94-area-architecture-and-completeness-v2/`](94-area-architecture-and-completeness-v2/) | active | 2026-06-05 | I94 — Area Architecture & Completeness v2 |
 | **95** | [`95-canonical-articulation-model/`](95-canonical-articulation-model/) | active | — | I95 — Canonical Articulation Model / the Singularity |
 | **96** | [`96-research-data-plane-and-research-center/`](96-research-data-plane-and-research-center/) | active | 2026-06-11 | I96 — Research Data Plane + Research Center Program |
-| **97** | [`97-infonomics-holistika-data-economics/`](97-infonomics-holistika-data-economics/) | active | 2026-06-12 | I97 — Infonomics / Holistika Data Economics |
 
 ### Gated on external event (0)
 
@@ -69,7 +68,7 @@ _(none)_
 | **14** | [`14-holistika-internal-gtm-mops/`](14-holistika-internal-gtm-mops/) | program_line | 2026-04-18 | Initiative 14 — Holistika internal GTM and marketing operations (HLK-aligned) |
 | **19** | [`19-hlk-finops-ledger/`](19-hlk-finops-ledger/) | program_line | 2026-04-23 | Initiative 19 — FINOPS `finops.*` ledger (Phase C) |
 
-### Closed (46)
+### Closed (47)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -118,6 +117,7 @@ _(none)_
 | **85** | [`85-audience-tag-canonicalization/`](85-audience-tag-canonicalization/) | closed | 2026-05-19 | I85 — Audience-tag canonicalization |
 | **87** | [`87-openclaw-operator-runtime-hardening/`](87-openclaw-operator-runtime-hardening/) | closed | 2026-05-19 | I87 — OpenClaw operator-runtime hardening |
 | **93** | [`93-data-area-foundation-and-governance/`](93-data-area-foundation-and-governance/) | closed | 2026-06-04 | I93 — DATA Area Foundation & Cross-Area Data Governance |
+| **97** | [`97-infonomics-holistika-data-economics/`](97-infonomics-holistika-data-economics/) | closed | 2026-06-13 | I97 — Infonomics / Holistika Data Economics |
 | **98** | [`98-carryover-posture-clarity/`](98-carryover-posture-clarity/) | closed | 2026-06-12 | I98 — Carryover Posture Clarity (scheduled ≠ dropped) |
 
 ### Archived (superseded) (6)
@@ -142,10 +142,8 @@ _(none)_
 <!-- BEGIN CARRYOVER AUTO -->
 | Index | Posture | Item | Target | Activation trigger | Next review | Owner |
 |:---:|:---|:---|:---|:---|:---|:---|
-| **CO-97-001** | Scheduled after evidence (not dropped) | D-IH-97-E | I97 P6 vault doctrine | P5 govern ratify closes vault mint scope | I97 P5 entry OR 2026-07-01 | Operator |
-| **CO-97-002** | Scheduled after evidence (not dropped) | D-IH-97-F | I97 P6b process_list | P5 ratify + optional PMO approval | I97 P5 entry OR 2026-07-01 | PMO |
-| **CO-97-003** | Scheduled after evidence (not dropped) | D-IH-97-G | I97 P6c or forward-charter | P5 ratify I94 extension scope | I97 P5 entry OR 2026-07-01 | CDO |
-| **CO-97-004** | Overlap pending phase ratify | D-IH-97-D | I96 vs I97 consolidation | I97 P5 inline-ratify via scope-overlap tracker | I97 P5 govern session | Operator |
+| **CO-97-002** | Scheduled after evidence (not dropped) | D-IH-97-F | Forward: PMO process_list row | I97 closed without P6c — canonical CSV gate | PMO ratify OR I94 ops sweep | PMO |
+| **CO-97-003** | Scheduled after evidence (not dropped) | D-IH-97-G | Forward: I94 AREA economic hook | I97 closed without P6d — out of closure scope | I94 area extension tranche | CDO |
 | **CO-98-001** | Scheduled after evidence (not dropped) | D-IH-98-C | vault carryover discipline | Operator requests vault OR I97 P6 doctrine stable | 2026-07-15 OR I97 P6 close | Operator |
 | **CO-96-001** | Scheduled after evidence (not dropped) | D-IH-96-D | I96 P10 multi-channel feed | Research Center v1 PASS + Track D stable | I96 P9 close OR 2026-07-01 | PMO |
 | **CO-76-001** | Overlap pending phase ratify | I11/I13/I17 | I76 P1/P3/P4 gates | Per sibling ratify (mostly closed 2026-05-21) | Archive if all siblings closed | System Owner |

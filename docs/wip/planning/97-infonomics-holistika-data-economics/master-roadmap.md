@@ -2,25 +2,27 @@
 initiative_id: INIT-OPENCLAW_AKOS-97
 initiative_slug: 97-infonomics-holistika-data-economics
 title: "I97 — Infonomics / Holistika Data Economics"
-status: active
+status: closed
+closed_at: 2026-06-13
 authored: 2026-06-12
-last_review: 2026-06-12
+last_review: 2026-06-13
 inception_decision_id: D-IH-97-A
+closure_decision_id: D-IH-97-CLOSURE
 owner_role: Operator
 linked_decisions:
   - D-IH-97-A
   - D-IH-97-B
   - D-IH-97-C
   - D-IH-97-D
+  - D-IH-97-E
+  - D-IH-97-CLOSURE
 language: en
 authoritative_plan: docs/wip/planning/97-infonomics-holistika-data-economics/master-roadmap.md
 ---
 
 # I97 — Infonomics / Holistika Data Economics
 
-> **Glossary (carryover posture):** **scheduled** = will happen at named phase — **not dropped**. Vault mint is **scheduled for P6**, not optional. See [`carryover-posture-index.md`](../_trackers/carryover-posture-index.md).
->
-> **Active spine (2026-06-12):** This program until registry pause #1. AIC executes; you decide. [`OPERATOR_STEERING_AND_CARRYOVER.md`](../OPERATOR_STEERING_AND_CARRYOVER.md).
+> **Closed 2026-06-13** under **D-IH-97-CLOSURE** — [`uat-i97-closure-2026-06-13.md`](reports/uat-i97-closure-2026-06-13.md).
 
 Enterprise Infonomics research: 800-row source ledger, 14 BL prong syntheses, govern-gated vault tranches. Full phase plan in Cursor plan `i97_infonomics_research_991a9503.plan.md`.
 
@@ -46,10 +48,11 @@ Enterprise Infonomics research: 800-row source ledger, 14 BL prong syntheses, go
 | **P5** | Govern ratify | p5-govern-ratify report — ✅ [`p5 report`](reports/p5-govern-ratify-2026-06-13.md) |
 | **P6a** | DCAM integrity crosswalk | I94 L0–L5 evidence — ✅ [`p6a report`](reports/p6a-dcam-integrity-2026-06-13.md) |
 | **P6b** | Vault doctrine mint | `INFONOMICS_DISCIPLINE` — ✅ [`p6b report`](reports/p6b-doctrine-mint-2026-06-13.md) |
-| **P6c** | Optional process_list | D-IH-97-F — optional |
-| **P6d** | I94 extension | D-IH-97-G — optional / forward |
-| **P7** | Closure UAT | 11-section uat-i97 |
-| **P8** | Index sync | README, dependencies, dashboard |
+| **P6b-CSV** | Register economic columns | DATA_CONTRACT + FINOPS + adapters — ✅ [`p6b-csv report`](reports/p6b-csv-register-tranche-2026-06-13.md) |
+| **P6c** | process_list maintenance row | **Not executed** — D-IH-97-F forward to PMO (canonical CSV gate) |
+| **P6d** | I94 AREA economic component | **Not executed** — D-IH-97-G forward to I94 |
+| **P7** | Closure UAT | ✅ [`uat-i97-closure-2026-06-13.md`](reports/uat-i97-closure-2026-06-13.md) |
+| **P8** | Index sync | ✅ 2026-06-13 |
 
 ## Verification (P1)
 

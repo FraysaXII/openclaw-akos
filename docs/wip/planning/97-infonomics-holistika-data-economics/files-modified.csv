@@ -78,3 +78,13 @@ P6b-CSV,supabase/migrations/20260613120000_i97_p6b_infonomics_register_columns.s
 P6b-CSV,docs/references/hlk/v3.0/Research/Methodology/canonicals/INFONOMICS_DISCIPLINE.md,updated,§4 live tranche note
 P6b-CSV,docs/wip/planning/97-infonomics-holistika-data-economics/reports/p6b-csv-register-tranche-2026-06-13.md,created,P6b-CSV closure
 P6b-CSV,docs/wip/planning/97-infonomics-holistika-data-economics/reports/_apply_i97_register_columns.py,created,backfill script
+P7,docs/wip/planning/97-infonomics-holistika-data-economics/reports/uat-i97-closure-2026-06-13.md,created,Closure UAT PASS
+P7,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/DECISION_REGISTER.csv,updated,D-IH-97-B/C/D/CLOSURE rows
+P7,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv,updated,I97 closed
+P7,docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md,updated,closure + P6c/P6d reasoning
+P7,docs/wip/planning/97-infonomics-holistika-data-economics/master-roadmap.md,updated,status closed
+P8,docs/wip/planning/README.md,updated,I97 closed row
+P8,docs/wip/planning/WIP_DASHBOARD.md,updated,I97 + carryover rows
+P8,docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_DEPENDENCIES.md,updated,97→96 edge
+P8,docs/wip/planning/_trackers/carryover-posture-index.md,updated,CO-97-002/003 triggers
+P8,docs/wip/intelligence/infonomics-holistika-data-economics-2026-06-12/README.md,updated,program closed

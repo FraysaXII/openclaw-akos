@@ -94,7 +94,25 @@ discoverability_path: docs/wip/planning/97-infonomics-holistika-data-economics/r
 
 **Evidence:** [`reports/p6b-doctrine-mint-2026-06-13.md`](reports/p6b-doctrine-mint-2026-06-13.md); vault canonical [`INFONOMICS_DISCIPLINE.md`](../../../references/hlk/v3.0/Research/Methodology/canonicals/INFONOMICS_DISCIPLINE.md)
 
-**Follow-up:** Register CSV economic columns declared in doctrine §4 — physical append operator-gated (see p6b report).
+**Follow-up:** Register CSV columns closed at P6b-CSV — [`p6b-csv-register-tranche-2026-06-13.md`](reports/p6b-csv-register-tranche-2026-06-13.md).
+
+---
+
+## Closed at program closure (2026-06-13)
+
+### D-IH-97-CLOSURE — I97 program PASS
+
+**Status:** **Closed** — UAT PASS; `INIT-OPENCLAW_AKOS-97` → `closed`.
+
+**Evidence:** [`reports/uat-i97-closure-2026-06-13.md`](reports/uat-i97-closure-2026-06-13.md)
+
+### P6c — Not executed (forward-charter)
+
+**Decision:** D-IH-97-F remains **open**. **Reason:** new `process_list.csv` rows require operator/PMO canonical-CSV approval; no process_id was ratified at P5. **Index:** CO-97-002.
+
+### P6d — Not executed (forward-charter)
+
+**Decision:** D-IH-97-G remains **open**. **Reason:** I94 area-completeness extension is out of I97 closure scope; doctrine + register hooks satisfy I96 Track D. **Index:** CO-97-003.
 
 ---
 
@@ -127,34 +145,36 @@ discoverability_path: docs/wip/intelligence/infonomics-holistika-data-economics-
 
 ---
 
-### D-IH-97-F — Optional process_list maintenance row
+### D-IH-97-F — process_list maintenance row
 
-**Status:** **scheduled** **P6c** — optional after P6b.
+**Status:** **Open — forward-charter to PMO** (I97 closed without P6c).
 
 ```yaml
 posture: scheduled
 target_initiative: INIT-OPENCLAW_AKOS-97
-target_phase: P6c
-activation_trigger: P6b doctrine mint + PMO approval for new process row
+target_phase: forward_charter
+activation_trigger: PMO ratifies hol_* infonomics maintenance process row
 owner_role: PMO
-next_review_trigger: I97 P6b close OR 2026-07-01
-discoverability_path: docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md#D-IH-97-F
+next_review_trigger: I94 ops sweep OR operator request
 index_row: CO-97-002
+discoverability_path: docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md#D-IH-97-F
+reason_not_at_i97_close: process_list.csv canonical gate; no process_id ratified at P5
 ```
 
 ---
 
 ### D-IH-97-G — I94 economic-value component extension
 
-**Status:** **scheduled** **P6d** or forward-charter.
+**Status:** **Open — forward-charter to I94** (I97 closed without P6d).
 
 ```yaml
 posture: scheduled
-target_initiative: INIT-OPENCLAW_AKOS-97
-target_phase: P6d
-activation_trigger: P6b ratify I94 extension scope
+target_initiative: INIT-OPENCLAW_AKOS-94
+target_phase: forward_charter
+activation_trigger: I94 area bar extension tranche
 owner_role: CDO
-next_review_trigger: I97 P6b close OR 2026-07-01
-discoverability_path: docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md#D-IH-97-G
+next_review_trigger: I94 P5+ area sweep
 index_row: CO-97-003
+discoverability_path: docs/wip/planning/97-infonomics-holistika-data-economics/decision-log.md#D-IH-97-G
+reason_not_at_i97_close: P5 bound vault to P6a+P6b+CSV only; AREA component is I94 scope
 ```

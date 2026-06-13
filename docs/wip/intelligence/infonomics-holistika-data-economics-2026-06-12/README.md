@@ -44,6 +44,7 @@ language: en
 | P5 govern (vault scope lock) | ✅ 2026-06-13 |
 | P6a DCAM crosswalk | ✅ 2026-06-13 |
 | P6b vault doctrine mint | ✅ 2026-06-13 |
-| P7 closure UAT | ⏳ next |
+| P7 closure UAT | ✅ 2026-06-13 |
+| Program closed | ✅ D-IH-97-CLOSURE |
 
 Planning home: [`../../planning/97-infonomics-holistika-data-economics/master-roadmap.md`](../../planning/97-infonomics-holistika-data-economics/master-roadmap.md)

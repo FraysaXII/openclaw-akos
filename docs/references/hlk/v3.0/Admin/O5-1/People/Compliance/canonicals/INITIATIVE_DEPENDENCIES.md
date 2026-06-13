@@ -112,7 +112,7 @@ flowchart TB
 
 | from_initiative | to_initiative | posture | activation_trigger | owner_decision_id | index_row |
 |:---|:---|:---|:---|:---|:---|
-| INIT-OPENCLAW_AKOS-97 | INIT-OPENCLAW_AKOS-96 | overlap_pending | I97 P5 govern ratify | D-IH-97-D | CO-97-004 |
+| INIT-OPENCLAW_AKOS-97 | INIT-OPENCLAW_AKOS-96 | scheduled | I97 P6b doctrine stable; I96 Track D consumes | D-IH-97-D | CO-97-004 |
 | INIT-OPENCLAW_AKOS-96 | — | scheduled | Research Center v1 PASS → P10 feed | D-IH-96-D | CO-96-001 |
 | INIT-OPENCLAW_AKOS-98 | — | forward_charter | Operator vault SSOT request | D-IH-98-C | — |
 
