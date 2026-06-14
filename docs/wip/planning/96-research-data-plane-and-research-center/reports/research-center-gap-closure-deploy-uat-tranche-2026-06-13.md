@@ -25,7 +25,7 @@ operator_ratifications:
 | Tier | Host | Badge | Who walks | Status (2026-06-13) |
 |:---|:---|:---|:---|:---|
 | **L3 Local** | `localhost:3010` | Local dev | AIC L3.0 + operator L4 optional | **PWF** — [`uat-i96-research-center-b15-experiential-2026-06-13.md`](uat-i96-research-center-b15-experiential-2026-06-13.md) |
-| **L3.5 Preview** | PR → `*.vercel.app` | Preview | AIC thorough experiential | **Blocked** — no PR preview deploy yet |
+| **L3.5 Preview** | PR → `*.vercel.app` | Preview | AIC thorough experiential | **PWF** — [`uat-i96-research-center-preview-2026-06-13.md`](uat-i96-research-center-preview-2026-06-13.md) (magic-link 8/8 v2; Preview env gaps) |
 | **L4 Production** | `erp.holistikaresearch.com` | Production | Operator + AIC | **Blocked** — preview + main merge |
 
 Localhost L3 **does not** satisfy Preview or Production charters.

@@ -1,0 +1,52 @@
+{
+  "captures": [
+    {
+      "file": "01-operator-revision-1280.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-13T11:37:52.523Z",
+      "screenshot_sha256": "427ecffd15f5421884942051e1e2f1eb7714c1a5a289003be20c718a2eab17d0",
+      "notes": "P9b Phase A — operator lens (prong strip + remediation stack)"
+    },
+    {
+      "file": "02-auditor-lens-empty-1280.png",
+      "route": "/research-center?pov=auditor",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-13T11:37:52.523Z",
+      "screenshot_sha256": "9c42d8ace66065ee1ea656aba2b251aefa918f5c87ea2e5fb0d90acc758556ae",
+      "notes": "P9b Phase A — LensEmptyState (Gate B × IF-09)"
+    },
+    {
+      "file": "03-drawer-runbook-revision-1280.png",
+      "route": "/research-center drawer — Details",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-13T11:37:52.523Z",
+      "screenshot_sha256": "f2e18779418df547c12ca9478326a43508488006b82b1f2f498f4f52cb85253c",
+      "notes": "P9b Phase A — drawer T1/T2 + collapsed audit paths (IF-05)"
+    },
+    {
+      "file": "01-operator-revision-768.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "768x1024",
+      "captured_at": "2026-06-13T11:37:52.523Z",
+      "screenshot_sha256": "98fd6b39fdd8b71a1805d4b0caef6d284ee18c1c04d20f89cefacba0b3ac79d4",
+      "notes": "P9b Phase A — operator lens (prong strip + remediation stack)"
+    },
+    {
+      "file": "01-operator-revision-375.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "375x667",
+      "captured_at": "2026-06-13T11:37:52.523Z",
+      "screenshot_sha256": "bd485346d6e32529d3441fa6244daf814abbc2dec064bb6c754fc81bfdf98e9d",
+      "notes": "P9b Phase A — operator lens (prong strip + remediation stack)"
+    },
+    {
+      "file": "02-pov-switcher-fix-1280.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-13T11:54:36.922Z",
+      "screenshot_sha256": "2a897ab7527a82217dafd64ef1b3e0063e5cfd00b2db578b96e28f783ef78fa0",
+      "notes": "Phase A POV switcher fix — horizontal ToggleGroup @1280, Select @375"
+    }
+  ]
+}

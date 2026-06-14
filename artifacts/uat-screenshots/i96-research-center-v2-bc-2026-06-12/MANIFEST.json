@@ -1,0 +1,135 @@
+{
+  "initiative": "INIT-OPENCLAW_AKOS-96",
+  "tranche": "P9b-Phase-B-Wave-B1; P9b-Phase-B-Wave-B2",
+  "captured_at": "2026-06-13T12:04:18.041Z",
+  "viewport": "1280x800",
+  "ladder_level": "L1",
+  "files": [
+    {
+      "path": "journey-operator-discover-1280.png",
+      "journey_stage": "discover",
+      "route": "/research-center?pov=operator",
+      "lens": "operator",
+      "sha256": "fd1c37e5f63325e82257034876af0d3498464b8ad9130cce5227f493249056c7"
+    },
+    {
+      "path": "journey-operator-triage-1280.png",
+      "journey_stage": "triage",
+      "route": "/research-center?pov=operator",
+      "lens": "operator",
+      "sha256": "846fe2ca1a36388cdf363a3e6774c0cd3289245a90a6405aef1644af321436c3"
+    },
+    {
+      "path": "journey-operator-act-1280.png",
+      "journey_stage": "act",
+      "route": "/research-center?pov=operator",
+      "lens": "operator",
+      "sha256": "d5ecf43944eeb8a7dd27961426c51f1e5d230ff0bc9f4b30f5a6061ad3040532"
+    },
+    {
+      "path": "journey-operator-audit-1280.png",
+      "journey_stage": "verify",
+      "route": "/research-center?pov=operator",
+      "lens": "operator",
+      "sha256": "56712ccc50a4df77da4480fb641850afda0c0cfaa9e146ada36d8bba3fc1640c"
+    },
+    {
+      "path": "journey-director-discover-1280.png",
+      "journey_stage": "discover",
+      "route": "/research-center?pov=director",
+      "lens": "director",
+      "sha256": "5f8e17c55ad500fb04f216c01afadcbd8b6d7b342680479f1b9d33c64ca26884",
+      "captured_at": "2026-06-13T12:04:18.041Z"
+    },
+    {
+      "path": "journey-director-triage-1280.png",
+      "journey_stage": "triage",
+      "route": "/research-center?pov=director",
+      "lens": "director",
+      "sha256": "5f8e17c55ad500fb04f216c01afadcbd8b6d7b342680479f1b9d33c64ca26884",
+      "captured_at": "2026-06-13T12:04:18.041Z"
+    },
+    {
+      "path": "journey-director-act-1280.png",
+      "journey_stage": "act",
+      "route": "/research-center?pov=director",
+      "lens": "director",
+      "sha256": "7bc0dc18e4406ab42dd90c003e3e0fa81aad21445a769b7ed54dd63843fbda44",
+      "captured_at": "2026-06-13T12:04:18.041Z"
+    },
+    {
+      "path": "journey-director-audit-1280.png",
+      "journey_stage": "verify",
+      "route": "/research-center?pov=director",
+      "lens": "director",
+      "sha256": "b8a57d86866e1b82aa80c326607973ab49807377a92a5ea32dc9af9a7bb4d202",
+      "captured_at": "2026-06-13T12:04:18.041Z"
+    }
+  ],
+  "captures": [
+    {
+      "file": "journey-operator-discover-1280.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-13T13:59:00Z",
+      "screenshot_sha256": "fd1c37e5f63325e82257034876af0d3498464b8ad9130cce5227f493249056c7",
+      "notes": "P9b B1 Operator L1 — discover"
+    },
+    {
+      "file": "journey-operator-triage-1280.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-13T13:59:00Z",
+      "screenshot_sha256": "846fe2ca1a36388cdf363a3e6774c0cd3289245a90a6405aef1644af321436c3",
+      "notes": "P9b B1 Operator L1 — triage"
+    },
+    {
+      "file": "journey-operator-act-1280.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-13T13:59:00Z",
+      "screenshot_sha256": "d5ecf43944eeb8a7dd27961426c51f1e5d230ff0bc9f4b30f5a6061ad3040532",
+      "notes": "P9b B1 Operator L1 — act"
+    },
+    {
+      "file": "journey-operator-audit-1280.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-13T13:59:00Z",
+      "screenshot_sha256": "56712ccc50a4df77da4480fb641850afda0c0cfaa9e146ada36d8bba3fc1640c",
+      "notes": "P9b B1 Operator L1 — verify"
+    },
+    {
+      "file": "journey-director-discover-1280.png",
+      "route": "/research-center?pov=director",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-13T12:04:18.041Z",
+      "screenshot_sha256": "5f8e17c55ad500fb04f216c01afadcbd8b6d7b342680479f1b9d33c64ca26884",
+      "notes": "P9b B2 Director L1 — discover"
+    },
+    {
+      "file": "journey-director-triage-1280.png",
+      "route": "/research-center?pov=director",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-13T12:04:18.041Z",
+      "screenshot_sha256": "5f8e17c55ad500fb04f216c01afadcbd8b6d7b342680479f1b9d33c64ca26884",
+      "notes": "P9b B2 Director L1 — triage"
+    },
+    {
+      "file": "journey-director-act-1280.png",
+      "route": "/research-center?pov=director",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-13T12:04:18.041Z",
+      "screenshot_sha256": "7bc0dc18e4406ab42dd90c003e3e0fa81aad21445a769b7ed54dd63843fbda44",
+      "notes": "P9b B2 Director L1 — act"
+    },
+    {
+      "file": "journey-director-audit-1280.png",
+      "route": "/research-center?pov=director",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-13T12:04:18.041Z",
+      "screenshot_sha256": "b8a57d86866e1b82aa80c326607973ab49807377a92a5ea32dc9af9a7bb4d202",
+      "notes": "P9b B2 Director L1 — verify"
+    }
+  ]
+}

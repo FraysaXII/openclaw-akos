@@ -10,6 +10,32 @@ import { chromium } from "playwright";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..", "..");
+
+/** Load VERCEL_AUTOMATION_BYPASS_SECRET from AKOS .env.local if not already in process.env. */
+function loadBypassFromEnvLocal() {
+  if ((process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim()) return;
+  const envPath = join(ROOT, ".env.local");
+  try {
+    const text = readFileSync(envPath, "utf8");
+    for (const line of text.split(/\r?\n/)) {
+      const m = line.match(/^\s*VERCEL_AUTOMATION_BYPASS_SECRET\s*=\s*(.+?)\s*$/);
+      if (!m) continue;
+      let val = m[1].trim();
+      if (
+        (val.startsWith('"') && val.endsWith('"')) ||
+        (val.startsWith("'") && val.endsWith("'"))
+      ) {
+        val = val.slice(1, -1);
+      }
+      if (val) process.env.VERCEL_AUTOMATION_BYPASS_SECRET = val;
+      break;
+    }
+  } catch {
+    /* optional file */
+  }
+}
+
+loadBypassFromEnvLocal();
 const OUT_DIR = join(
   ROOT,
   "artifacts",

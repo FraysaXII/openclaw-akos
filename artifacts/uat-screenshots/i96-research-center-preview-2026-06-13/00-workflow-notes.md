@@ -1,28 +1,34 @@
-# I96 Preview L3.5 — experiential capture attempt (2026-06-13)
+# I96 Preview L3.5 — experiential capture (2026-06-14, v2 recapture)
 
-**Scope:** Operator + Director @1280 · discover → triage → drawer-open → audit · Vercel Preview host  
-**Tool:** Playwright (`scripts/_one_off/i96_preview_l3_experiential_screenshots.mjs`) + Cursor Browser MCP  
-**Preview URL:** https://hlk-erp-git-feat-i96-research-center-b15-holistika.vercel.app/research-center  
-**PR:** https://github.com/FraysaXII/hlk-erp/pull/36 · SHA `e47d8b9`  
-**Auth attempted:** dev-password (`/api/dev/sign-in?next=…`) — **blocked before ERP auth**
+**Scope:** Operator + Director @1280 · discover → triage → drawer-open → audit · Vercel PR preview host  
+**Tools:** Cursor Browser MCP (operator magic-link session) — **parent agent foreground only**  
+**Preview URL:** https://hlk-erp-git-feat-i96-research-center-b15-holistika.vercel.app  
+**PR:** https://github.com/FraysaXII/hlk-erp/pull/36 · SHA **`eedcd1d`**
 
-## Blocker (binding)
+## v1 incident (do not repeat)
 
-**Vercel Deployment Protection** returns **HTTP 401** on all preview routes. Browser and Playwright redirect to `vercel.com/login` (Vercel SSO). `VERCEL_AUTOMATION_BYPASS_SECRET` **not set** in this execution environment.
+Subagent marked 8/8 VALID without reading PNGs. Director `06`/`08` were byte-identical; director shots were expanded-sidebar crops (~22KB). Operator drawer v1 was blurry.
 
-Per CICD baseline SOP §5, automation requires `x-vercel-protection-bypass` header or operator Vercel session cookie.
+## v2 canonical journey files
 
-## Agent self-verify (L3.0)
+| File | Verdict | Notes |
+|:---|:---:|:---|
+| `01-operator-discover-1280-magiclink.png` | VALID | v1 retained |
+| `02-operator-triage-1280-magiclink.png` | VALID | v1 retained |
+| `03-operator-drawer-open-1280-magiclink-v2.png` | VALID | supersedes v1 |
+| `04-operator-audit-1280-magiclink.png` | VALID | v1 retained |
+| `05-director-discover-1280-magiclink-v2.png` | VALID | PREVIEW badge; supersedes v1 |
+| `06-director-triage-1280-magiclink-v2.png` | VALID | P10-T2 PAUSED card |
+| `07-director-drawer-open-1280-magiclink-v2.png` | VALID | drawer phase blocker |
+| `08-director-audit-1280-magiclink-v2.png` | VALID | WIP research packs panel |
 
-| File | Research Center heading | Full-page UI | Verdict |
-|:---|:---:|:---:|:---|
-| `00-diagnostic.png` | ✗ | ✗ (Vercel login wall) | **INVALID** — not ERP |
-| `01`–`08` journey shots | — | — | **NOT CAPTURED** (SSO timeout) |
+**Mechanical gate:** `py scripts/validate_uat_screenshot_evidence.py --session-dir .` → **PASS**  
+**Visual review:** [`agent_visual_review.json`](agent_visual_review.json)  
+**SOP:** [`SOP-EXPERIENTIAL_UAT_AGENT_VISUAL_REVIEW_001.md`](../../../docs/wip/planning/96-research-data-plane-and-research-center/reports/SOP-EXPERIENTIAL_UAT_AGENT_VISUAL_REVIEW_001.md)
 
-## Recovery path (operator / AIC)
+## Capture hygiene (binding)
 
-1. Set `VERCEL_AUTOMATION_BYPASS_SECRET` in session env (Vercel project → Deployment Protection → Automation bypass), **or**
-2. Operator completes Vercel SSO once and re-runs capture from authenticated browser, **or**
-3. Temporarily disable preview protection for PR #36 walk (re-enable after UAT).
-
-Re-run: `node scripts/_one_off/i96_preview_l3_experiential_screenshots.mjs`
+1. CDP viewport 1280×800  
+2. **Collapse sidebar** before shutter  
+3. Scroll audit region into view for audit-stage shots  
+4. Parent agent reads every PNG — no subagent visual sign-off

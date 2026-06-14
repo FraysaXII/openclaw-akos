@@ -1,0 +1,19 @@
+{
+  "initiative": "I96-research-center-v2",
+  "ladder_tier": "L3.5-Preview",
+  "source_sha": "d4c5e7d47a26bab9b92805b1e6b1ce02cbd871e5",
+  "hostname": "https://hlk-erp-git-feat-i96-research-center-b15-holistika.vercel.app",
+  "pr_url": "https://github.com/FraysaXII/hlk-erp/pull/36",
+  "captured_at": "2026-06-13T22:55:12.071Z",
+  "captures": [],
+  "errors": [
+    "01-operator-discover-1280-auth-dev-password.png: Dev sign-in 401 — align DEV_PREVIEW_EMAIL/PASSWORD with Supabase Auth (Vercel Preview env or GitHub secrets)",
+    "02-operator-triage-1280-auth-dev-password.png: Auth wall — reached sign-in without session",
+    "03-operator-drawer-open-1280-auth-dev-password.png: Auth wall — reached sign-in without session",
+    "04-operator-audit-1280-auth-dev-password.png: Auth wall — reached sign-in without session",
+    "05-director-discover-1280-auth-dev-password.png: Dev sign-in 401 — align DEV_PREVIEW_EMAIL/PASSWORD with Supabase Auth (Vercel Preview env or GitHub secrets)",
+    "06-director-triage-1280-auth-dev-password.png: Auth wall — reached sign-in without session",
+    "07-director-drawer-open-1280-auth-dev-password.png: Auth wall — reached sign-in without session",
+    "08-director-audit-1280-auth-dev-password.png: Auth wall — reached sign-in without session"
+  ]
+}

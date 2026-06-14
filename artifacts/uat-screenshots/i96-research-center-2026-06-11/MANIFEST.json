@@ -1,0 +1,172 @@
+﻿{
+  "initiative": "I96-research-center",
+  "session": "2026-06-12-p7-panel-walk-session-5",
+  "verdict_scope": "authenticated-panel-walk-post-role-mapping-fix",
+  "entries": [
+    {
+      "file": "01-sign-in-ready.png",
+      "route": "http://localhost:3010/sign-in?next=%2Fresearch-center",
+      "auth_state": "anonymous",
+      "viewport": "1280/default",
+      "sha256": "b1b0a50b8d8abb627ffb2a29a37fed581636e6a7b946af32cd70bda589d2d5b8",
+      "captured_at": "2026-06-11T22:45:57.1180818Z"
+    },
+    {
+      "file": "02-auth-blocked-sign-in.png",
+      "route": "http://localhost:3010/sign-in?next=%2Fresearch-center",
+      "auth_state": "anonymous",
+      "viewport": "1280/default",
+      "sha256": "18e377caf9b5bf663dc6520e79f0675bfbd5cddef23963bb980b82140c6d8ee5",
+      "captured_at": "2026-06-11T22:45:57.1180818Z"
+    },
+    {
+      "file": "02-localhost-needs-local-magic-link.png",
+      "route": "http://localhost:3010/sign-in?next=%2Fresearch-center",
+      "auth_state": "anonymous",
+      "viewport": "1280/default",
+      "sha256": "b1b0a50b8d8abb627ffb2a29a37fed581636e6a7b946af32cd70bda589d2d5b8",
+      "captured_at": "2026-06-11T22:45:57.1180818Z"
+    },
+    {
+      "file": "03-marketing-site-auth-redirect.png",
+      "route": "https://www.holistikaresearch.com/?error=otp_expired",
+      "auth_state": "verify-failed-otp_expired",
+      "viewport": "1280/default",
+      "sha256": "e3ad8c8f54a630e586947460d385924ac64e6d459722d62028a61012c618ea20",
+      "captured_at": "2026-06-11T22:45:57.1180818Z"
+    },
+    {
+      "file": "04-sign-in-mobile-375.png",
+      "route": "http://localhost:3010/sign-in?next=%2Fresearch-center",
+      "auth_state": "anonymous",
+      "viewport": "375",
+      "sha256": "bcceb6c55eedbffc0c01e0a9693e14098747e5c6d0eb05955e86c693caaec606",
+      "captured_at": "2026-06-11T22:45:57.1180818Z"
+    },
+    {
+      "file": "05-sign-in-tablet-768.png",
+      "route": "http://localhost:3010/sign-in?next=%2Fresearch-center",
+      "auth_state": "anonymous",
+      "viewport": "768",
+      "sha256": "748b77818ca35edee992cff5872798129ddbdf53e3dfae042c89c0f11fbb5f2d",
+      "captured_at": "2026-06-11T22:45:57.1180818Z"
+    },
+    {
+      "file": "06-sign-in-desktop-1280.png",
+      "route": "http://localhost:3010/sign-in?next=%2Fresearch-center",
+      "auth_state": "anonymous",
+      "viewport": "1280/default",
+      "sha256": "fe91a5b2d88a8abfc4a6e07decd0045ae9add2758ce4fa99bea1b229eeacdf94",
+      "captured_at": "2026-06-11T22:45:57.1180818Z"
+    },
+    {
+      "file": "07-magic-link-otp-expired-marketing.png",
+      "route": "https://www.holistikaresearch.com/?error=otp_expired",
+      "auth_state": "verify-failed-otp_expired",
+      "viewport": "1280/default",
+      "sha256": "e3ad8c8f54a630e586947460d385924ac64e6d459722d62028a61012c618ea20",
+      "captured_at": "2026-06-11T22:45:57.1180818Z"
+    },
+    {
+      "file": "08-dev-signin-redirect-error-375.png",
+      "route": "http://localhost:3010/api/dev/sign-in",
+      "auth_state": "dev-password-303-then-ERR_TOO_MANY_REDIRECTS",
+      "viewport": "375",
+      "sha256": "335edb091f6a42c66858f2971571456470134fd422873254fdf61feae0f7fb75",
+      "captured_at": "2026-06-11T23:03:25Z"
+    },
+    {
+      "file": "09-dev-signin-redirect-error-768.png",
+      "route": "http://localhost:3010/api/dev/sign-in",
+      "auth_state": "dev-password-303-then-ERR_TOO_MANY_REDIRECTS",
+      "viewport": "768",
+      "sha256": "662070a0eae78c15688d159dc631234def56e1b7d38e9ee14552c9eb557b0034",
+      "captured_at": "2026-06-11T23:03:34Z"
+    },
+    {
+      "file": "10-dev-signin-redirect-error-1280.png",
+      "route": "http://localhost:3010/api/dev/sign-in",
+      "auth_state": "dev-password-303-then-ERR_TOO_MANY_REDIRECTS",
+      "viewport": "1280",
+      "sha256": "dad9c404eb64b5dea7de6aa5009a049a751d13281c487ea69e2ef03d95e86dd2",
+      "captured_at": "2026-06-11T23:03:34Z"
+    },
+    {
+      "file": "08-research-center-redirect-error-1280.png",
+      "route": "http://localhost:3010/research-center",
+      "auth_state": "session-cookie-set-panel-blocked",
+      "viewport": "1280",
+      "sha256": "b4b03d2f4f7eb812ff36849edced521f03b839ff2c66a76c52080b6dc59d8d2f",
+      "captured_at": "2026-06-11T22:59:00Z"
+    },
+    {
+      "file": "11-research-center-signed-in-1280.png",
+      "route": "http://localhost:3010/research-center",
+      "auth_state": "dev-password-signed-in-post-fix",
+      "viewport": "1280",
+      "sha256": "4d674313fb41ddc5916fec0fdd1070020132339d4ba7b364053bba658649a970",
+      "captured_at": "2026-06-12T23:09:22Z"
+    },
+    {
+      "file": "12-research-center-signed-in-768.png",
+      "route": "http://localhost:3010/research-center",
+      "auth_state": "dev-password-signed-in-post-fix",
+      "viewport": "768",
+      "sha256": "2f902065ca264c60736c4fabf9a54ed5d0ffb96b66cf5c0efca171821afc783c",
+      "captured_at": "2026-06-12T23:09:41Z"
+    },
+    {
+      "file": "13-research-center-signed-in-375.png",
+      "route": "http://localhost:3010/research-center",
+      "auth_state": "dev-password-signed-in-post-fix",
+      "viewport": "375",
+      "sha256": "5012b463f8779561181ae409bbffdd9cc7236e19c84b8292528a22fba8b323cc",
+      "captured_at": "2026-06-12T23:09:42Z"
+    },
+    {
+      "file": "14-freshness-strip-1280-v2.png",
+      "route": "http://localhost:3010/research-center",
+      "auth_state": "dev-password-signed-in-post-fix",
+      "viewport": "1280",
+      "panel": "hero-freshness-strip",
+      "sha256": "d4590170f021b2d9a1b90e8ecd2cc4923af4845286c6d3e69f43a554082706a8",
+      "captured_at": "2026-06-12T23:15:00Z"
+    },
+    {
+      "file": "18-panel-ledger-summary-1280-mcp.png",
+      "route": "http://localhost:3010/research-center",
+      "auth_state": "dev-password-signed-in-post-fix",
+      "viewport": "1280",
+      "panel": "ledger-summary",
+      "sha256": "74df85bd71154290f529584efa3a5f35cc89144bd5e9d8d162f84595606ea48c",
+      "captured_at": "2026-06-12T23:18:00Z"
+    },
+    {
+      "file": "19-panel-radar-queue-1280-mcp.png",
+      "route": "http://localhost:3010/research-center",
+      "auth_state": "dev-password-signed-in-post-fix",
+      "viewport": "1280",
+      "panel": "radar-queue",
+      "sha256": "580cf3d0555a4000b721ca9d2c28b03000efa19a011828d542f4b6d64ec3c26e",
+      "captured_at": "2026-06-12T23:18:10Z"
+    },
+    {
+      "file": "20-panel-kirbe-search-1280-mcp.png",
+      "route": "http://localhost:3010/research-center",
+      "auth_state": "dev-password-signed-in-post-fix",
+      "viewport": "1280",
+      "panel": "kirbe-search",
+      "sha256": "e12d2b4b31d67359dbd5e85569502c0d7ed941bf58901079a3ec8ea9aa6bfc56",
+      "captured_at": "2026-06-12T23:18:20Z"
+    },
+    {
+      "file": "21-sign-in-post-allowlist-1280.png",
+      "route": "http://localhost:3010/sign-in?next=%2Fresearch-center",
+      "auth_state": "anonymous",
+      "viewport": "1280",
+      "note": "post-supabase-redirect-url-allowlist-operator-2026-06-12",
+      "sha256": "979622fff71918550d3d73e4437dbdc26cf84cd7a841a47753d77c817163767a",
+      "captured_at": "2026-06-12T12:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "initiative": "I96-research-center-v2",
+  "session": "2026-06-13-b15-l3-experiential",
+  "wave": "B1.5",
+  "verdict_scope": "b15-operator-director-l3",
+  "capture_tool": "playwright",
+  "ladder_tier": "L3",
+  "agent_self_verify": "mandatory — read PNG before READY",
+  "captured_at": "2026-06-13T14:25:01.903Z",
+  "viewport": "1280x800",
+  "auth": "auth-dev-password",
+  "captures": [
+    {
+      "file": "01-operator-discover-1280-auth-dev-password.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "pov_lens": "operator",
+      "journey_stage": "discover",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "376a78948f114f47856319fee6c4631db3ef201f77ea031c01fc3a7ce0863c96",
+      "captured_at": "2026-06-13T14:25:01.903Z",
+      "notes": "B1.5 L3 operator — discover",
+      "supersedes": "01-operator-b15-1280.png"
+    },
+    {
+      "file": "02-operator-triage-1280-auth-dev-password.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "pov_lens": "operator",
+      "journey_stage": "triage",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "376a78948f114f47856319fee6c4631db3ef201f77ea031c01fc3a7ce0863c96",
+      "captured_at": "2026-06-13T14:25:01.903Z",
+      "notes": "B1.5 L3 operator — triage",
+      "supersedes": null
+    },
+    {
+      "file": "03-operator-drawer-open-1280-auth-dev-password.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "pov_lens": "operator",
+      "journey_stage": "drawer-open",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "686c504a699cc68e0813ab572ce0f03111746e5052a9d406fb641d2e6b0890ee",
+      "captured_at": "2026-06-13T14:25:01.903Z",
+      "notes": "B1.5 L3 operator — drawer-open",
+      "supersedes": null
+    },
+    {
+      "file": "04-operator-audit-1280-auth-dev-password.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "pov_lens": "operator",
+      "journey_stage": "audit",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "6b38ab38576cb63f3b735348b6cd4ccd419f59bf528adb3f11f6a2b5e98df74b",
+      "captured_at": "2026-06-13T14:25:01.903Z",
+      "notes": "B1.5 L3 operator — audit",
+      "supersedes": null
+    },
+    {
+      "file": "05-director-discover-1280-auth-dev-password.png",
+      "route": "/research-center?pov=director",
+      "viewport": "1280x800",
+      "pov_lens": "director",
+      "journey_stage": "discover",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "b98500a0630fa3dd471fe65590e0de9c2a29d6454d62ed05b56cc701b67563df",
+      "captured_at": "2026-06-13T14:25:01.903Z",
+      "notes": "B1.5 L3 director — discover",
+      "supersedes": "02-director-b15-1280.png"
+    },
+    {
+      "file": "06-director-triage-1280-auth-dev-password.png",
+      "route": "/research-center?pov=director",
+      "viewport": "1280x800",
+      "pov_lens": "director",
+      "journey_stage": "triage",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "b98500a0630fa3dd471fe65590e0de9c2a29d6454d62ed05b56cc701b67563df",
+      "captured_at": "2026-06-13T14:25:01.903Z",
+      "notes": "B1.5 L3 director — triage",
+      "supersedes": null
+    },
+    {
+      "file": "07-director-drawer-open-1280-auth-dev-password.png",
+      "route": "/research-center?pov=director",
+      "viewport": "1280x800",
+      "pov_lens": "director",
+      "journey_stage": "drawer-open",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "6568841540cf85c3c8fa6b671c569263c404ce4face3124acf50723fb9b0406a",
+      "captured_at": "2026-06-13T14:25:01.903Z",
+      "notes": "B1.5 L3 director — drawer-open",
+      "supersedes": null
+    },
+    {
+      "file": "08-director-audit-1280-auth-dev-password.png",
+      "route": "/research-center?pov=director",
+      "viewport": "1280x800",
+      "pov_lens": "director",
+      "journey_stage": "audit",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "23cb2faf7c230b2070b30480d406fd25c5126dfb4331a04ecb1a8a71eac05186",
+      "captured_at": "2026-06-13T14:25:01.903Z",
+      "notes": "B1.5 L3 director — audit",
+      "supersedes": null
+    }
+  ]
+}

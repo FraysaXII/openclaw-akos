@@ -1,0 +1,65 @@
+{
+  "initiative": "I96-research-center-v2",
+  "session": "2026-06-12-p10-followup-uat",
+  "verdict_scope": "operator-pov-remediation-drawer-open",
+  "capture_tool": "cursor-ide-browser",
+  "route": "http://localhost:3010/api/dev/sign-in?next=/research-center",
+  "auth_state": "dev-sign-in-authenticated",
+  "viewport": "1280x800",
+  "pov_lens": "operator",
+  "entries": [
+    {
+      "file": "01-pov-switcher-remediation-cards-1280.png",
+      "subject": "POV switcher (Director/Operator/Auditor/Finance/Compliance) + three critical remediation cards (ledger-zero, radar-empty, kirbe-unhealthy) + freshness strip",
+      "sha256": "f10cde0000375ae9c21ee3b7dff77feb212c66fac4b27b18b074f5a544ac8c81",
+      "captured_at": "2026-06-12"
+    },
+    {
+      "file": "03-drill-down-sheet-ledger-validator-1280.png",
+      "subject": "Sheet drill-down open on ledger remediation — three-plane mapping, govern artifact, runbook command, initiative hook",
+      "sha256": "e9dcf0341c67fb624cdcc8b19ac6e330b87f64d69f53b24f60589ba1a1e076e5",
+      "captured_at": "2026-06-12"
+    },
+    {
+      "file": "01-operator-pov-remediation-drawer-1280.png",
+      "subject": "Combined capture attempt (CDP tiled viewport — superseded by 01 + 03 pair)",
+      "sha256": "28ba10135f0746a630e5d926b27da1a06a7f2cbf5ee70ef0a90cd71f0575e58a",
+      "captured_at": "2026-06-12",
+      "note": "viewport tiling artifact; prefer 01-pov + 03-drill-down pair"
+    }
+  ],
+  "captures": [
+    {
+      "file": "04-tier-a-remediation-cards-1280.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-12T09:54:34.899Z",
+      "screenshot_sha256": "4a49870be62584b6a9c5f453cc83dc2d31eeb4200b3d4d130cf5900d51210276",
+      "notes": "P9b GOJ Tier A — remediation card faces (What/When/Why + CTA)"
+    },
+    {
+      "file": "05-tier-a-drawer-runbook-1280.png",
+      "route": "/research-center drawer — ledger validator",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-12T09:54:34.899Z",
+      "screenshot_sha256": "e21163d110ab44426058cf0a8c2e6d6a3b8d459c5b922b7c77d6e20b205b57fa",
+      "notes": "P9b GOJ Tier A — drawer runbook Outcome/When/Command"
+    },
+    {
+      "file": "04-tier-a-remediation-cards-1280.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-12T10:31:06.469Z",
+      "screenshot_sha256": "4a49870be62584b6a9c5f453cc83dc2d31eeb4200b3d4d130cf5900d51210276",
+      "notes": "P9b GOJ Tier A — remediation card faces (What/When/Why + CTA)"
+    },
+    {
+      "file": "05-tier-a-drawer-runbook-1280.png",
+      "route": "/research-center drawer — ledger validator",
+      "viewport": "1280x800",
+      "captured_at": "2026-06-12T10:31:06.469Z",
+      "screenshot_sha256": "e21163d110ab44426058cf0a8c2e6d6a3b8d459c5b922b7c77d6e20b205b57fa",
+      "notes": "P9b GOJ Tier A — drawer runbook Outcome/When/Command"
+    }
+  ]
+}

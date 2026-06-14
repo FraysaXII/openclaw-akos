@@ -53,11 +53,15 @@ node scripts/_one_off/i96_preview_l3_experiential_screenshots.mjs
 
 ## Thorough experiential checklist (derived from ladder + B1.5)
 
-### L3.0 self-verify (binding)
+### L3.0 self-verify (binding — non-delegable)
 
-- [ ] Agent reads **every** PNG before check-links READY
-- [ ] Full-page UI + Research Center heading — not favicon/loader
-- [ ] Record VALID/INVALID in session `00-workflow-notes.md`
+- [ ] **Parent agent** reads **every** canonical journey PNG (`Read` tool) — not subagent summary
+- [ ] `agent_visual_review.json` in session folder with VALID + observations per journey file
+- [ ] `py scripts/validate_uat_screenshot_evidence.py --session-dir …` exit 0 **before** UAT verdict
+- [ ] Collapse sidebar @ 1280 before capture; scroll audit panels into view for audit shot
+- [ ] Record VALID/INVALID/SUPERSEDED in session `00-workflow-notes.md` + visual review JSON
+
+**SOP:** [`SOP-EXPERIENTIAL_UAT_AGENT_VISUAL_REVIEW_001.md`](SOP-EXPERIENTIAL_UAT_AGENT_VISUAL_REVIEW_001.md)
 
 ### Auth matrix (minimum)
 

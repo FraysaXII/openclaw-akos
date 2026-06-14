@@ -1,0 +1,90 @@
+{
+  "session": "i96-research-center-preview-2026-06-13",
+  "reviewed_at": "2026-06-14T00:15:00Z",
+  "reviewed_by": "parent-agent-foreground",
+  "delegation_allowed": false,
+  "sop": "docs/wip/planning/96-research-data-plane-and-research-center/reports/SOP-EXPERIENTIAL_UAT_AGENT_VISUAL_REVIEW_001.md",
+  "incident_note": "v1 director captures (05-08) were sidebar crops; 06 and 08 were byte-identical. v2 recaptured with collapsed sidebar. Parent agent read every PNG — no subagent visual sign-off.",
+  "captures": [
+    {
+      "file": "01-operator-discover-1280-magiclink.png",
+      "verdict": "VALID",
+      "observations": "Research Center h1, Operator POV selected, journey on Discover, RED system verdict pill, prong env warning, 3 signals loaded."
+    },
+    {
+      "file": "02-operator-triage-1280-magiclink.png",
+      "verdict": "VALID",
+      "observations": "Triage journey step active; Ledger card 'Source ledger not loaded — plan may be pending'; Open planning index CTA."
+    },
+    {
+      "file": "03-operator-drawer-open-1280-magiclink-v2.png",
+      "verdict": "VALID",
+      "supersedes": "03-operator-drawer-open-1280-magiclink.png",
+      "observations": "Drawer open: 'Research ledger has no loaded rows'; Act/Runbook/Govern sections; sidebar collapsed; triage journey context."
+    },
+    {
+      "file": "03-operator-drawer-open-1280-magiclink.png",
+      "verdict": "SUPERSEDED",
+      "observations": "v1 blurry partial crop — replaced by v2."
+    },
+    {
+      "file": "04-operator-audit-1280-magiclink.png",
+      "verdict": "VALID",
+      "observations": "Audit accordion expanded; WIP research packs; amber 'GitHub reader not configured for metadata'; no intelligence packs."
+    },
+    {
+      "file": "05-director-discover-1280-magiclink-v2.png",
+      "verdict": "VALID",
+      "supersedes": "05-director-discover-1280-magiclink.png",
+      "observations": "PREVIEW badge visible; Director POV; Research Center hero; Program phase subtitle; collapsed sidebar."
+    },
+    {
+      "file": "05-director-discover-1280-magiclink.png",
+      "verdict": "SUPERSEDED",
+      "observations": "v1 sidebar-only crop — not charter-qualified."
+    },
+    {
+      "file": "06-director-triage-1280-magiclink-v2.png",
+      "verdict": "VALID",
+      "supersedes": "06-director-triage-1280-magiclink.png",
+      "observations": "P10-T2 PAUSED phase blocker card; warning+phase chips; Open I96 master roadmap + Details CTAs."
+    },
+    {
+      "file": "06-director-triage-1280-magiclink.png",
+      "verdict": "SUPERSEDED",
+      "observations": "v1 sidebar crop; v2 supersedes."
+    },
+    {
+      "file": "07-director-drawer-open-1280-magiclink-v2.png",
+      "verdict": "VALID",
+      "supersedes": "07-director-drawer-open-1280-magiclink.png",
+      "observations": "Drawer: P10-T2 PAUSED — blocks next build tranche; Govern/runbook sections visible."
+    },
+    {
+      "file": "07-director-drawer-open-1280-magiclink.png",
+      "verdict": "SUPERSEDED",
+      "observations": "v1 blurry sidebar crop."
+    },
+    {
+      "file": "08-director-audit-1280-magiclink-v2.png",
+      "verdict": "VALID",
+      "supersedes": "08-director-audit-1280-magiclink.png",
+      "observations": "WIP research packs audit panel scrolled into view; GH_PAT_PLANNING_READER warning; Browse on GitHub link."
+    },
+    {
+      "file": "08-director-audit-1280-magiclink.png",
+      "verdict": "SUPERSEDED",
+      "observations": "v1 duplicate hash of 06 — INVALID for audit stage."
+    },
+    {
+      "file": "09-planning-index-1280-magiclink.png",
+      "verdict": "VALID",
+      "observations": "Planning index renders; 0 initiatives; GitHub Contents reader warning; no BigInt crash."
+    },
+    {
+      "file": "10-planning-i96-detail-1280-magiclink.png",
+      "verdict": "VALID",
+      "observations": "Graceful 'Could not load initiative' for I96 slug — no 500."
+    }
+  ]
+}

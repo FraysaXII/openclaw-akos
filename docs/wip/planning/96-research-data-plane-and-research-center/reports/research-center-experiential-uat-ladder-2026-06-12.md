@@ -27,19 +27,22 @@ linked_charter: reports/uat-i96-research-center-v2-charter-2026-06-12.md
 
 **Binding rule:** Higher tiers **assume** lower tiers green. L4 never substitutes for a missing L3 manifest.
 
-### L3.0 — Agent self-verify gate (BINDING — 2026-06-13)
+### L3.0 — Agent self-verify gate (BINDING — 2026-06-13; amended 2026-06-14)
 
-Added after B1.5 invalid captures (`01-operator-b15-1280.png` = favicon only). **Runs inside L3, before operator sees check-links.**
+Added after B1.5 invalid captures (`01-operator-b15-1280.png` = favicon only). **Re-amended after I96 Preview v1** — subagent marked 8/8 VALID without reading PNGs; director `06`/`08` were byte-identical sidebar crops.
 
-| Step | Agent (dual hat) | PASS |
+| Step | Agent (four hats — **same foreground session**) | PASS |
 |:---|:---|:---|
-| 1 | **Technical:** capture with `waitFor` on `Research Center` heading (≥45s); ladder filename tokens | File on disk + MANIFEST sha256 |
-| 2 | **User hat:** **read every PNG** — confirm full page UI (hero, POV switcher, rail or empty state), not favicon/blank/loader | Visual PASS per file |
-| 3 | **Journey hat:** walk Discover → Triage → Act (open drawer) → Audit in browser or scripted flow | Checklist rows recorded in experiential report |
-| 4 | **Brand/copy hat:** scan T0 for localhost/BFF/fixture jargon; CTAs are verbs not "Copy … command" only | Matches page spec v2 + GOJ Strict T3 |
-| 5 | Update **§ Check now** only — never mark READY FOR REVIEW if step 2 FAIL | Operator sees ≤7 priority links |
+| 1 | **Capture:** viewport 1280×800; **collapse sidebar** before each shot; wait for Research Center heading | File on disk + MANIFEST sha256 |
+| 2 | **Visual review (non-delegable):** parent agent **Read** every canonical journey PNG; write `agent_visual_review.json` | VALID row + observations per file; `delegation_allowed: false` |
+| 3 | **Mechanical gate:** `py scripts/validate_uat_screenshot_evidence.py --session-dir …` | exit 0 (no DUP-HASH / UNDERSIZE / missing review) |
+| 4 | **Journey hat:** walk Discover → Triage → Act (drawer) → Audit (scroll audit into view) | Checklist rows in experiential report |
+| 5 | **Brand/copy hat:** scan T0 for localhost/BFF/fixture jargon | Matches page spec v2 + GOJ Strict T3 |
+| 6 | Update **§ Check now** only — never mark READY FOR REVIEW if step 2–3 FAIL | Operator sees ≤7 priority links |
 
-**Tranche FAIL** if agent ships invalid screenshots or skips step 3. Operator review is L4; agent must complete L3.0 first.
+**Tranche FAIL** if: invalid screenshots, skipped visual read, subagent-only review, or duplicate journey hashes. Operator review is L4; agent must complete L3.0 first.
+
+**SOP:** [`SOP-EXPERIENTIAL_UAT_AGENT_VISUAL_REVIEW_001.md`](reports/SOP-EXPERIENTIAL_UAT_AGENT_VISUAL_REVIEW_001.md) (I96 mint; promote to v3.0 when ratified).
 
 ---
 
