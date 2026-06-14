@@ -2,15 +2,14 @@
 title: I90 P4b — Preview vertical slice (evidence-class gate)
 last_review: 2026-06-14
 audience: J-OP;J-AIC
-status: in_progress
-carryover_posture: scheduled
+status: closed
+carryover_posture: superseded
 activation_trigger: Gateway + hlk-erp Preview deploy reachable (P4a closed 32521d2f)
 ---
 
 # Phase B — hlk-erp Preview end-to-end proof
 
-**Carryover posture:** scheduled for I90 P4b (not dropped) — starts after operator
-skims governance design; tracked in I90 master-roadmap §P4.
+**Carryover posture:** closed 2026-06-14 — see [`uat-i90-p4b-preview-evidence-gate-2026-06-14.md`](uat-i90-p4b-preview-evidence-gate-2026-06-14.md).
 
 ## Goal
 

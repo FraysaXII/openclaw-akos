@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from datetime import date
@@ -25,11 +26,17 @@ ARTIFACT_DIR = REPO_ROOT / "artifacts" / "evidence-gate"
 
 
 def _run(argv: list[str]) -> tuple[int, str]:
+    env = os.environ.copy()
+    # Windows cp1252 consoles crash on Unicode in validator output (e.g. >= in docstrings).
+    env.setdefault("PYTHONIOENCODING", "utf-8")
     proc = subprocess.run(
         [sys.executable, *argv],
         cwd=REPO_ROOT,
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
+        env=env,
     )
     out = (proc.stdout or "") + (proc.stderr or "")
     return proc.returncode, out.strip()

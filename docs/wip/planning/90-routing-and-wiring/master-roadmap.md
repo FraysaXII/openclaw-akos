@@ -50,7 +50,7 @@ Holistika's Cursor workspace carried **25 always-on rules** (P2 reduces to **3**
 | **P3.5** | KiRBe production routing (D-IH-90-X + OPS-90-1..6; sibling doc PRs) | **GATE #3b** (**closed** 2026-06-01) |
 | **P4** | Evidence-class gate mechanics (validators + ledger strip) | **closed** 2026-06-14 (`e849c799`) |
 | **P4a** | Governance doctrine + federated singularity tranche (Option B + DATA contracts + I100 charter) | **closed** 2026-06-14 (`32521d2f`, `D-IH-90-AF`, `D-IH-100-I`) |
-| **P4b** | Preview vertical slice (hlk-erp deploy + browser manifest) | **in progress** — prep PASS; **BLOCKED-ENV** (gateway); see [`reports/p4b-preview-slice-prep-2026-06-14.md`](reports/p4b-preview-slice-prep-2026-06-14.md) |
+| **P4b** | Preview vertical slice (hlk-erp deploy + browser manifest) | **closed** 2026-06-14 PWF — [`reports/uat-i90-p4b-preview-evidence-gate-2026-06-14.md`](reports/uat-i90-p4b-preview-evidence-gate-2026-06-14.md) |
 | **P4c** | Vault promotion (doctrine + process_list; registries → Data SSOT) | **closed** 2026-06-14 (`D-IH-90-AF`) |
 
 ## 2 — Phase dependency
@@ -92,7 +92,7 @@ flowchart LR
 
 **P4a (closed `32521d2f`):** Singularity ratification [`reports/evidence-class-gate-singularity-ratification-2026-06-14.md`](reports/evidence-class-gate-singularity-ratification-2026-06-14.md); Option B registry move; DATA contract tranche; Quality Fabric `compose_EVIDENCE`; I100 lab dimension charter.
 
-**P4b (in progress — BLOCKED-ENV):** Prep report [`reports/p4b-preview-slice-prep-2026-06-14.md`](reports/p4b-preview-slice-prep-2026-06-14.md). Slice spec: [`reports/evidence-class-gate-phase-b-preview-slice-2026-06-14.md`](reports/evidence-class-gate-phase-b-preview-slice-2026-06-14.md). Carryover: `CO-90-001`.
+**P4b (closed 2026-06-14 PWF):** Closure UAT [`reports/uat-i90-p4b-preview-evidence-gate-2026-06-14.md`](reports/uat-i90-p4b-preview-evidence-gate-2026-06-14.md). Preview manifest: `artifacts/uat-screenshots/i96-research-center-preview-2026-06-13/MANIFEST.json`. Gateway follow-up: `CO-90-004`.
 
 **Verification:**
 

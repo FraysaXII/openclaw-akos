@@ -2,7 +2,7 @@
 intellectual_kind: carryover_posture_index
 sharing_label: internal_only
 authored: 2026-06-12
-last_review: 2026-06-12
+last_review: 2026-06-14
 next_review_trigger: Weekly index staleness review OR any initiative closure touches a row
 linked_decisions:
   - D-IH-98-A
@@ -54,7 +54,8 @@ language: en
 | CO-95-001 | forward_charter | PMO business-strategy placement | I94 P5 ratify | I95 tracker operator ratify | I94 P5 session | PMO | `docs/wip/planning/_trackers/i95-operations-pmo-business-strategy-placement-tracker.md` |
 | CO-100-001 | scheduled | Wave-3 long-tail D1/D0 promotion | I100 closed; matrix rows without dimension registry | Quarterly reconcile OR new consumer | 2026-09-14 | System Owner | `docs/wip/planning/100-lab-component-ecosystem-governance/master-roadmap.md` |
 | CO-100-002 | scheduled | Vercel Pro features (Skew Protection Drains) | Pro trial expired | Operator renews Pro OR accepts drift | 2026-07-15 | DevOPS | `docs/wip/planning/100-lab-component-ecosystem-governance/risk-register.md#R-IH-100-6` |
-| CO-90-001 | scheduled | I90 P4b Preview experiential proof slice | P4a+ committed; mechanical prep PASS | Gateway + Preview deploy healthy | 2026-06-21 | System Owner | `docs/wip/planning/90-routing-and-wiring/reports/p4b-preview-slice-prep-2026-06-14.md` |
+| CO-90-001 | superseded | I90 P4b Preview experiential proof slice | P4b closure UAT 2026-06-14 | Preview manifest + evidence gate PASS | — | System Owner | `docs/wip/planning/90-routing-and-wiring/reports/uat-i90-p4b-preview-evidence-gate-2026-06-14.md` |
+| CO-90-004 | scheduled | Local OpenClaw gateway HTTP/RPC recovery | P4b PWF; browser-smoke gateway FAIL | `openclaw gateway run` healthy + browser-smoke PASS | 2026-06-21 | System Owner | `docs/wip/planning/90-routing-and-wiring/reports/uat-i90-p4b-preview-evidence-gate-2026-06-14.md` |
 | CO-90-002 | superseded | I90 phase commit (P4c+ singularity land) | P4a+ singularity tranche committed 2026-06-14 | Commit landed | — | PMO | `docs/wip/planning/90-routing-and-wiring/reports/evidence-class-gate-singularity-ratification-2026-06-14.md` |
 | CO-90-003 | scheduled | `derive_quality_bar.py` compose_EVIDENCE resolution | Quality Fabric §6 row landed | Next derive_quality_bar tranche | 2026-07-01 | People Ops | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md` |
 | CO-LAB-001 | superseded | OPS-100-1 (was OPS-LAB-001) HCAM FK backfill | I100 P4 triples + carryover | I100 closure 2026-06-14 | Archive | System Owner | `docs/wip/planning/100-lab-component-ecosystem-governance/decision-log.md` |

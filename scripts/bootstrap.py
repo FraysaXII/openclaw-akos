@@ -362,6 +362,12 @@ def phase_config(args: argparse.Namespace) -> bool:
         save_json(sidecar, akos_keys)
         status("PASS", f"AKOS-specific keys saved to {sidecar.name}")
 
+    # OpenClaw 2026.4.x CLI rejects legacy AKOS ``strict`` sandbox mode (use ``all``).
+    sandbox = merged.get("agents", {}).get("defaults", {}).get("sandbox")
+    if isinstance(sandbox, dict) and sandbox.get("mode") == "strict":
+        sandbox["mode"] = "all"
+        status("PASS", "Mapped agents.defaults.sandbox.mode strict→all for OpenClaw CLI schema")
+
     save_json(oc_config, merged)
     status("PASS", f"Config written: {oc_config}")
 

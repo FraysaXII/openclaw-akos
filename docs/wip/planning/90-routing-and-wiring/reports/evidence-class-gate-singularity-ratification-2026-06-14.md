@@ -276,7 +276,7 @@ py -m pytest tests/test_evidence_class_gate.py -q
 |:---|:---|:---|:---|
 | **Phase commit** | **Act now** when operator ready | PMO | `CO-90-002`; land disk → git or risk repeat of I95 back-coverage gap |
 | **`files-modified.csv` backfill** | **Act at commit** | PMO | `docs/wip/planning/90-routing-and-wiring/files-modified.csv` — not yet updated for this tranche |
-| **P4b Preview slice** | scheduled | System Owner | `CO-90-001`; blocked on Preview env |
+| **P4b Preview slice** | closed PWF 2026-06-14 | System Owner | [`uat-i90-p4b-preview-evidence-gate-2026-06-14.md`](uat-i90-p4b-preview-evidence-gate-2026-06-14.md); gateway follow-up `CO-90-004` |
 | **I100 Wave-1/2 CSV merge** | scheduled | System Owner | `CO-100-001`; one alias cycle then FAIL ramp |
 | **`derive_quality_bar` compose_EVIDENCE** | scheduled | People Ops | `CO-90-003` |
 | **FM-13 sibling UI manifest** | scheduled | MADEIRA / UAT | After one clean browser manifest |

@@ -1,0 +1,22 @@
+{
+  "sweep_date": "2026-06-14",
+  "overall": "PASS",
+  "steps": [
+    {
+      "id": "validate_uat_report_all",
+      "exit_code": 0,
+      "tail": "Section matching pattern '^##\\\\s+(?:Section\\\\s+)?6[.\\\\)]?\\\\s*[\\\\u2014\\\\u2013\\\\-:]?\\\\s*SOP\\\\s*[\\\\+\\\\&\\\\s]+runbook\\\\s+pair' not found. Add the section (even as a one-line N/A stateme |\n| `UAT-SEC-07-MISSING` | `body:UAT-SEC-07` | FAIL | gap | Section matching pattern '^##\\\\s+(?:Section\\\\s+)?7[.\\\\)]?\\\\s*[\\\\u2014\\\\u2013\\\\-:]?\\\\s*Risk[\\\\-\\\\s]register\\\\s+closure' not found. Add the section (even as a one-line N/A statement) |\n| `UAT-SEC-08-MISSING` | `body:UAT-SEC-08` | FAIL | gap | Section matching pattern '^##\\\\s+(?:Section\\\\s+)?8[.\\\\)]?\\\\s*[\\\\u2014\\\\u2013\\\\-:]?\\\\s*Decision\\\\s+close[\\\\-\\\\s]outs?' not found. Add the section (even as a one-line N/A statement)  |\n| `UAT-SEC-09-MISSING` | `body:UAT-SEC-09` | FAIL | gap | Section matching pattern '^##\\\\s+(?:Section\\\\s+)?9[.\\\\)]?\\\\s*[\\\\u2014\\\\u2013\\\\-:]?\\\\s*Closure\\\\s+registry\\\\s+edits' not found. Add the section (even as a one-line N/A statement) pe |\n| `UAT-SEC-10-MISSING` | `body:UAT-SEC-10` | FAIL | gap | Section matching pattern '^##\\\\s+(?:Section\\\\s+)?10[.\\\\)]?\\\\s*[\\\\u2014\\\\u2013\\\\-:]?\\\\s*Verdict' not found. Add the section (even as a one-line N/A statement) per UAT_DISCIPLINE.md  |\n| `UAT-SEC-11-MISSING` | `body:UAT-SEC-11` | FAIL | gap | Section matching pattern '^##\\\\s+(?:Section\\\\s+)?11[.\\\\)]?\\\\s*[\\\\u2014\\\\u2013\\\\-:]?\\\\s*Cross[\\\\-\\\\s]references' not found. Add the section (even as a one-line N/A statement) per UA |\n\n\n# validate_uat_report.py \u2014 docs/wip/planning/97-infonomics-holistika-data-economics/reports/uat-i97-closure-2026-06-13.md\n\n- **Validated at**: 2026-06-14T20:40:58Z\n- **Forward-only enforcement**: True\n- **Findings**: FAIL=0 WARN=0 INFO=0 N/A=0 TOTAL=0\n\n\u2705 **PASS** \u2014 no findings.\n\n# validate_uat_report.py \u2014 docs/wip/planning/98-carryover-posture-clarity/reports/uat-i98-carryover-posture-2026-06-12.md\n\n- **Validated at**: 2026-06-14T20:40:58Z\n- **Forward-only enforcement**: True\n- **Findings**: FAIL=0 WARN=0 INFO=0 N/A=0 TOTAL=0\n\n\u2705 **PASS** \u2014 no findings.\n\n--all summary: 80 reports validated; any-FAIL=True"
+    },
+    {
+      "id": "validate_evidence_class_gate",
+      "exit_code": 0,
+      "tail": "PASS: evidence-class gate (initiative closure cross-check)"
+    },
+    {
+      "id": "validate_evidence_class_registry",
+      "exit_code": 0,
+      "tail": "PASS: validate_evidence_class_registry"
+    }
+  ],
+  "evidence_proof_ref_hint": "artifacts/evidence-gate/uat-sweep-*.json"
+}

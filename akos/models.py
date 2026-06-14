@@ -105,7 +105,7 @@ class SandboxDefaults(BaseModel):
     """OpenClaw session sandbox policy (Path B SSOT in ``openclaw.json.example``)."""
 
     model_config = ConfigDict(extra="forbid")
-    mode: Literal["off", "strict"] = "strict"
+    mode: Literal["off", "all", "non-main", "strict"] = "all"
 
 
 class AgentsDefaults(BaseModel):

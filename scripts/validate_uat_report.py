@@ -672,6 +672,11 @@ def render_markdown(validation: UATReportValidation) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     log.setup_logging()
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        except (OSError, ValueError):
+            pass
     parser = argparse.ArgumentParser(
         description=(
             "Validate closure-UAT report markdown against the 11-section bar + "
