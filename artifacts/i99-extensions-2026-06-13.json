@@ -1,0 +1,156 @@
+﻿node.exe : Initialising login role...
+En línea: 1 Carácter: 1
++ & "C:\Program Files\nodejs/node.exe" "C:\Users\Shadow\AppData\Roaming ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Initialising login role...:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[
+  {
+    "extname": "address_standardizer",
+    "extversion": "3.3.7"
+  },
+  {
+    "extname": "autoinc",
+    "extversion": "1.0"
+  },
+  {
+    "extname": "cube",
+    "extversion": "1.5"
+  },
+  {
+    "extname": "dblink",
+    "extversion": "1.2"
+  },
+  {
+    "extname": "dict_int",
+    "extversion": "1.0"
+  },
+  {
+    "extname": "http",
+    "extversion": "1.6"
+  },
+  {
+    "extname": "hypopg",
+    "extversion": "1.4.1"
+  },
+  {
+    "extname": "index_advisor",
+    "extversion": "0.2.0"
+  },
+  {
+    "extname": "insert_username",
+    "extversion": "1.0"
+  },
+  {
+    "extname": "isn",
+    "extversion": "1.2"
+  },
+  {
+    "extname": "ltree",
+    "extversion": "1.2"
+  },
+  {
+    "extname": "moddatetime",
+    "extversion": "1.0"
+  },
+  {
+    "extname": "pg_cron",
+    "extversion": "1.6"
+  },
+  {
+    "extname": "pg_jsonschema",
+    "extversion": "0.3.3"
+  },
+  {
+    "extname": "pg_net",
+    "extversion": "0.14.0"
+  },
+  {
+    "extname": "pg_stat_monitor",
+    "extversion": "2.1"
+  },
+  {
+    "extname": "pg_stat_statements",
+    "extversion": "1.10"
+  },
+  {
+    "extname": "pgaudit",
+    "extversion": "1.7"
+  },
+  {
+    "extname": "pgcrypto",
+    "extversion": "1.3"
+  },
+  {
+    "extname": "pgjwt",
+    "extversion": "0.2.0"
+  },
+  {
+    "extname": "pgmq",
+    "extversion": "1.4.4"
+  },
+  {
+    "extname": "pgroonga",
+    "extversion": "3.2.5"
+  },
+  {
+    "extname": "pgrowlocks",
+    "extversion": "1.2"
+  },
+  {
+    "extname": "pgsodium",
+    "extversion": "3.1.8"
+  },
+  {
+    "extname": "plpgsql",
+    "extversion": "1.0"
+  },
+  {
+    "extname": "plpgsql_check",
+    "extversion": "2.7"
+  },
+  {
+    "extname": "postgis",
+    "extversion": "3.3.7"
+  },
+  {
+    "extname": "supabase_vault",
+    "extversion": "0.3.1"
+  },
+  {
+    "extname": "tablefunc",
+    "extversion": "1.0"
+  },
+  {
+    "extname": "tcn",
+    "extversion": "1.0"
+  },
+  {
+    "extname": "timescaledb",
+    "extversion": "2.9.1"
+  },
+  {
+    "extname": "tsm_system_time",
+    "extversion": "1.0"
+  },
+  {
+    "extname": "unaccent",
+    "extversion": "1.1"
+  },
+  {
+    "extname": "uuid-ossp",
+    "extversion": "1.1"
+  },
+  {
+    "extname": "vector",
+    "extversion": "0.8.0"
+  },
+  {
+    "extname": "wrappers",
+    "extversion": "0.5.3"
+  }
+]
+A new version of Supabase CLI is available: v2.106.0 (currently installed v2.93.1)
+We recommend updating regularly for new features and bug fixes: 
+https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli

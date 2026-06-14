@@ -189,12 +189,13 @@ validate API when OpenMetadata endpoint is configured.
 | pgmq | Async job bus (finops writer) | `pgmq_worker` | DATA-FAM probes |
 | pg_net / DB Webhooks | Triggered HTTP from DDL/DML | `edge_webhook` | Stream B automations |
 | pg_cron | Scheduled refresh / exports | `batch` | Contract SLA enforcement |
-| Realtime | Push notifications to ERP | `stream` | Mirror freshness tiles |
+| Realtime | Push notifications to ERP | `stream` | Mirror freshness tiles; SSOT `SUPABASE_REALTIME_REGISTRY.csv` |
 | Wrappers FDW | Stripe GTM read plane | `fdw_read` | Power BI T7 export optional |
 | Vault | Secret storage | `n_a` | SOC invariant |
-| Auth / Storage | Platform services | `n_a` | Not BI SSOT |
-
-Forward: Analytics Buckets (Iceberg) — **non-goal until GA** per `D-IH-93-I`.
+| Auth | Platform identity + SSR | `n_a` | SSOT `SUPABASE_AUTH_REGISTRY.csv`; I96 Research Center first consumer |
+| Storage | Object + Analytics + Vector | `n_a` | SSOT `SUPABASE_STORAGE_REGISTRY.csv`; git-first UAT evidence |
+| Analytics Buckets (Iceberg) | Marketing OLAP / campaign aggregates | `storage.analytics` + BI registry | `BI-HOL-ANALYTICS-BUCKETS` (operator production per `D-IH-93-J`) |
+| pg_vector / storage.vector | KiRBe hybrid search embeddings | Postgres extension + object path | I83 / KiRBe; platform partial via `SUPA-MOD-17` |
 
 ## Evidence base
 

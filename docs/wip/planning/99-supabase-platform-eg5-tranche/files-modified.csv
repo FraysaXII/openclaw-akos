@@ -1,0 +1,51 @@
+path,phase,action,commit_hint
+docs/wip/planning/99-proposals/,P0,rename,00-ad-hoc-proposals (git mv)
+docs/wip/planning/00-ad-hoc-proposals/README.md,P0,create,I99 P0 legacy redirect
+docs/wip/planning/99-supabase-platform-eg5-tranche/,P0,create,I99 P0
+scripts/validate_initiative_registry_frontmatter_sync.py,P0,fix,I99 P0 — exclude ad-hoc only not 99-*
+docs/wip/planning/README.md,P0,update,I99 row + ad-hoc path
+docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/INITIATIVE_REGISTRY.csv,P0,update,INIT-OPENCLAW_AKOS-99 row
+docs/wip/intelligence/supabase-platform-features-holistika-impact-2026-06-13/,P0,update,stage 5 govern DONE + I99 consumer
+docs/wip/planning/99-supabase-platform-eg5-tranche/reports/mcp-inventory-reconcile-2026-06-13.md,P1,create,I99 P1 CLI inventory
+artifacts/i99-migration-list-2026-06-13-full.txt,P1,create,I99 P1 evidence
+artifacts/i99-extensions-2026-06-13.json,P1,create,I99 P1 evidence
+artifacts/i99-advisors-security-2026-06-13.json,P1,create,I99 P1 evidence
+docs/wip/planning/99-supabase-platform-eg5-tranche/reports/auth-registry-and-i96-consumer-spec-2026-06-13.md,P2,create,I99 P2 Auth registry + I96 consumer
+docs/wip/planning/99-supabase-platform-eg5-tranche/drafts/SUPABASE_AUTH_REGISTRY.draft.csv,P2,create,I99 P2 draft rows (16)
+docs/wip/planning/99-supabase-platform-eg5-tranche/decision-log.md,P2,update,D-IH-99-E F
+docs/wip/planning/99-supabase-platform-eg5-tranche/master-roadmap.md,P2,update,P2 DONE draft
+docs/wip/planning/96-research-data-plane-and-research-center/reports/research-center-domain-and-cicd-ssot-2026-06-13.md,P2,update,I99 P2 cross-link
+docs/wip/planning/99-supabase-platform-eg5-tranche/reports/realtime-publication-and-i96-freshness-spec-2026-06-13.md,P3,create,I99 P3 Realtime + freshness strip
+docs/wip/planning/99-supabase-platform-eg5-tranche/drafts/SUPABASE_REALTIME_REGISTRY.draft.csv,P3,create,I99 P3 draft rows (18)
+docs/wip/planning/99-supabase-platform-eg5-tranche/decision-log.md,P3,update,D-IH-99-G
+docs/wip/planning/99-supabase-platform-eg5-tranche/master-roadmap.md,P3,update,P3 DONE draft
+docs/wip/planning/96-research-data-plane-and-research-center/three-plane-field-mapping.md,P3,update,Realtime row
+docs/wip/planning/99-supabase-platform-eg5-tranche/reports/storage-bucket-and-gtm-asset-spec-2026-06-13.md,P4,create,I99 P4 Storage + GTM posture
+docs/wip/planning/99-supabase-platform-eg5-tranche/drafts/SUPABASE_STORAGE_REGISTRY.draft.csv,P4,create,I99 P4 draft rows (22)
+docs/wip/planning/99-supabase-platform-eg5-tranche/decision-log.md,P4,update,D-IH-99-H
+docs/wip/planning/99-supabase-platform-eg5-tranche/master-roadmap.md,P4,update,P4 DONE draft
+docs/wip/planning/99-supabase-platform-eg5-tranche/reports/multi-store-data-plane-alignment-2026-06-13.md,P4-bridge,create,Analytics Vector Neo4j alignment
+docs/wip/planning/99-supabase-platform-eg5-tranche/drafts/SUPABASE_STORAGE_REGISTRY.draft.csv,P4-bridge,update,ST-20..27 absorbed
+docs/wip/planning/99-supabase-platform-eg5-tranche/reports/storage-bucket-and-gtm-asset-spec-2026-06-13.md,P4-bridge,update,§8 absorption
+docs/wip/planning/99-supabase-platform-eg5-tranche/decision-log.md,P4-bridge,update,D-IH-99-I
+docs/wip/planning/99-supabase-platform-eg5-tranche/reports/p5-canonical-tranche-evidence-packet-2026-06-13.md,P5,create,D-IH-99-J evidence packet
+docs/wip/planning/99-supabase-platform-eg5-tranche/decision-log.md,P5,update,D-IH-99-J pending
+docs/wip/planning/99-supabase-platform-eg5-tranche/master-roadmap.md,P5,update,P5 DONE D-IH-99-J
+docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/dimensions/SUPABASE_AUTH_REGISTRY.csv,P5,create,I99 P5 canonical mint (16 rows)
+docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/dimensions/SUPABASE_REALTIME_REGISTRY.csv,P5,create,I99 P5 canonical mint (18 rows)
+docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/dimensions/SUPABASE_STORAGE_REGISTRY.csv,P5,create,I99 P5 canonical mint (25 rows)
+docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/dimensions/SUPABASE_MODULE_REGISTRY.csv,P5,update,8 module flips EG-5
+docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/DATA_ARCHITECTURE.md,P5,update,§9 Analytics reconcile D-IH-93-J
+docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/SOP-SUPABASE_EG5_REGISTRY_MAINTENANCE_001.md,P5,create,umbrella SOP
+docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/SUPABASE_ECOSYSTEM_GOVERNANCE.md,P5,update,EG-5 scorecard
+scripts/validate_supabase_auth_registry.py,P5,create,I99 P5 validator
+scripts/validate_supabase_realtime_registry.py,P5,create,I99 P5 validator
+scripts/validate_supabase_storage_registry.py,P5,create,I99 P5 validator
+akos/hlk_supabase_auth_registry_csv.py,P5,create,Pydantic SSOT
+akos/hlk_supabase_realtime_registry_csv.py,P5,create,Pydantic SSOT
+akos/hlk_supabase_storage_registry_csv.py,P5,create,Pydantic SSOT
+supabase/seed.sql,P5,create,MOD-26 stub
+supabase/migrations/20260613150000_i99_realtime_publication_i96_i62.sql,P5-harmonize,create,I96+I62 Realtime publication DDL
+docs/wip/planning/96-research-data-plane-and-research-center/reports/research-center-domain-and-cicd-ssot-2026-06-13.md,P5-harmonize,update,I99 canonical registry cross-links
+docs/wip/planning/99-supabase-platform-eg5-tranche/drafts/SUPABASE_AUTH_REGISTRY.draft.csv,P5-harmonize,sync,canonical parity
+docs/wip/planning/99-supabase-platform-eg5-tranche/drafts/SUPABASE_STORAGE_REGISTRY.draft.csv,P5-harmonize,sync,canonical parity

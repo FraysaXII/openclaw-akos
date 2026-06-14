@@ -5,24 +5,24 @@ SUPA-MOD-03,holistika_ops schema,schema:holistika_ops,I14/I62/I81 migrations,gov
 SUPA-MOD-04,finops schema,schema:finops,I19+I81 migrations + DATA_CONTRACT_REGISTRY,governed,Data Governance Office,high,writer is Edge+cron not migration,registered_fact + FX
 SUPA-MOD-05,erp + governance views,schema:erp;schema:governance,I62/I64/I65/I66/I70+ migrations,governed,Data Architect,medium,view inventory not in one CSV,erp.vw_* (6) + governance.* (~15 views)
 SUPA-MOD-06,demo schema,schema:demo,20260506130200_i62_p3_demo_schema.sql,governed,System Owner,low,not in DATA_CONTRACT_REGISTRY,ERP demo mode only
-SUPA-MOD-07,kirbe schema,schema:kirbe,kirbe.cleanup_monitoring_logs only,ungoverned,System Owner,medium,32 platform tables app-owned; AKOS only retention helper,KiRBe app-managed; document as reference-only legacy
+SUPA-MOD-07,kirbe schema,schema:kirbe,kirbe.cleanup_monitoring_logs only,partial,System Owner,medium,KiRBe app-owned DDL — AKOS reference-only retention helper,32 platform tables app-managed; I99 P5 boundary row D-IH-99-J
 SUPA-MOD-08,stripe_gtm FDW,fdw:stripe_gtm,I18 privilege hardening + DC-HOL-GTM-CRM-001,partial,Data Architect,high,FDW server + foreign tables DDL live-only,inventory-before-greenfield; periodic MCP reconcile
 SUPA-MOD-09,public legacy schema,schema:public,supabase/migrations 20260607191541+191554 (EG-2),governed,System Owner,low,EG-2 done 2026-06-07: 10 dead test/dupe dropped (34->24 tables) + RLS deny-by-default on 13 survivors (rls_disabled 16->0),KiRBe-era survivors kept as reference-only legacy; service_role bypasses RLS
 SUPA-MOD-10,mirror DML (CSV->rows),mirror_dml,sync_compliance_mirrors_from_csv.py + holistika-mirror-dml-apply.md,governed,Data Steward,high,stale if apply skipped (OPS-95-1 re-sync pending),deterministic emit from CSV SSOT
 SUPA-MOD-11,Edge Functions,edge_functions,dimensions/SUPABASE_EDGE_FUNCTION_REGISTRY.csv,governed,AI Engineer,high,2 of 3 functions absent from RPA_ADAPTER (forward),I95 EG-3: 3-function registry + repo-path validator
-SUPA-MOD-12,Edge secrets/env,edge_secrets,not in git (correct),ungoverned,System Owner,medium,no governed secrets manifest (paths only),SOC: never log secret values
+SUPA-MOD-12,Edge secrets/env,edge_secrets,SUPABASE_ECOSYSTEM_GOVERNANCE.md §5 paths-only,partial,System Owner,medium,paths-only manifest — no secret values in git,SOC: never log secret values; I99 P5 D-IH-99-J
 SUPA-MOD-13,pgmq extension + queues,ext:pgmq,I81 migrations + finops_dlq_drain.py,governed,System Owner,medium,queue names not in a CSV,finops_writer_queue + DLQ + 5 RPC wrappers
 SUPA-MOD-14,pg_cron extension + jobs,ext:pg_cron,SUPABASE_EXTENSION_MANIFEST.md + SUPABASE_CRON_REGISTRY.csv,governed,System Owner,high,CREATE EXTENSION migration still absent (forward reconcile),I95 EG-3: manifest + 2 cron jobs registered
 SUPA-MOD-15,pg_net extension,ext:pg_net,SUPABASE_EXTENSION_MANIFEST.md,governed,System Owner,medium,no standalone CREATE EXTENSION migration; no DB Webhook defs,I95 EG-3: inventory in extension manifest
 SUPA-MOD-16,Wrappers FDW extension,ext:wrappers,I18 migration (privileges),partial,Data Architect,high,FDW DDL live-only,see SUPA-MOD-08
-SUPA-MOD-17,pg_vector extension,ext:vector,column comment only,ungoverned,AI Engineer,medium,no vector extension migration; no embedding tables in AKOS,I46 forward; KiRBe vectors live
+SUPA-MOD-17,pg_vector extension,ext:vector,SUPABASE_EXTENSION_MANIFEST.md + SUPABASE_STORAGE_REGISTRY.csv,partial,AI Engineer,medium,embedding tables KiRBe-owned; platform enablement governed,Hosted enabled; ST-21/ST-26 link; I83 consumer D-IH-99-I
 SUPA-MOD-18,RLS policies (system),rls,inside each migration + EG-2,partial,Data Governance Office,high,EG-2 closed the public(16) + kirbe_organizations RLS holes (0 ERRORs); still no policy registry; adapter+collab mirror gaps remain,EG-4: mint SUPABASE_RLS_POSTURE + validator (fail RLS-enabled-no-policy)
 SUPA-MOD-19,cron job registry,cron_jobs,dimensions/SUPABASE_CRON_REGISTRY.csv,governed,System Owner,high,anon JWT embedded in cron SQL — rotation forward debt,I95 EG-3: 2-job registry + edge FK
-SUPA-MOD-20,Database Webhooks,db_webhooks,none in repo,ungoverned,System Owner,medium,pg_net_webhook adapter active but zero defs in repo,
-SUPA-MOD-21,Realtime,realtime,config.toml + table comment,ungoverned,System Owner,medium,no publication/channel DDL; no Realtime contract,holistika_ops.notifications drawer
-SUPA-MOD-22,Auth,auth,config.toml defaults + RBAC FKs,ungoverned,System Owner,critical,no auth hook/provider registry; auth.users FK only,23 managed auth.* tables
-SUPA-MOD-23,Storage,storage,config.toml enabled; no buckets,ungoverned,System Owner,high,no bucket RLS/path registry; no storage.objects policy,8 managed storage.* tables
+SUPA-MOD-20,Database Webhooks,db_webhooks,SUPABASE_ECOSYSTEM_GOVERNANCE.md,partial,System Owner,medium,pg_net active; zero webhook defs in repo — explicit empty posture,Forward when Stream B automations need HTTP triggers; D-IH-99-J
+SUPA-MOD-21,Realtime,realtime,dimensions/SUPABASE_REALTIME_REGISTRY.csv,governed,System Owner,medium,publication DDL scheduled operator SQL gate,holistika_ops.notifications + I96 freshness strip D-IH-99-G
+SUPA-MOD-22,Auth,auth,dimensions/SUPABASE_AUTH_REGISTRY.csv,governed,System Owner,critical,Resend SMTP + Google OAuth scheduled rows,23 managed auth.* tables; I96 first consumer D-IH-99-F
+SUPA-MOD-23,Storage,storage,dimensions/SUPABASE_STORAGE_REGISTRY.csv,governed,System Owner,high,bucket DDL scheduled operator SQL gate,object + Analytics Iceberg + Vector paths D-IH-99-H/I
 SUPA-MOD-24,PostgREST API exposure,api_exposure,SUPABASE_API_EXPOSURE.md + config.toml [api].schemas,governed,Data Architect,high,quarterly hosted Dashboard reconcile vs §2 matrix,I95 EG-2: config.toml reconciled 2026-06-09; SSOT doc minted
 SUPA-MOD-25,DB functions / RPCs,db_functions,named migrations,partial,System Owner,medium,no unified RPC registry,pgmq_* / current_access_level / purge_* / erp._mode
-SUPA-MOD-26,seed SQL / local parity,seed,config.toml references ./seed.sql,ungoverned,System Owner,low,seed.sql file missing from repo,undermines reproducible local stack
+SUPA-MOD-26,seed SQL / local parity,seed,supabase/seed.sql,partial,System Owner,low,stub seed for local stack parity; expand when mirror fixtures needed,config.toml references ./seed.sql; I99 P5 D-IH-99-J
 SUPA-MOD-27,Supabase CLI config,cli_config,supabase/config.toml,governed,System Owner,low,hosted project settings not fully mirrored,local dev stack pinned

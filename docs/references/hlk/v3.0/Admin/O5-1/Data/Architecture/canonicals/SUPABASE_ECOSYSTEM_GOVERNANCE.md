@@ -64,9 +64,10 @@ surface, each row carrying `governed_status` (governed / partial / ungoverned / 
 `scripts/validate_supabase_module_registry.py` (wired into `validate_hlk.py`); it prints a governance
 scorecard + flags **critical-priority ungoverned** modules.
 
-**Baseline (2026-06-10): 27 modules — 14 governed · 3 partial · 10 ungoverned.** Critical-ungoverned:
-Auth (SUPA-MOD-22) only. EG-2 closed `public` legacy (SUPA-MOD-09) and PostgREST API exposure
-(SUPA-MOD-24 → `SUPABASE_API_EXPOSURE.md`). EG-3 closed edge/cron/extension registries
+**Baseline (2026-06-13): 27 modules — 18 governed · 9 partial · 0 ungoverned.** EG-5 closed Auth/Realtime/Storage registries
+(I99 P5 / **D-IH-99-J**). Remaining partials: FDW, RLS posture, KiRBe boundary, Edge secrets paths-only,
+pg_vector platform enablement, DB Webhooks empty posture, seed SQL stub. EG-2 closed `public` legacy (SUPA-MOD-09)
+and PostgREST API exposure (SUPA-MOD-24 → `SUPABASE_API_EXPOSURE.md`). EG-3 closed edge/cron/extension registries
 (SUPA-MOD-11/14/15/19 → dimension CSVs + `SUPABASE_EXTENSION_MANIFEST.md`).
 
 ## 3. The closure plan (phased — Data Architect owns)
@@ -77,7 +78,7 @@ Auth (SUPA-MOD-22) only. EG-2 closed `public` legacy (SUPA-MOD-09) and PostgREST
 | **EG-2 (critical)** | `public`/`kirbe` legacy drop (DB-02) + RLS-on-survivors (DB-03) + `SUPABASE_API_EXPOSURE.md` | SUPA-MOD-09/22/24 (the critical-ungoverned) |
 | **EG-3** | `SUPABASE_EDGE_FUNCTION_REGISTRY.csv` + `SUPABASE_CRON_REGISTRY.csv` + `SUPABASE_EXTENSION_MANIFEST` | SUPA-MOD-11/14/15/19 |
 | **EG-4** | `SUPABASE_RLS_POSTURE.md` + validator (fail RLS-enabled-without-policy) | SUPA-MOD-18 |
-| **EG-5** | FDW inventory runbook (`stripe_gtm` reconcile) + Realtime/Storage/Vault posture | SUPA-MOD-08/16/21/23 |
+| **EG-5** | Auth + Realtime + Storage registries + module flips (I99 P5) | SUPA-MOD-21/22/23 governed; MOD-07/12/17/20/26 partial |
 
 Gated surfaces (Auth/Storage/RLS DDL, legacy drop) need operator approval (SOC + data-loss risk).
 

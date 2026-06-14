@@ -1,0 +1,4213 @@
+﻿node.exe : Initialising login role...
+En línea: 1 Carácter: 1
++ & "C:\Program Files\nodejs/node.exe" "C:\Users\Shadow\AppData\Roaming ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Initialising login role...:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.access_level\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "access_level",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_access_level"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.attribution_adapter_registry_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "attribution_adapter_registry_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_attribution_adapter_registry_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.billing_adapter_registry_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "billing_adapter_registry_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_billing_adapter_registry_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.collaborator_market_rate_reference_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "collaborator_market_rate_reference_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_collaborator_market_rate_reference_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.collaborator_rate_overrides_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "collaborator_rate_overrides_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_collaborator_rate_overrides_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.collaborator_share_registry_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "collaborator_share_registry_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_collaborator_share_registry_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.communication_adapter_registry_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "communication_adapter_registry_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_communication_adapter_registry_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.confidence_level\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "confidence_level",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_confidence_level"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.contract_adapter_registry_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "contract_adapter_registry_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_contract_adapter_registry_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.crm_adapter_registry_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "crm_adapter_registry_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_crm_adapter_registry_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.email_adapter_registry_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "email_adapter_registry_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_email_adapter_registry_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.holistika_vendor_services_billed_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "holistika_vendor_services_billed_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_holistika_vendor_services_billed_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.partner_overlap_exclusion_clauses_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "partner_overlap_exclusion_clauses_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_partner_overlap_exclusion_clauses_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.revops_adapter_registry_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "revops_adapter_registry_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_revops_adapter_registry_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.scheduling_adapter_registry_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "scheduling_adapter_registry_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_scheduling_adapter_registry_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.source_category\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "source_category",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_source_category"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.source_level\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "source_level",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_source_level"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`compliance.substrate_registry_mirror\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "substrate_registry_mirror",
+      "schema": "compliance",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_compliance_substrate_registry_mirror"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.agent_states\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "agent_states",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_agent_states"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.components\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "components",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_components"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.data_document_vectors\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "data_document_vectors",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_data_document_vectors"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.data_kirbe_document_vectors_1536\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "data_kirbe_document_vectors_1536",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_data_kirbe_document_vectors_1536"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.data_madeira_memory\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "data_madeira_memory",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_data_madeira_memory"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.documents\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "documents",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_documents"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.fact_table\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "fact_table",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_fact_table"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.function_calls\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "function_calls",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_function_calls"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.intel\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "intel",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_intel"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.madeira_document_store\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "madeira_document_store",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_madeira_document_store"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.madeira_index_store\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "madeira_index_store",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_madeira_index_store"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.monitoring_logs\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "monitoring_logs",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_monitoring_logs"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.nods_page\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "nods_page",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_nods_page"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.rag_2\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "rag_2",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_rag_2"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.research_process\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "research_process",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_research_process"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.rules\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "rules",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_rules"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.special_processes\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "special_processes",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_special_processes"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.standard_process\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "standard_process",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_standard_process"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.trello_cards\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "trello_cards",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_trello_cards"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.workflows\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "workflows",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_workflows"
+  },
+  {
+    "name": "rls_enabled_no_policy",
+    "title": "RLS Enabled No Policy",
+    "level": "INFO",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+    "detail": "Table \\`public.workstreams\\` has RLS enabled, but no policies exist",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+    "metadata": {
+      "name": "workstreams",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_enabled_no_policy_public_workstreams"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`public.vw_monitoring_errors\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_monitoring_errors",
+      "schema": "public",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_public_vw_monitoring_errors"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`public.vw_monitoring_performance\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_monitoring_performance",
+      "schema": "public",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_public_vw_monitoring_performance"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`kirbe.kirbe_document_vectors_1536\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "kirbe_document_vectors_1536",
+      "schema": "kirbe",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_kirbe_kirbe_document_vectors_1536"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`kirbe.kirbe_vw_monitoring_summary\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "kirbe_vw_monitoring_summary",
+      "schema": "kirbe",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_kirbe_kirbe_vw_monitoring_summary"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`kirbe.kirbe_vw_monitoring_errors\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "kirbe_vw_monitoring_errors",
+      "schema": "kirbe",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_kirbe_kirbe_vw_monitoring_errors"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`kirbe.kirbe_vw_monitoring_performance\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "kirbe_vw_monitoring_performance",
+      "schema": "kirbe",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_kirbe_kirbe_vw_monitoring_performance"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`kirbe.kirbe_vw_documents_redacted\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "kirbe_vw_documents_redacted",
+      "schema": "kirbe",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_kirbe_kirbe_vw_documents_redacted"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`kirbe.vw_documents_unified\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_documents_unified",
+      "schema": "kirbe",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_kirbe_vw_documents_unified"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`kirbe.vw_docs_simpledir\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_docs_simpledir",
+      "schema": "kirbe",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_kirbe_vw_docs_simpledir"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`kirbe.vw_docs_gdrive\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_docs_gdrive",
+      "schema": "kirbe",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_kirbe_vw_docs_gdrive"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`kirbe.vw_docs_yt\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_docs_yt",
+      "schema": "kirbe",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_kirbe_vw_docs_yt"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`kirbe.vw_documents_trello\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_documents_trello",
+      "schema": "kirbe",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_kirbe_vw_documents_trello"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`public.vw_monitoring_summary\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_monitoring_summary",
+      "schema": "public",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_public_vw_monitoring_summary"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`governance.repo_health_view\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "repo_health_view",
+      "schema": "governance",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_governance_repo_health_view"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`governance.canonical_change_log_recent_view\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "canonical_change_log_recent_view",
+      "schema": "governance",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_governance_canonical_change_log_recent_view"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`governance.initiative_program_rollup_view\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "initiative_program_rollup_view",
+      "schema": "governance",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_governance_initiative_program_rollup_view"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`erp.vw_public_health\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_public_health",
+      "schema": "erp",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_erp_vw_public_health"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`governance.planning_workspace_view\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "planning_workspace_view",
+      "schema": "governance",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_governance_planning_workspace_view"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`governance.brand_template_registry\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "brand_template_registry",
+      "schema": "governance",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_governance_brand_template_registry"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`governance.engagement_intelligence_view\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "engagement_intelligence_view",
+      "schema": "governance",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_governance_engagement_intelligence_view"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`erp.vw_three_lights_status\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_three_lights_status",
+      "schema": "erp",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_erp_vw_three_lights_status"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`erp.vw_mirror_health\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_mirror_health",
+      "schema": "erp",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_erp_vw_mirror_health"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`erp.vw_initiative_pulse\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_initiative_pulse",
+      "schema": "erp",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_erp_vw_initiative_pulse"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`erp.vw_operator_inbox_top\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_operator_inbox_top",
+      "schema": "erp",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_erp_vw_operator_inbox_top"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`erp.vw_mission_control_today\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "vw_mission_control_today",
+      "schema": "erp",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_erp_vw_mission_control_today"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`governance.planning_decisions_view\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "planning_decisions_view",
+      "schema": "governance",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_governance_planning_decisions_view"
+  },
+  {
+    "name": "security_definer_view",
+    "title": "Security Definer View",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects views defined with the SECURITY DEFINER property. These views enforce Postgres permissions and row level security policies (RLS) of the view creator, rather than that of the querying user",
+    "detail": "View \\`governance.planning_ops_view\\` is defined with the SECURITY DEFINER property",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
+    "metadata": {
+      "name": "planning_ops_view",
+      "schema": "governance",
+      "type": "view"
+    },
+    "cache_key": "security_definer_view_governance_planning_ops_view"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.update_monitoring_logs_updated_at\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "update_monitoring_logs_updated_at",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_update_monitoring_logs_updated_at_06bcf30ac3d0a7f279a54cbf228a7bec"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.cleanup_monitoring_logs\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "cleanup_monitoring_logs",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_cleanup_monitoring_logs_1442aafe974fa0437906b218e0276341"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`erp._mode\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "_mode",
+      "schema": "erp",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_erp__mode_b9cc9b829a7e4920caf59e8d55c1142f"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.set_profile_updated_at\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "set_profile_updated_at",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_set_profile_updated_at_9b1889f56258bf9d6554213c05019c76"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.handle_new_auth_user\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "handle_new_auth_user",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_handle_new_auth_user_8fc5ca38f1765d3b8c6c7569db399d80"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.provision_user\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "provision_user",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_provision_user_49bb3d92113e9b2b301f0fc18a1537aa"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.provision_me\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "provision_me",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_provision_me_7eaac6e7ff06067bc1f89beb738b2150"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.ensure_org_default_vault\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "ensure_org_default_vault",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_ensure_org_default_vault_910a32023a0e39280af86c9a6b96c947"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.on_org_after_insert_default_vault\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "on_org_after_insert_default_vault",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_on_org_after_insert_default_vault_8fa24d6dc887cb411b64c06dc16d9f99"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.provision_all_users\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "provision_all_users",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_provision_all_users_ca49801e0df2aac299e054d275a5ae5e"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.request_user_id\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "request_user_id",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_request_user_id_3c1cbd9ad1e3bf373fa4fb5f783e0cb9"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.role_rank\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "role_rank",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_role_rank_957f22aa7e9b8556312c43d68d739c7a"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.map_org_role_to_vault\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "map_org_role_to_vault",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_map_org_role_to_vault_c8e6c75ad66620462c374b2be59691e4"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.effective_vault_role\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "effective_vault_role",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_effective_vault_role_894cd8459ce7b4ae8eaa2131a3db062d"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.effective_vault_role_with_source\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "effective_vault_role_with_source",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_effective_vault_role_with_source_689a7903c80e0d25ca59f978570011c3"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.has_vault_access\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "has_vault_access",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_has_vault_access_8e3a06d879bb788fcedc47f6bc5a2349"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.is_last_org_owner\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "is_last_org_owner",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_is_last_org_owner_11059c3ef92e0bf2798f5770079e3e08"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.is_last_vault_owner\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "is_last_vault_owner",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_is_last_vault_owner_3e99599821d92cfd36194250743247b1"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.prevent_last_org_owner_update\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "prevent_last_org_owner_update",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_prevent_last_org_owner_update_791096f136fe4fcc08271a1196e65960"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.prevent_last_vault_owner_update\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "prevent_last_vault_owner_update",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_prevent_last_vault_owner_update_363622a9d3b79b6e8bf18d57b8a36a28"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.prevent_admin_editing_admin_or_owner_org\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "prevent_admin_editing_admin_or_owner_org",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_prevent_admin_editing_admin_or_owner_org_20b2e49c321dad33354da50fc7ffe537"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.prevent_admin_editing_admin_or_owner_vault\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "prevent_admin_editing_admin_or_owner_vault",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_prevent_admin_editing_admin_or_owner_vault_debf8043911efb9d3d00f0c4c0be390e"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_vault_create\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_vault_create",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_vault_create_b79993676e967dfb7818d681aa4b196a"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_vault_update\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_vault_update",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_vault_update_264c8a6cac14cca0a2f92eeef863f305"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_vault_delete\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_vault_delete",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_vault_delete_3dbc17e8832b3cc7a060931540758f6a"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_vault_duplicate\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_vault_duplicate",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_vault_duplicate_df1e6b774ab89bc3ed6a2d1374b39b62"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.vault_memberships_list\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "vault_memberships_list",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_vault_memberships_list_7b3e2519814fabb823317058ea698712"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.vault_add_member\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "vault_add_member",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_vault_add_member_d746090153cf8d2baa1cb99180a88f05"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.vault_update_member_role\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "vault_update_member_role",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_vault_update_member_role_fedf1b2dcafe7590e07ee6a0b62e554c"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.vault_remove_member\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "vault_remove_member",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_vault_remove_member_6ebdba760e66f27a925465db47cbb62f"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_documents_upsert_bulk\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_documents_upsert_bulk",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_documents_upsert_bulk_71307baa77ba98b140f233b484fb7457"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_nodes_upsert_bulk\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_nodes_upsert_bulk",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_nodes_upsert_bulk_fba56da8064568e4eaed7a244195c7cf"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_documents_delete_by_checksums\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_documents_delete_by_checksums",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_documents_delete_by_checksums_a57560daa3779e31d654e4328d759428"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_documents_delete_by_provenance\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_documents_delete_by_provenance",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_documents_delete_by_provenance_f0dbe63f72803346127f80f5ad25e079"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_vectors_upsert_bulk_1536\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_vectors_upsert_bulk_1536",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_vectors_upsert_bulk_1536_a30bf983d256eed70daecb45caa289bf"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_documents_list\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_documents_list",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_documents_list_b61759749a974cb5ec5a7b18bfd7b7ba"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_vaults_list\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_vaults_list",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_vaults_list_4f403d31dd3494df74ef74cc4ea9273f"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_search_vectors_dispatch\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_search_vectors_dispatch",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_search_vectors_dispatch_4f39033d988431412406fb4ad8f50df1"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.is_org_member\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "is_org_member",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_is_org_member_b49747753a4aa50e3007dc0237a2e480"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.is_vault_member\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "is_vault_member",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_is_vault_member_db8b7643396bae7914f45e7687657552"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_org_create\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_org_create",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_org_create_9c699ed7fc5e40868aec02c8662004e1"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_org_transfer\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_org_transfer",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_org_transfer_346a19c9057ec5aa3de2b8dddfc73fb5"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_org_add_member\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_org_add_member",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_org_add_member_212396b14506192de96f36699ce50f0a"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_org_remove_member\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_org_remove_member",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_org_remove_member_835b27b0c1b7ebe18ede0a7a2379aeb6"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.set_updated_at\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "set_updated_at",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_set_updated_at_9b1889f56258bf9d6554213c05019c76"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.update_monitoring_logs_updated_at\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "update_monitoring_logs_updated_at",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_update_monitoring_logs_updated_at_9b1889f56258bf9d6554213c05019c76"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.log_monitoring\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "log_monitoring",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_log_monitoring_5cf545fb0217472cb805f87895170451"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.update_graph_sync_runs_updated_at\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "update_graph_sync_runs_updated_at",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_update_graph_sync_runs_updated_at_9b1889f56258bf9d6554213c05019c76"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.kirbe_purge_expired_docs\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_purge_expired_docs",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_kirbe_purge_expired_docs_055779babfab0181dcb4ff4eced3126a"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.set_updated_at_generic\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "set_updated_at_generic",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_set_updated_at_generic_9b1889f56258bf9d6554213c05019c76"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.yt_log_ingestion\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "yt_log_ingestion",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_yt_log_ingestion_5e628a40ebef013ffbbf63a44148e5d4"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.yt_update_ingestion_log\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "yt_update_ingestion_log",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_yt_update_ingestion_log_d6f09f1341318f3d608506fb9e4a2b8e"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.yt_insert_transcript\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "yt_insert_transcript",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_yt_insert_transcript_b9aa44ec412610a2cc27b5c81bc39b7c"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.yt_insert_segments\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "yt_insert_segments",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_yt_insert_segments_50974ceb2233e84ea694095c6fea3b26"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.yt_check_transcript_exists\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "yt_check_transcript_exists",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_yt_check_transcript_exists_bf369b5c7ce9ed7925dd6aa5d3b61b36"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.yt_delete_transcript\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "yt_delete_transcript",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_yt_delete_transcript_48e171eb0391214f738a7c83e7aa0c5b"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.yt_upsert_playlist\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "yt_upsert_playlist",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_yt_upsert_playlist_8b04435d671868000729656863d3453c"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.yt_upsert_playlist_video\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "yt_upsert_playlist_video",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_yt_upsert_playlist_video_8b2f137c9339abdd2dbf15a64b51f8cf"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.set_updated_at_gdrive\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "set_updated_at_gdrive",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_set_updated_at_gdrive_9b1889f56258bf9d6554213c05019c76"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.gdrive_log_ingestion\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "gdrive_log_ingestion",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_gdrive_log_ingestion_3135d08fd062992a50caf5da9cf3a811"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.gdrive_update_ingestion_log\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "gdrive_update_ingestion_log",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_gdrive_update_ingestion_log_b0c540e2ac2cc51baff06224c75676c7"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.gdrive_upsert_documents_bulk\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "gdrive_upsert_documents_bulk",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_gdrive_upsert_documents_bulk_ecbd6664f18833b08856ab3cee4f5875"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.update_documents_tsv\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "update_documents_tsv",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_update_documents_tsv_c5456c2d2b9150bc06bf218d1bfcf1e4"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.hybrid_search\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "hybrid_search",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_hybrid_search_dd1dc14823a07bf337636df903d9d86d"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`compliance_001.apply_redaction\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "apply_redaction",
+      "schema": "compliance_001",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_compliance_001_apply_redaction_2318187fd9b0b67093201aaa9f449fe4"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`compliance_001.get_redacted_document\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "get_redacted_document",
+      "schema": "compliance_001",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_compliance_001_get_redacted_document_d29563d45c8492919c1e27043f27b7a0"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`compliance_001.update_timestamp\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "update_timestamp",
+      "schema": "compliance_001",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_compliance_001_update_timestamp_301a884953d37769916294bb60562e05"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.log_usage_event\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "log_usage_event",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_log_usage_event_af441eb4a839c06c6658d140e4db068c"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`gemini_fastapi.trigger_set_timestamp\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "trigger_set_timestamp",
+      "schema": "gemini_fastapi",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_gemini_fastapi_trigger_set_timestamp_da5ac28a58c8b4bb30209bf0d3d7082c"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.check_org_quota\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "check_org_quota",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_check_org_quota_1178ce9765068e582cdce3c01b0c1ef3"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.log_audit_event\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "log_audit_event",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_log_audit_event_e30a9c85ceaa53cf0e5a40fd91f7a1f1"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.audit_vault_membership_change\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "audit_vault_membership_change",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_audit_vault_membership_change_2a507d21d743b5a825544be40f6518d7"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.audit_org_membership_change\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "audit_org_membership_change",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_audit_org_membership_change_1be51afe9d9cfe51257ed23d0c9d9fe3"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.log_permission_denied\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "log_permission_denied",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_log_permission_denied_edeca8f07e0e0f068cc013862f182f70"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.get_billing_portal_metadata\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "get_billing_portal_metadata",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_get_billing_portal_metadata_4f37d0fb2153bd327c27af30b70996bd"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.sync_quota_from_subscription\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "sync_quota_from_subscription",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_sync_quota_from_subscription_69785e9ff21f318b882ce35e80968783"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`kirbe.on_subscription_tier_change\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "on_subscription_tier_change",
+      "schema": "kirbe",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_kirbe_on_subscription_tier_change_b24dd030d9868e992b32f0c334aebbf2"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.update_timestamp\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "update_timestamp",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_update_timestamp_fd61f7b6d5fb336514f068eda4f15c52"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.moddatetime\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "moddatetime",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_moddatetime_c170aec16f6e4ebb4029e94efedd594d"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.handle_public_user\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "handle_public_user",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_handle_public_user_473ba12aea7eb84ee053faaca7cbe0b6"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.get_page_parents\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "get_page_parents",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_get_page_parents_d8cdfeb32cd67067f2b553851bc341dc"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.get_total_roles_count\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "get_total_roles_count",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_get_total_roles_count_b3826bfc11e8450efff6252dd8ee30c9"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.kirbe_yt_rpc_query\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_yt_rpc_query",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_kirbe_yt_rpc_query_a6d6b6e19cb0ba47b75a8a0e8e3bc074"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.kirbe_yt_execute_sql\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_yt_execute_sql",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_kirbe_yt_execute_sql_21f71259c5efa817209ea2bcad953c6e"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.kirbe_yt_query\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "kirbe_yt_query",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_kirbe_yt_query_e85f9825de46dda49b7d25a8e6b37623"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.create_schema_if_not_exists\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "create_schema_if_not_exists",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_create_schema_if_not_exists_685fb956dab43b702e5b792ee6560108"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.check_table_exists\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "check_table_exists",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_check_table_exists_4536c8a802a315765b194d7d1ce4622e"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.create_table_if_not_exists\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "create_table_if_not_exists",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_create_table_if_not_exists_3d548f1cb3e1f44554ce8b31b87c8722"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.match_documents\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "match_documents",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_match_documents_d3e2f99242f57cb387d49d8a60f05a85"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.match_documents_old\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "match_documents_old",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_match_documents_old_cc43c50e6c7f47c1375f47839570ec9e"
+  },
+  {
+    "name": "function_search_path_mutable",
+    "title": "Function Search Path Mutable",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects functions where the search_path parameter is not set.",
+    "detail": "Function \\`public.match_page_sections\\` has a role mutable search_path",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable",
+    "metadata": {
+      "name": "match_page_sections",
+      "schema": "public",
+      "type": "function"
+    },
+    "cache_key": "function_search_path_mutable_public_match_page_sections_54503090b53a228e7cbe75c9f5d10129"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.kirbe_embed_models\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "kirbe_embed_models",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_kirbe_embed_models"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.monitoring_logs\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "monitoring_logs",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_monitoring_logs"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.simpledir_ingestion_log\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "simpledir_ingestion_log",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_simpledir_ingestion_log"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.simpledir_documents\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "simpledir_documents",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_simpledir_documents"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.yt_ingestion_log\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "yt_ingestion_log",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_yt_ingestion_log"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.yt_transcript\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "yt_transcript",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_yt_transcript"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.yt_transcript_segments\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "yt_transcript_segments",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_yt_transcript_segments"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.yt_playlists\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "yt_playlists",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_yt_playlists"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.yt_playlist_videos\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "yt_playlist_videos",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_yt_playlist_videos"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.gdrive_ingestion_log\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "gdrive_ingestion_log",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_gdrive_ingestion_log"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.gdrive_documents\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "gdrive_documents",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_gdrive_documents"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.usage_events\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "usage_events",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_usage_events"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.org_quotas\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "org_quotas",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_org_quotas"
+  },
+  {
+    "name": "rls_disabled_in_public",
+    "title": "RLS Disabled in Public",
+    "level": "ERROR",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects cases where row level security (RLS) has not been enabled on tables in schemas exposed to PostgREST",
+    "detail": "Table \\`kirbe.audit_events\\` is public, but RLS has not been enabled.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0013_rls_disabled_in_public",
+    "metadata": {
+      "name": "audit_events",
+      "schema": "kirbe",
+      "type": "table"
+    },
+    "cache_key": "rls_disabled_in_public_kirbe_audit_events"
+  },
+  {
+    "name": "foreign_table_in_api",
+    "title": "Foreign Table in API",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects foreign tables that are accessible over APIs. Foreign tables do not respect row level security policies.",
+    "detail": "Foreign table \\`public.O51\\` is accessible over APIs",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0017_foreign_table_in_api",
+    "metadata": {
+      "name": "O51",
+      "schema": "public",
+      "type": "foreign table"
+    },
+    "cache_key": "foreign_table_in_api_public_O51"
+  },
+  {
+    "name": "extension_versions_outdated",
+    "title": "Extension Versions Outdated",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects extensions that are not using the default (recommended) version.",
+    "detail": "Extension `timescaledb` is using version `2.9.1` but version `2.16.1` is available. Using outdated extension versions may expose the database to security vulnerabilities.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0022_extension_versions_outdated",
+    "metadata": {},
+    "cache_key": "extension_versions_outdated_timescaledb_2.9.1"
+  },
+  {
+    "name": "rls_policy_always_true",
+    "title": "RLS Policy Always True",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects RLS policies that use overly permissive expressions like \\`USING (true)\\` or \\`WITH CHECK (true)\\` for UPDATE, DELETE, or INSERT operations. SELECT policies with \\`USING (true)\\` are intentionally excluded as this pattern is often used deliberately for public read access.",
+    "detail": "Table `public.baseline_organisation` has an RLS policy `Enable insert for authenticated users only` for `INSERT` that allows unrestricted access (WITH CHECK clause is always true). This effectively bypasses row-level security for authenticated.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0024_permissive_rls_policy",
+    "metadata": {
+      "name": "baseline_organisation",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_policy_always_true_public_baseline_organisation_Enable insert for authenticated users only"
+  },
+  {
+    "name": "rls_policy_always_true",
+    "title": "RLS Policy Always True",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects RLS policies that use overly permissive expressions like \\`USING (true)\\` or \\`WITH CHECK (true)\\` for UPDATE, DELETE, or INSERT operations. SELECT policies with \\`USING (true)\\` are intentionally excluded as this pattern is often used deliberately for public read access.",
+    "detail": "Table `public.baseline_organisation` has an RLS policy `New Policy Name` for `ALL` that allows unrestricted access (both USING and WITH CHECK are always true). This effectively bypasses row-level security for authenticated, service_role, level_6, supabase_read_only_user, supabase_replication_admin.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0024_permissive_rls_policy",
+    "metadata": {
+      "name": "baseline_organisation",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_policy_always_true_public_baseline_organisation_New Policy Name"
+  },
+  {
+    "name": "rls_policy_always_true",
+    "title": "RLS Policy Always True",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects RLS policies that use overly permissive expressions like \\`USING (true)\\` or \\`WITH CHECK (true)\\` for UPDATE, DELETE, or INSERT operations. SELECT policies with \\`USING (true)\\` are intentionally excluded as this pattern is often used deliberately for public read access.",
+    "detail": "Table `public.countries` has an RLS policy `Enable insert for authenticated users only` for `ALL` that allows unrestricted access (USING clause is always true). This effectively bypasses row-level security for authenticated, supabase_replication_admin.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0024_permissive_rls_policy",
+    "metadata": {
+      "name": "countries",
+      "schema": "public",
+      "type": "table"
+    },
+    "cache_key": "rls_policy_always_true_public_countries_Enable insert for authenticated users only"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `compliance_001.get_redacted_document(p_document_id uuid, p_user_id uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/get_redacted_document`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "get_redacted_document",
+      "schema": "compliance_001"
+    },
+    "cache_key": "anon_security_definer_function_executable_compliance_001_get_redacted_document_p_document_id uuid, p_user_id uuid"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `governance.purge_expired_workspace_cache()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/purge_expired_workspace_cache`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "purge_expired_workspace_cache",
+      "schema": "governance"
+    },
+    "cache_key": "anon_security_definer_function_executable_governance_purge_expired_workspace_cache_"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `holistika_ops.current_access_level()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/current_access_level`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "current_access_level",
+      "schema": "holistika_ops"
+    },
+    "cache_key": "anon_security_definer_function_executable_holistika_ops_current_access_level_"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `holistika_ops.current_user_role_mapping()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/current_user_role_mapping`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "current_user_role_mapping",
+      "schema": "holistika_ops"
+    },
+    "cache_key": "anon_security_definer_function_executable_holistika_ops_current_user_role_mapping_"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `kirbe.audit_org_membership_change()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/audit_org_membership_change`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "audit_org_membership_change",
+      "schema": "kirbe"
+    },
+    "cache_key": "anon_security_definer_function_executable_kirbe_audit_org_membership_change_"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `kirbe.audit_vault_membership_change()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/audit_vault_membership_change`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "audit_vault_membership_change",
+      "schema": "kirbe"
+    },
+    "cache_key": "anon_security_definer_function_executable_kirbe_audit_vault_membership_change_"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `kirbe.can_manage_org_memberships(p_org uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/can_manage_org_memberships`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "can_manage_org_memberships",
+      "schema": "kirbe"
+    },
+    "cache_key": "anon_security_definer_function_executable_kirbe_can_manage_org_memberships_p_org uuid"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `kirbe.can_manage_vault_memberships(p_vault uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/can_manage_vault_memberships`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "can_manage_vault_memberships",
+      "schema": "kirbe"
+    },
+    "cache_key": "anon_security_definer_function_executable_kirbe_can_manage_vault_memberships_p_vault uuid"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `kirbe.can_view_org_memberships(p_org uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/can_view_org_memberships`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "can_view_org_memberships",
+      "schema": "kirbe"
+    },
+    "cache_key": "anon_security_definer_function_executable_kirbe_can_view_org_memberships_p_org uuid"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `kirbe.can_view_vault_memberships(p_vault uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/can_view_vault_memberships`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "can_view_vault_memberships",
+      "schema": "kirbe"
+    },
+    "cache_key": "anon_security_definer_function_executable_kirbe_can_view_vault_memberships_p_vault uuid"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `kirbe.effective_vault_role(p_user uuid, p_vault uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/effective_vault_role`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "effective_vault_role",
+      "schema": "kirbe"
+    },
+    "cache_key": "anon_security_definer_function_executable_kirbe_effective_vault_role_p_user uuid, p_vault uuid"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `kirbe.log_monitoring(entry jsonb)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/log_monitoring`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "log_monitoring",
+      "schema": "kirbe"
+    },
+    "cache_key": "anon_security_definer_function_executable_kirbe_log_monitoring_entry jsonb"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `kirbe.on_subscription_tier_change()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/on_subscription_tier_change`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "on_subscription_tier_change",
+      "schema": "kirbe"
+    },
+    "cache_key": "anon_security_definer_function_executable_kirbe_on_subscription_tier_change_"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `kirbe.provision_me()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/provision_me`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "provision_me",
+      "schema": "kirbe"
+    },
+    "cache_key": "anon_security_definer_function_executable_kirbe_provision_me_"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `public.current_access_level()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/current_access_level`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "current_access_level",
+      "schema": "public"
+    },
+    "cache_key": "anon_security_definer_function_executable_public_current_access_level_"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `public.current_user_role_mapping()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/current_user_role_mapping`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "current_user_role_mapping",
+      "schema": "public"
+    },
+    "cache_key": "anon_security_definer_function_executable_public_current_user_role_mapping_"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `public.handle_public_user()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/handle_public_user`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "handle_public_user",
+      "schema": "public"
+    },
+    "cache_key": "anon_security_definer_function_executable_public_handle_public_user_"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `public.kirbe_yt_execute_sql(query text)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/kirbe_yt_execute_sql`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "kirbe_yt_execute_sql",
+      "schema": "public"
+    },
+    "cache_key": "anon_security_definer_function_executable_public_kirbe_yt_execute_sql_query text"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `public.kirbe_yt_query(sql text)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/kirbe_yt_query`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "kirbe_yt_query",
+      "schema": "public"
+    },
+    "cache_key": "anon_security_definer_function_executable_public_kirbe_yt_query_sql text"
+  },
+  {
+    "name": "anon_security_definer_function_executable",
+    "title": "Public Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+    "detail": "Function `public.kirbe_yt_rpc_query(sql text)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/kirbe_yt_rpc_query`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+    "metadata": {
+      "name": "kirbe_yt_rpc_query",
+      "schema": "public"
+    },
+    "cache_key": "anon_security_definer_function_executable_public_kirbe_yt_rpc_query_sql text"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `compliance_001.get_redacted_document(p_document_id uuid, p_user_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/get_redacted_document`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "get_redacted_document",
+      "schema": "compliance_001"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_compliance_001_get_redacted_document_p_document_id uuid, p_user_id uuid"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `governance.purge_expired_workspace_cache()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/purge_expired_workspace_cache`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "purge_expired_workspace_cache",
+      "schema": "governance"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_governance_purge_expired_workspace_cache_"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `holistika_ops.current_access_level()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/current_access_level`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "current_access_level",
+      "schema": "holistika_ops"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_holistika_ops_current_access_level_"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `holistika_ops.current_user_role_mapping()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/current_user_role_mapping`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "current_user_role_mapping",
+      "schema": "holistika_ops"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_holistika_ops_current_user_role_mapping_"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.audit_org_membership_change()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/audit_org_membership_change`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "audit_org_membership_change",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_audit_org_membership_change_"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.audit_vault_membership_change()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/audit_vault_membership_change`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "audit_vault_membership_change",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_audit_vault_membership_change_"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.can_manage_org_memberships(p_org uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/can_manage_org_memberships`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "can_manage_org_memberships",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_can_manage_org_memberships_p_org uuid"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.can_manage_vault_memberships(p_vault uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/can_manage_vault_memberships`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "can_manage_vault_memberships",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_can_manage_vault_memberships_p_vault uuid"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.can_view_org_memberships(p_org uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/can_view_org_memberships`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "can_view_org_memberships",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_can_view_org_memberships_p_org uuid"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.can_view_vault_memberships(p_vault uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/can_view_vault_memberships`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "can_view_vault_memberships",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_can_view_vault_memberships_p_vault uuid"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.effective_vault_role(p_user uuid, p_vault uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/effective_vault_role`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "effective_vault_role",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_effective_vault_role_p_user uuid, p_vault uuid"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.gdrive_log_ingestion(data jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/gdrive_log_ingestion`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "gdrive_log_ingestion",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_gdrive_log_ingestion_data jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.gdrive_update_ingestion_log(log_id_param bigint, update_data jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/gdrive_update_ingestion_log`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "gdrive_update_ingestion_log",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_gdrive_update_ingestion_log_log_id_param bigint, update_data jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.gdrive_upsert_documents_bulk(items jsonb[])` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/gdrive_upsert_documents_bulk`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "gdrive_upsert_documents_bulk",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_gdrive_upsert_documents_bulk_items jsonb[]"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.log_audit_event(event_data jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/log_audit_event`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "log_audit_event",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_log_audit_event_event_data jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.log_monitoring(entry jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/log_monitoring`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "log_monitoring",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_log_monitoring_entry jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.log_permission_denied(p_actor_user_id uuid, p_resource_type text, p_resource_id uuid, p_metadata jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/log_permission_denied`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "log_permission_denied",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_log_permission_denied_p_actor_user_id uuid, p_resource_type text, p_resource_id uuid, p_metadata jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.log_usage_event(event_data jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/log_usage_event`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "log_usage_event",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_log_usage_event_event_data jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.on_subscription_tier_change()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/on_subscription_tier_change`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "on_subscription_tier_change",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_on_subscription_tier_change_"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.org_memberships_list(p_org uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/org_memberships_list`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "org_memberships_list",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_org_memberships_list_p_org uuid"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.provision_me()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/provision_me`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "provision_me",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_provision_me_"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.simpledir_log_ingestion(data jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/simpledir_log_ingestion`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "simpledir_log_ingestion",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_simpledir_log_ingestion_data jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.simpledir_update_ingestion_log(log_id_param bigint, update_data jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/simpledir_update_ingestion_log`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "simpledir_update_ingestion_log",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_simpledir_update_ingestion_log_log_id_param bigint, update_data jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.simpledir_upsert_document(data jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/simpledir_upsert_document`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "simpledir_upsert_document",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_simpledir_upsert_document_data jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.simpledir_upsert_documents_bulk(data jsonb[])` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/simpledir_upsert_documents_bulk`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "simpledir_upsert_documents_bulk",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_simpledir_upsert_documents_bulk_data jsonb[]"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.yt_check_transcript_exists(vid text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/yt_check_transcript_exists`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "yt_check_transcript_exists",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_yt_check_transcript_exists_vid text"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.yt_delete_transcript(vid text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/yt_delete_transcript`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "yt_delete_transcript",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_yt_delete_transcript_vid text"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.yt_insert_segments(segments_data jsonb[])` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/yt_insert_segments`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "yt_insert_segments",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_yt_insert_segments_segments_data jsonb[]"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.yt_insert_transcript(data jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/yt_insert_transcript`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "yt_insert_transcript",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_yt_insert_transcript_data jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.yt_log_ingestion(p_source_identifier text, p_run_parameters jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/yt_log_ingestion`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "yt_log_ingestion",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_yt_log_ingestion_p_source_identifier text, p_run_parameters jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.yt_update_ingestion_log(p_log_id integer, p_status text, p_playlists_processed_count integer, p_videos_processed_count integer, p_transcripts_found_count integer, p_transcripts_failed_count integer, p_segments_generated_count integer, p_error_message text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/yt_update_ingestion_log`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "yt_update_ingestion_log",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_yt_update_ingestion_log_p_log_id integer, p_status text, p_playlists_processed_count integer, p_videos_processed_count integer, p_transcripts_found_count integer, p_transcripts_failed_count integer, p_segments_generated_count integer, p_error_message text"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.yt_upsert_playlist(data jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/yt_upsert_playlist`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "yt_upsert_playlist",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_yt_upsert_playlist_data jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `kirbe.yt_upsert_playlist_video(data jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/yt_upsert_playlist_video`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "yt_upsert_playlist_video",
+      "schema": "kirbe"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_kirbe_yt_upsert_playlist_video_data jsonb"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `public.current_access_level()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/current_access_level`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "current_access_level",
+      "schema": "public"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_public_current_access_level_"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `public.current_user_role_mapping()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/current_user_role_mapping`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "current_user_role_mapping",
+      "schema": "public"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_public_current_user_role_mapping_"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `public.handle_public_user()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/handle_public_user`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "handle_public_user",
+      "schema": "public"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_public_handle_public_user_"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `public.kirbe_yt_execute_sql(query text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/kirbe_yt_execute_sql`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "kirbe_yt_execute_sql",
+      "schema": "public"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_public_kirbe_yt_execute_sql_query text"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `public.kirbe_yt_query(sql text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/kirbe_yt_query`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "kirbe_yt_query",
+      "schema": "public"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_public_kirbe_yt_query_sql text"
+  },
+  {
+    "name": "authenticated_security_definer_function_executable",
+    "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+    "detail": "Function `public.kirbe_yt_rpc_query(sql text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/kirbe_yt_rpc_query`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+    "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+    "metadata": {
+      "name": "kirbe_yt_rpc_query",
+      "schema": "public"
+    },
+    "cache_key": "authenticated_security_definer_function_executable_public_kirbe_yt_rpc_query_sql text"
+  },
+  {
+    "name": "auth_leaked_password_protection",
+    "title": "Leaked Password Protection Disabled",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Leaked password protection is currently disabled.",
+    "detail": "Supabase Auth prevents the use of compromised passwords by checking against HaveIBeenPwned.org. Enable this feature to enhance security.",
+    "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection",
+    "metadata": {
+      "entity": "Auth",
+      "type": "auth"
+    },
+    "cache_key": "auth_leaked_password_protection"
+  },
+  {
+    "name": "vulnerable_postgres_version",
+    "title": "Current Postgres version has security patches available",
+    "level": "WARN",
+    "facing": "EXTERNAL",
+    "categories": [
+      "SECURITY"
+    ],
+    "description": "Upgrade your postgres database to apply important security patches",
+    "detail": "We have detected that the current version of postgres, supabase-postgres-15.8.1.111, has outstanding security patches available. Upgrade your database to receive the latest security patches.",
+    "remediation": "https://supabase.com/docs/guides/platform/upgrading",
+    "metadata": {
+      "entity": "Config",
+      "type": "compliance"
+    },
+    "cache_key": "vulnerable_postgres_version"
+  }
+]
+A new version of Supabase CLI is available: v2.106.0 (currently installed v2.93.1)
+We recommend updating regularly for new features and bug fixes: 
+https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
