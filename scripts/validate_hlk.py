@@ -617,6 +617,16 @@ def main() -> int:
          "validate_supabase_storage_registry",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
          / "Architecture" / "canonicals" / "dimensions" / "SUPABASE_STORAGE_REGISTRY.csv"),
+        # I100 — Lab component ecosystem module registry (D-IH-100-C).
+        ("COMPONENT_MODULE_REGISTRY", "validate_component_module_registry.py",
+         "validate_component_module_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Tech"
+         / "System Owner" / "canonicals" / "dimensions" / "COMPONENT_MODULE_REGISTRY.csv"),
+        # I100 — Wave-1/2 lab platform dimension registries (D-IH-100-E).
+        ("LAB_PLATFORM_REGISTRIES", "validate_lab_platform_registries.py",
+         "validate_lab_platform_registries",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Tech"
+         / "System Owner" / "canonicals" / "dimensions" / "VERCEL_PROJECT_SETTINGS_REGISTRY.csv"),
         # D-IH-95-I — build-out backlog (the demoted process_list task-grain home; SKIPs until minted).
         ("BUILDOUT_BACKLOG", "validate_buildout_backlog_registry.py",
          "validate_buildout_backlog_registry",
@@ -720,6 +730,9 @@ def main() -> int:
         # LANGUAGE_FRONTMATTER has no CSV gate; it scans the vault directly.
         ("LANGUAGE_FRONTMATTER", "validate_hlk_language_frontmatter.py",
          "validate_hlk_language_frontmatter", None),
+        # I90 P4 — evidence-class gate (initiative closure cross-check; D-IH-90-EVIDENCE-GATE).
+        ("EVIDENCE_CLASS_GATE", "validate_evidence_class_gate.py",
+         "validate_evidence_class_gate", None),
     ]
 
     for item in dispatch:

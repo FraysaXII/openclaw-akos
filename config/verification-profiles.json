@@ -421,6 +421,14 @@
           ]
         },
         {
+          "id": "validate_evidence_class_gate_self_test",
+          "description": "I90 P4: evidence-class gate SSOT self-test (hash-padding, ACIM proof tokens)",
+          "argv": [
+            "scripts/validate_evidence_class_gate.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "operational_cohesion_validate",
           "description": "I94 P2: OPERATIONAL_COHESION_DOCTRINE self-consistency validate subcommand",
           "argv": [

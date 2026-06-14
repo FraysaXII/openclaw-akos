@@ -15,6 +15,10 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
+from akos.evidence_class_gate import (  # noqa: E402
+    is_url_hash_padding,
+    normalize_url_for_dedupe,
+)
 from akos.hlk_research_action import (  # noqa: E402
     DEFAULT_SOURCE_LEDGER_PATH,
     SOURCE_LEDGER_FIELDNAMES,
@@ -39,6 +43,7 @@ def validate_source_ledger(path: Path) -> tuple[bool, list[str], ResearchSourceL
 
     rows: list[ResearchSourceRow] = []
     seen: set[str] = set()
+    seen_external_bases: set[str] = set()
     with path.open(encoding="utf-8-sig", newline="") as fh:
         reader = csv.DictReader(fh)
         if tuple(reader.fieldnames or ()) != SOURCE_LEDGER_FIELDNAMES:
@@ -68,6 +73,19 @@ def validate_source_ledger(path: Path) -> tuple[bool, list[str], ResearchSourceL
             if row.source_id in seen:
                 messages.append(f"L{line_no}: duplicate source_id {row.source_id}")
             seen.add(row.source_id)
+            if row.format == "webpage":
+                if is_url_hash_padding(row.url):
+                    messages.append(
+                        f"L{line_no}: RA-EC-01 URL hash-padding {row.url!r} "
+                        "(synthetic #N fragment — one row per real external base URL)"
+                    )
+                else:
+                    base = normalize_url_for_dedupe(row.url)
+                    if base in seen_external_bases:
+                        messages.append(
+                            f"L{line_no}: RA-EC-02 duplicate external URL base {base!r}"
+                        )
+                    seen_external_bases.add(base)
             rows.append(row)
 
     if messages:

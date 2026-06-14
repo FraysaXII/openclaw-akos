@@ -48,6 +48,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 from akos import log  # noqa: E402
+from akos.evidence_class_gate import (  # noqa: E402
+    EVIDENCE_GATE_WATERSHED_ISO_DATE,
+    VALID_EVIDENCE_CLASSES,
+    is_on_or_after_watershed,
+)
 from akos.hlk_uat_report import (  # noqa: E402
     DECISION_ID_PATTERN,
     FIELD_TEST_WINDOW_CODE_PATTERN,
@@ -403,6 +408,42 @@ def _check_frontmatter(
                     notes=(
                         "Closes the PWF abuse pattern surfaced at I86 Wave R+1 ex5 "
                         "ratification."
+                    ),
+                )
+            )
+
+    # FM-12 PASS without evidence class (I90 P4 evidence-class gate; watershed 2026-06-14)
+    if verdict == "PASS" and is_on_or_after_watershed(
+        str(last_review) if last_review else None, EVIDENCE_GATE_WATERSHED_ISO_DATE
+    ):
+        evidence_class = fm.get("evidence_class")
+        proof_ref = fm.get("evidence_proof_ref")
+        if not evidence_class or str(evidence_class).strip() not in VALID_EVIDENCE_CLASSES:
+            findings.append(
+                UATReportFinding(
+                    finding_code="UAT-FM-12-PASS-WITHOUT-EVIDENCE-CLASS",
+                    section="frontmatter:evidence_class",
+                    severity="FAIL",
+                    verdict="gap",
+                    proposed_action=(
+                        "PASS closure UAT on/after 2026-06-14 MUST declare "
+                        "evidence_class: git_shape | url_verify | live_probe | "
+                        "browser_experiential | operator_ratify | meta_regression "
+                        "per I90 P4 evidence-class gate."
+                    ),
+                    notes="Shape-PASS cannot substitute for intent proof.",
+                )
+            )
+        if not proof_ref or str(proof_ref).strip() == "":
+            findings.append(
+                UATReportFinding(
+                    finding_code="UAT-FM-12-PASS-WITHOUT-EVIDENCE-CLASS",
+                    section="frontmatter:evidence_proof_ref",
+                    severity="FAIL",
+                    verdict="gap",
+                    proposed_action=(
+                        "Append evidence_proof_ref: <repo-relative path to validator "
+                        "output, probe artifact, or browser bundle>."
                     ),
                 )
             )

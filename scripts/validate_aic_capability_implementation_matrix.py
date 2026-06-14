@@ -30,6 +30,11 @@ from akos.hlk_aic_capability_implementation_matrix_csv import (
     CSV_PATH_RELATIVE,
     AICCapabilityImplementationMatrixRow,
 )
+from akos.evidence_class_gate import (
+    EVIDENCE_GATE_WATERSHED_ISO_DATE,
+    acim_has_evidence_proof,
+    is_on_or_after_watershed,
+)
 
 
 def _repo_root() -> Path:
@@ -135,6 +140,25 @@ def validate(csv_path: Path) -> tuple[bool, list[str]]:
         if dec_id and decision_ids and dec_id not in decision_ids:
             errors.append(
                 f"row {idx} ({mid}): last_review_decision_id '{dec_id}' missing from DECISION_REGISTER"
+            )
+
+        status = raw.get("implementation_status", "")
+        confidence = raw.get("confidence_class", "")
+        reviewed_at = raw.get("last_review_at", "")
+        if (
+            status == "implemented"
+            and confidence == "confirmed"
+            and is_on_or_after_watershed(reviewed_at, EVIDENCE_GATE_WATERSHED_ISO_DATE)
+            and not acim_has_evidence_proof(
+                notes=raw.get("notes", ""),
+                realisation_refs=raw.get("realisation_refs", ""),
+                tool_catalog_ref=raw.get("tool_catalog_ref", ""),
+            )
+        ):
+            errors.append(
+                f"row {idx} ({mid}): implemented+confirmed on/after {EVIDENCE_GATE_WATERSHED_ISO_DATE} "
+                "requires evidence proof (tool_catalog_ref path, realisation_refs, or "
+                "notes tokens evidence_class= / evidence_proof_ref=)"
             )
 
     return not errors, errors
