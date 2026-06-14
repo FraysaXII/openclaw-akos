@@ -4,7 +4,7 @@ title: "I90 — Routing & Wiring (Ordnance): two-seat Cursor + rule tier rewire 
 status: active
 owner_role: PMO
 inception: 2026-06-01
-last_review: 2026-06-04
+last_review: 2026-06-14
 linked_decisions:
   - D-IH-90-A
   - D-IH-90-G
@@ -19,6 +19,7 @@ linked_decisions:
   - D-IH-90-AD
   - D-IH-90-AE
   - D-IH-90-AF
+  - D-IH-100-I
 authority: Founder + PMO + System Owner
 language: en
 linked_initiatives:
@@ -48,8 +49,8 @@ Holistika's Cursor workspace carried **25 always-on rules** (P2 reduces to **3**
 | **P3** | Backlog drain (OPS 16/17/3, 23 notes, handoff I91) | Per-item inline-ratify |
 | **P3.5** | KiRBe production routing (D-IH-90-X + OPS-90-1..6; sibling doc PRs) | **GATE #3b** (**closed** 2026-06-01) |
 | **P4** | Evidence-class gate mechanics (validators + ledger strip) | **closed** 2026-06-14 (`e849c799`) |
-| **P4a** | Governance doctrine + federated singularity tranche (Option B + DATA contracts + I100 charter) | **landed** 2026-06-14 (pending phase commit; `D-IH-90-AF`, `D-IH-100-I`) |
-| **P4b** | Preview vertical slice (hlk-erp deploy + browser manifest) | **scheduled** — after P4a+ commit |
+| **P4a** | Governance doctrine + federated singularity tranche (Option B + DATA contracts + I100 charter) | **closed** 2026-06-14 (`32521d2f`, `D-IH-90-AF`, `D-IH-100-I`) |
+| **P4b** | Preview vertical slice (hlk-erp deploy + browser manifest) | **in progress** — prep PASS; **BLOCKED-ENV** (gateway); see [`reports/p4b-preview-slice-prep-2026-06-14.md`](reports/p4b-preview-slice-prep-2026-06-14.md) |
 | **P4c** | Vault promotion (doctrine + process_list; registries → Data SSOT) | **closed** 2026-06-14 (`D-IH-90-AF`) |
 
 ## 2 — Phase dependency
@@ -89,9 +90,9 @@ flowchart LR
 **P4 delivered:** `akos/evidence_class_gate.py`, validator extensions, I100 ledger strip
 317 rows, charter [`reports/evidence-class-gate-charter-2026-06-14.md`](reports/evidence-class-gate-charter-2026-06-14.md).
 
-**P4a (landed — pending commit):** Singularity ratification [`reports/evidence-class-gate-singularity-ratification-2026-06-14.md`](reports/evidence-class-gate-singularity-ratification-2026-06-14.md); governance design **ratified**; Option B registry move to Data; full DATA contract tranche; Quality Fabric `compose_EVIDENCE`; I100 `LAB_PLATFORM_DIMENSION_REGISTRY` charter (`D-IH-100-I`). Design doc: [`reports/evidence-class-gate-governance-design-2026-06-14.md`](reports/evidence-class-gate-governance-design-2026-06-14.md).
+**P4a (closed `32521d2f`):** Singularity ratification [`reports/evidence-class-gate-singularity-ratification-2026-06-14.md`](reports/evidence-class-gate-singularity-ratification-2026-06-14.md); Option B registry move; DATA contract tranche; Quality Fabric `compose_EVIDENCE`; I100 lab dimension charter.
 
-**P4b (scheduled, not dropped):** [`reports/evidence-class-gate-phase-b-preview-slice-2026-06-14.md`](reports/evidence-class-gate-phase-b-preview-slice-2026-06-14.md). Carryover: `CO-90-001` in [`carryover-posture-index.md`](../_trackers/carryover-posture-index.md).
+**P4b (in progress — BLOCKED-ENV):** Prep report [`reports/p4b-preview-slice-prep-2026-06-14.md`](reports/p4b-preview-slice-prep-2026-06-14.md). Slice spec: [`reports/evidence-class-gate-phase-b-preview-slice-2026-06-14.md`](reports/evidence-class-gate-phase-b-preview-slice-2026-06-14.md). Carryover: `CO-90-001`.
 
 **Verification:**
 

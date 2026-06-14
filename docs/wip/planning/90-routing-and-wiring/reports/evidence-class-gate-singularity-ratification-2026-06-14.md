@@ -281,5 +281,5 @@ py -m pytest tests/test_evidence_class_gate.py -q
 | **`derive_quality_bar` compose_EVIDENCE** | scheduled | People Ops | `CO-90-003` |
 | **FM-13 sibling UI manifest** | scheduled | MADEIRA / UAT | After one clean browser manifest |
 | **Stale drafts** | superseded | — | `drafts/SOP-PEOPLE_*` rejected; `EVIDENCE_CLASS_GATE_DISCIPLINE.draft.md` → vault pointers |
-| **PRECEDENCE rows for evidence registries** | scheduled | Compliance | Index integrity sweep when vault folder bump (v3.2 bar) |
+| **PRECEDENCE rows for evidence registries** | satisfied | Compliance | Done 2026-06-14 index backfill |
 | **Historical UAT `--all` backfill** | scheduled | PMO | Sweep ramp INFO→WARN→FAIL |

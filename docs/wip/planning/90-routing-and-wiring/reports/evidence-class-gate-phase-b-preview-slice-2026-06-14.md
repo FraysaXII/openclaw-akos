@@ -2,9 +2,9 @@
 title: I90 P4b — Preview vertical slice (evidence-class gate)
 last_review: 2026-06-14
 audience: J-OP;J-AIC
-status: scheduled
+status: in_progress
 carryover_posture: scheduled
-activation_trigger: P4a governance drafts reviewed; hlk-erp Preview deploy reachable
+activation_trigger: Gateway + hlk-erp Preview deploy reachable (P4a closed 32521d2f)
 ---
 
 # Phase B — hlk-erp Preview end-to-end proof
@@ -44,9 +44,11 @@ evidence_proof_ref: artifacts/uat-screenshots/<bundle>/MANIFEST.json
 
 ## Out of scope (this slice)
 
-- Vault promotion of `EVIDENCE_CLASS_REGISTRY.csv` (P4c operator gate)
-- I100 harmonization CSV merge (I100 active; separate tranche)
+- ~~Vault promotion of `EVIDENCE_CLASS_REGISTRY.csv`~~ — **done** P4c+ (`32521d2f`)
+- I100 harmonization CSV merge (I100 active; separate tranche — `CO-100-001`)
 - FM-13 FAIL ramp (needs one clean manifest first)
+
+**Prep report:** [`p4b-preview-slice-prep-2026-06-14.md`](p4b-preview-slice-prep-2026-06-14.md)
 
 ## Commands (when executing)
 
