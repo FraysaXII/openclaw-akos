@@ -185,3 +185,15 @@ Before READY FOR REVIEW:
 
 **Product gap (honest):** Auth PASS ≠ product PASS. Preview still shows env-remediation skeleton when `GH_PAT_PLANNING_READER` / mirror BFF absent; journey steps and CTAs diverge from v2 spec — **I96 B2 tranche** ([`research-center-phase-bc-tranche-plan-2026-06-12.md`](research-center-phase-bc-tranche-plan-2026-06-12.md)), not I99.
 
+## Production domain drift (P-G6 finding 2026-06-14)
+
+| Observation | Evidence |
+|:---|:---|
+| Vercel `hlk-erp` production **READY** @ `3787f06` (B1.5 + B2.4) | `dpl_5ZdeDLcYqaUFYFJ6AR9JYo9vmw4Y` |
+| Vercel project **domains** = `hlk-erp-*.vercel.app` only — **`erp.holistikaresearch.com` not attached** | Vercel MCP `get_project` 2026-06-14 |
+| Charter host serves **legacy v1** Research Center (Facts accordion; © 2025) | [`uat-i96-research-center-production-2026-06-14.md`](uat-i96-research-center-production-2026-06-14.md) |
+| `/sign-in` on charter host → **404** | Same report |
+| Interim UAT ratify host until domain wired | `https://hlk-erp-git-main-holistika.vercel.app` (magic-link works) |
+
+**Operator action:** Add `erp.holistikaresearch.com` (+ `preview.erp.holistikaresearch.com` if desired) to Vercel project **hlk-erp**; point DNS; confirm v2 + **Production** badge; re-run P-G6.
+
