@@ -1,0 +1,34 @@
+{
+  "session": "i96-research-center-production-2026-06-14",
+  "reviewed_at": "2026-06-14T02:40:00Z",
+  "reviewed_by": "parent-agent-foreground",
+  "delegation_allowed": false,
+  "sop": "docs/wip/planning/96-research-data-plane-and-research-center/reports/SOP-EXPERIENTIAL_UAT_AGENT_VISUAL_REVIEW_001.md",
+  "incident_note": "P-G6 production walk blocked before journey matrix. erp.holistikaresearch.com serves legacy v1 accordion UI (copyright 2025) without Production badge or /sign-in route. Vercel production deploy 3787f06 READY on *.vercel.app with magic-link sign-in — custom domain not attached to hlk-erp Vercel project (get_project domains[] lacks erp.holistikaresearch.com). 0/8 journey PNGs; honest FAIL — no subagent visual sign-off.",
+  "captures": [
+    {
+      "file": "00-diagnostic-production-landing-1280.png",
+      "verdict": "VALID-DIAGNOSTIC",
+      "observations": "erp.holistikaresearch.com/research-center shows legacy v1 accordion (Documentation / POI-GOI / Facts). No POV switcher, no Production badge, no insight rail. Copyright 2025 footer — stale host."
+    },
+    {
+      "file": "00-diagnostic-sign-in-404-1280.png",
+      "verdict": "VALID-DIAGNOSTIC",
+      "observations": "erp.holistikaresearch.com/sign-in?next=%2Fresearch-center returns Next.js 404. Magic-link entry path from charter is broken on mandated production hostname."
+    },
+    {
+      "file": "00-diagnostic-vercel-prod-sign-in-1280.png",
+      "verdict": "VALID-DIAGNOSTIC",
+      "observations": "hlk-erp-git-main-holistika.vercel.app/sign-in shows Mission Control magic-link form (Google/Microsoft + work email). Copyright 2026 — matches 3787f06 production deploy. Not charter host; supplementary evidence only."
+    }
+  ],
+  "journey_matrix": {
+    "required": 8,
+    "captured": 0,
+    "status": "BLOCKED",
+    "blockers": [
+      "DOMAIN-DRIFT: custom domain not on Vercel hlk-erp project",
+      "BLOCKED-AUTH: magic-link requires operator email click on correct host after domain fix"
+    ]
+  }
+}

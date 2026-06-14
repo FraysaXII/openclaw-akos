@@ -2,7 +2,7 @@
 parent_initiative: INIT-OPENCLAW_AKOS-96
 report_kind: tranche-charter
 authored: 2026-06-13
-updated: 2026-06-13
+updated: 2026-06-14
 audience: J-OP;J-AIC
 status: active
 carryover_posture: scheduled
@@ -26,7 +26,7 @@ operator_ratifications:
 |:---|:---|:---|:---|:---|
 | **L3 Local** | `localhost:3010` | Local dev | AIC L3.0 + operator L4 optional | **PWF** — [`uat-i96-research-center-b15-experiential-2026-06-13.md`](uat-i96-research-center-b15-experiential-2026-06-13.md) |
 | **L3.5 Preview** | PR → `*.vercel.app` | Preview | AIC thorough experiential | **PWF** — [`uat-i96-research-center-preview-2026-06-13.md`](uat-i96-research-center-preview-2026-06-13.md) (magic-link 8/8 v2; Preview env gaps) |
-| **L4 Production** | `erp.holistikaresearch.com` | Production | Operator + AIC | **Blocked** — preview + main merge |
+| **L4 Production** | `erp.holistikaresearch.com` | Production | Operator + AIC | **FAIL** (2026-06-14) — Vercel prod **READY** @ `3787f06` (`dpl_5ZdeDLcYqaUFYFJ6AR9JYo9vmw4Y`) but charter host serves **legacy v1**; `/sign-in` **404**; domain not on Vercel `hlk-erp` project — [`uat-i96-research-center-production-2026-06-14.md`](uat-i96-research-center-production-2026-06-14.md). **Scheduled:** wire domain + operator magic-link + re-walk (not dropped) |
 
 Localhost L3 **does not** satisfy Preview or Production charters.
 

@@ -1,0 +1,57 @@
+{
+  "initiative": "I96-research-center-v2",
+  "session": "2026-06-14-production-l4-blocked",
+  "verdict_scope": "production-operator-director-l4-diagnostic",
+  "capture_tool": "cursor-ide-browser-mcp",
+  "ladder_tier": "L4-Production",
+  "deploy_tier": "production",
+  "deploy_verification": {
+    "platform": "vercel",
+    "deploy_id": "dpl_5ZdeDLcYqaUFYFJ6AR9JYo9vmw4Y",
+    "source_sha": "3787f06",
+    "hostname": "erp.holistikaresearch.com",
+    "vercel_production_url": "https://hlk-erp-git-main-holistika.vercel.app",
+    "badge_expected": "Production",
+    "vendor_state": "READY",
+    "custom_domain_on_vercel_project": false
+  },
+  "auth": "BLOCKED-AUTH + BLOCKED-DOMAIN-DRIFT",
+  "journey_capture_count": 0,
+  "captures": [
+    {
+      "file": "00-diagnostic-production-landing-1280.png",
+      "route": "/research-center or /sign-in",
+      "viewport": "1280x800",
+      "auth_state": "unauthenticated-or-stale-host",
+      "screenshot_sha256": "0af8fe25267d872bef76cd3f763e1f267df09d63da1403720424c7b0348b8b39",
+      "captured_at": "2026-06-14T00:38:11.786931+00:00",
+      "notes": "P-G6 diagnostic only \u2014 journey captures BLOCKED",
+      "supersedes": null
+    },
+    {
+      "file": "00-diagnostic-sign-in-404-1280.png",
+      "route": "/research-center or /sign-in",
+      "viewport": "1280x800",
+      "auth_state": "unauthenticated-or-stale-host",
+      "screenshot_sha256": "ca948a7541265a76f278d5e68b95452d5fd3b1f73a47d4dc5f3436af809f1250",
+      "captured_at": "2026-06-14T00:38:11.787144+00:00",
+      "notes": "P-G6 diagnostic only \u2014 journey captures BLOCKED",
+      "supersedes": null
+    },
+    {
+      "file": "00-diagnostic-vercel-prod-sign-in-1280.png",
+      "route": "/research-center or /sign-in",
+      "viewport": "1280x800",
+      "auth_state": "unauthenticated-or-stale-host",
+      "screenshot_sha256": "486a97fd3d5895bd42922e990b93c86ac0180d693a4b7de853007c02b799f975",
+      "captured_at": "2026-06-14T00:38:11.787383+00:00",
+      "notes": "P-G6 diagnostic only \u2014 journey captures BLOCKED",
+      "supersedes": null
+    }
+  ],
+  "errors": [
+    "erp.holistikaresearch.com serves legacy v1 Research Center; /sign-in returns 404",
+    "Custom domain not listed in Vercel hlk-erp project domains[]",
+    "Vercel production URL requires magic-link; 0/8 journey PNGs captured"
+  ]
+}
