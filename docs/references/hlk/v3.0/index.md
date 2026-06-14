@@ -7,14 +7,14 @@ classification: way_of_working
 intellectual_kind: vault_index
 ssot: true
 authored: 2026-03-31
-last_review: 2026-05-15
-last_review_initiative: I79 P5 (orphan-folder hygiene; full §Vault Structure rewrite per D-IH-79-K)
+last_review: 2026-06-14
+last_review_initiative: I90 P4c+ evidence-class gate singularity tranche (index hygiene §Vault Structure + KM table; D-IH-90-AF)
 ---
 
 # Holistika Knowledge Vault v3.0
 
 **Version**: 3.0
-**Date**: 2026-03-31 (last full rewrite 2026-05-15 per I79 P5 cluster C)
+**Date**: 2026-03-31 (last vault-structure hygiene 2026-06-14 per I90 P4c+ / D-IH-90-AF)
 **Status**: Active canonical vault
 **Governance**: [Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md](Admin/O5-1/People/Compliance/canonicals/PRECEDENCE.md)
 **Forward-layout decisions reflected here**: I22 (per-area `canonicals/` federation + `programs/` per-role), I63 (Envoy Tech Lab External Repos SOPs), I70 (Research promoted to top-level area; compliance/ master migrated to per-area-role homes), I72 (Marketing sub-area `canonicals/` charters), I79 (People manifesto + design pattern library + agentic doctrine + cross-area breakthrough SOP).
@@ -115,6 +115,11 @@ Holistika-wide KM is governed by [HLK_KM_TOPIC_FACT_SOURCE.md](Admin/O5-1/People
 | MADEIRA incident response (`env_tech_dtp_madeira_incident`) | [SOP-MADEIRA_INCIDENT_RESPONSE_001.md](Admin/O5-1/Tech/System%20Owner/canonicals/SOP-MADEIRA_INCIDENT_RESPONSE_001.md) |
 | MADEIRA scenario lifecycle and telemetry (`env_tech_dtp_madeira_lifecycle`, `env_tech_dtp_madeira_telemetry`) | [SOP-MADEIRA_SCENARIO_LIFECYCLE_001.md](Admin/O5-1/Tech/System%20Owner/canonicals/SOP-MADEIRA_SCENARIO_LIFECYCLE_001.md) |
 | MADEIRA quarterly UX review — control plane (`env_tech_dtp_madeira_uxreview`) | [SOP-MADEIRA_UX_REVIEW_001.md](Admin/O5-1/Tech/System%20Owner/canonicals/SOP-MADEIRA_UX_REVIEW_001.md) |
+| **Evidence-class gate (proof-or-fail closure binding; D-IH-90-AF)** | [EVIDENCE_CLASS_GATE_DISCIPLINE.md](Admin/O5-1/Operations/PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md) + [SOP-PMO_EVIDENCE_CLASS_GATE_001.md](Admin/O5-1/Operations/PMO/canonicals/SOP-PMO_EVIDENCE_CLASS_GATE_001.md); registries at [EVIDENCE_CLASS_REGISTRY.csv](Admin/O5-1/Data/Governance/canonicals/dimensions/EVIDENCE_CLASS_REGISTRY.csv) + [PROOF_ADAPTER_REGISTRY.csv](Admin/O5-1/Data/Governance/canonicals/dimensions/PROOF_ADAPTER_REGISTRY.csv) |
+| DATA contract registry (producer/consumer SSOT) | [DATA_CONTRACT_REGISTRY.csv](Admin/O5-1/Data/Governance/canonicals/dimensions/DATA_CONTRACT_REGISTRY.csv) + [SOP-DATA_CONTRACT_REGISTRY_MAINTENANCE_001.md](Admin/O5-1/Data/Governance/canonicals/SOP-DATA_CONTRACT_REGISTRY_MAINTENANCE_001.md) |
+| HCAM entity + relationship registries (enterprise ontology tier) | [ENTITY_CATALOG.csv](Admin/O5-1/Data/Architecture/canonicals/dimensions/ENTITY_CATALOG.csv) + [CANONICAL_RELATIONSHIP_REGISTRY.csv](Admin/O5-1/Data/Architecture/canonicals/dimensions/CANONICAL_RELATIONSHIP_REGISTRY.csv) + [CANONICAL_ARTICULATION_MODEL.md](Admin/O5-1/Data/Architecture/canonicals/CANONICAL_ARTICULATION_MODEL.md) |
+| Quality Fabric (5-axis compose + evidence specialty) | [HOLISTIKA_QUALITY_FABRIC.md](Admin/O5-1/People/canonicals/HOLISTIKA_QUALITY_FABRIC.md) |
+| Singularity ratification (brainstorm → agreement; I90) | [evidence-class-gate-singularity-ratification-2026-06-14.md](../../../wip/planning/90-routing-and-wiring/reports/evidence-class-gate-singularity-ratification-2026-06-14.md) (WIP forge; promotes via PMO gate) |
 | **People manifesto (discipline-of-disciplines)** | [HOLISTIKA_PEOPLE_MANIFESTO.md](Admin/O5-1/People/canonicals/HOLISTIKA_PEOPLE_MANIFESTO.md) (I79 P1) |
 | **People design pattern registry (cross-area inheritance)** | [PEOPLE_DESIGN_PATTERN_REGISTRY.csv](Admin/O5-1/People/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv) (I79 P2) |
 | **People agentic doctrine (jargon-free)** | [HOLISTIKA_AGENTIC_DOCTRINE.md](Admin/O5-1/People/canonicals/HOLISTIKA_AGENTIC_DOCTRINE.md) (I79 P3a) |
@@ -159,7 +164,7 @@ Holistika-wide KM is governed by [HLK_KM_TOPIC_FACT_SOURCE.md](Admin/O5-1/People
 
 ## Vault Structure
 
-> **Reading guide.** This section mirrors the actual on-disk layout as of 2026-05-15 (post-I70 / post-I22 / post-I79). Every per-role folder hosts a `canonicals/` subfolder for SSOT documents and an optional `programs/<program_id>/` subfolder for per-program casework. Per-canonical dimension tables (CSV registries) live at `<role>/canonicals/dimensions/`. Empty role-leaf folders are **intentional scaffolding** that mirror `baseline_organisation.csv`; they are not orphans.
+> **Reading guide.** This section mirrors the on-disk layout as of 2026-06-14 (post-I90 singularity tranche index hygiene). Every per-role folder hosts a `canonicals/` subfolder for SSOT documents and an optional `programs/<program_id>/` subfolder for per-program casework. Per-canonical dimension tables (CSV registries) live at `<role>/canonicals/dimensions/`. Empty role-leaf folders are **intentional scaffolding** that mirror `baseline_organisation.csv`; they are not orphans. **Authoritative path list:** [`CANONICAL_REGISTRY.csv`](Admin/O5-1/People/Compliance/canonicals/CANONICAL_REGISTRY.csv) wins over this tree when they diverge.
 
 ### Top-level layout (v3.0/)
 
@@ -179,11 +184,11 @@ v3.0/
 Admin/
   O5-1/                              Chief Business Officer
     Data/                            CDO
-      Architecture/                  Data structure and architecture
-        canonicals/                  (none yet — area scaffolding)
+      Architecture/                  Data structure, HCAM, Supabase registries, semantic layer
+        canonicals/                  DATA_ARCHITECTURE + CANONICAL_ARTICULATION_MODEL + SEMANTIC_LAYER + Supabase ecosystem + dimensions/ (ENTITY_CATALOG, CANONICAL_RELATIONSHIP_REGISTRY, METRICS_REGISTRY, SUPABASE_* registries, …)
         programs/<program_id>/       Per-program casework (e.g. PRJ-HOL-KIR-2026)
-      Governance/                    Data governance and quality
-        canonicals/                  (none yet)
+      Governance/                    Data governance, contracts, quality, evidence registries (SSOT path)
+        canonicals/                  DATA_GOVERNANCE_POLICY + DATAOPS_DISCIPLINE + SSOT_REGISTRY_AUDIT + dimensions/ (DATA_CONTRACT_REGISTRY, EVIDENCE_CLASS_REGISTRY, PROOF_ADAPTER_REGISTRY, BI_CONSUMER_REGISTRY, …)
         programs/<program_id>/
       Science/                       Data science and analytics
     Envoy Tech Lab/                  CTO-Lab area (distinct from top-level Envoy Tech Lab/)
@@ -236,7 +241,7 @@ Admin/
       IntelligenceOps/               Intelligence-ops sub-area (I66 P3)
         canonicals/                  CORPINT methodology SOPs (operator-private)
       PMO/                           Project management office
-        canonicals/                  9 SOPs incl. SOP-PMO_PROCESS_LIST_CSV_MAINTENANCE_001 + KB_HUMAN_READABILITY_CHARTER + WORKSPACE_BLUEPRINT_HOLISTIKA + INITIATIVE_REGISTRY/OPS_REGISTER/DECISION_REGISTER + business-strategy/ (I29/I30 strategy SSOT)
+        canonicals/                  SOPs incl. evidence-class gate orchestration (EVIDENCE_CLASS_GATE_DISCIPLINE + SOP-PMO_EVIDENCE_CLASS_GATE_001) + PROCESS_LIST maintenance + KB_HUMAN_READABILITY + WORKSPACE_BLUEPRINT + INITIATIVE/OPS/DECISION registries + business-strategy/ (I29/I30)
         imports/                     Trello board JSON imports
         sourcing-briefs/             Outbound sourcing brief templates (en/es/fr)
         programs/<program_id>/       Per-program casework (PRJ-HOL-FOUNDING-2026, PRJ-HOL-KIR-2026)
@@ -279,7 +284,7 @@ Admin/
         Front-End/                   (RESERVED scaffolding)
         Back-End/                    (RESERVED scaffolding)
       System Owner/                  Platform + infrastructure ownership
-        canonicals/                  4 MADEIRA SOPs + COMPONENT_SERVICE_MATRIX governance + …
+        canonicals/                  MADEIRA SOP cluster + lab platform dimension registries (Wave-1/2 + LAB_PLATFORM_DIMENSION_REGISTRY charter) + COMPONENT_SERVICE_MATRIX governance + …
         Domain Specialist/           Sub-role
         programs/<program_id>/       Per-program casework (PRJ-HOL-KIR-2026)
       Tech Lead/                     Technical leadership (RESERVED scaffolding — baseline role)
@@ -418,3 +423,7 @@ _assets/
 | **People manifesto + design pattern library + agentic doctrine + breakthrough SOP (I79)** | [`Admin/O5-1/People/canonicals/`](Admin/O5-1/People/canonicals/) |
 | **Tech Lab agentic framework landscape (I79 P3b)** | [`AGENTIC_FRAMEWORK_LANDSCAPE.md`](Admin/O5-1/Envoy%20Tech%20Lab/canonicals/AGENTIC_FRAMEWORK_LANDSCAPE.md) |
 | **Research area top-level charter (post-I70)** | [`RESEARCH_AREA_CHARTER.md`](Research/canonicals/RESEARCH_AREA_CHARTER.md) |
+| **Evidence-class gate discipline (Operations orchestration; Data registry SSOT)** | [`EVIDENCE_CLASS_GATE_DISCIPLINE.md`](Admin/O5-1/Operations/PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md) |
+| **Evidence + proof adapter registries (Data SSOT; D-IH-90-AF)** | [`EVIDENCE_CLASS_REGISTRY.csv`](Admin/O5-1/Data/Governance/canonicals/dimensions/EVIDENCE_CLASS_REGISTRY.csv) · [`PROOF_ADAPTER_REGISTRY.csv`](Admin/O5-1/Data/Governance/canonicals/dimensions/PROOF_ADAPTER_REGISTRY.csv) |
+| **DATA governance policy (federated proof + lexicon §8)** | [`DATA_GOVERNANCE_POLICY.md`](Admin/O5-1/Data/Governance/canonicals/DATA_GOVERNANCE_POLICY.md) |
+| **Methodology breakthrough register (v3.2 bar)** | [`LOGIC_CHANGE_LOG.md`](Admin/O5-1/People/canonicals/LOGIC_CHANGE_LOG.md) — BT-11 evidence-class gate singularity |

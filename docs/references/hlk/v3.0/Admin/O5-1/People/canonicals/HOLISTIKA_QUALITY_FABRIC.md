@@ -49,6 +49,9 @@ linked_canonicals:
   - ../../../../Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md
   - ../../../../Research/Methodology/canonicals/RESEARCH_RADAR_DISCIPLINE.md
   - ../../../../Data/Governance/canonicals/DATAOPS_DISCIPLINE.md
+  - ../../../../Operations/PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md
+  - ../../../../Data/Governance/canonicals/dimensions/EVIDENCE_CLASS_REGISTRY.csv
+  - ../../../../Data/Governance/canonicals/dimensions/PROOF_ADAPTER_REGISTRY.csv
   - MKTOPS_DISCIPLINE.md
   - TECHOPS_DISCIPLINE.md
   - UX_DISCIPLINE.md
@@ -355,10 +358,11 @@ for the specialty's domain.
 | Specialty | Materialisation canonical | Status | Compose function |
 |:---|:---|:---|:---|
 | **UAT (verification)** | `UAT_DISCIPLINE.md` (Wave J P1 mint at status: charter; 11-class promotion gated on `D-IH-86-AY` — promoted Wave R+1 P1 per `D-IH-86-CW` with paired SOP+addendum+runbook `validate_uat_report.py` + cursor rule `akos-uat-discipline.mdc` + paired skill `uat-discipline-craft` + `process_list.csv hol_peopl_dtp_uat_governance_001` + `PEOPLE_DESIGN_PATTERN_REGISTRY pattern_uat_class_taxonomy` + machine-readable `field_test_window:` frontmatter per Q3-b/Q4-b; 3-wave field-test window across Waves S/T/U closes per META4-b) | **active** (provisional, 3-wave field-test window open) | `compose_UAT(audience, channel, scenario, brand, governance) → UAT 11-class taxonomy (closure / brand / send / render / regression / persona / deploy / localisation / accessibility / performance / privacy) + 11-section structural bar enforced by validate_uat_report.py forward-only-by-date (2026-05-19 watershed) + 5-option disposition enum + INFO→FAIL ramp at Wave R+4 post-window` |
-| **UX (research + design + accessibility)** | `UX_DISCIPLINE.md` (Wave M P5 mint at status: charter per `D-IH-86-BY`; promoted to **active** at I90 regression close per `D-IH-90-AD` with paired SOP `SOP-PEOPLE_UX_RESEARCH_001.md` + composite runbooks `validate_locale_orthography.py` / `lint_brand_voice_offline.py` / `browser-smoke.py`; owned by Brand Manager + Front-End Developer co-owner) | active | `compose_UX(audience, channel, scenario, brand, governance) → UX research methods + design constraints + a11y bar + i18n strategy` |
+| **UX (research + design + accessibility)** | `Marketing/Brand/UX Designer/canonicals/UX_DISCIPLINE.md` (Wave M P5 mint; promoted **active** at I90 per `D-IH-90-AD`; relocated Marketing area per `D-IH-94-F`; owned by Brand & Narrative Manager + Front-End Developer co-owner) | active | `compose_UX(audience, channel, scenario, brand, governance) → UX research methods + design constraints + a11y bar + i18n strategy` |
 | **Brand render** | `akos-external-render-discipline.mdc` RULE 2 (audience × format matrix) | active | `compose_render(audience, channel, brand, governance) → 6-surface format choice + manifest contract` |
 | **Send evidence** | (sub-section of UAT_DISCIPLINE.md and external-render-discipline) | partial | `compose_send(audience, channel, governance) → send-evidence trail (sha256 + SMTP + manifest)` |
-| **Closure gate** | `akos-planning-traceability.mdc` §"UAT quality bar" + `akos-governance-remediation.mdc` §"Verification matrix" | active | `compose_closure(governance) → mechanical evidence + sign-off + registry edits` |
+| **Closure gate** | `akos-planning-traceability.mdc` §"UAT quality bar" + `akos-baseline-governance.mdc` §"Verification matrix" + `compose_EVIDENCE` | active | `compose_closure(governance) → mechanical evidence + sign-off + registry edits; composes with compose_EVIDENCE for proof_class + artifact ref` |
+| **Evidence-class gate (proof-backed completion)** | `Operations/PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md` + `Data/Governance/canonicals/dimensions/EVIDENCE_CLASS_REGISTRY.csv` + `PROOF_ADAPTER_REGISTRY.csv` + `SOP-PMO_EVIDENCE_CLASS_GATE_001` + `run_automated_uat_evidence_sweep.py` (I90 P4c+ singularity tranche; D-IH-90-AF; Data SSOT path + PMO orchestration) | **active** | `compose_EVIDENCE(audience, channel, scenario, brand, governance, claim_surface) → evidence_class + proof_adapter + artifact ref; multiplicative-AND with compose_UAT + compose_RESEARCH_ACTION + compose_UX + compose_TECHOPS + compose_DATAOPS where claim_surface demands` |
 | **MKTOPS (campaign / GTM funnel quality)** | `MKTOPS_DISCIPLINE.md` (Wave M P5 mint at status: charter per `D-IH-86-BW`; promoted to active at Wave R+4 C3a per `D-IH-86-EY` with paired runbook `scripts/validate_mktops_campaign.py` + Pydantic SSOT `akos/hlk_mktops.py`; owned by Marketing/Reach + Operations/RevOps + CRO forward) | active | `compose_MKTOPS(audience, channel, scenario, brand, governance) → campaign quality bar + funnel-stage UX + landing-page conversion + attribution trail` |
 | **TECHOPS (system uptime / observability / Web Vitals)** | `TECHOPS_DISCIPLINE.md` (Wave M P5 mint at status: charter per `D-IH-86-BX`; promoted to **active** at I90 regression close per `D-IH-90-AC` with paired SOP `SOP-TECH_SYSTEM_RELIABILITY_001.md` + runbook `scripts/techops_reliability_check.py` + Pydantic SSOT `akos/hlk_techops_reliability.py`; owned by Tech/System Owner + DevOPS) | active | `compose_TECHOPS(audience, channel, scenario, brand, governance) → system quality bar + uptime SLO + Core Web Vitals threshold + observability evidence` |
 | **DATAOPS (data quality / pipeline integrity / mirror sync)** | `Data/Governance/canonicals/DATAOPS_DISCIPLINE.md` (Wave M P5 mint per `D-IH-86-BV`; promoted **active** at I90 P3c per `D-IH-90-AA`; **re-homed** to Data area at I93 P1 per `D-IH-93-C/H` with paired SOP `Data/Governance/canonicals/SOP-TECH_DATAOPS_QUALITY_001.md` + runbook `scripts/dataops_quality_check.py` + Pydantic SSOT `akos/hlk_dataops_quality.py`; owned by Data Governance Office + System Owner + DevOPS co-owners) | active | `compose_DATAOPS(audience, channel, scenario, brand, governance) → data quality bar + pipeline freshness + mirror parity + FDW posture` |
@@ -439,8 +443,8 @@ Two forward-chartered initiatives surface from this canonical's mint
    operator named verbatim. Lands in a successor initiative after the
    per-channel doctrines are partially populated (otherwise the runbook
    has nothing to compose for the channel axis). The runbook signature
-   now resolves the 4 fresh specialty bars (`compose_DATAOPS` /
-   `compose_MKTOPS` / `compose_TECHOPS` / `compose_UX`) in addition to
+   now resolves the specialty bars (`compose_DATAOPS` /
+   `compose_MKTOPS` / `compose_TECHOPS` / `compose_UX` / `compose_EVIDENCE`) in addition to
    the 6 prior bars per the §6 materialisation table (10 total).
 
 ## 8. Self-discipline rules for agents

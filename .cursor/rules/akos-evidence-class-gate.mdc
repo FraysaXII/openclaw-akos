@@ -16,9 +16,9 @@ closure UAT PASS, ACIM implementation cell, or initiative registry close.
 
 Mechanical SSOT: [`akos/evidence_class_gate.py`](../../akos/evidence_class_gate.py).
 Umbrella runbook: [`scripts/validate_evidence_class_gate.py`](../../scripts/validate_evidence_class_gate.py).
-Governance design: [`docs/wip/planning/90-routing-and-wiring/reports/evidence-class-gate-governance-design-2026-06-14.md`](../../docs/wip/planning/90-routing-and-wiring/reports/evidence-class-gate-governance-design-2026-06-14.md).
+Vault doctrine (Operations PMO): [`EVIDENCE_CLASS_GATE_DISCIPLINE.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md)
 
-Doctrine draft (pre-vault): [`EVIDENCE_CLASS_GATE_DISCIPLINE.draft.md`](../../docs/wip/planning/90-routing-and-wiring/drafts/EVIDENCE_CLASS_GATE_DISCIPLINE.draft.md).
+Governance design: [`docs/wip/planning/90-routing-and-wiring/reports/evidence-class-gate-governance-design-2026-06-14.md`](../../docs/wip/planning/90-routing-and-wiring/reports/evidence-class-gate-governance-design-2026-06-14.md)
 
 Pairs with skill [`evidence-class-gate-craft`](../../.cursor/skills/evidence-class-gate-craft/SKILL.md).
 

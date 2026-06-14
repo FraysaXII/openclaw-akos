@@ -1,0 +1,2 @@
+posture_id,service_slug,surface,expected_value,probe_command,governed_status,owner_role,component_fk,last_verified,notes
+RND-POST-001,holistika,service.inventory,Render services documented when active consumer exists,Render dashboard or MCP read when wired,forward,System Owner,,2026-06-14,Scaffold only — no active matrix row at I100 close; promote when Render consumer lands

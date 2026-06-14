@@ -23,8 +23,8 @@ sys.path.insert(0, str(REPO_ROOT))
 
 from akos.evidence_class_gate import (  # noqa: E402
     INITIATIVE_CLOSURE_EVIDENCE_WATERSHED,
-    VALID_EVIDENCE_CLASSES,
     is_on_or_after_watershed,
+    load_valid_evidence_classes,
 )
 from akos.io import REPO_ROOT as AKOS_REPO_ROOT  # noqa: E402
 
@@ -102,7 +102,7 @@ def validate_initiative_closure_evidence() -> tuple[bool, list[str]]:
         proof = meta.get("evidence_proof_ref")
         lr = meta.get("last_review")
         if is_on_or_after_watershed(lr) and verdict == "PASS":
-            if not ec or ec not in VALID_EVIDENCE_CLASSES:
+            if not ec or ec not in load_valid_evidence_classes():
                 errors.append(
                     f"{iid}: PASS closure UAT missing valid evidence_class "
                     f"(got {ec!r}); see I90 P4 evidence-class gate"

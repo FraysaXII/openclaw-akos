@@ -19,6 +19,7 @@ work so programs run with governed cadence and maximal automation.
 | Area mission + boundaries | [`OPERATIONS_AREA_CHARTER.md`](OPERATIONS_AREA_CHARTER.md) |
 | PMBOK delivery doctrine (AREA-03) | [`OPERATIONS_DELIVERY_DISCIPLINE.md`](OPERATIONS_DELIVERY_DISCIPLINE.md) |
 | Dual-surface routing (AKOS / ERP / render / runtime) | [`PMO/canonicals/OPERATIONAL_COHESION_DOCTRINE.md`](PMO/canonicals/OPERATIONAL_COHESION_DOCTRINE.md) |
+| WIP forge proof orchestration (evidence-class gate) | [`PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md`](PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md) — registries under [`Data/Governance/canonicals/dimensions/`](../Data/Governance/canonicals/dimensions/) |
 | RevOps value-mapping sub-area | [`RevOps/canonicals/REVOPS_AREA_CHARTER.md`](RevOps/canonicals/REVOPS_AREA_CHARTER.md) |
 | Executable catalog (PMO/SMO T1) | [`canonicals/OPERATIONS_PROCESS_CATALOG.yaml`](canonicals/OPERATIONS_PROCESS_CATALOG.yaml) |
 | Cross-area handoffs register (P4) | [`canonicals/OPERATIONS_CROSS_AREA_HANDOFFS.md`](canonicals/OPERATIONS_CROSS_AREA_HANDOFFS.md) |

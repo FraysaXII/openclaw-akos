@@ -206,6 +206,23 @@ Route-segment `force-dynamic` (Next.js) / equivalent **alone is not sufficient**
 
 **Status**: Speculative — added at I68 P8 from the charter §P8 "speculative Failure-N entries" list. Promotes to confirmed when first observed in real Render deploys during P6 build-time optimization sweep on `kirbe-platform` (gated; requires Render MCP API calls). On confirmation, replace the "Speculative" line with an incident date + commit SHA + Render service ID.
 
+### Failure 8 — Vercel Preview env var marked “Sensitive” hides non-secret runtime flags
+
+**Framework**: Vercel-hosted Next.js (and any host with a “Sensitive” / masked env toggle distinct from encryption-at-rest).
+
+**Symptom**: Preview `/api/dev/auth-probe` returns `allow_preview_dev_signin: ""` (or app behaves as if a flag is unset) while the Vercel dashboard lists the variable. Agent or operator chases wrong-password / missing-redeploy hypotheses. `vercel env pull` may show an empty string for the same key.
+
+**Root cause**: Platform “Sensitive” semantics for **feature gates** (e.g. `ALLOW_PREVIEW_DEV_SIGNIN=1`, build-time `NEXT_PUBLIC_*` toggles) differ from **credential** vars. Marking a non-secret on/off switch as Sensitive can prevent runtime injection even when the value is `1` in the UI.
+
+**Canonical fix**:
+
+1. **Probe first** — hit consumer `/api/dev/auth-probe` (or equivalent non-secret diagnostic) before any password reset.
+2. **Classify vars** — credentials + bypass tokens → Sensitive OK; plain gates + public build flags → **non-Sensitive** unless vendor docs say otherwise.
+3. **Redeploy Preview** after env changes; re-probe until `allow_preview_dev_signin: "1"` (or domain-specific healthy signal).
+4. **Register the pattern** — auth/env rows in platform registries (e.g. `SUPABASE_AUTH_REGISTRY` SUPA-AUTH-16) + domain SSOT troubleshooting tables.
+
+**Status**: Confirmed — operator RCA 2026-06-14 on `hlk-erp` Preview; SSOT **`DC-HOL-LAB-PLATFORM-ENV-001`** + [`SOP-TECH_LAB_PLATFORM_BINDING_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/canonicals/SOP-TECH_LAB_PLATFORM_BINDING_001.md); founder insight **BT-10-lab-governed-ssot**.
+
 ### Adding new failure modes
 
 When you encounter a new build / deploy failure pattern:

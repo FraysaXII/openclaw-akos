@@ -11,14 +11,16 @@ authors:
 co_authors:
   - Data Governance Office
   - Data Steward
-last_review: 2026-06-04
+last_review: 2026-06-14
 last_review_by: Data Governance Office
-last_review_at: 2026-06-04
-last_review_decision_id: D-IH-93-D
-methodology_version_at_review: v3.1
+last_review_at: 2026-06-14
+last_review_decision_id: D-IH-90-AF
+methodology_version_at_review: v3.2
 ratifying_decisions:
   - D-IH-93-D
   - D-IH-93-C
+  - D-IH-90-AF
+  - D-IH-100-I
 status: active
 register: internal
 linked_canonicals:
@@ -35,6 +37,11 @@ linked_canonicals:
   - ../../canonicals/DATA_AREA_CHARTER.md
   - ../../../People/Compliance/canonicals/PRECEDENCE.md
   - dimensions/DATA_CONTRACT_REGISTRY.csv
+  - dimensions/EVIDENCE_CLASS_REGISTRY.csv
+  - dimensions/PROOF_ADAPTER_REGISTRY.csv
+  - ../../../Operations/PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md
+  - SSOT_REGISTRY_AUDIT_DISCIPLINE.md
+  - ../../../Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md
 companion_to:
   - ../../canonicals/DATA_AREA_CHARTER.md
   - DATA_CONTRACT_STANDARD.md
@@ -61,6 +68,11 @@ This policy applies to:
 - Supabase mirrors, FDW projections, and graph representations (operational
   and analytic planes).
 - Cross-area data products registered in `DATA_CONTRACT_REGISTRY.csv`.
+- **Proof artifact bundles** under `artifacts/` (evidence-gate, uat-screenshots,
+  ux-audit, deploy-health) — T1-adjacent git products declared via contract
+  semantics, not mirror tables.
+- **Research source ledgers** (`source-ledger.csv` in `docs/wip/intelligence/`)
+  per `RESEARCH_ACTION_DISCIPLINE.md` and `DC-HOL-SOURCE-LEDGER-001`.
 
 It does **not** replace area-specific delivery SOPs (RevOps engagement
 scaffold, FinOps Stripe stewardship, etc.) — it sets the **bar** those
@@ -90,6 +102,7 @@ Accountable roles resolve from `baseline_organisation.csv` (CDO chain).
 | Data classification / retention (P5 policy) | Data Governance Office | Legal, CDO | Area stewards |
 | Mirror DDL / FDW server add | Database Owner | System Owner, DevOPS | Data Steward |
 | Contract breach / quality FAIL | Data Steward | Data Governance Office | Producer process owner |
+| Evidence class binding / proof adapter promotion | PMO | Data Steward + sister discipline owner (UX / Research / Tech as applicable) | Data Governance Office |
 
 Escalation path: Data Steward → Data Governance Office → CDO → O5-1.
 
@@ -139,6 +152,10 @@ Governance is **computational**, not checklist-only:
    drift (`.cursor/rules/akos-holistika-operations.mdc`).
 5. **Synthesis-before-tranche** — canonical-CSV mints pass pre-commit scope
    review (`akos-synthesis-before-tranche.mdc`).
+6. **`EVIDENCE_CLASS_REGISTRY.csv` + `PROOF_ADAPTER_REGISTRY.csv`** — proof-class
+   bindings under `Data/Governance/canonicals/dimensions/`; Operations PMO orchestrates
+   `run_automated_uat_evidence_sweep.py` per `SOP-PMO_EVIDENCE_CLASS_GATE_001.md`
+   (federated computational governance — mesh principle).
 
 Warn-first posture on net-new contract fields; FAIL ramp follows DataOps
 INFO→WARN→FAIL cadence for probes.
@@ -150,7 +167,26 @@ INFO→WARN→FAIL cadence for probes.
 - Contract vocabulary: `DATA_CONTRACT_STANDARD.md`
 - Registry SSOT: `dimensions/DATA_CONTRACT_REGISTRY.csv`
 - Quality bar: `DATAOPS_DISCIPLINE.md`
+- Evidence-class gate (Operations orchestration + Data registry SSOT):
+  `../../Operations/PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md`
+- SSOT registry audit: `SSOT_REGISTRY_AUDIT_DISCIPLINE.md`
+- Research source ledger: `../../../Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md`
+- Privacy (Hotjar / session replay): `DATA_PRIVACY_RETENTION_POLICY.md`
 - Initiative roadmap: `docs/wip/planning/93-data-area-foundation-and-governance/master-roadmap.md`
+
+## 8. Federated platform-dimension lexicon (I100)
+
+Lab platform observables use a **Data-governed vocabulary** (ratified `D-IH-100-I`):
+
+| Term | Meaning | SSOT |
+|:---|:---|:---|
+| **Module** | Matrix `component_id` + D0–D3 depth | `COMPONENT_MODULE_REGISTRY.csv` |
+| **Setting** | Deploy/build knob (env var, Node version) | `LAB_PLATFORM_DIMENSION_REGISTRY.csv` (`dimension_kind=setting`) |
+| **Surface** | DNS / alias / email edge artifact | same (`dimension_kind=surface`) |
+| **Posture** | As-built vs required bar (CI, observability) | same (`dimension_kind=posture`) |
+
+**Rule:** Data governs vocabulary; Tech executes probes; Operations consumes proof at
+closure via evidence-class bindings — do not overload "module" for DNS rows.
 
 ## Evidence base (internal precedent + external grounding)
 

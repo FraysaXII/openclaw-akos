@@ -50,8 +50,8 @@ sys.path.insert(0, str(REPO_ROOT))
 from akos import log  # noqa: E402
 from akos.evidence_class_gate import (  # noqa: E402
     EVIDENCE_GATE_WATERSHED_ISO_DATE,
-    VALID_EVIDENCE_CLASSES,
     is_on_or_after_watershed,
+    load_valid_evidence_classes,
 )
 from akos.hlk_uat_report import (  # noqa: E402
     DECISION_ID_PATTERN,
@@ -418,7 +418,7 @@ def _check_frontmatter(
     ):
         evidence_class = fm.get("evidence_class")
         proof_ref = fm.get("evidence_proof_ref")
-        if not evidence_class or str(evidence_class).strip() not in VALID_EVIDENCE_CLASSES:
+        if not evidence_class or str(evidence_class).strip() not in load_valid_evidence_classes():
             findings.append(
                 UATReportFinding(
                     finding_code="UAT-FM-12-PASS-WITHOUT-EVIDENCE-CLASS",

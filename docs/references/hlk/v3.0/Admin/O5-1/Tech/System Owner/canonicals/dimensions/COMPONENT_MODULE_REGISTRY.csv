@@ -1,0 +1,111 @@
+module_id,component_id,module_name,module_family,governed_status,governance_depth,dimension_registry_path,doc_url,volatility_class,next_verify_by,gap,owner_role,priority,notes
+COMP-MOD-001,comp_matriz_00002,Postman — Postman,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-002,comp_matriz_00003,ButterCup — ButterCup,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-003,comp_matriz_00004,FastAPI — AKOS serve-api,openclaw_akos,governed,D3,,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,medium,2026-09-14,,System Owner,critical,D3 ecosystem family=openclaw_akos; I100 Wave-1
+COMP-MOD-004,comp_matriz_00005,Make — Make,make,partial,D2,docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/dimensions/MAKE_SCENARIO_POSTURE_REGISTRY.csv,https://www.make.com/en/help,medium,2026-09-14,,RevOps Manager,high,D2 Wave-2 family=make
+COMP-MOD-005,comp_matriz_00006,Obsidian — Obsidian,other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-006,comp_matriz_00007,Obsidian — Obsidian (sheet row 7),other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-007,comp_matriz_00008,Supabase — Supabase,supabase,governed,D3,docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/dimensions/SUPABASE_MODULE_REGISTRY.csv,docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/DATA_ARCHITECTURE.md,medium,2026-09-14,,System Owner,critical,D3 absorbed from I99 SUPABASE_ECOSYSTEM_GOVERNANCE; doctrine owned by Data Architect
+COMP-MOD-008,comp_matriz_00009,Supabase — Supabase (sheet row 9),supabase,alias,D0,,https://supabase.com/docs,n_a,,,System Owner,low,alias_of=comp_matriz_00008; sheet clone — inventory FK only
+COMP-MOD-009,comp_matriz_00010,Pipedrive — Pipedrive,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-010,comp_matriz_00011,N8n — N8n,n8n,partial,D2,docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/dimensions/N8N_WORKFLOW_POSTURE_REGISTRY.csv,https://docs.n8n.io/,medium,2026-09-14,,RevOps Manager,high,D2 Wave-2 family=n8n
+COMP-MOD-011,comp_matriz_00012,Airtable — Airtable,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-012,comp_matriz_00013,PowerPlatform — Microsoft,other,inventory,D0,,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_INTEGRATION_PLANE.md,low,,,Data Governance Office,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-013,comp_matriz_00014,Streamlit — Streamlit,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-014,comp_matriz_00015,Vercel — Vercel,vercel,governed,D3,docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/dimensions/VERCEL_PROJECT_SETTINGS_REGISTRY.csv,https://vercel.com/docs,high,2026-09-14,,System Owner,high,D3 ecosystem family=vercel; I100 Wave-1
+COMP-MOD-015,comp_matriz_00016,HuggingFace — HuggingFace,other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-016,comp_matriz_00017,xCode — Apple,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-017,comp_matriz_00018,Microsoft Azure — Microsoft,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-018,comp_matriz_00019,Google Cloud Console — Google,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-019,comp_matriz_00020,Microsoft Azure — Microsft,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-020,comp_matriz_00021,Google Workspace — Google,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-021,comp_matriz_00022,iCloud — Apple,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-022,comp_matriz_00023,Github — GitHub,github,governed,D3,docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/dimensions/GITHUB_REPO_CI_POSTURE_REGISTRY.csv,https://docs.github.com/en/actions,high,2026-09-14,,System Owner,high,D3 ecosystem family=github; I100 Wave-1
+COMP-MOD-023,comp_matriz_00024,Gradio — Gradio,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-024,comp_matriz_00025,Docker — Docker,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-025,comp_matriz_00026,Github — GitHub (sheet row 26),github,alias,D0,,https://docs.github.com/en/actions,n_a,,,System Owner,low,alias_of=comp_matriz_00023; sheet clone — inventory FK only
+COMP-MOD-026,comp_matriz_00027,Replit — Replit,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-027,comp_matriz_00028,Jupyter Notebook — Jupyter,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-028,comp_matriz_00029,Anaconda — Anaconda,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-029,comp_matriz_00030,Runpod — Runpod,other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-030,comp_matriz_00031,xCode — Apple (sheet row 31),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-031,comp_matriz_00032,Docker — Docker (sheet row 32),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-032,comp_matriz_00033,Runpod — Runpod (sheet row 33),other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-033,comp_matriz_00034,Microsoft Azure — Microsft (sheet row 34),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-034,comp_matriz_00035,HuggingFace — HuggingFace (sheet row 35),other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-035,comp_matriz_00036,HuggingFace — HuggingFace (sheet row 36),other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-036,comp_matriz_00037,Microsoft Azure — Microsoft (sheet row 37),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-037,comp_matriz_00038,xCode — Apple (sheet row 38),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-038,comp_matriz_00039,xCode — Apple (sheet row 39),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-039,comp_matriz_00040,Office365 — Microsoft,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-040,comp_matriz_00041,Google Workspace — Google (sheet row 41),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-041,comp_matriz_00042,Microsoft Power Platform — Microsoft,other,inventory,D0,,,low,,,Data Governance Office,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-042,comp_matriz_00043,ButterCup — ButterCup (sheet row 43),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-043,comp_matriz_00044,Microsoft Azure — Microsft (sheet row 44),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-044,comp_matriz_00045,Discord — Amazon,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-045,comp_matriz_00046,Google Cloud Console — Google (sheet row 46),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-046,comp_matriz_00047,Microsoft Azure — Microsft (sheet row 47),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-047,comp_matriz_00048,Supabase — Supabase (sheet row 48),supabase,alias,D0,,https://supabase.com/docs,n_a,,,System Owner,low,alias_of=comp_matriz_00008; sheet clone — inventory FK only
+COMP-MOD-048,comp_matriz_00049,Salesforce y/o SAP — Infraestructure as a Service,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-049,comp_matriz_00050,HuggingFace — HuggingFace (sheet row 50),other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-050,comp_matriz_00051,Microsoft Azure — Microsft (sheet row 51),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-051,comp_matriz_00052,Supabase — Supabase (sheet row 52),supabase,alias,D0,,https://supabase.com/docs,n_a,,,System Owner,low,alias_of=comp_matriz_00008; sheet clone — inventory FK only
+COMP-MOD-052,comp_matriz_00053,Supabase — Supabase (sheet row 53),supabase,alias,D0,,https://supabase.com/docs,n_a,,,System Owner,low,alias_of=comp_matriz_00008; sheet clone — inventory FK only
+COMP-MOD-053,comp_matriz_00054,Supabase — Supabase (sheet row 54),supabase,alias,D0,,https://supabase.com/docs,n_a,,,System Owner,low,alias_of=comp_matriz_00008; sheet clone — inventory FK only
+COMP-MOD-054,comp_matriz_00055,Airtable — Airtable (sheet row 55),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-055,comp_matriz_00056,Google Workspace — Google (sheet row 56),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-056,comp_matriz_00057,Postman — Postman (sheet row 57),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-057,comp_matriz_00058,OpenAI — OpenAI,other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-058,comp_matriz_00059,OpenAI Access Manager — OpenAI,other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-059,comp_matriz_00060,Google Cloud Console — Google (sheet row 60),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-060,comp_matriz_00061,Microsoft Azure — Microsft (sheet row 61),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-061,comp_matriz_00062,xCode — Apple (sheet row 62),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-062,comp_matriz_00063,HuggingFace — HuggingFace (sheet row 63),other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-063,comp_matriz_00064,Vercel — Vercel (sheet row 64),vercel,alias,D0,,https://vercel.com/docs,n_a,,,System Owner,low,alias_of=comp_matriz_00015; sheet clone — inventory FK only
+COMP-MOD-064,comp_matriz_00065,Vercel — Vercel (sheet row 65),vercel,alias,D0,,https://vercel.com/docs,n_a,,,System Owner,low,alias_of=comp_matriz_00015; sheet clone — inventory FK only
+COMP-MOD-065,comp_matriz_00066,Microsoft Azure — Microsoft (sheet row 66),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-066,comp_matriz_00067,Google Workspace — Google (sheet row 67),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-067,comp_matriz_00068,Cursor — Cursor,other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-068,comp_matriz_00069,Microsoft Store — Microsoft,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-069,comp_matriz_00070,Jupyter — Jupyter,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-070,comp_matriz_00071,Anaconda — Anaconda (sheet row 71),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-071,comp_matriz_00072,Discord — Amazon (sheet row 72),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-072,comp_matriz_00073,Discord — Amazon (sheet row 73),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-073,comp_matriz_00074,Microsoft Azure — Microsoft (sheet row 74),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-074,comp_matriz_00075,PowerPlatform — Microsoft (sheet row 75),other,inventory,D0,,,low,,,Data Governance Office,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-075,comp_matriz_00076,Microsoft Azure — Microsoft (sheet row 76),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-076,comp_matriz_00077,Microsoft Azure — Microsoft (sheet row 77),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-077,comp_matriz_00078,Excalidraw — Excalidraw,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-078,comp_matriz_00079,Airtable — Airtable (sheet row 79),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-079,comp_matriz_00080,Google Workspace — Google (sheet row 80),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-080,comp_matriz_00081,PowerPlatform — Microsoft (sheet row 81),other,inventory,D0,,,low,,,Data Governance Office,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-081,comp_matriz_00082,Figma — Figma,other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-082,comp_matriz_00083,<Forcasting Tool> — TBD,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-083,comp_matriz_00084,<Lead Tool> — TBD,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-084,comp_matriz_00085,Stripe Payments — Stripe,stripe,partial,D2,docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/dimensions/STRIPE_INTEGRATION_POSTURE_REGISTRY.csv,https://docs.stripe.com/,medium,2026-09-14,,System Owner,high,D2 Wave-2 family=stripe
+COMP-MOD-085,comp_matriz_00086,GoDaddy — GoDaddy,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-086,comp_matriz_00087,CloudFlare — CloudFlare,cloudflare,governed,D3,docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/dimensions/CLOUDFLARE_ZONE_SURFACE_REGISTRY.csv,https://developers.cloudflare.com/dns/,high,2026-09-14,,System Owner,high,D3 ecosystem family=cloudflare; I100 Wave-1
+COMP-MOD-087,comp_matriz_00088,CloudFlare — CloudFlare (sheet row 88),cloudflare,alias,D0,,https://developers.cloudflare.com/dns/,n_a,,,System Owner,low,alias_of=comp_matriz_00087; sheet clone — inventory FK only
+COMP-MOD-088,comp_matriz_00089,CloudFlare — CloudFlare (sheet row 89),cloudflare,alias,D0,,https://developers.cloudflare.com/dns/,n_a,,,System Owner,low,alias_of=comp_matriz_00087; sheet clone — inventory FK only
+COMP-MOD-089,comp_matriz_00090,CloudFlare — CloudFlare (sheet row 90),cloudflare,alias,D0,,https://developers.cloudflare.com/dns/,n_a,,,System Owner,low,alias_of=comp_matriz_00087; sheet clone — inventory FK only
+COMP-MOD-090,comp_matriz_00091,Bank Account — Bank Account,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-091,comp_matriz_00092,Google Cloud Console — Google (sheet row 92),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-092,comp_matriz_00093,Google Cloud Console — Google (sheet row 93),other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-093,comp_matriz_00094,ElevenLabs — ElevenLabs,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-094,comp_matriz_00095,PerplexityAI — PerplexityAI,other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-095,comp_matriz_00096,YouTube — Google,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-096,comp_matriz_00097,NotebookLM — Google,other,inventory,D1,,,medium,2026-09-14,Doc trace only — no dimension registry until active consumer,System Owner,medium,D1 doc trace; Research Radar cadence
+COMP-MOD-097,comp_matriz_00098,Tuta — Tuta,other,inventory,D0,,,low,,,System Owner,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-098,comp_i93_hlk_erp,HLK-ERP — Holistika ERP shell,vercel,partial,D2,docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/dimensions/VERCEL_PROJECT_SETTINGS_REGISTRY.csv,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,medium,2026-09-14,,System Owner,critical,D2 Wave-2 family=vercel
+COMP-MOD-099,comp_i93_langfuse,Langfuse — AIC observability,langfuse,partial,D2,docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/dimensions/LANGFUSE_PROJECT_POSTURE_REGISTRY.csv,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,medium,2026-09-14,,AI Engineer,high,D2 Wave-2 family=langfuse
+COMP-MOD-100,comp_i93_neo4j,Neo4j — graph read index,other,inventory,D0,,docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/DATA_ARCHITECTURE.md,low,,,Data Architect,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-101,comp_i93_metabase,Metabase — steward SQL BI,other,inventory,D0,,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,low,,,Data Steward,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-102,comp_i93_power_bi,Microsoft Power BI — client BI,other,inventory,D0,,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,low,,,Data Governance Office,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-103,comp_i93_holistika_edge,Supabase Edge Functions — Holistika ingress,supabase,partial,D2,,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_INTEGRATION_PLANE.md,medium,2026-09-14,Critical component without Wave-1/2 registry — schedule Wave-3,System Owner,critical,D2 scheduled — critical slo_tier
+COMP-MOD-104,comp_i93_openclaw_akos,OpenClaw AKOS — control plane monorepo,openclaw_akos,governed,D3,,docs/ARCHITECTURE.md,medium,2026-09-14,,System Owner,critical,D3 ecosystem family=openclaw_akos; I100 Wave-1
+COMP-MOD-105,comp_i93_semantic_layer,METRICS_REGISTRY — semantic layer,openclaw_akos,inventory,D0,,docs/references/hlk/v3.0/Admin/O5-1/Data/Architecture/canonicals/SEMANTIC_LAYER.md,low,,,Data Architect,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-106,comp_i93_hlk_graph_mcp,HLK Graph MCP — agent graph BI,openclaw_akos,inventory,D0,,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,low,,,AI Engineer,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-107,comp_i93_sentry,Sentry — reliability BI,sentry,partial,D2,docs/references/hlk/v3.0/Admin/O5-1/Tech/System Owner/canonicals/dimensions/SENTRY_PROJECT_POSTURE_REGISTRY.csv,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,medium,2026-09-14,,System Owner,high,D2 Wave-2 family=sentry
+COMP-MOD-108,comp_i93_analytics_buckets,Supabase Analytics Buckets — OLAP offload,supabase,inventory,D0,,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/SOP-DATA_PRODUCTION_READINESS_001.md,low,,,Marketing Analytics Manager,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-109,comp_i93_google_analytics,Google Analytics 4 / Looker Studio,other,inventory,D0,,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,low,,,Marketing Analytics Manager,low,D0 inventory-only; matrix row sufficient
+COMP-MOD-110,comp_i93_meta_business,Meta Business Manager / Ads,other,inventory,D0,,docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/DATA_BI_GOVERNANCE.md,low,,,Marketing Analytics Manager,low,D0 inventory-only; matrix row sufficient

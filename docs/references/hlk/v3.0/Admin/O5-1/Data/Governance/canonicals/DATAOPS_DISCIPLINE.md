@@ -21,7 +21,7 @@ ratifying_decisions:
   - D-IH-86-BV
   - D-IH-90-AA
   - D-IH-93-C
-  - D-IH-93-H
+  - D-IH-90-AF
 status: active
 register: internal
 linked_canonicals:
@@ -30,7 +30,11 @@ linked_canonicals:
   - ../../../People/canonicals/UAT_DISCIPLINE.md
   - ../../../People/canonicals/INTER_WAVE_REGRESSION_DISCIPLINE.md
   - ../../../People/canonicals/HOLISTIKA_ORGANISING_DOCTRINE.md
-  - ../../../People/Compliance/canonicals/PRECEDENCE.md
+  - ../../../Operations/PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md
+  - dimensions/EVIDENCE_CLASS_REGISTRY.csv
+  - dimensions/PROOF_ADAPTER_REGISTRY.csv
+  - dimensions/DATA_CONTRACT_REGISTRY.csv
+  - DATA_GOVERNANCE_POLICY.md
 linked_cursor_rules:
   - .cursor/rules/akos-dataops-discipline.mdc
   - .cursor/rules/akos-holistika-operations.mdc
@@ -193,6 +197,11 @@ the integration contract names what each owns:
 - **[`TECHOPS_DISCIPLINE.md`](../../../Tech/System%20Owner/canonicals/TECHOPS_DISCIPLINE.md)** —
   observability infrastructure; DataOps interprets data-quality signal.
 - **`akos-holistika-operations.mdc`** — Supabase two-plane governance.
+- **[`EVIDENCE_CLASS_GATE_DISCIPLINE.md`](../../../Operations/PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md)** —
+  proof-class bindings live under Data registry SSOT; DataOps DATA-06 lineage
+  covers contract-declared artifact paths; Operations PMO runs the sweep SOP.
+- **[`RESEARCH_ACTION_DISCIPLINE.md`](../../../Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md)** —
+  source-ledger contract (`DC-HOL-SOURCE-LEDGER-001`); RA-EC padding checks.
 
 ## 6. Cross-references
 

@@ -1,27 +1,21 @@
-"""Evidence-class gate SSOT (I90 P4 — D-IH-90-EVIDENCE-GATE).
+"""Evidence-class gate SSOT (I90 P4 — D-IH-90-AF).
 
 Binds claim types to required proof so shape-PASS cannot substitute for operator intent.
-Planning charter: docs/wip/planning/90-routing-and-wiring/reports/evidence-class-gate-charter-2026-06-14.md
+Vault doctrine: docs/references/hlk/v3.0/Admin/O5-1/Operations/PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md
 """
 
 from __future__ import annotations
 
+import csv
 import re
-from typing import Literal
+from functools import lru_cache
+from pathlib import Path
 
 EVIDENCE_GATE_WATERSHED_ISO_DATE = "2026-06-14"
 INITIATIVE_CLOSURE_EVIDENCE_WATERSHED = "2026-06-14"
 
-EvidenceClass = Literal[
-    "git_shape",
-    "url_verify",
-    "live_probe",
-    "browser_experiential",
-    "operator_ratify",
-    "meta_regression",
-]
-
-VALID_EVIDENCE_CLASSES: frozenset[str] = frozenset(
+# Core six — always valid even if registry file missing.
+CORE_EVIDENCE_CLASSES: frozenset[str] = frozenset(
     {
         "git_shape",
         "url_verify",
@@ -30,6 +24,14 @@ VALID_EVIDENCE_CLASSES: frozenset[str] = frozenset(
         "operator_ratify",
         "meta_regression",
     }
+)
+
+# Back-compat alias used by validators at P4 land.
+VALID_EVIDENCE_CLASSES: frozenset[str] = CORE_EVIDENCE_CLASSES
+
+EVIDENCE_CLASS_REGISTRY_RELATIVE = (
+    "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/"
+    "dimensions/EVIDENCE_CLASS_REGISTRY.csv"
 )
 
 # Synthetic hash-padding on vendor doc URLs (I100 ledger audit).
@@ -85,3 +87,24 @@ def is_on_or_after_watershed(iso_date: str | None, watershed: str = EVIDENCE_GAT
     if not iso_date:
         return True  # fail-closed when date missing on forward artifacts
     return str(iso_date).strip() >= watershed
+
+
+def _repo_root() -> Path:
+    return Path(__file__).resolve().parent.parent
+
+
+@lru_cache(maxsize=1)
+def load_valid_evidence_classes(repo_root: str | None = None) -> frozenset[str]:
+    """Core six + active/charter classes from EVIDENCE_CLASS_REGISTRY.csv."""
+    root = Path(repo_root) if repo_root else _repo_root()
+    path = root / EVIDENCE_CLASS_REGISTRY_RELATIVE
+    if not path.is_file():
+        return CORE_EVIDENCE_CLASSES
+    classes: set[str] = set(CORE_EVIDENCE_CLASSES)
+    with path.open(encoding="utf-8-sig", newline="") as fh:
+        for row in csv.DictReader(fh):
+            if (row.get("status") or "").strip() in {"active", "charter"}:
+                ec = (row.get("evidence_class") or "").strip()
+                if ec:
+                    classes.add(ec)
+    return frozenset(classes)

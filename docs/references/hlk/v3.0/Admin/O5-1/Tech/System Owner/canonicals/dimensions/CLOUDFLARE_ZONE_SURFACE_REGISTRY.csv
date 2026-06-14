@@ -1,0 +1,6 @@
+surface_id,zone_name,surface_kind,expected_value,probe_command,governed_status,owner_role,component_fk,related_fk,last_verified,notes
+CF-SURF-001,holistikaresearch.com,dns.preview_erp,CNAME preview.erp.holistikaresearch.com → Vercel target,dig preview.erp.holistikaresearch.com; Cloudflare DNS API read,partial,System Owner,comp_matriz_00087,SUBDOMAINS_REGISTRY preview.erp,2026-06-14,Edge plane for stable Preview alias — pairs VER-SET-005
+CF-SURF-002,holistikaresearch.com,email.spf,SPF includes Resend and Supabase SMTP senders,dig TXT holistikaresearch.com,partial,System Owner,comp_matriz_00087,SUPABASE_AUTH_REGISTRY SMTP rows,2026-06-14,I99 auth email tranche cross-ref
+CF-SURF-003,holistikaresearch.com,email.dkim,DKIM active for transactional auth email,dig TXT default._domainkey,partial,System Owner,comp_matriz_00087,,2026-06-14,Coordinate with Resend dashboard — not AKOS secret
+CF-SURF-004,holistikaresearch.com,dns.registrar_split,Registrar vs DNS split documented,FINOPS finops_cloudflare counterparty,inventory,System Owner,comp_matriz_00087,finops_cloudflare,2026-06-14,Billing vs operations plane separation
+CF-SURF-005,holistikaresearch.com,cdn.proxy,Orange-cloud proxy posture for marketing vs grey for API subdomains,Cloudflare zone settings read,inventory,System Owner,comp_matriz_00087,,2026-06-14,Wave-3 deep audit if CDN rules multiply

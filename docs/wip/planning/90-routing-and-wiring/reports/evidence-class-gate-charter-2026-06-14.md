@@ -4,7 +4,7 @@ last_review: 2026-06-14
 audience: J-OP;J-AIC
 status: active
 ratifying_decisions:
-  - D-IH-90-EVIDENCE-GATE
+  - D-IH-90-AF
 ---
 
 # Evidence-class gate charter (I90 Phase 4)

@@ -1,0 +1,3 @@
+posture_id,instance_slug,surface,expected_value,probe_command,governed_status,owner_role,component_fk,last_verified,notes
+N8N-POST-001,holistika,workflow.inventory,Self-hosted or cloud n8n workflows with owner and engagement FK,RPA_ADAPTER_REGISTRY n8n row if present,partial,RevOps Manager,comp_matriz_00011,2026-06-14,bi_tier=T8 engagement automation
+N8N-POST-002,holistika,webhook.secrets,Webhook secrets not duplicated in git,spot-check env naming only,inventory,RevOps Manager,comp_matriz_00011,2026-06-14,Pairs DC-HOL-LAB-PLATFORM-ENV-001 semantics

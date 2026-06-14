@@ -1,0 +1,25 @@
+binding_id,claim_surface,evidence_class,proof_adapter_id,required_from_iso_date,severity,validator_script,sister_discipline_ref,proof_artifact_kind,proof_path_pattern,owner_role,status,notes
+
+ECB-0001,research_ledger,git_shape,,2026-06-14,FAIL,scripts/validate_research_action.py,RESEARCH_ACTION_DISCIPLINE.md,validator_stdout,artifacts/evidence-gate/research-action-*.log,System Owner,active,Schema + prong + dedupe; RA-EC-01/02 fail on padding
+
+ECB-0002,research_ledger,url_verify,,2026-06-14,WARN,scripts/validate_research_action.py,RESEARCH_ACTION_DISCIPLINE.md,probe_log,artifacts/evidence-gate/url-probe-*.json,Research Director,active,Opt-in --url-probe; WARN until adapter wired in CI
+
+ECB-0003,uat_closure_pass,git_shape,,2026-06-14,FAIL,scripts/validate_uat_report.py,UAT_DISCIPLINE.md,validator_stdout,artifacts/evidence-gate/uat-sweep-*.json,PMO,active,UAT-FM-12 requires evidence_class + evidence_proof_ref on PASS
+
+ECB-0004,uat_closure_pass,browser_experiential,PAD-001,2026-06-14,FAIL,scripts/validate_uat_report.py,UAT_DISCIPLINE.md,screenshot_manifest,artifacts/uat-screenshots/**/MANIFEST.json,PMO,active,Playwright + visual evidence SOP compose
+
+ECB-0005,uat_closure_pass,operator_ratify,,2026-06-14,FAIL,scripts/validate_uat_report.py,UAT_DISCIPLINE.md,decision_row,DECISION_REGISTER.csv,Founder,active,Operator-explicit closure only
+
+ECB-0006,acim_confirmed_implemented,git_shape,,2026-06-14,FAIL,scripts/validate_aic_capability_implementation_matrix.py,HOLISTIKA_AGENTIC_DOCTRINE.md,tool_catalog_ref,scripts/*.py;docs/**/*.md,System Owner,active,tool_catalog_ref or realisation_refs or notes evidence tokens
+
+ECB-0007,initiative_close,git_shape,,2026-06-14,FAIL,scripts/validate_evidence_class_gate.py,SOP-PMO_EVIDENCE_CLASS_GATE_001.md,uat_report,docs/wip/planning/**/reports/uat-*.md,PMO,active,Closed initiatives need PASS/PWF closure UAT with evidence on PASS
+
+ECB-0008,deploy_consumer_repo,live_probe,PAD-004,2026-06-14,WARN,scripts/browser-smoke.py,akos-deploy-health.mdc,playwright_log,artifacts/deploy-health/*.json,System Owner,active,Phase B Preview slice; FAIL ramp after worked example
+
+ECB-0009,validator_change,meta_regression,,2026-06-14,WARN,scripts/intent_ranked_regression.py,INTER_WAVE_REGRESSION_DISCIPLINE.md,ics_report,docs/wip/planning/**/reports/intent-regression-*.md,PMO,active,After evidence-class validator edit
+
+ECB-0010,uat_closure_pass,ux_lighthouse_audit,PAD-002,2026-06-14,INFO,scripts/ux_lighthouse_audit.py,UX_DISCIPLINE.md,lighthouse_json,artifacts/ux-audit/lighthouse-*.json,Product Owner,charter,Google Lighthouse CI — add row only; validator lands in adapter tranche
+
+ECB-0011,uat_closure_pass,ux_heatmap_session,PAD-003,2026-06-14,INFO,scripts/ux_heatmap_capture.py,UX_DISCIPLINE.md,heatmap_export,artifacts/ux-audit/hotjar-*.json,Product Owner,charter,Hotjar/session replay export — privacy gate required before FAIL ramp
+
+

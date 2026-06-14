@@ -60,6 +60,11 @@ upstream:
 | Initiative harmonisation | New initiative manifests_processes FK | People / PMO | `py scripts/validate_initiative_registry.py` | [`SOP-INITIATIVE_PROCESS_HARMONISATION_001.md`](../PMO/SOP-INITIATIVE_PROCESS_HARMONISATION_001.md) |
 | Vault promotion | WIP → process_list promotion | People / PMO | `py scripts/validate_hlk.py` | [`SOP-PMO_VAULT_PROMOTION_GATE_001.md`](../PMO/canonicals/SOP-PMO_VAULT_PROMOTION_GATE_001.md) |
 | Area completeness | Ops tranche / wave close | People (AREA governance) | `py scripts/validate_area_completeness.py --area Operations` | [`SOP-OPS_AREA_COMPLETENESS_SWEEP_001.md`](../PMO/canonicals/SOP-OPS_AREA_COMPLETENESS_SWEEP_001.md) |
+| Evidence-class gate | WIP closure / ledger govern / initiative close | **Operations PMO** (orchestrator) | `py scripts/run_automated_uat_evidence_sweep.py` | [`SOP-PMO_EVIDENCE_CLASS_GATE_001.md`](../PMO/canonicals/SOP-PMO_EVIDENCE_CLASS_GATE_001.md) |
+| Evidence registry SSOT | Registry mint / ECB row change | **Data / Data Steward** | `py scripts/validate_evidence_class_registry.py` | [`DATA_GOVERNANCE_POLICY.md`](../../Data/Governance/canonicals/DATA_GOVERNANCE_POLICY.md) |
+| MKTOps LP deploy → UX proof | Campaign landing-page deploy (MKT-03) | Marketing / Reach | Optional `artifacts/ux-audit/lighthouse-*.json` | [`MKTOPS_DISCIPLINE.md`](../../Marketing/canonicals/MKTOPS_DISCIPLINE.md) → ECB-0010 |
+| UAT shape + FM-12 | Forward closure UAT PASS | People / PMO | `py scripts/validate_uat_report.py` | [`UAT_DISCIPLINE.md`](../../People/canonicals/UAT_DISCIPLINE.md) |
+| Research ledger honesty | Source ledger tranche | Research / Lead Researcher | `py scripts/validate_research_action.py` | [`RESEARCH_ACTION_DISCIPLINE.md`](../../../Research/Methodology/canonicals/RESEARCH_ACTION_DISCIPLINE.md) |
 | ADVOPS register maintenance | Adviser open questions refresh | People / Legal | `py scripts/validate_adviser_questions.py` | [`SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md`](../PMO/SOP-EXTERNAL_ADVISER_ENGAGEMENT_001.md) |
 
 ---
@@ -99,12 +104,13 @@ upstream:
 
 ## Solo operator + AIC daily spine (reference)
 
-| Cadence | Operations scripts | Handoff class |
-|:---|:---|:---|
-| Daily | `render_operator_inbox.py`, `render_wip_dashboard.py --check-only` | OPS-LOCAL-DO |
-| Weekly | SMO catalog review, `workspace_fleet_hygiene_sweep.py` | OPS-LOCAL-DO / OPS-TRIG-TECH |
-| Event | `compliance_mirror_emit`, `scaffold_engagement.py`, `validate_area_completeness --next` | MIXED |
-| Quarterly | `render_operational_cohesion_index.py`, RevOps QBR | OPS-LOCAL-DO / OPS-TRIG-FINOPS |
+| Cadence | Operations scripts | Handoff class | Evidence |
+|:---|:---|:---|:---|
+| Daily | `render_operator_inbox.py`, `render_wip_dashboard.py --check-only` | OPS-LOCAL-DO | — |
+| Event | `run_automated_uat_evidence_sweep.py` | OPS-LOCAL-DO | [`SOP-PMO_EVIDENCE_CLASS_GATE_001.md`](../PMO/canonicals/SOP-PMO_EVIDENCE_CLASS_GATE_001.md) |
+| Weekly | SMO catalog review, `workspace_fleet_hygiene_sweep.py` | OPS-LOCAL-DO / OPS-TRIG-TECH | — |
+| Event | `compliance_mirror_emit`, `scaffold_engagement.py`, `validate_area_completeness --next` | MIXED | — |
+| Quarterly | `render_operational_cohesion_index.py`, RevOps QBR | OPS-LOCAL-DO / OPS-TRIG-TECH | — |
 
 ---
 

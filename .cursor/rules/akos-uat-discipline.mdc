@@ -257,6 +257,23 @@ The Vercel `dpl_6uNfwjKVUNwqqd2MZ65vySkvd834` regression on 2026-05-20
 hours) is the worked example proving local `tsc` PASS does not imply
 vendor-side build PASS.
 
+## RULE 9 — Lab auth / env blockers: probe-first RCA (binding from BT-10-lab-governed-ssot)
+
+When a closure UAT or experiential walk hits **Preview/Production auth or env
+remediation** blockers on a consumer repo tracked in
+`REPOSITORY_REGISTRY.csv`:
+
+1. **Resolve SSOT** — `DATA_CONTRACT_REGISTRY` → `DC-HOL-LAB-PLATFORM-ENV-001`
+   + [`SOP-TECH_LAB_PLATFORM_BINDING_001.md`](../../docs/references/hlk/v3.0/Admin/O5-1/Tech/System%20Owner/canonicals/SOP-TECH_LAB_PLATFORM_BINDING_001.md).
+   Do not author parallel env semantics in the UAT report.
+2. **Run the investigation ladder** (same order as deploy-health Failure 8):
+   component docs → non-secret probe → config kind → redeploy → credentials last.
+3. **Record attribution** in §findings: platform semantics vs credential vs
+   deployment protection vs product gap — never collapse to "wrong password"
+   without probe evidence.
+4. **Trigger cross-area regression** when the incident touched multiple areas;
+   cite methodology-regression report path under the active initiative.
+
 ## RULE 8 — Specialty mint contract honored (binding)
 
 This rule, the paired SOP, the paired runbook, the canonical doctrine

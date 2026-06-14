@@ -730,9 +730,12 @@ def main() -> int:
         # LANGUAGE_FRONTMATTER has no CSV gate; it scans the vault directly.
         ("LANGUAGE_FRONTMATTER", "validate_hlk_language_frontmatter.py",
          "validate_hlk_language_frontmatter", None),
-        # I90 P4 — evidence-class gate (initiative closure cross-check; D-IH-90-EVIDENCE-GATE).
+        # I90 P4 — evidence-class gate (initiative closure cross-check; D-IH-90-AF).
         ("EVIDENCE_CLASS_GATE", "validate_evidence_class_gate.py",
          "validate_evidence_class_gate", None),
+        ("EVIDENCE_CLASS_REGISTRY", "validate_evidence_class_registry.py",
+         "validate_evidence_class_registry",
+         REPO_ROOT / "docs/references/hlk/v3.0/Admin/O5-1/Data/Governance/canonicals/dimensions/EVIDENCE_CLASS_REGISTRY.csv"),
     ]
 
     for item in dispatch:

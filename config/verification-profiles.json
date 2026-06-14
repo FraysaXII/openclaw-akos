@@ -429,6 +429,14 @@
           ]
         },
         {
+          "id": "validate_evidence_class_registry_self_test",
+          "description": "I90 P4c: EVIDENCE_CLASS_REGISTRY + PROOF_ADAPTER_REGISTRY integrity",
+          "argv": [
+            "scripts/validate_evidence_class_registry.py",
+            "--self-test"
+          ]
+        },
+        {
           "id": "operational_cohesion_validate",
           "description": "I94 P2: OPERATIONAL_COHESION_DOCTRINE self-consistency validate subcommand",
           "argv": [

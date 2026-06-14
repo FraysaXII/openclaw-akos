@@ -56,7 +56,7 @@ cannot certify Operations as **COMPLETE for tier** even when registries are rich
 | **Planning** | PMO | WIP dashboard, initiative harmonisation SOP | `render_wip_dashboard.py` |
 | **Project Work** | Engagement + PMO | Discovery → proposal → estimation SOPs | `scaffold_engagement.py` |
 | **Delivery** | RevOps + Engagement | Revenue spine, template promotion, client delivery | `revops_dispatch.py` |
-| **Measurement** | PMO + RevOps | Cohesion index, area score matrix, DORA posture | `render_operational_cohesion_index.py` |
+| **Measurement** | PMO + RevOps | Cohesion index, area score matrix, DORA posture, **evidence-class sweep** | `render_operational_cohesion_index.py`; `run_automated_uat_evidence_sweep.py` |
 | **Uncertainty** | PMO + SMO | Risk registers, SLA matrix, service catalog | `validate_area_completeness.py` |
 
 PMBOK 8 seven domains (Governance, Scope, Schedule, Finance, Stakeholders,
@@ -81,8 +81,9 @@ Priority order for executable catalog pairing (P2 tranche):
 1. Inbox / WIP / cohesion render loop (PMO)
 2. Mirror emit trigger (Holistika two-plane handoff to Data)
 3. Area completeness sweep (tier gate evidence)
-4. Engagement scaffold + RevOps dispatch
-5. Remaining PMO/SMO SOPs (AREA-09 cliff — enhancing, not tier-blocking)
+4. **Evidence-class gate sweep** (proof-backed closure — [`EVIDENCE_CLASS_GATE_DISCIPLINE.md`](PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md))
+5. Engagement scaffold + RevOps dispatch
+6. Remaining PMO/SMO SOPs (AREA-09 cliff — enhancing, not tier-blocking)
 
 Human-gated: canonical CSV edits, file moves (IntelligenceOps eviction), live
 Supabase mirror apply.

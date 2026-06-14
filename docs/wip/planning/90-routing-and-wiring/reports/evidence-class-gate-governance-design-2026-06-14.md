@@ -2,9 +2,10 @@
 title: Evidence-class gate — governance design (I90 P4a)
 last_review: 2026-06-14
 audience: J-OP;J-AIC
-status: draft-for-ratify
+status: ratified
 ratifying_decisions:
-  - D-IH-90-EVIDENCE-GATE
+  - D-IH-90-AF
+  - D-IH-100-I
 linked_artifacts:
   - reports/evidence-class-gate-charter-2026-06-14.md
   - drafts/EVIDENCE_CLASS_GATE_DISCIPLINE.draft.md
@@ -23,11 +24,14 @@ the same problem I100 exposed when agents treated validator green as closure qua
 Every **claim** that work is done must declare **what kind of proof** backs it, and CI must
 fail when proof is missing or dishonest (padding, duplicate URLs, shape-only UAT PASS).
 
+**Operations PMO owns orchestration** (WIP forge → vault promotion → automated sweep).
+Sister disciplines keep depth (People UAT shape, Research prongs, Tech deploy, UX bar).
+
 | Layer | What it is | Owner |
 |:---|:---|:---|
-| **Doctrine** | `EVIDENCE_CLASS_GATE_DISCIPLINE.md` — vocabulary + binding rules | PMO + System Owner |
-| **Registry** | `EVIDENCE_CLASS_REGISTRY.csv` — claim surface × class × validator × proof pattern | Compliance |
-| **SOP + runbook** | Human steps + `scripts/validate_evidence_class_gate.py` umbrella | People Ops |
+| **Doctrine** | `Operations/PMO/canonicals/EVIDENCE_CLASS_GATE_DISCIPLINE.md` | PMO + COO |
+| **Registries** | `EVIDENCE_CLASS_REGISTRY.csv` + `PROOF_ADAPTER_REGISTRY.csv` | Operations PMO |
+| **SOP + runbook** | `SOP-PMO_EVIDENCE_CLASS_GATE_001` + `run_automated_uat_evidence_sweep.py` | Operations PMO |
 | **Cursor rule + skill** | Agent routing when touching ledgers, UAT, ACIM, initiative close | I90 ordnance |
 | **MADEIRA watch** | Experiential UAT + intent-ranked regression after validator edits | MADEIRA lifecycle |
 
@@ -113,13 +117,25 @@ as **`UAT-FM-13-SIBLING-UI-BROWSER-MANIFEST-MISSING`** to avoid collision.
 | **P4d** | `validate_evidence_class_registry.py` reads CSV; validators delegate bindings | HLK umbrella |
 | **P4e** | MADEIRA field-test window (3 observation waves) | Same pattern as UAT_DISCIPLINE FTW |
 
-## 6. Operator gates (explicit AskQuestion)
+## 6. Extensibility (Lighthouse, Hotjar — will not explode)
+
+New UX tools **extend the adapter registry**, not rewrite validators:
+
+1. Add `PROOF_ADAPTER_REGISTRY.csv` row (`PAD-NNN`, status `charter`)
+2. Add `EVIDENCE_CLASS_REGISTRY.csv` binding (`ECB-NNNN`, severity `INFO`)
+3. Implement paired script (`scripts/ux_lighthouse_audit.py` — stub exists)
+4. Ramp INFO → WARN → FAIL after one clean artifact bundle + operator row
+
+**Already chartered:** `ux_lighthouse_audit` (PAD-002), `ux_heatmap_session` (PAD-003).
+Validators load classes from the registry via `load_valid_evidence_classes()` — no enum fork.
+
+## 7. Operator gates (explicit AskQuestion)
 
 Do **not** mint without operator approval:
 
 1. `EVIDENCE_CLASS_REGISTRY.csv` → vault (`dimensions/`)
 2. `process_list.csv` row `hol_peopl_dtp_evidence_class_gate_001` (proposed)
-3. `DECISION_REGISTER` row `D-IH-90-EVIDENCE-GATE` promotion from draft → binding
+3. `DECISION_REGISTER` row `D-IH-90-AF` promotion from draft → binding
 4. FM-13 FAIL ramp for sibling UI (after one clean manifest example)
 
 AIC may proceed without asking: WIP drafts, rule/skill in `.cursor/`, Phase B probe artifacts.

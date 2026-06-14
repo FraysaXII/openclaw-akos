@@ -137,7 +137,7 @@ def self_test() -> int:
     })
     assert sample.governance_id.startswith("gov_")
     assert len(CANONICAL_GOVERNANCE_REGISTRY_FIELDNAMES) == 20
-    assert EXPECTED_VAULT_CSV_COUNT == 75
+    assert EXPECTED_VAULT_CSV_COUNT == 91
     print("PASS: validate_canonical_governance_registry self-test")
     return 0
 
