@@ -75,7 +75,7 @@ If any of (1–4) fail, the agent does NOT start the next phase; it surfaces the
 
 > **Authority.** Codifies [`akos-planning-traceability.mdc`](../../../../.cursor/rules/akos-planning-traceability.mdc) §"Plan-quality bar (I66 / I68 precedent; mandatory for execution-grade Cursor plans)" — extended at this compendium revision with two additional rows (#11 self-critique gate, #12 CHANGELOG `[Unreleased]` entry) that I66/I70/I72 demonstrated were load-bearing but were not previously codified.
 >
-> **When this bar applies.** Plans with **≥ 5 phases**, **≥ 1 calendar week**, any canonical-CSV touch, any multi-repo (`bless_external_repo.py`-tracked) sibling-repo PRs, or any plan revision (Round-N pattern). Plans below this bar (1-3 phase quick fixes, single-file refactors, `99-proposals/` ad-hoc) are exempt; the basic Governance Content Requirements in `akos-planning-traceability.mdc` are sufficient for them.
+> **When this bar applies.** Plans with **≥ 5 phases**, **≥ 1 calendar week**, any canonical-CSV touch, any multi-repo (`bless_external_repo.py`-tracked) sibling-repo PRs, or any plan revision (Round-N pattern). Plans below this bar (1-3 phase quick fixes, single-file refactors, `00-ad-hoc-proposals/` ad-hoc) are exempt; the basic Governance Content Requirements in `akos-planning-traceability.mdc` are sufficient for them.
 
 ### §2.1 The 12 rows (each must PASS for the plan to ship)
 

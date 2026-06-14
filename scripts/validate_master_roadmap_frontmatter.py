@@ -57,7 +57,7 @@ def _scalar(block: str, key: str) -> str | None:
 def _iter_master_roadmaps() -> list[Path]:
     out: list[Path] = []
     for d in sorted(PLANNING_DIR.iterdir()):
-        if not d.is_dir() or d.name.startswith(".") or d.name == "99-proposals":
+        if not d.is_dir() or d.name.startswith(".") or d.name == "00-ad-hoc-proposals":
             continue
         if not INITIATIVE_DIR_RE.match(d.name):
             continue

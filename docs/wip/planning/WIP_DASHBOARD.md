@@ -15,7 +15,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 ## Initiatives
 
 <!-- BEGIN AUTO -->
-### Active (in execution) (23)
+### Active (in execution) (24)
 
 | Seq | Folder | Status | Last review | Title |
 |:---:|:-------|:-------|:-----------:|:------|
@@ -42,6 +42,7 @@ Auto-rendered from each initiative's `master-roadmap.md` frontmatter + body. Han
 | **94** | [`94-area-architecture-and-completeness-v2/`](94-area-architecture-and-completeness-v2/) | active | 2026-06-05 | I94 — Area Architecture & Completeness v2 |
 | **95** | [`95-canonical-articulation-model/`](95-canonical-articulation-model/) | active | — | I95 — Canonical Articulation Model / the Singularity |
 | **96** | [`96-research-data-plane-and-research-center/`](96-research-data-plane-and-research-center/) | active | 2026-06-11 | I96 — Research Data Plane + Research Center Program |
+| **99** | [`99-supabase-platform-eg5-tranche/`](99-supabase-platform-eg5-tranche/) | active | 2026-06-13 | I99 — Supabase Platform EG-5 Tranche |
 
 ### Gated on external event (0)
 

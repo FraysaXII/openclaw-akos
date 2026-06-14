@@ -11,7 +11,7 @@ metadata. This validator asserts both surfaces agree on:
 
 The check is intentionally permissive: missing frontmatter on a planning folder
 yields a **warning**, not a hard fail (some folders are placeholders or
-``99-proposals/`` ad-hoc artifacts). Status mismatch on a row that exists in
+``00-ad-hoc-proposals/`` ad-hoc artifacts). Status mismatch on a row that exists in
 both surfaces is a **hard fail**.
 
 Usage::
@@ -79,7 +79,7 @@ def main() -> int:
         for d in sorted(PLANNING_ROOT.iterdir()):
             if not d.is_dir():
                 continue
-            if d.name.startswith("99-") or d.name == "99-proposals":
+            if d.name == "00-ad-hoc-proposals":
                 continue
             if FOLDER_RE.match(d.name):
                 folders.append(d)

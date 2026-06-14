@@ -43,7 +43,7 @@ continuous_rationale: Cross-initiative backlog index by design; maintained whene
 | REG.009 | active | 05 | [REPOSITORIES_REGISTRY.md](../../../references/hlk/v3.0/Envoy%20Tech%20Lab/Repositories/REPOSITORIES_REGISTRY.md) | `openclaw-akos` + `FraysaXII/kirbe` set; **client-delivery** row still placeholder until engagement remote known | `py scripts/validate_hlk.py` |
 | REG.010 | operator_env | 02 | [madeira-flagship-hardening-report.md](../02-hlk-on-akos-madeira/reports/madeira-flagship-hardening-report.md) | Langfuse **project visibility** vs MCP account (if traces missing) | Langfuse MCP + `scripts/test-langfuse-trace.py` |
 | REG.011 | historical | 02 | [master-roadmap.md](../02-hlk-on-akos-madeira/master-roadmap.md) § Phase 1 gap | Pre-remediation baseline gaps; read with phase-1-report | N/A |
-| REG.012 | non_program | 99 | `docs/wip/planning/99-proposals/*.plan.md` | Experiments; promote via README rules before execution | N/A |
+| REG.012 | non_program | 99 | `docs/wip/planning/00-ad-hoc-proposals/*.plan.md` | Experiments; promote via README rules before execution | N/A |
 
 ---
 

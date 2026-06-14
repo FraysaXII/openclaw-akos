@@ -14,7 +14,7 @@
 | **[references/hlk/](references/hlk/)** | HLK v3.0 vault, compliance CSVs, SOPs | e.g. [PRECEDENCE](references/hlk/compliance/PRECEDENCE.md) |
 | **[uat/](uat/)** | UAT scenarios, smoke checklists | [rollback guide](uat/rollback_guide.md) |
 
-**Do not** put new initiative **proposals** under `docs/guides/`; use [wip/planning/99-proposals](wip/planning/99-proposals/) or a numbered folder per [wip/planning/README](wip/planning/README.md).
+**Do not** put new initiative **proposals** under `docs/guides/`; use [wip/planning/00-ad-hoc-proposals](wip/planning/00-ad-hoc-proposals/) or a numbered folder per [wip/planning/README](wip/planning/README.md).
 
 ## Read by role
 

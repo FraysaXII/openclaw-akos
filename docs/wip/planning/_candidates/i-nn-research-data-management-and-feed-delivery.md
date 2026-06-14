@@ -1,7 +1,9 @@
 ---
 candidate_id: I-NN-RESEARCH-DATA-MANAGEMENT
 title: Research Data-Management (DAMA) + multi-channel research-feed delivery — the STORE/RECALL/SHARE data layer of the CORPINT lifecycle operationalized
-status: candidate
+status: promoted_active
+promoted_to: INIT-OPENCLAW_AKOS-96
+promoted_at: 2026-06-11
 authored: 2026-05-29
 last_review: 2026-05-29
 parent_initiatives: [86]

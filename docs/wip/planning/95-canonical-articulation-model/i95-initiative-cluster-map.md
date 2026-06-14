@@ -44,18 +44,19 @@ flowchart TB
 
 ## Initiative table
 
-| ID | Functional name | Registry status | I95 consumes | I95 produces | Blocker / tracker links |
-|:---|:---|:---:|:---|:---|:---|
-| **I86** | Initiative cluster execution coordinator | active | Wave cadence, D-IH-86-D closure cross-check, INDEX_INTEGRITY (Wave N) | Cluster burndown ordering | [`cluster-burndown-plan.md`](../86-initiative-cluster-execution-coordinator/cluster-burndown-plan.md) |
-| **I87** | OpenClaw operator-runtime hardening | **closed** | Runtime baseline (done) | — | [`uat-i87-closure-2026-05-19.md`](../87-openclaw-operator-runtime-hardening/reports/uat-i87-closure-2026-05-19.md) |
-| **I88** | Cross-area Ops wiring review discipline | active | Area wiring lens for L4 orphan burn-down | FINOPS + Research deep examples → discipline canonical P3 | [`master-roadmap.md`](../88-cross-area-ops-wiring-review-discipline/master-roadmap.md) |
-| **I89** | HLK-ERP persona-rollup panels (6 routes) | active | Audience/register semantics from I95 GOV | ERP operator surfaces (sibling `hlk-erp`) | Forward-chartered from I86 P3; OPS-86-5 BBR leaks |
-| **I90** | Routing & Wiring ordnance (two-seat + rule tiers) | active | Agent routing for I95 execution | Hands off to I91/I92; OPS reconciliation | [`master-roadmap.md`](../90-routing-and-wiring/master-roadmap.md); P2 **PASS** |
-| **I91** | Enterprise graph & store-coverage mapping | active | **Neo4j harness** (I95 F6), HCAM verbs (I95 P2+) | Store-coverage matrix → I92 | Was blocked on `NEO4J_*`; **unblocked** 2026-06-09 |
-| **I92** | HLK-ERP reassess & dashboard | active (stub) | I91 P2 matrix, I62/I64/I65/I68 lineage | ERP dashboard integration | Stub until I92 P0 expands |
-| **I93** | DATA area foundation & cross-area data governance | **closed** | DAMA DATA area, `pattern_area_buildout` | Area-governance meta-process (parent of I94) | [`uat-i93-closure-2026-06-05.md`](../93-data-area-foundation-and-governance/reports/uat-i93-closure-2026-06-05.md) |
-| **I94** | Area architecture & completeness v2 | active (P3 **DONE** 2026-06-10) | Sub-folder=role, placement-integrity (I94 P7) | Area-completeness **v3** target (I95 P4) | P3 fallout: IO SOPs evicted to legacy Research path; P4–P6 queued **after** OPS-86-26 |
-| **I95** | Canonical articulation model (HCAM / Singularity) | active | I94 placement model, I93 DATA canon, Neo4j projection | Relationship registry, verb triples, GOV registry, graph CQ harness | [`i95-pmo-status-sweep-2026-06-10.md`](reports/i95-pmo-status-sweep-2026-06-10.md) |
+| ID | Functional name | Registry status | I95 consumes | I95 produces | I96 consumes | I96 produces | Blocker / tracker links |
+|:---|:---|:---:|:---|:---|:---|:---|:---|
+| **I86** | Initiative cluster execution coordinator | active | Wave cadence, D-IH-86-D closure cross-check, INDEX_INTEGRITY (Wave N) | Cluster burndown ordering | Program_line parent for I96 | Session commit tracking via I86 `files-modified.csv` | [`cluster-burndown-plan.md`](../86-initiative-cluster-execution-coordinator/cluster-burndown-plan.md) |
+| **I87** | OpenClaw operator-runtime hardening | **closed** | Runtime baseline (done) | — | — | — | [`uat-i87-closure-2026-05-19.md`](../87-openclaw-operator-runtime-hardening/reports/uat-i87-closure-2026-05-19.md) |
+| **I88** | Cross-area Ops wiring review discipline | active | Area wiring lens for L4 orphan burn-down | FINOPS + Research deep examples → discipline canonical P3 | Research OPS consumer inventory crosswalk | Data-plane field mapping alignment | [`master-roadmap.md`](../88-cross-area-ops-wiring-review-discipline/master-roadmap.md) |
+| **I89** | HLK-ERP persona-rollup panels (6 routes) | active | Audience/register semantics from I95 GOV | ERP operator surfaces (sibling `hlk-erp`) | RBAC level-4 Research Center route | — | Forward-chartered from I86 P3; OPS-86-5 BBR leaks |
+| **I90** | Routing & Wiring ordnance (two-seat + rule tiers) | active | Agent routing for I95 execution | Hands off to I91/I92; OPS reconciliation | Two-seat execution for I96 tranches | — | [`master-roadmap.md`](../90-routing-and-wiring/master-roadmap.md); P2 **PASS** |
+| **I91** | Enterprise graph & store-coverage mapping | active | **Neo4j harness** (I95 F6), HCAM verbs (I95 P2+) | Store-coverage matrix → I92 | SRC tagging contract alignment | — | Was blocked on `NEO4J_*`; **unblocked** 2026-06-09 |
+| **I92** | HLK-ERP reassess & dashboard | active (stub) | I91 P2 matrix, I62/I64/I65/I68 lineage | ERP dashboard integration | Research Center v1 consumer (`/research-center`) | Four-panel BFF routes | Stub until I92 P0 expands |
+| **I93** | DATA area foundation & cross-area data governance | **closed** | DAMA DATA area, `pattern_area_buildout` | Area-governance meta-process (parent of I94) | DAMA data-consumer taxonomy | — | [`uat-i93-closure-2026-06-05.md`](../93-data-area-foundation-and-governance/reports/uat-i93-closure-2026-06-05.md) |
+| **I94** | Area architecture & completeness v2 | active (P3 **DONE** 2026-06-10) | Sub-folder=role, placement-integrity (I94 P7) | Area-completeness **v3** target (I95 P4) | Methodology prong lattice session work | — | P3 fallout: IO SOPs evicted to legacy Research path; P4–P6 queued **after** OPS-86-26 |
+| **I95** | Canonical articulation model (HCAM / Singularity) | active | I94 placement model, I93 DATA canon, Neo4j projection | Relationship registry, verb triples, GOV registry, graph CQ harness | HCAM SRC tags + graph verbs for ledger rows | Field-mapping triple alignment | [`i95-pmo-status-sweep-2026-06-10.md`](reports/i95-pmo-status-sweep-2026-06-10.md) |
+| **I96** | Research data plane + Research Center | active (program_line) | I75 lifecycle; I83 KiRBe path; I95 HCAM; I88 Research OPS | Three-plane specs, ledger 949 rows, ERP Research Center v1 | — | Govern/Execute/Experience stack closure | [`master-roadmap.md`](../96-research-data-plane-and-research-center/master-roadmap.md) |
 
 ## I95 internal lanes
 

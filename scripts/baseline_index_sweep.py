@@ -106,7 +106,7 @@ NON_INITIATIVE_FOLDERS = frozenset({
     "_candidates",
     "_templates",
     "_dashboards",
-    "99-proposals",
+    "00-ad-hoc-proposals",
     "_archive",
 })
 

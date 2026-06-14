@@ -157,7 +157,7 @@ def _read_initiative(folder: Path) -> dict[str, str] | None:
 def _scan_initiatives() -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     for p in sorted(PLANNING_DIR.iterdir()):
-        if not p.is_dir() or p.name.startswith(".") or p.name == "99-proposals":
+        if not p.is_dir() or p.name.startswith(".") or p.name == "00-ad-hoc-proposals":
             continue
         row = _read_initiative(p)
         if row is not None:
