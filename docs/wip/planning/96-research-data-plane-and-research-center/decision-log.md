@@ -18,6 +18,7 @@ language: en
 | **D-IH-96-H** | **P9b Gate C:** prong coverage strip on all lenses | **RATIFIED** (2026-06-12) | Option C — prong strip on ALL lenses. Every POV discover row shows prong-coverage from live prong-fixed ledger aggregates. [`reports/i96-ssot-promotion-path-2026-06-12.md`](reports/i96-ssot-promotion-path-2026-06-12.md) §Gate C. |
 | **D-IH-96-I..P** | Reserved for exploration outcomes, D4, page-spec gates, promotion close | Open | — |
 | **D-IH-96-J** | Track D economics consumes I97 Infonomics doctrine (overlap Option B) | **RATIFIED** (2026-06-13) | I97 P5 **D-IH-97-D** Option B — Research Center insight/remediation economics defers to `INFONOMICS_DISCIPLINE` at I97 **P6b**; no duplicate Track D economics doctrine. [`../_trackers/i96-i97-infonomics-scope-overlap-tracker.md`](../_trackers/i96-i97-infonomics-scope-overlap-tracker.md) |
+| **D-IH-96-K** | Promote experiential UAT visual-evidence discipline to People vault | **RATIFIED** (2026-06-14) | Operator AskQuestion **promote now** after I96 Preview incident. Vault: `SOP-PEOPLE_UAT_VISUAL_EVIDENCE_001.md`, `UAT_DISCIPLINE.md` §8.6, `process_list` row `hol_peopl_dtp_uat_visual_evidence_001`, paired `validate_uat_screenshot_evidence.py`. Binding: parent-agent visual review; no subagent-only sign-off. |
 
 ## Lineage anchors (not I96 primary decisions)
 

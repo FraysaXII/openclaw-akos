@@ -604,6 +604,19 @@ def main() -> int:
          "validate_supabase_extension_manifest",
          REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
          / "Architecture" / "canonicals" / "SUPABASE_EXTENSION_MANIFEST.md"),
+        # I99 EG-5 — Auth / Realtime / Storage registries (D-IH-99-J).
+        ("SUPABASE_AUTH_REGISTRY", "validate_supabase_auth_registry.py",
+         "validate_supabase_auth_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
+         / "Architecture" / "canonicals" / "dimensions" / "SUPABASE_AUTH_REGISTRY.csv"),
+        ("SUPABASE_REALTIME_REGISTRY", "validate_supabase_realtime_registry.py",
+         "validate_supabase_realtime_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
+         / "Architecture" / "canonicals" / "dimensions" / "SUPABASE_REALTIME_REGISTRY.csv"),
+        ("SUPABASE_STORAGE_REGISTRY", "validate_supabase_storage_registry.py",
+         "validate_supabase_storage_registry",
+         REPO_ROOT / "docs" / "references" / "hlk" / "v3.0" / "Admin" / "O5-1" / "Data"
+         / "Architecture" / "canonicals" / "dimensions" / "SUPABASE_STORAGE_REGISTRY.csv"),
         # D-IH-95-I — build-out backlog (the demoted process_list task-grain home; SKIPs until minted).
         ("BUILDOUT_BACKLOG", "validate_buildout_backlog_registry.py",
          "validate_buildout_backlog_registry",

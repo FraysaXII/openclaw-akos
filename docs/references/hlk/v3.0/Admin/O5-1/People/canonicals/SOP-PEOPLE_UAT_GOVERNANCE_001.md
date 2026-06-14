@@ -27,6 +27,7 @@ parent_canonical: UAT_DISCIPLINE.md
 companion_to:
   - UAT_DISCIPLINE.md
   - HOLISTIKA_QUALITY_FABRIC.md
+  - SOP-PEOPLE_UAT_VISUAL_EVIDENCE_001.md
   - SOP-PEOPLE_INTER_WAVE_REGRESSION_001.md
 linked_canonicals:
   - UAT_DISCIPLINE.md
@@ -35,6 +36,7 @@ linked_canonicals:
   - ../Compliance/canonicals/dimensions/PEOPLE_DESIGN_PATTERN_REGISTRY.csv
 linked_runbooks:
   - scripts/validate_uat_report.py
+  - scripts/validate_uat_screenshot_evidence.py
   - scripts/uat_governance_sweep.py
 linked_skills:
   - .cursor/skills/uat-discipline-craft/SKILL.md
@@ -66,7 +68,7 @@ Applies to **every closure UAT report** authored at `docs/wip/planning/<NN-slug>
 - The initiative is part of an **I86 cluster** (D-IH-86-D mechanical cross-check applies).
 - The initiative promised **browser**, **dashboard**, **WebChat**, **Cursor IDE Browser MCP**, or **human-in-the-loop** verification.
 
-Explicitly out of scope (the prior contract suffices: results table with PASS / SKIP / N/A + short notes): 1-3 phase quick fixes, single-file refactors, ad-hoc proposals under `_candidates/` or `99-proposals/`.
+Explicitly out of scope (the prior contract suffices: results table with PASS / SKIP / N/A + short notes): 1-3 phase quick fixes, single-file refactors, ad-hoc proposals under `_candidates/` or `00-ad-hoc-proposals/`.
 
 ## Inputs
 

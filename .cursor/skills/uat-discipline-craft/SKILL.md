@@ -307,6 +307,20 @@ Good row:
   expect §1 → §11 top-to-bottom. Mis-ordering surfaces in operator
   review even when the validator PASSes.
 
+## Principle 8 — Experiential walks: capture ≠ review (L3.0)
+
+For **L3 / L3.5 browser-evidence** UAT (not the 11-section closure bar):
+
+1. **Never delegate visual review** to a subagent. The parent agent must
+   `Read` every journey PNG in the foreground session.
+2. Write `agent_visual_review.json` in the capture folder (`delegation_allowed: false`).
+3. Run `py scripts/validate_uat_screenshot_evidence.py --session-dir …`
+   **before** the UAT verdict line.
+4. Capture hygiene: 1280×800, **sidebar collapsed**, scroll audit panels
+   into view; duplicate sha256 across journey stages = FAIL.
+
+I96 worked example: [`SOP-EXPERIENTIAL_UAT_AGENT_VISUAL_REVIEW_001.md`](../../../docs/wip/planning/96-research-data-plane-and-research-center/reports/SOP-EXPERIENTIAL_UAT_AGENT_VISUAL_REVIEW_001.md).
+
 ## Cross-references
 
 - Parent rule: [`.cursor/rules/akos-uat-discipline.mdc`](../../rules/akos-uat-discipline.mdc) — the WHEN.

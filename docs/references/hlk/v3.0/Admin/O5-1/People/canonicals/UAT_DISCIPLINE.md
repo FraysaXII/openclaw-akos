@@ -508,6 +508,25 @@ intent + the architecture future agents inherit. Charter status does
 NOT prevent the worked example (uat-i65 rework) from instantiating
 against it.
 
+## 8.6 Experiential browser evidence (L3 / L3.5 — binding 2026-06-14)
+
+**Applies when:** browser-evidence PNGs in `artifacts/uat-screenshots/<session>/`
+feed a `uat-*.md` verdict (Preview charter, experiential ladder, production smoke).
+
+**Composes with** §8.5 closure-UAT shape — does not replace it. Experiential
+walks may use shortened report sections when charter declares L3.5 shape; visual
+evidence bar is still binding.
+
+| Step | Requirement | PASS signal |
+|:---|:---|:---|
+| Capture | 1280×800; sidebar collapsed; journey stages distinct | MANIFEST sha256 on disk |
+| Visual review | Parent agent Read every canonical journey PNG | `agent_visual_review.json` VALID rows |
+| Mechanical | `validate_uat_screenshot_evidence.py --session-dir …` | exit 0 |
+| Verdict | Only after steps above | No subagent-only review |
+
+Paired SOP: [`SOP-PEOPLE_UAT_VISUAL_EVIDENCE_001.md`](SOP-PEOPLE_UAT_VISUAL_EVIDENCE_001.md).
+Mint decision: **D-IH-96-K** (I96 Preview incident).
+
 ## 9. Cross-references
 
 - Parent meta-doctrine: [`HOLISTIKA_QUALITY_FABRIC.md`](HOLISTIKA_QUALITY_FABRIC.md)
