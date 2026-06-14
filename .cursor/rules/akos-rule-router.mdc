@@ -44,6 +44,7 @@ Always-on **index** only. Domain doctrine lives in scoped rules + paired skills 
 | Process catalog / adapter registry | [`akos-executable-process-catalog.mdc`](akos-executable-process-catalog.mdc) | `executable-process-catalog-craft` |
 | People cross-area patterns | [`akos-people-discipline-of-disciplines.mdc`](akos-people-discipline-of-disciplines.mdc) | — |
 | Two-seat Opus → Composer | [`akos-aic-delegation.mdc`](akos-aic-delegation.mdc) | `aic-delegation-craft` |
+| Evidence-class / intent proof vs shape-PASS | [`akos-evidence-class-gate.mdc`](akos-evidence-class-gate.mdc) | `evidence-class-gate-craft` |
 
 ## Agent-requested (no glob — load when task matches description)
 

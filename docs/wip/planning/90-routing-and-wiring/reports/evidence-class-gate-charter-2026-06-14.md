@@ -55,6 +55,8 @@ Historical initiatives (closed before watershed) remain exempt from initiative c
    `validate_aic_capability_implementation_matrix.py`
 5. HLK umbrella + `pre_commit_fast` wiring
 
+Governance (P4a): [`evidence-class-gate-governance-design-2026-06-14.md`](evidence-class-gate-governance-design-2026-06-14.md)
+
 ## Tranche 2 (scheduled — not dropped)
 
 End-to-end vertical slice on **hlk-erp Preview** (Vercel + Cloudflare + GitHub path):

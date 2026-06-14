@@ -1,0 +1,65 @@
+---
+description: Evidence-class gate — bind claims to proof (research ledger, UAT PASS, ACIM, initiative close)
+globs:
+  - docs/wip/intelligence/**/source-ledger.csv
+  - docs/wip/planning/**/reports/uat-*.md
+  - docs/references/hlk/v3.0/**/AIC_CAPABILITY_IMPLEMENTATION_MATRIX.csv
+  - scripts/validate_evidence_class_gate.py
+  - scripts/validate_research_action.py
+  - akos/evidence_class_gate.py
+alwaysApply: false
+---
+# AKOS Evidence Class Gate
+
+Use when a task **claims completion** on any governed surface: research source ledger,
+closure UAT PASS, ACIM implementation cell, or initiative registry close.
+
+Mechanical SSOT: [`akos/evidence_class_gate.py`](../../akos/evidence_class_gate.py).
+Umbrella runbook: [`scripts/validate_evidence_class_gate.py`](../../scripts/validate_evidence_class_gate.py).
+Governance design: [`docs/wip/planning/90-routing-and-wiring/reports/evidence-class-gate-governance-design-2026-06-14.md`](../../docs/wip/planning/90-routing-and-wiring/reports/evidence-class-gate-governance-design-2026-06-14.md).
+
+Doctrine draft (pre-vault): [`EVIDENCE_CLASS_GATE_DISCIPLINE.draft.md`](../../docs/wip/planning/90-routing-and-wiring/drafts/EVIDENCE_CLASS_GATE_DISCIPLINE.draft.md).
+
+Pairs with skill [`evidence-class-gate-craft`](../../.cursor/skills/evidence-class-gate-craft/SKILL.md).
+
+## RULE 1 — Pick proof class before PASS (binding)
+
+Before setting `verdict: PASS` on a closure UAT (forward from 2026-06-14), set:
+
+```yaml
+evidence_class: <enum>
+evidence_proof_ref: <repo-relative path>
+```
+
+`git_shape` alone is insufficient when the claim is experiential (UI, deploy, live data).
+
+## RULE 2 — Research ledgers must be honest (binding)
+
+Never mint hash-padded URL rows. One external base URL → one row. Run strip script after
+bulk seed:
+
+```powershell
+py scripts/strip_padded_source_ledger.py --ledger <path> --write
+py scripts/validate_research_action.py --source-ledger <path>
+```
+
+## RULE 3 — ACIM confirmed requires cite (binding)
+
+`implemented` + `confirmed` with `last_review_at` ≥ 2026-06-14 needs `tool_catalog_ref`,
+`realisation_refs`, or notes `evidence_class=` / `evidence_proof_ref=`.
+
+## RULE 4 — Initiative close follows UAT evidence (binding)
+
+Do not set `INITIATIVE_REGISTRY.status=closed` unless closure UAT PASS/PWF exists and PASS
+rows satisfy RULE 1. Enforced by `validate_evidence_class_gate.py` for forward closes.
+
+## RULE 5 — Finding-code allocation (binding)
+
+- **UAT-FM-12** — PASS without evidence class (landed I90 P4)
+- **UAT-FM-13** — sibling UI browser manifest (planned; do not reuse FM-12 slug)
+
+## Cross-references
+
+- UAT discipline: [`akos-uat-discipline.mdc`](akos-uat-discipline.mdc)
+- Research action: [`akos-research-action.mdc`](akos-research-action.mdc)
+- Deploy health (live_probe): [`akos-deploy-health.mdc`](akos-deploy-health.mdc)

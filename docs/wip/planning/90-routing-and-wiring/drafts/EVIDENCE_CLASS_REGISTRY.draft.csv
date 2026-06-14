@@ -1,0 +1,10 @@
+binding_id,claim_surface,evidence_class,required_from_iso_date,severity,validator_script,proof_artifact_kind,proof_path_pattern,owner_role,notes
+ECB-0001,research_ledger,git_shape,2026-06-14,FAIL,scripts/validate_research_action.py,validator_stdout,artifacts/evidence-gate/research-action-*.log,System Owner,Schema + prong + dedupe; RA-EC-01/02 fail on padding
+ECB-0002,research_ledger,url_verify,2026-06-14,WARN,scripts/validate_research_action.py,probe_log,artifacts/evidence-gate/url-probe-*.json,Research Director,Opt-in --url-probe; WARN until P4d registry validator delegates
+ECB-0003,uat_closure_pass,git_shape,2026-06-14,FAIL,scripts/validate_uat_report.py,validator_stdout,docs/wip/planning/**/reports/uat-*.md,PMO,UAT-FM-12 requires evidence_class + evidence_proof_ref on PASS
+ECB-0004,uat_closure_pass,browser_experiential,2026-06-14,FAIL,scripts/validate_uat_report.py,screenshot_manifest,artifacts/uat-screenshots/**/MANIFEST.json,PMO,Preferred proof for sibling UI; FM-13 ramp scheduled
+ECB-0005,uat_closure_pass,operator_ratify,2026-06-14,FAIL,scripts/validate_uat_report.py,decision_row,DECISION_REGISTER.csv,Founder,When closure is operator-explicit only
+ECB-0006,acim_confirmed_implemented,git_shape,2026-06-14,FAIL,scripts/validate_aic_capability_implementation_matrix.py,tool_catalog_ref,scripts/*.py;docs/**/*.md,System Owner,tool_catalog_ref or realisation_refs or notes evidence tokens
+ECB-0007,initiative_close,git_shape,2026-06-14,FAIL,scripts/validate_evidence_class_gate.py,uat_report,docs/wip/planning/**/reports/uat-*.md,PMO,Closed initiatives need PASS/PWF closure UAT with evidence on PASS
+ECB-0008,deploy_consumer_repo,live_probe,2026-06-14,WARN,scripts/browser-smoke.py,playwright_log,artifacts/deploy-health/*.json,System Owner,Phase B Preview slice; promote to FAIL after worked example
+ECB-0009,validator_change,meta_regression,2026-06-14,WARN,scripts/intent_ranked_regression.py,ics_report,docs/wip/planning/**/reports/intent-regression-*.md,PMO,After any evidence-class validator edit

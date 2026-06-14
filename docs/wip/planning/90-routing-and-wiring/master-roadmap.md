@@ -18,6 +18,7 @@ linked_decisions:
   - D-IH-90-AC
   - D-IH-90-AD
   - D-IH-90-AE
+  - D-IH-90-EVIDENCE-GATE
 authority: Founder + PMO + System Owner
 language: en
 linked_initiatives:
@@ -46,6 +47,10 @@ Holistika's Cursor workspace carried **25 always-on rules** (P2 reduces to **3**
 | **P2** | Rule demotion (3 always-on + router), hooks, tier validators | **GATE #2** (**PASS** 2026-06-01, `D-IH-90-W`) |
 | **P3** | Backlog drain (OPS 16/17/3, 23 notes, handoff I91) | Per-item inline-ratify |
 | **P3.5** | KiRBe production routing (D-IH-90-X + OPS-90-1..6; sibling doc PRs) | **GATE #3b** (**closed** 2026-06-01) |
+| **P4** | Evidence-class gate mechanics (validators + ledger strip) | **closed** 2026-06-14 (`e849c799`) |
+| **P4a** | Governance doctrine + registry draft + rule/skill | Operator skim → inline-ratify |
+| **P4b** | Preview vertical slice (hlk-erp deploy + browser manifest) | Experiential proof artifact |
+| **P4c** | Vault promotion (canonical + CSV + process_list) | **Canonical CSV gate** |
 
 ## 2 — Phase dependency
 
@@ -66,6 +71,33 @@ flowchart LR
   P35 --> I91
   P35 --> I92
   P3 --> P35
+  P4[P4 Evidence gate]
+  P4a[P4a Governance]
+  P4b[P4b Preview slice]
+  P4c[P4c Vault promote]
+  P3 --> P4
+  P4 --> P4a
+  P4a --> P4b
+  P4b --> P4c
+```
+
+## 2b — P4 Evidence-class gate (2026-06-14)
+
+**Problem:** Shape-PASS (CSV exists, validators green) substituted for intent proof — I100
+780-row ledger, I96 Track D experiential deferral.
+
+**P4 delivered:** `akos/evidence_class_gate.py`, validator extensions, I100 ledger strip
+317 rows, charter [`reports/evidence-class-gate-charter-2026-06-14.md`](reports/evidence-class-gate-charter-2026-06-14.md).
+
+**P4a (in flight):** Governance design [`reports/evidence-class-gate-governance-design-2026-06-14.md`](reports/evidence-class-gate-governance-design-2026-06-14.md) + vault drafts under [`drafts/`](drafts/).
+
+**P4b (scheduled):** [`reports/evidence-class-gate-phase-b-preview-slice-2026-06-14.md`](reports/evidence-class-gate-phase-b-preview-slice-2026-06-14.md).
+
+**Verification:**
+
+```powershell
+py scripts/validate_evidence_class_gate.py --self-test
+py scripts/validate_hlk.py
 ```
 
 ## 3 — P0 — Charter + reconciliation (current)
