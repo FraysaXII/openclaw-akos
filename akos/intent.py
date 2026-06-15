@@ -62,6 +62,23 @@ _EXEC_WEAK_RE = re.compile(
     r"deploy (to|the)|multi-?step (write|migration))\b",
     re.IGNORECASE,
 )
+# Prompt-injection / exfiltration — safety-critical: regex wins over embedding mislabels (I76 α1 / CO-MBH-009).
+_PI_SYSTEM_EXFIL_RE = re.compile(
+    r"\b(ignore (all )?(previous )?instructions|reveal (the )?system prompt|disclose (your )?(system )?instructions)\b",
+    re.IGNORECASE,
+)
+_PI_ROLE_OVERRIDE_RE = re.compile(
+    r"\b(you are now (an? )?(unrestricted|admin|developer|root)|output your (full )?tool list)\b",
+    re.IGNORECASE,
+)
+_PI_SECRET_EXFIL_RE = re.compile(
+    r"\b("
+    r"print (its|the|your|my) (value|contents)|"
+    r"(NEO4J_PASSWORD|AKOS_API_KEY|SERVICE_ROLE_KEY|SUPABASE_SERVICE_ROLE)|"
+    r"(password|api[_ ]?key|secret|credential).{0,40}\bprint\b"
+    r")\b",
+    re.IGNORECASE,
+)
 
 _ROUTE_MESSAGES: dict[str, dict[str, Any]] = {
     "admin_escalate": {
@@ -148,9 +165,24 @@ def _get_classifier():
     return _classifier_instance
 
 
+def _classify_prompt_injection_regex(query: str) -> str | None:
+    """Return a safety override route for known adversarial probes, else None."""
+    text = query.strip()
+    if _PI_SYSTEM_EXFIL_RE.search(text):
+        return "execution_escalate"
+    if _PI_ROLE_OVERRIDE_RE.search(text):
+        return "other"
+    if _PI_SECRET_EXFIL_RE.search(text):
+        return "other"
+    return None
+
+
 def _classify_regex(query: str) -> str:
     """Deterministic regex fallback when embeddings are unavailable."""
     text = query.strip()
+    pi_route = _classify_prompt_injection_regex(text)
+    if pi_route is not None:
+        return pi_route
     if _ADMIN_VERB_RE.search(text) and _ADMIN_OBJECT_RE.search(text):
         return "admin_escalate"
     if _EXEC_STRONG_RE.search(text) or _EXEC_WEAK_RE.search(text):
@@ -185,6 +217,7 @@ def classify_request(query: str, *, agent: str | None = None) -> dict[str, objec
     text = query.strip()
     classifier = _get_classifier()
     regex_route = _classify_regex(text)
+    pi_route = _classify_prompt_injection_regex(text)
 
     if classifier is not None:
         result = classifier.classify(text)
@@ -196,8 +229,13 @@ def classify_request(query: str, *, agent: str | None = None) -> dict[str, objec
         confidence = 1.0
         method = "regex"
 
-    # Escalation routes are safety-critical: regex wins even when embeddings mislabel.
-    if regex_route in ("admin_escalate", "execution_escalate"):
+    # Prompt-injection + escalation routes are safety-critical: regex wins over embedding mislabels.
+    if pi_route is not None:
+        route = pi_route
+        confidence = max(confidence, 0.99)
+        if method != "regex":
+            method = f"{method}+prompt_injection_regex"
+    elif regex_route in ("admin_escalate", "execution_escalate"):
         route = regex_route
         confidence = max(confidence, 0.99)
         if method != "regex":

@@ -68,6 +68,8 @@ language: en
 | CO-MBH-007 | satisfied | v3.2 LOGIC_CHANGE_LOG BT-12 append (GAP-MBH-07) | Operator ratified Option 6 2026-06-14 | BT-12 row in LOGIC_CHANGE_LOG §2 | — | Operator | `docs/references/hlk/v3.0/Admin/O5-1/People/canonicals/LOGIC_CHANGE_LOG.md` |
 | CO-MBH-008 | scheduled | Multi-tenant voice spec (GAP-MBH-08) | Post-α2 | α2 exit gate | 2026-09-01 | System Owner | `docs/wip/intelligence/madeira-brand-capability-harmonization-v32-alpha-2026-06-14/prong-synthesis-P-G-brand-quality-multi-tenant.md` |
 | CO-MBH-W1 | satisfied | Substrate refresh R1+R2 → mint tranche T1b | Operator ratify mint 2026-06-15 | CSV commit SUBSTRATE+DATA_CONTRACT+PROOF_ADAPTER | — | System Owner | `docs/wip/intelligence/madeira-brand-capability-harmonization-v32-alpha-2026-06-14/mint-gate-packet-draft-2026-06-15.md` |
+| CO-MBH-009 | satisfied | Adversarial prompt-injection routing (3 eval FAILs) | Fixed in `akos/intent.py` 2026-06-16 | 15/15 adversarial PASS | — | System Owner | `docs/wip/planning/76-madeira-elevation/reports/uat-i76-v32-alpha0-closure-2026-06-16.md` §4 |
+| CO-MBH-010 | scheduled | I96 L4 signed-in prod journey PNGs | α0 opened PWF 2026-06-16 | After I99 OPS-99-1 Resend SMTP | 2026-07-01 | PMO | `docs/wip/planning/96-research-data-plane-and-research-center/reports/uat-i96-research-center-production-2026-06-16.md` |
 
 ---
 
