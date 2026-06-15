@@ -225,6 +225,9 @@ def gather_madeira_cost_rollup() -> dict[str, Any]:
         "per_judge_axis": {},
         "ceiling_status": "unknown",
         "source_artifact": None,
+        "cache_read_tokens": 0,
+        "cache_write_tokens": 0,
+        "cache_cost_avoidance_usd": 0.0,
     }
     art = latest_artifact(ARTIFACTS_DIR / "eval-history", "eval-scorecard-*.json")
     if art is None:
@@ -235,6 +238,8 @@ def gather_madeira_cost_rollup() -> dict[str, Any]:
         return out
     rows = payload.get("rows") or []
     total = 0.0
+    cache_read = 0
+    cache_write = 0
     per_mode: dict[str, float] = {}
     per_persona: dict[str, float] = {}
     per_judge_axis: dict[str, float] = {}
@@ -253,12 +258,36 @@ def gather_madeira_cost_rollup() -> dict[str, Any]:
             axis_cost = row.get(f"judge_{axis}_cost_usd")
             if isinstance(axis_cost, (int, float)):
                 per_judge_axis[axis] = round(per_judge_axis.get(axis, 0.0) + float(axis_cost), 6)
+        for key in ("cache_read_tokens", "cache_write_tokens"):
+            raw_val = row.get(key)
+            if raw_val is None:
+                meta = row.get("langfuse_metadata") or row.get("trace_metadata")
+                if isinstance(meta, dict):
+                    raw_val = meta.get(key)
+            if isinstance(raw_val, (int, float)):
+                if key == "cache_read_tokens":
+                    cache_read += int(raw_val)
+                else:
+                    cache_write += int(raw_val)
+            elif isinstance(raw_val, str) and raw_val.isdigit():
+                if key == "cache_read_tokens":
+                    cache_read += int(raw_val)
+                else:
+                    cache_write += int(raw_val)
     out["total_usd"] = round(total, 6)
     out["per_mode"] = per_mode
     out["per_persona"] = per_persona
     out["per_judge_axis"] = per_judge_axis
     out["ceiling_status"] = "within_envelope" if total <= 77.0 else "breach"
     out["source_artifact"] = _safe_relative(art.path)
+    out["cache_read_tokens"] = cache_read
+    out["cache_write_tokens"] = cache_write
+    # α0 heuristic: cached read tokens at ~50% marginal input cost (not revenue).
+    marginal_input_usd_per_1k = 0.003
+    out["cache_cost_avoidance_usd"] = round(
+        (cache_read / 1000.0) * marginal_input_usd_per_1k,
+        6,
+    )
     return out
 
 

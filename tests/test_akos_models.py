@@ -402,6 +402,24 @@ class TestLangfuseTraceContext:
         ctx = LangfuseTraceContext(research_surface="hlk_registry")
         assert ctx.to_metadata() == {"research_surface": "hlk_registry"}
 
+    def test_context_economics_fields_in_metadata(self):
+        ctx = LangfuseTraceContext(
+            cache_read_tokens="1024",
+            cache_write_tokens="512",
+            alpha_scenario="scenario_a_internal",
+            alpha_cohort="alpha0",
+            substrate_adapter_id="SUB-OPENCLAW-GW-001",
+            economic_consumer="BI-MADEIRA-DOSSIER",
+        )
+        meta = ctx.to_metadata()
+        assert meta["cache_read_tokens"] == "1024"
+        assert meta["alpha_scenario"] == "scenario_a_internal"
+        assert meta["substrate_adapter_id"] == "SUB-OPENCLAW-GW-001"
+
+    def test_rejects_bad_cache_token_count(self):
+        with pytest.raises(ValidationError):
+            LangfuseTraceContext(cache_read_tokens="not-a-number")
+
 
 # ---------------------------------------------------------------------------
 # GatewayConfig with controlUi

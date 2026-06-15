@@ -7,6 +7,7 @@ baselines, finance response envelopes, and HLK domain models.
 
 from __future__ import annotations
 
+import re
 import warnings
 from datetime import datetime
 from pathlib import Path
@@ -593,6 +594,12 @@ class LangfuseTraceContext(BaseModel):
     eval_mode: str | None = Field(default=None, max_length=32)
     eval_pass_fail: str | None = Field(default=None, max_length=16)
     eval_trials: str | None = Field(default=None, max_length=8)
+    cache_read_tokens: str | None = Field(default=None, max_length=12)
+    cache_write_tokens: str | None = Field(default=None, max_length=12)
+    alpha_scenario: str | None = Field(default=None, max_length=32)
+    alpha_cohort: str | None = Field(default=None, max_length=32)
+    substrate_adapter_id: str | None = Field(default=None, max_length=64)
+    economic_consumer: str | None = Field(default=None, max_length=64)
 
     @field_validator("eu_aia_req")
     @classmethod
@@ -610,6 +617,36 @@ class LangfuseTraceContext(BaseModel):
         if v is None or v == "":
             return None
         return v[:64]
+
+    @field_validator("cache_read_tokens", "cache_write_tokens")
+    @classmethod
+    def _cache_token_counts(cls, v: str | None) -> str | None:
+        if v is None or v == "":
+            return None
+        v2 = v.strip()
+        if not v2.isdigit():
+            raise ValueError("cache token counts must be non-negative integer strings")
+        return v2
+
+    @field_validator("alpha_scenario")
+    @classmethod
+    def _alpha_scenario_shape(cls, v: str | None) -> str | None:
+        if v is None or v == "":
+            return None
+        v2 = v.strip().lower()
+        if not re.match(r"^scenario_[a-z0-9_]+$", v2):
+            raise ValueError("alpha_scenario must look like scenario_a_internal")
+        return v2
+
+    @field_validator("substrate_adapter_id")
+    @classmethod
+    def _substrate_adapter_shape(cls, v: str | None) -> str | None:
+        if v is None or v == "":
+            return None
+        v2 = v.strip()
+        if not v2.startswith("SUB-"):
+            raise ValueError("substrate_adapter_id must start with SUB-")
+        return v2[:64]
 
     def to_metadata(self) -> dict[str, str]:
         """Emit flat string metadata for Langfuse (empty fields omitted)."""
@@ -634,6 +671,18 @@ class LangfuseTraceContext(BaseModel):
             out["eval_pass_fail"] = self.eval_pass_fail
         if self.eval_trials:
             out["eval_trials"] = self.eval_trials
+        if self.cache_read_tokens:
+            out["cache_read_tokens"] = self.cache_read_tokens
+        if self.cache_write_tokens:
+            out["cache_write_tokens"] = self.cache_write_tokens
+        if self.alpha_scenario:
+            out["alpha_scenario"] = self.alpha_scenario
+        if self.alpha_cohort:
+            out["alpha_cohort"] = self.alpha_cohort
+        if self.substrate_adapter_id:
+            out["substrate_adapter_id"] = self.substrate_adapter_id
+        if self.economic_consumer:
+            out["economic_consumer"] = self.economic_consumer
         return out
 
 

@@ -879,6 +879,9 @@ class Section08OperationalHealth(Section):
                 f"- per-persona breakdown: {rollup.get('per_persona') or '(no rows)'}",
                 f"- per-judge-axis breakdown: {rollup.get('per_judge_axis') or '(no judge rows)'}",
                 f"- cost ceiling envelope: {rollup.get('ceiling_status', 'unknown')}",
+                f"- context cache read tokens (Langfuse): {rollup.get('cache_read_tokens', 0)}",
+                f"- context cache write tokens (Langfuse): {rollup.get('cache_write_tokens', 0)}",
+                f"- estimated cache cost avoidance (not revenue): ${rollup.get('cache_cost_avoidance_usd', 0.0):.4f}",
             ])
         ship = p.get("madeira_surface_ship")
         if ship is not None:

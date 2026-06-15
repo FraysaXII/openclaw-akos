@@ -92,6 +92,16 @@ def validate(csv_path: Path) -> tuple[bool, list[str]]:
                 f"row {idx} ({tid}): last_review_decision_id '{dec_id}' missing from DECISION_REGISTER"
             )
 
+        drop = raw.get("compact_drop_policy", "")
+        if drop == "never_drop_ledger_citations" and raw.get("task_class") not in (
+            "doctrine-curation",
+            "research-synthesis",
+            "ratification-gate-authoring",
+        ):
+            errors.append(
+                f"row {idx} ({tid}): never_drop_ledger_citations reserved for research/doctrine task classes"
+            )
+
     return not errors, errors
 
 

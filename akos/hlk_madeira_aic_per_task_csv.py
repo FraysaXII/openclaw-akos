@@ -18,7 +18,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 MADEIRA_AIC_PER_TASK_FIELDNAMES: tuple[str, ...] = (
     "task_id",
@@ -29,6 +29,9 @@ MADEIRA_AIC_PER_TASK_FIELDNAMES: tuple[str, ...] = (
     "rbac_class",
     "status",
     "notes",
+    "max_turns_before_compact",
+    "compact_preserve_fields",
+    "compact_drop_policy",
     "last_audit_at",
     "last_audit_by",
     "last_review_at",
@@ -90,6 +93,25 @@ VALID_STATUSES: frozenset[str] = frozenset(
 )
 
 
+VALID_COMPACT_DROP_POLICIES: frozenset[str] = frozenset(
+    {
+        "hash_dedupe_tool_stdout",
+        "hash_dedupe_tool_stdout_after_validator_pass",
+        "never_drop_ledger_citations",
+    }
+)
+
+
+VALID_COMPACT_PRESERVE_TOKENS: frozenset[str] = frozenset(
+    {
+        "decision_id",
+        "source_id",
+        "ratify_outcome",
+        "carryover_id",
+    }
+)
+
+
 class MadeiraAICPerTaskRow(BaseModel):
     """One MADEIRA-class AIC bound to one task-class via a dispatcher pattern."""
 
@@ -124,9 +146,27 @@ class MadeiraAICPerTaskRow(BaseModel):
     ]
     status: Literal["active", "pilot", "forecasted", "retired"]
     notes: str = ""
+    max_turns_before_compact: int = Field(ge=4, le=200)
+    compact_preserve_fields: str = Field(min_length=1, max_length=120)
+    compact_drop_policy: Literal[
+        "hash_dedupe_tool_stdout",
+        "hash_dedupe_tool_stdout_after_validator_pass",
+        "never_drop_ledger_citations",
+    ]
     last_audit_at: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
     last_audit_by: str = Field(min_length=1, max_length=120)
     last_review_at: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
     last_review_by: str = Field(min_length=1, max_length=120)
     last_review_decision_id: str = Field(min_length=1, max_length=32)
     methodology_version_at_review: str = Field(min_length=1, max_length=16)
+
+    @field_validator("compact_preserve_fields")
+    @classmethod
+    def _compact_preserve_fields(cls, v: str) -> str:
+        tokens = [t.strip() for t in v.split(",") if t.strip()]
+        if not tokens:
+            raise ValueError("compact_preserve_fields must list at least one token")
+        bad = [t for t in tokens if t not in VALID_COMPACT_PRESERVE_TOKENS]
+        if bad:
+            raise ValueError(f"unknown compact_preserve_fields token(s): {bad}")
+        return ",".join(tokens)
