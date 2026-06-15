@@ -100,6 +100,24 @@ def main() -> int:
             sid = (row.get("substrate_id") or "").strip()
             if sid and sid not in substrates:
                 errors.append(f"L{line_no}: substrate_id {sid!r} not in SUBSTRATE_REGISTRY")
+            l1 = (row.get("l1_domain") or "").strip()
+            lifecycle = (row.get("lifecycle_status") or "").strip()
+            if (
+                lifecycle == "active"
+                and l1 == "Applied AI & MADEIRA"
+                and not sid
+            ):
+                errors.append(
+                    f"L{line_no}: active Applied AI & MADEIRA capability {cid!r} "
+                    "requires substrate_id (D-IH-76-Q)"
+                )
+            for alpha_ref in (row.get("alpha_inventory_refs") or "").split(";"):
+                alpha_ref = alpha_ref.strip()
+                if alpha_ref and not alpha_ref.startswith("CAP-M"):
+                    errors.append(
+                        f"L{line_no}: alpha_inventory_refs entry {alpha_ref!r} "
+                        "must match CAP-M* pattern"
+                    )
             did = (row.get("last_review_decision_id") or "").strip()
             if did and did not in decisions:
                 errors.append(f"L{line_no}: last_review_decision_id {did!r} not in DECISION_REGISTER")

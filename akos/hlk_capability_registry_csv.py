@@ -36,6 +36,7 @@ CAPABILITY_REGISTRY_FIELDNAMES: tuple[str, ...] = (
     "capability_tier",  # D-IH-95-H — differentiating | utility (empty until the area-by-area collapse curates it); drives rating cadence + the gold-layer heat map
     "l1_domain",        # D-IH-95-I — the ~9-domain grouping (capability area stays the HLK area; l1_domain is the cross-area capability-map grouping)
     "definition",       # D-IH-95-I — 1-sentence stable-capability definition (the sellable "what")
+    "alpha_inventory_refs",  # D-IH-76-CAP-GCI — semicolon CAP-M* alpha matrix reverse index
 )
 
 VALID_BEARER_CLASSES: frozenset[str] = frozenset({"Talent-H", "Talent-A"})
@@ -92,3 +93,4 @@ class CapabilityRegistryRow(BaseModel):
     capability_tier: Literal["", "differentiating", "utility"] = ""
     l1_domain: str = Field(default="", max_length=80)
     definition: str = Field(default="", max_length=400)
+    alpha_inventory_refs: str = Field(default="", max_length=200)

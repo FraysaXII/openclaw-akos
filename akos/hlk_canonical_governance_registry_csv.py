@@ -60,7 +60,7 @@ VALID_PLANE2_EMIT_PROFILES: frozenset[str] = frozenset({
 VALID_STATUSES: frozenset[str] = frozenset({"active", "planned", "deprecated"})
 
 # Charter §2 summary cites 74; filesystem inventory at P95-GOV-1 mint is 73 (41 Compliance + 32 sibling).
-EXPECTED_VAULT_CSV_COUNT: int = 91
+EXPECTED_VAULT_CSV_COUNT: int = 92
 
 CSV_PATH_RELATIVE: str = (
     "docs/references/hlk/v3.0/Admin/O5-1/People/Compliance/canonicals/dimensions/"

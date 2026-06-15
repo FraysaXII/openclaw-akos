@@ -1,0 +1,37 @@
+crosswalk_id,alpha_capability_id,vault_capability_id,relationship,substrate_id_proposed,notes
+XW-001,CAP-M01,CAP-CONVERSATIONAL-AI-ENGINE,primary,SUBS-HOLISTIKA-OPENCLAW-WINDOWS,Governed IDE chat on Scenario A gateway
+XW-002,CAP-M01,CAP-AGENTIC-OPERATIONS,supplements,SUBS-ANYSPHERE-CURSOR-SDK,Two-seat dispatch + AIC lifecycle doctrine
+XW-003,CAP-M02,CAP-MADEIRA-INTERACTION-MODE-PARITY,primary,SUBS-ANYSPHERE-CURSOR-SDK,Net-new vault row — five MADEIRA modes (MADEIRA_MODE_PARITY.md)
+XW-004,CAP-M03,CAP-MADEIRA-TOOL-CATEGORY-RBAC,primary,SUBS-HOLISTIKA-OPENCLAW,Net-new vault row — MADEIRA_TOOL_RBAC.csv
+XW-005,CAP-M04,CAP-CANONICAL-GOVERNANCE,primary,,Inline ratify on CSV/canonical/spine gates
+XW-006,CAP-M04,CAP-AGENTIC-OPERATIONS,supplements,SUBS-ANYSPHERE-CURSOR-SDK,AIC executes; operator decides (OPERATOR_STEERING)
+XW-007,CAP-M05,CAP-RES-DEEP-METHODOLOGY,primary,,Research action loop spine
+XW-008,CAP-M05,CAP-RES-KB-PIPELINE-RADAR,supplements,,Pipeline + radar sibling
+XW-009,CAP-M06,CAP-RES-KB-PIPELINE-RADAR,primary,,Freshness radar portion of KB pipeline capability
+XW-010,CAP-M07,CAP-MADEIRA-RESEARCH-CENTER-SURFACE,primary,SUBS-HOLISTIKA-LLAMAINDEX-WORKER,Net-new vault row — I96 Research Center UI
+XW-011,CAP-M08,CAP-KNOWLEDGE-RETRIEVAL-RAG,primary,SUBS-HOLISTIKA-LLAMAINDEX-WORKER,KiRBe retrieval/indexing
+XW-012,CAP-M09,CAP-RES-DEEP-METHODOLOGY,supplements,,Ledger→vault promote via research-action ingest
+XW-013,CAP-M09,CAP-KNOWLEDGE-REGISTER-STEWARDSHIP,supplements,,Source register stewardship
+XW-014,CAP-M10,CAP-AI-EVALUATION-BENCHMARKING,primary,SUBS-HOLISTIKA-OPENCLAW,Langfuse traces + eval rubrics
+XW-015,CAP-M11,CAP-MADEIRA-SCENARIO-LIFECYCLE,primary,SUBS-ANYSPHERE-CURSOR-SDK,Three-lights dossier lifecycle
+XW-016,CAP-M12,CAP-AGENTIC-INFRA-OPS,primary,SUBS-HOLISTIKA-OPENCLAW-WINDOWS,Gateway health + repair; PAD-006/007 proof
+XW-017,CAP-M13,CAP-AGENTIC-OPERATIONS,primary,SUBS-ANYSPHERE-CURSOR-SDK,Two-seat model routing
+XW-018,CAP-M14,CAP-FIN-COUNTERPARTY-MDM,primary,,Finops counterparty spine
+XW-019,CAP-M14,CAP-FIN-REVENUE-OPS-BILLING,supplements,,RevOps billing sibling
+XW-020,CAP-M15,CAP-DATA-PLATFORM-PRODUCTS,primary,,Infonomics join via data-product planes (I97)
+XW-021,CAP-M16,CAP-MADEIRA-CONTEXT-ECONOMICS,primary,SUBS-HOLISTIKA-OPENCLAW,Net-new planned row — cache boundary (T2)
+XW-022,CAP-M17,CAP-MADEIRA-CONTEXT-ECONOMICS,primary,SUBS-HOLISTIKA-OPENCLAW,Same row — postprocess pipeline (T2)
+XW-023,CAP-M18,CAP-MADEIRA-CONTEXT-ECONOMICS,primary,SUBS-HOLISTIKA-OPENCLAW,Same row — compaction policy (T2 partial)
+XW-024,CAP-M19,CAP-AI-AGENT-ORCHESTRATION,primary,SUBS-HOLISTIKA-OPENCLAW,OpenClaw normalize + orchestration
+XW-025,CAP-M20,CAP-AI-AGENT-ORCHESTRATION,primary,,Multi-substrate paths via SUBSTRATE_REGISTRY (25 rows)
+XW-026,CAP-M21,CAP-AI-AGENT-ORCHESTRATION,supplements,SUBS-HOLISTIKA-OPENCLAW,MCP tool integration
+XW-027,CAP-M21,CAP-API-LIFECYCLE-GOVERNANCE,supplements,,MCP server definition SOP
+XW-028,CAP-M22,CAP-MULTIPLATFORM-DEPLOYMENT,primary,,Hosted SDK/API (I74)
+XW-029,CAP-M23,CAP-TECHOPS-RELIABILITY-OBSERVABILITY,primary,,Deploy-health discipline
+XW-030,CAP-M24,CAP-CLOSURE-ASSURANCE-GOVERNANCE,primary,,Experiential UAT + browser manifests
+XW-031,CAP-M25,CAP-EXPERIENCE-UX-QUALITY,primary,,Quality Fabric 5-axis composition
+XW-032,CAP-M26,CAP-ENGAGEMENT-MODEL-GOVERNANCE,primary,,Persona/scenario library (PERSONA_SCENARIO_REGISTRY)
+XW-033,CAP-M27,,gap,,Post-α2 — multi-tenant brand voice (CO-MBH-008)
+XW-034,CAP-M28,CAP-CLOSURE-ASSURANCE-GOVERNANCE,supplements,,Browser MCP walk evidence class
+XW-035,CAP-M29,CAP-PRECOMMIT-SYNTHESIS-DISCIPLINE,primary,,Synthesis-before-tranche validator
+XW-036,CAP-M30,CAP-OPS-PROGRAM-PORTFOLIO-MGMT,primary,,Carryover index discoverability under PMO portfolio SSOT
