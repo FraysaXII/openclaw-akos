@@ -1,6 +1,10 @@
 ---
 authored: 2026-06-15
-status: scheduled
+status: open_fail_until_ci
+opened: 2026-06-15
+reopened: 2026-06-16
+closure_report: docs/wip/planning/76-madeira-elevation/reports/langgraph-evaluation-spike-closure-2026-06-16.md
+ci_proof: .github/workflows/langgraph-spike-smoke.yml
 parent: prong-synthesis-P-I-substrate-reliability.md
 timebox: 3 engineering days
 ---

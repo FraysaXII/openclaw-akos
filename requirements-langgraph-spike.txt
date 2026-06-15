@@ -1,0 +1,6 @@
+# Optional spike deps — install only for LangGraph substrate evaluation.
+# CI: .github/workflows/langgraph-spike-smoke.yml
+# Local: py -3.13 -m pip install -r requirements-langgraph-spike.txt
+# Requires Python 3.11–3.13 (orjson wheels unavailable on 3.14 as of 2026-06).
+langgraph>=1.0
+langgraph-checkpoint-sqlite>=2.0

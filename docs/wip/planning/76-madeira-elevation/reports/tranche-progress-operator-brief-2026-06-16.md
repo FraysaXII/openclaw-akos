@@ -32,19 +32,23 @@ Closure packet: [`uat-i76-v32-alpha0-closure-2026-06-16.md`](uat-i76-v32-alpha0-
 |:---|:---|:---|
 | **CO-MBH-009** | Adversarial routing (3 probes) | **Satisfied** 2026-06-16 |
 | **CO-MBH-010** | I96 prod signed-in PNGs | After Resend SMTP (OPS-99-1) |
+| **CO-MBH-011** | LangGraph real-graph CI (`langgraph-spike-smoke`) | **In progress** — FAIL until Actions green |
 | **CO-MBH-008** | Multi-tenant voice | Post-α2 |
 
 ---
 
 ## Next agent runs (no ratify unless noted)
 
-1. Adversarial routing fix tranche (α1 prep)
-2. I97 join-forward charter maintenance (initiative closed — no CSV mint)
-3. LangGraph evaluation spike charter (post-α0, scheduled)
+1. **LangGraph spike** — watch **Actions → langgraph-spike-smoke** after push; re-close PASS when green
+2. **α1 readiness** — forward charter drafted; ratify gate when you want design partners
+3. I97 join-forward maintenance (no CSV mint without gate)
+4. Push local commits when you want remote synced
 
 ---
 
 ## Where to look
+
+- α1 forward charter: [`alpha-1-readiness-forward-charter-2026-06-16.md`](alpha-1-readiness-forward-charter-2026-06-16.md)
 
 - α program annex: [`v32-closed-alpha-program-annex-2026-06-14.md`](v32-closed-alpha-program-annex-2026-06-14.md)
 - Carryover index: [`docs/wip/planning/_trackers/carryover-posture-index.md`](../../_trackers/carryover-posture-index.md)

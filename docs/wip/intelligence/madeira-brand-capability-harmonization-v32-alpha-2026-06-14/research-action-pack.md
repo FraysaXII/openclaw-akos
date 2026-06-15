@@ -51,18 +51,13 @@ linked_discipline: RESEARCH_ACTION_DISCIPLINE.md
 
 ### Tranche T3 — α0 internal closed alpha (I49 + I76; ~2 weeks)
 
-**Prerequisites:** CO-90-004 PASS; T2 spec ratified; dossier conversational light green
+**Status: CLOSED PASS 2026-06-16** — `uat-i76-v32-alpha0-closure-2026-06-16.md`; dossier GO; commit `f9360233`.
 
-- Mint `reports/alpha-v32-exit-criteria-2026-06-*.md`
-- Run MADEIRA dossier `--filter madeira` baseline
-- Internal cohort: operator + AIC substitution scenarios only
-- Closure UAT: PASS or PASS-WITH-FOLLOWUP with PWF rationale
+~~Prerequisites~~ Satisfied: CO-90-004 PASS; T2 spec landed; dossier conversational green.
 
 ### Tranche T4 — Scenario B experiential (I96; parallel if operator prioritizes UI)
 
-- Complete Research Center browser manifest (375/768/1280)
-- Flip Track D from FAIL-until-evidence when manifest complete
-- Update operator check-links index
+**Status: L3 PASS + L4 PWF 2026-06-16** — B1.5 8/8 journeys; prod PNGs CO-MBH-010 scheduled.
 
 ## Test (verification matrix per tranche)
 
@@ -80,10 +75,23 @@ py scripts/browser-smoke.py --playwright
 - After each alpha phase: wave-close research enrichment per applied-research discipline
 - Promote stable WIP to vault only via ssot-canonical-touch AskQuestion
 
-## Files touched by this research pass
+## Mint tranche T1b — executed 2026-06-15
+
+Git: `d8d5b648` — operator ratified (`D-IH-76-MINT`).
+
+## Next tranche (AIC — no registry gate)
+
+| Tranche | Focus | Carryover | Gate |
+|:---|:---|:---|:---|
+| **T2** | Context economics spec ratify → implementation | CO-MBH-001..002 | Operator ratify WIP spec |
+| **T1-cap** | CAP-M* WIP CSV from inventory matrix | CO-MBH-004 | Operator `D-MBH-05` before canonical mint |
+| **Hardening** | OpenClaw H3–H5 | openclaw-hardening-tranche-charter | Scheduled unless "execute now" |
+| **Spike** | LangGraph evaluation | langgraph-evaluation-spike-charter | **FAIL until CI green** — recovery 2026-06-16; mock withdrawn as proof |
+
+## Files touched (research pass + T1b mint)
 
 | File | Action |
 |:---|:---|
-| `docs/wip/intelligence/madeira-brand-capability-harmonization-v32-alpha-2026-06-14/*` | Created (this pack) |
-| Canonical CSVs | **Not modified** — await D-MBH-05 |
-| Carryover index | Update on T1 closure |
+| `docs/wip/intelligence/madeira-brand-capability-harmonization-v32-alpha-2026-06-14/*` | Created |
+| Vault CSVs (SUBSTRATE, DATA_CONTRACT, PROOF_ADAPTER, EVIDENCE_CLASS, DECISION) | **Minted** T1b |
+| `CAPABILITY_REGISTRY.csv` | **Not modified** — await D-MBH-05 |
