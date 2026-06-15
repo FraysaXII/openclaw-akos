@@ -1498,25 +1498,33 @@ The `-q` flag produces minimal output suitable for CI logs.
 
 **Cause:** The OpenClaw gateway supervisor and a crashed/orphan Node listener can disagree; `gateway stop` may not free TCP `18789`, so the supervised service cannot bind on restart.
 
-**Fix (preferred):**
+**Fix (AIC-run — operator does not hunt PIDs):**
+
+```bash
+py scripts/openclaw_gateway_repair.py
+```
+
+Or the integrated doctor path:
 
 ```bash
 py scripts/doctor.py --repair-gateway
 ```
 
-This runs the same sequence as `scripts/switch-model.py` after a profile switch: upstream OpenClaw doctor repair, gateway stop, Windows-only release of stale listeners on port 18789, then gateway start. Use `py scripts/doctor.py --force-gateway-repair` if the upstream doctor supports a more aggressive repair flag.
+Both normalize `~/.openclaw/openclaw.json` for OpenClaw 2026.4.x schema (legacy `sandbox.mode: strict` → `all`; align `tools.exec.host` with sandbox posture), skip stop/start when the gateway is already healthy, end the Windows **OpenClaw Gateway** scheduled task when a restart is needed, release stale listeners on port 18789, then run upstream doctor repair + gateway start. On Windows allow **up to ~130s after the log shows ready** before judging RPC failure (OpenClaw channel-connect grace), and up to **300s** total recovery budget. The repair script retries **twice** automatically — the operator does not re-run netstat/taskkill loops.
 
-If the dashboard still does not answer, confirm the OpenClaw CLI is on PATH as `openclaw`, `openclaw.cmd`, or `openclaw.exe` (npm shims on Windows). If `openclaw gateway install --force` fails with access denied, re-run the installer command from an elevated PowerShell so the Scheduled Task can be updated.
+Use `py scripts/openclaw_gateway_repair.py --force` or `py scripts/doctor.py --force-gateway-repair` if upstream doctor supports a more aggressive repair flag.
+
+If repair still fails after automated retries, escalate with `py scripts/openclaw_health_escalate.py --symptom-class gateway-cold-start` (OPS row). Confirm the OpenClaw CLI is on PATH as `openclaw`, `openclaw.cmd`, or `openclaw.exe` (npm shims on Windows). If `openclaw gateway install --force` fails with access denied, re-run the installer command from an elevated PowerShell so the Scheduled Task can be updated.
 
 ### `py scripts/doctor.py --repair-gateway` still fails (RPC / WebSocket 1006)
 
 **Cause:** OpenClaw’s gateway can exit its RPC/WebSocket plane while HTTP is still inconsistent. A frequent upstream correlate is **model pricing bootstrap** hitting the network and **timing out**, after which `openclaw gateway call health` may report **WebSocket 1006** (abnormal closure).
 
-**What AKOS does:** `akos.runtime.recover_gateway_service()` waits briefly after `gateway start` (cold-start window), polls longer than before, and on failure builds **operator hints** from `openclaw gateway status` (including the **File log(s):** path), the last **RPC health** capture, and **keyword-filtered** lines from the tail of that log (no full log dump).
+**What AKOS does:** `akos.runtime.recover_gateway_service()` normalizes operator-local config, uses a **warm path** when HTTP+RPC are already healthy (no restart), stops the Windows scheduled-task supervisor when a restart is required, waits **130s** on Windows after the log shows **ready** (channel-connect grace), polls up to **300s** with longer HTTP/RPC probe timeouts, retries recovery **twice** via the repair script, and on failure builds **AIC hints** (not operator netstat steps) from `openclaw gateway status`, the last RPC capture, and keyword-filtered log lines.
 
-**Fix / verification path:**
-1. Run `openclaw gateway status` and open the log path it prints.
-2. If you see pricing/bootstrap **TimeoutError**, treat it as an **upstream network / OpenClaw** issue: ensure HTTPS egress from the machine, retry on a stable network, and check the OpenClaw version’s docs or issue tracker for disabling or caching model pricing if your environment is offline or filtered.
+**Fix / verification path (AIC-run):**
+1. Run `py scripts/openclaw_gateway_repair.py --json` and inspect `recovery_hints`.
+2. If pricing/bootstrap **TimeoutError** appears in hints, treat it as an **upstream network / OpenClaw** issue: ensure HTTPS egress, retry on a stable network, and check OpenClaw docs for offline pricing options.
 3. Re-run `py scripts/doctor.py --repair-gateway` after the gateway process stays up without new ERROR lines on startup.
 
 ### Agent is silent or freezes

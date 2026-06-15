@@ -22,6 +22,7 @@ linked_canonicals:
   - INITIATIVE_REGISTRY.csv
 linked_runbooks:
   - scripts/openclaw_health_escalate.py
+  - scripts/openclaw_gateway_repair.py
   - scripts/validate_openclaw_plugin_pinning.py
 linked_processes:
   - env_tech_dtp_openclaw_runtime_health_triage_001
@@ -118,6 +119,22 @@ Out of scope:
 2. If a self-heal event is suspected (e.g., responses arrive but from a different model than configured), check gateway logs for fallback-route markers.
 3. File an OPS row with `--symptom-class bonjour-self-heal` when fallback events are observed but not desired (the canonical posture is to honor the explicit fallback chain; silent re-routing outside the chain is a bug).
 
+### 4.6 Gateway schema drift, cold start, and stale listeners (Windows)
+
+**RACI (binding for AKOS).** Gateway repair is **AIC / Envoy Tech Lab execution** — not operator manual ops. The operator does **not** run `netstat`, `taskkill`, or PID hunting. Routine recovery is one governed command (`py scripts/openclaw_gateway_repair.py`); the agent or automation runs it. The operator’s only action on persistent failure is **escalation** via `py scripts/openclaw_health_escalate.py --symptom-class gateway-cold-start` (OPS row + inbox), per **D-IH-87-A** and operator steering **RULE 6**.
+
+**Signature.** `openclaw gateway start` or `doctor --repair-gateway` exits non-zero; port `18789` shows LISTENING but HTTP/RPC probes time out; config validation rejects legacy `sandbox.mode: strict`; gateway log shows **ready** only after 45–90s of plugin load; RPC may stay unavailable for up to **120s** after ready (OpenClaw `channel-connect-grace`); many `CLOSE_WAIT` sockets on Windows.
+
+**Triage steps (AIC-run).**
+
+0. After reboot, prefer **`py scripts/openclaw_gateway_repair.py --check-only --json`** first — probes HTTP+RPC without stopping the Windows scheduled-task auto-start.
+1. Run `py scripts/openclaw_gateway_repair.py` (pairs with this SOP; normalizes `~/.openclaw/openclaw.json`, warm-path skip when already healthy, Windows scheduled-task stop + stale listener release, **two automated attempts** by default).
+2. Allow the **full cold-start window**: plugin load (45–90s) **plus** channel-connect grace (**120s** after HTTP ready on Windows). AKOS waits **130s** post-ready before judging RPC failure.
+3. If repair still fails after automated retries, AIC inspects the log path from `openclaw gateway status` for pricing/bootstrap **TimeoutError** (see USER_GUIDE §17) or invalid config lines — still **not** operator netstat surgery.
+4. File an OPS row with `--symptom-class gateway-cold-start` when the pattern recurs ≥ 3 times in one working day after the repair runbook (operator ratifies closure of the OPS row only).
+
+**AKOS posture.** Upstream OpenClaw owns WebSocket/RPC semantics; AKOS supplies config normalization (`akos/openclaw_config.py`), recovery timing (`akos/runtime.py`), and this runbook so the operator stack adapts without forking the gateway.
+
 ## 5. Outputs
 
 - One OPS-87-N row in `OPS_REGISTER.csv` per escalation event (status:open at emission; status:closed by operator after action).
@@ -138,7 +155,7 @@ Out of scope:
 
 - **Initiative 87 charter.** [`master-roadmap.md`](../../../../../../wip/planning/87-openclaw-operator-runtime-hardening/master-roadmap.md).
 - **Charter decisions.** D-IH-87-A (escalation sink), D-IH-87-B (plugin pinning), D-IH-87-C (modelsConfig hygiene).
-- **Paired runbook.** [`scripts/openclaw_health_escalate.py`](../../../../../../../scripts/openclaw_health_escalate.py). Per [`akos-executable-process-catalog.mdc`](../../../../../../../.cursor/rules/akos-executable-process-catalog.mdc) Rule 1.
+- **Paired runbooks.** [`scripts/openclaw_health_escalate.py`](../../../../../../../scripts/openclaw_health_escalate.py) (escalation); [`scripts/openclaw_gateway_repair.py`](../../../../../../../scripts/openclaw_gateway_repair.py) (repair §4.6). Per [`akos-executable-process-catalog.mdc`](../../../../../../../.cursor/rules/akos-executable-process-catalog.mdc) Rule 1.
 - **P4 RCA memo.** [`reports/p4-gateway-token-rca-2026-05-16.md`](../../../../../../wip/planning/87-openclaw-operator-runtime-hardening/reports/p4-gateway-token-rca-2026-05-16.md).
 - **Substrate audit evidence.** [`openclaw-observed-symptoms-2026-05-16.md`](../../../../../../wip/intelligence/substrate-audit-2026-Q2/openclaw-observed-symptoms-2026-05-16.md).
 - **Process registration.** `process_list.csv` row `env_tech_dtp_openclaw_runtime_health_triage_001`.

@@ -7,7 +7,7 @@ classification: way_of_working + selling_point + fact
 intellectual_kind: founder_methodology_versioning
 ssot: true
 authored: 2026-05-12
-last_review: 2026-05-12
+last_review: 2026-06-15
 companion_to:
   - FOUNDER_CORPUS_INVENTORY.md
   - LOGIC_CHANGE_LOG.md
@@ -37,6 +37,7 @@ This canonical timestamps the lineage + cites the 8 founder principles that oper
 | **v2.8–2.9** | 2024–2026 H1 | Solo regression phase (operator-stated). Methodology continued to evolve but Holistika the company hadn't crystallized; operator carried the discipline. | Internal operator-private canonicals (FOUNDER_TRAJECTORY_INTERNAL.md). |
 | **v3.0** | 2026 H1 onwards | Hardened ops + AKOS canonicals + agent companion (Cursor today; MADEIRA productized future). The methodology is now **operationalized in code + canonicals + ERP panels**. | This canonical; AKOS doctrine; Holistika commercial vehicle. |
 | **v3.1** | 2026 (post-I70) | I70 closure trigger per operator-stated "v3.1 release tag follows initiative completion." Federated SSOT architecture + brand sub-discipline ontology + multilingual contract + ERP architecture + Research as new top-level area + Marketing M3 + People restructure + SMO + founder methodology versioning. | I70 plan deliverables (this commit + sibling commits in I70). |
+| **v3.2** | 2026 (post-BT-12) | MADEIRA closed alpha is governed brand delivery with metered context — experiential proof and data-contract visibility for substrate adapters in parallel (LOGIC_CHANGE_LOG BT-12-madeira-alpha-governed-and-metered; operator ratification 2026-06-14). | I76 v3.2 program annex; SUBSTRATE adapter mint tranche T1b (DC-HOL-SUBSTRATE-ADAPTER-001); PROOF_ADAPTER gateway rows; context-economics WIP; I96 experiential manifest pattern. |
 
 **Versions are insight-based, not time-based** (per principle 2.6). v2.4 and v2.5 may have been weeks apart; v2.7 and v2.8 may have been months apart. The operator-stated rule: every named breakthrough triggers a new version; versions don't expire on a calendar.
 

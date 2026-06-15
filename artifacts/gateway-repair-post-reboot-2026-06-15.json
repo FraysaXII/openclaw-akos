@@ -1,0 +1,35 @@
+﻿[36m[INFO][0m Running: schtasks /End /TN OpenClaw Gateway
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway stop
+[36m[INFO][0m Running: cmd /c netstat -ano
+[36m[INFO][0m Running: cmd /c netstat -ano
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway start
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[31m[ERROR][0m Command timed out after 20s: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[31m[ERROR][0m Command timed out after 20s: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[31m[ERROR][0m Command timed out after 20s: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[31m[ERROR][0m Command timed out after 20s: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[31m[ERROR][0m Command timed out after 20s: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[31m[ERROR][0m Command timed out after 20s: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway status
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway call health
+[36m[INFO][0m Running: C:\Users\Shadow\AppData\Roaming\npm\openclaw.CMD gateway status
+{
+  "normalize_changed": false,
+  "normalize_notes": [
+    "no changes required"
+  ],
+  "recovery": {
+    "success": true,
+    "detail": "gateway already healthy (warm path; no stop/start)",
+    "http_ready": true,
+    "rpc_ready": true,
+    "recovery_hints": ""
+  }
+}

@@ -22,4 +22,8 @@ ECB-0010,uat_closure_pass,ux_lighthouse_audit,PAD-002,2026-06-14,INFO,scripts/ux
 
 ECB-0011,uat_closure_pass,ux_heatmap_session,PAD-003,2026-06-14,INFO,scripts/ux_heatmap_capture.py,UX_DISCIPLINE.md,heatmap_export,artifacts/ux-audit/hotjar-*.json,Product Owner,charter,Hotjar/session replay export — privacy gate required before FAIL ramp
 
+ECB-0012,openclaw_gateway_health,live_probe,PAD-007,2026-06-15,FAIL,scripts/openclaw_gateway_repair.py,SOP-OPENCLAW_RUNTIME_HEALTH_TRIAGE_001,probe_json,artifacts/gateway-repair-*.json,System Owner,active,Post-reboot gateway health via --check-only; mint T1b D-MBH-W1
+
+ECB-0013,openclaw_gateway_repair_closure,live_probe,PAD-006,2026-06-15,FAIL,scripts/openclaw_gateway_repair.py,SOP-OPENCLAW_RUNTIME_HEALTH_TRIAGE_001,repair_json,artifacts/gateway-repair-*.json,System Owner,active,Full repair tranche evidence for CO-90-004 adapter closure; mint T1b D-MBH-W1
+
 

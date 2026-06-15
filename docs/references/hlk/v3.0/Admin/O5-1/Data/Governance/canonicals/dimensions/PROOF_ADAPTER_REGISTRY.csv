@@ -4,3 +4,5 @@ PAD-002,lighthouse_ci,ux_lighthouse_audit,Google Lighthouse,scripts/ux_lighthous
 PAD-003,hotjar_session,ux_heatmap_session,Hotjar,scripts/ux_heatmap_capture.py,heatmap_export,charter,Product Owner,Charter-only; DATA_PRIVACY_RETENTION_POLICY gate before production URLs
 PAD-004,deploy_health_probe,live_probe,AKOS deploy-health,scripts/browser-smoke.py,probe_log,active,System Owner,4-step deploy-health checklist output
 PAD-005,hlk_umbrella,git_shape,validate_hlk.py,scripts/validate_hlk.py,validator_stdout,active,PMO,HLK umbrella run row for shape evidence bundles
+PAD-006,openclaw_gateway_repair,live_probe,AKOS openclaw_gateway_repair,scripts/openclaw_gateway_repair.py,repair_json,active,System Owner,Full repair JSON success binds CO-90-004; artifact artifacts/gateway-repair-post-reboot-2026-06-15.json; mint T1b D-MBH-W1
+PAD-007,openclaw_gateway_check_only,live_probe,AKOS openclaw_gateway_repair,scripts/openclaw_gateway_repair.py,probe_json,active,System Owner,Post-reboot --check-only --json PASS within 180s wait; no stop/start after login; mint T1b D-MBH-W1

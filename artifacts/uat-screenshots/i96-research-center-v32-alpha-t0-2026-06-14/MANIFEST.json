@@ -1,0 +1,79 @@
+{
+  "manifest_id": "i96-research-center-v32-alpha-t0-2026-06-14",
+  "status": "agent_verified_pass",
+  "initiative": "INIT-OPENCLAW_AKOS-96",
+  "alpha_program": "I76 v3.2 closed alpha Scenario B prep",
+  "capture_tool": "playwright",
+  "ladder_tier": "L3",
+  "auth": "auth-dev-password",
+  "captured_at": "2026-06-15T00:07:53.775Z",
+  "screenshots": [
+    {
+      "file": "01-operator-discover-1280-auth-dev-password.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "pov_lens": "operator",
+      "journey_stage": "discover",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "0f782f78e2d7d4f41aceed0896fc98afb7e1cc2ecdc25651b0e69d588ed5d06c",
+      "captured_at": "2026-06-15T00:07:53.775Z",
+      "notes": "I76 v3.2 alpha T0 operator — discover"
+    },
+    {
+      "file": "02-operator-triage-1280-auth-dev-password.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "pov_lens": "operator",
+      "journey_stage": "triage",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "9f360e807ed66903c56c8a3346f32fae4a7896e13b9e728412ad660fb001d72a",
+      "captured_at": "2026-06-15T00:07:53.775Z",
+      "notes": "I76 v3.2 alpha T0 operator — triage"
+    },
+    {
+      "file": "03-operator-drawer-open-1280-auth-dev-password.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "1280x800",
+      "pov_lens": "operator",
+      "journey_stage": "drawer-open",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "a4e6bfd30bed21652b64962b2aa2afaf5472bd15692abbbe8b34b71e62d05fb3",
+      "captured_at": "2026-06-15T00:07:53.775Z",
+      "notes": "I76 v3.2 alpha T0 operator — drawer-open"
+    },
+    {
+      "file": "04-director-discover-1280-auth-dev-password.png",
+      "route": "/research-center?pov=director",
+      "viewport": "1280x800",
+      "pov_lens": "director",
+      "journey_stage": "discover",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "563f2b0e3fa794cb20881dcc1ff6083c528ff3e007c269392217b2326a781c99",
+      "captured_at": "2026-06-15T00:07:53.775Z",
+      "notes": "I76 v3.2 alpha T0 director — discover"
+    },
+    {
+      "file": "05-operator-discover-375-auth-dev-password.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "375x812",
+      "pov_lens": "operator",
+      "journey_stage": "discover",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "756e539a9190ffae958f2f7048c47d6eac5be166ada75aa3572615f7e51c1849",
+      "captured_at": "2026-06-15T00:07:53.775Z",
+      "notes": "I76 v3.2 alpha T0 operator — discover"
+    },
+    {
+      "file": "06-operator-discover-768-auth-dev-password.png",
+      "route": "/research-center?pov=operator",
+      "viewport": "768x1024",
+      "pov_lens": "operator",
+      "journey_stage": "discover",
+      "auth_state": "dev-sign-in-authenticated",
+      "screenshot_sha256": "7c7fa5db2d0f333fd4a9674fc4d0e0c8e5b06c2796394aacdce3788f7fabcfbc",
+      "captured_at": "2026-06-15T00:07:53.775Z",
+      "notes": "I76 v3.2 alpha T0 operator — discover"
+    }
+  ],
+  "agent_self_verify": "mandatory — parent agent must Read PNGs before PASS"
+}

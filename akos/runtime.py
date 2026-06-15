@@ -20,8 +20,18 @@ logger = logging.getLogger("akos.runtime")
 RuntimeState = Literal["healthy", "degraded", "unknown"]
 GATEWAY_HTTP_URL = "http://127.0.0.1:18789"
 GATEWAY_LISTEN_PORT = 18789
-GATEWAY_RECOVERY_INITIAL_SLEEP_SEC = 12
+# OpenClaw 2026.4.x cold start (plugin load) routinely exceeds 45s on Windows.
+GATEWAY_RECOVERY_INITIAL_SLEEP_SEC = 55 if os.name == "nt" else 12
 GATEWAY_RECOVERY_POLL_SEC = 5
+# OpenClaw 2026.4.x health-monitor: startup-grace 60s + channel-connect-grace 120s after HTTP ready.
+GATEWAY_RECOVERY_DEFAULT_TIMEOUT_SEC = 300 if os.name == "nt" else 180
+GATEWAY_RPC_RECOVERY_TIMEOUT_SEC = 45
+GATEWAY_HTTP_RECOVERY_TIMEOUT_SEC = 15.0
+GATEWAY_STATUS_PROBE_TIMEOUT_SEC = 12
+GATEWAY_POST_READY_GRACE_SEC = 130 if os.name == "nt" else 8
+GATEWAY_WARM_PROBE_RPC_ATTEMPTS = 4
+GATEWAY_WARM_PROBE_RPC_PAUSE_SEC = 15.0
+OPENCLAW_GATEWAY_SCHEDULED_TASK = "OpenClaw Gateway"
 
 _LOG_HINT_LINE = re.compile(
     r"(?i)(pricing|bootstrap|timeout|1006|abnormal|error|gateway call failed|model-pricing|model.pricing)"
@@ -78,6 +88,59 @@ def windows_release_stale_gateway_listeners(port: int = GATEWAY_LISTEN_PORT) -> 
             killed.append(pid)
             logger.warning("Released stale listener PID %s on port %s", pid, port)
     return killed
+
+
+def ensure_gateway_port_free(port: int = GATEWAY_LISTEN_PORT, *, attempts: int = 3) -> list[int]:
+    """Release stale listeners until the port is free or attempts are exhausted."""
+    all_killed: list[int] = []
+    for _ in range(max(1, attempts)):
+        killed = windows_release_stale_gateway_listeners(port)
+        all_killed.extend(killed)
+        if os.name != "nt":
+            break
+        check = proc.run(["cmd", "/c", "netstat -ano"], timeout=45)
+        if check.success and not parse_windows_netstat_listening_pids(check.stdout, port):
+            break
+        time.sleep(2)
+    return all_killed
+
+
+def resolve_default_gateway_log_path() -> Path | None:
+    """Best-effort path to today's OpenClaw file log (operator-local)."""
+    day = time.strftime("%Y-%m-%d")
+    candidates = [
+        Path(os.environ.get("TEMP", r"C:\tmp")) / "openclaw" / f"openclaw-{day}.log",
+        Path("/tmp/openclaw") / f"openclaw-{day}.log",
+    ]
+    for cand in candidates:
+        if cand.is_file():
+            return cand
+    return candidates[0]
+
+
+def wait_for_gateway_log_ready(
+    log_path: Path | None = None,
+    *,
+    timeout_sec: float = 120.0,
+    poll_sec: float = 2.0,
+) -> bool:
+    """Return True when the gateway log contains a ``ready`` startup line."""
+    path = log_path or resolve_default_gateway_log_path()
+    if path is None:
+        return False
+    deadline = time.monotonic() + timeout_sec
+    ready_markers = ('"ready (', "gateway ready", "listening on http://127.0.0.1:18789")
+    while time.monotonic() < deadline:
+        try:
+            if path.is_file():
+                tail = path.read_text(encoding="utf-8", errors="replace")[-12000:]
+                lower = tail.lower()
+                if any(m in lower for m in ready_markers):
+                    return True
+        except OSError:
+            pass
+        time.sleep(poll_sec)
+    return False
 
 
 @dataclass(frozen=True)
@@ -170,8 +233,10 @@ def build_gateway_recovery_operator_hints(
         )
     if not bullets and not http_ready and not rpc_ready:
         bullets.append(
-            "Neither HTTP nor RPC reached a healthy state. Confirm the gateway process stays up after "
-            "`gateway start` and review upstream `openclaw gateway logs`."
+            "Neither HTTP nor RPC reached a healthy state after the governed recovery window. "
+            "AIC re-runs `py scripts/openclaw_gateway_repair.py` (no manual netstat/taskkill for "
+            "the operator). If still failing after two automated attempts, file OPS via "
+            "`py scripts/openclaw_health_escalate.py` with symptom-class gateway-cold-start."
         )
     elif not bullets and log_filtered_tail:
         bullets.append(
@@ -231,7 +296,19 @@ def resolve_openclaw_cli() -> str | None:
     return None
 
 
-def probe_gateway_http(url: str = GATEWAY_HTTP_URL, *, timeout: float = 5.0) -> bool:
+def windows_stop_openclaw_gateway_task(task_name: str = OPENCLAW_GATEWAY_SCHEDULED_TASK) -> bool:
+    """End the Windows scheduled-task supervisor so a foreground gateway can bind cleanly."""
+    if os.name != "nt":
+        return False
+    result = proc.run(["schtasks", "/End", "/TN", task_name], timeout=30)
+    return result.success
+
+
+def probe_gateway_http(
+    url: str = GATEWAY_HTTP_URL,
+    *,
+    timeout: float = 5.0,
+) -> bool:
     """Return True when the gateway serves HTTP on the expected loopback URL."""
     try:
         req = urllib.request.Request(url, method="GET")
@@ -241,16 +318,36 @@ def probe_gateway_http(url: str = GATEWAY_HTTP_URL, *, timeout: float = 5.0) -> 
         return False
 
 
-def probe_gateway_rpc_detail(cli: str, *, timeout: int = 20) -> tuple[bool, str]:
+def probe_gateway_rpc_with_retries(
+    cli: str,
+    *,
+    attempts: int = 6,
+    pause_sec: float = 10.0,
+    timeout: int | None = None,
+) -> tuple[bool, str]:
+    """Probe RPC health; OpenClaw CLI uses a ~10s internal WS timeout during sidecar startup."""
+    rpc_timeout = timeout if timeout is not None else GATEWAY_RPC_RECOVERY_TIMEOUT_SEC
+    last_detail = ""
+    for attempt in range(max(1, attempts)):
+        ok, last_detail = probe_gateway_rpc_detail(cli, timeout=rpc_timeout)
+        if ok:
+            return True, last_detail
+        if attempt + 1 < attempts:
+            time.sleep(pause_sec)
+    return False, last_detail
+
+
+def probe_gateway_rpc_detail(cli: str, *, timeout: int | None = None) -> tuple[bool, str]:
     """Return success flag and a short combined stdout/stderr capture for diagnostics."""
-    result = proc.run([cli, "gateway", "call", "health"], timeout=timeout)
+    rpc_timeout = timeout if timeout is not None else GATEWAY_RPC_RECOVERY_TIMEOUT_SEC
+    result = proc.run([cli, "gateway", "call", "health"], timeout=rpc_timeout)
     blob = _combine_cmd_text(result.stdout, result.stderr)
     if len(blob) > 700:
         blob = "... " + blob[-700:]
     return result.success, blob
 
 
-def probe_gateway_rpc(cli: str, *, timeout: int = 20) -> bool:
+def probe_gateway_rpc(cli: str, *, timeout: int | None = None) -> bool:
     """Return True when ``openclaw gateway call health`` succeeds."""
     ok, _ = probe_gateway_rpc_detail(cli, timeout=timeout)
     return ok
@@ -271,16 +368,67 @@ def get_gateway_status_snapshot(cli: str, *, timeout: int = 20) -> GatewayStatus
     return snap
 
 
+def probe_gateway_health(
+    cli: str,
+    *,
+    http_timeout: float = GATEWAY_HTTP_RECOVERY_TIMEOUT_SEC,
+    rpc_attempts: int = GATEWAY_WARM_PROBE_RPC_ATTEMPTS,
+    rpc_pause_sec: float = GATEWAY_WARM_PROBE_RPC_PAUSE_SEC,
+) -> tuple[bool, bool, str]:
+    """Return (http_ready, rpc_ready, rpc_detail) without restarting the gateway."""
+    http_ready = probe_gateway_http(timeout=http_timeout)
+    if not http_ready:
+        return False, False, "http probe failed"
+    rpc_ready, rpc_detail = probe_gateway_rpc_with_retries(
+        cli,
+        attempts=rpc_attempts,
+        pause_sec=rpc_pause_sec,
+    )
+    return http_ready, rpc_ready, rpc_detail
+
+
 def recover_gateway_service(
     *,
     repair: bool = True,
     force: bool = False,
-    timeout_seconds: int = 150,
+    timeout_seconds: int = GATEWAY_RECOVERY_DEFAULT_TIMEOUT_SEC,
+    normalize_config: bool = True,
 ) -> GatewayRecoveryResult:
     """Attempt deterministic gateway recovery through upstream OpenClaw commands."""
     cli = resolve_openclaw_cli()
     if not cli:
         return GatewayRecoveryResult(success=False, detail="openclaw CLI not found", cli_path=None)
+
+    http_warm, rpc_warm, _ = probe_gateway_health(cli)
+    if http_warm and rpc_warm:
+        snap, _ = fetch_gateway_status(cli, timeout=GATEWAY_STATUS_PROBE_TIMEOUT_SEC)
+        return GatewayRecoveryResult(
+            success=True,
+            detail="gateway already healthy (warm path; no stop/start)",
+            http_ready=True,
+            rpc_ready=True,
+            cli_path=cli,
+            status=snap,
+        )
+
+    if normalize_config:
+        try:
+            from akos.openclaw_config import apply_normalize_to_user_config
+
+            changed, notes = apply_normalize_to_user_config()
+            if changed:
+                logger.info("Applied OpenClaw config normalization before gateway recovery")
+                for note in notes:
+                    logger.info("  %s", note)
+        except OSError as exc:
+            logger.warning("OpenClaw config normalization skipped: %s", exc)
+
+    if os.name == "nt":
+        windows_stop_openclaw_gateway_task()
+
+    proc.run([cli, "gateway", "stop"], timeout=60)
+    ensure_gateway_port_free()
+    time.sleep(2)
 
     if repair:
         doctor_args = [cli, "doctor", "--repair", "--yes"]
@@ -288,17 +436,16 @@ def recover_gateway_service(
             doctor_args.append("--force")
         proc.run(doctor_args, timeout=180)
 
-    proc.run([cli, "gateway", "stop"], timeout=60)
-    if os.name == "nt":
-        windows_release_stale_gateway_listeners()
-
     start = proc.run([cli, "gateway", "start"], timeout=120)
     if not start.success:
-        if os.name == "nt":
-            windows_release_stale_gateway_listeners()
+        ensure_gateway_port_free()
         proc.run([cli, "gateway", "restart"], timeout=120)
 
-    time.sleep(GATEWAY_RECOVERY_INITIAL_SLEEP_SEC)
+    log_path = resolve_default_gateway_log_path()
+    if wait_for_gateway_log_ready(log_path, timeout_sec=120.0):
+        time.sleep(GATEWAY_POST_READY_GRACE_SEC)
+    else:
+        time.sleep(GATEWAY_RECOVERY_INITIAL_SLEEP_SEC)
 
     deadline = time.monotonic() + timeout_seconds
     last_http = False
@@ -306,15 +453,20 @@ def recover_gateway_service(
     last_status: GatewayStatusSnapshot | None = None
     last_status_stdout = ""
     last_rpc_detail = ""
+    http_timeout = GATEWAY_HTTP_RECOVERY_TIMEOUT_SEC
     while time.monotonic() < deadline:
-        last_http = probe_gateway_http()
-        rpc_ok, last_rpc_detail = probe_gateway_rpc_detail(cli)
+        last_http = probe_gateway_http(timeout=http_timeout)
+        rpc_ok, last_rpc_detail = probe_gateway_rpc_with_retries(
+            cli,
+            attempts=2,
+            pause_sec=GATEWAY_WARM_PROBE_RPC_PAUSE_SEC,
+        )
         last_rpc = rpc_ok
-        snap, raw = fetch_gateway_status(cli)
-        last_status = snap
-        if raw:
-            last_status_stdout = raw
         if last_http and last_rpc:
+            snap, raw = fetch_gateway_status(cli, timeout=GATEWAY_STATUS_PROBE_TIMEOUT_SEC)
+            last_status = snap
+            if raw:
+                last_status_stdout = raw
             return GatewayRecoveryResult(
                 success=True,
                 detail="gateway recovered via upstream doctor/start flow",
@@ -325,6 +477,10 @@ def recover_gateway_service(
             )
         time.sleep(GATEWAY_RECOVERY_POLL_SEC)
 
+    snap, raw = fetch_gateway_status(cli, timeout=GATEWAY_STATUS_PROBE_TIMEOUT_SEC)
+    last_status = snap
+    if raw:
+        last_status_stdout = raw
     detail = (
         "gateway recovery did not reach healthy HTTP+RPC state "
         f"(http_ready={last_http}, rpc_ready={last_rpc})"

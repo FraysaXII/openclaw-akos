@@ -52,6 +52,37 @@ def test_resolve_openclaw_cli_prefers_windows_shim(monkeypatch) -> None:
     assert runtime.resolve_openclaw_cli() == mapping["openclaw.cmd"]
 
 
+def test_recover_gateway_service_warm_path_skips_restart(monkeypatch) -> None:
+    calls: list[list[str]] = []
+
+    def fake_run(args, *, timeout=120, capture=True, check=False):
+        calls.append(args)
+        return SimpleNamespace(success=True, stdout="", stderr="", returncode=0)
+
+    monkeypatch.setattr(runtime, "resolve_openclaw_cli", lambda: "openclaw.cmd")
+    monkeypatch.setattr(runtime.proc, "run", fake_run)
+    monkeypatch.setattr(runtime, "probe_gateway_health", lambda *_a, **_k: (True, True, ""))
+    monkeypatch.setattr(
+        runtime,
+        "fetch_gateway_status",
+        lambda *_a, **_k: (
+            runtime.GatewayStatusSnapshot(
+                raw_runtime="unknown",
+                rpc_probe="ok",
+                listening="127.0.0.1:18789",
+                normalized_runtime="healthy",
+            ),
+            "",
+        ),
+    )
+
+    result = runtime.recover_gateway_service(repair=True, normalize_config=False)
+
+    assert result.success is True
+    assert "warm path" in result.detail
+    assert not calls
+
+
 def test_recover_gateway_service_succeeds_with_http_and_rpc(monkeypatch) -> None:
     calls: list[list[str]] = []
 
@@ -72,15 +103,18 @@ def test_recover_gateway_service_succeeds_with_http_and_rpc(monkeypatch) -> None
 
     monkeypatch.setattr(runtime, "resolve_openclaw_cli", lambda: "openclaw.cmd")
     monkeypatch.setattr(runtime.proc, "run", fake_run)
+    monkeypatch.setattr(runtime, "probe_gateway_health", lambda *_a, **_k: (False, False, ""))
     monkeypatch.setattr(runtime, "probe_gateway_http", lambda *_, **__: True)
-    monkeypatch.setattr(runtime, "probe_gateway_rpc_detail", lambda *_, **__: (True, ""))
+    monkeypatch.setattr(runtime, "probe_gateway_rpc_with_retries", lambda *_, **__: (True, ""))
     monkeypatch.setattr(runtime, "fetch_gateway_status", fake_fetch)
+    monkeypatch.setattr(runtime, "wait_for_gateway_log_ready", lambda *_, **__: True)
+    monkeypatch.setattr(runtime, "ensure_gateway_port_free", lambda *_, **__: [])
     monkeypatch.setattr(runtime.time, "sleep", lambda _s: None)
 
-    result = runtime.recover_gateway_service(repair=True)
+    result = runtime.recover_gateway_service(repair=True, normalize_config=False)
 
     assert result.success is True
-    assert calls[0][:2] == ["openclaw.cmd", "doctor"]
+    assert any(cmd[:3] == ["openclaw.cmd", "gateway", "stop"] for cmd in calls)
     assert any(cmd[:3] == ["openclaw.cmd", "gateway", "start"] for cmd in calls)
 
 
@@ -151,13 +185,16 @@ def test_recover_gateway_service_failure_sets_recovery_hints(tmp_path, monkeypat
 
     monkeypatch.setattr(runtime, "resolve_openclaw_cli", lambda: "openclaw.cmd")
     monkeypatch.setattr(runtime.proc, "run", fake_run)
+    monkeypatch.setattr(runtime, "probe_gateway_health", lambda *_a, **_k: (False, False, ""))
     monkeypatch.setattr(runtime, "probe_gateway_http", lambda *_, **__: False)
     monkeypatch.setattr(
         runtime,
-        "probe_gateway_rpc_detail",
+        "probe_gateway_rpc_with_retries",
         lambda *_, **__: (False, "websocket closed with code 1006"),
     )
     monkeypatch.setattr(runtime, "fetch_gateway_status", fake_fetch)
+    monkeypatch.setattr(runtime, "wait_for_gateway_log_ready", lambda *_, **__: False)
+    monkeypatch.setattr(runtime, "ensure_gateway_port_free", lambda *_, **__: [])
     monkeypatch.setattr(runtime.time, "sleep", lambda _s: None)
     monkeypatch.setattr(runtime.time, "monotonic", lambda: next(mono, 999.0))
 
