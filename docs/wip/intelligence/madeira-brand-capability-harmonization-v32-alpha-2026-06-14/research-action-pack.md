@@ -86,7 +86,7 @@ Git: `d8d5b648` — operator ratified (`D-IH-76-MINT`).
 | **T2** | Context economics spec ratify → implementation | CO-MBH-001..002 | Operator ratify WIP spec |
 | **T1-cap** | CAP-M* WIP CSV from inventory matrix | CO-MBH-004 | Operator `D-MBH-05` before canonical mint |
 | **Hardening** | OpenClaw H3–H5 | openclaw-hardening-tranche-charter | Scheduled unless "execute now" |
-| **Spike** | LangGraph evaluation | langgraph-evaluation-spike-charter | **FAIL until CI green** — recovery 2026-06-16; mock withdrawn as proof |
+| **Spike** | LangGraph evaluation | langgraph-evaluation-spike-charter | **Closed PASS 2026-06-16** — CI run 27520939620 |
 
 ## Files touched (research pass + T1b mint)
 

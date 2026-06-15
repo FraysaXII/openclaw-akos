@@ -70,7 +70,7 @@ language: en
 | CO-MBH-W1 | satisfied | Substrate refresh R1+R2 → mint tranche T1b | Operator ratify mint 2026-06-15 | CSV commit SUBSTRATE+DATA_CONTRACT+PROOF_ADAPTER | — | System Owner | `docs/wip/intelligence/madeira-brand-capability-harmonization-v32-alpha-2026-06-14/mint-gate-packet-draft-2026-06-15.md` |
 | CO-MBH-009 | satisfied | Adversarial prompt-injection routing (3 eval FAILs) | Fixed in `akos/intent.py` 2026-06-16 | 15/15 adversarial PASS | — | System Owner | `docs/wip/planning/76-madeira-elevation/reports/uat-i76-v32-alpha0-closure-2026-06-16.md` §4 |
 | CO-MBH-010 | scheduled | I96 L4 signed-in prod journey PNGs | α0 opened PWF 2026-06-16 | After I99 OPS-99-1 Resend SMTP | 2026-07-01 | PMO | `docs/wip/planning/96-research-data-plane-and-research-center/reports/uat-i96-research-center-production-2026-06-16.md` |
-| CO-MBH-011 | in_progress | LangGraph OSS real install CI smoke | Operator ratified full recovery 2026-06-16 | `.github/workflows/langgraph-spike-smoke.yml` green on main | 2026-06-30 | Envoy Tech Lab | `docs/wip/planning/76-madeira-elevation/reports/langgraph-evaluation-spike-closure-2026-06-16.md` |
+| CO-MBH-011 | satisfied | LangGraph OSS real install CI smoke | CI green 2026-06-16 run 27520939620 | PostgresSaver + pilot mint gate | — | Envoy Tech Lab | `docs/wip/planning/76-madeira-elevation/reports/langgraph-evaluation-spike-closure-2026-06-16.md` |
 
 ---
 

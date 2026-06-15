@@ -32,17 +32,15 @@ Closure packet: [`uat-i76-v32-alpha0-closure-2026-06-16.md`](uat-i76-v32-alpha0-
 |:---|:---|:---|
 | **CO-MBH-009** | Adversarial routing (3 probes) | **Satisfied** 2026-06-16 |
 | **CO-MBH-010** | I96 prod signed-in PNGs | After Resend SMTP (OPS-99-1) |
-| **CO-MBH-011** | LangGraph real-graph CI (`langgraph-spike-smoke`) | **In progress** — FAIL until Actions green |
+| **CO-MBH-011** | LangGraph real-graph CI | **Satisfied** 2026-06-16 (run 27520939620) |
 | **CO-MBH-008** | Multi-tenant voice | Post-α2 |
 
 ---
 
 ## Next agent runs (no ratify unless noted)
 
-1. **LangGraph spike** — watch **Actions → langgraph-spike-smoke** after push; re-close PASS when green
-2. **α1 readiness** — forward charter drafted; ratify gate when you want design partners
-3. I97 join-forward maintenance (no CSV mint without gate)
-4. Push local commits when you want remote synced
+1. **α1 readiness** — forward charter drafted; ratify gate when you want design partners
+2. I97 join-forward maintenance (no CSV mint without gate)
 
 ---
 

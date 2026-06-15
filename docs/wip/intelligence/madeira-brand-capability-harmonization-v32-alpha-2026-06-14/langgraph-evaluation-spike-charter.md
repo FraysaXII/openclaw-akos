@@ -1,8 +1,8 @@
 ---
 authored: 2026-06-15
-status: open_fail_until_ci
-opened: 2026-06-15
-reopened: 2026-06-16
+status: closed_pass
+closed: 2026-06-16
+ci_proof_run: https://github.com/FraysaXII/openclaw-akos/actions/runs/27520939620
 closure_report: docs/wip/planning/76-madeira-elevation/reports/langgraph-evaluation-spike-closure-2026-06-16.md
 ci_proof: .github/workflows/langgraph-spike-smoke.yml
 parent: prong-synthesis-P-I-substrate-reliability.md

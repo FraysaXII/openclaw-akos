@@ -3,8 +3,9 @@ report_type: evaluation_spike
 parent: langgraph-evaluation-spike-charter.md
 authored: 2026-06-16
 revised: 2026-06-16
-verdict: FAIL
-verdict_until: langgraph-spike-smoke CI green on main
+verdict: PASS
+ci_proof_run: https://github.com/FraysaXII/openclaw-akos/actions/runs/27520939620
+ci_proof_at: 2026-06-16
 substrate_id: SUBS-LANGGRAPH-OSS-SELFHOST
 operator_ratify: full_recovery 2026-06-16
 root_cause_source: SRC-MBH-EXT-040
@@ -16,11 +17,11 @@ root_cause_source: SRC-MBH-EXT-040
 
 ## Verdict
 
-**FAIL** (reopened 2026-06-16 after operator ratified **full recovery**).
+**PASS** (re-closed 2026-06-16 after operator ratified re-close following green CI).
 
-The prior **PASS-WITH-FOLLOWUP on mock engine** is **withdrawn**. Mock harness proves wiring only; it is **not** substrate evaluation proof.
+GitHub Actions **`langgraph-spike-smoke`** run [27520939620](https://github.com/FraysaXII/openclaw-akos/actions/runs/27520939620): real `langgraph` engine, fixture validation PASS, artifact **`langgraph-spike-evidence`** uploaded.
 
-Spike closes **PASS** only when GitHub Actions workflow **`langgraph-spike-smoke`** is green on `main` with `engine=langgraph`.
+Prior mock-only PWF and interim FAIL are **superseded**.
 
 ## Root cause correction (2026-06-16)
 
@@ -34,10 +35,10 @@ Source: **SRC-MBH-EXT-040** (orjson PyPI + Python version RCA).
 
 | # | Criterion | Result |
 |:---|:---|:---:|
-| 1 | End-to-end run + evidence JSON | **PWF** — mock artifact exists; real-graph CI artifact pending |
-| 2 | CAP-M05 research-action on fixture | **PWF** — validator PASS on mock; real graph pending CI |
-| 3 | CAP-M10 Langfuse `substrate_adapter_id` | **PWF** — metadata wired; no-op without creds |
-| 4 | CAP-M21 MCP read posture node | **PWF** — mock posture only in mock engine |
+| 1 | End-to-end run + evidence JSON | **PASS** — CI artifact `langgraph-spike-evidence` |
+| 2 | CAP-M05 research-action on fixture | **PASS** — real graph + `validate_research_action.py` |
+| 3 | CAP-M10 Langfuse `substrate_adapter_id` | **PWF** — metadata wired; CI used `--no-langfuse` |
+| 4 | CAP-M21 MCP read posture node | **PASS** — read posture in real graph |
 | 5 | Comparison note vs OpenClaw | **Done** — § below |
 
 ## How you observe proof (operator)
@@ -79,10 +80,10 @@ py scripts/langgraph_spike_run.py --json --require-langgraph --no-langfuse
 | `.github/workflows/langgraph-spike-smoke.yml` | Observable proof gate |
 | `tests/test_langgraph_spike.py` | Mock-safe + require-langgraph test |
 
-## Follow-up after CI green (scheduled, not dropped)
+## Follow-up (scheduled, not dropped)
 
-1. Re-close spike **PASS**; promote `SUBS-LANGGRAPH-OSS-SELFHOST` toward **pilot** (separate mint gate).
-2. PostgresSaver smoke (charter scope — not in this tranche).
-3. FastAPI `/health` + `/run` wrapper (charter scope — not in this tranche).
+1. PostgresSaver smoke (charter prod scope — separate carryover)
+2. Promote `SUBS-LANGGRAPH-OSS-SELFHOST` from `candidate` → `pilot` (mint gate — operator CSV ratify)
+3. FastAPI `/health` + `/run` wrapper (charter scope — not in spike)
 
 Cross-ref: [`langgraph-evaluation-spike-charter.md`](../../intelligence/madeira-brand-capability-harmonization-v32-alpha-2026-06-14/langgraph-evaluation-spike-charter.md)
