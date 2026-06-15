@@ -135,6 +135,8 @@ Out of scope:
 
 **AKOS posture.** Upstream OpenClaw owns WebSocket/RPC semantics; AKOS supplies config normalization (`akos/openclaw_config.py`), recovery timing (`akos/runtime.py`), and this runbook so the operator stack adapts without forking the gateway.
 
+**Upstream issue cross-links (v3.2 alpha substrate reliability).** Source ledger IDs **SRC-MBH-EXT-027..030** — GitHub **#63491** (post-ready HTTP hang / stale cron), **#48771** (schtasks WS 1008 probe misread), **#49871** (Run Queued never Running), **#41804** / **#61579** (Session 0 / schtasks races). Research pack: [`madeira-brand-capability-harmonization-v32-alpha-2026-06-14`](../../../../../../wip/intelligence/madeira-brand-capability-harmonization-v32-alpha-2026-06-14/openclaw-hardening-tranche-charter.md). Repair JSON may include `langfuse_trace_logged` when Langfuse credentials are configured (H3).
+
 ## 5. Outputs
 
 - One OPS-87-N row in `OPS_REGISTER.csv` per escalation event (status:open at emission; status:closed by operator after action).

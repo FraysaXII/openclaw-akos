@@ -27,11 +27,13 @@ GATEWAY_RECOVERY_POLL_SEC = 5
 GATEWAY_RECOVERY_DEFAULT_TIMEOUT_SEC = 300 if os.name == "nt" else 180
 GATEWAY_RPC_RECOVERY_TIMEOUT_SEC = 45
 GATEWAY_HTTP_RECOVERY_TIMEOUT_SEC = 15.0
-GATEWAY_STATUS_PROBE_TIMEOUT_SEC = 12
+GATEWAY_STATUS_PROBE_TIMEOUT_SEC = 45 if os.name == "nt" else 12
 GATEWAY_POST_READY_GRACE_SEC = 130 if os.name == "nt" else 8
 GATEWAY_WARM_PROBE_RPC_ATTEMPTS = 4
 GATEWAY_WARM_PROBE_RPC_PAUSE_SEC = 15.0
 OPENCLAW_GATEWAY_SCHEDULED_TASK = "OpenClaw Gateway"
+# Known-fix floor for repair preflight warnings (H4); semver prefix match on `openclaw --version`.
+OPENCLAW_MIN_KNOWN_FIX_VERSION = "2026.4"
 
 _LOG_HINT_LINE = re.compile(
     r"(?i)(pricing|bootstrap|timeout|1006|abnormal|error|gateway call failed|model-pricing|model.pricing)"
@@ -312,10 +314,47 @@ def probe_gateway_http(
     """Return True when the gateway serves HTTP on the expected loopback URL."""
     try:
         req = urllib.request.Request(url, method="GET")
-        with urllib.request.urlopen(req, timeout=timeout):
-            return True
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return getattr(resp, "status", 200) == 200
     except (urllib.error.URLError, OSError):
         return False
+
+
+def gateway_probe_success(
+    http_ready: bool,
+    rpc_ready: bool,
+    *,
+    http_ready_since: float | None = None,
+    now: float | None = None,
+) -> tuple[bool, str]:
+    """Evaluate warm-path success including channel-connect grace (H2)."""
+    if http_ready and rpc_ready:
+        return True, "http+rpc ready"
+    if http_ready and http_ready_since is not None:
+        now = time.monotonic() if now is None else now
+        elapsed = now - http_ready_since
+        if elapsed <= GATEWAY_POST_READY_GRACE_SEC:
+            return True, (
+                f"http warm path (RPC in channel-connect grace; {elapsed:.0f}s elapsed)"
+            )
+    return False, ""
+
+
+def parse_openclaw_version(version_text: str) -> str:
+    """Extract semver prefix from ``openclaw --version`` output."""
+    match = re.search(r"(\d{4}\.\d+(?:\.\d+)?)", version_text or "")
+    return match.group(1) if match else ""
+
+
+def check_openclaw_cli_version(cli: str) -> tuple[bool, str, str]:
+    """Return (meets_floor, parsed_version, raw_output) for repair preflight (H4)."""
+    result = proc.run([cli, "--version"], timeout=GATEWAY_STATUS_PROBE_TIMEOUT_SEC)
+    raw = _combine_cmd_text(result.stdout, result.stderr).strip()
+    parsed = parse_openclaw_version(raw)
+    if not parsed:
+        return False, "", raw
+    meets = parsed >= OPENCLAW_MIN_KNOWN_FIX_VERSION
+    return meets, parsed, raw
 
 
 def probe_gateway_rpc_with_retries(
@@ -410,6 +449,22 @@ def recover_gateway_service(
             cli_path=cli,
             status=snap,
         )
+    if http_warm and not rpc_warm:
+        ok, warm_detail = gateway_probe_success(
+            http_warm,
+            rpc_warm,
+            http_ready_since=time.monotonic(),
+        )
+        if ok:
+            snap, _ = fetch_gateway_status(cli, timeout=GATEWAY_STATUS_PROBE_TIMEOUT_SEC)
+            return GatewayRecoveryResult(
+                success=True,
+                detail=f"gateway already healthy ({warm_detail}; no stop/start)",
+                http_ready=True,
+                rpc_ready=False,
+                cli_path=cli,
+                status=snap,
+            )
 
     if normalize_config:
         try:

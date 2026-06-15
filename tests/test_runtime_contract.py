@@ -203,3 +203,28 @@ def test_recover_gateway_service_failure_sets_recovery_hints(tmp_path, monkeypat
     assert result.recovery_hints
     assert "1006" in result.recovery_hints
     assert "pricing" in result.recovery_hints.lower()
+
+
+def test_gateway_probe_success_http_grace_without_rpc() -> None:
+    ok, detail = runtime.gateway_probe_success(
+        True,
+        False,
+        http_ready_since=100.0,
+        now=150.0,
+    )
+    assert ok is True
+    assert "channel-connect grace" in detail
+
+
+def test_gateway_probe_success_requires_grace_window() -> None:
+    ok, _ = runtime.gateway_probe_success(
+        True,
+        False,
+        http_ready_since=100.0,
+        now=100.0 + runtime.GATEWAY_POST_READY_GRACE_SEC + 1,
+    )
+    assert ok is False
+
+
+def test_parse_openclaw_version_extracts_semver() -> None:
+    assert runtime.parse_openclaw_version("openclaw 2026.4.12") == "2026.4.12"
