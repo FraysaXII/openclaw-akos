@@ -100,6 +100,11 @@ def main() -> int:
             sid = (row.get("substrate_id") or "").strip()
             if sid and sid not in substrates:
                 errors.append(f"L{line_no}: substrate_id {sid!r} not in SUBSTRATE_REGISTRY")
+            if not sid:
+                errors.append(
+                    f"L{line_no}: capability {cid!r} requires substrate_id "
+                    "(D-IH-76-R full registry backfill)"
+                )
             l1 = (row.get("l1_domain") or "").strip()
             lifecycle = (row.get("lifecycle_status") or "").strip()
             if (
