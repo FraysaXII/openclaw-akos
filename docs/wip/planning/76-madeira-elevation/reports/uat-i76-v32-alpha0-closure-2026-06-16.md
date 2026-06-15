@@ -11,6 +11,8 @@ language: en
 status: closed
 verdict: PASS
 closure_decision_source: operator_explicit
+evidence_class: meta_regression
+evidence_proof_ref: artifacts/uat-dossier/uat-dossier-20260615T015632Z/dossier.md
 ratifying_decisions:
   - D-IH-76-ALPHA0
 verdict_history:
@@ -142,7 +144,7 @@ Lab platform binding: `SOP-TECH_LAB_PLATFORM_BINDING_001.md` §4 (Preview dev-pa
 
 ## Section 8 — Decision close-outs
 
-Pending `D-IH-76-ALPHA0` operator ratification.
+**Closed:** `D-IH-76-ALPHA0` — internal α0 PASS ratified; row minted in DECISION_REGISTER.csv 2026-06-16 (operator spine `registry_alpha0`).
 
 ---
 

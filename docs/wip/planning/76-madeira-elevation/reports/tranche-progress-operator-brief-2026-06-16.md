@@ -46,6 +46,7 @@ Closure packet: [`uat-i76-v32-alpha0-closure-2026-06-16.md`](uat-i76-v32-alpha0-
 
 ## Where to look
 
+- α1 research + spine order: [`research-synthesis-alpha1-next-spine-2026-06-16.md`](../../intelligence/madeira-brand-capability-harmonization-v32-alpha-2026-06-14/research-synthesis-alpha1-next-spine-2026-06-16.md)
 - α1 forward charter: [`alpha-1-readiness-forward-charter-2026-06-16.md`](alpha-1-readiness-forward-charter-2026-06-16.md)
 
 - α program annex: [`v32-closed-alpha-program-annex-2026-06-14.md`](v32-closed-alpha-program-annex-2026-06-14.md)
